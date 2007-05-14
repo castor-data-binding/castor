@@ -445,8 +445,17 @@ public class ElementDecl extends Particle implements Referable {
     	while (enumeration.hasMoreElements()) {
     		ElementDecl temp  = (ElementDecl)enumeration.nextElement();
     		String subName = temp.getSubstitutionGroup();
-    		if (subName!=null && subName.equals(_name)) 
-    			result.add(temp);
+    		if (subName != null) {
+                // no namespace(s) or default namespace in use
+                if (subName.equals(_name)) { 
+                    result.add(temp);
+                }
+                // namespace(s) incl. prefix in use
+                // TODO: find a better way of dealing with a namespace prefix
+                else if (subName.endsWith(_name) && subName.indexOf(":") > 0) {
+                    result.add(temp);
+                }
+            }
     	}
     	return result.elements();
     }

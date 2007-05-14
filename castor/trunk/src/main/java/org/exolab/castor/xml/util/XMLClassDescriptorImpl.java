@@ -376,7 +376,7 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
                 
                 // handle substitution groups !!! 
                 List substitutes =  expectedElementDescriptor.getSubstitutes();
-                if (!substitutes.isEmpty()) {
+                if (substitutes != null && !substitutes.isEmpty()) {
                     if (substitutes.contains(elementName)) {
                         parentState.expectedIndex++;
                         return;
