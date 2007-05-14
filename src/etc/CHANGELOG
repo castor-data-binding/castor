@@ -1,6 +1,11 @@
 SVN
 ---
 
+XML:   Resolved issue CASTOR-1982 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed a problem with namespace processing in the context of substitution groups.
+       Details: http://jira.codehaus.org/browse/CASTOR-1982
+       (Werner - 20070514)
+
 XML:   Resolved issue CASTOR-1981 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed a problem with the processing of substitution groups if sequence order validation enabled.
        Details: http://jira.codehaus.org/browse/CASTOR-1981
