@@ -2527,6 +2527,26 @@ public class Marshaller extends MarshalFramework {
     }
 
     /**
+     * Returns the value of the given Castor XML-specific property.
+     * @param name Qualified name of the CASTOR XML-specific property.
+     * @return The current value of the given property.
+     * @since 1.1.2
+    */
+    public String getProperty(final String name) {
+        return _config.getProperties().getProperty(name);
+    }
+
+    /**
+     * Sets a custom value of a given Castor XML-specific property.
+     * @param name Name of the Castor XML property 
+     * @param value Custom value to set.
+     * @since 1.1.2
+     */
+    public void setProperty(final String name, final String value) {
+        _config.getProperties().setProperty(name, value);
+    }
+    
+    /**
      * Inner-class used for handling wrapper elements
      * and locations
      */
