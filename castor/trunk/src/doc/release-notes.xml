@@ -300,6 +300,26 @@
                     <module>Gen</module>
                     <date>20070425</date>
                 </bug>
+                <bug id="1952" tool="jira">
+                    <description>
+                        Moved examples into a separate modul.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>All</module>
+                    <date>20070423</date>
+                </bug>
             </bugs>
         </release>
         
