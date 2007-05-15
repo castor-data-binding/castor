@@ -68,6 +68,11 @@ XML:   Resolved issue CASTOR-1954 using contribution from Werner Guttmann [werne
        Details: http://jira.codehaus.org/browse/CASTOR-1954
        (Werner - 20070425)
 
+All:   Resolved issue CASTOR-1952 using contribution from Ralf Joachim [ralf.joachim@syscon.eu]
+       Moved examples into a separate modul.
+       Details: http://jira.codehaus.org/browse/CASTOR-1952
+       (Ralf - 20070423)
+
 
 Version 1.1.1, Apr 22, 2007
 -------------------------------
