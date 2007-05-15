@@ -35,6 +35,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1850" tool="jira">
+                    <description>
+                    	Refactored toString() method of XMLException.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Paul Philion</name>
+                        <email>philion@gmail.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Paul Philion</name>
+                        <email>philion@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070515</date>
+                </bug>
                 <bug id="1769" tool="jira">
                     <description>
                     	Added get-/setProperty() methods to (un-)Marshaller so that properties 

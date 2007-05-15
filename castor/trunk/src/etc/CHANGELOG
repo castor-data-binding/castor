@@ -1,6 +1,11 @@
 SVN
 ---
 
+XML:   Resolved issue CASTOR-1850 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Refactored toString() method of XMLException.
+       Details: http://jira.codehaus.org/browse/CASTOR-1850
+       (Werner - 20070515)
+       
 XML:   Resolved issue CASTOR-1769 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added get-/setProperty() methods to (un-)Marshaller so that properties can be set programmatically.
        Details: http://jira.codehaus.org/browse/CASTOR-1769

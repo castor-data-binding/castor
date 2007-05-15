@@ -137,19 +137,19 @@ public class XMLException extends CastorException {
      * @return the String representation of this Exception.
      */
     public String toString() {
-        String message;
-
-        Throwable t = getCause();
-        if (t == null) {
-            message = getMessage();
-        } else {
-            message = t.getMessage();
+        StringBuffer buff = new StringBuffer();
+        buff.append(this.getClass().getName());
+        
+        String msg = this.getMessage();
+        if (msg != null) {
+            buff.append(": ").append(msg);
         }
-
-        if (_location == null) {
-            return message;
+        
+        if (this._location != null) {
+            buff.append("{").append(this._location).append("}");
         }
-        return message + "{" + _location.toString() + "}";
+        
+        return buff.toString();
     } //-- toString
 
     /**
