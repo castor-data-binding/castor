@@ -156,7 +156,7 @@
     <section name="XML Code Generator">
       <navLink>
         <url>sourcegen.xml</url>
-        <display>Code Generator</display>
+        <display>Introduction</display>
       </navLink>
       <navLink>
         <url>srcgen-properties.xml</url>
@@ -173,6 +173,10 @@
       <navLink highlighted="true">
         <url>srcgen-maven-plugin.xml</url>
         <display>Maven 2 plugin</display>
+      </navLink>
+      <navLink>
+        <url>srcgen-cline.xml</url>
+        <display>Command line</display>
       </navLink>
       <navLink>
         <url>xmlschema.xml</url>
