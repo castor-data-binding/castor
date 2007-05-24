@@ -1,9 +1,9 @@
 SVN
 ---
 
-XML:   Resolved issue CASTOR-1855 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+XML:   Resolved issue CASTOR-1985 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Trace statements output only if in trace mode.
-       Details: http://jira.codehaus.org/browse/CASTOR-1855
+       Details: http://jira.codehaus.org/browse/CASTOR-1985
        (Werner - 20070524)
        
 XML:   Resolved issue CASTOR-1850 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
