@@ -35,7 +35,7 @@
             <summary>
             </summary>
             <bugs>
-                <bug id="1855" tool="jira">
+                <bug id="1985" tool="jira">
                     <description>
                     	Trace statements output only if in trace mode.
                     </description>
