@@ -167,8 +167,10 @@ public class ValidationContext {
      * @param object The object for which the check should be performed
      * @return True if the object specified has already been validated.
      */
-    public boolean isValidated(final Object object) { /* FIXME: Should be protected */
-        LOG.trace("Called isValidated(" + object + ")");
+    protected boolean isValidated(final Object object) {
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("Called isValidated(" + object + ")");
+        }
         return _validated.contains(object);
     }
 
@@ -176,8 +178,10 @@ public class ValidationContext {
      * Adds the specified object to the cache of already validated objects.
      * @param object Object about to be validated.
      */
-    public void addValidated(final Object object) { /* FIXME: Should be protected */
-        LOG.trace("Called addValidated(" + object + ")");
+    protected void addValidated(final Object object) {
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("Called addValidated(" + object + ")");
+        }
         _validated.add(object);
     }
 
@@ -185,8 +189,10 @@ public class ValidationContext {
      * Removes the specified object from the cache of already validated objects.
      * @param object The object to be removed from the cache.
      */
-    public void removeValidated(final Object object) { /* FIXME: Should be protected */
-        LOG.trace("Called removeValidated(" + object + ")");
+    protected void removeValidated(final Object object) {
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("Called removeValidated(" + object + ")");
+        }
         _validated.remove(object);
     }
 

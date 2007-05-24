@@ -35,6 +35,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1855" tool="jira">
+                    <description>
+                    	Trace statements output only if in trace mode.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ed Wallen</name>
+                        <email>etw7e@yahoo.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070524</date>
+                </bug>
                 <bug id="1850" tool="jira">
                     <description>
                     	Refactored toString() method of XMLException.
