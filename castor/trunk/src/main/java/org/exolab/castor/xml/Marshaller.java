@@ -1706,6 +1706,16 @@ public class Marshaller extends MarshalFramework {
                     throw new MarshalException(sx);
                 }
             }
+            else if (isEnum(_class)) {
+                char[] chars = object.toString().toCharArray();
+                try {
+                    handler.characters(chars,0,chars.length);
+                }
+                catch(org.xml.sax.SAXException sx) {
+                    throw new MarshalException(sx);
+                }
+                
+            }
         }
 
         //---------------------------

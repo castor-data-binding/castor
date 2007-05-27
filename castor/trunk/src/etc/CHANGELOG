@@ -1,6 +1,11 @@
 SVN
 ---
 
+XML:   Resolved issue CASTOR-1221 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added support for Java 5 enums during marshalling.
+       Details: http://jira.codehaus.org/browse/CASTOR-1221
+       (Werner - 20070526)
+       
 XML:   Resolved issue CASTOR-1985 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Trace statements output only if in trace mode.
        Details: http://jira.codehaus.org/browse/CASTOR-1985

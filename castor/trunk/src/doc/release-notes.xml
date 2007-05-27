@@ -35,6 +35,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1221" tool="jira">
+                    <description>
+                    	Added support for Java 5 enums during marshalling.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Benoit Xhenseval</name>
+                        <email>benoitx@yahoo.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20070526</date>
+                </bug>
                 <bug id="1985" tool="jira">
                     <description>
                     	Trace statements output only if in trace mode.
