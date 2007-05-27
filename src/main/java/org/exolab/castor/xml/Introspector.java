@@ -65,6 +65,7 @@ import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 import org.exolab.castor.mapping.loader.TypeInfo;
 import org.exolab.castor.util.Configuration;
 import org.exolab.castor.util.LocalConfiguration;
+import org.exolab.castor.util.ReflectionUtil;
 import org.exolab.castor.xml.descriptors.CoreDescriptors;
 import org.exolab.castor.xml.handlers.ContainerFieldHandler;
 import org.exolab.castor.xml.handlers.DateFieldHandler;
@@ -1187,6 +1188,19 @@ public final class Introspector {
         //-- make sure type is not Void, or Class;
         if  (type == Void.class || type == Class.class ) return false;
 
+        //-- check whether it is a Java 5.0 enum
+        float javaVersion = Float.valueOf(System.getProperty("java.specification.version")).floatValue();
+        if (javaVersion >= 1.5) {
+            try {
+                Boolean isEnum = ReflectionUtil.isEnumViaReflection(type);
+                if (isEnum.booleanValue()) {
+                    return true;
+                }
+            } catch (Exception e) {
+                // nothing to report; implies that there's no such method
+            }
+        }
+        
         if ( (!type.isInterface())  &&
              (type != Object.class) &&
              (!isPrimitive(type))) {

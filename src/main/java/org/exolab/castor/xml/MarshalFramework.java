@@ -50,7 +50,10 @@ import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.CollectionHandlers;
+import org.exolab.castor.util.ReflectionUtil;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -203,6 +206,50 @@ abstract class MarshalFramework {
         return (type.getSuperclass() == Number.class);
     } //-- isPrimitive
 
+    /**
+     * Returns true if the given class should be treated as an enum type. This method 
+     * will return true for all Java 5 (or later) enums, and for enum-style
+     * classes.
+     *
+     * @return true if the given class should be treated as an enum
+     **/
+    static boolean isEnum(Class type) {
+
+        if (type == null) {
+            return false;
+        }
+
+        float javaVersion = Float.valueOf(System.getProperty("java.specification.version")).floatValue();
+        if (javaVersion >= 1.5) {
+            try {
+                Boolean isEnum = ReflectionUtil.isEnumViaReflection(type);
+                return isEnum.booleanValue();
+            } catch (Exception e) {
+                // nothing to report; implies that there's no such method
+            }
+        }
+        
+        // TODO: add code to cover 1.4 enum-stype classes as well.
+        
+        return false;
+
+    } //-- isPrimitive
+
+//    /**
+//     * Calls isEnum() method on target class vi areflection to find out
+//     * whether the given type is a Java 5 enumeration.
+//     * @param type The type to analyze.
+//     * @return True if the type given is a Java 5.0 enum.
+//     * @throws NoSuchMethodException If the method can not be found.
+//     * @throws IllegalAccessException If access to this method is illegal
+//     * @throws InvocationTargetException If the target method can not be invoked.
+//     */
+//    private static Boolean isEnumViaReflection(Class type) 
+//    throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+//        Method isEnumMethod = type.getClass().getMethod("isEnum", (Class[]) null);
+//        return (Boolean) isEnumMethod.invoke(type, (Object[]) null);
+//    }
+//    
     /**
      * Returns true if any of the fields associated with the given
      * XMLClassDescriptor are located at, or beneath, the given location.
