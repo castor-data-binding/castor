@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mapping>
+   <class name="Outer">
+      <field name="member" type="Outer$Inner">
+         <bind-xml name="member" node="element" />
+      </field>
+   </class>
+   <class name="Outer$Inner">
+      <field name="innerMember" type="java.lang.String">
+         <bind-xml name="innerMember" node="element" />
+      </field>
+   </class>
+</mapping>
