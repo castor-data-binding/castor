@@ -35,6 +35,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="991" tool="jira">
+                    <description>
+                    	Added support for Java 5 enums during unmarshalling.
+                    </description>
+                    <contributor>
+                        <name>Michael Kopp</name>
+                        <email>michael.kopp@gmx.at</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Michael Kopp</name>
+                        <email>michael.kopp@gmx.at</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20070528</date>
+                </bug>
                 <bug id="1221" tool="jira">
                     <description>
                     	Added support for Java 5 enums during marshalling.

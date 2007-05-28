@@ -3676,7 +3676,31 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                primitive = java.math.BigInteger.valueOf(0);
             else primitive = new java.math.BigInteger(value);
         }
-
+        // Java 5.0 enums
+        else if (type.getSuperclass().getName().equals("java.lang.Enum")) {
+            if (isNull) {
+                primitive = null;
+            } else {
+                try {
+                    Method valueOfMethod = type.getMethod("valueOf", new Class[]{ String.class });
+                    primitive = valueOfMethod.invoke(null, new Object[]{ value });
+                } 
+                catch (IllegalAccessException e) {
+                    throw new IllegalStateException(e.toString());
+                } 
+                catch (InvocationTargetException e) {
+                    if (e.getTargetException() instanceof RuntimeException) {
+                        throw (RuntimeException) e.getTargetException();
+                    }
+                } 
+                catch (NoSuchMethodException e) {
+                    String err = type.getName() +
+                    " does not contain the required method: public static " +
+                    type.getName() + " valueOf(String);";
+                    throw new IllegalArgumentException(err);
+                }
+            }
+        }
         return primitive;
     } //-- toPrimitiveObject
 

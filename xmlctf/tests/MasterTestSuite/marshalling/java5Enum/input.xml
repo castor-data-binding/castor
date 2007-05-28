@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <castor-test>
     <name>My Name is</name>
-    <!-- state>ACTIVE</state -->
+    <state>ACTIVE</state>
 </castor-test>
