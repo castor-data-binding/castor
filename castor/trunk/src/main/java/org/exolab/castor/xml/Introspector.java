@@ -1238,12 +1238,24 @@ public final class Introspector {
     **/
     private static boolean isPrimitive(Class type) {
 
-        if (type.isPrimitive()) return true;
-
-        if ((type == Boolean.class) || (type == Character.class))
+        if (type.isPrimitive()) {
             return true;
+        }
 
-        return (type.getSuperclass() == Number.class);
+        if ((type == Boolean.class) || (type == Character.class)) {
+            return true;
+        }
+
+        Class superClass = type.getSuperclass();
+        if (superClass == Number.class) {
+            return true;
+        }
+        
+        if (superClass != null) {
+            return superClass.getName().equals("java.lang.Enum");
+        } else {
+            return false;
+        }
 
     } //-- isPrimitive
 

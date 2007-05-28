@@ -1,6 +1,11 @@
 SVN
 ---
 
+XML:   Resolved issue CASTOR-991 using contribution from Werner Guttmann [michael.kopp@gmx.at]
+       Added support for Java 5 enums during unmarshalling.
+       Details: http://jira.codehaus.org/browse/CASTOR-991
+       (Werner - 20070528)
+       
 XML:   Resolved issue CASTOR-1221 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added support for Java 5 enums during marshalling.
        Details: http://jira.codehaus.org/browse/CASTOR-1221

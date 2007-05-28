@@ -200,10 +200,21 @@ abstract class MarshalFramework {
         if (type == String.class) return true;
 
         //-- primtive wrapper classes
-        if ((type == Boolean.class) || (type == Character.class))
+        if ((type == Boolean.class) || (type == Character.class)) {
             return true;
+        }
 
-        return (type.getSuperclass() == Number.class);
+        Class superClass = type.getSuperclass();
+        if (superClass == Number.class) {
+            return true;
+        }
+
+        if (superClass != null) {
+            return superClass.getName().equals("java.lang.Enum");
+        }
+        
+        return false;
+        
     } //-- isPrimitive
 
     /**
