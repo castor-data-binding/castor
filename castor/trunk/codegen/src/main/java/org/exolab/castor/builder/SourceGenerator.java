@@ -797,7 +797,14 @@ public class SourceGenerator extends BuilderConfiguration {
             _schemasProcessed.add(schema);
             if (!_schemasProcessed.contains(importedSchema)) {
                 SGStateInfo importedSInfo  = new SGStateInfo(importedSchema, this);
-                importedSInfo.setPackageName(sInfo.getPackageName());
+                String packageName = sInfo.getPackageName();
+                importedSInfo.setPackageName(packageName);
+                
+                //--map the schemaLocation of the imported schema with the packageName defined
+                if (packageName != null) {
+                    setLocationPackageMapping(importedSchema.getSchemaLocation(), packageName);
+                }
+                
                 generateAllClassFiles(importedSchema, importedSInfo);
 
                 //--'store' the imported JClass instances

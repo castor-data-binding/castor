@@ -50,6 +50,8 @@ package org.exolab.castor.builder.binding;
 
 import java.util.Enumeration;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.builder.BindingComponent;
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.GroupNaming;
@@ -111,6 +113,12 @@ import org.exolab.javasource.JClass;
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public final class XMLBindingComponent implements BindingComponent {
+    
+    /**
+     * Log instance for all logging purposes
+     */
+    private static final Log LOG = LogFactory.getLog(XMLBindingComponent.class);
+    
    /**
     * The Extended Binding used to retrieve the ComponentBindingType.
     */
@@ -966,20 +974,31 @@ public final class XMLBindingComponent implements BindingComponent {
                 } //--switch
             }
 
-            if  (packageName == null || packageName.length() == 0) {
-                //--highest priority is targetNamespace
-                if (packageName == null || packageName.length() == 0) {
-                    //--look for a namespace mapping
+            if  (isPackageNameNotSet(packageName)) {
+                
+                if (isPackageNameNotSet(packageName)) {
+                    // look for a namespace mapping
                     packageName = _config.lookupPackageByNamespace(targetNamespace);
                 }
 
-                if (schemaLocation != null && (packageName == null || packageName.length() == 0)) {
+                if (schemaLocation != null && isPackageNameNotSet(packageName)) {
+                    // look for schema location mapping
                     packageName = _config.lookupPackageByLocation(schemaLocation);
                 }
+                
             }
             _javaPackage = packageName;
         }
         return _javaPackage;
+    }
+
+    /**
+     * Indicates whether a package name has already been set.
+     * @param packageName The package name to analyse.
+     * @return True if the package name has been set correctly.
+     */
+    private boolean isPackageNameNotSet(final String packageName) {
+        return (packageName == null || packageName.length() == 0);
     }
 
    /**

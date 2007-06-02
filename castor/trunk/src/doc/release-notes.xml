@@ -37,6 +37,27 @@
             <bugs>
                 <bug id="991" tool="jira">
                     <description>
+                    	Fixed a problem with incorrect import statements/class name 
+                    	references in the context of included/imported XML schemas.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Godmar Back</name>
+                        <email>godmar@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen.</module>
+                    <date>20070601</date>
+                </bug>
+                <bug id="991" tool="jira">
+                    <description>
                     	Added support for Java 5 enums during unmarshalling.
                     </description>
                     <contributor>
