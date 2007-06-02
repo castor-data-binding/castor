@@ -1,6 +1,12 @@
 SVN
 ---
 
+XML:   Resolved issue CASTOR-1986 using contribution from Werner Guttmann [michael.kopp@gmx.at]
+       Fixed a problem with incorrect import statements/class name references in the context
+       of included/imported XML schemas.
+       Details: http://jira.codehaus.org/browse/CASTOR-1986
+       (Werner - 20070601)
+
 XML:   Resolved issue CASTOR-991 using contribution from Werner Guttmann [michael.kopp@gmx.at]
        Added support for Java 5 enums during unmarshalling.
        Details: http://jira.codehaus.org/browse/CASTOR-991
