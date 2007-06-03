@@ -859,7 +859,7 @@
         <mkdir dir="${gen.src}/testdescriptor"/>
         <taskdef name="castor-srcgen" classname="org.castor.anttask.CastorCodeGenTask"
                  classpathref="build.classpath"/>
-        <castor-srcgen file="xmlctf-source}/main/resources/org/exolab/castor/tests/framework/TestDescriptor.xsd"
+        <castor-srcgen file="${xmlctf-source}/main/resources/org/exolab/castor/tests/framework/TestDescriptor.xsd"
                        todir="${gen.src}/testdescriptor"
                        package="org.exolab.castor.tests.framework.testDescriptor"
                        lineseparator="unix"

@@ -13,8 +13,8 @@
 
   <SourceGeneratorTest>
     <Schema>test.xsd</Schema>
-    <Root_Object random="false" dump="true">MainType</Root_Object>
     <Collection>arraylist</Collection>
+    <Root_Object random="false" dump="true">MainType</Root_Object>
     <UnitTestCase>
       <Name>Test Generation</Name>
       <Input>input.xml</Input>

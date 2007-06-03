@@ -14,8 +14,8 @@
 
     <SourceGeneratorTest>
         <Schema>xsiType.xsd</Schema>
-        <Root_Object random="false" dump="true">Root</Root_Object>
         <Property_File>xsitype.properties</Property_File>
+        <Root_Object random="false" dump="true">Root</Root_Object>
         <UnitTestCase>
             <Name>Test Generation</Name>
             <Input>input1.xml</Input>

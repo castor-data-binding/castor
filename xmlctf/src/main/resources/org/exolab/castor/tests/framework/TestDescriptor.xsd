@@ -103,6 +103,14 @@
                 <!-- the qualified name of the root Object -->
                 <!-- later: define a pattern to describe a Java quailified name-->
                 <xsd:element ref="test:Root_Object" minOccurs="1" maxOccurs="1"/>
+                <!-- expected source files, optional -->
+                <xsd:element name="expectedSources" minOccurs="0">
+                	<xsd:complexType>
+                		<xsd:sequence>
+                			<xsd:element name="expectedSource" type="xsd:string" minOccurs="1" maxOccurs="unbounded"/>
+                		</xsd:sequence>
+                	</xsd:complexType>
+                </xsd:element>
                 <!-- individual test cases -->
                 <xsd:element ref="test:UnitTestCase" minOccurs="1" maxOccurs="unbounded"/>
             </xsd:sequence>

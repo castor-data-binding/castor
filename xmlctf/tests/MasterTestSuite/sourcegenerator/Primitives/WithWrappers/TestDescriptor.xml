@@ -17,8 +17,8 @@
     <Category>basic capability</Category>
     <SourceGeneratorTest>
         <Schema>primitives.xsd</Schema>
-        <Root_Object random="false" dump="false">TestPrimitiveToWrapper</Root_Object>
         <Property_File>primitive2wrapper.properties</Property_File>
+        <Root_Object random="false" dump="false">TestPrimitiveToWrapper</Root_Object>
         <UnitTestCase>
             <Name>Test Generation</Name>
             <Input>input1.xml</Input>

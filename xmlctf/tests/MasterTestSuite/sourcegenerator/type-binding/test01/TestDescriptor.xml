@@ -16,8 +16,8 @@
 
     <SourceGeneratorTest>
         <Schema>test.xsd</Schema>
-        <Root_Object random="false" dump="true">test.Test1Type</Root_Object>
         <Property_File>castorbuilder.properties</Property_File>
+        <Root_Object random="false" dump="true">test.Test1Type</Root_Object>
         <UnitTestCase>
             <Name>Test type-centric binding</Name>
             <Input>input.xml</Input>
