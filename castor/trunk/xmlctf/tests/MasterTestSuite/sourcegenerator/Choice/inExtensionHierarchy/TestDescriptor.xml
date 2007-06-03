@@ -17,8 +17,8 @@
 
     <SourceGeneratorTest>
         <Schema>test.xsd</Schema>
-        <Root_Object random="false" dump="true">TasksElement</Root_Object>
         <BindingFile>binding.xml</BindingFile>
+        <Root_Object random="false" dump="true">TasksElement</Root_Object>
         <UnitTestCase>
             <Name>Test Generation</Name>
             <Input>input.xml</Input>

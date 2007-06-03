@@ -7,8 +7,8 @@
 
     <SourceGeneratorTest>
         <Schema>test.xsd</Schema>
-        <Root_Object random="false" dump="true">IntegerTest</Root_Object>
         <Property_File>builder.properties</Property_File>
+        <Root_Object random="false" dump="true">IntegerTest</Root_Object>
         <UnitTestCase>
             <Name>TestGenerationOK</Name>
             <Input>input.xml</Input>

@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.1-M2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.1.1</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -102,11 +102,13 @@ public class SourceGeneratorTestDescriptor extends org.exolab.castor.xml.util.XM
                 return null;
             }
         };
+        desc.setSchemaType("string");
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/Test");
         desc.setRequired(true);
         desc.setMultivalued(true);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
         //-- validation code for: _schemaList
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
@@ -142,10 +144,12 @@ public class SourceGeneratorTestDescriptor extends org.exolab.castor.xml.util.XM
                 return null;
             }
         };
+        desc.setSchemaType("string");
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/Test");
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
         //-- validation code for: _property_File
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
@@ -181,10 +185,12 @@ public class SourceGeneratorTestDescriptor extends org.exolab.castor.xml.util.XM
         };
         handler = new org.exolab.castor.xml.handlers.EnumFieldHandler(org.exolab.castor.tests.framework.testDescriptor.types.CollectionType.class, handler);
         desc.setImmutable(true);
+        desc.setSchemaType("CollectionType");
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/Test");
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
         //-- validation code for: _collection
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
@@ -215,10 +221,12 @@ public class SourceGeneratorTestDescriptor extends org.exolab.castor.xml.util.XM
                 return null;
             }
         };
+        desc.setSchemaType("string");
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/Test");
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
         //-- validation code for: _bindingFile
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
@@ -253,10 +261,12 @@ public class SourceGeneratorTestDescriptor extends org.exolab.castor.xml.util.XM
                 return null;
             }
         };
+        desc.setSchemaType("string");
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/Test");
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
         //-- validation code for: _package
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
@@ -290,15 +300,52 @@ public class SourceGeneratorTestDescriptor extends org.exolab.castor.xml.util.XM
                 return new org.exolab.castor.tests.framework.testDescriptor.Root_Object();
             }
         };
+        desc.setSchemaType("org.exolab.castor.tests.framework.testDescriptor.Root_Object");
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/Test");
         desc.setRequired(true);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
         //-- validation code for: _root_Object
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(1);
+        { //-- local scope
+        }
+        desc.setValidator(fieldValidator);
+        //-- _expectedSources
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.tests.framework.testDescriptor.ExpectedSources.class, "_expectedSources", "expectedSources", org.exolab.castor.xml.NodeType.Element);
+        handler = new org.exolab.castor.xml.XMLFieldHandler() {
+            public java.lang.Object getValue( java.lang.Object object ) 
+                throws IllegalStateException
+            {
+                SourceGeneratorTest target = (SourceGeneratorTest) object;
+                return target.getExpectedSources();
+            }
+            public void setValue( java.lang.Object object, java.lang.Object value) 
+                throws IllegalStateException, IllegalArgumentException
+            {
+                try {
+                    SourceGeneratorTest target = (SourceGeneratorTest) object;
+                    target.setExpectedSources( (org.exolab.castor.tests.framework.testDescriptor.ExpectedSources) value);
+                } catch (java.lang.Exception ex) {
+                    throw new IllegalStateException(ex.toString());
+                }
+            }
+            public java.lang.Object newInstance(java.lang.Object parent) {
+                return new org.exolab.castor.tests.framework.testDescriptor.ExpectedSources();
+            }
+        };
+        desc.setSchemaType("org.exolab.castor.tests.framework.testDescriptor.ExpectedSources");
+        desc.setHandler(handler);
+        desc.setNameSpaceURI("http://castor.exolab.org/Test");
+        desc.setMultivalued(false);
+        addFieldDescriptor(desc);
+        addSequenceElement(desc);
+        
+        //-- validation code for: _expectedSources
+        fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
         }
         desc.setValidator(fieldValidator);
@@ -333,11 +380,13 @@ public class SourceGeneratorTestDescriptor extends org.exolab.castor.xml.util.XM
                 return new org.exolab.castor.tests.framework.testDescriptor.UnitTestCase();
             }
         };
+        desc.setSchemaType("org.exolab.castor.tests.framework.testDescriptor.UnitTestCase");
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/Test");
         desc.setRequired(true);
         desc.setMultivalued(true);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
         //-- validation code for: _unitTestCaseList
         fieldValidator = new org.exolab.castor.xml.FieldValidator();

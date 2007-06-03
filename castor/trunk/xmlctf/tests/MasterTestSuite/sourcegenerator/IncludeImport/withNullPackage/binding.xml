@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<n:binding 
+	xmlns:n="http://www.castor.org/SourceGenerator/Binding" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.castor.org/SourceGenerator/Binding C:/work/products/rmprot/xml/Untitled9.xsd" 
+	defaultBindingType="element">
+
+	<package>
+		<name>xml.c1864.generated</name>
+		<namespace>http://www.camline.com/castor/bug</namespace>
+	</package>
+</n:binding>

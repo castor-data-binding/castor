@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.1-M2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.1.1</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -61,6 +61,11 @@ public class SourceGeneratorTest implements java.io.Serializable {
      *  
      */
     private org.exolab.castor.tests.framework.testDescriptor.Root_Object _root_Object;
+
+    /**
+     * Field _expectedSources.
+     */
+    private org.exolab.castor.tests.framework.testDescriptor.ExpectedSources _expectedSources;
 
     /**
      * A definition of a single Unit Test testcase.
@@ -184,6 +189,16 @@ public class SourceGeneratorTest implements java.io.Serializable {
     public org.exolab.castor.tests.framework.testDescriptor.types.CollectionType getCollection(
     ) {
         return this._collection;
+    }
+
+    /**
+     * Returns the value of field 'expectedSources'.
+     * 
+     * @return the value of field 'ExpectedSources'.
+     */
+    public org.exolab.castor.tests.framework.testDescriptor.ExpectedSources getExpectedSources(
+    ) {
+        return this._expectedSources;
     }
 
     /**
@@ -441,6 +456,16 @@ public class SourceGeneratorTest implements java.io.Serializable {
     public void setCollection(
             final org.exolab.castor.tests.framework.testDescriptor.types.CollectionType collection) {
         this._collection = collection;
+    }
+
+    /**
+     * Sets the value of field 'expectedSources'.
+     * 
+     * @param expectedSources the value of field 'expectedSources'.
+     */
+    public void setExpectedSources(
+            final org.exolab.castor.tests.framework.testDescriptor.ExpectedSources expectedSources) {
+        this._expectedSources = expectedSources;
     }
 
     /**

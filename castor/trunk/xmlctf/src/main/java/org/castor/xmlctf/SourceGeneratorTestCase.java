@@ -44,9 +44,13 @@
  */
 package org.castor.xmlctf;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.exolab.castor.tests.framework.testDescriptor.ExpectedSources;
 import org.exolab.castor.tests.framework.testDescriptor.RootType;
 import org.exolab.castor.tests.framework.testDescriptor.SourceGeneratorTest;
 import org.exolab.castor.tests.framework.testDescriptor.UnitTestCase;
@@ -97,6 +101,16 @@ public class SourceGeneratorTestCase extends XMLTestCase {
 
         _hasRandom = rootType.getRandom();
         _hasDump   = rootType.getDump();
+        
+        ExpectedSources expectedSources = _sourceGenConf.getExpectedSources();
+        if (expectedSources != null) {
+            String[] expectedSource = expectedSources.getExpectedSource();
+            List expectedSourcesList = new ArrayList();
+            for (int i = 0; i < expectedSource.length; i++) {
+                expectedSourcesList.add(expectedSource[i]);
+            }
+            _sourceGenerator.setExpectedSources(expectedSourcesList);
+        }
     }
 
     /**

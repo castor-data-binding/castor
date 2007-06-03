@@ -9,8 +9,8 @@
     <Category>basic capability</Category>
     <SourceGeneratorTest>
         <Schema>ResolverRecords.xsd</Schema>
-        <Root_Object random="false" dump="true">test.Records</Root_Object>
         <Package>test</Package>
+        <Root_Object random="false" dump="true">test.Records</Root_Object>
         <UnitTestCase>
             <Name>TestGenerationWithPackageSpecified</Name>
             <Input>input.xml</Input>
