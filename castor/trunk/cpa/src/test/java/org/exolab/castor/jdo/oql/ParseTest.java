@@ -45,8 +45,7 @@ package org.exolab.castor.jdo.oql;
 import java.util.Hashtable;
 import java.util.Iterator;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import junit.framework.TestCase;
 
 /**
  * Test class for {@link Parser}. 
@@ -54,11 +53,7 @@ import org.apache.commons.logging.LogFactory;
  * @author  <a href="nissim@nksystems.com">Nissim Karpenstein</a>
  * @version $Revision$ $Date: 2006-04-29 05:45:43 -0600 (Sat, 29 Apr 2006) $
  */
-public final class ParseTest {
-    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     *  Commons Logging</a> instance used for all logging. */
-    private static final Log LOG = LogFactory.getLog(ParseTest.class);
-    
+public final class ParseTest extends TestCase {
     public static final int NODE_TYPES = 1;
     public static final int NODE_VALUES = 2;
     
@@ -106,27 +101,17 @@ public final class ParseTest {
         _tokenTypes.put(new Integer(TokenType.KEYWORD_BETWEEN), "KEYWORD_BETWEEN");
     }
     
-    /**
-     * Main function.  Takes OQL query string as command line parameter
-     * and prints Parse Tree version of that query to stdout.
-     *
-     * @param args Pass an OQL query string on the command line.
-     */
-    public static void main(final String[] args) {
+    public void testParser() throws Exception {
         try {
-            Lexer lexer;
-            if (args.length != 0) {
-                lexer = new Lexer(args[0]);
-            } else {
-                lexer = new Lexer("select o from Product o where o.xyz=$1 order by o.id");
-            }
+            String query = "select o from Product o where o.xyz=$1 order by o.id";
+            Lexer lexer = new Lexer(query);
 
             Parser parser = new Parser(lexer);
             ParseTreeNode theTree = parser.getParseTree();
-            LOG.debug(treeToString(theTree, NODE_TYPES));
-            LOG.debug(treeToString(theTree, NODE_VALUES));
-        } catch (Exception e) {
-            LOG.error(e.getClass().getName(), e);
+            System.out.println(treeToString(theTree, NODE_TYPES));
+            System.out.println(treeToString(theTree, NODE_VALUES));
+        } catch (Exception ex) {
+            fail(ex.getMessage());
         }
     }
     
@@ -141,7 +126,7 @@ public final class ParseTest {
      *        NODE_VALUES to tell the method what to write in the string.
      * @return a string as described above.
      */
-    public static String treeToString(final ParseTreeNode theTree, final int printWhat) {
+    public String treeToString(final ParseTreeNode theTree, final int printWhat) {
         String retVal = "";
         
         Token curToken = theTree.getToken();
@@ -163,6 +148,4 @@ public final class ParseTest {
         
         return retVal;
     }
-    
-    private ParseTest() { }
 }

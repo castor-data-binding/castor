@@ -97,6 +97,21 @@ public final class DistributedCacheFactoryMock {
     // static factory and shutdown methods for Cache
     
     /**
+     * GigaspacesCache find(String) method.
+     * 
+     * @param name Name of the cache.
+     * @return An instance of DistributedCacheMock.
+     * @throws Exception For testing exception handling.
+     */
+    public static DistributedCacheMock find(final String name)
+    throws Exception {
+        if (_exception != null) { throw _exception; }
+        _counter++;
+        _name = name;
+        return new DistributedCacheMock();
+    }
+    
+    /**
      * CoherenceCache getCache(String) method.
      * 
      * @param name Name of the cache.
