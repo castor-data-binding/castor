@@ -6,31 +6,28 @@
     <local-check-config name="castor-test-checks" location="src/tools/checkstyle/castor-test-checks.xml" type="project" description="">
         <additional-data name="protect-config-file" value="true"/>
     </local-check-config>
-    <fileset name="src/test/java" enabled="true" check-config-name="castor-test-checks" local="true">
-        <file-match-pattern match-pattern="src[/\\]test[/\\]java[/\\].*\.java" include-pattern="true"/>
+    <fileset name="cpa test" enabled="true" check-config-name="castor-test-checks" local="true">
+        <file-match-pattern match-pattern="cpa[/\\]src[/\\]test[/\\]java[/\\].*\.java" include-pattern="true"/>
+        <file-match-pattern match-pattern="cpactf[/\\]src[/\\]test[/\\]java[/\\].*\.java" include-pattern="true"/>
+        <file-match-pattern match-pattern="cpaptf[/\\]src[/\\]test[/\\]java[/\\].*\.java" include-pattern="true"/>
     </fileset>
-    <fileset name="src/tests/ptf" enabled="true" check-config-name="castor-test-checks" local="true">
-        <file-match-pattern match-pattern="src[/\\]tests[/\\]ptf[/\\]jdo[/\\].*\.java" include-pattern="true"/>
+    <fileset name="cpa main" enabled="true" check-config-name="castor-main-checks" local="true">
+        <file-match-pattern match-pattern="cpa[/\\]src[/\\]main[/\\]java[/\\].*\.java" include-pattern="true"/>
+        <file-match-pattern match-pattern="cpactf[/\\]src[/\\]main[/\\]java[/\\].*\.java" include-pattern="true"/>
     </fileset>
-    <fileset name="ddlgen + anttask + codegen" enabled="true" check-config-name="castor-main-checks" local="true">
-        <file-match-pattern match-pattern="ddlgen[/\\]src[/\\]main[/\\]java[/\\].*\.java" include-pattern="true"/>
+    <fileset name="anttask main" enabled="true" check-config-name="castor-main-checks" local="true">
         <file-match-pattern match-pattern="anttask[/\\]src[/\\]main[/\\]java[/\\].*\.java" include-pattern="true"/>
+    </fileset>
+    <fileset name="codegen main" enabled="true" check-config-name="castor-main-checks" local="true">
         <file-match-pattern match-pattern="codegen[/\\]src[/\\]main[/\\]java[/\\].*\.java" include-pattern="true"/>
     </fileset>
-    <fileset name="src/tests/ctf" enabled="true" check-config-name="castor-test-checks" local="true">
-        <file-match-pattern match-pattern="src[/\\]tests[/\\]ctf[/\\]jdo[/\\].*\.java" include-pattern="true"/>
+    <fileset name="codegen test" enabled="true" check-config-name="castor-test-checks" local="true">
+        <file-match-pattern match-pattern="codegen[/\\]src[/\\]test[/\\]java[/\\].*\.java" include-pattern="true"/>
     </fileset>
-    <fileset name="ddlgen tests" enabled="true" check-config-name="castor-test-checks" local="true">
+    <fileset name="ddlgen main" enabled="true" check-config-name="castor-main-checks" local="true">
+        <file-match-pattern match-pattern="ddlgen[/\\]src[/\\]main[/\\]java[/\\].*\.java" include-pattern="true"/>
+    </fileset>
+    <fileset name="ddlgen test" enabled="true" check-config-name="castor-test-checks" local="true">
         <file-match-pattern match-pattern="ddlgen[/\\]src[/\\]test[/\\]java[/\\].*\.java" include-pattern="true"/>
-    </fileset>
-    <fileset name="src/main/java" enabled="true" check-config-name="castor-main-checks" local="true">
-        <file-match-pattern match-pattern="src[/\\]main[/\\]java[/\\]org[/\\]exolab[/\\]castor[/\\]jdo[/\\]JDOManager\.java" include-pattern="true"/>
-        <file-match-pattern match-pattern="src[/\\]main[/\\]java[/\\]org[/\\]exolab[/\\]castor[/\\]jdo[/\\]JDO\.java" include-pattern="true"/>
-        <file-match-pattern match-pattern="src[/\\]main[/\\]java[/\\]org[/\\]castor[/\\].*\.java" include-pattern="true"/>
-        <file-match-pattern match-pattern="src[/\\]main[/\\]java[/\\]org[/\\]castor[/\\]util[/\\]concurrent[/\\].*\.java" include-pattern="false"/>
-        <file-match-pattern match-pattern="src[/\\]main[/\\]java[/\\]org[/\\]castor[/\\]jdo[/\\]conf[/\\].*\.java" include-pattern="false"/>
-        <file-match-pattern match-pattern="src[/\\]main[/\\]java[/\\]org[/\\]exolab[/\\]castor[/\\]xml[/\\]validators[/\\].*\.java" include-pattern="true"/>
-        <file-match-pattern match-pattern="src[/\\]main[/\\]java[/\\]org[/\\]exolab[/\\]castor[/\\]xml[/\\]descriptors[/\\].*\.java" include-pattern="true"/>
-        <file-match-pattern match-pattern="src[/\\]main[/\\]java[/\\]org[/\\]exolab[/\\]castor[/\\]xml[/\\]handlers[/\\].*\.java" include-pattern="true"/>
     </fileset>
 </fileset-config>
