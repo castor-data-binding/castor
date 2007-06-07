@@ -2,7 +2,7 @@
                            "http://castor.codehaus.org/mapping.dtd">
 
 <mapping>
-	<class name="org.castor.tools.log4j.LogEntry" key-generator="MAX">
+	<class name="log4j.LogEntry" key-generator="MAX">
 		<description>Log entry</description>
         <map-to table="LOG"/>
         <field name="id" type="integer" identity="true">
@@ -26,13 +26,13 @@
         <field name="count" type="integer">
             <sql name="LOG_COUNT" type="numeric"/>
         </field>
-        <field name="exception" type="org.castor.tools.log4j.LogExceptionEntry">
+        <field name="exception" type="log4j.LogExceptionEntry">
             <sql many-key="LOGE_LOG_ID" />
         </field>
     </class>
 
-	<class name="org.castor.tools.log4j.LogExceptionEntry" key-generator="MAX"
-           depends="org.castor.tools.log4j.LogEntry">
+	<class name="log4j.LogExceptionEntry" key-generator="MAX"
+           depends="log4j.LogEntry">
 		<description>Log exception entry</description>
         <map-to table="LOG_EXCEPTION"/>
         <field name="id" type="integer" identity="true">
@@ -41,13 +41,13 @@
         <field name="stackTrace" type="string">
             <sql name="LOGE_STACKTRACE" type="clob" dirty="ignore"/>
         </field>
-        <field name="entry" type="org.castor.tools.log4j.LogEntry">
+        <field name="entry" type="log4j.LogEntry">
             <sql name="LOGE_LOG_ID"/>
         </field>
     </class>
 
-	<class name="org.castor.tools.log4j.LogReferenceExtension"
-           extends="org.castor.tools.log4j.LogEntry">
+	<class name="log4j.LogReferenceExtension"
+           extends="log4j.LogEntry">
 		<description>Log extension entry</description>
         <map-to table="LOG_EXTENSION"/>
         <field name="id">

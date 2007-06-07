@@ -1,6 +1,11 @@
 SVN
 ---
 
+JDO:   Resolved issue CASTOR-2005 using contribution from Ralf Joachim [ralf.joachim@syscon.eu]
+       SVN moved log4j database appender to examples modul.
+       Details: http://jira.codehaus.org/browse/CASTOR-2005
+       (Ralf - 20070607)
+
 JDO:   Resolved issue CASTOR-2006 using contribution from Ralf Joachim [ralf.joachim@syscon.eu]
        SVN moved JDO files from src/test/java into cpa/src/test/java.
        Details: http://jira.codehaus.org/browse/CASTOR-2006

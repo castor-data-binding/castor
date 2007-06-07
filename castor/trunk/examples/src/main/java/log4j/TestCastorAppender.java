@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.tools.log4j;
+package log4j;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -42,10 +42,10 @@ public final class TestCastorAppender extends TestCase {
     private static final Log LOG = LogFactory.getLog(TestCastorAppender.class);
     
     /** Example JDO configuration. */
-    private static final String JDO_CONF = "/org/castor/tools/log4j/example-jdo-conf.xml";
+    private static final String JDO_CONF = "/log4j/example-jdo-conf.xml";
     
     /** Example LOG4J configuration. */
-    private static final String XML_CONF = "/org/castor/tools/log4j/example-log4j.xml";
+    private static final String XML_CONF = "/log4j/example-log4j.xml";
     
     // -----------------------------------------------------------------------------------
 

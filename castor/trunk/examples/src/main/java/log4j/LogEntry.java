@@ -4,8 +4,7 @@
  * (c) Copyright 2006, Syscon Ingenieurbüro für Mess- und Datentechnik GmbH.
  * All Rights Reserved.
  */
-
-package org.castor.tools.log4j;
+package log4j;
 
 import java.util.Date;
 
