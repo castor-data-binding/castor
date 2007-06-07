@@ -52,7 +52,7 @@ import junit.framework.TestCase;
  * @author  <a href="nissim@nksystems.com">Nissim Karpenstein</a>
  * @version $Revision$ $Date: 2006-04-29 05:45:43 -0600 (Sat, 29 Apr 2006) $
  */
-public final class LexTest extends TestCase {
+public final class TestLexer extends TestCase {
     public void testLexer() throws Exception {
         Hashtable tokenTypes = new Hashtable();
         tokenTypes.put(new Integer(TokenType.END_OF_QUERY), "END_OF_QUERY");
