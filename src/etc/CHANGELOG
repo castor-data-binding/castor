@@ -1,6 +1,11 @@
 SVN
 ---
 
+JDO:   Resolved issue CASTOR-2001 using contribution from Ralf Joachim [ralf.joachim@syscon.eu]
+       SVN moved JDO files from src/main into cpa/src/main/java.
+       Details: http://jira.codehaus.org/browse/CASTOR-2001
+       (Ralf - 20070607)
+
 JDO:   Resolved issue CASTOR-2000 using contribution from Ralf Joachim [ralf.joachim@syscon.eu]
        Created basic modul structur for JDO modul including eclipse configuration.
        Details: http://jira.codehaus.org/browse/CASTOR-2000
