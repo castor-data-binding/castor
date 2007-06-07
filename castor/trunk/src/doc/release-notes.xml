@@ -35,6 +35,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2001" tool="jira">
+                    <description>
+                        SVN moved JDO files from src/main into cpa/src/main/java.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20070607</date>
+                </bug>
                 <bug id="2000" tool="jira">
                     <description>
                         Created basic modul structur for JDO modul including eclipse configuration.
