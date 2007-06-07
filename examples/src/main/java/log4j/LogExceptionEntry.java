@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.tools.log4j;
+package log4j;
 
 /**
  * A <code>LogExceptionEntry</code> holds the information belongs to a related exception

@@ -18,7 +18,7 @@
         </layout>
     </appender>
 
-    <appender name="db" class="org.castor.tools.log4j.CastorAppender">
+    <appender name="db" class="log4j.CastorAppender">
     	<param name="DatabaseName" value="LOGGING"/>
     	<param name="BufferSize" value="10"/>
     	<param name="ColumnWidthClass" value="100"/>
