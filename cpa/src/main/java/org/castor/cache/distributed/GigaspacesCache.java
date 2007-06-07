@@ -101,14 +101,10 @@ public final class GigaspacesCache extends AbstractDistributedCache {
     /** Parameter types for calling getCache() method on IMPLEMENTATION. */
     private static final Class[] TYPES_FIND_CACHE = new Class[] {String.class};
 
-    /**
-     * Default cache URL
-     */
+    /** Default cache URL. */
     private static final String DEFAULT_CACHE_URL = "/./";
 
-    /**
-     * Default cache properties
-     */
+    /** Default cache properties. */
     private static final String DEFAULT_CACHE_PROPERTIES = "";
 
 

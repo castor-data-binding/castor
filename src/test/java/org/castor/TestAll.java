@@ -29,11 +29,7 @@ public final class TestAll extends TestCase {
     public static Test suite() throws Exception {
         TestSuite suite = new TestSuite("All org.castor tests");
 
-        suite.addTest(org.castor.jdo.TestAll.suite());
         suite.addTest(org.castor.util.TestAll.suite());
-        suite.addTest(org.castor.cache.TestAll.suite());
-        suite.addTest(org.castor.persist.TestAll.suite());
-        suite.addTest(org.castor.transactionmanager.TestAll.suite());
 
         return suite;
     }

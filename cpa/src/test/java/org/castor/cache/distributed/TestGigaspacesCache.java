@@ -17,7 +17,9 @@ package org.castor.cache.distributed;
 
 import java.util.Properties;
 
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -33,6 +35,21 @@ import org.castor.cache.CacheAcquireException;
 public final class TestGigaspacesCache extends TestCase {
     private static final boolean DISABLE_LOGGING = true;
     
+    public static Test suite() {
+        TestSuite suite = new TestSuite("Gigaspaces Tests");
+
+        suite.addTest(new TestGigaspacesCache("testStaticProperties"));
+        suite.addTest(new TestGigaspacesCache("testConstructor"));
+        suite.addTest(new TestGigaspacesCache("testGetType"));
+        suite.addTest(new TestGigaspacesCache("testInitialize"));
+        suite.addTest(new TestGigaspacesCache("testClose"));
+//        suite.addTest(new TestGigaspacesCache("testGetOnEmptyCache"));
+//        suite.addTest(new TestGigaspacesCache("testPutAndGet"));
+//        suite.addTest(new TestGigaspacesCache("testPutAndGetAndRemove"));
+
+        return suite;
+    }
+
     public TestGigaspacesCache(final String name) { 
         super(name); 
     }
@@ -60,7 +77,7 @@ public final class TestGigaspacesCache extends TestCase {
         int counter = DistributedCacheFactoryMock.getCounter();
         
         Properties params = new Properties();
-        params.put(Cache.PARAM_NAME, "dummy coherence cache");
+        params.put(Cache.PARAM_NAME, "dummy cache");
         
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 
@@ -74,51 +91,51 @@ public final class TestGigaspacesCache extends TestCase {
         
         logger.setLevel(level);
         
-//        try {
-//            DistributedCacheFactoryMock.setException(null);
-//            c.initialize(DistributedCacheFactoryMock.class.getName(), params);
-//            assertEquals(counter + 1, DistributedCacheFactoryMock.getCounter());
-//            assertEquals("dummy gigaspaces cache", DistributedCacheFactoryMock.getName());
-//            assertEquals("dummy gigaspacescache", c.getName());
-//        } catch (CacheAcquireException ex) {
-//            fail("Failed to initialize GigaspacesCache instance");
-//        }
+        try {
+            DistributedCacheFactoryMock.setException(null);
+            c.initialize(DistributedCacheFactoryMock.class.getName(), params);
+            assertEquals(counter + 1, DistributedCacheFactoryMock.getCounter());
+            assertEquals("/./dummy cache?", DistributedCacheFactoryMock.getName());
+            assertEquals("dummy cache", c.getName());
+        } catch (CacheAcquireException ex) {
+            fail("Failed to initialize GigaspacesCache instance");
+        }
     }
 
-//    public void testClose() {
-//        Logger logger = Logger.getLogger(GigaspacesCache.class);
-//        Level level = logger.getLevel();
-//        
-//        GigaspacesCache c = new GigaspacesCache();
-//        int counter = DistributedCacheMock.getCounter();
-//        
-//        c.close();
-//        assertEquals(counter, DistributedCacheMock.getCounter());
-//        
-//        Properties params = new Properties();
-//        params.put(Cache.PARAM_NAME, "dummy coherence cache");
-//        
-//        try {
-//            DistributedCacheFactoryMock.setException(null);
-//            c.initialize(DistributedCacheFactoryMock.class.getName(), params);
-//            assertEquals(counter, DistributedCacheMock.getCounter());
-//        } catch (CacheAcquireException ex) {
-//            fail("Failed to initialize CoherenceCache instance");
-//        }
-//        
-//        if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
-//        
-//        DistributedCacheMock.setException(new Exception("dummy"));
-//        c.close();
-//        assertEquals(counter, DistributedCacheMock.getCounter());
-//        
-//        logger.setLevel(level);
-//        
-//        DistributedCacheMock.setException(null);
-//        c.close();
-//        assertEquals(counter + 1, DistributedCacheMock.getCounter());
-//    }
-//    
+    public void testClose() {
+        Logger logger = Logger.getLogger(GigaspacesCache.class);
+        Level level = logger.getLevel();
+        
+        GigaspacesCache c = new GigaspacesCache();
+        int counter = DistributedCacheMock.getCounter();
+        
+        c.close();
+        assertEquals(counter, DistributedCacheMock.getCounter());
+        
+        Properties params = new Properties();
+        params.put(Cache.PARAM_NAME, "dummy gigaspaces cache");
+        
+        try {
+            DistributedCacheFactoryMock.setException(null);
+            c.initialize(DistributedCacheFactoryMock.class.getName(), params);
+            assertEquals(counter, DistributedCacheMock.getCounter());
+        } catch (CacheAcquireException ex) {
+            fail("Failed to initialize GigaspacesCache instance");
+        }
+        
+        if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
+        
+        DistributedCacheMock.setException(new Exception("dummy"));
+        c.close();
+        assertEquals(counter, DistributedCacheMock.getCounter());
+        
+        logger.setLevel(level);
+        
+        DistributedCacheMock.setException(null);
+        c.close();
+        assertEquals(counter, DistributedCacheMock.getCounter());
+    }
+
 //    private Cache initialize() throws CacheAcquireException {
 //        
 //        GigaspacesCacheFactory factory = new GigaspacesCacheFactory();
@@ -163,5 +180,4 @@ public final class TestGigaspacesCache extends TestCase {
 //        assertNull(value);
 //        
 //    }    
-
 }
