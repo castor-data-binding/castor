@@ -16,6 +16,7 @@
 package org.castor.ddlgen.schemaobject;
 
 import org.castor.ddlgen.DDLGenConfiguration;
+import org.castor.ddlgen.DDLWriter;
 import org.castor.ddlgen.GeneratorException;
 
 /**
@@ -62,18 +63,18 @@ public interface SchemaObject {
     /**
      * Build create script for the schema object.
      * 
-     * @return Create script for the schema object.
+     * @param writer DDLWriter to write schema objects to.
      * @throws GeneratorException If generation of the script failed or is not supported.
      */
-    String toCreateDDL() throws GeneratorException;
+    void toCreateDDL(final DDLWriter writer) throws GeneratorException;
     
     /**
      * Build drop script for the schema object.
      * 
-     * @return Drop script for the schema object.
+     * @param writer DDLWriter to write schema objects to.
      * @throws GeneratorException If generation of the script failed or is not supported.
      */
-    String toDropDDL() throws GeneratorException;
-
+    void toDropDDL(final DDLWriter writer) throws GeneratorException;
+    
     //--------------------------------------------------------------------------
 }

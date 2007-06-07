@@ -15,6 +15,7 @@
  */
 package org.castor.ddlgen.engine.postgresql;
 
+import org.castor.ddlgen.DDLWriter;
 import org.castor.ddlgen.GeneratorException;
 import org.castor.ddlgen.keygenerator.IdentityKeyGenerator;
 import org.castor.ddlgen.schemaobject.Field;
@@ -29,6 +30,26 @@ import org.castor.ddlgen.schemaobject.Field;
  */
 public final class PostgresqlField extends Field {
     //--------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     */
+    public void toCreateDDL(final DDLWriter writer) throws GeneratorException {
+        writer.print(getName());
+        writer.print(" ");
+        
+        if (isIdentity() && (getKeyGenerator() instanceof IdentityKeyGenerator)) {
+            if ("integer".equalsIgnoreCase(getType().getSqlType())) {
+                writer.print("SERIAL");
+            } else {
+                writer.print("BIGSERIAL");
+            }
+        } else {
+            writer.print(getType().toDDL(this));
+        }
+
+        if (isIdentity() || isRequired()) { writer.print(" NOT NULL"); }
+    }
 
     /**
      * {@inheritDoc}

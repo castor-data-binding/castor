@@ -15,6 +15,7 @@
  */
 package org.castor.ddlgen.schemaobject;
 
+import org.castor.ddlgen.DDLWriter;
 import org.castor.ddlgen.GeneratorException;
 import org.castor.ddlgen.keygenerator.IdentityKeyGenerator;
 
@@ -32,17 +33,17 @@ public final class DefaultField extends Field {
     /**
      * {@inheritDoc}
      */
-    public String toCreateDDL() throws GeneratorException {
-        StringBuffer sb = new StringBuffer();
-        sb.append(getName()).append(" ").append(getType().toDDL(this));
-        if (isIdentity() || isRequired()) { sb.append(" NOT NULL"); }
-
+    public void toCreateDDL(final DDLWriter writer) throws GeneratorException {
         if (isIdentity() && (getKeyGenerator() instanceof IdentityKeyGenerator)) {
             String msg = "IDENTITY key generator is not supported for this database";
             throw new GeneratorException(msg);
         }
         
-        return sb.toString();
+        writer.print(getName());
+        writer.print(" ");
+        writer.print(getType().toDDL(this));
+        
+        if (isIdentity() || isRequired()) { writer.print(" NOT NULL"); }
     }
 
     //--------------------------------------------------------------------------

@@ -35,6 +35,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1774" tool="jira">
+                    <description>
+                        Replaced PrintStream and StringBuffer by a Writer implementation.
+                    </description>
+                    <contributor>
+                        <name>Le Duc Bao</name>
+                        <email>leducbao@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20070607</date>
+                </bug>
                 <bug id="991" tool="jira">
                     <description>
                     	Fixed a problem with incorrect import statements/class name 

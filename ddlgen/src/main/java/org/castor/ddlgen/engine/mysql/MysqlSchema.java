@@ -15,7 +15,9 @@
  */
 package org.castor.ddlgen.engine.mysql;
 
+import org.castor.ddlgen.Configuration;
 import org.castor.ddlgen.DDLGenConfiguration;
+import org.castor.ddlgen.DDLWriter;
 import org.castor.ddlgen.schemaobject.Schema;
 
 /**
@@ -32,27 +34,21 @@ public final class MysqlSchema extends Schema {
     /**
      * {@inheritDoc}
      */
-    public String toCreateDDL() {
-        if (!getConfiguration().getBoolValue(
-                DDLGenConfiguration.GENERATE_DDL_FOR_SCHEMA_KEY, true)) {
-            return "";
+    public void toCreateDDL(final DDLWriter writer) {
+        Configuration conf = getConfiguration();
+        
+        if (conf.getBoolValue(DDLGenConfiguration.GENERATE_DDL_FOR_SCHEMA_KEY, true)) {
+            String schema = conf.getStringValue(DDLGenConfiguration.SCHEMA_NAME_KEY, "");
+            if ((schema != null) && !"".equals(schema)) {
+                writer.println("USE {0};", new Object[] {schema});
+            }
         }
-
-        String schema = getConfiguration().getStringValue(
-                DDLGenConfiguration.SCHEMA_NAME_KEY, "");
-        if (schema == null || "".equals(schema)) {
-            return "";
-        }
-
-        return "USE " + schema + ";";
     }
 
     /**
      * {@inheritDoc}
      */
-    public String toDropDDL() {
-        return "";
-    }
+    public void toDropDDL(final DDLWriter writer) { }
 
     //--------------------------------------------------------------------------
 }

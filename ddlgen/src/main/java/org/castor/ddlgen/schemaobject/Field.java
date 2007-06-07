@@ -17,6 +17,7 @@ package org.castor.ddlgen.schemaobject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.ddlgen.DDLWriter;
 import org.castor.ddlgen.GeneratorException;
 import org.castor.ddlgen.typeinfo.TypeInfo;
 
@@ -183,10 +184,8 @@ public abstract class Field extends AbstractSchemaObject {
     /**
      * {@inheritDoc}
      */
-    public final String toDropDDL() {
-        return "";
-    }
-    
+    public final void toDropDDL(final DDLWriter writer) { }
+
     //--------------------------------------------------------------------------
 
     /**

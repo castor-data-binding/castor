@@ -16,7 +16,6 @@
 package org.castor.ddlgen;
 
 import java.io.FileOutputStream;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.Properties;
 
@@ -99,8 +98,7 @@ public final class Main {
             new MappingUnmarshaller().loadMappingOnly(mapping);
             
             generator.setMapping(mapping);
-            generator.setPrinter(new PrintStream(new FileOutputStream(ddlName)));
-            generator.generateDDL();            
+            generator.generateDDL(new FileOutputStream(ddlName));            
         } catch (Exception ex) {
             LOG.error("Error: " + ex.getMessage(), ex);
         }

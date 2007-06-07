@@ -16,6 +16,7 @@
 package org.castor.ddlgen.schemaobject;
 
 import org.castor.ddlgen.DDLGenConfiguration;
+import org.castor.ddlgen.DDLWriter;
 
 /**
  * Default index.
@@ -31,26 +32,22 @@ public final class DefaultIndex extends Index {
     /**
      * {@inheritDoc}
      */
-    public String toCreateDDL() {
-        String newline = getConfiguration().getStringValue(
-                DDLGenConfiguration.NEWLINE_KEY, DDLGenConfiguration.DEFAULT_NEWLINE);
-
-        StringBuffer sb = new StringBuffer();
-        sb.append(newline).append(newline);
-        sb.append("CREATE UNIQUE INDEX ").append(getName());
-        sb.append(newline);
-        sb.append("ON ").append(getTable().getName());
-        sb.append(" (").append(fieldNames()).append(')');
-        sb.append(DDLGenConfiguration.DEFAULT_STATEMENT_DELIMITER);
-        return sb.toString();
+    public void toCreateDDL(final DDLWriter writer) {
+        String delimiter = DDLGenConfiguration.DEFAULT_STATEMENT_DELIMITER;
+        
+        writer.println();
+        writer.println();
+        writer.println("CREATE UNIQUE INDEX {0}", new Object[] {getName()});
+        writer.print("ON {0} (", new Object[] {getTable().getName()});
+        fieldNames(writer);
+        writer.print(")");
+        writer.print(delimiter);
     }
 
     /**
      * {@inheritDoc}
      */
-    public String toDropDDL() {
-        return "";
-    }
+    public void toDropDDL(final DDLWriter writer) { }
 
     //--------------------------------------------------------------------------
 }

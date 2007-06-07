@@ -16,6 +16,7 @@
 package org.castor.ddlgen.schemaobject;
 
 import org.castor.ddlgen.DDLGenConfiguration;
+import org.castor.ddlgen.DDLWriter;
 import org.castor.ddlgen.GeneratorException;
 
 /**
@@ -26,39 +27,33 @@ import org.castor.ddlgen.GeneratorException;
  * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.1
  */
-public class DefaultTable extends Table {
+public final class DefaultTable extends Table {
     //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
      */
-    public final String toCreateDDL() throws GeneratorException {
-        String newline = getConfiguration().getStringValue(
-                DDLGenConfiguration.NEWLINE_KEY, DDLGenConfiguration.DEFAULT_NEWLINE);
-
-        StringBuffer sb = new StringBuffer();
-        sb.append(newline).append(newline);
-        sb.append("CREATE TABLE ").append(getName()).append(" (");
-        sb.append(newline);
-        sb.append(fields());
-        sb.append(newline);
-        sb.append(')');
-        sb.append(DDLGenConfiguration.DEFAULT_STATEMENT_DELIMITER);
-        return sb.toString();
+    public void toCreateDDL(final DDLWriter writer) throws GeneratorException {
+        String delimiter = DDLGenConfiguration.DEFAULT_STATEMENT_DELIMITER;
+        
+        writer.println();
+        writer.println();
+        writer.println("CREATE TABLE {0} (", new Object[] {getName()});
+        fields(writer);
+        writer.println();
+        writer.print(")");
+        writer.print(delimiter);
     }
 
     /**
      * {@inheritDoc}
      */
-    public final String toDropDDL() {
-        String newline = getConfiguration().getStringValue(
-                DDLGenConfiguration.NEWLINE_KEY, DDLGenConfiguration.DEFAULT_NEWLINE);
+    public void toDropDDL(final DDLWriter writer) {
+        String delimiter = DDLGenConfiguration.DEFAULT_STATEMENT_DELIMITER;
 
-        StringBuffer sb = new StringBuffer();
-        sb.append(newline).append(newline);
-        sb.append("DROP TABLE ").append(getName());
-        sb.append(DDLGenConfiguration.DEFAULT_STATEMENT_DELIMITER);
-        return sb.toString();
+        writer.println();
+        writer.println();
+        writer.print("DROP TABLE {0}{1}", new Object[] {getName(), delimiter});
     }
 
     //--------------------------------------------------------------------------

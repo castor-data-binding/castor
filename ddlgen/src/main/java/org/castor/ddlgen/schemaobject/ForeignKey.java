@@ -21,6 +21,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.ddlgen.DDLGenConfiguration;
+import org.castor.ddlgen.DDLWriter;
 import org.castor.ddlgen.GeneratorException;
 
 /**
@@ -181,33 +182,35 @@ public abstract class ForeignKey extends AbstractSchemaObject  {
     /**
      * Concatenate all field names delimited by field delimiter and whitespace.
      * 
-     * @return Field names delimited by field delimiter and whitespace.
+     * @param writer DDLWriter to write schema objects to.
      */
-    protected final String fieldNames() {
+    protected final void fieldNames(final DDLWriter writer) {
         String delimiter = DDLGenConfiguration.DEFAULT_FIELD_DELIMITER;
         
-        StringBuffer sb = new StringBuffer();
         for (int i = 0; i < getFieldCount(); i++) {
-            if (i > 0) { sb.append(delimiter).append(' '); }
-            sb.append(getField(i).getName());
+            if (i > 0) {
+                writer.print(delimiter);
+                writer.print(" ");
+            }
+            writer.print(getField(i).getName());
         }
-        return sb.toString();
     }
 
     /**
      * Concatenate all referenced field names delimited by field delimiter and whitespace.
      * 
-     * @return Referenced field names delimited by field delimiter and whitespace.
+     * @param writer DDLWriter to write schema objects to.
      */
-    protected final String referencedFieldNames() {
+    protected final void referencedFieldNames(final DDLWriter writer) {
         String delimiter = DDLGenConfiguration.DEFAULT_FIELD_DELIMITER;
         
-        StringBuffer sb = new StringBuffer();
         for (int i = 0; i < getReferenceFieldCount(); i++) {
-            if (i > 0) { sb.append(delimiter).append(' '); }
-            sb.append(getReferenceField(i).getName());
+            if (i > 0) {
+                writer.print(delimiter);
+                writer.print(" ");
+            }
+            writer.print(getReferenceField(i).getName());
         }
-        return sb.toString();
     }
 
     //--------------------------------------------------------------------------
@@ -215,10 +218,8 @@ public abstract class ForeignKey extends AbstractSchemaObject  {
     /**
      * {@inheritDoc}
      */
-    public final String toDropDDL() {
-        return "";
-    }
-    
+    public final void toDropDDL(final DDLWriter writer) { }
+
     //--------------------------------------------------------------------------
 
     /**

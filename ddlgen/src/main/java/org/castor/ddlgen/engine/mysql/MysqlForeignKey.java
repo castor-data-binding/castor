@@ -15,7 +15,9 @@
  */
 package org.castor.ddlgen.engine.mysql;
 
+import org.castor.ddlgen.Configuration;
 import org.castor.ddlgen.DDLGenConfiguration;
+import org.castor.ddlgen.DDLWriter;
 import org.castor.ddlgen.schemaobject.ForeignKey;
 
 /**
@@ -32,39 +34,36 @@ public final class MysqlForeignKey extends ForeignKey {
     /**
      * {@inheritDoc}
      */
-    public String toCreateDDL() {
-        String newline = getConfiguration().getStringValue(
-                DDLGenConfiguration.NEWLINE_KEY, DDLGenConfiguration.DEFAULT_NEWLINE);
+    public void toCreateDDL(final DDLWriter writer) {
+        Configuration conf = getConfiguration();
+        String del = conf.getStringValue(DDLGenConfiguration.FOREIGN_KEY_ON_DELETE_KEY, null);
+        String upd = conf.getStringValue(DDLGenConfiguration.FOREIGN_KEY_ON_UPDATE_KEY, null);
+        String delimiter = DDLGenConfiguration.DEFAULT_STATEMENT_DELIMITER;
+        
+        writer.println();
+        writer.println();
+        writer.println("ALTER TABLE {0}", new Object[] {getTable().getName()});
+        writer.println("ADD CONSTRAINT {0}", new Object[] {getName()});
+        writer.print("FOREIGN KEY {0} (", new Object[] {getName()});
+        fieldNames(writer);
+        writer.println(")");
+        writer.print("REFERENCES {0} (", new Object[] {getReferenceTable().getName()});
+        referencedFieldNames(writer);
+        writer.print(")");
 
-        StringBuffer sb = new StringBuffer();
-        sb.append(newline).append(newline);
-        sb.append("ALTER TABLE ").append(getTable().getName());
-        sb.append(newline);
-        sb.append("ADD CONSTRAINT ").append(getName());
-        sb.append(newline);
-        sb.append("FOREIGN KEY ").append(getName());
-        sb.append(" (").append(fieldNames()).append(')');
-        sb.append(newline);
-        sb.append("REFERENCES ").append(getReferenceTable().getName());
-        sb.append(" (").append(referencedFieldNames()).append(')');
-
-        // on delete
-        String opt = getConfiguration().getStringValue(
-                DDLGenConfiguration.FOREIGN_KEY_ON_DELETE_KEY, null);
-        if (opt != null && !"".equals(opt)) {
-            sb.append(newline);
-            sb.append("ON DELETE ").append(opt);
+        if ((del != null) && !"".equals(del)) {
+            writer.println();
+            writer.print("ON DELETE ");
+            writer.print(del);
         }
 
-        opt = getConfiguration().getStringValue(
-                DDLGenConfiguration.FOREIGN_KEY_ON_UPDATE_KEY, null);
-        if (opt != null && !"".equals(opt)) {
-            sb.append(newline);
-            sb.append("ON UPDATE ").append(opt);
+        if ((upd != null) && !"".equals(upd)) {
+            writer.println();
+            writer.print("ON UPDATE ");
+            writer.print(upd);
         }
-
-        sb.append(DDLGenConfiguration.DEFAULT_STATEMENT_DELIMITER);
-        return sb.toString();
+        
+        writer.print(delimiter);
     }
 
     //--------------------------------------------------------------------------

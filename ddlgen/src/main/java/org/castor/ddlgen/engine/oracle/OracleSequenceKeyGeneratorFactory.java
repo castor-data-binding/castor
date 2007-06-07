@@ -18,6 +18,7 @@ package org.castor.ddlgen.engine.oracle;
 import java.text.MessageFormat;
 
 import org.castor.ddlgen.DDLGenConfiguration;
+import org.castor.ddlgen.DDLWriter;
 import org.castor.ddlgen.keygenerator.SequenceKeyGenerator;
 import org.castor.ddlgen.keygenerator.SequenceKeyGeneratorFactory;
 import org.castor.ddlgen.schemaobject.KeyGenerator;
@@ -34,29 +35,22 @@ public final class OracleSequenceKeyGeneratorFactory extends SequenceKeyGenerato
     /**
      * {@inheritDoc}
      */
-    public String toCreateDDL(final KeyGenerator key) {
+    public void toCreateDDL(final KeyGenerator key, final DDLWriter writer) {
         SequenceKeyGenerator sequenceKey = (SequenceKeyGenerator) key;
-        StringBuffer buff = new StringBuffer();
-        DDLGenConfiguration conf = sequenceKey.getConfiguration();
-
         String tableName = sequenceKey.getTable().getName();
         String pkList = toPrimaryKeyList(key.getTable());
         String pkTypeList = toPrimaryKeyTypeList(key.getTable());
         String sequenceName = MessageFormat.format(sequenceKey.getSequence(),
                 new Object[]{tableName, pkList});
 
-        String newline = conf.getStringValue(
-                DDLGenConfiguration.NEWLINE_KEY, DDLGenConfiguration.DEFAULT_NEWLINE);
-        String indent = conf.getStringValue(
-                DDLGenConfiguration.INDENT_KEY, DDLGenConfiguration.DEFAULT_INDENT);
-
-        buff.append(newline).append(newline);
-        buff.append("CREATE SEQUENCE ").append(sequenceName);
-        buff.append(newline).append(indent);
-        buff.append("MAXVALUE ").append(Integer.MAX_VALUE);
-        buff.append(newline).append(indent);
-        buff.append("INCREMENT BY 1 START WITH 1");
-        buff.append(DDLGenConfiguration.DEFAULT_STATEMENT_DELIMITER);
+        writer.println();
+        writer.println();
+        writer.print("CREATE SEQUENCE ");
+        writer.println(sequenceName);
+        writer.print("MAXVALUE ");
+        writer.println(Integer.MAX_VALUE);
+        writer.print("INCREMENT BY 1 START WITH 1");
+        writer.println(DDLGenConfiguration.DEFAULT_STATEMENT_DELIMITER);
 
         if (sequenceKey.isTrigger()) {
             String triggerName = null;
@@ -65,26 +59,23 @@ public final class OracleSequenceKeyGeneratorFactory extends SequenceKeyGenerato
             } else {
                 triggerName = "TRG" + sequenceName;
             }
-            String triggerTemp = conf.getStringValue(
-                    DDLGenConfiguration.TRIGGER_TEMPLATE_KEY, "");
+            DDLGenConfiguration conf = sequenceKey.getConfiguration();
+            String triggerTemp = conf.getStringValue(DDLGenConfiguration.TRIGGER_TEMPLATE_KEY, "");
 
             triggerTemp = triggerTemp.replaceAll("<trigger_name>", triggerName);
             triggerTemp = triggerTemp.replaceAll("<sequence_name>", sequenceName);
             triggerTemp = triggerTemp.replaceAll("<table_name>", tableName);
             triggerTemp = triggerTemp.replaceAll("<pk_name>", pkList);
             triggerTemp = triggerTemp.replaceAll("<pk_type>", pkTypeList);
-            buff.append(newline);
-            buff.append(newline);
-            buff.append(triggerTemp);
-        }
 
-        return buff.toString();
+            writer.println();
+            writer.println();
+            writer.println(triggerTemp);
+        }
     }
 
     /**
      * {@inheritDoc}
      */
-    public String toDropDDL(final KeyGenerator key) {
-        return "";
-    }
+    public void toDropDDL(final KeyGenerator key, final DDLWriter writer) { }
 }

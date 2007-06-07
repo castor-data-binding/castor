@@ -15,8 +15,12 @@
  */
 package org.castor.ddlgen.engine.derby;
 
+import java.util.Date;
+
 import org.castor.ddlgen.AbstractGenerator;
+import org.castor.ddlgen.Configuration;
 import org.castor.ddlgen.DDLGenConfiguration;
+import org.castor.ddlgen.DDLWriter;
 import org.castor.ddlgen.MappingHelper;
 
 /**
@@ -82,16 +86,14 @@ public final class DerbyGenerator extends AbstractGenerator {
     /**
      * {@inheritDoc}
      */
-    public String generateHeader() {
-        StringBuffer buff = new StringBuffer("/*"); 
-        buff.append(new java.util.Date());
-        buff.append("\n");
-
-        buff.append("Castor DDL Generator from mapping for Derby");
-        buff.append(getConfiguration().getStringValue(
-                DDLGenConfiguration.HEADER_COMMENT_KEY, ""));
-        buff.append("*/");
-        return buff.toString();
+    public void generateHeader(final DDLWriter writer) {
+        Configuration conf = getConfiguration();
+        
+        writer.println("/* ");
+        writer.println(new Date());
+        writer.println("Castor DDL Generator from mapping for Derby");
+        writer.println(conf.getStringValue(DDLGenConfiguration.HEADER_COMMENT_KEY, ""));
+        writer.println("*/");
     }
     
     //--------------------------------------------------------------------------

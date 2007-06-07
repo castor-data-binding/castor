@@ -16,6 +16,7 @@
 package org.castor.ddlgen.schemaobject;
 
 import org.castor.ddlgen.DDLGenConfiguration;
+import org.castor.ddlgen.DDLWriter;
 
 /**
  * Default primary key.
@@ -31,19 +32,19 @@ public final class DefaultPrimaryKey extends PrimaryKey {
     /**
      * {@inheritDoc}
      */
-    public String toCreateDDL() {
-        if (getFieldCount() == 0) { return ""; }
+    public void toCreateDDL(final DDLWriter writer) {
+        String delimiter = DDLGenConfiguration.DEFAULT_STATEMENT_DELIMITER;
         
-        String newline = getConfiguration().getStringValue(
-                DDLGenConfiguration.NEWLINE_KEY, DDLGenConfiguration.DEFAULT_NEWLINE);
-
-        StringBuffer sb = new StringBuffer();
-        sb.append(newline).append(newline);
-        sb.append("ALTER TABLE ").append(getTable().getName());
-        sb.append(newline);
-        sb.append("ADD PRIMARY KEY (").append(fieldNames()).append(')');
-        sb.append(DDLGenConfiguration.DEFAULT_STATEMENT_DELIMITER);
-        return sb.toString();
+        if (getFieldCount() > 0) {
+            writer.println();
+            writer.println();
+            writer.print("ALTER TABLE ");
+            writer.println(getTable().getName());
+            writer.print("ADD PRIMARY KEY (");
+            fieldNames(writer);
+            writer.print(")");
+            writer.print(delimiter);
+        }
     }
 
     //--------------------------------------------------------------------------

@@ -15,12 +15,14 @@
  */
 package org.castor.ddlgen.test.framework;
 
+import java.io.ByteArrayOutputStream;
 import java.net.URL;
 
 import junit.framework.TestCase;
 
 import org.castor.ddlgen.AbstractGenerator;
 import org.castor.ddlgen.DDLGenConfiguration;
+import org.castor.ddlgen.DDLWriter;
 import org.castor.mapping.MappingUnmarshaller;
 import org.exolab.castor.mapping.Mapping;
 
@@ -169,12 +171,19 @@ public abstract class AbstractGeneratorTest extends TestCase {
         try {
             loadData("single_table.xml");
 
-            String ddl = _generator.generateCreate();
-
             DDLGenConfiguration conf = _generator.getConfiguration();
             Object[] params = new Object[] {
                     conf.getStringValue(PARAM_PREFIX + "integer" + PARAM_PRECISION, ""),
                     conf.getStringValue(PARAM_PREFIX + "char" + PARAM_LENGTH, "") };
+            
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, conf);
+            
+            _generator.generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
+
             boolean b = _expected.match(_engine, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
                      + "Expected DDL: " + _expected.getLastMatchString(), b);
@@ -190,12 +199,19 @@ public abstract class AbstractGeneratorTest extends TestCase {
         try {
             loadData("ignored_table.xml");
 
-            String ddl = _generator.generateCreate();
-
             DDLGenConfiguration conf = _generator.getConfiguration();
             Object[] params = new Object[] {
                     conf.getInteger(PARAM_PREFIX + "integer" + PARAM_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "char" + PARAM_LENGTH) };
+
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, conf);
+            
+            _generator.generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
+
             boolean b = _expected.match(_engine, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
                      + "Expected DDL: " + _expected.getLastMatchString(), b);
@@ -211,12 +227,19 @@ public abstract class AbstractGeneratorTest extends TestCase {
         try {
             loadData("no_table.xml");
 
-            String ddl = _generator.generateCreate();
-
             DDLGenConfiguration conf = _generator.getConfiguration();
             Object[] params = new Object[] {
                     conf.getInteger(PARAM_PREFIX + "integer" + PARAM_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "char" + PARAM_LENGTH) };
+
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, conf);
+            
+            _generator.generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
+
             boolean b = _expected.match(_engine, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
                      + "Expected DDL: " + _expected.getLastMatchString(), b);
@@ -232,7 +255,13 @@ public abstract class AbstractGeneratorTest extends TestCase {
         try {
             loadData("drop_table.xml");
 
-            String ddl = _generator.generateDrop();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, _generator.getConfiguration());
+            
+            _generator.generateDrop(writer);
+            
+            writer.close();
+            String ddl = out.toString();
 
             boolean b = _expected.match(_engine, ddl);
             assertTrue("Generated DDL: " + ddl + "\n"
@@ -254,13 +283,25 @@ public abstract class AbstractGeneratorTest extends TestCase {
                     conf.getInteger(PARAM_PREFIX + "integer" + PARAM_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "char" + PARAM_LENGTH) };
 
-            String ddl = _generator.generateCreate();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, conf);
+            
+            _generator.generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
             
             boolean b = _expected.match(_engine, 0, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
                      + "Expected DDL: " + _expected.getLastMatchString(), b);
 
-            ddl = _generator.generatePrimaryKey();
+            out = new ByteArrayOutputStream();
+            writer = new DDLWriter(out, conf);
+            
+            _generator.generatePrimaryKey(writer);
+            
+            writer.close();
+            ddl = out.toString();
             
             b = _expected.match(_engine, 1, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
@@ -282,13 +323,25 @@ public abstract class AbstractGeneratorTest extends TestCase {
                     conf.getInteger(PARAM_PREFIX + "integer" + PARAM_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "char" + PARAM_LENGTH) };
             
-            String ddl = _generator.generateCreate();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, conf);
+            
+            _generator.generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
 
             boolean b = _expected.match(_engine, 0, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
                      + "Expected DDL: " + _expected.getLastMatchString(), b);
 
-            ddl = _generator.generatePrimaryKey();
+            out = new ByteArrayOutputStream();
+            writer = new DDLWriter(out, conf);
+            
+            _generator.generatePrimaryKey(writer);
+            
+            writer.close();
+            ddl = out.toString();
             
             b = _expected.match(_engine, 1, ddl, null);
             assertTrue("Generated DDL: " + ddl + "\n"
@@ -310,13 +363,25 @@ public abstract class AbstractGeneratorTest extends TestCase {
                     conf.getInteger(PARAM_PREFIX + "integer" + PARAM_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "char" + PARAM_LENGTH) };
             
-            String ddl = _generator.generateCreate();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, conf);
+            
+            _generator.generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
             
             boolean b = _expected.match(_engine, 0, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
                      + "Expected DDL: " + _expected.getLastMatchString(), b);
 
-            ddl = _generator.generatePrimaryKey();
+            out = new ByteArrayOutputStream();
+            writer = new DDLWriter(out, conf);
+            
+            _generator.generatePrimaryKey(writer);
+            
+            writer.close();
+            ddl = out.toString();
             
             b = _expected.match(_engine, 1, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
@@ -338,13 +403,25 @@ public abstract class AbstractGeneratorTest extends TestCase {
                     conf.getInteger(PARAM_PREFIX + "integer" + PARAM_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "char" + PARAM_LENGTH) };
             
-            String ddl = _generator.generateCreate();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, conf);
+            
+            _generator.generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
 
             boolean b = _expected.match(_engine, 0, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
                      + "Expected DDL: " + _expected.getLastMatchString(), b);
 
-            ddl = _generator.generatePrimaryKey();
+            out = new ByteArrayOutputStream();
+            writer = new DDLWriter(out, conf);
+            
+            _generator.generatePrimaryKey(writer);
+            
+            writer.close();
+            ddl = out.toString();
 
             b = _expected.match(_engine, 1, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
@@ -366,13 +443,25 @@ public abstract class AbstractGeneratorTest extends TestCase {
                     conf.getInteger(PARAM_PREFIX + "integer" + PARAM_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "char" + PARAM_LENGTH) };
             
-            String ddl = _generator.generateCreate();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, conf);
+            
+            _generator.generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
 
             boolean b = _expected.match(_engine, 0, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
                      + "Expected DDL: " + _expected.getLastMatchString(), b);
 
-            ddl = _generator.generatePrimaryKey();
+            out = new ByteArrayOutputStream();
+            writer = new DDLWriter(out, conf);
+            
+            _generator.generatePrimaryKey(writer);
+            
+            writer.close();
+            ddl = out.toString();
 
             b = _expected.match(_engine, 1, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
@@ -389,12 +478,19 @@ public abstract class AbstractGeneratorTest extends TestCase {
         try {
             loadData("multiple_table.xml");
 
-            String ddl = _generator.generateCreate();
-
             DDLGenConfiguration conf = _generator.getConfiguration();
             Object[] params = new Object[] {
                     conf.getInteger(PARAM_PREFIX + "integer" + PARAM_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "char" + PARAM_LENGTH) };
+            
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, conf);
+            
+            _generator.generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
+            
             boolean b = _expected.match(_engine, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
                      + "Expected DDL: " + _expected.getLastMatchString(), b);
@@ -410,8 +506,6 @@ public abstract class AbstractGeneratorTest extends TestCase {
         try {
             loadData("single_field_for_all.xml");
 
-            String ddl = _generator.generateCreate();
-            
             DDLGenConfiguration conf = _generator.getConfiguration();
             Object[] params = new Object[] {
                     conf.getInteger(PARAM_PREFIX + "tinyint" + PARAM_PRECISION),
@@ -441,6 +535,15 @@ public abstract class AbstractGeneratorTest extends TestCase {
                     conf.getStringValue(PARAM_PREFIX + "javaobject" + PARAM_LENGTH),
                     conf.getStringValue(PARAM_PREFIX + "blob" + PARAM_LENGTH),
                     conf.getStringValue(PARAM_PREFIX + "clob" + PARAM_LENGTH) };
+            
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, conf);
+            
+            _generator.generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
+            
             boolean b = _expected.match(_engine, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
                      + "Expected DDL: " + _expected.getLastMatchString(), b);
@@ -456,12 +559,19 @@ public abstract class AbstractGeneratorTest extends TestCase {
         try {
             loadData("single_field.xml");
 
-            String ddl = _generator.generateCreate();
-
             DDLGenConfiguration conf = _generator.getConfiguration();
             Object[] params = new Object[] {
                     conf.getInteger(PARAM_PREFIX + "integer" + PARAM_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "char" + PARAM_LENGTH) };
+            
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, conf);
+            
+            _generator.generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
+            
             boolean b = _expected.match(_engine, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
                      + "Expected DDL: " + _expected.getLastMatchString(), b);
@@ -482,13 +592,25 @@ public abstract class AbstractGeneratorTest extends TestCase {
                     conf.getInteger(PARAM_PREFIX + "integer" + PARAM_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "char" + PARAM_LENGTH) };
             
-            String ddl = _generator.generateCreate();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, conf);
+            
+            _generator.generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
 
             boolean b = _expected.match(_engine, 0, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
                      + "Expected DDL: " + _expected.getLastMatchString(), b);
 
-            ddl = _generator.generateKeyGenerator();
+            out = new ByteArrayOutputStream();
+            writer = new DDLWriter(out, conf);
+            
+            _generator.generateKeyGenerator(writer);
+            
+            writer.close();
+            ddl = out.toString();
 
             b = _expected.match(_engine, 1, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
@@ -510,13 +632,25 @@ public abstract class AbstractGeneratorTest extends TestCase {
                     conf.getInteger(PARAM_PREFIX + "integer" + PARAM_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "char" + PARAM_LENGTH) };
             
-            String ddl = _generator.generateCreate();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, conf);
+            
+            _generator.generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
 
             boolean b = _expected.match(_engine, 0, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
                      + "Expected DDL: " + _expected.getLastMatchString(), b);
 
-            ddl = _generator.generateKeyGenerator();
+            out = new ByteArrayOutputStream();
+            writer = new DDLWriter(out, conf);
+            
+            _generator.generateKeyGenerator(writer);
+            
+            writer.close();
+            ddl = out.toString();
 
             b = _expected.match(_engine, 1, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
@@ -538,13 +672,26 @@ public abstract class AbstractGeneratorTest extends TestCase {
                     conf.getInteger(PARAM_PREFIX + "integer" + PARAM_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "char" + PARAM_LENGTH) };
             
-            String ddl = _generator.generateCreate();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, conf);
+            
+            _generator.generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
 
             boolean b = _expected.match(_engine, 0, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
                      + "Expected DDL: " + _expected.getLastMatchString(), b);
 
-            ddl = _generator.generateKeyGenerator();
+            out = new ByteArrayOutputStream();
+            writer = new DDLWriter(out, conf);
+            
+            _generator.generateKeyGenerator(writer);
+            
+            writer.close();
+            ddl = out.toString();
+            
             b = _expected.match(_engine, 1, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
                      + "Expected DDL: " + _expected.getLastMatchString(), b);
@@ -566,13 +713,25 @@ public abstract class AbstractGeneratorTest extends TestCase {
                     conf.getInteger(PARAM_PREFIX + "integer" + PARAM_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "char" + PARAM_LENGTH) };
 
-            String ddl = _generator.generateCreate();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, conf);
+            
+            _generator.generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
 
             boolean b = _expected.match(_engine, 0, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
                      + "Expected DDL: " + _expected.getLastMatchString(), b);
 
-            ddl = _generator.generateKeyGenerator();
+            out = new ByteArrayOutputStream();
+            writer = new DDLWriter(out, conf);
+            
+            _generator.generateKeyGenerator(writer);
+            
+            writer.close();
+            ddl = out.toString();
 
             b = _expected.match(_engine, 1, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
@@ -594,13 +753,25 @@ public abstract class AbstractGeneratorTest extends TestCase {
                     conf.getInteger(PARAM_PREFIX + "integer" + PARAM_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "char" + PARAM_LENGTH) };
 
-            String ddl = _generator.generateCreate();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, conf);
+            
+            _generator.generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
 
             boolean b = _expected.match(_engine, 0, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
                      + "Expected DDL: " + _expected.getLastMatchString(), b);
 
-            ddl = _generator.generateKeyGenerator();
+            out = new ByteArrayOutputStream();
+            writer = new DDLWriter(out, conf);
+            
+            _generator.generateKeyGenerator(writer);
+            
+            writer.close();
+            ddl = out.toString();
 
             b = _expected.match(_engine, 1, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
@@ -622,13 +793,25 @@ public abstract class AbstractGeneratorTest extends TestCase {
                     conf.getInteger(PARAM_PREFIX + "integer" + PARAM_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "char" + PARAM_LENGTH) };
 
-            String ddl = _generator.generateCreate();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, conf);
+            
+            _generator.generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
             
             boolean b = _expected.match(_engine, 0, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
                      + "Expected DDL: " + _expected.getLastMatchString(), b);
 
-            ddl = _generator.generateForeignKey();
+            out = new ByteArrayOutputStream();
+            writer = new DDLWriter(out, conf);
+            
+            _generator.generateForeignKey(writer);
+            
+            writer.close();
+            ddl = out.toString();
             
             b = _expected.match(_engine, 1, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
@@ -650,13 +833,25 @@ public abstract class AbstractGeneratorTest extends TestCase {
                     conf.getInteger(PARAM_PREFIX + "integer" + PARAM_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "char" + PARAM_LENGTH) };
 
-            String ddl = _generator.generateCreate();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, conf);
+            
+            _generator.generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
 
             boolean b = _expected.match(_engine, 0, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
                      + "Expected DDL: " + _expected.getLastMatchString(), b);
 
-            ddl = _generator.generateForeignKey();
+            out = new ByteArrayOutputStream();
+            writer = new DDLWriter(out, conf);
+            
+            _generator.generateForeignKey(writer);
+            
+            writer.close();
+            ddl = out.toString();
             
             b = _expected.match(_engine, 1, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
@@ -678,13 +873,25 @@ public abstract class AbstractGeneratorTest extends TestCase {
                     conf.getInteger(PARAM_PREFIX + "integer" + PARAM_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "char" + PARAM_LENGTH) };
 
-            String ddl = _generator.generateCreate();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, conf);
+            
+            _generator.generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
             
             boolean b = _expected.match(_engine, 0, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
                      + "Expected DDL: " + _expected.getLastMatchString(), b);
 
-            ddl = _generator.generateForeignKey();
+            out = new ByteArrayOutputStream();
+            writer = new DDLWriter(out, conf);
+            
+            _generator.generateForeignKey(writer);
+            
+            writer.close();
+            ddl = out.toString();
             
             b = _expected.match(_engine, 1, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
@@ -706,7 +913,13 @@ public abstract class AbstractGeneratorTest extends TestCase {
                     conf.getStringValue(PARAM_PREFIX + "integer" + PARAM_PRECISION, ""),
                     conf.getStringValue(PARAM_PREFIX + "char" + PARAM_LENGTH, "") };
 
-            String ddl = _generator.generateCreate();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, conf);
+            
+            _generator.generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
 
             boolean b = _expected.match(_engine, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
@@ -728,7 +941,13 @@ public abstract class AbstractGeneratorTest extends TestCase {
                     conf.getInteger(PARAM_PREFIX + "integer" + PARAM_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "char" + PARAM_LENGTH) };
             
-            String ddl = _generator.generateCreate();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, conf);
+            
+            _generator.generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
 
             boolean b = _expected.match(_engine, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
@@ -745,7 +964,13 @@ public abstract class AbstractGeneratorTest extends TestCase {
         try {
             loadData("no_field.xml");
 
-            String ddl = _generator.generateCreate();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, _generator.getConfiguration());
+            
+            _generator.generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
 
             boolean b = _expected.match(_engine, ddl);
             assertTrue("Generated DDL: " + ddl + "\n"
@@ -767,7 +992,13 @@ public abstract class AbstractGeneratorTest extends TestCase {
                     conf.getInteger(PARAM_PREFIX + "integer" + PARAM_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "char" + PARAM_LENGTH) };
             
-            String ddl = _generator.generateCreate();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, conf);
+            
+            _generator.generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
 
             boolean b = _expected.match(_engine, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
@@ -789,7 +1020,13 @@ public abstract class AbstractGeneratorTest extends TestCase {
                     conf.getInteger(PARAM_PREFIX + "integer" + PARAM_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "char" + PARAM_LENGTH) };
 
-            String ddl = _generator.generateCreate();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, conf);
+            
+            _generator.generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
 
             boolean b = _expected.match(_engine, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
@@ -811,7 +1048,13 @@ public abstract class AbstractGeneratorTest extends TestCase {
                     conf.getInteger(PARAM_PREFIX + "integer" + PARAM_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "char" + PARAM_LENGTH) };
 
-            String ddl = _generator.generateCreate();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, conf);
+            
+            _generator.generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
 
             boolean b = _expected.match(_engine, ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
@@ -831,14 +1074,28 @@ public abstract class AbstractGeneratorTest extends TestCase {
             DDLGenConfiguration conf = _generator.getConfiguration();
 
             conf.setProperty(DDLGenConfiguration.SCHEMA_NAME_KEY, "test");
-            String ddl = _generator.getSchema().toCreateDDL();
+            
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, _generator.getConfiguration());
+            
+            _generator.getSchema().toCreateDDL(writer);
+            
+            writer.close();
+            String ddl = out.toString();
             
             boolean b = _expected.match(_engine, 0, ddl, new String[] {"test"});
             assertTrue("Generated DDL: " + ddl + "\n"
                      + "Expected DDL: " + _expected.getLastMatchString(), b);
 
             conf.setProperty(DDLGenConfiguration.SCHEMA_NAME_KEY, "");
-            ddl = _generator.getSchema().toCreateDDL();
+            
+            out = new ByteArrayOutputStream();
+            writer = new DDLWriter(out, _generator.getConfiguration());
+            
+            _generator.getSchema().toCreateDDL(writer);
+            
+            writer.close();
+            ddl = out.toString();
             
             b = _expected.match(_engine, 1, ddl, new String[] {});
             assertTrue("Generated DDL: " + ddl + "\n"
@@ -855,7 +1112,13 @@ public abstract class AbstractGeneratorTest extends TestCase {
         try {
             loadData("index_creation.xml");
 
-            String ddl = _generator.generateIndex();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, _generator.getConfiguration());
+            
+            _generator.generateIndex(writer);
+            
+            writer.close();
+            String ddl = out.toString();
 
             boolean b = _expected.match(_engine, ddl);
             assertTrue("Generated DDL: " + ddl + "\n"

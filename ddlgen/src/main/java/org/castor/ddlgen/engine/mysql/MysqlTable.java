@@ -15,7 +15,9 @@
  */
 package org.castor.ddlgen.engine.mysql;
 
+import org.castor.ddlgen.Configuration;
 import org.castor.ddlgen.DDLGenConfiguration;
+import org.castor.ddlgen.DDLWriter;
 import org.castor.ddlgen.GeneratorException;
 import org.castor.ddlgen.schemaobject.Table;
 
@@ -33,38 +35,32 @@ public final class MysqlTable extends Table {
     /**
      * {@inheritDoc}
      */
-    public String toCreateDDL() throws GeneratorException {
-        String newline = getConfiguration().getStringValue(
-                DDLGenConfiguration.NEWLINE_KEY, DDLGenConfiguration.DEFAULT_NEWLINE);
-        String engine = getConfiguration().getStringValue(
-                DDLGenConfiguration.STORAGE_ENGINE_KEY, null);
-
-        StringBuffer sb = new StringBuffer();
-        sb.append(newline).append(newline);
-        sb.append("CREATE TABLE ").append(getName()).append(" (");
-        sb.append(newline);
-        sb.append(fields());
-        sb.append(newline);
-        sb.append(')');
+    public void toCreateDDL(final DDLWriter writer) throws GeneratorException {
+        Configuration conf = getConfiguration();
+        String engine = conf.getStringValue(DDLGenConfiguration.STORAGE_ENGINE_KEY, null);
+        String delimiter = DDLGenConfiguration.DEFAULT_STATEMENT_DELIMITER;
+        
+        writer.println();
+        writer.println();
+        writer.println("CREATE TABLE {0} (", new Object[] {getName()});
+        fields(writer);
+        writer.println();
         if ((engine != null) && !"".equals(engine)) {
-            sb.append(" ENGINE=").append(engine);
+            writer.print(") ENGINE={0}{1}", new Object[] {engine, delimiter});
+        } else {
+            writer.print("){0}", new Object[] {delimiter});
         }
-        sb.append(DDLGenConfiguration.DEFAULT_STATEMENT_DELIMITER);
-        return sb.toString();
     }
 
-    /** 
+    /**
      * {@inheritDoc}
      */
-    public String toDropDDL() {
-        String newline = getConfiguration().getStringValue(
-                DDLGenConfiguration.NEWLINE_KEY, DDLGenConfiguration.DEFAULT_NEWLINE);
+    public void toDropDDL(final DDLWriter writer) {
+        String delimiter = DDLGenConfiguration.DEFAULT_STATEMENT_DELIMITER;
 
-        StringBuffer sb = new StringBuffer();
-        sb.append(newline).append(newline);
-        sb.append("DROP TABLE IF EXISTS ").append(getName());
-        sb.append(DDLGenConfiguration.DEFAULT_STATEMENT_DELIMITER);
-        return sb.toString();
+        writer.println();
+        writer.println();
+        writer.print("DROP TABLE IF EXISTS {0}{1}", new Object[] {getName(), delimiter});
     }
 
     //--------------------------------------------------------------------------

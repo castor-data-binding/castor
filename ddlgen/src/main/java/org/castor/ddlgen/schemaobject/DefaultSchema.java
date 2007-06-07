@@ -15,6 +15,8 @@
  */
 package org.castor.ddlgen.schemaobject;
 
+import org.castor.ddlgen.DDLWriter;
+
 /**
  * Default schema.
  * 
@@ -29,16 +31,12 @@ public final class DefaultSchema extends Schema {
     /**
      * {@inheritDoc}
      */
-    public String toCreateDDL() {
-        return "";
-    }
+    public void toCreateDDL(final DDLWriter writer) { }
 
     /**
      * {@inheritDoc}
      */
-    public String toDropDDL() {
-        return "";
-    }
+    public void toDropDDL(final DDLWriter writer) { }
 
     //--------------------------------------------------------------------------
 }
