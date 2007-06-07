@@ -15,6 +15,7 @@
  */
 package org.castor.ddlgen.keygenerator;
 
+import org.castor.ddlgen.DDLWriter;
 import org.castor.ddlgen.GeneratorException;
 import org.castor.ddlgen.KeyGeneratorFactory;
 import org.castor.ddlgen.schemaobject.Field;
@@ -64,17 +65,17 @@ public abstract class SequenceKeyGeneratorFactory implements KeyGeneratorFactory
      * Generate create script for given SEQUENCE key generator.
      * 
      * @param key SEQUENCE key generator to generate DDL for.
-     * @return Create script of SEQUENCE key generator.
+     * @param writer DDLWriter to write schema objects to.
      */
-    public abstract String toCreateDDL(final KeyGenerator key);
+    public abstract void toCreateDDL(final KeyGenerator key, final DDLWriter writer);
 
     /**
      * Generate drop script for given SEQUENCE key generator.
      * 
      * @param key SEQUENCE key generator to generate DDL for.
-     * @return Drop script of SEQUENCE key generator.
+     * @param writer DDLWriter to write schema objects to.
      */
-    public abstract String toDropDDL(final KeyGenerator key);
+    public abstract void toDropDDL(final KeyGenerator key, final DDLWriter writer);
 
     //--------------------------------------------------------------------------
 

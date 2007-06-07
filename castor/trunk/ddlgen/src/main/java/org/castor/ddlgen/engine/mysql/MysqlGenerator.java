@@ -15,8 +15,12 @@
  */
 package org.castor.ddlgen.engine.mysql;
 
+import java.util.Date;
+
 import org.castor.ddlgen.AbstractGenerator;
+import org.castor.ddlgen.Configuration;
 import org.castor.ddlgen.DDLGenConfiguration;
+import org.castor.ddlgen.DDLWriter;
 import org.castor.ddlgen.MappingHelper;
 
 /**
@@ -82,19 +86,13 @@ public final class MysqlGenerator extends AbstractGenerator {
     /**
      * {@inheritDoc}
      */
-    public String generateHeader() {
-        String newline = getConfiguration().getStringValue(
-                DDLGenConfiguration.NEWLINE_KEY, DDLGenConfiguration.DEFAULT_NEWLINE);
-
-        StringBuffer buff = new StringBuffer("# ");
-        buff.append(new java.util.Date());
-        buff.append("\n");
-
-        buff.append("# Castor DDL Generator from _mapping");
-        buff.append(newline).append(newline);
-        buff.append(getConfiguration().getStringValue(
-                DDLGenConfiguration.HEADER_COMMENT_KEY, ""));
-        return buff.toString();
+    public void generateHeader(final DDLWriter writer) {
+        Configuration conf = getConfiguration();
+        
+        writer.println("# {0}", new Object[] {new Date()});
+        writer.println("# Castor DDL Generator from mapping for MySQL");
+        writer.println();
+        writer.println(conf.getStringValue(DDLGenConfiguration.HEADER_COMMENT_KEY, ""));
     }
 
     //--------------------------------------------------------------------------

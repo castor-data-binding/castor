@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.castor.ddlgen.DDLGenConfiguration;
+import org.castor.ddlgen.DDLWriter;
 
 /**
  * Abstract base class for all primary keys.
@@ -90,17 +91,18 @@ public abstract class PrimaryKey extends AbstractSchemaObject {
     /**
      * Concatenate all field names delimited by field delimiter and whitespace.
      * 
-     * @return Field names delimited by field delimiter and whitespace.
+     * @param writer DDLWriter to write schema objects to.
      */
-    protected final String fieldNames() {
+    protected final void fieldNames(final DDLWriter writer) {
         String delimiter = DDLGenConfiguration.DEFAULT_FIELD_DELIMITER;
         
-        StringBuffer sb = new StringBuffer();
         for (int i = 0; i < getFieldCount(); i++) {
-            if (i > 0) { sb.append(delimiter).append(' '); }
-            sb.append(getField(i).getName());
+            if (i > 0) {
+                writer.print(delimiter);
+                writer.print(" ");
+            }
+            writer.print(getField(i).getName());
         }
-        return sb.toString();
     }
 
     //--------------------------------------------------------------------------
@@ -108,10 +110,8 @@ public abstract class PrimaryKey extends AbstractSchemaObject {
     /**
      * {@inheritDoc}
      */
-    public final String toDropDDL() {
-        return "";
-    }
-    
+    public final void toDropDDL(final DDLWriter writer) { }
+
     //--------------------------------------------------------------------------
 
     /**

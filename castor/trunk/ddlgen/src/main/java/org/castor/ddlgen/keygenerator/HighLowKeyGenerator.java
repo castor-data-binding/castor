@@ -15,6 +15,7 @@
  */
 package org.castor.ddlgen.keygenerator;
 
+import org.castor.ddlgen.DDLWriter;
 import org.castor.ddlgen.GeneratorException;
 import org.castor.ddlgen.schemaobject.KeyGenerator;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
@@ -166,12 +167,12 @@ public final class HighLowKeyGenerator extends KeyGenerator {
     /**
      * {@inheritDoc}
      */
-    public String toCreateDDL() { return ""; }
+    public void toCreateDDL(final DDLWriter writer) { }
 
     /**
      * {@inheritDoc}
      */
-    public String toDropDDL() { return ""; }
+    public void toDropDDL(final DDLWriter writer) { }
 
     //--------------------------------------------------------------------------
 }

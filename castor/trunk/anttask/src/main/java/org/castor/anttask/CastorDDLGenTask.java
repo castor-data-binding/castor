@@ -18,7 +18,7 @@ package org.castor.anttask;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
+import java.io.OutputStream;
 import java.util.Vector;
 
 import org.apache.tools.ant.BuildException;
@@ -73,7 +73,7 @@ public final class CastorDDLGenTask extends MatchingTask {
     private String _databaseEngineProperties;
     
     /** OutputStream used for writing the generated DDL statements. */
-    private PrintStream _outputStream; 
+    private OutputStream _outputStream; 
 
     //--------------------------------------------------------------------------
 
@@ -151,7 +151,7 @@ public final class CastorDDLGenTask extends MatchingTask {
         }
         
         try {
-            _outputStream = new PrintStream(new FileOutputStream(_ddlFileName));
+            _outputStream = new FileOutputStream(_ddlFileName);
         } catch (IOException e) {
             throw new BuildException("Problem finding the Castor JDO mapping file " 
                     + _mappingFile.getAbsolutePath(), e);
@@ -175,8 +175,7 @@ public final class CastorDDLGenTask extends MatchingTask {
             new MappingUnmarshaller().loadMappingOnly(mapping);
             
             ddlgen.setMapping(mapping);
-            ddlgen.setPrinter(_outputStream);
-            ddlgen.generateDDL();
+            ddlgen.generateDDL(_outputStream);
         } catch (IOException e) {
             throw new BuildException ("Problem finding the Castor JDO mapping file " 
                     + _mappingFile.getAbsolutePath(), e);
@@ -203,39 +202,35 @@ public final class CastorDDLGenTask extends MatchingTask {
             throw new BuildException(NO_MAPPING_MSG);
         }
 
-        try {
-            config();
+        config();
 
-            // Run DDL generator on file
-            if (_mappingFile != null) {
-                processFile(_mappingFile.getAbsolutePath());
+        // Run DDL generator on file
+        if (_mappingFile != null) {
+            processFile(_mappingFile.getAbsolutePath());
+        }
+
+        // Run source generator on all files in directory
+        if (_mappingDir != null && _mappingDir.exists() && _mappingDir.isDirectory()) {
+            DirectoryScanner ds = this.getDirectoryScanner(_mappingDir);
+
+            String[] files = ds.getIncludedFiles();
+            for (int i = 0; i < files.length; i++) {
+                String filePath = _mappingDir.getAbsolutePath() + File.separator + files[i];
+                processFile(filePath);
             }
+        }
 
-            // Run source generator on all files in directory
-            if (_mappingDir != null && _mappingDir.exists() && _mappingDir.isDirectory()) {
-                DirectoryScanner ds = this.getDirectoryScanner(_mappingDir);
+        // Run source generator on all files in FileSet
+        for (int i = 0; i < _mappingFilesets.size(); i++) {
+            FileSet fs = (FileSet) _mappingFilesets.elementAt(i);
+            DirectoryScanner ds = fs.getDirectoryScanner(getProject());
+            File subdir = fs.getDir(getProject());
 
-                String[] files = ds.getIncludedFiles();
-                for (int i = 0; i < files.length; i++) {
-                    String filePath = _mappingDir.getAbsolutePath() + File.separator + files[i];
-                    processFile(filePath);
-                }
+            String[] files = ds.getIncludedFiles();
+            for (int j = 0; j < files.length; j++) {
+                String filePath = subdir.getAbsolutePath() + File.separator + files[j];
+                processFile(filePath);
             }
-
-            // Run source generator on all files in FileSet
-            for (int i = 0; i < _mappingFilesets.size(); i++) {
-                FileSet fs = (FileSet) _mappingFilesets.elementAt(i);
-                DirectoryScanner ds = fs.getDirectoryScanner(getProject());
-                File subdir = fs.getDir(getProject());
-
-                String[] files = ds.getIncludedFiles();
-                for (int j = 0; j < files.length; j++) {
-                    String filePath = subdir.getAbsolutePath() + File.separator + files[j];
-                    processFile(filePath);
-                }
-            }
-        } finally {
-            _outputStream.close();
         }
     }
 }

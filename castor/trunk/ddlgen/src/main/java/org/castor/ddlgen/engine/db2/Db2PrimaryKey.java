@@ -16,6 +16,7 @@
 package org.castor.ddlgen.engine.db2;
 
 import org.castor.ddlgen.DDLGenConfiguration;
+import org.castor.ddlgen.DDLWriter;
 import org.castor.ddlgen.schemaobject.PrimaryKey;
 
 /**
@@ -32,21 +33,21 @@ public final class Db2PrimaryKey extends PrimaryKey {
     /**
      * {@inheritDoc}
      */
-    public String toCreateDDL() {
-        if (getFieldCount() <= 0) { return ""; }
+    public void toCreateDDL(final DDLWriter writer) {
+        String delimiter = DDLGenConfiguration.DEFAULT_STATEMENT_DELIMITER;
         
-        String newline = getConfiguration().getStringValue(
-                DDLGenConfiguration.NEWLINE_KEY, DDLGenConfiguration.DEFAULT_NEWLINE);
-
-        StringBuffer sb = new StringBuffer();
-        sb.append(newline).append(newline);
-        sb.append("ALTER TABLE ").append(getTable().getName());
-        sb.append(newline);
-        sb.append("ADD CONSTRAINT ").append(getName());
-        sb.append(newline);
-        sb.append("PRIMARY KEY (").append(fieldNames()).append(')');
-        sb.append(DDLGenConfiguration.DEFAULT_STATEMENT_DELIMITER);
-        return sb.toString();
+        if (getFieldCount() > 0) {
+            writer.println();
+            writer.println();
+            writer.print("ALTER TABLE ");
+            writer.println(getTable().getName());
+            writer.print("ADD CONSTRAINT ");
+            writer.println(getName());
+            writer.print("PRIMARY KEY (");
+            fieldNames(writer);
+            writer.print(")");
+            writer.print(delimiter);
+        }
     }
 
     //--------------------------------------------------------------------------

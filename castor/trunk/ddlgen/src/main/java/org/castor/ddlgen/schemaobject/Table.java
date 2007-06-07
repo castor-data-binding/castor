@@ -23,6 +23,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.ddlgen.DDLGenConfiguration;
+import org.castor.ddlgen.DDLWriter;
 import org.castor.ddlgen.GeneratorException;
 
 /**
@@ -219,22 +220,18 @@ public abstract class Table extends AbstractSchemaObject {
     /**
      * Concatenate all fields names delimited by line separator.
      * 
-     * @return Field names delimited by field delimiter and whitespace.
+     * @param writer DDLWriter to write schema objects to.
      * @throws GeneratorException If generation of the script failed or is not supported.
      */
-    protected final String fields() throws GeneratorException {
+    protected final void fields(final DDLWriter writer) throws GeneratorException {
         String delimiter = DDLGenConfiguration.DEFAULT_FIELD_DELIMITER;
-        String newline = getConfiguration().getStringValue(
-                DDLGenConfiguration.NEWLINE_KEY, DDLGenConfiguration.DEFAULT_NEWLINE);
-        String indent = getConfiguration().getStringValue(
-                DDLGenConfiguration.INDENT_KEY, DDLGenConfiguration.DEFAULT_INDENT);
         
-        StringBuffer sb = new StringBuffer();
+        writer.indent();
         for (int i = 0; i < getFieldCount(); i++) {
-            if (i > 0) { sb.append(delimiter).append(newline); }
-            sb.append(indent).append(getField(i).toCreateDDL());
+            if (i > 0) { writer.println(delimiter); }
+            getField(i).toCreateDDL(writer);
         }
-        return sb.toString();
+        writer.unindent();
     }
 
     //--------------------------------------------------------------------------

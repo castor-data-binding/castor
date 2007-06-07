@@ -15,7 +15,7 @@
  */
 package org.castor.ddlgen;
 
-import java.io.PrintStream;
+import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.castor.ddlgen.schemaobject.Field;
 import org.castor.ddlgen.schemaobject.ForeignKey;
-import org.castor.ddlgen.schemaobject.Index;
 import org.castor.ddlgen.schemaobject.KeyGenerator;
 import org.castor.ddlgen.schemaobject.PrimaryKey;
 import org.castor.ddlgen.schemaobject.Schema;
@@ -172,9 +171,6 @@ public abstract class AbstractGenerator implements Generator {
     /** handle all resolving tables. */
     private final Map _resolveTable = new HashMap();
 
-    /** handle the writer for output. */
-    private PrintStream _printer;
-
     //--------------------------------------------------------------------------
 
     /**
@@ -290,30 +286,14 @@ public abstract class AbstractGenerator implements Generator {
         return _schema;
     }
 
-    /**
-     * Set print stream.
-     * 
-     * @param printer Print stream.
-     */
-    public final void setPrinter(final PrintStream printer) {
-        _printer = printer;
-    }
-
-    /**
-     * Get print stream.
-     * 
-     * @return Print stream.
-     */
-    public final PrintStream getPrinter() {
-        return _printer;
-    }
-
     //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
      */
-    public final void generateDDL() throws GeneratorException {
+    public final void generateDDL(final OutputStream output) throws GeneratorException {
+        DDLWriter writer = new DDLWriter(output, _configuration);
+        
         // Create schema.
         createSchema();
         
@@ -322,21 +302,24 @@ public abstract class AbstractGenerator implements Generator {
                 DDLGenConfiguration.GROUP_DDL_KEY,
                 DDLGenConfiguration.GROUP_DDL_BY_TABLE);
         if (DDLGenConfiguration.GROUP_DDL_BY_TABLE.equalsIgnoreCase(groupBy)) {
-            generateDDLGroupByTable();
+            generateDDLGroupByTable(writer);
         } else if (DDLGenConfiguration.GROUP_DDL_BY_DDLTYPE.equalsIgnoreCase(groupBy)) {
-            generateDDLGroupByDDLType();
+            generateDDLGroupByDDLType(writer);
         } else {
             throw new GeneratorException("group ddl by do not support: " + groupBy);
         }
+        
+        writer.close();
     }
 
     /**
      * Generating ddl grouped by ddl type of DDL (e.g DROP, CREATE TABLE, create 
      * Primary key, create foreign key).
      * 
+     * @param writer DDLWriter to write schema objects to.
      * @throws GeneratorException If failed to generate DDL.
      */
-    private void generateDDLGroupByDDLType() throws GeneratorException {
+    private void generateDDLGroupByDDLType(final DDLWriter writer) throws GeneratorException {
         boolean genSchema = _configuration.getBoolValue(
                 DDLGenConfiguration.GENERATE_DDL_FOR_SCHEMA_KEY, true);
         boolean genDrop = _configuration.getBoolValue(
@@ -352,42 +335,39 @@ public abstract class AbstractGenerator implements Generator {
         boolean genKeyGen = _configuration.getBoolValue(
                 DDLGenConfiguration.GENERATE_DDL_FOR_KEYGENERATOR_KEY, true);
 
-        write(generateHeader());
-        
+        generateHeader(writer);
+
         //generate ddl for schema
-        if (genSchema) { write(_schema.toCreateDDL()); }
+        if (genSchema) { _schema.toCreateDDL(writer); }
 
         //generate drop statemetn
-        if (genDrop) { write(generateDrop()); }
+        if (genDrop) { generateDrop(writer); }
 
         //generate create statement
-        if (genCreate) { write(generateCreate()); }
+        if (genCreate) { generateCreate(writer); }
 
         //generate primary key creation statement
-        if (genPrimaryKey) { write(generatePrimaryKey()); }
+        if (genPrimaryKey) { generatePrimaryKey(writer); }
 
         //generate foreign key creation statement
-        if (genForeignKey) { write(generateForeignKey()); }
+        if (genForeignKey) { generateForeignKey(writer); }
 
         //generate index creation statement
-        if (genIndex) { write(generateIndex()); }
+        if (genIndex) { generateIndex(writer); }
 
-        if (genKeyGen) { write(generateKeyGenerator()); }
+        if (genKeyGen) { generateKeyGenerator(writer); }
     }
 
     /**
      * Generate DDL for drop statement of table.
      * 
-     * @return DDL to drop table.
+     * @param writer DDLWriter to write schema objects to.
      * @throws GeneratorException If failed to generate DDL.
      */
-    public final String generateDrop() throws GeneratorException {
-        StringBuffer buff = new StringBuffer();
+    public final void generateDrop(final DDLWriter writer) throws GeneratorException {
         for (int i = 0; i < _schema.getTableCount(); i++) {
-            Table table = _schema.getTable(i);
-            buff.append(table.toDropDDL());
+            _schema.getTable(i).toDropDDL(writer);
         }
-        return buff.toString();
     }
 
     /**
@@ -404,31 +384,25 @@ public abstract class AbstractGenerator implements Generator {
      * );
      * </pre>
      * 
-     * @return DDL for create table.
+     * @param writer DDLWriter to write schema objects to.
      * @throws GeneratorException If failed to generate DDL.
      */
-    public final String generateCreate() throws GeneratorException {
-        StringBuffer buff = new StringBuffer();
+    public final void generateCreate(final DDLWriter writer) throws GeneratorException {
         for (int i = 0; i < _schema.getTableCount(); i++) {
-            Table table = _schema.getTable(i);
-            buff.append(table.toCreateDDL());
+            _schema.getTable(i).toCreateDDL(writer);
         }
-        return buff.toString();
     }
 
     /**
      * Generate DDL for primany keys.
      * 
-     * @return DDL for primary keys.
+     * @param writer DDLWriter to write schema objects to.
      * @throws GeneratorException If failed to generate DDL.
      */
-    public final String generatePrimaryKey() throws GeneratorException {
-        StringBuffer buff = new StringBuffer();
+    public final void generatePrimaryKey(final DDLWriter writer) throws GeneratorException {
         for (int i = 0; i < _schema.getTableCount(); i++) {
-            Table table = _schema.getTable(i);
-            buff.append(table.getPrimaryKey().toCreateDDL());
+            _schema.getTable(i).getPrimaryKey().toCreateDDL(writer);
         }
-        return buff.toString();
     }
 
     /**
@@ -441,57 +415,50 @@ public abstract class AbstractGenerator implements Generator {
      * ON UPDATE CASCADE;
      * </pre>
      * 
-     * @return DDL for foreign keys.
+     * @param writer DDLWriter to write schema objects to.
      * @throws GeneratorException If failed to generate DDL.
      */
-    public final String generateForeignKey() throws GeneratorException {
-        StringBuffer buff = new StringBuffer();
+    public final void generateForeignKey(final DDLWriter writer) throws GeneratorException {
         for (int i = 0; i < _schema.getTableCount(); i++) {
-            Table table = _schema.getTable(i);
-            buff.append(createForeignKeyDDL(table));
+            createForeignKeyDDL(_schema.getTable(i), writer);
         }
-        return buff.toString();
     }
 
     /**
      * Generate DDL for indices.
      * 
-     * @return DDL for indices.
+     * @param writer DDLWriter to write schema objects to.
      * @throws GeneratorException If failed to generate DDL.
      */
-    public final String generateIndex() throws GeneratorException {
-        StringBuffer buff = new StringBuffer();
+    public final void generateIndex(final DDLWriter writer) throws GeneratorException {
         for (int i = 0; i < _schema.getTableCount(); i++) {
-            Table table = _schema.getTable(i);
-            buff.append(createIndex(table));
+            createIndex(_schema.getTable(i), writer);
         }
-        return buff.toString();
     }
 
     /**
      * Generate DDL for key generators (sequence/trigger).
      * 
-     * @return DDL for key generators.
+     * @param writer DDLWriter to write schema objects to.
      * @throws GeneratorException If failed to generate DDL.
      */
-    public final String generateKeyGenerator() throws GeneratorException {
-        StringBuffer buff = new StringBuffer();
+    public final void generateKeyGenerator(final DDLWriter writer) throws GeneratorException {
         for (int i = 0; i < _schema.getTableCount(); i++) {
             Table table = _schema.getTable(i);
             if (table.getKeyGenerator() != null) {
                 table.getKeyGenerator().setTable(table);
-                buff.append(table.getKeyGenerator().toCreateDDL());
+                table.getKeyGenerator().toCreateDDL(writer);
             }
         }
-        return buff.toString();
     }
 
     /**
      * Generating ddl group by table.
      * 
+     * @param writer DDLWriter to write schema objects to.
      * @throws GeneratorException If failed to generate DDL.
      */
-    private void generateDDLGroupByTable() throws GeneratorException {
+    private void generateDDLGroupByTable(final DDLWriter writer) throws GeneratorException {
         boolean genSchema = _configuration.getBoolValue(
                 DDLGenConfiguration.GENERATE_DDL_FOR_SCHEMA_KEY, true);
         boolean genDrop = _configuration.getBoolValue(
@@ -507,26 +474,22 @@ public abstract class AbstractGenerator implements Generator {
         boolean genKeyGen = _configuration.getBoolValue(
                 DDLGenConfiguration.GENERATE_DDL_FOR_KEYGENERATOR_KEY, true);
 
-        write(generateHeader());
+        generateHeader(writer);
         
-        if (genSchema) { write(_schema.toCreateDDL()); }
+        if (genSchema) { _schema.toCreateDDL(writer); }
         
         for (int i = 0; i < _schema.getTableCount(); i++) {
             Table table = _schema.getTable(i);
 
-            StringBuffer buff = new StringBuffer();
-
-            if (genDrop) { buff.append(table.toDropDDL()); }
-            if (genCreate) { buff.append(table.toCreateDDL()); }
-            if (genPrimaryKey) { buff.append(table.getPrimaryKey().toCreateDDL()); }
-            if (genForeignKey) { buff.append(createForeignKeyDDL(table)); }
-            if (genIndex) { buff.append(createIndex(table)); }
+            if (genDrop) { table.toDropDDL(writer); }
+            if (genCreate) { table.toCreateDDL(writer); }
+            if (genPrimaryKey) { table.getPrimaryKey().toCreateDDL(writer); }
+            if (genForeignKey) { createForeignKeyDDL(table, writer); }
+            if (genIndex) { createIndex(table, writer); }
             if (genKeyGen && (table.getKeyGenerator() != null)) {
                 table.getKeyGenerator().setTable(table);
-                buff.append(table.getKeyGenerator().toCreateDDL());
+                table.getKeyGenerator().toCreateDDL(writer);
             }
-
-            write(buff.toString());
         }
     }
 
@@ -534,33 +497,28 @@ public abstract class AbstractGenerator implements Generator {
      * Generate DDL for foreign key.
      * 
      * @param table Table to generate DDL of foreign key for.
-     * @return DDL for foreign key.
+     * @param writer DDLWriter to write schema objects to.
      * @throws GeneratorException If failed to generate DDL.
      */
-    protected final String createForeignKeyDDL(final Table table)
+    protected final void createForeignKeyDDL(final Table table, final DDLWriter writer)
     throws GeneratorException {
-        StringBuffer buff = new StringBuffer();
         for (int i = 0; i < table.getForeignKeyCount(); i++) {
-            ForeignKey fk = table.getForeignKey(i);
-            buff.append(fk.toCreateDDL());
+            table.getForeignKey(i).toCreateDDL(writer);
         }
-        return buff.toString();
     }
 
     /**
      * Generate DDL for indices of given table.
      * 
      * @param table Table to generate DDL of indices for.
-     * @return DDL for indices of given table.
+     * @param writer DDLWriter to write schema objects to.
      * @throws GeneratorException If failed to generate DDL.
      */
-    public final String createIndex(final Table table) throws GeneratorException {
-        StringBuffer buff = new StringBuffer();
+    public final void createIndex(final Table table, final DDLWriter writer)
+    throws GeneratorException {
         for (int i = 0; i < table.getIndexCount(); i++) {
-            Index index = table.getIndex(i);
-            buff.append(index.toCreateDDL());
+            table.getIndex(i).toCreateDDL(writer);
         }
-        return buff.toString();
     }
 
     //--------------------------------------------------------------------------
@@ -568,9 +526,9 @@ public abstract class AbstractGenerator implements Generator {
     /**
      * Generate header comment.
      * 
-     * @return Header comment.
+     * @param writer DDLWriter to write schema objects to.
      */
-    public abstract String generateHeader();
+    public abstract void generateHeader(final DDLWriter writer);
 
     //--------------------------------------------------------------------------
 
@@ -1021,27 +979,6 @@ public abstract class AbstractGenerator implements Generator {
         }
         sql.setName(sqlname);
         resolveFm.setSql(sql);
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Write given string to print stream.
-     * 
-     * @param s String to write to print stream.
-     */
-    protected final void write(final String s) {
-        String f = _configuration.getStringValue(
-                DDLGenConfiguration.CHAR_FORMAT_KEY,
-                DDLGenConfiguration.CHAR_FORMAT_SENSITIVE);
-        
-        if (DDLGenConfiguration.CHAR_FORMAT_LOWER.equalsIgnoreCase(f)) {
-            _printer.println(s.toLowerCase());
-        } else if (DDLGenConfiguration.CHAR_FORMAT_UPPER.equalsIgnoreCase(f)) {
-            _printer.println(s.toUpperCase());
-        } else {
-            _printer.println(s);
-        }
     }
 
     //--------------------------------------------------------------------------

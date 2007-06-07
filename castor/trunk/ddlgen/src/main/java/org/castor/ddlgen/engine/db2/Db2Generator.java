@@ -15,8 +15,12 @@
  */
 package org.castor.ddlgen.engine.db2;
 
+import java.util.Date;
+
 import org.castor.ddlgen.AbstractGenerator;
+import org.castor.ddlgen.Configuration;
 import org.castor.ddlgen.DDLGenConfiguration;
+import org.castor.ddlgen.DDLWriter;
 import org.castor.ddlgen.MappingHelper;
 
 /**
@@ -82,22 +86,14 @@ public final class Db2Generator extends AbstractGenerator {
     /**
      * {@inheritDoc}
      */
-    public String generateHeader() {
-        String newline = getConfiguration().getStringValue(
-                DDLGenConfiguration.NEWLINE_KEY, DDLGenConfiguration.DEFAULT_NEWLINE);
+    public void generateHeader(final DDLWriter writer) {
+        Configuration conf = getConfiguration();
         
-        StringBuffer buff = new StringBuffer("/* ");
-        buff.append(newline);
-        buff.append(new java.util.Date());
-        buff.append(newline);
-
-        buff.append("Castor DDL Generator from mapping for DB2");
-        buff.append(newline);
-        buff.append(getConfiguration().getStringValue(
-                DDLGenConfiguration.HEADER_COMMENT_KEY, ""));
-        buff.append(newline);
-        buff.append("*/");
-        return buff.toString();
+        writer.println("/* ");
+        writer.println(new Date());
+        writer.println("Castor DDL Generator from mapping for DB2");
+        writer.println(conf.getStringValue(DDLGenConfiguration.HEADER_COMMENT_KEY, ""));
+        writer.println("*/");
     }
 
     //--------------------------------------------------------------------------

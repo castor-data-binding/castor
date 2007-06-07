@@ -15,7 +15,7 @@
  */
 package org.castor.ddlgen;
 
-import java.io.PrintStream;
+import java.io.OutputStream;
 
 import org.exolab.castor.mapping.Mapping;
 
@@ -82,21 +82,15 @@ public interface Generator {
      */
     void setKeyGenRegistry(KeyGeneratorRegistry keygenRegistry);
 
-    /**
-     * Set print stream for output.
-     * 
-     * @param printer Print stream for output.
-     */
-    void setPrinter(PrintStream printer);
-
     //--------------------------------------------------------------------------
 
     /**
      * Generate DDL for a mapping document.
      * 
+     * @param output Output stream for output.
      * @throws GeneratorException If failed to generate DDL.
      */
-    void generateDDL() throws GeneratorException;
+    void generateDDL(OutputStream output) throws GeneratorException;
 
     //--------------------------------------------------------------------------
 }

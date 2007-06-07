@@ -15,6 +15,7 @@
  */
 package org.castor.ddlgen.engine.mssql;
 
+import org.castor.ddlgen.DDLWriter;
 import org.castor.ddlgen.GeneratorException;
 import org.castor.ddlgen.keygenerator.IdentityKeyGenerator;
 import org.castor.ddlgen.schemaobject.Field;
@@ -33,17 +34,16 @@ public final class MssqlField extends Field {
     /**
      * {@inheritDoc}
      */
-    public String toCreateDDL() throws GeneratorException {
-        StringBuffer sb = new StringBuffer();
-        sb.append(getName()).append(" ").append(getType().toDDL(this));
-
+    public void toCreateDDL(final DDLWriter writer) throws GeneratorException {
+        writer.print(getName());
+        writer.print(" ");
+        writer.print(getType().toDDL(this));
+        
         if (isIdentity() && (getKeyGenerator() instanceof IdentityKeyGenerator)) {
-            sb.append(" IDENTITY(1,1)");
+            writer.print(" IDENTITY(1,1)");
         }
         
-        if (isIdentity() || isRequired()) { sb.append(" NOT NULL"); }
-        
-        return sb.toString();
+        if (isIdentity() || isRequired()) { writer.print(" NOT NULL"); }
     }
 
     //--------------------------------------------------------------------------

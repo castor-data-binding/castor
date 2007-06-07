@@ -15,10 +15,13 @@
  */
 package org.castor.ddlgen.engine.db2;
 
+import java.io.ByteArrayOutputStream;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.castor.ddlgen.DDLGenConfiguration;
+import org.castor.ddlgen.DDLWriter;
 import org.castor.ddlgen.GeneratorException;
 import org.castor.ddlgen.KeyGeneratorRegistry;
 import org.castor.ddlgen.test.framework.AbstractGeneratorTest;
@@ -128,7 +131,14 @@ public final class Db2GeneratorTest extends AbstractGeneratorTest {
             loadData("single_field_for_all.xml");
 
             try {
-                getGenerator().generateCreate();
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                DDLWriter writer = new DDLWriter(out, getGenerator().getConfiguration());
+                
+                getGenerator().generateCreate(writer);
+                
+                writer.close();
+                out.toString();
+
                 fail("bit type is not supported, expected an exception");
             } catch (GeneratorException e) {
                 assertTrue(true);
@@ -145,8 +155,6 @@ public final class Db2GeneratorTest extends AbstractGeneratorTest {
         try {
             loadData("single_field_except_bit.xml");
 
-            String ddl = getGenerator().generateCreate();
-            
             DDLGenConfiguration conf = getGenerator().getConfiguration();
             Object[] params = new Object[] {
                     conf.getInteger(PARAM_PREFIX + "tinyint" + PARAM_PRECISION),
@@ -173,6 +181,15 @@ public final class Db2GeneratorTest extends AbstractGeneratorTest {
                     getSuffixString(conf, PARAM_PREFIX + "javaobject" + PARAM_LENGTH),
                     getSuffixString(conf, PARAM_PREFIX + "blob" + PARAM_LENGTH),
                     getSuffixString(conf, PARAM_PREFIX + "clob" + PARAM_LENGTH) };
+            
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DDLWriter writer = new DDLWriter(out, conf);
+            
+            getGenerator().generateCreate(writer);
+            
+            writer.close();
+            String ddl = out.toString();
+            
             boolean b = getExpected().match(getEngine(), ddl, params);
             assertTrue("Generated DDL: " + ddl + "\n"
                      + "Expected DDL: " + getExpected().getLastMatchString(), b);
