@@ -1,6 +1,11 @@
 SVN
 ---
 
+JDO:   Resolved issue CASTOR-2000 using contribution from Ralf Joachim [ralf.joachim@syscon.eu]
+       Created basic modul structur for JDO modul including eclipse configuration.
+       Details: http://jira.codehaus.org/browse/CASTOR-2000
+       (Ralf - 20070607)
+
 JDO:   Resolved issue CASTOR-1774 using contribution from Le Duc Bao [leducbao@gmail.com]
        Replaced PrintStream and StringBuffer by a Writer implementation.
        Details: http://jira.codehaus.org/browse/CASTOR-1774
