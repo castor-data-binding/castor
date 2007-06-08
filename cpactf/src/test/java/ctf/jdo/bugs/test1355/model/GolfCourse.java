@@ -1,4 +1,4 @@
-package jdo.c1355.app;
+package ctf.jdo.bugs.test1355.model;
 
 import java.util.ArrayList;
 import java.util.Collection;

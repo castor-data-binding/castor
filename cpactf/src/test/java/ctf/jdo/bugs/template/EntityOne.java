@@ -1,4 +1,4 @@
-package jdo.template;
+package ctf.jdo.bugs.template;
 
 public final class EntityOne {
     private Integer _id;

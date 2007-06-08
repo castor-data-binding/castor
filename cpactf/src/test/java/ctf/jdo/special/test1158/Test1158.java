@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jdo.test1158;
+package ctf.jdo.special.test1158;
 
 import junit.framework.TestCase;
 

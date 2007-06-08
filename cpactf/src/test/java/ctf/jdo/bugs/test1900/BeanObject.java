@@ -1,4 +1,4 @@
-package jdo.bug1900;
+package ctf.jdo.bugs.test1900;
 
 public final class BeanObject {
     private int     _id;

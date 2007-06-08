@@ -1,9 +1,8 @@
-package jdo.bug881;
+package ctf.jdo.bugs.test881;
 
 import junit.framework.TestCase;
 
 import org.castor.jdo.engine.DatabaseRegistry;
-
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.JDOManager;
 import org.exolab.castor.jdo.OQLQuery;

@@ -1,16 +1,18 @@
-package soak;
+package ctf.jdo.special.soak;
 
-
-import java.util.Vector;
-import java.util.Calendar;
-import java.math.BigDecimal;
 import java.io.InputStream;
-import org.exolab.castor.jdo.JDO;
+import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Vector;
+
 import org.exolab.castor.jdo.Database;
+import org.exolab.castor.jdo.JDO;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.QueryResults;
 
-import soak.model.*;
+import ctf.jdo.special.soak.model.Address;
+import ctf.jdo.special.soak.model.Employee;
+import ctf.jdo.special.soak.model.Phone;
 
 public abstract class Test extends Thread {
 

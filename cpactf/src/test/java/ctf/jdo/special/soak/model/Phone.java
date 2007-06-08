@@ -1,7 +1,7 @@
 /**
  * Copyright(c) Intalio 2001  All rights reserved.
  */
-package soak.model;
+package ctf.jdo.special.soak.model;
 
 public class Phone implements java.io.Serializable {
     private static final long serialVersionUID = 163281644008362093L;

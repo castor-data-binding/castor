@@ -1,8 +1,9 @@
-package jdo.c1355.app;
+package ctf.jdo.bugs.test1355.model;
 
 import java.sql.Timestamp;
+
 import org.apache.log4j.Logger;
-import org.exolab.castor.jdo.*;
+import org.exolab.castor.jdo.TimeStampable;
 
 public class MyAppObject implements TimeStampable {
 	protected Long id;

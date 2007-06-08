@@ -1,4 +1,4 @@
-package jdo.template;
+package ctf.jdo.bugs.template;
 
 import junit.framework.TestCase;
 

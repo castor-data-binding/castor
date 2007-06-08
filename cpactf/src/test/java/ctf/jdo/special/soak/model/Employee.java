@@ -1,16 +1,11 @@
 /**
  * Copyright(c) Intalio 2001  All rights reserved.
  */
-
-package soak.model;
-
-
+package ctf.jdo.special.soak.model;
 
 import java.math.BigDecimal;
-import java.util.Vector;
 import java.util.Date;
-
-
+import java.util.Vector;
 
 public class Employee {
 

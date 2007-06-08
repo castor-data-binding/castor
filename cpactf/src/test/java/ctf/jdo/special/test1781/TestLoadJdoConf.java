@@ -1,15 +1,15 @@
-package jdo.test1781;
-
-import junit.framework.TestCase;
+package ctf.jdo.special.test1781;
 
 import java.util.Properties;
 
+import junit.framework.TestCase;
+
+import org.castor.jdo.conf.JdoConf;
+import org.castor.jdo.util.JDOConfFactory;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.JDOManager;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.QueryResults;
-import org.castor.jdo.conf.JdoConf;
-import org.castor.jdo.util.JDOConfFactory;
 
 public final class TestLoadJdoConf extends TestCase {
     public TestLoadJdoConf() {

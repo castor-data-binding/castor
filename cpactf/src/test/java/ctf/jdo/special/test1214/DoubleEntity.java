@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jdo.test1214;
+package ctf.jdo.special.test1214;
 
 public class DoubleEntity {
     private int id;

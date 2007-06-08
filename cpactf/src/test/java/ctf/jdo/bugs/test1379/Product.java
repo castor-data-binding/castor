@@ -1,4 +1,4 @@
-package jdo.c1379;
+package ctf.jdo.bugs.test1379;
 
 import org.exolab.castor.jdo.TimeStampable;
 

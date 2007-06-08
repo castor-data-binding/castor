@@ -1,9 +1,7 @@
 /**
  * Copyright(c) Intalio 2001  All rights reserved.
  */
-
-package soak.model;
-
+package ctf.jdo.special.soak.model;
 
 public class Address implements java.io.Serializable {
     private static final long serialVersionUID = -6684426600908835407L;
