@@ -21,9 +21,7 @@ import java.util.Iterator;
 import junit.framework.TestCase;
 
 import org.castor.util.Configuration;
-import org.exolab.castor.jdo.engine.JDOMappingLoader;
 import org.exolab.castor.mapping.MappingLoader;
-import org.exolab.castor.xml.XMLMappingLoader;
 
 /**
  * UTF test case for {@see org.castor.jdo.drivers.PointbaseFactory}.
@@ -72,18 +70,19 @@ public class TestMappingLoaderRegistry extends TestCase {
         MappingLoader mappingLoader = registry.getMappingLoader(
                 "CastorXmlMapping", BindingType.XML);
         assertNotNull(mappingLoader);
-        assertTrue(mappingLoader instanceof XMLMappingLoader);
+        assertEquals(mappingLoader.getClass().getName(),
+                "org.exolab.castor.xml.XMLMappingLoader");
     }
 
-    public final void testGetJDOMappingLoader() throws Exception {
-        Configuration config = Configuration.getInstance();
-        MappingLoaderRegistry registry = new MappingLoaderRegistry(config);
-        assertNotNull(registry);
-
-        MappingLoader mappingLoader = registry.getMappingLoader(
-                "CastorXmlMapping", BindingType.JDO);
-        assertNotNull(mappingLoader);
-        assertTrue(mappingLoader instanceof JDOMappingLoader);
-    }
-
+//    public final void testGetJDOMappingLoader() throws Exception {
+//        Configuration config = Configuration.getInstance();
+//        MappingLoaderRegistry registry = new MappingLoaderRegistry(config);
+//        assertNotNull(registry);
+//
+//        MappingLoader mappingLoader = registry.getMappingLoader(
+//                "CastorXmlMapping", BindingType.JDO);
+//        assertNotNull(mappingLoader);
+//        assertEquals(mappingLoader.getClass().getName(),
+//                "org.exolab.castor.jdo.engine.JDOMappingLoader");
+//    }
 }
