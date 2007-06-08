@@ -1,4 +1,4 @@
-package jdo.bug881;
+package ctf.jdo.bugs.test881;
 
 public final class Product {
     private int          _id;

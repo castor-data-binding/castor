@@ -1,4 +1,4 @@
-package jdo.c972;
+package ctf.jdo.bugs.test972;
 
 import org.exolab.castor.jdo.TimeStampable;
 

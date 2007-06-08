@@ -13,19 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jdo.test1214;
+package ctf.jdo.special.test1214;
+
+import junit.framework.TestCase;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.jdo.engine.DatabaseRegistry;
-
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.JDOManager;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.QueryResults;
 import org.exolab.castor.mapping.MappingException;
-
-import junit.framework.TestCase;
 
 /**
  * @author < a href="werner.guttmann@hmx.net">Werner Guttmann</a>

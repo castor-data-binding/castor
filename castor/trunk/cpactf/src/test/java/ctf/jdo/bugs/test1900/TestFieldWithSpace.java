@@ -1,10 +1,9 @@
-package jdo.bug1900;
+package ctf.jdo.bugs.test1900;
 
 import junit.framework.TestCase;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.JDOManager;
 

@@ -1,10 +1,6 @@
-package jdo.c1355;
+package ctf.jdo.bugs.test1355;
 
 import java.util.Iterator;
-
-import jdo.c1355.app.GolfCourse;
-import jdo.c1355.app.GolfCourseHole;
-import jdo.c1355.app.GolfCourseTees;
 
 import junit.framework.TestCase;
 
@@ -13,6 +9,10 @@ import org.exolab.castor.jdo.JDOManager;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.QueryResults;
 import org.exolab.castor.mapping.AccessMode;
+
+import ctf.jdo.bugs.test1355.model.GolfCourse;
+import ctf.jdo.bugs.test1355.model.GolfCourseHole;
+import ctf.jdo.bugs.test1355.model.GolfCourseTees;
 
 /**
  * Demonstrates a bug? present in

@@ -1,4 +1,4 @@
-package jdo.test1781;
+package ctf.jdo.special.test1781;
 
 public final class EntityOne {
     private Integer _id;
