@@ -1,6 +1,11 @@
 SVN
 ---
 
+XML:   Resolved issue CASTOR-2008 using contribution from Petteri Räty [betelgeuse@gentoo.org]
+       Fixed CLONE-BigDecimal usage in Types.java that can't run on jre1.4.2.
+       Details: http://jira.codehaus.org/browse/CASTOR-2008
+       (Ralf - 20070609)
+
 JDO:   Resolved issue CASTOR-2005 using contribution from Ralf Joachim [ralf.joachim@syscon.eu]
        SVN moved log4j database appender to examples modul.
        Details: http://jira.codehaus.org/browse/CASTOR-2005

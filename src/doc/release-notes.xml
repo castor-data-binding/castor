@@ -35,6 +35,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2008" tool="jira">
+                    <description>
+                        Fixed CLONE-BigDecimal usage in Types.java that can't run on jre1.4.2.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Petteri Räty</name>
+                        <email>betelgeuse@gentoo.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20070609</date>
+                </bug>
                 <bug id="2005" tool="jira">
                     <description>
                         SVN moved log4j database appender to examples modul.
