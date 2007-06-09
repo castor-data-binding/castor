@@ -17,7 +17,7 @@ import ctf.jdo.bugs.test1355.model.GolfCourseTees;
 /**
  * Demonstrates a bug? present in
  */
-public class LazyLoadRelationshipTest extends TestCase {
+public class Test1355 extends TestCase {
 
 	private JDOManager jdoMgr = null;
     

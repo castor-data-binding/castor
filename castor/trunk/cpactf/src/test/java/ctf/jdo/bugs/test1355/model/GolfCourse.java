@@ -3,7 +3,7 @@ package ctf.jdo.bugs.test1355.model;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class GolfCourse extends MyAppObject {
+public class GolfCourse extends BaseObject {
 
 	private String name;
 	private Integer holes;

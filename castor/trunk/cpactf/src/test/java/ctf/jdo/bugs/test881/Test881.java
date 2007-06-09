@@ -8,8 +8,8 @@ import org.exolab.castor.jdo.JDOManager;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.QueryResults;
 
-public class JdoConfTest extends TestCase {
-    public JdoConfTest() { super("bug881"); }
+public class Test881 extends TestCase {
+    public Test881() { super("bug881"); }
 
     public void setUp() throws Exception { super.setUp(); }
 

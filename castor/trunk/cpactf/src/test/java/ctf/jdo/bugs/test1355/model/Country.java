@@ -1,6 +1,6 @@
 package ctf.jdo.bugs.test1355.model;
 
-public class Country extends MyAppObject {
+public class Country extends BaseObject {
 
 	private String name;
 	private String iso3Code;

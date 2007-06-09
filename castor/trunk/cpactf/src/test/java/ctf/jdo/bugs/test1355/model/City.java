@@ -3,7 +3,7 @@ package ctf.jdo.bugs.test1355.model;
 /**
  * Represents a single city in the system.
  */
-public class City extends MyAppObject {
+public class City extends BaseObject {
 
 	private String name;
 	private StateProv state = new StateProv();

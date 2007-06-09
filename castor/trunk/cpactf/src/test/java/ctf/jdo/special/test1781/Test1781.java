@@ -11,15 +11,24 @@ import org.exolab.castor.jdo.JDOManager;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.QueryResults;
 
-public final class TestLoadJdoConf extends TestCase {
-    public TestLoadJdoConf() {
-        super();
+public final class Test1781 extends TestCase {
+    private static final String DATABASE = "test1781";
+    private static final String ENGINE = "mysql";
+    private static final String DATASOURCE = "org.apache.commons.dbcp.BasicDataSource";
+    private static final String DRIVER = "org.gjt.mm.mysql.Driver";
+    private static final String CONNECT = "jdbc:mysql://localhost/test1781";
+    private static final String USERNAME = "test";
+    private static final String PASSWORD = "test";
+    private static final String MAPPING = "mapping.xml";
+    
+    public static void main(final String[] args) throws Exception {
+        Test1781 test = new Test1781();
+        test.setUp();
+        test.testJdoDriverConf();
+        test.testJdoDatasourceConf();
+        test.tearDown();
     }
     
-    public TestLoadJdoConf(final String name) {
-        super(name);
-    }
-
     protected void setUp() throws Exception {
         super.setUp();
     }
@@ -29,14 +38,6 @@ public final class TestLoadJdoConf extends TestCase {
     }
     
     public void testJdoDriverConf() throws Exception {
-        String DATABASE = "test-drv";
-        String ENGINE = "mysql";
-        String DRIVER = "org.gjt.mm.mysql.Driver";
-        String CONNECT = "jdbc:mysql://localhost/test";
-        String USERNAME = "test";
-        String PASSWORD = "test";
-        String MAPPING = "test1781-mapping.xml";
-        
         // create driver configuration
         org.castor.jdo.conf.Driver driverConf =
             JDOConfFactory.createDriver(DRIVER, CONNECT, USERNAME, PASSWORD);
@@ -54,15 +55,6 @@ public final class TestLoadJdoConf extends TestCase {
     }
     
     public void testJdoDatasourceConf() throws Exception {
-        String DATABASE = "test";
-        String ENGINE = "mysql";
-        String DATASOURCE = "org.apache.commons.dbcp.BasicDataSource";
-        String DRIVER = "org.gjt.mm.mysql.Driver";
-        String CONNECT = "jdbc:mysql://localhost/test";
-        String USERNAME = "test";
-        String PASSWORD = "test";
-        String MAPPING = "test1781-mapping.xml";
-        
         Properties props = new Properties();
         props.put("driver-class-name", DRIVER);
         props.put("url", CONNECT);
@@ -98,11 +90,11 @@ public final class TestLoadJdoConf extends TestCase {
         db.begin();
         
         OQLQuery query = db.getOQLQuery("SELECT entity FROM "
-                + EntityOne.class.getName() + " entity WHERE id = $1");
+                + Entity.class.getName() + " entity WHERE id = $1");
         query.bind(new Integer(1));
         QueryResults results = query.execute();
         
-        EntityOne entity = (EntityOne) results.next();
+        Entity entity = (Entity) results.next();
 
         assertNotNull(entity);
         assertEquals(new Integer(1), entity.getId());

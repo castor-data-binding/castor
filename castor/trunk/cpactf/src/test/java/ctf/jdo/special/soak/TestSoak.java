@@ -14,7 +14,7 @@ import ctf.jdo.special.soak.model.Address;
 import ctf.jdo.special.soak.model.Employee;
 import ctf.jdo.special.soak.model.Phone;
 
-public abstract class Test extends Thread {
+public abstract class TestSoak extends Thread {
 
     public static final String DATABASE_FILE = "/cvs/one/castor/src/tests/soak/database.xml";
 
@@ -31,9 +31,9 @@ public abstract class Test extends Thread {
 
         long startTime = System.currentTimeMillis();
 
-        Test testA = new ThreadA( Thread.currentThread() );
+        TestSoak testA = new ThreadA( Thread.currentThread() );
 
-        Test testB = new ThreadB( Thread.currentThread() );
+        TestSoak testB = new ThreadB( Thread.currentThread() );
 
         testA.start();
         testB.start();
@@ -71,7 +71,7 @@ public abstract class Test extends Thread {
     }
 
 
-    public Test( Thread t ) {
+    public TestSoak( Thread t ) {
         main = t;
     }
 
@@ -120,7 +120,7 @@ public abstract class Test extends Thread {
 
 }
 
-class ThreadB extends Test {
+class ThreadB extends TestSoak {
 
     public ThreadB( Thread t ) {
         super(t);
@@ -143,7 +143,7 @@ class ThreadB extends Test {
     }
 }
 
-class ThreadA extends Test {
+class ThreadA extends TestSoak {
 
     public ThreadA( Thread t ) {
         super(t);

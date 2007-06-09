@@ -1,15 +1,14 @@
 <?xml version="1.0" ?>
 <!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
                            "http://castor.org/mapping.dtd">
-
 <mapping>
-  <class name="jdo.test1214.IntegerAndDoubleEntity" identity="id">
-    <map-to table="ent" />
-    <field name="id" type="integer" >
+  <class name="ctf.jdo.special.test1214.IntegerAndDoubleEntity">
+    <map-to table="entity"/>
+    <field name="id" type="integer" identity="true">
       <sql name="id" type="integer"/>
     </field>
     <field name="property" type="integer">
-      <sql name="prop" type="varchar" />
+      <sql name="prop" type="varchar"/>
     </field>
   </class>
 </mapping>

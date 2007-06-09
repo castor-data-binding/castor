@@ -15,6 +15,8 @@
  */
 package ctf.jdo.special.test1214;
 
+import java.net.URL;
+
 import junit.framework.TestCase;
 
 import org.apache.commons.logging.Log;
@@ -29,13 +31,22 @@ import org.exolab.castor.mapping.MappingException;
 /**
  * @author < a href="werner.guttmann@hmx.net">Werner Guttmann</a>
  */
-public class Test1214 extends TestCase {
+public final class Test1214 extends TestCase {
     private static final Log LOG = LogFactory.getLog(Test1214.class);
     
-    public Test1214(String name) {
-        super(name);
+    public static void main(final String[] args) throws Exception {
+        Test1214 test = new Test1214();
+        test.setUp();
+        test.testDoubleEntities();
+        test.testIntEntities();
+        test.testIntAndDoubleEntities();
+        test.testIntAndIntegerEntities();
+        test.testIntegerEntities();
+        test.testIntegerAndDoubleEntities();
+        test.testLoadNullIntAndIntegerEntities();
+        test.tearDown();
     }
-
+    
     protected void setUp() throws Exception {
         super.setUp();
     }
@@ -47,23 +58,26 @@ public class Test1214 extends TestCase {
     }
 
     public void testDoubleEntities() throws Exception {
-    	try {
-            JDOManager.loadConfiguration(getClass().getResource("jdo-conf-double.xml").toString());
-    		fail();
-    	}
-    	catch (MappingException ex) {
-    		assertEquals("org.exolab.castor.mapping.MappingException", ex.getClass().getName());
-    	}
-	}
+        try {
+            URL config = getClass().getResource("jdo-conf-double.xml");
+            JDOManager.loadConfiguration(config.toString());
+            fail();
+        } catch (MappingException ex) {
+            assertEquals("org.exolab.castor.mapping.MappingException",
+                    ex.getClass().getName());
+        }
+    }
 
     public void testIntEntities() throws Exception {
-        JDOManager.loadConfiguration(getClass().getResource("jdo-conf-int.xml").toString());
+        URL config = getClass().getResource("jdo-conf-int.xml");
+        JDOManager.loadConfiguration(config.toString());
         JDOManager jdo = JDOManager.createInstance("test1214-int");
 
         Database db = jdo.getDatabase();
         db.begin();
 
-        OQLQuery query = db.getOQLQuery("SELECT e FROM " + IntEntity.class.getName() + " e WHERE is_defined(property)");
+        OQLQuery query = db.getOQLQuery("SELECT e FROM "
+                + IntEntity.class.getName() + " e WHERE is_defined(property)");
         QueryResults results = query.execute();
         IntEntity testEntity = null;
         while (results.hasMore()) {
@@ -77,13 +91,15 @@ public class Test1214 extends TestCase {
     }
 
     public void testIntAndDoubleEntities() throws Exception {
-        JDOManager.loadConfiguration(getClass().getResource("jdo-conf-int-and-double.xml").toString());
+        URL config = getClass().getResource("jdo-conf-int-and-double.xml");
+        JDOManager.loadConfiguration(config.toString());
         JDOManager jdo = JDOManager.createInstance("test1214-int-and-double");
         
         Database db = jdo.getDatabase();
         db.begin();
         
-        OQLQuery query = db.getOQLQuery("SELECT e FROM " + IntAndDoubleEntity.class.getName() + " e WHERE is_defined(property)");
+        OQLQuery query = db.getOQLQuery("SELECT e FROM "
+                + IntAndDoubleEntity.class.getName() + " e WHERE is_defined(property)");
         QueryResults results = query.execute();
         IntAndDoubleEntity testEntity = null;
         while (results.hasMore()) {
@@ -97,13 +113,15 @@ public class Test1214 extends TestCase {
     }
 
     public void testIntAndIntegerEntities() throws Exception {
-        JDOManager.loadConfiguration(getClass().getResource("jdo-conf-int-and-integer.xml").toString());
+        URL config = getClass().getResource("jdo-conf-int-and-integer.xml");
+        JDOManager.loadConfiguration(config.toString());
         JDOManager jdo = JDOManager.createInstance("test1214-int-and-integer");
         
         Database db = jdo.getDatabase();
         db.begin();
         
-        OQLQuery query = db.getOQLQuery("SELECT e FROM " + IntAndIntegerEntity.class.getName() + " e WHERE is_defined(property)");
+        OQLQuery query = db.getOQLQuery("SELECT e FROM "
+                + IntAndIntegerEntity.class.getName() + " e WHERE is_defined(property)");
         QueryResults results = query.execute();
         IntAndIntegerEntity testEntity = null;
         while (results.hasMore()) {
@@ -117,13 +135,15 @@ public class Test1214 extends TestCase {
     }
 
     public void testIntegerEntities() throws Exception {
-        JDOManager.loadConfiguration(getClass().getResource("jdo-conf-integer.xml").toString());
+        URL config = getClass().getResource("jdo-conf-integer.xml");
+        JDOManager.loadConfiguration(config.toString());
         JDOManager jdo = JDOManager.createInstance("test1214-integer");
         
         Database db = jdo.getDatabase();
         db.begin();
         
-        OQLQuery query = db.getOQLQuery("SELECT e FROM " + IntegerEntity.class.getName() + " e WHERE is_defined(property)");
+        OQLQuery query = db.getOQLQuery("SELECT e FROM "
+                + IntegerEntity.class.getName() + " e WHERE is_defined(property)");
         QueryResults results = query.execute();
         IntegerEntity testEntity = null;
         while (results.hasMore()) {
@@ -137,13 +157,16 @@ public class Test1214 extends TestCase {
     }
 
     public void testIntegerAndDoubleEntities() throws Exception {
-        JDOManager.loadConfiguration(getClass().getResource("jdo-conf-integer-and-double.xml").toString());
+        URL config = getClass().getResource("jdo-conf-integer-and-double.xml");
+        JDOManager.loadConfiguration(config.toString());
         JDOManager jdo = JDOManager.createInstance("test1214-integer-and-double");
         
         Database db = jdo.getDatabase();
         db.begin();
         
-        OQLQuery query = db.getOQLQuery("SELECT e FROM " + IntegerAndDoubleEntity.class.getName() + " e WHERE is_defined(property)");
+        OQLQuery query = db.getOQLQuery("SELECT e FROM "
+                + IntegerAndDoubleEntity.class.getName()
+                + " e WHERE is_defined(property)");
         QueryResults results = query.execute();
         IntegerAndDoubleEntity testEntity = null;
         while (results.hasMore()) {
@@ -157,13 +180,15 @@ public class Test1214 extends TestCase {
     }
     
     public void testLoadNullIntAndIntegerEntities() throws Exception {
-        JDOManager.loadConfiguration(getClass().getResource("jdo-conf-int-and-integer.xml").toString());
+        URL config = getClass().getResource("jdo-conf-int-and-integer.xml");
+        JDOManager.loadConfiguration(config.toString());
         JDOManager jdo = JDOManager.createInstance("test1214-int-and-integer");
         
         Database db = jdo.getDatabase();
         
         db.begin();
-        IntAndIntegerEntity iEnt = (IntAndIntegerEntity)db.load(IntAndIntegerEntity.class,new Integer(5));
+        IntAndIntegerEntity iEnt = (IntAndIntegerEntity) db.load(
+                IntAndIntegerEntity.class, new Integer(5));
         db.commit();
         
         assertNull(iEnt.getProperty());
