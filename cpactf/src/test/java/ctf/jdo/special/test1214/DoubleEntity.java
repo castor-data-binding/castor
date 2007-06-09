@@ -15,13 +15,13 @@
  */
 package ctf.jdo.special.test1214;
 
-public class DoubleEntity {
-    private int id;
-    private Double property;
+public final class DoubleEntity {
+    private int _id;
+    private Double _property;
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public int getId() { return _id; }
+    public void setId(final int id) { _id = id; }
     
-    public Double getProperty() { return property; }
-    public void setProperty(Double property) { this.property = property; }
+    public Double getProperty() { return _property; }
+    public void setProperty(final Double property) { _property = property; }
 }

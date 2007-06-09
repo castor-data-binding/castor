@@ -1,6 +1,6 @@
 package ctf.jdo.special.test1781;
 
-public final class EntityOne {
+public final class Entity {
     private Integer _id;
     private String _name;
     

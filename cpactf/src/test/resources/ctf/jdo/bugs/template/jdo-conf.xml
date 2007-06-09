@@ -3,12 +3,13 @@
                            "http://castor.org/jdo-conf.dtd">
 
 <jdo-conf>
-    <database name="bugTemplate" engine="mysql" >
-        <driver url="jdbc:mysql://localhost/bugTemplate" class-name="org.gjt.mm.mysql.Driver">
+    <database name="template" engine="mysql" >
+        <driver url="jdbc:mysql://localhost/template"
+                class-name="org.gjt.mm.mysql.Driver">
             <param name="user" value="test" />
             <param name="password" value="test" />
         </driver>
-        <mapping href="template/mapping.xml" />
+        <mapping href="mapping.xml" />
     </database>
     <transaction-demarcation mode="local" />
 </jdo-conf>

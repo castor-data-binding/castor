@@ -16,8 +16,8 @@ import org.exolab.castor.jdo.QueryResults;
  * found in the full CVS snapshot and located under the directory of 
  * src/tests/jdo and src/tests/myapp.
  */
-public class Test {
-    private static Log _log = LogFactory.getLog(Test.class);
+public class Test972 {
+    private static Log _log = LogFactory.getLog(Test972.class);
     
     public static final String JdoConfFile = "jdo-conf.xml";
     public static final String Usage = "Usage: example jdo";
@@ -26,14 +26,14 @@ public class Test {
 
     public static void main(final String[] args) {
         try {
-            Test test = new Test();
+            Test972 test = new Test972();
             test.run();
         }  catch (Exception except) {
             _log.error(except, except);
         }
     }
 
-    public Test() throws Exception {
+    public Test972() throws Exception {
         String jdoConf = getClass().getResource(JdoConfFile).toString();
         _log.debug("############## loading jdo descriptor: " + jdoConf);
         JDOManager.loadConfiguration(jdoConf);

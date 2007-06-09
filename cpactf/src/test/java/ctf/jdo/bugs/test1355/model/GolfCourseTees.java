@@ -7,7 +7,7 @@ import java.util.Collection;
  * Represents a single set of golf course tees. These may be entered into the system by a registered
         user.
  */
-public class GolfCourseTees extends MyAppObject {
+public class GolfCourseTees extends BaseObject {
 
 	protected GolfCourse course = new GolfCourse();
 	protected String name;

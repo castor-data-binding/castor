@@ -18,22 +18,22 @@ package ctf.jdo.special.test1214;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class IntAndIntegerEntity {
-    private static Log LOG = LogFactory.getLog(IntAndIntegerEntity.class);
-	
-    private int id;
-    private Integer property;
-    
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+public final class IntAndIntegerEntity {
+    private static final Log LOG = LogFactory.getLog(IntAndIntegerEntity.class);
 
-    public Integer getProperty() { return property; }
-    public void setProperty(Integer property) {
-    	LOG.debug ("setProperty(Integer)");
-        this.property = property;
+    private int _id;
+    private Integer _property;
+    
+    public int getId() { return _id; }
+    public void setId(final int id) { _id = id; }
+
+    public Integer getProperty() { return _property; }
+    public void setProperty(final Integer property) {
+        LOG.debug("setProperty(Integer)");
+        _property = property;
     }
-    public void setProperty(int property) {
-    	LOG.debug ("setProperty(int)");
-        this.property = new Integer (property);
+    public void setProperty(final int property) {
+        LOG.debug("setProperty(int)");
+        _property = new Integer (property);
     }
 }

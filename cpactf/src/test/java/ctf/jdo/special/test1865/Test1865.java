@@ -15,26 +15,49 @@
  */
 package ctf.jdo.special.test1865;
 
+import java.util.Properties;
+
 import junit.framework.TestCase;
 
+import org.castor.util.ConfigKeys;
+import org.castor.util.Configuration;
 import org.exolab.castor.jdo.JDOManager;
 
-/**
- *
- * @author nstuart
- */
-public final class TestLoadDatabase extends TestCase {
-    public static void main(final String[] args) {
-        new TestLoadDatabase().testLoad();
+public final class Test1865 extends TestCase {
+    private Object _memInitFlag;
+    
+    public static void main(final String[] args) throws Exception {
+        Test1865 test = new Test1865();
+        test.setUp();
+        test.testLoad();
+        test.tearDown();
     }
     
-    /** Creates a new instance of TestLoadDatabase */
-    public TestLoadDatabase() { }
+    protected void setUp() throws Exception {
+        super.setUp();
+        
+        Configuration cfg = Configuration.getInstance();
+        Properties props = cfg.getProperties();
+        _memInitFlag = props.get(ConfigKeys.INITIALIZE_AT_LOAD);
+        props.put(ConfigKeys.INITIALIZE_AT_LOAD, Boolean.toString(false));
+    }
+    
+    protected void tearDown() throws Exception {
+        Configuration cfg = Configuration.getInstance();
+        Properties props = cfg.getProperties();
+        if (_memInitFlag != null) {
+            props.put(ConfigKeys.INITIALIZE_AT_LOAD, _memInitFlag);
+        } else {
+            props.remove(ConfigKeys.INITIALIZE_AT_LOAD);
+        }
+
+        super.tearDown();
+    }
     
     public void testLoad() {
         try {
-            JDOManager.loadConfiguration(
-                    getClass().getResource("jdo-conf.xml").toString());
+            String config = getClass().getResource("jdo-conf.xml").toString();
+            JDOManager.loadConfiguration(config);
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());

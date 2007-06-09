@@ -3,7 +3,7 @@ package ctf.jdo.bugs.test1355.model;
 /**
  * Represents a single country's state or province in the system.
  */
-public class StateProv extends MyAppObject {
+public class StateProv extends BaseObject {
 
 	private String code;
 	private String name;

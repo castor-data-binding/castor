@@ -9,25 +9,17 @@ import org.exolab.castor.jdo.QueryResults;
 
 public final class TestTemplate extends TestCase {
     private static final String JDO_CONF_FILE = "jdo-conf.xml";
-    private static final String DATABASE_NAME = "bugTemplate";
+    private static final String DATABASE_NAME = "template";
     
     private JDOManager _jdo = null;
 
     public static void main(final String[] args) throws Exception {
         TestTemplate test = new TestTemplate();
         test.setUp();
-        test.testQueryEntityOne();
+        test.testQueryEntity();
         test.tearDown();
     }
     
-    public TestTemplate() {
-        super();
-    }
-    
-    public TestTemplate(final String name) {
-        super(name);
-    }
-
     protected void setUp() throws Exception {
         super.setUp();
         
@@ -40,20 +32,16 @@ public final class TestTemplate extends TestCase {
         super.tearDown();
     }
     
-    /**
-     * Test method.
-     * @throws Exception For any exception thrown.
-     */
-    public void testQueryEntityOne() throws Exception {
+    public void testQueryEntity() throws Exception {
         Database db = _jdo.getDatabase();
         db.begin();
         
         OQLQuery query = db.getOQLQuery("SELECT entity FROM "
-                + EntityOne.class.getName() + " entity WHERE id = $1");
+                + Entity.class.getName() + " entity WHERE id = $1");
         query.bind(new Integer(1));
         QueryResults results = query.execute();
         
-        EntityOne entity = (EntityOne) results.next();
+        Entity entity = (Entity) results.next();
 
         assertNotNull(entity);
         assertEquals(new Integer(1), entity.getId());

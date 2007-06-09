@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import org.apache.log4j.Logger;
 import org.exolab.castor.jdo.TimeStampable;
 
-public class MyAppObject implements TimeStampable {
+public class BaseObject implements TimeStampable {
 	protected Long id;
     protected Long createdById;
     protected Long lastModifiedById;

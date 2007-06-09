@@ -10,8 +10,8 @@ import org.exolab.castor.jdo.JDOManager;
 /**
  * @author nstuart
  */
-public final class TestFieldWithSpace extends TestCase {
-    private static final Log LOG = LogFactory.getLog(TestFieldWithSpace.class);
+public final class Test1900 extends TestCase {
+    private static final Log LOG = LogFactory.getLog(Test1900.class);
     
     public void testInsert() throws Exception {
         LOG.info("Starting Field with Space test.");

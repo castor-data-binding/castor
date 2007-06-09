@@ -15,9 +15,6 @@
  */
 package ctf.jdo.special.test1865;
 
-/**
- * @author nstuart
- */
 public final class BeanObject {
     private int _id;
     private String _field1;

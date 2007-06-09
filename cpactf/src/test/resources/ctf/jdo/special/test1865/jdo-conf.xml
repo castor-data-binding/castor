@@ -4,17 +4,18 @@
 <jdo-conf>
     <!-- This in theory, shouldn't be used since I'm just concerned with the local database -->
 
-    <database name="jndiDatabase" engine="mysql">
+    <database name="jndi" engine="mysql">
         <jndi name="java:comp/env/jdbc/SimpleTest"/>
         <mapping href="jndi:/localhost/test/WEB-INF/conf/common.xml" />
     </database>
 
     <database name="database" engine="mysql">
-        <driver url="jdbc:mysql://localhost:3306/test" class-name="com.mysql.jdbc.Driver">
+        <driver url="jdbc:mysql://localhost:3306/test1865"
+                class-name="com.mysql.jdbc.Driver">
             <param name="user" value="test" />
             <param name="password" value="test" />
         </driver>
-        <mapping href="test1865-mapping.xml" />
+        <mapping href="mapping.xml" />
     </database>
 
     <transaction-demarcation mode="local" />

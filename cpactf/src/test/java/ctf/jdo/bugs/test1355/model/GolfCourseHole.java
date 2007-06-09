@@ -1,6 +1,6 @@
 package ctf.jdo.bugs.test1355.model;
 
-public class GolfCourseHole extends MyAppObject {
+public class GolfCourseHole extends BaseObject {
 
 	protected GolfCourseTees courseTees = new GolfCourseTees();
 	protected Integer number;
