@@ -67,9 +67,7 @@ import org.exolab.castor.types.Duration;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public class Types
-{
-
+public class Types {
     /**
      * Returns the class name based on the supplied type name. The type name
      * can be a short name (e.g. int, byte) or any other Java class (e.g.
@@ -504,7 +502,7 @@ public class Types
         new TypeInfo( "float",       java.lang.Float.TYPE,
                       java.lang.Float.class,      true,     new Float( 0 ) ),
         new TypeInfo( "big-decimal", null,
-                      java.math.BigDecimal.class, true,     new BigDecimal( 0 ) ),
+                      java.math.BigDecimal.class, true,     new BigDecimal( 0.0 ) ),
         new TypeInfo( "byte",        java.lang.Byte.TYPE,
                       java.lang.Byte.class,       true,     new Byte( (byte) 0 ) ),
         new TypeInfo( "date",        null,
