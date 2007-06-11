@@ -14,7 +14,8 @@ import org.exolab.castor.jdo.QueryResults;
 public final class Test1781 extends TestCase {
     private static final String DATABASE = "test1781";
     private static final String ENGINE = "mysql";
-    private static final String DATASOURCE = "org.apache.commons.dbcp.BasicDataSource";
+    private static final String DATASOURCE =
+        "com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource";
     private static final String DRIVER = "org.gjt.mm.mysql.Driver";
     private static final String CONNECT = "jdbc:mysql://localhost/test1781";
     private static final String USERNAME = "test";
@@ -56,11 +57,9 @@ public final class Test1781 extends TestCase {
     
     public void testJdoDatasourceConf() throws Exception {
         Properties props = new Properties();
-        props.put("driver-class-name", DRIVER);
         props.put("url", CONNECT);
-        props.put("username", USERNAME);
+        props.put("user", USERNAME);
         props.put("password", PASSWORD);
-        props.put("max-active", "10");
         
         // create driver configuration
         org.castor.jdo.conf.DataSource datasourceConf =

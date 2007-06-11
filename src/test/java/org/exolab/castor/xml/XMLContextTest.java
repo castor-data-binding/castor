@@ -1,11 +1,10 @@
 package org.exolab.castor.xml;
 
+import junit.framework.TestCase;
+
 import org.castor.test.entity.Entity;
-//import org.castor.test.entity.EntitySecond;
 import org.exolab.castor.mapping.Mapping;
 import org.xml.sax.InputSource;
-
-import junit.framework.TestCase;
 
 public class XMLContextTest extends TestCase {
     

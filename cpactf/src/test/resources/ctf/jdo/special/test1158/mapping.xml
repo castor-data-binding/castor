@@ -1,30 +1,32 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
 <mapping>
-    <key-generator name="IDENTITY"/>
-	
-    <class name="jdo.test1158.BaseObject" identity="id">
-        <map-to table="test1158_object" />
+    <class name="ctf.jdo.special.test1158.BaseObject">
         <cache-type type="unlimited"/>
-        <field name="id" type="integer">
+        <map-to table="test1158_object"/>
+        <field name="id" type="integer" identity="true">
             <sql name="id" type="integer"/>
         </field>
         <field name="description" type="string">
             <sql name="description" type="varchar"/>
         </field>
         <field name="saved" type="boolean">
-          <sql name="saved" type="char[01]" />
+          <sql name="saved" type="char[01]"/>
         </field>
     </class>
     
-    <class name="jdo.test1158.ExtendedObject" identity="id" extends="jdo.test1158.BaseObject">
-        <map-to table="test1158_extended" />
+    <class name="ctf.jdo.special.test1158.ExtendedObject"
+           extends="ctf.jdo.special.test1158.BaseObject">
         <cache-type type="unlimited"/>
-        <field name="id" type="integer">
+        <map-to table="test1158_extended"/>
+        <field name="id" type="integer" identity="true">
             <sql name="id" type="integer"/>
         </field>
         <field name="description2" type="string">
             <sql name="description2" type="varchar"/>
         </field>
     </class>
+
+    <key-generator name="IDENTITY"/>
 </mapping>
