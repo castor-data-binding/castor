@@ -48,6 +48,10 @@
     <property name="testexcludes"         value="**/package.html, **/MasterTestSuite/**, **/RegressionTestSuite/**" />
     <!--    org.exolab.castor.dax, -->
     <property name="allpackagenames"      value="org.*"/>
+	
+	<!-- temp properties -->
+    <property name="cpa.java"             value="${basedir}/cpa/src/main/java"/>
+    <property name="cpa.resources"        value="${basedir}/cpa/src/main/resources"/>
 
     <path id="build.classpath">
         <pathelement location="${classes}"/>
@@ -169,10 +173,10 @@
             </fileset>
         </copy>
         <copy todir="${schema}">
-            <fileset dir="${java}/org/castor/jdo/conf">
+            <fileset dir="${cpa.java}/org/castor/jdo/conf">
                 <patternset refid="support.files" />
             </fileset>
-            <fileset dir="${main.resources}/org/castor/jdo/conf">
+            <fileset dir="${cpa.resources}/org/castor/jdo/conf">
                 <patternset refid="support.files" />
             </fileset>
         </copy>
@@ -265,11 +269,24 @@
                includes="${castor.jdo.files}">
             <classpath refid="build.classpath"/>
         </javac>
+        <javac srcdir="${cpa.java}" destdir="${classes}" excludes="${excludes}"
+               debug="on" encoding="ISO-8859-1" deprecation="${deprecation}"
+               includes="${castor.jdo.files}">
+            <classpath refid="build.classpath"/>
+        </javac>
         <copy todir="${classes}">
             <fileset dir="${java}">
                 <patternset refid="support.files" />
             </fileset>
             <fileset dir="${main.resources}">
+                <patternset refid="support.files" />
+            </fileset>
+        </copy>
+        <copy todir="${classes}">
+            <fileset dir="${cpa.java}">
+                <patternset refid="support.files" />
+            </fileset>
+            <fileset dir="${cpa.resources}">
                 <patternset refid="support.files" />
             </fileset>
         </copy>
@@ -325,6 +342,7 @@
         <mkdir dir="${build}/tests"/>
 
         <!-- compile tests to ${build}/tests -->
+		<!--
         <javac srcdir="${source}/tests"
                destdir="${build}/tests"
                excludes="${testexcludes}"
@@ -333,17 +351,21 @@
                deprecation="${deprecation}">
             <classpath refid="build.classpath"/>
         </javac>
+        -->
 
         <!-- copy resource files to ${build}/tests -->
+		<!--
         <copy todir="${build}/tests" verbose="${verbose}">
             <fileset dir="${source}/tests">
                 <patternset refid="support.files" />
-            </fileset>
+            </fileset> -->
             <!-- Maven 2: copy resources from src/test/resources -->
+		<!--
             <fileset dir="${test-resources}">
                 <patternset refid="support.files" />
             </fileset>
         </copy>
+        -->
 
         <ant antfile="${basedir}/xmlctf/build.xml" target="compile.xmlctf" inheritAll="false">
             <property name="version" value="${version}"/>
