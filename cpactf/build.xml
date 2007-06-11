@@ -21,6 +21,7 @@
         <pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>
         <pathelement location="${basedir}/../lib/tests/tyrex-1.0.jar"/>
         <pathelement location="${basedir}/../lib/tests/mockejb.jar"/>
+        <pathelement location="${basedir}/../lib/log4j-1.2.13.jar"/>
     </path>
 
     <target name="prepare.cpactf" unless="prepare.cpactf.executed">
