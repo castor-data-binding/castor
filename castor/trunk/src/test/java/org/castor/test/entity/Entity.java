@@ -59,7 +59,7 @@ public class Entity {
 
     /**
      * Sets a new entity name.
-     * @param id a new entity name.
+     * @param _id a new entity name.
      */
     public void setName(final String name) {
         this._name = name;

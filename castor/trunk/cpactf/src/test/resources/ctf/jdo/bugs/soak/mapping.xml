@@ -1,54 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
                          "http://castor.org/mapping.dtd">
-
 <mapping>
-    <class identity="id" name="soak.model.Employee" access="exclusive" key-generator="SEQUENCE">
+    <class identity="id" name="ctf.jdo.bugs.soak.model.Employee"
+           access="exclusive" key-generator="IDENTITY">
         <map-to table="soakEmployee"/>
-        <field direct="true" name="id" type="java.lang.Integer">
+        <field name="id" type="int">
             <sql name="id" type="numeric"/>
         </field>
-        <field direct="true" name="firstName" type="string">
+        <field name="firstName" type="string">
             <sql name="fname" type="varchar"/>
         </field>
-        <field direct="true" name="lastName" type="string">
+        <field name="lastName" type="string">
             <sql name="lname" type="varchar"/>
         </field>
-        <field direct="true" name="middleNameInitial" type="char">
+        <field name="middleNameInitial" type="char">
             <sql name="mi" type="char"/>
         </field>
-        <field direct="true" name="gender" type="char">
+        <field name="gender" type="char">
             <sql name="gender" type="char"/>
         </field>
-        <field direct="true" name="isPerm" type="boolean">
+        <field name="perm" type="boolean">
             <sql name="isPerm" type="numeric" />
         </field>
-        <field direct="true" name="hourlyRate" type="java.math.BigDecimal">
+        <field name="hourlyRate" type="java.math.BigDecimal">
             <sql name="hourlyRate" type="numeric" />
         </field>
-        <field direct="true" name="totalHours" type="java.math.BigDecimal">
+        <field name="totalHours" type="java.math.BigDecimal">
             <sql name="totalHours" type="numeric" />
         </field>
-        <field direct="true" name="SSN" type="string">
+        <field name="SSN" type="string">
             <sql name="ssn" type="varchar"/>
         </field>
-        <field direct="true" name="holiday" type="float">
+        <field name="holiday" type="float">
             <sql name="holiday" type="numeric"/>
         </field>
-        <field direct="true" name="startDate" type="date">
+        <field name="startDate" type="date">
             <sql name="startDate" type="date"/>
         </field>
-        <field direct="true" name="recordDate" type="date">
+        <field name="recordDate" type="date">
             <sql name="recordDate" type="timestamp"/>
         </field>
-        <field direct="true" name="homeAddress" type="serializable">
+        <field name="homeAddress" type="serializable">
             <sql name="homeAddress" type="binary" dirty="ignore"/>
         </field>
-        <field direct="true" name="homePhone" type="serializable">
+        <field name="homePhone" type="serializable">
             <sql name="homePhone" type="binary" dirty="ignore"/>
         </field>
-        <field direct="true" name="skills" type="serializable">
+        <field name="skills" type="serializable">
             <sql name="skills" type="binary" dirty="ignore"/>
         </field>
     </class>
+    
+    <key-generator name="IDENTITY"/>
 </mapping>

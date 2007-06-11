@@ -18,9 +18,11 @@ package ctf.jdo.special.test1158;
 /**
  * @author nstuart
  */
-public class ExtendedObject extends BaseObject {
+public final class ExtendedObject extends BaseObject {
     private String _description2;
     
     public String getDescription2() { return _description2; }
-    public void setDescription2(String description2) { _description2 = description2; }
+    public void setDescription2(final String description2) {
+        _description2 = description2;
+    }
 }

@@ -15,9 +15,9 @@
  */
 package org.exolab.castor.xml;
 
-import org.exolab.castor.util.Configuration.Property;
-
 import junit.framework.TestCase;
+
+import org.exolab.castor.util.Configuration.Property;
 
 /**
  * Test case for testing various pieces of functionality of {@link Unmarshaller}.

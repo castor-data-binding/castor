@@ -25,14 +25,23 @@ import org.exolab.castor.mapping.MappingException;
 /**
  * @author nstuart
  */
-public class Test1158 extends TestCase {
-    private static JDOManager manager;
+public final class Test1158 extends TestCase {
+    private static JDOManager _manager;
     
-    public void setUp() {
-        if (manager == null) {
+    public static void main(final String[] args) throws Exception {
+        Test1158 test = new Test1158();
+        test.setUp();
+        test.testLoad();
+        test.testSave();
+        test.tearDown();
+    }
+    
+    protected void setUp() {
+        if (_manager == null) {
             try {
-                JDOManager.loadConfiguration(getClass().getResource("jdo-conf.xml").toString());
-                manager = JDOManager.createInstance("test-db");
+                String config = getClass().getResource("jdo-conf.xml").toString();
+                JDOManager.loadConfiguration(config);
+                _manager = JDOManager.createInstance("test1158");
             } catch (MappingException pe) {
                 pe.printStackTrace();
                 fail();
@@ -40,9 +49,11 @@ public class Test1158 extends TestCase {
         }
     }
     
+    protected void tearDown() { }
+    
     public void testLoad() {
         try {
-            Database db = manager.getDatabase();
+            Database db = _manager.getDatabase();
             db.begin();
             try {
                 db.load(ExtendedObject.class, new Integer(1));
@@ -62,10 +73,11 @@ public class Test1158 extends TestCase {
     public void testSave() {
         Database db = null;
         try {
-            db = manager.getDatabase();
+            db = _manager.getDatabase();
             db.begin();
             try {
-                ExtendedObject obj1 = (ExtendedObject) db.load(ExtendedObject.class, new Integer(1));
+                ExtendedObject obj1 = (ExtendedObject) db.load(
+                        ExtendedObject.class, new Integer(1));
                 obj1.setDescription2(obj1.getDescription2() + " - 1");
                 db.commit();
                 db.close();
