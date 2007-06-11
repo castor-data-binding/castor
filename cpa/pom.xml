@@ -1,0 +1,238 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.codehaus.castor</groupId>
+	<artifactId>castor-jdo</artifactId>
+	<version>1.1.2-SNAPSHOT</version>
+	
+	<!-- 
+	<parent>
+		<groupId>org.codehaus.castor</groupId>
+		<artifactId>castor</artifactId>
+		<version>1.1-SNAPSHOT</version>
+	</parent>
+	 -->	
+	<packaging>jar</packaging>
+
+	<name>Castor JDO - Persistence framework</name>
+	<description>TBD</description>
+
+	<build>
+		<plugins>
+		
+		<!-- 
+	     <plugin>
+	        <groupId>org.codehaus.mojo</groupId>
+	        <artifactId>castor-maven-plugin</artifactId>
+	        <version>1.0</version>
+            <configuration>
+                  <schema>src/main/resources/org/exolab/castor/builder/binding/binding.xsd</schema>
+                  <packaging>org.exolab.castor.builder.binding</packaging>
+                  <properties>src/main/resources/org/exolab/castor/builder/binding.generation.properties</properties>
+            </configuration>
+	        <dependencies>
+	          <dependency> 
+	            <groupId>org.codehaus.castor</groupId>
+	            <artifactId>castor</artifactId>
+	            <version>1.1-M3-SNAPSHOT</version>
+	          </dependency>
+	        </dependencies>
+            <executions>
+                <execution>
+                	<goals>
+                		<goal>generate</goal>
+                	</goals>
+                 </execution>
+            </executions>	        
+ 	      </plugin>		
+ -->	        
+	      
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.4</source>
+					<target>1.4</target>
+					<!-- 
+					<includes>
+						<include implementation="java.lang.String">org/exolab/castor/builder/**</include>
+						<include implementation="java.lang.String">org/exolab/javasource/**</include>
+					</includes>
+					-->
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+					</archive>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+ 				<configuration>
+					<attach>true</attach>
+				</configuration>
+			</plugin>
+			
+			<!--  redundant; will be removed once we switch to parent structure -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+
+		</plugins>
+		
+		<!--  redundant; will be removed once we switch to parent structure -->
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-webdav</artifactId>
+				<version>1.0-beta-1</version>
+			</extension>
+		</extensions>
+
+	</build>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.codehaus.castor</groupId>
+			<artifactId>castor</artifactId>
+			<version>1.1.2-SNAPSHOT</version>
+		</dependency>
+
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-full</artifactId>
+            <version>2.0.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>jta</artifactId>
+            <version>1.0.1B</version>
+        </dependency>
+
+       <dependency>
+            <groupId>tyrex</groupId>
+            <artifactId>tyrex</artifactId>
+            <version>1.0.1</version>
+            <scope>test</scope>
+        </dependency>
+        
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.2</version>
+            <scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.13</version>
+			<scope>test</scope>
+		</dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>3.1.12</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <version>10.2.1.6</version>
+            <scope>test</scope>
+        </dependency>
+
+	</dependencies>
+
+	<!--  redundant; will be removed once we switch to parent structure -->
+    <distributionManagement>
+        <repository>
+          <id>codehaus.org</id>
+          <name>Castor Central Distribution Repository</name>
+          <url>dav:https://dav.codehaus.org/repository/castor/</url>
+        </repository>
+        <snapshotRepository>
+          <id>codehaus.org</id>
+          <name>Castor Central Development Repository</name>
+          <url>dav:https://dav.codehaus.org/snapshots.repository/castor/</url>
+        </snapshotRepository>
+        <site>
+          <id>codehaus.org</id>
+          <url>dav:https://dav.codehaus.org/castor/</url>
+        </site>
+    </distributionManagement>
+    
+    <reporting>
+    	<plugins>
+    		<plugin>
+    			<groupId>org.apache.maven.plugins</groupId>
+    			<artifactId>maven-surefire-plugin</artifactId>
+    			<configuration>
+    				<excludes>
+    					<exclude>org/castor/cache/simple/TestTimeLimited.java</exclude>
+    					<exclude>org/exolab/castor/jdo/oql/LexTest.java</exclude>
+    					<exclude>org/exolab/castor/jdo/oql/ParseTest.java</exclude>
+    					<exclude>
+    						org/exolab/castor/jdo/drivers/TestConnectionProxies.java
+    					</exclude>
+    					<exclude>org/castor/cache/TestCacheFactoryRegistry.java</exclude>
+    					<exclude>**/TestAll.java</exclude>
+    					<exclude>harness/**</exclude>
+    					<exclude>soak/**</exclude>
+    					<exclude>jdo/**</exclude>
+    					<!-- test harness -->
+    					<exclude>org/exolab/castor/tests/framework/**</exclude>
+    				</excludes>
+    				<includes>
+    					<include>org/exolab/castor/**/Test*.java</include>
+    					<include>org/castor/**/Test*.java</include>
+    					<include>org/exolab/castor/**/*Test.java</include>
+    					<include>org/castor/**/*Test.java</include>
+
+    					<!-- JDO test suite -->
+    					<include>Main.java</include>
+    				</includes>
+    				<systemProperties>
+    					<property>
+    						<name>test.category</name>
+    						<value>castor.mysql</value>
+    					</property>
+    				</systemProperties>
+    			</configuration>
+    		</plugin>
+    	</plugins>
+    </reporting>
+
+
+</project>
+
+
