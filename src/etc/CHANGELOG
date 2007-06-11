@@ -1,6 +1,11 @@
 SVN
 ---
 
+Gen:   Resolved issue CASTOR-2009 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added 'xmlctf' module to source JARs.
+       Details: http://jira.codehaus.org/browse/CASTOR-2009
+       (Ralf - 20070611)
+
 XML:   Resolved issue CASTOR-2008 using contribution from Petteri Räty [betelgeuse@gentoo.org]
        Fixed CLONE-BigDecimal usage in Types.java that can't run on jre1.4.2.
        Details: http://jira.codehaus.org/browse/CASTOR-2008

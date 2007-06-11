@@ -35,6 +35,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2009" tool="jira">
+                    <description>
+                        Added 'xmlctf' module to source JARs.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Petteri Räty</name>
+                        <email>betelgeuse@gentoo.org</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen</module>
+                    <date>20070611</date>
+                </bug>
                 <bug id="2008" tool="jira">
                     <description>
                         Fixed CLONE-BigDecimal usage in Types.java that can't run on jre1.4.2.
