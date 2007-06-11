@@ -718,6 +718,7 @@
         <mkdir dir="${build}/${archive.name}/anttask"/>
         <mkdir dir="${build}/${archive.name}/codegen"/>
         <mkdir dir="${build}/${archive.name}/ddlgen"/>
+        <mkdir dir="${build}/${archive.name}/xmlctf"/>
 
         <!-- <copydir src="${source}" dest="${build}/${archive.name}/src" defaultexcludes="true"/> -->
         <copy todir="${build}/${archive.name}/src">
@@ -747,6 +748,14 @@
         </copy>
         <copy todir="${build}/${archive.name}/ddlgen">
           <fileset dir="${basedir}/ddlgen">
+              <exclude name="build/" />
+              <exclude name="target/" />
+              <exclude name="eclipse/" />
+          </fileset>
+        </copy>
+
+        <copy todir="${build}/${archive.name}/xmlctf">
+          <fileset dir="${basedir}/xmlctf">
               <exclude name="build/" />
               <exclude name="target/" />
               <exclude name="eclipse/" />
