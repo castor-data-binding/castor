@@ -99,7 +99,7 @@
     <property name="castor.commons.files"
           value="org/castor/cache/**/*.java,
                  org/castor/transactionmanager/**/*.java,
-                 org/castor/util/*.java,
+                 org/castor/util/**/*.java,
                  org/castor/mapping/*.java"/>
 
     <property name="castor.xml.files"
@@ -211,6 +211,7 @@
         <delete dir="${gen.src}"/>
 
         <ant antfile="${basedir}/ddlgen/build.xml" target="clean.ddlgen" inheritAll="false" />
+        <ant antfile="${basedir}/cpa/build.xml" target="clean.cpa" inheritAll="false" />
         <ant antfile="${basedir}/codegen/build.xml" target="clean.codegen" inheritAll="false" />
         <ant antfile="${basedir}/anttask/build.xml" target="clean.anttask" inheritAll="false" />
         <ant antfile="${basedir}/xmlctf/build.xml" target="clean.xmlctf" inheritAll="false" />
@@ -269,11 +270,13 @@
                includes="${castor.jdo.files}">
             <classpath refid="build.classpath"/>
         </javac>
+<!--    	
         <javac srcdir="${cpa.java}" destdir="${classes}" excludes="${excludes}"
                debug="on" encoding="ISO-8859-1" deprecation="${deprecation}"
                includes="${castor.jdo.files}">
             <classpath refid="build.classpath"/>
         </javac>
+-->        
         <copy todir="${classes}">
             <fileset dir="${java}">
                 <patternset refid="support.files" />
@@ -282,6 +285,7 @@
                 <patternset refid="support.files" />
             </fileset>
         </copy>
+<!--    	
         <copy todir="${classes}">
             <fileset dir="${cpa.java}">
                 <patternset refid="support.files" />
@@ -290,6 +294,7 @@
                 <patternset refid="support.files" />
             </fileset>
         </copy>
+-->        
         <replace dir="${classes}" token="$$VERSION$$" value="${version}">
             <include name="**/*.xsd" />
             <include name="**/*.xml" />
@@ -302,12 +307,16 @@
             <include name="**/*.properties" />
             <include name="**/*.dtd" />
         </replace>
-
+    	
         <ant antfile="${basedir}/ddlgen/build.xml" target="compile.ddlgen" inheritAll="false">
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
         </ant>
         <ant antfile="${basedir}/anttask/build.xml" target="compile.anttask" inheritAll="false">
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
+        </ant>
+    	<ant antfile="${basedir}/cpa/build.xml" target="compile.cpa" inheritAll="false">
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
         </ant>
@@ -395,7 +404,11 @@
         </copy>
         	
         <ant antfile="${basedir}/codegen/build.xml" target="compile.bugs.codegen" inheritAll="false"/>
-        	
+
+        <ant antfile="${basedir}/cpa/build.xml" 
+        	 target="compile.bugs.cpa" 
+        	 inheritAll="false"/>
+
     </target>
 
     <target name="tests" depends="compile.bugs,compile.tests" description="Build the tests packages"/>
@@ -535,6 +548,12 @@
 
         <!-- create JAR for DDL generator, calling module build file recursively -->
         <ant antfile="${basedir}/ddlgen/build.xml" target="jar.ddlgen" inheritAll="false">
+            <property name="project" value="${project}"/>
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
+        </ant>
+        <!-- create JAR for JDO, calling module build file recursively -->
+        <ant antfile="${basedir}/cpa/build.xml" target="jar.cpa" inheritAll="false">
             <property name="project" value="${project}"/>
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
@@ -839,24 +858,9 @@
         </java>
     </target>
 
-    <target name="gen.jdo.conf" depends="jar"
-        description="Use the Source Generator to create the Java classes for jdo-conf.xsd">
-        <delete dir="${gen.src}/jdo-conf"/>
-        <mkdir dir="${gen.src}/jdo-conf"/>
-        <taskdef name="castor-srcgen" classname="org.castor.anttask.CastorCodeGenTask"
-                 classpathref="build.classpath"/>
-        <castor-srcgen file="${main.resources}/org/castor/jdo/conf/jdo-conf.xsd"
-                       todir="${gen.src}/jdo-conf"
-                       package="org.castor.jdo.conf"
-                       lineseparator="unix"
-                       types="j2"
-                       warnings="false"/>
-        <javac destdir="${classes}" excludes="${excludes}"
-               debug="${main.opt.debug}" encoding="ISO-8859-1" deprecation="off"
-               optimize="on">
-            <src path="${gen.src}" />
-            <classpath refid="build.classpath"/>
-        </javac>
+    <target name="gen.jdo.conf" depends="jar" 
+    	    description="Generates the Java classes for jdo-conf.xsd">
+        <ant antfile="${basedir}/cpa/build.xml" target="gen.conf.cpa" inheritAll="false" />
     </target>
 
     <target name="gen.binding" depends="jar" description="Generates the class for binding.xsd">
