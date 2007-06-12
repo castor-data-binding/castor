@@ -130,6 +130,12 @@ http://maven.apache.org/maven-v4_0_0.xsd">
             <version>1.0.1B</version>
         </dependency>
 
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1</version>
+		</dependency>
+
        <dependency>
             <groupId>tyrex</groupId>
             <artifactId>tyrex</artifactId>
@@ -137,12 +143,6 @@ http://maven.apache.org/maven-v4_0_0.xsd">
             <scope>test</scope>
         </dependency>
         
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.1</version>
-		</dependency>
-
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -156,20 +156,6 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 			<version>1.2.13</version>
 			<scope>test</scope>
 		</dependency>
-
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>3.1.12</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derby</artifactId>
-            <version>10.2.1.6</version>
-            <scope>test</scope>
-        </dependency>
 
 	</dependencies>
 
