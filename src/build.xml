@@ -65,6 +65,7 @@
         </fileset>
         <pathelement location="${basedir}/ddlgen/build/classes" />
         <pathelement location="${basedir}/codegen/build/classes" />
+        <pathelement location="${basedir}/cpa/build/classes" />
         <pathelement location="${basedir}/anttask/build/classes" />
         <pathelement location="${basedir}/xmlctf/build/classes" />
         <pathelement location="${basedir}/cpactf/build/classes" />
@@ -111,6 +112,7 @@
                  org/exolab/castor/util/**/*.java,
                  org/exolab/castor/xml/**/*.java"/>
 
+	<!-- cleanup definition after creation of 'cpa' module -->
     <property name="castor.jdo.files"
           value="**/org/exolab/castor/dsml/**/*.java,
                  org/exolab/castor/dtx/**/*.java,
@@ -136,9 +138,8 @@
                              (JAR, source, doc, tarball) in the dist directory
             main             Builds the main packages (including debugging info)
             tests            (shorthand for compile.tests)
-            compile.commons  Compile the Castor COMONS packages
-            compile.xml      Compile the Castor XML packages
-            compile.jdo      Compile the Castor JDO packages
+            compile.commons  Compile the Castor COMMONS packages
+            compile.all      Compile all Castor packages
             compile.examples Builds the example packages (including debugging info)
             compile.tests    Builds the test packages (including debugging info)
             jdo.tests        Executes the JUnit tests for Castor JDO (CTF-JDO)
@@ -229,7 +230,7 @@
 
     <target name="compile"
             description="The default target for compilation; includes debug and deprecation info">
-        <antcall target="compile.jdo" />
+        <antcall target="compile.all" />
     </target>
 
     <target name="compile.commons" depends="prepare"
@@ -241,8 +242,8 @@
         </javac>
     </target>
 
-    <target name="compile.xml" depends="prepare,compile.commons"
-            description="Compile the Castor XML packages">
+    <target name="compile.all" depends="prepare,compile.commons"
+            description="Compile the Castor packages">
         <javac srcdir="${java}" destdir="${classes}" excludes="${excludes}"
                debug="on" encoding="ISO-8859-1" deprecation="${deprecation}"
                includes="${castor.xml.files}">
@@ -261,22 +262,13 @@
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
         </ant>
-    </target>
 
-    <target name="compile.jdo" depends="prepare,compile.commons,compile.xml"
-            description="Compile the Castor JDO packages">
+    	<!-- left-overs from Castor JDO code -->
         <javac srcdir="${java}" destdir="${classes}" excludes="${excludes}"
                debug="on" encoding="ISO-8859-1" deprecation="${deprecation}"
                includes="${castor.jdo.files}">
             <classpath refid="build.classpath"/>
         </javac>
-<!--    	
-        <javac srcdir="${cpa.java}" destdir="${classes}" excludes="${excludes}"
-               debug="on" encoding="ISO-8859-1" deprecation="${deprecation}"
-               includes="${castor.jdo.files}">
-            <classpath refid="build.classpath"/>
-        </javac>
--->        
         <copy todir="${classes}">
             <fileset dir="${java}">
                 <patternset refid="support.files" />
@@ -285,16 +277,6 @@
                 <patternset refid="support.files" />
             </fileset>
         </copy>
-<!--    	
-        <copy todir="${classes}">
-            <fileset dir="${cpa.java}">
-                <patternset refid="support.files" />
-            </fileset>
-            <fileset dir="${cpa.resources}">
-                <patternset refid="support.files" />
-            </fileset>
-        </copy>
--->        
         <replace dir="${classes}" token="$$VERSION$$" value="${version}">
             <include name="**/*.xsd" />
             <include name="**/*.xml" />
@@ -307,19 +289,23 @@
             <include name="**/*.properties" />
             <include name="**/*.dtd" />
         </replace>
-    	
+
+    	<!-- build DDL generator -->
         <ant antfile="${basedir}/ddlgen/build.xml" target="compile.ddlgen" inheritAll="false">
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
         </ant>
+        <!-- build Ant task definitions for Castor -->
         <ant antfile="${basedir}/anttask/build.xml" target="compile.anttask" inheritAll="false">
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
         </ant>
+    	<!-- build Castor JDO -->
     	<ant antfile="${basedir}/cpa/build.xml" target="compile.cpa" inheritAll="false">
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
         </ant>
+    	<!-- build examples -->
         <ant antfile="${basedir}/examples/build.xml" target="compile.examples" inheritAll="false">
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
