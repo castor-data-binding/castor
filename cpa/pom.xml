@@ -130,14 +130,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
             <version>1.0.1B</version>
         </dependency>
 
-<!-- 
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.1</version>
-		</dependency>
- -->		
-
+	   <!--  check why this is needed  -->
        <dependency>
             <groupId>tyrex</groupId>
             <artifactId>tyrex</artifactId>
@@ -189,32 +182,9 @@ http://maven.apache.org/maven-v4_0_0.xsd">
     					<exclude>org/castor/cache/simple/TestTimeLimited.java</exclude>
     					<exclude>org/exolab/castor/jdo/oql/LexTest.java</exclude>
     					<exclude>org/exolab/castor/jdo/oql/ParseTest.java</exclude>
-    					<exclude>
-    						org/exolab/castor/jdo/drivers/TestConnectionProxies.java
-    					</exclude>
+    					<exclude>org/exolab/castor/jdo/drivers/TestConnectionProxies.java</exclude>
     					<exclude>org/castor/cache/TestCacheFactoryRegistry.java</exclude>
-    					<exclude>**/TestAll.java</exclude>
-    					<exclude>harness/**</exclude>
-    					<exclude>soak/**</exclude>
-    					<exclude>jdo/**</exclude>
-    					<!-- test harness -->
-    					<exclude>org/exolab/castor/tests/framework/**</exclude>
     				</excludes>
-    				<includes>
-    					<include>org/exolab/castor/**/Test*.java</include>
-    					<include>org/castor/**/Test*.java</include>
-    					<include>org/exolab/castor/**/*Test.java</include>
-    					<include>org/castor/**/*Test.java</include>
-
-    					<!-- JDO test suite -->
-    					<include>Main.java</include>
-    				</includes>
-    				<systemProperties>
-    					<property>
-    						<name>test.category</name>
-    						<value>castor.mysql</value>
-    					</property>
-    				</systemProperties>
     			</configuration>
     		</plugin>
     	</plugins>
