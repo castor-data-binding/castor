@@ -789,6 +789,7 @@
             <fileset dir="${dist}">
             	<include name="${archive.name}.jar"/>
             	<include name="${archive.name}-xml.jar"/>
+            	<include name="${archive.name}-jdo.jar"/>
             	<include name="${archive.name}-ddlgen.jar"/>
             	<include name="${archive.name}-codegen.jar"/>
                 <include name="${archive.name}-anttasks.jar"/>
