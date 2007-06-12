@@ -22,6 +22,7 @@ CPACTF_BUILD_D=$CASTOR_HOME/cpactf/build
 
 CLASSPATH=$CLASSPATH:$BUILD_D/tests:$BUILD_D/classes
 CLASSPATH=$CLASSPATH:$CPACTF_BUILD_D/classes
+CLASSPATH=$CLASSPATH:$CASTOR_HOME/cpa/build/classes
 CLASSPATH=`echo $LIB_D/*.jar | tr ' ' ':'`:$CLASSPATH
 CLASSPATH=`echo $LIB_D/tests/*.jar | tr ' ' ':'`:$CLASSPATH
 
