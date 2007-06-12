@@ -49,6 +49,7 @@
 
     <target name="jar.examples" depends="compile.examples" description="Build examples JAR file">
         <jar jarfile="${build}/${archive}.jar" basedir="${classes}" includes="**" />
+        <copy file="${build}/${archive}.jar" tofile="${basedir}/../dist/${archive}.jar"/>
     </target>
 
 </project>
