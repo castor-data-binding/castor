@@ -130,11 +130,13 @@ http://maven.apache.org/maven-v4_0_0.xsd">
             <version>1.0.1B</version>
         </dependency>
 
+<!-- 
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 			<version>1.1</version>
 		</dependency>
+ -->		
 
        <dependency>
             <groupId>tyrex</groupId>
