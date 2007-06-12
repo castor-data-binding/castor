@@ -27,13 +27,18 @@
             <b>Release date: $STABLE_RELEASE_DATE$</b>
             <li><a href="release-notes.xml">What changed?</a></li>
             <li>
-              The Castor JAR (XML, JDO, DAX; <b>without</b> code generator)<br/>
+              The Castor JAR (XML, DAX; <b>without</b> code generator and JDO)<br/>
               <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$.jar</url>
               <br/>&#xA0;
             </li>
             <li>
               The Castor JAR (XML only, <b>without</b> code generator)<br/>
               <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-xml.jar</url>
+              <br/>&#xA0;
+            </li>
+            <li>
+              <font color="red"><b>*** NEW ***</b></font> Castor JDO (only)<br/>
+              <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-jdo.jar</url>
               <br/>&#xA0;
             </li>
             <li>
@@ -55,12 +60,12 @@
 
           <p>
             <font color="red"><b>*** Note ***</b></font>: Please note that the
-            Castor XML and JDO JARs no longer include the code for the DDL
+            Castor XML JAR no longer includes the code for Castor JDO, the DDL
             generator or XML code generator (and of course still do not include
             the code for the Ant task for the XML code generator.) In other
-            words, if you want to use the Castor XML Schema code generator or
-            the DDL generator, you will need to download JARs in addition to
-            the JARs you downloaded previously.
+            words, if you want to use Castor JDO, the Castor XML Schema code 
+            generator or the DDL generator, you will need to download JARs in 
+            addition to the JARs you downloaded previously.
           </p>
           
         </section>
@@ -212,13 +217,18 @@
 
           <ul>
             <li>
-              The Castor JAR (XML, JDO, DAX; <b>without</b> code generator)<br/>
+              The Castor JAR (XML, DAX; <b>without</b> XML code generator and JDO)<br/>
               <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$.jar</url>
               <br/>&#xA0;
             </li>
             <li>
-              The Castor JAR (XML only, <b>without</b> code generator)<br/>
+              The Castor JAR (XML only, <b>without</b> code generator and JDO)<br/>
               <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-xml.jar</url>
+              <br/>&#xA0;
+            </li>
+            <li>
+              <font color="red"><b>*** NEW ***</b></font> Castor JDO (only)<br/>
+              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-codegen.jar</url>
               <br/>&#xA0;
             </li>
             <li>
@@ -240,10 +250,10 @@
 
           <p>
             <font color="red"><b>*** Note ***</b></font>: Please note that the
-            Castor XML and JDO JARs no longer include the code for the DDL
+            Castor XML JAR no longer includes the code for Castor JDO, the DDL
             generator or XML code generator (and of course still do not include
             the code for the Ant task for the XML code generator.) In other
-            words, if you want to use the Castor XML Schema code generator or
+            words, if you want to use the Castor JDO, the XML Schema code generator or
             the DDL generator, you will need to download JARs in addition to
             the JARs you downloaded previously.
           </p>
