@@ -724,6 +724,11 @@
         <mkdir dir="${build}/${archive.name}/codegen"/>
         <mkdir dir="${build}/${archive.name}/ddlgen"/>
         <mkdir dir="${build}/${archive.name}/xmlctf"/>
+        <mkdir dir="${build}/${archive.name}/cpa"/>
+        <mkdir dir="${build}/${archive.name}/cpactf"/>
+        <mkdir dir="${build}/${archive.name}/cpaptf"/>
+        <mkdir dir="${build}/${archive.name}/examples"/>
+    	
 
         <!-- <copydir src="${source}" dest="${build}/${archive.name}/src" defaultexcludes="true"/> -->
         <copy todir="${build}/${archive.name}/src">
