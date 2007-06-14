@@ -1,6 +1,11 @@
 SVN
 ---
 
+JDO:   Resolved issue CASTOR-2007 using contribution from Ralf Joachim [ralf.joachim@syscon.eu]
+       SVN moved JDO files from src/bugs and src/tests to cpactf/src/test.
+       Details: http://jira.codehaus.org/browse/CASTOR-2007
+       (Ralf - 20070614)
+
 XML:   Resolved issue CASTOR-2017 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed ArrayIndexOutOfBoundException in related to timezone offsets that include minutes.
        Details: http://jira.codehaus.org/browse/CASTOR-2017

@@ -12,7 +12,7 @@ public final class BeanObject {
     }
 
     public void setId(final int id) {
-        this._id = id;
+        _id = id;
     }
 
     public String getField1() {
@@ -20,7 +20,7 @@ public final class BeanObject {
     }
 
     public void setField1(final String field1) {
-        this._field1 = field1;
+        _field1 = field1;
     }
 
     public String getField2() {
@@ -28,6 +28,6 @@ public final class BeanObject {
     }
 
     public void setField2(final String field2) {
-        this._field2 = field2;
+        _field2 = field2;
     }
 }
