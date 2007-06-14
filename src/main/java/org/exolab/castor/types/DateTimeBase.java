@@ -1315,7 +1315,10 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
 
         SimpleTimeZone timeZone = new SimpleTimeZone(0,"UTC");
         timeZone.setRawOffset(offset);
-        timeZone.setID(TimeZone.getAvailableIDs(offset)[0]);
+        String[] availableIDs = TimeZone.getAvailableIDs(offset);
+        if (availableIDs != null && availableIDs.length > 0) {
+            timeZone.setID(availableIDs[0]);
+        }
         calendar.setTimeZone(timeZone);
     }
 
