@@ -1,8 +1,10 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
 <mapping>
-    <key-generator name="IDENTITY"/>
-    <class name="jdo.bug1900.BeanObject" identity="id" key-generator="IDENTITY">
-        <map-to table="test" />
-        <field name="id" type="integer">
+    <class name="ctf.jdo.test1900.BeanObject" key-generator="IDENTITY">
+        <map-to table="test"/>
+        <field name="id" type="integer" identity="true">
             <sql name="id"/>
         </field>
         <field name="field1" type="string">
@@ -12,4 +14,6 @@
             <sql name="field %20"/>
         </field>
     </class>
+
+    <key-generator name="IDENTITY"/>
 </mapping>

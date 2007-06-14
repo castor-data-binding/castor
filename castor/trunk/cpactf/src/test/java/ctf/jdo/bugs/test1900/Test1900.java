@@ -13,12 +13,17 @@ import org.exolab.castor.jdo.JDOManager;
 public final class Test1900 extends TestCase {
     private static final Log LOG = LogFactory.getLog(Test1900.class);
     
+    public static void main(final String[] args) throws Exception {
+        Test1900 test = new Test1900();
+        test.testInsert();
+    }
+    
     public void testInsert() throws Exception {
         LOG.info("Starting Field with Space test.");
         
         String config = getClass().getResource("jdo-conf.xml").toString();
         JDOManager.loadConfiguration(config);
-        JDOManager jdo = JDOManager.createInstance("1900");
+        JDOManager jdo = JDOManager.createInstance("test1900");
         Database db = jdo.getDatabase();
         
         BeanObject object = new BeanObject();

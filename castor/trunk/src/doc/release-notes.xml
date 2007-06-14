@@ -35,6 +35,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2007" tool="jira">
+                    <description>
+                        SVN moved JDO files from src/bugs and src/tests to cpactf/src/test.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20070614</date>
+                </bug>
                 <bug id="2017" tool="jira">
                     <description>
                         Fixed ArrayIndexOutOfBoundException in related to timezone 
