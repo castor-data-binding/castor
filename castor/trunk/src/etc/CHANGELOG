@@ -1,5 +1,5 @@
-SVN
----
+Version 1.1.2, Jun 17, 2007
+-------------------------------
 
 XML:   Resolved issue CASTOR-1926 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Extended code that depends on id/href leniency.

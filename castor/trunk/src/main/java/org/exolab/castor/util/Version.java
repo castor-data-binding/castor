@@ -67,12 +67,12 @@ public final class Version {
     /**
      * The version number
      */
-    public static final String VERSION = "1.1.1";
+    public static final String VERSION = "1.1.2";
         
     /**
      * The version date.
      */
-    public static final String VERSION_DATE  = "20070422";
+    public static final String VERSION_DATE  = "20070617";
     
     /**
      * The version number with build information
