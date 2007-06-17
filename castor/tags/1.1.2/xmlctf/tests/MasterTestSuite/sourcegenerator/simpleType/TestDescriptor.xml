@@ -1,0 +1,19 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Collection of tests for the definition and use of simpleType definitions</Name>
+    <Author>Werner Guttmann</Author>
+    <Comment>See CASTOR-1839</Comment>
+    <Category>basic capability</Category>
+    <SourceGeneratorTest>
+        <Schema>test.xsd</Schema>
+        <BindingFile>binding.xml</BindingFile>
+        <Root_Object random="false" dump="true">com.test.syncitem.SyncItem</Root_Object>
+        <UnitTestCase>
+			<GenerateImported>true</GenerateImported>
+            <Name>Tests code generation for simple types defined as restrictions of UNIONs</Name>
+            <Input>input.xml</Input>
+            <!--  to avoid XML comparison, as it fails -->
+            <GoldFile/>
+        </UnitTestCase>
+    </SourceGeneratorTest>
+</TestDescriptor>

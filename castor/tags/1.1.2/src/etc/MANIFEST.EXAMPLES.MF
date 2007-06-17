@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Specification-Title: Castor JDO/XML examples
+Specification-Vendor: Intalio Inc.
+Specification-Version: $VERSION$$RELEASE$
+Implementation-Title: Castor JDO/XML examples
+Implementation-Vendor: Intalio Inc.
+Implementation-Version: $VERSION$$RELEASE$
+Class-Path: lib/castor-$VERSION$$RELEASE$.jar lib/commons-logging-1.1.jar lib/log4j-1.2.8.jar lib/xerces-J_1.4.0.jar lib/jta1.0.1.jar lib/cglib-full-2.0.2.jar lib/derby-10.1.2.1.jar
+Main-Class: jdo.Test
+
+Name: org/exolab/castor
+Sealed: false

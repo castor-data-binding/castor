@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.codehaus.org/srcgen-anttask.xml">
+
+  <properties>
+    <title>The Ant Task for the Castor DDL Generator</title>
+    <author email="wguttmn AT codehaus DOT org">Werner Guttmann</author>
+    <abstract>
+       Describes how to use the Ant task for the Castor DDL Generator and
+       what is currently supported.
+    </abstract>
+    <status>Final</status>
+  </properties>
+
+  <body>
+
+    <title>Using the Ant task for the Castor DDL Generator</title>
+
+    <section title="Castor DDL generator Ant task">
+
+      <p>
+        An alternative to using the command line as shown in the previous section,
+        the Castor DDL Generator Ant Task can be used to call the DDL
+        generator for class generation. The only requirement is that the
+        castor-&lt;version&gt;-anttasks.jar must be on the CLASSPATH.
+      </p>
+
+      <section title="Configuration">
+
+        <p>
+          Please find below the complete list of parameters that can be set on the Castor
+          source generator.
+        </p>
+
+        <ctable>
+          <cheader>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+          </cheader>
+          <crow>
+            <td><b>mappingFile</b></td>
+            <td>The name of the Castor JDO mapping file to use as input for DDL generation.</td>
+            <td>Yes</td>
+          </crow>
+          <crow>
+            <td><b>ddlFileName</b></td>
+            <td>The name of the DDL file to be generated.</td>
+            <td>Yes</td>
+          </crow>
+          <crow>
+            <td><b>databaseEngine</b></td>
+            <td>The name of database engine to generate DDL for.</td>
+            <td>Yes</td>
+          </crow>
+          <crow>
+            <td><b>globalProperties</b></td>
+            <td>Name of a custom (global) properties file to be used during DDL generation.</td>
+            <td>No</td>
+          </crow>
+          <crow>
+            <td><b>databaseEngineProperties</b></td>
+            <td>Name of a custom database specific properties file to be used during DDL generation.</td>
+            <td>No</td>
+          </crow>
+        </ctable>
+        
+        <p>
+          Alternatively to specifying the <tt>mappingFile</tt> property, it is possible to work 
+          with a nested &lt;FileSet&gt; element or with the <tt>mappingDir</tt>
+          property.
+        </p>
+
+      </section>
+
+      <section title="Example">
+
+        <p>
+          Below is an example of how to use this task from within an Ant target
+          definition named 'castor:ddl:src':
+        </p>
+
+        <code-panel><![CDATA[
+  <target name="castor:ddl:src" depends="init"
+             description="Generate a DDL script from a JDO mapping file.">
+
+    <taskdef name="castor-ddlgen"
+             classname="org.castor.anttask.CastorDDLGenTask"
+             classpathref="castor.class.path" />
+    <mkdir dir="generated" />
+    <castor-srcgen mappingFile="src/main/resources/mapping.xml"
+                   ddlFileName="target/generated/ddl/mapping.sql"
+                   databaseEngine="mysql"/>
+  </target>]]>
+        </code-panel>
+
+      </section>
+
+    </section>
+
+  </body>
+
+</document>

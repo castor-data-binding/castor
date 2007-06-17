@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+    <class name="ctf.jdo.special.test1158.BaseObject">
+        <cache-type type="unlimited"/>
+        <map-to table="test1158_object"/>
+        <field name="id" type="integer" identity="true">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="description" type="string">
+            <sql name="description" type="varchar"/>
+        </field>
+        <field name="saved" type="boolean">
+          <sql name="saved" type="char[01]"/>
+        </field>
+    </class>
+    
+    <class name="ctf.jdo.special.test1158.ExtendedObject"
+           extends="ctf.jdo.special.test1158.BaseObject">
+        <cache-type type="unlimited"/>
+        <map-to table="test1158_extended"/>
+        <field name="id" type="integer" identity="true">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="description2" type="string">
+            <sql name="description2" type="varchar"/>
+        </field>
+    </class>
+
+    <key-generator name="IDENTITY"/>
+</mapping>

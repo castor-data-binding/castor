@@ -1,0 +1,73 @@
+<?xml version='1.0'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.castor.org/MasterTestSuite/xml/SourceGenerator/References"
+            elementFormDefault="qualified">
+
+    <xsd:element name="TestReference">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="element1" type="complexTest" maxOccurs="1"/>
+                <xsd:element ref="topElement1"/>
+                <xsd:element ref="topElement2"/>
+                <xsd:element ref="topElement3"/>
+                <xsd:element ref="topElement5"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="topElement1">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="topElement2" minOccurs='0'/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="topElement2">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="topElement1" minOccurs='0'/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:complexType name="complexTest">
+        <xsd:sequence>
+            <xsd:element name="element2" type="complexTest" minOccurs="0"/>
+            <xsd:group ref="topGroup1" minOccurs='0'/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:group name="topGroup1">
+        <xsd:sequence>
+            <xsd:element name="element3" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:group>
+
+    <xsd:element name="topElement3">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="element4">
+                    <xsd:complexType mixed="true">
+                        <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                            <xsd:element ref="topElement3" minOccurs='0'/>
+                        </xsd:choice>
+                    </xsd:complexType>
+                </xsd:element>
+             </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="topElement5" type="extendedComplex"/>
+
+    <xsd:complexType name="extendedComplex">
+        <xsd:complexContent>
+            <xsd:extension base = "complexTest">
+                <xsd:sequence>
+                    <xsd:element name = "element6" type = "xsd:string" minOccurs = "0"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+</xsd:schema>

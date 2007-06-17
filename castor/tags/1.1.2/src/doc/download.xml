@@ -1,0 +1,583 @@
+<document url="http://castor.codehaus.org/download.xml">
+
+  <properties>
+    <title>Download instructions &amp; dependencies</title>
+    <author email="werner DOT guttmann AT gmx DOT net">Werner Guttmann</author>
+    <abstract>
+      Outlines how to download Castor JARs, explains dependencies on third-party
+      products.
+    </abstract>
+    <status>Final</status>
+  </properties>
+
+  <body>
+    <title>Download Castor &amp; its 3rd-party products dependencies</title>
+
+    <section title="Releases">
+
+      <p>
+        Please carefully make yourself familiar with the license model of Castor,
+        available <a href="license.html"><b>here</b></a>.
+      </p>
+
+      <section title="Latest Stable Release">
+
+        <section title="Castor">
+          <ul><b>Lastest Released Version: Castor $STABLE_VERSION$ $STABLE_RELEASE$</b><br/>
+            <b>Release date: $STABLE_RELEASE_DATE$</b>
+            <li><a href="release-notes.xml">What changed?</a></li>
+            <li>
+              The Castor JAR (XML, DAX; <b>without</b> code generator and JDO)<br/>
+              <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$.jar</url>
+              <br/>&#xA0;
+            </li>
+            <li>
+              The Castor JAR (XML only, <b>without</b> code generator)<br/>
+              <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-xml.jar</url>
+              <br/>&#xA0;
+            </li>
+            <li>
+              <font color="red"><b>*** NEW ***</b></font> Castor JDO (only)<br/>
+              <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-jdo.jar</url>
+              <br/>&#xA0;
+            </li>
+            <li>
+              <font color="red"><b>*** NEW ***</b></font> Castor XML code generator<br/>
+              <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-codegen.jar</url>
+              <br/>&#xA0;
+            </li>
+            <li>
+              <font color="red"><b>*** NEW ***</b></font> Ant task definition for Castor XML code generator<br/>
+              <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-anttasks.jar</url>
+              <br/>&#xA0;
+            </li>
+            <li>
+              <font color="red"><b>*** NEW ***</b></font> DDL generator<br/>
+              <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-ddlgen.jar</url>
+              <br/>&#xA0;
+            </li>
+          </ul>
+
+          <p>
+            <font color="red"><b>*** Note ***</b></font>: Please note that the
+            Castor XML JAR no longer includes the code for Castor JDO, the DDL
+            generator or XML code generator (and of course still do not include
+            the code for the Ant task for the XML code generator.) In other
+            words, if you want to use Castor JDO, the Castor XML Schema code 
+            generator or the DDL generator, you will need to download JARs in 
+            addition to the JARs you downloaded previously.
+          </p>
+          
+        </section>
+
+        <section title="Download sets">
+        
+          <p><font color="red"><b>Note:</b></font> Please note that as part of the 
+             1.1 release, the new JARs for the XML code generator, its Ant task and 
+             the DDL generator have <font color="red"><b>not</b></font> been included as 
+             part of download sets enlisted below. This will be fixed with 
+             Castor 1.1.1. For the time being, please download these files 
+             as required from the links provided above.</p>
+
+          <ul>
+            <li>
+              The Castor JARs, docs, DTDs, command line tools, and examples<br/>
+              <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$.tgz</url><br/>
+              <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$.zip</url>
+              <br/>&#xA0;
+            </li>
+            <li>
+              Full documentation including all JavaDocs and specs (big)<br/>
+              <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-doc.tgz</url><br/>
+              <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-doc.zip</url>
+              <br/>&#xA0;
+            </li>
+            <li>
+              Full SVN snapshot: All sources, docs, and 3rd party libraries (big)<br/>
+              <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-src.tgz</url><br/>
+              <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-src.zip</url>
+              <br/>&#xA0;
+            </li>
+          </ul>
+
+        </section>
+
+        <section title="Samples">
+          <ul>
+            <li>
+              Self-executing JDO examples using Apache Derby (big)<br/>
+              <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-examples.zip</url>
+              <br/>&#xA0;
+            </li>
+            <li>
+              Castor examples -- sources (incl. XML, JDO, source generator)<br/>
+              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-examples-sources.jar</url>
+              <br/>&#xA0;
+            </li>
+          </ul>
+        </section>
+        
+        <section title="Commons">
+          <ul>
+            <li>
+              The Castor Commons JAR<br/>
+              <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-commons.jar</url>
+              <br/>&#xA0;<br/>
+              As of release 0.9.9.1, a new JAR file with the suffix '-commons' has
+              been introduced, holding classes that can be used independently of
+              Castor XML and Castor JDO. With the 0.9.9.1 release it only contains
+              the Base64Decoder, Base64Encoder, IdentityMap and IdentitySet classes.
+              More (e.g. Castor's cache) will follow with future releases. Since
+              these classes are also required for Castor XML and/or Castor JDO,
+              they are included in the other JARs (XML, JDO) that require them.
+              Therefore, you don't need to change your class path if it includes
+              one of the other Castor JARs (XML, JDO). The only intention of the
+              commons package is to provide you with a small JAR containing classes
+              that are commonly needed by applications even if they do not need
+              Castor's XML and/or JDO part.
+            </li>
+          </ul>
+        </section>
+
+<!--
+        <ul>
+          <li>
+            Castor examples - sources (incl. xml, JDO, source generator)<br/>
+            <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-examples-sources.jar</url>
+            <br/>&#xA0;
+          </li>
+          <li>
+            Castor sample webapp<br/>
+            <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-example-webapp.war</url>
+            <br/>&#xA0;
+          </li>
+        </ul>
+-->
+
+         <p>
+           <small>The tarball and zips include all the JARs required by Castor,
+           the docs, and the API JavaDocs. To fully install Castor, simply
+           extract all the JARs into your classpath.</small>
+         </p>
+
+         <p>
+           <small>The SVN snapshot includes additional JARs required to build
+           Castor. It is self-sufficient and does not require any external
+           components other than javac.</small>
+         </p>
+
+         <p>
+           <small>The documentation set includes JavaDocs for the full source
+           code, documenting class usage. A small documentation set without the
+           full source JavaDocs is available in the tarball and zips.</small>
+         </p>
+
+         <p>
+           <small>All of the JARs included with Castor (used for building
+           Castor) are available for distribution free of charge, subject to
+           the respective license agreements.</small>
+         </p>
+
+         <p>
+           <small>All implementation JARs (i.e. not APIs) are available under
+           an open source license and available from our FTP server.  Open
+           source licenses in use include Apache (ASF), Exolab, Mozilla (MPL),
+           and public domain. All licenses are fully compatible with each
+           other.</small>
+         </p>
+
+         <p>
+           <small>The example JAR includes fully functional samples that
+           demonstrate the use of various features of Castor -- including
+           marshaling and unmarshaling to and from XML, data persistence using
+           JDO, and source code generation from an XML Schema instance.</small>
+         </p>
+
+         <p>
+           <small>The example web application (in form of a WAR archive)
+           includes fully functional samples that demonstrate the use of Castor
+           from within a standard J2EE web application. The WAR file can be
+           deployed to any J2EE compliant web application container (including,
+           amongst others, Tomcat, WebSphere, JBoss, and Weblogic) using the
+           standard deployment method of your web application server.</small>
+         </p>
+
+      </section>
+
+      <section title="Latest Milestone Release">
+
+          <ul>
+            <b>Lastest Milestone Version: Castor $VERSION$ $RELEASE$</b><br/>
+            <b>Release date: $RELEASE_DATE$</b>
+
+            <li><a href="release-notes.xml">What changed?</a></li>
+          </ul>
+
+        <section title="Binaries">
+
+          <ul>
+            <li>
+              The Castor JAR (XML, DAX; <b>without</b> XML code generator and JDO)<br/>
+              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$.jar</url>
+              <br/>&#xA0;
+            </li>
+            <li>
+              The Castor JAR (XML only, <b>without</b> code generator and JDO)<br/>
+              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-xml.jar</url>
+              <br/>&#xA0;
+            </li>
+            <li>
+              <font color="red"><b>*** NEW ***</b></font> Castor JDO (only)<br/>
+              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-codegen.jar</url>
+              <br/>&#xA0;
+            </li>
+            <li>
+              <font color="red"><b>*** NEW ***</b></font> Castor XML code generator<br/>
+              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-codegen.jar</url>
+              <br/>&#xA0;
+            </li>
+            <li>
+              <font color="red"><b>*** NEW ***</b></font> Ant task definition for Castor XML code generator<br/>
+              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-anttasks.jar</url>
+              <br/>&#xA0;
+            </li>
+            <li>
+              <font color="red"><b>*** NEW ***</b></font> DDL generator<br/>
+              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-ddlgen.jar</url>
+              <br/>&#xA0;
+            </li>
+          </ul>
+
+          <p>
+            <font color="red"><b>*** Note ***</b></font>: Please note that the
+            Castor XML JAR no longer includes the code for Castor JDO, the DDL
+            generator or XML code generator (and of course still do not include
+            the code for the Ant task for the XML code generator.) In other
+            words, if you want to use the Castor JDO, the XML Schema code generator or
+            the DDL generator, you will need to download JARs in addition to
+            the JARs you downloaded previously.
+          </p>
+
+        </section>
+
+        <section title="Download sets">
+
+          <ul>
+            <li>
+              The Castor JARs, docs, DTDs, command line tools, and examples<br/>
+              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$.tgz</url><br/>
+              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$.zip</url>
+              <br/>&#xA0;
+            </li>
+            <li>
+              Full documentation including all JavaDocs and specs (big)<br/>
+              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-doc.tgz</url><br/>
+              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-doc.zip</url>
+              <br/>&#xA0;
+            </li>
+            <li>
+              Full SVN snapshot: All sources, docs, and 3rd party libraries (big)<br/>
+              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-src.tgz</url><br/>
+              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-src.zip</url>
+              <br/>&#xA0;
+            </li>
+          </ul>
+
+        </section>
+
+        <section title="Samples">
+          <ul>
+            <li>
+              Self-executing JDO examples using Apache Derby (big)<br/>
+              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-examples.zip</url>
+              <br/>&#xA0;
+            </li>
+            <li>
+              Castor examples -- sources (incl. XML, JDO, source generator)<br/>
+              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-examples-sources.jar</url>
+              <br/>&#xA0;
+            </li>
+          </ul>
+        </section>
+
+        <section title="Castor XML Spring factory beans">
+
+          <ul>
+            <li>
+              Spring factory beans for Castor XML<br/>
+              <url>http://snapshots.repository.codehaus.org/org/codehaus/castor/spring-xml/$SPRING-XML-SNAPSHOT$-SNAPSHOT/</url>
+              <br/>&#xA0;
+            </li>
+          </ul>
+
+          <p>
+            The JARs in this directory carry a timestamp in their name. Please make sure
+            that you always use the <b>latest</b> JAR file, unless you require a specific
+            version.
+          </p>
+
+          <p>
+            For those of you working with <a href="http://maven.apache.org">Maven 2</a>, please add
+            the following dependency to your POM to include the <i>Spring factory beans for
+            Castor XML</i> with your project:
+          </p>
+
+          <source><![CDATA[
+<dependency>
+   <groupId>org.codehaus.castor</groupId>
+   <artifactId>spring-xml</artifactId>
+   <version>0.8-SNAPSHOT</version>
+</dependency>]]></source>
+
+          <p>
+            As we currently provide snapshot releases only for the factory beans, you will
+            have to add the following <tt>&lt;repository&gt;</tt> element to your POM as well,
+            so that Maven 2 knows about the <i>Codehaus Snapshot repository</i> when trying
+            to resolve and download dependencies.
+          </p>
+
+          <source><![CDATA[
+<repository>
+    <id>codehaus-snapshots</id>
+    <name>Maven Codehaus Snapshots</name>
+    <url>http://snapshots.maven.codehaus.org/maven2/</url>
+</repository>]]></source>
+
+<!--
+<repository>
+    <id>codehaus-snashots</id>
+    <name>Maven Codehaus Snapshots</name>
+    <url>http://snapshots.maven.codehaus.org/maven2/</url>
+</repository>
+-->
+        </section>
+
+        <section title="Spring ORM for Castor JDO">
+
+          <ul>
+            <li>
+              Spring ORM implementation for Castor JDO<br/>
+              <url>http://snapshots.repository.codehaus.org/org/codehaus/castor/spring-orm/$SPRING-JDO-SNAPSHOT$-SNAPSHOT/</url>
+              <br/>&#xA0;
+            </li>
+          </ul>
+
+          <p>
+            The JARs in this directory carry a timestamp in their name. Please make sure
+            that you always use the <b>latest</b> JAR file, unless you require a specific
+            version.
+          </p>
+
+          <p>
+            For those of you working with <a href="http://maven.apache.org">Maven 2</a>, please add
+            the following dependency to your POM to include the <i>Spring ORM package for
+            Castor JDO</i> with your project:
+          </p>
+
+          <source><![CDATA[
+<dependency>
+   <groupId>org.codehaus.castor</groupId>
+   <artifactId>spring-orm</artifactId>
+   <version>RC2-SNAPSHOT</version>
+</dependency>]]></source>
+
+          <p>
+            As we currently provide snapshot releases only for the factory beans, you will
+            have to add the following <tt>&lt;repository&gt;</tt> element to your POM as well,
+            so that Maven 2 knows about the <i>Codehaus Snapshot repository</i> when trying
+            to resolve and download dependencies.
+          </p>
+
+          <source><![CDATA[
+<repository>
+    <id>codehaus-snapshots</id>
+    <name>Maven Codehaus Snapshots</name>
+    <url>http://snapshots.maven.codehaus.org/maven2/</url>
+</repository>]]></source>
+
+        </section>
+
+        <section title="Commons">
+
+          <ul>
+
+            <li>
+              The Castor Commons JAR<br/>
+              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-commons.jar</url>
+              <br/>&#xA0;<br/>
+              As of release 0.9.9.1, a new JAR file with the suffix '-commons' has
+              been introduced, holding classes that can be used independently of
+              Castor XML and Castor JDO. With the 0.9.9.1 release it only contains
+              the Base64Decoder, Base64Encoder, IdentityMap and IdentitySet classes.
+              More (e.g. Castor's cache) will follow with future releases. Since
+              these classes are also required for Castor XML and/or Castor JDO,
+              they are included in the other JARs (XML, JDO) that require them.
+              Therefore, you don't need to change your class path if it includes
+              one of the other Castor JARs (XML, JDO). The only intention of the
+              commons package is to provide you with a small JAR containing classes
+              that are commonly needed by applications even if they do not need
+              Castor's XML and/or JDO part.
+            </li>
+
+          </ul>
+
+        </section>
+
+<!--
+        <ul>
+          <li>
+            Castor sample webapp<br/>
+            <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-example-webapp.war</url>
+            <br/>&#xA0;
+          </li>
+        </ul>
+-->
+
+<!--
+        <ctable>
+          <crow>
+            <td><url title="The Castor Commons JAR">http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-commons.jar</url></td>
+          </crow>
+          <crow>
+            <td><url title="The Castor JAR (XML, JDO, DAX)">http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$.jar</url></td>
+          </crow>
+          <crow>
+            <td><url title="The Castor JAR (XML only)">http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-xml.jar</url></td>
+          </crow>
+        </ctable>
+-->
+      </section>
+
+      <section title="Past Releases">
+         <p>You may be able to find some past releases on the HTTP Server:</p>
+         <p><url>http://dist.codehaus.org/castor/</url></p>
+      </section>
+
+    </section>
+
+    <section title="SVN Snapshots">
+
+      <p>
+        To obtain the latest SVN version, please use a SVN-enabled client to
+        access our SVN server. Instructions for doing so can be found
+        <a href="scm.xml">here</a>.
+      </p>
+
+      <p>
+        For those of you behind a firewall with the SVN port non-accessible, please
+        download Castor from the SVN server using the HTTP interface at
+        <url>http://cvs.castor.codehaus.org/viewrep/castor/castor/trunk</url> as provided by FishEye (tm):
+      </p>
+
+      <ul>
+        <li><a href="http://svn.castor.codehaus.org/browse/~tarball=zip/castor/castor/trunk/trunk.zip">zip</a></li>
+        <li><a href="http://cvs.castor.codehaus.org/viewrep/~tarball=zip/castor/castor/trunk/trunk.tgz">tgz</a></li>
+        <li><a href="http://cvs.castor.codehaus.org/viewrep/~tarball=zip/castor/castor/trunk/trunk.tbz2">tbz2</a></li>
+      </ul>
+
+    </section>
+
+    <section title="Dependent Libraries">
+
+      <p>
+        JARs required to build Castor and dependencies for various packages are
+        contained in the <tt>lib</tt> directory. JARs required for distribution
+        are marked with <b>bold text</b>, although many of these JARs are
+        required only if the feature obviously associated with that JAR is
+        used.
+      </p>
+
+      <ctable cellpadding="4" border="1">
+        <crow><td>ant-1.6.jar</td><td>The Ant build tool</td></crow>
+        <crow><td>ant-1.6-launcher.jar</td><td>The Ant launcher tool</td></crow>
+        <crow><td><b>cglib-full-2.0.2.jar</b></td><td>CGLIB (Castor JDO only)</td></crow>
+        <crow><td><b>commons-logging-1.1.jar</b></td><td>Jakarta Commons Loggin</td></crow>
+        <crow><td><b>jdbc-se2.0.jar</b></td><td>JDBC 2.0 standard extension (JDO)</td></crow>
+        <crow><td><b>jndi_1.2.1.jar</b></td><td>The JNDI API (DSML/JNDI)</td></crow>
+        <crow><td><b>jta1.0.1.jar</b></td><td>The JTA API (transactions) (Castor JDO only)</td></crow>
+        <crow><td>jtf-0.1.jar</td><td>The Java Testing Framework</td></crow>
+        <crow><td>junit_3.8.2.jar</td><td>JUnit testing framework (for CTF suites)</td></crow>
+        <crow><td><b>ldapjdk_4.1.jar</b></td><td>Mozilla Directory SDK (DSML/MDS)</td></crow>
+        <crow><td>ldapsp.jar</td><td>JNDI LDAP service provider from Mozilla</td></crow>
+        <crow><td><b>log4j-1.2.13.jar</b></td><td>Log4J</td></crow>
+        <crow><td>servlet.jar</td><td>Used by the Servlet examples</td></crow>
+        <crow><td><b>xerces-J_1.4.0.jar</b></td><td>Xerces XML library</td></crow>
+        <crow><td>adaptx-0.9.13.jar</td><td>XSL(T) processor, used for building documentation</td></crow>
+        <crow><td>derby-10.1.2.1.jar</td><td>Apache Derby JDBC driver (used in default example)</td></crow>
+      </ctable>
+
+      <p>and optionally</p>
+
+      <ctable cellpadding="4" border="1">
+        <crow><td>jakarta-oro-2.0.5.jar</td><td>Support for regular expressions</td></crow>
+        <crow><td>jakarta-regexp-1.1.jar</td><td>Support for regular expressions</td></crow>
+      </ctable>
+
+      <p>
+        The last two JAR files are required when using patterns with XML Schema type
+        definitions.
+      </p>
+
+      <section title="Castor XML">
+        <p>
+          Castor XML is dependent on the latest release of Xerces available from
+          the library directory and <a href="http://xml.apache.org/xerces">Apache Xerces</a>.
+          Another XML parser may be used instead of Xerces, however, Xerces is required to
+          provide the XML serializer package for XML document production.
+        </p>
+      </section>
+
+      <section title="Castor JDO">
+
+        <p>
+          Castor JDO uses Castor XML for processing the XML mapping file and thus
+          has the same dependency on Xerces as explained above.
+        </p>
+
+        <p>
+          In addition, applications that rely on Java 1.3 and earlier that use
+          Castor JDO must include <tt>jdbc-se2.0.jar</tt> or any alternative
+          JAR that includes the <tt>javax.sql.DataSource</tt> interface.
+        </p>
+
+        <p>
+          The JDO examples use <a href="http://db.apache.org/derby">Apache Derby</a> and
+          depend on the JDBC driver provided with the examples archive. This driver is only
+          required for running the samples and is not required otherwise, especially if you
+          use a different database server.
+        </p>
+
+      </section>
+
+      <section title="Castor DSML">
+
+        <p>
+          Castor DSML is dependent on the latest release of Xerces available from
+          the library directory and XML Apache. Other XML parser may be used
+          instead of Xerces, however, Xerces is required to provide the XML
+          serializer package for XML document production.
+        </p>
+
+        <p>
+          Castor DSML has two implementations, one that uses JNDI and one that
+          uses the Mozilla Directory SDK. Applications that use the JNDI package
+          (<tt>org.exolab.castor.dsml.jndi</tt>) are required to include <tt>jndi.jar</tt>
+          or any alternative JAR that includes the JNDI 1.2 API. Applications that use
+          the Mozilla Directory SDK (<tt>org.exolab.castor.dsml.mozilla</tt>) are required
+          to include <tt>ldapjdk.jar</tt> or any alternative JAR that includes version 4.0
+          of the Mozilla Directory SDK.
+        </p>
+
+        <p>
+          We recommend using the Mozilla Directory SDK as the JNDI LDAP service
+          provider and have had positive experiences using it with OpenLDAP. The JNDI
+          LDAP service provider is included in the <tt>ldapsp.jar</tt>.
+        </p>
+
+      </section>
+
+    </section>
+
+  </body>
+
+</document>

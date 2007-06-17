@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.castor.org/Test"
+            xmlns:cst="http://www.castor.org/Test"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+   <!-- Test for attribute declaration(s) with default value -->
+
+
+   <!-- Attribute declaration with default value -->
+   <xsd:attribute name="year" default="2002" type="xsd:integer"/>
+
+   <!-- Attribute declaration with default value -->
+   <xsd:attribute name="color" default="red" type="xsd:string"/>
+
+
+</xsd:schema>
