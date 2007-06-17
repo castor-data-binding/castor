@@ -21,6 +21,23 @@
 -->
 
         <item>
+            <title>1.1.2 final release available</title>
+            <pubDate>Sun, 17 Jun 2007 22:33:44 +0100</pubDate>
+            <author>Werner Guttmann</author>
+            <link>http://castor.codehaus.org/news.html#item59</link>
+            <guid>http://castor.codehaus.org/news.html#item59</guid>
+            <description><![CDATA[
+                <p>
+                  Castor 1.1.2 has been made available at http://dist.codehaus.org/castor/1.1.2/
+                </p>
+                <p>
+                  For details about the features added and the bugs fixed,
+                  please have a look at the release notes at
+                  http://castor.codehaus.org/release-notes.html
+                </p>
+            ]]></description>
+        </item>
+        <item>
             <title>1.1.1 final release available</title>
             <pubDate>Sun, 22 Apr 2007 10:11:12 +0100</pubDate>
             <author>Werner Guttmann</author>
