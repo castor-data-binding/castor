@@ -28,11 +28,51 @@
 
 -->
 
+<!-- 
         <release version="SVN">
             <description>New and on-going development</description>
             <date>tbd</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
+            </summary>
+            <bugs>
+            </bugs>
+        </release>
+ -->        
+
+        <release version="1.1.2">
+            <description>Maintenance release for Castor 1.1</description>
+            <date>June 17, 2007</date>
+            <managed-by>Werner Guttmann</managed-by>
+            <summary>
+                <h2>Additions</h2>
+
+                <h3>Added support for (un-)marshalling Java 5 enums</h3>
+                
+                <p>Castor XML now supports Java 5 enums in all cases where
+                   either a mapping file is used or it is relied upon
+                   default introspection.</p>
+
+                <h2>Changes</h2>
+
+                <h3>Binary JARs restructured</h3>
+
+                <p>As part of this release, we have again moved several
+                   areas of functionality to separate deployment units, resulting
+                   into additional JARs available for download:</p>
+
+                <ul>
+                    <li><a href="http://dist.codehaus.org/castor/1.1.2/castor-1.1.2-jdo.jar">Castor JDO</a></li>
+                </ul>
+
+                <p>Please note that the Castor JAR does <b>not</b>
+                   include this component anymore. In other words, if you
+                   want to use Castor JDO as a persistence framework,
+                   you will have to download both the Castor XML and Castor JDO 
+                   JARs, as Castor JDO internally uses Castor XML. For details, 
+                   please have a look at the 
+                   <a href="download.html">download instructions</a>.</p>
+
             </summary>
             <bugs>
                 <bug id="1926" tool="jira">
