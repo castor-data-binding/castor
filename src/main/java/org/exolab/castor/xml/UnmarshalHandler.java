@@ -875,7 +875,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 ValidationException last = null;
                 
                 //-- check unresolved references
-                if (_resolveTable != null) {
+                if (_resolveTable != null && !_config.getLenientIdValidation()) {
                     Enumeration enumeration = _resolveTable.keys();
                     while (enumeration.hasMoreElements()) {
                         Object ref = enumeration.nextElement();

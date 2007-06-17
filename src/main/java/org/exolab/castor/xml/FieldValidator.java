@@ -193,6 +193,13 @@ public class FieldValidator extends Validator {
             if (!_descriptor.isRequired() || _descriptor.isNillable()) {
                 return;
             }
+            // deal with lenient id/idref validation accordingly, skipping exception handling
+            // in this case
+            if (_descriptor.isRequired() 
+                    && _descriptor.getSchemaType().equals("IDREF") 
+                    && context.getConfiguration().getLenientIdValidation()) {
+                return;
+            }
             StringBuffer buff = new StringBuffer();
             buff.append("The field '" + _descriptor.getFieldName() + "' ");
             if (!ERROR_NAME.equals(_descriptor.getXMLName())) {

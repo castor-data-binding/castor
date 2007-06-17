@@ -35,6 +35,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1926" tool="jira">
+                    <description>
+                        Extended code that depends on id/href leniency.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070617</date>
+                </bug>
                 <bug id="2007" tool="jira">
                     <description>
                         SVN moved JDO files from src/bugs and src/tests to cpactf/src/test.
