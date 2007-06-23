@@ -35,6 +35,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2023" tool="jira">
+                    <description>
+                        Fixed problem with duplicate IDs in id/idhref leniency mode.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Carlo Romero</name>
+                        <email>carlo.romero@gs.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070623</date>
+                </bug>
             </bugs>
         </release>
 
