@@ -209,7 +209,7 @@ public class ValidationContext {
         if (!_ids.contains(id)) {
             _ids.add(id);
             _unresolvedIdrefs.remove(id);
-        } else {
+        } else if (!_config.getLenientIdValidation()){
             throw new ValidationException ("ID " + id + " is already used within current document.");
         }
     }
