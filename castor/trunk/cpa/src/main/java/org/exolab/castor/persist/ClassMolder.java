@@ -875,12 +875,6 @@ public class ClassMolder {
         long objectTimestamp = _timeStampable ? ((TimeStampable) object)
                 .jdoGetTimeStamp() : 1;
 
-        /*
-        _log.debug ( "++++++++++++++++++ locker: " + locker.toString() );
-        _log.debug ( "++++++++++++++++++ lockTimestamp: " + lockTimestamp );
-        _log.debug ( "++++++++++++++++++ objectTimestamp: " + objectTimestamp );
-        */
-
         if ( objectTimestamp > 0 && oid.getIdentity() != null ) {
             // valid range of timestamp
             

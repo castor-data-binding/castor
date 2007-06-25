@@ -686,8 +686,7 @@ public class Unmarshaller {
             reader = _config.getXMLReader();
             if (entityResolver != null)
                 reader.setEntityResolver(entityResolver);
-        }
-        catch(RuntimeException rx) {
+        } catch(RuntimeException rx) {
         	LOG.debug("Unable to create SAX XMLReader, attempting SAX Parser.");
         }
         
@@ -802,8 +801,8 @@ public class Unmarshaller {
         
         // TODO: Should this be at level INFO?
         if (LOG.isDebugEnabled()) {
-            LOG.debug("*static* unmarshal method called, this will ignore any " +
-            		"mapping files or changes made to an Unmarshaller instance.");
+            LOG.debug("*static* unmarshal method called, this will ignore any "
+                    + "mapping files or changes made to an Unmarshaller instance.");
         }
         
         //-- for backward compatibility with Castor versions
@@ -835,8 +834,8 @@ public class Unmarshaller {
         
         // TODO: Should this be at level INFO?
         if (LOG.isDebugEnabled()) {
-            LOG.debug("*static* unmarshal method called, this will ignore any " +
-            		"mapping files or changes made to an Unmarshaller instance.");
+            LOG.debug("*static* unmarshal method called, this will ignore any "
+                    + "mapping files or changes made to an Unmarshaller instance.");
         }
         
         //-- for backward compatibility with Castor versions
@@ -867,8 +866,8 @@ public class Unmarshaller {
         
         // TODO: Should this be at level INFO?
         if (LOG.isDebugEnabled()) {
-            LOG.debug("*static* unmarshal method called, this will ignore any " +
-            		"mapping files or changes made to an Unmarshaller instance.");
+            LOG.debug("*static* unmarshal method called, this will ignore any "
+                    + "mapping files or changes made to an Unmarshaller instance.");
         }
         
         //-- for backward compatibility with Castor versions

@@ -56,33 +56,41 @@ public final class SQLHelper {
         
         JDOClassDescriptor potentialClassDescriptor = null;
         JDOClassDescriptor potentialClassDescriptorPrevious = null;
-        int initialColumnIndex = numberOfFields + numberOfIdentityColumns * numberOfExtendLevels + 1;
+        int initialColumnIndex =
+            numberOfFields + numberOfIdentityColumns * numberOfExtendLevels + 1;
         int columnIndex = initialColumnIndex;
         int numberOfExtendingClassDescriptors = 0;
         for (Iterator iter = potentialActualClassDescriptor.iterator(); iter.hasNext(); ) {
             potentialClassDescriptor = (JDOClassDescriptor) iter.next();
             numberOfExtendingClassDescriptors += 1;
-            LOG.debug ("Potential extending class descriptor: " + potentialClassDescriptor.getJavaClass().getName());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug ("Potential extending class descriptor: "
+                        + potentialClassDescriptor.getJavaClass().getName());
+            }
             FieldDescriptor[] identityDescriptors = potentialClassDescriptor.getIdentities();
             boolean isNull = true;
             
             for (int i = 0; i < identityDescriptors.length; i++) {
                 Object temp;
                 JDOFieldDescriptor jdoFieldDescriptor = (JDOFieldDescriptor) identityDescriptors[i];
-                if (jdoFieldDescriptor.getSQLName().length == 1 ) {
-                    temp = SQLTypeInfos.getValue( rs, columnIndex++, java.sql.Types.JAVA_OBJECT);
+                if (jdoFieldDescriptor.getSQLName().length == 1) {
+                    temp = SQLTypeInfos.getValue(rs, columnIndex++, java.sql.Types.JAVA_OBJECT);
                 } else {
                     Object[] temps = new Object[jdoFieldDescriptor.getSQLName().length];
-                    for ( int j=0; j<jdoFieldDescriptor.getSQLName().length; j++ ) {
-                        temps[j] = SQLTypeInfos.getValue( rs, columnIndex++, java.sql.Types.JAVA_OBJECT);
+                    for (int j = 0; j < jdoFieldDescriptor.getSQLName().length; j++) {
+                        temps[j] = SQLTypeInfos.getValue(
+                                rs, columnIndex++, java.sql.Types.JAVA_OBJECT);
                     }
                     temp = new Identity(temps);
                 }
                 
-                LOG.debug ("Obtained value " + temp + " for additional (extending) identity " + 
-                        potentialClassDescriptor.getJavaClass().getName() + "/" + 
-                        identityDescriptors[i].getFieldName() + " at position " + 
-                        columnIndex);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Obtained value " + temp + " for additional (extending) identity "
+                            + potentialClassDescriptor.getJavaClass().getName() + "/"
+                            + identityDescriptors[i].getFieldName() + " at position "
+                            + columnIndex);
+                }
+                
                 isNull = (temp == null);
                 if (!isNull) {
                     numberOfIdentitiesToAnalyze += 1;
@@ -94,7 +102,7 @@ public final class SQLHelper {
             if (!iter.hasNext() && !isNull && numberOfIdentitiesToAnalyze > 0) {
                 potentialLeafDescriptor = potentialClassDescriptor;
                 suggestedNumberOfFields += potentialClassDescriptor.getFields().length;
-            } else if (!iter.hasNext() && isNull && numberOfIdentitiesToAnalyze > 0){
+            } else if (!iter.hasNext() && isNull && numberOfIdentitiesToAnalyze > 0) {
                 potentialLeafDescriptor = potentialClassDescriptorPrevious; 
                 // suggestedNumberOfFields += potentialClassDescriptor.getFields().length;
             } else {
@@ -108,19 +116,24 @@ public final class SQLHelper {
                     }
                 }
                 
-                // the JDOClassDescriptor we just looked at is definitely part of the extends hierarchy,
-                // and as such we need to increase the number of potential fields
+                // the JDOClassDescriptor we just looked at is definitely part of the extends
+                // hierarchy, and as such we need to increase the number of potential fields
                 if (!isNull) {
                     suggestedNumberOfFields += potentialClassDescriptor.getFields().length;
                 }
             }
         }
         
-        LOG.debug ("In total " + numberOfIdentitiesToAnalyze + " (extending) identities analyzed.");
-        
-        if ((potentialLeafDescriptor != null) && LOG.isDebugEnabled()) {
-            LOG.debug ("Most likely of type " + potentialLeafDescriptor.getJavaClass().getName());
-            LOG.debug ("After analysis, " + suggestedNumberOfFields + " fields need to be loaded.");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("In total " + numberOfIdentitiesToAnalyze
+                    + " (extending) identities analyzed.");
+            
+            if (potentialLeafDescriptor != null) {
+                LOG.debug("Most likely of type "
+                        + potentialLeafDescriptor.getJavaClass().getName());
+                LOG.debug("After analysis, " + suggestedNumberOfFields
+                        + " fields need to be loaded.");
+            }
         }
         
         return new Object[] {potentialLeafDescriptor, new Integer (suggestedNumberOfFields) };
