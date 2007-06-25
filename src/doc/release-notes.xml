@@ -35,6 +35,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2013" tool="jira">
+                    <description>
+                        Fixed wasting of processing time on string concatenation in log statements.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>All</module>
+                    <date>20070625</date>
+                </bug>
                 <bug id="2023" tool="jira">
                     <description>
                         Fixed problem with duplicate IDs in id/idhref leniency mode.

@@ -81,7 +81,7 @@ public final class DatabaseRegistry {
     }
 
     /**
-     * Instantiates a ConnectionFactory from the JDO configuration file
+     * Instantiates a ConnectionFactory from the JDO configuration file.
      * 
      * @param  source   {@link InputSource} pointing to the JDO configuration. 
      * @param  resolver An entity resolver.

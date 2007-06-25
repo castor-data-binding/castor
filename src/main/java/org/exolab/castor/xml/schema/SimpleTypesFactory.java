@@ -406,14 +406,11 @@ public class SimpleTypesFactory {
      * Loads the built in type definitions from their xml file and its mapping file
      * into the static fields typesByName and typeByCode. Loading is done only once.
      */
-    private synchronized void loadTypesDefinitions()
-    {
+    private synchronized void loadTypesDefinitions() {
         if ( (_typesByName == null) && (_typesByCode == null) ) {
-
             InputStream is = null;
 
-	        try
-             {  //Load the mapping file
+	        try {  //Load the mapping file
 		        Mapping mapping= new Mapping(getClass().getClassLoader());
 
 		        is = this.getClass().getResourceAsStream(TYPE_MAPPINGS);
@@ -430,8 +427,9 @@ public class SimpleTypesFactory {
 
                 //print what we just read (only in debug mode and if we have a logWriter)
                 LocalConfiguration config = LocalConfiguration.getInstance();
-		        if (config.debug() && getLogWriter()!= null)
-                  typeList.Print(getLogWriter());
+		        if (config.debug() && getLogWriter()!= null) {
+                    typeList.Print(getLogWriter());
+                }
 
                 //Store the types by name in the typesByName and typesByCode hashtables
                 //and create for each its associated SimpleType instance.

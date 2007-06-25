@@ -722,9 +722,7 @@ public class Marshaller extends MarshalFramework {
         if (object == null)
             throw new MarshalException("object must not be null");
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("- Marshaller called using *static* marshal(Object, Writer)");
-        }
+        LOG.debug("- Marshaller called using *static* marshal(Object, Writer)");
 
         Marshaller marshaller;
         try {
@@ -749,9 +747,7 @@ public class Marshaller extends MarshalFramework {
         if (object == null)
             throw new MarshalException("object must not be null");
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("- Marshaller called using *static* marshal(Object, DocumentHandler)");
-        }
+        LOG.debug("- Marshaller called using *static* marshal(Object, DocumentHandler)");
 
         Marshaller marshaller;
         marshaller = new Marshaller(handler);
@@ -772,9 +768,7 @@ public class Marshaller extends MarshalFramework {
         if (object == null)
             throw new MarshalException("object must not be null");
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("- Marshaller called using *static* marshal(Object, ContentHandler)");
-        }
+        LOG.debug("- Marshaller called using *static* marshal(Object, ContentHandler)");
 
         Marshaller marshaller;
         marshaller = new Marshaller(handler);
@@ -795,9 +789,7 @@ public class Marshaller extends MarshalFramework {
         if (object == null)
             throw new MarshalException("object must not be null");
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("- Marshaller called using *static* marshal(Object, Node)");
-        }
+        LOG.debug("- Marshaller called using *static* marshal(Object, Node)");
 
         Marshaller marshaller;
         marshaller = new Marshaller(node);

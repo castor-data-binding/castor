@@ -242,7 +242,9 @@ public class JClassRegistry {
         // register JClass instance for XPATH
         _xpathToJClass.put(xPath, jClass);
 
-        LOG.debug("Binding JClass[" + jClass.getName() + "] for XML schema structure " + xPath);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Binding JClass[" + jClass.getName() + "] for XML schema structure " + xPath);
+        }
 
         // global elements don't need to change
         final boolean isGlobalElement = _globalElements.contains(untypedXPath);

@@ -2628,9 +2628,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                         if (isValidating()) {
                             throw new SAXException(err);
                         }
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug(err);
-                        }
+                        LOG.debug(err);
                     }
                 }
             }
@@ -2716,9 +2714,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 //-- It should be safe to ignore these...but
                 //-- if you think otherwise...let use know!
                 if (LOG.isDebugEnabled()) {
-                    String msg = "ignoring attribute '" + name +
-                        "' for class: " +
-                            state.classDesc.getJavaClass().getName();
+                    String msg = "ignoring attribute '" + name + "' for class: "
+                               + state.classDesc.getJavaClass().getName();
                     LOG.debug(msg);
                 }
                 continue;
