@@ -98,8 +98,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 							<value>castor.mysql</value>
 						</property>
 					</systemProperties>
-					-->mvn test
-					
+					-->					
 				</configuration>
 			</plugin>
 		</plugins>
