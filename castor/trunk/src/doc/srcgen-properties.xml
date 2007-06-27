@@ -87,6 +87,15 @@
             <td><tt>false</tt></td>
             <td><font color="red">1.1.1</font></td>
           </crow>
+          <crow>
+            <td><a href="#Extra-collection-methods">org.exolab.castor.builder.extraCollectionMethods</a></td>
+            <td>Specifies whether <b>extra</b> (additional) methods should be created for  
+                collection-style fields. Set this to true if you want your code to be
+                more compatible with Castor JDO or other persistence frameworks.</td>
+            <td><tt>true</tt>/<tt>false</tt></td>
+            <td><tt>false</tt></td>
+            <td>0.9.1</td>
+          </crow>
         </ctable>
 
     </section>
@@ -321,6 +330,18 @@ org.exolab.castor.builder.superclass=com.xyz.BaseObject</code-panel>
 #
 org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
+     </section>
+     
+     <section title="Extra collection methods">
+     
+     	<p>Specifies whether <b>extra</b> (additional) methods should be created
+     	   for collection-style fields. Set this to true if you want your code 
+     	   to be more compatible with Castor JDO (or other persistence 
+     	   frameworks).</p>
+     	   
+     	<p>Adds additional getter/setter methods for the field in question, such 
+     	   as get/set by reference and set as copy methods.</p>
+     	   
      </section>
 
   </section>
