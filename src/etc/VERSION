@@ -1,11 +1,11 @@
 name=Castor
 project=castor
-version=1.1.2
+version=1.1.2.1
 release=
-stable_version=1.1.2
+stable_version=1.1.2.1
 stable_release=
-release_date=17 Jun 2007
-stable_release_date=17 Jun 2007
+release_date=28 Jun 2007
+stable_release_date=28 Jun 2007
 copyright=Intalio Inc. (C) 1999-2007. All rights reserved  http://www.intalio.com
 spring-xml-stable=1.0
 spring-xml-snapshot=1.0

@@ -21,6 +21,19 @@
               <span class="newsTitle">Latest Release</span><br/><br/>
               <span class="newsSummary"-->
 
+        <news id="60">
+            <title>Castor 1.1.2.1 released</title>
+            <author>Werner Guttmann</author>
+            <date>Jun 28 2007</date>
+            <time>20:21:22</time>
+            <summary>
+                I've placed a copy of Castor 1.1.2.1 at the
+                <a href="http://dist.codehaus.org/castor/1.1.2.1/">Codehaus</a>.<br/><br/>
+
+                For details about the features added and the bugs fixed, please have
+                a look at the <a href="release-notes.html">release notes</a>.
+            </summary>
+        </news>
         <news id="59">
             <title>Castor 1.1.2 released</title>
             <author>Werner Guttmann</author>
