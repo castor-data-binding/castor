@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+    <class name="ctf.jdo.special.test1865.BeanObject" key-generator="IDENTITY">
+        <map-to table="bean_object" />
+        <field name="id" type="integer" identity="true">
+            <sql name="id"/>
+        </field>
+        <field name="field1" type="string">
+            <sql name="field1"/>
+        </field>
+        <field name="field2" type="string">
+            <sql name="field2"/>
+        </field>
+    </class>
+    
+    <key-generator name="IDENTITY"/>
+</mapping>

@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<!DOCTYPE jdo-conf PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.org/jdo-conf.dtd">
+<jdo-conf>
+    <!-- This in theory, shouldn't be used since I'm just concerned with the local database -->
+
+    <database name="jndi" engine="mysql">
+        <jndi name="java:comp/env/jdbc/SimpleTest"/>
+        <mapping href="jndi:/localhost/test/WEB-INF/conf/common.xml" />
+    </database>
+
+    <database name="database" engine="mysql">
+        <driver url="jdbc:mysql://localhost:3306/test1865"
+                class-name="com.mysql.jdbc.Driver">
+            <param name="user" value="test" />
+            <param name="password" value="test" />
+        </driver>
+        <mapping href="mapping.xml" />
+    </database>
+
+    <transaction-demarcation mode="local" />
+</jdo-conf>

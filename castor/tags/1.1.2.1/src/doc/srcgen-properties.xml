@@ -1,0 +1,352 @@
+<?xml version="1.0"?>
+
+<document url="http://castor.org/srcgen-properties.xml">
+
+  <properties>
+    <title>Castor XML - Code generator properties</title>
+    <author email="werner DOT guttmann AT gmx DOT net">Werner Guttmann</author>
+    <abstract>
+       Describes the Castor XML code generator properties.
+    </abstract>
+    <status>Draft</status>
+  </properties>
+
+  <body>
+
+    <title>Castor XML - Code generator properties</title>
+
+    <section title="Overview">
+
+	    <p>Please find below a list of properties that can be configured through 
+	       the builder configuration properties, as defined in either the default
+	       or a custom XML code generator configuration file. These properties allow you 
+	       to control various advanced options of the XML source generator.</p>
+	       
+        <ctable>
+          <cheader>
+             <th align="center">Option</th>
+             <th>Description</th>
+             <th>Values</th>
+             <th>Default</th>
+             <th>Since<br/>Version</th>
+          </cheader>
+          <crow>
+            <td><a href="#Source-generation-&amp;-Java-5.0">org.exolab.castor.builder.javaVersion</a></td>
+            <td>Compliance with Java version</td>
+            <td><tt>1.4</tt>/<tt>5.0</tt></td>
+            <td>1.4</td>
+            <td><font color="red">1.0.2</font></td>
+          </crow>
+          <crow>
+            <td><a href="#Bound-Properties">org.exolab.castor.builder.boundproperties</a></td>
+            <td>Generation of bound properties</td>
+            <td><tt>true</tt>/<tt>false</tt></td>
+            <td><tt>false</tt></td>
+            <td>0.8.9</td>
+          </crow>
+          <crow>
+            <td><a href="#Class-Creation/Mapping">org.exolab.castor.builder.javaclassmapping</a></td>
+            <td>Class generation mode</td>
+            <td><tt>element</tt>/<tt>type</tt></td>
+            <td><tt>element</tt></td>
+            <td>0.9.1</td>
+          </crow>
+          <crow>
+            <td><a href="#Setting-a-super-class">org.exolab.castor.builder.superclass</a></td>
+            <td>Global super class (for all classes generated)</td>
+            <td>Any valid class name</td>
+            <td>-</td>
+            <td>0.8.9</td>
+          </crow>
+          <crow>
+            <td><a href="#Mapping-XML-namespaces-to-Java-packages">org.exolab.castor.builder.nspackages</a></td>
+            <td>XML namespace to package name mapping</td>
+            <td>A series of mappings</td>
+            <td>-</td>
+            <td>0.8.9</td>
+          </crow>
+          <crow>
+            <td><a href="#Generate-equals()-method">org.exolab.castor.builder.equalsmethod</a></td>
+            <td>Generation of <tt>equals</tt> method</td>
+            <td><tt>true</tt>/<tt>false</tt></td>
+            <td><tt>false</tt></td>
+            <td>0.9.1</td>
+          </crow>
+          <crow>
+            <td><a href="#Maps-java-primitive-types-to-wrapper-object">org.exolab.castor.builder.primitivetowrapper</a></td>
+            <td>Generation of Object wrappers instead of primitives</td>
+            <td><tt>true</tt>/<tt>false</tt></td>
+            <td><tt>false</tt></td>
+            <td>0.9.4</td>
+          </crow>
+          <crow>
+            <td><a href="#Automatic-class-name-conflict-resolution">org.exolab.castor.builder.automaticConflictResolution</a></td>
+            <td>Specifies whether <b>automatic class name conflict resolution</b> 
+                should be used or not</td>
+            <td><tt>true</tt>/<tt>false</tt></td>
+            <td><tt>false</tt></td>
+            <td><font color="red">1.1.1</font></td>
+          </crow>
+          <crow>
+            <td><a href="#Extra-collection-methods">org.exolab.castor.builder.extraCollectionMethods</a></td>
+            <td>Specifies whether <b>extra</b> (additional) methods should be created for  
+                collection-style fields. Set this to true if you want your code to be
+                more compatible with Castor JDO or other persistence frameworks.</td>
+            <td><tt>true</tt>/<tt>false</tt></td>
+            <td><tt>false</tt></td>
+            <td>0.9.1</td>
+          </crow>
+        </ctable>
+
+    </section>
+
+	<section title="Customization - Lookup mechanism">
+	
+	    <p>By default, the Castor XML code generator will look for such a property file 
+	       in the following places:</p>
+
+	    <p><ol>
+	      <li>If no custom property file is specified, the Castor XML code
+	          generator will use the default builder configuration
+	          properties at <tt>org/exolab/castor/builder/castorbuilder.properties</tt>
+	          as shipped as part of the XML code generator JAR.</li>
+	      <li>If a file named <tt>castorbuilder.properties</tt> is available
+	          on the CLASSPATH, the Castor XML code generator will use each of the
+	          defined property values to override the default value as defined
+	          in the default builder configuration properties. This file is commonly 
+	          referred to as a <b>custom</b> builder configuration file.</li>
+	    </ol></p>
+	
+	</section>
+	
+    <section title="Detailed descriptions">
+
+		<section title="Source generation &amp; Java 5.0">
+	
+	            <p>As of <b>Castor 1.0.2</b>, the Castor source generator now supports the
+	               generation of Java 5.0 compliant code. The generated code - with the
+	               new feature enabled - will make use of the following Java 5.0-specific
+	               artifacts:
+	
+	               <ul>
+	                <li>Use of parameterized collections, e.g. ArrayList&lt;String&gt;.</li>
+	                <li>Use of @Override annotations with the generated methods
+	                    that require it.</li>
+	                <li>Use of @SupressWarnings with "unused" method parameters
+	                    on the generated methods that needed it.</li>
+	                <li>Added "enum" to the list of reserved keywords.</li>
+	               </ul></p>
+	
+	            <p>To enable this feature (off by default), please uncomment the
+	               following property in your custom <tt>castorbuilder.properties</tt>
+	               file:</p>
+	
+	            <code-panel>
+# This property specifies whether the sources generated
+# should comply with java 1.4 or 5.0; defaults to 1.4
+org.exolab.castor.builder.javaVersion=5.0</code-panel>
+	
+		</section>
+
+            <section title="Bound Properties">
+
+                <p>Bound properties are "properties" of a class, which when
+                   updated the class will send out a <api>java.beans.PropertyChangeEvent</api>
+                   to all registered <api>java.beans.PropertyChangeListeners</api>.</p>
+
+                <p>To enable bound properties, please add the following property definition
+                   to your custom builder configuration file:</p>
+
+                <code-panel>
+# To enable bound properties uncomment the following line. Please
+# note that currently *all* fields will be treated as bound properties
+# when enabled. This will change in the future when we introduce
+# fine grained control over each class and it's properties.
+#
+org.exolab.castor.builder.boundproperties=true</code-panel>
+
+                <p>When enabled, <b>all</b> properties will be treated as bound properties. For
+                   each class that is generated a <tt>setPropertyChangeListener</tt> method is
+                   created as follows:</p>
+
+                <code-panel>
+<comment>/**
+ * Registers a PropertyChangeListener with this class.
+ * @param pcl The PropertyChangeListener to register.
+ **/
+</comment>
+public void addPropertyChangeListener (java.beans.PropertyChangeListener pcl)
+{
+   propertyChangeListeners.addElement(pcl);
+} //-- void addPropertyChangeListener</code-panel>
+
+                <p>Whenever a property of the class is changed, a
+                   <api>java.beans.PropertyChangeEvent</api> will be sent to
+                   all registered listeners. The property name, the old value and
+                   the new value will be set in the <b>java.beans.PropertyChangeEvent</b>.</p>
+
+                <note>To prevent unnecessary overhead, if the property is a collection,
+                      the old value will be <i>null</i>.</note>
+
+         </section>
+
+         <section title="Class Creation/Mapping">
+
+            <p>The source generator can treat the XML Schema structures such as &lt;complexType&gt;
+               and element in two main ways. The first, and current default method is called the
+               "element" method. The other is called the "type" method.</p>
+
+            <ctable>
+              <cheader>
+                <th>Method</th>
+                <th>Explanation</th>
+              </cheader>
+              <crow>
+                <td valign="top">'element'</td>
+                <td valign="top">
+                        The "element" method creates classes for all elements whose type is a
+                           &lt;complexType&gt;. Abstract classes are created for all top-level
+                           &lt;complexType&gt;s. Any elements whose type is a top-level type will have
+                           a new class create that extends the abstract class which was generated for
+                           that top-level complexType.<br/>
+                           Classes are not created for elements whose type is a &lt;simpleType&gt;.
+                    </td>
+                </crow>
+                <crow>
+                  <td valign="top">'type'</td>
+                  <td valign="top">
+                           The "type" method creates classes for all top-level &lt;complexType&gt;s, or
+                           elements that contain an "anonymous" (in-lined) &lt;complexType&gt;.<br/>
+                           Classes will not be generated for elements whose type is a top-level
+                           type.
+                    </td>
+                </crow>
+            </ctable>
+
+            <p>To change the "method" of class creation, please add the following property
+               definition to your custom builder configuration file:</p>
+
+            <code-panel>
+# Java class mapping of &lt;xsd:element&gt;'s and &lt;xsd:complexType&gt;'s
+#
+org.exolab.castor.builder.javaclassmapping=type</code-panel>
+         </section>
+
+         <section title="Setting a super class">
+
+            <p>The source generator enables the user to set a super class to <b>all</b> the
+               generated classes (of course, class descriptors are not affected
+               by this option). Pleae note that, though the binding file, it is possible
+               to define a super class for individual classes</p>
+
+            <p>To set the global super class, please add the following property
+               definition to your custom builder configuration file:</p>
+
+            <code-panel>
+# This property allows one to specify the super class of *all*
+# generated classes
+#
+org.exolab.castor.builder.superclass=com.xyz.BaseObject</code-panel>
+
+        </section>
+
+        <section title="Mapping XML namespaces to Java packages" sub-title="Schema Imports">
+
+            <p>
+                An XML Schema instance is identified by a namespace. For data-binding purposes,
+                especially code generation it may be necessary to map namespaces to Java packages.
+            </p>
+            <p>
+                This is needed for imported schema in order for Castor to generate the
+                correct imports during code generation for the primary schema.
+            </p>
+            <p> To allow the mapping between namespaces and Java packages , edit the castorbuilder.properties file :
+            <code-panel>
+# XML namespace mapping to Java packages
+#
+#org.exolab.castor.builder.nspackages=\
+   http://www.xyz.com/schemas/project=com.xyz.schemas.project,\
+   http://www.xyz.com/schemas/person=com.xyz.schemas.person</code-panel>
+            </p>
+        </section>
+
+        <section title="Generate equals() method">
+            <p>Since version: 0.9.1</p>
+            <p>
+                The Source Generator can override the 'equals()' method for the
+                generated objects.
+            </p>
+            <p>Note: hashcode() is not currently overriden.</p>
+            <p> To generate the equals() method , edit the castorbuilder.properties file :
+            <code-panel>
+# Set to true if you want to generate the equals method
+# for each generated class.
+# false by default
+#org.exolab.castor.builder.equalsmethod=true</code-panel>
+            </p>
+        </section>
+
+        <section title="Maps java primitive types to wrapper object">
+             <p>Since version 0.9.4</p>
+             <p>
+    It may be convenient to use java objects instead of primitives,
+    the Source Generator provides a way to do it. Thus the following mapping can be used:
+    <ul>
+      <li>boolean to java.lang.Boolean</li>
+      <li>byte to java.lang.Byte</li>
+      <li>double to java.lang.Double</li>
+      <li>float to java.lang.Float</li>
+      <li>int and integer to java.lang.Integer</li>
+      <li>long to java.lang.Long</li>
+      <li>short to java.lang.Short</li>
+    </ul>
+       </p>
+        <p>To enable this property, edit the castor builder.properties file:
+        <code-panel>
+# Set to true if you want to use Object Wrappers instead
+# of primitives (e.g Float instead of float).
+# false by default.
+#org.exolab.castor.builder.primitivetowrapper=false</code-panel>
+       </p>
+
+     </section>
+
+        <section title="Automatic class name conflict resolution">
+            <p>Since version 1.1.1</p>
+             
+            <p>With this property enabled, the XML code generator will use 
+               a new automatic class name resolution mode that has special
+               logic implemented to automatically resolve class name conflicts.</p>
+                
+            <p>This new mode deals with various class name conflicts where previously
+               a binding file had to be used to resolve these conflicts manually.</p>
+                
+            <p>To enable this feature (turned off by default), please add the 
+               following property definitio to your custom <tt>castorbuilder.properties</tt>
+               file:</p>
+        <code-panel>
+# Specifies whether automatic class name conflict resolution
+# should be used or not; defaults to false.
+#
+org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
+
+     </section>
+     
+     <section title="Extra collection methods">
+     
+     	<p>Specifies whether <b>extra</b> (additional) methods should be created
+     	   for collection-style fields. Set this to true if you want your code 
+     	   to be more compatible with Castor JDO (or other persistence 
+     	   frameworks).</p>
+     	   
+     	<p>Adds additional getter/setter methods for the field in question, such 
+     	   as get/set by reference and set as copy methods.</p>
+     	   
+     </section>
+
+  </section>
+
+  </body>
+
+</document>
+

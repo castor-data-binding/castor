@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<!DOCTYPE jdo-conf PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                          "http://castor.org/jdo-conf.dtd">
+<jdo-conf>
+   <database name="test1214-int" engine="mysql">
+      <driver url="jdbc:mysql://localhost/test1214"
+              class-name="org.gjt.mm.mysql.Driver">
+         <param name="user" value="test"/>
+         <param name="password" value="test"/>
+      </driver>
+      <mapping href="mapping-int.xml"/>
+   </database>
+   <transaction-demarcation mode="local"/>
+</jdo-conf>
+
+

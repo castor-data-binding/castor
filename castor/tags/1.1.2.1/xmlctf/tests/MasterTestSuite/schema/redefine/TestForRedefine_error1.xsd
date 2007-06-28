@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	unable to redefine element 
+-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		targetNamespace="foo" xmlns="foo"
+		elementFormDefault="qualified">
+
+	<xsd:redefine schemaLocation="xsd003.xsdmod">
+		<xsd:element name="root" />
+	</xsd:redefine>
+</xsd:schema>

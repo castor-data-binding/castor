@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document url="http://castor.exolab.org/about.xml">
+  <properties>
+    <title>Data access with the Spring framework - Using Castor JDO</title>
+    <abstract>
+       Data access with the Spring framework - Using Castor JDO
+    </abstract>
+    <status>Final</status>
+  </properties>
+  <body>
+    <title>Data access with the Spring framework - Using Castor JDO</title>
+    <header>
+    </header>
+
+	<section title="Introduction">
+	
+		<p>We will start with a coverage of Castor in a Spring environment, using 
+		   it to demonstrate the approach that Spring takes towards integrating O/R 
+		   mappers. This section will cover many issues in detail and show different 
+		   variations of DAO implementations and transaction demarcations.</p> 
+		   
+		<p>The complete project documentation for the Spring ORM support for Castor
+		   JDO can be found <url title="here">castor-spring-site/index.html</url>.</p>
+	   
+	</section>    
+	<section title="Resource management">
+
+		<p>Typical business applications are often cluttered with repetitive 
+		   resource management code. Many projects try to invent their own 
+		   solutions for this issue, sometimes sacrificing proper handling of 
+		   failures for programming convenience. Spring advocates strikingly 
+		   simple solutions for proper resource handling, namely IoC via 
+		   templating; for example infrastructure classes with callback 
+		   interfaces, or applying AOP interceptors. The infrastructure cares for 
+		   proper resource handling, and for appropriate conversion of specific API 
+		   exceptions to an unchecked infrastructure exception hierarchy. Spring introduces 
+		   a DAO exception hierarchy, applicable to any data access strategy. For 
+		   direct JDBC, the JdbcTemplate class mentioned in a previous section cares 
+		   for connection handling, and for proper conversion of SQLException to 
+		   the DataAccessException hierarchy, including translation of database-specific 
+		   SQL error codes to meaningful exception classes. It supports both JTA 
+		   and JDBC transactions, via respective Spring transaction managers.</p>
+
+		<p>This module implements Spring ORM/DAO support for Castor JDO, consisting of a 
+		   CastorTemplate analogous to JdbcTemplate, a CastorInterceptor, and a Castor 
+		   transaction manager. The major goal is to allow for clear application 
+		   layering, with any data access and transaction technology, and for 
+		   loose coupling of application objects. No more business service dependencies 
+		   on the data access or transaction strategy, no more hard-coded resource 
+		   lookups, no more hard-to-replace singletons, no more custom service 
+		   registries. One simple and consistent approach to wiring up application 
+		   objects, keeping them as reusable and free from container dependencies 
+		   as possible. All the individual data access features are usable on their 
+		   own but integrate nicely with Spring's application context concept, providing 
+		   XML-based configuration and cross-referencing of plain JavaBean instances 
+		   that don't need to be Spring-aware. In a typical Spring app, many important 
+		   objects are JavaBeans: data access templates, data access objects (that 
+		   use the templates), transaction managers, business services (that use 
+		   the data access objects and transaction managers), web view resolvers, web 
+		   controllers (that use the business services),and so on.</p>
+		   
+	</section>
+		   
+	<section title="JDOManager setup in a Spring container">
+
+		<p>To avoid tying application objects to hard-coded resource lookups, 
+		   Spring allows you to define resources like a JDBC DataSource or a 
+		   Castor JDOManager as beans in an application context. Application objects 
+		   that need to access resources just receive references to such 
+		   pre-defined instances via bean references (the DAO definition in the 
+		   next section illustrates this). The following excerpt from an XML 
+		   application context definition shows how to set up a JDBC DataSource 
+		   and a Castor JDOManager on top of it:</p>
+
+		<code-panel><![CDATA[
+<beans>
+
+	<bean id="myDataSource"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
+		<property name="url" value="jdbc:hsqldb:hsql://localhost:9001" />
+		<property name="username" value="sa" />
+		<property name="password" value="" />
+	</bean>
+
+	<bean id="myJDOManager"
+		class="org.castor.spring.orm.LocalCastorFactoryBean">
+	    <props>
+	      <prop key="databaseName">test</prop>
+	      <prop key="configLocation">src/test/resources/jdo-conf.xml</prop>
+	    </props>
+	</bean>
+
+</beans>]]></code-panel>
+
+		<p>Note that switching from a local Jakarta Commons DBCP BasicDataSource 
+		   to a JNDI-located DataSource (usually managed by an application server) 
+		   is just a matter of configuration:</p>
+
+		<code-panel><![CDATA[
+<beans>
+
+	<bean id="myDataSource"
+		class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:comp/env/jdbc/myds" />
+	</bean>
+
+</beans>]]></code-panel>
+
+		<p>You can also access a JNDI-located JDOManager, using Spring's
+		   JndiObjectFactoryBean to retrieve and expose it. However, that is
+		   typically not common outside of an EJB context. </p>
+		   
+	</section>
+	
+	<section title="The CastorTemplate">
+
+		<p>
+			The basic programming model for templating looks as follows,
+			for methods that can be part of any custom data access
+			object or business service. There are no restrictions on the
+			implementation of the surrounding object at all, it just
+			needs to provide a Castor JDOManager. It can get the
+			latter from anywhere, but preferably as bean reference from
+			a Spring application context - via a simple
+			setJDOManager(..) bean property setter. The following
+			snippets show a DAO definition in a Spring container,
+			referencing the above defined JDOManager, and an example
+			for a DAO method implementation.
+		</p>
+
+		<code-panel><![CDATA[
+<beans>
+
+	<bean id="myProductDao" class="org.exolab.castor.dao.ProductDaoImpl">
+	  <property name="JDOManager"><ref bean="jdoManager"/></property>
+	</bean>
+
+</beans>]]></code-panel>
+
+		<code-panel>
+public class ProductDaoImpl implements ProductDao {
+
+  private Castor castorTemplate;
+
+  public void setJDOManager(JDOManager jdoManager) {
+     this.castorTemplate = new CastorTemplate(jdoManager);
+  }
+
+  public Collection loadProductsByCategory(final String category) 
+     throws DataAccessException { 
+    return (Collection) this.castorTemplate.execute(
+       new CastorCallback() {
+          public Object doInCastor(Database database) throws PersistenceException {
+             database.begin();
+             OQLQuery query = database.getOQL("select p from org.exolab.castor.dao.ProductDao p " + 
+                " where p.category = ?");
+             query.bind(category);
+             QueryResults results = query.execute();
+             database.commit();
+             return Collections.list();
+          }
+    );
+  }
+}
+</code-panel>
+
+		<p>A callback implementation can effectively be used for any Castor 
+		   data access. CastorTemplate will ensure that Database instances are
+		   properly opened and closed, and automatically participate in
+		   transactions. The template instances are thread-safe and reusable, they
+		   can thus be kept as instance variables of the surrounding class.</p>
+		   
+		<p>For simple single step actions like a single find, load, saveOrUpdate, or
+		   delete call, CastorTemplate offers alternative convenience methods
+		   that can replace such one line callback implementations.</p>
+
+		<code-panel>
+public class ProductDaoImpl extends CastorTemplate
+   implements ProductDao {
+
+   public Collection loadProductsByCategory(String category) 
+      throws DataAccessException {
+      return this.find("select p from test.Product product where p.category=?", category);
+   }
+}</code-panel>
+		   
+		<p>Furthermore, Spring provides a convenient CastorDaoSupport base class that
+		   provides a setJDOManager(..) method for receiving a JDOManager,
+		   and getJDOManager() and getCastorTemplate() for use by subclasses.</p>
+		   
+		<p>In combination, this allows for very simple DAO implementations for
+		   typical requirements:</p>
+
+		<code-panel>
+public class ProductDaoImpl extends CastorDaoSupport 
+   implements ProductDao {
+
+   public Collection loadProductsByCategory(String category) 
+      throws DataAccessException {
+      return this.getCastorTemplate().find("select p from
+test.Product product where p.category=?", category);
+   }
+}</code-panel>
+
+	</section>
+	
+<!-- 
+	<section title="Implementing Spring-based DAOs without callbacks">
+
+		<p>As alternative to using Spring's CastorTemplate to implement DAOs,
+		   data access code can also be written in a more traditional fashion,
+		   without wrapping the Castor access code in a callback, while still
+		   complying to Spring's generic DataAccessException hierarchy. Spring's
+		   CastorDaoSupport base class offers methods to access the current
+		   transactional Database and to convert exceptions in such a scenario;
+		   similar methods are also available as static helpers on the
+		   JDOManagerUtils class. Note that such code will usually pass "false"
+		   into the getDatabased(..) method's "allowCreate" argument, to enforce
+		   running within a transaction (which avoids the need to close the
+		   returned Database, as it's lifecycle is managed by the transaction).</p>
+
+		<code-panel>
+public class ProductDaoImpl extends CastorDaoSupport 
+   implements ProductDao {
+
+   public Collection loadProductsByCategory(String category) 
+      throws DataAccessException, MyException {
+
+      Database database = getDatabase(getJDOManager(), false);
+      try {
+         List result = database.find( "select p from test.Product p where " + 
+            " product.category=?", category, Castor.STRING);
+         if (result == null) {
+            throw new MyException("invalid search result");
+         }
+         return result;
+      } catch (PersistenceException ex) {
+         throw convertCastorAccessException(ex);
+      }
+   }
+}</code-panel>
+
+		<p>The major advantage of such direct Castor JDO access code is that it
+		   allows any checked application exception to be thrown within the data
+		   access code, while CastorTemplate is restricted to unchecked
+		   exceptions within the callback. Note that one can often defer the
+		   corresponding checks and the throwing of application exceptions to after
+		   the callback, which still allows working with CastorTemplate. In
+		   general, the CastorTemplate class' convenience methods are simpler
+		   and more convenient for many scenarios.</p>
+		   
+	</section>
+-->	
+
+<!-- 
+	<section title="Implementing DAOs based on plain Hibernate3 API">
+
+Hibernate 3.0.1 introduced a feature called "contextual Sessions", where
+Hibernate itself manages one current Session per transaction. This is
+roughly equivalent to Spring's synchronization of one Hibernate Session
+per transaction. A corresponding DAO implementation looks like as
+follows, based on the plain Hibernate API:
+
+public class ProductDaoImpl implements ProductDao {
+
+private SessionFactory sessionFactory;
+
+public void setSessionFactory(SessionFactory sessionFactory) {
+this.sessionFactory = sessionFactory; }
+
+public Collection loadProductsByCategory(String category) { return
+this.sessionFactory.getCurrentSession() .createQuery("from test.Product
+product where product.category=?") .setParameter(0, category) .list(); }
+}
+
+This Hibernate access style is very similar to what you will find in the
+Hibernate documentation and examples, except for holding the
+SessionFactory in an instance variable. We strongly recommend such an
+instance-based setup over the old-school static HibernateUtil class from
+Hibernate's CaveatEmptor sample application. (In general, do not keep
+any resources in static variables unless absolutely necessary.)
+
+Our DAO above follows the Dependency Injection pattern: it still fits
+nicely into a Spring application context, just like it would if coded
+against Spring's HibernateTemplate. Concretely, it uses Setter
+Injection; if desired, it could use Constructor Injection instead. Of
+course, such a DAO can also be set up in plain Java (for example, in
+unit tests): simply instantiate it and call setSessionFactory(..) with
+the desired factory reference. As a Spring bean definition, it would
+look as follows:
+
+<beans>
+
+	<bean id="myProductDao" class="product.ProductDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory" />
+	</bean>
+
+</beans>
+
+The main advantage of this DAO style is that it depends on Hibernate API
+only; no import of any Spring class is required. This is of course
+appealing from a non-invasiveness perspective, and will no doubt feel
+more natural to Hibernate developers.
+
+However, the DAO throws plain HibernateException (which is unchecked, so
+does not have to be declared or caught), which means that callers can
+only treat exceptions as generally fatal - unless they want to depend on
+Hibernate's own exception hierarchy. Catching specific causes such as an
+optimistic locking failure is not possible without tieing the caller to
+the implementation strategy. This tradeoff might be acceptable to
+applications that are strongly Hibernate-based and/or do not need any
+special exception treatment.
+
+Fortunately, Spring's LocalSessionFactoryBean supports Hibernate's
+SessionFactory.getCurrentSession() method for any Spring transaction
+strategy, returning the current Spring-managed transactional Session
+even with HibernateTransactionManager. Of course, the standard behavior
+of that method remains: returning the current Session associated with
+the ongoing JTA transaction, if any (no matter whether driven by
+Spring's JtaTransactionManager, by EJB CMT, or by JTA).
+
+In summary: DAOs can be implemented based on the plain Hibernate3 API,
+while still being able to participate in Spring-managed transactions.
+	</section>
+
+-->
+	<section title="Programmatic transaction demarcation">
+
+		<p>Transactions can be demarcated in a higher level of the application, on
+		   top of such lower-level data access services spanning any number of
+		   operations. There are no restrictions on the implementation of the
+		   surrounding business service here as well, it just needs a Spring
+		   PlatformTransactionManager. Again, the latter can come from anywhere,
+		   but preferably as bean reference via a setTransactionManager(..) method
+		   - just like the productDAO should be set via a setProductDao(..) method.</p>
+		   
+		<p>The following snippets show a transaction manager and a business service
+		   definition in a Spring application context, and an example for a
+		   business method implementation.</p>
+
+		<code-panel><![CDATA[
+<beans>
+
+	<bean id="myTxManager"
+		class="org.castor.spring.orm.CastorTransactionManager">
+		<property name="jdoManager" ref="myJDOManager" />
+	</bean>
+
+	<bean id="myProductService" class="product.ProductServiceImpl">
+		<property name="transactionManager" ref="myTxManager" />
+		<property name="productDao" ref="myProductDao" />
+	</bean>
+
+</beans>]]></code-panel>
+
+		<code-panel>
+public class ProductServiceImpl implements ProductService {
+
+   private TransactionTemplate transactionTemplate; 
+   
+   private ProductDao productDao;
+
+   public void setTransactionManager(PlatformTransactionManager transactionManager) {
+      this.transactionTemplate = new TransactionTemplate(transactionManager);
+   }
+
+   public void setProductDao(ProductDao productDao) {
+      this.productDao = productDao;
+   }
+
+   public void increasePriceOfAllProductsInCategory(final String category) {
+      this.transactionTemplate.execute(
+         new TransactionCallbackWithoutResult() {
+            public void doInTransactionWithoutResult(TransactionStatus status) {
+               List productsToChange = productDAO.loadProductsByCategory(category); 
+               // do the price increase...
+            }
+         }
+      );
+   }
+}</code-panel>
+
+	</section>
+
+	<section title="Declarative transaction demarcation">
+
+		<p>Alternatively, one can use Spring's declarative transaction support,
+		   which essentially enables you to replace explicit transaction
+		   demarcation API calls in your Java code with an AOP transaction
+		   interceptor configured in a Spring container. This allows you to keep
+		   business services free of repetitive transaction demarcation code, and
+		   allows you to focus on adding business logic which is where the real
+		   value of your application lies. Furthermore, transaction semantics like
+		   propagation behavior and isolation level can be changed in a
+		   configuration file and do not affect the business service
+		   implementations.</p>
+
+		<code-panel><![CDATA[
+<beans>
+
+	<bean id="myTxManager"
+		class="org.castor.spring.orm.CastorTransactionManager">
+		<property name="jdoManager" ref="myJDOManager" />
+	</bean>
+
+	<bean id="myProductService"
+		class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="proxyInterfaces" value="product.ProductService" />
+		<property name="target">
+			<bean class="product.DefaultProductService">
+				<property name="productDao" ref="myProductDao" />
+			</bean>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>myTxInterceptor</value><!-- the transaction interceptor (configured elsewhere) -->
+			</list>
+		</property>
+	</bean>
+
+</beans>]]></code-panel>
+
+		<code-panel>
+public class ProductServiceImpl implements ProductService {
+
+   private ProductDao productDao;
+
+   public void setProductDao(ProductDao productDao) {
+      this.productDao = productDao;
+   }
+
+   // notice the absence of transaction demarcation code in this method 
+   // Spring's declarative transaction infrastructure will be demarcating
+   //transactions on your behalf 
+   public void increasePriceOfAllProductsInCategory(final String category) {
+      List productsToChange = this.productDAO.loadProductsByCategory(category); 
+      // ... 
+   }
+}</code-panel>
+
+		<p>Spring's TransactionInterceptor allows any checked application exception
+		   to be thrown with the callback code, while TransactionTemplate is
+		   restricted to unchecked exceptions within the callback.
+		   TransactionTemplate will trigger a rollback in case of an unchecked
+		   application exception, or if the transaction has been marked
+		   rollback-only by the application (via TransactionStatus).
+		   TransactionInterceptor behaves the same way by default but allows
+		   configurable rollback policies per method.</p>
+
+		<p>The following higher level approach to declarative transactions doesn't
+		   use the ProxyFactoryBean, and as such may be easier to use if you have a
+		   large number of service objects that you wish to make transactional.</p>
+
+		<note>You are strongly encouraged to read the section entitled Section 9.5,
+		      “Declarative transaction management” if you have not done so already
+		      prior to continuing.</note>
+
+		<code-panel><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<!-- JDOManager, DataSource, etc. omitted -->
+
+	<bean id="myTxManager"
+		class="org.castor.spring.orm.CastorTransactionManager">
+		<property name="jdoManager" ref="myJDOManager" />
+	</bean>
+
+	<aop:config>
+		<aop:pointcut id="productServiceMethods"
+			expression="execution(* product.ProductService.*(..))" />
+		<aop:advisor advice-ref="txAdvice"
+			pointcut-ref="productServiceMethods" />
+	</aop:config>
+
+	<tx:advice id="txAdvice" transaction-manager="myTxManager">
+		<tx:attributes>
+			<tx:method name="increasePrice*" propagation="REQUIRED" />
+			<tx:method name="someOtherBusinessMethod"
+				propagation="REQUIRES_NEW" />
+			<tx:method name="*" propagation="SUPPORTS" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+
+	<bean id="myProductService" class="product.SimpleProductService">
+		<property name="productDao" ref="myProductDao" />
+	</bean>
+
+</beans>]]></code-panel>
+
+	</section>
+	
+	<section title="Transaction management strategies">
+
+		<p>Both TransactionTemplate and TransactionInterceptor delegate the actual
+		   transaction handling to a PlatformTransactionManager instance, which can
+		   be a CastorTransactionManager (for a single Castor JDOManager,
+		   using a ThreadLocal Database under the hood) or a JtaTransactionManager
+		   (delegating to the JTA subsystem of the container) for Castor
+		   applications. You could even use a custom PlatformTransactionManager
+		   implementation. So switching from native Castor transaction
+		   management to JTA, such as when facing distributed transaction
+		   requirements for certain deployments of your application, is just a
+		   matter of configuration. Simply replace the Castor transaction
+		   manager with Spring's JTA transaction implementation. Both transaction
+		   demarcation and data access code will work without changes, as they just
+		   use the generic transaction management APIs.</p>
+
+		<p>For distributed transactions across multiple Castor JDOManager instances,
+		   simply combine JtaTransactionManager as a transaction
+		   strategy with multiple LocalCastorFactoryBean definitions. Each of your
+		   DAOs then gets one specific JDOManager reference passed into it's
+		   respective bean property. If all underlying JDBC data sources are
+		   transactional container ones, a business service can demarcate
+		   transactions across any number of DAOs and any number of session
+		   factories without special regard, as long as it is using
+		   JtaTransactionManager as the strategy.</p>
+
+		<code-panel><![CDATA[
+<beans>
+
+	<bean id="myDataSource1"
+		class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName value=" java:comp/env/jdbc/myds1" />
+	</bean>
+
+	<bean id="myDataSource2"
+		class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:comp/env/jdbc/myds2" />
+	</bean>
+
+	<bean id="myJDOManager1"
+		class="org.castor.spring.orm.LocalCastorFactoryBean">
+	    <props>
+	      <prop key="databaseName">test1</prop>
+	      <prop key="configLocation">src/test/resources/jdo-conf-1.xml</prop>
+	    </props>
+	</bean>
+
+	<bean id="myJDOManager2"
+		class="org.castor.spring.orm.LocalCastorFactoryBean">
+	    <props>
+	      <prop key="databaseName">test2</prop>
+	      <prop key="configLocation">src/test/resources/jdo-conf-2.xml</prop>
+	    </props>
+	</bean>
+
+	<bean id="myTxManager"
+		class="org.springframework.transaction.jta.JtaTransactionManager" />
+
+	<bean id="myProductDao" class="product.ProductDaoImpl">
+		<property name="jdoManager" ref="myJDOManager1" />
+	</bean>
+
+	<bean id="myInventoryDao" class="product.InventoryDaoImpl">
+		<property name="jdoManager" ref="myJDOManager2" />
+	</bean>
+
+	<!-- this shows the Spring 1.x style of declarative transaction configuration -->
+	<!-- it is totally supported, 100% legal in Spring 2.x, but see also above for the sleeker, Spring 2.0 style -->
+	<bean id="myProductService"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager" ref="myTxManager" />
+		<property name="target">
+			<bean class="product.ProductServiceImpl">
+				<property name="productDao" ref="myProductDao" />
+				<property name="inventoryDao" ref="myInventoryDao" />
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="increasePrice*">PROPAGATION_REQUIRED</prop>
+				<prop key="someOtherBusinessMethod">
+					PROPAGATION_REQUIRES_NEW
+				</prop>
+				<prop key="*">PROPAGATION_SUPPORTS,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+</beans>]]></code-panel>
+
+		<p>Both CastorTransactionManager and JtaTransactionManager allow for
+		   proper JVM-level cache handling with Castor - without
+		   container-specific transaction manager lookup or JCA connector (as long
+		   as not using EJB to initiate transactions).</p>
+
+		<p>CastorTransactionManager can export the JDBC Connection used by
+		   Castor to plain JDBC access code, for a specific DataSource. This
+		   allows for high-level transaction demarcation with mixed Castor/JDBC
+		   data access completely without JTA, as long as you are just accessing
+		   one database! CastorTransactionManager will automatically expose the
+		   Castor transaction as JDBC transaction if the passed-in
+		   JDOManager has been set up with a DataSource (through the
+		   "dataSource" property of the LocalCastorFactoryBean class).</p>
+		
+		<p>Alternatively, the DataSource that the transactions are supposed to be
+		   exposed for can also be specified explicitly, through the "dataSource"
+		   property of the CastorTransactionManager class.</p>
+		   
+		   
+	</section>
+	
+	<section title="Credits">
+	
+		<p>This page has originally been authored by Jürgen Höller off the 
+		   Spring framework for Hibernate ORM support, and has been amended
+		   to provide identical documentation for Castor JDO.</p>
+	
+	</section>	
+
+	</body>
+</document>

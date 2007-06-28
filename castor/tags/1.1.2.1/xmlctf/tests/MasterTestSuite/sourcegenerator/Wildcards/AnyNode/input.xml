@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Extension xmlns="urn:oasis:names:tc:wsrp:v1:types">
+    <some-node>
+      <nothing id="1" />
+      <something>
+         This is text in some-node
+      </something>
+    </some-node>
+</Extension>
