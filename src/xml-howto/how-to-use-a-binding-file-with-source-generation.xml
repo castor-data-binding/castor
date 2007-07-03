@@ -174,11 +174,11 @@ Warning: A class name generation conflict has occured between element 'complexTy
       &lt;java-class name=&quot;OrderReceiptLineItem&quot;/&gt;
    &lt;/elementBinding&gt;
 	
-   &lt;elementBinding name=&quot;complexType:ReceiptLineItemType/Sku&quot;&gt;
+   &lt;elementBinding name=&quot;/complexType:ReceiptLineItemType/Sku&quot;&gt;
       &lt;java-class name=&quot;OrderReceiptSku&quot;/&gt;
    &lt;/elementBinding&gt;
 	
-   &lt;elementBinding name=&quot;complexType:LineItemType/Sku&quot;&gt;
+   &lt;elementBinding name=&quot;/complexType:LineItemType/Sku&quot;&gt;
       &lt;java-class name=&quot;PurchaseOrderSku&quot;/&gt;
    &lt;/elementBinding&gt;	
 	
