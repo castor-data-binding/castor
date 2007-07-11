@@ -37,6 +37,27 @@
             <bugs>
                 <bug id="2034" tool="jira">
                     <description>
+                        Changed visibility for various schema-related classes to support
+                        JAXB 2.x work.
+                    </description>
+                    <contributor>
+                        <name>Sachith Dhanushka</name>
+                        <email>sachith.dhanushka@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Sachith Dhanushka</name>
+                        <email>sachith.dhanushka@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20070711</date>
+                </bug>
+                <bug id="2034" tool="jira">
+                    <description>
                         Fixed broken complex type bindings in 'bindings' HOW-TO.
                     </description>
                     <contributor>

@@ -56,7 +56,7 @@ import java.util.Enumeration;
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2004-10-01 07:25:46 -0600 (Fri, 01 Oct 2004) $
 **/
-class SimpleTypeDefinition {
+public class SimpleTypeDefinition {
 
 
     private String      _name           = null;
@@ -68,7 +68,7 @@ class SimpleTypeDefinition {
     private Annotation  _annotation     = null;
     private FacetList   _facets         = null;
     
-    SimpleTypeDefinition(Schema schema, String name, String id) {
+    public SimpleTypeDefinition(Schema schema, String name, String id) {
         super();
         this._schema = schema;
         this._name   = name;
@@ -123,7 +123,7 @@ class SimpleTypeDefinition {
      *
      * @return the new SimpleType instance.
     **/
-    SimpleType createSimpleType() {
+    public SimpleType createSimpleType() {
         SimpleType simpleType = null;
         
         if (_baseType != null)
@@ -179,7 +179,7 @@ class SimpleTypeDefinition {
      * 
      * @param baseType the base type for this SimpleTypeDefinition
     **/
-    void setBaseType(SimpleType baseType) {
+    public void setBaseType(SimpleType baseType) {
         _baseType = baseType;
         _baseTypeName = null;
     } //-- setBaseType
@@ -202,7 +202,7 @@ class SimpleTypeDefinition {
      *
      * @param finalValue the value of the final property.
     **/
-    void setFinal(String finalValue) {
+    public void setFinal(String finalValue) {
         _final = finalValue;
     }
 
