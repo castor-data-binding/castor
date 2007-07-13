@@ -35,6 +35,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2037" tool="jira">
+                    <description>
+                        Added missing property to XML FAQ entry on Xerces and Java 5.
+                    </description>
+                    <contributor>
+                        <name>Water Guo</name>
+                        <email>water@redcpu.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Water Guo</name>
+                        <email>water@redcpu.com</email>
+                    </reporter>
+                    <type>Bug.</type>
+                    <module>XML</module>
+                    <date>20070713</date>
+                </bug>
                 <bug id="2034" tool="jira">
                     <description>
                         Changed visibility for various schema-related classes to support

@@ -484,6 +484,11 @@ m.setResolver(cdr);
            	   (thus redefining the default value) as shown below:</p>
             	   
             	<code-panel><![CDATA[
+            	
+# Defines the XML parser to be used by Castor.
+# The parser must implement org.xml.sax.Parser.
+org.exolab.castor.parser=org.xml.sax.helpers.XMLReaderAdapter
+
 # Defines the (default) XML serializer factory to use by Castor, which must
 # implement org.exolab.castor.xml.SerializerFactory; default is 
 # org.exolab.castor.xml.XercesXMLSerializerFactory
