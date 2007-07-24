@@ -6,6 +6,13 @@
     <section title="News">
       <ul>
         <li>
+          <b>Release 1.1.3:</b> Added special processing of proxied classes. The property
+          org.exolab.castor.xml.proxyInterfaces allows you to specify a list of interfaces
+          that such proxied objects implement. If your object implements one of these interfaces
+          Castor will not use the class itself but its superclass at introspection or to find
+          class mappings and ClassDescriptors.
+        </li>
+        <li>
           <b>Release 0.9.7:</b> Added new org.exolab.castor.persist.useProxies property to allow
           configuration of JDBC proxy classes. If enabled, JDBC proxy classes will be used to wrap
           <tt>java.sql.Connection</tt> and <tt>java.sql.PreparedStatement</tt>
@@ -147,6 +154,15 @@ org.exolab.castor.marshalling.validation=true
 # Defaults to false.
 #
 org.exolab.castor.debug=false
+
+# Property specifying whether or not to search for an proxy interface at marshalling.
+# If property is not empty the objects to be marshalled will be searched if they
+# implement one of the given interface names. If the interface is implemented the
+# superclass will be marshalled instead of the class itself.
+#
+#org.exolab.castor.xml.proxyInterfaces=\
+#  net.sf.cglib.proxy.Factory, \
+#  org.hibernate.proxy.HibernateProxy
 
 # List of collection handlers for Java 1.1 and Java 1.2 run-times:
 #

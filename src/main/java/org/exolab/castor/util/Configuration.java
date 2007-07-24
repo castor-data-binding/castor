@@ -298,6 +298,17 @@ public abstract class Configuration {
          */
         public static final String LenientIdValidation = "org.exolab.castor.xml.lenient.id.validation";
 
+        /**
+         * Property specifying whether or not to search for an proxy interface at marshalling.
+         * If property is not empty the objects to be marshalled will be searched if they
+         * implement one of the given interface names. If the interface is implemented the
+         * superclass will be marshalled instead of the class itself.
+         * <pre>
+         * org.exolab.castor.xml.proxyInterfaces
+         * </pre>
+         * @since 1.2.2
+         */
+        public static final String ProxyInterfaces = "org.exolab.castor.xml.proxyInterfaces";
     } //-- class: Property
 
 
