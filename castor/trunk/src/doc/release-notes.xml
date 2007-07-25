@@ -69,8 +69,39 @@ org.exolab.castor.xml.proxyInterfaces=\
                 <p>Be aware that no proxy interfaces are defined by default as the interface
                    search slightly decreases marshalling performance.</p>
 
+                <h2>Changes</h2>
+
+                <h3>Refactord Castor configuration</h3>
+
+                <p>We have added a new class hierarchy to handle independed configurations
+                   for every modul of Castor. At the moment the old configuration classes
+                   are still used but everything is in place to use the new one. Having said
+                   that this should not change anything for the user of Castor as he still
+                   specifies his properties in a single castor.properties file for all
+                   moduls.</p>
+
             </summary>
             <bugs>
+                <bug id="1927" tool="jira">
+                    <description>
+                        Refactored Castor configuration.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>All</module>
+                    <date>20070725</date>
+                </bug>
                 <bug id="1342" tool="jira">
                     <description>
                         Added special processing of proxied classes.

@@ -61,6 +61,7 @@ import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.core.exceptions.CastorRuntimeException;
 import org.exolab.castor.builder.binding.BindingException;
 import org.exolab.castor.builder.binding.BindingLoader;
 import org.exolab.castor.builder.binding.ExtendedBinding;
@@ -76,7 +77,6 @@ import org.exolab.castor.builder.conflictresolution.WarningViaDialogClassNameCRS
 import org.exolab.castor.builder.factory.FieldInfoFactory;
 import org.exolab.castor.builder.factory.SourceFactory;
 import org.exolab.castor.builder.info.ClassInfo;
-import org.exolab.castor.core.exceptions.CastorRuntimeException;
 import org.exolab.castor.mapping.xml.MappingRoot;
 import org.exolab.castor.util.Configuration;
 import org.exolab.castor.util.LocalConfiguration;
