@@ -90,7 +90,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
      * @param sqlType A SQLTypidentifier.
      * @throws MappingException if this key generator is not compatible with the persistance factory.
      */
-    public IdentityKeyGenerator(PersistenceFactory factory, int sqlType) throws MappingException {
+    public IdentityKeyGenerator(final PersistenceFactory factory, final int sqlType) throws MappingException {
         fName = factory.getFactoryName();
         if (!fName.equals("sybase") &&
         	!fName.equals("sql-server") && 
@@ -118,7 +118,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
      * @param sqlType
      * @throws MappingException
      */
-    public void supportsSqlType( int sqlType ) throws MappingException {
+    public void supportsSqlType(final int sqlType) throws MappingException {
         if (sqlType != Types.INTEGER &&
             sqlType != Types.NUMERIC &&
             sqlType != Types.DECIMAL &&
@@ -149,7 +149,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
      * @throws PersistenceException An error occured talking to persistent
      *  storage
      */
-    public Object generateKey(Connection conn, String tableName, String primKeyName, Properties props)
+    public Object generateKey(final Connection conn, final String tableName, final String primKeyName, final Properties props)
         throws PersistenceException {
         try {
             return type.getValue(conn, tableName);
@@ -166,7 +166,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
         return AFTER_INSERT;
     }
 
-    private void initIdentityValue(int sqlType) {
+    private void initIdentityValue(final int sqlType) {
         if (sqlType == Types.INTEGER) {
             identityValue = new IntegerIdenityValue();
         } else if (sqlType == Types.BIGINT) {
@@ -176,7 +176,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
         }
     }
 
-    private void initType(String fName) {
+    private void initType(final String fName) {
         if (fName.equals("hsql")) {
             type = new HsqlType();
         } else if (fName.equals("mysql")) {
@@ -207,14 +207,14 @@ public final class IdentityKeyGenerator implements KeyGenerator {
      * Gives a possibility to patch the Castor-generated SQL statement
      * for INSERT (makes sense for DURING_INSERT key generators)
      */
-    public final String patchSQL(String insert, String primKeyName) throws MappingException {
+    public final String patchSQL(final String insert, final String primKeyName) throws MappingException {
         return insert;
     }
     
     private abstract class AbstractType {
     	abstract Object getValue(Connection conn, String tableName) throws PersistenceException;
 
-    	Object getValue(PreparedStatement stmt) throws PersistenceException, SQLException {
+    	Object getValue(final PreparedStatement stmt) throws PersistenceException, SQLException {
     		ResultSet rs = stmt.executeQuery();
     		if (rs.next()) {
     			return identityValue.getValue(rs.getInt(1));
@@ -222,7 +222,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
         throw new PersistenceException(Messages.format("persist.keyGenFailed", getClass().getName()));
     	}
 
-    	Object getValue(String sql, Connection conn) throws PersistenceException {
+    	Object getValue(final String sql, final Connection conn) throws PersistenceException {
     		PreparedStatement stmt = null;
     		try {
     			stmt = conn.prepareStatement(sql);
@@ -242,7 +242,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
     }
 
     private class DB2Type extends AbstractType {
-    	Object getValue(Connection conn, String tableName) throws PersistenceException {
+    	Object getValue(final Connection conn, final String tableName) throws PersistenceException {
 			StringBuffer buf = new StringBuffer("SELECT IDENTITY_VAL_LOCAL() FROM sysibm.sysdummy1");    		
     		return getValue(buf.toString(), conn);
     	}
@@ -257,13 +257,13 @@ public final class IdentityKeyGenerator implements KeyGenerator {
 //    }
     
     private class DefaultType extends AbstractType {
-    	Object getValue(Connection conn, String tableName) throws PersistenceException {
+    	Object getValue(final Connection conn, final String tableName) throws PersistenceException {
     		return getValue("SELECT @@identity", conn);
     	}
     }
     
     private class HsqlType extends AbstractType {
-    	Object getValue(Connection conn, String tableName) throws PersistenceException {
+    	Object getValue(final Connection conn, final String tableName) throws PersistenceException {
     		PreparedStatement stmt = null;
     		Object v = null;
     		try {
@@ -287,49 +287,49 @@ public final class IdentityKeyGenerator implements KeyGenerator {
     }
     
     private class InformixType extends AbstractType {
-    	Object getValue(Connection conn, String tableName) throws PersistenceException {
+    	Object getValue(final Connection conn, final String tableName) throws PersistenceException {
     		return getValue("select dbinfo('sqlca.sqlerrd1') from systables where tabid = 1", conn);
     	}
     }
     
     private class MySqlType extends AbstractType {
-    	Object getValue(Connection conn, String tableName) throws PersistenceException {
+    	Object getValue(final Connection conn, final String tableName) throws PersistenceException {
     		return getValue("SELECT LAST_INSERT_ID()", conn);
     	}
     }
 
     private class SapDbType extends AbstractType {
-        Object getValue(Connection conn, String tableName) throws PersistenceException {
+        Object getValue(final Connection conn, final String tableName) throws PersistenceException {
             return getValue("SELECT " +  tableName + ".currval" +  " FROM " + tableName, conn);
         }
     }
     
     private class DerbyType extends AbstractType {
-        Object getValue(Connection conn, String tableName) throws PersistenceException {
+        Object getValue(final Connection conn, final String tableName) throws PersistenceException {
             return getValue("SELECT IDENTITY_VAL_LOCAL() FROM " + tableName, conn);
         }
     }
     
     private class PostgresqlType extends AbstractType {
-        Object getValue(Connection conn, String tableName) throws PersistenceException {
+        Object getValue(final Connection conn, final String tableName) throws PersistenceException {
             return getValue("SELECT currval ('" +  tableName + "_id_seq')", conn);
         }
     }
     
     private class DefaultIdentityValue {
-    	Object getValue(int value) {
+    	Object getValue(final int value) {
     		return new BigDecimal(value);
     	}
     }
     
     private class IntegerIdenityValue extends DefaultIdentityValue {
-    	Object getValue(int value) {
+    	Object getValue(final int value) {
     		return new Integer(value);
     	}
     }
     
     private class LongIdenityValue extends DefaultIdentityValue {
-    	Object getValue(int value) {
+    	Object getValue(final int value) {
     		return new Long(value);
     	}
     }

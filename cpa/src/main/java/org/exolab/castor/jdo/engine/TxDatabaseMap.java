@@ -62,19 +62,19 @@ public final class TxDatabaseMap implements Serializable {
     public TxDatabaseMap() {
     }
 
-    public synchronized boolean containsTx( Transaction tx ) {
+    public synchronized boolean containsTx(final Transaction tx) {
         return _txDbMap.containsKey( tx );
     }
 
-    public synchronized boolean containsDatabase( GlobalDatabaseImpl dbImpl ) {
+    public synchronized boolean containsDatabase(final GlobalDatabaseImpl dbImpl) {
         return _txDbMap.containsValue( dbImpl );
     }
 
-    public synchronized GlobalDatabaseImpl get( Transaction tx ) {
+    public synchronized GlobalDatabaseImpl get(final Transaction tx) {
         return (GlobalDatabaseImpl) _txDbMap.get( tx );
     }
 
-    public synchronized void put( Transaction tx, GlobalDatabaseImpl dbImpl ) {
+    public synchronized void put(final Transaction tx, final GlobalDatabaseImpl dbImpl) {
         Object oldDb = _txDbMap.put( tx, dbImpl );
         if ( oldDb != null && oldDb != dbImpl ) {
             _txDbMap.put( tx, oldDb );
@@ -83,7 +83,7 @@ public final class TxDatabaseMap implements Serializable {
         dbImpl.setTxMap( this );
     }
 
-    public synchronized GlobalDatabaseImpl remove( Transaction tx ) {
+    public synchronized GlobalDatabaseImpl remove(final Transaction tx) {
         return (GlobalDatabaseImpl) _txDbMap.remove( tx );
     }
 

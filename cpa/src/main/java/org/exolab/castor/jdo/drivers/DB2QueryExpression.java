@@ -56,12 +56,12 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @version $Revision$ $Date: 2004-09-08 03:37:54 -0600 (Wed, 08 Sep 2004) $
  */
 public final class DB2QueryExpression extends JDBCQueryExpression {
-    public DB2QueryExpression(PersistenceFactory factory) {
+    public DB2QueryExpression(final PersistenceFactory factory) {
         super(factory);
     }
 
 
-    public String getStatement(boolean lock) {
+    public String getStatement(final boolean lock) {
         StringBuffer sql;
 
         sql = getStandardStatement(lock, false);

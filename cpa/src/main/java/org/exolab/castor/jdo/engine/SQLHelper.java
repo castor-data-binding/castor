@@ -43,9 +43,9 @@ public final class SQLHelper {
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(SQLQuery.class);
 
-    public static Object[] calculateNumberOfFields(Collection extendingClassDescriptors,
-            int numberOfIdentityColumns, int numberOfFields, int numberOfExtendLevels, 
-            ResultSet rs) throws SQLException {
+    public static Object[] calculateNumberOfFields(final Collection extendingClassDescriptors,
+            final int numberOfIdentityColumns, final int numberOfFields, final int numberOfExtendLevels, 
+            final ResultSet rs) throws SQLException {
         
         JDOClassDescriptor potentialLeafDescriptor = null;
         int suggestedNumberOfFields = numberOfFields;
@@ -138,7 +138,7 @@ public final class SQLHelper {
         return new Object[] {potentialLeafDescriptor, new Integer (suggestedNumberOfFields) };
     }
 
-    public static int numberOfExtendingClassDescriptors(JDOClassDescriptor classDescriptor) {
+    public static int numberOfExtendingClassDescriptors(final JDOClassDescriptor classDescriptor) {
         int numberOfExtendLevels = 1;
         JDOClassDescriptor currentClassDescriptor = classDescriptor;
         while (currentClassDescriptor.getExtends() != null) {
@@ -149,7 +149,7 @@ public final class SQLHelper {
     }
 
     public static void addExtendingClassDescriptors(
-            Collection classDescriptorsToAdd, Collection extendingClassDescriptors) {
+            final Collection classDescriptorsToAdd, final Collection extendingClassDescriptors) {
 
         JDOClassDescriptor classDescriptor = null; 
         for (Iterator iter = extendingClassDescriptors.iterator(); iter.hasNext(); ) {

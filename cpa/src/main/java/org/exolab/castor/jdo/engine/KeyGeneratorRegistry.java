@@ -89,7 +89,7 @@ final class KeyGeneratorRegistry {
      * @param desc The key generator description
      * @return The {@link KeyGenerator}
      */
-    public KeyGenerator getKeyGenerator(PersistenceFactory factory, KeyGeneratorDescriptor desc, int sqlType) throws MappingException {
+    public KeyGenerator getKeyGenerator(final PersistenceFactory factory, final KeyGeneratorDescriptor desc, final int sqlType) throws MappingException {
         String keyGenName;
         KeyGeneratorFactory keyGenFactory;
         KeyGenerator keyGen;

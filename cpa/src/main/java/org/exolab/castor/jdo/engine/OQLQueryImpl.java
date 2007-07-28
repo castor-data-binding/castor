@@ -126,7 +126,8 @@ public class OQLQueryImpl implements Query, OQLQuery {
      * @inheritDoc
      * @see org.exolab.castor.jdo.Query#bind(java.lang.Object)
      */
-    public void bind(Object value) {
+    public void bind(final Object value) {
+        Object internalValue = value;
         if ( _expr == null && _spCall == null )
             throw new IllegalStateException( "Must create query before using it" );
         if ( _fieldNum == _paramInfo.size() )
@@ -140,18 +141,18 @@ public class OQLQueryImpl implements Query, OQLQuery {
             Class fieldClass = info.getFieldType();
             Class sqlClass = info.getSQLType();
 
-            if ( value != null ) {
-                Class valueClass = value.getClass();
+            if ( internalValue != null ) {
+                Class valueClass = internalValue.getClass();
 
                 if ( paramClass.isAssignableFrom( valueClass ) ) {
                     ClassMolder molder = ((AbstractDatabaseImpl) _database).getLockEngine().getClassMolder( valueClass );
 
                     if ( molder != null ) {
-                        Identity temp = molder.getActualIdentity( _database.getClassLoader(), value );
+                        Identity temp = molder.getActualIdentity( _database.getClassLoader(), internalValue );
                         if (temp == null) {
-                            value = null;
+                            internalValue = null;
                         } else  if (temp.size() == 1) {
-                            value = temp.get(0);
+                            internalValue = temp.get(0);
                         } else {
                             throw new IllegalArgumentException("Unable to bind multi column identities");
                         }
@@ -171,7 +172,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
                     if ( fieldClass != valueClass ) {
                         try {
                             TypeConvertor tc = SQLTypeConverters.getConvertor( valueClass, fieldClass );
-                            value = tc.convert( value, null );
+                            internalValue = tc.convert( internalValue, null );
                         } catch ( MappingException e ) {
                             throw new IllegalArgumentException( "Query parameter "
                                                                 + ( _fieldNum + 1 )
@@ -183,14 +184,14 @@ public class OQLQueryImpl implements Query, OQLQuery {
                     }
                     // Perform conversion from field type to SQL type, if needed
                     if (info.getConvertor() != null) {
-                        value = info.getConvertor().convert( value, info.getConvertorParam() );
+                        internalValue = info.getConvertor().convert( internalValue, info.getConvertorParam() );
                     }
                 }
             }
             if ( _bindValues == null )
                 _bindValues = new Object[ _bindTypes.length ];
 
-            _bindValues[_fieldNum++] = value;
+            _bindValues[_fieldNum++] = internalValue;
         } catch ( IllegalArgumentException except ) {
             throw except;
         }
@@ -548,15 +549,15 @@ public class OQLQueryImpl implements Query, OQLQuery {
          * @param pathInfo
          * @param clsDesc
          */
-        OQLEnumeration(org.exolab.castor.persist.QueryResults results,
-                Vector pathInfo, JDOClassDescriptor clsDesc) {
+        OQLEnumeration(final org.exolab.castor.persist.QueryResults results,
+                final Vector pathInfo, final JDOClassDescriptor clsDesc) {
             _results = results;
             _pathInfo = pathInfo;
             _classDescriptor = clsDesc;
         }
 
 
-        OQLEnumeration( org.exolab.castor.persist.QueryResults results ) {
+        OQLEnumeration(final org.exolab.castor.persist.QueryResults results) {
             _results = results;
             _pathInfo = null;
             _classDescriptor = null;
@@ -565,7 +566,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
         /**
          * @inheritDoc
          */
-        public boolean absolute(int row) throws PersistenceException {
+        public boolean absolute(final int row) throws PersistenceException {
             return _results.absolute(row);
         }
         
@@ -654,7 +655,8 @@ public class OQLQueryImpl implements Query, OQLQuery {
         }
 
 
-        private Object next( boolean skipError ) throws PersistenceException, NoSuchElementException {
+        private Object next(final boolean skipError)
+        throws PersistenceException, NoSuchElementException {
             Object identity;
 
             if ( _lastObject != null ) {
@@ -708,7 +710,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
             }
         }
         
-        private Object followPath(Object parent) {
+        private Object followPath(final Object parent) {
             JDOClassDescriptor curClassDesc = _classDescriptor;
             Object curObject = parent;
             for ( int i = 1; i < _pathInfo.size(); i++ ) {
@@ -727,7 +729,5 @@ public class OQLQueryImpl implements Query, OQLQuery {
             
             return curObject;
         }
-        
     }
-
 }

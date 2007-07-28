@@ -246,7 +246,7 @@ public class FieldMolder {
     public boolean isTransient() {
         return _transient;
     }
-    void setFieldClassMolder( ClassMolder fMold ) {
+    void setFieldClassMolder(final ClassMolder fMold) {
         _fMold = fMold;
     }
     public ClassMolder getEnclosingClassMolder() {
@@ -269,7 +269,8 @@ public class FieldMolder {
         return _colClass;
     }
 
-    public Object getValue( Object object, ClassLoader loader ) {
+    public Object getValue(final Object object, final ClassLoader loader) {
+        Object internalObject = object;
         ReflectService rf = getContextReflectService ( loader );
         try {
             // If field is accessed directly, get it's value, if not
@@ -279,20 +280,20 @@ public class FieldMolder {
             //    value = _handler.getValue( object );
             //else
             if ( rf._field != null )
-                return rf._field.get( object );
+                return rf._field.get( internalObject );
             else if ( rf._getMethod != null ) {
                 if ( rf._getSequence != null )
                     for ( int i = 0; i < rf._getSequence.length; i++ ) {
-                        object = rf._getSequence[ i ].invoke( object, (Object[]) null );
-                        if ( object == null )
+                        internalObject = rf._getSequence[ i ].invoke( internalObject, (Object[]) null );
+                        if ( internalObject == null )
                             break;
                     }
                 // If field has 'has' method, false means field is null
                 // and do not attempt to call getValue. Otherwise,
-                if (  object == null ||
-                        ( rf._hasMethod != null && ! ( (Boolean) rf._hasMethod.invoke( object, (Object[]) null ) ).booleanValue() ) )
+                if (  internalObject == null ||
+                        ( rf._hasMethod != null && ! ( (Boolean) rf._hasMethod.invoke( internalObject, (Object[]) null ) ).booleanValue() ) )
                     return null;
-                return rf._getMethod.invoke( object, (Object[]) null );
+                return rf._getMethod.invoke( internalObject, (Object[]) null );
             } else
                 return null;
         } catch ( IllegalAccessException except ) {
@@ -305,7 +306,7 @@ public class FieldMolder {
         }
     }
 
-    public void addValue( Object object, Object value, ClassLoader loader ) {
+    public void addValue(final Object object, final Object value, final ClassLoader loader) {
 
         ReflectService rf = getContextReflectService ( loader );
         
@@ -330,7 +331,8 @@ public class FieldMolder {
         }
     }
 
-    public void setValue( Object object, Object value, ClassLoader loader ) {
+    public void setValue(final Object object, final Object value, final ClassLoader loader) {
+        Object internalObject = object;
         // If there is a convertor, apply conversion here.
         ReflectService rf = getContextReflectService ( loader );
         try {
@@ -338,29 +340,29 @@ public class FieldMolder {
             //    _handler.setValue( object, value );
             //else
             if ( rf._field != null ) {
-                rf._field.set( object, value == null ? _default : value );
+                rf._field.set( internalObject, value == null ? _default : value );
             } else if ( rf._setMethod != null ) {
 
                 if ( rf._getSequence != null )
                     for ( int i = 0; i < rf._getSequence.length; i++ ) {
                         Object last;
 
-                        last = object;
-                        object = rf._getSequence[ i ].invoke( object, (Object[]) null );
-                        if ( object == null ) {
+                        last = internalObject;
+                        internalObject = rf._getSequence[ i ].invoke( internalObject, (Object[]) null );
+                        if ( internalObject == null ) {
                             // if the value is not null, we must instantiate
                             // the object in the sequence
                             if ( value == null || rf._setSequence[ i ] == null )
                                 break;
-                            object = Types.newInstance( rf._getSequence[ i ].getReturnType() );
-                            rf._setSequence[ i ].invoke( last, new Object[] { object } );
+                            internalObject = Types.newInstance( rf._getSequence[ i ].getReturnType() );
+                            rf._setSequence[ i ].invoke( last, new Object[] { internalObject } );
                         }
                     }
-                if ( object != null ) {
+                if ( internalObject != null ) {
                     if ( value == null && rf._deleteMethod != null )
-                        rf._deleteMethod.invoke( object, (Object[]) null );
+                        rf._deleteMethod.invoke( internalObject, (Object[]) null );
                     else
-                        rf._setMethod.invoke( object, new Object[] { value == null ? _default : value } );
+                        rf._setMethod.invoke( internalObject, new Object[] { value == null ? _default : value } );
                 }
             } else {
                 throw new DataObjectAccessException("no method to set value for field: "+_fType+" in class: "+_eMold);
@@ -386,7 +388,7 @@ public class FieldMolder {
      * Check if the specified value is the default value of the Field
      * represented by this FieldMolder
      */
-    public boolean isDefault( Object value ) {
+    public boolean isDefault(final Object value) {
         if ( _default == value )
             return true;
 
@@ -402,7 +404,7 @@ public class FieldMolder {
     // ======================================================
     //  copy from FieldHanlder.java and modified
     // ======================================================
-    protected Class getCollectionType( String coll, boolean lazy )
+    protected Class getCollectionType(final String coll, final boolean lazy)
             throws MappingException {
         /* 
          * Class type;
@@ -430,7 +432,7 @@ public class FieldMolder {
     static class CollectionInfo {
         String name;
         Class type;
-        CollectionInfo( String name, Class type ) {
+        CollectionInfo(final String name, final Class type) {
             this.name = name;
             this.type = type;
         }
@@ -464,9 +466,9 @@ public class FieldMolder {
      * @throws MappingException The field or its accessor methods are not
      *  found, not accessible, not of the specified type, etc
      */
-    public FieldMolder( DatingService ds, ClassMolder eMold, FieldMapping fieldMap, String manyTable,
-            String[] idSQL, int[] idType, TypeConvertor[] idTo, TypeConvertor[] idFrom, String[] idParam,
-            String[] relatedIdSQL, int[] relatedIdType, TypeConvertor[] ridTo, TypeConvertor[] ridFrom, String[] ridParam )
+    public FieldMolder(final DatingService ds, final ClassMolder eMold, final FieldMapping fieldMap, final String manyTable,
+            final String[] idSQL, final int[] idType, final TypeConvertor[] idTo, final TypeConvertor[] idFrom, final String[] idParam,
+            final String[] relatedIdSQL, final int[] relatedIdType, final TypeConvertor[] ridTo, final TypeConvertor[] ridFrom, final String[] ridParam )
             throws MappingException {
 
         this( ds, eMold, fieldMap );
@@ -476,7 +478,7 @@ public class FieldMolder {
                 relatedIdSQL, relatedIdType, ridTo, ridFrom, ridParam );
     }
 
-    public FieldMolder( DatingService ds, ClassMolder eMold, FieldMapping fieldMap )
+    public FieldMolder(final DatingService ds, final ClassMolder eMold, final FieldMapping fieldMap )
             throws MappingException {
 
         try {
@@ -851,12 +853,13 @@ public class FieldMolder {
      *
      * @param javaClass The class to which the field belongs
      * @param fieldName The name of the field
-     * @param fieldType The type of the field if known, or null
+     * @param internalFieldType The type of the field if known, or null
      * @return The field, null if not found
      * @throws MappingException The field is not accessible or is not of the
      *  specified type
      */
-    private Field findField(Class javaClass, String fieldName, Class fieldType) throws MappingException {
+    private Field findField(final Class javaClass, final String fieldName, final Class fieldType) throws MappingException {
+        Class internalFieldType = fieldType;
         Field field;
 
         try {
@@ -866,10 +869,10 @@ public class FieldMolder {
             if ( field.getModifiers() != Modifier.PUBLIC &&
                  field.getModifiers() != ( Modifier.PUBLIC | Modifier.VOLATILE ) )
                 throw new MappingException( "mapping.fieldNotAccessible", fieldName, javaClass.getName() );
-            if ( fieldType == null )
-                fieldType = Types.typeFromPrimitive( field.getType() );
-            else if ( Types.typeFromPrimitive( fieldType ) != Types.typeFromPrimitive( field.getType() ) )
-                throw new MappingException( "mapping.fieldTypeMismatch", field, fieldType.getName() );
+            if ( internalFieldType == null )
+                internalFieldType = Types.typeFromPrimitive( field.getType() );
+            else if ( Types.typeFromPrimitive( internalFieldType ) != Types.typeFromPrimitive( field.getType() ) )
+                throw new MappingException( "mapping.fieldTypeMismatch", field, internalFieldType.getName() );
             return field;
         } catch ( NoSuchFieldException except ) {
         	// no explicit exception handling
@@ -892,15 +895,16 @@ public class FieldMolder {
      *
      * @param javaClass The class to which the field belongs
      * @param methodName The name of the accessor method
-     * @param fieldType The type of the field if known, or null
+     * @param internalFieldType The type of the field if known, or null
      * @param getMethod True if get method, false if set method
      * @return The method, null if not found
      * @throws MappingException The method is not accessible or is not of the
      *  specified type
      */
-    private static Method findAccessor(Class javaClass, String methodName, Class fieldType,
-            boolean getMethod) throws MappingException {
-        
+    private static Method findAccessor(final Class javaClass, final String methodName, final Class fieldType,
+            final boolean getMethod) throws MappingException {
+
+        Class internalFieldType = fieldType;
         Method   method = null;
         Method[] methods;
         Class[] parameterTypes;
@@ -914,25 +918,25 @@ public class FieldMolder {
                 // return type.
                 method = javaClass.getMethod( methodName, new Class[ 0 ] );
                 
-                if ( fieldType == null ) {
-                    fieldType = Types.typeFromPrimitive( method.getReturnType() );
+                if ( internalFieldType == null ) {
+                    internalFieldType = Types.typeFromPrimitive( method.getReturnType() );
                 } else {
-                        fieldType = Types.typeFromPrimitive(fieldType);
+                        internalFieldType = Types.typeFromPrimitive(internalFieldType);
                         Class returnType = Types.typeFromPrimitive( method.getReturnType());
                         
                         //-- First check against whether the declared type is
                         //-- an interface or abstract class. We also check
                         //-- type as Serializable for CMP 1.1 compatibility.
-                        if (fieldType.isInterface() ||
-                            ((fieldType.getModifiers() & Modifier.ABSTRACT) != 0) ||
-                            (fieldType == java.io.Serializable.class)) {
-                            if ( ! fieldType.isAssignableFrom( returnType ) )
+                        if (internalFieldType.isInterface() ||
+                            ((internalFieldType.getModifiers() & Modifier.ABSTRACT) != 0) ||
+                            (internalFieldType == java.io.Serializable.class)) {
+                            if ( ! internalFieldType.isAssignableFrom( returnType ) )
                             throw new MappingException("mapping.accessorReturnTypeMismatch",
-                                                        method, fieldType.getName() );
+                                                        method, internalFieldType.getName() );
                         } else {
-                            if ( ! returnType.isAssignableFrom( fieldType ) )
+                            if ( ! returnType.isAssignableFrom( internalFieldType ) )
                             throw new MappingException("mapping.accessorReturnTypeMismatch",
-                                                        method, fieldType.getName() );
+                                                        method, internalFieldType.getName() );
                         }
                     }      
              } else {
@@ -943,8 +947,8 @@ public class FieldMolder {
                  // method name. If the field type is know, look up a suitable
                  // method. If the fielf type is unknown, lookup the first
                  // method with that name and one parameter.
-                 if ( fieldType != null ) {
-                     fieldTypeFromPrimitive = Types.typeFromPrimitive( fieldType );
+                 if ( internalFieldType != null ) {
+                     fieldTypeFromPrimitive = Types.typeFromPrimitive( internalFieldType );
                      // first check for setter with reference type (e.g. setXxx(Integer))
                      try {
                     	 method = javaClass.getMethod( methodName, new Class[] { fieldTypeFromPrimitive } );
@@ -952,7 +956,7 @@ public class FieldMolder {
                          // if setter for reference type could not be found
                          // try to find one for primitive type (e.g. setXxx(int))
                          try {
-                        	 method = javaClass.getMethod( methodName, new Class[] { fieldType } );
+                        	 method = javaClass.getMethod( methodName, new Class[] { internalFieldType } );
                          } catch ( Exception except2 ) {
                          	 // log.warn ("Unexpected exception", except2);
                          }
@@ -969,7 +973,7 @@ public class FieldMolder {
                              Class paramType = Types.typeFromPrimitive( parameterTypes[0] );
                              
                              //-- check straight match
-                             if ((fieldType == null) ||
+                             if ((internalFieldType == null) ||
                                   paramType.isAssignableFrom( fieldTypeFromPrimitive )) 
                              {
                                  method = methods[ i ];
@@ -977,8 +981,8 @@ public class FieldMolder {
                              }
                              //-- Check against whether the declared type is
                              //-- an interface or abstract class. 
-                             else if (fieldType.isInterface() ||
-                                     ((fieldType.getModifiers() & Modifier.ABSTRACT) != 0))
+                             else if (internalFieldType.isInterface() ||
+                                     ((internalFieldType.getModifiers() & Modifier.ABSTRACT) != 0))
                              {
                                  if (fieldTypeFromPrimitive.isAssignableFrom( paramType )) 
                                  {
@@ -1008,7 +1012,7 @@ public class FieldMolder {
          return null;
      }
 
-    private String capitalize(String name) {
+    private String capitalize(final String name) {
         char first;
 
         first = name.charAt( 0 );
@@ -1024,7 +1028,7 @@ public class FieldMolder {
      * @return the <code>ReflectService</code> instance. If doess't yet exist
      * for the given classloader, then it creates one prior to returning it.
      */
-    private ReflectService getContextReflectService ( ClassLoader loader ) {
+    private ReflectService getContextReflectService(final ClassLoader loader) {
 
         if ( null == loader || this._defaultReflectService._loader == loader)
             return this._defaultReflectService;
@@ -1058,7 +1062,7 @@ public class FieldMolder {
          * @param refSrv the ReflectService that serve as a based for the new instance
          * @loader the new ClassLoader
          */
-        ReflectService ( ReflectService refSrv, ClassLoader loader ) {
+        ReflectService(final ReflectService refSrv, final ClassLoader loader) {
             this._loader = loader;
             this._fClass = cloneClass ( refSrv._fClass );
             this._field  = cloneField ( refSrv._field );
@@ -1090,7 +1094,7 @@ public class FieldMolder {
         /**
          * constructs a Field instance with the current ClassLoader
          */
-        private Field cloneField ( Field originalField ) {
+        private Field cloneField(final Field originalField) {
             if ( null == originalField )
                 return null;
 
@@ -1107,7 +1111,7 @@ public class FieldMolder {
         /**
          * constructs a Method instance with the current ClassLoader
          */
-        private Method cloneMethod ( Method originalMethod ) {
+        private Method cloneMethod(final Method originalMethod) {
             if ( null == originalMethod)
                 return null;
 
@@ -1132,7 +1136,7 @@ public class FieldMolder {
         /**
          * constructs an Array of Method instances with the current ClassLoader
          */
-        private Method[] cloneMethods ( Method[] originalMethods ) {
+        private Method[] cloneMethods(final Method[] originalMethods) {
             if ( null == originalMethods )
                 return null;
 
@@ -1146,7 +1150,7 @@ public class FieldMolder {
         /**
          * constructs a <code>Class</code> instance with the current ClassLoader
          */
-        private Class cloneClass ( Class originalClass ) {
+        private Class cloneClass(final Class originalClass) {
             if ( null == originalClass )
                 return null;
             if ( originalClass.isPrimitive() )
@@ -1158,7 +1162,7 @@ public class FieldMolder {
         /**
          * Helper method to load the class given its full qualified name
          */
-        private Class loadClass ( String name ) {
+        private Class loadClass(final String name) {
             Class resultClass = null;
             try {
                 resultClass = ClassLoadingUtils.loadClass(_loader, name);

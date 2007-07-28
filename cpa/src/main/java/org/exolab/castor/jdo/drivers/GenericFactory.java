@@ -76,11 +76,11 @@ public class GenericFactory extends BaseFactory {
      *         Boolean.FALSE means "no",
      *         null means "cannot determine"
      */
-    public Boolean isDuplicateKeyException(Exception ex) {
+    public Boolean isDuplicateKeyException(final Exception ex) {
         return null;
     }
 
-    public String quoteName(String name) {
+    public String quoteName(final String name) {
         return name;
     }
 
@@ -89,7 +89,7 @@ public class GenericFactory extends BaseFactory {
  	 *
 	 * @author Andrew Ballanger, 3/15/2001
 	 */
-	protected final String doubleQuoteName(String name) {
+	protected final String doubleQuoteName(final String name) {
 		StringBuffer buffer = new StringBuffer();
 		StringTokenizer tokens = new StringTokenizer(name, ".");
 

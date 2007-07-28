@@ -94,7 +94,7 @@ public class QueryAnalyser {
     boolean packFrame = false;
 
     /**Construct the application*/
-    public QueryAnalyser(String databasename, String dbconfig) {
+    public QueryAnalyser(final String databasename, final String dbconfig) {
         MainFrame frame = new MainFrame(databasename,dbconfig);
         //Validate frames that have preset sizes
         //Pack frames that have useful preferred size info, e.g. from their layout
@@ -117,7 +117,7 @@ public class QueryAnalyser {
     }
 
     /**Main method*/
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         if (args.length != 2) {
             System.out.println("Usage: org.exolab.castor.tools.QueryAnalyser <Databasename> <Databaseconfig>");
             System.out.println("Example: org.exolab.castor.tools.QueryAnalyser testdb database.xml");
@@ -166,7 +166,7 @@ public class QueryAnalyser {
         JLabel statusBar = new JLabel();
 
         /**Construct the frame*/
-        public MainFrame(String _databasename,String _dbconfig) {
+        public MainFrame(final String _databasename, final String _dbconfig) {
             databasename=_databasename;
             dbconfig=_dbconfig;
 
@@ -202,7 +202,7 @@ public class QueryAnalyser {
             btnExit.setMnemonic('0');
 
             btnExit.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(ActionEvent e) {
+                public void actionPerformed(final ActionEvent e) {
                         exit();
                 }
             });
@@ -213,13 +213,13 @@ public class QueryAnalyser {
             execute.setIcon(new ImageIcon(cl.getResource("org/exolab/castor/gui/images/fire.gif")));
             execute.setMnemonic('0');
             execute.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(ActionEvent e) {
+                public void actionPerformed(final ActionEvent e) {
                     execute_actionPerformed(e);
                 }
             });
             ErrorPanel.setLayout(borderLayout4);
             btnPrevious.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(ActionEvent e) {
+                public void actionPerformed(final ActionEvent e) {
                     btnPrevious_actionPerformed(e);
                 }
             });
@@ -229,7 +229,7 @@ public class QueryAnalyser {
             btnNext.setIcon(new ImageIcon(cl.getResource("org/exolab/castor/gui/images/arrw04e.gif")));
             btnNext.setMnemonic('0');
             btnNext.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(ActionEvent e) {
+                public void actionPerformed(final ActionEvent e) {
                     btnNext_actionPerformed(e);
                 }
             });
@@ -266,7 +266,7 @@ public class QueryAnalyser {
             oqlquery.setText(qhistory.GetCurrentQuery());
         }
         /**Overridden so we can exit when window is closed*/
-        protected void processWindowEvent(WindowEvent e) {
+        protected void processWindowEvent(final WindowEvent e) {
             super.processWindowEvent(e);
             if (e.getID() == WindowEvent.WINDOW_CLOSING) {
                 exit();
@@ -274,7 +274,7 @@ public class QueryAnalyser {
             }
         }
 
-        void execute_actionPerformed(ActionEvent e) {
+        void execute_actionPerformed(final ActionEvent e) {
             performQuery();
         }
 
@@ -349,7 +349,7 @@ public class QueryAnalyser {
 
         }
 
-        private Vector getProperties(Object o) {
+        private Vector getProperties(final Object o) {
             int i;
             Vector properties=new Vector();
             Method[] ms = o.getClass().getMethods();
@@ -366,7 +366,7 @@ public class QueryAnalyser {
             return properties;
         }
 
-        private void FillTableHeader(Vector properties, DefaultTableModel model) {
+        private void FillTableHeader(final Vector properties, final DefaultTableModel model) {
             Iterator i = properties.iterator();
             Method m;
             while(i.hasNext()) {
@@ -376,7 +376,7 @@ public class QueryAnalyser {
             }
         }
 
-        private Vector fillRow(Vector properties, Object o) {
+        private Vector fillRow(final Vector properties, final Object o) {
             Method m;
             Object temp;
             Vector results=new Vector();
@@ -419,13 +419,13 @@ public class QueryAnalyser {
             ResultTable.setModel(new DefaultTableModel());
         }
 
-        void btnPrevious_actionPerformed(ActionEvent e) {
+        void btnPrevious_actionPerformed(final ActionEvent e) {
             clearTabs();
             oqlquery.setText(qhistory.getPreviousQuery());
             TabbedPane.setSelectedComponent(QueryPanel);
         }
 
-        void btnNext_actionPerformed(ActionEvent e) {
+        void btnNext_actionPerformed(final ActionEvent e) {
             clearTabs();
             oqlquery.setText(qhistory.getNextQuery());
             TabbedPane.setSelectedComponent(QueryPanel);

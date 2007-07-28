@@ -165,7 +165,7 @@ public final class ObjectLock implements DepositBox {
      *
      * @param oid The object to create a lock for
      */
-    public ObjectLock(OID oid) {
+    public ObjectLock(final OID oid) {
         _oid = oid;
 
         // give each instance of ObjectLock an id, for debug only
@@ -196,7 +196,7 @@ public final class ObjectLock implements DepositBox {
      * Set OID of this lock to new value.
      *
      */
-    void setOID( OID oid ) {
+    void setOID(final OID oid) {
         _oid = oid;
     }
 
@@ -248,7 +248,7 @@ public final class ObjectLock implements DepositBox {
      * @param write True if must have a write lock
      * @return True if the transaction has a lock on this object
      */
-    boolean hasLock( TransactionContext tx, boolean write ) {
+    boolean hasLock(final TransactionContext tx, final boolean write) {
         LinkedTx read;
 
         if ( _writeLock == tx )
@@ -285,7 +285,7 @@ public final class ObjectLock implements DepositBox {
                  _confirmWaiting == null && _waitCount == 0 );
     }
 
-    boolean isExclusivelyOwned( TransactionContext tx ) {
+    boolean isExclusivelyOwned(final TransactionContext tx) {
         if ( _writeLock == null && _readLock == null )
             return false;
 
@@ -330,10 +330,10 @@ public final class ObjectLock implements DepositBox {
         _expiredObject = null;
     }
 
-    synchronized void acquireLoadLock( TransactionContext tx, boolean write, int timeout ) 
-            throws LockNotGrantedException, ObjectDeletedWaitingForLockException {
-        
-        long endtime = timeout>0? System.currentTimeMillis() + timeout*1000: Long.MAX_VALUE;
+    synchronized void acquireLoadLock(final TransactionContext tx, final boolean write, final int timeout)
+    throws LockNotGrantedException, ObjectDeletedWaitingForLockException {
+        int internalTimeout = timeout;
+        long endtime = internalTimeout>0? System.currentTimeMillis() + internalTimeout*1000: Long.MAX_VALUE;
         while ( true ) {
             try {
                 // cases to consider:
@@ -397,7 +397,7 @@ public final class ObjectLock implements DepositBox {
                 } else {
                     // other transaction holding writeLock, waits for write
                     // or, other transaction holding readLock, waiting for read
-                    if ( timeout == 0 ) {
+                    if ( internalTimeout == 0 ) {
                         if (LOG.isDebugEnabled()) {
                             LOG.debug ( "Timeout on " + this.toString() + " by " + tx );
                         }
@@ -439,7 +439,7 @@ public final class ObjectLock implements DepositBox {
                     // eventually timeout of zero will either succeed or fail
                     // without blocking.
                     if ( System.currentTimeMillis() > endtime )
-                        timeout = 0;
+                        internalTimeout = 0;
 
                     removeWaiting( tx );
                     tx.setWaitOnLock( null );
@@ -451,9 +451,8 @@ public final class ObjectLock implements DepositBox {
         }
     }
 
-    synchronized void acquireCreateLock( TransactionContext tx ) 
-            throws LockNotGrantedException {
-
+    synchronized void acquireCreateLock(final TransactionContext tx)
+    throws LockNotGrantedException {
         while ( true ) {
             // cases to consider:
             // 1/ waitingForConfirmation exist
@@ -484,10 +483,10 @@ public final class ObjectLock implements DepositBox {
     }
 
     // probaraly we just don't need update....
-    synchronized void acquireUpdateLock( TransactionContext tx, int timeout ) 
-            throws LockNotGrantedException, ObjectDeletedWaitingForLockException {
-
-        long endtime = timeout>0? System.currentTimeMillis() + timeout*1000: Long.MAX_VALUE;
+    synchronized void acquireUpdateLock(final TransactionContext tx, final int timeout)
+    throws LockNotGrantedException, ObjectDeletedWaitingForLockException {
+        int internalTimeout = timeout;
+        long endtime = internalTimeout>0? System.currentTimeMillis() + internalTimeout*1000: Long.MAX_VALUE;
         while ( true ) {
             try {
                 // case to consider:
@@ -517,7 +516,7 @@ public final class ObjectLock implements DepositBox {
                     _confirmWaitingAction = ACTION_UPDATE;
                     return;
                 } else {
-                    if ( timeout == 0 ) {
+                    if ( internalTimeout == 0 ) {
                         if (LOG.isDebugEnabled()) {
                             LOG.debug ( "Timeout on " + this.toString() + " by " + tx );
                         }
@@ -554,7 +553,7 @@ public final class ObjectLock implements DepositBox {
                     // eventually timeout of zero will either succeed or fail
                     // without blocking.
                     if ( System.currentTimeMillis() > endtime )
-                        timeout = 0;
+                        internalTimeout = 0;
 
                     removeWaiting( tx );
                     tx.setWaitOnLock( null );
@@ -566,7 +565,7 @@ public final class ObjectLock implements DepositBox {
         }
     }
 
-    public synchronized void setObject( TransactionContext tx, Object[] object ) {
+    public synchronized void setObject(final TransactionContext tx, final Object[] object) {
 
         _isExpired = false; // initialize cache expiration flag to false
         _expiredObject = null;
@@ -588,8 +587,7 @@ public final class ObjectLock implements DepositBox {
             throw new IllegalArgumentException("Transaction tx does not own this lock, "+toString()+"!");
     }
 
-    public synchronized Object[] getObject( TransactionContext tx ) {
-
+    public synchronized Object[] getObject(final TransactionContext tx) {
         if ( _confirmWaiting != null && _confirmWaiting == tx )
             return _object;
         else if ( _writeLock != null && _writeLock == tx )
@@ -609,7 +607,7 @@ public final class ObjectLock implements DepositBox {
         return _timeStamp;
     }
 
-    synchronized void confirm( TransactionContext tx, boolean succeed ) {
+    synchronized void confirm(final TransactionContext tx, final boolean succeed) {
 
         // cases to consider:
         // 1/ not in waitingForConfirmation
@@ -681,16 +679,16 @@ public final class ObjectLock implements DepositBox {
      * cancelled whether or not the write is acquired.
      *
      * @param tx The transaction requesting the lock
-     * @param timeout Timeout waiting to acquire lock (in milliseconds),
+     * @param internalTimeout Timeout waiting to acquire lock (in milliseconds),
      *  zero for no waiting
      * @throws LockNotGrantedException Lock could not be granted in
      *  the specified timeout or a dead lock has been detected
      * @throws ObjectDeletedWaitingForLockException The object has
      *  been deleted while waiting for the lock
      */
-    synchronized void upgrade( TransactionContext tx, int timeout )
-            throws LockNotGrantedException, ObjectDeletedWaitingForLockException {
-
+    synchronized void upgrade(final TransactionContext tx, final int timeout)
+    throws LockNotGrantedException, ObjectDeletedWaitingForLockException {
+        int internalTimeout = timeout;
         // Note: This method must succeed even if an exception is thrown
         // in the middle. An exception may be thrown by a Thread.stop().
         // Must make sure not to lose consistency.
@@ -704,7 +702,7 @@ public final class ObjectLock implements DepositBox {
             throw e;
         }
 
-        long endtime = timeout>0? System.currentTimeMillis() + timeout*1000: Long.MAX_VALUE;
+        long endtime = internalTimeout>0? System.currentTimeMillis() + internalTimeout*1000: Long.MAX_VALUE;
         while ( true ) {
             // Repeat forever until lock is acquired or timeout
             try {
@@ -725,7 +723,7 @@ public final class ObjectLock implements DepositBox {
                     return;
                 } else {
                     // Don't wait if timeout is zero
-                    if ( timeout == 0 ) {
+                    if ( internalTimeout == 0 ) {
                         if (LOG.isDebugEnabled()) {
                             LOG.debug ( "Timeout on " + this.toString() + " by " + tx );
                         }
@@ -763,7 +761,7 @@ public final class ObjectLock implements DepositBox {
                     // eventually timeout of zero will either succeed or fail
                     // without blocking.
                     if ( System.currentTimeMillis() > endtime )
-                        timeout = 0;
+                        internalTimeout = 0;
                     removeWaiting( tx );
                     tx.setWaitOnLock( null );
                 }
@@ -785,7 +783,7 @@ public final class ObjectLock implements DepositBox {
      *
      * @param tx The transaction that holds the lock
      */
-    synchronized void release( TransactionContext tx ) {
+    synchronized void release(final TransactionContext tx) {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug ( "Release " + this.toString() + " by " + tx );
@@ -845,7 +843,7 @@ public final class ObjectLock implements DepositBox {
      * @throws RuntimeException Attempt to delete object without
      *   acquiring a write lock
      */
-    synchronized void delete( TransactionContext tx ) {
+    synchronized void delete(final TransactionContext tx) {
 
         if ( tx != _writeLock )
             throw new IllegalStateException( Messages.message("persist.notOwnerLock") + " oid:" + _oid + "/" + _id + " by " + tx );
@@ -868,7 +866,7 @@ public final class ObjectLock implements DepositBox {
         }
     }
 
-    synchronized void invalidate( TransactionContext tx ) {
+    synchronized void invalidate(final TransactionContext tx) {
         
         if ( tx != _writeLock ) 
             throw new IllegalStateException( Messages.message ("persist.notOwnerLock") + " oid:" + _oid + "/" + _id + " by " + tx );
@@ -890,9 +888,8 @@ public final class ObjectLock implements DepositBox {
      *
      * @param waitingTx The transaction waiting to acquire this lock
      */
-    private void detectDeadlock( TransactionContext waitingTx, int numOfRec )
-            throws LockNotGrantedException {
-
+    private void detectDeadlock(final TransactionContext waitingTx, final int numOfRec)
+    throws LockNotGrantedException {
         ObjectLock waitOn;
 
         if ( numOfRec <= 0 ) return;
@@ -964,7 +961,7 @@ public final class ObjectLock implements DepositBox {
     /**
      * Remove the transaction from the waiting list (both read and write).
      */
-    private void removeWaiting( TransactionContext tx ) {
+    private void removeWaiting(final TransactionContext tx) {
 
         try {
             if ( _writeWaiting != null ) {
@@ -1022,16 +1019,14 @@ public final class ObjectLock implements DepositBox {
      * write locks or waiting for a read/write lock.
      */
     static class LinkedTx {
-
         TransactionContext tx;
 
         LinkedTx           next;
 
-        LinkedTx( TransactionContext tx, LinkedTx next ) {
+        LinkedTx(final TransactionContext tx, final LinkedTx next) {
             this.tx = tx;
             this.next = next;
         }
-
     }
 }
 

@@ -122,7 +122,7 @@ final public class SqlBindParser {
      *
      * @param sql expression to be parsed
      */
-    public SqlBindParser(String sql) {
+    public SqlBindParser(final String sql) {
         _sql = sql;
         _sql_len = _sql.length();
         _pos = 0;
@@ -215,7 +215,7 @@ final public class SqlBindParser {
      * @param pre_sql SQL statement string with bind variables of the form "?1"
      * @return SQL statement string with bind variables of the form "?"
      */
-    public static String getJdbcSql(String pre_sql) {
+    public static String getJdbcSql(final String pre_sql) {
         StringBuffer sb = new StringBuffer();
         SqlBindParser parser = new SqlBindParser(pre_sql);
 
@@ -237,7 +237,7 @@ final public class SqlBindParser {
      * @param values array of bind values
      * @throws SQLException
      */
-    public static void bindJdbcValues(PreparedStatement stmt, String pre_sql, Object[] values) throws SQLException {
+    public static void bindJdbcValues(final PreparedStatement stmt, final String pre_sql, final Object[] values) throws SQLException {
         SqlBindParser parser = new SqlBindParser(pre_sql);
 
         for(int i=1; parser.next(); ++i) {

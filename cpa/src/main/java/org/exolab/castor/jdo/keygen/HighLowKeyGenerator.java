@@ -130,7 +130,7 @@ public class HighLowKeyGenerator implements KeyGenerator {
     /**
      * Initialize the HIGH-LOW key generator.
      */
-    public HighLowKeyGenerator(PersistenceFactory factory,  Properties params, int sqlType)
+    public HighLowKeyGenerator(final PersistenceFactory factory, final Properties params, final int sqlType)
     throws MappingException {
         String factorStr;
 
@@ -173,7 +173,7 @@ public class HighLowKeyGenerator implements KeyGenerator {
      * @param sqlType
      * @throws MappingException
      */
-    public void supportsSqlType( int sqlType ) throws MappingException {
+    public void supportsSqlType(final int sqlType) throws MappingException {
         if ( sqlType != Types.INTEGER && sqlType != Types.NUMERIC && sqlType != Types.DECIMAL && sqlType != Types.BIGINT) {
             throw new MappingException( Messages.format( "mapping.keyGenSQLType",
                                         getClass().getName(), new Integer( sqlType ) ) );
@@ -182,24 +182,25 @@ public class HighLowKeyGenerator implements KeyGenerator {
 
     /**
      * @param conn An open connection within the given transaction
-     * @param tableName The table name
+     * @param internalTableName The table name
      * @param primKeyName The primary key name
      * @param props A temporary replacement for Principal object
      * @return A new key
      * @throws PersistenceException An error occured talking to persistent
      *  storage
      */
-    public synchronized Object generateKey(Connection conn, String tableName,
-            String primKeyName, Properties props) throws PersistenceException {
+    public synchronized Object generateKey(final Connection conn, final String tableName,
+            final String primKeyName, final Properties props) throws PersistenceException {
         Object last;
         Object max;
         boolean inRange;
 
+        String internalTableName = tableName;
         if ( _global ) {
-            tableName = "<GLOBAL>";
+            internalTableName = "<GLOBAL>";
         }
-        last = _lastValues.get( tableName );
-        max = _maxValues.get( tableName );
+        last = _lastValues.get( internalTableName );
+        max = _maxValues.get( internalTableName );
         if ( last != null ) {    
             if ( _sqlType == Types.INTEGER )
                 last = new Integer( ( (Integer) last ).intValue() + 1 );
@@ -242,9 +243,9 @@ public class HighLowKeyGenerator implements KeyGenerator {
                     _seqValue + "=" + JDBCSyntax.PARAMETER;
 
                 stmt = conn.prepareStatement( sql );
-                stmt.setString(1, tableName);
+                stmt.setString(1, internalTableName);
                 stmt2 = conn.prepareStatement( sql2 );
-                stmt2.setString(2, tableName);
+                stmt2.setString(2, internalTableName);
 
                 // Retry 7 times (lucky number)
                 success = false;
@@ -292,7 +293,7 @@ public class HighLowKeyGenerator implements KeyGenerator {
                         // to HIGH-LOW
                         stmt.close();
                         if ( ! _global ) {
-                        	String sqlStatement = JDBCSyntax.SELECT + "MAX(" + primKeyName + ") FROM " + tableName;
+                        	String sqlStatement = JDBCSyntax.SELECT + "MAX(" + primKeyName + ") FROM " + internalTableName;
                             stmt = conn.prepareStatement(sqlStatement);
                             rs = stmt.executeQuery();
                         }
@@ -328,7 +329,7 @@ public class HighLowKeyGenerator implements KeyGenerator {
                         
                         String sqlStatement = "INSERT INTO " + _seqTable + " (" + _seqKey + "," + _seqValue + ") VALUES (?, ?)";
                         stmt2 = conn.prepareStatement(sqlStatement);
-                        stmt2.setString( 1, tableName );
+                        stmt2.setString( 1, internalTableName );
                         stmt2.setObject( 2, max );
                         stmt2.executeUpdate();
                         success = true;
@@ -379,11 +380,11 @@ public class HighLowKeyGenerator implements KeyGenerator {
             inRange = ( ( (BigDecimal) last ).compareTo( (BigDecimal) max ) < 0 );
 
         if ( inRange ) {
-            _lastValues.put( tableName, last );
-            _maxValues.put( tableName, max );
+            _lastValues.put( internalTableName, last );
+            _maxValues.put( internalTableName, max );
         } else {
-            _lastValues.remove( tableName );
-            _maxValues.remove( tableName );
+            _lastValues.remove( internalTableName );
+            _maxValues.remove( internalTableName );
         }
         return last;
     }
@@ -401,7 +402,7 @@ public class HighLowKeyGenerator implements KeyGenerator {
      * Gives a possibility to patch the Castor-generated SQL statement
      * for INSERT (makes sense for DURING_INSERT key generators)
      */
-    public final String patchSQL( String insert, String primKeyName ) {
+    public final String patchSQL(final String insert, final String primKeyName) {
         return insert;
     }
 

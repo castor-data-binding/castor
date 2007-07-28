@@ -60,48 +60,48 @@ import org.exolab.castor.persist.spi.LogInterceptor;
 public class OutputLogInterceptor implements LogInterceptor {
     private PrintWriter  _writer;
 
-    public OutputLogInterceptor( PrintWriter writer ) {
+    public OutputLogInterceptor(final PrintWriter writer) {
         _writer = writer;
     }
 
-    public OutputLogInterceptor( OutputStream output ) {
-        _writer = new PrintWriter( output );
+    public OutputLogInterceptor(final OutputStream output) {
+        _writer = new PrintWriter(output);
     }
 
-    public OutputLogInterceptor( Writer writer ) {
-        _writer = new PrintWriter( writer );
+    public OutputLogInterceptor(final Writer writer) {
+        _writer = new PrintWriter(writer);
     }
 
-    public void loading(Object objClass, Object identity) {
-        _writer.println( "Castor: Loading " + objClass + " (" + identity + ")" );
+    public void loading(final Object objClass, final Object identity) {
+        _writer.println("Castor: Loading " + objClass + " (" + identity + ")");
     }
 
-    public void creating( Object objClass, Object identity ) {
-        _writer.println( "Castor: Creating " + objClass + " (" + identity + ")" );
+    public void creating(final Object objClass, final Object identity) {
+        _writer.println("Castor: Creating " + objClass + " (" + identity + ")");
     }
 
-    public void removing( Object objClass, Object identity ) {
-        _writer.println( "Castor: Removing " + objClass + " (" + identity + ")" );
+    public void removing(final Object objClass, final Object identity) {
+        _writer.println("Castor: Removing " + objClass + " (" + identity + ")");
     }
 
-    public void storing( Object objClass, Object identity ) {
-        _writer.println( "Castor: Storing " + objClass + " (" + identity + ")" );
+    public void storing(final Object objClass, final Object identity) {
+        _writer.println("Castor: Storing " + objClass + " (" + identity + ")");
     }
 
-    public void storeStatement( String statement ) {
-        _writer.println( statement );
+    public void storeStatement(final String statement) {
+        _writer.println(statement);
     }
 
-    public void queryStatement( String statement ) {
-        _writer.println( statement );
+    public void queryStatement(final String statement) {
+        _writer.println(statement);
     }
 
-    public void message( String message ) {
-        _writer.println( message );
+    public void message(final String message) {
+        _writer.println(message);
     }
 
-    public void exception( Exception except ) {
-        _writer.println( except );
+    public void exception(final Exception except) {
+        _writer.println(except);
     }
 
     public PrintWriter getPrintWriter() {

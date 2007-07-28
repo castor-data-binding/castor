@@ -72,10 +72,10 @@ public final class IdentityKeyGeneratorFactory implements KeyGeneratorFactory {
      * @param factory Helper object for obtaining database-specific QuerySyntax.
      * @param params Parameters for key generator.
      */
-    public KeyGenerator getKeyGenerator(PersistenceFactory factory,
-            Properties params, int sqlType) throws MappingException {
+    public KeyGenerator getKeyGenerator(final PersistenceFactory factory,
+            final Properties params, final int sqlType) throws MappingException {
         
-        return new IdentityKeyGenerator( factory, sqlType );
+        return new IdentityKeyGenerator(factory, sqlType);
     }
 
     /**

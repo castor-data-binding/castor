@@ -9,11 +9,11 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
   *  @version 1.0
   */
 public class InstantDBQueryExpression extends JDBCQueryExpression {
-    public InstantDBQueryExpression(PersistenceFactory factory) {
+    public InstantDBQueryExpression(final PersistenceFactory factory) {
         super(factory);
     }
 
-    public String getStatement(boolean lock) {
+    public String getStatement(final boolean lock) {
         // Do not use FOR UPDATE to lock query.
         return getStandardStatement(lock, false).toString();
     }

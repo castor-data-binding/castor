@@ -93,7 +93,7 @@ public final class QueryResults {
      */
     private Identity _lastIdentity;
 
-    public QueryResults(TransactionContext tx, 
+    public QueryResults(final TransactionContext tx, 
             final LockEngine engine,
             final PersistenceQuery query, 
             final AccessMode accessMode, 

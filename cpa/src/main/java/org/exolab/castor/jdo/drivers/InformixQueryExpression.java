@@ -58,11 +58,11 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @author <a href="mailto:santiago.arriaga@catnet.com.mx">Santiago Arriaga</a>
  */
 public final class InformixQueryExpression extends JDBCQueryExpression {
-    public InformixQueryExpression( PersistenceFactory factory ) {
+    public InformixQueryExpression(final PersistenceFactory factory) {
         super( factory );
     }
 
-    public String getStatement( boolean lock ) {
+    public String getStatement(final boolean lock) {
         StringBuffer sql = new StringBuffer(128);
 
         addSelectClause(sql);
@@ -75,7 +75,7 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
         return sql.toString();
     }
 
-    private void addSelectClause(StringBuffer buffer) {
+    private void addSelectClause(final StringBuffer buffer) {
         buffer.append( JDBCSyntax.SELECT );
         if ( _distinct )
           buffer.append( JDBCSyntax.DISTINCT );
@@ -83,7 +83,7 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
         buffer.append( getColumnList() );
     }
     
-    private void addFromClause(StringBuffer buffer) {
+    private void addFromClause(final StringBuffer buffer) {
         buffer.append( JDBCSyntax.FROM );
 
         Enumeration tables = getFromTables();
@@ -141,7 +141,7 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
         return tables;
     }
 
-    private boolean addJoinClause(StringBuffer buffer) {
+    private boolean addJoinClause(final StringBuffer buffer) {
         boolean first = true;
 
         for ( int i = 0 ; i < _joins.size() ; ++i ) {
@@ -157,7 +157,7 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
         return first;
     }
 
-    private void addJoin(StringBuffer buffer, Join join) {
+    private void addJoin(final StringBuffer buffer, final Join join) {
         for ( int j = 0 ; j < join.leftColumns.length ; ++j ) {
             if ( j > 0 )
                 buffer.append( JDBCSyntax.AND );
@@ -170,18 +170,18 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
         }
     }
 
-    private String quoteTableAndColumn(String table, String column) {
+    private String quoteTableAndColumn(final String table, final String column) {
         return _factory.quoteName
             (table + JDBCSyntax.TABLE_COLUMN_SEPARATOR + column);
     }
 
-    private void addOrderByClause(StringBuffer buffer) {
+    private void addOrderByClause(final StringBuffer buffer) {
         if (_order != null) {
             buffer.append(JDBCSyntax.ORDER_BY).append(_order);
         }
     }
 
-    private void addForUpdateClause(StringBuffer buffer, boolean lock) {
+    private void addForUpdateClause(final StringBuffer buffer, final boolean lock) {
         // Use FOR UPDATE to lock selected tables.
         if (lock) {
             buffer.append( " FOR UPDATE" );

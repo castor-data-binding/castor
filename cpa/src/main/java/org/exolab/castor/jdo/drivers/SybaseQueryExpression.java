@@ -60,11 +60,11 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @version $Revision$ $Date: 2004-10-01 07:25:46 -0600 (Fri, 01 Oct 2004) $
  */
 public final class SybaseQueryExpression extends JDBCQueryExpression {
-    public SybaseQueryExpression( PersistenceFactory factory ) {
-        super( factory );
+    public SybaseQueryExpression(final PersistenceFactory factory) {
+        super(factory);
     }
 
-    public String getStatement( boolean lock ) {
+    public String getStatement(final boolean lock) {
         StringBuffer sql;
         boolean      first;
         Enumeration  enumeration;
@@ -129,9 +129,8 @@ public final class SybaseQueryExpression extends JDBCQueryExpression {
         return sql.toString();
     }
     
-    public void addInnerJoin( String leftTable, String leftColumn, String leftTableAlias,
-                              String rightTable, String rightColumn, String rightTableAlias )
-    {
+    public void addInnerJoin(final String leftTable, final String leftColumn, final String leftTableAlias,
+            final String rightTable, final String rightColumn, final String rightTableAlias) {
         // copy from JDBCQueryExpression.addInnerJoin(String,String,String,String,String,String)
         int index;
         Join join;

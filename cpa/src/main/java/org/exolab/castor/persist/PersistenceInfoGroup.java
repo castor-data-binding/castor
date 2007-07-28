@@ -54,7 +54,7 @@ import org.exolab.castor.jdo.QueryException;
 public class PersistenceInfoGroup {
     LockEngine[] engines;
     
-    public PersistenceInfoGroup( LockEngine[] engines ) {
+    public PersistenceInfoGroup(final LockEngine[] engines) {
         this.engines = engines;
     }
     
@@ -80,7 +80,7 @@ public class PersistenceInfoGroup {
      * @return ClassMolder instance associated with a given named query
      * @throws QueryException if there's an issue resolving the ClassMolder
      */
-    public ClassMolder findClassMolderByQuery(String query) throws QueryException {
+    public ClassMolder findClassMolderByQuery(final String query) throws QueryException {
         ClassMolder molder = null;
         for (int i=0; i < engines.length; i++) {            
             molder = engines[i].getClassMolderByQuery(query);            

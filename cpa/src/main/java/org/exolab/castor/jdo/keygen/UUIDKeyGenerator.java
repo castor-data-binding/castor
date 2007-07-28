@@ -98,9 +98,9 @@ public final class UUIDKeyGenerator implements KeyGenerator {
     /**
      * Initialize the UUID key generator.
      */
-    public UUIDKeyGenerator( PersistenceFactory factory, int sqlType )
+    public UUIDKeyGenerator(final PersistenceFactory factory, final int sqlType)
     throws MappingException {
-        supportsSqlType( sqlType );
+        supportsSqlType(sqlType);
     }
 
     /**
@@ -109,7 +109,7 @@ public final class UUIDKeyGenerator implements KeyGenerator {
      * @param sqlType
      * @throws MappingException
      */
-    public void supportsSqlType( int sqlType ) throws MappingException {
+    public void supportsSqlType(final int sqlType) throws MappingException {
         if(sqlType != Types.CHAR && sqlType != Types.VARCHAR && sqlType != Types.LONGVARCHAR) {
           throw new MappingException( Messages.format( "mapping.keyGenSQLType",
                                      getClass().getName(), new Integer( sqlType ) ) );
@@ -127,7 +127,7 @@ public final class UUIDKeyGenerator implements KeyGenerator {
      * @throws PersistenceException An error occured talking to persistent
      *  storage
      */
-    public Object generateKey( Connection conn, String tableName, String primKeyName, Properties props ) throws PersistenceException {
+    public Object generateKey(final Connection conn, final String tableName, final String primKeyName, final Properties props) throws PersistenceException {
         String sUUID = null;
 
         try {
@@ -181,7 +181,7 @@ public final class UUIDKeyGenerator implements KeyGenerator {
      * Gives a possibility to patch the Castor-generated SQL statement
      * for INSERT (makes sense for DURING_INSERT key generators)
      */
-    public final String patchSQL( String insert, String primKeyName ) {
+    public final String patchSQL(final String insert, final String primKeyName) {
         return insert;
     }
 

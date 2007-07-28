@@ -62,7 +62,7 @@ public class QueryHistory implements java.io.Serializable {
 
     }
 
-    public void setQuerys(Vector _querys){
+    public void setQuerys(final Vector _querys){
         querys=_querys;
         currentPos = querys.size()-1;
     }
@@ -71,7 +71,7 @@ public class QueryHistory implements java.io.Serializable {
         return maxsize;
     }
 
-    public void setMaxHistorySize(int newSize){
+    public void setMaxHistorySize(final int newSize){
          maxsize=newSize;
     }
 
@@ -90,7 +90,7 @@ public class QueryHistory implements java.io.Serializable {
       return (String)querys.elementAt(currentPos);
     }
 
-    public void addQuery(String newQuery){
+    public void addQuery(final String newQuery){
         if(querys.contains(newQuery)){
             System.out.println("schon drin");
             return;

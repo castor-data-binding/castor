@@ -117,7 +117,7 @@ public class DTXQuery {
      * @param handler The DocumentHandler to use.
      */
 
-    public void setHandler(DocumentHandler handler) {
+    public void setHandler(final DocumentHandler handler) {
 	_handler = handler;
     }
 
@@ -127,7 +127,7 @@ public class DTXQuery {
      * @param logWriter The log writer to use.
      */
 
-    public void setLogWriter(PrintWriter logWriter) {
+    public void setLogWriter(final PrintWriter logWriter) {
 	_logWriter = logWriter;
     }
 
@@ -137,8 +137,7 @@ public class DTXQuery {
      * @param param 1-based index of the param (see note above).
      * @param value Object to bind.
      */
-
-    public void bind(int param, Object value) throws DTXException {
+    public void bind(final int param, final Object value) throws DTXException {
 	if (_stmt == null) {
 	    throw new DTXException("No prepared statement.");
 	}
@@ -157,7 +156,7 @@ public class DTXQuery {
      * @param value String to bind.
      */
 
-    public void bind(int param, String value) throws DTXException {
+    public void bind(final int param, final String value) throws DTXException {
 	if (_stmt == null) {
 	    throw new DTXException("No prepared statement.");
 	}
@@ -176,7 +175,7 @@ public class DTXQuery {
      * @param value int to bind.
      */
 
-    public void bind(int param, int value) throws DTXException {
+    public void bind(final int param, final int value) throws DTXException {
 	if (_stmt == null) {
 	    throw new DTXException("No prepared statement.");
 	}
@@ -195,7 +194,7 @@ public class DTXQuery {
      * @param value long integer to bind.
      */
 
-    public void bind(int param, long value) throws DTXException {
+    public void bind(final int param, final long value) throws DTXException {
 	if (_stmt == null) {
 	    throw new DTXException("No prepared statement.");
 	}
@@ -214,7 +213,7 @@ public class DTXQuery {
      * @param value float to bind.
      */
 
-    public void bind(int param, float value) throws DTXException {
+    public void bind(final int param, final float value) throws DTXException {
 	if (_stmt == null) {
 	    throw new DTXException("No prepared statement.");
 	}
@@ -233,7 +232,7 @@ public class DTXQuery {
      * @param value double to bind.
      */
 
-    public void bind(int param, double value) throws DTXException {
+    public void bind(final int param, final double value) throws DTXException {
 	if (_stmt == null) {
 	    throw new DTXException("No prepared statement.");
 	}
@@ -252,7 +251,7 @@ public class DTXQuery {
      * @param value boolean to bind.
      */
 
-    public void bind(int param, boolean value) throws DTXException {
+    public void bind(final int param, final boolean value) throws DTXException {
 	if (_stmt == null) {
 	    throw new DTXException("No prepared statement.");
 	}
@@ -294,7 +293,7 @@ public class DTXQuery {
     /* Sets the engine to use for getting connections and
        descriptors. */
 
-    void setEngine(DTXEngine eng) {
+    void setEngine(final DTXEngine eng) {
 	_eng = eng;
     }
 
@@ -302,7 +301,7 @@ public class DTXQuery {
        residual information), connects to the database and prepares a
        SQL statement. */
 
-    void prepare(String oql) throws DTXException {
+    void prepare(final String oql) throws DTXException {
 	try {
 	    String sql = parseOQL(oql);
 	    Connection conn = _eng.getConnection();
@@ -317,7 +316,7 @@ public class DTXQuery {
     /* Translates a JDBC resultset into SAX events. Uses the recursive
        helper to get started. */
 
-    protected void emitSaxEvents(ResultSet rs) throws DTXException {
+    protected void emitSaxEvents(final ResultSet rs) throws DTXException {
 
 	try {
 	    if (rs.next()) {
@@ -337,7 +336,7 @@ public class DTXQuery {
        about the ordering of sub-elements that may be unacceptable.
     */
 
-    protected boolean emitSaxInt(ResultSet rs, int idIndex) throws DTXException {
+    protected boolean emitSaxInt(final ResultSet rs, final int idIndex) throws DTXException {
 
 	boolean hasValue = true;
 
@@ -460,7 +459,7 @@ public class DTXQuery {
        class.
     */
 
-    protected String parseOQL(String oql) throws DTXException {
+    protected String parseOQL(final String oql) throws DTXException {
 
 	try {
 	    _ids = new ArrayList();
@@ -558,7 +557,7 @@ public class DTXQuery {
        re-factored, too.
     */
 
-    protected void initQuery(ClassMapping clsMapping, QueryExpression expr)
+    protected void initQuery(final ClassMapping clsMapping, final QueryExpression expr)
     throws DTXException {
         MapTo mapTo = clsMapping.getMapTo();
 
@@ -733,7 +732,7 @@ public class DTXQuery {
     /* A misnomer, addField() actually adds a condition. Lifted, once
        again, from JDO stuff. */
 
-    private void addField(ClassMapping clsMapping, StringTokenizer token, QueryExpression expr)
+    private void addField(final ClassMapping clsMapping, final StringTokenizer token, final QueryExpression expr)
     throws DTXException {
         if (!token.hasMoreTokens()) {
             throw new DTXException("Missing field name");

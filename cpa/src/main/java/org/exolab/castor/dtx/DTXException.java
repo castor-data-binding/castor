@@ -69,7 +69,7 @@ public class DTXException extends Exception {
      *
      * @param except The nested exception.
      */
-    public DTXException(Exception except) {
+    public DTXException(final Exception except) {
         _except = except;
     }
 
@@ -79,7 +79,7 @@ public class DTXException extends Exception {
      * @param message The message.
      */
 
-    public DTXException(String message) {
+    public DTXException(final String message) {
         _message = message;
     }
 
@@ -109,14 +109,14 @@ public class DTXException extends Exception {
     	return _except;
     }
 
-    public void printStackTrace(PrintWriter out) {
+    public void printStackTrace(final PrintWriter out) {
     	if (_except != null) {
     	    _except.printStackTrace(out);
     	}
     	super.printStackTrace(out);
     }
 
-    public void printStackTrace(PrintStream out) {
+    public void printStackTrace(final PrintStream out) {
     	if (_except != null) {
     	    _except.printStackTrace(out);
     	}

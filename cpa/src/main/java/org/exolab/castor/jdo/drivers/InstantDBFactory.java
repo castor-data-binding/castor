@@ -43,7 +43,7 @@ public class InstantDBFactory extends GenericFactory {
     /**
      * @inheritDoc
      */
-    public Boolean isDuplicateKeyException(Exception except) {
+    public Boolean isDuplicateKeyException(final Exception except) {
         return null;
     }
 
@@ -58,7 +58,7 @@ public class InstantDBFactory extends GenericFactory {
      * @param sqlTypes The field SQL types
      * @return null if this feature is not supported.
      */
-    public PersistenceQuery getCallQuery(String call, Class[] paramTypes, Class javaClass, String[] fields, int[] sqlTypes) {
+    public PersistenceQuery getCallQuery(final String call, final Class[] paramTypes, final Class javaClass, final String[] fields, final int[] sqlTypes) {
         // stored procedures are not supported by Instant DB
         return null;
     }
@@ -68,7 +68,7 @@ public class InstantDBFactory extends GenericFactory {
      * <br/>
      * @inheritDoc
      */
-    public Class adjustSqlType(Class sqlType) {
+    public Class adjustSqlType(final Class sqlType) {
         if (sqlType == java.math.BigDecimal.class) {
             return java.lang.Double.class;
         }

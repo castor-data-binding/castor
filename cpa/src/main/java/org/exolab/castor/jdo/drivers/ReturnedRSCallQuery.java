@@ -77,11 +77,11 @@ final class ReturnedRSCallQuery extends AbstractCallQuery {
      * @param fields ???
      * @param sqlTypes SQL types of the parameters
      */
-    ReturnedRSCallQuery( String call, Class[] types, Class javaClass, String[] fields, int[] sqlTypes ) {
+    ReturnedRSCallQuery(final String call, final Class[] types, final Class javaClass, final String[] fields, final int[] sqlTypes) {
         super (call, types, javaClass, sqlTypes);
     }
 
-    protected void execute( Object conn, AccessMode accessMode )
+    protected void execute(final Object conn, final AccessMode accessMode)
     throws QueryException, PersistenceException {
         _lastIdentity = null;
         try {
@@ -108,5 +108,4 @@ final class ReturnedRSCallQuery extends AbstractCallQuery {
     protected boolean nextRow() throws SQLException {
         return _rs.next();
     }
-
 }

@@ -75,11 +75,9 @@ public final class ClassMolderHelper {
         return result;
     }
     
-    private static ClassMolder createClassMolder (DatingService ds, 
-            MappingLoader mappingLoader, 
-            LockEngine lockEngine, 
-            ClassDescriptor descriptor,
-            Persistence persistence) 
+    private static ClassMolder createClassMolder(final DatingService ds,
+            final MappingLoader mappingLoader, final LockEngine lockEngine,
+            final ClassDescriptor descriptor, final Persistence persistence)
     throws MappingException, ClassNotFoundException {
         return new ClassMolder(ds, (AbstractMappingLoader) mappingLoader, lockEngine, descriptor, persistence);
     }

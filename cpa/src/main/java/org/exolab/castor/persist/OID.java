@@ -128,34 +128,34 @@ public final class OID implements Serializable {
     /**
      * Constructor
      */
-    public OID(ClassMolder molder, Identity identity) {
+    public OID(final ClassMolder molder, final Identity identity) {
         this(molder, null, identity);
     }
 
     /**
      * Constructor
      */
-    public OID(ClassMolder molder, OID depends,
-            Identity identity) {
+    public OID(final ClassMolder molder, final OID depends, final Identity identity) {
+        ClassMolder internalMolder = molder;
         ArrayList superClassNames = null;
 
-        if (molder == null) {
+        if (internalMolder == null) {
             throw new IllegalArgumentException("molder can't be null");
         }
-        _molder = molder;
+        _molder = internalMolder;
         _identity = identity;
-        _name = molder.getName();
+        _name = internalMolder.getName();
         _depends = depends;
         // OID must be unique across the engine: always use the parent
         // most class of an object, getting it from the descriptor
-        while (molder.getExtends() != null) {
+        while (internalMolder.getExtends() != null) {
             if (superClassNames == null) {
                 superClassNames = new ArrayList();
             }
-            molder = molder.getExtends();
-            superClassNames.add(molder.getName());
+            internalMolder = internalMolder.getExtends();
+            superClassNames.add(internalMolder.getName());
         }
-        _topClassName = molder.getName();
+        _topClassName = internalMolder.getName();
         if (superClassNames != null) {
             _superClassNames = new String[superClassNames.size()];
             superClassNames.toArray(_superClassNames);
@@ -203,7 +203,7 @@ public final class OID implements Serializable {
      * @param stamp
      *            The OID's stamp
      */
-    void setStamp(Object stamp) {
+    void setStamp(final Object stamp) {
         _stamp = stamp;
     }
 
@@ -216,7 +216,7 @@ public final class OID implements Serializable {
      * @param dbLock
      *            True the object represented by this OID has a database lock
      */
-    void setDbLock(boolean dbLock) {
+    void setDbLock(final boolean dbLock) {
         _dbLock = dbLock;
     }
 
@@ -274,7 +274,7 @@ public final class OID implements Serializable {
      * on equality test). If no identity was specified for either or both
      * objects, the objects are not identical.
      */
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
 
         OID other;
         if (this == obj) {
@@ -304,5 +304,4 @@ public final class OID implements Serializable {
     public int hashCode() {
         return _hashCode;
     }
-
 }

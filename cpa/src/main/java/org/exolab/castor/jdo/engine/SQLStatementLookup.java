@@ -73,7 +73,7 @@ public final class SQLStatementLookup {
       }
     }
     
-    public Object executeStatement(final Connection conn, Identity identity)
+    public Object executeStatement(final Connection conn, final Identity identity)
     throws PersistenceException {
         SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
         PreparedStatement stmt = null;

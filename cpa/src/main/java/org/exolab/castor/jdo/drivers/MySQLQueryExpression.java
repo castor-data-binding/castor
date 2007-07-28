@@ -59,11 +59,11 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @version $Revision$ $Date: 2004-10-01 13:45:49 -0600 (Fri, 01 Oct 2004) $
  */
 public final class MySQLQueryExpression extends JDBCQueryExpression {
-    public MySQLQueryExpression( PersistenceFactory factory ) {
+    public MySQLQueryExpression(final PersistenceFactory factory) {
         super( factory );
     }
 
-    public String getStatement( boolean lock ) {
+    public String getStatement(final boolean lock) {
         StringBuffer sql;
 
         sql = getStandardStatement( lock, false );

@@ -60,11 +60,11 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @version $Revision$ $Date: 2004-10-08 02:58:33 -0600 (Fri, 08 Oct 2004) $
  */
 public final class SQLServerQueryExpression extends JDBCQueryExpression {
-    public SQLServerQueryExpression( PersistenceFactory factory ) {
+    public SQLServerQueryExpression(final PersistenceFactory factory) {
         super( factory );
     }
 
-    public String getStatement( boolean lock ) {
+    public String getStatement(final boolean lock) {
         StringBuffer sql;
         boolean      first;
         Enumeration  enumeration;

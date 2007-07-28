@@ -59,14 +59,14 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @version $Revision$ $Date: 2004-10-01 13:45:49 -0600 (Fri, 01 Oct 2004) $
  */
 public final class PostgreSQLQueryExpression extends JDBCQueryExpression {
-    public PostgreSQLQueryExpression( PersistenceFactory factory ) {
-        super( factory );
+    public PostgreSQLQueryExpression(final PersistenceFactory factory) {
+        super(factory);
     }
 
-    public String getStatement( boolean lock ) {
+    public String getStatement(final boolean lock) {
         StringBuffer sql;
 
-        sql = getStandardStatement( lock, false );
+        sql = getStandardStatement(lock, false);
 
         if ( _limit != null ) {
             sql.append(JDBCSyntax.LIMIT).append(_limit);

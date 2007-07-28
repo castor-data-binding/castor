@@ -85,7 +85,7 @@ public final class KeyGeneratorFactoryRegistry {
      * @return The {@link KeyGeneratorFactory}, null
      *  if no key generator factory with this name exists
      */
-    public static KeyGeneratorFactory getKeyGeneratorFactory( String name ) {
+    public static KeyGeneratorFactory getKeyGeneratorFactory(final String name) {
         load();
         return (KeyGeneratorFactory) _factories.get( name );
     }

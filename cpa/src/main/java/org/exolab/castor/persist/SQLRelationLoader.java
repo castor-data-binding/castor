@@ -102,10 +102,10 @@ public class SQLRelationLoader {
      */
     private String deleteAll;
 
-    public SQLRelationLoader( String table, String[] key, int[] keyType,
-            TypeConvertor[] idTo, TypeConvertor[] idFrom, String[] idParam,
-            String[] otherKey, int[] otherKeyType,
-            TypeConvertor[] ridTo, TypeConvertor[] ridFrom, String[] ridParam ) {
+    public SQLRelationLoader(final String table, final String[] key, final int[] keyType,
+            final TypeConvertor[] idTo, final TypeConvertor[] idFrom, final String[] idParam,
+            final String[] otherKey, final int[] otherKeyType,
+            final TypeConvertor[] ridTo, final TypeConvertor[] ridFrom, final String[] ridParam) {
 
         leftFrom = idFrom;
         leftParam = idParam;

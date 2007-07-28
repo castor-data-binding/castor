@@ -61,11 +61,11 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @version $Revision$ $Date: 2004-10-01 07:25:46 -0600 (Fri, 01 Oct 2004) $
  */
 public final class SapDbQueryExpression extends JDBCQueryExpression {
-    public SapDbQueryExpression( PersistenceFactory factory ) {
+    public SapDbQueryExpression(final PersistenceFactory factory) {
         super( factory );
     }
 
-    public String getStatement( boolean lock ) {
+    public String getStatement(final boolean lock) {
         Join         join;
         StringBuffer sql;
         boolean      first;

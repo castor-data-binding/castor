@@ -91,7 +91,7 @@ final class PostgreSQLCallQuery implements PersistenceQuery {
 
     private int[]           _sqlTypes;
 
-    PostgreSQLCallQuery( String call, Class[] types, Class javaClass, String[] fields, int[] sqlTypes ) {
+    PostgreSQLCallQuery(final String call, final Class[] types, final Class javaClass, final String[] fields, final int[] sqlTypes) {
         StringBuffer query = new StringBuffer();
 
         query.append( JDBCSyntax.SELECT );
@@ -110,7 +110,7 @@ final class PostgreSQLCallQuery implements PersistenceQuery {
         _values = new Object[ _types.length ];
     }
 
-    public boolean absolute(int row) throws PersistenceException {
+    public boolean absolute(final int row) throws PersistenceException {
       return false;
     }
 
@@ -123,12 +123,12 @@ final class PostgreSQLCallQuery implements PersistenceQuery {
     }
 
 
-    public Class getParameterType( int index ) throws ArrayIndexOutOfBoundsException {
+    public Class getParameterType(final int index) throws ArrayIndexOutOfBoundsException {
         return _types[ index ];
     }
 
 
-    public void setParameter( int index, Object value )
+    public void setParameter(final int index, final Object value)
     throws ArrayIndexOutOfBoundsException, IllegalArgumentException {
         _values[ index ] = value;
     }
@@ -138,12 +138,12 @@ final class PostgreSQLCallQuery implements PersistenceQuery {
         return _javaClass;
     }
 
-    public void execute( Object conn, AccessMode accessMode, boolean scrollable)
+    public void execute(final Object conn, final AccessMode accessMode, final boolean scrollable)
     throws QueryException, PersistenceException {
       execute(conn, accessMode);
     }
 
-    private void execute( Object conn, AccessMode accessMode )
+    private void execute(final Object conn, final AccessMode accessMode)
     throws QueryException, PersistenceException {
         _lastIdentity = null;
         try {
@@ -174,7 +174,7 @@ final class PostgreSQLCallQuery implements PersistenceQuery {
     }
 
 
-    public Identity nextIdentity(Identity identity) throws PersistenceException {
+    public Identity nextIdentity(final Identity identity) throws PersistenceException {
         try {
             if (_lastIdentity == null) {
                 if (!_rs.next()) { return null; }
@@ -215,7 +215,7 @@ final class PostgreSQLCallQuery implements PersistenceQuery {
         }
     }
 
-    public Object fetch(ProposedEntity proposedObject) throws PersistenceException {
+    public Object fetch(final ProposedEntity proposedObject) throws PersistenceException {
         try {
             // Load all the fields of the object including one-one relations
             // index 0 belongs to the identity
@@ -233,5 +233,4 @@ final class PostgreSQLCallQuery implements PersistenceQuery {
         }
         return null;
     }
-
 }

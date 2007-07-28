@@ -307,7 +307,7 @@ public final class SQLEngine implements Persistence {
     }
 
     public Identity create(final Database database, final Object conn,
-                         final ProposedEntity entity, Identity identity)
+                         final ProposedEntity entity, final Identity identity)
     throws PersistenceException {
         return (Identity) _createStatement.executeStatement(database, (Connection) conn, identity, entity);
     }

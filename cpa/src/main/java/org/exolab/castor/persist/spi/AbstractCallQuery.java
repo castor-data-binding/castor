@@ -52,11 +52,9 @@ public abstract class AbstractCallQuery implements PersistenceQuery {
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.persist.spi.PersistenceQuery
-     *      #fetch(org.castor.persist.ProposedEntity)
      */
-    public Object fetch(ProposedEntity proposedObject)
-            throws ObjectNotFoundException, PersistenceException {
+    public Object fetch(final ProposedEntity proposedObject)
+    throws ObjectNotFoundException, PersistenceException {
         try {
             // Load all the fields of the object including one-one relations
             // index 0 belongs to the identity
@@ -98,17 +96,17 @@ public abstract class AbstractCallQuery implements PersistenceQuery {
         return _types.length;
     }
 
-    public Class getParameterType(int index)
+    public Class getParameterType(final int index)
             throws ArrayIndexOutOfBoundsException {
         return _types[index];
     }
 
-    public void setParameter(int index, Object value)
+    public void setParameter(final int index, final Object value)
             throws ArrayIndexOutOfBoundsException, IllegalArgumentException {
         _values[index] = value;
     }
 
-    public boolean absolute(int row) throws PersistenceException {
+    public boolean absolute(final int row) throws PersistenceException {
         return false;
     }
 
@@ -120,16 +118,15 @@ public abstract class AbstractCallQuery implements PersistenceQuery {
         return _javaClass;
     }
 
-    public void execute(Object conn, AccessMode accessMode, boolean scrollable)
-            throws QueryException, PersistenceException {
+    public void execute(final Object conn, final AccessMode accessMode, final boolean scrollable)
+    throws QueryException, PersistenceException {
         execute(conn, accessMode);
     }
 
-    protected abstract void execute(Object conn, AccessMode accessMode)
-            throws QueryException, PersistenceException;
+    protected abstract void execute(final Object conn, final AccessMode accessMode)
+    throws QueryException, PersistenceException;
 
     public Identity nextIdentity(final Identity identity) throws PersistenceException {
-
         try {
             if (_lastIdentity == null) {
                 if (!nextRow()) { return null; }

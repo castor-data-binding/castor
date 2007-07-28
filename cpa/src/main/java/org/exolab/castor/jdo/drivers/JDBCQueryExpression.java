@@ -101,7 +101,7 @@ public class JDBCQueryExpression implements QueryExpression {
 	 */
     protected DbMetaInfo _dbInfo;
 
-    public JDBCQueryExpression( PersistenceFactory factory ) {
+    public JDBCQueryExpression(final PersistenceFactory factory) {
         _factory = factory;
     }
 
@@ -110,47 +110,47 @@ public class JDBCQueryExpression implements QueryExpression {
      *
      * @param dbInfo DbMetaInfo instance
      */    
-    public void setDbMetaInfo( DbMetaInfo dbInfo ) {
+    public void setDbMetaInfo(final DbMetaInfo dbInfo) {
         _dbInfo = dbInfo;
     }
 
-    public void setDistinct(boolean distinct) {
+    public void setDistinct(final boolean distinct) {
         _distinct = distinct;
     }
 
-    public void addColumn( String tableName, String columnName ) {
+    public void addColumn(final String tableName, final String columnName) {
         _tables.put( tableName, tableName );
         _cols.addElement( _factory.quoteName( tableName + JDBCSyntax.TABLE_COLUMN_SEPARATOR + columnName ) );
     }
 
-    public void addTable( String tableName ) {
+    public void addTable(final String tableName) {
         _tables.put( tableName, tableName );
     }
 
-    public void addTable( String tableName, String tableAlias ) {
+    public void addTable(final String tableName, final String tableAlias) {
         _tables.put( tableAlias, tableName );
     }
 
-    public void addParameter( String tableName, String columnName, String condOp ) {
+    public void addParameter(final String tableName, final String columnName, final String condOp) {
         addCondition( tableName, columnName, condOp, JDBCSyntax.PARAMETER );
     }
 
-    public void addCondition(String tableName, String columnName, String condOp, String value) {
+    public void addCondition(final String tableName, final String columnName, final String condOp, final String value) {
         _tables.put( tableName, tableName );
         _conds.addElement(_factory.quoteName( tableName + JDBCSyntax.TABLE_COLUMN_SEPARATOR + columnName) + condOp + value );
     }
 
-    public String encodeColumn( String tableName, String columnName ) {
+    public String encodeColumn(final String tableName, final String columnName) {
         return _factory.quoteName( tableName +
                    JDBCSyntax.TABLE_COLUMN_SEPARATOR +
                    columnName );
     }
 
-    public void addInnerJoin( String leftTable, String leftColumn, String rightTable, String rightColumn ) {
+    public void addInnerJoin(final String leftTable, final String leftColumn, final String rightTable, final String rightColumn ) {
         addInnerJoin(leftTable, leftColumn, leftTable, rightTable, rightColumn, rightTable);
     }
 
-    public void addInnerJoin( String leftTable, String leftColumn, String leftTableAlias, String rightTable, String rightColumn, String rightTableAlias) {
+    public void addInnerJoin(final String leftTable, final String leftColumn, final String leftTableAlias, final String rightTable, final String rightColumn, final String rightTableAlias) {
         int index;
         Join join;
 
@@ -166,11 +166,11 @@ public class JDBCQueryExpression implements QueryExpression {
         }
     }
 
-    public void addInnerJoin( String leftTable, String[] leftColumn, String rightTable, String[] rightColumn) {
+    public void addInnerJoin(final String leftTable, final String[] leftColumn, final String rightTable, final String[] rightColumn) {
         addInnerJoin(leftTable, leftColumn, leftTable, rightTable, rightColumn, rightTable);
     }
 
-    public void addInnerJoin( String leftTable, String[] leftColumn, String leftTableAlias, String rightTable, String[] rightColumn, String rightTableAlias) {
+    public void addInnerJoin(final String leftTable, final String[] leftColumn, final String leftTableAlias, final String rightTable, final String[] rightColumn, final String rightTableAlias) {
         int index;
         Join join;
 
@@ -187,11 +187,11 @@ public class JDBCQueryExpression implements QueryExpression {
     }
 
 
-    public void addOuterJoin( String leftTable, String leftColumn, String rightTable, String rightColumn) {
+    public void addOuterJoin(final String leftTable, final String leftColumn, final String rightTable, final String rightColumn) {
         addOuterJoin(leftTable, leftColumn, rightTable, rightColumn, rightTable);
     }
 
-    public void addOuterJoin( String leftTable, String leftColumn, String rightTable, String rightColumn,  String rightTableAlias) {
+    public void addOuterJoin(final String leftTable, final String leftColumn, final String rightTable, final String rightColumn,  final String rightTableAlias) {
         int index;
         Join join;
 
@@ -204,11 +204,11 @@ public class JDBCQueryExpression implements QueryExpression {
         }
     }
 
-    public void addOuterJoin( String leftTable, String[] leftColumn, String rightTable, String[] rightColumn) {
+    public void addOuterJoin(final String leftTable, final String[] leftColumn, final String rightTable, final String[] rightColumn) {
         addOuterJoin(leftTable, leftColumn, rightTable, rightColumn, rightTable);
     }
 
-    public void addOuterJoin( String leftTable, String[] leftColumn, String rightTable, String[] rightColumn, String rightTableAlias) {
+    public void addOuterJoin(final String leftTable, final String[] leftColumn, final String rightTable, final String[] rightColumn, final String rightTableAlias) {
         int index;
         Join join;
 
@@ -221,19 +221,19 @@ public class JDBCQueryExpression implements QueryExpression {
         }
     }
 
-    public void addSelect( String selectClause ) {
+    public void addSelect(final String selectClause) {
         _select = selectClause;
     }
 
-    public void addWhereClause( String where ) {
+    public void addWhereClause(final String where) {
         _where = where;
     }
 
-    public void addOrderClause( String order ) {
+    public void addOrderClause(final String order) {
         _order = order;
     }
 
-    public void addLimitClause( String limit ) throws SyntaxNotSupportedException {
+    public void addLimitClause(final String limit) throws SyntaxNotSupportedException {
     	if (isLimitClauseSupported()) {
     		_limit = limit;
     	} else {
@@ -241,11 +241,11 @@ public class JDBCQueryExpression implements QueryExpression {
     	}
     }
 
-    public void addOffsetClause( String offset ) throws SyntaxNotSupportedException {
+    public void addOffsetClause(final String offset) throws SyntaxNotSupportedException {
     	if (isOffsetClauseSupported()) {
     		_offset = offset;
     	} else {
-    		throw new SyntaxNotSupportedException (Messages.format ("query.offsetClauseNotSupported", _factory.getFactoryName()));
+    		throw new SyntaxNotSupportedException(Messages.format ("query.offsetClauseNotSupported", _factory.getFactoryName()));
     	}
     }
 
@@ -272,11 +272,12 @@ public class JDBCQueryExpression implements QueryExpression {
         return sql.toString();
     }
 
-    protected boolean addWhereClause( StringBuffer sql, boolean first ) {
+    protected boolean addWhereClause(final StringBuffer sql, final boolean first) {
+        boolean internalFirst = first;
         if ( _conds.size() > 0 ) {
-            if ( first ) {
+            if ( internalFirst ) {
                 sql.append( JDBCSyntax.WHERE );
-                first = false;
+                internalFirst = false;
             } else
                 sql.append( JDBCSyntax.AND );
             for ( int i = 0 ; i < _conds.size() ; ++i ) {
@@ -286,16 +287,16 @@ public class JDBCQueryExpression implements QueryExpression {
             }
         }
         if ( _where != null ) {
-            if ( first ) {
+            if ( internalFirst ) {
                 sql.append( JDBCSyntax.WHERE );
-                first = false;
+                internalFirst = false;
             } else
                 sql.append( JDBCSyntax.AND );
             sql.append( '(' );
             sql.append( _where );
             sql.append( ')' );
         }
-        return first;
+        return internalFirst;
     }
     
     /**
@@ -306,9 +307,8 @@ public class JDBCQueryExpression implements QueryExpression {
 	 * throwing a {@link SyntaxNotSupportedException}.
      * @throws SyntaxNotSupportedException If the RDBMS does not support a particular feature.
      */
-    public String getStatement( boolean lock ) throws SyntaxNotSupportedException
-    {
-        return getStandardStatement( lock, true ).toString();
+    public String getStatement(final boolean lock) throws SyntaxNotSupportedException {
+        return getStandardStatement(lock, true).toString();
     }
 
     /**
@@ -320,7 +320,7 @@ public class JDBCQueryExpression implements QueryExpression {
      * @param lock whether to lock selected tables
      * @param oj true in the first case above, false in the second case.
      **/
-    protected StringBuffer getStandardStatement( boolean lock, boolean oj ) {
+    protected StringBuffer getStandardStatement(final boolean lock, final boolean oj) {
         StringBuffer sql;
         Enumeration  enumeration;
         boolean      first;
@@ -497,7 +497,7 @@ public class JDBCQueryExpression implements QueryExpression {
 
         final boolean  outer;
 
-        Join( String leftTable, String leftColumn, String rightTable, String rightColumn, boolean outer) {
+        Join(final String leftTable, final String leftColumn, final String rightTable, final String rightColumn, final boolean outer) {
             this.leftTable = leftTable;
             this.leftColumns = new String[] { leftColumn };
             this.rightTable = rightTable;
@@ -505,7 +505,7 @@ public class JDBCQueryExpression implements QueryExpression {
             this.outer = outer;
         }
 
-        Join( String leftTable, String[] leftColumns, String rightTable, String[] rightColumns, boolean outer) {
+        Join(final String leftTable, final String[] leftColumns, final String rightTable, final String[] rightColumns, final boolean outer) {
             this.leftTable = leftTable;
             this.leftColumns = (String[]) leftColumns.clone();
             this.rightTable = rightTable;
@@ -517,7 +517,7 @@ public class JDBCQueryExpression implements QueryExpression {
             return leftTable.hashCode() ^ rightTable.hashCode();
         }
 
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             Join join = (Join) obj;
 
             if (!leftTable.equals(join.leftTable) || !rightTable.equals(join.rightTable) ||

@@ -84,7 +84,7 @@ public class CacheManager {
      * @param transactionContext Active transaction context.
      * @param lockEngine Lock engine
      */
-    public CacheManager(Database db, TransactionContext transactionContext, LockEngine lockEngine) {
+    public CacheManager(final Database db, final TransactionContext transactionContext, final LockEngine lockEngine) {
         this.db = db;
         this.transactionContext = transactionContext;
         this.lockEngine = lockEngine;
@@ -97,8 +97,7 @@ public class CacheManager {
      * @return True if the object is cached.
      * @throws PersistenceException If a problem occured resolving the object's cache membership.
      */
-    public boolean isCached ( Class cls, Object identity) throws PersistenceException
-    {
+    public boolean isCached (final Class cls, final Object identity) throws PersistenceException {
         if ( transactionContext != null && transactionContext.isOpen()  ) {
             return transactionContext.isCached(lockEngine.getClassMolder(cls), cls, new Identity(identity));
         }
@@ -116,7 +115,7 @@ public class CacheManager {
     /**
      * Dump cached objects of specific type to log.
      */
-    public void dumpCache(Class cls) {
+    public void dumpCache(final Class cls) {
         lockEngine.dumpCache(cls);
     }
 
@@ -156,7 +155,7 @@ public class CacheManager {
      * @param type The type to expire.
      * @param identity Identity of the object to expire.
      */
-    public void expireCache(Class type, Object identity) throws PersistenceException {
+    public void expireCache(final Class type, final Object identity) throws PersistenceException {
         expireCache(type, new Object[] { identity });
     }
 
@@ -178,7 +177,7 @@ public class CacheManager {
      * @param type The type to expire.
      * @param identity An array of object identifiers to expire.
      */
-    public void expireCache(Class type, Object[] identity) throws PersistenceException {
+    public void expireCache(final Class type, final Object[] identity) throws PersistenceException {
         testForOpenDatabase();
         ClassMolder molder = lockEngine.getClassMolder(type);
         for (int i = 0; i < identity.length; i++) {
@@ -203,7 +202,7 @@ public class CacheManager {
      * 
      * @param type An array of types to expire.
      */
-    public void expireCache(Class[] type) {
+    public void expireCache(final Class[] type) {
         for (int i = 0; i < type.length; i++) {
             lockEngine.expireCache(type[i]);
         }

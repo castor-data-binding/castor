@@ -16,11 +16,11 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
 public final class InterbaseQueryExpression extends JDBCQueryExpression {
     private StringBuffer sql;
 
-    public InterbaseQueryExpression( PersistenceFactory factory ) {
+    public InterbaseQueryExpression(final PersistenceFactory factory) {
         super( factory );
     }
 
-    public String getStatement( boolean lock ) {
+    public String getStatement(final boolean lock) {
         Enumeration  enumeration;
         boolean      first;
         Hashtable    tables;
@@ -91,7 +91,7 @@ public final class InterbaseQueryExpression extends JDBCQueryExpression {
         return sql.toString();
     }
 
-    void appendJoin(Join join){
+    void appendJoin(final Join join){
 
       if(join.outer) sql.append( JDBCSyntax.LEFT_JOIN );
       else sql.append( JDBCSyntax.INNER_JOIN );
