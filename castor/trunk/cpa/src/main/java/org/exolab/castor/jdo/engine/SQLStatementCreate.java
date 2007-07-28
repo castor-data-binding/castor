@@ -290,7 +290,7 @@ public class SQLStatementCreate {
                     int sqlType;
                     List keys = new ArrayList();
                     while (keySet.next()) {
-                        sqlType = ids[i-1].getSqlType();
+                        sqlType = ids[i - 1].getSqlType();
                         Object temp;
                         if (sqlType == java.sql.Types.INTEGER) {
                             temp = new Integer(keySet.getInt(i));
@@ -300,7 +300,7 @@ public class SQLStatementCreate {
                             temp = keySet.getObject(i);
                         }
 
-                        keys.add(ids[i-1].toJava(temp));
+                        keys.add(ids[i - 1].toJava(temp));
                         i++;
                     }
                     internalIdentity = new Identity(keys.toArray());

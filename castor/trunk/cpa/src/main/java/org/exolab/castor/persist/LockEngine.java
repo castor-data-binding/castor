@@ -310,9 +310,9 @@ public final class LockEngine {
      */
     public ClassMolder getClassMolderByQuery(final String name) {        
         Iterator typeIterator = _typeInfo.values().iterator();
-        while(typeIterator.hasNext()) {
+        while (typeIterator.hasNext()) {
             TypeInfo info = (TypeInfo)typeIterator.next();
-            if(info.molder.getNamedQuery(name) != null) {
+            if (info.molder.getNamedQuery(name) != null) {
                 return info.molder;
             }
         }

@@ -78,7 +78,7 @@ public final class SQLStatementStore {
             }
         }
 
-        if(LOG.isTraceEnabled()) {
+        if (LOG.isTraceEnabled()) {
             LOG.trace("hasFieldsToPersist = " + _hasFieldsToPersist);
         }
 

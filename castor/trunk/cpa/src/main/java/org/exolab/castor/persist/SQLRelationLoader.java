@@ -122,12 +122,12 @@ public class SQLRelationLoader {
         StringBuffer sb = new StringBuffer();
         int count = 0;
         sb.append("SELECT ");
-        for ( int i=0; i < left.length; i++ ) {
+        for (int i = 0; i < left.length; i++) {
             if ( i > 0 ) sb.append(",");
             sb.append( left[i] );
             count++;
         }
-        for ( int i=0; i < right.length; i++ ) {
+        for (int i = 0; i < right.length; i++) {
             sb.append(",");
             sb.append( right[i] );
             count++;
@@ -135,12 +135,12 @@ public class SQLRelationLoader {
         sb.append(" FROM ");
         sb.append( tableName );
         sb.append(" WHERE ");
-        for ( int i=0; i < left.length; i++ ) {
+        for (int i = 0; i < left.length; i++) {
             if ( i > 0 ) sb.append(" AND ");
             sb.append( left[i] );
             sb.append("=?");
         }
-        for ( int i=0; i < right.length; i++ ) {
+        for (int i = 0; i < right.length; i++) {
             sb.append(" AND ");
             sb.append( right[i] );
             sb.append("=?");
@@ -153,18 +153,18 @@ public class SQLRelationLoader {
         sb.append("INSERT INTO ");
         sb.append( tableName );
         sb.append(" (");
-        for ( int i=0; i < left.length; i++ ) {
+        for (int i = 0; i < left.length; i++) {
             if ( i > 0 ) sb.append(",");
             sb.append( left[i] );
             count++;
         }
-        for ( int i=0; i < right.length; i++ ) {
+        for (int i = 0; i < right.length; i++) {
             sb.append(",");
             sb.append( right[i] );
             count++;
         }
         sb.append(") VALUES (");
-        for ( int i=0; i < count; i++ ) {
+        for (int i = 0; i < count; i++) {
             if ( i > 0 ) sb.append(",");
             sb.append("?");
         }
@@ -177,12 +177,12 @@ public class SQLRelationLoader {
         sb.append("DELETE FROM ");
         sb.append( tableName );
         sb.append(" WHERE ");
-        for ( int i=0; i < left.length; i++ ) {
+        for (int i = 0; i < left.length; i++) {
             if ( i > 0 ) sb.append(" AND ");
             sb.append( left[i] );
             sb.append("=?");
         }
-        for ( int i=0; i < right.length; i++ ) {
+        for (int i = 0; i < right.length; i++) {
             sb.append(" AND ");
             sb.append( right[i] );
             sb.append("=?");
@@ -195,7 +195,7 @@ public class SQLRelationLoader {
         sb.append("DELETE FROM ");
         sb.append( tableName );
         sb.append(" WHERE ");
-        for ( int i=0; i < left.length; i++ ) {
+        for (int i = 0; i < left.length; i++) {
             if ( i > 0 ) sb.append(" AND ");
             sb.append( left[i] );
             sb.append("=?");

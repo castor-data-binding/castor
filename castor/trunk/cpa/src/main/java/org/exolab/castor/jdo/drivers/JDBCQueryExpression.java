@@ -361,7 +361,7 @@ public class JDBCQueryExpression implements QueryExpression {
             sql.append(  _factory.quoteName( join.leftTable ) );
             sql.append( JDBCSyntax.LEFT_JOIN );
             tableName = (String) tables.get( join.rightTable );
-            if( join.rightTable.equals( tableName ) ) {
+            if (join.rightTable.equals(tableName)) {
                 sql.append( _factory.quoteName( tableName ) );
             } else {
                 sql.append( _factory.quoteName( tableName ) + " " +
@@ -388,7 +388,7 @@ public class JDBCQueryExpression implements QueryExpression {
                 sql.append( JDBCSyntax.LEFT_JOIN );
                 tableName = (String) tables.get( join2.rightTable );
 
-                if( join2.rightTable.equals( tableName ) ) {
+                if (join2.rightTable.equals(tableName)) {
                     sql.append( _factory.quoteName( tableName ) );
                 } else {
                     sql.append( _factory.quoteName( tableName ) + " " +
@@ -417,7 +417,7 @@ public class JDBCQueryExpression implements QueryExpression {
                 sql.append( JDBCSyntax.TABLE_SEPARATOR );
             tableAlias = (String) enumeration.nextElement();
             tableName = (String) tables.get( tableAlias );
-            if( tableAlias.equals( tableName ) ) {
+            if (tableAlias.equals(tableName)) {
                 sql.append( _factory.quoteName( tableName ) );
             } else {
                 sql.append( _factory.quoteName( tableName ) + " " +
@@ -509,7 +509,7 @@ public class JDBCQueryExpression implements QueryExpression {
             this.leftTable = leftTable;
             this.leftColumns = (String[]) leftColumns.clone();
             this.rightTable = rightTable;
-            this.rightColumns =(String[]) rightColumns.clone();
+            this.rightColumns = (String[]) rightColumns.clone();
             this.outer = outer;
         }
 

@@ -84,7 +84,7 @@ public final class SapDbFactory extends OracleFactory {
         buffer.append('\"');
         buffer.append(tokens.nextToken().toUpperCase());
 
-        while(tokens.hasMoreTokens()) {
+        while (tokens.hasMoreTokens()) {
             token = tokens.nextToken();
 
             if ( isAFunction( token ) ) {

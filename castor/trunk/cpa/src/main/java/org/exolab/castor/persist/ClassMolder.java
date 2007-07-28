@@ -305,18 +305,18 @@ public class ClassMolder {
                 TypeConvertor[]idConvertTo = new TypeConvertor[fmId.length];
                 String[] idConvertParam = new String[fmId.length];
                 FieldDescriptor[] fd = ((ClassDescriptorImpl)clsDesc).getIdentities();
-                for ( int j=0; j < fmId.length; j++ ) {
+                for (int j = 0; j < fmId.length; j++) {
                     idSQL[j] = fmId[j].getSql().getName()[0];
 
                     if ( fd[j] instanceof JDOFieldDescriptor ) {
                         int[] type = ((JDOFieldDescriptor)fd[j]).getSQLType();
-                        idType[j] = type==null? 0: type[0];
+                        idType[j] = (type == null) ? 0 : type[0];
                         FieldHandlerImpl fh = (FieldHandlerImpl)fd[j].getHandler();
                         idConvertTo[j] = fh.getConvertTo();
                         idConvertFrom[j] = fh.getConvertFrom();
                         idConvertParam[j] = fh.getConvertParam();
                     } else {
-                        throw new MappingException("Identity type must contains sql information: "+ _name );
+                        throw new MappingException("Identity type must contains sql information: " + _name );
                     }
                 }
 
@@ -329,18 +329,18 @@ public class ClassMolder {
                     relatedIdConvertTo = new TypeConvertor[relatedIds.length];
                     relatedIdConvertFrom = new TypeConvertor[relatedIds.length];
                     relatedIdConvertParam = new String[relatedIds.length];
-                    for ( int j=0; j < relatedIdSQL.length; j++ ) {
+                    for (int j = 0; j < relatedIdSQL.length; j++) {
                         if ( relatedIds[j] instanceof JDOFieldDescriptor ) {
                             String[] tempId = ((JDOFieldDescriptor)relatedIds[j]).getSQLName();
-                            relatedIdSQL[j] = tempId==null? null: tempId[0];
+                            relatedIdSQL[j] = (tempId == null) ? null : tempId[0];
                             int[] tempType = ((JDOFieldDescriptor)relatedIds[j]).getSQLType();
-                            relatedIdType[j] = tempType==null? 0: tempType[0];
+                            relatedIdType[j] = (tempType == null) ? 0 : tempType[0];
                             FieldHandlerImpl fh = (FieldHandlerImpl)relatedIds[j].getHandler();
                             relatedIdConvertTo[j] = fh.getConvertTo();
                             relatedIdConvertFrom[j] = fh.getConvertFrom();
                             relatedIdConvertParam[j] = fh.getConvertParam();
                         } else {
-                            throw new MappingException("Field type is not persistence-capable: "+ relatedIds[j].getFieldName() );
+                            throw new MappingException("Field type is not persistence-capable: " + relatedIds[j].getFieldName() );
                         }
                     }
                 }
@@ -349,7 +349,7 @@ public class ClassMolder {
                 String[] manyKey = fmFields[i].getSql().getManyKey();
                 if ( manyKey != null && manyKey.length != 0 ) {
                     if ( manyKey.length != idSQL.length )
-                        throw new MappingException("The number of many-keys doesn't match referred object: "+clsDesc.getJavaClass().getName());
+                        throw new MappingException("The number of many-keys doesn't match referred object: " + clsDesc.getJavaClass().getName());
                     idSQL = manyKey;
                 }
 
@@ -357,7 +357,7 @@ public class ClassMolder {
                 String[] manyName = fmFields[i].getSql().getName();
                 if ( manyName != null && manyName.length != 0 ) {
                     if ( manyName.length != relatedIdSQL.length )
-                        throw new MappingException("The number of many-keys doesn't match referred object: "+relDesc.getJavaClass().getName());
+                        throw new MappingException("The number of many-keys doesn't match referred object: " + relDesc.getJavaClass().getName());
                     relatedIdSQL = manyName;
                 }
 
@@ -391,7 +391,7 @@ public class ClassMolder {
 
     private boolean isFieldTransient(final FieldMapping fieldMapping) {
         boolean isFieldTransient = fieldMapping.getTransient();
-        if (fieldMapping.getSql()!= null) {
+        if (fieldMapping.getSql() != null) {
             isFieldTransient |= fieldMapping.getSql().getTransient();
         }
         return isFieldTransient;
@@ -670,7 +670,7 @@ public class ClassMolder {
         Identity ids = oid.getIdentity();
 
         // copy the object to cache should make a new field now,
-        for ( int i=0; i<_fhs.length; i++ ) {
+        for (int i = 0; i < _fhs.length; i++) {
             fieldType = _fhs[i].getFieldType();
 
             switch (fieldType) {
@@ -906,7 +906,7 @@ public class ClassMolder {
             // load the original field into the transaction. so, store will
             // have something to compare later.
             try {
-                for ( int i=0; i <_fhs.length; i++ ) {
+                for (int i = 0; i < _fhs.length; i++) {
                     _resolvers[i].update(tx, oid, object, accessMode, fields[i]);
                 }
             } catch (ObjectNotFoundException e) {
@@ -920,7 +920,7 @@ public class ClassMolder {
             // iterate all the fields and mark all the dependent object.
             boolean updateCache = false;
 
-            for ( int i=0; i<_fhs.length; i++ ) {
+            for (int i = 0; i < _fhs.length; i++) {
                 updateCache |= _resolvers[i].updateWhenNoTimestampSet(tx, oid, object, suggestedAccessMode);
             }
 
@@ -1000,8 +1000,8 @@ public class ClassMolder {
 
         Identity ids = oid.getIdentity();
 
-        for(int i = 0; i < _fhs.length; i++) {
-            if( _fhs[i].isManyToMany() ) {
+        for (int i = 0; i < _fhs.length; i++) {
+            if (_fhs[i].isManyToMany()) {
                 _fhs[i].getRelationLoader().deleteRelation(
                         tx.getConnection(oid.getMolder().getLockEngine()), ids);
             }
@@ -1022,7 +1022,7 @@ public class ClassMolder {
         base = _depends;
         while ( base != null ) {
             if ( base._extendent != null )
-                for ( int i=0; i < base._extendent.size(); i++ )
+                for (int i = 0; i < base._extendent.size(); i++)
                     if ( extendPath.contains( base._extendent.get(i) ) ) {
                         // NB: further INVESTIGATION
                     }

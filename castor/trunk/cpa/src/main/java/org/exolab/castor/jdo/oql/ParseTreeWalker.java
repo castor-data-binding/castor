@@ -132,17 +132,17 @@ public class ParseTreeWalker {
      * @return The _paramInfo member.
      */
     public Hashtable getParamInfo() {
-        if(_paramInfo == null) { _paramInfo = new Hashtable(); }
+        if (_paramInfo == null) { _paramInfo = new Hashtable(); }
         return _paramInfo;
     }
 
     private HashMap getFieldInfo() {
-        if(_fieldInfo == null) { _fieldInfo = new HashMap(); }
+        if (_fieldInfo == null) { _fieldInfo = new HashMap(); }
         return _fieldInfo;
     }
 
     private HashMap getPathInfo() {
-        if(_pathInfo == null) { _pathInfo = new HashMap(); }
+        if (_pathInfo == null) { _pathInfo = new HashMap(); }
         return _pathInfo;
     }
 
@@ -788,7 +788,7 @@ public class ParseTreeWalker {
                     String udt = curChild.getChild(0).getToken().getTokenValue();
                     try {
                         return Types.typeFromName(_classLoader, udt).getName();
-                    } catch(ClassNotFoundException e1) {
+                    } catch (ClassNotFoundException e1) {
                         throw new QueryException("Could not find class " + udt);
                     }
                 }
@@ -882,7 +882,7 @@ public class ParseTreeWalker {
                     if (type == TokenType.LPAREN) {
                         // A function, skip to next element
                         Iterator arguments = curChild.getChild(0).children();
-                        while(arguments.hasNext()) {
+                        while (arguments.hasNext()) {
                             ParseTreeNode nn = (ParseTreeNode)arguments.next();
                             checkWhereClause(nn);
                         }
@@ -1236,7 +1236,7 @@ public class ParseTreeWalker {
             } else if (type == TokenType.KEYWORD_DISTINCT) {
                 return " COUNT(DISTINCT " + getSQLExpr(exprTree.getChild(1)) + ") ";
             } else {
-                return " COUNT(" + getSQLExpr(exprTree.getChild(0)) +") ";
+                return " COUNT(" + getSQLExpr(exprTree.getChild(0)) + ") ";
             }
         case TokenType.KEYWORD_SUM:
         case TokenType.KEYWORD_MIN:
@@ -1302,15 +1302,13 @@ public class ParseTreeWalker {
             JDOFieldDescriptor field =
               (JDOFieldDescriptor) getFieldInfo().get(exprTree);
             if (field == null) {
-              throw new IllegalStateException("fieldInfo for "
-                                              + exprTree.toStringEx() + " not found");
+                throw new IllegalStateException("fieldInfo for " + exprTree.toStringEx() + " not found");
             }
             
             JDOClassDescriptor clsDesc =
               (JDOClassDescriptor) field.getContainingClassDescriptor();
             if (clsDesc == null) {
-              throw new IllegalStateException("ContainingClass of "
-                                              + field.toString()+" is null !");
+                throw new IllegalStateException("ContainingClass of " + field.toString() + " is null !");
             }
             
             String clsTableAlias;

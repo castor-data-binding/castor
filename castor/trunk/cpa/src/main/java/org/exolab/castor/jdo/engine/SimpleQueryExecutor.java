@@ -117,9 +117,9 @@ public class SimpleQueryExecutor {
             
         } catch (SQLException s) {
             if ( _rset != null )
-                try { _rset.close(); } catch (SQLException e) {}
+                try { _rset.close(); } catch (SQLException e) { }
                 if ( _stmt != null )
-                    try { _stmt.close(); } catch (SQLException e) {}
+                    try { _stmt.close(); } catch (SQLException e) { }
                     
                     _rset = null;
                     _stmt = null;
@@ -227,9 +227,9 @@ public class SimpleQueryExecutor {
         
         public void close() {
             if ( _rset != null ) 
-                try { _rset.close(); } catch (SQLException s) {}
+                try { _rset.close(); } catch (SQLException s) { }
                 if ( _stmt != null ) 
-                    try { _stmt.close(); } catch (SQLException s) {}
+                    try { _stmt.close(); } catch (SQLException s) { }
                     _rset = null;
                     _stmt = null;
         }

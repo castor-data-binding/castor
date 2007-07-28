@@ -291,8 +291,8 @@ public final class SequenceKeyGenerator implements KeyGenerator {
 
             do {
                 buffer2.append(tableName.substring(pos, idxQuote));
-                pos = idxQuote+1;
-            } while((idxQuote=tableName.indexOf('"', pos)) != -1);
+                pos = idxQuote + 1;
+            } while((idxQuote = tableName.indexOf('"', pos)) != -1);
 
             buffer2.append(tableName.substring(pos));
 

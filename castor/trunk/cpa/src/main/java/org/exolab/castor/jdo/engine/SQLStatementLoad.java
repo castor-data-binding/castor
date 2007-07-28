@@ -340,7 +340,7 @@ public final class SQLStatementLoad {
                 SQLFieldInfo field = fields[i];
                 SQLColumnInfo[] columns = field.getColumnInfo();
                 tableName = field.getTableName();
-                if (i>0 && !field.isJoined() && !processedTables.contains(tableName)) {
+                if (i > 0 && !field.isJoined() && !processedTables.contains(tableName)) {
                     columnIndex = columnIndex + ids.length;
                 }
                 processedTables.add(tableName);

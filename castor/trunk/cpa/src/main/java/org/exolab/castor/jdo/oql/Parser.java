@@ -717,7 +717,7 @@ public final class Parser {
 
         match(TokenType.RPAREN);
         
-        return(retNode);
+        return retNode;
       }
 
       throw new OQLSyntaxException("Expected collectionExpr and didn't find it at "
@@ -769,7 +769,7 @@ public final class Parser {
                     + "at or near: " + _curToken.getTokenValue());
         }
           
-        return(retNode);
+        return retNode;
     }
 
     /**
@@ -801,7 +801,7 @@ public final class Parser {
                 retNode.addChild(match(TokenType.IDENTIFIER));
             }
             match(TokenType.RPAREN);
-            return(retNode);
+            return retNode;
         }
 
         throw new OQLSyntaxException("Expected undefinedExpr and didn't find it "

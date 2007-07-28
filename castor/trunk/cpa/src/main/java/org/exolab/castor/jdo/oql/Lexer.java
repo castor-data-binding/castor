@@ -353,7 +353,7 @@ public final class Lexer {
      *      the current position is passed the last char
      */
     private char getChar() {
-        if(_pos < _queryString.length()) {
+        if (_pos < _queryString.length()) {
             return _queryString.charAt(_pos);
         }
         return 0;

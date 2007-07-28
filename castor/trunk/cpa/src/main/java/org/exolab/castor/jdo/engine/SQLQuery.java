@@ -207,7 +207,7 @@ public final class SQLQuery implements PersistenceQuery {
                 }
             }
             _resultSetDone = true;
-            throw new PersistenceException(Messages.format("persist.nested", except) + " while executing "+ _sql, except);
+            throw new PersistenceException(Messages.format("persist.nested", except) + " while executing " + _sql, except);
         }
     }
 
@@ -220,7 +220,7 @@ public final class SQLQuery implements PersistenceQuery {
 
         boolean empty = true;
         for (int i = 0; i < _engine.getColumnInfoForIdentities().length; i++) {
-            Object tmp = SQLTypeInfos.getValue(_rs, 1+i, _identSqlType[i]);
+            Object tmp = SQLTypeInfos.getValue(_rs, 1 + i, _identSqlType[i]);
             returnId[i] = _engine.getColumnInfoForIdentities()[i].toJava(tmp);
             if (tmp != null) { empty = false; }
         }
@@ -422,7 +422,7 @@ public final class SQLQuery implements PersistenceQuery {
 
         // Load the identity from the current row.
         for (int i = 0; i < _engine.getColumnInfoForIdentities().length; i++) {
-            identity[i] = SQLTypeInfos.getValue(_rs, 1+i, _identSqlType[i]);
+            identity[i] = SQLTypeInfos.getValue(_rs, 1 + i, _identSqlType[i]);
         }
         return identity;
     }
@@ -479,7 +479,7 @@ public final class SQLQuery implements PersistenceQuery {
                 if (!leafDescriptor.getJavaClass().getName().equals(_requestedEngine.getDescriptor().getJavaClass().getName())) {
                     originalFieldNumber = ((Integer) returnValues[1]).intValue();
                     
-                    Persistence newEngine =null;
+                    Persistence newEngine = null;
                     try {
                         newEngine = _requestedFactory.getPersistence(leafDescriptor);
                     } catch (MappingException e) {

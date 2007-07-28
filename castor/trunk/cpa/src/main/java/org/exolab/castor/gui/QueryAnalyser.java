@@ -125,7 +125,7 @@ public class QueryAnalyser {
         }
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         new QueryAnalyser(args[0],args[1]);
@@ -167,13 +167,13 @@ public class QueryAnalyser {
 
         /**Construct the frame*/
         public MainFrame(final String _databasename, final String _dbconfig) {
-            databasename=_databasename;
-            dbconfig=_dbconfig;
+            databasename = _databasename;
+            dbconfig = _dbconfig;
 
             enableEvents(AWTEvent.WINDOW_EVENT_MASK);
             try {
                 jbInit();
-            } catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -260,7 +260,7 @@ public class QueryAnalyser {
             ResultScrollpane.getViewport().add(ResultTable, null);
             // Open the Database
             openDB();
-            statusBar.setText("Database " +jdo.getDatabaseName() +" waiting for Queries");
+            statusBar.setText("Database " + jdo.getDatabaseName() + " waiting for Queries");
             // Load the query history
             loadHistory();
             oqlquery.setText(qhistory.GetCurrentQuery());
@@ -285,10 +285,10 @@ public class QueryAnalyser {
 
             boolean firstObject = true;
             Object o;
-            Vector properties=null;
+            Vector properties = null;
             model = new DefaultTableModel();
 
-            try{
+            try {
                 statusBar.setText("performing Query");
                 // clear results
                 clearTabs();
@@ -306,26 +306,26 @@ public class QueryAnalyser {
                 qhistory.addQuery(oqlquery.getText());
 
 
-                oql=db.getOQLQuery(oqlquery.getText());
+                oql = db.getOQLQuery(oqlquery.getText());
 
 
                 // and execute it
                 Date starttime = new Date();
-                r=oql.execute(Database.READONLY);
+                r = oql.execute(Database.READONLY);
                 Date endtime = new Date();
                 // write the status bar
-                statusBar.setText("Query successful, Time: "+ (endtime.getTime()-starttime.getTime()) +" ms");
+                statusBar.setText("Query successful, Time: " + (endtime.getTime() - starttime.getTime()) + " ms");
 
                 // get SQL statement via backdoor
                 SQLPane.setText( ((OQLQueryImpl)oql).getSQL());
 
 
-                while(r.hasMore()) {
-                    o=r.next();
+                while (r.hasMore()) {
+                    o = r.next();
                     if (firstObject) {
-                        properties=getProperties(o);
+                        properties = getProperties(o);
                         FillTableHeader(properties,model);
-                        firstObject=false;
+                        firstObject = false;
                     }
                     model.addRow(fillRow(properties,o));
 
@@ -336,7 +336,7 @@ public class QueryAnalyser {
                 ResultTable.repaint();
                 TabbedPane.setSelectedComponent(ResultScrollpane);
 
-            } catch(Exception e) {
+            } catch (Exception e) {
                 // Print error into pane and status bar
                 java.io.StringWriter sw = new    java.io.StringWriter();
                 e.printStackTrace(new java.io.PrintWriter(sw));
@@ -350,13 +350,12 @@ public class QueryAnalyser {
         }
 
         private Vector getProperties(final Object o) {
-            int i;
-            Vector properties=new Vector();
+            Vector properties = new Vector();
             Method[] ms = o.getClass().getMethods();
             Method m;
 
-            for(i=0;i<ms.length;i++) {
-                m=ms[i];
+            for (int i = 0; i < ms.length; i++) {
+                m = ms[i];
                 // if it begins with m and have no argument it is
                 // a property
                 if (m.getName().startsWith("get") && m.getParameterTypes().length == 0) {
@@ -369,8 +368,8 @@ public class QueryAnalyser {
         private void FillTableHeader(final Vector properties, final DefaultTableModel model) {
             Iterator i = properties.iterator();
             Method m;
-            while(i.hasNext()) {
-                m=(Method)i.next();
+            while (i.hasNext()) {
+                m = (Method)i.next();
                 model.addColumn(m.getName().substring(3));
 
             }
@@ -379,15 +378,15 @@ public class QueryAnalyser {
         private Vector fillRow(final Vector properties, final Object o) {
             Method m;
             Object temp;
-            Vector results=new Vector();
-            Iterator i =properties.iterator();
-            while(i.hasNext()) {
-                    temp=null;
-                    m=(Method)i.next();
-                    try{
-                        temp=m.invoke(o,(Object[])null);
-                    } catch(Exception ie) {
-                        temp =null;
+            Vector results = new Vector();
+            Iterator i = properties.iterator();
+            while (i.hasNext()) {
+                    temp = null;
+                    m = (Method)i.next();
+                    try {
+                        temp = m.invoke(o,(Object[])null);
+                    } catch (Exception ie) {
+                        temp = null;
                     }
                     results.add(temp);
             }
@@ -395,7 +394,7 @@ public class QueryAnalyser {
         }
 
         private void openDB() {
-            try{
+            try {
                 JDOManager.loadConfiguration (dbconfig, ClassLoader.getSystemClassLoader());
                 jdo = JDOManager.createInstance(databasename);
                 //only to try a connection
@@ -403,7 +402,7 @@ public class QueryAnalyser {
             } catch (MappingException pe) {
                 pe.printStackTrace();
                 System.exit(1);
-            } catch(org.exolab.castor.jdo.PersistenceException pe) {
+            } catch (org.exolab.castor.jdo.PersistenceException pe) {
                 pe.printStackTrace();
                 System.exit(1);
             }
@@ -431,26 +430,26 @@ public class QueryAnalyser {
 
         public void saveHistory() {
             // write back the history to file
-            try{
+            try {
                 FileWriter writer = new FileWriter("queryhistory.xml");
                 Marshaller marshaller = new Marshaller(writer);
                 marshaller.setMapping(mapping);
                 marshaller.marshal(qhistory);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
         private void loadHistory() {
-            try{
+            try {
                 Unmarshaller unmarshaller = new Unmarshaller(Class.forName("org.exolab.castor.gui.QueryHistory"));
                 ClassLoader cl = ClassLoader.getSystemClassLoader();
                 mapping.loadMapping(cl.getResource("org/exolab/castor/gui/Queryanlyser.xml"));
                 unmarshaller.setMapping(mapping);
 
                 FileReader reader = new FileReader("queryhistory.xml");
-                qhistory=(QueryHistory) unmarshaller.unmarshal(reader);
-            } catch(Exception e) {
+                qhistory = (QueryHistory) unmarshaller.unmarshal(reader);
+            } catch (Exception e) {
                 e.printStackTrace();
                 // if there is no file, it's ok also
                 // then we have an empty History

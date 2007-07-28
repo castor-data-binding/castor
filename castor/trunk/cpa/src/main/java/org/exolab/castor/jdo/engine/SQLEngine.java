@@ -228,7 +228,7 @@ public final class SQLEngine implements Persistence {
         AccessMode mode = (accessMode != null) ? accessMode : _clsDesc.getAccessMode();
         String sql = query.getStatement(mode == AccessMode.DbLocked);
         
-        if(LOG.isDebugEnabled()) {
+        if (LOG.isDebugEnabled()) {
             LOG.debug(Messages.format("jdo.createSql", sql));
         }
         
