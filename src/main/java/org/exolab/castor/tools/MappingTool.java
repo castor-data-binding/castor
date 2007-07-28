@@ -71,8 +71,8 @@ import org.exolab.castor.xml.ClassDescriptorResolverFactory;
 import org.exolab.castor.xml.Introspector;
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.XMLClassDescriptor;
+import org.exolab.castor.xml.XMLClassDescriptorResolver;
 import org.exolab.castor.xml.XMLFieldDescriptor;
-import org.exolab.castor.xml.util.XMLClassDescriptorResolverImpl;
 
 /**
  * A tool which uses the introspector to automatically
@@ -90,7 +90,7 @@ public class MappingTool {
     private final Hashtable _mappings;
 
     /** ClassDescriptorResolver for loading compiled descriptors. */
-    private final XMLClassDescriptorResolverImpl _resolver;
+    private final XMLClassDescriptorResolver _resolver;
 
     /** Introspector to use if _forceIntrospection is enabled. */
     private Introspector _introspector = null;
@@ -105,7 +105,7 @@ public class MappingTool {
     
     public MappingTool() {
         _mappings      = new Hashtable();
-        _resolver      = (XMLClassDescriptorResolverImpl) 
+        _resolver      = (XMLClassDescriptorResolver) 
             ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
         _mappingLoader = new MappingToolMappingLoader();
     } //--MappingTool
