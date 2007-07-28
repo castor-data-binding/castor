@@ -133,8 +133,9 @@ public interface XMLClassDescriptorResolver extends ClassDescriptorResolver {
      * descriptor files will be generated).
      * 
      * @param className Name of the class for which the associated descriptor should be loaded.
+     * @throws ResolverException If there's an unrecoverable problem with resolving a certain class. 
      */ 
-    public void addClass(final String className); 
+    public void addClass(final String className) throws ResolverException; 
 
     /**
      * Loads the class descriptors for the class instances specified. The use of this method is useful
@@ -143,8 +144,31 @@ public interface XMLClassDescriptorResolver extends ClassDescriptorResolver {
      * descriptor files will be generated).
      * 
      * @param classNames Names of the classes for which the associated descriptors should be loaded.
+     * @throws ResolverException If there's an unrecoverable problem with resolving a certain class. 
      */ 
-    public void addClasses(final String[] classNames);
+    public void addClasses(final String[] classNames) throws ResolverException;
+    
+    /**
+     * Loads the class descriptor for the class instance specified. The use of this method is useful
+     * when no mapping is used, as happens when the domain classes have been generated
+     * using the XML code generator (in which case instead of a mapping file class
+     * descriptor files will be generated).
+     * 
+     * @param clazz Class for which the associated descriptor should be loaded.
+     * @throws ResolverException If there's an unrecoverable problem with resolving a certain class. 
+     */ 
+    public void addClass(final Class clazz) throws ResolverException; 
+
+    /**
+     * Loads the class descriptors for the class instances specified. The use of this method is useful
+     * when no mapping is used, as happens when the domain classes hase been generated
+     * using the XML code generator (in which case instead of a mapping file class
+     * descriptor files will be generated).
+     * 
+     * @param clazzes Classes for which the associated descriptors should be loaded.
+     * @throws ResolverException If there's an unrecoverable problem with resolving a certain class. 
+     */ 
+    public void addClasses(final Class[] clazzes) throws ResolverException;
 
     /**
      * Loads class descriptors from the package specified. The use of this method is useful

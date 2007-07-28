@@ -82,6 +82,26 @@ org.exolab.castor.xml.proxyInterfaces=\
 
             </summary>
             <bugs>
+                <bug id="1932" tool="jira">
+                    <description>
+                        Splited ClassDescriptorResolver to be more expandable for future needs.
+                    </description>
+                    <contributor>
+                        <name>Joachim Grüneis</name>
+                        <email>jgrueneis@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Joachim Grüneis</name>
+                        <email>jgrueneis@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20070728</date>
+                </bug>
                 <bug id="1927" tool="jira">
                     <description>
                         Refactored Castor configuration.

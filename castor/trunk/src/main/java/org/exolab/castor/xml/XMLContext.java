@@ -77,7 +77,7 @@ public class XMLContext {
      * 
      * @param className Name of the class for which the associated descriptor should be loaded.
      */ 
-    public void addClass(final String className) { 
+    public void addClass(final String className) throws ResolverException { 
         resolver.addClass(className);
     }
 
@@ -89,7 +89,7 @@ public class XMLContext {
      * 
      * @param className Name of the class for which the associated descriptor should be loaded.
      */ 
-    public void addClasses(final String[] classNames) {
+    public void addClasses(final String[] classNames) throws ResolverException {
         resolver.addClasses(classNames);
     }
 
