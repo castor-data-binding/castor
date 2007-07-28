@@ -222,7 +222,7 @@ public final class SQLStatementLoad {
             
             // get id columns' names
             for (int i = 0; i < ids.length; i++) {
-                expr.addParameter(_mapTo, ids[i].getName(), QueryExpression.OpEquals);
+                expr.addParameter(_mapTo, ids[i].getName(), QueryExpression.OP_EQUALS);
             }
 
             _statementNoLock = expr.getStatement(false);

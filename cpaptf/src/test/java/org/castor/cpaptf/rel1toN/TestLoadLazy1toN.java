@@ -180,7 +180,7 @@ public final class TestLoadLazy1toN extends TestCase {
         
         OQLQuery query = db.getOQLQuery(
                 "SELECT o FROM " + Locked.class.getName() + " o order by o.id");
-        QueryResults results = query.execute(Database.ReadOnly);
+        QueryResults results = query.execute(Database.READONLY);
         
         long result = System.currentTimeMillis();
         
@@ -219,7 +219,7 @@ public final class TestLoadLazy1toN extends TestCase {
         
         OQLQuery query = db.getOQLQuery(
                 "SELECT o FROM " + Locked.class.getName() + " o order by o.id");
-        QueryResults results = query.execute(Database.ReadOnly);
+        QueryResults results = query.execute(Database.READONLY);
         
         long result = System.currentTimeMillis();
         
@@ -261,7 +261,7 @@ public final class TestLoadLazy1toN extends TestCase {
                 "CALL SQL select PTF_LOCKED.ID as ID "
               + "from PTF_LOCKED order by PTF_LOCKED.ID "
               + "AS " + OID.class.getName());
-        QueryResults results = query.execute(Database.ReadOnly);
+        QueryResults results = query.execute(Database.READONLY);
         
         long result = System.currentTimeMillis();
         
@@ -303,7 +303,7 @@ public final class TestLoadLazy1toN extends TestCase {
                 "CALL SQL select PTF_LOCKED.ID as ID "
               + "from PTF_LOCKED order by PTF_LOCKED.ID "
               + "AS " + OID.class.getName());
-        QueryResults results = query.execute(Database.ReadOnly);
+        QueryResults results = query.execute(Database.READONLY);
         
         long result = System.currentTimeMillis();
         
@@ -346,14 +346,14 @@ public final class TestLoadLazy1toN extends TestCase {
                 "CALL SQL select PTF_LOCKED.ID as ID "
               + "from PTF_LOCKED order by PTF_LOCKED.ID "
               + "AS " + OID.class.getName());
-        QueryResults results = query.execute(Database.ReadOnly);
+        QueryResults results = query.execute(Database.READONLY);
         
         long result = System.currentTimeMillis();
         
         int count = 0;
         while (results.hasMore()) {
             OID oid = (OID) results.next();
-            iterateStates((Locked) db.load(Locked.class, oid.getId(), Database.ReadOnly));
+            iterateStates((Locked) db.load(Locked.class, oid.getId(), Database.READONLY));
 
             count++;
         }
@@ -388,14 +388,14 @@ public final class TestLoadLazy1toN extends TestCase {
                 "CALL SQL select PTF_LOCKED.ID as ID "
               + "from PTF_LOCKED order by PTF_LOCKED.ID "
               + "AS " + OID.class.getName());
-        QueryResults results = query.execute(Database.ReadOnly);
+        QueryResults results = query.execute(Database.READONLY);
         
         long result = System.currentTimeMillis();
         
         int count = 0;
         while (results.hasMore()) {
             OID oid = (OID) results.next();
-            iterateStates((Locked) db.load(Locked.class, oid.getId(), Database.ReadOnly));
+            iterateStates((Locked) db.load(Locked.class, oid.getId(), Database.READONLY));
 
             count++;
         }
@@ -430,7 +430,7 @@ public final class TestLoadLazy1toN extends TestCase {
                 "CALL SQL select PTF_LOCKED.ID as ID "
               + "from PTF_LOCKED order by PTF_LOCKED.ID "
               + "AS " + OID.class.getName());
-        QueryResults results = query.execute(Database.ReadOnly);
+        QueryResults results = query.execute(Database.READONLY);
         
         long result = System.currentTimeMillis();
         

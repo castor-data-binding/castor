@@ -116,7 +116,7 @@ public final class TestLoadUni1toN extends TestCase {
 
         int count = 0;
         while (results.hasMore()) {
-            iterateStates((Locked) results.next(), Database.Shared);
+            iterateStates((Locked) results.next(), Database.SHARED);
 
             count++;
         }
@@ -157,7 +157,7 @@ public final class TestLoadUni1toN extends TestCase {
 
         int count = 0;
         while (results.hasMore()) {
-            iterateStates((Locked) results.next(), Database.Shared);
+            iterateStates((Locked) results.next(), Database.SHARED);
 
             count++;
         }
@@ -191,7 +191,7 @@ public final class TestLoadUni1toN extends TestCase {
         
         OQLQuery query = _db.getOQLQuery(
                 "SELECT o FROM " + Locked.class.getName() + " o order by o.id");
-        QueryResults results = query.execute(Database.ReadOnly);
+        QueryResults results = query.execute(Database.READONLY);
         
         long result = System.currentTimeMillis();
         
@@ -199,7 +199,7 @@ public final class TestLoadUni1toN extends TestCase {
 
         int count = 0;
         while (results.hasMore()) {
-            iterateStates((Locked) results.next(), Database.ReadOnly);
+            iterateStates((Locked) results.next(), Database.READONLY);
 
             count++;
         }
@@ -232,7 +232,7 @@ public final class TestLoadUni1toN extends TestCase {
         
         OQLQuery query = _db.getOQLQuery(
                 "SELECT o FROM " + Locked.class.getName() + " o order by o.id");
-        QueryResults results = query.execute(Database.ReadOnly);
+        QueryResults results = query.execute(Database.READONLY);
         
         long result = System.currentTimeMillis();
         
@@ -240,7 +240,7 @@ public final class TestLoadUni1toN extends TestCase {
 
         int count = 0;
         while (results.hasMore()) {
-            iterateStates((Locked) results.next(), Database.ReadOnly);
+            iterateStates((Locked) results.next(), Database.READONLY);
 
             count++;
         }
@@ -276,7 +276,7 @@ public final class TestLoadUni1toN extends TestCase {
                 "CALL SQL select PTF_LOCKED.ID as ID "
               + "from PTF_LOCKED order by PTF_LOCKED.ID "
               + "AS " + OID.class.getName());
-        QueryResults results = query.execute(Database.ReadOnly);
+        QueryResults results = query.execute(Database.READONLY);
         
         long result = System.currentTimeMillis();
         
@@ -286,7 +286,7 @@ public final class TestLoadUni1toN extends TestCase {
         while (results.hasMore()) {
             OID oid = (OID) results.next();
             iterateStatesOID((Locked) _db.load(Locked.class, oid.getId()),
-                             Database.Shared);
+                             Database.SHARED);
 
             count++;
         }
@@ -321,7 +321,7 @@ public final class TestLoadUni1toN extends TestCase {
                 "CALL SQL select PTF_LOCKED.ID as ID "
               + "from PTF_LOCKED order by PTF_LOCKED.ID "
               + "AS " + OID.class.getName());
-        QueryResults results = query.execute(Database.ReadOnly);
+        QueryResults results = query.execute(Database.READONLY);
         
         long result = System.currentTimeMillis();
         
@@ -331,7 +331,7 @@ public final class TestLoadUni1toN extends TestCase {
         while (results.hasMore()) {
             OID oid = (OID) results.next();
             iterateStatesOID((Locked) _db.load(Locked.class, oid.getId()),
-                             Database.Shared);
+                             Database.SHARED);
 
             count++;
         }
@@ -367,7 +367,7 @@ public final class TestLoadUni1toN extends TestCase {
                 "CALL SQL select PTF_LOCKED.ID as ID "
               + "from PTF_LOCKED order by PTF_LOCKED.ID "
               + "AS " + OID.class.getName());
-        QueryResults results = query.execute(Database.ReadOnly);
+        QueryResults results = query.execute(Database.READONLY);
         
         long result = System.currentTimeMillis();
         
@@ -377,7 +377,7 @@ public final class TestLoadUni1toN extends TestCase {
         while (results.hasMore()) {
             OID oid = (OID) results.next();
             iterateStatesOID((Locked) _db.load(Locked.class, oid.getId(),
-                             Database.ReadOnly), Database.ReadOnly);
+                             Database.READONLY), Database.READONLY);
 
             count++;
         }
@@ -412,7 +412,7 @@ public final class TestLoadUni1toN extends TestCase {
                 "CALL SQL select PTF_LOCKED.ID as ID "
               + "from PTF_LOCKED order by PTF_LOCKED.ID "
               + "AS " + OID.class.getName());
-        QueryResults results = query.execute(Database.ReadOnly);
+        QueryResults results = query.execute(Database.READONLY);
         
         long result = System.currentTimeMillis();
         
@@ -422,7 +422,7 @@ public final class TestLoadUni1toN extends TestCase {
         while (results.hasMore()) {
             OID oid = (OID) results.next();
             iterateStatesOID((Locked) _db.load(Locked.class, oid.getId(),
-                             Database.ReadOnly), Database.ReadOnly);
+                             Database.READONLY), Database.READONLY);
 
             count++;
         }
@@ -457,7 +457,7 @@ public final class TestLoadUni1toN extends TestCase {
                 "CALL SQL select PTF_LOCKED.ID as ID "
               + "from PTF_LOCKED order by PTF_LOCKED.ID "
               + "AS " + OID.class.getName());
-        QueryResults results = query.execute(Database.ReadOnly);
+        QueryResults results = query.execute(Database.READONLY);
         
         long result = System.currentTimeMillis();
         
@@ -546,7 +546,7 @@ public final class TestLoadUni1toN extends TestCase {
     private void iterateEquipmentsOID(final State state, final AccessMode mode)
     throws Exception {
         _queryEquipmentOID.bind(state.getId());
-        QueryResults results = _queryEquipmentOID.execute(Database.ReadOnly);
+        QueryResults results = _queryEquipmentOID.execute(Database.READONLY);
         
         while (results.hasMore()) {
             OID oid = (OID) results.next();
@@ -568,7 +568,7 @@ public final class TestLoadUni1toN extends TestCase {
     private void iterateServicesOID(final Equipment equipment, final AccessMode mode)
     throws Exception {
         _queryServiceOID.bind(equipment.getId());
-        QueryResults results = _queryServiceOID.execute(Database.ReadOnly);
+        QueryResults results = _queryServiceOID.execute(Database.READONLY);
         
         while (results.hasMore()) {
             OID oid = (OID) results.next();

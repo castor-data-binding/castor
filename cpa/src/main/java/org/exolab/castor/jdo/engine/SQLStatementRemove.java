@@ -57,12 +57,12 @@ public final class SQLStatementRemove {
         SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
         StringBuffer sql = new StringBuffer("DELETE FROM ");
         sql.append(_factory.quoteName(_mapTo));
-        sql.append(JDBCSyntax.Where);
+        sql.append(JDBCSyntax.WHERE);
         for (int i = 0; i < ids.length; i++) {
             if (i > 0) { sql.append(" AND "); }
             sql.append(_factory.quoteName(ids[i].getName()));
-            sql.append(QueryExpression.OpEquals);
-            sql.append(JDBCSyntax.Parameter);
+            sql.append(QueryExpression.OP_EQUALS);
+            sql.append(JDBCSyntax.PARAMETER);
         }
         _statement = sql.toString();
         

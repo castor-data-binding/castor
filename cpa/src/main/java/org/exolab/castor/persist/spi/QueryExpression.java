@@ -67,64 +67,36 @@ import org.exolab.castor.jdo.oql.SyntaxNotSupportedException;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
-public interface QueryExpression
-{
+public interface QueryExpression {
+    /** Equality operator. (<tt>=</tt>) */
+    String OP_EQUALS = "=";
 
+    /** Inequality operator. (<tt>&lt;&gt;</tt>) */
+    String OP_NOT_EQUALS = "<>";
 
-    /**
-     * Equality operator. (<tt>=</tt>)
-     */
-    public String OpEquals = "=";
+    /** Greater then operator. (<tt>&gt;</tt>) */
+    String OP_GREATER = ">";
 
-    /**
-     * Inequality operator. (<tt>&lt;&gt;</tt>)
-     */
-    public String OpNotEquals = "<>";
+    /** Greater then or equals operator. (<tt>&gt;=</tt>) */
+    String OP_GREATER_EQUALS = ">=";
 
-    /**
-     * Greater then operator. (<tt>&gt;</tt>)
-     */
-    public String OpGreater = ">";
+    /** Less then operator. (<tt>&lt;</tt>) */
+    String OP_LESS = "<";
 
-    /**
-     * Greater then or equals operator. (<tt>&gt;=</tt>)
-     */
-    public String OpGreaterEquals = ">=";
+    /** Less then or equals operator. (<tt>&lt;=</tt>) */
+    String OP_LESS_EQUALS = "<=";
 
-    /**
-     * Less then operator. (<tt>&lt;</tt>)
-     */
-    public String OpLess = "<";
+    /** Like operator. (<tt>LIKE</tt>) */
+    String OP_LIKE = " LIKE ";
 
-    /**
-     * Less then or equals operator. (<tt>&lt;=</tt>)
-     */
-    public String OpLessEquals = "<=";
+    /** Not like operator. (<tt>NOT LIKE</tt>) */
+    String OP_NOT_LIKE = " NOT LIKE ";
 
-    /**
-     * Like operator. (<tt>LIKE</tt>)
-     */
-    public String OpLike = " LIKE ";
+    /** Between operator. (<tt>BETWEEN</tt>) */
+    String OP_BETWEEN = " BETWEEN ";
 
-    /**
-     * Not like operator. (<tt>NOT LIKE</tt>)
-     */
-    public String OpNotLike = " NOT LIKE ";
-
-    /**
-     * Between operator. (<tt>BETWEEN</tt>)
-     *
-     * @see #OpBetweenAnd
-     */
-    public String OpBetween = " BETWEEN ";
-
-    /**
-     * Between and operator. (<tt>AND</tt>)
-     *
-     * @see #OpBetween
-     */
-    public String OpBetweenAnd = " AND ";
-
+    /** Between and operator. (<tt>AND</tt>) */
+    String OP_BETWEEN_AND = " AND ";
 
     /**
      * Add a column used in the query. Columns must be retrieved in

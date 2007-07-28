@@ -129,7 +129,7 @@ public final class TestReadOnly extends CastorTestCase {
                 + Sample.class.getName() + " object WHERE id = $1");
         oql.bind(Sample.DEFAULT_ID);
         
-        enumeration = oql.execute(Database.ReadOnly);
+        enumeration = oql.execute(Database.READONLY);
         object = (Sample) enumeration.nextElement();
         LOG.debug("Retrieved object: " + object);
         object.setValue1(NEW_VALUE);
@@ -142,7 +142,7 @@ public final class TestReadOnly extends CastorTestCase {
         _db.begin();
         
         oql.bind(Sample.DEFAULT_ID);
-        enumeration = oql.execute(Database.ReadOnly);
+        enumeration = oql.execute(Database.READONLY);
         object = (Sample) enumeration.nextElement();
         LOG.debug("Retrieved object: " + object);
         if (object.getValue1().equals(NEW_VALUE)) {

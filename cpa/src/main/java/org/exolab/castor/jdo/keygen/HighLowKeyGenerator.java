@@ -235,18 +235,18 @@ public class HighLowKeyGenerator implements KeyGenerator
                 // HypersonicSQL) don't support such locks.
                 query = _factory.getQueryExpression();
                 query.addColumn( _seqTable, _seqValue );
-                query.addCondition( _seqTable, _seqKey, QueryExpression.OpEquals, 
-                                    JDBCSyntax.Parameter);
+                query.addCondition( _seqTable, _seqKey, QueryExpression.OP_EQUALS, 
+                                    JDBCSyntax.PARAMETER);
 
                 // SELECT and put lock on the last record
                 sql = query.getStatement( true );
                 // For the case if the "SELECT FOR UPDATE" is not supported
                 // we perform dirty checking
                 sql2 = "UPDATE "+  _seqTable +
-                    " SET " + _seqValue + "=" + JDBCSyntax.Parameter +
-                    JDBCSyntax.Where + _seqKey + QueryExpression.OpEquals +
-                    JDBCSyntax.Parameter + JDBCSyntax.And + 
-                    _seqValue + "=" + JDBCSyntax.Parameter;
+                    " SET " + _seqValue + "=" + JDBCSyntax.PARAMETER +
+                    JDBCSyntax.WHERE + _seqKey + QueryExpression.OP_EQUALS +
+                    JDBCSyntax.PARAMETER + JDBCSyntax.AND + 
+                    _seqValue + "=" + JDBCSyntax.PARAMETER;
 
                 stmt = conn.prepareStatement( sql );
                 stmt.setString(1, tableName);
@@ -299,7 +299,7 @@ public class HighLowKeyGenerator implements KeyGenerator
                         // to HIGH-LOW
                         stmt.close();
                         if ( ! _global ) {
-                        	String sqlStatement = JDBCSyntax.Select + "MAX(" + primKeyName + ") FROM " + tableName;
+                        	String sqlStatement = JDBCSyntax.SELECT + "MAX(" + primKeyName + ") FROM " + tableName;
                             stmt = conn.prepareStatement(sqlStatement);
                             rs = stmt.executeQuery();
                         }

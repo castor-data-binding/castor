@@ -195,13 +195,13 @@ public final class TestDeadlock extends CastorTestCase {
      */
     public void runTest() throws PersistenceException, InterruptedException {
         LOG.info("Running in access mode shared");
-        runOnce(Database.Shared);
+        runOnce(Database.SHARED);
 
         LOG.info("Running in access mode exclusive");
-        runOnce(Database.Exclusive);
+        runOnce(Database.EXCLUSIVE);
 
         LOG.info("Running in access mode db-locked");
-        runOnce(Database.DbLocked);
+        runOnce(Database.DBLOCKED);
     }
 
     /**
@@ -377,8 +377,8 @@ public final class TestDeadlock extends CastorTestCase {
                     object = (Sample) _db.load(Sample.class,
                             new Integer(Sample.DEFAULT_ID), _accessMode);
                 } catch (LockNotGrantedException ex) {
-                    if (_accessMode == Database.Exclusive
-                            || _accessMode == Database.DbLocked) {
+                    if (_accessMode == Database.EXCLUSIVE
+                            || _accessMode == Database.DBLOCKED) {
                         LOG.debug("2.X OK: Deadlock detected");
                     } else {
                         _theTest._secondProblem = ex;

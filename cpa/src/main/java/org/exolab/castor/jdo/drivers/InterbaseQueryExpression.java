@@ -31,13 +31,13 @@ public final class InterbaseQueryExpression
         Vector       done = new Vector();
 
         sql = new StringBuffer();
-        sql.append( JDBCSyntax.Select );
+        sql.append( JDBCSyntax.SELECT );
         if ( _distinct )
-          sql.append( JDBCSyntax.Distinct );
+          sql.append( JDBCSyntax.DISTINCT );
 
         sql.append( getColumnList() );
 
-        sql.append( JDBCSyntax.From );
+        sql.append( JDBCSyntax.FROM );
 
         tables = (Hashtable) _tables.clone();
         first = true;
@@ -74,7 +74,7 @@ public final class InterbaseQueryExpression
             if ( first ) {
                 first = false;
             } else {
-                sql.append( JDBCSyntax.TableSeparator );
+                sql.append( JDBCSyntax.TABLE_SEPARATOR );
             }
             String tableAlias = (String) enumeration.nextElement();
             String tableName = (String) tables.get( tableAlias );
@@ -89,7 +89,7 @@ public final class InterbaseQueryExpression
         first = addWhereClause( sql, true );
 
         if ( _order != null )
-          sql.append(JDBCSyntax.OrderBy).append(_order);
+          sql.append(JDBCSyntax.ORDER_BY).append(_order);
 
         // Do not use FOR UPDATE to lock query.
         return sql.toString();
@@ -97,8 +97,8 @@ public final class InterbaseQueryExpression
 
     void appendJoin(Join join){
 
-      if(join.outer) sql.append( JDBCSyntax.LeftJoin );
-      else sql.append( JDBCSyntax.InnerJoin );
+      if(join.outer) sql.append( JDBCSyntax.LEFT_JOIN );
+      else sql.append( JDBCSyntax.INNER_JOIN );
 
       String tableAlias = join.rightTable;
       String tableName = (String) _tables.get( tableAlias );
@@ -108,12 +108,12 @@ public final class InterbaseQueryExpression
           sql.append( _factory.quoteName( tableName ) + " " +
                       _factory.quoteName( tableAlias ) );
       }
-      sql.append( JDBCSyntax.On );
+      sql.append( JDBCSyntax.ON );
       for ( int j = 0 ; j < join.leftColumns.length ; ++j ) {
-          if ( j > 0 ) sql.append( JDBCSyntax.And );
-          sql.append( _factory.quoteName( join.leftTable + JDBCSyntax.TableColumnSeparator +
-                                          join.leftColumns[ j ] ) ).append( OpEquals );
-          sql.append( _factory.quoteName( join.rightTable + JDBCSyntax.TableColumnSeparator +
+          if ( j > 0 ) sql.append( JDBCSyntax.AND );
+          sql.append( _factory.quoteName( join.leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
+                                          join.leftColumns[ j ] ) ).append( OP_EQUALS );
+          sql.append( _factory.quoteName( join.rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
                                           join.rightColumns[ j ] ) );
       }
     }

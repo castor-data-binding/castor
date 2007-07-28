@@ -101,69 +101,92 @@ import org.exolab.castor.persist.spi.Identity;
  * @see JDOManager#getDatabase()
  * @see Query
  */
-public interface Database
-{
+public interface Database {
+    /** Read only access. Used with queries and the {@link #load(Class,Object)} method to load
+     *  objects as read-only.
+     *  <br/>
+     *  Read-only objects are not persistent and changes to these objects are not reflected in
+     *  the database when the transaction commits. */
+    AccessMode READONLY = AccessMode.ReadOnly;
 
+    /** Read only access. Used with queries and the {@link #load(Class,Object)} method to load
+     *  objects as read-only.
+     *  <br>
+     *  Read-only objects are not persistent and changes to these objects are not reflected in
+     *  the database when the transaction commits.
+     *  @deprecated Use READONLY instead. */
+    AccessMode ReadOnly = AccessMode.ReadOnly;
 
-    /**
-     * Read only access. Used with queries and the {@link #load(Class,Object)}
-     * method to load objects as read-only.
-     * <p>
-     * Read-only objects are not persistent and changes to these
-     * objects are not reflected in the database when the transaction
-     * commits.
-     */
-    public static final AccessMode ReadOnly = AccessMode.ReadOnly;
+    /** Shared access. Used with queries and the {@link #load(Class,Object)} method to load
+     *  objects with shared access.
+     *  <br/>
+     *  Shared access allows the same record to be accessed by two concurrent transactions, each
+     *  with it's own view (object).
+     *  <br/>
+     *  These objects acquire a read lock which escalated to a write lock when the transaction
+     *  commits if the object has been modified. Dirty checking is enabled for all fields marked
+     *  as such, and a cached copy is used to populate the object. */
+    AccessMode SHARED = AccessMode.Shared;
 
+    /** Shared access. Used with queries and the {@link #load(Class,Object)} method to load
+     *  objects with shared access.
+     *  <br/>
+     *  Shared access allows the same record to be accessed by two concurrent transactions, each
+     *  with it's own view (object).
+     *  <br/>
+     *  These objects acquire a read lock which escalated to a write lock when the transaction
+     *  commits if the object has been modified. Dirty checking is enabled for all fields marked
+     *  as such, and a cached copy is used to populate the object.
+     *  @deprecated Use SHARED instead. */
+    AccessMode Shared = AccessMode.Shared;
 
-    /**
-     * Shared access. Used with queries and the {@link #load(Class,Object)}
-     * method to load objects with shared access.
-     * <p>
-     * Shared access allows the same record to be accessed by two
-     * concurrent transactions, each with it's own view (object).
-     * <p>
-     * These objects acquire a read lock which escalated to a write
-     * lock when the transaction commits if the object has been
-     * modified. Dirty checking is enabled for all fields marked
-     * as such, and a cached copy is used to populate the object.
-     */
-    public static final AccessMode Shared = AccessMode.Shared;
+    /** Exclusive access. Used with queries and the {@link #load(Class,Object)} method to load
+     *  objects with exclusive access.
+     *  <br/>
+     *  Exclusive access prevents two concurrent transactions from accessing the same record. In
+     *  exclusive mode objects acquire a write lock, and concurrent transactions will block until
+     *  the lock is released at commit time.
+     *  <br/>
+     *  Dirty checking is enabled for all fields marked as such. When an object is first loaded
+     *  in the transaction, it will be synchronized with the database and not populated from the
+     *  cache. */
+    AccessMode EXCLUSIVE = AccessMode.Exclusive;
 
+    /** Exclusive access. Used with queries and the {@link #load(Class,Object)} method to load
+     *  objects with exclusive access.
+     *  <br/>
+     *  Exclusive access prevents two concurrent transactions from accessing the same record. In
+     *  exclusive mode objects acquire a write lock, and concurrent transactions will block until
+     *  the lock is released at commit time.
+     *  <br/>
+     *  Dirty checking is enabled for all fields marked as such. When an object is first loaded
+     *  in the transaction, it will be synchronized with the database and not populated from the
+     *  cache.
+     *  @deprecated Use EXCLUSIVE instead. */
+    AccessMode Exclusive = AccessMode.Exclusive;
 
-    /**
-     * Exclusive access. Used with queries and the {@link #load(Class,Object)}
-     * method to load objects with exclusive access.
-     * <p>
-     * Exclusive access prevents two concurrent transactions from
-     * accessing the same record. In exclusive mode objects acquire
-     * a write lock, and concurrent transactions will block until
-     * the lock is released at commit time.
-     * <p>
-     * Dirty checking is enabled for all fields marked as such.
-     * When an object is first loaded in the transaction, it will
-     * be synchronized with the database and not populated from
-     * the cache.
-     */
-    public static final AccessMode Exclusive = AccessMode.Exclusive;
+    /** Database lock access. Used with queries and the {@link #load(Class,Object)} method to
+     *  load objects with a database lock.
+     *  <br/>
+     *  Database lock prevents two concurrent transactions from accessing the same record either
+     *  through Castor or direct database access by acquiring a write lock in the select statement.
+     *  Concurrent transactions will block until the lock is released at commit time.
+     *  <br/>
+     *  When an object is first loaded in the transaction, it will be synchronized with the
+     *  database and not populated from the cache. Dirty checking is not required. */
+    AccessMode DBLOCKED = AccessMode.DbLocked;
 
-
-    /**
-     * Database lock access. Used with queries and the {@link #load(Class,Object)}
-     * method to load objects with a database lock.
-     * <p>
-     * Database lock prevents two concurrent transactions from
-     * accessing the same record either through Castor or direct
-     * database access by acquiring a write lock in the select
-     * statement. Concurrent transactions will block until the lock
-     * is released at commit time.
-     * <p>
-     * When an object is first loaded in the transaction, it will
-     * be synchronized with the database and not populated from
-     * the cache. Dirty checking is not required.
-     */
-    public static final AccessMode DbLocked = AccessMode.DbLocked;
-
+    /** Database lock access. Used with queries and the {@link #load(Class,Object)} method to
+     *  load objects with a database lock.
+     *  <br/>
+     *  Database lock prevents two concurrent transactions from accessing the same record either
+     *  through Castor or direct database access by acquiring a write lock in the select statement.
+     *  Concurrent transactions will block until the lock is released at commit time.
+     *  <br/>
+     *  When an object is first loaded in the transaction, it will be synchronized with the
+     *  database and not populated from the cache. Dirty checking is not required.
+     *  @deprecated Use DBLOCKED instead. */
+    AccessMode DbLocked = AccessMode.DbLocked;
 
     /**
      * Creates an OQL query with no statement. {@link OQLQuery#create}

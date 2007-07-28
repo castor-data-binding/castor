@@ -108,10 +108,10 @@ final class PostgreSQLCallQuery implements PersistenceQuery
     {
         StringBuffer query = new StringBuffer();
 
-        query.append( JDBCSyntax.Select );
+        query.append( JDBCSyntax.SELECT );
         for ( int i = 0; i < fields.length; i++ ) {
             if ( i > 0 ) 
-                query.append( JDBCSyntax.ColumnSeparator );
+                query.append( JDBCSyntax.COLUMN_SEPARATOR );
             query.append( fields[i] );
             query.append( "(" );
             query.append( call );

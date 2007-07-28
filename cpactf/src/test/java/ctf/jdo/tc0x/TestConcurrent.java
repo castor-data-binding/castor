@@ -129,10 +129,10 @@ public final class TestConcurrent extends CastorTestCase {
         LOG.info("Running in access mode shared");
         
         // part 1
-        testDirtyChecked(Database.Shared);
+        testDirtyChecked(Database.SHARED);
 
         // part 2
-        testDirtyIgnored(Database.Shared);
+        testDirtyIgnored(Database.SHARED);
     }
 
     /**
@@ -149,10 +149,10 @@ public final class TestConcurrent extends CastorTestCase {
         LOG.info("Running in access mode exclusive");
 
         // part 1
-        testDirtyChecked(Database.Exclusive);
+        testDirtyChecked(Database.EXCLUSIVE);
 
         // part 2
-        testDirtyIgnored(Database.Exclusive);
+        testDirtyIgnored(Database.EXCLUSIVE);
     }
 
     /**
@@ -171,10 +171,10 @@ public final class TestConcurrent extends CastorTestCase {
         LOG.info("Running in access mode db-locked");
 
         // part 1
-        testDirtyChecked(Database.DbLocked);
+        testDirtyChecked(Database.DBLOCKED);
 
         // part 2
-        testDirtyIgnored(Database.DbLocked);
+        testDirtyIgnored(Database.DBLOCKED);
     }
 
     /**
@@ -222,7 +222,7 @@ public final class TestConcurrent extends CastorTestCase {
         object.setValue1(JDO_VALUE);
         
         // Perform direct JDBC access and override the value of that table
-        if (accessMode != Database.DbLocked) {
+        if (accessMode != Database.DBLOCKED) {
             _conn.createStatement().execute(
                     "UPDATE tc0x_sample SET value1='" + JDBC_VALUE
                     + "' WHERE id=" + Sample.DEFAULT_ID);
@@ -264,7 +264,7 @@ public final class TestConcurrent extends CastorTestCase {
 
         // Commit JDO transaction, this should report object modified exception
         LOG.debug("Committing JDO update: dirty checking field modified");
-        if (accessMode != Database.DbLocked) {
+        if (accessMode != Database.DBLOCKED) {
             try {
                 _db.commit();
                 LOG.error("Error: ObjectModifiedException not thrown");
@@ -334,7 +334,7 @@ public final class TestConcurrent extends CastorTestCase {
         object.setValue2(JDO_VALUE);
         
         // Perform direct JDBC access and override the value of that table
-        if (accessMode != Database.DbLocked) {
+        if (accessMode != Database.DBLOCKED) {
             _conn.createStatement().execute(
                     "UPDATE tc0x_sample SET value2='" + JDBC_VALUE
                     + "' WHERE id=" + Sample.DEFAULT_ID);
