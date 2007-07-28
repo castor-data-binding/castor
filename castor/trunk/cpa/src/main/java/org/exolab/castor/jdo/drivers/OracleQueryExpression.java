@@ -73,23 +73,16 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2005-03-24 03:45:01 -0700 (Thu, 24 Mar 2005) $
  */
-public final class OracleQueryExpression
-    extends JDBCQueryExpression
-{
-    /**
-     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     * Commons Logging</a> instance used for all logging.
-     */
+public final class OracleQueryExpression extends JDBCQueryExpression {
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
     private static Log _log = LogFactory.getFactory().getInstance( OracleQueryExpression.class );
 
-    public OracleQueryExpression( PersistenceFactory factory )
-    {
+    public OracleQueryExpression( PersistenceFactory factory ) {
         super( factory );
     }
 
-
-    public String getStatement( boolean lock ) throws SyntaxNotSupportedException 
-    {
+    public String getStatement( boolean lock ) throws SyntaxNotSupportedException {
         StringBuffer sql;
         boolean      first;
         Enumeration  enumeration;
@@ -192,8 +185,7 @@ public final class OracleQueryExpression
      * 
      * @return true to indicate that Oracle supports an OQL LIMIT clause.
      */
-	public boolean isLimitClauseSupported()
-	{
+	public boolean isLimitClauseSupported() {
 	    return _dbInfo!=null? _dbInfo.compareDbVersion("8.1.6")>=0: false;
 	}
 
@@ -202,8 +194,7 @@ public final class OracleQueryExpression
      * 
      * @return true to indicate that Oracle supports an OQL OFFSET clause.
      */
-	public boolean isOffsetClauseSupported()
-	{
+	public boolean isOffsetClauseSupported() {
 	    return _dbInfo!=null? _dbInfo.compareDbVersion("8.1.6")>=0: false;
 	}
 }

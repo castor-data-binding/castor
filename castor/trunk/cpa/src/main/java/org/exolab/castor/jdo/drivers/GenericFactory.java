@@ -60,48 +60,36 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @author <a href="mailto:ferret AT frii dot com">Bruce Snyder</a>
  * @version $Revision$ $Date: 2004-01-19 13:01:46 -0700 (Mon, 19 Jan 2004) $
  */
-public class GenericFactory
-    extends BaseFactory
-{
-
-
-    public String getFactoryName()
-    {
+public class GenericFactory extends BaseFactory {
+    public String getFactoryName() {
         return "generic";
     }
 
-
-    public QueryExpression getQueryExpression()
-    {
+    public QueryExpression getQueryExpression() {
         return new JDBCQueryExpression( this );
     }
 
-
     /**
-     * Determine if the given SQLException is DuplicateKeyException
+     * Determine if the given SQLException is DuplicateKeyException.
+     * 
      * @return Boolean.TRUE means "yes",
      *         Boolean.FALSE means "no",
      *         null means "cannot determine"
      */
-    public Boolean isDuplicateKeyException( Exception ex )
-    {
+    public Boolean isDuplicateKeyException(Exception ex) {
         return null;
     }
 
-
-    public String quoteName( String name )
-    {
+    public String quoteName(String name) {
         return name;
     }
-
 
  	/**
  	 * Updated to handle input such as user.tablename.column
  	 *
 	 * @author Andrew Ballanger, 3/15/2001
 	 */
-	protected final String doubleQuoteName(String name)
-	{
+	protected final String doubleQuoteName(String name) {
 		StringBuffer buffer = new StringBuffer();
 		StringTokenizer tokens = new StringTokenizer(name, ".");
 

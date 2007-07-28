@@ -71,9 +71,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  * @see IdentityKeyGeneratorFactory
  */
-public final class IdentityKeyGenerator
-implements KeyGenerator 
-{
+public final class IdentityKeyGenerator implements KeyGenerator {
     
     /**
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
@@ -120,9 +118,7 @@ implements KeyGenerator
      * @param sqlType
      * @throws MappingException
      */
-    public void supportsSqlType( int sqlType )
-        throws MappingException
-    {
+    public void supportsSqlType( int sqlType ) throws MappingException {
         if (sqlType != Types.INTEGER &&
             sqlType != Types.NUMERIC &&
             sqlType != Types.DECIMAL &&

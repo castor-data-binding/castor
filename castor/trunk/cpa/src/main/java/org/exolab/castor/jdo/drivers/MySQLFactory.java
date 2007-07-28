@@ -57,30 +57,21 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @author <a href="leonardo@itera.com.br">Leonardo Souza Mario Bueno</a>
  * @version $Revision$ $Date: 2006-02-21 16:05:42 -0700 (Tue, 21 Feb 2006) $
  */
-public final class MySQLFactory
-    extends GenericFactory
-{
-
-    /**
-     * Internal name for this {@link org.exolab.castor.persist.spi.PersistenceFactory} instance.
-     */
+public final class MySQLFactory extends GenericFactory {
+    /** Internal name for this {@link org.exolab.castor.persist.spi.PersistenceFactory} instance. */
     public static final String FACTORY_NAME = "mysql";
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.persist.spi.PersistenceFactory#getFactoryName()
      */
-    public String getFactoryName()
-    {
+    public String getFactoryName() {
         return FACTORY_NAME;
     }
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.persist.spi.PersistenceFactory#getQueryExpression()
      */
-    public QueryExpression getQueryExpression()
-    {
+    public QueryExpression getQueryExpression() {
         return new MySQLQueryExpression(this);
     }
 

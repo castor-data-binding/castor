@@ -64,14 +64,9 @@ import org.exolab.castor.persist.spi.AbstractCallQuery;
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
  * @version $Revision$ $Date: 2006-04-11 15:26:07 -0600 (Tue, 11 Apr 2006) $
  */
-final class ReturnedRSCallQuery 
-extends AbstractCallQuery
-{
-
-    /**
-     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     * Commons Logging</a> instance used for all logging.
-     */
+final class ReturnedRSCallQuery extends AbstractCallQuery {
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
     private static Log _log = LogFactory.getFactory().getInstance(ReturnedRSCallQuery.class);
     
     /**
@@ -82,15 +77,12 @@ extends AbstractCallQuery
      * @param fields ???
      * @param sqlTypes SQL types of the parameters
      */
-    ReturnedRSCallQuery( String call, Class[] types, Class javaClass,
-                         String[] fields, int[] sqlTypes )
-    {
+    ReturnedRSCallQuery( String call, Class[] types, Class javaClass, String[] fields, int[] sqlTypes ) {
         super (call, types, javaClass, sqlTypes);
     }
 
     protected void execute( Object conn, AccessMode accessMode )
-        throws QueryException, PersistenceException
-    {
+    throws QueryException, PersistenceException {
         _lastIdentity = null;
         try {
             _stmt = ( (Connection) conn ).prepareCall( _call );

@@ -55,10 +55,10 @@ import org.exolab.castor.mapping.MappingException;
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
-public interface KeyGeneratorFactory
-{
+public interface KeyGeneratorFactory {
     /**
      * Produce the key generator.
+     * 
      * @param factory Helper object for obtaining database-specific QuerySyntax.
      * @param params Parameters for key generator.
      * @param sqlType The SQL type of the primary key,

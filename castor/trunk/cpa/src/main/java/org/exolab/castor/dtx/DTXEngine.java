@@ -106,9 +106,7 @@ public class DTXEngine {
      * @param schemaURL URL string for XML Schema file.
      */
 
-    public DTXEngine(String databaseURL, String schemaURL)
-	    throws DTXException
-    {
+    public DTXEngine(String databaseURL, String schemaURL) throws DTXException {
 	    setDatabase(databaseURL);
 	    setSchema(schemaURL);
     }
@@ -118,20 +116,16 @@ public class DTXEngine {
      *
      * @param schemaURL URL string for XML Schema file.  */
 
-    public void setSchema(String schemaURL) 
-        throws DTXException
-    {
+    public void setSchema(String schemaURL) throws DTXException {
 	    _schemaURL = schemaURL;
 
         try {
             SchemaReader 
                 reader = new SchemaReader(new InputSource((new URL(schemaURL)).openStream()));
             _schema = reader.read();
-        }
-        catch(IOException iox) {
+        } catch(IOException iox) {
             throw new DTXException(iox);
-        }
-        catch(Exception e) {
+        } catch(Exception e) {
             throw new DTXException(e);
         }
     }

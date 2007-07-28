@@ -72,12 +72,9 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  * @see MaxKeyGeneratorFactory
  */
-public final class MaxKeyGenerator implements KeyGenerator
-{
-    /**
-     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     * Commons Logging</a> instance used for all logging.
-     */
+public final class MaxKeyGenerator implements KeyGenerator {
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
     private static Log _log = LogFactory.getFactory().getInstance(MaxKeyGenerator.class);
     
     private static final BigDecimal ONE = new BigDecimal( 1 );
@@ -89,9 +86,7 @@ public final class MaxKeyGenerator implements KeyGenerator
     /**
      * Initialize the MAX key generator.
      */
-    public MaxKeyGenerator( PersistenceFactory factory, int sqlType )
-            throws MappingException
-    {
+    public MaxKeyGenerator( PersistenceFactory factory, int sqlType ) throws MappingException {
         _factory = factory;
         _sqlType = sqlType;
         supportsSqlType( sqlType );
@@ -103,11 +98,8 @@ public final class MaxKeyGenerator implements KeyGenerator
      * @param sqlType
      * @throws MappingException
      */
-    public void supportsSqlType( int sqlType )
-        throws MappingException
-    {
-        if ( sqlType != Types.INTEGER && sqlType != Types.NUMERIC && sqlType != Types.DECIMAL && sqlType != Types.BIGINT)
-        {
+    public void supportsSqlType( int sqlType ) throws MappingException {
+        if ( sqlType != Types.INTEGER && sqlType != Types.NUMERIC && sqlType != Types.DECIMAL && sqlType != Types.BIGINT) {
             throw new MappingException( Messages.format( "mapping.keyGenSQLType",
                                         getClass().getName(), new Integer( sqlType ) ) );
         }
@@ -127,9 +119,8 @@ public final class MaxKeyGenerator implements KeyGenerator
      *  storage
      */
     public Object generateKey( Connection conn, String tableName, String primKeyName,
-            Properties props )
-            throws PersistenceException
-    {
+            Properties props ) throws PersistenceException {
+        
         String sql;
         PreparedStatement stmt = null;
         ResultSet rs;

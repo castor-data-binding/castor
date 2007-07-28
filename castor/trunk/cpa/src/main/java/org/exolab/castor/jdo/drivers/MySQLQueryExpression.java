@@ -58,25 +58,17 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @author <a href="mailto:on@ibis.odessa.ua">Oleg Nitz</a>
  * @version $Revision$ $Date: 2004-10-01 13:45:49 -0600 (Fri, 01 Oct 2004) $
  */
-public final class MySQLQueryExpression
-    extends JDBCQueryExpression
-{
-
-
-    public MySQLQueryExpression( PersistenceFactory factory )
-    {
+public final class MySQLQueryExpression extends JDBCQueryExpression {
+    public MySQLQueryExpression( PersistenceFactory factory ) {
         super( factory );
     }
 
-
-    public String getStatement( boolean lock )
-    {
+    public String getStatement( boolean lock ) {
         StringBuffer sql;
 
         sql = getStandardStatement( lock, false );
 
-        if ( _limit != null )
-        {
+        if ( _limit != null ) {
             sql.append(JDBCSyntax.LIMIT);
 
             if (_offset != null)
@@ -110,5 +102,4 @@ public final class MySQLQueryExpression
     public boolean isOffsetClauseSupported() {
     	return true;
     }
-
 }

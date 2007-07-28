@@ -68,8 +68,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @author <a href="mailto:ferret AT frii dot com">Bruce Snyder</a>
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
-final class KeyGeneratorRegistry
-{
+final class KeyGeneratorRegistry {
     /**
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      * Commons Logging</a> instance used for all logging.
@@ -90,11 +89,7 @@ final class KeyGeneratorRegistry
      * @param desc The key generator description
      * @return The {@link KeyGenerator}
      */
-    public KeyGenerator getKeyGenerator( PersistenceFactory factory,
-                                         KeyGeneratorDescriptor desc,
-                                         int sqlType )
-            throws MappingException
-    {
+    public KeyGenerator getKeyGenerator(PersistenceFactory factory, KeyGeneratorDescriptor desc, int sqlType) throws MappingException {
         String keyGenName;
         KeyGeneratorFactory keyGenFactory;
         KeyGenerator keyGen;
@@ -107,8 +102,7 @@ final class KeyGeneratorRegistry
 
             if (keyGenFactory != null) {
                 keyGen = keyGenFactory.getKeyGenerator( factory, desc.getParams(), sqlType );
-                if ( keyGen != null ) 
-                {
+                if (keyGen != null) {
                     if(_log.isDebugEnabled()) {
                     	_log.debug( "Key generator " + desc.getKeyGeneratorFactoryName() +
                             " has been instantiated, parameters: " + desc.getParams() );

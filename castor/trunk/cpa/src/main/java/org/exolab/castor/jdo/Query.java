@@ -70,9 +70,7 @@ import org.exolab.castor.mapping.AccessMode;
  * @see OQLQuery
  * @see Database#getQuery
  */
-public interface Query
-{
-
+public interface Query {
     /**
      * Bind a parameter value to the query. Parameters are set in the
      * order in which they appear in the query and must match in number
@@ -83,9 +81,7 @@ public interface Query
      *  expected type, or more parameters were supplied that the
      *  query specified
      */
-    public void bind( Object value )
-      throws IllegalArgumentException;
-    
+    public void bind(Object value) throws IllegalArgumentException;
 
     /**
      * Bind a parameter value to the query. Parameters are set in the

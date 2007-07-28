@@ -146,19 +146,13 @@ public class SimpleQueryExecutor {
          * use the jdbc 2.0 method to move to an absolute position in the
          * resultset.
          */
-        public boolean absolute(int row)
-        throws PersistenceException
-        {
+        public boolean absolute(int row) throws PersistenceException {
             boolean retval = false;
-            try
-            {
-                if (_rset != null)
-                {
+            try {
+                if (_rset != null) {
                     retval = _rset.absolute(row);
                 }
-            }
-            catch (SQLException e)
-            {
+            } catch (SQLException e) {
                 throw new PersistenceException(e.getMessage());
             }
             return retval;
@@ -169,37 +163,25 @@ public class SimpleQueryExecutor {
          * result set, get the row number via getRow(), then move back to
          * where ever the user was positioned in the resultset.
          */
-        public int size()
-        throws PersistenceException
-        {
+        public int size() throws PersistenceException {
             int whereIAm = 1; // first
             int retval = 0; // default size is 0;
-            try
-            {
-                if (_rset != null)
-                {
+            try {
+                if (_rset != null) {
                     whereIAm = _rset.getRow();
-                    if (_rset.last())
-                    {
+                    if (_rset.last()) {
                         retval = _rset.getRow();
-                    }
-                    else
-                    {
+                    } else {
                         retval = 0;
                     }
                     // go back from whence I came.
-                    if (whereIAm > 0)
-                    {
+                    if (whereIAm > 0) {
                         _rset.absolute(whereIAm);
-                    }
-                    else
-                    {
+                    } else {
                         _rset.beforeFirst();
                     }
                 }
-            }
-            catch (SQLException se)
-            {
+            } catch (SQLException se) {
                 throw new PersistenceException(se.getMessage());
             }
             return retval;
@@ -216,8 +198,7 @@ public class SimpleQueryExecutor {
         public Object nextElement() throws NoSuchElementException {
             try {
                 return next( true );
-            } 
-            catch ( PersistenceException except ) {
+            } catch ( PersistenceException except ) {
                 // Will never happen
                 return null;
             }

@@ -64,8 +64,8 @@ public class OQLSyntaxException extends QueryException {
     public OQLSyntaxException( String message ) {
 		super( message );
 	}
-    public OQLSyntaxException( String message, Throwable except ) 
-    {
+    
+    public OQLSyntaxException( String message, Throwable except ) {
         super( message, except );
     }
 }

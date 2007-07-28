@@ -59,11 +59,7 @@ import java.util.NoSuchElementException;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2004-05-03 16:05:30 -0600 (Mon, 03 May 2004) $
  */
-public interface QueryResults
-    extends Enumeration
-{
-
-
+public interface QueryResults extends Enumeration {
     /**
      * Returns true if there are any more results in the result set.
      * If an error occured reading the last result, an exception will
@@ -73,9 +69,7 @@ public interface QueryResults
      * @throws PersistenceException An error with the persistence
      *  engine
      */
-    public boolean hasMore()
-        throws PersistenceException;
-
+    public boolean hasMore() throws PersistenceException;
 
     /**
      * Returns the next result in the result set. If there are no
@@ -90,9 +84,7 @@ public interface QueryResults
      * @throws NoSuchElementException There are no more results in
      *  the result set
      */
-    public Object next()
-        throws PersistenceException, NoSuchElementException;
-
+    public Object next() throws PersistenceException, NoSuchElementException;
 
     /**
      * Closes the result set and releases all resources held by it.

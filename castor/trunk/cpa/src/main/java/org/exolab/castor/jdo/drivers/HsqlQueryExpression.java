@@ -62,16 +62,10 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @author <a href="mailto:on@ibis.odessa.ua">Oleg Nitz</a>
  * @version $Revision$ $Date: 2005-07-05 07:25:41 -0600 (Tue, 05 Jul 2005) $
  */
-public final class HsqlQueryExpression
-    extends JDBCQueryExpression
-{
-
-
-    public HsqlQueryExpression( PersistenceFactory factory )
-    {
-        super( factory );
+public final class HsqlQueryExpression extends JDBCQueryExpression {
+    public HsqlQueryExpression(PersistenceFactory factory) {
+        super(factory);
     }
-
 
     public String getStatement( boolean lock ) {
         return getStandardStatement( lock, false ).toString();

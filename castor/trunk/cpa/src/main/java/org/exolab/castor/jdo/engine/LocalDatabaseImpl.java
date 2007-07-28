@@ -39,15 +39,10 @@ import org.exolab.castor.persist.spi.InstanceFactory;
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
-public class LocalDatabaseImpl extends AbstractDatabaseImpl
-{
-
-    /**
-     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     * Commons Logging</a> instance used for all logging.
-     */
+public class LocalDatabaseImpl extends AbstractDatabaseImpl {
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
     private static Log _log = LogFactory.getFactory().getInstance(LocalDatabaseImpl.class);
-
 
     /**
      * Creates an instance of this class.
@@ -84,9 +79,7 @@ public class LocalDatabaseImpl extends AbstractDatabaseImpl
      * @inheritDoc
      * @see org.exolab.castor.jdo.Database#close()
      */
-    public synchronized void close()
-        throws PersistenceException
-    {
+    public synchronized void close() throws PersistenceException {
         try {
             if (isActive()) {
                 try {
@@ -130,11 +123,8 @@ public class LocalDatabaseImpl extends AbstractDatabaseImpl
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#begin()
      */
-    public void begin()
-        throws PersistenceException
-    {
+    public void begin() throws PersistenceException {
         _log.debug( "Beginning tx" );
 
         if (isActive()) {
@@ -154,11 +144,8 @@ public class LocalDatabaseImpl extends AbstractDatabaseImpl
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#commit()
      */
-    public void commit()
-        throws TransactionNotInProgressException, TransactionAbortedException
-    {
+    public void commit() throws TransactionNotInProgressException, TransactionAbortedException {
         _log.debug( "Committing tx" );
 
         if (!isActive()) {
@@ -194,9 +181,7 @@ public class LocalDatabaseImpl extends AbstractDatabaseImpl
      * @inheritDoc
      * @see org.exolab.castor.jdo.Database#rollback()
      */
-    public void rollback()
-        throws TransactionNotInProgressException
-    {
+    public void rollback() throws TransactionNotInProgressException {
         _log.debug("Rolling back tx");
 
         if (!isActive()) {
@@ -211,14 +196,12 @@ public class LocalDatabaseImpl extends AbstractDatabaseImpl
      * @inheritDoc
      * @see org.exolab.castor.jdo.Database#getJdbcConnection()
      */
-    public Connection getJdbcConnection() throws PersistenceException 
-    {
+    public Connection getJdbcConnection() throws PersistenceException {
         if (_ctx == null || !_ctx.isOpen()) {
             String message = Messages.message("jdo.dbTxNotInProgress.jdbc");
             throw new PersistenceException (message);
         }
         return _ctx.getConnection(_scope.getLockEngine());
     }
-
 }  
                                 

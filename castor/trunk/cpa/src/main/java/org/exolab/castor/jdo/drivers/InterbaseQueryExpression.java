@@ -13,18 +13,14 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * QueryExpression for Interbase.
  *
  */
-public final class InterbaseQueryExpression
-    extends JDBCQueryExpression
-{
+public final class InterbaseQueryExpression extends JDBCQueryExpression {
     private StringBuffer sql;
 
-    public InterbaseQueryExpression( PersistenceFactory factory )
-    {
+    public InterbaseQueryExpression( PersistenceFactory factory ) {
         super( factory );
     }
 
-    public String getStatement( boolean lock )
-    {
+    public String getStatement( boolean lock ) {
         Enumeration  enumeration;
         boolean      first;
         Hashtable    tables;

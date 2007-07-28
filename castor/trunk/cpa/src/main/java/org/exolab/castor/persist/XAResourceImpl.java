@@ -64,28 +64,17 @@ import org.exolab.castor.jdo.TransactionAbortedException;
  * @see TransactionContext
  * @see XAResourceSource
  */
-public final class XAResourceImpl
-    implements XAResource
-{
-    
-  
-    /**
-     * The cache engine to which this XA resource belongs.
-     * Will be used to associate Xid with a transaction context.
-     */
+public final class XAResourceImpl implements XAResource {
+    /** The cache engine to which this XA resource belongs.
+     *  Will be used to associate Xid with a transaction context. */
     private final LockEngine       _engine;
     
-    
-    /**
-     * The XA source which this XA resource manages. Will be
-     * used to associate/dissociate the source with the
-     * transaction context.
-     */
+    /** The XA source which this XA resource manages. Will be
+     *  used to associate/dissociate the source with the
+     *  transaction context. */
     private final XAResourceSource  _xaSource;
 
-
-    public XAResourceImpl( LockEngine engine, XAResourceSource xaSource )
-    {
+    public XAResourceImpl( LockEngine engine, XAResourceSource xaSource ) {
         if ( engine == null || xaSource == null )
             throw new IllegalArgumentException( "Argument 'engine' or xaSource' is null" );
         _xaSource = xaSource;
@@ -93,9 +82,7 @@ public final class XAResourceImpl
     }
     
     
-    public synchronized void start( Xid xid, int flags )
-        throws XAException
-    {
+    public synchronized void start( Xid xid, int flags ) throws XAException {
         // General checks.
         if ( xid == null )
             throw new XAException( XAException.XAER_INVAL );
@@ -133,9 +120,7 @@ public final class XAResourceImpl
     }
 	
 	
-    public synchronized void end( Xid xid, int flags )
-        throws XAException
-    {
+    public synchronized void end( Xid xid, int flags ) throws XAException {
         // General checks.
         if ( xid == null )
             throw new XAException( XAException.XAER_INVAL );
@@ -175,9 +160,7 @@ public final class XAResourceImpl
     }
 
 
-    public synchronized void forget( Xid xid )
-        throws XAException
-    {
+    public synchronized void forget( Xid xid ) throws XAException {
         if ( xid == null )
             throw new XAException( XAException.XAER_INVAL );
         
@@ -203,9 +186,7 @@ public final class XAResourceImpl
     }
 
 
-    public synchronized int prepare( Xid xid )
-        throws XAException
-    {
+    public synchronized int prepare( Xid xid ) throws XAException {
         if ( xid == null )
             throw new XAException( XAException.XAER_INVAL );
         
@@ -237,9 +218,7 @@ public final class XAResourceImpl
     }
 
 
-    public synchronized void commit( Xid xid, boolean onePhase )
-        throws XAException
-    {
+    public synchronized void commit( Xid xid, boolean onePhase ) throws XAException {
         if ( xid == null )
             throw new XAException( XAException.XAER_INVAL );
         
@@ -275,9 +254,7 @@ public final class XAResourceImpl
     }
     
 
-    public synchronized void rollback( Xid xid )
-        throws XAException
-    {
+    public synchronized void rollback( Xid xid ) throws XAException {
         if ( xid == null )
             throw new XAException( XAException.XAER_INVAL );
         
@@ -310,9 +287,7 @@ public final class XAResourceImpl
     }
 
 
-    public Xid[] recover( int flags )
-        throws XAException
-    {
+    public Xid[] recover( int flags ) throws XAException {
         // Recovery is not implemented. This XAResource only deals
         // with in-memory objects, so recovery has no meaning.
         // Actual recovery is provided by underlying persistence
@@ -321,9 +296,7 @@ public final class XAResourceImpl
     }
 
 
-    public synchronized boolean isSameRM( XAResource xaRes )
-        throws XAException
-    {
+    public synchronized boolean isSameRM( XAResource xaRes ) throws XAException {
         // Two resource managers are equal if they produce equivalent
         // connection (i.e. same database, same user). If the two are
         // equivalent they would share a transaction by joining.
@@ -335,8 +308,7 @@ public final class XAResourceImpl
     }
     
     
-    public boolean setTransactionTimeout( int timeout )
-    {
+    public boolean setTransactionTimeout( int timeout ) {
         TransactionContext tx;
         
         tx = _xaSource.getTransactionContext();
@@ -348,8 +320,7 @@ public final class XAResourceImpl
     }
 
 
-    public int getTransactionTimeout()
-    {
+    public int getTransactionTimeout() {
         TransactionContext tx;
         
         tx = _xaSource.getTransactionContext();

@@ -166,8 +166,7 @@ public class FieldMolder {
         return "FieldMolder for "+_eMold.getName()+"."+_fieldName+" of type "+_fType;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return _fieldName;
     }
     
@@ -857,9 +856,7 @@ public class FieldMolder {
      * @throws MappingException The field is not accessible or is not of the
      *  specified type
      */
-    private Field findField( Class javaClass, String fieldName, Class fieldType )
-        throws MappingException
-    {
+    private Field findField(Class javaClass, String fieldName, Class fieldType) throws MappingException {
         Field field;
 
         try {
@@ -901,10 +898,9 @@ public class FieldMolder {
      * @throws MappingException The method is not accessible or is not of the
      *  specified type
      */
-    private static Method findAccessor( Class javaClass, String methodName,
-                                        Class fieldType, boolean getMethod )
-        throws MappingException
-    {
+    private static Method findAccessor(Class javaClass, String methodName, Class fieldType,
+            boolean getMethod) throws MappingException {
+        
         Method   method = null;
         Method[] methods;
         Class[] parameterTypes;
@@ -929,13 +925,11 @@ public class FieldMolder {
                         //-- type as Serializable for CMP 1.1 compatibility.
                         if (fieldType.isInterface() ||
                             ((fieldType.getModifiers() & Modifier.ABSTRACT) != 0) ||
-                            (fieldType == java.io.Serializable.class))
-                        {
+                            (fieldType == java.io.Serializable.class)) {
                             if ( ! fieldType.isAssignableFrom( returnType ) )
                             throw new MappingException("mapping.accessorReturnTypeMismatch",
                                                         method, fieldType.getName() );
-                        }
-                        else {
+                        } else {
                             if ( ! returnType.isAssignableFrom( fieldType ) )
                             throw new MappingException("mapping.accessorReturnTypeMismatch",
                                                         method, fieldType.getName() );
@@ -1014,8 +1008,7 @@ public class FieldMolder {
          return null;
      }
 
-    private String capitalize( String name )
-    {
+    private String capitalize(String name) {
         char first;
 
         first = name.charAt( 0 );
@@ -1065,8 +1058,7 @@ public class FieldMolder {
          * @param refSrv the ReflectService that serve as a based for the new instance
          * @loader the new ClassLoader
          */
-        ReflectService ( ReflectService refSrv, ClassLoader loader )
-        {
+        ReflectService ( ReflectService refSrv, ClassLoader loader ) {
             this._loader = loader;
             this._fClass = cloneClass ( refSrv._fClass );
             this._field  = cloneField ( refSrv._field );
@@ -1098,8 +1090,7 @@ public class FieldMolder {
         /**
          * constructs a Field instance with the current ClassLoader
          */
-        private Field cloneField ( Field originalField )
-        {
+        private Field cloneField ( Field originalField ) {
             if ( null == originalField )
                 return null;
 
@@ -1116,8 +1107,7 @@ public class FieldMolder {
         /**
          * constructs a Method instance with the current ClassLoader
          */
-        private Method cloneMethod ( Method originalMethod )
-        {
+        private Method cloneMethod ( Method originalMethod ) {
             if ( null == originalMethod)
                 return null;
 
@@ -1142,8 +1132,7 @@ public class FieldMolder {
         /**
          * constructs an Array of Method instances with the current ClassLoader
          */
-        private Method[] cloneMethods ( Method[] originalMethods )
-        {
+        private Method[] cloneMethods ( Method[] originalMethods ) {
             if ( null == originalMethods )
                 return null;
 
@@ -1157,8 +1146,7 @@ public class FieldMolder {
         /**
          * constructs a <code>Class</code> instance with the current ClassLoader
          */
-        private Class cloneClass ( Class originalClass )
-        {
+        private Class cloneClass ( Class originalClass ) {
             if ( null == originalClass )
                 return null;
             if ( originalClass.isPrimitive() )
@@ -1170,8 +1158,7 @@ public class FieldMolder {
         /**
          * Helper method to load the class given its full qualified name
          */
-        private Class loadClass ( String name )
-        {
+        private Class loadClass ( String name ) {
             Class resultClass = null;
             try {
                 resultClass = ClassLoadingUtils.loadClass(_loader, name);

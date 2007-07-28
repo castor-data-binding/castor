@@ -65,17 +65,16 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @version $Revision$ $Date: 2005-06-01 06:08:22 -0600 (Wed, 01 Jun 2005) $
  * @see IdentityKeyGenerator
  */
-public final class IdentityKeyGeneratorFactory implements KeyGeneratorFactory
-{
+public final class IdentityKeyGeneratorFactory implements KeyGeneratorFactory {
     /**
      * Produce the key generator.
+     * 
      * @param factory Helper object for obtaining database-specific QuerySyntax.
      * @param params Parameters for key generator.
      */
-    public KeyGenerator getKeyGenerator( PersistenceFactory factory,
-            Properties params, int sqlType )
-            throws MappingException
-    {
+    public KeyGenerator getKeyGenerator(PersistenceFactory factory,
+            Properties params, int sqlType) throws MappingException {
+        
         return new IdentityKeyGenerator( factory, sqlType );
     }
 

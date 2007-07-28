@@ -42,15 +42,11 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.persist;
-
 
 import javax.transaction.xa.Xid;
 
 import org.castor.persist.TransactionContext;
-
 
 /**
  * A data source that wishes to particiate as an XA resource
@@ -62,33 +58,25 @@ import org.castor.persist.TransactionContext;
  * @version $Revision$ $Date: 2005-06-20 06:01:00 -0600 (Mon, 20 Jun 2005) $
  * @see XAResourceImpl
  */
-public interface XAResourceSource
-{
-
-
+public interface XAResourceSource {
     /**
      * Returns the transaction context associated with this source.
      */
-    public TransactionContext getTransactionContext();
-
+    TransactionContext getTransactionContext();
 
     /**
      * Sets the transaction context associated with this source.
      */
-    public void setTransactionContext( TransactionContext tx );
-
+    void setTransactionContext(TransactionContext tx);
 
     /**
      * Indicate that the resource has failed and should be discarded.
      */
-    public void xaFailed();
-
+    void xaFailed();
 
     /**
      * Called by {@link XAResourceImpl} to produce a new transaction context
      * implementation suitable for this data source.
      */
-    public TransactionContext createTransactionContext( Xid xid );
-
-
+    TransactionContext createTransactionContext(Xid xid);
 }

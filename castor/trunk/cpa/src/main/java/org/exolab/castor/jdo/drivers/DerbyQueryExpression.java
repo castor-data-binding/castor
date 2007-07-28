@@ -55,30 +55,14 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date$
  */
-public final class DerbyQueryExpression
-    extends JDBCQueryExpression
-{
-
-
-    public DerbyQueryExpression( PersistenceFactory factory )
-    {
-        super( factory );
+public final class DerbyQueryExpression extends JDBCQueryExpression {
+    public DerbyQueryExpression(PersistenceFactory factory) {
+        super(factory);
     }
 
-
-    public String getStatement( boolean lock )
-    {
-        StringBuffer sql;
-
-        sql = getStandardStatement( lock, false );
-
-//        if (lock) {
-//            sql.append( " FOR UPDATE" );
-//       }
-        
-        return sql.toString();
+    public String getStatement(boolean lock) {
+        return getStandardStatement(lock, false).toString();
     }
-
 }
 
 

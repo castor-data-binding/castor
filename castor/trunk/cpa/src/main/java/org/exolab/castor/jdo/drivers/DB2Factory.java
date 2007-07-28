@@ -53,33 +53,23 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2006-02-21 16:05:42 -0700 (Tue, 21 Feb 2006) $
  */
-public final class DB2Factory
-    extends GenericFactory
-{
-
-    /**
-     * Internal name of this PersistenceFactory instance. 
-     */
+public final class DB2Factory extends GenericFactory {
+    /** Internal name of this PersistenceFactory instance.  */
     public static final String FACTORY_NAME = "db2";
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.persist.spi.PersistenceFactory#getFactoryName()
      */
-    public String getFactoryName()
-    {
+    public String getFactoryName() {
         return FACTORY_NAME;
     }
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.persist.spi.PersistenceFactory#getQueryExpression()
      */
-    public QueryExpression getQueryExpression()
-    {
-        return new DB2QueryExpression( this );
+    public QueryExpression getQueryExpression() {
+        return new DB2QueryExpression(this);
     }
-
 }
 
 

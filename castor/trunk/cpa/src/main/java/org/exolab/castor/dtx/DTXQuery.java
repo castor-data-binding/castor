@@ -734,26 +734,26 @@ public class DTXQuery {
        again, from JDO stuff. */
 
     private void addField(ClassMapping clsMapping, StringTokenizer token, QueryExpression expr)
-        throws DTXException
-    {
-        if (! token.hasMoreTokens()) {
+    throws DTXException {
+        if (!token.hasMoreTokens()) {
             throw new DTXException("Missing field name");
-	}
+        }
         String name = token.nextToken();
-        if (! token.hasMoreTokens()) {
+        if (!token.hasMoreTokens()) {
             throw new DTXException("Missing operator");
-	}
+        }
         String op = token.nextToken();
-        if (! token.hasMoreTokens())
+        if (!token.hasMoreTokens()) {
             throw new DTXException("Missing field value");
+        }
 
         String value = token.nextToken();
         if (name.indexOf(".") > 0) {
             name = name.substring(name.indexOf(".") + 1);
-	}
+        }
 
         FieldMapping[] fields = clsMapping.getClassChoice().getFieldMapping();
-	FieldMapping field = null;
+        FieldMapping field = null;
 
         for (int i = 0; i < fields.length; ++i) {
             if (fields[i].getSql() != null && fields[i].getName().equals(name)) {
@@ -764,10 +764,10 @@ public class DTXQuery {
 
         if (field == null) {
             throw new DTXException("The field " + name + " was not found");
-	}
+        }
 
-	Sql fieldSql = field.getSql();
-	String table = clsMapping.getMapTo().getTable();
+        Sql fieldSql = field.getSql();
+        String table = clsMapping.getMapTo().getTable();
 
         if (value.startsWith("$")) {
             expr.addParameter(table, fieldSql.getName()[0], op);

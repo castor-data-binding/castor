@@ -303,8 +303,7 @@ public final class ObjectLock implements DepositBox {
     /**
      * Return true if this entry has been expired from the cache
      */
-    boolean isExpired() 
-    { 
+    boolean isExpired() {
         return _isExpired; 
     }
 
@@ -317,8 +316,7 @@ public final class ObjectLock implements DepositBox {
     /**
      * Indicate that object needs to be expired from the cache
      */
-    public void expire() 
-    { 
+    public void expire() {
         _isExpired = true; 
     }
    
@@ -1013,8 +1011,7 @@ public final class ObjectLock implements DepositBox {
     }
 
 
-    public String toString()
-    {
+    public String toString() {
         return _oid.toString() + "/" + _id + " " + ( ( _readLock == null ? "-" : "R" ) + "/" +
                                          ( _writeLock == null ? "-" : "W" ) );
     }
@@ -1024,15 +1021,13 @@ public final class ObjectLock implements DepositBox {
      * Object uses to hold a linked list of transactions holding
      * write locks or waiting for a read/write lock.
      */
-    static class LinkedTx
-    {
+    static class LinkedTx {
 
         TransactionContext tx;
 
         LinkedTx           next;
 
-        LinkedTx( TransactionContext tx, LinkedTx next )
-        {
+        LinkedTx( TransactionContext tx, LinkedTx next ) {
             this.tx = tx;
             this.next = next;
         }
