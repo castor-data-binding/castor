@@ -136,8 +136,7 @@ public class SimpleQueryExecutor {
             //prime the resultset.
             try {
                 _hasMore = _rset.next();
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
                 _hasMore = false;
             }
         }
@@ -218,8 +217,7 @@ public class SimpleQueryExecutor {
             try {
                 retVal = _rset.getObject(1);
                 _hasMore = _rset.next();
-            } 
-            catch ( SQLException except ) { 
+            } catch (SQLException except) { 
                 if ( ! skipError )
                     throw new PersistenceException(except.toString());
             }

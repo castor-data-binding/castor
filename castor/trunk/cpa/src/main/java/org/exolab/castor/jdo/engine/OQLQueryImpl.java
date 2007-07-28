@@ -353,8 +353,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
             } else {
                 sql.append(oql.substring(5, as));
             }
-        }
-        else if ((leftParen < 0 && rightParen < 0) ) {
+        } else if ((leftParen < 0 && rightParen < 0) ) {
             sql.append( oql.substring( 5, as ) );
         } else {
             if ( ( leftParen < 0 && rightParen >= 0 )
@@ -721,8 +720,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
                     FieldHandler handler = curFieldDesc.getHandler();
                     curObject = handler.getValue( curObject );
                     curClassDesc = (JDOClassDescriptor) curFieldDesc.getClassDescriptor();
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     throw new NoSuchElementException( "An exception was thrown trying to access get methods to follow the path expression. " + ex.toString() );
                 }
             }

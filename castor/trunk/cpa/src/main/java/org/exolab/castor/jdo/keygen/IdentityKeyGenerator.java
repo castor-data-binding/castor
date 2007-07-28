@@ -275,8 +275,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
     			if (stmt != null) {
     				try {
     					stmt.close();
-    				} 
-                    catch (SQLException ex) {
+    				} catch (SQLException ex) {
     					_log.warn ("Problem closing JDBCstatement", ex);
     				}
                     stmt = null;

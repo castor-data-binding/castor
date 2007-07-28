@@ -400,12 +400,10 @@ public class QueryAnalyser {
                 jdo = JDOManager.createInstance(databasename);
                 //only to try a connection
                 jdo.getDatabase();
-            } 
-            catch (MappingException pe) {
+            } catch (MappingException pe) {
                 pe.printStackTrace();
                 System.exit(1);
-            } 
-            catch(org.exolab.castor.jdo.PersistenceException pe) {
+            } catch(org.exolab.castor.jdo.PersistenceException pe) {
                 pe.printStackTrace();
                 System.exit(1);
             }
