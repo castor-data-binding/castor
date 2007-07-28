@@ -132,7 +132,7 @@ public final class MaxKeyGenerator implements KeyGenerator {
             if ( _factory.getFactoryName().equals( "mysql" ) ) {
                 // Create SQL sentence of the form
                 // "SELECT MAX(pk) FROM table"
-                query.addSelect("MAX(" + _factory.quoteName(primKeyName)+ ")");
+                query.addSelect("MAX(" + _factory.quoteName(primKeyName) + ")");
                 query.addTable(tableName);
 
                 // SELECT without lock

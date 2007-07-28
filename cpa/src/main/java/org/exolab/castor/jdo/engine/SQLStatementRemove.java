@@ -100,7 +100,7 @@ public final class SQLStatementRemove {
 
             int result = stmt.executeUpdate();
             if (result < 1) {
-                throw new PersistenceException("Object to be deleted does not exist! "+ identity);
+                throw new PersistenceException("Object to be deleted does not exist! " + identity);
             }
 
             // Must delete record in parent table last.

@@ -58,7 +58,7 @@ public final class InterbaseQueryExpression extends JDBCQueryExpression {
 
                 Join join2 = (Join) _joins.elementAt( k );
 
-                if (join.leftTable.equals( join2.leftTable ) ){
+                if (join.leftTable.equals( join2.leftTable ) ) {
                   appendJoin(join2);
                   tables.remove( join2.rightTable );
                 }
@@ -74,7 +74,7 @@ public final class InterbaseQueryExpression extends JDBCQueryExpression {
             }
             String tableAlias = (String) enumeration.nextElement();
             String tableName = (String) tables.get( tableAlias );
-            if( tableAlias.equals( tableName ) ) {
+            if (tableAlias.equals(tableName)) {
                 sql.append( _factory.quoteName( tableName ) );
             } else {
                 sql.append( _factory.quoteName( tableName ) + " " +
@@ -91,14 +91,14 @@ public final class InterbaseQueryExpression extends JDBCQueryExpression {
         return sql.toString();
     }
 
-    void appendJoin(final Join join){
+    void appendJoin(final Join join) {
 
-      if(join.outer) sql.append( JDBCSyntax.LEFT_JOIN );
+      if (join.outer) sql.append( JDBCSyntax.LEFT_JOIN );
       else sql.append( JDBCSyntax.INNER_JOIN );
 
       String tableAlias = join.rightTable;
       String tableName = (String) _tables.get( tableAlias );
-      if( tableAlias.equals( tableName ) ) {
+      if (tableAlias.equals(tableName)) {
           sql.append( _factory.quoteName( tableName ) );
       } else {
           sql.append( _factory.quoteName( tableName ) + " " +

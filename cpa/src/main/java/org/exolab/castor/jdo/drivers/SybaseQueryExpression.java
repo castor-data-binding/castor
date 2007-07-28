@@ -83,7 +83,7 @@ public final class SybaseQueryExpression extends JDBCQueryExpression {
         while ( enumeration.hasMoreElements() ) {
             String tableAlias = (String) enumeration.nextElement();
             String tableName = (String) _tables.get( tableAlias );
-            if( tableAlias.equals( tableName ) ) {
+            if (tableAlias.equals(tableName)) {
                 sql.append( _factory.quoteName( tableName ) );
             } else {
                 sql.append( _factory.quoteName( tableName ) + " " +

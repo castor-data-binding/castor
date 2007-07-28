@@ -100,7 +100,7 @@ public class GenericFactory extends BaseFactory {
 
 		buffer.append('\"');
 		buffer.append(tokens.nextToken());
-		while(tokens.hasMoreTokens()) {
+		while (tokens.hasMoreTokens()) {
 			buffer.append("\".\"");
 			buffer.append(tokens.nextToken());
 		}

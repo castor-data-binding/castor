@@ -61,7 +61,7 @@ public class PersistenceInfoGroup {
     public ClassMolder getClassMolder(final Class type) throws ClassNotPersistenceCapableException {
         ClassMolder molder = null;
         int i = 0;
-        while ( (i<engines.length) && (molder == null) ) {
+        while ((i < engines.length) && (molder == null)) {
             molder = engines[i++].getClassMolderWithDependent( type );
         }
         
@@ -82,7 +82,7 @@ public class PersistenceInfoGroup {
      */
     public ClassMolder findClassMolderByQuery(final String query) throws QueryException {
         ClassMolder molder = null;
-        for (int i=0; i < engines.length; i++) {            
+        for (int i = 0; i < engines.length; i++) {            
             molder = engines[i].getClassMolderByQuery(query);            
         }
         if (molder == null) {

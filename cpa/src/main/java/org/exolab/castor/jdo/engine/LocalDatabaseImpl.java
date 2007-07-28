@@ -166,7 +166,7 @@ public class LocalDatabaseImpl extends AbstractDatabaseImpl {
         } finally {
             try {
                 // TODO [SMH]: Temporary fix, see bug 1491/CASTOR-630.
-                if(_ctx.isOpen()) {
+                if (_ctx.isOpen()) {
                     _ctx.close();
                 }
            } catch (Exception e) {

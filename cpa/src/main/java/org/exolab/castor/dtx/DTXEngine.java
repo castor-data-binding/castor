@@ -123,9 +123,9 @@ public class DTXEngine {
             SchemaReader 
                 reader = new SchemaReader(new InputSource((new URL(schemaURL)).openStream()));
             _schema = reader.read();
-        } catch(IOException iox) {
+        } catch (IOException iox) {
             throw new DTXException(iox);
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new DTXException(e);
         }
     }

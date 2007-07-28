@@ -33,7 +33,7 @@ public final class ParseTreeNode {
 
         public Object next() { return null; }
 
-        public void remove() {}
+        public void remove() { }
     }
 
     private static final NullIterator NULL_ITERATOR = new NullIterator();

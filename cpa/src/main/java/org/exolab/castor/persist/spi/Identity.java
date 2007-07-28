@@ -87,7 +87,7 @@ public final class Identity implements java.io.Serializable {
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("<");
-        for(int i = 0; i < _all.length; i++) {
+        for (int i = 0; i < _all.length; i++) {
         	if (i != 0) { sb.append(","); }
         	Object obj = _all[i];
             sb.append(obj);

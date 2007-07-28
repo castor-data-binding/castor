@@ -330,7 +330,7 @@ public abstract class AbstractDatabaseImpl implements Database {
      * @see org.exolab.castor.jdo.Database#getCacheManager()
      */
     public CacheManager getCacheManager() {
-        if(cacheManager == null) {
+        if (cacheManager == null) {
             cacheManager = new CacheManager(this, _ctx, getLockEngine());
         }
         return cacheManager;
@@ -485,7 +485,7 @@ public abstract class AbstractDatabaseImpl implements Database {
      * @see java.lang.Object#toString()
      */
     public String toString() {
-        return super.toString()+":"+_dbName;
+        return super.toString() + ":" + _dbName;
     }
 
     /**

@@ -279,7 +279,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
         for (Enumeration e = _paramInfo.elements(); e.hasMoreElements(); ) {
             ParamInfo info = (ParamInfo) e.nextElement();
 
-            _bindTypes[paramIndex++] = (info.getSQLType()==null? info.getTheClass(): info.getSQLType());
+            _bindTypes[paramIndex++] = (info.getSQLType() == null) ? info.getTheClass() : info.getSQLType();
         }
     }
 
@@ -508,7 +508,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
      * @throws QueryException If the SQL query cannot be generated.
      */
     public String getSQL() throws org.exolab.castor.jdo.QueryException {
-	  if(_expr != null) {
+	  if (_expr != null) {
           return _expr.getStatement(true);
 	  }
 

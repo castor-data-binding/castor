@@ -54,44 +54,44 @@ public class QueryHistory implements java.io.Serializable {
     private static final long serialVersionUID = 235997211123063614L;
 
     private  Vector querys = new Vector();
-    private int currentPos=0;
-    private  int maxsize=20;
+    private int currentPos = 0;
+    private  int maxsize = 20;
 
-    public Vector getQuerys(){
+    public Vector getQuerys() {
         return querys;
 
     }
 
-    public void setQuerys(final Vector _querys){
-        querys=_querys;
-        currentPos = querys.size()-1;
+    public void setQuerys(final Vector _querys) {
+        querys = _querys;
+        currentPos = querys.size() - 1;
     }
 
-    public int getMaxHistorySize(){
+    public int getMaxHistorySize() {
         return maxsize;
     }
 
-    public void setMaxHistorySize(final int newSize){
-         maxsize=newSize;
+    public void setMaxHistorySize(final int newSize) {
+         maxsize = newSize;
     }
 
-    public void moveback(){
-        if(currentPos >0)
+    public void moveback() {
+        if (currentPos > 0)
             currentPos--;
     }
 
-    public void moveforward(){
-        if(currentPos < querys.size()-1)
+    public void moveforward() {
+        if (currentPos < querys.size() - 1)
             currentPos++;
     }
 
-    public String GetCurrentQuery(){
-      if(querys.isEmpty()) return "";
+    public String GetCurrentQuery() {
+      if (querys.isEmpty()) return "";
       return (String)querys.elementAt(currentPos);
     }
 
-    public void addQuery(final String newQuery){
-        if(querys.contains(newQuery)){
+    public void addQuery(final String newQuery) {
+        if (querys.contains(newQuery)) {
             System.out.println("schon drin");
             return;
         }
@@ -99,19 +99,19 @@ public class QueryHistory implements java.io.Serializable {
         querys.add(newQuery);
 
 
-        if(querys.size() > maxsize)
+        if (querys.size() > maxsize)
             querys.removeElementAt(0);
 
-        currentPos=querys.size()-1;
+        currentPos = querys.size() - 1;
     }
 
     // Get to avoid mashaling
-    public String getNextQuery(){
+    public String getNextQuery() {
         this.moveforward();
         return this.GetCurrentQuery();
     }
 
-    public String getPreviousQuery(){
+    public String getPreviousQuery() {
         this.moveback();
         return this.GetCurrentQuery();
     }

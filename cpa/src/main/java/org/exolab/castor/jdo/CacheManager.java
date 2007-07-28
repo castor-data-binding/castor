@@ -214,7 +214,7 @@ public class CacheManager {
      * @throws PersistenceException
      */
     private void testForOpenDatabase() throws PersistenceException {
-        if(db.isClosed()){
+        if (db.isClosed()) {
             throw new PersistenceException(Messages.message( "jdo.dbClosed" ));
         }
     }

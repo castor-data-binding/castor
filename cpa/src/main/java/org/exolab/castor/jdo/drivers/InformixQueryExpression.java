@@ -112,7 +112,7 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
             } else {
                 tmp = new StringBuffer();
             }
-            if( tableAlias.equals( tableName ) ) {
+            if (tableAlias.equals(tableName)) {
                 tmp.append( _factory.quoteName( tableName ) );
             } else {
                 tmp.append( _factory.quoteName( tableName ) + " " +

@@ -77,21 +77,21 @@ public class Complex {
             _first = o[0];
             _second = null;
             _all = null;
-            _hashCode = _first==null?0:_first.hashCode();
+            _hashCode = (_first == null) ? 0 : _first.hashCode();
         } else if ( length == 2 ) {
             _first = o[0];
             _second = o[1];
             _all = null;
-            _hashCode = _first==null?0:_first.hashCode();
-            _hashCode += _second==null?0:_second.hashCode();
+            _hashCode = (_first == null) ? 0 : _first.hashCode();
+            _hashCode += (_second == null) ? 0 : _second.hashCode();
         } else if ( length <= o.length && length > 0 ) {
             _first = null;
             _second = null;
             _all = new Object[_size];
             System.arraycopy( o, 0, _all, 0, _size );
             _hashCode = 0;
-            for ( int i=0; i < _size; i++ ) {
-                _hashCode += (_all[i]==null?0:_all[i].hashCode());
+            for (int i = 0; i < _size; i++) {
+                _hashCode += ((_all[i] == null) ? 0 : _all[i].hashCode());
             }
         } else
             throw new IllegalArgumentException("Invalid Complex object");
@@ -102,8 +102,8 @@ public class Complex {
         _first = o1;
         _second = o2;
         _all = null;
-        _hashCode = _first==null?0:_first.hashCode();
-        _hashCode += _second==null?0:_second.hashCode();
+        _hashCode = (_first == null) ? 0 : _first.hashCode();
+        _hashCode += (_second == null) ? 0 : _second.hashCode();
     }
 
     public Complex(final Object[] o) {
@@ -123,7 +123,7 @@ public class Complex {
             _second = o[1];
             _all = null;
             _hashCode = _first.hashCode();
-            _hashCode += _second==null?0:_second.hashCode();
+            _hashCode += (_second == null) ? 0 : _second.hashCode();
         } else {
             _size = o.length;
             _first = null;
@@ -131,8 +131,8 @@ public class Complex {
             _all = new Object[_size];
             System.arraycopy( o, 0, _all, 0, _size );
             _hashCode = 0;
-            for ( int i=0; i < _size; i++ ) {
-                _hashCode += (_all[i]==null?0:_all[i].hashCode());
+            for (int i = 0; i < _size; i++) {
+                _hashCode += ((_all[i] == null) ? 0 : _all[i].hashCode());
             }
         }
     }
@@ -156,7 +156,7 @@ public class Complex {
             _all = null;
             _size = 2;
             _hashCode = _first.hashCode();
-            _hashCode += _second==null?0:_second.hashCode();
+            _hashCode += (_second == null) ? 0 : _second.hashCode();
         } else {
             _size = dim;
             _first = null;
@@ -164,8 +164,8 @@ public class Complex {
             _all = new Object[_size];
             System.arraycopy( complex, 0, _all, 0, _size );
             _hashCode = 0;
-            for ( int i=0; i < _size; i++ ) {
-                _hashCode += (_all[i]==null?0:_all[i].hashCode());
+            for (int i = 0; i < _size; i++) {
+                _hashCode += ((_all[i] == null) ? 0 : _all[i].hashCode());
             }
         }
     }
@@ -183,7 +183,7 @@ public class Complex {
             return false;
         }
 
-        for ( int i=0; i < _size; i++ ) {
+        for (int i = 0; i < _size; i++) {
           if (get(i) == null) {
             if (comp.get(i) != null) { return false; }
           } else if (!get(i).equals(comp.get(i))) {
@@ -199,7 +199,7 @@ public class Complex {
 
     public boolean hasSomePartsNull() {
 
-        for ( int i=0; i < _size; i++ ) {
+        for (int i = 0; i < _size; i++) {
             if ( get(i) == null )
                 return true;
         }
@@ -225,7 +225,7 @@ public class Complex {
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("<");
-        for( int i=0; i < _size; i++ ) {
+        for (int i = 0; i < _size; i++) {
         	if ( i != 0 ) 
         		sb.append(",");
         	Object obj = get(i);

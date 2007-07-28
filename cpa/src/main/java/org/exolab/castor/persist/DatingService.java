@@ -82,7 +82,7 @@ class DatingService {
      * Indicate that all ClassMolder is registered. DatingService
      * will resolve all the outstanding relation now.
      */
-    void close() throws MappingException{
+    void close() throws MappingException {
 
         Enumeration e;
         ClassMolder initiateCm, targetCm;
@@ -96,7 +96,7 @@ class DatingService {
                 initiateCm = (ClassMolder) pair.value;
                 targetCm = (ClassMolder) clsMolders.get( pair.key );
                 if ( targetCm == null )
-                    throw new MappingException("Extended element, \""+pair.key+"\"  not found!");
+                    throw new MappingException("Extended element, \"" + pair.key + "\"  not found!");
                 initiateCm.setExtends( targetCm );
                 ((SQLEngine)initiateCm.getPersistence()).setExtends( (SQLEngine) targetCm.getPersistence() );
             }
@@ -110,7 +110,7 @@ class DatingService {
                 initiateCm = (ClassMolder) pair.value;
                 targetCm = (ClassMolder) clsMolders.get( pair.key );
                 if ( targetCm == null )
-                    throw new MappingException("Depended element, \""+pair.key+"\"  not found!");
+                    throw new MappingException("Depended element, \"" + pair.key + "\"  not found!");
                 initiateCm.setDepends( targetCm );
             }
         }
@@ -123,7 +123,7 @@ class DatingService {
                 initiateFm = (FieldMolder) pair.value;
                 targetCm = (ClassMolder) clsMolders.get( pair.key );
                 if ( targetCm == null )
-                    throw new MappingException("Field element, \""+pair.key+"\"  not found!");
+                    throw new MappingException("Field element, \"" + pair.key + "\"  not found!");
                 initiateFm.setFieldClassMolder( targetCm );
                 
                 // initiateFm.getEnclosingClassMolder().resetResolver (initiateFm);
@@ -146,7 +146,7 @@ class DatingService {
             me.setExtends( clsMold );
             SQLEngine sql = ((SQLEngine)me.getPersistence());
             if ( sql == null )
-                throw new MappingException("Class "+me+" extends on "+extName+" which is not persistence capable!");
+                throw new MappingException("Class " + me + " extends on " + extName + " which is not persistence capable!");
             sql.setExtends((SQLEngine)clsMold.getPersistence() );
             return true;
         }
@@ -224,7 +224,7 @@ class DatingService {
             needFieldClass.add( new Pair( typeName, fieldMolder ) );
             return false;
         } catch (ClassNotFoundException e) {
-            throw new MappingException("ClassNotFound :\n"+e);
+            throw new MappingException("ClassNotFound :\n" + e);
         }
     }
 

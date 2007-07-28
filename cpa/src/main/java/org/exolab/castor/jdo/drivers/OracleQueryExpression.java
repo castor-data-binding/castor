@@ -112,7 +112,7 @@ public final class OracleQueryExpression extends JDBCQueryExpression {
         while ( enumeration.hasMoreElements() ) {
             String tableAlias = (String) enumeration.nextElement();
             String tableName = (String) _tables.get( tableAlias );
-            if( tableAlias.equals( tableName ) ) {
+            if (tableAlias.equals(tableName)) {
                 sql.append( _factory.quoteName( tableName ) );
             } else {
                 sql.append( _factory.quoteName( tableName ) + " " +
@@ -173,7 +173,7 @@ public final class OracleQueryExpression extends JDBCQueryExpression {
         	}
         }
 
-        if(_log.isDebugEnabled()) {
+        if (_log.isDebugEnabled()) {
             _log.debug ("SQL statement = " + sql.toString());
         }
         return sql.toString();
@@ -186,7 +186,7 @@ public final class OracleQueryExpression extends JDBCQueryExpression {
      * @return true to indicate that Oracle supports an OQL LIMIT clause.
      */
 	public boolean isLimitClauseSupported() {
-	    return _dbInfo!=null? _dbInfo.compareDbVersion("8.1.6")>=0: false;
+	    return (_dbInfo != null) ? (_dbInfo.compareDbVersion("8.1.6") >= 0) : false;
 	}
 
     /**
@@ -195,6 +195,6 @@ public final class OracleQueryExpression extends JDBCQueryExpression {
      * @return true to indicate that Oracle supports an OQL OFFSET clause.
      */
 	public boolean isOffsetClauseSupported() {
-	    return _dbInfo!=null? _dbInfo.compareDbVersion("8.1.6")>=0: false;
+	    return (_dbInfo != null) ? (_dbInfo.compareDbVersion("8.1.6") >= 0) : false;
 	}
 }

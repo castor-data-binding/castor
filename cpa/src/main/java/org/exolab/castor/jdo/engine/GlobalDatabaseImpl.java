@@ -111,7 +111,7 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchron
         try {
             try {
                 _ctx.close();
-            } catch(Exception e) {
+            } catch (Exception e) {
                 throw new PersistenceException(e.getMessage(), e);
             }
         } finally {

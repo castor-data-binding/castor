@@ -333,7 +333,7 @@ public final class ObjectLock implements DepositBox {
     synchronized void acquireLoadLock(final TransactionContext tx, final boolean write, final int timeout)
     throws LockNotGrantedException, ObjectDeletedWaitingForLockException {
         int internalTimeout = timeout;
-        long endtime = internalTimeout>0? System.currentTimeMillis() + internalTimeout*1000: Long.MAX_VALUE;
+        long endtime = (internalTimeout > 0) ? System.currentTimeMillis() + internalTimeout * 1000 : Long.MAX_VALUE;
         while ( true ) {
             try {
                 // cases to consider:
@@ -385,7 +385,7 @@ public final class ObjectLock implements DepositBox {
                     LinkedTx linked = _readLock;
                     while ( linked != null ) {
                         if ( linked.tx == tx )
-                            throw new IllegalStateException("Transaction: "+tx+" has already hold the write lock on "+_oid+
+                            throw new IllegalStateException("Transaction: " + tx + " has already hold the write lock on " + _oid + 
                             " Acquire shouldn't be called twice");
                             //return;
                         linked = linked.next;
@@ -424,7 +424,7 @@ public final class ObjectLock implements DepositBox {
                     // notified a race condition starts to acquire new lock
                     try {
                         long waittime = endtime - System.currentTimeMillis();
-                        wait( waittime<0? 0: waittime );
+                        wait((waittime < 0) ? 0 : waittime);
                     } catch (InterruptedException except) {
                         // If the thread is interrupted, come out with the proper message
                         throw new LockNotGrantedException(write ? "persist.writeLockTimeout" :
@@ -486,7 +486,7 @@ public final class ObjectLock implements DepositBox {
     synchronized void acquireUpdateLock(final TransactionContext tx, final int timeout)
     throws LockNotGrantedException, ObjectDeletedWaitingForLockException {
         int internalTimeout = timeout;
-        long endtime = internalTimeout>0? System.currentTimeMillis() + internalTimeout*1000: Long.MAX_VALUE;
+        long endtime = (internalTimeout > 0) ? System.currentTimeMillis() + internalTimeout * 1000 : Long.MAX_VALUE;
         while ( true ) {
             try {
                 // case to consider:
@@ -539,7 +539,7 @@ public final class ObjectLock implements DepositBox {
                     // notified a race condition starts to acquire new lock
                     try {
                         long waittime = endtime - System.currentTimeMillis();
-                        wait( waittime<0? 0: waittime );
+                        wait((waittime < 0) ? 0 : waittime);
                     } catch (InterruptedException except) {
                         // If the thread is interrupted, come out with the proper message
                         throw new LockNotGrantedException(Messages.message("persist.writeLockTimeout") + _oid + "/" + _id + " by " + tx, except);
@@ -584,7 +584,7 @@ public final class ObjectLock implements DepositBox {
             _timeStamp = System.currentTimeMillis();
             _object = object;
         } else
-            throw new IllegalArgumentException("Transaction tx does not own this lock, "+toString()+"!");
+            throw new IllegalArgumentException("Transaction tx does not own this lock, " + toString() + "!");
     }
 
     public synchronized Object[] getObject(final TransactionContext tx) {
@@ -702,7 +702,7 @@ public final class ObjectLock implements DepositBox {
             throw e;
         }
 
-        long endtime = internalTimeout>0? System.currentTimeMillis() + internalTimeout*1000: Long.MAX_VALUE;
+        long endtime = (internalTimeout > 0) ? System.currentTimeMillis() + internalTimeout * 1000 : Long.MAX_VALUE;
         while ( true ) {
             // Repeat forever until lock is acquired or timeout
             try {
@@ -747,7 +747,7 @@ public final class ObjectLock implements DepositBox {
                     // notified a race condition starts to acquire new lock
                     try {
                         long waittime = endtime - System.currentTimeMillis();
-                        wait( waittime<0? 0: waittime );
+                        wait((waittime < 0) ? 0 : waittime);
                     } catch (InterruptedException except) {
                         // If the thread is interrupted, come out with the proper message
                         throw new LockNotGrantedException("persist.writeLockTimeout", except);

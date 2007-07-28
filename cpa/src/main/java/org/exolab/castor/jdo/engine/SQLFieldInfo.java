@@ -51,7 +51,7 @@ public class SQLFieldInfo {
     public SQLFieldInfo(final JDOClassDescriptor clsDesc,
                         final FieldDescriptor fieldDesc,
                         final String classTable, final boolean ext)
-    throws MappingException{
+    throws MappingException {
         _fieldDescriptor = fieldDesc;
         
         ClassDescriptor related = fieldDesc.getClassDescriptor();

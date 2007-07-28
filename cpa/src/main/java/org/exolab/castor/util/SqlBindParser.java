@@ -139,18 +139,18 @@ final public class SqlBindParser {
         _lastPos = _pos;
 
          // search for the begin of the next bind variable
-        for(int pos=_pos; pos<_sql_len; ++pos) {
+        for (int pos = _pos; pos < _sql_len; ++pos) {
             char c = _sql.charAt(pos);
 
             switch(c) {
               case '\'':	// character constant
               case '\"':	// string constant
-                while(pos < _sql_len) {
-                    pos = _sql.indexOf(c, pos+1);
+                while (pos < _sql_len) {
+                    pos = _sql.indexOf(c, pos + 1);
                     if (pos == -1) {	// unexpected end of the constant?
                         pos = _sql_len;
                         break;
-                    } else if (_sql.charAt(pos-1) != '\\')	// handle escape characters
+                    } else if (_sql.charAt(pos - 1) != '\\')	// handle escape characters
                         break;	// end of the constant
                 }
                 break;
@@ -161,7 +161,7 @@ final public class SqlBindParser {
                 // search for the end of the bind variable
                do
                    ++pos;
-               while(pos<_sql_len && Character.isDigit(_sql.charAt(pos)));
+               while(pos < _sql_len && Character.isDigit(_sql.charAt(pos)));
 
                _pos = pos;
 
@@ -219,7 +219,7 @@ final public class SqlBindParser {
         StringBuffer sb = new StringBuffer();
         SqlBindParser parser = new SqlBindParser(pre_sql);
 
-        while(parser.next()) {
+        while (parser.next()) {
             sb.append(parser.getLastExpr());
             sb.append(JDBCSyntax.PARAMETER);
         }
@@ -240,13 +240,13 @@ final public class SqlBindParser {
     public static void bindJdbcValues(final PreparedStatement stmt, final String pre_sql, final Object[] values) throws SQLException {
         SqlBindParser parser = new SqlBindParser(pre_sql);
 
-        for(int i=1; parser.next(); ++i) {
+        for (int i = 1; parser.next(); ++i) {
             int bindNum = parser.getParamNumber();
 
             if (bindNum == 0)
                 bindNum = i;	// handle CALL SQL statements with unnumbered bind variables
 
-            Object value = values[bindNum-1];
+            Object value = values[bindNum - 1];
 
             if (_log.isDebugEnabled()) {
                 if (value == null)
