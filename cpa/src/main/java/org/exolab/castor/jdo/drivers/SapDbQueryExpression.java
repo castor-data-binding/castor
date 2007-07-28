@@ -60,19 +60,12 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @author <a href="mailto:on@ibis.odessa.ua">Oleg Nitz</a>
  * @version $Revision$ $Date: 2004-10-01 07:25:46 -0600 (Fri, 01 Oct 2004) $
  */
-public final class SapDbQueryExpression
-    extends JDBCQueryExpression
-{
-
-
-    public SapDbQueryExpression( PersistenceFactory factory )
-    {
+public final class SapDbQueryExpression extends JDBCQueryExpression {
+    public SapDbQueryExpression( PersistenceFactory factory ) {
         super( factory );
     }
 
-
-    public String getStatement( boolean lock )
-    {
+    public String getStatement( boolean lock ) {
         Join         join;
         StringBuffer sql;
         boolean      first;

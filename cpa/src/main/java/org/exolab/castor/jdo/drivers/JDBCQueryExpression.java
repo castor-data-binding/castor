@@ -66,9 +66,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
-public class JDBCQueryExpression
-    implements QueryExpression
-{
+public class JDBCQueryExpression implements QueryExpression {
 
     /**
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
@@ -103,77 +101,76 @@ public class JDBCQueryExpression
 	 */
     protected DbMetaInfo _dbInfo;
 
-    public JDBCQueryExpression( PersistenceFactory factory )
-    {
+    public JDBCQueryExpression( PersistenceFactory factory ) {
         _factory = factory;
     }
-
 
     /**
      * Store database meta information
      *
      * @param dbInfo DbMetaInfo instance
      */    
-    public void setDbMetaInfo( DbMetaInfo dbInfo )
-    {
+    public void setDbMetaInfo( DbMetaInfo dbInfo ) {
         _dbInfo = dbInfo;
     }
 
-
-    public void setDistinct(boolean distinct)
-    {
+    public void setDistinct(boolean distinct) {
         _distinct = distinct;
     }
 
-
-    public void addColumn( String tableName, String columnName )
-    {
+    public void addColumn( String tableName, String columnName ) {
         _tables.put( tableName, tableName );
         _cols.addElement( _factory.quoteName( tableName + JDBCSyntax.TABLE_COLUMN_SEPARATOR + columnName ) );
     }
 
-    public void addTable( String tableName )
-    {
+    public void addTable( String tableName ) {
         _tables.put( tableName, tableName );
     }
 
-    public void addTable( String tableName, String tableAlias )
-    {
+    public void addTable( String tableName, String tableAlias ) {
         _tables.put( tableAlias, tableName );
     }
 
-    public void addParameter( String tableName, String columnName, String condOp )
-    {
+    public void addParameter( String tableName, String columnName, String condOp ) {
         addCondition( tableName, columnName, condOp, JDBCSyntax.PARAMETER );
     }
 
-
-    public void addCondition( String tableName, String columnName,
-                              String condOp, String value )
-    {
+    public void addCondition(String tableName, String columnName, String condOp, String value) {
         _tables.put( tableName, tableName );
-        _conds.addElement( _factory.quoteName( tableName + JDBCSyntax.TABLE_COLUMN_SEPARATOR + columnName ) +
-                           condOp + value );
+        _conds.addElement(_factory.quoteName( tableName + JDBCSyntax.TABLE_COLUMN_SEPARATOR + columnName) + condOp + value );
     }
 
-    public String encodeColumn( String tableName, String columnName )
-    {
+    public String encodeColumn( String tableName, String columnName ) {
         return _factory.quoteName( tableName +
                    JDBCSyntax.TABLE_COLUMN_SEPARATOR +
                    columnName );
     }
 
-
-    public void addInnerJoin( String leftTable, String leftColumn,
-                              String rightTable, String rightColumn )
-    {
+    public void addInnerJoin( String leftTable, String leftColumn, String rightTable, String rightColumn ) {
         addInnerJoin(leftTable, leftColumn, leftTable, rightTable, rightColumn, rightTable);
     }
 
+    public void addInnerJoin( String leftTable, String leftColumn, String leftTableAlias, String rightTable, String rightColumn, String rightTableAlias) {
+        int index;
+        Join join;
 
-    public void addInnerJoin( String leftTable, String leftColumn, String leftTableAlias,
-                              String rightTable, String rightColumn, String rightTableAlias )
-    {
+        _tables.put( leftTableAlias, leftTable );
+        _tables.put( rightTableAlias, rightTable );
+        join = new Join( leftTableAlias, leftColumn, rightTableAlias, rightColumn, false );
+        index = _joins.indexOf(join);
+        if (index < 0) {
+            _joins.add(join);
+        } else {
+            // inner join overrides outer joins
+            _joins.set(index, join);
+        }
+    }
+
+    public void addInnerJoin( String leftTable, String[] leftColumn, String rightTable, String[] rightColumn) {
+        addInnerJoin(leftTable, leftColumn, leftTable, rightTable, rightColumn, rightTable);
+    }
+
+    public void addInnerJoin( String leftTable, String[] leftColumn, String leftTableAlias, String rightTable, String[] rightColumn, String rightTableAlias) {
         int index;
         Join join;
 
@@ -190,41 +187,11 @@ public class JDBCQueryExpression
     }
 
 
-    public void addInnerJoin( String leftTable, String[] leftColumn,
-                              String rightTable, String[] rightColumn )
-    {
-        addInnerJoin(leftTable, leftColumn, leftTable, rightTable, rightColumn, rightTable);
-    }
-
-
-    public void addInnerJoin( String leftTable, String[] leftColumn, String leftTableAlias,
-                              String rightTable, String[] rightColumn, String rightTableAlias )
-    {
-        int index;
-        Join join;
-
-        _tables.put( leftTableAlias, leftTable );
-        _tables.put( rightTableAlias, rightTable );
-        join = new Join( leftTableAlias, leftColumn, rightTableAlias, rightColumn, false );
-        index = _joins.indexOf(join);
-        if (index < 0) {
-            _joins.add(join);
-        } else {
-            // inner join overrides outer joins
-            _joins.set(index, join);
-        }
-    }
-
-
-    public void addOuterJoin( String leftTable, String leftColumn,
-                              String rightTable, String rightColumn )
-    {
+    public void addOuterJoin( String leftTable, String leftColumn, String rightTable, String rightColumn) {
         addOuterJoin(leftTable, leftColumn, rightTable, rightColumn, rightTable);
     }
 
-    public void addOuterJoin( String leftTable, String leftColumn,
-                              String rightTable, String rightColumn,  String rightTableAlias )
-    {
+    public void addOuterJoin( String leftTable, String leftColumn, String rightTable, String rightColumn,  String rightTableAlias) {
         int index;
         Join join;
 
@@ -237,15 +204,11 @@ public class JDBCQueryExpression
         }
     }
 
-    public void addOuterJoin( String leftTable, String[] leftColumn,
-                              String rightTable, String[] rightColumn )
-    {
+    public void addOuterJoin( String leftTable, String[] leftColumn, String rightTable, String[] rightColumn) {
         addOuterJoin(leftTable, leftColumn, rightTable, rightColumn, rightTable);
     }
 
-    public void addOuterJoin( String leftTable, String[] leftColumn,
-                              String rightTable, String[] rightColumn, String rightTableAlias )
-    {
+    public void addOuterJoin( String leftTable, String[] leftColumn, String rightTable, String[] rightColumn, String rightTableAlias) {
         int index;
         Join join;
 
@@ -258,27 +221,19 @@ public class JDBCQueryExpression
         }
     }
 
-
-    public void addSelect( String selectClause )
-    {
+    public void addSelect( String selectClause ) {
         _select = selectClause;
     }
 
-
-    public void addWhereClause( String where )
-    {
+    public void addWhereClause( String where ) {
         _where = where;
     }
-
 
     public void addOrderClause( String order ) {
         _order = order;
     }
 
-
-    public void addLimitClause( String limit ) 
-    	throws SyntaxNotSupportedException 
-	{
+    public void addLimitClause( String limit ) throws SyntaxNotSupportedException {
     	if (isLimitClauseSupported()) {
     		_limit = limit;
     	} else {
@@ -286,10 +241,7 @@ public class JDBCQueryExpression
     	}
     }
 
-
-    public void addOffsetClause( String offset ) 
-    	throws SyntaxNotSupportedException
-	{
+    public void addOffsetClause( String offset ) throws SyntaxNotSupportedException {
     	if (isOffsetClauseSupported()) {
     		_offset = offset;
     	} else {
@@ -297,9 +249,7 @@ public class JDBCQueryExpression
     	}
     }
 
-
-    protected String getColumnList()
-    {
+    protected String getColumnList() {
         StringBuffer sql;
 
         if ( _cols.size() == 0  && _select == null )
@@ -322,9 +272,7 @@ public class JDBCQueryExpression
         return sql.toString();
     }
 
-
-    protected boolean addWhereClause( StringBuffer sql, boolean first )
-    {
+    protected boolean addWhereClause( StringBuffer sql, boolean first ) {
         if ( _conds.size() > 0 ) {
             if ( first ) {
                 sql.append( JDBCSyntax.WHERE );
@@ -372,8 +320,7 @@ public class JDBCQueryExpression
      * @param lock whether to lock selected tables
      * @param oj true in the first case above, false in the second case.
      **/
-    protected StringBuffer getStandardStatement( boolean lock, boolean oj )  
-	{
+    protected StringBuffer getStandardStatement( boolean lock, boolean oj ) {
         StringBuffer sql;
         Enumeration  enumeration;
         boolean      first;
@@ -509,8 +456,7 @@ public class JDBCQueryExpression
         return sql;
     }
 
-    public String toString()
-    {
+    public String toString() {
     	StringBuffer buffer = new StringBuffer ();
         try {
 			buffer.append ("<").append (getStatement( false )).append(">");
@@ -521,8 +467,7 @@ public class JDBCQueryExpression
     }
 
 
-    public Object clone()
-    {
+    public Object clone() {
         JDBCQueryExpression clone;
 
         try {
@@ -541,9 +486,7 @@ public class JDBCQueryExpression
     }
 
 
-    static class Join
-    {
-
+    static class Join {
         final String   leftTable;
 
         final String[] leftColumns;
@@ -554,9 +497,7 @@ public class JDBCQueryExpression
 
         final boolean  outer;
 
-        Join( String leftTable, String leftColumn, String rightTable, String rightColumn,
-              boolean outer )
-        {
+        Join( String leftTable, String leftColumn, String rightTable, String rightColumn, boolean outer) {
             this.leftTable = leftTable;
             this.leftColumns = new String[] { leftColumn };
             this.rightTable = rightTable;
@@ -564,9 +505,7 @@ public class JDBCQueryExpression
             this.outer = outer;
         }
 
-        Join( String leftTable, String[] leftColumns, String rightTable, String[] rightColumns,
-              boolean outer )
-        {
+        Join( String leftTable, String[] leftColumns, String rightTable, String[] rightColumns, boolean outer) {
             this.leftTable = leftTable;
             this.leftColumns = (String[]) leftColumns.clone();
             this.rightTable = rightTable;
@@ -618,21 +557,21 @@ public class JDBCQueryExpression
 
     /** 
      * Provides a default implementation of {@link QueryExpression#isLimitClauseSupported()}.
+     * 
      * @return false to indicate that this feature is not supported by default. 
 	 * @see org.exolab.castor.persist.spi.QueryExpression#isLimitClauseSupported()
 	 */
-	public boolean isLimitClauseSupported()
-	{
+	public boolean isLimitClauseSupported() {
 		return false;
 	}
 
     /** 
      * Provides a default implementation of {@link QueryExpression#isOffsetClauseSupported()}.
+     * 
      * @return false to indicate that this feature is not supported by default. 
 	 * @see org.exolab.castor.persist.spi.QueryExpression#isOffsetClauseSupported()
 	 */
-	public boolean isOffsetClauseSupported()
-	{
+	public boolean isOffsetClauseSupported() {
 		return false;
 	}
 }

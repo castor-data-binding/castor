@@ -62,10 +62,7 @@ import java.io.PrintWriter;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2004-05-03 16:25:38 -0600 (Mon, 03 May 2004) $
  */
-public interface LogInterceptor
-{
-
-
+public interface LogInterceptor {
     /**
      * Called to indicate that an object of the given type and identity
      * is about to be loaded into memory.

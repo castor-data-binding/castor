@@ -70,42 +70,28 @@ import org.exolab.castor.persist.spi.PersistenceQuery;
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
  * @version $Revision$ $Date: 2006-04-11 15:26:07 -0600 (Tue, 11 Apr 2006) $
  */
-final class PostgreSQLCallQuery implements PersistenceQuery
-{
-
-    /**
-     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     * Commons Logging</a> instance used for all logging.
-     */
+final class PostgreSQLCallQuery implements PersistenceQuery {
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
     private static Log _log = LogFactory.getFactory().getInstance(PostgreSQLCallQuery.class);
     
     private PreparedStatement _stmt;
 
-
     private ResultSet         _rs;
-
 
     private final Class     _javaClass;
 
-
     private final Class[]   _types;
-
 
     private final Object[]  _values;
 
-
     private final String    _call;
-
 
     private Identity        _lastIdentity;
 
-
     private int[]           _sqlTypes;
 
-
-    PostgreSQLCallQuery( String call, Class[] types, Class javaClass,
-                         String[] fields, int[] sqlTypes )
-    {
+    PostgreSQLCallQuery( String call, Class[] types, Class javaClass, String[] fields, int[] sqlTypes ) {
         StringBuffer query = new StringBuffer();
 
         query.append( JDBCSyntax.SELECT );
@@ -124,52 +110,41 @@ final class PostgreSQLCallQuery implements PersistenceQuery
         _values = new Object[ _types.length ];
     }
 
-    public boolean absolute(int row)
-      throws PersistenceException
-    {
+    public boolean absolute(int row) throws PersistenceException {
       return false;
     }
 
-    public int size()
-      throws PersistenceException
-    {
+    public int size() throws PersistenceException {
       return 0;
     }
 
-    public int getParameterCount()
-    {
+    public int getParameterCount() {
         return _types.length;
     }
 
 
-    public Class getParameterType( int index )
-        throws ArrayIndexOutOfBoundsException
-    {
+    public Class getParameterType( int index ) throws ArrayIndexOutOfBoundsException {
         return _types[ index ];
     }
 
 
     public void setParameter( int index, Object value )
-        throws ArrayIndexOutOfBoundsException, IllegalArgumentException
-    {
+    throws ArrayIndexOutOfBoundsException, IllegalArgumentException {
         _values[ index ] = value;
     }
 
 
-    public Class getResultType()
-    {
+    public Class getResultType() {
         return _javaClass;
     }
 
     public void execute( Object conn, AccessMode accessMode, boolean scrollable)
-      throws QueryException, PersistenceException
-    {
+    throws QueryException, PersistenceException {
       execute(conn, accessMode);
     }
 
     private void execute( Object conn, AccessMode accessMode )
-        throws QueryException, PersistenceException
-    {
+    throws QueryException, PersistenceException {
         _lastIdentity = null;
         try {
             int count;
@@ -221,9 +196,7 @@ final class PostgreSQLCallQuery implements PersistenceQuery
         }
     }
 
-
-    public void close()
-    {
+    public void close() {
         if ( _rs != null ) {
             try {
                 _rs.close();
@@ -241,7 +214,6 @@ final class PostgreSQLCallQuery implements PersistenceQuery
             _stmt = null;
         }
     }
-
 
     public Object fetch(ProposedEntity proposedObject) throws PersistenceException {
         try {

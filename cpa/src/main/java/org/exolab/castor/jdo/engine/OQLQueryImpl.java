@@ -83,9 +83,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public class OQLQueryImpl
-    implements Query, OQLQuery
-{
+public class OQLQueryImpl implements Query, OQLQuery {
 
     private LockEngine _dbEngine;
 
@@ -97,9 +95,7 @@ public class OQLQueryImpl
 
     private QueryExpression _expr;
 
-    /**
-     * Stored procedure call
-     */
+    /** Stored procedure call. */
     private String _spCall;
 
     private Class[] _bindTypes;
@@ -122,8 +118,7 @@ public class OQLQueryImpl
      * Creates an instance to execute a query based upon an OQL statement
      * @param database The Castor database to run the query against.
      */
-    OQLQueryImpl(final Database database)
-    {
+    OQLQueryImpl(final Database database) {
         _database = database;
     }
 
@@ -131,8 +126,7 @@ public class OQLQueryImpl
      * @inheritDoc
      * @see org.exolab.castor.jdo.Query#bind(java.lang.Object)
      */
-    public void bind(Object value)
-    {
+    public void bind(Object value) {
         if ( _expr == null && _spCall == null )
             throw new IllegalStateException( "Must create query before using it" );
         if ( _fieldNum == _paramInfo.size() )
@@ -204,64 +198,50 @@ public class OQLQueryImpl
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.jdo.Query#bind(boolean)
      */
-    public void bind(final boolean value)
-    {
+    public void bind(final boolean value) {
         bind(new Boolean(value));
     }
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.jdo.Query#bind(short)
      */
-    public void bind(final short value)
-    {
+    public void bind(final short value) {
         bind(new Short(value));
     }
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.jdo.Query#bind(int)
      */
-    public void bind(final int value)
-    {
+    public void bind(final int value) {
         bind(new Integer(value));
     }
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.jdo.Query#bind(long)
      */
-    public void bind(final long value)
-    {
+    public void bind(final long value) {
         bind(new Long(value));
     }
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.jdo.Query#bind(float)
      */
-    public void bind(final float value)
-    {
+    public void bind(final float value) {
         bind(new Float(value));
     }
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.jdo.Query#bind(double)
      */
-    public void bind(final double value)
-    {
+    public void bind(final double value) {
         bind(new Double(value));
     }
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.jdo.OQLQuery#create(java.lang.String)
      */
-    public void create(final String oql) throws PersistenceException
-    {
+    public void create(final String oql) throws PersistenceException {
         _fieldNum = 0;
         _expr = null;
         _spCall = null;
@@ -537,10 +517,8 @@ public class OQLQueryImpl
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.jdo.Query#close()
      */
-    public void close()
-    {
+    public void close() {
         if ( _query != null ) {
             _query.close();
             _query = null;
@@ -555,8 +533,7 @@ public class OQLQueryImpl
      * {@link java.util.Enumeration} implementation to traverse the result as returned by the
      * execution of the OQL query.
      */
-    class OQLEnumeration implements QueryResults, Enumeration
-    {
+    class OQLEnumeration implements QueryResults, Enumeration {
         private Object                 _lastObject;
 
         private Vector                 _pathInfo;
@@ -572,16 +549,14 @@ public class OQLQueryImpl
          * @param clsDesc
          */
         OQLEnumeration(org.exolab.castor.persist.QueryResults results,
-                       Vector pathInfo, JDOClassDescriptor clsDesc)
-        {
+                Vector pathInfo, JDOClassDescriptor clsDesc) {
             _results = results;
             _pathInfo = pathInfo;
             _classDescriptor = clsDesc;
         }
 
 
-        OQLEnumeration( org.exolab.castor.persist.QueryResults results )
-        {
+        OQLEnumeration( org.exolab.castor.persist.QueryResults results ) {
             _results = results;
             _pathInfo = null;
             _classDescriptor = null;
@@ -589,28 +564,22 @@ public class OQLQueryImpl
 
         /**
          * @inheritDoc
-         * @see org.exolab.castor.jdo.QueryResults#absolute(int)
          */
-        public boolean absolute(int row) throws PersistenceException
-        {
+        public boolean absolute(int row) throws PersistenceException {
             return _results.absolute(row);
         }
         
         /**
          * @inheritDoc
-         * @see org.exolab.castor.jdo.QueryResults#size()
          */
-        public int size() throws PersistenceException
-        {
+        public int size() throws PersistenceException {
             return _results.size();
         }
 
         /**
          * @inheritDoc
-         * @see java.util.Enumeration#hasMoreElements()
          */
-        public boolean hasMoreElements()
-        {
+        public boolean hasMoreElements() {
             try {
                 return hasMore( true );
             } catch ( PersistenceException except ) {
@@ -621,18 +590,13 @@ public class OQLQueryImpl
 
         /**
          * @inheritDoc
-         * @see org.exolab.castor.jdo.QueryResults#hasMore()
          */
-        public boolean hasMore()
-            throws PersistenceException
-        {
+        public boolean hasMore() throws PersistenceException {
             return hasMore( false );
         }
 
 
-        public boolean hasMore(final boolean skipError)
-            throws PersistenceException
-        {
+        public boolean hasMore(final boolean skipError) throws PersistenceException {
             Object identity;
 
             if ( _lastObject != null )
@@ -672,11 +636,8 @@ public class OQLQueryImpl
 
         /**
          * @inheritDoc
-         * @see java.util.Enumeration#nextElement()
          */
-        public Object nextElement()
-            throws NoSuchElementException
-        {
+        public Object nextElement() throws NoSuchElementException {
             try {
                 return next( true );
             } catch ( PersistenceException except ) {
@@ -687,18 +648,13 @@ public class OQLQueryImpl
 
         /**
          * @inheritDoc
-         * @see org.exolab.castor.jdo.QueryResults#next()
          */
-        public Object next()
-            throws PersistenceException, NoSuchElementException
-        {
+        public Object next() throws PersistenceException, NoSuchElementException {
             return next( false );
         }
 
 
-        private Object next( boolean skipError )
-            throws PersistenceException, NoSuchElementException
-        {
+        private Object next( boolean skipError ) throws PersistenceException, NoSuchElementException {
             Object identity;
 
             if ( _lastObject != null ) {
@@ -744,10 +700,8 @@ public class OQLQueryImpl
 
         /**
          * @inheritDoc
-         * @see org.exolab.castor.jdo.QueryResults#close()
          */
-        public void close()
-        {
+        public void close() {
             if ( _results != null ) {
                 _results.close();
                 _results = null;

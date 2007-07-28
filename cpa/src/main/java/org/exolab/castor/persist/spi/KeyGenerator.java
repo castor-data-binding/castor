@@ -66,8 +66,7 @@ import org.exolab.castor.mapping.MappingException;
  * @author <a href="bruce DOT snyder AT gmail DOT com">Bruce Snyder</a>
  * @version $Revision$ $Date: 2005-04-25 15:33:21 -0600 (Mon, 25 Apr 2005) $
  */
-public interface KeyGenerator
-{
+public interface KeyGenerator {
     /**
      * For the key generators of BEFORE_INSERT style {@link #generateKey}
      * is called before INSERT.

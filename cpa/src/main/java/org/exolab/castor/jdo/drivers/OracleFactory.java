@@ -57,36 +57,27 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public class OracleFactory
-    extends GenericFactory
-{
-
+public class OracleFactory extends GenericFactory {
     public static final String FACTORY_NAME = "oracle";
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.persist.spi.PersistenceFactory#getFactoryName()
      */
-    public String getFactoryName()
-    {
+    public String getFactoryName() {
         return FACTORY_NAME;
     }
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.persist.spi.PersistenceFactory#getQueryExpression()
      */
-    public QueryExpression getQueryExpression()
-    {
+    public QueryExpression getQueryExpression() {
         return new OracleQueryExpression( this );
     }
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.persist.spi.PersistenceFactory#isDuplicateKeyException(java.lang.Exception)
      */
-    public Boolean isDuplicateKeyException(final Exception except)
-    {
+    public Boolean isDuplicateKeyException(final Exception except) {
         // Sometime gives wrong results
         //if ( except instanceof SQLException )
         //    return ( (SQLException) except ).getErrorCode() == 1 ? Boolean.TRUE : Boolean.FALSE;
@@ -95,16 +86,15 @@ public class OracleFactory
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.persist.spi.PersistenceFactory#quoteName(java.lang.String)
      */
-    public String quoteName(final String name)
-    {
+    public String quoteName(final String name) {
         return doubleQuoteName(name).toUpperCase();
     }
 
     /**
      * Needed to process OQL queries of "CALL" type (using stored procedure
      * call). This feature is specific for JDO.
+     * 
      * @param call Stored procedure call (without "{call")
      * @param paramTypes The types of the query parameters
      * @param javaClass The Java class of the query results
@@ -112,9 +102,7 @@ public class OracleFactory
      * @param sqlTypes The field SQL types
      * @return null if this feature is not supported.
      */
-    public PersistenceQuery getCallQuery( String call, Class[] paramTypes, Class javaClass,
-                                          String[] fields, int[] sqlTypes )
-    {
+    public PersistenceQuery getCallQuery( String call, Class[] paramTypes, Class javaClass, String[] fields, int[] sqlTypes ) {
         return new ReturnedRSCallQuery( call, paramTypes, javaClass, fields, sqlTypes );
     }
 
@@ -122,11 +110,11 @@ public class OracleFactory
      * For INTEGER type ResultSet.getObject() returns BigDecimal:
      * dependent objects with integer identity cause type conversion error
      * (need to fix SimpleQueryExecutor).
+     * 
      * @inheritDoc
      * @see org.exolab.castor.jdo.engine.BaseFactory#adjustSqlType(java.lang.Class)
      */
-    public Class adjustSqlType( Class sqlType )
-    {
+    public Class adjustSqlType( Class sqlType ) {
         if (sqlType == java.lang.Integer.class) {
             return java.math.BigDecimal.class;
         }

@@ -109,11 +109,8 @@ public final class UUIDKeyGenerator implements KeyGenerator {
      * @param sqlType
      * @throws MappingException
      */
-    public void supportsSqlType( int sqlType )
-        throws MappingException
-    {
-        if(sqlType != Types.CHAR && sqlType != Types.VARCHAR && sqlType != Types.LONGVARCHAR)
-        {
+    public void supportsSqlType( int sqlType ) throws MappingException {
+        if(sqlType != Types.CHAR && sqlType != Types.VARCHAR && sqlType != Types.LONGVARCHAR) {
           throw new MappingException( Messages.format( "mapping.keyGenSQLType",
                                      getClass().getName(), new Integer( sqlType ) ) );
         }
@@ -130,22 +127,17 @@ public final class UUIDKeyGenerator implements KeyGenerator {
      * @throws PersistenceException An error occured talking to persistent
      *  storage
      */
-    public Object generateKey( Connection conn, String tableName, String primKeyName,
-            Properties props )
-            throws PersistenceException
-    {
+    public Object generateKey( Connection conn, String tableName, String primKeyName, Properties props ) throws PersistenceException {
         String sUUID = null;
 
-        try
-        {
+        try {
           // getting IP (fixed length: 12 character)
           if(_sHost == null)
             _sHost = InetAddress.getLocalHost().getHostAddress();
 
           StringTokenizer st = new StringTokenizer(_sHost, ".");
           _df.applyPattern("000");
-          while(st.hasMoreTokens())
-          {
+          while(st.hasMoreTokens()) {
             if(sUUID == null)
               sUUID = _df.format(new Integer(st.nextToken()));
             else
@@ -163,15 +155,12 @@ public final class UUIDKeyGenerator implements KeyGenerator {
           _staticCounter++;
           _df.applyPattern("00000");
           sUUID += _df.format(_staticCounter);
-        }
-        catch ( Exception ex )
-        {
+        } catch ( Exception ex ) {
           throw new PersistenceException( Messages.format(
                     "persist.keyGenSQL", getClass().getName(), ex.toString() ), ex );
         }
 
-        if (sUUID == null)
-        {
+        if (sUUID == null) {
           throw new PersistenceException( Messages.format(
                     "persist.keyGenOverflow", getClass().getName() ) );
         }

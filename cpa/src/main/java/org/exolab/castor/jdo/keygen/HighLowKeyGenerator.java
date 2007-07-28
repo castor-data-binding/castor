@@ -73,8 +73,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  * @see HighLowKeyGeneratorFactory
  */
-public class HighLowKeyGenerator implements KeyGenerator
-{
+public class HighLowKeyGenerator implements KeyGenerator {
     /**
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      * Commons Logging</a> instance used for all logging.
@@ -131,9 +130,8 @@ public class HighLowKeyGenerator implements KeyGenerator
     /**
      * Initialize the HIGH-LOW key generator.
      */
-    public HighLowKeyGenerator( PersistenceFactory factory,  Properties params, int sqlType )
-            throws MappingException
-    {
+    public HighLowKeyGenerator(PersistenceFactory factory,  Properties params, int sqlType)
+    throws MappingException {
         String factorStr;
 
         _factory = factory;
@@ -175,11 +173,8 @@ public class HighLowKeyGenerator implements KeyGenerator
      * @param sqlType
      * @throws MappingException
      */
-    public void supportsSqlType( int sqlType )
-        throws MappingException
-    {
-        if ( sqlType != Types.INTEGER && sqlType != Types.NUMERIC && sqlType != Types.DECIMAL && sqlType != Types.BIGINT)
-        {
+    public void supportsSqlType( int sqlType ) throws MappingException {
+        if ( sqlType != Types.INTEGER && sqlType != Types.NUMERIC && sqlType != Types.DECIMAL && sqlType != Types.BIGINT) {
             throw new MappingException( Messages.format( "mapping.keyGenSQLType",
                                         getClass().getName(), new Integer( sqlType ) ) );
         }
@@ -194,10 +189,8 @@ public class HighLowKeyGenerator implements KeyGenerator
      * @throws PersistenceException An error occured talking to persistent
      *  storage
      */
-    public synchronized Object generateKey( Connection conn, String tableName,
-            String primKeyName, Properties props )
-            throws PersistenceException
-    {
+    public synchronized Object generateKey(Connection conn, String tableName,
+            String primKeyName, Properties props) throws PersistenceException {
         Object last;
         Object max;
         boolean inRange;

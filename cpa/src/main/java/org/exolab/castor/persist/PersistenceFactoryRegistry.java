@@ -62,17 +62,13 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
-public class PersistenceFactoryRegistry
-{
+public class PersistenceFactoryRegistry {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      *  Logging </a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(PersistenceFactoryRegistry.class);
     
-    /**
-     * Association between factory name and object.
-     */
+    /** Association between factory name and object. */
     private static Hashtable  _factories;
-
 
     /**
      * Returns a persistence factory with the specified name.
@@ -84,12 +80,10 @@ public class PersistenceFactoryRegistry
      * @return The {@link PersistenceFactory} object, null
      *  if no factory with this name exists
      */
-    public static PersistenceFactory getPersistenceFactory( String name )
-    {
+    public static PersistenceFactory getPersistenceFactory( String name ) {
         load();
         return (PersistenceFactory) _factories.get( name );
     }
-
 
     /**
      * Returns the names of all the configured persistence
@@ -98,8 +92,7 @@ public class PersistenceFactoryRegistry
      *
      * @return Names of persistence factories
      */
-    public static String[] getFactoryNames()
-    {
+    public static String[] getFactoryNames() {
         String[]    names;
         Enumeration enumeration;
 

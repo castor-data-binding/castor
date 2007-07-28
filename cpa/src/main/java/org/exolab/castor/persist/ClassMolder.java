@@ -1413,9 +1413,8 @@ public class ClassMolder {
      * @param tx The {@link org.castor.persist.TransactionContext}
      * @param locker The object that contains the fields to be inspected
      */
-    public void expireCache( TransactionContext tx, ObjectLock locker ) 
-        throws PersistenceException
-    {
+    public void expireCache(TransactionContext tx, ObjectLock locker)
+    throws PersistenceException {
         
         // TODO [WG]: can this really happen, or is this obsolete code
         if (locker == null) {

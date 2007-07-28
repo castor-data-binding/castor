@@ -61,8 +61,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Martin Fuchs <martin-fuchs AT gmx DOT net></a>
  * @version $Revision$
  */
-public final class DbMetaInfo
-{
+public final class DbMetaInfo {
     /**
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      * Logging </a> instance used for all logging.
@@ -77,8 +76,7 @@ public final class DbMetaInfo
      * 
      * @param conn JDBC connection
      */
-    public DbMetaInfo(Connection conn)
-    {
+    public DbMetaInfo(Connection conn) {
         _conn = conn;
     }
 
@@ -87,8 +85,7 @@ public final class DbMetaInfo
 	 * @todo This algorithm should also be tested against other databases
 	 * 		 than Oracle, however it's currently only used for this DB type.   
 	 */
-	private void init()
-	{
+	private void init() {
 	    if (_connInfo == null) {
 		    try {
 		        _connInfo = _conn.getMetaData();
@@ -123,8 +120,7 @@ public final class DbMetaInfo
 	 * return the version string for the current database conection
 	 * @return database version string
 	 */
-    public String getDbVersion()
-    {
+    public String getDbVersion() {
        	init();
 
         return _dbVersion;
@@ -136,15 +132,13 @@ public final class DbMetaInfo
      * @param version
      * @return -1 -> lower  0 -> equal  1 -> higher
      */
-    public int compareDbVersion(String version)
-    {
+    public int compareDbVersion(String version) {
        	init();
 
         return compareVersionStrings(_dbVersion, version);
     }
 
-    static int compareVersionStrings(String v1, String v2)
-    {
+    static int compareVersionStrings(String v1, String v2) {
        	int p1 = 0;
        	int p2 = 0;
 

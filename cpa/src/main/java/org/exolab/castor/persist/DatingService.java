@@ -201,9 +201,7 @@ class DatingService {
      * @param typeName Type of the field which the FieldMolder represents
      * @exception MappingException indicates that the pairing failed.
      */
-    boolean pairFieldClass( FieldMolder fieldMolder, String typeName ) 
-        throws MappingException 
-    {
+    boolean pairFieldClass(FieldMolder fieldMolder, String typeName) throws MappingException {
         
         try {
             if ( typeName == null || typeName.equals("") )

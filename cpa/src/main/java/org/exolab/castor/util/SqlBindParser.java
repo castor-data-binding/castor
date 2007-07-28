@@ -87,12 +87,9 @@ import org.exolab.castor.jdo.engine.JDBCSyntax;
  *
  * @author Martin Fuchs <martin-fuchs AT gmx DOT net>
  */
-final public class SqlBindParser
-{
-    /**
-     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     * Commons Logging</a> instance used for all logging.
-     */
+final public class SqlBindParser {
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
     private static Log _log = LogFactory.getFactory().getInstance(SqlBindParser.class);
 
 	/** 
@@ -125,8 +122,7 @@ final public class SqlBindParser
      *
      * @param sql expression to be parsed
      */
-    public SqlBindParser(String sql)
-    {
+    public SqlBindParser(String sql) {
         _sql = sql;
         _sql_len = _sql.length();
         _pos = 0;
@@ -139,8 +135,7 @@ final public class SqlBindParser
      *
      * @return true, if an bind variable could be found 
      */
-    public boolean next()
-    {
+    public boolean next() {
         _lastPos = _pos;
 
          // search for the begin of the next bind variable
@@ -186,8 +181,7 @@ final public class SqlBindParser
      *
      * @return last expression substring
      */
-    public String getLastExpr()
-    {
+    public String getLastExpr() {
         return _sql.substring(_lastPos, _bindPos);
     }
 
@@ -196,8 +190,7 @@ final public class SqlBindParser
      *
      * @return current bind variable expression
      */
-    public String getBindExpr()
-    {
+    public String getBindExpr() {
         return _sql.substring(_bindPos, _pos);
     }
 
@@ -208,8 +201,7 @@ final public class SqlBindParser
      * 
      * @return parameter number of current bind variable
      */
-    public int getParamNumber()
-    {
+    public int getParamNumber() {
         int idx = _bindPos + 1;
 
         return (idx < _pos) 
@@ -223,8 +215,7 @@ final public class SqlBindParser
      * @param pre_sql SQL statement string with bind variables of the form "?1"
      * @return SQL statement string with bind variables of the form "?"
      */
-    public static String getJdbcSql(String pre_sql)
-    {
+    public static String getJdbcSql(String pre_sql) {
         StringBuffer sb = new StringBuffer();
         SqlBindParser parser = new SqlBindParser(pre_sql);
 
@@ -246,8 +237,7 @@ final public class SqlBindParser
      * @param values array of bind values
      * @throws SQLException
      */
-    public static void bindJdbcValues(PreparedStatement stmt, String pre_sql, Object[] values) throws SQLException
-    {
+    public static void bindJdbcValues(PreparedStatement stmt, String pre_sql, Object[] values) throws SQLException {
         SqlBindParser parser = new SqlBindParser(pre_sql);
 
         for(int i=1; parser.next(); ++i) {

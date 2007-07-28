@@ -78,43 +78,29 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @version $Revision$ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr 2006) $
  * @see SequenceKeyGeneratorFactory
  */
-public final class SequenceKeyGenerator implements KeyGenerator
-{
-
-    /**
-     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     * Commons Logging</a> instance used for all logging.
-     */
+public final class SequenceKeyGenerator implements KeyGenerator {
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
     private static Log LOG = LogFactory.getFactory().getInstance (SequenceKeyGenerator.class);
 
     protected final PersistenceFactory _factory;
 
-
     protected final String _factoryName;
-
 
     protected final String _seqName;
 
-
     private byte _style;
-
 
     private final int _sqlType;
 
-
     private int _increment;
 
-
     private boolean _triggerPresent;
-
 
     /**
      * Initialize the SEQUENCE key generator.
      */
-    public SequenceKeyGenerator( PersistenceFactory factory,
-            Properties params, int sqlType )
-            throws MappingException
-    {
+    public SequenceKeyGenerator( PersistenceFactory factory, Properties params, int sqlType ) throws MappingException {
         boolean returning;
 
         _factoryName = factory.getFactoryName();
@@ -162,21 +148,17 @@ public final class SequenceKeyGenerator implements KeyGenerator
      * @param sqlType
      * @throws MappingException
      */
-    public void supportsSqlType( int sqlType )
-        throws MappingException
-    {
+    public void supportsSqlType( int sqlType ) throws MappingException {
         if (sqlType != Types.INTEGER
                 && sqlType != Types.NUMERIC
                 && sqlType != Types.DECIMAL
                 && sqlType != Types.BIGINT
                 && sqlType != Types.CHAR
-                && sqlType != Types.VARCHAR)
-        {
+                && sqlType != Types.VARCHAR) {
             throw new MappingException( Messages.format( "mapping.keyGenSQLType",
                     getClass().getName(), new Integer( sqlType ) ) );
         }
     }
-
 
     /**
      * @param conn An open connection within the given transaction
@@ -187,10 +169,7 @@ public final class SequenceKeyGenerator implements KeyGenerator
      * @throws PersistenceException An error occured talking to persistent
      *  storage
      */
-    public Object generateKey( Connection conn, String tableName, String primKeyName,
-            Properties props )
-    throws PersistenceException
-    {
+    public Object generateKey( Connection conn, String tableName, String primKeyName, Properties props ) throws PersistenceException {
         PreparedStatement stmt = null;
         ResultSet rs;
         String seqName;

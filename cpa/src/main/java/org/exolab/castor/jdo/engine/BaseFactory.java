@@ -67,9 +67,7 @@ import org.exolab.castor.persist.spi.PersistenceQuery;
  * @author <a href="mailto:ferret AT frii dot com">Bruce Snyder</a>
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
-public abstract class BaseFactory
-    implements PersistenceFactory
-{
+public abstract class BaseFactory implements PersistenceFactory {
 
     /**
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
@@ -112,9 +110,9 @@ public abstract class BaseFactory
      * @param sqlTypes The field SQL types
      * @return null if this feature is not supported.
      */
-    public PersistenceQuery getCallQuery( String call, Class[] paramTypes, Class javaClass,
-                                          String[] fields, int[] sqlTypes )
-    {
+    public PersistenceQuery getCallQuery(String call, Class[] paramTypes, Class javaClass,
+            String[] fields, int[] sqlTypes) {
+        
         return null;
     }
 
@@ -125,16 +123,14 @@ public abstract class BaseFactory
      * @param sqlType The correspondent Java class for the SQL type in mapping.xml
      * @return The correspondent Java class for the SQL type that should be used instead.
      */
-    public Class adjustSqlType( Class sqlType )
-    {
+    public Class adjustSqlType(Class sqlType) {
         return sqlType;
     }
 
     /**
      * Many databases don't support setNull for "WHERE fld=?" and require "WHERE fld IS NULL".
      */
-    public boolean supportsSetNullInWhere()
-    {
+    public boolean supportsSetNullInWhere() {
         return false;
     }
 }

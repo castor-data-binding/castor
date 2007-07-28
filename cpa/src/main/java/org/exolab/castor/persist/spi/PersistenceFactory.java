@@ -65,10 +65,7 @@ import org.exolab.castor.mapping.MappingException;
  * @version $Revision$ $Date: 2004-03-25 05:34:48 -0700 (Thu, 25 Mar 2004) $
  * @see Persistence
  */
-public interface PersistenceFactory
-{
-
-
+public interface PersistenceFactory {
     /**
      * Returns the name of this factory. A descriptive name that
      * indicates the type of supported database server or SQL syntax.
@@ -76,7 +73,6 @@ public interface PersistenceFactory
      * @return The name of this factory
      */
     public String getFactoryName();
-
 
     /**
      * Returns a persistence implementation for the specified object
@@ -92,7 +88,6 @@ public interface PersistenceFactory
      */
     public Persistence getPersistence( ClassDescriptor clsDesc )
         throws MappingException;
-
 
     /**
      * Returns a new empty query expression suitable for the underlying

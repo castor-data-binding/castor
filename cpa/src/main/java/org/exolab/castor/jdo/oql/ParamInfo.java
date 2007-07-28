@@ -100,8 +100,7 @@ private ClassLoader _classLoader;
    *      systemType or if the type is not found.
    */
   public ParamInfo( String userDefinedType, String systemType, JDOFieldDescriptor desc, ClassLoader classLoader )
-      throws QueryException
-  {
+  throws QueryException {
     _userDefinedType = userDefinedType;
     _systemType = systemType;
     _classLoader = classLoader;
@@ -110,8 +109,7 @@ private ClassLoader _classLoader;
     Class systemClass = null;
     try {
         systemClass = ClassLoadingUtils.loadClass (_classLoader, systemType);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       throw new QueryException( "Error: Could not find system defined class: " + systemType );
     }
 
@@ -159,9 +157,7 @@ private ClassLoader _classLoader;
    *    one prevuiously specified in the constructor, or if the systemType is
    *    not convertable to the original systemType.
    */
-  public void check( String userDefinedType, String systemType )
-      throws QueryException
-  {
+  public void check( String userDefinedType, String systemType ) throws QueryException {
     if ( ! _userDefinedType.equals(userDefinedType) )
       throw new QueryException( "Different types were specified for the same numbered parameter." );
 
@@ -188,7 +184,6 @@ private ClassLoader _classLoader;
 
       }
     }
-    
   }
 
   /**
@@ -215,8 +210,7 @@ private ClassLoader _classLoader;
      *
      * @return Java field type
      */
-    public Class getFieldType()
-    {
+    public Class getFieldType() {
         return _fieldType;
     }
 
@@ -226,8 +220,7 @@ private ClassLoader _classLoader;
      *
      * @return SQL type
      */
-    public Class getSQLType()
-    {
+    public Class getSQLType() {
         return _sqlType;
     }
 
@@ -246,10 +239,7 @@ private ClassLoader _classLoader;
      *
      * @return Convertor parameter
      */
-    public String getConvertorParam()
-    {
+    public String getConvertorParam() {
         return _convertorParam;
     }
-
-
 }

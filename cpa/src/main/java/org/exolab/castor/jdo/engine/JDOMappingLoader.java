@@ -525,9 +525,8 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     }
 
 
-    protected TypeInfo getTypeInfo( Class fieldType, CollectionHandler colHandler, FieldMapping fieldMap )
-        throws MappingException
-    {
+    protected TypeInfo getTypeInfo( Class fieldType, CollectionHandler colHandler, FieldMapping fieldMap)
+    throws MappingException {
         TypeConvertor convertorTo = null;
         TypeConvertor convertorFrom = null;
         String        convertorParam = null;
@@ -634,16 +633,12 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             Class colType = CollectionHandlers.getCollectionType( fieldMap.getCollection().toString() );
             colHandler = CollectionHandlers.getHandler( colType );
             
-            if (colType.getName().equals("java.util.Iterator")
-                    && fieldMap.getLazy() == true) 
-            {
+            if (colType.getName().equals("java.util.Iterator") && fieldMap.getLazy()) {
                 String err = "Lazy loading not supported for collection type 'iterator'";
                 throw new MappingException(err);
             }
 
-            if (colType.getName().equals("java.util.Enumeration")
-                    && fieldMap.getLazy() == true) 
-            {
+            if (colType.getName().equals("java.util.Enumeration") && fieldMap.getLazy()) {
                 String err = "Lazy loading not supported for collection type 'enumerate'";
                 throw new MappingException(err);
             }

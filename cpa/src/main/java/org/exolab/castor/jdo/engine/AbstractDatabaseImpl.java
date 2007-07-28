@@ -61,9 +61,7 @@ import org.exolab.castor.persist.spi.InstanceFactory;
  * @author <a href="mailto:ferret AT frii dot com">Bruce Snyder</a>
  * @version $Revision$ $Date: 2006-04-22 11:05:30 -0600 (Sat, 22 Apr 2006) $
  */
-public abstract class AbstractDatabaseImpl
-    implements Database
-{
+public abstract class AbstractDatabaseImpl implements Database {
     /**
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      * Commons Logging</a> instance used for all logging.
@@ -343,9 +341,9 @@ public abstract class AbstractDatabaseImpl
      * @see org.exolab.castor.jdo.Database#update(java.lang.Object)
      */
     public void update(final Object object)
-        throws ClassNotPersistenceCapableException, ObjectModifiedException,
-               TransactionNotInProgressException, PersistenceException
-    {
+    throws ClassNotPersistenceCapableException, ObjectModifiedException,
+           TransactionNotInProgressException, PersistenceException {
+        
         TransactionContext tx = getTransaction();
         ClassMolder molder = _scope.getClassMolder(object.getClass());
         tx.update(molder, object, null);
@@ -356,9 +354,9 @@ public abstract class AbstractDatabaseImpl
      * @see org.exolab.castor.jdo.Database#remove(java.lang.Object)
      */
     public void remove(final Object object)
-        throws ObjectNotPersistentException, LockNotGrantedException, 
-               TransactionNotInProgressException, PersistenceException
-    {
+    throws ObjectNotPersistentException, LockNotGrantedException,
+           TransactionNotInProgressException, PersistenceException {
+        
         TransactionContext tx = getTransaction();
         _scope.getClassMolder(object.getClass());
         tx.delete(object);
@@ -368,8 +366,7 @@ public abstract class AbstractDatabaseImpl
      * @inheritDoc
      * @see org.exolab.castor.jdo.Database#isPersistent(java.lang.Object)
      */
-    public boolean isPersistent(final Object object)
-    {
+    public boolean isPersistent(final Object object) {
         if (_scope == null) {
             throw new IllegalStateException(Messages.message("jdo.dbClosed"));
         }
@@ -398,9 +395,8 @@ public abstract class AbstractDatabaseImpl
      * @see org.exolab.castor.jdo.Database#lock(java.lang.Object)
      */
     public void lock(final Object object)
-        throws LockNotGrantedException, ObjectNotPersistentException,
-               TransactionNotInProgressException,  PersistenceException
-    {
+    throws LockNotGrantedException, ObjectNotPersistentException,
+           TransactionNotInProgressException,  PersistenceException {
         if (!isActive()) {
             throw new TransactionNotInProgressException(Messages.message("jdo.txNotInProgress"));
         }
@@ -429,9 +425,7 @@ public abstract class AbstractDatabaseImpl
      * @inheritDoc
      * @see org.exolab.castor.jdo.Database#getOQLQuery(java.lang.String)
      */
-    public OQLQuery getOQLQuery(final String oql)
-    throws PersistenceException
-    {
+    public OQLQuery getOQLQuery(final String oql) throws PersistenceException {
         OQLQuery oqlImpl;
 
         oqlImpl = new OQLQueryImpl(this);
@@ -443,8 +437,7 @@ public abstract class AbstractDatabaseImpl
      * @inheritDoc
      * @see org.exolab.castor.jdo.Database#getQuery()
      */
-    public Query getQuery()
-    {
+    public Query getQuery() {
         return new OQLQueryImpl( this );
     }
 
@@ -453,9 +446,7 @@ public abstract class AbstractDatabaseImpl
      * @return The current active transaction.
      * @throws TransactionNotInProgressException If there's no active transaction.
      */
-    protected TransactionContext getTransaction()
-        throws TransactionNotInProgressException
-    {
+    protected TransactionContext getTransaction() throws TransactionNotInProgressException {
         if (_scope == null) {
             throw new TransactionNotInProgressException(Messages.message("jdo.dbClosed"));
         }
@@ -467,31 +458,25 @@ public abstract class AbstractDatabaseImpl
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#begin()
      */
-    public abstract void begin()
-        throws PersistenceException;
+    public abstract void begin() throws PersistenceException;
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#commit()
      */
     public abstract void commit()
         throws TransactionNotInProgressException, TransactionAbortedException;
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#rollback()
      */
     public abstract void rollback()
         throws TransactionNotInProgressException;
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#isActive()
      */
-    public boolean isActive()
-    {
+    public boolean isActive() {
         return (_ctx != null && _ctx.isOpen());
     }
 
@@ -505,7 +490,6 @@ public abstract class AbstractDatabaseImpl
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#getJdbcConnection()
      */
     public abstract Connection getJdbcConnection() throws PersistenceException; 
 
@@ -566,10 +550,8 @@ public abstract class AbstractDatabaseImpl
      * @throws TransactionNotInProgressException If there's no transaction in progress.
      */
     public TransactionContext getCurrentTransaction() 
-    throws TransactionNotInProgressException 
-    {
+    throws TransactionNotInProgressException  {
         return getTransaction();
     }
-    
 }  
                                

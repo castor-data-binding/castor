@@ -308,11 +308,9 @@ public final class LockEngine {
      * @param name Name of a named query.
      * @return ClassMolder instance associated with the named query 
      */
-    public ClassMolder getClassMolderByQuery(String name)        
-    {        
+    public ClassMolder getClassMolderByQuery(String name) {        
         Iterator typeIterator = _typeInfo.values().iterator();
-        while(typeIterator.hasNext())
-        {
+        while(typeIterator.hasNext()) {
             TypeInfo info = (TypeInfo)typeIterator.next();
             if(info.molder.getNamedQuery(name) != null) {
                 return info.molder;
@@ -994,9 +992,9 @@ public final class LockEngine {
      * @throws ObjectDeletedException Object has been deleted from the persistence store.
      */
     public boolean expireCache( TransactionContext tx, OID oid, int timeout )
-        throws ClassNotPersistenceCapableException, LockNotGrantedException,
-        ObjectDeletedException, PersistenceException
-    {
+    throws ClassNotPersistenceCapableException, LockNotGrantedException,
+           ObjectDeletedException, PersistenceException {
+        
         TypeInfo   typeInfo;
         boolean    succeed;
         ObjectLock lock;
@@ -1086,11 +1084,9 @@ public final class LockEngine {
      * this cache engine through the XAResource interface.
      * @return Association between XId and transaction contexts.
      */
-    public HashMap getXATransactions()
-    {
+    public HashMap getXATransactions() {
         return _xaTx;
     }
-
 
     /**
      * Provides information about an object of a specific type (class's full name).
@@ -1491,8 +1487,7 @@ public final class LockEngine {
          * @param oid Object identifier.
          * @return True if the object is locked.
          */
-        public boolean isLocked(OID oid)
-        {
+        public boolean isLocked(OID oid) {
             return locks.containsKey(oid);
         }
     }

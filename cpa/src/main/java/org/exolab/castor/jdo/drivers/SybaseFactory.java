@@ -58,60 +58,41 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
  * @version $Revision$ $Date: 2006-02-21 16:05:42 -0700 (Tue, 21 Feb 2006) $
  */
-public class SybaseFactory
-    extends GenericFactory
-{
-
+public class SybaseFactory extends GenericFactory {
     public static final String FACTORY_NAME = "sybase";
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.persist.spi.PersistenceFactory#getFactoryName()
      */
-    public String getFactoryName()
-    {
+    public String getFactoryName() {
         return FACTORY_NAME;
     }
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.persist.spi.PersistenceFactory#getQueryExpression()
      */
-    public QueryExpression getQueryExpression()
-    {
+    public QueryExpression getQueryExpression() {
         return new SybaseQueryExpression( this );
     }
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.persist.spi.PersistenceFactory#isDuplicateKeyException(java.lang.Exception)
      */
-    public Boolean isDuplicateKeyException( Exception except )
-    {
-        // Sometime gives wrong results
-        //if ( except instanceof SQLException )
-        //    switch ( ( (SQLException) except ).getErrorCode() ) {
-        //        case 2601: 
-        //        case 548:  // sometimes Sybase ASA generates this code instead of 2601
-        //            return Boolean.TRUE;
-        //        default:
-        //            return Boolean.FALSE;
-        //    }
+    public Boolean isDuplicateKeyException( Exception except ) {
         return null;
     }
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.persist.spi.PersistenceFactory#quoteName(java.lang.String)
      */
-    public String quoteName(String name)
-    {
+    public String quoteName(String name) {
         return doubleQuoteName(name);
     }
 
     /**
      * Needed to process OQL queries of "CALL" type (using stored procedure
      * call). This feature is specific for JDO.
+     * 
      * @param call Stored procedure call (without "{call")
      * @param paramTypes The types of the query parameters
      * @param javaClass The Java class of the query results
@@ -119,18 +100,14 @@ public class SybaseFactory
      * @param sqlTypes The field SQL types
      * @return null if this feature is not supported.
      */
-    public PersistenceQuery getCallQuery( String call, Class[] paramTypes, Class javaClass,
-                                          String[] fields, int[] sqlTypes )
-    {
+    public PersistenceQuery getCallQuery( String call, Class[] paramTypes, Class javaClass, String[] fields, int[] sqlTypes ) {
         return new MultiRSCallQuery( call, paramTypes, javaClass, fields, sqlTypes );
     }
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.jdo.engine.BaseFactory#supportsSetNullInWhere()
      */
-    public boolean supportsSetNullInWhere()
-    {
+    public boolean supportsSetNullInWhere() {
         return true;
     }
 }

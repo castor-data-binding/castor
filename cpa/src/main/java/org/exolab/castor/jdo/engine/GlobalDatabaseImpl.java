@@ -41,9 +41,7 @@ import org.exolab.castor.persist.spi.InstanceFactory;
  * @author <a href="werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
-public class GlobalDatabaseImpl extends AbstractDatabaseImpl
-    implements Synchronization
-{
+public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchronization {
 
     /**
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
@@ -109,16 +107,11 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl
      * @inheritDoc
      * @see org.exolab.castor.jdo.Database#close()
      */
-    public synchronized void close()
-        throws PersistenceException
-    {
+    public synchronized void close() throws PersistenceException {
         try {
-            try
-            {
+            try {
                 _ctx.close();
-            }
-            catch(Exception e)
-            {
+            } catch(Exception e) {
                 throw new PersistenceException(e.getMessage(), e);
             }
         } finally {
@@ -152,40 +145,29 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#begin()
      */
-    public void begin()
-        throws PersistenceException
-    {
+    public void begin() throws PersistenceException {
         throw new IllegalStateException(Messages.message("jdo.txInJ2EE"));
     }
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#commit()
      */
-    public void commit()
-        throws TransactionNotInProgressException, TransactionAbortedException
-    {
+    public void commit() throws TransactionNotInProgressException, TransactionAbortedException {
         throw new IllegalStateException(Messages.message("jdo.txInJ2EE"));
     }
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#rollback()
      */
-    public void rollback()
-        throws TransactionNotInProgressException
-    {
+    public void rollback() throws TransactionNotInProgressException {
         throw new IllegalStateException(Messages.message("jdo.txInJ2EE"));
     }
 
     /**
      * @inheritDoc
-     * @see javax.transaction.Synchronization#beforeCompletion()
      */
-    public void beforeCompletion()
-    {
+    public void beforeCompletion() {
         // XXX [SMH]: Find another test for txNotInProgress
         if (_transaction == null || _ctx == null || ! _ctx.isOpen()) {
             throw new IllegalStateException(Messages.message("jdo.txNotInProgress"));
@@ -215,8 +197,7 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl
      * @inheritDoc
      * @see javax.transaction.Synchronization#afterCompletion(int)
      */
-    public void afterCompletion(final int status)
-    {
+    public void afterCompletion(final int status) {
         try {
             // XXX [SMH]: Find another test for txNotInProgress
             if (_transaction == null || _ctx == null) {
@@ -252,19 +233,15 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl
         }
     }
 
-    void setTxMap(TxDatabaseMap txMap) 
-    {
+    void setTxMap(TxDatabaseMap txMap) {
         _txMap = txMap;
     }
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#getJdbcConnection()
      */
-    public Connection getJdbcConnection() throws PersistenceException 
-    {
+    public Connection getJdbcConnection() throws PersistenceException {
         return _ctx.getConnection(_scope.getLockEngine());
     }
-
 }  
                                 
