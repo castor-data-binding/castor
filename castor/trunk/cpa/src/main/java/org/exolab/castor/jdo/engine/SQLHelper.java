@@ -27,7 +27,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.exolab.castor.mapping.FieldDescriptor;
-import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Identity;
 
 /**

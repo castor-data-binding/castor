@@ -46,12 +46,13 @@
 
 package org.exolab.castor.persist;
 
-import java.util.Vector;
-import java.util.Hashtable;
 import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Vector;
+
 import org.exolab.castor.jdo.engine.SQLEngine;
-import org.exolab.castor.mapping.loader.Types;
 import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.mapping.loader.Types;
 
 /**
  * DataService is a helper class for constructing <tt>ClassMolder</tt>s and

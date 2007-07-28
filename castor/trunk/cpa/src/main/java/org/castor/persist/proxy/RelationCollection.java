@@ -18,25 +18,25 @@
 
 package org.castor.persist.proxy;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ConcurrentModificationException;
-import java.util.NoSuchElementException;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.ConcurrentModificationException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
+import org.exolab.castor.jdo.LockNotGrantedException;
+import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.Lazy;
 import org.exolab.castor.persist.OID;
 import org.exolab.castor.persist.TxSynchronizable;
 import org.exolab.castor.persist.spi.Identity;
-import org.exolab.castor.jdo.LockNotGrantedException;
-import org.exolab.castor.jdo.PersistenceException;
 
 /**
  * RelationCollection implements {@link java.util.Collection}

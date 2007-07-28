@@ -45,8 +45,8 @@
 
 package org.exolab.castor.dtx;
 
-import java.io.PrintWriter;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 
 /**
  * A general class for exceptions associated with Castor DTX. Can

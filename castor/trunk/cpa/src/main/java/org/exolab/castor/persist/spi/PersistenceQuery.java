@@ -45,9 +45,9 @@
 package org.exolab.castor.persist.spi;
 
 import org.castor.persist.ProposedEntity;
-import org.exolab.castor.mapping.AccessMode;
-import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.ObjectNotFoundException;
+import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.mapping.AccessMode;
 
 /**
  * The persistence engine implements this interface in order to allow

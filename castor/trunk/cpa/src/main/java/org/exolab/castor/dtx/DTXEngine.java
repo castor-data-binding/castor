@@ -45,20 +45,27 @@
 
 package org.exolab.castor.dtx;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.URL;
-import java.util.*;
-import java.sql.*;
-import org.xml.sax.*;
-import org.castor.jdo.conf.*;
-import org.exolab.castor.persist.*;
-import org.exolab.castor.persist.spi.PersistenceFactory;
-import org.exolab.castor.xml.*;
-import org.exolab.castor.mapping.xml.MappingRoot;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.util.HashMap;
+import java.util.Properties;
+
+import org.castor.jdo.conf.DataSource;
+import org.castor.jdo.conf.Database;
+import org.castor.jdo.conf.Mapping;
+import org.castor.jdo.conf.Param;
 import org.exolab.castor.mapping.xml.ClassMapping;
-import org.exolab.castor.util.*;
-import org.exolab.castor.xml.schema.*;
-import org.exolab.castor.xml.schema.reader.*;
+import org.exolab.castor.mapping.xml.MappingRoot;
+import org.exolab.castor.persist.PersistenceFactoryRegistry;
+import org.exolab.castor.persist.spi.PersistenceFactory;
+import org.exolab.castor.util.DTDResolver;
+import org.exolab.castor.xml.Unmarshaller;
+import org.exolab.castor.xml.schema.Schema;
+import org.exolab.castor.xml.schema.reader.SchemaReader;
+import org.xml.sax.DocumentHandler;
+import org.xml.sax.InputSource;
 
 /**
  * An OQL query engine for hitting JDO data sources and generating SAX

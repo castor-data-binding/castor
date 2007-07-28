@@ -45,19 +45,25 @@
 
 package org.exolab.castor.dtx;
 
-import java.io.*;
-import java.util.*;
-import java.sql.*;
-import org.xml.sax.*;
-import org.xml.sax.helpers.AttributeListImpl;
-import org.exolab.castor.jdo.*;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.StringTokenizer;
+
+import org.exolab.castor.jdo.QueryException;
+import org.exolab.castor.mapping.xml.BindXml;
 import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;
-import org.exolab.castor.mapping.xml.Sql;
-import org.exolab.castor.mapping.xml.BindXml;
 import org.exolab.castor.mapping.xml.MapTo;
+import org.exolab.castor.mapping.xml.Sql;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.persist.spi.QueryExpression;
+import org.xml.sax.DocumentHandler;
+import org.xml.sax.helpers.AttributeListImpl;
 
 /**
  * A single query that takes OQL query language, reads data from an

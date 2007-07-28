@@ -42,16 +42,11 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.persist.spi;
 
-
 import org.exolab.castor.jdo.DbMetaInfo;
-
 import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.jdo.oql.SyntaxNotSupportedException;
-
 
 /**
  * Defines the interface for a query expression. The query

@@ -17,9 +17,13 @@ package org.exolab.castor.jdo.engine;
 
 import java.sql.Connection;
 
+import javax.transaction.Status;
+import javax.transaction.Synchronization;
+import javax.transaction.SystemException;
+import javax.transaction.Transaction;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.castor.persist.GlobalTransactionContext;
 import org.castor.util.Messages;
 import org.exolab.castor.jdo.DatabaseNotFoundException;
@@ -29,11 +33,6 @@ import org.exolab.castor.jdo.TransactionAbortedException;
 import org.exolab.castor.jdo.TransactionNotInProgressException;
 import org.exolab.castor.persist.spi.CallbackInterceptor;
 import org.exolab.castor.persist.spi.InstanceFactory;
-
-import javax.transaction.Status;
-import javax.transaction.Synchronization;
-import javax.transaction.SystemException;
-import javax.transaction.Transaction;
 
 /**
  * An implementation of the JDO database supporting explicit transaction

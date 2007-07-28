@@ -44,29 +44,6 @@
  */
 package org.exolab.castor.jdo.engine;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.castor.cache.Cache;
-import org.castor.cache.simple.CountLimited;
-import org.castor.cache.simple.TimeLimited;
-import org.castor.jdo.engine.SQLTypeInfos;
-import org.castor.jdo.engine.SQLTypeConverters;
-import org.castor.jdo.engine.SQLTypeConverters.Convertor;
-import org.castor.mapping.BindingType;
-import org.castor.util.Messages;
-import org.exolab.castor.jdo.TimeStampable;
-import org.exolab.castor.mapping.*;
-import org.exolab.castor.mapping.loader.AbstractFieldDescriptor;
-import org.exolab.castor.mapping.loader.CollectionHandlers;
-import org.exolab.castor.mapping.loader.FieldDescriptorImpl;
-import org.exolab.castor.mapping.loader.FieldHandlerFriend;
-import org.exolab.castor.mapping.loader.FieldHandlerImpl;
-import org.exolab.castor.mapping.loader.AbstractMappingLoader;
-import org.exolab.castor.mapping.loader.TypeInfo;
-import org.exolab.castor.mapping.loader.Types;
-import org.exolab.castor.mapping.xml.*;
-import org.exolab.castor.mapping.xml.types.SqlDirtyType;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -78,6 +55,43 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.castor.cache.Cache;
+import org.castor.cache.simple.CountLimited;
+import org.castor.cache.simple.TimeLimited;
+import org.castor.jdo.engine.SQLTypeConverters;
+import org.castor.jdo.engine.SQLTypeInfos;
+import org.castor.jdo.engine.SQLTypeConverters.Convertor;
+import org.castor.mapping.BindingType;
+import org.castor.util.Messages;
+import org.exolab.castor.jdo.TimeStampable;
+import org.exolab.castor.mapping.AccessMode;
+import org.exolab.castor.mapping.ClassDescriptor;
+import org.exolab.castor.mapping.CollectionHandler;
+import org.exolab.castor.mapping.ExtendedFieldHandler;
+import org.exolab.castor.mapping.FieldDescriptor;
+import org.exolab.castor.mapping.FieldHandler;
+import org.exolab.castor.mapping.GeneralizedFieldHandler;
+import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.mapping.TypeConvertor;
+import org.exolab.castor.mapping.loader.AbstractFieldDescriptor;
+import org.exolab.castor.mapping.loader.AbstractMappingLoader;
+import org.exolab.castor.mapping.loader.CollectionHandlers;
+import org.exolab.castor.mapping.loader.FieldDescriptorImpl;
+import org.exolab.castor.mapping.loader.FieldHandlerFriend;
+import org.exolab.castor.mapping.loader.FieldHandlerImpl;
+import org.exolab.castor.mapping.loader.TypeInfo;
+import org.exolab.castor.mapping.loader.Types;
+import org.exolab.castor.mapping.xml.CacheTypeMapping;
+import org.exolab.castor.mapping.xml.ClassMapping;
+import org.exolab.castor.mapping.xml.FieldMapping;
+import org.exolab.castor.mapping.xml.KeyGeneratorDef;
+import org.exolab.castor.mapping.xml.MappingRoot;
+import org.exolab.castor.mapping.xml.NamedQuery;
+import org.exolab.castor.mapping.xml.Param;
+import org.exolab.castor.mapping.xml.types.SqlDirtyType;
 
 /**
  * A JDO implementation of mapping helper. Creates JDO class descriptors

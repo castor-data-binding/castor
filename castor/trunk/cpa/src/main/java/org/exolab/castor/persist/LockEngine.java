@@ -45,15 +45,14 @@
 
 package org.exolab.castor.persist;
 
-import java.util.Vector;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.castor.cache.Cache;
 import org.castor.cache.CacheAcquireException;
 import org.castor.cache.CacheFactory;
@@ -64,16 +63,15 @@ import org.castor.persist.TransactionContext;
 import org.castor.persist.cache.CacheEntry;
 import org.castor.util.Configuration;
 import org.castor.util.Messages;
-
-import org.exolab.castor.jdo.ObjectNotFoundException;
-import org.exolab.castor.jdo.LockNotGrantedException;
-import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.ClassNotPersistenceCapableException;
 import org.exolab.castor.jdo.DuplicateIdentityException;
+import org.exolab.castor.jdo.LockNotGrantedException;
 import org.exolab.castor.jdo.ObjectDeletedException;
 import org.exolab.castor.jdo.ObjectModifiedException;
-import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.jdo.ObjectNotFoundException;
+import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.AccessMode;
+import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.persist.spi.PersistenceFactory;

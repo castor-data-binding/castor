@@ -22,8 +22,6 @@ import javax.transaction.TransactionManager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-
 import org.castor.jdo.conf.Database;
 import org.castor.jdo.conf.DatabaseChoice;
 import org.castor.jdo.conf.JdoConf;
@@ -31,10 +29,8 @@ import org.castor.jdo.util.JDOConfFactory;
 import org.castor.util.ConfigKeys;
 import org.castor.util.Configuration;
 import org.castor.util.Messages;
-
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
-
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 

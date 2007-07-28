@@ -42,16 +42,13 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.persist.spi;
-
 
 import java.sql.Connection;
 import java.util.Properties;
+
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.MappingException;
-
 
 /**
  * Interface for a key generator. The key generator is used for

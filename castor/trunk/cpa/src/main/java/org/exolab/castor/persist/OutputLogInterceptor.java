@@ -42,16 +42,13 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.persist;
 
-
 import java.io.OutputStream;
-import java.io.Writer;
 import java.io.PrintWriter;
-import org.exolab.castor.persist.spi.LogInterceptor;
+import java.io.Writer;
 
+import org.exolab.castor.persist.spi.LogInterceptor;
 
 /**
  * A simple log interceptor that reports all messages to a writer or

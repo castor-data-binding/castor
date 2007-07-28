@@ -15,26 +15,40 @@
  */
 package org.exolab.castor.jdo.engine;
 
-import java.util.ArrayList;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.castor.jdo.engine.AbstractConnectionFactory;
 import org.castor.jdo.engine.DatabaseRegistry;
 import org.castor.jdo.util.ClassLoadingUtils;
+import org.castor.persist.ProposedEntity;
+import org.castor.persist.TransactionContext;
 import org.castor.util.ConfigKeys;
 import org.castor.util.Configuration;
 import org.castor.util.Messages;
-
-import org.castor.persist.ProposedEntity;
-import org.castor.persist.TransactionContext;
-import org.exolab.castor.jdo.*;
+import org.exolab.castor.jdo.CacheManager;
+import org.exolab.castor.jdo.ClassNotPersistenceCapableException;
+import org.exolab.castor.jdo.Database;
+import org.exolab.castor.jdo.DatabaseNotFoundException;
+import org.exolab.castor.jdo.DuplicateIdentityException;
+import org.exolab.castor.jdo.LockNotGrantedException;
+import org.exolab.castor.jdo.OQLQuery;
+import org.exolab.castor.jdo.ObjectModifiedException;
+import org.exolab.castor.jdo.ObjectNotFoundException;
+import org.exolab.castor.jdo.ObjectNotPersistentException;
+import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.Query;
+import org.exolab.castor.jdo.TransactionAbortedException;
+import org.exolab.castor.jdo.TransactionNotInProgressException;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.persist.*;
+import org.exolab.castor.persist.ClassMolder;
+import org.exolab.castor.persist.LockEngine;
+import org.exolab.castor.persist.PersistenceInfoGroup;
+import org.exolab.castor.persist.TxSynchronizable;
 import org.exolab.castor.persist.spi.CallbackInterceptor;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.InstanceFactory;

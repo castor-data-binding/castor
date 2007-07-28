@@ -42,14 +42,11 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.persist.spi;
 
-
 import java.util.Properties;
-import org.exolab.castor.mapping.MappingException;
 
+import org.exolab.castor.mapping.MappingException;
 
 /**
  * Interface for a key generator factory. The key generator factory

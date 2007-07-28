@@ -44,6 +44,11 @@
  */
 package org.exolab.castor.jdo.engine;
 
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.NoSuchElementException;
+import java.util.Vector;
+
 import org.castor.jdo.engine.SQLTypeConverters;
 import org.castor.jdo.util.ClassLoadingUtils;
 import org.castor.persist.TransactionContext;
@@ -71,11 +76,6 @@ import org.exolab.castor.persist.LockEngine;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.PersistenceQuery;
 import org.exolab.castor.persist.spi.QueryExpression;
-
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.NoSuchElementException;
-import java.util.Vector;
 
 /**
  * An OQLQuery implementation to execute a query based upon an OQL statement   

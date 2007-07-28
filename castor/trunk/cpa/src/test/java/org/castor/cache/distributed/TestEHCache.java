@@ -23,7 +23,6 @@ import junit.framework.TestSuite;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-
 import org.castor.cache.Cache;
 import org.castor.cache.CacheAcquireException;
 

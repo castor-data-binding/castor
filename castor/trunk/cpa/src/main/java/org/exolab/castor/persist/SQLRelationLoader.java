@@ -44,15 +44,15 @@
  */
 package org.exolab.castor.persist;
 
-import org.exolab.castor.persist.spi.Identity;
-import org.exolab.castor.mapping.TypeConvertor;
-import org.exolab.castor.jdo.PersistenceException;
-import org.castor.jdo.util.JDOUtils;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import org.castor.jdo.util.JDOUtils;
+import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.mapping.TypeConvertor;
+import org.exolab.castor.persist.spi.Identity;
 
 /**
  * SQLRelationLoader is a quick hack for creating and removing
