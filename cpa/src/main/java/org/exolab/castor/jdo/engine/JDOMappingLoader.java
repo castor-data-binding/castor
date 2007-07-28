@@ -229,7 +229,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     
     //-----------------------------------------------------------------------------------
 
-    protected final ClassDescriptor createClassDescriptor(final ClassMapping clsMap)
+    protected ClassDescriptor createClassDescriptor(final ClassMapping clsMap)
     throws MappingException {
         // If there is no SQL information for class, ignore it.
         if ((clsMap.getMapTo() == null) || (clsMap.getMapTo().getTable() == null)) {
@@ -449,7 +449,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         clsDesc.setKeyGeneratorDescriptor(keyGenDesc);
     }
     
-    protected final FieldDescriptor findIdentityByName(
+    protected FieldDescriptor findIdentityByName(
             final List fldList, final String idName, final Class javaClass)
     throws MappingException {
         for (int i = 0; i < fldList.size(); i++) {
@@ -473,7 +473,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         return null;
     }
 
-    protected final void resolveRelations(final ClassDescriptor clsDesc) {
+    protected void resolveRelations(final ClassDescriptor clsDesc) {
         FieldDescriptor[] fields = clsDesc.getFields();
         for (int i = 0 ; i < fields.length ; ++i) {
             FieldDescriptor field = fields[i];

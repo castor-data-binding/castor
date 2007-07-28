@@ -65,7 +65,7 @@ public interface Persistent {
      *
      * @param db The database to which this object belongs
      */
-    public void jdoPersistent(Database db);
+    void jdoPersistent(Database db);
 
     /**
      * Called to indicate the object is now transient. The object may
@@ -76,7 +76,7 @@ public interface Persistent {
      * call to {@link #jdoStore} or when the object is deleted from
      * the database.
      */
-    public void jdoTransient();
+    void jdoTransient();
 
     /**
      * Called to indicate that the object has been loaded from persistent
@@ -90,7 +90,7 @@ public interface Persistent {
      * @return the return value is discarded
      * @throws Exception An exception occured, the object cannot be loaded
      */
-    public Class jdoLoad(AccessMode accessMode) throws Exception;
+    Class jdoLoad(AccessMode accessMode) throws Exception;
 
     /**
      * Called to indicate that an object is to be stored in persistent
@@ -101,7 +101,7 @@ public interface Persistent {
      * @param modified Is the object modified?
      * @throws Exception An exception occured, the object cannot be stored
      */
-    public void jdoStore(boolean modified) throws Exception;
+    void jdoStore(boolean modified) throws Exception;
 
     /**
      * Called to indicate that an object is to be created in persistent
@@ -109,25 +109,25 @@ public interface Persistent {
      *
      * @param db The database in which this object will be created
      */
-    public void jdoBeforeCreate(Database db) throws Exception;
+    void jdoBeforeCreate(Database db) throws Exception;
 
     /**
      * Called to indicate that an object has been created in persistent
      * storage. This method is called during db.create().
      */
-    public void jdoAfterCreate() throws Exception;
+    void jdoAfterCreate() throws Exception;
 
     /**
      * Called to indicate that an object is to be removed from persistent
      * storage. This method is called during db.remove().
      */
-    public void jdoBeforeRemove() throws Exception;
+    void jdoBeforeRemove() throws Exception;
 
     /**
      * Called to indicate that an object has been removed from persistent
      * storage. This method is called during db.remove().
      */
-    public void jdoAfterRemove() throws Exception;
+    void jdoAfterRemove() throws Exception;
 
     /**
      * Called to indicate that an object has been included to the current
@@ -136,7 +136,7 @@ public interface Persistent {
      *
      * @throws Exception An exception occured, the object cannot be stored
      */
-    public void jdoUpdate() throws Exception;
+    void jdoUpdate() throws Exception;
 }
 
 

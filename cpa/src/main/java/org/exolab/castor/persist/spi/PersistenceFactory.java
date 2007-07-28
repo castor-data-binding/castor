@@ -42,14 +42,10 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.persist.spi;
-
 
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
-
 
 /**
  * Factory for producing new persistence implementations. Used for
@@ -72,7 +68,7 @@ public interface PersistenceFactory {
      *
      * @return The name of this factory
      */
-    public String getFactoryName();
+    String getFactoryName();
 
     /**
      * Returns a persistence implementation for the specified object
@@ -86,8 +82,8 @@ public interface PersistenceFactory {
      * @throws MappingException Indicates that the object type is not
      *  supported by the persistence engine due to improper mapping
      */
-    public Persistence getPersistence( ClassDescriptor clsDesc )
-        throws MappingException;
+    Persistence getPersistence(ClassDescriptor clsDesc)
+    throws MappingException;
 
     /**
      * Returns a new empty query expression suitable for the underlying
@@ -96,8 +92,7 @@ public interface PersistenceFactory {
      *
      * @return New empty query expression
      */
-    public QueryExpression getQueryExpression();
-
+    QueryExpression getQueryExpression();
 
     /**
      * Determines it the given exception is indication of a duplicate
@@ -105,8 +100,7 @@ public interface PersistenceFactory {
      *
      * @return TRUE means "yes", FALSE means "no", null means "cannot determine"
      */
-    public Boolean isDuplicateKeyException( Exception except );
-
+    Boolean isDuplicateKeyException(Exception except);
 
     /**
      * Returns the quoted identifier suitable for preventing conflicts between
@@ -115,8 +109,6 @@ public interface PersistenceFactory {
      * @param name The identifier (table, column, etc)
      * @return The quoted identifier
      */
-    public String quoteName( String name );
-
-
+    String quoteName(String name);
 }
 

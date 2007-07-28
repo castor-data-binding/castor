@@ -42,15 +42,11 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.jdo;
-
 
 import java.io.Serializable;
 
 import javax.naming.Referenceable;
-
 
 /**
  * A factory for {@link Database} connections. This object is used to
@@ -63,8 +59,6 @@ import javax.naming.Referenceable;
  * @version $Revision$ $Date: 2004-10-05 16:15:56 -0600 (Tue, 05 Oct 2004) $
  */
 public interface DataObjects extends Referenceable, Serializable {
-
-
     /**
      * Opens and returns a connection to the database.
      *
@@ -73,30 +67,26 @@ public interface DataObjects extends Referenceable, Serializable {
      *  that does not exist
      * @throws PersistenceException Database access failed
      */
-    public Database getDatabase()
-        throws DatabaseNotFoundException, PersistenceException;
-
+    Database getDatabase() throws DatabaseNotFoundException, PersistenceException;
 
     /**
      * Sets the description of this database.
      *
      * @param description The description of this database
      */
-    public void setDescription( String description );
-
+    void setDescription(String description);
 
     /**
      * Returns the description of this database.
      *
      * @return The description of this database
      */
-    public String getDescription();
-
+    String getDescription();
 
     /**
      * Returns the name of this database.
+     * 
      * @return The name of this database
      */
-    public String getDatabaseName();
-
+    String getDatabaseName();
 }

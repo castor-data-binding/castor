@@ -89,7 +89,5 @@ public interface OQLQuery extends Query {
      * @param query An OQL query statement
      * @throws PersistenceException
      */
-    public void create( String query )
-        throws PersistenceException;
-
+    void create(String query) throws PersistenceException;
 }

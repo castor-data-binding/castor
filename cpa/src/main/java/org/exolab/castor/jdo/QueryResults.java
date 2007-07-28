@@ -42,14 +42,10 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.jdo;
-
 
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
-
 
 /**
  * An iteration of the results of a query. This interface provides the
@@ -66,10 +62,9 @@ public interface QueryResults extends Enumeration {
      * be thrown and the result set cannot be used further.
      *
      * @return True if there are any more results in the result set
-     * @throws PersistenceException An error with the persistence
-     *  engine
+     * @throws PersistenceException An error with the persistence engine
      */
-    public boolean hasMore() throws PersistenceException;
+    boolean hasMore() throws PersistenceException;
 
     /**
      * Returns the next result in the result set. If there are no
@@ -84,29 +79,28 @@ public interface QueryResults extends Enumeration {
      * @throws NoSuchElementException There are no more results in
      *  the result set
      */
-    public Object next() throws PersistenceException, NoSuchElementException;
+    Object next() throws PersistenceException, NoSuchElementException;
 
     /**
      * Closes the result set and releases all resources held by it.
      */
-    public void close();
+    void close();
 
     /**
      * moves the result of the query to the absolute position in the
-     * resultset
+     * resultset.
+     * 
      * @param row The row to move to
      * @return ???
      * @throws PersistenceException A persistence error occured
      */
-    public boolean absolute(int row)
-      throws PersistenceException;
+    boolean absolute(int row) throws PersistenceException;
 
     /**
-     * finds the size of the resulting resultset from the query.
+     * Finds the size of the resulting resultset from the query.
+     * 
      * @return Size of the resulting result set.
      * @throws PersistenceException A persistence error occured
      */
-    public int size()
-      throws PersistenceException;
-
+    int size() throws PersistenceException;
 }
