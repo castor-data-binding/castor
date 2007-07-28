@@ -101,7 +101,8 @@
           value="org/castor/cache/**/*.java,
                  org/castor/transactionmanager/**/*.java,
                  org/castor/util/**/*.java,
-                 org/castor/mapping/*.java"/>
+                 org/castor/mapping/*.java,
+    	         org/castor/core/**/*.java"/>
 
     <property name="castor.xml.files"
           value="**/org/exolab/castor/*,
@@ -110,7 +111,8 @@
                  org/exolab/castor/tools/**/*.java,
                  org/exolab/castor/types/**/*.java,
                  org/exolab/castor/util/**/*.java,
-                 org/exolab/castor/xml/**/*.java"/>
+                 org/exolab/castor/xml/**/*.java,
+                 org/castor/xml/**/*.java"/>
 
 	<!-- cleanup definition after creation of 'cpa' module -->
     <property name="castor.jdo.files"
