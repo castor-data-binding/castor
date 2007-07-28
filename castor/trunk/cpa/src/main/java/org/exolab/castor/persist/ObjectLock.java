@@ -93,98 +93,70 @@ import org.exolab.castor.jdo.ObjectDeletedException;
  */
 
 public final class ObjectLock implements DepositBox {
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
+    private static final Log LOG = LogFactory.getFactory().getInstance(ObjectLock.class );
 
-	/**
-	 * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-	 * Commons Logging</a> instance used for all logging.
-	 */
-	private static Log log = LogFactory.getFactory().getInstance(ObjectLock.class );
-	
-    final static short ACTION_READ = 1;
+    protected static final short ACTION_READ = 1;
 
-    final static short ACTION_WRITE = 2;
+    protected static final short ACTION_WRITE = 2;
 
-    final static short ACTION_CREATE = 3;
+    protected static final short ACTION_CREATE = 3;
 
-    final static short ACTION_UPDATE = 4;
+    protected static final short ACTION_UPDATE = 4;
 
-    static int idcount = 0;
+    private static final int[] LOCK = new int[0];
+
+    private static int _idcount = 0;
     
-    final static int[] lock = new int[0];
+    private int _id;
 
-    private int    _id;
+    /** The object being locked. */
+    private Object[] _object;
 
-    /**
-     * The object being locked.
-     */
-    private Object[]              _object;
+    /** The object's OID. */
+    private OID _oid;
 
-    /**
-     * The object's OID.
-     */
-    private OID                 _oid;
-
-    /**
-     * Write lock on this object. Refers to the transaction that has
-     * acquired the write lock. Read and write locks are mutually
-     * exclusive.
-     */
+    /** Write lock on this object. Refers to the transaction that has
+     *  acquired the write lock. Read and write locks are mutually
+     *  exclusive. */
     private TransactionContext _writeLock;
 
-    /**
-     * Read locks on this object. A LinkedTx list of all transactions
-     * that have acquired a read lock. Read and write locks are
-     * mutually exclusive.
-     */
-    private LinkedTx           _readLock;
+    /** Read locks on this object. A LinkedTx list of all transactions
+     *  that have acquired a read lock. Read and write locks are
+     *  mutually exclusive. */
+    private LinkedTx _readLock;
 
-
-    /**
-     * List of all transactions waiting for a read lock. Attempts to
-     * acquire read lock while object has write lock will be recorded
-     * here. When write lock is released, all read locks will acquire.
-     */
-    private LinkedTx           _readWaiting;
-
+    /** List of all transactions waiting for a read lock. Attempts to
+     *  acquire read lock while object has write lock will be recorded
+     *  here. When write lock is released, all read locks will acquire. */
+    private LinkedTx _readWaiting;
 
     private int _waitCount;
 
-    /**
-     * List of all transactions waiting for a write lock (including
-     * waiting for upgrade from read lock). Attempts to acquire a
-     * write lock while object has a read lock will be recorded here.
-     * When read lock is released, the first write lock will acquire.
-     */
-    private LinkedTx           _writeWaiting;
+    /** List of all transactions waiting for a write lock (including
+     *  waiting for upgrade from read lock). Attempts to acquire a
+     *  write lock while object has a read lock will be recorded here.
+     *  When read lock is released, the first write lock will acquire. */
+    private LinkedTx _writeWaiting;
 
-
-    /**
-     *
-     *
-     */
     private TransactionContext _confirmWaiting;
 
+    private short _confirmWaitingAction;
 
-    private short              _confirmWaitingAction;
+    /** Number of transactions which are interested to invoke method on this lock.
+     *  If the number is zero, and the lock isFree(), then it is safe dispose this lock. */
+    private int _gateCount;
 
+    private long _timeStamp;
 
-    /**
-     * Number of transactions which are interested to invoke method 
-     * on this lock.
-     * If the number is zero, and the lock isFree(), then it is safe
-     * dispose this lock.
-     */
-    private int                _gateCount;
+    private boolean _deleted;
 
-    private long               _timeStamp;
+    private boolean _invalidated;
 
-    private boolean            _deleted;
-
-    private boolean            _invalidated;
-
-    private boolean            _isExpired;
+    private boolean _isExpired;
     
-    private Object[]             _expiredObject;
+    private Object[] _expiredObject;
 
     /**
      * Create a new lock for the specified object. Must not create two
@@ -197,9 +169,9 @@ public final class ObjectLock implements DepositBox {
         _oid = oid;
 
         // give each instance of ObjectLock an id, for debug only
-        synchronized (lock) {
-            _id = idcount;
-            idcount++;
+        synchronized (LOCK) {
+            _id = _idcount;
+            _idcount++;
         }
     }
     
@@ -428,14 +400,14 @@ public final class ObjectLock implements DepositBox {
                     // other transaction holding writeLock, waits for write
                     // or, other transaction holding readLock, waiting for read
                     if ( timeout == 0 ) {
-                        if (log.isDebugEnabled()) {
-                            log.debug ( "Timeout on " + this.toString() + " by " + tx );
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug ( "Timeout on " + this.toString() + " by " + tx );
                         }
                         throw new LockNotGrantedException( (write ? "persist.writeLockTimeout" :
                                                                "persist.readLockTimeout") + _oid + "/" + _id + " by " + tx );
                     }
-                    if (log.isDebugEnabled()) {
-                        log.debug ( "Waiting on " + this.toString() + " by " + tx );
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug ( "Waiting on " + this.toString() + " by " + tx );
                     }
                     // Detect possibility of dead-lock. Must remain in wait-on-lock
                     // position until lock is granted or exception thrown.
@@ -548,13 +520,13 @@ public final class ObjectLock implements DepositBox {
                     return;
                 } else {
                     if ( timeout == 0 ) {
-                        if (log.isDebugEnabled()) {
-                            log.debug ( "Timeout on " + this.toString() + " by " + tx );
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug ( "Timeout on " + this.toString() + " by " + tx );
                         }
                         throw new LockNotGrantedException( Messages.message ("persist.writeLockTimeout") );
                     }
-                    if (log.isDebugEnabled()) {
-                        log.debug ( "Waiting on " + this.toString() + " by " + tx );
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug ( "Waiting on " + this.toString() + " by " + tx );
                     }
                     // Detect possibility of dead-lock. Must remain in wait-on-lock
                     // position until lock is granted or exception thrown.
@@ -747,8 +719,8 @@ public final class ObjectLock implements DepositBox {
                     // Upgrading from read to write, no other locks, can upgrade
                     // Order is important in case thread is stopped in the middle
                     //_readLock = null;
-                    if (log.isDebugEnabled()) {
-                        log.debug ( "Acquired on " + this.toString() + " by " + tx );
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug ( "Acquired on " + this.toString() + " by " + tx );
                     }
                     _writeLock = tx;
                     _readLock = null;
@@ -756,13 +728,13 @@ public final class ObjectLock implements DepositBox {
                 } else {
                     // Don't wait if timeout is zero
                     if ( timeout == 0 ) {
-                        if (log.isDebugEnabled()) {
-                            log.debug ( "Timeout on " + this.toString() + " by " + tx );
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug ( "Timeout on " + this.toString() + " by " + tx );
                         }
                         throw new LockNotGrantedException( "persist.writeTimeout" + _oid + "/" + _id + " by " + tx );
                     }
-                    if (log.isDebugEnabled()) {
-                        log.debug ( "Waiting on " + this.toString() + " by " + tx );
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug ( "Waiting on " + this.toString() + " by " + tx );
                     }
                     // Detect possibility of dead-lock. Must remain in wait-on-lock
                     // position until lock is granted or exception thrown.
@@ -817,8 +789,8 @@ public final class ObjectLock implements DepositBox {
      */
     synchronized void release( TransactionContext tx ) {
 
-        if (log.isDebugEnabled()) {
-            log.debug ( "Release " + this.toString() + " by " + tx );
+        if (LOG.isDebugEnabled()) {
+            LOG.debug ( "Release " + this.toString() + " by " + tx );
         }
 
         try {
@@ -880,8 +852,8 @@ public final class ObjectLock implements DepositBox {
         if ( tx != _writeLock )
             throw new IllegalStateException( Messages.message("persist.notOwnerLock") + " oid:" + _oid + "/" + _id + " by " + tx );
 
-        if (log.isDebugEnabled()) {
-            log.debug ( "Delete " + this.toString() + " by " + tx );
+        if (LOG.isDebugEnabled()) {
+            LOG.debug ( "Delete " + this.toString() + " by " + tx );
         }
 
         try {
@@ -903,8 +875,8 @@ public final class ObjectLock implements DepositBox {
         if ( tx != _writeLock ) 
             throw new IllegalStateException( Messages.message ("persist.notOwnerLock") + " oid:" + _oid + "/" + _id + " by " + tx );
 
-        if (log.isDebugEnabled()) {
-            log.debug ( "Delete " + this.toString() + " by " + tx );
+        if (LOG.isDebugEnabled()) {
+            LOG.debug ( "Delete " + this.toString() + " by " + tx );
         }
 
         _invalidated = true;

@@ -230,7 +230,7 @@ final public class SqlBindParser
 
         while(parser.next()) {
             sb.append(parser.getLastExpr());
-            sb.append(JDBCSyntax.Parameter);
+            sb.append(JDBCSyntax.PARAMETER);
         }
 
         sb.append(parser.getLastExpr());

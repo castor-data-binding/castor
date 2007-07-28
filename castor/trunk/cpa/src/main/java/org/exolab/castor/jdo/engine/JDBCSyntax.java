@@ -55,38 +55,35 @@ package org.exolab.castor.jdo.engine;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2004-08-13 04:01:45 -0600 (Fri, 13 Aug 2004) $
  */
-public interface JDBCSyntax
-{
+public interface JDBCSyntax {
+    String TABLE_SEPARATOR = ",";
 
-    public String TableColumnSeparator = ".";
+    String COLUMN_SEPARATOR = ",";
 
-    public String Parameter = "?";
+    String TABLE_COLUMN_SEPARATOR = ".";
 
-    public String TableSeparator = ",";
+    String PARAMETER = "?";
 
-    public String ColumnSeparator = ",";
+    String AND = " AND ";
 
-    public String And = " AND ";
+    String SELECT = "SELECT ";
 
-    public String Select = "SELECT ";
+    String FROM = " FROM ";
 
-    public String From = " FROM ";
+    String WHERE = " WHERE ";
 
-    public String Where = " WHERE ";
+    String ON = " ON ";
 
-    public String On = " ON ";
+    String LEFT_JOIN = " LEFT OUTER JOIN ";
 
-    public String LeftJoin = " LEFT OUTER JOIN ";
+    String INNER_JOIN = " INNER JOIN ";
 
-    public String InnerJoin = " INNER JOIN ";
+    String DISTINCT = " DISTINCT ";
 
-    public String Distinct = " DISTINCT ";
+    String ORDER_BY = " ORDER BY ";
 
-    public String OrderBy = " ORDER BY ";
+    String LIMIT = " LIMIT ";
 
-    public String Limit = " LIMIT ";
-
-    public String Offset = " OFFSET ";
-
+    String OFFSET = " OFFSET ";
 }
 

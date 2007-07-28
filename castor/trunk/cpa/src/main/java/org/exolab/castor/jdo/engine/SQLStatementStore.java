@@ -109,14 +109,14 @@ public final class SQLStatementStore {
                 }
             }
             
-            sql.append(JDBCSyntax.Where);
+            sql.append(JDBCSyntax.WHERE);
 
             SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
             for (int i = 0; i < ids.length; i++) {
                 if (i > 0) { sql.append(" AND "); }
                 sql.append(_factory.quoteName(ids[i].getName()));
-                sql.append(QueryExpression.OpEquals);
-                sql.append(JDBCSyntax.Parameter);
+                sql.append(QueryExpression.OP_EQUALS);
+                sql.append(JDBCSyntax.PARAMETER);
             }
 
             _statementLazy = sql.toString();

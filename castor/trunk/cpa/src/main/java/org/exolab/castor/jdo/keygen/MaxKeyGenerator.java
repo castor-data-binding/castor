@@ -151,7 +151,7 @@ public final class MaxKeyGenerator implements KeyGenerator
                 // "SELECT pk FROM table WHERE pk=(SELECT MAX(t1.pk) FROM table t1)"
                 // with database-dependent keyword for lock
                 query.addColumn( tableName, primKeyName);
-                query.addCondition( tableName, primKeyName, QueryExpression.OpEquals,
+                query.addCondition( tableName, primKeyName, QueryExpression.OP_EQUALS,
                         "(SELECT MAX(t1." + _factory.quoteName(primKeyName) + ") FROM " + _factory.quoteName(tableName) + " t1)");
 
                 // SELECT and put lock on the last record

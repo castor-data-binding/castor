@@ -311,7 +311,7 @@ public class QueryAnalyser {
 
                 // and execute it
                 Date starttime = new Date();
-                r=oql.execute(Database.ReadOnly);
+                r=oql.execute(Database.READONLY);
                 Date endtime = new Date();
                 // write the status bar
                 statusBar.setText("Query successful, Time: "+ (endtime.getTime()-starttime.getTime()) +" ms");

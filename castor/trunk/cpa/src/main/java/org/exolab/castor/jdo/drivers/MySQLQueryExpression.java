@@ -77,7 +77,7 @@ public final class MySQLQueryExpression
 
         if ( _limit != null )
         {
-            sql.append(JDBCSyntax.Limit);
+            sql.append(JDBCSyntax.LIMIT);
 
             if (_offset != null)
                 sql.append(_offset).append(", ");

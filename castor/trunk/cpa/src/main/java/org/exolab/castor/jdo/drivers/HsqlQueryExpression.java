@@ -96,11 +96,11 @@ public final class HsqlQueryExpression
         String       tableAlias;
 
         sql = new StringBuffer();
-        sql.append( JDBCSyntax.Select );
+        sql.append( JDBCSyntax.SELECT );
 
         if ( _limit != null ) {
             if (_offset != null) {
-                sql.append(JDBCSyntax.Limit);
+                sql.append(JDBCSyntax.LIMIT);
                 sql.append(_offset).append(" "); // hsqldb doesn't use comma
                 sql.append(_limit).append(" ");
             } else {
@@ -109,14 +109,14 @@ public final class HsqlQueryExpression
         }
 
         if ( _distinct )
-          sql.append( JDBCSyntax.Distinct );
+          sql.append( JDBCSyntax.DISTINCT );
 
         if ( _select == null )
           sql.append( getColumnList() );
         else
           sql.append( _select).append(" ");
 
-        sql.append( JDBCSyntax.From );
+        sql.append( JDBCSyntax.FROM );
 
         // Use outer join syntax for all outer joins. Inner joins come later.
         tables = (Hashtable) _tables.clone();
@@ -132,11 +132,11 @@ public final class HsqlQueryExpression
             if ( first )
                 first = false;
             else
-                sql.append( JDBCSyntax.TableSeparator );
+                sql.append( JDBCSyntax.TABLE_SEPARATOR );
             if ( oj )
                 sql.append( "{oj " );
             sql.append(  _factory.quoteName( join.leftTable ) );
-            sql.append( JDBCSyntax.LeftJoin );
+            sql.append( JDBCSyntax.LEFT_JOIN );
             tableName = (String) tables.get( join.rightTable );
             if( join.rightTable.equals( tableName ) ) {
                 sql.append( _factory.quoteName( tableName ) );
@@ -144,13 +144,13 @@ public final class HsqlQueryExpression
                 sql.append( _factory.quoteName( tableName ) + " " +
                             _factory.quoteName( join.rightTable ) );
             }
-            sql.append( JDBCSyntax.On );
+            sql.append( JDBCSyntax.ON );
             for ( int j = 0 ; j < join.leftColumns.length ; ++j ) {
                 if ( j > 0 )
-                    sql.append( JDBCSyntax.And );
-                sql.append( _factory.quoteName( join.leftTable + JDBCSyntax.TableColumnSeparator +
-                                                join.leftColumns[ j ] ) ).append( OpEquals );
-                sql.append( _factory.quoteName( join.rightTable + JDBCSyntax.TableColumnSeparator +
+                    sql.append( JDBCSyntax.AND );
+                sql.append( _factory.quoteName( join.leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
+                                                join.leftColumns[ j ] ) ).append( OP_EQUALS );
+                sql.append( _factory.quoteName( join.rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
                                                 join.rightColumns[ j ] ) );
             }
 
@@ -162,7 +162,7 @@ public final class HsqlQueryExpression
                 join2 = (Join) _joins.elementAt( k );
                 if ( ! join2.outer || ! join.leftTable.equals( join2.leftTable ) )
                     continue;
-                sql.append( JDBCSyntax.LeftJoin );
+                sql.append( JDBCSyntax.LEFT_JOIN );
                 tableName = (String) tables.get( join2.rightTable );
 
                 if( join2.rightTable.equals( tableName ) ) {
@@ -171,13 +171,13 @@ public final class HsqlQueryExpression
                     sql.append( _factory.quoteName( tableName ) + " " +
                                 _factory.quoteName( join2.rightTable ) );
                 }
-                sql.append( JDBCSyntax.On );
+                sql.append( JDBCSyntax.ON );
                 for ( int j = 0 ; j < join2.leftColumns.length ; ++j ) {
                     if ( j > 0 )
-                        sql.append( JDBCSyntax.And );
-                    sql.append( _factory.quoteName( join2.leftTable + JDBCSyntax.TableColumnSeparator +
-                                                    join2.leftColumns[ j ] ) ).append( OpEquals );
-                    sql.append( _factory.quoteName( join2.rightTable + JDBCSyntax.TableColumnSeparator +
+                        sql.append( JDBCSyntax.AND );
+                    sql.append( _factory.quoteName( join2.leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
+                                                    join2.leftColumns[ j ] ) ).append( OP_EQUALS );
+                    sql.append( _factory.quoteName( join2.rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
                                                     join2.rightColumns[ j ] ) );
                 }
                 tables.remove( join2.rightTable );
@@ -191,7 +191,7 @@ public final class HsqlQueryExpression
             if ( first )
                 first = false;
             else
-                sql.append( JDBCSyntax.TableSeparator );
+                sql.append( JDBCSyntax.TABLE_SEPARATOR );
             tableAlias = (String) enumeration.nextElement();
             tableName = (String) tables.get( tableAlias );
             if( tableAlias.equals( tableName ) ) {
@@ -210,16 +210,16 @@ public final class HsqlQueryExpression
             join = (Join) _joins.elementAt( i );
             if ( ! join.outer ) {
                 if ( first ) {
-                    sql.append( JDBCSyntax.Where );
+                    sql.append( JDBCSyntax.WHERE );
                     first = false;
                 } else
-                    sql.append( JDBCSyntax.And );
+                    sql.append( JDBCSyntax.AND );
                 for ( int j = 0 ; j < join.leftColumns.length ; ++j ) {
                     if ( j > 0 )
-                        sql.append( JDBCSyntax.And );
-                    sql.append( _factory.quoteName( join.leftTable + JDBCSyntax.TableColumnSeparator +
-                                                    join.leftColumns[ j ] ) ).append( OpEquals );
-                    sql.append( _factory.quoteName( join.rightTable + JDBCSyntax.TableColumnSeparator +
+                        sql.append( JDBCSyntax.AND );
+                    sql.append( _factory.quoteName( join.leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
+                                                    join.leftColumns[ j ] ) ).append( OP_EQUALS );
+                    sql.append( _factory.quoteName( join.rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
                                                     join.rightColumns[ j ] ) );
                 }
             }
@@ -227,7 +227,7 @@ public final class HsqlQueryExpression
         first = addWhereClause( sql, first );
 
         if ( _order != null )
-          sql.append(JDBCSyntax.OrderBy).append(_order);
+          sql.append(JDBCSyntax.ORDER_BY).append(_order);
 
         // There is no standard way to lock selected tables.
         return sql;

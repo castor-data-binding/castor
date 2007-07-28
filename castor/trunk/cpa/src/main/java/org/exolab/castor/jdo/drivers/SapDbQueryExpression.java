@@ -81,13 +81,13 @@ public final class SapDbQueryExpression
         Vector       sorted = new Vector();
 
         sql = new StringBuffer();
-        sql.append( JDBCSyntax.Select );
+        sql.append( JDBCSyntax.SELECT );
         if ( _distinct )
-          sql.append( JDBCSyntax.Distinct );
+          sql.append( JDBCSyntax.DISTINCT );
 
         sql.append( getColumnList() );
 
-        sql.append( JDBCSyntax.From );
+        sql.append( JDBCSyntax.FROM );
         // Add all the tables to the FROM clause
         // They should go in the special order: the table from the left side of outer join
         // should go before the table from the right side.
@@ -139,7 +139,7 @@ public final class SapDbQueryExpression
                             _factory.quoteName( tableAlias ) );
             }
             if ( enumeration.hasMoreElements() )
-                sql.append( JDBCSyntax.TableSeparator );
+                sql.append( JDBCSyntax.TABLE_SEPARATOR );
         }
         first = true;
         // Use asterisk notation to denote a left outer join
@@ -147,21 +147,21 @@ public final class SapDbQueryExpression
         size = _joins.size();
         for ( int i = 0 ; i < size; ++i ) {
             if ( first ) {
-                sql.append( JDBCSyntax.Where );
+                sql.append( JDBCSyntax.WHERE );
                 first = false;
             } else
-                sql.append( JDBCSyntax.And );
+                sql.append( JDBCSyntax.AND );
 
             join = (Join) _joins.elementAt( i );
             for ( int j = 0 ; j < join.leftColumns.length ; ++j ) {
                 if ( j > 0 )
-                    sql.append( JDBCSyntax.And );
+                    sql.append( JDBCSyntax.AND );
 
-                sql.append( _factory.quoteName( join.leftTable + JDBCSyntax.TableColumnSeparator +
+                sql.append( _factory.quoteName( join.leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
                                                 join.leftColumns[ j ] ) );
 
-                sql.append( OpEquals );
-                sql.append( _factory.quoteName( join.rightTable + JDBCSyntax.TableColumnSeparator +
+                sql.append( OP_EQUALS );
+                sql.append( _factory.quoteName( join.rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
                                                 join.rightColumns[ j ] ) );
                 if ( join.outer )
                     sql.append( "(+)" );
@@ -170,7 +170,7 @@ public final class SapDbQueryExpression
         first = addWhereClause( sql, first );
 
         if ( _order != null )
-          sql.append(JDBCSyntax.OrderBy).append(_order);
+          sql.append(JDBCSyntax.ORDER_BY).append(_order);
 
         // Use WITH LOCK to lock selected tables.
         if ( lock ) {

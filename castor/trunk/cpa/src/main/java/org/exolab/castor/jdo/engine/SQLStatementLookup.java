@@ -64,7 +64,7 @@ public final class SQLStatementLookup {
 
             // initalize lookup query
             for (int i = 0; i < _ids.length; i++) {
-                query.addParameter(_mapTo, _ids[i].getName(), QueryExpression.OpEquals);
+                query.addParameter(_mapTo, _ids[i].getName(), QueryExpression.OP_EQUALS);
             }
             _statement = query.getStatement(true);
       } catch (QueryException except) {

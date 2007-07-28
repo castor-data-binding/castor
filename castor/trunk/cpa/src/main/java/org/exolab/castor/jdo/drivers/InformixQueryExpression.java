@@ -84,23 +84,23 @@ public final class InformixQueryExpression
 
     private void addSelectClause(StringBuffer buffer)
     {
-        buffer.append( JDBCSyntax.Select );
+        buffer.append( JDBCSyntax.SELECT );
         if ( _distinct )
-          buffer.append( JDBCSyntax.Distinct );
+          buffer.append( JDBCSyntax.DISTINCT );
 
         buffer.append( getColumnList() );
     }
     
     private void addFromClause(StringBuffer buffer)
     {
-        buffer.append( JDBCSyntax.From );
+        buffer.append( JDBCSyntax.FROM );
 
         Enumeration tables = getFromTables();
         while ( tables.hasMoreElements() )
         {
             buffer.append( (String) tables.nextElement() );
             if ( tables.hasMoreElements() )
-                buffer.append( JDBCSyntax.TableSeparator );
+                buffer.append( JDBCSyntax.TABLE_SEPARATOR );
         }
     }
 
@@ -163,11 +163,11 @@ public final class InformixQueryExpression
         {
             if ( first )
             {
-                buffer.append( JDBCSyntax.Where );
+                buffer.append( JDBCSyntax.WHERE );
                 first = false;
             }
             else
-                buffer.append( JDBCSyntax.And );
+                buffer.append( JDBCSyntax.AND );
 
             addJoin(buffer, (Join) _joins.elementAt( i ));
         }
@@ -180,11 +180,11 @@ public final class InformixQueryExpression
         for ( int j = 0 ; j < join.leftColumns.length ; ++j )
         {
             if ( j > 0 )
-                buffer.append( JDBCSyntax.And );
+                buffer.append( JDBCSyntax.AND );
 
             buffer.append
               ( quoteTableAndColumn( join.leftTable, join.leftColumns[j] ) );
-            buffer.append( OpEquals );
+            buffer.append( OP_EQUALS );
             buffer.append
               ( quoteTableAndColumn( join.rightTable, join.rightColumns[j] ) );
         }
@@ -193,13 +193,13 @@ public final class InformixQueryExpression
     private String quoteTableAndColumn(String table, String column)
     {
         return _factory.quoteName
-            (table + JDBCSyntax.TableColumnSeparator + column);
+            (table + JDBCSyntax.TABLE_COLUMN_SEPARATOR + column);
     }
 
     private void addOrderByClause(StringBuffer buffer)
     {
         if ( _order != null )
-          buffer.append(JDBCSyntax.OrderBy).append(_order);
+          buffer.append(JDBCSyntax.ORDER_BY).append(_order);
     }
 
     private void addForUpdateClause(StringBuffer buffer, boolean lock)

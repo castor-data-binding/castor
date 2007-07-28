@@ -95,9 +95,9 @@ public final class OracleQueryExpression
         Enumeration  enumeration;
 
         sql = new StringBuffer();
-        sql.append( JDBCSyntax.Select );
+        sql.append( JDBCSyntax.SELECT );
         if ( _distinct )
-          sql.append( JDBCSyntax.Distinct );
+          sql.append( JDBCSyntax.DISTINCT );
 
         sql.append( getColumnList() );
 
@@ -106,14 +106,14 @@ public final class OracleQueryExpression
         	sql.append (" , rank() over ( ");
             // add ORDER BY clause
             if ( _order != null ) {
-            	sql.append(JDBCSyntax.OrderBy).append(_order);
+            	sql.append(JDBCSyntax.ORDER_BY).append(_order);
             } else {
             	throw new SyntaxNotSupportedException ("To use a LIMIT clause with Oracle, an ORDER BY clause is required.");
             }
 			sql.append ( " ) rnk ");
         }
 
-        sql.append( JDBCSyntax.From );
+        sql.append( JDBCSyntax.FROM );
         // Add all the tables to the FROM clause
         enumeration = _tables.keys();
         while ( enumeration.hasMoreElements() ) {
@@ -126,7 +126,7 @@ public final class OracleQueryExpression
                             _factory.quoteName( tableAlias ) );
             }
             if ( enumeration.hasMoreElements() )
-                sql.append( JDBCSyntax.TableSeparator );
+                sql.append( JDBCSyntax.TABLE_SEPARATOR );
         }
         first = true;
         // Use asterisk notation to denote a left outer join
@@ -135,25 +135,25 @@ public final class OracleQueryExpression
             Join join;
 
             if ( first ) {
-                sql.append( JDBCSyntax.Where );
+                sql.append( JDBCSyntax.WHERE );
                 first = false;
             } else
-                sql.append( JDBCSyntax.And );
+                sql.append( JDBCSyntax.AND );
 
             join = (Join) _joins.elementAt( i );
             for ( int j = 0 ; j < join.leftColumns.length ; ++j ) {
                 if ( j > 0 )
-                    sql.append( JDBCSyntax.And );
+                    sql.append( JDBCSyntax.AND );
 
-                sql.append( _factory.quoteName( join.leftTable + JDBCSyntax.TableColumnSeparator +
+                sql.append( _factory.quoteName( join.leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
                                                 join.leftColumns[ j ] ) );
 
                 //if ( join.outer )
                 //    sql.append( "(+)=" );
                 //else
                 //    sql.append( OpEquals );
-                sql.append( OpEquals );
-                sql.append( _factory.quoteName( join.rightTable + JDBCSyntax.TableColumnSeparator +
+                sql.append( OP_EQUALS );
+                sql.append( _factory.quoteName( join.rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
                                                 join.rightColumns[ j ] ) );
                 if ( join.outer )
                     sql.append( "(+)" );
@@ -163,7 +163,7 @@ public final class OracleQueryExpression
         
         // add ORDER BY clause, but only if no LIMIT clause has been specified
         if ( _order != null && _limit == null)
-          sql.append(JDBCSyntax.OrderBy).append(_order);
+          sql.append(JDBCSyntax.ORDER_BY).append(_order);
 
         // Use FOR UPDATE to lock selected tables.
         if ( lock )
