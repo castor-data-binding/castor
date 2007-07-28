@@ -105,33 +105,31 @@ public final class XAResourceImpl
             throw new XAException( XAException.XAER_INVAL );
         
         switch ( flags ) {
-        case TMNOFLAGS: {
-            TransactionContext tx;
+        case TMNOFLAGS:
+            TransactionContext tx1;
             
             // Must assure transaction context is created only once
             // for a given Xid
             synchronized ( _engine.getXATransactions() ) {
-                tx = (TransactionContext) _engine.getXATransactions().get( xid );
-                if ( tx == null ) {
-                    tx = _xaSource.createTransactionContext( xid );
-                    _engine.getXATransactions().put( xid, tx );
+                tx1 = (TransactionContext) _engine.getXATransactions().get( xid );
+                if ( tx1 == null ) {
+                    tx1 = _xaSource.createTransactionContext( xid );
+                    _engine.getXATransactions().put( xid, tx1 );
                 }
             }
             // Associate XAResource with transaction
-            _xaSource.setTransactionContext( tx );
+            _xaSource.setTransactionContext( tx1 );
             break;
-        }
         case TMJOIN:
-        case TMRESUME: {
-            TransactionContext tx;
+        case TMRESUME:
+            TransactionContext tx2;
             
-            tx = (TransactionContext) _engine.getXATransactions().get( xid );
-            if ( tx == null || ! tx.isOpen() )
+            tx2 = (TransactionContext) _engine.getXATransactions().get( xid );
+            if ( tx2 == null || ! tx2.isOpen() )
                 throw new XAException( XAException.XAER_NOTA );
             // Associate XAResource with transaction
-            _xaSource.setTransactionContext( tx );
+            _xaSource.setTransactionContext( tx2 );
             break;
-        }
         default:
             // No other flags supported in start().
             throw new XAException( XAException.XAER_INVAL );
