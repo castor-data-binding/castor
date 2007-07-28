@@ -97,7 +97,7 @@ public final class DbMetaInfo
 			
 			     // find the first numeric word in the version string 
 				int i = 0;
-				for(;;) {
+                for ( ;; ) {
 				     int n = dbProdVer.indexOf(' ', i);
 		
 			         String word = n!=-1? dbProdVer.substring(i, n): dbProdVer.substring(i);
@@ -148,7 +148,7 @@ public final class DbMetaInfo
        	int p1 = 0;
        	int p2 = 0;
 
-        for(;;) {
+        for ( ;; ) {
 	       	int n1 = v1.indexOf('.', p1);
 	       	int n2 = v2.indexOf('.', p2);
 
