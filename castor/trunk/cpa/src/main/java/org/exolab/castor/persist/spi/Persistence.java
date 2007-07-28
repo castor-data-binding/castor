@@ -101,8 +101,7 @@ public interface Persistence {
      *         exists in persistent storage or any other persistence error
      *         occured.
      */
-    public Identity create(Database database, Object conn,
-                         ProposedEntity entity, Identity identity)
+    Identity create(Database database, Object conn, ProposedEntity entity, Identity identity)
     throws PersistenceException;
 
     /**
@@ -122,8 +121,7 @@ public interface Persistence {
      * @throws PersistenceException The object was not found in persistent
      *         storage or any other persistence error occured.
      */
-    public Object load(Object conn, ProposedEntity proposedObject, Identity identity,
-                       AccessMode accessMode)
+    Object load(Object conn, ProposedEntity proposedObject, Identity identity, AccessMode accessMode)
     throws PersistenceException;
 
     /**
@@ -154,8 +152,7 @@ public interface Persistence {
      *         deleted from persitence storage or any other persistence
      *         error occored.
      */
-    public Object store(Object conn, Identity identity,
-                        ProposedEntity newentity, ProposedEntity oldentity)
+    Object store(Object conn, Identity identity, ProposedEntity newentity, ProposedEntity oldentity)
     throws PersistenceException;
 
     /**
@@ -169,7 +166,7 @@ public interface Persistence {
      * @param identity The object's identity
      * @throws PersistenceException A persistence error occured
      */
-    public void delete(Object conn, Identity identity)
+    void delete(Object conn, Identity identity)
     throws PersistenceException;
 
     /**
@@ -185,8 +182,7 @@ public interface Persistence {
      * @return A new query object that can be executed
      * @throws QueryException The query is invalid
      */
-    public PersistenceQuery createQuery(QueryExpression query, Class[] types,
-                                        AccessMode accessMode)
+    PersistenceQuery createQuery(QueryExpression query, Class[] types, AccessMode accessMode)
     throws QueryException;
 }
 

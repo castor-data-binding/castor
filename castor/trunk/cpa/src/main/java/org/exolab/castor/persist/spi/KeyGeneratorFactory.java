@@ -61,14 +61,12 @@ public interface KeyGeneratorFactory {
      * 
      * @param factory Helper object for obtaining database-specific QuerySyntax.
      * @param params Parameters for key generator.
-     * @param sqlType The SQL type of the primary key,
-     * the generated identities must have the corresponding Java type,
-     * e.g. java.sql.Types.INTEGER corresponds to java.lang.Integer, 
-     * java.sql.Types.NUMERIC corresponds to java.lang.BigDecimal.
+     * @param sqlType The SQL type of the primary key, the generated identities must have
+     *        the corresponding Java type, e.g. java.sql.Types.INTEGER corresponds to
+     *        java.lang.Integer, java.sql.Types.NUMERIC corresponds to java.lang.BigDecimal.
      */
-    public KeyGenerator getKeyGenerator( PersistenceFactory factory,
-            Properties params, int sqlType )
-            throws MappingException;
+    KeyGenerator getKeyGenerator(PersistenceFactory factory, Properties params, int sqlType)
+    throws MappingException;
 
     /**
      * Get the short name of the key generator. It is used to reference
@@ -76,5 +74,5 @@ public interface KeyGeneratorFactory {
      * If several key generators of the same type are used for the same
      * database, then they are referenced by aliases.
      */
-    public String getName();
+    String getName();
 }

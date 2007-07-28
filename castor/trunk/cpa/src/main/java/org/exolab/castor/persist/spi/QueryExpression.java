@@ -105,7 +105,7 @@ public interface QueryExpression {
      * @param tableName The table name
      * @param columnName The column name
      */    
-    public void addColumn( String tableName, String columnName );
+    void addColumn(String tableName, String columnName);
 
     /**
      * Add an entire select clause to the query with one call. The caller is
@@ -114,23 +114,21 @@ public interface QueryExpression {
      *
      * @param selectClause The entire sql select clause without the word SELECT
      */
-    public void addSelect( String selectClause );
+    void addSelect(String selectClause);
 
     /**
      * Set the query to be distinct.  No two rows which are the same will be returned.
      *
      * @param distinct If the query should include DISTINCT in the SQL select.
      */
-    public void setDistinct( boolean distinct );
-
+    void setDistinct(boolean distinct);
 
     /**
      * Add a table to the from clause.
      *
      * @param tableName The name of the table to add to the select clause
      */
-    public void addTable( String tableName );
-
+    void addTable(String tableName);
 
     /**
      * Add a table with an alias to the from clause.
@@ -138,8 +136,7 @@ public interface QueryExpression {
      * @param tableName The name of the table to add to the select clause
      * @param tableAlias The name of the alias under which the where clauses will access it
      */
-    public void addTable( String tableName, String tableAlias );
-
+    void addTable(String tableName, String tableAlias);
 
     /**
      * Add a query paramater.
@@ -148,8 +145,7 @@ public interface QueryExpression {
      * @param columnName The column name
      * @param condOp The conditional operation
      */
-    public void addParameter( String tableName, String columnName, String condOp );
-
+    void addParameter(String tableName, String columnName, String condOp);
 
     /**
      * Add a condition.
@@ -159,8 +155,7 @@ public interface QueryExpression {
      * @param condOp The conditional operation
      * @param value The conditional value
      */
-    public void addCondition( String tableName, String columnName,
-                              String condOp, String value );
+    void addCondition(String tableName, String columnName, String condOp, String value);
 
     /**
      * Encode a TableColumn for use in expressions
@@ -168,7 +163,7 @@ public interface QueryExpression {
      * @param tableName The table name
      * @param columnName The column name
      */
-    public String encodeColumn( String tableName, String columnName );
+    String encodeColumn(String tableName, String columnName);
 
     /**
      * Adds a where clause.  Caller is responsible for making sure all tables
@@ -176,34 +171,31 @@ public interface QueryExpression {
      *
      * @param whereClause The WHERE clause to add (without the word WHERE).
      */
-    public void addWhereClause( String whereClause );
-    
+    void addWhereClause(String whereClause);
 
     /**
      * Adds an order by clause.  Caller is responsible for making sure all 
      * tables mentioned in the order by clause are included in the fromClause.
      *
-     * @param orderClause The ORDER BY clause to add (without the words 
-     *    ORDER BY).
+     * @param orderClause The ORDER BY clause to add (without the words ORDER BY).
      */
-    public void addOrderClause( String orderClause );
-    
+    void addOrderClause(String orderClause);
 
     /**
-     * Adds an limit clause. 
+     * Adds an limit clause.
+     * 
      * @param limitClause The LIMIT clause to add (without the word LIMIT).
      * @throws SyntaxNotSupportedException If the LIMIT clause is not supported by the RDBMS.
      */
-    public void addLimitClause( String limitClause )
-    	throws SyntaxNotSupportedException;  
+    void addLimitClause(String limitClause) throws SyntaxNotSupportedException;  
 
     /**
-     * Adds an offset clause. 
+     * Adds an offset clause.
+     * 
      * @param offsetClause The OFFSET clause to add (without the word OFFSET).
      * @throws SyntaxNotSupportedException If the OFFSET clause is not supported by the RDBMS.
      */
-    public void addOffsetClause( String offsetClause )
-    	throws SyntaxNotSupportedException;  
+    void addOffsetClause(String offsetClause) throws SyntaxNotSupportedException;  
 
     /**
      * Add an inner join.
@@ -213,9 +205,7 @@ public interface QueryExpression {
      * @param rightTable The table name on the right side
      * @param rightColumn The column name on the right side
      */
-    public void addInnerJoin( String leftTable, String leftColumn,
-                              String rightTable, String rightColumn );
-
+    void addInnerJoin(String leftTable, String leftColumn, String rightTable, String rightColumn);
 
     /**
      * Add an inner join with an aliases for the tables
@@ -227,9 +217,8 @@ public interface QueryExpression {
      * @param rightColumn The column name on the right side
      * @param rightTableAlias The alias name to use for the table on the right side
      */
-    public void addInnerJoin( String leftTable, String leftColumn, String leftTableAlias,
-                              String rightTable, String rightColumn, String rightTableAlias );
-
+    void addInnerJoin(String leftTable, String leftColumn, String leftTableAlias,
+            String rightTable, String rightColumn, String rightTableAlias);
 
     /**
      * Add an outer join. May use an inner join if outer
@@ -240,9 +229,8 @@ public interface QueryExpression {
      * @param rightTable The table name on the right side
      * @param rightColumn The column name on the right side
      */
-    public void addOuterJoin( String leftTable, String leftColumn,
-                              String rightTable, String rightColumn );
-
+    void addOuterJoin(String leftTable, String leftColumn,
+            String rightTable, String rightColumn);
 
     /**
      * Add an outer join. May use an inner join if outer
@@ -254,24 +242,22 @@ public interface QueryExpression {
      * @param rightColumn The column name on the right side
      * @param rightTableAlias The alias name to use for the table on the right side
      */
-    public void addOuterJoin( String leftTable, String leftColumn,
-                              String rightTable, String rightColumn, String rightTableAlias );
-
+    void addOuterJoin(String leftTable, String leftColumn,
+            String rightTable, String rightColumn, String rightTableAlias);
 
     /**
-     * Add an inner join
+     * Add an inner join.
      *
      * @param leftTable The table name on the left side
      * @param leftColumn The column names on the left side
      * @param rightTable The table name on the right side
      * @param rightColumn The column names on the right side
      */
-    public void addInnerJoin( String leftTable, String[] leftColumn,
-                              String rightTable, String[] rightColumn );
-
+    void addInnerJoin(String leftTable, String[] leftColumn,
+            String rightTable, String[] rightColumn);
 
     /**
-     * Add an inner join with an aliases for the tables
+     * Add an inner join with an aliases for the tables.
      *
      * @param leftTable The table name on the left side
      * @param leftColumn The column names on the left side
@@ -280,15 +266,14 @@ public interface QueryExpression {
      * @param rightColumn The column names on the right side
      * @param rightTableAlias The alias name to use for the table on the right side
      */
-    public void addInnerJoin( String leftTable, String[] leftColumn, String leftTableAlias,
-                              String rightTable, String[] rightColumn, String rightTableAlias );
+    void addInnerJoin(String leftTable, String[] leftColumn, String leftTableAlias,
+            String rightTable, String[] rightColumn, String rightTableAlias);
 
+    void addOuterJoin(String leftTable, String[] leftColumn,
+            String rightTable, String[] rightColumn);
 
-    public void addOuterJoin( String leftTable, String[] leftColumn,
-                              String rightTable, String[] rightColumn );
-
-    public void addOuterJoin( String leftTable, String[] leftColumn,
-                              String rightTable, String[] rightColumn, String rightTableAlias );
+    void addOuterJoin(String leftTable, String[] leftColumn,
+            String rightTable, String[] rightColumn, String rightTableAlias);
 
     /**
      * Return the query expression as an SQL statement. The resulting
@@ -300,31 +285,31 @@ public interface QueryExpression {
      * @throws QueryException The query cannot be constructed for
      *  this engine
      */
-    public String getStatement( boolean writeLock )
-        throws QueryException;
+    String getStatement(boolean writeLock) throws QueryException;
 
     /**
-     * Returns a clone of the query expression that can be further
-     * modified.
+     * Returns a clone of the query expression that can be further modified.
      */
-    public Object clone();
+    Object clone();
     
     /**
      * Indicates whether a RDBMS supports LIMIT clauses.
+     * 
      * @return True if a LIMIT clause is supported.
      */
-    public boolean isLimitClauseSupported();
+    boolean isLimitClauseSupported();
     
     /**
      * Indicates whether a RDBMS supports OFFSET clauses.
+     * 
      * @return True if an OFFSET clause is supported.
      */
-    public boolean isOffsetClauseSupported();
+    boolean isOffsetClauseSupported();
 
     /**
-     * Store database meta information
+     * Store database meta information.
+     * 
      * @param dbInfo DbMetaInfo instance
      */    
-    public void setDbMetaInfo( DbMetaInfo dbInfo );
-
+    void setDbMetaInfo( DbMetaInfo dbInfo );
 }

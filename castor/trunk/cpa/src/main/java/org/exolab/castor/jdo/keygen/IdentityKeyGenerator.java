@@ -162,7 +162,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
     /**
      * Style of key generator: BEFORE_INSERT, DURING_INSERT or AFTER_INSERT ?
      */
-    public final byte getStyle() {
+    public byte getStyle() {
         return AFTER_INSERT;
     }
 
@@ -207,7 +207,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
      * Gives a possibility to patch the Castor-generated SQL statement
      * for INSERT (makes sense for DURING_INSERT key generators)
      */
-    public final String patchSQL(final String insert, final String primKeyName) throws MappingException {
+    public String patchSQL(final String insert, final String primKeyName) throws MappingException {
         return insert;
     }
     

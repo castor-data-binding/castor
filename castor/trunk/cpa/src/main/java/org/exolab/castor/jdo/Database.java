@@ -194,7 +194,7 @@ public interface Database {
      *
      * @return An OQL query
      */
-    public OQLQuery getOQLQuery();
+    OQLQuery getOQLQuery();
 
     /**
      * Creates an OQL query from the supplied statement.
@@ -202,7 +202,7 @@ public interface Database {
      * @return An OQL query
      * @throws PersistenceException
      */
-    public OQLQuery getOQLQuery( String oql )
+    OQLQuery getOQLQuery( String oql )
         throws PersistenceException;
 
     /**
@@ -211,7 +211,7 @@ public interface Database {
      *
      * @return A query
      */
-    public Query getQuery();
+    Query getQuery();
 
     /**
      * Creates an OQL query based upon a named query as defined in the 
@@ -221,15 +221,15 @@ public interface Database {
      * @return An OQL query
      * @throws PersistenceException 
      */
-    public OQLQuery getNamedQuery(String name) throws PersistenceException;
+    OQLQuery getNamedQuery(String name) throws PersistenceException;
 
-    public PersistenceInfoGroup getScope();
+    PersistenceInfoGroup getScope();
 
     /**                              
      * Return the name of the database
      * @return The database name.
      */                               
-    public String getDatabaseName(); 
+    String getDatabaseName(); 
 
     /**
      * Load an object of the specified type and given identity.
@@ -251,9 +251,9 @@ public interface Database {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    public Object load(final Class type, final Object identity)
+    Object load(final Class type, final Object identity)
     throws TransactionNotInProgressException, ObjectNotFoundException,
-    LockNotGrantedException, PersistenceException;
+           LockNotGrantedException, PersistenceException;
 
     /**
      * <p>
@@ -276,10 +276,9 @@ public interface Database {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    public Object load(final Class type, final Object identity,
-                       final AccessMode mode) 
+    Object load(final Class type, final Object identity, final AccessMode mode) 
     throws TransactionNotInProgressException, ObjectNotFoundException,
-    LockNotGrantedException, PersistenceException;
+           LockNotGrantedException, PersistenceException;
 
     /**
      * <p>
@@ -305,10 +304,9 @@ public interface Database {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    public Object load(final Class type, final Object identity,
-                       final Object object)
+    Object load(final Class type, final Object identity, final Object object)
     throws ObjectNotFoundException, LockNotGrantedException,
-    TransactionNotInProgressException, PersistenceException;
+           TransactionNotInProgressException, PersistenceException;
 
     /**
      * Creates a new object in persistent storage. The object will be
@@ -330,10 +328,9 @@ public interface Database {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    public void create( Object object )
-        throws ClassNotPersistenceCapableException, DuplicateIdentityException,
-               TransactionNotInProgressException, PersistenceException;
-
+    void create(Object object)
+    throws ClassNotPersistenceCapableException, DuplicateIdentityException,
+           TransactionNotInProgressException, PersistenceException;
 
     /**
      * Removes the object from persistent storage. The deletion will
@@ -352,10 +349,9 @@ public interface Database {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    public void remove( Object object )
-        throws ObjectNotPersistentException, LockNotGrantedException, 
-               TransactionNotInProgressException, PersistenceException;
-
+    void remove(Object object)
+    throws ObjectNotPersistentException, LockNotGrantedException, 
+           TransactionNotInProgressException, PersistenceException;
 
     /**
      * Update a data object which is queried/loaded/created in <b>another
@@ -379,12 +375,9 @@ public interface Database {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-
-    public void update( Object object )
-        throws ClassNotPersistenceCapableException,
-               TransactionNotInProgressException, PersistenceException;
-
-
+    void update(Object object)
+    throws ClassNotPersistenceCapableException,
+           TransactionNotInProgressException, PersistenceException;
 
     /**
      * Acquire a soft write lock on the object. Read locks are implicitly
@@ -414,10 +407,9 @@ public interface Database {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    public void lock( Object object )
-        throws LockNotGrantedException, ObjectNotPersistentException,
-               TransactionNotInProgressException,  PersistenceException;
-
+    void lock(Object object)
+    throws LockNotGrantedException, ObjectNotPersistentException,
+           TransactionNotInProgressException,  PersistenceException;
 
     /**
      * Begin a new transaction. A transaction must be open in order
@@ -426,9 +418,7 @@ public interface Database {
      * @throws PersistenceException A transaction is already open on
      *  this database, or an error reported by the persistence engine
      */
-    public void begin()
-        throws PersistenceException;
-
+    void begin() throws PersistenceException;
 
     /**
      * Return if the current transaction is set to autoStore, it there is
@@ -441,8 +431,7 @@ public interface Database {
      * be created automatically.
      * @return True if the current transaction is set to 'autoStore'.
      */
-    public boolean isAutoStore();
-
+    boolean isAutoStore();
 
     /**
      * True if autoStore is set on. 
@@ -464,7 +453,7 @@ public interface Database {
      * explicitly.
      * @param autoStore True if this feature should be enabled.
      */
-    public void setAutoStore( boolean autoStore );
+    void setAutoStore(boolean autoStore);
 
     /**
      * Commits and closes the transaction. All changes made to persistent
@@ -493,9 +482,7 @@ public interface Database {
      * @throws TransactionAbortedException The transaction cannot
      *  commit and has been rolled back
      */
-    public void commit()
-        throws TransactionNotInProgressException, TransactionAbortedException;
-
+    void commit() throws TransactionNotInProgressException, TransactionAbortedException;
 
     /**
      * Rolls back and closes the transaction. All changes made to
@@ -506,32 +493,30 @@ public interface Database {
      * @throws TransactionNotInProgressException Method called while
      *  transaction is not in progress
      */
-    public void rollback()
-        throws TransactionNotInProgressException;
-
+    void rollback() throws TransactionNotInProgressException;
 
     /**
      * Returns true if a transaction is currently active.
      *
      * @return True if a transaction is active
      */
-    public boolean isActive();
-
+    boolean isActive();
 
     /**
      * Returns true if the database is closed.
      *
      * @return True if the database is closed
      */
-    public boolean isClosed();
+    boolean isClosed();
 
     /**
      * Returns true if the specified object is currently locked.
+     * 
      * @param cls Class instance.
      * @param identity Object identity.
      * @return True if the object specified is locked; false otherwise.
      */
-    public boolean isLocked (Class cls, Object identity) throws PersistenceException;
+    boolean isLocked (Class cls, Object identity) throws PersistenceException;
     
     /**
      * Closes the database. If a client transaction is in progress the
@@ -540,11 +525,9 @@ public interface Database {
      * will commit/rollback when triggered by the application server.  
      *
      * @throws PersistenceException An error occured while
-     *  attempting to close the database
+     *         attempting to close the database
      */
-    public void close()
-        throws PersistenceException;
-
+    void close() throws PersistenceException;
 
     /**
      * Returns true if the object is persistent. An object is persistent
@@ -555,8 +538,7 @@ public interface Database {
      * @param object The object
      * @return True if persistent in this transaction
      */
-    public boolean isPersistent( Object object );
-
+    boolean isPersistent(Object object);
 
     /**
      * Returns the object's identity. The identity will be determined by calling the
@@ -573,22 +555,23 @@ public interface Database {
      * @return The object's identity, or null.
      * @throws PersistenceException The class is not persistent capable.
      */
-    public Identity getIdentity(Object object) throws PersistenceException;
-
+    Identity getIdentity(Object object) throws PersistenceException;
     
     /** 
      * Returns the current ClassLoader if one has been set for this Database instance.
+     * 
      * @return ClassLoader the current ClassLoader instance, <code>null</code> if no 
-     * ClassLoader's instance has been explicitely set.
+     *         ClassLoader's instance has been explicitely set.
      */
-    public ClassLoader getClassLoader ();
+    ClassLoader getClassLoader ();
 
     /**
      * Get's the CacheManager instance.
      * Call getCacheManager for every Database-instances.
+     * 
      * @return the CacheManager-instance.
      */
-    public CacheManager getCacheManager();
+    CacheManager getCacheManager();
 
     /**
      * Gets the underlying JDBC connection.
@@ -599,6 +582,6 @@ public interface Database {
      * @return the underlying JDBC connection, if present; otherwise null 
      * @throws PersistenceException If the underlying JDBC connection cannot be obtained.
      */
-    public java.sql.Connection getJdbcConnection() throws PersistenceException;
+    java.sql.Connection getJdbcConnection() throws PersistenceException;
 }
 

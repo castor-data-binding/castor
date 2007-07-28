@@ -66,7 +66,6 @@ import org.castor.persist.TransactionContext;
  * @author <a href="mailto:yip@intalio.com">Thomas Yip</a>
  */
 public interface DepositBox {
-
     /** 
      *  Set an object into the DespositBox, only a transaction
      *  has the write lock may call it method or IllegalArgumentException
@@ -74,10 +73,8 @@ public interface DepositBox {
      *
      *  @param  tx the transaction in action
      *  @param  object to be store into deposit box
-     *  @throws  IllegalArgumentException if tx doesn't own the box
-     *
      */
-    public void setObject( TransactionContext tx, Object[] object );
+    void setObject(TransactionContext tx, Object[] object);
 
     /** 
      *  Get the object from the DespositBox, only the transaction
@@ -85,13 +82,13 @@ public interface DepositBox {
      *
      *  @param  tx the transaction in action
      *  @return An object instance.
-     *  @throws  IllegalArgumentException if tx doesn't own the box
      */
-    public Object[] getObject( TransactionContext tx ); 
+    Object[] getObject(TransactionContext tx); 
 
     /**
      * Get the time of the most recent call on setObject(Object)}.
+     * 
      * @return The timestamp of this object.
      */
-    public long getTimeStamp();
+    long getTimeStamp();
 }
