@@ -340,7 +340,7 @@ public class QueryAnalyser {
         private Vector getProperties(Object o) {
             int i;
             Vector properties=new Vector();
-            Method ms[] = o.getClass().getMethods();
+            Method[] ms = o.getClass().getMethods();
             Method m;
 
             for(i=0;i<ms.length;i++) {

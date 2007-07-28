@@ -165,7 +165,7 @@ public class DTXEngine {
 
 	Unmarshaller munm = new Unmarshaller( MappingRoot.class );
 
- 	Mapping mappings[] = _database.getMapping();
+ 	Mapping[] mappings = _database.getMapping();
 
 	for ( int i = 0 ; i < mappings.length ; ++i ) {
 	    try {
