@@ -1043,7 +1043,7 @@ public final class LockEngine {
      * Expires all objects of all types from cache.
      */
     public void expireCache() {
-        for (Iterator iter = _typeInfo.values().iterator(); iter.hasNext();) {
+        for (Iterator iter = _typeInfo.values().iterator(); iter.hasNext(); ) {
             ((TypeInfo) iter.next()).expireCache();
         }
     }
@@ -1051,7 +1051,7 @@ public final class LockEngine {
      * Dump cached objects of all types to output.
      */
     public void dumpCache() {
-        for (Iterator iter = _typeInfo.values().iterator(); iter.hasNext();) {
+        for (Iterator iter = _typeInfo.values().iterator(); iter.hasNext(); ) {
             ((TypeInfo) iter.next()).dumpCache();
         }
     }
@@ -1060,7 +1060,7 @@ public final class LockEngine {
      * Close all caches (to allow for resource clean-up)
      */
     public void closeCaches() {
-        for (Iterator iter = _typeInfo.values().iterator(); iter.hasNext();) {
+        for (Iterator iter = _typeInfo.values().iterator(); iter.hasNext(); ) {
             ((TypeInfo) iter.next()).closeCache();
         }
         
@@ -1153,14 +1153,14 @@ public final class LockEngine {
          * Dump all objects in cache or lock to output.
          */
         public void dumpCache() {
-			_log.info(name + ".dumpCache()...");
+            _log.info(name + ".dumpCache()...");
             synchronized (locks) {
-                for (Iterator iter = locks.values().iterator(); iter.hasNext();) {
+                for (Iterator iter = locks.values().iterator(); iter.hasNext(); ) {
                     ObjectLock entry = (ObjectLock) iter.next();
                     _log.info("In locks: " + entry);
                 }
 
-                for (Iterator iter = cache.values().iterator(); iter.hasNext();) {
+                for (Iterator iter = cache.values().iterator(); iter.hasNext(); ) {
                     ObjectLock entry = (ObjectLock) iter.next();
                     _log.info("In cache: " + entry.getOID());
                 }
@@ -1176,7 +1176,7 @@ public final class LockEngine {
                 // transaction as expired.  They will be not be added back to
                 // the LRU when the transaction's complete (@see release)
                 // XXX [SMH]: Reconsider removing from locks (unknown side-effects?).
-                for (Iterator iter = locks.values().iterator(); iter.hasNext();) {
+                for (Iterator iter = locks.values().iterator(); iter.hasNext(); ) {
                     ObjectLock objectLock = (ObjectLock) iter.next();
                     objectLock.expire();
                     iter.remove();
