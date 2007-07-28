@@ -46,29 +46,41 @@
 
 package org.exolab.castor.gui;
 
-import javax.swing.UIManager;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.table.*;
-import org.exolab.castor.jdo.JDOManager;
-import org.exolab.castor.jdo.Database;
-import org.exolab.castor.jdo.QueryResults;
-import org.exolab.castor.jdo.OQLQuery;
-import java.lang.Class;
+import java.awt.AWTEvent;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowEvent;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.lang.reflect.Method;
-import java.util.Vector;
-import java.util.Iterator;
 import java.util.Date;
-import org.exolab.castor.jdo.engine.OQLQueryImpl;
+import java.util.Iterator;
+import java.util.Vector;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextPane;
+import javax.swing.JToolBar;
+import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
+
+import org.exolab.castor.jdo.Database;
+import org.exolab.castor.jdo.JDOManager;
+import org.exolab.castor.jdo.OQLQuery;
+import org.exolab.castor.jdo.QueryResults;
+import org.exolab.castor.jdo.engine.OQLQueryImpl;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.xml.Unmarshaller;
 import org.exolab.castor.xml.Marshaller;
-
-import java.io.FileWriter;
-import java.io.FileReader;
+import org.exolab.castor.xml.Unmarshaller;
 
 
 /**

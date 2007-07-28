@@ -42,19 +42,15 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.persist;
 
-
 import javax.transaction.Status;
-import javax.transaction.xa.XAResource;
 import javax.transaction.xa.XAException;
+import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
 
 import org.castor.persist.TransactionContext;
 import org.exolab.castor.jdo.TransactionAbortedException;
-
 
 /**
  * An {@link XAResource} implementation for an {@link XAResourceSource}.

@@ -45,7 +45,9 @@
 
 package org.exolab.castor.dtx;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Set;
+
 import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;
 

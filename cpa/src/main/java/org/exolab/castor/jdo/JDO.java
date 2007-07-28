@@ -64,16 +64,15 @@ import javax.transaction.TransactionManager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.jdo.conf.JdoConf;
 import org.castor.jdo.engine.AbstractConnectionFactory;
 import org.castor.jdo.engine.DatabaseRegistry;
-
-import org.castor.jdo.conf.JdoConf;
+import org.castor.transactionmanager.LocalTransactionManager;
+import org.castor.util.Messages;
 import org.exolab.castor.jdo.engine.AbstractDatabaseImpl;
 import org.exolab.castor.jdo.engine.GlobalDatabaseImpl;
 import org.exolab.castor.jdo.engine.LocalDatabaseImpl;
 import org.exolab.castor.jdo.engine.TxDatabaseMap;
-import org.castor.transactionmanager.LocalTransactionManager;
-import org.castor.util.Messages;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.OutputLogInterceptor;
 import org.exolab.castor.persist.spi.CallbackInterceptor;

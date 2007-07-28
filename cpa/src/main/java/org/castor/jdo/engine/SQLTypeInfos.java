@@ -32,10 +32,8 @@ import java.util.TimeZone;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.castor.util.ConfigKeys;
 import org.castor.util.Configuration;
-
 import org.exolab.castor.mapping.MappingException;
 
 /**

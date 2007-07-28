@@ -5,13 +5,11 @@ import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.castor.jdo.conf.JdoConf;
 import org.castor.jdo.conf.Param;
 import org.castor.jdo.conf.TransactionDemarcation;
 import org.castor.jdo.conf.TransactionManager;
 import org.castor.transactionmanager.LocalTransactionManagerFactory;
-
 import org.exolab.castor.mapping.MappingException;
 
 public final class JDOConfAdapter {

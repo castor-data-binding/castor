@@ -42,10 +42,7 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.persist;
-
 
 import javax.transaction.Status;
 
@@ -53,14 +50,13 @@ import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
 import org.castor.util.Messages;
 import org.exolab.castor.jdo.Database;
-import org.exolab.castor.jdo.TransactionNotInProgressException;
-import org.exolab.castor.jdo.PersistenceException;
-import org.exolab.castor.jdo.ObjectNotFoundException;
 import org.exolab.castor.jdo.LockNotGrantedException;
+import org.exolab.castor.jdo.ObjectNotFoundException;
+import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.TransactionNotInProgressException;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.PersistenceQuery;
-
 
 /**
  * The result of a query in the context of a transaction. A query is

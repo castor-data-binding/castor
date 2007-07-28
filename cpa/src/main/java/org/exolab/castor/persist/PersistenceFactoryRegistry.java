@@ -42,23 +42,17 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.persist;
-
 
 import java.util.Enumeration;
 import java.util.Hashtable;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.castor.util.ConfigKeys;
 import org.castor.util.Configuration;
 import org.castor.util.Messages;
-
 import org.exolab.castor.persist.spi.PersistenceFactory;
-
 
 /**
  * Registry for {@link PersistenceFactory} implementations

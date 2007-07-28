@@ -17,8 +17,8 @@ package org.castor.jdo.engine;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -30,12 +30,10 @@ import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.castor.util.Base64Decoder;
 import org.castor.util.Base64Encoder;
 import org.castor.util.ConfigKeys;
 import org.castor.util.Configuration;
-
 import org.exolab.castor.jdo.engine.ClobImpl;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.TypeConvertor;

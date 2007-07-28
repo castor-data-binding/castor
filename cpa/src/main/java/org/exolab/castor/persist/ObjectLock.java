@@ -42,21 +42,15 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.persist;
-
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.castor.persist.TransactionContext;
 import org.castor.persist.cache.CacheEntry;
 import org.castor.util.Messages;
-
 import org.exolab.castor.jdo.LockNotGrantedException;
 import org.exolab.castor.jdo.ObjectDeletedException;
-
 
 /**
  * Read/write locks and lock synchronization on an object. Each object

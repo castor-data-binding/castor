@@ -16,8 +16,8 @@
 package org.castor.persist.cache;
 
 import org.exolab.castor.jdo.TimeStampable;
-import org.exolab.castor.persist.ObjectLock;
 import org.exolab.castor.persist.OID;
+import org.exolab.castor.persist.ObjectLock;
 
 /**
  * Utility class to store 'data' accessed through Castor JDO in performance caches.
