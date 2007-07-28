@@ -223,8 +223,7 @@ class DatingService {
                 needFieldClass = new Vector();
             needFieldClass.add( new Pair( typeName, fieldMolder ) );
             return false;
-        } 
-        catch ( ClassNotFoundException e ) {
+        } catch (ClassNotFoundException e) {
             throw new MappingException("ClassNotFound :\n"+e);
         }
     }

@@ -506,8 +506,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             if (sqlType.charAt(current) == ' ') {
               types.add(sqlType.substring(begin, current));
               begin = current + 1;
-            }
-            else if (sqlType.charAt(current) == '[') {
+            } else if (sqlType.charAt(current) == '[') {
               state = 1;
             }
             break;
@@ -561,8 +560,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
                         if (!Modifier.isPublic(cons.getModifiers())) {
                             cons = null;
                         }
-                    }
-                    catch(NoSuchMethodException nsmx) {
+                    } catch (NoSuchMethodException nsmx) {
                         //-- Do nothing
                     }
                     try {
@@ -593,8 +591,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
                                 }
                             }
                         }
-                    }
-                    catch(NoSuchMethodException nsmx) {
+                    } catch (NoSuchMethodException nsmx) {
                         //-- Do nothing
                     }
                 }
@@ -669,8 +666,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
                 constructor = handlerClass.getConstructor(new Class[0]);
                 handler = (FieldHandler) 
                     constructor.newInstance(new Object[0]);
-            }
-            catch(java.lang.Exception except) {
+            } catch (Exception except) {
                 String err = "The class '" + handlerClass.getName() + 
                     "' must have a default public constructor.";
                 throw new MappingException(err);
@@ -715,8 +711,9 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             if (custom != null) {
                 ((GeneralizedFieldHandler)exfHandler).setFieldHandler(handler);
                 handler = custom;
+            } else {
+                typeInfo = typeInfoRef.typeInfo;
             }
-            else  typeInfo = typeInfoRef.typeInfo;
         }
                 
         String[] sqlName = fieldMap.getSql().getName();

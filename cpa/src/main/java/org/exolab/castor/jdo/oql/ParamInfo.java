@@ -120,8 +120,7 @@ private ClassLoader _classLoader;
         if ( userClass.isPrimitive() )
           userClass = Types.typeFromPrimitive( userClass );
 
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         throw new QueryException( "The class " + userClass + " could not be found." );
       }
 
@@ -165,8 +164,7 @@ private ClassLoader _classLoader;
       Class systemClass = null;
       try {
           systemClass = ClassLoadingUtils.loadClass (_classLoader, systemType);
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         throw new QueryException( "Error: Could notfind system defined class: " + systemType );
       }
 
@@ -174,8 +172,7 @@ private ClassLoader _classLoader;
         Class userClass = null;
         try {
             userClass = ClassLoadingUtils.loadClass(_classLoader, _userDefinedType);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
           throw new QueryException( "The class " + userClass + " could not be found." );
         }
 
