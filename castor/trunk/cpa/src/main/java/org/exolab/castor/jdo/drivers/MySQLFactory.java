@@ -79,7 +79,7 @@ public final class MySQLFactory extends GenericFactory {
      * For CLOB type ResultSet.setClob() is not supported yet by mm.MySql JDBC driver.
      * BLOB support is buggy in MM.MySQL 2.0.3: it handles NULL values in incorrect way.
      */
-    public Class adjustSqlType( Class sqlType ) {
+    public Class adjustSqlType(final Class sqlType) {
         if (sqlType == java.sql.Clob.class) {
             return java.lang.String.class;
         } else if (sqlType == java.io.InputStream.class) {

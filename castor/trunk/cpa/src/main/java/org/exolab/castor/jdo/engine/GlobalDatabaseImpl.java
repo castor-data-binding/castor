@@ -76,10 +76,10 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchron
      * @param isPoolInUseForGlobalTransactions True if Database instanced should be cached.
      * @throws DatabaseNotFoundException If the specified database cannot be found. 
      */
-    public GlobalDatabaseImpl( String dbName, int lockTimeout, CallbackInterceptor callback,
-                         InstanceFactory instanceFactory, Transaction transaction, 
-                         ClassLoader classLoader, boolean autoStore, 
-                         boolean isPoolInUseForGlobalTransactions)
+    public GlobalDatabaseImpl(final String dbName, final int lockTimeout, final CallbackInterceptor callback,
+            final InstanceFactory instanceFactory, final Transaction transaction, 
+            final ClassLoader classLoader, final boolean autoStore, 
+            final boolean isPoolInUseForGlobalTransactions)
     throws DatabaseNotFoundException {
         
         super (dbName, lockTimeout, callback, instanceFactory, classLoader, autoStore);
@@ -233,7 +233,7 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchron
         }
     }
 
-    void setTxMap(TxDatabaseMap txMap) {
+    void setTxMap(final TxDatabaseMap txMap) {
         _txMap = txMap;
     }
 

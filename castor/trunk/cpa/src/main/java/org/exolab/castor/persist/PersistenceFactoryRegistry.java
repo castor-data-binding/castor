@@ -80,9 +80,9 @@ public class PersistenceFactoryRegistry {
      * @return The {@link PersistenceFactory} object, null
      *  if no factory with this name exists
      */
-    public static PersistenceFactory getPersistenceFactory( String name ) {
+    public static PersistenceFactory getPersistenceFactory(final String name) {
         load();
-        return (PersistenceFactory) _factories.get( name );
+        return (PersistenceFactory) _factories.get(name);
     }
 
     /**

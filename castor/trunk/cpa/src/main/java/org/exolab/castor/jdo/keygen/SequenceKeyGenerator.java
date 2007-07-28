@@ -100,7 +100,7 @@ public final class SequenceKeyGenerator implements KeyGenerator {
     /**
      * Initialize the SEQUENCE key generator.
      */
-    public SequenceKeyGenerator( PersistenceFactory factory, Properties params, int sqlType ) throws MappingException {
+    public SequenceKeyGenerator(final PersistenceFactory factory, final Properties params, final int sqlType) throws MappingException {
         boolean returning;
 
         _factoryName = factory.getFactoryName();
@@ -148,7 +148,7 @@ public final class SequenceKeyGenerator implements KeyGenerator {
      * @param sqlType
      * @throws MappingException
      */
-    public void supportsSqlType( int sqlType ) throws MappingException {
+    public void supportsSqlType(final int sqlType) throws MappingException {
         if (sqlType != Types.INTEGER
                 && sqlType != Types.NUMERIC
                 && sqlType != Types.DECIMAL
@@ -169,7 +169,7 @@ public final class SequenceKeyGenerator implements KeyGenerator {
      * @throws PersistenceException An error occured talking to persistent
      *  storage
      */
-    public Object generateKey( Connection conn, String tableName, String primKeyName, Properties props ) throws PersistenceException {
+    public Object generateKey(final Connection conn, final String tableName, final String primKeyName, final Properties props) throws PersistenceException {
         PreparedStatement stmt = null;
         ResultSet rs;
         String seqName;
@@ -253,8 +253,8 @@ public final class SequenceKeyGenerator implements KeyGenerator {
      * Gives a possibility to patch the Castor-generated SQL statement
      * for INSERT (makes sense for DURING_INSERT key generators)
      */
-    public String patchSQL( String insert, String primKeyName )
-            throws MappingException {
+    public String patchSQL(final String insert, final String primKeyName)
+    throws MappingException {
         StringTokenizer st;
         String tableName;
         String seqName;

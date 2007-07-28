@@ -172,10 +172,11 @@ public class SQLStatementCreate {
     }
     
     public Object executeStatement(final Database database, final Connection conn,
-                                   Identity identity, final ProposedEntity entity)
+            final Identity identity, final ProposedEntity entity)
     throws PersistenceException {
+        Identity internalIdentity = identity;
         SQLEngine extended = _engine.getExtends();
-        if ((extended == null) && (_keyGen == null) && (identity == null)) {
+        if ((extended == null) && (_keyGen == null) && (internalIdentity == null)) {
             throw new PersistenceException(Messages.format("persist.noIdentity", _type));
         }
 
@@ -186,14 +187,14 @@ public class SQLStatementCreate {
             if (extended != null) {
                 // | quick and very dirty hack to try to make multiple class on the same table work
                 if (!extended.getDescriptor().getTableName().equals(_mapTo)) {
-                    identity = extended.create(database, conn, entity, identity);
+                    internalIdentity = extended.create(database, conn, entity, internalIdentity);
                 }
             }
             
             if ((_keyGen != null) && (_keyGen.getStyle() == KeyGenerator.BEFORE_INSERT)) {
                 // Generate key before INSERT
                 // genKey return identity in JDO type
-                identity = generateKey(database, conn, null);
+                internalIdentity = generateKey(database, conn, null);
             }
 
             if ((_keyGen != null) && (_keyGen.getStyle() == KeyGenerator.DURING_INSERT)) {
@@ -224,11 +225,11 @@ public class SQLStatementCreate {
             int count = 1;
             SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
             if ((_keyGen == null) || (_keyGen.getStyle() == KeyGenerator.BEFORE_INSERT)) {
-                if (identity.size() != ids.length) {
+                if (internalIdentity.size() != ids.length) {
                     throw new PersistenceException("Size of identity field mismatched!");
                 }
                 for (int i = 0; i < ids.length; i++) {
-                    stmt.setObject(count++, ids[i].toSQL(identity.get(i)));
+                    stmt.setObject(count++, ids[i].toSQL(internalIdentity.get(i)));
                 }
             }
 
@@ -271,7 +272,7 @@ public class SQLStatementCreate {
                 } else {
                     temp = cstmt.getObject(count);
                 }
-                identity = new Identity(ids[0].toJava(temp));
+                internalIdentity = new Identity(ids[0].toJava(temp));
             } else {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug(Messages.format("jdo.creating", _type, stmt.toString()));
@@ -279,7 +280,7 @@ public class SQLStatementCreate {
 
                 stmt.executeUpdate();
 
-                if (_useJDBC30 && identity == null) {
+                if (_useJDBC30 && internalIdentity == null) {
                     Class cls = PreparedStatement.class;
                     Method method = cls.getMethod("getGeneratedKeys", (Class[]) null);
                     ResultSet keySet = (ResultSet) method.invoke(stmt, (Object[]) null);
@@ -302,7 +303,7 @@ public class SQLStatementCreate {
                         keys.add(ids[i-1].toJava(temp));
                         i++;
                     }
-                    identity = new Identity(keys.toArray());
+                    internalIdentity = new Identity(keys.toArray());
                 }
             }
 
@@ -311,11 +312,11 @@ public class SQLStatementCreate {
             // Generate key after INSERT
             if ((_keyGen != null) && (_keyGen.getStyle() == KeyGenerator.AFTER_INSERT)) {
                 if (!_useJDBC30) {
-                    identity = generateKey(database, conn, stmt);
+                    internalIdentity = generateKey(database, conn, stmt);
                 }
             }
 
-            return identity;
+            return internalIdentity;
         } catch (SQLException except) {
             LOG.fatal(Messages.format("jdo.storeFatal",  _type,  _statement), except);
 
@@ -330,7 +331,7 @@ public class SQLStatementCreate {
 
             isDupKey = _factory.isDuplicateKeyException(except);
             if (Boolean.TRUE.equals(isDupKey)) {
-                throw new DuplicateIdentityException(Messages.format("persist.duplicateIdentity", _type, identity), except);
+                throw new DuplicateIdentityException(Messages.format("persist.duplicateIdentity", _type, internalIdentity), except);
             } else if (Boolean.FALSE.equals(isDupKey)) {
                 throw new PersistenceException(Messages.format("persist.nested", except), except);
             }
@@ -339,7 +340,7 @@ public class SQLStatementCreate {
             // [oleg] Check for duplicate key the old fashioned way,
             //        after the INSERT failed to prevent race conditions
             //        and optimize INSERT times
-            _lookupStatement.executeStatement(conn, identity);
+            _lookupStatement.executeStatement(conn, internalIdentity);
 
             try {
                 // Close the insert/select statement
@@ -414,12 +415,13 @@ public class SQLStatementCreate {
      * 
      * @param values Field to bind.
      * @param stmt PreparedStatement instance.
-     * @param count Field counter
+     * @param internalCount Field counter
      * @throws SQLException If the fields cannot be bound successfully.
      * @throws PersistenceException
      */
-    private int bindFields(final ProposedEntity entity, final PreparedStatement stmt, int count) 
+    private int bindFields(final ProposedEntity entity, final PreparedStatement stmt, final int count)
     throws SQLException, PersistenceException {
+        int internalCount = count;
         SQLFieldInfo[] fields = _engine.getInfo();
         for (int i = 0 ; i < fields.length ; ++i) {
             SQLColumnInfo[] columns = fields[i].getColumnInfo();
@@ -427,7 +429,7 @@ public class SQLStatementCreate {
                 Object value = entity.getField(i);
                 if (value == null) {
                     for (int j = 0; j < columns.length; j++) {
-                        stmt.setNull(count++, columns[j].getSqlType());
+                        stmt.setNull(internalCount++, columns[j].getSqlType());
                     }
                 } else if (value instanceof Identity) {
                     Identity identity = (Identity) value;
@@ -435,18 +437,18 @@ public class SQLStatementCreate {
                         throw new PersistenceException("Size of identity field mismatch!");
                     }
                     for (int j = 0; j < columns.length; j++) {
-                        SQLTypeInfos.setValue(stmt, count++,
+                        SQLTypeInfos.setValue(stmt, internalCount++,
                                 columns[j].toSQL(identity.get(j)), columns[j].getSqlType());
                     }
                 } else {
                     if (columns.length != 1) {
                         throw new PersistenceException("Complex field expected!");
                     }
-                    SQLTypeInfos.setValue(stmt, count++, columns[0].toSQL(value), columns[0].getSqlType());
+                    SQLTypeInfos.setValue(stmt, internalCount++, columns[0].toSQL(value), columns[0].getSqlType());
                 }
             }
         }
-        return count;
+        return internalCount;
     }
 
     private Connection getSeparateConnection(final Database database)

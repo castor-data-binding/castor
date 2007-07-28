@@ -100,8 +100,8 @@ public final class UUIDKeyGeneratorFactory implements KeyGeneratorFactory {
      * @param factory Helper object for obtaining database-specific QuerySyntax.
      * @param params Parameters for key generator.
      */
-    public KeyGenerator getKeyGenerator( PersistenceFactory factory, Properties params, int sqlType ) throws MappingException {
-        return new UUIDKeyGenerator( factory, sqlType );
+    public KeyGenerator getKeyGenerator(final PersistenceFactory factory, final Properties params, final int sqlType) throws MappingException {
+        return new UUIDKeyGenerator(factory, sqlType);
     }
 
     /**

@@ -74,7 +74,7 @@ public final class XAResourceImpl implements XAResource {
      *  transaction context. */
     private final XAResourceSource  _xaSource;
 
-    public XAResourceImpl( LockEngine engine, XAResourceSource xaSource ) {
+    public XAResourceImpl(final LockEngine engine, final XAResourceSource xaSource) {
         if ( engine == null || xaSource == null )
             throw new IllegalArgumentException( "Argument 'engine' or xaSource' is null" );
         _xaSource = xaSource;
@@ -82,7 +82,7 @@ public final class XAResourceImpl implements XAResource {
     }
     
     
-    public synchronized void start( Xid xid, int flags ) throws XAException {
+    public synchronized void start(final Xid xid, final int flags) throws XAException {
         // General checks.
         if ( xid == null )
             throw new XAException( XAException.XAER_INVAL );
@@ -120,7 +120,7 @@ public final class XAResourceImpl implements XAResource {
     }
 	
 	
-    public synchronized void end( Xid xid, int flags ) throws XAException {
+    public synchronized void end(final Xid xid, final int flags) throws XAException {
         // General checks.
         if ( xid == null )
             throw new XAException( XAException.XAER_INVAL );
@@ -160,7 +160,7 @@ public final class XAResourceImpl implements XAResource {
     }
 
 
-    public synchronized void forget( Xid xid ) throws XAException {
+    public synchronized void forget(final Xid xid) throws XAException {
         if ( xid == null )
             throw new XAException( XAException.XAER_INVAL );
         
@@ -186,7 +186,7 @@ public final class XAResourceImpl implements XAResource {
     }
 
 
-    public synchronized int prepare( Xid xid ) throws XAException {
+    public synchronized int prepare(final Xid xid) throws XAException {
         if ( xid == null )
             throw new XAException( XAException.XAER_INVAL );
         
@@ -218,7 +218,7 @@ public final class XAResourceImpl implements XAResource {
     }
 
 
-    public synchronized void commit( Xid xid, boolean onePhase ) throws XAException {
+    public synchronized void commit(final Xid xid, final boolean onePhase) throws XAException {
         if ( xid == null )
             throw new XAException( XAException.XAER_INVAL );
         
@@ -254,7 +254,7 @@ public final class XAResourceImpl implements XAResource {
     }
     
 
-    public synchronized void rollback( Xid xid ) throws XAException {
+    public synchronized void rollback(final Xid xid) throws XAException {
         if ( xid == null )
             throw new XAException( XAException.XAER_INVAL );
         
@@ -287,7 +287,7 @@ public final class XAResourceImpl implements XAResource {
     }
 
 
-    public Xid[] recover( int flags ) throws XAException {
+    public Xid[] recover(final int flags) throws XAException {
         // Recovery is not implemented. This XAResource only deals
         // with in-memory objects, so recovery has no meaning.
         // Actual recovery is provided by underlying persistence
@@ -296,7 +296,7 @@ public final class XAResourceImpl implements XAResource {
     }
 
 
-    public synchronized boolean isSameRM( XAResource xaRes ) throws XAException {
+    public synchronized boolean isSameRM(final XAResource xaRes) throws XAException {
         // Two resource managers are equal if they produce equivalent
         // connection (i.e. same database, same user). If the two are
         // equivalent they would share a transaction by joining.
@@ -308,7 +308,7 @@ public final class XAResourceImpl implements XAResource {
     }
     
     
-    public boolean setTransactionTimeout( int timeout ) {
+    public boolean setTransactionTimeout(final int timeout) {
         TransactionContext tx;
         
         tx = _xaSource.getTransactionContext();
@@ -328,6 +328,4 @@ public final class XAResourceImpl implements XAResource {
             return tx.getTransactionTimeout();
         return 0;
     }
-
-
 }

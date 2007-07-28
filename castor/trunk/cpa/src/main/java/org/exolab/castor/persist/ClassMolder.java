@@ -223,8 +223,8 @@ public class ClassMolder {
      * @throws ClassNotFoundException If a class cannot be loaded.
      * @throws MappingException if an error occured with analysing the mapping information.
      */
-    ClassMolder( DatingService ds, AbstractMappingLoader loader, LockEngine lock,
-            ClassDescriptor clsDesc, Persistence persist )
+    ClassMolder(final DatingService ds, final AbstractMappingLoader loader, final LockEngine lock,
+            final ClassDescriptor clsDesc, final Persistence persist)
             throws ClassNotFoundException, MappingException {
 
         _debug = Boolean.getBoolean("org.exolab.castor.debug");
@@ -389,7 +389,7 @@ public class ClassMolder {
     
     public ClassDescriptor getClassDescriptor() { return _clsDesc; }
 
-    private boolean isFieldTransient(FieldMapping fieldMapping) {
+    private boolean isFieldTransient(final FieldMapping fieldMapping) {
         boolean isFieldTransient = fieldMapping.getTransient();
         if (fieldMapping.getSql()!= null) {
             isFieldTransient |= fieldMapping.getSql().getTransient();
@@ -417,8 +417,8 @@ public class ClassMolder {
      *                       removed from the object
      * @param relatedObject the object to be removed
      */
-    public boolean removeRelation( TransactionContext tx, Object object,
-            ClassMolder relatedMolder, Object relatedObject )  {
+    public boolean removeRelation(final TransactionContext tx, final Object object,
+            final ClassMolder relatedMolder, final Object relatedObject )  {
 
         boolean removed = false;
         boolean updateCache = false;
@@ -595,8 +595,9 @@ public class ClassMolder {
         return stamp;
     }
 
-    public Object load(TransactionContext tx, OID oid, DepositBox locker,
-            ProposedEntity proposedObject, AccessMode suggestedAccessMode, QueryResults results)
+    public Object load(final TransactionContext tx, final OID oid, final DepositBox locker,
+            final ProposedEntity proposedObject, final AccessMode suggestedAccessMode,
+            final QueryResults results)
     throws ObjectNotFoundException, PersistenceException {
         
         int fieldType;
@@ -652,8 +653,8 @@ public class ClassMolder {
      * @param object  the object to be created
      * @return  the identity of the object
      */
-    public Identity create( TransactionContext tx, OID oid, DepositBox locker, Object object )
-            throws DuplicateIdentityException, PersistenceException {
+    public Identity create(final TransactionContext tx, final OID oid, final DepositBox locker,
+            final Object object)throws DuplicateIdentityException, PersistenceException {
 
         int fieldType;
 
@@ -724,8 +725,8 @@ public class ClassMolder {
      * @param locker the dirty checking cache of the object
      * @param object  the object to be created
      */
-    public void markCreate( TransactionContext tx, OID oid, DepositBox locker, Object object )
-            throws DuplicateIdentityException, PersistenceException {
+    public void markCreate(final TransactionContext tx, final OID oid, final DepositBox locker,
+            final Object object) throws DuplicateIdentityException, PersistenceException {
 
         boolean updateCache = false;
 
@@ -758,8 +759,8 @@ public class ClassMolder {
      *
      * @return true if the object is modified
      */
-    public boolean preStore( TransactionContext tx, OID oid, DepositBox locker, Object object, int timeout )
-            throws PersistenceException {
+    public boolean preStore(final TransactionContext tx, final OID oid, final DepositBox locker,
+            final Object object, final int timeout) throws PersistenceException {
 
         if (oid.getIdentity() == null) {
             throw new PersistenceException(Messages.format("persist.missingIdentityForStore", _name));
@@ -809,9 +810,10 @@ public class ClassMolder {
      * @param locker the dirty check cache of the object
      * @param object the object to be stored
      */
-    public void store( TransactionContext tx, OID oid, DepositBox locker, Object object )
-            throws DuplicateIdentityException, PersistenceException,
-            ObjectModifiedException, ObjectDeletedException {
+    public void store(final TransactionContext tx, final OID oid, final DepositBox locker,
+            final Object object)
+    throws DuplicateIdentityException, PersistenceException,
+           ObjectModifiedException, ObjectDeletedException {
 
         if (oid.getIdentity() == null) {
             throw new PersistenceException(Messages.format("persist.missingIdentityForStore", _name));
@@ -992,8 +994,7 @@ public class ClassMolder {
      * @param tx - transaction in action
      * @param oid - the object identity of the target object
      */
-    public void delete( TransactionContext tx, OID oid )
-            throws PersistenceException {
+    public void delete(final TransactionContext tx, final OID oid) throws PersistenceException {
 
         resetResolvers();
 
@@ -1239,7 +1240,7 @@ public class ClassMolder {
     /**
      * Mutator method to set the PersistenceEngine of
      */
-    public void setPersistence( Persistence persist ) {
+    public void setPersistence(final Persistence persist) {
         _persistence = persist;
     }
 
@@ -1413,7 +1414,7 @@ public class ClassMolder {
      * @param tx The {@link org.castor.persist.TransactionContext}
      * @param locker The object that contains the fields to be inspected
      */
-    public void expireCache(TransactionContext tx, ObjectLock locker)
+    public void expireCache(final TransactionContext tx, final ObjectLock locker)
     throws PersistenceException {
         
         // TODO [WG]: can this really happen, or is this obsolete code
@@ -1449,7 +1450,7 @@ public class ClassMolder {
      * @param name Named query name.
      * @return The actual (OQL) statement 
      */
-    public String getNamedQuery(String name) {
+    public String getNamedQuery(final String name) {
         return (String) ((JDOClassDescriptor) _clsDesc).getNamedQueries().get(name);
     }
 }

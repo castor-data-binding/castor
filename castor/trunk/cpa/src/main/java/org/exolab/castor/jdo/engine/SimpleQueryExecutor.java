@@ -84,7 +84,7 @@ public class SimpleQueryExecutor {
      * Creates an instance to execute a simple query.
      * @param database the Database Implementation, used to get the connection
      */
-    public SimpleQueryExecutor(Database database) { }
+    public SimpleQueryExecutor(final Database database) { }
 
     /**
      * Executes a simple query and returns the results.  The query must not
@@ -97,7 +97,7 @@ public class SimpleQueryExecutor {
      * @return the results of the query.
      * 
      */
-    public QueryResults execute( Connection conn, QueryExpression expr, Object[] bindValues )
+    public QueryResults execute(final Connection conn, final QueryExpression expr, final Object[] bindValues)
     throws QueryException {
         
         try {
@@ -146,7 +146,7 @@ public class SimpleQueryExecutor {
          * use the jdbc 2.0 method to move to an absolute position in the
          * resultset.
          */
-        public boolean absolute(int row) throws PersistenceException {
+        public boolean absolute(final int row) throws PersistenceException {
             boolean retval = false;
             try {
                 if (_rset != null) {
@@ -208,7 +208,7 @@ public class SimpleQueryExecutor {
             return next( false );
         }
         
-        private Object next( boolean skipError ) 
+        private Object next(final boolean skipError) 
         throws PersistenceException, NoSuchElementException {
             
             Object retVal = null;

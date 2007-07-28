@@ -942,14 +942,15 @@ public final class Lexer {
     /**
      * Consumes whitespace characters.
      *
-     * @param curChar the current character before the call
+     * @param currentChar the current character before the call
      * @return The current character after whitespace is consumed
      */
-    private char consumeWhiteSpace(char curChar) {
-        while (isWhiteSpace(curChar)) {
+    private char consumeWhiteSpace(final char curChar) {
+        char currentChar = curChar;
+        while (isWhiteSpace(currentChar)) {
             _pos++;
-            curChar = _queryString.charAt(_pos);
+            currentChar = _queryString.charAt(_pos);
         }
-        return (curChar);
+        return currentChar;
     }
 }

@@ -59,11 +59,11 @@ public class InvalidCharException extends QueryException {
     /** SerialVersionUID */
     private static final long serialVersionUID = -6610485595861733951L;
 
-    public InvalidCharException( String message ) {
+    public InvalidCharException(final String message) {
 		super( message );
 	}
 
-	public InvalidCharException( String message, Throwable exception ) {
+	public InvalidCharException(final String message, final Throwable exception) {
 		super( message );
 	}
 

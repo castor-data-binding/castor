@@ -70,15 +70,11 @@ final class MultiRSCallQuery extends AbstractCallQuery {
      * @param fields ???
      * @param sqlTypes SQL types of the parameters
      */
-    MultiRSCallQuery(final String call, 
-            final Class[] types, 
-            final Class javaClass,
-            final String[] fields, 
-            final int[] sqlTypes) {
+    MultiRSCallQuery(final String call, final Class[] types, final Class javaClass, final String[] fields, final int[] sqlTypes) {
         super(call, types, javaClass, sqlTypes);
     }
 
-    protected void execute( Object conn, AccessMode accessMode )
+    protected void execute(final Object conn, final AccessMode accessMode)
     throws QueryException, PersistenceException {
         _lastIdentity = null;
         try {
@@ -107,5 +103,4 @@ final class MultiRSCallQuery extends AbstractCallQuery {
             _rs = _stmt.getResultSet();
         }
     }
-
 }

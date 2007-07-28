@@ -74,7 +74,7 @@ class DatingService {
 
     Hashtable javaClasses;
 
-    DatingService( ClassLoader loader ) {
+    DatingService(final ClassLoader loader) {
         this.loader = loader;
     }
 
@@ -136,8 +136,7 @@ class DatingService {
      * Pair up ClassMolder and it extends class.
      * @return true if they can be paired up immediately.
      */
-    boolean pairExtends( ClassMolder me, String extName ) 
-            throws MappingException {
+    boolean pairExtends(final ClassMolder me, final String extName) throws MappingException {
 
         if ( extName == null || extName.equals("") )
             throw new IllegalArgumentException("Null classname not allowed!");
@@ -163,7 +162,7 @@ class DatingService {
      * Pair up ClassMolder and it depends class.
      * @return true if they can be paired up immediately.
      */
-    boolean pairDepends( ClassMolder me, String depName ) {
+    boolean pairDepends(final ClassMolder me, final String depName) {
         if ( depName == null || depName.equals("") )
             return true;
 
@@ -184,7 +183,7 @@ class DatingService {
      * Resolve the java.lang.Class of the fully qualified class name
      *
      */
-    Class resolve( String className ) throws ClassNotFoundException {
+    Class resolve(final String className) throws ClassNotFoundException {
         Class resolved;
         if ( javaClasses == null )
             javaClasses = new Hashtable();
@@ -201,7 +200,7 @@ class DatingService {
      * @param typeName Type of the field which the FieldMolder represents
      * @exception MappingException indicates that the pairing failed.
      */
-    boolean pairFieldClass(FieldMolder fieldMolder, String typeName) throws MappingException {
+    boolean pairFieldClass(final FieldMolder fieldMolder, final String typeName) throws MappingException {
         
         try {
             if ( typeName == null || typeName.equals("") )
@@ -234,7 +233,7 @@ class DatingService {
      * Register the name of a ClassMolder which will be pairing
      * up.
      */
-    void register( String name, ClassMolder clsMold ) {
+    void register(final String name, final ClassMolder clsMold) {
         if ( clsMolders == null )
             clsMolders = new Hashtable();
         clsMolders.put( name, clsMold );
@@ -243,7 +242,7 @@ class DatingService {
     private class Pair {
         public Object key;
         public Object value;
-        private Pair( Object key, Object value ) {
+        private Pair(final Object key, final Object value) {
             this.key = key;
             this.value = value;
         }

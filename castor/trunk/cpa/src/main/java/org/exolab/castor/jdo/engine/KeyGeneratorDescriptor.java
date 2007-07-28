@@ -66,8 +66,8 @@ final class KeyGeneratorDescriptor {
 
     private final KeyGeneratorRegistry _keyGenReg;
 
-    public KeyGeneratorDescriptor( String name, String keyGenFactoryName,
-            Properties params, KeyGeneratorRegistry keyGenReg ) {
+    public KeyGeneratorDescriptor(final String name, final String keyGenFactoryName,
+            final Properties params, final KeyGeneratorRegistry keyGenReg) {
         _name = name;
         _keyGenFactoryName = keyGenFactoryName;
         _params = params;

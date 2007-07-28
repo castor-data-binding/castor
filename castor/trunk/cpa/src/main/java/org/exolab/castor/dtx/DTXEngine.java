@@ -106,7 +106,7 @@ public class DTXEngine {
      * @param schemaURL URL string for XML Schema file.
      */
 
-    public DTXEngine(String databaseURL, String schemaURL) throws DTXException {
+    public DTXEngine(final String databaseURL, final String schemaURL) throws DTXException {
 	    setDatabase(databaseURL);
 	    setSchema(schemaURL);
     }
@@ -116,7 +116,7 @@ public class DTXEngine {
      *
      * @param schemaURL URL string for XML Schema file.  */
 
-    public void setSchema(String schemaURL) throws DTXException {
+    public void setSchema(final String schemaURL) throws DTXException {
 	    _schemaURL = schemaURL;
 
         try {
@@ -136,7 +136,7 @@ public class DTXEngine {
      * @param databaseURL URL string for JDO database mapping file.
      */
 
-    public void setDatabase(String databaseURL) throws DTXException {
+    public void setDatabase(final String databaseURL) throws DTXException {
 	_databaseURL = databaseURL;
         Unmarshaller unm = new Unmarshaller( Database.class );
 
@@ -192,7 +192,7 @@ public class DTXEngine {
      * SAX events.
      */
 
-    public void setDocumentHandler(DocumentHandler handler) {
+    public void setDocumentHandler(final DocumentHandler handler) {
 	_handler = handler;
     }
 
@@ -205,7 +205,7 @@ public class DTXEngine {
      * @param oql OQL string for the query.
      */
 
-    public DTXQuery prepareQuery(String oql) throws DTXException {
+    public DTXQuery prepareQuery(final String oql) throws DTXException {
 
 	DTXQuery qry = new DTXQuery();
 	qry.setEngine(this);
@@ -273,7 +273,7 @@ public class DTXEngine {
 
     /* Return a class mapping based on the class name. */
 
-    ClassMapping getClassMapping(String className) {
+    ClassMapping getClassMapping(final String className) {
 	return (ClassMapping) _classMappings.get(className);
     }
 }

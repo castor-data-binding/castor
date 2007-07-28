@@ -71,7 +71,7 @@ public final class SQLStatementRemove {
         }
     }
 
-    public Object executeStatement(final Connection conn, Identity identity)
+    public Object executeStatement(final Connection conn, final Identity identity)
     throws PersistenceException {
         SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
         SQLEngine extended = _engine.getExtends();

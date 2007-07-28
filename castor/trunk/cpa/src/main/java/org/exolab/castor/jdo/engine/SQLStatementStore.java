@@ -382,19 +382,20 @@ public final class SQLStatementStore {
      * @param pos The current position (where to apply the replacement).
      * @return The next position.
      */
-    private int nextParameter(final boolean isNull, final StringBuffer sb, int pos) {
-        for ( ; pos > 0; pos--) {
-            if ((sb.charAt(pos - 1) == '=') && (sb.charAt(pos) == '?')) {
+    private int nextParameter(final boolean isNull, final StringBuffer sb, final int pos) {
+        int internalpos = pos;
+        for ( ; internalpos > 0; internalpos--) {
+            if ((sb.charAt(internalpos - 1) == '=') && (sb.charAt(internalpos) == '?')) {
                 break;
             }
         }
-        if (pos > 0) {
-            pos--;
+        if (internalpos > 0) {
+            internalpos--;
             if (isNull) {
-                sb.delete(pos, pos + 2);
-                sb.insert(pos, " IS NULL");
+                sb.delete(internalpos, internalpos + 2);
+                sb.insert(internalpos, " IS NULL");
             }
         }
-        return pos;
+        return internalpos;
     }
 }

@@ -76,7 +76,7 @@ public final class DbMetaInfo {
      * 
      * @param conn JDBC connection
      */
-    public DbMetaInfo(Connection conn) {
+    public DbMetaInfo(final Connection conn) {
         _conn = conn;
     }
 
@@ -132,13 +132,13 @@ public final class DbMetaInfo {
      * @param version
      * @return -1 -> lower  0 -> equal  1 -> higher
      */
-    public int compareDbVersion(String version) {
+    public int compareDbVersion(final String version) {
        	init();
 
         return compareVersionStrings(_dbVersion, version);
     }
 
-    static int compareVersionStrings(String v1, String v2) {
+    static int compareVersionStrings(final String v1, final String v2) {
        	int p1 = 0;
        	int p2 = 0;
 

@@ -74,7 +74,7 @@ public final class SapDbFactory extends OracleFactory {
      *
      * @param name The SQL string that needs quotes added
      */
-    public String quoteName( String name ) {
+    public String quoteName(final String name) {
         StringBuffer buffer = new StringBuffer();
         StringTokenizer tokens = new StringTokenizer(name, ".");
         String token = null;
@@ -111,7 +111,7 @@ public final class SapDbFactory extends OracleFactory {
      * @param text The text to be checked
      * @see #quoteName(String)
      */
-    public boolean isAFunction( String text ) {
+    public boolean isAFunction(final String text) {
         boolean isAFunction = false;
 
         // Add all supported functions in SAP DB here

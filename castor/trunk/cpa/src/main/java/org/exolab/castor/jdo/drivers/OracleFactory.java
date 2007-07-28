@@ -102,8 +102,8 @@ public class OracleFactory extends GenericFactory {
      * @param sqlTypes The field SQL types
      * @return null if this feature is not supported.
      */
-    public PersistenceQuery getCallQuery( String call, Class[] paramTypes, Class javaClass, String[] fields, int[] sqlTypes ) {
-        return new ReturnedRSCallQuery( call, paramTypes, javaClass, fields, sqlTypes );
+    public PersistenceQuery getCallQuery(final String call, final Class[] paramTypes, final Class javaClass, final String[] fields, final int[] sqlTypes) {
+        return new ReturnedRSCallQuery(call, paramTypes, javaClass, fields, sqlTypes);
     }
 
     /**
@@ -114,7 +114,7 @@ public class OracleFactory extends GenericFactory {
      * @inheritDoc
      * @see org.exolab.castor.jdo.engine.BaseFactory#adjustSqlType(java.lang.Class)
      */
-    public Class adjustSqlType( Class sqlType ) {
+    public Class adjustSqlType(final Class sqlType) {
         if (sqlType == java.lang.Integer.class) {
             return java.math.BigDecimal.class;
         }

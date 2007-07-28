@@ -63,7 +63,7 @@ public class Complex {
 
     private int _hashCode;
 
-    public Complex( Object o ) {
+    public Complex(final Object o) {
         _size = 1;
         _first = o;
         _second = null;
@@ -71,7 +71,7 @@ public class Complex {
         _hashCode = _first.hashCode();
     }
 
-    public Complex( int length, Object[] o ) {
+    public Complex(final int length, final Object[] o) {
         _size = length;
         if ( length == 1 ) {
             _first = o[0];
@@ -97,7 +97,7 @@ public class Complex {
             throw new IllegalArgumentException("Invalid Complex object");
     }
 
-    public Complex( Object o1, Object o2 ) {
+    public Complex(final Object o1, final Object o2) {
         _size = 2;
         _first = o1;
         _second = o2;
@@ -106,7 +106,7 @@ public class Complex {
         _hashCode += _second==null?0:_second.hashCode();
     }
 
-    public Complex( Object[] o ) {
+    public Complex(final Object[] o) {
         // try to avoid creation of another object
         if ( o == null || o.length == 0 )
             throw new NullPointerException();
@@ -137,7 +137,7 @@ public class Complex {
         }
     }
 
-    public Complex( Complex complex ) {
+    public Complex(final Complex complex) {
         // try to avoid creation of another object
         if ( complex == null || complex.size() == 0 )
             throw new NullPointerException();
@@ -170,7 +170,7 @@ public class Complex {
         }
     }
 
-    public boolean equals( Object other ) {
+    public boolean equals(final Object other) {
         if ( other == null ) {
             return false;
         }
@@ -208,7 +208,7 @@ public class Complex {
     public int hashCode() {
         return _hashCode;
     }
-    public Object get( int i ) {
+    public Object get(final int i) {
 
         if ( i >= _size || i < 0 )
             throw new ArrayIndexOutOfBoundsException();

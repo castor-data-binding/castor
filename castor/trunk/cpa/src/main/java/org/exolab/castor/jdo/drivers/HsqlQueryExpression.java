@@ -63,11 +63,11 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @version $Revision$ $Date: 2005-07-05 07:25:41 -0600 (Tue, 05 Jul 2005) $
  */
 public final class HsqlQueryExpression extends JDBCQueryExpression {
-    public HsqlQueryExpression(PersistenceFactory factory) {
+    public HsqlQueryExpression(final PersistenceFactory factory) {
         super(factory);
     }
 
-    public String getStatement( boolean lock ) {
+    public String getStatement(final boolean lock) {
         return getStandardStatement( lock, false ).toString();
     }
     
@@ -80,7 +80,7 @@ public final class HsqlQueryExpression extends JDBCQueryExpression {
      * @param lock whether to lock selected tables
      * @param oj true in the first case above, false in the second case.
      **/
-    protected StringBuffer getStandardStatement( boolean lock, boolean oj ) {
+    protected StringBuffer getStandardStatement(final boolean lock, final boolean oj) {
         StringBuffer sql;
         Enumeration  enumeration;
         boolean      first;

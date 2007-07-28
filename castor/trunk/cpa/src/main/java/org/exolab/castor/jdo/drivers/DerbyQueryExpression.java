@@ -56,11 +56,11 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @version $Revision$ $Date$
  */
 public final class DerbyQueryExpression extends JDBCQueryExpression {
-    public DerbyQueryExpression(PersistenceFactory factory) {
+    public DerbyQueryExpression(final PersistenceFactory factory) {
         super(factory);
     }
 
-    public String getStatement(boolean lock) {
+    public String getStatement(final boolean lock) {
         return getStandardStatement(lock, false).toString();
     }
 }

@@ -158,7 +158,7 @@ public class JDOClassDescriptor extends ClassDescriptorImpl {
      * @param name Name of the field to return.
      * @return Field if it exists, otherwise <code>null</code>.
      */
-    public JDOFieldDescriptor getField(String name) {
+    public JDOFieldDescriptor getField(final String name) {
         FieldDescriptor[] fields = getFields();
         for (int i = 0 ; i < fields.length ; ++i) {
             FieldDescriptor field = fields[i];

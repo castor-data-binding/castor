@@ -99,7 +99,7 @@ private ClassLoader _classLoader;
    * @throws QueryException if the user defined type cannot be converted to the
    *      systemType or if the type is not found.
    */
-  public ParamInfo( String userDefinedType, String systemType, JDOFieldDescriptor desc, ClassLoader classLoader )
+  public ParamInfo(final String userDefinedType, final String systemType, final JDOFieldDescriptor desc, final ClassLoader classLoader)
   throws QueryException {
     _userDefinedType = userDefinedType;
     _systemType = systemType;
@@ -157,7 +157,7 @@ private ClassLoader _classLoader;
    *    one prevuiously specified in the constructor, or if the systemType is
    *    not convertable to the original systemType.
    */
-  public void check( String userDefinedType, String systemType ) throws QueryException {
+  public void check(final String userDefinedType, final String systemType) throws QueryException {
     if ( ! _userDefinedType.equals(userDefinedType) )
       throw new QueryException( "Different types were specified for the same numbered parameter." );
 
@@ -181,7 +181,6 @@ private ClassLoader _classLoader;
 
         if ( ! systemClass.isAssignableFrom(userClass) )
           throw new QueryException( "The class " + userDefinedType + " is incompatible with the system defined class " + systemType );
-
       }
     }
   }
