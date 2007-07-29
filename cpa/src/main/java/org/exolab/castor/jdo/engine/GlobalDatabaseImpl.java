@@ -176,7 +176,7 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchron
             try {
                 _transaction.setRollbackOnly();
             } catch (SystemException except) {
-                _log.warn( Messages.format("jdo.warnException", except));
+                _log.warn(Messages.format("jdo.warnException", except));
             }
             return;
         }
@@ -207,7 +207,7 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchron
                 return;
             }
             if (_ctx.getStatus() != Status.STATUS_PREPARED && status != Status.STATUS_ROLLEDBACK) {
-                throw new IllegalStateException( "Unexpected state: afterCompletion called at status " + _ctx.getStatus() );
+                throw new IllegalStateException("Unexpected state: afterCompletion called at status " + _ctx.getStatus());
             }
             switch (status) {
             case Status.STATUS_COMMITTED:

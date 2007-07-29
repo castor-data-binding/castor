@@ -93,11 +93,11 @@ public class CacheManager {
      * @throws PersistenceException If a problem occured resolving the object's cache membership.
      */
     public boolean isCached (final Class cls, final Object identity) throws PersistenceException {
-        if ( transactionContext != null && transactionContext.isOpen()  ) {
+        if (transactionContext != null && transactionContext.isOpen()) {
             return transactionContext.isCached(lockEngine.getClassMolder(cls), cls, new Identity(identity));
         }
         
-        throw new PersistenceException ("isCached() has to be called within an active transaction.");
+        throw new PersistenceException("isCached() has to be called within an active transaction.");
     }
 
     /**
@@ -210,7 +210,7 @@ public class CacheManager {
      */
     private void testForOpenDatabase() throws PersistenceException {
         if (db.isClosed()) {
-            throw new PersistenceException(Messages.message( "jdo.dbClosed" ));
+            throw new PersistenceException(Messages.message("jdo.dbClosed"));
         }
     }
 }

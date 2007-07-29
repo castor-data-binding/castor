@@ -65,7 +65,7 @@ public class DatabaseNotFoundException extends PersistenceException {
     }
 
     public DatabaseNotFoundException(final String message, final Throwable except) {
-        super( message, except);
+        super(message, except);
     }
 }
 

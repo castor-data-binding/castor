@@ -317,7 +317,7 @@ public class QueryAnalyser {
                 statusBar.setText("Query successful, Time: " + (endtime.getTime() - starttime.getTime()) + " ms");
 
                 // get SQL statement via backdoor
-                SQLPane.setText( ((OQLQueryImpl)oql).getSQL());
+                SQLPane.setText(((OQLQueryImpl)oql).getSQL());
 
 
                 while (r.hasMore()) {

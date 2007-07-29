@@ -87,7 +87,7 @@ public final class KeyGeneratorFactoryRegistry {
      */
     public static KeyGeneratorFactory getKeyGeneratorFactory(final String name) {
         load();
-        return (KeyGeneratorFactory) _factories.get( name );
+        return (KeyGeneratorFactory) _factories.get(name);
     }
 
     /**
@@ -104,7 +104,7 @@ public final class KeyGeneratorFactoryRegistry {
         load();
         names = new String[ _factories.size() ];
         enumeration = _factories.keys();
-        for ( int i = 0 ; i < names.length ; ++i ) {
+        for (int i = 0 ; i < names.length ; ++i) {
             names[ i ] = (String) enumeration.nextElement();
         }
         return names;

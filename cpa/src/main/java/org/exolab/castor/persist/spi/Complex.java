@@ -72,22 +72,22 @@ public class Complex {
 
     public Complex(final int length, final Object[] o) {
         _size = length;
-        if ( length == 1 ) {
+        if (length == 1) {
             _first = o[0];
             _second = null;
             _all = null;
             _hashCode = (_first == null) ? 0 : _first.hashCode();
-        } else if ( length == 2 ) {
+        } else if (length == 2) {
             _first = o[0];
             _second = o[1];
             _all = null;
             _hashCode = (_first == null) ? 0 : _first.hashCode();
             _hashCode += (_second == null) ? 0 : _second.hashCode();
-        } else if ( length <= o.length && length > 0 ) {
+        } else if ((length <= o.length) && (length > 0)) {
             _first = null;
             _second = null;
             _all = new Object[_size];
-            System.arraycopy( o, 0, _all, 0, _size );
+            System.arraycopy(o, 0, _all, 0, _size);
             _hashCode = 0;
             for (int i = 0; i < _size; i++) {
                 _hashCode += ((_all[i] == null) ? 0 : _all[i].hashCode());
@@ -107,16 +107,16 @@ public class Complex {
 
     public Complex(final Object[] o) {
         // try to avoid creation of another object
-        if ( o == null || o.length == 0 )
+        if ((o == null) || (o.length == 0))
             throw new NullPointerException();
 
-        if ( o.length == 1  ) {
+        if (o.length == 1) {
             _size = 1;
             _first = o[0];
             _second = null;
             _all = null;
             _hashCode = _first.hashCode();
-        } else if ( o.length == 2 ) {
+        } else if (o.length == 2) {
             _size = 2;
             _first = o[0];
             _second = o[1];
@@ -128,7 +128,7 @@ public class Complex {
             _first = null;
             _second = null;
             _all = new Object[_size];
-            System.arraycopy( o, 0, _all, 0, _size );
+            System.arraycopy(o, 0, _all, 0, _size);
             _hashCode = 0;
             for (int i = 0; i < _size; i++) {
                 _hashCode += ((_all[i] == null) ? 0 : _all[i].hashCode());
@@ -138,18 +138,18 @@ public class Complex {
 
     public Complex(final Complex complex) {
         // try to avoid creation of another object
-        if ( complex == null || complex.size() == 0 )
+        if ((complex == null) || (complex.size() == 0))
             throw new NullPointerException();
 
         int dim = complex.size();
 
-        if ( dim == 1  ) {
+        if (dim == 1) {
             _size = 1;
             _first = complex.get(0);
             _second = null;
             _all = null;
             _hashCode = _first.hashCode();
-        } else if ( dim == 2 ) {
+        } else if (dim == 2) {
             _first = complex.get(0);
             _second = complex.get(1);
             _all = null;
@@ -161,7 +161,7 @@ public class Complex {
             _first = null;
             _second = null;
             _all = new Object[_size];
-            System.arraycopy( complex, 0, _all, 0, _size );
+            System.arraycopy(complex, 0, _all, 0, _size);
             _hashCode = 0;
             for (int i = 0; i < _size; i++) {
                 _hashCode += ((_all[i] == null) ? 0 : _all[i].hashCode());
@@ -170,15 +170,15 @@ public class Complex {
     }
 
     public boolean equals(final Object other) {
-        if ( other == null ) {
+        if (other == null) {
             return false;
         }
-        if ( !(other instanceof Complex) ) {
+        if (!(other instanceof Complex)) {
             return false;
         }
 
         Complex comp = (Complex) other;
-        if ( comp.size() != _size ) {
+        if (comp.size() != _size) {
             return false;
         }
 
@@ -199,7 +199,7 @@ public class Complex {
     public boolean hasSomePartsNull() {
 
         for (int i = 0; i < _size; i++) {
-            if ( get(i) == null )
+            if (get(i) == null)
                 return true;
         }
         return false;
@@ -209,9 +209,9 @@ public class Complex {
     }
     public Object get(final int i) {
 
-        if ( i >= _size || i < 0 )
+        if ((i >= _size) || (i < 0))
             throw new ArrayIndexOutOfBoundsException();
-        if ( _size <= 2 )
+        if (_size <= 2)
           return i == 0  ? _first : _second;
 
         return _all[i];
@@ -225,7 +225,7 @@ public class Complex {
         StringBuffer sb = new StringBuffer();
         sb.append("<");
         for (int i = 0; i < _size; i++) {
-            if ( i != 0 ) 
+            if (i != 0) 
                 sb.append(",");
             Object obj = get(i);
             sb.append(obj);

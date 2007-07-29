@@ -311,5 +311,5 @@ public interface QueryExpression {
      * 
      * @param dbInfo DbMetaInfo instance
      */    
-    void setDbMetaInfo( DbMetaInfo dbInfo );
+    void setDbMetaInfo(DbMetaInfo dbInfo);
 }

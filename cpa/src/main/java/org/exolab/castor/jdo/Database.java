@@ -202,8 +202,7 @@ public interface Database {
      * @return An OQL query
      * @throws PersistenceException
      */
-    OQLQuery getOQLQuery( String oql )
-        throws PersistenceException;
+    OQLQuery getOQLQuery(String oql) throws PersistenceException;
 
     /**
      * Creates an empty query. The query must be created before

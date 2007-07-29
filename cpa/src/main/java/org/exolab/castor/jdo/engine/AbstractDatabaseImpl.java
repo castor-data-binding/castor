@@ -381,7 +381,7 @@ public abstract class AbstractDatabaseImpl implements Database {
      * @see org.exolab.castor.jdo.Database#getIdentity(java.lang.Object)
      */
     public Identity getIdentity(final Object object) throws PersistenceException {
-        if ( _scope == null ) {
+        if (_scope == null) {
             throw new PersistenceException(Messages.message("jdo.dbClosed"));
         }
 
@@ -438,7 +438,7 @@ public abstract class AbstractDatabaseImpl implements Database {
      * @see org.exolab.castor.jdo.Database#getQuery()
      */
     public Query getQuery() {
-        return new OQLQueryImpl( this );
+        return new OQLQueryImpl(this);
     }
 
     /**
