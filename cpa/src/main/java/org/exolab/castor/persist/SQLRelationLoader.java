@@ -123,26 +123,26 @@ public class SQLRelationLoader {
         int count = 0;
         sb.append("SELECT ");
         for (int i = 0; i < left.length; i++) {
-            if ( i > 0 ) sb.append(",");
-            sb.append( left[i] );
+            if (i > 0) sb.append(",");
+            sb.append(left[i]);
             count++;
         }
         for (int i = 0; i < right.length; i++) {
             sb.append(",");
-            sb.append( right[i] );
+            sb.append(right[i]);
             count++;
         }
         sb.append(" FROM ");
-        sb.append( tableName );
+        sb.append(tableName);
         sb.append(" WHERE ");
         for (int i = 0; i < left.length; i++) {
-            if ( i > 0 ) sb.append(" AND ");
-            sb.append( left[i] );
+            if (i > 0) sb.append(" AND ");
+            sb.append(left[i]);
             sb.append("=?");
         }
         for (int i = 0; i < right.length; i++) {
             sb.append(" AND ");
-            sb.append( right[i] );
+            sb.append(right[i]);
             sb.append("=?");
         }
         select = sb.toString();
@@ -151,21 +151,21 @@ public class SQLRelationLoader {
         sb = new StringBuffer();
         count = 0;
         sb.append("INSERT INTO ");
-        sb.append( tableName );
+        sb.append(tableName);
         sb.append(" (");
         for (int i = 0; i < left.length; i++) {
-            if ( i > 0 ) sb.append(",");
-            sb.append( left[i] );
+            if (i > 0) sb.append(",");
+            sb.append(left[i]);
             count++;
         }
         for (int i = 0; i < right.length; i++) {
             sb.append(",");
-            sb.append( right[i] );
+            sb.append(right[i]);
             count++;
         }
         sb.append(") VALUES (");
         for (int i = 0; i < count; i++) {
-            if ( i > 0 ) sb.append(",");
+            if (i > 0) sb.append(",");
             sb.append("?");
         }
         sb.append(")");
@@ -175,16 +175,16 @@ public class SQLRelationLoader {
         sb = new StringBuffer();
         count = 0;
         sb.append("DELETE FROM ");
-        sb.append( tableName );
+        sb.append(tableName);
         sb.append(" WHERE ");
         for (int i = 0; i < left.length; i++) {
-            if ( i > 0 ) sb.append(" AND ");
-            sb.append( left[i] );
+            if (i > 0) sb.append(" AND ");
+            sb.append(left[i]);
             sb.append("=?");
         }
         for (int i = 0; i < right.length; i++) {
             sb.append(" AND ");
-            sb.append( right[i] );
+            sb.append(right[i]);
             sb.append("=?");
         }
         delete = sb.toString();
@@ -193,11 +193,11 @@ public class SQLRelationLoader {
         sb = new StringBuffer();
         count = 0;
         sb.append("DELETE FROM ");
-        sb.append( tableName );
+        sb.append(tableName);
         sb.append(" WHERE ");
         for (int i = 0; i < left.length; i++) {
-            if ( i > 0 ) sb.append(" AND ");
-            sb.append( left[i] );
+            if (i > 0) sb.append(" AND ");
+            sb.append(left[i]);
             sb.append("=?");
         }
         deleteAll = sb.toString();
@@ -206,7 +206,7 @@ public class SQLRelationLoader {
 
     private Object idToSQL(final int index, final Object object) {
         if ((object == null) || (leftFrom[index] == null)) { return object; }
-        return leftFrom[index].convert( object, leftParam[index] );
+        return leftFrom[index].convert(object, leftParam[index]);
     }
 
     private Object ridToSQL(final int index, final Object object) {
@@ -246,9 +246,9 @@ public class SQLRelationLoader {
                 }
                 insertStatement.executeUpdate();
             }
-        } catch ( SQLException e ) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            throw new PersistenceException( e.toString() );
+            throw new PersistenceException(e.toString());
         } finally {
             JDOUtils.closeResultSet(rset);
             JDOUtils.closeStatement(selectStatement);
@@ -290,9 +290,9 @@ public class SQLRelationLoader {
                 count++;
             }
             stmt.executeUpdate();
-        } catch ( SQLException e ) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            throw new PersistenceException( e.toString() );
+            throw new PersistenceException(e.toString());
         } finally {
             JDOUtils.closeStatement(stmt);
         }

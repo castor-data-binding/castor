@@ -94,14 +94,14 @@ final class PostgreSQLCallQuery implements PersistenceQuery {
     PostgreSQLCallQuery(final String call, final Class[] types, final Class javaClass, final String[] fields, final int[] sqlTypes) {
         StringBuffer query = new StringBuffer();
 
-        query.append( JDBCSyntax.SELECT );
-        for ( int i = 0; i < fields.length; i++ ) {
-            if ( i > 0 ) 
-                query.append( JDBCSyntax.COLUMN_SEPARATOR );
-            query.append( fields[i] );
-            query.append( "(" );
-            query.append( call );
-            query.append( ")" );
+        query.append(JDBCSyntax.SELECT);
+        for (int i = 0; i < fields.length; i++) {
+            if (i > 0) 
+                query.append(JDBCSyntax.COLUMN_SEPARATOR);
+            query.append(fields[i]);
+            query.append("(");
+            query.append(call);
+            query.append(")");
         }
         _call = query.toString();
         _types = types;
@@ -149,27 +149,27 @@ final class PostgreSQLCallQuery implements PersistenceQuery {
         try {
             int count;
 
-            _stmt = ( (Connection) conn ).prepareStatement( _call );
+            _stmt = ((Connection) conn).prepareStatement(_call);
             count = 1;
-            for ( int f = 0 ; f < _sqlTypes.length ; ++f ) {
-                for ( int i = 0 ; i < _values.length ; ++i ) {
-                    _stmt.setObject( count, _values[ i ] );
+            for (int f = 0; f < _sqlTypes.length; ++f) {
+                for (int i = 0; i < _values.length; ++i) {
+                    _stmt.setObject(count, _values[i]);
                     ++count;
                 }
             }
-            for ( int i = 0 ; i < _values.length ; ++i ) 
+            for (int i = 0; i < _values.length; ++i) 
                 _values[ i ] = null;
             _stmt.execute();
             _rs = _stmt.executeQuery();
-        } catch ( SQLException except ) {
-            if ( _stmt != null ) {
+        } catch (SQLException except) {
+            if (_stmt != null) {
                 try {
                     _stmt.close();
-                } catch ( SQLException e2 ) {
+                } catch (SQLException e2) {
                     _log.warn (Messages.message ("persist.stClosingFailed"), e2);
                 }
             }
-            throw new PersistenceException( Messages.format( "persist.nested", except ) );
+            throw new PersistenceException(Messages.format("persist.nested", except));
         }
     }
 
@@ -197,18 +197,18 @@ final class PostgreSQLCallQuery implements PersistenceQuery {
     }
 
     public void close() {
-        if ( _rs != null ) {
+        if (_rs != null) {
             try {
                 _rs.close();
-            } catch ( SQLException except ) {
+            } catch (SQLException except) {
                 _log.warn (Messages.message ("persist.rsClosingFailed"), except);
             }
             _rs = null;
         }
-        if ( _stmt != null ) {
+        if (_stmt != null) {
             try {
                 _stmt.close();
-            } catch ( SQLException except ) {
+            } catch (SQLException except) {
                 _log.warn (Messages.message ("persist.stClosingFailed"), except);
             }
             _stmt = null;

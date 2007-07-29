@@ -61,7 +61,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  */
 public final class SQLServerQueryExpression extends JDBCQueryExpression {
     public SQLServerQueryExpression(final PersistenceFactory factory) {
-        super( factory );
+        super(factory);
     }
 
     public String getStatement(final boolean lock) {
@@ -70,64 +70,64 @@ public final class SQLServerQueryExpression extends JDBCQueryExpression {
         Enumeration  enumeration;
 
         sql = new StringBuffer();
-        sql.append( JDBCSyntax.SELECT );
-        if ( _distinct )
-          sql.append( JDBCSyntax.DISTINCT );
+        sql.append(JDBCSyntax.SELECT);
+        if (_distinct)
+          sql.append(JDBCSyntax.DISTINCT);
 
-        if ( _limit != null )
-          if ( _limit.equals("") == false )
+        if (_limit != null)
+          if (_limit.equals("") == false)
             sql.append("TOP ").append(_limit).append(" ");
 
-        sql.append( getColumnList() );
+        sql.append(getColumnList());
 
-        sql.append( JDBCSyntax.FROM );
+        sql.append(JDBCSyntax.FROM);
 
         // Use HOLDLOCK to lock selected tables.
         enumeration = _tables.keys();
-        while ( enumeration.hasMoreElements() ) {
+        while (enumeration.hasMoreElements()) {
             String tableAlias = (String) enumeration.nextElement();
-            String tableName = (String) _tables.get( tableAlias );
+            String tableName = (String) _tables.get(tableAlias);
             if (tableAlias.equals(tableName)) {
-                sql.append( _factory.quoteName( tableName ) );
+                sql.append(_factory.quoteName(tableName));
             } else {
-                sql.append( _factory.quoteName( tableName ) + " " +
-                            _factory.quoteName( tableAlias ) );
+                sql.append(_factory.quoteName(tableName) + " " +
+                            _factory.quoteName(tableAlias));
             }
-            if ( lock )
-                sql.append( " HOLDLOCK " );
-            if ( enumeration.hasMoreElements() )
-                sql.append( JDBCSyntax.TABLE_SEPARATOR );
+            if (lock)
+                sql.append(" HOLDLOCK ");
+            if (enumeration.hasMoreElements())
+                sql.append(JDBCSyntax.TABLE_SEPARATOR);
         }
 
         first = true;
         // Use asterisk notation to denote a left outer join
         // and equals to denote an inner join
-        for ( int i = 0 ; i < _joins.size() ; ++i ) {
+        for (int i = 0; i < _joins.size(); ++i) {
             Join join;
 
-            if ( first ) {
-                sql.append( JDBCSyntax.WHERE );
+            if (first) {
+                sql.append(JDBCSyntax.WHERE);
                 first = false;
             } else
-                sql.append( JDBCSyntax.AND );
+                sql.append(JDBCSyntax.AND);
 
-            join = (Join) _joins.elementAt( i );
-            for ( int j = 0 ; j < join.leftColumns.length ; ++j ) {
-                if ( j > 0 )
-                    sql.append( JDBCSyntax.AND );
-                sql.append( _factory.quoteName( join.leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                                join.leftColumns[ j ] ) );
-                if ( join.outer )
-                    sql.append( "*=" );
+            join = (Join) _joins.elementAt(i);
+            for (int j = 0; j < join.leftColumns.length; ++j) {
+                if (j > 0)
+                    sql.append(JDBCSyntax.AND);
+                sql.append(_factory.quoteName(join.leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
+                                                join.leftColumns[j]));
+                if (join.outer)
+                    sql.append("*=");
                 else
-                    sql.append( OP_EQUALS );
-                sql.append( _factory.quoteName( join.rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                                join.rightColumns[ j ] ) );
+                    sql.append(OP_EQUALS);
+                sql.append(_factory.quoteName(join.rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
+                                                join.rightColumns[j]));
             }
         }
-        first = addWhereClause( sql, first );
+        first = addWhereClause(sql, first);
 
-        if ( _order != null )
+        if (_order != null)
           sql.append(JDBCSyntax.ORDER_BY).append(_order);
 
         return sql.toString();

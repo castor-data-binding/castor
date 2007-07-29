@@ -109,22 +109,22 @@ public class SimpleQueryExecutor {
             
             _stmt = conn.prepareStatement(sql);
             
-            if ( bindValues != null )
+            if (bindValues != null)
                 SqlBindParser.bindJdbcValues(_stmt, pre_sql, bindValues);
             
             _rset = _stmt.executeQuery();
             return new SimpleQueryResults();
             
         } catch (SQLException s) {
-            if ( _rset != null )
+            if (_rset != null)
                 try { _rset.close(); } catch (SQLException e) { }
-                if ( _stmt != null )
+                if (_stmt != null)
                     try { _stmt.close(); } catch (SQLException e) { }
                     
                     _rset = null;
                     _stmt = null;
                     
-                    throw new QueryException( s.toString() );
+                    throw new QueryException(s.toString());
         }
     }
     
@@ -196,15 +196,15 @@ public class SimpleQueryExecutor {
         
         public Object nextElement() throws NoSuchElementException {
             try {
-                return next( true );
-            } catch ( PersistenceException except ) {
+                return next(true);
+            } catch (PersistenceException except) {
                 // Will never happen
                 return null;
             }
         }
         
         public Object next() throws PersistenceException, NoSuchElementException {
-            return next( false );
+            return next(false);
         }
         
         private Object next(final boolean skipError) 
@@ -212,13 +212,13 @@ public class SimpleQueryExecutor {
             
             Object retVal = null;
             
-            if ( ! _hasMore )
+            if (!_hasMore)
                 throw new NoSuchElementException();
             try {
                 retVal = _rset.getObject(1);
                 _hasMore = _rset.next();
             } catch (SQLException except) { 
-                if ( ! skipError )
+                if (!skipError)
                     throw new PersistenceException(except.toString());
             }
             
@@ -226,9 +226,9 @@ public class SimpleQueryExecutor {
         }
         
         public void close() {
-            if ( _rset != null ) 
+            if (_rset != null) 
                 try { _rset.close(); } catch (SQLException s) { }
-                if ( _stmt != null ) 
+                if (_stmt != null) 
                     try { _stmt.close(); } catch (SQLException s) { }
                     _rset = null;
                     _stmt = null;
@@ -237,7 +237,5 @@ public class SimpleQueryExecutor {
         protected void finalize() throws Throwable {
             close();
         }
-        
     }
-    
 }

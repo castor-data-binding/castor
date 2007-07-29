@@ -73,7 +73,7 @@ final class KeyGeneratorRegistry {
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      * Commons Logging</a> instance used for all logging.
      */
-    private static Log _log = LogFactory.getFactory().getInstance( KeyGeneratorRegistry.class );
+    private static Log _log = LogFactory.getFactory().getInstance(KeyGeneratorRegistry.class);
 
     /**
      * Association between key generator names (aliases) and instances.
@@ -95,30 +95,30 @@ final class KeyGeneratorRegistry {
         KeyGenerator keyGen;
 
         keyGenName = desc.getName() + " " + sqlType;
-        keyGen = (KeyGenerator) _keyGens.get( keyGenName );
-        if ( keyGen == null ) {
+        keyGen = (KeyGenerator) _keyGens.get(keyGenName);
+        if (keyGen == null) {
             keyGenFactory = KeyGeneratorFactoryRegistry.getKeyGeneratorFactory(
-                    desc.getKeyGeneratorFactoryName() );
+                    desc.getKeyGeneratorFactoryName());
 
             if (keyGenFactory != null) {
-                keyGen = keyGenFactory.getKeyGenerator( factory, desc.getParams(), sqlType );
+                keyGen = keyGenFactory.getKeyGenerator(factory, desc.getParams(), sqlType);
                 if (keyGen != null) {
                     if (_log.isDebugEnabled()) {
-                        _log.debug( "Key generator " + desc.getKeyGeneratorFactoryName() +
-                                " has been instantiated, parameters: " + desc.getParams() );
-                        }
+                        _log.debug("Key generator " + desc.getKeyGeneratorFactoryName() +
+                                " has been instantiated, parameters: " + desc.getParams());
+                    }
                 }
             }
-            if ( keyGen == null ) {
+            if (keyGen == null) {
                 /*
                  * Don't throw exception here, just notify and continue without
                  * key generator
                  */
-                _log.warn( Messages.format(
-                        "mapping.noKeyGen", desc.getKeyGeneratorFactoryName() ) );
+                _log.warn(Messages.format(
+                        "mapping.noKeyGen", desc.getKeyGeneratorFactoryName()));
                 return null;
             }
-            _keyGens.put( keyGenName, keyGen );
+            _keyGens.put(keyGenName, keyGen);
         }    
         return keyGen;
     }

@@ -60,15 +60,15 @@ import org.exolab.castor.persist.spi.QueryExpression;
  */
 public final class MySQLQueryExpression extends JDBCQueryExpression {
     public MySQLQueryExpression(final PersistenceFactory factory) {
-        super( factory );
+        super(factory);
     }
 
     public String getStatement(final boolean lock) {
         StringBuffer sql;
 
-        sql = getStandardStatement( lock, false );
+        sql = getStandardStatement(lock, false);
 
-        if ( _limit != null ) {
+        if (_limit != null) {
             sql.append(JDBCSyntax.LIMIT);
 
             if (_offset != null)
@@ -79,8 +79,8 @@ public final class MySQLQueryExpression extends JDBCQueryExpression {
 
         // Do not use FOR UPDATE to lock query.
         // return getStandardStatement( lock, false ).toString();
-        if ( lock )
-            sql.append( " FOR UPDATE" );
+        if (lock)
+            sql.append(" FOR UPDATE");
 
         return sql.toString();
     }
