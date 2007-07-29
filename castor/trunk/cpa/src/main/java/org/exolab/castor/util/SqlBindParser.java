@@ -86,7 +86,7 @@ import org.exolab.castor.jdo.engine.JDBCSyntax;
  *
  * @author Martin Fuchs <martin-fuchs AT gmx DOT net>
  */
-final public class SqlBindParser {
+public final class SqlBindParser {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
     private static Log _log = LogFactory.getFactory().getInstance(SqlBindParser.class);
