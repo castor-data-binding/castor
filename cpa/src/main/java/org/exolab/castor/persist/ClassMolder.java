@@ -1403,7 +1403,7 @@ public class ClassMolder {
      * Return true if a key generator is used for the base type of this ClassMolder
      */
     public boolean isKeyGeneratorUsed() {
-        return _isKeyGenUsed || (_extends != null && _extends. isKeyGeneratorUsed());
+        return _isKeyGenUsed || (_extends != null && _extends.isKeyGeneratorUsed());
     }
 
     /**

@@ -668,7 +668,7 @@ public final class Lexer {
                
           curChar = consumeWhiteSpace(curChar);
           
-          if (! isDigit(curChar)) {
+          if (!isDigit(curChar)) {
               throw new InvalidCharException("Digit expected in time literal.  "
                       + "Position: " + _pos);
           }

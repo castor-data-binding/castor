@@ -169,7 +169,7 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchron
      */
     public void beforeCompletion() {
         // XXX [SMH]: Find another test for txNotInProgress
-        if (_transaction == null || _ctx == null || ! _ctx.isOpen()) {
+        if (_transaction == null || _ctx == null || !_ctx.isOpen()) {
             throw new IllegalStateException(Messages.message("jdo.txNotInProgress"));
         }
         if (_ctx.getStatus() == Status.STATUS_MARKED_ROLLBACK) {

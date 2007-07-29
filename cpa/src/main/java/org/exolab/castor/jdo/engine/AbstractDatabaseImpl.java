@@ -152,7 +152,7 @@ public abstract class AbstractDatabaseImpl implements Database {
         } catch (MappingException ex) {
             throw new DatabaseNotFoundException(Messages.format("jdo.dbNoMapping", dbName));
         }
-        _scope = new PersistenceInfoGroup(new LockEngine[] { factory.getEngine() });
+        _scope = new PersistenceInfoGroup(new LockEngine[] {factory.getEngine()});
         
         _callback = callback;
         _instanceFactory = instanceFactory;

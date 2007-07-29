@@ -41,7 +41,7 @@ public final class Identity implements java.io.Serializable {
                 _hashCode += ((array[i] == null) ? 0 : array[i].hashCode());
             }
         } else {
-            _all = new Object[] { o };
+            _all = new Object[] {o};
             _hashCode = o.hashCode();
         }
     }
@@ -56,7 +56,7 @@ public final class Identity implements java.io.Serializable {
     }
 
     public Identity(final Object o1, final Object o2) {
-        _all = new Object[] { o1, o2 };
+        _all = new Object[] {o1, o2};
         _hashCode = ((o1 == null) ? 0 : o1.hashCode());
         _hashCode += ((o2 == null) ? 0 : o2.hashCode());
     }

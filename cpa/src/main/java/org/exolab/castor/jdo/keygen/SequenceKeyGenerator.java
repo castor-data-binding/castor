@@ -116,7 +116,7 @@ public final class SequenceKeyGenerator implements KeyGenerator {
             throw new MappingException(Messages.format("mapping.keyGenNotCompatible",
                                         getClass().getName(), _factoryName));
         }
-        if (! _factoryName.equals(OracleFactory.FACTORY_NAME) && returning) {
+        if (!_factoryName.equals(OracleFactory.FACTORY_NAME) && returning) {
             throw new MappingException(Messages.format("mapping.keyGenParamNotCompat",
                                         "returning=\"true\"", getClass().getName(), _factoryName));
         }
