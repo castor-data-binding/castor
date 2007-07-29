@@ -197,7 +197,7 @@ public final class SQLEngine implements Persistence {
     }
 
     public SQLColumnInfo[] getColumnInfoForIdentities() {
-    	return _ids;
+        return _ids;
     }
     
     public SQLFieldInfo[] getInfo() {
@@ -248,13 +248,13 @@ public final class SQLEngine implements Persistence {
         // changes for the SQL Direct interface begins here
         if (spCall.startsWith("SQL")) {
             sql = spCall.substring(4);
-        	
+
             if (LOG.isDebugEnabled()) {
                 LOG.debug(Messages.format("jdo.directSQL", sql));
             }
             
             return new SQLQuery(this, _factory, sql, types, true);
-		}
+        }
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(Messages.format("jdo.spCall", spCall));

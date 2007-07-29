@@ -1,29 +1,29 @@
-/*
+/**
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
  *
  * 1. Redistributions of source code must retain copyright
- *	  statements and notices.  Redistributions must also contain a
- *	  copy of this document.
+ *    statements and notices.  Redistributions must also contain a
+ *    copy of this document.
  *
  * 2. Redistributions in binary form must reproduce the
- *	  above copyright notice, this list of conditions and the
- *	  following disclaimer in the documentation and/or other
- *	  materials provided with the distribution.
+ *    above copyright notice, this list of conditions and the
+ *    following disclaimer in the documentation and/or other
+ *    materials provided with the distribution.
  *
  * 3. The name "Exolab" must not be used to endorse or promote
- *	  products derived from this Software without prior written
- *	  permission of Intalio, Inc.  For written permission,
- *	  please contact info@exolab.org.
+ *    products derived from this Software without prior written
+ *    permission of Intalio, Inc.  For written permission,
+ *    please contact info@exolab.org.
  *
  * 4. Products derived from this Software may not be called "Exolab"
- *	  nor may "Exolab" appear in their names without prior written
- *	  permission of Intalio, Inc. Exolab is a registered
- *	  trademark of Intalio, Inc.
+ *    nor may "Exolab" appear in their names without prior written
+ *    permission of Intalio, Inc. Exolab is a registered
+ *    trademark of Intalio, Inc.
  *
  * 5. Due credit should be given to the Exolab Project
- *	  (http://www.exolab.org/).
+ *    (http://www.exolab.org/).
  *
  * THIS SOFTWARE IS PROVIDED BY INTALIO, INC. AND CONTRIBUTORS
  * ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
@@ -38,11 +38,10 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * Copyright 2004 (C) Intalio, Inc. All Rights Reserved.
+ * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
  *
  * $Id$
  */
-
 package org.exolab.castor.util;
 
 import java.sql.PreparedStatement;
@@ -74,16 +73,16 @@ import org.exolab.castor.jdo.engine.JDBCSyntax;
  * For example, when parsing the expression
  * "select * from x where id between $1 and $2"
  * this gives you the following function returns:
- * next()			-> true
- * getLastExpr()	-> "select * from x where id between "
- * getBindExpr()	-> "$1"
- * getParamNumber()	-> 1
- * next()			-> true
- * getLastExpr()	-> " and "
- * getBindExpr()	-> "$2"
- * getParamNumber()	-> 2
- * next()			-> false
- * getLastExpr()	-> ""
+ * next()           -> true
+ * getLastExpr()    -> "select * from x where id between "
+ * getBindExpr()    -> "$1"
+ * getParamNumber() -> 1
+ * next()           -> true
+ * getLastExpr()    -> " and "
+ * getBindExpr()    -> "$2"
+ * getParamNumber() -> 2
+ * next()           -> false
+ * getLastExpr()    -> ""
  *
  * @author Martin Fuchs <martin-fuchs AT gmx DOT net>
  */
@@ -92,9 +91,9 @@ final public class SqlBindParser {
      *  Commons Logging</a> instance used for all logging. */
     private static Log _log = LogFactory.getFactory().getInstance(SqlBindParser.class);
 
-	/** 
-	 * complete SQL expression to be parsed 
-	 */
+    /** 
+     * complete SQL expression to be parsed 
+     */
     private String _sql;
 
     /**
@@ -110,12 +109,12 @@ final public class SqlBindParser {
     /** 
      * last parse position 
      */
-    private int _lastPos;	
+    private int _lastPos;
 
     /** 
      * position of the current bind variable 
      */
-    private int _bindPos;	
+    private int _bindPos;
 
     /**
      * Create a new SqlBindParser instance to parse the expression in 'sql'.
@@ -143,25 +142,25 @@ final public class SqlBindParser {
             char c = _sql.charAt(pos);
 
             switch(c) {
-              case '\'':	// character constant
-              case '\"':	// string constant
+              case '\'':    // character constant
+              case '\"':    // string constant
                 while (pos < _sql_len) {
                     pos = _sql.indexOf(c, pos + 1);
-                    if (pos == -1) {	// unexpected end of the constant?
+                    if (pos == -1) {    // unexpected end of the constant?
                         pos = _sql_len;
                         break;
-                    } else if (_sql.charAt(pos - 1) != '\\')	// handle escape characters
-                        break;	// end of the constant
+                    } else if (_sql.charAt(pos - 1) != '\\')    // handle escape characters
+                        break;      // end of the constant
                 }
                 break;
 
-              case '?':		// bind variable
+              case '?':     // bind variable
                 _bindPos = pos;
 
                 // search for the end of the bind variable
-               do
-                   ++pos;
-               while(pos < _sql_len && Character.isDigit(_sql.charAt(pos)));
+                do
+                    ++pos;
+                while(pos < _sql_len && Character.isDigit(_sql.charAt(pos)));
 
                _pos = pos;
 
@@ -206,7 +205,7 @@ final public class SqlBindParser {
 
         return (idx < _pos) 
                ? Integer.parseInt(_sql.substring(idx, _pos))
-               : 0;	// no numbered bind variable
+               : 0;     // no numbered bind variable
     }
 
 
@@ -244,7 +243,7 @@ final public class SqlBindParser {
             int bindNum = parser.getParamNumber();
 
             if (bindNum == 0)
-                bindNum = i;	// handle CALL SQL statements with unnumbered bind variables
+                bindNum = i;    // handle CALL SQL statements with unnumbered bind variables
 
             Object value = values[bindNum - 1];
 

@@ -118,8 +118,7 @@ public final class XAResourceImpl implements XAResource {
             throw new XAException( XAException.XAER_INVAL );
         }
     }
-	
-	
+
     public synchronized void end(final Xid xid, final int flags) throws XAException {
         // General checks.
         if ( xid == null )

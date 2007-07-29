@@ -201,7 +201,7 @@ final class PostgreSQLCallQuery implements PersistenceQuery {
             try {
                 _rs.close();
             } catch ( SQLException except ) {
-            	_log.warn (Messages.message ("persist.rsClosingFailed"), except);
+                _log.warn (Messages.message ("persist.rsClosingFailed"), except);
             }
             _rs = null;
         }
@@ -209,7 +209,7 @@ final class PostgreSQLCallQuery implements PersistenceQuery {
             try {
                 _stmt.close();
             } catch ( SQLException except ) {
-            	_log.warn (Messages.message ("persist.stClosingFailed"), except);
+                _log.warn (Messages.message ("persist.stClosingFailed"), except);
             }
             _stmt = null;
         }

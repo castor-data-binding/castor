@@ -99,17 +99,17 @@ public class LocalDatabaseImpl extends AbstractDatabaseImpl {
         }
     }
 
-	/**
+    /**
      * Overrides Object.finalize().
-	 * 
-	 * Outputs a warning message to the logs if the current DatabaseImpl 
-	 * instance still has valid scope. In this condition - a condition that 
-	 * ideally should not occur at all - we close the instance as well to 
-	 * free up resources.
-	 * 
-	 * @see java.lang.Object#finalize()
-	 */
-	protected void finalize() throws Throwable {
+     * 
+     * Outputs a warning message to the logs if the current DatabaseImpl 
+     * instance still has valid scope. In this condition - a condition that 
+     * ideally should not occur at all - we close the instance as well to 
+     * free up resources.
+     * 
+     * @see java.lang.Object#finalize()
+     */
+    protected void finalize() throws Throwable {
         if (_scope != null || !isActive()) { return; }
             
         // retrieve SQL bound to this Database instance
@@ -119,7 +119,7 @@ public class LocalDatabaseImpl extends AbstractDatabaseImpl {
         _log.warn(Messages.format("jdo.finalize_close", this.toString(), _dbName, sql));
 
         close();
-	}
+    }
 
     /**
      * @inheritDoc

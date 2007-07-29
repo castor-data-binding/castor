@@ -274,21 +274,21 @@ public class ClassMolder {
         
         int numberOfNonTransientFieldMolders = 0;
         for (int i = 0; i < fmFields.length; i++) {
-        	if (!isFieldTransient(fmFields[i])) {
-        		numberOfNonTransientFieldMolders += 1;
-        	}
+            if (!isFieldTransient(fmFields[i])) {
+                numberOfNonTransientFieldMolders += 1;
+            }
         }
         _fhs = new FieldMolder[numberOfNonTransientFieldMolders];
         _resolvers = new ResolverStrategy[numberOfNonTransientFieldMolders];
         
         int fieldMolderNumber = 0;
         for (int i = 0; i < fmFields.length; i++) {
-        	
+            
             // don't create field molder for transient fields
-        	if (isFieldTransient(fmFields[i])) {
-        		continue;
-        	}
-        	
+            if (isFieldTransient(fmFields[i])) {
+                continue;
+            }
+            
             if ( fmFields[i].getSql() != null && fmFields[i].getSql().getManyTable() != null ) {
                 // the fields is not primitive
                 String[] relatedIdSQL = null;
@@ -556,7 +556,7 @@ public class ClassMolder {
         // or the access mode is DBLOCKED (thus guaranteeing that a lock at the
         // database level will be created)
         if (!proposedObject.isFieldsSet() || accessMode == AccessMode.DbLocked) {
-        	proposedObject.initializeFields(_fhs.length);
+            proposedObject.initializeFields(_fhs.length);
             if (results != null) {
                 stamp = results.getQuery().fetch(proposedObject);
             } else {
@@ -635,8 +635,8 @@ public class ClassMolder {
             case FieldMolder.PERSISTANCECAPABLE:
             case FieldMolder.ONE_TO_MANY:
             case FieldMolder.MANY_TO_MANY:
-            	_resolvers[i].load(tx, oid, proposedObject, accessMode);
-            	break;
+                _resolvers[i].load(tx, oid, proposedObject, accessMode);
+                break;
             default:
                 throw new PersistenceException("Unexpected field type!");
             }
@@ -1113,9 +1113,8 @@ public class ClassMolder {
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
-    public Object newInstance(final ClassLoader loader) 
-    	throws InstantiationException, IllegalAccessException, ClassNotFoundException 
-	{
+    public Object newInstance(final ClassLoader loader)
+    throws InstantiationException, IllegalAccessException, ClassNotFoundException {
         Class aClass = null;
         aClass = ClassLoadingUtils.loadClass(loader, _name);
         return aClass.newInstance();
@@ -1436,13 +1435,13 @@ public class ClassMolder {
     }
     
     public void resetResolvers () {
-    	if (!resolversHaveBeenReset) {
-    		for (int i = 0; i < _fhs.length; i++) {
-    			_resolvers[i] = ResolverFactory.createRelationResolver (_fhs[i], this, i, _debug);
-    		}
-    		
-    		resolversHaveBeenReset = true;
-    	}
+        if (!resolversHaveBeenReset) {
+            for (int i = 0; i < _fhs.length; i++) {
+                _resolvers[i] = ResolverFactory.createRelationResolver (_fhs[i], this, i, _debug);
+            }
+            
+            resolversHaveBeenReset = true;
+        }
     }
 
     /**

@@ -84,32 +84,30 @@ public class GenericFactory extends BaseFactory {
         return name;
     }
 
- 	/**
- 	 * Updated to handle input such as user.tablename.column
- 	 *
-	 * @author Andrew Ballanger, 3/15/2001
-	 */
-	protected final String doubleQuoteName(final String name) {
-		StringBuffer buffer = new StringBuffer();
-		StringTokenizer tokens = new StringTokenizer(name, ".");
+    /**
+     * Updated to handle input such as user.tablename.column
+     *
+     * @author Andrew Ballanger, 3/15/2001
+     */
+    protected final String doubleQuoteName(final String name) {
+        StringBuffer buffer = new StringBuffer();
+        StringTokenizer tokens = new StringTokenizer(name, ".");
 
-		// Note:
-		//
-		// I am assuming this method always recieves a non null,
-		// and non empty string.
+        // Note:
+        //
+        // I am assuming this method always recieves a non null,
+        // and non empty string.
 
-		buffer.append('\"');
-		buffer.append(tokens.nextToken());
-		while (tokens.hasMoreTokens()) {
-			buffer.append("\".\"");
-			buffer.append(tokens.nextToken());
-		}
-		buffer.append('\"');
+        buffer.append('\"');
+        buffer.append(tokens.nextToken());
+        while (tokens.hasMoreTokens()) {
+            buffer.append("\".\"");
+            buffer.append(tokens.nextToken());
+        }
+        buffer.append('\"');
 
-		return buffer.toString();
-	}
-
-
+        return buffer.toString();
+    }
 }
 
 

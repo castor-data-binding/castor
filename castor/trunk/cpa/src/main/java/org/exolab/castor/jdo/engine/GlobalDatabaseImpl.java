@@ -86,7 +86,7 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchron
         
         _isPoolInUseForGlobalTransactions = isPoolInUseForGlobalTransactions;
         _transaction = transaction;
-	
+
         try {
             _ctx = new GlobalTransactionContext(this);
             _ctx.setStatus(transaction.getStatus());
@@ -119,17 +119,17 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchron
         }
     }
 
-	/**
+    /**
      * Overrides Object.finalize().
-	 * 
-	 * Outputs a warning message to the logs if the current DatabaseImpl 
-	 * instance still has valid scope. In this condition - a condition that 
-	 * ideally should not occur at all - we close the instance as well to 
-	 * free up resources.
-	 * 
-	 * @see java.lang.Object#finalize()
-	 */
-	protected void finalize() throws Throwable {
+     * 
+     * Outputs a warning message to the logs if the current DatabaseImpl 
+     * instance still has valid scope. In this condition - a condition that 
+     * ideally should not occur at all - we close the instance as well to 
+     * free up resources.
+     * 
+     * @see java.lang.Object#finalize()
+     */
+    protected void finalize() throws Throwable {
         if (_scope != null || !isActive()) { return; }
             
         if (!_isPoolInUseForGlobalTransactions) {

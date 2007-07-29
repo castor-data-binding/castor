@@ -81,7 +81,7 @@ public final class DB2QueryExpression extends JDBCQueryExpression {
     }
     
     public boolean isLimitClauseSupported () {
-    	return true;
+        return true;
     }
 }
 
