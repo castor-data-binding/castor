@@ -71,7 +71,7 @@ public final class SQLStatementStore {
         // additional attributes are defined in the extending class, this 
         // might NOT be the case
         SQLFieldInfo[] fields = _engine.getInfo();
-        for (int i = 0 ; i < fields.length ; ++i) {
+        for (int i = 0; i < fields.length; ++i) {
             if (fields[i].isStore()) {
                 _hasFieldsToPersist = true;
                 break;
@@ -97,7 +97,7 @@ public final class SQLStatementStore {
             
             int count = 0;
             SQLFieldInfo[] fields = _engine.getInfo();
-            for (int i = 0 ; i < fields.length ; ++i) {
+            for (int i = 0; i < fields.length; ++i) {
                 if (fields[i].isStore()) {
                     SQLColumnInfo[] columns = fields[i].getColumnInfo();
                     for (int j = 0; j < columns.length; j++) {
@@ -125,7 +125,7 @@ public final class SQLStatementStore {
                 LOG.trace(Messages.format("jdo.updating", _type, _statementLazy));
             }
 
-            for (int i = 0 ; i < fields.length ; ++i) {
+            for (int i = 0; i < fields.length; ++i) {
                 if (fields[i].isStore() && fields[i].isDirtyCheck()) {
                     SQLColumnInfo[] columns = fields[i].getColumnInfo();
                     for (int j = 0; j < columns.length; j++) {
@@ -177,7 +177,7 @@ public final class SQLStatementStore {
                 
                 // bind fields of the row to be stored into the preparedStatement
                 SQLFieldInfo[] fields = _engine.getInfo();
-                for (int i = 0 ; i < fields.length ; ++i) {
+                for (int i = 0; i < fields.length; ++i) {
                     if (fields[i].isStore()) {
                         SQLColumnInfo[] columns = fields[i].getColumnInfo();
                         Object value = newentity.getField(i);
@@ -221,7 +221,7 @@ public final class SQLStatementStore {
                 if (oldentity.getFields() != null) {
                     boolean supportsSetNull = ((BaseFactory) _factory).supportsSetNullInWhere();
                     
-                    for (int i = 0 ; i < fields.length ; ++i) {
+                    for (int i = 0; i < fields.length; ++i) {
                         if (fields[i].isStore() && fields[i].isDirtyCheck()) {
                             SQLColumnInfo[] columns = fields[i].getColumnInfo();
                             Object value = oldentity.getField(i);

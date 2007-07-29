@@ -267,7 +267,7 @@ public final class SQLEngine implements Persistence {
         count = 1;
         jdoFields0[0] = _clsDesc.getIdentity().getFieldName();
         sqlTypes0[0] = ((JDOFieldDescriptor) _clsDesc.getIdentity()).getSQLType()[0];
-        for (int i = 0 ; i < fields.length ; ++i) {
+        for (int i = 0; i < fields.length; ++i) {
             if (fields[i] instanceof JDOFieldDescriptor) {
                 jdoFields0[count] = ((JDOFieldDescriptor) fields[i]).getSQLName()[0];
                 sqlTypes0[count] = ((JDOFieldDescriptor) fields[i]).getSQLType()[0];

@@ -159,7 +159,7 @@ public class JDOClassDescriptor extends ClassDescriptorImpl {
      */
     public JDOFieldDescriptor getField(final String name) {
         FieldDescriptor[] fields = getFields();
-        for (int i = 0 ; i < fields.length ; ++i) {
+        for (int i = 0; i < fields.length; ++i) {
             FieldDescriptor field = fields[i];
             if ((field instanceof JDOFieldDescriptor)
                     && (field.getFieldName().equals(name))) {
@@ -169,7 +169,7 @@ public class JDOClassDescriptor extends ClassDescriptorImpl {
         }
         
         FieldDescriptor[] identities = getIdentities();
-        for (int i = 0 ; i < identities.length ; ++i) {
+        for (int i = 0; i < identities.length; ++i) {
             FieldDescriptor field = identities[i];
             if ((field instanceof JDOFieldDescriptor)
                     && (field.getFieldName().equals(name))) {

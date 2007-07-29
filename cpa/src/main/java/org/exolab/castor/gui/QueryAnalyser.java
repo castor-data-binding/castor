@@ -281,7 +281,7 @@ public class QueryAnalyser {
         public void performQuery() {
 
             OQLQuery oql;
-            QueryResults r ;
+            QueryResults r;
 
             boolean firstObject = true;
             Object o;

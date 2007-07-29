@@ -475,7 +475,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
 
     protected void resolveRelations(final ClassDescriptor clsDesc) {
         FieldDescriptor[] fields = clsDesc.getFields();
-        for (int i = 0 ; i < fields.length ; ++i) {
+        for (int i = 0; i < fields.length; ++i) {
             FieldDescriptor field = fields[i];
             ClassDescriptor desc = getDescriptor(field.getFieldType().getName());
             if ((desc != null) && (field instanceof FieldDescriptorImpl)) {
@@ -583,7 +583,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
                                                 return null;
                                             }
                                         }
-                                    } ;
+                                    };
 
                                     Types.addEnumType(internalFieldType);
                                     
