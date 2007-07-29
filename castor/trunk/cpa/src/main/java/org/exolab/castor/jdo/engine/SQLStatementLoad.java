@@ -336,7 +336,7 @@ public final class SQLStatementLoad {
             // index in fields[] for storing result of SQLTypes.getObject()
             fieldIndex = 1;
             String tableName = null;
-            for (int i = 0 ; i < fields.length ; ++i) {
+            for (int i = 0; i < fields.length; ++i) {
                 SQLFieldInfo field = fields[i];
                 SQLColumnInfo[] columns = field.getColumnInfo();
                 tableName = field.getTableName();
@@ -380,7 +380,7 @@ public final class SQLStatementLoad {
                     processedTables.add(_engine.getDescriptor().getTableName());
                 }
 
-                for (int i = 0; i < fields.length ; ++i) {
+                for (int i = 0; i < fields.length; ++i) {
                     SQLFieldInfo field = fields[i];
                     SQLColumnInfo[] columns = field.getColumnInfo();
                     tableName = field.getTableName();

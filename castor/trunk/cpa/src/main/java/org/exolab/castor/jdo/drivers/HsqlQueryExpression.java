@@ -111,7 +111,7 @@ public final class HsqlQueryExpression extends JDBCQueryExpression {
         tables = (Hashtable) _tables.clone();
         first = true;
         // gather all outer joins with the same left part
-        for (int i = 0 ; i < _joins.size() ; ++i) {
+        for (int i = 0; i < _joins.size(); ++i) {
             Join join;
 
             join = (Join) _joins.elementAt(i);

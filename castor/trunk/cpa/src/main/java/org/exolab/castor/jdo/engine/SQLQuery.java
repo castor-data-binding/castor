@@ -400,7 +400,7 @@ public final class SQLQuery implements PersistenceQuery {
             counterReference.setCounter(count);
             counterReference.setTableName(tableName);
             
-            for (int i = 0 ; i < numberOfFields ; ++i) {
+            for (int i = 0; i < numberOfFields; ++i) {
                 if (_engine.getInfo()[i].isMulti()) {
                     counterReference.setCounter(count);
                     fields[i] = loadMultiField(i, counterReference, fields[i]);

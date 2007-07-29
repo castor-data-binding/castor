@@ -123,7 +123,7 @@ public class SQLStatementCreate {
         }
         
         SQLFieldInfo[] fields = _engine.getInfo();
-        for (int i = 0 ; i < fields.length; ++i) {
+        for (int i = 0; i < fields.length; ++i) {
             if (fields[i].isStore()) {
                 SQLColumnInfo[] columns = fields[i].getColumnInfo();
                 for (int j = 0; j < columns.length; j++) {
@@ -143,7 +143,7 @@ public class SQLStatementCreate {
             sql.append(")");
         }
         sql.append(" VALUES (");
-        for (int i = 0 ; i < count; ++i) {
+        for (int i = 0; i < count; ++i) {
             if (i > 0) { sql.append(','); }
             sql.append('?');
         }
@@ -423,7 +423,7 @@ public class SQLStatementCreate {
     throws SQLException, PersistenceException {
         int internalCount = count;
         SQLFieldInfo[] fields = _engine.getInfo();
-        for (int i = 0 ; i < fields.length ; ++i) {
+        for (int i = 0; i < fields.length; ++i) {
             SQLColumnInfo[] columns = fields[i].getColumnInfo();
             if (fields[i].isStore()) {
                 Object value = entity.getField(i);

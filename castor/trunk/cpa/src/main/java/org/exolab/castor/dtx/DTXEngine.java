@@ -165,7 +165,7 @@ public class DTXEngine {
 
         Mapping[] mappings = _database.getMapping();
 
-        for (int i = 0 ; i < mappings.length ; ++i) {
+        for (int i = 0; i < mappings.length; ++i) {
             try {
             URL mappingURL = new URL(new URL(databaseURL), mappings[i].getHref());
             MappingRoot mr = (MappingRoot) munm.unmarshal(new InputSource((mappingURL).openStream()));

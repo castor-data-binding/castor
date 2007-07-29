@@ -961,7 +961,7 @@ public class FieldMolder {
                  if (null == method) {
                      methods = javaClass.getMethods();
                      method = null;
-                     for (i = 0 ; i < methods.length ; ++i) {
+                     for (i = 0; i < methods.length; ++i) {
                          if (methods[i].getName().equals(methodName)) {
                              parameterTypes = methods[i].getParameterTypes();
                              if (parameterTypes.length != 1) continue;
@@ -1132,7 +1132,7 @@ public class FieldMolder {
                 return null;
 
             Method [] resultMethods = new Method[originalMethods.length];
-            for (int i = 0 ; i < originalMethods.length ; i++) {
+            for (int i = 0; i < originalMethods.length; i++) {
                 resultMethods[i] = cloneMethod(originalMethods[i]);
             }
             return resultMethods;
