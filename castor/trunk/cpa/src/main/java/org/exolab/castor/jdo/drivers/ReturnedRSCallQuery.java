@@ -85,23 +85,23 @@ final class ReturnedRSCallQuery extends AbstractCallQuery {
     throws QueryException, PersistenceException {
         _lastIdentity = null;
         try {
-            _stmt = ( (Connection) conn ).prepareCall( _call );
+            _stmt = ((Connection) conn).prepareCall(_call);
             ((CallableStatement) _stmt).registerOutParameter(1, -10); // -10 == OracleTypes.CURSOR
-            for ( int i = 0 ; i < _values.length ; ++i ) {
-                _stmt.setObject( i + 2, _values[ i ] );
+            for (int i = 0; i < _values.length; ++i) {
+                _stmt.setObject(i + 2, _values[i]);
                 _values[ i ] = null;
             }
             _stmt.execute();
             _rs = (ResultSet) ((CallableStatement) _stmt).getObject(1);
-        } catch ( SQLException except ) {
-            if ( _stmt != null ) {
+        } catch (SQLException except) {
+            if (_stmt != null) {
                 try {
                     _stmt.close();
-                } catch ( SQLException e2 ) {
+                } catch (SQLException e2) {
                     _log.warn (Messages.message ("persist.stClosingFailed"), e2);
                 }
             }
-            throw new PersistenceException( Messages.format( "persist.nested", except ) );
+            throw new PersistenceException(Messages.format("persist.nested", except));
         }
     }
 

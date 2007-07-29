@@ -79,7 +79,7 @@ public final class OracleQueryExpression extends JDBCQueryExpression {
     private static Log _log = LogFactory.getFactory().getInstance(OracleQueryExpression.class);
 
     public OracleQueryExpression(final PersistenceFactory factory) {
-        super( factory );
+        super(factory);
     }
 
     public String getStatement(final boolean lock) throws SyntaxNotSupportedException {
@@ -88,85 +88,85 @@ public final class OracleQueryExpression extends JDBCQueryExpression {
         Enumeration  enumeration;
 
         sql = new StringBuffer();
-        sql.append( JDBCSyntax.SELECT );
-        if ( _distinct )
-          sql.append( JDBCSyntax.DISTINCT );
+        sql.append(JDBCSyntax.SELECT);
+        if (_distinct)
+          sql.append(JDBCSyntax.DISTINCT);
 
-        sql.append( getColumnList() );
+        sql.append(getColumnList());
 
         // add support for OQL LIMIT/OFFSET - part1
         if (_limit != null) {
             sql.append (" , rank() over ( ");
             // add ORDER BY clause
-            if ( _order != null ) {
+            if (_order != null) {
                 sql.append(JDBCSyntax.ORDER_BY).append(_order);
             } else {
                 throw new SyntaxNotSupportedException ("To use a LIMIT clause with Oracle, an ORDER BY clause is required.");
             }
-            sql.append ( " ) rnk ");
+            sql.append(" ) rnk ");
         }
 
-        sql.append( JDBCSyntax.FROM );
+        sql.append(JDBCSyntax.FROM);
         // Add all the tables to the FROM clause
         enumeration = _tables.keys();
-        while ( enumeration.hasMoreElements() ) {
+        while (enumeration.hasMoreElements()) {
             String tableAlias = (String) enumeration.nextElement();
-            String tableName = (String) _tables.get( tableAlias );
+            String tableName = (String) _tables.get(tableAlias);
             if (tableAlias.equals(tableName)) {
-                sql.append( _factory.quoteName( tableName ) );
+                sql.append(_factory.quoteName(tableName));
             } else {
-                sql.append( _factory.quoteName( tableName ) + " " +
-                            _factory.quoteName( tableAlias ) );
+                sql.append(_factory.quoteName(tableName) + " " +
+                            _factory.quoteName(tableAlias));
             }
-            if ( enumeration.hasMoreElements() )
-                sql.append( JDBCSyntax.TABLE_SEPARATOR );
+            if (enumeration.hasMoreElements())
+                sql.append(JDBCSyntax.TABLE_SEPARATOR);
         }
         first = true;
         // Use asterisk notation to denote a left outer join
         // and equals to denote an inner join
-        for ( int i = 0 ; i < _joins.size() ; ++i ) {
+        for (int i = 0; i < _joins.size(); ++i) {
             Join join;
 
-            if ( first ) {
-                sql.append( JDBCSyntax.WHERE );
+            if (first) {
+                sql.append(JDBCSyntax.WHERE);
                 first = false;
             } else
-                sql.append( JDBCSyntax.AND );
+                sql.append(JDBCSyntax.AND);
 
-            join = (Join) _joins.elementAt( i );
-            for ( int j = 0 ; j < join.leftColumns.length ; ++j ) {
-                if ( j > 0 )
-                    sql.append( JDBCSyntax.AND );
+            join = (Join) _joins.elementAt(i);
+            for (int j = 0; j < join.leftColumns.length; ++j) {
+                if (j > 0)
+                    sql.append(JDBCSyntax.AND);
 
-                sql.append( _factory.quoteName( join.leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                                join.leftColumns[ j ] ) );
+                sql.append(_factory.quoteName(join.leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
+                                                join.leftColumns[j]));
 
                 //if ( join.outer )
                 //    sql.append( "(+)=" );
                 //else
                 //    sql.append( OpEquals );
-                sql.append( OP_EQUALS );
-                sql.append( _factory.quoteName( join.rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                                join.rightColumns[ j ] ) );
-                if ( join.outer )
-                    sql.append( "(+)" );
+                sql.append(OP_EQUALS);
+                sql.append(_factory.quoteName(join.rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
+                                                join.rightColumns[j]));
+                if (join.outer)
+                    sql.append("(+)");
             }
         }
-        first = addWhereClause( sql, first );
+        first = addWhereClause(sql, first);
         
         // add ORDER BY clause, but only if no LIMIT clause has been specified
-        if ( _order != null && _limit == null)
+        if ((_order != null) && (_limit == null))
           sql.append(JDBCSyntax.ORDER_BY).append(_order);
 
         // Use FOR UPDATE to lock selected tables.
-        if ( lock )
-            sql.append( " FOR UPDATE" );
+        if (lock)
+            sql.append(" FOR UPDATE");
 
         // add LIMIT/OFFSET clause - part 2
-        if ( _limit != null ) {
+        if (_limit != null) {
             sql.insert (0, "select * from ( "); // leads to problems when used with Castor's outer joins for master-details queries: "ORA-00918: Spalte nicht eindeutig definiert"
 
-            if ( _offset != null ) {
+            if (_offset != null) {
                 sql.append (" ) where rnk - " + _offset + " between 1 and " + _limit + " ");
             } else {
                 sql.append (" ) where rnk <= " + _limit + " ");

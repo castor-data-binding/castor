@@ -120,7 +120,7 @@ public final class LockEngine {
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      * Commons Logging</a> instance used for all logging.
      */
-    private static Log _log = LogFactory.getFactory().getInstance( LockEngine.class );
+    private static Log _log = LogFactory.getFactory().getInstance(LockEngine.class);
     
     private static CacheFactoryRegistry _cacheFactoryRegistry;
 
@@ -177,8 +177,8 @@ public final class LockEngine {
             HashSet processedClasses = new HashSet();
             HashSet freshClasses = new HashSet();
             // copy things into an arraylist
-            while ( enumeration.hasMoreElements() )
-                freshClasses.add( enumeration.nextElement() );
+            while (enumeration.hasMoreElements())
+                freshClasses.add(enumeration.nextElement());
 
             // iterates through all the ClassMolders in the LockEngine.
             // We first create a TypeInfo for all the base class (ie not extends
@@ -187,11 +187,11 @@ public final class LockEngine {
             do {
                 counter = freshClasses.size();
                 Iterator itor = freshClasses.iterator();
-                while ( itor.hasNext() ) {
+                while (itor.hasNext()) {
                     ClassMolder molder = (ClassMolder) itor.next();
                     ClassMolder extend = molder.getExtends();
 
-                    if ( extend == null ) {
+                    if (extend == null) {
                         // create new Cache instance for the base type
                         Cache cache = null;
                         try {
@@ -203,29 +203,29 @@ public final class LockEngine {
                             _log.error(msg, e);
                             throw new MappingException(msg, e);
                         }
-                        TypeInfo info = new TypeInfo( molder, new HashMap(), cache ); 
-                        _typeInfo.put( molder.getName(), info );
+                        TypeInfo info = new TypeInfo(molder, new HashMap(), cache); 
+                        _typeInfo.put(molder.getName(), info);
                         itor.remove();
-                        processedClasses.add( molder );
+                        processedClasses.add(molder);
 
-                    } else if ( processedClasses.contains( molder.getExtends() ) ) {
+                    } else if (processedClasses.contains(molder.getExtends())) {
                         // use the base type to construct the new type
-                        TypeInfo baseInfo = (TypeInfo)_typeInfo.get( extend.getName() );
-                        _typeInfo.put( molder.getName(), new TypeInfo( molder, baseInfo ) );
+                        TypeInfo baseInfo = (TypeInfo)_typeInfo.get(extend.getName());
+                        _typeInfo.put(molder.getName(), new TypeInfo(molder, baseInfo));
                         itor.remove();
-                        processedClasses.add( molder );
+                        processedClasses.add(molder);
 
                     } else {
                         // do nothing and wait for the next turn
                     }
 
                 }
-            } while ( freshClasses.size() > 0 && counter != freshClasses.size() );
+            } while ((freshClasses.size() > 0) && (counter != freshClasses.size()));
 
             // error if there is molder left.
-            if ( freshClasses.size() > 0 ) {
+            if (freshClasses.size() > 0) {
                 Iterator itor = freshClasses.iterator();
-                while ( itor.hasNext() ) {
+                while (itor.hasNext()) {
                     ClassMolder molder = (ClassMolder)itor.next();
                     _log.error("The base class, " + (molder.getExtends().getName())
                         + ", of the extends class ," + molder.getName() 
@@ -275,8 +275,8 @@ public final class LockEngine {
                     throw new MappingException("Base class "+extend.getName()+" of "+molder.getName()+" not found!");
                 }
             } */
-        } catch ( ClassNotFoundException e ) {
-            throw new MappingException("Declared Class not found!" );
+        } catch (ClassNotFoundException e) {
+            throw new MappingException("Declared Class not found!");
         }
     }
     
@@ -290,16 +290,16 @@ public final class LockEngine {
      * @return The class molder for the specified class.
      */
     public ClassMolder getClassMolder(final Class cls) {
-        TypeInfo info = (TypeInfo)_typeInfo.get( cls.getName() );
-        if ( info != null ) {
-            if ( !info.molder.isDependent() ) 
+        TypeInfo info = (TypeInfo)_typeInfo.get(cls.getName());
+        if (info != null) {
+            if (!info.molder.isDependent()) 
                 return info.molder;
         }
         return null;
     }
     
     public ClassMolder getClassMolderWithDependent(final Class cls) {
-        TypeInfo info = (TypeInfo)_typeInfo.get( cls.getName() );
+        TypeInfo info = (TypeInfo) _typeInfo.get(cls.getName());
         return (info != null) ? info.molder : null;
     }
     
@@ -320,8 +320,8 @@ public final class LockEngine {
     }
 
     public Persistence getPersistence(final Class cls) {
-        ClassMolder molder = getClassMolder( cls );
-        if ( molder != null )
+        ClassMolder molder = getClassMolder(cls);
+        if (molder != null)
             return molder.getPersistence();
         return null;
     }
@@ -368,12 +368,12 @@ public final class LockEngine {
         boolean    succeed;
         short      action;
 
-        typeInfo = (TypeInfo) _typeInfo.get( internaloid.getName() );
-        if ( typeInfo == null )
-            throw new ClassNotPersistenceCapableException( Messages.format("persist.classNotPersistenceCapable", internaloid.getName() ) );
+        typeInfo = (TypeInfo) _typeInfo.get(internaloid.getName());
+        if (typeInfo == null)
+            throw new ClassNotPersistenceCapableException(Messages.format("persist.classNotPersistenceCapable", internaloid.getName()));
 
         ClassMolder molder = internaloid.getMolder();
-        AccessMode accessMode = molder.getAccessMode( suggestedAccessMode );
+        AccessMode accessMode = molder.getAccessMode(suggestedAccessMode);
 
         succeed = false;
 
@@ -381,12 +381,12 @@ public final class LockEngine {
 
         try {
 
-            if ( accessMode == AccessMode.Exclusive || accessMode == AccessMode.DbLocked )
+            if ((accessMode == AccessMode.Exclusive) || (accessMode == AccessMode.DbLocked))
                 action = ObjectLock.ACTION_WRITE;
             else
                 action = ObjectLock.ACTION_READ;
 
-            lock = typeInfo.acquire( internaloid, tx, action, timeout );
+            lock = typeInfo.acquire(internaloid, tx, action, timeout);
 
             lockedOid = lock.getOID();
 
@@ -406,9 +406,9 @@ public final class LockEngine {
 
             succeed = true;
 
-            lockedOid.setStamp( stamp );
+            lockedOid.setStamp(stamp);
 
-            if ( lockedOid != null )
+            if (lockedOid != null)
                 internaloid = lockedOid;
 
             if (_log.isDebugEnabled()) {
@@ -427,7 +427,7 @@ public final class LockEngine {
             }
             throw e;
         } finally {
-            if ( lock != null ) lock.confirm( tx, succeed );
+            if (lock != null) lock.confirm(tx, succeed);
         }
         return internaloid;
     }
@@ -445,12 +445,11 @@ public final class LockEngine {
             throws PersistenceException, LockNotGrantedException {
 
         TypeInfo   typeInfo;
-        typeInfo = (TypeInfo) _typeInfo.get( oid.getName() );
+        typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
 
-        if ( typeInfo == null )
-           throw new ClassNotPersistenceCapableException( Messages.format("persist.classNotPersistenceCapable", oid.getName() ) );
-
-        typeInfo.molder.markCreate( tx, oid, null, object );
+        if (typeInfo == null)
+           throw new ClassNotPersistenceCapableException(Messages.format("persist.classNotPersistenceCapable", oid.getName()));
+        typeInfo.molder.markCreate(tx, oid, null, object);
     }
 
     /**
@@ -483,13 +482,13 @@ public final class LockEngine {
         OID newoid;
         boolean succeed;
 
-        typeInfo = (TypeInfo) _typeInfo.get( object.getClass().getName() );
-        if ( typeInfo == null )
-            throw new ClassNotPersistenceCapableException( Messages.format( "persist.classNotPersistenceCapable", object.getClass().getName()) );
+        typeInfo = (TypeInfo) _typeInfo.get(object.getClass().getName());
+        if (typeInfo == null)
+            throw new ClassNotPersistenceCapableException(Messages.format("persist.classNotPersistenceCapable", object.getClass().getName()));
             
         lock = null;
 
-        if ( internaloid.getIdentity() != null ) {
+        if (internaloid.getIdentity() != null) {
 
             lock = null;
 
@@ -497,35 +496,35 @@ public final class LockEngine {
 
             try {
 
-                lock = typeInfo.acquire( internaloid, tx, ObjectLock.ACTION_CREATE, 0 );
+                lock = typeInfo.acquire(internaloid, tx, ObjectLock.ACTION_CREATE, 0);
 
                 if (_log.isDebugEnabled()) {
-                    _log.debug( Messages.format( "jdo.creating.with.id", typeInfo.molder.getName(), internaloid.getIdentity() ) );
+                    _log.debug(Messages.format("jdo.creating.with.id", typeInfo.molder.getName(), internaloid.getIdentity()));
                 }
 
                 internaloid = lock.getOID();
 
-                typeInfo.molder.create( tx, internaloid, lock, object );
+                typeInfo.molder.create(tx, internaloid, lock, object);
 
                 succeed = true;
 
-                internaloid.setDbLock( true );
+                internaloid.setDbLock(true);
 
                 return internaloid;
                 // should catch some other exception if destory is not succeed
             } catch (LockNotGrantedException except) {
                 // Someone else is using the object, definite duplicate key
-                throw new DuplicateIdentityException(Messages.format( 
+                throw new DuplicateIdentityException(Messages.format(
                     "persist.duplicateIdentity", object.getClass().getName(), 
                     internaloid.getIdentity()), except);
-            } catch ( DuplicateIdentityException except ) {
+            } catch (DuplicateIdentityException except) {
                 // we got a write lock and the persistence storage already
                 // recorded. Should destory the lock
                 //typeInfo.delete( oid, tx );
                 throw except;
             } finally {
-                if ( lock != null ) 
-                    lock.confirm( tx, succeed );
+                if (lock != null) 
+                    lock.confirm(tx, succeed);
             }
         }
         // identity is null
@@ -534,29 +533,29 @@ public final class LockEngine {
 
         try {
             if (_log.isDebugEnabled()) {
-                _log.debug( Messages.format( "jdo.creating.with.id", typeInfo.molder.getName(), internaloid.getIdentity() ) );
+                _log.debug(Messages.format("jdo.creating.with.id", typeInfo.molder.getName(), internaloid.getIdentity()));
             }
 
-            lock = typeInfo.acquire( internaloid, tx, ObjectLock.ACTION_CREATE, 0 );
+            lock = typeInfo.acquire(internaloid, tx, ObjectLock.ACTION_CREATE, 0);
 
             internaloid = lock.getOID();
 
-            Identity newids = typeInfo.molder.create( tx, internaloid, lock, object );
+            Identity newids = typeInfo.molder.create(tx, internaloid, lock, object);
             succeed = true;
 
-            internaloid.setDbLock( true );
+            internaloid.setDbLock(true);
 
             newoid = new OID(internaloid.getMolder(), internaloid.getDepends(), newids);
 
-            typeInfo.rename( internaloid, newoid, tx );
+            typeInfo.rename(internaloid, newoid, tx);
 
             return newoid;
-        } catch ( LockNotGrantedException e ) {
+        } catch (LockNotGrantedException e) {
             e.printStackTrace();
-            throw new PersistenceException( Messages.format("persist.nested","Key Generator Failure. Duplicated Identity is generated!") );
+            throw new PersistenceException(Messages.format("persist.nested","Key Generator Failure. Duplicated Identity is generated!"));
         } finally {
-            if ( lock != null )
-                lock.confirm( tx, succeed );
+            if (lock != null)
+                lock.confirm(tx, succeed);
         }
     }
 
@@ -580,20 +579,20 @@ public final class LockEngine {
      */
     public void delete(final TransactionContext tx, final OID oid)
             throws PersistenceException {
-        TypeInfo   typeInfo = (TypeInfo) _typeInfo.get( oid.getName() );
+        TypeInfo   typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
 
         try {
-            typeInfo.assure( oid, tx, true );
+            typeInfo.assure(oid, tx, true);
 
             if (_log.isDebugEnabled()) {
-                _log.debug( Messages.format( "jdo.removing", typeInfo.molder.getName(), oid.getIdentity() ) );
+                _log.debug(Messages.format("jdo.removing", typeInfo.molder.getName(), oid.getIdentity()));
             }
 
-            typeInfo.molder.delete( tx, oid );
+            typeInfo.molder.delete(tx, oid);
 
-        } catch ( LockNotGrantedException except ) {
-            throw new IllegalStateException( Messages.format( "persist.internal",
-                                                              "Attempt to delete object for which no lock was acquired" ) );
+        } catch (LockNotGrantedException except) {
+            throw new IllegalStateException(Messages.format("persist.internal",
+                                                              "Attempt to delete object for which no lock was acquired"));
         }
     }
 
@@ -653,9 +652,9 @@ public final class LockEngine {
 
         // If the object is new, don't try to load it from the cache
 
-        typeInfo = (TypeInfo) _typeInfo.get( internaloid.getName() );
-        if ( typeInfo == null )
-            throw new ClassNotPersistenceCapableException( Messages.format("persist.classNotPersistenceCapable", internaloid.getName() ) );
+        typeInfo = (TypeInfo) _typeInfo.get(internaloid.getName());
+        if (typeInfo == null)
+            throw new ClassNotPersistenceCapableException(Messages.format("persist.classNotPersistenceCapable", internaloid.getName()));
 
         //accessMode = typeInfo.molder.getAccessMode( suggestedAccessMode );
         //write = ( accessMode == AccessMode.Exclusive || accessMode == AccessMode.DbLocked );
@@ -670,7 +669,7 @@ public final class LockEngine {
 
             // [Yip] I rather limited update to always acquire read lock
             // (preferrably dblock), to avoid further concurrency problem.
-            lock = typeInfo.acquire( internaloid, tx, ObjectLock.ACTION_UPDATE, timeout );
+            lock = typeInfo.acquire(internaloid, tx, ObjectLock.ACTION_UPDATE, timeout);
 
             /*
             if ( write && ! oid.isDbLock() ) {
@@ -680,9 +679,9 @@ public final class LockEngine {
             }*/
             internaloid = lock.getOID();
 
-            boolean creating = typeInfo.molder.update( tx, internaloid, lock, object, suggestedAccessMode );
+            boolean creating = typeInfo.molder.update(tx, internaloid, lock, object, suggestedAccessMode);
 
-            if ( creating )
+            if (creating)
                 succeed = false;
             else
                 succeed = true;
@@ -703,8 +702,8 @@ public final class LockEngine {
             // This is equivalent to object not existing
             throw new ObjectNotFoundException(Messages.format("persist.objectNotFound", internaloid.getName(), internaloid.getIdentity()), except);
         } finally {
-            if ( lock != null )
-                lock.confirm( tx, succeed );
+            if (lock != null)
+                lock.confirm(tx, succeed);
         }
     }
 
@@ -744,12 +743,12 @@ public final class LockEngine {
         ObjectLock lock = null;
         boolean    modified;
 
-        typeInfo = (TypeInfo) _typeInfo.get( object.getClass().getName() );
+        typeInfo = (TypeInfo) _typeInfo.get(object.getClass().getName());
 
         // Acquire a read lock first. Only if the object has been modified
         // do we need a write lock.
 
-        internaloid = new OID(typeInfo.molder, internaloid.getIdentity() );
+        internaloid = new OID(typeInfo.molder, internaloid.getIdentity());
 
         // acquire read lock
         // getLockedField();
@@ -759,22 +758,22 @@ public final class LockEngine {
         // acquire write lock
         // setLockedField( );
         try {
-            lock = typeInfo.assure( internaloid, tx, false );
+            lock = typeInfo.assure(internaloid, tx, false);
 
             internaloid = lock.getOID();
 
-            modified = typeInfo.molder.preStore( tx, internaloid, lock, object, timeout );
-        } catch ( LockNotGrantedException e ) {
+            modified = typeInfo.molder.preStore(tx, internaloid, lock, object, timeout);
+        } catch (LockNotGrantedException e) {
             throw e;
-        } catch ( ObjectModifiedException e ) {
-            lock.invalidate( tx );
+        } catch (ObjectModifiedException e) {
+            lock.invalidate(tx);
             throw e;
-        } catch ( ObjectDeletedException e ) {
-            lock.delete( tx );
+        } catch (ObjectDeletedException e) {
+            lock.delete(tx);
             throw e;
         }
 
-        if ( modified ) {
+        if (modified) {
             return internaloid;
         }
 
@@ -788,27 +787,27 @@ public final class LockEngine {
         ObjectLock lock = null;
         TypeInfo   typeInfo;
 
-        typeInfo = (TypeInfo) _typeInfo.get( oid.getName() );
+        typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
         // Attempt to obtain a lock on the database. If this attempt
         // fails, release the lock and report the exception.
 
         try {
-            lock = typeInfo.assure( oid, tx, false );
+            lock = typeInfo.assure(oid, tx, false);
 
             if (_log.isDebugEnabled ()) {
-                _log.debug( Messages.format( "jdo.storing.with.id", typeInfo.molder.getName(), oid.getIdentity() ) );
+                _log.debug(Messages.format("jdo.storing.with.id", typeInfo.molder.getName(), oid.getIdentity()));
             }
 
-            typeInfo.molder.store( tx, oid, lock, object );
-        } catch ( ObjectModifiedException e ) {
-            lock.invalidate( tx );
+            typeInfo.molder.store(tx, oid, lock, object);
+        } catch (ObjectModifiedException e) {
+            lock.invalidate(tx);
             throw e;
-        } catch ( DuplicateIdentityException e ) {
+        } catch (DuplicateIdentityException e) {
             throw e;
-        } catch ( LockNotGrantedException e ) {
+        } catch (LockNotGrantedException e) {
             throw e;
-        } catch ( PersistenceException e ) {
-            lock.invalidate( tx );
+        } catch (PersistenceException e) {
+            lock.invalidate(tx);
             throw e;
         } 
     }
@@ -840,19 +839,19 @@ public final class LockEngine {
 
         TypeInfo   typeInfo;
 
-        typeInfo = (TypeInfo) _typeInfo.get( oid.getName() );
+        typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
         // Attempt to obtain a lock on the database. If this attempt
         // fails, release the lock and report the exception.
 
         try {
-            typeInfo.upgrade( oid, tx, timeout );
+            typeInfo.upgrade(oid, tx, timeout);
 
             // typeInfo.engine.writeLock( tx, lock...);
-        } catch ( IllegalStateException e ) {
+        } catch (IllegalStateException e) {
             throw e;
-        } catch ( ObjectDeletedWaitingForLockException e ) {
+        } catch (ObjectDeletedWaitingForLockException e) {
             throw new IllegalStateException("Object deleted waiting for lock?????????");
-        } catch ( LockNotGrantedException e ) {
+        } catch (LockNotGrantedException e) {
             throw e;
         }
     }
@@ -875,8 +874,8 @@ public final class LockEngine {
     throws LockNotGrantedException {
         TypeInfo   typeInfo;
 
-        typeInfo = (TypeInfo) _typeInfo.get( oid.getName() );
-        typeInfo.upgrade( oid, tx, timeout );
+        typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
+        typeInfo.upgrade(oid, tx, timeout);
     }
 
     /**
@@ -896,13 +895,13 @@ public final class LockEngine {
         TypeInfo   typeInfo;
         ObjectLock lock;
 
-        typeInfo = (TypeInfo) _typeInfo.get( oid.getName() );
+        typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
         try {
-            lock = typeInfo.assure( oid, tx, false );
-            typeInfo.molder.revertObject( tx, oid, lock, object );
-        } catch ( LockNotGrantedException e ) {
+            lock = typeInfo.assure(oid, tx, false);
+            typeInfo.molder.revertObject(tx, oid, lock, object);
+        } catch (LockNotGrantedException e) {
             throw new IllegalStateException("Write Lock expected!");
-        } catch ( PersistenceException except ) {
+        } catch (PersistenceException except) {
             //typeInfo.destory( oid, tx );
             throw except;
         }
@@ -923,9 +922,9 @@ public final class LockEngine {
         TypeInfo   typeInfo;
         ObjectLock lock;
 
-        typeInfo = (TypeInfo) _typeInfo.get( oid.getName() );
-        lock = typeInfo.assure( oid, tx, true );
-        typeInfo.molder.updateCache( tx, oid, lock, object );
+        typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
+        lock = typeInfo.assure(oid, tx, true);
+        typeInfo.molder.updateCache(tx, oid, lock, object);
     }
 
     /**
@@ -939,9 +938,9 @@ public final class LockEngine {
     public void releaseLock(final TransactionContext tx, final OID oid) {
         ObjectLock lock;
         TypeInfo   typeInfo;
-        typeInfo = (TypeInfo) _typeInfo.get( oid.getName() );
-        lock = typeInfo.release( oid, tx );
-        lock.getOID().setDbLock( false );
+        typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
+        lock = typeInfo.release(oid, tx);
+        lock.getOID().setDbLock(false);
     }
 
 
@@ -958,11 +957,11 @@ public final class LockEngine {
     public void forgetObject(final TransactionContext tx, final OID oid) {
         TypeInfo   typeInfo;
 
-        typeInfo = (TypeInfo) _typeInfo.get( oid.getName() );
+        typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
         //lock = typeInfo.locks.aquire( oid, tx );
-        typeInfo.assure( oid, tx, true );
-        typeInfo.delete( oid, tx );
-        typeInfo.release( oid, tx );
+        typeInfo.assure(oid, tx, true);
+        typeInfo.delete(oid, tx);
+        typeInfo.release(oid, tx);
     }
 
     /**
@@ -997,27 +996,27 @@ public final class LockEngine {
         boolean    succeed;
         ObjectLock lock;
  
-        typeInfo = (TypeInfo) _typeInfo.get( oid.getName() );
-        if ( typeInfo == null )
-            throw new ClassNotPersistenceCapableException( Messages.format("persist.classNotPersistenceCapable", oid.getName() ) );
+        typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
+        if (typeInfo == null)
+            throw new ClassNotPersistenceCapableException(Messages.format("persist.classNotPersistenceCapable", oid.getName()));
    
         succeed = false;
         lock = null;
         try {
             if (typeInfo.isCached(oid)) {
-                lock = typeInfo.acquire( oid, tx, ObjectLock.ACTION_WRITE, timeout );
+                lock = typeInfo.acquire(oid, tx, ObjectLock.ACTION_WRITE, timeout);
                 typeInfo.molder.expireCache(tx, lock);
                 lock.expire();
                 succeed = true;
             }
-        } catch ( LockNotGrantedException e ) {
+        } catch (LockNotGrantedException e) {
             throw e;
-        } catch ( ObjectDeletedException e ) {
+        } catch (ObjectDeletedException e) {
             throw e;
-        } catch ( PersistenceException e ) {
+        } catch (PersistenceException e) {
             throw e;
         } finally {
-            if ( lock != null ) lock.confirm( tx, succeed );
+            if (lock != null) lock.confirm(tx, succeed);
         }
  
         return succeed;
@@ -1444,7 +1443,7 @@ public final class LockEngine {
         private ObjectLock release(final OID oid, final TransactionContext tx) {
             ObjectLock entry = null;
             synchronized (locks) {
-                entry = (ObjectLock) locks.get( oid );
+                entry = (ObjectLock) locks.get(oid);
                 if (entry == null) {
                     throw new IllegalStateException(
                             "No lock to release! " + oid + " for transaction " + tx);
@@ -1464,7 +1463,7 @@ public final class LockEngine {
                             cache.expire(oid);
                             entry.expired();
                         }
-                        locks.remove( oid );
+                        locks.remove(oid);
                     }
                 }
             }

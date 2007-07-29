@@ -74,7 +74,7 @@ public interface LogInterceptor {
      * @param objClass The type of the object
      * @param identity The object identity
      */
-    void loading( Object objClass, Object identity );
+    void loading(Object objClass, Object identity);
     
     /**
      * Called to indicate that an object of the given type and identity
@@ -88,7 +88,7 @@ public interface LogInterceptor {
      * @param objClass The type of the object
      * @param identity The object identity
      */
-    void creating( Object objClass, Object identity );
+    void creating(Object objClass, Object identity);
 
     /**
      * Called to indicate that an object of the given type and identity
@@ -102,7 +102,7 @@ public interface LogInterceptor {
      * @param objClass The type of the object
      * @param identity The object identity
      */
-    void removing( Object objClass, Object identity );
+    void removing(Object objClass, Object identity);
 
     /**
      * Called to indicate that an object of the given type and identity
@@ -116,7 +116,7 @@ public interface LogInterceptor {
      * @param objClass The type of the object
      * @param identity The object identity
      */
-    void storing( Object objClass, Object identity );
+    void storing(Object objClass, Object identity);
 
     /**
      * Reports a statement that will be used with the persistent
@@ -127,7 +127,7 @@ public interface LogInterceptor {
      *
      * @param statement The storage statement
      */
-    void storeStatement( String statement );
+    void storeStatement(String statement);
 
     /**
      * Reports a statement that will be used with the persistent
@@ -138,7 +138,7 @@ public interface LogInterceptor {
      *
      * @param statement The query statement
      */
-    void queryStatement( String statement );
+    void queryStatement(String statement);
 
     /**
      * Reports a message of some sort that is not delivered to the
@@ -147,7 +147,7 @@ public interface LogInterceptor {
      *
      * @param message The reported message
      */
-    void message( String message );
+    void message(String message);
 
     /**
      * Reports an exception of some sort that is not delivered to the
@@ -156,7 +156,7 @@ public interface LogInterceptor {
      *
      * @param except The exception
      */
-    void exception( Exception except );
+    void exception(Exception except);
 
     /**
      * Returns the PrintWriter for this LogInterceptor

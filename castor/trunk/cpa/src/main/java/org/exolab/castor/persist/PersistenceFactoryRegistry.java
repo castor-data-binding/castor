@@ -99,7 +99,7 @@ public class PersistenceFactoryRegistry {
         load();
         names = new String[ _factories.size() ];
         enumeration = _factories.keys();
-        for ( int i = 0 ; i < names.length ; ++i )
+        for (int i = 0; i < names.length; ++i)
             names[ i ] = (String) enumeration.nextElement();
         return names;
     }
@@ -109,7 +109,7 @@ public class PersistenceFactoryRegistry {
      * Load the factories from the properties file, if not loaded before.
      */
     private static synchronized void load() {
-        if ( _factories == null ) {
+        if (_factories == null) {
             _factories = new Hashtable();
 
             Configuration config = Configuration.getInstance();
@@ -119,7 +119,7 @@ public class PersistenceFactoryRegistry {
                 try {
                     Object factory = ldr.loadClass(props[i]).newInstance();
                     _factories.put(((PersistenceFactory) factory).getFactoryName(), factory);
-                } catch ( Exception except ) {
+                } catch (Exception except) {
                     LOG.error(Messages.format("persist.missingPersistenceFactory", props[i]));
                 }
             }

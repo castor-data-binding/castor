@@ -62,13 +62,13 @@ public class PersistenceInfoGroup {
         ClassMolder molder = null;
         int i = 0;
         while ((i < engines.length) && (molder == null)) {
-            molder = engines[i++].getClassMolderWithDependent( type );
+            molder = engines[i++].getClassMolderWithDependent(type);
         }
         
         if (molder == null) {
-            throw new ClassNotPersistenceCapableException( Messages.format("persist.classNotPersistenceCapable", type.getName()) );
+            throw new ClassNotPersistenceCapableException(Messages.format("persist.classNotPersistenceCapable", type.getName()));
         } else if (molder.isDependent()) {
-            throw new ClassNotPersistenceCapableException( Messages.format("persist.classIsDependent", type.getName(), molder.getDepends().getName()) );
+            throw new ClassNotPersistenceCapableException(Messages.format("persist.classIsDependent", type.getName(), molder.getDepends().getName()));
         }
         
         return molder;
@@ -92,7 +92,7 @@ public class PersistenceInfoGroup {
     }
     
     public LockEngine getLockEngine() {
-        if ( engines != null && engines.length >= 1 )
+        if ((engines != null) && (engines.length >= 1))
             return engines[0];
         return null;
     }

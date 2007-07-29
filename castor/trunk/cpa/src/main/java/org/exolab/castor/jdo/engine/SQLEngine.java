@@ -59,7 +59,7 @@ public final class SQLEngine implements Persistence {
     
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
-    private static final Log LOG = LogFactory.getLog( SQLEngine.class );
+    private static final Log LOG = LogFactory.getLog(SQLEngine.class);
 
     private final SQLFieldInfo[]        _fields;
 

@@ -77,7 +77,7 @@ public final class MaxKeyGenerator implements KeyGenerator {
      *  Commons Logging</a> instance used for all logging. */
     private static Log _log = LogFactory.getFactory().getInstance(MaxKeyGenerator.class);
     
-    private static final BigDecimal ONE = new BigDecimal( 1 );
+    private static final BigDecimal ONE = new BigDecimal(1);
 
     private final int _sqlType;
 
@@ -89,7 +89,7 @@ public final class MaxKeyGenerator implements KeyGenerator {
     public MaxKeyGenerator(final PersistenceFactory factory, final int sqlType) throws MappingException {
         _factory = factory;
         _sqlType = sqlType;
-        supportsSqlType( sqlType );
+        supportsSqlType(sqlType);
     }
 
     /**
@@ -99,9 +99,9 @@ public final class MaxKeyGenerator implements KeyGenerator {
      * @throws MappingException
      */
     public void supportsSqlType(final int sqlType) throws MappingException {
-        if ( sqlType != Types.INTEGER && sqlType != Types.NUMERIC && sqlType != Types.DECIMAL && sqlType != Types.BIGINT) {
-            throw new MappingException( Messages.format( "mapping.keyGenSQLType",
-                                        getClass().getName(), new Integer( sqlType ) ) );
+        if ((sqlType != Types.INTEGER) && (sqlType != Types.NUMERIC) && (sqlType != Types.DECIMAL) && (sqlType != Types.BIGINT)) {
+            throw new MappingException(Messages.format("mapping.keyGenSQLType",
+                                        getClass().getName(), new Integer(sqlType)));
         }
     }
 
@@ -129,65 +129,65 @@ public final class MaxKeyGenerator implements KeyGenerator {
 
         try {
             query = _factory.getQueryExpression();
-            if ( _factory.getFactoryName().equals( "mysql" ) ) {
+            if (_factory.getFactoryName().equals("mysql")) {
                 // Create SQL sentence of the form
                 // "SELECT MAX(pk) FROM table"
                 query.addSelect("MAX(" + _factory.quoteName(primKeyName) + ")");
                 query.addTable(tableName);
 
                 // SELECT without lock
-                sql = query.getStatement( false );
+                sql = query.getStatement(false);
             } else {
                 // Create SQL sentence of the form
                 // "SELECT pk FROM table WHERE pk=(SELECT MAX(t1.pk) FROM table t1)"
                 // with database-dependent keyword for lock
-                query.addColumn( tableName, primKeyName);
-                query.addCondition( tableName, primKeyName, QueryExpression.OP_EQUALS,
+                query.addColumn(tableName, primKeyName);
+                query.addCondition(tableName, primKeyName, QueryExpression.OP_EQUALS,
                         "(SELECT MAX(t1." + _factory.quoteName(primKeyName) + ") FROM " + _factory.quoteName(tableName) + " t1)");
 
                 // SELECT and put lock on the last record
-                sql = query.getStatement( true );
+                sql = query.getStatement(true);
             }
 
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
 
-            if ( rs.next() ) {
-                if ( _sqlType == Types.INTEGER )
-                    identity = new Integer( rs.getInt( 1 ) + 1 );
-                else if ( _sqlType == Types.BIGINT )
-                    identity = new Long( rs.getLong( 1 ) + 1 );
+            if (rs.next()) {
+                if (_sqlType == Types.INTEGER)
+                    identity = new Integer(rs.getInt(1) + 1);
+                else if (_sqlType == Types.BIGINT)
+                    identity = new Long(rs.getLong(1) + 1);
                 else {
-                    BigDecimal max = rs.getBigDecimal( 1 );
+                    BigDecimal max = rs.getBigDecimal(1);
                     if (max == null) {
                         identity = ONE;
                     } else {
-                        identity = max.add( ONE );
+                        identity = max.add(ONE);
                     }
                 }
             } else {
-                if ( _sqlType == Types.INTEGER )
-                    identity = new Integer( 1 );
-                else if ( _sqlType == Types.BIGINT )
-                    identity = new Long( 1 );
+                if (_sqlType == Types.INTEGER)
+                    identity = new Integer(1);
+                else if (_sqlType == Types.BIGINT)
+                    identity = new Long(1);
                 else
                     identity = ONE;
             }
-        } catch ( SQLException ex ) {
-            throw new PersistenceException( Messages.format(
-                    "persist.keyGenSQL", getClass().getName(), ex.toString() ), ex );
+        } catch (SQLException ex) {
+            throw new PersistenceException(Messages.format(
+                    "persist.keyGenSQL", getClass().getName(), ex.toString()), ex);
         } finally {
-            if ( stmt != null ) {
+            if (stmt != null) {
                 try {
                     stmt.close();
-                } catch ( SQLException ex ) {
+                } catch (SQLException ex) {
                     _log.warn (Messages.message ("persist.stClosingFailed"), ex);
                 }
             }
         }
         if (identity == null) {
-            throw new PersistenceException( Messages.format(
-                    "persist.keyGenOverflow", getClass().getName() ) );
+            throw new PersistenceException(Messages.format(
+                    "persist.keyGenOverflow", getClass().getName()));
         }
         return identity;
     }

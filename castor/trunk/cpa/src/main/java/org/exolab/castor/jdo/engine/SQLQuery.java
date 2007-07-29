@@ -202,7 +202,7 @@ public final class SQLQuery implements PersistenceQuery {
             if (_stmt != null) {
                 try {
                     _stmt.close();
-                } catch ( SQLException e2 ) {
+                } catch (SQLException e2) {
                     LOG.warn("Problem closing JDBC statement", e2);
                 }
             }
@@ -403,7 +403,7 @@ public final class SQLQuery implements PersistenceQuery {
             for (int i = 0 ; i < numberOfFields ; ++i) {
                 if (_engine.getInfo()[i].isMulti()) {
                     counterReference.setCounter(count);
-                    fields[i] = loadMultiField( i, counterReference, fields[i] );
+                    fields[i] = loadMultiField(i, counterReference, fields[i]);
                     count = counterReference.getCounter(); 
                 } else if (isFirst) {
                     // Non-multi fields have to be done one only once, so this is skipped

@@ -125,7 +125,7 @@ public class LocalDatabaseImpl extends AbstractDatabaseImpl {
      * @inheritDoc
      */
     public void begin() throws PersistenceException {
-        _log.debug( "Beginning tx" );
+        _log.debug("Beginning tx");
 
         if (isActive()) {
             throw new PersistenceException(Messages.message("jdo.txInProgress"));
@@ -134,10 +134,10 @@ public class LocalDatabaseImpl extends AbstractDatabaseImpl {
         // _ctx.setStatus(Status.STATUS_ACTIVE);
         _ctx.setStatus(0);
         
-        _ctx.setLockTimeout( _lockTimeout );
-        _ctx.setAutoStore( _autoStore );
-        _ctx.setCallback( _callback );
-        _ctx.setInstanceFactory( _instanceFactory );
+        _ctx.setLockTimeout(_lockTimeout);
+        _ctx.setAutoStore(_autoStore);
+        _ctx.setCallback(_callback);
+        _ctx.setInstanceFactory(_instanceFactory);
 
         registerSynchronizables();
     }
@@ -146,7 +146,7 @@ public class LocalDatabaseImpl extends AbstractDatabaseImpl {
      * @inheritDoc
      */
     public void commit() throws TransactionNotInProgressException, TransactionAbortedException {
-        _log.debug( "Committing tx" );
+        _log.debug("Committing tx");
 
         if (!isActive()) {
             throw new TransactionNotInProgressException(Messages.message("jdo.txNotInProgress"));

@@ -63,28 +63,28 @@ public final class TxDatabaseMap implements Serializable {
     }
 
     public synchronized boolean containsTx(final Transaction tx) {
-        return _txDbMap.containsKey( tx );
+        return _txDbMap.containsKey(tx);
     }
 
     public synchronized boolean containsDatabase(final GlobalDatabaseImpl dbImpl) {
-        return _txDbMap.containsValue( dbImpl );
+        return _txDbMap.containsValue(dbImpl);
     }
 
     public synchronized GlobalDatabaseImpl get(final Transaction tx) {
-        return (GlobalDatabaseImpl) _txDbMap.get( tx );
+        return (GlobalDatabaseImpl) _txDbMap.get(tx);
     }
 
     public synchronized void put(final Transaction tx, final GlobalDatabaseImpl dbImpl) {
-        Object oldDb = _txDbMap.put( tx, dbImpl );
-        if ( oldDb != null && oldDb != dbImpl ) {
-            _txDbMap.put( tx, oldDb );
+        Object oldDb = _txDbMap.put(tx, dbImpl);
+        if ((oldDb != null) && (oldDb != dbImpl)) {
+            _txDbMap.put(tx, oldDb);
             throw new IllegalStateException("The transaction and database association can not be changed!");
         }
-        dbImpl.setTxMap( this );
+        dbImpl.setTxMap(this);
     }
 
     public synchronized GlobalDatabaseImpl remove(final Transaction tx) {
-        return (GlobalDatabaseImpl) _txDbMap.remove( tx );
+        return (GlobalDatabaseImpl) _txDbMap.remove(tx);
     }
 
     public synchronized int size() {

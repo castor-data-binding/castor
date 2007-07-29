@@ -62,7 +62,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  */
 public final class SapDbQueryExpression extends JDBCQueryExpression {
     public SapDbQueryExpression(final PersistenceFactory factory) {
-        super( factory );
+        super(factory);
     }
 
     public String getStatement(final boolean lock) {
@@ -74,24 +74,24 @@ public final class SapDbQueryExpression extends JDBCQueryExpression {
         Vector       sorted = new Vector();
 
         sql = new StringBuffer();
-        sql.append( JDBCSyntax.SELECT );
-        if ( _distinct )
-          sql.append( JDBCSyntax.DISTINCT );
+        sql.append(JDBCSyntax.SELECT);
+        if (_distinct)
+          sql.append(JDBCSyntax.DISTINCT);
 
-        sql.append( getColumnList() );
+        sql.append(getColumnList());
 
-        sql.append( JDBCSyntax.FROM );
+        sql.append(JDBCSyntax.FROM);
         // Add all the tables to the FROM clause
         // They should go in the special order: the table from the left side of outer join
         // should go before the table from the right side.
         // first add elements that participate in outer joins
         enumeration = _joins.elements();
-        while ( enumeration.hasMoreElements() ) {
+        while (enumeration.hasMoreElements()) {
             int left;
             int right;
 
             join = (Join) enumeration.nextElement();
-            if ( ! join.outer ) {
+            if (!join.outer) {
                 continue;
             }
             left = sorted.indexOf(join.leftTable);
@@ -112,7 +112,7 @@ public final class SapDbQueryExpression extends JDBCQueryExpression {
         }
         // now add elements that don't participate in outer joins
         enumeration = _tables.keys();
-        while ( enumeration.hasMoreElements() ) {
+        while (enumeration.hasMoreElements()) {
             Object name;
 
             name = enumeration.nextElement();
@@ -122,57 +122,55 @@ public final class SapDbQueryExpression extends JDBCQueryExpression {
         }
         // Append all the tables (from sorted) to the sql string.
         enumeration = sorted.elements();
-        while ( enumeration.hasMoreElements() ) {
+        while (enumeration.hasMoreElements()) {
             String tableAlias = (String) enumeration.nextElement();
-            String tableName = (String) _tables.get( tableAlias );
+            String tableName = (String) _tables.get(tableAlias);
             if (tableAlias.equals(tableName)) {
-                sql.append( _factory.quoteName( tableName ) );
+                sql.append(_factory.quoteName(tableName));
             } else {
-                sql.append( _factory.quoteName( tableName ) + " " +
-                            _factory.quoteName( tableAlias ) );
+                sql.append(_factory.quoteName(tableName) + " " +
+                            _factory.quoteName(tableAlias));
             }
-            if ( enumeration.hasMoreElements() )
-                sql.append( JDBCSyntax.TABLE_SEPARATOR );
+            if (enumeration.hasMoreElements())
+                sql.append(JDBCSyntax.TABLE_SEPARATOR);
         }
         first = true;
         // Use asterisk notation to denote a left outer join
         // and equals to denote an inner join
         size = _joins.size();
-        for ( int i = 0 ; i < size; ++i ) {
-            if ( first ) {
-                sql.append( JDBCSyntax.WHERE );
+        for (int i = 0; i < size; ++i) {
+            if (first) {
+                sql.append(JDBCSyntax.WHERE);
                 first = false;
             } else
-                sql.append( JDBCSyntax.AND );
+                sql.append(JDBCSyntax.AND);
 
-            join = (Join) _joins.elementAt( i );
-            for ( int j = 0 ; j < join.leftColumns.length ; ++j ) {
-                if ( j > 0 )
-                    sql.append( JDBCSyntax.AND );
+            join = (Join) _joins.elementAt(i);
+            for (int j = 0; j < join.leftColumns.length; ++j) {
+                if (j > 0)
+                    sql.append(JDBCSyntax.AND);
 
-                sql.append( _factory.quoteName( join.leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                                join.leftColumns[ j ] ) );
+                sql.append(_factory.quoteName(join.leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
+                                                join.leftColumns[j]));
 
-                sql.append( OP_EQUALS );
-                sql.append( _factory.quoteName( join.rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                                join.rightColumns[ j ] ) );
-                if ( join.outer )
-                    sql.append( "(+)" );
+                sql.append(OP_EQUALS);
+                sql.append(_factory.quoteName(join.rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
+                                                join.rightColumns[j]));
+                if (join.outer)
+                    sql.append("(+)");
             }
         }
-        first = addWhereClause( sql, first );
+        first = addWhereClause(sql, first);
 
-        if ( _order != null )
+        if (_order != null)
           sql.append(JDBCSyntax.ORDER_BY).append(_order);
 
         // Use WITH LOCK to lock selected tables.
-        if ( lock ) {
-            sql.append( " WITH LOCK" );
+        if (lock) {
+            sql.append(" WITH LOCK");
         }
         return sql.toString();
     }
-    
-
 }
 
 

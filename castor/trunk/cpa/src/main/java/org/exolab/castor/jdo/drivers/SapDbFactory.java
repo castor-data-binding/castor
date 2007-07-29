@@ -65,7 +65,7 @@ public final class SapDbFactory extends OracleFactory {
     }
 
     public QueryExpression getQueryExpression() {
-        return new SapDbQueryExpression( this );
+        return new SapDbQueryExpression(this);
     }
 
     /**
@@ -87,7 +87,7 @@ public final class SapDbFactory extends OracleFactory {
         while (tokens.hasMoreTokens()) {
             token = tokens.nextToken();
 
-            if ( isAFunction( token ) ) {
+            if (isAFunction(token)) {
                 addQuote = false;
                 buffer.append("\".");
             } else {
@@ -95,10 +95,10 @@ public final class SapDbFactory extends OracleFactory {
                 token = token.toUpperCase();
             }
 
-            buffer.append( token );
+            buffer.append(token);
         }
 
-        if ( addQuote )
+        if (addQuote)
             buffer.append('\"');
 
         return buffer.toString();
@@ -120,10 +120,10 @@ public final class SapDbFactory extends OracleFactory {
             "currval"
         };
 
-        for ( int i = 0; i < knownFunctions.length; ++i ) {
+        for (int i = 0; i < knownFunctions.length; ++i) {
             String function = knownFunctions[i];
 
-            if ( text.equals( function ) ) {
+            if (text.equals(function)) {
                 return true;
             }
         }

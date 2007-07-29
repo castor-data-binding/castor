@@ -78,25 +78,25 @@ final class MultiRSCallQuery extends AbstractCallQuery {
     throws QueryException, PersistenceException {
         _lastIdentity = null;
         try {
-            _stmt = ( (Connection) conn ).prepareCall( _call );
-            for ( int i = 0 ; i < _values.length ; ++i ) {
-                _stmt.setObject( i + 1, _values[ i ] );
-                _values[ i ] = null;
+            _stmt = ((Connection) conn).prepareCall(_call);
+            for (int i = 0; i < _values.length; ++i) {
+                _stmt.setObject(i + 1, _values[i]);
+                _values[i] = null;
             }
             _stmt.execute();
             _rs = _stmt.getResultSet();
-        } catch ( SQLException except ) {
-            throw new PersistenceException( Messages.format( "persist.nested", except ) );
+        } catch (SQLException except) {
+            throw new PersistenceException(Messages.format("persist.nested", except));
         }
     }
 
 
     protected boolean nextRow() throws SQLException {
-        while ( true ) {
-            if ( _rs != null && _rs.next() ) {
+        while (true) {
+            if ((_rs != null) && (_rs.next())) {
                 return true;
             }
-            if ( !_stmt.getMoreResults() && _stmt.getUpdateCount() == -1 ) {
+            if (!_stmt.getMoreResults() && (_stmt.getUpdateCount() == -1)) {
                 _rs = null;
                 return false;
             }

@@ -111,8 +111,8 @@ public final class UUIDKeyGenerator implements KeyGenerator {
      */
     public void supportsSqlType(final int sqlType) throws MappingException {
         if (sqlType != Types.CHAR && sqlType != Types.VARCHAR && sqlType != Types.LONGVARCHAR) {
-          throw new MappingException( Messages.format( "mapping.keyGenSQLType",
-                                     getClass().getName(), new Integer( sqlType ) ) );
+          throw new MappingException(Messages.format("mapping.keyGenSQLType",
+                                     getClass().getName(), new Integer(sqlType)));
         }
     }
 
@@ -155,14 +155,14 @@ public final class UUIDKeyGenerator implements KeyGenerator {
           _staticCounter++;
           _df.applyPattern("00000");
           sUUID += _df.format(_staticCounter);
-        } catch ( Exception ex ) {
-          throw new PersistenceException( Messages.format(
-                    "persist.keyGenSQL", getClass().getName(), ex.toString() ), ex );
+        } catch (Exception ex) {
+          throw new PersistenceException(Messages.format(
+                    "persist.keyGenSQL", getClass().getName(), ex.toString()), ex);
         }
 
         if (sUUID == null) {
-          throw new PersistenceException( Messages.format(
-                    "persist.keyGenOverflow", getClass().getName() ) );
+          throw new PersistenceException(Messages.format(
+                    "persist.keyGenOverflow", getClass().getName()));
         }
 
         return sUUID;
