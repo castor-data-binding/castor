@@ -92,13 +92,13 @@ class DatingService {
         if (needExtendsClassMolder != null) {
             e = needExtendsClassMolder.elements();
             while (e.hasMoreElements()) {
-                Pair pair = (Pair)e.nextElement();
+                Pair pair = (Pair) e.nextElement();
                 initiateCm = (ClassMolder) pair.value;
                 targetCm = (ClassMolder) clsMolders.get(pair.key);
                 if (targetCm == null)
                     throw new MappingException("Extended element, \"" + pair.key + "\"  not found!");
                 initiateCm.setExtends(targetCm);
-                ((SQLEngine)initiateCm.getPersistence()).setExtends((SQLEngine) targetCm.getPersistence());
+                ((SQLEngine) initiateCm.getPersistence()).setExtends((SQLEngine) targetCm.getPersistence());
             }
         }
 
@@ -106,7 +106,7 @@ class DatingService {
         if (needDependsClassMolder != null) {
             e = needDependsClassMolder.elements();
             while (e.hasMoreElements()) {
-                Pair pair = (Pair)e.nextElement();
+                Pair pair = (Pair) e.nextElement();
                 initiateCm = (ClassMolder) pair.value;
                 targetCm = (ClassMolder) clsMolders.get(pair.key);
                 if (targetCm == null)
@@ -119,7 +119,7 @@ class DatingService {
         if (needFieldClass != null) {
             e = needFieldClass.elements();
             while (e.hasMoreElements()) {
-                Pair pair = (Pair)e.nextElement();
+                Pair pair = (Pair) e.nextElement();
                 initiateFm = (FieldMolder) pair.value;
                 targetCm = (ClassMolder) clsMolders.get(pair.key);
                 if (targetCm == null)
@@ -144,10 +144,10 @@ class DatingService {
         ClassMolder clsMold = (ClassMolder) clsMolders.get(extName);
         if (clsMold != null) {
             me.setExtends(clsMold);
-            SQLEngine sql = ((SQLEngine)me.getPersistence());
+            SQLEngine sql = ((SQLEngine) me.getPersistence());
             if (sql == null)
                 throw new MappingException("Class " + me + " extends on " + extName + " which is not persistence capable!");
-            sql.setExtends((SQLEngine)clsMold.getPersistence());
+            sql.setExtends((SQLEngine) clsMold.getPersistence());
             return true;
         }
 

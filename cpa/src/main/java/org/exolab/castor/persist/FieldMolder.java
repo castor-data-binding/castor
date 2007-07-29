@@ -702,7 +702,7 @@ public class FieldMolder {
 
                     // look again, but this time without a trailing 's'
                     if ((_defaultReflectService._addMethod == null) && (name.endsWith("s")))
-                        _defaultReflectService._addMethod = findAccessor(javaClass, METHOD_ADD_PREFIX + capitalize(name).substring(0,name.length() - 1), declaredClass, false);
+                        _defaultReflectService._addMethod = findAccessor(javaClass, METHOD_ADD_PREFIX + capitalize(name).substring(0, name.length() - 1), declaredClass, false);
 
                     // if add<FieldName>() has been found, set _addable to true 
                     if (_defaultReflectService._addMethod != null)

@@ -87,7 +87,7 @@ public class QueryHistory implements java.io.Serializable {
 
     public String GetCurrentQuery() {
       if (querys.isEmpty()) return "";
-      return (String)querys.elementAt(currentPos);
+      return (String) querys.elementAt(currentPos);
     }
 
     public void addQuery(final String newQuery) {

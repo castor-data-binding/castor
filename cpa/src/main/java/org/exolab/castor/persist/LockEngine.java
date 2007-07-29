@@ -210,7 +210,7 @@ public final class LockEngine {
 
                     } else if (processedClasses.contains(molder.getExtends())) {
                         // use the base type to construct the new type
-                        TypeInfo baseInfo = (TypeInfo)_typeInfo.get(extend.getName());
+                        TypeInfo baseInfo = (TypeInfo) _typeInfo.get(extend.getName());
                         _typeInfo.put(molder.getName(), new TypeInfo(molder, baseInfo));
                         itor.remove();
                         processedClasses.add(molder);
@@ -226,7 +226,7 @@ public final class LockEngine {
             if (freshClasses.size() > 0) {
                 Iterator itor = freshClasses.iterator();
                 while (itor.hasNext()) {
-                    ClassMolder molder = (ClassMolder)itor.next();
+                    ClassMolder molder = (ClassMolder) itor.next();
                     _log.error("The base class, " + (molder.getExtends().getName())
                         + ", of the extends class ," + molder.getName() 
                         + " can not be resolved! ");
@@ -290,7 +290,7 @@ public final class LockEngine {
      * @return The class molder for the specified class.
      */
     public ClassMolder getClassMolder(final Class cls) {
-        TypeInfo info = (TypeInfo)_typeInfo.get(cls.getName());
+        TypeInfo info = (TypeInfo) _typeInfo.get(cls.getName());
         if (info != null) {
             if (!info.molder.isDependent()) 
                 return info.molder;
@@ -311,7 +311,7 @@ public final class LockEngine {
     public ClassMolder getClassMolderByQuery(final String name) {        
         Iterator typeIterator = _typeInfo.values().iterator();
         while (typeIterator.hasNext()) {
-            TypeInfo info = (TypeInfo)typeIterator.next();
+            TypeInfo info = (TypeInfo) typeIterator.next();
             if (info.molder.getNamedQuery(name) != null) {
                 return info.molder;
             }
@@ -552,7 +552,7 @@ public final class LockEngine {
             return newoid;
         } catch (LockNotGrantedException e) {
             e.printStackTrace();
-            throw new PersistenceException(Messages.format("persist.nested","Key Generator Failure. Duplicated Identity is generated!"));
+            throw new PersistenceException(Messages.format("persist.nested", "Key Generator Failure. Duplicated Identity is generated!"));
         } finally {
             if (lock != null)
                 lock.confirm(tx, succeed);

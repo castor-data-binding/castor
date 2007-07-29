@@ -304,14 +304,14 @@ public class ClassMolder {
                 TypeConvertor[] idConvertFrom = new TypeConvertor[fmId.length];
                 TypeConvertor[]idConvertTo = new TypeConvertor[fmId.length];
                 String[] idConvertParam = new String[fmId.length];
-                FieldDescriptor[] fd = ((ClassDescriptorImpl)clsDesc).getIdentities();
+                FieldDescriptor[] fd = ((ClassDescriptorImpl) clsDesc).getIdentities();
                 for (int j = 0; j < fmId.length; j++) {
                     idSQL[j] = fmId[j].getSql().getName()[0];
 
                     if (fd[j] instanceof JDOFieldDescriptor) {
-                        int[] type = ((JDOFieldDescriptor)fd[j]).getSQLType();
+                        int[] type = ((JDOFieldDescriptor) fd[j]).getSQLType();
                         idType[j] = (type == null) ? 0 : type[0];
-                        FieldHandlerImpl fh = (FieldHandlerImpl)fd[j].getHandler();
+                        FieldHandlerImpl fh = (FieldHandlerImpl) fd[j].getHandler();
                         idConvertTo[j] = fh.getConvertTo();
                         idConvertFrom[j] = fh.getConvertFrom();
                         idConvertParam[j] = fh.getConvertParam();
@@ -323,7 +323,7 @@ public class ClassMolder {
                 String relatedType = fmFields[i].getType();
                 ClassDescriptor relDesc = loader.getDescriptor(relatedType);
                 if (relDesc instanceof JDOClassDescriptor) {
-                    FieldDescriptor[] relatedIds = ((JDOClassDescriptor)relDesc).getIdentities();
+                    FieldDescriptor[] relatedIds = ((JDOClassDescriptor) relDesc).getIdentities();
                     relatedIdSQL = new String[relatedIds.length];
                     relatedIdType = new int[relatedIds.length];
                     relatedIdConvertTo = new TypeConvertor[relatedIds.length];
@@ -331,11 +331,11 @@ public class ClassMolder {
                     relatedIdConvertParam = new String[relatedIds.length];
                     for (int j = 0; j < relatedIdSQL.length; j++) {
                         if (relatedIds[j] instanceof JDOFieldDescriptor) {
-                            String[] tempId = ((JDOFieldDescriptor)relatedIds[j]).getSQLName();
+                            String[] tempId = ((JDOFieldDescriptor) relatedIds[j]).getSQLName();
                             relatedIdSQL[j] = (tempId == null) ? null : tempId[0];
-                            int[] tempType = ((JDOFieldDescriptor)relatedIds[j]).getSQLType();
+                            int[] tempType = ((JDOFieldDescriptor) relatedIds[j]).getSQLType();
                             relatedIdType[j] = (tempType == null) ? 0 : tempType[0];
-                            FieldHandlerImpl fh = (FieldHandlerImpl)relatedIds[j].getHandler();
+                            FieldHandlerImpl fh = (FieldHandlerImpl) relatedIds[j].getHandler();
                             relatedIdConvertTo[j] = fh.getConvertTo();
                             relatedIdConvertFrom[j] = fh.getConvertFrom();
                             relatedIdConvertParam[j] = fh.getConvertParam();
