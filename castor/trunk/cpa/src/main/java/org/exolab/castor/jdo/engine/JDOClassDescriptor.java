@@ -49,7 +49,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.exolab.castor.mapping.AccessMode;
-import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
 

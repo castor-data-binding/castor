@@ -43,14 +43,10 @@
  * $Id$
  */
 
-
 package org.exolab.castor.jdo.drivers;
-
 
 import org.exolab.castor.jdo.engine.JDBCSyntax;
 import org.exolab.castor.persist.spi.PersistenceFactory;
-import org.exolab.castor.persist.spi.QueryExpression;
-
 
 /**
  * QueryExpression for MySQL.

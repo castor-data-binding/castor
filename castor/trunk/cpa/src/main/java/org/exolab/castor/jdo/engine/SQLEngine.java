@@ -26,7 +26,6 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.persist.ProposedEntity;
 import org.castor.util.Messages;
 import org.exolab.castor.jdo.Database;
-import org.exolab.castor.jdo.ObjectNotFoundException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.mapping.AccessMode;
@@ -338,7 +337,6 @@ public final class SQLEngine implements Persistence {
      * @param identity Identity of the object to load.
      * @param accessMode The access mode (null equals shared)
      * @return The object's stamp, or null
-     * @throws ObjectNotFoundException The object was not found in persistent storage
      * @throws PersistenceException A persistence error occured
      */
     public Object load(final Object conn, final ProposedEntity entity,
