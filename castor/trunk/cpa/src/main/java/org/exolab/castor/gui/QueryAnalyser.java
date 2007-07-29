@@ -95,7 +95,7 @@ public class QueryAnalyser {
 
     /**Construct the application*/
     public QueryAnalyser(final String databasename, final String dbconfig) {
-        MainFrame frame = new MainFrame(databasename,dbconfig);
+        MainFrame frame = new MainFrame(databasename, dbconfig);
         //Validate frames that have preset sizes
         //Pack frames that have useful preferred size info, e.g. from their layout
         if (packFrame) {
@@ -128,7 +128,7 @@ public class QueryAnalyser {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        new QueryAnalyser(args[0],args[1]);
+        new QueryAnalyser(args[0], args[1]);
     }
 
     private class MainFrame extends JFrame {
@@ -317,17 +317,17 @@ public class QueryAnalyser {
                 statusBar.setText("Query successful, Time: " + (endtime.getTime() - starttime.getTime()) + " ms");
 
                 // get SQL statement via backdoor
-                SQLPane.setText(((OQLQueryImpl)oql).getSQL());
+                SQLPane.setText(((OQLQueryImpl) oql).getSQL());
 
 
                 while (r.hasMore()) {
                     o = r.next();
                     if (firstObject) {
                         properties = getProperties(o);
-                        FillTableHeader(properties,model);
+                        FillTableHeader(properties, model);
                         firstObject = false;
                     }
-                    model.addRow(fillRow(properties,o));
+                    model.addRow(fillRow(properties, o));
 
                 }
                 db.commit();
@@ -369,7 +369,7 @@ public class QueryAnalyser {
             Iterator i = properties.iterator();
             Method m;
             while (i.hasNext()) {
-                m = (Method)i.next();
+                m = (Method) i.next();
                 model.addColumn(m.getName().substring(3));
 
             }
@@ -382,9 +382,9 @@ public class QueryAnalyser {
             Iterator i = properties.iterator();
             while (i.hasNext()) {
                     temp = null;
-                    m = (Method)i.next();
+                    m = (Method) i.next();
                     try {
-                        temp = m.invoke(o,(Object[])null);
+                        temp = m.invoke(o, (Object[]) null);
                     } catch (Exception ie) {
                         temp = null;
                     }

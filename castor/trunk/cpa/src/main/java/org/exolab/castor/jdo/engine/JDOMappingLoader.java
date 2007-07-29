@@ -520,7 +520,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
       }
       types.add(sqlType.substring(begin, current));
       String[] result = new String[types.size()];
-      return (String[])types.toArray(result);
+      return (String[]) types.toArray(result);
     }
 
 
@@ -578,7 +578,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
                                         public Object convert(final Object obj, final String param) {
                                             try {
                                                 if (method == null)  method = toType().getMethod(VALUE_OF, STRING_ARG);
-                                                return method.invoke(toType(), new Object[] {(String)obj});
+                                                return method.invoke(toType(), new Object[] {(String) obj});
                                             } catch (Exception ex) {
                                                 return null;
                                             }
@@ -699,7 +699,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         //-- correct getter/setter methods can be found
         FieldHandler custom = handler;
         if (generalized) {
-            fieldType = ((GeneralizedFieldHandler)exfHandler).getFieldType();
+            fieldType = ((GeneralizedFieldHandler) exfHandler).getFieldType();
         }
         
         if (generalized || (handler == null)) {
@@ -709,7 +709,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             typeInfoRef.typeInfo = typeInfo;
             handler = createFieldHandler(javaClass, fieldType, fieldMap, typeInfoRef);
             if (custom != null) {
-                ((GeneralizedFieldHandler)exfHandler).setFieldHandler(handler);
+                ((GeneralizedFieldHandler) exfHandler).setFieldHandler(handler);
                 handler = custom;
             } else {
                 typeInfo = typeInfoRef.typeInfo;

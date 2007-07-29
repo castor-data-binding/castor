@@ -883,7 +883,7 @@ public class ParseTreeWalker {
                         // A function, skip to next element
                         Iterator arguments = curChild.getChild(0).children();
                         while (arguments.hasNext()) {
-                            ParseTreeNode nn = (ParseTreeNode)arguments.next();
+                            ParseTreeNode nn = (ParseTreeNode) arguments.next();
                             checkWhereClause(nn);
                         }
                     }

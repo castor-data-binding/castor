@@ -105,7 +105,7 @@ public final class SequenceKeyGenerator implements KeyGenerator {
 
         _factoryName = factory.getFactoryName();
         returning = "true".equals(params.getProperty("returning"));
-        _triggerPresent = "true".equals(params.getProperty("trigger","false"));
+        _triggerPresent = "true".equals(params.getProperty("trigger", "false"));
 
 
         if (!_factoryName.equals(OracleFactory.FACTORY_NAME)
@@ -136,7 +136,7 @@ public final class SequenceKeyGenerator implements KeyGenerator {
         supportsSqlType(sqlType);
 
         try {
-            _increment = Integer.parseInt(params.getProperty("increment","1"));
+            _increment = Integer.parseInt(params.getProperty("increment", "1"));
         } catch (NumberFormatException nfe) {
             _increment = 1;
         }
@@ -175,7 +175,7 @@ public final class SequenceKeyGenerator implements KeyGenerator {
         String seqName;
         String table;
 
-        seqName = MessageFormat.format(_seqName, new Object[] {tableName,primKeyName});// due to varargs in 1.5, see CASTOR-1097
+        seqName = MessageFormat.format(_seqName, new Object[] {tableName, primKeyName}); // due to varargs in 1.5, see CASTOR-1097
         table = _factory.quoteName(tableName);
         try {
             if (_factory.getFactoryName().equals(InterbaseFactory.FACTORY_NAME)) {
@@ -193,8 +193,8 @@ public final class SequenceKeyGenerator implements KeyGenerator {
                 } else if (_triggerPresent && _factoryName.equals(PostgreSQLFactory.FACTORY_NAME)) {
                     Object insStmt = props.get("insertStatement");
                     Class psqlStmtClass = Class.forName("org.postgresql.Statement");
-                    Method getInsertedOID = psqlStmtClass.getMethod("getInsertedOID", (Class[])null);
-                    int insertedOID = ((Integer) getInsertedOID.invoke(insStmt, (Object[])null)).intValue();
+                    Method getInsertedOID = psqlStmtClass.getMethod("getInsertedOID", (Class[]) null);
+                    int insertedOID = ((Integer) getInsertedOID.invoke(insStmt, (Object[]) null)).intValue();
                     stmt = conn.prepareStatement("SELECT " + _factory.quoteName(primKeyName) +
                             " FROM " + table + " WHERE OID=?");
                     stmt.setInt(1, insertedOID);
@@ -296,7 +296,7 @@ public final class SequenceKeyGenerator implements KeyGenerator {
             tableName = buffer2.toString();
         }
 
-        seqName = MessageFormat.format(_seqName, new Object[] {tableName,primKeyName}); // due to varargs in 1.5, see CASTOR-1097
+        seqName = MessageFormat.format(_seqName, new Object[] {tableName, primKeyName}); // due to varargs in 1.5, see CASTOR-1097
         nextval = _factory.quoteName(seqName + ".nextval");
         lp1 = insert.indexOf('(');
         lp2 = insert.indexOf('(', lp1 + 1);

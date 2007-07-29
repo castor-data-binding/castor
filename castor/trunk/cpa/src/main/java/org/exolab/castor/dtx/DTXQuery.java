@@ -602,7 +602,7 @@ public class DTXQuery {
           * TODO : Needs to be resolved by Hand
           */
 
-            MapTo extendsTo = new MapTo();//(ClassMapping) clsMapping.getExtends()).getMapTo();
+            MapTo extendsTo = new MapTo();  //(ClassMapping) clsMapping.getExtends()).getMapTo();
             if (extendsTo == null) {
                 throw new DTXException("no mapping info for extends table.");
             }

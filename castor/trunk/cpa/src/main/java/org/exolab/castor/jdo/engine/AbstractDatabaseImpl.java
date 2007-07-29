@@ -525,7 +525,7 @@ public abstract class AbstractDatabaseImpl implements Database {
         if (_synchronizables != null && _synchronizables.size() > 0) {
             Iterator iter = _synchronizables.iterator();
             while (iter.hasNext()) {
-                _ctx.addTxSynchronizable((TxSynchronizable)iter.next());
+                _ctx.addTxSynchronizable((TxSynchronizable) iter.next());
             }
         }
     }
@@ -538,7 +538,7 @@ public abstract class AbstractDatabaseImpl implements Database {
         if (_synchronizables != null  && _synchronizables.size() > 0) {
             Iterator iter = _synchronizables.iterator();
             while (iter.hasNext()) {
-                _ctx.removeTxSynchronizable((TxSynchronizable)iter.next());
+                _ctx.removeTxSynchronizable((TxSynchronizable) iter.next());
             }
         }
     }

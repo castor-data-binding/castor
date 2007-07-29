@@ -279,7 +279,7 @@ public final class SQLEngine implements Persistence {
         System.arraycopy(jdoFields0, 0, jdoFields, 0, count);
         System.arraycopy(sqlTypes0, 0, sqlTypes, 0, count);
 
-        return ((BaseFactory) _factory).getCallQuery(spCall, types,_clsDesc.getJavaClass(), jdoFields, sqlTypes);
+        return ((BaseFactory) _factory).getCallQuery(spCall, types, _clsDesc.getJavaClass(), jdoFields, sqlTypes);
     }
 
     public QueryExpression getQueryExpression() {
