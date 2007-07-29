@@ -77,19 +77,19 @@ public class HighLowKeyGenerator implements KeyGenerator {
      */
     private static Log _log = LogFactory.getFactory().getInstance(HighLowKeyGenerator.class);
     
-    private final static BigDecimal ONE = new BigDecimal(1);
+    private static final BigDecimal ONE = new BigDecimal(1);
 
-    private final static String SEQ_TABLE = "table";
+    private static final String SEQ_TABLE = "table";
 
-    private final static String SEQ_KEY = "key-column";
+    private static final String SEQ_KEY = "key-column";
 
-    private final static String SEQ_VALUE = "value-column";
+    private static final String SEQ_VALUE = "value-column";
 
-    private final static String GRAB_SIZE = "grab-size";
+    private static final String GRAB_SIZE = "grab-size";
 
-    private final static String SAME_CONNECTION = "same-connection";
+    private static final String SAME_CONNECTION = "same-connection";
 
-    private final static String GLOBAL = "global";
+    private static final String GLOBAL = "global";
 
     private final PersistenceFactory _factory;
     

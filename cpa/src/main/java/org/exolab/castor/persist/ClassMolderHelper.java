@@ -29,7 +29,7 @@ import org.exolab.castor.xml.ResolverException;
 
 public final class ClassMolderHelper {
     
-    static public final Log LOG = LogFactory.getLog(ClassMolderHelper.class);
+    public static final Log LOG = LogFactory.getLog(ClassMolderHelper.class);
     
     private ClassMolderHelper() {
         // nothing to do
