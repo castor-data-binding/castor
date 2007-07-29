@@ -63,10 +63,10 @@ public interface TxSynchronizable {
     /**
      * Called at the end of a transaction after commit.
      */
-    void committed( TransactionContext tx );
+    void committed(TransactionContext tx);
 
     /**
      * Called at the end of a transaction after rollback.
      */
-    void rolledback( TransactionContext tx );
+    void rolledback(TransactionContext tx);
 }

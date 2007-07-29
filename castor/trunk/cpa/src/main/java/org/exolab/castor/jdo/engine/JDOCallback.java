@@ -64,7 +64,7 @@ public class JDOCallback implements CallbackInterceptor {
     }
 
     public void storing(final Object object, final boolean modified) throws Exception {
-        ( (Persistent) object ).jdoStore( modified );
+        ((Persistent) object).jdoStore(modified);
     }
 
     public void creating(final Object object, final Database db) throws Exception {

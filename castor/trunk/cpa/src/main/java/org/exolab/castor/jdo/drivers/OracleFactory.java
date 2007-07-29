@@ -71,7 +71,7 @@ public class OracleFactory extends GenericFactory {
      * @inheritDoc
      */
     public QueryExpression getQueryExpression() {
-        return new OracleQueryExpression( this );
+        return new OracleQueryExpression(this);
     }
 
     /**

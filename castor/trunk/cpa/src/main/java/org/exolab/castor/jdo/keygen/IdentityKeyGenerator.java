@@ -105,7 +105,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
             throw new MappingException(Messages.format("mapping.keyGenNotCompatible", getClass().getName(), fName));
         }
 
-        supportsSqlType( sqlType );
+        supportsSqlType(sqlType);
 
         initIdentityValue(sqlType);
         initType(fName);

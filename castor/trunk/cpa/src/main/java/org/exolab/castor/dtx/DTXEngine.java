@@ -135,9 +135,9 @@ public class DTXEngine {
      */
     public void setDatabase(final String databaseURL) throws DTXException {
         _databaseURL = databaseURL;
-        Unmarshaller unm = new Unmarshaller( Database.class );
+        Unmarshaller unm = new Unmarshaller(Database.class);
 
-        unm.setEntityResolver( new DTDResolver() );
+        unm.setEntityResolver(new DTDResolver());
 
         try {
             _database = (Database) unm.unmarshal(new InputSource((new URL(databaseURL)).openStream()));
@@ -145,13 +145,13 @@ public class DTXEngine {
             throw new DTXException(except);
         }
 
-        if ( _database.getEngine() == null  ) {
+        if (_database.getEngine() == null) {
             _factory = PersistenceFactoryRegistry.getPersistenceFactory("generic");
         } else {
             _factory = PersistenceFactoryRegistry.getPersistenceFactory(_database.getEngine());
         }
 
-        if ( _factory == null ) {
+        if (_factory == null) {
             throw new DTXException("no engine");
         }
 
@@ -161,11 +161,11 @@ public class DTXEngine {
 
         // Load the specificed mapping source
 
-        Unmarshaller munm = new Unmarshaller( MappingRoot.class );
+        Unmarshaller munm = new Unmarshaller(MappingRoot.class);
 
         Mapping[] mappings = _database.getMapping();
 
-        for ( int i = 0 ; i < mappings.length ; ++i ) {
+        for (int i = 0 ; i < mappings.length ; ++i) {
             try {
             URL mappingURL = new URL(new URL(databaseURL), mappings[i].getHref());
             MappingRoot mr = (MappingRoot) munm.unmarshal(new InputSource((mappingURL).openStream()));

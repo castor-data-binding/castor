@@ -59,7 +59,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  */
 public final class InformixQueryExpression extends JDBCQueryExpression {
     public InformixQueryExpression(final PersistenceFactory factory) {
-        super( factory );
+        super(factory);
     }
 
     public String getStatement(final boolean lock) {
@@ -68,7 +68,7 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
         addSelectClause(sql);
         addFromClause(sql);
         boolean first = addJoinClause(sql);
-        addWhereClause( sql, first );
+        addWhereClause(sql, first);
         addOrderByClause(sql);
         addForUpdateClause(sql, lock);
  
@@ -76,21 +76,21 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
     }
 
     private void addSelectClause(final StringBuffer buffer) {
-        buffer.append( JDBCSyntax.SELECT );
-        if ( _distinct )
-          buffer.append( JDBCSyntax.DISTINCT );
+        buffer.append(JDBCSyntax.SELECT);
+        if (_distinct)
+          buffer.append(JDBCSyntax.DISTINCT);
 
-        buffer.append( getColumnList() );
+        buffer.append(getColumnList());
     }
     
     private void addFromClause(final StringBuffer buffer) {
-        buffer.append( JDBCSyntax.FROM );
+        buffer.append(JDBCSyntax.FROM);
 
         Enumeration tables = getFromTables();
-        while ( tables.hasMoreElements() ) {
-            buffer.append( (String) tables.nextElement() );
-            if ( tables.hasMoreElements() )
-                buffer.append( JDBCSyntax.TABLE_SEPARATOR );
+        while (tables.hasMoreElements()) {
+            buffer.append((String) tables.nextElement());
+            if (tables.hasMoreElements())
+                buffer.append(JDBCSyntax.TABLE_SEPARATOR);
         }
     }
 
@@ -103,22 +103,22 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
         Vector vector = new Vector();
         Vector outerTables = getOuterTables();
 
-        for ( Enumeration enumeration = _tables.keys(); enumeration.hasMoreElements(); ) {
+        for (Enumeration enumeration = _tables.keys(); enumeration.hasMoreElements(); ) {
             String tableAlias = (String) enumeration.nextElement();
-            String tableName = (String) _tables.get( tableAlias );
+            String tableName = (String) _tables.get(tableAlias);
             StringBuffer tmp;
-            if ( outerTables.contains( tableAlias ) ) {
-                tmp = new StringBuffer( "OUTER " );
+            if (outerTables.contains(tableAlias)) {
+                tmp = new StringBuffer("OUTER ");
             } else {
                 tmp = new StringBuffer();
             }
             if (tableAlias.equals(tableName)) {
-                tmp.append( _factory.quoteName( tableName ) );
+                tmp.append(_factory.quoteName(tableName));
             } else {
-                tmp.append( _factory.quoteName( tableName ) + " " +
-                            _factory.quoteName( tableAlias ) );
+                tmp.append(_factory.quoteName(tableName) + " " +
+                            _factory.quoteName(tableAlias));
             }
-            vector.addElement( _factory.quoteName( tmp.toString() ) );
+            vector.addElement(_factory.quoteName(tmp.toString()));
         }
         return vector.elements();
     }
@@ -132,8 +132,8 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
         Vector tables = new Vector();
         Join join = null;
 
-        for ( int i = 0 ; i < _joins.size() ; ++i ) {
-            join = (Join) _joins.elementAt( i );
+        for (int i = 0; i < _joins.size(); ++i) {
+            join = (Join) _joins.elementAt(i);
             if (join.outer)
                 tables.addElement(join.rightTable);
         }
@@ -144,29 +144,27 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
     private boolean addJoinClause(final StringBuffer buffer) {
         boolean first = true;
 
-        for ( int i = 0 ; i < _joins.size() ; ++i ) {
-            if ( first ) {
-                buffer.append( JDBCSyntax.WHERE );
+        for (int i = 0; i < _joins.size(); ++i) {
+            if (first) {
+                buffer.append(JDBCSyntax.WHERE);
                 first = false;
             } else
-                buffer.append( JDBCSyntax.AND );
+                buffer.append(JDBCSyntax.AND);
 
-            addJoin(buffer, (Join) _joins.elementAt( i ));
+            addJoin(buffer, (Join) _joins.elementAt(i));
         }
 
         return first;
     }
 
     private void addJoin(final StringBuffer buffer, final Join join) {
-        for ( int j = 0 ; j < join.leftColumns.length ; ++j ) {
-            if ( j > 0 )
-                buffer.append( JDBCSyntax.AND );
+        for (int j = 0; j < join.leftColumns.length; ++j) {
+            if (j > 0)
+                buffer.append(JDBCSyntax.AND);
 
-            buffer.append
-              ( quoteTableAndColumn( join.leftTable, join.leftColumns[j] ) );
-            buffer.append( OP_EQUALS );
-            buffer.append
-              ( quoteTableAndColumn( join.rightTable, join.rightColumns[j] ) );
+            buffer.append(quoteTableAndColumn(join.leftTable, join.leftColumns[j]));
+            buffer.append(OP_EQUALS);
+            buffer.append(quoteTableAndColumn(join.rightTable, join.rightColumns[j]));
         }
     }
 
@@ -184,7 +182,7 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
     private void addForUpdateClause(final StringBuffer buffer, final boolean lock) {
         // Use FOR UPDATE to lock selected tables.
         if (lock) {
-            buffer.append( " FOR UPDATE" );
+            buffer.append(" FOR UPDATE");
         }
     }
 }

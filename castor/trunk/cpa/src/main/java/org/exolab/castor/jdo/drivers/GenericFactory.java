@@ -66,7 +66,7 @@ public class GenericFactory extends BaseFactory {
     }
 
     public QueryExpression getQueryExpression() {
-        return new JDBCQueryExpression( this );
+        return new JDBCQueryExpression(this);
     }
 
     /**

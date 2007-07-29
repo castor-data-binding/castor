@@ -249,7 +249,7 @@ public final class SQLStatementStore {
                                     throw new PersistenceException("Complex field expected!");
                                 }
                                 
-                                SQLTypeInfos.setValue(stmt, count++, columns[0].toSQL(value), columns[0].getSqlType() );
+                                SQLTypeInfos.setValue(stmt, count++, columns[0].toSQL(value), columns[0].getSqlType());
                             
                                 if (LOG.isTraceEnabled()) {
                                     LOG.trace(Messages.format("jdo.bindingField", columns[0].getName(), columns[0].toSQL(value)));
@@ -295,7 +295,7 @@ public final class SQLStatementStore {
                                     if ((value == null) || ((value != null) && (currentField == null))) {
                                         enlistFieldsNotMatching.append("(" + _type + ")." + columns[0].getName() + ": ");
                                         enlistFieldsNotMatching.append("[" + value + "/" + currentField + "]"); 
-                                    } else if (!value.equals(currentField) ) {
+                                    } else if (!value.equals(currentField)) {
                                         if (numberOfFieldsNotMatching >= 1) {
                                             enlistFieldsNotMatching.append(", ");
                                         }

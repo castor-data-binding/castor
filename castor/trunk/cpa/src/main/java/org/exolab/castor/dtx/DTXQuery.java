@@ -511,7 +511,7 @@ public class DTXQuery {
             addField(_clsMapping, token, expr);
             while (token.hasMoreTokens()) {
                 if (!token.nextToken().equals("AND")) {
-                throw new QueryException( "Only AND supported in WHERE clause" );
+                throw new QueryException("Only AND supported in WHERE clause");
                 }
                 addField(_clsMapping, token, expr);
             }
@@ -637,7 +637,7 @@ public class DTXQuery {
 
                     String foreKey = null;
 
-                    for (int k = 0; k < relFields.length; k++ ) {
+                    for (int k = 0; k < relFields.length; k++) {
                         Sql relSql = relFields[k].getSql();
                         if (relSql != null) {
                             String type = relFields[k].getType();
@@ -651,7 +651,7 @@ public class DTXQuery {
                         expr.addOuterJoin(table, identitySQL, relTable, foreKey);
                         DTXClassDescriptor relDesc = new DTXClassDescriptor(relMapping);
 
-                        for (int n = 0; n < relFields.length; n++ ) {
+                        for (int n = 0; n < relFields.length; n++) {
                             FieldMapping relField = relFields[n];
                             Sql relSql = relFields[n].getSql();
                             if (relSql != null) {

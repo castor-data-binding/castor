@@ -236,7 +236,7 @@ public class ClassMolder {
         _name = clsMap.getName();
         _accessMode = AccessMode.valueOf(clsMap.getAccess().toString());
 
-        _timeStampable = TimeStampable.class.isAssignableFrom( clsDesc.getJavaClass() );
+        _timeStampable = TimeStampable.class.isAssignableFrom(clsDesc.getJavaClass());
 
         ds.register(_name, this);
 
@@ -289,7 +289,7 @@ public class ClassMolder {
                 continue;
             }
             
-            if ( fmFields[i].getSql() != null && fmFields[i].getSql().getManyTable() != null ) {
+            if ((fmFields[i].getSql() != null) && (fmFields[i].getSql().getManyTable() != null)) {
                 // the fields is not primitive
                 String[] relatedIdSQL = null;
                 int[] relatedIdType = null;
@@ -308,7 +308,7 @@ public class ClassMolder {
                 for (int j = 0; j < fmId.length; j++) {
                     idSQL[j] = fmId[j].getSql().getName()[0];
 
-                    if ( fd[j] instanceof JDOFieldDescriptor ) {
+                    if (fd[j] instanceof JDOFieldDescriptor) {
                         int[] type = ((JDOFieldDescriptor)fd[j]).getSQLType();
                         idType[j] = (type == null) ? 0 : type[0];
                         FieldHandlerImpl fh = (FieldHandlerImpl)fd[j].getHandler();
@@ -316,7 +316,7 @@ public class ClassMolder {
                         idConvertFrom[j] = fh.getConvertFrom();
                         idConvertParam[j] = fh.getConvertParam();
                     } else {
-                        throw new MappingException("Identity type must contains sql information: " + _name );
+                        throw new MappingException("Identity type must contains sql information: " + _name);
                     }
                 }
 
@@ -330,7 +330,7 @@ public class ClassMolder {
                     relatedIdConvertFrom = new TypeConvertor[relatedIds.length];
                     relatedIdConvertParam = new String[relatedIds.length];
                     for (int j = 0; j < relatedIdSQL.length; j++) {
-                        if ( relatedIds[j] instanceof JDOFieldDescriptor ) {
+                        if (relatedIds[j] instanceof JDOFieldDescriptor) {
                             String[] tempId = ((JDOFieldDescriptor)relatedIds[j]).getSQLName();
                             relatedIdSQL[j] = (tempId == null) ? null : tempId[0];
                             int[] tempType = ((JDOFieldDescriptor)relatedIds[j]).getSQLType();
@@ -340,32 +340,32 @@ public class ClassMolder {
                             relatedIdConvertFrom[j] = fh.getConvertFrom();
                             relatedIdConvertParam[j] = fh.getConvertParam();
                         } else {
-                            throw new MappingException("Field type is not persistence-capable: " + relatedIds[j].getFieldName() );
+                            throw new MappingException("Field type is not persistence-capable: " + relatedIds[j].getFieldName());
                         }
                     }
                 }
 
                 // if many-key exist, idSQL is overridden
                 String[] manyKey = fmFields[i].getSql().getManyKey();
-                if ( manyKey != null && manyKey.length != 0 ) {
-                    if ( manyKey.length != idSQL.length )
+                if ((manyKey != null) && (manyKey.length != 0)) {
+                    if (manyKey.length != idSQL.length)
                         throw new MappingException("The number of many-keys doesn't match referred object: " + clsDesc.getJavaClass().getName());
                     idSQL = manyKey;
                 }
 
                 // if name="" exist, relatedIdSQL is overridden
                 String[] manyName = fmFields[i].getSql().getName();
-                if ( manyName != null && manyName.length != 0 ) {
-                    if ( manyName.length != relatedIdSQL.length )
+                if ((manyName != null) && (manyName.length != 0)) {
+                    if (manyName.length != relatedIdSQL.length)
                         throw new MappingException("The number of many-keys doesn't match referred object: " + relDesc.getJavaClass().getName());
                     relatedIdSQL = manyName;
                 }
 
-                _fhs[fieldMolderNumber] = new FieldMolder( ds, this, fmFields[i], manyTable,
+                _fhs[fieldMolderNumber] = new FieldMolder(ds, this, fmFields[i], manyTable,
                         idSQL, idType, idConvertTo, idConvertFrom, idConvertParam,
-                        relatedIdSQL, relatedIdType, relatedIdConvertTo, relatedIdConvertFrom, relatedIdConvertParam );
+                        relatedIdSQL, relatedIdType, relatedIdConvertTo, relatedIdConvertFrom, relatedIdConvertParam);
             } else {
-                _fhs[fieldMolderNumber] = new FieldMolder( ds, this, fmFields[i] );
+                _fhs[fieldMolderNumber] = new FieldMolder(ds, this, fmFields[i]);
             }
             
                         
@@ -383,7 +383,7 @@ public class ClassMolder {
 
         // ssa, FIXME : Are the two statements equivalents ?
         //        if ( Persistent.class.isAssignableFrom( _base ) )
-        if ( Persistent.class.isAssignableFrom( ds.resolve(_name) ) )
+        if (Persistent.class.isAssignableFrom(ds.resolve(_name)))
             _callback = new JDOCallback();
     }
     
@@ -418,7 +418,7 @@ public class ClassMolder {
      * @param relatedObject the object to be removed
      */
     public boolean removeRelation(final TransactionContext tx, final Object object,
-            final ClassMolder relatedMolder, final Object relatedObject )  {
+            final ClassMolder relatedMolder, final Object relatedObject) {
 
         boolean removed = false;
         boolean updateCache = false;
@@ -460,7 +460,7 @@ public class ClassMolder {
             for (int i = 0; i < _fhs.length; i++) {
                 if (_fhs[i].isPersistanceCapable()
                         && (_fhs[i].getFieldClassMolder() != this)
-                        && _fhs[i].isStored()  ) {
+                        && _fhs[i].isStored()) {
                     int refPrior = _fhs[i].getFieldClassMolder().getPriority() + 1;
                     maxPrior = Math.max(maxPrior, refPrior);
                 }
@@ -627,7 +627,7 @@ public class ClassMolder {
         setIdentity(tx, proposedObject.getEntity(), oid.getIdentity());
 
         // iterates thur all the field of the object and bind all field.
-        for ( int i = 0; i < _fhs.length; i++ ) {
+        for (int i = 0; i < _fhs.length; i++) {
             fieldType = _fhs[i].getFieldType();
             switch (fieldType) {
             case FieldMolder.PRIMITIVE:
@@ -858,7 +858,7 @@ public class ClassMolder {
             final OID oid, 
             final DepositBox locker, 
             final Object object, 
-            final AccessMode suggestedAccessMode )
+            final AccessMode suggestedAccessMode)
             throws PersistenceException, ObjectModifiedException {
 
         AccessMode accessMode = getAccessMode(suggestedAccessMode);
@@ -876,7 +876,7 @@ public class ClassMolder {
         long objectTimestamp = _timeStampable ? ((TimeStampable) object)
                 .jdoGetTimeStamp() : 1;
 
-        if ( objectTimestamp > 0 && oid.getIdentity() != null ) {
+        if ((objectTimestamp > 0) && (oid.getIdentity() != null)) {
             // valid range of timestamp
             
             if ((_timeStampable) && (lockTimestamp == TimeStampable.NO_TIMESTAMP)) {
@@ -887,7 +887,7 @@ public class ClassMolder {
                 throw new ObjectModifiedException("Timestamp mismatched!");
             }
 
-            if ( !_timeStampable && isDependent() && fields == null  ) {
+            if (!_timeStampable && isDependent() && (fields == null)) {
                 // allow a dependent object not implements timeStampable
                 fields = new Object[_fhs.length];
                 Connection conn = tx.getConnection(oid.getMolder().getLockEngine());
@@ -899,7 +899,7 @@ public class ClassMolder {
                 _persistence.load(conn, proposedObject, oid.getIdentity(), accessMode);
                 fields = proposedObject.getFields();
                 
-                oid.setDbLock( accessMode == AccessMode.DbLocked );
+                oid.setDbLock(accessMode == AccessMode.DbLocked);
                 locker.setObject(tx, proposedObject.getFields());
             }
 
@@ -915,7 +915,7 @@ public class ClassMolder {
                         "dependent object deleted concurrently");
             }
             return false;
-        } else if ( objectTimestamp == TimeStampable.NO_TIMESTAMP || objectTimestamp == 1 ) {
+        } else if ((objectTimestamp == TimeStampable.NO_TIMESTAMP) || (objectTimestamp == 1)) {
             // work almost like create, except update the sub field instead of create
             // iterate all the fields and mark all the dependent object.
             boolean updateCache = false;
@@ -1014,16 +1014,16 @@ public class ClassMolder {
 
         Vector extendPath = new Vector();
         ClassMolder base = this;
-        while ( base != null ) {
-            extendPath.add( base );
+        while (base != null) {
+            extendPath.add(base);
             base = base._extends;
         }
 
         base = _depends;
-        while ( base != null ) {
-            if ( base._extendent != null )
+        while (base != null) {
+            if (base._extendent != null)
                 for (int i = 0; i < base._extendent.size(); i++)
-                    if ( extendPath.contains( base._extendent.get(i) ) ) {
+                    if (extendPath.contains(base._extendent.get(i))) {
                         // NB: further INVESTIGATION
                     }
 
@@ -1217,7 +1217,7 @@ public class ClassMolder {
      */
     public void setIdentity(final TransactionContext tx, 
             final Object object, 
-            final Identity identity )
+            final Identity identity)
             throws PersistenceException {
 
         if (identity.size() != _ids.length) {
@@ -1252,7 +1252,7 @@ public class ClassMolder {
         Class result = null;
         try {
             result = ClassLoadingUtils.loadClass(loader, _name);
-        } catch ( ClassNotFoundException e ) {
+        } catch (ClassNotFoundException e) {
             _log.error("Unable to load base class of " + getName(), e);
         }
         return result;
@@ -1340,7 +1340,7 @@ public class ClassMolder {
      * Set all persistence fields of object of the base type to null.
      * @param object - target object
      */
-    public void setFieldsNull(final Object object ) {
+    public void setFieldsNull(final Object object) {
         // TODO [WG]: remove method ?
         /*
         for ( int i=0; i < _ids.length; i++ ) {
@@ -1354,10 +1354,10 @@ public class ClassMolder {
     /**
      * Mutator method to add a extent ClassMolder
      */
-    void addExtendent(final ClassMolder ext ) {
-        if ( _extendent == null )
+    void addExtendent(final ClassMolder ext) {
+        if (_extendent == null)
             _extendent = new Vector();
-        _extendent.add( ext );
+        _extendent.add(ext);
     }
 
     /**

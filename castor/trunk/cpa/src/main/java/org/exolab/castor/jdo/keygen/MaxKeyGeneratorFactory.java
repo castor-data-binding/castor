@@ -80,7 +80,7 @@ public final class MaxKeyGeneratorFactory implements KeyGeneratorFactory {
     public KeyGenerator getKeyGenerator(final PersistenceFactory factory,
             final Properties params, final int sqlType) throws MappingException {
         
-        return new MaxKeyGenerator( factory, sqlType );
+        return new MaxKeyGenerator(factory, sqlType);
     }
 
     /**

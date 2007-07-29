@@ -65,7 +65,7 @@ public final class HsqlFactory extends GenericFactory {
      * @inheritDoc
      */
     public QueryExpression getQueryExpression() { 
-        return new HsqlQueryExpression( this ); 
+        return new HsqlQueryExpression(this); 
     }
 }
 

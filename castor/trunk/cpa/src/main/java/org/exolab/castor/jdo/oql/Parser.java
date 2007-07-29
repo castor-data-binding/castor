@@ -217,7 +217,7 @@ public final class Parser {
             }
             match(TokenType.COLON);
             retNode = new ParseTreeNode(Token.KEYWORD_AS);
-            retNode.addChild( expr() );
+            retNode.addChild(expr());
             retNode.addChild(queryTarget);
         }
 

@@ -72,7 +72,7 @@ public final class Identity implements java.io.Serializable {
         Identity id = (Identity) other;
         if (_all.length != id.size()) { return false; }
 
-        for (int i = 0; i < _all.length; i++ ) {
+        for (int i = 0; i < _all.length; i++) {
             if (_all[i] == null) {
                 if (id._all[i] != null) { return false; }
             } else if (!_all[i].equals(id._all[i])) {
