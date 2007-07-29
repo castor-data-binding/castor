@@ -189,7 +189,7 @@ private ClassLoader _classLoader;
    * @return True if this parameter whas a user defined type otherwise false
    */
   public boolean isUserDefined() {
-    return ! _userDefinedType.equals("");
+    return !_userDefinedType.equals("");
   }
 
   /**

@@ -578,7 +578,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
                                         public Object convert(final Object obj, final String param) {
                                             try {
                                                 if (method == null)  method = toType().getMethod(VALUE_OF, STRING_ARG);
-                                                return method.invoke(toType(), new Object[] { (String)obj });
+                                                return method.invoke(toType(), new Object[] {(String)obj});
                                             } catch (Exception ex) {
                                                 return null;
                                             }

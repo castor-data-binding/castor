@@ -151,7 +151,7 @@ public class CacheManager {
      * @param identity Identity of the object to expire.
      */
     public void expireCache(final Class type, final Object identity) throws PersistenceException {
-        expireCache(type, new Object[] { identity });
+        expireCache(type, new Object[] {identity});
     }
 
     /**
