@@ -42,8 +42,6 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.jdo.oql;
 
 import org.exolab.castor.jdo.QueryException;
@@ -56,15 +54,14 @@ import org.exolab.castor.jdo.QueryException;
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class InvalidCharException extends QueryException {
-    /** SerialVersionUID */
+    /** SerialVersionUID. */
     private static final long serialVersionUID = -6610485595861733951L;
 
     public InvalidCharException(final String message) {
-		super( message );
-	}
+        super( message );
+    }
 
-	public InvalidCharException(final String message, final Throwable exception) {
-		super( message );
-	}
-
+    public InvalidCharException(final String message, final Throwable exception) {
+        super( message );
+    }
 }

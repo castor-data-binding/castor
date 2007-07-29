@@ -70,7 +70,7 @@ public final class DbMetaInfo {
 
     private DatabaseMetaData _connInfo;
     private Connection _conn = null;
-    private String	_dbVersion = null;
+    private String _dbVersion = null;
 
     /**
      * 
@@ -80,48 +80,48 @@ public final class DbMetaInfo {
         _conn = conn;
     }
 
-	/**
-	 * delayed initialization function to avoid unnecessary metadata queries
-	 * @todo This algorithm should also be tested against other databases
-	 * 		 than Oracle, however it's currently only used for this DB type.   
-	 */
-	private void init() {
-	    if (_connInfo == null) {
-		    try {
-		        _connInfo = _conn.getMetaData();
+    /**
+     * delayed initialization function to avoid unnecessary metadata queries
+     * @todo This algorithm should also be tested against other databases
+     *       than Oracle, however it's currently only used for this DB type.   
+     */
+    private void init() {
+        if (_connInfo == null) {
+            try {
+                _connInfo = _conn.getMetaData();
 
-				String dbProdVer = _connInfo.getDatabaseProductVersion();
-			
-			     // find the first numeric word in the version string 
-				int i = 0;
+                String dbProdVer = _connInfo.getDatabaseProductVersion();
+            
+                 // find the first numeric word in the version string 
+                int i = 0;
                 for ( ;; ) {
-				     int n = dbProdVer.indexOf(' ', i);
-		
-			         String word = (n != -1) ? dbProdVer.substring(i, n) : dbProdVer.substring(i);
-		
-			         if (Character.isDigit(word.charAt(0))) {
-			             _dbVersion = word;
-			             break;
-			         }
+                     int n = dbProdVer.indexOf(' ', i);
+        
+                     String word = (n != -1) ? dbProdVer.substring(i, n) : dbProdVer.substring(i);
+        
+                     if (Character.isDigit(word.charAt(0))) {
+                         _dbVersion = word;
+                         break;
+                     }
 
-					if (n == -1)
-						break;
+                    if (n == -1)
+                        break;
 
-			        i = n + 1;
-				}
-		    } catch (SQLException e) {
-		        _dbVersion = "";
-		     	_log.error(e);
-		    }
-	    }
-	}
+                    i = n + 1;
+                }
+            } catch (SQLException e) {
+                _dbVersion = "";
+                _log.error(e);
+            }
+        }
+    }
 
-	/**
-	 * return the version string for the current database conection
-	 * @return database version string
-	 */
+    /**
+     * return the version string for the current database conection
+     * @return database version string
+     */
     public String getDbVersion() {
-       	init();
+        init();
 
         return _dbVersion;
     }
@@ -133,35 +133,35 @@ public final class DbMetaInfo {
      * @return -1 -> lower  0 -> equal  1 -> higher
      */
     public int compareDbVersion(final String version) {
-       	init();
+        init();
 
         return compareVersionStrings(_dbVersion, version);
     }
 
     static int compareVersionStrings(final String v1, final String v2) {
-       	int p1 = 0;
-       	int p2 = 0;
+        int p1 = 0;
+        int p2 = 0;
 
         for ( ;; ) {
-	       	int n1 = v1.indexOf('.', p1);
-	       	int n2 = v2.indexOf('.', p2);
+            int n1 = v1.indexOf('.', p1);
+            int n2 = v2.indexOf('.', p2);
 
-			String s1 = (n1 != -1) ? v1.substring(p1, n1) : v1.substring(p1);
-			String s2 = (n2 != -1) ? v2.substring(p2, n2) : v2.substring(p2);
-			
-			int x1 = (s1.length() > 0) ? Integer.parseInt(s1) : 0;
-			int x2 = (s2.length() > 0) ? Integer.parseInt(s2) : 0;
+            String s1 = (n1 != -1) ? v1.substring(p1, n1) : v1.substring(p1);
+            String s2 = (n2 != -1) ? v2.substring(p2, n2) : v2.substring(p2);
+            
+            int x1 = (s1.length() > 0) ? Integer.parseInt(s1) : 0;
+            int x2 = (s2.length() > 0) ? Integer.parseInt(s2) : 0;
 
-	       	if (x1 < x2)
-	       		return -1;
-	       	else if (x1 > x2)
-	       		return 1;
+            if (x1 < x2)
+                return -1;
+            else if (x1 > x2)
+                return 1;
 
-			if ((n1 == -1) && (n2 == -1))
-				return 0;
+            if ((n1 == -1) && (n2 == -1))
+                return 0;
 
-	       	p1 = (n1 != -1) ? n1 + 1 : v1.length();
-	       	p2 = (n2 != -1) ? n2 + 1 : v2.length();
+            p1 = (n1 != -1) ? n1 + 1 : v1.length();
+            p2 = (n2 != -1) ? n2 + 1 : v2.length();
         }
     }
 }

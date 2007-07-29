@@ -392,7 +392,7 @@ public final class LockEngine {
 
             Object stamp = typeInfo.molder.load(tx, lockedOid, lock, proposedObject, suggestedAccessMode, results);
 
-			// if object has been expanded, return early            
+            // if object has been expanded, return early            
             if (proposedObject.isExpanded()) {
                 // Current transaction holds lock for old OID                
                 typeInfo.release(internaloid, tx);
@@ -500,7 +500,7 @@ public final class LockEngine {
                 lock = typeInfo.acquire( internaloid, tx, ObjectLock.ACTION_CREATE, 0 );
 
                 if (_log.isDebugEnabled()) {
-                	_log.debug( Messages.format( "jdo.creating.with.id", typeInfo.molder.getName(), internaloid.getIdentity() ) );
+                    _log.debug( Messages.format( "jdo.creating.with.id", typeInfo.molder.getName(), internaloid.getIdentity() ) );
                 }
 
                 internaloid = lock.getOID();
@@ -586,7 +586,7 @@ public final class LockEngine {
             typeInfo.assure( oid, tx, true );
 
             if (_log.isDebugEnabled()) {
-            	_log.debug( Messages.format( "jdo.removing", typeInfo.molder.getName(), oid.getIdentity() ) );
+                _log.debug( Messages.format( "jdo.removing", typeInfo.molder.getName(), oid.getIdentity() ) );
             }
 
             typeInfo.molder.delete( tx, oid );
@@ -796,7 +796,7 @@ public final class LockEngine {
             lock = typeInfo.assure( oid, tx, false );
 
             if (_log.isDebugEnabled ()) {
-            	_log.debug( Messages.format( "jdo.storing.with.id", typeInfo.molder.getName(), oid.getIdentity() ) );
+                _log.debug( Messages.format( "jdo.storing.with.id", typeInfo.molder.getName(), oid.getIdentity() ) );
             }
 
             typeInfo.molder.store( tx, oid, lock, object );
@@ -1470,15 +1470,15 @@ public final class LockEngine {
             }
         }
 
-		/**
-		 * Indicates whether an object with the specified identifier is curretly cached.
+        /**
+         * Indicates whether an object with the specified identifier is curretly cached.
          *  
-		 * @param oid     The Object identifier.
-		 * @return True if the object is cached. 
-		 */
-		public boolean isCached(final Object oid) {
+         * @param oid     The Object identifier.
+         * @return True if the object is cached. 
+         */
+        public boolean isCached(final Object oid) {
             return cache.containsKey(oid);
-		}
+        }
         
         /**
          * Indicates whether an object with the specified OID is currently locked.
@@ -1491,20 +1491,20 @@ public final class LockEngine {
         }
     }
 
-	/**
+    /**
      * Provides information about whether an object of Class cls with identity iod is currently cached.
      * 
      * @param cls Class type.
      * @param oid Object identity
      * @return True if the specified object is in the cache.
      */
-	public boolean isCached(final Class cls, final Object oid) {
+    public boolean isCached(final Class cls, final Object oid) {
         TypeInfo typeInfo = (TypeInfo) _typeInfo.get(cls.getName());
         return typeInfo.isCached (oid);
-	}
+    }
 
-	public boolean isLocked(final Class cls, final OID oid) {
+    public boolean isLocked(final Class cls, final OID oid) {
         TypeInfo typeInfo = (TypeInfo) _typeInfo.get(cls.getName());
         return typeInfo.isLocked (oid);
-	}
+    }
 }

@@ -233,7 +233,7 @@ public final class HsqlQueryExpression extends JDBCQueryExpression {
      * @see org.exolab.castor.persist.spi.QueryExpression#isLimitClauseSupported()
      */
     public boolean isLimitClauseSupported() {
-    	return true;
+        return true;
     }
     
     /** 
@@ -242,7 +242,7 @@ public final class HsqlQueryExpression extends JDBCQueryExpression {
      * @see org.exolab.castor.persist.spi.QueryExpression#isOffsetClauseSupported()
      */
     public boolean isOffsetClauseSupported() {
-    	return true;
+        return true;
     }
 
 }

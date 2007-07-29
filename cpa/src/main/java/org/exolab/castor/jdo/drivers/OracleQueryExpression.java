@@ -64,11 +64,11 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * 
  * SELECT *
  * FROM (
- *	    SELECT  empno, ename, job, sal,
- *	            rank() over (order by sal) rnk
- *	    FROM    emp
- *	)
- *	WHERE   rnk BETWEEN 3 AND 8
+ *    SELECT empno, ename, job, sal,
+ *        rank() over (order by sal) rnk
+ *        FROM emp
+ *  )
+ *  WHERE rnk BETWEEN 3 AND 8
  * 
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2005-03-24 03:45:01 -0700 (Thu, 24 Mar 2005) $
@@ -96,14 +96,14 @@ public final class OracleQueryExpression extends JDBCQueryExpression {
 
         // add support for OQL LIMIT/OFFSET - part1
         if (_limit != null) {
-        	sql.append (" , rank() over ( ");
+            sql.append (" , rank() over ( ");
             // add ORDER BY clause
             if ( _order != null ) {
-            	sql.append(JDBCSyntax.ORDER_BY).append(_order);
+                sql.append(JDBCSyntax.ORDER_BY).append(_order);
             } else {
-            	throw new SyntaxNotSupportedException ("To use a LIMIT clause with Oracle, an ORDER BY clause is required.");
+                throw new SyntaxNotSupportedException ("To use a LIMIT clause with Oracle, an ORDER BY clause is required.");
             }
-			sql.append ( " ) rnk ");
+            sql.append ( " ) rnk ");
         }
 
         sql.append( JDBCSyntax.FROM );
@@ -164,13 +164,13 @@ public final class OracleQueryExpression extends JDBCQueryExpression {
 
         // add LIMIT/OFFSET clause - part 2
         if ( _limit != null ) {
-        	sql.insert (0, "select * from ( ");	// leads to problems when used with Castor's outer joins for master-details queries: "ORA-00918: Spalte nicht eindeutig definiert"
+            sql.insert (0, "select * from ( "); // leads to problems when used with Castor's outer joins for master-details queries: "ORA-00918: Spalte nicht eindeutig definiert"
 
-        	if ( _offset != null ) {
-        		sql.append (" ) where rnk - " + _offset + " between 1 and " + _limit + " ");
-        	} else {
-        		sql.append (" ) where rnk <= " + _limit + " ");
-        	}
+            if ( _offset != null ) {
+                sql.append (" ) where rnk - " + _offset + " between 1 and " + _limit + " ");
+            } else {
+                sql.append (" ) where rnk <= " + _limit + " ");
+            }
         }
 
         if (_log.isDebugEnabled()) {
@@ -185,16 +185,16 @@ public final class OracleQueryExpression extends JDBCQueryExpression {
      * 
      * @return true to indicate that Oracle supports an OQL LIMIT clause.
      */
-	public boolean isLimitClauseSupported() {
-	    return (_dbInfo != null) ? (_dbInfo.compareDbVersion("8.1.6") >= 0) : false;
-	}
+    public boolean isLimitClauseSupported() {
+        return (_dbInfo != null) ? (_dbInfo.compareDbVersion("8.1.6") >= 0) : false;
+    }
 
     /**
      * Indicates that Oracle supports an OQL OFFSET clause for versions >= 8.1.6.
      * 
      * @return true to indicate that Oracle supports an OQL OFFSET clause.
      */
-	public boolean isOffsetClauseSupported() {
-	    return (_dbInfo != null) ? (_dbInfo.compareDbVersion("8.1.6") >= 0) : false;
-	}
+    public boolean isOffsetClauseSupported() {
+        return (_dbInfo != null) ? (_dbInfo.compareDbVersion("8.1.6") >= 0) : false;
+    }
 }

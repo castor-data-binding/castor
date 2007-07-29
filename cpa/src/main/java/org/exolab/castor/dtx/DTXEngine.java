@@ -105,19 +105,17 @@ public class DTXEngine {
      * @param databaseURL URL string for JDO mapping file.
      * @param schemaURL URL string for XML Schema file.
      */
-
     public DTXEngine(final String databaseURL, final String schemaURL) throws DTXException {
-	    setDatabase(databaseURL);
-	    setSchema(schemaURL);
+        setDatabase(databaseURL);
+        setSchema(schemaURL);
     }
 
     /**
      * Sets the XML Schema to use. Parses and prepares the Schema.
      *
      * @param schemaURL URL string for XML Schema file.  */
-
     public void setSchema(final String schemaURL) throws DTXException {
-	    _schemaURL = schemaURL;
+        _schemaURL = schemaURL;
 
         try {
             SchemaReader 
@@ -135,52 +133,51 @@ public class DTXEngine {
      *
      * @param databaseURL URL string for JDO database mapping file.
      */
-
     public void setDatabase(final String databaseURL) throws DTXException {
-	_databaseURL = databaseURL;
+        _databaseURL = databaseURL;
         Unmarshaller unm = new Unmarshaller( Database.class );
 
-	unm.setEntityResolver( new DTDResolver() );
+        unm.setEntityResolver( new DTDResolver() );
 
-	try {
-	    _database = (Database) unm.unmarshal(new InputSource((new URL(databaseURL)).openStream()));
-	} catch (Exception except) {
-	    throw new DTXException(except);
-	}
+        try {
+            _database = (Database) unm.unmarshal(new InputSource((new URL(databaseURL)).openStream()));
+        } catch (Exception except) {
+            throw new DTXException(except);
+        }
 
-	if ( _database.getEngine() == null  ) {
-	    _factory = PersistenceFactoryRegistry.getPersistenceFactory("generic");
-	} else {
-	    _factory = PersistenceFactoryRegistry.getPersistenceFactory(_database.getEngine());
-	}
+        if ( _database.getEngine() == null  ) {
+            _factory = PersistenceFactoryRegistry.getPersistenceFactory("generic");
+        } else {
+            _factory = PersistenceFactoryRegistry.getPersistenceFactory(_database.getEngine());
+        }
 
-	if ( _factory == null ) {
-	    throw new DTXException("no engine");
-	}
+        if ( _factory == null ) {
+            throw new DTXException("no engine");
+        }
 
-	// Class mappings
+        // Class mappings
 
-	_classMappings = new HashMap();
+        _classMappings = new HashMap();
 
-	// Load the specificed mapping source
+        // Load the specificed mapping source
 
-	Unmarshaller munm = new Unmarshaller( MappingRoot.class );
+        Unmarshaller munm = new Unmarshaller( MappingRoot.class );
 
- 	Mapping[] mappings = _database.getMapping();
+        Mapping[] mappings = _database.getMapping();
 
-	for ( int i = 0 ; i < mappings.length ; ++i ) {
-	    try {
-		URL mappingURL = new URL(new URL(databaseURL), mappings[i].getHref());
-		MappingRoot mr = (MappingRoot) munm.unmarshal(new InputSource((mappingURL).openStream()));
-		ClassMapping[] classMaps = mr.getClassMapping();
+        for ( int i = 0 ; i < mappings.length ; ++i ) {
+            try {
+            URL mappingURL = new URL(new URL(databaseURL), mappings[i].getHref());
+            MappingRoot mr = (MappingRoot) munm.unmarshal(new InputSource((mappingURL).openStream()));
+            ClassMapping[] classMaps = mr.getClassMapping();
 
-		for (int j = 0; j < classMaps.length; j++) {
-		    _classMappings.put(classMaps[j].getName(), classMaps[j]);
-		}
-	    } catch (Exception e) {
-		throw new DTXException(e);
-	    }
- 	}
+            for (int j = 0; j < classMaps.length; j++) {
+                _classMappings.put(classMaps[j].getName(), classMaps[j]);
+            }
+            } catch (Exception e) {
+            throw new DTXException(e);
+            }
+        }
     }
 
     /**
@@ -191,9 +188,8 @@ public class DTXEngine {
      * @param handler A DocumentHandler to receive query results as
      * SAX events.
      */
-
     public void setDocumentHandler(final DocumentHandler handler) {
-	_handler = handler;
+        _handler = handler;
     }
 
     /**
@@ -204,76 +200,70 @@ public class DTXEngine {
      *
      * @param oql OQL string for the query.
      */
-
     public DTXQuery prepareQuery(final String oql) throws DTXException {
+        DTXQuery qry = new DTXQuery();
+        qry.setEngine(this);
+        qry.setHandler(_handler);
+        qry.prepare(oql);
 
-	DTXQuery qry = new DTXQuery();
-	qry.setEngine(this);
-	qry.setHandler(_handler);
-	qry.prepare(oql);
-
-	return qry;
+        return qry;
     }
 
     /* Package scope -- for DTXQuery */
 
     /* Returns the Database mapping information. */
-
     Database getDatabase() {
-	return _database;
+        return _database;
     }
 
     /* Returns the parsed XML Schema. */
-
     Schema getSchema() {
-	return _schema;
+        return _schema;
     }
 
     /* The Castor persistence factory for this engine, derived from
        the Database mapping. This is used to create new
        QueryExpression (an abstraction of a SQL query). */
-
     PersistenceFactory getFactory() {
-	return _factory;
+        return _factory;
     }
 
     /* Get a (single) connection from this engine. Yes, this needs
        serious re-work. It should be re-written to work with the JDO
        and/or Tyrex pooling mechanism. */
-
     Connection getConnection() throws DTXException {
-	if (_conn == null) {
-	    DataSource datasource = _database.getDatabaseChoice().getDataSource();
-	    org.castor.jdo.conf.Driver driver = _database.getDatabaseChoice().getDriver();
+        if (_conn == null) {
+            DataSource datasource = _database.getDatabaseChoice().getDataSource();
+            org.castor.jdo.conf.Driver driver = _database.getDatabaseChoice().getDriver();
 
-	    if (datasource != null) {
-		// FIXME: lame
-		throw new DTXException("dtx.DataSourceUnimplemented");
-	    } else if (driver != null) {
-		try {
-		    String className = driver.getClassName();
-		    Class.forName(className);
-		    String jdbcUrl = driver.getUrl();
-		    Param[] params = driver.getParam();
-		    Properties props = new Properties();
+            if (datasource != null) {
+            // FIXME: lame
+            throw new DTXException("dtx.DataSourceUnimplemented");
+            } else if (driver != null) {
+            try {
+                String className = driver.getClassName();
+                Class.forName(className);
+                String jdbcUrl = driver.getUrl();
+                Param[] params = driver.getParam();
+                Properties props = new Properties();
 
-		    for (int i = 0; i < params.length; i++) {
-			Param p = params[i];
-			props.setProperty(p.getName(), p.getValue());
-		    }
+                for (int i = 0; i < params.length; i++) {
+                Param p = params[i];
+                props.setProperty(p.getName(), p.getValue());
+                }
 
-		    _conn = DriverManager.getConnection(jdbcUrl, props);
-		} catch (Exception e) {
-		    throw new DTXException(e);
-		}
-	    }
-	}
-	return _conn;
+                _conn = DriverManager.getConnection(jdbcUrl, props);
+            } catch (Exception e) {
+                throw new DTXException(e);
+            }
+            }
+        }
+        return _conn;
     }
 
     /* Return a class mapping based on the class name. */
 
     ClassMapping getClassMapping(final String className) {
-	return (ClassMapping) _classMappings.get(className);
+        return (ClassMapping) _classMappings.get(className);
     }
 }

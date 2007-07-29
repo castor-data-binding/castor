@@ -75,56 +75,56 @@ class DTXClassDescriptor {
     protected String _textCol = null;
 
     DTXClassDescriptor(final ClassMapping clsMapping) {
-	_clsMapping = clsMapping;
-	_attrs = new HashMap();
-	_simpleElements = new HashMap();
-	_contained = new HashMap();
+        _clsMapping = clsMapping;
+        _attrs = new HashMap();
+        _simpleElements = new HashMap();
+        _contained = new HashMap();
     }
 
     void addAttr(final String columnName, final FieldMapping fieldMapping) {
-	_attrs.put(columnName, fieldMapping);
+        _attrs.put(columnName, fieldMapping);
     }
 
     void addSimpleElement(final String columnName, final FieldMapping fieldMapping) {
-	_simpleElements.put(columnName, fieldMapping);
+        _simpleElements.put(columnName, fieldMapping);
     }
 
     void addContained(final String columnName, final ClassMapping contained) {
-	_contained.put(columnName, contained);
+        _contained.put(columnName, contained);
     }
 
     FieldMapping getAttr(final String columnName) {
-	return (FieldMapping) _attrs.get(columnName);
+        return (FieldMapping) _attrs.get(columnName);
     }
 
     FieldMapping getSimpleElement(final String columnName) {
-	return (FieldMapping) _simpleElements.get(columnName);
+        return (FieldMapping) _simpleElements.get(columnName);
     }
 
     String[] getAttrCols() {
-	Set keys = _attrs.keySet();
-	return (String[]) keys.toArray(new String[keys.size()]);
+        Set keys = _attrs.keySet();
+        return (String[]) keys.toArray(new String[keys.size()]);
     }
 
     String[] getSimpleElementCols() {
-	Set keys = _simpleElements.keySet();
-	return (String[]) keys.toArray(new String[keys.size()]);
+        Set keys = _simpleElements.keySet();
+        return (String[]) keys.toArray(new String[keys.size()]);
     }
 
     ClassMapping getClassMapping() {
-	return _clsMapping;
+        return _clsMapping;
     }
 
     String getTextCol() {
-	return _textCol;
+        return _textCol;
     }
 
     FieldMapping getText() {
-	return _text;
+        return _text;
     }
 
     void setTextCol(final String textCol, final FieldMapping text) {
-	_text = text;
-	_textCol = textCol;
+        _text = text;
+        _textCol = textCol;
     }
 }

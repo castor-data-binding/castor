@@ -61,15 +61,10 @@ import org.exolab.castor.persist.spi.Identity;
  * @version $Revision$ $Date: 2006-04-22 11:05:30 -0600 (Sat, 22 Apr 2006) $
  */
 public class CacheManager {
-	
-	/**
-	 * Database instance
-	 */
+    /** Database instance. */
     private Database db;
 
-    /**
-     * Lock engine
-     */
+    /** Lock engine. */
     private LockEngine lockEngine;
 
     /**
@@ -91,7 +86,7 @@ public class CacheManager {
     }
 
     /**
-     * Indicates whether am instance of cls is currently cached
+     * Indicates whether am instance of cls is currently cached.
      * @param cls The class type.
      * @param identity The object identity.
      * @return True if the object is cached.

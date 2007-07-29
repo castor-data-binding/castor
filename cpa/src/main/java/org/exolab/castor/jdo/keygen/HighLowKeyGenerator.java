@@ -293,7 +293,7 @@ public class HighLowKeyGenerator implements KeyGenerator {
                         // to HIGH-LOW
                         stmt.close();
                         if ( ! _global ) {
-                        	String sqlStatement = JDBCSyntax.SELECT + "MAX(" + primKeyName + ") FROM " + internalTableName;
+                            String sqlStatement = JDBCSyntax.SELECT + "MAX(" + primKeyName + ") FROM " + internalTableName;
                             stmt = conn.prepareStatement(sqlStatement);
                             rs = stmt.executeQuery();
                         }

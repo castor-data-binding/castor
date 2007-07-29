@@ -75,7 +75,7 @@ import org.exolab.castor.mapping.xml.types.SqlDirtyType;
  */
 public class FieldMolder {
 
-	// accepted collection types
+    // accepted collection types
     private static final String COLLECTION_TYPE_ARRAY = "array";
     private static final String COLLECTION_TYPE_COLLECTION = "collection";
     private static final String COLLECTION_TYPE_VECTOR = "vector";
@@ -90,9 +90,9 @@ public class FieldMolder {
     private static final String COLLECTION_TYPE_ENUMERATON = "enumerate";
     private static final String COLLECTION_TYPE_SORTED_MAP = "sortedmap";
     
-	private static final String FIELD_TYPE_SERIALIZABLE = "serializable";
-	
-	public static final short PRIMITIVE = 0;
+    private static final String FIELD_TYPE_SERIALIZABLE = "serializable";
+    
+    public static final short PRIMITIVE = 0;
     public static final short SERIALIZABLE = 1;
     public static final short PERSISTANCECAPABLE = 2;
     public static final short ONE_TO_MANY = 3;
@@ -109,9 +109,9 @@ public class FieldMolder {
     private static final String METHOD_IS_PREFIX = "is";
     private static final String METHOD_SET_PREFIX = "set";
     private static final String METHOD_ADD_PREFIX = "add";
-	private static final String METHOD_CREATE_PREFIX = "create";
-	private static final String METHOD_DELETE_PREFIX = "delete";
-	private static final String METHOD_HAS_PREFIX = "has";
+    private static final String METHOD_CREATE_PREFIX = "create";
+    private static final String METHOD_DELETE_PREFIX = "delete";
+    private static final String METHOD_HAS_PREFIX = "has";
     
     private boolean _lazy;
 
@@ -311,7 +311,7 @@ public class FieldMolder {
         ReflectService rf = getContextReflectService ( loader );
         
         if (_log.isDebugEnabled()) {
-        	_log.debug ("Calling " + rf._addMethod.getName() + " on " + object.getClass().getName() + " with value " + value);
+            _log.debug ("Calling " + rf._addMethod.getName() + " on " + object.getClass().getName() + " with value " + value);
         }
         
         try {
@@ -642,11 +642,11 @@ public class FieldMolder {
                         javaClass = method.getReturnType();
                         // setter;   Note: javaClass already changed, use "last"
                         if (fieldMap.getType().compareTo("boolean") == 0) {
-                        	methodName = METHOD_SET_PREFIX + methodName.substring(2);
+                            methodName = METHOD_SET_PREFIX + methodName.substring(2);
                         } else {
                             methodName = METHOD_SET_PREFIX + methodName.substring(3);
                         }
-                        	
+
                         try {
                             method = last.getMethod( methodName, new Class[] { javaClass } );
                             if ( ( method.getModifiers() & Modifier.ABSTRACT ) != 0 ||
@@ -672,22 +672,22 @@ public class FieldMolder {
                 
                 // if field is of type boolean, check whether is<Field>() is defined.
                 if (fieldMap.getType() != null && fieldMap.getType().compareTo("boolean") == 0) {
-                	_defaultReflectService._getMethod = 
-                		findAccessor( javaClass, METHOD_IS_PREFIX + capitalize( name ), methodClass, true );
+                    _defaultReflectService._getMethod = 
+                        findAccessor( javaClass, METHOD_IS_PREFIX + capitalize( name ), methodClass, true );
                 }
                 
                 if (_defaultReflectService._getMethod == null) {
-                	_defaultReflectService._getMethod = 
-                		findAccessor( javaClass, METHOD_GET_PREFIX + capitalize( name ), methodClass, true );
+                    _defaultReflectService._getMethod = 
+                        findAccessor( javaClass, METHOD_GET_PREFIX + capitalize( name ), methodClass, true );
                 }
 
                 if ( _defaultReflectService._getMethod == null ) {
-                	if ( fieldMap.getType().compareTo("boolean") == 0) {
-                		throw new MappingException( "mapping.accessorNotFound",
-                				METHOD_GET_PREFIX + "/" + METHOD_IS_PREFIX + capitalize( name ), fieldMap.getType(), eMold.getName() );
-                	}
-                  throw new MappingException( "mapping.accessorNotFound",
-                  		METHOD_GET_PREFIX + capitalize( name ), fieldMap.getType(), eMold.getName() );
+                    if ( fieldMap.getType().compareTo("boolean") == 0) {
+                        throw new MappingException( "mapping.accessorNotFound",
+                                METHOD_GET_PREFIX + "/" + METHOD_IS_PREFIX + capitalize( name ), fieldMap.getType(), eMold.getName() );
+                    }
+                    throw new MappingException( "mapping.accessorNotFound",
+                            METHOD_GET_PREFIX + capitalize( name ), fieldMap.getType(), eMold.getName() );
                 }
                 
                 // update fClass, because we can't tell between primitive
@@ -698,23 +698,21 @@ public class FieldMolder {
                 _defaultReflectService._setMethod = findAccessor( javaClass, METHOD_SET_PREFIX + capitalize( name ), methodClass, false );
 
                 if ( _defaultReflectService._setMethod == null ) {
-                	_defaultReflectService._addMethod
-					= findAccessor( javaClass, METHOD_ADD_PREFIX + capitalize( name ), declaredClass, false );
-                	
-                	// look again, but this time without a trailing 's'
-                	if ( _defaultReflectService._addMethod == null && name.endsWith("s") )
-                		_defaultReflectService._addMethod
-						= findAccessor( javaClass, METHOD_ADD_PREFIX + capitalize( name ).substring(0,name.length() - 1), declaredClass, false );
+                    _defaultReflectService._addMethod = findAccessor( javaClass, METHOD_ADD_PREFIX + capitalize( name ), declaredClass, false );
 
-                	// if add<FieldName>() has been found, set _addable to true 
-                	if ( _defaultReflectService._addMethod != null )
+                    // look again, but this time without a trailing 's'
+                    if ( _defaultReflectService._addMethod == null && name.endsWith("s") )
+                        _defaultReflectService._addMethod = findAccessor( javaClass, METHOD_ADD_PREFIX + capitalize( name ).substring(0,name.length() - 1), declaredClass, false );
+
+                    // if add<FieldName>() has been found, set _addable to true 
+                    if ( _defaultReflectService._addMethod != null )
                         _addable = true;
                 }
                 
                 if ( _defaultReflectService._setMethod == null && _defaultReflectService._addMethod == null )
-                	throw new MappingException( "mapping.accessorNotFound",
-                			METHOD_SET_PREFIX + "/" + METHOD_ADD_PREFIX + capitalize( name ), declaredClass, javaClass.getName() );
-            	
+                    throw new MappingException( "mapping.accessorNotFound",
+                            METHOD_SET_PREFIX + "/" + METHOD_ADD_PREFIX + capitalize( name ), declaredClass, javaClass.getName() );
+                
             } else {
 
                 // Bean type object, map field to get<Method>/set<Method>
@@ -753,7 +751,7 @@ public class FieldMolder {
                         // find addXXX method only if lazy loading is turned off
                         if ( _defaultReflectService._setMethod == null && !fieldMap.getLazy() ) {
                             _defaultReflectService._addMethod = 
-                            	findAccessor( javaClass, fieldMap.getSetMethod(), declaredClass, false );
+                                findAccessor( javaClass, fieldMap.getSetMethod(), declaredClass, false );
                             if ( _defaultReflectService._addMethod != null) _addable = true;
                         }
 
@@ -764,16 +762,16 @@ public class FieldMolder {
 
 
                     if (_defaultReflectService._setMethod == null && 
-                    	_defaultReflectService._addMethod == null)
-						throw new MappingException("mapping.accessorNotFound",
-								fieldMap.getSetMethod(), methodClass, javaClass
-										.getName());
+                            _defaultReflectService._addMethod == null)
+                            throw new MappingException("mapping.accessorNotFound",
+                                    fieldMap.getSetMethod(), methodClass, javaClass
+                                            .getName());
 
-                    if ( _defaultReflectService._fClass == null )
-                        _defaultReflectService._fClass = _defaultReflectService._setMethod.getParameterTypes()[ 0 ];
-                } else {
-                    throw new MappingException( "mapping.setMethodMappingNotFound",
-                                                (_colClass != null) ? _colClass : methodClass, javaClass.getName() );
+                        if ( _defaultReflectService._fClass == null )
+                            _defaultReflectService._fClass = _defaultReflectService._setMethod.getParameterTypes()[ 0 ];
+                    } else {
+                        throw new MappingException( "mapping.setMethodMappingNotFound",
+                                                    (_colClass != null) ? _colClass : methodClass, javaClass.getName() );
                 }
             }
 
@@ -797,7 +795,7 @@ public class FieldMolder {
                     method = javaClass.getMethod( METHOD_CREATE_PREFIX + capitalize( fieldMap.getName() ), (Class[]) null );
                     _defaultReflectService._createMethod = method;
                 } catch ( Exception except ) {
-                	// no explicit exception handling
+                    // no explicit exception handling
                 }
             }
 
@@ -817,12 +815,12 @@ public class FieldMolder {
                             deleteMethod = null;
                         deleteMethod = javaClass.getMethod( METHOD_DELETE_PREFIX + capitalize( fieldMap.getName() ), (Class[]) null );
                     } catch ( Exception except ) {
-                    	// no explicit exception handling 
+                        // no explicit exception handling 
                     }
                     _defaultReflectService._hasMethod = hasMethod;
                     _defaultReflectService._deleteMethod = deleteMethod;
                 } catch ( Exception except ) {
-                	// no explicit exception handling
+                    // no explicit exception handling
                 }
             }
 
@@ -873,9 +871,9 @@ public class FieldMolder {
                 throw new MappingException( "mapping.fieldTypeMismatch", field, internalFieldType.getName() );
             return field;
         } catch ( NoSuchFieldException except ) {
-        	// no explicit exception handling
+            // no explicit exception handling
         } catch ( SecurityException except ) {
-        	// no explicit exception handling
+            // no explicit exception handling
         }
         return null;
     }
@@ -949,14 +947,14 @@ public class FieldMolder {
                      fieldTypeFromPrimitive = Types.typeFromPrimitive( internalFieldType );
                      // first check for setter with reference type (e.g. setXxx(Integer))
                      try {
-                    	 method = javaClass.getMethod( methodName, new Class[] { fieldTypeFromPrimitive } );
+                         method = javaClass.getMethod( methodName, new Class[] { fieldTypeFromPrimitive } );
                      } catch ( Exception except ) {
                          // if setter for reference type could not be found
                          // try to find one for primitive type (e.g. setXxx(int))
                          try {
-                        	 method = javaClass.getMethod( methodName, new Class[] { internalFieldType } );
+                             method = javaClass.getMethod( methodName, new Class[] { internalFieldType } );
                          } catch ( Exception except2 ) {
-                         	 // log.warn ("Unexpected exception", except2);
+                             // log.warn ("Unexpected exception", except2);
                          }
                      }
                  }
@@ -1046,8 +1044,8 @@ public class FieldMolder {
          * Default constructor. All fields need to be set one by one.
          */
         ReflectService () {
-        	// no code to execute
-		}
+            // no code to execute
+        }
 
         /**
          * Contructs a ReflectService object based on the instance provided

@@ -90,13 +90,13 @@ public class DTXException extends Exception {
      */
 
     public String getMessage() {
-    	String _msg = null;
-    	if (_message != null) {
-    	    _msg = _message;
-    	} else if (_except != null) {
-    	    _msg = "Nested exception (" + _except.getClass().getName() + "):" + _except.getMessage();
-    	}
-    	return _msg;
+        String _msg = null;
+        if (_message != null) {
+            _msg = _message;
+        } else if (_except != null) {
+            _msg = "Nested exception (" + _except.getClass().getName() + "):" + _except.getMessage();
+        }
+        return _msg;
     }
 
     /**
@@ -106,20 +106,20 @@ public class DTXException extends Exception {
      */
 
     public Exception getNestedException() {
-    	return _except;
+        return _except;
     }
 
     public void printStackTrace(final PrintWriter out) {
-    	if (_except != null) {
-    	    _except.printStackTrace(out);
-    	}
-    	super.printStackTrace(out);
+        if (_except != null) {
+            _except.printStackTrace(out);
+        }
+        super.printStackTrace(out);
     }
 
     public void printStackTrace(final PrintStream out) {
-    	if (_except != null) {
-    	    _except.printStackTrace(out);
-    	}
-    	super.printStackTrace(out);
+        if (_except != null) {
+            _except.printStackTrace(out);
+        }
+        super.printStackTrace(out);
     }
 }

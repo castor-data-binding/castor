@@ -93,17 +93,16 @@ public final class IdentityKeyGenerator implements KeyGenerator {
     public IdentityKeyGenerator(final PersistenceFactory factory, final int sqlType) throws MappingException {
         fName = factory.getFactoryName();
         if (!fName.equals("sybase") &&
-        	!fName.equals("sql-server") && 
-			!fName.equals("hsql") && 
-			!fName.equals("mysql") && 
-            !fName.equals("informix") &&
-            !fName.equals("sapdb") &&
-            !fName.equals("db2") && 
-            !fName.equals("derby") &&
-            !fName.equals("postgresql") &&
-            !fName.equals("pointbase")) {
-            throw new MappingException(
-            	Messages.format("mapping.keyGenNotCompatible", getClass().getName(), fName));
+                !fName.equals("sql-server") && 
+                !fName.equals("hsql") && 
+                !fName.equals("mysql") && 
+                !fName.equals("informix") &&
+                !fName.equals("sapdb") &&
+                !fName.equals("db2") && 
+                !fName.equals("derby") &&
+                !fName.equals("postgresql") &&
+                !fName.equals("pointbase")) {
+            throw new MappingException(Messages.format("mapping.keyGenNotCompatible", getClass().getName(), fName));
         }
 
         supportsSqlType( sqlType );
@@ -127,16 +126,12 @@ public final class IdentityKeyGenerator implements KeyGenerator {
                 Messages.format("mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
         }
 
-        if (sqlType != Types.INTEGER &&
-        	fName.equals("hsql")) {
-            throw new MappingException(
-                Messages.format("mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
+        if (sqlType != Types.INTEGER && fName.equals("hsql")) {
+            throw new MappingException(Messages.format("mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
         }
 
-        if (sqlType != Types.NUMERIC &&
-            	fName.equals("derby")) {
-                throw new MappingException(
-                    Messages.format("mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
+        if (sqlType != Types.NUMERIC && fName.equals("derby")) {
+                throw new MappingException(Messages.format("mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
             }
     }
 
@@ -212,40 +207,40 @@ public final class IdentityKeyGenerator implements KeyGenerator {
     }
     
     private abstract class AbstractType {
-    	abstract Object getValue(Connection conn, String tableName) throws PersistenceException;
+        abstract Object getValue(Connection conn, String tableName) throws PersistenceException;
 
-    	Object getValue(final PreparedStatement stmt) throws PersistenceException, SQLException {
-    		ResultSet rs = stmt.executeQuery();
-    		if (rs.next()) {
-    			return identityValue.getValue(rs.getInt(1));
-    		}
+        Object getValue(final PreparedStatement stmt) throws PersistenceException, SQLException {
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return identityValue.getValue(rs.getInt(1));
+            }
         throw new PersistenceException(Messages.format("persist.keyGenFailed", getClass().getName()));
-    	}
+        }
 
-    	Object getValue(final String sql, final Connection conn) throws PersistenceException {
-    		PreparedStatement stmt = null;
-    		try {
-    			stmt = conn.prepareStatement(sql);
-    			return getValue(stmt);
-    		} catch (SQLException e) {
-    			throw new PersistenceException(Messages.format("persist.keyGenSQL", getClass().getName(), e.toString()));
-    		} finally {
-    			if (stmt != null) {
-    				try {
-    					stmt.close();
-    				} catch (SQLException ex) {
-    					ex.printStackTrace();
-    				}
-    			}
-    		}
-    	}
+        Object getValue(final String sql, final Connection conn) throws PersistenceException {
+            PreparedStatement stmt = null;
+            try {
+                stmt = conn.prepareStatement(sql);
+                return getValue(stmt);
+            } catch (SQLException e) {
+                throw new PersistenceException(Messages.format("persist.keyGenSQL", getClass().getName(), e.toString()));
+            } finally {
+                if (stmt != null) {
+                    try {
+                        stmt.close();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 
     private class DB2Type extends AbstractType {
-    	Object getValue(final Connection conn, final String tableName) throws PersistenceException {
-			StringBuffer buf = new StringBuffer("SELECT IDENTITY_VAL_LOCAL() FROM sysibm.sysdummy1");    		
-    		return getValue(buf.toString(), conn);
-    	}
+        Object getValue(final Connection conn, final String tableName) throws PersistenceException {
+            StringBuffer buf = new StringBuffer("SELECT IDENTITY_VAL_LOCAL() FROM sysibm.sysdummy1");           
+            return getValue(buf.toString(), conn);
+        }
     }
 
     // TODO: does Progress have support for retrieving key values for auto_increment columns
@@ -257,44 +252,44 @@ public final class IdentityKeyGenerator implements KeyGenerator {
 //    }
     
     private class DefaultType extends AbstractType {
-    	Object getValue(final Connection conn, final String tableName) throws PersistenceException {
-    		return getValue("SELECT @@identity", conn);
-    	}
+        Object getValue(final Connection conn, final String tableName) throws PersistenceException {
+            return getValue("SELECT @@identity", conn);
+        }
     }
     
     private class HsqlType extends AbstractType {
-    	Object getValue(final Connection conn, final String tableName) throws PersistenceException {
-    		PreparedStatement stmt = null;
-    		Object v = null;
-    		try {
-    			stmt = conn.prepareCall("{call IDENTITY()}");
-    			v = getValue(stmt);
-    		} catch (SQLException e) {
-    			throw new PersistenceException(Messages.format("persist.keyGenSQL", getClass().getName(), e.toString()));
-    		} finally {
-    			if (stmt != null) {
-    				try {
-    					stmt.close();
-    				} catch (SQLException ex) {
-    					_log.warn ("Problem closing JDBCstatement", ex);
-    				}
+        Object getValue(final Connection conn, final String tableName) throws PersistenceException {
+            PreparedStatement stmt = null;
+            Object v = null;
+            try {
+                stmt = conn.prepareCall("{call IDENTITY()}");
+                v = getValue(stmt);
+            } catch (SQLException e) {
+                throw new PersistenceException(Messages.format("persist.keyGenSQL", getClass().getName(), e.toString()));
+            } finally {
+                if (stmt != null) {
+                    try {
+                        stmt.close();
+                    } catch (SQLException ex) {
+                        _log.warn ("Problem closing JDBCstatement", ex);
+                    }
                     stmt = null;
                 }
-    		}
+            }
             return v;
         }
     }
     
     private class InformixType extends AbstractType {
-    	Object getValue(final Connection conn, final String tableName) throws PersistenceException {
-    		return getValue("select dbinfo('sqlca.sqlerrd1') from systables where tabid = 1", conn);
-    	}
+        Object getValue(final Connection conn, final String tableName) throws PersistenceException {
+            return getValue("select dbinfo('sqlca.sqlerrd1') from systables where tabid = 1", conn);
+        }
     }
     
     private class MySqlType extends AbstractType {
-    	Object getValue(final Connection conn, final String tableName) throws PersistenceException {
-    		return getValue("SELECT LAST_INSERT_ID()", conn);
-    	}
+        Object getValue(final Connection conn, final String tableName) throws PersistenceException {
+            return getValue("SELECT LAST_INSERT_ID()", conn);
+        }
     }
 
     private class SapDbType extends AbstractType {
@@ -316,20 +311,20 @@ public final class IdentityKeyGenerator implements KeyGenerator {
     }
     
     private class DefaultIdentityValue {
-    	Object getValue(final int value) {
-    		return new BigDecimal(value);
-    	}
+        Object getValue(final int value) {
+            return new BigDecimal(value);
+        }
     }
     
     private class IntegerIdenityValue extends DefaultIdentityValue {
-    	Object getValue(final int value) {
-    		return new Integer(value);
-    	}
+        Object getValue(final int value) {
+            return new Integer(value);
+        }
     }
     
     private class LongIdenityValue extends DefaultIdentityValue {
-    	Object getValue(final int value) {
-    		return new Long(value);
-    	}
+        Object getValue(final int value) {
+            return new Long(value);
+        }
     }
 }

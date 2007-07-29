@@ -96,9 +96,9 @@ public class JDBCQueryExpression implements QueryExpression {
 
     protected PersistenceFactory  _factory;
 
-	/**
-	 * MetaInfo as acquired from the RDBMS
-	 */
+    /**
+     * MetaInfo as acquired from the RDBMS
+     */
     protected DbMetaInfo _dbInfo;
 
     public JDBCQueryExpression(final PersistenceFactory factory) {
@@ -234,19 +234,19 @@ public class JDBCQueryExpression implements QueryExpression {
     }
 
     public void addLimitClause(final String limit) throws SyntaxNotSupportedException {
-    	if (isLimitClauseSupported()) {
-    		_limit = limit;
-    	} else {
-    		throw new SyntaxNotSupportedException (Messages.format ("query.limitClauseNotSupported", _factory.getFactoryName()));
-    	}
+        if (isLimitClauseSupported()) {
+            _limit = limit;
+        } else {
+            throw new SyntaxNotSupportedException (Messages.format ("query.limitClauseNotSupported", _factory.getFactoryName()));
+        }
     }
 
     public void addOffsetClause(final String offset) throws SyntaxNotSupportedException {
-    	if (isOffsetClauseSupported()) {
-    		_offset = offset;
-    	} else {
-    		throw new SyntaxNotSupportedException(Messages.format ("query.offsetClauseNotSupported", _factory.getFactoryName()));
-    	}
+        if (isOffsetClauseSupported()) {
+            _offset = offset;
+        } else {
+            throw new SyntaxNotSupportedException(Messages.format ("query.offsetClauseNotSupported", _factory.getFactoryName()));
+        }
     }
 
     protected String getColumnList() {
@@ -300,11 +300,11 @@ public class JDBCQueryExpression implements QueryExpression {
     }
     
     /**
-	 * Creates a SQL statement.
+     * Creates a SQL statement.
      * In general, for a RDBMS/JDBC driver with a full support of the SQL standard/JDBC 
-	 * specification, this will return a valid SQL statement. For some features,
-	 * a particular RDBMS might indicate that it does not support this feature by 
-	 * throwing a {@link SyntaxNotSupportedException}.
+     * specification, this will return a valid SQL statement. For some features,
+     * a particular RDBMS might indicate that it does not support this feature by 
+     * throwing a {@link SyntaxNotSupportedException}.
      * @throws SyntaxNotSupportedException If the RDBMS does not support a particular feature.
      */
     public String getStatement(final boolean lock) throws SyntaxNotSupportedException {
@@ -457,13 +457,13 @@ public class JDBCQueryExpression implements QueryExpression {
     }
 
     public String toString() {
-    	StringBuffer buffer = new StringBuffer ();
+        StringBuffer buffer = new StringBuffer ();
         try {
-			buffer.append ("<").append (getStatement( false )).append(">");
-		} catch (SyntaxNotSupportedException e) {
-			_log.error ("Problem turning this to a String", e);
-		}
-		return buffer.toString();
+            buffer.append ("<").append (getStatement( false )).append(">");
+        } catch (SyntaxNotSupportedException e) {
+            _log.error ("Problem turning this to a String", e);
+        }
+        return buffer.toString();
     }
 
 
@@ -559,19 +559,19 @@ public class JDBCQueryExpression implements QueryExpression {
      * Provides a default implementation of {@link QueryExpression#isLimitClauseSupported()}.
      * 
      * @return false to indicate that this feature is not supported by default. 
-	 * @see org.exolab.castor.persist.spi.QueryExpression#isLimitClauseSupported()
-	 */
-	public boolean isLimitClauseSupported() {
-		return false;
-	}
+     * @see org.exolab.castor.persist.spi.QueryExpression#isLimitClauseSupported()
+     */
+    public boolean isLimitClauseSupported() {
+        return false;
+    }
 
     /** 
      * Provides a default implementation of {@link QueryExpression#isOffsetClauseSupported()}.
      * 
      * @return false to indicate that this feature is not supported by default. 
-	 * @see org.exolab.castor.persist.spi.QueryExpression#isOffsetClauseSupported()
-	 */
-	public boolean isOffsetClauseSupported() {
-		return false;
-	}
+     * @see org.exolab.castor.persist.spi.QueryExpression#isOffsetClauseSupported()
+     */
+    public boolean isOffsetClauseSupported() {
+        return false;
+    }
 }

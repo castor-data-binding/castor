@@ -248,13 +248,13 @@ public abstract class AbstractDatabaseImpl implements Database {
             return _ctx.isLocked(cls, new Identity(identity), _scope.getLockEngine());
         }
         return false;
-	}
+    }
 
-	/**
-	 * @see org.exolab.castor.jdo.Database#load(java.lang.Class, java.lang.Object)
+    /**
+     * @see org.exolab.castor.jdo.Database#load(java.lang.Class, java.lang.Object)
      * {@inheritDoc}
-	 */
-	public Object load(final Class type, final Object identity) 
+     */
+    public Object load(final Class type, final Object identity) 
     throws ObjectNotFoundException, LockNotGrantedException, 
            TransactionNotInProgressException, PersistenceException {
         return load(type, identity, null, null);
@@ -498,9 +498,9 @@ public abstract class AbstractDatabaseImpl implements Database {
      * properties file, if not loaded before.
      */
     protected void loadSynchronizables() {
-    	if (_synchronizables == null) {
-    		_synchronizables = new ArrayList();
-    		
+        if (_synchronizables == null) {
+            _synchronizables = new ArrayList();
+            
             Configuration config = Configuration.getInstance();
             String[] props = config.getProperty(ConfigKeys.TX_SYNCHRONIZABLE);
             for (int i = 0; i < props.length; i++) {
@@ -512,9 +512,9 @@ public abstract class AbstractDatabaseImpl implements Database {
                     _log.warn(Messages.format("jdo.missingTxSynchronizable", props[i]));
                 }
             }
-    		
-    		if (_synchronizables.size() == 0) { _synchronizables = null; }
-    	}
+            
+            if (_synchronizables.size() == 0) { _synchronizables = null; }
+        }
     }
     
     /**

@@ -261,10 +261,10 @@ public class OQLQueryImpl implements Query, OQLQuery {
         if ( _dbEngine == null )
             throw new QueryException( "Could not get a persistence engine" );
 
-	    TransactionContext trans = ((AbstractDatabaseImpl) _database).getTransaction();
-	    DbMetaInfo dbInfo = trans.getConnectionInfo(_dbEngine);
+        TransactionContext trans = ((AbstractDatabaseImpl) _database).getTransaction();
+        DbMetaInfo dbInfo = trans.getConnectionInfo(_dbEngine);
 
-	    ParseTreeWalker walker = new ParseTreeWalker(_dbEngine, parseTree, _database.getClassLoader(), dbInfo);
+        ParseTreeWalker walker = new ParseTreeWalker(_dbEngine, parseTree, _database.getClassLoader(), dbInfo);
 
         _objClass = walker.getObjClass();
         _clsDesc = walker.getClassDescriptor();
@@ -490,9 +490,9 @@ public class OQLQueryImpl implements Query, OQLQuery {
                         java.sql.Connection conn = ((AbstractDatabaseImpl) _database).getTransaction().getConnection(_dbEngine);
                         SimpleQueryExecutor sqe = new SimpleQueryExecutor( _database );
                         _results =  sqe.execute(conn, _expr, _bindValues);
-		            } catch ( QueryException except ) {
-		                throw new QueryException(Messages.message ("persist.simple.query.failed"), except);
-		            }
+                    } catch ( QueryException except ) {
+                        throw new QueryException(Messages.message ("persist.simple.query.failed"), except);
+                    }
                     _fieldNum = 0;
             }
         } catch ( PersistenceException except ) {
@@ -508,11 +508,11 @@ public class OQLQueryImpl implements Query, OQLQuery {
      * @throws QueryException If the SQL query cannot be generated.
      */
     public String getSQL() throws org.exolab.castor.jdo.QueryException {
-	  if (_expr != null) {
+      if (_expr != null) {
           return _expr.getStatement(true);
-	  }
+      }
 
-	  return _spCall;
+      return _spCall;
     }
 
     /**
