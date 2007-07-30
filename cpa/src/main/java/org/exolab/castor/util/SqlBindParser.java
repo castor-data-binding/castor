@@ -214,12 +214,12 @@ public final class SqlBindParser {
 
     /**
      * Creates a SQL statement from pre_sql, replacing bind expressions like "?1" by "?"
-     * @param pre_sql SQL statement string with bind variables of the form "?1"
+     * @param preSQL SQL statement string with bind variables of the form "?1"
      * @return SQL statement string with bind variables of the form "?"
      */
-    public static String getJdbcSql(final String pre_sql) {
+    public static String getJdbcSql(final String preSQL) {
         StringBuffer sb = new StringBuffer();
-        SqlBindParser parser = new SqlBindParser(pre_sql);
+        SqlBindParser parser = new SqlBindParser(preSQL);
 
         while (parser.next()) {
             sb.append(parser.getLastExpr());
@@ -235,12 +235,12 @@ public final class SqlBindParser {
      * Binds values to prepared SQL statement using the given
      * sql string as reference for the bind variable order.
      * @param stmt JDBC statement
-     * @param pre_sql SQL statement string with bind variables of the form "?1"
+     * @param preSQL SQL statement string with bind variables of the form "?1"
      * @param values array of bind values
      * @throws SQLException
      */
-    public static void bindJdbcValues(final PreparedStatement stmt, final String pre_sql, final Object[] values) throws SQLException {
-        SqlBindParser parser = new SqlBindParser(pre_sql);
+    public static void bindJdbcValues(final PreparedStatement stmt, final String preSQL, final Object[] values) throws SQLException {
+        SqlBindParser parser = new SqlBindParser(preSQL);
 
         for (int i = 1; parser.next(); ++i) {
             int bindNum = parser.getParamNumber();
