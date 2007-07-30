@@ -52,17 +52,17 @@ import org.exolab.castor.jdo.QueryException;
    
     
 public class PersistenceInfoGroup {
-    LockEngine[] engines;
+    LockEngine[] _engines;
     
     public PersistenceInfoGroup(final LockEngine[] engines) {
-        this.engines = engines;
+        this._engines = engines;
     }
     
     public ClassMolder getClassMolder(final Class type) throws ClassNotPersistenceCapableException {
         ClassMolder molder = null;
         int i = 0;
-        while ((i < engines.length) && (molder == null)) {
-            molder = engines[i++].getClassMolderWithDependent(type);
+        while ((i < _engines.length) && (molder == null)) {
+            molder = _engines[i++].getClassMolderWithDependent(type);
         }
         
         if (molder == null) {
@@ -82,8 +82,8 @@ public class PersistenceInfoGroup {
      */
     public ClassMolder findClassMolderByQuery(final String query) throws QueryException {
         ClassMolder molder = null;
-        for (int i = 0; i < engines.length; i++) {            
-            molder = engines[i].getClassMolderByQuery(query);            
+        for (int i = 0; i < _engines.length; i++) {            
+            molder = _engines[i].getClassMolderByQuery(query);            
         }
         if (molder == null) {
             throw new QueryException("Cannot find a named query with the name " + query);
@@ -92,8 +92,8 @@ public class PersistenceInfoGroup {
     }
     
     public LockEngine getLockEngine() {
-        if ((engines != null) && (engines.length >= 1)) {
-            return engines[0];
+        if ((_engines != null) && (_engines.length >= 1)) {
+            return _engines[0];
         }
         return null;
     }

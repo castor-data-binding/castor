@@ -355,7 +355,7 @@ public class JDBCQueryExpression implements QueryExpression {
 
             join = (Join) _joins.elementAt(i);
 
-            if (!join.outer || done.contains(join.leftTable)) {
+            if (!join._outer || done.contains(join._leftTable)) {
                 continue;
             }
             if (first) {
@@ -366,60 +366,60 @@ public class JDBCQueryExpression implements QueryExpression {
             if (oj) {
                 sql.append("{oj ");
             }
-            sql.append(_factory.quoteName(join.leftTable));
+            sql.append(_factory.quoteName(join._leftTable));
             sql.append(JDBCSyntax.LEFT_JOIN);
-            tableName = (String) tables.get(join.rightTable);
-            if (join.rightTable.equals(tableName)) {
+            tableName = (String) tables.get(join._rightTable);
+            if (join._rightTable.equals(tableName)) {
                 sql.append(_factory.quoteName(tableName));
             } else {
                 sql.append(_factory.quoteName(tableName) + " " +
-                            _factory.quoteName(join.rightTable));
+                            _factory.quoteName(join._rightTable));
             }
             sql.append(JDBCSyntax.ON);
-            for (int j = 0; j < join.leftColumns.length; ++j) {
+            for (int j = 0; j < join._leftColumns.length; ++j) {
                 if (j > 0) {
                     sql.append(JDBCSyntax.AND);
                 }
-                sql.append(_factory.quoteName(join.leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                                join.leftColumns[j])).append(OP_EQUALS);
-                sql.append(_factory.quoteName(join.rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                                join.rightColumns[j]));
+                sql.append(_factory.quoteName(join._leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
+                                                join._leftColumns[j])).append(OP_EQUALS);
+                sql.append(_factory.quoteName(join._rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
+                                                join._rightColumns[j]));
             }
 
-            tables.remove(join.leftTable);
-            tables.remove(join.rightTable);
+            tables.remove(join._leftTable);
+            tables.remove(join._rightTable);
             for (int k = i + 1; k < _joins.size(); ++k) {
                 Join join2;
 
                 join2 = (Join) _joins.elementAt(k);
-                if (!join2.outer || !join.leftTable.equals(join2.leftTable)) {
+                if (!join2._outer || !join._leftTable.equals(join2._leftTable)) {
                     continue;
                 }
                 sql.append(JDBCSyntax.LEFT_JOIN);
-                tableName = (String) tables.get(join2.rightTable);
+                tableName = (String) tables.get(join2._rightTable);
 
-                if (join2.rightTable.equals(tableName)) {
+                if (join2._rightTable.equals(tableName)) {
                     sql.append(_factory.quoteName(tableName));
                 } else {
                     sql.append(_factory.quoteName(tableName) + " " +
-                                _factory.quoteName(join2.rightTable));
+                                _factory.quoteName(join2._rightTable));
                 }
                 sql.append(JDBCSyntax.ON);
-                for (int j = 0; j < join2.leftColumns.length; ++j) {
+                for (int j = 0; j < join2._leftColumns.length; ++j) {
                     if (j > 0) {
                         sql.append(JDBCSyntax.AND);
                     }
-                    sql.append(_factory.quoteName(join2.leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                                    join2.leftColumns[j])).append(OP_EQUALS);
-                    sql.append(_factory.quoteName(join2.rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                                    join2.rightColumns[j]));
+                    sql.append(_factory.quoteName(join2._leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
+                                                    join2._leftColumns[j])).append(OP_EQUALS);
+                    sql.append(_factory.quoteName(join2._rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
+                                                    join2._rightColumns[j]));
                 }
-                tables.remove(join2.rightTable);
+                tables.remove(join2._rightTable);
             }
             if (oj) {
                 sql.append("}");
             }
-            done.addElement(join.leftTable);
+            done.addElement(join._leftTable);
         }
         enumeration = tables.keys();
         while (enumeration.hasMoreElements()) {
@@ -444,21 +444,21 @@ public class JDBCQueryExpression implements QueryExpression {
             Join join;
 
             join = (Join) _joins.elementAt(i);
-            if (!join.outer) {
+            if (!join._outer) {
                 if (first) {
                     sql.append(JDBCSyntax.WHERE);
                     first = false;
                 } else {
                     sql.append(JDBCSyntax.AND);
                 }
-                for (int j = 0; j < join.leftColumns.length; ++j) {
+                for (int j = 0; j < join._leftColumns.length; ++j) {
                     if (j > 0) {
                         sql.append(JDBCSyntax.AND);
                     }
-                    sql.append(_factory.quoteName(join.leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                                    join.leftColumns[j])).append(OP_EQUALS);
-                    sql.append(_factory.quoteName(join.rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                                    join.rightColumns[j]));
+                    sql.append(_factory.quoteName(join._leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
+                                                    join._leftColumns[j])).append(OP_EQUALS);
+                    sql.append(_factory.quoteName(join._rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
+                                                    join._rightColumns[j]));
                 }
             }
         }
@@ -503,51 +503,51 @@ public class JDBCQueryExpression implements QueryExpression {
 
 
     static class Join {
-        final String   leftTable;
+        final String   _leftTable;
 
-        final String[] leftColumns;
+        final String[] _leftColumns;
 
-        final String   rightTable;
+        final String   _rightTable;
 
-        final String[] rightColumns;
+        final String[] _rightColumns;
 
-        final boolean  outer;
+        final boolean  _outer;
 
         Join(final String leftTable, final String leftColumn, final String rightTable, final String rightColumn, final boolean outer) {
-            this.leftTable = leftTable;
-            this.leftColumns = new String[] {leftColumn};
-            this.rightTable = rightTable;
-            this.rightColumns = new String[] {rightColumn};
-            this.outer = outer;
+            this._leftTable = leftTable;
+            this._leftColumns = new String[] {leftColumn};
+            this._rightTable = rightTable;
+            this._rightColumns = new String[] {rightColumn};
+            this._outer = outer;
         }
 
         Join(final String leftTable, final String[] leftColumns, final String rightTable, final String[] rightColumns, final boolean outer) {
-            this.leftTable = leftTable;
-            this.leftColumns = (String[]) leftColumns.clone();
-            this.rightTable = rightTable;
-            this.rightColumns = (String[]) rightColumns.clone();
-            this.outer = outer;
+            this._leftTable = leftTable;
+            this._leftColumns = (String[]) leftColumns.clone();
+            this._rightTable = rightTable;
+            this._rightColumns = (String[]) rightColumns.clone();
+            this._outer = outer;
         }
 
         public int hashCode() {
-            return leftTable.hashCode() ^ rightTable.hashCode();
+            return _leftTable.hashCode() ^ _rightTable.hashCode();
         }
 
         public boolean equals(final Object obj) {
             Join join = (Join) obj;
 
-            if (!leftTable.equals(join.leftTable) || !rightTable.equals(join.rightTable) ||
-                    leftColumns.length != join.leftColumns.length ||
-                    rightColumns.length != join.rightColumns.length) {
+            if (!_leftTable.equals(join._leftTable) || !_rightTable.equals(join._rightTable) ||
+                    _leftColumns.length != join._leftColumns.length ||
+                    _rightColumns.length != join._rightColumns.length) {
                 return false;
             }
-            for (int i = 0; i < leftColumns.length; i++) {
-                if (!leftColumns[i].equals(join.leftColumns[i])) {
+            for (int i = 0; i < _leftColumns.length; i++) {
+                if (!_leftColumns[i].equals(join._leftColumns[i])) {
                     return false;
                 }
             }
-            for (int i = 0; i < rightColumns.length; i++) {
-                if (!rightColumns[i].equals(join.rightColumns[i])) {
+            for (int i = 0; i < _rightColumns.length; i++) {
+                if (!_rightColumns[i].equals(join._rightColumns[i])) {
                     return false;
                 }
             }
@@ -558,7 +558,7 @@ public class JDBCQueryExpression implements QueryExpression {
         }
 
         public String toString() {
-            return leftTable + "." + leftColumns[0] + (outer ? "*=" : "=") + rightTable + "." + rightColumns[0];
+            return _leftTable + "." + _leftColumns[0] + (_outer ? "*=" : "=") + _rightTable + "." + _rightColumns[0];
 
         }
         
@@ -567,7 +567,7 @@ public class JDBCQueryExpression implements QueryExpression {
          * @return True if it is an outer join.
          */
         public boolean isOuter() {
-            return this.outer;
+            return this._outer;
         }
     }
 

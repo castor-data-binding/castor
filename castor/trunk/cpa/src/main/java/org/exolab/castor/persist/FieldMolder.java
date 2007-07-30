@@ -428,8 +428,8 @@ public class FieldMolder {
          */
 
         for (int i = 0; i < info.length; i++) {
-            if (info[i].name.equals(coll)) {
-                return info[i].type;
+            if (info[i]._name.equals(coll)) {
+                return info[i]._type;
             }
         }
         return null;
@@ -448,11 +448,11 @@ public class FieldMolder {
     }
 
     static class CollectionInfo {
-        String name;
-        Class type;
+        String _name;
+        Class _type;
         CollectionInfo(final String name, final Class type) {
-            this.name = name;
-            this.type = type;
+            this._name = name;
+            this._type = type;
         }
     }
 

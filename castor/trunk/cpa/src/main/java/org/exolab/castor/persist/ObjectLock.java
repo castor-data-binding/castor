@@ -268,10 +268,10 @@ public final class ObjectLock implements DepositBox {
         }
         read = _readLock;
         while (read != null) {
-            if (read.tx == tx) {
+            if (read._tx == tx) {
                 return true;
             }
-            read = read.next;
+            read = read._next;
         }
 
         return false;
@@ -293,7 +293,7 @@ public final class ObjectLock implements DepositBox {
             return false;
         }
 
-        if ((_writeLock == null) && (_readLock.tx == tx) && (_readLock.next.tx == null)) {
+        if ((_writeLock == null) && (_readLock._tx == tx) && (_readLock._next._tx == null)) {
             return true;
         }
 
@@ -390,10 +390,10 @@ public final class ObjectLock implements DepositBox {
                     // already a transaction holding read lock, can acquire read lock
                     LinkedTx linked = _readLock;
                     while (linked != null) {
-                        if (linked.tx == tx) {
+                        if (linked._tx == tx) {
                             throw new IllegalStateException("Transaction: " + tx + " has already hold the write lock on " + _oid + " Acquire shouldn't be called twice");
                         }
-                        linked = linked.next;
+                        linked = linked._next;
                     }
                    
                     // if not already in readLock
@@ -606,10 +606,10 @@ public final class ObjectLock implements DepositBox {
         } else {
             LinkedTx link = _readLock;
             while (link != null) {
-                if (link.tx == tx) {
+                if (link._tx == tx) {
                     return _object;
                 }
-                link = link.next;
+                link = link._next;
             }
             throw new IllegalArgumentException("Transaction tx does not own this lock!");
         }
@@ -651,17 +651,17 @@ public final class ObjectLock implements DepositBox {
                     //_writeLock = null;
                     notifyAll();
                 } else if (_readLock == null) {
-                } else if (_readLock.tx == tx) {
-                    _readLock = _readLock.next;
+                } else if (_readLock._tx == tx) {
+                    _readLock = _readLock._next;
                 } else {
                     LinkedTx link = _readLock;
                     while (link != null) {
-                        if ((link.next != null) && (link.next.tx == tx)) {
-                            link.next = link.next.next;
+                        if ((link._next != null) && (link._next._tx == tx)) {
+                            link._next = link._next._next;
                             notifyAll();
                             return;
                         }
-                        link = link.next;
+                        link = link._next;
 
                     }
                 }
@@ -725,7 +725,7 @@ public final class ObjectLock implements DepositBox {
                     // Already have write lock, can acquire object
                     return;
                 } else if ((_writeLock == null) && 
-                            (_readLock.tx == tx) && (_readLock.next == null)) {
+                            (_readLock._tx == tx) && (_readLock._next == null)) {
                     // Upgrading from read to write, no other locks, can upgrade
                     // Order is important in case thread is stopped in the middle
                     //_readLock = null;
@@ -821,16 +821,16 @@ public final class ObjectLock implements DepositBox {
                 _deleted = false;
                 _invalidated = false;
             } else if (_readLock != null) {
-                if (_readLock.tx == tx) {
-                    _readLock = _readLock.next;
+                if (_readLock._tx == tx) {
+                    _readLock = _readLock._next;
                 } else {
                     LinkedTx read = _readLock;
                     while (read != null) {
-                        if (read.next != null && read.next.tx == tx) {
-                            read.next = read.next.next;
+                        if (read._next != null && read._next._tx == tx) {
+                            read._next = read._next._next;
                             break;
                         } 
-                        read = read.next;
+                        read = read._next;
                     }
                     if (read == null) {
                         throw new IllegalStateException(Messages.message("persist.notOwnerLock") + _oid + "/" + _id + " by " + tx);
@@ -944,10 +944,10 @@ public final class ObjectLock implements DepositBox {
                 }
                 read = waitOn._readLock;
                 while (read != null) {
-                    if (read.tx == waitingTx) {
+                    if (read._tx == waitingTx) {
                         throw new LockNotGrantedException(Messages.message("persist.deadlock"));
                     }
-                    read = read.next;
+                    read = read._next;
                 }
                 waitOn.detectDeadlock(waitingTx, numOfRec - 1);
             }
@@ -961,8 +961,8 @@ public final class ObjectLock implements DepositBox {
 
                 // lock is the blocking transaction. We are only interested in
                 // a blocked transacrtion.
-                waitOn = lock.tx.getWaitOnLock();
-                if ((waitOn != null) && (lock.tx != waitingTx)) {
+                waitOn = lock._tx.getWaitOnLock();
+                if ((waitOn != null) && (lock._tx != waitingTx)) {
                     LinkedTx read;
 
                     if (waitOn._writeLock == waitingTx) {
@@ -970,14 +970,14 @@ public final class ObjectLock implements DepositBox {
                     }
                     read = waitOn._readLock;
                     while (read != null) {
-                        if (read.tx == waitingTx) {
+                        if (read._tx == waitingTx) {
                             throw new LockNotGrantedException(Messages.message("persist.deadlock"));
                         }
-                        read = read.next;
+                        read = read._next;
                     }
                     waitOn.detectDeadlock(waitingTx, numOfRec - 1);
                 }
-                lock = lock.next;
+                lock = lock._next;
             }
         }
     }
@@ -990,34 +990,34 @@ public final class ObjectLock implements DepositBox {
 
         try {
             if (_writeWaiting != null) {
-                if (_writeWaiting.tx == tx) {
-                    _writeWaiting = _writeWaiting.next;
+                if (_writeWaiting._tx == tx) {
+                    _writeWaiting = _writeWaiting._next;
                 } else {
                     LinkedTx wait;
                     
                     wait = _writeWaiting;
-                    while (wait.next != null) {
-                        if (wait.next.tx == tx) {
-                            wait.next = wait.next.next;
+                    while (wait._next != null) {
+                        if (wait._next._tx == tx) {
+                            wait._next = wait._next._next;
                             break;
                         }
-                        wait = wait.next;
+                        wait = wait._next;
                     }
                 }
             }
             if (_readWaiting != null) {
-                if (_readWaiting.tx == tx) {
-                    _readWaiting = _readWaiting.next;
+                if (_readWaiting._tx == tx) {
+                    _readWaiting = _readWaiting._next;
                 } else {
                     LinkedTx wait;
                     
                     wait = _readWaiting;
-                    while (wait.next != null) {
-                        if (wait.next.tx == tx) {
-                            wait.next = wait.next.next;
+                    while (wait._next != null) {
+                        if (wait._next._tx == tx) {
+                            wait._next = wait._next._next;
                             break;
                         }
-                        wait = wait.next;
+                        wait = wait._next;
                     }
                 }
             }
@@ -1044,13 +1044,13 @@ public final class ObjectLock implements DepositBox {
      * write locks or waiting for a read/write lock.
      */
     static class LinkedTx {
-        TransactionContext tx;
+        TransactionContext _tx;
 
-        LinkedTx           next;
+        LinkedTx           _next;
 
         LinkedTx(final TransactionContext tx, final LinkedTx next) {
-            this.tx = tx;
-            this.next = next;
+            this._tx = tx;
+            this._next = next;
         }
     }
 }

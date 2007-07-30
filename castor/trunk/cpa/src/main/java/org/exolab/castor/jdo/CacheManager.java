@@ -62,15 +62,15 @@ import org.exolab.castor.persist.spi.Identity;
  */
 public class CacheManager {
     /** Database instance. */
-    private Database db;
+    private Database _db;
 
     /** Lock engine. */
-    private LockEngine lockEngine;
+    private LockEngine _lockEngine;
 
     /**
      * Currently active transaction context.
      */
-    private TransactionContext transactionContext;
+    private TransactionContext _transactionContext;
 
     
     /**
@@ -80,9 +80,9 @@ public class CacheManager {
      * @param lockEngine Lock engine
      */
     public CacheManager(final Database db, final TransactionContext transactionContext, final LockEngine lockEngine) {
-        this.db = db;
-        this.transactionContext = transactionContext;
-        this.lockEngine = lockEngine;
+        this._db = db;
+        this._transactionContext = transactionContext;
+        this._lockEngine = lockEngine;
     }
 
     /**
@@ -93,8 +93,8 @@ public class CacheManager {
      * @throws PersistenceException If a problem occured resolving the object's cache membership.
      */
     public boolean isCached (final Class cls, final Object identity) throws PersistenceException {
-        if (transactionContext != null && transactionContext.isOpen()) {
-            return transactionContext.isCached(lockEngine.getClassMolder(cls), cls, new Identity(identity));
+        if (_transactionContext != null && _transactionContext.isOpen()) {
+            return _transactionContext.isCached(_lockEngine.getClassMolder(cls), cls, new Identity(identity));
         }
         
         throw new PersistenceException("isCached() has to be called within an active transaction.");
@@ -104,14 +104,14 @@ public class CacheManager {
      * Dump all cached objects to log.
      */
     public void dumpCache() {
-        lockEngine.dumpCache();
+        _lockEngine.dumpCache();
     }
 
     /**
      * Dump cached objects of specific type to log.
      */
     public void dumpCache(final Class cls) {
-        lockEngine.dumpCache(cls);
+        _lockEngine.dumpCache(cls);
     }
 
     /**
@@ -129,7 +129,7 @@ public class CacheManager {
      * contained objects need to be specified.
      */
     public void expireCache() {
-        lockEngine.expireCache();
+        _lockEngine.expireCache();
     }
 
     /**
@@ -174,9 +174,9 @@ public class CacheManager {
      */
     public void expireCache(final Class type, final Object[] identity) throws PersistenceException {
         testForOpenDatabase();
-        ClassMolder molder = lockEngine.getClassMolder(type);
+        ClassMolder molder = _lockEngine.getClassMolder(type);
         for (int i = 0; i < identity.length; i++) {
-            transactionContext.expireCache(molder, new Identity(identity[i]));
+            _transactionContext.expireCache(molder, new Identity(identity[i]));
         }
     }
 
@@ -199,7 +199,7 @@ public class CacheManager {
      */
     public void expireCache(final Class[] type) {
         for (int i = 0; i < type.length; i++) {
-            lockEngine.expireCache(type[i]);
+            _lockEngine.expireCache(type[i]);
         }
     }
     
@@ -209,7 +209,7 @@ public class CacheManager {
      * @throws PersistenceException
      */
     private void testForOpenDatabase() throws PersistenceException {
-        if (db.isClosed()) {
+        if (_db.isClosed()) {
             throw new PersistenceException(Messages.message("jdo.dbClosed"));
         }
     }

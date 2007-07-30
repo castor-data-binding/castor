@@ -60,7 +60,7 @@ public final class Lexer {
 
     private int _pos;
     private String _queryString;
-    private boolean noMoreTokens = false;
+    private boolean _noMoreTokens = false;
 
     /**
      * Creates a lexer which will seperate a string query into a series of 
@@ -79,7 +79,7 @@ public final class Lexer {
      *    otherwise false.
      */
     public boolean hasMoreTokens() {
-        return !noMoreTokens;
+        return !_noMoreTokens;
     }
 
     /**
@@ -101,7 +101,7 @@ public final class Lexer {
         if (_pos < _queryString.length()) {
             curChar = _queryString.charAt(_pos);
         } else {
-            noMoreTokens = true;
+            _noMoreTokens = true;
             return Token.END_OF_QUERY;
         }
       
@@ -112,7 +112,7 @@ public final class Lexer {
             if (_pos < _queryString.length()) {
                 curChar = _queryString.charAt(_pos);
             } else {
-                noMoreTokens = true;
+                _noMoreTokens = true;
                 return Token.END_OF_QUERY;
             }
         }

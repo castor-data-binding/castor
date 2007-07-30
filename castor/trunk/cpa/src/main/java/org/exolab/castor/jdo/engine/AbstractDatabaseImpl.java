@@ -120,7 +120,7 @@ public abstract class AbstractDatabaseImpl implements Database {
     /**
      * {@link CacheManager} instance.
      */
-    private CacheManager cacheManager;
+    private CacheManager _cacheManager;
 
     /**
      * Creates an instance of this class
@@ -330,10 +330,10 @@ public abstract class AbstractDatabaseImpl implements Database {
      * @see org.exolab.castor.jdo.Database#getCacheManager()
      */
     public CacheManager getCacheManager() {
-        if (cacheManager == null) {
-            cacheManager = new CacheManager(this, _ctx, getLockEngine());
+        if (_cacheManager == null) {
+            _cacheManager = new CacheManager(this, _ctx, getLockEngine());
         }
-        return cacheManager;
+        return _cacheManager;
     }
 
     /**

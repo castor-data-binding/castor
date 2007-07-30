@@ -91,14 +91,14 @@ import org.exolab.castor.xml.Unmarshaller;
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class QueryAnalyser {
-    boolean packFrame = false;
+    boolean _packFrame = false;
 
     /**Construct the application*/
     public QueryAnalyser(final String databasename, final String dbconfig) {
         MainFrame frame = new MainFrame(databasename, dbconfig);
         //Validate frames that have preset sizes
         //Pack frames that have useful preferred size info, e.g. from their layout
-        if (packFrame) {
+        if (_packFrame) {
             frame.pack();
         } else {
             frame.validate();
@@ -135,40 +135,40 @@ public class QueryAnalyser {
         /** SerialVersionUID */
         private static final long serialVersionUID = 3524368558606642742L;
 
-        QueryHistory qhistory = new QueryHistory();
-        Mapping mapping = new Mapping();
+        QueryHistory _qhistory = new QueryHistory();
+        Mapping _mapping = new Mapping();
 
-        JPanel contentPane;
-        BorderLayout borderLayout1 = new BorderLayout();
-        DefaultTableModel model;
+        JPanel _contentPane;
+        BorderLayout _borderLayout1 = new BorderLayout();
+        DefaultTableModel _model;
 
-        JDOManager jdo;
-        String databasename;
-        String dbconfig;
-        JTabbedPane TabbedPane = new JTabbedPane();
-        JToolBar toolbar = new JToolBar();
-        JButton btnNext = new JButton();
-        JButton btnExit = new JButton();
-        JPanel sqlresult = new JPanel();
-        JTextPane SQLPane = new JTextPane();
-        BorderLayout borderLayout3 = new BorderLayout();
-        JTextPane oqlquery = new JTextPane();
-        JPanel QueryPanel = new JPanel();
-        BorderLayout borderLayout2 = new BorderLayout();
-        JScrollPane ResultScrollpane = new JScrollPane();
-        JTable ResultTable = new JTable();
-        JButton execute = new JButton();
-        JScrollPane ErrorScrollPane = new JScrollPane();
-        JPanel ErrorPanel = new JPanel();
-        JTextPane oqlerror = new JTextPane();
-        BorderLayout borderLayout4 = new BorderLayout();
-        JButton btnPrevious = new JButton();
-        JLabel statusBar = new JLabel();
+        JDOManager _jdo;
+        String _dbName;
+        String _dbConf;
+        JTabbedPane _tabbedPane = new JTabbedPane();
+        JToolBar _toolbar = new JToolBar();
+        JButton _btnNext = new JButton();
+        JButton _btnExit = new JButton();
+        JPanel _sqlresult = new JPanel();
+        JTextPane _sqlPane = new JTextPane();
+        BorderLayout _borderLayout3 = new BorderLayout();
+        JTextPane _oqlquery = new JTextPane();
+        JPanel _queryPanel = new JPanel();
+        BorderLayout _borderLayout2 = new BorderLayout();
+        JScrollPane _resultScrollpane = new JScrollPane();
+        JTable _resultTable = new JTable();
+        JButton _execute = new JButton();
+        JScrollPane _errorScrollPane = new JScrollPane();
+        JPanel _errorPanel = new JPanel();
+        JTextPane _oqlerror = new JTextPane();
+        BorderLayout _borderLayout4 = new BorderLayout();
+        JButton _btnPrevious = new JButton();
+        JLabel _statusBar = new JLabel();
 
         /**Construct the frame*/
         public MainFrame(final String _databasename, final String _dbconfig) {
-            databasename = _databasename;
-            dbconfig = _dbconfig;
+            _dbName = _databasename;
+            _dbConf = _dbconfig;
 
             enableEvents(AWTEvent.WINDOW_EVENT_MASK);
             try {
@@ -182,88 +182,88 @@ public class QueryAnalyser {
         private void jbInit() throws Exception    {
             ClassLoader cl = ClassLoader.getSystemClassLoader();
             //setIconImage(Toolkit.getDefaultToolkit().createImage(testframe.class.getResource("[Your Icon]")));
-            contentPane = (JPanel) this.getContentPane();
-            contentPane.setLayout(borderLayout1);
+            _contentPane = (JPanel) this.getContentPane();
+            _contentPane.setLayout(_borderLayout1);
             this.setSize(new Dimension(600, 400));
             this.setTitle("Castor OQL-Ouery Analyser");
             //ResultScrollpane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
             //ResultScrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-            sqlresult.setLayout(borderLayout3);
-            oqlquery.setFont(new java.awt.Font("Dialog", 0, 12));
-            oqlquery.setToolTipText("create Query here");
-            QueryPanel.setLayout(borderLayout2);
-            ResultScrollpane.setToolTipText("");
-            ResultTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-            btnExit.setMaximumSize(new Dimension(50, 39));
-            btnExit.setMinimumSize(new Dimension(50, 39));
-            btnExit.setActionCommand("");
-            btnExit.setIcon(new ImageIcon(cl.getResource("org/exolab/castor/gui/images/exit.gif")));
-            btnExit.setMnemonic('0');
+            _sqlresult.setLayout(_borderLayout3);
+            _oqlquery.setFont(new java.awt.Font("Dialog", 0, 12));
+            _oqlquery.setToolTipText("create Query here");
+            _queryPanel.setLayout(_borderLayout2);
+            _resultScrollpane.setToolTipText("");
+            _resultTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+            _btnExit.setMaximumSize(new Dimension(50, 39));
+            _btnExit.setMinimumSize(new Dimension(50, 39));
+            _btnExit.setActionCommand("");
+            _btnExit.setIcon(new ImageIcon(cl.getResource("org/exolab/castor/gui/images/exit.gif")));
+            _btnExit.setMnemonic('0');
 
-            btnExit.addActionListener(new java.awt.event.ActionListener() {
+            _btnExit.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(final ActionEvent e) {
                         exit();
                 }
             });
 
-            execute.setMaximumSize(new Dimension(50, 39));
-            execute.setMinimumSize(new Dimension(50, 39));
-            execute.setActionCommand("");
-            execute.setIcon(new ImageIcon(cl.getResource("org/exolab/castor/gui/images/fire.gif")));
-            execute.setMnemonic('0');
-            execute.addActionListener(new java.awt.event.ActionListener() {
+            _execute.setMaximumSize(new Dimension(50, 39));
+            _execute.setMinimumSize(new Dimension(50, 39));
+            _execute.setActionCommand("");
+            _execute.setIcon(new ImageIcon(cl.getResource("org/exolab/castor/gui/images/fire.gif")));
+            _execute.setMnemonic('0');
+            _execute.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(final ActionEvent e) {
                     execute_actionPerformed(e);
                 }
             });
-            ErrorPanel.setLayout(borderLayout4);
-            btnPrevious.addActionListener(new java.awt.event.ActionListener() {
+            _errorPanel.setLayout(_borderLayout4);
+            _btnPrevious.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(final ActionEvent e) {
                     btnPrevious_actionPerformed(e);
                 }
             });
-            btnNext.setMaximumSize(new Dimension(50, 39));
-            btnNext.setMinimumSize(new Dimension(50, 39));
-            btnNext.setActionCommand("");
-            btnNext.setIcon(new ImageIcon(cl.getResource("org/exolab/castor/gui/images/arrw04e.gif")));
-            btnNext.setMnemonic('0');
-            btnNext.addActionListener(new java.awt.event.ActionListener() {
+            _btnNext.setMaximumSize(new Dimension(50, 39));
+            _btnNext.setMinimumSize(new Dimension(50, 39));
+            _btnNext.setActionCommand("");
+            _btnNext.setIcon(new ImageIcon(cl.getResource("org/exolab/castor/gui/images/arrw04e.gif")));
+            _btnNext.setMnemonic('0');
+            _btnNext.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(final ActionEvent e) {
                     btnNext_actionPerformed(e);
                 }
             });
-            btnPrevious.setMaximumSize(new Dimension(50, 39));
-            btnPrevious.setMinimumSize(new Dimension(50, 39));
-            btnPrevious.setToolTipText("Goto previous Query");
-            btnPrevious.setIcon(new ImageIcon(cl.getResource("org/exolab/castor/gui/images/arrw04d.gif")));
-            btnPrevious.setMnemonic('0');
-            contentPane.add(TabbedPane, BorderLayout.CENTER);
-            contentPane.add(toolbar, BorderLayout.NORTH);
+            _btnPrevious.setMaximumSize(new Dimension(50, 39));
+            _btnPrevious.setMinimumSize(new Dimension(50, 39));
+            _btnPrevious.setToolTipText("Goto previous Query");
+            _btnPrevious.setIcon(new ImageIcon(cl.getResource("org/exolab/castor/gui/images/arrw04d.gif")));
+            _btnPrevious.setMnemonic('0');
+            _contentPane.add(_tabbedPane, BorderLayout.CENTER);
+            _contentPane.add(_toolbar, BorderLayout.NORTH);
 
-            toolbar.add(btnExit, null);
-            toolbar.add(execute, null);
-            toolbar.add(btnPrevious, null);
-            toolbar.add(btnNext, null);
-            contentPane.add(statusBar, BorderLayout.SOUTH);
-            TabbedPane.add(QueryPanel, "OQL Query");
-            QueryPanel.add(oqlquery, BorderLayout.CENTER);
-            TabbedPane.add(ResultScrollpane, "Resultset");
-            TabbedPane.add(ErrorScrollPane, "Stacktrace");
-            ErrorScrollPane.getViewport().add(ErrorPanel, null);
-            ErrorPanel.add(oqlerror, BorderLayout.CENTER);
-            TabbedPane.add(sqlresult, "SQL");
-            sqlresult.add(SQLPane, BorderLayout.CENTER);
+            _toolbar.add(_btnExit, null);
+            _toolbar.add(_execute, null);
+            _toolbar.add(_btnPrevious, null);
+            _toolbar.add(_btnNext, null);
+            _contentPane.add(_statusBar, BorderLayout.SOUTH);
+            _tabbedPane.add(_queryPanel, "OQL Query");
+            _queryPanel.add(_oqlquery, BorderLayout.CENTER);
+            _tabbedPane.add(_resultScrollpane, "Resultset");
+            _tabbedPane.add(_errorScrollPane, "Stacktrace");
+            _errorScrollPane.getViewport().add(_errorPanel, null);
+            _errorPanel.add(_oqlerror, BorderLayout.CENTER);
+            _tabbedPane.add(_sqlresult, "SQL");
+            _sqlresult.add(_sqlPane, BorderLayout.CENTER);
 
 
 
-            ResultScrollpane.getViewport().add(ResultTable, null);
+            _resultScrollpane.getViewport().add(_resultTable, null);
             // Open the Database
             openDB();
-            statusBar.setText("Database " + jdo.getDatabaseName() + " waiting for Queries");
+            _statusBar.setText("Database " + _jdo.getDatabaseName() + " waiting for Queries");
             // Load the query history
             loadHistory();
-            oqlquery.setText(qhistory.GetCurrentQuery());
+            _oqlquery.setText(_qhistory.GetCurrentQuery());
         }
         /**Overridden so we can exit when window is closed*/
         protected void processWindowEvent(final WindowEvent e) {
@@ -286,16 +286,16 @@ public class QueryAnalyser {
             boolean firstObject = true;
             Object o;
             Vector properties = null;
-            model = new DefaultTableModel();
+            _model = new DefaultTableModel();
 
             try {
-                statusBar.setText("performing Query");
+                _statusBar.setText("performing Query");
                 // clear results
                 clearTabs();
 
                 //ResultScrollpane.getViewport().remove(ResultScrollpane.getViewport().getComponent(0));
                 // create a new conec
-                Database db = jdo.getDatabase();
+                Database db = _jdo.getDatabase();
                 db.begin();
 
                  /**
@@ -303,10 +303,10 @@ public class QueryAnalyser {
                     * maybe it's important lo loglso querys that won't work
                     * for this reason it's logged before creation
                     */
-                qhistory.addQuery(oqlquery.getText());
+                _qhistory.addQuery(_oqlquery.getText());
 
 
-                oql = db.getOQLQuery(oqlquery.getText());
+                oql = db.getOQLQuery(_oqlquery.getText());
 
 
                 // and execute it
@@ -314,35 +314,35 @@ public class QueryAnalyser {
                 r = oql.execute(Database.READONLY);
                 Date endtime = new Date();
                 // write the status bar
-                statusBar.setText("Query successful, Time: " + (endtime.getTime() - starttime.getTime()) + " ms");
+                _statusBar.setText("Query successful, Time: " + (endtime.getTime() - starttime.getTime()) + " ms");
 
                 // get SQL statement via backdoor
-                SQLPane.setText(((OQLQueryImpl) oql).getSQL());
+                _sqlPane.setText(((OQLQueryImpl) oql).getSQL());
 
 
                 while (r.hasMore()) {
                     o = r.next();
                     if (firstObject) {
                         properties = getProperties(o);
-                        FillTableHeader(properties, model);
+                        FillTableHeader(properties, _model);
                         firstObject = false;
                     }
-                    model.addRow(fillRow(properties, o));
+                    _model.addRow(fillRow(properties, o));
 
                 }
                 db.commit();
 
-                ResultTable.setModel(model);
-                ResultTable.repaint();
-                TabbedPane.setSelectedComponent(ResultScrollpane);
+                _resultTable.setModel(_model);
+                _resultTable.repaint();
+                _tabbedPane.setSelectedComponent(_resultScrollpane);
 
             } catch (Exception e) {
                 // Print error into pane and status bar
                 java.io.StringWriter sw = new    java.io.StringWriter();
                 e.printStackTrace(new java.io.PrintWriter(sw));
-                oqlerror.setText(sw.getBuffer().toString());
+                _oqlerror.setText(sw.getBuffer().toString());
                 // focus to errortab
-                statusBar.setText(e.getMessage());
+                _statusBar.setText(e.getMessage());
                 //TabbedPane.setSelectedComponent(ErrorScrollPane);
 
             }
@@ -395,10 +395,10 @@ public class QueryAnalyser {
 
         private void openDB() {
             try {
-                JDOManager.loadConfiguration (dbconfig, ClassLoader.getSystemClassLoader());
-                jdo = JDOManager.createInstance(databasename);
+                JDOManager.loadConfiguration (_dbConf, ClassLoader.getSystemClassLoader());
+                _jdo = JDOManager.createInstance(_dbName);
                 //only to try a connection
-                jdo.getDatabase();
+                _jdo.getDatabase();
             } catch (MappingException pe) {
                 pe.printStackTrace();
                 System.exit(1);
@@ -411,21 +411,21 @@ public class QueryAnalyser {
          * Delete all content in the tabbed pane
          */
         private void clearTabs() {
-            oqlerror.setText("");
-            SQLPane.setText("");
-            ResultTable.setModel(new DefaultTableModel());
+            _oqlerror.setText("");
+            _sqlPane.setText("");
+            _resultTable.setModel(new DefaultTableModel());
         }
 
         void btnPrevious_actionPerformed(final ActionEvent e) {
             clearTabs();
-            oqlquery.setText(qhistory.getPreviousQuery());
-            TabbedPane.setSelectedComponent(QueryPanel);
+            _oqlquery.setText(_qhistory.getPreviousQuery());
+            _tabbedPane.setSelectedComponent(_queryPanel);
         }
 
         void btnNext_actionPerformed(final ActionEvent e) {
             clearTabs();
-            oqlquery.setText(qhistory.getNextQuery());
-            TabbedPane.setSelectedComponent(QueryPanel);
+            _oqlquery.setText(_qhistory.getNextQuery());
+            _tabbedPane.setSelectedComponent(_queryPanel);
         }
 
         public void saveHistory() {
@@ -433,8 +433,8 @@ public class QueryAnalyser {
             try {
                 FileWriter writer = new FileWriter("queryhistory.xml");
                 Marshaller marshaller = new Marshaller(writer);
-                marshaller.setMapping(mapping);
-                marshaller.marshal(qhistory);
+                marshaller.setMapping(_mapping);
+                marshaller.marshal(_qhistory);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -444,11 +444,11 @@ public class QueryAnalyser {
             try {
                 Unmarshaller unmarshaller = new Unmarshaller(Class.forName("org.exolab.castor.gui.QueryHistory"));
                 ClassLoader cl = ClassLoader.getSystemClassLoader();
-                mapping.loadMapping(cl.getResource("org/exolab/castor/gui/Queryanlyser.xml"));
-                unmarshaller.setMapping(mapping);
+                _mapping.loadMapping(cl.getResource("org/exolab/castor/gui/Queryanlyser.xml"));
+                unmarshaller.setMapping(_mapping);
 
                 FileReader reader = new FileReader("queryhistory.xml");
-                qhistory = (QueryHistory) unmarshaller.unmarshal(reader);
+                _qhistory = (QueryHistory) unmarshaller.unmarshal(reader);
             } catch (Exception e) {
                 e.printStackTrace();
                 // if there is no file, it's ok also

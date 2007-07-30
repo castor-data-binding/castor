@@ -574,13 +574,13 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
                                 if (Modifier.isStatic(mods)) {
                                     // create individual SQLTypeConverter
                                     convertorTo = new Convertor(sqlType, internalFieldType) {
-                                        private Method method = null;
+                                        private Method _method = null;
                                         public Object convert(final Object obj, final String param) {
                                             try {
-                                                if (method == null) {
-                                                    method = toType().getMethod(VALUE_OF, STRING_ARG);
+                                                if (_method == null) {
+                                                    _method = toType().getMethod(VALUE_OF, STRING_ARG);
                                                 }
-                                                return method.invoke(toType(), new Object[] {(String) obj});
+                                                return _method.invoke(toType(), new Object[] {(String) obj});
                                             } catch (Exception ex) {
                                                 return null;
                                             }
