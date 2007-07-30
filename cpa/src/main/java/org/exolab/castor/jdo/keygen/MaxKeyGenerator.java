@@ -153,11 +153,11 @@ public final class MaxKeyGenerator implements KeyGenerator {
             rs = stmt.executeQuery();
 
             if (rs.next()) {
-                if (_sqlType == Types.INTEGER)
+                if (_sqlType == Types.INTEGER) {
                     identity = new Integer(rs.getInt(1) + 1);
-                else if (_sqlType == Types.BIGINT)
+                } else if (_sqlType == Types.BIGINT) {
                     identity = new Long(rs.getLong(1) + 1);
-                else {
+                } else {
                     BigDecimal max = rs.getBigDecimal(1);
                     if (max == null) {
                         identity = ONE;
@@ -166,12 +166,13 @@ public final class MaxKeyGenerator implements KeyGenerator {
                     }
                 }
             } else {
-                if (_sqlType == Types.INTEGER)
+                if (_sqlType == Types.INTEGER) {
                     identity = new Integer(1);
-                else if (_sqlType == Types.BIGINT)
+                } else if (_sqlType == Types.BIGINT) {
                     identity = new Long(1);
-                else
+                } else {
                     identity = ONE;
+                }
             }
         } catch (SQLException ex) {
             throw new PersistenceException(Messages.format(

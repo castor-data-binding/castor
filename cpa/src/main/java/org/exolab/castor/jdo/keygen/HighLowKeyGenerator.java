@@ -136,19 +136,19 @@ public class HighLowKeyGenerator implements KeyGenerator {
         supportsSqlType(sqlType);
 
         _seqTable = params.getProperty(SEQ_TABLE);
-        if (_seqTable == null) 
-            throw new MappingException(Messages.format("mapping.KeyGenParamNotSet",
-                                        SEQ_TABLE, getClass().getName()));
+        if (_seqTable == null) {
+            throw new MappingException(Messages.format("mapping.KeyGenParamNotSet", SEQ_TABLE, getClass().getName()));
+        }
 
         _seqKey = params.getProperty(SEQ_KEY);
-        if (_seqKey == null) 
-            throw new MappingException(Messages.format("mapping.KeyGenParamNotSet",
-                                        SEQ_KEY, getClass().getName()));
+        if (_seqKey == null) {
+            throw new MappingException(Messages.format("mapping.KeyGenParamNotSet", SEQ_KEY, getClass().getName()));
+        }
 
         _seqValue = params.getProperty(SEQ_VALUE);
-        if (_seqValue == null)
-            throw new MappingException(Messages.format("mapping.KeyGenParamNotSet",
-                                        SEQ_VALUE, getClass().getName()));
+        if (_seqValue == null) {
+            throw new MappingException(Messages.format("mapping.KeyGenParamNotSet", SEQ_VALUE, getClass().getName()));
+        }
 
         factorStr = params.getProperty(GRAB_SIZE, "10");
         try {
@@ -156,9 +156,9 @@ public class HighLowKeyGenerator implements KeyGenerator {
         } catch (NumberFormatException except) {
             _grabSizeI = 0;
         }
-        if (_grabSizeI <= 0) 
-            throw new MappingException(Messages.format("mapping.wrongKeyGenParam",
-                                        factorStr, GRAB_SIZE, getClass().getName()));
+        if (_grabSizeI <= 0) {
+            throw new MappingException(Messages.format("mapping.wrongKeyGenParam", factorStr, GRAB_SIZE, getClass().getName()));
+        }
         _grabSizeD = new BigDecimal(_grabSizeI);
         _sameConnection = "true".equals(params.getProperty(SAME_CONNECTION));
         _global = "true".equals(params.getProperty(GLOBAL));
@@ -199,12 +199,13 @@ public class HighLowKeyGenerator implements KeyGenerator {
         last = _lastValues.get(internalTableName);
         max = _maxValues.get(internalTableName);
         if (last != null) {    
-            if (_sqlType == Types.INTEGER)
+            if (_sqlType == Types.INTEGER) {
                 last = new Integer(((Integer) last).intValue() + 1);
-            else if (_sqlType == Types.BIGINT)
+            } else if (_sqlType == Types.BIGINT) {
                 last = new Long(((Long) last).longValue() + 1);
-            else
+            } else {
                 last = ((BigDecimal) last).add(ONE);
+            }
         } else {
             QueryExpression query;
             String sql;
@@ -216,8 +217,9 @@ public class HighLowKeyGenerator implements KeyGenerator {
 
             try {
                 // the separate connection should be committed/rolled back at this point
-                if (!_sameConnection)
+                if (!_sameConnection) {
                     conn.rollback();
+                }
 
                 // Create SQL sentence of the form
                 // "SELECT seq_val FROM seq_table WHERE seq_key='table'"
@@ -333,14 +335,15 @@ public class HighLowKeyGenerator implements KeyGenerator {
                     }
                 }
                 if (!_sameConnection) {
-                    if (success)
+                    if (success) {
                         conn.commit();
-                    else {
+                    } else {
                         conn.rollback();
                     }
                 }
-                if (!success)
+                if (!success) {
                     throw new PersistenceException(Messages.format("persist.keyGenFailed", getClass().getName()));
+                }
             } catch (SQLException ex) {
                 if (!_sameConnection) {
                     try {
@@ -369,12 +372,13 @@ public class HighLowKeyGenerator implements KeyGenerator {
             }
         }
 
-        if (_sqlType == Types.INTEGER)
+        if (_sqlType == Types.INTEGER) {
             inRange = (((Integer) last).intValue() < ((Integer) max).intValue());
-        else if (_sqlType == Types.BIGINT)
+        } else if (_sqlType == Types.BIGINT) {
             inRange = (((Long) last).longValue() < ((Long) max).longValue());
-        else
+        } else {
             inRange = (((BigDecimal) last).compareTo((BigDecimal) max) < 0);
+        }
 
         if (inRange) {
             _lastValues.put(internalTableName, last);

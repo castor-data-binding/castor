@@ -177,8 +177,9 @@ public final class LockEngine {
             HashSet processedClasses = new HashSet();
             HashSet freshClasses = new HashSet();
             // copy things into an arraylist
-            while (enumeration.hasMoreElements())
+            while (enumeration.hasMoreElements()) {
                 freshClasses.add(enumeration.nextElement());
+            }
 
             // iterates through all the ClassMolders in the LockEngine.
             // We first create a TypeInfo for all the base class (ie not extends
@@ -292,8 +293,9 @@ public final class LockEngine {
     public ClassMolder getClassMolder(final Class cls) {
         TypeInfo info = (TypeInfo) _typeInfo.get(cls.getName());
         if (info != null) {
-            if (!info.molder.isDependent()) 
+            if (!info.molder.isDependent()) {
                 return info.molder;
+            }
         }
         return null;
     }
@@ -321,8 +323,9 @@ public final class LockEngine {
 
     public Persistence getPersistence(final Class cls) {
         ClassMolder molder = getClassMolder(cls);
-        if (molder != null)
+        if (molder != null) {
             return molder.getPersistence();
+        }
         return null;
     }
 
@@ -369,8 +372,9 @@ public final class LockEngine {
         short      action;
 
         typeInfo = (TypeInfo) _typeInfo.get(internaloid.getName());
-        if (typeInfo == null)
+        if (typeInfo == null) {
             throw new ClassNotPersistenceCapableException(Messages.format("persist.classNotPersistenceCapable", internaloid.getName()));
+        }
 
         ClassMolder molder = internaloid.getMolder();
         AccessMode accessMode = molder.getAccessMode(suggestedAccessMode);
@@ -381,10 +385,11 @@ public final class LockEngine {
 
         try {
 
-            if ((accessMode == AccessMode.Exclusive) || (accessMode == AccessMode.DbLocked))
+            if ((accessMode == AccessMode.Exclusive) || (accessMode == AccessMode.DbLocked)) {
                 action = ObjectLock.ACTION_WRITE;
-            else
+            } else {
                 action = ObjectLock.ACTION_READ;
+            }
 
             lock = typeInfo.acquire(internaloid, tx, action, timeout);
 
@@ -408,8 +413,9 @@ public final class LockEngine {
 
             lockedOid.setStamp(stamp);
 
-            if (lockedOid != null)
+            if (lockedOid != null) {
                 internaloid = lockedOid;
+            }
 
             if (_log.isDebugEnabled()) {
                 if (proposedObject.isExpanded()) {
@@ -427,7 +433,9 @@ public final class LockEngine {
             }
             throw e;
         } finally {
-            if (lock != null) lock.confirm(tx, succeed);
+            if (lock != null) {
+                lock.confirm(tx, succeed);
+            }
         }
         return internaloid;
     }
@@ -447,8 +455,9 @@ public final class LockEngine {
         TypeInfo   typeInfo;
         typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
 
-        if (typeInfo == null)
-           throw new ClassNotPersistenceCapableException(Messages.format("persist.classNotPersistenceCapable", oid.getName()));
+        if (typeInfo == null) {
+            throw new ClassNotPersistenceCapableException(Messages.format("persist.classNotPersistenceCapable", oid.getName()));
+        }
         typeInfo.molder.markCreate(tx, oid, null, object);
     }
 
@@ -483,8 +492,9 @@ public final class LockEngine {
         boolean succeed;
 
         typeInfo = (TypeInfo) _typeInfo.get(object.getClass().getName());
-        if (typeInfo == null)
+        if (typeInfo == null) {
             throw new ClassNotPersistenceCapableException(Messages.format("persist.classNotPersistenceCapable", object.getClass().getName()));
+        }
             
         lock = null;
 
@@ -523,8 +533,9 @@ public final class LockEngine {
                 //typeInfo.delete( oid, tx );
                 throw except;
             } finally {
-                if (lock != null) 
+                if (lock != null) {
                     lock.confirm(tx, succeed);
+                }
             }
         }
         // identity is null
@@ -554,8 +565,9 @@ public final class LockEngine {
             e.printStackTrace();
             throw new PersistenceException(Messages.format("persist.nested", "Key Generator Failure. Duplicated Identity is generated!"));
         } finally {
-            if (lock != null)
+            if (lock != null) {
                 lock.confirm(tx, succeed);
+            }
         }
     }
 
@@ -653,8 +665,9 @@ public final class LockEngine {
         // If the object is new, don't try to load it from the cache
 
         typeInfo = (TypeInfo) _typeInfo.get(internaloid.getName());
-        if (typeInfo == null)
+        if (typeInfo == null) {
             throw new ClassNotPersistenceCapableException(Messages.format("persist.classNotPersistenceCapable", internaloid.getName()));
+        }
 
         //accessMode = typeInfo.molder.getAccessMode( suggestedAccessMode );
         //write = ( accessMode == AccessMode.Exclusive || accessMode == AccessMode.DbLocked );
@@ -681,10 +694,11 @@ public final class LockEngine {
 
             boolean creating = typeInfo.molder.update(tx, internaloid, lock, object, suggestedAccessMode);
 
-            if (creating)
+            if (creating) {
                 succeed = false;
-            else
+            } else {
                 succeed = true;
+            }
 
             return creating;
 
@@ -702,8 +716,9 @@ public final class LockEngine {
             // This is equivalent to object not existing
             throw new ObjectNotFoundException(Messages.format("persist.objectNotFound", internaloid.getName(), internaloid.getIdentity()), except);
         } finally {
-            if (lock != null)
+            if (lock != null) {
                 lock.confirm(tx, succeed);
+            }
         }
     }
 
@@ -997,8 +1012,9 @@ public final class LockEngine {
         ObjectLock lock;
  
         typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
-        if (typeInfo == null)
+        if (typeInfo == null) {
             throw new ClassNotPersistenceCapableException(Messages.format("persist.classNotPersistenceCapable", oid.getName()));
+        }
    
         succeed = false;
         lock = null;
@@ -1016,7 +1032,9 @@ public final class LockEngine {
         } catch (PersistenceException e) {
             throw e;
         } finally {
-            if (lock != null) lock.confirm(tx, succeed);
+            if (lock != null) {
+                lock.confirm(tx, succeed);
+            }
         }
  
         return succeed;

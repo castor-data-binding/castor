@@ -117,17 +117,17 @@ private ClassLoader _classLoader;
       try {
         userClass = Types.typeFromName(getClass().getClassLoader(), userDefinedType);
 
-        if (userClass.isPrimitive())
-          userClass = Types.typeFromPrimitive(userClass);
-
+        if (userClass.isPrimitive()) {
+            userClass = Types.typeFromPrimitive(userClass);
+        }
       } catch (Exception e) {
         throw new QueryException("The class " + userClass + " could not be found.");
       }
 
       if (!systemClass.isAssignableFrom(userClass)) {
-        if (!(java.lang.Number.class.isAssignableFrom(userClass) &&
-                 java.lang.Number.class.isAssignableFrom(systemClass)))
-          throw new QueryException("The class " + userClass + " is incompatible with the system defined class " + systemType);
+        if (!(java.lang.Number.class.isAssignableFrom(userClass) && java.lang.Number.class.isAssignableFrom(systemClass))) {
+            throw new QueryException("The class " + userClass + " is incompatible with the system defined class " + systemType);
+        }
       }
 
       _class = userClass;
@@ -157,8 +157,9 @@ private ClassLoader _classLoader;
    *    not convertable to the original systemType.
    */
   public void check(final String userDefinedType, final String systemType) throws QueryException {
-    if (!_userDefinedType.equals(userDefinedType))
-      throw new QueryException("Different types were specified for the same numbered parameter.");
+    if (!_userDefinedType.equals(userDefinedType)) {
+        throw new QueryException("Different types were specified for the same numbered parameter.");
+    }
 
     if (!systemType.equals(_systemType)) {
       Class systemClass = null;
@@ -176,8 +177,9 @@ private ClassLoader _classLoader;
           throw new QueryException("The class " + userClass + " could not be found.");
         }
 
-        if (!systemClass.isAssignableFrom(userClass))
-          throw new QueryException("The class " + userDefinedType + " is incompatible with the system defined class " + systemType);
+        if (!systemClass.isAssignableFrom(userClass)) {
+            throw new QueryException("The class " + userDefinedType + " is incompatible with the system defined class " + systemType);
+        }
       }
     }
   }

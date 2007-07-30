@@ -128,11 +128,12 @@ public class OQLQueryImpl implements Query, OQLQuery {
      */
     public void bind(final Object value) {
         Object internalValue = value;
-        if ((_expr == null) && (_spCall == null))
+        if ((_expr == null) && (_spCall == null)) {
             throw new IllegalStateException("Must create query before using it");
-        if (_fieldNum == _paramInfo.size())
-            throw new IllegalArgumentException("Only " + _paramInfo.size() +
-                                                " fields in this query");
+        }
+        if (_fieldNum == _paramInfo.size()) {
+            throw new IllegalArgumentException("Only " + _paramInfo.size() + " fields in this query");
+        }
         try {
             ParamInfo info = (ParamInfo) _paramInfo.get(new Integer(_fieldNum + 1));
 
@@ -188,8 +189,9 @@ public class OQLQueryImpl implements Query, OQLQuery {
                     }
                 }
             }
-            if (_bindValues == null)
+            if (_bindValues == null) {
                 _bindValues = new Object[ _bindTypes.length ];
+            }
 
             _bindValues[_fieldNum++] = internalValue;
         } catch (IllegalArgumentException except) {
@@ -258,8 +260,9 @@ public class OQLQueryImpl implements Query, OQLQuery {
         ParseTreeNode parseTree = parser.getParseTree();
 
         _dbEngine = ((AbstractDatabaseImpl) _database).getLockEngine();
-        if (_dbEngine == null)
+        if (_dbEngine == null) {
             throw new QueryException("Could not get a persistence engine");
+        }
 
         TransactionContext trans = ((AbstractDatabaseImpl) _database).getTransaction();
         DbMetaInfo dbInfo = trans.getConnectionInfo(_dbEngine);
@@ -326,8 +329,9 @@ public class OQLQueryImpl implements Query, OQLQuery {
                         sb = new StringBuffer();
                         for (int j = i + 1; j < as; j++) {
                             char c = oql.charAt(j);
-                            if (!Character.isDigit(c))
+                            if (!Character.isDigit(c)) {
                                 break;
+                            }
                             sb.append(c);
                         }
                         sql.append('?'); // replace "$" with "?"
@@ -368,8 +372,9 @@ public class OQLQueryImpl implements Query, OQLQuery {
                     sb = new StringBuffer();
                     for (int j = i + 1; j < rightParen; j++) {
                         char c = oql.charAt(j);
-                        if (!Character.isDigit(c))
+                        if (!Character.isDigit(c)) {
                             break;
+                        }
                         sb.append(c);
                     }
                     if (sb.length() > 0) {
@@ -388,16 +393,18 @@ public class OQLQueryImpl implements Query, OQLQuery {
             }
             for (int i = 0; i < paramCnt; i++) {
                 sql.append('?');
-                if (i < paramCnt - 1)
+                if (i < paramCnt - 1) {
                     sql.append(',');
+                }
             }
             sql.append(')');
         }
         _spCall = sql.toString();
         _projectionType = ParseTreeWalker.PARENT_OBJECT;
         _bindTypes = new Class[ paramCnt ];
-        for (int i = 0; i < paramCnt; i++)
-            _bindTypes[ i ] = Object.class;
+        for (int i = 0; i < paramCnt; i++) {
+            _bindTypes[i] = Object.class;
+        }
 
         objType = oql.substring(as + 4).trim();
         if (objType.length() == 0) {
@@ -409,8 +416,9 @@ public class OQLQueryImpl implements Query, OQLQuery {
             throw new QueryException("Could not find class " + objType);
         }
         _dbEngine = ((AbstractDatabaseImpl) _database).getLockEngine();
-        if ((_dbEngine == null) || (_dbEngine.getPersistence(_objClass) == null))
+        if ((_dbEngine == null) || (_dbEngine.getPersistence(_objClass) == null)) {
             throw new QueryException("Could not find an engine supporting class " + objType);
+        }
     }
 
     /**
@@ -449,8 +457,9 @@ public class OQLQueryImpl implements Query, OQLQuery {
         org.exolab.castor.persist.QueryResults      results;
         SQLEngine         engine;
 
-        if ((_expr == null) && (_spCall == null))
+        if ((_expr == null) && (_spCall == null)) {
             throw new IllegalStateException("Must create query before using it");
+        }
         if (_results != null) {
             _results.close();
         }
@@ -467,8 +476,9 @@ public class OQLQueryImpl implements Query, OQLQuery {
                             _query = engine.createCall(_spCall, _bindTypes);
                         }
                         if (_bindValues != null) {
-                            for (int i = 0; i < _bindValues.length; ++i)
+                            for (int i = 0; i < _bindValues.length; ++i) {
                                 _query.setParameter(i, _bindValues[i]);
+                            }
                         }
                     } catch (QueryException except) {
                         throw new QueryException(except.getMessage());
@@ -476,10 +486,11 @@ public class OQLQueryImpl implements Query, OQLQuery {
                     results = ((AbstractDatabaseImpl) _database).getTransaction().query(_dbEngine, _query, accessMode, scrollable);
                     _fieldNum = 0;
 
-                    if (_projectionType == ParseTreeWalker.PARENT_OBJECT)
-                      _results = new OQLEnumeration(results);
-                    else
-                      _results = new OQLEnumeration(results, _projectionInfo, _clsDesc);
+                    if (_projectionType == ParseTreeWalker.PARENT_OBJECT) {
+                        _results = new OQLEnumeration(results);
+                    } else {
+                        _results = new OQLEnumeration(results, _projectionInfo, _clsDesc);
+                    }
                     break;
 
                 case ParseTreeWalker.DEPENDANT_VALUE:
@@ -599,17 +610,20 @@ public class OQLQueryImpl implements Query, OQLQuery {
         public boolean hasMore(final boolean skipError) throws PersistenceException {
             Object identity;
 
-            if (_lastObject != null)
+            if (_lastObject != null) {
                 return true;
-            if (_results == null)
+            }
+            if (_results == null) {
                 return false;
+            }
             try {
                 identity = _results.nextIdentity();
                 while (identity != null) {
                     try {
                         _lastObject = _results.fetch();
-                        if (_lastObject != null)
+                        if (_lastObject != null) {
                             break;
+                        }
                     } catch (ObjectNotFoundException except) {
                         // Object not found, deleted, etc. Just skip to next one.
                         identity = _results.nextIdentity();
@@ -617,8 +631,9 @@ public class OQLQueryImpl implements Query, OQLQuery {
                         // Error occured. If not throwing exception just skip to
                         // next object.
                         identity = _results.nextIdentity();
-                        if (!skipError)
+                        if (!skipError) {
                             throw except;
+                        }
                     }
                 }
                 if (identity == null) {
@@ -628,8 +643,9 @@ public class OQLQueryImpl implements Query, OQLQuery {
             } catch (PersistenceException except) {
                 _results.close();
                 _results = null;
-                if (!skipError)
+                if (!skipError) {
                     throw except;
+                }
             }
             return (_lastObject != null);
         }
@@ -662,27 +678,34 @@ public class OQLQueryImpl implements Query, OQLQuery {
                 Object result = _lastObject;
 
                 _lastObject = null;
-                if (_pathInfo == null) return result;
+                if (_pathInfo == null) {
+                    return result;
+                }
                 return followPath(result);
             }
-            if (_results == null)
+            if (_results == null) {
                 throw new NoSuchElementException();
+            }
             try {
                 identity = _results.nextIdentity();
                 while (identity != null) {
                     try {
                         Object result = _results.fetch();
 
-                        if (result != null)
-                            if (_pathInfo == null) return result;
+                        if (result != null) {
+                            if (_pathInfo == null) {
+                                return result;
+                            }
+                        }
                         return followPath(result);
                     } catch (ObjectNotFoundException except) {
                         // Object not found, deleted, etc. Just skip to next one.
                     } catch (PersistenceException except) {
                         // Error occured. If not throwing exception just skip to
                         // next object.
-                        if (!skipError)
+                        if (!skipError) {
                             throw except;
+                        }
                     }
                     identity = _results.nextIdentity();
                 }
@@ -693,8 +716,9 @@ public class OQLQueryImpl implements Query, OQLQuery {
             } catch (PersistenceException except) {
                 _results.close();
                 _results = null;
-                if (!skipError)
+                if (!skipError) {
                     throw except;
+                }
             }
             throw new NoSuchElementException();
         }

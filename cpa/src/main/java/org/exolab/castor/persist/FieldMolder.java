@@ -186,14 +186,17 @@ public class FieldMolder {
         return _loader;
     }*/
     public short getFieldType() {
-        if (!isPersistanceCapable())
-            return isSerializable() 
-                   ? SERIALIZABLE 
-                   : PRIMITIVE;
+        if (!isPersistanceCapable()) {
+            return isSerializable() ? SERIALIZABLE : PRIMITIVE;
+        }
  
-        if (!isMulti()) return PERSISTANCECAPABLE;
+        if (!isMulti()) {
+            return PERSISTANCECAPABLE;
+        }
 
-        if (!isManyToMany()) return ONE_TO_MANY;
+        if (!isManyToMany()) {
+            return ONE_TO_MANY;
+        }
 
         return MANY_TO_MANY;
     }
@@ -210,7 +213,9 @@ public class FieldMolder {
         return _manyToManyLoader != null;
     }
     public boolean isDependent() {
-        if (_fMold == null) return false;
+        if (_fMold == null) {
+            return false;
+        }
         ClassMolder extendPath = _eMold;
         ClassMolder depends = _fMold.getDepends();
         while (extendPath != null) {
@@ -279,23 +284,26 @@ public class FieldMolder {
             //if ( _handler != null )
             //    value = _handler.getValue( object );
             //else
-            if (rf._field != null)
+            if (rf._field != null) {
                 return rf._field.get(internalObject);
-            else if (rf._getMethod != null) {
-                if (rf._getSequence != null)
+            } else if (rf._getMethod != null) {
+                if (rf._getSequence != null) {
                     for (int i = 0; i < rf._getSequence.length; i++) {
                         internalObject = rf._getSequence[i].invoke(internalObject, (Object[]) null);
-                        if (internalObject == null)
+                        if (internalObject == null) {
                             break;
+                        }
                     }
+                }
                 // If field has 'has' method, false means field is null
                 // and do not attempt to call getValue. Otherwise,
-                if ((internalObject == null) ||
-                        ((rf._hasMethod != null) && !((Boolean) rf._hasMethod.invoke(internalObject, (Object[]) null)).booleanValue()))
+                if ((internalObject == null) || ((rf._hasMethod != null) && !((Boolean) rf._hasMethod.invoke(internalObject, (Object[]) null)).booleanValue())) {
                     return null;
+                }
                 return rf._getMethod.invoke(internalObject, (Object[]) null);
-            } else
+            } else {
                 return null;
+            }
         } catch (IllegalAccessException except) {
             // This should never happen
             throw new DataObjectAccessException(Messages.format("mapping.schemaChangeNoAccess", toString()), except);
@@ -315,11 +323,13 @@ public class FieldMolder {
         }
         
         try {
-            if (rf._addMethod == null)
+            if (rf._addMethod == null) {
                 throw new DataObjectAccessException(Messages.format("mapping.addMethodNotDefined", this.getName()));
+            }
 
-            if (value == null)
+            if (value == null) {
                 throw new NullPointerException("Adding null value is not allowed");
+            }
 
             rf._addMethod.invoke(object, new Object[] {value});
         } catch (IllegalArgumentException e) {
@@ -343,7 +353,7 @@ public class FieldMolder {
                 rf._field.set(internalObject, (value == null) ? _default : value);
             } else if (rf._setMethod != null) {
 
-                if (rf._getSequence != null)
+                if (rf._getSequence != null) {
                     for (int i = 0; i < rf._getSequence.length; i++) {
                         Object last;
 
@@ -352,17 +362,20 @@ public class FieldMolder {
                         if (internalObject == null) {
                             // if the value is not null, we must instantiate
                             // the object in the sequence
-                            if ((value == null) || (rf._setSequence[i] == null))
+                            if ((value == null) || (rf._setSequence[i] == null)) {
                                 break;
+                            }
                             internalObject = Types.newInstance(rf._getSequence[i].getReturnType());
                             rf._setSequence[i].invoke(last, new Object[] {internalObject});
                         }
                     }
+                }
                 if (internalObject != null) {
-                    if ((value == null) && (rf._deleteMethod != null))
+                    if ((value == null) && (rf._deleteMethod != null)) {
                         rf._deleteMethod.invoke(internalObject, (Object[]) null);
-                    else
+                    } else {
                         rf._setMethod.invoke(internalObject, new Object[] {(value == null) ? _default : value});
+                    }
                 }
             } else {
                 throw new DataObjectAccessException("no method to set value for field: " + _fType + " in class: " + _eMold);
@@ -371,9 +384,10 @@ public class FieldMolder {
             // If this is a problem, identity it someplace else.
         } catch (IllegalArgumentException except) {
             // Graceful way of dealing with unwrapping exception
-            if (value == null) throw new DataObjectAccessException(Messages.format("mapping.typeConversionNull", toString()));
-            throw new DataObjectAccessException(Messages.format("mapping.typeConversion",
-                                                            toString(), value.getClass().getName()));
+            if (value == null) {
+                throw new DataObjectAccessException(Messages.format("mapping.typeConversionNull", toString()));
+            }
+            throw new DataObjectAccessException(Messages.format("mapping.typeConversion", toString(), value.getClass().getName()));
         } catch (IllegalAccessException except) {
             // This should never happen
             throw new DataObjectAccessException(Messages.format("mapping.schemaChangeNoAccess", toString()), except);
@@ -389,14 +403,17 @@ public class FieldMolder {
      * represented by this FieldMolder
      */
     public boolean isDefault(final Object value) {
-        if (_default == value)
+        if (_default == value) {
             return true;
+        }
 
-        if (_default == null)
+        if (_default == null) {
             return false;
+        }
 
-        if (_default.equals(value))
+        if (_default.equals(value)) {
             return true;
+        }
 
         return false;
     }
@@ -411,8 +428,9 @@ public class FieldMolder {
          */
 
         for (int i = 0; i < info.length; i++) {
-            if (info[i].name.equals(coll))
+            if (info[i].name.equals(coll)) {
                 return info[i].type;
+            }
         }
         return null;
         /*
@@ -499,20 +517,23 @@ public class FieldMolder {
                 _check = true;
             }
 
-            if (FIELD_TYPE_SERIALIZABLE.equals(fieldMap.getType()))
+            if (FIELD_TYPE_SERIALIZABLE.equals(fieldMap.getType())) {
                 _serial = true;
+            }
 
-            if (fieldMap.getSql() == null)
+            if (fieldMap.getSql() == null) {
                 _store = false;
-            else if (fieldMap.getSql().getManyTable() != null)
+            } else if (fieldMap.getSql().getManyTable() != null) {
                 _store = false;
-            else if (fieldMap.getSql().getName().length == 0)
+            } else if (fieldMap.getSql().getName().length == 0) {
                 _store = false;
-            else
+            } else {
                 _store = true;
+            }
 
-            if (fieldMap.getSql() != null)
+            if (fieldMap.getSql() != null) {
                 _readonly = fieldMap.getSql().getReadOnly();
+            }
 
             // check if comparator is specified, and if so, use it
             if (fieldMap.getComparator() != null) {
@@ -530,8 +551,9 @@ public class FieldMolder {
                 _transient = isSQLTransient;  
             }
             
-            if (fieldMap.getCollection() != null)
+            if (fieldMap.getCollection() != null) {
                 _multi = true;
+            }
 
             // Set collection type
             if (fieldMap.getCollection() != null) {
@@ -570,8 +592,9 @@ public class FieldMolder {
             // ssa, FIXME : Shoudln't we have a ref to the Classloader used
             // instead of asking it to the newly created class ?
             _defaultReflectService._loader = javaClass.getClassLoader();
-            if (null != _defaultReflectService._loader)
+            if (null != _defaultReflectService._loader) {
                 _reflectServices.put (_defaultReflectService._loader, this._defaultReflectService);
+            }
 
             String fieldName = fieldMap.getName();
             String fieldType = fieldMap.getType();
@@ -590,13 +613,13 @@ public class FieldMolder {
                 // No accessor, map field directly.
                 Class  fieldClass = (_colClass != null) ? _colClass : null;
                 _defaultReflectService._field = findField(javaClass, fieldName, fieldClass);
-                if (_defaultReflectService._field == null)
+                if (_defaultReflectService._field == null) {
                     throw new MappingException(Messages.format("mapping.fieldNotAccessible", fieldName, javaClass.getName()));
+                }
                 _defaultReflectService._fClass = _defaultReflectService._field.getType();
-                if ((_defaultReflectService._field.getModifiers() != Modifier.PUBLIC) &&
-                     (_defaultReflectService._field.getModifiers() != (Modifier.PUBLIC | Modifier.VOLATILE)))
-                    throw new MappingException(Messages.format("mapping.fieldNotAccessible", _defaultReflectService._field.getName(),
-                                            _defaultReflectService._field.getDeclaringClass().getName()));
+                if ((_defaultReflectService._field.getModifiers() != Modifier.PUBLIC) && (_defaultReflectService._field.getModifiers() != (Modifier.PUBLIC | Modifier.VOLATILE))) {
+                    throw new MappingException(Messages.format("mapping.fieldNotAccessible", _defaultReflectService._field.getName(), _defaultReflectService._field.getDeclaringClass().getName()));
+                }
             } else if ((fieldMap.getGetMethod() == null) && (fieldMap.getSetMethod() == null)) {
 
                 // Container object, map field to fields of the container
@@ -611,8 +634,9 @@ public class FieldMolder {
                 try {
                     while (true) {
                         point = name.indexOf('.');
-                        if (point < 0)
+                        if (point < 0) {
                             break;
+                        }
                         last = javaClass;
                         
                         if (fieldMap.getType().compareTo("boolean") == 0) {
@@ -634,10 +658,9 @@ public class FieldMolder {
                         name = name.substring(point + 1);
                         // Make sure method is not abstract/static
                         // (note: Class.getMethod() returns only public methods).
-                        if (((method.getModifiers() & Modifier.ABSTRACT) != 0) ||
-                             ((method.getModifiers() & Modifier.STATIC) != 0))
-                            throw new MappingException("mapping.accessorNotAccessible",
-                                                        methodName, javaClass.getName());
+                        if (((method.getModifiers() & Modifier.ABSTRACT) != 0) || ((method.getModifiers() & Modifier.STATIC) != 0)) {
+                            throw new MappingException("mapping.accessorNotAccessible", methodName, javaClass.getName());
+                        }
                         getSeq.add(method);
                         javaClass = method.getReturnType();
                         // setter;   Note: javaClass already changed, use "last"
@@ -649,9 +672,9 @@ public class FieldMolder {
 
                         try {
                             method = last.getMethod(methodName, new Class[] {javaClass});
-                            if (((method.getModifiers() & Modifier.ABSTRACT) != 0) ||
-                                 ((method.getModifiers() & Modifier.STATIC) != 0))
+                            if (((method.getModifiers() & Modifier.ABSTRACT) != 0) || ((method.getModifiers() & Modifier.STATIC) != 0)) {
                                 method = null;
+                            }
                         } catch (Exception except) {
                             method = null;
                         }
@@ -692,8 +715,9 @@ public class FieldMolder {
                 
                 // update fClass, because we can't tell between primitive
                 // and primitive wrapper from the mapping
-                if (_colClass == null)
+                if (_colClass == null) {
                     _defaultReflectService._fClass = _defaultReflectService._getMethod.getReturnType();
+                }
 
                 _defaultReflectService._setMethod = findAccessor(javaClass, METHOD_SET_PREFIX + capitalize(name), methodClass, false);
 
@@ -701,17 +725,19 @@ public class FieldMolder {
                     _defaultReflectService._addMethod = findAccessor(javaClass, METHOD_ADD_PREFIX + capitalize(name), declaredClass, false);
 
                     // look again, but this time without a trailing 's'
-                    if ((_defaultReflectService._addMethod == null) && (name.endsWith("s")))
+                    if ((_defaultReflectService._addMethod == null) && (name.endsWith("s"))) {
                         _defaultReflectService._addMethod = findAccessor(javaClass, METHOD_ADD_PREFIX + capitalize(name).substring(0, name.length() - 1), declaredClass, false);
+                    }
 
                     // if add<FieldName>() has been found, set _addable to true 
-                    if (_defaultReflectService._addMethod != null)
+                    if (_defaultReflectService._addMethod != null) {
                         _addable = true;
+                    }
                 }
                 
-                if ((_defaultReflectService._setMethod == null) && (_defaultReflectService._addMethod == null))
-                    throw new MappingException("mapping.accessorNotFound",
-                            METHOD_SET_PREFIX + "/" + METHOD_ADD_PREFIX + capitalize(name), declaredClass, javaClass.getName());
+                if ((_defaultReflectService._setMethod == null) && (_defaultReflectService._addMethod == null)) {
+                    throw new MappingException("mapping.accessorNotFound", METHOD_SET_PREFIX + "/" + METHOD_ADD_PREFIX + capitalize(name), declaredClass, javaClass.getName());
+                }
                 
             } else {
 
@@ -729,13 +755,14 @@ public class FieldMolder {
                             = findAccessor(javaClass, fieldMap.getGetMethod(), methodClass, true);
                     }
 
-                    if (_defaultReflectService._getMethod == null)
-                        throw new MappingException("mapping.accessorNotFound",
-                                fieldMap.getGetMethod(), methodClass, javaClass.getName());
+                    if (_defaultReflectService._getMethod == null) {
+                        throw new MappingException("mapping.accessorNotFound", fieldMap.getGetMethod(), methodClass, javaClass.getName());
+                    }
 
                     // set/reset the fClass to actual field class
-                    if (_colClass == null)
+                    if (_colClass == null) {
                         _defaultReflectService._fClass = _defaultReflectService._getMethod.getReturnType();
+                    }
 
                 } else {
                     throw new MappingException("mapping.getMethodMappingNotFound",
@@ -752,7 +779,9 @@ public class FieldMolder {
                         if ((_defaultReflectService._setMethod == null) && !fieldMap.getLazy()) {
                             _defaultReflectService._addMethod = 
                                 findAccessor(javaClass, fieldMap.getSetMethod(), declaredClass, false);
-                            if (_defaultReflectService._addMethod != null) _addable = true;
+                            if (_defaultReflectService._addMethod != null) {
+                                _addable = true;
+                            }
                         }
 
                     } else {
@@ -761,17 +790,15 @@ public class FieldMolder {
                     }
 
 
-                    if (_defaultReflectService._setMethod == null && 
-                            _defaultReflectService._addMethod == null)
-                            throw new MappingException("mapping.accessorNotFound",
-                                    fieldMap.getSetMethod(), methodClass, javaClass
-                                            .getName());
+                    if (_defaultReflectService._setMethod == null && _defaultReflectService._addMethod == null) {
+                        throw new MappingException("mapping.accessorNotFound", fieldMap.getSetMethod(), methodClass, javaClass.getName());
+                    }
 
-                        if (_defaultReflectService._fClass == null)
+                        if (_defaultReflectService._fClass == null) {
                             _defaultReflectService._fClass = _defaultReflectService._setMethod.getParameterTypes()[0];
+                        }
                     } else {
-                        throw new MappingException("mapping.setMethodMappingNotFound",
-                                                    (_colClass != null) ? _colClass : methodClass, javaClass.getName());
+                        throw new MappingException("mapping.setMethodMappingNotFound", (_colClass != null) ? _colClass : methodClass, javaClass.getName());
                 }
             }
 
@@ -806,13 +833,13 @@ public class FieldMolder {
 
                 try {
                     hasMethod = javaClass.getMethod(METHOD_HAS_PREFIX + capitalize(fieldMap.getName()), (Class[]) null);
-                    if (((hasMethod.getModifiers() & Modifier.PUBLIC) == 0) ||
-                         ((hasMethod.getModifiers() & Modifier.STATIC) != 0))
+                    if (((hasMethod.getModifiers() & Modifier.PUBLIC) == 0) || ((hasMethod.getModifiers() & Modifier.STATIC) != 0)) {
                         hasMethod = null;
+                    }
                     try {
-                        if (((hasMethod.getModifiers() & Modifier.PUBLIC) == 0) ||
-                             ((hasMethod.getModifiers() & Modifier.STATIC) != 0))
+                        if (((hasMethod.getModifiers() & Modifier.PUBLIC) == 0) || ((hasMethod.getModifiers() & Modifier.STATIC) != 0)) {
                             deleteMethod = null;
+                        }
                         deleteMethod = javaClass.getMethod(METHOD_DELETE_PREFIX + capitalize(fieldMap.getName()), (Class[]) null);
                     } catch (Exception except) {
                         // no explicit exception handling 
@@ -838,8 +865,9 @@ public class FieldMolder {
         // If the field is of a primitive type we use the default value
         _default = Types.getDefault(_defaultReflectService._fClass);
         // make the default to null for wrappers of primitives
-        if (!_defaultReflectService._fClass.isPrimitive())
+        if (!_defaultReflectService._fClass.isPrimitive()) {
             _default = null;
+        }
 
     }
 
@@ -862,13 +890,14 @@ public class FieldMolder {
             // Look up the field based on its name, make sure it's only modifier
             // is public. If a type was specified, match the field type.
             field = javaClass.getField(fieldName);
-            if ((field.getModifiers() != Modifier.PUBLIC) &&
-                 (field.getModifiers() != (Modifier.PUBLIC | Modifier.VOLATILE)))
+            if ((field.getModifiers() != Modifier.PUBLIC) && (field.getModifiers() != (Modifier.PUBLIC | Modifier.VOLATILE))) {
                 throw new MappingException("mapping.fieldNotAccessible", fieldName, javaClass.getName());
-            if (internalFieldType == null)
+            }
+            if (internalFieldType == null) {
                 internalFieldType = Types.typeFromPrimitive(field.getType());
-            else if (Types.typeFromPrimitive(internalFieldType) != Types.typeFromPrimitive(field.getType()))
+            } else if (Types.typeFromPrimitive(internalFieldType) != Types.typeFromPrimitive(field.getType())) {
                 throw new MappingException("mapping.fieldTypeMismatch", field, internalFieldType.getName());
+            }
             return field;
         } catch (NoSuchFieldException except) {
             // no explicit exception handling
@@ -926,13 +955,13 @@ public class FieldMolder {
                         if (internalFieldType.isInterface() ||
                             ((internalFieldType.getModifiers() & Modifier.ABSTRACT) != 0) ||
                             (internalFieldType == java.io.Serializable.class)) {
-                            if (!internalFieldType.isAssignableFrom(returnType))
-                            throw new MappingException("mapping.accessorReturnTypeMismatch",
-                                                        method, internalFieldType.getName());
+                            if (!internalFieldType.isAssignableFrom(returnType)) {
+                                throw new MappingException("mapping.accessorReturnTypeMismatch", method, internalFieldType.getName());
+                            }
                         } else {
-                            if (!returnType.isAssignableFrom(internalFieldType))
-                            throw new MappingException("mapping.accessorReturnTypeMismatch",
-                                                        method, internalFieldType.getName());
+                            if (!returnType.isAssignableFrom(internalFieldType)) {
+                                throw new MappingException("mapping.accessorReturnTypeMismatch", method, internalFieldType.getName());
+                            }
                         }
                     }      
              } else {
@@ -964,7 +993,9 @@ public class FieldMolder {
                      for (i = 0; i < methods.length; ++i) {
                          if (methods[i].getName().equals(methodName)) {
                              parameterTypes = methods[i].getParameterTypes();
-                             if (parameterTypes.length != 1) continue;
+                             if (parameterTypes.length != 1) {
+                                 continue;
+                             }
                              
                              Class paramType = Types.typeFromPrimitive(parameterTypes[0]);
                              
@@ -984,16 +1015,17 @@ public class FieldMolder {
                              }
                          }
                      }
-                     if (method == null)
+                     if (method == null) {
                          return null;
+                     }
                  }
              }
              // Make sure method is public and not static.
              // (note: Class.getMethod() returns only public methods).
              //if ( ( method.getModifiers() & Modifier.ABSTRACT ) != 0 ||
-             if ((method.getModifiers() & Modifier.STATIC) != 0)
-                 throw new MappingException("mapping.accessorNotAccessible",
-                                             methodName, javaClass.getName());
+             if ((method.getModifiers() & Modifier.STATIC) != 0) {
+                 throw new MappingException("mapping.accessorNotAccessible", methodName, javaClass.getName());
+             }
              return method;
          } catch (MappingException except) {
              throw except;
@@ -1007,8 +1039,9 @@ public class FieldMolder {
         char first;
 
         first = name.charAt(0);
-        if (Character.isUpperCase(first))
+        if (Character.isUpperCase(first)) {
             return name;
+        }
         return Character.toUpperCase(first) + name.substring(1);
     }
 
@@ -1021,8 +1054,9 @@ public class FieldMolder {
      */
     private ReflectService getContextReflectService(final ClassLoader loader) {
 
-        if ((null == loader) || (this._defaultReflectService._loader == loader))
+        if ((null == loader) || (this._defaultReflectService._loader == loader)) {
             return this._defaultReflectService;
+        }
 
         ReflectService resultReflectService = (ReflectService) _reflectServices.get(loader);
         if (null == resultReflectService) {
@@ -1086,8 +1120,9 @@ public class FieldMolder {
          * constructs a Field instance with the current ClassLoader
          */
         private Field cloneField(final Field originalField) {
-            if (null == originalField)
+            if (null == originalField) {
                 return null;
+            }
 
             Field resultField = null;
             try {
@@ -1103,8 +1138,9 @@ public class FieldMolder {
          * constructs a Method instance with the current ClassLoader
          */
         private Method cloneMethod(final Method originalMethod) {
-            if (null == originalMethod)
+            if (null == originalMethod) {
                 return null;
+            }
 
             Method resultMethod = null;
             try {
@@ -1128,8 +1164,9 @@ public class FieldMolder {
          * constructs an Array of Method instances with the current ClassLoader
          */
         private Method[] cloneMethods(final Method[] originalMethods) {
-            if (null == originalMethods)
+            if (null == originalMethods) {
                 return null;
+            }
 
             Method [] resultMethods = new Method[originalMethods.length];
             for (int i = 0; i < originalMethods.length; i++) {
@@ -1142,10 +1179,12 @@ public class FieldMolder {
          * constructs a <code>Class</code> instance with the current ClassLoader
          */
         private Class cloneClass(final Class originalClass) {
-            if (null == originalClass)
+            if (null == originalClass) {
                 return null;
-            if (originalClass.isPrimitive())
+            }
+            if (originalClass.isPrimitive()) {
                 return originalClass;
+            }
 
             return loadClass(originalClass.getName());
         }

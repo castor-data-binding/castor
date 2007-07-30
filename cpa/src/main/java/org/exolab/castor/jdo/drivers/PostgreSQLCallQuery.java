@@ -96,8 +96,9 @@ final class PostgreSQLCallQuery implements PersistenceQuery {
 
         query.append(JDBCSyntax.SELECT);
         for (int i = 0; i < fields.length; i++) {
-            if (i > 0) 
+            if (i > 0) {
                 query.append(JDBCSyntax.COLUMN_SEPARATOR);
+            }
             query.append(fields[i]);
             query.append("(");
             query.append(call);
@@ -157,8 +158,9 @@ final class PostgreSQLCallQuery implements PersistenceQuery {
                     ++count;
                 }
             }
-            for (int i = 0; i < _values.length; ++i) 
+            for (int i = 0; i < _values.length; ++i) {
                 _values[ i ] = null;
+            }
             _stmt.execute();
             _rs = _stmt.executeQuery();
         } catch (SQLException except) {

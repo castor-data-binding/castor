@@ -123,7 +123,9 @@ public class SQLRelationLoader {
         int count = 0;
         sb.append("SELECT ");
         for (int i = 0; i < left.length; i++) {
-            if (i > 0) sb.append(",");
+            if (i > 0) {
+                sb.append(",");
+            }
             sb.append(left[i]);
             count++;
         }
@@ -136,7 +138,9 @@ public class SQLRelationLoader {
         sb.append(tableName);
         sb.append(" WHERE ");
         for (int i = 0; i < left.length; i++) {
-            if (i > 0) sb.append(" AND ");
+            if (i > 0) {
+                sb.append(" AND ");
+            }
             sb.append(left[i]);
             sb.append("=?");
         }
@@ -154,7 +158,9 @@ public class SQLRelationLoader {
         sb.append(tableName);
         sb.append(" (");
         for (int i = 0; i < left.length; i++) {
-            if (i > 0) sb.append(",");
+            if (i > 0) {
+                sb.append(",");
+            }
             sb.append(left[i]);
             count++;
         }
@@ -165,7 +171,9 @@ public class SQLRelationLoader {
         }
         sb.append(") VALUES (");
         for (int i = 0; i < count; i++) {
-            if (i > 0) sb.append(",");
+            if (i > 0) {
+                sb.append(",");
+            }
             sb.append("?");
         }
         sb.append(")");
@@ -178,7 +186,9 @@ public class SQLRelationLoader {
         sb.append(tableName);
         sb.append(" WHERE ");
         for (int i = 0; i < left.length; i++) {
-            if (i > 0) sb.append(" AND ");
+            if (i > 0) {
+                sb.append(" AND ");
+            }
             sb.append(left[i]);
             sb.append("=?");
         }
@@ -196,7 +206,9 @@ public class SQLRelationLoader {
         sb.append(tableName);
         sb.append(" WHERE ");
         for (int i = 0; i < left.length; i++) {
-            if (i > 0) sb.append(" AND ");
+            if (i > 0) {
+                sb.append(" AND ");
+            }
             sb.append(left[i]);
             sb.append("=?");
         }

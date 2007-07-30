@@ -71,12 +71,15 @@ public final class SQLServerQueryExpression extends JDBCQueryExpression {
 
         sql = new StringBuffer();
         sql.append(JDBCSyntax.SELECT);
-        if (_distinct)
-          sql.append(JDBCSyntax.DISTINCT);
+        if (_distinct) {
+            sql.append(JDBCSyntax.DISTINCT);
+        }
 
-        if (_limit != null)
-          if (_limit.equals("") == false)
-            sql.append("TOP ").append(_limit).append(" ");
+        if (_limit != null) {
+            if (_limit.equals("") == false) {
+                sql.append("TOP ").append(_limit).append(" ");
+            }
+        }
 
         sql.append(getColumnList());
 
@@ -93,10 +96,12 @@ public final class SQLServerQueryExpression extends JDBCQueryExpression {
                 sql.append(_factory.quoteName(tableName) + " " +
                             _factory.quoteName(tableAlias));
             }
-            if (lock)
+            if (lock) {
                 sql.append(" HOLDLOCK ");
-            if (enumeration.hasMoreElements())
+            }
+            if (enumeration.hasMoreElements()) {
                 sql.append(JDBCSyntax.TABLE_SEPARATOR);
+            }
         }
 
         first = true;
@@ -108,27 +113,31 @@ public final class SQLServerQueryExpression extends JDBCQueryExpression {
             if (first) {
                 sql.append(JDBCSyntax.WHERE);
                 first = false;
-            } else
+            } else {
                 sql.append(JDBCSyntax.AND);
+            }
 
             join = (Join) _joins.elementAt(i);
             for (int j = 0; j < join.leftColumns.length; ++j) {
-                if (j > 0)
+                if (j > 0) {
                     sql.append(JDBCSyntax.AND);
+                }
                 sql.append(_factory.quoteName(join.leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
                                                 join.leftColumns[j]));
-                if (join.outer)
+                if (join.outer) {
                     sql.append("*=");
-                else
+                } else {
                     sql.append(OP_EQUALS);
+                }
                 sql.append(_factory.quoteName(join.rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
                                                 join.rightColumns[j]));
             }
         }
         first = addWhereClause(sql, first);
 
-        if (_order != null)
-          sql.append(JDBCSyntax.ORDER_BY).append(_order);
+        if (_order != null) {
+            sql.append(JDBCSyntax.ORDER_BY).append(_order);
+        }
 
         return sql.toString();
     }

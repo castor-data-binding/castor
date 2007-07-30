@@ -92,8 +92,9 @@ public class Complex {
             for (int i = 0; i < _size; i++) {
                 _hashCode += ((_all[i] == null) ? 0 : _all[i].hashCode());
             }
-        } else
+        } else {
             throw new IllegalArgumentException("Invalid Complex object");
+        }
     }
 
     public Complex(final Object o1, final Object o2) {
@@ -107,8 +108,9 @@ public class Complex {
 
     public Complex(final Object[] o) {
         // try to avoid creation of another object
-        if ((o == null) || (o.length == 0))
+        if ((o == null) || (o.length == 0)) {
             throw new NullPointerException();
+        }
 
         if (o.length == 1) {
             _size = 1;
@@ -138,8 +140,9 @@ public class Complex {
 
     public Complex(final Complex complex) {
         // try to avoid creation of another object
-        if ((complex == null) || (complex.size() == 0))
+        if ((complex == null) || (complex.size() == 0)) {
             throw new NullPointerException();
+        }
 
         int dim = complex.size();
 
@@ -199,8 +202,9 @@ public class Complex {
     public boolean hasSomePartsNull() {
 
         for (int i = 0; i < _size; i++) {
-            if (get(i) == null)
+            if (get(i) == null) {
                 return true;
+            }
         }
         return false;
     }
@@ -209,10 +213,12 @@ public class Complex {
     }
     public Object get(final int i) {
 
-        if ((i >= _size) || (i < 0))
+        if ((i >= _size) || (i < 0)) {
             throw new ArrayIndexOutOfBoundsException();
-        if (_size <= 2)
-          return i == 0  ? _first : _second;
+        }
+        if (_size <= 2) {
+            return i == 0  ? _first : _second;
+        }
 
         return _all[i];
     }
@@ -225,14 +231,16 @@ public class Complex {
         StringBuffer sb = new StringBuffer();
         sb.append("<");
         for (int i = 0; i < _size; i++) {
-            if (i != 0) 
+            if (i != 0) {
                 sb.append(",");
+            }
             Object obj = get(i);
             sb.append(obj);
-            if (obj != null)
+            if (obj != null) {
                 sb.append("(").append(obj.hashCode()).append(")");
-            else
+            } else {
                 sb.append ("(N/A)");
+            }
         }
         sb.append(">");
         return sb.toString();

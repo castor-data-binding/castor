@@ -98,8 +98,9 @@ public final class SapDbFactory extends OracleFactory {
             buffer.append(token);
         }
 
-        if (addQuote)
+        if (addQuote) {
             buffer.append('\"');
+        }
 
         return buffer.toString();
     }

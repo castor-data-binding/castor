@@ -92,8 +92,9 @@ public class PersistenceInfoGroup {
     }
     
     public LockEngine getLockEngine() {
-        if ((engines != null) && (engines.length >= 1))
+        if ((engines != null) && (engines.length >= 1)) {
             return engines[0];
+        }
         return null;
     }
 }
