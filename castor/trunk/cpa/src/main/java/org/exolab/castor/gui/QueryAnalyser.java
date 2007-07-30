@@ -166,9 +166,9 @@ public class QueryAnalyser {
         JLabel _statusBar = new JLabel();
 
         /**Construct the frame*/
-        public MainFrame(final String _databasename, final String _dbconfig) {
-            _dbName = _databasename;
-            _dbConf = _dbconfig;
+        public MainFrame(final String dbName, final String dbConf) {
+            _dbName = dbName;
+            _dbConf = dbConf;
 
             enableEvents(AWTEvent.WINDOW_EVENT_MASK);
             try {
