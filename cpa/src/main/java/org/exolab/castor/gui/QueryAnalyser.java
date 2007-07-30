@@ -214,13 +214,13 @@ public class QueryAnalyser {
             _execute.setMnemonic('0');
             _execute.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(final ActionEvent e) {
-                    execute_actionPerformed(e);
+                    executeActionPerformed(e);
                 }
             });
             _errorPanel.setLayout(_borderLayout4);
             _btnPrevious.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(final ActionEvent e) {
-                    btnPrevious_actionPerformed(e);
+                    btnPreviousActionPerformed(e);
                 }
             });
             _btnNext.setMaximumSize(new Dimension(50, 39));
@@ -230,7 +230,7 @@ public class QueryAnalyser {
             _btnNext.setMnemonic('0');
             _btnNext.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(final ActionEvent e) {
-                    btnNext_actionPerformed(e);
+                    btnNextActionPerformed(e);
                 }
             });
             _btnPrevious.setMaximumSize(new Dimension(50, 39));
@@ -263,7 +263,7 @@ public class QueryAnalyser {
             _statusBar.setText("Database " + _jdo.getDatabaseName() + " waiting for Queries");
             // Load the query history
             loadHistory();
-            _oqlquery.setText(_qhistory.GetCurrentQuery());
+            _oqlquery.setText(_qhistory.getCurrentQuery());
         }
         /**Overridden so we can exit when window is closed*/
         protected void processWindowEvent(final WindowEvent e) {
@@ -274,7 +274,7 @@ public class QueryAnalyser {
             }
         }
 
-        void execute_actionPerformed(final ActionEvent e) {
+        void executeActionPerformed(final ActionEvent e) {
             performQuery();
         }
 
@@ -324,7 +324,7 @@ public class QueryAnalyser {
                     o = r.next();
                     if (firstObject) {
                         properties = getProperties(o);
-                        FillTableHeader(properties, _model);
+                        fillTableHeader(properties, _model);
                         firstObject = false;
                     }
                     _model.addRow(fillRow(properties, o));
@@ -365,7 +365,7 @@ public class QueryAnalyser {
             return properties;
         }
 
-        private void FillTableHeader(final Vector properties, final DefaultTableModel model) {
+        private void fillTableHeader(final Vector properties, final DefaultTableModel model) {
             Iterator i = properties.iterator();
             Method m;
             while (i.hasNext()) {
@@ -416,13 +416,13 @@ public class QueryAnalyser {
             _resultTable.setModel(new DefaultTableModel());
         }
 
-        void btnPrevious_actionPerformed(final ActionEvent e) {
+        void btnPreviousActionPerformed(final ActionEvent e) {
             clearTabs();
             _oqlquery.setText(_qhistory.getPreviousQuery());
             _tabbedPane.setSelectedComponent(_queryPanel);
         }
 
-        void btnNext_actionPerformed(final ActionEvent e) {
+        void btnNextActionPerformed(final ActionEvent e) {
             clearTabs();
             _oqlquery.setText(_qhistory.getNextQuery());
             _tabbedPane.setSelectedComponent(_queryPanel);
