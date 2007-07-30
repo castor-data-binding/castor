@@ -59,12 +59,12 @@ public final class SQLStatementLookup {
 
     private void buildStatement() throws MappingException {
         try {
-            SQLColumnInfo[] _ids = _engine.getColumnInfoForIdentities();
+            SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
             QueryExpression query = _factory.getQueryExpression();
 
             // initalize lookup query
-            for (int i = 0; i < _ids.length; i++) {
-                query.addParameter(_mapTo, _ids[i].getName(), QueryExpression.OP_EQUALS);
+            for (int i = 0; i < ids.length; i++) {
+                query.addParameter(_mapTo, ids[i].getName(), QueryExpression.OP_EQUALS);
             }
             _statement = query.getStatement(true);
       } catch (QueryException except) {

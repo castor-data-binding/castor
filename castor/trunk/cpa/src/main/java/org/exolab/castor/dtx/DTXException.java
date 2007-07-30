@@ -90,13 +90,13 @@ public class DTXException extends Exception {
      */
 
     public String getMessage() {
-        String _msg = null;
+        String message = null;
         if (_message != null) {
-            _msg = _message;
+            message = _message;
         } else if (_except != null) {
-            _msg = "Nested exception (" + _except.getClass().getName() + "):" + _except.getMessage();
+            message = "Nested exception (" + _except.getClass().getName() + "):" + _except.getMessage();
         }
-        return _msg;
+        return message;
     }
 
     /**

@@ -342,10 +342,10 @@ public final class SQLStatementStore {
             StringBuffer sql = new StringBuffer(pos * 4);
             sql.append(_statementDirty);
             
-            SQLFieldInfo[] _fields = _engine.getInfo();
-            for (int i = _fields.length - 1; i >= 0; i--) {
-                if (_fields[i].isStore() && _fields[i].isDirtyCheck()) {
-                    SQLColumnInfo[] columns = _fields[i].getColumnInfo();
+            SQLFieldInfo[] fields = _engine.getInfo();
+            for (int i = fields.length - 1; i >= 0; i--) {
+                if (fields[i].isStore() && fields[i].isDirtyCheck()) {
+                    SQLColumnInfo[] columns = fields[i].getColumnInfo();
                     Object value = oldentity.getField(i);
                     if (value == null) {
                         for (int j = columns.length - 1; j >= 0; j--) {
