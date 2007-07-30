@@ -99,7 +99,7 @@ public final class SqlBindParser {
     /**
      * length of _sql string
      */
-    private int _sql_len;
+    private int _length;
 
     /** 
      * current parse position 
@@ -123,7 +123,7 @@ public final class SqlBindParser {
      */
     public SqlBindParser(final String sql) {
         _sql = sql;
-        _sql_len = _sql.length();
+        _length = _sql.length();
         _pos = 0;
         _lastPos = 0;
         _bindPos = 0;
@@ -138,16 +138,16 @@ public final class SqlBindParser {
         _lastPos = _pos;
 
          // search for the begin of the next bind variable
-        for (int pos = _pos; pos < _sql_len; ++pos) {
+        for (int pos = _pos; pos < _length; ++pos) {
             char c = _sql.charAt(pos);
 
             switch(c) {
               case '\'':    // character constant
               case '\"':    // string constant
-                while (pos < _sql_len) {
+                while (pos < _length) {
                     pos = _sql.indexOf(c, pos + 1);
                     if (pos == -1) {    // unexpected end of the constant?
-                        pos = _sql_len;
+                        pos = _length;
                         break;
                     } else if (_sql.charAt(pos - 1) != '\\') {
                         // handle escape characters
@@ -163,7 +163,7 @@ public final class SqlBindParser {
                 // search for the end of the bind variable
                 do {
                     ++pos;
-                } while (pos < _sql_len && Character.isDigit(_sql.charAt(pos)));
+                } while (pos < _length && Character.isDigit(_sql.charAt(pos)));
 
                _pos = pos;
 
@@ -171,7 +171,7 @@ public final class SqlBindParser {
             }
         }
 
-        _bindPos = _pos = _sql_len;
+        _bindPos = _pos = _length;
 
         return false;
     }

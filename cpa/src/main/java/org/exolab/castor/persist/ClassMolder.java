@@ -201,7 +201,7 @@ public class ClassMolder {
     /**
      * True if all {@link ResolverStrategy} have been reset.
      */
-    boolean resolversHaveBeenReset = false;
+    boolean _resolversHaveBeenReset = false;
         
     /**
      * All field resolver instances.
@@ -1442,12 +1442,12 @@ public class ClassMolder {
     }
     
     public void resetResolvers () {
-        if (!resolversHaveBeenReset) {
+        if (!_resolversHaveBeenReset) {
             for (int i = 0; i < _fhs.length; i++) {
                 _resolvers[i] = ResolverFactory.createRelationResolver (_fhs[i], this, i, _debug);
             }
             
-            resolversHaveBeenReset = true;
+            _resolversHaveBeenReset = true;
         }
     }
 

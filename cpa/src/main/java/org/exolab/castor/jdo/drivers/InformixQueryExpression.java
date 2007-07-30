@@ -136,8 +136,8 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
 
         for (int i = 0; i < _joins.size(); ++i) {
             join = (Join) _joins.elementAt(i);
-            if (join.outer) {
-                tables.addElement(join.rightTable);
+            if (join._outer) {
+                tables.addElement(join._rightTable);
             }
         }
 
@@ -162,14 +162,14 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
     }
 
     private void addJoin(final StringBuffer buffer, final Join join) {
-        for (int j = 0; j < join.leftColumns.length; ++j) {
+        for (int j = 0; j < join._leftColumns.length; ++j) {
             if (j > 0) {
                 buffer.append(JDBCSyntax.AND);
             }
 
-            buffer.append(quoteTableAndColumn(join.leftTable, join.leftColumns[j]));
+            buffer.append(quoteTableAndColumn(join._leftTable, join._leftColumns[j]));
             buffer.append(OP_EQUALS);
-            buffer.append(quoteTableAndColumn(join.rightTable, join.rightColumns[j]));
+            buffer.append(quoteTableAndColumn(join._rightTable, join._rightColumns[j]));
         }
     }
 

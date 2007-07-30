@@ -42,71 +42,68 @@
  *
  * $$
  */
-
-
 package org.exolab.castor.gui;
 
 import java.util.Vector;
-
 
 public class QueryHistory implements java.io.Serializable {
     /** SerialVersionUID */
     private static final long serialVersionUID = 235997211123063614L;
 
-    private  Vector querys = new Vector();
-    private int currentPos = 0;
-    private  int maxsize = 20;
+    private  Vector _querys = new Vector();
+    private int _currentPos = 0;
+    private  int _maxsize = 20;
 
     public Vector getQuerys() {
-        return querys;
+        return _querys;
 
     }
 
-    public void setQuerys(final Vector _querys) {
-        querys = _querys;
-        currentPos = querys.size() - 1;
+    public void setQuerys(final Vector querys) {
+        _querys = querys;
+        _currentPos = _querys.size() - 1;
     }
 
     public int getMaxHistorySize() {
-        return maxsize;
+        return _maxsize;
     }
 
     public void setMaxHistorySize(final int newSize) {
-         maxsize = newSize;
+         _maxsize = newSize;
     }
 
     public void moveback() {
-        if (currentPos > 0) {
-            currentPos--;
+        if (_currentPos > 0) {
+            _currentPos--;
         }
     }
 
     public void moveforward() {
-        if (currentPos < querys.size() - 1) {
-            currentPos++;
+        if (_currentPos < _querys.size() - 1) {
+            _currentPos++;
         }
     }
 
     public String GetCurrentQuery() {
-      if (querys.isEmpty()) {
+      if (_querys.isEmpty()) {
           return "";
       }
-      return (String) querys.elementAt(currentPos);
+      return (String) _querys.elementAt(_currentPos);
     }
 
     public void addQuery(final String newQuery) {
-        if (querys.contains(newQuery)) {
+        if (_querys.contains(newQuery)) {
             System.out.println("schon drin");
             return;
         }
 
-        querys.add(newQuery);
+        _querys.add(newQuery);
 
-        if (querys.size() > maxsize) {
-            querys.removeElementAt(0);
+        if (_querys.size() > _maxsize) {
+            _querys.removeElementAt(0);
         }
 
-        currentPos = querys.size() - 1;
+        _currentPos = _querys.size() - 1;
     }
 
     // Get to avoid mashaling

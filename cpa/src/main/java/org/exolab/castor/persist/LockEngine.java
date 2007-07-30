@@ -293,8 +293,8 @@ public final class LockEngine {
     public ClassMolder getClassMolder(final Class cls) {
         TypeInfo info = (TypeInfo) _typeInfo.get(cls.getName());
         if (info != null) {
-            if (!info.molder.isDependent()) {
-                return info.molder;
+            if (!info._molder.isDependent()) {
+                return info._molder;
             }
         }
         return null;
@@ -302,7 +302,7 @@ public final class LockEngine {
     
     public ClassMolder getClassMolderWithDependent(final Class cls) {
         TypeInfo info = (TypeInfo) _typeInfo.get(cls.getName());
-        return (info != null) ? info.molder : null;
+        return (info != null) ? info._molder : null;
     }
     
     /**
@@ -314,8 +314,8 @@ public final class LockEngine {
         Iterator typeIterator = _typeInfo.values().iterator();
         while (typeIterator.hasNext()) {
             TypeInfo info = (TypeInfo) typeIterator.next();
-            if (info.molder.getNamedQuery(name) != null) {
-                return info.molder;
+            if (info._molder.getNamedQuery(name) != null) {
+                return info._molder;
             }
         }
         return null;
@@ -395,7 +395,7 @@ public final class LockEngine {
 
             lockedOid = lock.getOID();
 
-            Object stamp = typeInfo.molder.load(tx, lockedOid, lock, proposedObject, suggestedAccessMode, results);
+            Object stamp = typeInfo._molder.load(tx, lockedOid, lock, proposedObject, suggestedAccessMode, results);
 
             // if object has been expanded, return early            
             if (proposedObject.isExpanded()) {
@@ -421,7 +421,7 @@ public final class LockEngine {
                 if (proposedObject.isExpanded()) {
                     _log.debug(Messages.format("jdo.loading.with.id", proposedObject.getActualEntityClass(), internaloid.getIdentity()));
                 } else {
-                    _log.debug(Messages.format("jdo.loading.with.id", typeInfo.molder.getName(), internaloid.getIdentity()));
+                    _log.debug(Messages.format("jdo.loading.with.id", typeInfo._molder.getName(), internaloid.getIdentity()));
                 }
             }
         } catch (ObjectDeletedWaitingForLockException except) {
@@ -458,7 +458,7 @@ public final class LockEngine {
         if (typeInfo == null) {
             throw new ClassNotPersistenceCapableException(Messages.format("persist.classNotPersistenceCapable", oid.getName()));
         }
-        typeInfo.molder.markCreate(tx, oid, null, object);
+        typeInfo._molder.markCreate(tx, oid, null, object);
     }
 
     /**
@@ -509,12 +509,12 @@ public final class LockEngine {
                 lock = typeInfo.acquire(internaloid, tx, ObjectLock.ACTION_CREATE, 0);
 
                 if (_log.isDebugEnabled()) {
-                    _log.debug(Messages.format("jdo.creating.with.id", typeInfo.molder.getName(), internaloid.getIdentity()));
+                    _log.debug(Messages.format("jdo.creating.with.id", typeInfo._molder.getName(), internaloid.getIdentity()));
                 }
 
                 internaloid = lock.getOID();
 
-                typeInfo.molder.create(tx, internaloid, lock, object);
+                typeInfo._molder.create(tx, internaloid, lock, object);
 
                 succeed = true;
 
@@ -544,14 +544,14 @@ public final class LockEngine {
 
         try {
             if (_log.isDebugEnabled()) {
-                _log.debug(Messages.format("jdo.creating.with.id", typeInfo.molder.getName(), internaloid.getIdentity()));
+                _log.debug(Messages.format("jdo.creating.with.id", typeInfo._molder.getName(), internaloid.getIdentity()));
             }
 
             lock = typeInfo.acquire(internaloid, tx, ObjectLock.ACTION_CREATE, 0);
 
             internaloid = lock.getOID();
 
-            Identity newids = typeInfo.molder.create(tx, internaloid, lock, object);
+            Identity newids = typeInfo._molder.create(tx, internaloid, lock, object);
             succeed = true;
 
             internaloid.setDbLock(true);
@@ -597,10 +597,10 @@ public final class LockEngine {
             typeInfo.assure(oid, tx, true);
 
             if (_log.isDebugEnabled()) {
-                _log.debug(Messages.format("jdo.removing", typeInfo.molder.getName(), oid.getIdentity()));
+                _log.debug(Messages.format("jdo.removing", typeInfo._molder.getName(), oid.getIdentity()));
             }
 
-            typeInfo.molder.delete(tx, oid);
+            typeInfo._molder.delete(tx, oid);
 
         } catch (LockNotGrantedException except) {
             throw new IllegalStateException(Messages.format("persist.internal",
@@ -615,7 +615,7 @@ public final class LockEngine {
 
         ObjectLock lock = typeInfo.upgrade(oid, tx, timeout);
 
-        typeInfo.molder.markDelete(tx, oid, lock, object);
+        typeInfo._molder.markDelete(tx, oid, lock, object);
 
         lock.expire();
     }
@@ -692,7 +692,7 @@ public final class LockEngine {
             }*/
             internaloid = lock.getOID();
 
-            boolean creating = typeInfo.molder.update(tx, internaloid, lock, object, suggestedAccessMode);
+            boolean creating = typeInfo._molder.update(tx, internaloid, lock, object, suggestedAccessMode);
 
             if (creating) {
                 succeed = false;
@@ -763,7 +763,7 @@ public final class LockEngine {
         // Acquire a read lock first. Only if the object has been modified
         // do we need a write lock.
 
-        internaloid = new OID(typeInfo.molder, internaloid.getIdentity());
+        internaloid = new OID(typeInfo._molder, internaloid.getIdentity());
 
         // acquire read lock
         // getLockedField();
@@ -777,7 +777,7 @@ public final class LockEngine {
 
             internaloid = lock.getOID();
 
-            modified = typeInfo.molder.preStore(tx, internaloid, lock, object, timeout);
+            modified = typeInfo._molder.preStore(tx, internaloid, lock, object, timeout);
         } catch (LockNotGrantedException e) {
             throw e;
         } catch (ObjectModifiedException e) {
@@ -810,10 +810,10 @@ public final class LockEngine {
             lock = typeInfo.assure(oid, tx, false);
 
             if (_log.isDebugEnabled ()) {
-                _log.debug(Messages.format("jdo.storing.with.id", typeInfo.molder.getName(), oid.getIdentity()));
+                _log.debug(Messages.format("jdo.storing.with.id", typeInfo._molder.getName(), oid.getIdentity()));
             }
 
-            typeInfo.molder.store(tx, oid, lock, object);
+            typeInfo._molder.store(tx, oid, lock, object);
         } catch (ObjectModifiedException e) {
             lock.invalidate(tx);
             throw e;
@@ -913,7 +913,7 @@ public final class LockEngine {
         typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
         try {
             lock = typeInfo.assure(oid, tx, false);
-            typeInfo.molder.revertObject(tx, oid, lock, object);
+            typeInfo._molder.revertObject(tx, oid, lock, object);
         } catch (LockNotGrantedException e) {
             throw new IllegalStateException("Write Lock expected!");
         } catch (PersistenceException except) {
@@ -939,7 +939,7 @@ public final class LockEngine {
 
         typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
         lock = typeInfo.assure(oid, tx, true);
-        typeInfo.molder.updateCache(tx, oid, lock, object);
+        typeInfo._molder.updateCache(tx, oid, lock, object);
     }
 
     /**
@@ -1021,7 +1021,7 @@ public final class LockEngine {
         try {
             if (typeInfo.isCached(oid)) {
                 lock = typeInfo.acquire(oid, tx, ObjectLock.ACTION_WRITE, timeout);
-                typeInfo.molder.expireCache(tx, lock);
+                typeInfo._molder.expireCache(tx, lock);
                 lock.expire();
                 succeed = true;
             }
@@ -1110,21 +1110,21 @@ public final class LockEngine {
      */
     private class TypeInfo {
         /** The molder for this class. */
-        private final ClassMolder molder;
+        private final ClassMolder _molder;
 
         /** The full qualified name of the Java class represented by this type info. */
-        private final String name;
+        private final String _name;
 
         /** The Map contains all the in-used ObjectLock of the class type, which
          *  keyed by the OID representing the object. All extends classes share the
          *  same map as the base class. */
-        private final HashMap locks;
+        private final HashMap _locks;
         
         /** The Map contains all the freed ObjectLock of the class type, which keyed
          *  by the OID representing the object. ObjectLock put into cache maybe
          *  disposed by LRU mechanisum. All extends classes share the same map as the
          *  base class. */
-        private final Cache cache;
+        private final Cache _cache;
 
         /**
          * Constructor for creating base class info.
@@ -1136,10 +1136,10 @@ public final class LockEngine {
          *         store and dispose freed ObjectLock.
          */
         private TypeInfo(final ClassMolder molder, final HashMap locks, final Cache cache) {
-            this.name = molder.getName();
-            this.molder = molder;
-            this.locks = locks;
-            this.cache = cache;
+            this._name = molder.getName();
+            this._molder = molder;
+            this._locks = locks;
+            this._cache = cache;
         }
 
         /**
@@ -1150,28 +1150,28 @@ public final class LockEngine {
          *         the molder's class.
          */
         private TypeInfo(final ClassMolder molder, final TypeInfo base) {
-            this(molder, base.locks, base.cache);
+            this(molder, base._locks, base._cache);
         }
 
         /**
          * Life-cycle method to allow shutdown of cache instances.
          */
         public void closeCache() {
-            cache.close();
+            _cache.close();
         }
         
         /**
          * Dump all objects in cache or lock to output.
          */
         public void dumpCache() {
-            _log.info(name + ".dumpCache()...");
-            synchronized (locks) {
-                for (Iterator iter = locks.values().iterator(); iter.hasNext(); ) {
+            _log.info(_name + ".dumpCache()...");
+            synchronized (_locks) {
+                for (Iterator iter = _locks.values().iterator(); iter.hasNext(); ) {
                     ObjectLock entry = (ObjectLock) iter.next();
                     _log.info("In locks: " + entry);
                 }
 
-                for (Iterator iter = cache.values().iterator(); iter.hasNext(); ) {
+                for (Iterator iter = _cache.values().iterator(); iter.hasNext(); ) {
                     ObjectLock entry = (ObjectLock) iter.next();
                     _log.info("In cache: " + entry.getOID());
                 }
@@ -1182,19 +1182,19 @@ public final class LockEngine {
          * Expire all objects of this class from the cache.
          */
         public void expireCache() {
-            synchronized (locks) {
+            synchronized (_locks) {
                 // Mark all objects currently participating in a
                 // transaction as expired.  They will be not be added back to
                 // the LRU when the transaction's complete (@see release)
                 // XXX [SMH]: Reconsider removing from locks (unknown side-effects?).
-                for (Iterator iter = locks.values().iterator(); iter.hasNext(); ) {
+                for (Iterator iter = _locks.values().iterator(); iter.hasNext(); ) {
                     ObjectLock objectLock = (ObjectLock) iter.next();
                     objectLock.expire();
                     iter.remove();
                 }
                 
                 // Remove all objects not participating in a transaction from the cache.
-                cache.clear();
+                _cache.clear();
             }
         }
 
@@ -1220,18 +1220,18 @@ public final class LockEngine {
             // sync on "locks" is, unfortunately, necessary if we employ
             // some LRU mechanism, especially if we allow NoCache, to avoid
             // duplicated LockEntry exist at the same time.
-            synchronized (locks) {
-                entry = (ObjectLock) locks.get(internaloid);
+            synchronized (_locks) {
+                entry = (ObjectLock) _locks.get(internaloid);
                 if (entry == null) {
-                    CacheEntry cachedEntry = (CacheEntry) cache.remove(internaloid);
+                    CacheEntry cachedEntry = (CacheEntry) _cache.remove(internaloid);
                     if (cachedEntry != null) {
                         entry = new ObjectLock(cachedEntry);
-                        locks.put(internaloid, entry);
+                        _locks.put(internaloid, entry);
                         
                         OID cacheOid = entry.getOID();
                         if (internaloid.getName().equals(cacheOid.getName())) {
                             entry.setOID(internaloid);
-                            locks.put(internaloid, entry);
+                            _locks.put(internaloid, entry);
                         } else {
                             entry = null;
                         }
@@ -1240,7 +1240,7 @@ public final class LockEngine {
                 
                 if (entry == null) {
                     entry = new ObjectLock(internaloid);
-                    locks.put(internaloid, entry);
+                    _locks.put(internaloid, entry);
                 } else {
                     internaloid = entry.getOID();
                 }
@@ -1277,7 +1277,7 @@ public final class LockEngine {
                 failed = false;
                 return entry;
             } finally {
-                synchronized (locks) {
+                synchronized (_locks) {
                     entry.leave();
                     if (failed) {
                         // The need of this block may not be too obvious.
@@ -1291,12 +1291,12 @@ public final class LockEngine {
                         // we ensure here that the entry which should be move 
                         // to "cache" from "locks" is actually moved.
                         if (entry.isDisposable()) {
-                            locks.remove(internaloid);
+                            _locks.remove(internaloid);
                             if (entry.isExpired()) {
-                                cache.expire(internaloid);
+                                _cache.expire(internaloid);
                                 entry.expired();
                             } else {
-                                cache.put(internaloid, new CacheEntry(entry));
+                                _cache.put(internaloid, new CacheEntry(entry));
                             }
                         }
                     }
@@ -1319,8 +1319,8 @@ public final class LockEngine {
         throws ObjectDeletedWaitingForLockException, LockNotGrantedException {
             OID internaloid = oid;
             ObjectLock entry = null;
-            synchronized (locks) {
-                entry = (ObjectLock) locks.get(internaloid);
+            synchronized (_locks) {
+                entry = (ObjectLock) _locks.get(internaloid);
                 if (entry == null) {
                     throw new ObjectDeletedWaitingForLockException(
                             "Lock entry not found. Deleted?");
@@ -1337,7 +1337,7 @@ public final class LockEngine {
                 entry.upgrade(tx, timeout);
                 return entry;
             } finally {
-                synchronized (locks) {
+                synchronized (_locks) {
                     entry.leave();
                 }
             }
@@ -1353,8 +1353,8 @@ public final class LockEngine {
          * @return The reassured ObjectLock instance.
          */
         private ObjectLock assure(final OID oid, final TransactionContext tx, final boolean write) {
-            synchronized (locks) {
-                ObjectLock entry = (ObjectLock) locks.get(oid);
+            synchronized (_locks) {
+                ObjectLock entry = (ObjectLock) _locks.get(oid);
                 if (entry == null) {
                     throw new IllegalStateException(
                             "Lock, " + oid + ", doesn't exist or no lock!");
@@ -1381,10 +1381,10 @@ public final class LockEngine {
          */
         private ObjectLock rename(final OID orgoid, final OID newoid, final TransactionContext tx)
         throws LockNotGrantedException {
-            synchronized (locks) {
+            synchronized (_locks) {
                 ObjectLock entry, newentry;
-                entry = (ObjectLock) locks.get(orgoid);
-                newentry = (ObjectLock) locks.get(newoid);
+                entry = (ObjectLock) _locks.get(orgoid);
+                newentry = (ObjectLock) _locks.get(newoid);
 
                 // validate locks
                 if (orgoid == newoid) {
@@ -1406,9 +1406,9 @@ public final class LockEngine {
                             "Lock is already existed for the new oid.");
                 }
 
-                entry = (ObjectLock) locks.remove(orgoid);
+                entry = (ObjectLock) _locks.remove(orgoid);
                 entry.setOID(newoid);
-                locks.put(newoid, entry);
+                _locks.put(newoid, entry);
 
                 // copy oid status
                 newoid.setDbLock(orgoid.isDbLock());
@@ -1428,8 +1428,8 @@ public final class LockEngine {
          */
         private ObjectLock delete(final OID oid, final TransactionContext tx) {
             ObjectLock entry;
-            synchronized (locks) {
-                entry = (ObjectLock) locks.get(oid);
+            synchronized (_locks) {
+                entry = (ObjectLock) _locks.get(oid);
                 if (entry == null) {
                     throw new IllegalStateException("No lock to destroy!");
                 }
@@ -1440,11 +1440,11 @@ public final class LockEngine {
                 entry.delete(tx);
                 return entry;
             } finally {
-                synchronized (locks) {
+                synchronized (_locks) {
                     entry.leave();
                     if (entry.isDisposable()) {
-                        cache.put(oid, new CacheEntry(entry));
-                        locks.remove(oid);
+                        _cache.put(oid, new CacheEntry(entry));
+                        _locks.remove(oid);
                     }
                 }
             }
@@ -1460,8 +1460,8 @@ public final class LockEngine {
          */
         private ObjectLock release(final OID oid, final TransactionContext tx) {
             ObjectLock entry = null;
-            synchronized (locks) {
-                entry = (ObjectLock) locks.get(oid);
+            synchronized (_locks) {
+                entry = (ObjectLock) _locks.get(oid);
                 if (entry == null) {
                     throw new IllegalStateException(
                             "No lock to release! " + oid + " for transaction " + tx);
@@ -1473,15 +1473,15 @@ public final class LockEngine {
                 entry.release(tx);
                 return entry;
             } finally {
-                synchronized (locks) {
+                synchronized (_locks) {
                     entry.leave();
                     if (entry.isDisposable()) {
-                        cache.put(oid, new CacheEntry(entry));
+                        _cache.put(oid, new CacheEntry(entry));
                         if (entry.isExpired()) {
-                            cache.expire(oid);
+                            _cache.expire(oid);
                             entry.expired();
                         }
-                        locks.remove(oid);
+                        _locks.remove(oid);
                     }
                 }
             }
@@ -1494,7 +1494,7 @@ public final class LockEngine {
          * @return True if the object is cached. 
          */
         public boolean isCached(final Object oid) {
-            return cache.containsKey(oid);
+            return _cache.containsKey(oid);
         }
         
         /**
@@ -1504,7 +1504,7 @@ public final class LockEngine {
          * @return True if the object is locked.
          */
         public boolean isLocked(final OID oid) {
-            return locks.containsKey(oid);
+            return _locks.containsKey(oid);
         }
     }
 

@@ -112,19 +112,19 @@ public final class SybaseQueryExpression extends JDBCQueryExpression {
             }
 
             join = (Join) _joins.elementAt(i);
-            for (int j = 0; j < join.leftColumns.length; ++j) {
+            for (int j = 0; j < join._leftColumns.length; ++j) {
                 if (j > 0) {
                     sql.append(JDBCSyntax.AND);
                 }
-                sql.append(_factory.quoteName(join.leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                                join.leftColumns[j]));
-                if (join.outer) {
+                sql.append(_factory.quoteName(join._leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
+                                                join._leftColumns[j]));
+                if (join._outer) {
                     sql.append("*=");
                 } else {
                     sql.append(OP_EQUALS);
                 }
-                sql.append(_factory.quoteName(join.rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                                join.rightColumns[j]));
+                sql.append(_factory.quoteName(join._rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
+                                                join._rightColumns[j]));
             }
         }
         first = addWhereClause(sql, first);

@@ -78,7 +78,7 @@ public abstract class BaseFactory implements PersistenceFactory {
     /**
      * Maps class descriptor to persistence engines ....
      */
-    private Map classDescriptorToPersistence = new HashMap();
+    private Map _classDescriptorToPersistence = new HashMap();
 
     /**
      * @see org.exolab.castor.persist.spi.PersistenceFactory#getPersistence(org.exolab.castor.mapping.ClassDescriptor)
@@ -87,10 +87,10 @@ public abstract class BaseFactory implements PersistenceFactory {
         if (!(clsDesc instanceof JDOClassDescriptor)) { return null; }
         
         try {
-            Persistence sqlEngine = (SQLEngine) classDescriptorToPersistence.get(clsDesc);
+            Persistence sqlEngine = (SQLEngine) _classDescriptorToPersistence.get(clsDesc);
             if (sqlEngine == null) {
                 sqlEngine = new SQLEngine((JDOClassDescriptor) clsDesc, this, null);
-                classDescriptorToPersistence.put(clsDesc, sqlEngine);
+                _classDescriptorToPersistence.put(clsDesc, sqlEngine);
             }
             return sqlEngine;
         } catch (MappingException except) {

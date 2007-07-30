@@ -79,10 +79,10 @@ public final class IdentityKeyGenerator implements KeyGenerator {
      */
     private static Log _log = LogFactory.getFactory().getInstance (IdentityKeyGenerator.class);
     
-    private DefaultIdentityValue identityValue = null;
-    private AbstractType type = null;
+    private DefaultIdentityValue _identityValue = null;
+    private AbstractType _type = null;
 
-    String fName = null;
+    String _fName = null;
 
     /**
      * Initialize the IDENTITY key generator.
@@ -91,24 +91,24 @@ public final class IdentityKeyGenerator implements KeyGenerator {
      * @throws MappingException if this key generator is not compatible with the persistance factory.
      */
     public IdentityKeyGenerator(final PersistenceFactory factory, final int sqlType) throws MappingException {
-        fName = factory.getFactoryName();
-        if (!fName.equals("sybase") &&
-                !fName.equals("sql-server") && 
-                !fName.equals("hsql") && 
-                !fName.equals("mysql") && 
-                !fName.equals("informix") &&
-                !fName.equals("sapdb") &&
-                !fName.equals("db2") && 
-                !fName.equals("derby") &&
-                !fName.equals("postgresql") &&
-                !fName.equals("pointbase")) {
-            throw new MappingException(Messages.format("mapping.keyGenNotCompatible", getClass().getName(), fName));
+        _fName = factory.getFactoryName();
+        if (!_fName.equals("sybase") &&
+                !_fName.equals("sql-server") && 
+                !_fName.equals("hsql") && 
+                !_fName.equals("mysql") && 
+                !_fName.equals("informix") &&
+                !_fName.equals("sapdb") &&
+                !_fName.equals("db2") && 
+                !_fName.equals("derby") &&
+                !_fName.equals("postgresql") &&
+                !_fName.equals("pointbase")) {
+            throw new MappingException(Messages.format("mapping.keyGenNotCompatible", getClass().getName(), _fName));
         }
 
         supportsSqlType(sqlType);
 
         initIdentityValue(sqlType);
-        initType(fName);
+        initType(_fName);
     }
 
     /**
@@ -126,11 +126,11 @@ public final class IdentityKeyGenerator implements KeyGenerator {
                 Messages.format("mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
         }
 
-        if (sqlType != Types.INTEGER && fName.equals("hsql")) {
+        if (sqlType != Types.INTEGER && _fName.equals("hsql")) {
             throw new MappingException(Messages.format("mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
         }
 
-        if (sqlType != Types.NUMERIC && fName.equals("derby")) {
+        if (sqlType != Types.NUMERIC && _fName.equals("derby")) {
                 throw new MappingException(Messages.format("mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
             }
     }
@@ -147,7 +147,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
     public Object generateKey(final Connection conn, final String tableName, final String primKeyName, final Properties props)
         throws PersistenceException {
         try {
-            return type.getValue(conn, tableName);
+            return _type.getValue(conn, tableName);
         } catch (Exception e) {
             _log.error("Problem generating new key", e);
             return null;
@@ -163,31 +163,31 @@ public final class IdentityKeyGenerator implements KeyGenerator {
 
     private void initIdentityValue(final int sqlType) {
         if (sqlType == Types.INTEGER) {
-            identityValue = new IntegerIdenityValue();
+            _identityValue = new IntegerIdenityValue();
         } else if (sqlType == Types.BIGINT) {
-            identityValue = new LongIdenityValue();
+            _identityValue = new LongIdenityValue();
         } else {
-            identityValue = new DefaultIdentityValue();
+            _identityValue = new DefaultIdentityValue();
         }
     }
 
     private void initType(final String fName) {
         if (fName.equals("hsql")) {
-            type = new HsqlType();
+            _type = new HsqlType();
         } else if (fName.equals("mysql")) {
-            type = new MySqlType();
+            _type = new MySqlType();
         } else if (fName.equals("informix")) {
-            type = new InformixType();
+            _type = new InformixType();
         } else if (fName.equals("db2")) {
-            type = new DB2Type();
+            _type = new DB2Type();
         } else if (fName.equals("sapdb")) {
-            type = new SapDbType();
+            _type = new SapDbType();
         } else if (fName.equals("derby")) {
-            type = new DerbyType();
+            _type = new DerbyType();
         } else if (fName.equals("postgresql")) {
-            type = new PostgresqlType();
+            _type = new PostgresqlType();
         } else {
-            type = new DefaultType();
+            _type = new DefaultType();
         }
     }
 
@@ -212,7 +212,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
         Object getValue(final PreparedStatement stmt) throws PersistenceException, SQLException {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return identityValue.getValue(rs.getInt(1));
+                return _identityValue.getValue(rs.getInt(1));
             }
         throw new PersistenceException(Messages.format("persist.keyGenFailed", getClass().getName()));
         }

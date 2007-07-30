@@ -14,7 +14,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  *
  */
 public final class InterbaseQueryExpression extends JDBCQueryExpression {
-    private StringBuffer sql;
+    private StringBuffer _sql;
 
     public InterbaseQueryExpression(final PersistenceFactory factory) {
         super(factory);
@@ -26,15 +26,15 @@ public final class InterbaseQueryExpression extends JDBCQueryExpression {
         Hashtable    tables;
         Vector       done = new Vector();
 
-        sql = new StringBuffer();
-        sql.append(JDBCSyntax.SELECT);
+        _sql = new StringBuffer();
+        _sql.append(JDBCSyntax.SELECT);
         if (_distinct) {
-            sql.append(JDBCSyntax.DISTINCT);
+            _sql.append(JDBCSyntax.DISTINCT);
         }
 
-        sql.append(getColumnList());
+        _sql.append(getColumnList());
 
-        sql.append(JDBCSyntax.FROM);
+        _sql.append(JDBCSyntax.FROM);
 
         tables = (Hashtable) _tables.clone();
         first = true;
@@ -43,83 +43,83 @@ public final class InterbaseQueryExpression extends JDBCQueryExpression {
 
             Join join = (Join) _joins.elementAt(i);
 
-            if (done.contains(join.leftTable)) {
+            if (done.contains(join._leftTable)) {
                 continue;
             }
 
             if (first) {
                 first = false;
-                sql.append(_factory.quoteName(join.leftTable));
+                _sql.append(_factory.quoteName(join._leftTable));
             }
 
             appendJoin(join);
 
-            tables.remove(join.leftTable);
-            tables.remove(join.rightTable);
+            tables.remove(join._leftTable);
+            tables.remove(join._rightTable);
 
             for (int k = i + 1; k < _joins.size(); ++k) {
 
                 Join join2 = (Join) _joins.elementAt(k);
 
-                if (join.leftTable.equals(join2.leftTable)) {
+                if (join._leftTable.equals(join2._leftTable)) {
                   appendJoin(join2);
-                  tables.remove(join2.rightTable);
+                  tables.remove(join2._rightTable);
                 }
             }
-            done.addElement(join.leftTable);
+            done.addElement(join._leftTable);
         }
         enumeration = tables.keys();
         while (enumeration.hasMoreElements()) {
             if (first) {
                 first = false;
             } else {
-                sql.append(JDBCSyntax.TABLE_SEPARATOR);
+                _sql.append(JDBCSyntax.TABLE_SEPARATOR);
             }
             String tableAlias = (String) enumeration.nextElement();
             String tableName = (String) tables.get(tableAlias);
             if (tableAlias.equals(tableName)) {
-                sql.append(_factory.quoteName(tableName));
+                _sql.append(_factory.quoteName(tableName));
             } else {
-                sql.append(_factory.quoteName(tableName) + " " +
+                _sql.append(_factory.quoteName(tableName) + " " +
                             _factory.quoteName(tableAlias));
             }
         }
 
-        first = addWhereClause(sql, true);
+        first = addWhereClause(_sql, true);
 
         if (_order != null) {
-            sql.append(JDBCSyntax.ORDER_BY).append(_order);
+            _sql.append(JDBCSyntax.ORDER_BY).append(_order);
         }
 
         // Do not use FOR UPDATE to lock query.
-        return sql.toString();
+        return _sql.toString();
     }
 
     void appendJoin(final Join join) {
 
-      if (join.outer) {
-          sql.append(JDBCSyntax.LEFT_JOIN);
+      if (join._outer) {
+          _sql.append(JDBCSyntax.LEFT_JOIN);
       } else {
-          sql.append(JDBCSyntax.INNER_JOIN);
+          _sql.append(JDBCSyntax.INNER_JOIN);
       }
 
-      String tableAlias = join.rightTable;
+      String tableAlias = join._rightTable;
       String tableName = (String) _tables.get(tableAlias);
       if (tableAlias.equals(tableName)) {
-          sql.append(_factory.quoteName(tableName));
+          _sql.append(_factory.quoteName(tableName));
       } else {
-          sql.append(_factory.quoteName(tableName) + " " +
+          _sql.append(_factory.quoteName(tableName) + " " +
                       _factory.quoteName(tableAlias));
       }
-      sql.append(JDBCSyntax.ON);
-      for (int j = 0; j < join.leftColumns.length; ++j) {
+      _sql.append(JDBCSyntax.ON);
+      for (int j = 0; j < join._leftColumns.length; ++j) {
           if (j > 0) {
-              sql.append(JDBCSyntax.AND);
+              _sql.append(JDBCSyntax.AND);
           }
-          sql.append(_factory.quoteName(join.leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                          join.leftColumns[j])).append(OP_EQUALS);
-          sql.append(_factory.quoteName(join.rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                          join.rightColumns[j]));
+          _sql.append(_factory.quoteName(join._leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
+                                          join._leftColumns[j])).append(OP_EQUALS);
+          _sql.append(_factory.quoteName(join._rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
+                                          join._rightColumns[j]));
       }
     }
 }
