@@ -24,66 +24,66 @@ import java.util.HashMap;
  * @version $Revision$ $Date: 2006-01-03 17:47:48 -0700 (Tue, 03 Jan 2006) $
  */
 public final class Parser {
-    private static HashMap tokenTypes = new HashMap();
+    private static final HashMap TOKEN_TYPES = new HashMap();
 
     static {
-        tokenTypes.put(new Integer(TokenType.END_OF_QUERY), "END_OF_QUERY");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_SELECT), "KEYWORD_SELECT");
-        tokenTypes.put(new Integer(TokenType.IDENTIFIER), "IDENTIFIER");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_AS), "KEYWORD_AS");
-        tokenTypes.put(new Integer(TokenType.COLON), "COLON");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_FROM), "KEYWORD_FROM");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_IN), "KEYWORD_IN");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_WHERE), "KEYWORD_WHERE");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_OR), "KEYWORD_OR");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_AND), "KEYWORD_AND");
-        tokenTypes.put(new Integer(TokenType.EQUAL), "EQUAL");
-        tokenTypes.put(new Integer(TokenType.NOT_EQUAL), "NOT_EQUAL");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_LIKE), "KEYWORD_LIKE");
-        tokenTypes.put(new Integer(TokenType.LT), "LT");
-        tokenTypes.put(new Integer(TokenType.LTE), "LTE");
-        tokenTypes.put(new Integer(TokenType.GT), "GT");
-        tokenTypes.put(new Integer(TokenType.GTE), "GTE");
-        tokenTypes.put(new Integer(TokenType.PLUS), "PLUS");
-        tokenTypes.put(new Integer(TokenType.MINUS), "MINUS");
-        tokenTypes.put(new Integer(TokenType.CONCAT), "CONCAT");
-        tokenTypes.put(new Integer(TokenType.TIMES), "MULTIPLY");
-        tokenTypes.put(new Integer(TokenType.DIVIDE), "DIVIDE");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_MOD), "KEYWORD_MOD");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_ABS), "KEYWORD_ABS");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_NOT), "KEYWORD_NOT");
-        tokenTypes.put(new Integer(TokenType.LPAREN), "LEFT_PAREN");
-        tokenTypes.put(new Integer(TokenType.RPAREN), "RIGHT_PAREN");
-        tokenTypes.put(new Integer(TokenType.DOLLAR), "DOLLAR");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_NIL), "KEYWORD_NIL");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_UNDEFINED), "KEYWORD_UNDEFINED");
-        tokenTypes.put(new Integer(TokenType.DOT), "DOT");
-        tokenTypes.put(new Integer(TokenType.ARROW), "ARROW");
-        tokenTypes.put(new Integer(TokenType.BOOLEAN_LITERAL), "BOOLEAN_LITERAL");
-        tokenTypes.put(new Integer(TokenType.LONG_LITERAL), "LONG_LITERAL");
-        tokenTypes.put(new Integer(TokenType.DOUBLE_LITERAL), "DOUBLE_LITERAL");
-        tokenTypes.put(new Integer(TokenType.CHAR_LITERAL), "CHAR_LITERAL");
-        tokenTypes.put(new Integer(TokenType.STRING_LITERAL), "STRING_LITERAL");
-        tokenTypes.put(new Integer(TokenType.DATE_LITERAL), "DATE_LITERAL");
-        tokenTypes.put(new Integer(TokenType.TIME_LITERAL), "TIME_LITERAL");
-        tokenTypes.put(new Integer(TokenType.TIMESTAMP_LITERAL), "TIMESTAMP_LITERAL");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_BETWEEN), "KEYWORD_BETWEEN");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_DISTINCT), "KEYWORD_DISTINCT");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_IS_DEFINED), "KEYWORD_IS_DEFINED");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_IS_UNDEFINED), "KEYWORD_IS_UNDEFINED");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_LIST), "KEYWORD_LIST");
-        tokenTypes.put(new Integer(TokenType.COMMA), "COMMA");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_ORDER), "KEYWORD_ORDER");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_BY), "KEYWORD_BY");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_ASC), "KEYWORD_ASC");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_DESC), "KEYWORD_DESC");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_COUNT), "KEYWORD_COUNT");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_SUM), "KEYWORD_SUM");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_MIN), "KEYWORD_MIN");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_MAX), "KEYWORD_MAX");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_AVG), "KEYWORD_AVG");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_LIMIT), "KEYWORD_LIMIT");
-        tokenTypes.put(new Integer(TokenType.KEYWORD_OFFSET), "KEYWORD_OFFSET");
+        TOKEN_TYPES.put(new Integer(TokenType.END_OF_QUERY), "END_OF_QUERY");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_SELECT), "KEYWORD_SELECT");
+        TOKEN_TYPES.put(new Integer(TokenType.IDENTIFIER), "IDENTIFIER");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_AS), "KEYWORD_AS");
+        TOKEN_TYPES.put(new Integer(TokenType.COLON), "COLON");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_FROM), "KEYWORD_FROM");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_IN), "KEYWORD_IN");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_WHERE), "KEYWORD_WHERE");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_OR), "KEYWORD_OR");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_AND), "KEYWORD_AND");
+        TOKEN_TYPES.put(new Integer(TokenType.EQUAL), "EQUAL");
+        TOKEN_TYPES.put(new Integer(TokenType.NOT_EQUAL), "NOT_EQUAL");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_LIKE), "KEYWORD_LIKE");
+        TOKEN_TYPES.put(new Integer(TokenType.LT), "LT");
+        TOKEN_TYPES.put(new Integer(TokenType.LTE), "LTE");
+        TOKEN_TYPES.put(new Integer(TokenType.GT), "GT");
+        TOKEN_TYPES.put(new Integer(TokenType.GTE), "GTE");
+        TOKEN_TYPES.put(new Integer(TokenType.PLUS), "PLUS");
+        TOKEN_TYPES.put(new Integer(TokenType.MINUS), "MINUS");
+        TOKEN_TYPES.put(new Integer(TokenType.CONCAT), "CONCAT");
+        TOKEN_TYPES.put(new Integer(TokenType.TIMES), "MULTIPLY");
+        TOKEN_TYPES.put(new Integer(TokenType.DIVIDE), "DIVIDE");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_MOD), "KEYWORD_MOD");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_ABS), "KEYWORD_ABS");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_NOT), "KEYWORD_NOT");
+        TOKEN_TYPES.put(new Integer(TokenType.LPAREN), "LEFT_PAREN");
+        TOKEN_TYPES.put(new Integer(TokenType.RPAREN), "RIGHT_PAREN");
+        TOKEN_TYPES.put(new Integer(TokenType.DOLLAR), "DOLLAR");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_NIL), "KEYWORD_NIL");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_UNDEFINED), "KEYWORD_UNDEFINED");
+        TOKEN_TYPES.put(new Integer(TokenType.DOT), "DOT");
+        TOKEN_TYPES.put(new Integer(TokenType.ARROW), "ARROW");
+        TOKEN_TYPES.put(new Integer(TokenType.BOOLEAN_LITERAL), "BOOLEAN_LITERAL");
+        TOKEN_TYPES.put(new Integer(TokenType.LONG_LITERAL), "LONG_LITERAL");
+        TOKEN_TYPES.put(new Integer(TokenType.DOUBLE_LITERAL), "DOUBLE_LITERAL");
+        TOKEN_TYPES.put(new Integer(TokenType.CHAR_LITERAL), "CHAR_LITERAL");
+        TOKEN_TYPES.put(new Integer(TokenType.STRING_LITERAL), "STRING_LITERAL");
+        TOKEN_TYPES.put(new Integer(TokenType.DATE_LITERAL), "DATE_LITERAL");
+        TOKEN_TYPES.put(new Integer(TokenType.TIME_LITERAL), "TIME_LITERAL");
+        TOKEN_TYPES.put(new Integer(TokenType.TIMESTAMP_LITERAL), "TIMESTAMP_LITERAL");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_BETWEEN), "KEYWORD_BETWEEN");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_DISTINCT), "KEYWORD_DISTINCT");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_IS_DEFINED), "KEYWORD_IS_DEFINED");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_IS_UNDEFINED), "KEYWORD_IS_UNDEFINED");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_LIST), "KEYWORD_LIST");
+        TOKEN_TYPES.put(new Integer(TokenType.COMMA), "COMMA");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_ORDER), "KEYWORD_ORDER");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_BY), "KEYWORD_BY");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_ASC), "KEYWORD_ASC");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_DESC), "KEYWORD_DESC");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_COUNT), "KEYWORD_COUNT");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_SUM), "KEYWORD_SUM");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_MIN), "KEYWORD_MIN");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_MAX), "KEYWORD_MAX");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_AVG), "KEYWORD_AVG");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_LIMIT), "KEYWORD_LIMIT");
+        TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_OFFSET), "KEYWORD_OFFSET");
     }
 
     Lexer _lexer;
@@ -171,8 +171,8 @@ public final class Parser {
         if (_curToken.getTokenType() != tokenType) {
             throw new OQLSyntaxException("An incorrect token type was found near "
                     + _curToken.getTokenValue() + " (found "
-                    + (String) tokenTypes.get(new Integer(_curToken.getTokenType()))
-                    + ", but expected " + (String) tokenTypes.get(new Integer(tokenType))
+                    + (String) TOKEN_TYPES.get(new Integer(_curToken.getTokenType()))
+                    + ", but expected " + (String) TOKEN_TYPES.get(new Integer(tokenType))
                     + ")");
         }
 

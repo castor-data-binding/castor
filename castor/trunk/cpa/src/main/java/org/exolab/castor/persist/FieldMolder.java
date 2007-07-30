@@ -427,9 +427,9 @@ public class FieldMolder {
          * Class type;
          */
 
-        for (int i = 0; i < info.length; i++) {
-            if (info[i]._name.equals(coll)) {
-                return info[i]._type;
+        for (int i = 0; i < INFO.length; i++) {
+            if (INFO[i]._name.equals(coll)) {
+                return INFO[i]._type;
             }
         }
         return null;
@@ -456,7 +456,7 @@ public class FieldMolder {
         }
     }
 
-    private static CollectionInfo[] info =
+    private static final CollectionInfo[] INFO =
         {new CollectionInfo(COLLECTION_TYPE_COLLECTION, java.util.Collection.class),
          new CollectionInfo(COLLECTION_TYPE_VECTOR, java.util.Vector.class),
          new CollectionInfo(COLLECTION_TYPE_ARRAYLIST, java.util.ArrayList.class),

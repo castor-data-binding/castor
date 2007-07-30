@@ -81,7 +81,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
 public final class SequenceKeyGenerator implements KeyGenerator {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
-    private static Log LOG = LogFactory.getFactory().getInstance (SequenceKeyGenerator.class);
+    private static final Log LOG = LogFactory.getFactory().getInstance (SequenceKeyGenerator.class);
 
     protected final PersistenceFactory _factory;
 
