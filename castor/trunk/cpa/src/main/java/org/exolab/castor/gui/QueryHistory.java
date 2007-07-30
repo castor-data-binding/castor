@@ -84,7 +84,7 @@ public class QueryHistory implements java.io.Serializable {
         }
     }
 
-    public String GetCurrentQuery() {
+    public String getCurrentQuery() {
       if (_querys.isEmpty()) {
           return "";
       }
@@ -109,11 +109,11 @@ public class QueryHistory implements java.io.Serializable {
     // Get to avoid mashaling
     public String getNextQuery() {
         this.moveforward();
-        return this.GetCurrentQuery();
+        return this.getCurrentQuery();
     }
 
     public String getPreviousQuery() {
         this.moveback();
-        return this.GetCurrentQuery();
+        return this.getCurrentQuery();
     }
 }
