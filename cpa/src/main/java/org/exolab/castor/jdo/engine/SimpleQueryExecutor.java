@@ -102,15 +102,15 @@ public class SimpleQueryExecutor {
         
         try {
             
-            String pre_sql = expr.getStatement(false);
+            String preSQL = expr.getStatement(false);
             
             // create SQL statement from pre_sql, replacing bind expressions like "?1" by "?"
-            String sql = SqlBindParser.getJdbcSql(pre_sql);
+            String sql = SqlBindParser.getJdbcSql(preSQL);
             
             _stmt = conn.prepareStatement(sql);
             
             if (bindValues != null) {
-                SqlBindParser.bindJdbcValues(_stmt, pre_sql, bindValues);
+                SqlBindParser.bindJdbcValues(_stmt, preSQL, bindValues);
             }
             
             _rset = _stmt.executeQuery();
