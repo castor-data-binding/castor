@@ -128,9 +128,9 @@ public final class SequenceKeyGenerator implements KeyGenerator {
         if (_triggerPresent && !returning) {
             _style = AFTER_INSERT;
         }
-        if (_triggerPresent && _style == BEFORE_INSERT)
-            throw new MappingException(Messages.format("mapping.keyGenParamNotCompat",
-                                        "trigger=\"true\"", getClass().getName(), _factoryName));
+        if (_triggerPresent && _style == BEFORE_INSERT) {
+            throw new MappingException(Messages.format("mapping.keyGenParamNotCompat", "trigger=\"true\"", getClass().getName(), _factoryName));
+        }
 
         _sqlType = sqlType;
         supportsSqlType(sqlType);

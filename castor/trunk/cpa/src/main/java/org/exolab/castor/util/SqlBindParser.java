@@ -149,8 +149,11 @@ public final class SqlBindParser {
                     if (pos == -1) {    // unexpected end of the constant?
                         pos = _sql_len;
                         break;
-                    } else if (_sql.charAt(pos - 1) != '\\')    // handle escape characters
-                        break;      // end of the constant
+                    } else if (_sql.charAt(pos - 1) != '\\') {
+                        // handle escape characters
+                        // end of the constant
+                        break;
+                    }
                 }
                 break;
 
@@ -158,9 +161,9 @@ public final class SqlBindParser {
                 _bindPos = pos;
 
                 // search for the end of the bind variable
-                do
+                do {
                     ++pos;
-                while(pos < _sql_len && Character.isDigit(_sql.charAt(pos)));
+                } while (pos < _sql_len && Character.isDigit(_sql.charAt(pos)));
 
                _pos = pos;
 
@@ -242,16 +245,19 @@ public final class SqlBindParser {
         for (int i = 1; parser.next(); ++i) {
             int bindNum = parser.getParamNumber();
 
-            if (bindNum == 0)
-                bindNum = i;    // handle CALL SQL statements with unnumbered bind variables
+            if (bindNum == 0) {
+                // handle CALL SQL statements with unnumbered bind variables
+                bindNum = i;
+            }
 
             Object value = values[bindNum - 1];
 
             if (_log.isDebugEnabled()) {
-                if (value == null)
+                if (value == null) {
                     _log.debug(Messages.format("jdo.bindSqlNull", Integer.toString(i)));
-                else
+                } else {
                     _log.debug(Messages.format("jdo.bindSql", Integer.toString(i), value, value.getClass().getName()));
+                }
             }
 
             stmt.setObject(i, value);

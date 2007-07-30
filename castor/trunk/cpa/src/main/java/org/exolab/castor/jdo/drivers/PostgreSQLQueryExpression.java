@@ -65,13 +65,15 @@ public final class PostgreSQLQueryExpression extends JDBCQueryExpression {
 
         if (_limit != null) {
             sql.append(JDBCSyntax.LIMIT).append(_limit);
-            if (_offset != null)
+            if (_offset != null) {
                 sql.append(JDBCSyntax.OFFSET).append(_offset);
+            }
         }
 
         // Use FOR UPDATE to lock selected tables.
-        if (lock)
+        if (lock) {
             sql.append(" FOR UPDATE");
+        }
 
         return sql.toString();
     }

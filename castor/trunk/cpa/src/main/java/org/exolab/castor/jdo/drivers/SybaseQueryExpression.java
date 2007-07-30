@@ -71,8 +71,9 @@ public final class SybaseQueryExpression extends JDBCQueryExpression {
 
         sql = new StringBuffer();
         sql.append(JDBCSyntax.SELECT);
-        if (_distinct)
-          sql.append(JDBCSyntax.DISTINCT);
+        if (_distinct) {
+            sql.append(JDBCSyntax.DISTINCT);
+        }
 
         sql.append(getColumnList());
         
@@ -89,10 +90,12 @@ public final class SybaseQueryExpression extends JDBCQueryExpression {
                 sql.append(_factory.quoteName(tableName) + " " +
                             _factory.quoteName(tableAlias));
             }
-            if (lock)
+            if (lock) {
                 sql.append(" HOLDLOCK ");
-            if (enumeration.hasMoreElements())
+            }
+            if (enumeration.hasMoreElements()) {
                 sql.append(JDBCSyntax.TABLE_SEPARATOR);
+            }
         }
 
         first = true;
@@ -104,27 +107,31 @@ public final class SybaseQueryExpression extends JDBCQueryExpression {
             if (first) {
                 sql.append(JDBCSyntax.WHERE);
                 first = false;
-            } else
+            } else {
                 sql.append(JDBCSyntax.AND);
+            }
 
             join = (Join) _joins.elementAt(i);
             for (int j = 0; j < join.leftColumns.length; ++j) {
-                if (j > 0)
+                if (j > 0) {
                     sql.append(JDBCSyntax.AND);
+                }
                 sql.append(_factory.quoteName(join.leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
                                                 join.leftColumns[j]));
-                if (join.outer)
+                if (join.outer) {
                     sql.append("*=");
-                else
+                } else {
                     sql.append(OP_EQUALS);
+                }
                 sql.append(_factory.quoteName(join.rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
                                                 join.rightColumns[j]));
             }
         }
         first = addWhereClause(sql, first);
  
-        if (_order != null)
-          sql.append(JDBCSyntax.ORDER_BY).append(_order);
+        if (_order != null) {
+            sql.append(JDBCSyntax.ORDER_BY).append(_order);
+        }
           
         return sql.toString();
     }
@@ -151,8 +158,9 @@ public final class SybaseQueryExpression extends JDBCQueryExpression {
         // hope it fix it.
         join = new Join(leftTable, leftColumn, rightTable, rightColumn, false);
         index = _joins.indexOf(join);
-        if (index >= 0)
+        if (index >= 0) {
             _joins.set(index, join);
+        }
     }
 
 }

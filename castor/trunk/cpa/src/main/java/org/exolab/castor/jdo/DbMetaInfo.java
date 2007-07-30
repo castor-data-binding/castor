@@ -104,8 +104,9 @@ public final class DbMetaInfo {
                          break;
                      }
 
-                    if (n == -1)
+                    if (n == -1) {
                         break;
+                    }
 
                     i = n + 1;
                 }
@@ -152,13 +153,15 @@ public final class DbMetaInfo {
             int x1 = (s1.length() > 0) ? Integer.parseInt(s1) : 0;
             int x2 = (s2.length() > 0) ? Integer.parseInt(s2) : 0;
 
-            if (x1 < x2)
+            if (x1 < x2) {
                 return -1;
-            else if (x1 > x2)
+            } else if (x1 > x2) {
                 return 1;
+            }
 
-            if ((n1 == -1) && (n2 == -1))
+            if ((n1 == -1) && (n2 == -1)) {
                 return 0;
+            }
 
             p1 = (n1 != -1) ? n1 + 1 : v1.length();
             p2 = (n2 != -1) ? n2 + 1 : v2.length();

@@ -577,7 +577,9 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
                                         private Method method = null;
                                         public Object convert(final Object obj, final String param) {
                                             try {
-                                                if (method == null)  method = toType().getMethod(VALUE_OF, STRING_ARG);
+                                                if (method == null) {
+                                                    method = toType().getMethod(VALUE_OF, STRING_ARG);
+                                                }
                                                 return method.invoke(toType(), new Object[] {(String) obj});
                                             } catch (Exception ex) {
                                                 return null;
@@ -595,8 +597,9 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
                         //-- Do nothing
                     }
                 }
-                if (!isTypeSafeEnum)
+                if (!isTypeSafeEnum) {
                     throw new MappingException("mapping.noConvertor", sqlType.getName(), internalFieldType.getName());
+                }
             }
             convertorFrom = SQLTypeConverters.getConvertor(internalFieldType, sqlType);
             if (typeName != null) {
@@ -612,8 +615,9 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             throws MappingException {
 
         // If not an SQL field, return a stock field descriptor.
-        if (fieldMap.getSql() == null)
+        if (fieldMap.getSql() == null) {
             return super.createFieldDesc(javaClass, fieldMap);
+        }
         
         String fieldName = fieldMap.getName();
         

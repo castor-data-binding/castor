@@ -75,8 +75,9 @@ public final class XAResourceImpl implements XAResource {
     private final XAResourceSource  _xaSource;
 
     public XAResourceImpl(final LockEngine engine, final XAResourceSource xaSource) {
-        if ((engine == null) || (xaSource == null))
+        if ((engine == null) || (xaSource == null)) {
             throw new IllegalArgumentException("Argument 'engine' or xaSource' is null");
+        }
         _xaSource = xaSource;
         _engine = engine;
     }
@@ -84,8 +85,9 @@ public final class XAResourceImpl implements XAResource {
     
     public synchronized void start(final Xid xid, final int flags) throws XAException {
         // General checks.
-        if (xid == null)
+        if (xid == null) {
             throw new XAException(XAException.XAER_INVAL);
+        }
         
         switch (flags) {
         case TMNOFLAGS:
@@ -108,8 +110,9 @@ public final class XAResourceImpl implements XAResource {
             TransactionContext tx2;
             
             tx2 = (TransactionContext) _engine.getXATransactions().get(xid);
-            if ((tx2 == null) || !tx2.isOpen())
+            if ((tx2 == null) || !tx2.isOpen()) {
                 throw new XAException(XAException.XAER_NOTA);
+            }
             // Associate XAResource with transaction
             _xaSource.setTransactionContext(tx2);
             break;
@@ -121,19 +124,22 @@ public final class XAResourceImpl implements XAResource {
 
     public synchronized void end(final Xid xid, final int flags) throws XAException {
         // General checks.
-        if (xid == null)
+        if (xid == null) {
             throw new XAException(XAException.XAER_INVAL);
+        }
         
         TransactionContext tx;
         
         tx = (TransactionContext) _engine.getXATransactions().get(xid);
-        if (tx == null)
+        if (tx == null) {
             throw new XAException(XAException.XAER_NOTA);
+        }
         
         // Make sure the XA source is associated with any
         // transaction otherwise this is an invalid Xid
-        if (_xaSource.getTransactionContext() == null)
+        if (_xaSource.getTransactionContext() == null) {
             throw new XAException(XAException.XAER_INVAL);
+        }
         switch (flags) {
         case TMSUCCESS:
             // Expect prepare/rollback next
@@ -160,18 +166,21 @@ public final class XAResourceImpl implements XAResource {
 
 
     public synchronized void forget(final Xid xid) throws XAException {
-        if (xid == null)
+        if (xid == null) {
             throw new XAException(XAException.XAER_INVAL);
+        }
         
         synchronized (_engine.getXATransactions()) {
             TransactionContext tx;
             
             tx = (TransactionContext) _engine.getXATransactions().remove(xid);
-            if (tx == null)
+            if (tx == null) {
                 throw new XAException(XAException.XAER_NOTA);
+            }
             // Dissociate XA source from transaction
-            if (_xaSource.getTransactionContext() == tx)
+            if (_xaSource.getTransactionContext() == tx) {
                 _xaSource.setTransactionContext(null);
+            }
             
             // Forget is never called on an open transaction, but one
             // can never tell.
@@ -186,14 +195,16 @@ public final class XAResourceImpl implements XAResource {
 
 
     public synchronized int prepare(final Xid xid) throws XAException {
-        if (xid == null)
+        if (xid == null) {
             throw new XAException(XAException.XAER_INVAL);
+        }
         
         TransactionContext tx;
         
         tx = (TransactionContext) _engine.getXATransactions().get(xid);
-        if (tx == null)
+        if (tx == null) {
             throw new XAException(XAException.XAER_NOTA);
+        }
         
         switch (tx.getStatus()) {
         case Status.STATUS_PREPARED:
@@ -218,14 +229,16 @@ public final class XAResourceImpl implements XAResource {
 
 
     public synchronized void commit(final Xid xid, final boolean onePhase) throws XAException {
-        if (xid == null)
+        if (xid == null) {
             throw new XAException(XAException.XAER_INVAL);
+        }
         
         TransactionContext tx;
         
         tx = (TransactionContext) _engine.getXATransactions().get(xid);
-        if (tx == null)
+        if (tx == null) {
             throw new XAException(XAException.XAER_NOTA);
+        }
         switch (tx.getStatus()) {
         case Status.STATUS_COMMITTED:
             // Allowed to make multiple commit attempts.
@@ -254,14 +267,16 @@ public final class XAResourceImpl implements XAResource {
     
 
     public synchronized void rollback(final Xid xid) throws XAException {
-        if (xid == null)
+        if (xid == null) {
             throw new XAException(XAException.XAER_INVAL);
+        }
         
         TransactionContext tx;
         
         tx = (TransactionContext) _engine.getXATransactions().get(xid);
-        if (tx == null)
+        if (tx == null) {
             throw new XAException(XAException.XAER_NOTA);
+        }
         switch (tx.getStatus()) {
         case Status.STATUS_COMMITTED:
             // This should not happen unless someone interfered
@@ -299,10 +314,12 @@ public final class XAResourceImpl implements XAResource {
         // Two resource managers are equal if they produce equivalent
         // connection (i.e. same database, same user). If the two are
         // equivalent they would share a transaction by joining.
-        if ((xaRes == null) || !(xaRes instanceof XAResourceImpl))
+        if ((xaRes == null) || !(xaRes instanceof XAResourceImpl)) {
             return false;
-        if (_engine == ((XAResourceImpl) xaRes)._engine)
+        }
+        if (_engine == ((XAResourceImpl) xaRes)._engine) {
             return true;
+        }
         return false;
     }
     
@@ -323,8 +340,9 @@ public final class XAResourceImpl implements XAResource {
         TransactionContext tx;
         
         tx = _xaSource.getTransactionContext();
-        if (tx != null && tx.isOpen())
+        if (tx != null && tx.isOpen()) {
             return tx.getTransactionTimeout();
+        }
         return 0;
     }
 }

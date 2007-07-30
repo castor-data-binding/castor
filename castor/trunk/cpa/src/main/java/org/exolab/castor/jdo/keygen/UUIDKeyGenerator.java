@@ -132,16 +132,18 @@ public final class UUIDKeyGenerator implements KeyGenerator {
 
         try {
           // getting IP (fixed length: 12 character)
-          if (_sHost == null)
-            _sHost = InetAddress.getLocalHost().getHostAddress();
+          if (_sHost == null) {
+              _sHost = InetAddress.getLocalHost().getHostAddress();
+          }
 
           StringTokenizer st = new StringTokenizer(_sHost, ".");
           _df.applyPattern("000");
           while (st.hasMoreTokens()) {
-            if (sUUID == null)
-              sUUID = _df.format(new Integer(st.nextToken()));
-            else
-              sUUID += _df.format(new Integer(st.nextToken()));
+            if (sUUID == null) {
+                sUUID = _df.format(new Integer(st.nextToken()));
+            } else {
+                sUUID += _df.format(new Integer(st.nextToken()));
+            }
           }
 
           // getting currentTimeMillis (fixed length: 13 character)
@@ -149,8 +151,10 @@ public final class UUIDKeyGenerator implements KeyGenerator {
           sUUID += _df.format(System.currentTimeMillis());
 
           // getting static counter (fixed length: 15 character)
-          if (_staticCounter >= 99999) // 99999 generated keys in one timer interval? no...
-            _staticCounter = 0;
+          if (_staticCounter >= 99999) {
+              // 99999 generated keys in one timer interval? no...
+              _staticCounter = 0;
+          }
 
           _staticCounter++;
           _df.applyPattern("00000");

@@ -67,16 +67,18 @@ public final class MySQLQueryExpression extends JDBCQueryExpression {
         if (_limit != null) {
             sql.append(JDBCSyntax.LIMIT);
 
-            if (_offset != null)
+            if (_offset != null) {
                 sql.append(_offset).append(", ");
+            }
 
             sql.append(_limit);
         }
 
         // Do not use FOR UPDATE to lock query.
         // return getStandardStatement( lock, false ).toString();
-        if (lock)
+        if (lock) {
             sql.append(" FOR UPDATE");
+        }
 
         return sql.toString();
     }

@@ -421,8 +421,9 @@ public class ParseTreeWalker {
             case TokenType.IDENTIFIER:
                 //a SQL function call -- check the arguments
                 _projectionType = FUNCTION;
-                for (Iterator iter = projection.getChild(0).children(); iter.hasNext(); )
-                  checkProjection((ParseTreeNode) iter.next(), false, true);
+                for (Iterator iter = projection.getChild(0).children(); iter.hasNext(); ) {
+                    checkProjection((ParseTreeNode) iter.next(), false, true);
+                }
                 break;
             case TokenType.DOT:
                 //a path expression -- check if it is valid, and create a paramInfo

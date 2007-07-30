@@ -28,8 +28,9 @@ public final class InterbaseQueryExpression extends JDBCQueryExpression {
 
         sql = new StringBuffer();
         sql.append(JDBCSyntax.SELECT);
-        if (_distinct)
-          sql.append(JDBCSyntax.DISTINCT);
+        if (_distinct) {
+            sql.append(JDBCSyntax.DISTINCT);
+        }
 
         sql.append(getColumnList());
 
@@ -42,7 +43,9 @@ public final class InterbaseQueryExpression extends JDBCQueryExpression {
 
             Join join = (Join) _joins.elementAt(i);
 
-            if (done.contains(join.leftTable)) continue;
+            if (done.contains(join.leftTable)) {
+                continue;
+            }
 
             if (first) {
                 first = false;
@@ -84,8 +87,9 @@ public final class InterbaseQueryExpression extends JDBCQueryExpression {
 
         first = addWhereClause(sql, true);
 
-        if (_order != null)
-          sql.append(JDBCSyntax.ORDER_BY).append(_order);
+        if (_order != null) {
+            sql.append(JDBCSyntax.ORDER_BY).append(_order);
+        }
 
         // Do not use FOR UPDATE to lock query.
         return sql.toString();
@@ -93,8 +97,11 @@ public final class InterbaseQueryExpression extends JDBCQueryExpression {
 
     void appendJoin(final Join join) {
 
-      if (join.outer) sql.append(JDBCSyntax.LEFT_JOIN);
-      else sql.append(JDBCSyntax.INNER_JOIN);
+      if (join.outer) {
+          sql.append(JDBCSyntax.LEFT_JOIN);
+      } else {
+          sql.append(JDBCSyntax.INNER_JOIN);
+      }
 
       String tableAlias = join.rightTable;
       String tableName = (String) _tables.get(tableAlias);
@@ -106,7 +113,9 @@ public final class InterbaseQueryExpression extends JDBCQueryExpression {
       }
       sql.append(JDBCSyntax.ON);
       for (int j = 0; j < join.leftColumns.length; ++j) {
-          if (j > 0) sql.append(JDBCSyntax.AND);
+          if (j > 0) {
+              sql.append(JDBCSyntax.AND);
+          }
           sql.append(_factory.quoteName(join.leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
                                           join.leftColumns[j])).append(OP_EQUALS);
           sql.append(_factory.quoteName(join.rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +

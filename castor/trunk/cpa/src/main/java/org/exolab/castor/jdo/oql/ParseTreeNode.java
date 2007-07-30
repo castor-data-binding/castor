@@ -157,7 +157,9 @@ public final class ParseTreeNode {
      * @return the number of children of this node.
      */
     public int getChildCount() {
-        if (_children == null) return 0;
+        if (_children == null) {
+            return 0;
+        }
         return _children.size();
     }
 

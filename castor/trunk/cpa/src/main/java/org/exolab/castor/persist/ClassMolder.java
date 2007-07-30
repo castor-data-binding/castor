@@ -348,16 +348,18 @@ public class ClassMolder {
                 // if many-key exist, idSQL is overridden
                 String[] manyKey = fmFields[i].getSql().getManyKey();
                 if ((manyKey != null) && (manyKey.length != 0)) {
-                    if (manyKey.length != idSQL.length)
+                    if (manyKey.length != idSQL.length) {
                         throw new MappingException("The number of many-keys doesn't match referred object: " + clsDesc.getJavaClass().getName());
+                    }
                     idSQL = manyKey;
                 }
 
                 // if name="" exist, relatedIdSQL is overridden
                 String[] manyName = fmFields[i].getSql().getName();
                 if ((manyName != null) && (manyName.length != 0)) {
-                    if (manyName.length != relatedIdSQL.length)
+                    if (manyName.length != relatedIdSQL.length) {
                         throw new MappingException("The number of many-keys doesn't match referred object: " + relDesc.getJavaClass().getName());
+                    }
                     relatedIdSQL = manyName;
                 }
 
@@ -383,8 +385,9 @@ public class ClassMolder {
 
         // ssa, FIXME : Are the two statements equivalents ?
         //        if ( Persistent.class.isAssignableFrom( _base ) )
-        if (Persistent.class.isAssignableFrom(ds.resolve(_name)))
+        if (Persistent.class.isAssignableFrom(ds.resolve(_name))) {
             _callback = new JDOCallback();
+        }
     }
     
     public ClassDescriptor getClassDescriptor() { return _clsDesc; }
@@ -700,8 +703,9 @@ public class ClassMolder {
         oid.setDbLock(true);
 
         // set the new timeStamp into the data object
-        if (object instanceof TimeStampable)
+        if (object instanceof TimeStampable) {
             ((TimeStampable) object).jdoSetTimeStamp(locker.getTimeStamp());
+        }
 
         // set the identity into the object
         setIdentity(tx, object, createdId);
@@ -1021,11 +1025,13 @@ public class ClassMolder {
 
         base = _depends;
         while (base != null) {
-            if (base._extendent != null)
-                for (int i = 0; i < base._extendent.size(); i++)
+            if (base._extendent != null) {
+                for (int i = 0; i < base._extendent.size(); i++) {
                     if (extendPath.contains(base._extendent.get(i))) {
                         // NB: further INVESTIGATION
                     }
+                }
+            }
 
             base = base._extends;
         }
@@ -1355,8 +1361,9 @@ public class ClassMolder {
      * Mutator method to add a extent ClassMolder
      */
     void addExtendent(final ClassMolder ext) {
-        if (_extendent == null)
+        if (_extendent == null) {
             _extendent = new Vector();
+        }
         _extendent.add(ext);
     }
 

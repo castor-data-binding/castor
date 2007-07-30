@@ -465,20 +465,26 @@ public class DTXQuery {
 
             StringTokenizer token = new StringTokenizer(oql);
 
-            if (!token.hasMoreTokens() || !token.nextToken().equalsIgnoreCase("SELECT"))
-            throw new DTXException("Query must start with SELECT");
-            if (!token.hasMoreTokens())
-            throw new DTXException("Missing object name");
+            if (!token.hasMoreTokens() || !token.nextToken().equalsIgnoreCase("SELECT")) {
+                throw new DTXException("Query must start with SELECT");
+            }
+            if (!token.hasMoreTokens()) {
+                throw new DTXException("Missing object name");
+            }
             _objName = token.nextToken();
-            if (!token.hasMoreTokens() || !token.nextToken().equalsIgnoreCase("FROM"))
-            throw new DTXException("Object must be followed by FROM");
-            if (!token.hasMoreTokens())
-            throw new DTXException("Missing object type");
+            if (!token.hasMoreTokens() || !token.nextToken().equalsIgnoreCase("FROM")) {
+                throw new DTXException("Object must be followed by FROM");
+            }
+            if (!token.hasMoreTokens()) {
+                throw new DTXException("Missing object type");
+            }
             _objType = token.nextToken();
-            if (!token.hasMoreTokens())
-            throw new DTXException("Missing object name");
-            if (!_objName.equals(token.nextToken()))
-            throw new DTXException("Object name not same in SELECT and FROM");
+            if (!token.hasMoreTokens()) {
+                throw new DTXException("Missing object name");
+            }
+            if (!_objName.equals(token.nextToken())) {
+                throw new DTXException("Object name not same in SELECT and FROM");
+            }
 
             if (_logWriter != null) {
             _logWriter.println("Querying " + _objName + " of type " + _objType);

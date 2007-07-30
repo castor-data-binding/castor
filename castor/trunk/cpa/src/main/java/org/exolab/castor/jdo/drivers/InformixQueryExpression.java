@@ -77,8 +77,9 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
 
     private void addSelectClause(final StringBuffer buffer) {
         buffer.append(JDBCSyntax.SELECT);
-        if (_distinct)
-          buffer.append(JDBCSyntax.DISTINCT);
+        if (_distinct) {
+            buffer.append(JDBCSyntax.DISTINCT);
+        }
 
         buffer.append(getColumnList());
     }
@@ -89,8 +90,9 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
         Enumeration tables = getFromTables();
         while (tables.hasMoreElements()) {
             buffer.append((String) tables.nextElement());
-            if (tables.hasMoreElements())
+            if (tables.hasMoreElements()) {
                 buffer.append(JDBCSyntax.TABLE_SEPARATOR);
+            }
         }
     }
 
@@ -134,8 +136,9 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
 
         for (int i = 0; i < _joins.size(); ++i) {
             join = (Join) _joins.elementAt(i);
-            if (join.outer)
+            if (join.outer) {
                 tables.addElement(join.rightTable);
+            }
         }
 
         return tables;
@@ -148,8 +151,9 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
             if (first) {
                 buffer.append(JDBCSyntax.WHERE);
                 first = false;
-            } else
+            } else {
                 buffer.append(JDBCSyntax.AND);
+            }
 
             addJoin(buffer, (Join) _joins.elementAt(i));
         }
@@ -159,8 +163,9 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
 
     private void addJoin(final StringBuffer buffer, final Join join) {
         for (int j = 0; j < join.leftColumns.length; ++j) {
-            if (j > 0)
+            if (j > 0) {
                 buffer.append(JDBCSyntax.AND);
+            }
 
             buffer.append(quoteTableAndColumn(join.leftTable, join.leftColumns[j]));
             buffer.append(OP_EQUALS);

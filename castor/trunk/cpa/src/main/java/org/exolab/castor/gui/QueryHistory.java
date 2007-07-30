@@ -76,17 +76,21 @@ public class QueryHistory implements java.io.Serializable {
     }
 
     public void moveback() {
-        if (currentPos > 0)
+        if (currentPos > 0) {
             currentPos--;
+        }
     }
 
     public void moveforward() {
-        if (currentPos < querys.size() - 1)
+        if (currentPos < querys.size() - 1) {
             currentPos++;
+        }
     }
 
     public String GetCurrentQuery() {
-      if (querys.isEmpty()) return "";
+      if (querys.isEmpty()) {
+          return "";
+      }
       return (String) querys.elementAt(currentPos);
     }
 
@@ -98,9 +102,9 @@ public class QueryHistory implements java.io.Serializable {
 
         querys.add(newQuery);
 
-
-        if (querys.size() > maxsize)
+        if (querys.size() > maxsize) {
             querys.removeElementAt(0);
+        }
 
         currentPos = querys.size() - 1;
     }
