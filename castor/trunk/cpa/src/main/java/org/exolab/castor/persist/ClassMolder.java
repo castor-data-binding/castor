@@ -495,12 +495,9 @@ public class ClassMolder {
      * @param suggestedAccessMode the acessMode for the object
      * @return the object stamp for the object in the persistent storage
      */
-    public Object load(final TransactionContext tx, 
-            final OID oid, 
-            final DepositBox locker,
-            final ProposedEntity proposedObject, 
-            final AccessMode suggestedAccessMode)
-    throws ObjectNotFoundException, PersistenceException {
+    public Object load(final TransactionContext tx, final OID oid, final DepositBox locker,
+            final ProposedEntity proposedObject, final AccessMode suggestedAccessMode)
+    throws PersistenceException {
         return load(tx, oid, locker, proposedObject, suggestedAccessMode, null);
     }
 
@@ -516,13 +513,10 @@ public class ClassMolder {
      * @throws ObjectNotFoundException If the object in question cannot be found.
      * @throws PersistenceException For any other persistence-ralted problem.
      */
-    private Object loadFields(final TransactionContext tx, 
-            final OID oid, 
-            final DepositBox locker,
-            final ProposedEntity proposedObject, 
-            final AccessMode suggestedAccessMode, 
+    private Object loadFields(final TransactionContext tx, final OID oid, final DepositBox locker,
+            final ProposedEntity proposedObject, final AccessMode suggestedAccessMode,
             final QueryResults results)
-    throws ObjectNotFoundException, PersistenceException {
+    throws PersistenceException {
                    
         Object stamp = null;
         AccessMode accessMode = getAccessMode(suggestedAccessMode);
@@ -601,7 +595,7 @@ public class ClassMolder {
     public Object load(final TransactionContext tx, final OID oid, final DepositBox locker,
             final ProposedEntity proposedObject, final AccessMode suggestedAccessMode,
             final QueryResults results)
-    throws ObjectNotFoundException, PersistenceException {
+    throws PersistenceException {
         
         int fieldType;
         AccessMode accessMode = getAccessMode(suggestedAccessMode);
@@ -657,7 +651,7 @@ public class ClassMolder {
      * @return  the identity of the object
      */
     public Identity create(final TransactionContext tx, final OID oid, final DepositBox locker,
-            final Object object)throws DuplicateIdentityException, PersistenceException {
+            final Object object) throws PersistenceException {
 
         int fieldType;
 
@@ -730,7 +724,7 @@ public class ClassMolder {
      * @param object  the object to be created
      */
     public void markCreate(final TransactionContext tx, final OID oid, final DepositBox locker,
-            final Object object) throws DuplicateIdentityException, PersistenceException {
+            final Object object) throws PersistenceException {
 
         boolean updateCache = false;
 
@@ -815,9 +809,7 @@ public class ClassMolder {
      * @param object the object to be stored
      */
     public void store(final TransactionContext tx, final OID oid, final DepositBox locker,
-            final Object object)
-    throws DuplicateIdentityException, PersistenceException,
-           ObjectModifiedException, ObjectDeletedException {
+            final Object object) throws PersistenceException {
 
         if (oid.getIdentity() == null) {
             throw new PersistenceException(Messages.format("persist.missingIdentityForStore", _name));
@@ -858,12 +850,8 @@ public class ClassMolder {
      * @param object the object to be stored
      * @return boolean true if the updating object should be created
      */
-    public boolean update(final TransactionContext tx, 
-            final OID oid, 
-            final DepositBox locker, 
-            final Object object, 
-            final AccessMode suggestedAccessMode)
-            throws PersistenceException, ObjectModifiedException {
+    public boolean update(final TransactionContext tx, final OID oid, final DepositBox locker,
+            final Object object, final AccessMode suggestedAccessMode) throws PersistenceException {
 
         AccessMode accessMode = getAccessMode(suggestedAccessMode);
 
@@ -1048,11 +1036,8 @@ public class ClassMolder {
      * @param locker - the dirty checking cache of the target object
      * @param object - the target object
      */
-    public void markDelete(final TransactionContext tx, 
-            final OID oid, 
-            final DepositBox locker, 
-            final Object object)
-            throws ObjectNotFoundException, PersistenceException {
+    public void markDelete(final TransactionContext tx, final OID oid, final DepositBox locker,
+            final Object object) throws PersistenceException {
 
         resetResolvers();
 

@@ -147,8 +147,7 @@ public final class QueryResults {
      * @throws TransactionNotInProgressException The transaction
      *  has been closed
      */
-    public Object nextIdentity()
-        throws TransactionNotInProgressException, PersistenceException {
+    public Object nextIdentity() throws PersistenceException {
         // Make sure transaction is still open.
         if (_tx.getStatus() != Status.STATUS_ACTIVE) {
             throw new TransactionNotInProgressException(
@@ -193,9 +192,7 @@ public final class QueryResults {
      * @throws TransactionNotInProgressException The transaction
      *  has been closed
      */
-    public Object fetch()
-        throws TransactionNotInProgressException, PersistenceException,
-               ObjectNotFoundException, LockNotGrantedException {
+    public Object fetch() throws PersistenceException {
         ClassMolder     handler;
         Object           object;
         
