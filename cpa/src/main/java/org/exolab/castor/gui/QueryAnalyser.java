@@ -94,7 +94,7 @@ public class QueryAnalyser {
     boolean _packFrame = false;
 
     /**Construct the application*/
-    public QueryAnalyser(final String databasename, final String dbconfig) {
+    private QueryAnalyser(final String databasename, final String dbconfig) {
         MainFrame frame = new MainFrame(databasename, dbconfig);
         //Validate frames that have preset sizes
         //Pack frames that have useful preferred size info, e.g. from their layout

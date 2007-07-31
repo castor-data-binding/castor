@@ -131,4 +131,9 @@ public final class KeyGeneratorFactoryRegistry {
             }
         }
     }
+    
+    /**
+     * Hide Utility Class Constructor.
+     */
+    private KeyGeneratorFactoryRegistry() { }
 }
