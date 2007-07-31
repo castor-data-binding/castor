@@ -171,7 +171,8 @@ public final class SqlBindParser {
             }
         }
 
-        _bindPos = _pos = _length;
+        _bindPos = _length;
+        _pos = _length;
 
         return false;
     }
