@@ -912,14 +912,14 @@ public class FieldMolder {
      * accessor and check the return value or parameter type, if
      * specified.
      * 
-     * TODO:  Most of this code appears to be (badly) duplicated in MappingLoader, which
-     * is probably a closer source to the true behavior of this method.  At some point in
-     * the future, this should get rationalized.
+     * TODO Most of this code appears to be (badly) duplicated in MappingLoader, which
+     *      is probably a closer source to the true behavior of this method.  At some
+     *      point in the future, this should get rationalized.
      * 
      *
      * @param javaClass The class to which the field belongs
      * @param methodName The name of the accessor method
-     * @param internalFieldType The type of the field if known, or null
+     * @param fieldType The type of the field if known, or null
      * @param getMethod True if get method, false if set method
      * @return The method, null if not found
      * @throws MappingException The method is not accessible or is not of the
