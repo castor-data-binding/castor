@@ -255,8 +255,7 @@ public abstract class AbstractDatabaseImpl implements Database {
      * {@inheritDoc}
      */
     public Object load(final Class type, final Object identity) 
-    throws ObjectNotFoundException, LockNotGrantedException, 
-           TransactionNotInProgressException, PersistenceException {
+    throws TransactionNotInProgressException, PersistenceException {
         return load(type, identity, null, null);
     }
 
@@ -268,8 +267,7 @@ public abstract class AbstractDatabaseImpl implements Database {
             final Class type, 
             final Object identity,
             final Object object) 
-    throws TransactionNotInProgressException, ObjectNotFoundException,
-    LockNotGrantedException, PersistenceException {
+    throws TransactionNotInProgressException, PersistenceException {
         return load(type, identity, object, null);
     }
     
@@ -279,8 +277,7 @@ public abstract class AbstractDatabaseImpl implements Database {
      */
     public Object load(final Class type, final Object identity,
                        final AccessMode mode) 
-    throws TransactionNotInProgressException, ObjectNotFoundException,
-           LockNotGrantedException, PersistenceException {
+    throws TransactionNotInProgressException, PersistenceException {
         return load(type, identity, null, mode);
     }
 
@@ -299,8 +296,7 @@ public abstract class AbstractDatabaseImpl implements Database {
      */
     private Object load(final Class type, final Object identity,
                         final Object object, final AccessMode mode) 
-    throws TransactionNotInProgressException, ObjectNotFoundException,
-    LockNotGrantedException, PersistenceException {
+    throws TransactionNotInProgressException, PersistenceException {
         if (identity == null) {
             throw new PersistenceException("Identities can't be null!");
         }
@@ -318,8 +314,7 @@ public abstract class AbstractDatabaseImpl implements Database {
      * @see org.exolab.castor.jdo.Database#create(java.lang.Object)
      */
     public void create(final Object object)
-            throws ClassNotPersistenceCapableException, DuplicateIdentityException,
-            TransactionNotInProgressException, PersistenceException {
+    throws TransactionNotInProgressException, PersistenceException {
         TransactionContext tx = getTransaction();
         ClassMolder molder = _scope.getClassMolder(object.getClass());
         tx.create(molder, object, null);
@@ -341,8 +336,7 @@ public abstract class AbstractDatabaseImpl implements Database {
      * @see org.exolab.castor.jdo.Database#update(java.lang.Object)
      */
     public void update(final Object object)
-    throws ClassNotPersistenceCapableException, ObjectModifiedException,
-           TransactionNotInProgressException, PersistenceException {
+    throws TransactionNotInProgressException, PersistenceException {
         
         TransactionContext tx = getTransaction();
         ClassMolder molder = _scope.getClassMolder(object.getClass());
@@ -354,8 +348,7 @@ public abstract class AbstractDatabaseImpl implements Database {
      * @see org.exolab.castor.jdo.Database#remove(java.lang.Object)
      */
     public void remove(final Object object)
-    throws ObjectNotPersistentException, LockNotGrantedException,
-           TransactionNotInProgressException, PersistenceException {
+    throws TransactionNotInProgressException, PersistenceException {
         
         TransactionContext tx = getTransaction();
         _scope.getClassMolder(object.getClass());
@@ -395,8 +388,7 @@ public abstract class AbstractDatabaseImpl implements Database {
      * @see org.exolab.castor.jdo.Database#lock(java.lang.Object)
      */
     public void lock(final Object object)
-    throws LockNotGrantedException, ObjectNotPersistentException,
-           TransactionNotInProgressException,  PersistenceException {
+    throws ObjectNotPersistentException, TransactionNotInProgressException,  PersistenceException {
         if (!isActive()) {
             throw new TransactionNotInProgressException(Messages.message("jdo.txNotInProgress"));
         }

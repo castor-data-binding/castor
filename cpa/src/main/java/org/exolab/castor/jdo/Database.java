@@ -250,9 +250,7 @@ public interface Database {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    Object load(final Class type, final Object identity)
-    throws TransactionNotInProgressException, ObjectNotFoundException,
-           LockNotGrantedException, PersistenceException;
+    Object load(final Class type, final Object identity) throws PersistenceException;
 
     /**
      * <p>
@@ -275,9 +273,8 @@ public interface Database {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    Object load(final Class type, final Object identity, final AccessMode mode) 
-    throws TransactionNotInProgressException, ObjectNotFoundException,
-           LockNotGrantedException, PersistenceException;
+    Object load(final Class type, final Object identity, final AccessMode mode)
+    throws PersistenceException;
 
     /**
      * <p>
@@ -304,8 +301,7 @@ public interface Database {
      *  persistence engine
      */
     Object load(final Class type, final Object identity, final Object object)
-    throws ObjectNotFoundException, LockNotGrantedException,
-           TransactionNotInProgressException, PersistenceException;
+    throws PersistenceException;
 
     /**
      * Creates a new object in persistent storage. The object will be
@@ -327,9 +323,7 @@ public interface Database {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    void create(Object object)
-    throws ClassNotPersistenceCapableException, DuplicateIdentityException,
-           TransactionNotInProgressException, PersistenceException;
+    void create(Object object) throws PersistenceException;
 
     /**
      * Removes the object from persistent storage. The deletion will
@@ -348,9 +342,7 @@ public interface Database {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    void remove(Object object)
-    throws ObjectNotPersistentException, LockNotGrantedException, 
-           TransactionNotInProgressException, PersistenceException;
+    void remove(Object object) throws PersistenceException;
 
     /**
      * Update a data object which is queried/loaded/created in <b>another
@@ -374,9 +366,7 @@ public interface Database {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    void update(Object object)
-    throws ClassNotPersistenceCapableException,
-           TransactionNotInProgressException, PersistenceException;
+    void update(Object object) throws PersistenceException;
 
     /**
      * Acquire a soft write lock on the object. Read locks are implicitly
@@ -406,9 +396,7 @@ public interface Database {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    void lock(Object object)
-    throws LockNotGrantedException, ObjectNotPersistentException,
-           TransactionNotInProgressException,  PersistenceException;
+    void lock(Object object) throws PersistenceException;
 
     /**
      * Begin a new transaction. A transaction must be open in order

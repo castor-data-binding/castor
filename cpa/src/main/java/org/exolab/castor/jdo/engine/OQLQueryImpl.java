@@ -423,7 +423,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
      * @see org.exolab.castor.jdo.Query#execute()
      */
     public QueryResults execute()
-    throws QueryException, PersistenceException, TransactionNotInProgressException {
+    throws PersistenceException, TransactionNotInProgressException {
         return execute(null);
     }
 

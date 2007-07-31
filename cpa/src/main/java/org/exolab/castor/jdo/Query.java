@@ -171,15 +171,13 @@ public interface Query {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    QueryResults execute()
-    throws QueryException, PersistenceException, TransactionNotInProgressException;
+    QueryResults execute() throws PersistenceException;
 
     /**
      * <b>Experimental</b>
      * This is used for cursor support
      */
-    QueryResults execute(final boolean scrollable)
-    throws QueryException, PersistenceException, TransactionNotInProgressException;
+    QueryResults execute(final boolean scrollable) throws PersistenceException;
 
     /**
      * Execute the query. The query is executed returning an enumeration
@@ -198,15 +196,14 @@ public interface Query {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    QueryResults execute(final AccessMode accessMode)
-    throws QueryException, PersistenceException, TransactionNotInProgressException;
+    QueryResults execute(final AccessMode accessMode) throws PersistenceException;
 
     /**
      * <b>Experimental</b>
      * This is used for cursor support
      */
     QueryResults execute(final AccessMode accessMode, final boolean scrollable)
-    throws QueryException, PersistenceException, TransactionNotInProgressException;
+    throws PersistenceException;
 
     /**
      * Close the query and release all resources held by the query.

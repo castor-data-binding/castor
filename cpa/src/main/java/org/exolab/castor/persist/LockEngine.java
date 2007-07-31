@@ -355,14 +355,12 @@ public final class LockEngine {
      * @throws ObjectDeletedWaitingForLockException The object has been deleted, but is waiting for a lock.
      */
     public OID load(final TransactionContext tx, final OID oid, final ProposedEntity proposedObject, final AccessMode suggestedAccessMode, final int timeout)
-    throws ObjectNotFoundException, LockNotGrantedException, PersistenceException,
-    ClassNotPersistenceCapableException, ObjectDeletedWaitingForLockException {
+    throws PersistenceException {
         return load(tx, oid, proposedObject, suggestedAccessMode, timeout, null);
     }
 
     public OID load(final TransactionContext tx, final OID oid, final ProposedEntity proposedObject, final AccessMode suggestedAccessMode, final int timeout, final QueryResults results)
-    throws ObjectNotFoundException, LockNotGrantedException, PersistenceException,
-            ClassNotPersistenceCapableException, ObjectDeletedWaitingForLockException {
+    throws PersistenceException {
 
         OID internaloid = oid;
         OID        lockedOid;
@@ -450,7 +448,7 @@ public final class LockEngine {
      * @throws LockNotGrantedException Timeout or deadlock occured attempting to acquire lock on object.
      */
     public void markCreate(final TransactionContext tx, final OID oid, final Object object)
-            throws PersistenceException, LockNotGrantedException {
+    throws PersistenceException {
 
         TypeInfo   typeInfo;
         typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
@@ -483,8 +481,7 @@ public final class LockEngine {
      *  persistent capable
      */
     public OID create(final TransactionContext tx, final OID oid, final Object object)
-    throws DuplicateIdentityException, PersistenceException,
-           ClassNotPersistenceCapableException {
+    throws PersistenceException {
         OID internaloid = oid;
         TypeInfo typeInfo;
         ObjectLock lock;
@@ -609,7 +606,7 @@ public final class LockEngine {
     }
 
     public void markDelete(final TransactionContext tx, final OID oid, final Object object, final int timeout)
-        throws PersistenceException, LockNotGrantedException {
+    throws PersistenceException {
 
         TypeInfo typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
 
@@ -650,9 +647,7 @@ public final class LockEngine {
      * @throws ObjectDeletedWaitingForLockException
      */
     public boolean update(final TransactionContext tx, final OID oid, final Object object, final AccessMode suggestedAccessMode, final int timeout)
-    throws ObjectNotFoundException, LockNotGrantedException, ObjectModifiedException,
-           PersistenceException, ClassNotPersistenceCapableException,
-           ObjectDeletedWaitingForLockException {
+    throws PersistenceException {
 
         OID internaloid = oid;
         TypeInfo   typeInfo;
@@ -752,7 +747,7 @@ public final class LockEngine {
      *  persistence engine
      */
     public OID preStore(final TransactionContext tx, final OID oid, final Object object, final int timeout)
-    throws LockNotGrantedException, PersistenceException {
+    throws PersistenceException {
         OID internaloid = oid;
         TypeInfo   typeInfo;
         ObjectLock lock = null;
@@ -796,8 +791,7 @@ public final class LockEngine {
     }
 
     public void store(final TransactionContext tx, final OID oid, final Object object)
-    throws LockNotGrantedException, ObjectDeletedException, ObjectModifiedException,
-           DuplicateIdentityException, PersistenceException {
+    throws PersistenceException {
 
         ObjectLock lock = null;
         TypeInfo   typeInfo;
@@ -850,7 +844,7 @@ public final class LockEngine {
      *  persistence engine
      */
     public void writeLock(final TransactionContext tx, final OID oid, final int timeout)
-    throws LockNotGrantedException, PersistenceException {
+    throws PersistenceException {
 
         TypeInfo   typeInfo;
 
@@ -1004,8 +998,7 @@ public final class LockEngine {
      * @throws ObjectDeletedException Object has been deleted from the persistence store.
      */
     public boolean expireCache(final TransactionContext tx, final OID oid, final int timeout)
-    throws ClassNotPersistenceCapableException, LockNotGrantedException,
-           ObjectDeletedException, PersistenceException {
+    throws PersistenceException {
         
         TypeInfo   typeInfo;
         boolean    succeed;
@@ -1214,7 +1207,7 @@ public final class LockEngine {
          */
         private ObjectLock acquire(final OID oid, final TransactionContext tx,
                 final short lockAction, final int timeout)
-        throws ObjectDeletedWaitingForLockException, LockNotGrantedException {
+        throws LockNotGrantedException {
             OID internaloid = oid;
             ObjectLock entry = null;
             // sync on "locks" is, unfortunately, necessary if we employ
@@ -1316,7 +1309,7 @@ public final class LockEngine {
          *         to acquire lock on object.
          */
         private ObjectLock upgrade(final OID oid, final TransactionContext tx, final int timeout)
-        throws ObjectDeletedWaitingForLockException, LockNotGrantedException {
+        throws LockNotGrantedException {
             OID internaloid = oid;
             ObjectLock entry = null;
             synchronized (_locks) {
