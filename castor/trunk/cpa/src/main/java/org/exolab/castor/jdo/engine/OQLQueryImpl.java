@@ -160,12 +160,10 @@ public class OQLQueryImpl implements Query, OQLQuery {
                 } else if (info.isUserDefined()) {
                         //If the user specified a type they must pass that exact type.
 
-                        throw new IllegalArgumentException("Query paramter " +
-                                                            (_fieldNum + 1) +
-                                                            " is not of the expected type " +
-                                                            paramClass +
-                                                            " it is an instance of the class "
-                                                            + valueClass);
+                        throw new IllegalArgumentException(
+                                "Query paramter " + (_fieldNum + 1)
+                                + " is not of the expected type " + paramClass
+                                + " it is an instance of the class " + valueClass);
                 }
                 if ((sqlClass != null) && !sqlClass.isAssignableFrom(valueClass)) {
                     // First convert the actual value to the field value

@@ -797,9 +797,8 @@ public final class Parser {
     private ParseTreeNode undefinedExpr()
     throws InvalidCharException, OQLSyntaxException {
         int tokenType = _curToken.getTokenType();
-        if ((tokenType == TokenType.KEYWORD_IS_DEFINED) || 
-            (tokenType == TokenType.KEYWORD_IS_UNDEFINED)) {
-            
+        if ((tokenType == TokenType.KEYWORD_IS_DEFINED)
+                || (tokenType == TokenType.KEYWORD_IS_UNDEFINED)) {
             ParseTreeNode retNode = match(tokenType);
             match(TokenType.LPAREN);
             if (_nextToken.getTokenType() == TokenType.DOT) {

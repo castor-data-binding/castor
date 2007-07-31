@@ -235,11 +235,10 @@ public class HighLowKeyGenerator implements KeyGenerator {
                 sql = query.getStatement(true);
                 // For the case if the "SELECT FOR UPDATE" is not supported
                 // we perform dirty checking
-                sql2 = "UPDATE " +  _seqTable +
-                    " SET " + _seqValue + "=" + JDBCSyntax.PARAMETER +
-                    JDBCSyntax.WHERE + _seqKey + QueryExpression.OP_EQUALS +
-                    JDBCSyntax.PARAMETER + JDBCSyntax.AND + 
-                    _seqValue + "=" + JDBCSyntax.PARAMETER;
+                sql2 = "UPDATE " +  _seqTable
+                    + " SET " + _seqValue + "=" + JDBCSyntax.PARAMETER
+                    + JDBCSyntax.WHERE + _seqKey + QueryExpression.OP_EQUALS + JDBCSyntax.PARAMETER
+                    + JDBCSyntax.AND + _seqValue + QueryExpression.OP_EQUALS + JDBCSyntax.PARAMETER;
 
                 stmt = conn.prepareStatement(sql);
                 stmt.setString(1, internalTableName);

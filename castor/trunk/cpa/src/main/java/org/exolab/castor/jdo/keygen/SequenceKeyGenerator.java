@@ -180,8 +180,8 @@ public final class SequenceKeyGenerator implements KeyGenerator {
         try {
             if (_factory.getFactoryName().equals(InterbaseFactory.FACTORY_NAME)) {
                 //interbase only does before_insert, and does it its own way
-                stmt = conn.prepareStatement("SELECT gen_id(" + seqName +
-                        "," + _increment + ") FROM rdb$database");
+                stmt = conn.prepareStatement(
+                        "SELECT gen_id(" + seqName + "," + _increment + ") FROM rdb$database");
                 rs = stmt.executeQuery();
             } else if (_factory.getFactoryName().equals(DB2Factory.FACTORY_NAME)) {
                 stmt = conn.prepareStatement("SELECT nextval FOR " + seqName + " FROM SYSIBM.SYSDUMMY1");
@@ -195,8 +195,9 @@ public final class SequenceKeyGenerator implements KeyGenerator {
                     Class psqlStmtClass = Class.forName("org.postgresql.Statement");
                     Method getInsertedOID = psqlStmtClass.getMethod("getInsertedOID", (Class[]) null);
                     int insertedOID = ((Integer) getInsertedOID.invoke(insStmt, (Object[]) null)).intValue();
-                    stmt = conn.prepareStatement("SELECT " + _factory.quoteName(primKeyName) +
-                            " FROM " + table + " WHERE OID=?");
+                    stmt = conn.prepareStatement(
+                            "SELECT " + _factory.quoteName(primKeyName)
+                            + " FROM " + table + " WHERE OID=?");
                     stmt.setInt(1, insertedOID);
                     rs = stmt.executeQuery();
 

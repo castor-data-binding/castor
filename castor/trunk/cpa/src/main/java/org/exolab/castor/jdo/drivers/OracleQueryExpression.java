@@ -116,8 +116,8 @@ public final class OracleQueryExpression extends JDBCQueryExpression {
             if (tableAlias.equals(tableName)) {
                 sql.append(_factory.quoteName(tableName));
             } else {
-                sql.append(_factory.quoteName(tableName) + " " +
-                            _factory.quoteName(tableAlias));
+                sql.append(_factory.quoteName(tableName) + " "
+                        + _factory.quoteName(tableAlias));
             }
             if (enumeration.hasMoreElements()) {
                 sql.append(JDBCSyntax.TABLE_SEPARATOR);
@@ -142,16 +142,18 @@ public final class OracleQueryExpression extends JDBCQueryExpression {
                     sql.append(JDBCSyntax.AND);
                 }
 
-                sql.append(_factory.quoteName(join._leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                                join._leftColumns[j]));
+                sql.append(_factory.quoteName(join._leftTable
+                        + JDBCSyntax.TABLE_COLUMN_SEPARATOR
+                        + join._leftColumns[j]));
 
                 //if ( join.outer )
                 //    sql.append( "(+)=" );
                 //else
                 //    sql.append( OpEquals );
                 sql.append(OP_EQUALS);
-                sql.append(_factory.quoteName(join._rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                                join._rightColumns[j]));
+                sql.append(_factory.quoteName(join._rightTable
+                        + JDBCSyntax.TABLE_COLUMN_SEPARATOR
+                        + join._rightColumns[j]));
                 if (join._outer) {
                     sql.append("(+)");
                 }

@@ -92,16 +92,11 @@ public final class IdentityKeyGenerator implements KeyGenerator {
      */
     public IdentityKeyGenerator(final PersistenceFactory factory, final int sqlType) throws MappingException {
         _fName = factory.getFactoryName();
-        if (!_fName.equals("sybase") &&
-                !_fName.equals("sql-server") && 
-                !_fName.equals("hsql") && 
-                !_fName.equals("mysql") && 
-                !_fName.equals("informix") &&
-                !_fName.equals("sapdb") &&
-                !_fName.equals("db2") && 
-                !_fName.equals("derby") &&
-                !_fName.equals("postgresql") &&
-                !_fName.equals("pointbase")) {
+        if (!_fName.equals("sybase") && !_fName.equals("sql-server")
+                && !_fName.equals("hsql") && !_fName.equals("mysql")
+                && !_fName.equals("informix") && !_fName.equals("sapdb")
+                && !_fName.equals("db2") && !_fName.equals("derby")
+                && !_fName.equals("postgresql") && !_fName.equals("pointbase")) {
             throw new MappingException(Messages.format("mapping.keyGenNotCompatible", getClass().getName(), _fName));
         }
 
@@ -118,10 +113,8 @@ public final class IdentityKeyGenerator implements KeyGenerator {
      * @throws MappingException
      */
     public void supportsSqlType(final int sqlType) throws MappingException {
-        if (sqlType != Types.INTEGER &&
-            sqlType != Types.NUMERIC &&
-            sqlType != Types.DECIMAL &&
-            sqlType != Types.BIGINT) {
+        if (sqlType != Types.INTEGER && sqlType != Types.NUMERIC
+                && sqlType != Types.DECIMAL && sqlType != Types.BIGINT) {
             throw new MappingException(
                 Messages.format("mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
         }

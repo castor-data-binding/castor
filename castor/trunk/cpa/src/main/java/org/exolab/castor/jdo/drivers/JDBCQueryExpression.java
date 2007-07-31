@@ -137,9 +137,7 @@ public class JDBCQueryExpression implements QueryExpression {
     }
 
     public String encodeColumn(final String tableName, final String columnName) {
-        return _factory.quoteName(tableName +
-                   JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                   columnName);
+        return _factory.quoteName(tableName + JDBCSyntax.TABLE_COLUMN_SEPARATOR + columnName);
     }
 
     public void addInnerJoin(final String leftTable, final String leftColumn, final String rightTable, final String rightColumn) {
@@ -372,18 +370,20 @@ public class JDBCQueryExpression implements QueryExpression {
             if (join._rightTable.equals(tableName)) {
                 sql.append(_factory.quoteName(tableName));
             } else {
-                sql.append(_factory.quoteName(tableName) + " " +
-                            _factory.quoteName(join._rightTable));
+                sql.append(_factory.quoteName(tableName) + " "
+                        + _factory.quoteName(join._rightTable));
             }
             sql.append(JDBCSyntax.ON);
             for (int j = 0; j < join._leftColumns.length; ++j) {
                 if (j > 0) {
                     sql.append(JDBCSyntax.AND);
                 }
-                sql.append(_factory.quoteName(join._leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                                join._leftColumns[j])).append(OP_EQUALS);
-                sql.append(_factory.quoteName(join._rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                                join._rightColumns[j]));
+                sql.append(_factory.quoteName(join._leftTable
+                        + JDBCSyntax.TABLE_COLUMN_SEPARATOR
+                        + join._leftColumns[j])).append(OP_EQUALS);
+                sql.append(_factory.quoteName(join._rightTable
+                        + JDBCSyntax.TABLE_COLUMN_SEPARATOR
+                        + join._rightColumns[j]));
             }
 
             tables.remove(join._leftTable);
@@ -401,18 +401,20 @@ public class JDBCQueryExpression implements QueryExpression {
                 if (join2._rightTable.equals(tableName)) {
                     sql.append(_factory.quoteName(tableName));
                 } else {
-                    sql.append(_factory.quoteName(tableName) + " " +
-                                _factory.quoteName(join2._rightTable));
+                    sql.append(_factory.quoteName(tableName) + " "
+                            + _factory.quoteName(join2._rightTable));
                 }
                 sql.append(JDBCSyntax.ON);
                 for (int j = 0; j < join2._leftColumns.length; ++j) {
                     if (j > 0) {
                         sql.append(JDBCSyntax.AND);
                     }
-                    sql.append(_factory.quoteName(join2._leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                                    join2._leftColumns[j])).append(OP_EQUALS);
-                    sql.append(_factory.quoteName(join2._rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                                    join2._rightColumns[j]));
+                    sql.append(_factory.quoteName(join2._leftTable
+                            + JDBCSyntax.TABLE_COLUMN_SEPARATOR
+                            + join2._leftColumns[j])).append(OP_EQUALS);
+                    sql.append(_factory.quoteName(join2._rightTable
+                            + JDBCSyntax.TABLE_COLUMN_SEPARATOR
+                            + join2._rightColumns[j]));
                 }
                 tables.remove(join2._rightTable);
             }
@@ -433,8 +435,8 @@ public class JDBCQueryExpression implements QueryExpression {
             if (tableAlias.equals(tableName)) {
                 sql.append(_factory.quoteName(tableName));
             } else {
-                sql.append(_factory.quoteName(tableName) + " " +
-                            _factory.quoteName(tableAlias));
+                sql.append(_factory.quoteName(tableName) + " "
+                        + _factory.quoteName(tableAlias));
             }
         }
 
@@ -455,10 +457,12 @@ public class JDBCQueryExpression implements QueryExpression {
                     if (j > 0) {
                         sql.append(JDBCSyntax.AND);
                     }
-                    sql.append(_factory.quoteName(join._leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                                    join._leftColumns[j])).append(OP_EQUALS);
-                    sql.append(_factory.quoteName(join._rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                                    join._rightColumns[j]));
+                    sql.append(_factory.quoteName(join._leftTable
+                            + JDBCSyntax.TABLE_COLUMN_SEPARATOR
+                            + join._leftColumns[j])).append(OP_EQUALS);
+                    sql.append(_factory.quoteName(join._rightTable
+                            + JDBCSyntax.TABLE_COLUMN_SEPARATOR
+                            + join._rightColumns[j]));
                 }
             }
         }
@@ -536,9 +540,9 @@ public class JDBCQueryExpression implements QueryExpression {
         public boolean equals(final Object obj) {
             Join join = (Join) obj;
 
-            if (!_leftTable.equals(join._leftTable) || !_rightTable.equals(join._rightTable) ||
-                    _leftColumns.length != join._leftColumns.length ||
-                    _rightColumns.length != join._rightColumns.length) {
+            if (!_leftTable.equals(join._leftTable) || !_rightTable.equals(join._rightTable)
+                    || (_leftColumns.length != join._leftColumns.length)
+                    || (_rightColumns.length != join._rightColumns.length)) {
                 return false;
             }
             for (int i = 0; i < _leftColumns.length; i++) {
