@@ -254,8 +254,7 @@ public abstract class AbstractDatabaseImpl implements Database {
      * @see org.exolab.castor.jdo.Database#load(java.lang.Class, java.lang.Object)
      * {@inheritDoc}
      */
-    public Object load(final Class type, final Object identity) 
-    throws TransactionNotInProgressException, PersistenceException {
+    public Object load(final Class type, final Object identity) throws PersistenceException {
         return load(type, identity, null, null);
     }
 
@@ -263,11 +262,8 @@ public abstract class AbstractDatabaseImpl implements Database {
      * @see org.exolab.castor.jdo.Database#load(java.lang.Class, java.lang.Object, java.lang.Object)
      * {@inheritDoc}
      */
-    public Object load(
-            final Class type, 
-            final Object identity,
-            final Object object) 
-    throws TransactionNotInProgressException, PersistenceException {
+    public Object load(final Class type, final Object identity, final Object object)
+    throws PersistenceException {
         return load(type, identity, object, null);
     }
     
@@ -275,9 +271,8 @@ public abstract class AbstractDatabaseImpl implements Database {
      * @see org.exolab.castor.jdo.Database#load(java.lang.Class, java.lang.Object, org.exolab.castor.mapping.AccessMode)
      * {@inheritDoc}
      */
-    public Object load(final Class type, final Object identity,
-                       final AccessMode mode) 
-    throws TransactionNotInProgressException, PersistenceException {
+    public Object load(final Class type, final Object identity, final AccessMode mode)
+    throws PersistenceException {
         return load(type, identity, null, mode);
     }
 
@@ -294,9 +289,8 @@ public abstract class AbstractDatabaseImpl implements Database {
      * @throws LockNotGrantedException If the required access mode cannot be granted.
      * @throws PersistenceException Otherwise
      */
-    private Object load(final Class type, final Object identity,
-                        final Object object, final AccessMode mode) 
-    throws TransactionNotInProgressException, PersistenceException {
+    private Object load(final Class type, final Object identity, final Object object,
+            final AccessMode mode) throws PersistenceException {
         if (identity == null) {
             throw new PersistenceException("Identities can't be null!");
         }
@@ -313,8 +307,7 @@ public abstract class AbstractDatabaseImpl implements Database {
      * @inheritDoc
      * @see org.exolab.castor.jdo.Database#create(java.lang.Object)
      */
-    public void create(final Object object)
-    throws TransactionNotInProgressException, PersistenceException {
+    public void create(final Object object) throws PersistenceException {
         TransactionContext tx = getTransaction();
         ClassMolder molder = _scope.getClassMolder(object.getClass());
         tx.create(molder, object, null);
@@ -335,8 +328,7 @@ public abstract class AbstractDatabaseImpl implements Database {
      * @inheritDoc
      * @see org.exolab.castor.jdo.Database#update(java.lang.Object)
      */
-    public void update(final Object object)
-    throws TransactionNotInProgressException, PersistenceException {
+    public void update(final Object object) throws PersistenceException {
         
         TransactionContext tx = getTransaction();
         ClassMolder molder = _scope.getClassMolder(object.getClass());
@@ -347,8 +339,7 @@ public abstract class AbstractDatabaseImpl implements Database {
      * @inheritDoc
      * @see org.exolab.castor.jdo.Database#remove(java.lang.Object)
      */
-    public void remove(final Object object)
-    throws TransactionNotInProgressException, PersistenceException {
+    public void remove(final Object object) throws PersistenceException {
         
         TransactionContext tx = getTransaction();
         _scope.getClassMolder(object.getClass());
@@ -387,8 +378,7 @@ public abstract class AbstractDatabaseImpl implements Database {
      * @inheritDoc
      * @see org.exolab.castor.jdo.Database#lock(java.lang.Object)
      */
-    public void lock(final Object object)
-    throws ObjectNotPersistentException, TransactionNotInProgressException,  PersistenceException {
+    public void lock(final Object object) throws PersistenceException {
         if (!isActive()) {
             throw new TransactionNotInProgressException(Messages.message("jdo.txNotInProgress"));
         }

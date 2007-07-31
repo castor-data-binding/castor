@@ -494,7 +494,7 @@ public final class ObjectLock implements DepositBox {
 
     // probaraly we just don't need update....
     synchronized void acquireUpdateLock(final TransactionContext tx, final int timeout)
-    throws LockNotGrantedException, ObjectDeletedWaitingForLockException {
+    throws LockNotGrantedException {
         int internalTimeout = timeout;
         long endtime = (internalTimeout > 0) ? System.currentTimeMillis() + internalTimeout * 1000 : Long.MAX_VALUE;
         while (true) {
@@ -704,7 +704,7 @@ public final class ObjectLock implements DepositBox {
      *  been deleted while waiting for the lock
      */
     synchronized void upgrade(final TransactionContext tx, final int timeout)
-    throws LockNotGrantedException, ObjectDeletedWaitingForLockException {
+    throws LockNotGrantedException {
         int internalTimeout = timeout;
         // Note: This method must succeed even if an exception is thrown
         // in the middle. An exception may be thrown by a Thread.stop().
