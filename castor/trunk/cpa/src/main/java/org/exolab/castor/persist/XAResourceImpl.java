@@ -49,6 +49,8 @@ import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.castor.persist.TransactionContext;
 import org.exolab.castor.jdo.TransactionAbortedException;
 
@@ -65,6 +67,10 @@ import org.exolab.castor.jdo.TransactionAbortedException;
  * @see XAResourceSource
  */
 public final class XAResourceImpl implements XAResource {
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
+    private static final Log LOG = LogFactory.getLog(XAResourceImpl.class);
+
     /** The cache engine to which this XA resource belongs.
      *  Will be used to associate Xid with a transaction context. */
     private final LockEngine       _engine;
@@ -152,7 +158,9 @@ public final class XAResourceImpl implements XAResource {
             if (tx.isOpen()) {
                 try {
                     tx.rollback();
-                } catch (Exception except) { }
+                } catch (Exception except) {
+                    LOG.debug("Exception at rollback of TransactionContext.");
+                }
             }
             break;
         case TMSUSPEND:
@@ -187,7 +195,9 @@ public final class XAResourceImpl implements XAResource {
             if (tx.isOpen()) {
                 try {
                     tx.rollback();
-                } catch (Exception except) { }
+                } catch (Exception except) {
+                    LOG.debug("Exception at rollback of TransactionContext.");
+                }
                 throw new XAException(XAException.XAER_PROTO);
             }
         }

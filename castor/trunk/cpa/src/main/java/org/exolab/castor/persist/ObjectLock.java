@@ -650,19 +650,20 @@ public final class ObjectLock implements DepositBox {
                     _timeStamp =  System.currentTimeMillis();
                     //_writeLock = null;
                     notifyAll();
-                } else if (_readLock == null) {
-                } else if (_readLock._tx == tx) {
-                    _readLock = _readLock._next;
-                } else {
-                    LinkedTx link = _readLock;
-                    while (link != null) {
-                        if ((link._next != null) && (link._next._tx == tx)) {
-                            link._next = link._next._next;
-                            notifyAll();
-                            return;
-                        }
-                        link = link._next;
+                } else if (_readLock != null) {
+                    if (_readLock._tx == tx) {
+                        _readLock = _readLock._next;
+                    } else {
+                        LinkedTx link = _readLock;
+                        while (link != null) {
+                            if ((link._next != null) && (link._next._tx == tx)) {
+                                link._next = link._next._next;
+                                notifyAll();
+                                return;
+                            }
+                            link = link._next;
 
+                        }
                     }
                 }
             }
