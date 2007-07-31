@@ -62,7 +62,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
-public class PersistenceFactoryRegistry {
+public final class PersistenceFactoryRegistry {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      *  Logging </a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(PersistenceFactoryRegistry.class);
