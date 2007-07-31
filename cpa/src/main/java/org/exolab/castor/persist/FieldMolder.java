@@ -544,7 +544,7 @@ public class FieldMolder {
             
             if (fieldMap.getSql() != null) {
                 boolean isSQLTransient = fieldMap.getSql().getTransient();
-                if (_transient == true && isSQLTransient == false) {
+                if (_transient && !isSQLTransient) {
                     throw new MappingException (Messages.message("persist.transient.conflict"));
                 }
                 _transient = isSQLTransient;  
