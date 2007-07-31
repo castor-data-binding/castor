@@ -61,7 +61,6 @@ import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.Query;
 import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.jdo.QueryResults;
-import org.exolab.castor.jdo.TransactionNotInProgressException;
 import org.exolab.castor.jdo.oql.Lexer;
 import org.exolab.castor.jdo.oql.ParamInfo;
 import org.exolab.castor.jdo.oql.ParseTreeNode;
