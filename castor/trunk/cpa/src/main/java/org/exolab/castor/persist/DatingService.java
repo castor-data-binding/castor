@@ -252,7 +252,7 @@ class DatingService {
         _clsMolders.put(name, clsMold);
     }
 
-    private class Pair {
+    private final class Pair {
         public Object _key;
         public Object _value;
         private Pair(final Object key, final Object value) {

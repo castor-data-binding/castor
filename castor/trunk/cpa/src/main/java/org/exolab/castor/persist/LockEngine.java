@@ -1108,7 +1108,7 @@ public final class LockEngine {
      * This information includes the object's descriptor and lifecycle interceptor
      * requesting notification about activities that affect an object.
      */
-    private class TypeInfo {
+    private final class TypeInfo {
         /** The molder for this class. */
         private final ClassMolder _molder;
 
