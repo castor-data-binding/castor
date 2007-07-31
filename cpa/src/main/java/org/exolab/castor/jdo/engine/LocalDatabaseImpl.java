@@ -84,11 +84,13 @@ public class LocalDatabaseImpl extends AbstractDatabaseImpl {
                 try {
                     _ctx.rollback();
                 } catch (Exception except) {
+                    _log.debug("Exception at rollback of TransactionContext.");
                 }
                 
                 try {
                     _ctx.close();
                 } catch (Exception except) {
+                    _log.debug("Exception at close of TransactionContext.");
                 }
                 
                 throw new PersistenceException(Messages.message("jdo.dbClosedTxRolledback"));

@@ -42,8 +42,6 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.jdo.engine;
 
 import java.sql.Connection;
@@ -52,6 +50,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.NoSuchElementException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
@@ -69,7 +69,10 @@ import org.exolab.castor.util.SqlBindParser;
  * @version $Revision$ $Date: 2006-03-14 06:22:05 -0700 (Tue, 14 Mar 2006) $
  */
 public class SimpleQueryExecutor {
-    
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
+    private static final Log LOG = LogFactory.getLog(SimpleQueryExecutor.class);
+
     /**
      * Prepared statement to execute the query.
      */
@@ -118,10 +121,18 @@ public class SimpleQueryExecutor {
             
         } catch (SQLException s) {
             if (_rset != null) {
-                try { _rset.close(); } catch (SQLException e) { }
+                try {
+                    _rset.close();
+                } catch (SQLException e) {
+                    LOG.debug("Exception at close of ResultSet.");
+                }
             }
             if (_stmt != null) {
-                try { _stmt.close(); } catch (SQLException e) { }
+                try {
+                    _stmt.close();
+                } catch (SQLException e) {
+                    LOG.debug("Exception at close of PreparedStatement.");
+                }
             }
                     
             _rset = null;
@@ -232,10 +243,18 @@ public class SimpleQueryExecutor {
         
         public void close() {
             if (_rset != null) {
-                try { _rset.close(); } catch (SQLException s) { }
+                try {
+                    _rset.close();
+                } catch (SQLException s) {
+                    LOG.debug("Exception at close of ResultSet.");
+                }
             }
             if (_stmt != null) {
-                try { _stmt.close(); } catch (SQLException s) { }
+                try {
+                    _stmt.close();
+                } catch (SQLException s) {
+                    LOG.debug("Exception at close of PreparedStatement.");
+                }
             }
             _rset = null;
             _stmt = null;
