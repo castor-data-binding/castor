@@ -132,12 +132,6 @@ implements DataObjects, Referenceable, ObjectFactory, Serializable {
     private static final long serialVersionUID = 2816194621638396008L;
 
     /**
-     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     * Commons Logging</a> instance used for all logging.
-     */
-    private static final Log LOG = LogFactory.getLog(JDO.class);
-
-    /**
      * The default lock timeout for this database is 10 seconds.
      */
     public static final int DEFAULT_LOCK_TIMEOUT = 10;
