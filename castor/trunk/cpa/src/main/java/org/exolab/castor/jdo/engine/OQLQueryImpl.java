@@ -422,8 +422,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
      * @inheritDoc
      * @see org.exolab.castor.jdo.Query#execute()
      */
-    public QueryResults execute()
-    throws PersistenceException, TransactionNotInProgressException {
+    public QueryResults execute() throws PersistenceException {
         return execute(null);
     }
 
@@ -431,8 +430,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
      * @inheritDoc
      * @see org.exolab.castor.jdo.Query#execute(boolean)
      */
-    public QueryResults execute(final boolean scrollable)
-    throws QueryException, PersistenceException, TransactionNotInProgressException {
+    public QueryResults execute(final boolean scrollable) throws PersistenceException {
         return execute(null, scrollable);
     }
 
@@ -440,8 +438,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
      * @inheritDoc
      * @see org.exolab.castor.jdo.Query#execute(org.exolab.castor.mapping.AccessMode)
      */
-    public QueryResults execute(final AccessMode accessMode)
-    throws QueryException, PersistenceException, TransactionNotInProgressException {
+    public QueryResults execute(final AccessMode accessMode) throws PersistenceException {
         return execute(accessMode, false);
     }
 
@@ -450,7 +447,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
      * @see org.exolab.castor.jdo.Query#execute(org.exolab.castor.mapping.AccessMode, boolean)
      */
     public QueryResults execute(final AccessMode accessMode, final boolean scrollable)
-    throws QueryException, PersistenceException, TransactionNotInProgressException {
+    throws PersistenceException {
         org.exolab.castor.persist.QueryResults      results;
         SQLEngine         engine;
 
