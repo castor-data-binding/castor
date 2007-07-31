@@ -94,7 +94,7 @@ public final class HighLowKeyGeneratorFactory implements KeyGeneratorFactory {
     }
 
     /**
-     * The short name of this key generator is "HIGH-LOW"
+     * The short name of this key generator is "HIGH-LOW".
      */
     public String getName() {
         return "HIGH-LOW";

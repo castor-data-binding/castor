@@ -113,7 +113,8 @@ public class OQLQueryImpl implements Query, OQLQuery {
     private QueryResults _results;
 
     /**
-     * Creates an instance to execute a query based upon an OQL statement
+     * Creates an instance to execute a query based upon an OQL statement.
+     * 
      * @param database The Castor database to run the query against.
      */
     OQLQueryImpl(final Database database) {
@@ -510,7 +511,8 @@ public class OQLQueryImpl implements Query, OQLQuery {
     }
 
     /**
-     * Get the generated SQL statement for this OQLQuery
+     * Get the generated SQL statement for this OQLQuery.
+     * 
      * @return A SQL statement.
      * @throws QueryException If the SQL query cannot be generated.
      */

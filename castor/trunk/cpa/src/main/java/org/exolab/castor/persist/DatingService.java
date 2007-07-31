@@ -188,8 +188,7 @@ class DatingService {
     }
 
     /**
-     * Resolve the java.lang.Class of the fully qualified class name
-     *
+     * Resolve the java.lang.Class of the fully qualified class name.
      */
     Class resolve(final String className) throws ClassNotFoundException {
         Class resolved;
@@ -204,9 +203,10 @@ class DatingService {
     }
 
     /**
-     * Pair the FieldMolder with the ClassMolder of typeName
+     * Pair the FieldMolder with the ClassMolder of typeName.
+     * 
      * @param fieldMolder the fieldMolder to be paired.
-     * @param typeName Type of the field which the FieldMolder represents
+     * @param typeName Type of the field which the FieldMolder represents.
      * @exception MappingException indicates that the pairing failed.
      */
     boolean pairFieldClass(final FieldMolder fieldMolder, final String typeName) throws MappingException {

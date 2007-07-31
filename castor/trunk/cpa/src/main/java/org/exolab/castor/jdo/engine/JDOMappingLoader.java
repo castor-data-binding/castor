@@ -489,7 +489,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     /**
      * Parse the sql type attribute to build an
      * array of types, needed to support whitespace inside
-     * parameterized types (see Bug 1045)
+     * parameterized types (see Bug 1045).
      */
     protected String[] getSqlTypes(final FieldMapping fieldMap) {
         if (fieldMap.getSql() == null) { return new String[0]; }

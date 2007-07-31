@@ -193,7 +193,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
 
     /**
      * Gives a possibility to patch the Castor-generated SQL statement
-     * for INSERT (makes sense for DURING_INSERT key generators)
+     * for INSERT (makes sense for DURING_INSERT key generators).
      */
     public String patchSQL(final String insert, final String primKeyName) throws MappingException {
         return insert;

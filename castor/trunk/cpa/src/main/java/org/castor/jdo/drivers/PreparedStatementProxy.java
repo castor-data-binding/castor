@@ -54,10 +54,10 @@ public final class PreparedStatementProxy implements InvocationHandler {
     /** PreparedStatement to be proxied. */
     private final PreparedStatement _preparedStatement;
     
-    /** The SQL statement to be executed  */
+    /** The SQL statement to be executed.  */
     private String _sqlStatement = null; 
 
-    /** SQL Parameter mapping */
+    /** SQL Parameter mapping. */
     private final Map _parameters = new HashMap();
     
     /** List of batch statements associated with this instance. */

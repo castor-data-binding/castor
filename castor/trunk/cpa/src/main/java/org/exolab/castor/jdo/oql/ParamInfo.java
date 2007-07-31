@@ -204,9 +204,9 @@ private ClassLoader _classLoader;
   }
 
     /**
-     * Returns the Java field type
+     * Returns the Java field type.
      *
-     * @return Java field type
+     * @return Java field type.
      */
     public Class getFieldType() {
         return _fieldType;
@@ -214,9 +214,9 @@ private ClassLoader _classLoader;
 
 
     /**
-     * Returns the SQL type
+     * Returns the SQL type.
      *
-     * @return SQL type
+     * @return SQL type.
      */
     public Class getSQLType() {
         return _sqlType;

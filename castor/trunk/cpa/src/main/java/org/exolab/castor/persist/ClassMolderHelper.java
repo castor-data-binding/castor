@@ -122,7 +122,8 @@ public final class ClassMolderHelper {
     }
 
     /**
-     * Utility method to compare collections for equality
+     * Utility method to compare collections for equality.
+     * 
      * @param c1 collection one.
      * @param c2 collection two.
      * @return True if the collections are equal.
@@ -209,8 +210,9 @@ public final class ClassMolderHelper {
 
     /**
      * Return the iterator on values of the specified Collection
-     * Or, return the iterator on values of the specified Map
-     * @param object - a Collection instance
+     * or, return the iterator on values of the specified Map.
+     * 
+     * @param object - a Collection instance.
      */
     public static Iterator getIterator(final Object object) {
         if (object == null) {
@@ -265,9 +267,10 @@ public final class ClassMolderHelper {
 
     /**
      * Get all the field mapping, including all the field in extended class, but
-     * id fields
-     * @param clsMap ClassMapping instance
-     * @return An array 
+     * id fields.
+     * 
+     * @param clsMap ClassMapping instance.
+     * @return An array.
      * @throws MappingException
      */
     public static FieldMapping[] getFullFields(final ClassMapping clsMap)

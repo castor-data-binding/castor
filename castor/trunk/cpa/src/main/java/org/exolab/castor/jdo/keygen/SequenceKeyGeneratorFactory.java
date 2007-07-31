@@ -84,7 +84,7 @@ public final class SequenceKeyGeneratorFactory implements KeyGeneratorFactory {
     }
 
     /**
-     * The short name of this key generator is "SEQUENCE"
+     * The short name of this key generator is "SEQUENCE".
      */
     public String getName() {
         return "SEQUENCE";

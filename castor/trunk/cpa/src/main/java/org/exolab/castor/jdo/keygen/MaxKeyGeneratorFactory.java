@@ -84,7 +84,7 @@ public final class MaxKeyGeneratorFactory implements KeyGeneratorFactory {
     }
 
     /**
-     * The short name of this key generator is "MAX"
+     * The short name of this key generator is "MAX".
      */
     public String getName() {
         return "MAX";

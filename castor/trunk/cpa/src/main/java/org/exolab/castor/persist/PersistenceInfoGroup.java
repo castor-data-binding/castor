@@ -75,10 +75,12 @@ public class PersistenceInfoGroup {
     }
     
     /**
-     * Returns the ClassMolder associated with a given named query (by the means of the mapping file) 
-     * @param query The name of the named query
-     * @return ClassMolder instance associated with a given named query
-     * @throws QueryException if there's an issue resolving the ClassMolder
+     * Returns the ClassMolder associated with a given named query (by the means of the
+     * mapping file).
+     *  
+     * @param query The name of the named query.
+     * @return ClassMolder instance associated with a given named query.
+     * @throws QueryException if there's an issue resolving the ClassMolder.
      */
     public ClassMolder findClassMolderByQuery(final String query) throws QueryException {
         ClassMolder molder = null;

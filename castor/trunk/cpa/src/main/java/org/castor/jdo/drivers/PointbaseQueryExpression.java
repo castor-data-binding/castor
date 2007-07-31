@@ -19,7 +19,7 @@ import org.exolab.castor.jdo.drivers.JDBCQueryExpression;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 
 /**
- * QueryExpression implementation for Borland's Pointbase
+ * QueryExpression implementation for Borland's Pointbase.
  *
  * @author <a href="werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @version $Revision$ $Date: 2006-04-12 15:13:08 -0600 (Wed, 12 Apr 2006) $
@@ -29,7 +29,7 @@ public final class PointbaseQueryExpression extends JDBCQueryExpression {
     /**
      * Craetes an instance of this class.
      * 
-     * @param factory PersistenceFactory instance
+     * @param factory PersistenceFactory instance.
      */
     public PointbaseQueryExpression(final PersistenceFactory factory) {
         super(factory);
@@ -37,7 +37,6 @@ public final class PointbaseQueryExpression extends JDBCQueryExpression {
 
     /**
      * {@inheritDoc}
-     * @see org.exolab.castor.persist.spi.QueryExpression#getStatement(boolean)
      */
     public String getStatement(final boolean lock) {
         return getStandardStatement(lock, false).toString();

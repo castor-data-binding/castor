@@ -73,6 +73,8 @@ public class ClobImpl implements Clob {
     private final long _length;
 
     /**
+     * Construct an ClobImpl instance.
+     * <br/>
      * Examples:<br>
      * new ClobImpl(new StringReader(str), str.length())<br>
      * new ClobImpl(new FileReader(file), file.length())

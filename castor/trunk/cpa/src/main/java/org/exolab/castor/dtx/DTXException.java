@@ -57,7 +57,7 @@ import java.io.PrintWriter;
  */
 
 public class DTXException extends Exception {
-    /** SerialVersionUID */
+    /** SerialVersionUID. */
     private static final long serialVersionUID = -3419863291873007258L;
 
     private Exception _except = null;

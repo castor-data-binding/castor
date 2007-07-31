@@ -105,7 +105,7 @@ public final class UUIDKeyGeneratorFactory implements KeyGeneratorFactory {
     }
 
     /**
-     * The short name of this key generator is "UUID"
+     * The short name of this key generator is "UUID".
      */
     public String getName() {
         return "UUID";

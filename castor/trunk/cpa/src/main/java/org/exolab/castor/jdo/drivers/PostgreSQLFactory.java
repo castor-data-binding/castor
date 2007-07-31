@@ -76,11 +76,11 @@ public final class PostgreSQLFactory extends GenericFactory {
     }
 
     /**
-     * Determine if the given SQLException is DuplicateKeyException
+     * Determine if the given SQLException is DuplicateKeyException.
      * 
      * @return Boolean.TRUE means "yes",
      *         Boolean.FALSE means "no",
-     *         null means "cannot determine"
+     *         null means "cannot determine".
      */
     public Boolean isDuplicateKeyException(final Exception ex) {
         Boolean isDuplicateKey = Boolean.FALSE;

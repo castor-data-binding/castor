@@ -139,25 +139,17 @@ public class FieldMolder {
 
     private boolean _readonly;
     
-    /**
-     * Indicates whether this field has been flagged as transient, i.e. not to be considered 
-     * during any persistence operations.
-     */
+    /** Indicates whether this field has been flagged as transient, i.e. not to be considered 
+     *  during any persistence operations. */
     private boolean _transient;
     
-    /**
-     * Specifies the jav.autil.Comparator instance to use with a SortedSet/SortedMap collection.
-     */
+    /** Specifies the jav.autil.Comparator instance to use with a SortedSet/SortedMap collection. */
     private String _comparator;
 
-    /**
-     * Collection of reflection service keyed by ClassLoader instance.
-     */
+    /** Collection of reflection service keyed by ClassLoader instance. */
     private HashMap _reflectServices;
 
-    /**
-     * Default reflection service
-     */
+    /** Default reflection service. */
     private ReflectService _defaultReflectService;
 
     private SQLRelationLoader _manyToManyLoader;
@@ -400,7 +392,7 @@ public class FieldMolder {
 
     /**
      * Check if the specified value is the default value of the Field
-     * represented by this FieldMolder
+     * represented by this FieldMolder.
      */
     public boolean isDefault(final Object value) {
         if (_default == value) {
@@ -1045,7 +1037,7 @@ public class FieldMolder {
     }
 
     /**
-     * Get the ReeflectService in used given a ClassLoadaer instance
+     * Get the ReeflectService in used given a ClassLoadaer instance.
      *
      * @param loader the current ClassLoader's instance.
      * @return the <code>ReflectService</code> instance. If doess't yet exist
@@ -1116,7 +1108,7 @@ public class FieldMolder {
         Method        _createMethod;
 
         /**
-         * constructs a Field instance with the current ClassLoader
+         * constructs a Field instance with the current ClassLoader.
          */
         private Field cloneField(final Field originalField) {
             if (null == originalField) {
@@ -1134,7 +1126,7 @@ public class FieldMolder {
         }
 
         /**
-         * constructs a Method instance with the current ClassLoader
+         * constructs a Method instance with the current ClassLoader.
          */
         private Method cloneMethod(final Method originalMethod) {
             if (null == originalMethod) {
@@ -1160,7 +1152,7 @@ public class FieldMolder {
         }
 
         /**
-         * constructs an Array of Method instances with the current ClassLoader
+         * constructs an Array of Method instances with the current ClassLoader.
          */
         private Method[] cloneMethods(final Method[] originalMethods) {
             if (null == originalMethods) {
@@ -1175,7 +1167,7 @@ public class FieldMolder {
         }
 
         /**
-         * constructs a <code>Class</code> instance with the current ClassLoader
+         * constructs a <code>Class</code> instance with the current ClassLoader.
          */
         private Class cloneClass(final Class originalClass) {
             if (null == originalClass) {
@@ -1189,7 +1181,7 @@ public class FieldMolder {
         }
 
         /**
-         * Helper method to load the class given its full qualified name
+         * Helper method to load the class given its full qualified name.
          */
         private Class loadClass(final String name) {
             Class resultClass = null;

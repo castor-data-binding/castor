@@ -54,7 +54,7 @@ import javax.transaction.Transaction;
  *
  */
 public final class TxDatabaseMap implements Serializable {
-    /** SerialVersionUID */
+    /** SerialVersionUID. */
     private static final long serialVersionUID = -3808006851366701785L;
 
     private HashMap _txDbMap = new HashMap();

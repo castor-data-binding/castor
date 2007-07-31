@@ -79,7 +79,7 @@ public final class IdentityKeyGeneratorFactory implements KeyGeneratorFactory {
     }
 
     /**
-     * The short name of this key generator is "IDENTITY"
+     * The short name of this key generator is "IDENTITY".
      */
     public String getName() {
         return "IDENTITY";

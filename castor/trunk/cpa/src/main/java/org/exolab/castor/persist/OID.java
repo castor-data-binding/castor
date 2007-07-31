@@ -63,55 +63,37 @@ import org.exolab.castor.persist.spi.Identity;
  */
 public final class OID implements Serializable {
 
-    /** SerialVersionUID */
+    /** SerialVersionUID. */
     private static final long serialVersionUID = 419512942519592363L;
 
-    /**
-     * The object's identity if known, null if the object was created without an
-     * identity.
-     */
+    /** The object's identity if known, null if the object was created without an
+     *  identity. */
     private final Identity _identity;
 
-    /**
-     * The full qualified name of the object's type.
-     */
+    /** The full qualified name of the object's type. */
     private final String _name;
 
-    /**
-     * The ClassMolder of the object
-     */
+    /** The ClassMolder of the object. */
     private final transient ClassMolder _molder;
 
-    /**
-     * The OID of depended object
-     */
+    /** The OID of depended object. */
     private final OID _depends;
 
-    /**
-     * The object's stamp, used for efficient dirty checking.
-     */
+    /** The object's stamp, used for efficient dirty checking. */
     private Object _stamp;
 
-    /**
-     * True if the object is loaded with db-lock access.
-     */
+    /** True if the object is loaded with db-lock access. */
     private boolean _dbLock;
 
-    /**
-     * The OID's hash code.
-     */
+    /** The OID's hash code. */
     private final int _hashCode;
 
-    /**
-     * The full qualified name of the top level class, used for equating OIDs
-     * based on commong parent.
-     */
+    /** The full qualified name of the top level class, used for equating OIDs
+     *  based on commong parent. */
     private String _topClassName;
 
-    /**
-     * The full qualified names of all superclasses, used for equating OIDs
-     * based on commong parent.
-     */
+    /** The full qualified names of all superclasses, used for equating OIDs
+     *  based on commong parent. */
     private String[] _superClassNames;
 
     /**
@@ -126,14 +108,14 @@ public final class OID implements Serializable {
     }
 
     /**
-     * Constructor
+     * Constructor.
      */
     public OID(final ClassMolder molder, final Identity identity) {
         this(molder, null, identity);
     }
 
     /**
-     * Constructor
+     * Constructor.
      */
     public OID(final ClassMolder molder, final OID depends, final Identity identity) {
         ClassMolder internalMolder = molder;
@@ -167,18 +149,18 @@ public final class OID implements Serializable {
     }
 
     /**
-     * Get the depended object's oid
+     * Get the depended object's oid.
      * 
-     * @return the depended object's oid
+     * @return the depended object's oid.
      */
     public OID getDepends() {
         return _depends;
     }
 
     /**
-     * Get the ClassMolder of this object
+     * Get the ClassMolder of this object.
      * 
-     * @return the ClassMolder of this object
+     * @return the ClassMolder of this object.
      */
     public ClassMolder getMolder() {
         return _molder;

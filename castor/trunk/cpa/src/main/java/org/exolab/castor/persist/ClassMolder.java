@@ -104,114 +104,77 @@ import org.exolab.castor.persist.spi.Persistence;
  */
 
 public class ClassMolder {
-
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
     private static Log _log = LogFactory.getFactory().getInstance(ClassMolder.class);
     
-   /**
-     * The fully qualified name of the java data object class which this ClassMolder
-     * corresponds to. We call it base class.
-     */
+    /** The fully qualified name of the java data object class which this ClassMolder
+     *  corresponds to. We call it base class. */
     private String _name;
 
-    /**
-     * Associated identity <tt>FieldMolder</tt>s
-     */
+    /** Associated identity <tt>FieldMolder</tt>s. */
     private FieldMolder[] _ids;
 
-    /**
-     * Associated field <tt>FieldMolder</tt>s
-     */
+    /** Associated field <tt>FieldMolder</tt>s. */
     private FieldMolder[] _fhs;
 
-    /**
-     * <tt>ClassMolder</tt> of the java data object class's ClassMolder which
-     * the base class extends; null if this class does not extend any other 
-     * classes.
-     */
+    /** <tt>ClassMolder</tt> of the java data object class's ClassMolder which
+     *  the base class extends; null if this class does not extend any other 
+     *  classes. */
     private ClassMolder _extends;
 
-    /**
-     * <tt>ClassMolder</tt> of the java data object class's ClassMolder which
-     * the base class depends on. <tt>null</tt> if it class is an indenpendent
-     * class.
-     */
+    /** <tt>ClassMolder</tt> of the java data object class's ClassMolder which
+     *  the base class depends on. <tt>null</tt> if it class is an indenpendent
+     *  class. */
     private ClassMolder _depends;
 
-    /**
-     * A Vector of <tt>ClassMolder</tt>s for all the direct dependent class of the
-     * base class.
-     */
+    /** A Vector of <tt>ClassMolder</tt>s for all the direct dependent class of the
+     *  base class. */
     private Vector _dependent;
 
-    /**
-     * A Vector of <tt>ClassMolder</tt>s for all the direct extending class of the
-     * base class.
-     */
+    /** A Vector of <tt>ClassMolder</tt>s for all the direct extending class of the
+     *  base class. */
     private Vector _extendent;
 
-    /**
-     * Default accessMode of the base class.
-     */
+    /** Default accessMode of the base class. */
     private AccessMode _accessMode;
 
-    /**
-     * Associated {@link Persistence} instance.
-     */
+    /** Associated {@link Persistence} instance. */
     private Persistence _persistence;
 
-    /**
-     * Associated {@link LockEngine} instance.
-     */
+    /** Associated {@link LockEngine} instance. */
     private LockEngine _engine;
 
-    /**
-     * The CallbackInterceptor for the base class.
-     */
+    /** The CallbackInterceptor for the base class. */
     private CallbackInterceptor _callback;
 
-    /**
-     * The parameters to be used for caching freed instance of the base class.
-     */
+    /** The parameters to be used for caching freed instance of the base class. */
     private Properties _cacheParams;
 
-    /**
-     * Is a key kenerator used for the base class?
-     */
+    /** Is a key kenerator used for the base class? */
     public boolean _isKeyGenUsed;
 
-    /**
-     * True if org.exolab.castor.debug="true"
-     */
+    /** True if org.exolab.castor.debug="true". */
     private boolean _debug;
 
-    /**
-     * True if the representing class implements the interface TimeStampable
-     */
+    /** True if the representing class implements the interface TimeStampable. */
     private boolean _timeStampable;
 
-    /**
-     * Create priority
-     */
+    /** Create priority. */
     private int _priority = -1;
 
-    /**
-     * True if all {@link ResolverStrategy} have been reset.
-     */
+    /** True if all {@link ResolverStrategy} have been reset. */
     boolean _resolversHaveBeenReset = false;
         
-    /**
-     * All field resolver instances.
-     */
+    /** All field resolver instances. */
     private ResolverStrategy[] _resolvers;
-    /**
-     * ClassDescriptor for the class this molder is responsible for.
-     */
+    
+    /** ClassDescriptor for the class this molder is responsible for. */
     private final ClassDescriptor _clsDesc;
 
     /**
      * Creates an instance of this class.
+     * 
      * @param ds is the helper class for resolving depends and extends relationship
      *        among all the ClassMolder in the same LockEngine.
      * @param loader the mapping loader.
@@ -1094,10 +1057,11 @@ public class ClassMolder {
     }
 
     /**
-     * Return a new instance of the base class with the provided ClassLoader object
+     * Return a new instance of the base class with the provided ClassLoader object.
      *
-     * @param loader the ClassLoader object to use to create a new object
-     * @return Object the object reprenseted by this ClassMolder, and instanciated with the provided ClassLoader instance.
+     * @param loader the ClassLoader object to use to create a new object.
+     * @return Object the object reprenseted by this ClassMolder, and instanciated with the
+     *         provided ClassLoader instance.
      * @throws ClassNotFoundException
      * @throws IllegalAccessException
      * @throws InstantiationException
@@ -1110,10 +1074,10 @@ public class ClassMolder {
     }
 
     /**
-     * Get the effective accessMode of the the base type
+     * Get the effective accessMode of the the base type.
      * 
-     * @param txMode - the default transaction accessMode
-     * @return the effective acessMode of the base type
+     * @param txMode - the default transaction accessMode.
+     * @return the effective acessMode of the base type.
      */
     public AccessMode getAccessMode(final AccessMode txMode) {
 
@@ -1136,7 +1100,7 @@ public class ClassMolder {
     }
 
     /**
-     * Get the callback interceptor of the base type
+     * Get the callback interceptor of the base type.
      */
     public CallbackInterceptor getCallback() {
         return _callback;
@@ -1154,12 +1118,12 @@ public class ClassMolder {
     }
 
     /**
-     * Get the identity from a object of the base type
-     * If object isn't persistent and key generator is used, returns null
+     * Get the identity from a object of the base type.
+     * If object isn't persistent and key generator is used, returns null.
      *
-     * @param tx the transaction context
-     * @param o - object of the base type
-     * @return return an Object[] which contains the identity of the object
+     * @param tx the transaction context.
+     * @param o - object of the base type.
+     * @return return an Object[] which contains the identity of the object.
      */
     public Identity getIdentity(final TransactionContext tx, final Object o) {
         // [oleg] In the case where key generator is used,
@@ -1171,22 +1135,22 @@ public class ClassMolder {
     }
 
     /**
-     * Get the identity from a object of the base type
+     * Get the identity from a object of the base type.
      *
-     * @param tx the transaction context
-     * @param o - object of the base type
-     * @return return an Object[] which contains the identity of the object
+     * @param tx the transaction context.
+     * @param o - object of the base type.
+     * @return return an Object[] which contains the identity of the object.
      */
     public Identity getActualIdentity(final TransactionContext tx, final Object o) {
         return getActualIdentity(tx.getClassLoader(), o);
     }
 
     /**
-     * Get the identity from a object of the base type
+     * Get the identity from a object of the base type.
      *
-     * @param loader the current class loader
-     * @param o - object of the base type
-     * @return return an Object[] which contains the identity of the object
+     * @param loader the current class loader.
+     * @param o - object of the base type.
+     * @return return an Object[] which contains the identity of the object.
      */
     public Identity getActualIdentity(final ClassLoader loader, final Object o) {
         Object[] ids = new Object[_ids.length];
@@ -1198,11 +1162,11 @@ public class ClassMolder {
     }
 
     /**
-     * Set the identity into an object
+     * Set the identity into an object.
      *
-     * @param tx the transaction context
-     * @param object the object to set the identity
-     * @param identity the new identity for the object
+     * @param tx the transaction context.
+     * @param object the object to set the identity.
+     * @param identity the new identity for the object.
      */
     public void setIdentity(final TransactionContext tx, 
             final Object object, 
@@ -1219,23 +1183,24 @@ public class ClassMolder {
     }
     
     /**
-     * Get the Persisetence of the base type
+     * Get the Persisetence of the base type.
      */
     public Persistence getPersistence() {
         return _persistence;
     }
 
     /**
-     * Mutator method to set the PersistenceEngine of
+     * Mutator method to set the PersistenceEngine of.
      */
     public void setPersistence(final Persistence persist) {
         _persistence = persist;
     }
 
     /**
-     * Get the base class of this ClassMolder given a ClassLoader
-     * @param loader the classloader
-     * @return the <code>Class</code> instance
+     * Get the base class of this ClassMolder given a ClassLoader.
+     * 
+     * @param loader the classloader.
+     * @return the <code>Class</code> instance.
      */
     public Class getJavaClass(final ClassLoader loader) {
         Class result = null;
@@ -1267,7 +1232,7 @@ public class ClassMolder {
     }
 
     /**
-     * Get the fully qualified name of the base type of this ClassMolder
+     * Get the fully qualified name of the base type of this ClassMolder.
      */
     public String getName() {
         return _name;
@@ -1282,21 +1247,21 @@ public class ClassMolder {
     }
 
     /**
-     * Get the FieldMolders of the identity fields
+     * Get the FieldMolders of the identity fields.
      */
     public FieldMolder[] getIds() {
         return _ids;
     }
 
     /**
-     * Get the extends class' ClassMolder
+     * Get the extends class' ClassMolder.
      */
     public ClassMolder getExtends() {
         return _extends;
     }
 
     /**
-     * Get the depends class' ClassMolder
+     * Get the depends class' ClassMolder.
      */
     public ClassMolder getDepends() {
         return _depends;
@@ -1310,16 +1275,16 @@ public class ClassMolder {
     }
 
     /**
-     * Returns the active cache parameters
-     * @return Active cache parameters
+     * Returns the active cache parameters.
+     * 
+     * @return Active cache parameters.
      */
     public Properties getCacheParams() {
         return _cacheParams;
     }
 
     /**
-     * Return true if the base type of this ClassMolder is an dependent
-     * class.
+     * Return true if the base type of this ClassMolder is an dependent class.
      */
     public boolean isDependent() {
         return _depends != null;
@@ -1341,7 +1306,7 @@ public class ClassMolder {
     }
 
     /**
-     * Mutator method to add a extent ClassMolder
+     * Mutator method to add a extent ClassMolder.
      */
     void addExtendent(final ClassMolder ext) {
         if (_extendent == null) {
@@ -1351,8 +1316,7 @@ public class ClassMolder {
     }
 
     /**
-     * Mutator method to add a dependent ClassMolder
-     * 
+     * Mutator method to add a dependent ClassMolder.
      */
     void addDependent(final ClassMolder dep) {
         if (_dependent == null) {
@@ -1362,8 +1326,7 @@ public class ClassMolder {
     }
 
     /**
-     * Mutator method to set the extends ClassMolder
-     * 
+     * Mutator method to set the extends ClassMolder.
      */
     void setExtends(final ClassMolder ext) {
         _extends = ext;
@@ -1371,7 +1334,7 @@ public class ClassMolder {
     }
 
     /**
-     * Mutator method to set the depends ClassMolder
+     * Mutator method to set the depends ClassMolder.
      */
     void setDepends(final ClassMolder dep) {
         _depends = dep;
@@ -1383,14 +1346,14 @@ public class ClassMolder {
     }
 
     /**
-     * Return true if a key generator is used for the base type of this ClassMolder
+     * Return true if a key generator is used for the base type of this ClassMolder.
      */
     public boolean isKeyGenUsed() {
         return _isKeyGenUsed;
     }
 
     /**
-     * Return true if a key generator is used for the base type of this ClassMolder
+     * Return true if a key generator is used for the base type of this ClassMolder.
      */
     public boolean isKeyGeneratorUsed() {
         return _isKeyGenUsed || (_extends != null && _extends.isKeyGeneratorUsed());

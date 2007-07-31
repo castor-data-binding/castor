@@ -36,7 +36,7 @@ import org.exolab.castor.persist.OID;
 import org.exolab.castor.persist.spi.Identity;
 
 /**
- * Implementation of {@link org.castor.persist.resolver.ResolverStrategy} for 1:1 relations
+ * Implementation of {@link org.castor.persist.resolver.ResolverStrategy} for 1:1 relations.
  * 
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @since 0.9.9
@@ -56,7 +56,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
     private int _fieldIndex;
    
     /**
-     * Indicates whether debug mode is active
+     * Indicates whether debug mode is active.
      */
     //TODO [WG]: Investigate about its use ....
     private boolean _debug;
