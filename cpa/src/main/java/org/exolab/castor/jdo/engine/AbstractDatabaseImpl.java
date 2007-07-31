@@ -30,15 +30,9 @@ import org.castor.util.ConfigKeys;
 import org.castor.util.Configuration;
 import org.castor.util.Messages;
 import org.exolab.castor.jdo.CacheManager;
-import org.exolab.castor.jdo.ClassNotPersistenceCapableException;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.DatabaseNotFoundException;
-import org.exolab.castor.jdo.DuplicateIdentityException;
-import org.exolab.castor.jdo.LockNotGrantedException;
 import org.exolab.castor.jdo.OQLQuery;
-import org.exolab.castor.jdo.ObjectModifiedException;
-import org.exolab.castor.jdo.ObjectNotFoundException;
-import org.exolab.castor.jdo.ObjectNotPersistentException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.Query;
 import org.exolab.castor.jdo.TransactionAbortedException;
@@ -284,10 +278,9 @@ public abstract class AbstractDatabaseImpl implements Database {
      * @param object Object instance to be filled with loaded values (optional)
      * @param mode Access mode to use during load.
      * @return An object instance matching the specified criteria.
-     * @throws TransactionNotInProgressException If there's no active transaction in progress.
-     * @throws ObjectNotFoundException If the object identified by the parameter can not be found.
-     * @throws LockNotGrantedException If the required access mode cannot be granted.
-     * @throws PersistenceException Otherwise
+     * @throws PersistenceException If the object identified by the parameter can not be found.
+     *         If the required access mode cannot be granted. If there's no active transaction
+     *         in progress.
      */
     private Object load(final Class type, final Object identity, final Object object,
             final AccessMode mode) throws PersistenceException {
