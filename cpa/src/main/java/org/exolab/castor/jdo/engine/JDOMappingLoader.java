@@ -492,35 +492,37 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
      * parameterized types (see Bug 1045)
      */
     protected String[] getSqlTypes(final FieldMapping fieldMap) {
-      if (fieldMap.getSql() == null) { return new String[0]; }
-      String sqlType = fieldMap.getSql().getType();
-      if (sqlType == null) { return new String[0]; }
+        if (fieldMap.getSql() == null) { return new String[0]; }
+        String sqlType = fieldMap.getSql().getType();
+        if (sqlType == null) { return new String[0]; }
 
-      ArrayList types = new ArrayList();
-      int current = 0;
-      int begin = 0;
-      int state = 0;
-      while (current < sqlType.length()) {
-        switch (state) {
-          case 0:
-            if (sqlType.charAt(current) == ' ') {
-              types.add(sqlType.substring(begin, current));
-              begin = current + 1;
-            } else if (sqlType.charAt(current) == '[') {
-              state = 1;
+        ArrayList types = new ArrayList();
+        int current = 0;
+        int begin = 0;
+        int state = 0;
+        while (current < sqlType.length()) {
+            switch (state) {
+            case 0:
+                if (sqlType.charAt(current) == ' ') {
+                    types.add(sqlType.substring(begin, current));
+                    begin = current + 1;
+                } else if (sqlType.charAt(current) == '[') {
+                    state = 1;
+                }
+                break;
+            case 1:
+                if (sqlType.charAt(current) == ']') {
+                    state = 0;
+                }
+                break;
+            default:
+                break;
             }
-            break;
-          case 1:
-            if (sqlType.charAt(current) == ']') {
-              state = 0;
-            }
-
+            current++;
         }
-        current++;
-      }
-      types.add(sqlType.substring(begin, current));
-      String[] result = new String[types.size()];
-      return (String[]) types.toArray(result);
+        types.add(sqlType.substring(begin, current));
+        String[] result = new String[types.size()];
+        return (String[]) types.toArray(result);
     }
 
 

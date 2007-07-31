@@ -222,6 +222,8 @@ public class ParseTreeWalker {
             case TokenType.KEYWORD_OFFSET:
                 checkOffsetClause(_parseTree.getChild(curChild));
                 break;
+            default:
+                break;
             }
         }
     }
@@ -721,6 +723,8 @@ public class ParseTreeWalker {
         case TokenType.KEYWORD_LIST:
             systemType = getParamTypeForList(paramTree.getParent());
             break;
+        default:
+            break;
         }
 
         //get the param info for this numbered param
@@ -753,6 +757,8 @@ public class ParseTreeWalker {
             case TokenType.IDENTIFIER:
                 JDOFieldDescriptor field = checkField(curChild);
                 return field.getFieldType().getName();
+            default:
+                break;
             }
         }
 
@@ -774,7 +780,7 @@ public class ParseTreeWalker {
             ParseTreeNode curChild = (ParseTreeNode) iter.next();
             int tokenType = curChild.getToken().getTokenType();
 
-            switch(tokenType) {
+            switch (tokenType) {
             case TokenType.STRING_LITERAL:    return "java.lang.String";
             case TokenType.DOUBLE_LITERAL:    return "java.lang.Double";
             case TokenType.LONG_LITERAL:      return "java.lang.Long";
@@ -793,6 +799,8 @@ public class ParseTreeWalker {
                         throw new QueryException("Could not find class " + udt);
                     }
                 }
+            default:
+                break;
             }
         }
 
@@ -871,6 +879,9 @@ public class ParseTreeWalker {
                 // iterate on child
                 curChild = curChild.getChild(0);
                 tokenType = curChild.getToken().getTokenType();
+                break;
+            default:
+                break;
             }
             
             switch (tokenType) {
@@ -954,6 +965,8 @@ public class ParseTreeWalker {
                 break;
             case TokenType.KEYWORD_OFFSET:
                 addOffsetClause(curChild);
+                break;
+            default:
                 break;
             }
         }
@@ -1394,6 +1407,8 @@ public class ParseTreeWalker {
         case TokenType.KEYWORD_LIMIT:
         case TokenType.KEYWORD_OFFSET:
             return getSQLExprForLimit(exprTree);
+        default:
+            break;
         }
 
         return "";
@@ -1421,6 +1436,8 @@ public class ParseTreeWalker {
             case TokenType.DOUBLE_LITERAL:
             case TokenType.CHAR_LITERAL:
                 return exprTree.getToken().getTokenValue();
+            default:
+                break;
             }
         }
         return sb.toString();
@@ -1450,6 +1467,8 @@ public class ParseTreeWalker {
             case TokenType.DOT:
             case TokenType.IDENTIFIER:
                 sb.append(getSQLExpr(curChild)).append(" ");
+                break;
+            default:
                 break;
             }
         }
