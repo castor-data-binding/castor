@@ -98,7 +98,7 @@ public final class Parser {
      * @throws InvalidCharException thrown by primeLexer.
      * @throws OQLSyntaxException thrown by primeLexer.
      */
-    public Parser(final Lexer lexer) throws InvalidCharException, OQLSyntaxException {
+    public Parser(final Lexer lexer) throws InvalidCharException {
         _lexer = lexer;
         primeLexer();
     }
@@ -147,9 +147,8 @@ public final class Parser {
      * {@link Lexer#nextToken()}.
      * 
      * @throws InvalidCharException thrown by the Lexer.
-     * @throws OQLSyntaxException if the query contains less than 2 tokens.
      */
-    private void primeLexer() throws InvalidCharException, OQLSyntaxException {
+    private void primeLexer() throws InvalidCharException {
         _curToken = _lexer.nextToken();
         _nextToken = _lexer.nextToken();
     }

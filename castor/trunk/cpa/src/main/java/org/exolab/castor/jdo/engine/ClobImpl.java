@@ -198,7 +198,7 @@ public class ClobImpl implements Clob {
      * Not implemented.   Added to make ClobImpl compliant with
      * JDBC 4.0, which is a part of JDK6.
      */
-    public Reader getCharacterStream(final long pos, final long length) throws SQLException {
+    public Reader getCharacterStream(final long pos, final long length) {
         return null;
     }
 

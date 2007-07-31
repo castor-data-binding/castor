@@ -421,8 +421,7 @@ public class FieldMolder {
     // ======================================================
     //  copy from FieldHanlder.java and modified
     // ======================================================
-    protected Class getCollectionType(final String coll, final boolean lazy)
-            throws MappingException {
+    protected Class getCollectionType(final String coll, final boolean lazy) {
         /* 
          * Class type;
          */
