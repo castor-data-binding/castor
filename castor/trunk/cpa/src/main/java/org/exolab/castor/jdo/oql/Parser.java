@@ -407,6 +407,8 @@ public final class Parser {
             retNode = match(tokenType);
             retNode.addChild(leftSide);
             retNode.addChild(relationalExpr());
+        default:
+            break;
         }
         
         if (retNode == null) { return leftSide; }
@@ -442,6 +444,9 @@ public final class Parser {
             retNode.addChild(additiveExpr());
             match(TokenType.KEYWORD_AND);
             retNode.addChild(additiveExpr());
+            break;
+        default:
+            break;
         }
         
         if (retNode == null) { return leftSide; }
@@ -469,6 +474,9 @@ public final class Parser {
             retNode = match(tokenType);
             retNode.addChild(leftSide);
             retNode.addChild(multiplicativeExpr());
+            break;
+        default:
+            break;
         }
         
         if (retNode == null) { return leftSide; }
@@ -497,6 +505,9 @@ public final class Parser {
             retNode = match(tokenType);
             retNode.addChild(leftSide);
             retNode.addChild(inExpr());
+            break;
+        default:
+            break;
         }
         
         if (retNode == null) { return leftSide; }
@@ -545,6 +556,9 @@ public final class Parser {
       case TokenType.KEYWORD_NOT:
           retNode = match(tokenType);
           retNode.addChild(unaryExpr());
+          break;
+      default:
+          break;
       }
       
       if (retNode == null) { return postfixExpr(); }

@@ -197,6 +197,8 @@ public final class Lexer {
         case ',':
             retToken = Token.COMMA;
             break;
+        default:
+            break;
         }
         
         if (retToken == null) {

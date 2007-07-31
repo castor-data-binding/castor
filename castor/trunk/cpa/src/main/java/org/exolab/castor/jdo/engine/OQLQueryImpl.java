@@ -78,13 +78,12 @@ import org.exolab.castor.persist.spi.PersistenceQuery;
 import org.exolab.castor.persist.spi.QueryExpression;
 
 /**
- * An OQLQuery implementation to execute a query based upon an OQL statement   
+ * An OQLQuery implementation to execute a query based upon an OQL statement.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class OQLQueryImpl implements Query, OQLQuery {
-
     private LockEngine _dbEngine;
 
     private Database _database;
@@ -505,6 +504,9 @@ public class OQLQueryImpl implements Query, OQLQuery {
                         throw new QueryException(Messages.message("persist.simple.query.failed"), except);
                     }
                     _fieldNum = 0;
+                    break;
+                default:
+                    throw new PersistenceException("Unknown projection type: " + _projectionType);
             }
         } catch (PersistenceException except) {
             throw except;

@@ -156,7 +156,6 @@ public final class SqlBindParser {
                     }
                 }
                 break;
-
               case '?':     // bind variable
                 _bindPos = pos;
 
@@ -168,6 +167,8 @@ public final class SqlBindParser {
                _pos = pos;
 
                return true;
+              default:
+                  break;
             }
         }
 
