@@ -117,8 +117,8 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
             if (tableAlias.equals(tableName)) {
                 tmp.append(_factory.quoteName(tableName));
             } else {
-                tmp.append(_factory.quoteName(tableName) + " " +
-                            _factory.quoteName(tableAlias));
+                tmp.append(_factory.quoteName(tableName) + " "
+                        + _factory.quoteName(tableAlias));
             }
             vector.addElement(_factory.quoteName(tmp.toString()));
         }

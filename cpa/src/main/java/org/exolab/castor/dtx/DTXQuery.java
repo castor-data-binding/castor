@@ -358,11 +358,10 @@ public class DTXQuery {
             ClassMapping clsMapping = desc.getClassMapping();
             String elementName = null;
 
-            if (clsMapping.getMapTo() == null ||
-            clsMapping.getMapTo().getXml() == null) {
-            elementName = clsMapping.getName();
+            if ((clsMapping.getMapTo() == null) || (clsMapping.getMapTo().getXml() == null)) {
+                elementName = clsMapping.getName();
             } else {
-            elementName = clsMapping.getMapTo().getXml();
+                elementName = clsMapping.getMapTo().getXml();
             }
 
             String[] attrCols = desc.getAttrCols();

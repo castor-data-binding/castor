@@ -283,9 +283,9 @@ public final class ObjectLock implements DepositBox {
      * @return True if no lock and no waiting
      */
     boolean isFree() {
-        return ((_writeLock == null) && (_readLock == null) && 
-                 (_writeWaiting == null) && (_readWaiting == null) && 
-                 (_confirmWaiting == null) && (_waitCount == 0));
+        return ((_writeLock == null) && (_readLock == null)
+                && (_writeWaiting == null) && (_readWaiting == null)
+                && (_confirmWaiting == null) && (_waitCount == 0));
     }
 
     boolean isExclusivelyOwned(final TransactionContext tx) {
@@ -406,8 +406,9 @@ public final class ObjectLock implements DepositBox {
                         if (LOG.isDebugEnabled()) {
                             LOG.debug("Timeout on " + this.toString() + " by " + tx);
                         }
-                        throw new LockNotGrantedException((write ? "persist.writeLockTimeout" :
-                                                               "persist.readLockTimeout") + _oid + "/" + _id + " by " + tx);
+                        throw new LockNotGrantedException(
+                                (write ? "persist.writeLockTimeout" : "persist.readLockTimeout")
+                                + _oid + "/" + _id + " by " + tx);
                     }
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("Waiting on " + this.toString() + " by " + tx);
@@ -433,8 +434,9 @@ public final class ObjectLock implements DepositBox {
                         wait((waittime < 0) ? 0 : waittime);
                     } catch (InterruptedException except) {
                         // If the thread is interrupted, come out with the proper message
-                        throw new LockNotGrantedException(write ? "persist.writeLockTimeout" :
-                                                               "persist.readLockTimeout" + _oid + "/" + _id + " by " + tx, except);
+                        throw new LockNotGrantedException(
+                                (write ? "persist.writeLockTimeout" : "persist.readLockTimeout")
+                                + _oid + "/" + _id + " by " + tx, except);
                     }
 
                     if (_deleted) {
@@ -725,8 +727,8 @@ public final class ObjectLock implements DepositBox {
                 if (_writeLock == tx) {
                     // Already have write lock, can acquire object
                     return;
-                } else if ((_writeLock == null) && 
-                            (_readLock._tx == tx) && (_readLock._next == null)) {
+                } else if ((_writeLock == null)
+                        && (_readLock._tx == tx) && (_readLock._next == null)) {
                     // Upgrading from read to write, no other locks, can upgrade
                     // Order is important in case thread is stopped in the middle
                     //_readLock = null;
@@ -1035,8 +1037,9 @@ public final class ObjectLock implements DepositBox {
 
 
     public String toString() {
-        return _oid.toString() + "/" + _id + " " + (((_readLock == null) ? "-" : "R") + "/" +
-                                         ((_writeLock == null) ? "-" : "W"));
+        return _oid.toString() + "/" + _id + " "
+                + (((_readLock == null) ? "-" : "R") + "/"
+                + ((_writeLock == null) ? "-" : "W"));
     }
 
 

@@ -951,9 +951,9 @@ public class FieldMolder {
                         //-- First check against whether the declared type is
                         //-- an interface or abstract class. We also check
                         //-- type as Serializable for CMP 1.1 compatibility.
-                        if (internalFieldType.isInterface() ||
-                            ((internalFieldType.getModifiers() & Modifier.ABSTRACT) != 0) ||
-                            (internalFieldType == java.io.Serializable.class)) {
+                        if (internalFieldType.isInterface()
+                                || ((internalFieldType.getModifiers() & Modifier.ABSTRACT) != 0)
+                                || (internalFieldType == java.io.Serializable.class)) {
                             if (!internalFieldType.isAssignableFrom(returnType)) {
                                 throw new MappingException("mapping.accessorReturnTypeMismatch", method, internalFieldType.getName());
                             }

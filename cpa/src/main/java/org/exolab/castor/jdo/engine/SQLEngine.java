@@ -153,8 +153,8 @@ public final class SQLEngine implements Persistence {
 
                 // The extending class may have other SQL names for identity fields
                 for (int j = 0; j < idDescriptors.length; j++) {
-                    if (name.equals(idDescriptors[j].getFieldName()) &&
-                            (idDescriptors[j] instanceof JDOFieldDescriptor)) {
+                    if (name.equals(idDescriptors[j].getFieldName())
+                            && (idDescriptors[j] instanceof JDOFieldDescriptor)) {
                         sqlName = ((JDOFieldDescriptor) idDescriptors[j]).getSQLName();
                         break;
                     }

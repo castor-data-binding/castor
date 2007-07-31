@@ -659,8 +659,8 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             Class handlerClass = resolveType(fieldMap.getHandler());
             
             if (!FieldHandler.class.isAssignableFrom(handlerClass)) {
-                String err = "The class '" + fieldMap.getHandler() + 
-                    "' must implement " + FieldHandler.class.getName();
+                String err = "The class '" + fieldMap.getHandler()
+                    + "' must implement " + FieldHandler.class.getName();
                 throw new MappingException(err);
             }
             
@@ -673,8 +673,8 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
                 handler = (FieldHandler) 
                     constructor.newInstance(new Object[0]);
             } catch (Exception except) {
-                String err = "The class '" + handlerClass.getName() + 
-                    "' must have a default public constructor.";
+                String err = "The class '" + handlerClass.getName()
+                    + "' must have a default public constructor.";
                 throw new MappingException(err);
             }
             

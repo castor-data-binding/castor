@@ -93,8 +93,8 @@ public final class SQLServerQueryExpression extends JDBCQueryExpression {
             if (tableAlias.equals(tableName)) {
                 sql.append(_factory.quoteName(tableName));
             } else {
-                sql.append(_factory.quoteName(tableName) + " " +
-                            _factory.quoteName(tableAlias));
+                sql.append(_factory.quoteName(tableName) + " "
+                        + _factory.quoteName(tableAlias));
             }
             if (lock) {
                 sql.append(" HOLDLOCK ");
@@ -122,15 +122,17 @@ public final class SQLServerQueryExpression extends JDBCQueryExpression {
                 if (j > 0) {
                     sql.append(JDBCSyntax.AND);
                 }
-                sql.append(_factory.quoteName(join._leftTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                                join._leftColumns[j]));
+                sql.append(_factory.quoteName(join._leftTable
+                        + JDBCSyntax.TABLE_COLUMN_SEPARATOR
+                        + join._leftColumns[j]));
                 if (join._outer) {
                     sql.append("*=");
                 } else {
                     sql.append(OP_EQUALS);
                 }
-                sql.append(_factory.quoteName(join._rightTable + JDBCSyntax.TABLE_COLUMN_SEPARATOR +
-                                                join._rightColumns[j]));
+                sql.append(_factory.quoteName(join._rightTable
+                        + JDBCSyntax.TABLE_COLUMN_SEPARATOR
+                        + join._rightColumns[j]));
             }
         }
         first = addWhereClause(sql, first);
