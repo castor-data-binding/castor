@@ -404,7 +404,7 @@ public class SQLStatementCreate {
 
             return new Identity(id.toJava(identity));
         } finally {
-            if (_keyGen.isInSameConnection() == false) {
+            if (!_keyGen.isInSameConnection()) {
                 closeSeparateConnection(connection);
             }
         }

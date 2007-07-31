@@ -76,7 +76,7 @@ public final class SQLServerQueryExpression extends JDBCQueryExpression {
         }
 
         if (_limit != null) {
-            if (_limit.equals("") == false) {
+            if (!_limit.equals("")) {
                 sql.append("TOP ").append(_limit).append(" ");
             }
         }
