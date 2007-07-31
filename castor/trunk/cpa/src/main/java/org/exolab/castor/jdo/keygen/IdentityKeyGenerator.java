@@ -243,7 +243,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
         }
     }
 
-    // TODO: does Progress have support for retrieving key values for auto_increment columns
+    // TODO does Progress have support for retrieving key values for auto_increment columns (WG)
 //    private class ProgressType extends AbstractType {
 //        Object getValue(Connection conn, String tableName) throws PersistenceException {
 //            StringBuffer buf = new StringBuffer("SELECT IDENTITY_VAL_LOCAL() FROM sysibm.sysdummy1");           

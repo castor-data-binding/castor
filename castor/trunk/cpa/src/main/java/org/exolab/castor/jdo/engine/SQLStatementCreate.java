@@ -251,7 +251,7 @@ public class SQLStatementCreate {
                 sqlType = ids[0].getSqlType();
                 cstmt.registerOutParameter(count, sqlType);
                 
-                // [WG]: TODO: Verify that this really works !!!
+                // TODO Verify that this really works (WG) !!!
                 if (LOG.isDebugEnabled()) {
                       LOG.debug(Messages.format("jdo.creating", _type, cstmt.toString()));
                 }

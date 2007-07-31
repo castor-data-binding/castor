@@ -391,7 +391,7 @@ public final class SQLQuery implements PersistenceQuery {
 
         String tableName = null;
 
-        // TODO: wrong, as it could be that the first field is not part of the root class.
+        // TODO wrong, as it could be that the first field is not part of the root class.
         if (numberOfFields > 0) {
             tableName = _engine.getInfo()[0].getTableName();
             

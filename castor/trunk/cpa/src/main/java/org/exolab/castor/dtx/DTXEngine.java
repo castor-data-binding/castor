@@ -237,8 +237,7 @@ public class DTXEngine {
             org.castor.jdo.conf.Driver driver = _database.getDatabaseChoice().getDriver();
 
             if (datasource != null) {
-            // FIXME: lame
-            throw new DTXException("dtx.DataSourceUnimplemented");
+                throw new DTXException("dtx.DataSourceUnimplemented");
             } else if (driver != null) {
             try {
                 String className = driver.getClassName();
