@@ -126,4 +126,9 @@ public class PersistenceFactoryRegistry {
             }
         }
     }
+    
+    /**
+     * Hide Utility Class Constructor.
+     */
+    private PersistenceFactoryRegistry() { }
 }
