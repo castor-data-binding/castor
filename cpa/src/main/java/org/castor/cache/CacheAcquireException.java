@@ -27,14 +27,14 @@ import java.io.PrintWriter;
  * @since 1.0
  */
 public class CacheAcquireException extends Exception {
-    /** SerialVersionUID */
+    /** SerialVersionUID. */
     private static final long serialVersionUID = 6282797357450171990L;
 
     /** The cause for this exception. */
     private Throwable _cause;
 
     /**
-     * Creates an instance of CacheAcquireException
+     * Creates an instance of CacheAcquireException.
      * 
      * @param message An error message.
      */
@@ -43,9 +43,9 @@ public class CacheAcquireException extends Exception {
     }
     
     /**
-     * Creates an instance of CacheAcquireException Exception
+     * Creates an instance of CacheAcquireException Exception.
      * 
-     * @param message An error message
+     * @param message An error message.
      * @param cause The original exception that caused the problem.
      */
     public CacheAcquireException (final String message, final Throwable cause) {

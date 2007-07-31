@@ -41,7 +41,7 @@ public final class PrimitiveResolver implements ResolverStrategy {
     private int _fieldIndex;
 
     /**
-     * Creates an instance of PrimitiveResolver
+     * Creates an instance of PrimitiveResolver.
      * 
      * @param classMolder Associated {@link ClassMolder}
      * @param fieldMolder Associated {@link FieldMolder}

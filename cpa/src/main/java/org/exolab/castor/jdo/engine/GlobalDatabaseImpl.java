@@ -42,31 +42,23 @@ import org.exolab.castor.persist.spi.InstanceFactory;
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
 public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchronization {
-
-    /**
-     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     * Commons Logging</a> instance used for all logging.
-     */
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
     private static Log _log = LogFactory.getFactory().getInstance(GlobalDatabaseImpl.class);
 
-    /**
-     * The XA transaction to which this Database instance is attached
-     */
+    /** The XA transaction to which this Database instance is attached. */
     private Transaction _transaction;
 
-    /**
-     * The transaction to database map for database pooling.
-     */
+    /** The transaction to database map for database pooling. */
     private TxDatabaseMap _txMap;
     
-    /**
-     * Flag to indicate whether Database instances should be cached on a per transaction base.
-     */
+    /** Flag to indicate whether Database instances should be cached on a per transaction base. */
     boolean _isPoolInUseForGlobalTransactions = false;
 
     /**
      * Creates an instance of this class.
-     * @param dbName Database name
+     * 
+     * @param dbName Database name.
      * @param lockTimeout Lock timeout.
      * @param callback Callback interceptors.
      * @param instanceFactory Instance factory to use.

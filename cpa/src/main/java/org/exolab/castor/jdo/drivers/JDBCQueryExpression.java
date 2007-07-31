@@ -92,9 +92,7 @@ public class JDBCQueryExpression implements QueryExpression {
 
     protected PersistenceFactory  _factory;
 
-    /**
-     * MetaInfo as acquired from the RDBMS
-     */
+    /** MetaInfo as acquired from the RDBMS. */
     protected DbMetaInfo _dbInfo;
 
     public JDBCQueryExpression(final PersistenceFactory factory) {
@@ -102,9 +100,9 @@ public class JDBCQueryExpression implements QueryExpression {
     }
 
     /**
-     * Store database meta information
+     * Store database meta information.
      *
-     * @param dbInfo DbMetaInfo instance
+     * @param dbInfo DbMetaInfo instance.
      */    
     public void setDbMetaInfo(final DbMetaInfo dbInfo) {
         _dbInfo = dbInfo;
@@ -567,7 +565,8 @@ public class JDBCQueryExpression implements QueryExpression {
         }
         
         /**
-         * Indicates whether the join in question is an outer join
+         * Indicates whether the join in question is an outer join.
+         * 
          * @return True if it is an outer join.
          */
         public boolean isOuter() {

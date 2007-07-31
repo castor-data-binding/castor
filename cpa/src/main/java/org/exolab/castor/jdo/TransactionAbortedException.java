@@ -42,10 +42,7 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.jdo;
-
 
 /**
  * Informs that the user transaction has been explicitly aborted by
@@ -55,7 +52,7 @@ package org.exolab.castor.jdo;
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class TransactionAbortedException extends PersistenceException {
-    /** SerialVersionUID */
+    /** SerialVersionUID. */
     private static final long serialVersionUID = -8889273719776531668L;
 
     public TransactionAbortedException(final String message) {

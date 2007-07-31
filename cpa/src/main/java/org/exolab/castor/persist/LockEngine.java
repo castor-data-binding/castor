@@ -284,9 +284,10 @@ public final class LockEngine {
     public ConnectionFactory getConnectionFactory() { return _connectionFactory; }
 
     /**
-     * Get classMolder which represents the given java data object class
+     * Get classMolder which represents the given java data object class.
      * Dependent class will not be returned to avoid persistenting 
-     * a dependent class without 
+     * a dependent class without.
+     * 
      * @param cls Class instance for whic a class molder should be returned. 
      * @return The class molder for the specified class.
      */
@@ -439,13 +440,13 @@ public final class LockEngine {
     }
 
     /**
-     * Mark an object and its related or dependent object to be created
+     * Mark an object and its related or dependent object to be created.
      *
-     * @param tx The transaction context
-     * @param oid The identity of the object, or null
-     * @param object The newly created object
-     * @throws PersistenceException An error reported by the persistence engine
-     * @throws LockNotGrantedException Timeout or deadlock occured attempting to acquire lock on object.
+     * @param tx The transaction context.
+     * @param oid The identity of the object, or null.
+     * @param object The newly created object.
+     * @throws PersistenceException An error reported by the persistence engine. Timeout or
+     *         deadlock occured attempting to acquire lock on object.
      */
     public void markCreate(final TransactionContext tx, final OID oid, final Object object)
     throws PersistenceException {
@@ -1063,7 +1064,7 @@ public final class LockEngine {
     }
 
     /**
-     * Close all caches (to allow for resource clean-up)
+     * Close all caches (to allow for resource clean-up).
      */
     public void closeCaches() {
         for (Iterator iter = _typeInfo.values().iterator(); iter.hasNext(); ) {

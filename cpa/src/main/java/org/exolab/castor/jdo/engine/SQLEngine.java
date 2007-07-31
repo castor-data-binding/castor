@@ -204,7 +204,8 @@ public final class SQLEngine implements Persistence {
     }
 
     /**
-     * Mutator method for setting extends SQLEngine
+     * Mutator method for setting extends SQLEngine.
+     * 
      * @param engine
      */
     public void setExtends(final SQLEngine engine) {

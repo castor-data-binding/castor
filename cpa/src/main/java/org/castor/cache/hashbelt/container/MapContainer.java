@@ -37,7 +37,7 @@ import org.castor.util.concurrent.ConcurrentHashMap;
 public final class MapContainer extends ConcurrentHashMap implements Container {
     //--------------------------------------------------------------------------
     
-    /** SerialVersionUID */
+    /** SerialVersionUID. */
     private static final long serialVersionUID = -7215860376133906243L;
     
     /** Timestamp of this container. */

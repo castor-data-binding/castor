@@ -84,36 +84,26 @@ import org.exolab.castor.jdo.engine.JDBCSyntax;
  * next()           -> false
  * getLastExpr()    -> ""
  *
- * @author Martin Fuchs <martin-fuchs AT gmx DOT net>
+ * @author <a href="mailto:martin-fuchs AT gmx DOT net"> Martin Fuchs</a>
  */
 public final class SqlBindParser {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
     private static Log _log = LogFactory.getFactory().getInstance(SqlBindParser.class);
 
-    /** 
-     * complete SQL expression to be parsed 
-     */
+    /** Complete SQL expression to be parsed. */
     private String _sql;
 
-    /**
-     * length of _sql string
-     */
+    /** Length of _sql string. */
     private int _length;
 
-    /** 
-     * current parse position 
-     */
+    /** Current parse position. */
     private int _pos;
 
-    /** 
-     * last parse position 
-     */
+    /** Last parse position. */
     private int _lastPos;
 
-    /** 
-     * position of the current bind variable 
-     */
+    /** Position of the current bind variable. */
     private int _bindPos;
 
     /**
@@ -215,9 +205,10 @@ public final class SqlBindParser {
 
 
     /**
-     * Creates a SQL statement from pre_sql, replacing bind expressions like "?1" by "?"
-     * @param preSQL SQL statement string with bind variables of the form "?1"
-     * @return SQL statement string with bind variables of the form "?"
+     * Creates a SQL statement from pre_sql, replacing bind expressions like "?1" by "?".
+     * 
+     * @param preSQL SQL statement string with bind variables of the form "?1".
+     * @return SQL statement string with bind variables of the form "?".
      */
     public static String getJdbcSql(final String preSQL) {
         StringBuffer sb = new StringBuffer();

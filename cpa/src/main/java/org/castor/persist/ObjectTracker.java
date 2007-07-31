@@ -152,7 +152,8 @@ public final class ObjectTracker {
     }
     
     /**
-     * Returns true if the cache needs to be updated for the given object
+     * Returns true if the cache needs to be updated for the given object.
+     * 
      * @param object An object instance
      * @return true if the cache needs to be updated; false, otherwise.
      */
@@ -162,7 +163,8 @@ public final class ObjectTracker {
     }
     
     /**
-     * Returns true if the given object needs to be written to the persistence store
+     * Returns true if the given object needs to be written to the persistence store.
+     * 
      * @param object An object instance
      * @return true if the object needs to be written to the persistence store
      */

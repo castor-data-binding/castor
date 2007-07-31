@@ -31,7 +31,7 @@ import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.ClassMolder;
 
 /**
- * Common static methods for Castor JDO
+ * Common static methods for Castor JDO.
  * 
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @author <a href="mailto:dulci AT start DOT no">Stein M. Hugubakken</a>

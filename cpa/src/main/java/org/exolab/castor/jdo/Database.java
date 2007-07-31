@@ -225,7 +225,8 @@ public interface Database {
     PersistenceInfoGroup getScope();
 
     /**                              
-     * Return the name of the database
+     * Return the name of the database.
+     * 
      * @return The database name.
      */                               
     String getDatabaseName(); 
@@ -372,7 +373,7 @@ public interface Database {
      * Acquire a soft write lock on the object. Read locks are implicitly
      * available when the object is queried. A write lock is only
      * granted for objects that are created or deleted or for objects
-     * loaded in <tt>exclusive</t> mode - this method can obtain such a
+     * loaded in <tt>exclusive</tt> mode - this method can obtain such a
      * lock explicitly.
      * <p>
      * A soft lock is acquired in memory, not in the database. To acquire

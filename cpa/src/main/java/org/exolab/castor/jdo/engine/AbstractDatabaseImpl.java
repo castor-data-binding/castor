@@ -56,54 +56,37 @@ import org.exolab.castor.persist.spi.InstanceFactory;
  * @version $Revision$ $Date: 2006-04-22 11:05:30 -0600 (Sat, 22 Apr 2006) $
  */
 public abstract class AbstractDatabaseImpl implements Database {
-    /**
-     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     * Commons Logging</a> instance used for all logging.
-     */
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
     private static Log _log = LogFactory.getFactory().getInstance(AbstractDatabaseImpl.class);
 
-    /**
-     * The database engine used to access the underlying SQL database.
-     */
+    /** The database engine used to access the underlying SQL database. */
     protected PersistenceInfoGroup _scope;
 
-    /**
-     * The transaction context is this database was accessed with an
-     * {@link javax.transaction.xa.XAResource}.
-     */
+    /** The transaction context is this database was accessed with an
+     *  {@link javax.transaction.xa.XAResource}. */
     protected TransactionContext _ctx;
 
-    /**
-     * List of TxSynchronizeable implementations that should all be
-     * informed about changes after commit of transactions. 
-     */
+    /** List of TxSynchronizeable implementations that should all be
+     *  informed about changes after commit of transactions. */
     private ArrayList _synchronizables;
 
-    /**
-     * The lock timeout for this database. Zero for immediate timeout, 
-     * an infinite value for no timeout. The timeout is specified in
-     * seconds.
-     */
+    /** The lock timeout for this database. Zero for immediate timeout, 
+     *  an infinite value for no timeout. The timeout is specified in
+     *  seconds. */
     protected int _lockTimeout;
 
-    /**
-     * The default callback interceptor for transaction
-     */
+    /** The default callback interceptor for transaction. */
     protected CallbackInterceptor _callback;
 
-    /**
-     * The instance factory to that creates new instances of data object
-     */
+    /** The instance factory to that creates new instances of data object. */
     protected InstanceFactory _instanceFactory;
 
-    /**
-     * The name of this database.
-     */
+    /** The name of this database. */
     protected String _dbName;
 
-    /**
-     * True if user prefer all reachable object to be stored automatically. False if user want only dependent object to be stored.
-     */
+    /** True if user prefer all reachable object to be stored automatically. False if user
+     *  want only dependent object to be stored. */
     protected boolean _autoStore;
 
     /**
@@ -117,11 +100,12 @@ public abstract class AbstractDatabaseImpl implements Database {
     private CacheManager _cacheManager;
 
     /**
-     * Creates an instance of this class
+     * Creates an instance of this class.
+     * 
      * @param dbName Name of the database.
-     * @param lockTimeout Lock timeout to use
-     * @param callback Callback interceptors
-     * @param instanceFactory Instance factory
+     * @param lockTimeout Lock timeout to use.
+     * @param callback Callback interceptors.
+     * @param instanceFactory Instance factory.
      * @param classLoader Current class loader.
      * @param autoStore True if auto storing is enabled.
      * @throws DatabaseNotFoundException If there's no database configuration for the given name.
@@ -205,7 +189,8 @@ public abstract class AbstractDatabaseImpl implements Database {
     }
 
     /**                              
-     * Return the name of the database
+     * Return the name of the database.
+     * 
      * @return Name of the database.
      */                               
     public String getDatabaseName() {                                

@@ -2,9 +2,7 @@ package org.exolab.castor.persist.spi;
 
 public final class Identity implements java.io.Serializable {
     
-    /**
-     * <code>serialVersionUID</code>
-     */
+    /** <code>serialVersionUID</code>. */
     private static final long serialVersionUID = 1L;
 
     private final Object[] _all;
@@ -13,6 +11,7 @@ public final class Identity implements java.io.Serializable {
 
     /**
      * Creates an instance of this class, based upon the parameter passed in.
+     * 
      * @param o Either a {@link Complex}, an {@link Identity} instance, or an Object[] instance.
      */
     public Identity(final Object o) {

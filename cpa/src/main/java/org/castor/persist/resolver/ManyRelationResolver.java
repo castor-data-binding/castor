@@ -57,7 +57,8 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
     private int _fieldIndex;
     
     /** 
-     * Creates an instance of ManyRelationResolver
+     * Creates an instance of ManyRelationResolver.
+     * 
      * @param classMolder Associated {@link ClassMolder}
      * @param fieldMolder Associated {@link FieldMolder}
      * @param fieldIndex Field index within all fields of parent class molder.

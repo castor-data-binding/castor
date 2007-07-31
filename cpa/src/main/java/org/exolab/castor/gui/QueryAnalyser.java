@@ -93,7 +93,9 @@ import org.exolab.castor.xml.Unmarshaller;
 public final class QueryAnalyser {
     boolean _packFrame = false;
 
-    /**Construct the application*/
+    /**
+     * Construct the application.
+     */
     private QueryAnalyser(final String databasename, final String dbconfig) {
         MainFrame frame = new MainFrame(databasename, dbconfig);
         //Validate frames that have preset sizes
@@ -116,7 +118,9 @@ public final class QueryAnalyser {
         frame.setVisible(true);
     }
 
-    /**Main method*/
+    /**
+     * Main method.
+     */
     public static void main(final String[] args) {
         if (args.length != 2) {
             System.out.println("Usage: org.exolab.castor.tools.QueryAnalyser <Databasename> <Databaseconfig>");
@@ -132,7 +136,7 @@ public final class QueryAnalyser {
     }
 
     private class MainFrame extends JFrame {
-        /** SerialVersionUID */
+        /** SerialVersionUID. */
         private static final long serialVersionUID = 3524368558606642742L;
 
         QueryHistory _qhistory = new QueryHistory();
@@ -165,7 +169,9 @@ public final class QueryAnalyser {
         JButton _btnPrevious = new JButton();
         JLabel _statusBar = new JLabel();
 
-        /**Construct the frame*/
+        /**
+         * Construct the frame.
+         */
         public MainFrame(final String dbName, final String dbConf) {
             _dbName = dbName;
             _dbConf = dbConf;
@@ -178,7 +184,9 @@ public final class QueryAnalyser {
             }
         }
         
-        /**Component initialization*/
+        /**
+         * Component initialization.
+         */
         private void jbInit() throws Exception    {
             ClassLoader cl = ClassLoader.getSystemClassLoader();
             //setIconImage(Toolkit.getDefaultToolkit().createImage(testframe.class.getResource("[Your Icon]")));
@@ -265,7 +273,10 @@ public final class QueryAnalyser {
             loadHistory();
             _oqlquery.setText(_qhistory.getCurrentQuery());
         }
-        /**Overridden so we can exit when window is closed*/
+        
+        /**
+         * Overridden so we can exit when window is closed.
+         */
         protected void processWindowEvent(final WindowEvent e) {
             super.processWindowEvent(e);
             if (e.getID() == WindowEvent.WINDOW_CLOSING) {
@@ -407,8 +418,9 @@ public final class QueryAnalyser {
                 System.exit(1);
             }
         }
+        
         /**
-         * Delete all content in the tabbed pane
+         * Delete all content in the tabbed pane.
          */
         private void clearTabs() {
             _oqlerror.setText("");

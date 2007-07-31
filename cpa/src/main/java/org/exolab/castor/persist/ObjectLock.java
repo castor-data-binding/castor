@@ -278,9 +278,9 @@ public final class ObjectLock implements DepositBox {
     }
 
     /**
-     * Return true if and only if this lock can be safely disposed
+     * Return true if and only if this lock can be safely disposed.
      *
-     * @return True if no lock and no waiting
+     * @return True if no lock and no waiting.
      */
     boolean isFree() {
         return ((_writeLock == null) && (_readLock == null)
@@ -306,7 +306,7 @@ public final class ObjectLock implements DepositBox {
 
     
     /**
-     * Return true if this entry has been expired from the cache
+     * Return true if this entry has been expired from the cache.
      */
     boolean isExpired() {
         return _isExpired; 
@@ -320,7 +320,7 @@ public final class ObjectLock implements DepositBox {
     }
    
     /**
-     * Indicate that object needs to be expired from the cache
+     * Indicate that object needs to be expired from the cache.
      */
     public void expire() {
         _isExpired = true; 

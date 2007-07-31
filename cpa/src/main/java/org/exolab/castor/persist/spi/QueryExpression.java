@@ -158,10 +158,10 @@ public interface QueryExpression {
     void addCondition(String tableName, String columnName, String condOp, String value);
 
     /**
-     * Encode a TableColumn for use in expressions
+     * Encode a TableColumn for use in expressions.
      *
-     * @param tableName The table name
-     * @param columnName The column name
+     * @param tableName The table name.
+     * @param columnName The column name.
      */
     String encodeColumn(String tableName, String columnName);
 
@@ -208,14 +208,14 @@ public interface QueryExpression {
     void addInnerJoin(String leftTable, String leftColumn, String rightTable, String rightColumn);
 
     /**
-     * Add an inner join with an aliases for the tables
+     * Add an inner join with an aliases for the tables.
      *
-     * @param leftTable The table name on the left side
-     * @param leftColumn The column name on the left side
-     * @param leftTableAlias The alias name to use for the table on the left side
-     * @param rightTable The table name on the right side
-     * @param rightColumn The column name on the right side
-     * @param rightTableAlias The alias name to use for the table on the right side
+     * @param leftTable The table name on the left side.
+     * @param leftColumn The column name on the left side.
+     * @param leftTableAlias The alias name to use for the table on the left side.
+     * @param rightTable The table name on the right side.
+     * @param rightColumn The column name on the right side.
+     * @param rightTableAlias The alias name to use for the table on the right side.
      */
     void addInnerJoin(String leftTable, String leftColumn, String leftTableAlias,
             String rightTable, String rightColumn, String rightTableAlias);

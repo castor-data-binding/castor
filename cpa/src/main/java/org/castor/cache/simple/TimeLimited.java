@@ -53,7 +53,7 @@ public class TimeLimited extends AbstractBaseCache {
     /** The type of the cache. */
     public static final String TYPE = "time-limited";
     
-    /** Mapped initialization parameter: ttl */
+    /** Mapped initialization parameter <code>ttl</code>. */
     public static final String PARAM_TTL = "ttl";
 
     /** Default ttl of cache. */

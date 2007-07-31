@@ -159,7 +159,7 @@ public interface LogInterceptor {
     void exception(Exception except);
 
     /**
-     * Returns the PrintWriter for this LogInterceptor
+     * Returns the PrintWriter for this LogInterceptor.
      */
     PrintWriter getPrintWriter();
 }

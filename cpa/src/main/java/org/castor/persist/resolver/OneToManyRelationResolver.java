@@ -41,7 +41,8 @@ import org.exolab.castor.persist.spi.Identity;
 public final class OneToManyRelationResolver extends ManyRelationResolver {
     
     /**
-     * Creates an instance of OneToMany
+     * Creates an instance of OneToMany.
+     * 
      * @param classMolder
      * @param fieldMolder
      * @param fieldIndex Field index within all fields of parent class molder.

@@ -64,7 +64,8 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.persist.spi.QueryExpression;
 
 /**
- * The parent abstract class for HIGH-LOW key generators
+ * The parent abstract class for HIGH-LOW key generators.
+ * 
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
  * @author <a href="bruce DOT snyder AT gmail DOT com">Bruce Snyder</a>
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
@@ -400,7 +401,7 @@ public class HighLowKeyGenerator implements KeyGenerator {
 
     /**
      * Gives a possibility to patch the Castor-generated SQL statement
-     * for INSERT (makes sense for DURING_INSERT key generators)
+     * for INSERT (makes sense for DURING_INSERT key generators).
      */
     public final String patchSQL(final String insert, final String primKeyName) {
         return insert;

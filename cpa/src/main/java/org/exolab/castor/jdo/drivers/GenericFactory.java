@@ -85,7 +85,7 @@ public class GenericFactory extends BaseFactory {
     }
 
     /**
-     * Updated to handle input such as user.tablename.column
+     * Updated to handle input such as user.tablename.column.
      *
      * @author Andrew Ballanger, 3/15/2001
      */

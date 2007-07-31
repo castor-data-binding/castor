@@ -35,7 +35,8 @@ public final class ResolverFactory {
     }
     
     /**
-     * Factory method to create ResolverStrategy instance
+     * Factory method to create ResolverStrategy instance.
+     * 
      * @param fieldMolder The associated {@link FieldMolder}
      * @param classMolder The associated {@link ClassMolder}
      * @param debug ???

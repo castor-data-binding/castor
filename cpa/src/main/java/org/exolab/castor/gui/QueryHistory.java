@@ -47,7 +47,7 @@ package org.exolab.castor.gui;
 import java.util.Vector;
 
 public class QueryHistory implements java.io.Serializable {
-    /** SerialVersionUID */
+    /** SerialVersionUID. */
     private static final long serialVersionUID = 235997211123063614L;
 
     private  Vector _querys = new Vector();

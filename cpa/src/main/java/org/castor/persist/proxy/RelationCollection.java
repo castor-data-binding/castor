@@ -77,7 +77,8 @@ public final class RelationCollection implements Collection, Lazy, TxSynchroniza
     private int _size;
 
     /**
-     * Creates an instance of RelationCollection
+     * Creates an instance of RelationCollection.
+     * 
      * @param tx Current transaction context
      * @param enclosing Enclosing OID 
      * @param molder Associated ClassMolder

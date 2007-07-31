@@ -87,10 +87,10 @@ public final class EHCache extends AbstractBaseCache {
     /** The method to test whether or not an element is expired. */
     private Method _isExpiredMethod;
 
-    /** Class instance for "net.sf.ehcache.Element" */
+    /** Class instance for 'net.sf.ehcache.Element'. */
     private Class _elementClass;
 
-    /** Constructir for 'net.sf.ehcache.Element' class */
+    /** Constructir for 'net.sf.ehcache.Element' class. */
     private Constructor _elementConstructor;
 
     /**

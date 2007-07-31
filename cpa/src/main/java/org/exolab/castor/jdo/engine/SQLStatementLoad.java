@@ -64,7 +64,7 @@ public final class SQLStatementLoad {
     /** Number of ClassDescriptor that extend this one. */
     private final int _numberOfExtendLevels;
 
-    /** Collection of all the ClassDescriptor that extend this one (closure) */
+    /** Collection of all the ClassDescriptor that extend this one (closure). */
     private final Collection _extendingClassDescriptors;
 
     private String _statementNoLock;

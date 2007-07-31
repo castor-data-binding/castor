@@ -29,7 +29,7 @@ import org.exolab.castor.persist.ObjectLock;
 public final class CacheEntry implements java.io.Serializable {
     //--------------------------------------------------------------------------
 
-    /** SerialVersionUID */
+    /** SerialVersionUID. */
     private static final long serialVersionUID = -5165311222436920871L;
 
     /** OID of the entry to be cached. */

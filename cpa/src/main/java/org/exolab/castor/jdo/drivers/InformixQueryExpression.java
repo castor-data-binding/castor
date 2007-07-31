@@ -99,7 +99,7 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
     /**
      * This method returns an enumeration of the tables that are included in
      * the from clause of a join, the resulting enumeration includes the
-     * necessary outer join syntax if needed
+     * necessary outer join syntax if needed.
      */
     private Enumeration getFromTables() {
         Vector vector = new Vector();

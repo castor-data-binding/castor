@@ -36,7 +36,7 @@ import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.spi.Identity;
 
 public final class SingleProxy implements MethodInterceptor, Serializable {
-    /** SerialVersionUID */
+    /** SerialVersionUID. */
     private static final long serialVersionUID = -1498354553937679053L;
 
     private static final Log LOG = LogFactory.getLog(SingleProxy.class);

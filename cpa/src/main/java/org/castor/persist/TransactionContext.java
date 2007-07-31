@@ -471,7 +471,7 @@ public interface TransactionContext {
 
     /**
      * Returns true if the object is previously queried/loaded/update/create in
-     * this transaction
+     * this transaction.
      * 
      * @param object The object.
      * @return <code>true</code> if recorded in this transaction.

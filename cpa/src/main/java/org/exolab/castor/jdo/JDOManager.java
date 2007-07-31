@@ -134,7 +134,7 @@ public final class JDOManager
 implements DataObjects, Referenceable, ObjectFactory, Serializable {
     //--------------------------------------------------------------------------
 
-    /** SerialVersionUID */
+    /** SerialVersionUID. */
     private static final long serialVersionUID = -7108469291509131893L;
 
     /**

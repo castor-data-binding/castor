@@ -174,8 +174,8 @@ public interface Query {
     QueryResults execute() throws PersistenceException;
 
     /**
+     * This is used for cursor support.
      * <b>Experimental</b>
-     * This is used for cursor support
      */
     QueryResults execute(final boolean scrollable) throws PersistenceException;
 
@@ -199,8 +199,8 @@ public interface Query {
     QueryResults execute(final AccessMode accessMode) throws PersistenceException;
 
     /**
+     * This is used for cursor support.
      * <b>Experimental</b>
-     * This is used for cursor support
      */
     QueryResults execute(final AccessMode accessMode, final boolean scrollable)
     throws PersistenceException;

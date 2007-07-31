@@ -112,22 +112,22 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(AbstractHashbelt.class);
     
-    /** Mapped initialization parameter: containers */
+    /** Mapped initialization parameter <code>containers</code>. */
     public static final String PARAM_CONTAINERS = "containers";
 
-    /** Mapped initialization parameter: container-class */
+    /** Mapped initialization parameter <code>container-class</code>. */
     public static final String PARAM_CONTAINER_CLASS = "container-class";
 
-    /** Mapped initialization parameter: reaper-class */
+    /** Mapped initialization parameter <code>reaper-class</code>. */
     public static final String PARAM_REAPER_CLASS = "reaper-class";
 
-    /** Mapped initialization parameter: capacity */
+    /** Mapped initialization parameter <code>capacity</code>. */
     public static final String PARAM_CAPACITY = "capacity";
 
-    /** Mapped initialization parameter: ttl */
+    /** Mapped initialization parameter <code>ttl</code>. */
     public static final String PARAM_TTL = "ttl";
 
-    /** Mapped initialization parameter: monitor */
+    /** Mapped initialization parameter <code>monitor</code>. */
     public static final String PARAM_MONITOR = "monitor";
 
     /** Default number of containers for cache. */

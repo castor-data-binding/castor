@@ -58,7 +58,7 @@ import org.apache.commons.logging.LogFactory;
  * JDBC database connection and enable comparing against some
  * required version string.  
  * 
- * @author Martin Fuchs <martin-fuchs AT gmx DOT net></a>
+ * @author <a href="mailto:martin-fuchs AT gmx DOT net"> Martin Fuchs</a>
  * @version $Revision$
  */
 public final class DbMetaInfo {
@@ -81,9 +81,10 @@ public final class DbMetaInfo {
     }
 
     /**
-     * delayed initialization function to avoid unnecessary metadata queries
-     * @todo This algorithm should also be tested against other databases
-     *       than Oracle, however it's currently only used for this DB type.   
+     * Delayed initialization function to avoid unnecessary metadata queries.
+     * 
+     * TODO This algorithm should also be tested against other databases
+     *      than Oracle, however it's currently only used for this DB type.   
      */
     private void init() {
         if (_connInfo == null) {
@@ -118,8 +119,9 @@ public final class DbMetaInfo {
     }
 
     /**
-     * return the version string for the current database conection
-     * @return database version string
+     * Return the version string for the current database conection.
+     * 
+     * @return database version string.
      */
     public String getDbVersion() {
         init();
@@ -128,8 +130,8 @@ public final class DbMetaInfo {
     }
 
     /**
-     * compare the actual database version
-     * with the given required version string
+     * Compare the actual database version with the given required version string.
+     * 
      * @param version
      * @return -1 -> lower  0 -> equal  1 -> higher
      */

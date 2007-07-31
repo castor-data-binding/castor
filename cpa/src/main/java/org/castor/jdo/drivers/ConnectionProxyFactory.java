@@ -78,7 +78,7 @@ public final class ConnectionProxyFactory {
     }
 
     /**
-     * Factory method for creating a PreparedStamentProxy
+     * Factory method for creating a PreparedStamentProxy.
      * 
      * @param statement Prepared statement to be proxied.
      * @param sql SQL string.
@@ -102,7 +102,7 @@ public final class ConnectionProxyFactory {
     }
     
     /**
-     * Factory method for creating a CallableStamentProxy
+     * Factory method for creating a CallableStamentProxy.
      * 
      * @param statement Callable statement to be proxied.
      * @param sql SQL string.
