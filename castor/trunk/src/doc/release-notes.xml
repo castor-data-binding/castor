@@ -82,6 +82,26 @@ org.exolab.castor.xml.proxyInterfaces=\
 
             </summary>
             <bugs>
+                <bug id="2048" tool="jira">
+                    <description>
+                        Fixed NPE related to usage of &lt;xsd:union&gt;.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ezequiel Puig</name>
+                        <email>e.puig@vivacances.fr</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070802</date>
+                </bug>
                 <bug id="1932" tool="jira">
                     <description>
                         Splited ClassDescriptorResolver to be more expandable for future needs.
