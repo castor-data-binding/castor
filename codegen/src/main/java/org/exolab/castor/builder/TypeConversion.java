@@ -184,6 +184,7 @@ public final class TypeConversion {
             // look at type hierarchy (if any), and try to 
             // find a common type recursively 
             while (common == null 
+                    && currentUnion.getBaseType() != null
                     && currentUnion.getBaseType().getStructureType() == Structure.UNION)
             {
                 currentUnion = (SimpleType) currentUnion.getBaseType();
