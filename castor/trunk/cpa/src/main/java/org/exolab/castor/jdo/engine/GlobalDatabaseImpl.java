@@ -53,7 +53,7 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchron
     private TxDatabaseMap _txMap;
     
     /** Flag to indicate whether Database instances should be cached on a per transaction base. */
-    boolean _isPoolInUseForGlobalTransactions = false;
+    private boolean _isPoolInUseForGlobalTransactions = false;
 
     /**
      * Creates an instance of this class.

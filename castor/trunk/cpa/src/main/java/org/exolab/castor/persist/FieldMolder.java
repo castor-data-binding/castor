@@ -449,11 +449,12 @@ public class FieldMolder {
     }
 
     static class CollectionInfo {
-        String _name;
-        Class _type;
+        private String _name;
+        private Class _type;
+        
         CollectionInfo(final String name, final Class type) {
-            this._name = name;
-            this._type = type;
+            _name = name;
+            _type = type;
         }
     }
 
@@ -1159,19 +1160,19 @@ public class FieldMolder {
 
         }
 
-        ClassLoader _loader;
+        private ClassLoader _loader;
 
-        Class _fClass;
+        private Class _fClass;
 
-        Field         _field;
-        Method[]      _getSequence;
-        Method[]      _setSequence;
-        Method        _getMethod;
-        Method        _setMethod;
-        Method        _addMethod;
-        Method        _hasMethod;
-        Method        _deleteMethod;
-        Method        _createMethod;
+        private Field _field;
+        private Method[] _getSequence;
+        private Method[] _setSequence;
+        private Method _getMethod;
+        private Method _setMethod;
+        private Method _addMethod;
+        private Method _hasMethod;
+        private Method _deleteMethod;
+        private Method _createMethod;
 
         /**
          * constructs a Field instance with the current ClassLoader.
@@ -1261,5 +1262,4 @@ public class FieldMolder {
             return resultClass;
         }
     }
-
 }

@@ -63,24 +63,21 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
 public class JDBCQueryExpression implements QueryExpression {
-
-    /**
-     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     * Commons Logging</a> instance used for all logging.
-     */
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
     private static Log _log = LogFactory.getFactory().getInstance(JDBCQueryExpression.class);
 
     protected Hashtable _tables = new Hashtable();
 
-    protected Vector    _cols = new Vector();
+    private Vector    _cols = new Vector();
 
-    protected Vector    _conds = new Vector();
+    private Vector    _conds = new Vector();
 
     protected Vector    _joins = new Vector();
 
     protected String    _select;
 
-    protected String    _where;
+    private String    _where;
 
     protected String    _order;
 
@@ -520,15 +517,15 @@ public class JDBCQueryExpression implements QueryExpression {
 
 
     static class Join {
-        final String   _leftTable;
+        protected final String   _leftTable;
 
-        final String[] _leftColumns;
+        protected final String[] _leftColumns;
 
-        final String   _rightTable;
+        protected final String   _rightTable;
 
-        final String[] _rightColumns;
+        protected final String[] _rightColumns;
 
-        final boolean  _outer;
+        protected final boolean  _outer;
 
         Join(final String leftTable, final String leftColumn, final String rightTable,
                 final String rightColumn, final boolean outer) {

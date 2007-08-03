@@ -1074,13 +1074,13 @@ public final class ObjectLock implements DepositBox {
      * write locks or waiting for a read/write lock.
      */
     static class LinkedTx {
-        TransactionContext _tx;
+        private TransactionContext _tx;
 
-        LinkedTx           _next;
+        private LinkedTx _next;
 
         LinkedTx(final TransactionContext tx, final LinkedTx next) {
-            this._tx = tx;
-            this._next = next;
+            _tx = tx;
+            _next = next;
         }
     }
 }

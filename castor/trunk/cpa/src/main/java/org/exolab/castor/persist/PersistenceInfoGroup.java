@@ -41,18 +41,14 @@
  * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
  *
  */
-
-
 package org.exolab.castor.persist;
 
 import org.castor.util.Messages;
 import org.exolab.castor.jdo.ClassNotPersistenceCapableException;
 import org.exolab.castor.jdo.QueryException;
-
-   
     
 public class PersistenceInfoGroup {
-    LockEngine[] _engines;
+    private LockEngine[] _engines;
     
     public PersistenceInfoGroup(final LockEngine[] engines) {
         this._engines = engines;

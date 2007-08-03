@@ -65,14 +65,14 @@ import org.exolab.castor.mapping.xml.FieldMapping;
 
 /* package-level class */
 
-class DTXClassDescriptor {
+public class DTXClassDescriptor {
 
-    protected ClassMapping _clsMapping = null;
-    protected HashMap _attrs = null;
-    protected HashMap _simpleElements = null;
-    protected HashMap _contained = null;
-    protected FieldMapping _text = null;
-    protected String _textCol = null;
+    private ClassMapping _clsMapping = null;
+    private HashMap _attrs = null;
+    private HashMap _simpleElements = null;
+    private HashMap _contained = null;
+    private FieldMapping _text = null;
+    private String _textCol = null;
 
     DTXClassDescriptor(final ClassMapping clsMapping) {
         _clsMapping = clsMapping;

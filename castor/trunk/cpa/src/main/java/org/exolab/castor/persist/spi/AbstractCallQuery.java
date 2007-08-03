@@ -14,15 +14,11 @@ import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.mapping.AccessMode;
 
 public abstract class AbstractCallQuery implements PersistenceQuery {
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
+     *  Logging</a> instance used for all logging. */
+    private static Log _log = LogFactory.getFactory().getInstance(AbstractCallQuery.class);
 
-    /**
-     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
-     * Logging</a> instance used for all logging.
-     */
-    private static Log _log = LogFactory.getFactory().getInstance(
-            AbstractCallQuery.class);
-
-    protected int[] _sqlTypes;
+    private int[] _sqlTypes;
 
     protected PreparedStatement _stmt;
 
@@ -30,11 +26,11 @@ public abstract class AbstractCallQuery implements PersistenceQuery {
 
     protected Identity _lastIdentity;
 
-    protected final Class[] _types;
+    private final Class[] _types;
 
     protected final Object[] _values;
 
-    protected final Class _javaClass;
+    private final Class _javaClass;
 
     protected final String _call;
 

@@ -91,7 +91,7 @@ import org.exolab.castor.xml.Unmarshaller;
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public final class QueryAnalyser {
-    boolean _packFrame = false;
+    private boolean _packFrame = false;
 
     /**
      * Construct the application.
@@ -142,35 +142,35 @@ public final class QueryAnalyser {
         /** SerialVersionUID. */
         private static final long serialVersionUID = 3524368558606642742L;
 
-        QueryHistory _qhistory = new QueryHistory();
-        Mapping _mapping = new Mapping();
+        private QueryHistory _qhistory = new QueryHistory();
+        private Mapping _mapping = new Mapping();
 
-        JPanel _contentPane;
-        BorderLayout _borderLayout1 = new BorderLayout();
-        DefaultTableModel _model;
+        private JPanel _contentPane;
+        private BorderLayout _borderLayout1 = new BorderLayout();
+        private DefaultTableModel _model;
 
-        JDOManager _jdo;
-        String _dbName;
-        String _dbConf;
-        JTabbedPane _tabbedPane = new JTabbedPane();
-        JToolBar _toolbar = new JToolBar();
-        JButton _btnNext = new JButton();
-        JButton _btnExit = new JButton();
-        JPanel _sqlresult = new JPanel();
-        JTextPane _sqlPane = new JTextPane();
-        BorderLayout _borderLayout3 = new BorderLayout();
-        JTextPane _oqlquery = new JTextPane();
-        JPanel _queryPanel = new JPanel();
-        BorderLayout _borderLayout2 = new BorderLayout();
-        JScrollPane _resultScrollpane = new JScrollPane();
-        JTable _resultTable = new JTable();
-        JButton _execute = new JButton();
-        JScrollPane _errorScrollPane = new JScrollPane();
-        JPanel _errorPanel = new JPanel();
-        JTextPane _oqlerror = new JTextPane();
-        BorderLayout _borderLayout4 = new BorderLayout();
-        JButton _btnPrevious = new JButton();
-        JLabel _statusBar = new JLabel();
+        private JDOManager _jdo;
+        private String _dbName;
+        private String _dbConf;
+        private JTabbedPane _tabbedPane = new JTabbedPane();
+        private JToolBar _toolbar = new JToolBar();
+        private JButton _btnNext = new JButton();
+        private JButton _btnExit = new JButton();
+        private JPanel _sqlresult = new JPanel();
+        private JTextPane _sqlPane = new JTextPane();
+        private BorderLayout _borderLayout3 = new BorderLayout();
+        private JTextPane _oqlquery = new JTextPane();
+        private JPanel _queryPanel = new JPanel();
+        private BorderLayout _borderLayout2 = new BorderLayout();
+        private JScrollPane _resultScrollpane = new JScrollPane();
+        private JTable _resultTable = new JTable();
+        private JButton _execute = new JButton();
+        private JScrollPane _errorScrollPane = new JScrollPane();
+        private JPanel _errorPanel = new JPanel();
+        private JTextPane _oqlerror = new JTextPane();
+        private BorderLayout _borderLayout4 = new BorderLayout();
+        private JButton _btnPrevious = new JButton();
+        private JLabel _statusBar = new JLabel();
 
         /**
          * Construct the frame.
