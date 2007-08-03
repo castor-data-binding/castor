@@ -128,7 +128,8 @@ public final class SqlBindParser {
         _lastPos = _pos;
 
          // search for the begin of the next bind variable
-        for (int pos = _pos; pos < _length; ++pos) {
+        int pos = _pos;
+        while (pos < _length) {
             char c = _sql.charAt(pos);
 
             switch(c) {
@@ -151,7 +152,7 @@ public final class SqlBindParser {
 
                 // search for the end of the bind variable
                 do {
-                    ++pos;
+                    pos++;
                 } while (pos < _length && Character.isDigit(_sql.charAt(pos)));
 
                _pos = pos;
@@ -160,6 +161,8 @@ public final class SqlBindParser {
               default:
                   break;
             }
+
+            pos++;
         }
 
         _bindPos = _length;

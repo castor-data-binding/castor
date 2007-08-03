@@ -325,7 +325,8 @@ public class OQLQueryImpl implements Query, OQLQuery {
                 startOff += 6;
                 sql.append(oql.substring(5, startOff));
 
-                for (int i = startOff; i < as; ++i) {
+                int i = startOff;
+                while (i < as) {
                     if (oql.charAt(i) == '$') {
                         // get parameter number if given
                         sb = new StringBuffer();
@@ -352,9 +353,10 @@ public class OQLQueryImpl implements Query, OQLQuery {
                         _paramInfo.put(paramNo , info);
                         paramCnt++;
 
-                        i += sb.length();
+                        i += sb.length() + 1;
                     } else {
                         sql.append(oql.charAt(i));
+                        i++;
                     }
                 }
             } else {
