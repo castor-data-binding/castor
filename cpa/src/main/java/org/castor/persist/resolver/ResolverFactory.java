@@ -43,10 +43,7 @@ public final class ResolverFactory {
      * @return The corresponding ResolverStratgey instance
      */
     public static ResolverStrategy createRelationResolver (final FieldMolder fieldMolder, 
-            final ClassMolder classMolder, 
-            final int fieldIndex,
-            final boolean debug) 
-        /* throws PersistenceException */ {
+            final ClassMolder classMolder, final int fieldIndex, final boolean debug) {
         
         ResolverStrategy relationResolver = null;
         
@@ -56,11 +53,13 @@ public final class ResolverFactory {
             relationResolver = new PrimitiveResolver (classMolder, fieldMolder, fieldIndex, debug);
             break;
         case FieldMolder.SERIALIZABLE:
-            relationResolver = new SerializableResolver (classMolder, fieldMolder, fieldIndex, debug);
+            relationResolver = new SerializableResolver(
+                    classMolder, fieldMolder, fieldIndex, debug);
             break;
         case FieldMolder.PERSISTANCECAPABLE:
             relationResolver = 
-                new PersistanceCapableRelationResolver (classMolder, fieldMolder, fieldIndex, debug);
+                new PersistanceCapableRelationResolver(
+                        classMolder, fieldMolder, fieldIndex, debug);
             break;
         case FieldMolder.ONE_TO_MANY:
             relationResolver = 

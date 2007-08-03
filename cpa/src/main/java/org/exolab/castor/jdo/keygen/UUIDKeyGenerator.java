@@ -127,7 +127,8 @@ public final class UUIDKeyGenerator implements KeyGenerator {
      * @throws PersistenceException An error occured talking to persistent
      *  storage
      */
-    public Object generateKey(final Connection conn, final String tableName, final String primKeyName, final Properties props) throws PersistenceException {
+    public Object generateKey(final Connection conn, final String tableName,
+            final String primKeyName, final Properties props) throws PersistenceException {
         String sUUID = null;
 
         try {

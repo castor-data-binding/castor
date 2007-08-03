@@ -114,7 +114,8 @@ public final class QueryAnalyser {
         if (frameSize.width > screenSize.width) {
             frameSize.width = screenSize.width;
         }
-        frame.setLocation((screenSize.width - frameSize.width) / 2, (screenSize.height - frameSize.height) / 2);
+        frame.setLocation((screenSize.width - frameSize.width) / 2,
+                (screenSize.height - frameSize.height) / 2);
         frame.setVisible(true);
     }
 
@@ -123,8 +124,10 @@ public final class QueryAnalyser {
      */
     public static void main(final String[] args) {
         if (args.length != 2) {
-            System.out.println("Usage: org.exolab.castor.tools.QueryAnalyser <Databasename> <Databaseconfig>");
-            System.out.println("Example: org.exolab.castor.tools.QueryAnalyser testdb database.xml");
+            System.out.println(
+                    "Usage: org.exolab.castor.tools.QueryAnalyser <Databasename> <Databaseconfig>");
+            System.out.println(
+                    "Example: org.exolab.castor.tools.QueryAnalyser testdb database.xml");
             System.exit(1);
         }
         try {
@@ -189,13 +192,16 @@ public final class QueryAnalyser {
          */
         private void jbInit() throws Exception    {
             ClassLoader cl = ClassLoader.getSystemClassLoader();
-            //setIconImage(Toolkit.getDefaultToolkit().createImage(testframe.class.getResource("[Your Icon]")));
+            //setIconImage(Toolkit.getDefaultToolkit().createImage(
+            //    testframe.class.getResource("[Your Icon]")));
             _contentPane = (JPanel) this.getContentPane();
             _contentPane.setLayout(_borderLayout1);
             this.setSize(new Dimension(600, 400));
             this.setTitle("Castor OQL-Ouery Analyser");
-            //ResultScrollpane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-            //ResultScrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            //ResultScrollpane.setHorizontalScrollBarPolicy(
+            //    JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+            //ResultScrollpane.setVerticalScrollBarPolicy(
+            //    JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
             _sqlresult.setLayout(_borderLayout3);
             _oqlquery.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -206,7 +212,8 @@ public final class QueryAnalyser {
             _btnExit.setMaximumSize(new Dimension(50, 39));
             _btnExit.setMinimumSize(new Dimension(50, 39));
             _btnExit.setActionCommand("");
-            _btnExit.setIcon(new ImageIcon(cl.getResource("org/exolab/castor/gui/images/exit.gif")));
+            _btnExit.setIcon(new ImageIcon(cl.getResource(
+                    "org/exolab/castor/gui/images/exit.gif")));
             _btnExit.setMnemonic('0');
 
             _btnExit.addActionListener(new java.awt.event.ActionListener() {
@@ -218,7 +225,8 @@ public final class QueryAnalyser {
             _execute.setMaximumSize(new Dimension(50, 39));
             _execute.setMinimumSize(new Dimension(50, 39));
             _execute.setActionCommand("");
-            _execute.setIcon(new ImageIcon(cl.getResource("org/exolab/castor/gui/images/fire.gif")));
+            _execute.setIcon(new ImageIcon(cl.getResource(
+                    "org/exolab/castor/gui/images/fire.gif")));
             _execute.setMnemonic('0');
             _execute.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(final ActionEvent e) {
@@ -234,7 +242,8 @@ public final class QueryAnalyser {
             _btnNext.setMaximumSize(new Dimension(50, 39));
             _btnNext.setMinimumSize(new Dimension(50, 39));
             _btnNext.setActionCommand("");
-            _btnNext.setIcon(new ImageIcon(cl.getResource("org/exolab/castor/gui/images/arrw04e.gif")));
+            _btnNext.setIcon(new ImageIcon(cl.getResource(
+                    "org/exolab/castor/gui/images/arrw04e.gif")));
             _btnNext.setMnemonic('0');
             _btnNext.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(final ActionEvent e) {
@@ -244,7 +253,8 @@ public final class QueryAnalyser {
             _btnPrevious.setMaximumSize(new Dimension(50, 39));
             _btnPrevious.setMinimumSize(new Dimension(50, 39));
             _btnPrevious.setToolTipText("Goto previous Query");
-            _btnPrevious.setIcon(new ImageIcon(cl.getResource("org/exolab/castor/gui/images/arrw04d.gif")));
+            _btnPrevious.setIcon(new ImageIcon(cl.getResource(
+                    "org/exolab/castor/gui/images/arrw04d.gif")));
             _btnPrevious.setMnemonic('0');
             _contentPane.add(_tabbedPane, BorderLayout.CENTER);
             _contentPane.add(_toolbar, BorderLayout.NORTH);
@@ -304,7 +314,8 @@ public final class QueryAnalyser {
                 // clear results
                 clearTabs();
 
-                //ResultScrollpane.getViewport().remove(ResultScrollpane.getViewport().getComponent(0));
+                //ResultScrollpane.getViewport().remove(
+                //    ResultScrollpane.getViewport().getComponent(0));
                 // create a new conec
                 Database db = _jdo.getDatabase();
                 db.begin();
@@ -325,7 +336,8 @@ public final class QueryAnalyser {
                 r = oql.execute(Database.READONLY);
                 Date endtime = new Date();
                 // write the status bar
-                _statusBar.setText("Query successful, Time: " + (endtime.getTime() - starttime.getTime()) + " ms");
+                _statusBar.setText("Query successful, Time: "
+                        + (endtime.getTime() - starttime.getTime()) + " ms");
 
                 // get SQL statement via backdoor
                 _sqlPane.setText(((OQLQueryImpl) oql).getSQL());
@@ -454,7 +466,8 @@ public final class QueryAnalyser {
 
         private void loadHistory() {
             try {
-                Unmarshaller unmarshaller = new Unmarshaller(Class.forName("org.exolab.castor.gui.QueryHistory"));
+                Unmarshaller unmarshaller = new Unmarshaller(
+                        Class.forName("org.exolab.castor.gui.QueryHistory"));
                 ClassLoader cl = ClassLoader.getSystemClassLoader();
                 _mapping.loadMapping(cl.getResource("org/exolab/castor/gui/Queryanlyser.xml"));
                 unmarshaller.setMapping(_mapping);

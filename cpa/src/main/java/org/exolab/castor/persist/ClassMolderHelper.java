@@ -79,7 +79,8 @@ public final class ClassMolderHelper {
             final MappingLoader mappingLoader, final LockEngine lockEngine,
             final ClassDescriptor descriptor, final Persistence persistence)
     throws MappingException, ClassNotFoundException {
-        return new ClassMolder(ds, (AbstractMappingLoader) mappingLoader, lockEngine, descriptor, persistence);
+        return new ClassMolder(ds, (AbstractMappingLoader) mappingLoader, lockEngine,
+                descriptor, persistence);
     }
 
     /**

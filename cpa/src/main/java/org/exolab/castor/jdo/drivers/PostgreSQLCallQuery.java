@@ -91,7 +91,8 @@ final class PostgreSQLCallQuery implements PersistenceQuery {
 
     private int[]           _sqlTypes;
 
-    PostgreSQLCallQuery(final String call, final Class[] types, final Class javaClass, final String[] fields, final int[] sqlTypes) {
+    PostgreSQLCallQuery(final String call, final Class[] types, final Class javaClass,
+            final String[] fields, final int[] sqlTypes) {
         StringBuffer query = new StringBuffer();
 
         query.append(JDBCSyntax.SELECT);

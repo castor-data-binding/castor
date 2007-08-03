@@ -121,8 +121,8 @@ public interface Persistence {
      * @throws PersistenceException The object was not found in persistent
      *         storage or any other persistence error occured.
      */
-    Object load(Object conn, ProposedEntity proposedObject, Identity identity, AccessMode accessMode)
-    throws PersistenceException;
+    Object load(Object conn, ProposedEntity proposedObject, Identity identity,
+            AccessMode accessMode) throws PersistenceException;
 
     /**
      * Stores the object in persistent storage, given the object fields

@@ -102,7 +102,8 @@ public final class OracleQueryExpression extends JDBCQueryExpression {
             if (_order != null) {
                 sql.append(JDBCSyntax.ORDER_BY).append(_order);
             } else {
-                throw new SyntaxNotSupportedException ("To use a LIMIT clause with Oracle, an ORDER BY clause is required.");
+                throw new SyntaxNotSupportedException(
+                        "To use a LIMIT clause with Oracle, an ORDER BY clause is required.");
             }
             sql.append(" ) rnk ");
         }
@@ -173,7 +174,9 @@ public final class OracleQueryExpression extends JDBCQueryExpression {
 
         // add LIMIT/OFFSET clause - part 2
         if (_limit != null) {
-            sql.insert (0, "select * from ( "); // leads to problems when used with Castor's outer joins for master-details queries: "ORA-00918: Spalte nicht eindeutig definiert"
+            // leads to problems when used with Castor's outer joins for master-details queries:
+            // "ORA-00918: Spalte nicht eindeutig definiert"
+            sql.insert (0, "select * from ( ");
 
             if (_offset != null) {
                 sql.append (" ) where rnk - " + _offset + " between 1 and " + _limit + " ");

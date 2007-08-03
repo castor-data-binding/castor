@@ -89,14 +89,10 @@ public abstract class AbstractDatabaseImpl implements Database {
      *  want only dependent object to be stored. */
     protected boolean _autoStore;
 
-    /**
-     * The class loader for application classes (may be null).
-     */
+    /** The class loader for application classes (may be null). */
     protected ClassLoader _classLoader;
 
-    /**
-     * {@link CacheManager} instance.
-     */
+    /** CacheManager instance. */
     private CacheManager _cacheManager;
 
     /**
@@ -142,7 +138,8 @@ public abstract class AbstractDatabaseImpl implements Database {
     }
 
     /**
-     * Returns the {@link LockEngine} in use by this database instance. 
+     * Returns the {@link LockEngine} in use by this database instance.
+     *  
      * @return the {@link LockEngine} in use by this database instance.
      */
     LockEngine getLockEngine() {
@@ -151,7 +148,6 @@ public abstract class AbstractDatabaseImpl implements Database {
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#getScope()
      */
     public PersistenceInfoGroup getScope() {
         return _scope;
@@ -160,6 +156,7 @@ public abstract class AbstractDatabaseImpl implements Database {
     /**
      * Indicates whether user prefer all reachable object to be stored automatically;
      * false if user wants dependent object only to be stored.
+     * 
      * @param autoStore True to indicate that 'autoStore' mode should be used.
      */
     public void setAutoStore(final boolean autoStore) {
@@ -170,6 +167,7 @@ public abstract class AbstractDatabaseImpl implements Database {
      * Return if the current transaction is set to autoStore, it there is
      * transaction active. If there is no active transaction, return if
      * the next transaction will be set to autoStore.
+     * 
      * @return True if 'auto-store' mode is in use.
      */
     public boolean isAutoStore() {
@@ -182,6 +180,7 @@ public abstract class AbstractDatabaseImpl implements Database {
 
     /**
      * Gets the current application ClassLoader's instance.
+     * 
      * @return the current ClassLoader's instance, or <code>null</code> if not provided
      */
     public ClassLoader getClassLoader() {
@@ -198,23 +197,20 @@ public abstract class AbstractDatabaseImpl implements Database {
     }
 
     /**
-     * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#close()
+     * {@inheritDoc}
      */
     public abstract void close()
         throws PersistenceException;
 
     /**
-     * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#isClosed()
+     * {@inheritDoc}
      */
     public boolean isClosed() {
         return (_scope == null);
     }
     
     /**
-     * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#isLocked(java.lang.Class, java.lang.Object)
+     * {@inheritDoc}
      */
     public boolean isLocked(final Class cls, final Object identity) throws PersistenceException {
         if (identity == null) {
@@ -230,7 +226,6 @@ public abstract class AbstractDatabaseImpl implements Database {
     }
 
     /**
-     * @see org.exolab.castor.jdo.Database#load(java.lang.Class, java.lang.Object)
      * {@inheritDoc}
      */
     public Object load(final Class type, final Object identity) throws PersistenceException {
@@ -238,7 +233,6 @@ public abstract class AbstractDatabaseImpl implements Database {
     }
 
     /**
-     * @see org.exolab.castor.jdo.Database#load(java.lang.Class, java.lang.Object, java.lang.Object)
      * {@inheritDoc}
      */
     public Object load(final Class type, final Object identity, final Object object)
@@ -247,7 +241,6 @@ public abstract class AbstractDatabaseImpl implements Database {
     }
     
     /**
-     * @see org.exolab.castor.jdo.Database#load(java.lang.Class, java.lang.Object, org.exolab.castor.mapping.AccessMode)
      * {@inheritDoc}
      */
     public Object load(final Class type, final Object identity, final AccessMode mode)
@@ -282,8 +275,7 @@ public abstract class AbstractDatabaseImpl implements Database {
     }
 
     /**
-     * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#create(java.lang.Object)
+     * {@inheritDoc}
      */
     public void create(final Object object) throws PersistenceException {
         TransactionContext tx = getTransaction();
@@ -292,8 +284,7 @@ public abstract class AbstractDatabaseImpl implements Database {
     }
     
     /**
-     * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#getCacheManager()
+     * {@inheritDoc}
      */
     public CacheManager getCacheManager() {
         if (_cacheManager == null) {
@@ -303,8 +294,7 @@ public abstract class AbstractDatabaseImpl implements Database {
     }
 
     /**
-     * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#update(java.lang.Object)
+     * {@inheritDoc}
      */
     public void update(final Object object) throws PersistenceException {
         
@@ -314,8 +304,7 @@ public abstract class AbstractDatabaseImpl implements Database {
     }
 
     /**
-     * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#remove(java.lang.Object)
+     * {@inheritDoc}
      */
     public void remove(final Object object) throws PersistenceException {
         
@@ -325,8 +314,7 @@ public abstract class AbstractDatabaseImpl implements Database {
     }
 
     /**
-     * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#isPersistent(java.lang.Object)
+     * {@inheritDoc}
      */
     public boolean isPersistent(final Object object) {
         if (_scope == null) {
@@ -339,8 +327,7 @@ public abstract class AbstractDatabaseImpl implements Database {
     }
 
     /**
-     * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#getIdentity(java.lang.Object)
+     * {@inheritDoc}
      */
     public Identity getIdentity(final Object object) throws PersistenceException {
         if (_scope == null) {
@@ -353,8 +340,7 @@ public abstract class AbstractDatabaseImpl implements Database {
 
 
     /**
-     * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#lock(java.lang.Object)
+     * {@inheritDoc}
      */
     public void lock(final Object object) throws PersistenceException {
         if (!isActive()) {
@@ -364,16 +350,14 @@ public abstract class AbstractDatabaseImpl implements Database {
     }
 
     /**
-     * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#getOQLQuery()
+     * {@inheritDoc}
      */
     public OQLQuery getOQLQuery() {
         return new OQLQueryImpl(this);
     }
 
     /**
-     * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#getNamedQuery(java.lang.String)
+     * {@inheritDoc}
      */
     public OQLQuery getNamedQuery(final String name) throws PersistenceException {
         String oql = _ctx.getNamedQuery(_scope.findClassMolderByQuery(name), name);
@@ -382,8 +366,7 @@ public abstract class AbstractDatabaseImpl implements Database {
 
 
     /**
-     * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#getOQLQuery(java.lang.String)
+     * {@inheritDoc}
      */
     public OQLQuery getOQLQuery(final String oql) throws PersistenceException {
         OQLQuery oqlImpl;
@@ -394,8 +377,7 @@ public abstract class AbstractDatabaseImpl implements Database {
     }
     
     /**
-     * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#getQuery()
+     * {@inheritDoc}
      */
     public Query getQuery() {
         return new OQLQueryImpl(this);
@@ -403,6 +385,7 @@ public abstract class AbstractDatabaseImpl implements Database {
 
     /**
      * Returns the currently active transaction, if any.
+     * 
      * @return The current active transaction.
      * @throws TransactionNotInProgressException If there's no active transaction.
      */
@@ -417,39 +400,38 @@ public abstract class AbstractDatabaseImpl implements Database {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public abstract void begin() throws PersistenceException;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public abstract void commit()
         throws TransactionNotInProgressException, TransactionAbortedException;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public abstract void rollback()
         throws TransactionNotInProgressException;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public boolean isActive() {
         return (_ctx != null && _ctx.isOpen());
     }
 
     /**
-     * @inheritDoc
-     * @see java.lang.Object#toString()
+     * {@inheritDoc}
      */
     public String toString() {
         return super.toString() + ":" + _dbName;
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public abstract Connection getJdbcConnection() throws PersistenceException; 
 
@@ -506,6 +488,7 @@ public abstract class AbstractDatabaseImpl implements Database {
         
     /**
      * Gets the current Castor transaction in use.
+     * 
      * @return the current Castor 
      * @throws TransactionNotInProgressException If there's no transaction in progress.
      */

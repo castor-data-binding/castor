@@ -86,7 +86,8 @@ public final class MaxKeyGenerator implements KeyGenerator {
     /**
      * Initialize the MAX key generator.
      */
-    public MaxKeyGenerator(final PersistenceFactory factory, final int sqlType) throws MappingException {
+    public MaxKeyGenerator(final PersistenceFactory factory, final int sqlType)
+    throws MappingException {
         _factory = factory;
         _sqlType = sqlType;
         supportsSqlType(sqlType);
@@ -99,9 +100,10 @@ public final class MaxKeyGenerator implements KeyGenerator {
      * @throws MappingException
      */
     public void supportsSqlType(final int sqlType) throws MappingException {
-        if ((sqlType != Types.INTEGER) && (sqlType != Types.NUMERIC) && (sqlType != Types.DECIMAL) && (sqlType != Types.BIGINT)) {
-            throw new MappingException(Messages.format("mapping.keyGenSQLType",
-                                        getClass().getName(), new Integer(sqlType)));
+        if ((sqlType != Types.INTEGER) && (sqlType != Types.NUMERIC)
+                && (sqlType != Types.DECIMAL) && (sqlType != Types.BIGINT)) {
+            throw new MappingException(Messages.format(
+                    "mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
         }
     }
 
@@ -118,8 +120,8 @@ public final class MaxKeyGenerator implements KeyGenerator {
      * @throws PersistenceException An error occured talking to persistent
      *  storage
      */
-    public Object generateKey(final Connection conn, final String tableName, final String primKeyName,
-            final Properties props) throws PersistenceException {
+    public Object generateKey(final Connection conn, final String tableName,
+            final String primKeyName, final Properties props) throws PersistenceException {
         
         String sql;
         PreparedStatement stmt = null;
@@ -143,7 +145,8 @@ public final class MaxKeyGenerator implements KeyGenerator {
                 // with database-dependent keyword for lock
                 query.addColumn(tableName, primKeyName);
                 query.addCondition(tableName, primKeyName, QueryExpression.OP_EQUALS,
-                        "(SELECT MAX(t1." + _factory.quoteName(primKeyName) + ") FROM " + _factory.quoteName(tableName) + " t1)");
+                        "(SELECT MAX(t1." + _factory.quoteName(primKeyName) + ") FROM "
+                        + _factory.quoteName(tableName) + " t1)");
 
                 // SELECT and put lock on the last record
                 sql = query.getStatement(true);

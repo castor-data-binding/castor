@@ -68,20 +68,15 @@ import org.exolab.castor.persist.spi.PersistenceQuery;
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
 public abstract class BaseFactory implements PersistenceFactory {
-
-    /**
-     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     * Commons Logging</a> instance used for all logging.
-     */
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
     private static Log _log = LogFactory.getFactory().getInstance(BaseFactory.class);
     
-    /**
-     * Maps class descriptor to persistence engines ....
-     */
+    /** Maps class descriptor to persistence engines. */
     private Map _classDescriptorToPersistence = new HashMap();
 
     /**
-     * @see org.exolab.castor.persist.spi.PersistenceFactory#getPersistence(org.exolab.castor.mapping.ClassDescriptor)
+     * {@inheritDoc}
      */
     public Persistence getPersistence(final ClassDescriptor clsDesc) {
         if (!(clsDesc instanceof JDOClassDescriptor)) { return null; }

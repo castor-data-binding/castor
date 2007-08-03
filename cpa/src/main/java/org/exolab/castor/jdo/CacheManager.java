@@ -67,26 +67,26 @@ public class CacheManager {
     /** Lock engine. */
     private LockEngine _lockEngine;
 
-    /**
-     * Currently active transaction context.
-     */
+    /** Currently active transaction context. */
     private TransactionContext _transactionContext;
-
     
     /**
      * Creates an instance of this class.
+     * 
      * @param db Database instance.
      * @param transactionContext Active transaction context.
      * @param lockEngine Lock engine
      */
-    public CacheManager(final Database db, final TransactionContext transactionContext, final LockEngine lockEngine) {
-        this._db = db;
-        this._transactionContext = transactionContext;
-        this._lockEngine = lockEngine;
+    public CacheManager(final Database db, final TransactionContext transactionContext,
+            final LockEngine lockEngine) {
+        _db = db;
+        _transactionContext = transactionContext;
+        _lockEngine = lockEngine;
     }
 
     /**
      * Indicates whether am instance of cls is currently cached.
+     * 
      * @param cls The class type.
      * @param identity The object identity.
      * @return True if the object is cached.
@@ -94,7 +94,8 @@ public class CacheManager {
      */
     public boolean isCached (final Class cls, final Object identity) throws PersistenceException {
         if (_transactionContext != null && _transactionContext.isOpen()) {
-            return _transactionContext.isCached(_lockEngine.getClassMolder(cls), cls, new Identity(identity));
+            return _transactionContext.isCached(_lockEngine.getClassMolder(cls), cls,
+                    new Identity(identity));
         }
         
         throw new PersistenceException("isCached() has to be called within an active transaction.");

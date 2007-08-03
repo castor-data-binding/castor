@@ -78,7 +78,8 @@ public final class TxDatabaseMap implements Serializable {
         Object oldDb = _txDbMap.put(tx, dbImpl);
         if ((oldDb != null) && (oldDb != dbImpl)) {
             _txDbMap.put(tx, oldDb);
-            throw new IllegalStateException("The transaction and database association can not be changed!");
+            throw new IllegalStateException(
+                    "The transaction and database association can not be changed!");
         }
         dbImpl.setTxMap(this);
     }

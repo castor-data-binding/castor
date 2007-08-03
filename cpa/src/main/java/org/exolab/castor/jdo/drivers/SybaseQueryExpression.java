@@ -138,8 +138,9 @@ public final class SybaseQueryExpression extends JDBCQueryExpression {
         return sql.toString();
     }
     
-    public void addInnerJoin(final String leftTable, final String leftColumn, final String leftTableAlias,
-            final String rightTable, final String rightColumn, final String rightTableAlias) {
+    public void addInnerJoin(final String leftTable, final String leftColumn,
+            final String leftTableAlias, final String rightTable, final String rightColumn,
+            final String rightTableAlias) {
         // copy from JDBCQueryExpression.addInnerJoin(String,String,String,String,String,String)
         int index;
         Join join;
@@ -164,7 +165,6 @@ public final class SybaseQueryExpression extends JDBCQueryExpression {
             _joins.set(index, join);
         }
     }
-
 }
 
 

@@ -128,8 +128,8 @@ public class HighLowKeyGenerator implements KeyGenerator {
     /**
      * Initialize the HIGH-LOW key generator.
      */
-    public HighLowKeyGenerator(final PersistenceFactory factory, final Properties params, final int sqlType)
-    throws MappingException {
+    public HighLowKeyGenerator(final PersistenceFactory factory, final Properties params,
+            final int sqlType) throws MappingException {
         String factorStr;
 
         _factory = factory;
@@ -138,17 +138,20 @@ public class HighLowKeyGenerator implements KeyGenerator {
 
         _seqTable = params.getProperty(SEQ_TABLE);
         if (_seqTable == null) {
-            throw new MappingException(Messages.format("mapping.KeyGenParamNotSet", SEQ_TABLE, getClass().getName()));
+            throw new MappingException(Messages.format(
+                    "mapping.KeyGenParamNotSet", SEQ_TABLE, getClass().getName()));
         }
 
         _seqKey = params.getProperty(SEQ_KEY);
         if (_seqKey == null) {
-            throw new MappingException(Messages.format("mapping.KeyGenParamNotSet", SEQ_KEY, getClass().getName()));
+            throw new MappingException(Messages.format(
+                    "mapping.KeyGenParamNotSet", SEQ_KEY, getClass().getName()));
         }
 
         _seqValue = params.getProperty(SEQ_VALUE);
         if (_seqValue == null) {
-            throw new MappingException(Messages.format("mapping.KeyGenParamNotSet", SEQ_VALUE, getClass().getName()));
+            throw new MappingException(Messages.format(
+                    "mapping.KeyGenParamNotSet", SEQ_VALUE, getClass().getName()));
         }
 
         factorStr = params.getProperty(GRAB_SIZE, "10");
@@ -158,7 +161,8 @@ public class HighLowKeyGenerator implements KeyGenerator {
             _grabSizeI = 0;
         }
         if (_grabSizeI <= 0) {
-            throw new MappingException(Messages.format("mapping.wrongKeyGenParam", factorStr, GRAB_SIZE, getClass().getName()));
+            throw new MappingException(Messages.format(
+                    "mapping.wrongKeyGenParam", factorStr, GRAB_SIZE, getClass().getName()));
         }
         _grabSizeD = new BigDecimal(_grabSizeI);
         _sameConnection = "true".equals(params.getProperty(SAME_CONNECTION));
@@ -172,9 +176,10 @@ public class HighLowKeyGenerator implements KeyGenerator {
      * @throws MappingException
      */
     public void supportsSqlType(final int sqlType) throws MappingException {
-        if ((sqlType != Types.INTEGER) && (sqlType != Types.NUMERIC) && (sqlType != Types.DECIMAL) && (sqlType != Types.BIGINT)) {
-            throw new MappingException(Messages.format("mapping.keyGenSQLType",
-                                        getClass().getName(), new Integer(sqlType)));
+        if ((sqlType != Types.INTEGER) && (sqlType != Types.NUMERIC)
+                && (sqlType != Types.DECIMAL) && (sqlType != Types.BIGINT)) {
+            throw new MappingException(Messages.format(
+                    "mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
         }
     }
 
@@ -292,7 +297,8 @@ public class HighLowKeyGenerator implements KeyGenerator {
                         // to HIGH-LOW
                         stmt.close();
                         if (!_global) {
-                            String sqlStatement = JDBCSyntax.SELECT + "MAX(" + primKeyName + ") FROM " + internalTableName;
+                            String sqlStatement = JDBCSyntax.SELECT + "MAX(" + primKeyName + ") "
+                                                + "FROM " + internalTableName;
                             stmt = conn.prepareStatement(sqlStatement);
                             rs = stmt.executeQuery();
                         }
@@ -326,7 +332,8 @@ public class HighLowKeyGenerator implements KeyGenerator {
                         }
                         stmt2.close();
                         
-                        String sqlStatement = "INSERT INTO " + _seqTable + " (" + _seqKey + "," + _seqValue + ") VALUES (?, ?)";
+                        String sqlStatement = "INSERT INTO " + _seqTable
+                                            + " (" + _seqKey + "," + _seqValue + ") VALUES (?, ?)";
                         stmt2 = conn.prepareStatement(sqlStatement);
                         stmt2.setString(1, internalTableName);
                         stmt2.setObject(2, max);
@@ -342,7 +349,8 @@ public class HighLowKeyGenerator implements KeyGenerator {
                     }
                 }
                 if (!success) {
-                    throw new PersistenceException(Messages.format("persist.keyGenFailed", getClass().getName()));
+                    throw new PersistenceException(Messages.format(
+                            "persist.keyGenFailed", getClass().getName()));
                 }
             } catch (SQLException ex) {
                 if (!_sameConnection) {

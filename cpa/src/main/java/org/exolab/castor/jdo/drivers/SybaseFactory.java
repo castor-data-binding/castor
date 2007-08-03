@@ -100,7 +100,8 @@ public class SybaseFactory extends GenericFactory {
      * @param sqlTypes The field SQL types
      * @return null if this feature is not supported.
      */
-    public PersistenceQuery getCallQuery(final String call, final Class[] paramTypes, final Class javaClass, final String[] fields, final int[] sqlTypes) {
+    public PersistenceQuery getCallQuery(final String call, final Class[] paramTypes,
+            final Class javaClass, final String[] fields, final int[] sqlTypes) {
         return new MultiRSCallQuery(call, paramTypes, javaClass, fields, sqlTypes);
     }
 

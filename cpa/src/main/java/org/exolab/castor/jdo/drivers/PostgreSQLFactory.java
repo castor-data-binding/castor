@@ -58,7 +58,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @version $Revision$ $Date: 2006-02-21 16:05:42 -0700 (Tue, 21 Feb 2006) $
  */
 public final class PostgreSQLFactory extends GenericFactory {
-    /** Internal name for this {@link org.exolab.castor.persist.spi.PersistenceFactory} instance.  */
+    /** Internal name for this {@link org.exolab.castor.persist.spi.PersistenceFactory} instance. */
     public static final String FACTORY_NAME = "postgresql";
     
     /**
@@ -110,7 +110,8 @@ public final class PostgreSQLFactory extends GenericFactory {
      * @param sqlTypes The field SQL types
      * @return null if this feature is not supported.
      */
-    public PersistenceQuery getCallQuery(final String call, final Class[] paramTypes, final Class javaClass, final String[] fields, final int[] sqlTypes) {
+    public PersistenceQuery getCallQuery(final String call, final Class[] paramTypes,
+            final Class javaClass, final String[] fields, final int[] sqlTypes) {
         return new PostgreSQLCallQuery(call, paramTypes, javaClass, fields, sqlTypes);
     }
 

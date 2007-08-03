@@ -140,7 +140,8 @@ public class DTXEngine {
         unm.setEntityResolver(new DTDResolver());
 
         try {
-            _database = (Database) unm.unmarshal(new InputSource((new URL(databaseURL)).openStream()));
+            _database = (Database) unm.unmarshal(
+                    new InputSource(new URL(databaseURL).openStream()));
         } catch (Exception except) {
             throw new DTXException(except);
         }
@@ -168,7 +169,7 @@ public class DTXEngine {
         for (int i = 0; i < mappings.length; ++i) {
             try {
             URL mappingURL = new URL(new URL(databaseURL), mappings[i].getHref());
-            MappingRoot mr = (MappingRoot) munm.unmarshal(new InputSource((mappingURL).openStream()));
+            MappingRoot mr = (MappingRoot) munm.unmarshal(new InputSource(mappingURL.openStream()));
             ClassMapping[] classMaps = mr.getClassMapping();
 
             for (int j = 0; j < classMaps.length; j++) {

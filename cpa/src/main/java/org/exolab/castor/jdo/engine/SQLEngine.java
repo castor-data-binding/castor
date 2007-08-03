@@ -130,7 +130,8 @@ public final class SQLEngine implements Persistence {
         stack.push(base);
         while (base.getExtends() != null) {
             // if (base.getDepends() != null) {
-            //     throw new MappingException("Class should not both depends on and extended other classes");
+            //     throw new MappingException(
+            //             "Class should not both depends on and extended other classes");
             // }
             base = (JDOClassDescriptor) base.getExtends();
             stack.push(base);
@@ -159,7 +160,8 @@ public final class SQLEngine implements Persistence {
                         break;
                     }
                 }
-                idsInfo.add(new SQLColumnInfo(sqlName[0], sqlType[0], fh.getConvertTo(), fh.getConvertFrom(), fh.getConvertParam()));
+                idsInfo.add(new SQLColumnInfo(sqlName[0], sqlType[0], fh.getConvertTo(),
+                        fh.getConvertFrom(), fh.getConvertParam()));
             } else {
                 throw new MappingException("Except JDOFieldDescriptor");
             }
@@ -280,7 +282,8 @@ public final class SQLEngine implements Persistence {
         System.arraycopy(jdoFields0, 0, jdoFields, 0, count);
         System.arraycopy(sqlTypes0, 0, sqlTypes, 0, count);
 
-        return ((BaseFactory) _factory).getCallQuery(spCall, types, _clsDesc.getJavaClass(), jdoFields, sqlTypes);
+        return ((BaseFactory) _factory).getCallQuery(spCall, types,
+                _clsDesc.getJavaClass(), jdoFields, sqlTypes);
     }
 
     public QueryExpression getQueryExpression() {
@@ -309,7 +312,8 @@ public final class SQLEngine implements Persistence {
     public Identity create(final Database database, final Object conn,
                          final ProposedEntity entity, final Identity identity)
     throws PersistenceException {
-        return (Identity) _createStatement.executeStatement(database, (Connection) conn, identity, entity);
+        return (Identity) _createStatement.executeStatement(
+                database, (Connection) conn, identity, entity);
     }
 
     public Object store(final Object conn, final Identity identity,

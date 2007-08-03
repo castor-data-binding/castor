@@ -94,7 +94,8 @@ public class DTXException extends Exception {
         if (_message != null) {
             message = _message;
         } else if (_except != null) {
-            message = "Nested exception (" + _except.getClass().getName() + "):" + _except.getMessage();
+            message = "Nested exception (" + _except.getClass().getName() + "):"
+                    + _except.getMessage();
         }
         return message;
     }
