@@ -82,6 +82,26 @@ org.exolab.castor.xml.proxyInterfaces=\
 
             </summary>
             <bugs>
+                <bug id="2058" tool="jira">
+                    <description>
+                        Cleaned up checkstyle and compiler warnings at JDO modul.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20070804</date>
+                </bug>
                 <bug id="2048" tool="jira">
                     <description>
                         Fixed NPE related to usage of &lt;xsd:union&gt;.
