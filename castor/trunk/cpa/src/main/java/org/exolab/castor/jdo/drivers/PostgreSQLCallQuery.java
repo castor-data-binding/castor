@@ -55,7 +55,6 @@ import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.persist.ProposedEntity;
 import org.castor.util.Messages;
 import org.exolab.castor.jdo.PersistenceException;
-import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.jdo.engine.JDBCSyntax;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.spi.Identity;
@@ -141,12 +140,12 @@ final class PostgreSQLCallQuery implements PersistenceQuery {
     }
 
     public void execute(final Object conn, final AccessMode accessMode, final boolean scrollable)
-    throws QueryException, PersistenceException {
+    throws PersistenceException {
       execute(conn, accessMode);
     }
 
     private void execute(final Object conn, final AccessMode accessMode)
-    throws QueryException, PersistenceException {
+    throws PersistenceException {
         _lastIdentity = null;
         try {
             int count;
