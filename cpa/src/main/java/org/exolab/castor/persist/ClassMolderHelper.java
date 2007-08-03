@@ -304,7 +304,7 @@ public final class ClassMolderHelper {
             for (int i = 0; i < extendFields.length; i++) {
                 fieldList.add(extendFields[i]);
             }
-            for (int i = 0, j = 0; i < thisFields.length; i++) {
+            for (int i = 0; i < thisFields.length; i++) {
                 idfield = false;
                 IDSEARCH:
                 for (int k = 0; k < identities.length; k++) {
@@ -315,7 +315,6 @@ public final class ClassMolderHelper {
                 }
                 if (!idfield) {
                     fieldList.add(thisFields[i]);
-                    j++;
                 }
             }
             fields = new FieldMapping[fieldList.size()];
@@ -331,7 +330,8 @@ public final class ClassMolderHelper {
             thisFields = clsMap.getClassChoice().getFieldMapping();
             fields = new FieldMapping[thisFields.length - identities.length];
 
-            for (int i = 0, j = 0; i < thisFields.length; i++) {
+            int j = 0;
+            for (int i = 0; i < thisFields.length; i++) {
                 idfield = false;
                 IDSEARCH: for (int k = 0; k < identities.length; k++) {
                     if (thisFields[i].getName().equals(identities[k])) {
