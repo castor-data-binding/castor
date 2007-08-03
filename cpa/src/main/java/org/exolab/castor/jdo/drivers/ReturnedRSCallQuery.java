@@ -53,7 +53,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.util.Messages;
 import org.exolab.castor.jdo.PersistenceException;
-import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.spi.AbstractCallQuery;
 
@@ -83,7 +82,7 @@ final class ReturnedRSCallQuery extends AbstractCallQuery {
     }
 
     protected void execute(final Object conn, final AccessMode accessMode)
-    throws QueryException, PersistenceException {
+    throws PersistenceException {
         _lastIdentity = null;
         try {
             _stmt = ((Connection) conn).prepareCall(_call);

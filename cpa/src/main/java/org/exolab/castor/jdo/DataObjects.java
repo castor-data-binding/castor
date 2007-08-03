@@ -67,7 +67,7 @@ public interface DataObjects extends Referenceable, Serializable {
      *  that does not exist
      * @throws PersistenceException Database access failed
      */
-    Database getDatabase() throws DatabaseNotFoundException, PersistenceException;
+    Database getDatabase() throws PersistenceException;
 
     /**
      * Sets the description of this database.

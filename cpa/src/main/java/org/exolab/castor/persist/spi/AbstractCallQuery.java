@@ -9,7 +9,6 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.persist.ProposedEntity;
 import org.castor.util.Messages;
-import org.exolab.castor.jdo.ObjectNotFoundException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.mapping.AccessMode;
@@ -54,7 +53,7 @@ public abstract class AbstractCallQuery implements PersistenceQuery {
      * @inheritDoc
      */
     public Object fetch(final ProposedEntity proposedObject)
-    throws ObjectNotFoundException, PersistenceException {
+    throws PersistenceException {
         try {
             // Load all the fields of the object including one-one relations
             // index 0 belongs to the identity
