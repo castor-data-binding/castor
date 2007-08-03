@@ -1402,7 +1402,8 @@ public final class LockEngine {
         private ObjectLock rename(final OID orgoid, final OID newoid, final TransactionContext tx)
         throws LockNotGrantedException {
             synchronized (_locks) {
-                ObjectLock entry, newentry;
+                ObjectLock entry;
+                ObjectLock newentry;
                 entry = (ObjectLock) _locks.get(orgoid);
                 newentry = (ObjectLock) _locks.get(newoid);
 

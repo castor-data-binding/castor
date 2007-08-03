@@ -298,7 +298,7 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
             }
             // load all old objects for comparison in the preStore state
             if (v != null) {
-                for (int j = 0, l = v.size(); j < l; j++) {
+                for (int j = 0; j < v.size(); j++) {
                     if (!newSetOfIds.contains(v.get(j))) {
                         // load all the dependent object in cache for
                         // modification
