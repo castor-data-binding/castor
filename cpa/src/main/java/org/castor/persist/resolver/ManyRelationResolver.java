@@ -181,7 +181,7 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
                     Object[] arrayValue = (Object[]) java.lang.reflect.Array
                             .newInstance(collectionType.getComponentType(), v
                                     .size());
-                    for (int j = 0, l = v.size(); j < l; j++) {
+                    for (int j = 0; j < v.size(); j++) {
                         arrayValue[j] = tx.fetch(fieldClassMolder, (Identity) v.get(j), null);
                     }
                     _fieldMolder.setValue(object, arrayValue, tx
@@ -193,7 +193,7 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
                     _fieldMolder.setValue(object, cp.getCollection(), tx
                             .getClassLoader());
 
-                    for (int j = 0, l = v.size(); j < l; j++) {
+                    for (int j = 0; j < v.size(); j++) {
                         Object obj = tx.fetch(fieldClassMolder, (Identity) v.get(j), null);
                         if (obj != null) {
                             cp.add((Identity) v.get(j), obj);
@@ -228,7 +228,7 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
 
         ArrayList v = (ArrayList) field;
         if (v != null) {
-            for (int j = 0, l = v.size(); j < l; j++) {
+            for (int j = 0; j < v.size(); j++) {
                 tx.expireCache(fieldClassMolder, (Identity) v.get(j));
             }
         }
@@ -259,7 +259,7 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
                 if (collectionType.isArray()) {
                     Object[] value = (Object[]) java.lang.reflect.Array
                             .newInstance(collectionType.getComponentType(), v.size());
-                    for (int j = 0, l = v.size(); j < l; j++) {
+                    for (int j = 0; j < v.size(); j++) {
                         ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
                         value[j] = tx.load((Identity) v.get(j), proposedValue, suggestedAccessMode);
                     }
@@ -268,7 +268,7 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
                 } else {
                     CollectionProxy cp = CollectionProxy.create(_fieldMolder,
                             proposedObject.getEntity(), tx.getClassLoader());
-                    for (int j = 0, l = v.size(); j < l; j++) {
+                    for (int j = 0; j < v.size(); j++) {
                         ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
                         cp.add((Identity) v.get(j), tx.load((Identity) v.get(j),
                                 proposedValue, suggestedAccessMode));

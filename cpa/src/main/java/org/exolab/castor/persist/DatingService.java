@@ -85,7 +85,8 @@ class DatingService {
     void close() throws MappingException {
 
         Enumeration e;
-        ClassMolder initiateCm, targetCm;
+        ClassMolder initiateCm;
+        ClassMolder targetCm;
         FieldMolder initiateFm;
         
         // resolve extends
