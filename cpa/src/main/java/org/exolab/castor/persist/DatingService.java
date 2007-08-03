@@ -42,8 +42,6 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.persist;
 
 import java.util.Enumeration;
@@ -60,19 +58,19 @@ import org.exolab.castor.mapping.loader.Types;
  *
  * @author <a href="mailto:yip@intalio.com">Thomas Yip</a>
  */
-class DatingService {
+public class DatingService {
 
-    ClassLoader _loader;
+    private ClassLoader _loader;
 
-    Hashtable _clsMolders;
+    private Hashtable _clsMolders;
 
-    Vector _needExtendsClassMolder;
+    private Vector _needExtendsClassMolder;
 
-    Vector _needDependsClassMolder;
+    private Vector _needDependsClassMolder;
 
-    Vector _needFieldClass;
+    private Vector _needFieldClass;
 
-    Hashtable _javaClasses;
+    private Hashtable _javaClasses;
 
     DatingService(final ClassLoader loader) {
         this._loader = loader;
@@ -260,12 +258,12 @@ class DatingService {
     }
 
     private final class Pair {
-        public Object _key;
-        public Object _value;
+        private Object _key;
+        private Object _value;
+        
         private Pair(final Object key, final Object value) {
-            this._key = key;
-            this._value = value;
+            _key = key;
+            _value = value;
         }
     }
-
 }

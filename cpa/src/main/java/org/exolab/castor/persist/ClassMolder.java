@@ -164,7 +164,7 @@ public class ClassMolder {
     private int _priority = -1;
 
     /** True if all {@link ResolverStrategy} have been reset. */
-    boolean _resolversHaveBeenReset = false;
+    private boolean _resolversHaveBeenReset = false;
         
     /** All field resolver instances. */
     private ResolverStrategy[] _resolvers;

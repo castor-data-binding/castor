@@ -42,10 +42,7 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.jdo.keygen;
-
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -82,7 +79,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
     private DefaultIdentityValue _identityValue = null;
     private AbstractType _type = null;
 
-    String _fName = null;
+    private String _fName = null;
 
     /**
      * Initialize the IDENTITY key generator.

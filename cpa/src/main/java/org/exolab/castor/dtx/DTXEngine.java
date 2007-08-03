@@ -82,14 +82,14 @@ import org.xml.sax.InputSource;
 
 public class DTXEngine {
 
-    protected DocumentHandler _handler = null;
-    protected String _databaseURL = null;
-    protected Database _database = null;
-    protected String _schemaURL = null;
-    protected Schema _schema = null;
-    protected HashMap _classMappings = null;
-    protected Connection _conn = null;
-    protected PersistenceFactory _factory = null;
+    private DocumentHandler _handler = null;
+    private String _databaseURL = null;
+    private Database _database = null;
+    private String _schemaURL = null;
+    private Schema _schema = null;
+    private HashMap _classMappings = null;
+    private Connection _conn = null;
+    private PersistenceFactory _factory = null;
 
     /**
      * Default constructor.

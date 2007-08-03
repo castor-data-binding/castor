@@ -86,10 +86,10 @@ public final class Parser {
         TOKEN_TYPES.put(new Integer(TokenType.KEYWORD_OFFSET), "KEYWORD_OFFSET");
     }
 
-    Lexer _lexer;
-    Token _curToken;
-    Token _nextToken;
-    ParseTreeNode _treeRoot;
+    private Lexer _lexer;
+    private Token _curToken;
+    private Token _nextToken;
+    private ParseTreeNode _treeRoot;
 
     /**
      * Creates a parser which will generate a parse tree from a series of tokens.

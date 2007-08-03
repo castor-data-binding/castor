@@ -42,11 +42,7 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.jdo.keygen;
-
-
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -83,11 +79,11 @@ public final class SequenceKeyGenerator implements KeyGenerator {
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getFactory().getInstance (SequenceKeyGenerator.class);
 
-    protected final PersistenceFactory _factory;
+    private final PersistenceFactory _factory;
 
-    protected final String _factoryName;
+    private final String _factoryName;
 
-    protected final String _seqName;
+    private final String _seqName;
 
     private byte _style;
 

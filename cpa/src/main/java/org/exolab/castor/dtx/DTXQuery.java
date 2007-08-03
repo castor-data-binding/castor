@@ -94,17 +94,17 @@ import org.xml.sax.helpers.AttributeListImpl;
 
 public class DTXQuery {
 
-    protected DTXEngine _eng = null;
-    protected DocumentHandler _handler = null;
-    protected PrintWriter _logWriter = null;
-    protected PreparedStatement _stmt = null;
-    protected String _objName = null;
-    protected String _objType = null;
-    protected ClassMapping _clsMapping = null;
-    protected ArrayList _ids = null;
-    protected int _lastCol = 0;
-    protected HashMap _cols = null;
-    protected HashMap _classes = null;
+    private DTXEngine _eng = null;
+    private DocumentHandler _handler = null;
+    private PrintWriter _logWriter = null;
+    private PreparedStatement _stmt = null;
+    private String _objName = null;
+    private String _objType = null;
+    private ClassMapping _clsMapping = null;
+    private ArrayList _ids = null;
+    private int _lastCol = 0;
+    private HashMap _cols = null;
+    private HashMap _classes = null;
 
     /**
      * Set the DocumentHandler that will receive the results (as SAX
