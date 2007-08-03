@@ -44,8 +44,8 @@ public final class SQLHelper {
     private static final Log LOG = LogFactory.getLog(SQLQuery.class);
 
     public static Object[] calculateNumberOfFields(final Collection extendingClassDescriptors,
-            final int numberOfIdentityColumns, final int numberOfFields, final int numberOfExtendLevels, 
-            final ResultSet rs) throws SQLException {
+            final int numberOfIdentityColumns, final int numberOfFields,
+            final int numberOfExtendLevels, final ResultSet rs) throws SQLException {
         
         JDOClassDescriptor potentialLeafDescriptor = null;
         int suggestedNumberOfFields = numberOfFields;

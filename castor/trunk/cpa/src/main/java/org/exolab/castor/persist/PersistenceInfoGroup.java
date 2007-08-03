@@ -66,9 +66,11 @@ public class PersistenceInfoGroup {
         }
         
         if (molder == null) {
-            throw new ClassNotPersistenceCapableException(Messages.format("persist.classNotPersistenceCapable", type.getName()));
+            throw new ClassNotPersistenceCapableException(Messages.format(
+                    "persist.classNotPersistenceCapable", type.getName()));
         } else if (molder.isDependent()) {
-            throw new ClassNotPersistenceCapableException(Messages.format("persist.classIsDependent", type.getName(), molder.getDepends().getName()));
+            throw new ClassNotPersistenceCapableException(Messages.format(
+                    "persist.classIsDependent", type.getName(), molder.getDepends().getName()));
         }
         
         return molder;

@@ -232,7 +232,8 @@ public final class SqlBindParser {
      * @param values array of bind values
      * @throws SQLException
      */
-    public static void bindJdbcValues(final PreparedStatement stmt, final String preSQL, final Object[] values) throws SQLException {
+    public static void bindJdbcValues(final PreparedStatement stmt, final String preSQL,
+            final Object[] values) throws SQLException {
         SqlBindParser parser = new SqlBindParser(preSQL);
 
         for (int i = 1; parser.next(); ++i) {
@@ -249,7 +250,8 @@ public final class SqlBindParser {
                 if (value == null) {
                     _log.debug(Messages.format("jdo.bindSqlNull", Integer.toString(i)));
                 } else {
-                    _log.debug(Messages.format("jdo.bindSql", Integer.toString(i), value, value.getClass().getName()));
+                    _log.debug(Messages.format("jdo.bindSql", Integer.toString(i),
+                            value, value.getClass().getName()));
                 }
             }
 

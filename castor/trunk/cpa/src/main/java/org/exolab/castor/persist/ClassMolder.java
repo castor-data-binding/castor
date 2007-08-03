@@ -277,7 +277,8 @@ public class ClassMolder {
                         idConvertFrom[j] = fh.getConvertFrom();
                         idConvertParam[j] = fh.getConvertParam();
                     } else {
-                        throw new MappingException("Identity type must contains sql information: " + _name);
+                        throw new MappingException(
+                                "Identity type must contains sql information: " + _name);
                     }
                 }
 
@@ -301,7 +302,9 @@ public class ClassMolder {
                             relatedIdConvertFrom[j] = fh.getConvertFrom();
                             relatedIdConvertParam[j] = fh.getConvertParam();
                         } else {
-                            throw new MappingException("Field type is not persistence-capable: " + relatedIds[j].getFieldName());
+                            throw new MappingException(
+                                    "Field type is not persistence-capable: "
+                                    + relatedIds[j].getFieldName());
                         }
                     }
                 }
@@ -310,7 +313,9 @@ public class ClassMolder {
                 String[] manyKey = fmFields[i].getSql().getManyKey();
                 if ((manyKey != null) && (manyKey.length != 0)) {
                     if (manyKey.length != idSQL.length) {
-                        throw new MappingException("The number of many-keys doesn't match referred object: " + clsDesc.getJavaClass().getName());
+                        throw new MappingException(
+                                "The number of many-keys doesn't match referred object: "
+                                + clsDesc.getJavaClass().getName());
                     }
                     idSQL = manyKey;
                 }
@@ -319,27 +324,24 @@ public class ClassMolder {
                 String[] manyName = fmFields[i].getSql().getName();
                 if ((manyName != null) && (manyName.length != 0)) {
                     if (manyName.length != relatedIdSQL.length) {
-                        throw new MappingException("The number of many-keys doesn't match referred object: " + relDesc.getJavaClass().getName());
+                        throw new MappingException(
+                                "The number of many-keys doesn't match referred object: "
+                                + relDesc.getJavaClass().getName());
                     }
                     relatedIdSQL = manyName;
                 }
 
-                _fhs[fieldMolderNumber] = new FieldMolder(ds, this, fmFields[i], manyTable,
-                        idSQL, idType, idConvertTo, idConvertFrom, idConvertParam,
-                        relatedIdSQL, relatedIdType, relatedIdConvertTo, relatedIdConvertFrom, relatedIdConvertParam);
+                _fhs[fieldMolderNumber] = new FieldMolder(ds, this, fmFields[i], manyTable, idSQL,
+                        idType, idConvertTo, idConvertFrom, idConvertParam,
+                        relatedIdSQL, relatedIdType, relatedIdConvertTo, relatedIdConvertFrom,
+                        relatedIdConvertParam);
             } else {
                 _fhs[fieldMolderNumber] = new FieldMolder(ds, this, fmFields[i]);
             }
             
-                        
-            //            try {
             // create RelationResolver instance
-            _resolvers[fieldMolderNumber] = 
-                ResolverFactory.createRelationResolver (_fhs[fieldMolderNumber], this, fieldMolderNumber, _debug);
-            //            } catch (PersistenceException e) {
-            //                throw new MappingException ("Unable to create Resolver instance", e);
-            //            }
-            //_log.error ("Creating Resolver instance of type " + _resolvers[fieldMolderNumber] + " for " + _fhs[fieldMolderNumber].toString());
+            _resolvers[fieldMolderNumber] = ResolverFactory.createRelationResolver(
+                    _fhs[fieldMolderNumber], this, fieldMolderNumber, _debug);
 
             fieldMolderNumber += 1;
         }
@@ -722,7 +724,8 @@ public class ClassMolder {
             final Object object, final int timeout) throws PersistenceException {
 
         if (oid.getIdentity() == null) {
-            throw new PersistenceException(Messages.format("persist.missingIdentityForStore", _name));
+            throw new PersistenceException(Messages.format(
+                    "persist.missingIdentityForStore", _name));
         }
 
         if (!oid.getIdentity().equals(getIdentity(tx, object))) {
@@ -773,7 +776,8 @@ public class ClassMolder {
             final Object object) throws PersistenceException {
 
         if (oid.getIdentity() == null) {
-            throw new PersistenceException(Messages.format("persist.missingIdentityForStore", _name));
+            throw new PersistenceException(Messages.format(
+                    "persist.missingIdentityForStore", _name));
         }
 
         if (!oid.getIdentity().equals(getIdentity(tx, object))) {
@@ -833,7 +837,8 @@ public class ClassMolder {
             // valid range of timestamp
             
             if ((_timeStampable) && (lockTimestamp == TimeStampable.NO_TIMESTAMP)) {
-                throw new PersistenceException (Messages.format("persist.objectNotInCache", _name, oid.getIdentity())); 
+                throw new PersistenceException(Messages.format(
+                        "persist.objectNotInCache", _name, oid.getIdentity())); 
             }
 
             if (_timeStampable && objectTimestamp != lockTimestamp) {
@@ -874,7 +879,8 @@ public class ClassMolder {
             boolean updateCache = false;
 
             for (int i = 0; i < _fhs.length; i++) {
-                updateCache |= _resolvers[i].updateWhenNoTimestampSet(tx, oid, object, suggestedAccessMode);
+                updateCache |= _resolvers[i].updateWhenNoTimestampSet(
+                        tx, oid, object, suggestedAccessMode);
             }
 
             tx.markModified(object, false, updateCache);

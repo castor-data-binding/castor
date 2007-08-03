@@ -804,7 +804,8 @@ public class ParseTreeWalker {
             }
         }
 
-        return "java.lang.String";    // default to String, if only simple bind variables are present in the list 
+        // default to String, if only simple bind variables are present in the list 
+        return "java.lang.String";
     }
 
     private JDOFieldDescriptor getJDOFieldDescriptor(final ParseTreeNode comparisonTree)
@@ -1316,13 +1317,15 @@ public class ParseTreeWalker {
             JDOFieldDescriptor field =
               (JDOFieldDescriptor) getFieldInfo().get(exprTree);
             if (field == null) {
-                throw new IllegalStateException("fieldInfo for " + exprTree.toStringEx() + " not found");
+                throw new IllegalStateException(
+                        "fieldInfo for " + exprTree.toStringEx() + " not found");
             }
             
             JDOClassDescriptor clsDesc =
               (JDOClassDescriptor) field.getContainingClassDescriptor();
             if (clsDesc == null) {
-                throw new IllegalStateException("ContainingClass of " + field.toString() + " is null !");
+                throw new IllegalStateException(
+                        "ContainingClass of " + field.toString() + " is null !");
             }
             
             String clsTableAlias;

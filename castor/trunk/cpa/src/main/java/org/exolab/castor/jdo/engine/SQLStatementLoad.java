@@ -133,7 +133,8 @@ public final class SQLStatementLoad {
                 if (!alias.equals(aliasOld) && !field.isJoined()) {
                     JDOClassDescriptor classDescriptor = (JDOClassDescriptor) 
                         field.getFieldDescriptor().getContainingClassDescriptor();
-                    boolean isTableNameAlreadyAdded = identitiesUsedForTable.containsKey(classDescriptor.getTableName());
+                    boolean isTableNameAlreadyAdded = identitiesUsedForTable.containsKey(
+                            classDescriptor.getTableName());
                     if (!isTableNameAlreadyAdded) {
                         String[] identities = SQLHelper.getIdentitySQLNames(classDescriptor);
                         for (int j = 0; j < identities.length; j++) {
@@ -151,9 +152,11 @@ public final class SQLStatementLoad {
                         leftCol[j] = ids[j + offset].getName();
                     }
                     if (joinTables.contains(field.getTableName())
-                            || _engine.getDescriptor().getTableName().equals(field.getTableName())) {
+                            || _engine.getDescriptor().getTableName().equals(
+                                    field.getTableName())) {
                         
-                        alias = alias.replace('.', '_') + "_f" + i; // should not mix with aliases in ParseTreeWalker
+                        // should not mix with aliases in ParseTreeWalker
+                        alias = alias.replace('.', '_') + "_f" + i;
                         expr.addOuterJoin(_mapTo, leftCol, field.getTableName(), rightCol, alias);
                     } else {
                         expr.addOuterJoin(_mapTo, leftCol, field.getTableName(), rightCol);
@@ -171,7 +174,8 @@ public final class SQLStatementLoad {
             // 'join' all the extending tables 
             List classDescriptorsToAdd = new LinkedList();
             JDOClassDescriptor classDescriptor = null;
-            SQLHelper.addExtendingClassDescriptors(classDescriptorsToAdd, _engine.getDescriptor().getExtended());
+            SQLHelper.addExtendingClassDescriptors(classDescriptorsToAdd,
+                    _engine.getDescriptor().getExtended());
             
             if (classDescriptorsToAdd.size() > 0) {
                 for (Iterator iter = classDescriptorsToAdd.iterator(); iter.hasNext(); ) {
@@ -183,7 +187,8 @@ public final class SQLStatementLoad {
                                 + classDescriptor.getTableName());
                     }
                     
-                    String[] engDescIdNames = SQLHelper.getIdentitySQLNames(_engine.getDescriptor());
+                    String[] engDescIdNames = SQLHelper.getIdentitySQLNames(
+                            _engine.getDescriptor());
                     String[] clsDescIdNames = SQLHelper.getIdentitySQLNames(classDescriptor);
                     expr.addOuterJoin(_mapTo, engDescIdNames, 
                             classDescriptor.getTableName(), clsDescIdNames);
@@ -192,10 +197,13 @@ public final class SQLStatementLoad {
                     try {
                         persistenceEngine = _factory.getPersistence(classDescriptor);
                     } catch (MappingException e) {
-                        throw new QueryException("Problem obtaining persistence engine for ClassDescriptor " + classDescriptor.getJavaClass().getName(), e);
+                        throw new QueryException(
+                                "Problem obtaining persistence engine for ClassDescriptor "
+                                + classDescriptor.getJavaClass().getName(), e);
                     }
 
-                    SQLColumnInfo[] idInfos = ((SQLEngine) persistenceEngine).getColumnInfoForIdentities();
+                    SQLEngine engine = (SQLEngine) persistenceEngine;
+                    SQLColumnInfo[] idInfos = engine.getColumnInfoForIdentities();
                     for (int i = 0; i < idInfos.length; i++) {
                         expr.addColumn (classDescriptor.getTableName(), idInfos[i].getName());
                     }
@@ -206,7 +214,8 @@ public final class SQLStatementLoad {
                         SQLColumnInfo[] columnInfos = fieldInfos[i].getColumnInfo();
                         if (classDescriptor.getTableName().equals(fieldInfos[i].getTableName())) {
                             for (int j = 0; j < columnInfos.length; j++) {
-                                expr.addColumn(classDescriptor.getTableName(), fieldInfos[i].getColumnInfo()[j].getName());
+                                expr.addColumn(classDescriptor.getTableName(),
+                                        fieldInfos[i].getColumnInfo()[j].getName());
                             }
                             hasFieldToAdd = true;
                         }
@@ -268,7 +277,8 @@ public final class SQLStatementLoad {
         SQLFieldInfo[] fields = _engine.getInfo();
         
         try {
-            String sqlString = (accessMode == AccessMode.DbLocked) ? _statementLock : _statementNoLock; 
+            boolean locked = accessMode == AccessMode.DbLocked;
+            String sqlString = locked ? _statementLock : _statementNoLock; 
             stmt = conn.prepareStatement(sqlString);
                         
             if (LOG.isTraceEnabled()) {
@@ -278,7 +288,9 @@ public final class SQLStatementLoad {
             int fieldIndex = 1;
             // bind the identity of the preparedStatement
             if (identity.size() != ids.length) {
-                throw new PersistenceException("Size of identity field mismatched! expected: " + ids.length + " found: " + identity.size());
+                throw new PersistenceException(
+                        "Size of identity field mismatched! expected: " + ids.length
+                        + " found: " + identity.size());
             }
 
             for (int i = 0; i < ids.length; i++) {
@@ -292,7 +304,8 @@ public final class SQLStatementLoad {
             // execute the SQL query 
             rs = stmt.executeQuery();
             if (!rs.next()) {
-                throw new ObjectNotFoundException(Messages.format("persist.objectNotFound", _type, identity));
+                throw new ObjectNotFoundException(Messages.format(
+                        "persist.objectNotFound", _type, identity));
             }
 
             // if this class is part of an extend relation (hierarchy), let's investigate
@@ -346,13 +359,15 @@ public final class SQLStatementLoad {
                 processedTables.add(tableName);
                 
                 if (!field.isJoined() && (field.getJoinFields() == null)) {
-                    entity.setField(columns[0].toJava(SQLTypeInfos.getValue(rs, columnIndex++, columns[0].getSqlType())), i);
+                    entity.setField(columns[0].toJava(SQLTypeInfos.getValue(
+                            rs, columnIndex++, columns[0].getSqlType())), i);
                     fieldIndex++;
                 } else if (!field.isMulti()) {
                     notNull = false;
                     Object[] id = new Object[columns.length];
                     for (int j = 0; j < columns.length; j++) {
-                        id[j] = columns[j].toJava(SQLTypeInfos.getValue(rs, columnIndex++, columns[j].getSqlType()));
+                        id[j] = columns[j].toJava(SQLTypeInfos.getValue(
+                                rs, columnIndex++, columns[j].getSqlType()));
                         fieldIndex++;
                         if (id[j] != null) { notNull = true; }
                     }
@@ -362,7 +377,8 @@ public final class SQLStatementLoad {
                     notNull = false;
                     Object[] id = new Object[columns.length];
                     for (int j = 0; j < columns.length; j++) {
-                        id[j] = columns[j].toJava(SQLTypeInfos.getValue(rs, columnIndex, columns[j].getSqlType()));
+                        id[j] = columns[j].toJava(SQLTypeInfos.getValue(
+                                rs, columnIndex, columns[j].getSqlType()));
                         if (id[j] != null) { notNull = true; }
                         fieldIndex++;
                         columnIndex++;
@@ -394,7 +410,8 @@ public final class SQLStatementLoad {
                         notNull = false;
                         Object[] id = new Object[columns.length];
                         for (int j = 0; j < columns.length; j++) {
-                            id[j] = columns[j].toJava(SQLTypeInfos.getValue(rs, columnIndex, columns[j].getSqlType()));
+                            id[j] = columns[j].toJava(SQLTypeInfos.getValue(
+                                    rs, columnIndex, columns[j].getSqlType()));
                             if (id[j] != null) { notNull = true; }
                             columnIndex++;
                         }
@@ -410,7 +427,9 @@ public final class SQLStatementLoad {
                 }
             }
         } catch (SQLException except) {
-            LOG.fatal(Messages.format("jdo.loadFatal", _type, (accessMode == AccessMode.DbLocked) ? _statementLock : _statementNoLock), except);
+            LOG.fatal(Messages.format("jdo.loadFatal", _type,
+                    (accessMode == AccessMode.DbLocked) ? _statementLock : _statementNoLock),
+                    except);
             throw new PersistenceException(Messages.format("persist.nested", except), except);
         } finally {
             JDOUtils.closeResultSet(rs);

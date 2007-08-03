@@ -674,7 +674,8 @@ public class DTXQuery {
 
                                 if (!relFieldName.equals(foreKey)) {
                                     expr.addColumn(relTable, relFieldName);
-                                    _cols.put(relTable + "." + relFieldName, new Integer(++_lastCol));
+                                    _cols.put(relTable + "." + relFieldName,
+                                            new Integer(++_lastCol));
 
                                     if (node.equalsIgnoreCase("attribute")) {
                                         relDesc.addAttr(relFullName, relField);
@@ -733,7 +734,8 @@ public class DTXQuery {
     /* A misnomer, addField() actually adds a condition. Lifted, once
        again, from JDO stuff. */
 
-    private void addField(final ClassMapping clsMapping, final StringTokenizer token, final QueryExpression expr)
+    private void addField(final ClassMapping clsMapping, final StringTokenizer token,
+            final QueryExpression expr)
     throws DTXException {
         if (!token.hasMoreTokens()) {
             throw new DTXException("Missing field name");

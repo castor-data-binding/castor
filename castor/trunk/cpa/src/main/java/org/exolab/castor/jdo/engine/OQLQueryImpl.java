@@ -131,7 +131,8 @@ public class OQLQueryImpl implements Query, OQLQuery {
             throw new IllegalStateException("Must create query before using it");
         }
         if (_fieldNum == _paramInfo.size()) {
-            throw new IllegalArgumentException("Only " + _paramInfo.size() + " fields in this query");
+            throw new IllegalArgumentException("Only " + _paramInfo.size()
+                    + " fields in this query");
         }
         try {
             ParamInfo info = (ParamInfo) _paramInfo.get(new Integer(_fieldNum + 1));
@@ -145,16 +146,19 @@ public class OQLQueryImpl implements Query, OQLQuery {
                 Class valueClass = internalValue.getClass();
 
                 if (paramClass.isAssignableFrom(valueClass)) {
-                    ClassMolder molder = ((AbstractDatabaseImpl) _database).getLockEngine().getClassMolder(valueClass);
+                    LockEngine lockEngine = ((AbstractDatabaseImpl) _database).getLockEngine();
+                    ClassMolder molder = lockEngine.getClassMolder(valueClass);
 
                     if (molder != null) {
-                        Identity temp = molder.getActualIdentity(_database.getClassLoader(), internalValue);
+                        Identity temp = molder.getActualIdentity(
+                                _database.getClassLoader(), internalValue);
                         if (temp == null) {
                             internalValue = null;
                         } else  if (temp.size() == 1) {
                             internalValue = temp.get(0);
                         } else {
-                            throw new IllegalArgumentException("Unable to bind multi column identities");
+                            throw new IllegalArgumentException(
+                                    "Unable to bind multi column identities");
                         }
                     }
                 } else if (info.isUserDefined()) {
@@ -169,20 +173,19 @@ public class OQLQueryImpl implements Query, OQLQuery {
                     // First convert the actual value to the field value
                     if (fieldClass != valueClass) {
                         try {
-                            TypeConvertor tc = SQLTypeConverters.getConvertor(valueClass, fieldClass);
+                            TypeConvertor tc = SQLTypeConverters.getConvertor(
+                                    valueClass, fieldClass);
                             internalValue = tc.convert(internalValue, null);
                         } catch (MappingException e) {
                             throw new IllegalArgumentException("Query parameter "
-                                                                + (_fieldNum + 1)
-                                                                + " cannot be converted from "
-                                                                + valueClass + " to "
-                                                                + paramClass
-                                                                + ", because no convertor can be found.");
+                                    + (_fieldNum + 1) + " cannot be converted from " + valueClass
+                                    + " to " + paramClass + ", because no convertor can be found.");
                         }
                     }
                     // Perform conversion from field type to SQL type, if needed
                     if (info.getConvertor() != null) {
-                        internalValue = info.getConvertor().convert(internalValue, info.getConvertorParam());
+                        internalValue = info.getConvertor().convert(
+                                internalValue, info.getConvertorParam());
                     }
                 }
             }
@@ -264,7 +267,8 @@ public class OQLQueryImpl implements Query, OQLQuery {
         TransactionContext trans = ((AbstractDatabaseImpl) _database).getTransaction();
         DbMetaInfo dbInfo = trans.getConnectionInfo(_dbEngine);
 
-        ParseTreeWalker walker = new ParseTreeWalker(_dbEngine, parseTree, _database.getClassLoader(), dbInfo);
+        ParseTreeWalker walker = new ParseTreeWalker(_dbEngine, parseTree,
+                _database.getClassLoader(), dbInfo);
 
         _objClass = walker.getObjClass();
         _clsDesc = walker.getClassDescriptor();
@@ -279,7 +283,8 @@ public class OQLQueryImpl implements Query, OQLQuery {
         for (Enumeration e = _paramInfo.elements(); e.hasMoreElements(); ) {
             ParamInfo info = (ParamInfo) e.nextElement();
 
-            _bindTypes[paramIndex++] = (info.getSQLType() == null) ? info.getTheClass() : info.getSQLType();
+            _bindTypes[paramIndex++] =
+                ((info.getSQLType() == null)) ? info.getTheClass() : info.getSQLType();
         }
     }
 
@@ -340,7 +345,8 @@ public class OQLQueryImpl implements Query, OQLQuery {
                         }
                         info = (ParamInfo) _paramInfo.get(paramNo);
                         if (info == null) {
-                            info = new ParamInfo("", "java.lang.Object", null, _database.getClassLoader());
+                            info = new ParamInfo("", "java.lang.Object", null,
+                                    _database.getClassLoader());
                         }
                         //info.mapToSQLParam( paramCnt + 1 );
                         _paramInfo.put(paramNo , info);
@@ -381,7 +387,8 @@ public class OQLQueryImpl implements Query, OQLQuery {
                     }
                     info = (ParamInfo) _paramInfo.get(paramNo);
                     if (info == null) {
-                        info = new ParamInfo("", "java.lang.Object", null, _database.getClassLoader());
+                        info = new ParamInfo("", "java.lang.Object", null,
+                                _database.getClassLoader());
                     }
                     //info.mapToSQLParam( paramCnt + 1 );
                     _paramInfo.put(paramNo , info);
@@ -477,7 +484,8 @@ public class OQLQueryImpl implements Query, OQLQuery {
                     } catch (QueryException except) {
                         throw new QueryException(except.getMessage());
                     }
-                    results = ((AbstractDatabaseImpl) _database).getTransaction().query(_dbEngine, _query, accessMode, scrollable);
+                    results = ((AbstractDatabaseImpl) _database).getTransaction().query(
+                            _dbEngine, _query, accessMode, scrollable);
                     _fieldNum = 0;
 
                     if (_projectionType == ParseTreeWalker.PARENT_OBJECT) {
@@ -491,12 +499,13 @@ public class OQLQueryImpl implements Query, OQLQuery {
                 case ParseTreeWalker.AGGREGATE:
                 case ParseTreeWalker.FUNCTION:
                     try {
-                        
-                        java.sql.Connection conn = ((AbstractDatabaseImpl) _database).getTransaction().getConnection(_dbEngine);
+                        TransactionContext tx = ((AbstractDatabaseImpl) _database).getTransaction();
+                        java.sql.Connection conn = tx.getConnection(_dbEngine);
                         SimpleQueryExecutor sqe = new SimpleQueryExecutor(_database);
                         _results =  sqe.execute(conn, _expr, _bindValues);
                     } catch (QueryException except) {
-                        throw new QueryException(Messages.message("persist.simple.query.failed"), except);
+                        throw new QueryException(Messages.message(
+                                "persist.simple.query.failed"), except);
                     }
                     _fieldNum = 0;
                     break;
@@ -743,7 +752,9 @@ public class OQLQueryImpl implements Query, OQLQuery {
                     curObject = handler.getValue(curObject);
                     curClassDesc = (JDOClassDescriptor) curFieldDesc.getClassDescriptor();
                 } catch (Exception ex) {
-                    throw new NoSuchElementException("An exception was thrown trying to access get methods to follow the path expression. " + ex.toString());
+                    throw new NoSuchElementException(
+                            "An exception was thrown trying to access get methods to follow "
+                            + "the path expression. " + ex.toString());
                 }
             }
             

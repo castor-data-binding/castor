@@ -68,11 +68,10 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchron
      * @param isPoolInUseForGlobalTransactions True if Database instanced should be cached.
      * @throws DatabaseNotFoundException If the specified database cannot be found. 
      */
-    public GlobalDatabaseImpl(final String dbName, final int lockTimeout, final CallbackInterceptor callback,
-            final InstanceFactory instanceFactory, final Transaction transaction, 
-            final ClassLoader classLoader, final boolean autoStore, 
-            final boolean isPoolInUseForGlobalTransactions)
-    throws DatabaseNotFoundException {
+    public GlobalDatabaseImpl(final String dbName, final int lockTimeout,
+            final CallbackInterceptor callback, final InstanceFactory instanceFactory,
+            final Transaction transaction, final ClassLoader classLoader, final boolean autoStore, 
+            final boolean isPoolInUseForGlobalTransactions) throws DatabaseNotFoundException {
         
         super (dbName, lockTimeout, callback, instanceFactory, classLoader, autoStore);
         
@@ -199,7 +198,8 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchron
                 return;
             }
             if (_ctx.getStatus() != Status.STATUS_PREPARED && status != Status.STATUS_ROLLEDBACK) {
-                throw new IllegalStateException("Unexpected state: afterCompletion called at status " + _ctx.getStatus());
+                throw new IllegalStateException(
+                        "Unexpected state: afterCompletion called at status " + _ctx.getStatus());
             }
             switch (status) {
             case Status.STATUS_COMMITTED:
@@ -215,7 +215,8 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchron
                 return;
             default:
                 _ctx.rollback();
-                throw new IllegalStateException("Unexpected state: afterCompletion called with status " + status);
+                throw new IllegalStateException(
+                        "Unexpected state: afterCompletion called with status " + status);
             }
         } finally {
             if (_txMap != null && _transaction != null) {

@@ -88,16 +88,19 @@ public final class IdentityKeyGenerator implements KeyGenerator {
      * Initialize the IDENTITY key generator.
      * @param factory A PersistenceFactory instance.
      * @param sqlType A SQLTypidentifier.
-     * @throws MappingException if this key generator is not compatible with the persistance factory.
+     * @throws MappingException if this key generator is not compatible with the
+     *         persistance factory.
      */
-    public IdentityKeyGenerator(final PersistenceFactory factory, final int sqlType) throws MappingException {
+    public IdentityKeyGenerator(final PersistenceFactory factory, final int sqlType)
+    throws MappingException {
         _fName = factory.getFactoryName();
         if (!_fName.equals("sybase") && !_fName.equals("sql-server")
                 && !_fName.equals("hsql") && !_fName.equals("mysql")
                 && !_fName.equals("informix") && !_fName.equals("sapdb")
                 && !_fName.equals("db2") && !_fName.equals("derby")
                 && !_fName.equals("postgresql") && !_fName.equals("pointbase")) {
-            throw new MappingException(Messages.format("mapping.keyGenNotCompatible", getClass().getName(), _fName));
+            throw new MappingException(Messages.format(
+                    "mapping.keyGenNotCompatible", getClass().getName(), _fName));
         }
 
         supportsSqlType(sqlType);
@@ -115,16 +118,18 @@ public final class IdentityKeyGenerator implements KeyGenerator {
     public void supportsSqlType(final int sqlType) throws MappingException {
         if (sqlType != Types.INTEGER && sqlType != Types.NUMERIC
                 && sqlType != Types.DECIMAL && sqlType != Types.BIGINT) {
-            throw new MappingException(
-                Messages.format("mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
+            throw new MappingException(Messages.format(
+                    "mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
         }
 
         if (sqlType != Types.INTEGER && _fName.equals("hsql")) {
-            throw new MappingException(Messages.format("mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
+            throw new MappingException(Messages.format(
+                    "mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
         }
 
         if (sqlType != Types.NUMERIC && _fName.equals("derby")) {
-                throw new MappingException(Messages.format("mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
+                throw new MappingException(Messages.format(
+                        "mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
             }
     }
 
@@ -137,8 +142,8 @@ public final class IdentityKeyGenerator implements KeyGenerator {
      * @throws PersistenceException An error occured talking to persistent
      *  storage
      */
-    public Object generateKey(final Connection conn, final String tableName, final String primKeyName, final Properties props)
-        throws PersistenceException {
+    public Object generateKey(final Connection conn, final String tableName,
+            final String primKeyName, final Properties props) throws PersistenceException {
         try {
             return _type.getValue(conn, tableName);
         } catch (Exception e) {
@@ -207,7 +212,8 @@ public final class IdentityKeyGenerator implements KeyGenerator {
             if (rs.next()) {
                 return _identityValue.getValue(rs.getInt(1));
             }
-        throw new PersistenceException(Messages.format("persist.keyGenFailed", getClass().getName()));
+        throw new PersistenceException(Messages.format(
+                "persist.keyGenFailed", getClass().getName()));
         }
 
         Object getValue(final String sql, final Connection conn) throws PersistenceException {
@@ -216,7 +222,8 @@ public final class IdentityKeyGenerator implements KeyGenerator {
                 stmt = conn.prepareStatement(sql);
                 return getValue(stmt);
             } catch (SQLException e) {
-                throw new PersistenceException(Messages.format("persist.keyGenSQL", getClass().getName(), e.toString()));
+                throw new PersistenceException(Messages.format(
+                        "persist.keyGenSQL", getClass().getName(), e.toString()));
             } finally {
                 if (stmt != null) {
                     try {
@@ -230,20 +237,14 @@ public final class IdentityKeyGenerator implements KeyGenerator {
     }
 
     private class DB2Type extends AbstractType {
-        Object getValue(final Connection conn, final String tableName) throws PersistenceException {
-            StringBuffer buf = new StringBuffer("SELECT IDENTITY_VAL_LOCAL() FROM sysibm.sysdummy1");           
+        Object getValue(final Connection conn, final String tableName)
+        throws PersistenceException {
+            StringBuffer buf = new StringBuffer(
+                    "SELECT IDENTITY_VAL_LOCAL() FROM sysibm.sysdummy1");           
             return getValue(buf.toString(), conn);
         }
     }
 
-    // TODO does Progress have support for retrieving key values for auto_increment columns (WG)
-//    private class ProgressType extends AbstractType {
-//        Object getValue(Connection conn, String tableName) throws PersistenceException {
-//            StringBuffer buf = new StringBuffer("SELECT IDENTITY_VAL_LOCAL() FROM sysibm.sysdummy1");           
-//            return getValue(buf.toString(), conn);
-//        }
-//    }
-    
     private class DefaultType extends AbstractType {
         Object getValue(final Connection conn, final String tableName) throws PersistenceException {
             return getValue("SELECT @@identity", conn);
@@ -258,7 +259,8 @@ public final class IdentityKeyGenerator implements KeyGenerator {
                 stmt = conn.prepareCall("{call IDENTITY()}");
                 v = getValue(stmt);
             } catch (SQLException e) {
-                throw new PersistenceException(Messages.format("persist.keyGenSQL", getClass().getName(), e.toString()));
+                throw new PersistenceException(Messages.format(
+                        "persist.keyGenSQL", getClass().getName(), e.toString()));
             } finally {
                 if (stmt != null) {
                     try {

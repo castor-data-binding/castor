@@ -100,8 +100,8 @@ public class SimpleQueryExecutor {
      * @return the results of the query.
      * 
      */
-    public QueryResults execute(final Connection conn, final QueryExpression expr, final Object[] bindValues)
-    throws QueryException {
+    public QueryResults execute(final Connection conn, final QueryExpression expr,
+            final Object[] bindValues) throws QueryException {
         
         try {
             

@@ -95,7 +95,8 @@ public final class SQLStatementLookup {
 
             if (stmt.executeQuery().next()) {
                 stmt.close();
-                throw new DuplicateIdentityException(Messages.format("persist.duplicateIdentity", _type, identity));
+                throw new DuplicateIdentityException(Messages.format(
+                        "persist.duplicateIdentity", _type, identity));
             }
         } catch (SQLException except2) {
             // Error at the stage indicates it wasn't a duplicate

@@ -36,8 +36,8 @@ import org.exolab.castor.persist.OID;
 import org.exolab.castor.persist.spi.Identity;
 
 /**
- * Implementation of {@link org.castor.persist.resolver.ResolverStrategy} for many relations. This class carries
- * behaviour common to 1:M and M:N relations.
+ * Implementation of {@link org.castor.persist.resolver.ResolverStrategy} for many relations.
+ * This class carries behaviour common to 1:M and M:N relations.
  * 
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @since 0.9.9
@@ -270,7 +270,8 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
                             proposedObject.getEntity(), tx.getClassLoader());
                     for (int j = 0, l = v.size(); j < l; j++) {
                         ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
-                        cp.add((Identity) v.get(j), tx.load((Identity) v.get(j), proposedValue, suggestedAccessMode));
+                        cp.add((Identity) v.get(j), tx.load((Identity) v.get(j),
+                                proposedValue, suggestedAccessMode));
                     }
                     cp.close();
                 }

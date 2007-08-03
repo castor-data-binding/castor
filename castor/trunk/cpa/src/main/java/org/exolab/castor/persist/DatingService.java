@@ -96,10 +96,12 @@ class DatingService {
                 initiateCm = (ClassMolder) pair._value;
                 targetCm = (ClassMolder) _clsMolders.get(pair._key);
                 if (targetCm == null) {
-                    throw new MappingException("Extended element, \"" + pair._key + "\"  not found!");
+                    throw new MappingException(
+                            "Extended element, \"" + pair._key + "\"  not found!");
                 }
                 initiateCm.setExtends(targetCm);
-                ((SQLEngine) initiateCm.getPersistence()).setExtends((SQLEngine) targetCm.getPersistence());
+                ((SQLEngine) initiateCm.getPersistence()).setExtends(
+                        (SQLEngine) targetCm.getPersistence());
             }
         }
 
@@ -111,7 +113,8 @@ class DatingService {
                 initiateCm = (ClassMolder) pair._value;
                 targetCm = (ClassMolder) _clsMolders.get(pair._key);
                 if (targetCm == null) {
-                    throw new MappingException("Depended element, \"" + pair._key + "\"  not found!");
+                    throw new MappingException(
+                            "Depended element, \"" + pair._key + "\"  not found!");
                 }
                 initiateCm.setDepends(targetCm);
             }
@@ -150,7 +153,9 @@ class DatingService {
             me.setExtends(clsMold);
             SQLEngine sql = ((SQLEngine) me.getPersistence());
             if (sql == null) {
-                throw new MappingException("Class " + me + " extends on " + extName + " which is not persistence capable!");
+                throw new MappingException(
+                        "Class " + me + " extends on " + extName
+                        + " which is not persistence capable!");
             }
             sql.setExtends((SQLEngine) clsMold.getPersistence());
             return true;
@@ -209,7 +214,8 @@ class DatingService {
      * @param typeName Type of the field which the FieldMolder represents.
      * @exception MappingException indicates that the pairing failed.
      */
-    boolean pairFieldClass(final FieldMolder fieldMolder, final String typeName) throws MappingException {
+    boolean pairFieldClass(final FieldMolder fieldMolder, final String typeName)
+    throws MappingException {
         
         try {
             if ((typeName == null) || typeName.equals("")) {

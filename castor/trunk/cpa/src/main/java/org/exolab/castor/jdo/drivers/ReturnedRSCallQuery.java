@@ -77,7 +77,8 @@ final class ReturnedRSCallQuery extends AbstractCallQuery {
      * @param fields ???
      * @param sqlTypes SQL types of the parameters
      */
-    ReturnedRSCallQuery(final String call, final Class[] types, final Class javaClass, final String[] fields, final int[] sqlTypes) {
+    ReturnedRSCallQuery(final String call, final Class[] types, final Class javaClass,
+            final String[] fields, final int[] sqlTypes) {
         super (call, types, javaClass, sqlTypes);
     }
 

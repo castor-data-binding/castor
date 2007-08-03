@@ -43,6 +43,7 @@ import org.exolab.castor.core.exceptions.CastorIllegalStateException;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.KeyGenerator;
@@ -92,7 +93,8 @@ public class SQLStatementCreate {
         if (engine.getDescriptor().getExtends() == null) {
             KeyGeneratorDescriptor keyGenDesc = engine.getDescriptor().getKeyGeneratorDescriptor();
             if (keyGenDesc != null) {
-                int[] tempType = ((JDOFieldDescriptor) engine.getDescriptor().getIdentity()).getSQLType();
+                FieldDescriptor fldDesc = engine.getDescriptor().getIdentity();
+                int[] tempType = ((JDOFieldDescriptor) fldDesc).getSQLType();
                 keyGen = keyGenDesc.getKeyGeneratorRegistry().getKeyGenerator(
                         factory, keyGenDesc, (tempType == null) ? 0 : tempType[0]);
 
@@ -331,7 +333,8 @@ public class SQLStatementCreate {
 
             isDupKey = _factory.isDuplicateKeyException(except);
             if (Boolean.TRUE.equals(isDupKey)) {
-                throw new DuplicateIdentityException(Messages.format("persist.duplicateIdentity", _type, internalIdentity), except);
+                throw new DuplicateIdentityException(Messages.format(
+                        "persist.duplicateIdentity", _type, internalIdentity), except);
             } else if (Boolean.FALSE.equals(isDupKey)) {
                 throw new PersistenceException(Messages.format("persist.nested", except), except);
             }
@@ -378,7 +381,8 @@ public class SQLStatementCreate {
         SQLColumnInfo id = _engine.getColumnInfoForIdentities()[0];
 
         // TODO [SMH]: Change KeyGenerator.isInSameConnection to KeyGenerator.useSeparateConnection?
-        // TODO [SMH]: Move "if (_keyGen.isInSameConnection() == false)" out of SQLEngine and into key-generator?
+        // TODO [SMH]: Move "if (_keyGen.isInSameConnection() == false)"
+        //             out of SQLEngine and into key-generator?
         Connection connection = conn;
         if (!_keyGen.isInSameConnection()) {
             connection = getSeparateConnection(database);
@@ -419,8 +423,8 @@ public class SQLStatementCreate {
      * @throws SQLException If the fields cannot be bound successfully.
      * @throws PersistenceException
      */
-    private int bindFields(final ProposedEntity entity, final PreparedStatement stmt, final int count)
-    throws SQLException, PersistenceException {
+    private int bindFields(final ProposedEntity entity, final PreparedStatement stmt,
+            final int count) throws SQLException, PersistenceException {
         int internalCount = count;
         SQLFieldInfo[] fields = _engine.getInfo();
         for (int i = 0; i < fields.length; ++i) {
@@ -444,7 +448,8 @@ public class SQLStatementCreate {
                     if (columns.length != 1) {
                         throw new PersistenceException("Complex field expected!");
                     }
-                    SQLTypeInfos.setValue(stmt, internalCount++, columns[0].toSQL(value), columns[0].getSqlType());
+                    SQLTypeInfos.setValue(stmt, internalCount++, columns[0].toSQL(value),
+                            columns[0].getSqlType());
                 }
             }
         }

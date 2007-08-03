@@ -192,14 +192,16 @@ public final class SQLStatementStore {
                             }
                             
                             for (int j = 0; j < columns.length; j++) {
-                                SQLTypeInfos.setValue(stmt, count++, columns[j].toSQL(id.get(j)), columns[j].getSqlType());
+                                SQLTypeInfos.setValue(stmt, count++,
+                                        columns[j].toSQL(id.get(j)), columns[j].getSqlType());
                             }
                         } else {
                             if (columns.length != 1) {
                                 throw new PersistenceException("Complex field expected!");
                             }
                             
-                            SQLTypeInfos.setValue(stmt, count++, columns[0].toSQL(value), columns[0].getSqlType());
+                            SQLTypeInfos.setValue(stmt, count++, columns[0].toSQL(value),
+                                    columns[0].getSqlType());
                         }
                     }
                 }
@@ -213,7 +215,8 @@ public final class SQLStatementStore {
                 for (int i = 0; i < ids.length; i++) {
                     stmt.setObject(count++, ids[i].toSQL(identity.get(i)));
                     if (LOG.isTraceEnabled()) {
-                        LOG.trace(Messages.format("jdo.bindingIdentity", ids[i].getName(), ids[i].toSQL(identity.get(i))));
+                        LOG.trace(Messages.format("jdo.bindingIdentity", ids[i].getName(),
+                                ids[i].toSQL(identity.get(i))));
                     }
                 }                    
                 
@@ -234,14 +237,17 @@ public final class SQLStatementStore {
                             } else if (value instanceof Identity) {
                                 Identity id = (Identity) value;
                                 if (id.size() != columns.length) {
-                                    throw new PersistenceException("Size of identity field mismatch!");
+                                    throw new PersistenceException(
+                                            "Size of identity field mismatch!");
                                 }
                                 
                                 for (int j = 0; j < columns.length; j++) {
-                                    SQLTypeInfos.setValue(stmt, count++, columns[j].toSQL(id.get(j)), columns[j].getSqlType());
+                                    SQLTypeInfos.setValue(stmt, count++,
+                                            columns[j].toSQL(id.get(j)), columns[j].getSqlType());
                                     
                                     if (LOG.isTraceEnabled()) {
-                                        LOG.trace(Messages.format("jdo.bindingField", columns[j].getName(), columns[j].toSQL(id.get(j))));
+                                        LOG.trace(Messages.format("jdo.bindingField",
+                                                columns[j].getName(), columns[j].toSQL(id.get(j))));
                                     }
                                 }
                             } else {
@@ -249,10 +255,12 @@ public final class SQLStatementStore {
                                     throw new PersistenceException("Complex field expected!");
                                 }
                                 
-                                SQLTypeInfos.setValue(stmt, count++, columns[0].toSQL(value), columns[0].getSqlType());
+                                SQLTypeInfos.setValue(stmt, count++, columns[0].toSQL(value),
+                                        columns[0].getSqlType());
                             
                                 if (LOG.isTraceEnabled()) {
-                                    LOG.trace(Messages.format("jdo.bindingField", columns[0].getName(), columns[0].toSQL(value)));
+                                    LOG.trace(Messages.format("jdo.bindingField",
+                                            columns[0].getName(), columns[0].toSQL(value)));
                                 }
                             }
                         }
@@ -290,25 +298,34 @@ public final class SQLStatementStore {
                             for (int i = 0; i < fields.length; i++) {
                                 SQLColumnInfo[] columns = fields[i].getColumnInfo();
                                 Object value = oldentity.getField(i);
-                                Object currentField = columns[0].toJava(res.getObject(columns[0].getName()));
+                                Object currentField = columns[0].toJava(res.getObject(
+                                        columns[0].getName()));
                                 if (fields[i].getTableName().compareTo(_mapTo) == 0) {
-                                    if ((value == null) || ((value != null) && (currentField == null))) {
-                                        enlistFieldsNotMatching.append("(" + _type + ")." + columns[0].getName() + ": ");
-                                        enlistFieldsNotMatching.append("[" + value + "/" + currentField + "]"); 
+                                    if ((value == null) || ((value != null)
+                                            && (currentField == null))) {
+                                        enlistFieldsNotMatching.append("(" + _type + ")."
+                                                + columns[0].getName() + ": ");
+                                        enlistFieldsNotMatching.append("[" + value + "/"
+                                                + currentField + "]"); 
                                     } else if (!value.equals(currentField)) {
                                         if (numberOfFieldsNotMatching >= 1) {
                                             enlistFieldsNotMatching.append(", ");
                                         }
-                                        enlistFieldsNotMatching.append("(" + _type + ")." + columns[0].getName() + ": ");
-                                        enlistFieldsNotMatching.append("[" + value + "/" + currentField + "]"); 
+                                        enlistFieldsNotMatching.append("(" + _type + ")."
+                                                + columns[0].getName() + ": ");
+                                        enlistFieldsNotMatching.append("[" + value + "/"
+                                                + currentField + "]"); 
                                         numberOfFieldsNotMatching++;
                                     }
                                 }
                             }
-                            throw new ObjectModifiedException(Messages.format("persist.objectModified", _type, identity, enlistFieldsNotMatching.toString()));
+                            throw new ObjectModifiedException(Messages.format(
+                                    "persist.objectModified", _type, identity,
+                                    enlistFieldsNotMatching.toString()));
                         }
                     }
-                    throw new ObjectDeletedException(Messages.format("persist.objectDeleted", _type, identity));
+                    throw new ObjectDeletedException(Messages.format(
+                            "persist.objectDeleted", _type, identity));
                 }                
             } catch (SQLException except) {
                 LOG.fatal(Messages.format("jdo.storeFatal", _type,  storeStatement), except);

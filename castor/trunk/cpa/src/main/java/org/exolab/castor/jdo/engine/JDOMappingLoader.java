@@ -526,8 +526,8 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     }
 
 
-    protected TypeInfo getTypeInfo(final Class fieldType, final CollectionHandler colHandler, final FieldMapping fieldMap)
-    throws MappingException {
+    protected TypeInfo getTypeInfo(final Class fieldType, final CollectionHandler colHandler,
+            final FieldMapping fieldMap) throws MappingException {
         Class internalFieldType = fieldType;
         TypeConvertor convertorTo = null;
         TypeConvertor convertorFrom = null;
@@ -571,18 +571,22 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
                             //-- exists and no user specified handler exists
                             Method method = internalFieldType.getMethod(VALUE_OF, STRING_ARG);
                             Class returnType = method.getReturnType();
-                            if ((returnType != null) && internalFieldType.isAssignableFrom(returnType)) {
+                            if ((returnType != null)
+                                    && internalFieldType.isAssignableFrom(returnType)) {
                                 int mods = method.getModifiers();
                                 if (Modifier.isStatic(mods)) {
                                     // create individual SQLTypeConverter
                                     convertorTo = new Convertor(sqlType, internalFieldType) {
                                         private Method _method = null;
-                                        public Object convert(final Object obj, final String param) {
+                                        public Object convert(final Object obj,
+                                                final String param) {
                                             try {
                                                 if (_method == null) {
-                                                    _method = toType().getMethod(VALUE_OF, STRING_ARG);
+                                                    _method = toType().getMethod(
+                                                            VALUE_OF, STRING_ARG);
                                                 }
-                                                return _method.invoke(toType(), new Object[] {(String) obj});
+                                                return _method.invoke(toType(),
+                                                        new Object[] {(String) obj});
                                             } catch (Exception ex) {
                                                 return null;
                                             }
@@ -600,7 +604,8 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
                     }
                 }
                 if (!isTypeSafeEnum) {
-                    throw new MappingException("mapping.noConvertor", sqlType.getName(), internalFieldType.getName());
+                    throw new MappingException("mapping.noConvertor", sqlType.getName(),
+                            internalFieldType.getName());
                 }
             }
             convertorFrom = SQLTypeConverters.getConvertor(internalFieldType, sqlType);
@@ -613,8 +618,8 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     }
 
 
-    protected AbstractFieldDescriptor createFieldDesc(final Class javaClass, final FieldMapping fieldMap)
-            throws MappingException {
+    protected AbstractFieldDescriptor createFieldDesc(final Class javaClass,
+            final FieldMapping fieldMap) throws MappingException {
 
         // If not an SQL field, return a stock field descriptor.
         if (fieldMap.getSql() == null) {
@@ -634,7 +639,8 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         // well and use it to locate the field/accessor.
         CollectionHandler colHandler = null;
         if (fieldMap.getCollection() != null) {
-            Class colType = CollectionHandlers.getCollectionType(fieldMap.getCollection().toString());
+            Class colType = CollectionHandlers.getCollectionType(
+                    fieldMap.getCollection().toString());
             colHandler = CollectionHandlers.getHandler(colType);
             
             if (colType.getName().equals("java.util.Iterator") && fieldMap.getLazy()) {

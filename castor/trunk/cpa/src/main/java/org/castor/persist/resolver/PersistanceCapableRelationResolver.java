@@ -124,7 +124,8 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                     // throw exception
                     if (!tx.isDepended(oid, o)) {
                         throw new PersistenceException(
-                                "Dependent object may not change its master. Object: " + o + " new master: " + oid);
+                                "Dependent object may not change its master. Object: " + o
+                                + " new master: " + oid);
                     }
                 }
             } else if (tx.isAutoStore()) {
@@ -188,11 +189,12 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
             /*
              * Let's deal with a situation where there's no dependent object (field == null),
              * a 'new' dependent object has been set (value != null), but as we are using a key
-             * generator on this newly set object, calling fieldClassMolder.getIdentity() will return
-             * null (and hence newField == null). In this case, we still have to mark this new object for 
-             * creation and instruct Castor to update the cache(s) as well
+             * generator on this newly set object, calling fieldClassMolder.getIdentity() will
+             * return null (and hence newField == null). In this case, we still have to mark this
+             * new object for creation and instruct Castor to update the cache(s) as well.
              */
-            if (field == null && value != null &&  _fieldMolder.isDependent() && !tx.isRecorded(value)) {
+            if ((field == null) && (value != null)
+                    &&  _fieldMolder.isDependent() && !tx.isRecorded(value)) {
                 if (_fieldMolder.isStored() && _fieldMolder.isCheckDirty()) {
                     flags.setUpdatePersist(true);
                 }
@@ -291,8 +293,8 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
      *      org.castor.persist.TransactionContext, org.exolab.castor.persist.OID,
      *      java.lang.Object, org.exolab.castor.mapping.AccessMode, java.lang.Object)
      */
-    public void update(final TransactionContext tx, final OID oid, final Object object, final AccessMode suggestedAccessMode, final Object field)
-    throws PersistenceException {
+    public void update(final TransactionContext tx, final OID oid, final Object object,
+            final AccessMode suggestedAccessMode, final Object field) throws PersistenceException {
         Identity nfield = (Identity) field;
         
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
@@ -335,7 +337,8 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
         if (value != null) {
             Object fid = fieldClassMolder.getIdentity(tx, value);
             if (_fieldMolder.isLazy() && (value instanceof LazyCGLIB)) {
-                boolean hasMaterialized = ((LazyCGLIB) value).interceptedHasMaterialized().booleanValue();
+                boolean hasMaterialized =
+                    ((LazyCGLIB) value).interceptedHasMaterialized().booleanValue();
                 if (!hasMaterialized) {
                     fid = fieldClassMolder.getActualIdentity(tx, value);
                 }
@@ -379,8 +382,8 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
      *      org.castor.persist.TransactionContext, org.exolab.castor.persist.OID,
      *      java.lang.Object, java.lang.Object)
      */
-    public void revertObject(final TransactionContext tx, final OID oid, final Object object, final Object field)
-    throws PersistenceException {
+    public void revertObject(final TransactionContext tx, final OID oid, final Object object,
+            final Object field) throws PersistenceException {
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
         if (field != null) {
             Object value = tx.fetch(fieldClassMolder, (Identity) field, null);
@@ -411,7 +414,8 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
      *      org.castor.persist.TransactionContext, org.exolab.castor.persist.OID,
      *      org.castor.persist.ProposedEntity, org.exolab.castor.mapping.AccessMode)
      */
-    public void load(final TransactionContext tx, final OID oid, final ProposedEntity proposedObject, final AccessMode suggestedAccessMode)
+    public void load(final TransactionContext tx, final OID oid,
+            final ProposedEntity proposedObject, final AccessMode suggestedAccessMode)
     throws PersistenceException {
         // field is not primitive type. Related object will be loaded
         // thru the transaction in action if needed.
@@ -426,7 +430,8 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
             try {
                 // should I use lazy loading for this object?
                 if (_fieldMolder.isLazy()) {
-                    temp = SingleProxy.getProxy(tx, fieldClassMolder, fieldValue, null, suggestedAccessMode);
+                    temp = SingleProxy.getProxy(tx, fieldClassMolder, fieldValue, null,
+                            suggestedAccessMode);
                 } else {
                     ProposedEntity proposedTemp = new ProposedEntity(fieldClassMolder);
                     temp = tx.load(fieldValue, proposedTemp, suggestedAccessMode);
@@ -512,7 +517,9 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                 // fail-fast principle: if the object depend on another object,
                 // throw exception
                 // if ( !tx.isDepended( oid, o ) )
-                    //    throw new PersistenceException("Dependent object may not change its master. Object: "+o+" new master: "+oid);
+                //    throw new PersistenceException(
+                //            "Dependent object may not change its master. Object: " + o
+                //            + " new master: " + oid);
             } else if (tx.isAutoStore()) {
                 if (!tx.isRecorded(o)) {
                     // related object should be created right the way, if autoStore
