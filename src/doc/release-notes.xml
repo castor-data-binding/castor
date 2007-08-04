@@ -82,6 +82,26 @@ org.exolab.castor.xml.proxyInterfaces=\
 
             </summary>
             <bugs>
+                <bug id="2012" tool="jira">
+                    <description>
+                        Fixed infinite recursion with cyclid IDREFs at hashCode() and equals().
+                    </description>
+                    <contributor>
+                        <name>Jim Procter</name>
+                        <email>jimp@compbio.dundee.ac.uk</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Jim Procter</name>
+                        <email>jimp@compbio.dundee.ac.uk</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20070804</date>
+                </bug>
                 <bug id="2100" tool="jira">
                     <description>
                         Fixed sealing violation occured when using castor-jdo.
