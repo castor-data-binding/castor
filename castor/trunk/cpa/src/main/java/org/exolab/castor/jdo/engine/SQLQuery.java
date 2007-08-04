@@ -39,7 +39,6 @@ import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.persist.spi.PersistenceQuery;
-import org.exolab.castor.util.SqlBindParser;
 
 /**
  * @author <a href="mailto:arkin AT intalio DOT com">Assaf Arkin</a>
