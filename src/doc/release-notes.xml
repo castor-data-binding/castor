@@ -102,6 +102,26 @@ org.exolab.castor.xml.proxyInterfaces=\
                     <module>XML</module>
                     <date>20070804</date>
                 </bug>
+                <bug id="2011" tool="jira">
+                    <description>
+                        Call hashCode() of the base XML type at hashCode() of generated class.
+                    </description>
+                    <contributor>
+                        <name>Jim Procter</name>
+                        <email>jimp@compbio.dundee.ac.uk</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Jim Procter</name>
+                        <email>jimp@compbio.dundee.ac.uk</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20070804</date>
+                </bug>
                 <bug id="2100" tool="jira">
                     <description>
                         Fixed sealing violation occured when using castor-jdo.
