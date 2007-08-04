@@ -42,7 +42,7 @@
  *
  * $Id$
  */
-package org.exolab.castor.util;
+package org.exolab.castor.jdo.engine;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

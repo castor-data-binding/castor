@@ -57,7 +57,6 @@ import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.jdo.QueryResults;
 import org.exolab.castor.persist.spi.QueryExpression;
-import org.exolab.castor.util.SqlBindParser;
 
 /**
  * A class to execute simple SQL queries generated from OQL.  If the query
