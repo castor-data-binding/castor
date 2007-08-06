@@ -32,12 +32,12 @@ import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.core.util.Configuration;
+import org.castor.cpa.CPAConfiguration;
 import org.castor.jdo.engine.ConnectionFactory;
 import org.castor.jdo.engine.DatabaseRegistry;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.persist.ProposedEntity;
-import org.castor.util.ConfigKeys;
-import org.castor.util.Configuration;
 import org.castor.util.Messages;
 import org.exolab.castor.core.exceptions.CastorIllegalStateException;
 import org.exolab.castor.jdo.Database;
@@ -79,8 +79,8 @@ public class SQLStatementCreate {
         
         _keyGen = getKeyGenerator(engine, factory);
 
-        Configuration config = Configuration.getInstance();
-        _useJDBC30 = config.getProperty(ConfigKeys.USE_JDBC30, false);
+        Configuration config = CPAConfiguration.getInstance();
+        _useJDBC30 = config.getBoolean(CPAConfiguration.USE_JDBC30, false);
         
         _lookupStatement = new SQLStatementLookup(engine, factory);
         

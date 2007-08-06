@@ -75,13 +75,33 @@ org.exolab.castor.xml.proxyInterfaces=\
 
                 <p>We have added a new class hierarchy to handle independed configurations
                    for every modul of Castor. At the moment the old configuration classes
-                   are still used but everything is in place to use the new one. Having said
-                   that this should not change anything for the user of Castor as he still
-                   specifies his properties in a single castor.properties file for all
-                   moduls.</p>
+                   are still used for XML but everything is in place to use the new one.
+                   Having said that this should not change anything for the user of Castor
+                   as he still specifies his properties in a single castor.properties file
+                   for all moduls.</p>
 
             </summary>
             <bugs>
+                <bug id="2055" tool="jira">
+                    <description>
+                        Use refactored Castor configuration at JDO modul.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20070806</date>
+                </bug>
                 <bug id="2012" tool="jira">
                     <description>
                         Fixed infinite recursion with cyclid IDREFs at hashCode() and equals().

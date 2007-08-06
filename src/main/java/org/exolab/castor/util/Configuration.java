@@ -105,8 +105,7 @@ public abstract class Configuration {
     /**
      * Names of properties used in the configuration file.
      */
-    public static class Property
-    {
+    public static class Property {
 
         /**
          * Property specifying the type of node to use for
@@ -272,14 +271,6 @@ public abstract class Configuration {
         static final String ResourceName = "/org/exolab/castor/castor.properties";
         
         static final String DEFAULT_SERIALIZER_FACTORY = "org.exolab.castor.xml.XercesXMLSerializerFactory";
-
-        /**
-         * Property specifying whether to use ANSI-compliant SQL for MS SQL Server.
-         * <pre>
-         * org.exolab.castor.jdo.sqlserver.ansi-compliant
-         * </pre>
-         */
-        public static final String SqlServerAnsiCompliant = "org.exolab.castor.jdo.sqlserver.ansi-compliant";
 
         /**
          * Property specifying whether sequence order validation should be lenient

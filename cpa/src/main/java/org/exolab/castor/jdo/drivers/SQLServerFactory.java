@@ -42,12 +42,11 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.jdo.drivers;
 
+import org.castor.core.util.Configuration;
+import org.castor.cpa.CPAConfiguration;
 import org.exolab.castor.persist.spi.QueryExpression;
-import org.exolab.castor.util.LocalConfiguration;
-import org.exolab.castor.util.Configuration.Property;
 
 /**
  * PersistenceFactory for SQL Server.
@@ -65,11 +64,10 @@ public final class SQLServerFactory extends SybaseFactory {
     }
 
     public QueryExpression getQueryExpression() {
-        LocalConfiguration configuration = LocalConfiguration.getInstance();
-        boolean useNewSyntaxForSQLServer = Boolean.valueOf(
-                configuration.getProperty(Property.SqlServerAnsiCompliant,
-                        "false")).booleanValue();
-
+        Configuration config = CPAConfiguration.getInstance();
+        boolean useNewSyntaxForSQLServer = config.getBoolean(
+                CPAConfiguration.MSSQL_ANSI_COMPLIANT, false);
+        
         if (useNewSyntaxForSQLServer) {
             return new JDBCQueryExpression(this);
         }

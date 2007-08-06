@@ -21,8 +21,8 @@ import junit.framework.TestSuite;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.castor.util.ConfigKeys;
-import org.castor.util.Configuration;
+import org.castor.core.util.Configuration;
+import org.castor.cpa.CPAConfiguration;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
@@ -30,7 +30,7 @@ import org.castor.util.Configuration;
  * @since 1.0
  */
 public final class TestTransactionManagerFactoryRegistry extends TestCase {
-    private static final boolean DISABLE_LOGGING = true;
+    private static final boolean DISABLE_LOGGING = false;
     
     public static Test suite() {
         TestSuite suite = new TestSuite("TransactionManagerFactoryRegistry Tests");
@@ -49,14 +49,15 @@ public final class TestTransactionManagerFactoryRegistry extends TestCase {
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 
         assertEquals("org.castor.transactionmanager.Factories",
-                ConfigKeys.TRANSACTION_MANAGER_FACTORIES);
+                CPAConfiguration.TRANSACTION_MANAGER_FACTORIES);
         
-        Configuration config = Configuration.getInstance();
-        String mem = config.getProperty(ConfigKeys.TRANSACTION_MANAGER_FACTORIES, null);
-        config.getProperties().put(ConfigKeys.TRANSACTION_MANAGER_FACTORIES,
+        Object temp = new TransactionManagerFactoryDummy();
+        
+        Configuration config = CPAConfiguration.newInstance();
+        Object mem = config.getObject(CPAConfiguration.TRANSACTION_MANAGER_FACTORIES);
+        config.put(CPAConfiguration.TRANSACTION_MANAGER_FACTORIES,
                 "org.castor.transactionmanager.LocalTransactionManagerFactory, "
-                + TransactionManagerFactoryDummy.class.getName() + ", "
-                + "UnknownTransactionManagerFactory");
+                + TransactionManagerFactoryDummy.class.getName());
         
         TransactionManagerFactoryRegistry registry;
         registry = new TransactionManagerFactoryRegistry(config);
@@ -82,7 +83,7 @@ public final class TestTransactionManagerFactoryRegistry extends TestCase {
             fail("Unexpected TransactionManagerAcquireException.");
         }
         
-        config.getProperties().put(ConfigKeys.TRANSACTION_MANAGER_FACTORIES, mem);
+        config.put(CPAConfiguration.TRANSACTION_MANAGER_FACTORIES, mem);
 
         logger.setLevel(level);
     }

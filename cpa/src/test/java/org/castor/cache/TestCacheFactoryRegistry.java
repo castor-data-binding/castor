@@ -51,8 +51,9 @@ import org.castor.cache.simple.TimeLimited;
 import org.castor.cache.simple.TimeLimitedFactory;
 import org.castor.cache.simple.Unlimited;
 import org.castor.cache.simple.UnlimitedFactory;
-import org.castor.util.ConfigKeys;
-import org.castor.util.Configuration;
+import org.castor.core.util.Configuration;
+import org.castor.core.util.ConfigurationException;
+import org.castor.cpa.CPAConfiguration;
 
 /**
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
@@ -82,34 +83,37 @@ public final class TestCacheFactoryRegistry extends TestCase {
         Logger logger = Logger.getLogger(CacheFactoryRegistry.class);
         Level level = logger.getLevel();
 
-        assertEquals("org.castor.cache.Factories", ConfigKeys.CACHE_FACTORIES);
+        assertEquals("org.castor.cache.Factories", CPAConfiguration.CACHE_FACTORIES);
         
-        Configuration config = Configuration.getInstance();
-        String memF = config.getProperty(ConfigKeys.CACHE_FACTORIES, "");
+        Configuration config = CPAConfiguration.newInstance();
+        String memF = config.getString(CPAConfiguration.CACHE_FACTORIES);
         
-        config.getProperties().remove(ConfigKeys.CACHE_FACTORIES);
+        config.remove(CPAConfiguration.CACHE_FACTORIES);
         new CacheFactoryRegistry(config);
         
-        config.getProperties().setProperty(ConfigKeys.CACHE_FACTORIES, "");
+        config.put(CPAConfiguration.CACHE_FACTORIES, "");
         new CacheFactoryRegistry(config);
         
-        config.getProperties().setProperty(ConfigKeys.CACHE_FACTORIES,
-                UnlimitedFactory.class.getName());
+        config.put(CPAConfiguration.CACHE_FACTORIES, UnlimitedFactory.class.getName());
         new CacheFactoryRegistry(config);
         
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 
-        config.getProperties().setProperty(ConfigKeys.CACHE_FACTORIES,
-                "org.castor.cache.simple.UnknownFactory");
-        new CacheFactoryRegistry(config);
+        config.put(CPAConfiguration.CACHE_FACTORIES, "org.castor.cache.simple.UnknownFactory");
+        try {
+            new CacheFactoryRegistry(config);
+            fail("Should have failed to create unknown class.");
+        } catch (ConfigurationException ex) {
+            assertTrue(true);
+        }
         
         logger.setLevel(level);
 
-        config.getProperties().setProperty(ConfigKeys.CACHE_FACTORIES, memF);
+        config.put(CPAConfiguration.CACHE_FACTORIES, memF);
     }
 
     public void testGetCacheNames() {
-        Configuration config = Configuration.getInstance();
+        Configuration config = CPAConfiguration.newInstance();
         Collection col = new CacheFactoryRegistry(config).getCacheNames();
         assertEquals(13, col.size());
         assertTrue(col.contains(CountLimited.TYPE));
@@ -128,7 +132,7 @@ public final class TestCacheFactoryRegistry extends TestCase {
     }
 
     public void testGetCacheFactories() {
-        Configuration config = Configuration.getInstance();
+        Configuration config = CPAConfiguration.newInstance();
         Collection col = new CacheFactoryRegistry(config).getCacheFactories();
         assertEquals(13, col.size());
         assertTrue(containsInstanceOf(col, CountLimitedFactory.class));
@@ -159,7 +163,7 @@ public final class TestCacheFactoryRegistry extends TestCase {
         Logger logger = Logger.getLogger(CacheFactoryRegistry.class);
         Level level = logger.getLevel();
         
-        Configuration config = Configuration.getInstance();
+        Configuration config = CPAConfiguration.newInstance();
         _registry = new CacheFactoryRegistry(config);
         
         Cache cache = null;

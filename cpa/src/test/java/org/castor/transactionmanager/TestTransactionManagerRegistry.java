@@ -23,8 +23,8 @@ import junit.framework.TestSuite;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.castor.util.ConfigKeys;
-import org.castor.util.Configuration;
+import org.castor.core.util.Configuration;
+import org.castor.cpa.CPAConfiguration;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
@@ -51,14 +51,14 @@ public final class TestTransactionManagerRegistry extends TestCase {
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 
         assertEquals("org.castor.transactionmanager.InitializeAtRegistration",
-                ConfigKeys.TRANSACTION_MANAGER_INIT);
+                CPAConfiguration.TRANSACTION_MANAGER_INIT);
         
-        Configuration config = Configuration.getInstance();
-        String memF = config.getProperty(ConfigKeys.TRANSACTION_MANAGER_FACTORIES, null);
-        String memI = config.getProperty(ConfigKeys.TRANSACTION_MANAGER_INIT, null);
-        config.getProperties().put(ConfigKeys.TRANSACTION_MANAGER_FACTORIES,
+        Configuration config = CPAConfiguration.getInstance();
+        String memF = config.getString(CPAConfiguration.TRANSACTION_MANAGER_FACTORIES, null);
+        String memI = config.getString(CPAConfiguration.TRANSACTION_MANAGER_INIT, null);
+        config.put(CPAConfiguration.TRANSACTION_MANAGER_FACTORIES,
                 TransactionManagerFactoryDummy.class.getName());
-        config.getProperties().put(ConfigKeys.TRANSACTION_MANAGER_INIT,
+        config.put(CPAConfiguration.TRANSACTION_MANAGER_INIT,
                 Boolean.FALSE.toString());
         
         TransactionManagerRegistry tmr = new TransactionManagerRegistry(config);
@@ -134,8 +134,8 @@ public final class TestTransactionManagerRegistry extends TestCase {
         managers = tmr.getTransactionManagerNames();
         assertEquals(0, managers.length);
         
-        config.getProperties().put(ConfigKeys.TRANSACTION_MANAGER_INIT, memI);
-        config.getProperties().put(ConfigKeys.TRANSACTION_MANAGER_FACTORIES, memF);
+        config.put(CPAConfiguration.TRANSACTION_MANAGER_INIT, memI);
+        config.put(CPAConfiguration.TRANSACTION_MANAGER_FACTORIES, memF);
 
         logger.setLevel(level);
     }
