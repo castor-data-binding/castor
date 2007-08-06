@@ -54,7 +54,6 @@ import java.io.Writer;
 import java.net.URL;
 import java.util.Hashtable;
 import java.util.Properties;
-import java.util.StringTokenizer;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -70,7 +69,6 @@ import org.exolab.castor.xml.XMLNaming;
 import org.exolab.castor.xml.util.DefaultNaming;
 import org.xml.sax.DocumentHandler;
 import org.xml.sax.Parser;
-import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 /**

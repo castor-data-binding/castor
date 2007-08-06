@@ -42,21 +42,16 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.persist;
-
 
 import java.util.Enumeration;
 import java.util.Hashtable;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.util.ConfigKeys;
-import org.castor.util.Configuration;
-import org.castor.util.Messages;
+import org.castor.core.util.Configuration;
+import org.castor.cpa.CPAConfiguration;
 import org.exolab.castor.persist.spi.KeyGeneratorFactory;
-
 
 /**
  * Registry for {@link KeyGeneratorFactory} implementations
@@ -118,16 +113,12 @@ public final class KeyGeneratorFactoryRegistry {
         if (_factories == null) {
             _factories = new Hashtable();
             
-            Configuration config = Configuration.getInstance();
-            String[] props = config.getProperty(ConfigKeys.KEYGENERATOR_FACTORIES);
-            ClassLoader ldr = KeyGeneratorFactoryRegistry.class.getClassLoader();
-            for (int i = 0; i < props.length; i++) {
-                try {
-                    Object factory = ldr.loadClass(props[i]).newInstance();
-                    _factories.put(((KeyGeneratorFactory) factory).getName(), factory);
-                } catch (Exception except) {
-                    LOG.error(Messages.format("persist.missingKeyGeneratorFactory", props[i]));
-                }
+            Configuration config = CPAConfiguration.getInstance();
+            Object[] objects = config.getObjectArray(
+                    CPAConfiguration.KEYGENERATOR_FACTORIES, config.getApplicationClassLoader());
+            for (int i = 0; i < objects.length; i++) {
+                KeyGeneratorFactory factory = (KeyGeneratorFactory) objects[i];
+                _factories.put(factory.getName(), factory);
             }
         }
     }

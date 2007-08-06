@@ -45,16 +45,14 @@ package ctf.jdo.tc0x;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import harness.CastorTestCase;
 import harness.TestHarness;
 
 import jdo.JDOCategory;
 
-import org.castor.util.ConfigKeys;
-import org.castor.util.Configuration;
-
+import org.castor.core.util.Configuration;
+import org.castor.cpa.CPAConfiguration;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.PersistenceException;
@@ -65,7 +63,7 @@ public final class TestSynchronizable extends CastorTestCase {
 
     private JDOCategory         _category;
     private Database            _db;
-    private String              _oldProperty;
+    private Object              _oldProperty;
     
     public static List getSynchronizableList() {
         return _synchronizables;
@@ -87,11 +85,9 @@ public final class TestSynchronizable extends CastorTestCase {
      * Get a JDO database
      */
     public void setUp() throws PersistenceException, SQLException {
-        Configuration config = Configuration.getInstance();
-        Properties props = config.getProperties();
-        _oldProperty = (String) props.setProperty(
-                ConfigKeys.TX_SYNCHRONIZABLE, 
-                SynchronizableImpl.class.getName());
+        Configuration config = CPAConfiguration.getInstance();
+        _oldProperty = config.getObject(CPAConfiguration.TX_SYNCHRONIZABLE);
+        config.put(CPAConfiguration.TX_SYNCHRONIZABLE, SynchronizableImpl.class.getName());
 
         _db = _category.getDatabase();
     }
@@ -164,12 +160,11 @@ public final class TestSynchronizable extends CastorTestCase {
         _synchronizables.clear();
         _db.close();
         
-        Configuration config = Configuration.getInstance();
-        Properties props = config.getProperties();
+        Configuration config = CPAConfiguration.getInstance();
         if (_oldProperty != null) {
-            props.setProperty(ConfigKeys.TX_SYNCHRONIZABLE, _oldProperty);
+            config.put(CPAConfiguration.TX_SYNCHRONIZABLE, _oldProperty);
         } else {
-            props.remove(ConfigKeys.TX_SYNCHRONIZABLE);
+            config.remove(CPAConfiguration.TX_SYNCHRONIZABLE);
         }
     }
 }

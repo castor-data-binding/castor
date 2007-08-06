@@ -19,8 +19,8 @@ import java.util.Properties;
 
 import junit.framework.TestCase;
 
-import org.castor.util.ConfigKeys;
-import org.castor.util.Configuration;
+import org.castor.core.util.Configuration;
+import org.castor.cpa.CPAConfiguration;
 import org.exolab.castor.jdo.JDOManager;
 
 public final class Test1865 extends TestCase {
@@ -36,19 +36,17 @@ public final class Test1865 extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         
-        Configuration cfg = Configuration.getInstance();
-        Properties props = cfg.getProperties();
-        _memInitFlag = props.get(ConfigKeys.INITIALIZE_AT_LOAD);
-        props.put(ConfigKeys.INITIALIZE_AT_LOAD, Boolean.toString(false));
+        Configuration cfg = CPAConfiguration.getInstance();
+        _memInitFlag = cfg.getObject(CPAConfiguration.INITIALIZE_AT_LOAD);
+        cfg.put(CPAConfiguration.INITIALIZE_AT_LOAD, Boolean.toString(false));
     }
     
     protected void tearDown() throws Exception {
-        Configuration cfg = Configuration.getInstance();
-        Properties props = cfg.getProperties();
+        Configuration cfg = CPAConfiguration.getInstance();
         if (_memInitFlag != null) {
-            props.put(ConfigKeys.INITIALIZE_AT_LOAD, _memInitFlag);
+            cfg.put(CPAConfiguration.INITIALIZE_AT_LOAD, _memInitFlag);
         } else {
-            props.remove(ConfigKeys.INITIALIZE_AT_LOAD);
+            cfg.remove(CPAConfiguration.INITIALIZE_AT_LOAD);
         }
 
         super.tearDown();

@@ -19,15 +19,12 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.castor.core.util.Configuration;
+import org.castor.cpa.CPAConfiguration;
 import org.castor.jdo.engine.AbstractConnectionFactory;
 import org.castor.jdo.engine.DatabaseRegistry;
-import org.castor.jdo.util.ClassLoadingUtils;
 import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
-import org.castor.util.ConfigKeys;
-import org.castor.util.Configuration;
 import org.castor.util.Messages;
 import org.exolab.castor.jdo.CacheManager;
 import org.exolab.castor.jdo.Database;
@@ -56,10 +53,6 @@ import org.exolab.castor.persist.spi.InstanceFactory;
  * @version $Revision$ $Date: 2006-04-22 11:05:30 -0600 (Sat, 22 Apr 2006) $
  */
 public abstract class AbstractDatabaseImpl implements Database {
-    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     *  Commons Logging</a> instance used for all logging. */
-    private static Log _log = LogFactory.getFactory().getInstance(AbstractDatabaseImpl.class);
-
     /** The database engine used to access the underlying SQL database. */
     protected PersistenceInfoGroup _scope;
 
@@ -443,15 +436,13 @@ public abstract class AbstractDatabaseImpl implements Database {
         if (_synchronizables == null) {
             _synchronizables = new ArrayList();
             
-            Configuration config = Configuration.getInstance();
-            String[] props = config.getProperty(ConfigKeys.TX_SYNCHRONIZABLE);
-            for (int i = 0; i < props.length; i++) {
-                try {
-                    Class cls = ClassLoadingUtils.loadClass(_classLoader, props[i]);
-                    TxSynchronizable sync = (TxSynchronizable) cls.newInstance();
-                    if (sync != null) { _synchronizables.add(sync); }
-                } catch (Exception except) {
-                    _log.warn(Messages.format("jdo.missingTxSynchronizable", props[i]));
+            Configuration config = CPAConfiguration.getInstance();
+            Object[] objects = config.getObjectArray(
+                    CPAConfiguration.TX_SYNCHRONIZABLE, config.getApplicationClassLoader());
+            if (objects != null) {
+                for (int i = 0; i < objects.length; i++) {
+                    TxSynchronizable sync = (TxSynchronizable) objects[i];
+                    _synchronizables.add(sync);
                 }
             }
             

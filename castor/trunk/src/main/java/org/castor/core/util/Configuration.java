@@ -23,7 +23,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -668,34 +670,38 @@ public abstract class Configuration {
         } else if (objectValue instanceof Object[]) {
             return (Object[]) objectValue;
         } else if (objectValue instanceof String) {
+            List objects = new ArrayList();
             String[] classnames = ((String) objectValue).split(",");
-            Object[] objects = new Class[classnames.length];
             for (int i = 0; i < classnames.length; i++) {
+                String classname = classnames[i];
                 try {
-                    objects[i] = loader.loadClass(classnames[i]).newInstance();
+                    if ((classname != null) && !"".equals(classname.trim())) {
+                        classname = classname.trim();
+                        objects.add(loader.loadClass(classname).newInstance());
+                    }
                 } catch (ClassNotFoundException ex) {
-                    Object[] args = new Object[] {key, new Integer(i), classnames[i]};
+                    Object[] args = new Object[] {key, new Integer(i), classname};
                     String msg = "Could not find configured class: {0}[{1}]={2}";
                     throw new ConfigurationException(MessageFormat.format(msg, args), ex);
                 } catch (IllegalAccessException ex) {
-                    Object[] args = new Object[] {key, new Integer(i), classnames[i]};
+                    Object[] args = new Object[] {key, new Integer(i), classname};
                     String msg = "Could not instantiate configured class: {0}[{1}]={2}";
                     throw new ConfigurationException(MessageFormat.format(msg, args), ex);
                 } catch (InstantiationException ex) {
-                    Object[] args = new Object[] {key, new Integer(i), classnames[i]};
+                    Object[] args = new Object[] {key, new Integer(i), classname};
                     String msg = "Could not instantiate configured class: {0}[{1}]={2}";
                     throw new ConfigurationException(MessageFormat.format(msg, args), ex);
                 } catch (ExceptionInInitializerError ex) {
-                    Object[] args = new Object[] {key, new Integer(i), classnames[i]};
+                    Object[] args = new Object[] {key, new Integer(i), classname};
                     String msg = "Could not instantiate configured class: {0}[{1}]={2}";
                     throw new ConfigurationException(MessageFormat.format(msg, args), ex);
                 } catch (SecurityException ex) {
-                    Object[] args = new Object[] {key, new Integer(i), classnames[i]};
+                    Object[] args = new Object[] {key, new Integer(i), classname};
                     String msg = "Could not instantiate configured class: {0}[{1}]={2}";
                     throw new ConfigurationException(MessageFormat.format(msg, args), ex);
                 }
             }
-            return objects;
+            return objects.toArray();
         }
 
         Object[] args = new Object[] {key, objectValue};

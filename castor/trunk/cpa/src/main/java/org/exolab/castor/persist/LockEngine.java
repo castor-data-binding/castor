@@ -58,11 +58,12 @@ import org.castor.cache.Cache;
 import org.castor.cache.CacheAcquireException;
 import org.castor.cache.CacheFactory;
 import org.castor.cache.CacheFactoryRegistry;
+import org.castor.core.util.Configuration;
+import org.castor.cpa.CPAConfiguration;
 import org.castor.jdo.engine.ConnectionFactory;
 import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
 import org.castor.persist.cache.CacheEntry;
-import org.castor.util.Configuration;
 import org.castor.util.Messages;
 import org.exolab.castor.jdo.ClassNotPersistenceCapableException;
 import org.exolab.castor.jdo.DuplicateIdentityException;
@@ -162,7 +163,7 @@ public final class LockEngine {
                       final PersistenceFactory persistenceFactory)
     throws MappingException {
         if (_cacheFactoryRegistry == null) {
-            Configuration config = Configuration.getInstance();
+            Configuration config = CPAConfiguration.getInstance();
             _cacheFactoryRegistry = new CacheFactoryRegistry(config);
         }
         

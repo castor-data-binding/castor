@@ -171,5 +171,10 @@ public final class CPAConfiguration extends Configuration {
     public static final String USE_JDBC_PROXIES =
         "org.exolab.castor.persist.useProxies";
 
+    /** Property specifying whether to use ANSI-compliant SQL for MS SQL Server.
+     *  <pre>org.exolab.castor.jdo.sqlserver.ansi-compliant</pre> */
+    public static final String MSSQL_ANSI_COMPLIANT =
+        "org.exolab.castor.jdo.sqlserver.ansi-compliant";
+
     //--------------------------------------------------------------------------
 }
