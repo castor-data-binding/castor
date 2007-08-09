@@ -368,7 +368,14 @@ public class CollectionInfo extends FieldInfo {
             comment.appendComment("into the API call.  This way we <i>know</i> that the Array ");
             comment.appendComment("returned is of exactly the correct length.");
 
-            sourceCode.add(arrayType.toString() + " array = new " + baseType.toString() + "[0];");
+            String baseTypeName = baseType.toString();
+            if (baseType.isArray()) {
+                sourceCode.add(arrayType.toString() + " array = new ");
+                sourceCode.append(baseTypeName.substring(0, baseTypeName.length() - 2) + "[0][];");
+            } else {
+                sourceCode.add(arrayType.toString() + " array = new ");
+                sourceCode.append(baseTypeName + "[0];");
+            }
             sourceCode.add("return (" + arrayType.toString() + ") ");
             sourceCode.append("this." + this.getName() + ".toArray(array);");
         } else {
