@@ -49,6 +49,7 @@
  */
 package org.exolab.castor.builder.info;
 
+import org.castor.xml.JavaNaming;
 import org.exolab.castor.builder.SGTypes;
 import org.exolab.castor.builder.types.XSCollectionFactory;
 import org.exolab.castor.builder.types.XSType;
@@ -74,12 +75,13 @@ public class CollectionInfoJ2 extends CollectionInfo {
      *        collection. The name is NOT fully specified and is all lowercase.
      *        Currently, any value but "arraylist" does not work. See
      *        {@link org.exolab.castor.builder.FieldInfoFactory#ARRAY_LIST}
+     * @param javaNaming the JavaNaming method used
      * @param useJava50 true if code is supposed to be generated for Java 5
      */
     public CollectionInfoJ2(final XSType contentType, final String name,
                             final String elementName, final String collectionType,
-                            final boolean useJava50) {
-        super(contentType, name, elementName, useJava50);
+                            final JavaNaming javaNaming, final boolean useJava50) {
+        super(contentType, name, elementName, javaNaming, useJava50);
         // --override the schemaType
         this.setSchemaType(XSCollectionFactory.createCollection(collectionType, 
                 contentType, useJava50));

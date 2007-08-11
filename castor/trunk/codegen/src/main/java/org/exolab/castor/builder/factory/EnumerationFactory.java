@@ -17,6 +17,8 @@ package org.exolab.castor.builder.factory;
 
 import java.util.Enumeration;
 
+import org.castor.xml.JavaNaming;
+import org.castor.xml.JavaNamingImpl;
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.FactoryState;
 import org.exolab.castor.builder.GroupNaming;
@@ -29,7 +31,6 @@ import org.exolab.castor.builder.binding.xml.EnumBindingType;
 import org.exolab.castor.builder.binding.xml.EnumMember;
 import org.exolab.castor.builder.types.XSString;
 import org.exolab.castor.builder.types.XSType;
-import org.exolab.castor.xml.JavaNaming;
 import org.exolab.castor.xml.schema.Facet;
 import org.exolab.castor.xml.schema.SimpleType;
 import org.exolab.javasource.JArrayType;
@@ -319,7 +320,7 @@ public final class EnumerationFactory extends BaseFactory {
                 }
             }
 
-            if (!JavaNaming.isValidJavaIdentifier(possibleId)) {
+            if (!getJavaNaming().isValidJavaIdentifier(possibleId)) {
                 return false;
             }
         }

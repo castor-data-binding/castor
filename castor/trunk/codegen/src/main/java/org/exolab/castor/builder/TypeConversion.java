@@ -88,7 +88,6 @@ import org.exolab.castor.builder.types.XSUnsignedByte;
 import org.exolab.castor.builder.types.XSUnsignedInt;
 import org.exolab.castor.builder.types.XSUnsignedLong;
 import org.exolab.castor.builder.types.XSUnsignedShort;
-import org.exolab.castor.xml.JavaNaming;
 import org.exolab.castor.xml.schema.AttributeDecl;
 import org.exolab.castor.xml.schema.ElementDecl;
 import org.exolab.castor.xml.schema.Facet;
@@ -195,7 +194,7 @@ public final class TypeConversion {
             }
             return convertType(common, packageName, useWrapper, useJava50);
         } else if (base == null) {
-            String className = JavaNaming.toJavaClassName(simpleType.getName());
+            String className = _config.getJavaNaming().toJavaClassName(simpleType.getName());
             return new XSClass(new JClass(className));
         }
 
@@ -409,7 +408,7 @@ public final class TypeConversion {
 
                 LOG.warn("Warning: The W3C datatype '" + name + "' "
                         + "is not currently supported by Castor Source Generator.");
-                String className = JavaNaming.toJavaClassName(name);
+                String className = _config.getJavaNaming().toJavaClassName(name);
                 xsType = new XSClass(new JClass(className));
                 break;
         }
@@ -506,7 +505,7 @@ public final class TypeConversion {
             typeName = typeName + "Type";
         }
 
-        String className = JavaNaming.toJavaClassName(typeName);
+        String className = _config.getJavaNaming().toJavaClassName(typeName);
 
         // Get the appropriate package name for this type
         String typePackageName = packageName;

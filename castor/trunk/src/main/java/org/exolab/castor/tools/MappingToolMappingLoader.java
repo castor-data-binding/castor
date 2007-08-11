@@ -46,25 +46,37 @@ package org.exolab.castor.tools;
 
 import java.lang.reflect.Array;
 
+import org.castor.xml.JavaNaming;
 import org.exolab.castor.mapping.loader.AbstractMappingLoader;
-import org.exolab.castor.xml.JavaNaming;
 
 /**
  * Extend mapping loader to give us access to the findAccessor method.
  */
 public final class MappingToolMappingLoader {
-    private static final String GET = "get";
-    private static final String SET = "set";
-    private static final String ADD = "add";
-    
+    /**
+     * The {@link JavaNaming} implementation to use.
+     * @since 1.1.3
+     */
+    private JavaNaming _javaNaming;
+
+    /**
+     * A MappingToolMappingLoader needs a javaNaming to be set.
+     * @param javaNaming the {@link JavaNaming} implementation to use
+     */
+    public MappingToolMappingLoader(final JavaNaming javaNaming) {
+        _javaNaming = javaNaming;
+    }
+
     /**
      * Returns true if the get method returns an array.
      * This method is used for greater compatability with
      * generated descriptors.
-     *
+     * @param clazz the Class to find an accessor in
+     * @param fieldName the field for which an accessor is sought
+     * @param type the returning type of the accessor
      * @return if get method returns an array.
     **/
-    public static boolean returnsArray(final Class clazz, final String fieldName, final Class type) {
+    public boolean returnsArray(final Class clazz, final String fieldName, final Class type) {
         try {
             Class array = null;
             if (type.isArray()) {
@@ -73,39 +85,46 @@ public final class MappingToolMappingLoader {
                 array = Array.newInstance(type, 0).getClass();
             }
             //-- getMethod
-            String prefix = JavaNaming.toJavaClassName(fieldName);
-            String method = GET + prefix;
+            String method = _javaNaming.getGetMethodNameForField(fieldName);
             boolean isGet = true;
             if (AbstractMappingLoader.findAccessor(clazz, method, array, isGet) != null) {
                 return true;
             }
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             // nothing to do
         }
         return false;
     }
     
-    public static boolean canFindAccessors(final Class clazz, final String fieldName, final Class type) {
+    /**
+     * Checks if any accessor for a certain field exists.
+     * @param clazz the Class to search in
+     * @param fieldName the field to search an accessor for
+     * @param type the return type the accessor should have
+     * @return true if a matching accessor could be found
+     */
+    public boolean canFindAccessors(final Class clazz, final String fieldName, final Class type) {
         try {
+            String methodName = null;
+
             //-- getMethod
-            String prefix = JavaNaming.toJavaClassName(fieldName);
-            String method = GET + prefix;
+            methodName = _javaNaming.getGetMethodNameForField(fieldName);
             boolean isGet = true;
-            if (AbstractMappingLoader.findAccessor(clazz, method, type, isGet) != null) {
+            if (AbstractMappingLoader.findAccessor(clazz, methodName, type, isGet) != null) {
                 return true;
             }
                 
             //-- setMethod and/or addMethod
             isGet = false;
-            method = SET + prefix;
-            if (AbstractMappingLoader.findAccessor(clazz, method, type, isGet) != null) {
+            methodName = _javaNaming.getSetMethodNameForField(fieldName);
+            if (AbstractMappingLoader.findAccessor(clazz, methodName, type, isGet) != null) {
                 return true;
             }
-            method = ADD + prefix;
-            if (AbstractMappingLoader.findAccessor(clazz, method, type, isGet) != null) {
+            methodName = _javaNaming.getAddMethodNameForField(fieldName);
+            if (AbstractMappingLoader.findAccessor(clazz, methodName, type, isGet) != null) {
                 return true;                
             }
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             // nothing to do
         }
         return false;

@@ -1,333 +1,213 @@
-/**
- * Redistribution and use of this software and associated documentation
- * ("Software"), with or without modification, are permitted provided
- * that the following conditions are met:
+/*
+ * Copyright 2007 Joachim Grueneis
  *
- * 1. Redistributions of source code must retain copyright
- *    statements and notices.  Redistributions must also contain a
- *    copy of this document.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * 2. Redistributions in binary form must reproduce the
- *    above copyright notice, this list of conditions and the
- *    following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * 3. The name "Exolab" must not be used to endorse or promote
- *    products derived from this Software without prior written
- *    permission of Intalio, Inc.  For written permission,
- *    please contact info@exolab.org.
- *
- * 4. Products derived from this Software may not be called "Exolab"
- *    nor may "Exolab" appear in their names without prior written
- *    permission of Intalio, Inc. Exolab is a registered
- *    trademark of Intalio, Inc.
- *
- * 5. Due credit should be given to the Exolab Project
- *    (http://www.exolab.org/).
- *
- * THIS SOFTWARE IS PROVIDED BY INTALIO, INC. AND CONTRIBUTORS
- * ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
- * NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
- * INTALIO, INC. OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
- * OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * Copyright 1999-2003 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
+package org.castor.xml;
 
-package org.exolab.castor.xml;
-
-import java.io.File;
-import java.util.Hashtable;
+import java.lang.reflect.Method;
 
 /**
- * This class converts XML Names to proper Java names.
- * Also see Unmarshaller and Marshaller since they use some
- * of their own methods for now.
- * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
-**/
-public class JavaNaming {
+ * JavaNaming is a service which collects all methods that are related to
+ * create (modify) Java names. E.g. convert from XML name to Java name,
+ * get a Java member name or such. These rules can be exchanged by a different
+ * implementation to get a different naming style for e.g. JAXB.
+ * 
+ * @author <a href="mailto:jgrueneis_at_gmail_dot_com">Joachim Grueneis</a>
+ * @version $Id$
+ */
+public interface JavaNaming {
+    /** Add methods start with: add. */
+    public static final String METHOD_PREFIX_ADD = "add";
 
+    /** Get methods start with: get. */
+    public static final String METHOD_PREFIX_GET = "get";
+
+    /** Is methods start with: is. */
+    public static final String METHOD_PREFIX_IS = "is";
+
+    /** Set methods start with: set. */
+    public static final String METHOD_PREFIX_SET = "set";
+
+    /** Create methods start with: create. */
+    public static final String METHOD_PREFIX_CREATE = "create";
 
     /**
-     * The property name to use in the castor.properties file to specify
-     * the value of the <code>upperCaseAfterUnderscore</code> variable.
+     * Returns true if the given String is a Java keyword which will cause a
+     * problem when used as a variable name.
+     * 
+     * @param name The name to check.
+     * @return true if it is a keyword.
      */
-    public static final String UPPER_CASE_AFTER_UNDERSCORE_PROPERTY 
-        = "org.exolab.castor.xml.JavaNaming.upperCaseAfterUnderscore";
+    boolean isKeyword(String name);
     
     /**
-     * Used for backward compatibility, if you wish
-     * to be backward compatible with 0.9.3.9 and earlier
-     * set this boolean to true.
-     */
-    public static boolean upperCaseAfterUnderscore = false;
-    
-    
-    private static final Hashtable subst = keywordMap();
-
-    private static final String[] keywords = {
-        "abstract",
-        "boolean",
-        "break",
-        "byte",
-        "case",
-        "catch",
-        "char",
-        "class",
-        "const",
-        "continue",
-        "default",
-        "do",
-        "double",
-        "else",
-        "extends",
-        "false",
-        "final",
-        "finally",
-        "float",
-        "for",
-        "goto",
-        "if",
-        "implements",
-        "import",
-        "instanceof",
-        "int",
-        "interface",
-        "long",
-        "native",
-        "new",
-        "null",
-        "package",
-        "private",
-        "protected",
-        "public",
-        "return",
-        "short",
-        "static",
-        "super",
-        "switch",
-        "synchronized",
-        "this",
-        "throw",
-        "throws",
-        "transient",
-        "true",
-        "try",
-        "void",
-        "volatile",
-        "while"
-    }; //-- keywords
-
-    /**
-     * private constructor
-    **/
-    private JavaNaming() {
-        super();
-    } //-- JavaNaming
-
-    /**
-     * Returns true if the given String is a Java keyword which
-     * will cause a problem when used as a variable name
-    **/
-    public static boolean isKeyword(String name) {
-        if (name == null) return false;
-        for (int i = 0; i < keywords.length; i++) {
-            if (keywords[i].equals(name)) return true;
-        }
-        return false;
-    } //-- isKeyword
-
-    /**
-     * Returns true if the given String matches the production of a valid Java identifier.
-     *
+     * Returns true if the given String matches the production of a valid Java
+     * identifier.
+     * 
      * @param string The String to check the production of.
-     * @return true if the given String matches the production of a valid Java name,
-     *         otherwise false.
+     * @return true if the given String matches the production of a valid Java
+     *         name, otherwise false.
      */
-    public static boolean isValidJavaIdentifier(String string) {
-        if ((string == null) || (string.length() == 0))
-            return false;
-
-        for (int i = 0; i < string.length(); i++) {
-            char ch = string.charAt(i);
-
-            //-- digit
-            if (ch == '_') continue;
-            if (ch == '$') continue;
-
-            if ((ch >= 'A') && (ch <= 'Z')) continue;
-            if ((ch >= 'a') && (ch <= 'z')) continue;
-            if ((ch >= '0') && (ch <= '9')) {
-                if (i == 0) return false;
-                continue;
-            }
-
-            return false;
-        }
-        if (isKeyword(string)) return false;
-        return true;
-    } //-- isValidJavaIdentifier
-
-    public static String toJavaClassName(String name) {
-
-        if ((name == null) || (name.length() <= 0)) {
-           // handle error
-           return name; //-- for now just return name
-        }
-		// Remove namespace prefix (Andrew Fawcett, temporary until namespace changes go in)
-        int colon = name.indexOf(':');
-        if (colon != -1)
-            name = name.substring(colon + 1);
-        return toJavaName(name, true);
-
-    } //-- toJavaClassName
-
-    public static String toJavaMemberName(String name) {
-        return toJavaMemberName(name, true);
-    } //-- toJavaMemberName
-
-    public static String toJavaMemberName
-        (String name, boolean useKeywordSubstitutions)
-    {
-
-        if (name == null) return null;
-
-        String memberName = toJavaName(name, false);
-
-        if (isKeyword(memberName) && useKeywordSubstitutions) {
-            String mappedName = (String) subst.get(memberName);
-            if (mappedName != null) memberName = mappedName;
-            else memberName = "_"+memberName;
-        }
-        return memberName;
-    } //-- toJavaMemberName
-
+    boolean isValidJavaIdentifier(String string);
+    
     /**
-     * Converts the given Package name to it's corresponding
-     * Path. The path will be a relative path.
-    **/
-    public static String packageToPath(String packageName) {
-        if (packageName == null) return packageName;
-        return packageName.replace('.',File.separatorChar);
-    } //-- packageToPath
-
-    private static Hashtable keywordMap() {
-        Hashtable ht = new Hashtable();
-        ht.put("class", "clazz");
-        return ht;
-    } //-- keywordMap
-
+     * Cuts away a leading namespace prefix (if there is one in place).
+     * 
+     * @param name The XML name to convert to a Java name.
+     * @return A name which follows Java naming conventions.
+     */
+    String toJavaClassName(String name);
+    
     /**
-     * Converts the given xml name to a Java name.
-     * @param name the name to convert to a Java Name
-     * @param upperFirst a flag to indicate whether or not the
-     * the first character should be converted to uppercase.
-    **/
-    private static String toJavaName(String name, boolean upperFirst) {
-
-        int size = name.length();
-        char[] ncChars = name.toCharArray();
-        int next = 0;
-
-        boolean uppercase = upperFirst;
-        
-        //-- initialize lowercase, this is either (!uppercase) or
-        //-- false depending on if the first two characters
-        //-- are uppercase
-        boolean lowercase = (!uppercase);
-        if ((size > 1) && lowercase) {
-            if (Character.isUpperCase(ncChars[0]) && 
-                Character.isUpperCase(ncChars[1]))
-                lowercase = false;
-        }
-
-        for (int i = 0; i < size; i++) {
-            char ch = ncChars[i];
-
-            switch(ch) {
-                case '.':
-				case ' ':
-                    ncChars[next++] = '_';
-                    break;
-                case ':':
-                case '-':
-                    uppercase = true;
-                    break;
-                case '_':
-                    //-- backward compatibility with 0.9.3.9
-                    if (upperCaseAfterUnderscore) {
-                        uppercase = true;
-                        ncChars[next] = ch;
-                        ++next;
-                        break;
-                    }
-                    //-- for backward compatibility with 0.9.3
-                    /* if (replaceUnderscore) {
-                        uppercase = true;
-                        break;
-                    }
-                    */
-                    //--> do not break here for anything greater
-                    //--> than 0.9.3.9
-                default:
-                    if (uppercase) {
-                        ncChars[next] = Character.toUpperCase(ch);
-                        uppercase = false;
-                    }
-                    else if (lowercase) {
-                        ncChars[next] = Character.toLowerCase(ch);
-                        lowercase = false;
-                    }
-                    else ncChars[next] = ch;
-                    ++next;
-                    break;
-            }
-        }
-        return new String(ncChars,0,next);
-    } //-- toJavaName
-
-
-    /* for debuging 
-    public static void main(String[] args) {
-
-        String[] names = {
-            "name",
-            "myName",
-            "my-name",
-            "my----name",
-            "my_name",
-            "NAME"
-        };
-
-        System.out.println("JavaXMLNaming Tests: ");
-        System.out.println();
-        for (int i = 0; i < names.length; i++) {
-            System.out.println();
-            System.out.print("Test #");
-            System.out.println(i+1);
-            System.out.print("toJavaClassName(\"");
-            System.out.print(names[i]);
-            System.out.print("\") ==> \"");
-            System.out.print(toJavaClassName(names[i]));
-            System.out.println("\"");
-            System.out.println();
-            System.out.print("toJavaMemberName(\"");
-            System.out.print(names[i]);
-            System.out.print("\") ==> \"");
-            System.out.print(toJavaMemberName(names[i]));
-            System.out.println("\"");
-
-        }
-    } //-- main /* */
-
-} //-- JavaXMLNaming
+     * Appends a leading '_' and converts the given name to a java name.
+     * 
+     * @param name the XML name to convert.
+     * @return A Java member name starting with a leading '_'.
+     */
+    String toJavaMemberName(String name);
+    
+    /**
+     * Appends a leading '_' and converts the given name to a java name.
+     * 
+     * @param name The XML name to convert.
+     * @param useKeywordSubstitutions Set to true to turn on keyword substitution.
+     * @return A Java member name starting with a leading '_'.
+     */
+    String toJavaMemberName(String name, boolean useKeywordSubstitutions);
+    
+    /**
+     * Checks if the given pacckage name is valid or not. Empty pacakge names
+     * are considered valid!
+     * 
+     * @param packageName Name of package as String with periods.
+     * @return true if package name is valid.
+     */
+    boolean isValidPackageName(String packageName);
+    
+    /**
+     * Converts the given Package name to it's corresponding Path. The path will
+     * be a relative path.
+     * 
+     * @param packageName The package name to convert.
+     * @return A String containing the resulting patch.
+     */
+    String packageToPath(String packageName);
+    
+    /**
+     * Qualifies the given <code>fileName</code> with the given
+     * <code>packageName</code> and returns the resulting file path.<br>
+     * If <code>packageName</code> is <code>null</code> or a zero-length
+     * String, this method will return <code>fileName</code>.<br>
+     * 
+     * @param fileName The file name to be qualified.
+     * @param packageName The package name to be used for qualifying.
+     * @return The qualified file path.
+     */
+    String getQualifiedFileName(String fileName, String packageName);
+    
+    /**
+     * Gets the package name of the given class name.
+     * 
+     * @param className The class name to retrieve the package name from.
+     * @return The package name or the empty String if <code>className</code>
+     *         is <code>null</code> or does not contain a package.
+     */
+    String getPackageName(String className);
+    /**
+     * Extracts the filed name part from the methods name. Mostly it cuts
+     * away the method prefix.
+     * 
+     * @param method The Method to process.
+     * @return The extracted field name.
+     */
+    String extractFieldNameFromMethod(Method method);
+    
+    /**
+     * Checks if the given method is a set method.
+     * 
+     * @param method The Method to check
+     * @return true if it is a set method
+     */
+    boolean isSetMethod(Method method);
+    /**
+     * Checks if the given method is a create method.
+     * 
+     * @param method The Method to check.
+     * @return true if it is a create method.
+     */
+    boolean isCreateMethod(Method method);
+    
+    /**
+     * Checks if the given method is a get method.
+     * 
+     * @param method The Method to check.
+     * @return true if it is a get method.
+     */
+    boolean isGetMethod(Method method);
+    
+    /**
+     * Checks if the given method is an is method.
+     * 
+     * @param method The Method to check.
+     * @return true if it is an is method.
+     */
+    boolean isIsMethod(Method method);
+    
+    /**
+     * Checks if the given method is an add method.
+     * 
+     * @param method The Method to check.
+     * @return true if it is an add method.
+     */
+    boolean isAddMethod(Method method);
+    /**
+     * Generates the name of an add method for the given field name.
+     * 
+     * @param fieldName The field name to generate a method name for.
+     * @return The generated add method name.
+     */
+    String getAddMethodNameForField(String fieldName);
+    
+    /**
+     * Generates the name of a set method for the given field name.
+     * 
+     * @param fieldName The field name to generate a method name for.
+     * @return The generated set method name.
+     */
+    String getSetMethodNameForField(String fieldName);
+    
+    /**
+     * Generates the name of a get method for the given field name.
+     * 
+     * @param fieldName The field name to generate a method name for.
+     * @return The generated get method name.
+     */
+    String getGetMethodNameForField(String fieldName);
+    
+    /**
+     * Generates the name of an is method for the given field name.
+     * 
+     * @param fieldName The field name to generate a method name for.
+     * @return The generated is method name.
+     */
+    String getIsMethodNameForField(String fieldName);
+    
+    /**
+     * Generates the name of a create method for the given field name.
+     * 
+     * @param fieldName The field name to generate a method name for.
+     * @return The generated create method name.
+     */
+    String getCreateMethodNameForField(String fieldName);
+}

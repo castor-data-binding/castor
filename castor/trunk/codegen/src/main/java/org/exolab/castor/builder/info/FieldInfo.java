@@ -52,8 +52,8 @@ package org.exolab.castor.builder.info;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.castor.xml.JavaNaming;
 import org.exolab.castor.builder.types.XSType;
-import org.exolab.castor.xml.JavaNaming;
 import org.exolab.javasource.JClass;
 import org.exolab.javasource.JDocComment;
 import org.exolab.javasource.JDocDescriptor;
@@ -132,6 +132,12 @@ public class FieldInfo extends XMLInfo {
     private String _validator;
     /** Visibility of this FieldInfo. */
     private String _visibility = "private";
+    /**
+     * The {@link JavaNaming} to use.
+     * @since 1.1.3
+     * TODO: should be removed again as soon as possible and be put into factory methods instead
+     */
+    private JavaNaming _javaNaming;
     
     /**
      * Holds the possible substitution groups for this class.
@@ -146,10 +152,12 @@ public class FieldInfo extends XMLInfo {
      *            the XML Schema type of this member
      * @param name
      *            the name of the member
+     * @param javaNaming the JavaNaming to be used
      */
-    public FieldInfo(final XSType type, final String name) {
+    public FieldInfo(final XSType type, final String name, JavaNaming javaNaming) {
         this._name    = name;
         setSchemaType(type);
+        _javaNaming = javaNaming;
     } //-- FieldInfo
 
     //------------------/
@@ -444,7 +452,7 @@ public class FieldInfo extends XMLInfo {
         //-- simply for aesthetic beauty
         if (paramName.indexOf('_') == 0) {
             String tempName = paramName.substring(1);
-            if (JavaNaming.isValidJavaIdentifier(tempName)) {
+            if (getJavaNaming().isValidJavaIdentifier(tempName)) {
                 paramName = tempName;
             }
         }
@@ -871,9 +879,9 @@ public class FieldInfo extends XMLInfo {
      */
     public String getMethodSuffix() {
         if (_name.startsWith("_")) {
-            return JavaNaming.toJavaClassName(_name.substring(1));
+            return getJavaNaming().toJavaClassName(_name.substring(1));
         }
-        return JavaNaming.toJavaClassName(_name);
+        return getJavaNaming().toJavaClassName(_name);
     }
 
     /**
@@ -897,8 +905,16 @@ public class FieldInfo extends XMLInfo {
      * Returns the possible substitution groups for this class.
      * @return the possible substitution groups for this class.
      */
-     public List getSubstitutionGroupMembers() {
+    public List getSubstitutionGroupMembers() {
         return this._substitutionGroupMembers;
     }
-
+    
+    /**
+     * To get the {@link JavaNaming} to be used.
+     * @return the {@link JavaNaming} to be used
+     * @since 1.1.3
+     */
+    public JavaNaming getJavaNaming() {
+        return _javaNaming;
+    }
 }

@@ -45,6 +45,8 @@
 
 package org.exolab.castor.xml;
 
+import org.castor.xml.JavaNaming;
+import org.castor.xml.JavaNamingImpl;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.FieldDescriptor;
@@ -52,8 +54,6 @@ import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.CollectionHandlers;
 import org.exolab.castor.util.ReflectionUtil;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -74,24 +74,29 @@ abstract class MarshalFramework {
     //--------------------------/
 
     /**
-     * The XSI Namespace URI
+     * JDK version 1.5 .
+     */
+    private static final double JDK_VERSION_1_5 = 1.5;
+
+    /**
+     * The XSI Namespace URI.
     **/
     public static final String XSI_NAMESPACE
         = "http://www.w3.org/2001/XMLSchema-instance";
 
     /**
-     * The name of the Schema location attribute
+     * The name of the Schema location attribute.
     **/
     public static final String XSI_SCHEMA_LOCATION = "schemaLocation";
 
     /**
-     * The name of the no namespace schema location attribute
+     * The name of the no namespace schema location attribute.
     **/
     public static final String XSI_NO_NAMESPACE_SCHEMA_LOCATION 
         = "noNamespaceSchemaLocation";
    
     /**
-     * The xml:lang attribute name
+     * The xml:lang attribute name.
      */
     public static final String XML_LANG_ATTR = "xml:lang";
     
@@ -105,33 +110,38 @@ abstract class MarshalFramework {
      */
     public static final String NIL_ATTR = "nil";
     
+    /**
+     * The xsi:nil attribute.
+     */
     public static final String XSI_NIL_ATTR = "xsi:nil";
     
     /**
-     * The xml:space attribute name
+     * The xml:space attribute name.
      */    
     public static final String XML_SPACE_ATTR = "xml:space";
     
     /**
-     * The xml:space attribute name, without the "xml:" prefix
+     * The xml:space attribute name, without the "xml:" prefix.
      */    
     public static final String SPACE_ATTR = "space";
     
     /**
-     * The xsi:type attribute name, without the "xsi:" prefix
+     * The xsi:type attribute name, without the "xsi:" prefix.
      */    
     public static final String TYPE_ATTR = "type";
     
     /**
-     * The value of 'true'
+     * The value of 'true'.
      */
     public static final String TRUE_VALUE = "true";
     
-
     //-----------------------------/
     //- Protected class variables -/
     //-----------------------------/
 
+    /**
+     * A constant to indicate a wrong name without setting null.
+     */
     static final String INTERNAL_XML_NAME = "-error-if-this-is-used-";
 
     /**
@@ -142,38 +152,76 @@ abstract class MarshalFramework {
     static final String JAVA_PREFIX = "java:";
 
     /**
-     * The name of the QName type
+     * The name of the QName type.
      */
     static final String QNAME_NAME = "QName";
     
     /**
-     * An empty array of field descriptors
+     * An empty array of field descriptors.
      */
     static final XMLFieldDescriptor[] NO_FIELD_DESCRIPTORS 
         = new XMLFieldDescriptor[0];
 
+    //-----------------------------/
+    //- Private variables         -/
+    //-----------------------------/
+
+    /**
+     * The {@link JavaNaming} to use at unmarhsalling.
+     * @since 1.1.3
+     */
+    private JavaNaming _javaNaming;
+    
+    //-----------------------------/
+    //- Public methods            -/
+    //-----------------------------/
+
+    /**
+     * We need some stuff initialized here.
+     */
+    public MarshalFramework() {
+        _javaNaming = new JavaNamingImpl();
+    }
+
+    /**
+     * To get the {@link JavaNaming} instance to be used.
+     * @return the JavaNaming to be used
+     */
+    public JavaNaming getJavaNaming() {
+        return _javaNaming;
+    }
+
+    /**
+     * To set the {@link JavaNaming} instance to be used.
+     * @param javaNaming the JavaNaming to be used
+     */
+    public void setJavaNaming(final JavaNaming javaNaming) {
+        _javaNaming = javaNaming;
+    }
+
     /**
      * Returns true if the given Class is a considered a
      * collection by the marshalling framework.
-     *
+     * @param clazz the Class to check
      * @return true if the given Class is considered a collection.
+     * TODO: joachim: this code exists somewhere else too!!
      */
-    public static boolean isCollection(Class clazz) {
+    public static boolean isCollection(final Class clazz) {
         return CollectionHandlers.hasHandler(clazz);
     } //-- isCollection
     
     /**
      * Returns the CollectionHandler associated with the
      * given collection, or null if no such handler exists.
-     *
+     * @param clazz the Class to check
      * @return the CollectionHandler for the associated type.
      */
-    public CollectionHandler getCollectionHandler(Class clazz) {
+    public CollectionHandler getCollectionHandler(final Class clazz) {
         CollectionHandler handler = null;
         try {
             handler = CollectionHandlers.getHandler(clazz);
         }
-        catch(MappingException mx) {
+        catch (MappingException mx) {
             //-- Not a collection, or no handler exists, return null.
         }
         return handler;
@@ -185,19 +233,25 @@ abstract class MarshalFramework {
      * type. This method will return true for all Java primitive
      * types, the set of primitive object wrappers, as well
      * as Strings.
-     *
-     * @return true if the given class should be treated as a primitive
-     * type
+     * @param type the Class to check
+     * @return true if the given class should be treated as a primitive type
+     * TODO: joachim: this code exists somewhere else too!!
     **/
-    static boolean isPrimitive(Class type) {
+    static boolean isPrimitive(final Class type) {
 
-        if (type == null) return false;
+        if (type == null) {
+            return false;
+        }
 
         //-- java primitive
-        if (type.isPrimitive()) return true;
+        if (type.isPrimitive()) {
+            return true;
+        }
 
         //-- we treat strings as primitives
-        if (type == String.class) return true;
+        if (type == String.class) {
+            return true;
+        }
 
         //-- primtive wrapper classes
         if ((type == Boolean.class) || (type == Character.class)) {
@@ -221,17 +275,18 @@ abstract class MarshalFramework {
      * Returns true if the given class should be treated as an enum type. This method 
      * will return true for all Java 5 (or later) enums, and for enum-style
      * classes.
-     *
+     * @param type the Class to check
      * @return true if the given class should be treated as an enum
      **/
-    static boolean isEnum(Class type) {
+    static boolean isEnum(final Class type) {
 
         if (type == null) {
             return false;
         }
 
-        float javaVersion = Float.valueOf(System.getProperty("java.specification.version")).floatValue();
-        if (javaVersion >= 1.5) {
+        float javaVersion = 
+            Float.valueOf(System.getProperty("java.specification.version")).floatValue();
+        if (javaVersion >= JDK_VERSION_1_5) {
             try {
                 Boolean isEnum = ReflectionUtil.isEnumViaReflection(type);
                 return isEnum.booleanValue();
@@ -261,6 +316,7 @@ abstract class MarshalFramework {
 //        return (Boolean) isEnumMethod.invoke(type, (Object[]) null);
 //    }
 //    
+
     /**
      * Returns true if any of the fields associated with the given
      * XMLClassDescriptor are located at, or beneath, the given location.
@@ -268,34 +324,41 @@ abstract class MarshalFramework {
      * @param location the location to compare against
      * @param classDesc the XMLClassDescriptor in which to check the field 
      * locations
+     * @return true if any of the fields has a location associated
      */
     static final boolean hasFieldsAtLocation
-        (String location, XMLClassDescriptor classDesc)
-    {
+        (final String location, final XMLClassDescriptor classDesc) {
         //-- check elements
         XMLFieldDescriptor[] descriptors = classDesc.getElementDescriptors();
         for (int i = 0; i < descriptors.length; i++) {
-            if (descriptors[i] == null) continue;
+            if (descriptors[i] == null) {
+                continue;
+            }
             String tmpLocation = descriptors[i].getLocationPath();
-            if ((tmpLocation != null) && (tmpLocation.startsWith(location)))
+            if ((tmpLocation != null) && (tmpLocation.startsWith(location))) {
                 return true;
+            }
         }
         
         //-- check attributes
         descriptors = classDesc.getAttributeDescriptors();
         for (int i = 0; i < descriptors.length; i++) {
-            if (descriptors[i] == null) continue;
+            if (descriptors[i] == null) {
+                continue;
+            }
             String tmpLocation = descriptors[i].getLocationPath();
-            if ((tmpLocation != null) && (tmpLocation.startsWith(location)))
+            if ((tmpLocation != null) && (tmpLocation.startsWith(location))) {
                 return true;
+            }
         }
         
         //-- check content/text
         XMLFieldDescriptor content = classDesc.getContentDescriptor();
         if (content != null) {
             String tmpLocation = content.getLocationPath();
-            if ((tmpLocation != null) && (tmpLocation.startsWith(location)))
+            if ((tmpLocation != null) && (tmpLocation.startsWith(location))) {
                 return true;
+            }
         }
         return false;
     } //-- hasFieldsAtLocation
@@ -306,8 +369,10 @@ abstract class MarshalFramework {
      *
      * @param ns1 the namespace to compare to argument ns2
      * @param ns2 the namespace to compare to argument ns1
+     * @return true if the namespaces are considert equal
+     * TODO: joachim put it into XMLNaming!
      */
-    public static boolean namespaceEquals(String ns1, String ns2) {
+    public static boolean namespaceEquals(final String ns1, final String ns2) {
         if (ns1 == null) {
             return ((ns2 == null) || (ns2.length() == 0));
         }
@@ -323,14 +388,21 @@ abstract class MarshalFramework {
      * class "a" is an int (Integer.TYPE) and class "b" is 
      * either an int or Integer.class then true will be
      * returned, otherwise false.
-     *
+     * @param a compare a with b
+     * @param b compare a with b
      * @return true if both a and b are considered equal
      */
-    static boolean primitiveOrWrapperEquals(Class a, Class b) {
-        if (!isPrimitive(a)) return false;
-        if (!isPrimitive(b)) return false;
+    static boolean primitiveOrWrapperEquals(final Class a, final Class b) {
+        if (!isPrimitive(a)) {
+            return false;
+        }
+        if (!isPrimitive(b)) {
+            return false;
+        }
         
-        if (a == b) return true;
+        if (a == b) {
+            return true;
+        }
         
         //-- Boolean/boolean
         if ((a == Boolean.class) || (a == Boolean.TYPE)) {
@@ -376,28 +448,35 @@ abstract class MarshalFramework {
      * Search there is a field descriptor which can accept one of the class
      * descriptor which match the given name and namespace.
      * 
+     * @param name XML name of the field
+     * @param namespace namespace of the field
+     * @param classDesc the class descriptor to match against
+     * @param cdResolver the class descriptor resolver to use
      * @return An array of InheritanceMatch.
+     * @throws MarshalException if the resolver called fails fatally
      */
-    public static InheritanceMatch[] searchInheritance(String name, String namespace,
-            XMLClassDescriptor classDesc, XMLClassDescriptorResolver cdResolver)
+    protected InheritanceMatch[] searchInheritance(final String name, 
+            final String namespace,
+            final XMLClassDescriptor classDesc, final XMLClassDescriptorResolver cdResolver)
     throws MarshalException {
         Iterator classDescriptorIterator = null;
         
         try {
             //-- A little required logic for finding Not-Yet-Loaded
             //-- descriptors
-            String className =JavaNaming.toJavaClassName(name);
+            String className = getJavaNaming().toJavaClassName(name);
             //-- should use namespace-to-prefix mappings, but
             //-- just create package for now.
             Class clazz = classDesc.getJavaClass();
             String pkg = null;
             if (clazz != null) {
-                while (clazz.getDeclaringClass() != null)
+                while (clazz.getDeclaringClass() != null) {
                     clazz = clazz.getDeclaringClass();
+                }
                 pkg = clazz.getName();
                 int idx = pkg.lastIndexOf('.');
                 if (idx >= 0) {
-                    pkg = pkg.substring(0, idx+1);
+                    pkg = pkg.substring(0, idx + 1);
                     className = pkg + className;
                 }
             }
@@ -407,10 +486,10 @@ abstract class MarshalFramework {
             //-- resolve all by XML name + namespace URI
             classDescriptorIterator = cdResolver.resolveAllByXMLName(name, namespace, null);
         }
-        catch(ResolverException rx) {
+        catch (ResolverException rx) {
             Throwable actual = rx.getCause();
             if (actual instanceof MarshalException) {
-                throw (MarshalException)actual;
+                throw (MarshalException) actual;
             }
             if (actual != null) {
                 throw new MarshalException(actual);
@@ -430,11 +509,14 @@ abstract class MarshalFramework {
 
                 for (int i = 0; i < descriptors.length; i++) {
 
-                    if (descriptors[i] == null) continue;
+                    if (descriptors[i] == null) {
+                        continue;
+                    }
                     
                     //-- skip descriptors with special internal name
-                    if (INTERNAL_XML_NAME.equals(descriptors[i].getXMLName())) 
+                    if (INTERNAL_XML_NAME.equals(descriptors[i].getXMLName())) {
                         continue;
+                    }
                     
                     //-- check for inheritence
                     Class superclass = descriptors[i].getFieldType();
@@ -442,14 +524,17 @@ abstract class MarshalFramework {
                     // It is possible that the superclass is of type object if we use any node.
                     if (superclass.isAssignableFrom(subclass) && (superclass != Object.class)) {
                         descriptor = descriptors[i];
-                        if (inheritanceList == null)
+                        if (inheritanceList == null) {
                             inheritanceList = new Vector(3);
+                        }
                         inheritanceList.addElement(new InheritanceMatch(descriptor, cdInherited));
                     }
                 }
             }
             //-- reset inherited class descriptor, if necessary
-            if (descriptor == null) cdInherited = null;
+            if (descriptor == null) {
+                cdInherited = null;
+            }
         }
         
         if (inheritanceList != null) {
@@ -468,8 +553,13 @@ abstract class MarshalFramework {
      * XMLClassDescriptor will be put.
      */
     public static class InheritanceMatch {
-
+        /**
+         * The field descriptor of the parent.
+         */
         public XMLFieldDescriptor parentFieldDesc;
+        /**
+         * The class descriptor to instantiate.
+         */
         public XMLClassDescriptor inheritedClassDesc;
 
         public InheritanceMatch(XMLFieldDescriptor fieldDesc, XMLClassDescriptor classDesc) {
@@ -489,15 +579,21 @@ abstract class MarshalFramework {
         private XMLClassDescriptor _classDesc = null;
         
         /**
-         * Cached arrays
+         * Cached arrays.
          */
         private XMLFieldDescriptor[] _attributes = null;
+        /**
+         * Cached arrays.
+         */
         private XMLFieldDescriptor[] _elements   = null;
+        /**
+         * Cached arrays.
+         */
         private FieldDescriptor[]    _fields     = null;
         
         /**
          * Creates a new InternalXMLClassDescriptor for the given
-         * XMLClassDescriptor
+         * XMLClassDescriptor.
          */
         protected InternalXMLClassDescriptor(XMLClassDescriptor classDesc)
         {
@@ -508,7 +604,7 @@ abstract class MarshalFramework {
             
             //-- prevent wrapping another InternalXMLClassDescriptor,
             while (classDesc instanceof InternalXMLClassDescriptor) {
-                classDesc = ((InternalXMLClassDescriptor)classDesc).getClassDescriptor();
+                classDesc = ((InternalXMLClassDescriptor) classDesc).getClassDescriptor();
             }
             _classDesc = classDesc;
         }
@@ -559,6 +655,7 @@ abstract class MarshalFramework {
          * descriptor is available.
          *
          * @param name the xml name to match against
+         * @param namespace the xml namespace to match
          * @param nodeType the NodeType to match against, or null if
          * the node type is not known.
          * @return the matching descriptor, or null if no matching
@@ -566,7 +663,7 @@ abstract class MarshalFramework {
          *
          */
         public XMLFieldDescriptor getFieldDescriptor
-            (String name, String namespace, NodeType nodeType) 
+            (final String name, final String namespace, final NodeType nodeType) 
         {
             return _classDesc.getFieldDescriptor(name, namespace, nodeType);
         } //-- getFieldDescriptor
@@ -635,7 +732,7 @@ abstract class MarshalFramework {
          * @see org.exolab.castor.xml.XMLClassDescriptor#canAccept(
          *      java.lang.String, java.lang.String, java.lang.Object)
          */
-        public boolean canAccept(String name,String namespace, Object object) {
+        public boolean canAccept(final String name, final String namespace, final Object object) {
             return _classDesc.canAccept(name, namespace, object);
         } //-- canAccept
 

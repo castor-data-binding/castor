@@ -46,7 +46,7 @@ package org.exolab.castor.builder;
 
 import java.util.Hashtable;
 
-import org.exolab.castor.xml.JavaNaming;
+import org.castor.xml.JavaNaming;
 import org.exolab.castor.xml.schema.ComplexType;
 import org.exolab.castor.xml.schema.ElementDecl;
 import org.exolab.castor.xml.schema.Group;
@@ -67,11 +67,21 @@ public final class GroupNaming {
      */
     private Hashtable _packageGroupNames = null;
 
+    /** 
+     * JavaNaming to be used. 
+     * @since 1.1.3
+     */
+    private JavaNaming _javaNaming;
+
+
     /**
      * Creates a new GroupNaming.
+     * @param javaNaming the {@link JavaNaming} to be used
      */
-    public GroupNaming() {
+    public GroupNaming(final JavaNaming javaNaming) {
         _packageGroupNames = new Hashtable();
+        // JavaNaming was introduced @since 1.1.3
+        _javaNaming = javaNaming;
     } //-- GroupNaming
 
     /**
@@ -136,7 +146,7 @@ public final class GroupNaming {
     public String createClassName(final Group group, final String packageName) {
         String name = group.getName();
         if (name != null) {
-            return JavaNaming.toJavaClassName(name);
+            return _javaNaming.toJavaClassName(name);
         }
         name = getGroupName(group, packageName);
         if (name != null) {
@@ -155,7 +165,7 @@ public final class GroupNaming {
                 break;
             case Structure.MODELGROUP:
                 name = ((ModelGroup) parent).getName();
-                name = JavaNaming.toJavaClassName(name);
+                name = _javaNaming.toJavaClassName(name);
                 addOrder = false;
                 break;
             case Structure.COMPLEX_TYPE:
@@ -169,7 +179,7 @@ public final class GroupNaming {
         if (name != null) {
             if (addOrder) {
                 String order = group.getOrder().toString();
-                name += JavaNaming.toJavaClassName(order);
+                name += _javaNaming.toJavaClassName(order);
             }
 
             int count = 2;
@@ -195,11 +205,11 @@ public final class GroupNaming {
      * @param complexType the ComplexType for which to return a class name
      * @return the class name for the given ComplexType
      */
-    private static String getClassName(final ComplexType complexType) {
+    private String getClassName(final ComplexType complexType) {
         //-- if complexType has name, simply return it
         String name = complexType.getName();
         if (name != null) {
-            return JavaNaming.toJavaClassName(name);
+            return _javaNaming.toJavaClassName(name);
         }
 
         //-- otherwise get name of containing element
@@ -209,7 +219,7 @@ public final class GroupNaming {
         }
 
         if (name != null) {
-            name = JavaNaming.toJavaClassName(name);
+            name = _javaNaming.toJavaClassName(name);
         }
         return name;
     } //-- getName

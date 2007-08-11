@@ -44,6 +44,7 @@
  */
 package org.exolab.castor.builder.info;
 
+import org.castor.xml.JavaNaming;
 import org.exolab.castor.builder.SGTypes;
 import org.exolab.castor.builder.types.XSId;
 import org.exolab.javasource.JMethod;
@@ -57,8 +58,8 @@ import org.exolab.javasource.JType;
  */
 public final class IdentityInfo extends FieldInfo {
 
-    public IdentityInfo(final String name) {
-        super(new XSId(), name);
+    public IdentityInfo(final String name, JavaNaming javaNaming) {
+        super(new XSId(), name, javaNaming);
         setNodeType(XMLInfo.ATTRIBUTE_TYPE);
     } // -- SGId
 
