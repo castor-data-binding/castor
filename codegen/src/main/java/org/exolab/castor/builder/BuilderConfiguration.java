@@ -54,9 +54,10 @@ import java.util.Hashtable;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
+import org.castor.xml.JavaNaming;
+import org.castor.xml.JavaNamingImpl;
 import org.exolab.castor.util.Configuration;
 import org.exolab.castor.util.LocalConfiguration;
-import org.exolab.castor.xml.JavaNaming;
 
 /**
  * The configuration for the SourceGenerator.
@@ -286,6 +287,9 @@ public class BuilderConfiguration {
      * schemaLocation to Java package mapping.
      */
     private Hashtable _locpackages = new Hashtable();
+
+    /** JavaNaming to be used. */
+    private JavaNaming _javaNaming;
 
     //------------------/
 
@@ -593,9 +597,15 @@ public class BuilderConfiguration {
 
         //-- backward compatibility with 0.9.3.9
         String prop = _defaultProps.getProperty(
-                JavaNaming.UPPER_CASE_AFTER_UNDERSCORE_PROPERTY, null);
+                JavaNamingImpl.UPPER_CASE_AFTER_UNDERSCORE_PROPERTY, null);
         if (prop != null) {
-            JavaNaming.upperCaseAfterUnderscore = Boolean.valueOf(prop).booleanValue();
+            /*
+             * TODO: joachim: Argh! this shouldn't exist and it shouldn't be here! Setting a
+             * static attribute into a class because somewhere later the class is instantiated
+             * and use but then the attribute is required... I need to sort out the order how
+             * objects are created...
+             */
+            JavaNamingImpl._upperCaseAfterUnderscore = Boolean.valueOf(prop).booleanValue();
         }
     } //-- load
 
@@ -701,4 +711,21 @@ public class BuilderConfiguration {
         return _localProps.getProperty(Property.AUTOMATIC_CONFLICT_RESOLUTION_TYPE_SUFFIX, "");
     }
 
+    /**
+     * To set the {@link JavaNaming} implementation to be used.
+     * @param javaNaming JavaNaming implementation to be used
+     * @since 1.1.3
+     */
+    public void setJavaNaming(final JavaNaming javaNaming) {
+        _javaNaming = javaNaming;
+    }
+    
+    /**
+     * To get the {@link JavaNaming} implementation to be used.
+     * @return JavaNaming implementation to be used
+     * @since 1.1.3
+     */
+    public JavaNaming getJavaNaming() {
+        return _javaNaming;
+    }
 } //-- BuilderProperties

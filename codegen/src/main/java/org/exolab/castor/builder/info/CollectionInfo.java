@@ -50,12 +50,12 @@
  */
 package org.exolab.castor.builder.info;
 
+import org.castor.xml.JavaNaming;
 import org.exolab.castor.builder.SGTypes;
 import org.exolab.castor.builder.SourceGeneratorConstants;
 import org.exolab.castor.builder.types.XSCollectionFactory;
 import org.exolab.castor.builder.types.XSListType;
 import org.exolab.castor.builder.types.XSType;
-import org.exolab.castor.xml.JavaNaming;
 import org.exolab.javasource.JArrayType;
 import org.exolab.javasource.JClass;
 import org.exolab.javasource.JCollectionType;
@@ -110,13 +110,15 @@ public class CollectionInfo extends FieldInfo {
      *            the name of the Collection
      * @param elementName
      *            the element name for each element in collection
+     * @param javaNaming the JavaNaming method used
      * @param useJava50
      *            true if source code is supposed to be generated for Java 5
      */
     public CollectionInfo(final XSType contentType, final String name,
-            final String elementName, final boolean useJava50) {
+            final String elementName, final JavaNaming javaNaming,
+            final boolean useJava50) {
         super(XSCollectionFactory.createCollection(SourceGeneratorConstants.FIELD_INFO_VECTOR, 
-                contentType, useJava50), name);
+                contentType, useJava50), name, javaNaming);
 
         if (elementName.charAt(0) == '_') {
             this._elementName = elementName.substring(1);
@@ -124,9 +126,9 @@ public class CollectionInfo extends FieldInfo {
             this._elementName = elementName;
         }
 
-        this._methodSuffix = JavaNaming.toJavaClassName(this.getElementName());
-        this._parameterPrefix = JavaNaming.toJavaMemberName(this.getElementName());
-        this._content = new FieldInfo(contentType, "v" + this.getMethodSuffix());
+        this._methodSuffix = getJavaNaming().toJavaClassName(this.getElementName());
+        this._parameterPrefix = getJavaNaming().toJavaMemberName(this.getElementName());
+        this._content = new FieldInfo(contentType, "v" + this.getMethodSuffix(), javaNaming);
     } // -- CollectionInfo
 
     /**

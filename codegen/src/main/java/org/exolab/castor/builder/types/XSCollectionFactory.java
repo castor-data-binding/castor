@@ -15,6 +15,7 @@
  */
 package org.exolab.castor.builder.types;
 
+
 /**
  * Helper class to facilitate creation of XML schema collection types.
  * 
@@ -22,7 +23,14 @@ package org.exolab.castor.builder.types;
  * @since 1.1
  *
  */
-public class XSCollectionFactory {
+public final class XSCollectionFactory {
+    
+    /**
+     * A private constructor as this is a factory which is never meant to be instantiacted.
+     */
+    private XSCollectionFactory() {
+        super();
+    }
 
     /**
      * Factory method to create an XS collection type, i.e. an instance of {@link XSListType}.

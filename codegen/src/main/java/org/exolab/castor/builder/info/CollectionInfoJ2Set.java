@@ -49,6 +49,7 @@
  */
 package org.exolab.castor.builder.info;
 
+import org.castor.xml.JavaNaming;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.javasource.JClass;
 
@@ -69,11 +70,13 @@ public final class CollectionInfoJ2Set extends CollectionInfoJ2 {
      *        objects that the collection will contain.
      * @param name The name of the Collection.
      * @param elementName The element name for each element in collection.
+     * @param javaNaming the Java naming rules to be used
      * @param useJava50 true if code is supposed to be generated for Java 5
      */
     public CollectionInfoJ2Set(final XSType contentType, final String name,
-            final String elementName, final boolean useJava50) {
-        super(contentType, name, elementName, "set", useJava50);
+            final String elementName, final JavaNaming javaNaming,
+            final boolean useJava50) {
+        super(contentType, name, elementName, "set", javaNaming, useJava50);
     }
 
     /**

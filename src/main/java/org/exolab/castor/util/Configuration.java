@@ -60,6 +60,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.util.Messages;
+import org.castor.xml.JavaNaming;
 
 import org.exolab.castor.xml.NodeType;
 import org.exolab.castor.xml.OutputFormat;
@@ -162,6 +163,17 @@ public abstract class Configuration {
          *
          */
         public static final String Naming = "org.exolab.castor.xml.naming";        
+
+        /**
+         * Property specifying the implementation of the Java naming conventions
+         * to use. Values of this property must be either null or
+         * the name of a class which extends org.castor.xml.JavaNaming.
+         * <pre>
+         * org.castor.xml.java_naming
+         * </pre>
+         *
+         */
+        public static final String JavaNaming = "org.castor.xml.java_naming";        
 
         /**
          * Property specifying whether to use validation in the Marshalling Framework
@@ -1230,6 +1242,11 @@ public abstract class Configuration {
          * The naming conventions for the XML Framework
          */
         XMLNaming naming = null;
+        
+        /**
+         * The Java naming conventions for the XML Framework
+         */
+        JavaNaming javaNaming = null;
         
         /**
          * The NodeType assigned to java primitives

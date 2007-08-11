@@ -44,6 +44,7 @@
  */
 package org.exolab.castor.builder.info;
 
+import org.castor.xml.JavaNaming;
 import org.exolab.castor.builder.SGTypes;
 import org.exolab.castor.builder.SourceGeneratorConstants;
 import org.exolab.castor.builder.types.XSCollectionFactory;
@@ -68,11 +69,13 @@ public final class CollectionInfoODMG30 extends CollectionInfo {
      *        objects that the collection will contain
      * @param name the name of the Collection
      * @param elementName the element name for each element in collection
+     * @param javaNaming the Java naming rules to be used
      * @param useJava50 true if code is supposed to be generated for Java 5
      */
     public CollectionInfoODMG30(final XSType contentType, final String name,
-                                final String elementName, final boolean useJava50) {
-        super(contentType, name, elementName, useJava50);
+                                final String elementName, final JavaNaming javaNaming,
+                                final boolean useJava50) {
+        super(contentType, name, elementName, javaNaming, useJava50);
         final XSListType collection = 
             XSCollectionFactory.createCollection(SourceGeneratorConstants.FIELD_INFO_ODMG,
                         contentType, useJava50);

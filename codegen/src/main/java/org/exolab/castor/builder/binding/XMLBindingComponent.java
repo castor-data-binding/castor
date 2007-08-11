@@ -66,7 +66,6 @@ import org.exolab.castor.builder.binding.xml.NamingXMLType;
 import org.exolab.castor.builder.binding.xml.types.FieldTypeVisibilityType;
 import org.exolab.castor.builder.types.XSClass;
 import org.exolab.castor.builder.types.XSType;
-import org.exolab.castor.xml.JavaNaming;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.castor.xml.schema.AttributeDecl;
 import org.exolab.castor.xml.schema.ComplexType;
@@ -115,7 +114,7 @@ import org.exolab.javasource.JClass;
 public final class XMLBindingComponent implements BindingComponent {
     
     /**
-     * Log instance for all logging purposes
+     * Log instance for all logging purposes.
      */
     private static final Log LOG = LogFactory.getLog(XMLBindingComponent.class);
     
@@ -785,7 +784,7 @@ public final class XMLBindingComponent implements BindingComponent {
                 }
             }
 
-            _javaClassName = JavaNaming.toJavaClassName(result);
+            _javaClassName = _config.getJavaNaming().toJavaClassName(result);
         }
 
         // TODO ADD A SWITCH TO DETERMINE WETHER OR NOT TO USE JAVA CONVENTIONS
@@ -899,7 +898,7 @@ public final class XMLBindingComponent implements BindingComponent {
             } else {
                 _userSpecifiedMemberName = true;
             }
-            _javaMemberName = JavaNaming.toJavaMemberName(result);
+            _javaMemberName = _config.getJavaNaming().toJavaMemberName(result);
         }
 
         // TODO ADD A SWITCH TO DETERMINE WETHER OR NOT TO USE JAVA CONVENTIONS

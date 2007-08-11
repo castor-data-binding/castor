@@ -82,6 +82,26 @@ org.exolab.castor.xml.proxyInterfaces=\
 
             </summary>
             <bugs>
+                <bug id="2104" tool="jira">
+                    <description>
+                        Refactored JavaNaming.
+                    </description>
+                    <contributor>
+                        <name>Joachim Grüneis</name>
+                        <email>jgrueneis@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Joachim Grüneis</name>
+                        <email>jgrueneis@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20070811</date>
+                </bug>
                 <bug id="2099" tool="jira">
                     <description>
                         Fixed problem with creation of example sources JAR.

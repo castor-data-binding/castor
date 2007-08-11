@@ -55,6 +55,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.castor.xml.JavaNaming;
+import org.castor.xml.JavaNamingImpl;
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.FactoryState;
 import org.exolab.castor.builder.GroupNaming;
@@ -71,7 +73,6 @@ import org.exolab.castor.builder.info.XMLInfo;
 import org.exolab.castor.builder.types.XSClass;
 import org.exolab.castor.builder.types.XSString;
 import org.exolab.castor.builder.types.XSType;
-import org.exolab.castor.xml.JavaNaming;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.castor.xml.schema.AttributeDecl;
 import org.exolab.castor.xml.schema.AttributeGroupDecl;
@@ -293,7 +294,7 @@ public final class SourceFactory extends BaseFactory {
         String className = component.getQualifiedName();
         if (className.indexOf('.') == -1) {
             //--be sure it is a valid className
-            className = JavaNaming.toJavaClassName(className);
+            className = getJavaNaming().toJavaClassName(className);
             className = resolveClassName(className, packageName);
         }
 
@@ -403,7 +404,7 @@ public final class SourceFactory extends BaseFactory {
 
             //-- create main group class
             String fname = component.getJavaClassName() + ITEM_NAME;
-            fname = JavaNaming.toJavaMemberName(fname, false);
+            fname = getJavaNaming().toJavaMemberName(fname, false);
 
             FieldInfo fInfo = null;
             if (createForSingleGroup) {
@@ -411,7 +412,7 @@ public final class SourceFactory extends BaseFactory {
                 fInfo = getInfoFactory().createFieldInfo(new XSClass(jClass), fname);
             } else {
                 fInfo = getInfoFactory().createCollection(
-                        new XSClass(jClass), "_items", fname, getConfig().useJava50());
+                        new XSClass(jClass), "_items", fname, getJavaNaming(), getConfig().useJava50());
             }
             fInfo.setContainer(true);
             String newClassName = className.substring(0, className.length() - 4);
@@ -653,7 +654,7 @@ public final class SourceFactory extends BaseFactory {
                  baseClassName = baseComponent.getQualifiedName();
                  if (baseClassName.indexOf('.') == -1) {
                      //--be sure it is a valid className
-                     baseClassName = JavaNaming.toJavaClassName(baseClassName);
+                     baseClassName = getJavaNaming().toJavaClassName(baseClassName);
                  }
              } else {
                  baseClassName = baseComponent.getJavaClassName();
@@ -742,11 +743,11 @@ public final class SourceFactory extends BaseFactory {
             }
             //-- In case of naming collision we append current class name
             if (fstate != null) {
-                typeName = JavaNaming.toJavaClassName(typeName);
+                typeName = getJavaNaming().toJavaClassName(typeName);
                 Structure attrDeclParent = ((AttributeDecl) struct).getParent();
                 if (attrDeclParent != null
                         && attrDeclParent.getStructureType() == Structure.ATTRIBUTE_GROUP) {
-                    typeName = JavaNaming.toJavaClassName(
+                    typeName = getJavaNaming().toJavaClassName(
                             ((AttributeGroupDecl) attrDeclParent).getName() + typeName);
                 } else {
                     typeName = fstate.getJClass().getLocalName() + typeName;
@@ -756,11 +757,12 @@ public final class SourceFactory extends BaseFactory {
             typeName += "Type";
         }
 
-        String className   = JavaNaming.toJavaClassName(typeName);
+        String className   = getJavaNaming().toJavaClassName(typeName);
 
         //--XMLBindingComponent is only used to retrieve the java package
         //-- we need to optimize it by enabling the binding of simpleTypes.
-        XMLBindingComponent comp = new XMLBindingComponent(getConfig(), getGroupNaming());
+        XMLBindingComponent comp = 
+            new XMLBindingComponent(getConfig(), getGroupNaming());
         if (binding != null) {
             comp.setBinding(binding);
         }
@@ -1375,9 +1377,9 @@ public final class SourceFactory extends BaseFactory {
             }
 
             if (name.startsWith("_")) {
-                name = JavaNaming.toJavaClassName(name.substring(1));
+                name = getJavaNaming().toJavaClassName(name.substring(1));
             } else {
-                name = JavaNaming.toJavaClassName(name);
+                name = getJavaNaming().toJavaClassName(name);
             }
 
             String setName = "set" + name;
@@ -1389,7 +1391,7 @@ public final class SourceFactory extends BaseFactory {
                     if (listLocat != -1) {
                        tempName = tempName.substring(0, listLocat);
                     }
-                    String methodName = JavaNaming.toJavaClassName(tempName);
+                    String methodName = getJavaNaming().toJavaClassName(tempName);
                     methodName = "get" + methodName;
                     JMethod method = jclass.getMethod(methodName, 0);
                     // TODO handle the Item introduced in with the group handling

@@ -62,6 +62,8 @@ import javax.xml.parsers.SAXParserFactory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.util.Messages;
+import org.castor.xml.JavaNaming;
+import org.castor.xml.JavaNamingImpl;
 import org.exolab.castor.xml.NodeType;
 import org.exolab.castor.xml.OutputFormat;
 import org.exolab.castor.xml.Serializer;
@@ -259,7 +261,15 @@ public final class LocalConfiguration extends Configuration {
         }
         return _values.naming;
     } //-- getXMLNaming
-    
+
+    /**
+     * The {@link JavaNaming} instance to be used.
+     * @return {@link JavaNaming} instance to be used.
+     */
+    public JavaNaming getJavaNaming() {
+        return new JavaNamingImpl();
+    }
+
     /**
      * Return an XML document parser implementing the feature list
      * specified in the configuration file.
