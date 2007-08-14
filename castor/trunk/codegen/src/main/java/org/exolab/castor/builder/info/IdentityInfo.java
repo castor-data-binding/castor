@@ -44,87 +44,25 @@
  */
 package org.exolab.castor.builder.info;
 
-import org.castor.xml.JavaNaming;
-import org.exolab.castor.builder.SGTypes;
+import org.exolab.castor.builder.factory.FieldMemberAndAccessorFactory;
 import org.exolab.castor.builder.types.XSId;
-import org.exolab.javasource.JMethod;
-import org.exolab.javasource.JParameter;
-import org.exolab.javasource.JSourceCode;
-import org.exolab.javasource.JType;
 
 /**
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public final class IdentityInfo extends FieldInfo {
-
-    public IdentityInfo(final String name, JavaNaming javaNaming) {
-        super(new XSId(), name, javaNaming);
+    
+    /**
+     * Creates a new IdentityInfo.
+     * @param name the name of this identity
+     * @param memberAndAccessorFactory the FieldMemberAndAccessorFactory to be used  
+     */
+    public IdentityInfo(final String name, 
+            final FieldMemberAndAccessorFactory memberAndAccessorFactory) {
+        super(new XSId(), name, memberAndAccessorFactory);
         setNodeType(XMLInfo.ATTRIBUTE_TYPE);
     } // -- SGId
 
-    public JMethod[] createAccessMethods() {
-        String mname = getMethodSuffix();
-        JType jType = getSchemaType().getJType();
-
-        JMethod[] methods = new JMethod[3];
-        methods[0] = makeGetMethod(mname, jType); // -- create get method
-        methods[1] = makeSetMethod(mname, jType); // -- create set method
-        methods[2] = makeGetReferenceIdMethod(); // -- create getReferenceId
-                                                 // (from Referable Interface)
-
-        return methods;
-    } // -- createAccessMethods
-
-    /**
-     * @param mname
-     * @param jType
-     * @return a new JMethod that is a getter for this field
-     */
-    private JMethod makeGetMethod(final String mname, final JType jType) {
-        JMethod method = new JMethod("get" + mname, jType,
-                "the value of field '" + mname + "'.");
-        JSourceCode jsc = method.getSourceCode();
-        jsc.add("return this.");
-        jsc.append(getName());
-        jsc.append(";");
-        return method;
-    }
-
-    /**
-     * @param mname
-     * @param jType
-     * @return a new JMethod that is a setter for this field
-     */
-    private JMethod makeSetMethod(final String mname, final JType jType) {
-        JMethod method = new JMethod("set" + mname);
-        method.addParameter(new JParameter(jType, getName()));
-        JSourceCode jsc = method.getSourceCode();
-        jsc.add("this.");
-        jsc.append(getName());
-        jsc.append(" = ");
-        jsc.append(getName());
-        jsc.append(";");
-
-        //-- add resolver registration
-        //jsc.add("if (idResolver != null) ");
-        //jsc.indent();
-        //jsc.add("idResolver.addResolvable(");
-        //jsc.append(getName());
-        //jsc.append(", this);");
-        //jsc.unindent();
-
-        return method;
-    }
-
-    private JMethod makeGetReferenceIdMethod() {
-        JMethod method = new JMethod("getReferenceId", SGTypes.STRING,
-                "the reference ID");
-        JSourceCode jsc = method.getSourceCode();
-        jsc.add("return this.");
-        jsc.append(getName());
-        jsc.append(";");
-        return method;
-    }
-
+   
 }
