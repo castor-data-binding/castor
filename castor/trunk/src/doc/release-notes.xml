@@ -82,6 +82,27 @@ org.exolab.castor.xml.proxyInterfaces=\
 
             </summary>
             <bugs>
+                <bug id="2113" tool="jira">
+                    <description>
+                        Removed code duplication from static Unmarshaller.unmarshal() 
+                        methods.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20070814</date>
+                </bug>
                 <bug id="2104" tool="jira">
                     <description>
                         Refactored JavaNaming.
