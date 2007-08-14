@@ -730,17 +730,10 @@ public class Marshaller extends MarshalFramework {
      */
     public static void marshal(Object object, Writer out)
     throws MarshalException, ValidationException {
-        if (object == null)
-            throw new MarshalException("object must not be null");
-
-        LOG.debug("- Marshaller called using *static* marshal(Object, Writer)");
-
-        Marshaller marshaller;
         try {
-            marshaller = new Marshaller(out);
-            marshaller.marshal(object);
-        } catch ( IOException except ) {
-            throw new MarshalException( except );
+            staticMarshal(object, new Marshaller(out));
+        } catch (IOException e) {
+            throw new MarshalException(e);
         }
     } //-- marshal
 
@@ -755,14 +748,7 @@ public class Marshaller extends MarshalFramework {
      */
     public static void marshal(Object object, DocumentHandler handler)
     throws MarshalException, ValidationException {
-        if (object == null)
-            throw new MarshalException("object must not be null");
-
-        LOG.debug("- Marshaller called using *static* marshal(Object, DocumentHandler)");
-
-        Marshaller marshaller;
-        marshaller = new Marshaller(handler);
-        marshaller.marshal(object);
+        staticMarshal(object, new Marshaller(handler));
     } //-- marshal
 
     /**
@@ -776,14 +762,7 @@ public class Marshaller extends MarshalFramework {
      */
     public static void marshal(Object object, ContentHandler handler)
     throws MarshalException, ValidationException, IOException {
-        if (object == null)
-            throw new MarshalException("object must not be null");
-
-        LOG.debug("- Marshaller called using *static* marshal(Object, ContentHandler)");
-
-        Marshaller marshaller;
-        marshaller = new Marshaller(handler);
-        marshaller.marshal(object);
+        staticMarshal(object, new Marshaller(handler));
     } //-- marshal
 
     /**
@@ -797,15 +776,34 @@ public class Marshaller extends MarshalFramework {
      */
     public static void marshal(Object object, Node node)
     throws MarshalException, ValidationException {
-        if (object == null)
-            throw new MarshalException("object must not be null");
-
-        LOG.debug("- Marshaller called using *static* marshal(Object, Node)");
-
-        Marshaller marshaller;
-        marshaller = new Marshaller(node);
-        marshaller.marshal(object);
+        staticMarshal(object, new Marshaller(node));
     } //-- marshal
+
+    /**
+     * Static helper method to marshal the given object using the
+     * Marshaller instance provided.
+     *
+     * @param object The Object to marshal.
+     * @param marshaller The {@link Marshaller} to use for marshalling.
+     * @throws MarshalException as thrown by marshal(Object)
+     * @throws ValidationException as thrown by marshal(Object)
+     */
+    private static void staticMarshal(final Object object, final Marshaller marshaller)
+    throws MarshalException, ValidationException {
+        if (object == null) {
+            throw new MarshalException("object must not be null");
+        }
+
+        if (LOG.isInfoEnabled()) {
+            LOG.info("Marshaller called using one of the *static* " + 
+                    " marshal(Object, *) methods. This will ignore any " +
+                    " mapping files as specified. Please consider switching to " +
+                    " using Marshaller instances and calling one of the" +
+                    " marshal(*) methods.");
+        }
+
+        marshaller.marshal(object);
+    } //-- staticMarshal
 
     /**
      * Marshals the given Object as XML using the DocumentHandler

@@ -82,6 +82,27 @@ org.exolab.castor.xml.proxyInterfaces=\
 
             </summary>
             <bugs>
+                <bug id="2114" tool="jira">
+                    <description>
+                        Removed code duplication from static Marshaller.marshal() 
+                        methods.
+                    </description>
+                    <contributor>
+                        <name>Joachim Grüneis</name>
+                        <email>jgrueneis@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Joachim Grüneis</name>
+                        <email>jgrueneis@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20070814</date>
+                </bug>
                 <bug id="2106" tool="jira">
                     <description>
                         Moved code for field and method creation (out of FieldInfos)
