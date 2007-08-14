@@ -55,8 +55,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.castor.xml.JavaNaming;
-import org.castor.xml.JavaNamingImpl;
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.FactoryState;
 import org.exolab.castor.builder.GroupNaming;
@@ -448,9 +446,11 @@ public final class SourceFactory extends BaseFactory {
             }
 
             classInfo.addFieldInfo(fInfo);
-            fInfo.createJavaField(jClass);
-            fInfo.createAccessMethods(jClass, getConfig().useJava50());
-            fInfo.generateInitializerCode(jClass.getConstructor(0).getSourceCode());
+            fInfo.getMemberAndAccessorFactory().createJavaField(fInfo, jClass);
+            fInfo.getMemberAndAccessorFactory().createAccessMethods(
+                    fInfo, jClass, getConfig().useJava50());
+            fInfo.getMemberAndAccessorFactory().generateInitializerCode(
+                    fInfo, jClass.getConstructor(0).getSourceCode());
 
             //-- name information
             classInfo.setNodeName(component.getXMLName());
@@ -1795,8 +1795,11 @@ public final class SourceFactory extends BaseFactory {
         //-- handle choice item
         if (state.getClassInfo().isChoice() && state.getFieldInfoForChoice() == null) {
             state.setFieldInfoForChoice(_memberFactory.createFieldInfoForChoiceValue());
-            state.getFieldInfoForChoice().createJavaField(state.getJClass());
-            state.getFieldInfoForChoice().createAccessMethods(
+            state.getFieldInfoForChoice().getMemberAndAccessorFactory().createJavaField(
+                    state.getFieldInfoForChoice(),
+                    state.getJClass());
+            state.getFieldInfoForChoice().getMemberAndAccessorFactory().createAccessMethods(
+                    state.getFieldInfoForChoice(),
                     state.getJClass(), getConfig().useJava50());
         }
 
@@ -2015,10 +2018,12 @@ public final class SourceFactory extends BaseFactory {
                 }
             }
 
-            fieldInfo.createJavaField(state.getJClass());
+            fieldInfo.getMemberAndAccessorFactory().createJavaField(
+                    fieldInfo, state.getJClass());
             //-- do not create access methods for transient fields
             if (!fieldInfo.isTransient()) {
-                fieldInfo.createAccessMethods(state.getJClass(), getConfig().useJava50());
+                fieldInfo.getMemberAndAccessorFactory().createAccessMethods(
+                        fieldInfo, state.getJClass(), getConfig().useJava50());
                 if (fieldInfo.isBound()) {
                     state.setBoundProperties(true);
                 }
@@ -2026,7 +2031,7 @@ public final class SourceFactory extends BaseFactory {
         }
 
         //-- Add initialization code
-        fieldInfo.generateInitializerCode(scInitializer);
+        fieldInfo.getMemberAndAccessorFactory().generateInitializerCode(fieldInfo, scInitializer);
     } //-- handleField
 
     /**
