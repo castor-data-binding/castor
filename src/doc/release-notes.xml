@@ -82,6 +82,26 @@ org.exolab.castor.xml.proxyInterfaces=\
 
             </summary>
             <bugs>
+                <bug id="2078" tool="jira">
+                    <description>
+                        Fixed problem with code generation for nested choices.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ron Corcuera</name>
+                        <email>corcuera@oclc.org</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>Gen.</module>
+                    <date>20070816</date>
+                </bug>
                 <bug id="2114" tool="jira">
                     <description>
                         Removed code duplication from static Marshaller.marshal() 
