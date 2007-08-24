@@ -88,9 +88,9 @@ public class JType {
      *
      * @param name The name of the type.
      */
-    protected JType(final String name) {
+    public JType(final String name) {
         super();
-        
+
         setName(name);
     }
 
@@ -117,7 +117,7 @@ public class JType {
 
     /**
      * Returns true if this type represents an Array.
-     * 
+     *
      * @return True if this type represents an Array.
      */
     public final boolean isArray() {
@@ -126,20 +126,20 @@ public class JType {
 
     /**
      * Returns true if this type represents a Java primitive type.
-     * 
+     *
      * @return True if this type represents a Java primitive type.
      */
     public final boolean isPrimitive() {
         return (this instanceof JPrimitiveType);
     }
-    
+
     /**
      * Sets the qualified name of this type.
      * @param name the (qualified) name of the type
      */
     protected void setName(final String name) {
         this._name = name;
-    }    
+    }
 
     //--------------------------------------------------------------------------
 }

@@ -82,6 +82,26 @@ org.exolab.castor.xml.proxyInterfaces=\
 
             </summary>
             <bugs>
+                <bug id="2117" tool="jira">
+                    <description>
+                        Added support for generating genuine Java 5 enums for simply type enumerations.
+                    </description>
+                    <contributor>
+                        <name>Matthias Epheser</name>
+                        <email>matthias.epheser@gmx.at</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Matthias Epheser</name>
+                        <email>matthias.epheser@gmx.at</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>Gen.</module>
+                    <date>20070824</date>
+                </bug>
                 <bug id="2078" tool="jira">
                     <description>
                         Fixed problem with code generation for nested choices.

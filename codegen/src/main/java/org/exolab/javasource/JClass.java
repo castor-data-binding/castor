@@ -99,7 +99,7 @@ public class JClass extends AbstractJClass {
     /**
      * {@inheritDoc}
      */
-    public final void addMember(final JMember jMember) {
+    public void addMember(final JMember jMember) {
         if (jMember instanceof JField) {
             addField((JField) jMember);
         } else if (jMember instanceof JMethod) {
@@ -153,7 +153,7 @@ public class JClass extends AbstractJClass {
     /**
      * {@inheritDoc}
      */
-    public final void print(final JSourceWriter jsw, final boolean classOnly) {
+    public void print(final JSourceWriter jsw, final boolean classOnly) {
         if (jsw == null) {
             throw new IllegalArgumentException("argument 'jsw' should not be null.");
         }

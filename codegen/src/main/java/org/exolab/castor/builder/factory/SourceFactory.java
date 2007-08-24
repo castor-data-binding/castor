@@ -97,6 +97,7 @@ import org.exolab.javasource.JCollectionType;
 import org.exolab.javasource.JConstructor;
 import org.exolab.javasource.JDocComment;
 import org.exolab.javasource.JDocDescriptor;
+import org.exolab.javasource.JEnum;
 import org.exolab.javasource.JField;
 import org.exolab.javasource.JMethod;
 import org.exolab.javasource.JParameter;
@@ -792,7 +793,8 @@ public final class SourceFactory extends BaseFactory {
 
         className = resolveClassName(className, packageName);
 
-        FactoryState state = new FactoryState(className, sgState, packageName, comp);
+        FactoryState state = new FactoryState(className, sgState, packageName, comp, 
+                (enumeration && getConfig().useJava50()));
 
         state.setParent(sgState.getCurrentFactoryState());
 
@@ -1938,6 +1940,9 @@ public final class SourceFactory extends BaseFactory {
     private void processEnumerationAsNewObject(final ExtendedBinding binding,
             final SimpleType simpleType, final FactoryState state) {
         _enumerationFactory.processEnumerationAsNewObject(binding, simpleType, state);
+        if (_testable && state.getJClass() instanceof JEnum) {
+            createTestableMethods(state.getJClass(), state);
+        }
     } //-- processEnumerationAsNewObject
 
     /**
