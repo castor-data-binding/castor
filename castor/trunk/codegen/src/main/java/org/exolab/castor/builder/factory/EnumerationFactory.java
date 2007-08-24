@@ -17,8 +17,6 @@ package org.exolab.castor.builder.factory;
 
 import java.util.Enumeration;
 
-import org.castor.xml.JavaNaming;
-import org.castor.xml.JavaNamingImpl;
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.FactoryState;
 import org.exolab.castor.builder.GroupNaming;
@@ -37,6 +35,8 @@ import org.exolab.javasource.JArrayType;
 import org.exolab.javasource.JClass;
 import org.exolab.javasource.JConstructor;
 import org.exolab.javasource.JDocComment;
+import org.exolab.javasource.JEnum;
+import org.exolab.javasource.JEnumConstant;
 import org.exolab.javasource.JField;
 import org.exolab.javasource.JMethod;
 import org.exolab.javasource.JModifiers;
@@ -116,8 +116,7 @@ public final class EnumerationFactory extends BaseFactory {
             component.setBinding(binding);
             component.setView(simpleType);
         }
-
-
+        
         //-- select naming for types and instances
         boolean useValuesAsName = true;
         useValuesAsName = selectNamingScheme(component, enumeration, useValuesAsName);
@@ -129,6 +128,13 @@ public final class EnumerationFactory extends BaseFactory {
 
         if (component.getJavaClassName() != null) {
             className = component.getJavaClassName();
+        }
+        
+        // the java 5 way -> create an enum
+        if (state.getJClass() instanceof JEnum) {
+            createJava5Enum(simpleType, state, component,
+                    useValuesAsName, enumeration);
+            return;
         }
 
         jClass.addImport("java.util.Hashtable");
@@ -271,6 +277,81 @@ public final class EnumerationFactory extends BaseFactory {
 
         createGetTypeMethod(jClass, className);
     } //-- processEnumerationAsNewObject
+    
+    private void createJava5Enum(final SimpleType simpleType,
+            final FactoryState state, final XMLBindingComponent component, 
+            final boolean useValuesAsName, final Enumeration enumeration) {
+        JEnum jEnum = (JEnum) state.getJClass();
+
+        // add value field
+        JField jField = new JField(new JClass("java.lang.String"), "value");
+        JModifiers modifiers = new JModifiers();
+        modifiers.setFinal(true);
+        modifiers.makePrivate();
+        jField.setModifiers(modifiers);
+        jEnum.addField(jField);
+
+        JMethod valueMethod = new JMethod("value", new JClass("java.lang.String"), 
+                "the value of this constant");
+        valueMethod.setSourceCode("return this.value;");
+        jEnum.addMethod(valueMethod, false);
+
+        JMethod fromValueMethod = new JMethod("fromValue", jEnum, "the constant for this value");
+        fromValueMethod.addParameter(new JParameter(new JClass("java.lang.String"), "value"));
+        JSourceCode sourceCode = new JSourceCode();
+        sourceCode.add("for (" + jEnum.getLocalName() + " c: " 
+                + jEnum.getLocalName() + ".values()) {");
+        sourceCode.indent();
+        sourceCode.add("if (c.value.equals(value)) {");
+        sourceCode.indent();
+        sourceCode.add("return c;");
+        sourceCode.unindent();
+        sourceCode.add("}");
+        sourceCode.unindent();
+        sourceCode.add("}");
+        sourceCode.add("throw new IllegalArgumentException(value);");
+        fromValueMethod.setSourceCode(sourceCode);
+        modifiers = new JModifiers();
+        modifiers.setStatic(true);
+        fromValueMethod.setModifiers(modifiers);
+        jEnum.addMethod(fromValueMethod, false);
+
+        JMethod setValueMethod = new JMethod("setValue");
+        setValueMethod.addParameter(new JParameter(new JClass("java.lang.String"), "value"));
+        jEnum.addMethod(setValueMethod, false);
+
+        JMethod toStringMethod = new JMethod("toString", 
+                new JClass("java.lang.String"), "the value of this constant");
+        toStringMethod.setSourceCode("return this.value;");
+        jEnum.addMethod(toStringMethod, false);
+
+        JConstructor constructor = jEnum.createConstructor();
+        constructor.addParameter(new JParameter(new JClass("java.lang.String"), "value"));
+        constructor.setSourceCode("this.value = value;");
+        modifiers = new JModifiers();
+        modifiers.makePrivate();
+        constructor.setModifiers(modifiers);
+        jEnum.addConstructor(constructor);
+
+        int enumCount = 0;
+        while (enumeration.hasMoreElements()) {
+            Facet facet = (Facet) enumeration.nextElement();
+            JEnumConstant enumConstant;
+            if (useValuesAsName) {
+                enumConstant = new JEnumConstant(
+                        translateEnumValueToIdentifier(component.getEnumBinding(), facet), 
+                        new String[]{"\"" + facet.getValue() +  "\""});
+            } else {
+                enumConstant = new JEnumConstant(
+                        "VALUE_" + enumCount, new String[]{"\"" 
+                                + facet.getValue() + "\""});
+            }
+            jEnum.addConstant(enumConstant);
+            enumCount++;
+        }
+    }
+   
+    
 
     /**
      * Returns the JSourceCode instance for the current init() method, dealing with

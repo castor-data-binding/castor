@@ -213,7 +213,7 @@ public abstract class AbstractJClass extends JStructure {
      *
      * @param constructor The constructor to add.
      */
-    public final void addConstructor(final JConstructor constructor) {
+    public void addConstructor(final JConstructor constructor) {
         if (constructor == null) {
             throw new IllegalArgumentException("Constructors cannot be null");
         }

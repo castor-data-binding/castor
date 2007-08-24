@@ -56,6 +56,7 @@ import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.javasource.JClass;
+import org.exolab.javasource.JEnum;
 
 /**
  * A class used to save State information for the SourceFactory.
@@ -117,6 +118,25 @@ public class FactoryState implements ClassInfoResolver {
      */
     public FactoryState(final String className, final SGStateInfo sgState,
             final String packageName, final XMLBindingComponent component) {
+        this(className, sgState, packageName, component, false);
+    }
+    
+    /**
+     * Constructs a factory state with the option of choosing between JClass and JEnum.
+     * 
+     * @param className
+     *            Class name of the class currently being generated.
+     * @param sgState
+     *            Source Generator State object
+     * @param packageName
+     *            package name for generated code.
+     * @param component
+     *            TODO           
+     * @param enumeration
+     *            use a JEnum instead if a JClass
+     */
+    public FactoryState(final String className, final SGStateInfo sgState,
+            final String packageName, final XMLBindingComponent component, final boolean enumeration) {
         if (sgState == null) {
             throw new IllegalArgumentException("SGStateInfo cannot be null.");
         }
@@ -129,7 +149,11 @@ public class FactoryState implements ClassInfoResolver {
         // _processed = ((FactoryState)resolver)._processed;
         // }
 
-        _jClass = new JClass(className);
+        if (enumeration) {
+            _jClass = new JEnum(className);
+        } else {
+            _jClass = new JClass(className);
+        }
 
         // if configured, try automatic class name conflict resolution
         if (_sgState.getSourceGenerator().isAutomaticConflictResolution()) {
