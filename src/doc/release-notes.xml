@@ -82,6 +82,26 @@ org.exolab.castor.xml.proxyInterfaces=\
 
             </summary>
             <bugs>
+                <bug id="2109" tool="jira">
+                    <description>
+                        Added support for un-/marshalling extended JAVA 5 enums.
+                    </description>
+                    <contributor>
+                        <name>Matthias Epheser</name>
+                        <email>matthias.epheser@gmx.at</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Matthias Epheser</name>
+                        <email>matthias.epheser@gmx.at</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070827</date>
+                </bug>
                 <bug id="2112" tool="jira">
                     <description>
                         Fixed performance issue with validation related to IDHREFs.

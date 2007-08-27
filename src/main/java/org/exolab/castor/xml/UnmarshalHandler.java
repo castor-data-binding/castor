@@ -3675,6 +3675,26 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             if (isNull) {
                 primitive = null;
             } else {
+            	// try discover the fromValue Method
+            	try {
+                    Method valueOfMethod = type.getMethod("fromValue", new Class[]{ String.class });
+                    primitive = valueOfMethod.invoke(null, new Object[]{ value });
+                    return primitive;
+                } 
+                catch (NoSuchMethodException e) {
+                    // do nothing, check valueOf method
+                } catch (IllegalArgumentException e) {
+                    throw new IllegalStateException(e.toString());
+                } catch (IllegalAccessException e) {
+                    throw new IllegalStateException(e.toString());
+                } catch (InvocationTargetException e) {
+                    if (e.getTargetException() instanceof RuntimeException) {
+                        throw (RuntimeException) e.getTargetException();
+                    }
+                } 
+            	
+                // backwards compability, check valueOf method to support 
+                // "simple" enums without value object
                 try {
                     Method valueOfMethod = type.getMethod("valueOf", new Class[]{ String.class });
                     primitive = valueOfMethod.invoke(null, new Object[]{ value });

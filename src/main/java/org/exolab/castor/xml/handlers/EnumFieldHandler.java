@@ -48,6 +48,7 @@
 package org.exolab.castor.xml.handlers;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
@@ -65,13 +66,16 @@ public class EnumFieldHandler implements FieldHandler {
     /** Used to find the method "valueOf" taking an argument of type String. */
     private static final Class[] STRING_ARGS = new Class[] {String.class};
     /** The Factory Method name. */
-    private static final String  METHOD_NAME = "valueOf";
+    private static final String  METHOD_VALUEOF = "valueOf";
+    private static final String  METHOD_FROMVALUE = "fromValue";
+    private static final String  METHOD_VALUE = "value";
+    private static final String  METHOD_TOSTRING = "toString";
 
     /** The <code>valueOf(String)</code> method for the provided enumtype. */
     private final Method _valueOf;
     /** The field handler to which we delegate. */
     private final FieldHandler _handler;
-
+    
     //----------------/
     //- Constructors -/
     //----------------/
@@ -84,7 +88,7 @@ public class EnumFieldHandler implements FieldHandler {
      */
     public EnumFieldHandler(final Class enumType, final FieldHandler handler) {
         this._handler = handler;
-        this._valueOf = getStaticValueOfMethod(enumType);
+        this._valueOf = getUnmarshallMethod(enumType);
     } //-- EnumFieldHandler
 
     /**
@@ -94,7 +98,7 @@ public class EnumFieldHandler implements FieldHandler {
      * @param type the Class for which to locate the valueOf method.
      * @return the Method <code>valueOf(String)</code>
      */
-    private Method getStaticValueOfMethod(final Class type) {
+    private Method getUnmarshallMethod(final Class type) {
         if (type == null) {
             String err = "The Class argument passed to the "
                     + "constructor of EnumMarshalDescriptor cannot be null.";
@@ -102,12 +106,23 @@ public class EnumFieldHandler implements FieldHandler {
         }
 
         Method method = null;
+        
+        // try the fromValue method to support enums with value object
         try {
-            method = type.getMethod(METHOD_NAME, STRING_ARGS);
+            method = type.getMethod(METHOD_FROMVALUE, STRING_ARGS);
+            return method;
+        } catch(NoSuchMethodException exception) {
+        	// do nothing, check valueOf
+        }
+        
+        // 
+        try {
+            method = type.getMethod(METHOD_VALUEOF, STRING_ARGS);
         } catch (NoSuchMethodException nsme) {
             String err = type.getName()
-                    + " does not contain the required method: public static "
-                    + type.getName() + " valueOf(String);";
+                    + " does not contain one of the required methods public static "
+                    + type.getName() + " valueOf(String); " +
+                    		"or public static " + type.getName() +  ".fromvalue(String value)";
             throw new IllegalArgumentException(err);
         }
 
@@ -117,7 +132,36 @@ public class EnumFieldHandler implements FieldHandler {
             throw new IllegalArgumentException(err);
         }
         return method;
-    } //-- init
+    } 
+    
+    private Method getMarshallMethod(final Class type) {
+        if (type == null) {
+            String err = "The Class argument passed to the "
+                    + "constructor of EnumMarshalDescriptor cannot be null.";
+            throw new IllegalArgumentException(err);
+        }
+
+        Method method = null;
+        
+        // try the value() method to support enums with value object
+        try {
+            method = type.getMethod(METHOD_VALUE, null);
+            return method;
+        } catch(NoSuchMethodException exception) {
+            // do nothing, use toString
+        }
+        
+        // 
+        try {
+            method = type.getMethod(METHOD_TOSTRING, null);
+        } catch (NoSuchMethodException nsme) {
+            String err = type.getName()
+                    + " does not contain one of the required methods value() or toString() ";
+            throw new IllegalArgumentException(err);
+        }
+
+        return method;
+    } 
 
     //------------------/
     //- Public Methods -/
@@ -147,11 +191,19 @@ public class EnumFieldHandler implements FieldHandler {
 
             for (int i = 0; i < size; i++) {
                 Object obj = Array.get(val, i);
-                values[i] = obj.toString();
+                try {
+                    values[i] = (String) getMarshallMethod(obj.getClass()).invoke(obj, null);
+                } catch (Exception e) {
+                    throw new IllegalStateException(e.toString());
+                }
             }
             result = values;
         } else {
-            result = val.toString();
+            try {
+                result = getMarshallMethod(val.getClass()).invoke(val, null);
+            } catch (Exception e) {
+                throw new IllegalStateException(e.toString());
+            }
         }
         return result;
     } //-- getValue
