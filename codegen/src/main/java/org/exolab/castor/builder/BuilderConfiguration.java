@@ -183,6 +183,13 @@ public class BuilderConfiguration {
          */
         public static final String JAVA_VERSION =
             "org.exolab.castor.builder.javaVersion";
+        
+        /**
+         * Forces the code generator to create 'old' Java 1.4 enumeration classes instead 
+         * of Java 5 enums for &lt;simpleType&gt; enumerations, even in Java 5 mode.
+         */
+        public static final String FORCE_JAVA4_ENUMS =
+            "org.exolab.castor.builder.forceJava4Enums";
 
         /**
          * The name of the configuration file.
@@ -445,6 +452,17 @@ public class BuilderConfiguration {
     public final boolean useJava50() {
         return "5.0".equalsIgnoreCase(_localProps.getProperty(Property.JAVA_VERSION, "1.4"));
     } //-- useEnumeratedTypeInterface
+    
+    /**
+     * Indicates what kind of enumeration should be created for 
+     * &lt;xs:simpleType&gt; enumerations.
+     *
+     * @return true if Java 5 source code should be generated.
+     */
+    public final boolean useJava5Enums() {
+        return useJava50() && FALSE.equalsIgnoreCase(
+                _localProps.getProperty(Property.FORCE_JAVA4_ENUMS, FALSE));
+    }
 
     /**
      * Returns the maximum number of static constant definitions that are

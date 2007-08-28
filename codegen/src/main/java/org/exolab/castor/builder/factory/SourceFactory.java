@@ -794,7 +794,7 @@ public final class SourceFactory extends BaseFactory {
         className = resolveClassName(className, packageName);
 
         FactoryState state = new FactoryState(className, sgState, packageName, comp, 
-                (enumeration && getConfig().useJava50()));
+                (enumeration && getConfig().useJava5Enums()));
 
         state.setParent(sgState.getCurrentFactoryState());
 
