@@ -115,7 +115,7 @@ public final class CPAConfiguration extends Configuration {
     
     //--------------------------------------------------------------------------
     
-    // Specify public keys of xml configuration properties here.
+    // Specify public keys of CPA configuration properties here.
     
     /** Property listing all available {@link org.castor.cache.Cache} implementations 
      *  (<tt>org.castor.cache.Factories</tt>). */
