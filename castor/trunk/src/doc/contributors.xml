@@ -528,6 +528,15 @@
   </contributor>
 
   <contributor type="Contributor">
+    <name surname="Gr&uuml;neis" given="Joachim"/>
+    <email>jgrueneis@gmail.com</email>
+    <description>
+      Field of work is JAXB on top of Castor. Therefor a lot of refactorings
+      and adoptions in Castor XML are required.
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
     <name surname="Guillemot" given="Marc" />
     <email>mguillemot@yahoo.fr</email>
     <description>Contributed a fix for bug 1452.</description>
