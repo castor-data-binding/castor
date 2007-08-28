@@ -68,6 +68,64 @@ org.exolab.castor.xml.proxyInterfaces=\
 
                 <p>Be aware that no proxy interfaces are defined by default as the interface
                    search slightly decreases marshalling performance.</p>
+                   
+                <h3>Added support for complex Java 5 enums for simple type enumerations</h3>
+                
+                <p>In previous versions, castor only supported (un)marshalling of "simple" 
+                   Java 5 enums, meaning enums where all facet values are valid java identifiers. 
+                   In these cases, every enum constant name can be mapped directly to the xml value. 
+                   </p>
+                   
+                <p>So if there is at least ONE facet that cannot be mapped directly to a 
+                   valid java identifier, we need to extend the enum pattern. The actual value of the 
+                   enumeration facet is stored in a private String property, the name of the 
+                   enum constant is translated into a valid identifier. </p>
+                
+                 <code-panel><![CDATA[
+<xs:simpleType name="CompositeType">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="5"/>
+    <xs:enumeration value="10"/>
+  </xs:restriction>
+</xs:simpleType> 
+
+public enum CompositeType {
+    VALUE_5("5"),
+    VALUE_10("10");
+
+    private final java.lang.String value;
+
+    private CompositeType(final java.lang.String value) {
+        this.value = value;
+    }
+
+    public static CompositeType fromValue(final java.lang.String value) {
+        for (CompositeType c: CompositeType.values()) {
+            if (c.value.equals(value)) {
+                return c;
+            }
+        }
+        throw new IllegalArgumentException(value);
+    }
+
+    public java.lang.String value() {
+        return this.value;
+    }
+    
+    public java.lang.String toString() {
+        return this.value;
+    }
+}
+
+<root>
+  <CompositeType>5</CompositeType>    
+</root>    
+
+    ]]>
+</code-panel> 
+                
+                <p>See <a href="srcgen-properties.html#SimpleType-Enumerations"> the description in 
+                   the Source Generator Properties section</a> for details.</p> 
 
                 <h2>Changes</h2>
 
@@ -79,7 +137,7 @@ org.exolab.castor.xml.proxyInterfaces=\
                    Having said that this should not change anything for the user of Castor
                    as he still specifies his properties in a single castor.properties file
                    for all moduls.</p>
-
+                   
             </summary>
             <bugs>
                 <bug id="2122" tool="jira">
