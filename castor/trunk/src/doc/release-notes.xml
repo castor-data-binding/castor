@@ -82,6 +82,27 @@ org.exolab.castor.xml.proxyInterfaces=\
 
             </summary>
             <bugs>
+                <bug id="2122" tool="jira">
+                    <description>
+                        Added 'org.exolab.castor.builder.forceJava4Enums' property to fine-tune 
+                        code generation for enums in Java 5.
+                    </description>
+                    <contributor>
+                        <name>Matthias Epheser</name>
+                        <email>matthias.epheser@gmx.at</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Matthias Epheser</name>
+                        <email>matthias.epheser@gmx.at</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>Gen.</module>
+                    <date>20070828</date>
+                </bug>
                 <bug id="2109" tool="jira">
                     <description>
                         Added support for un-/marshalling extended JAVA 5 enums.
