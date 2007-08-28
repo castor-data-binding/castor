@@ -528,12 +528,13 @@
   </contributor>
 
   <contributor type="Contributor">
-    <name surname="Gr&uuml;neis" given="Joachim"/>
+    <name surname="Gr&#252;neis" given="Joachim"/>
     <email>jgrueneis@gmail.com</email>
     <description>
       Field of work is JAXB on top of Castor. Therefor a lot of refactorings
       and adoptions in Castor XML are required.
     </description>
+    <status>active</status>
   </contributor>
 
   <contributor type="Contributor">

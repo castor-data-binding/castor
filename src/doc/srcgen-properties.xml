@@ -38,6 +38,13 @@
             <td><font color="red">1.0.2</font></td>
           </crow>
           <crow>
+            <td><a href="#SimpleType-Enumerations">org.exolab.castor.builder.forceJava4Enums</a></td>
+            <td>Forces the code generator to create 'old' Java 1.4 enumeration classes even in Java 5 mode.</td>
+            <td><tt>true</tt>/<tt>false</tt></td>
+            <td>false</td>
+            <td><font color="red">1.1.3</font></td>
+          </crow>
+          <crow>
             <td><a href="#Bound-Properties">org.exolab.castor.builder.boundproperties</a></td>
             <td>Generation of bound properties</td>
             <td><tt>true</tt>/<tt>false</tt></td>
@@ -146,6 +153,128 @@
 # should comply with java 1.4 or 5.0; defaults to 1.4
 org.exolab.castor.builder.javaVersion=5.0</code-panel>
 	
+		</section>
+		
+		<section title="SimpleType Enumerations">
+		
+		  <p>In previous versions, castor only supported (un)marshalling of "simple" 
+                   java5 enums, meaning enums where all facet values are valid java identifiers. 
+                   In these cases, every enum constant name can be mapped directly to the xml value. 
+                   See the following example:</p>
+                   
+                <code-panel><![CDATA[
+<xs:simpleType name="AlphabeticalType">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="A"/>
+    <xs:enumeration value="B"/>
+    <xs:enumeration value="C"/>
+  </xs:restriction>
+</xs:simpleType>    
+
+public enum AlphabeticalType {
+    A, B, C
+}
+
+<root>
+  <AlphabeticalType>A</AlphabeticalType>    
+</root>
+    ]]>
+</code-panel>                    
+
+                <p>So if there is at least ONE facet that cannot be mapped directly to a 
+                   valid java identifier, we need to extend the enum pattern. Examples for 
+                   these cases are value="5" or value="-s". Castor now introduces an extended 
+                   pattern, similar to the jaxb2 enum handling. The actual value of the 
+                   enumeration facet is stored in a private String property, the name of the 
+                   enum constant is translated into a valid identifier. Additionally, some 
+                   convenience methods are introduced, details about these methods are described 
+                   after the following example:
+                </p>   
+                
+                <code-panel><![CDATA[
+<xs:simpleType name="CompositeType">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="5"/>
+    <xs:enumeration value="10"/>
+  </xs:restriction>
+</xs:simpleType> 
+
+public enum CompositeType {
+    VALUE_5("5"),
+    VALUE_10("10");
+
+    private final java.lang.String value;
+
+    private CompositeType(final java.lang.String value) {
+        this.value = value;
+    }
+
+    public static CompositeType fromValue(final java.lang.String value) {
+        for (CompositeType c: CompositeType.values()) {
+            if (c.value.equals(value)) {
+                return c;
+            }
+        }
+        throw new IllegalArgumentException(value);
+    }
+
+    public java.lang.String value() {
+        return this.value;
+    }
+    
+    public java.lang.String toString() {
+        return this.value;
+    }
+}
+
+<root>
+  <CompositeType>5</CompositeType>    
+</root>    
+
+    ]]>
+</code-panel>   
+                <h4>Unmarshalling of complex enums</h4>           
+                      
+                <p>Castor uses the static void fromValue(String value) method 
+                   to retrieve the correct instance from the value in the xml 
+                   input file. In our example, the input is "5", fromValue returns
+                   CompositeType.VALUE_5</p>
+                   
+                <h4>Marshalling of complex enums</h4>
+                
+                <p>Currently, we have to distinguish between enums with a class 
+                   descriptor and the ones without. If you are using class descriptors, 
+                   the EnumerationHandler uses the value() method to write the xml output.</p>
+                   
+                <p>If no descriptor classes are available, castor uses per default the toString() 
+                   method to marshall the value. In this case, the override of the 
+                   java.lang.Enum.toString() method is mandatory, because 
+                   java.lang.Enum.toString returns the NAME of the facet instead of 
+                   the VALUE. So in our example, "VALUE_10" would be returned instead 
+                   of "10". To avoid this, castor expects an implementation of toString 
+                   that returns "this.value".</p>
+                   
+                <h4>Source Generation of complex enums</h4>
+                
+                <p>If the java version is set to "5.0", the new default behavior of 
+                   castor is to generate complex java5 enums for simpleType enumerations, 
+                   as described above. In java 1.4 mode, nothing has changed and the old 
+                   style enumeration classes using a HashMap are created. </p>
+                   
+                <p>Users, who are in java5 mode and still want to use the old style java 
+                   1.4 classes, can force this by setting the new 
+                   "org.exolab.castor.builder.forceJava4Enums" property to true.</p>                          
+                
+                <code-panel>
+#
+# Forces the code generator to create 'old' Java 1.4 enumeration classes instead 
+# of Java 5 enums for xs:simpleType enumerations, even in Java 5 mode.
+#
+# Possible values:
+# - false (default)
+# - true
+org.exolab.castor.builder.forceJava4Enums=false</code-panel>    
+		
 		</section>
 
             <section title="Bound Properties">
