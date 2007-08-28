@@ -67,7 +67,7 @@
     <name surname="Guttmann" given="Werner" />
     <email>werner.guttmann@gmx.net</email>
     <project>JDO</project>
-    <company id="anecon" />
+    <company id="indoqa" />
     <description>
       Current Castor project lead; JDO enhancements including distributed caches,
       TransactionManagerFactory API, support for polymorphism, Spring integration,
@@ -1319,11 +1319,6 @@
 
   <!-- Company Names (A-D) -->
 
-  <company id="anecon">
-    <name>Anecon Softwaredesign und Beratung Ltd.</name>
-    <url>www.anecon.com</url>
-  </company>
-
   <company id="apache">
     <name>Apache Software Foundation</name>
     <url>www.apache.org</url>
@@ -1361,6 +1356,11 @@
   <company id="ibis">
     <name>Integrated Banking Information Systems</name>
     <url></url>
+  </company>
+
+  <company id="indoqa">
+    <name>Indoqa, Inc.</name>
+    <url>www.indoqa.com</url>
   </company>
 
   <company id="intalio">
