@@ -1,6 +1,7 @@
 package org.exolab.castor.builder.factory;
 
 import org.castor.xml.JavaNaming;
+import org.exolab.castor.builder.AnnotationBuilder;
 import org.exolab.castor.builder.SGTypes;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.FieldInfo;
@@ -49,10 +50,11 @@ public class CollectionMemberAndAccessorFactory extends FieldMemberAndAccessorFa
      * {@inheritDoc}
      */
     public final void createAccessMethods(final FieldInfo fieldInfo, 
-            final JClass jClass, final boolean useJava50) {
+            final JClass jClass, final boolean useJava50, 
+            final AnnotationBuilder[] annotationBuilders) {
         CollectionInfo collectionInfo = (CollectionInfo) fieldInfo;
         this.createAddAndRemoveMethods(collectionInfo, jClass);
-        this.createGetAndSetMethods(collectionInfo, jClass, useJava50);
+        this.createGetAndSetMethods(collectionInfo, jClass, useJava50, annotationBuilders);
         this.createGetCountMethod(collectionInfo, jClass);
         this.createCollectionIterationMethods(collectionInfo, jClass, useJava50);
     } // -- createAccessMethods
@@ -147,9 +149,11 @@ public class CollectionMemberAndAccessorFactory extends FieldMemberAndAccessorFa
      * @param fieldInfo the collectionInfo to translate
      * @param jClass the jClass to add the method to.
      * @param useJava50 java version flag
+     * @param annotationBuilders the custom builders
      */
     private void createGetAsArrayMethod(final CollectionInfo fieldInfo, 
-            final JClass jClass, final boolean useJava50) {
+            final JClass jClass, final boolean useJava50, 
+            AnnotationBuilder[] annotationBuilders) {
         JType baseType = fieldInfo.getContentType().getJType();
         JType arrayType = new JArrayType(baseType, useJava50);
         JMethod method = new JMethod(fieldInfo.getReadMethodName(), arrayType,
@@ -211,6 +215,12 @@ public class CollectionMemberAndAccessorFactory extends FieldMemberAndAccessorFa
             sourceCode.add("}");
 
             sourceCode.add("return array;");
+        }
+        
+        // add custom annotations
+        for (int i = 0; i < annotationBuilders.length; i++) {
+            AnnotationBuilder annotationBuilder = annotationBuilders[i];
+            annotationBuilder.addFieldGetterAnnotations(fieldInfo, method);
         }
 
         jClass.addMethod(method);
@@ -303,12 +313,14 @@ public class CollectionMemberAndAccessorFactory extends FieldMemberAndAccessorFa
      * @param fieldInfo the collectionInfo to translate
      * @param jClass the jClass to add the method to.
      * @param useJava50 java version flag
+     * @param annotationBuilders the custom annotationBuilders
      */
     private void createGetAndSetMethods(final CollectionInfo fieldInfo, 
-            final JClass jClass, final boolean useJava50) {
+            final JClass jClass, final boolean useJava50,
+            final AnnotationBuilder[] annotationBuilders) {
         // create get methods
         this.createGetByIndexMethod(fieldInfo, jClass);
-        this.createGetAsArrayMethod(fieldInfo, jClass, useJava50);
+        this.createGetAsArrayMethod(fieldInfo, jClass, useJava50, annotationBuilders);
         if (this.createExtraMethods(fieldInfo)) {
             this.createGetAsReferenceMethod(fieldInfo, jClass);
         }

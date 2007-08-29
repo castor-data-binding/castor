@@ -17,6 +17,7 @@ package org.exolab.castor.builder.factory;
 
 import java.util.Enumeration;
 
+import org.exolab.castor.builder.AnnotationBuilder;
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.FactoryState;
 import org.exolab.castor.builder.GroupNaming;
@@ -281,6 +282,10 @@ public final class EnumerationFactory extends BaseFactory {
     private void createJava5Enum(final SimpleType simpleType,
             final FactoryState state, final XMLBindingComponent component, 
             final boolean useValuesAsName, final Enumeration enumeration) {
+        
+        AnnotationBuilder[] annotationBuilders = 
+            state.getSGStateInfo().getSourceGenerator().getAnnotationBuilders();
+        
         JEnum jEnum = (JEnum) state.getJClass();
 
         // add value field
@@ -346,8 +351,21 @@ public final class EnumerationFactory extends BaseFactory {
                         "VALUE_" + enumCount, new String[]{"\"" 
                                 + facet.getValue() + "\""});
             }
+            
+            // custom annotations
+            for (int i = 0; i < annotationBuilders.length; i++) {
+                AnnotationBuilder annotationBuilder = annotationBuilders[i];
+                annotationBuilder.addEnumConstantAnnotations(facet, enumConstant);
+            }
+            
             jEnum.addConstant(enumConstant);
             enumCount++;
+        }
+        
+        // custom annotations
+        for (int i = 0; i < annotationBuilders.length; i++) {
+            AnnotationBuilder annotationBuilder = annotationBuilders[i];
+            annotationBuilder.addEnumAnnotations(simpleType, jEnum);
         }
     }
    

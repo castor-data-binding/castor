@@ -55,6 +55,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.exolab.castor.builder.AnnotationBuilder;
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.FactoryState;
 import org.exolab.castor.builder.GroupNaming;
@@ -449,7 +450,7 @@ public final class SourceFactory extends BaseFactory {
             classInfo.addFieldInfo(fInfo);
             fInfo.getMemberAndAccessorFactory().createJavaField(fInfo, jClass);
             fInfo.getMemberAndAccessorFactory().createAccessMethods(
-                    fInfo, jClass, getConfig().useJava50());
+                    fInfo, jClass, getConfig().useJava50(), getConfig().getAnnotationBuilders());
             fInfo.getMemberAndAccessorFactory().generateInitializerCode(
                     fInfo, jClass.getConstructor(0).getSourceCode());
 
@@ -509,7 +510,14 @@ public final class SourceFactory extends BaseFactory {
 
         //-- Save source code bindings to prevent duplicate code generation
         sgState.bindSourceCode(component.getAnnotated(), classes);
-
+        
+        // custom annotations
+        AnnotationBuilder[] annotationBuilders = getConfig().getAnnotationBuilders();
+        for (int i = 0; i < annotationBuilders.length; i++) {
+            AnnotationBuilder annotationBuilder = annotationBuilders[i];
+            annotationBuilder.addClassAnnotations(classInfo, jClass);
+        }
+        
         return classes;
     }
 
@@ -1801,8 +1809,8 @@ public final class SourceFactory extends BaseFactory {
                     state.getFieldInfoForChoice(),
                     state.getJClass());
             state.getFieldInfoForChoice().getMemberAndAccessorFactory().createAccessMethods(
-                    state.getFieldInfoForChoice(),
-                    state.getJClass(), getConfig().useJava50());
+                    state.getFieldInfoForChoice(), state.getJClass(), getConfig().useJava50(),
+                     getConfig().getAnnotationBuilders());
         }
 
         FieldInfo fieldInfo = null;
@@ -2028,7 +2036,8 @@ public final class SourceFactory extends BaseFactory {
             //-- do not create access methods for transient fields
             if (!fieldInfo.isTransient()) {
                 fieldInfo.getMemberAndAccessorFactory().createAccessMethods(
-                        fieldInfo, state.getJClass(), getConfig().useJava50());
+                        fieldInfo, state.getJClass(), getConfig().useJava50(), 
+                        getConfig().getAnnotationBuilders());
                 if (fieldInfo.isBound()) {
                     state.setBoundProperties(true);
                 }

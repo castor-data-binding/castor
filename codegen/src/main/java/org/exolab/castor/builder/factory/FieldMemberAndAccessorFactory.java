@@ -1,6 +1,7 @@
 package org.exolab.castor.builder.factory;
 
 import org.castor.xml.JavaNaming;
+import org.exolab.castor.builder.AnnotationBuilder;
 import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.javasource.JClass;
@@ -157,9 +158,9 @@ public class FieldMemberAndAccessorFactory {
      * @param useJava50  java version flag
      */
     public void createAccessMethods(final FieldInfo fieldInfo, 
-            final JClass jClass, final boolean useJava50) {
+            final JClass jClass, final boolean useJava50, final AnnotationBuilder[] annotationBuilders) {
         if ((fieldInfo.getMethods() & FieldInfo.READ_METHOD) > 0) {
-            createGetterMethod(fieldInfo, jClass, useJava50);
+            createGetterMethod(fieldInfo, jClass, useJava50, annotationBuilders);
         }
         if ((fieldInfo.getMethods() & FieldInfo.WRITE_METHOD) > 0) {
             createSetterMethod(fieldInfo, jClass, useJava50);
@@ -207,7 +208,7 @@ public class FieldMemberAndAccessorFactory {
      *            true if source code is supposed to be generated for Java 5
      */
     private void createGetterMethod(final FieldInfo fieldInfo, 
-            final JClass jClass, final boolean useJava50) {
+            final JClass jClass, final boolean useJava50, AnnotationBuilder[] annotationBuilders) {
         JMethod method    = null;
         JSourceCode jsc   = null;
 
@@ -222,6 +223,12 @@ public class FieldMemberAndAccessorFactory {
         if (useJava50) {
             Java5HacksHelper.addOverrideAnnotations(method.getSignature());
         }
+        
+        for (int i = 0; i < annotationBuilders.length; i++) {
+            AnnotationBuilder annotationBuilder = annotationBuilders[i];
+            annotationBuilder.addFieldGetterAnnotations(fieldInfo, method);
+        }
+        
         jClass.addMethod(method);
         createGetterComment(fieldInfo, method.getJDocComment());
         jsc = method.getSourceCode();
