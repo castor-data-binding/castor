@@ -49,8 +49,10 @@ package org.exolab.castor.builder;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
@@ -297,6 +299,13 @@ public class BuilderConfiguration {
 
     /** JavaNaming to be used. */
     private JavaNaming _javaNaming;
+   
+    /**
+     * hooks for (external) tools to add custom
+     * annotations to fields, classes and enumConstants 
+     * during source generation.
+     */
+    private List _annotationBuilders = new ArrayList();
 
     //------------------/
 
@@ -464,6 +473,13 @@ public class BuilderConfiguration {
                 _localProps.getProperty(Property.FORCE_JAVA4_ENUMS, FALSE));
     }
 
+    /**
+     * Add support to set java version programmatically.
+     */
+    public final void forceUseJava50() {
+        _localProps.setProperty(Property.JAVA_VERSION, "5.0");
+    }
+        
     /**
      * Returns the maximum number of static constant definitions that are
      * acceptable within one class file; default is 1000.
@@ -745,5 +761,23 @@ public class BuilderConfiguration {
      */
     public JavaNaming getJavaNaming() {
         return _javaNaming;
+    }
+    
+    /**
+     * adds a custom annotation builder.
+     * @param annotationBuilder the builder
+     */
+    public void addAnnotationBuilder(final AnnotationBuilder annotationBuilder) {
+        this._annotationBuilders.add(annotationBuilder);
+    }
+    
+    /**
+     * returns all applied annotation builders.
+     * @return a array of builders for type convenience
+     */
+    public AnnotationBuilder[] getAnnotationBuilders() {
+        return (AnnotationBuilder[])
+            this._annotationBuilders.toArray(
+                    new AnnotationBuilder[this._annotationBuilders.size()]);
     }
 } //-- BuilderProperties
