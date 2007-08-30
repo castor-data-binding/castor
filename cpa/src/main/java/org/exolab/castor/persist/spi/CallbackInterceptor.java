@@ -65,7 +65,7 @@ public interface CallbackInterceptor {
      * @param object The object
      * @throws Exception An exception occured, the object cannot be loaded
      */
-    Class loaded(Object object, AccessMode accessMode) throws Exception;
+    public Class loaded(Object object, AccessMode accessMode) throws Exception;
 
     /**
      * Called to indicate that an object is to be stored in persistent
@@ -75,7 +75,7 @@ public interface CallbackInterceptor {
      * @param modified Is the object modified?
      * @throws Exception An exception occured, the object cannot be stored
      */
-    void storing(Object object, boolean modified) throws Exception;
+    public void storing(Object object, boolean modified) throws Exception;
 
     /**
      * Called to indicate that an object is to be created in persistent
@@ -84,14 +84,14 @@ public interface CallbackInterceptor {
      * @param object The object
      * @param db The database in which this object will be created
      */
-    void creating(Object object, Database db) throws Exception;
+    public void creating(Object object, Database db) throws Exception;
 
     /**
      * Called to indicate that an object has been created.
      *
      * @param object The object
      */
-    void created(Object object) throws Exception;
+    public void created(Object object) throws Exception;
 
     /**
      * Called to indicate that an object is to be deleted.
@@ -101,7 +101,7 @@ public interface CallbackInterceptor {
      *
      * @param object The object
      */
-    void removing(Object object) throws Exception;
+    public void removing(Object object) throws Exception;
 
     /**
      * Called to indicate that an object has been deleted.
@@ -110,7 +110,7 @@ public interface CallbackInterceptor {
      *
      * @param object The object
      */
-    void removed(Object object) throws Exception;
+    public void removed(Object object) throws Exception;
 
     /**
      * Called to indicate that an object has been made transient.
@@ -122,7 +122,7 @@ public interface CallbackInterceptor {
      * @param committed True if the object has been commited, false
      *  if rollback or otherwise cancelled
      */
-    void releasing(Object object, boolean committed);
+    public void releasing(Object object, boolean committed);
 
     /**
      * Called to indicate that an object has been made persistent.
@@ -130,7 +130,7 @@ public interface CallbackInterceptor {
      * @param object The object
      * @param db The database to which this object belongs
      */
-    void using(Object object, Database db);
+    public void using(Object object, Database db);
 
     /**
      * Called to indicate that an object has been updated at the end of
@@ -138,5 +138,5 @@ public interface CallbackInterceptor {
      *
      * @param object The object
      */
-    void updated(Object object) throws Exception;
+    public void updated(Object object) throws Exception;
 }

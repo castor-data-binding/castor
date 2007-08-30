@@ -98,9 +98,9 @@ public final class UUIDKeyGenerator implements KeyGenerator {
     /**
      * Initialize the UUID key generator.
      */
-    public UUIDKeyGenerator(final PersistenceFactory factory, final int sqlType)
+    public UUIDKeyGenerator( PersistenceFactory factory, int sqlType )
     throws MappingException {
-        supportsSqlType(sqlType);
+        supportsSqlType( sqlType );
     }
 
     /**
@@ -109,10 +109,13 @@ public final class UUIDKeyGenerator implements KeyGenerator {
      * @param sqlType
      * @throws MappingException
      */
-    public void supportsSqlType(final int sqlType) throws MappingException {
-        if (sqlType != Types.CHAR && sqlType != Types.VARCHAR && sqlType != Types.LONGVARCHAR) {
-          throw new MappingException(Messages.format("mapping.keyGenSQLType",
-                                     getClass().getName(), new Integer(sqlType)));
+    public void supportsSqlType( int sqlType )
+        throws MappingException
+    {
+        if(sqlType != Types.CHAR && sqlType != Types.VARCHAR && sqlType != Types.LONGVARCHAR)
+        {
+          throw new MappingException( Messages.format( "mapping.keyGenSQLType",
+                                     getClass().getName(), new Integer( sqlType ) ) );
         }
     }
 
@@ -127,24 +130,26 @@ public final class UUIDKeyGenerator implements KeyGenerator {
      * @throws PersistenceException An error occured talking to persistent
      *  storage
      */
-    public Object generateKey(final Connection conn, final String tableName,
-            final String primKeyName, final Properties props) throws PersistenceException {
+    public Object generateKey( Connection conn, String tableName, String primKeyName,
+            Properties props )
+            throws PersistenceException
+    {
         String sUUID = null;
 
-        try {
+        try
+        {
           // getting IP (fixed length: 12 character)
-          if (_sHost == null) {
-              _sHost = InetAddress.getLocalHost().getHostAddress();
-          }
+          if(_sHost == null)
+            _sHost = InetAddress.getLocalHost().getHostAddress();
 
           StringTokenizer st = new StringTokenizer(_sHost, ".");
           _df.applyPattern("000");
-          while (st.hasMoreTokens()) {
-            if (sUUID == null) {
-                sUUID = _df.format(new Integer(st.nextToken()));
-            } else {
-                sUUID += _df.format(new Integer(st.nextToken()));
-            }
+          while(st.hasMoreTokens())
+          {
+            if(sUUID == null)
+              sUUID = _df.format(new Integer(st.nextToken()));
+            else
+              sUUID += _df.format(new Integer(st.nextToken()));
           }
 
           // getting currentTimeMillis (fixed length: 13 character)
@@ -152,22 +157,23 @@ public final class UUIDKeyGenerator implements KeyGenerator {
           sUUID += _df.format(System.currentTimeMillis());
 
           // getting static counter (fixed length: 15 character)
-          if (_staticCounter >= 99999) {
-              // 99999 generated keys in one timer interval? no...
-              _staticCounter = 0;
-          }
+          if(_staticCounter >= 99999) // 99999 generated keys in one timer interval? no...
+            _staticCounter = 0;
 
           _staticCounter++;
           _df.applyPattern("00000");
           sUUID += _df.format(_staticCounter);
-        } catch (Exception ex) {
-          throw new PersistenceException(Messages.format(
-                    "persist.keyGenSQL", getClass().getName(), ex.toString()), ex);
+        }
+        catch ( Exception ex )
+        {
+          throw new PersistenceException( Messages.format(
+                    "persist.keyGenSQL", getClass().getName(), ex.toString() ), ex );
         }
 
-        if (sUUID == null) {
-          throw new PersistenceException(Messages.format(
-                    "persist.keyGenOverflow", getClass().getName()));
+        if (sUUID == null)
+        {
+          throw new PersistenceException( Messages.format(
+                    "persist.keyGenOverflow", getClass().getName() ) );
         }
 
         return sUUID;
@@ -177,16 +183,16 @@ public final class UUIDKeyGenerator implements KeyGenerator {
     /**
      * Style of key generator: BEFORE_INSERT, DURING_INSERT or AFTER_INSERT ?
      */
-    public byte getStyle() {
+    public final byte getStyle() {
         return BEFORE_INSERT;
     }
 
 
     /**
      * Gives a possibility to patch the Castor-generated SQL statement
-     * for INSERT (makes sense for DURING_INSERT key generators).
+     * for INSERT (makes sense for DURING_INSERT key generators)
      */
-    public String patchSQL(final String insert, final String primKeyName) {
+    public final String patchSQL( String insert, String primKeyName ) {
         return insert;
     }
 

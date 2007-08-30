@@ -49,25 +49,30 @@
  */
 package org.exolab.castor.xml.util;
 
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.castor.mapping.BindingType;
+import org.castor.mapping.MappingUnmarshaller;
 import org.exolab.castor.mapping.ClassDescriptor;
+import org.exolab.castor.mapping.Mapping;
+import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingLoader;
-import org.exolab.castor.util.Configuration;
 import org.exolab.castor.util.LocalConfiguration;
 import org.exolab.castor.util.Configuration.Property;
+import org.exolab.castor.xml.Introspector;
+import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.ResolverException;
 import org.exolab.castor.xml.XMLClassDescriptor;
 import org.exolab.castor.xml.XMLClassDescriptorResolver;
-import org.exolab.castor.xml.util.resolvers.CastorXMLStrategy;
-import org.exolab.castor.xml.util.resolvers.ResolveHelpers;
+import org.exolab.castor.xml.XMLConstants;
+import org.exolab.castor.xml.XMLMappingLoader;
 
 /**
  * The default implementation of the ClassDescriptorResolver interface.
@@ -76,134 +81,172 @@ import org.exolab.castor.xml.util.resolvers.ResolveHelpers;
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolver {
-    private static final Log LOG = LogFactory.getLog(XMLClassDescriptorResolverImpl.class);
-    
-    /**
-     * The strategy to use for all resolve actions.
-     */
-    private ResolverStrategy _strategy;
-   
-    /**
-     * The place where all rsolving strategies and their commands put the results into
-     * and can be read from.
-     */
-    private DescriptorCacheImpl _descriptorCache;
 
     /**
-     * The mapping loader is read from the XMLClassDescriptorResolver and used in the
-     * strategy - so we need to keep it.
+     * internal cache for class loading (this is used to avoid trying to load
+     * missing classes again and again).
      */
-    private MappingLoader _mappingLoader;
-    
+    private ClassCache _classCache       = null;
+
     /**
-     * The class loader which is used when no other class loader was specified in
-     * the resolve call. If this loader is also not set the context loader of the
-     * current thread is used.
+     * Internal cache for class descriptors that were created from CDR files,
+     * class files, or by introspection.
      */
-    private ClassLoader _loader;
+    private DescriptorCache _descriptorCache  = null;
+
+    /**
+     * The introspector to use, if necessary, to
+     * create dynamic ClassDescriptors.
+     */
+    private Introspector _introspector = null;
+
+    /**
+     * The classloader to use.
+     */
+    private ClassLoader _loader  = null;
+
+    /**
+     * MappingLoader instance for finding user-defined
+     * mappings from a mapping-file.
+     */
+    private XMLMappingLoader _mappingLoader = null;
+
+    /**
+     * A flag to indicate the use of introspection.
+     */
+    private boolean _useIntrospection = true;
 
     /**
      * Creates a new ClassDescriptorResolverImpl.
      */
     public XMLClassDescriptorResolverImpl() {
-        Configuration config = LocalConfiguration.getInstance();
-        boolean loadPackageMappings = config.getBoolean(
-                Property.LOAD_PACKAGE_MAPPING,
-                Property.DEFAULT_LOAD_PACKAGE_MAPPING);
-        
-        _strategy = new CastorXMLStrategy();
-        _strategy.setProperty(
-                ResolverStrategy.PROPERTY_LOAD_PACKAGE_MAPPINGS,
-                Boolean.valueOf(loadPackageMappings));
+        _classCache = new ClassCache();
+        _descriptorCache = new DescriptorCache();
 
-        _descriptorCache = new DescriptorCacheImpl();
-        _mappingLoader = null;
-        _loader = null;
+        boolean loadPackageMappings = Boolean.valueOf(LocalConfiguration.getInstance().getProperties().getProperty(Property.LOAD_PACKAGE_MAPPING, Property.DEFAULT_LOAD_PACKAGE_MAPPING)).booleanValue();
+        _descriptorCache.setLoadPackageMappings(loadPackageMappings);
     } //-- ClassDescriptorResolverImpl
 
     /**
-     * {@inheritDoc}
+     * Returns the Introspector being used by this ClassDescriptorResolver.
+     * This allows for configuration of the Introspector.
+     *
+     * @return the Introspector being used by this ClassDescriptorResolver
      */
-    public ClassDescriptor resolve(final Class type) throws ResolverException {
-        if (type == null) {
-            String message = "Type argument must not be null for resolve";
-            LOG.warn(message);
-            throw new IllegalArgumentException(message);
+    public Introspector getIntrospector() {
+        if (_introspector == null) {
+            _introspector = new Introspector(_loader);
         }
-        
-        if (_descriptorCache.getDescriptor(type.getName()) != null) {
-            return _descriptorCache.getDescriptor(type.getName());
-        }
-        
-        ClassLoader l = _loader;
-        if (l == null) { l = type.getClassLoader(); }
-        if (l == null) { l = Thread.currentThread().getContextClassLoader(); }
-        
-        return this.resolve(type.getName(), l);
-    } // -- resolve(Class)
+
+        return _introspector;
+    } //-- getIntrospector
 
     /**
      * {@inheritDoc}
+     *
+     * @see org.exolab.castor.xml.ClassDescriptorResolver#getMappingLoader()
      */
-    public XMLClassDescriptor resolve(final String className) throws ResolverException {
-        if (className == null || className.length() == 0) {
-            String message = "Cannot resolve a null or zero-length class name.";
-            LOG.warn(message);
-            throw new IllegalArgumentException(message);
+    public MappingLoader getMappingLoader() {
+        return _mappingLoader;
+    } //-- getXMLMappingLoader
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see org.exolab.castor.xml.XMLClassDescriptorResolver#resolve(java.lang.Class)
+     */
+    public ClassDescriptor resolve(Class type) throws ResolverException {
+        if (type == null) {
+            return null;
         }
-        
-        if (_descriptorCache.getDescriptor(className) != null) {
-            return _descriptorCache.getDescriptor(className);
+
+        final String className = type.getName();
+        if (_descriptorCache.isMissingDescriptor(className)) {
+            // we know the descriptor for this type's missing...
+            return null;
         }
-        
-        ClassLoader l = _loader;
-        if (l == null) { l = Thread.currentThread().getContextClassLoader(); }
-        
-        return this.resolve(className, l);
+
+        // now the usual procedure...
+        final ClassLoader classLoader = this.getClassLoader(type.getClassLoader());
+        XMLClassDescriptor descriptor = this.getDescriptor(className, classLoader);
+        if (descriptor != null) {
+            return descriptor;
+        }
+
+        // if not found create a descriptor by introspection (if enabled)
+        descriptor = this.createDescriptor(type);
+        if (descriptor != null) {
+            return descriptor;
+        }
+
+        // we were unable to find a descriptor for that type - note this for
+        // future reference
+        _descriptorCache.addMissingDescriptor(className);
+        return null;
+    } // -- resolve
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see org.exolab.castor.xml.XMLClassDescriptorResolver#resolve(java.lang.String)
+     */
+    public XMLClassDescriptor resolve(String className) throws ResolverException {
+        return resolve(className, null);
     } // -- resolve(String)
 
     /**
      * {@inheritDoc}
+     *
+     * @see org.exolab.castor.xml.XMLClassDescriptorResolver#resolve(java.lang.String,
+     *      java.lang.ClassLoader)
      */
-    public XMLClassDescriptor resolve(final String className, final ClassLoader loader)
-    throws ResolverException {
+    public XMLClassDescriptor resolve(String className, ClassLoader loader) throws ResolverException {
         if (className == null || className.length() == 0) {
-            String message = "Cannot resolve a null or zero-length class name.";
-            LOG.warn(message);
-            throw new IllegalArgumentException(message);
+            String error = "Cannot resolve a null or zero-length class name.";
+            throw new IllegalArgumentException(error);
         }
-        
-        if (_descriptorCache.getDescriptor(className) != null) {
-            return _descriptorCache.getDescriptor(className);
+
+        if (_descriptorCache.isMissingDescriptor(className)) {
+            return null;
         }
-        
-        ClassLoader l = loader;
-        if (l == null) { l = _loader; }
-        if (l == null) { l = Thread.currentThread().getContextClassLoader(); }
-        
-        _strategy.setProperty(ResolverStrategy.PROPERTY_CLASS_LOADER, l);
-        return (XMLClassDescriptor) _strategy.resolveClass(_descriptorCache, className);
+
+        final ClassLoader classLoader = this.getClassLoader(loader);
+        XMLClassDescriptor descriptor = this.getDescriptor(className, classLoader);
+        if (descriptor != null) {
+            return descriptor;
+        }
+
+        // -- try to load class for creating a descriptor via introspection
+        Class _class = _classCache.loadClass(className, classLoader);
+        if (_class != null) {
+            descriptor = this.createDescriptor(_class);
+            if (descriptor != null) {
+                return descriptor;
+            }
+        }
+
+        _descriptorCache.addMissingDescriptor(className);
+        return null;
     } //-- resolve(String, ClassLoader)
 
     /**
      * {@inheritDoc}
+     *
+     * @see org.exolab.castor.xml.XMLClassDescriptorResolver#resolveByXMLName(java.lang.String, java.lang.String, java.lang.ClassLoader)
      */
-    public XMLClassDescriptor resolveByXMLName(final String xmlName, final String namespaceURI,
-            final ClassLoader loader) {
-        
+    public XMLClassDescriptor resolveByXMLName(String xmlName, String namespaceURI, ClassLoader loader) {
         if (xmlName == null || xmlName.length() == 0) {
-            String message = "Cannot resolve a null or zero-length class name.";
-            LOG.warn(message);
-            throw new IllegalArgumentException(message);
+            throw new IllegalArgumentException("Cannot resolve a null or zero-length xml name.");
         }
-        
-        // @TODO Joachim 2007-05-05 the class loader is NOT used!
-        // get a list of all descriptors with the correct xmlName, regardless of their namespace
+
+        // get a list of all descriptors with the correct xmlName, regardless of
+        // their namespace
         List possibleMatches = _descriptorCache.getDescriptorList(xmlName);
         if (possibleMatches.size() == 0) {
             // nothing matches that XML name
             return null;
         }
+
         if (possibleMatches.size() == 1) {
             // we have exactly one possible match - that's our result
             // (if it has the right namespace, it's an exact match, if not its
@@ -215,7 +258,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
         for (Iterator i = possibleMatches.iterator(); i.hasNext();) {
             XMLClassDescriptor descriptor = (XMLClassDescriptor) i.next();
 
-            if (ResolveHelpers.namespaceEquals(namespaceURI, descriptor.getNameSpaceURI())) {
+            if (this.namespaceEquals(namespaceURI, descriptor.getNameSpaceURI())) {
                 return descriptor;
             }
         }
@@ -226,129 +269,373 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
 
     /**
      * {@inheritDoc}
+     *
+     * @see org.exolab.castor.xml.XMLClassDescriptorResolver#resolveAllByXMLName(java.lang.String, java.lang.String, java.lang.ClassLoader)
      */
-    public Iterator resolveAllByXMLName(final String xmlName, final String namespaceURI,
-            final ClassLoader loader) {
-        
+    public Iterator resolveAllByXMLName(String xmlName, String namespaceURI, ClassLoader loader) {
         if (xmlName == null || xmlName.length() == 0) {
-            String message = "Cannot resolve a null or zero-length xml name.";
-            LOG.warn(message);
-            throw new IllegalArgumentException(message);
+            String error = "Cannot resolve a null or zero-length xml name.";
+            throw new IllegalArgumentException(error);
         }
 
-        // get all descriptors with the matching xml name
+        // get all descriptors with the correct xml name
         return _descriptorCache.getDescriptors(xmlName);
     } //-- resolveAllByXMLName
 
-    /**
-     * {@inheritDoc}
-     */
-    public MappingLoader getMappingLoader() {
-        return _mappingLoader;
-    } //-- getXMLMappingLoader
 
     /**
      * {@inheritDoc}
+     *
+     * @see org.exolab.castor.xml.XMLClassDescriptorResolver#setClassLoader(java.lang.ClassLoader)
      */
     public void setClassLoader(ClassLoader loader) {
-        _loader = loader;
+        this._loader = loader;
     } //-- setClassLoader
 
     /**
-     * Enables or disables introspection. Introspection is enabled by default.
+     * Enables or disables introspection. Introspection is
+     * enabled by default.
      *
-     * @param enable a flag to indicate whether or not introspection is allowed.
-     */
+     * @param enable a flag to indicate whether or not introspection
+     * is allowed.
+    **/
     public void setIntrospection(boolean enable) {
-        // used by XMLMappingLoader.createResolver()
-        _strategy.setProperty(ResolverStrategy.PROPERTY_USE_INTROSPECTION, new Boolean(enable));
+        _useIntrospection = enable;
     } //-- setIntrospection
 
     /**
-     * Sets whether or not to look for and load package specific mapping files (".castor.xml").
+     * Sets whether or not to look for and load package specific
+     * mapping files (".castor.xml" files).
      *
-     * @param loadPackageMappings a boolean that enables or disables the loading of package
-     *        specific mapping files
+     * @param loadPackageMappings a boolean that enables or
+     * disables the loading of package specific mapping files
      */
     public void setLoadPackageMappings(boolean loadPackageMappings) {
-        _strategy.setProperty(
-                ResolverStrategy.PROPERTY_LOAD_PACKAGE_MAPPINGS,
-                Boolean.valueOf(loadPackageMappings));
+        _descriptorCache.setLoadPackageMappings(loadPackageMappings);
     } //-- setLoadPackageMappings
 
     /**
      * {@inheritDoc}
+     *
+     * @see org.exolab.castor.xml.ClassDescriptorResolver#setMappingLoader(org.exolab.castor.mapping.MappingLoader)
      */
     public void setMappingLoader(MappingLoader mappingLoader) {
-        _mappingLoader = mappingLoader;
+        _mappingLoader = (XMLMappingLoader) mappingLoader;
+
         if (_mappingLoader != null) {
             Iterator descriptors = _mappingLoader.descriptorIterator();
             while (descriptors.hasNext()) {
                 XMLClassDescriptor descriptor = (XMLClassDescriptor) descriptors.next();
-                _descriptorCache.addDescriptor(descriptor.getClass().getName(), descriptor);
+                _descriptorCache.addDescriptor(descriptor);
             }
-            _strategy.setProperty(ResolverStrategy.PROPERTY_MAPPING_LOADER, _mappingLoader);
         }
     } //-- setMappingLoader
 
     /**
-     * {@inheritDoc}
+     * Creates an XMLClassDescriptor for the given type by using introspection.<br>
+     * This method will rely on the <code>Introspector</code> set with
+     * <code>setIntrospector</code>.<br>
+     * If a descriptor is successfully created it will be added to the
+     * DescriptorCache. <br>
+     * <br>
+     * <b>NOTE</b>: If this XMLClassDescriptorResolver is NOT configured to use
+     * introspection this method will NOT create an descriptor.<br>
+     *
+     * @param type
+     *            The type to create an descriptor for.
+     * @return The created XMLClassDescriptor or <code>null</code> if not
+     *         descriptor could be created or creating descriptors via
+     *         introspection is disabled.
+     * @throws ResolverException
+     *             If creating the descriptor failed.
      */
-    public void addClass(final String className) throws ResolverException {
-        this.resolve(className);
+    private XMLClassDescriptor createDescriptor(Class type) throws ResolverException {
+        if (!_useIntrospection) {
+            return null;
+        }
+
+        try {
+            XMLClassDescriptor descriptor = this.getIntrospector().generateClassDescriptor(type);
+            if (descriptor != null) {
+                _descriptorCache.addDescriptor(type.getName(), descriptor);
+                return descriptor;
+            }
+        } catch (MarshalException mx) {
+            throw new ResolverException(mx);
+        }
+
+        return null;
+    }
+
+    /**
+     * Gets the <code>ClassLoader</code> that's actually to be used (e.g. for
+     * loading resources).<br>
+     * The actual <code>ClassLoader</code> is determined in the following way:
+     * <lu>
+     * <li> If the passed in "preferred" loader is not <code>null</code>, it
+     * is used.
+     * <li> If the loader of this XMLClassDescriptor is not <code>null</code>,
+     * it is used.
+     * <li> The context class loader of the current thread is used. </lu>
+     *
+     * @param loader The "preferred" <code>ClassLoader</code>.
+     * @return The loader to be used.
+     */
+    private ClassLoader getClassLoader(ClassLoader loader) {
+        if (loader != null) {
+            return loader;
+        }
+
+        if (_loader != null) {
+            return _loader;
+        }
+
+        return Thread.currentThread().getContextClassLoader();
+    }
+
+    /**
+     * Tries to load an XMLClassDescriptor directly from an existing .class
+     * file.<br>
+     * The file that is searched for must be located in the classpath, have the
+     * name <code>className</code> + "Descriptor", and contain a valid
+     * XMLClassDescriptor.<br>
+     * If a descriptor is found it is added to the internal descriptor cache.
+     *
+     * @param className
+     *            The name of the class to load the descriptor for (This is NOT
+     *            the class name of the descriptor!)
+     * @param loader
+     *            The preferred <code>ClassLoader</code>
+     * @return The <code>XMLClassDescriptor</code> loaded from the
+     *         corresponding .class file or <code>null</code> if the .class
+     *         file does not exist or does not contain a valid
+     *         <code>XMLClassDescriptor</code>.
+     */
+    private XMLClassDescriptor loadDescriptorClass(String className, ClassLoader loader) {
+    	StringBuffer descriptorClassName = new StringBuffer(className);
+    	descriptorClassName.append(XMLConstants.DESCRIPTOR_SUFFIX);
+        Class descriptorClass = _classCache.loadClass(descriptorClassName.toString(), this.getClassLoader(loader));
+
+        // If we didn't find the descriptor, look in descriptor package
+        if (descriptorClass == null) {
+        	int offset = descriptorClassName.lastIndexOf(".");
+        	if (offset != -1) {
+        		descriptorClassName.insert(offset , ".");
+        		descriptorClassName.insert(offset + 1, XMLConstants.DESCRIPTOR_PACKAGE);
+                descriptorClass = _classCache.loadClass(descriptorClassName.toString(), this.getClassLoader(loader));
+        	}
+        }
+        
+        if (descriptorClass == null) {
+            return null;
+        }
+
+        try {
+            XMLClassDescriptor descriptor = (XMLClassDescriptor) descriptorClass.newInstance();
+            _descriptorCache.addDescriptor(className, descriptor);
+            return descriptor;
+        } catch (InstantiationException ie) {
+            // -- do nothing for now
+        } catch (IllegalAccessException iae) {
+            // -- do nothing for now
+        }
+        return null;
+    }
+
+    /**
+     * Compares the two strings for equality. A Null and empty
+     * strings are considered equal.
+     *
+     * @return true if the two strings are considered equal.
+     */
+    private boolean namespaceEquals(String ns1, String ns2) {
+        if (ns1 == null) {
+            return ns2 == null || ns2.length() == 0;
+        }
+
+        if (ns2 == null) {
+            return ns1.length() == 0;
+        }
+
+        return ns1.equals(ns2);
+    } //-- namespaceEquals
+
+    /**
+     * Gets the XMLClassDescriptor for the class with the given name.<br>
+     *
+     * The descriptor is searched in the following resources are search: <lu>
+     * <li>The internal descriptor cache of this XMLClassDescriptorResolver
+     * <li>The MappingLoader of this XMLClassDescriptorResolver
+     * <li>The package mapping of the package the given class is located in
+     * <li>The CDR file of the package the given class is located in
+     * <li>The class file of the corresponding descriptor class (which is
+     * className + "Descriptor") </lu> <br>
+     * <br>
+     * If any of these resources yield an XMLClassDescriptor it is added to the
+     * internal cache and returned as result.
+     *
+     * @param className
+     *            The class to get the descriptor for.
+     * @param loader
+     *            The preferred <code>ClassLoader</code> to be used.
+     * @return An <code>XMLClassDescriptor</code> for the given class or
+     *         <code>null</code> if no descriptor can be found.
+     * @throws ResolverException
+     *             If an CDR file for the package of the given class is
+     *             available but cannot be processed.
+     */
+    private XMLClassDescriptor getDescriptor(String className, ClassLoader loader) throws ResolverException {
+        // check our cache
+        XMLClassDescriptor descriptor = _descriptorCache.getDescriptor(className);
+        if (descriptor != null) {
+            return descriptor;
+        }
+
+        // first check mapping loader
+        if (_mappingLoader != null) {
+            descriptor = (XMLClassDescriptor) _mappingLoader.getDescriptor(className);
+            if (descriptor != null) {
+                _descriptorCache.addDescriptor(className, descriptor);
+                return descriptor;
+            }
+        }
+
+        // check package mappings and package list
+        final String packageName = this.getPackageName(className);
+        _descriptorCache.loadPackageMapping(packageName, loader);
+        _descriptorCache.loadCDRList(packageName, loader);
+
+        // check our cache again
+        descriptor = _descriptorCache.getDescriptor(className);
+        if (descriptor != null) {
+            return descriptor;
+        }
+
+        // try loading the descriptor from .class file
+        descriptor = this.loadDescriptorClass(className, loader);
+        if (descriptor != null) {
+            return descriptor;
+        }
+
+        return null;
     }
 
     /**
      * {@inheritDoc}
      */
-    public void addClasses(final String[] classNames) throws ResolverException {
+    public void addClass(final String className) { 
+        loadDescriptorClass(className, _loader);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void addClasses(final String[] classNames) {
         for (int i = 0; i < classNames.length; i++) {
-            String className = classNames[i];
-            this.addClass(className);
+            addClass(classNames[i]);
         }
     }
 
     /**
      * {@inheritDoc}
      */
-    public void addClass(final Class clazz) throws ResolverException {
-        this.resolve(clazz);
+    public void addPackage(final String packageName) throws ResolverException { 
+        _descriptorCache.loadCDRList(packageName, _loader); 
     }
 
     /**
      * {@inheritDoc}
-     */
-    public void addClasses(final Class[] clazzes) throws ResolverException {
-        for (int i = 0; i < clazzes.length; i++) {
-            Class clazz = clazzes[i];
-            this.addClass(clazz);
-        }
-    }
 
-    /**
-     * {@inheritDoc}
      */
-    public void addPackage(final String packageName) throws ResolverException {
-        _strategy.resolvePackage(_descriptorCache, packageName);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void addPackages(final String[] packageNames) throws ResolverException {
-        for (int i = 0; i < packageNames.length; i++) {
-            String packageName = packageNames[i];
-            this.addPackage(packageName);
-        }
+    public void addPackages(final String[] packageNames) throws ResolverException { 
+        for (int i = 0; i < packageNames.length; i++) { 
+            _descriptorCache.loadCDRList(packageNames[i], _loader); 
+        } 
     }
        
     /**
      * {@inheritDoc}
      */
     public void loadClassDescriptors(final String packageName) throws ResolverException {
-        String message = "Already deprecated in the interface!";
-        LOG.warn(message);
-        throw new UnsupportedOperationException();
+        _descriptorCache.loadCDRList(packageName, _loader);
+    }
+
+    /**
+     * Gets the package name of the given class name.
+     *
+     * @param className
+     *            The class name to retrieve the package name from.
+     * @return The package name or the empty String if <code>className</code>
+     *         is <code>null</code> or does not contain a package.
+     */
+    private String getPackageName(String className) {
+        if (className == null) {
+            return "";
+        }
+
+        int idx = className.lastIndexOf('.');
+        if (idx >= 0) {
+            return className.substring(0, idx);
+        }
+        return "";
+    }
+
+
+    /**
+     * Internal cache for Class objects.<br>
+     * <br>
+     * The cache keeps a list of classes that could not be loaded to prevent
+     * loading those classes again.
+     *
+     * @author <a href="mailto:stevendolg AT gxm DOT at">Steven Dolg</a>
+     */
+    static private class ClassCache {
+
+        /**
+         * A list of classes that could not be loaded.
+         */
+        private List _missingClasses = new ArrayList();
+
+        /**
+         * Tries to load the <code>Class</code> object with the given name and
+         * the given preferred <code>ClassLoader</code>.<br>
+         * <br>
+         * If the requested class could not be loaded its name is stored in the
+         * list of missing classes. Further requests to load such classes will
+         * prevent asking the class loader again.
+         *
+         * @param className
+         *            The name of the class to be loaded. This must be a fully
+         *            qualified name (i.e. including the package).
+         * @param loader
+         *            The preferred <code>ClassLoader</code>.
+         * @return The <code>Class</code> loaded by the
+         *         <code>ClassLoader</code> or <code>null</code> if the
+         *         class could not be loaded or is contained in the list of
+         *         missing classes.
+         */
+        public Class loadClass(String className, ClassLoader loader) {
+            if (this._missingClasses.contains(className)) {
+                return null;
+            }
+
+            try {
+                // use passed in loader
+                if (loader != null) {
+                    return loader.loadClass(className);
+                }
+                // no loader available use Class.forName
+                // actually this should never happen
+                return Class.forName(className);
+            } catch (NoClassDefFoundError ncdfe) {
+                // This can happen if we try to load a class with invalid
+                // case for example foo instead Foo.
+            } catch (ClassNotFoundException e) {
+            }
+
+            this._missingClasses.add(className);
+            return null;
+        }
     }
 
     /**
@@ -359,77 +646,83 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
      * mapping files and CDR lists that have been loaded. Just like the
      * ClassCache it also has a list of missing descriptors to avoid trying to
      * load those descriptors again.
-     * 
+     *
      * The cached descriptors are available via the name of the classes they
      * describe or via their XML name from a mapping file.
-     * 
+     *
      * @author <a href="mailto:stevendolg AT gxm DOT at">Steven Dolg</a>
      */
-    private static class DescriptorCacheImpl implements ResolverStrategy.ResolverResults {
+    static private class DescriptorCache {
 
-        private static final Log LOG2 = LogFactory.getLog(DescriptorCacheImpl.class);
-
+        private static final String PKG_CDR_LIST_FILE       = ".castor.cdr";
+        private static final String PKG_MAPPING_FILE        = ".castor.xml";
         private static final String INTERNAL_CONTAINER_NAME = "-error-if-this-is-used-";
 
-        /** List of class names a descriptor is not available for. */
-        private List _missingTypes;
-
-        /** Map of cached descriptors with the class names they describe as key. */
-        private Map _typeMap;
-
-        /** Map of cached descriptors with their XML names as key. */
-        private Map _xmlNameMap;
+        /**
+         * List of class names a descriptor is not available for.
+         */
+        private List                _missingTypes;
+        /**
+         * Map of cached descriptors with the class names they describe as key.
+         */
+        private Map                 _typeMap;
+        /**
+         * Map of cached descriptors with their XML names as key.
+         */
+        private Map                 _xmlNameMap;
+        /**
+         * List of package mapping name that haven already been tried to load.
+         * (Both successfully and unsuccessfully).
+         */
+        private List                _loadedPackageMappings;
+        /**
+         * List of CDR file that have already been tried to load. (Both
+         * successfully and unsuccessfully).
+         */
+        private List                _loadedCDRLists;
+        /**
+         * Flag indicating whether package mappings should be loaded or not.
+         *
+         * @see XMLClassDescriptorResolverImpl#setLoadPackageMappings(boolean)
+         */
+        private boolean             _loadPackageMappings    = true;
 
         /**
          * Default constructor.<br>
          * <br>
          * Initializes alls list and maps.
          */
-        public DescriptorCacheImpl() {
+        public DescriptorCache() {
             super();
-            
-            LOG2.debug("New instance!");
-            
+
             _typeMap = new HashMap();
             _xmlNameMap = new HashMap();
             _missingTypes = new ArrayList();
-        } //--- DescriptorCacheImpl
+            _loadedPackageMappings = new ArrayList();
+            _loadedCDRLists = new ArrayList();
+        }
 
         /**
          * Adds a descriptor to this caches maps.<br>
          * The descriptor is mapped both with the class name and its XML name.
-         * 
+         *
          * The descriptor will not be mapped with its XML name is
          * <code>null</code>, the empty string (""), or has the value of the
          * constant INTERNAL_CONTAINER_NAME.
-         * 
+         *
          * If there already is a descriptor for the given <code>className</code>
          * and/or the descriptor's XML name the previously cached descriptor is
          * replaced.
-         * 
-         * @param className The class name to be used for mapping the given descriptor.
-         * @param descriptor The descriptor to be mapped.
-         * 
+         *
+         * @param className
+         *            The class name to be used for mapping the given
+         *            descriptor.
+         * @param descriptor
+         *            The descriptor to be mapped.
+         *
          * @see #INTERNAL_CONTAINER_NAME
          */
-        public void addDescriptor(final String className, final XMLClassDescriptor descriptor) {
-            if ((className == null) || (className.length() == 0)) {
-                String message = "Class name to insert ClassDescriptor must not be null";
-                LOG2.warn(message);
-                throw new IllegalArgumentException(message);
-            }
-            
-            if (descriptor == null) {
-                if (LOG2.isDebugEnabled()) {
-                    LOG2.debug("Adding class name to missing classes: " + className);
-                }
-                _missingTypes.add(className);
-                return;
-            }
-            
-            if (LOG2.isDebugEnabled()) {
-                LOG2.debug("Adding descriptor class for: " + className + " descriptor: " + descriptor);
-            }
+        private void addDescriptor(String className, XMLClassDescriptor descriptor) {
             _typeMap.put(className, descriptor);
 
             String xmlName = descriptor.getXMLName();
@@ -447,39 +740,59 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
             if (!descriptorList.contains(descriptor)) {
                 descriptorList.add(descriptor);
             }
-        } //-- addDescriptor
+        }
+
+        /**
+         * Adds the given descriptor to this DescriptorCache.<br>
+         * The descriptor will be mapped to its class name and its XML name.
+         *
+         * @see #addDescriptor(String, XMLClassDescriptor) for details.
+         *
+         * @param descriptor
+         *            The XMLClassDescriptor to be added.
+         */
+        public void addDescriptor(XMLClassDescriptor descriptor) {
+            this.addDescriptor(descriptor.getJavaClass().getName(), descriptor);
+        }
+
+        /**
+         * Adds the given class name to the list of classes a descriptor is
+         * unavailable for.
+         *
+         * @param className
+         *            The class name to be added.
+         *
+         * @see #isMissingDescriptor(String)
+         */
+        public void addMissingDescriptor(String className) {
+            _missingTypes.add(className);
+        }
 
         /**
          * Gets the descriptor that is mapped to the given class name.
-         * 
-         * @param className The class name to get a descriptor for.
+         *
+         * @param className
+         *            The class name to get a descriptor for.
          * @return The descriptor mapped to the given name or <code>null</code>
          *         if no descriptor is stored in this cache.
          */
-        public XMLClassDescriptor getDescriptor(final String className) {
-            if ((className == null) || ("".equals(className)) || (_missingTypes.contains(className))) {
-                return null;
-            }
-            
-            XMLClassDescriptor ret = (XMLClassDescriptor) _typeMap.get(className);
-            if (LOG2.isDebugEnabled()) {
-                LOG2.debug("Get descriptor for: " + className + " found: " + ret);
-            }
-            return ret;
-        } //-- getDescriptor
+        public XMLClassDescriptor getDescriptor(String className) {
+            return (XMLClassDescriptor) _typeMap.get(className);
+        }
 
         /**
          * Gets a list of descriptors that have the given XML name.<br>
          * <br>
          * This method will return all previously cached descriptors with the
          * given XML name regardless of their namespace.
-         * 
-         * @param xmlName The XML name of the descriptors to get.
+         *
+         * @param xmlName
+         *            The XML name of the descriptors to get.
          * @return A list of descriptors with the given XML name or an empty
          *         list if no such descriptor is stored in this cache. This
          *         method will never return <code>null</code>!
          */
-        public List getDescriptorList(final String xmlName) {
+        public List getDescriptorList(String xmlName) {
             List list = (List) _xmlNameMap.get(xmlName);
 
             if (list == null) {
@@ -488,7 +801,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
             }
 
             return list;
-        } //-- getDescriptorList
+        }
 
         /**
          * Gets an iterator over all descriptors that have the given XML name.<br>
@@ -499,20 +812,21 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
          * NOTE: If an descriptor with the XML name in question is added to this
          * cache, the iterator will fail due to an
          * <code>ConcurrentModificationException</code>
-         * 
-         * @param xmlName The XML name of the descriptors to get.
+         *
+         * @param xmlName
+         *            The XML name of the descriptors to get.
          * @return An iterator over descriptors with the given XML name. If no
          *         descriptor with the given XML name is stored in this cache,
          *         the iterator will never return an object (.hasNext() will
          *         immediately return <code>false</code>). This method will
          *         never return <code>null</code>!
-         * 
+         *
          * @see ConcurrentModificationException
          * @see List#iterator()
          */
-        public Iterator getDescriptors(final String xmlName) {
+        public Iterator getDescriptors(String xmlName) {
             return this.getDescriptorList(xmlName).iterator();
-        } //-- getDescriptors
+        }
 
         /**
          * Checks whether the given class name is contained in the list of class
@@ -523,34 +837,211 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
          * XMLClassDescriptorResolverImpl found to have no descriptor. The cache
          * itself has no means of determining that this is the case and thus
          * will never add/remove class names to/from it.
-         * 
-         * @param className The class name to be checked.
+         *
+         * @param className
+         *            The class name to be checked.
          * @return <code>true</code> If the given class name was stated to
          *         have no descriptor by a previous call to
          *         <code>addMissingDescriptor</code> with exactly the same
          *         class name. <code>false</code> otherwise.
-         * 
+         *
          * @see #addMissingDescriptor(String)
          */
-        public boolean isMissingDescriptor(final String className) {
+        public boolean isMissingDescriptor(String className) {
             return _missingTypes.contains(className);
-        } //-- isMissingDescriptor
+        }
 
         /**
-         * To add not only a single descriptor but a map of descriptors at once.
-         * 
-         * @param descriptor a Map of className (String) and XMLClassDescriptor pairs
+         * Tries to load the CDR file for the given package name using the
+         * provided class loader.<br>
+         * <br>
+         * If the CDR file is available and could be loaded properly the
+         * descriptors listed in it are added to this cache.
+         *
+         * If a descriptor is listed in the CDR file for the given package but
+         * could not be loaded (e.g. because the reference class file is not
+         * available) the descriptor is ignored but no exception is thrown.
+         *
+         * If a CDR file is not available for the given package this method will
+         * not load any descriptors and not throw any exceptions.
+         *
+         * Further calls to this method with the same package name will not be
+         * processed.
+         *
+         * @param packageName
+         *            The package to load the CDR file for.
+         * @param loader
+         *            The ClassLoader to be used for both loading the CDR file
+         *            and the descriptor classes listed in it. This must not be
+         *            <code>null</code>!
+         * @throws ResolverException
+         *             If a CDR file is available but cannot be opened or read.
          */
-        public void addAllDescriptors(final Map descriptors) {
-            if ((descriptors == null) || (descriptors.isEmpty())) {
-                LOG2.debug("Called addAllDescriptors with null or empty descriptor map");
+        public synchronized void loadCDRList(String packageName, ClassLoader loader) throws ResolverException {
+            if (_loadedCDRLists.contains(packageName)) {
                 return;
             }
-            
-            for (Iterator iter = descriptors.keySet().iterator(); iter.hasNext();) {
-                String clsName = (String) iter.next();
-                this.addDescriptor(clsName, (XMLClassDescriptor)descriptors.get(clsName));
+
+            _loadedCDRLists.add(packageName);
+            URL url = loader.getResource(this.getQualifiedFileName(PKG_CDR_LIST_FILE, packageName));
+            if (url == null) {
+                return;
             }
-        } //-- addAllDescriptors
-    } // -- DescriptorCacheImpl
+
+            try {
+                Properties cdrList = this.getProperties(url);
+
+                final Enumeration classes = cdrList.keys();
+                while (classes.hasMoreElements()) {
+                    String className = (String) classes.nextElement();
+                    String descriptorClassName = (String) cdrList.get(className);
+                    try {
+                        Class descriptorClass = loader.loadClass(descriptorClassName);
+                        this.addDescriptor(className, ((XMLClassDescriptor) descriptorClass.newInstance()));
+                    } catch (Exception e) {
+                        // -- TODO: report error, but continue
+                    }
+                }
+            } catch (java.io.IOException iox) {
+                throw new ResolverException(iox);
+            }
+        }
+
+        /**
+         * Tries to load the package mapping file for the given package using
+         * the provided class loader.<br>
+         * <br>
+         * If the mapping file is available and could be loaded properly the
+         * descriptors listed in it are added to this cache.<br>
+         * If the loading of package mapping files is disabled this method will
+         * do nothing.<br>
+         * If a mapping file is not available for the given package this method
+         * will not load any descriptors and not throw any exceptions.<br>
+         * <br>
+         * The mapping file - if available - is loaded using the
+         * <code>MappingLoader</code>.<br>
+         * <br>
+         * Further calls to this method with the same package name will not be
+         * processed.
+         *
+         * @param packageName
+         *            The name of the package to load the mapping file for.
+         * @param loader
+         *            The ClassLoader to be used for loading the mapping file.
+         *            This must not be null!
+         * @see #setLoadPackageMappings(boolean)
+         * @see MappingLoader
+         */
+        public synchronized void loadPackageMapping(String packageName, ClassLoader loader) {
+            if (!_loadPackageMappings || _loadedPackageMappings.contains(packageName)) {
+                return;
+            }
+
+            _loadedPackageMappings.add(packageName);
+            try {
+                final Mapping mapping = this.loadMapping(packageName, loader);
+                if (mapping != null) {
+                    MappingUnmarshaller unmarshaller = new MappingUnmarshaller();
+                    MappingLoader mappingLoader = unmarshaller.getMappingLoader(mapping, BindingType.XML);
+                    Iterator descriptors = mappingLoader.descriptorIterator();
+                    while (descriptors.hasNext()) {
+                        XMLClassDescriptor descriptor = (XMLClassDescriptor) descriptors.next();
+                        this.addDescriptor(descriptor);
+                    }
+                }
+            } catch (MappingException e) {
+                // TODO: report error (or should this exception be thrown?)
+            }
+        }
+
+        /**
+         * Enables or disabled the loading of package mapping files.
+         *
+         * @param loadPackageMappings
+         *            <code>true</code> if package mapping files should be
+         *            loaded. <code>false</code> if not.
+         */
+        public void setLoadPackageMappings(boolean loadPackageMappings) {
+            _loadPackageMappings = loadPackageMappings;
+        }
+
+        /**
+         * Creates a Properties object and initializes it with the contents of
+         * the given URL.<br>
+         * The provided URL must exist and be suitable for loading properties
+         * from.
+         *
+         * @param url
+         *            The URL to load the properties from. This must not be
+         *            null!
+         * @return The loaded properties.
+         * @throws IOException
+         *             If loading the properties from the given ULR failed.
+         *
+         * @see Properties
+         * @see Properties#load(InputStream)
+         */
+        private Properties getProperties(URL url) throws java.io.IOException {
+            Properties cdrList = new Properties();
+
+            java.io.InputStream stream = url.openStream();
+            cdrList.load(stream);
+            stream.close();
+
+            return cdrList;
+        }
+
+        /**
+         * Qualifies the given <code>fileName</code> with the given
+         * <code>packageName</code> and returns the resulting file path.<br>
+         * If <code>packageName</code> is <code>null</code> or a zero-length
+         * String, this method will return <code>fileName</code>.<br>
+         *
+         * @param fileName
+         *            The file name to be qualified.
+         * @param packageName
+         *            The package name to be used for qualifying.
+         * @return The qualified file path.
+         */
+        private String getQualifiedFileName(String fileName, String packageName) {
+            if (packageName == null || packageName.length() == 0) {
+                return fileName;
+            }
+
+            StringBuffer result = new StringBuffer();
+            result.append(packageName.replace('.', '/'));
+            result.append('/');
+            result.append(fileName);
+            return result.toString();
+        }
+
+        /**
+         * Loads a package mapping file for the given package name using the
+         * provided ClassLoader.<br>
+         *
+         * @param packageName
+         *            The name of the package to load the mapping file for.
+         * @param loader
+         *            The loader to be used for loading the mapping for. This
+         *            must not be <code>null</code>!
+         * @return The loaded Mapping or <code>null</code> if no mapping file
+         *         is available for the given package.
+         * @throws MappingException
+         */
+        private Mapping loadMapping(String packageName, ClassLoader loader) throws MappingException {
+            URL url = loader.getResource(this.getQualifiedFileName(PKG_MAPPING_FILE, packageName));
+            if (url == null) {
+                return null;
+            }
+
+            try {
+                Mapping mapping = new Mapping(loader);
+                mapping.loadMapping(url);
+                return mapping;
+            } catch (java.io.IOException ioex) {
+                throw new MappingException(ioex);
+            }
+        }
+    }
+
 } // -- ClassDescriptorResolverImpl

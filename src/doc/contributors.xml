@@ -67,7 +67,7 @@
     <name surname="Guttmann" given="Werner" />
     <email>werner.guttmann@gmx.net</email>
     <project>JDO</project>
-    <company id="indoqa" />
+    <company id="anecon" />
     <description>
       Current Castor project lead; JDO enhancements including distributed caches,
       TransactionManagerFactory API, support for polymorphism, Spring integration,
@@ -525,16 +525,6 @@
       Enhancements to ConsoleDialog and SourceGenerator to allow
       "all" option via command line utility.
     </description>
-  </contributor>
-
-  <contributor type="Contributor">
-    <name surname="Gr&#252;neis" given="Joachim"/>
-    <email>jgrueneis@gmail.com</email>
-    <description>
-      Field of work is JAXB on top of Castor. Therefor a lot of refactorings
-      and adoptions in Castor XML are required.
-    </description>
-    <status>active</status>
   </contributor>
 
   <contributor type="Contributor">
@@ -1320,6 +1310,11 @@
 
   <!-- Company Names (A-D) -->
 
+  <company id="anecon">
+    <name>Anecon Softwaredesign und Beratung Ltd.</name>
+    <url>www.anecon.com</url>
+  </company>
+
   <company id="apache">
     <name>Apache Software Foundation</name>
     <url>www.apache.org</url>
@@ -1357,11 +1352,6 @@
   <company id="ibis">
     <name>Integrated Banking Information Systems</name>
     <url></url>
-  </company>
-
-  <company id="indoqa">
-    <name>Indoqa, Inc.</name>
-    <url>www.indoqa.com</url>
   </company>
 
   <company id="intalio">

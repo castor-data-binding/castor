@@ -61,58 +61,63 @@ import org.exolab.castor.persist.spi.Identity;
  * @version $Revision$ $Date: 2006-04-22 11:05:30 -0600 (Sat, 22 Apr 2006) $
  */
 public class CacheManager {
-    /** Database instance. */
-    private Database _db;
+	
+	/**
+	 * Database instance
+	 */
+    private Database db;
 
-    /** Lock engine. */
-    private LockEngine _lockEngine;
+    /**
+     * Lock engine
+     */
+    private LockEngine lockEngine;
 
-    /** Currently active transaction context. */
-    private TransactionContext _transactionContext;
+    /**
+     * Currently active transaction context.
+     */
+    private TransactionContext transactionContext;
+
     
     /**
      * Creates an instance of this class.
-     * 
      * @param db Database instance.
      * @param transactionContext Active transaction context.
      * @param lockEngine Lock engine
      */
-    public CacheManager(final Database db, final TransactionContext transactionContext,
-            final LockEngine lockEngine) {
-        _db = db;
-        _transactionContext = transactionContext;
-        _lockEngine = lockEngine;
+    public CacheManager(Database db, TransactionContext transactionContext, LockEngine lockEngine) {
+        this.db = db;
+        this.transactionContext = transactionContext;
+        this.lockEngine = lockEngine;
     }
 
     /**
-     * Indicates whether am instance of cls is currently cached.
-     * 
+     * Indicates whether am instance of cls is currently cached
      * @param cls The class type.
      * @param identity The object identity.
      * @return True if the object is cached.
      * @throws PersistenceException If a problem occured resolving the object's cache membership.
      */
-    public boolean isCached (final Class cls, final Object identity) throws PersistenceException {
-        if (_transactionContext != null && _transactionContext.isOpen()) {
-            return _transactionContext.isCached(_lockEngine.getClassMolder(cls), cls,
-                    new Identity(identity));
+    public boolean isCached ( Class cls, Object identity) throws PersistenceException
+    {
+        if ( transactionContext != null && transactionContext.isOpen()  ) {
+            return transactionContext.isCached(lockEngine.getClassMolder(cls), cls, new Identity(identity));
         }
         
-        throw new PersistenceException("isCached() has to be called within an active transaction.");
+        throw new PersistenceException ("isCached() has to be called within an active transaction.");
     }
 
     /**
      * Dump all cached objects to log.
      */
     public void dumpCache() {
-        _lockEngine.dumpCache();
+        lockEngine.dumpCache();
     }
 
     /**
      * Dump cached objects of specific type to log.
      */
-    public void dumpCache(final Class cls) {
-        _lockEngine.dumpCache(cls);
+    public void dumpCache(Class cls) {
+        lockEngine.dumpCache(cls);
     }
 
     /**
@@ -130,7 +135,7 @@ public class CacheManager {
      * contained objects need to be specified.
      */
     public void expireCache() {
-        _lockEngine.expireCache();
+        lockEngine.expireCache();
     }
 
     /**
@@ -151,8 +156,8 @@ public class CacheManager {
      * @param type The type to expire.
      * @param identity Identity of the object to expire.
      */
-    public void expireCache(final Class type, final Object identity) throws PersistenceException {
-        expireCache(type, new Object[] {identity});
+    public void expireCache(Class type, Object identity) throws PersistenceException {
+        expireCache(type, new Object[] { identity });
     }
 
     /**
@@ -173,11 +178,11 @@ public class CacheManager {
      * @param type The type to expire.
      * @param identity An array of object identifiers to expire.
      */
-    public void expireCache(final Class type, final Object[] identity) throws PersistenceException {
+    public void expireCache(Class type, Object[] identity) throws PersistenceException {
         testForOpenDatabase();
-        ClassMolder molder = _lockEngine.getClassMolder(type);
+        ClassMolder molder = lockEngine.getClassMolder(type);
         for (int i = 0; i < identity.length; i++) {
-            _transactionContext.expireCache(molder, new Identity(identity[i]));
+            transactionContext.expireCache(molder, new Identity(identity[i]));
         }
     }
 
@@ -198,9 +203,9 @@ public class CacheManager {
      * 
      * @param type An array of types to expire.
      */
-    public void expireCache(final Class[] type) {
+    public void expireCache(Class[] type) {
         for (int i = 0; i < type.length; i++) {
-            _lockEngine.expireCache(type[i]);
+            lockEngine.expireCache(type[i]);
         }
     }
     
@@ -210,8 +215,8 @@ public class CacheManager {
      * @throws PersistenceException
      */
     private void testForOpenDatabase() throws PersistenceException {
-        if (_db.isClosed()) {
-            throw new PersistenceException(Messages.message("jdo.dbClosed"));
+        if(db.isClosed()){
+            throw new PersistenceException(Messages.message( "jdo.dbClosed" ));
         }
     }
 }

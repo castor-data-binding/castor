@@ -21,7 +21,7 @@ import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.CoreConfiguration;
+import org.castor.util.Configuration;
 import org.castor.util.Messages;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
@@ -64,7 +64,7 @@ public final class MappingUnmarshaller {
      * Construct a new MappingUnmarshaller.
      */
     public MappingUnmarshaller() {
-        _registry = new MappingLoaderRegistry(new CoreConfiguration());
+        _registry = new MappingLoaderRegistry(Configuration.getInstance());
         _idResolver = new MappingUnmarshallIDResolver();
     }
     

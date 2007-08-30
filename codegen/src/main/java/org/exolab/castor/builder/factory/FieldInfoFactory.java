@@ -46,8 +46,6 @@ package org.exolab.castor.builder.factory;
 
 import java.security.InvalidParameterException;
 
-import org.castor.xml.JavaNaming;
-import org.castor.xml.JavaNamingImpl;
 import org.exolab.castor.builder.SourceGeneratorConstants;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.CollectionInfoJ2;
@@ -78,20 +76,6 @@ public class FieldInfoFactory {
     private String _referenceSuffix = null;
     /** If true, code for bound properties will be generated. */
     private boolean _bound = false;
-    
-    /* The FieldMemberAndAccessorFactories */
-    private FieldMemberAndAccessorFactory fieldMemberAndAccessorFactory;
-    private CollectionMemberAndAccessorFactory collectionMemberAndAccessorFactory;
-    private CollectionJ2MemberAndAccessorFactory collectionJ2MemberAndAccessorFactory;
-    private CollectionJ2NoIndexMemberAndAccessorFactory collectionJ2NoIndexMemberAndAccessorFactory;
-    private CollectionODMG30MemberAndAccessorFactory collectionODMG30MemberAndAccessorFactory;
-    private IdentityMemberAndAccessorFactory identityMemberAndAccessorFactory;
-    
-    /**
-     * The {@link JavaNaming} to use.
-     * @since 1.1.3
-     */
-    private JavaNaming _javaNaming;
 
     /**
      * Creates a new FieldInfoFactory. The default collection used will be
@@ -114,22 +98,6 @@ public class FieldInfoFactory {
                     + " is currently not a supported Java collection.");
         }
         _default = collectionName;
-
-        _javaNaming = new JavaNamingImpl();
-        
-        this.fieldMemberAndAccessorFactory = new FieldMemberAndAccessorFactory(
-                _javaNaming);
-        this.collectionMemberAndAccessorFactory = new CollectionMemberAndAccessorFactory(
-                _javaNaming);
-        this.collectionJ2MemberAndAccessorFactory = new CollectionJ2MemberAndAccessorFactory(
-                _javaNaming);
-        this.collectionJ2NoIndexMemberAndAccessorFactory = new CollectionJ2NoIndexMemberAndAccessorFactory(
-                _javaNaming);
-        this.collectionODMG30MemberAndAccessorFactory = new CollectionODMG30MemberAndAccessorFactory(
-                _javaNaming);
-        this.identityMemberAndAccessorFactory = new IdentityMemberAndAccessorFactory(
-                _javaNaming);
-        
     }
 
     /**
@@ -138,7 +106,7 @@ public class FieldInfoFactory {
      * @return The {@link IdentityInfo} instance just created.
      */
     public IdentityInfo createIdentity (final String name) {
-        IdentityInfo idInfo = new IdentityInfo(name, this.identityMemberAndAccessorFactory);
+        IdentityInfo idInfo = new IdentityInfo(name);
         if (_bound) { idInfo.setBound(_bound); }
         return idInfo;
     }
@@ -149,15 +117,13 @@ public class FieldInfoFactory {
      * @param contentType Content type of the collection.
      * @param name Name of the collection member.
      * @param elementName Name of the (content) element.
-     * @param javaNaming the Java naming to be used
      * @param usejava50 Whether we are targeting Java 5.0 or above or not
      * @return A {@link CollectionInfo} instance representing a collection typed member.
      * @see #createCollection(XSType, String, String, String, boolean)
      */
     public CollectionInfo createCollection(final XSType contentType, final String name,
-                                           final String elementName, final JavaNaming javaNaming, 
-                                           final boolean usejava50) {
-        return createCollection(contentType, name, elementName, _default, javaNaming, usejava50);
+                                           final String elementName, final boolean usejava50) {
+        return createCollection(contentType, name, elementName, _default, usejava50);
     }
 
     /**
@@ -166,35 +132,28 @@ public class FieldInfoFactory {
      * @param name Name of the collection member.
      * @param elementName Name of the (content) element.
      * @param collectionName Name of the collection.
-     * @param javaNaming the Java naming to be used
      * @param useJava50 Whether we are targeting Java 5.0 or above or not
      * @return A {@link CollectionInfo} instance representing a collection typed member.
      */
     public CollectionInfo createCollection(final XSType contentType, final String name,
                                            final String elementName, final String collectionName,
-                                           final JavaNaming javaNaming, final boolean useJava50) {
+                                           final boolean useJava50) {
         String temp = collectionName;
         if (temp == null || temp.length() == 0) { temp = _default; }
 
         final CollectionInfo cInfo;
         if (temp.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_VECTOR)) {
-             cInfo = new CollectionInfo(contentType, name, elementName, useJava50, 
-                     this.collectionMemberAndAccessorFactory, this.fieldMemberAndAccessorFactory);
+             cInfo = new CollectionInfo(contentType, name, elementName, useJava50);
         } else if (temp.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_ARRAY_LIST)) {
-             cInfo = new CollectionInfoJ2(contentType, name, elementName, "arraylist", useJava50, 
-                     this.collectionJ2MemberAndAccessorFactory, this.fieldMemberAndAccessorFactory);
+             cInfo = new CollectionInfoJ2(contentType, name, elementName, "arraylist", useJava50);
         } else if (temp.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_ODMG)) {
-             cInfo = new CollectionInfoODMG30(contentType, name, elementName, useJava50, 
-                     this.collectionODMG30MemberAndAccessorFactory, this.fieldMemberAndAccessorFactory);
+             cInfo = new CollectionInfoODMG30(contentType, name, elementName, useJava50);
         } else if (temp.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_COLLECTION)) {
-            cInfo = new CollectionInfoJ2Collection(contentType, name, elementName, useJava50, 
-                    this.collectionJ2NoIndexMemberAndAccessorFactory, this.fieldMemberAndAccessorFactory);
+            cInfo = new CollectionInfoJ2Collection(contentType, name, elementName, useJava50);
         } else if (temp.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_SET)) {
-            cInfo = new CollectionInfoJ2Set(contentType, name, elementName, useJava50, 
-                    this.collectionJ2NoIndexMemberAndAccessorFactory, this.fieldMemberAndAccessorFactory);
+            cInfo = new CollectionInfoJ2Set(contentType, name, elementName, useJava50);
         } else if (temp.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_SORTED_SET)) {
-            cInfo = new CollectionInfoJ2SortedSet(contentType, name, elementName, useJava50, 
-                    this.collectionJ2NoIndexMemberAndAccessorFactory, this.fieldMemberAndAccessorFactory);
+            cInfo = new CollectionInfoJ2SortedSet(contentType, name, elementName, useJava50);
         } else {
             throw new InvalidParameterException("Unrecognized collection type: " + temp);
         }
@@ -217,7 +176,7 @@ public class FieldInfoFactory {
      * @return The {@link FieldInfo} instance just created.
      */
     public FieldInfo createFieldInfo(final XSType type, final String name) {
-        FieldInfo fieldInfo = new FieldInfo(type, name, this.fieldMemberAndAccessorFactory);
+        FieldInfo fieldInfo = new FieldInfo(type, name);
         if (_bound) { fieldInfo.setBound(true); }
         return fieldInfo;
     }

@@ -59,7 +59,7 @@ import org.exolab.castor.jdo.LockNotGrantedException;
  * @version $Revision$ $Date: 2006-04-22 06:43:57 -0600 (Sat, 22 Apr 2006) $
  */
 public class ObjectDeletedWaitingForLockException extends LockNotGrantedException {
-    /** SerialVersionUID. */
+    /** SerialVersionUID */
     private static final long serialVersionUID = 1774245493143153091L;
 
 
@@ -67,11 +67,11 @@ public class ObjectDeletedWaitingForLockException extends LockNotGrantedExceptio
         super(Messages.message("persist.deletedWaitingForLock"));
     }
 
-    ObjectDeletedWaitingForLockException(final String msg) {
-        super(msg);
+    ObjectDeletedWaitingForLockException(String msg) {
+        super( msg );
     }
 
-    public ObjectDeletedWaitingForLockException(final String message, final Throwable exception) {
+    public ObjectDeletedWaitingForLockException(String message, Throwable exception) {
         super(message, exception);
     }
 

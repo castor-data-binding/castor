@@ -38,7 +38,7 @@
             <th>Required</th>
           </cheader>
           <crow>
-            <td><b>file</b></td>
+            <td><b>mappingFile</b></td>
             <td>The name of the Castor JDO mapping file to use as input for DDL generation.</td>
             <td>Yes</td>
           </crow>
@@ -65,8 +65,8 @@
         </ctable>
         
         <p>
-          Alternatively to specifying the <tt>file</tt> property, it is possible to work 
-          with a nested &lt;FileSet&gt; element or with the <tt>dir</tt>
+          Alternatively to specifying the <tt>mappingFile</tt> property, it is possible to work 
+          with a nested &lt;FileSet&gt; element or with the <tt>mappingDir</tt>
           property.
         </p>
 
@@ -87,7 +87,7 @@
              classname="org.castor.anttask.CastorDDLGenTask"
              classpathref="castor.class.path" />
     <mkdir dir="generated" />
-    <castor-ddlgen file="src/main/resources/mapping.xml"
+    <castor-srcgen mappingFile="src/main/resources/mapping.xml"
                    ddlFileName="target/generated/ddl/mapping.sql"
                    databaseEngine="mysql"/>
   </target>]]>

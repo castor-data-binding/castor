@@ -42,7 +42,10 @@
  *
  * $Id$
  */
+
+
 package org.exolab.castor.persist;
+
 
 import javax.transaction.Status;
 
@@ -50,11 +53,14 @@ import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
 import org.castor.util.Messages;
 import org.exolab.castor.jdo.Database;
-import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.TransactionNotInProgressException;
+import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.ObjectNotFoundException;
+import org.exolab.castor.jdo.LockNotGrantedException;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.PersistenceQuery;
+
 
 /**
  * The result of a query in the context of a transaction. A query is
@@ -91,7 +97,7 @@ public final class QueryResults {
      */
     private Identity _lastIdentity;
 
-    public QueryResults(final TransactionContext tx, 
+    public QueryResults(TransactionContext tx, 
             final LockEngine engine,
             final PersistenceQuery query, 
             final AccessMode accessMode, 
@@ -145,7 +151,8 @@ public final class QueryResults {
      * @throws TransactionNotInProgressException The transaction
      *  has been closed
      */
-    public Object nextIdentity() throws PersistenceException {
+    public Object nextIdentity()
+        throws TransactionNotInProgressException, PersistenceException {
         // Make sure transaction is still open.
         if (_tx.getStatus() != Status.STATUS_ACTIVE) {
             throw new TransactionNotInProgressException(
@@ -168,22 +175,31 @@ public final class QueryResults {
      * If the object is locked by another transaction this method will
      * block until the lock is released, or a timeout occured. If a
      * timeout occurs or the object has been deleted by the other
-     * transaction, this method will report an. The query may proceed to the next
+     * transaction, this method will report an {@link
+     * ObjectNotFoundException}. The query may proceed to the next
      * identity.
      * <p>
      * If the object has been deleted in this transaction, this method
-     * will report an. However, the caller may iterate to and obtain the next object.
+     * will report an {@link ObjectNotFoundException}. However, the
+     * caller may iterate to and obtain the next object.
      * <p>
      * This method is equivalent to {@link TransactionContext#fetch}
      * with a know cache engine, identity and lock and acts on the query
      * results rather than issuing a new query to load the object.
      *
      * @return The loaded object
-     * @throws PersistenceException An error reported by the persistence engine. The object was
-     *         not found in persistent storage. The transaction has been closed. Could not
-     *         acquire a lock on the object.
+     * @throws ObjectNotFoundException The object was not found in
+     *  persistent storage
+     * @throws LockNotGrantedException Could not acquire a lock on
+     *  the object
+     * @throws PersistenceException An error reported by the
+     *  persistence engine
+     * @throws TransactionNotInProgressException The transaction
+     *  has been closed
      */
-    public Object fetch() throws PersistenceException {
+    public Object fetch()
+        throws TransactionNotInProgressException, PersistenceException,
+               ObjectNotFoundException, LockNotGrantedException {
         ClassMolder     handler;
         Object           object;
         

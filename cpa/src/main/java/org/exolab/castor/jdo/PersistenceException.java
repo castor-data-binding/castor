@@ -42,9 +42,12 @@
  *
  * $Id$
  */
+
 package org.exolab.castor.jdo;
 
+
 import org.exolab.castor.core.exceptions.CastorException;
+
 
 /**
  * An exception representing another exception (an SQL exception, a JNDI
@@ -55,7 +58,7 @@ import org.exolab.castor.core.exceptions.CastorException;
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class PersistenceException extends CastorException {
-    /** SerialVersionUID. */
+    /** SerialVersionUID */
     private static final long serialVersionUID = -214432393524952756L;
 
     public PersistenceException(final String message, final Throwable except) {

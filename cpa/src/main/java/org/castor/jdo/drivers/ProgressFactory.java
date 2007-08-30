@@ -26,11 +26,15 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @version $Revision: 5951 $ $Date: 2006-02-21 16:05:42 -0700 (Tue, 21 Feb 2006) $
  */
 public final class ProgressFactory extends GenericFactory {
-    /** Internal name of this PersistenceFactory instance. */
+
+    /**
+     * Internal name of this PersistenceFactory instance.
+     */
     public static final String FACTORY_NAME = "progress";
 
     /**
      * @inheritDoc
+     * @see org.exolab.castor.persist.spi.PersistenceFactory#getFactoryName()
      */
     public String getFactoryName() {
         return FACTORY_NAME;
@@ -38,6 +42,7 @@ public final class ProgressFactory extends GenericFactory {
 
     /**
      * @inheritDoc
+     * @see org.exolab.castor.persist.spi.PersistenceFactory#getQueryExpression()
      */
     public QueryExpression getQueryExpression() {
         return new ProgressQueryExpression(this);
@@ -45,8 +50,9 @@ public final class ProgressFactory extends GenericFactory {
     
     /**
      * @inheritDoc
+     * @see org.exolab.castor.persist.spi.PersistenceFactory#quoteName(java.lang.String)
      */
-    public String quoteName(final String name) {
+    public String quoteName(String name) {
         return doubleQuoteName(name);
     }
 

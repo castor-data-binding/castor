@@ -23,9 +23,12 @@ import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.castor.persist.ProposedEntity;
 import org.castor.util.Messages;
+
 import org.exolab.castor.jdo.Database;
+import org.exolab.castor.jdo.ObjectNotFoundException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.mapping.AccessMode;
@@ -58,7 +61,7 @@ public final class SQLEngine implements Persistence {
     
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
-    private static final Log LOG = LogFactory.getLog(SQLEngine.class);
+    private static final Log LOG = LogFactory.getLog( SQLEngine.class );
 
     private final SQLFieldInfo[]        _fields;
 
@@ -130,8 +133,7 @@ public final class SQLEngine implements Persistence {
         stack.push(base);
         while (base.getExtends() != null) {
             // if (base.getDepends() != null) {
-            //     throw new MappingException(
-            //             "Class should not both depends on and extended other classes");
+            //     throw new MappingException("Class should not both depends on and extended other classes");
             // }
             base = (JDOClassDescriptor) base.getExtends();
             stack.push(base);
@@ -154,14 +156,13 @@ public final class SQLEngine implements Persistence {
 
                 // The extending class may have other SQL names for identity fields
                 for (int j = 0; j < idDescriptors.length; j++) {
-                    if (name.equals(idDescriptors[j].getFieldName())
-                            && (idDescriptors[j] instanceof JDOFieldDescriptor)) {
+                    if (name.equals(idDescriptors[j].getFieldName()) &&
+                            (idDescriptors[j] instanceof JDOFieldDescriptor)) {
                         sqlName = ((JDOFieldDescriptor) idDescriptors[j]).getSQLName();
                         break;
                     }
                 }
-                idsInfo.add(new SQLColumnInfo(sqlName[0], sqlType[0], fh.getConvertTo(),
-                        fh.getConvertFrom(), fh.getConvertParam()));
+                idsInfo.add(new SQLColumnInfo(sqlName[0], sqlType[0], fh.getConvertTo(), fh.getConvertFrom(), fh.getConvertParam()));
             } else {
                 throw new MappingException("Except JDOFieldDescriptor");
             }
@@ -198,7 +199,7 @@ public final class SQLEngine implements Persistence {
     }
 
     public SQLColumnInfo[] getColumnInfoForIdentities() {
-        return _ids;
+    	return _ids;
     }
     
     public SQLFieldInfo[] getInfo() {
@@ -206,8 +207,7 @@ public final class SQLEngine implements Persistence {
     }
 
     /**
-     * Mutator method for setting extends SQLEngine.
-     * 
+     * Mutator method for setting extends SQLEngine
      * @param engine
      */
     public void setExtends(final SQLEngine engine) {
@@ -230,7 +230,7 @@ public final class SQLEngine implements Persistence {
         AccessMode mode = (accessMode != null) ? accessMode : _clsDesc.getAccessMode();
         String sql = query.getStatement(mode == AccessMode.DbLocked);
         
-        if (LOG.isDebugEnabled()) {
+        if(LOG.isDebugEnabled()) {
             LOG.debug(Messages.format("jdo.createSql", sql));
         }
         
@@ -250,13 +250,13 @@ public final class SQLEngine implements Persistence {
         // changes for the SQL Direct interface begins here
         if (spCall.startsWith("SQL")) {
             sql = spCall.substring(4);
-
+        	
             if (LOG.isDebugEnabled()) {
                 LOG.debug(Messages.format("jdo.directSQL", sql));
             }
             
             return new SQLQuery(this, _factory, sql, types, true);
-        }
+		}
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(Messages.format("jdo.spCall", spCall));
@@ -270,7 +270,7 @@ public final class SQLEngine implements Persistence {
         count = 1;
         jdoFields0[0] = _clsDesc.getIdentity().getFieldName();
         sqlTypes0[0] = ((JDOFieldDescriptor) _clsDesc.getIdentity()).getSQLType()[0];
-        for (int i = 0; i < fields.length; ++i) {
+        for (int i = 0 ; i < fields.length ; ++i) {
             if (fields[i] instanceof JDOFieldDescriptor) {
                 jdoFields0[count] = ((JDOFieldDescriptor) fields[i]).getSQLName()[0];
                 sqlTypes0[count] = ((JDOFieldDescriptor) fields[i]).getSQLType()[0];
@@ -282,8 +282,7 @@ public final class SQLEngine implements Persistence {
         System.arraycopy(jdoFields0, 0, jdoFields, 0, count);
         System.arraycopy(sqlTypes0, 0, sqlTypes, 0, count);
 
-        return ((BaseFactory) _factory).getCallQuery(spCall, types,
-                _clsDesc.getJavaClass(), jdoFields, sqlTypes);
+        return ((BaseFactory) _factory).getCallQuery(spCall, types,_clsDesc.getJavaClass(), jdoFields, sqlTypes);
     }
 
     public QueryExpression getQueryExpression() {
@@ -310,10 +309,9 @@ public final class SQLEngine implements Persistence {
     }
 
     public Identity create(final Database database, final Object conn,
-                         final ProposedEntity entity, final Identity identity)
+                         final ProposedEntity entity, Identity identity)
     throws PersistenceException {
-        return (Identity) _createStatement.executeStatement(
-                database, (Connection) conn, identity, entity);
+        return (Identity) _createStatement.executeStatement(database, (Connection) conn, identity, entity);
     }
 
     public Object store(final Object conn, final Identity identity,
@@ -342,6 +340,7 @@ public final class SQLEngine implements Persistence {
      * @param identity Identity of the object to load.
      * @param accessMode The access mode (null equals shared)
      * @return The object's stamp, or null
+     * @throws ObjectNotFoundException The object was not found in persistent storage
      * @throws PersistenceException A persistence error occured
      */
     public Object load(final Object conn, final ProposedEntity entity,

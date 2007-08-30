@@ -60,7 +60,7 @@ public final class Lexer {
 
     private int _pos;
     private String _queryString;
-    private boolean _noMoreTokens = false;
+    private boolean noMoreTokens = false;
 
     /**
      * Creates a lexer which will seperate a string query into a series of 
@@ -79,7 +79,7 @@ public final class Lexer {
      *    otherwise false.
      */
     public boolean hasMoreTokens() {
-        return !_noMoreTokens;
+        return !noMoreTokens;
     }
 
     /**
@@ -101,7 +101,7 @@ public final class Lexer {
         if (_pos < _queryString.length()) {
             curChar = _queryString.charAt(_pos);
         } else {
-            _noMoreTokens = true;
+            noMoreTokens = true;
             return Token.END_OF_QUERY;
         }
       
@@ -112,7 +112,7 @@ public final class Lexer {
             if (_pos < _queryString.length()) {
                 curChar = _queryString.charAt(_pos);
             } else {
-                _noMoreTokens = true;
+                noMoreTokens = true;
                 return Token.END_OF_QUERY;
             }
         }
@@ -196,8 +196,6 @@ public final class Lexer {
             break;
         case ',':
             retToken = Token.COMMA;
-            break;
-        default:
             break;
         }
         
@@ -355,7 +353,7 @@ public final class Lexer {
      *      the current position is passed the last char
      */
     private char getChar() {
-        if (_pos < _queryString.length()) {
+        if(_pos < _queryString.length()) {
             return _queryString.charAt(_pos);
         }
         return 0;
@@ -670,7 +668,7 @@ public final class Lexer {
                
           curChar = consumeWhiteSpace(curChar);
           
-          if (!isDigit(curChar)) {
+          if (! isDigit(curChar)) {
               throw new InvalidCharException("Digit expected in time literal.  "
                       + "Position: " + _pos);
           }
@@ -944,15 +942,14 @@ public final class Lexer {
     /**
      * Consumes whitespace characters.
      *
-     * @param currentChar the current character before the call
+     * @param curChar the current character before the call
      * @return The current character after whitespace is consumed
      */
-    private char consumeWhiteSpace(final char curChar) {
-        char currentChar = curChar;
-        while (isWhiteSpace(currentChar)) {
+    private char consumeWhiteSpace(char curChar) {
+        while (isWhiteSpace(curChar)) {
             _pos++;
-            currentChar = _queryString.charAt(_pos);
+            curChar = _queryString.charAt(_pos);
         }
-        return currentChar;
+        return (curChar);
     }
 }

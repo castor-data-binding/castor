@@ -15,8 +15,6 @@
  */
 package org.exolab.castor.builder.factory;
 
-import org.castor.xml.JavaNaming;
-import org.castor.xml.JavaNamingImpl;
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.FieldInfo;
@@ -24,6 +22,7 @@ import org.exolab.castor.builder.info.XMLInfo;
 import org.exolab.castor.builder.types.XSListType;
 import org.exolab.castor.builder.types.XSClass;
 import org.exolab.castor.builder.types.XSType;
+import org.exolab.castor.xml.JavaNaming;
 import org.exolab.javasource.JClass;
 import org.exolab.javasource.JSourceCode;
 
@@ -206,7 +205,7 @@ public final class XMLFieldHandlerFactory {
             if ((isAttribute | isContent) && xsType.isDateTime()
                     && xsType.getType() != XSType.DATETIME_TYPE) {
                 jsc.append(".parse");
-                jsc.append(_config.getJavaNaming().toJavaClassName(xsType.getName()));
+                jsc.append(JavaNaming.toJavaClassName(xsType.getName()));
                 jsc.append("((java.lang.String) value))");
             } else {
                 jsc.append(") value");
@@ -248,7 +247,7 @@ public final class XMLFieldHandlerFactory {
             jsc.append(" target = (");
             jsc.append(localClassName);
             jsc.append(") object;");
-            String cName = _config.getJavaNaming().toJavaClassName(cInfo.getElementName());
+            String cName = JavaNaming.toJavaClassName(cInfo.getElementName());
             // if (cInfo instanceof CollectionInfoJ2) {
             // jsc.add("target.clear" + cName + "();");
             // } else {

@@ -42,16 +42,23 @@
  *
  * $Id$
  */
+
+
 package org.exolab.castor.persist;
+
 
 import java.util.Enumeration;
 import java.util.Hashtable;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.util.Configuration;
-import org.castor.cpa.CPAConfiguration;
+
+import org.castor.util.ConfigKeys;
+import org.castor.util.Configuration;
+import org.castor.util.Messages;
+
 import org.exolab.castor.persist.spi.KeyGeneratorFactory;
+
 
 /**
  * Registry for {@link KeyGeneratorFactory} implementations
@@ -61,7 +68,8 @@ import org.exolab.castor.persist.spi.KeyGeneratorFactory;
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
-public final class KeyGeneratorFactoryRegistry {
+public final class KeyGeneratorFactoryRegistry
+{
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      *  Logging </a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(KeyGeneratorFactoryRegistry.class);
@@ -70,6 +78,7 @@ public final class KeyGeneratorFactoryRegistry {
      * Association between key genarator name and KeyGeneratorFactory.
      */
     private static Hashtable  _factories;
+
 
     /**
      * Returns a key generator factory with the specified name.
@@ -80,10 +89,12 @@ public final class KeyGeneratorFactoryRegistry {
      * @return The {@link KeyGeneratorFactory}, null
      *  if no key generator factory with this name exists
      */
-    public static KeyGeneratorFactory getKeyGeneratorFactory(final String name) {
+    public static KeyGeneratorFactory getKeyGeneratorFactory( String name )
+    {
         load();
-        return (KeyGeneratorFactory) _factories.get(name);
+        return (KeyGeneratorFactory) _factories.get( name );
     }
+
 
     /**
      * Returns the names of all the configured key generator factories
@@ -92,14 +103,15 @@ public final class KeyGeneratorFactoryRegistry {
      *
      * @return Names of key generator factories
      */
-    public static String[] getKeyGeneratorFactoryNames() {
+    public static String[] getKeyGeneratorFactoryNames()
+    {
         String[]    names;
         Enumeration enumeration;
 
         load();
         names = new String[ _factories.size() ];
         enumeration = _factories.keys();
-        for (int i = 0; i < names.length; ++i) {
+        for ( int i = 0 ; i < names.length ; ++i ) {
             names[ i ] = (String) enumeration.nextElement();
         }
         return names;
@@ -113,18 +125,17 @@ public final class KeyGeneratorFactoryRegistry {
         if (_factories == null) {
             _factories = new Hashtable();
             
-            Configuration config = CPAConfiguration.getInstance();
-            Object[] objects = config.getObjectArray(
-                    CPAConfiguration.KEYGENERATOR_FACTORIES, config.getApplicationClassLoader());
-            for (int i = 0; i < objects.length; i++) {
-                KeyGeneratorFactory factory = (KeyGeneratorFactory) objects[i];
-                _factories.put(factory.getName(), factory);
+            Configuration config = Configuration.getInstance();
+            String[] props = config.getProperty(ConfigKeys.KEYGENERATOR_FACTORIES);
+            ClassLoader ldr = KeyGeneratorFactoryRegistry.class.getClassLoader();
+            for (int i = 0; i < props.length; i++) {
+                try {
+                    Object factory = ldr.loadClass(props[i]).newInstance();
+                    _factories.put(((KeyGeneratorFactory) factory).getName(), factory);
+                } catch (Exception except) {
+                    LOG.error(Messages.format("persist.missingKeyGeneratorFactory", props[i]));
+                }
             }
         }
     }
-    
-    /**
-     * Hide Utility Class Constructor.
-     */
-    private KeyGeneratorFactoryRegistry() { }
 }

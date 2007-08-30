@@ -33,7 +33,7 @@ public final class ParseTreeNode {
 
         public Object next() { return null; }
 
-        public void remove() { }
+        public void remove() {}
     }
 
     private static final NullIterator NULL_ITERATOR = new NullIterator();
@@ -157,9 +157,7 @@ public final class ParseTreeNode {
      * @return the number of children of this node.
      */
     public int getChildCount() {
-        if (_children == null) {
-            return 0;
-        }
+        if (_children == null) return 0;
         return _children.size();
     }
 

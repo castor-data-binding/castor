@@ -25,13 +25,14 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.jdo.engine.AbstractConnectionFactory;
 import org.castor.jdo.engine.DatabaseRegistry;
 import org.castor.util.Messages;
+
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.ClassMolder;
 
 /**
- * Common static methods for Castor JDO.
+ * Common static methods for Castor JDO
  * 
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @author <a href="mailto:dulci AT start DOT no">Stein M. Hugubakken</a>

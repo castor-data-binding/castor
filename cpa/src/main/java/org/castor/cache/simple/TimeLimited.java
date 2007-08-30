@@ -26,6 +26,7 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.castor.cache.AbstractBaseCache;
 import org.castor.cache.CacheAcquireException;
 
@@ -53,7 +54,7 @@ public class TimeLimited extends AbstractBaseCache {
     /** The type of the cache. */
     public static final String TYPE = "time-limited";
     
-    /** Mapped initialization parameter <code>ttl</code>. */
+    /** Mapped initialization parameter: ttl */
     public static final String PARAM_TTL = "ttl";
 
     /** Default ttl of cache. */

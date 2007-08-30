@@ -2244,7 +2244,7 @@ public class Schema extends Annotated {
      * @return the namespace prefix associaed with the
      * given namespace.
     **/
-    public String getNamespacePrefix(String namespace) {
+    protected String getNamespacePrefix(String namespace) {
         return _namespaces.getNamespacePrefix(namespace);
     }
     

@@ -20,8 +20,7 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
-import org.castor.core.CoreConfiguration;
-import org.castor.core.util.Configuration;
+import org.castor.util.Configuration;
 import org.exolab.castor.mapping.MappingLoader;
 
 /**
@@ -30,13 +29,13 @@ import org.exolab.castor.mapping.MappingLoader;
 public class TestMappingLoaderRegistry extends TestCase {
 
     public final void testGetInstance() throws Exception {
-        Configuration config = new CoreConfiguration();
+        Configuration config = Configuration.getInstance();
         MappingLoaderRegistry registry = new MappingLoaderRegistry(config);
         assertNotNull(registry);
     }
 
     public final void testEnlistMappingLoaders() throws Exception {
-        Configuration config = new CoreConfiguration();
+        Configuration config = Configuration.getInstance();
         MappingLoaderRegistry registry = new MappingLoaderRegistry(config);
         assertNotNull(registry);
 
@@ -64,7 +63,7 @@ public class TestMappingLoaderRegistry extends TestCase {
     }
 
     public final void testGetXMLMappingLoader() throws Exception {
-        Configuration config = new CoreConfiguration();
+        Configuration config = Configuration.getInstance();
         MappingLoaderRegistry registry = new MappingLoaderRegistry(config);
         assertNotNull(registry);
 

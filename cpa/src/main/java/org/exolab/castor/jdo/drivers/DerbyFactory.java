@@ -56,23 +56,33 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date$
  */
-public final class DerbyFactory extends GenericFactory {
-    /** Internal name of this PersistenceFactory implementation. */
+public final class DerbyFactory
+    extends GenericFactory
+{
+
+    /**
+     * Internal name of this PersistenceFactory implementation 
+     */
     public static final String FACTORY_NAME = "derby";
 
     /**
      * @inheritDoc
+     * @see org.exolab.castor.persist.spi.PersistenceFactory#getFactoryName()
      */
-    public String getFactoryName() {
+    public String getFactoryName()
+    {
         return FACTORY_NAME;
     }
     
     /**
      * @inheritDoc
+     * @see org.exolab.castor.persist.spi.PersistenceFactory#getQueryExpression()
      */
-    public QueryExpression getQueryExpression() {
-        return new DerbyQueryExpression(this);
+    public QueryExpression getQueryExpression()
+    {
+        return new DerbyQueryExpression( this );
     }
+
 }
 
 

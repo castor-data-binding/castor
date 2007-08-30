@@ -19,13 +19,10 @@ import java.sql.Connection;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.castor.persist.LocalTransactionContext;
 import org.castor.util.Messages;
-import org.exolab.castor.jdo.DatabaseNotFoundException;
-import org.exolab.castor.jdo.OQLQuery;
-import org.exolab.castor.jdo.PersistenceException;
-import org.exolab.castor.jdo.TransactionAbortedException;
-import org.exolab.castor.jdo.TransactionNotInProgressException;
+import org.exolab.castor.jdo.*;
 import org.exolab.castor.persist.spi.CallbackInterceptor;
 import org.exolab.castor.persist.spi.InstanceFactory;
 
@@ -38,10 +35,15 @@ import org.exolab.castor.persist.spi.InstanceFactory;
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
-public class LocalDatabaseImpl extends AbstractDatabaseImpl {
-    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     *  Commons Logging</a> instance used for all logging. */
+public class LocalDatabaseImpl extends AbstractDatabaseImpl
+{
+
+    /**
+     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     * Commons Logging</a> instance used for all logging.
+     */
     private static Log _log = LogFactory.getFactory().getInstance(LocalDatabaseImpl.class);
+
 
     /**
      * Creates an instance of this class.
@@ -78,19 +80,19 @@ public class LocalDatabaseImpl extends AbstractDatabaseImpl {
      * @inheritDoc
      * @see org.exolab.castor.jdo.Database#close()
      */
-    public synchronized void close() throws PersistenceException {
+    public synchronized void close()
+        throws PersistenceException
+    {
         try {
             if (isActive()) {
                 try {
                     _ctx.rollback();
                 } catch (Exception except) {
-                    _log.debug("Exception at rollback of TransactionContext.");
                 }
                 
                 try {
                     _ctx.close();
                 } catch (Exception except) {
-                    _log.debug("Exception at close of TransactionContext.");
                 }
                 
                 throw new PersistenceException(Messages.message("jdo.dbClosedTxRolledback"));
@@ -100,17 +102,17 @@ public class LocalDatabaseImpl extends AbstractDatabaseImpl {
         }
     }
 
-    /**
+	/**
      * Overrides Object.finalize().
-     * 
-     * Outputs a warning message to the logs if the current DatabaseImpl 
-     * instance still has valid scope. In this condition - a condition that 
-     * ideally should not occur at all - we close the instance as well to 
-     * free up resources.
-     * 
-     * @see java.lang.Object#finalize()
-     */
-    protected void finalize() throws Throwable {
+	 * 
+	 * Outputs a warning message to the logs if the current DatabaseImpl 
+	 * instance still has valid scope. In this condition - a condition that 
+	 * ideally should not occur at all - we close the instance as well to 
+	 * free up resources.
+	 * 
+	 * @see java.lang.Object#finalize()
+	 */
+	protected void finalize() throws Throwable {
         if (_scope != null || !isActive()) { return; }
             
         // retrieve SQL bound to this Database instance
@@ -120,13 +122,16 @@ public class LocalDatabaseImpl extends AbstractDatabaseImpl {
         _log.warn(Messages.format("jdo.finalize_close", this.toString(), _dbName, sql));
 
         close();
-    }
+	}
 
     /**
      * @inheritDoc
+     * @see org.exolab.castor.jdo.Database#begin()
      */
-    public void begin() throws PersistenceException {
-        _log.debug("Beginning tx");
+    public void begin()
+        throws PersistenceException
+    {
+        _log.debug( "Beginning tx" );
 
         if (isActive()) {
             throw new PersistenceException(Messages.message("jdo.txInProgress"));
@@ -135,19 +140,22 @@ public class LocalDatabaseImpl extends AbstractDatabaseImpl {
         // _ctx.setStatus(Status.STATUS_ACTIVE);
         _ctx.setStatus(0);
         
-        _ctx.setLockTimeout(_lockTimeout);
-        _ctx.setAutoStore(_autoStore);
-        _ctx.setCallback(_callback);
-        _ctx.setInstanceFactory(_instanceFactory);
+        _ctx.setLockTimeout( _lockTimeout );
+        _ctx.setAutoStore( _autoStore );
+        _ctx.setCallback( _callback );
+        _ctx.setInstanceFactory( _instanceFactory );
 
         registerSynchronizables();
     }
 
     /**
      * @inheritDoc
+     * @see org.exolab.castor.jdo.Database#commit()
      */
-    public void commit() throws TransactionNotInProgressException, TransactionAbortedException {
-        _log.debug("Committing tx");
+    public void commit()
+        throws TransactionNotInProgressException, TransactionAbortedException
+    {
+        _log.debug( "Committing tx" );
 
         if (!isActive()) {
             throw new TransactionNotInProgressException(Messages.message("jdo.txNotInProgress"));
@@ -167,7 +175,7 @@ public class LocalDatabaseImpl extends AbstractDatabaseImpl {
         } finally {
             try {
                 // TODO [SMH]: Temporary fix, see bug 1491/CASTOR-630.
-                if (_ctx.isOpen()) {
+                if(_ctx.isOpen()) {
                     _ctx.close();
                 }
            } catch (Exception e) {
@@ -182,7 +190,9 @@ public class LocalDatabaseImpl extends AbstractDatabaseImpl {
      * @inheritDoc
      * @see org.exolab.castor.jdo.Database#rollback()
      */
-    public void rollback() throws TransactionNotInProgressException {
+    public void rollback()
+        throws TransactionNotInProgressException
+    {
         _log.debug("Rolling back tx");
 
         if (!isActive()) {
@@ -197,12 +207,14 @@ public class LocalDatabaseImpl extends AbstractDatabaseImpl {
      * @inheritDoc
      * @see org.exolab.castor.jdo.Database#getJdbcConnection()
      */
-    public Connection getJdbcConnection() throws PersistenceException {
+    public Connection getJdbcConnection() throws PersistenceException 
+    {
         if (_ctx == null || !_ctx.isOpen()) {
             String message = Messages.message("jdo.dbTxNotInProgress.jdbc");
             throw new PersistenceException (message);
         }
         return _ctx.getConnection(_scope.getLockEngine());
     }
+
 }  
                                 

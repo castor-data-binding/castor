@@ -91,7 +91,7 @@ public class ParseTreeWalker {
         _dbInfo = dbInfo;
 
         if (!_parseTree.isRoot()) {
-            throw new QueryException("ParseTreeWalker must be created with the "
+            throw new QueryException( "ParseTreeWalker must be created with the "
                     + "root node of the parse tree.");
         }
 
@@ -132,17 +132,17 @@ public class ParseTreeWalker {
      * @return The _paramInfo member.
      */
     public Hashtable getParamInfo() {
-        if (_paramInfo == null) { _paramInfo = new Hashtable(); }
+        if(_paramInfo == null) { _paramInfo = new Hashtable(); }
         return _paramInfo;
     }
 
     private HashMap getFieldInfo() {
-        if (_fieldInfo == null) { _fieldInfo = new HashMap(); }
+        if(_fieldInfo == null) { _fieldInfo = new HashMap(); }
         return _fieldInfo;
     }
 
     private HashMap getPathInfo() {
-        if (_pathInfo == null) { _pathInfo = new HashMap(); }
+        if(_pathInfo == null) { _pathInfo = new HashMap(); }
         return _pathInfo;
     }
 
@@ -164,7 +164,7 @@ public class ParseTreeWalker {
      * @return Path info for the selected element, null otherwise. 
      */
     public Vector getProjectionInfo() {
-        switch (_projectionType) {
+        switch ( _projectionType ) {
         case DEPENDANT_OBJECT:
         case DEPENDANT_OBJECT_VALUE:
             ParseTreeNode projectionNode;
@@ -195,34 +195,32 @@ public class ParseTreeWalker {
         for (Iterator iter = _parseTree.children(); iter.hasNext(); ) {
             ParseTreeNode curChild = (ParseTreeNode) iter.next();
             if (curChild.getToken().getTokenType() == TokenType.KEYWORD_FROM) {
-                checkFromPart(curChild.getChild(0));
+                checkFromPart( curChild.getChild(0) );
                 break;
             }
         }
 
         int type = _parseTree.getChild(0).getToken().getTokenType();
         if (type == TokenType.KEYWORD_DISTINCT) {
-            checkSelectPart(_parseTree.getChild(1));
+            checkSelectPart( _parseTree.getChild(1) );
         } else {
-            checkSelectPart(_parseTree.getChild(0));
+            checkSelectPart( _parseTree.getChild(0) );
         }
 
         for (int curChild = 2; curChild <= _parseTree.getChildCount() - 1; curChild++) {
             int tokenType = _parseTree.getChild(curChild).getToken().getTokenType();
             switch (tokenType) {
             case TokenType.KEYWORD_WHERE:
-                checkWhereClause(_parseTree.getChild(curChild));
+                checkWhereClause( _parseTree.getChild(curChild) );
                 break;
             case TokenType.KEYWORD_ORDER:
-                checkOrderClause(_parseTree.getChild(curChild));
+                checkOrderClause( _parseTree.getChild(curChild) );
                 break;
             case TokenType.KEYWORD_LIMIT:
-                checkLimitClause(_parseTree.getChild(curChild));
+                checkLimitClause( _parseTree.getChild(curChild) );
                 break;
             case TokenType.KEYWORD_OFFSET:
-                checkOffsetClause(_parseTree.getChild(curChild));
-                break;
-            default:
+                checkOffsetClause( _parseTree.getChild(curChild) );
                 break;
             }
         }
@@ -423,9 +421,8 @@ public class ParseTreeWalker {
             case TokenType.IDENTIFIER:
                 //a SQL function call -- check the arguments
                 _projectionType = FUNCTION;
-                for (Iterator iter = projection.getChild(0).children(); iter.hasNext(); ) {
-                    checkProjection((ParseTreeNode) iter.next(), false, true);
-                }
+                for (Iterator iter = projection.getChild(0).children(); iter.hasNext(); )
+                  checkProjection((ParseTreeNode) iter.next(), false, true);
                 break;
             case TokenType.DOT:
                 //a path expression -- check if it is valid, and create a paramInfo
@@ -723,8 +720,6 @@ public class ParseTreeWalker {
         case TokenType.KEYWORD_LIST:
             systemType = getParamTypeForList(paramTree.getParent());
             break;
-        default:
-            break;
         }
 
         //get the param info for this numbered param
@@ -757,8 +752,6 @@ public class ParseTreeWalker {
             case TokenType.IDENTIFIER:
                 JDOFieldDescriptor field = checkField(curChild);
                 return field.getFieldType().getName();
-            default:
-                break;
             }
         }
 
@@ -780,7 +773,7 @@ public class ParseTreeWalker {
             ParseTreeNode curChild = (ParseTreeNode) iter.next();
             int tokenType = curChild.getToken().getTokenType();
 
-            switch (tokenType) {
+            switch(tokenType) {
             case TokenType.STRING_LITERAL:    return "java.lang.String";
             case TokenType.DOUBLE_LITERAL:    return "java.lang.Double";
             case TokenType.LONG_LITERAL:      return "java.lang.Long";
@@ -795,17 +788,14 @@ public class ParseTreeWalker {
                     String udt = curChild.getChild(0).getToken().getTokenValue();
                     try {
                         return Types.typeFromName(_classLoader, udt).getName();
-                    } catch (ClassNotFoundException e1) {
+                    } catch(ClassNotFoundException e1) {
                         throw new QueryException("Could not find class " + udt);
                     }
                 }
-            default:
-                break;
             }
         }
 
-        // default to String, if only simple bind variables are present in the list 
-        return "java.lang.String";
+        return "java.lang.String";    // default to String, if only simple bind variables are present in the list 
     }
 
     private JDOFieldDescriptor getJDOFieldDescriptor(final ParseTreeNode comparisonTree)
@@ -832,7 +822,7 @@ public class ParseTreeWalker {
     private void checkInClauseRightSide(final ParseTreeNode theList)
     throws QueryException {
         if (theList.getToken().getTokenType() != TokenType.KEYWORD_LIST) {
-            throw new QueryException("The right side of the IN operator must be a LIST.");
+            throw new QueryException( "The right side of the IN operator must be a LIST." );
         }
 
         for (Iterator iter = theList.children(); iter.hasNext(); ) {
@@ -865,7 +855,7 @@ public class ParseTreeWalker {
     private void checkOrderClause(final ParseTreeNode orderClause)
     throws QueryException {
         if (orderClause.getToken().getTokenType() != TokenType.KEYWORD_ORDER) {
-            throw new QueryException("checkOrderClause was called on a subtree which "
+            throw new QueryException( "checkOrderClause was called on a subtree which "
                     + "is not an order clause.");
         }
 
@@ -880,9 +870,6 @@ public class ParseTreeWalker {
                 // iterate on child
                 curChild = curChild.getChild(0);
                 tokenType = curChild.getToken().getTokenType();
-                break;
-            default:
-                break;
             }
             
             switch (tokenType) {
@@ -895,8 +882,8 @@ public class ParseTreeWalker {
                     if (type == TokenType.LPAREN) {
                         // A function, skip to next element
                         Iterator arguments = curChild.getChild(0).children();
-                        while (arguments.hasNext()) {
-                            ParseTreeNode nn = (ParseTreeNode) arguments.next();
+                        while(arguments.hasNext()) {
+                            ParseTreeNode nn = (ParseTreeNode)arguments.next();
                             checkWhereClause(nn);
                         }
                     }
@@ -966,8 +953,6 @@ public class ParseTreeWalker {
                 break;
             case TokenType.KEYWORD_OFFSET:
                 addOffsetClause(curChild);
-                break;
-            default:
                 break;
             }
         }
@@ -1201,7 +1186,7 @@ public class ParseTreeWalker {
         switch (tokenType) {
         case TokenType.LPAREN:
             //Parens passed through from where clause in SQL
-            return "( " + getSQLExpr(exprTree.getChild(0)) + " )";
+            return "( " + getSQLExpr( exprTree.getChild(0) ) + " )";
         case TokenType.PLUS:
         case TokenType.MINUS:
         case TokenType.KEYWORD_ABS:
@@ -1209,12 +1194,12 @@ public class ParseTreeWalker {
             //(possible) unary operators
             if (exprTree.getChildCount() == 1) {
                 return exprTree.getToken().getTokenValue() + " "
-                       + getSQLExpr(exprTree.getChild(0));
+                       + getSQLExpr( exprTree.getChild(0) );
             }
             //this was binary PLUS or MINUS
-            return getSQLExpr(exprTree.getChild(0)) + " "
+            return getSQLExpr( exprTree.getChild(0) ) + " "
                    + exprTree.getToken().getTokenValue() + " "
-                   + getSQLExpr(exprTree.getChild(1));
+                   + getSQLExpr( exprTree.getChild(1) );
         case TokenType.KEYWORD_AND:
         case TokenType.KEYWORD_OR:
         case TokenType.EQUAL:
@@ -1230,20 +1215,20 @@ public class ParseTreeWalker {
         case TokenType.KEYWORD_LIKE:
         case TokenType.KEYWORD_IN:
             //binary operators
-            return getSQLExpr(exprTree.getChild(0)) + " "
+            return getSQLExpr( exprTree.getChild(0) ) + " "
                    + exprTree.getToken().getTokenValue() + " "
-                   + getSQLExpr(exprTree.getChild(1));
+                   + getSQLExpr( exprTree.getChild(1) );
         case TokenType.KEYWORD_BETWEEN:
             //tertiary BETWEEN operator
-            return getSQLExpr(exprTree.getChild(0)) + " "
+            return getSQLExpr( exprTree.getChild(0) ) + " "
                    + exprTree.getToken().getTokenValue() + " "
-                   + getSQLExpr(exprTree.getChild(1)) + " AND "
-                   + getSQLExpr(exprTree.getChild(2));
+                   + getSQLExpr( exprTree.getChild(1) ) + " AND "
+                   + getSQLExpr( exprTree.getChild(2) );
         case TokenType.KEYWORD_IS_DEFINED:
             //built in functions
-            return getSQLExpr(exprTree.getChild(0)) + " IS NOT NULL ";
+            return getSQLExpr( exprTree.getChild(0) ) + " IS NOT NULL ";
         case TokenType.KEYWORD_IS_UNDEFINED:
-            return getSQLExpr(exprTree.getChild(0)) + " IS NULL ";
+            return getSQLExpr( exprTree.getChild(0) ) + " IS NULL ";
         case TokenType.KEYWORD_COUNT:
             int type = exprTree.getChild(0).getToken().getTokenType();
             if (type == TokenType.TIMES) {
@@ -1251,7 +1236,7 @@ public class ParseTreeWalker {
             } else if (type == TokenType.KEYWORD_DISTINCT) {
                 return " COUNT(DISTINCT " + getSQLExpr(exprTree.getChild(1)) + ") ";
             } else {
-                return " COUNT(" + getSQLExpr(exprTree.getChild(0)) + ") ";
+                return " COUNT(" + getSQLExpr(exprTree.getChild(0)) +") ";
             }
         case TokenType.KEYWORD_SUM:
         case TokenType.KEYWORD_MIN:
@@ -1284,7 +1269,7 @@ public class ParseTreeWalker {
                 Iterator iter = exprTree.children();
                 iter = ((ParseTreeNode) iter.next()).children(); // LPAREN's children
                 for (; iter.hasNext(); ) {
-                    sb.append(getSQLExpr((ParseTreeNode) iter.next())).append(" , ");
+                    sb.append(getSQLExpr( (ParseTreeNode) iter.next())).append(" , ");
                     paramCount++;
                 }
 
@@ -1307,25 +1292,25 @@ public class ParseTreeWalker {
                 ParseTreeNode n;
                 while (iter.hasNext()) {
                   n = (ParseTreeNode) iter.next();
-                  System.err.println("\t" + n.toStringEx());
+                  System.err.println( "\t" + n.toStringEx() );
                 }
                 // Exception follows in addJoinsForPathExpression()
               }
-              addJoinsForPathExpression(path);
+              addJoinsForPathExpression( path );
             }
             
             JDOFieldDescriptor field =
               (JDOFieldDescriptor) getFieldInfo().get(exprTree);
             if (field == null) {
-                throw new IllegalStateException(
-                        "fieldInfo for " + exprTree.toStringEx() + " not found");
+              throw new IllegalStateException("fieldInfo for "
+                                              + exprTree.toStringEx() + " not found");
             }
             
             JDOClassDescriptor clsDesc =
               (JDOClassDescriptor) field.getContainingClassDescriptor();
             if (clsDesc == null) {
-                throw new IllegalStateException(
-                        "ContainingClass of " + field.toString() + " is null !");
+              throw new IllegalStateException("ContainingClass of "
+                                              + field.toString()+" is null !");
             }
             
             String clsTableAlias;
@@ -1410,8 +1395,6 @@ public class ParseTreeWalker {
         case TokenType.KEYWORD_LIMIT:
         case TokenType.KEYWORD_OFFSET:
             return getSQLExprForLimit(exprTree);
-        default:
-            break;
         }
 
         return "";
@@ -1439,8 +1422,6 @@ public class ParseTreeWalker {
             case TokenType.DOUBLE_LITERAL:
             case TokenType.CHAR_LITERAL:
                 return exprTree.getToken().getTokenValue();
-            default:
-                break;
             }
         }
         return sb.toString();
@@ -1470,8 +1451,6 @@ public class ParseTreeWalker {
             case TokenType.DOT:
             case TokenType.IDENTIFIER:
                 sb.append(getSQLExpr(curChild)).append(" ");
-                break;
-            default:
                 break;
             }
         }

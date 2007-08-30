@@ -7,21 +7,21 @@ package org.exolab.castor.jdo.oql;
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class SyntaxNotSupportedException extends OQLSyntaxException {
-    /** SerialVersionUID. */
+    /** SerialVersionUID */
     private static final long serialVersionUID = 4631661265633584506L;
 
     /**
-     * @param message A description of the error encountered.
-     */
-    public SyntaxNotSupportedException(final String message) {
-        super(message);
-    }
+	 * @param message A description of the error encountered.
+	 */
+	public SyntaxNotSupportedException(String message) {
+		super(message);
+	}
 
-    /**
-     * @param message A description of the error encountered.
-     * @param exception The root cause of this exception.
-     */
-    public SyntaxNotSupportedException(final String message, final Throwable exception) {
-        super(message, exception);
-    }
+	/**
+	 * @param message A description of the error encountered.
+	 * @param exception The root cause of this exception.
+	 */
+	public SyntaxNotSupportedException(String message, Throwable exception) {
+		super(message, exception);
+	}
 }

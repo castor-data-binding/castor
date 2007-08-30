@@ -54,7 +54,6 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 
-import org.castor.xml.JavaNaming;
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.FieldHandlerFactory;
@@ -115,8 +114,14 @@ public final class Introspector {
      *
      * This property is false by default.
      */
-    public static final String WRAP_COLLECTIONS_PROPERTY =
+     public static final String WRAP_COLLECTIONS_PROPERTY =
         "org.exolab.castor.xml.introspector.wrapCollections";
+
+    private static final String ADD     = "add";
+    private static final String GET     = "get";
+    private static final String IS      = "is";
+    private static final String SET     = "set";
+    private static final String CREATE  = "create";
 
     /**
      * The default FieldHandlerFactory
@@ -221,11 +226,6 @@ public final class Introspector {
      * Specifies class loader to be used.
      */
     private ClassLoader _classLoader = null;
-    
-    /**
-     * The {@link JavaNaming} to be used.
-     */
-    private JavaNaming _javaNaming;
 
     /**
      * Creates a new instance of the Introspector.
@@ -253,8 +253,6 @@ public final class Introspector {
             _defaultNaming = config.getXMLNaming(_classLoader);
         }
         _naming = _defaultNaming;
-        _javaNaming = config.getJavaNaming();
-
         setPrimitiveNodeType(config.getPrimitiveNodeType());
 
         //-- wrap collections in a container element?
@@ -417,7 +415,7 @@ public final class Introspector {
             String methodName = method.getName();
 
             //-- read methods
-            if (methodName.startsWith(JavaNaming.METHOD_PREFIX_GET)) {
+            if (methodName.startsWith(GET)) {
                 if (method.getParameterTypes().length != 0) continue;
                 //-- disable direct field access
                 ++methodCount;
@@ -429,7 +427,7 @@ public final class Introspector {
 
                 //-- caclulate name from Method name
                 String fieldName = methodName.substring(3);
-                fieldName = _javaNaming.toJavaMemberName(fieldName);
+                fieldName = JavaNaming.toJavaMemberName(fieldName);
 
                 MethodSet methodSet = (MethodSet)methodSets.get(fieldName);
                 if (methodSet == null) {
@@ -438,7 +436,7 @@ public final class Introspector {
                 }
                 methodSet.get = method;
             }
-            else if (methodName.startsWith(JavaNaming.METHOD_PREFIX_IS)) {
+            else if (methodName.startsWith(IS)) {
                 if (method.getParameterTypes().length != 0) continue;
                 //-- make sure type is not null, and a boolean
                 Class type = method.getReturnType();
@@ -452,8 +450,8 @@ public final class Introspector {
                 //-- disable direct field access
                 ++methodCount;
                 //-- caclulate name from Method name
-                String fieldName = methodName.substring(JavaNaming.METHOD_PREFIX_IS.length());
-                fieldName = _javaNaming.toJavaMemberName(fieldName);
+                String fieldName = methodName.substring(IS.length());
+                fieldName = JavaNaming.toJavaMemberName(fieldName);
 
                 MethodSet methodSet = (MethodSet)methodSets.get(fieldName);
                 if (methodSet == null) {
@@ -464,7 +462,7 @@ public final class Introspector {
             }
             //-----------------------------------/
             //-- write methods (collection item)
-            else if (methodName.startsWith(JavaNaming.METHOD_PREFIX_ADD)) {
+            else if (methodName.startsWith(ADD)) {
                 if (method.getParameterTypes().length != 1) continue;
                 //-- disable direct field access
                 ++methodCount;
@@ -472,7 +470,7 @@ public final class Introspector {
                 if (!isDescriptable(method.getParameterTypes()[0])) continue;
                 //-- caclulate name from Method name
                 String fieldName = methodName.substring(3);
-                fieldName = _javaNaming.toJavaMemberName(fieldName);
+                fieldName = JavaNaming.toJavaMemberName(fieldName);
                 MethodSet methodSet = (MethodSet) methodSets.get(fieldName);
                 if (methodSet == null) {
                     methodSet = new MethodSet(fieldName);
@@ -481,7 +479,7 @@ public final class Introspector {
                 methodSet.add = method;
             }
             //-- write method (singleton or collection)
-            else if (methodName.startsWith(JavaNaming.METHOD_PREFIX_SET)) {
+            else if (methodName.startsWith(SET)) {
                 if (method.getParameterTypes().length != 1) continue;
                 //-- disable direct field access
                 ++methodCount;
@@ -489,7 +487,7 @@ public final class Introspector {
                 if (!isDescriptable(method.getParameterTypes()[0])) continue;
                 //-- caclulate name from Method name
                 String fieldName = methodName.substring(3);
-                fieldName = _javaNaming.toJavaMemberName(fieldName);
+                fieldName = JavaNaming.toJavaMemberName(fieldName);
                 MethodSet methodSet = (MethodSet) methodSets.get(fieldName);
                 if (methodSet == null) {
                     methodSet = new MethodSet(fieldName);
@@ -497,15 +495,15 @@ public final class Introspector {
                 }
                 methodSet.set = method;
             }
-            else if (methodName.startsWith(JavaNaming.METHOD_PREFIX_CREATE)) {
+            else if (methodName.startsWith(CREATE)) {
                 if (method.getParameterTypes().length != 0) continue;
                 Class type = method.getReturnType();
                 //-- make sure return type is "descriptable"
                 //-- and not null
                 if (!isDescriptable(type)) continue;
                 //-- caclulate name from Method name
-                String fieldName = methodName.substring(JavaNaming.METHOD_PREFIX_CREATE.length());
-                fieldName = _javaNaming.toJavaMemberName(fieldName);
+                String fieldName = methodName.substring(CREATE.length());
+                fieldName = JavaNaming.toJavaMemberName(fieldName);
                 MethodSet methodSet = (MethodSet) methodSets.get(fieldName);
                 if (methodSet == null) {
                     methodSet = new MethodSet(fieldName);

@@ -81,20 +81,22 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @version $Revision$ $Date: 2005-06-01 06:08:22 -0600 (Wed, 01 Jun 2005) $
  * @see HighLowKeyGenerator
  */
-public final class HighLowKeyGeneratorFactory implements KeyGeneratorFactory {
+public final class HighLowKeyGeneratorFactory implements KeyGeneratorFactory
+{
     /**
      * Produce the key generator.
      * @param factory Helper object for obtaining database-specific QuerySyntax.
      * @param params Parameters for key generator.
      */
-    public KeyGenerator getKeyGenerator(final PersistenceFactory factory,
-            final Properties params, final int sqlType) throws MappingException {
-        
-        return new HighLowKeyGenerator(factory, params, sqlType);
+    public KeyGenerator getKeyGenerator( PersistenceFactory factory,
+            Properties params, int sqlType )
+            throws MappingException
+    {
+        return new HighLowKeyGenerator( factory, params, sqlType );
     }
 
     /**
-     * The short name of this key generator is "HIGH-LOW".
+     * The short name of this key generator is "HIGH-LOW"
      */
     public String getName() {
         return "HIGH-LOW";

@@ -42,7 +42,10 @@
  *
  * $Id$
  */
+
+
 package org.exolab.castor.jdo;
+
 
 /**
  * A callback get/set the timestamp.
@@ -50,22 +53,26 @@ package org.exolab.castor.jdo;
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
-public interface TimeStampable {
-    long NO_TIMESTAMP = 0;
+public interface TimeStampable
+{
+
+    public static final long NO_TIMESTAMP = 0;
 
     /**
      * Set the timestamp.
      * 
      * @param timestamp The timestamp
      */
-    void jdoSetTimeStamp(long timestamp);
+    public void jdoSetTimeStamp( long timestamp );
+
 
     /**
      * Get the timestamp.
      * NOTE: immediately after the object creation this method must return 0,
      * this is an indication of the new object.
      */
-    long jdoGetTimeStamp();
+    public long jdoGetTimeStamp();
+
 }
 
 

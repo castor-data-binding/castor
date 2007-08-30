@@ -50,9 +50,4 @@ public interface XMLConstants {
     /** XML name type QNAME. (qualified name.) */
     short NAME_TYPE_QNAME   = 3;
 
-    /** name of per package mapping file */
-    String PKG_MAPPING_FILE = ".castor.xml";
-    
-    /** name of the class descriptor resolver file */
-    String PKG_CDR_LIST_FILE = ".castor.cdr";
 }

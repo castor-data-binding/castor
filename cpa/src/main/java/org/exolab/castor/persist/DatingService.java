@@ -42,15 +42,16 @@
  *
  * $Id$
  */
+
+
 package org.exolab.castor.persist;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
 import java.util.Vector;
-
+import java.util.Hashtable;
+import java.util.Enumeration;
 import org.exolab.castor.jdo.engine.SQLEngine;
-import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.Types;
+import org.exolab.castor.mapping.MappingException;
 
 /**
  * DataService is a helper class for constructing <tt>ClassMolder</tt>s and
@@ -58,78 +59,71 @@ import org.exolab.castor.mapping.loader.Types;
  *
  * @author <a href="mailto:yip@intalio.com">Thomas Yip</a>
  */
-public class DatingService {
+class DatingService {
 
-    private ClassLoader _loader;
+    ClassLoader loader;
 
-    private Hashtable _clsMolders;
+    Hashtable clsMolders;
 
-    private Vector _needExtendsClassMolder;
+    Vector needExtendsClassMolder;
 
-    private Vector _needDependsClassMolder;
+    Vector needDependsClassMolder;
 
-    private Vector _needFieldClass;
+    Vector needFieldClass;
 
-    private Hashtable _javaClasses;
+    Hashtable javaClasses;
 
-    DatingService(final ClassLoader loader) {
-        this._loader = loader;
+    DatingService( ClassLoader loader ) {
+        this.loader = loader;
     }
 
     /**
      * Indicate that all ClassMolder is registered. DatingService
      * will resolve all the outstanding relation now.
      */
-    void close() throws MappingException {
+    void close() throws MappingException{
 
         Enumeration e;
-        ClassMolder initiateCm;
-        ClassMolder targetCm;
+        ClassMolder initiateCm, targetCm;
         FieldMolder initiateFm;
         
         // resolve extends
-        if (_needExtendsClassMolder != null) {
-            e = _needExtendsClassMolder.elements();
-            while (e.hasMoreElements()) {
-                Pair pair = (Pair) e.nextElement();
-                initiateCm = (ClassMolder) pair._value;
-                targetCm = (ClassMolder) _clsMolders.get(pair._key);
-                if (targetCm == null) {
-                    throw new MappingException(
-                            "Extended element, \"" + pair._key + "\"  not found!");
-                }
-                initiateCm.setExtends(targetCm);
-                ((SQLEngine) initiateCm.getPersistence()).setExtends(
-                        (SQLEngine) targetCm.getPersistence());
+        if ( needExtendsClassMolder != null ) {
+            e = needExtendsClassMolder.elements();
+            while ( e.hasMoreElements() ) {
+                Pair pair = (Pair)e.nextElement();
+                initiateCm = (ClassMolder) pair.value;
+                targetCm = (ClassMolder) clsMolders.get( pair.key );
+                if ( targetCm == null )
+                    throw new MappingException("Extended element, \""+pair.key+"\"  not found!");
+                initiateCm.setExtends( targetCm );
+                ((SQLEngine)initiateCm.getPersistence()).setExtends( (SQLEngine) targetCm.getPersistence() );
             }
         }
 
         // resolve depends
-        if (_needDependsClassMolder != null) {
-            e = _needDependsClassMolder.elements();
-            while (e.hasMoreElements()) {
-                Pair pair = (Pair) e.nextElement();
-                initiateCm = (ClassMolder) pair._value;
-                targetCm = (ClassMolder) _clsMolders.get(pair._key);
-                if (targetCm == null) {
-                    throw new MappingException(
-                            "Depended element, \"" + pair._key + "\"  not found!");
-                }
-                initiateCm.setDepends(targetCm);
+        if ( needDependsClassMolder != null ) {
+            e = needDependsClassMolder.elements();
+            while ( e.hasMoreElements() ) {
+                Pair pair = (Pair)e.nextElement();
+                initiateCm = (ClassMolder) pair.value;
+                targetCm = (ClassMolder) clsMolders.get( pair.key );
+                if ( targetCm == null )
+                    throw new MappingException("Depended element, \""+pair.key+"\"  not found!");
+                initiateCm.setDepends( targetCm );
             }
         }
 
         // resolve depends field
-        if (_needFieldClass != null) {
-            e = _needFieldClass.elements();
-            while (e.hasMoreElements()) {
-                Pair pair = (Pair) e.nextElement();
-                initiateFm = (FieldMolder) pair._value;
-                targetCm = (ClassMolder) _clsMolders.get(pair._key);
-                if (targetCm == null) {
-                    throw new MappingException("Field element, \"" + pair._key + "\"  not found!");
-                }
-                initiateFm.setFieldClassMolder(targetCm);
+        if ( needFieldClass != null ) {
+            e = needFieldClass.elements();
+            while ( e.hasMoreElements() ) {
+                Pair pair = (Pair)e.nextElement();
+                initiateFm = (FieldMolder) pair.value;
+                targetCm = (ClassMolder) clsMolders.get( pair.key );
+                if ( targetCm == null )
+                    throw new MappingException("Field element, \""+pair.key+"\"  not found!");
+                initiateFm.setFieldClassMolder( targetCm );
                 
                 // initiateFm.getEnclosingClassMolder().resetResolver (initiateFm);
             }
@@ -141,30 +135,26 @@ public class DatingService {
      * Pair up ClassMolder and it extends class.
      * @return true if they can be paired up immediately.
      */
-    boolean pairExtends(final ClassMolder me, final String extName) throws MappingException {
+    boolean pairExtends( ClassMolder me, String extName ) 
+            throws MappingException {
 
-        if ((extName == null) || extName.equals("")) {
+        if ( extName == null || extName.equals("") )
             throw new IllegalArgumentException("Null classname not allowed!");
-        }
 
-        ClassMolder clsMold = (ClassMolder) _clsMolders.get(extName);
-        if (clsMold != null) {
-            me.setExtends(clsMold);
-            SQLEngine sql = ((SQLEngine) me.getPersistence());
-            if (sql == null) {
-                throw new MappingException(
-                        "Class " + me + " extends on " + extName
-                        + " which is not persistence capable!");
-            }
-            sql.setExtends((SQLEngine) clsMold.getPersistence());
+        ClassMolder clsMold = (ClassMolder) clsMolders.get( extName );
+        if ( clsMold != null ) {
+            me.setExtends( clsMold );
+            SQLEngine sql = ((SQLEngine)me.getPersistence());
+            if ( sql == null )
+                throw new MappingException("Class "+me+" extends on "+extName+" which is not persistence capable!");
+            sql.setExtends((SQLEngine)clsMold.getPersistence() );
             return true;
         }
 
-        if (_needExtendsClassMolder == null) {
-            _needExtendsClassMolder = new Vector();
-        }
+        if ( needExtendsClassMolder == null )
+            needExtendsClassMolder = new Vector();
 
-        _needExtendsClassMolder.add(new Pair(extName, me));
+        needExtendsClassMolder.add( new Pair( extName, me ) );
         return false;
     }
 
@@ -172,77 +162,72 @@ public class DatingService {
      * Pair up ClassMolder and it depends class.
      * @return true if they can be paired up immediately.
      */
-    boolean pairDepends(final ClassMolder me, final String depName) {
-        if ((depName == null) || (depName.equals(""))) {
+    boolean pairDepends( ClassMolder me, String depName ) {
+        if ( depName == null || depName.equals("") )
+            return true;
+
+        ClassMolder clsMold = (ClassMolder) clsMolders.get( depName );
+        if ( clsMold != null ) {
+            me.setDepends( clsMold );
             return true;
         }
 
-        ClassMolder clsMold = (ClassMolder) _clsMolders.get(depName);
-        if (clsMold != null) {
-            me.setDepends(clsMold);
-            return true;
-        }
+        if ( needDependsClassMolder == null )
+            needDependsClassMolder = new Vector();
 
-        if (_needDependsClassMolder == null) {
-            _needDependsClassMolder = new Vector();
-        }
-
-        _needDependsClassMolder.add(new Pair(depName, me));
+        needDependsClassMolder.add( new Pair( depName, me ) );
         return false;
     }
 
     /**
-     * Resolve the java.lang.Class of the fully qualified class name.
+     * Resolve the java.lang.Class of the fully qualified class name
+     *
      */
-    Class resolve(final String className) throws ClassNotFoundException {
+    Class resolve( String className ) throws ClassNotFoundException {
         Class resolved;
-        if (_javaClasses == null) {
-            _javaClasses = new Hashtable();
-        } else if (_javaClasses.contains(className)) {
-            return (Class) _javaClasses.get(className);
-        }
-        resolved = Types.typeFromName(_loader, className);
-        _javaClasses.put(className, resolved);
+        if ( javaClasses == null )
+            javaClasses = new Hashtable();
+        else if ( javaClasses.contains( className ) )
+            return (Class) javaClasses.get( className );
+        resolved = Types.typeFromName( loader, className );
+        javaClasses.put( className, resolved );
         return resolved;
     }
 
     /**
-     * Pair the FieldMolder with the ClassMolder of typeName.
-     * 
+     * Pair the FieldMolder with the ClassMolder of typeName
      * @param fieldMolder the fieldMolder to be paired.
-     * @param typeName Type of the field which the FieldMolder represents.
+     * @param typeName Type of the field which the FieldMolder represents
      * @exception MappingException indicates that the pairing failed.
      */
-    boolean pairFieldClass(final FieldMolder fieldMolder, final String typeName)
-    throws MappingException {
+    boolean pairFieldClass( FieldMolder fieldMolder, String typeName ) 
+        throws MappingException 
+    {
         
         try {
-            if ((typeName == null) || typeName.equals("")) {
+            if ( typeName == null || typeName.equals("") )
                 return true;
-            }
 
-            if (Types.isSimpleType(resolve(typeName))) {
+            if ( Types.isSimpleType( resolve( typeName ) ) )
                 return true;
-            }
 
-            if (Types.isEnumType(resolve(typeName))) {
+            if ( Types.isEnumType( resolve( typeName ) ) )
                 return true;
-            }
 
-            ClassMolder clsMold = (ClassMolder) _clsMolders.get(typeName);
-            if (clsMold != null) {
-                fieldMolder.setFieldClassMolder(clsMold);
+            ClassMolder clsMold = (ClassMolder) clsMolders.get( typeName );
+            if ( clsMold != null ) {
+                fieldMolder.setFieldClassMolder( clsMold );
                 // fieldMolder.getEnclosingClassMolder().resetResolver(fieldMolder);
                 return true;
             }
 
-            if (_needFieldClass == null) {
-                _needFieldClass = new Vector();
-            }
-            _needFieldClass.add(new Pair(typeName, fieldMolder));
+            if ( needFieldClass == null ) 
+                needFieldClass = new Vector();
+            needFieldClass.add( new Pair( typeName, fieldMolder ) );
             return false;
-        } catch (ClassNotFoundException e) {
-            throw new MappingException("ClassNotFound :\n" + e);
+        } 
+        catch ( ClassNotFoundException e ) {
+            throw new MappingException("ClassNotFound :\n"+e);
         }
     }
 
@@ -250,20 +235,19 @@ public class DatingService {
      * Register the name of a ClassMolder which will be pairing
      * up.
      */
-    void register(final String name, final ClassMolder clsMold) {
-        if (_clsMolders == null) {
-            _clsMolders = new Hashtable();
-        }
-        _clsMolders.put(name, clsMold);
+    void register( String name, ClassMolder clsMold ) {
+        if ( clsMolders == null )
+            clsMolders = new Hashtable();
+        clsMolders.put( name, clsMold );
     }
 
-    private final class Pair {
-        private Object _key;
-        private Object _value;
-        
-        private Pair(final Object key, final Object value) {
-            _key = key;
-            _value = value;
+    private class Pair {
+        public Object key;
+        public Object value;
+        private Pair( Object key, Object value ) {
+            this.key = key;
+            this.value = value;
         }
     }
+
 }

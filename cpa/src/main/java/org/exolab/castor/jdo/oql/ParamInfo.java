@@ -99,9 +99,9 @@ private ClassLoader _classLoader;
    * @throws QueryException if the user defined type cannot be converted to the
    *      systemType or if the type is not found.
    */
-  public ParamInfo(final String userDefinedType, final String systemType,
-          final JDOFieldDescriptor desc, final ClassLoader classLoader)
-  throws QueryException {
+  public ParamInfo( String userDefinedType, String systemType, JDOFieldDescriptor desc, ClassLoader classLoader )
+      throws QueryException
+  {
     _userDefinedType = userDefinedType;
     _systemType = systemType;
     _classLoader = classLoader;
@@ -110,27 +110,27 @@ private ClassLoader _classLoader;
     Class systemClass = null;
     try {
         systemClass = ClassLoadingUtils.loadClass (_classLoader, systemType);
-    } catch (Exception e) {
-      throw new QueryException("Error: Could not find system defined class: " + systemType);
+    }
+    catch (Exception e) {
+      throw new QueryException( "Error: Could not find system defined class: " + systemType );
     }
 
-    if (!userDefinedType.equals("")) {
+    if ( ! userDefinedType.equals("") ) {
       try {
         userClass = Types.typeFromName(getClass().getClassLoader(), userDefinedType);
 
-        if (userClass.isPrimitive()) {
-            userClass = Types.typeFromPrimitive(userClass);
-        }
-      } catch (Exception e) {
-        throw new QueryException("The class " + userClass + " could not be found.");
+        if ( userClass.isPrimitive() )
+          userClass = Types.typeFromPrimitive( userClass );
+
+      }
+      catch (Exception e) {
+        throw new QueryException( "The class " + userClass + " could not be found." );
       }
 
-      if (!systemClass.isAssignableFrom(userClass)) {
-        if (!(java.lang.Number.class.isAssignableFrom(userClass)
-                && java.lang.Number.class.isAssignableFrom(systemClass))) {
-            throw new QueryException("The class " + userClass
-                    + " is incompatible with the system defined class " + systemType);
-        }
+      if ( ! systemClass.isAssignableFrom(userClass) ) {
+        if ( ! ( java.lang.Number.class.isAssignableFrom(userClass) &&
+                 java.lang.Number.class.isAssignableFrom(systemClass) ) )
+          throw new QueryException( "The class " + userClass + " is incompatible with the system defined class " + systemType );
       }
 
       _class = userClass;
@@ -142,7 +142,7 @@ private ClassLoader _classLoader;
         try {
             _sqlType = SQLTypeInfos.sqlTypeNum2javaType(desc.getSQLType()[0]);
         } catch (Exception ex) {
-            throw new QueryException("Can't determine SQL class: " + ex);
+            throw new QueryException( "Can't determine SQL class: " + ex );
         }
         _convertor = desc.getConvertor();
         _convertorParam = desc.getConvertorParam();
@@ -159,33 +159,36 @@ private ClassLoader _classLoader;
    *    one prevuiously specified in the constructor, or if the systemType is
    *    not convertable to the original systemType.
    */
-  public void check(final String userDefinedType, final String systemType) throws QueryException {
-    if (!_userDefinedType.equals(userDefinedType)) {
-        throw new QueryException("Different types were specified for the same numbered parameter.");
-    }
+  public void check( String userDefinedType, String systemType )
+      throws QueryException
+  {
+    if ( ! _userDefinedType.equals(userDefinedType) )
+      throw new QueryException( "Different types were specified for the same numbered parameter." );
 
-    if (!systemType.equals(_systemType)) {
+    if ( ! systemType.equals(_systemType) ) {
       Class systemClass = null;
       try {
           systemClass = ClassLoadingUtils.loadClass (_classLoader, systemType);
-      } catch (Exception e) {
-        throw new QueryException("Error: Could notfind system defined class: " + systemType);
+      }
+      catch (Exception e) {
+        throw new QueryException( "Error: Could notfind system defined class: " + systemType );
       }
 
-      if (!userDefinedType.equals("")) {
+      if ( ! userDefinedType.equals("") ) {
         Class userClass = null;
         try {
             userClass = ClassLoadingUtils.loadClass(_classLoader, _userDefinedType);
-        } catch (Exception e) {
-          throw new QueryException("The class " + userClass + " could not be found.");
+        }
+        catch (Exception e) {
+          throw new QueryException( "The class " + userClass + " could not be found." );
         }
 
-        if (!systemClass.isAssignableFrom(userClass)) {
-            throw new QueryException("The class " + userDefinedType
-                    + " is incompatible with the system defined class " + systemType);
-        }
+        if ( ! systemClass.isAssignableFrom(userClass) )
+          throw new QueryException( "The class " + userDefinedType + " is incompatible with the system defined class " + systemType );
+
       }
     }
+    
   }
 
   /**
@@ -195,7 +198,7 @@ private ClassLoader _classLoader;
    * @return True if this parameter whas a user defined type otherwise false
    */
   public boolean isUserDefined() {
-    return !_userDefinedType.equals("");
+    return ! _userDefinedType.equals("");
   }
 
   /**
@@ -208,21 +211,23 @@ private ClassLoader _classLoader;
   }
 
     /**
-     * Returns the Java field type.
+     * Returns the Java field type
      *
-     * @return Java field type.
+     * @return Java field type
      */
-    public Class getFieldType() {
+    public Class getFieldType()
+    {
         return _fieldType;
     }
 
 
     /**
-     * Returns the SQL type.
+     * Returns the SQL type
      *
-     * @return SQL type.
+     * @return SQL type
      */
-    public Class getSQLType() {
+    public Class getSQLType()
+    {
         return _sqlType;
     }
 
@@ -241,7 +246,10 @@ private ClassLoader _classLoader;
      *
      * @return Convertor parameter
      */
-    public String getConvertorParam() {
+    public String getConvertorParam()
+    {
         return _convertorParam;
     }
+
+
 }

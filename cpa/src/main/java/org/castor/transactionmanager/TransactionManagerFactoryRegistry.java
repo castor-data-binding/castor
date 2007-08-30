@@ -17,11 +17,13 @@ package org.castor.transactionmanager;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.util.Configuration;
-import org.castor.cpa.CPAConfiguration;
+
+import org.castor.util.ConfigKeys;
+import org.castor.util.Configuration;
 
 /**
  * Registry for {@link TransactionManagerFactory} implementations obtained from the
@@ -41,7 +43,8 @@ public final class TransactionManagerFactoryRegistry {
     private static final Log LOG = LogFactory.getLog(
             TransactionManagerFactoryRegistry.class);
 
-    /** Association between name of implementation and TransactionManagerFactory instance. */
+    /** Association between name of {@link TransactionManager} implementation and 
+     *  TransactionManagerFactory instance. */
     private Map _factories = new HashMap();
 
     //--------------------------------------------------------------------------
@@ -54,12 +57,21 @@ public final class TransactionManagerFactoryRegistry {
      * @param config The LocalConfiguration.
      */
     public TransactionManagerFactoryRegistry(final Configuration config) {
-        ClassLoader loader = config.getApplicationClassLoader();
-        Object[] objects = config.getObjectArray(
-                CPAConfiguration.TRANSACTION_MANAGER_FACTORIES, loader);
-        for (int i = 0; i < objects.length; i++) {
-            TransactionManagerFactory factory = (TransactionManagerFactory) objects[i];
-            _factories.put(factory.getName(), factory);
+        String prop = config.getProperty(ConfigKeys.TRANSACTION_MANAGER_FACTORIES, "");
+        StringTokenizer tokenizer = new StringTokenizer(prop, ", ");
+        ClassLoader loader = TransactionManagerFactoryRegistry.class.getClassLoader();
+        while (tokenizer.hasMoreTokens()) {
+            String classname = tokenizer.nextToken();
+            try {
+                Class cls = loader.loadClass(classname);
+                Object obj = cls.newInstance();
+                TransactionManagerFactory factory = (TransactionManagerFactory) obj;
+                _factories.put(factory.getName(), factory);
+            } catch (Exception except) {
+                LOG.error("The TransactionManagerFactory " + classname + " "
+                        + "specified in the Castor properties file could not "
+                        + "be instantiated.");
+            }
         }
     }
 

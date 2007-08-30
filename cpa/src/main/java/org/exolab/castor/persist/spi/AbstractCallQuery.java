@@ -8,17 +8,22 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.persist.ProposedEntity;
-import org.castor.util.Messages;
+import org.exolab.castor.jdo.ObjectNotFoundException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.mapping.AccessMode;
+import org.castor.util.Messages;
 
 public abstract class AbstractCallQuery implements PersistenceQuery {
-    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
-     *  Logging</a> instance used for all logging. */
-    private static Log _log = LogFactory.getFactory().getInstance(AbstractCallQuery.class);
 
-    private int[] _sqlTypes;
+    /**
+     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
+     * Logging</a> instance used for all logging.
+     */
+    private static Log _log = LogFactory.getFactory().getInstance(
+            AbstractCallQuery.class);
+
+    protected int[] _sqlTypes;
 
     protected PreparedStatement _stmt;
 
@@ -26,11 +31,11 @@ public abstract class AbstractCallQuery implements PersistenceQuery {
 
     protected Identity _lastIdentity;
 
-    private final Class[] _types;
+    protected final Class[] _types;
 
     protected final Object[] _values;
 
-    private final Class _javaClass;
+    protected final Class _javaClass;
 
     protected final String _call;
 
@@ -47,9 +52,11 @@ public abstract class AbstractCallQuery implements PersistenceQuery {
 
     /**
      * @inheritDoc
+     * @see org.exolab.castor.persist.spi.PersistenceQuery
+     *      #fetch(org.castor.persist.ProposedEntity)
      */
-    public Object fetch(final ProposedEntity proposedObject)
-    throws PersistenceException {
+    public Object fetch(ProposedEntity proposedObject)
+            throws ObjectNotFoundException, PersistenceException {
         try {
             // Load all the fields of the object including one-one relations
             // index 0 belongs to the identity
@@ -91,17 +98,17 @@ public abstract class AbstractCallQuery implements PersistenceQuery {
         return _types.length;
     }
 
-    public Class getParameterType(final int index)
+    public Class getParameterType(int index)
             throws ArrayIndexOutOfBoundsException {
         return _types[index];
     }
 
-    public void setParameter(final int index, final Object value)
+    public void setParameter(int index, Object value)
             throws ArrayIndexOutOfBoundsException, IllegalArgumentException {
         _values[index] = value;
     }
 
-    public boolean absolute(final int row) throws PersistenceException {
+    public boolean absolute(int row) throws PersistenceException {
         return false;
     }
 
@@ -113,15 +120,16 @@ public abstract class AbstractCallQuery implements PersistenceQuery {
         return _javaClass;
     }
 
-    public void execute(final Object conn, final AccessMode accessMode, final boolean scrollable)
-    throws QueryException, PersistenceException {
+    public void execute(Object conn, AccessMode accessMode, boolean scrollable)
+            throws QueryException, PersistenceException {
         execute(conn, accessMode);
     }
 
-    protected abstract void execute(final Object conn, final AccessMode accessMode)
-    throws QueryException, PersistenceException;
+    protected abstract void execute(Object conn, AccessMode accessMode)
+            throws QueryException, PersistenceException;
 
     public Identity nextIdentity(final Identity identity) throws PersistenceException {
+
         try {
             if (_lastIdentity == null) {
                 if (!nextRow()) { return null; }

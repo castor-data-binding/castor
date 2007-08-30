@@ -66,12 +66,14 @@ import javax.transaction.TransactionManager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.castor.jdo.conf.JdoConf;
 import org.castor.jdo.engine.AbstractConnectionFactory;
 import org.castor.jdo.engine.ConnectionFactory;
 import org.castor.jdo.engine.DatabaseRegistry;
 import org.castor.transactionmanager.LocalTransactionManager;
 import org.castor.util.Messages;
+
 import org.exolab.castor.jdo.engine.GlobalDatabaseImpl;
 import org.exolab.castor.jdo.engine.LocalDatabaseImpl;
 import org.exolab.castor.jdo.engine.TxDatabaseMap;
@@ -80,6 +82,7 @@ import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.LockEngine;
 import org.exolab.castor.persist.spi.CallbackInterceptor;
 import org.exolab.castor.persist.spi.InstanceFactory;
+
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
@@ -134,7 +137,7 @@ public final class JDOManager
 implements DataObjects, Referenceable, ObjectFactory, Serializable {
     //--------------------------------------------------------------------------
 
-    /** SerialVersionUID. */
+    /** SerialVersionUID */
     private static final long serialVersionUID = -7108469291509131893L;
 
     /**

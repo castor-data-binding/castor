@@ -42,13 +42,16 @@
  *
  * $Id$
  */
+
+
 package org.exolab.castor.persist.spi;
+
 
 import java.sql.Connection;
 import java.util.Properties;
-
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.MappingException;
+
 
 /**
  * Interface for a key generator. The key generator is used for
@@ -66,18 +69,30 @@ import org.exolab.castor.mapping.MappingException;
  * @author <a href="bruce DOT snyder AT gmail DOT com">Bruce Snyder</a>
  * @version $Revision$ $Date: 2005-04-25 15:33:21 -0600 (Mon, 25 Apr 2005) $
  */
-public interface KeyGenerator {
-    /** For the key generators of BEFORE_INSERT style {@link #generateKey}
-     *  is called before INSERT. {@link #patchSQL} may be used but usually doesn't. */
-    byte BEFORE_INSERT = -1;
+public interface KeyGenerator
+{
+    /**
+     * For the key generators of BEFORE_INSERT style {@link #generateKey}
+     * is called before INSERT.
+     * {@link #patchSQL} may be used but usually doesn't.
+     */
+    public static final byte BEFORE_INSERT = -1;
 
-    /** For the key generators of DURING_INSERT style {@link #generateKey}
-     *  is never called, all work is done by {@link #patchSQL}. */
-    byte DURING_INSERT = 0;
 
-    /** For the key generators of AFTER_INSERT style {@link #generateKey}
-     *  is called after INSERT. {@link #patchSQL} may be used but usually doesn't. */
-    byte AFTER_INSERT = 1;
+    /**
+     * For the key generators of DURING_INSERT style {@link #generateKey}
+     * is never called, all work is done by {@link #patchSQL}.
+     */
+    public static final byte DURING_INSERT = 0;
+
+
+    /**
+     * For the key generators of AFTER_INSERT style {@link #generateKey}
+     * is called after INSERT.
+     * {@link #patchSQL} may be used but usually doesn't.
+     */
+    public static final byte AFTER_INSERT = 1;
+
 
     /**
      * Generate a new key for the specified table. This method is
@@ -94,8 +109,10 @@ public interface KeyGenerator {
      * @throws PersistenceException An error occured talking to persistent
      *  storage
      */
-    Object generateKey(Connection conn, String tableName, String primKeyName, Properties props)
-    throws PersistenceException;
+    public Object generateKey( Connection conn, String tableName,
+            String primKeyName, Properties props )
+        throws PersistenceException;
+
 
     /**
      * Determine if the key generator supports a given sql type.
@@ -103,12 +120,14 @@ public interface KeyGenerator {
      * @param sqlType
      * @throws MappingException
      */
-    void supportsSqlType(int sqlType) throws MappingException;
+    public void supportsSqlType( int sqlType )
+        throws MappingException;
 
     /**
      * Style of the key generator: BEFORE_INSERT, DURING_INSERT or AFTER_INSERT.
      */
-    byte getStyle();
+    public byte getStyle();
+
 
     /**
      * Gives a possibility to patch the Castor-generated SQL statement
@@ -129,15 +148,16 @@ public interface KeyGenerator {
      * "INSERT INTO tbl (pk, fld1, ...) VALUES (seq.nextval,?....,?)
      * RETURNING pk INTO ?".
      * DURING_INSERT key generator also may be implemented as a stored procedure.
-     * 
      * @param insert Castor-generated INSERT statement
      * @param primKeyName The primary key name
      */
-    String patchSQL(String insert, String primKeyName) throws MappingException;
+    public String patchSQL( String insert, String primKeyName )
+            throws MappingException;
+
 
     /**
      * Is key generated in the same connection as INSERT?
      * For DURING_INSERT style this method is never called.
      */
-    boolean isInSameConnection();
+    public boolean isInSameConnection();
 }

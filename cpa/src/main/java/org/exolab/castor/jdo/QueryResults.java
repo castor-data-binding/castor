@@ -42,10 +42,14 @@
  *
  * $Id$
  */
+
+
 package org.exolab.castor.jdo;
+
 
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
+
 
 /**
  * An iteration of the results of a query. This interface provides the
@@ -55,16 +59,23 @@ import java.util.NoSuchElementException;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2004-05-03 16:05:30 -0600 (Mon, 03 May 2004) $
  */
-public interface QueryResults extends Enumeration {
+public interface QueryResults
+    extends Enumeration
+{
+
+
     /**
      * Returns true if there are any more results in the result set.
      * If an error occured reading the last result, an exception will
      * be thrown and the result set cannot be used further.
      *
      * @return True if there are any more results in the result set
-     * @throws PersistenceException An error with the persistence engine
+     * @throws PersistenceException An error with the persistence
+     *  engine
      */
-    boolean hasMore() throws PersistenceException;
+    public boolean hasMore()
+        throws PersistenceException;
+
 
     /**
      * Returns the next result in the result set. If there are no
@@ -79,28 +90,31 @@ public interface QueryResults extends Enumeration {
      * @throws NoSuchElementException There are no more results in
      *  the result set
      */
-    Object next() throws PersistenceException, NoSuchElementException;
+    public Object next()
+        throws PersistenceException, NoSuchElementException;
+
 
     /**
      * Closes the result set and releases all resources held by it.
      */
-    void close();
+    public void close();
 
     /**
      * moves the result of the query to the absolute position in the
-     * resultset.
-     * 
+     * resultset
      * @param row The row to move to
      * @return ???
      * @throws PersistenceException A persistence error occured
      */
-    boolean absolute(int row) throws PersistenceException;
+    public boolean absolute(int row)
+      throws PersistenceException;
 
     /**
-     * Finds the size of the resulting resultset from the query.
-     * 
+     * finds the size of the resulting resultset from the query.
      * @return Size of the resulting result set.
      * @throws PersistenceException A persistence error occured
      */
-    int size() throws PersistenceException;
+    public int size()
+      throws PersistenceException;
+
 }

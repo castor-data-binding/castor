@@ -42,78 +42,77 @@
  *
  * $$
  */
+
+
 package org.exolab.castor.gui;
 
 import java.util.Vector;
 
+
 public class QueryHistory implements java.io.Serializable {
-    /** SerialVersionUID. */
+    /** SerialVersionUID */
     private static final long serialVersionUID = 235997211123063614L;
 
-    private  Vector _querys = new Vector();
-    private int _currentPos = 0;
-    private  int _maxsize = 20;
+    private  Vector querys = new Vector();
+    private int currentPos=0;
+    private  int maxsize=20;
 
-    public Vector getQuerys() {
-        return _querys;
+    public Vector getQuerys(){
+        return querys;
 
     }
 
-    public void setQuerys(final Vector querys) {
-        _querys = querys;
-        _currentPos = _querys.size() - 1;
+    public void setQuerys(Vector _querys){
+        querys=_querys;
+        currentPos = querys.size()-1;
     }
 
-    public int getMaxHistorySize() {
-        return _maxsize;
+    public int getMaxHistorySize(){
+        return maxsize;
     }
 
-    public void setMaxHistorySize(final int newSize) {
-         _maxsize = newSize;
+    public void setMaxHistorySize(int newSize){
+         maxsize=newSize;
     }
 
-    public void moveback() {
-        if (_currentPos > 0) {
-            _currentPos--;
-        }
+    public void moveback(){
+        if(currentPos >0)
+            currentPos--;
     }
 
-    public void moveforward() {
-        if (_currentPos < _querys.size() - 1) {
-            _currentPos++;
-        }
+    public void moveforward(){
+        if(currentPos < querys.size()-1)
+            currentPos++;
     }
 
-    public String getCurrentQuery() {
-      if (_querys.isEmpty()) {
-          return "";
-      }
-      return (String) _querys.elementAt(_currentPos);
+    public String GetCurrentQuery(){
+      if(querys.isEmpty()) return "";
+      return (String)querys.elementAt(currentPos);
     }
 
-    public void addQuery(final String newQuery) {
-        if (_querys.contains(newQuery)) {
+    public void addQuery(String newQuery){
+        if(querys.contains(newQuery)){
             System.out.println("schon drin");
             return;
         }
 
-        _querys.add(newQuery);
+        querys.add(newQuery);
 
-        if (_querys.size() > _maxsize) {
-            _querys.removeElementAt(0);
-        }
 
-        _currentPos = _querys.size() - 1;
+        if(querys.size() > maxsize)
+            querys.removeElementAt(0);
+
+        currentPos=querys.size()-1;
     }
 
     // Get to avoid mashaling
-    public String getNextQuery() {
+    public String getNextQuery(){
         this.moveforward();
-        return this.getCurrentQuery();
+        return this.GetCurrentQuery();
     }
 
-    public String getPreviousQuery() {
+    public String getPreviousQuery(){
         this.moveback();
-        return this.getCurrentQuery();
+        return this.GetCurrentQuery();
     }
 }

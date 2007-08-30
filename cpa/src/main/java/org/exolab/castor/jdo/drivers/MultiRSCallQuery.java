@@ -48,10 +48,11 @@ package org.exolab.castor.jdo.drivers;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import org.castor.util.Messages;
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.spi.AbstractCallQuery;
+import org.castor.util.Messages;
 
 /**
  * PersistenceQuery implementation for CallableStatements
@@ -60,7 +61,8 @@ import org.exolab.castor.persist.spi.AbstractCallQuery;
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
  * @version $Revision$ $Date: 2006-04-11 15:26:07 -0600 (Tue, 11 Apr 2006) $
  */
-final class MultiRSCallQuery extends AbstractCallQuery {
+final class MultiRSCallQuery extends AbstractCallQuery
+{
     /**
      * Creates an instance of this clas.
      * @param call The SQL CALL statement to execute
@@ -69,38 +71,43 @@ final class MultiRSCallQuery extends AbstractCallQuery {
      * @param fields ???
      * @param sqlTypes SQL types of the parameters
      */
-    MultiRSCallQuery(final String call, final Class[] types, final Class javaClass,
-            final String[] fields, final int[] sqlTypes) {
+    MultiRSCallQuery(final String call, 
+            final Class[] types, 
+            final Class javaClass,
+            final String[] fields, 
+            final int[] sqlTypes) {
         super(call, types, javaClass, sqlTypes);
     }
 
-    protected void execute(final Object conn, final AccessMode accessMode)
-    throws PersistenceException {
+    protected void execute( Object conn, AccessMode accessMode )
+        throws QueryException, PersistenceException
+    {
         _lastIdentity = null;
         try {
-            _stmt = ((Connection) conn).prepareCall(_call);
-            for (int i = 0; i < _values.length; ++i) {
-                _stmt.setObject(i + 1, _values[i]);
-                _values[i] = null;
+            _stmt = ( (Connection) conn ).prepareCall( _call );
+            for ( int i = 0 ; i < _values.length ; ++i ) {
+                _stmt.setObject( i + 1, _values[ i ] );
+                _values[ i ] = null;
             }
             _stmt.execute();
             _rs = _stmt.getResultSet();
-        } catch (SQLException except) {
-            throw new PersistenceException(Messages.format("persist.nested", except));
+        } catch ( SQLException except ) {
+            throw new PersistenceException( Messages.format( "persist.nested", except ) );
         }
     }
 
 
     protected boolean nextRow() throws SQLException {
-        while (true) {
-            if ((_rs != null) && (_rs.next())) {
+        while ( true ) {
+            if ( _rs != null && _rs.next() ) {
                 return true;
             }
-            if (!_stmt.getMoreResults() && (_stmt.getUpdateCount() == -1)) {
+            if ( !_stmt.getMoreResults() && _stmt.getUpdateCount() == -1 ) {
                 _rs = null;
                 return false;
             }
             _rs = _stmt.getResultSet();
         }
     }
+
 }

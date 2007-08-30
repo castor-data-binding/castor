@@ -91,12 +91,10 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.Stack;
-import java.util.StringTokenizer;
+
 
 /**
  * A Marshaller that serializes Java Object's to XML
@@ -283,12 +281,9 @@ public class Marshaller extends MarshalFramework {
 
     /**
      * The validation flag
-     */
+    **/
     private boolean _validate = false;
 
-    /** Set of full class names of proxy interfaces. If the class to be marshalled implements
-     *  one of them the superclass will be marshalled instead of the class itself. */
-    private final Set _proxyInterfaces = new HashSet();
 
     /**
      * Creates a new Marshaller with the given DocumentHandler.
@@ -413,13 +408,7 @@ public class Marshaller extends MarshalFramework {
         if ("false".equalsIgnoreCase(val) || "off".equalsIgnoreCase(val)) {
             _saveMapKeys = false;
         }
-        
-        //-- proxy interfaces to search for if defined
-        String prop = _config.getProperty(Configuration.Property.ProxyInterfaces, "");
-        StringTokenizer tokenizer = new StringTokenizer(prop, ", ");
-        while (tokenizer.hasMoreTokens()) {
-            _proxyInterfaces.add(tokenizer.nextToken());
-        }
+
     } //-- initialize();
 
     /**
@@ -730,10 +719,17 @@ public class Marshaller extends MarshalFramework {
      */
     public static void marshal(Object object, Writer out)
     throws MarshalException, ValidationException {
+        if (object == null)
+            throw new MarshalException("object must not be null");
+
+        LOG.debug("- Marshaller called using *static* marshal(Object, Writer)");
+
+        Marshaller marshaller;
         try {
-            staticMarshal(object, new Marshaller(out));
-        } catch (IOException e) {
-            throw new MarshalException(e);
+            marshaller = new Marshaller(out);
+            marshaller.marshal(object);
+        } catch ( IOException except ) {
+            throw new MarshalException( except );
         }
     } //-- marshal
 
@@ -748,7 +744,14 @@ public class Marshaller extends MarshalFramework {
      */
     public static void marshal(Object object, DocumentHandler handler)
     throws MarshalException, ValidationException {
-        staticMarshal(object, new Marshaller(handler));
+        if (object == null)
+            throw new MarshalException("object must not be null");
+
+        LOG.debug("- Marshaller called using *static* marshal(Object, DocumentHandler)");
+
+        Marshaller marshaller;
+        marshaller = new Marshaller(handler);
+        marshaller.marshal(object);
     } //-- marshal
 
     /**
@@ -762,7 +765,14 @@ public class Marshaller extends MarshalFramework {
      */
     public static void marshal(Object object, ContentHandler handler)
     throws MarshalException, ValidationException, IOException {
-        staticMarshal(object, new Marshaller(handler));
+        if (object == null)
+            throw new MarshalException("object must not be null");
+
+        LOG.debug("- Marshaller called using *static* marshal(Object, ContentHandler)");
+
+        Marshaller marshaller;
+        marshaller = new Marshaller(handler);
+        marshaller.marshal(object);
     } //-- marshal
 
     /**
@@ -776,34 +786,15 @@ public class Marshaller extends MarshalFramework {
      */
     public static void marshal(Object object, Node node)
     throws MarshalException, ValidationException {
-        staticMarshal(object, new Marshaller(node));
-    } //-- marshal
-
-    /**
-     * Static helper method to marshal the given object using the
-     * Marshaller instance provided.
-     *
-     * @param object The Object to marshal.
-     * @param marshaller The {@link Marshaller} to use for marshalling.
-     * @throws MarshalException as thrown by marshal(Object)
-     * @throws ValidationException as thrown by marshal(Object)
-     */
-    private static void staticMarshal(final Object object, final Marshaller marshaller)
-    throws MarshalException, ValidationException {
-        if (object == null) {
+        if (object == null)
             throw new MarshalException("object must not be null");
-        }
 
-        if (LOG.isInfoEnabled()) {
-            LOG.info("Marshaller called using one of the *static* " + 
-                    " marshal(Object, *) methods. This will ignore any " +
-                    " mapping files as specified. Please consider switching to " +
-                    " using Marshaller instances and calling one of the" +
-                    " marshal(*) methods.");
-        }
+        LOG.debug("- Marshaller called using *static* marshal(Object, Node)");
 
+        Marshaller marshaller;
+        marshaller = new Marshaller(node);
         marshaller.marshal(object);
-    } //-- staticMarshal
+    } //-- marshal
 
     /**
      * Marshals the given Object as XML using the DocumentHandler
@@ -921,19 +912,9 @@ public class Marshaller extends MarshalFramework {
 
         if (!isNil) {
             _class = object.getClass();
-            
-            if (_proxyInterfaces.size() > 0) {
-                boolean isProxy = false;
-                
-                Class[] interfaces = _class.getInterfaces();
-                for (int i = 0; i < interfaces.length; i++) {
-                    if (_proxyInterfaces.contains(interfaces[i].getName())) { isProxy = true; }
-                }
-                
-                if (isProxy) { _class = _class.getSuperclass(); }
-            }
-        } else {
-            _class = ((NilObject) object).getClassDescriptor().getJavaClass();
+        }
+        else {
+            _class = ((NilObject)object).getClassDescriptor().getJavaClass();
         }
 
         boolean byteArray = false;
@@ -971,7 +952,8 @@ public class Marshaller extends MarshalFramework {
 
         if (object instanceof NilObject) {
             classDesc = ((NilObject)object).getClassDescriptor();
-        } else if (_class == descriptor.getFieldType()) {
+        }
+        else if (_class == descriptor.getFieldType()) {
             classDesc = (XMLClassDescriptor)descriptor.getClassDescriptor();
         }
 

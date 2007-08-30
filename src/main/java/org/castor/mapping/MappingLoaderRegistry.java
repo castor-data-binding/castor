@@ -20,11 +20,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.CoreConfiguration;
-import org.castor.core.util.Configuration;
+import org.castor.util.ConfigKeys;
+import org.castor.util.Configuration;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingLoader;
 
@@ -51,10 +52,21 @@ public final class MappingLoaderRegistry {
      * @param config Configuration.
      */
     public MappingLoaderRegistry(final Configuration config) {
-        Object[] objects = config.getObjectArray(
-                CoreConfiguration.MAPPING_LOADER_FACTORIES, getClass().getClassLoader());
-        for (int i = 0; i < objects.length; i++) {
-            _mappingLoaderFactories.add(objects[i]);
+        String prop = config.getProperty(ConfigKeys.MAPPING_LOADER_FACTORIES, "");
+        StringTokenizer tokenizer = new StringTokenizer(prop, ", ");
+        while (tokenizer.hasMoreTokens()) {
+            String classname = tokenizer.nextToken();
+            try {
+                ClassLoader loader = getClass().getClassLoader();
+                Class cls = loader.loadClass(classname);
+                // Class[] types = new Class[] {ClassLoader.class};
+                Object obj = cls.getConstructor((Class[]) null)
+                    .newInstance((Object[]) null);
+                _mappingLoaderFactories.add(obj);
+            } catch (Exception ex) {
+                LOG.error("Problem instantiating mapping loader factory implementation: "
+                        + classname, ex);
+            }
         }
     }
 

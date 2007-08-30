@@ -21,7 +21,8 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
-import org.castor.cpa.CPAConfiguration;
+import org.castor.util.ConfigKeys;
+import org.castor.util.Configuration;
 
 /**
  * Factory class for proxies for JDBC Connection, PreparedStatement and CallableStatement
@@ -63,8 +64,8 @@ public final class ConnectionProxyFactory {
                                                 final String calledBy) {
         
         if (!_isConfigured) {
-            _useProxies = CPAConfiguration.getInstance().getBoolean(
-                    CPAConfiguration.USE_JDBC_PROXIES, true);
+            _useProxies = Configuration.getInstance().getProperty(
+                    ConfigKeys.USE_JDBC_PROXIES, true);
             _isConfigured = true;
         }
         
@@ -77,7 +78,7 @@ public final class ConnectionProxyFactory {
     }
 
     /**
-     * Factory method for creating a PreparedStamentProxy.
+     * Factory method for creating a PreparedStamentProxy
      * 
      * @param statement Prepared statement to be proxied.
      * @param sql SQL string.
@@ -87,8 +88,8 @@ public final class ConnectionProxyFactory {
             final PreparedStatement statement, final String sql) {
 
         if (!_isConfigured) {
-            _useProxies = CPAConfiguration.getInstance().getBoolean(
-                    CPAConfiguration.USE_JDBC_PROXIES, true);
+            _useProxies = Configuration.getInstance().getProperty(
+                    ConfigKeys.USE_JDBC_PROXIES, true);
             _isConfigured = true;
         }
 
@@ -101,7 +102,7 @@ public final class ConnectionProxyFactory {
     }
     
     /**
-     * Factory method for creating a CallableStamentProxy.
+     * Factory method for creating a CallableStamentProxy
      * 
      * @param statement Callable statement to be proxied.
      * @param sql SQL string.
@@ -111,8 +112,8 @@ public final class ConnectionProxyFactory {
             final CallableStatement statement, final String sql) {
 
         if (!_isConfigured) {
-            _useProxies = CPAConfiguration.getInstance().getBoolean(
-                    CPAConfiguration.USE_JDBC_PROXIES, true);
+            _useProxies = Configuration.getInstance().getProperty(
+                    ConfigKeys.USE_JDBC_PROXIES, true);
             _isConfigured = true;
         }
 

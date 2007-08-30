@@ -45,8 +45,8 @@
 
 package org.exolab.castor.dtx;
 
-import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.io.PrintStream;
 
 /**
  * A general class for exceptions associated with Castor DTX. Can
@@ -57,7 +57,7 @@ import java.io.PrintWriter;
  */
 
 public class DTXException extends Exception {
-    /** SerialVersionUID. */
+    /** SerialVersionUID */
     private static final long serialVersionUID = -3419863291873007258L;
 
     private Exception _except = null;
@@ -69,7 +69,7 @@ public class DTXException extends Exception {
      *
      * @param except The nested exception.
      */
-    public DTXException(final Exception except) {
+    public DTXException(Exception except) {
         _except = except;
     }
 
@@ -79,7 +79,7 @@ public class DTXException extends Exception {
      * @param message The message.
      */
 
-    public DTXException(final String message) {
+    public DTXException(String message) {
         _message = message;
     }
 
@@ -90,14 +90,13 @@ public class DTXException extends Exception {
      */
 
     public String getMessage() {
-        String message = null;
-        if (_message != null) {
-            message = _message;
-        } else if (_except != null) {
-            message = "Nested exception (" + _except.getClass().getName() + "):"
-                    + _except.getMessage();
-        }
-        return message;
+    	String _msg = null;
+    	if (_message != null) {
+    	    _msg = _message;
+    	} else if (_except != null) {
+    	    _msg = "Nested exception (" + _except.getClass().getName() + "):" + _except.getMessage();
+    	}
+    	return _msg;
     }
 
     /**
@@ -107,20 +106,20 @@ public class DTXException extends Exception {
      */
 
     public Exception getNestedException() {
-        return _except;
+    	return _except;
     }
 
-    public void printStackTrace(final PrintWriter out) {
-        if (_except != null) {
-            _except.printStackTrace(out);
-        }
-        super.printStackTrace(out);
+    public void printStackTrace(PrintWriter out) {
+    	if (_except != null) {
+    	    _except.printStackTrace(out);
+    	}
+    	super.printStackTrace(out);
     }
 
-    public void printStackTrace(final PrintStream out) {
-        if (_except != null) {
-            _except.printStackTrace(out);
-        }
-        super.printStackTrace(out);
+    public void printStackTrace(PrintStream out) {
+    	if (_except != null) {
+    	    _except.printStackTrace(out);
+    	}
+    	super.printStackTrace(out);
     }
 }

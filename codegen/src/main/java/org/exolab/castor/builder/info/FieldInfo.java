@@ -52,9 +52,19 @@ package org.exolab.castor.builder.info;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.exolab.castor.builder.factory.FieldMemberAndAccessorFactory;
 import org.exolab.castor.builder.types.XSType;
+import org.exolab.castor.xml.JavaNaming;
+import org.exolab.javasource.JClass;
+import org.exolab.javasource.JDocComment;
+import org.exolab.javasource.JDocDescriptor;
+import org.exolab.javasource.JField;
+import org.exolab.javasource.JMethod;
+import org.exolab.javasource.JModifiers;
+import org.exolab.javasource.JParameter;
+import org.exolab.javasource.JPrimitiveType;
+import org.exolab.javasource.JSourceCode;
 import org.exolab.javasource.JType;
+import org.exolab.javasource.Java5HacksHelper;
 
 /**
  * A class for representing field members of a Class. FieldInfo objects hold all
@@ -74,17 +84,17 @@ public class FieldInfo extends XMLInfo {
     public static final int READ_WRITE_METHODS       = 3;
 
     /** Method prefixes for "Add" methods. */
-    public static final String METHOD_PREFIX_ADD    = "add";
+    private static final String METHOD_PREFIX_ADD    = "add";
     /** Method prefixes for "Delete" methods. */
-    public static final String METHOD_PREFIX_DELETE = "delete";
+    private static final String METHOD_PREFIX_DELETE = "delete";
     /** Method prefixes for "Get" methods. */
-    public static final String METHOD_PREFIX_GET    = "get";
+    private static final String METHOD_PREFIX_GET    = "get";
     /** Method prefixes for "Has" methods. */
-    public static final String METHOD_PREFIX_HAS    = "has";
+    private static final String METHOD_PREFIX_HAS    = "has";
     /** Method prefixes for "Set" methods. */
-    public static final String METHOD_PREFIX_SET    = "set";
+    private static final String METHOD_PREFIX_SET    = "set";
     /** Method prefixes for "Is" methods. */
-    public static final String METHOD_PREFIX_IS     = "is";
+    private static final String METHOD_PREFIX_IS     = "is";
 
     /** The Java name for Members described by this FieldInfo. */
     private String _name       = null;
@@ -123,9 +133,6 @@ public class FieldInfo extends XMLInfo {
     /** Visibility of this FieldInfo. */
     private String _visibility = "private";
     
-    /** This factory creates a JField out of a FieldInfo */
-    private FieldMemberAndAccessorFactory _memberAndAccessorFactory;
-    
     /**
      * Holds the possible substitution groups for this class.
      */
@@ -139,27 +146,384 @@ public class FieldInfo extends XMLInfo {
      *            the XML Schema type of this member
      * @param name
      *            the name of the member
-     * @param memberAndAccessorFactory 
-     *            the FieldMemberAndAccessorFactory to be used
      */
-    public FieldInfo(final XSType type, final String name, 
-            final FieldMemberAndAccessorFactory memberAndAccessorFactory) {
+    public FieldInfo(final XSType type, final String name) {
         this._name    = name;
-        this._memberAndAccessorFactory = memberAndAccessorFactory;
         setSchemaType(type);
     } //-- FieldInfo
 
+    //------------------/
+    //- Public Methods -/
+    //------------------/
 
     /**
-     * Returns the FieldMemberAndAccessorFactory instance to use to create 
-     * a JField out of this FieldInfo.
-     * @return the suitable FieldMemberAndAccessorFactory
+     * Creates the JMembers for this FieldInfo, sometimes a "field" requires
+     * more than one java field for this FieldInfo.
+     * @param jClass JClass object the Java Fields will be added to
      */
-    public FieldMemberAndAccessorFactory getMemberAndAccessorFactory() {
-        return _memberAndAccessorFactory;
-    }
+    public final void createJavaField(final JClass jClass) {
+        XSType type = getSchemaType();
+        JType jType = type.getJType();
+        JField field = new JField(type.getJType(), _name);
 
-    /* Returns the default value for this FieldInfo.
+        if (getSchemaType().isDateTime()) {
+            field.setDateTime(true);
+        }
+
+        if (_static || _final) {
+            JModifiers modifiers = field.getModifiers();
+            modifiers.setFinal(_final);
+            modifiers.setStatic(_static);
+        }
+
+        if (!(_visibility.equals("private"))) {
+            JModifiers modifiers = field.getModifiers();
+            if (_visibility.equals("protected")) {
+                modifiers.makeProtected();
+            } else if (_visibility.equals("public")) {
+                modifiers.makePublic();
+            }
+        }
+
+        //-- set init String
+        if (_default != null) {
+            field.setInitString(_default);
+        }
+
+        if (getFixedValue() != null && !getSchemaType().isDateTime()) {
+            field.setInitString(getFixedValue());
+        }
+
+        //-- set Javadoc comment
+        if (_comment != null) {
+            field.setComment(_comment);
+        }
+
+        jClass.addField(field);
+
+        //-- special supporting fields
+
+        //-- has_field
+        if ((!type.isEnumerated()) && (jType.isPrimitive())) {
+            field = new JField(JType.BOOLEAN, "_has" + _name);
+            field.setComment("keeps track of state for field: " + _name);
+            jClass.addField(field);
+        }
+
+        //-- save default value for primitives
+        //-- not yet finished
+        /*
+        if (type.isPrimitive()) {
+            field = new JField(jType, "_DEFAULT" + name.toUpperCase());
+            JModifiers modifiers = field.getModifiers();
+            modifiers.setFinal(true);
+            modifiers.setStatic(true);
+
+            if (_default != null)
+                field.setInitString(_default);
+
+            jClass.addField(field);
+        }
+        */
+    } //-- createJavaField
+
+    /**
+     * Creates the access methods for field associated with this FieldInfo. The
+     * access methods include getters, setters, and "has" and "delete" methods
+     * if necessary.
+     *
+     * @param jClass
+     *            the JClass to add the methods to
+     * @param useJava50
+     *            true if source code is supposed to be generated for Java 5
+     * @see #createGetterMethod
+     * @see #createSetterMethod
+     * @see #createHasAndDeleteMethods
+     */
+    public void createAccessMethods(final JClass jClass, final boolean useJava50) {
+        if ((_methods & READ_METHOD) > 0) {
+            createGetterMethod(jClass, useJava50);
+        }
+        if ((_methods & WRITE_METHOD) > 0) {
+            createSetterMethod(jClass, useJava50);
+        }
+
+        if (isHasAndDeleteMethods()) {
+            createHasAndDeleteMethods(jClass);
+        }
+    } //-- createAccessMethods
+
+    /**
+     * Creates the Javadoc comments for the getter method associated with this
+     * FieldInfo.
+     *
+     * @param jDocComment
+     *            the JDocComment to add the Javadoc comments to.
+     */
+    public final void createGetterComment(final JDocComment jDocComment) {
+        String fieldName = this._name;
+        //-- remove '_' if necessary
+        if (fieldName.indexOf('_') == 0) {
+            fieldName = fieldName.substring(1);
+        }
+
+        String mComment = "Returns the value of field '" + fieldName + "'.";
+        if ((_comment != null) && (_comment.length() > 0)) {
+            mComment += " The field '" + fieldName + "' has the following description: ";
+
+            // XDoclet support - Add a couple newlines if it's a doclet tag
+            if (_comment.startsWith("@")) {
+                mComment += "\n\n";
+            }
+
+            mComment += _comment;
+        }
+        jDocComment.setComment(mComment);
+    } //-- createGetterComment
+
+    /**
+     * Creates the getter methods for this FieldInfo.
+     *
+     * @param jClass the JClass to add the methods to
+     * @param useJava50
+     *            true if source code is supposed to be generated for Java 5
+     */
+    public final void createGetterMethod(final JClass jClass, final boolean useJava50) {
+        JMethod method    = null;
+        JSourceCode jsc   = null;
+
+        String mname = getMethodSuffix();
+
+        XSType xsType = getSchemaType();
+        JType jType  = xsType.getJType();
+
+        //-- create get method
+        method = new JMethod(METHOD_PREFIX_GET + mname, jType,
+                             "the value of field '" + mname + "'.");
+        if (useJava50) {
+            Java5HacksHelper.addOverrideAnnotations(method.getSignature());
+        }
+        jClass.addMethod(method);
+        createGetterComment(method.getJDocComment());
+        jsc = method.getSourceCode();
+        jsc.add("return this.");
+        jsc.append(this._name);
+        jsc.append(";");
+
+        if (xsType.getType() == XSType.BOOLEAN_TYPE) {
+
+            // -- create is<Property>t method
+            method = new JMethod(METHOD_PREFIX_IS + mname, jType,
+                    "the value of field '" + mname + "'.");
+            if (useJava50) {
+                Java5HacksHelper.addOverrideAnnotations(method.getSignature());
+            }
+            jClass.addMethod(method);
+            createGetterComment(method.getJDocComment());
+            jsc = method.getSourceCode();
+            jsc.add("return this.");
+            jsc.append(this._name);
+            jsc.append(";");
+
+        }
+
+    } //-- createGetterMethod
+
+    /**
+     * Creates the "has" and "delete" methods for this field associated with
+     * this FieldInfo. These methods are typically only needed for primitive
+     * types which cannot be assigned a null value.
+     *
+     * @param jClass
+     *            the JClass to add the methods to
+     */
+    public final void createHasAndDeleteMethods(final JClass jClass) {
+        JMethod method    = null;
+        JSourceCode jsc   = null;
+
+        String mname = getMethodSuffix();
+
+        XSType xsType = getSchemaType();
+        xsType.getJType();
+
+        //-- create hasMethod
+        method = new JMethod(METHOD_PREFIX_HAS + mname, JType.BOOLEAN,
+                             "true if at least one " + mname + " has been added");
+        jClass.addMethod(method);
+        jsc = method.getSourceCode();
+        jsc.add("return this._has");
+        String fieldName = getName();
+        jsc.append(fieldName);
+        jsc.append(";");
+
+        //-- create delete method
+        method = new JMethod(METHOD_PREFIX_DELETE + mname);
+        jClass.addMethod(method);
+        jsc = method.getSourceCode();
+        jsc.add("this._has");
+        jsc.append(fieldName);
+        jsc.append("= false;");
+        //-- bound properties
+        if (_bound) {
+            //notify listeners
+            jsc.add("notifyPropertyChangeListeners(\"");
+            if (fieldName.startsWith("_")) {
+                jsc.append(fieldName.substring(1));
+            } else {
+                jsc.append(fieldName);
+            }
+            jsc.append("\", ");
+            //-- 'this.' ensures this refers to the class member not the parameter
+            jsc.append(xsType.createToJavaObjectCode("this." + fieldName));
+            jsc.append(", null");
+            jsc.append(");");
+        }
+    } //-- createHasAndDeleteMethods
+
+    /**
+     * Creates the Javadoc comments for the setter method associated with this
+     * FieldInfo.
+     *
+     * @param jDocComment
+     *            the JDocComment to add the Javadoc comments to.
+     */
+    public final void createSetterComment(final JDocComment jDocComment) {
+        String fieldName = this._name;
+        //-- remove '_' if necessary
+        if (fieldName.indexOf('_') == 0) {
+            fieldName = fieldName.substring(1);
+        }
+
+        String atParam = "the value of field '" + fieldName + "'.";
+
+        String mComment = "Sets " + atParam;
+        if ((_comment != null) && (_comment.length() > 0)) {
+            mComment += " The field '" + fieldName + "' has the following description: ";
+
+            // XDoclet support - Add a couple newlines if it's a doclet tag
+            if (_comment.startsWith("@")) {
+                mComment += "\n\n";
+            }
+
+            mComment += _comment;
+        }
+
+        jDocComment.setComment(mComment);
+
+        JDocDescriptor paramDesc = jDocComment.getParamDescriptor(fieldName);
+        if (paramDesc == null) {
+            paramDesc = JDocDescriptor.createParamDesc(fieldName, null);
+            jDocComment.addDescriptor(paramDesc);
+        }
+        paramDesc.setDescription(atParam);
+    } //-- createSetterComment
+
+    /**
+     * Creates the setter (mutator) method(s) for this FieldInfo.
+     *
+     * @param jClass
+     *            the JClass to add the methods to
+     * @param useJava50
+     *            true if source code is supposed to be generated for Java 5
+     */
+    public final void createSetterMethod(final JClass jClass, final boolean useJava50) {
+        JMethod method    = null;
+        JSourceCode jsc   = null;
+
+        String mname  = getMethodSuffix();
+        XSType xsType = getSchemaType();
+        JType jType   = xsType.getJType();
+
+        //-- create set method
+        method = new JMethod(METHOD_PREFIX_SET + mname);
+        jClass.addMethod(method);
+
+        String paramName = this._name;
+
+        //-- make parameter name pretty,
+        //-- simply for aesthetic beauty
+        if (paramName.indexOf('_') == 0) {
+            String tempName = paramName.substring(1);
+            if (JavaNaming.isValidJavaIdentifier(tempName)) {
+                paramName = tempName;
+            }
+        }
+
+        method.addParameter(new JParameter(jType, paramName));
+        if (useJava50) {
+            Java5HacksHelper.addOverrideAnnotations(method.getSignature()); // DAB Java 5.0 hack
+        }
+        createSetterComment(method.getJDocComment());
+        jsc = method.getSourceCode();
+
+        String fieldName = getName();
+        //-- bound properties
+        if (_bound) {
+            // save old value
+            jsc.add("java.lang.Object old");
+            jsc.append(mname);
+            jsc.append(" = ");
+            //-- 'this.' ensures this refers to the class member not the parameter
+            jsc.append(xsType.createToJavaObjectCode("this." + fieldName));
+            jsc.append(";");
+        }
+
+        //-- set new value
+        jsc.add("this.");
+        jsc.append(fieldName);
+        jsc.append(" = ");
+        jsc.append(paramName);
+        jsc.append(";");
+
+        if (_fieldInfoReference != null) {
+            jsc.add("this.");
+            jsc.append(_fieldInfoReference.getName());
+            jsc.append(" = ");
+
+            JType referencedJType = _fieldInfoReference.getSchemaType().getJType();
+            if (referencedJType.isPrimitive()) {
+                jsc.append(paramName);
+            } else if (jType.isPrimitive()) {
+                JPrimitiveType primitive = (JPrimitiveType) jType;
+                jsc.append("new ");
+                jsc.append(primitive.getWrapperName());
+                jsc.append("(");
+                jsc.append(paramName);
+                jsc.append(")");
+            } else {
+                jsc.append(paramName);
+            }
+            
+            jsc.append(";");
+        }
+
+        //-- hasProperty
+        if (isHasAndDeleteMethods()) {
+            jsc.add("this._has");
+            jsc.append(fieldName);
+            jsc.append(" = true;");
+        }
+
+        //-- bound properties
+        if (_bound) {
+            //notify listeners
+            jsc.add("notifyPropertyChangeListeners(\"");
+            if (fieldName.startsWith("_")) {
+                jsc.append(fieldName.substring(1));
+            } else {
+                jsc.append(fieldName);
+            }
+            jsc.append("\", old");
+            jsc.append(mname);
+            jsc.append(", ");
+            //-- 'this.' ensures this refers to the class member not the parameter
+            jsc.append(xsType.createToJavaObjectCode("this." + fieldName));
+            jsc.append(");");
+        }
+    } //-- createSetterMethod
+
+    /**
+     * Returns the default value for this FieldInfo.
      *
      * @return the default value for this FieldInfo, or null if no default value
      *         was set;
@@ -232,6 +596,45 @@ public class FieldInfo extends XMLInfo {
     public final String getXMLFieldHandler() {
         return _fieldHandler;
     }
+
+    /**
+     * Creates code for initialization of this Member.
+     * @param jsc the JSourceCode in which to add the source to
+     */
+    public void generateInitializerCode(final JSourceCode jsc) {
+        //set the default value
+        if (!getSchemaType().isPrimitive()) {
+            String value = getDefaultValue();
+            boolean dateTime = getSchemaType().isDateTime();
+            if (value == null) {
+                value = getFixedValue();
+            }
+            if (value != null) {
+                StringBuffer buffer = new StringBuffer(50);
+                //date/time constructors throw ParseException that
+                //needs to be catched in the constructor--> not the prettiest solution
+                //when mulitple date/time in a class.
+                if (dateTime) {
+                    jsc.add("try {");
+                    jsc.indent();
+                }
+                buffer.append(METHOD_PREFIX_SET);
+                buffer.append(getMethodSuffix());
+                buffer.append('(');
+                buffer.append(value);
+                buffer.append(");");
+                jsc.add(buffer.toString());
+                if (dateTime) {
+                    jsc.unindent();
+                    jsc.add("} catch (java.text.ParseException pe) {");
+                    jsc.indent();
+                    jsc.add("throw new IllegalStateException(pe.getMessage());");
+                    jsc.unindent();
+                    jsc.add("}");
+                }
+            }
+        }
+    } //-- generateInitializerCode
 
     /**
      * Returns the comment associated with this Member.
@@ -468,9 +871,9 @@ public class FieldInfo extends XMLInfo {
      */
     public String getMethodSuffix() {
         if (_name.startsWith("_")) {
-            return _memberAndAccessorFactory.getJavaNaming().toJavaClassName(_name.substring(1));
+            return JavaNaming.toJavaClassName(_name.substring(1));
         }
-        return _memberAndAccessorFactory.getJavaNaming().toJavaClassName(_name);
+        return JavaNaming.toJavaClassName(_name);
     }
 
     /**
@@ -494,30 +897,8 @@ public class FieldInfo extends XMLInfo {
      * Returns the possible substitution groups for this class.
      * @return the possible substitution groups for this class.
      */
-    public List getSubstitutionGroupMembers() {
+     public List getSubstitutionGroupMembers() {
         return this._substitutionGroupMembers;
     }
-    
-	public boolean isStatic() {
-		return _static;
-	}
-
-	public boolean isFinal() {
-		return _final;
-	}
-
-	public Object getVisibility() {
-		return _visibility;
-	}
-
-	public FieldInfo getFieldInfoReference() {
-		return _fieldInfoReference;
-	}
-	
-	
-     
-     
-     
-     
 
 }

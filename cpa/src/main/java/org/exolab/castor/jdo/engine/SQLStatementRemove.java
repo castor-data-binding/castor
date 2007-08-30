@@ -24,6 +24,7 @@ import java.sql.SQLException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.util.Messages;
+
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.PersistenceFactory;
@@ -57,12 +58,12 @@ public final class SQLStatementRemove {
         SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
         StringBuffer sql = new StringBuffer("DELETE FROM ");
         sql.append(_factory.quoteName(_mapTo));
-        sql.append(JDBCSyntax.WHERE);
+        sql.append(JDBCSyntax.Where);
         for (int i = 0; i < ids.length; i++) {
             if (i > 0) { sql.append(" AND "); }
             sql.append(_factory.quoteName(ids[i].getName()));
-            sql.append(QueryExpression.OP_EQUALS);
-            sql.append(JDBCSyntax.PARAMETER);
+            sql.append(QueryExpression.OpEquals);
+            sql.append(JDBCSyntax.Parameter);
         }
         _statement = sql.toString();
         
@@ -71,7 +72,7 @@ public final class SQLStatementRemove {
         }
     }
 
-    public Object executeStatement(final Connection conn, final Identity identity)
+    public Object executeStatement(final Connection conn, Identity identity)
     throws PersistenceException {
         SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
         SQLEngine extended = _engine.getExtends();
@@ -100,7 +101,7 @@ public final class SQLStatementRemove {
 
             int result = stmt.executeUpdate();
             if (result < 1) {
-                throw new PersistenceException("Object to be deleted does not exist! " + identity);
+                throw new PersistenceException("Object to be deleted does not exist! "+ identity);
             }
 
             // Must delete record in parent table last.

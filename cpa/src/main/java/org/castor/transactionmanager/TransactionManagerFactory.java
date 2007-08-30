@@ -16,7 +16,6 @@
 package org.castor.transactionmanager;
 
 import java.util.Properties;
-
 import javax.transaction.TransactionManager;
 
 /**

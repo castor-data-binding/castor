@@ -104,7 +104,7 @@ public final class TestCachedOid extends CastorTestCase {
         // test for bug 1163 : Lock conflict when loading an object present in the cache
         stream.println("Loading master object in db-locked mode");
         _db.begin();
-        _db.load(Master.class, new Integer(master.getId()), Database.DBLOCKED);
+        _db.load(Master.class, new Integer(master.getId()), Database.DbLocked);
         _db.commit();
     }
 

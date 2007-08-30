@@ -55,7 +55,7 @@ package org.exolab.castor.jdo;
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class ClassNotPersistenceCapableException extends PersistenceException {
-    /** SerialVersionUID. */
+    /** SerialVersionUID */
     private static final long serialVersionUID = 5245544645253972901L;
 
     public ClassNotPersistenceCapableException(final String message) {

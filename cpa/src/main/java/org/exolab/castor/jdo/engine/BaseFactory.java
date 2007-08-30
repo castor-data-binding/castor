@@ -67,25 +67,32 @@ import org.exolab.castor.persist.spi.PersistenceQuery;
  * @author <a href="mailto:ferret AT frii dot com">Bruce Snyder</a>
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
-public abstract class BaseFactory implements PersistenceFactory {
-    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     *  Commons Logging</a> instance used for all logging. */
-    private static Log _log = LogFactory.getFactory().getInstance(BaseFactory.class);
-    
-    /** Maps class descriptor to persistence engines. */
-    private Map _classDescriptorToPersistence = new HashMap();
+public abstract class BaseFactory
+    implements PersistenceFactory
+{
 
     /**
-     * {@inheritDoc}
+     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     * Commons Logging</a> instance used for all logging.
+     */
+    private static Log _log = LogFactory.getFactory().getInstance( BaseFactory.class );
+    
+    /**
+     * Maps class descriptor to persistence engines ....
+     */
+    private Map classDescriptorToPersistence = new HashMap();
+
+    /**
+     * @see org.exolab.castor.persist.spi.PersistenceFactory#getPersistence(org.exolab.castor.mapping.ClassDescriptor)
      */
     public Persistence getPersistence(final ClassDescriptor clsDesc) {
         if (!(clsDesc instanceof JDOClassDescriptor)) { return null; }
         
         try {
-            Persistence sqlEngine = (SQLEngine) _classDescriptorToPersistence.get(clsDesc);
+            Persistence sqlEngine = (SQLEngine) classDescriptorToPersistence.get(clsDesc);
             if (sqlEngine == null) {
                 sqlEngine = new SQLEngine((JDOClassDescriptor) clsDesc, this, null);
-                _classDescriptorToPersistence.put(clsDesc, sqlEngine);
+                classDescriptorToPersistence.put(clsDesc, sqlEngine);
             }
             return sqlEngine;
         } catch (MappingException except) {
@@ -98,7 +105,6 @@ public abstract class BaseFactory implements PersistenceFactory {
     /**
      * Needed to process OQL queries of "CALL" type (using stored procedure
      * call). This feature is specific for JDO.
-     * 
      * @param call Stored procedure call (without "{call")
      * @param paramTypes The types of the query parameters
      * @param javaClass The Java class of the query results
@@ -106,8 +112,9 @@ public abstract class BaseFactory implements PersistenceFactory {
      * @param sqlTypes The field SQL types
      * @return null if this feature is not supported.
      */
-    public PersistenceQuery getCallQuery(final String call, final Class[] paramTypes,
-            final Class javaClass, final String[] fields, final int[] sqlTypes) {
+    public PersistenceQuery getCallQuery( String call, Class[] paramTypes, Class javaClass,
+                                          String[] fields, int[] sqlTypes )
+    {
         return null;
     }
 
@@ -115,18 +122,19 @@ public abstract class BaseFactory implements PersistenceFactory {
     /**
      * Some databases has some problems with some SQL types.
      * Usually it is enough to merely replace one SQL type by another.
-     * 
      * @param sqlType The correspondent Java class for the SQL type in mapping.xml
      * @return The correspondent Java class for the SQL type that should be used instead.
      */
-    public Class adjustSqlType(final Class sqlType) {
+    public Class adjustSqlType( Class sqlType )
+    {
         return sqlType;
     }
 
     /**
      * Many databases don't support setNull for "WHERE fld=?" and require "WHERE fld IS NULL".
      */
-    public boolean supportsSetNullInWhere() {
+    public boolean supportsSetNullInWhere()
+    {
         return false;
     }
 }

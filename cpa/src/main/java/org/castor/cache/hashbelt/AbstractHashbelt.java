@@ -27,6 +27,7 @@ import java.util.TimerTask;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.castor.cache.AbstractBaseCache;
 import org.castor.cache.CacheAcquireException;
 import org.castor.cache.hashbelt.container.Container;
@@ -112,22 +113,22 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(AbstractHashbelt.class);
     
-    /** Mapped initialization parameter <code>containers</code>. */
+    /** Mapped initialization parameter: containers */
     public static final String PARAM_CONTAINERS = "containers";
 
-    /** Mapped initialization parameter <code>container-class</code>. */
+    /** Mapped initialization parameter: container-class */
     public static final String PARAM_CONTAINER_CLASS = "container-class";
 
-    /** Mapped initialization parameter <code>reaper-class</code>. */
+    /** Mapped initialization parameter: reaper-class */
     public static final String PARAM_REAPER_CLASS = "reaper-class";
 
-    /** Mapped initialization parameter <code>capacity</code>. */
+    /** Mapped initialization parameter: capacity */
     public static final String PARAM_CAPACITY = "capacity";
 
-    /** Mapped initialization parameter <code>ttl</code>. */
+    /** Mapped initialization parameter: ttl */
     public static final String PARAM_TTL = "ttl";
 
-    /** Mapped initialization parameter <code>monitor</code>. */
+    /** Mapped initialization parameter: monitor */
     public static final String PARAM_MONITOR = "monitor";
 
     /** Default number of containers for cache. */

@@ -57,17 +57,23 @@ import java.util.Properties;
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
-final class KeyGeneratorDescriptor {
+final class KeyGeneratorDescriptor
+{
+
     private final String _name;
+
 
     private final String _keyGenFactoryName;
 
+
     private final Properties _params;
+
 
     private final KeyGeneratorRegistry _keyGenReg;
 
-    public KeyGeneratorDescriptor(final String name, final String keyGenFactoryName,
-            final Properties params, final KeyGeneratorRegistry keyGenReg) {
+
+    public KeyGeneratorDescriptor( String name, String keyGenFactoryName,
+            Properties params, KeyGeneratorRegistry keyGenReg ) {
         _name = name;
         _keyGenFactoryName = keyGenFactoryName;
         _params = params;

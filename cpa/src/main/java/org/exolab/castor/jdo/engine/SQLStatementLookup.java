@@ -24,6 +24,7 @@ import java.sql.SQLException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.util.Messages;
+
 import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
@@ -59,12 +60,12 @@ public final class SQLStatementLookup {
 
     private void buildStatement() throws MappingException {
         try {
-            SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
+            SQLColumnInfo[] _ids = _engine.getColumnInfoForIdentities();
             QueryExpression query = _factory.getQueryExpression();
 
             // initalize lookup query
-            for (int i = 0; i < ids.length; i++) {
-                query.addParameter(_mapTo, ids[i].getName(), QueryExpression.OP_EQUALS);
+            for (int i = 0; i < _ids.length; i++) {
+                query.addParameter(_mapTo, _ids[i].getName(), QueryExpression.OpEquals);
             }
             _statement = query.getStatement(true);
       } catch (QueryException except) {
@@ -73,7 +74,7 @@ public final class SQLStatementLookup {
       }
     }
     
-    public Object executeStatement(final Connection conn, final Identity identity)
+    public Object executeStatement(final Connection conn, Identity identity)
     throws PersistenceException {
         SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
         PreparedStatement stmt = null;
@@ -95,8 +96,7 @@ public final class SQLStatementLookup {
 
             if (stmt.executeQuery().next()) {
                 stmt.close();
-                throw new DuplicateIdentityException(Messages.format(
-                        "persist.duplicateIdentity", _type, identity));
+                throw new DuplicateIdentityException(Messages.format("persist.duplicateIdentity", _type, identity));
             }
         } catch (SQLException except2) {
             // Error at the stage indicates it wasn't a duplicate

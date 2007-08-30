@@ -17,8 +17,8 @@ package org.castor.jdo.engine;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -30,10 +30,12 @@ import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.util.Configuration;
-import org.castor.cpa.CPAConfiguration;
+
 import org.castor.util.Base64Decoder;
 import org.castor.util.Base64Encoder;
+import org.castor.util.ConfigKeys;
+import org.castor.util.Configuration;
+
 import org.exolab.castor.jdo.engine.ClobImpl;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.TypeConvertor;
@@ -185,9 +187,9 @@ public final class SQLTypeConverters {
      */
     private static int getLobBufferSize() {
         if (_lobBufferSize == -1) {
-            Configuration config = CPAConfiguration.getInstance();
-            _lobBufferSize = config.getInteger(
-                    CPAConfiguration.LOB_BUFFER_SIZE, DEFAULT_LOB_SIZE);
+            Configuration config = Configuration.getInstance();
+            _lobBufferSize = config.getProperty(
+                    ConfigKeys.LOB_BUFFER_SIZE, DEFAULT_LOB_SIZE);
             if (LOG.isDebugEnabled()) { LOG.debug("Using lobSize: " + _lobBufferSize); }
         }
         return _lobBufferSize;

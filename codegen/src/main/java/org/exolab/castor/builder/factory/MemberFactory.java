@@ -141,7 +141,7 @@ public final class MemberFactory extends BaseFactory {
         FieldInfo result = null;
 
         if (any.getMaxOccurs() > 1 || any.getMaxOccurs() < 0) {
-            result = this.getInfoFactory().createCollection(xsType, vName, "anyObject", getJavaNaming(), useJava50);
+            result = this.getInfoFactory().createCollection(xsType, vName, "anyObject", useJava50);
             XSListType xsList = ((CollectionInfo) result).getXSList();
             xsList.setMinimumSize(any.getMinOccurs());
             xsList.setMaximumSize(any.getMaxOccurs());
@@ -212,7 +212,7 @@ public final class MemberFactory extends BaseFactory {
         FieldInfo fInfo = null;
         if (xsType.isCollection()) {
             fInfo = this.getInfoFactory().createCollection(
-                    ((XSListType) xsType).getContentType(), fieldName, null, getJavaNaming(), useJava50);
+                    ((XSListType) xsType).getContentType(), fieldName, null, useJava50);
         } else {
             fInfo = this.getInfoFactory().createFieldInfo(xsType, fieldName);
         }
@@ -377,7 +377,7 @@ public final class MemberFactory extends BaseFactory {
             // so we need to adjust the name of the members of the collection
             CollectionInfo cInfo;
             cInfo = this.getInfoFactory().createCollection(xsType, vName, memberName,
-                                                       component.getCollectionType(), getJavaNaming(), useJava50);
+                                                       component.getCollectionType(), useJava50);
 
             XSListType xsList = cInfo.getXSList();
             if (!simpleTypeCollection) {
@@ -397,7 +397,7 @@ public final class MemberFactory extends BaseFactory {
                     XSType contentType = ((XSListType) xsType).getContentType();
                     fieldInfo = this.getInfoFactory().createCollection(contentType,
                                                                    memberName, memberName,
-                                                                   collectionName, getJavaNaming(), useJava50);
+                                                                   collectionName, useJava50);
                     break;
                 default:
                     fieldInfo = this.getInfoFactory().createFieldInfo(xsType, memberName);

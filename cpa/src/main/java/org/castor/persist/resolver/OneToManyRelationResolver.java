@@ -41,8 +41,7 @@ import org.exolab.castor.persist.spi.Identity;
 public final class OneToManyRelationResolver extends ManyRelationResolver {
     
     /**
-     * Creates an instance of OneToMany.
-     * 
+     * Creates an instance of OneToMany
      * @param classMolder
      * @param fieldMolder
      * @param fieldIndex Field index within all fields of parent class molder.
@@ -336,7 +335,7 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
 
         // load all old objects for comparison in the preStore state
         if (v != null) {
-            for (int j = 0; j < v.size(); j++) {
+            for (int j = 0, l = v.size(); j < l; j++) {
                 if (!newSetOfIds.contains(v.get(j))) {
                     // load all the dependent object in cache for
                     // modification

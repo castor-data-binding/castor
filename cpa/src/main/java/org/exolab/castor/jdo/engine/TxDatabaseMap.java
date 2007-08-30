@@ -42,19 +42,23 @@
  *
  * $id: $
  */
+
+
 package org.exolab.castor.jdo.engine;
+
+
+import javax.transaction.Transaction;
+
 
 import java.io.Serializable;
 import java.util.HashMap;
-
-import javax.transaction.Transaction;
 
 /**
  * Transactions to Databases Map. 
  *
  */
 public final class TxDatabaseMap implements Serializable {
-    /** SerialVersionUID. */
+    /** SerialVersionUID */
     private static final long serialVersionUID = -3808006851366701785L;
 
     private HashMap _txDbMap = new HashMap();
@@ -62,30 +66,29 @@ public final class TxDatabaseMap implements Serializable {
     public TxDatabaseMap() {
     }
 
-    public synchronized boolean containsTx(final Transaction tx) {
-        return _txDbMap.containsKey(tx);
+    public synchronized boolean containsTx( Transaction tx ) {
+        return _txDbMap.containsKey( tx );
     }
 
-    public synchronized boolean containsDatabase(final GlobalDatabaseImpl dbImpl) {
-        return _txDbMap.containsValue(dbImpl);
+    public synchronized boolean containsDatabase( GlobalDatabaseImpl dbImpl ) {
+        return _txDbMap.containsValue( dbImpl );
     }
 
-    public synchronized GlobalDatabaseImpl get(final Transaction tx) {
-        return (GlobalDatabaseImpl) _txDbMap.get(tx);
+    public synchronized GlobalDatabaseImpl get( Transaction tx ) {
+        return (GlobalDatabaseImpl) _txDbMap.get( tx );
     }
 
-    public synchronized void put(final Transaction tx, final GlobalDatabaseImpl dbImpl) {
-        Object oldDb = _txDbMap.put(tx, dbImpl);
-        if ((oldDb != null) && (oldDb != dbImpl)) {
-            _txDbMap.put(tx, oldDb);
-            throw new IllegalStateException(
-                    "The transaction and database association can not be changed!");
+    public synchronized void put( Transaction tx, GlobalDatabaseImpl dbImpl ) {
+        Object oldDb = _txDbMap.put( tx, dbImpl );
+        if ( oldDb != null && oldDb != dbImpl ) {
+            _txDbMap.put( tx, oldDb );
+            throw new IllegalStateException("The transaction and database association can not be changed!");
         }
-        dbImpl.setTxMap(this);
+        dbImpl.setTxMap( this );
     }
 
-    public synchronized GlobalDatabaseImpl remove(final Transaction tx) {
-        return (GlobalDatabaseImpl) _txDbMap.remove(tx);
+    public synchronized GlobalDatabaseImpl remove( Transaction tx ) {
+        return (GlobalDatabaseImpl) _txDbMap.remove( tx );
     }
 
     public synchronized int size() {

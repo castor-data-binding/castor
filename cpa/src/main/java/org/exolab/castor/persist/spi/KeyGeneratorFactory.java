@@ -42,11 +42,14 @@
  *
  * $Id$
  */
+
+
 package org.exolab.castor.persist.spi;
 
-import java.util.Properties;
 
+import java.util.Properties;
 import org.exolab.castor.mapping.MappingException;
+
 
 /**
  * Interface for a key generator factory. The key generator factory
@@ -55,18 +58,20 @@ import org.exolab.castor.mapping.MappingException;
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
-public interface KeyGeneratorFactory {
+public interface KeyGeneratorFactory
+{
     /**
      * Produce the key generator.
-     * 
      * @param factory Helper object for obtaining database-specific QuerySyntax.
      * @param params Parameters for key generator.
-     * @param sqlType The SQL type of the primary key, the generated identities must have
-     *        the corresponding Java type, e.g. java.sql.Types.INTEGER corresponds to
-     *        java.lang.Integer, java.sql.Types.NUMERIC corresponds to java.lang.BigDecimal.
+     * @param sqlType The SQL type of the primary key,
+     * the generated identities must have the corresponding Java type,
+     * e.g. java.sql.Types.INTEGER corresponds to java.lang.Integer, 
+     * java.sql.Types.NUMERIC corresponds to java.lang.BigDecimal.
      */
-    KeyGenerator getKeyGenerator(PersistenceFactory factory, Properties params, int sqlType)
-    throws MappingException;
+    public KeyGenerator getKeyGenerator( PersistenceFactory factory,
+            Properties params, int sqlType )
+            throws MappingException;
 
     /**
      * Get the short name of the key generator. It is used to reference
@@ -74,5 +79,5 @@ public interface KeyGeneratorFactory {
      * If several key generators of the same type are used for the same
      * database, then they are referenced by aliases.
      */
-    String getName();
+    public String getName();
 }

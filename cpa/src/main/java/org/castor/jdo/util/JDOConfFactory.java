@@ -20,9 +20,9 @@ import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.jdo.conf.DataSource;
 import org.castor.jdo.conf.Database;
 import org.castor.jdo.conf.DatabaseChoice;
+import org.castor.jdo.conf.DataSource;
 import org.castor.jdo.conf.Driver;
 import org.castor.jdo.conf.JdoConf;
 import org.castor.jdo.conf.Mapping;

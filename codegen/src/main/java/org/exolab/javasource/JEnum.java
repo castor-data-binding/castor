@@ -50,7 +50,7 @@ import java.util.Enumeration;
  * @author <a href="mailto:andrew DOT fawcett AT coda DOT com">Andrew Fawcett</a>
  * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
-public final class JEnum extends JClass {
+public final class JEnum extends AbstractJClass {
     //--------------------------------------------------------------------------
 
     /** The list of elements of this JEnumConstant. */
@@ -63,7 +63,7 @@ public final class JEnum extends JClass {
      * 
      * @param name The name for this JEnum.
      */
-    public JEnum(final String name) {
+    protected JEnum(final String name) {
         super(name);
         
         _constants = new JNamedMap();
@@ -71,17 +71,16 @@ public final class JEnum extends JClass {
         //-- initialize default Java doc
         getJDocComment().setComment("Enumeration " + getLocalName() + ".");
     }
-    
-    /**
-     * only allow private constructors. 
-     */
-    public void addConstructor(final JConstructor constructor) {
-        if (constructor.getModifiers().isPrivate()) {   
-            super.addConstructor(constructor);
-        }
-    }
 
     //--------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     */
+    public void addImport(final String className) {
+        if (className == null || className.length() == 0) { return; }
+        addImportInternal(className);
+    }
 
     /**
      * Adds the given JMember to this JEnum.
@@ -158,7 +157,6 @@ public final class JEnum extends JClass {
      */
     public void print(final JSourceWriter jsw, final boolean classOnly) {
         if (jsw == null) {
-            
             throw new IllegalArgumentException("argument 'jsw' should not be null.");
         }
 

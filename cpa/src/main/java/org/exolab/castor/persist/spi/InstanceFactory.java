@@ -42,7 +42,11 @@
  *
  * $Id$
  */
+
+
+
 package org.exolab.castor.persist.spi;
+
 
 /**
  * A callback interceptor delegates instance creation to the handler.
@@ -51,6 +55,7 @@ package org.exolab.castor.persist.spi;
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public interface InstanceFactory {
+
     /**
      * Called to indicate that an object needs to be instatiated.
      *
@@ -58,7 +63,8 @@ public interface InstanceFactory {
      * @param className The name of the class of the object to be created
      * @param loader The class loader to use when creating the object
      */
-    Object newInstance(String className, ClassLoader loader);
+    public Object newInstance( String className, ClassLoader loader );
+
 }
 
 

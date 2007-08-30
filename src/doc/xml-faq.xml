@@ -480,22 +480,14 @@ m.setResolver(cdr);
            	   during marshalling.</p>
            	   
            	<p>To enable this feature, please change the following 
-           	   properties in your <b>local</b> <tt>castor.properties</tt> file 
+           	   property in your <b>local</b> <tt>castor.properties</tt> file 
            	   (thus redefining the default value) as shown below:</p>
             	   
             	<code-panel><![CDATA[
-            	
-# Defines the XML parser to be used by Castor.
-# The parser must implement org.xml.sax.Parser.
-org.exolab.castor.parser=org.xml.sax.helpers.XMLReaderAdapter
-
 # Defines the (default) XML serializer factory to use by Castor, which must
 # implement org.exolab.castor.xml.SerializerFactory; default is 
 # org.exolab.castor.xml.XercesXMLSerializerFactory
-org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSerializerFactory
-
-# Defines the default XML parser to be used by Castor.
-org.exolab.castor.parser=com.sun.org.apache.xerces.internal.parsers.SAXParser]]></code-panel>    		   
+org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSerializerFactory]]></code-panel>    		   
     	</section>
     	
     </section>

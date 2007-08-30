@@ -73,13 +73,11 @@ public class ClobImpl implements Clob {
     private final long _length;
 
     /**
-     * Construct an ClobImpl instance.
-     * <br/>
      * Examples:<br>
      * new ClobImpl(new StringReader(str), str.length())<br>
      * new ClobImpl(new FileReader(file), file.length())
      */
-    public ClobImpl(final Reader reader, final long length) {
+    public ClobImpl(Reader reader, long length) {
         _reader = reader;
         _length = length;
     }
@@ -94,7 +92,7 @@ public class ClobImpl implements Clob {
                 return (int) Math.min(_length, Integer.MAX_VALUE);
             }
 
-            public void mark(final int readlimit) {
+            public void mark(int readlimit) {
                 try {
                     _reader.mark(readlimit);
                 } catch (IOException ex) {
@@ -110,7 +108,7 @@ public class ClobImpl implements Clob {
                 _reader.reset();
             }
 
-            public long skip(final long n) throws IOException {
+            public long skip(long n) throws IOException {
                 return _reader.skip(n);
             }
             public void close() throws IOException {
@@ -128,7 +126,7 @@ public class ClobImpl implements Clob {
         return _length;
     }
 
-    public String getSubString(final long pos, final int length) throws SQLException {
+    public String getSubString(long pos, int length) throws SQLException {
         char[] buf = new char[length];
 
         try {
@@ -144,14 +142,14 @@ public class ClobImpl implements Clob {
     /**
      * Not implemented, I guess it is not needed for writing CLOB.
      */
-    public long position(final Clob searchstr, final long start) {
+    public long position(Clob searchstr, long start) {
         return 0;
     }
 
     /**
      * Not implemented, I guess it is not needed for writing CLOB.
      */
-    public long position(final String searchstr, final long start) {
+    public long position(String searchstr, long start) {
         return 0;
     }
 
@@ -159,7 +157,7 @@ public class ClobImpl implements Clob {
      * Not implemented.   Added to make ClobImpl compliant with
      * JDBC 3.0, which is a part of JDK1.4.
      */
-    public OutputStream setAsciiStream(final long pos) throws SQLException {
+    public OutputStream setAsciiStream(long pos) throws SQLException {
         return null;
     }
 
@@ -167,7 +165,7 @@ public class ClobImpl implements Clob {
      * Not implemented. Added to make ClobImpl compliant with JDBC 3.0, which is
      * a part of JDK1.4.
      */
-    public Writer setCharacterStream(final long pos) throws SQLException {
+    public Writer setCharacterStream(long pos) throws SQLException {
         return null;
     }
 
@@ -175,7 +173,7 @@ public class ClobImpl implements Clob {
      * Not implemented. Added to make ClobImpl compliant with JDBC 3.0, which is
      * a part of JDK1.4.
      */
-    public int setString(final long pos, final String str) throws SQLException {
+    public int setString(long pos, String str) throws SQLException {
         return -1;
     }
 
@@ -183,8 +181,7 @@ public class ClobImpl implements Clob {
      * Not implemented.   Added to make ClobImpl compliant with
      * JDBC 3.0, which is a part of JDK1.4.
      */
-    public int setString(final long pos, final String str, final int offset, final int len)
-    throws SQLException {
+    public int setString(long pos, String str, int offset, int len) throws SQLException {
         return -1;
     }
 
@@ -192,7 +189,7 @@ public class ClobImpl implements Clob {
      * Not implemented.   Added to make ClobImpl compliant with
      * JDBC 3.0, which is a part of JDK1.4.
      */
-    public void truncate(final long len) throws SQLException {
+    public void truncate(long len) throws SQLException {
         // Nothing here
     }
 
@@ -200,7 +197,7 @@ public class ClobImpl implements Clob {
      * Not implemented.   Added to make ClobImpl compliant with
      * JDBC 4.0, which is a part of JDK6.
      */
-    public Reader getCharacterStream(final long pos, final long length) {
+    public Reader getCharacterStream(long pos, long length) throws SQLException {
         return null;
     }
 

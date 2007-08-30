@@ -57,32 +57,41 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2006-02-21 16:05:42 -0700 (Tue, 21 Feb 2006) $
  */
-public final class PostgreSQLFactory extends GenericFactory {
-    /** Internal name for this {@link org.exolab.castor.persist.spi.PersistenceFactory} instance. */
+public final class PostgreSQLFactory
+    extends GenericFactory
+{
+
+    /**
+     * Internal name for this {@link org.exolab.castor.persist.spi.PersistenceFactory} instance. 
+     */
     public static final String FACTORY_NAME = "postgresql";
     
     /**
      * @inheritDoc
+     * @see org.exolab.castor.persist.spi.PersistenceFactory#getFactoryName()
      */
-    public String getFactoryName() {
+    public String getFactoryName() 
+    {
         return FACTORY_NAME;
     }
 
     /**
      * @inheritDoc
+     * @see org.exolab.castor.persist.spi.PersistenceFactory#getQueryExpression()
      */
-    public QueryExpression getQueryExpression() {
-        return new PostgreSQLQueryExpression(this);
+    public QueryExpression getQueryExpression()
+    {
+        return new PostgreSQLQueryExpression( this );
     }
 
     /**
-     * Determine if the given SQLException is DuplicateKeyException.
-     * 
+     * Determine if the given SQLException is DuplicateKeyException
      * @return Boolean.TRUE means "yes",
      *         Boolean.FALSE means "no",
-     *         null means "cannot determine".
+     *         null means "cannot determine"
      */
-    public Boolean isDuplicateKeyException(final Exception ex) {
+    public Boolean isDuplicateKeyException( Exception ex )
+    {
         Boolean isDuplicateKey = Boolean.FALSE;
 
         if (ex.getMessage().indexOf("duplicate key") > 0) {
@@ -92,17 +101,27 @@ public final class PostgreSQLFactory extends GenericFactory {
         return isDuplicateKey;
     }
 
+
     /**
      * @inheritDoc
+     * @see org.exolab.castor.persist.spi.PersistenceFactory#quoteName(java.lang.String)
      */
-    public String quoteName(final String name) {
-        return doubleQuoteName(name);
+    public String quoteName( String name )
+    {
+    	return doubleQuoteName(name);
+//        int index;
+//
+//        index = name.indexOf( '.' );
+//        if ( index > 0 )
+//            return "\"" + name.substring( 0, index ) + "\".\"" + name.substring( index + 1 ) + "\"";
+//        return '"' + name + '"';
     }
+
+
 
     /**
      * Needed to process OQL queries of "CALL" type (using stored procedure
      * call). This feature is specific for JDO.
-     * 
      * @param call Stored procedure call (without "{call")
      * @param paramTypes The types of the query parameters
      * @param javaClass The Java class of the query results
@@ -110,17 +129,18 @@ public final class PostgreSQLFactory extends GenericFactory {
      * @param sqlTypes The field SQL types
      * @return null if this feature is not supported.
      */
-    public PersistenceQuery getCallQuery(final String call, final Class[] paramTypes,
-            final Class javaClass, final String[] fields, final int[] sqlTypes) {
-        return new PostgreSQLCallQuery(call, paramTypes, javaClass, fields, sqlTypes);
+    public PersistenceQuery getCallQuery( String call, Class[] paramTypes, Class javaClass,
+                                          String[] fields, int[] sqlTypes )
+    {
+        return new PostgreSQLCallQuery( call, paramTypes, javaClass, fields, sqlTypes );
     }
 
-    /**
-     * @inheritDoc
-     * <br/>
+
+    /** @inheritDoc
      * BLOB/CLOB types are not supported.
+     * @see org.exolab.castor.jdo.engine.BaseFactory#adjustSqlType(java.lang.Class)
      */
-    public Class adjustSqlType(final Class sqlType) {
+    public Class adjustSqlType( Class sqlType ) {
         if (sqlType == java.sql.Clob.class) {
             return java.lang.String.class;
         } else if (sqlType == java.io.InputStream.class) {

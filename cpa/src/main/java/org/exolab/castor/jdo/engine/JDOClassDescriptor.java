@@ -49,6 +49,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.exolab.castor.mapping.AccessMode;
+import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
 
@@ -157,9 +158,9 @@ public class JDOClassDescriptor extends ClassDescriptorImpl {
      * @param name Name of the field to return.
      * @return Field if it exists, otherwise <code>null</code>.
      */
-    public JDOFieldDescriptor getField(final String name) {
+    public JDOFieldDescriptor getField(String name) {
         FieldDescriptor[] fields = getFields();
-        for (int i = 0; i < fields.length; ++i) {
+        for (int i = 0 ; i < fields.length ; ++i) {
             FieldDescriptor field = fields[i];
             if ((field instanceof JDOFieldDescriptor)
                     && (field.getFieldName().equals(name))) {
@@ -169,7 +170,7 @@ public class JDOClassDescriptor extends ClassDescriptorImpl {
         }
         
         FieldDescriptor[] identities = getIdentities();
-        for (int i = 0; i < identities.length; ++i) {
+        for (int i = 0 ; i < identities.length ; ++i) {
             FieldDescriptor field = identities[i];
             if ((field instanceof JDOFieldDescriptor)
                     && (field.getFieldName().equals(name))) {

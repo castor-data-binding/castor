@@ -57,70 +57,80 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  *
  * @author <a href="mailto:santiago.arriaga@catnet.com.mx">Santiago Arriaga</a>
  */
-public final class InformixQueryExpression extends JDBCQueryExpression {
-    public InformixQueryExpression(final PersistenceFactory factory) {
-        super(factory);
+public final class InformixQueryExpression
+    extends JDBCQueryExpression
+{
+
+
+    public InformixQueryExpression( PersistenceFactory factory )
+    {
+        super( factory );
     }
 
-    public String getStatement(final boolean lock) {
+
+    public String getStatement( boolean lock )
+    {
         StringBuffer sql = new StringBuffer(128);
 
         addSelectClause(sql);
         addFromClause(sql);
         boolean first = addJoinClause(sql);
-        addWhereClause(sql, first);
+        addWhereClause( sql, first );
         addOrderByClause(sql);
         addForUpdateClause(sql, lock);
  
         return sql.toString();
     }
 
-    private void addSelectClause(final StringBuffer buffer) {
-        buffer.append(JDBCSyntax.SELECT);
-        if (_distinct) {
-            buffer.append(JDBCSyntax.DISTINCT);
-        }
+    private void addSelectClause(StringBuffer buffer)
+    {
+        buffer.append( JDBCSyntax.Select );
+        if ( _distinct )
+          buffer.append( JDBCSyntax.Distinct );
 
-        buffer.append(getColumnList());
+        buffer.append( getColumnList() );
     }
     
-    private void addFromClause(final StringBuffer buffer) {
-        buffer.append(JDBCSyntax.FROM);
+    private void addFromClause(StringBuffer buffer)
+    {
+        buffer.append( JDBCSyntax.From );
 
         Enumeration tables = getFromTables();
-        while (tables.hasMoreElements()) {
-            buffer.append((String) tables.nextElement());
-            if (tables.hasMoreElements()) {
-                buffer.append(JDBCSyntax.TABLE_SEPARATOR);
-            }
+        while ( tables.hasMoreElements() )
+        {
+            buffer.append( (String) tables.nextElement() );
+            if ( tables.hasMoreElements() )
+                buffer.append( JDBCSyntax.TableSeparator );
         }
     }
 
     /**
      * This method returns an enumeration of the tables that are included in
      * the from clause of a join, the resulting enumeration includes the
-     * necessary outer join syntax if needed.
+     * necessary outer join syntax if needed
      */
-    private Enumeration getFromTables() {
+    private Enumeration getFromTables()
+    {
         Vector vector = new Vector();
         Vector outerTables = getOuterTables();
 
-        for (Enumeration enumeration = _tables.keys(); enumeration.hasMoreElements(); ) {
+        for ( Enumeration enumeration = _tables.keys(); enumeration.hasMoreElements(); )
+        {
             String tableAlias = (String) enumeration.nextElement();
-            String tableName = (String) _tables.get(tableAlias);
+            String tableName = (String) _tables.get( tableAlias );
             StringBuffer tmp;
-            if (outerTables.contains(tableAlias)) {
-                tmp = new StringBuffer("OUTER ");
+            if ( outerTables.contains( tableAlias ) ) {
+                tmp = new StringBuffer( "OUTER " );
             } else {
                 tmp = new StringBuffer();
             }
-            if (tableAlias.equals(tableName)) {
-                tmp.append(_factory.quoteName(tableName));
+            if( tableAlias.equals( tableName ) ) {
+                tmp.append( _factory.quoteName( tableName ) );
             } else {
-                tmp.append(_factory.quoteName(tableName) + " "
-                        + _factory.quoteName(tableAlias));
+                tmp.append( _factory.quoteName( tableName ) + " " +
+                            _factory.quoteName( tableAlias ) );
             }
-            vector.addElement(_factory.quoteName(tmp.toString()));
+            vector.addElement( _factory.quoteName( tmp.toString() ) );
         }
         return vector.elements();
     }
@@ -130,66 +140,75 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
      * performed from the _joins collection. Just the right table in an outer
      * join is needed to create the syntax of an informix outer join
      */
-    private Vector getOuterTables() {
+    private Vector getOuterTables()
+    {
         Vector tables = new Vector();
         Join join = null;
 
-        for (int i = 0; i < _joins.size(); ++i) {
-            join = (Join) _joins.elementAt(i);
-            if (join._outer) {
-                tables.addElement(join._rightTable);
-            }
+        for ( int i = 0 ; i < _joins.size() ; ++i )
+        {
+            join = (Join) _joins.elementAt( i );
+            if (join.outer)
+                tables.addElement(join.rightTable);
         }
 
         return tables;
     }
 
-    private boolean addJoinClause(final StringBuffer buffer) {
+    private boolean addJoinClause(StringBuffer buffer)
+    {
         boolean first = true;
 
-        for (int i = 0; i < _joins.size(); ++i) {
-            if (first) {
-                buffer.append(JDBCSyntax.WHERE);
+        for ( int i = 0 ; i < _joins.size() ; ++i )
+        {
+            if ( first )
+            {
+                buffer.append( JDBCSyntax.Where );
                 first = false;
-            } else {
-                buffer.append(JDBCSyntax.AND);
             }
+            else
+                buffer.append( JDBCSyntax.And );
 
-            addJoin(buffer, (Join) _joins.elementAt(i));
+            addJoin(buffer, (Join) _joins.elementAt( i ));
         }
 
         return first;
     }
 
-    private void addJoin(final StringBuffer buffer, final Join join) {
-        for (int j = 0; j < join._leftColumns.length; ++j) {
-            if (j > 0) {
-                buffer.append(JDBCSyntax.AND);
-            }
+    private void addJoin(StringBuffer buffer, Join join)
+    {
+        for ( int j = 0 ; j < join.leftColumns.length ; ++j )
+        {
+            if ( j > 0 )
+                buffer.append( JDBCSyntax.And );
 
-            buffer.append(quoteTableAndColumn(join._leftTable, join._leftColumns[j]));
-            buffer.append(OP_EQUALS);
-            buffer.append(quoteTableAndColumn(join._rightTable, join._rightColumns[j]));
+            buffer.append
+              ( quoteTableAndColumn( join.leftTable, join.leftColumns[j] ) );
+            buffer.append( OpEquals );
+            buffer.append
+              ( quoteTableAndColumn( join.rightTable, join.rightColumns[j] ) );
         }
     }
 
-    private String quoteTableAndColumn(final String table, final String column) {
+    private String quoteTableAndColumn(String table, String column)
+    {
         return _factory.quoteName
-            (table + JDBCSyntax.TABLE_COLUMN_SEPARATOR + column);
+            (table + JDBCSyntax.TableColumnSeparator + column);
     }
 
-    private void addOrderByClause(final StringBuffer buffer) {
-        if (_order != null) {
-            buffer.append(JDBCSyntax.ORDER_BY).append(_order);
-        }
+    private void addOrderByClause(StringBuffer buffer)
+    {
+        if ( _order != null )
+          buffer.append(JDBCSyntax.OrderBy).append(_order);
     }
 
-    private void addForUpdateClause(final StringBuffer buffer, final boolean lock) {
+    private void addForUpdateClause(StringBuffer buffer, boolean lock)
+    {
         // Use FOR UPDATE to lock selected tables.
-        if (lock) {
-            buffer.append(" FOR UPDATE");
-        }
+        if ( lock )
+            buffer.append( " FOR UPDATE" );
     }
+
 }
 
 

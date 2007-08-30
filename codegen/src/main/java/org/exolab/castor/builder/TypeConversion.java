@@ -88,6 +88,7 @@ import org.exolab.castor.builder.types.XSUnsignedByte;
 import org.exolab.castor.builder.types.XSUnsignedInt;
 import org.exolab.castor.builder.types.XSUnsignedLong;
 import org.exolab.castor.builder.types.XSUnsignedShort;
+import org.exolab.castor.xml.JavaNaming;
 import org.exolab.castor.xml.schema.AttributeDecl;
 import org.exolab.castor.xml.schema.ElementDecl;
 import org.exolab.castor.xml.schema.Facet;
@@ -183,7 +184,6 @@ public final class TypeConversion {
             // look at type hierarchy (if any), and try to 
             // find a common type recursively 
             while (common == null 
-                    && currentUnion.getBaseType() != null
                     && currentUnion.getBaseType().getStructureType() == Structure.UNION)
             {
                 currentUnion = (SimpleType) currentUnion.getBaseType();
@@ -194,7 +194,7 @@ public final class TypeConversion {
             }
             return convertType(common, packageName, useWrapper, useJava50);
         } else if (base == null) {
-            String className = _config.getJavaNaming().toJavaClassName(simpleType.getName());
+            String className = JavaNaming.toJavaClassName(simpleType.getName());
             return new XSClass(new JClass(className));
         }
 
@@ -408,7 +408,7 @@ public final class TypeConversion {
 
                 LOG.warn("Warning: The W3C datatype '" + name + "' "
                         + "is not currently supported by Castor Source Generator.");
-                String className = _config.getJavaNaming().toJavaClassName(name);
+                String className = JavaNaming.toJavaClassName(name);
                 xsType = new XSClass(new JClass(className));
                 break;
         }
@@ -505,7 +505,7 @@ public final class TypeConversion {
             typeName = typeName + "Type";
         }
 
-        String className = _config.getJavaNaming().toJavaClassName(typeName);
+        String className = JavaNaming.toJavaClassName(typeName);
 
         // Get the appropriate package name for this type
         String typePackageName = packageName;

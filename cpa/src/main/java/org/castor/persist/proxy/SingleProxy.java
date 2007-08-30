@@ -21,10 +21,6 @@ import java.io.NotSerializableException;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.persist.ProposedEntity;
@@ -35,8 +31,12 @@ import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.spi.Identity;
 
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
+
 public final class SingleProxy implements MethodInterceptor, Serializable {
-    /** SerialVersionUID. */
+    /** SerialVersionUID */
     private static final long serialVersionUID = -1498354553937679053L;
 
     private static final Log LOG = LogFactory.getLog(SingleProxy.class);

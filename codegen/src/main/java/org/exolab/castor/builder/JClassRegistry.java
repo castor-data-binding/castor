@@ -26,13 +26,13 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.xml.JavaNaming;
 import org.exolab.castor.builder.binding.ExtendedBinding;
 import org.exolab.castor.builder.binding.XMLBindingComponent;
 import org.exolab.castor.builder.binding.XPathHelper;
 import org.exolab.castor.builder.binding.xml.Exclude;
 import org.exolab.castor.builder.conflict.strategy.ClassNameConflictResolver;
 import org.exolab.castor.builder.conflict.strategy.XPATHClassNameConflictResolver;
+import org.exolab.castor.xml.JavaNaming;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.castor.xml.schema.ElementDecl;
 import org.exolab.castor.xml.schema.Group;
@@ -78,12 +78,6 @@ public class JClassRegistry {
      */
     private Map _typedLocalNames = new HashMap();
 
-    /** 
-     * JavaNaming to be used. 
-     * @since 1.1.3
-     */
-    private JavaNaming _javaNaming;
-
 
     /**
      * Class name conflict resolver.
@@ -107,11 +101,9 @@ public class JClassRegistry {
      * resolver to be used during automatic class name conflict resolution
      * (for local element conflicts).
      * @param resolver {@link ClassNameConflictResolver} instance to be used
-     * @param javaNaming the {@link JavaNaming} to use (must not be null).
      */
-    public JClassRegistry(final ClassNameConflictResolver resolver, final JavaNaming javaNaming) {
+    public JClassRegistry(final ClassNameConflictResolver resolver) {
         _classNameConflictResolver = resolver;
-        _javaNaming = javaNaming;
     }
 
     /**
@@ -180,7 +172,7 @@ public class JClassRegistry {
                 
         
         String jClassLocalName = jClass.getLocalName();
-        String expectedClassNameDerivedFromXPath = _javaNaming.toJavaClassName(localName);
+        String expectedClassNameDerivedFromXPath = JavaNaming.toJavaClassName(localName);
         if (!jClassLocalName.equals(expectedClassNameDerivedFromXPath)) {
             if (component.createGroupItem()) {
                 xPath += "/#item";

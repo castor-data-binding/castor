@@ -42,7 +42,10 @@
  *
  * $Id$
  */
+
+
 package org.exolab.castor.jdo.keygen;
+
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -64,33 +67,33 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.persist.spi.QueryExpression;
 
 /**
- * The parent abstract class for HIGH-LOW key generators.
- * 
+ * The parent abstract class for HIGH-LOW key generators
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
  * @author <a href="bruce DOT snyder AT gmail DOT com">Bruce Snyder</a>
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  * @see HighLowKeyGeneratorFactory
  */
-public class HighLowKeyGenerator implements KeyGenerator {
+public class HighLowKeyGenerator implements KeyGenerator
+{
     /**
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      * Commons Logging</a> instance used for all logging.
      */
     private static Log _log = LogFactory.getFactory().getInstance(HighLowKeyGenerator.class);
     
-    private static final BigDecimal ONE = new BigDecimal(1);
+    private final static BigDecimal ONE = new BigDecimal( 1 );
 
-    private static final String SEQ_TABLE = "table";
+    private final static String SEQ_TABLE = "table";
 
-    private static final String SEQ_KEY = "key-column";
+    private final static String SEQ_KEY = "key-column";
 
-    private static final String SEQ_VALUE = "value-column";
+    private final static String SEQ_VALUE = "value-column";
 
-    private static final String GRAB_SIZE = "grab-size";
+    private final static String GRAB_SIZE = "grab-size";
 
-    private static final String SAME_CONNECTION = "same-connection";
+    private final static String SAME_CONNECTION = "same-connection";
 
-    private static final String GLOBAL = "global";
+    private final static String GLOBAL = "global";
 
     private final PersistenceFactory _factory;
     
@@ -128,45 +131,42 @@ public class HighLowKeyGenerator implements KeyGenerator {
     /**
      * Initialize the HIGH-LOW key generator.
      */
-    public HighLowKeyGenerator(final PersistenceFactory factory, final Properties params,
-            final int sqlType) throws MappingException {
+    public HighLowKeyGenerator( PersistenceFactory factory,  Properties params, int sqlType )
+            throws MappingException
+    {
         String factorStr;
 
         _factory = factory;
         _sqlType = sqlType;
-        supportsSqlType(sqlType);
+        supportsSqlType( sqlType );
 
-        _seqTable = params.getProperty(SEQ_TABLE);
-        if (_seqTable == null) {
-            throw new MappingException(Messages.format(
-                    "mapping.KeyGenParamNotSet", SEQ_TABLE, getClass().getName()));
-        }
+        _seqTable = params.getProperty( SEQ_TABLE );
+        if ( _seqTable == null ) 
+            throw new MappingException( Messages.format( "mapping.KeyGenParamNotSet",
+                                        SEQ_TABLE, getClass().getName() ) );
 
-        _seqKey = params.getProperty(SEQ_KEY);
-        if (_seqKey == null) {
-            throw new MappingException(Messages.format(
-                    "mapping.KeyGenParamNotSet", SEQ_KEY, getClass().getName()));
-        }
+        _seqKey = params.getProperty( SEQ_KEY );
+        if ( _seqKey == null ) 
+            throw new MappingException( Messages.format( "mapping.KeyGenParamNotSet",
+                                        SEQ_KEY, getClass().getName() ) );
 
-        _seqValue = params.getProperty(SEQ_VALUE);
-        if (_seqValue == null) {
-            throw new MappingException(Messages.format(
-                    "mapping.KeyGenParamNotSet", SEQ_VALUE, getClass().getName()));
-        }
+        _seqValue = params.getProperty( SEQ_VALUE );
+        if ( _seqValue == null ) 
+            throw new MappingException( Messages.format( "mapping.KeyGenParamNotSet",
+                                        SEQ_VALUE, getClass().getName() ) );
 
-        factorStr = params.getProperty(GRAB_SIZE, "10");
+        factorStr = params.getProperty( GRAB_SIZE, "10" );
         try {
-            _grabSizeI = Integer.parseInt(factorStr);
-        } catch (NumberFormatException except) {
+            _grabSizeI = Integer.parseInt( factorStr );
+        } catch ( NumberFormatException except ) {
             _grabSizeI = 0;
         }
-        if (_grabSizeI <= 0) {
-            throw new MappingException(Messages.format(
-                    "mapping.wrongKeyGenParam", factorStr, GRAB_SIZE, getClass().getName()));
-        }
-        _grabSizeD = new BigDecimal(_grabSizeI);
-        _sameConnection = "true".equals(params.getProperty(SAME_CONNECTION));
-        _global = "true".equals(params.getProperty(GLOBAL));
+        if ( _grabSizeI <= 0 ) 
+            throw new MappingException( Messages.format( "mapping.wrongKeyGenParam",
+                                        factorStr, GRAB_SIZE, getClass().getName() ) );
+        _grabSizeD = new BigDecimal( _grabSizeI );
+        _sameConnection = "true".equals( params.getProperty( SAME_CONNECTION ) );
+        _global = "true".equals( params.getProperty( GLOBAL ) );
     }
 
     /**
@@ -175,43 +175,45 @@ public class HighLowKeyGenerator implements KeyGenerator {
      * @param sqlType
      * @throws MappingException
      */
-    public void supportsSqlType(final int sqlType) throws MappingException {
-        if ((sqlType != Types.INTEGER) && (sqlType != Types.NUMERIC)
-                && (sqlType != Types.DECIMAL) && (sqlType != Types.BIGINT)) {
-            throw new MappingException(Messages.format(
-                    "mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
+    public void supportsSqlType( int sqlType )
+        throws MappingException
+    {
+        if ( sqlType != Types.INTEGER && sqlType != Types.NUMERIC && sqlType != Types.DECIMAL && sqlType != Types.BIGINT)
+        {
+            throw new MappingException( Messages.format( "mapping.keyGenSQLType",
+                                        getClass().getName(), new Integer( sqlType ) ) );
         }
     }
 
     /**
      * @param conn An open connection within the given transaction
-     * @param internalTableName The table name
+     * @param tableName The table name
      * @param primKeyName The primary key name
      * @param props A temporary replacement for Principal object
      * @return A new key
      * @throws PersistenceException An error occured talking to persistent
      *  storage
      */
-    public synchronized Object generateKey(final Connection conn, final String tableName,
-            final String primKeyName, final Properties props) throws PersistenceException {
+    public synchronized Object generateKey( Connection conn, String tableName,
+            String primKeyName, Properties props )
+            throws PersistenceException
+    {
         Object last;
         Object max;
         boolean inRange;
 
-        String internalTableName = tableName;
-        if (_global) {
-            internalTableName = "<GLOBAL>";
+        if ( _global ) {
+            tableName = "<GLOBAL>";
         }
-        last = _lastValues.get(internalTableName);
-        max = _maxValues.get(internalTableName);
-        if (last != null) {    
-            if (_sqlType == Types.INTEGER) {
-                last = new Integer(((Integer) last).intValue() + 1);
-            } else if (_sqlType == Types.BIGINT) {
-                last = new Long(((Long) last).longValue() + 1);
-            } else {
-                last = ((BigDecimal) last).add(ONE);
-            }
+        last = _lastValues.get( tableName );
+        max = _maxValues.get( tableName );
+        if ( last != null ) {    
+            if ( _sqlType == Types.INTEGER )
+                last = new Integer( ( (Integer) last ).intValue() + 1 );
+            else if ( _sqlType == Types.BIGINT )
+                last = new Long( ( (Long) last ).longValue() + 1 );
+            else
+                last = ((BigDecimal) last).add( ONE );
         } else {
             QueryExpression query;
             String sql;
@@ -223,9 +225,8 @@ public class HighLowKeyGenerator implements KeyGenerator {
 
             try {
                 // the separate connection should be committed/rolled back at this point
-                if (!_sameConnection) {
+                if ( ! _sameConnection ) 
                     conn.rollback();
-                }
 
                 // Create SQL sentence of the form
                 // "SELECT seq_val FROM seq_table WHERE seq_key='table'"
@@ -233,58 +234,59 @@ public class HighLowKeyGenerator implements KeyGenerator {
                 // [george stewart] Note, that some databases (InstantDB, 
                 // HypersonicSQL) don't support such locks.
                 query = _factory.getQueryExpression();
-                query.addColumn(_seqTable, _seqValue);
-                query.addCondition(_seqTable, _seqKey, QueryExpression.OP_EQUALS, 
-                                    JDBCSyntax.PARAMETER);
+                query.addColumn( _seqTable, _seqValue );
+                query.addCondition( _seqTable, _seqKey, QueryExpression.OpEquals, 
+                                    JDBCSyntax.Parameter);
 
                 // SELECT and put lock on the last record
-                sql = query.getStatement(true);
+                sql = query.getStatement( true );
                 // For the case if the "SELECT FOR UPDATE" is not supported
                 // we perform dirty checking
-                sql2 = "UPDATE " +  _seqTable
-                    + " SET " + _seqValue + "=" + JDBCSyntax.PARAMETER
-                    + JDBCSyntax.WHERE + _seqKey + QueryExpression.OP_EQUALS + JDBCSyntax.PARAMETER
-                    + JDBCSyntax.AND + _seqValue + QueryExpression.OP_EQUALS + JDBCSyntax.PARAMETER;
+                sql2 = "UPDATE "+  _seqTable +
+                    " SET " + _seqValue + "=" + JDBCSyntax.Parameter +
+                    JDBCSyntax.Where + _seqKey + QueryExpression.OpEquals +
+                    JDBCSyntax.Parameter + JDBCSyntax.And + 
+                    _seqValue + "=" + JDBCSyntax.Parameter;
 
-                stmt = conn.prepareStatement(sql);
-                stmt.setString(1, internalTableName);
-                stmt2 = conn.prepareStatement(sql2);
-                stmt2.setString(2, internalTableName);
+                stmt = conn.prepareStatement( sql );
+                stmt.setString(1, tableName);
+                stmt2 = conn.prepareStatement( sql2 );
+                stmt2.setString(2, tableName);
 
                 // Retry 7 times (lucky number)
                 success = false;
-                for (int i = 0; !success && (i < 7); i++) {
+                for ( int i = 0 ; ! success && i < 7 ; i++ ) {
                     rs = stmt.executeQuery();
 
-                    if (rs.next()) {
-                        if (_sqlType == Types.INTEGER) {
+                    if ( rs.next() ) {
+                        if ( _sqlType == Types.INTEGER ) {
                             int value;
                             int maxVal;
 
-                            value = rs.getInt(1);
+                            value = rs.getInt( 1 );
                             stmt2.setInt(3, value);
-                            last = new Integer(value + 1);
+                            last = new Integer( value + 1 );
                             maxVal = value + _grabSizeI;
-                            max = new Integer(maxVal);
+                            max = new Integer( maxVal );
                             stmt2.setInt(1, maxVal);
-                        } else if (_sqlType == Types.BIGINT) {
+                        } else if ( _sqlType == Types.BIGINT ) {
                             long value;
                             long maxVal;
 
-                            value = rs.getLong(1);
+                            value = rs.getLong( 1 );
                             stmt2.setLong(3, value);
-                            last = new Long(value + 1);
+                            last = new Long( value + 1 );
                             maxVal = value + _grabSizeI;
-                            max = new Long(maxVal);
+                            max = new Long( maxVal );
                             stmt2.setLong(1, maxVal);
                         } else {
                             BigDecimal value;
                             BigDecimal maxVal;
 
-                            value = rs.getBigDecimal(1);
+                            value = rs.getBigDecimal( 1 );
                             stmt2.setBigDecimal(3, value);
-                            last = value.add(ONE);
-                            maxVal = value.add(_grabSizeD);
+                            last = value.add( ONE );
+                            maxVal = value.add( _grabSizeD );
                             max = maxVal;
                             stmt2.setBigDecimal(1, maxVal);
                         }
@@ -296,104 +298,99 @@ public class HighLowKeyGenerator implements KeyGenerator {
                         // for the case of switching from some other key generator 
                         // to HIGH-LOW
                         stmt.close();
-                        if (!_global) {
-                            String sqlStatement = JDBCSyntax.SELECT + "MAX(" + primKeyName + ") "
-                                                + "FROM " + internalTableName;
+                        if ( ! _global ) {
+                        	String sqlStatement = JDBCSyntax.Select + "MAX(" + primKeyName + ") FROM " + tableName;
                             stmt = conn.prepareStatement(sqlStatement);
                             rs = stmt.executeQuery();
                         }
-                        if (_sqlType == Types.INTEGER) {
+                        if ( _sqlType == Types.INTEGER ) {
                             int maxPK = 0;
 
-                            if (!_global && rs.next()) {
+                            if ( ! _global && rs.next() ) {
                                 maxPK = rs.getInt(1);
                             }
-                            last = new Integer(maxPK + 1);
-                            max = new Integer(maxPK + _grabSizeI);
-                        } else if (_sqlType == Types.BIGINT) {
+                            last = new Integer( maxPK + 1 );
+                            max = new Integer( maxPK + _grabSizeI );
+                        } else if ( _sqlType == Types.BIGINT ) {
                             long maxPK = 0;
 
-                            if (!_global && rs.next()) {
+                            if ( ! _global && rs.next() ) {
                                 maxPK = rs.getLong(1);
                             }
-                            last = new Long(maxPK + 1);
-                            max = new Long(maxPK + _grabSizeI);
+                            last = new Long( maxPK + 1 );
+                            max = new Long( maxPK + _grabSizeI );
                         } else {
                             BigDecimal maxPK = null;
 
-                            if (!_global && rs.next()) {
+                            if ( ! _global && rs.next() ) {
                                 maxPK = rs.getBigDecimal(1);
                             }
-                            if (maxPK == null) {
-                                maxPK = new BigDecimal(0);
+                            if ( maxPK == null ) {
+                                maxPK = new BigDecimal( 0 );
                             }
-                            last = maxPK.add(ONE);
-                            max = maxPK.add(_grabSizeD);
+                            last = maxPK.add( ONE );
+                            max = maxPK.add( _grabSizeD );
                         }
                         stmt2.close();
                         
-                        String sqlStatement = "INSERT INTO " + _seqTable
-                                            + " (" + _seqKey + "," + _seqValue + ") VALUES (?, ?)";
+                        String sqlStatement = "INSERT INTO " + _seqTable + " (" + _seqKey + "," + _seqValue + ") VALUES (?, ?)";
                         stmt2 = conn.prepareStatement(sqlStatement);
-                        stmt2.setString(1, internalTableName);
-                        stmt2.setObject(2, max);
+                        stmt2.setString( 1, tableName );
+                        stmt2.setObject( 2, max );
                         stmt2.executeUpdate();
                         success = true;
                     }
                 }
-                if (!_sameConnection) {
-                    if (success) {
+                if ( ! _sameConnection ) {
+                    if ( success )
                         conn.commit();
-                    } else {
+                    else {
                         conn.rollback();
                     }
                 }
-                if (!success) {
-                    throw new PersistenceException(Messages.format(
-                            "persist.keyGenFailed", getClass().getName()));
-                }
-            } catch (SQLException ex) {
-                if (!_sameConnection) {
+                if ( ! success )
+                    throw new PersistenceException( Messages.format( "persist.keyGenFailed", getClass().getName() ) );
+            } catch ( SQLException ex ) {
+                if ( ! _sameConnection ) {
                     try {
                         conn.rollback();
-                    } catch (SQLException ex2) {
+                    } catch ( SQLException ex2 ) {
                         _log.warn ("Problem rolling back JDBC transaction.", ex2);
                     }
                 }
-                throw new PersistenceException(Messages.format(
-                        "persist.keyGenSQL", getClass().getName(), ex.toString()), ex);
+                throw new PersistenceException( Messages.format(
+                        "persist.keyGenSQL", getClass().getName(), ex.toString() ), ex );
             } finally {
-                if (stmt != null) {
+                if ( stmt != null ) {
                     try {
                         stmt.close();
-                    } catch (SQLException ex) {
+                    } catch ( SQLException ex ) {
                         _log.warn (Messages.message("persist.stClosingFailed"), ex);
                     }
                 }
-                if (stmt2 != null) {
+                if ( stmt2 != null ) {
                     try {
                         stmt2.close();
-                    } catch (SQLException ex) {
+                    } catch ( SQLException ex ) {
                         _log.warn (Messages.message("persist.stClosingFailed"), ex);
                     }
                 }
             }
         }
 
-        if (_sqlType == Types.INTEGER) {
-            inRange = (((Integer) last).intValue() < ((Integer) max).intValue());
-        } else if (_sqlType == Types.BIGINT) {
-            inRange = (((Long) last).longValue() < ((Long) max).longValue());
-        } else {
-            inRange = (((BigDecimal) last).compareTo((BigDecimal) max) < 0);
-        }
+        if ( _sqlType == Types.INTEGER )
+            inRange = ( ( (Integer) last ).intValue() < ( (Integer) max ).intValue() );
+        else if ( _sqlType == Types.BIGINT )
+            inRange = ( ( (Long) last ).longValue() < ( (Long) max ).longValue() );
+        else
+            inRange = ( ( (BigDecimal) last ).compareTo( (BigDecimal) max ) < 0 );
 
-        if (inRange) {
-            _lastValues.put(internalTableName, last);
-            _maxValues.put(internalTableName, max);
+        if ( inRange ) {
+            _lastValues.put( tableName, last );
+            _maxValues.put( tableName, max );
         } else {
-            _lastValues.remove(internalTableName);
-            _maxValues.remove(internalTableName);
+            _lastValues.remove( tableName );
+            _maxValues.remove( tableName );
         }
         return last;
     }
@@ -409,9 +406,9 @@ public class HighLowKeyGenerator implements KeyGenerator {
 
     /**
      * Gives a possibility to patch the Castor-generated SQL statement
-     * for INSERT (makes sense for DURING_INSERT key generators).
+     * for INSERT (makes sense for DURING_INSERT key generators)
      */
-    public final String patchSQL(final String insert, final String primKeyName) {
+    public final String patchSQL( String insert, String primKeyName ) {
         return insert;
     }
 

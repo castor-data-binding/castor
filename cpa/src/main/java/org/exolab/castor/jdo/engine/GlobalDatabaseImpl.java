@@ -17,13 +17,9 @@ package org.exolab.castor.jdo.engine;
 
 import java.sql.Connection;
 
-import javax.transaction.Status;
-import javax.transaction.Synchronization;
-import javax.transaction.SystemException;
-import javax.transaction.Transaction;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.castor.persist.GlobalTransactionContext;
 import org.castor.util.Messages;
 import org.exolab.castor.jdo.DatabaseNotFoundException;
@@ -34,6 +30,11 @@ import org.exolab.castor.jdo.TransactionNotInProgressException;
 import org.exolab.castor.persist.spi.CallbackInterceptor;
 import org.exolab.castor.persist.spi.InstanceFactory;
 
+import javax.transaction.Status;
+import javax.transaction.Synchronization;
+import javax.transaction.SystemException;
+import javax.transaction.Transaction;
+
 /**
  * An implementation of the JDO database supporting explicit transaction
  * demarcation.
@@ -41,24 +42,34 @@ import org.exolab.castor.persist.spi.InstanceFactory;
  * @author <a href="werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
-public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchronization {
-    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     *  Commons Logging</a> instance used for all logging. */
+public class GlobalDatabaseImpl extends AbstractDatabaseImpl
+    implements Synchronization
+{
+
+    /**
+     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     * Commons Logging</a> instance used for all logging.
+     */
     private static Log _log = LogFactory.getFactory().getInstance(GlobalDatabaseImpl.class);
 
-    /** The XA transaction to which this Database instance is attached. */
+    /**
+     * The XA transaction to which this Database instance is attached
+     */
     private Transaction _transaction;
 
-    /** The transaction to database map for database pooling. */
+    /**
+     * The transaction to database map for database pooling.
+     */
     private TxDatabaseMap _txMap;
     
-    /** Flag to indicate whether Database instances should be cached on a per transaction base. */
-    private boolean _isPoolInUseForGlobalTransactions = false;
+    /**
+     * Flag to indicate whether Database instances should be cached on a per transaction base.
+     */
+    boolean _isPoolInUseForGlobalTransactions = false;
 
     /**
      * Creates an instance of this class.
-     * 
-     * @param dbName Database name.
+     * @param dbName Database name
      * @param lockTimeout Lock timeout.
      * @param callback Callback interceptors.
      * @param instanceFactory Instance factory to use.
@@ -68,16 +79,17 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchron
      * @param isPoolInUseForGlobalTransactions True if Database instanced should be cached.
      * @throws DatabaseNotFoundException If the specified database cannot be found. 
      */
-    public GlobalDatabaseImpl(final String dbName, final int lockTimeout,
-            final CallbackInterceptor callback, final InstanceFactory instanceFactory,
-            final Transaction transaction, final ClassLoader classLoader, final boolean autoStore, 
-            final boolean isPoolInUseForGlobalTransactions) throws DatabaseNotFoundException {
+    public GlobalDatabaseImpl( String dbName, int lockTimeout, CallbackInterceptor callback,
+                         InstanceFactory instanceFactory, Transaction transaction, 
+                         ClassLoader classLoader, boolean autoStore, 
+                         boolean isPoolInUseForGlobalTransactions)
+    throws DatabaseNotFoundException {
         
         super (dbName, lockTimeout, callback, instanceFactory, classLoader, autoStore);
         
         _isPoolInUseForGlobalTransactions = isPoolInUseForGlobalTransactions;
         _transaction = transaction;
-
+	
         try {
             _ctx = new GlobalTransactionContext(this);
             _ctx.setStatus(transaction.getStatus());
@@ -98,11 +110,16 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchron
      * @inheritDoc
      * @see org.exolab.castor.jdo.Database#close()
      */
-    public synchronized void close() throws PersistenceException {
+    public synchronized void close()
+        throws PersistenceException
+    {
         try {
-            try {
+            try
+            {
                 _ctx.close();
-            } catch (Exception e) {
+            }
+            catch(Exception e)
+            {
                 throw new PersistenceException(e.getMessage(), e);
             }
         } finally {
@@ -110,17 +127,17 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchron
         }
     }
 
-    /**
+	/**
      * Overrides Object.finalize().
-     * 
-     * Outputs a warning message to the logs if the current DatabaseImpl 
-     * instance still has valid scope. In this condition - a condition that 
-     * ideally should not occur at all - we close the instance as well to 
-     * free up resources.
-     * 
-     * @see java.lang.Object#finalize()
-     */
-    protected void finalize() throws Throwable {
+	 * 
+	 * Outputs a warning message to the logs if the current DatabaseImpl 
+	 * instance still has valid scope. In this condition - a condition that 
+	 * ideally should not occur at all - we close the instance as well to 
+	 * free up resources.
+	 * 
+	 * @see java.lang.Object#finalize()
+	 */
+	protected void finalize() throws Throwable {
         if (_scope != null || !isActive()) { return; }
             
         if (!_isPoolInUseForGlobalTransactions) {
@@ -136,38 +153,49 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchron
 
     /**
      * @inheritDoc
+     * @see org.exolab.castor.jdo.Database#begin()
      */
-    public void begin() throws PersistenceException {
+    public void begin()
+        throws PersistenceException
+    {
         throw new IllegalStateException(Messages.message("jdo.txInJ2EE"));
     }
 
     /**
      * @inheritDoc
+     * @see org.exolab.castor.jdo.Database#commit()
      */
-    public void commit() throws TransactionNotInProgressException, TransactionAbortedException {
+    public void commit()
+        throws TransactionNotInProgressException, TransactionAbortedException
+    {
         throw new IllegalStateException(Messages.message("jdo.txInJ2EE"));
     }
 
     /**
      * @inheritDoc
+     * @see org.exolab.castor.jdo.Database#rollback()
      */
-    public void rollback() throws TransactionNotInProgressException {
+    public void rollback()
+        throws TransactionNotInProgressException
+    {
         throw new IllegalStateException(Messages.message("jdo.txInJ2EE"));
     }
 
     /**
      * @inheritDoc
+     * @see javax.transaction.Synchronization#beforeCompletion()
      */
-    public void beforeCompletion() {
+    public void beforeCompletion()
+    {
         // XXX [SMH]: Find another test for txNotInProgress
-        if (_transaction == null || _ctx == null || !_ctx.isOpen()) {
+        if (_transaction == null || _ctx == null || ! _ctx.isOpen()) {
             throw new IllegalStateException(Messages.message("jdo.txNotInProgress"));
         }
         if (_ctx.getStatus() == Status.STATUS_MARKED_ROLLBACK) {
             try {
                 _transaction.setRollbackOnly();
             } catch (SystemException except) {
-                _log.warn(Messages.format("jdo.warnException", except));
+                _log.warn( Messages.format("jdo.warnException", except));
             }
             return;
         }
@@ -188,7 +216,8 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchron
      * @inheritDoc
      * @see javax.transaction.Synchronization#afterCompletion(int)
      */
-    public void afterCompletion(final int status) {
+    public void afterCompletion(final int status)
+    {
         try {
             // XXX [SMH]: Find another test for txNotInProgress
             if (_transaction == null || _ctx == null) {
@@ -198,8 +227,7 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchron
                 return;
             }
             if (_ctx.getStatus() != Status.STATUS_PREPARED && status != Status.STATUS_ROLLEDBACK) {
-                throw new IllegalStateException(
-                        "Unexpected state: afterCompletion called at status " + _ctx.getStatus());
+                throw new IllegalStateException( "Unexpected state: afterCompletion called at status " + _ctx.getStatus() );
             }
             switch (status) {
             case Status.STATUS_COMMITTED:
@@ -215,8 +243,7 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchron
                 return;
             default:
                 _ctx.rollback();
-                throw new IllegalStateException(
-                        "Unexpected state: afterCompletion called with status " + status);
+                throw new IllegalStateException("Unexpected state: afterCompletion called with status " + status);
             }
         } finally {
             if (_txMap != null && _transaction != null) {
@@ -226,15 +253,19 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchron
         }
     }
 
-    void setTxMap(final TxDatabaseMap txMap) {
+    void setTxMap(TxDatabaseMap txMap) 
+    {
         _txMap = txMap;
     }
 
     /**
      * @inheritDoc
+     * @see org.exolab.castor.jdo.Database#getJdbcConnection()
      */
-    public Connection getJdbcConnection() throws PersistenceException {
+    public Connection getJdbcConnection() throws PersistenceException 
+    {
         return _ctx.getConnection(_scope.getLockEngine());
     }
+
 }  
                                 

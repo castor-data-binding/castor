@@ -51,10 +51,13 @@ import java.sql.SQLException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.persist.ProposedEntity;
 import org.castor.util.Messages;
+
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.jdo.engine.JDBCSyntax;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.spi.Identity;
@@ -69,40 +72,52 @@ import org.exolab.castor.persist.spi.PersistenceQuery;
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
  * @version $Revision$ $Date: 2006-04-11 15:26:07 -0600 (Tue, 11 Apr 2006) $
  */
-final class PostgreSQLCallQuery implements PersistenceQuery {
-    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     *  Commons Logging</a> instance used for all logging. */
+final class PostgreSQLCallQuery implements PersistenceQuery
+{
+
+    /**
+     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     * Commons Logging</a> instance used for all logging.
+     */
     private static Log _log = LogFactory.getFactory().getInstance(PostgreSQLCallQuery.class);
     
     private PreparedStatement _stmt;
 
+
     private ResultSet         _rs;
+
 
     private final Class     _javaClass;
 
+
     private final Class[]   _types;
+
 
     private final Object[]  _values;
 
+
     private final String    _call;
+
 
     private Identity        _lastIdentity;
 
+
     private int[]           _sqlTypes;
 
-    PostgreSQLCallQuery(final String call, final Class[] types, final Class javaClass,
-            final String[] fields, final int[] sqlTypes) {
+
+    PostgreSQLCallQuery( String call, Class[] types, Class javaClass,
+                         String[] fields, int[] sqlTypes )
+    {
         StringBuffer query = new StringBuffer();
 
-        query.append(JDBCSyntax.SELECT);
-        for (int i = 0; i < fields.length; i++) {
-            if (i > 0) {
-                query.append(JDBCSyntax.COLUMN_SEPARATOR);
-            }
-            query.append(fields[i]);
-            query.append("(");
-            query.append(call);
-            query.append(")");
+        query.append( JDBCSyntax.Select );
+        for ( int i = 0; i < fields.length; i++ ) {
+            if ( i > 0 ) 
+                query.append( JDBCSyntax.ColumnSeparator );
+            query.append( fields[i] );
+            query.append( "(" );
+            query.append( call );
+            query.append( ")" );
         }
         _call = query.toString();
         _types = types;
@@ -111,72 +126,82 @@ final class PostgreSQLCallQuery implements PersistenceQuery {
         _values = new Object[ _types.length ];
     }
 
-    public boolean absolute(final int row) throws PersistenceException {
+    public boolean absolute(int row)
+      throws PersistenceException
+    {
       return false;
     }
 
-    public int size() throws PersistenceException {
+    public int size()
+      throws PersistenceException
+    {
       return 0;
     }
 
-    public int getParameterCount() {
+    public int getParameterCount()
+    {
         return _types.length;
     }
 
 
-    public Class getParameterType(final int index) throws ArrayIndexOutOfBoundsException {
+    public Class getParameterType( int index )
+        throws ArrayIndexOutOfBoundsException
+    {
         return _types[ index ];
     }
 
 
-    public void setParameter(final int index, final Object value)
-    throws ArrayIndexOutOfBoundsException, IllegalArgumentException {
+    public void setParameter( int index, Object value )
+        throws ArrayIndexOutOfBoundsException, IllegalArgumentException
+    {
         _values[ index ] = value;
     }
 
 
-    public Class getResultType() {
+    public Class getResultType()
+    {
         return _javaClass;
     }
 
-    public void execute(final Object conn, final AccessMode accessMode, final boolean scrollable)
-    throws PersistenceException {
+    public void execute( Object conn, AccessMode accessMode, boolean scrollable)
+      throws QueryException, PersistenceException
+    {
       execute(conn, accessMode);
     }
 
-    private void execute(final Object conn, final AccessMode accessMode)
-    throws PersistenceException {
+    private void execute( Object conn, AccessMode accessMode )
+        throws QueryException, PersistenceException
+    {
         _lastIdentity = null;
         try {
             int count;
 
-            _stmt = ((Connection) conn).prepareStatement(_call);
+            _stmt = ( (Connection) conn ).prepareStatement( _call );
             count = 1;
-            for (int f = 0; f < _sqlTypes.length; ++f) {
-                for (int i = 0; i < _values.length; ++i) {
-                    _stmt.setObject(count, _values[i]);
+            for ( int f = 0 ; f < _sqlTypes.length ; ++f ) {
+                for ( int i = 0 ; i < _values.length ; ++i ) {
+                    _stmt.setObject( count, _values[ i ] );
                     ++count;
                 }
             }
-            for (int i = 0; i < _values.length; ++i) {
+            for ( int i = 0 ; i < _values.length ; ++i ) 
                 _values[ i ] = null;
-            }
             _stmt.execute();
             _rs = _stmt.executeQuery();
-        } catch (SQLException except) {
-            if (_stmt != null) {
+        } catch ( SQLException except ) {
+            if ( _stmt != null ) {
                 try {
                     _stmt.close();
-                } catch (SQLException e2) {
+                } catch ( SQLException e2 ) {
                     _log.warn (Messages.message ("persist.stClosingFailed"), e2);
                 }
             }
-            throw new PersistenceException(Messages.format("persist.nested", except));
+            throw new PersistenceException( Messages.format( "persist.nested", except ) );
         }
     }
 
 
-    public Identity nextIdentity(final Identity identity) throws PersistenceException {
+    public Identity nextIdentity(Identity identity) throws PersistenceException {
         try {
             if (_lastIdentity == null) {
                 if (!_rs.next()) { return null; }
@@ -198,26 +223,29 @@ final class PostgreSQLCallQuery implements PersistenceQuery {
         }
     }
 
-    public void close() {
-        if (_rs != null) {
+
+    public void close()
+    {
+        if ( _rs != null ) {
             try {
                 _rs.close();
-            } catch (SQLException except) {
-                _log.warn (Messages.message ("persist.rsClosingFailed"), except);
+            } catch ( SQLException except ) {
+            	_log.warn (Messages.message ("persist.rsClosingFailed"), except);
             }
             _rs = null;
         }
-        if (_stmt != null) {
+        if ( _stmt != null ) {
             try {
                 _stmt.close();
-            } catch (SQLException except) {
-                _log.warn (Messages.message ("persist.stClosingFailed"), except);
+            } catch ( SQLException except ) {
+            	_log.warn (Messages.message ("persist.stClosingFailed"), except);
             }
             _stmt = null;
         }
     }
 
-    public Object fetch(final ProposedEntity proposedObject) throws PersistenceException {
+
+    public Object fetch(ProposedEntity proposedObject) throws PersistenceException {
         try {
             // Load all the fields of the object including one-one relations
             // index 0 belongs to the identity
@@ -235,4 +263,5 @@ final class PostgreSQLCallQuery implements PersistenceQuery {
         }
         return null;
     }
+
 }

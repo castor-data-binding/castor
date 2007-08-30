@@ -50,23 +50,30 @@ import org.exolab.castor.persist.spi.QueryExpression;
  *
  * @author <a href="mailto:santiago.arriaga@catnet.com.mx">Santiago Arriaga</a>
  */
-public final class HsqlFactory extends GenericFactory {
-    /** Internal name for this {@link org.exolab.castor.persist.spi.PersistenceFactory} instance. */
+public final class HsqlFactory extends GenericFactory
+{
+
+    /**
+     * Internal name for this {@link org.exolab.castor.persist.spi.PersistenceFactory} instance.
+     */
     public static final String FACTORY_NAME = "hsql";
     
     /**
      * @inheritDoc
+     * @see org.exolab.castor.persist.spi.PersistenceFactory#getFactoryName()
      */
-    public String getFactoryName() { 
+    public String getFactoryName(){ 
         return FACTORY_NAME; 
     }
 
     /**
      * @inheritDoc
+     * @see org.exolab.castor.persist.spi.PersistenceFactory#getQueryExpression()
      */
     public QueryExpression getQueryExpression() { 
-        return new HsqlQueryExpression(this); 
+        return new HsqlQueryExpression( this ); 
     }
+
 }
 
 

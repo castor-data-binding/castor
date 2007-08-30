@@ -16,8 +16,8 @@
 package org.castor.persist.cache;
 
 import org.exolab.castor.jdo.TimeStampable;
-import org.exolab.castor.persist.OID;
 import org.exolab.castor.persist.ObjectLock;
+import org.exolab.castor.persist.OID;
 
 /**
  * Utility class to store 'data' accessed through Castor JDO in performance caches.
@@ -29,7 +29,7 @@ import org.exolab.castor.persist.ObjectLock;
 public final class CacheEntry implements java.io.Serializable {
     //--------------------------------------------------------------------------
 
-    /** SerialVersionUID. */
+    /** SerialVersionUID */
     private static final long serialVersionUID = -5165311222436920871L;
 
     /** OID of the entry to be cached. */

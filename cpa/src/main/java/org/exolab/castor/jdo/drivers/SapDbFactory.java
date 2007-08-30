@@ -59,14 +59,22 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @author <a href="ferret AT frii DOT com">Bruce Snyder</a>
  * @version $Revision$ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr 2006) $
  */
-public final class SapDbFactory extends OracleFactory {
-    public String getFactoryName() {
+public final class SapDbFactory
+    extends OracleFactory
+{
+
+
+    public String getFactoryName()
+    {
         return "sapdb";
     }
 
-    public QueryExpression getQueryExpression() {
-        return new SapDbQueryExpression(this);
+
+    public QueryExpression getQueryExpression()
+    {
+        return new SapDbQueryExpression( this );
     }
+
 
     /**
      * Quotes words in SQL statements. This method must recieve a non null,
@@ -74,7 +82,8 @@ public final class SapDbFactory extends OracleFactory {
      *
      * @param name The SQL string that needs quotes added
      */
-    public String quoteName(final String name) {
+    public String quoteName( String name )
+    {
         StringBuffer buffer = new StringBuffer();
         StringTokenizer tokens = new StringTokenizer(name, ".");
         String token = null;
@@ -84,23 +93,25 @@ public final class SapDbFactory extends OracleFactory {
         buffer.append('\"');
         buffer.append(tokens.nextToken().toUpperCase());
 
-        while (tokens.hasMoreTokens()) {
+        while(tokens.hasMoreTokens()) {
             token = tokens.nextToken();
 
-            if (isAFunction(token)) {
+            if ( isAFunction( token ) )
+            {
                 addQuote = false;
                 buffer.append("\".");
-            } else {
+            }
+            else
+            {
                 buffer.append("\".\"");
                 token = token.toUpperCase();
             }
 
-            buffer.append(token);
+            buffer.append( token );
         }
 
-        if (addQuote) {
+        if ( addQuote )
             buffer.append('\"');
-        }
 
         return buffer.toString();
     }
@@ -112,19 +123,23 @@ public final class SapDbFactory extends OracleFactory {
      * @param text The text to be checked
      * @see #quoteName(String)
      */
-    public boolean isAFunction(final String text) {
+    public boolean isAFunction( String text )
+    {
         boolean isAFunction = false;
 
         // Add all supported functions in SAP DB here
-        String[] knownFunctions = new String[] {
+        String[] knownFunctions = new String[]
+        {
             "nextval",
             "currval"
         };
 
-        for (int i = 0; i < knownFunctions.length; ++i) {
+        for ( int i = 0; i < knownFunctions.length; ++i )
+        {
             String function = knownFunctions[i];
 
-            if (text.equals(function)) {
+            if ( text.equals( function ) )
+            {
                 return true;
             }
         }

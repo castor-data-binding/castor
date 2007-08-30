@@ -60,7 +60,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.util.Messages;
-import org.castor.xml.JavaNaming;
 
 import org.exolab.castor.xml.NodeType;
 import org.exolab.castor.xml.OutputFormat;
@@ -106,7 +105,8 @@ public abstract class Configuration {
     /**
      * Names of properties used in the configuration file.
      */
-    public static class Property {
+    public static class Property
+    {
 
         /**
          * Property specifying the type of node to use for
@@ -163,17 +163,6 @@ public abstract class Configuration {
          *
          */
         public static final String Naming = "org.exolab.castor.xml.naming";        
-
-        /**
-         * Property specifying the implementation of the Java naming conventions
-         * to use. Values of this property must be either null or
-         * the name of a class which extends org.castor.xml.JavaNaming.
-         * <pre>
-         * org.castor.xml.java_naming
-         * </pre>
-         *
-         */
-        public static final String JavaNaming = "org.castor.xml.java_naming";        
 
         /**
          * Property specifying whether to use validation in the Marshalling Framework
@@ -261,7 +250,7 @@ public abstract class Configuration {
          */
 		public static final String LOAD_PACKAGE_MAPPING = "org.exolab.castor.xml.loadPackageMappings";
         
-        public static final boolean DEFAULT_LOAD_PACKAGE_MAPPING = true;
+        public static final String DEFAULT_LOAD_PACKAGE_MAPPING = "true";
 
         /**
          * Property specifying what factoyr to use for dealing with XML serializers 
@@ -285,6 +274,14 @@ public abstract class Configuration {
         static final String DEFAULT_SERIALIZER_FACTORY = "org.exolab.castor.xml.XercesXMLSerializerFactory";
 
         /**
+         * Property specifying whether to use ANSI-compliant SQL for MS SQL Server.
+         * <pre>
+         * org.exolab.castor.jdo.sqlserver.ansi-compliant
+         * </pre>
+         */
+        public static final String SqlServerAnsiCompliant = "org.exolab.castor.jdo.sqlserver.ansi-compliant";
+
+        /**
          * Property specifying whether sequence order validation should be lenient
          * <pre>
          * org.exolab.castor.xml.lenient.sequence.order=false
@@ -301,17 +298,6 @@ public abstract class Configuration {
          */
         public static final String LenientIdValidation = "org.exolab.castor.xml.lenient.id.validation";
 
-        /**
-         * Property specifying whether or not to search for an proxy interface at marshalling.
-         * If property is not empty the objects to be marshalled will be searched if they
-         * implement one of the given interface names. If the interface is implemented the
-         * superclass will be marshalled instead of the class itself.
-         * <pre>
-         * org.exolab.castor.xml.proxyInterfaces
-         * </pre>
-         * @since 1.2.2
-         */
-        public static final String ProxyInterfaces = "org.exolab.castor.xml.proxyInterfaces";
     } //-- class: Property
 
 
@@ -471,28 +457,12 @@ public abstract class Configuration {
      * @see #getDefaultProperty(String,String)
      * @see #getProperties()
      */
-    public String getProperty(String name, String defValue) {
+    public String getProperty( String name, String defValue )
+    {
         return getProperties().getProperty( name, defValue );
+        
     } //-- getProperty
 
-    /**
-     * Searches for the property with the specified key in this configuration. If the property
-     * string is equal, ignore case, to 'true' or 'false', the respective boolean value will be
-     * returned. In all other cases the given default value will be returned.
-     *
-     * @param key Property key.
-     * @param defaultValue Default value.
-     * @return Boolean value in this configuration with the specified key value.
-     */
-    public final boolean getBoolean(final String key, final boolean defaultValue) {
-        String stringValue = getProperty(key, null);
-        if ("true".equalsIgnoreCase(stringValue)) {
-            return true;
-        } else if ("false".equalsIgnoreCase(stringValue)) {
-            return false;
-        }
-        return defaultValue;
-    }
 
     /**
      * Returns a property from the default configuration file.
@@ -1242,11 +1212,6 @@ public abstract class Configuration {
          * The naming conventions for the XML Framework
          */
         XMLNaming naming = null;
-        
-        /**
-         * The Java naming conventions for the XML Framework
-         */
-        JavaNaming javaNaming = null;
         
         /**
          * The NodeType assigned to java primitives

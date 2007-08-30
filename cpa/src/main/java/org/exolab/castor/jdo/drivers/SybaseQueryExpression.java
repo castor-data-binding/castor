@@ -59,95 +59,93 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
  * @version $Revision$ $Date: 2004-10-01 07:25:46 -0600 (Fri, 01 Oct 2004) $
  */
-public final class SybaseQueryExpression extends JDBCQueryExpression {
-    public SybaseQueryExpression(final PersistenceFactory factory) {
-        super(factory);
+public final class SybaseQueryExpression
+    extends JDBCQueryExpression
+{
+
+
+    public SybaseQueryExpression( PersistenceFactory factory )
+    {
+        super( factory );
     }
 
-    public String getStatement(final boolean lock) {
+
+    public String getStatement( boolean lock )
+    {
         StringBuffer sql;
         boolean      first;
         Enumeration  enumeration;
 
         sql = new StringBuffer();
-        sql.append(JDBCSyntax.SELECT);
-        if (_distinct) {
-            sql.append(JDBCSyntax.DISTINCT);
-        }
+        sql.append( JDBCSyntax.Select );
+        if ( _distinct )
+          sql.append( JDBCSyntax.Distinct );
 
-        sql.append(getColumnList());
+        sql.append( getColumnList() );
         
-        sql.append(JDBCSyntax.FROM);
+        sql.append( JDBCSyntax.From );
 
         // Use HOLDLOCK to lock selected tables.
         enumeration = _tables.keys();
-        while (enumeration.hasMoreElements()) {
+        while ( enumeration.hasMoreElements() ) {
             String tableAlias = (String) enumeration.nextElement();
-            String tableName = (String) _tables.get(tableAlias);
-            if (tableAlias.equals(tableName)) {
-                sql.append(_factory.quoteName(tableName));
+            String tableName = (String) _tables.get( tableAlias );
+            if( tableAlias.equals( tableName ) ) {
+                sql.append( _factory.quoteName( tableName ) );
             } else {
-                sql.append(_factory.quoteName(tableName) + " "
-                        + _factory.quoteName(tableAlias));
+                sql.append( _factory.quoteName( tableName ) + " " +
+                            _factory.quoteName( tableAlias ) );
             }
-            if (lock) {
-                sql.append(" HOLDLOCK ");
-            }
-            if (enumeration.hasMoreElements()) {
-                sql.append(JDBCSyntax.TABLE_SEPARATOR);
-            }
+            if ( lock )
+                sql.append( " HOLDLOCK " );
+            if ( enumeration.hasMoreElements() )
+                sql.append( JDBCSyntax.TableSeparator );
         }
 
         first = true;
         // Use asterisk notation to denote a left outer join
         // and equals to denote an inner join
-        for (int i = 0; i < _joins.size(); ++i) {
+        for ( int i = 0 ; i < _joins.size() ; ++i ) {
             Join join;
 
-            if (first) {
-                sql.append(JDBCSyntax.WHERE);
+            if ( first ) {
+                sql.append( JDBCSyntax.Where );
                 first = false;
-            } else {
-                sql.append(JDBCSyntax.AND);
-            }
+            } else
+                sql.append( JDBCSyntax.And );
 
-            join = (Join) _joins.elementAt(i);
-            for (int j = 0; j < join._leftColumns.length; ++j) {
-                if (j > 0) {
-                    sql.append(JDBCSyntax.AND);
-                }
-                sql.append(_factory.quoteName(join._leftTable
-                        + JDBCSyntax.TABLE_COLUMN_SEPARATOR
-                        + join._leftColumns[j]));
-                if (join._outer) {
-                    sql.append("*=");
-                } else {
-                    sql.append(OP_EQUALS);
-                }
-                sql.append(_factory.quoteName(join._rightTable
-                        + JDBCSyntax.TABLE_COLUMN_SEPARATOR
-                        + join._rightColumns[j]));
+            join = (Join) _joins.elementAt( i );
+            for ( int j = 0 ; j < join.leftColumns.length ; ++j ) {
+                if ( j > 0 )
+                    sql.append( JDBCSyntax.And );
+                sql.append( _factory.quoteName( join.leftTable + JDBCSyntax.TableColumnSeparator +
+                                                join.leftColumns[ j ] ) );
+                if ( join.outer )
+                    sql.append( "*=" );
+                else
+                    sql.append( OpEquals );
+                sql.append( _factory.quoteName( join.rightTable + JDBCSyntax.TableColumnSeparator +
+                                                join.rightColumns[ j ] ) );
             }
         }
-        first = addWhereClause(sql, first);
+        first = addWhereClause( sql, first );
  
-        if (_order != null) {
-            sql.append(JDBCSyntax.ORDER_BY).append(_order);
-        }
+        if ( _order != null )
+          sql.append(JDBCSyntax.OrderBy).append(_order);
           
         return sql.toString();
     }
     
-    public void addInnerJoin(final String leftTable, final String leftColumn,
-            final String leftTableAlias, final String rightTable, final String rightColumn,
-            final String rightTableAlias) {
+    public void addInnerJoin( String leftTable, String leftColumn, String leftTableAlias,
+                              String rightTable, String rightColumn, String rightTableAlias )
+    {
         // copy from JDBCQueryExpression.addInnerJoin(String,String,String,String,String,String)
         int index;
         Join join;
 
-        _tables.put(leftTableAlias, leftTable);
-        _tables.put(rightTableAlias, rightTable);
-        join = new Join(leftTableAlias, leftColumn, rightTableAlias, rightColumn, false);
+        _tables.put( leftTableAlias, leftTable );
+        _tables.put( rightTableAlias, rightTable );
+        join = new Join( leftTableAlias, leftColumn, rightTableAlias, rightColumn, false );
         index = _joins.indexOf(join);
         if (index < 0) {
             _joins.add(join);
@@ -159,12 +157,12 @@ public final class SybaseQueryExpression extends JDBCQueryExpression {
 
         // sybase doesn't support table alias and outer join on the same table
         // hope it fix it.
-        join = new Join(leftTable, leftColumn, rightTable, rightColumn, false);
+        join = new Join( leftTable, leftColumn, rightTable, rightColumn, false );
         index = _joins.indexOf(join);
-        if (index >= 0) {
+        if ( index >= 0 )
             _joins.set(index, join);
-        }
     }
+
 }
 
 

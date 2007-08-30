@@ -49,8 +49,8 @@
  */
 package org.exolab.castor.builder.info;
 
-import org.exolab.castor.builder.factory.FieldMemberAndAccessorFactory;
 import org.exolab.castor.builder.types.XSType;
+import org.exolab.javasource.JClass;
 
 /**
  * A helper used for generating source that deals with Java 2 Collections of
@@ -70,16 +70,38 @@ public final class CollectionInfoJ2Set extends CollectionInfoJ2 {
      * @param name The name of the Collection.
      * @param elementName The element name for each element in collection.
      * @param useJava50 true if code is supposed to be generated for Java 5
-     * @param memberAndAccessorFactory the FieldMemberAndAccessorFactory to be used 
-     * @param contentMemberAndAccessorFactory the factory for the content  
      */
     public CollectionInfoJ2Set(final XSType contentType, final String name,
-            final String elementName, 
-            final boolean useJava50, 
-            final FieldMemberAndAccessorFactory memberAndAccessorFactory,
-            final FieldMemberAndAccessorFactory contentMemberAndAccessorFactory) {
-        super(contentType, name, elementName, "set", useJava50, 
-                memberAndAccessorFactory, contentMemberAndAccessorFactory);
+            final String elementName, final boolean useJava50) {
+        super(contentType, name, elementName, "set", useJava50);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected void createAddByIndexMethod(final JClass jClass) {
+        // do not create such method,
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected void createGetByIndexMethod(final JClass jClass) {
+        // do not create such method
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected void createSetByIndexMethod(final JClass jClass) {
+        // do not create such method
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected void createRemoveByIndexMethod(final JClass jClass) {
+        // do not create such method
     }
 
 }

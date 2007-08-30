@@ -2,7 +2,9 @@ package org.exolab.castor.persist.spi;
 
 public final class Identity implements java.io.Serializable {
     
-    /** <code>serialVersionUID</code>. */
+    /**
+     * <code>serialVersionUID</code>
+     */
     private static final long serialVersionUID = 1L;
 
     private final Object[] _all;
@@ -11,7 +13,6 @@ public final class Identity implements java.io.Serializable {
 
     /**
      * Creates an instance of this class, based upon the parameter passed in.
-     * 
      * @param o Either a {@link Complex}, an {@link Identity} instance, or an Object[] instance.
      */
     public Identity(final Object o) {
@@ -40,7 +41,7 @@ public final class Identity implements java.io.Serializable {
                 _hashCode += ((array[i] == null) ? 0 : array[i].hashCode());
             }
         } else {
-            _all = new Object[] {o};
+            _all = new Object[] { o };
             _hashCode = o.hashCode();
         }
     }
@@ -55,7 +56,7 @@ public final class Identity implements java.io.Serializable {
     }
 
     public Identity(final Object o1, final Object o2) {
-        _all = new Object[] {o1, o2};
+        _all = new Object[] { o1, o2 };
         _hashCode = ((o1 == null) ? 0 : o1.hashCode());
         _hashCode += ((o2 == null) ? 0 : o2.hashCode());
     }
@@ -71,7 +72,7 @@ public final class Identity implements java.io.Serializable {
         Identity id = (Identity) other;
         if (_all.length != id.size()) { return false; }
 
-        for (int i = 0; i < _all.length; i++) {
+        for (int i = 0; i < _all.length; i++ ) {
             if (_all[i] == null) {
                 if (id._all[i] != null) { return false; }
             } else if (!_all[i].equals(id._all[i])) {
@@ -86,9 +87,9 @@ public final class Identity implements java.io.Serializable {
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("<");
-        for (int i = 0; i < _all.length; i++) {
-            if (i != 0) { sb.append(","); }
-            Object obj = _all[i];
+        for(int i = 0; i < _all.length; i++) {
+        	if (i != 0) { sb.append(","); }
+        	Object obj = _all[i];
             sb.append(obj);
             if (obj != null) {
                 sb.append("(").append(obj.hashCode()).append(")");

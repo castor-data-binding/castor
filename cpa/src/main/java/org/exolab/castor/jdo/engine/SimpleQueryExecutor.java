@@ -42,21 +42,22 @@
  *
  * $Id$
  */
+
+
 package org.exolab.castor.jdo.engine;
+
+import org.exolab.castor.jdo.Database;
+import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.QueryException;
+import org.exolab.castor.jdo.QueryResults;
+import org.exolab.castor.persist.spi.QueryExpression;
+import org.exolab.castor.util.SqlBindParser;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.NoSuchElementException;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.exolab.castor.jdo.Database;
-import org.exolab.castor.jdo.PersistenceException;
-import org.exolab.castor.jdo.QueryException;
-import org.exolab.castor.jdo.QueryResults;
-import org.exolab.castor.persist.spi.QueryExpression;
 
 /**
  * A class to execute simple SQL queries generated from OQL.  If the query
@@ -68,10 +69,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @version $Revision$ $Date: 2006-03-14 06:22:05 -0700 (Tue, 14 Mar 2006) $
  */
 public class SimpleQueryExecutor {
-    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     *  Commons Logging</a> instance used for all logging. */
-    private static final Log LOG = LogFactory.getLog(SimpleQueryExecutor.class);
-
+    
     /**
      * Prepared statement to execute the query.
      */
@@ -86,7 +84,7 @@ public class SimpleQueryExecutor {
      * Creates an instance to execute a simple query.
      * @param database the Database Implementation, used to get the connection
      */
-    public SimpleQueryExecutor(final Database database) { }
+    public SimpleQueryExecutor(Database database) { }
 
     /**
      * Executes a simple query and returns the results.  The query must not
@@ -99,45 +97,34 @@ public class SimpleQueryExecutor {
      * @return the results of the query.
      * 
      */
-    public QueryResults execute(final Connection conn, final QueryExpression expr,
-            final Object[] bindValues) throws QueryException {
+    public QueryResults execute( Connection conn, QueryExpression expr, Object[] bindValues )
+    throws QueryException {
         
         try {
             
-            String preSQL = expr.getStatement(false);
+            String pre_sql = expr.getStatement(false);
             
             // create SQL statement from pre_sql, replacing bind expressions like "?1" by "?"
-            String sql = SqlBindParser.getJdbcSql(preSQL);
+            String sql = SqlBindParser.getJdbcSql(pre_sql);
             
             _stmt = conn.prepareStatement(sql);
             
-            if (bindValues != null) {
-                SqlBindParser.bindJdbcValues(_stmt, preSQL, bindValues);
-            }
+            if ( bindValues != null )
+                SqlBindParser.bindJdbcValues(_stmt, pre_sql, bindValues);
             
             _rset = _stmt.executeQuery();
             return new SimpleQueryResults();
             
         } catch (SQLException s) {
-            if (_rset != null) {
-                try {
-                    _rset.close();
-                } catch (SQLException e) {
-                    LOG.debug("Exception at close of ResultSet.");
-                }
-            }
-            if (_stmt != null) {
-                try {
-                    _stmt.close();
-                } catch (SQLException e) {
-                    LOG.debug("Exception at close of PreparedStatement.");
-                }
-            }
+            if ( _rset != null )
+                try { _rset.close(); } catch (SQLException e) {}
+                if ( _stmt != null )
+                    try { _stmt.close(); } catch (SQLException e) {}
                     
-            _rset = null;
-            _stmt = null;
-            
-            throw new QueryException(s.toString());
+                    _rset = null;
+                    _stmt = null;
+                    
+                    throw new QueryException( s.toString() );
         }
     }
     
@@ -149,7 +136,8 @@ public class SimpleQueryExecutor {
             //prime the resultset.
             try {
                 _hasMore = _rset.next();
-            } catch (SQLException e) {
+            }
+            catch (SQLException e) {
                 _hasMore = false;
             }
         }
@@ -158,13 +146,19 @@ public class SimpleQueryExecutor {
          * use the jdbc 2.0 method to move to an absolute position in the
          * resultset.
          */
-        public boolean absolute(final int row) throws PersistenceException {
+        public boolean absolute(int row)
+        throws PersistenceException
+        {
             boolean retval = false;
-            try {
-                if (_rset != null) {
+            try
+            {
+                if (_rset != null)
+                {
                     retval = _rset.absolute(row);
                 }
-            } catch (SQLException e) {
+            }
+            catch (SQLException e)
+            {
                 throw new PersistenceException(e.getMessage());
             }
             return retval;
@@ -175,25 +169,37 @@ public class SimpleQueryExecutor {
          * result set, get the row number via getRow(), then move back to
          * where ever the user was positioned in the resultset.
          */
-        public int size() throws PersistenceException {
+        public int size()
+        throws PersistenceException
+        {
             int whereIAm = 1; // first
             int retval = 0; // default size is 0;
-            try {
-                if (_rset != null) {
+            try
+            {
+                if (_rset != null)
+                {
                     whereIAm = _rset.getRow();
-                    if (_rset.last()) {
+                    if (_rset.last())
+                    {
                         retval = _rset.getRow();
-                    } else {
+                    }
+                    else
+                    {
                         retval = 0;
                     }
                     // go back from whence I came.
-                    if (whereIAm > 0) {
+                    if (whereIAm > 0)
+                    {
                         _rset.absolute(whereIAm);
-                    } else {
+                    }
+                    else
+                    {
                         _rset.beforeFirst();
                     }
                 }
-            } catch (SQLException se) {
+            }
+            catch (SQLException se)
+            {
                 throw new PersistenceException(se.getMessage());
             }
             return retval;
@@ -209,58 +215,50 @@ public class SimpleQueryExecutor {
         
         public Object nextElement() throws NoSuchElementException {
             try {
-                return next(true);
-            } catch (PersistenceException except) {
+                return next( true );
+            } 
+            catch ( PersistenceException except ) {
                 // Will never happen
                 return null;
             }
         }
         
         public Object next() throws PersistenceException, NoSuchElementException {
-            return next(false);
+            return next( false );
         }
         
-        private Object next(final boolean skipError) 
+        private Object next( boolean skipError ) 
         throws PersistenceException, NoSuchElementException {
             
             Object retVal = null;
             
-            if (!_hasMore) {
+            if ( ! _hasMore )
                 throw new NoSuchElementException();
-            }
             try {
                 retVal = _rset.getObject(1);
                 _hasMore = _rset.next();
-            } catch (SQLException except) { 
-                if (!skipError) {
+            } 
+            catch ( SQLException except ) { 
+                if ( ! skipError )
                     throw new PersistenceException(except.toString());
-                }
             }
             
             return retVal;
         }
         
         public void close() {
-            if (_rset != null) {
-                try {
-                    _rset.close();
-                } catch (SQLException s) {
-                    LOG.debug("Exception at close of ResultSet.");
-                }
-            }
-            if (_stmt != null) {
-                try {
-                    _stmt.close();
-                } catch (SQLException s) {
-                    LOG.debug("Exception at close of PreparedStatement.");
-                }
-            }
-            _rset = null;
-            _stmt = null;
+            if ( _rset != null ) 
+                try { _rset.close(); } catch (SQLException s) {}
+                if ( _stmt != null ) 
+                    try { _stmt.close(); } catch (SQLException s) {}
+                    _rset = null;
+                    _stmt = null;
         }
         
         protected void finalize() throws Throwable {
             close();
         }
+        
     }
+    
 }

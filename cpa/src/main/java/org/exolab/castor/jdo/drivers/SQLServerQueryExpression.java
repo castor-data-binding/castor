@@ -42,107 +42,110 @@
  *
  * $Id$
  */
+
+
 package org.exolab.castor.jdo.drivers;
+
 
 import java.util.Enumeration;
 
 import org.exolab.castor.jdo.engine.JDBCSyntax;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 
+
 /**
- * QueryExpression for MS SQL Server.
+ * QueryExpression for MS SQL Server
  *
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
  * @version $Revision$ $Date: 2004-10-08 02:58:33 -0600 (Fri, 08 Oct 2004) $
  */
-public final class SQLServerQueryExpression extends JDBCQueryExpression {
-    public SQLServerQueryExpression(final PersistenceFactory factory) {
-        super(factory);
+public final class SQLServerQueryExpression
+    extends JDBCQueryExpression
+{
+
+
+    public SQLServerQueryExpression( PersistenceFactory factory )
+    {
+        super( factory );
     }
 
-    public String getStatement(final boolean lock) {
+
+    public String getStatement( boolean lock )
+    {
         StringBuffer sql;
         boolean      first;
         Enumeration  enumeration;
 
         sql = new StringBuffer();
-        sql.append(JDBCSyntax.SELECT);
-        if (_distinct) {
-            sql.append(JDBCSyntax.DISTINCT);
-        }
+        sql.append( JDBCSyntax.Select );
+        if ( _distinct )
+          sql.append( JDBCSyntax.Distinct );
 
-        if (_limit != null) {
-            if (!_limit.equals("")) {
-                sql.append("TOP ").append(_limit).append(" ");
-            }
-        }
+        if ( _limit != null )
+          if ( _limit.equals("") == false )
+            sql.append("TOP ").append(_limit).append(" ");
 
-        sql.append(getColumnList());
+        sql.append( getColumnList() );
 
-        sql.append(JDBCSyntax.FROM);
+        sql.append( JDBCSyntax.From );
 
         // Use HOLDLOCK to lock selected tables.
         enumeration = _tables.keys();
-        while (enumeration.hasMoreElements()) {
+        while ( enumeration.hasMoreElements() ) {
             String tableAlias = (String) enumeration.nextElement();
-            String tableName = (String) _tables.get(tableAlias);
-            if (tableAlias.equals(tableName)) {
-                sql.append(_factory.quoteName(tableName));
+            String tableName = (String) _tables.get( tableAlias );
+            if( tableAlias.equals( tableName ) ) {
+                sql.append( _factory.quoteName( tableName ) );
             } else {
-                sql.append(_factory.quoteName(tableName) + " "
-                        + _factory.quoteName(tableAlias));
+                sql.append( _factory.quoteName( tableName ) + " " +
+                            _factory.quoteName( tableAlias ) );
             }
-            if (lock) {
-                sql.append(" HOLDLOCK ");
-            }
-            if (enumeration.hasMoreElements()) {
-                sql.append(JDBCSyntax.TABLE_SEPARATOR);
-            }
+            if ( lock )
+                sql.append( " HOLDLOCK " );
+            if ( enumeration.hasMoreElements() )
+                sql.append( JDBCSyntax.TableSeparator );
         }
 
         first = true;
         // Use asterisk notation to denote a left outer join
         // and equals to denote an inner join
-        for (int i = 0; i < _joins.size(); ++i) {
+        for ( int i = 0 ; i < _joins.size() ; ++i ) {
             Join join;
 
-            if (first) {
-                sql.append(JDBCSyntax.WHERE);
+            if ( first ) {
+                sql.append( JDBCSyntax.Where );
                 first = false;
-            } else {
-                sql.append(JDBCSyntax.AND);
-            }
+            } else
+                sql.append( JDBCSyntax.And );
 
-            join = (Join) _joins.elementAt(i);
-            for (int j = 0; j < join._leftColumns.length; ++j) {
-                if (j > 0) {
-                    sql.append(JDBCSyntax.AND);
-                }
-                sql.append(_factory.quoteName(join._leftTable
-                        + JDBCSyntax.TABLE_COLUMN_SEPARATOR
-                        + join._leftColumns[j]));
-                if (join._outer) {
-                    sql.append("*=");
-                } else {
-                    sql.append(OP_EQUALS);
-                }
-                sql.append(_factory.quoteName(join._rightTable
-                        + JDBCSyntax.TABLE_COLUMN_SEPARATOR
-                        + join._rightColumns[j]));
+            join = (Join) _joins.elementAt( i );
+            for ( int j = 0 ; j < join.leftColumns.length ; ++j ) {
+                if ( j > 0 )
+                    sql.append( JDBCSyntax.And );
+                sql.append( _factory.quoteName( join.leftTable + JDBCSyntax.TableColumnSeparator +
+                                                join.leftColumns[ j ] ) );
+                if ( join.outer )
+                    sql.append( "*=" );
+                else
+                    sql.append( OpEquals );
+                sql.append( _factory.quoteName( join.rightTable + JDBCSyntax.TableColumnSeparator +
+                                                join.rightColumns[ j ] ) );
             }
         }
-        first = addWhereClause(sql, first);
+        first = addWhereClause( sql, first );
 
-        if (_order != null) {
-            sql.append(JDBCSyntax.ORDER_BY).append(_order);
-        }
+        if ( _order != null )
+          sql.append(JDBCSyntax.OrderBy).append(_order);
 
         return sql.toString();
     }
 
-    public boolean isLimitClauseSupported() {
+    public boolean isLimitClauseSupported()
+    {
        return true;
     }
+
+
 }
 
 

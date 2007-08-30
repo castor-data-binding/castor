@@ -45,9 +45,7 @@
 
 package org.exolab.castor.dtx;
 
-import java.util.HashMap;
-import java.util.Set;
-
+import java.util.*;
 import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;
 
@@ -65,66 +63,66 @@ import org.exolab.castor.mapping.xml.FieldMapping;
 
 /* package-level class */
 
-public class DTXClassDescriptor {
+class DTXClassDescriptor {
 
-    private ClassMapping _clsMapping = null;
-    private HashMap _attrs = null;
-    private HashMap _simpleElements = null;
-    private HashMap _contained = null;
-    private FieldMapping _text = null;
-    private String _textCol = null;
+    protected ClassMapping _clsMapping = null;
+    protected HashMap _attrs = null;
+    protected HashMap _simpleElements = null;
+    protected HashMap _contained = null;
+    protected FieldMapping _text = null;
+    protected String _textCol = null;
 
-    DTXClassDescriptor(final ClassMapping clsMapping) {
-        _clsMapping = clsMapping;
-        _attrs = new HashMap();
-        _simpleElements = new HashMap();
-        _contained = new HashMap();
+    DTXClassDescriptor(ClassMapping clsMapping) {
+	_clsMapping = clsMapping;
+	_attrs = new HashMap();
+	_simpleElements = new HashMap();
+	_contained = new HashMap();
     }
 
-    void addAttr(final String columnName, final FieldMapping fieldMapping) {
-        _attrs.put(columnName, fieldMapping);
+    void addAttr(String columnName, FieldMapping fieldMapping) {
+	_attrs.put(columnName, fieldMapping);
     }
 
-    void addSimpleElement(final String columnName, final FieldMapping fieldMapping) {
-        _simpleElements.put(columnName, fieldMapping);
+    void addSimpleElement(String columnName, FieldMapping fieldMapping) {
+	_simpleElements.put(columnName, fieldMapping);
     }
 
-    void addContained(final String columnName, final ClassMapping contained) {
-        _contained.put(columnName, contained);
+    void addContained(String columnName, ClassMapping contained) {
+	_contained.put(columnName, contained);
     }
 
-    FieldMapping getAttr(final String columnName) {
-        return (FieldMapping) _attrs.get(columnName);
+    FieldMapping getAttr(String columnName) {
+	return (FieldMapping) _attrs.get(columnName);
     }
 
-    FieldMapping getSimpleElement(final String columnName) {
-        return (FieldMapping) _simpleElements.get(columnName);
+    FieldMapping getSimpleElement(String columnName) {
+	return (FieldMapping) _simpleElements.get(columnName);
     }
 
     String[] getAttrCols() {
-        Set keys = _attrs.keySet();
-        return (String[]) keys.toArray(new String[keys.size()]);
+	Set keys = _attrs.keySet();
+	return (String[]) keys.toArray(new String[keys.size()]);
     }
 
     String[] getSimpleElementCols() {
-        Set keys = _simpleElements.keySet();
-        return (String[]) keys.toArray(new String[keys.size()]);
+	Set keys = _simpleElements.keySet();
+	return (String[]) keys.toArray(new String[keys.size()]);
     }
 
     ClassMapping getClassMapping() {
-        return _clsMapping;
+	return _clsMapping;
     }
 
     String getTextCol() {
-        return _textCol;
+	return _textCol;
     }
 
     FieldMapping getText() {
-        return _text;
+	return _text;
     }
 
-    void setTextCol(final String textCol, final FieldMapping text) {
-        _text = text;
-        _textCol = textCol;
+    void setTextCol(String textCol, FieldMapping text) {
+	_text = text;
+	_textCol = textCol;
     }
 }

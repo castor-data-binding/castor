@@ -42,7 +42,11 @@
  *
  * $Id$
  */
+
+
 package org.exolab.castor.jdo.keygen;
+
+
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -74,70 +78,79 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @version $Revision$ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr 2006) $
  * @see SequenceKeyGeneratorFactory
  */
-public final class SequenceKeyGenerator implements KeyGenerator {
-    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     *  Commons Logging</a> instance used for all logging. */
-    private static final Log LOG = LogFactory.getFactory().getInstance (SequenceKeyGenerator.class);
+public final class SequenceKeyGenerator implements KeyGenerator
+{
 
-    private final PersistenceFactory _factory;
+    /**
+     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     * Commons Logging</a> instance used for all logging.
+     */
+    private static Log LOG = LogFactory.getFactory().getInstance (SequenceKeyGenerator.class);
 
-    private final String _factoryName;
+    protected final PersistenceFactory _factory;
 
-    private final String _seqName;
+
+    protected final String _factoryName;
+
+
+    protected final String _seqName;
+
 
     private byte _style;
 
+
     private final int _sqlType;
+
 
     private int _increment;
 
+
     private boolean _triggerPresent;
+
 
     /**
      * Initialize the SEQUENCE key generator.
      */
-    public SequenceKeyGenerator(final PersistenceFactory factory, final Properties params,
-            final int sqlType) throws MappingException {
+    public SequenceKeyGenerator( PersistenceFactory factory,
+            Properties params, int sqlType )
+            throws MappingException
+    {
         boolean returning;
 
         _factoryName = factory.getFactoryName();
-        returning = "true".equals(params.getProperty("returning"));
-        _triggerPresent = "true".equals(params.getProperty("trigger", "false"));
+        returning = "true".equals( params.getProperty("returning") );
+        _triggerPresent = "true".equals( params.getProperty("trigger","false") );
 
 
         if (!_factoryName.equals(OracleFactory.FACTORY_NAME)
                 && !_factoryName.equals(PostgreSQLFactory.FACTORY_NAME)
                 && !_factoryName.equals(InterbaseFactory.FACTORY_NAME)
                 && !_factoryName.equals("sapdb")
-                && !_factoryName.equals(DB2Factory.FACTORY_NAME)) {
-            throw new MappingException(Messages.format("mapping.keyGenNotCompatible",
-                                        getClass().getName(), _factoryName));
+                && !_factoryName.equals(DB2Factory.FACTORY_NAME) ) {
+            throw new MappingException( Messages.format( "mapping.keyGenNotCompatible",
+                                        getClass().getName(), _factoryName ) );
         }
-        if (!_factoryName.equals(OracleFactory.FACTORY_NAME) && returning) {
-            throw new MappingException(Messages.format("mapping.keyGenParamNotCompat",
-                                        "returning=\"true\"", getClass().getName(), _factoryName));
+        if (! _factoryName.equals(OracleFactory.FACTORY_NAME) && returning) {
+            throw new MappingException( Messages.format( "mapping.keyGenParamNotCompat",
+                                        "returning=\"true\"", getClass().getName(), _factoryName ));
         }
         _factory = factory;
         _seqName = params.getProperty("sequence", "{0}_seq");
 
-        _style = (_factoryName.equals(PostgreSQLFactory.FACTORY_NAME)
-                || _factoryName.equals(InterbaseFactory.FACTORY_NAME)
-                || _factoryName.equals(DB2Factory.FACTORY_NAME)
-                ? BEFORE_INSERT : (returning ? DURING_INSERT : AFTER_INSERT));
+        _style = (_factoryName.equals(PostgreSQLFactory.FACTORY_NAME) || _factoryName.equals(InterbaseFactory.FACTORY_NAME) || _factoryName.equals(DB2Factory.FACTORY_NAME)
+                ? BEFORE_INSERT : ( returning  ? DURING_INSERT : AFTER_INSERT) );
         if (_triggerPresent && !returning) {
             _style = AFTER_INSERT;
         }
-        if (_triggerPresent && _style == BEFORE_INSERT) {
-            throw new MappingException(Messages.format(
-                    "mapping.keyGenParamNotCompat", "trigger=\"true\"",
-                    getClass().getName(), _factoryName));
-        }
+        if (_triggerPresent && _style == BEFORE_INSERT)
+            throw new MappingException(Messages.format( "mapping.keyGenParamNotCompat",
+                                        "trigger=\"true\"", getClass().getName(), _factoryName ) );
 
         _sqlType = sqlType;
-        supportsSqlType(sqlType);
+        supportsSqlType( sqlType );
 
         try {
-            _increment = Integer.parseInt(params.getProperty("increment", "1"));
+            _increment = Integer.parseInt(params.getProperty("increment","1"));
         } catch (NumberFormatException nfe) {
             _increment = 1;
         }
@@ -149,17 +162,21 @@ public final class SequenceKeyGenerator implements KeyGenerator {
      * @param sqlType
      * @throws MappingException
      */
-    public void supportsSqlType(final int sqlType) throws MappingException {
+    public void supportsSqlType( int sqlType )
+        throws MappingException
+    {
         if (sqlType != Types.INTEGER
                 && sqlType != Types.NUMERIC
                 && sqlType != Types.DECIMAL
                 && sqlType != Types.BIGINT
                 && sqlType != Types.CHAR
-                && sqlType != Types.VARCHAR) {
-            throw new MappingException(Messages.format("mapping.keyGenSQLType",
-                    getClass().getName(), new Integer(sqlType)));
+                && sqlType != Types.VARCHAR)
+        {
+            throw new MappingException( Messages.format( "mapping.keyGenSQLType",
+                    getClass().getName(), new Integer( sqlType ) ) );
         }
     }
+
 
     /**
      * @param conn An open connection within the given transaction
@@ -170,63 +187,56 @@ public final class SequenceKeyGenerator implements KeyGenerator {
      * @throws PersistenceException An error occured talking to persistent
      *  storage
      */
-    public Object generateKey(final Connection conn, final String tableName,
-            final String primKeyName, final Properties props) throws PersistenceException {
+    public Object generateKey( Connection conn, String tableName, String primKeyName,
+            Properties props )
+    throws PersistenceException
+    {
         PreparedStatement stmt = null;
         ResultSet rs;
         String seqName;
         String table;
 
-        // due to varargs in 1.5, see CASTOR-1097
-        seqName = MessageFormat.format(_seqName, new Object[] {tableName, primKeyName});
+        seqName = MessageFormat.format( _seqName, new Object[] {tableName,primKeyName});// due to varargs in 1.5, see CASTOR-1097
         table = _factory.quoteName(tableName);
         try {
             if (_factory.getFactoryName().equals(InterbaseFactory.FACTORY_NAME)) {
                 //interbase only does before_insert, and does it its own way
-                stmt = conn.prepareStatement(
-                        "SELECT gen_id(" + seqName + "," + _increment + ") FROM rdb$database");
+                stmt = conn.prepareStatement("SELECT gen_id(" + seqName +
+                        "," + _increment + ") FROM rdb$database");
                 rs = stmt.executeQuery();
             } else if (_factory.getFactoryName().equals(DB2Factory.FACTORY_NAME)) {
-                stmt = conn.prepareStatement("SELECT nextval FOR " + seqName
-                        + " FROM SYSIBM.SYSDUMMY1");
+                stmt = conn.prepareStatement("SELECT nextval FOR " + seqName + " FROM SYSIBM.SYSDUMMY1" );
                 rs = stmt.executeQuery();
             } else {
-                if (_style == BEFORE_INSERT) {
-                    stmt = conn.prepareStatement("SELECT nextval('" + seqName + "')");
+                if ( _style == BEFORE_INSERT ) {
+                    stmt = conn.prepareStatement("SELECT nextval('" + seqName + "')" );
                     rs = stmt.executeQuery();
                 } else if (_triggerPresent && _factoryName.equals(PostgreSQLFactory.FACTORY_NAME)) {
                     Object insStmt = props.get("insertStatement");
                     Class psqlStmtClass = Class.forName("org.postgresql.Statement");
-                    Method getInsertedOID = psqlStmtClass.getMethod("getInsertedOID",
-                            (Class[]) null);
-                    int insertedOID = ((Integer) getInsertedOID.invoke(insStmt,
-                            (Object[]) null)).intValue();
-                    stmt = conn.prepareStatement(
-                            "SELECT " + _factory.quoteName(primKeyName)
-                            + " FROM " + table + " WHERE OID=?");
+                    Method getInsertedOID = psqlStmtClass.getMethod("getInsertedOID", (Class[])null);
+                    int insertedOID = ((Integer) getInsertedOID.invoke(insStmt, (Object[])null)).intValue();
+                    stmt = conn.prepareStatement("SELECT " + _factory.quoteName( primKeyName ) +
+                            " FROM " + table + " WHERE OID=?");
                     stmt.setInt(1, insertedOID);
                     rs = stmt.executeQuery();
 
                 } else {
-                    stmt = conn.prepareStatement(
-                            "SELECT " + _factory.quoteName(seqName + ".currval")
-                            + " FROM " + table);
+                    stmt = conn.prepareStatement("SELECT " + _factory.quoteName(seqName + ".currval") + " FROM " + table);
                     rs = stmt.executeQuery();
                 }
             }
 
-            if (!rs.next()) {
-                throw new PersistenceException(Messages.format(
-                        "persist.keyGenFailed", getClass().getName()));
+            if ( !rs.next() ) {
+                throw new PersistenceException( Messages.format( "persist.keyGenFailed", getClass().getName() ) );
             }
 
             Object resultKey = null;
-            int resultValue = rs.getInt(1);
-            String resultColName = rs.getMetaData().getColumnName(1);
-            int resultColType = rs.getMetaData().getColumnType(1);
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("JDBC query returned value " + resultValue
-                        + " from column " + resultColName + "/" + resultColType);
+            int resultValue = rs.getInt( 1 );
+            String resultColName = rs.getMetaData().getColumnName( 1 ) ;
+            int resultColType = rs.getMetaData().getColumnType( 1 ) ;
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug("JDBC query returned value " + resultValue + " from column " + resultColName + "/" + resultColType);
             }
             if (_sqlType == Types.INTEGER) {
                 resultKey = new Integer(resultValue);
@@ -240,14 +250,13 @@ public final class SequenceKeyGenerator implements KeyGenerator {
 
             if (LOG.isDebugEnabled()) {
                 if (resultKey != null) {
-                    LOG.debug("Returning value " + resultKey + " of type "
-                            + resultKey.getClass().getName() + " as key.");
+                    LOG.debug("Returning value " + resultKey + " of type " + resultKey.getClass().getName() + " as key.");
                 }
             }
             return resultKey;
-        } catch (Exception ex) {
-            throw new PersistenceException(Messages.format(
-                    "persist.keyGenSQL", getClass().getName(), ex.toString()));
+        } catch ( Exception ex ) {
+            throw new PersistenceException( Messages.format(
+                    "persist.keyGenSQL", getClass().getName(), ex.toString() ) );
         } finally {
             JDOUtils.closeStatement(stmt);
         }
@@ -263,10 +272,10 @@ public final class SequenceKeyGenerator implements KeyGenerator {
 
     /**
      * Gives a possibility to patch the Castor-generated SQL statement
-     * for INSERT (makes sense for DURING_INSERT key generators).
+     * for INSERT (makes sense for DURING_INSERT key generators)
      */
-    public String patchSQL(final String insert, final String primKeyName)
-    throws MappingException {
+    public String patchSQL( String insert, String primKeyName )
+            throws MappingException {
         StringTokenizer st;
         String tableName;
         String seqName;
@@ -275,20 +284,23 @@ public final class SequenceKeyGenerator implements KeyGenerator {
         int lp1;  // the first left parenthesis, which starts fields list
         int lp2;  // the second left parenthesis, which starts values list
 
-        if (_style == BEFORE_INSERT) {
+        if ( _style == BEFORE_INSERT ) {
             return insert;
         }
 
         // First find the table name
-        st = new StringTokenizer(insert);
-        if (!st.hasMoreTokens() || !st.nextToken().equalsIgnoreCase("INSERT")) {
-            throw new MappingException(Messages.format("mapping.keyGenCannotParse", insert));
+        st = new StringTokenizer( insert );
+        if ( !st.hasMoreTokens() || !st.nextToken().equalsIgnoreCase("INSERT") ) {
+            throw new MappingException( Messages.format( "mapping.keyGenCannotParse",
+                                                         insert ) );
         }
-        if (!st.hasMoreTokens() || !st.nextToken().equalsIgnoreCase("INTO")) {
-            throw new MappingException(Messages.format("mapping.keyGenCannotParse", insert));
+        if ( !st.hasMoreTokens() || !st.nextToken().equalsIgnoreCase("INTO") ) {
+            throw new MappingException( Messages.format( "mapping.keyGenCannotParse",
+                                                         insert ) );
         }
-        if (!st.hasMoreTokens()) {
-            throw new MappingException(Messages.format("mapping.keyGenCannotParse", insert));
+        if ( !st.hasMoreTokens() ) {
+            throw new MappingException( Messages.format( "mapping.keyGenCannotParse",
+                                                         insert ) );
         }
         tableName = st.nextToken();
 
@@ -300,47 +312,45 @@ public final class SequenceKeyGenerator implements KeyGenerator {
 
             do {
                 buffer2.append(tableName.substring(pos, idxQuote));
-                pos = idxQuote + 1;
-                idxQuote = tableName.indexOf('"', pos);
-            } while (idxQuote != -1);
+                pos = idxQuote+1;
+            } while((idxQuote=tableName.indexOf('"', pos)) != -1);
 
             buffer2.append(tableName.substring(pos));
 
             tableName = buffer2.toString();
         }
 
-        // due to varargs in 1.5, see CASTOR-1097
-        seqName = MessageFormat.format(_seqName, new Object[] {tableName, primKeyName});
+        seqName = MessageFormat.format( _seqName, new Object[] {tableName,primKeyName}); // due to varargs in 1.5, see CASTOR-1097
         nextval = _factory.quoteName(seqName + ".nextval");
-        lp1 = insert.indexOf('(');
-        lp2 = insert.indexOf('(', lp1 + 1);
-        if (lp1 < 0) {
-            throw new MappingException(Messages.format("mapping.keyGenCannotParse", insert));
+        lp1 = insert.indexOf( '(' );
+        lp2 = insert.indexOf( '(', lp1 + 1 );
+        if ( lp1 < 0 ) {
+            throw new MappingException( Messages.format( "mapping.keyGenCannotParse",
+                                                         insert ) );
         }
-        sb = new StringBuffer(insert);
-        // if no onInsert triggers in the DB, we have to supply the Key values manually
-        if (!_triggerPresent) {
-           if (lp2 < 0) {
+        sb = new StringBuffer( insert );
+        if (!_triggerPresent) { // if no onInsert triggers in the DB, we have to supply the Key values manually
+           if ( lp2 < 0 ) {
                 // Only one pk field in the table, the INSERT statement would be
                 // INSERT INTO table VALUES ()
                 lp2 = lp1;
-                lp1 = insert.indexOf(" VALUES ");
+                lp1 = insert.indexOf( " VALUES " );
                 // don't change the order of lines below,
                 // otherwise index becomes invalid
-                sb.insert(lp2 + 1, nextval);
-                sb.insert(lp1 + 1, "(" + _factory.quoteName(primKeyName) + ") ");
+                sb.insert( lp2 + 1, nextval);
+                sb.insert( lp1 + 1, "(" + _factory.quoteName( primKeyName ) + ") " );
             } else {
                 // don't change the order of lines below,
                 // otherwise index becomes invalid
-                sb.insert(lp2 + 1, nextval + ",");
-                sb.insert(lp1 + 1, _factory.quoteName(primKeyName) + ",");
+                sb.insert( lp2 + 1, nextval + ",");
+                sb.insert( lp1 + 1, _factory.quoteName( primKeyName ) + "," );
             }
         }
-        if (_style == DURING_INSERT) {
+        if ( _style == DURING_INSERT ) {
             // append 'RETURNING primKeyName INTO ?'
-            sb.append(" RETURNING ");
-            sb.append(_factory.quoteName(primKeyName));
-            sb.append(" INTO ?");
+            sb.append( " RETURNING " );
+            sb.append( _factory.quoteName( primKeyName ) );
+            sb.append( " INTO ?" );
         }
         return sb.toString();
     }

@@ -55,34 +55,42 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2004-09-08 03:37:54 -0600 (Wed, 08 Sep 2004) $
  */
-public final class DB2QueryExpression extends JDBCQueryExpression {
-    public DB2QueryExpression(final PersistenceFactory factory) {
-        super(factory);
+public final class DB2QueryExpression
+    extends JDBCQueryExpression
+{
+
+
+    public DB2QueryExpression( PersistenceFactory factory )
+    {
+        super( factory );
     }
 
 
-    public String getStatement(final boolean lock) {
+    public String getStatement( boolean lock )
+    {
         StringBuffer sql;
 
-        sql = getStandardStatement(lock, false);
+        sql = getStandardStatement( lock, false );
 
         // support for LIMIT clause
-        if (_limit != null) {
+        if ( _limit != null )
+        {
             sql.append(" fetch first ");
             sql.append(_limit);
             sql.append(" rows only ");
         }
         
         if (lock) {
-            sql.append(" FOR UPDATE");
+            sql.append( " FOR UPDATE" );
         }
         
         return sql.toString();
     }
     
     public boolean isLimitClauseSupported () {
-        return true;
+    	return true;
     }
+
 }
 
 

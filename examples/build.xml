@@ -11,7 +11,6 @@
     <property name="build"                value="${basedir}/build"/>
     <property name="classes"              value="${build}/classes"/>
     <property name="archive"              value="${project}-${version}${release}-examples"/>
-    <property name="archive-sources"      value="${project}-${version}${release}-examples-sources"/>
 
 	<property name="exampleexcludes"      value="codegen/*,**/dax/**"/>
 
@@ -49,24 +48,8 @@
     </target>
 
     <target name="jar.examples" depends="compile.examples" description="Build examples JAR file">
-        <delete file="${basedir}/../dist/${archive}.jar" />
-        <delete file="${basedir}/../dist/${archive-sources}.jar" />
-    	
         <jar jarfile="${build}/${archive}.jar" basedir="${classes}" includes="**" />
         <copy file="${build}/${archive}.jar" tofile="${basedir}/../dist/${archive}.jar"/>
-
-        <jar jarfile="${build}/${archive-sources}.jar">
-            <fileset dir="${basedir}/src/main/java" includes="**" />
-            <fileset dir="${basedir}/src/main/resources" includes="**" />
-        </jar>
-        <copy file="${build}/${archive-sources}.jar" tofile="${basedir}/../dist/${archive-sources}.jar"/>
-
-    	<!-- check re:manifest file
-            <jar jarfile="${dist}/${archive.name}-examples.jar" manifest="${build}/examples/META-INF/MANIFEST.MF">
-                 <fileset dir="${build}/examples"/>
-            </jar>
-		-->            
-    	
     </target>
 
 </project>

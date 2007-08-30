@@ -8,7 +8,6 @@ package tools;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.xml.JavaNamingImpl;
 import org.exolab.castor.tools.MappingTool; 
 
 import myapp.Product;
@@ -27,7 +26,7 @@ public class CastorMapper {
 	
 	public CastorMapper() { 
 		try { 
-			tool = new MappingTool(new JavaNamingImpl()); 
+			tool = new MappingTool(); 
 		} 
 		catch (Exception e) {  
 			log.error (e.getClass().getName(), e);  

@@ -34,10 +34,9 @@ import jdo.JDOCategory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.util.Configuration;
-import org.castor.cpa.CPAConfiguration;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.util.LocalConfiguration;
 
 public final class TestTimezone extends CastorTestCase {
     private static final Log LOG = LogFactory.getLog(TestTimezone.class);
@@ -60,9 +59,10 @@ public final class TestTimezone extends CastorTestCase {
     public void testDate() throws Exception {
         LOG.debug("user.timezone = " + System.getProperty("user.timezone"));
         
-        Configuration config = CPAConfiguration.newInstance();
-        String testTimezone = config.getString(CPAConfiguration.DEFAULT_TIMEZONE);
-        LOG.debug(CPAConfiguration.DEFAULT_TIMEZONE + " = " + testTimezone);
+        LocalConfiguration config = LocalConfiguration.getInstance();
+        String propName = "org.exolab.castor.jdo.defaultTimeZone";
+        String testTimezone = config.getProperty(propName, null);
+        LOG.debug("org.exolab.castor.jdo.defaultTimeZone = " + testTimezone);
         
         Database database = _category.getDatabase();
 
@@ -170,9 +170,10 @@ public final class TestTimezone extends CastorTestCase {
     public void testTime() throws Exception {
         LOG.debug("user.timezone = " + System.getProperty("user.timezone"));
         
-        Configuration config = CPAConfiguration.newInstance();
-        String testTimezone = config.getString(CPAConfiguration.DEFAULT_TIMEZONE);
-        LOG.debug(CPAConfiguration.DEFAULT_TIMEZONE + " = " + testTimezone);
+        LocalConfiguration config = LocalConfiguration.getInstance();
+        String propName = "org.exolab.castor.jdo.defaultTimeZone";
+        String testTimezone = config.getProperty(propName, null);
+        LOG.debug("org.exolab.castor.jdo.defaultTimeZone = " + testTimezone);
         
         Database database = _category.getDatabase();
 
@@ -277,9 +278,10 @@ public final class TestTimezone extends CastorTestCase {
     public void testTimestamp() throws Exception {
         LOG.debug("user.timezone = " + System.getProperty("user.timezone"));
         
-        Configuration config = CPAConfiguration.newInstance();
-        String testTimezone = config.getString(CPAConfiguration.DEFAULT_TIMEZONE);
-        LOG.debug(CPAConfiguration.DEFAULT_TIMEZONE + " = " + testTimezone);
+        LocalConfiguration config = LocalConfiguration.getInstance();
+        String propName = "org.exolab.castor.jdo.defaultTimeZone";
+        String testTimezone = config.getProperty(propName, null);
+        LOG.debug("org.exolab.castor.jdo.defaultTimeZone = " + testTimezone);
         
         Database database = _category.getDatabase();
 

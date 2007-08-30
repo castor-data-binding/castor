@@ -61,9 +61,6 @@ import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.exceptions.CastorRuntimeException;
-import org.castor.xml.JavaNaming;
-import org.castor.xml.JavaNamingImpl;
 import org.exolab.castor.builder.binding.BindingException;
 import org.exolab.castor.builder.binding.BindingLoader;
 import org.exolab.castor.builder.binding.ExtendedBinding;
@@ -79,6 +76,7 @@ import org.exolab.castor.builder.conflictresolution.WarningViaDialogClassNameCRS
 import org.exolab.castor.builder.factory.FieldInfoFactory;
 import org.exolab.castor.builder.factory.SourceFactory;
 import org.exolab.castor.builder.info.ClassInfo;
+import org.exolab.castor.core.exceptions.CastorRuntimeException;
 import org.exolab.castor.mapping.xml.MappingRoot;
 import org.exolab.castor.util.Configuration;
 import org.exolab.castor.util.LocalConfiguration;
@@ -202,6 +200,7 @@ public class SourceGenerator extends BuilderConfiguration {
      */
     public SourceGenerator() {
         this(null);
+        _groupNaming = new GroupNaming();
     } //-- SourceGenerator
 
     /**
@@ -211,6 +210,7 @@ public class SourceGenerator extends BuilderConfiguration {
      */
     public SourceGenerator(final FieldInfoFactory infoFactory) {
         this(infoFactory, null);
+        _groupNaming = new GroupNaming();
     }
 
     /**
@@ -224,21 +224,20 @@ public class SourceGenerator extends BuilderConfiguration {
         super();
 
         _config = LocalConfiguration.getInstance();
-        setJavaNaming(new JavaNamingImpl());
         _dialog = new ConsoleDialog();
         _infoFactory = (infoFactory == null) ? new FieldInfoFactory() : infoFactory;
 
         super.load();
 
-        _groupNaming = new GroupNaming(getJavaNaming());
+        _groupNaming = new GroupNaming();
 
         _singleClassGenerator = new SingleClassGenerator(_dialog, this, _nameConflictStrategy);
         _bindingComponent = new XMLBindingComponent(this, _groupNaming);
         setBinding(binding);
         
         _conflictResolver.setSourceGenerator(this);
-        _xmlInfoRegistry = new JClassRegistry(_conflictResolver, getJavaNaming());
-
+        _xmlInfoRegistry = new JClassRegistry(_conflictResolver);
+        
     } //-- SourceGenerator
 
     /**
@@ -1174,4 +1173,5 @@ public class SourceGenerator extends BuilderConfiguration {
     public JClassRegistry getXMLInfoRegistry() {
         return _xmlInfoRegistry;
     }
+
 } //-- SourceGenerator

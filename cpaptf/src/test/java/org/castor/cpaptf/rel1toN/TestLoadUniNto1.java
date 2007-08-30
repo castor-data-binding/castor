@@ -176,7 +176,7 @@ public final class TestLoadUniNto1 extends TestCase {
         
         OQLQuery query = db.getOQLQuery(
                 "SELECT o FROM " + Service.class.getName() + " o order by o.id");
-        QueryResults results = query.execute(Database.READONLY);
+        QueryResults results = query.execute(Database.ReadOnly);
         
         long result = System.currentTimeMillis();
         
@@ -214,7 +214,7 @@ public final class TestLoadUniNto1 extends TestCase {
         
         OQLQuery query = db.getOQLQuery(
                 "SELECT o FROM " + Service.class.getName() + " o order by o.id");
-        QueryResults results = query.execute(Database.READONLY);
+        QueryResults results = query.execute(Database.ReadOnly);
         
         long result = System.currentTimeMillis();
         
@@ -255,7 +255,7 @@ public final class TestLoadUniNto1 extends TestCase {
                 "CALL SQL select PTF_SERVICE.ID as ID "
               + "from PTF_SERVICE order by PTF_SERVICE.ID "
               + "AS " + OID.class.getName());
-        QueryResults results = query.execute(Database.READONLY);
+        QueryResults results = query.execute(Database.ReadOnly);
         
         long result = System.currentTimeMillis();
         
@@ -296,7 +296,7 @@ public final class TestLoadUniNto1 extends TestCase {
                 "CALL SQL select PTF_SERVICE.ID as ID "
               + "from PTF_SERVICE order by PTF_SERVICE.ID "
               + "AS " + OID.class.getName());
-        QueryResults results = query.execute(Database.READONLY);
+        QueryResults results = query.execute(Database.ReadOnly);
         
         long result = System.currentTimeMillis();
         
@@ -338,14 +338,14 @@ public final class TestLoadUniNto1 extends TestCase {
                 "CALL SQL select PTF_SERVICE.ID as ID "
               + "from PTF_SERVICE order by PTF_SERVICE.ID "
               + "AS " + OID.class.getName());
-        QueryResults results = query.execute(Database.READONLY);
+        QueryResults results = query.execute(Database.ReadOnly);
         
         long result = System.currentTimeMillis();
         
         int count = 0;
         while (results.hasMore()) {
             OID oid = (OID) results.next();
-            db.load(Service.class, oid.getId(), Database.READONLY);
+            db.load(Service.class, oid.getId(), Database.ReadOnly);
             count++;
         }
         
@@ -379,14 +379,14 @@ public final class TestLoadUniNto1 extends TestCase {
                 "CALL SQL select PTF_SERVICE.ID as ID "
               + "from PTF_SERVICE order by PTF_SERVICE.ID "
               + "AS " + OID.class.getName());
-        QueryResults results = query.execute(Database.READONLY);
+        QueryResults results = query.execute(Database.ReadOnly);
         
         long result = System.currentTimeMillis();
         
         int count = 0;
         while (results.hasMore()) {
             OID oid = (OID) results.next();
-            db.load(Service.class, oid.getId(), Database.READONLY);
+            db.load(Service.class, oid.getId(), Database.ReadOnly);
             count++;
         }
         
@@ -420,7 +420,7 @@ public final class TestLoadUniNto1 extends TestCase {
                 "CALL SQL select PTF_SERVICE.ID as ID "
               + "from PTF_SERVICE order by PTF_SERVICE.ID "
               + "AS " + OID.class.getName());
-        QueryResults results = query.execute(Database.READONLY);
+        QueryResults results = query.execute(Database.ReadOnly);
         
         long result = System.currentTimeMillis();
         

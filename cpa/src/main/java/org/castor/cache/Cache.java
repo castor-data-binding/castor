@@ -53,19 +53,19 @@ import org.castor.cache.simple.CountLimited;
 public interface Cache extends Map {
     //--------------------------------------------------------------------------
     
-    /** Mapped initialization parameter <code>type</code>. */
+    /** Mapped initialization parameter: type */
     String PARAM_TYPE = "type";
     
     /** Default cache type to be used. */
     String DEFAULT_TYPE = CountLimited.TYPE;
     
-    /** Mapped initialization parameter <code>name</code>. */
+    /** Mapped initialization parameter: name */
     String PARAM_NAME = "name";
     
     /** Default cache name to be used. */
     String DEFAULT_NAME = "";
     
-    /** Mapped initialization parameter <code>debug</code>. */
+    /** Mapped initialization parameter: debug */
     String PARAM_DEBUG = "debug";
     
     /** Default is debugging switched off. */

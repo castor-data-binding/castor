@@ -797,19 +797,7 @@ public class Unmarshaller {
     public static Object unmarshal(Class c, Reader reader)
         throws MarshalException, ValidationException
     {
-        Unmarshaller unmarshaller = createUnmarshaller(c);
-        return unmarshaller.unmarshal(reader);
-    } //-- void unmarshal(Writer)
-
-    /**
-     * Helper method for static #unmarshal methods to create
-     * an {@link Unmarshaller} instance.
-     * 
-     * @param clazz The root class to be used during unmarshalling.
-     * @return An {@link Unmarshaller} instance.
-     */
-    private static Unmarshaller createUnmarshaller(Class clazz) {
-        Unmarshaller unmarshaller = new Unmarshaller(clazz);
+        Unmarshaller unmarshaller = new Unmarshaller(c);
         
         // TODO: Should this be at level INFO?
         if (LOG.isDebugEnabled()) {
@@ -821,8 +809,8 @@ public class Unmarshaller {
         //-- prior to version 0.9.5.3
         unmarshaller.setWhitespacePreserve(true);
         
-        return unmarshaller;
-    }
+        return unmarshaller.unmarshal(reader);
+    } //-- void unmarshal(Writer)
 
     /**
      * Unmarshals Objects of the given Class type. The Class must specify
@@ -842,7 +830,17 @@ public class Unmarshaller {
     public static Object unmarshal(Class c, InputSource source)
         throws MarshalException, ValidationException
     {
-        Unmarshaller unmarshaller = createUnmarshaller(c);
+        Unmarshaller unmarshaller = new Unmarshaller(c);
+        
+        // TODO: Should this be at level INFO?
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("*static* unmarshal method called, this will ignore any "
+                    + "mapping files or changes made to an Unmarshaller instance.");
+        }
+        
+        //-- for backward compatibility with Castor versions
+        //-- prior to version 0.9.5.3
+        unmarshaller.setWhitespacePreserve(true);
         
         return unmarshaller.unmarshal(source);
     } //-- void unmarshal(Writer)
@@ -864,7 +862,17 @@ public class Unmarshaller {
      */
     public static Object unmarshal(Class c, Node node)
     throws MarshalException, ValidationException {
-        Unmarshaller unmarshaller = createUnmarshaller(c);
+        Unmarshaller unmarshaller = new Unmarshaller(c);
+        
+        // TODO: Should this be at level INFO?
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("*static* unmarshal method called, this will ignore any "
+                    + "mapping files or changes made to an Unmarshaller instance.");
+        }
+        
+        //-- for backward compatibility with Castor versions
+        //-- prior to version 0.9.5.3
+        unmarshaller.setWhitespacePreserve(true);
         
         return unmarshaller.unmarshal(node);
     } //-- void unmarshal(Writer)

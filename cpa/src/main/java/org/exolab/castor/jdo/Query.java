@@ -70,18 +70,8 @@ import org.exolab.castor.mapping.AccessMode;
  * @see OQLQuery
  * @see Database#getQuery
  */
-public interface Query {
-    /**
-     * Bind a parameter value to the query. Parameters are set in the
-     * order in which they appear in the query and must match in number
-     * and type of each parameter.
-     *
-     * @param value The parameter value
-     * @throws IllegalArgumentException The parameter is not of the
-     *  expected type, or more parameters were supplied that the
-     *  query specified
-     */
-    void bind(Object value) throws IllegalArgumentException;
+public interface Query
+{
 
     /**
      * Bind a parameter value to the query. Parameters are set in the
@@ -93,56 +83,10 @@ public interface Query {
      *  expected type, or more parameters were supplied that the
      *  query specified
      */
-    void bind(boolean value) throws IllegalArgumentException;
-
-    /**
-     * Bind a parameter value to the query. Parameters are set in the
-     * order in which they appear in the query and must match in number
-     * and type of each parameter.
-     *
-     * @param value The parameter value
-     * @throws IllegalArgumentException The parameter is not of the
-     *  expected type, or more parameters were supplied that the
-     *  query specified
-     */
-    void bind(short value) throws IllegalArgumentException;
-
-    /**
-     * Bind a parameter value to the query. Parameters are set in the
-     * order in which they appear in the query and must match in number
-     * and type of each parameter.
-     *
-     * @param value The parameter value
-     * @throws IllegalArgumentException The parameter is not of the
-     *  expected type, or more parameters were supplied that the
-     *  query specified
-     */
-    void bind(int value) throws IllegalArgumentException;
-
-    /**
-     * Bind a parameter value to the query. Parameters are set in the
-     * order in which they appear in the query and must match in number
-     * and type of each parameter.
-     *
-     * @param value The parameter value
-     * @throws IllegalArgumentException The parameter is not of the
-     *  expected type, or more parameters were supplied that the
-     *  query specified
-     */
-    void bind(long value) throws IllegalArgumentException;
-
-    /**
-     * Bind a parameter value to the query. Parameters are set in the
-     * order in which they appear in the query and must match in number
-     * and type of each parameter.
-     *
-     * @param value The parameter value
-     * @throws IllegalArgumentException The parameter is not of the
-     *  expected type, or more parameters were supplied that the
-     *  query specified
-     */
-    void bind(float value) throws IllegalArgumentException;
+    public void bind( Object value )
+      throws IllegalArgumentException;
     
+
     /**
      * Bind a parameter value to the query. Parameters are set in the
      * order in which they appear in the query and must match in number
@@ -153,7 +97,78 @@ public interface Query {
      *  expected type, or more parameters were supplied that the
      *  query specified
      */
-    void bind(double value) throws IllegalArgumentException;
+    public void bind( boolean value )
+      throws IllegalArgumentException;
+    
+
+    /**
+     * Bind a parameter value to the query. Parameters are set in the
+     * order in which they appear in the query and must match in number
+     * and type of each parameter.
+     *
+     * @param value The parameter value
+     * @throws IllegalArgumentException The parameter is not of the
+     *  expected type, or more parameters were supplied that the
+     *  query specified
+     */
+    public void bind( short value )
+      throws IllegalArgumentException;
+    
+
+    /**
+     * Bind a parameter value to the query. Parameters are set in the
+     * order in which they appear in the query and must match in number
+     * and type of each parameter.
+     *
+     * @param value The parameter value
+     * @throws IllegalArgumentException The parameter is not of the
+     *  expected type, or more parameters were supplied that the
+     *  query specified
+     */
+    public void bind( int value )
+      throws IllegalArgumentException;
+    
+
+    /**
+     * Bind a parameter value to the query. Parameters are set in the
+     * order in which they appear in the query and must match in number
+     * and type of each parameter.
+     *
+     * @param value The parameter value
+     * @throws IllegalArgumentException The parameter is not of the
+     *  expected type, or more parameters were supplied that the
+     *  query specified
+     */
+    public void bind( long value )
+      throws IllegalArgumentException;
+    
+
+    /**
+     * Bind a parameter value to the query. Parameters are set in the
+     * order in which they appear in the query and must match in number
+     * and type of each parameter.
+     *
+     * @param value The parameter value
+     * @throws IllegalArgumentException The parameter is not of the
+     *  expected type, or more parameters were supplied that the
+     *  query specified
+     */
+    public void bind( float value )
+      throws IllegalArgumentException;
+    
+
+    /**
+     * Bind a parameter value to the query. Parameters are set in the
+     * order in which they appear in the query and must match in number
+     * and type of each parameter.
+     *
+     * @param value The parameter value
+     * @throws IllegalArgumentException The parameter is not of the
+     *  expected type, or more parameters were supplied that the
+     *  query specified
+     */
+    public void bind( double value )
+      throws IllegalArgumentException;
 
     /**
      * Execute the query. The query is executed returning an enumeration
@@ -171,13 +186,15 @@ public interface Query {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    QueryResults execute() throws PersistenceException;
+    public QueryResults execute()
+    throws QueryException, PersistenceException, TransactionNotInProgressException;
 
     /**
-     * This is used for cursor support.
      * <b>Experimental</b>
+     * This is used for cursor support
      */
-    QueryResults execute(final boolean scrollable) throws PersistenceException;
+    public QueryResults execute(final boolean scrollable)
+    throws QueryException, PersistenceException, TransactionNotInProgressException;
 
     /**
      * Execute the query. The query is executed returning an enumeration
@@ -196,17 +213,18 @@ public interface Query {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    QueryResults execute(final AccessMode accessMode) throws PersistenceException;
+    public QueryResults execute(final AccessMode accessMode)
+    throws QueryException, PersistenceException, TransactionNotInProgressException;
 
     /**
-     * This is used for cursor support.
      * <b>Experimental</b>
+     * This is used for cursor support
      */
-    QueryResults execute(final AccessMode accessMode, final boolean scrollable)
-    throws PersistenceException;
+    public QueryResults execute(final AccessMode accessMode, final boolean scrollable)
+    throws QueryException, PersistenceException, TransactionNotInProgressException;
 
     /**
      * Close the query and release all resources held by the query.
      */
-    void close();
+    public void close();
 }

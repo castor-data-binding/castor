@@ -32,8 +32,10 @@ import java.util.TimeZone;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.util.Configuration;
-import org.castor.cpa.CPAConfiguration;
+
+import org.castor.util.ConfigKeys;
+import org.castor.util.Configuration;
+
 import org.exolab.castor.mapping.MappingException;
 
 /**
@@ -124,9 +126,9 @@ public final class SQLTypeInfos {
     private static final TimeZone TIME_ZONE;
     
     static {
-        Configuration config = CPAConfiguration.getInstance();
-        String zone = config.getString(CPAConfiguration.DEFAULT_TIMEZONE);
-        if ((zone == null) || (zone.length() == 0)) {
+        Configuration config = Configuration.getInstance();
+        String zone = config.getProperty(ConfigKeys.DEFAULT_TIMEZONE, "");
+        if (zone.length() == 0) {
             TIME_ZONE = TimeZone.getDefault();
         } else {
             TIME_ZONE = TimeZone.getTimeZone(zone);

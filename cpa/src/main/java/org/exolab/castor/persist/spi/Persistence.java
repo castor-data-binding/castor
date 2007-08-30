@@ -45,10 +45,10 @@
 package org.exolab.castor.persist.spi;
 
 import org.castor.persist.ProposedEntity;
-import org.exolab.castor.jdo.Database;
-import org.exolab.castor.jdo.PersistenceException;
-import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.mapping.AccessMode;
+import org.exolab.castor.jdo.QueryException;
+import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.Database;
 
 /**
  * The persistence engine implements this interface in order to allow
@@ -101,7 +101,8 @@ public interface Persistence {
      *         exists in persistent storage or any other persistence error
      *         occured.
      */
-    Identity create(Database database, Object conn, ProposedEntity entity, Identity identity)
+    public Identity create(Database database, Object conn,
+                         ProposedEntity entity, Identity identity)
     throws PersistenceException;
 
     /**
@@ -121,8 +122,9 @@ public interface Persistence {
      * @throws PersistenceException The object was not found in persistent
      *         storage or any other persistence error occured.
      */
-    Object load(Object conn, ProposedEntity proposedObject, Identity identity,
-            AccessMode accessMode) throws PersistenceException;
+    public Object load(Object conn, ProposedEntity proposedObject, Identity identity,
+                       AccessMode accessMode)
+    throws PersistenceException;
 
     /**
      * Stores the object in persistent storage, given the object fields
@@ -152,7 +154,8 @@ public interface Persistence {
      *         deleted from persitence storage or any other persistence
      *         error occored.
      */
-    Object store(Object conn, Identity identity, ProposedEntity newentity, ProposedEntity oldentity)
+    public Object store(Object conn, Identity identity,
+                        ProposedEntity newentity, ProposedEntity oldentity)
     throws PersistenceException;
 
     /**
@@ -166,7 +169,7 @@ public interface Persistence {
      * @param identity The object's identity
      * @throws PersistenceException A persistence error occured
      */
-    void delete(Object conn, Identity identity)
+    public void delete(Object conn, Identity identity)
     throws PersistenceException;
 
     /**
@@ -182,7 +185,8 @@ public interface Persistence {
      * @return A new query object that can be executed
      * @throws QueryException The query is invalid
      */
-    PersistenceQuery createQuery(QueryExpression query, Class[] types, AccessMode accessMode)
+    public PersistenceQuery createQuery(QueryExpression query, Class[] types,
+                                        AccessMode accessMode)
     throws QueryException;
 }
 

@@ -274,7 +274,7 @@ public final class TestCacheLeakage extends CastorTestCase {
                             trials++;
                             try {
                                 _db.load(_classType, Race.DEFAULT_ID, 
-                                        Database.SHARED);
+                                        Database.Shared);
                                 // may throw ObjectNotFoundException
                                 // or LockNotGrantedException
                                 _db.commit();

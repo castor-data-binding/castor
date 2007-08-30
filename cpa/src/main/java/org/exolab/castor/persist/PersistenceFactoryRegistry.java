@@ -42,16 +42,23 @@
  *
  * $Id$
  */
+
+
 package org.exolab.castor.persist;
+
 
 import java.util.Enumeration;
 import java.util.Hashtable;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.util.Configuration;
-import org.castor.cpa.CPAConfiguration;
+
+import org.castor.util.ConfigKeys;
+import org.castor.util.Configuration;
+import org.castor.util.Messages;
+
 import org.exolab.castor.persist.spi.PersistenceFactory;
+
 
 /**
  * Registry for {@link PersistenceFactory} implementations
@@ -61,13 +68,17 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
-public final class PersistenceFactoryRegistry {
+public class PersistenceFactoryRegistry
+{
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      *  Logging </a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(PersistenceFactoryRegistry.class);
     
-    /** Association between factory name and object. */
+    /**
+     * Association between factory name and object.
+     */
     private static Hashtable  _factories;
+
 
     /**
      * Returns a persistence factory with the specified name.
@@ -79,10 +90,12 @@ public final class PersistenceFactoryRegistry {
      * @return The {@link PersistenceFactory} object, null
      *  if no factory with this name exists
      */
-    public static PersistenceFactory getPersistenceFactory(final String name) {
+    public static PersistenceFactory getPersistenceFactory( String name )
+    {
         load();
-        return (PersistenceFactory) _factories.get(name);
+        return (PersistenceFactory) _factories.get( name );
     }
+
 
     /**
      * Returns the names of all the configured persistence
@@ -91,16 +104,16 @@ public final class PersistenceFactoryRegistry {
      *
      * @return Names of persistence factories
      */
-    public static String[] getFactoryNames() {
+    public static String[] getFactoryNames()
+    {
         String[]    names;
         Enumeration enumeration;
 
         load();
         names = new String[ _factories.size() ];
         enumeration = _factories.keys();
-        for (int i = 0; i < names.length; ++i) {
+        for ( int i = 0 ; i < names.length ; ++i )
             names[ i ] = (String) enumeration.nextElement();
-        }
         return names;
     }
 
@@ -109,21 +122,20 @@ public final class PersistenceFactoryRegistry {
      * Load the factories from the properties file, if not loaded before.
      */
     private static synchronized void load() {
-        if (_factories == null) {
+        if ( _factories == null ) {
             _factories = new Hashtable();
 
-            Configuration config = CPAConfiguration.getInstance();
-            Object[] objects = config.getObjectArray(
-                    CPAConfiguration.PERSISTENCE_FACTORIES, config.getApplicationClassLoader());
-            for (int i = 0; i < objects.length; i++) {
-                PersistenceFactory factory = (PersistenceFactory) objects[i];
-                _factories.put(factory.getFactoryName(), factory);
+            Configuration config = Configuration.getInstance();
+            String[] props = config.getProperty(ConfigKeys.PERSISTENCE_FACTORIES);
+            ClassLoader ldr = PersistenceFactoryRegistry.class.getClassLoader();
+            for (int i = 0; i < props.length; i++) {
+                try {
+                    Object factory = ldr.loadClass(props[i]).newInstance();
+                    _factories.put(((PersistenceFactory) factory).getFactoryName(), factory);
+                } catch ( Exception except ) {
+                    LOG.error(Messages.format("persist.missingPersistenceFactory", props[i]));
+                }
             }
         }
     }
-    
-    /**
-     * Hide Utility Class Constructor.
-     */
-    private PersistenceFactoryRegistry() { }
 }

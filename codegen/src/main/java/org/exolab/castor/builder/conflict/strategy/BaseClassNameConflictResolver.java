@@ -19,6 +19,7 @@ import java.util.StringTokenizer;
 
 import org.exolab.castor.builder.SourceGenerator;
 import org.exolab.castor.builder.binding.ExtendedBinding;
+import org.exolab.castor.xml.JavaNaming;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.javasource.JClass;
 
@@ -72,7 +73,7 @@ public abstract class BaseClassNameConflictResolver implements ClassNameConflict
                     || token.startsWith(ExtendedBinding.GROUP_ID)) {
                 token = token.substring(token.indexOf(":") + 1);
             }
-            prefix += _sourceGenerator.getJavaNaming().toJavaClassName(token);
+            prefix += JavaNaming.toJavaClassName(token);
         }
         return prefix;
     }

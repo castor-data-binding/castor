@@ -55,39 +55,39 @@ import org.exolab.castor.persist.spi.CallbackInterceptor;
  * @version $Revision$ $Date: 2005-04-17 04:29:33 -0600 (Sun, 17 Apr 2005) $
  */
 public class JDOCallback implements CallbackInterceptor {
-    public void using(final Object object, final Database db) {
+    public void using(Object object, Database db) {
         ((Persistent) object).jdoPersistent(db);
     }
 
-    public Class loaded(final Object object, final AccessMode accessMode) throws Exception {
+    public Class loaded(Object object, AccessMode accessMode) throws Exception {
         return ((Persistent) object).jdoLoad(accessMode);
     }
 
-    public void storing(final Object object, final boolean modified) throws Exception {
-        ((Persistent) object).jdoStore(modified);
+    public void storing(Object object, boolean modified) throws Exception {
+        ( (Persistent) object ).jdoStore( modified );
     }
 
-    public void creating(final Object object, final Database db) throws Exception {
+    public void creating(Object object, Database db) throws Exception {
         ((Persistent) object).jdoBeforeCreate(db);
     }
 
-    public void created(final Object object) throws Exception {
+    public void created(Object object) throws Exception {
         ((Persistent) object).jdoAfterCreate();
     }
 
-    public void removing(final Object object) throws Exception {
+    public void removing(Object object) throws Exception {
         ((Persistent) object).jdoBeforeRemove();
     }
 
-    public void removed(final Object object) throws Exception {
+    public void removed(Object object) throws Exception {
         ((Persistent) object).jdoAfterRemove();
     }
 
-    public void releasing(final Object object, final boolean committed) {
+    public void releasing(Object object, boolean committed) {
         ((Persistent) object).jdoTransient();
     }
 
-    public void updated(final Object object) throws Exception {
+    public void updated(Object object) throws Exception {
         ((Persistent) object).jdoUpdate();
     }
 }

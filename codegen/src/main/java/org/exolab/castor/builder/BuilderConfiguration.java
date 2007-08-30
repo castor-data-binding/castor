@@ -49,17 +49,14 @@ package org.exolab.castor.builder;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
-import org.castor.xml.JavaNaming;
-import org.castor.xml.JavaNamingImpl;
 import org.exolab.castor.util.Configuration;
 import org.exolab.castor.util.LocalConfiguration;
+import org.exolab.castor.xml.JavaNaming;
 
 /**
  * The configuration for the SourceGenerator.
@@ -185,13 +182,6 @@ public class BuilderConfiguration {
          */
         public static final String JAVA_VERSION =
             "org.exolab.castor.builder.javaVersion";
-        
-        /**
-         * Forces the code generator to create 'old' Java 1.4 enumeration classes instead 
-         * of Java 5 enums for &lt;simpleType&gt; enumerations, even in Java 5 mode.
-         */
-        public static final String FORCE_JAVA4_ENUMS =
-            "org.exolab.castor.builder.forceJava4Enums";
 
         /**
          * The name of the configuration file.
@@ -296,16 +286,6 @@ public class BuilderConfiguration {
      * schemaLocation to Java package mapping.
      */
     private Hashtable _locpackages = new Hashtable();
-
-    /** JavaNaming to be used. */
-    private JavaNaming _javaNaming;
-   
-    /**
-     * hooks for (external) tools to add custom
-     * annotations to fields, classes and enumConstants 
-     * during source generation.
-     */
-    private List _annotationBuilders = new ArrayList();
 
     //------------------/
 
@@ -461,25 +441,7 @@ public class BuilderConfiguration {
     public final boolean useJava50() {
         return "5.0".equalsIgnoreCase(_localProps.getProperty(Property.JAVA_VERSION, "1.4"));
     } //-- useEnumeratedTypeInterface
-    
-    /**
-     * Indicates what kind of enumeration should be created for 
-     * &lt;xs:simpleType&gt; enumerations.
-     *
-     * @return true if Java 5 source code should be generated.
-     */
-    public final boolean useJava5Enums() {
-        return useJava50() && FALSE.equalsIgnoreCase(
-                _localProps.getProperty(Property.FORCE_JAVA4_ENUMS, FALSE));
-    }
 
-    /**
-     * Add support to set java version programmatically.
-     */
-    public final void forceUseJava50() {
-        _localProps.setProperty(Property.JAVA_VERSION, "5.0");
-    }
-        
     /**
      * Returns the maximum number of static constant definitions that are
      * acceptable within one class file; default is 1000.
@@ -631,15 +593,9 @@ public class BuilderConfiguration {
 
         //-- backward compatibility with 0.9.3.9
         String prop = _defaultProps.getProperty(
-                JavaNamingImpl.UPPER_CASE_AFTER_UNDERSCORE_PROPERTY, null);
+                JavaNaming.UPPER_CASE_AFTER_UNDERSCORE_PROPERTY, null);
         if (prop != null) {
-            /*
-             * TODO: joachim: Argh! this shouldn't exist and it shouldn't be here! Setting a
-             * static attribute into a class because somewhere later the class is instantiated
-             * and use but then the attribute is required... I need to sort out the order how
-             * objects are created...
-             */
-            JavaNamingImpl._upperCaseAfterUnderscore = Boolean.valueOf(prop).booleanValue();
+            JavaNaming.upperCaseAfterUnderscore = Boolean.valueOf(prop).booleanValue();
         }
     } //-- load
 
@@ -745,39 +701,4 @@ public class BuilderConfiguration {
         return _localProps.getProperty(Property.AUTOMATIC_CONFLICT_RESOLUTION_TYPE_SUFFIX, "");
     }
 
-    /**
-     * To set the {@link JavaNaming} implementation to be used.
-     * @param javaNaming JavaNaming implementation to be used
-     * @since 1.1.3
-     */
-    public void setJavaNaming(final JavaNaming javaNaming) {
-        _javaNaming = javaNaming;
-    }
-    
-    /**
-     * To get the {@link JavaNaming} implementation to be used.
-     * @return JavaNaming implementation to be used
-     * @since 1.1.3
-     */
-    public JavaNaming getJavaNaming() {
-        return _javaNaming;
-    }
-    
-    /**
-     * adds a custom annotation builder.
-     * @param annotationBuilder the builder
-     */
-    public void addAnnotationBuilder(final AnnotationBuilder annotationBuilder) {
-        this._annotationBuilders.add(annotationBuilder);
-    }
-    
-    /**
-     * returns all applied annotation builders.
-     * @return a array of builders for type convenience
-     */
-    public AnnotationBuilder[] getAnnotationBuilders() {
-        return (AnnotationBuilder[])
-            this._annotationBuilders.toArray(
-                    new AnnotationBuilder[this._annotationBuilders.size()]);
-    }
 } //-- BuilderProperties

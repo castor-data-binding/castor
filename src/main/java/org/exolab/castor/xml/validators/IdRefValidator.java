@@ -15,10 +15,12 @@
  */
 package org.exolab.castor.xml.validators;
 
+import org.castor.mapping.BindingType;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.xml.ClassDescriptorResolver;
+import org.exolab.castor.xml.ClassDescriptorResolverFactory;
 import org.exolab.castor.xml.TypeValidator;
 import org.exolab.castor.xml.ValidationContext;
 import org.exolab.castor.xml.ValidationException;
@@ -46,24 +48,25 @@ public class IdRefValidator implements TypeValidator {
      * @throws ValidationException if the object fails validation.
      */
     public void validate(final Object object, final ValidationContext context)
-    throws ValidationException {
-        // we need a target Object
-        if (object == null) {
-            String err = "The object associated with IDREF \"" + object + "\" is null!";
-            throw new ValidationException(err);
-        }
+                                                    throws ValidationException {
+         // we need a target Object
+         if (object == null) {
+             String err = "The object associated with IDREF \"" + object + "\" is null!";
+             throw new ValidationException(err);
+         }
 
-        // get the id of the target object
-        String id = null;
-        try {
-            ClassDescriptorResolver classDescriptorResolver = context.getResolver();
+         // get the id of the target object
+         String id = null;
+         try {
+            ClassDescriptorResolver classDescriptorResolver =
+                ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
             ClassDescriptor classDescriptor = classDescriptorResolver.resolve(object.getClass());
             FieldDescriptor fieldDescriptor = classDescriptor.getIdentity();
             FieldHandler fieldHandler = fieldDescriptor.getHandler();
             id = (String) fieldHandler.getValue(object);
         } catch (Exception e) {
             String err = "The object associated with IDREF \"" + object
-            + "\" of type " + object.getClass() + " has no ID!";
+                    + "\" of type " + object.getClass() + " has no ID!";
             throw new ValidationException(err);
         }
 

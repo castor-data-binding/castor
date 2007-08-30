@@ -44,11 +44,14 @@
  */
 package org.exolab.castor.builder.info;
 
+import org.exolab.castor.builder.SGTypes;
 import org.exolab.castor.builder.SourceGeneratorConstants;
-import org.exolab.castor.builder.factory.FieldMemberAndAccessorFactory;
 import org.exolab.castor.builder.types.XSCollectionFactory;
 import org.exolab.castor.builder.types.XSListType;
 import org.exolab.castor.builder.types.XSType;
+import org.exolab.javasource.JClass;
+import org.exolab.javasource.JMethod;
+import org.exolab.javasource.JSourceCode;
 
 /**
  * A helper used for generating source that deals with Collections.
@@ -66,19 +69,55 @@ public final class CollectionInfoODMG30 extends CollectionInfo {
      * @param name the name of the Collection
      * @param elementName the element name for each element in collection
      * @param useJava50 true if code is supposed to be generated for Java 5
-     * @param memberAndAccessorFactory the FieldMemberAndAccessorFactory to be used  
-     * @param contentMemberAndAccessorFactory the factory for the content 
      */
     public CollectionInfoODMG30(final XSType contentType, final String name,
-                                final String elementName, final boolean useJava50,
-                                final FieldMemberAndAccessorFactory memberAndAccessorFactory,
-                                final FieldMemberAndAccessorFactory contentMemberAndAccessorFactory) {
-        super(contentType, name, elementName, useJava50, 
-                memberAndAccessorFactory, contentMemberAndAccessorFactory);
+                                final String elementName, final boolean useJava50) {
+        super(contentType, name, elementName, useJava50);
         final XSListType collection = 
             XSCollectionFactory.createCollection(SourceGeneratorConstants.FIELD_INFO_ODMG,
                         contentType, useJava50);
         this.setSchemaType(collection);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void generateInitializerCode(final JSourceCode jsc) {
+        jsc.add("this.");
+        jsc.append(this.getName());
+        jsc.append(" = ODMG.getImplementation().newDArray();");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected void createEnumerateMethod(final JClass jClass, final boolean useJava50) {
+        JMethod method = new JMethod("enumerate" + this.getMethodSuffix(),
+                SGTypes.createEnumeration(this.getContentType().getJType(), useJava50),
+                "an Enumeration over all elements of this collection");
+
+        if (!jClass.hasImport("java.util.Vector")) {
+            jClass.addImport("java.util.Vector");
+        }
+
+        if (!jClass.hasImport("java.util.Iterator")) {
+            jClass.addImport("java.util.Iterator");
+        }
+
+        JSourceCode sourceCode = method.getSourceCode();
+        sourceCode.add("Vector v = new Vector();"); // ODMG 3.0
+        sourceCode.add("Iterator i = ");
+        sourceCode.append(getName());
+        sourceCode.append(".iterator();");
+        sourceCode.add("");
+        sourceCode.add("while (i.hasNext()) {");
+        sourceCode.indent();
+        sourceCode.add("v.add(i.next());");
+        sourceCode.unindent();
+        sourceCode.add("");
+        sourceCode.add("return v.elements();");
+
+        jClass.addMethod(method);
     }
 
 }

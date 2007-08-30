@@ -41,49 +41,49 @@
  * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
  *
  */
+
+
 package org.exolab.castor.persist;
 
 import org.castor.util.Messages;
 import org.exolab.castor.jdo.ClassNotPersistenceCapableException;
 import org.exolab.castor.jdo.QueryException;
+
+   
     
 public class PersistenceInfoGroup {
-    private LockEngine[] _engines;
+    LockEngine[] engines;
     
-    public PersistenceInfoGroup(final LockEngine[] engines) {
-        this._engines = engines;
+    public PersistenceInfoGroup( LockEngine[] engines ) {
+        this.engines = engines;
     }
     
     public ClassMolder getClassMolder(final Class type) throws ClassNotPersistenceCapableException {
         ClassMolder molder = null;
         int i = 0;
-        while ((i < _engines.length) && (molder == null)) {
-            molder = _engines[i++].getClassMolderWithDependent(type);
+        while ( (i<engines.length) && (molder == null) ) {
+            molder = engines[i++].getClassMolderWithDependent( type );
         }
         
         if (molder == null) {
-            throw new ClassNotPersistenceCapableException(Messages.format(
-                    "persist.classNotPersistenceCapable", type.getName()));
+            throw new ClassNotPersistenceCapableException( Messages.format("persist.classNotPersistenceCapable", type.getName()) );
         } else if (molder.isDependent()) {
-            throw new ClassNotPersistenceCapableException(Messages.format(
-                    "persist.classIsDependent", type.getName(), molder.getDepends().getName()));
+            throw new ClassNotPersistenceCapableException( Messages.format("persist.classIsDependent", type.getName(), molder.getDepends().getName()) );
         }
         
         return molder;
     }
     
     /**
-     * Returns the ClassMolder associated with a given named query (by the means of the
-     * mapping file).
-     *  
-     * @param query The name of the named query.
-     * @return ClassMolder instance associated with a given named query.
-     * @throws QueryException if there's an issue resolving the ClassMolder.
+     * Returns the ClassMolder associated with a given named query (by the means of the mapping file) 
+     * @param query The name of the named query
+     * @return ClassMolder instance associated with a given named query
+     * @throws QueryException if there's an issue resolving the ClassMolder
      */
-    public ClassMolder findClassMolderByQuery(final String query) throws QueryException {
+    public ClassMolder findClassMolderByQuery(String query) throws QueryException {
         ClassMolder molder = null;
-        for (int i = 0; i < _engines.length; i++) {            
-            molder = _engines[i].getClassMolderByQuery(query);            
+        for (int i=0; i < engines.length; i++) {            
+            molder = engines[i].getClassMolderByQuery(query);            
         }
         if (molder == null) {
             throw new QueryException("Cannot find a named query with the name " + query);
@@ -92,9 +92,8 @@ public class PersistenceInfoGroup {
     }
     
     public LockEngine getLockEngine() {
-        if ((_engines != null) && (_engines.length >= 1)) {
-            return _engines[0];
-        }
+        if ( engines != null && engines.length >= 1 )
+            return engines[0];
         return null;
     }
 }

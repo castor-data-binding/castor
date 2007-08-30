@@ -29,7 +29,7 @@ import org.exolab.castor.xml.ResolverException;
 
 public final class ClassMolderHelper {
     
-    public static final Log LOG = LogFactory.getLog(ClassMolderHelper.class);
+    static public final Log LOG = LogFactory.getLog(ClassMolderHelper.class);
     
     private ClassMolderHelper() {
         // nothing to do
@@ -75,12 +75,13 @@ public final class ClassMolderHelper {
         return result;
     }
     
-    private static ClassMolder createClassMolder(final DatingService ds,
-            final MappingLoader mappingLoader, final LockEngine lockEngine,
-            final ClassDescriptor descriptor, final Persistence persistence)
+    private static ClassMolder createClassMolder (DatingService ds, 
+            MappingLoader mappingLoader, 
+            LockEngine lockEngine, 
+            ClassDescriptor descriptor,
+            Persistence persistence) 
     throws MappingException, ClassNotFoundException {
-        return new ClassMolder(ds, (AbstractMappingLoader) mappingLoader, lockEngine,
-                descriptor, persistence);
+        return new ClassMolder(ds, (AbstractMappingLoader) mappingLoader, lockEngine, descriptor, persistence);
     }
 
     /**
@@ -123,8 +124,7 @@ public final class ClassMolderHelper {
     }
 
     /**
-     * Utility method to compare collections for equality.
-     * 
+     * Utility method to compare collections for equality
      * @param c1 collection one.
      * @param c2 collection two.
      * @return True if the collections are equal.
@@ -211,9 +211,8 @@ public final class ClassMolderHelper {
 
     /**
      * Return the iterator on values of the specified Collection
-     * or, return the iterator on values of the specified Map.
-     * 
-     * @param object - a Collection instance.
+     * Or, return the iterator on values of the specified Map
+     * @param object - a Collection instance
      */
     public static Iterator getIterator(final Object object) {
         if (object == null) {
@@ -268,10 +267,9 @@ public final class ClassMolderHelper {
 
     /**
      * Get all the field mapping, including all the field in extended class, but
-     * id fields.
-     * 
-     * @param clsMap ClassMapping instance.
-     * @return An array.
+     * id fields
+     * @param clsMap ClassMapping instance
+     * @return An array 
      * @throws MappingException
      */
     public static FieldMapping[] getFullFields(final ClassMapping clsMap)
@@ -304,7 +302,7 @@ public final class ClassMolderHelper {
             for (int i = 0; i < extendFields.length; i++) {
                 fieldList.add(extendFields[i]);
             }
-            for (int i = 0; i < thisFields.length; i++) {
+            for (int i = 0, j = 0; i < thisFields.length; i++) {
                 idfield = false;
                 IDSEARCH:
                 for (int k = 0; k < identities.length; k++) {
@@ -315,6 +313,7 @@ public final class ClassMolderHelper {
                 }
                 if (!idfield) {
                     fieldList.add(thisFields[i]);
+                    j++;
                 }
             }
             fields = new FieldMapping[fieldList.size()];
@@ -330,8 +329,7 @@ public final class ClassMolderHelper {
             thisFields = clsMap.getClassChoice().getFieldMapping();
             fields = new FieldMapping[thisFields.length - identities.length];
 
-            int j = 0;
-            for (int i = 0; i < thisFields.length; i++) {
+            for (int i = 0, j = 0; i < thisFields.length; i++) {
                 idfield = false;
                 IDSEARCH: for (int k = 0; k < identities.length; k++) {
                     if (thisFields[i].getName().equals(identities[k])) {

@@ -43,10 +43,14 @@
  * $Id$
  */
 
+
 package org.exolab.castor.jdo.drivers;
+
 
 import org.exolab.castor.jdo.engine.JDBCSyntax;
 import org.exolab.castor.persist.spi.PersistenceFactory;
+import org.exolab.castor.persist.spi.QueryExpression;
+
 
 /**
  * QueryExpression for MySQL.
@@ -54,31 +58,37 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @author <a href="mailto:on@ibis.odessa.ua">Oleg Nitz</a>
  * @version $Revision$ $Date: 2004-10-01 13:45:49 -0600 (Fri, 01 Oct 2004) $
  */
-public final class MySQLQueryExpression extends JDBCQueryExpression {
-    public MySQLQueryExpression(final PersistenceFactory factory) {
-        super(factory);
+public final class MySQLQueryExpression
+    extends JDBCQueryExpression
+{
+
+
+    public MySQLQueryExpression( PersistenceFactory factory )
+    {
+        super( factory );
     }
 
-    public String getStatement(final boolean lock) {
+
+    public String getStatement( boolean lock )
+    {
         StringBuffer sql;
 
-        sql = getStandardStatement(lock, false);
+        sql = getStandardStatement( lock, false );
 
-        if (_limit != null) {
-            sql.append(JDBCSyntax.LIMIT);
+        if ( _limit != null )
+        {
+            sql.append(JDBCSyntax.Limit);
 
-            if (_offset != null) {
+            if (_offset != null)
                 sql.append(_offset).append(", ");
-            }
 
             sql.append(_limit);
         }
 
         // Do not use FOR UPDATE to lock query.
         // return getStandardStatement( lock, false ).toString();
-        if (lock) {
-            sql.append(" FOR UPDATE");
-        }
+        if ( lock )
+            sql.append( " FOR UPDATE" );
 
         return sql.toString();
     }
@@ -89,7 +99,7 @@ public final class MySQLQueryExpression extends JDBCQueryExpression {
      * @see org.exolab.castor.persist.spi.QueryExpression#isLimitClauseSupported()
      */
     public boolean isLimitClauseSupported() {
-        return true;
+    	return true;
     }
     
     /** 
@@ -98,6 +108,7 @@ public final class MySQLQueryExpression extends JDBCQueryExpression {
      * @see org.exolab.castor.persist.spi.QueryExpression#isOffsetClauseSupported()
      */
     public boolean isOffsetClauseSupported() {
-        return true;
+    	return true;
     }
+
 }

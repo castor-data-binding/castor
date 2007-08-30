@@ -62,15 +62,18 @@ import javax.transaction.Status;
 import javax.transaction.Transaction;
 import javax.transaction.TransactionManager;
 
-import org.castor.jdo.conf.JdoConf;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.castor.jdo.engine.AbstractConnectionFactory;
 import org.castor.jdo.engine.DatabaseRegistry;
-import org.castor.transactionmanager.LocalTransactionManager;
-import org.castor.util.Messages;
+
+import org.castor.jdo.conf.JdoConf;
 import org.exolab.castor.jdo.engine.AbstractDatabaseImpl;
 import org.exolab.castor.jdo.engine.GlobalDatabaseImpl;
 import org.exolab.castor.jdo.engine.LocalDatabaseImpl;
 import org.exolab.castor.jdo.engine.TxDatabaseMap;
+import org.castor.transactionmanager.LocalTransactionManager;
+import org.castor.util.Messages;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.OutputLogInterceptor;
 import org.exolab.castor.persist.spi.CallbackInterceptor;
@@ -126,56 +129,94 @@ import org.xml.sax.InputSource;
  */
 public final class JDO
 implements DataObjects, Referenceable, ObjectFactory, Serializable {
-    /** SerialVersionUID. */
+    /** SerialVersionUID */
     private static final long serialVersionUID = 2816194621638396008L;
 
-    /** The default lock timeout for this database is 10 seconds. */
+    /**
+     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     * Commons Logging</a> instance used for all logging.
+     */
+    private static final Log LOG = LogFactory.getLog(JDO.class);
+
+    /**
+     * The default lock timeout for this database is 10 seconds.
+     */
     public static final int DEFAULT_LOCK_TIMEOUT = 10;
 
-    /** The URL of the database configuration file. If the URL is
-     *  specified, the first attempt to load a database of this type
-     *  will use the specified configuration file. */
+    /**
+     * The URL of the database configuration file. If the URL is
+     * specified, the first attempt to load a database of this type
+     * will use the specified configuration file.
+     */
     private String _jdoConfURI;
     
-    /** An in-memory JDO configuration instance. */
+    /**
+     * An in-memory JDO configuration instance.
+     */
     private JdoConf _jdoConf;
 
-    /** The log intercpetor to which all logging and tracing messages will be sent.
+    /**
+     * The log intercpetor to which all logging and tracing messages
+     * will be sent.
+     * 
      * @deprecated There is no need for this member due to the implementation
-     *             of Log4J which is controlled via the log4j.properties file. */
+     * of Log4J which is controlled via the log4j.properties file.
+     */
     private LogInterceptor  _logInterceptor;
 
-    /** The callback interceptor to which all persistent state events to be sent. */
+    /**
+     * The callback interceptor to which all persistent state events
+     * to be sent.
+     */
     private CallbackInterceptor _callback;
 
-    /** The instance factory to which create a new instance of data object. */
+    /**
+     * The instance factory to which create a new instance of data object
+     */
     private InstanceFactory _instanceFactory;
 
-    /** The lock timeout for this database. Zero for immediate timeout, an infinite
-     *  value for no timeout. The timeout is specified in seconds. */
+    /**
+     * The lock timeout for this database. Zero for immediate
+     * timeout, an infinite value for no timeout. The timeout is
+     * specified in seconds.
+     */
     private int _lockTimeout = DEFAULT_LOCK_TIMEOUT;
 
-    /** The name of this database. */
+    /**
+     * The name of this database.
+     */
     private String _dbName;
 
-    /** Description of this database. */
+    /**
+     * Description of this database.
+     */
     private String _description = "Castor JDO";
 
-    /** The transaction manager. */
+    /**
+     * The transaction manager
+     */
     private TransactionManager _transactionManager = null;
 
-    /** The application class loader. */
+    /**
+     * The application class loader.
+     */
     private ClassLoader _classLoader;
 
-    /** The resolver can be used to resolve cached entities, e.g.
-     *  for external mapping documents. */
+    /**
+     * The resolver can be used to resolve cached entities, e.g.
+     * for external mapping documents.
+     */
     private EntityResolver _entityResolver;
 
-    /** The transactions to databases map for database pooling. */
+    /**
+     * The transactions to databases map for database pooling
+     */
     private TxDatabaseMap  _txDbPool;
 
-    /** True if user prefer all reachable object to be stored automatically.
-     *  False (default) if user want only dependent object to be stored. */
+    /**
+     * True if user prefer all reachable object to be stored automatically.
+     * False (default) if user want only dependent object to be stored.
+     */
     private boolean _autoStore = false;
 
     /**

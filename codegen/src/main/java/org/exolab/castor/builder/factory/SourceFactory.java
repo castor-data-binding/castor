@@ -55,7 +55,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.exolab.castor.builder.AnnotationBuilder;
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.FactoryState;
 import org.exolab.castor.builder.GroupNaming;
@@ -72,6 +71,7 @@ import org.exolab.castor.builder.info.XMLInfo;
 import org.exolab.castor.builder.types.XSClass;
 import org.exolab.castor.builder.types.XSString;
 import org.exolab.castor.builder.types.XSType;
+import org.exolab.castor.xml.JavaNaming;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.castor.xml.schema.AttributeDecl;
 import org.exolab.castor.xml.schema.AttributeGroupDecl;
@@ -98,7 +98,6 @@ import org.exolab.javasource.JCollectionType;
 import org.exolab.javasource.JConstructor;
 import org.exolab.javasource.JDocComment;
 import org.exolab.javasource.JDocDescriptor;
-import org.exolab.javasource.JEnum;
 import org.exolab.javasource.JField;
 import org.exolab.javasource.JMethod;
 import org.exolab.javasource.JParameter;
@@ -294,7 +293,7 @@ public final class SourceFactory extends BaseFactory {
         String className = component.getQualifiedName();
         if (className.indexOf('.') == -1) {
             //--be sure it is a valid className
-            className = getJavaNaming().toJavaClassName(className);
+            className = JavaNaming.toJavaClassName(className);
             className = resolveClassName(className, packageName);
         }
 
@@ -404,7 +403,7 @@ public final class SourceFactory extends BaseFactory {
 
             //-- create main group class
             String fname = component.getJavaClassName() + ITEM_NAME;
-            fname = getJavaNaming().toJavaMemberName(fname, false);
+            fname = JavaNaming.toJavaMemberName(fname, false);
 
             FieldInfo fInfo = null;
             if (createForSingleGroup) {
@@ -412,7 +411,7 @@ public final class SourceFactory extends BaseFactory {
                 fInfo = getInfoFactory().createFieldInfo(new XSClass(jClass), fname);
             } else {
                 fInfo = getInfoFactory().createCollection(
-                        new XSClass(jClass), "_items", fname, getJavaNaming(), getConfig().useJava50());
+                        new XSClass(jClass), "_items", fname, getConfig().useJava50());
             }
             fInfo.setContainer(true);
             String newClassName = className.substring(0, className.length() - 4);
@@ -448,11 +447,9 @@ public final class SourceFactory extends BaseFactory {
             }
 
             classInfo.addFieldInfo(fInfo);
-            fInfo.getMemberAndAccessorFactory().createJavaField(fInfo, jClass);
-            fInfo.getMemberAndAccessorFactory().createAccessMethods(
-                    fInfo, jClass, getConfig().useJava50(), getConfig().getAnnotationBuilders());
-            fInfo.getMemberAndAccessorFactory().generateInitializerCode(
-                    fInfo, jClass.getConstructor(0).getSourceCode());
+            fInfo.createJavaField(jClass);
+            fInfo.createAccessMethods(jClass, getConfig().useJava50());
+            fInfo.generateInitializerCode(jClass.getConstructor(0).getSourceCode());
 
             //-- name information
             classInfo.setNodeName(component.getXMLName());
@@ -510,14 +507,7 @@ public final class SourceFactory extends BaseFactory {
 
         //-- Save source code bindings to prevent duplicate code generation
         sgState.bindSourceCode(component.getAnnotated(), classes);
-        
-        // custom annotations
-        AnnotationBuilder[] annotationBuilders = getConfig().getAnnotationBuilders();
-        for (int i = 0; i < annotationBuilders.length; i++) {
-            AnnotationBuilder annotationBuilder = annotationBuilders[i];
-            annotationBuilder.addClassAnnotations(classInfo, jClass);
-        }
-        
+
         return classes;
     }
 
@@ -663,7 +653,7 @@ public final class SourceFactory extends BaseFactory {
                  baseClassName = baseComponent.getQualifiedName();
                  if (baseClassName.indexOf('.') == -1) {
                      //--be sure it is a valid className
-                     baseClassName = getJavaNaming().toJavaClassName(baseClassName);
+                     baseClassName = JavaNaming.toJavaClassName(baseClassName);
                  }
              } else {
                  baseClassName = baseComponent.getJavaClassName();
@@ -752,11 +742,11 @@ public final class SourceFactory extends BaseFactory {
             }
             //-- In case of naming collision we append current class name
             if (fstate != null) {
-                typeName = getJavaNaming().toJavaClassName(typeName);
+                typeName = JavaNaming.toJavaClassName(typeName);
                 Structure attrDeclParent = ((AttributeDecl) struct).getParent();
                 if (attrDeclParent != null
                         && attrDeclParent.getStructureType() == Structure.ATTRIBUTE_GROUP) {
-                    typeName = getJavaNaming().toJavaClassName(
+                    typeName = JavaNaming.toJavaClassName(
                             ((AttributeGroupDecl) attrDeclParent).getName() + typeName);
                 } else {
                     typeName = fstate.getJClass().getLocalName() + typeName;
@@ -766,12 +756,11 @@ public final class SourceFactory extends BaseFactory {
             typeName += "Type";
         }
 
-        String className   = getJavaNaming().toJavaClassName(typeName);
+        String className   = JavaNaming.toJavaClassName(typeName);
 
         //--XMLBindingComponent is only used to retrieve the java package
         //-- we need to optimize it by enabling the binding of simpleTypes.
-        XMLBindingComponent comp = 
-            new XMLBindingComponent(getConfig(), getGroupNaming());
+        XMLBindingComponent comp = new XMLBindingComponent(getConfig(), getGroupNaming());
         if (binding != null) {
             comp.setBinding(binding);
         }
@@ -801,8 +790,7 @@ public final class SourceFactory extends BaseFactory {
 
         className = resolveClassName(className, packageName);
 
-        FactoryState state = new FactoryState(className, sgState, packageName, comp, 
-                (enumeration && getConfig().useJava5Enums()));
+        FactoryState state = new FactoryState(className, sgState, packageName, comp);
 
         state.setParent(sgState.getCurrentFactoryState());
 
@@ -1150,16 +1138,13 @@ public final class SourceFactory extends BaseFactory {
 
         // The hashCode method has no arguments
         jclass.addMethod(jMethod);
-        
+
         JSourceCode jsc = jMethod.getSourceCode();
-        if (jclass.getSuperClassQualifiedName() == null) {
-            jsc.add("int result = 17;");
-        } else {
-            jsc.add("int result = super.hashCode();");
-        }
+
+        jsc.add("int result = 17;");
         jsc.add("");
         jsc.add("long tmp;");
-        
+
         for (int i = 0; i < fields.length; i++) {
             JField temp = fields[i];
             // If the field is an object the hashCode method is called recursively
@@ -1184,11 +1169,9 @@ public final class SourceFactory extends BaseFactory {
                     jsc.add("result = 37 * result + (int)(tmp^(tmp>>>32));");
                 }
             } else {
-                // Calculates hashCode in an acyclic recursive manner
-                jsc.add("if (" + name + " != null");
-                jsc.add("       && !org.castor.util.CycleBreaker.startingToCycle(" + name + ")) {");
+                // Calculates hashCode in a recursive manner.
+                jsc.add("if (" + name + " != null) {");
                 jsc.add("   result = 37 * result + " + name + ".hashCode();");
-                jsc.add("   org.castor.util.CycleBreaker.releaseCycleHandle(" + name + ");");
                 jsc.add("}");
             }
         }
@@ -1239,8 +1222,6 @@ public final class SourceFactory extends BaseFactory {
             jsc.append(" temp = (");
             jsc.append(jclass.getLocalName());
             jsc.append(")obj;");
-            jsc.add("boolean thcycle;");
-            jsc.add("boolean tmcycle;");
         }
         for (int i = 0; i < fields.length; i++) {
             JField temp = fields[i];
@@ -1268,31 +1249,8 @@ public final class SourceFactory extends BaseFactory {
                 jsc.indent();
                 jsc.append("return false;");
                 jsc.unindent();
-                jsc.add("if (this.");
-                jsc.append(name);
-                jsc.append(" != temp.");
-                jsc.append(name);
-                jsc.append(") {");
-                // This prevents string constants and improper DOM subtree self comparisons
-                // (where Q(A(B)) and Q'(C(B)) are compared) screwing up cycle detection
-                jsc.indent();
-                jsc.add("thcycle=org.castor.util.CycleBreaker.startingToCycle(this." + name + ");");
-                jsc.add("tmcycle=org.castor.util.CycleBreaker.startingToCycle(temp." + name + ");");
-                // equivalent objects *will* cycle at the same time
-                jsc.add("if (thcycle!=tmcycle) {");
-                jsc.indent();
-                jsc.add("if (!thcycle) { org.castor.util.CycleBreaker.releaseCycleHandle(this."
-                        + name + "); };");
-                jsc.add("if (!tmcycle) { org.castor.util.CycleBreaker.releaseCycleHandle(temp."
-                        + name + "); };");
-                jsc.add("return false;");
-                jsc.unindent();
-                jsc.add("}"); // end of unequal cycle point test
-                jsc.add("if (!thcycle) {");
- 
-                jsc.indent();
-                
-                jsc.add("if (!");
+                jsc.add("else if (!(");
+
                 // Special handling for comparing arrays
                 if (temp.getType().isArray()) {
                     jsc.append("java.util.Arrays.equals(this.");
@@ -1308,24 +1266,13 @@ public final class SourceFactory extends BaseFactory {
                     jsc.append(")");
                 }
 
-                jsc.append(") {");
+                jsc.append(")) ");
                 jsc.indent();
-                
-                jsc.add("org.castor.util.CycleBreaker.releaseCycleHandle(this." + name + ");");
-                jsc.add("org.castor.util.CycleBreaker.releaseCycleHandle(temp." + name + ");");
                 jsc.add("return false;");
                 jsc.unindent();
-                jsc.add("}");
-                
-                jsc.add("org.castor.util.CycleBreaker.releaseCycleHandle(this." + name + ");");
-                jsc.add("org.castor.util.CycleBreaker.releaseCycleHandle(temp." + name + ");");
-                
                 jsc.unindent();
-                jsc.add("}"); // end of !thcycle
-                jsc.unindent();
-                jsc.add("}"); // end of this.name != that.name object constant check
-                jsc.unindent();
-                jsc.add("} else if (temp.");
+                jsc.add("}"); //end of != null
+                jsc.add("else if (temp.");
                 jsc.append(name);
                 jsc.append(" != null)");
             }
@@ -1387,9 +1334,9 @@ public final class SourceFactory extends BaseFactory {
             }
 
             if (name.startsWith("_")) {
-                name = getJavaNaming().toJavaClassName(name.substring(1));
+                name = JavaNaming.toJavaClassName(name.substring(1));
             } else {
-                name = getJavaNaming().toJavaClassName(name);
+                name = JavaNaming.toJavaClassName(name);
             }
 
             String setName = "set" + name;
@@ -1401,7 +1348,7 @@ public final class SourceFactory extends BaseFactory {
                     if (listLocat != -1) {
                        tempName = tempName.substring(0, listLocat);
                     }
-                    String methodName = getJavaNaming().toJavaClassName(tempName);
+                    String methodName = JavaNaming.toJavaClassName(tempName);
                     methodName = "get" + methodName;
                     JMethod method = jclass.getMethod(methodName, 0);
                     // TODO handle the Item introduced in with the group handling
@@ -1805,12 +1752,9 @@ public final class SourceFactory extends BaseFactory {
         //-- handle choice item
         if (state.getClassInfo().isChoice() && state.getFieldInfoForChoice() == null) {
             state.setFieldInfoForChoice(_memberFactory.createFieldInfoForChoiceValue());
-            state.getFieldInfoForChoice().getMemberAndAccessorFactory().createJavaField(
-                    state.getFieldInfoForChoice(),
-                    state.getJClass());
-            state.getFieldInfoForChoice().getMemberAndAccessorFactory().createAccessMethods(
-                    state.getFieldInfoForChoice(), state.getJClass(), getConfig().useJava50(),
-                     getConfig().getAnnotationBuilders());
+            state.getFieldInfoForChoice().createJavaField(state.getJClass());
+            state.getFieldInfoForChoice().createAccessMethods(
+                    state.getJClass(), getConfig().useJava50());
         }
 
         FieldInfo fieldInfo = null;
@@ -1948,9 +1892,6 @@ public final class SourceFactory extends BaseFactory {
     private void processEnumerationAsNewObject(final ExtendedBinding binding,
             final SimpleType simpleType, final FactoryState state) {
         _enumerationFactory.processEnumerationAsNewObject(binding, simpleType, state);
-        if (_testable && state.getJClass() instanceof JEnum) {
-            createTestableMethods(state.getJClass(), state);
-        }
     } //-- processEnumerationAsNewObject
 
     /**
@@ -2031,13 +1972,10 @@ public final class SourceFactory extends BaseFactory {
                 }
             }
 
-            fieldInfo.getMemberAndAccessorFactory().createJavaField(
-                    fieldInfo, state.getJClass());
+            fieldInfo.createJavaField(state.getJClass());
             //-- do not create access methods for transient fields
             if (!fieldInfo.isTransient()) {
-                fieldInfo.getMemberAndAccessorFactory().createAccessMethods(
-                        fieldInfo, state.getJClass(), getConfig().useJava50(), 
-                        getConfig().getAnnotationBuilders());
+                fieldInfo.createAccessMethods(state.getJClass(), getConfig().useJava50());
                 if (fieldInfo.isBound()) {
                     state.setBoundProperties(true);
                 }
@@ -2045,7 +1983,7 @@ public final class SourceFactory extends BaseFactory {
         }
 
         //-- Add initialization code
-        fieldInfo.getMemberAndAccessorFactory().generateInitializerCode(fieldInfo, scInitializer);
+        fieldInfo.generateInitializerCode(scInitializer);
     } //-- handleField
 
     /**

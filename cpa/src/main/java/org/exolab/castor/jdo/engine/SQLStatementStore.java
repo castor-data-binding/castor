@@ -24,6 +24,7 @@ import java.sql.SQLException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.persist.ProposedEntity;
 import org.castor.util.Messages;
@@ -71,14 +72,14 @@ public final class SQLStatementStore {
         // additional attributes are defined in the extending class, this 
         // might NOT be the case
         SQLFieldInfo[] fields = _engine.getInfo();
-        for (int i = 0; i < fields.length; ++i) {
+        for (int i = 0 ; i < fields.length ; ++i) {
             if (fields[i].isStore()) {
                 _hasFieldsToPersist = true;
                 break;
             }
         }
 
-        if (LOG.isTraceEnabled()) {
+        if(LOG.isTraceEnabled()) {
             LOG.trace("hasFieldsToPersist = " + _hasFieldsToPersist);
         }
 
@@ -97,7 +98,7 @@ public final class SQLStatementStore {
             
             int count = 0;
             SQLFieldInfo[] fields = _engine.getInfo();
-            for (int i = 0; i < fields.length; ++i) {
+            for (int i = 0 ; i < fields.length ; ++i) {
                 if (fields[i].isStore()) {
                     SQLColumnInfo[] columns = fields[i].getColumnInfo();
                     for (int j = 0; j < columns.length; j++) {
@@ -109,14 +110,14 @@ public final class SQLStatementStore {
                 }
             }
             
-            sql.append(JDBCSyntax.WHERE);
+            sql.append(JDBCSyntax.Where);
 
             SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
             for (int i = 0; i < ids.length; i++) {
                 if (i > 0) { sql.append(" AND "); }
                 sql.append(_factory.quoteName(ids[i].getName()));
-                sql.append(QueryExpression.OP_EQUALS);
-                sql.append(JDBCSyntax.PARAMETER);
+                sql.append(QueryExpression.OpEquals);
+                sql.append(JDBCSyntax.Parameter);
             }
 
             _statementLazy = sql.toString();
@@ -125,7 +126,7 @@ public final class SQLStatementStore {
                 LOG.trace(Messages.format("jdo.updating", _type, _statementLazy));
             }
 
-            for (int i = 0; i < fields.length; ++i) {
+            for (int i = 0 ; i < fields.length ; ++i) {
                 if (fields[i].isStore() && fields[i].isDirtyCheck()) {
                     SQLColumnInfo[] columns = fields[i].getColumnInfo();
                     for (int j = 0; j < columns.length; j++) {
@@ -177,7 +178,7 @@ public final class SQLStatementStore {
                 
                 // bind fields of the row to be stored into the preparedStatement
                 SQLFieldInfo[] fields = _engine.getInfo();
-                for (int i = 0; i < fields.length; ++i) {
+                for (int i = 0 ; i < fields.length ; ++i) {
                     if (fields[i].isStore()) {
                         SQLColumnInfo[] columns = fields[i].getColumnInfo();
                         Object value = newentity.getField(i);
@@ -192,16 +193,14 @@ public final class SQLStatementStore {
                             }
                             
                             for (int j = 0; j < columns.length; j++) {
-                                SQLTypeInfos.setValue(stmt, count++,
-                                        columns[j].toSQL(id.get(j)), columns[j].getSqlType());
+                                SQLTypeInfos.setValue(stmt, count++, columns[j].toSQL(id.get(j)), columns[j].getSqlType());
                             }
                         } else {
                             if (columns.length != 1) {
                                 throw new PersistenceException("Complex field expected!");
                             }
                             
-                            SQLTypeInfos.setValue(stmt, count++, columns[0].toSQL(value),
-                                    columns[0].getSqlType());
+                            SQLTypeInfos.setValue(stmt, count++, columns[0].toSQL(value), columns[0].getSqlType());
                         }
                     }
                 }
@@ -215,8 +214,7 @@ public final class SQLStatementStore {
                 for (int i = 0; i < ids.length; i++) {
                     stmt.setObject(count++, ids[i].toSQL(identity.get(i)));
                     if (LOG.isTraceEnabled()) {
-                        LOG.trace(Messages.format("jdo.bindingIdentity", ids[i].getName(),
-                                ids[i].toSQL(identity.get(i))));
+                        LOG.trace(Messages.format("jdo.bindingIdentity", ids[i].getName(), ids[i].toSQL(identity.get(i))));
                     }
                 }                    
                 
@@ -224,7 +222,7 @@ public final class SQLStatementStore {
                 if (oldentity.getFields() != null) {
                     boolean supportsSetNull = ((BaseFactory) _factory).supportsSetNullInWhere();
                     
-                    for (int i = 0; i < fields.length; ++i) {
+                    for (int i = 0 ; i < fields.length ; ++i) {
                         if (fields[i].isStore() && fields[i].isDirtyCheck()) {
                             SQLColumnInfo[] columns = fields[i].getColumnInfo();
                             Object value = oldentity.getField(i);
@@ -237,17 +235,14 @@ public final class SQLStatementStore {
                             } else if (value instanceof Identity) {
                                 Identity id = (Identity) value;
                                 if (id.size() != columns.length) {
-                                    throw new PersistenceException(
-                                            "Size of identity field mismatch!");
+                                    throw new PersistenceException("Size of identity field mismatch!");
                                 }
                                 
                                 for (int j = 0; j < columns.length; j++) {
-                                    SQLTypeInfos.setValue(stmt, count++,
-                                            columns[j].toSQL(id.get(j)), columns[j].getSqlType());
+                                    SQLTypeInfos.setValue(stmt, count++, columns[j].toSQL(id.get(j)), columns[j].getSqlType());
                                     
                                     if (LOG.isTraceEnabled()) {
-                                        LOG.trace(Messages.format("jdo.bindingField",
-                                                columns[j].getName(), columns[j].toSQL(id.get(j))));
+                                        LOG.trace(Messages.format("jdo.bindingField", columns[j].getName(), columns[j].toSQL(id.get(j))));
                                     }
                                 }
                             } else {
@@ -255,12 +250,10 @@ public final class SQLStatementStore {
                                     throw new PersistenceException("Complex field expected!");
                                 }
                                 
-                                SQLTypeInfos.setValue(stmt, count++, columns[0].toSQL(value),
-                                        columns[0].getSqlType());
+                                SQLTypeInfos.setValue(stmt, count++, columns[0].toSQL(value), columns[0].getSqlType() );
                             
                                 if (LOG.isTraceEnabled()) {
-                                    LOG.trace(Messages.format("jdo.bindingField",
-                                            columns[0].getName(), columns[0].toSQL(value)));
+                                    LOG.trace(Messages.format("jdo.bindingField", columns[0].getName(), columns[0].toSQL(value)));
                                 }
                             }
                         }
@@ -298,34 +291,25 @@ public final class SQLStatementStore {
                             for (int i = 0; i < fields.length; i++) {
                                 SQLColumnInfo[] columns = fields[i].getColumnInfo();
                                 Object value = oldentity.getField(i);
-                                Object currentField = columns[0].toJava(res.getObject(
-                                        columns[0].getName()));
+                                Object currentField = columns[0].toJava(res.getObject(columns[0].getName()));
                                 if (fields[i].getTableName().compareTo(_mapTo) == 0) {
-                                    if ((value == null) || ((value != null)
-                                            && (currentField == null))) {
-                                        enlistFieldsNotMatching.append("(" + _type + ")."
-                                                + columns[0].getName() + ": ");
-                                        enlistFieldsNotMatching.append("[" + value + "/"
-                                                + currentField + "]"); 
-                                    } else if (!value.equals(currentField)) {
+                                    if ((value == null) || ((value != null) && (currentField == null))) {
+                                        enlistFieldsNotMatching.append("(" + _type + ")." + columns[0].getName() + ": ");
+                                        enlistFieldsNotMatching.append("[" + value + "/" + currentField + "]"); 
+                                    } else if (!value.equals(currentField) ) {
                                         if (numberOfFieldsNotMatching >= 1) {
                                             enlistFieldsNotMatching.append(", ");
                                         }
-                                        enlistFieldsNotMatching.append("(" + _type + ")."
-                                                + columns[0].getName() + ": ");
-                                        enlistFieldsNotMatching.append("[" + value + "/"
-                                                + currentField + "]"); 
+                                        enlistFieldsNotMatching.append("(" + _type + ")." + columns[0].getName() + ": ");
+                                        enlistFieldsNotMatching.append("[" + value + "/" + currentField + "]"); 
                                         numberOfFieldsNotMatching++;
                                     }
                                 }
                             }
-                            throw new ObjectModifiedException(Messages.format(
-                                    "persist.objectModified", _type, identity,
-                                    enlistFieldsNotMatching.toString()));
+                            throw new ObjectModifiedException(Messages.format("persist.objectModified", _type, identity, enlistFieldsNotMatching.toString()));
                         }
                     }
-                    throw new ObjectDeletedException(Messages.format(
-                            "persist.objectDeleted", _type, identity));
+                    throw new ObjectDeletedException(Messages.format("persist.objectDeleted", _type, identity));
                 }                
             } catch (SQLException except) {
                 LOG.fatal(Messages.format("jdo.storeFatal", _type,  storeStatement), except);
@@ -359,10 +343,10 @@ public final class SQLStatementStore {
             StringBuffer sql = new StringBuffer(pos * 4);
             sql.append(_statementDirty);
             
-            SQLFieldInfo[] fields = _engine.getInfo();
-            for (int i = fields.length - 1; i >= 0; i--) {
-                if (fields[i].isStore() && fields[i].isDirtyCheck()) {
-                    SQLColumnInfo[] columns = fields[i].getColumnInfo();
+            SQLFieldInfo[] _fields = _engine.getInfo();
+            for (int i = _fields.length - 1; i >= 0; i--) {
+                if (_fields[i].isStore() && _fields[i].isDirtyCheck()) {
+                    SQLColumnInfo[] columns = _fields[i].getColumnInfo();
                     Object value = oldentity.getField(i);
                     if (value == null) {
                         for (int j = columns.length - 1; j >= 0; j--) {
@@ -399,20 +383,19 @@ public final class SQLStatementStore {
      * @param pos The current position (where to apply the replacement).
      * @return The next position.
      */
-    private int nextParameter(final boolean isNull, final StringBuffer sb, final int pos) {
-        int internalpos = pos;
-        for ( ; internalpos > 0; internalpos--) {
-            if ((sb.charAt(internalpos - 1) == '=') && (sb.charAt(internalpos) == '?')) {
+    private int nextParameter(final boolean isNull, final StringBuffer sb, int pos) {
+        for ( ; pos > 0; pos--) {
+            if ((sb.charAt(pos - 1) == '=') && (sb.charAt(pos) == '?')) {
                 break;
             }
         }
-        if (internalpos > 0) {
-            internalpos--;
+        if (pos > 0) {
+            pos--;
             if (isNull) {
-                sb.delete(internalpos, internalpos + 2);
-                sb.insert(internalpos, " IS NULL");
+                sb.delete(pos, pos + 2);
+                sb.insert(pos, " IS NULL");
             }
         }
-        return internalpos;
+        return pos;
     }
 }

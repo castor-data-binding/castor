@@ -17,7 +17,6 @@ package org.exolab.castor.builder.factory;
 
 import java.util.Enumeration;
 
-import org.castor.xml.JavaNaming;
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.GroupNaming;
 import org.exolab.castor.builder.SourceGenerator;
@@ -244,12 +243,4 @@ public class BaseFactory {
         return null;
     }
 
-    /**
-     * To get the {@link JavaNaming} to be used.
-     * @return {@link JavaNaming} instance to be used
-     * @since 1.1.3
-     */
-    public final JavaNaming getJavaNaming() {
-        return _config.getJavaNaming();
-    }
 }

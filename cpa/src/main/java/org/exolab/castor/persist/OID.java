@@ -63,37 +63,55 @@ import org.exolab.castor.persist.spi.Identity;
  */
 public final class OID implements Serializable {
 
-    /** SerialVersionUID. */
+    /** SerialVersionUID */
     private static final long serialVersionUID = 419512942519592363L;
 
-    /** The object's identity if known, null if the object was created without an
-     *  identity. */
+    /**
+     * The object's identity if known, null if the object was created without an
+     * identity.
+     */
     private final Identity _identity;
 
-    /** The full qualified name of the object's type. */
+    /**
+     * The full qualified name of the object's type.
+     */
     private final String _name;
 
-    /** The ClassMolder of the object. */
+    /**
+     * The ClassMolder of the object
+     */
     private final transient ClassMolder _molder;
 
-    /** The OID of depended object. */
+    /**
+     * The OID of depended object
+     */
     private final OID _depends;
 
-    /** The object's stamp, used for efficient dirty checking. */
+    /**
+     * The object's stamp, used for efficient dirty checking.
+     */
     private Object _stamp;
 
-    /** True if the object is loaded with db-lock access. */
+    /**
+     * True if the object is loaded with db-lock access.
+     */
     private boolean _dbLock;
 
-    /** The OID's hash code. */
+    /**
+     * The OID's hash code.
+     */
     private final int _hashCode;
 
-    /** The full qualified name of the top level class, used for equating OIDs
-     *  based on commong parent. */
+    /**
+     * The full qualified name of the top level class, used for equating OIDs
+     * based on commong parent.
+     */
     private String _topClassName;
 
-    /** The full qualified names of all superclasses, used for equating OIDs
-     *  based on commong parent. */
+    /**
+     * The full qualified names of all superclasses, used for equating OIDs
+     * based on commong parent.
+     */
     private String[] _superClassNames;
 
     /**
@@ -108,36 +126,36 @@ public final class OID implements Serializable {
     }
 
     /**
-     * Constructor.
+     * Constructor
      */
-    public OID(final ClassMolder molder, final Identity identity) {
+    public OID(ClassMolder molder, Identity identity) {
         this(molder, null, identity);
     }
 
     /**
-     * Constructor.
+     * Constructor
      */
-    public OID(final ClassMolder molder, final OID depends, final Identity identity) {
-        ClassMolder internalMolder = molder;
+    public OID(ClassMolder molder, OID depends,
+            Identity identity) {
         ArrayList superClassNames = null;
 
-        if (internalMolder == null) {
+        if (molder == null) {
             throw new IllegalArgumentException("molder can't be null");
         }
-        _molder = internalMolder;
+        _molder = molder;
         _identity = identity;
-        _name = internalMolder.getName();
+        _name = molder.getName();
         _depends = depends;
         // OID must be unique across the engine: always use the parent
         // most class of an object, getting it from the descriptor
-        while (internalMolder.getExtends() != null) {
+        while (molder.getExtends() != null) {
             if (superClassNames == null) {
                 superClassNames = new ArrayList();
             }
-            internalMolder = internalMolder.getExtends();
-            superClassNames.add(internalMolder.getName());
+            molder = molder.getExtends();
+            superClassNames.add(molder.getName());
         }
-        _topClassName = internalMolder.getName();
+        _topClassName = molder.getName();
         if (superClassNames != null) {
             _superClassNames = new String[superClassNames.size()];
             superClassNames.toArray(_superClassNames);
@@ -149,18 +167,18 @@ public final class OID implements Serializable {
     }
 
     /**
-     * Get the depended object's oid.
+     * Get the depended object's oid
      * 
-     * @return the depended object's oid.
+     * @return the depended object's oid
      */
     public OID getDepends() {
         return _depends;
     }
 
     /**
-     * Get the ClassMolder of this object.
+     * Get the ClassMolder of this object
      * 
-     * @return the ClassMolder of this object.
+     * @return the ClassMolder of this object
      */
     public ClassMolder getMolder() {
         return _molder;
@@ -185,7 +203,7 @@ public final class OID implements Serializable {
      * @param stamp
      *            The OID's stamp
      */
-    void setStamp(final Object stamp) {
+    void setStamp(Object stamp) {
         _stamp = stamp;
     }
 
@@ -198,7 +216,7 @@ public final class OID implements Serializable {
      * @param dbLock
      *            True the object represented by this OID has a database lock
      */
-    void setDbLock(final boolean dbLock) {
+    void setDbLock(boolean dbLock) {
         _dbLock = dbLock;
     }
 
@@ -256,7 +274,7 @@ public final class OID implements Serializable {
      * on equality test). If no identity was specified for either or both
      * objects, the objects are not identical.
      */
-    public boolean equals(final Object obj) {
+    public boolean equals(Object obj) {
 
         OID other;
         if (this == obj) {
@@ -286,4 +304,5 @@ public final class OID implements Serializable {
     public int hashCode() {
         return _hashCode;
     }
+
 }

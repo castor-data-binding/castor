@@ -82,12 +82,17 @@ package org.exolab.castor.jdo;
  * @version $Revision$ $Date: 2004-10-01 14:44:12 -0600 (Fri, 01 Oct 2004) $
  * @see Query
  */
-public interface OQLQuery extends Query {
+public interface OQLQuery
+    extends Query
+{
+
     /**
      * Creates an OQL query from the supplied statement.
      *
      * @param query An OQL query statement
      * @throws PersistenceException
      */
-    void create(String query) throws PersistenceException;
+    public void create( String query )
+        throws PersistenceException;
+
 }

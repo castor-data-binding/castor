@@ -44,17 +44,19 @@
  */
 package org.exolab.castor.jdo.drivers;
 
-import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.util.Messages;
+
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.spi.AbstractCallQuery;
+import org.castor.util.Messages;
 
 /**
  * PersistenceQuery implementation for use with CallableStatements that
@@ -63,9 +65,14 @@ import org.exolab.castor.persist.spi.AbstractCallQuery;
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
  * @version $Revision$ $Date: 2006-04-11 15:26:07 -0600 (Tue, 11 Apr 2006) $
  */
-final class ReturnedRSCallQuery extends AbstractCallQuery {
-    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     *  Commons Logging</a> instance used for all logging. */
+final class ReturnedRSCallQuery 
+extends AbstractCallQuery
+{
+
+    /**
+     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     * Commons Logging</a> instance used for all logging.
+     */
     private static Log _log = LogFactory.getFactory().getInstance(ReturnedRSCallQuery.class);
     
     /**
@@ -76,36 +83,39 @@ final class ReturnedRSCallQuery extends AbstractCallQuery {
      * @param fields ???
      * @param sqlTypes SQL types of the parameters
      */
-    ReturnedRSCallQuery(final String call, final Class[] types, final Class javaClass,
-            final String[] fields, final int[] sqlTypes) {
+    ReturnedRSCallQuery( String call, Class[] types, Class javaClass,
+                         String[] fields, int[] sqlTypes )
+    {
         super (call, types, javaClass, sqlTypes);
     }
 
-    protected void execute(final Object conn, final AccessMode accessMode)
-    throws PersistenceException {
+    protected void execute( Object conn, AccessMode accessMode )
+        throws QueryException, PersistenceException
+    {
         _lastIdentity = null;
         try {
-            _stmt = ((Connection) conn).prepareCall(_call);
+            _stmt = ( (Connection) conn ).prepareCall( _call );
             ((CallableStatement) _stmt).registerOutParameter(1, -10); // -10 == OracleTypes.CURSOR
-            for (int i = 0; i < _values.length; ++i) {
-                _stmt.setObject(i + 2, _values[i]);
+            for ( int i = 0 ; i < _values.length ; ++i ) {
+                _stmt.setObject( i + 2, _values[ i ] );
                 _values[ i ] = null;
             }
             _stmt.execute();
             _rs = (ResultSet) ((CallableStatement) _stmt).getObject(1);
-        } catch (SQLException except) {
-            if (_stmt != null) {
+        } catch ( SQLException except ) {
+            if ( _stmt != null ) {
                 try {
                     _stmt.close();
-                } catch (SQLException e2) {
+                } catch ( SQLException e2 ) {
                     _log.warn (Messages.message ("persist.stClosingFailed"), e2);
                 }
             }
-            throw new PersistenceException(Messages.format("persist.nested", except));
+            throw new PersistenceException( Messages.format( "persist.nested", except ) );
         }
     }
 
     protected boolean nextRow() throws SQLException {
         return _rs.next();
     }
+
 }

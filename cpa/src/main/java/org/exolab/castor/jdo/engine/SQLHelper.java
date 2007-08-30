@@ -27,6 +27,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.exolab.castor.mapping.FieldDescriptor;
+import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Identity;
 
 /**
@@ -43,9 +44,9 @@ public final class SQLHelper {
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(SQLQuery.class);
 
-    public static Object[] calculateNumberOfFields(final Collection extendingClassDescriptors,
-            final int numberOfIdentityColumns, final int numberOfFields,
-            final int numberOfExtendLevels, final ResultSet rs) throws SQLException {
+    public static Object[] calculateNumberOfFields(Collection extendingClassDescriptors,
+            int numberOfIdentityColumns, int numberOfFields, int numberOfExtendLevels, 
+            ResultSet rs) throws SQLException {
         
         JDOClassDescriptor potentialLeafDescriptor = null;
         int suggestedNumberOfFields = numberOfFields;
@@ -138,7 +139,7 @@ public final class SQLHelper {
         return new Object[] {potentialLeafDescriptor, new Integer (suggestedNumberOfFields) };
     }
 
-    public static int numberOfExtendingClassDescriptors(final JDOClassDescriptor classDescriptor) {
+    public static int numberOfExtendingClassDescriptors(JDOClassDescriptor classDescriptor) {
         int numberOfExtendLevels = 1;
         JDOClassDescriptor currentClassDescriptor = classDescriptor;
         while (currentClassDescriptor.getExtends() != null) {
@@ -149,7 +150,7 @@ public final class SQLHelper {
     }
 
     public static void addExtendingClassDescriptors(
-            final Collection classDescriptorsToAdd, final Collection extendingClassDescriptors) {
+            Collection classDescriptorsToAdd, Collection extendingClassDescriptors) {
 
         JDOClassDescriptor classDescriptor = null; 
         for (Iterator iter = extendingClassDescriptors.iterator(); iter.hasNext(); ) {

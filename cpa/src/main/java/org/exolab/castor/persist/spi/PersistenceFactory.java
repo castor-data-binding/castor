@@ -42,10 +42,14 @@
  *
  * $Id$
  */
+
+
 package org.exolab.castor.persist.spi;
+
 
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
+
 
 /**
  * Factory for producing new persistence implementations. Used for
@@ -61,14 +65,18 @@ import org.exolab.castor.mapping.MappingException;
  * @version $Revision$ $Date: 2004-03-25 05:34:48 -0700 (Thu, 25 Mar 2004) $
  * @see Persistence
  */
-public interface PersistenceFactory {
+public interface PersistenceFactory
+{
+
+
     /**
      * Returns the name of this factory. A descriptive name that
      * indicates the type of supported database server or SQL syntax.
      *
      * @return The name of this factory
      */
-    String getFactoryName();
+    public String getFactoryName();
+
 
     /**
      * Returns a persistence implementation for the specified object
@@ -82,8 +90,9 @@ public interface PersistenceFactory {
      * @throws MappingException Indicates that the object type is not
      *  supported by the persistence engine due to improper mapping
      */
-    Persistence getPersistence(ClassDescriptor clsDesc)
-    throws MappingException;
+    public Persistence getPersistence( ClassDescriptor clsDesc )
+        throws MappingException;
+
 
     /**
      * Returns a new empty query expression suitable for the underlying
@@ -92,7 +101,8 @@ public interface PersistenceFactory {
      *
      * @return New empty query expression
      */
-    QueryExpression getQueryExpression();
+    public QueryExpression getQueryExpression();
+
 
     /**
      * Determines it the given exception is indication of a duplicate
@@ -100,7 +110,8 @@ public interface PersistenceFactory {
      *
      * @return TRUE means "yes", FALSE means "no", null means "cannot determine"
      */
-    Boolean isDuplicateKeyException(Exception except);
+    public Boolean isDuplicateKeyException( Exception except );
+
 
     /**
      * Returns the quoted identifier suitable for preventing conflicts between
@@ -109,6 +120,8 @@ public interface PersistenceFactory {
      * @param name The identifier (table, column, etc)
      * @return The quoted identifier
      */
-    String quoteName(String name);
+    public String quoteName( String name );
+
+
 }
 

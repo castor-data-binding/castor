@@ -42,10 +42,15 @@
  *
  * $Id$
  */
+
+
 package org.exolab.castor.jdo.drivers;
+
 
 import org.exolab.castor.jdo.engine.JDBCSyntax;
 import org.exolab.castor.persist.spi.PersistenceFactory;
+import org.exolab.castor.persist.spi.QueryExpression;
+
 
 /**
  * QueryExpression for PostgreSQL 6.5/7.
@@ -53,27 +58,33 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2004-10-01 13:45:49 -0600 (Fri, 01 Oct 2004) $
  */
-public final class PostgreSQLQueryExpression extends JDBCQueryExpression {
-    public PostgreSQLQueryExpression(final PersistenceFactory factory) {
-        super(factory);
+public final class PostgreSQLQueryExpression
+    extends JDBCQueryExpression
+{
+
+
+    public PostgreSQLQueryExpression( PersistenceFactory factory )
+    {
+        super( factory );
     }
 
-    public String getStatement(final boolean lock) {
+
+    public String getStatement( boolean lock )
+    {
         StringBuffer sql;
 
-        sql = getStandardStatement(lock, false);
+        sql = getStandardStatement( lock, false );
 
-        if (_limit != null) {
-            sql.append(JDBCSyntax.LIMIT).append(_limit);
-            if (_offset != null) {
-                sql.append(JDBCSyntax.OFFSET).append(_offset);
-            }
+        if ( _limit != null )
+        {
+            sql.append(JDBCSyntax.Limit).append(_limit);
+            if (_offset != null)
+                sql.append(JDBCSyntax.Offset).append(_offset);
         }
 
         // Use FOR UPDATE to lock selected tables.
-        if (lock) {
-            sql.append(" FOR UPDATE");
-        }
+        if ( lock )
+            sql.append( " FOR UPDATE" );
 
         return sql.toString();
     }
@@ -84,7 +95,7 @@ public final class PostgreSQLQueryExpression extends JDBCQueryExpression {
      * @see org.exolab.castor.persist.spi.QueryExpression#isLimitClauseSupported()
      */
     public boolean isLimitClauseSupported() {
-        return true;
+    	return true;
     }
     
     /** 
@@ -93,6 +104,7 @@ public final class PostgreSQLQueryExpression extends JDBCQueryExpression {
      * @see org.exolab.castor.persist.spi.QueryExpression#isOffsetClauseSupported()
      */
     public boolean isOffsetClauseSupported() {
-        return true;
+    	return true;
     }
+
 }

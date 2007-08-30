@@ -60,12 +60,19 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @author <a href="mailto:on@ibis.odessa.ua">Oleg Nitz</a>
  * @version $Revision$ $Date: 2004-10-01 07:25:46 -0600 (Fri, 01 Oct 2004) $
  */
-public final class SapDbQueryExpression extends JDBCQueryExpression {
-    public SapDbQueryExpression(final PersistenceFactory factory) {
-        super(factory);
+public final class SapDbQueryExpression
+    extends JDBCQueryExpression
+{
+
+
+    public SapDbQueryExpression( PersistenceFactory factory )
+    {
+        super( factory );
     }
 
-    public String getStatement(final boolean lock) {
+
+    public String getStatement( boolean lock )
+    {
         Join         join;
         StringBuffer sql;
         boolean      first;
@@ -74,46 +81,45 @@ public final class SapDbQueryExpression extends JDBCQueryExpression {
         Vector       sorted = new Vector();
 
         sql = new StringBuffer();
-        sql.append(JDBCSyntax.SELECT);
-        if (_distinct) {
-            sql.append(JDBCSyntax.DISTINCT);
-        }
+        sql.append( JDBCSyntax.Select );
+        if ( _distinct )
+          sql.append( JDBCSyntax.Distinct );
 
-        sql.append(getColumnList());
+        sql.append( getColumnList() );
 
-        sql.append(JDBCSyntax.FROM);
+        sql.append( JDBCSyntax.From );
         // Add all the tables to the FROM clause
         // They should go in the special order: the table from the left side of outer join
         // should go before the table from the right side.
         // first add elements that participate in outer joins
         enumeration = _joins.elements();
-        while (enumeration.hasMoreElements()) {
+        while ( enumeration.hasMoreElements() ) {
             int left;
             int right;
 
             join = (Join) enumeration.nextElement();
-            if (!join._outer) {
+            if ( ! join.outer ) {
                 continue;
             }
-            left = sorted.indexOf(join._leftTable);
-            right = sorted.indexOf(join._rightTable);
+            left = sorted.indexOf(join.leftTable);
+            right = sorted.indexOf(join.rightTable);
             if (left >= 0 && right >= 0) {
                 if (left > right) {
-                    sorted.removeElement(join._leftTable);
-                    sorted.insertElementAt(join._leftTable, right);
+                    sorted.removeElement(join.leftTable);
+                    sorted.insertElementAt(join.leftTable, right);
                 }
             } else if (left < 0 && right >= 0) {
-                sorted.insertElementAt(join._leftTable, right);
+                sorted.insertElementAt(join.leftTable, right);
             } else if (left >= 0 && right < 0) {
-                sorted.insertElementAt(join._rightTable, left + 1);
+                sorted.insertElementAt(join.rightTable, left + 1);
             } else { // (left < 0 && right < 0)
-                sorted.addElement(join._leftTable);
-                sorted.addElement(join._rightTable);
+                sorted.addElement(join.leftTable);
+                sorted.addElement(join.rightTable);
             }
         }
         // now add elements that don't participate in outer joins
         enumeration = _tables.keys();
-        while (enumeration.hasMoreElements()) {
+        while ( enumeration.hasMoreElements() ) {
             Object name;
 
             name = enumeration.nextElement();
@@ -123,62 +129,57 @@ public final class SapDbQueryExpression extends JDBCQueryExpression {
         }
         // Append all the tables (from sorted) to the sql string.
         enumeration = sorted.elements();
-        while (enumeration.hasMoreElements()) {
+        while ( enumeration.hasMoreElements() ) {
             String tableAlias = (String) enumeration.nextElement();
-            String tableName = (String) _tables.get(tableAlias);
-            if (tableAlias.equals(tableName)) {
-                sql.append(_factory.quoteName(tableName));
+            String tableName = (String) _tables.get( tableAlias );
+            if( tableAlias.equals( tableName ) ) {
+                sql.append( _factory.quoteName( tableName ) );
             } else {
-                sql.append(_factory.quoteName(tableName) + " "
-                        + _factory.quoteName(tableAlias));
+                sql.append( _factory.quoteName( tableName ) + " " +
+                            _factory.quoteName( tableAlias ) );
             }
-            if (enumeration.hasMoreElements()) {
-                sql.append(JDBCSyntax.TABLE_SEPARATOR);
-            }
+            if ( enumeration.hasMoreElements() )
+                sql.append( JDBCSyntax.TableSeparator );
         }
         first = true;
         // Use asterisk notation to denote a left outer join
         // and equals to denote an inner join
         size = _joins.size();
-        for (int i = 0; i < size; ++i) {
-            if (first) {
-                sql.append(JDBCSyntax.WHERE);
+        for ( int i = 0 ; i < size; ++i ) {
+            if ( first ) {
+                sql.append( JDBCSyntax.Where );
                 first = false;
-            } else {
-                sql.append(JDBCSyntax.AND);
-            }
+            } else
+                sql.append( JDBCSyntax.And );
 
-            join = (Join) _joins.elementAt(i);
-            for (int j = 0; j < join._leftColumns.length; ++j) {
-                if (j > 0) {
-                    sql.append(JDBCSyntax.AND);
-                }
+            join = (Join) _joins.elementAt( i );
+            for ( int j = 0 ; j < join.leftColumns.length ; ++j ) {
+                if ( j > 0 )
+                    sql.append( JDBCSyntax.And );
 
-                sql.append(_factory.quoteName(join._leftTable
-                        + JDBCSyntax.TABLE_COLUMN_SEPARATOR
-                        + join._leftColumns[j]));
+                sql.append( _factory.quoteName( join.leftTable + JDBCSyntax.TableColumnSeparator +
+                                                join.leftColumns[ j ] ) );
 
-                sql.append(OP_EQUALS);
-                sql.append(_factory.quoteName(join._rightTable
-                        + JDBCSyntax.TABLE_COLUMN_SEPARATOR
-                        + join._rightColumns[j]));
-                if (join._outer) {
-                    sql.append("(+)");
-                }
+                sql.append( OpEquals );
+                sql.append( _factory.quoteName( join.rightTable + JDBCSyntax.TableColumnSeparator +
+                                                join.rightColumns[ j ] ) );
+                if ( join.outer )
+                    sql.append( "(+)" );
             }
         }
-        first = addWhereClause(sql, first);
+        first = addWhereClause( sql, first );
 
-        if (_order != null) {
-            sql.append(JDBCSyntax.ORDER_BY).append(_order);
-        }
+        if ( _order != null )
+          sql.append(JDBCSyntax.OrderBy).append(_order);
 
         // Use WITH LOCK to lock selected tables.
-        if (lock) {
-            sql.append(" WITH LOCK");
+        if ( lock ) {
+            sql.append( " WITH LOCK" );
         }
         return sql.toString();
     }
+    
+
 }
 
 

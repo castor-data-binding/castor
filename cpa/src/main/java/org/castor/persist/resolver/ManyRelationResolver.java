@@ -36,24 +36,28 @@ import org.exolab.castor.persist.OID;
 import org.exolab.castor.persist.spi.Identity;
 
 /**
- * Implementation of {@link org.castor.persist.resolver.ResolverStrategy} for many relations.
- * This class carries behaviour common to 1:M and M:N relations.
+ * Implementation of {@link org.castor.persist.resolver.ResolverStrategy} for many relations. This class carries
+ * behaviour common to 1:M and M:N relations.
  * 
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @since 0.9.9
  */
 public abstract class ManyRelationResolver implements ResolverStrategy {
-    /** Associated {@link ClassMolder}. */
+
+    /**
+     * Associated {@link ClassMolder}.
+     */
     protected ClassMolder _classMolder;
     
-    /** Associated {@link FieldMolder}. */
+    /**
+     * Associated {@link FieldMolder}.
+     */
     protected FieldMolder _fieldMolder;
     
     private int _fieldIndex;
     
     /** 
-     * Creates an instance of ManyRelationResolver.
-     * 
+     * Creates an instance of ManyRelationResolver
      * @param classMolder Associated {@link ClassMolder}
      * @param fieldMolder Associated {@link FieldMolder}
      * @param fieldIndex Field index within all fields of parent class molder.
@@ -176,7 +180,7 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
                     Object[] arrayValue = (Object[]) java.lang.reflect.Array
                             .newInstance(collectionType.getComponentType(), v
                                     .size());
-                    for (int j = 0; j < v.size(); j++) {
+                    for (int j = 0, l = v.size(); j < l; j++) {
                         arrayValue[j] = tx.fetch(fieldClassMolder, (Identity) v.get(j), null);
                     }
                     _fieldMolder.setValue(object, arrayValue, tx
@@ -188,7 +192,7 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
                     _fieldMolder.setValue(object, cp.getCollection(), tx
                             .getClassLoader());
 
-                    for (int j = 0; j < v.size(); j++) {
+                    for (int j = 0, l = v.size(); j < l; j++) {
                         Object obj = tx.fetch(fieldClassMolder, (Identity) v.get(j), null);
                         if (obj != null) {
                             cp.add((Identity) v.get(j), obj);
@@ -223,7 +227,7 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
 
         ArrayList v = (ArrayList) field;
         if (v != null) {
-            for (int j = 0; j < v.size(); j++) {
+            for (int j = 0, l = v.size(); j < l; j++) {
                 tx.expireCache(fieldClassMolder, (Identity) v.get(j));
             }
         }
@@ -254,7 +258,7 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
                 if (collectionType.isArray()) {
                     Object[] value = (Object[]) java.lang.reflect.Array
                             .newInstance(collectionType.getComponentType(), v.size());
-                    for (int j = 0; j < v.size(); j++) {
+                    for (int j = 0, l = v.size(); j < l; j++) {
                         ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
                         value[j] = tx.load((Identity) v.get(j), proposedValue, suggestedAccessMode);
                     }
@@ -263,10 +267,9 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
                 } else {
                     CollectionProxy cp = CollectionProxy.create(_fieldMolder,
                             proposedObject.getEntity(), tx.getClassLoader());
-                    for (int j = 0; j < v.size(); j++) {
+                    for (int j = 0, l = v.size(); j < l; j++) {
                         ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
-                        cp.add((Identity) v.get(j), tx.load((Identity) v.get(j),
-                                proposedValue, suggestedAccessMode));
+                        cp.add((Identity) v.get(j), tx.load((Identity) v.get(j), proposedValue, suggestedAccessMode));
                     }
                     cp.close();
                 }

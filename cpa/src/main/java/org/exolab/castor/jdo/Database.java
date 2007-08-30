@@ -101,92 +101,69 @@ import org.exolab.castor.persist.spi.Identity;
  * @see JDOManager#getDatabase()
  * @see Query
  */
-public interface Database {
-    /** Read only access. Used with queries and the {@link #load(Class,Object)} method to load
-     *  objects as read-only.
-     *  <br/>
-     *  Read-only objects are not persistent and changes to these objects are not reflected in
-     *  the database when the transaction commits. */
-    AccessMode READONLY = AccessMode.ReadOnly;
+public interface Database
+{
 
-    /** Read only access. Used with queries and the {@link #load(Class,Object)} method to load
-     *  objects as read-only.
-     *  <br>
-     *  Read-only objects are not persistent and changes to these objects are not reflected in
-     *  the database when the transaction commits.
-     *  @deprecated Use READONLY instead. */
-    AccessMode ReadOnly = AccessMode.ReadOnly;
 
-    /** Shared access. Used with queries and the {@link #load(Class,Object)} method to load
-     *  objects with shared access.
-     *  <br/>
-     *  Shared access allows the same record to be accessed by two concurrent transactions, each
-     *  with it's own view (object).
-     *  <br/>
-     *  These objects acquire a read lock which escalated to a write lock when the transaction
-     *  commits if the object has been modified. Dirty checking is enabled for all fields marked
-     *  as such, and a cached copy is used to populate the object. */
-    AccessMode SHARED = AccessMode.Shared;
+    /**
+     * Read only access. Used with queries and the {@link #load(Class,Object)}
+     * method to load objects as read-only.
+     * <p>
+     * Read-only objects are not persistent and changes to these
+     * objects are not reflected in the database when the transaction
+     * commits.
+     */
+    public static final AccessMode ReadOnly = AccessMode.ReadOnly;
 
-    /** Shared access. Used with queries and the {@link #load(Class,Object)} method to load
-     *  objects with shared access.
-     *  <br/>
-     *  Shared access allows the same record to be accessed by two concurrent transactions, each
-     *  with it's own view (object).
-     *  <br/>
-     *  These objects acquire a read lock which escalated to a write lock when the transaction
-     *  commits if the object has been modified. Dirty checking is enabled for all fields marked
-     *  as such, and a cached copy is used to populate the object.
-     *  @deprecated Use SHARED instead. */
-    AccessMode Shared = AccessMode.Shared;
 
-    /** Exclusive access. Used with queries and the {@link #load(Class,Object)} method to load
-     *  objects with exclusive access.
-     *  <br/>
-     *  Exclusive access prevents two concurrent transactions from accessing the same record. In
-     *  exclusive mode objects acquire a write lock, and concurrent transactions will block until
-     *  the lock is released at commit time.
-     *  <br/>
-     *  Dirty checking is enabled for all fields marked as such. When an object is first loaded
-     *  in the transaction, it will be synchronized with the database and not populated from the
-     *  cache. */
-    AccessMode EXCLUSIVE = AccessMode.Exclusive;
+    /**
+     * Shared access. Used with queries and the {@link #load(Class,Object)}
+     * method to load objects with shared access.
+     * <p>
+     * Shared access allows the same record to be accessed by two
+     * concurrent transactions, each with it's own view (object).
+     * <p>
+     * These objects acquire a read lock which escalated to a write
+     * lock when the transaction commits if the object has been
+     * modified. Dirty checking is enabled for all fields marked
+     * as such, and a cached copy is used to populate the object.
+     */
+    public static final AccessMode Shared = AccessMode.Shared;
 
-    /** Exclusive access. Used with queries and the {@link #load(Class,Object)} method to load
-     *  objects with exclusive access.
-     *  <br/>
-     *  Exclusive access prevents two concurrent transactions from accessing the same record. In
-     *  exclusive mode objects acquire a write lock, and concurrent transactions will block until
-     *  the lock is released at commit time.
-     *  <br/>
-     *  Dirty checking is enabled for all fields marked as such. When an object is first loaded
-     *  in the transaction, it will be synchronized with the database and not populated from the
-     *  cache.
-     *  @deprecated Use EXCLUSIVE instead. */
-    AccessMode Exclusive = AccessMode.Exclusive;
 
-    /** Database lock access. Used with queries and the {@link #load(Class,Object)} method to
-     *  load objects with a database lock.
-     *  <br/>
-     *  Database lock prevents two concurrent transactions from accessing the same record either
-     *  through Castor or direct database access by acquiring a write lock in the select statement.
-     *  Concurrent transactions will block until the lock is released at commit time.
-     *  <br/>
-     *  When an object is first loaded in the transaction, it will be synchronized with the
-     *  database and not populated from the cache. Dirty checking is not required. */
-    AccessMode DBLOCKED = AccessMode.DbLocked;
+    /**
+     * Exclusive access. Used with queries and the {@link #load(Class,Object)}
+     * method to load objects with exclusive access.
+     * <p>
+     * Exclusive access prevents two concurrent transactions from
+     * accessing the same record. In exclusive mode objects acquire
+     * a write lock, and concurrent transactions will block until
+     * the lock is released at commit time.
+     * <p>
+     * Dirty checking is enabled for all fields marked as such.
+     * When an object is first loaded in the transaction, it will
+     * be synchronized with the database and not populated from
+     * the cache.
+     */
+    public static final AccessMode Exclusive = AccessMode.Exclusive;
 
-    /** Database lock access. Used with queries and the {@link #load(Class,Object)} method to
-     *  load objects with a database lock.
-     *  <br/>
-     *  Database lock prevents two concurrent transactions from accessing the same record either
-     *  through Castor or direct database access by acquiring a write lock in the select statement.
-     *  Concurrent transactions will block until the lock is released at commit time.
-     *  <br/>
-     *  When an object is first loaded in the transaction, it will be synchronized with the
-     *  database and not populated from the cache. Dirty checking is not required.
-     *  @deprecated Use DBLOCKED instead. */
-    AccessMode DbLocked = AccessMode.DbLocked;
+
+    /**
+     * Database lock access. Used with queries and the {@link #load(Class,Object)}
+     * method to load objects with a database lock.
+     * <p>
+     * Database lock prevents two concurrent transactions from
+     * accessing the same record either through Castor or direct
+     * database access by acquiring a write lock in the select
+     * statement. Concurrent transactions will block until the lock
+     * is released at commit time.
+     * <p>
+     * When an object is first loaded in the transaction, it will
+     * be synchronized with the database and not populated from
+     * the cache. Dirty checking is not required.
+     */
+    public static final AccessMode DbLocked = AccessMode.DbLocked;
+
 
     /**
      * Creates an OQL query with no statement. {@link OQLQuery#create}
@@ -194,7 +171,7 @@ public interface Database {
      *
      * @return An OQL query
      */
-    OQLQuery getOQLQuery();
+    public OQLQuery getOQLQuery();
 
     /**
      * Creates an OQL query from the supplied statement.
@@ -202,7 +179,8 @@ public interface Database {
      * @return An OQL query
      * @throws PersistenceException
      */
-    OQLQuery getOQLQuery(String oql) throws PersistenceException;
+    public OQLQuery getOQLQuery( String oql )
+        throws PersistenceException;
 
     /**
      * Creates an empty query. The query must be created before
@@ -210,7 +188,7 @@ public interface Database {
      *
      * @return A query
      */
-    Query getQuery();
+    public Query getQuery();
 
     /**
      * Creates an OQL query based upon a named query as defined in the 
@@ -220,16 +198,15 @@ public interface Database {
      * @return An OQL query
      * @throws PersistenceException 
      */
-    OQLQuery getNamedQuery(String name) throws PersistenceException;
+    public OQLQuery getNamedQuery(String name) throws PersistenceException;
 
-    PersistenceInfoGroup getScope();
+    public PersistenceInfoGroup getScope();
 
     /**                              
-     * Return the name of the database.
-     * 
+     * Return the name of the database
      * @return The database name.
      */                               
-    String getDatabaseName(); 
+    public String getDatabaseName(); 
 
     /**
      * Load an object of the specified type and given identity.
@@ -251,7 +228,9 @@ public interface Database {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    Object load(final Class type, final Object identity) throws PersistenceException;
+    public Object load(final Class type, final Object identity)
+    throws TransactionNotInProgressException, ObjectNotFoundException,
+    LockNotGrantedException, PersistenceException;
 
     /**
      * <p>
@@ -274,8 +253,10 @@ public interface Database {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    Object load(final Class type, final Object identity, final AccessMode mode)
-    throws PersistenceException;
+    public Object load(final Class type, final Object identity,
+                       final AccessMode mode) 
+    throws TransactionNotInProgressException, ObjectNotFoundException,
+    LockNotGrantedException, PersistenceException;
 
     /**
      * <p>
@@ -301,8 +282,10 @@ public interface Database {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    Object load(final Class type, final Object identity, final Object object)
-    throws PersistenceException;
+    public Object load(final Class type, final Object identity,
+                       final Object object)
+    throws ObjectNotFoundException, LockNotGrantedException,
+    TransactionNotInProgressException, PersistenceException;
 
     /**
      * Creates a new object in persistent storage. The object will be
@@ -324,7 +307,10 @@ public interface Database {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    void create(Object object) throws PersistenceException;
+    public void create( Object object )
+        throws ClassNotPersistenceCapableException, DuplicateIdentityException,
+               TransactionNotInProgressException, PersistenceException;
+
 
     /**
      * Removes the object from persistent storage. The deletion will
@@ -343,7 +329,10 @@ public interface Database {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    void remove(Object object) throws PersistenceException;
+    public void remove( Object object )
+        throws ObjectNotPersistentException, LockNotGrantedException, 
+               TransactionNotInProgressException, PersistenceException;
+
 
     /**
      * Update a data object which is queried/loaded/created in <b>another
@@ -367,13 +356,18 @@ public interface Database {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    void update(Object object) throws PersistenceException;
+
+    public void update( Object object )
+        throws ClassNotPersistenceCapableException,
+               TransactionNotInProgressException, PersistenceException;
+
+
 
     /**
      * Acquire a soft write lock on the object. Read locks are implicitly
      * available when the object is queried. A write lock is only
      * granted for objects that are created or deleted or for objects
-     * loaded in <tt>exclusive</tt> mode - this method can obtain such a
+     * loaded in <tt>exclusive</t> mode - this method can obtain such a
      * lock explicitly.
      * <p>
      * A soft lock is acquired in memory, not in the database. To acquire
@@ -397,7 +391,10 @@ public interface Database {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    void lock(Object object) throws PersistenceException;
+    public void lock( Object object )
+        throws LockNotGrantedException, ObjectNotPersistentException,
+               TransactionNotInProgressException,  PersistenceException;
+
 
     /**
      * Begin a new transaction. A transaction must be open in order
@@ -406,7 +403,9 @@ public interface Database {
      * @throws PersistenceException A transaction is already open on
      *  this database, or an error reported by the persistence engine
      */
-    void begin() throws PersistenceException;
+    public void begin()
+        throws PersistenceException;
+
 
     /**
      * Return if the current transaction is set to autoStore, it there is
@@ -419,7 +418,8 @@ public interface Database {
      * be created automatically.
      * @return True if the current transaction is set to 'autoStore'.
      */
-    boolean isAutoStore();
+    public boolean isAutoStore();
+
 
     /**
      * True if autoStore is set on. 
@@ -441,7 +441,7 @@ public interface Database {
      * explicitly.
      * @param autoStore True if this feature should be enabled.
      */
-    void setAutoStore(boolean autoStore);
+    public void setAutoStore( boolean autoStore );
 
     /**
      * Commits and closes the transaction. All changes made to persistent
@@ -470,7 +470,9 @@ public interface Database {
      * @throws TransactionAbortedException The transaction cannot
      *  commit and has been rolled back
      */
-    void commit() throws TransactionNotInProgressException, TransactionAbortedException;
+    public void commit()
+        throws TransactionNotInProgressException, TransactionAbortedException;
+
 
     /**
      * Rolls back and closes the transaction. All changes made to
@@ -481,30 +483,32 @@ public interface Database {
      * @throws TransactionNotInProgressException Method called while
      *  transaction is not in progress
      */
-    void rollback() throws TransactionNotInProgressException;
+    public void rollback()
+        throws TransactionNotInProgressException;
+
 
     /**
      * Returns true if a transaction is currently active.
      *
      * @return True if a transaction is active
      */
-    boolean isActive();
+    public boolean isActive();
+
 
     /**
      * Returns true if the database is closed.
      *
      * @return True if the database is closed
      */
-    boolean isClosed();
+    public boolean isClosed();
 
     /**
      * Returns true if the specified object is currently locked.
-     * 
      * @param cls Class instance.
      * @param identity Object identity.
      * @return True if the object specified is locked; false otherwise.
      */
-    boolean isLocked (Class cls, Object identity) throws PersistenceException;
+    public boolean isLocked (Class cls, Object identity) throws PersistenceException;
     
     /**
      * Closes the database. If a client transaction is in progress the
@@ -513,9 +517,11 @@ public interface Database {
      * will commit/rollback when triggered by the application server.  
      *
      * @throws PersistenceException An error occured while
-     *         attempting to close the database
+     *  attempting to close the database
      */
-    void close() throws PersistenceException;
+    public void close()
+        throws PersistenceException;
+
 
     /**
      * Returns true if the object is persistent. An object is persistent
@@ -526,7 +532,8 @@ public interface Database {
      * @param object The object
      * @return True if persistent in this transaction
      */
-    boolean isPersistent(Object object);
+    public boolean isPersistent( Object object );
+
 
     /**
      * Returns the object's identity. The identity will be determined by calling the
@@ -543,23 +550,22 @@ public interface Database {
      * @return The object's identity, or null.
      * @throws PersistenceException The class is not persistent capable.
      */
-    Identity getIdentity(Object object) throws PersistenceException;
+    public Identity getIdentity(Object object) throws PersistenceException;
+
     
     /** 
      * Returns the current ClassLoader if one has been set for this Database instance.
-     * 
      * @return ClassLoader the current ClassLoader instance, <code>null</code> if no 
-     *         ClassLoader's instance has been explicitely set.
+     * ClassLoader's instance has been explicitely set.
      */
-    ClassLoader getClassLoader ();
+    public ClassLoader getClassLoader ();
 
     /**
      * Get's the CacheManager instance.
      * Call getCacheManager for every Database-instances.
-     * 
      * @return the CacheManager-instance.
      */
-    CacheManager getCacheManager();
+    public CacheManager getCacheManager();
 
     /**
      * Gets the underlying JDBC connection.
@@ -570,6 +576,6 @@ public interface Database {
      * @return the underlying JDBC connection, if present; otherwise null 
      * @throws PersistenceException If the underlying JDBC connection cannot be obtained.
      */
-    java.sql.Connection getJdbcConnection() throws PersistenceException;
+    public java.sql.Connection getJdbcConnection() throws PersistenceException;
 }
 

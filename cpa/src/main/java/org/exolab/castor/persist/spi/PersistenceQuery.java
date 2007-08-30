@@ -45,8 +45,9 @@
 package org.exolab.castor.persist.spi;
 
 import org.castor.persist.ProposedEntity;
-import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.AccessMode;
+import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.ObjectNotFoundException;
 
 /**
  * The persistence engine implements this interface in order to allow
@@ -77,14 +78,14 @@ public interface PersistenceQuery {
      * @param index The parameter index
      * @param value The parameter value
      */
-    void setParameter(int index, Object value);
+    public void setParameter(int index, Object value);
 
     /**
      * Returns the type of object returned by this query.
      *
      * @return The type of object returned by this query
      */
-    Class getResultType();
+    public Class getResultType();
 
     /**
      * Execute the query with the give connection and lock type.
@@ -99,7 +100,7 @@ public interface PersistenceQuery {
      * @throws PersistenceException An invalid query or an error reported
      *         by the persistence engine.
      */
-    void execute(Object conn, AccessMode accessMode, boolean scrollable)
+    public void execute(Object conn, AccessMode accessMode, boolean scrollable)
     throws PersistenceException;
 
     /**
@@ -115,7 +116,8 @@ public interface PersistenceQuery {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    Identity nextIdentity(Identity identity) throws PersistenceException;
+    public Identity nextIdentity(Identity identity)
+    throws PersistenceException;
 
     /**
      * Loades the object. This method must be called immediately
@@ -138,12 +140,13 @@ public interface PersistenceQuery {
      *         persistent storage or any other persistence error occured.
      * @see Persistence#load
      */
-    Object fetch(ProposedEntity proposedObject) throws PersistenceException;
+    public Object fetch(ProposedEntity proposedObject)
+    throws PersistenceException;
 
     /**
      * Close the query and release all resources held by the query.
      */
-    void close();
+    public void close();
     
     /**
      * Moves the result of the query to the absolute position in the
@@ -152,10 +155,12 @@ public interface PersistenceQuery {
      * @param row The row to move to
      * @throws PersistenceException A persistence error occured
      */
-    boolean absolute(int row) throws PersistenceException;
+    public boolean absolute(int row)
+    throws PersistenceException;
 
     /**
      * Finds the size of the resulting resultset from the query.
      */
-    int size() throws PersistenceException;
+    public int size()
+    throws PersistenceException;
 }

@@ -1,29 +1,29 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
  *
  * 1. Redistributions of source code must retain copyright
- *    statements and notices.  Redistributions must also contain a
- *    copy of this document.
+ *	  statements and notices.  Redistributions must also contain a
+ *	  copy of this document.
  *
  * 2. Redistributions in binary form must reproduce the
- *    above copyright notice, this list of conditions and the
- *    following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
+ *	  above copyright notice, this list of conditions and the
+ *	  following disclaimer in the documentation and/or other
+ *	  materials provided with the distribution.
  *
  * 3. The name "Exolab" must not be used to endorse or promote
- *    products derived from this Software without prior written
- *    permission of Intalio, Inc.  For written permission,
- *    please contact info@exolab.org.
+ *	  products derived from this Software without prior written
+ *	  permission of Intalio, Inc.  For written permission,
+ *	  please contact info@exolab.org.
  *
  * 4. Products derived from this Software may not be called "Exolab"
- *    nor may "Exolab" appear in their names without prior written
- *    permission of Intalio, Inc. Exolab is a registered
- *    trademark of Intalio, Inc.
+ *	  nor may "Exolab" appear in their names without prior written
+ *	  permission of Intalio, Inc. Exolab is a registered
+ *	  trademark of Intalio, Inc.
  *
  * 5. Due credit should be given to the Exolab Project
- *    (http://www.exolab.org/).
+ *	  (http://www.exolab.org/).
  *
  * THIS SOFTWARE IS PROVIDED BY INTALIO, INC. AND CONTRIBUTORS
  * ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
@@ -38,11 +38,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
+ * Copyright 2004 (C) Intalio, Inc. All Rights Reserved.
  *
  * $Id$
  */
-package org.exolab.castor.jdo.engine;
+
+package org.exolab.castor.util;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -73,47 +74,61 @@ import org.exolab.castor.jdo.engine.JDBCSyntax;
  * For example, when parsing the expression
  * "select * from x where id between $1 and $2"
  * this gives you the following function returns:
- * next()           -> true
- * getLastExpr()    -> "select * from x where id between "
- * getBindExpr()    -> "$1"
- * getParamNumber() -> 1
- * next()           -> true
- * getLastExpr()    -> " and "
- * getBindExpr()    -> "$2"
- * getParamNumber() -> 2
- * next()           -> false
- * getLastExpr()    -> ""
+ * next()			-> true
+ * getLastExpr()	-> "select * from x where id between "
+ * getBindExpr()	-> "$1"
+ * getParamNumber()	-> 1
+ * next()			-> true
+ * getLastExpr()	-> " and "
+ * getBindExpr()	-> "$2"
+ * getParamNumber()	-> 2
+ * next()			-> false
+ * getLastExpr()	-> ""
  *
- * @author <a href="mailto:martin-fuchs AT gmx DOT net"> Martin Fuchs</a>
+ * @author Martin Fuchs <martin-fuchs AT gmx DOT net>
  */
-public final class SqlBindParser {
-    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     *  Commons Logging</a> instance used for all logging. */
+final public class SqlBindParser
+{
+    /**
+     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     * Commons Logging</a> instance used for all logging.
+     */
     private static Log _log = LogFactory.getFactory().getInstance(SqlBindParser.class);
 
-    /** Complete SQL expression to be parsed. */
+	/** 
+	 * complete SQL expression to be parsed 
+	 */
     private String _sql;
 
-    /** Length of _sql string. */
-    private int _length;
+    /**
+     * length of _sql string
+     */
+    private int _sql_len;
 
-    /** Current parse position. */
+    /** 
+     * current parse position 
+     */
     private int _pos;
 
-    /** Last parse position. */
-    private int _lastPos;
+    /** 
+     * last parse position 
+     */
+    private int _lastPos;	
 
-    /** Position of the current bind variable. */
-    private int _bindPos;
+    /** 
+     * position of the current bind variable 
+     */
+    private int _bindPos;	
 
     /**
      * Create a new SqlBindParser instance to parse the expression in 'sql'.
      *
      * @param sql expression to be parsed
      */
-    public SqlBindParser(final String sql) {
+    public SqlBindParser(String sql)
+    {
         _sql = sql;
-        _length = _sql.length();
+        _sql_len = _sql.length();
         _pos = 0;
         _lastPos = 0;
         _bindPos = 0;
@@ -124,49 +139,42 @@ public final class SqlBindParser {
      *
      * @return true, if an bind variable could be found 
      */
-    public boolean next() {
+    public boolean next()
+    {
         _lastPos = _pos;
 
          // search for the begin of the next bind variable
-        int pos = _pos;
-        while (pos < _length) {
+        for(int pos=_pos; pos<_sql_len; ++pos) {
             char c = _sql.charAt(pos);
 
             switch(c) {
-              case '\'':    // character constant
-              case '\"':    // string constant
-                while (pos < _length) {
-                    pos = _sql.indexOf(c, pos + 1);
-                    if (pos == -1) {    // unexpected end of the constant?
-                        pos = _length;
+              case '\'':	// character constant
+              case '\"':	// string constant
+                while(pos < _sql_len) {
+                    pos = _sql.indexOf(c, pos+1);
+                    if (pos == -1) {	// unexpected end of the constant?
+                        pos = _sql_len;
                         break;
-                    } else if (_sql.charAt(pos - 1) != '\\') {
-                        // handle escape characters
-                        // end of the constant
-                        break;
-                    }
+                    } else if (_sql.charAt(pos-1) != '\\')	// handle escape characters
+                        break;	// end of the constant
                 }
                 break;
-              case '?':     // bind variable
+
+              case '?':		// bind variable
                 _bindPos = pos;
 
                 // search for the end of the bind variable
-                do {
-                    pos++;
-                } while (pos < _length && Character.isDigit(_sql.charAt(pos)));
+               do
+                   ++pos;
+               while(pos<_sql_len && Character.isDigit(_sql.charAt(pos)));
 
                _pos = pos;
 
                return true;
-              default:
-                  break;
             }
-
-            pos++;
         }
 
-        _bindPos = _length;
-        _pos = _length;
+        _bindPos = _pos = _sql_len;
 
         return false;
     }
@@ -178,7 +186,8 @@ public final class SqlBindParser {
      *
      * @return last expression substring
      */
-    public String getLastExpr() {
+    public String getLastExpr()
+    {
         return _sql.substring(_lastPos, _bindPos);
     }
 
@@ -187,7 +196,8 @@ public final class SqlBindParser {
      *
      * @return current bind variable expression
      */
-    public String getBindExpr() {
+    public String getBindExpr()
+    {
         return _sql.substring(_bindPos, _pos);
     }
 
@@ -198,28 +208,29 @@ public final class SqlBindParser {
      * 
      * @return parameter number of current bind variable
      */
-    public int getParamNumber() {
+    public int getParamNumber()
+    {
         int idx = _bindPos + 1;
 
         return (idx < _pos) 
                ? Integer.parseInt(_sql.substring(idx, _pos))
-               : 0;     // no numbered bind variable
+               : 0;	// no numbered bind variable
     }
 
 
     /**
-     * Creates a SQL statement from pre_sql, replacing bind expressions like "?1" by "?".
-     * 
-     * @param preSQL SQL statement string with bind variables of the form "?1".
-     * @return SQL statement string with bind variables of the form "?".
+     * Creates a SQL statement from pre_sql, replacing bind expressions like "?1" by "?"
+     * @param pre_sql SQL statement string with bind variables of the form "?1"
+     * @return SQL statement string with bind variables of the form "?"
      */
-    public static String getJdbcSql(final String preSQL) {
+    public static String getJdbcSql(String pre_sql)
+    {
         StringBuffer sb = new StringBuffer();
-        SqlBindParser parser = new SqlBindParser(preSQL);
+        SqlBindParser parser = new SqlBindParser(pre_sql);
 
-        while (parser.next()) {
+        while(parser.next()) {
             sb.append(parser.getLastExpr());
-            sb.append(JDBCSyntax.PARAMETER);
+            sb.append(JDBCSyntax.Parameter);
         }
 
         sb.append(parser.getLastExpr());
@@ -231,31 +242,27 @@ public final class SqlBindParser {
      * Binds values to prepared SQL statement using the given
      * sql string as reference for the bind variable order.
      * @param stmt JDBC statement
-     * @param preSQL SQL statement string with bind variables of the form "?1"
+     * @param pre_sql SQL statement string with bind variables of the form "?1"
      * @param values array of bind values
      * @throws SQLException
      */
-    public static void bindJdbcValues(final PreparedStatement stmt, final String preSQL,
-            final Object[] values) throws SQLException {
-        SqlBindParser parser = new SqlBindParser(preSQL);
+    public static void bindJdbcValues(PreparedStatement stmt, String pre_sql, Object[] values) throws SQLException
+    {
+        SqlBindParser parser = new SqlBindParser(pre_sql);
 
-        for (int i = 1; parser.next(); ++i) {
+        for(int i=1; parser.next(); ++i) {
             int bindNum = parser.getParamNumber();
 
-            if (bindNum == 0) {
-                // handle CALL SQL statements with unnumbered bind variables
-                bindNum = i;
-            }
+            if (bindNum == 0)
+                bindNum = i;	// handle CALL SQL statements with unnumbered bind variables
 
-            Object value = values[bindNum - 1];
+            Object value = values[bindNum-1];
 
             if (_log.isDebugEnabled()) {
-                if (value == null) {
+                if (value == null)
                     _log.debug(Messages.format("jdo.bindSqlNull", Integer.toString(i)));
-                } else {
-                    _log.debug(Messages.format("jdo.bindSql", Integer.toString(i),
-                            value, value.getClass().getName()));
-                }
+                else
+                    _log.debug(Messages.format("jdo.bindSql", Integer.toString(i), value, value.getClass().getName()));
             }
 
             stmt.setObject(i, value);

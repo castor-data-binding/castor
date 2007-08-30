@@ -19,11 +19,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Properties;
+import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.util.Configuration;
-import org.castor.cpa.CPAConfiguration;
+
+import org.castor.util.ConfigKeys;
+import org.castor.util.Configuration;
 
 /**
  * Registry for {@link CacheFactory} implementations obtained from the Castor
@@ -56,11 +58,19 @@ public final class CacheFactoryRegistry {
      * @param config The Configuration.
      */
     public CacheFactoryRegistry(final Configuration config) {
-        Object[] objects = config.getObjectArray(
-                CPAConfiguration.CACHE_FACTORIES, config.getApplicationClassLoader());
-        for (int i = 0; i < objects.length; i++) {
-            CacheFactory factory = (CacheFactory) objects[i];
-            _cacheFactories.put(factory.getCacheType(), factory);
+        String prop = config.getProperty(ConfigKeys.CACHE_FACTORIES, "");
+        StringTokenizer tokenizer = new StringTokenizer(prop, ", ");
+        ClassLoader loader = CacheFactoryRegistry.class.getClassLoader();
+        while (tokenizer.hasMoreTokens()) {
+            String classname = tokenizer.nextToken();
+            try {
+                Class cls = loader.loadClass(classname);
+                Object obj = cls.newInstance();
+                CacheFactory factory = (CacheFactory) obj;
+                _cacheFactories.put(factory.getCacheType(), factory);
+            } catch (Exception ex) {
+                LOG.error("Problem instantiating cache implementation: " + classname, ex);
+            }
         }
     }
 

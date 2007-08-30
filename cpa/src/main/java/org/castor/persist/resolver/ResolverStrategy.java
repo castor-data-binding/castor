@@ -190,8 +190,7 @@ public interface ResolverStrategy {
      *
      * @param tx   the TransactionContext in action
      * @param oid  the object identity of the desired object
-     * @param proposedObject Object holder storing information about assumed and actual object
-     *        instances.
+     * @param proposedObject Object holder storing information about assumed and actual object instances
      * @param suggestedAccessMode the acessMode for the object
      * @exception PersistenceException If it is not possible to successfully complete this method.
      */

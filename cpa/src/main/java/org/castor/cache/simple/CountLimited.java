@@ -47,7 +47,7 @@ public final class CountLimited extends AbstractBaseCache {
     /** The type of the cache. */
     public static final String TYPE = "count-limited";
     
-    /** Mapped initialization parameter <code>capacity</code>. */
+    /** Mapped initialization parameter: capacity */
     public static final String PARAM_CAPACITY = "capacity";
 
     /** Default capacity of cache. */

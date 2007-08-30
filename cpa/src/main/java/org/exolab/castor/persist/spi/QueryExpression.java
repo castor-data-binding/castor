@@ -42,11 +42,16 @@
  *
  * $Id$
  */
+
+
 package org.exolab.castor.persist.spi;
 
+
 import org.exolab.castor.jdo.DbMetaInfo;
+
 import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.jdo.oql.SyntaxNotSupportedException;
+
 
 /**
  * Defines the interface for a query expression. The query
@@ -67,36 +72,64 @@ import org.exolab.castor.jdo.oql.SyntaxNotSupportedException;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
-public interface QueryExpression {
-    /** Equality operator. (<tt>=</tt>) */
-    String OP_EQUALS = "=";
+public interface QueryExpression
+{
 
-    /** Inequality operator. (<tt>&lt;&gt;</tt>) */
-    String OP_NOT_EQUALS = "<>";
 
-    /** Greater then operator. (<tt>&gt;</tt>) */
-    String OP_GREATER = ">";
+    /**
+     * Equality operator. (<tt>=</tt>)
+     */
+    public String OpEquals = "=";
 
-    /** Greater then or equals operator. (<tt>&gt;=</tt>) */
-    String OP_GREATER_EQUALS = ">=";
+    /**
+     * Inequality operator. (<tt>&lt;&gt;</tt>)
+     */
+    public String OpNotEquals = "<>";
 
-    /** Less then operator. (<tt>&lt;</tt>) */
-    String OP_LESS = "<";
+    /**
+     * Greater then operator. (<tt>&gt;</tt>)
+     */
+    public String OpGreater = ">";
 
-    /** Less then or equals operator. (<tt>&lt;=</tt>) */
-    String OP_LESS_EQUALS = "<=";
+    /**
+     * Greater then or equals operator. (<tt>&gt;=</tt>)
+     */
+    public String OpGreaterEquals = ">=";
 
-    /** Like operator. (<tt>LIKE</tt>) */
-    String OP_LIKE = " LIKE ";
+    /**
+     * Less then operator. (<tt>&lt;</tt>)
+     */
+    public String OpLess = "<";
 
-    /** Not like operator. (<tt>NOT LIKE</tt>) */
-    String OP_NOT_LIKE = " NOT LIKE ";
+    /**
+     * Less then or equals operator. (<tt>&lt;=</tt>)
+     */
+    public String OpLessEquals = "<=";
 
-    /** Between operator. (<tt>BETWEEN</tt>) */
-    String OP_BETWEEN = " BETWEEN ";
+    /**
+     * Like operator. (<tt>LIKE</tt>)
+     */
+    public String OpLike = " LIKE ";
 
-    /** Between and operator. (<tt>AND</tt>) */
-    String OP_BETWEEN_AND = " AND ";
+    /**
+     * Not like operator. (<tt>NOT LIKE</tt>)
+     */
+    public String OpNotLike = " NOT LIKE ";
+
+    /**
+     * Between operator. (<tt>BETWEEN</tt>)
+     *
+     * @see #OpBetweenAnd
+     */
+    public String OpBetween = " BETWEEN ";
+
+    /**
+     * Between and operator. (<tt>AND</tt>)
+     *
+     * @see #OpBetween
+     */
+    public String OpBetweenAnd = " AND ";
+
 
     /**
      * Add a column used in the query. Columns must be retrieved in
@@ -105,7 +138,7 @@ public interface QueryExpression {
      * @param tableName The table name
      * @param columnName The column name
      */    
-    void addColumn(String tableName, String columnName);
+    public void addColumn( String tableName, String columnName );
 
     /**
      * Add an entire select clause to the query with one call. The caller is
@@ -114,21 +147,23 @@ public interface QueryExpression {
      *
      * @param selectClause The entire sql select clause without the word SELECT
      */
-    void addSelect(String selectClause);
+    public void addSelect( String selectClause );
 
     /**
      * Set the query to be distinct.  No two rows which are the same will be returned.
      *
      * @param distinct If the query should include DISTINCT in the SQL select.
      */
-    void setDistinct(boolean distinct);
+    public void setDistinct( boolean distinct );
+
 
     /**
      * Add a table to the from clause.
      *
      * @param tableName The name of the table to add to the select clause
      */
-    void addTable(String tableName);
+    public void addTable( String tableName );
+
 
     /**
      * Add a table with an alias to the from clause.
@@ -136,7 +171,8 @@ public interface QueryExpression {
      * @param tableName The name of the table to add to the select clause
      * @param tableAlias The name of the alias under which the where clauses will access it
      */
-    void addTable(String tableName, String tableAlias);
+    public void addTable( String tableName, String tableAlias );
+
 
     /**
      * Add a query paramater.
@@ -145,7 +181,8 @@ public interface QueryExpression {
      * @param columnName The column name
      * @param condOp The conditional operation
      */
-    void addParameter(String tableName, String columnName, String condOp);
+    public void addParameter( String tableName, String columnName, String condOp );
+
 
     /**
      * Add a condition.
@@ -155,15 +192,16 @@ public interface QueryExpression {
      * @param condOp The conditional operation
      * @param value The conditional value
      */
-    void addCondition(String tableName, String columnName, String condOp, String value);
+    public void addCondition( String tableName, String columnName,
+                              String condOp, String value );
 
     /**
-     * Encode a TableColumn for use in expressions.
+     * Encode a TableColumn for use in expressions
      *
-     * @param tableName The table name.
-     * @param columnName The column name.
+     * @param tableName The table name
+     * @param columnName The column name
      */
-    String encodeColumn(String tableName, String columnName);
+    public String encodeColumn( String tableName, String columnName );
 
     /**
      * Adds a where clause.  Caller is responsible for making sure all tables
@@ -171,31 +209,34 @@ public interface QueryExpression {
      *
      * @param whereClause The WHERE clause to add (without the word WHERE).
      */
-    void addWhereClause(String whereClause);
+    public void addWhereClause( String whereClause );
+    
 
     /**
      * Adds an order by clause.  Caller is responsible for making sure all 
      * tables mentioned in the order by clause are included in the fromClause.
      *
-     * @param orderClause The ORDER BY clause to add (without the words ORDER BY).
+     * @param orderClause The ORDER BY clause to add (without the words 
+     *    ORDER BY).
      */
-    void addOrderClause(String orderClause);
+    public void addOrderClause( String orderClause );
+    
 
     /**
-     * Adds an limit clause.
-     * 
+     * Adds an limit clause. 
      * @param limitClause The LIMIT clause to add (without the word LIMIT).
      * @throws SyntaxNotSupportedException If the LIMIT clause is not supported by the RDBMS.
      */
-    void addLimitClause(String limitClause) throws SyntaxNotSupportedException;  
+    public void addLimitClause( String limitClause )
+    	throws SyntaxNotSupportedException;  
 
     /**
-     * Adds an offset clause.
-     * 
+     * Adds an offset clause. 
      * @param offsetClause The OFFSET clause to add (without the word OFFSET).
      * @throws SyntaxNotSupportedException If the OFFSET clause is not supported by the RDBMS.
      */
-    void addOffsetClause(String offsetClause) throws SyntaxNotSupportedException;  
+    public void addOffsetClause( String offsetClause )
+    	throws SyntaxNotSupportedException;  
 
     /**
      * Add an inner join.
@@ -205,20 +246,23 @@ public interface QueryExpression {
      * @param rightTable The table name on the right side
      * @param rightColumn The column name on the right side
      */
-    void addInnerJoin(String leftTable, String leftColumn, String rightTable, String rightColumn);
+    public void addInnerJoin( String leftTable, String leftColumn,
+                              String rightTable, String rightColumn );
+
 
     /**
-     * Add an inner join with an aliases for the tables.
+     * Add an inner join with an aliases for the tables
      *
-     * @param leftTable The table name on the left side.
-     * @param leftColumn The column name on the left side.
-     * @param leftTableAlias The alias name to use for the table on the left side.
-     * @param rightTable The table name on the right side.
-     * @param rightColumn The column name on the right side.
-     * @param rightTableAlias The alias name to use for the table on the right side.
+     * @param leftTable The table name on the left side
+     * @param leftColumn The column name on the left side
+     * @param leftTableAlias The alias name to use for the table on the left side
+     * @param rightTable The table name on the right side
+     * @param rightColumn The column name on the right side
+     * @param rightTableAlias The alias name to use for the table on the right side
      */
-    void addInnerJoin(String leftTable, String leftColumn, String leftTableAlias,
-            String rightTable, String rightColumn, String rightTableAlias);
+    public void addInnerJoin( String leftTable, String leftColumn, String leftTableAlias,
+                              String rightTable, String rightColumn, String rightTableAlias );
+
 
     /**
      * Add an outer join. May use an inner join if outer
@@ -229,8 +273,9 @@ public interface QueryExpression {
      * @param rightTable The table name on the right side
      * @param rightColumn The column name on the right side
      */
-    void addOuterJoin(String leftTable, String leftColumn,
-            String rightTable, String rightColumn);
+    public void addOuterJoin( String leftTable, String leftColumn,
+                              String rightTable, String rightColumn );
+
 
     /**
      * Add an outer join. May use an inner join if outer
@@ -242,22 +287,24 @@ public interface QueryExpression {
      * @param rightColumn The column name on the right side
      * @param rightTableAlias The alias name to use for the table on the right side
      */
-    void addOuterJoin(String leftTable, String leftColumn,
-            String rightTable, String rightColumn, String rightTableAlias);
+    public void addOuterJoin( String leftTable, String leftColumn,
+                              String rightTable, String rightColumn, String rightTableAlias );
+
 
     /**
-     * Add an inner join.
+     * Add an inner join
      *
      * @param leftTable The table name on the left side
      * @param leftColumn The column names on the left side
      * @param rightTable The table name on the right side
      * @param rightColumn The column names on the right side
      */
-    void addInnerJoin(String leftTable, String[] leftColumn,
-            String rightTable, String[] rightColumn);
+    public void addInnerJoin( String leftTable, String[] leftColumn,
+                              String rightTable, String[] rightColumn );
+
 
     /**
-     * Add an inner join with an aliases for the tables.
+     * Add an inner join with an aliases for the tables
      *
      * @param leftTable The table name on the left side
      * @param leftColumn The column names on the left side
@@ -266,14 +313,15 @@ public interface QueryExpression {
      * @param rightColumn The column names on the right side
      * @param rightTableAlias The alias name to use for the table on the right side
      */
-    void addInnerJoin(String leftTable, String[] leftColumn, String leftTableAlias,
-            String rightTable, String[] rightColumn, String rightTableAlias);
+    public void addInnerJoin( String leftTable, String[] leftColumn, String leftTableAlias,
+                              String rightTable, String[] rightColumn, String rightTableAlias );
 
-    void addOuterJoin(String leftTable, String[] leftColumn,
-            String rightTable, String[] rightColumn);
 
-    void addOuterJoin(String leftTable, String[] leftColumn,
-            String rightTable, String[] rightColumn, String rightTableAlias);
+    public void addOuterJoin( String leftTable, String[] leftColumn,
+                              String rightTable, String[] rightColumn );
+
+    public void addOuterJoin( String leftTable, String[] leftColumn,
+                              String rightTable, String[] rightColumn, String rightTableAlias );
 
     /**
      * Return the query expression as an SQL statement. The resulting
@@ -285,31 +333,31 @@ public interface QueryExpression {
      * @throws QueryException The query cannot be constructed for
      *  this engine
      */
-    String getStatement(boolean writeLock) throws QueryException;
+    public String getStatement( boolean writeLock )
+        throws QueryException;
 
     /**
-     * Returns a clone of the query expression that can be further modified.
+     * Returns a clone of the query expression that can be further
+     * modified.
      */
-    Object clone();
+    public Object clone();
     
     /**
      * Indicates whether a RDBMS supports LIMIT clauses.
-     * 
      * @return True if a LIMIT clause is supported.
      */
-    boolean isLimitClauseSupported();
+    public boolean isLimitClauseSupported();
     
     /**
      * Indicates whether a RDBMS supports OFFSET clauses.
-     * 
      * @return True if an OFFSET clause is supported.
      */
-    boolean isOffsetClauseSupported();
+    public boolean isOffsetClauseSupported();
 
     /**
-     * Store database meta information.
-     * 
+     * Store database meta information
      * @param dbInfo DbMetaInfo instance
      */    
-    void setDbMetaInfo(DbMetaInfo dbInfo);
+    public void setDbMetaInfo( DbMetaInfo dbInfo );
+
 }

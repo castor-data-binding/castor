@@ -24,13 +24,20 @@ package org.castor.persist;
  * @since 0.9.9
  */
 public class UpdateFlags {
-    /** Indicates whether a data chnage needs to be persisted. */
+    
+    /**
+     * Indicates whether a data chnage needs to be persisted.
+     */
     private boolean _updatePersist = false;
 
-    /** Indicates whetehr the caches need to be updated. */
+    /**
+     * Indicates whetehr the caches need to be updated.
+     */
     private boolean _updateCache = false;
 
-    /** Holds the value of a new field. */
+    /**
+     * Holds the value of a new field
+     */
     private Object _newField;
 
     public final boolean getUpdateCache() {

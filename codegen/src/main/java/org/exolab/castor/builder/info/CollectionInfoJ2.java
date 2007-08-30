@@ -49,9 +49,13 @@
  */
 package org.exolab.castor.builder.info;
 
-import org.exolab.castor.builder.factory.FieldMemberAndAccessorFactory;
+import org.exolab.castor.builder.SGTypes;
 import org.exolab.castor.builder.types.XSCollectionFactory;
 import org.exolab.castor.builder.types.XSType;
+import org.exolab.javasource.JClass;
+import org.exolab.javasource.JMethod;
+import org.exolab.javasource.JParameter;
+import org.exolab.javasource.JSourceCode;
 
 /**
  * A helper used for generating source that deals with Java 2 Collections.
@@ -71,19 +75,67 @@ public class CollectionInfoJ2 extends CollectionInfo {
      *        Currently, any value but "arraylist" does not work. See
      *        {@link org.exolab.castor.builder.FieldInfoFactory#ARRAY_LIST}
      * @param useJava50 true if code is supposed to be generated for Java 5
-     * @param memberAndAccessorFactory the FieldMemberAndAccessorFactory to be used      
-            
      */
     public CollectionInfoJ2(final XSType contentType, final String name,
                             final String elementName, final String collectionType,
-                            final boolean useJava50, 
-                            final FieldMemberAndAccessorFactory memberAndAccessorFactory,
-                            final FieldMemberAndAccessorFactory contentMemberAndAccessorFactory) {
-        super(contentType, name, elementName, useJava50, 
-                memberAndAccessorFactory, contentMemberAndAccessorFactory);
+                            final boolean useJava50) {
+        super(contentType, name, elementName, useJava50);
         // --override the schemaType
         this.setSchemaType(XSCollectionFactory.createCollection(collectionType, 
                 contentType, useJava50));
     } // -- CollectionInfoJ2
-    
+
+    /**
+     * {@inheritDoc}
+     * <br/>
+     * To the Java-1 collection iterators, we add the Java-2 Iterator.
+     */
+    protected final void createCollectionIterationMethods(final JClass jClass,
+                                                    final boolean useJava50) {
+        super.createCollectionIterationMethods(jClass, useJava50);
+        this.createIteratorMethod(jClass, useJava50);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected final void createEnumerateMethod(final JClass jClass, final boolean useJava50) {
+        JMethod method = new JMethod("enumerate" + this.getMethodSuffix(),
+                SGTypes.createEnumeration(this.getContentType().getJType(), useJava50),
+                "an Enumeration over all possible elements of this collection");
+
+        JSourceCode sourceCode = method.getSourceCode();
+        sourceCode.add("return java.util.Collections.enumeration(this.");
+        sourceCode.append(this.getName());
+        sourceCode.append(");");
+
+        jClass.addMethod(method);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected final void createAddMethod(final JClass jClass) {
+        JMethod method = new JMethod(this.getWriteMethodName());
+        method.addException(SGTypes.INDEX_OUT_OF_BOUNDS_EXCEPTION,
+                            "if the index given is outside the bounds of the collection");
+        final JParameter parameter = new JParameter(this.getContentType().getJType(),
+                                                    this.getContentName());
+        method.addParameter(parameter);
+
+        JSourceCode sourceCode = method.getSourceCode();
+        this.addMaxSizeCheck(method.getName(), sourceCode);
+
+        sourceCode.add("this.");
+        sourceCode.append(this.getName());
+        sourceCode.append(".add(");
+        sourceCode.append(this.getContentType().createToJavaObjectCode(parameter.getName()));
+        sourceCode.append(");");
+
+        if (this.isBound()) {
+            this.createBoundPropertyCode(sourceCode);
+        }
+
+        jClass.addMethod(method);
+    }
 }

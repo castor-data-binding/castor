@@ -47,6 +47,7 @@
  */
 package org.exolab.castor.xml;
 
+//-- Castor imports
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.io.StringWriter;
@@ -102,7 +103,7 @@ import org.xml.sax.SAXParseException;
 public final class UnmarshalHandler extends MarshalFramework
 implements ContentHandler, DocumentHandler, ErrorHandler {
     /**
-     * Logger from commons-logging.
+     * Logger from commons-logging
      */
     private static final Log LOG = LogFactory.getLog(UnmarshalHandler.class);
 
@@ -155,7 +156,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
     /**
      * The top-level instance object, this may be set by the user
-     * by calling #setRootObject();.
+     * by calling #setRootObject();
     **/
     private Object           _topObject    = null;
 
@@ -167,33 +168,33 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     private boolean          _clearCollections = false;
 
     /**
-     * The Castor configuration.
+     * The Castor configuration
      */
     private Configuration    _config       = null;
 
     /**
-     * The SAX Document Locator.
+     * The SAX Document Locator
     **/
     private Locator          _locator      = null;
 
     /**
      * The ClassDescriptorResolver which is used to "resolve"
-     * or find ClassDescriptors.
+     * or find ClassDescriptors
     **/
     private XMLClassDescriptorResolver _cdResolver = null;
 
     /**
-     * The IDResolver for resolving IDReferences.
+     * The IDResolver for resolving IDReferences
     **/
     private IDResolverImpl _idResolver = null;
 
    /**
-    * The unmarshaller listener.
+    * The unmarshaller listener
     */
     private UnmarshalListener _unmarshalListener = null;
     
     /**
-     * A flag indicating whether or not to perform validation.
+     * A flag indicating whether or not to perform validation
      **/
     private boolean _validate = true;
 
@@ -207,27 +208,27 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         = new StringClassDescriptor();
 
     /**
-     * A SAX2ANY unmarshaller in case we are dealing with {@literal <any>}.
+     * A SAX2ANY unmarshaller in case we are dealing with {@literal <any>}
      */
      private SAX2ANY _anyUnmarshaller = null;
 
     /**
-     * The any branch depth.
+     * The any branch depth
      */
     private int _depth = 0;
 
     /**
-     * The AnyNode to add (if any).
+     * The AnyNode to add (if any)
      */
      private org.exolab.castor.types.AnyNode _node = null;
 
     /**
-     * The namespace stack.
+     * The namespace stack
      */
     private Namespaces _namespaces = null;
 
     /**
-     * A map of namespace URIs to Package Names.
+     * A map of namespace URIs to Package Names
      */
     private HashMap _namespaceToPackage = null;
 
@@ -239,7 +240,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     
     /**
      * A boolean to indicate that objects should
-     * be re-used where appropriate.
+     * be re-used where appropriate
     **/
     private boolean _reuseObjects = false;
 
@@ -253,7 +254,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     /**
      * A boolean that indicates element processing should
      * be strict and an error should be flagged if any
-     * extra elements exist.
+     * extra elements exist
     **/
     private boolean _strictElements = true;
 
@@ -264,26 +265,27 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     private int     _ignoreElementDepth = 0;
 
     /**
-     * A flag to keep track of when a new namespace scope is needed.
+     * A flag to keep track of when a new namespace scope is needed
      */
     private boolean _createNamespaceScope = true;
     
     /**
      * Keeps track of the current element information
-     * as passed by the parser.
+     * as passed by the parser
      */
     private ElementInfo _elemInfo = null;
     
     /**
      * A "reusable" AttributeSet, for use when handling
-     * SAX 2 ContentHandler.
+     * SAX 2 ContentHandler
      */
     private AttributeSetImpl _reusableAtts = null;
     
     /**
-     * The top-level xml:space value.
+     * The top-level xml:space value
      */
     private boolean _wsPreserve = false;
+    
     
     //----------------/
     //- Constructors -/
@@ -299,15 +301,15 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     } //-- UnmarshalHandler
 
     /**
-     * Creates a new UnmarshalHandler.
+     * Creates a new UnmarshalHandler
      * 
      * @param _class the Class to create the UnmarshalHandler for
      */
-    protected UnmarshalHandler(final Class _class) {
+    protected UnmarshalHandler(Class _class) {
         super();
         _stateInfo          = new Stack();
         _idResolver         = new IDResolverImpl();
-        _javaPackages       = new HashMap();
+		_javaPackages 		= new HashMap();        
         _topClass           = _class;
         _namespaces         = new Namespaces();
         _namespaceToPackage = new HashMap();
@@ -1502,7 +1504,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     if (classDesc == null) {
                         classDesc = getClassDescriptor(name, _loader);
                         if (classDesc == null) {
-                            classDesc = getClassDescriptor(getJavaNaming().toJavaClassName(name));
+                            classDesc = getClassDescriptor(JavaNaming.toJavaClassName(name));
                         }
                     }
                     if (classDesc != null) {
@@ -2088,13 +2090,14 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
                         boolean collection = false;
                         if (tempHandler instanceof FieldHandlerImpl) {
-                            collection = ((FieldHandlerImpl) tempHandler).isCollection(); 
+                            collection = ((FieldHandlerImpl)tempHandler).isCollection();
                         }
                         else {
                             collection = Introspector.isCollection(instanceClass);
                         }
 
-                        if ((!collection) && !_class.isAssignableFrom(instanceClass))
+                        if ( (! collection ) &&
+                         ! _class.isAssignableFrom(instanceClass))
                         {
                             if (!isPrimitive(_class)) {
                                 String err = instanceClass.getName()
@@ -2131,7 +2134,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 String cname = null;
                 if (classDesc == null) {
                     //-- create class name
-                    cname = getJavaNaming().toJavaClassName(name);
+                    cname = JavaNaming.toJavaClassName(name);
                     classDesc = getClassDescriptor(cname, loader);
                 }
                 //-- if still null, try using parents package
@@ -2543,7 +2546,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 //-- if class descriptor is not found here, then no descriptors
                 //-- existed in memory...try to load one based on name of
                 //-- Schema type
-                final String className = getJavaNaming().toJavaClassName(type);
+                final String className = JavaNaming.toJavaClassName(type);
             
                 String adjClassName = className;
                 String mappedPackage = getMappedPackage(typeNamespaceURI);
@@ -3675,26 +3678,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             if (isNull) {
                 primitive = null;
             } else {
-            	// try discover the fromValue Method
-            	try {
-                    Method valueOfMethod = type.getMethod("fromValue", new Class[]{ String.class });
-                    primitive = valueOfMethod.invoke(null, new Object[]{ value });
-                    return primitive;
-                } 
-                catch (NoSuchMethodException e) {
-                    // do nothing, check valueOf method
-                } catch (IllegalArgumentException e) {
-                    throw new IllegalStateException(e.toString());
-                } catch (IllegalAccessException e) {
-                    throw new IllegalStateException(e.toString());
-                } catch (InvocationTargetException e) {
-                    if (e.getTargetException() instanceof RuntimeException) {
-                        throw (RuntimeException) e.getTargetException();
-                    }
-                } 
-            	
-                // backwards compability, check valueOf method to support 
-                // "simple" enums without value object
                 try {
                     Method valueOfMethod = type.getMethod("valueOf", new Class[]{ String.class });
                     primitive = valueOfMethod.invoke(null, new Object[]{ value });

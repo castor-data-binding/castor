@@ -394,7 +394,7 @@ public final class TestRaceCondition extends CastorTestCase {
                 _db.begin();
                 LOG.debug("trying Database.load()");
                 Race tr = (Race) _db.load(_classType, new Integer(i),
-                                         Database.SHARED);
+                                         Database.Shared);
                 if (tr != null) {
                     tr.incValue1();
                     _db.commit();
@@ -407,7 +407,7 @@ public final class TestRaceCondition extends CastorTestCase {
                 _db.begin();
                 LOG.debug("trying Database.load()");
                 Race tr = (Race) _db.load(_classType, new Integer(i),
-                                         Database.EXCLUSIVE);
+                                         Database.Exclusive);
                 if (tr != null) {
                     tr.incValue1();
                     _db.commit();

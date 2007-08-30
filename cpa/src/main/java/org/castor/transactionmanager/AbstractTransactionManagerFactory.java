@@ -17,7 +17,6 @@ package org.castor.transactionmanager;
 
 import java.lang.reflect.Method;
 import java.util.Properties;
-
 import javax.transaction.TransactionManager;
 
 import org.apache.commons.logging.Log;
