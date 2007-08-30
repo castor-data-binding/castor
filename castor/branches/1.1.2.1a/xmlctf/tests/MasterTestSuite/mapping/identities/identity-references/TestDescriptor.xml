@@ -1,0 +1,25 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+
+    <Name>Test (un)marshalling classes with identity references</Name>
+    <Author>Werner Guttmann</Author>
+
+    <Comment>
+        Test (un)marshalling classes with identity references being used.
+    </Comment>
+
+    <Category>basic capability</Category>
+
+    <MarshallingTest>
+        <Root_Object>NodeList</Root_Object>
+
+        <UnitTestCase>
+            <Name>Test01</Name>
+            <ObjectBuilder>NodeBuilder</ObjectBuilder>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+        </UnitTestCase>
+
+    </MarshallingTest>
+
+</TestDescriptor>

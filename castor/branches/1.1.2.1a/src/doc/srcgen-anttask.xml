@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.codehaus.org/srcgen-anttask.xml">
+
+  <properties>
+    <title>The Ant Task for the Castor XML Code Generator</title>
+    <author email="keith AT kvisco DOT com">Keith Visco</author>
+    <author email="blandin@intalio.com">Arnaud Blandin</author>
+    <abstract>
+       Describes how to use the Ant task for the Castor XML Code Generator and
+       what is currently supported.
+    </abstract>
+    <status>Final</status>
+  </properties>
+
+  <body>
+
+    <title>Using the Ant task for the Castor XML Code Generator</title>
+    <header>
+      <p>API Reference: <api package="org.exolab.castor.builder">The Source Builder API</api></p>
+    </header>
+
+    <section title="Castor source generator Ant task">
+
+      <p>
+        An alternative to using the command line as shown in the previous section,
+        the Castor Source Generator Ant Task can be used to call the source
+        generator for class generation. The only requirement is that the
+        castor-&lt;version&gt;-codegen-antask.jar must be on the CLASSPATH.
+      </p>
+
+      <section title="Configuration">
+
+        <p>
+          Please find below the complete list of parameters that can be set on the Castor
+          source generator.
+        </p>
+
+        <ctable>
+          <cheader>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+          </cheader>
+          <crow>
+            <td><b>file</b></td>
+            <td>The XML schema, to be used as input for the source code generator.</td>
+            <td>Yes, unless a nested &lt;fileset&gt; element is used.</td>
+          </crow>
+          <crow>
+            <td><b>package</b></td>
+            <td>The default package to be used during source code generation.</td>
+            <td>No; if not given, all classes will be placed in the root package.</td>
+          </crow>
+          <crow>
+            <td><b>todir</b></td>
+            <td>The destination directory to be used during source code generation. In
+                this directory all generated Java classes will be placed.</td>
+            <td>No</td>
+          </crow>
+          <crow>
+            <td><b>bindingfile</b></td>
+            <td>A Castor source generator binding file, as detailed <a href="">here</a>.</td>
+            <td>No</td>
+          </crow>
+          <crow>
+            <td><b>lineseparator</b></td>
+            <td>Defines whether to use Unix- or Windows- or Mac-style line separators during source code generation. Possible values are: 'unix', 'win' or 'mac'.</td>
+            <td>No; if not set, system property 'line.separator' is used instead.</td>
+          </crow>
+          <crow>
+            <td><b>types</b></td>
+            <td>Defines what collection types to use (Java 1 vs. Java 2). Possible values: 'vector', 'arraylist' (aka 'j2') or 'odmg'.</td>
+            <td>No; if not set, the default collection used will be Java 1 type</td>
+          </crow>
+          <crow>
+            <td><b>verbose</b></td>
+            <td>Whether to output any logging messages as emitted by the source generator</td>
+            <td>No</td>
+          </crow>
+          <crow>
+            <td><b>warnings</b></td>
+            <td>Whether to suppress any warnings as otherwise emitted by the source generator</td>
+            <td>No</td>
+          </crow>
+          <crow>
+            <td><b>nodesc</b></td>
+            <td>If used, instructs the source generator not to generate *Descriptor classes.</td>
+            <td>No</td>
+          </crow>
+          <crow>
+            <td><b>nomarshal</b></td>
+            <td>If specified, instructs the source generator not to create (un)marshalling
+                methods within the Java classes generated.</td>
+            <td>No</td>
+          </crow>
+          <crow>
+            <td><b>caseInsensitive</b></td>
+            <td>If used, instructs the source generator to generate code for enumerated type
+                lookup in a case insensitive manner.</td>
+            <td>No</td>
+          </crow>
+          <crow>
+            <td><b>sax1</b></td>
+            <td>If used, instructs the source generator to generate SAX-1 compliant code.</td>
+            <td>No</td>
+          </crow>
+          <crow>
+            <td><b>generateImportedSchemas</b></td>
+            <td>If used, instructs the source generator to generate code for imported
+                schemas as well.</td>
+            <td>No</td>
+          </crow>
+          <crow>
+            <td><b>nameConflictStrategy</b></td>
+            <td>If used, sets the name conflict strategy to use during XML code generation; 
+                possible values are '<tt>warnViaConsoleDialog</tt>' and 
+                '<tt>informViaLog</tt>'.</td>
+            <td>No</td>
+          </crow>
+          <crow>
+            <td><b>properties</b></td>
+            <td>Location of file defining a set of properties to be used during source code
+                generation. This overrides the default mechanisms of configuring the source
+                generator through a <tt>castorbuilder.properties</tt> (that has to be
+                placed on the CLASSPATH)</td>
+            <td>No</td>
+          </crow>
+          <crow>
+            <td><b>automaticConflictStrategy</b></td>
+            <td>If used, sets the name conflict resolution strategy used during XML 
+                code generation; possible values are '<tt>type</tt>' and '<tt>xpath</tt>'
+                (default being '<tt>xpath</tt>').</td>
+            <td>No</td>
+          </crow>
+        </ctable>
+
+      </section>
+
+      <section title="Example">
+
+        <p>
+          Below is an example of how to use this task from within an Ant target
+          definition named 'castor:gen:src':
+        </p>
+
+        <code-panel><![CDATA[
+  <target name="castor:gen:src" depends="init"
+             description="Generate Java source files from XSD.">
+
+    <taskdef name="castor-srcgen"
+             classname="org.castor.anttask.CastorCodeGenTask"
+             classpathref="castor.class.path" />
+    <mkdir dir="generated" />
+    <castor-srcgen file="src/schema/sample.xsd"
+                   todir="generated-source"
+                   package="org.castor.example.schema"
+                   types="j2"
+                   warnings="true" />
+  </target>]]>
+        </code-panel>
+
+      </section>
+
+    </section>
+
+  </body>
+
+</document>

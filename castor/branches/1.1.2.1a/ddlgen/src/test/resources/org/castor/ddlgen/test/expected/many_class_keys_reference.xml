@@ -1,0 +1,4 @@
+<expected>
+	<match method="regexp" index="0">create table prod_group \( id integer not null, name char\({1}\) not null \); create table prod \( id integer not null, name char\({1}\), group_id integer, group_name char\({1}\) \);</match>
+	<match method="regexp" index="0" engine="mysql">create table prod_group \( id integer\({0}\) not null, name char\({1}\) not null \); create table prod \( id integer\({0}\) not null, name char\({1}\), group_id integer\({0}\), group_name char\({1}\) \);</match>
+</expected>

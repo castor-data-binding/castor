@@ -1,0 +1,4 @@
+<expected>
+	<match method="regexp" index="0">create table table_all \( fieldint integer \);</match>
+	<match method="regexp" index="0" engine="mysql">create table table_all \( fieldint integer\({0}\) \);</match>
+</expected>

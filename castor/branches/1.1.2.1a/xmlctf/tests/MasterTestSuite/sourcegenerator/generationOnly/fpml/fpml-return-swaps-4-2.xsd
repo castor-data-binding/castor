@@ -1,0 +1,812 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+== Copyright (c) 2002-2006. All rights reserved. 
+== Financial Products Markup Language is subject to the FpML public license. 
+== A copy of this license is available at http://www.fpml.org/documents/license
+-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.fpml.org/2005/FpML-4-2" targetNamespace="http://www.fpml.org/2005/FpML-4-2" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:include schemaLocation="fpml-ird-4-2.xsd"/>
+	<xsd:include schemaLocation="fpml-eq-shared-4-2.xsd"/>
+	<xsd:complexType name="AdditionalPaymentAmount">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Specifies the amount of the fee along with, when applicable, the formula that supports its determination.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="paymentAmount" type="Money" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">The currency amount of the payment.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="formula" type="Formula" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Specifies a formula, with its description and components.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Compounding">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Specifies the compounding method and the compounding rate.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="compoundingMethod" type="CompoundingMethodEnum">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">If more that one calculation period contributes to a single payment amount this element specifies whether compounding is applicable, and if so, what compounding method is to be used. This element must only be included when more that one calculation period contributes to a single payment amount.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="compoundingRate" type="CompoundingRate">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Defines a compounding rate. The compounding interest can either point back to the interest calculation node on the Interest Leg, or be defined specifically.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CompoundingRate">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A type defining a compounding rate. The compounding interest can either point back to the interest calculation node on the Interest Leg, or be defined specifically.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="interestLegRate" type="Reference">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Reference to the interest calculation node on the Interest Leg.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="specificRate" type="InterestAccrualsMethod">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Defines a specific rate.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="DeprecatedEquityLeg">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">This type has been DEPRECATED. It will be removed in the next FpML major version. A type describing the equity leg of a return type swap.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ReturnSwapLeg">
+				<xsd:sequence>
+					<xsd:element name="effectiveDate" type="AdjustableOrRelativeDate">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies the effective date of the equity leg of the swap. When defined in relation to a date specified somewhere else in the document (through the relativeDate component), this element will typically point to the effective date of the other leg of the swap.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="terminationDate" type="AdjustableOrRelativeDate">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies the termination date of the equity leg of the swap. When defined in relation to a date specified somewhere else in the document (through the relativeDate component), this element will typically point to the termination date of the other leg of the swap.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="underlyer" type="Underlyer">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies the underlying component of the return type swap, which can be either one or many and consists in either equity, index or convertible bond component, or a combination of these.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="valuation" type="DeprecatedEquityLegValuation">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies the terms of the initial price of the return type swap and of the subsequent valuations of the equity underlyer.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="notional" type="ReturnSwapNotional">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies the notional of a return type swap. When used in the equity leg, the definition will typically combine the actual amount (using the notional component defined by the FpML industry group) and the determination method. When used in the interest leg, the definition will typically point to the definition of the equity leg.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="equityAmount" type="ReturnSwapAmount">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies, in relation to each Equity Payment Date, the amount to which the Equity Payment Date relates. Unless otherwise specified, this term has the meaning defined in the ISDA 2002 Equity Derivatives Definitions.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="return" type="Return">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies the conditions under which dividend affecting the underlyer will be paid to the receiver of the equity amounts.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="notionalAdjustments" type="NotionalAdjustmentEnum">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies the conditions that govern the adjustment to the number of units of the equity swap.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="fxFeature" type="FxFeature" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">A quanto or composite FX feature.</xsd:documentation>
+							<xsd:documentation xml:lang="de">Quanto- oder Komposit-Devisenbestandteil.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="DeprecatedEquityLegValuation">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">This type has been DEPRECATED. It will be removed in the next FpML major version. A type describing the initial and final valuation of the equity underlyer.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="initialPrice" type="DeprecatedEquityLegValuationPrice">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Specifies the initial reference price of the equity underlyer. This price can be expressed either as an actual amount/currency, as a determination method, or by reference to another value specified in the swap document.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="equityNotionalReset" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">The term "Equity Notional Reset" is assumed to have the meaning as defined in the ISDA 2002 Equity Derivatives Definitions. The reference to the ISDA definition is either "Applicable" or 'Inapplicable".</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="valuationPriceInterim" type="DeprecatedEquityLegValuationPrice" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Specifies the interim valuation price of the equity underlyer. This price can be expressed either as an actual amount/currency, as a determination method, or by reference to another value specified in the swap document.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="valuationPriceFinal" type="DeprecatedEquityLegValuationPrice">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Specifies the final valuation price of the equity underlyer. This price can be expressed either as an actual amount/currency, as a determination method, or by reference to another value specified in the swap document.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="equityPaymentDates" type="DeprecatedEquityPaymentDates">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Specifies the equity payment dates of the swap.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DeprecatedEquityLegValuationPrice">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">This type has been DEPRECATED. It will be removed in the next FpML major version.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="Price">
+				<xsd:sequence>
+					<xsd:element name="equityValuation" type="EquityValuation" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="DeprecatedEquityPaymentDates">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">This type has been DEPRECATED. It will be removed in the next FpML major version. A type describing the equity payment dates of the swap.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="equityPaymentDatesInterim" type="AdjustableOrRelativeDates" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Specifies the interim payment dates of the swap. When defined in relation to a date specified somewhere else in the document (through the relativeDates component), this element will typically refer to the valuation dates and add a lag corresponding to the settlement cycle of the underlyer.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="equityPaymentDateFinal" type="AdjustableOrRelativeDate">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Specifies the final payment date of the swap. When defined in relation to a date specified somewhere else in the document (through the relativeDate component), this element will typically refer to the final valuation date and add a lag corresponding to the settlement cycle of the underlyer.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID"/>
+	</xsd:complexType>
+	<xsd:complexType name="EquitySwapTransactionSupplement">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A type for defining Equity Swap Transaction Supplement</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ReturnSwapBase">
+				<xsd:sequence>
+					<xsd:element name="mutualEarlyTermination" type="xsd:boolean" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Used for specifying whether the Mutual Early Termination Right that is detailed in the Master Confirmation will apply.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="multipleExchangeIndexAnnexFallback" type="xsd:boolean" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Used for specifying whether additional annex terms for trades with underlyers that are listed on multiple exchanges, as defined in the European Master Confirmation, will apply.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="InterestCalculation">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Specifies the calculation method of the interest rate leg of the equity swap. Includes the floating or fixed rate calculation definitions, along with the determination of the day count fraction.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="InterestAccrualsMethod">
+				<xsd:sequence>
+					<xsd:element name="dayCountFraction" type="DayCountFraction">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">The day count fraction.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="compounding" type="Compounding" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Defines compounding rates on the Interest Leg.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="InterestLeg">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A type describing the fixed income leg of the equity swap.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ReturnSwapLeg">
+				<xsd:sequence>
+					<xsd:element name="interestLegCalculationPeriodDates" type="InterestLegCalculationPeriodDates">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Component that holds the various dates used to specify the interest leg of the equity swap. It is used to define the InterestPeriodDates identifyer.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="notional" type="ReturnSwapNotional">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies the notional of a return type swap. When used in the equity leg, the definition will typically combine the actual amount (using the notional component defined by the FpML industry group) and the determination method. When used in the interest leg, the definition will typically point to the definition of the equity leg.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="interestAmount" type="LegAmount">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies, in relation to each Interest Payment Date, the amount to which the Interest Payment Date relates. Unless otherwise specified, this term has the meaning defined in the ISDA 2000 ISDA Definitions.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="interestCalculation" type="InterestCalculation">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies the calculation method of the interest rate leg of the equity swap. Includes the floating or fixed rate calculation definitions, along with the determination of the day count fraction.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="stubCalculationPeriod" type="StubCalculationPeriod" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies the stub calculation period</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="InterestLegCalculationPeriodDates">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Component that holds the various dates used to specify the interest leg of the equity swap. It is used to define the InterestPeriodDates identifyer.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="effectiveDate" type="AdjustableOrRelativeDate">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Specifies the effective date of the equity swap. This global element is valid within the equity swaps namespace. Within the FpML namespace, another effectiveDate global element has been defined, that is different in the sense that it does not propose the choice of refering to another date in the document.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="terminationDate" type="AdjustableOrRelativeDate">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Specifies the termination date of the equity swap. This global element is valid within the equity swaps namespace. Within the FpML namespace, another terminationDate global element has been defined, that is different in the sense that it does not propose the choice of refering to another date in the document.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="interestLegResetDates" type="InterestLegResetDates">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Specifies the reset dates of the interest leg of the swap.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="interestLegPaymentDates" type="AdjustableOrRelativeDates">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Specifies the payment dates of the interest leg of the swap. When defined in relation to a date specified somewhere else in the document (through the relativeDates component), this element will typically point to the payment dates of the equity leg of the swap.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="InterestLegResetDates">
+		<xsd:sequence>
+			<xsd:element name="calculationPeriodDatesReference" type="Reference">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">A pointer style reference to the associated calculation period dates component defined elsewhere in the document.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:choice>
+				<xsd:element name="resetRelativeTo" type="ResetRelativeToEnum">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Specifies whether the reset dates are determined with respect to each adjusted calculation period start date or adjusted calculation period end date. If the reset frequency is specified as daily this element must not be included.</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="resetFrequency" type="ResetFrequency">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">The frequency at which reset dates occur. In the case of a weekly reset frequency, also specifies the day of the week that the reset occurs. If the reset frequency is greater than the calculation period frequency then this implies that more than one reset date is established for each calculation period and some form of rate averaging is applicable.</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="LegAmount">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A type describing the amount that will paid or received on each of the payment dates. This type is used to define both the Equity Amount and the Interest Amount.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="paymentCurrency" type="PaymentCurrency" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Currency in which the payment relating to the leg amount (equity amount or interest amount) or the dividend will be denominated.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:choice>
+				<xsd:element name="referenceAmount" type="ReferenceAmount">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Specifies the reference Amount when this term either corresponds to the standard ISDA Definition (either the 2002 Equity Definition for the Equity Amount, or the 2000 Definition for the Interest Amount), or points to a term defined elsewhere in the swap document.</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="formula" type="Formula">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Specifies a formula, with its description and components.</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="encodedDescription" type="xsd:base64Binary">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Description of the leg amount when represented through an encoded image.</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="variance" type="Variance">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Specifies Variance for Variance Leg</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:choice>
+			<xsd:element name="calculationDates" type="AdjustableRelativeOrPeriodicDates" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Specifies the date ion which a calculation or an observation will be performed for the purpose of defining the Equity Amount, and in accordance to the definition terms of this latter.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PrincipalExchangeAmount">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Specifies the principal exchange amount, either by explicitly defining it, or by point to an amount defined somewhere else in the swap document.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="amountRelativeTo" type="Reference"/>
+			<xsd:element name="determinationMethod" type="DeterminationMethod">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Specifies the method according to which an amount or a date is determined.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="principalAmount" type="Money">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Principal exchange amount when explictly stated.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="PrincipalExchangeDescriptions">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Specifies each of the characteristics of the principal exchange cashflows, in terms of paying/receiving counterparties, amounts and dates.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:group ref="PayerReceiver.model"/>
+			<xsd:element name="principalExchangeAmount" type="PrincipalExchangeAmount">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Specifies the principal echange amount, either by explicitly defining it, or by point to an amount defined somewhere else in the swap document.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="principalExchangeDate" type="AdjustableOrRelativeDate">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Date on which each of the principal exchanges will take place. This date is either explictly stated, or is defined by reference to another date in the swap document. In this latter case, it will typically refer to one other date of the equity leg: either the effective date (initial exchange), or the last payment date (final exchange).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PrincipalExchangeFeatures">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A type describing the principal exchange features of the equity swap.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="principalExchanges" type="PrincipalExchanges">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">The true/false flags indicating whether initial, intermediate or final exchanges of principal should occur.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="principalExchangeDescriptions" type="PrincipalExchangeDescriptions" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Specifies each of the characteristics of the principal exchange cashflows, in terms of paying/receiving counterparties, amounts and dates.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Return">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A type describing the dividend return conditions applicable to the swap.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="returnType" type="ReturnTypeEnum">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Defines the type of return associated with the equity swap.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="dividendConditions" type="DividendConditions" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Specifies the conditions governing the payment of the dividends to the receiver of the equity return. With the exception of the dividend payout ratio, which is defined for each of the underlying components.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ReturnLeg">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A type describing the return leg of a return type swap.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ReturnSwapLeg">
+				<xsd:sequence>
+					<xsd:element name="effectiveDate" type="AdjustableOrRelativeDate">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies the effective date of the return leg of the swap. When defined in relation to a date specified somewhere else in the document (through the relativeDate component), this element will typically point to the effective date of the other leg of the swap.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="terminationDate" type="AdjustableOrRelativeDate">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies the termination date of the return leg of the swap. When defined in relation to a date specified somewhere else in the document (through the relativeDate component), this element will typically point to the termination date of the other leg of the swap.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="underlyer" type="Underlyer">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies the underlying component of the return type swap, which can be either one or many and consists in either equity, index or convertible bond component, or a combination of these.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="rateOfReturn" type="ReturnLegValuation">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Element named "valuation" in versions prior to FpML 4.2 Second Working Draft. Specifies the terms of the initial price of the return type swap and of the subsequent valuations of the underlyer.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="notional" type="ReturnSwapNotional">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies the notional of a return type swap. When used in the equity leg, the definition will typically combine the actual amount (using the notional component defined by the FpML industry group) and the determination method. When used in the interest leg, the definition will typically point to the definition of the equity leg.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="amount" type="ReturnSwapAmount">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Element named "equityAmount" in versions prior to FpML 4.2 Second Working Draft. Specifies, in relation to each Payment Date, the amount to which the Payment Date relates. For equity swaps this element is equivalent to the Equity Amount term as defined in the ISDA 2002 Equity Derivatives Definitions.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="return" type="Return">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies the conditions under which dividend affecting the underlyer will be paid to the receiver of the amounts.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="notionalAdjustments" type="NotionalAdjustmentEnum">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies the conditions that govern the adjustment to the number of units of the equity swap.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="fxFeature" type="FxFeature" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">A quanto or composite FX feature.</xsd:documentation>
+							<xsd:documentation xml:lang="de">Quanto- oder Komposit-Devisenbestandteil.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="ReturnLegValuation">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A type describing the initial and final valuation of the underlyer.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="initialPrice" type="ReturnLegValuationPrice">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Specifies the initial reference price of the underlyer. This price can be expressed either as an actual amount/currency, as a determination method, or by reference to another value specified in the swap document.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="notionalReset" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Element named "equityNotionalReset" in versions prior to FpML 4.2 Second Working Draft. For equity swaps, this element is equivalent to the term "Equity Notional Reset" as defined in the ISDA 2002 Equity Derivatives Definitions. The reference to the ISDA definition is either "Applicable" or 'Inapplicable".</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="valuationPriceInterim" type="ReturnLegValuationPrice" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Specifies the interim valuation price of the underlyer. This price can be expressed either as an actual amount/currency, as a determination method, or by reference to another value specified in the swap document.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="valuationPriceFinal" type="ReturnLegValuationPrice">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Specifies the final valuation price of the underlyer. This price can be expressed either as an actual amount/currency, as a determination method, or by reference to another value specified in the swap document.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="paymentDates" type="ReturnSwapPaymentDates">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Element named "equityPaymentDates" in versions prior to FpML 4.2 Second Working Draft. Specifies the payment dates of the swap.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ReturnLegValuationPrice">
+		<xsd:complexContent>
+			<xsd:extension base="Price">
+				<xsd:sequence>
+					<xsd:element name="valuationRules" type="EquityValuation" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Element named "equityValuation" in versions prior to FpML 4.2 Second Working Draft.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="ReturnSwap">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A type describing return swaps including equity swaps (long form), total return swaps, and variance swaps.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ReturnSwapBase">
+				<xsd:sequence>
+					<xsd:element name="principalExchangeFeatures" type="PrincipalExchangeFeatures" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies the principal exchange features of the equity swap.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="additionalPayment" type="ReturnSwapAdditionalPayment" minOccurs="0" maxOccurs="unbounded">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies additional payment(s) between the principal parties to the trade. This component extends some of the features of the additionalPayment component developed by the FpML industry group. Appropriate discussions will determine whether it would be appropriate to extend the shared component in order to meet the further requirements of equity swaps.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="earlyTermination" type="ReturnSwapEarlyTermination" minOccurs="0" maxOccurs="unbounded">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies, for one or for both the parties to the trade, the date from which it can early terminate it.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="extraordinaryEvents" type="ExtraordinaryEvents" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Where the underlying is shares, specifies events affecting the issuer of those shares that may require the terms of the transaction to be adjusted.</xsd:documentation>
+							<xsd:documentation xml:lang="de">Ist der Basiswert eine Aktie, werden hiermit Ereignisse angegeben, die den Emittenten der Aktie betreffen und die eine Anpassung der Transaktionsbedingungen erfordern kÃƒÂ¶nnen.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="ReturnSwapAdditionalPayment">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A type describing the additional payment(s) between the principal parties to the trade. This component extends some of the features of the additionalPayment component previously developed in FpML. Appropriate discussions will determine whether it would be appropriate to extend the shared component in order to meet the further requirements of equity swaps.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:group ref="PayerReceiver.model"/>
+			<xsd:element name="additionalPaymentAmount" type="AdditionalPaymentAmount">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Specifies the amount of the fee along with, when applicable, the formula that supports its determination.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="additionalPaymentDate" type="AdjustableOrRelativeDate">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Specifies the value date of the fee payment/receipt.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="paymentType" type="PaymentType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ReturnSwapAmount">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Specifies, in relation to each Payment Date, the amount to which the Payment Date relates. For Equity Swaps this element is equivalent to the Equity Amount term as defined in the ISDA 2002 Equity Derivatives Definitions.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="LegAmount">
+				<xsd:sequence>
+					<xsd:element name="cashSettlement" type="xsd:boolean"/>
+					<xsd:element name="optionsExchangeDividends" type="xsd:boolean" minOccurs="0"/>
+					<xsd:element name="additionalDividends" type="xsd:boolean" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="ReturnSwapBase">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A type describing the components that are common for return type swaps, including short and long form equity swaps representations.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="Product">
+				<xsd:sequence>
+					<xsd:group ref="BuyerSeller.model" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">BuyerSeller.model has been included as an optional child of ReturnSwapBase to support the situation where an implementor wishes to indicate who has manufactured the Swap through representing them as the Seller. It may be removed in future major revisions.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:group>
+					<xsd:element ref="returnSwapLeg" maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="ReturnSwapEarlyTermination">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A type describing the date from which each of the party may be allowed to terminate the trade.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="partyReference" type="Reference"/>
+			<xsd:element name="startingDate" type="StartingDate">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Specifies the date from which the early termination clause can be exercised.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ReturnSwapLeg" abstract="true">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">The abstract base class for all types of Return Swap Leg.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:group ref="PayerReceiver.model"/>
+			<xsd:element name="paymentFrequency" type="Interval" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Frequency at which this leg pays.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="legIdentifier" type="xsd:ID"/>
+	</xsd:complexType>
+	<xsd:complexType name="ReturnSwapNotional">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Specifies the notional of return type swap. When used in the equity leg, the definition will typically combine the actual amount (using the notional component defined by the FpML industry group) and the determination method. When used in the interest leg, the definition will typically point to the definition of the equity leg.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="determinationMethod" type="DeterminationMethod">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Specifies the method according to which an amount or a date is determined.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="notionalAmount" type="Money">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">The notional amount.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="amountRelativeTo" type="Reference"/>
+		</xsd:choice>
+		<xsd:attribute name="id" type="xsd:ID"/>
+	</xsd:complexType>
+	<xsd:complexType name="ReturnSwapPaymentDates">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A type describing the return payment dates of the swap.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="paymentDatesInterim" type="AdjustableOrRelativeDates" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Element named "equityPaymentDatesInterim" in versions prior to FpML 4.2 Second Working Draft. Specifies the interim payment dates of the swap. When defined in relation to a date specified somewhere else in the document (through the relativeDates component), this element will typically refer to the valuation dates and add a lag corresponding to the settlement cycle of the underlyer.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="paymentDateFinal" type="AdjustableOrRelativeDate">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Element named "equityPaymentDateFinal" in versions prior to FpML 4.2 Second Working Draft. Specifies the final payment date of the swap. When defined in relation to a date specified somewhere else in the document (through the relativeDate component), this element will typically refer to the final valuation date and add a lag corresponding to the settlement cycle of the underlyer.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID"/>
+	</xsd:complexType>
+	<xsd:complexType name="StartingDate">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A type specifying the date from which the early termination clause can be exercised.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="dateRelativeTo" type="Reference">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Specifies the anchor as an href attribute. The href attribute value is a pointer style reference to the element or component elsewhere in the document where the anchor date is defined.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="adjustableDate" type="AdjustableDate"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="StubCalculationPeriod">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A type describing the Stub Calculation Period</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:sequence>
+				<xsd:element name="initialStub" type="Stub"/>
+				<xsd:element name="finalStub" type="Stub" minOccurs="0"/>
+			</xsd:sequence>
+			<xsd:element name="finalStub" type="Stub"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="Variance">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A type describing the variance amount of a variance swap</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="initialLevel" type="xsd:decimal"/>
+				<xsd:element name="closingLevel" type="xsd:boolean"/>
+			</xsd:choice>
+			<xsd:element name="varianceAmount" type="Money"/>
+			<xsd:choice>
+				<xsd:element name="volatilityStrikePrice" type="xsd:decimal"/>
+				<xsd:element name="varianceStrikePrice" type="xsd:decimal"/>
+			</xsd:choice>
+			<xsd:element name="expectedN" type="xsd:integer" minOccurs="0"/>
+			<xsd:element name="varianceCap" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="unadjustedVarianceCap" type="xsd:decimal" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">For use when varianceCap is applicable. Contains the scaling factor of the Variance Cap that can differ on a trade-by-trade basis in the European market. For example, a Variance Cap of 2.5^2 x Variance Strike Price has an unadjustedVarianceCap of 2.5.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="exchangeTradedContractNearest" type="ExchangeTradedContract" minOccurs="0"/>
+			<xsd:element name="vegaNotionalAmount" type="xsd:decimal" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Vega Notional represents the approximate gain/loss at maturity for a 1% difference between RVol (realised vol) and KVol (strike vol). It does not necessarily represent the Vega Risk of the trade.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="VarianceAmount">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Specifies, in relation to each Equity Payment Date, the amount to which the Equity Payment Date relates for Variance Swaps. Unless otherwise specified, this term has the meaning defined in the ISDA 2002 Equity Derivatives Definitions.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ReturnSwapAmount">
+				<xsd:sequence>
+					<xsd:element name="cashSettlementPaymentDate" type="AdjustableOrRelativeDate" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Typically specified as a number of days following the valuation date, such as one settlement cycle following the valuation date. Number of days can vary in the European market.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="observationStartDate" type="StartingDate" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">The start of the period over which observations are made to determine the variance. Used when the date differs from the trade date such as for forward starting variance swaps.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="allDividends" type="xsd:boolean" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Represents the European Master Confirmation value of 'All Dividends' which, when applicable, signifies that, for a given Ex-Date, the daily observed Share Price for that day is adjusted (reduced) by the cash dividend and/or the cash value of any non cash dividend per Share (including Extraordinary Dividends) declared by the Issuer.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="VarianceLeg">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A type describing the variance leg of the equity swap.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ReturnSwapLeg">
+				<xsd:sequence>
+					<xsd:element name="underlyer" type="Underlyer">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies the underlying component of the variance swap, which can be either one or many and consists in either equity, index or convertible bond component, or a combination of these.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="equityValuation" type="EquityValuation">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Equity Valuation</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="equityAmount" type="VarianceAmount">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies, in relation to each Equity Payment Date, the amount to which the Equity Payment Date relates. Unless otherwise specified, this term has the meaning defined in the ISDA 2002 Equity Derivatives Definitions.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!-- ## equityLeg element has been deprecated. It will be removed in the next FpML major version ## -->
+	<xsd:element name="equityLeg" type="DeprecatedEquityLeg" substitutionGroup="returnSwapLeg">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">This element has been DEPRECATED and it will be removed in the next FpML major version (5.0) - please use returnLeg element to represent long form equity swaps, total return swaps. The equity amounts of the equity swap</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<!-- ## equitySwap element has been deprecated. It will be removed in the next FpML major version ## -->
+	<xsd:element name="equitySwap" type="ReturnSwap" substitutionGroup="product">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">This element has been DEPRECATED and it will be removed in the next FpML major version (5.0) - please use returnSwap element to represent long form equity swaps, total return swaps, and variance swaps.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="equitySwapTransactionSupplement" type="EquitySwapTransactionSupplement" substitutionGroup="product">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Specifies the structure of the equity swap transaction supplement</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="interestLeg" type="InterestLeg" substitutionGroup="returnSwapLeg">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">The fixed income amounts of the return type swap.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="returnLeg" type="ReturnLeg" substitutionGroup="returnSwapLeg">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Return amounts of the return type swap.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="returnSwapLeg" type="ReturnSwapLeg" abstract="true">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">An placeholder for the actual Return Swap Leg definition.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="returnSwap" type="ReturnSwap" substitutionGroup="product">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Specifies the structure of a return type swap. It can represent equity swaps, total return swaps, variance swaps.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="varianceLeg" type="VarianceLeg" substitutionGroup="returnSwapLeg">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">The variance leg of the equity swap</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+</xsd:schema>

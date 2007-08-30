@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map-of-maps>
+	<map string1="key1">
+		<nested string2="nested_key1" string3="nested_value1" />
+	</map>
+	<map string1="key2">
+		<nested string2="nested_key2" string3="nested_value2" />
+	</map>
+</map-of-maps>

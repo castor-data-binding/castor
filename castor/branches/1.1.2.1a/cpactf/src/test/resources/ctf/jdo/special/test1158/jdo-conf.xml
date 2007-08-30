@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<!DOCTYPE jdo-conf PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.org/jdo-conf.dtd">
+<jdo-conf>
+    <database name="test1158" engine="mysql">
+        <data-source class-name="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">
+            <param name="url" value="jdbc:mysql://localhost/test1158"/>
+            <param name="user" value="test"/>
+            <param name="password" value="test" />
+        </data-source>
+        <mapping href="mapping.xml" />
+    </database>
+   <transaction-demarcation mode="local" />
+</jdo-conf>

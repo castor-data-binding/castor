@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/howto/how-to-map-a-collection.xml">
+  <properties>
+    <title>How to map a classcollection of elements</title>
+    <abstract/>
+    <status>Final</status>
+  </properties>
+  <body>
+    <title>How to map field(s) as constructor argument</title>
+    <header/>
+
+    <section title="Intended Audience">
+
+        <p>Anyone who wants to map a class in Castor XML and wants to map fields
+           as constructor arguments.</p>
+        
+        <p>This document helps people to get familiar with the basic/advanced concepts
+           of mapping and shows an example.</p>
+
+    </section>
+    
+    <section title="Prerequisites">
+
+        <p>None.</p>
+
+    </section>
+
+    <section title="Basic concept">
+        
+        <p>Assume you have a class <tt>Foo</tt>, as shown below</p>
+           
+        <code-panel>
+public class Foo {
+
+    private int size = 20;
+
+    public Foo() { }
+
+    <b>public Foo(int size) {
+        this.size = size;
+    }</b>
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+}</code-panel>
+           
+        <p>As shown above, the <tt>Foo</tt> class has - in addition to the <i>default constructor</i>, which
+           is required by Castor XML - a second constructor that allows you to specify a custom size
+           at object initialization.</p>
+           
+    </section>
+
+    <section title="Mapping file">
+
+        <p>Here's the mapping file to instruct Castor XML about the existence of 
+           <tt>Foo</tt> respectively:</p>
+
+        <code-panel>
+&lt;?xml version="1.0"?&gt;
+&lt;mapping&gt;
+  &lt;class name="Foo"&gt;
+     &lt;field name="size" get-method="getSize" <font color="red"><b>set-method="%1"</b></font> type="int"&gt;
+        &lt;bind-xml node="attribute"/&gt;
+     &lt;/field&gt;
+  &lt;/class&gt;
+&lt;/mapping&gt;</code-panel>
+
+		<p>The <tt>setMethod="%1"</tt> fragment above tells Castor to use the <tt>size</tt> 
+		   attribute as a constructor argument when calling <tt>Foo(int)</tt> during
+		   instantiation.</p>
+    
+    </section>
+
+    <section title="References">
+
+        <ul>
+            <li><a href="xml-mapping.html">XML mapping</a></li>
+        </ul>
+        
+    </section>
+
+
+  </body>
+</document>

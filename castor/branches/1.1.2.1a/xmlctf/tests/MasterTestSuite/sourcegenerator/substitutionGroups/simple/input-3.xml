@@ -1,0 +1,13 @@
+<singleUnderlyer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="test.xsd">
+	<bond id="ID000000">
+		<instrumentId instrumentIdScheme="http://www.altova.com">normalizedString</instrumentId>
+		<description>String</description>
+		<issuerName>String</issuerName>
+		<couponRate>3.1415926535897932384626433832795</couponRate>
+		<maturity>1967-08-13</maturity>
+		<parValue>3.1415926535897932384626433832795</parValue>
+		<faceAmount>3.1415926535897932384626433832795</faceAmount>
+	</bond>
+	<openUnits>3.1415926535897932384626433832795</openUnits>
+</singleUnderlyer>

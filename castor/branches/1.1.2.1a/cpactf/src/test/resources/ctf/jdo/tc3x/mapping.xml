@@ -1,0 +1,129 @@
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+  <class name="ctf.jdo.tc3x.Entity" access="shared" identity="id">
+    <map-to table="tc3x_entity" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="value1" type="string" required="true">
+      <sql name="value1" type="varchar"/>
+    </field>
+    <field name="value2" type="string">
+      <sql name="value2" type="varchar" dirty="ignore"/>
+    </field>
+  </class>
+  
+  <class name="ctf.jdo.tc3x.ExtendsEntity" access="shared" extends="ctf.jdo.tc3x.Entity">
+    <map-to table="tc3x_extends" />
+    <field name="value3" type="string">
+      <sql name="value3" type="varchar"/>
+    </field>
+    <field name="value4" type="string">
+      <sql name="value4" type="varchar" dirty="ignore"/>
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc3x.CallEntity" access="shared" identity="id">
+    <map-to table="tc3x_call" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="value1" type="string" required="true">
+      <sql name="value1" type="varchar"/>
+    </field>
+    <field name="value2" type="string">
+      <sql name="value2" type="varchar" dirty="ignore"/>
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc3x.PersistentEntity" access="shared" identity="id">
+    <map-to table="tc3x_persistent" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="creationTime" type="java.util.Date" required="true">
+      <sql name="ctime" type="timestamp" />
+    </field>
+    <field name="modificationTime" type="java.util.Date" required="false">
+      <sql name="mtime" type="timestamp" dirty="ignore" />
+    </field>
+    <field name="value1" type="string"  required="true">
+      <sql name="value1" type="varchar" />
+    </field>
+    <field name="parentId" type="integer" required="false">
+      <sql name="parent_id" type="integer" dirty="ignore" />
+    </field>
+    <field name="group" type="ctf.jdo.tc3x.GroupEntity" required="true">
+      <sql name="group_id" />
+    </field>
+    <field name="related" type="ctf.jdo.tc3x.RelatedEntity" required="false">
+      <sql many-key="persist_id" />
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc3x.GroupEntity" access="shared" identity="id">
+    <map-to table="tc3x_group" />
+    <field name="id" type="integer">
+      <sql name="id" type="numeric" />
+    </field>
+    <field name="value1" type="string"  required="true">
+      <sql name="value1" type="varchar" />
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc3x.RelatedEntity" access="shared" identity="id" key-generator="MAX">
+    <map-to table="tc3x_related" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="persistent" type="ctf.jdo.tc3x.PersistentEntity">
+      <sql name="persist_id" />
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc3x.ExtendsEntity1" extends="ctf.jdo.tc3x.PersistentEntity">
+    <map-to table="tc3x_extends1" />
+    <field name="id" type="integer">
+      <sql name="ident"/>
+    </field>
+    <field name="ext" type="integer" required="true">
+      <sql name="ext"/>
+    </field>
+    <field name="list" type="ctf.jdo.tc3x.ExtendsEntity2" collection="collection" lazy="false">
+      <sql many-table="test_oqltag" name="id2" many-key="id1"/>
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc3x.ExtendsEntity2" extends="ctf.jdo.tc3x.PersistentEntity">
+    <map-to table="tc3x_extends2" />
+    <field name="ext" type="integer" required="true">
+      <sql name="ext"/>
+    </field>
+  </class>
+	
+  <class name="ctf.jdo.tc3x.NQEntity" identity="id">
+    <description>Named query entity</description>
+    <map-to table="tc3x_nq_entity"/>
+    <named-query name="selectAllEntity">
+      <query>SELECT e FROM ctf.jdo.tc3x.NQEntity e</query>
+    </named-query>
+    <named-query name="queryBadSyntax">
+	    <query>SELECT e FROM EntityTwo entity</query>
+    </named-query>
+    <named-query name="selectEntityById">
+    	<query>SELECT e FROM ctf.jdo.tc3x.NQEntity e WHERE e.id=$1</query>
+    </named-query>
+    <named-query name="selectEntitiesWithHint">
+	    <query>SELECT e FROM ctf.jdo.tc3x.NQEntity e</query>
+	    <query-hint name="beggingCastor" value="please load my objects!"/>
+    </named-query>
+    <field name="id" type="integer" >
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="name" type="string">
+      <sql name="name" type="char" />
+    </field>
+  </class>
+	
+</mapping>

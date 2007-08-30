@@ -1,0 +1,15 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>UDDI XML Schema</Name>
+    <Author>Arnaud Blandin/SAP</Author>
+    <Comment>
+        This test suite tests the capability of Castor to read/write
+        succesfully SAP Entreprise Buyer Professional V3.0 XML Schema
+    </Comment>
+    <Category>basic capability</Category>
+    <SchemaTest>
+        <UnitTestCase>
+            <Schema>*</Schema>
+        </UnitTestCase>
+    </SchemaTest>
+</TestDescriptor>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map-of-map-of-maps>
+    <map level1Key="key1">
+        <map2 level2Key="key1">
+            <map3 level3Key="key1" level3Value="value1" />
+            <map3 level3Key="key2" level3Value="value2" />
+        </map2>
+        <map2 level2Key="key2">
+            <map3 level3Key="key1" level3Value="value1" />
+            <map3 level3Key="key2" level3Value="value2" />
+        </map2>
+    </map>
+    <map level1Key="key2">
+        <map2 level2Key="key1">
+            <map3 level3Key="key1" level3Value="value1" />
+            <map3 level3Key="key2" level3Value="value2" />
+        </map2>
+        <map2 level2Key="key2">
+            <map3 level3Key="key1" level3Value="value1" />
+            <map3 level3Key="key2" level3Value="value2" />
+        </map2>
+    </map>
+</map-of-map-of-maps>
