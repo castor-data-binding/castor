@@ -140,9 +140,71 @@
     </section>
 
 
-    <section title="3. The Mapping File">
+    <section title="The Mapping File">
+    
+    	<p>
+    		The following sections define the syntax for each of the mapping file artefacts
+    		and their semantical meaning.
+    	</p>
+    
+    	<section title="Sample domain objects">
+    	
+    		<p>
+    			This section defines a small domain model that will be referenced by
+    			various mapping file (fragments/samples) in the following sections. The model consists 
+    			of two two classes <tt>Order</tt> and <tt>OrderItem</tt>, where an order 
+    			holds a list of order items.
+    		</p>
 
-      <section title="3.1 The &lt;mapping> element">
+    		<code-panel>
+public class Order {
+
+    private List <b>orderItems</b>;
+    private String orderNumber;
+    
+    <b>public List getOrderItems()</b> {
+        return orderItems;
+    }
+    <b>public void setOrderItems(List orderItems)</b> {
+        this.orderItems = orderItems;
+    }
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+}
+
+public class OrderItem {
+    
+    private String id;
+    private Integer orderQuantity;
+    
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
+    public Integer getOrderQuantity() {
+        return orderQuantity;
+    }
+    public void setOrderQuantity(Integer orderQuantity) {
+        this.orderQuantity = orderQuantity;
+    }
+}</code-panel>
+           
+	        <p>
+	        	As shown above in bold, the <tt>Order</tt> instance has a (private) field <tt>'orderItems'</tt>
+				to hold a collection of <tt>OrderItem</tt> instances. This field is publically exposed
+				by corresponding getter and setter methods.
+	        </p>
+           
+
+    	</section>
+
+      <section title="The &lt;mapping> element">
 
         <code>
           &lt;!ELEMENT mapping ( description?, include*, class*, key-generator* )>
@@ -165,210 +227,328 @@
         <p>A mapping file look like this:</p>
 
         <code-panel><![CDATA[
-        <?xml version="1.0"?>
+<?xml version="1.0"?>
 
-        <!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
-                                 "http://castor.org/mapping.dtd">
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+      castor.org
+                         "http://castor.org/mapping.dtd">
 
-        <mapping>
-                <description>Description of the mapping</description>
+<mapping>
+	<description>Description of the mapping</description>
+	
+	<include href="other_mapping_file.xml"/>
+	
+	<!-- mapping for class 'A' -->
+	<class name="A">
+	        .........
+	</class>
+	
+	<!-- mapping for class 'B' -->
+	<class name="B">
+	        .........
+	</class>
 
-                <include href="other_mapping_file.xml"/>
-
-                <class name="A">
-                        .........
-                </class>
-
-                <class name="B">
-                        .........
-                </class>
-
-        </mapping>]]></code-panel>
+</mapping>]]></code-panel>
 
       </section>
 
-      <section title="3.2 The &lt;class> element">
+      <section title="The &lt;class> element">
 
         <code-panel><![CDATA[
-        <!ELEMENT class ( description?, cache-type?, map-to?, field+ )>
-        <!ATTLIST class
-                  name            ID       #REQUIRED
-                  extends         IDREF    #IMPLIED
-                  depends         IDREF    #IMPLIED
-                  auto-complete   ( true |false ) "false"
-                  identity        CDATA    #IMPLIED
-                  access          ( read-only | shared | exclusive | db-locked )  "shared"
-                  key-generator   IDREF    #IMPLIED >]]></code-panel>
+<!ELEMENT class ( description?, cache-type?, map-to?, field+ )>
+<!ATTLIST class
+          name            ID       #REQUIRED
+          extends         IDREF    #IMPLIED
+          depends         IDREF    #IMPLIED
+          auto-complete   ( true |false ) "false"
+          identity        CDATA    #IMPLIED
+          access          ( read-only | shared | exclusive | db-locked )  "shared"
+          key-generator   IDREF    #IMPLIED >]]></code-panel>
 
 
         <p>The  <tt>&lt;class></tt> element contains all the information used to 
            map a Java class into an XML document. The content of <tt>&lt;class></tt>
            is mainly used to describe the fields that will be mapped.</p>
 
-        <p>Description of the attributes:</p>
+        <h4>Description of the attributes</h4>
 
-        <ul>
-          <li><b>name:</b> the name of the Java class that we want to map to. It should
-            look like 'mypackage.myclass'</li>
-
-          <li><b>extends:</b> should be used _only_ if this class extends another class
-            for which mapping information is provided. It should _not_ be used
-            if the extended class is not used in the mapping file.</li>
-
-          <li><b>depends:</b> for more information on this fields see JDO
-            documentation.</li>
-
-          <li><b>auto-complete:</b> if true, the class will be introspected to
-          determine its field and the fields specified in the mapping file will
-          be used to overide the field found during the introspection.</li>
-
-          <li><b>identity:</b> for more information on this fields see JDO
-            documentation</li>
-
-          <li><b>access:</b> for more information on this fields see JDO documentation</li>
-
-          <li><b>key-generator</b>: for more information on this fields see JDO
-            documentation</li>
-        </ul>
+        <ctable>
+        	<cheader>
+        		<td>Name</td>
+        		<td>Description</td>
+        	</cheader>
+        	<crow>
+        		<td><b>name</b></td>
+        		<td>The fuly-qualified name of the Java class that we want to map to.</td>
+        	</crow>
+			<crow>
+				<td><b>extends</b></td>
+				<td>The fully qualified name of a parent class. This attribute should be used <b>only</b>
+					if this class extends another class for which a class mapping is provided. It 
+					should <b>not</b> be used if there's no class maping for the extended 
+					class.</td>
+			</crow>
+			<crow>
+				<td><font color="grey"><b>depends</b></font></td>
+				<td>Used with Castor JDO only; for more information on this field, please
+				    see the <a href="jdo-mapping.xml">JDO documentation</a>.</td>
+			</crow>
+			<crow>
+				<td><b>auto-complete</b></td>
+				<td>If true, the class will be introspected to determine its field and 
+				    the fields specified in the mapping file will be used to overide the 
+				    fields found during the introspection.</td>
+			</crow>
+			<crow>
+				<td><font color="grey"><b>identity</b></font></td>
+				<td>Used with Castor JDO only; for more information on this field, please see
+				    see the <a href="jdo-mapping.xml">JDO documentation</a>.</td>
+			</crow>
+			<crow>
+				<td><font color="grey"><b>access</b></font></td>
+				<td>Used with Castor JDO only; for more information on this field, please see
+				    see the <a href="jdo-mapping.xml">JDO documentation</a>.</td>
+			</crow>
+			<crow>
+				<td><font color="grey"><b>key-generator</b></font></td>
+				<td>Used with Castor JDO only; for more information on this field, please see
+				    see the <a href="jdo-mapping.xml">JDO documentation</a>.</td>
+			</crow>
+        </ctable>
 
         <p>The auto-complete attributes is interesting as it allow a fine degree
            of control of the introspector: it is possible to specifiy only the
            fields whose Castor default behavior does not suite our needs. These
            feature should simplify the handling of complexe class containing many
-           fields.</p>
+           fields. Please see below for an example usage of this attribute.</p>
 
-        <p>Description of the content:</p>
+        <h4>Description of the content</h4>
 
-        <ul>
-             <li><b>description</b>: an optional &lt;description></li>
+		<ctable>
+			<cheader>
+				<td>Name</td><td>Description</td>
+			</cheader>
+			<crow>
+				<td><b>description</b></td>
+				<td>An optional description.</td>
+			</crow>
+			<crow>
+				<td><font color="grey"><b>cache-type</b></font></td>
+				<td>Used with Castor JDO only; for more information on this field, please see
+				    see the <a href="jdo-mapping.xml">JDO documentation</a>.</td>
+			</crow>
+			<crow>
+				<td><b>map-to</b></td>
+				<td>
+					Used if the name of the element is not the name of the class. By
+					default, Castor will infer the name of the element to be mapped from
+					the name of the class: a Java class named 'XxxYyy' will be transformed
+					in 'xxx-yyy'. If you don't want Castor to generate the name, you need
+					to use &lt;map-to> to specify the name you want to use. &lt;map-to> is
+					only used for the root element.
+				</td>
+			</crow>
+			<crow>
+				<td><b>field</b></td>
+				<td>Zero or more &lt;field> elements, which are used to describe the properties 
+				    of the Java class being mapped.</td>
+			</crow>
+		</ctable>
 
-             <li><b>cache-type:</b> used for Castor JDO only; for more information on this field, please 
-                 see the section on <a href="jdo-mapping.xml">Castor JDO mapping</a></li>
-
-             <li><b>an optional &lt;map-to></b>. Used if the name of the element is not the
-             name of the class. By default, Castor will infer the name of the
-             element to be mapped from the name of the class: a Java class named
-             'XxxYyy' will be transformed in 'xxx-yyy'. If you don't want Castor
-             to generate the name, you need to use &lt;map-to> to specify the name
-             you want to use. &lt;map-to> is only used for the root element.</li>
-
-             <li><b>field:</b> zero or more &lt;field> which are used to describe properties of the
-             Java objects.</li>
-        </ul>
-
-		<section title="Sample &lt;class&gt; mapping">
+		<section title="Sample &lt;class&gt; mappings">
 		
-        <p>If you want to map the following class into the element '&lt;data&gt;':</p>
+        <p>The following mapping fragment defines a class mapping for the <tt>OrderItem</tt>
+           class:</p>
+
+        <code-panel><![CDATA[
+<class name="mypackage.OrderItem>
+           
+   <map-to xml="item"/>
+
+   <field name="id" type="string">
+      <bind-xml name="identity" node="attribute"/>
+   </field>
+
+   </field name="orderQuantity" type="integer">
+      <bind-xml name="quantity" node="element"/>
+   </field>
+
+</class>]]></code-panel>
+
+        <p>
+        	When marshalling an	<tt>OrderItem</tt> instance, this yields the 
+        	following XML:
+        </p>
+
+        <code-panel><![CDATA[
+<?xml version="1.0" ?>        
+<item identity="12">
+   <quantity>100</quantity>
+</item>]]></code-panel>
+
+			<p>The following mapping fragment defines a class mapping for the same
+			   class, where for all properties but <tt>id</tt> introspection should
+			   be used; the use of the <tt>auto-complete</tt> attribute instructs Castor XML
+			   to use introspection for all attributes other than <tt>'id'</tt>, where
+			   the given field mapping will be used.</p>
 
         <code-panel>
-package mypackage
+&lt;class name="mypackage.OrderItem <b>auto-complete="true"</b>>
+           
+   &lt;map-to xml="item"/>
 
-public class MyClass {
+   &lt;field name="id" type="string">
+      &lt;bind-xml name="identity" node="attribute"/>
+   &lt;/field>
 
-       public int foo;
+&lt;/class></code-panel>
 
-       public String getBar() { ... }
+        <p>
+        	When marshalling the very same <tt>OrderItem</tt> instance, this yields the 
+        	following XML:
+        </p>
+        
+        <code-panel><![CDATA[
+<?xml version="1.0" ?>        
+<item identity="12">
+   <order-quantity>100</order-quantity>
+</item>]]></code-panel>
 
-       public void setBar(String bar) { ... }
-}</code-panel>
+        <p>
+        	By removing the &lt;map-to&gt; element from above class mapping, ...
+        </p>
 
-        <p>Into an XML document like:</p>
+        <code-panel>
+&lt;class name="mypackage.OrderItem <b>auto-complete="true"</b>>
+           
+   &lt;field name="id" type="string">
+      &lt;bind-xml name="identity" node="attribute"/>
+   &lt;/field>
+
+&lt;/class></code-panel>
+        
+        <p>
+        	... Castor will use introspection to infer the element name from the Java 
+        	class name (<tt>OrderItem</tt>), applying a default naming convention scheme.
+        </p>
+
+        <p>
+        	When marshalling the very same <tt>OrderItem</tt> instance, this yields the 
+        	following XML:
+        </p>
 
         <code-panel><![CDATA[
-  <data foo-like="12">
-     <something>...</something>
-  </data>]]></code-panel>
-
-        <p>You might use the following mapping file:</p>
-
-        <code-panel><![CDATA[
-  <mapping>
-     ...
-     <class name="mypackage.MyClass">
-                
-        <map-to xml="data"/>
-
-        <field name="foo" direct="true" ...>
-           <bind-xml name="foo-like" node="attribute"/>
-        </field>
-
-        </field name="bar" ....>
-           <bind-xml name="something" node="element"/>
-        </field>
-
-     </class>
-     ...
-  </mapping>]]></code-panel>
-  
+<?xml version="1.0" ?>        
+<order-item identity="12">
+   <order-quantity>100</order-quantity>
+</order-item>]]></code-panel>
+			   
 		</section>
 
       </section>
 
-      <section title="3.3 The &lt;map-to> element">
+      <section title="The &lt;map-to> element">
 
         <code-panel>
-        &lt;!ELEMENT map-to EMPTY>
-        &lt;!ATTLIST map-to
-                  table               NMTOKEN  #IMPLIED
-                  xml                 NMTOKEN  #IMPLIED
-                  ns-uri              NMTOKEN  #IMPLIED
-                  ns-prefix           NMTOKEN  #IMPLIED
-                  ldap-dn             NMTOKEN  #IMPLIED
-                  element-definition  (true|false) "false"     <font color="red"><b>NEW</b> as of 1.0M3</font>
-                  ldap-oc             NMTOKEN  #IMPLIED>
-        </code-panel>
+&lt;!ELEMENT map-to EMPTY>
+&lt;!ATTLIST map-to
+          table               NMTOKEN  #IMPLIED
+          xml                 NMTOKEN  #IMPLIED
+          ns-uri              NMTOKEN  #IMPLIED
+          ns-prefix           NMTOKEN  #IMPLIED
+          ldap-dn             NMTOKEN  #IMPLIED
+          element-definition  (true|false) "false"     <font color="red"><b>NEW</b> as of 1.0M3</font>
+          ldap-oc             NMTOKEN  #IMPLIED></code-panel>
 
         <p><tt>&lt;map-to></tt> is used to specify the name of the element that should 
            be associated with the given class. <tt>&lt;map-to></tt> is only used for 
            the root class. If this information is not present, Castor will:</p>
-
+          
         <ul>
           <li>for marshalling, infer the name of the element to be mapped from the name of
             the class: a Java class named 'XxxYyy' will be transformed into 'xxx-yyy'.</li>
 
-          <li>for unmarshalling, infer the name of the class from the name of the element :
+          <li>for unmarshalling, infer the name of the class from the name of the element:
             for an element named 'test-element' Castor will try to use a
             class named 'TestElement'</li>
         </ul>
         
-        <p>Please note that it is possible to set the naming scheme used by Castor 
+        <p>Please note that it is possible to change the naming scheme used by Castor 
            to translate between the XML name and the Java class name in the 
            <tt>castor.properties</tt> file.</p>
-
-        <p>Description of the attributes:</p>
+           
+		<h4>Description of attributes</h4>
 
         <ctable>
         	<crow>
-        		<td><b>xml:</b></td>
+        		<td><b>xml</b></td>
         		<td>Name of the element that the class is associated to.</td>
         	</crow>
         	<crow>
-	          <td><b>ns-uri</b>:</td>
+	          <td><b>ns-uri</b></td>
 	          <td>Namespace URI</td>
-	         </crow>
-	         <crow>
-	          <td><b>ns-prefix:</b></td>
+    	    </crow>
+	        <crow>
+	          <td><b>ns-prefix</b></td>
 	          <td>Desired namespace</td>
-	         </crow>
-	         <crow>
-	          <td><b>element-definition:</b></td>
+	        </crow>
+	        <crow>
+	          <td><b>element-definition</b></td>
 	          <td><tt>True</tt> if the descriptor as created from a schema definition that 
 	              was of type element (as opposed to a &lt;complexType&gt; definition). This 
 	              only is useful in the context of source code generation.</td>
-	         </crow>
-	         <crow>
-	          <td><b>ldap-dn:</b></td>
-	          <td>Not used for XML</td>
-	         </crow>
-	         <crow>
-	          <td><b>ldap-oc:</b></td>
-	          <td>Not used for XML</td>
-          </crow>
+	        </crow>
+	        <crow>
+	          <td><font color="grey"><b>ldap-dn</b></font></td>
+	          <td>Not used for Castor XML</td>
+	        </crow>
+	        <crow>
+	          <td><b>ldap-oc</b></td>
+	          <td>Not used for Castor XML</td>
+            </crow>
         </ctable>
+        
+        <section title="&lt;map-to&gt; samples">
+        
+			<p>The following mapping fragment defines a &lt;map-to element for the 
+			   <tt>OrderItem</tt> class, manually setting the element name to a value 
+			   of <tt>'item'</tt>.</p>
+			   
+			<code-panel>
+&lt;class name="myPackage.OrderItem">
+   ...
+   &lt;map-to xml="item" />
+   ...
+&lt;/class></code-panel>
+
+			<p>The following mapping fragment instructs Castor to assign a namespace URI of 
+			   <tt>http://castor.org/sample/mapping/</tt> to the &lt;item&gt; element, 
+			   and use a namespace prefix of <tt>'castor'</tt> during un-/marshalling.</p>
+
+			<code-panel>
+&lt;class name="myPackage.OrderItem">
+   ...
+   &lt;map-to xml="item" <b>ns-uri="http://castor.org/sample/mapping/"</b>
+           <b>ns-prefix="castor"</b>/>
+   ...
+&lt;/class></code-panel>
+
+        <p>
+        	When marshalling an <tt>OrderItem</tt> instance, this will yield the 
+        	following XML:
+        </p>
+
+        <code-panel><![CDATA[
+<?xml version="1.0" ?>        
+<castor:order-item xmlns:castor="http://castor.org/sample/mapping/" identity="12">
+   <castor:order-quantity>100</castor:order-quantity>
+</castor:order-item>]]></code-panel>
+        
+        </section>
 
       </section>
 
-      <section title="3.4 The &lt;field> element">
+      <section title="The &lt;field> element">
 
         <code-panel><![CDATA[
         <!ELEMENT field ( description?, sql?, bind-xml?, ldap? )>
@@ -635,7 +815,7 @@ public class MyClass {
       </section>
 
 
-      <section title="3.5 The &lt;bind-xml> element">
+      <section title="The &lt;bind-xml> element">
 
         <code-panel><![CDATA[
 <!ELEMENT bind-xml (class?, property*)>
