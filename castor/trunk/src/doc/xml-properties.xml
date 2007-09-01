@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <document url="http://castor.codehaus.org/xml-properties.xml">
   <body>
-    <title>Configuration file of Castor XML</title>
+    <title>The Castor XML configuration file</title>
 
     <section title="News">
       <ul>
@@ -22,7 +22,7 @@
       </ul>
     </section>
 
-    <section title="The Castor configuration file">
+    <section title="Introduction">
 
       <p>
         Castor uses a configuration file for environmental properties that are
@@ -50,6 +50,13 @@
         The following properties are currently supported in the configuration
         file:
       </p>
+      
+      </section>
+      
+      <section title="Current configuration file">
+      
+      	<p>This is a copy of the current Castor configuration file as shipped
+      	   with the Castor XML JAR file.</p>
 
 <pre>
 # THE CASTOR PROPERTIES FILE
