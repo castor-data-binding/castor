@@ -967,7 +967,7 @@
       <tr>
         <td>
           <table border="0" cellspacing="1" cellpadding="{$cellpadding}" bgcolor="#ededed">
-            <caption style="font-weight:bold">
+            <caption>
               <xsl:value-of select="@caption" />
             </caption>
             <tr class="cheader">
