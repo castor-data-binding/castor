@@ -136,6 +136,14 @@
         <display>XML Mapping</display>
       </navLink>
       <navLink>
+        <url>xml-configuration.xml</url>
+        <display>Configuration</display>
+      </navLink>
+      <navLink>
+        <url>xml-properties.xml</url>
+        <display>Properties</display>
+      </navLink>
+      <navLink>
         <url>xml-faq.xml</url>
         <display>XML FAQ</display>
       </navLink>
