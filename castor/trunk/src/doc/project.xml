@@ -69,7 +69,7 @@
       </navLink>
       <navLink>
         <url>changes.xml</url>
-        <display>Recent changes</display>
+        <display>Recent HTML changes</display>
       </navLink>
       <navLink>
         <url>./news.xml</url>
