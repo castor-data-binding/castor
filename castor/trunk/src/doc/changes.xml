@@ -12,6 +12,28 @@
     <body>
 
         <title>Recent changes to the HTML documentation</title>
+
+        <section title="Castor 1.1.3">
+        
+        	<section title="Additions">
+        	
+        		<ul>
+        			<li>Added information about how to 
+        			    <a href="xml-configuration.html">configure Un-/Marshaller instances</a>
+        			    programmatically.</li>
+        			<li>Added documentation about the 
+        			    <a href="xml-properties.html">properties available for XML data binding</a>.</li>
+        		</ul>
+        	</section>
+        	
+        	<section title="Changes/Improvements">
+        	
+        		<ul>
+        			<li>Added mapping fragments/samples to 
+        			    <a href="xml-mapping.html">XML mapping</a> information.</li>
+        		</ul>
+        	</section>
+        </section>
         
         <section title="Castor 1.0.3">
         
