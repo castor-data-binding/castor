@@ -51,6 +51,46 @@
         file:
       </p>
       
+      <ctable>
+      	<cheader>
+      		<td>Name</td>
+      		<td>Description</td>
+      		<td>Values</td>
+      		<td>Default</td>
+      	</cheader>
+      	<crow>
+      		<td>org.exolab.castor.xml.introspector.primitive.nodetype</td>
+      		<td>Property specifying the type of XML node to use for primitive 
+      		    values, either <tt>element</tt> or <tt>attribute</tt></td>
+      		<td><tt>element</tt> or <tt>attribute</tt></td>
+      		<td><tt>attribute</tt></td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.parser</td>
+      		<td>Property specifying the class name of the SAX XML parser to use.</td>
+      		<td> - </td>
+      		<td> - </td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.parser.validation</td>
+      		<td>Specifies whether to perform XML document validation by default.</td>
+      		<td><tt>true</tt> and <tt>false</tt></td>
+      		<td><tt>false</tt></td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.parser.namespaces</td>
+      		<td>Specifies whether to support XML namespaces by default.</td>
+      		<td><tt>false</tt> and <tt>true</tt></td>
+      		<td><tt>false</tt></td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.xml.nspackages</td>
+      		<td>Specifies a list of XML namespace to Java package mappings.</td>
+      		<td> - </td>
+      		<td> - </td>
+      	</crow>
+      </ctable>
+      
       </section>
       
       <section title="Current configuration file">
