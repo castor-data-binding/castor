@@ -57,6 +57,7 @@
       		<td>Description</td>
       		<td>Values</td>
       		<td>Default</td>
+      		<td>Since</td>
       	</cheader>
       	<crow>
       		<td>org.exolab.castor.xml.introspector.primitive.nodetype</td>
@@ -64,10 +65,12 @@
       		    values, either <tt>element</tt> or <tt>attribute</tt></td>
       		<td><tt>element</tt> or <tt>attribute</tt></td>
       		<td><tt>attribute</tt></td>
+      		<td> - </td>
       	</crow>
       	<crow>
       		<td>org.exolab.castor.parser</td>
       		<td>Property specifying the class name of the SAX XML parser to use.</td>
+      		<td> - </td>
       		<td> - </td>
       		<td> - </td>
       	</crow>
@@ -76,18 +79,130 @@
       		<td>Specifies whether to perform XML document validation by default.</td>
       		<td><tt>true</tt> and <tt>false</tt></td>
       		<td><tt>false</tt></td>
+      		<td> - </td>
       	</crow>
       	<crow>
       		<td>org.exolab.castor.parser.namespaces</td>
       		<td>Specifies whether to support XML namespaces by default.</td>
       		<td><tt>false</tt> and <tt>true</tt></td>
       		<td><tt>false</tt></td>
+      		<td> - </td>
       	</crow>
       	<crow>
       		<td>org.exolab.castor.xml.nspackages</td>
       		<td>Specifies a list of XML namespace to Java package mappings.</td>
       		<td> - </td>
       		<td> - </td>
+      		<td> - </td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.xml.naming</td>
+      		<td>Property specifying the 'type' of the XML naming conventions to use. Values 
+      		    of this property must be either <tt>mixed</tt>, <tt>lower</tt>, or the name of a 
+      		    class which extends <api href="org.exolab.castor.xml.XMLNaming">XMLNaming</api>.</td>
+      		<td><tt>mixed</tt>, <tt>lower</tt>, or the name of a class which extends 
+      		    <api href="org.exolab.castor.xml.XMLNaming">XMLNaming</api></td>
+      		<td><tt>lower</tt></td>
+      		<td> - </td>
+      	</crow>
+      	<crow>
+      		<td>org.castor.xml.java.naming</td>
+      		<td>Property specifying the 'type' of the Java naming conventions to use. Values 
+      		    of this property must be either <tt>null</tt> or the name of a class which 
+      		    extends <api href="link org.castor.xml.JavaNaming">JavaNaming</api>.
+      		</td>
+      		<td><tt>null</tt> or the name of a class which 
+      		    extends <api href="link org.castor.xml.JavaNaming">JavaNaming</api></td>
+      		<td><tt>null</tt></td>
+      		<td> - </td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.marshalling.validation</td>
+      		<td>Specifies whether to use validation during marshalling.</td>
+      		<td><tt>false</tt> or <tt>true</tt></td>
+      		<td><tt>true</tt></td>
+      		<td> - </td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.indent</td>
+      		<td>Specifies whether XML documents (as generated at marshalling) should use 
+      		    indentation or not.</td>
+      		<td><tt>false</tt> or <tt>true</tt></td>
+      		<td><tt>false</tt></td>
+      		<td> - </td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.sax.features</td>
+      		<td>Specifies additional features for the XML parser.</td>
+      		<td>A comma separated list of SAX (parser) features (that might or might 
+      		    not be supported by the specified SAX parser).</td>
+      		<td> - </td>
+      		<td> - </td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.sax.features-to-disable</td>
+      		<td>Specifies features to be disbaled on the underlying SAX parser.</td>
+      		<td>A comma separated list of SAX (parser) features to be disabled.</td>
+      		<td> - </td>
+      		<td><font color="red">1.0.4</font></td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.regexp</td>
+      		<td>Specifies the regular expression validator to use.</td>
+      		<td>A class that implements 
+      		    <api href="org.exolab.castor.xml.validators.RegExpValidator">RegExpValidator</api>.</td>
+      		<td> - </td>
+      		<td> - </td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.xml.strictelements</td>
+      		<td>Specifies whether to apply strictness to elements when unmarshalling.
+      		    When enabled, the existence of elements in the XML document, which cannot be mapped 
+      		    to a class, causes a {@link SAXException} to be thrown. If set to false, 
+      		    these 'unknown' elements are ignored.</td>
+      		<td><tt>false</tt> or <tt>true</tt></td>
+      		<td><tt>true</tt></td>
+      		<td> - </td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.xml.loadPackageMappings</td>
+      		<td>Specifies whether the ClassDescriptorResolver should (automatically) search
+      		    for and consult with package mapping files (<tt>.castor.xml</tt>) to 
+      		    retrieve class descriptor information</td>
+      		<td><tt>false</tt> or <tt>true</tt></td>
+      		<td><tt>true</tt></td>
+      		<td><font color="red">1.0.2</font></td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.xml.serializer.factory</td>
+      		<td>Specifying what XML serializers factory to use.</td>
+      		<td>A class name</td>
+      		<td>org.exolab.castor.xml.XercesXMLSerializerFactory</td>
+      		<td><font color="red">1.0</font></td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.xml.lenient.sequence.order</td>
+      		<td>Specifies whether sequence order validation should be lenient.</td>
+      		<td><tt>false</tt> or <tt>true</tt></td>
+      		<td><tt>default</tt></td>
+      		<td><font color="red">1.1</font></td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.xml.lenient.id.validation</td>
+      		<td>Sppecifies whether id/href validation should be lenient.</td>
+      		<td><tt>false</tt> or <tt>true</tt></td>
+      		<td><tt>default</tt></td>
+      		<td><font color="red">1.1</font></td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.xml.proxyInterfaces</td>
+      		<td>Specifies whether or not to search for an proxy interface at marshalling. 
+      		    If property is not empty the objects to be marshalled will be searched 
+      		    if they implement one of the given interface names. If the interface is 
+      		    implemented, the superclass will be marshalled instead of the class itself.</td>
+      		<td>A list of proxy interfaces</td>
+      		<td> - </td>
+      		<td><font color="red">1.1.3</font></td>
       	</crow>
       </ctable>
       
