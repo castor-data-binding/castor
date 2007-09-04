@@ -64,6 +64,10 @@
         <display>Maven 2 support</display>
       </navLink>
       <navLink>
+        <url>maven-archetypes.xml</url>
+        <display>Maven 2 archetypes</display>
+      </navLink>
+      <navLink>
         <url>schema.xml</url>
         <display>DTD &amp; Schemas</display>
       </navLink>
