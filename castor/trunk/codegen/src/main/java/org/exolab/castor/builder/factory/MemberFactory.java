@@ -556,9 +556,12 @@ public final class MemberFactory extends BaseFactory {
                 value = '\"' + value + '\"';
             }
         } else if (enumeration) {
-            //-- we'll need to change this when enumerations are no longer treated as strings
             JType jType = (classInfo != null) ? classInfo.getJClass() : xsType.getJType();
-            value = jType.getName() + ".valueOf(\"" + value + "\")";
+            if (getSourceGenerator().useJava5Enums()) {
+                value = jType.getName() + ".fromValue(\"" + value + "\")";
+            } else {
+                value = jType.getName() + ".valueOf(\"" + value + "\")";    
+            }
         } else if (xsType.getJType().isArray()) {
             JType componentType = ((JArrayType) xsType.getJType()).getComponentType();
             if (componentType.isPrimitive()) {
