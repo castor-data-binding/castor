@@ -140,6 +140,26 @@ public enum CompositeType {
                    
             </summary>
             <bugs>
+                <bug id="2141" tool="jira">
+                    <description>
+                        Fixed problem with code generation of Java 5 enums related to default values
+                    </description>
+                    <contributor>
+                        <name>Matthias Epheser</name>
+                        <email>matthias.epheser@gmx.at</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ron Corcuera</name>
+                        <email>corcuera@oclc.org</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen.</module>
+                    <date>20070906</date>
+                </bug>
                 <bug id="2124" tool="jira">
                     <description>
                         Introduced pluggable interface for handling (JAXB and other) annotations
