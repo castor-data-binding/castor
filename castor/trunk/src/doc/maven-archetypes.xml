@@ -42,9 +42,9 @@
 
 			<ul>
 				<li>JUnit test case</li>
-				<li>Sample XMl schema</li>
-				<li>(Sample) builder properties file</li>
-				<li>(Sample) XML code generator binding file</li>
+				<li>Sample XML schema</li>
+				<li>(Empty) builder properties file</li>
+				<li>(Empty) XML code generator binding file</li>
 				<li>A Maven 2 POM with all the required dependencies (Castor XML, etc.).</li>
 			</ul>						    	   
     
@@ -77,7 +77,7 @@
 	    <p>Once a specific Castor release has been propagated to the main Maven 2
 	       repository at <a href="http://www.ibiblio.org/maven2">ibiblio</a> (usually
 	       within 48 hours), adding just the dependency will be sufficient.</p>
-
+	       
 	  </section>
   
   </section>
