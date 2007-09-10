@@ -26,7 +26,7 @@
 	<classpathentry kind="src" output="ddlgen/eclipse" path="ddlgen/src/test/resources"/>
 	<classpathentry excluding="codegen/" kind="src" output="examples/eclipse" path="examples/src/main/java"/>
 	<classpathentry kind="src" output="examples/eclipse" path="examples/src/main/resources"/>
-	<classpathentry kind="src" output="xmlctf/eclipse" path="xmlctf/src/main/java"/>
+	<classpathentry kind="src" output="xmlctf-framework/eclipse" path="xmlctf-framework/src/main/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/jakarta-oro-2.0.5.jar"/>
 	<classpathentry kind="lib" path="lib/jakarta-regexp-1.1.jar"/>
