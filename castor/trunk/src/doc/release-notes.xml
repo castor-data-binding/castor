@@ -140,6 +140,26 @@ public enum CompositeType {
                    
             </summary>
             <bugs>
+                <bug id="2110" tool="jira">
+                    <description>
+                        Fixed problem related to the usage of &lt;xs:unsignedInt&gt; in extensions
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Bastian Doetsch</name>
+                        <email>bastian.doetsch@otto.de</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen.</module>
+                    <date>20070909</date>
+                </bug>
                 <bug id="2141" tool="jira">
                     <description>
                         Fixed problem with code generation of Java 5 enums related to default values
