@@ -18,7 +18,7 @@
     <property name="build.sh.class.path"  value="${env.CLASSPATH}" />
     <property name="name"                 value="Castor"/>
     <property name="source"               value="${basedir}/src"/>
-    <property name="xmlctf-source"        value="${basedir}/xmlctf/src"/>
+    <property name="xmlctf-source"        value="${basedir}/xmlctf-framework/src"/>
     <property name="java"                 value="${source}/main/java"/>
     <property name="main.resources"       value="${source}/main/resources" />
     <property name="test-resources"       value="${source}/test/resources" />
@@ -67,7 +67,7 @@
         <pathelement location="${basedir}/codegen/build/classes" />
         <pathelement location="${basedir}/cpa/build/classes" />
         <pathelement location="${basedir}/anttask/build/classes" />
-        <pathelement location="${basedir}/xmlctf/build/classes" />
+        <pathelement location="${basedir}/xmlctf-framework/build/classes" />
         <pathelement location="${basedir}/cpactf/build/classes" />
         <pathelement location="${basedir}/cpaptf/build/classes" />
         <pathelement location="${basedir}/examples/build/classes" />
@@ -217,7 +217,6 @@
         <ant antfile="${basedir}/cpa/build.xml" target="clean.cpa" inheritAll="false" />
         <ant antfile="${basedir}/codegen/build.xml" target="clean.codegen" inheritAll="false" />
         <ant antfile="${basedir}/anttask/build.xml" target="clean.anttask" inheritAll="false" />
-        <ant antfile="${basedir}/xmlctf/build.xml" target="clean.xmlctf" inheritAll="false" />
         <ant antfile="${basedir}/cpactf/build.xml" target="clean.cpactf" inheritAll="false" />
         <ant antfile="${basedir}/cpaptf/build.xml" target="clean.cpaptf" inheritAll="false" />
         <ant antfile="${basedir}/examples/build.xml" target="clean.examples" inheritAll="false" />
@@ -225,7 +224,7 @@
 
     <target name="clean.tests" description="Removes the build artifacts related to tests">
         <delete dir="${build}/tests" />
-        <ant antfile="${basedir}/xmlctf/build.xml" target="clean.xmlctf" inheritAll="false" />
+        <ant antfile="${basedir}/xmlctf-framework/build.xml" target="clean.xmlctf" inheritAll="false" />
         <ant antfile="${basedir}/cpactf/build.xml" target="clean.cpactf" inheritAll="false" />
         <ant antfile="${basedir}/cpaptf/build.xml" target="clean.cpaptf" inheritAll="false" />
     </target>
@@ -364,7 +363,7 @@
         </copy>
         -->
 
-        <ant antfile="${basedir}/xmlctf/build.xml" target="compile.xmlctf" inheritAll="false">
+        <ant antfile="${basedir}/xmlctf-framework/build.xml" target="compile.xmlctf" inheritAll="false">
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
         </ant>
@@ -580,7 +579,7 @@
              manifest="${classes}/MANIFEST.MF" includes="LICENCE,README,org/**"/>
 
         <!-- create JAR for XML CTF, calling module build file recursively -->
-        <ant antfile="${basedir}/xmlctf/build.xml" target="jar.xmlctf" inheritAll="false">
+        <ant antfile="${basedir}/xmlctf-framework/build.xml" target="jar.xmlctf" inheritAll="false">
             <property name="project" value="${project}"/>
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
@@ -699,7 +698,7 @@
                 <pathelement location="${basedir}/ddlgen/src/main/java" />
                 <pathelement location="${basedir}/codegen/src/main/java" />
                 <pathelement location="${basedir}/anttask/src/main/java" />
-                <pathelement location="${basedir}/xmlctf/src/main/java" />
+                <pathelement location="${basedir}/xmlctf-framework/src/main/java" />
             </sourcepath>
         </javadoc>
     </target>
@@ -726,6 +725,7 @@
         <mkdir dir="${build}/${archive.name}/codegen"/>
         <mkdir dir="${build}/${archive.name}/ddlgen"/>
         <mkdir dir="${build}/${archive.name}/xmlctf"/>
+        <mkdir dir="${build}/${archive.name}/xmlctf-framework"/>
         <mkdir dir="${build}/${archive.name}/cpa"/>
         <mkdir dir="${build}/${archive.name}/cpactf"/>
         <mkdir dir="${build}/${archive.name}/cpaptf"/>
@@ -768,6 +768,14 @@
 
         <copy todir="${build}/${archive.name}/xmlctf">
           <fileset dir="${basedir}/xmlctf">
+              <exclude name="build/" />
+              <exclude name="target/" />
+              <exclude name="eclipse/" />
+          </fileset>
+        </copy>
+
+        <copy todir="${build}/${archive.name}/xmlctf-framework">
+          <fileset dir="${basedir}/xmlctf-framework">
               <exclude name="build/" />
               <exclude name="target/" />
               <exclude name="eclipse/" />

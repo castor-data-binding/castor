@@ -3,7 +3,7 @@ REM $Id$
 set JAVA=%JAVA_HOME%\bin\java
 set OLDCP=%CLASSPATH%
 set CLASSPATH=..\build\tests;%JAVA_HOME%\lib\tools.jar
-set CLASSPATH=%CLASSPATH%;..\xmlctf\build\classes;..\build\classes;..\codegen\build\classes;
+set CLASSPATH=%CLASSPATH%;..\xmlctf-framework\build\classes;..\build\classes;..\codegen\build\classes;
 set cp=%CLASSPATH%
 for %%i in (..\lib\*.jar) do call cp.bat %%i
 rmdir /q /s ..\build\tests\output>nul
