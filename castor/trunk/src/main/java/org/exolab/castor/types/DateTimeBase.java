@@ -192,7 +192,7 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
         if (century < 0) {
             err = "century " + century + " must not be negative.";
             throw new IllegalArgumentException(err);
-        } else if (_year == 0 && century == 0) {
+        } else if (_year == 0 && century == 0 && _century != 0) {
             err = "century:  0000 is not an allowed year.";
             throw new IllegalArgumentException(err);
         }
