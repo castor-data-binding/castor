@@ -1,7 +1,0 @@
-Manifest-Version: 1.0
-Specification-Title: Castor JDO-CTF
-Specification-Vendor: Intalio Inc.
-Specification-Version: $VERSION$$RELEASE$
-Implementation-Title: Castor
-Implementation-Vendor: Intalio Inc.
-Implementation-Version: $VERSION$$RELEASE$
