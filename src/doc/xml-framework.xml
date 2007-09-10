@@ -153,6 +153,11 @@ unmarshaller.setMapping(mapping);
 <comment>// Unmarshal the person object</comment>
 Person person = (Person) unmarshaller.unmarshal(reader);</code-panel>
 
+		<p>For more information on how to effectively deal with loading 
+		   mapping file(s) especially in multi-threaded environments, please 
+		   check the <a href="xml-best-practice.html">best practice</a> 
+		   section.</p>
+
     </section>
     
     <section title="Using XMLContext to bootstrap Castor">
