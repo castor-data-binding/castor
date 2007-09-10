@@ -56,6 +56,10 @@
         <display>Download</display>
       </navLink>
       <navLink>
+        <url>dependencies.xml</url>
+        <display>Dependencies</display>
+      </navLink>
+      <navLink>
         <url>javadoc/overview-summary.html</url>
         <display>JavaDoc</display>
       </navLink>
