@@ -140,6 +140,26 @@ public enum CompositeType {
                    
             </summary>
             <bugs>
+                <bug id="2051" tool="jira">
+                    <description>
+                    	Fixed problem with low centuries and the use of dates.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Lars Bilger</name>
+                        <email>lars.bilger@lhsystems.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070910</date>
+                </bug>
                 <bug id="2110" tool="jira">
                     <description>
                         Fixed problem related to the usage of &lt;xs:unsignedInt&gt; in extensions
