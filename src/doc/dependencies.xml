@@ -1,0 +1,226 @@
+<document url="http://castor.codehaus.org/dependencies.xml">
+
+	<properties>
+		<title>Third-party JAR dependencies</title>
+		<author email="werner DOT guttmann AT gmx DOT net">Werner Guttmann</author>
+		<abstract>Outlines dependencies on third-party products.</abstract>
+		<status>Final</status>
+	</properties>
+
+	<body>
+		<title>3rd-party product dependencies</title>
+
+		<section title="Dependent Libraries">
+
+			<p>
+				JARs required to build Castor and dependencies for various packages are
+				contained in the
+				<tt>lib</tt>
+				directory. JARs required for distribution are marked with
+				<b>bold text</b>
+				, although many of these JARs are required only if the feature obviously
+				associated with that JAR is used.
+			</p>
+
+			<ctable cellpadding="4" border="1">
+				<crow>
+					<td>ant-1.6.jar</td>
+					<td>The Ant build tool</td>
+				</crow>
+				<crow>
+					<td>ant-1.6-launcher.jar</td>
+					<td>The Ant launcher tool</td>
+				</crow>
+				<crow>
+					<td>
+						<b>cglib-full-2.0.2.jar</b>
+					</td>
+					<td>CGLIB (Castor JDO only)</td>
+				</crow>
+				<crow>
+					<td>
+						<b>commons-logging-1.1.jar</b>
+					</td>
+					<td>Jakarta Commons Loggin</td>
+				</crow>
+				<crow>
+					<td>
+						<b>jdbc-se2.0.jar</b>
+					</td>
+					<td>JDBC 2.0 standard extension (JDO)</td>
+				</crow>
+				<crow>
+					<td>
+						<b>jndi_1.2.1.jar</b>
+					</td>
+					<td>The JNDI API (DSML/JNDI)</td>
+				</crow>
+				<crow>
+					<td>
+						<b>jta1.0.1.jar</b>
+					</td>
+					<td>The JTA API (transactions) (Castor JDO only)</td>
+				</crow>
+				<crow>
+					<td>jtf-0.1.jar</td>
+					<td>The Java Testing Framework</td>
+				</crow>
+				<crow>
+					<td>junit_3.8.2.jar</td>
+					<td>JUnit testing framework (for CTF suites)</td>
+				</crow>
+				<crow>
+					<td>
+						<b>ldapjdk_4.1.jar</b>
+					</td>
+					<td>Mozilla Directory SDK (DSML/MDS)</td>
+				</crow>
+				<crow>
+					<td>ldapsp.jar</td>
+					<td>JNDI LDAP service provider from Mozilla</td>
+				</crow>
+				<crow>
+					<td>
+						<b>log4j-1.2.13.jar</b>
+					</td>
+					<td>Log4J</td>
+				</crow>
+				<crow>
+					<td>servlet.jar</td>
+					<td>Used by the Servlet examples</td>
+				</crow>
+				<crow>
+					<td>
+						<b>xerces-J_1.4.0.jar</b>
+					</td>
+					<td>Xerces XML library</td>
+				</crow>
+				<crow>
+					<td>adaptx-0.9.13.jar</td>
+					<td>XSL(T) processor, used for building documentation</td>
+				</crow>
+				<crow>
+					<td>derby-10.1.2.1.jar</td>
+					<td>Apache Derby JDBC driver (used in default example)</td>
+				</crow>
+			</ctable>
+
+			<p>and optionally</p>
+
+			<ctable cellpadding="4" border="1">
+				<crow>
+					<td>jakarta-oro-2.0.5.jar</td>
+					<td>Support for regular expressions</td>
+				</crow>
+				<crow>
+					<td>jakarta-regexp-1.1.jar</td>
+					<td>Support for regular expressions</td>
+				</crow>
+			</ctable>
+
+			<p>
+				The last two JAR files are required when using patterns with XML Schema
+				type definitions.
+			</p>
+
+			<section title="Castor XML">
+
+				<p>
+					Castor XML relies on a JAXP-compliant XML parser during
+					un-/marshalling. As such, Castor XML requires any JAXP-compliant
+					parser to be on the classpath at run-time.
+				</p>
+
+				<p>
+					By default, Castor ships with
+					<a href="http://xml.apache.org/xerces">Apache Xerces</a>
+					1.4.0 (source code only). You may, of course, upgrade to a newer
+					version of
+					<a href="http://xml.apache.org/xerces">Apache Xerces</a>
+					at your convenience, or switch to any other XML parser as long as it
+					is JAXP compliant.
+				</p>
+
+				<p>
+					For marshalling, Castor XML can equally use any JAXP complaint XML
+					parser, with the exception of the following special case: when using
+					'pretty printing' during marhalling (by setting the corresponding
+					property in
+					<tt>castor.properties</tt>
+					to
+					<tt>true</tt>
+					),
+					<a href="http://xml.apache.org/xerces">Apache Xerces</a>
+					has to be on the classpath, as Castor internally uses Xerces'
+					<tt>XMLSerializer</tt>
+					to implement this feature.
+				</p>
+
+			</section>
+
+			<section title="Castor JDO">
+
+				<p>
+					Castor JDO uses Castor XML for processing the XML mapping file and
+					thus has the same dependency on Xerces as explained above.
+				</p>
+
+				<p>
+					In addition, applications that rely on Java 1.3 and earlier that use
+					Castor JDO must include
+					<tt>jdbc-se2.0.jar</tt>
+					or any alternative JAR that includes the
+					<tt>javax.sql.DataSource</tt>
+					interface.
+				</p>
+
+				<p>
+					The JDO examples use
+					<a href="http://db.apache.org/derby">Apache Derby</a>
+					and depend on the JDBC driver provided with the examples archive. This
+					driver is only required for running the samples and is not required
+					otherwise, especially if you use a different database server.
+				</p>
+
+			</section>
+
+			<section title="Castor DSML">
+
+				<p>
+					Castor DSML is dependent on the latest release of Xerces available
+					from the library directory and XML Apache. Other XML parser may be
+					used instead of Xerces, however, Xerces is required to provide the XML
+					serializer package for XML document production.
+				</p>
+
+				<p>
+					Castor DSML has two implementations, one that uses JNDI and one that
+					uses the Mozilla Directory SDK. Applications that use the JNDI package
+					(
+					<tt>org.exolab.castor.dsml.jndi</tt>
+					) are required to include
+					<tt>jndi.jar</tt>
+					or any alternative JAR that includes the JNDI 1.2 API. Applications
+					that use the Mozilla Directory SDK (
+					<tt>org.exolab.castor.dsml.mozilla</tt>
+					) are required to include
+					<tt>ldapjdk.jar</tt>
+					or any alternative JAR that includes version 4.0 of the Mozilla
+					Directory SDK.
+				</p>
+
+				<p>
+					We recommend using the Mozilla Directory SDK as the JNDI LDAP service
+					provider and have had positive experiences using it with OpenLDAP. The
+					JNDI LDAP service provider is included in the
+					<tt>ldapsp.jar</tt>
+					.
+				</p>
+
+			</section>
+
+		</section>
+
+	</body>
+
+</document>

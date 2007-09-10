@@ -140,6 +140,26 @@ public enum CompositeType {
                    
             </summary>
             <bugs>
+                <bug id="2046" tool="jira">
+                    <description>
+                    	Moved section on dependencies to a new HTML page.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>HTML</module>
+                    <date>20070910</date>
+                </bug>
                 <bug id="2051" tool="jira">
                     <description>
                     	Fixed problem with low centuries and the use of dates.
