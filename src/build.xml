@@ -225,6 +225,7 @@
     <target name="clean.tests" description="Removes the build artifacts related to tests">
         <delete dir="${build}/tests" />
         <ant antfile="${basedir}/xmlctf-framework/build.xml" target="clean.xmlctf" inheritAll="false" />
+        <ant antfile="${basedir}/xmlctf/build.xml" target="clean.xmlctf" inheritAll="false" />
         <ant antfile="${basedir}/cpactf/build.xml" target="clean.cpactf" inheritAll="false" />
         <ant antfile="${basedir}/cpaptf/build.xml" target="clean.cpaptf" inheritAll="false" />
     </target>
