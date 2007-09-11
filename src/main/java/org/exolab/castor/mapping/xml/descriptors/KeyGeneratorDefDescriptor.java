@@ -1,16 +1,22 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.1.2.1</a>, using an XML
  * Schema.
  * $Id$
  */
 
-package org.exolab.castor.mapping.xml;
+package org.exolab.castor.mapping.xml.descriptors;
+
+  //---------------------------------/
+ //- Imported classes and packages -/
+//---------------------------------/
+
+import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 /**
  * Class KeyGeneratorDefDescriptor.
  * 
- * @version $Revision$ $Date: 2006-01-07 15:48:31 -0700 (Sat, 07 Jan 2006) $
+ * @version $Revision$ $Date$
  */
 public class KeyGeneratorDefDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
@@ -20,41 +26,40 @@ public class KeyGeneratorDefDescriptor extends org.exolab.castor.xml.util.XMLCla
     //--------------------------/
 
     /**
-     * Field elementDefinition
+     * Field _elementDefinition.
      */
-    private boolean elementDefinition;
+    private boolean _elementDefinition;
 
     /**
-     * Field nsPrefix
+     * Field _nsPrefix.
      */
-    private java.lang.String nsPrefix;
+    private java.lang.String _nsPrefix;
 
     /**
-     * Field nsURI
+     * Field _nsURI.
      */
-    private java.lang.String nsURI;
+    private java.lang.String _nsURI;
 
     /**
-     * Field xmlName
+     * Field _xmlName.
      */
-    private java.lang.String xmlName;
+    private java.lang.String _xmlName;
 
     /**
-     * Field identity
+     * Field _identity.
      */
-    private org.exolab.castor.xml.XMLFieldDescriptor identity;
+    private org.exolab.castor.xml.XMLFieldDescriptor _identity;
 
 
       //----------------/
      //- Constructors -/
     //----------------/
 
-    public KeyGeneratorDefDescriptor() 
-     {
+    public KeyGeneratorDefDescriptor() {
         super();
-        nsURI = "http://castor.exolab.org/";
-        xmlName = "key-generator";
-        elementDefinition = true;
+        _nsURI = "http://castor.exolab.org/";
+        _xmlName = "key-generator";
+        _elementDefinition = true;
         
         //-- set grouping compositor
         setCompositorAsSequence();
@@ -65,7 +70,7 @@ public class KeyGeneratorDefDescriptor extends org.exolab.castor.xml.util.XMLCla
         
         //-- _name
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.String.class, "_name", "name", org.exolab.castor.xml.NodeType.Attribute);
-        this.identity = desc;
+        this._identity = desc;
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException
@@ -79,15 +84,15 @@ public class KeyGeneratorDefDescriptor extends org.exolab.castor.xml.util.XMLCla
                 try {
                     KeyGeneratorDef target = (KeyGeneratorDef) object;
                     target.setName( (java.lang.String) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return new java.lang.String();
             }
         };
+        desc.setSchemaType("ID");
         desc.setHandler(handler);
         desc.setRequired(true);
         desc.setMultivalued(false);
@@ -97,6 +102,9 @@ public class KeyGeneratorDefDescriptor extends org.exolab.castor.xml.util.XMLCla
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(1);
         { //-- local scope
+            org.exolab.castor.xml.validators.IdValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.IdValidator();
+            fieldValidator.setValidator(typeValidator);
         }
         desc.setValidator(fieldValidator);
         //-- _alias
@@ -115,15 +123,15 @@ public class KeyGeneratorDefDescriptor extends org.exolab.castor.xml.util.XMLCla
                 try {
                     KeyGeneratorDef target = (KeyGeneratorDef) object;
                     target.setAlias( (java.lang.String) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
         };
+        desc.setSchemaType("string");
         desc.setHandler(handler);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
@@ -131,9 +139,10 @@ public class KeyGeneratorDefDescriptor extends org.exolab.castor.xml.util.XMLCla
         //-- validation code for: _alias
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
-            typeValidator.setWhiteSpace("preserve");
+            org.exolab.castor.xml.validators.StringValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             fieldValidator.setValidator(typeValidator);
+            typeValidator.setWhiteSpace("preserve");
         }
         desc.setValidator(fieldValidator);
         //-- initialize element descriptors
@@ -153,19 +162,28 @@ public class KeyGeneratorDefDescriptor extends org.exolab.castor.xml.util.XMLCla
                 try {
                     KeyGeneratorDef target = (KeyGeneratorDef) object;
                     target.addParam( (org.exolab.castor.mapping.xml.Param) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
-                return new org.exolab.castor.mapping.xml.Param();
+            public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
+                try {
+                    KeyGeneratorDef target = (KeyGeneratorDef) object;
+                    target.removeAllParam();
+                } catch (java.lang.Exception ex) {
+                    throw new IllegalStateException(ex.toString());
+                }
+            }
+            public java.lang.Object newInstance(java.lang.Object parent) {
+                return null;
             }
         };
+        desc.setSchemaType("org.exolab.castor.mapping.xml.Param");
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/");
         desc.setMultivalued(true);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
         //-- validation code for: _paramList
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
@@ -173,7 +191,7 @@ public class KeyGeneratorDefDescriptor extends org.exolab.castor.xml.util.XMLCla
         { //-- local scope
         }
         desc.setValidator(fieldValidator);
-    } //-- org.exolab.castor.mapping.xml.KeyGeneratorDefDescriptor()
+    }
 
 
       //-----------/
@@ -181,111 +199,88 @@ public class KeyGeneratorDefDescriptor extends org.exolab.castor.xml.util.XMLCla
     //-----------/
 
     /**
-     * Method getAccessMode
+     * Method getAccessMode.
      * 
-     * 
-     * 
-     * @return AccessMode
+     * @return the access mode specified for this class.
      */
-    public org.exolab.castor.mapping.AccessMode getAccessMode()
-    {
+    public org.exolab.castor.mapping.AccessMode getAccessMode(
+    ) {
         return null;
-    } //-- org.exolab.castor.mapping.AccessMode getAccessMode() 
+    }
 
     /**
-     * Method getExtends
+     * Method getIdentity.
      * 
-     * 
-     * 
-     * @return ClassDescriptor
+     * @return the identity field, null if this class has no
+     * identity.
      */
-    public org.exolab.castor.mapping.ClassDescriptor getExtends()
-    {
-        return null;
-    } //-- org.exolab.castor.mapping.ClassDescriptor getExtends() 
+    public org.exolab.castor.mapping.FieldDescriptor getIdentity(
+    ) {
+        return _identity;
+    }
 
     /**
-     * Method getIdentity
+     * Method getJavaClass.
      * 
-     * 
-     * 
-     * @return FieldDescriptor
+     * @return the Java class represented by this descriptor.
      */
-    public org.exolab.castor.mapping.FieldDescriptor getIdentity()
-    {
-        return identity;
-    } //-- org.exolab.castor.mapping.FieldDescriptor getIdentity() 
-
-    /**
-     * Method getJavaClass
-     * 
-     * 
-     * 
-     * @return Class
-     */
-    public java.lang.Class getJavaClass()
-    {
+    public java.lang.Class getJavaClass(
+    ) {
         return org.exolab.castor.mapping.xml.KeyGeneratorDef.class;
-    } //-- java.lang.Class getJavaClass() 
+    }
 
     /**
-     * Method getNameSpacePrefix
+     * Method getNameSpacePrefix.
      * 
-     * 
-     * 
-     * @return String
+     * @return the namespace prefix to use when marshaling as XML.
      */
-    public java.lang.String getNameSpacePrefix()
-    {
-        return nsPrefix;
-    } //-- java.lang.String getNameSpacePrefix() 
+    public java.lang.String getNameSpacePrefix(
+    ) {
+        return _nsPrefix;
+    }
 
     /**
-     * Method getNameSpaceURI
+     * Method getNameSpaceURI.
      * 
-     * 
-     * 
-     * @return String
+     * @return the namespace URI used when marshaling and
+     * unmarshaling as XML.
      */
-    public java.lang.String getNameSpaceURI()
-    {
-        return nsURI;
-    } //-- java.lang.String getNameSpaceURI() 
+    public java.lang.String getNameSpaceURI(
+    ) {
+        return _nsURI;
+    }
 
     /**
-     * Method getValidator
+     * Method getValidator.
      * 
-     * 
-     * 
-     * @return TypeValidator
+     * @return a specific validator for the class described by this
+     * ClassDescriptor.
      */
-    public org.exolab.castor.xml.TypeValidator getValidator()
-    {
+    public org.exolab.castor.xml.TypeValidator getValidator(
+    ) {
         return this;
-    } //-- org.exolab.castor.xml.TypeValidator getValidator() 
+    }
 
     /**
-     * Method getXMLName
+     * Method getXMLName.
      * 
-     * 
-     * 
-     * @return String
+     * @return the XML Name for the Class being described.
      */
-    public java.lang.String getXMLName()
-    {
-        return xmlName;
-    } //-- java.lang.String getXMLName() 
+    public java.lang.String getXMLName(
+    ) {
+        return _xmlName;
+    }
 
     /**
-     * Method isElementDefinition
+     * Method isElementDefinition.
      * 
-     * 
-     * 
-     * @return boolean
+     * @return true if XML schema definition of this Class is that
+     * of a global
+     * element or element with anonymous type definition.
      */
-    public boolean isElementDefinition()
-    {
-        return elementDefinition;
-    } //-- boolean isElementDefinition() 
+    public boolean isElementDefinition(
+    ) {
+        return _elementDefinition;
+    }
 
 }

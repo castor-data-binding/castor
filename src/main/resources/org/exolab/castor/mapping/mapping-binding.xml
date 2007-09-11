@@ -40,5 +40,9 @@
   <cbf:elementBinding name="key-generator">
     <cbf:java-class name="KeyGeneratorDef"/>
   </cbf:elementBinding>
+  
+  <cbf:elementBinding name="field-handler">
+    <cbf:java-class name="FieldHandlerDef"/>
+  </cbf:elementBinding>
 
 </cbf:binding>

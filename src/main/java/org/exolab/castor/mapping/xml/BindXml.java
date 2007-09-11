@@ -1,13 +1,16 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.1.2.1</a>, using an XML
  * Schema.
  * $Id$
  */
 
 package org.exolab.castor.mapping.xml;
 
-import java.util.Collections;
+  //---------------------------------/
+ //- Imported classes and packages -/
+//---------------------------------/
+
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
@@ -19,7 +22,7 @@ import org.exolab.castor.xml.Unmarshaller;
  *  as a child of a 'field' element.
  *  
  * 
- * @version $Revision$ $Date: 2006-01-07 15:48:31 -0700 (Sat, 07 Jan 2006) $
+ * @version $Revision$ $Date$
  */
 public class BindXml implements java.io.Serializable {
 
@@ -37,7 +40,7 @@ public class BindXml implements java.io.Serializable {
     private java.lang.String _name;
 
     /**
-     * Field _type
+     * Field _type.
      */
     private java.lang.String _type;
 
@@ -65,12 +68,12 @@ public class BindXml implements java.io.Serializable {
     private java.lang.String _location;
 
     /**
-     * Field _matches
+     * Field _matches.
      */
     private java.lang.String _matches;
 
     /**
-     * Field _reference
+     * Field _reference.
      */
     private boolean _reference;
 
@@ -80,17 +83,17 @@ public class BindXml implements java.io.Serializable {
     private boolean _has_reference;
 
     /**
-     * Field _node
+     * Field _node.
      */
     private org.exolab.castor.mapping.xml.types.BindXmlNodeType _node;
 
     /**
-     * Field _QNamePrefix
+     * Field _QNamePrefix.
      */
     private java.lang.String _QNamePrefix;
 
     /**
-     * Field _transient
+     * Field _transient.
      */
     private boolean _transient;
 
@@ -100,25 +103,24 @@ public class BindXml implements java.io.Serializable {
     private boolean _has_transient;
 
     /**
-     * Field _classMapping
+     * Field _classMapping.
      */
     private org.exolab.castor.mapping.xml.ClassMapping _classMapping;
 
     /**
-     * Field _propertyList
+     * Field _propertyList.
      */
-    private java.util.ArrayList _propertyList;
+    private java.util.List _propertyList;
 
 
       //----------------/
      //- Constructors -/
     //----------------/
 
-    public BindXml() 
-     {
+    public BindXml() {
         super();
-        _propertyList = new java.util.ArrayList();
-    } //-- org.exolab.castor.mapping.xml.BindXml()
+        this._propertyList = new java.util.ArrayList();
+    }
 
 
       //-----------/
@@ -126,70 +128,57 @@ public class BindXml implements java.io.Serializable {
     //-----------/
 
     /**
-     * Method addProperty
-     * 
      * 
      * 
      * @param vProperty
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
-    public void addProperty(org.exolab.castor.mapping.xml.Property vProperty)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        _propertyList.add(vProperty);
-    } //-- void addProperty(org.exolab.castor.mapping.xml.Property) 
+    public void addProperty(
+            final org.exolab.castor.mapping.xml.Property vProperty)
+    throws java.lang.IndexOutOfBoundsException {
+        this._propertyList.add(vProperty);
+    }
 
     /**
-     * Method addProperty
-     * 
      * 
      * 
      * @param index
      * @param vProperty
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
-    public void addProperty(int index, org.exolab.castor.mapping.xml.Property vProperty)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        _propertyList.add(index, vProperty);
-    } //-- void addProperty(int, org.exolab.castor.mapping.xml.Property) 
+    public void addProperty(
+            final int index,
+            final org.exolab.castor.mapping.xml.Property vProperty)
+    throws java.lang.IndexOutOfBoundsException {
+        this._propertyList.add(index, vProperty);
+    }
 
     /**
-     * Method clearProperty
-     * 
      */
-    public void clearProperty()
-    {
-        _propertyList.clear();
-    } //-- void clearProperty() 
-
-    /**
-     * Method deleteReference
-     * 
-     */
-    public void deleteReference()
-    {
+    public void deleteReference(
+    ) {
         this._has_reference= false;
-    } //-- void deleteReference() 
+    }
 
     /**
-     * Method deleteTransient
-     * 
      */
-    public void deleteTransient()
-    {
+    public void deleteTransient(
+    ) {
         this._has_transient= false;
-    } //-- void deleteTransient() 
+    }
 
     /**
-     * Method enumerateProperty
+     * Method enumerateProperty.
      * 
-     * 
-     * 
-     * @return Enumeration
+     * @return an Enumeration over all possible elements of this
+     * collection
      */
-    public java.util.Enumeration enumerateProperty()
-    {
-        return Collections.enumeration(_propertyList);
-    } //-- java.util.Enumeration enumerateProperty() 
+    public java.util.Enumeration enumerateProperty(
+    ) {
+        return java.util.Collections.enumeration(this._propertyList);
+    }
 
     /**
      * Returns the value of field 'autoNaming'. The field
@@ -206,24 +195,22 @@ public class BindXml implements java.io.Serializable {
      *  name is used as the XML name.
      *  
      * 
-     * @return BindXmlAutoNamingType
-     * @return the value of field 'autoNaming'.
+     * @return the value of field 'AutoNaming'.
      */
-    public org.exolab.castor.mapping.xml.types.BindXmlAutoNamingType getAutoNaming()
-    {
+    public org.exolab.castor.mapping.xml.types.BindXmlAutoNamingType getAutoNaming(
+    ) {
         return this._autoNaming;
-    } //-- org.exolab.castor.mapping.xml.types.BindXmlAutoNamingType getAutoNaming() 
+    }
 
     /**
      * Returns the value of field 'classMapping'.
      * 
-     * @return ClassMapping
-     * @return the value of field 'classMapping'.
+     * @return the value of field 'ClassMapping'.
      */
-    public org.exolab.castor.mapping.xml.ClassMapping getClassMapping()
-    {
+    public org.exolab.castor.mapping.xml.ClassMapping getClassMapping(
+    ) {
         return this._classMapping;
-    } //-- org.exolab.castor.mapping.xml.ClassMapping getClassMapping() 
+    }
 
     /**
      * Returns the value of field 'location'. The field 'location'
@@ -233,24 +220,22 @@ public class BindXml implements java.io.Serializable {
      *  where names are separated by "/".
      *  
      * 
-     * @return String
-     * @return the value of field 'location'.
+     * @return the value of field 'Location'.
      */
-    public java.lang.String getLocation()
-    {
+    public java.lang.String getLocation(
+    ) {
         return this._location;
-    } //-- java.lang.String getLocation() 
+    }
 
     /**
      * Returns the value of field 'matches'.
      * 
-     * @return String
-     * @return the value of field 'matches'.
+     * @return the value of field 'Matches'.
      */
-    public java.lang.String getMatches()
-    {
+    public java.lang.String getMatches(
+    ) {
         return this._matches;
-    } //-- java.lang.String getMatches() 
+    }
 
     /**
      * Returns the value of field 'name'. The field 'name' has the
@@ -259,200 +244,236 @@ public class BindXml implements java.io.Serializable {
      *  field associated with the 'bind-xml' element.
      *  
      * 
-     * @return String
-     * @return the value of field 'name'.
+     * @return the value of field 'Name'.
      */
-    public java.lang.String getName()
-    {
+    public java.lang.String getName(
+    ) {
         return this._name;
-    } //-- java.lang.String getName() 
+    }
 
     /**
      * Returns the value of field 'node'.
      * 
-     * @return BindXmlNodeType
-     * @return the value of field 'node'.
+     * @return the value of field 'Node'.
      */
-    public org.exolab.castor.mapping.xml.types.BindXmlNodeType getNode()
-    {
+    public org.exolab.castor.mapping.xml.types.BindXmlNodeType getNode(
+    ) {
         return this._node;
-    } //-- org.exolab.castor.mapping.xml.types.BindXmlNodeType getNode() 
+    }
 
     /**
-     * Method getProperty
-     * 
-     * 
+     * Method getProperty.
      * 
      * @param index
-     * @return Property
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     * @return the value of the
+     * org.exolab.castor.mapping.xml.Property at the given index
      */
-    public org.exolab.castor.mapping.xml.Property getProperty(int index)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        //-- check bounds for index
-        if ((index < 0) || (index >= _propertyList.size())) {
-            throw new IndexOutOfBoundsException();
+    public org.exolab.castor.mapping.xml.Property getProperty(
+            final int index)
+    throws java.lang.IndexOutOfBoundsException {
+        // check bounds for index
+        if (index < 0 || index >= this._propertyList.size()) {
+            throw new IndexOutOfBoundsException("getProperty: Index value '" + index + "' not in range [0.." + (this._propertyList.size() - 1) + "]");
         }
         
         return (org.exolab.castor.mapping.xml.Property) _propertyList.get(index);
-    } //-- org.exolab.castor.mapping.xml.Property getProperty(int) 
+    }
 
     /**
-     * Method getProperty
+     * Method getProperty.Returns the contents of the collection in
+     * an Array.  <p>Note:  Just in case the collection contents
+     * are changing in another thread, we pass a 0-length Array of
+     * the correct type into the API call.  This way we <i>know</i>
+     * that the Array returned is of exactly the correct length.
      * 
-     * 
-     * 
-     * @return Property
+     * @return this collection as an Array
      */
-    public org.exolab.castor.mapping.xml.Property[] getProperty()
-    {
-        int size = _propertyList.size();
-        org.exolab.castor.mapping.xml.Property[] mArray = new org.exolab.castor.mapping.xml.Property[size];
-        for (int index = 0; index < size; index++) {
-            mArray[index] = (org.exolab.castor.mapping.xml.Property) _propertyList.get(index);
-        }
-        return mArray;
-    } //-- org.exolab.castor.mapping.xml.Property[] getProperty() 
+    public org.exolab.castor.mapping.xml.Property[] getProperty(
+    ) {
+        org.exolab.castor.mapping.xml.Property[] array = new org.exolab.castor.mapping.xml.Property[0];
+        return (org.exolab.castor.mapping.xml.Property[]) this._propertyList.toArray(array);
+    }
 
     /**
-     * Method getPropertyCount
+     * Method getPropertyCount.
      * 
-     * 
-     * 
-     * @return int
+     * @return the size of this collection
      */
-    public int getPropertyCount()
-    {
-        return _propertyList.size();
-    } //-- int getPropertyCount() 
+    public int getPropertyCount(
+    ) {
+        return this._propertyList.size();
+    }
 
     /**
      * Returns the value of field 'QNamePrefix'.
      * 
-     * @return String
      * @return the value of field 'QNamePrefix'.
      */
-    public java.lang.String getQNamePrefix()
-    {
+    public java.lang.String getQNamePrefix(
+    ) {
         return this._QNamePrefix;
-    } //-- java.lang.String getQNamePrefix() 
+    }
 
     /**
      * Returns the value of field 'reference'.
      * 
-     * @return boolean
-     * @return the value of field 'reference'.
+     * @return the value of field 'Reference'.
      */
-    public boolean getReference()
-    {
+    public boolean getReference(
+    ) {
         return this._reference;
-    } //-- boolean getReference() 
+    }
 
     /**
      * Returns the value of field 'transient'.
      * 
-     * @return boolean
-     * @return the value of field 'transient'.
+     * @return the value of field 'Transient'.
      */
-    public boolean getTransient()
-    {
+    public boolean getTransient(
+    ) {
         return this._transient;
-    } //-- boolean getTransient() 
+    }
 
     /**
      * Returns the value of field 'type'.
      * 
-     * @return String
-     * @return the value of field 'type'.
+     * @return the value of field 'Type'.
      */
-    public java.lang.String getType()
-    {
+    public java.lang.String getType(
+    ) {
         return this._type;
-    } //-- java.lang.String getType() 
+    }
 
     /**
-     * Method hasReference
+     * Method hasReference.
      * 
-     * 
-     * 
-     * @return boolean
+     * @return true if at least one Reference has been added
      */
-    public boolean hasReference()
-    {
+    public boolean hasReference(
+    ) {
         return this._has_reference;
-    } //-- boolean hasReference() 
+    }
 
     /**
-     * Method hasTransient
+     * Method hasTransient.
      * 
-     * 
-     * 
-     * @return boolean
+     * @return true if at least one Transient has been added
      */
-    public boolean hasTransient()
-    {
+    public boolean hasTransient(
+    ) {
         return this._has_transient;
-    } //-- boolean hasTransient() 
+    }
 
     /**
-     * Method isValid
+     * Returns the value of field 'reference'.
      * 
-     * 
-     * 
-     * @return boolean
+     * @return the value of field 'Reference'.
      */
-    public boolean isValid()
-    {
+    public boolean isReference(
+    ) {
+        return this._reference;
+    }
+
+    /**
+     * Returns the value of field 'transient'.
+     * 
+     * @return the value of field 'Transient'.
+     */
+    public boolean isTransient(
+    ) {
+        return this._transient;
+    }
+
+    /**
+     * Method isValid.
+     * 
+     * @return true if this object is valid according to the schema
+     */
+    public boolean isValid(
+    ) {
         try {
             validate();
-        }
-        catch (org.exolab.castor.xml.ValidationException vex) {
+        } catch (org.exolab.castor.xml.ValidationException vex) {
             return false;
         }
         return true;
-    } //-- boolean isValid() 
+    }
 
     /**
-     * Method marshal
+     * Method iterateProperty.
      * 
+     * @return an Iterator over all possible elements in this
+     * collection
+     */
+    public java.util.Iterator iterateProperty(
+    ) {
+        return this._propertyList.iterator();
+    }
+
+    /**
      * 
      * 
      * @param out
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
      */
-    public void marshal(java.io.Writer out)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
-        
+    public void marshal(
+            final java.io.Writer out)
+    throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, out);
-    } //-- void marshal(java.io.Writer) 
+    }
 
     /**
-     * Method marshal
-     * 
      * 
      * 
      * @param handler
+     * @throws java.io.IOException if an IOException occurs during
+     * marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
      */
-    public void marshal(org.xml.sax.ContentHandler handler)
-        throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
-        
+    public void marshal(
+            final org.xml.sax.ContentHandler handler)
+    throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, handler);
-    } //-- void marshal(org.xml.sax.ContentHandler) 
+    }
 
     /**
-     * Method removeProperty
-     * 
-     * 
+     */
+    public void removeAllProperty(
+    ) {
+        this._propertyList.clear();
+    }
+
+    /**
+     * Method removeProperty.
      * 
      * @param vProperty
-     * @return boolean
+     * @return true if the object was removed from the collection.
      */
-    public boolean removeProperty(org.exolab.castor.mapping.xml.Property vProperty)
-    {
+    public boolean removeProperty(
+            final org.exolab.castor.mapping.xml.Property vProperty) {
         boolean removed = _propertyList.remove(vProperty);
         return removed;
-    } //-- boolean removeProperty(org.exolab.castor.mapping.xml.Property) 
+    }
+
+    /**
+     * Method removePropertyAt.
+     * 
+     * @param index
+     * @return the element removed from the collection
+     */
+    public org.exolab.castor.mapping.xml.Property removePropertyAt(
+            final int index) {
+        java.lang.Object obj = this._propertyList.remove(index);
+        return (org.exolab.castor.mapping.xml.Property) obj;
+    }
 
     /**
      * Sets the value of field 'autoNaming'. The field 'autoNaming'
@@ -471,20 +492,20 @@ public class BindXml implements java.io.Serializable {
      * 
      * @param autoNaming the value of field 'autoNaming'.
      */
-    public void setAutoNaming(org.exolab.castor.mapping.xml.types.BindXmlAutoNamingType autoNaming)
-    {
+    public void setAutoNaming(
+            final org.exolab.castor.mapping.xml.types.BindXmlAutoNamingType autoNaming) {
         this._autoNaming = autoNaming;
-    } //-- void setAutoNaming(org.exolab.castor.mapping.xml.types.BindXmlAutoNamingType) 
+    }
 
     /**
      * Sets the value of field 'classMapping'.
      * 
      * @param classMapping the value of field 'classMapping'.
      */
-    public void setClassMapping(org.exolab.castor.mapping.xml.ClassMapping classMapping)
-    {
+    public void setClassMapping(
+            final org.exolab.castor.mapping.xml.ClassMapping classMapping) {
         this._classMapping = classMapping;
-    } //-- void setClassMapping(org.exolab.castor.mapping.xml.ClassMapping) 
+    }
 
     /**
      * Sets the value of field 'location'. The field 'location' has
@@ -496,20 +517,20 @@ public class BindXml implements java.io.Serializable {
      * 
      * @param location the value of field 'location'.
      */
-    public void setLocation(java.lang.String location)
-    {
+    public void setLocation(
+            final java.lang.String location) {
         this._location = location;
-    } //-- void setLocation(java.lang.String) 
+    }
 
     /**
      * Sets the value of field 'matches'.
      * 
      * @param matches the value of field 'matches'.
      */
-    public void setMatches(java.lang.String matches)
-    {
+    public void setMatches(
+            final java.lang.String matches) {
         this._matches = matches;
-    } //-- void setMatches(java.lang.String) 
+    }
 
     /**
      * Sets the value of field 'name'. The field 'name' has the
@@ -520,75 +541,76 @@ public class BindXml implements java.io.Serializable {
      * 
      * @param name the value of field 'name'.
      */
-    public void setName(java.lang.String name)
-    {
+    public void setName(
+            final java.lang.String name) {
         this._name = name;
-    } //-- void setName(java.lang.String) 
+    }
 
     /**
      * Sets the value of field 'node'.
      * 
      * @param node the value of field 'node'.
      */
-    public void setNode(org.exolab.castor.mapping.xml.types.BindXmlNodeType node)
-    {
+    public void setNode(
+            final org.exolab.castor.mapping.xml.types.BindXmlNodeType node) {
         this._node = node;
-    } //-- void setNode(org.exolab.castor.mapping.xml.types.BindXmlNodeType) 
+    }
 
     /**
-     * Method setProperty
-     * 
      * 
      * 
      * @param index
      * @param vProperty
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
-    public void setProperty(int index, org.exolab.castor.mapping.xml.Property vProperty)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        //-- check bounds for index
-        if ((index < 0) || (index >= _propertyList.size())) {
-            throw new IndexOutOfBoundsException();
+    public void setProperty(
+            final int index,
+            final org.exolab.castor.mapping.xml.Property vProperty)
+    throws java.lang.IndexOutOfBoundsException {
+        // check bounds for index
+        if (index < 0 || index >= this._propertyList.size()) {
+            throw new IndexOutOfBoundsException("setProperty: Index value '" + index + "' not in range [0.." + (this._propertyList.size() - 1) + "]");
         }
-        _propertyList.set(index, vProperty);
-    } //-- void setProperty(int, org.exolab.castor.mapping.xml.Property) 
+        
+        this._propertyList.set(index, vProperty);
+    }
 
     /**
-     * Method setProperty
      * 
      * 
-     * 
-     * @param propertyArray
+     * @param vPropertyArray
      */
-    public void setProperty(org.exolab.castor.mapping.xml.Property[] propertyArray)
-    {
+    public void setProperty(
+            final org.exolab.castor.mapping.xml.Property[] vPropertyArray) {
         //-- copy array
         _propertyList.clear();
-        for (int i = 0; i < propertyArray.length; i++) {
-            _propertyList.add(propertyArray[i]);
+        
+        for (int i = 0; i < vPropertyArray.length; i++) {
+                this._propertyList.add(vPropertyArray[i]);
         }
-    } //-- void setProperty(org.exolab.castor.mapping.xml.Property) 
+    }
 
     /**
      * Sets the value of field 'QNamePrefix'.
      * 
      * @param QNamePrefix the value of field 'QNamePrefix'.
      */
-    public void setQNamePrefix(java.lang.String QNamePrefix)
-    {
+    public void setQNamePrefix(
+            final java.lang.String QNamePrefix) {
         this._QNamePrefix = QNamePrefix;
-    } //-- void setQNamePrefix(java.lang.String) 
+    }
 
     /**
      * Sets the value of field 'reference'.
      * 
      * @param reference the value of field 'reference'.
      */
-    public void setReference(boolean reference)
-    {
+    public void setReference(
+            final boolean reference) {
         this._reference = reference;
         this._has_reference = true;
-    } //-- void setReference(boolean) 
+    }
 
     /**
      * Sets the value of field 'transient'.
@@ -596,45 +618,49 @@ public class BindXml implements java.io.Serializable {
      * @param _transient
      * @param transient the value of field 'transient'.
      */
-    public void setTransient(boolean _transient)
-    {
+    public void setTransient(
+            final boolean _transient) {
         this._transient = _transient;
         this._has_transient = true;
-    } //-- void setTransient(boolean) 
+    }
 
     /**
      * Sets the value of field 'type'.
      * 
      * @param type the value of field 'type'.
      */
-    public void setType(java.lang.String type)
-    {
+    public void setType(
+            final java.lang.String type) {
         this._type = type;
-    } //-- void setType(java.lang.String) 
+    }
 
     /**
-     * Method unmarshal
-     * 
-     * 
+     * Method unmarshal.
      * 
      * @param reader
-     * @return BindXml
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     * @return the unmarshaled org.exolab.castor.mapping.xml.BindXml
      */
-    public static org.exolab.castor.mapping.xml.BindXml unmarshal(java.io.Reader reader)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
+    public static org.exolab.castor.mapping.xml.BindXml unmarshal(
+            final java.io.Reader reader)
+    throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         return (org.exolab.castor.mapping.xml.BindXml) Unmarshaller.unmarshal(org.exolab.castor.mapping.xml.BindXml.class, reader);
-    } //-- org.exolab.castor.mapping.xml.BindXml unmarshal(java.io.Reader) 
+    }
 
     /**
-     * Method validate
      * 
+     * 
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
      */
-    public void validate()
-        throws org.exolab.castor.xml.ValidationException
-    {
+    public void validate(
+    )
+    throws org.exolab.castor.xml.ValidationException {
         org.exolab.castor.xml.Validator validator = new org.exolab.castor.xml.Validator();
         validator.validate(this);
-    } //-- void validate() 
+    }
 
 }

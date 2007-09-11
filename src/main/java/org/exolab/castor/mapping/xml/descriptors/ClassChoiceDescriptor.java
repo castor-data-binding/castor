@@ -1,11 +1,17 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.1.2.1</a>, using an XML
  * Schema.
  * $Id$
  */
 
-package org.exolab.castor.mapping.xml;
+package org.exolab.castor.mapping.xml.descriptors;
+
+  //---------------------------------/
+ //- Imported classes and packages -/
+//---------------------------------/
+
+import org.exolab.castor.mapping.xml.ClassChoice;
 
 /**
  * Class ClassChoiceDescriptor.
@@ -20,40 +26,39 @@ public class ClassChoiceDescriptor extends org.exolab.castor.xml.util.XMLClassDe
     //--------------------------/
 
     /**
-     * Field elementDefinition
+     * Field _elementDefinition.
      */
-    private boolean elementDefinition;
+    private boolean _elementDefinition;
 
     /**
-     * Field nsPrefix
+     * Field _nsPrefix.
      */
-    private java.lang.String nsPrefix;
+    private java.lang.String _nsPrefix;
 
     /**
-     * Field nsURI
+     * Field _nsURI.
      */
-    private java.lang.String nsURI;
+    private java.lang.String _nsURI;
 
     /**
-     * Field xmlName
+     * Field _xmlName.
      */
-    private java.lang.String xmlName;
+    private java.lang.String _xmlName;
 
     /**
-     * Field identity
+     * Field _identity.
      */
-    private org.exolab.castor.xml.XMLFieldDescriptor identity;
+    private org.exolab.castor.xml.XMLFieldDescriptor _identity;
 
 
       //----------------/
      //- Constructors -/
     //----------------/
 
-    public ClassChoiceDescriptor() 
-     {
+    public ClassChoiceDescriptor() {
         super();
-        nsURI = "http://castor.exolab.org/";
-        elementDefinition = false;
+        _nsURI = "http://castor.exolab.org/";
+        _elementDefinition = false;
         
         //-- set grouping compositor
         setCompositorAsChoice();
@@ -79,19 +84,28 @@ public class ClassChoiceDescriptor extends org.exolab.castor.xml.util.XMLClassDe
                 try {
                     ClassChoice target = (ClassChoice) object;
                     target.addFieldMapping( (org.exolab.castor.mapping.xml.FieldMapping) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
-                return new org.exolab.castor.mapping.xml.FieldMapping();
+            public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
+                try {
+                    ClassChoice target = (ClassChoice) object;
+                    target.removeAllFieldMapping();
+                } catch (java.lang.Exception ex) {
+                    throw new IllegalStateException(ex.toString());
+                }
+            }
+            public java.lang.Object newInstance(java.lang.Object parent) {
+                return null;
             }
         };
+        desc.setSchemaType("org.exolab.castor.mapping.xml.FieldMapping");
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/");
         desc.setMultivalued(true);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
         //-- validation code for: _fieldMappingList
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
@@ -114,19 +128,28 @@ public class ClassChoiceDescriptor extends org.exolab.castor.xml.util.XMLClassDe
                 try {
                     ClassChoice target = (ClassChoice) object;
                     target.addContainer( (org.exolab.castor.mapping.xml.Container) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
-                return new org.exolab.castor.mapping.xml.Container();
+            public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
+                try {
+                    ClassChoice target = (ClassChoice) object;
+                    target.removeAllContainer();
+                } catch (java.lang.Exception ex) {
+                    throw new IllegalStateException(ex.toString());
+                }
+            }
+            public java.lang.Object newInstance(java.lang.Object parent) {
+                return null;
             }
         };
+        desc.setSchemaType("org.exolab.castor.mapping.xml.Container");
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/");
         desc.setMultivalued(true);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
         //-- validation code for: _containerList
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
@@ -134,7 +157,7 @@ public class ClassChoiceDescriptor extends org.exolab.castor.xml.util.XMLClassDe
         { //-- local scope
         }
         desc.setValidator(fieldValidator);
-    } //-- org.exolab.castor.mapping.xml.ClassChoiceDescriptor()
+    }
 
 
       //-----------/
@@ -142,111 +165,88 @@ public class ClassChoiceDescriptor extends org.exolab.castor.xml.util.XMLClassDe
     //-----------/
 
     /**
-     * Method getAccessMode
+     * Method getAccessMode.
      * 
-     * 
-     * 
-     * @return AccessMode
+     * @return the access mode specified for this class.
      */
-    public org.exolab.castor.mapping.AccessMode getAccessMode()
-    {
+    public org.exolab.castor.mapping.AccessMode getAccessMode(
+    ) {
         return null;
-    } //-- org.exolab.castor.mapping.AccessMode getAccessMode() 
+    }
 
     /**
-     * Method getExtends
+     * Method getIdentity.
      * 
-     * 
-     * 
-     * @return ClassDescriptor
+     * @return the identity field, null if this class has no
+     * identity.
      */
-    public org.exolab.castor.mapping.ClassDescriptor getExtends()
-    {
-        return null;
-    } //-- org.exolab.castor.mapping.ClassDescriptor getExtends() 
+    public org.exolab.castor.mapping.FieldDescriptor getIdentity(
+    ) {
+        return _identity;
+    }
 
     /**
-     * Method getIdentity
+     * Method getJavaClass.
      * 
-     * 
-     * 
-     * @return FieldDescriptor
+     * @return the Java class represented by this descriptor.
      */
-    public org.exolab.castor.mapping.FieldDescriptor getIdentity()
-    {
-        return identity;
-    } //-- org.exolab.castor.mapping.FieldDescriptor getIdentity() 
-
-    /**
-     * Method getJavaClass
-     * 
-     * 
-     * 
-     * @return Class
-     */
-    public java.lang.Class getJavaClass()
-    {
+    public java.lang.Class getJavaClass(
+    ) {
         return org.exolab.castor.mapping.xml.ClassChoice.class;
-    } //-- java.lang.Class getJavaClass() 
+    }
 
     /**
-     * Method getNameSpacePrefix
+     * Method getNameSpacePrefix.
      * 
-     * 
-     * 
-     * @return String
+     * @return the namespace prefix to use when marshaling as XML.
      */
-    public java.lang.String getNameSpacePrefix()
-    {
-        return nsPrefix;
-    } //-- java.lang.String getNameSpacePrefix() 
+    public java.lang.String getNameSpacePrefix(
+    ) {
+        return _nsPrefix;
+    }
 
     /**
-     * Method getNameSpaceURI
+     * Method getNameSpaceURI.
      * 
-     * 
-     * 
-     * @return String
+     * @return the namespace URI used when marshaling and
+     * unmarshaling as XML.
      */
-    public java.lang.String getNameSpaceURI()
-    {
-        return nsURI;
-    } //-- java.lang.String getNameSpaceURI() 
+    public java.lang.String getNameSpaceURI(
+    ) {
+        return _nsURI;
+    }
 
     /**
-     * Method getValidator
+     * Method getValidator.
      * 
-     * 
-     * 
-     * @return TypeValidator
+     * @return a specific validator for the class described by this
+     * ClassDescriptor.
      */
-    public org.exolab.castor.xml.TypeValidator getValidator()
-    {
+    public org.exolab.castor.xml.TypeValidator getValidator(
+    ) {
         return this;
-    } //-- org.exolab.castor.xml.TypeValidator getValidator() 
+    }
 
     /**
-     * Method getXMLName
+     * Method getXMLName.
      * 
-     * 
-     * 
-     * @return String
+     * @return the XML Name for the Class being described.
      */
-    public java.lang.String getXMLName()
-    {
-        return xmlName;
-    } //-- java.lang.String getXMLName() 
+    public java.lang.String getXMLName(
+    ) {
+        return _xmlName;
+    }
 
     /**
-     * Method isElementDefinition
+     * Method isElementDefinition.
      * 
-     * 
-     * 
-     * @return boolean
+     * @return true if XML schema definition of this Class is that
+     * of a global
+     * element or element with anonymous type definition.
      */
-    public boolean isElementDefinition()
-    {
-        return elementDefinition;
-    } //-- boolean isElementDefinition() 
+    public boolean isElementDefinition(
+    ) {
+        return _elementDefinition;
+    }
 
 }
