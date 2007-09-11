@@ -172,6 +172,7 @@ public class DurationDescriptor extends BaseDescriptor {
                 time.setHour(temp.getHour());
                 time.setMinute(temp.getMinute());
                 time.setSeconds(temp.getSeconds());
+                time.setMilli(temp.getMilli());
             } catch (java.text.ParseException ex) {
                 throw new IllegalStateException();
             }
