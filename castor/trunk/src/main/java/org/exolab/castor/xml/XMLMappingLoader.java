@@ -49,46 +49,52 @@
  */
 package org.exolab.castor.xml;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
 import org.castor.mapping.BindingType;
+import org.castor.util.Messages;
 import org.exolab.castor.mapping.ClassDescriptor;
+import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.MapItem;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.TypeConvertor;
-import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.loader.AbstractFieldDescriptor;
-import org.exolab.castor.mapping.loader.CollectionHandlers;
 import org.exolab.castor.mapping.loader.AbstractMappingLoader;
+import org.exolab.castor.mapping.loader.CollectionHandlers;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 import org.exolab.castor.mapping.loader.TypeInfo;
 import org.exolab.castor.mapping.loader.Types;
-import org.exolab.castor.mapping.xml.ClassMapping;
-import org.exolab.castor.mapping.xml.FieldMapping;
 import org.exolab.castor.mapping.xml.BindXml;
+import org.exolab.castor.mapping.xml.ClassMapping;
+import org.exolab.castor.mapping.xml.FieldHandlerDef;
+import org.exolab.castor.mapping.xml.FieldMapping;
 import org.exolab.castor.mapping.xml.MapTo;
 import org.exolab.castor.mapping.xml.MappingRoot;
+import org.exolab.castor.mapping.xml.Param;
 import org.exolab.castor.mapping.xml.Property;
 import org.exolab.castor.mapping.xml.types.BindXmlAutoNamingType;
 import org.exolab.castor.mapping.xml.types.FieldMappingCollectionType;
 import org.exolab.castor.util.LocalConfiguration;
-
 import org.exolab.castor.xml.handlers.ContainerFieldHandler;
 import org.exolab.castor.xml.handlers.ToStringFieldHandler;
-import org.exolab.castor.xml.util.XMLClassDescriptorResolverImpl;
 import org.exolab.castor.xml.util.ContainerElement;
-import org.exolab.castor.xml.util.XMLClassDescriptorImpl;
 import org.exolab.castor.xml.util.XMLClassDescriptorAdapter;
+import org.exolab.castor.xml.util.XMLClassDescriptorImpl;
+import org.exolab.castor.xml.util.XMLClassDescriptorResolverImpl;
 import org.exolab.castor.xml.util.XMLContainerElementFieldDescriptor;
 import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 import org.exolab.castor.xml.validators.IdRefValidator;
 import org.exolab.castor.xml.validators.NameValidator;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * An XML implementation of mapping helper. Creates XML class
@@ -156,10 +162,15 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
      */
     public void loadMapping(final MappingRoot mapping, final Object param)
     throws MappingException {
-        if (loadMapping()) { createClassDescriptors(mapping); }
+        if (loadMapping()) {
+        	createFieldHandlers(mapping);
+        	createClassDescriptors(mapping);
+        }
     }
 
     //-----------------------------------------------------------------------------------
+    
+
     
     protected final ClassDescriptor createClassDescriptor(final ClassMapping clsMap)
     throws MappingException {

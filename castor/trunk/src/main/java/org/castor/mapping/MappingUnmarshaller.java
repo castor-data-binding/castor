@@ -242,6 +242,10 @@ public final class MappingUnmarshaller {
             while (enumeration.hasMoreElements()) {
                 root.addKeyGeneratorDef((KeyGeneratorDef) enumeration.nextElement());
             }
+            
+            // gather "field-handler" tags
+            root.setFieldHandlerDef(loaded.getFieldHandlerDef());
+
         } catch (Exception ex) {
             throw new MappingException(ex);
         }

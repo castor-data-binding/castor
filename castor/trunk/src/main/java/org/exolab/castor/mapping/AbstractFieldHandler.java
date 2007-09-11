@@ -45,6 +45,10 @@
  
 package org.exolab.castor.mapping;
 
+import java.util.Properties;
+
+import org.exolab.castor.xml.ValidationException;
+
 
 /**
  * An extended version of the FieldHandler interface which is
@@ -56,13 +60,18 @@ package org.exolab.castor.mapping;
  * @see FieldDescriptor
  * @see FieldHandler
  */
-public abstract class AbstractFieldHandler extends ExtendedFieldHandler {
+public abstract class AbstractFieldHandler extends ExtendedFieldHandler implements ConfigurableFieldHandler {
 
     /**
      * The FieldDescriptor for the field that this handler is
      * responsible for.
      */
     private FieldDescriptor _descriptor = null;
+    
+    /**
+     * Configuration that can be used by subclasses when needed. 
+     */
+    protected Properties configuration;
     
     /** 
      * Creates a new default AbstractFieldHandler. This method
@@ -193,5 +202,26 @@ public abstract class AbstractFieldHandler extends ExtendedFieldHandler {
      */
     public abstract void setValue( Object object, Object value )
         throws IllegalStateException, IllegalArgumentException;
+    
+    public void setConfiguration(Properties config) throws ValidityException {
+       this.configuration = config;
+       onConfiguration();
+    }
+    
+    public Properties getConfiguration() {
+        return configuration;
+    }
+    
+    /**
+     * Callback method that is called after setConfiguration has been called. This
+     * allows for further processing to be done, if necessary.
+     * <p>
+     * This implementation doesn't do anything; subclasses need to override this
+     * method in order to do any processing.
+     * 
+     * @throws ValidityException if processing the configuration failed.
+     */
+    public void onConfiguration() throws ValidityException {
+    }
 } //-- AbstractFieldHandler
 
