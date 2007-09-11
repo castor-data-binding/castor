@@ -21,6 +21,31 @@
 -->
 
         <item>
+            <title>Welcome Joachim Grueneis to the team</title>
+            <pubDate>Tue, 11 Sep 2007 20:21:22 +0100</pubDate>
+            <author>Werner Guttmann</author>
+            <link>http://castor.codehaus.org/news.html#item61</link>
+            <guid>http://castor.codehaus.org/news.html#item61</guid>
+            <description><![CDATA[
+                <p>
+		            I'm very happy to announce that <i>Joachim Grueneis</i> has joined the Castor
+		            team as committer. Joachim's initial focus will be on the XML side of 
+		            things, where he is currently working on JAXB compliance for Castor XML.
+                </p>
+            ]]></description>
+        </item>
+        
+            <title>Welcome Joachim Grueneis to the team</title>
+            <author>Werner Guttmann</author>
+            <date>Sep 11 2006</date>
+            <time>17:16:15</time>
+            <summary>
+	            I'm very happy to announce that <i>Joachim Grueneis</i> has joined the Castor
+	            team as committer. Joachim's initial focus will be on the XML side of 
+	            things, where he is currently working on JAXB compliance for Castor XML.
+            </summary>
+        
+        <item>
             <title>1.1.2.1 final release available</title>
             <pubDate>Thu, 28 Jun 2007 20:21:22 +0100</pubDate>
             <author>Werner Guttmann</author>
