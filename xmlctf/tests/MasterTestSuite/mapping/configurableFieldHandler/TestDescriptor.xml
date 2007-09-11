@@ -1,0 +1,23 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+
+    <Name>Configurable field handler</Name>
+    <Author>Tom van den Berge</Author>
+
+    <Comment>
+        Test configuration and use of ConfigurableFieldHander
+    </Comment>
+
+    <Category>basic capability</Category>
+
+    <MarshallingTest>
+        <Root_Object>Foo</Root_Object>
+        <UnitTestCase>
+            <Name>Test01</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+            <GoldFile>input.xml</GoldFile>
+        </UnitTestCase>
+    </MarshallingTest>
+
+</TestDescriptor>

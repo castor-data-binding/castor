@@ -54,24 +54,32 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Enumeration;
+import java.util.Map;
+import java.util.Properties;
 
+import org.castor.util.Messages;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.CollectionHandler;
+import org.exolab.castor.mapping.ConfigurableFieldHandler;
 import org.exolab.castor.mapping.ExtendedFieldHandler;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.GeneralizedFieldHandler;
 import org.exolab.castor.mapping.MapItem;
 import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.mapping.ValidityException;
 import org.exolab.castor.mapping.handlers.EnumFieldHandler;
 import org.exolab.castor.mapping.handlers.TransientFieldHandler;
 import org.exolab.castor.mapping.xml.ClassChoice;
+import org.exolab.castor.mapping.xml.FieldHandlerDef;
 import org.exolab.castor.mapping.xml.MappingRoot;
 import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;
+import org.exolab.castor.mapping.xml.Param;
 
 /**
  * Assists in the construction of descriptors. Can be used as a mapping
@@ -122,6 +130,8 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
     /** Factory method name for type-safe enumerations. */
     protected static final String VALUE_OF = "valueOf";
 
+    /** Map of field handlers associated by their name. */
+    private final Map _fieldHandlers = new HashMap();
     //--------------------------------------------------------------------------
 
     /**
@@ -153,7 +163,82 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
      */
     public abstract void loadMapping(final MappingRoot mapping, final Object param)
     throws MappingException;
+    
+    /**
+     * Load field handler definitions, check for duplicate definitions and 
+     * instantiate the appropriate FieldHandler implementations.
+     * 
+     * @param mapping Mapping to load field handler definitions from.
+     * @throws MappingException If mapping contains more then one field handler
+     *        definition with same name.
+     */
+    protected void createFieldHandlers(final MappingRoot mapping)
+    throws MappingException {
+        Enumeration enumeration = mapping.enumerateFieldHandlerDef();
+        while (enumeration.hasMoreElements()) {
+            FieldHandlerDef def = (FieldHandlerDef) enumeration.nextElement();
+            
+            String name = def.getName();
+            
+            if (_fieldHandlers.containsKey(name)) {
+                throw new MappingException(Messages.format("mapping.dupFieldHandler", name));
+            }
+            
+            
+            Class clazz = resolveType(def.getClazz());
+            FieldHandler fieldHandler = null;
+            try {
+                if (!FieldHandler.class.isAssignableFrom(clazz)) {
+                    throw new MappingException(Messages.format("mapping.classNotFieldHandler", 
+                            name, def.getClazz()));
+                }
+                fieldHandler = (FieldHandler) clazz.newInstance();
+                _fieldHandlers.put(name, fieldHandler);
+            } catch (InstantiationException e) {
+                throw new MappingException(e);
+            } catch (IllegalAccessException e) {
+                throw new MappingException(e);
+            }
+            
+            // Add configuration data, if there is any
+            configureFieldHandler(def, fieldHandler);
+            
+         }
+    }
 
+    /*
+     * Checks if the field handler is configurable, and adds the configuration
+     * data to the field handler if this is the case.
+     */
+    private void configureFieldHandler(final FieldHandlerDef def, final FieldHandler fieldHandler) 
+    throws MappingException {
+        
+        // Gather the configuration data (parameters).
+        Properties params = new Properties();            
+        Enumeration enumerateParam = def.enumerateParam();
+        while (enumerateParam.hasMoreElements()) {
+            Param par = (Param) enumerateParam.nextElement();
+            params.put(par.getName(), par.getValue());
+        }
+        
+        // If there is configuration data, make sure that the field handler class
+        // supports it.
+        if (params.size() > 0) {
+            if (!ConfigurableFieldHandler.class.isAssignableFrom(fieldHandler.getClass())) {
+                throw new MappingException(Messages.format("mapping.classNotConfigurableFieldHandler", 
+                        def.getName(), def.getClazz()));
+            }
+            
+            // Pass the configuration data to the field handler.
+            try {
+                ((ConfigurableFieldHandler)fieldHandler).setConfiguration(params);
+            } catch (ValidityException e) {
+                throw new MappingException(Messages.format("mapping.invalidFieldHandlerConfig",
+                        def.getName(), e.getMessage()), e);
+            }
+        }
+    }
+    
     protected final void createClassDescriptors(final MappingRoot mapping)
     throws MappingException {
         // Load the mapping for all the classes. This is always returned
@@ -426,25 +511,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
 
         // Check for user supplied FieldHandler
         if (fieldMap.getHandler() != null) {
-            Class handlerClass = null;
-            handlerClass = resolveType(fieldMap.getHandler());
-
-            if (!FieldHandler.class.isAssignableFrom(handlerClass)) {
-                String err = "The class '" + fieldMap.getHandler() + "' must implement "
-                           + FieldHandler.class.getName();
-                throw new MappingException(err);
-            }
-
-            // Get default constructor to invoke. We can't use the newInstance method
-            // unfortunately becaue FieldHandler overloads this method
-            try {
-                Constructor constructor = handlerClass.getConstructor(new Class[0]);
-                handler = (FieldHandler) constructor.newInstance(new Object[0]);
-            } catch (Exception ex) {
-                String err = "The class '" + handlerClass.getName()
-                           + "' must have a default public constructor.";
-                throw new MappingException(err);
-            }
+            handler = getFieldHandler(fieldMap);
 
             // ExtendedFieldHandler?
             if (handler instanceof ExtendedFieldHandler) {
@@ -508,6 +575,37 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
         }
 
         return fieldDesc;
+    }
+
+    private FieldHandler getFieldHandler(final FieldMapping fieldMap) 
+    throws MappingException {
+        
+        // If there is a custom field handler present in the mapping, that one
+        // is returned.
+        FieldHandler handler = (FieldHandler) _fieldHandlers.get(fieldMap.getHandler());
+        if (handler != null) {
+        	return handler;
+        }
+        
+        Class handlerClass = null;
+        handlerClass = resolveType(fieldMap.getHandler());
+
+        if (!FieldHandler.class.isAssignableFrom(handlerClass)) {
+            String err = "The class '" + fieldMap.getHandler() + "' must implement "
+                       + FieldHandler.class.getName();
+            throw new MappingException(err);
+        }
+
+        // Get default constructor to invoke. We can't use the newInstance method
+        // unfortunately becaue FieldHandler overloads this method
+        try {
+            Constructor constructor = handlerClass.getConstructor(new Class[0]);
+            return (FieldHandler) constructor.newInstance(new Object[0]);
+        } catch (Exception ex) {
+            String err = "The class '" + handlerClass.getName()
+                       + "' must have a default public constructor.";
+            throw new MappingException(err);
+        }
     }
 
     /**
