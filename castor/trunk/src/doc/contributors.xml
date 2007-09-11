@@ -80,21 +80,6 @@
   </contributor>
 
   <contributor type="Committer">
-    <name surname="Visco" given="Keith"/>
-    <email>keith@kvisco.com</email>
-    <project>XML</project>
-    <description>
-      Intial Castor XML author and Castor Project Lead until 1.0.2.
-      Responsible for all things wrong in Castor XML.
-      Enhancements, bug fixes, documention, etc.
-    </description>
-    <status>active</status>
-    <since>
-      <date>The beginning</date>
-    </since>
-  </contributor>
-
-  <contributor type="Committer">
     <name surname="Joachim" given="Ralf" />
     <email>ralf.joachim@syscon.eu</email>
     <project>JDO</project>
@@ -108,6 +93,35 @@
       <date>Dec. 2004</date>
     </since>
   </contributor>
+  
+  <contributor type="Committer">
+    <name surname="Gr&#252;neis" given="Joachim"/>
+    <email>jgrueneis@gmail.com</email>
+    <project>XML</project>
+    <description>
+      Field of work is JAXB on top of Castor. Therefor a lot of refactorings
+      and adoptions in Castor XML are required.
+    </description>
+    <status>active</status>
+    <since>
+      <date>Sep. 2007</date>
+    </since>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Visco" given="Keith"/>
+    <email>keith@kvisco.com</email>
+    <project>XML</project>
+    <description>
+      Intial Castor XML author and Castor Project Lead until 1.0.2.
+      Responsible for all things wrong in Castor XML.
+      Enhancements, bug fixes, documention, etc.
+    </description>
+    <status>inactive</status>
+    <since>
+      <date>The beginning</date>
+    </since>
+  </contributor>
 
   <contributor type="Committer">
     <name surname="Kuns" given="Edward" />
@@ -118,7 +132,7 @@
       parts of XML code generation, including major refactoring of XML
       test framework.
     </description>
-    <status>active</status>
+    <status>inactive</status>
     <since>
       <date>Oct. 2006</date>
     </since>

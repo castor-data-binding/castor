@@ -649,7 +649,7 @@
             <td><span class="bodyGrey">
               <xsl:choose>
                 <xsl:when test="status='active'">
-                  Active
+                  <b>Active</b>
                 </xsl:when>
                 <xsl:otherwise>
                   Inactive
