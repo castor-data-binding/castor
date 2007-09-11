@@ -21,6 +21,17 @@
               <span class="newsTitle">Latest Release</span><br/><br/>
               <span class="newsSummary"-->
 
+        <news id="61">
+            <title>Welcome Joachim Grueneis to the team</title>
+            <author>Werner Guttmann</author>
+            <date>Sep 11 2006</date>
+            <time>17:16:15</time>
+            <summary>
+	            I'm very happy to announce that <i>Joachim Grueneis</i> has joined the Castor
+	            team as committer. Joachim's initial focus will be on the XML side of 
+	            things, where he is currently working on JAXB compliance for Castor XML.
+            </summary>
+        </news>
         <news id="60">
             <title>Castor 1.1.2.1 released</title>
             <author>Werner Guttmann</author>
