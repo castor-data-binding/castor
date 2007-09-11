@@ -1,16 +1,22 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.1.2.1</a>, using an XML
  * Schema.
  * $Id$
  */
 
-package org.exolab.castor.mapping.xml;
+package org.exolab.castor.mapping.xml.descriptors;
+
+  //---------------------------------/
+ //- Imported classes and packages -/
+//---------------------------------/
+
+import org.exolab.castor.mapping.xml.FieldMapping;
 
 /**
  * Class FieldMappingDescriptor.
  * 
- * @version $Revision$ $Date: 2006-02-14 07:53:50 -0700 (Tue, 14 Feb 2006) $
+ * @version $Revision$ $Date$
  */
 public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
@@ -20,41 +26,40 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
     //--------------------------/
 
     /**
-     * Field elementDefinition
+     * Field _elementDefinition.
      */
-    private boolean elementDefinition;
+    private boolean _elementDefinition;
 
     /**
-     * Field nsPrefix
+     * Field _nsPrefix.
      */
-    private java.lang.String nsPrefix;
+    private java.lang.String _nsPrefix;
 
     /**
-     * Field nsURI
+     * Field _nsURI.
      */
-    private java.lang.String nsURI;
+    private java.lang.String _nsURI;
 
     /**
-     * Field xmlName
+     * Field _xmlName.
      */
-    private java.lang.String xmlName;
+    private java.lang.String _xmlName;
 
     /**
-     * Field identity
+     * Field _identity.
      */
-    private org.exolab.castor.xml.XMLFieldDescriptor identity;
+    private org.exolab.castor.xml.XMLFieldDescriptor _identity;
 
 
       //----------------/
      //- Constructors -/
     //----------------/
 
-    public FieldMappingDescriptor() 
-     {
+    public FieldMappingDescriptor() {
         super();
-        nsURI = "http://castor.exolab.org/";
-        xmlName = "field";
-        elementDefinition = true;
+        _nsURI = "http://castor.exolab.org/";
+        _xmlName = "field";
+        _elementDefinition = true;
         
         //-- set grouping compositor
         setCompositorAsSequence();
@@ -79,15 +84,15 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
                 try {
                     FieldMapping target = (FieldMapping) object;
                     target.setName( (java.lang.String) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
         };
+        desc.setSchemaType("string");
         desc.setHandler(handler);
         desc.setRequired(true);
         desc.setMultivalued(false);
@@ -97,9 +102,10 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(1);
         { //-- local scope
-            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
-            typeValidator.setWhiteSpace("preserve");
+            org.exolab.castor.xml.validators.StringValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             fieldValidator.setValidator(typeValidator);
+            typeValidator.setWhiteSpace("preserve");
         }
         desc.setValidator(fieldValidator);
         //-- _type
@@ -118,15 +124,15 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
                 try {
                     FieldMapping target = (FieldMapping) object;
                     target.setType( (java.lang.String) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
         };
+        desc.setSchemaType("string");
         desc.setHandler(handler);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
@@ -134,9 +140,10 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
         //-- validation code for: _type
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
-            typeValidator.setWhiteSpace("preserve");
+            org.exolab.castor.xml.validators.StringValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             fieldValidator.setValidator(typeValidator);
+            typeValidator.setWhiteSpace("preserve");
         }
         desc.setValidator(fieldValidator);
         //-- _required
@@ -146,8 +153,7 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
                 throws IllegalStateException
             {
                 FieldMapping target = (FieldMapping) object;
-                if(!target.hasRequired())
-                    return null;
+                if (!target.hasRequired()) { return null; }
                 return (target.getRequired() ? java.lang.Boolean.TRUE : java.lang.Boolean.FALSE);
             }
             public void setValue( java.lang.Object object, java.lang.Object value) 
@@ -160,16 +166,16 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
                         target.deleteRequired();
                         return;
                     }
-                    target.setRequired( ((java.lang.Boolean)value).booleanValue());
-                }
-                catch (java.lang.Exception ex) {
+                    target.setRequired( ((java.lang.Boolean) value).booleanValue());
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
         };
+        desc.setSchemaType("boolean");
         desc.setHandler(handler);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
@@ -177,7 +183,8 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
         //-- validation code for: _required
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.BooleanValidator typeValidator = new org.exolab.castor.xml.validators.BooleanValidator();
+            org.exolab.castor.xml.validators.BooleanValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.BooleanValidator();
             fieldValidator.setValidator(typeValidator);
         }
         desc.setValidator(fieldValidator);
@@ -188,8 +195,7 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
                 throws IllegalStateException
             {
                 FieldMapping target = (FieldMapping) object;
-                if(!target.hasTransient())
-                    return null;
+                if (!target.hasTransient()) { return null; }
                 return (target.getTransient() ? java.lang.Boolean.TRUE : java.lang.Boolean.FALSE);
             }
             public void setValue( java.lang.Object object, java.lang.Object value) 
@@ -202,16 +208,16 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
                         target.deleteTransient();
                         return;
                     }
-                    target.setTransient( ((java.lang.Boolean)value).booleanValue());
-                }
-                catch (java.lang.Exception ex) {
+                    target.setTransient( ((java.lang.Boolean) value).booleanValue());
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
         };
+        desc.setSchemaType("boolean");
         desc.setHandler(handler);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
@@ -219,7 +225,8 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
         //-- validation code for: _transient
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.BooleanValidator typeValidator = new org.exolab.castor.xml.validators.BooleanValidator();
+            org.exolab.castor.xml.validators.BooleanValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.BooleanValidator();
             fieldValidator.setValidator(typeValidator);
         }
         desc.setValidator(fieldValidator);
@@ -230,8 +237,7 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
                 throws IllegalStateException
             {
                 FieldMapping target = (FieldMapping) object;
-                if(!target.hasDirect())
-                    return null;
+                if (!target.hasDirect()) { return null; }
                 return (target.getDirect() ? java.lang.Boolean.TRUE : java.lang.Boolean.FALSE);
             }
             public void setValue( java.lang.Object object, java.lang.Object value) 
@@ -244,16 +250,16 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
                         target.deleteDirect();
                         return;
                     }
-                    target.setDirect( ((java.lang.Boolean)value).booleanValue());
-                }
-                catch (java.lang.Exception ex) {
+                    target.setDirect( ((java.lang.Boolean) value).booleanValue());
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
         };
+        desc.setSchemaType("boolean");
         desc.setHandler(handler);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
@@ -261,7 +267,8 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
         //-- validation code for: _direct
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.BooleanValidator typeValidator = new org.exolab.castor.xml.validators.BooleanValidator();
+            org.exolab.castor.xml.validators.BooleanValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.BooleanValidator();
             fieldValidator.setValidator(typeValidator);
         }
         desc.setValidator(fieldValidator);
@@ -272,8 +279,7 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
                 throws IllegalStateException
             {
                 FieldMapping target = (FieldMapping) object;
-                if(!target.hasLazy())
-                    return null;
+                if (!target.hasLazy()) { return null; }
                 return (target.getLazy() ? java.lang.Boolean.TRUE : java.lang.Boolean.FALSE);
             }
             public void setValue( java.lang.Object object, java.lang.Object value) 
@@ -286,16 +292,16 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
                         target.deleteLazy();
                         return;
                     }
-                    target.setLazy( ((java.lang.Boolean)value).booleanValue());
-                }
-                catch (java.lang.Exception ex) {
+                    target.setLazy( ((java.lang.Boolean) value).booleanValue());
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
         };
+        desc.setSchemaType("boolean");
         desc.setHandler(handler);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
@@ -303,7 +309,8 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
         //-- validation code for: _lazy
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.BooleanValidator typeValidator = new org.exolab.castor.xml.validators.BooleanValidator();
+            org.exolab.castor.xml.validators.BooleanValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.BooleanValidator();
             fieldValidator.setValidator(typeValidator);
         }
         desc.setValidator(fieldValidator);
@@ -314,8 +321,7 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
                 throws IllegalStateException
             {
                 FieldMapping target = (FieldMapping) object;
-                if(!target.hasContainer())
-                    return null;
+                if (!target.hasContainer()) { return null; }
                 return (target.getContainer() ? java.lang.Boolean.TRUE : java.lang.Boolean.FALSE);
             }
             public void setValue( java.lang.Object object, java.lang.Object value) 
@@ -328,16 +334,16 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
                         target.deleteContainer();
                         return;
                     }
-                    target.setContainer( ((java.lang.Boolean)value).booleanValue());
-                }
-                catch (java.lang.Exception ex) {
+                    target.setContainer( ((java.lang.Boolean) value).booleanValue());
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
         };
+        desc.setSchemaType("boolean");
         desc.setHandler(handler);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
@@ -345,7 +351,8 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
         //-- validation code for: _container
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.BooleanValidator typeValidator = new org.exolab.castor.xml.validators.BooleanValidator();
+            org.exolab.castor.xml.validators.BooleanValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.BooleanValidator();
             fieldValidator.setValidator(typeValidator);
         }
         desc.setValidator(fieldValidator);
@@ -365,15 +372,15 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
                 try {
                     FieldMapping target = (FieldMapping) object;
                     target.setGetMethod( (java.lang.String) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
         };
+        desc.setSchemaType("string");
         desc.setHandler(handler);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
@@ -381,9 +388,10 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
         //-- validation code for: _getMethod
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
-            typeValidator.setWhiteSpace("preserve");
+            org.exolab.castor.xml.validators.StringValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             fieldValidator.setValidator(typeValidator);
+            typeValidator.setWhiteSpace("preserve");
         }
         desc.setValidator(fieldValidator);
         //-- _hasMethod
@@ -402,15 +410,15 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
                 try {
                     FieldMapping target = (FieldMapping) object;
                     target.setHasMethod( (java.lang.String) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
         };
+        desc.setSchemaType("string");
         desc.setHandler(handler);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
@@ -418,9 +426,10 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
         //-- validation code for: _hasMethod
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
-            typeValidator.setWhiteSpace("preserve");
+            org.exolab.castor.xml.validators.StringValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             fieldValidator.setValidator(typeValidator);
+            typeValidator.setWhiteSpace("preserve");
         }
         desc.setValidator(fieldValidator);
         //-- _setMethod
@@ -439,15 +448,15 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
                 try {
                     FieldMapping target = (FieldMapping) object;
                     target.setSetMethod( (java.lang.String) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
         };
+        desc.setSchemaType("string");
         desc.setHandler(handler);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
@@ -455,9 +464,10 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
         //-- validation code for: _setMethod
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
-            typeValidator.setWhiteSpace("preserve");
+            org.exolab.castor.xml.validators.StringValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             fieldValidator.setValidator(typeValidator);
+            typeValidator.setWhiteSpace("preserve");
         }
         desc.setValidator(fieldValidator);
         //-- _createMethod
@@ -476,15 +486,15 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
                 try {
                     FieldMapping target = (FieldMapping) object;
                     target.setCreateMethod( (java.lang.String) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
         };
+        desc.setSchemaType("string");
         desc.setHandler(handler);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
@@ -492,9 +502,10 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
         //-- validation code for: _createMethod
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
-            typeValidator.setWhiteSpace("preserve");
+            org.exolab.castor.xml.validators.StringValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             fieldValidator.setValidator(typeValidator);
+            typeValidator.setWhiteSpace("preserve");
         }
         desc.setValidator(fieldValidator);
         //-- _handler
@@ -513,15 +524,15 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
                 try {
                     FieldMapping target = (FieldMapping) object;
                     target.setHandler( (java.lang.String) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
         };
+        desc.setSchemaType("string");
         desc.setHandler(handler);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
@@ -529,9 +540,10 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
         //-- validation code for: _handler
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
-            typeValidator.setWhiteSpace("preserve");
+            org.exolab.castor.xml.validators.StringValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             fieldValidator.setValidator(typeValidator);
+            typeValidator.setWhiteSpace("preserve");
         }
         desc.setValidator(fieldValidator);
         //-- _collection
@@ -549,17 +561,17 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
                 try {
                     FieldMapping target = (FieldMapping) object;
                     target.setCollection( (org.exolab.castor.mapping.xml.types.FieldMappingCollectionType) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
         };
         handler = new org.exolab.castor.xml.handlers.EnumFieldHandler(org.exolab.castor.mapping.xml.types.FieldMappingCollectionType.class, handler);
         desc.setImmutable(true);
+        desc.setSchemaType("FieldMappingCollectionType");
         desc.setHandler(handler);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
@@ -585,15 +597,15 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
                 try {
                     FieldMapping target = (FieldMapping) object;
                     target.setComparator( (java.lang.String) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
         };
+        desc.setSchemaType("string");
         desc.setHandler(handler);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
@@ -601,9 +613,10 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
         //-- validation code for: _comparator
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
-            typeValidator.setWhiteSpace("preserve");
+            org.exolab.castor.xml.validators.StringValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             fieldValidator.setValidator(typeValidator);
+            typeValidator.setWhiteSpace("preserve");
         }
         desc.setValidator(fieldValidator);
         //-- _identity
@@ -613,8 +626,7 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
                 throws IllegalStateException
             {
                 FieldMapping target = (FieldMapping) object;
-                if(!target.hasIdentity())
-                    return null;
+                if (!target.hasIdentity()) { return null; }
                 return (target.getIdentity() ? java.lang.Boolean.TRUE : java.lang.Boolean.FALSE);
             }
             public void setValue( java.lang.Object object, java.lang.Object value) 
@@ -627,16 +639,16 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
                         target.deleteIdentity();
                         return;
                     }
-                    target.setIdentity( ((java.lang.Boolean)value).booleanValue());
-                }
-                catch (java.lang.Exception ex) {
+                    target.setIdentity( ((java.lang.Boolean) value).booleanValue());
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
         };
+        desc.setSchemaType("boolean");
         desc.setHandler(handler);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
@@ -644,7 +656,8 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
         //-- validation code for: _identity
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.BooleanValidator typeValidator = new org.exolab.castor.xml.validators.BooleanValidator();
+            org.exolab.castor.xml.validators.BooleanValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.BooleanValidator();
             fieldValidator.setValidator(typeValidator);
         }
         desc.setValidator(fieldValidator);
@@ -666,25 +679,27 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
                 try {
                     FieldMapping target = (FieldMapping) object;
                     target.setDescription( (java.lang.String) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
         };
+        desc.setSchemaType("string");
         desc.setHandler(handler);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
         //-- validation code for: _description
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
-            typeValidator.setWhiteSpace("preserve");
+            org.exolab.castor.xml.validators.StringValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             fieldValidator.setValidator(typeValidator);
+            typeValidator.setWhiteSpace("preserve");
         }
         desc.setValidator(fieldValidator);
         //-- _sql
@@ -702,19 +717,20 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
                 try {
                     FieldMapping target = (FieldMapping) object;
                     target.setSql( (org.exolab.castor.mapping.xml.Sql) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
-                return new org.exolab.castor.mapping.xml.Sql();
+            public java.lang.Object newInstance(java.lang.Object parent) {
+                return null;
             }
         };
+        desc.setSchemaType("org.exolab.castor.mapping.xml.Sql");
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/");
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
         //-- validation code for: _sql
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
@@ -736,19 +752,20 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
                 try {
                     FieldMapping target = (FieldMapping) object;
                     target.setBindXml( (org.exolab.castor.mapping.xml.BindXml) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
-                return new org.exolab.castor.mapping.xml.BindXml();
+            public java.lang.Object newInstance(java.lang.Object parent) {
+                return null;
             }
         };
+        desc.setSchemaType("org.exolab.castor.mapping.xml.BindXml");
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/");
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
         //-- validation code for: _bindXml
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
@@ -770,26 +787,27 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
                 try {
                     FieldMapping target = (FieldMapping) object;
                     target.setLdap( (org.exolab.castor.mapping.xml.Ldap) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
-                return new org.exolab.castor.mapping.xml.Ldap();
+            public java.lang.Object newInstance(java.lang.Object parent) {
+                return null;
             }
         };
+        desc.setSchemaType("org.exolab.castor.mapping.xml.Ldap");
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/");
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
         //-- validation code for: _ldap
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
         }
         desc.setValidator(fieldValidator);
-    } //-- org.exolab.castor.mapping.xml.FieldMappingDescriptor()
+    }
 
 
       //-----------/
@@ -797,111 +815,88 @@ public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassD
     //-----------/
 
     /**
-     * Method getAccessMode
+     * Method getAccessMode.
      * 
-     * 
-     * 
-     * @return AccessMode
+     * @return the access mode specified for this class.
      */
-    public org.exolab.castor.mapping.AccessMode getAccessMode()
-    {
+    public org.exolab.castor.mapping.AccessMode getAccessMode(
+    ) {
         return null;
-    } //-- org.exolab.castor.mapping.AccessMode getAccessMode() 
+    }
 
     /**
-     * Method getExtends
+     * Method getIdentity.
      * 
-     * 
-     * 
-     * @return ClassDescriptor
+     * @return the identity field, null if this class has no
+     * identity.
      */
-    public org.exolab.castor.mapping.ClassDescriptor getExtends()
-    {
-        return null;
-    } //-- org.exolab.castor.mapping.ClassDescriptor getExtends() 
+    public org.exolab.castor.mapping.FieldDescriptor getIdentity(
+    ) {
+        return _identity;
+    }
 
     /**
-     * Method getIdentity
+     * Method getJavaClass.
      * 
-     * 
-     * 
-     * @return FieldDescriptor
+     * @return the Java class represented by this descriptor.
      */
-    public org.exolab.castor.mapping.FieldDescriptor getIdentity()
-    {
-        return identity;
-    } //-- org.exolab.castor.mapping.FieldDescriptor getIdentity() 
-
-    /**
-     * Method getJavaClass
-     * 
-     * 
-     * 
-     * @return Class
-     */
-    public java.lang.Class getJavaClass()
-    {
+    public java.lang.Class getJavaClass(
+    ) {
         return org.exolab.castor.mapping.xml.FieldMapping.class;
-    } //-- java.lang.Class getJavaClass() 
+    }
 
     /**
-     * Method getNameSpacePrefix
+     * Method getNameSpacePrefix.
      * 
-     * 
-     * 
-     * @return String
+     * @return the namespace prefix to use when marshaling as XML.
      */
-    public java.lang.String getNameSpacePrefix()
-    {
-        return nsPrefix;
-    } //-- java.lang.String getNameSpacePrefix() 
+    public java.lang.String getNameSpacePrefix(
+    ) {
+        return _nsPrefix;
+    }
 
     /**
-     * Method getNameSpaceURI
+     * Method getNameSpaceURI.
      * 
-     * 
-     * 
-     * @return String
+     * @return the namespace URI used when marshaling and
+     * unmarshaling as XML.
      */
-    public java.lang.String getNameSpaceURI()
-    {
-        return nsURI;
-    } //-- java.lang.String getNameSpaceURI() 
+    public java.lang.String getNameSpaceURI(
+    ) {
+        return _nsURI;
+    }
 
     /**
-     * Method getValidator
+     * Method getValidator.
      * 
-     * 
-     * 
-     * @return TypeValidator
+     * @return a specific validator for the class described by this
+     * ClassDescriptor.
      */
-    public org.exolab.castor.xml.TypeValidator getValidator()
-    {
+    public org.exolab.castor.xml.TypeValidator getValidator(
+    ) {
         return this;
-    } //-- org.exolab.castor.xml.TypeValidator getValidator() 
+    }
 
     /**
-     * Method getXMLName
+     * Method getXMLName.
      * 
-     * 
-     * 
-     * @return String
+     * @return the XML Name for the Class being described.
      */
-    public java.lang.String getXMLName()
-    {
-        return xmlName;
-    } //-- java.lang.String getXMLName() 
+    public java.lang.String getXMLName(
+    ) {
+        return _xmlName;
+    }
 
     /**
-     * Method isElementDefinition
+     * Method isElementDefinition.
      * 
-     * 
-     * 
-     * @return boolean
+     * @return true if XML schema definition of this Class is that
+     * of a global
+     * element or element with anonymous type definition.
      */
-    public boolean isElementDefinition()
-    {
-        return elementDefinition;
-    } //-- boolean isElementDefinition() 
+    public boolean isElementDefinition(
+    ) {
+        return _elementDefinition;
+    }
 
 }

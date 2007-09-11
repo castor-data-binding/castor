@@ -1,13 +1,16 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.1.2.1</a>, using an XML
  * Schema.
  * $Id$
  */
 
 package org.exolab.castor.mapping.xml;
 
-import java.util.Collections;
+  //---------------------------------/
+ //- Imported classes and packages -/
+//---------------------------------/
+
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
@@ -24,30 +27,29 @@ public class NamedQuery implements java.io.Serializable {
     //--------------------------/
 
     /**
-     * Field _name
+     * Field _name.
      */
     private java.lang.String _name;
 
     /**
-     * Field _query
+     * Field _query.
      */
     private java.lang.String _query;
 
     /**
-     * Field _queryHintList
+     * Field _queryHintList.
      */
-    private java.util.ArrayList _queryHintList;
+    private java.util.List _queryHintList;
 
 
       //----------------/
      //- Constructors -/
     //----------------/
 
-    public NamedQuery() 
-     {
+    public NamedQuery() {
         super();
-        _queryHintList = new java.util.ArrayList();
-    } //-- org.exolab.castor.mapping.xml.NamedQuery()
+        this._queryHintList = new java.util.ArrayList();
+    }
 
 
       //-----------/
@@ -55,260 +57,281 @@ public class NamedQuery implements java.io.Serializable {
     //-----------/
 
     /**
-     * Method addQueryHint
-     * 
      * 
      * 
      * @param vQueryHint
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
-    public void addQueryHint(org.exolab.castor.mapping.xml.QueryHint vQueryHint)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        _queryHintList.add(vQueryHint);
-    } //-- void addQueryHint(org.exolab.castor.mapping.xml.QueryHint) 
+    public void addQueryHint(
+            final org.exolab.castor.mapping.xml.QueryHint vQueryHint)
+    throws java.lang.IndexOutOfBoundsException {
+        this._queryHintList.add(vQueryHint);
+    }
 
     /**
-     * Method addQueryHint
-     * 
      * 
      * 
      * @param index
      * @param vQueryHint
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
-    public void addQueryHint(int index, org.exolab.castor.mapping.xml.QueryHint vQueryHint)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        _queryHintList.add(index, vQueryHint);
-    } //-- void addQueryHint(int, org.exolab.castor.mapping.xml.QueryHint) 
+    public void addQueryHint(
+            final int index,
+            final org.exolab.castor.mapping.xml.QueryHint vQueryHint)
+    throws java.lang.IndexOutOfBoundsException {
+        this._queryHintList.add(index, vQueryHint);
+    }
 
     /**
-     * Method clearQueryHint
+     * Method enumerateQueryHint.
      * 
+     * @return an Enumeration over all possible elements of this
+     * collection
      */
-    public void clearQueryHint()
-    {
-        _queryHintList.clear();
-    } //-- void clearQueryHint() 
-
-    /**
-     * Method enumerateQueryHint
-     * 
-     * 
-     * 
-     * @return Enumeration
-     */
-    public java.util.Enumeration enumerateQueryHint()
-    {
-        return Collections.enumeration(_queryHintList);
-    } //-- java.util.Enumeration enumerateQueryHint() 
+    public java.util.Enumeration enumerateQueryHint(
+    ) {
+        return java.util.Collections.enumeration(this._queryHintList);
+    }
 
     /**
      * Returns the value of field 'name'.
      * 
-     * @return String
-     * @return the value of field 'name'.
+     * @return the value of field 'Name'.
      */
-    public java.lang.String getName()
-    {
+    public java.lang.String getName(
+    ) {
         return this._name;
-    } //-- java.lang.String getName() 
+    }
 
     /**
      * Returns the value of field 'query'.
      * 
-     * @return String
-     * @return the value of field 'query'.
+     * @return the value of field 'Query'.
      */
-    public java.lang.String getQuery()
-    {
+    public java.lang.String getQuery(
+    ) {
         return this._query;
-    } //-- java.lang.String getQuery() 
+    }
 
     /**
-     * Method getQueryHint
-     * 
-     * 
+     * Method getQueryHint.
      * 
      * @param index
-     * @return QueryHint
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     * @return the value of the
+     * org.exolab.castor.mapping.xml.QueryHint at the given index
      */
-    public org.exolab.castor.mapping.xml.QueryHint getQueryHint(int index)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        //-- check bounds for index
-        if ((index < 0) || (index >= _queryHintList.size())) {
-            throw new IndexOutOfBoundsException();
+    public org.exolab.castor.mapping.xml.QueryHint getQueryHint(
+            final int index)
+    throws java.lang.IndexOutOfBoundsException {
+        // check bounds for index
+        if (index < 0 || index >= this._queryHintList.size()) {
+            throw new IndexOutOfBoundsException("getQueryHint: Index value '" + index + "' not in range [0.." + (this._queryHintList.size() - 1) + "]");
         }
         
         return (org.exolab.castor.mapping.xml.QueryHint) _queryHintList.get(index);
-    } //-- org.exolab.castor.mapping.xml.QueryHint getQueryHint(int) 
+    }
 
     /**
-     * Method getQueryHint
+     * Method getQueryHint.Returns the contents of the collection
+     * in an Array.  <p>Note:  Just in case the collection contents
+     * are changing in another thread, we pass a 0-length Array of
+     * the correct type into the API call.  This way we <i>know</i>
+     * that the Array returned is of exactly the correct length.
      * 
-     * 
-     * 
-     * @return QueryHint
+     * @return this collection as an Array
      */
-    public org.exolab.castor.mapping.xml.QueryHint[] getQueryHint()
-    {
-        int size = _queryHintList.size();
-        org.exolab.castor.mapping.xml.QueryHint[] mArray = new org.exolab.castor.mapping.xml.QueryHint[size];
-        for (int index = 0; index < size; index++) {
-            mArray[index] = (org.exolab.castor.mapping.xml.QueryHint) _queryHintList.get(index);
-        }
-        return mArray;
-    } //-- org.exolab.castor.mapping.xml.QueryHint[] getQueryHint() 
+    public org.exolab.castor.mapping.xml.QueryHint[] getQueryHint(
+    ) {
+        org.exolab.castor.mapping.xml.QueryHint[] array = new org.exolab.castor.mapping.xml.QueryHint[0];
+        return (org.exolab.castor.mapping.xml.QueryHint[]) this._queryHintList.toArray(array);
+    }
 
     /**
-     * Method getQueryHintCount
+     * Method getQueryHintCount.
      * 
-     * 
-     * 
-     * @return int
+     * @return the size of this collection
      */
-    public int getQueryHintCount()
-    {
-        return _queryHintList.size();
-    } //-- int getQueryHintCount() 
+    public int getQueryHintCount(
+    ) {
+        return this._queryHintList.size();
+    }
 
     /**
-     * Method isValid
+     * Method isValid.
      * 
-     * 
-     * 
-     * @return boolean
+     * @return true if this object is valid according to the schema
      */
-    public boolean isValid()
-    {
+    public boolean isValid(
+    ) {
         try {
             validate();
-        }
-        catch (org.exolab.castor.xml.ValidationException vex) {
+        } catch (org.exolab.castor.xml.ValidationException vex) {
             return false;
         }
         return true;
-    } //-- boolean isValid() 
+    }
 
     /**
-     * Method marshal
+     * Method iterateQueryHint.
      * 
+     * @return an Iterator over all possible elements in this
+     * collection
+     */
+    public java.util.Iterator iterateQueryHint(
+    ) {
+        return this._queryHintList.iterator();
+    }
+
+    /**
      * 
      * 
      * @param out
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
      */
-    public void marshal(java.io.Writer out)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
-        
+    public void marshal(
+            final java.io.Writer out)
+    throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, out);
-    } //-- void marshal(java.io.Writer) 
+    }
 
     /**
-     * Method marshal
-     * 
      * 
      * 
      * @param handler
+     * @throws java.io.IOException if an IOException occurs during
+     * marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
      */
-    public void marshal(org.xml.sax.ContentHandler handler)
-        throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
-        
+    public void marshal(
+            final org.xml.sax.ContentHandler handler)
+    throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, handler);
-    } //-- void marshal(org.xml.sax.ContentHandler) 
+    }
 
     /**
-     * Method removeQueryHint
-     * 
-     * 
+     */
+    public void removeAllQueryHint(
+    ) {
+        this._queryHintList.clear();
+    }
+
+    /**
+     * Method removeQueryHint.
      * 
      * @param vQueryHint
-     * @return boolean
+     * @return true if the object was removed from the collection.
      */
-    public boolean removeQueryHint(org.exolab.castor.mapping.xml.QueryHint vQueryHint)
-    {
+    public boolean removeQueryHint(
+            final org.exolab.castor.mapping.xml.QueryHint vQueryHint) {
         boolean removed = _queryHintList.remove(vQueryHint);
         return removed;
-    } //-- boolean removeQueryHint(org.exolab.castor.mapping.xml.QueryHint) 
+    }
+
+    /**
+     * Method removeQueryHintAt.
+     * 
+     * @param index
+     * @return the element removed from the collection
+     */
+    public org.exolab.castor.mapping.xml.QueryHint removeQueryHintAt(
+            final int index) {
+        java.lang.Object obj = this._queryHintList.remove(index);
+        return (org.exolab.castor.mapping.xml.QueryHint) obj;
+    }
 
     /**
      * Sets the value of field 'name'.
      * 
      * @param name the value of field 'name'.
      */
-    public void setName(java.lang.String name)
-    {
+    public void setName(
+            final java.lang.String name) {
         this._name = name;
-    } //-- void setName(java.lang.String) 
+    }
 
     /**
      * Sets the value of field 'query'.
      * 
      * @param query the value of field 'query'.
      */
-    public void setQuery(java.lang.String query)
-    {
+    public void setQuery(
+            final java.lang.String query) {
         this._query = query;
-    } //-- void setQuery(java.lang.String) 
+    }
 
     /**
-     * Method setQueryHint
-     * 
      * 
      * 
      * @param index
      * @param vQueryHint
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
-    public void setQueryHint(int index, org.exolab.castor.mapping.xml.QueryHint vQueryHint)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        //-- check bounds for index
-        if ((index < 0) || (index >= _queryHintList.size())) {
-            throw new IndexOutOfBoundsException();
+    public void setQueryHint(
+            final int index,
+            final org.exolab.castor.mapping.xml.QueryHint vQueryHint)
+    throws java.lang.IndexOutOfBoundsException {
+        // check bounds for index
+        if (index < 0 || index >= this._queryHintList.size()) {
+            throw new IndexOutOfBoundsException("setQueryHint: Index value '" + index + "' not in range [0.." + (this._queryHintList.size() - 1) + "]");
         }
-        _queryHintList.set(index, vQueryHint);
-    } //-- void setQueryHint(int, org.exolab.castor.mapping.xml.QueryHint) 
+        
+        this._queryHintList.set(index, vQueryHint);
+    }
 
     /**
-     * Method setQueryHint
      * 
      * 
-     * 
-     * @param queryHintArray
+     * @param vQueryHintArray
      */
-    public void setQueryHint(org.exolab.castor.mapping.xml.QueryHint[] queryHintArray)
-    {
+    public void setQueryHint(
+            final org.exolab.castor.mapping.xml.QueryHint[] vQueryHintArray) {
         //-- copy array
         _queryHintList.clear();
-        for (int i = 0; i < queryHintArray.length; i++) {
-            _queryHintList.add(queryHintArray[i]);
+        
+        for (int i = 0; i < vQueryHintArray.length; i++) {
+                this._queryHintList.add(vQueryHintArray[i]);
         }
-    } //-- void setQueryHint(org.exolab.castor.mapping.xml.QueryHint) 
+    }
 
     /**
-     * Method unmarshal
-     * 
-     * 
+     * Method unmarshal.
      * 
      * @param reader
-     * @return NamedQuery
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     * @return the unmarshaled
+     * org.exolab.castor.mapping.xml.NamedQuery
      */
-    public static org.exolab.castor.mapping.xml.NamedQuery unmarshal(java.io.Reader reader)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
+    public static org.exolab.castor.mapping.xml.NamedQuery unmarshal(
+            final java.io.Reader reader)
+    throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         return (org.exolab.castor.mapping.xml.NamedQuery) Unmarshaller.unmarshal(org.exolab.castor.mapping.xml.NamedQuery.class, reader);
-    } //-- org.exolab.castor.mapping.xml.NamedQuery unmarshal(java.io.Reader) 
+    }
 
     /**
-     * Method validate
      * 
+     * 
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
      */
-    public void validate()
-        throws org.exolab.castor.xml.ValidationException
-    {
+    public void validate(
+    )
+    throws org.exolab.castor.xml.ValidationException {
         org.exolab.castor.xml.Validator validator = new org.exolab.castor.xml.Validator();
         validator.validate(this);
-    } //-- void validate() 
+    }
 
 }

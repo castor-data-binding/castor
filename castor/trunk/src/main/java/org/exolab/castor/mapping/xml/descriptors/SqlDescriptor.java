@@ -1,16 +1,22 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.1.2.1</a>, using an XML
  * Schema.
  * $Id$
  */
 
-package org.exolab.castor.mapping.xml;
+package org.exolab.castor.mapping.xml.descriptors;
+
+  //---------------------------------/
+ //- Imported classes and packages -/
+//---------------------------------/
+
+import org.exolab.castor.mapping.xml.Sql;
 
 /**
  * Class SqlDescriptor.
  * 
- * @version $Revision$ $Date: 2006-01-07 15:48:31 -0700 (Sat, 07 Jan 2006) $
+ * @version $Revision$ $Date$
  */
 public class SqlDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
@@ -20,41 +26,40 @@ public class SqlDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptor
     //--------------------------/
 
     /**
-     * Field elementDefinition
+     * Field _elementDefinition.
      */
-    private boolean elementDefinition;
+    private boolean _elementDefinition;
 
     /**
-     * Field nsPrefix
+     * Field _nsPrefix.
      */
-    private java.lang.String nsPrefix;
+    private java.lang.String _nsPrefix;
 
     /**
-     * Field nsURI
+     * Field _nsURI.
      */
-    private java.lang.String nsURI;
+    private java.lang.String _nsURI;
 
     /**
-     * Field xmlName
+     * Field _xmlName.
      */
-    private java.lang.String xmlName;
+    private java.lang.String _xmlName;
 
     /**
-     * Field identity
+     * Field _identity.
      */
-    private org.exolab.castor.xml.XMLFieldDescriptor identity;
+    private org.exolab.castor.xml.XMLFieldDescriptor _identity;
 
 
       //----------------/
      //- Constructors -/
     //----------------/
 
-    public SqlDescriptor() 
-     {
+    public SqlDescriptor() {
         super();
-        nsURI = "http://castor.exolab.org/";
-        xmlName = "sql";
-        elementDefinition = true;
+        _nsURI = "http://castor.exolab.org/";
+        _xmlName = "sql";
+        _elementDefinition = true;
         org.exolab.castor.xml.util.XMLFieldDescriptorImpl  desc           = null;
         org.exolab.castor.mapping.FieldHandler             handler        = null;
         org.exolab.castor.xml.FieldValidator               fieldValidator = null;
@@ -75,16 +80,24 @@ public class SqlDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptor
                 try {
                     Sql target = (Sql) object;
                     target.addName( (java.lang.String) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
+                try {
+                    Sql target = (Sql) object;
+                    target.removeAllName();
+                } catch (java.lang.Exception ex) {
+                    throw new IllegalStateException(ex.toString());
+                }
+            }
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return new java.lang.String();
             }
         };
-        handler = new org.exolab.castor.xml.handlers.CollectionFieldHandler(handler, new org.exolab.castor.xml.validators.NameValidator(org.exolab.castor.xml.validators.NameValidator.NMTOKEN));
+        handler = new org.exolab.castor.xml.handlers.CollectionFieldHandler(handler, new org.exolab.castor.xml.validators.NameValidator(org.exolab.castor.xml.XMLConstants.NAME_TYPE_NMTOKEN));
+        desc.setSchemaType("NMTOKEN");
         desc.setHandler(handler);
         desc.setMultivalued(true);
         addFieldDescriptor(desc);
@@ -92,6 +105,9 @@ public class SqlDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptor
         //-- validation code for: _name
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(0);
+        { //-- local scope
+        }
+        desc.setValidator(fieldValidator);
         //-- _type
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.String.class, "_type", "type", org.exolab.castor.xml.NodeType.Attribute);
         desc.setImmutable(true);
@@ -108,15 +124,15 @@ public class SqlDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptor
                 try {
                     Sql target = (Sql) object;
                     target.setType( (java.lang.String) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
         };
+        desc.setSchemaType("string");
         desc.setHandler(handler);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
@@ -124,9 +140,10 @@ public class SqlDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptor
         //-- validation code for: _type
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
-            typeValidator.setWhiteSpace("preserve");
+            org.exolab.castor.xml.validators.StringValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             fieldValidator.setValidator(typeValidator);
+            typeValidator.setWhiteSpace("preserve");
         }
         desc.setValidator(fieldValidator);
         //-- _manyTable
@@ -144,15 +161,15 @@ public class SqlDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptor
                 try {
                     Sql target = (Sql) object;
                     target.setManyTable( (java.lang.String) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return new java.lang.String();
             }
         };
+        desc.setSchemaType("NMTOKEN");
         desc.setHandler(handler);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
@@ -160,8 +177,11 @@ public class SqlDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptor
         //-- validation code for: _manyTable
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.NameValidator typeValidator = new org.exolab.castor.xml.validators.NameValidator(org.exolab.castor.xml.validators.NameValidator.NMTOKEN);
+            org.exolab.castor.xml.validators.NameValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.NameValidator(
+                org.exolab.castor.xml.XMLConstants.NAME_TYPE_NMTOKEN);
             fieldValidator.setValidator(typeValidator);
+            typeValidator.addPattern("\\c+");
         }
         desc.setValidator(fieldValidator);
         //-- _manyKey
@@ -179,16 +199,24 @@ public class SqlDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptor
                 try {
                     Sql target = (Sql) object;
                     target.addManyKey( (java.lang.String) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
+                try {
+                    Sql target = (Sql) object;
+                    target.removeAllManyKey();
+                } catch (java.lang.Exception ex) {
+                    throw new IllegalStateException(ex.toString());
+                }
+            }
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return new java.lang.String();
             }
         };
-        handler = new org.exolab.castor.xml.handlers.CollectionFieldHandler(handler, new org.exolab.castor.xml.validators.NameValidator(org.exolab.castor.xml.validators.NameValidator.NMTOKEN));
+        handler = new org.exolab.castor.xml.handlers.CollectionFieldHandler(handler, new org.exolab.castor.xml.validators.NameValidator(org.exolab.castor.xml.XMLConstants.NAME_TYPE_NMTOKEN));
+        desc.setSchemaType("NMTOKEN");
         desc.setHandler(handler);
         desc.setMultivalued(true);
         addFieldDescriptor(desc);
@@ -196,6 +224,9 @@ public class SqlDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptor
         //-- validation code for: _manyKey
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(0);
+        { //-- local scope
+        }
+        desc.setValidator(fieldValidator);
         //-- _readOnly
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.Boolean.TYPE, "_readOnly", "read-only", org.exolab.castor.xml.NodeType.Attribute);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
@@ -203,8 +234,7 @@ public class SqlDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptor
                 throws IllegalStateException
             {
                 Sql target = (Sql) object;
-                if(!target.hasReadOnly())
-                    return null;
+                if (!target.hasReadOnly()) { return null; }
                 return (target.getReadOnly() ? java.lang.Boolean.TRUE : java.lang.Boolean.FALSE);
             }
             public void setValue( java.lang.Object object, java.lang.Object value) 
@@ -217,16 +247,16 @@ public class SqlDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptor
                         target.deleteReadOnly();
                         return;
                     }
-                    target.setReadOnly( ((java.lang.Boolean)value).booleanValue());
-                }
-                catch (java.lang.Exception ex) {
+                    target.setReadOnly( ((java.lang.Boolean) value).booleanValue());
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
         };
+        desc.setSchemaType("boolean");
         desc.setHandler(handler);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
@@ -234,7 +264,8 @@ public class SqlDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptor
         //-- validation code for: _readOnly
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.BooleanValidator typeValidator = new org.exolab.castor.xml.validators.BooleanValidator();
+            org.exolab.castor.xml.validators.BooleanValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.BooleanValidator();
             fieldValidator.setValidator(typeValidator);
         }
         desc.setValidator(fieldValidator);
@@ -245,8 +276,7 @@ public class SqlDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptor
                 throws IllegalStateException
             {
                 Sql target = (Sql) object;
-                if(!target.hasTransient())
-                    return null;
+                if (!target.hasTransient()) { return null; }
                 return (target.getTransient() ? java.lang.Boolean.TRUE : java.lang.Boolean.FALSE);
             }
             public void setValue( java.lang.Object object, java.lang.Object value) 
@@ -259,16 +289,16 @@ public class SqlDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptor
                         target.deleteTransient();
                         return;
                     }
-                    target.setTransient( ((java.lang.Boolean)value).booleanValue());
-                }
-                catch (java.lang.Exception ex) {
+                    target.setTransient( ((java.lang.Boolean) value).booleanValue());
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
         };
+        desc.setSchemaType("boolean");
         desc.setHandler(handler);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
@@ -276,7 +306,8 @@ public class SqlDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptor
         //-- validation code for: _transient
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.BooleanValidator typeValidator = new org.exolab.castor.xml.validators.BooleanValidator();
+            org.exolab.castor.xml.validators.BooleanValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.BooleanValidator();
             fieldValidator.setValidator(typeValidator);
         }
         desc.setValidator(fieldValidator);
@@ -295,17 +326,17 @@ public class SqlDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptor
                 try {
                     Sql target = (Sql) object;
                     target.setDirty( (org.exolab.castor.mapping.xml.types.SqlDirtyType) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
         };
         handler = new org.exolab.castor.xml.handlers.EnumFieldHandler(org.exolab.castor.mapping.xml.types.SqlDirtyType.class, handler);
         desc.setImmutable(true);
+        desc.setSchemaType("SqlDirtyType");
         desc.setHandler(handler);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
@@ -317,7 +348,7 @@ public class SqlDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptor
         desc.setValidator(fieldValidator);
         //-- initialize element descriptors
         
-    } //-- org.exolab.castor.mapping.xml.SqlDescriptor()
+    }
 
 
       //-----------/
@@ -325,111 +356,88 @@ public class SqlDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptor
     //-----------/
 
     /**
-     * Method getAccessMode
+     * Method getAccessMode.
      * 
-     * 
-     * 
-     * @return AccessMode
+     * @return the access mode specified for this class.
      */
-    public org.exolab.castor.mapping.AccessMode getAccessMode()
-    {
+    public org.exolab.castor.mapping.AccessMode getAccessMode(
+    ) {
         return null;
-    } //-- org.exolab.castor.mapping.AccessMode getAccessMode() 
+    }
 
     /**
-     * Method getExtends
+     * Method getIdentity.
      * 
-     * 
-     * 
-     * @return ClassDescriptor
+     * @return the identity field, null if this class has no
+     * identity.
      */
-    public org.exolab.castor.mapping.ClassDescriptor getExtends()
-    {
-        return null;
-    } //-- org.exolab.castor.mapping.ClassDescriptor getExtends() 
+    public org.exolab.castor.mapping.FieldDescriptor getIdentity(
+    ) {
+        return _identity;
+    }
 
     /**
-     * Method getIdentity
+     * Method getJavaClass.
      * 
-     * 
-     * 
-     * @return FieldDescriptor
+     * @return the Java class represented by this descriptor.
      */
-    public org.exolab.castor.mapping.FieldDescriptor getIdentity()
-    {
-        return identity;
-    } //-- org.exolab.castor.mapping.FieldDescriptor getIdentity() 
-
-    /**
-     * Method getJavaClass
-     * 
-     * 
-     * 
-     * @return Class
-     */
-    public java.lang.Class getJavaClass()
-    {
+    public java.lang.Class getJavaClass(
+    ) {
         return org.exolab.castor.mapping.xml.Sql.class;
-    } //-- java.lang.Class getJavaClass() 
+    }
 
     /**
-     * Method getNameSpacePrefix
+     * Method getNameSpacePrefix.
      * 
-     * 
-     * 
-     * @return String
+     * @return the namespace prefix to use when marshaling as XML.
      */
-    public java.lang.String getNameSpacePrefix()
-    {
-        return nsPrefix;
-    } //-- java.lang.String getNameSpacePrefix() 
+    public java.lang.String getNameSpacePrefix(
+    ) {
+        return _nsPrefix;
+    }
 
     /**
-     * Method getNameSpaceURI
+     * Method getNameSpaceURI.
      * 
-     * 
-     * 
-     * @return String
+     * @return the namespace URI used when marshaling and
+     * unmarshaling as XML.
      */
-    public java.lang.String getNameSpaceURI()
-    {
-        return nsURI;
-    } //-- java.lang.String getNameSpaceURI() 
+    public java.lang.String getNameSpaceURI(
+    ) {
+        return _nsURI;
+    }
 
     /**
-     * Method getValidator
+     * Method getValidator.
      * 
-     * 
-     * 
-     * @return TypeValidator
+     * @return a specific validator for the class described by this
+     * ClassDescriptor.
      */
-    public org.exolab.castor.xml.TypeValidator getValidator()
-    {
+    public org.exolab.castor.xml.TypeValidator getValidator(
+    ) {
         return this;
-    } //-- org.exolab.castor.xml.TypeValidator getValidator() 
+    }
 
     /**
-     * Method getXMLName
+     * Method getXMLName.
      * 
-     * 
-     * 
-     * @return String
+     * @return the XML Name for the Class being described.
      */
-    public java.lang.String getXMLName()
-    {
-        return xmlName;
-    } //-- java.lang.String getXMLName() 
+    public java.lang.String getXMLName(
+    ) {
+        return _xmlName;
+    }
 
     /**
-     * Method isElementDefinition
+     * Method isElementDefinition.
      * 
-     * 
-     * 
-     * @return boolean
+     * @return true if XML schema definition of this Class is that
+     * of a global
+     * element or element with anonymous type definition.
      */
-    public boolean isElementDefinition()
-    {
-        return elementDefinition;
-    } //-- boolean isElementDefinition() 
+    public boolean isElementDefinition(
+    ) {
+        return _elementDefinition;
+    }
 
 }

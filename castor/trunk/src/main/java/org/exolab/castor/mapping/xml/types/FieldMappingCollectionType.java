@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.1.2.1</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -126,27 +126,27 @@ public class FieldMappingCollectionType implements java.io.Serializable {
     public static final FieldMappingCollectionType ITERATOR = new FieldMappingCollectionType(ITERATOR_TYPE, "iterator");
 
     /**
-     * The sortedset type
+     * The sortedmap type
      */
     public static final int SORTEDMAP_TYPE = 10;
 
     /**
-     * The instance of the sortedset type
+     * The instance of the sortedmap type
      */
     public static final FieldMappingCollectionType SORTEDMAP = new FieldMappingCollectionType(SORTEDMAP_TYPE, "sortedmap");
 
     /**
-     * Field _memberTable
+     * Field _memberTable.
      */
     private static java.util.Hashtable _memberTable = init();
 
     /**
-     * Field type
+     * Field type.
      */
-    private int type = -1;
+    private final int type;
 
     /**
-     * Field stringValue
+     * Field stringValue.
      */
     private java.lang.String stringValue = null;
 
@@ -155,12 +155,11 @@ public class FieldMappingCollectionType implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    private FieldMappingCollectionType(int type, java.lang.String value) 
-     {
+    private FieldMappingCollectionType(final int type, final java.lang.String value) {
         super();
         this.type = type;
         this.stringValue = value;
-    } //-- org.exolab.castor.mapping.xml.types.FieldMappingCollectionType(int, java.lang.String)
+    }
 
 
       //-----------/
@@ -168,37 +167,35 @@ public class FieldMappingCollectionType implements java.io.Serializable {
     //-----------/
 
     /**
-     * Method enumerate
+     * Method enumerate.Returns an enumeration of all possible
+     * instances of FieldMappingCollectionType
      * 
-     * Returns an enumeration of all possible instances of
+     * @return an Enumeration over all possible instances of
+     * FieldMappingCollectionType
+     */
+    public static java.util.Enumeration enumerate(
+    ) {
+        return _memberTable.elements();
+    }
+
+    /**
+     * Method getType.Returns the type of this
      * FieldMappingCollectionType
      * 
-     * @return Enumeration
+     * @return the type of this FieldMappingCollectionType
      */
-    public static java.util.Enumeration enumerate()
-    {
-        return _memberTable.elements();
-    } //-- java.util.Enumeration enumerate() 
-
-    /**
-     * Method getType
-     * 
-     * Returns the type of this FieldMappingCollectionType
-     * 
-     * @return int
-     */
-    public int getType()
-    {
+    public int getType(
+    ) {
         return this.type;
-    } //-- int getType() 
+    }
 
     /**
-     * Method init
-
-     * @return Hashtable
+     * Method init.
+     * 
+     * @return the initialized Hashtable for the member table
      */
-    private static java.util.Hashtable init()
-    {
+    private static java.util.Hashtable init(
+    ) {
         Hashtable members = new Hashtable();
         members.put("array", ARRAY);
         members.put("vector", VECTOR);
@@ -212,53 +209,51 @@ public class FieldMappingCollectionType implements java.io.Serializable {
         members.put("iterator", ITERATOR);
         members.put("sortedmap", SORTEDMAP);
         return members;
-    } //-- java.util.Hashtable init() 
+    }
 
     /**
-     * Method readResolve
+     * Method readResolve. will be called during deserialization to
+     * replace the deserialized object with the correct constant
+     * instance.
      * 
-     *  will be called during deserialization to replace the
-     * deserialized object with the correct constant instance.
-     * <br/>
-     * 
-     * @return Object
+     * @return this deserialized object
      */
-    private java.lang.Object readResolve()
-    {
+    private java.lang.Object readResolve(
+    ) {
         return valueOf(this.stringValue);
-    } //-- java.lang.Object readResolve() 
+    }
 
     /**
-     * Method toString
-     * 
-     * Returns the String representation of this
+     * Method toString.Returns the String representation of this
      * FieldMappingCollectionType
      * 
-     * @return String
+     * @return the String representation of this
+     * FieldMappingCollectionType
      */
-    public java.lang.String toString()
-    {
+    public java.lang.String toString(
+    ) {
         return this.stringValue;
-    } //-- java.lang.String toString() 
+    }
 
     /**
-     * Method valueOf
-     * 
-     * Returns a new FieldMappingCollectionType based on the given
-     * String value.
+     * Method valueOf.Returns a new FieldMappingCollectionType
+     * based on the given String value.
      * 
      * @param string
-     * @return FieldMappingCollectionType
+     * @return the FieldMappingCollectionType value of parameter
+     * 'string'
      */
-    public static org.exolab.castor.mapping.xml.types.FieldMappingCollectionType valueOf(java.lang.String string)
-    {
+    public static org.exolab.castor.mapping.xml.types.FieldMappingCollectionType valueOf(
+            final java.lang.String string) {
         java.lang.Object obj = null;
-        if (string != null) obj = _memberTable.get(string);
+        if (string != null) {
+            obj = _memberTable.get(string);
+        }
         if (obj == null) {
-            String err = "'" + string + "' is not a valid FieldMappingCollectionType";
+            String err = "" + string + " is not a valid FieldMappingCollectionType";
             throw new IllegalArgumentException(err);
         }
         return (FieldMappingCollectionType) obj;
-    } //-- org.exolab.castor.mapping.xml.types.FieldMappingCollectionType valueOf(java.lang.String) 
+    }
 
 }

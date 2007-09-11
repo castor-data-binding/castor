@@ -1,20 +1,23 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.1.2.1</a>, using an XML
  * Schema.
  * $Id$
  */
 
 package org.exolab.castor.mapping.xml;
 
-import java.util.Collections;
+  //---------------------------------/
+ //- Imported classes and packages -/
+//---------------------------------/
+
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
 /**
  * Class ClassMapping.
  * 
- * @version $Revision$ $Date: 2006-01-07 15:48:31 -0700 (Sat, 07 Jan 2006) $
+ * @version $Revision$ $Date$
  */
 public class ClassMapping implements java.io.Serializable {
 
@@ -24,37 +27,37 @@ public class ClassMapping implements java.io.Serializable {
     //--------------------------/
 
     /**
-     * Field _name
+     * Field _name.
      */
     private java.lang.String _name;
 
     /**
-     * Field _extends
+     * Field _extends.
      */
     private java.lang.Object _extends;
 
     /**
-     * Field _depends
+     * Field _depends.
      */
     private java.lang.Object _depends;
 
     /**
-     * Field _identity
+     * Field _identity.
      */
-    private java.util.ArrayList _identity;
+    private java.util.List _identity;
 
     /**
-     * Field _access
+     * Field _access.
      */
     private org.exolab.castor.mapping.xml.types.ClassMappingAccessType _access = org.exolab.castor.mapping.xml.types.ClassMappingAccessType.valueOf("shared");
 
     /**
-     * Field _keyGenerator
+     * Field _keyGenerator.
      */
     private java.lang.String _keyGenerator;
 
     /**
-     * Field _autoComplete
+     * Field _autoComplete.
      */
     private boolean _autoComplete = false;
 
@@ -64,7 +67,7 @@ public class ClassMapping implements java.io.Serializable {
     private boolean _has_autoComplete;
 
     /**
-     * Field _verifyConstructable
+     * Field _verifyConstructable.
      */
     private boolean _verifyConstructable = true;
 
@@ -74,27 +77,27 @@ public class ClassMapping implements java.io.Serializable {
     private boolean _has_verifyConstructable;
 
     /**
-     * Field _description
+     * Field _description.
      */
     private java.lang.String _description;
 
     /**
-     * Field _cacheTypeMapping
+     * Field _cacheTypeMapping.
      */
     private org.exolab.castor.mapping.xml.CacheTypeMapping _cacheTypeMapping;
 
     /**
-     * Field _mapTo
+     * Field _mapTo.
      */
     private org.exolab.castor.mapping.xml.MapTo _mapTo;
 
     /**
-     * Field _namedQueryList
+     * Field _namedQueryList.
      */
-    private java.util.ArrayList _namedQueryList;
+    private java.util.List _namedQueryList;
 
     /**
-     * Field _classChoice
+     * Field _classChoice.
      */
     private org.exolab.castor.mapping.xml.ClassChoice _classChoice;
 
@@ -103,13 +106,12 @@ public class ClassMapping implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    public ClassMapping() 
-     {
+    public ClassMapping() {
         super();
-        _identity = new java.util.ArrayList();
+        this._identity = new java.util.ArrayList();
         setAccess(org.exolab.castor.mapping.xml.types.ClassMappingAccessType.valueOf("shared"));
-        _namedQueryList = new java.util.ArrayList();
-    } //-- org.exolab.castor.mapping.xml.ClassMapping()
+        this._namedQueryList = new java.util.ArrayList();
+    }
 
 
       //-----------/
@@ -117,494 +119,528 @@ public class ClassMapping implements java.io.Serializable {
     //-----------/
 
     /**
-     * Method addIdentity
-     * 
      * 
      * 
      * @param vIdentity
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
-    public void addIdentity(java.lang.String vIdentity)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        _identity.add(vIdentity);
-    } //-- void addIdentity(java.lang.String) 
+    public void addIdentity(
+            final java.lang.String vIdentity)
+    throws java.lang.IndexOutOfBoundsException {
+        this._identity.add(vIdentity);
+    }
 
     /**
-     * Method addIdentity
-     * 
      * 
      * 
      * @param index
      * @param vIdentity
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
-    public void addIdentity(int index, java.lang.String vIdentity)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        _identity.add(index, vIdentity);
-    } //-- void addIdentity(int, java.lang.String) 
+    public void addIdentity(
+            final int index,
+            final java.lang.String vIdentity)
+    throws java.lang.IndexOutOfBoundsException {
+        this._identity.add(index, vIdentity);
+    }
 
     /**
-     * Method addNamedQuery
-     * 
      * 
      * 
      * @param vNamedQuery
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
-    public void addNamedQuery(org.exolab.castor.mapping.xml.NamedQuery vNamedQuery)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        _namedQueryList.add(vNamedQuery);
-    } //-- void addNamedQuery(org.exolab.castor.mapping.xml.NamedQuery) 
+    public void addNamedQuery(
+            final org.exolab.castor.mapping.xml.NamedQuery vNamedQuery)
+    throws java.lang.IndexOutOfBoundsException {
+        this._namedQueryList.add(vNamedQuery);
+    }
 
     /**
-     * Method addNamedQuery
-     * 
      * 
      * 
      * @param index
      * @param vNamedQuery
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
-    public void addNamedQuery(int index, org.exolab.castor.mapping.xml.NamedQuery vNamedQuery)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        _namedQueryList.add(index, vNamedQuery);
-    } //-- void addNamedQuery(int, org.exolab.castor.mapping.xml.NamedQuery) 
+    public void addNamedQuery(
+            final int index,
+            final org.exolab.castor.mapping.xml.NamedQuery vNamedQuery)
+    throws java.lang.IndexOutOfBoundsException {
+        this._namedQueryList.add(index, vNamedQuery);
+    }
 
     /**
-     * Method clearIdentity
-     * 
      */
-    public void clearIdentity()
-    {
-        _identity.clear();
-    } //-- void clearIdentity() 
-
-    /**
-     * Method clearNamedQuery
-     * 
-     */
-    public void clearNamedQuery()
-    {
-        _namedQueryList.clear();
-    } //-- void clearNamedQuery() 
-
-    /**
-     * Method deleteAutoComplete
-     * 
-     */
-    public void deleteAutoComplete()
-    {
+    public void deleteAutoComplete(
+    ) {
         this._has_autoComplete= false;
-    } //-- void deleteAutoComplete() 
+    }
 
     /**
-     * Method deleteVerifyConstructable
-     * 
      */
-    public void deleteVerifyConstructable()
-    {
+    public void deleteVerifyConstructable(
+    ) {
         this._has_verifyConstructable= false;
-    } //-- void deleteVerifyConstructable() 
+    }
 
     /**
-     * Method enumerateIdentity
+     * Method enumerateIdentity.
      * 
-     * 
-     * 
-     * @return Enumeration
+     * @return an Enumeration over all possible elements of this
+     * collection
      */
-    public java.util.Enumeration enumerateIdentity()
-    {
-        return Collections.enumeration(_identity);
-    } //-- java.util.Enumeration enumerateIdentity() 
+    public java.util.Enumeration enumerateIdentity(
+    ) {
+        return java.util.Collections.enumeration(this._identity);
+    }
 
     /**
-     * Method enumerateNamedQuery
+     * Method enumerateNamedQuery.
      * 
-     * 
-     * 
-     * @return Enumeration
+     * @return an Enumeration over all possible elements of this
+     * collection
      */
-    public java.util.Enumeration enumerateNamedQuery()
-    {
-        return Collections.enumeration(_namedQueryList);
-    } //-- java.util.Enumeration enumerateNamedQuery() 
+    public java.util.Enumeration enumerateNamedQuery(
+    ) {
+        return java.util.Collections.enumeration(this._namedQueryList);
+    }
 
     /**
      * Returns the value of field 'access'.
      * 
-     * @return ClassMappingAccessType
-     * @return the value of field 'access'.
+     * @return the value of field 'Access'.
      */
-    public org.exolab.castor.mapping.xml.types.ClassMappingAccessType getAccess()
-    {
+    public org.exolab.castor.mapping.xml.types.ClassMappingAccessType getAccess(
+    ) {
         return this._access;
-    } //-- org.exolab.castor.mapping.xml.types.ClassMappingAccessType getAccess() 
+    }
 
     /**
      * Returns the value of field 'autoComplete'.
      * 
-     * @return boolean
-     * @return the value of field 'autoComplete'.
+     * @return the value of field 'AutoComplete'.
      */
-    public boolean getAutoComplete()
-    {
+    public boolean getAutoComplete(
+    ) {
         return this._autoComplete;
-    } //-- boolean getAutoComplete() 
+    }
 
     /**
      * Returns the value of field 'cacheTypeMapping'.
      * 
-     * @return CacheTypeMapping
-     * @return the value of field 'cacheTypeMapping'.
+     * @return the value of field 'CacheTypeMapping'.
      */
-    public org.exolab.castor.mapping.xml.CacheTypeMapping getCacheTypeMapping()
-    {
+    public org.exolab.castor.mapping.xml.CacheTypeMapping getCacheTypeMapping(
+    ) {
         return this._cacheTypeMapping;
-    } //-- org.exolab.castor.mapping.xml.CacheTypeMapping getCacheTypeMapping() 
+    }
 
     /**
      * Returns the value of field 'classChoice'.
      * 
-     * @return ClassChoice
-     * @return the value of field 'classChoice'.
+     * @return the value of field 'ClassChoice'.
      */
-    public org.exolab.castor.mapping.xml.ClassChoice getClassChoice()
-    {
+    public org.exolab.castor.mapping.xml.ClassChoice getClassChoice(
+    ) {
         return this._classChoice;
-    } //-- org.exolab.castor.mapping.xml.ClassChoice getClassChoice() 
+    }
 
     /**
      * Returns the value of field 'depends'.
      * 
-     * @return Object
-     * @return the value of field 'depends'.
+     * @return the value of field 'Depends'.
      */
-    public java.lang.Object getDepends()
-    {
+    public java.lang.Object getDepends(
+    ) {
         return this._depends;
-    } //-- java.lang.Object getDepends() 
+    }
 
     /**
      * Returns the value of field 'description'.
      * 
-     * @return String
-     * @return the value of field 'description'.
+     * @return the value of field 'Description'.
      */
-    public java.lang.String getDescription()
-    {
+    public java.lang.String getDescription(
+    ) {
         return this._description;
-    } //-- java.lang.String getDescription() 
+    }
 
     /**
      * Returns the value of field 'extends'.
      * 
-     * @return Object
-     * @return the value of field 'extends'.
+     * @return the value of field 'Extends'.
      */
-    public java.lang.Object getExtends()
-    {
+    public java.lang.Object getExtends(
+    ) {
         return this._extends;
-    } //-- java.lang.Object getExtends() 
+    }
 
     /**
-     * Method getIdentity
-     * 
-     * 
+     * Method getIdentity.
      * 
      * @param index
-     * @return String
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     * @return the value of the java.lang.String at the given index
      */
-    public java.lang.String getIdentity(int index)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        //-- check bounds for index
-        if ((index < 0) || (index >= _identity.size())) {
-            throw new IndexOutOfBoundsException();
+    public java.lang.String getIdentity(
+            final int index)
+    throws java.lang.IndexOutOfBoundsException {
+        // check bounds for index
+        if (index < 0 || index >= this._identity.size()) {
+            throw new IndexOutOfBoundsException("getIdentity: Index value '" + index + "' not in range [0.." + (this._identity.size() - 1) + "]");
         }
         
-        return (String)_identity.get(index);
-    } //-- java.lang.String getIdentity(int) 
+        return (java.lang.String) _identity.get(index);
+    }
 
     /**
-     * Method getIdentity
+     * Method getIdentity.Returns the contents of the collection in
+     * an Array.  <p>Note:  Just in case the collection contents
+     * are changing in another thread, we pass a 0-length Array of
+     * the correct type into the API call.  This way we <i>know</i>
+     * that the Array returned is of exactly the correct length.
      * 
-     * 
-     * 
-     * @return String
+     * @return this collection as an Array
      */
-    public java.lang.String[] getIdentity()
-    {
-        int size = _identity.size();
-        java.lang.String[] mArray = new java.lang.String[size];
-        for (int index = 0; index < size; index++) {
-            mArray[index] = (String)_identity.get(index);
-        }
-        return mArray;
-    } //-- java.lang.String[] getIdentity() 
+    public java.lang.String[] getIdentity(
+    ) {
+        java.lang.String[] array = new java.lang.String[0];
+        return (java.lang.String[]) this._identity.toArray(array);
+    }
 
     /**
-     * Method getIdentityCount
+     * Method getIdentityCount.
      * 
-     * 
-     * 
-     * @return int
+     * @return the size of this collection
      */
-    public int getIdentityCount()
-    {
-        return _identity.size();
-    } //-- int getIdentityCount() 
+    public int getIdentityCount(
+    ) {
+        return this._identity.size();
+    }
 
     /**
      * Returns the value of field 'keyGenerator'.
      * 
-     * @return String
-     * @return the value of field 'keyGenerator'.
+     * @return the value of field 'KeyGenerator'.
      */
-    public java.lang.String getKeyGenerator()
-    {
+    public java.lang.String getKeyGenerator(
+    ) {
         return this._keyGenerator;
-    } //-- java.lang.String getKeyGenerator() 
+    }
 
     /**
      * Returns the value of field 'mapTo'.
      * 
-     * @return MapTo
-     * @return the value of field 'mapTo'.
+     * @return the value of field 'MapTo'.
      */
-    public org.exolab.castor.mapping.xml.MapTo getMapTo()
-    {
+    public org.exolab.castor.mapping.xml.MapTo getMapTo(
+    ) {
         return this._mapTo;
-    } //-- org.exolab.castor.mapping.xml.MapTo getMapTo() 
+    }
 
     /**
      * Returns the value of field 'name'.
      * 
-     * @return String
-     * @return the value of field 'name'.
+     * @return the value of field 'Name'.
      */
-    public java.lang.String getName()
-    {
+    public java.lang.String getName(
+    ) {
         return this._name;
-    } //-- java.lang.String getName() 
+    }
 
     /**
-     * Method getNamedQuery
-     * 
-     * 
+     * Method getNamedQuery.
      * 
      * @param index
-     * @return NamedQuery
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     * @return the value of the
+     * org.exolab.castor.mapping.xml.NamedQuery at the given index
      */
-    public org.exolab.castor.mapping.xml.NamedQuery getNamedQuery(int index)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        //-- check bounds for index
-        if ((index < 0) || (index >= _namedQueryList.size())) {
-            throw new IndexOutOfBoundsException();
+    public org.exolab.castor.mapping.xml.NamedQuery getNamedQuery(
+            final int index)
+    throws java.lang.IndexOutOfBoundsException {
+        // check bounds for index
+        if (index < 0 || index >= this._namedQueryList.size()) {
+            throw new IndexOutOfBoundsException("getNamedQuery: Index value '" + index + "' not in range [0.." + (this._namedQueryList.size() - 1) + "]");
         }
         
         return (org.exolab.castor.mapping.xml.NamedQuery) _namedQueryList.get(index);
-    } //-- org.exolab.castor.mapping.xml.NamedQuery getNamedQuery(int) 
+    }
 
     /**
-     * Method getNamedQuery
+     * Method getNamedQuery.Returns the contents of the collection
+     * in an Array.  <p>Note:  Just in case the collection contents
+     * are changing in another thread, we pass a 0-length Array of
+     * the correct type into the API call.  This way we <i>know</i>
+     * that the Array returned is of exactly the correct length.
      * 
-     * 
-     * 
-     * @return NamedQuery
+     * @return this collection as an Array
      */
-    public org.exolab.castor.mapping.xml.NamedQuery[] getNamedQuery()
-    {
-        int size = _namedQueryList.size();
-        org.exolab.castor.mapping.xml.NamedQuery[] mArray = new org.exolab.castor.mapping.xml.NamedQuery[size];
-        for (int index = 0; index < size; index++) {
-            mArray[index] = (org.exolab.castor.mapping.xml.NamedQuery) _namedQueryList.get(index);
-        }
-        return mArray;
-    } //-- org.exolab.castor.mapping.xml.NamedQuery[] getNamedQuery() 
+    public org.exolab.castor.mapping.xml.NamedQuery[] getNamedQuery(
+    ) {
+        org.exolab.castor.mapping.xml.NamedQuery[] array = new org.exolab.castor.mapping.xml.NamedQuery[0];
+        return (org.exolab.castor.mapping.xml.NamedQuery[]) this._namedQueryList.toArray(array);
+    }
 
     /**
-     * Method getNamedQueryCount
+     * Method getNamedQueryCount.
      * 
-     * 
-     * 
-     * @return int
+     * @return the size of this collection
      */
-    public int getNamedQueryCount()
-    {
-        return _namedQueryList.size();
-    } //-- int getNamedQueryCount() 
+    public int getNamedQueryCount(
+    ) {
+        return this._namedQueryList.size();
+    }
 
     /**
      * Returns the value of field 'verifyConstructable'.
      * 
-     * @return boolean
-     * @return the value of field 'verifyConstructable'.
+     * @return the value of field 'VerifyConstructable'.
      */
-    public boolean getVerifyConstructable()
-    {
+    public boolean getVerifyConstructable(
+    ) {
         return this._verifyConstructable;
-    } //-- boolean getVerifyConstructable() 
+    }
 
     /**
-     * Method hasAutoComplete
+     * Method hasAutoComplete.
      * 
-     * 
-     * 
-     * @return boolean
+     * @return true if at least one AutoComplete has been added
      */
-    public boolean hasAutoComplete()
-    {
+    public boolean hasAutoComplete(
+    ) {
         return this._has_autoComplete;
-    } //-- boolean hasAutoComplete() 
+    }
 
     /**
-     * Method hasVerifyConstructable
+     * Method hasVerifyConstructable.
      * 
-     * 
-     * 
-     * @return boolean
+     * @return true if at least one VerifyConstructable has been
+     * added
      */
-    public boolean hasVerifyConstructable()
-    {
+    public boolean hasVerifyConstructable(
+    ) {
         return this._has_verifyConstructable;
-    } //-- boolean hasVerifyConstructable() 
+    }
 
     /**
-     * Method isValid
+     * Returns the value of field 'autoComplete'.
      * 
-     * 
-     * 
-     * @return boolean
+     * @return the value of field 'AutoComplete'.
      */
-    public boolean isValid()
-    {
+    public boolean isAutoComplete(
+    ) {
+        return this._autoComplete;
+    }
+
+    /**
+     * Method isValid.
+     * 
+     * @return true if this object is valid according to the schema
+     */
+    public boolean isValid(
+    ) {
         try {
             validate();
-        }
-        catch (org.exolab.castor.xml.ValidationException vex) {
+        } catch (org.exolab.castor.xml.ValidationException vex) {
             return false;
         }
         return true;
-    } //-- boolean isValid() 
+    }
 
     /**
-     * Method marshal
+     * Returns the value of field 'verifyConstructable'.
      * 
+     * @return the value of field 'VerifyConstructable'.
+     */
+    public boolean isVerifyConstructable(
+    ) {
+        return this._verifyConstructable;
+    }
+
+    /**
+     * Method iterateIdentity.
+     * 
+     * @return an Iterator over all possible elements in this
+     * collection
+     */
+    public java.util.Iterator iterateIdentity(
+    ) {
+        return this._identity.iterator();
+    }
+
+    /**
+     * Method iterateNamedQuery.
+     * 
+     * @return an Iterator over all possible elements in this
+     * collection
+     */
+    public java.util.Iterator iterateNamedQuery(
+    ) {
+        return this._namedQueryList.iterator();
+    }
+
+    /**
      * 
      * 
      * @param out
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
      */
-    public void marshal(java.io.Writer out)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
-        
+    public void marshal(
+            final java.io.Writer out)
+    throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, out);
-    } //-- void marshal(java.io.Writer) 
+    }
 
     /**
-     * Method marshal
-     * 
      * 
      * 
      * @param handler
+     * @throws java.io.IOException if an IOException occurs during
+     * marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
      */
-    public void marshal(org.xml.sax.ContentHandler handler)
-        throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
-        
+    public void marshal(
+            final org.xml.sax.ContentHandler handler)
+    throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, handler);
-    } //-- void marshal(org.xml.sax.ContentHandler) 
+    }
 
     /**
-     * Method removeIdentity
-     * 
-     * 
+     */
+    public void removeAllIdentity(
+    ) {
+        this._identity.clear();
+    }
+
+    /**
+     */
+    public void removeAllNamedQuery(
+    ) {
+        this._namedQueryList.clear();
+    }
+
+    /**
+     * Method removeIdentity.
      * 
      * @param vIdentity
-     * @return boolean
+     * @return true if the object was removed from the collection.
      */
-    public boolean removeIdentity(java.lang.String vIdentity)
-    {
+    public boolean removeIdentity(
+            final java.lang.String vIdentity) {
         boolean removed = _identity.remove(vIdentity);
         return removed;
-    } //-- boolean removeIdentity(java.lang.String) 
+    }
 
     /**
-     * Method removeNamedQuery
+     * Method removeIdentityAt.
      * 
-     * 
+     * @param index
+     * @return the element removed from the collection
+     */
+    public java.lang.String removeIdentityAt(
+            final int index) {
+        java.lang.Object obj = this._identity.remove(index);
+        return (java.lang.String) obj;
+    }
+
+    /**
+     * Method removeNamedQuery.
      * 
      * @param vNamedQuery
-     * @return boolean
+     * @return true if the object was removed from the collection.
      */
-    public boolean removeNamedQuery(org.exolab.castor.mapping.xml.NamedQuery vNamedQuery)
-    {
+    public boolean removeNamedQuery(
+            final org.exolab.castor.mapping.xml.NamedQuery vNamedQuery) {
         boolean removed = _namedQueryList.remove(vNamedQuery);
         return removed;
-    } //-- boolean removeNamedQuery(org.exolab.castor.mapping.xml.NamedQuery) 
+    }
+
+    /**
+     * Method removeNamedQueryAt.
+     * 
+     * @param index
+     * @return the element removed from the collection
+     */
+    public org.exolab.castor.mapping.xml.NamedQuery removeNamedQueryAt(
+            final int index) {
+        java.lang.Object obj = this._namedQueryList.remove(index);
+        return (org.exolab.castor.mapping.xml.NamedQuery) obj;
+    }
 
     /**
      * Sets the value of field 'access'.
      * 
      * @param access the value of field 'access'.
      */
-    public void setAccess(org.exolab.castor.mapping.xml.types.ClassMappingAccessType access)
-    {
+    public void setAccess(
+            final org.exolab.castor.mapping.xml.types.ClassMappingAccessType access) {
         this._access = access;
-    } //-- void setAccess(org.exolab.castor.mapping.xml.types.ClassMappingAccessType) 
+    }
 
     /**
      * Sets the value of field 'autoComplete'.
      * 
      * @param autoComplete the value of field 'autoComplete'.
      */
-    public void setAutoComplete(boolean autoComplete)
-    {
+    public void setAutoComplete(
+            final boolean autoComplete) {
         this._autoComplete = autoComplete;
         this._has_autoComplete = true;
-    } //-- void setAutoComplete(boolean) 
+    }
 
     /**
      * Sets the value of field 'cacheTypeMapping'.
      * 
      * @param cacheTypeMapping the value of field 'cacheTypeMapping'
      */
-    public void setCacheTypeMapping(org.exolab.castor.mapping.xml.CacheTypeMapping cacheTypeMapping)
-    {
+    public void setCacheTypeMapping(
+            final org.exolab.castor.mapping.xml.CacheTypeMapping cacheTypeMapping) {
         this._cacheTypeMapping = cacheTypeMapping;
-    } //-- void setCacheTypeMapping(org.exolab.castor.mapping.xml.CacheTypeMapping) 
+    }
 
     /**
      * Sets the value of field 'classChoice'.
      * 
      * @param classChoice the value of field 'classChoice'.
      */
-    public void setClassChoice(org.exolab.castor.mapping.xml.ClassChoice classChoice)
-    {
+    public void setClassChoice(
+            final org.exolab.castor.mapping.xml.ClassChoice classChoice) {
         this._classChoice = classChoice;
-    } //-- void setClassChoice(org.exolab.castor.mapping.xml.ClassChoice) 
+    }
 
     /**
      * Sets the value of field 'depends'.
      * 
      * @param depends the value of field 'depends'.
      */
-    public void setDepends(java.lang.Object depends)
-    {
+    public void setDepends(
+            final java.lang.Object depends) {
         this._depends = depends;
-    } //-- void setDepends(java.lang.Object) 
+    }
 
     /**
      * Sets the value of field 'description'.
      * 
      * @param description the value of field 'description'.
      */
-    public void setDescription(java.lang.String description)
-    {
+    public void setDescription(
+            final java.lang.String description) {
         this._description = description;
-    } //-- void setDescription(java.lang.String) 
+    }
 
     /**
      * Sets the value of field 'extends'.
@@ -612,108 +648,110 @@ public class ClassMapping implements java.io.Serializable {
      * @param _extends
      * @param extends the value of field 'extends'.
      */
-    public void setExtends(java.lang.Object _extends)
-    {
+    public void setExtends(
+            final java.lang.Object _extends) {
         this._extends = _extends;
-    } //-- void setExtends(java.lang.Object) 
+    }
 
     /**
-     * Method setIdentity
-     * 
      * 
      * 
      * @param index
      * @param vIdentity
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
-    public void setIdentity(int index, java.lang.String vIdentity)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        //-- check bounds for index
-        if ((index < 0) || (index >= _identity.size())) {
-            throw new IndexOutOfBoundsException();
+    public void setIdentity(
+            final int index,
+            final java.lang.String vIdentity)
+    throws java.lang.IndexOutOfBoundsException {
+        // check bounds for index
+        if (index < 0 || index >= this._identity.size()) {
+            throw new IndexOutOfBoundsException("setIdentity: Index value '" + index + "' not in range [0.." + (this._identity.size() - 1) + "]");
         }
-        _identity.set(index, vIdentity);
-    } //-- void setIdentity(int, java.lang.String) 
+        
+        this._identity.set(index, vIdentity);
+    }
 
     /**
-     * Method setIdentity
      * 
      * 
-     * 
-     * @param identityArray
+     * @param vIdentityArray
      */
-    public void setIdentity(java.lang.String[] identityArray)
-    {
+    public void setIdentity(
+            final java.lang.String[] vIdentityArray) {
         //-- copy array
         _identity.clear();
-        for (int i = 0; i < identityArray.length; i++) {
-            _identity.add(identityArray[i]);
+        
+        for (int i = 0; i < vIdentityArray.length; i++) {
+                this._identity.add(vIdentityArray[i]);
         }
-    } //-- void setIdentity(java.lang.String) 
+    }
 
     /**
      * Sets the value of field 'keyGenerator'.
      * 
      * @param keyGenerator the value of field 'keyGenerator'.
      */
-    public void setKeyGenerator(java.lang.String keyGenerator)
-    {
+    public void setKeyGenerator(
+            final java.lang.String keyGenerator) {
         this._keyGenerator = keyGenerator;
-    } //-- void setKeyGenerator(java.lang.String) 
+    }
 
     /**
      * Sets the value of field 'mapTo'.
      * 
      * @param mapTo the value of field 'mapTo'.
      */
-    public void setMapTo(org.exolab.castor.mapping.xml.MapTo mapTo)
-    {
+    public void setMapTo(
+            final org.exolab.castor.mapping.xml.MapTo mapTo) {
         this._mapTo = mapTo;
-    } //-- void setMapTo(org.exolab.castor.mapping.xml.MapTo) 
+    }
 
     /**
      * Sets the value of field 'name'.
      * 
      * @param name the value of field 'name'.
      */
-    public void setName(java.lang.String name)
-    {
+    public void setName(
+            final java.lang.String name) {
         this._name = name;
-    } //-- void setName(java.lang.String) 
+    }
 
     /**
-     * Method setNamedQuery
-     * 
      * 
      * 
      * @param index
      * @param vNamedQuery
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
-    public void setNamedQuery(int index, org.exolab.castor.mapping.xml.NamedQuery vNamedQuery)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        //-- check bounds for index
-        if ((index < 0) || (index >= _namedQueryList.size())) {
-            throw new IndexOutOfBoundsException();
+    public void setNamedQuery(
+            final int index,
+            final org.exolab.castor.mapping.xml.NamedQuery vNamedQuery)
+    throws java.lang.IndexOutOfBoundsException {
+        // check bounds for index
+        if (index < 0 || index >= this._namedQueryList.size()) {
+            throw new IndexOutOfBoundsException("setNamedQuery: Index value '" + index + "' not in range [0.." + (this._namedQueryList.size() - 1) + "]");
         }
-        _namedQueryList.set(index, vNamedQuery);
-    } //-- void setNamedQuery(int, org.exolab.castor.mapping.xml.NamedQuery) 
+        
+        this._namedQueryList.set(index, vNamedQuery);
+    }
 
     /**
-     * Method setNamedQuery
      * 
      * 
-     * 
-     * @param namedQueryArray
+     * @param vNamedQueryArray
      */
-    public void setNamedQuery(org.exolab.castor.mapping.xml.NamedQuery[] namedQueryArray)
-    {
+    public void setNamedQuery(
+            final org.exolab.castor.mapping.xml.NamedQuery[] vNamedQueryArray) {
         //-- copy array
         _namedQueryList.clear();
-        for (int i = 0; i < namedQueryArray.length; i++) {
-            _namedQueryList.add(namedQueryArray[i]);
+        
+        for (int i = 0; i < vNamedQueryArray.length; i++) {
+                this._namedQueryList.add(vNamedQueryArray[i]);
         }
-    } //-- void setNamedQuery(org.exolab.castor.mapping.xml.NamedQuery) 
+    }
 
     /**
      * Sets the value of field 'verifyConstructable'.
@@ -721,35 +759,40 @@ public class ClassMapping implements java.io.Serializable {
      * @param verifyConstructable the value of field
      * 'verifyConstructable'.
      */
-    public void setVerifyConstructable(boolean verifyConstructable)
-    {
+    public void setVerifyConstructable(
+            final boolean verifyConstructable) {
         this._verifyConstructable = verifyConstructable;
         this._has_verifyConstructable = true;
-    } //-- void setVerifyConstructable(boolean) 
+    }
 
     /**
-     * Method unmarshal
-     * 
-     * 
+     * Method unmarshal.
      * 
      * @param reader
-     * @return ClassMapping
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     * @return the unmarshaled
+     * org.exolab.castor.mapping.xml.ClassMapping
      */
-    public static org.exolab.castor.mapping.xml.ClassMapping unmarshal(java.io.Reader reader)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
+    public static org.exolab.castor.mapping.xml.ClassMapping unmarshal(
+            final java.io.Reader reader)
+    throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         return (org.exolab.castor.mapping.xml.ClassMapping) Unmarshaller.unmarshal(org.exolab.castor.mapping.xml.ClassMapping.class, reader);
-    } //-- org.exolab.castor.mapping.xml.ClassMapping unmarshal(java.io.Reader) 
+    }
 
     /**
-     * Method validate
      * 
+     * 
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
      */
-    public void validate()
-        throws org.exolab.castor.xml.ValidationException
-    {
+    public void validate(
+    )
+    throws org.exolab.castor.xml.ValidationException {
         org.exolab.castor.xml.Validator validator = new org.exolab.castor.xml.Validator();
         validator.validate(this);
-    } //-- void validate() 
+    }
 
 }

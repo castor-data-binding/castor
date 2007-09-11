@@ -1,20 +1,23 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.1.2.1</a>, using an XML
  * Schema.
  * $Id$
  */
 
 package org.exolab.castor.mapping.xml;
 
-import java.util.Collections;
+  //---------------------------------/
+ //- Imported classes and packages -/
+//---------------------------------/
+
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
 /**
  * Class KeyGeneratorDef.
  * 
- * @version $Revision$ $Date: 2006-01-07 15:48:31 -0700 (Sat, 07 Jan 2006) $
+ * @version $Revision$ $Date$
  */
 public class KeyGeneratorDef implements java.io.Serializable {
 
@@ -24,30 +27,29 @@ public class KeyGeneratorDef implements java.io.Serializable {
     //--------------------------/
 
     /**
-     * Field _name
+     * Field _name.
      */
     private java.lang.String _name;
 
     /**
-     * Field _alias
+     * Field _alias.
      */
     private java.lang.String _alias;
 
     /**
-     * Field _paramList
+     * Field _paramList.
      */
-    private java.util.ArrayList _paramList;
+    private java.util.List _paramList;
 
 
       //----------------/
      //- Constructors -/
     //----------------/
 
-    public KeyGeneratorDef() 
-     {
+    public KeyGeneratorDef() {
         super();
-        _paramList = new java.util.ArrayList();
-    } //-- org.exolab.castor.mapping.xml.KeyGeneratorDef()
+        this._paramList = new java.util.ArrayList();
+    }
 
 
       //-----------/
@@ -55,260 +57,281 @@ public class KeyGeneratorDef implements java.io.Serializable {
     //-----------/
 
     /**
-     * Method addParam
-     * 
      * 
      * 
      * @param vParam
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
-    public void addParam(org.exolab.castor.mapping.xml.Param vParam)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        _paramList.add(vParam);
-    } //-- void addParam(org.exolab.castor.mapping.xml.Param) 
+    public void addParam(
+            final org.exolab.castor.mapping.xml.Param vParam)
+    throws java.lang.IndexOutOfBoundsException {
+        this._paramList.add(vParam);
+    }
 
     /**
-     * Method addParam
-     * 
      * 
      * 
      * @param index
      * @param vParam
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
-    public void addParam(int index, org.exolab.castor.mapping.xml.Param vParam)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        _paramList.add(index, vParam);
-    } //-- void addParam(int, org.exolab.castor.mapping.xml.Param) 
+    public void addParam(
+            final int index,
+            final org.exolab.castor.mapping.xml.Param vParam)
+    throws java.lang.IndexOutOfBoundsException {
+        this._paramList.add(index, vParam);
+    }
 
     /**
-     * Method clearParam
+     * Method enumerateParam.
      * 
+     * @return an Enumeration over all possible elements of this
+     * collection
      */
-    public void clearParam()
-    {
-        _paramList.clear();
-    } //-- void clearParam() 
-
-    /**
-     * Method enumerateParam
-     * 
-     * 
-     * 
-     * @return Enumeration
-     */
-    public java.util.Enumeration enumerateParam()
-    {
-        return Collections.enumeration(_paramList);
-    } //-- java.util.Enumeration enumerateParam() 
+    public java.util.Enumeration enumerateParam(
+    ) {
+        return java.util.Collections.enumeration(this._paramList);
+    }
 
     /**
      * Returns the value of field 'alias'.
      * 
-     * @return String
-     * @return the value of field 'alias'.
+     * @return the value of field 'Alias'.
      */
-    public java.lang.String getAlias()
-    {
+    public java.lang.String getAlias(
+    ) {
         return this._alias;
-    } //-- java.lang.String getAlias() 
+    }
 
     /**
      * Returns the value of field 'name'.
      * 
-     * @return String
-     * @return the value of field 'name'.
+     * @return the value of field 'Name'.
      */
-    public java.lang.String getName()
-    {
+    public java.lang.String getName(
+    ) {
         return this._name;
-    } //-- java.lang.String getName() 
+    }
 
     /**
-     * Method getParam
-     * 
-     * 
+     * Method getParam.
      * 
      * @param index
-     * @return Param
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     * @return the value of the org.exolab.castor.mapping.xml.Param
+     * at the given index
      */
-    public org.exolab.castor.mapping.xml.Param getParam(int index)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        //-- check bounds for index
-        if ((index < 0) || (index >= _paramList.size())) {
-            throw new IndexOutOfBoundsException();
+    public org.exolab.castor.mapping.xml.Param getParam(
+            final int index)
+    throws java.lang.IndexOutOfBoundsException {
+        // check bounds for index
+        if (index < 0 || index >= this._paramList.size()) {
+            throw new IndexOutOfBoundsException("getParam: Index value '" + index + "' not in range [0.." + (this._paramList.size() - 1) + "]");
         }
         
         return (org.exolab.castor.mapping.xml.Param) _paramList.get(index);
-    } //-- org.exolab.castor.mapping.xml.Param getParam(int) 
+    }
 
     /**
-     * Method getParam
+     * Method getParam.Returns the contents of the collection in an
+     * Array.  <p>Note:  Just in case the collection contents are
+     * changing in another thread, we pass a 0-length Array of the
+     * correct type into the API call.  This way we <i>know</i>
+     * that the Array returned is of exactly the correct length.
      * 
-     * 
-     * 
-     * @return Param
+     * @return this collection as an Array
      */
-    public org.exolab.castor.mapping.xml.Param[] getParam()
-    {
-        int size = _paramList.size();
-        org.exolab.castor.mapping.xml.Param[] mArray = new org.exolab.castor.mapping.xml.Param[size];
-        for (int index = 0; index < size; index++) {
-            mArray[index] = (org.exolab.castor.mapping.xml.Param) _paramList.get(index);
-        }
-        return mArray;
-    } //-- org.exolab.castor.mapping.xml.Param[] getParam() 
+    public org.exolab.castor.mapping.xml.Param[] getParam(
+    ) {
+        org.exolab.castor.mapping.xml.Param[] array = new org.exolab.castor.mapping.xml.Param[0];
+        return (org.exolab.castor.mapping.xml.Param[]) this._paramList.toArray(array);
+    }
 
     /**
-     * Method getParamCount
+     * Method getParamCount.
      * 
-     * 
-     * 
-     * @return int
+     * @return the size of this collection
      */
-    public int getParamCount()
-    {
-        return _paramList.size();
-    } //-- int getParamCount() 
+    public int getParamCount(
+    ) {
+        return this._paramList.size();
+    }
 
     /**
-     * Method isValid
+     * Method isValid.
      * 
-     * 
-     * 
-     * @return boolean
+     * @return true if this object is valid according to the schema
      */
-    public boolean isValid()
-    {
+    public boolean isValid(
+    ) {
         try {
             validate();
-        }
-        catch (org.exolab.castor.xml.ValidationException vex) {
+        } catch (org.exolab.castor.xml.ValidationException vex) {
             return false;
         }
         return true;
-    } //-- boolean isValid() 
+    }
 
     /**
-     * Method marshal
+     * Method iterateParam.
      * 
+     * @return an Iterator over all possible elements in this
+     * collection
+     */
+    public java.util.Iterator iterateParam(
+    ) {
+        return this._paramList.iterator();
+    }
+
+    /**
      * 
      * 
      * @param out
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
      */
-    public void marshal(java.io.Writer out)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
-        
+    public void marshal(
+            final java.io.Writer out)
+    throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, out);
-    } //-- void marshal(java.io.Writer) 
+    }
 
     /**
-     * Method marshal
-     * 
      * 
      * 
      * @param handler
+     * @throws java.io.IOException if an IOException occurs during
+     * marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
      */
-    public void marshal(org.xml.sax.ContentHandler handler)
-        throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
-        
+    public void marshal(
+            final org.xml.sax.ContentHandler handler)
+    throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, handler);
-    } //-- void marshal(org.xml.sax.ContentHandler) 
+    }
 
     /**
-     * Method removeParam
-     * 
-     * 
+     */
+    public void removeAllParam(
+    ) {
+        this._paramList.clear();
+    }
+
+    /**
+     * Method removeParam.
      * 
      * @param vParam
-     * @return boolean
+     * @return true if the object was removed from the collection.
      */
-    public boolean removeParam(org.exolab.castor.mapping.xml.Param vParam)
-    {
+    public boolean removeParam(
+            final org.exolab.castor.mapping.xml.Param vParam) {
         boolean removed = _paramList.remove(vParam);
         return removed;
-    } //-- boolean removeParam(org.exolab.castor.mapping.xml.Param) 
+    }
+
+    /**
+     * Method removeParamAt.
+     * 
+     * @param index
+     * @return the element removed from the collection
+     */
+    public org.exolab.castor.mapping.xml.Param removeParamAt(
+            final int index) {
+        java.lang.Object obj = this._paramList.remove(index);
+        return (org.exolab.castor.mapping.xml.Param) obj;
+    }
 
     /**
      * Sets the value of field 'alias'.
      * 
      * @param alias the value of field 'alias'.
      */
-    public void setAlias(java.lang.String alias)
-    {
+    public void setAlias(
+            final java.lang.String alias) {
         this._alias = alias;
-    } //-- void setAlias(java.lang.String) 
+    }
 
     /**
      * Sets the value of field 'name'.
      * 
      * @param name the value of field 'name'.
      */
-    public void setName(java.lang.String name)
-    {
+    public void setName(
+            final java.lang.String name) {
         this._name = name;
-    } //-- void setName(java.lang.String) 
+    }
 
     /**
-     * Method setParam
-     * 
      * 
      * 
      * @param index
      * @param vParam
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
-    public void setParam(int index, org.exolab.castor.mapping.xml.Param vParam)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        //-- check bounds for index
-        if ((index < 0) || (index >= _paramList.size())) {
-            throw new IndexOutOfBoundsException();
+    public void setParam(
+            final int index,
+            final org.exolab.castor.mapping.xml.Param vParam)
+    throws java.lang.IndexOutOfBoundsException {
+        // check bounds for index
+        if (index < 0 || index >= this._paramList.size()) {
+            throw new IndexOutOfBoundsException("setParam: Index value '" + index + "' not in range [0.." + (this._paramList.size() - 1) + "]");
         }
-        _paramList.set(index, vParam);
-    } //-- void setParam(int, org.exolab.castor.mapping.xml.Param) 
+        
+        this._paramList.set(index, vParam);
+    }
 
     /**
-     * Method setParam
      * 
      * 
-     * 
-     * @param paramArray
+     * @param vParamArray
      */
-    public void setParam(org.exolab.castor.mapping.xml.Param[] paramArray)
-    {
+    public void setParam(
+            final org.exolab.castor.mapping.xml.Param[] vParamArray) {
         //-- copy array
         _paramList.clear();
-        for (int i = 0; i < paramArray.length; i++) {
-            _paramList.add(paramArray[i]);
+        
+        for (int i = 0; i < vParamArray.length; i++) {
+                this._paramList.add(vParamArray[i]);
         }
-    } //-- void setParam(org.exolab.castor.mapping.xml.Param) 
+    }
 
     /**
-     * Method unmarshal
-     * 
-     * 
+     * Method unmarshal.
      * 
      * @param reader
-     * @return KeyGeneratorDef
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     * @return the unmarshaled
+     * org.exolab.castor.mapping.xml.KeyGeneratorDef
      */
-    public static org.exolab.castor.mapping.xml.KeyGeneratorDef unmarshal(java.io.Reader reader)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
+    public static org.exolab.castor.mapping.xml.KeyGeneratorDef unmarshal(
+            final java.io.Reader reader)
+    throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         return (org.exolab.castor.mapping.xml.KeyGeneratorDef) Unmarshaller.unmarshal(org.exolab.castor.mapping.xml.KeyGeneratorDef.class, reader);
-    } //-- org.exolab.castor.mapping.xml.KeyGeneratorDef unmarshal(java.io.Reader) 
+    }
 
     /**
-     * Method validate
      * 
+     * 
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
      */
-    public void validate()
-        throws org.exolab.castor.xml.ValidationException
-    {
+    public void validate(
+    )
+    throws org.exolab.castor.xml.ValidationException {
         org.exolab.castor.xml.Validator validator = new org.exolab.castor.xml.Validator();
         validator.validate(this);
-    } //-- void validate() 
+    }
 
 }

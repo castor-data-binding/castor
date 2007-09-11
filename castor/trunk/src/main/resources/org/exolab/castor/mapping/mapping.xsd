@@ -23,6 +23,7 @@
         <xsd:element ref="include"        minOccurs="0" maxOccurs="unbounded" />
         <xsd:element ref="class"          minOccurs="0" maxOccurs="unbounded" />
         <xsd:element ref="key-generator"  minOccurs="0" maxOccurs="unbounded" />
+        <xsd:element ref="field-handler"  minOccurs="0" maxOccurs="unbounded" />        
       </xsd:sequence>
     </xsd:complexType>
   </xsd:element>
@@ -128,6 +129,7 @@
                <xsd:enumeration value="enumerate"/>
                <xsd:enumeration value="sortedset"/>
                <xsd:enumeration value="iterator"/>
+               <xsd:enumeration value="sortedmap"/>
             </xsd:restriction>
          </xsd:simpleType>
       </xsd:attribute>
@@ -281,6 +283,16 @@
   <xsd:element name="ldap">
     <xsd:complexType>
       <xsd:attribute name="name" type="xsd:NMTOKEN" use="optional"/>
+    </xsd:complexType>
+  </xsd:element>
+
+   <xsd:element name="field-handler">
+   <xsd:complexType>
+      <xsd:sequence>
+         <xsd:element ref="param" minOccurs="0" maxOccurs="unbounded" />
+      </xsd:sequence>
+      <xsd:attribute name="name"  type="xsd:ID"     use="required"/>
+      <xsd:attribute name="class" type="xsd:string" use="required"/>
     </xsd:complexType>
   </xsd:element>
 

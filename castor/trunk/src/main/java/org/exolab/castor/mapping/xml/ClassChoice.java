@@ -1,13 +1,16 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.1.2.1</a>, using an XML
  * Schema.
  * $Id$
  */
 
 package org.exolab.castor.mapping.xml;
 
-import java.util.Collections;
+  //---------------------------------/
+ //- Imported classes and packages -/
+//---------------------------------/
+
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
@@ -24,26 +27,25 @@ public class ClassChoice implements java.io.Serializable {
     //--------------------------/
 
     /**
-     * Field _fieldMappingList
+     * Field _fieldMappingList.
      */
-    private java.util.ArrayList _fieldMappingList;
+    private java.util.List _fieldMappingList;
 
     /**
-     * Field _containerList
+     * Field _containerList.
      */
-    private java.util.ArrayList _containerList;
+    private java.util.List _containerList;
 
 
       //----------------/
      //- Constructors -/
     //----------------/
 
-    public ClassChoice() 
-     {
+    public ClassChoice() {
         super();
-        _fieldMappingList = new java.util.ArrayList();
-        _containerList = new java.util.ArrayList();
-    } //-- org.exolab.castor.mapping.xml.ClassChoice()
+        this._fieldMappingList = new java.util.ArrayList();
+        this._containerList = new java.util.ArrayList();
+    }
 
 
       //-----------/
@@ -51,362 +53,403 @@ public class ClassChoice implements java.io.Serializable {
     //-----------/
 
     /**
-     * Method addContainer
-     * 
      * 
      * 
      * @param vContainer
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
-    public void addContainer(org.exolab.castor.mapping.xml.Container vContainer)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        _containerList.add(vContainer);
-    } //-- void addContainer(org.exolab.castor.mapping.xml.Container) 
+    public void addContainer(
+            final org.exolab.castor.mapping.xml.Container vContainer)
+    throws java.lang.IndexOutOfBoundsException {
+        this._containerList.add(vContainer);
+    }
 
     /**
-     * Method addContainer
-     * 
      * 
      * 
      * @param index
      * @param vContainer
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
-    public void addContainer(int index, org.exolab.castor.mapping.xml.Container vContainer)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        _containerList.add(index, vContainer);
-    } //-- void addContainer(int, org.exolab.castor.mapping.xml.Container) 
+    public void addContainer(
+            final int index,
+            final org.exolab.castor.mapping.xml.Container vContainer)
+    throws java.lang.IndexOutOfBoundsException {
+        this._containerList.add(index, vContainer);
+    }
 
     /**
-     * Method addFieldMapping
-     * 
      * 
      * 
      * @param vFieldMapping
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
-    public void addFieldMapping(org.exolab.castor.mapping.xml.FieldMapping vFieldMapping)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        _fieldMappingList.add(vFieldMapping);
-    } //-- void addFieldMapping(org.exolab.castor.mapping.xml.FieldMapping) 
+    public void addFieldMapping(
+            final org.exolab.castor.mapping.xml.FieldMapping vFieldMapping)
+    throws java.lang.IndexOutOfBoundsException {
+        this._fieldMappingList.add(vFieldMapping);
+    }
 
     /**
-     * Method addFieldMapping
-     * 
      * 
      * 
      * @param index
      * @param vFieldMapping
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
-    public void addFieldMapping(int index, org.exolab.castor.mapping.xml.FieldMapping vFieldMapping)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        _fieldMappingList.add(index, vFieldMapping);
-    } //-- void addFieldMapping(int, org.exolab.castor.mapping.xml.FieldMapping) 
+    public void addFieldMapping(
+            final int index,
+            final org.exolab.castor.mapping.xml.FieldMapping vFieldMapping)
+    throws java.lang.IndexOutOfBoundsException {
+        this._fieldMappingList.add(index, vFieldMapping);
+    }
 
     /**
-     * Method clearContainer
+     * Method enumerateContainer.
      * 
+     * @return an Enumeration over all possible elements of this
+     * collection
      */
-    public void clearContainer()
-    {
-        _containerList.clear();
-    } //-- void clearContainer() 
+    public java.util.Enumeration enumerateContainer(
+    ) {
+        return java.util.Collections.enumeration(this._containerList);
+    }
 
     /**
-     * Method clearFieldMapping
+     * Method enumerateFieldMapping.
      * 
+     * @return an Enumeration over all possible elements of this
+     * collection
      */
-    public void clearFieldMapping()
-    {
-        _fieldMappingList.clear();
-    } //-- void clearFieldMapping() 
+    public java.util.Enumeration enumerateFieldMapping(
+    ) {
+        return java.util.Collections.enumeration(this._fieldMappingList);
+    }
 
     /**
-     * Method enumerateContainer
-     * 
-     * 
-     * 
-     * @return Enumeration
-     */
-    public java.util.Enumeration enumerateContainer()
-    {
-        return Collections.enumeration(_containerList);
-    } //-- java.util.Enumeration enumerateContainer() 
-
-    /**
-     * Method enumerateFieldMapping
-     * 
-     * 
-     * 
-     * @return Enumeration
-     */
-    public java.util.Enumeration enumerateFieldMapping()
-    {
-        return Collections.enumeration(_fieldMappingList);
-    } //-- java.util.Enumeration enumerateFieldMapping() 
-
-    /**
-     * Method getContainer
-     * 
-     * 
+     * Method getContainer.
      * 
      * @param index
-     * @return Container
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     * @return the value of the
+     * org.exolab.castor.mapping.xml.Container at the given index
      */
-    public org.exolab.castor.mapping.xml.Container getContainer(int index)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        //-- check bounds for index
-        if ((index < 0) || (index >= _containerList.size())) {
-            throw new IndexOutOfBoundsException();
+    public org.exolab.castor.mapping.xml.Container getContainer(
+            final int index)
+    throws java.lang.IndexOutOfBoundsException {
+        // check bounds for index
+        if (index < 0 || index >= this._containerList.size()) {
+            throw new IndexOutOfBoundsException("getContainer: Index value '" + index + "' not in range [0.." + (this._containerList.size() - 1) + "]");
         }
         
         return (org.exolab.castor.mapping.xml.Container) _containerList.get(index);
-    } //-- org.exolab.castor.mapping.xml.Container getContainer(int) 
+    }
 
     /**
-     * Method getContainer
+     * Method getContainer.Returns the contents of the collection
+     * in an Array.  <p>Note:  Just in case the collection contents
+     * are changing in another thread, we pass a 0-length Array of
+     * the correct type into the API call.  This way we <i>know</i>
+     * that the Array returned is of exactly the correct length.
      * 
-     * 
-     * 
-     * @return Container
+     * @return this collection as an Array
      */
-    public org.exolab.castor.mapping.xml.Container[] getContainer()
-    {
-        int size = _containerList.size();
-        org.exolab.castor.mapping.xml.Container[] mArray = new org.exolab.castor.mapping.xml.Container[size];
-        for (int index = 0; index < size; index++) {
-            mArray[index] = (org.exolab.castor.mapping.xml.Container) _containerList.get(index);
-        }
-        return mArray;
-    } //-- org.exolab.castor.mapping.xml.Container[] getContainer() 
+    public org.exolab.castor.mapping.xml.Container[] getContainer(
+    ) {
+        org.exolab.castor.mapping.xml.Container[] array = new org.exolab.castor.mapping.xml.Container[0];
+        return (org.exolab.castor.mapping.xml.Container[]) this._containerList.toArray(array);
+    }
 
     /**
-     * Method getContainerCount
+     * Method getContainerCount.
      * 
-     * 
-     * 
-     * @return int
+     * @return the size of this collection
      */
-    public int getContainerCount()
-    {
-        return _containerList.size();
-    } //-- int getContainerCount() 
+    public int getContainerCount(
+    ) {
+        return this._containerList.size();
+    }
 
     /**
-     * Method getFieldMapping
-     * 
-     * 
+     * Method getFieldMapping.
      * 
      * @param index
-     * @return FieldMapping
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     * @return the value of the
+     * org.exolab.castor.mapping.xml.FieldMapping at the given index
      */
-    public org.exolab.castor.mapping.xml.FieldMapping getFieldMapping(int index)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        //-- check bounds for index
-        if ((index < 0) || (index >= _fieldMappingList.size())) {
-            throw new IndexOutOfBoundsException();
+    public org.exolab.castor.mapping.xml.FieldMapping getFieldMapping(
+            final int index)
+    throws java.lang.IndexOutOfBoundsException {
+        // check bounds for index
+        if (index < 0 || index >= this._fieldMappingList.size()) {
+            throw new IndexOutOfBoundsException("getFieldMapping: Index value '" + index + "' not in range [0.." + (this._fieldMappingList.size() - 1) + "]");
         }
         
         return (org.exolab.castor.mapping.xml.FieldMapping) _fieldMappingList.get(index);
-    } //-- org.exolab.castor.mapping.xml.FieldMapping getFieldMapping(int) 
+    }
 
     /**
-     * Method getFieldMapping
+     * Method getFieldMapping.Returns the contents of the
+     * collection in an Array.  <p>Note:  Just in case the
+     * collection contents are changing in another thread, we pass
+     * a 0-length Array of the correct type into the API call. 
+     * This way we <i>know</i> that the Array returned is of
+     * exactly the correct length.
      * 
-     * 
-     * 
-     * @return FieldMapping
+     * @return this collection as an Array
      */
-    public org.exolab.castor.mapping.xml.FieldMapping[] getFieldMapping()
-    {
-        int size = _fieldMappingList.size();
-        org.exolab.castor.mapping.xml.FieldMapping[] mArray = new org.exolab.castor.mapping.xml.FieldMapping[size];
-        for (int index = 0; index < size; index++) {
-            mArray[index] = (org.exolab.castor.mapping.xml.FieldMapping) _fieldMappingList.get(index);
-        }
-        return mArray;
-    } //-- org.exolab.castor.mapping.xml.FieldMapping[] getFieldMapping() 
+    public org.exolab.castor.mapping.xml.FieldMapping[] getFieldMapping(
+    ) {
+        org.exolab.castor.mapping.xml.FieldMapping[] array = new org.exolab.castor.mapping.xml.FieldMapping[0];
+        return (org.exolab.castor.mapping.xml.FieldMapping[]) this._fieldMappingList.toArray(array);
+    }
 
     /**
-     * Method getFieldMappingCount
+     * Method getFieldMappingCount.
      * 
-     * 
-     * 
-     * @return int
+     * @return the size of this collection
      */
-    public int getFieldMappingCount()
-    {
-        return _fieldMappingList.size();
-    } //-- int getFieldMappingCount() 
+    public int getFieldMappingCount(
+    ) {
+        return this._fieldMappingList.size();
+    }
 
     /**
-     * Method isValid
+     * Method isValid.
      * 
-     * 
-     * 
-     * @return boolean
+     * @return true if this object is valid according to the schema
      */
-    public boolean isValid()
-    {
+    public boolean isValid(
+    ) {
         try {
             validate();
-        }
-        catch (org.exolab.castor.xml.ValidationException vex) {
+        } catch (org.exolab.castor.xml.ValidationException vex) {
             return false;
         }
         return true;
-    } //-- boolean isValid() 
+    }
 
     /**
-     * Method marshal
+     * Method iterateContainer.
      * 
+     * @return an Iterator over all possible elements in this
+     * collection
+     */
+    public java.util.Iterator iterateContainer(
+    ) {
+        return this._containerList.iterator();
+    }
+
+    /**
+     * Method iterateFieldMapping.
+     * 
+     * @return an Iterator over all possible elements in this
+     * collection
+     */
+    public java.util.Iterator iterateFieldMapping(
+    ) {
+        return this._fieldMappingList.iterator();
+    }
+
+    /**
      * 
      * 
      * @param out
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
      */
-    public void marshal(java.io.Writer out)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
-        
+    public void marshal(
+            final java.io.Writer out)
+    throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, out);
-    } //-- void marshal(java.io.Writer) 
+    }
 
     /**
-     * Method marshal
-     * 
      * 
      * 
      * @param handler
+     * @throws java.io.IOException if an IOException occurs during
+     * marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
      */
-    public void marshal(org.xml.sax.ContentHandler handler)
-        throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
-        
+    public void marshal(
+            final org.xml.sax.ContentHandler handler)
+    throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, handler);
-    } //-- void marshal(org.xml.sax.ContentHandler) 
+    }
 
     /**
-     * Method removeContainer
-     * 
-     * 
+     */
+    public void removeAllContainer(
+    ) {
+        this._containerList.clear();
+    }
+
+    /**
+     */
+    public void removeAllFieldMapping(
+    ) {
+        this._fieldMappingList.clear();
+    }
+
+    /**
+     * Method removeContainer.
      * 
      * @param vContainer
-     * @return boolean
+     * @return true if the object was removed from the collection.
      */
-    public boolean removeContainer(org.exolab.castor.mapping.xml.Container vContainer)
-    {
+    public boolean removeContainer(
+            final org.exolab.castor.mapping.xml.Container vContainer) {
         boolean removed = _containerList.remove(vContainer);
         return removed;
-    } //-- boolean removeContainer(org.exolab.castor.mapping.xml.Container) 
+    }
 
     /**
-     * Method removeFieldMapping
+     * Method removeContainerAt.
      * 
-     * 
+     * @param index
+     * @return the element removed from the collection
+     */
+    public org.exolab.castor.mapping.xml.Container removeContainerAt(
+            final int index) {
+        java.lang.Object obj = this._containerList.remove(index);
+        return (org.exolab.castor.mapping.xml.Container) obj;
+    }
+
+    /**
+     * Method removeFieldMapping.
      * 
      * @param vFieldMapping
-     * @return boolean
+     * @return true if the object was removed from the collection.
      */
-    public boolean removeFieldMapping(org.exolab.castor.mapping.xml.FieldMapping vFieldMapping)
-    {
+    public boolean removeFieldMapping(
+            final org.exolab.castor.mapping.xml.FieldMapping vFieldMapping) {
         boolean removed = _fieldMappingList.remove(vFieldMapping);
         return removed;
-    } //-- boolean removeFieldMapping(org.exolab.castor.mapping.xml.FieldMapping) 
+    }
 
     /**
-     * Method setContainer
+     * Method removeFieldMappingAt.
      * 
+     * @param index
+     * @return the element removed from the collection
+     */
+    public org.exolab.castor.mapping.xml.FieldMapping removeFieldMappingAt(
+            final int index) {
+        java.lang.Object obj = this._fieldMappingList.remove(index);
+        return (org.exolab.castor.mapping.xml.FieldMapping) obj;
+    }
+
+    /**
      * 
      * 
      * @param index
      * @param vContainer
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
-    public void setContainer(int index, org.exolab.castor.mapping.xml.Container vContainer)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        //-- check bounds for index
-        if ((index < 0) || (index >= _containerList.size())) {
-            throw new IndexOutOfBoundsException();
+    public void setContainer(
+            final int index,
+            final org.exolab.castor.mapping.xml.Container vContainer)
+    throws java.lang.IndexOutOfBoundsException {
+        // check bounds for index
+        if (index < 0 || index >= this._containerList.size()) {
+            throw new IndexOutOfBoundsException("setContainer: Index value '" + index + "' not in range [0.." + (this._containerList.size() - 1) + "]");
         }
-        _containerList.set(index, vContainer);
-    } //-- void setContainer(int, org.exolab.castor.mapping.xml.Container) 
+        
+        this._containerList.set(index, vContainer);
+    }
 
     /**
-     * Method setContainer
      * 
      * 
-     * 
-     * @param containerArray
+     * @param vContainerArray
      */
-    public void setContainer(org.exolab.castor.mapping.xml.Container[] containerArray)
-    {
+    public void setContainer(
+            final org.exolab.castor.mapping.xml.Container[] vContainerArray) {
         //-- copy array
         _containerList.clear();
-        for (int i = 0; i < containerArray.length; i++) {
-            _containerList.add(containerArray[i]);
+        
+        for (int i = 0; i < vContainerArray.length; i++) {
+                this._containerList.add(vContainerArray[i]);
         }
-    } //-- void setContainer(org.exolab.castor.mapping.xml.Container) 
+    }
 
     /**
-     * Method setFieldMapping
-     * 
      * 
      * 
      * @param index
      * @param vFieldMapping
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
-    public void setFieldMapping(int index, org.exolab.castor.mapping.xml.FieldMapping vFieldMapping)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        //-- check bounds for index
-        if ((index < 0) || (index >= _fieldMappingList.size())) {
-            throw new IndexOutOfBoundsException();
+    public void setFieldMapping(
+            final int index,
+            final org.exolab.castor.mapping.xml.FieldMapping vFieldMapping)
+    throws java.lang.IndexOutOfBoundsException {
+        // check bounds for index
+        if (index < 0 || index >= this._fieldMappingList.size()) {
+            throw new IndexOutOfBoundsException("setFieldMapping: Index value '" + index + "' not in range [0.." + (this._fieldMappingList.size() - 1) + "]");
         }
-        _fieldMappingList.set(index, vFieldMapping);
-    } //-- void setFieldMapping(int, org.exolab.castor.mapping.xml.FieldMapping) 
+        
+        this._fieldMappingList.set(index, vFieldMapping);
+    }
 
     /**
-     * Method setFieldMapping
      * 
      * 
-     * 
-     * @param fieldMappingArray
+     * @param vFieldMappingArray
      */
-    public void setFieldMapping(org.exolab.castor.mapping.xml.FieldMapping[] fieldMappingArray)
-    {
+    public void setFieldMapping(
+            final org.exolab.castor.mapping.xml.FieldMapping[] vFieldMappingArray) {
         //-- copy array
         _fieldMappingList.clear();
-        for (int i = 0; i < fieldMappingArray.length; i++) {
-            _fieldMappingList.add(fieldMappingArray[i]);
+        
+        for (int i = 0; i < vFieldMappingArray.length; i++) {
+                this._fieldMappingList.add(vFieldMappingArray[i]);
         }
-    } //-- void setFieldMapping(org.exolab.castor.mapping.xml.FieldMapping) 
+    }
 
     /**
-     * Method unmarshal
-     * 
-     * 
+     * Method unmarshal.
      * 
      * @param reader
-     * @return ClassChoice
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     * @return the unmarshaled
+     * org.exolab.castor.mapping.xml.ClassChoice
      */
-    public static org.exolab.castor.mapping.xml.ClassChoice unmarshal(java.io.Reader reader)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
+    public static org.exolab.castor.mapping.xml.ClassChoice unmarshal(
+            final java.io.Reader reader)
+    throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         return (org.exolab.castor.mapping.xml.ClassChoice) Unmarshaller.unmarshal(org.exolab.castor.mapping.xml.ClassChoice.class, reader);
-    } //-- org.exolab.castor.mapping.xml.ClassChoice unmarshal(java.io.Reader) 
+    }
 
     /**
-     * Method validate
      * 
+     * 
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
      */
-    public void validate()
-        throws org.exolab.castor.xml.ValidationException
-    {
+    public void validate(
+    )
+    throws org.exolab.castor.xml.ValidationException {
         org.exolab.castor.xml.Validator validator = new org.exolab.castor.xml.Validator();
         validator.validate(this);
-    } //-- void validate() 
+    }
 
 }

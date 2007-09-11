@@ -15,11 +15,11 @@ import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
 /**
- * Class CacheTypeMapping.
+ * Class FieldHandlerDef.
  * 
  * @version $Revision$ $Date$
  */
-public class CacheTypeMapping implements java.io.Serializable {
+public class FieldHandlerDef implements java.io.Serializable {
 
 
       //--------------------------/
@@ -27,29 +27,14 @@ public class CacheTypeMapping implements java.io.Serializable {
     //--------------------------/
 
     /**
-     * Field _type.
+     * Field _name.
      */
-    private java.lang.String _type = "count-limited";
+    private java.lang.String _name;
 
     /**
-     * Field _debug.
+     * Field _clazz.
      */
-    private boolean _debug = false;
-
-    /**
-     * keeps track of state for field: _debug
-     */
-    private boolean _has_debug;
-
-    /**
-     * Field _capacity.
-     */
-    private long _capacity;
-
-    /**
-     * keeps track of state for field: _capacity
-     */
-    private boolean _has_capacity;
+    private java.lang.String _clazz;
 
     /**
      * Field _paramList.
@@ -61,9 +46,8 @@ public class CacheTypeMapping implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    public CacheTypeMapping() {
+    public FieldHandlerDef() {
         super();
-        setType("count-limited");
         this._paramList = new java.util.ArrayList();
     }
 
@@ -101,20 +85,6 @@ public class CacheTypeMapping implements java.io.Serializable {
     }
 
     /**
-     */
-    public void deleteCapacity(
-    ) {
-        this._has_capacity= false;
-    }
-
-    /**
-     */
-    public void deleteDebug(
-    ) {
-        this._has_debug= false;
-    }
-
-    /**
      * Method enumerateParam.
      * 
      * @return an Enumeration over all possible elements of this
@@ -126,23 +96,23 @@ public class CacheTypeMapping implements java.io.Serializable {
     }
 
     /**
-     * Returns the value of field 'capacity'.
+     * Returns the value of field 'clazz'.
      * 
-     * @return the value of field 'Capacity'.
+     * @return the value of field 'Clazz'.
      */
-    public long getCapacity(
+    public java.lang.String getClazz(
     ) {
-        return this._capacity;
+        return this._clazz;
     }
 
     /**
-     * Returns the value of field 'debug'.
+     * Returns the value of field 'name'.
      * 
-     * @return the value of field 'Debug'.
+     * @return the value of field 'Name'.
      */
-    public boolean getDebug(
+    public java.lang.String getName(
     ) {
-        return this._debug;
+        return this._name;
     }
 
     /**
@@ -188,46 +158,6 @@ public class CacheTypeMapping implements java.io.Serializable {
     public int getParamCount(
     ) {
         return this._paramList.size();
-    }
-
-    /**
-     * Returns the value of field 'type'.
-     * 
-     * @return the value of field 'Type'.
-     */
-    public java.lang.String getType(
-    ) {
-        return this._type;
-    }
-
-    /**
-     * Method hasCapacity.
-     * 
-     * @return true if at least one Capacity has been added
-     */
-    public boolean hasCapacity(
-    ) {
-        return this._has_capacity;
-    }
-
-    /**
-     * Method hasDebug.
-     * 
-     * @return true if at least one Debug has been added
-     */
-    public boolean hasDebug(
-    ) {
-        return this._has_debug;
-    }
-
-    /**
-     * Returns the value of field 'debug'.
-     * 
-     * @return the value of field 'Debug'.
-     */
-    public boolean isDebug(
-    ) {
-        return this._debug;
     }
 
     /**
@@ -320,25 +250,23 @@ public class CacheTypeMapping implements java.io.Serializable {
     }
 
     /**
-     * Sets the value of field 'capacity'.
+     * Sets the value of field 'clazz'.
      * 
-     * @param capacity the value of field 'capacity'.
+     * @param clazz the value of field 'clazz'.
      */
-    public void setCapacity(
-            final long capacity) {
-        this._capacity = capacity;
-        this._has_capacity = true;
+    public void setClazz(
+            final java.lang.String clazz) {
+        this._clazz = clazz;
     }
 
     /**
-     * Sets the value of field 'debug'.
+     * Sets the value of field 'name'.
      * 
-     * @param debug the value of field 'debug'.
+     * @param name the value of field 'name'.
      */
-    public void setDebug(
-            final boolean debug) {
-        this._debug = debug;
-        this._has_debug = true;
+    public void setName(
+            final java.lang.String name) {
+        this._name = name;
     }
 
     /**
@@ -377,16 +305,6 @@ public class CacheTypeMapping implements java.io.Serializable {
     }
 
     /**
-     * Sets the value of field 'type'.
-     * 
-     * @param type the value of field 'type'.
-     */
-    public void setType(
-            final java.lang.String type) {
-        this._type = type;
-    }
-
-    /**
      * Method unmarshal.
      * 
      * @param reader
@@ -395,12 +313,12 @@ public class CacheTypeMapping implements java.io.Serializable {
      * @throws org.exolab.castor.xml.ValidationException if this
      * object is an invalid instance according to the schema
      * @return the unmarshaled
-     * org.exolab.castor.mapping.xml.CacheTypeMapping
+     * org.exolab.castor.mapping.xml.FieldHandlerDef
      */
-    public static org.exolab.castor.mapping.xml.CacheTypeMapping unmarshal(
+    public static org.exolab.castor.mapping.xml.FieldHandlerDef unmarshal(
             final java.io.Reader reader)
     throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
-        return (org.exolab.castor.mapping.xml.CacheTypeMapping) Unmarshaller.unmarshal(org.exolab.castor.mapping.xml.CacheTypeMapping.class, reader);
+        return (org.exolab.castor.mapping.xml.FieldHandlerDef) Unmarshaller.unmarshal(org.exolab.castor.mapping.xml.FieldHandlerDef.class, reader);
     }
 
     /**
