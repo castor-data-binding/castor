@@ -415,7 +415,8 @@ public class Duration implements java.io.Serializable {
         return parseDurationInternal(str, result);
     }
 
-    private static Duration parseDurationInternal(String str, Duration result) throws ParseException {
+     private static Duration parseDurationInternal(String str, Duration result) throws ParseException {
+        boolean isMilli = false;
         if (str == null) {
             throw new IllegalArgumentException("the string to be parsed must not be null");
         }
@@ -586,14 +587,17 @@ public class Duration implements java.io.Serializable {
                         }
                     } else {
                         if (hasNumber) {
-                            String numb = Integer.toString(number);
+                            //remove the "1" prefix used to assist in respecting the decimal place
+                            String numb = Integer.toString(number).replaceFirst("1","");
+                            
+                            number = Integer.parseInt(numb);
                             if (numb.length() < 3) {
                                 if (numb.length() < 2) {
                                     number = number * 10;
                                 }
                                 number = number * 10;
                             }
-                            result.setMilli(number);
+                            result.setMilli((long)number);
                             hasNumber = false;
                         } else {
                             String err = str+": missing number of milliseconds before 'S'";
@@ -604,6 +608,7 @@ public class Duration implements java.io.Serializable {
                     break;
 
                 case '.':
+
                     // make sure T exists, but no 'S'
                     if ((flags & 8) != 8) {
                         String err = str+": Missing 'T' before 'S'";
@@ -624,6 +629,7 @@ public class Duration implements java.io.Serializable {
                         String err = str+": missing number of seconds before 'S'";
                         throw new ParseException(err, idx);
                     }
+                    isMilli = true;
                     break;
 
                 default:
@@ -633,7 +639,12 @@ public class Duration implements java.io.Serializable {
                             number = (number*10) + (ch-48);
                         } else {
                             hasNumber = true;
-                            number = (ch-48);
+                            if (isMilli) {
+                                //prefix with "1" temporarily to assist in respecting the decimal place
+                                number = Integer.parseInt("1" + (ch-48));
+                            } else {
+                                number = ch-48;
+                            }
                         }
                     } else {
                         throw new ParseException(str+":Invalid character: " + ch, idx);
@@ -653,6 +664,7 @@ public class Duration implements java.io.Serializable {
 
         return result;
     } //parse
+
 
     /**
      * {@inheritDoc}

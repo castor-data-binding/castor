@@ -140,6 +140,26 @@ public enum CompositeType {
                    
             </summary>
             <bugs>
+                <bug id="2044" tool="jira">
+                    <description>
+                    	Fixed support for milliseconds with XML schema durations.
+                    </description>
+                    <contributor>
+                        <name>Shawn Crook</name>
+                        <email>shawn.crook@cognos.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Shawn Crook</name>
+                        <email>shawn.crook@cognos.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070911</date>
+                </bug>
                 <bug id="2042" tool="jira">
                     <description>
                     	Added support for <i>configurable</i> field handlers.
