@@ -404,5 +404,24 @@ public final class XMLConfiguration extends Configuration {
       */
      public static final String PROXY_INTERFACES = 
          "org.exolab.castor.xml.proxyInterfaces";
+     
+     
+     /**
+      * Property specifying whether element strictness for introspected classes/elements
+      * should be lenient (aka allowed); defaults to true
+      * 
+      * Possible values:
+      * - false
+      * - tre (default)
+      * 
+      * <pre>
+      * org.exolab.castor.xml.lenient.introspected.element.strictness=true
+      * </pre>
+      * 
+      * @since 1.1.3
+      */
+     public static final String LENIENT_INTROSPECTED_ELEMENT_STRICTNESS = 
+         "org.exolab.castor.xml.lenient.introspected.element.strictness";
+
 
 }

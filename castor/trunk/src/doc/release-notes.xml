@@ -138,8 +138,49 @@ public enum CompositeType {
                    as he still specifies his properties in a single castor.properties file
                    for all moduls.</p>
                    
+                <h3>Fixed support for 'strict elements'</h3>
+                
+                <p>When instructing Castor XML during unmarshalling to handle elements 'strict',
+                   this worked only in the presence of a mapping file. When the element/class
+                   in question was analyzed using Castor's introspector, setting this mode
+                   didn't produce the correct results. As part of a patch, this problem has now been 
+                   fixed so that the behavior is the same irrespective of whether a mapping (file) 
+                   is provided for a class or not.</p>
+                
+                <p>For those of you relying on the <i>old</i> behavior, a new property has been 
+                   introduced to allow <i>leniency'</i> and to switch back to pre-patch
+                   behavior:</p>
+                   
+                   
+                <code-panel>
+# Property specifying whether element strictness for introspected 
+# classes/elements should be lenient (aka allowed); defaults to false
+org.exolab.castor.xml.lenient.introspected.element.strictness=false
+                </code-panel>
+                   
             </summary>
             <bugs>
+                <bug id="2015" tool="jira">
+                    <description>
+                    	Fixed a problem with support for 'strict elements' related to introspection
+                    	during XML unmarshalling.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Reginals Ratherfurp</name>
+                        <email>rer@apparc.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070911</date>
+                </bug>
                 <bug id="2044" tool="jira">
                     <description>
                     	Fixed support for milliseconds with XML schema durations.

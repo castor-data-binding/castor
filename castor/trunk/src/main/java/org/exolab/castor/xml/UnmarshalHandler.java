@@ -1901,6 +1901,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
             //-- If we are skipping elements that have appeared in the XML but for
             //-- which we have no mapping, increase the ignore depth counter and return
+            boolean lenientElementStrictnessForIntrospection = Boolean.valueOf( 
+                _config.getProperty("org.exolab.castor.xml.lenient.introspected.element.strictness", "true")).booleanValue();
             if (! _strictElements) {
                 ++_ignoreElementDepth;
                 //-- remove the StateInfo we just added
@@ -1913,7 +1915,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             //if we have no field descriptor and
             //the class descriptor was introspected
             //just log it
-            else if (Introspector.introspected(classDesc)) {
+            else if (lenientElementStrictnessForIntrospection && Introspector.introspected(classDesc)) {
                 LOG.warn(mesg);
                 return;
             }
