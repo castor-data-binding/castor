@@ -127,7 +127,51 @@ public enum CompositeType {
                 <p>See <a href="srcgen-properties.html#SimpleType-Enumerations"> the description in 
                    the Source Generator Properties section</a> for details.</p> 
 
-                <h2>Changes</h2>
+				<h3>Added support for configurable field handlers</h3>
+				
+				<p>
+					Although it was already possible to create custom XML field handers,
+					it was not possible to configure them. It is now possible to define
+					your custom <tt>ConfigurableFieldHander</tt> and add any number of 
+					parameters to it, in the mapping file as follows:
+				</p>
+					
+				<code-panel><![CDATA[
+<mapping>				
+
+   <field-handler name="myHandler" class="org.some.package.CustomFieldHandlerImpl">
+      <param name="date-format" value="yyyyMMddHHmmss"/>
+   </field-handler>
+   
+   <class .... />
+   
+   <class .../>
+   
+</mapping>]]></code-panel>
+
+				<p>
+					and subsequently refer to this custom (configurable) field handler
+					by its name as shown in the following field mapping:
+				</p>
+				
+				<code-panel><![CDATA[
+<class name="Root">
+   <field name="date" type="string" handler="myHandler"/>
+</class>]]></code-panel>
+
+				<p>
+					A typical example is the need to process multiple date formats in one
+					xml file. This can now be done elegantly by configuring multiple
+					instances of a configurable date field handler, each with a different
+					date format.
+				</p>
+				
+				<p>
+				   Please check the new <a href="how-to-write-a-configurablefieldhandler.html">HOW-TO</a>
+					on using custom (configurable) field handlers with Castor.
+				</p>
+
+				<h2>Changes</h2>
 
                 <h3>Refactord Castor configuration</h3>
 
@@ -160,6 +204,47 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    
             </summary>
             <bugs>
+                <bug id="2049" tool="jira">
+                    <description>
+                    	Added 'changes' section to release notes re:
+                    	<i>configurable</i> field handlers.
+                    </description>
+                    <contributor>
+                        <name>Tom van den Berge</name>
+                        <email>tom.vandenberge@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Tom van den Berge</name>
+                        <email>tom.vandenberge@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20070921</date>
+                </bug>
+                <bug id="2048" tool="jira">
+                    <description>
+                    	Added HOW-TO <i>configurable</i> field handlers.
+                    </description>
+                    <contributor>
+                        <name>Tom van den Berge</name>
+                        <email>tom.vandenberge@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Tom van den Berge</name>
+                        <email>tom.vandenberge@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20070921</date>
+                </bug>
                 <bug id="2015" tool="jira">
                     <description>
                     	Fixed a problem with support for 'strict elements' related to introspection
