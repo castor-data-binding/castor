@@ -34,7 +34,7 @@
 </dependency>]]></code-panel>
 
     <p>and make sure you include the Codehaus Maven 2 repository in your
-       POM similar to ...</p>
+       POM (if you happen to be an early adaptor) similar to ...</p>
 
     <code-panel><![CDATA[
 <repository>
@@ -75,14 +75,24 @@
                 <th>As of release</th>
             </cheader>
             <crow>
-               <td>Castor (core, incl. XML &amp; JDO)</td>
+               <td>Castor (core, incl. XML)</td>
                <td><pre><![CDATA[
 <dependency>
    <groupId>org.codehaus.castor</groupId>
    <artifactId>castor</artifactId>
-   <version>1.0.4</version>
+   <version>1.1.2.1</version>
 </dependency>]]></pre></td>
         <td>1.0.4</td>
+            </crow>
+            <crow>
+               <td>Castor JDO - <font color="red">*** NEW ***</font></td>
+               <td><pre><![CDATA[
+<dependency>
+   <groupId>org.codehaus.castor</groupId>
+   <artifactId>castor-jdo</artifactId>
+   <version>1.1.2.1</version>
+</dependency>]]></pre></td>
+        <td>1.1.2</td>
             </crow>
             <crow>
                <td>Castor DDL generator</td>
@@ -90,7 +100,7 @@
 <dependency>
    <groupId>org.codehaus.castor</groupId>
    <artifactId>castor-ddlgen</artifactId>
-   <version>1.1-M2</version>
+   <version>1.1.2.1</version>
 </dependency>]]></pre></td>
         <td>1.1-M2</td>
             </crow>
@@ -100,7 +110,7 @@
 <dependency>
    <groupId>org.codehaus.castor</groupId>
    <artifactId>castor-codegen</artifactId>
-   <version>1.1-M2</version>
+   <version>1.1.2.1</version>
 </dependency>]]></pre></td>
         <td>1.1-M2</td>
             </crow>
@@ -110,9 +120,9 @@
 <dependency>
    <groupId>org.codehaus.castor</groupId>
    <artifactId>castor-anttasks</artifactId>
-   <version>1.1-M2</version>
+   <version>1.1.2.1</version>
 </dependency>]]></pre></td>
-        <td>1.1-M2</td>
+        <td>1.1.1</td>
             </crow>
         </ctable>
 
@@ -148,9 +158,19 @@
 <dependency>
    <groupId>org.codehaus.castor</groupId>
    <artifactId>castor</artifactId>
-   <version>1.0.5-SNAPSHOT</version>
+   <version>1.1.3-SNAPSHOT</version>
 </dependency>]]></pre></td>
-        <td>1.0.5-SNAPSHOT</td>
+        		<td>1.0.5-SNAPSHOT</td>
+            </crow>
+            <crow>
+               <td>Castor JDO</td>
+               <td><pre><![CDATA[
+<dependency>
+   <groupId>org.codehaus.castor</groupId>
+   <artifactId>castor-jdo</artifactId>
+   <version>1.1.3-SNAPSHOT</version>
+</dependency>]]></pre></td>
+        		<td>1.1.1-SNAPSHOT</td>
             </crow>
             <crow>
                <td>Castor DDL generator</td>
@@ -158,9 +178,9 @@
 <dependency>
    <groupId>org.codehaus.castor</groupId>
    <artifactId>castor-ddlgen</artifactId>
-   <version>1.1-M2-SNAPSHOT</version>
+   <version>1.1.3-SNAPSHOT</version>
 </dependency>]]></pre></td>
-        <td>1.1-M2-SNAPSHOT</td>
+        		<td>1.1-M2-SNAPSHOT</td>
             </crow>
             <crow>
                <td>Castor XML code generator</td>
@@ -168,9 +188,9 @@
 <dependency>
    <groupId>org.codehaus.castor</groupId>
    <artifactId>castor-codegen</artifactId>
-   <version>1.1-M2-SNAPSHOT</version>
+   <version>1.1.3-SNAPSHOT</version>
 </dependency>]]></pre></td>
-        <td>1.1-M2_SNAPSHOT</td>
+        		<td>1.1-M2-SNAPSHOT</td>
             </crow>
             <crow>
                <td>Ant task definitions for Castor</td>
@@ -178,9 +198,9 @@
 <dependency>
    <groupId>org.codehaus.castor</groupId>
    <artifactId>castor-anttasks</artifactId>
-   <version>1.1-M2-SNAPSHOT</version>
+   <version>1.1.3-SNAPSHOT</version>
 </dependency>]]></pre></td>
-        <td>1.1-M2-SNAPSHOT</td>
+        		<td>1.1-M2-SNAPSHOT</td>
             </crow>
             <crow>
                <td>Castor XML Spring factory beans</td>
@@ -190,7 +210,7 @@
    <artifactId>spring-xml</artifactId>
    <version>1.0-SNAPSHOT</version>
 </dependency>]]></pre></td>
-        <td>-</td>
+        		<td>1.0-SNAPSHOT</td>
             </crow>
             <crow>
                <td>Spring ORM for Castor JDO</td>
@@ -198,9 +218,9 @@
 <dependency>
    <groupId>org.codehaus.castor</groupId>
    <artifactId>spring-orm</artifactId>
-   <version>1.0-SNAPSHOT</version>
+   <version>1.2-SNAPSHOT</version>
 </dependency>]]></pre></td>
-        <td>-</td>
+        		<td>1.0-SNAPSHOT</td>
             </crow>
         </ctable>
 
