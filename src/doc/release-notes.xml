@@ -204,7 +204,28 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    
             </summary>
             <bugs>
-                <bug id="2049" tool="jira">
+                <bug id="2153" tool="jira">
+                    <description>
+                    	Fixed problem with validation of &lt;xs:NMTOKEN&gt; during 
+                    	unmarshalling.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Rahul Mahboobani</name>
+                        <email>rahul.mahboobani@atosorigin.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20070921</date>
+                </bug>
+                <bug id="2149" tool="jira">
                     <description>
                     	Added 'changes' section to release notes re:
                     	<i>configurable</i> field handlers.
@@ -225,7 +246,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                     <module>XML</module>
                     <date>20070921</date>
                 </bug>
-                <bug id="2048" tool="jira">
+                <bug id="2148" tool="jira">
                     <description>
                     	Added HOW-TO <i>configurable</i> field handlers.
                     </description>
