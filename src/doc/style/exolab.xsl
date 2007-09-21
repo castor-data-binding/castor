@@ -962,11 +962,19 @@
         <xsl:otherwise>8</xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
+    <xsl:variable name="width">
+      <xsl:choose>
+        <xsl:when test="@width">
+          <xsl:value-of select="@width"/>
+        </xsl:when>
+        <xsl:otherwise>100%</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
 
-    <table border="0" cellspacing="1" cellpadding="2" bgcolor="#7270c2">
+    <table border="0" width="{$width}" cellspacing="1" cellpadding="2" bgcolor="#7270c2">
       <tr>
         <td>
-          <table border="0" cellspacing="1" cellpadding="{$cellpadding}" bgcolor="#ededed">
+          <table border="0" width="{$width}" cellspacing="1" cellpadding="{$cellpadding}" bgcolor="#ededed">
             <caption>
               <xsl:value-of select="@caption" />
             </caption>
