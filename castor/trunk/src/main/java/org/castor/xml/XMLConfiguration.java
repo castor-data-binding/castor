@@ -400,7 +400,7 @@ public final class XMLConfiguration extends Configuration {
       * <pre>
       * org.exolab.castor.xml.proxyInterfaces
       * </pre>
-      * @since 1.2.2
+      * @since 1.1.3
       */
      public static final String PROXY_INTERFACES = 
          "org.exolab.castor.xml.proxyInterfaces";
