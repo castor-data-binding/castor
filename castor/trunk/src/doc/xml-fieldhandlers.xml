@@ -30,7 +30,7 @@
           The <i>FieldHandler</i> is the basic interface used by the Castor
           Framework when accessing field values or setting them. By specifying
           a custom <i>FieldHandler</i> in the mapping file we can basically
-          intercept the calls to retreive or set a field's value and do
+          intercept the calls to retrieve or set a field's value and do
           whatever conversions are necessary.
           </body-note>
         </p>
@@ -119,7 +119,7 @@ public class MyDateHandler implements FieldHandler
      * @return The value of the field
      * @throws IllegalStateException The Java object has changed and
      *  is no longer supported by this handler, or the handler is not
-     *  compatiable with the Java object
+     *  compatible with the Java object
      */
     public Object getValue( Object object )
         throws IllegalStateException
@@ -140,8 +140,8 @@ public class MyDateHandler implements FieldHandler
      * @param value The new value
      * @throws IllegalStateException The Java object has changed and
      *  is no longer supported by this handler, or the handler is not
-     *  compatiable with the Java object
-     * @thorws IllegalArgumentException The value passed is not of
+     *  compatible with the Java object
+     * @throws IllegalArgumentException The value passed is not of
      *  a supported type
      */
     public void setValue( Object object, Object value )
@@ -188,7 +188,7 @@ public class MyDateHandler implements FieldHandler
      * @param object The object
      * @throws IllegalStateException The Java object has changed and
      *  is no longer supported by this handler, or the handler is not
-     *  compatiable with the Java object
+     *  compatible with the Java object
      */
     public void resetValue( Object object )
         throws IllegalStateException, IllegalArgumentException
@@ -294,7 +294,7 @@ Root#getDate : Mon May 10 00:00:00 CDT 2004
     <section title="Writing a GeneralizedFieldHandler">
        <p>
          A <api class="org.exolab.castor.mapping.GeneralizedFieldHandler">
-         GeneraliedFieldHandler</api> is an extension of FieldHandler interface
+         GeneralizedFieldHandler</api> is an extension of FieldHandler interface
          where we simply write the conversion methods and Castor will automatically
          handle the underlying get/set operations. This allows us to re-use the
          same FieldHandler for fields from different classes that require the
@@ -427,6 +427,190 @@ public class MyDateHandler
 
       </p>
     </section>
+    
+    <section title="Use ConfigurableFieldHandler for more flexibility">
+      <p>
+		In some situations, the GeneralizedFieldHandler might not provide sufficient flexibility. 
+		Suppose your xml document uses more than one date format. You could solve this by 
+		creating a GeneralizedFieldHandler subclass per date format, but that smells. 
+      </p>
+      <p>
+      	A ConfigurableFieldHandler is a FieldHandler that can be configured in the mapping file
+      	with any kind and any number of parameters. You can simply configure two (or more)
+      	instances of the same ConfigurableFieldHandler class with different date format patterns.
+      	Here's a mapping file that uses a ConfigurableFieldHandler to marshal and unmarshal the
+      	date field, similar to the preceding examples:
+      	
+      	<code-panel top-caption="mapping.xml">
+      	
+&lt;?xml version="1.0"?&gt;
+&lt;mapping&gt;
+   
+   &lt;field-handler name="myHandler" class="FieldHandlerImpl"&gt;
+      &lt;param name="date-format" value="yyyyMMddHHmmss"/&gt;
+   &lt;/field-handler&gt;
+   
+   &lt;class name="Root"&gt;
+      &lt;field name="date" type="string" handler="myHandler"/&gt;
+   &lt;/class&gt;
+
+&lt;/mapping&gt;
+      	
+      	</code-panel>
+      	
+      	The <i>field-handler</i> element defines the ConfigurableFieldHandler. 
+      	The class must be an implementation of the 
+      	<i>org.exolab.castor.mapping.ConfigurableFieldHandler</i> interface. This 
+      	instance is configured with a date format. However, each implementation can decide
+      	which, and how many parameters to use.
+      </p>
+      <p>
+      	The field handler instance is referenced by the <i>field</i> element, using
+      	the <i>handler</i> attribute.
+      </p>
+      <p>
+      	Here's the ConfigurableFieldHandler implementation:
+      	<code-panel top-caption="FieldHandlerImpl.java">
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Properties;
+
+import org.exolab.castor.mapping.ConfigurableFieldHandler;
+import org.exolab.castor.mapping.FieldHandler;
+import org.exolab.castor.mapping.GeneralizedFieldHandler;
+import org.exolab.castor.mapping.ValidityException;
+
+public class FieldHandlerImpl implements FieldHandler, ConfigurableFieldHandler {
+
+    private SimpleDateFormat formatter;
+
+    public FieldHandlerImpl() {
+    	//
+    }
+    
+    public void setConfiguration(Properties config) throws ValidityException {
+    	String pattern = config.getProperty("date-format");
+    	if (pattern == null) {
+    		throw new ValidityException("Required parameter \"date-format\" is missing for FieldHandlerImpl.");
+    	}
+    	try {
+    		formatter = new SimpleDateFormat(pattern);
+    	} catch (IllegalArgumentException e) {
+    		throw new ValidityException("Pattern \""+pattern+"\" is not a valid date format.");
+    	}
+    }
+
+    /**
+     * Returns the value of the field from the object.
+     *
+     * @param object The object
+     * @return The value of the field
+     * @throws IllegalStateException The Java object has changed and
+     *  is no longer supported by this handler, or the handler is not
+     *  compatible with the Java object
+     */
+    public Object getValue( Object object )
+        throws IllegalStateException
+    {
+        Root root = (Root)object;
+        Date value = root.getDate();
+        if (value == null) return null;
+        return formatter.format(value);
+    }
+
+    /**
+     * Sets the value of the field on the object.
+     *
+     * @param object The object
+     * @param value The new value
+     * @throws IllegalStateException The Java object has changed and
+     *  is no longer supported by this handler, or the handler is not
+     *  compatible with the Java object
+     * @throws IllegalArgumentException The value passed is not of
+     *  a supported type
+     */
+    public void setValue( Object object, Object value )
+        throws IllegalStateException, IllegalArgumentException
+    {
+        Root root = (Root)object;
+        Date date = null;
+        try {
+            date = formatter.parse((String)value);
+        }
+        catch(ParseException px) {
+            throw new IllegalArgumentException(px.getMessage());
+        }
+        root.setDate(date);
+
+    }
+    
+    /**
+     * Creates a new instance of the object described by this field.
+     *
+     * @param parent The object for which the field is created
+     * @return A new instance of the field's value
+     * @throws IllegalStateException This field is a simple type and
+     *  cannot be instantiated
+     */
+    public Object newInstance( Object parent )
+        throws IllegalStateException
+    {
+        //-- Since it's marked as a string...just return null,
+        //-- it's not needed.
+        return null;
+    }
+
+    /**
+     * Sets the value of the field to a default value.
+     *
+     * Reference fields are set to null, primitive fields are set to
+     * their default value, collection fields are emptied of all
+     * elements.
+     *
+     * @param object The object
+     * @throws IllegalStateException The Java object has changed and
+     *  is no longer supported by this handler, or the handler is not
+     *  compatible with the Java object
+     */
+    public void resetValue( Object object )
+        throws IllegalStateException, IllegalArgumentException
+    {
+        ((Root)object).setDate(null);
+    }
+
+    /**
+     * @deprecated No longer supported
+     */
+    public void checkValidity( Object object )
+        throws ValidityException, IllegalStateException
+    {
+        // do nothing
+    }
+}
+      	
+      	</code-panel>
+      	This implementation is similar to the first <i>MyDateHandler</i> example
+      	on this page, except that is adds a <i>setConfiguration</i> method as
+      	specified by the <i>ConfigurableFieldHandler</i> interface. All parameters 
+      	that are configured	in the mapping file will be passed in as a <i>Properties</i>
+      	object. The implementing method is responsible for processing the configuration data.
+      </p>
+      <p>
+      	As a convenience, <i>org.exolab.castor.mapping.AbstractFieldHandler</i> already 
+      	implements <i>ConfigurableFieldHandler</i>. However, the <i>setConfiguration</i>
+      	method is not doing anything. Any subclass of <i>AbstractFieldHandler</i> only
+      	has to override this method to leverage the configuration capabilities. Since <i>
+      	AbstractFieldHandler</i> and its subclass <i>GeneralizedFieldHandler</i> are
+      	useful abstract classes, you'd probably want to use them anyway. It eliminates the 
+      	need to	implement the <i>ConfigurableFieldHandler</i> interface yourself. 
+      </p>
+    </section>
+    
     <section title="No Constructor, No Problem!">
       <p>
          A number of classes such as type-safe enum style classes have no constructor, but

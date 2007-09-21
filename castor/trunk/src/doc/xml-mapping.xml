@@ -207,7 +207,7 @@ public class OrderItem {
       <section title="The &lt;mapping> element">
 
         <code>
-          &lt;!ELEMENT mapping ( description?, include*, class*, key-generator* )>
+          &lt;!ELEMENT mapping ( description?, include*, field-handler*, class*, key-generator* )>
         </code>
 
         <p>The &lt;mapping> element is the root element of a mapping file. It contains:</p>
@@ -216,6 +216,8 @@ public class OrderItem {
           <li>an optional description</li>
 
           <li>zero or more &lt;include> which facilitates reusing mapping files</li>
+          
+          <li>zero of more &lt;field-handler> defining custom, configurable field handlers</li>
 
           <li>zero or more &lt;class> descriptions: one for each class we intend to give
             mapping information</li>
@@ -606,9 +608,22 @@ public class OrderItem {
               <crow><td>chars</td><td>N</td><td>char[]</td></crow>
               <crow><td>strings</td><td>N</td><td>String[]</td></crow>
               <crow><td>locale</td><td>N</td><td>java.util.Locale</td></crow>
+<!-- 
+              <crow><td>&lt;other&gt;</td><td></td><td>&lt;ConfigurableFieldHandler&gt;</td></crow>
+-->                            
             </ctable>
 
-            <p>Castor will try to cast the data in the XML file in the proper Java type.</p></li>
+            <p>Castor will try to cast the data in the XML file in the proper Java type.</p>
+            
+<!-- 
+            <p>If the value of the &lt;type_attribute&gt; is any other than the predefined ones in
+            the list above, Castor tries to find a custom &lt;field-handler&gt; with a corresponding name.
+            The Java type to which the data will be converted is defined by the field handler.
+            The field handler must be defined in the mapping file. See 
+            <a href="xml-fieldhandlers.html#Use-ConfigurableFieldHandler-for-more-flexibility">ConfigurableFieldHandler</a>
+            for more detailed information.</p>
+-->                        
+            </li>
 
 
           <li><b>If there is a collection attribute</b>, you can use the following table:
@@ -776,8 +791,16 @@ public class OrderItem {
           </li>
 
           <li><b>create-method:</b> Factory method for instantiation of FieldHandler</li>
+          
+          <li><b>handler:</b> If present, specifies one of the following:<br/>
+              <ol>
+              	<li>The fully-qualified class name of a custom field handler implementation, or</li>
+              	<li>The (short) name of a 
+              	    <a href="xml-fieldhandlers.html#Use-ConfigurableFieldHandler-for-more-flexibility">configurable field handler</a>
+            		definition.</li>
+              </ol>
+          </li>
         </ul>
-
 
         <p>Description of the content:</p>
 
@@ -812,6 +835,45 @@ public class OrderItem {
 	          mapping constructor arguments, incl. a fully working mapping.
 	       </p>
           </section>
+          
+       	<section title="Sample 1: Defining a custom field handler">
+        
+			<p>The following mapping fragment defines a <tt>&lt;field&gt;</tt> element for the 
+			   <tt>member</tt> property of the <tt>org.some.package.Root</tt> class, 
+			   specifying a custom <api class="org.exolab.castor.mapping.FieldHandler">FieldHandler</api>
+			   implementation.</p>
+				   
+			<code-panel>
+&lt;class name="org.some.package.Root"&gt;
+   &lt;field name="member" type="string" <b>handler="org.some.package.CustomFieldHandlerImpl"</b>/&gt;
+&lt;/class&gt;</code-panel>
+
+		</section>
+	   
+       	<section title="Sample 2: Defining a custom configurable field handler">
+   			<p>
+   			   The same custom field handler as in the previous sample can be defined 
+   			   with a separate configurable &lt;field-handler&gt; definition, where additional 
+   			   configuration can be provided.
+   			</p>
+	   			
+   			<code-panel>
+&lt;field-handler <b><font color="red">name="myHandler"</font></b> class="org.some.package.CustomFieldHandlerImpl"&gt;
+   &lt;param name="date-format" value="yyyyMMddHHmmss"/&gt;
+&lt;/field-handler&gt;</code-panel>
+	   			
+   			<p>
+   				and subsequently be referred to by its <b>name</b> as shown in the 
+   				following field mapping:
+   			</p>
+	
+   			<code-panel>
+&lt;class name="org.some.package.Root"&gt;
+   &lt;field name="member" type="string" <b><font color="red">handler="myHandler"</font></b>/&gt;
+&lt;/class&gt;</code-panel>
+        
+        </section>
+          
       </section>
 
 
