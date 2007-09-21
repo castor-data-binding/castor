@@ -63,10 +63,4 @@ public interface ConfigurableFieldHandler extends FieldHandler {
      */
     public void setConfiguration(Properties config) throws ValidityException;
     
-    /**
-     * Returns the configuration data.
-     * @return the configuration data, or null if no configuration data has been set.
-     */
-    public Properties getConfiguration();
-    
 }

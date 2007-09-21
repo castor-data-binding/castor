@@ -1,10 +1,6 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Properties;
 
 import org.exolab.castor.mapping.GeneralizedFieldHandler;
@@ -50,8 +46,7 @@ public class CustomDateFieldHandler extends GeneralizedFieldHandler {
         return null;
     }
 
-    public void onConfiguration() throws ValidityException {
-    	Properties config = getConfiguration();
+    public void setConfiguration(Properties config) throws ValidityException {
     	String pattern = config.getProperty("date-format");
     	if (pattern == null) {
     		throw new ValidityException("Required parameter \"date-format\" is missing for CustomDateFieldHandler.");
