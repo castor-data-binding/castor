@@ -9,6 +9,24 @@
 
 	<body>
 		<title>3rd-party product dependencies</title>
+		
+		<section title="Introduction">
+		
+			<p>
+				This document provides information about run-time and compile-time
+				dependencies to 3rd-party frameworks/tools. Following this
+				information, you'll be able to download all required JARs and 
+				configure your devlopment/run-time environment according to 
+				your needs.
+			</p>
+			
+			<p>
+				We strogly encourage you, though, to consider using Maven 2 for
+				your build management (process). Information of how to use
+				Castor with Maven 2 is provided <a href="maven-integration.html">here</a>.
+			</p>
+			
+		</section>
 
 		<section title="Run-time dependencies">
 
@@ -68,14 +86,14 @@
 					</cheader>
 					<crow>
 						<td>Apache Jakarta ORO</td>
-						<td>2.0.5</td>
-						<td><a href="jakarta-oro-2.0.5.jar">Download</a></td>
+						<td>2.0.8</td>
+						<td><a href="http://www.apache.org/dist/jakarta/oro/binaries/jakarta-oro-2.0.8.tar.gz">Download</a></td>
 						<td>Optional</td>
 					</crow>
 					<crow>
 						<td>Apache Jakarta RegExp</td>
-						<td>1.1</td>
-						<td><a href="jakarta-regexp-1.1.jar">Download</a></td>
+						<td>1.5</td>
+						<td><a href="http://www.apache.org/dist/jakarta/regexp/source/jakarta-regexp-1.5.tar.gz">Download</a></td>
 						<td>Optional</td>
 					</crow>
 				</ctable>
@@ -163,8 +181,8 @@
 					</cheader>
 					<crow>
 						<td>Apache Ant (Core) - build tool</td>
-						<td>1.6</td>
-						<td><a href="ant-1.6.jar">Download</a></td>
+						<td>1.6.5</td>
+						<td><a href="http://archive.apache.org/dist/ant/binaries/apache-ant-1.6.5-bin.tar.gz">Download</a></td>
 						<td>Required</td>
 					</crow>
 				</ctable>
@@ -193,13 +211,13 @@
 					<crow>
 						<td>CGLIB</td>
 						<td>2.0.2</td>
-						<td><a href="cglib-full-2.0.2.jar">Download</a></td>
+						<td><a href="http://sourceforge.net/project/showfiles.php?group_id=56933">Download</a></td>
 						<td>Required</td>
 					</crow>
 					<crow>
 						<td>Sun's JTA API</td>
 						<td>1.0.1b</td>
-						<td><a href="jta1.0.1.jar">Download</a></td>
+						<td><a href="http://java.sun.com./products/jta/">Download</a></td>
 						<td>Required</td>
 					</crow>
 				</ctable>
@@ -231,7 +249,7 @@
 					<crow>
 						<td>Apache Derby JDBC driver</td>
 						<td>10.1.2.1</td>
-						<td><a href="derby-10.1.2.1.jar">Download</a></td>
+						<td><a href="http://db.apache.org/derby/derby_downloads.html">Download</a></td>
 						<td>Required</td>
 					</crow>
 				</ctable>
@@ -281,7 +299,7 @@
 					<crow>
 						<td>Mozilla Directory SDK (DSML/MDS)</td>
 						<td>4.1</td>
-						<td>ldapjdk_4.1.jar</td>
+						<td><a href="http://svn.castor.codehaus.org/browse/~raw,r=trunk/castor/castor/trunk/lib/ldapjdk_4.1.jar">Download</a></td>
 					</crow>
 					<crow>
 						<td>JNDI LDAP service provider from Mozilla</td>
@@ -308,33 +326,37 @@
 					<td>Name</td>
 					<td>Minimal version</td>
 					<td>Binary</td>
+					<td>Required/Optional</td>
 				</cheader>
 				<crow>
 					<td>Apache Ant (Core) - build tool</td>
-					<td>1.6</td>
-					<td>ant-1.6.jar</td>
+					<td>1.6.5</td>
+					<td><a href="http://archive.apache.org/dist/ant/binaries/apache-ant-1.6.5-bin.tar.gz">Download</a></td>
+					<td>Required</td>
 				</crow>
 				<crow>
 					<td>Apache Ant (launcher)</td>
-					<td>1.6</td>
-					<td>ant-1.6-launcher.jar</td>
+					<td>1.6.5</td>
+					<td><a href="http://ant.apache.org">Download</a></td>
+					<td>Required</td>
 				</crow>
 				<crow>
-					<td>JUnit testing framework (for CTF suites)</td>
+					<td>JUnit testing framework</td>
 					<td>3.8.2</td>
-					<td>junit_3.8.2.jar</td>
+					<td><a href="http://sourceforge.net/project/showfiles.php?group_id=15278&amp;package_id=12472">Download</a></td>
+					<td>Required</td>
 				</crow>
 				<crow>
 					<td>Apache Log4J</td>
 					<td>1.2.13</td>
-					<td>
-						<b>log4j-1.2.13.jar</b>
-					</td>
+					<td><a href="http://archive.apache.org/dist/logging/log4j/1.2.13/logging-log4j-1.2.13.tar.gz">Download</a></td>
+					<td>Optional</td>
 				</crow>
 				<crow>
 					<td>Used by the Servlet examples</td>
 					<td>2.3</td>
-					<td>servlet.jar</td>
+					<td><a href="http://java.sun.com/products/servlet/reference/api/index.html">Download</a></td>
+					<td>Required</td>
 				</crow>
 			</ctable>
 		
