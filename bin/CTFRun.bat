@@ -6,8 +6,11 @@ set CLASSPATH=..\build\tests;%JAVA_HOME%\lib\tools.jar
 set CLASSPATH=%CLASSPATH%;..\xmlctf-framework\build\classes;..\build\classes;..\codegen\build\classes;
 set cp=%CLASSPATH%
 for %%i in (..\lib\*.jar) do call cp.bat %%i
-rmdir /q /s ..\build\tests\output>nul
 echo %CP%
+
+echo *** Cleaning test output directory
+rmdir /q /s ..\xmlctf\build\tests\output>nul
+echo *** Successfully cleaned test output directory
 
 if "%1"=="" goto noargs
 if "%1"=="regression" goto regression
