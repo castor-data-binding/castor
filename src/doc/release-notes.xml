@@ -204,6 +204,26 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    
             </summary>
             <bugs>
+                <bug id="2158" tool="jira">
+                    <description>
+                    	Fixed NullPointerException in FieldValidator.validate(Object, ValidationContext)
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070922</date>
+                </bug>
                 <bug id="2153" tool="jira">
                     <description>
                     	Fixed problem with validation of &lt;xs:NMTOKEN&gt; during 
