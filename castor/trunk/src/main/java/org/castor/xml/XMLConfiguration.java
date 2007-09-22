@@ -318,6 +318,8 @@ public final class XMLConfiguration extends Configuration {
       * Property specifying whether or not to save the "keys" of a {@link Hashtable} or 
       * {@link Map} during marshalling. By default this is true.
       * 
+      * Backwards compatibility switch (for 0.9.5.2 users and earlier)
+      * 
       * Possible values:
       * - false
       * - true (default) 
