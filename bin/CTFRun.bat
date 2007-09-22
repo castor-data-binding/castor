@@ -3,9 +3,18 @@ REM $Id$
 set JAVA=%JAVA_HOME%\bin\java
 set OLDCP=%CLASSPATH%
 set CLASSPATH=..\build\tests;%JAVA_HOME%\lib\tools.jar
-set CLASSPATH=%CLASSPATH%;..\xmlctf-framework\build\classes;..\build\classes;..\codegen\build\classes;
+set CLASSPATH=%CLASSPATH%;..\xmlctf\build\classes
+set CLASSPATH=%CLASSPATH%;..\xmlctf-framework\build\classes
+set CLASSPATH=%CLASSPATH%;..\build\classes;..\codegen\build\classes;
 set cp=%CLASSPATH%
-for %%i in (..\lib\*.jar) do call cp.bat %%i
+
+set CP=%CP%;"..\lib\commons-logging-1.1.jar"
+set CP=%CP%;"..\lib\log4j-1.2.13.jar"
+set CP=%CP%;"..\lib\junit_3.8.2.jar"
+set CP=%CP%;"..\lib\jakarta-oro-2.0.5.jar"
+set CP=%CP%;"..\lib\xerces-J_1.4.0.jar"
+
+echo *** Setting classpath to ...
 echo %CP%
 
 echo *** Cleaning test output directory
