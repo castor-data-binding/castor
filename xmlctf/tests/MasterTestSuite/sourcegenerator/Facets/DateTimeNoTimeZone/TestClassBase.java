@@ -44,7 +44,11 @@ public class TestClassBase {
             } catch (org.exolab.castor.xml.ValidationException e) {
                 // Good, we caught the exception
                 continue;
+            } catch (java.lang.IllegalArgumentException e) {
+                // Good, we caught the (Java 5.0-specific?) exception
+                continue;
             }
+            
             LOG.error("Bad date/time " + items[i] + " did not fail the test");
             return false;
         }
