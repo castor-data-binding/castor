@@ -25,6 +25,9 @@ if "%1"=="" goto noargs
 if "%1"=="regression" goto regression
 if "%1"=="master" goto master
 
+echo *** Using the JVM ...
+echo "%JAVA%"
+
 "%JAVA%" -classpath "%CP%" org.castor.xmlctf.CastorTestSuiteRunner %1 %2 %3 %4 %5 %6 %7
 
 goto end
