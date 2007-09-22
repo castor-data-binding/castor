@@ -196,6 +196,7 @@ public class FieldValidator extends Validator {
             // deal with lenient id/idref validation accordingly, skipping exception handling
             // in this case
             if (_descriptor.isRequired() 
+                    && _descriptor.getSchemaType() != null
                     && _descriptor.getSchemaType().equals("IDREF") 
                     && context.getConfiguration().getLenientIdValidation()) {
                 return;
