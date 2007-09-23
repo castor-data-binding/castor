@@ -21,9 +21,17 @@ import java.io.File;
 import java.io.FileReader;
 import java.net.MalformedURLException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.castor.util.Messages;
 import org.castor.xmlctf.xmldiff.xml.nodes.Root;
 import org.castor.xmlctf.xmldiff.xml.nodes.XMLNode;
 import org.exolab.castor.util.NestedIOException;
+import org.exolab.castor.xml.util.XMLParserUtils;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -40,12 +48,18 @@ import org.xml.sax.XMLReader;
  */
 public class XMLFileReader {
 
+    /** 
+     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     * Commons Logging</a> instance used for all logging. 
+     */
+    private static final Log LOG = LogFactory.getLog(XMLFileReader.class);
+
     /** The file we are reading. */
     private final File      _file;
     /** URL for the document to be parsed. */
     private final String    _location;
     /** A handle to the SAX parser. */
-    private final XMLReader _parser;
+    private XMLReader _parser;
 
     /**
      * Creates a new XMLReader for the given URILocation.
@@ -62,7 +76,18 @@ public class XMLFileReader {
         }
 
         _location = getUrlFromFile();
-        _parser   = new org.apache.xerces.parsers.SAXParser();
+        
+        SAXParser saxParser = XMLParserUtils.getSAXParser(false, true);
+        try {
+            _parser = saxParser.getXMLReader();
+        }
+        catch(org.xml.sax.SAXException sx) {
+            LOG.error(Messages.format("conf.configurationError", sx));
+        }
+        
+        if (_parser == null) {
+            _parser = XMLParserUtils.instantiateXMLReader("org.apache.xerces.parsers.SAXParser");
+        }
     }
 
     /**

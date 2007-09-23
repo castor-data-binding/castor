@@ -64,13 +64,16 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.util.Messages;
 import org.castor.xml.JavaNaming;
 import org.castor.xml.JavaNamingImpl;
+import org.castor.xml.XMLConfiguration;
 import org.exolab.castor.xml.NodeType;
 import org.exolab.castor.xml.OutputFormat;
 import org.exolab.castor.xml.Serializer;
 import org.exolab.castor.xml.XMLNaming;
 import org.exolab.castor.xml.util.DefaultNaming;
+import org.exolab.castor.xml.util.XMLParserUtils;
 import org.xml.sax.DocumentHandler;
 import org.xml.sax.Parser;
+import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 /**
@@ -296,64 +299,47 @@ public final class LocalConfiguration extends Configuration {
      */
     public Parser getParser(final String features)
     {
-        String prop;
-        Parser parser;
-        
         //-- validation?
-        prop = getProperties().getProperty( Property.ParserValidation, "false" );
-        boolean validation = ( prop.equalsIgnoreCase( "true" ) || 
-                               prop.equalsIgnoreCase( "on" ) );
+        String validationProperty = getProperties().getProperty(Property.ParserValidation, "false");
+        boolean validation = (validationProperty.equalsIgnoreCase("true") 
+                || validationProperty.equalsIgnoreCase("on"));
                                
         //-- namespaces?
-        prop = getProperties().getProperty( Property.Namespaces, "false" );
-        boolean namespaces = ( prop.equalsIgnoreCase( "true" ) || 
-                               prop.equalsIgnoreCase( "on" ) );
+        String namespacesProperty = getProperties().getProperty(Property.Namespaces, "false");
+        boolean namespaces = (namespacesProperty.equalsIgnoreCase("true") 
+                || namespacesProperty.equalsIgnoreCase("on"));
         
 
-        //-- which parser?
-        prop = getProperties().getProperty( Property.Parser );
-        if (( prop == null ) || (prop.length() == 0)) {
-            // If no parser class was specified, check for JAXP
-            // otherwise we default to Xerces.
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            factory.setNamespaceAware(namespaces);
-            factory.setValidating(validation);
+        // obtain a custom SAX parser class name from custom property file
+        String parserClassName = getProperties().getProperty( Property.Parser );
+        
+        Parser parser;
+        if (parserClassName == null || parserClassName.length() == 0) {
+            SAXParser saxParser = XMLParserUtils.getSAXParser(validation, namespaces);
             try {
-                SAXParser saxParser = factory.newSAXParser();
                 return saxParser.getParser();
+            } catch (SAXException e) {
+                _log.error(Messages.format("conf.configurationError", e));
             }
-            catch(ParserConfigurationException pcx) {
-                _log.error( Messages.format( "conf.configurationError", pcx ) );
-            }
-            catch(org.xml.sax.SAXException sx) {
-                _log.error( Messages.format( "conf.configurationError", sx ) );
-            }
-            
         }
         
-        if ((prop == null) || 
-            (prop.length() == 0) || 
-            (prop.equalsIgnoreCase("xerces"))) 
-        {
-            prop = "org.apache.xerces.parsers.SAXParser";
+        // TODO[WG]: in my opinion, this should be removed and an exception be thrown
+        if ((parserClassName == null) || 
+            (parserClassName.length() == 0) || 
+            (parserClassName.equalsIgnoreCase("xerces"))) {
+            parserClassName = "org.apache.xerces.parsers.SAXParser";
         }
         
 
-        // If a parser class was specified, we try to create it and
-        // complain about creation error.
-        try {
-            Class cls;
-            
-            cls = Class.forName( prop );
-            parser = (Parser) cls.newInstance();
-        } catch ( Exception except ) {
-            throw new RuntimeException( Messages.format( "conf.failedInstantiateParser",
-                                                         prop, except ) );
-        }
+        // if a parser class was specified, we try to create it
+        parser = XMLParserUtils.instantiateParser(parserClassName);
 
         if (parser instanceof XMLReader) {
             XMLReader xmlReader = (XMLReader) parser;
-            setFeaturesOnXmlReader(getProperties(), features, validation, namespaces, xmlReader);
+            XMLParserUtils.setFeaturesOnXmlReader(
+                    _props.getProperty(XMLConfiguration.PARSER_FEATURES, features),
+                    _props.getProperty(XMLConfiguration.PARSER_FEATURES_DISABLED, ""),
+                    validation, namespaces, xmlReader);
         }
         
         return parser;
@@ -403,25 +389,17 @@ public final class LocalConfiguration extends Configuration {
                                prop.equalsIgnoreCase( "on" ) );
         
 
-        //-- which parser?
+        // obtain a custom SAX parser class name from custom property file
         prop = getProperties().getProperty( Property.Parser );
+        
         if (( prop == null ) || (prop.length() == 0)) {
-            // If no parser class was specified, check for JAXP
-            // otherwise we default to Xerces.
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            factory.setNamespaceAware(namespaces);
-            factory.setValidating(validation);
+            SAXParser saxParser = XMLParserUtils.getSAXParser(validation, namespaces);
             try {
-                SAXParser saxParser = factory.newSAXParser();
                 reader = saxParser.getXMLReader();
-            }
-            catch(ParserConfigurationException pcx) {
-                _log.error( Messages.format( "conf.configurationError", pcx ) );
             }
             catch(org.xml.sax.SAXException sx) {
                 _log.error( Messages.format( "conf.configurationError", sx ) );
             }
-            
         }
         
         if (reader == null) {
@@ -433,20 +411,14 @@ public final class LocalConfiguration extends Configuration {
             }
         
 
-            // If a parser class was specified, we try to create it and
-            // complain about creation error.
-            try {
-                Class cls;
-                
-                cls = Class.forName( prop );
-                reader = (XMLReader) cls.newInstance();
-            } catch ( Exception except ) {
-                throw new RuntimeException( Messages.format( "conf.failedInstantiateParser",
-                                                            prop, except ) );
-            }
+            reader = XMLParserUtils.instantiateXMLReader(prop);
+            // if a parser class was specified, we try to create it
         }
 
-        setFeaturesOnXmlReader(getProperties(), features, validation, namespaces, reader);
+        XMLParserUtils.setFeaturesOnXmlReader(
+                _props.getProperty(XMLConfiguration.PARSER_FEATURES, features),
+                _props.getProperty(XMLConfiguration.PARSER_FEATURES_DISABLED, ""),
+                validation, namespaces, reader);
         
         return reader;
         

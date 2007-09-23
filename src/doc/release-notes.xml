@@ -201,9 +201,84 @@ public enum CompositeType {
 # classes/elements should be lenient (aka allowed); defaults to false
 org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </code-panel>
+                
+                <h3>Castor XML and <font color="red">JAXP</font> - used per default</h3>
+                
+                <p>
+                	We have made some modifications to the way Castor XML obtains
+                	XML parser instances. As per this releae, Castor XML will - per
+                	default - use JAXP and it's SAXParser(Factory) to obtain an instance
+                	of a SAX parser.
+                </p>
+                
+                <p>
+                	For this to work, we had to comment out the <tt>org.exolab.castor.parser</tt> 
+                	property from the default <tt>castor.properties</tt> as shipped with 
+                	Castor XML. As of this release, the property definition in the default 
+                	<tt>castor.properties</tt> file reads:
+               	</p>
+               	
+               	<code-panel>
+# Defines a non-default XML parser to be used by Castor. By default,
+# Castor will use JAXP internally to obtain an XML parser.
+# The parser must implement org.xml.sax.Parser. (???)
+#
+# Should be used in the following situations:
+# a) A different XML parser vendor should be used.
+# b) With Java 5.0, an external XML parser should be used.
+#
+#org.exolab.castor.parser=org.apache.xerces.parsers.SAXParser</code-panel>
+               	
+               	<p>
+               		With this change, Castor XML will now use JAXP to create
+               		XML parsers, a mechanism that works works equally with Java 1.4 
+               		and Java 5.0, and thus does not require changes to the
+               		<tt>org.exolab.castor.parser</tt> property anymore as with 
+               		older releases of Castor. In other words, with Java 5.0
+               		Castor XML will now make use of the XML parser packaged with 
+               		the JVM.
+               	</p>
+               	
+               	<p>
+               		You should still consider setting this property <b>manually</b> 
+               		in the following cases:
+               		
+               		<ol>
+               			<li>You are on Java 5.0, and you want to use a different XML parser
+               			    (vendor) than the one shipped with the JVM.</li>
+               			<li>You are on Java 5.0, and you want to use a different version of
+               			    the XML parser shipped with the JVM.</li>
+               		</ol>
+               	</p>
+               	
+               	<p>
+               		<b>Note:</b> If you happen to have a custom <tt>castor.properties</tt> file packaged
+               		with your application, please consider removing the <tt>org.exolab.castor.parser</tt>
+               		property from this file to switch to the new default mechanism.
+               	</p>
                    
             </summary>
             <bugs>
+                <bug id="2162" tool="jira">
+                    <description>
+                    	Switched Castor XML to fully use JAXP to obtain XML parsers
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070923</date>
+                </bug>
                 <bug id="2158" tool="jira">
                     <description>
                     	Fixed NullPointerException in FieldValidator.validate(Object, ValidationContext)
