@@ -48,6 +48,7 @@
         <copy todir="${classes}">
             <fileset dir="${test.resources}">
                 <include name="log4j.xml"/>
+                <include name="castor.properties"/>
             </fileset>
         </copy>
     </target>
