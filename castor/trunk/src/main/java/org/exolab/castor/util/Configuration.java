@@ -61,6 +61,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.util.Messages;
 import org.castor.xml.JavaNaming;
+import org.castor.xml.XMLConfiguration;
 
 import org.exolab.castor.xml.NodeType;
 import org.exolab.castor.xml.OutputFormat;
@@ -68,6 +69,7 @@ import org.exolab.castor.xml.Serializer;
 import org.exolab.castor.xml.XMLNaming;
 import org.exolab.castor.xml.XMLSerializerFactory;
 import org.exolab.castor.xml.util.DefaultNaming;
+import org.exolab.castor.xml.util.XMLParserUtils;
 
 import org.xml.sax.DocumentHandler;
 import org.xml.sax.Parser;
@@ -657,128 +659,51 @@ public abstract class Configuration {
      */
     public static Parser getDefaultParser( String features )
     {
-        String prop;
-        Parser parser;
-        
         //-- validation?
-        prop = getDefault().getProperty( Property.ParserValidation, "false" );
-        boolean validation = ( prop.equalsIgnoreCase( "true" ) || 
-                               prop.equalsIgnoreCase( "on" ) );
+        String validationProperty = getDefault().getProperty(Property.ParserValidation, "false");
+        boolean validation = (validationProperty.equalsIgnoreCase("true") 
+                || validationProperty.equalsIgnoreCase("on"));
                                
         //-- namespaces?
-        prop = getDefault().getProperty( Property.Namespaces, "false" );
-        boolean namespaces = ( prop.equalsIgnoreCase( "true" ) || 
-                               prop.equalsIgnoreCase( "on" ) );
+        String namespacesProperty = getDefault().getProperty(Property.Namespaces, "false");
+        boolean namespaces = (namespacesProperty.equalsIgnoreCase("true") 
+                || namespacesProperty.equalsIgnoreCase("on"));
         
 
         //-- which parser?
-        prop = getDefault().getProperty( Property.Parser );
-        if (( prop == null ) || (prop.length() == 0))  {
-            // If no parser class was specified, check for JAXP
-            // otherwise we default to Xerces.
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            factory.setNamespaceAware(namespaces);
-            factory.setValidating(validation);
+        String prop = getDefault().getProperty(Property.Parser);
+        
+        Parser parser;
+        if (prop == null || prop.length() == 0) {
+            SAXParser saxParser = XMLParserUtils.getSAXParser(validation, namespaces);
             try {
-                SAXParser saxParser = factory.newSAXParser();
                 return saxParser.getParser();
-            }
-            catch(ParserConfigurationException pcx) {
-                LOG.error(Messages.format("conf.configurationError", pcx));
             }
             catch(org.xml.sax.SAXException sx) {
                 LOG.error(Messages.format("conf.configurationError", sx));
             }
-            
         }
-        
-        
+
+        // TODO[WG]: should be removed alltogether !!!
         if ((prop == null) ||
             (prop.length() == 0) ||
             (prop.equalsIgnoreCase("xerces"))) 
         {
             prop = "org.apache.xerces.parsers.SAXParser";
         }
-        
 
-        // If a parser class was specified, we try to create it and
-        // complain about creation error.
-        try {
-            Class cls;
-            
-            cls = Class.forName( prop );
-            parser = (Parser) cls.newInstance();
-        } catch ( Exception except ) {
-            throw new RuntimeException( Messages.format( "conf.failedInstantiateParser",
-                                                         prop, except ) );
-        }
+        // if a parser class was specified, we try to create it
+        parser = XMLParserUtils.instantiateParser(prop);
 
         if (parser instanceof XMLReader) {
             XMLReader xmlReader = (XMLReader) parser;
-            setFeaturesOnXmlReader(getDefault(), features, validation, namespaces, xmlReader);
+            XMLParserUtils.setFeaturesOnXmlReader(
+                    getDefault().getProperty(XMLConfiguration.PARSER_FEATURES, features),
+                    getDefault().getProperty(XMLConfiguration.PARSER_FEATURES_DISABLED, ""),
+                    validation, namespaces, xmlReader);
         }
         
         return parser;
-    }
-
-    /**
-     * Sets features on XML reader instance.
-     * @param features
-     * @param validation Whether to enable validation or not.
-     * @param namespaces Whether to enable namespace support for not.
-     * @param xmlReader The XMLReader instance to configure.
-     */
-    protected static void setFeaturesOnXmlReader(final Properties properties, 
-            String features, 
-            final boolean validation, 
-            final boolean namespaces, 
-            final XMLReader xmlReader) {
-        try {
-            xmlReader.setFeature(Features.Validation, validation);
-            xmlReader.setFeature(Features.Namespaces, namespaces);
-            features = properties.getProperty(Property.ParserFeatures, features);
-            enableFeatures(features, xmlReader);
-            String featuresToDisable = getDefault().getProperty(Property.ParserFeaturesToDisable, "");
-            disableFeatures(featuresToDisable, xmlReader);
-        } catch (SAXException except) {
-            LOG.error(Messages.format("conf.configurationError", except));
-        }
-    }
-
-    /**
-     * Enables selected features on the XMLReader instance
-     * @param features Features to enable
-     * @param xmlReader XMLReader instance to be configured.
-     * @throws SAXNotRecognizedException If the feature is not recognized by the XMLReader.
-     * @throws SAXNotSupportedException If the feature is not supported by the XMLReader.
-     */
-    private static void enableFeatures(final String features, final XMLReader xmlReader) 
-        throws SAXNotRecognizedException, SAXNotSupportedException {
-        StringTokenizer token;
-        if (features != null) {
-            token = new StringTokenizer(features, ", ");
-            while (token.hasMoreTokens()) {
-                xmlReader.setFeature(token.nextToken(), true);
-            }
-        }
-    }
-
-    /**
-     * Disables selected features on the XMLReader instance
-     * @param features Features to disable
-     * @param xmlReader XMLReader instance to be configured.
-     * @throws SAXNotRecognizedException If the feature is not recognized by the XMLReader.
-     * @throws SAXNotSupportedException If the feature is not supported by the XMLReader.
-     */
-    private static void disableFeatures(String features, final XMLReader xmlReader) 
-        throws SAXNotRecognizedException, SAXNotSupportedException {
-        StringTokenizer token;
-        if (features != null) {
-            token = new StringTokenizer(features, ", ");
-            while (token.hasMoreTokens()) {
-                xmlReader.setFeature(token.nextToken(), false);
-            }
-        }
     }
 
     /**
@@ -866,61 +791,47 @@ public abstract class Configuration {
      */
     public static XMLReader getDefaultXMLReader( String features )
     {
-        String prop;
         XMLReader reader = null;
         
         //-- validation?
-        prop = getDefault().getProperty( Property.ParserValidation, "false" );
-        boolean validation = ( prop.equalsIgnoreCase( "true" ) || 
-                               prop.equalsIgnoreCase( "on" ) );
-                               
-        //-- namespaces?
-        prop = getDefault().getProperty( Property.Namespaces, "false" );
-        boolean namespaces = ( prop.equalsIgnoreCase( "true" ) || 
-                               prop.equalsIgnoreCase( "on" ) );
+        String validationProperty = getDefault().getProperty(Property.ParserValidation, "false");
+        boolean validation = (validationProperty.equalsIgnoreCase("true") 
+                || validationProperty.equalsIgnoreCase("on"));
+
+        // -- namespaces?
+        String namespacesProperty = getDefault().getProperty(Property.Namespaces, "false");
+        boolean namespaces = (namespacesProperty.equalsIgnoreCase("true") 
+                || namespacesProperty.equalsIgnoreCase("on"));
         
 
         //-- which parser?
-        prop = getDefault().getProperty( Property.Parser );
-        if (( prop == null ) || (prop.length() == 0))  {
-            // If no parser class was specified, check for JAXP
-            // otherwise we default to Xerces.
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            factory.setNamespaceAware(namespaces);
-            factory.setValidating(validation);
+        String parserClassName = getDefault().getProperty(Property.Parser);
+        if (parserClassName == null || parserClassName.length() == 0) {
+            SAXParser saxParser = XMLParserUtils.getSAXParser(validation, namespaces);
             try {
-                SAXParser saxParser = factory.newSAXParser();
                 reader = saxParser.getXMLReader();
-            } catch(ParserConfigurationException pcx) {
-                LOG.error(Messages.format("conf.configurationError", pcx));
             } catch(org.xml.sax.SAXException sx) {
                 LOG.error(Messages.format("conf.configurationError", sx));
             }
-            
         }
         
         if (reader == null) {
-            if ((prop == null) ||
-                (prop.length() == 0) ||
-                (prop.equalsIgnoreCase("xerces"))) 
+            // TODO[WG]: should be removed alltogether !!!
+            if ((parserClassName == null) ||
+                (parserClassName.length() == 0) ||
+                (parserClassName.equalsIgnoreCase("xerces"))) 
             {
-                prop = "org.apache.xerces.parsers.SAXParser";
+                parserClassName = "org.apache.xerces.parsers.SAXParser";
             }
         
-            // If a parser class was specified, we try to create it and
-            // complain about creation error.
-            try {
-                Class cls;
-                cls = Class.forName( prop );
-                reader = (XMLReader) cls.newInstance();
-            } catch ( Exception except ) {
-                throw new RuntimeException( Messages.format( "conf.failedInstantiateParser",
-                                                            prop, except ) );
-            }
+            // If a parser class was specified, we try to create it
+            reader = XMLParserUtils.instantiateXMLReader(parserClassName);
         }
 
-        StringTokenizer token;
-        setFeaturesOnXmlReader(getDefault(), features, validation, namespaces, reader);
+        XMLParserUtils.setFeaturesOnXmlReader(
+                getDefault().getProperty(XMLConfiguration.PARSER_FEATURES, features),
+                getDefault().getProperty(XMLConfiguration.PARSER_FEATURES_DISABLED, ""),
+                validation, namespaces, reader);
         return reader;
     } //-- getDefaultXMLReader
 
