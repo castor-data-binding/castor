@@ -10,7 +10,7 @@
         </driver>
 <!--
         <data-source class-name="org.apache.commons.dbcp.BasicDataSource">
-            <param name="driver-class-name" value="org.gjt.mm.mysql.Driver"/>
+            <param name="driver-class-name" value="com.mysql.jdbc.Driver"/>
             <param name="url" value="jdbc:mysql://localhost:3306/test"/>
             <param name="username" value="test"/>
             <param name="password" value="test"/>
