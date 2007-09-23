@@ -9,7 +9,7 @@
     </appender>
 
     <appender name="file" class="org.apache.log4j.RollingFileAppender">
-        <param name="File" value="ddlgen-log.txt"/>
+        <param name="File" value="castor-ddlgen-log.txt"/>
         <param name="MaxFileSize" value="2MB"/>
         <param name="MaxBackupIndex" value="2"/>
         <layout class="org.apache.log4j.PatternLayout">
@@ -18,7 +18,7 @@
     </appender>
 
     <root>
-        <priority value="info" />
+        <priority value="warn" />
         <appender-ref ref="console"/>
         <appender-ref ref="file"/>
     </root>
