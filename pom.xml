@@ -279,6 +279,7 @@
             <scope>test</scope>
         </dependency>
 
+		<!-- should this really be in this section ? -->
         <dependency>
             <groupId>com.cenqua.clover</groupId>
             <artifactId>clover</artifactId>
