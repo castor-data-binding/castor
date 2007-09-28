@@ -466,13 +466,13 @@
       <p>
         For those of you behind a firewall with the SVN port non-accessible, please
         download Castor from the SVN server using the HTTP interface at
-        <url>http://cvs.castor.codehaus.org/viewrep/castor/castor/trunk</url> as provided by FishEye (tm):
+        <url>http://svn.castor.codehaus.org/viewrep/castor/castor/trunk</url> as provided by FishEye (tm):
       </p>
 
       <ul>
         <li><a href="http://svn.castor.codehaus.org/browse/~tarball=zip/castor/castor/trunk/trunk.zip">zip</a></li>
-        <li><a href="http://cvs.castor.codehaus.org/viewrep/~tarball=zip/castor/castor/trunk/trunk.tgz">tgz</a></li>
-        <li><a href="http://cvs.castor.codehaus.org/viewrep/~tarball=zip/castor/castor/trunk/trunk.tbz2">tbz2</a></li>
+        <li><a href="http://svn.castor.codehaus.org/viewrep/~tarball=zip/castor/castor/trunk/trunk.tgz">tgz</a></li>
+        <li><a href="http://svn.castor.codehaus.org/viewrep/~tarball=zip/castor/castor/trunk/trunk.tbz2">tbz2</a></li>
       </ul>
 
     </section>
