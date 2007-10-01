@@ -1,6 +1,9 @@
 #!/bin/sh
 
 # $Id$
+# 2007-10-01 Joachim, I align the shell script with the Java script
+# even that the shell script is a bit more flexible I think it is better
+# to synchronize the two scripts...
 
 if [ -z "$JAVA_HOME" ] ; then
   JAVA=`which java`
@@ -14,21 +17,32 @@ fi
 
 JAVA=$JAVA_HOME/bin/java
 
+OLD_CP=$CLASSPATH
+
 DIRNAME=`dirname $0`
 CASTOR_HOME=`cd $DIRNAME/..; pwd`
-BUILD_D=$CASTOR_HOME/xmlctf/build
-LIB_D=$CASTOR_HOME/lib
 
-CLASSPATH=$CASTOR_HOME/xmlctf/build
+CLASSPATH=$CASTOR_HOME/build/tests
 CLASSPATH=$CLASSPATH:$CASTOR_HOME/xmlctf/build/classes
+CLASSPATH=$CLASSPATH:$CASTOR_HOME/xmlctf-framework/build/classes
 CLASSPATH=$CLASSPATH:$CASTOR_HOME/build/classes
 CLASSPATH=$CLASSPATH:$CASTOR_HOME/codegen/build/classes
-CLASSPATH=$CLASSPATH:$BUILD_D/tests
-CLASSPATH=$CLASSPATH:$JAVA_HOME/lib/tools.jar
-CLASSPATH=`echo $LIB_D/*.jar | tr ' ' ':'`:$CLASSPATH
 
-# Remove the output of the previous test
-rm -rf $BUILD_D/tests/output/
+CLASSPATH=$CLASSPATH:$CASTOR_HOME/lib/commons-logging-1.1.jar
+CLASSPATH=$CLASSPATH:$CASTOR_HOME/lib/log4j-1.2.13.jar
+CLASSPATH=$CLASSPATH:$CASTOR_HOME/lib/junit_3.8.2.jar
+CLASSPATH=$CLASSPATH:$CASTOR_HOME/lib/jakarta-oro-2.0.5.jar
+CLASSPATH=$CLASSPATH:$CASTOR_HOME/lib/xerces-J_1.4.0.jar
+
+echo "*** Setting classpath to ..."
+echo $CLASSPATH
+
+echo "*** Cleaning test output directory"
+rm -rf $CASTOR_HOME/xmlctf/build/tests/output/
+echo "*** Successfully cleaned test output directory"
+
+echo "*** Using the JVM ..."
+echo $JAVA
 
 # No argument at all runs the master test suite
 case "$1" in
@@ -79,3 +93,6 @@ esac
 # run the test
 #$JAVA -Xms512M -Xmx512M -cp $CLASSPATH org.exolab.castor.tests.framework.CastorTestSuiteRunner $WHICHTESTS $*
 $JAVA -cp $CLASSPATH org.castor.xmlctf.CastorTestSuiteRunner $WHICHTESTS $*
+
+CLASSPATH=$OLD_CP
+
