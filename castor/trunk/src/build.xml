@@ -206,7 +206,7 @@
         <delete dir="${target}"/>
     </target>
 
-    <target name="clean" description="Removes the build, check, dist and schema dirs">
+    <target name="clean" depends="clean.tests" description="Removes the build, check, dist and schema dirs">
         <delete dir="${build}"/>
         <delete dir="${check}"/>
         <delete dir="${dist}"/>
