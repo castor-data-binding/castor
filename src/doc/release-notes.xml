@@ -259,6 +259,46 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    
             </summary>
             <bugs>
+                <bug id="2166" tool="jira">
+                    <description>
+                    	'bin/build clean' cleans all build directories including those of test
+                    </description>
+                    <contributor>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@gmail.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@gmail.com</email>
+                    </reporter>
+                    <type>Improvement</type>
+                    <module>General</module>
+                    <date>20071001</date>
+                </bug>
+                <bug id="2167" tool="jira">
+                    <description>
+                    	Modify CTFRun.sh to match changes in CTFRun.bat
+                    </description>
+                    <contributor>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@gmail.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@gmail.com</email>
+                    </reporter>
+                    <type>Improvement</type>
+                    <module>General</module>
+                    <date>20071001</date>
+                </bug>
                 <bug id="2162" tool="jira">
                     <description>
                     	Switched Castor XML to fully use JAXP to obtain XML parsers
