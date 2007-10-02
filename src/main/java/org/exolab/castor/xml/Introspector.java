@@ -1340,9 +1340,7 @@ public final class Introspector {
      * from using a CollectionHandler when getValue is called.
      */
     class IdentityConvertor implements TypeConvertor {
-        public Object convert( Object object, String param )
-            throws ClassCastException
-        {
+        public Object convert(final Object object) {
             return object;
         }
     } //-- class: IdentityConvertor

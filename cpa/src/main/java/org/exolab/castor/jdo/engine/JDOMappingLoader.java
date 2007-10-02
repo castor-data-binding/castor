@@ -61,9 +61,11 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.cache.Cache;
 import org.castor.cache.simple.CountLimited;
 import org.castor.cache.simple.TimeLimited;
-import org.castor.jdo.engine.SQLTypeConverters;
+import org.castor.core.util.Configuration;
+import org.castor.cpa.CPAConfiguration;
+import org.castor.cpa.persistence.convertor.AbstractSimpleTypeConvertor;
+import org.castor.cpa.persistence.convertor.TypeConvertorRegistry;
 import org.castor.jdo.engine.SQLTypeInfos;
-import org.castor.jdo.engine.SQLTypeConverters.Convertor;
 import org.castor.mapping.BindingType;
 import org.castor.util.Messages;
 import org.exolab.castor.jdo.TimeStampable;
@@ -147,6 +149,8 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
 
     //-----------------------------------------------------------------------------------
 
+    private final TypeConvertorRegistry _typeConvertorRegistry;
+
     /** Map of key generator descriptors associated by their name. */
     private final Map _keyGenDescs = new HashMap();
 
@@ -166,6 +170,9 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
 
     public JDOMappingLoader(final ClassLoader loader) {
         super(loader);
+
+        Configuration config = CPAConfiguration.getInstance();
+        _typeConvertorRegistry = new TypeConvertorRegistry(config);
     }
     
     //-----------------------------------------------------------------------------------
@@ -534,6 +541,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         String        convertorParam = null;
         String        typeName = null;
         Class         sqlType = null;
+        String        sqlParam = null;
 
         internalFieldType = Types.typeFromPrimitive(internalFieldType);
         String[] sqlTypes = getSqlTypes(fieldMap);
@@ -542,6 +550,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             //--TO Check
             typeName = sqlTypes[0];
             sqlType = SQLTypeInfos.sqlTypeName2javaType(definition2type(typeName));
+            sqlParam = definition2param(typeName);
         } else {
             sqlType = internalFieldType;
         }
@@ -550,7 +559,8 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         }
         if (internalFieldType != sqlType) {
             try {
-                convertorTo = SQLTypeConverters.getConvertor(sqlType, internalFieldType);
+                convertorTo = _typeConvertorRegistry.getConvertor(
+                        sqlType, internalFieldType, sqlParam);
             } catch (MappingException ex) {
                 boolean isTypeSafeEnum = false;
                 //-- check for type-safe enum style classes
@@ -576,22 +586,8 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
                                 int mods = method.getModifiers();
                                 if (Modifier.isStatic(mods)) {
                                     // create individual SQLTypeConverter
-                                    convertorTo = new Convertor(sqlType, internalFieldType) {
-                                        private Method _method = null;
-                                        public Object convert(final Object obj,
-                                                final String param) {
-                                            try {
-                                                if (_method == null) {
-                                                    _method = toType().getMethod(
-                                                            VALUE_OF, STRING_ARG);
-                                                }
-                                                return _method.invoke(toType(),
-                                                        new Object[] {(String) obj});
-                                            } catch (Exception ex) {
-                                                return null;
-                                            }
-                                        }
-                                    };
+                                    convertorTo = new EnumTypeConvertor(
+                                            sqlType, internalFieldType, method);
 
                                     Types.addEnumType(internalFieldType);
                                     
@@ -608,13 +604,36 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
                             internalFieldType.getName());
                 }
             }
-            convertorFrom = SQLTypeConverters.getConvertor(internalFieldType, sqlType);
-            if (typeName != null) {
-                convertorParam = definition2param(typeName);
+            convertorFrom = _typeConvertorRegistry.getConvertor(
+                    internalFieldType, sqlType, sqlParam);
+            
+            if ((convertorTo != null) && (convertorFrom != null)) {
+                Types.addConvertibleType(internalFieldType);
             }
         }
-        return new TypeInfo(internalFieldType, convertorTo, convertorFrom, convertorParam,
-                             fieldMap.getRequired(), null, colHandler);
+        return new TypeInfo(internalFieldType, convertorTo, convertorFrom,
+                            fieldMap.getRequired(), null, colHandler);
+    }
+    
+    private class EnumTypeConvertor extends AbstractSimpleTypeConvertor {
+        private final Method _method;
+
+        public EnumTypeConvertor(final Class fromType, final Class toType, final Method method) {
+            super(fromType, toType);
+
+            _method = method;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public Object convert(final Object object) {
+            try {
+                return _method.invoke(toType(), new Object[] {(String) object});
+            } catch (Exception ex) {
+                return null;
+            }
+        }
     }
 
 

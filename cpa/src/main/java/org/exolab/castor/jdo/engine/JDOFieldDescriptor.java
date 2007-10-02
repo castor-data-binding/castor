@@ -31,13 +31,6 @@ public interface JDOFieldDescriptor extends FieldDescriptor {
     TypeConvertor getConvertor();
 
     /**
-     * Returns the convertor parameter.
-     *
-     * @return Convertor parameter
-     */
-    String getConvertorParam();
-
-    /**
      * Returns the SQL name of this field.
      *
      * @return The SQL name of this field

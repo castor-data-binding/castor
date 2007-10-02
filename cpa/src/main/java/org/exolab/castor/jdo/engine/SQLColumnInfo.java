@@ -41,19 +41,13 @@ public final class SQLColumnInfo {
     /** TypeConvertor to use when converting from the SQLType of this column. */
     private final TypeConvertor _convertFrom;
 
-    /** Type conversion parameters. */
-    private final String _convertParam;
-
     public SQLColumnInfo(final String name, final int type,
-                      final TypeConvertor convertTo,
-                      final TypeConvertor convertFrom,
-                      final String convertParam) {
-        
+            final TypeConvertor convertTo, final TypeConvertor convertFrom) {
+
         _name = name;
         _sqlType = type;
         _convertTo = convertTo;
         _convertFrom = convertFrom;
-        _convertParam = convertParam;
     }
 
     public String getName() { return _name; }
@@ -64,19 +58,17 @@ public final class SQLColumnInfo {
 
     public TypeConvertor getConvertFrom() { return _convertFrom; }
 
-    public String getConvertParam() { return _convertParam; }
-
     public Object toSQL(final Object object) {
         if ((object == null) || (_convertFrom == null)) {
             return object;
         }
-        return _convertFrom.convert(object, _convertParam);
+        return _convertFrom.convert(object);
     }
 
     public Object toJava(final Object object) {
         if ((object == null) || (_convertTo == null)) {
             return object;
         }
-        return _convertTo.convert(object, _convertParam);
+        return _convertTo.convert(object);
     }
 }

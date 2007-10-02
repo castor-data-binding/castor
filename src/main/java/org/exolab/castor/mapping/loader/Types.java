@@ -210,6 +210,17 @@ public class Types {
     }
 
     
+    private static final Vector _convertible = new Vector();
+    
+    public static void addConvertibleType(Class type) {
+        _convertible.add(type);
+    }
+    
+    public static boolean isConvertibleType(Class type) {
+        return _convertible.contains(type);
+    }
+
+    
     /**
      * Constructs a new object from the given class. Does not generate any
      * checked exceptions, since object creation has been proven to work

@@ -171,6 +171,43 @@ public enum CompositeType {
 					on using custom (configurable) field handlers with Castor.
 				</p>
 
+				<h3>Added support for custom JDO type convertors</h3>
+				
+				<p>
+					You are now able to specify the type convertors for Castor JDO through
+					castor.properties file. Usually you will need 2 type convertors, one that
+					converts from your custom type to a type supported by the database and
+					another one for the opposite conversion. Both type convertor have to implement
+					<b>org.castor.cpa.persistence.convertor.TypeConvertor</b> interface. To
+					easy the implemetation task you can also extend one of our abstract
+					implementations:
+				</p>
+					
+                <ctable>
+                    <crow><td>org.castor.cpa.persistence.convertor.AbstractTypeConvertor</td></crow>
+                    <crow><td>org.castor.cpa.persistence.convertor.AbstractSimpleTypeConvertor</td></crow>
+                    <crow><td>org.castor.cpa.persistence.convertor.AbstractLobTypeConvertor</td></crow>
+                    <crow><td>org.castor.cpa.persistence.convertor.AbstractDateTypeConvertor</td></crow>
+                </ctable>
+
+				<p>
+					When adding your type convertors to the list of internal ones you have to
+					take care not to drop any of them. An excerpt of that definition looks as
+					follows:
+				</p>
+					
+				<code-panel><![CDATA[
+# Type convertors
+#
+org.castor.cpa.persistence.TypeConvertors=\
+  org.castor.cpa.persistence.convertor.BigDecimalToBoolean,\
+  org.castor.cpa.persistence.convertor.BigDecimalToByte,\
+    :
+    :
+    :
+  org.castor.cpa.persistence.convertor.StringToSqlClob,\
+  org.castor.cpa.persistence.convertor.StringToSqlTimestamp]]></code-panel>
+
 				<h2>Changes</h2>
 
                 <h3>Refactord Castor configuration</h3>
@@ -259,6 +296,26 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    
             </summary>
             <bugs>
+                <bug id="2177" tool="jira">
+                    <description>
+                        Added support for custom type convertors.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>200710002</date>
+                </bug>
                 <bug id="2166" tool="jira">
                     <description>
                     	'bin/build clean' cleans all build directories including those of test

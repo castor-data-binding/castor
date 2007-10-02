@@ -50,6 +50,9 @@ import junit.framework.TestCase;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.core.util.Configuration;
+import org.castor.cpa.CPAConfiguration;
+import org.castor.cpa.persistence.convertor.TypeConvertorRegistry;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.TypeConvertor;
 
@@ -61,8 +64,15 @@ public final class TestSQLTypes extends TestCase {
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(TestSQLTypes.class);
     
+    private static TypeConvertorRegistry _registry = null;
+    
     public TestSQLTypes(final String arg0) {
         super(arg0);
+        
+        if (_registry == null) {
+            Configuration config = CPAConfiguration.newInstance();
+            _registry = new TypeConvertorRegistry(config);
+        }
     }
 
     /**
@@ -72,9 +82,9 @@ public final class TestSQLTypes extends TestCase {
         DateFormat format = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss.SSS");
         Timestamp timeStamp = new Timestamp (new java.util.Date().getTime());
         LOG.debug ("time stamp = " + format.format (timeStamp));
-        TypeConvertor convertor = SQLTypeConverters.getConvertor(
-                Timestamp.class, java.util.Date.class);
-        java.util.Date date = (java.util.Date) convertor.convert(timeStamp, null);
+        TypeConvertor convertor = _registry.getConvertor(
+                Timestamp.class, java.util.Date.class, null);
+        java.util.Date date = (java.util.Date) convertor.convert(timeStamp);
         LOG.debug("date = " + format.format(date));
         
         assertEquals(timeStamp.getTime(), date.getTime());
@@ -87,9 +97,9 @@ public final class TestSQLTypes extends TestCase {
         DateFormat format = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss.SSS");
         java.util.Date date = new java.util.Date();
         LOG.debug("date = " + format.format(date));
-        TypeConvertor convertor = SQLTypeConverters.getConvertor(
-                java.util.Date.class, Timestamp.class);
-        Timestamp timeStamp = (Timestamp) convertor.convert(date, null);
+        TypeConvertor convertor = _registry.getConvertor(
+                java.util.Date.class, Timestamp.class, null);
+        Timestamp timeStamp = (Timestamp) convertor.convert(date);
         LOG.debug ("time stamp = " + format.format (timeStamp));
         
         assertEquals(timeStamp.getTime(), date.getTime());

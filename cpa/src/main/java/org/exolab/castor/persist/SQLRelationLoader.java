@@ -70,11 +70,7 @@ public class SQLRelationLoader {
 
     private TypeConvertor[] _leftFrom;
 
-    private String[] _leftParam;
-
     private TypeConvertor[] _rightFrom;
-
-    private String[] _rightParam;
 
     private int[] _rightType;
 
@@ -95,14 +91,11 @@ public class SQLRelationLoader {
     private String _deleteAll;
 
     public SQLRelationLoader(final String table, final String[] key, final int[] keyType,
-            final TypeConvertor[] idTo, final TypeConvertor[] idFrom, final String[] idParam,
+            final TypeConvertor[] idTo, final TypeConvertor[] idFrom,
             final String[] otherKey, final int[] otherKeyType,
-            final TypeConvertor[] ridTo, final TypeConvertor[] ridFrom, final String[] ridParam) {
-
+            final TypeConvertor[] ridTo, final TypeConvertor[] ridFrom) {
         _leftFrom = idFrom;
-        _leftParam = idParam;
         _rightFrom = ridFrom;
-        _rightParam = ridParam;
 
         _tableName = table;
         _left = key;
@@ -210,12 +203,12 @@ public class SQLRelationLoader {
 
     private Object idToSQL(final int index, final Object object) {
         if ((object == null) || (_leftFrom[index] == null)) { return object; }
-        return _leftFrom[index].convert(object, _leftParam[index]);
+        return _leftFrom[index].convert(object);
     }
 
     private Object ridToSQL(final int index, final Object object) {
         if ((object == null) || (_rightFrom[index] == null)) { return object; }
-        return _rightFrom[index].convert(object, _rightParam[index]);
+        return _rightFrom[index].convert(object);
     }
 
     public void createRelation(final Connection conn, final Identity left, final Identity right)

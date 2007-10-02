@@ -978,7 +978,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
     protected TypeInfo getTypeInfo(final Class fieldType,
                                    final CollectionHandler colHandler,
                                    final FieldMapping fieldMap) throws MappingException {
-        return new TypeInfo(Types.typeFromPrimitive(fieldType), null, null, null,
+        return new TypeInfo(Types.typeFromPrimitive(fieldType), null, null,
                             fieldMap.getRequired(), null, colHandler, false);
     }
 

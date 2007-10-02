@@ -206,13 +206,6 @@ public final class FieldHandlerImpl
 
 
     /**
-     * Parameter for the type convertor. Null if no convertor is required
-     * or on parameter is specified.
-     */
-    private final String         _convertParam;
-
-
-    /**
      * The collection handler for multi valued fields.
      */
     private final CollectionHandler _colHandler;
@@ -236,7 +229,6 @@ public final class FieldHandlerImpl
         _default = typeInfo.getDefaultValue();
         _convertTo = typeInfo.getConvertorTo();
         _convertFrom = typeInfo.getConvertorFrom();
-        _convertParam = typeInfo.getConvertorParam();
         _colHandler = typeInfo.getCollectionHandler();
     }
 
@@ -271,7 +263,6 @@ public final class FieldHandlerImpl
             _default = null;
         _convertTo = typeInfo.getConvertorTo();
         _convertFrom = typeInfo.getConvertorFrom();
-        _convertParam = typeInfo.getConvertorParam();
         _colHandler = typeInfo.getCollectionHandler();
     }
 
@@ -372,18 +363,15 @@ public final class FieldHandlerImpl
             _default = null;
         _convertTo = typeInfo.getConvertorTo();
         _convertFrom = typeInfo.getConvertorFrom();
-        _convertParam = typeInfo.getConvertorParam();
         _colHandler = typeInfo.getCollectionHandler();
     }
 
     public TypeConvertor getConvertFrom() {
         return _convertFrom;
     }
+
     public TypeConvertor getConvertTo() {
         return _convertTo;
-    }
-    public String getConvertParam() {
-        return _convertParam;
     }
 
     public Object getValue(Object object) {
@@ -450,7 +438,7 @@ public final class FieldHandlerImpl
         }
 
         try {
-            return _convertFrom.convert(value, _convertParam);
+            return _convertFrom.convert(value);
         } catch (ClassCastException except) {
             throw new IllegalArgumentException(Messages.format("mapping.wrongConvertor", value.getClass().getName()));
         }
@@ -463,7 +451,7 @@ public final class FieldHandlerImpl
             // If there is a convertor, apply conversion here.
             if ( value != null && _convertTo != null ) {
                 try {
-                    value = _convertTo.convert( value, _convertParam );
+                    value = _convertTo.convert(value);
                 } catch ( ClassCastException except ) {
                     throw new IllegalArgumentException( Messages.format( "mapping.wrongConvertor", value.getClass().getName() ) );
                 }
