@@ -137,7 +137,7 @@ public class SQLFieldInfo {
                 JDOFieldDescriptor relId = (JDOFieldDescriptor) relids[i];
                 FieldHandlerImpl fh = (FieldHandlerImpl) relId.getHandler();
                 _columns[i] = new SQLColumnInfo(names[i], relId.getSQLType()[0],
-                        fh.getConvertTo(), fh.getConvertFrom(), fh.getConvertParam());
+                        fh.getConvertTo(), fh.getConvertFrom());
             }
         } else {
             // primitive field
@@ -157,7 +157,7 @@ public class SQLFieldInfo {
             }
             FieldHandlerImpl fh = (FieldHandlerImpl) jdoFieldDesc.getHandler();
             _columns[0] = new SQLColumnInfo(sqlName, jdoFieldDesc.getSQLType()[0],
-                    fh.getConvertTo(), fh.getConvertFrom(), fh.getConvertParam());
+                    fh.getConvertTo(), fh.getConvertFrom());
         }
     }
     

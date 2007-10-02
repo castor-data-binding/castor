@@ -36,9 +36,6 @@ implements JDOFieldDescriptor {
     /** The type convertor from Java type to SQL type. */
     private final TypeConvertor _convertor;
 
-    /** The type convertor parameter. */
-    private final String _convertorParam;
-    
     /** The SQL name of the field. */
     private final String[] _sqlName;
 
@@ -86,7 +83,6 @@ implements JDOFieldDescriptor {
         setMultivalued(typeInfo.getCollectionHandler() != null);
         
         _convertor = typeInfo.getConvertorFrom();
-        _convertorParam = typeInfo.getConvertorParam();
         _sqlName = (sqlName.length == 0 ? null : sqlName);
         _sqlType = sqlType;
         _manyTable = manyTable;
@@ -103,14 +99,6 @@ implements JDOFieldDescriptor {
      */
     public TypeConvertor getConvertor() {
         return _convertor;
-    }
-
-    /**
-     * @see org.exolab.castor.jdo.engine.JDOFieldDescriptor#getConvertorParam()
-     * {@inheritDoc}
-     */
-    public String getConvertorParam() {
-        return _convertorParam;
     }
 
     /**

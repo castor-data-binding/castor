@@ -42,10 +42,7 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.mapping;
-
 
 /**
  * Interface for a type convertor. A type convertor converts a Java
@@ -55,20 +52,13 @@ package org.exolab.castor.mapping;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
-public interface TypeConvertor
-{
-
-
+public interface TypeConvertor {
     /**
      * Convert the object from one type to another.
      *
-     * @param object The object to convert
-     * @param param The parameter for the convertor (null if is not specified)
-     * @return The converted object
-     * @throws ClassCastException The object is not of the type
-     *  supported by this convertor
+     * @param object The object to convert.
+     * @return The converted object.
+     * @throws ClassCastException The object is not of the type supported by this convertor.
      */
-    public Object convert( Object object, String param )
-        throws ClassCastException;
-
+    public Object convert(Object object) throws ClassCastException;
 }

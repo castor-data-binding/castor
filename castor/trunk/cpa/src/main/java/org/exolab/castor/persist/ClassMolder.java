@@ -256,15 +256,13 @@ public class ClassMolder {
                 int[] relatedIdType = null;
                 TypeConvertor[] relatedIdConvertTo = null;
                 TypeConvertor[] relatedIdConvertFrom = null;
-                String[] relatedIdConvertParam = null;
                 
                 String manyTable = fmFields[i].getSql().getManyTable();
 
                 String[] idSQL = new String[fmId.length];
                 int[] idType = new int[fmId.length];
                 TypeConvertor[] idConvertFrom = new TypeConvertor[fmId.length];
-                TypeConvertor[]idConvertTo = new TypeConvertor[fmId.length];
-                String[] idConvertParam = new String[fmId.length];
+                TypeConvertor[] idConvertTo = new TypeConvertor[fmId.length];
                 FieldDescriptor[] fd = ((ClassDescriptorImpl) clsDesc).getIdentities();
                 for (int j = 0; j < fmId.length; j++) {
                     idSQL[j] = fmId[j].getSql().getName()[0];
@@ -275,7 +273,6 @@ public class ClassMolder {
                         FieldHandlerImpl fh = (FieldHandlerImpl) fd[j].getHandler();
                         idConvertTo[j] = fh.getConvertTo();
                         idConvertFrom[j] = fh.getConvertFrom();
-                        idConvertParam[j] = fh.getConvertParam();
                     } else {
                         throw new MappingException(
                                 "Identity type must contains sql information: " + _name);
@@ -290,7 +287,6 @@ public class ClassMolder {
                     relatedIdType = new int[relatedIds.length];
                     relatedIdConvertTo = new TypeConvertor[relatedIds.length];
                     relatedIdConvertFrom = new TypeConvertor[relatedIds.length];
-                    relatedIdConvertParam = new String[relatedIds.length];
                     for (int j = 0; j < relatedIdSQL.length; j++) {
                         if (relatedIds[j] instanceof JDOFieldDescriptor) {
                             String[] tempId = ((JDOFieldDescriptor) relatedIds[j]).getSQLName();
@@ -300,7 +296,6 @@ public class ClassMolder {
                             FieldHandlerImpl fh = (FieldHandlerImpl) relatedIds[j].getHandler();
                             relatedIdConvertTo[j] = fh.getConvertTo();
                             relatedIdConvertFrom[j] = fh.getConvertFrom();
-                            relatedIdConvertParam[j] = fh.getConvertParam();
                         } else {
                             throw new MappingException(
                                     "Field type is not persistence-capable: "
@@ -330,11 +325,10 @@ public class ClassMolder {
                     }
                     relatedIdSQL = manyName;
                 }
-
+                
                 _fhs[fieldMolderNumber] = new FieldMolder(ds, this, fmFields[i], manyTable, idSQL,
-                        idType, idConvertTo, idConvertFrom, idConvertParam,
-                        relatedIdSQL, relatedIdType, relatedIdConvertTo, relatedIdConvertFrom,
-                        relatedIdConvertParam);
+                        idType, idConvertTo, idConvertFrom,
+                        relatedIdSQL, relatedIdType, relatedIdConvertTo, relatedIdConvertFrom);
             } else {
                 _fhs[fieldMolderNumber] = new FieldMolder(ds, this, fmFields[i]);
             }

@@ -122,9 +122,14 @@ public final class CPAConfiguration extends Configuration {
     public static final String CACHE_FACTORIES =
         "org.castor.cache.Factories";
 
+    /** Property listing all available {@link org.castor.cpa.persistence.convertor.TypeConvertor}
+     *  implementations (<tt>org.castor.cpa.persistence.TypeConvertors</tt>). */
+    public static final String TYPE_CONVERTORS =
+        "org.castor.cpa.persistence.TypeConvertors";
+
     /** Property listing all the available
      *  {@link org.castor.transactionmanager.TransactionManagerFactory}
-     *  implementations (<tt>org.castor.transaction.TransactionManagerFactories</tt>). */
+     *  implementations (<tt>org.castor.transactionmanager.Factories</tt>). */
     public static final String TRANSACTION_MANAGER_FACTORIES =
         "org.castor.transactionmanager.Factories";
     

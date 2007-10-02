@@ -229,6 +229,10 @@ public class DatingService {
                 return true;
             }
 
+            if (Types.isConvertibleType(resolve(typeName))) {
+                return true;
+            }
+
             ClassMolder clsMold = (ClassMolder) _clsMolders.get(typeName);
             if (clsMold != null) {
                 fieldMolder.setFieldClassMolder(clsMold);

@@ -729,10 +729,8 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
 
 
     protected TypeInfo getTypeInfo( Class fieldType, CollectionHandler colHandler, FieldMapping fieldMap )
-        throws MappingException
-    {
-        return new TypeInfo( fieldType, null, null, null,
-                             fieldMap.getRequired(), null, colHandler, false );
+    throws MappingException {
+        return new TypeInfo(fieldType, null, null, fieldMap.getRequired(), null, colHandler, false);
     }
 
     /**
@@ -793,9 +791,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
      * from using a CollectionHandler when getValue is called.
     **/
     class IdentityConvertor implements TypeConvertor {
-        public Object convert( Object object, String param )
-            throws ClassCastException
-        {
+        public Object convert(final Object object) {
             return object;
         }
     } //-- class: IdentityConvertor

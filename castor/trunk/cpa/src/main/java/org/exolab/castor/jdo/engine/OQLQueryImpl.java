@@ -49,7 +49,9 @@ import java.util.Hashtable;
 import java.util.NoSuchElementException;
 import java.util.Vector;
 
-import org.castor.jdo.engine.SQLTypeConverters;
+import org.castor.core.util.Configuration;
+import org.castor.cpa.CPAConfiguration;
+import org.castor.cpa.persistence.convertor.TypeConvertorRegistry;
 import org.castor.jdo.util.ClassLoadingUtils;
 import org.castor.persist.TransactionContext;
 import org.castor.util.Messages;
@@ -83,6 +85,8 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class OQLQueryImpl implements Query, OQLQuery {
+    private static TypeConvertorRegistry _typeConvertorRegistry = null;
+    
     private LockEngine _dbEngine;
 
     private Database _database;
@@ -119,6 +123,14 @@ public class OQLQueryImpl implements Query, OQLQuery {
      */
     OQLQueryImpl(final Database database) {
         _database = database;
+    }
+    
+    private TypeConvertorRegistry getTypeConvertorRegistry() {
+        if (_typeConvertorRegistry == null) {
+            Configuration config = CPAConfiguration.getInstance();
+            _typeConvertorRegistry = new TypeConvertorRegistry(config);
+        }
+        return _typeConvertorRegistry;
     }
 
     /**
@@ -173,9 +185,9 @@ public class OQLQueryImpl implements Query, OQLQuery {
                     // First convert the actual value to the field value
                     if (fieldClass != valueClass) {
                         try {
-                            TypeConvertor tc = SQLTypeConverters.getConvertor(
-                                    valueClass, fieldClass);
-                            internalValue = tc.convert(internalValue, null);
+                            TypeConvertor tc = getTypeConvertorRegistry().getConvertor(
+                                    valueClass, fieldClass, null);
+                            internalValue = tc.convert(internalValue);
                         } catch (MappingException e) {
                             throw new IllegalArgumentException("Query parameter "
                                     + (_fieldNum + 1) + " cannot be converted from " + valueClass
@@ -184,8 +196,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
                     }
                     // Perform conversion from field type to SQL type, if needed
                     if (info.getConvertor() != null) {
-                        internalValue = info.getConvertor().convert(
-                                internalValue, info.getConvertorParam());
+                        internalValue = info.getConvertor().convert(internalValue);
                     }
                 }
             }

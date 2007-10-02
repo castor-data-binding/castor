@@ -161,7 +161,7 @@ public final class SQLEngine implements Persistence {
                     }
                 }
                 idsInfo.add(new SQLColumnInfo(sqlName[0], sqlType[0], fh.getConvertTo(),
-                        fh.getConvertFrom(), fh.getConvertParam()));
+                        fh.getConvertFrom()));
             } else {
                 throw new MappingException("Except JDOFieldDescriptor");
             }
@@ -298,7 +298,7 @@ public final class SQLEngine implements Persistence {
         if ((object == null) || (_ids[index].getConvertTo() == null)) {
             return object;
         }
-        return _ids[index].getConvertTo().convert(object, _ids[index].getConvertParam());
+        return _ids[index].getConvertTo().convert(object);
     }
 
     protected Object toJava(final int field, final int column, final Object object) {
@@ -306,7 +306,7 @@ public final class SQLEngine implements Persistence {
         if ((object == null) || (col.getConvertTo() == null)) {
             return object;
         }
-        return col.getConvertTo().convert(object, col.getConvertParam());
+        return col.getConvertTo().convert(object);
     }
 
     public Identity create(final Database database, final Object conn,

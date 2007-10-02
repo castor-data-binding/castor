@@ -84,12 +84,6 @@ private ClassLoader _classLoader;
   private TypeConvertor _convertor;
 
   /**
-   * The type convertor parameter.
-   */
-  private String        _convertorParam;
-
-
-  /**
    * Creates a new ParamInfo.  Which checks for incompatibilities between types.
    *
    * @param userDefinedType The user defined type, empty string if undefined.
@@ -145,7 +139,6 @@ private ClassLoader _classLoader;
             throw new QueryException("Can't determine SQL class: " + ex);
         }
         _convertor = desc.getConvertor();
-        _convertorParam = desc.getConvertorParam();
     }
   }
 
@@ -234,14 +227,5 @@ private ClassLoader _classLoader;
      */
     public TypeConvertor getConvertor() {
         return _convertor;
-    }
-
-    /**
-     * Returns the convertor parameter.
-     *
-     * @return Convertor parameter
-     */
-    public String getConvertorParam() {
-        return _convertorParam;
     }
 }

@@ -488,15 +488,14 @@ public class FieldMolder {
      */
     public FieldMolder(final DatingService ds, final ClassMolder eMold, final FieldMapping fieldMap,
             final String manyTable, final String[] idSQL, final int[] idType,
-            final TypeConvertor[] idTo, final TypeConvertor[] idFrom, final String[] idParam,
+            final TypeConvertor[] idTo, final TypeConvertor[] idFrom,
             final String[] relatedIdSQL, final int[] relatedIdType, final TypeConvertor[] ridTo,
-            final TypeConvertor[] ridFrom, final String[] ridParam) throws MappingException {
+            final TypeConvertor[] ridFrom) throws MappingException {
 
         this(ds, eMold, fieldMap);
-
+        
         _manyToManyLoader = new SQLRelationLoader(manyTable,
-                idSQL, idType, idTo, idFrom, idParam,
-                relatedIdSQL, relatedIdType, ridTo, ridFrom, ridParam);
+                idSQL, idType, idTo, idFrom, relatedIdSQL, relatedIdType, ridTo, ridFrom);
     }
 
     public FieldMolder(final DatingService ds, final ClassMolder eMold, final FieldMapping fieldMap)
