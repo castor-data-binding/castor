@@ -259,7 +259,7 @@ public abstract class PatternValidator {
      *            the ValidationContext
      */
     private void initEvaluator(final ValidationContext context) {
-        _regex = context.getConfiguration().getRegExpEvaluator();
+        _regex = context.getInternalContext().getRegExpEvaluator();
         if (_regex == null) {
             _regex = new DefaultRegExpEvaluator();
         }

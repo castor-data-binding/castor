@@ -46,6 +46,7 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
+import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
@@ -71,8 +72,8 @@ public class UnknownUnmarshaller extends ComponentReader {
      //- Constructors -/
     //----------------/
 
-    public UnknownUnmarshaller(String name) {
-        super();
+    public UnknownUnmarshaller(final InternalContext internalContext, final String name) {
+        super(internalContext);
         this.name = name;
     } //-- UnknownUnmarshaller
 

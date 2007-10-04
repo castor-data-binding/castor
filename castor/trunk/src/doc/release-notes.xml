@@ -217,10 +217,47 @@ org.castor.cpa.persistence.TypeConvertors=\
                    are still used for XML but everything is in place to use the new one.
                    Having said that this should not change anything for the user of Castor
                    as he still specifies his properties in a single castor.properties file
-                   for all moduls.</p>
+                   for all modules.</p>
                    
+
+				<h3>Refactored JavaNaming</h3>
+				
+				<p>New JavaNaming is an exchangeable service instantiated trough XMLContext
+				   and accessed in a non-static way.
+				</p>
+
+				<h3>Refactored XMLClassDescriptorResolver</h3>
+				
+				<p>New XMLClassDescriptorResolver internally works with strategy and command
+				   pattern to have the possibility to enhance class resolving for future
+				   implementations (e.g. JAXB support).
+				</p>
+
+				<h3>Refactored XMLContext</h3>
+				
+				<p>New XMLContext is the information centerpiece and point to start for Castor 
+				   XML stuff. It provides:
+				   <ul>
+				   <li>Factory methods for:
+				       <ol>
+				           <li>Marshaller</li>
+				           <li>Unmarshaller</li>
+				           <li>SchemaReader</li>
+				           <li>SchemaWriter</li>
+				           <li>MappingTool</li>
+				           <li>SourceGenerator</li>
+				       </ol>
+				   </li>
+				   <li>Methods which are used by different XML classes, have (keep) central
+				       information or services and had been kreeping into LocalConfiguration but
+				       have nothing to do with Configuration itself.</li>
+				   </ul>
+				   We head to remove static usages and to a Castor being more loosely linked then
+				   today.
+				</p>
+				
                 <h3>Fixed support for 'strict elements'</h3>
-                
+               
                 <p>When instructing Castor XML during unmarshalling to handle elements 'strict',
                    this worked only in the presence of a mapping file. When the element/class
                    in question was analyzed using Castor's introspector, setting this mode
@@ -296,6 +333,26 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    
             </summary>
             <bugs>
+                <bug id="2119" tool="jira">
+                    <description>
+                        Introduced new internal configuration handling for Castor XML.
+                    </description>
+                    <contributor>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>200710002</date>
+                </bug>
                 <bug id="2177" tool="jira">
                     <description>
                         Added support for custom type convertors.

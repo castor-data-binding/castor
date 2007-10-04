@@ -55,6 +55,8 @@ import java.util.List;
 import java.util.Vector;
 
 import org.castor.xml.JavaNaming;
+import org.castor.xml.XMLConfiguration;
+import org.castor.xml.InternalContext;
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.FieldHandlerFactory;
@@ -85,38 +87,6 @@ import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
  * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr 2006) $
  */
 public final class Introspector {
-
-
-    /**
-     * The property name for enabling collection wrapping.
-     * The property controls whether or not collections
-     * (arrays, vectors, etc) should be wrapped in a container element.
-     * For example:
-     *
-     * <pre>
-     *    &lt;foos&gt;
-     *       &lt;foo&gt;foo1&lt;/foo&gt;
-     *       &lt;foo&gt;foo2&lt;/foo&gt;
-     *    &lt;/foos&gt;
-     *
-     *   instead of the default:
-     *
-     *    &lt;foos&gt;foo1&lt;foos&gt;
-     *    &lt;foos&gt;foo2&lt;/foos&gt;
-     *
-     * </pre>
-     *
-     * Use this property with a value of true or false in the
-     * castor.properties file
-     *
-     * org.exolab.castor.xml.introspector.wrapCollections=true
-     * -or-
-     * org.exolab.castor.xml.introspector.wrapCollections=false
-     *
-     * This property is false by default.
-     */
-    public static final String WRAP_COLLECTIONS_PROPERTY =
-        "org.exolab.castor.xml.introspector.wrapCollections";
 
     /**
      * The default FieldHandlerFactory
@@ -169,7 +139,7 @@ public final class Introspector {
     /**
      * The naming conventions to use
     **/
-    private XMLNaming _naming = null;
+    private XMLNaming _xmlNaming = null;
 
     /**
      * The NodeType to use for primitives
@@ -227,6 +197,8 @@ public final class Introspector {
      */
     private JavaNaming _javaNaming;
 
+    private InternalContext _internalContext;
+
     /**
      * Creates a new instance of the Introspector.
      */
@@ -239,40 +211,27 @@ public final class Introspector {
      *
      * @param classLoader
      */
-    public Introspector(ClassLoader classLoader) {
+    public Introspector(final ClassLoader classLoader) {
         super();
         _classLoader = classLoader;
         init();
     } //-- Introspector
 
     private void init() {
-
-        LocalConfiguration config = LocalConfiguration.getInstance();
-
-        if (_defaultNaming == null) {
-            _defaultNaming = config.getXMLNaming(_classLoader);
+        if (_internalContext != null) {
+            _javaNaming = _internalContext.getJavaNaming();
+            _xmlNaming = _internalContext.getXMLNaming();
+            setPrimitiveNodeType(_internalContext.getPrimitiveNodeType());
+            _wrapCollectionsInContainer = _internalContext.getBooleanProperty(XMLConfiguration.WRAP_COLLECTIONS_PROPERTY).booleanValue();
+            _saveMapKeys = 
+                _internalContext.getBooleanProperty(XMLConfiguration.SAVE_MAP_KEYS).booleanValue();
         }
-        _naming = _defaultNaming;
-        _javaNaming = config.getJavaNaming();
-
-        setPrimitiveNodeType(config.getPrimitiveNodeType());
-
-        //-- wrap collections in a container element?
-        String wrap = config.getProperty(WRAP_COLLECTIONS_PROPERTY, null);
-        if (wrap != null) {
-            _wrapCollectionsInContainer = Boolean.valueOf(wrap).booleanValue();
-        }
-
-        //-- Save Hashtable / Map keys ?
-        String saveKeys = config.getProperty(Configuration.Property.SaveMapKeys, null);
-        if (saveKeys != null) {
-            if ("false".equals(saveKeys) || "off".equals(saveKeys)) {
-                _saveMapKeys = false;
-            }
-        }
-
     } //-- init
 
+    public void setInternalContext(InternalContext internalContext) {
+        _internalContext = internalContext;
+        init();
+    }
 
     /**
      * Registers the given "generalized" FieldHandlerFactory with this
@@ -525,7 +484,7 @@ public final class Introspector {
             MethodSet methodSet = (MethodSet) enumeration.nextElement();
 
             //-- create XMLFieldDescriptor
-            String xmlName = _naming.toXMLName(methodSet.fieldName);
+            String xmlName = _xmlNaming.toXMLName(methodSet.fieldName);
 
             boolean isCollection = false;
 
@@ -771,7 +730,7 @@ public final class Introspector {
                 }
 
                 String fieldName = field.getName();
-                String xmlName = _naming.toXMLName(fieldName);
+                String xmlName = _xmlNaming.toXMLName(fieldName);
 
                 //-- Create FieldHandler first, before the XMLFieldDescriptor
                 //-- in case we need to use a custom handler
@@ -983,9 +942,9 @@ public final class Introspector {
     **/
     public void setNaming(XMLNaming naming) {
         if (naming == null)
-            _naming = _defaultNaming;
+            _xmlNaming = _defaultNaming;
         else
-            _naming = naming;
+            _xmlNaming = naming;
     } //-- setNaming
 
     /**

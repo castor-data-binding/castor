@@ -297,8 +297,7 @@ public final class LocalConfiguration extends Configuration {
      *   defaults
      * @return A suitable XML parser
      */
-    public Parser getParser(final String features)
-    {
+    public Parser getParser(final String features) {
         //-- validation?
         String validationProperty = getProperties().getProperty(Property.ParserValidation, "false");
         boolean validation = (validationProperty.equalsIgnoreCase("true") 
@@ -311,7 +310,7 @@ public final class LocalConfiguration extends Configuration {
         
 
         // obtain a custom SAX parser class name from custom property file
-        String parserClassName = getProperties().getProperty( Property.Parser );
+        String parserClassName = getProperties().getProperty(Property.Parser);
         
         Parser parser;
         if (parserClassName == null || parserClassName.length() == 0) {

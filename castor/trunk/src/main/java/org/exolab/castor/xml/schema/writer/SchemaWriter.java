@@ -45,28 +45,65 @@
 
 package org.exolab.castor.xml.schema.writer;
 
-import java.io.Writer;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.Enumeration;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.castor.xml.BackwardCompatibilityContext;
+import org.castor.xml.InternalContext;
 import org.exolab.castor.types.AnyNode;
-import org.exolab.castor.util.LocalConfiguration;
-import org.exolab.castor.xml.schema.*;
-import org.exolab.castor.xml.schema.simpletypes.ListType;
-import org.exolab.castor.xml.util.AnyNode2SAX;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.Serializer;
-
+import org.exolab.castor.xml.schema.Annotated;
+import org.exolab.castor.xml.schema.Annotation;
+import org.exolab.castor.xml.schema.AppInfo;
+import org.exolab.castor.xml.schema.AttributeDecl;
+import org.exolab.castor.xml.schema.AttributeGroup;
+import org.exolab.castor.xml.schema.AttributeGroupDecl;
+import org.exolab.castor.xml.schema.AttributeGroupReference;
+import org.exolab.castor.xml.schema.BlockList;
+import org.exolab.castor.xml.schema.ComplexType;
+import org.exolab.castor.xml.schema.ContentModelGroup;
+import org.exolab.castor.xml.schema.ContentType;
+import org.exolab.castor.xml.schema.Documentation;
+import org.exolab.castor.xml.schema.ElementDecl;
+import org.exolab.castor.xml.schema.Facet;
+import org.exolab.castor.xml.schema.FinalList;
+import org.exolab.castor.xml.schema.Form;
+import org.exolab.castor.xml.schema.Group;
+import org.exolab.castor.xml.schema.IdentityConstraint;
+import org.exolab.castor.xml.schema.IdentityField;
+import org.exolab.castor.xml.schema.IdentitySelector;
+import org.exolab.castor.xml.schema.KeyRef;
+import org.exolab.castor.xml.schema.ModelGroup;
+import org.exolab.castor.xml.schema.RedefineSchema;
+import org.exolab.castor.xml.schema.Schema;
+import org.exolab.castor.xml.schema.SchemaNames;
+import org.exolab.castor.xml.schema.SimpleContent;
+import org.exolab.castor.xml.schema.SimpleType;
+import org.exolab.castor.xml.schema.Structure;
+import org.exolab.castor.xml.schema.Union;
+import org.exolab.castor.xml.schema.Wildcard;
+import org.exolab.castor.xml.schema.XMLType;
+import org.exolab.castor.xml.schema.simpletypes.ListType;
+import org.exolab.castor.xml.util.AnyNode2SAX;
 import org.xml.sax.DocumentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributeListImpl;
 
 /**
- * A class for serializing Schema models
+ * A class for serializing Schema models.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-05 13:16:42 -0600 (Wed, 05 Apr 2006) $
 **/
 public class SchemaWriter {
 
+    /**
+     *  The {@link Log} instance to use. 
+     */
+    private static final Log LOG = LogFactory.getLog(SchemaWriter.class);
     //------------------------/
     //- Schema element names -/
     //------------------------/
@@ -77,7 +114,7 @@ public class SchemaWriter {
     private static final String ANNOTATION    =  "annotation";
 
     /**
-     * AppInfo element name
+     * AppInfo element name.
      */
     private static final String APPINFO       = "appinfo";
     
@@ -160,30 +197,34 @@ public class SchemaWriter {
      * @deprecated
     **/
     public static boolean enable = false;
+    
+    /** Castor XML context - mother of all dwelling. */
+    private InternalContext _internalContext = null;
 
     /**
-     * Creates a new SchemaWriter for the given Writer
+     * Creates a new SchemaWriter for the given Writer.
      *
      * @param writer the Writer to serialize to
+     * @throws IOException in case taht wrapping the Writer fails
     **/
-    public SchemaWriter(Writer writer)
-        throws IOException
-    {
+    public SchemaWriter(final Writer writer)
+    throws IOException {
+        this();
+        Serializer serializer = _internalContext.getSerializer();
 
-        Serializer serializer = LocalConfiguration.getInstance().getSerializer();
-
-        if (serializer == null)
+        if (serializer == null) {
             throw new IOException("Unable to obtain serailizer");
+        }
 
-        serializer.setOutputCharStream( writer );
+        serializer.setOutputCharStream(writer);
 
         DocumentHandler handler = serializer.asDocumentHandler();
 
-        if ( handler == null ) {
+        if (handler == null) {
             String err = "The following serializer is not SAX capable: ";
             err += serializer.getClass().getName();
             err += "; cannot proceed.";
-            throw new IOException( err );
+            throw new IOException(err);
         }
 
         _handler = handler;
@@ -191,23 +232,80 @@ public class SchemaWriter {
     } //-- SchemaWriter
 
     /**
-     * Creates a new SchemaWriter for the given DocumentHandler
+     * Creates a new SchemaWriter for the given DocumentHandler.
      *
      * @param handler the DocumentHandler to send events to
     **/
-    public SchemaWriter(DocumentHandler handler) {
+    public SchemaWriter(final DocumentHandler handler) {
+        this();
 
-        if (handler == null)
+        if (handler == null) {
             throw new IllegalArgumentException("DocumentHandler must not be null.");
+        }
 
         _handler = handler;
-
     } //-- SchemaWriter
 
+    /**
+     * A constructor to create an empty uninitialized SchemaWriter via XMLContext.
+     */
+    public SchemaWriter() {
+        super();
+        _internalContext = new BackwardCompatibilityContext();
+    }
+    
+    /**
+     * To set the InternalContext to be used for the SchemaWriter.
+     * @param internalContext the InternalContext to be used
+     */
+    public void setInternalContext(final InternalContext internalContext) {
+        _internalContext = internalContext;
+    }
+    
+    /**
+     * To set the DocumentHandler to a Writer - which is wrapped by a serializer.
+     * @param writer the Writer to use for output
+     * @throws IOException in case the Writer cannot be used for DocumentHandler
+     */
+    public void setDocumentHandler(final Writer writer) throws IOException {
+        Serializer serializer = _internalContext.getSerializer();
 
-    public void write(Schema schema)
-        throws SAXException
-    {
+        if (serializer == null) {
+            String message = "Unable to obtain serailizer";
+            LOG.warn(message);
+            throw new IOException(message);
+        }
+
+        serializer.setOutputCharStream(writer);
+
+        DocumentHandler handler = serializer.asDocumentHandler();
+
+        if (handler == null) {
+            String err = "The following serializer is not SAX capable: ";
+            err += serializer.getClass().getName();
+            err += "; cannot proceed.";
+            LOG.warn(err);
+            throw new IOException(err);
+        }
+
+        _handler = handler;
+    }
+    
+    /**
+     * To directly set a DocumentHandler.
+     * @param documentHandler set the DocumentHandler
+     */
+    public void setDocumentHandler(final DocumentHandler documentHandler) {
+        if (documentHandler == null) {
+            String message = "DocumentHandler must not be null.";
+            LOG.warn(message);
+            throw new IllegalArgumentException(message);
+        }
+        _handler = documentHandler;
+    }
+
+    public void write(final Schema schema)
+    throws SAXException {
         if (schema == null)
             throw new IllegalArgumentException("Schema must not be null.");
 
@@ -1644,9 +1742,10 @@ public class SchemaWriter {
     **/
     private boolean isImportedType(XMLType type, ElementDecl element) {
         String targetNS = type.getSchema().getTargetNamespace();
-        if (targetNS != null)
+        if (targetNS != null) {
             return (element.getSchema().getImportedSchema(targetNS) != null);
-        else return false;
+        }
+        return false;
     } //-- isImportedType
 
     /**

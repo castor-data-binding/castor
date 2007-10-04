@@ -52,9 +52,8 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Properties;
 
-import org.castor.mapping.BindingType;
-import org.castor.xml.JavaNaming;
-import org.castor.xml.JavaNamingImpl;
+import org.castor.xml.BackwardCompatibilityContext;
+import org.castor.xml.InternalContext;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.CollectionHandlers;
@@ -69,11 +68,9 @@ import org.exolab.castor.mapping.xml.types.BindXmlNodeType;
 import org.exolab.castor.mapping.xml.types.FieldMappingCollectionType;
 import org.exolab.castor.util.CommandLineOptions;
 import org.exolab.castor.util.dialog.ConsoleDialog;
-import org.exolab.castor.xml.ClassDescriptorResolverFactory;
-import org.exolab.castor.xml.Introspector;
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.XMLClassDescriptor;
-import org.exolab.castor.xml.XMLClassDescriptorResolver;
+import org.exolab.castor.xml.XMLContext;
 import org.exolab.castor.xml.XMLFieldDescriptor;
 
 /**
@@ -89,19 +86,13 @@ public class MappingTool {
     private static final String UNDERSCORE = "_";
     
     /** Hashtable of already generated mappings. */
-    private final Hashtable _mappings;
-
-    /** ClassDescriptorResolver for loading compiled descriptors. */
-    private final XMLClassDescriptorResolver _resolver;
-
-    /** Introspector to use if _forceIntrospection is enabled. */
-    private Introspector _introspector = null;
+    private Hashtable _mappings;
 
     /**
      * The internal MappingLoader to use for checking whether or not we can find
      * the proper accessor methods.
      */
-    private final MappingToolMappingLoader _mappingLoader;
+    private MappingToolMappingLoader _mappingLoader;
 
     /**
      * Boolean to indicate that we should always perform introspection for each
@@ -110,24 +101,15 @@ public class MappingTool {
     private boolean _forceIntrospection = false;
 
     /**
-     * The {@link JavaNaming} implementation to use.
-     * 
-     * @since 1.1.3
+     * The XMLContext (mother of all dwelling).
      */
-    private JavaNaming _javaNaming;
+    private InternalContext _internalContext;
 
     /**
      * Constructor, builds up the relations.
-     * 
-     * @param javaNaming
-     *            a JavaNaming methods needs to be specified
      */
-    public MappingTool(final JavaNaming javaNaming) {
-        _mappings = new Hashtable();
-        _resolver = (XMLClassDescriptorResolver) ClassDescriptorResolverFactory
-                .createClassDescriptorResolver(BindingType.XML);
-        _javaNaming = javaNaming;
-        _mappingLoader = new MappingToolMappingLoader(_javaNaming);
+    public MappingTool() {
+        super();
     } // --MappingTool
 
     /**
@@ -179,7 +161,8 @@ public class MappingTool {
         MappingTool tool;
 
         try {
-            tool = new MappingTool(new JavaNamingImpl());
+            XMLContext xmlContext = new XMLContext();
+            tool = xmlContext.createMappingTool();
             tool.addClass(classname);
 
             Writer writer = null;
@@ -301,11 +284,11 @@ public class MappingTool {
         boolean introspected = false;
         try {
             if (_forceIntrospection) {
-                xmlClass = _introspector.generateClassDescriptor(cls);
+                xmlClass = _internalContext.getIntrospector().generateClassDescriptor(cls);
                 introspected = true;
             } else {
-                xmlClass = (XMLClassDescriptor) _resolver.resolve(cls);
-                introspected = _introspector.introspected(xmlClass);
+                xmlClass = (XMLClassDescriptor) _internalContext.getXMLClassDescriptorResolver().resolve(cls);
+                introspected = _internalContext.getIntrospector().introspected(xmlClass);
             }
         } catch (Exception except) {
             throw new MappingException(except);
@@ -454,11 +437,6 @@ public class MappingTool {
      */
     public void setForceIntrospection(final boolean force) {
         _forceIntrospection = force;
-        if (force) {
-            if (_introspector == null) {
-                _introspector = new Introspector();
-            }
-        }
     } // -- setForceInstrospection
 
     /**
@@ -488,5 +466,14 @@ public class MappingTool {
             throw new MappingException(except);
         }
     } // -- write
-} // -- MappingTool
 
+    /**
+     * To set the XMLContext to be used.
+     * @param internalContext the XMLContext to be used
+     */
+    public void setInternalContext(final InternalContext internalContext) {
+        _internalContext = internalContext;
+        _mappings = new Hashtable();
+        _mappingLoader = new MappingToolMappingLoader(_internalContext.getJavaNaming());
+    }
+} // -- MappingTool

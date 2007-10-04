@@ -45,17 +45,17 @@
 
 package org.exolab.castor.xml;
 
+import java.util.Iterator;
+import java.util.Vector;
+
+import org.castor.xml.InternalContext;
 import org.castor.xml.JavaNaming;
-import org.castor.xml.JavaNamingImpl;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.CollectionHandlers;
 import org.exolab.castor.util.ReflectionUtil;
-
-import java.util.Iterator;
-import java.util.Vector;
 
 
 /**
@@ -165,12 +165,12 @@ abstract class MarshalFramework {
     //-----------------------------/
     //- Private variables         -/
     //-----------------------------/
-
+    
     /**
-     * The {@link JavaNaming} to use at unmarhsalling.
+     * The {@link InternalContext} to use at all un-marshal actions.
      * @since 1.1.3
      */
-    private JavaNaming _javaNaming;
+    private InternalContext _internalContext;
     
     //-----------------------------/
     //- Public methods            -/
@@ -180,7 +180,7 @@ abstract class MarshalFramework {
      * We need some stuff initialized here.
      */
     public MarshalFramework() {
-        _javaNaming = new JavaNamingImpl();
+        _internalContext = new InternalContext();
     }
 
     /**
@@ -188,15 +188,32 @@ abstract class MarshalFramework {
      * @return the JavaNaming to be used
      */
     public JavaNaming getJavaNaming() {
-        return _javaNaming;
+        return _internalContext.getJavaNaming();
     }
 
     /**
      * To set the {@link JavaNaming} instance to be used.
      * @param javaNaming the JavaNaming to be used
+     * TODO: joachim remove me if possible!
      */
-    public void setJavaNaming(final JavaNaming javaNaming) {
-        _javaNaming = javaNaming;
+    private void setJavaNaming(final JavaNaming javaNaming) {
+        _internalContext.setJavaNaming(javaNaming);
+    }
+    
+    /**
+     * To get the {@link InternalContext} to use.
+     * @return the {@link InternalContext} to use
+     */
+    public InternalContext getInternalContext() {
+        return _internalContext;
+    }
+    
+    /**
+     * To set the {@link InternalContext} to use.
+     * @param internalContext the {@link InternalContext} to use
+     */
+    public void setInternalContext(final InternalContext internalContext) {
+        _internalContext = internalContext;
     }
 
     /**
@@ -457,7 +474,7 @@ abstract class MarshalFramework {
      */
     protected InheritanceMatch[] searchInheritance(final String name, 
             final String namespace,
-            final XMLClassDescriptor classDesc, final XMLClassDescriptorResolver cdResolver)
+            final XMLClassDescriptor classDesc)
     throws MarshalException {
         Iterator classDescriptorIterator = null;
         
@@ -480,11 +497,14 @@ abstract class MarshalFramework {
                     className = pkg + className;
                 }
             }
-            cdResolver.resolve(className, classDesc.getClass().getClassLoader());
+            getInternalContext().getXMLClassDescriptorResolver().resolve(
+                    className, classDesc.getClass().getClassLoader());
             //-- end Not-Yet-Loaded descriptor logic
             
             //-- resolve all by XML name + namespace URI
-            classDescriptorIterator = cdResolver.resolveAllByXMLName(name, namespace, null);
+            classDescriptorIterator = 
+                getInternalContext().getXMLClassDescriptorResolver().resolveAllByXMLName(
+                        name, namespace, null);
         }
         catch (ResolverException rx) {
             Throwable actual = rx.getCause();

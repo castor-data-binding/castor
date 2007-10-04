@@ -46,6 +46,7 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
+import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
@@ -96,16 +97,18 @@ public class IdentityConstraintUnmarshaller extends ComponentReader {
     //----------------/
 
     /**
-     * Creates a new IdentityConstraintUnmarshaller
+     * Creates a new IdentityConstraintUnmarshaller.
      *
+     * @param internalContext the internalContext to get some configuration settings from
      * @param elementName the resolver being used for reference resolving
      * @param atts the AttributeList
     **/
-    public IdentityConstraintUnmarshaller
-        (String elementName, AttributeSet atts)
-        throws XMLException
-    {
-        super();
+    public IdentityConstraintUnmarshaller(
+            final InternalContext internalContext,
+            final String elementName,
+            final AttributeSet atts)
+    throws XMLException {
+        super(internalContext);
         
         _elementName = elementName;
 
@@ -211,7 +214,7 @@ public class IdentityConstraintUnmarshaller extends ComponentReader {
                     _elementName + "'.");
 
             _foundAnnotation = true;
-            _unmarshaller = new AnnotationUnmarshaller(atts);
+            _unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
         }
         else if (SchemaNames.SELECTOR.equals(name)) {
 
@@ -226,11 +229,11 @@ public class IdentityConstraintUnmarshaller extends ComponentReader {
 
             _foundSelector = true;
 
-            _unmarshaller = new FieldOrSelectorUnmarshaller(name, atts);
+            _unmarshaller = new FieldOrSelectorUnmarshaller(getInternalContext(), name, atts);
         }
         else if (SchemaNames.FIELD.equals(name)) {
            _foundField = true;
-           _unmarshaller = new FieldOrSelectorUnmarshaller(name, atts);
+           _unmarshaller = new FieldOrSelectorUnmarshaller(getInternalContext(), name, atts);
         }
         else illegalElement(name);
 

@@ -62,8 +62,12 @@ import java.util.Vector;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.exceptions.CastorRuntimeException;
+import org.castor.core.util.Configuration;
+import org.castor.xml.BackwardCompatibilityContext;
 import org.castor.xml.JavaNaming;
 import org.castor.xml.JavaNamingImpl;
+import org.castor.xml.InternalContext;
+import org.castor.xml.XMLConfiguration;
 import org.exolab.castor.builder.binding.BindingException;
 import org.exolab.castor.builder.binding.BindingLoader;
 import org.exolab.castor.builder.binding.ExtendedBinding;
@@ -80,8 +84,6 @@ import org.exolab.castor.builder.factory.FieldInfoFactory;
 import org.exolab.castor.builder.factory.SourceFactory;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.mapping.xml.MappingRoot;
-import org.exolab.castor.util.Configuration;
-import org.exolab.castor.util.LocalConfiguration;
 import org.exolab.castor.util.NestedIOException;
 import org.exolab.castor.util.Version;
 import org.exolab.castor.util.dialog.ConsoleDialog;
@@ -141,8 +143,8 @@ public class SourceGenerator extends BuilderConfiguration {
     //- Instance Variables -/
     //----------------------/
 
-    /** Castor configuration. */
-    private final Configuration _config;
+    /** Castor internal context - mother of all. */
+    private final InternalContext _internalContext;
     /** The XMLBindingComponent used to create Java classes from an XML Schema. */
     private final XMLBindingComponent _bindingComponent;
     /** Our object used to generate source for a single source file. */
@@ -223,8 +225,9 @@ public class SourceGenerator extends BuilderConfiguration {
     public SourceGenerator(final FieldInfoFactory infoFactory, final ExtendedBinding binding) {
         super();
 
-        _config = LocalConfiguration.getInstance();
-        setJavaNaming(new JavaNamingImpl());
+        _internalContext = new BackwardCompatibilityContext();
+
+        setJavaNaming(_internalContext.getJavaNaming());
         _dialog = new ConsoleDialog();
         _infoFactory = (infoFactory == null) ? new FieldInfoFactory() : infoFactory;
 
@@ -577,7 +580,7 @@ public class SourceGenerator extends BuilderConfiguration {
         // -- get default parser from Configuration
         Parser parser = null;
         try {
-            parser = _config.getParser();
+            parser = _internalContext.getParser();
         } catch (RuntimeException rte) {
             // ignore
         }
@@ -589,7 +592,7 @@ public class SourceGenerator extends BuilderConfiguration {
 
         SchemaUnmarshaller schemaUnmarshaller = null;
         try {
-           schemaUnmarshaller = new SchemaUnmarshaller();
+           schemaUnmarshaller = new SchemaUnmarshaller(_internalContext);
         } catch (XMLException e) {
             //--The default constructor cannot throw exception so this should never happen
             //--just log the exception

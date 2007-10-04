@@ -45,39 +45,44 @@
  
 package org.exolab.castor.xml.schema.reader;
 
-import java.io.Reader;
 import java.io.IOException;
+import java.io.Reader;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.castor.xml.BackwardCompatibilityContext;
+import org.castor.xml.InternalContext;
 import org.exolab.castor.net.URIException;
 import org.exolab.castor.net.URILocation;
 import org.exolab.castor.net.URIResolver;
-import org.exolab.castor.util.Configuration;
-import org.exolab.castor.util.LocalConfiguration;
 import org.exolab.castor.util.NestedIOException;
-
-import org.exolab.castor.xml.schema.Schema;
 import org.exolab.castor.xml.XMLException;
-
-import org.xml.sax.InputSource;
+import org.exolab.castor.xml.schema.Schema;
 import org.xml.sax.EntityResolver;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.InputSource;
 import org.xml.sax.Parser;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import org.xml.sax.ErrorHandler;
 
 
 /**
- * A class for reading XML Schemas
+ * A class for reading XML Schemas.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2004-10-05 14:27:10 -0600 (Tue, 05 Oct 2004) $
 **/
 public class SchemaReader {
 
-    /**
-     * The Castor Configuration 
+    /** 
+     * The {@link Log} instance to use. 
      */
-    private Configuration _config = null;
+    private static final Log LOG = LogFactory.getLog(SchemaReader.class);
+    
+    /**
+     * The Castor XML Context... mother of all.
+     */
+    private InternalContext _internalContext;
 
     /**
      * XML Parser instance
@@ -119,35 +124,38 @@ public class SchemaReader {
 
     
     /**
-     * Creates a new SchemaReader
+     * Old fashion style to create a SchemaReader instance.
+     * 
+     * @throws IOException
+     *             if no Parser is available
      */
-    private SchemaReader()
-        throws IOException
-    {
-        //-- get default parser from Configuration
-        
-        _config = LocalConfiguration.getInstance();
-        
+    private void init() throws IOException {
+        // -- get default parser from Configuration
+        _internalContext = new BackwardCompatibilityContext();
+
         Parser parser = null;
-        
-	    parser = _config.getParser();
+
+        parser = _internalContext.getParser();
 
         if (parser == null) {
-            throw new IOException("fatal error: unable to create SAX parser.");
+            String message = "fatal error: unable to create SAX parser.";
+            LOG.warn(message);
+            throw new IOException(message);
         }
 
         _parser = parser;
-    } //-- SchemaReader
+    } // -- SchemaReader
 
     /**
      * Creates a new SchemaReader for the given InputSource
-     *
-     * @param source the InputSource to read the Schema from.
-    **/
+     * 
+     * @param source
+     *            the InputSource to read the Schema from.
+     */
     public SchemaReader(InputSource source)
         throws IOException
     {
-        this();
+        init();
 
         if (source == null)
             throw new IllegalArgumentException("InputSource cannot be null");
@@ -165,7 +173,7 @@ public class SchemaReader {
     public SchemaReader(Reader reader, String filename)
         throws IOException
     {
-        this();
+        init();
 
         if (reader == null) {
             String err = "The argument 'reader' must not be null.";
@@ -186,7 +194,7 @@ public class SchemaReader {
     public SchemaReader(String url)
         throws IOException
     {
-        this();
+        init();
         if (url == null) {
             String err = "The argument 'url' must not be null.";
             throw new IllegalArgumentException(err);
@@ -194,6 +202,42 @@ public class SchemaReader {
         _source = new InputSource(url);
 
     } //-- SchemaReader
+
+    /**
+     * New style how to create a SchemaReader instance, requiring that InternalContext
+     * and InputSource are set before calling {@link read}. 
+     */
+    public SchemaReader() {
+        super();
+    }
+
+    /**
+     * To set the InternalContext to be used. Also resets the parser as it depends
+     * of the InternalContext.
+     * @param internalContext the InternalContext to be used
+     */
+    public void setInternalContext(final InternalContext internalContext) {
+        this._internalContext = internalContext;
+        
+        Parser p = _internalContext.getParser();
+        if (p != null) {
+            _parser = p;
+        }
+    }
+    
+    /**
+     * A different way to create a SchemaReader by using an empty constructor and
+     * setting the InputSource afterwards.
+     * @param inputSource the InputSource to read the schema from
+     */
+    public void setInputSource(final InputSource inputSource) {
+        if (inputSource == null) {
+            String message = "InputSource must not be null";
+            LOG.warn(message);
+            throw new IllegalArgumentException(message);
+        }
+        _source = inputSource;
+    }
 
     /**
      * Reads the Schema from the source and returns the Schema
@@ -206,16 +250,27 @@ public class SchemaReader {
      *
      * @return the new Schema created from the source of this SchemaReader
     **/
-    public Schema read() throws IOException
-    {
-        if (_schema != null) return _schema;
+    public Schema read() throws IOException {
+        if (_schema != null) {
+            return _schema;
+        }
+        if (_parser == null) {
+            String message = "Required Parser was not specified";
+            LOG.warn(message);
+            throw new IllegalStateException(message);
+        }
+        if (_source == null) {
+            String message = "Required Source was not specified";
+            LOG.warn(message);
+            throw new IllegalStateException(message);
+        }
         SchemaUnmarshaller schemaUnmarshaller = null;
 
         try {
             SchemaUnmarshallerState state = new SchemaUnmarshallerState();            
-            state.setConfiguration(_config);            
+// Joachim            state.setConfiguration(_config);            
             state.cacheIncludedSchemas = _cacheIncludedSchemas;
-            schemaUnmarshaller = new SchemaUnmarshaller(state);
+            schemaUnmarshaller = new SchemaUnmarshaller(_internalContext, state);
             if (_uriResolver != null)
                 schemaUnmarshaller.setURIResolver(_uriResolver);
             
@@ -364,5 +419,4 @@ public class SchemaReader {
         throw new NestedIOException(except);
 
     } //-- handleException
-
 } //-- SchemaReader

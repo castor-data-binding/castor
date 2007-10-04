@@ -45,6 +45,7 @@
 
 package org.exolab.castor.xml.schema.reader;
 
+import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
@@ -100,17 +101,18 @@ public class ComplexContentRestrictionUnmarshaller extends ComponentReader {
      //- Constructors -/
     //----------------/
     /**
-     * Creates a new RestrictionUnmarshaller
+     * Creates a new RestrictionUnmarshaller.
+     * @param internalContext the internalContext to get some configuration settings from
      * @param complexType the complexType being unmarshalled
      * @param atts the AttributeList
      */
-    public ComplexContentRestrictionUnmarshaller
-        (ComplexType complexType, AttributeSet atts, Resolver resolver)
-        throws XMLException
-    {
-        super();
-	    setResolver(resolver);
-	    _complexType  = complexType;
+    public ComplexContentRestrictionUnmarshaller(
+            final InternalContext internalContext, 
+            final ComplexType complexType, 
+            final AttributeSet atts)
+    throws XMLException {
+        super(internalContext);
+        _complexType = complexType;
         _schema  = complexType.getSchema();
 
         _complexType.setDerivationMethod(SchemaNames.RESTRICTION);
@@ -217,7 +219,7 @@ public class ComplexContentRestrictionUnmarshaller extends ComponentReader {
                     "'restriction' elements.");
 
             foundAnnotation = true;
-            unmarshaller = new AnnotationUnmarshaller(atts);
+            unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
         }
 
 	   //-- ModelGroup declarations (choice, all, sequence, group)
@@ -233,12 +235,12 @@ public class ComplexContentRestrictionUnmarshaller extends ComponentReader {
 
             foundModelGroup = true;
             unmarshaller
-                = new GroupUnmarshaller(_schema, name, atts, getResolver());
+                = new GroupUnmarshaller(getInternalContext(), _schema, name, atts);
         }
 
 	    else if (SchemaNames.ATTRIBUTE.equals(name)) {
              foundAttribute = true;
-             unmarshaller = new AttributeUnmarshaller(_schema,atts, getResolver());
+             unmarshaller = new AttributeUnmarshaller(getInternalContext(), _schema,atts);
 		}
 
 		else if (SchemaNames.ATTRIBUTE_GROUP.equals(name)) {
@@ -249,17 +251,16 @@ public class ComplexContentRestrictionUnmarshaller extends ComponentReader {
                     "attributeGroups, but not defining ones.");
              }
 			 foundAttributeGroup = true;
-			 unmarshaller = new AttributeGroupUnmarshaller(_schema,atts);
+			 unmarshaller = new AttributeGroupUnmarshaller(getInternalContext(), _schema,atts);
 		}
 		   //-- <anyAttribute>
         else if (SchemaNames.ANY_ATTRIBUTE.equals(name)) {
             unmarshaller
-                 = new WildcardUnmarshaller(_complexType, _schema, name, atts, getResolver());
+                 = new WildcardUnmarshaller(getInternalContext(), _complexType, _schema, name, atts);
         }
 
         else illegalElement(name);
 
-        unmarshaller.setDocumentLocator(getDocumentLocator());
     } //-- startElement
 
     /**

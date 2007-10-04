@@ -17,6 +17,7 @@ package org.exolab.castor.xml.util;
 
 import java.util.Map;
 
+import org.castor.xml.InternalContext;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.xml.ResolverException;
 import org.exolab.castor.xml.XMLClassDescriptor;
@@ -31,24 +32,24 @@ import org.exolab.castor.xml.XMLClassDescriptor;
  * @since 1.2
  */
 public interface ResolverStrategy {
-    /** To set the class loader property for resolving */
-    public final static String PROPERTY_CLASS_LOADER =
+    /** To set the class loader property for resolving. */
+    String PROPERTY_CLASS_LOADER =
         "org.exolab.castor.xml.util.ResolverStrategy.ClassLoader";
     
-    /** To set the use introspection property for resolving */
-    public final static String PROPERTY_USE_INTROSPECTION =
+    /** To set the use introspection property for resolving. */
+    String PROPERTY_USE_INTROSPECTION =
         "org.exolab.castor.xml.util.ResolverStrategy.useIntrospection";
     
-    /** To set the introspector property for resolving */
-    public final static String PROPERTY_INTROSPECTOR =
+    /** To set the introspector property for resolving. */
+    String PROPERTY_INTROSPECTOR =
         "org.exolab.castor.xml.util.ResolverStrategy.Introspector";
     
-    /** To set the LoadPackageMappings property for resolving */
-    public final static String PROPERTY_LOAD_PACKAGE_MAPPINGS =
+    /** To set the LoadPackageMappings property for resolving. */
+    String PROPERTY_LOAD_PACKAGE_MAPPINGS =
         "org.exolab.castor.xml.util.ResolverStrategy.LoadPackageMappings";
     
-    /** To set the mapping loader property for resolving */
-    public final static String PROPERTY_MAPPING_LOADER =
+    /** To set the mapping loader property for resolving. */
+    String PROPERTY_MAPPING_LOADER =
         "org.exolab.castor.xml.util.ResolverStrategy.MappingLoader";
         
     /**
@@ -57,24 +58,27 @@ public interface ResolverStrategy {
      * @param key name of the property
      * @param value value the property is set to
      */
-    public void setProperty(String key, Object value);
+    void setProperty(final String key, final Object value);
 
     /**
      * Implementes a strategy how a class is resolved into a list of class descriptors.
      * 
+     * @param resolverResults to put the resolver reszlts into
      * @param className the class to resolve
      * @return the ClassDescriptor for the class or null if the class couldn't be resolved
+     * @throws ResolverException in case that resolving fails fatally
      */
-    public ClassDescriptor resolveClass(ResolverResults resolverResults, String className)
+    ClassDescriptor resolveClass(final ResolverResults resolverResults, final String className)
     throws ResolverException;
     
     /**
      * Implementes a strategy how a package is resolved into a list of class descriptors.
      * 
+     * @param resolverResults to put the resolver reszlts into
      * @param packageName the package to resolve
-     * @return the ClassDescriptor for the class or null if the class couldn't be resolved
+     * @throws ResolverException in case that resolving fails fatally
      */
-    public void resolvePackage(ResolverResults resolverResults, String packageName)
+    void resolvePackage(ResolverResults resolverResults, String packageName)
     throws ResolverException;
 
     /**
@@ -103,14 +107,14 @@ public interface ResolverStrategy {
          * 
          * @see #INTERNAL_CONTAINER_NAME
          */
-        public void addDescriptor(String className, XMLClassDescriptor descriptor);
+        void addDescriptor(String className, XMLClassDescriptor descriptor);
 
         /**
          * To add not only a single descriptor but a map of descriptors at once.
          * 
-         * @param descriptor a Map of className (String) and XMLClassDescriptor pairs
+         * @param descriptors a Map of className (String) and XMLClassDescriptor pairs
          */
-        public void addAllDescriptors(Map descriptors);
+        void addAllDescriptors(Map descriptors);
 
         /**
          * Gets the descriptor that is mapped to the given class name.
@@ -119,6 +123,6 @@ public interface ResolverStrategy {
          * @return The descriptor mapped to the given name or <code>null</code>
          *         if no descriptor is stored in this cache.
          */
-        public XMLClassDescriptor getDescriptor(String className);
+        XMLClassDescriptor getDescriptor(String className);
     }
 }

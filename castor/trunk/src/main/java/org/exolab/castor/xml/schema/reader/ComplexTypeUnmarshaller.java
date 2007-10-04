@@ -46,6 +46,7 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
+import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
@@ -108,22 +109,23 @@ public class ComplexTypeUnmarshaller extends ComponentReader {
     //----------------/
 
     /**
-     * Creates a new ComplexTypeUnmarshaller
+     * Creates a new ComplexTypeUnmarshaller.
+     * @param internalContext the internalContext to get some configuration settings from
      * @param schema the Schema to which the ComplexType belongs
      * @param atts the AttributeList
-     * @param resolver the resolver being used for reference resolving
     **/
-    public ComplexTypeUnmarshaller
-        (Schema schema, AttributeSet atts, Resolver resolver)
-        throws XMLException
-    {
-        super();
-        setResolver(resolver);
+    public ComplexTypeUnmarshaller(
+            final InternalContext internalContext, 
+            final Schema schema, 
+            final AttributeSet atts)
+    throws XMLException {
+        super(internalContext);
+
         this._schema = schema;
 
         _complexType = schema.createComplexType();
 
-        _complexType.useResolver(resolver);
+        _complexType.useResolver(getResolver());
 
         //-- handle attributes
         String attValue = null;
@@ -250,7 +252,7 @@ public class ComplexTypeUnmarshaller extends ComponentReader {
             foundAnyAttribute = true;
             allowAnnotation = true;
             unmarshaller
-                 = new WildcardUnmarshaller(_complexType, _schema, name, atts, getResolver());
+                 = new WildcardUnmarshaller(getInternalContext(), _complexType, _schema, name, atts);
         }
 
         //-- attribute declarations
@@ -267,7 +269,7 @@ public class ComplexTypeUnmarshaller extends ComponentReader {
             foundAttributes = true;
             allowAnnotation = false;
             unmarshaller
-                = new AttributeUnmarshaller(_schema, atts, getResolver());
+                = new AttributeUnmarshaller(getInternalContext(), _schema, atts);
         }
         //-- attribute group declarations
         else if (SchemaNames.ATTRIBUTE_GROUP.equals(name)) {
@@ -291,7 +293,7 @@ public class ComplexTypeUnmarshaller extends ComponentReader {
             foundAttributes = true;
             allowAnnotation = false;
             unmarshaller
-                = new AttributeGroupUnmarshaller(_schema, atts);
+                = new AttributeGroupUnmarshaller(getInternalContext(), _schema, atts);
         }
         //-- simpleContent
         else if (SchemaNames.SIMPLE_CONTENT.equals(name)) {
@@ -314,7 +316,7 @@ public class ComplexTypeUnmarshaller extends ComponentReader {
             allowAnnotation = false;
 			_complexType.setSimpleContent(true);
             unmarshaller
-                = new SimpleContentUnmarshaller(_complexType, atts, getResolver());
+                = new SimpleContentUnmarshaller(getInternalContext(), _complexType, atts);
         }
         //-- complexContent
         else if (SchemaNames.COMPLEX_CONTENT.equals(name)) {
@@ -338,7 +340,7 @@ public class ComplexTypeUnmarshaller extends ComponentReader {
 
             _complexType.setComplexContent(true);
 			unmarshaller
-                = new ComplexContentUnmarshaller(_complexType, atts, getResolver());
+                = new ComplexContentUnmarshaller(getInternalContext(), _complexType, atts);
         }
          //--<group>
         else if ( name.equals(SchemaNames.GROUP) )
@@ -360,7 +362,7 @@ public class ComplexTypeUnmarshaller extends ComponentReader {
             foundModelGroup = true;
             allowAnnotation = false;
             unmarshaller
-                = new ModelGroupUnmarshaller(_schema, atts, getResolver());
+                = new ModelGroupUnmarshaller(getInternalContext(), _schema, atts);
         }
         //-- ModelGroup declarations (choice, all, sequence)
         else if ( (SchemaNames.isGroupName(name)) && (name != SchemaNames.GROUP) )
@@ -383,11 +385,11 @@ public class ComplexTypeUnmarshaller extends ComponentReader {
             foundModelGroup = true;
             allowAnnotation = false;
             unmarshaller
-                = new GroupUnmarshaller(_schema, name, atts, getResolver());
+                = new GroupUnmarshaller(getInternalContext(), _schema, name, atts);
         }
         else if (name.equals(SchemaNames.ANNOTATION)) {
             if (allowAnnotation) {
-                unmarshaller = new AnnotationUnmarshaller(atts);
+                unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
                 allowAnnotation = false;
                 foundAnnotation = true;
             }
@@ -402,7 +404,6 @@ public class ComplexTypeUnmarshaller extends ComponentReader {
         }
         else illegalElement(name);
 
-        unmarshaller.setDocumentLocator(getDocumentLocator());
     } //-- startElement
 
     /**

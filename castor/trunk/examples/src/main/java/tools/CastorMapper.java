@@ -6,13 +6,18 @@
  */
 package tools;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.castor.xml.JavaNamingImpl;
-import org.exolab.castor.tools.MappingTool; 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 import myapp.Product;
-import java.io.*;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.exolab.castor.tools.MappingTool;
+import org.exolab.castor.xml.XMLContext;
 
 /** 
  * generate a Castor mapping file ready for editing 
@@ -27,7 +32,7 @@ public class CastorMapper {
 	
 	public CastorMapper() { 
 		try { 
-			tool = new MappingTool(new JavaNamingImpl()); 
+			tool = new XMLContext().createMappingTool();
 		} 
 		catch (Exception e) {  
 			log.error (e.getClass().getName(), e);  

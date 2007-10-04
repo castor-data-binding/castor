@@ -111,6 +111,7 @@ public class ByPackageMapping extends AbstractResolverPackageCommand {
             final Mapping mapping = this.loadMapping(packageName, classLoader);
             if (mapping != null) {
                 MappingUnmarshaller unmarshaller = new MappingUnmarshaller();
+                // TODO: Joachim 2007-09-07 the InternalContext should be set into the unmarshaller!
                 MappingLoader mappingLoader = unmarshaller.getMappingLoader(mapping, BindingType.XML);
                 Iterator descriptors = mappingLoader.descriptorIterator();
                 while (descriptors.hasNext()) {

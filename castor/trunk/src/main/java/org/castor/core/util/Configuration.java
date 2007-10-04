@@ -66,10 +66,7 @@ public abstract class Configuration {
      * used to load the Configuration class. No parent configuration will be set.
      */
     protected Configuration() {
-        _applicationClassLoader = getClass().getClassLoader();
-        _domainClassLoader = getClass().getClassLoader();
-        
-        _parent = null;
+        this(null, null);
     }
     
     /**
@@ -80,8 +77,8 @@ public abstract class Configuration {
      * @param domain Classloader to be used for all domain objects.
      */
     protected Configuration(final ClassLoader app, final ClassLoader domain) {
-        _applicationClassLoader = app;
-        _domainClassLoader = domain;
+        _applicationClassLoader = (app != null) ? app : getClass().getClassLoader();
+        _domainClassLoader = (domain != null) ? domain : getClass().getClassLoader();
         
         _parent = null;
     }

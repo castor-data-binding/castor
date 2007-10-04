@@ -47,6 +47,8 @@ public class TestClassByte extends TestClassBase {
         NumberTests instance = new NumberTests();
         for (int i = 0; i < badValues.length; i++) {
             try {
+                System.out.println("instance under test: " + instance + " of class: " + instance.getClass());
+                System.out.println("bad value: " + badValues[i] + " as byte: " + Byte.parseByte(badValues[i].trim()));
                 instance.setMybyte(Byte.parseByte(badValues[i].trim()));
                 instance.validate();
             } catch (org.exolab.castor.xml.ValidationException e) {
@@ -71,7 +73,7 @@ public class TestClassByte extends TestClassBase {
                 // Good, we caught the exception
                 continue;
             }
-            LOG.error("Bad value " + badValuesMinMax[i] + " did not fail the test");
+            LOG.error("Bad min/max value " + badValuesMinMax[i] + " did not fail the test");
             return false;
         }
 

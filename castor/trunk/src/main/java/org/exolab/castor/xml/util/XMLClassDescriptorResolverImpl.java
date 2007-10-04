@@ -58,15 +58,13 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.xml.InternalContext;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingLoader;
-import org.exolab.castor.util.Configuration;
-import org.exolab.castor.util.LocalConfiguration;
-import org.exolab.castor.util.Configuration.Property;
+import org.exolab.castor.xml.Introspector;
 import org.exolab.castor.xml.ResolverException;
 import org.exolab.castor.xml.XMLClassDescriptor;
 import org.exolab.castor.xml.XMLClassDescriptorResolver;
-import org.exolab.castor.xml.util.resolvers.CastorXMLStrategy;
 import org.exolab.castor.xml.util.resolvers.ResolveHelpers;
 
 /**
@@ -76,51 +74,109 @@ import org.exolab.castor.xml.util.resolvers.ResolveHelpers;
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolver {
-    private static final Log LOG = LogFactory.getLog(XMLClassDescriptorResolverImpl.class);
-    
-    /**
-     * The strategy to use for all resolve actions.
+    /** 
+     * The Logger instance to use.
      */
-    private ResolverStrategy _strategy;
+    private static final Log LOG = LogFactory.getLog(XMLClassDescriptorResolverImpl.class);
+
+    /**
+     * XMLContext provides the information required.
+     */
+    private InternalContext _internalContext;
    
     /**
-     * The place where all rsolving strategies and their commands put the results into
+     * The place where all resolving strategies and their commands put the results into
      * and can be read from.
      */
     private DescriptorCacheImpl _descriptorCache;
 
     /**
-     * The mapping loader is read from the XMLClassDescriptorResolver and used in the
-     * strategy - so we need to keep it.
-     */
-    private MappingLoader _mappingLoader;
-    
-    /**
-     * The class loader which is used when no other class loader was specified in
-     * the resolve call. If this loader is also not set the context loader of the
-     * current thread is used.
-     */
-    private ClassLoader _loader;
-
-    /**
      * Creates a new ClassDescriptorResolverImpl.
+     * It is left empty to avoid cycles at construction. To guarantee
+     * backward compatibility the backwardInit method will do all
+     * required initialization if it hadn't happend before.
      */
     public XMLClassDescriptorResolverImpl() {
-        Configuration config = LocalConfiguration.getInstance();
-        boolean loadPackageMappings = config.getBoolean(
-                Property.LOAD_PACKAGE_MAPPING,
-                Property.DEFAULT_LOAD_PACKAGE_MAPPING);
-        
-        _strategy = new CastorXMLStrategy();
-        _strategy.setProperty(
-                ResolverStrategy.PROPERTY_LOAD_PACKAGE_MAPPINGS,
-                Boolean.valueOf(loadPackageMappings));
-
+        super();
         _descriptorCache = new DescriptorCacheImpl();
-        _mappingLoader = null;
-        _loader = null;
     } //-- ClassDescriptorResolverImpl
 
+    /**
+     * {@inheritDoc}
+     */
+    public void setInternalContext(final InternalContext internalContext) {
+        _internalContext = internalContext;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public MappingLoader getMappingLoader() {
+        return _internalContext.getMappingLoader();
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public void setClassLoader(final ClassLoader loader) {
+        _internalContext.setClassLoader(loader);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void setUseIntrospection(final boolean enable) {
+        _internalContext.setUseIntrospector(Boolean.valueOf(enable));
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public void setLoadPackageMappings(final boolean loadPackageMappings) {
+        _internalContext.setLoadPackageMapping(Boolean.valueOf(loadPackageMappings));
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public void setMappingLoader(final MappingLoader mappingLoader) {
+        _internalContext.setMappingLoader(mappingLoader);
+        if (mappingLoader != null) {
+            Iterator descriptors = mappingLoader.descriptorIterator();
+            while (descriptors.hasNext()) {
+                XMLClassDescriptor descriptor = (XMLClassDescriptor) descriptors.next();
+                _descriptorCache.addDescriptor(descriptor.getJavaClass().getName(), descriptor);
+            }
+        }
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public void setIntrospector(final Introspector introspector) {
+        _internalContext.setIntrospector(introspector);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void setResolverStrategy(final ResolverStrategy resolverStrategy) {
+        _internalContext.setResolverStrategy(resolverStrategy);
+    }
+    
+    /**
+     * XMLClassDescriptorResolver was originally build to collect all required
+     * information by itself... now with introduction of XMLContext and a more
+     * IoC like concepts that all information is injected into a class... things
+     * are different but this methods is there to guarantee backward 
+     * compatibility.
+     * @return the {@link ResolverStrategy} to use
+     */
+    private ResolverStrategy getResolverStrategy() {
+        setAttributesIntoStrategy();
+        return _internalContext.getResolverStrategy();
+    }
+    
     /**
      * {@inheritDoc}
      */
@@ -135,7 +191,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
             return _descriptorCache.getDescriptor(type.getName());
         }
         
-        ClassLoader l = _loader;
+        ClassLoader l = _internalContext.getClassLoader();
         if (l == null) { l = type.getClassLoader(); }
         if (l == null) { l = Thread.currentThread().getContextClassLoader(); }
         
@@ -156,7 +212,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
             return _descriptorCache.getDescriptor(className);
         }
         
-        ClassLoader l = _loader;
+        ClassLoader l = _internalContext.getClassLoader();
         if (l == null) { l = Thread.currentThread().getContextClassLoader(); }
         
         return this.resolve(className, l);
@@ -178,11 +234,11 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
         }
         
         ClassLoader l = loader;
-        if (l == null) { l = _loader; }
+        if (l == null) { l = _internalContext.getClassLoader(); }
         if (l == null) { l = Thread.currentThread().getContextClassLoader(); }
         
-        _strategy.setProperty(ResolverStrategy.PROPERTY_CLASS_LOADER, l);
-        return (XMLClassDescriptor) _strategy.resolveClass(_descriptorCache, className);
+        getResolverStrategy().setProperty(ResolverStrategy.PROPERTY_CLASS_LOADER, l);
+        return (XMLClassDescriptor) getResolverStrategy().resolveClass(_descriptorCache, className);
     } //-- resolve(String, ClassLoader)
 
     /**
@@ -212,7 +268,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
         }
 
         // we have more than one result - only an exact match can be the result
-        for (Iterator i = possibleMatches.iterator(); i.hasNext();) {
+        for (Iterator i = possibleMatches.iterator(); i.hasNext(); ) {
             XMLClassDescriptor descriptor = (XMLClassDescriptor) i.next();
 
             if (ResolveHelpers.namespaceEquals(namespaceURI, descriptor.getNameSpaceURI())) {
@@ -239,57 +295,6 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
         // get all descriptors with the matching xml name
         return _descriptorCache.getDescriptors(xmlName);
     } //-- resolveAllByXMLName
-
-    /**
-     * {@inheritDoc}
-     */
-    public MappingLoader getMappingLoader() {
-        return _mappingLoader;
-    } //-- getXMLMappingLoader
-
-    /**
-     * {@inheritDoc}
-     */
-    public void setClassLoader(ClassLoader loader) {
-        _loader = loader;
-    } //-- setClassLoader
-
-    /**
-     * Enables or disables introspection. Introspection is enabled by default.
-     *
-     * @param enable a flag to indicate whether or not introspection is allowed.
-     */
-    public void setIntrospection(boolean enable) {
-        // used by XMLMappingLoader.createResolver()
-        _strategy.setProperty(ResolverStrategy.PROPERTY_USE_INTROSPECTION, new Boolean(enable));
-    } //-- setIntrospection
-
-    /**
-     * Sets whether or not to look for and load package specific mapping files (".castor.xml").
-     *
-     * @param loadPackageMappings a boolean that enables or disables the loading of package
-     *        specific mapping files
-     */
-    public void setLoadPackageMappings(boolean loadPackageMappings) {
-        _strategy.setProperty(
-                ResolverStrategy.PROPERTY_LOAD_PACKAGE_MAPPINGS,
-                Boolean.valueOf(loadPackageMappings));
-    } //-- setLoadPackageMappings
-
-    /**
-     * {@inheritDoc}
-     */
-    public void setMappingLoader(MappingLoader mappingLoader) {
-        _mappingLoader = mappingLoader;
-        if (_mappingLoader != null) {
-            Iterator descriptors = _mappingLoader.descriptorIterator();
-            while (descriptors.hasNext()) {
-                XMLClassDescriptor descriptor = (XMLClassDescriptor) descriptors.next();
-                _descriptorCache.addDescriptor(descriptor.getClass().getName(), descriptor);
-            }
-            _strategy.setProperty(ResolverStrategy.PROPERTY_MAPPING_LOADER, _mappingLoader);
-        }
-    } //-- setMappingLoader
 
     /**
      * {@inheritDoc}
@@ -329,7 +334,13 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
      * {@inheritDoc}
      */
     public void addPackage(final String packageName) throws ResolverException {
-        _strategy.resolvePackage(_descriptorCache, packageName);
+        if (packageName == null || packageName.length() == 0) {
+            String message = "Cannot resolve a null or zero-length package name.";
+            LOG.warn(message);
+            throw new IllegalArgumentException(message);
+        }
+        
+        getResolverStrategy().resolvePackage(_descriptorCache, packageName);
     }
 
     /**
@@ -350,6 +361,23 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
         LOG.warn(message);
         throw new UnsupportedOperationException();
     }
+    
+    /**
+     * To set all strategy properties to the values of the attributes of this instance.
+     * Only exception is the class loader property which is always set in the resolve method.
+     */
+    private void setAttributesIntoStrategy() {
+        ResolverStrategy strategy = _internalContext.getResolverStrategy();
+        strategy.setProperty(
+                ResolverStrategy.PROPERTY_LOAD_PACKAGE_MAPPINGS, 
+                _internalContext.getLoadPackageMapping());
+        strategy.setProperty(
+                ResolverStrategy.PROPERTY_USE_INTROSPECTION, _internalContext.getUseIntrospector());
+        strategy.setProperty(
+                ResolverStrategy.PROPERTY_MAPPING_LOADER, _internalContext.getMappingLoader());
+        strategy.setProperty(
+                ResolverStrategy.PROPERTY_INTROSPECTOR, _internalContext.getIntrospector());
+    }
 
     /**
      * Internal cache for XMLClassDescriptors.<br>
@@ -366,9 +394,9 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
      * @author <a href="mailto:stevendolg AT gxm DOT at">Steven Dolg</a>
      */
     private static class DescriptorCacheImpl implements ResolverStrategy.ResolverResults {
-
+        /** Logger to be used by DescriptorCache. */
         private static final Log LOG2 = LogFactory.getLog(DescriptorCacheImpl.class);
-
+        /** Some fixed text to detect errors... */
         private static final String INTERNAL_CONTAINER_NAME = "-error-if-this-is-used-";
 
         /** List of class names a descriptor is not available for. */
@@ -428,7 +456,8 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
             }
             
             if (LOG2.isDebugEnabled()) {
-                LOG2.debug("Adding descriptor class for: " + className + " descriptor: " + descriptor);
+                LOG2.debug("Adding descriptor class for: " 
+                        + className + " descriptor: " + descriptor);
             }
             _typeMap.put(className, descriptor);
 
@@ -447,6 +476,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
             if (!descriptorList.contains(descriptor)) {
                 descriptorList.add(descriptor);
             }
+            _missingTypes.remove(className);
         } //-- addDescriptor
 
         /**
@@ -457,7 +487,9 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
          *         if no descriptor is stored in this cache.
          */
         public XMLClassDescriptor getDescriptor(final String className) {
-            if ((className == null) || ("".equals(className)) || (_missingTypes.contains(className))) {
+            if ((className == null) 
+                    || ("".equals(className)) 
+                    || (_missingTypes.contains(className))) {
                 return null;
             }
             
@@ -539,7 +571,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
         /**
          * To add not only a single descriptor but a map of descriptors at once.
          * 
-         * @param descriptor a Map of className (String) and XMLClassDescriptor pairs
+         * @param descriptors a Map of className (String) and XMLClassDescriptor pairs
          */
         public void addAllDescriptors(final Map descriptors) {
             if ((descriptors == null) || (descriptors.isEmpty())) {
@@ -547,10 +579,18 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
                 return;
             }
             
-            for (Iterator iter = descriptors.keySet().iterator(); iter.hasNext();) {
+            for (Iterator iter = descriptors.keySet().iterator(); iter.hasNext(); ) {
                 String clsName = (String) iter.next();
-                this.addDescriptor(clsName, (XMLClassDescriptor)descriptors.get(clsName));
+                this.addDescriptor(clsName, (XMLClassDescriptor) descriptors.get(clsName));
             }
         } //-- addAllDescriptors
     } // -- DescriptorCacheImpl
+    
+    /**
+     * Cleans the descriptor cache.
+     * @see org.exolab.castor.xml.XMLClassDescriptorResolver#cleanDescriptorCache()
+     */
+    public void cleanDescriptorCache() {
+        _descriptorCache = new DescriptorCacheImpl();
+    }
 } // -- ClassDescriptorResolverImpl

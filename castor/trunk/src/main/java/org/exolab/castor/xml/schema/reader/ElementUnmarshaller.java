@@ -46,6 +46,7 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
+import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
@@ -107,17 +108,17 @@ public class ElementUnmarshaller extends ComponentReader {
     //----------------/
 
     /**
-     * Creates a new ElementUnmarshaller
+     * Creates a new ElementUnmarshaller.
+     * @param internalContext the internalContext to get some configuration settings from
      * @param schema the Schema to which the Element belongs
      * @param atts the AttributeList
-     * @param resolver the resolver being used for reference resolving
     **/
-    public ElementUnmarshaller
-        (final Schema schema, final AttributeSet atts, final Resolver resolver)
-        throws XMLException
-    {
-        super();
-        setResolver(resolver);
+    public ElementUnmarshaller(
+            final InternalContext internalContext,
+            final Schema schema,
+            final AttributeSet atts)
+    throws XMLException {
+        super(internalContext);
 
         this._schema = schema;
 
@@ -237,7 +238,7 @@ public class ElementUnmarshaller extends ComponentReader {
         } else if (minOccurs > 1)
             _element.setMaxOccurs(minOccurs);
 
-        charUnmarshaller = new CharacterUnmarshaller();
+        charUnmarshaller = new CharacterUnmarshaller(getInternalContext());
     } //-- ElementUnmarshaller
 
       //-----------/
@@ -305,7 +306,7 @@ public class ElementUnmarshaller extends ComponentReader {
                     "element definitions.");
 
             foundAnnotation = true;
-            unmarshaller = new AnnotationUnmarshaller(atts);
+            unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
         }
         else if (SchemaNames.COMPLEX_TYPE.equals(name)) {
 
@@ -326,7 +327,7 @@ public class ElementUnmarshaller extends ComponentReader {
 
             foundComplexType = true;
             unmarshaller
-                = new ComplexTypeUnmarshaller(_schema, atts, getResolver());
+                = new ComplexTypeUnmarshaller(getInternalContext(), _schema, atts);
         }
         else if (SchemaNames.SIMPLE_TYPE.equals(name)) {
 
@@ -345,19 +346,16 @@ public class ElementUnmarshaller extends ComponentReader {
                     "'keyref' and 'unique' elements.");
 
             foundSimpleType = true;
-            unmarshaller = new SimpleTypeUnmarshaller(_schema, atts);
+            unmarshaller = new SimpleTypeUnmarshaller(getInternalContext(), _schema, atts);
         }
         else if (SchemaNames.KEY.equals(name) || 
                  SchemaNames.KEYREF.equals(name) ||
                  SchemaNames.UNIQUE.equals(name)) 
         {
             foundIdentityConstraint = true;
-            unmarshaller = new IdentityConstraintUnmarshaller(name, atts);
+            unmarshaller = new IdentityConstraintUnmarshaller(getInternalContext(), name, atts);
         }
         else illegalElement(name);
-
-        unmarshaller.setResolver(getResolver());
-        unmarshaller.setDocumentLocator(getDocumentLocator());
 
     } //-- startElement
 

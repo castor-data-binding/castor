@@ -46,6 +46,7 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
+import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
@@ -93,13 +94,16 @@ public class SimpleTypeListUnmarshaller extends ComponentReader {
     //----------------/
 
     /**
-     * Creates a new ListUnmarshaller
+     * Creates a new ListUnmarshaller.
+     * @param internalContext the internalContext to get some configuration settings from
      * @param atts the AttributeList
     **/
-    SimpleTypeListUnmarshaller(Schema schema, AttributeSet atts)
-        throws XMLException
-    {
-        super();
+    SimpleTypeListUnmarshaller(
+            final InternalContext internalContext, 
+            final Schema schema,
+            final AttributeSet atts)
+    throws XMLException {
+        super(internalContext);
         
         _schema = schema;
         _list = new ListType(schema);
@@ -204,7 +208,7 @@ public class SimpleTypeListUnmarshaller extends ComponentReader {
                     "'list' elements.");
 
             foundAnnotation = true;
-            unmarshaller = new AnnotationUnmarshaller(atts);
+            unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
         }
         else if (SchemaNames.SIMPLE_TYPE.equals(name)) {
             if (foundItemType)
@@ -216,7 +220,7 @@ public class SimpleTypeListUnmarshaller extends ComponentReader {
                     "'list' elements.");
 
             foundSimpleType = true;
-            unmarshaller = new SimpleTypeUnmarshaller(_schema, atts);
+            unmarshaller = new SimpleTypeUnmarshaller(getInternalContext(), _schema, atts);
 
         }
         else illegalElement(name);

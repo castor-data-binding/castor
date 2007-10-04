@@ -49,11 +49,13 @@
  */
 package org.exolab.castor.xml;
 
-import org.castor.mapping.BindingType;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.castor.xml.BackwardCompatibilityContext;
+import org.castor.xml.InternalContext;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.xml.location.XPathLocation;
 import org.exolab.castor.xml.validators.ClassValidator;
-import org.exolab.castor.xml.TypeValidator;
 
 /**
  * A class which can perform Validation on an Object model. This class uses the
@@ -63,6 +65,7 @@ import org.exolab.castor.xml.TypeValidator;
  * @version $Revision$ $Date: 2005-02-28 17:43:25 -0700 (Mon, 28 Feb 2005) $
  */
 public class Validator implements ClassValidator {
+    private static final Log LOG = LogFactory.getLog(Validator.class);
 
     /**
      * Creates a new Validator.
@@ -95,20 +98,25 @@ public class Validator implements ClassValidator {
         }
 
         if (context == null) {
-            validate(object, new ValidationContext());
+            ValidationContext v2 = new ValidationContext();
+            InternalContext ic = new BackwardCompatibilityContext();
+            ic.setClassLoader(object.getClass().getClassLoader());
+            v2.setInternalContext(ic);
+            validate(object, v2);
             return;
         }
 
-        if (context.getResolver() == null) {
-            context.setResolver((XMLClassDescriptorResolver)
-                                 ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML));
+        if (context.getClassDescriptorResolver() == null) {
+            String message = "ClassDescriptorResolver from context must not be null!";
+            LOG.warn(message);
+            throw new IllegalStateException(message);
         }
 
         XMLClassDescriptor classDesc = null;
 
-        if (! MarshalFramework.isPrimitive(object.getClass())) {
+        if (!MarshalFramework.isPrimitive(object.getClass())) {
             try {
-                classDesc = (XMLClassDescriptor) context.getResolver().resolve(object.getClass());
+                classDesc = (XMLClassDescriptor) context.getClassDescriptorResolver().resolve(object.getClass());
             } catch (ResolverException rx) {
                 throw new ValidationException(rx);
             }
@@ -130,7 +138,7 @@ public class Validator implements ClassValidator {
                 FieldDescriptor[] fields = classDesc.getFields();
                 if (fields != null) {
                     for (int i = 0; i < fields.length; i++) {
-                        fieldDesc = (XMLFieldDescriptor)fields[i];
+                        fieldDesc = (XMLFieldDescriptor) fields[i];
                         if (fieldDesc == null) {
                             continue;
                         }
@@ -143,7 +151,7 @@ public class Validator implements ClassValidator {
             }
         } catch (ValidationException vx) {
             //-- add location information
-            XPathLocation loc = (XPathLocation)vx.getLocation();
+            XPathLocation loc = (XPathLocation) vx.getLocation();
             if (loc == null) {
                 loc = new XPathLocation();
                 vx.setLocation(loc);

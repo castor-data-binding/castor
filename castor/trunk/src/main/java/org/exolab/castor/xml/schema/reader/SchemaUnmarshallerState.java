@@ -44,12 +44,9 @@
  */
 package org.exolab.castor.xml.schema.reader;
 
-import org.exolab.castor.xml.schema.Schema;
-
-import org.exolab.castor.util.Configuration;
-import org.exolab.castor.util.LocalConfiguration;
-
 import java.util.Hashtable;
+
+import org.exolab.castor.xml.schema.Schema;
 
 /**
  * A class used to save State information for the SchemaUnmarshaller
@@ -60,9 +57,6 @@ import java.util.Hashtable;
  */
 class SchemaUnmarshallerState {
 
-
-    private Configuration _config    = null;
-    
     private Hashtable     _processed = null;
     
     /**
@@ -117,12 +111,12 @@ class SchemaUnmarshallerState {
      *
      * @see #setConfiguration
      */
-    Configuration getConfiguration() {
-        if (_config == null) {
-            _config = LocalConfiguration.getInstance();
-        }
-        return _config; 
-    } //-- setConfiguraiton
+//    Configuration getConfiguration() {
+//        if (_config == null) {
+//            _config = LocalConfiguration.getInstance();
+//        }
+//        return _config; 
+//    } //-- setConfiguraiton
       
     /**
      * Returns the schema corresponding to the given schemaLocation
@@ -140,8 +134,8 @@ class SchemaUnmarshallerState {
      *
      * @param config the Configuration to set
      */
-    void setConfiguration(Configuration config) {
-        _config = config;
-    } //-- setConfiguraiton
+//    void setConfiguration(Configuration config) {
+//        _config = config;
+//    } //-- setConfiguraiton
     
 } //-- SchemaUnmarshallerState

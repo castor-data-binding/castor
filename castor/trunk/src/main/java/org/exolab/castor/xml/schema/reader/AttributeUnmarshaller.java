@@ -46,6 +46,7 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
+import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
@@ -95,14 +96,13 @@ public class AttributeUnmarshaller extends ComponentReader {
      //- Constructors -/
     //----------------/
 
-    public AttributeUnmarshaller
-        (Schema schema, AttributeSet atts, Resolver resolver)
+    public AttributeUnmarshaller(
+            final InternalContext internalContext,
+            final Schema schema, 
+            final AttributeSet atts)
     {
-        super();
+        super(internalContext);
         this._schema = schema;
-
-        setResolver(resolver);
-
 
         _attribute = new AttributeDecl(schema);
 
@@ -232,7 +232,7 @@ public class AttributeUnmarshaller extends ComponentReader {
                     "an attribute declaration.");
 
             foundAnnotation = true;
-            unmarshaller = new AnnotationUnmarshaller(atts);
+            unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
         }
         else if (SchemaNames.SIMPLE_TYPE.equals(name)) {
             if (foundSimpleType)
@@ -240,7 +240,7 @@ public class AttributeUnmarshaller extends ComponentReader {
                     "an attribute declaration.");
 
             foundSimpleType = true;
-            unmarshaller = new SimpleTypeUnmarshaller(_schema, atts);
+            unmarshaller = new SimpleTypeUnmarshaller(getInternalContext(), _schema, atts);
         }
         else {
             illegalElement(name);

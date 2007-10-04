@@ -15,11 +15,26 @@
  */
 package org.exolab.castor.xml;
 
+import java.io.IOException;
+import java.io.Writer;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.castor.mapping.BindingType;
 import org.castor.mapping.MappingUnmarshaller;
+import org.castor.xml.InternalContext;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingLoader;
+import org.exolab.castor.tools.MappingTool;
+import org.exolab.castor.util.ChangeLog2XML;
+import org.exolab.castor.xml.schema.Resolver;
+import org.exolab.castor.xml.schema.ScopableResolver;
+import org.exolab.castor.xml.schema.reader.SchemaReader;
+import org.exolab.castor.xml.schema.writer.SchemaWriter;
+import org.exolab.castor.xml.util.ResolverStrategy;
+import org.exolab.castor.xml.util.resolvers.CastorXMLStrategy;
+import org.xml.sax.InputSource;
 
 /**
  * Bootstrap class for Castor XML that allows you to load information about the
@@ -29,21 +44,37 @@ import org.exolab.castor.mapping.MappingLoader;
  * @since 1.1.2
  */
 public class XMLContext {
-
+    /** Logger to be used. */
+    private static final Log LOG = LogFactory.getFactory().getInstance(XMLContext.class);
+    
     /**
-     * {@link XMLClassDescriptorResolver} instance used for caching XML-related
-     * class descriptors.
+     * The internal XML context is the class which holds a couple of Castor states as it
+     * provides some central methods needed in various places of Castor.
      */
-    private XMLClassDescriptorResolver resolver;
+    private InternalContext _internalContext;
 
     /**
-     * Creates an instance of {@link XMLContext}, preconfigured with class descriptors
-     * loaded for the given package name.
+     * Creates an instance of {@link XMLContext} with an empty internal XML context.
      */
     public XMLContext() {
-        resolver = (XMLClassDescriptorResolver) ClassDescriptorResolverFactory
-                .createClassDescriptorResolver(BindingType.XML);
-        resolver.setClassLoader(getClass().getClassLoader());
+        _internalContext = new InternalContext();
+        
+        _internalContext.setClassLoader(getClass().getClassLoader());
+        
+        XMLClassDescriptorResolver cdr = (XMLClassDescriptorResolver) ClassDescriptorResolverFactory
+            .createClassDescriptorResolver(BindingType.XML);
+        cdr.setInternalContext(_internalContext);
+        _internalContext.setXMLClassDescriptorResolver(cdr);
+
+        Introspector introspector = new Introspector();
+        introspector.setInternalContext(_internalContext);
+        _internalContext.setIntrospector(introspector);
+        
+        ResolverStrategy resolverStrategy = new CastorXMLStrategy();
+        _internalContext.setResolverStrategy(resolverStrategy);
+
+        Resolver schemaResolver = new ScopableResolver();
+        _internalContext.setSchemaResolver(schemaResolver);
     }
     
     /**
@@ -52,33 +83,26 @@ public class XMLContext {
      * descriptors will be derived. 
      * @throws MappingException If the {@link Mapping} cannot be loaded and analyzed successfully.
      */
-    public void addMapping(Mapping mapping) throws MappingException {
+    public void addMapping(final Mapping mapping) throws MappingException {
          MappingUnmarshaller mappingUnmarshaller = new MappingUnmarshaller();
-         MappingLoader mappingLoader = mappingUnmarshaller.getMappingLoader(mapping, BindingType.XML);
-         resolver.setMappingLoader(mappingLoader);        
+         mappingUnmarshaller.setInternalContext(_internalContext);
+         MappingLoader mappingLoader = 
+             mappingUnmarshaller.getMappingLoader(mapping, BindingType.XML);
+         _internalContext.getXMLClassDescriptorResolver()
+             .setMappingLoader(mappingLoader);        
     }
 
-//    /**
-//     * Instructs Castor to load class descriptors from the mapping given.
-//     * @param mapping Castor XML mapping (file), from which the required class
-//     * descriptors will be derived. 
-//    */
-//    public static Mapping loadMapping(InputSource mappingFile) {
-//        Mapping mapping = XMLContext.createMapping(); 
-//        mapping.loadMapping(mappingFile);
-//        return mapping;
-//    }
-//    
     /**
      * Loads the class descriptor for the class instance specified. The use of this method is useful
-     * when no mapping is used, as happens when the domain classes hase been generated
+     * when no mapping is used, as happens when the domain classes has been generated
      * using the XML code generator (in which case instead of a mapping file class
      * descriptor files will be generated).
      * 
-     * @param className Name of the class for which the associated descriptor should be loaded.
+     * @param clazz the class for which the associated descriptor should be loaded.
+     * @throws ResolverException in case that resolving the Class fails fatally
      */ 
-    public void addClass(final String className) throws ResolverException { 
-        resolver.addClass(className);
+    public void addClass(final Class clazz) throws ResolverException { 
+        _internalContext.getXMLClassDescriptorResolver().addClass(clazz);
     }
 
     /**
@@ -87,10 +111,11 @@ public class XMLContext {
      * using the XML code generator (in which case instead of a mapping file class
      * descriptor files will be generated).
      * 
-     * @param className Name of the class for which the associated descriptor should be loaded.
+     * @param clazzes the classes for which the associated descriptor should be loaded.
+     * @throws ResolverException in case that resolving the Class fails fatally
      */ 
-    public void addClasses(final String[] classNames) throws ResolverException {
-        resolver.addClasses(classNames);
+    public void addClasses(final Class[] clazzes) throws ResolverException {
+        _internalContext.getXMLClassDescriptorResolver().addClasses(clazzes);
     }
 
     /**
@@ -103,10 +128,11 @@ public class XMLContext {
      * file with your generated classes (as generated by the XML code generator).
      * <p>
      * @param packageName The package name for the (descriptor) classes
-     * @throws ResolverException If there's a problem loading class descriptors for the given package. 
+     * @throws ResolverException 
+     *          If there's a problem loading class descriptors for the given package. 
      */
     public void addPackage(final String packageName) throws ResolverException { 
-        resolver.addPackage(packageName); 
+        _internalContext.getXMLClassDescriptorResolver().addPackage(packageName); 
     }
 
     /**
@@ -119,17 +145,18 @@ public class XMLContext {
      * files with your generated classes (as generated by the XML code generator).
      * <p>
      * @param packageNames The package names for the (descriptor) classes
-     * @throws ResolverException If there's a problem loading class descriptors for the given package. 
+     * @throws ResolverException 
+     *          If there's a problem loading class descriptors for the given package. 
      */
     public void addPackages(final String[] packageNames) throws ResolverException {
-        resolver.addPackages(packageNames);
+        _internalContext.getXMLClassDescriptorResolver().addPackages(packageNames);
     }
 
     /**
      * Creates an instance of a Castor XML specific {@link Mapping} instance.
      * @return a Castor XML specific {@link Mapping} instance.
      */
-    public static Mapping createMapping() {
+    public Mapping createMapping() {
         Mapping mapping = new Mapping();
 //        mapping.setBindingType(BindingType.XML);
         return mapping;
@@ -140,8 +167,11 @@ public class XMLContext {
      * @return A new {@link Marshaller} instance.
      */
     public Marshaller createMarshaller() {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Creating new Marshaller instance.");
+        }
         Marshaller marshaller = new Marshaller();
-        marshaller.setResolver(resolver);
+        marshaller.setInternalContext(_internalContext);
         return marshaller;
     }
     
@@ -152,19 +182,104 @@ public class XMLContext {
      *  descriptors cached as loaded above.
      */
     public Unmarshaller createUnmarshaller() {
-        Unmarshaller unmarshaller = new Unmarshaller();
-        unmarshaller.setResolver(resolver);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Creating new Unmarshaller instance.");
+        }
+        Unmarshaller unmarshaller = new Unmarshaller(_internalContext);
         return unmarshaller;
+    }
+    
+    /**
+     * To create a schema reader instance for reading XSD files.
+     * @param inputSource the InputSource to read from
+     * @return the SchemaReader instance created and initialized
+     */
+    public SchemaReader createSchemaReader(final InputSource inputSource) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Creating new SchemaReader instance.");
+        }
+        SchemaReader sr = new SchemaReader();
+        sr.setInternalContext(_internalContext);
+        sr.setInputSource(inputSource);
+        return sr;
+    }
+    
+    /**
+     * To create a schema writer instance for writing XSD files.
+     * @param writer the Writer to write the text representation of the schema to
+     * @return the SchemaWriter instance created and initialized
+     * @throws IOException in case that initialization of SchemaWriter fails
+     */
+    public SchemaWriter createSchemaWriter(final Writer writer) throws IOException {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Creating new SchemaWriter instance.");
+        }
+        SchemaWriter sw = new SchemaWriter();
+        sw.setInternalContext(_internalContext);
+        sw.setDocumentHandler(writer);
+        return sw;
     }
 
     /**
-     * Sets an application-specific {@link XMLClassDescriptorResolver} instance
-     * @param resolver
+     * To create a MappingTool instance.
+     * @return the MappingTool instance ready to use
      */
-    public void setResolver(XMLClassDescriptorResolver resolver) {
-        this.resolver = resolver;
+    public MappingTool createMappingTool() {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Creating new MappingTool instance.");
+        }
+        MappingTool mt = new MappingTool();
+        mt.setInternalContext(_internalContext);
+        return mt;
     }
 
-    
-}
+    /**
+     * To create a new {@link ChangeLog2XML} instance.
+     * @return the {@link ChangeLog2XML} instance ready to use
+     */
+    public ChangeLog2XML createChangeLog2XML() {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Creating new ChangeLog2XML instance.");
+        }
+        ChangeLog2XML changeLog2XML = new ChangeLog2XML();
+        changeLog2XML.setInternalContext(_internalContext);
+        return changeLog2XML;
+    }
 
+    /**
+     * To set properties for marshalling and unmarshalling behavior. 
+     * @param propertyName name of the property to set
+     * @param value the value to set to
+     */
+    public void setProperty(final String propertyName, final Object value) {
+        _internalContext.setProperty(propertyName, value);
+    }
+
+    /**
+     * To set properties for marshalling and unmarshalling behavior. 
+     * @param propertyName name of the property to set
+     * @param value the value to set to
+     */
+    public void setProperty(final String propertyName, final boolean value) {
+        _internalContext.setProperty(propertyName, value);
+    }
+
+    /**
+     * To get the value of a specific property.
+     * @param propertyName name of the Property
+     * @return the value (Object) of the property
+     */
+    public Object getProperty(final String propertyName) {
+        return _internalContext.getProperty(propertyName);
+    }
+
+    /**
+     * To get the {@link InternalContext} as used when instantiating other
+     * classes.
+     * 
+     * @return the {@link InternalContext} used
+     */
+    public InternalContext getInternalContext() {
+        return _internalContext;
+    }
+}

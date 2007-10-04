@@ -173,6 +173,7 @@ public final class CastorDDLGenTask extends MatchingTask {
             Mapping mapping = new Mapping();
             mapping.loadMapping(filePath);
             new MappingUnmarshaller().loadMappingOnly(mapping);
+            // TODO: Joachim 2007-09-07 the InternalContext should be set into the unmarshaller!
             
             ddlgen.setMapping(mapping);
             ddlgen.generateDDL(_outputStream);

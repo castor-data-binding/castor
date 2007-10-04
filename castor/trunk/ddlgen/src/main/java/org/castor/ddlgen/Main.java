@@ -96,6 +96,7 @@ public final class Main {
             Mapping mapping = new Mapping();
             mapping.loadMapping(mappingName);
             new MappingUnmarshaller().loadMappingOnly(mapping);
+            // TODO: Joachim 2007-09-07 the InternalContext should be set into the unmarshaller!
             
             generator.setMapping(mapping);
             generator.generateDDL(new FileOutputStream(ddlName));            

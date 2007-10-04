@@ -46,6 +46,7 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
+import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
@@ -91,12 +92,17 @@ public class FacetUnmarshaller extends ComponentReader {
     //----------------/
 
     /**
-     * Creates a new FacetUnmarshaller
+     * Creates a new FacetUnmarshaller.
+     * @param internalContext the internalContext to get some configuration settings from
      * @param name the name of the Facet
      * @param atts the AttributeList
     **/
-    public FacetUnmarshaller (String name, AttributeSet atts) throws XMLException {
-        super();
+    public FacetUnmarshaller (
+            final InternalContext internalContext,
+            final String name,
+            final AttributeSet atts) 
+    throws XMLException {
+        super(internalContext);
 
         _elementName = name;
 
@@ -163,7 +169,7 @@ public class FacetUnmarshaller extends ComponentReader {
         }
 
         if (SchemaNames.ANNOTATION.equals(name)) {
-            unmarshaller = new AnnotationUnmarshaller(atts);
+            unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
         }
         else illegalElement(name);
 

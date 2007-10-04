@@ -17,7 +17,7 @@ package org.exolab.castor.xml;
 
 import junit.framework.TestCase;
 
-import org.exolab.castor.util.Configuration.Property;
+import org.castor.xml.XMLConfiguration;
 
 /**
  * Test case for testing various pieces of functionality of {@link Unmarshaller}.
@@ -29,18 +29,19 @@ public class TestUnmarshaller extends TestCase {
     */
     public void testSetProperty() {
         
-        Unmarshaller unmarshaller = new Unmarshaller();
+        XMLContext xmlContext = new XMLContext();
+        Unmarshaller unmarshaller = xmlContext.createUnmarshaller();
         assertNotNull(unmarshaller);
         
         String lenientSequenceValidation = 
-            unmarshaller.getProperty(Property.LenientSequenceOrder);
+            unmarshaller.getProperty(XMLConfiguration.LENIENT_SEQUENCE_ORDER);
         assertNotNull(lenientSequenceValidation);
         assertEquals("false", lenientSequenceValidation);
         
-        unmarshaller.setProperty(Property.LenientSequenceOrder, "true");
+        unmarshaller.setProperty(XMLConfiguration.LENIENT_SEQUENCE_ORDER, "true");
  
         lenientSequenceValidation = 
-            unmarshaller.getProperty(Property.LenientSequenceOrder);
+            unmarshaller.getProperty(XMLConfiguration.LENIENT_SEQUENCE_ORDER);
         assertNotNull(lenientSequenceValidation);
         assertEquals("true", lenientSequenceValidation);
     }

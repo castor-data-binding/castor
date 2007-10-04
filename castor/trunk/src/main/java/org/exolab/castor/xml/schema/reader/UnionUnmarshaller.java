@@ -46,6 +46,7 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
+import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
@@ -99,12 +100,15 @@ public class UnionUnmarshaller extends ComponentReader {
     /**
      * Creates a new IdentityConstraintUnmarshaller
      *
+     * @param internalContext the internalContext to get some configuration settings from
      * @param atts the AttributeList
     **/
-    public UnionUnmarshaller(Schema schema, AttributeSet atts)
-        throws XMLException
-    {
-        super();
+    public UnionUnmarshaller(
+            final InternalContext internalContext,
+            final Schema schema,
+            final AttributeSet atts)
+    throws XMLException {
+        super(internalContext);
         
         if (schema == null) {
             String err = "'schema' must not be null.";
@@ -184,11 +188,11 @@ public class UnionUnmarshaller extends ComponentReader {
                     elementName() + "'.");
 
             _foundAnnotation = true;
-            _unmarshaller = new AnnotationUnmarshaller(atts);
+            _unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
         }
         else if (SchemaNames.SIMPLE_TYPE.equals(name)) {
             _foundSimpleType = true;
-            _unmarshaller = new SimpleTypeUnmarshaller(_schema, atts);
+            _unmarshaller = new SimpleTypeUnmarshaller(getInternalContext(), _schema, atts);
         }
         else illegalElement(name);
 

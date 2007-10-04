@@ -46,6 +46,7 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
+import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
@@ -97,15 +98,18 @@ public class SimpleTypeUnmarshaller extends ComponentReader {
     //----------------/
 
     /**
-     * Creates a new SimpleTypeUnmarshaller
+     * Creates a new SimpleTypeUnmarshaller.
+     * @param internalContext the internalContext to get some configuration settings from
      * @param schema the Schema to which the SimpleType belongs
      * @param atts the AttributeList
     **/
-    public SimpleTypeUnmarshaller
-        (Schema schema, AttributeSet atts)
+    public SimpleTypeUnmarshaller(
+            final InternalContext internalContext,
+            final Schema schema,
+            final AttributeSet atts)
         throws XMLException
     {
-        super();
+        super(internalContext);
 
         String name = atts.getValue(SchemaNames.NAME_ATTR);
         
@@ -213,7 +217,7 @@ public class SimpleTypeUnmarshaller extends ComponentReader {
                     "of 'simpleType'.");
 
             foundAnnotation = true;
-            unmarshaller = new AnnotationUnmarshaller(atts);
+            unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
         }
         else if (SchemaNames.RESTRICTION.equals(name)) {
 
@@ -229,17 +233,17 @@ public class SimpleTypeUnmarshaller extends ComponentReader {
             foundRestriction = true;
 
             unmarshaller
-                = new SimpleTypeRestrictionUnmarshaller(_simpleTypeDef, atts);
+                = new SimpleTypeRestrictionUnmarshaller(getInternalContext(), _simpleTypeDef, atts);
         }
         else if (SchemaNames.LIST.equals(name)) {
             foundList = true;
             Schema schema = _simpleTypeDef.getSchema();
-            unmarshaller = new SimpleTypeListUnmarshaller(schema, atts);
+            unmarshaller = new SimpleTypeListUnmarshaller(getInternalContext(), schema, atts);
         }
         else if (SchemaNames.UNION.equals(name)) {
             foundUnion = true;
             Schema schema = _simpleTypeDef.getSchema();
-            unmarshaller = new UnionUnmarshaller(schema, atts);
+            unmarshaller = new UnionUnmarshaller(getInternalContext(), schema, atts);
         }
         else illegalElement(name);
 

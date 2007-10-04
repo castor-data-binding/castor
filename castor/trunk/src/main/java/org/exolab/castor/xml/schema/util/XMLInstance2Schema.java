@@ -51,12 +51,12 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Writer;
 
-import org.exolab.castor.util.Configuration;
-import org.exolab.castor.util.LocalConfiguration;
-import org.exolab.castor.xml.schema.*;
-import org.exolab.castor.xml.schema.writer.SchemaWriter;
+import org.castor.xml.BackwardCompatibilityContext;
+import org.castor.xml.InternalContext;
 import org.exolab.castor.util.NestedIOException;
-
+import org.exolab.castor.xml.schema.Order;
+import org.exolab.castor.xml.schema.Schema;
+import org.exolab.castor.xml.schema.writer.SchemaWriter;
 import org.xml.sax.InputSource;
 import org.xml.sax.Parser;
 
@@ -68,6 +68,11 @@ import org.xml.sax.Parser;
 **/
 public class XMLInstance2Schema {
     
+    /** 
+     * The {@link InternalContext} used to get Parser from.
+     */
+    private InternalContext _internalContext;
+    
     private Order       _defaultGroup = Order.seq;
     
     /**
@@ -76,6 +81,7 @@ public class XMLInstance2Schema {
     **/
     public XMLInstance2Schema() {
         super();
+        _internalContext = new BackwardCompatibilityContext();
     } //-- XMLInstance2Schema
 
     /**
@@ -118,8 +124,7 @@ public class XMLInstance2Schema {
         handler.setDefaultGroupOrder(_defaultGroup);
         
         try {
-            Configuration config = LocalConfiguration.getInstance();
-	        Parser parser = config.getParser();
+	        Parser parser = _internalContext.getParser();
             if (parser == null) {
                 throw new IOException("fatal error: unable to create SAX parser.");
             }

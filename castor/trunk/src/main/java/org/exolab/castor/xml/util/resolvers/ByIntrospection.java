@@ -36,14 +36,17 @@ import org.exolab.castor.xml.util.ResolverStrategy;
  * @since 1.2
  */
 public class ByIntrospection extends AbstractResolverClassCommand {
-	private static final Log LOG = LogFactory.getLog(ByIntrospection.class);
+    /**
+     * Logger to be used.
+     */
+    private static final Log LOG = LogFactory.getLog(ByIntrospection.class);
 
     /**
      * No specific stuff needed.
      */
-	public ByIntrospection() {
+    public ByIntrospection() {
         super();
-	}
+    }
     
     /**
      * Creates an XMLClassDescriptor for the given type by using introspection.
@@ -59,7 +62,8 @@ public class ByIntrospection extends AbstractResolverClassCommand {
     protected Map internalResolve(final String className, final ClassLoader classLoader,
             final Map properties) throws ResolverException {
         
-        Boolean useIntrospector = (Boolean)properties.get(ResolverStrategy.PROPERTY_USE_INTROSPECTION);
+        Boolean useIntrospector = 
+            (Boolean) properties.get(ResolverStrategy.PROPERTY_USE_INTROSPECTION);
         HashMap results = new HashMap();
         if (classLoader == null) {
             LOG.debug("No class loader available.");
@@ -67,12 +71,19 @@ public class ByIntrospection extends AbstractResolverClassCommand {
         }
         
         if ((useIntrospector != null) && (!useIntrospector.booleanValue())) {
-            // I know the logic is a bit weired... either introspection is explicitly disabled or it is ok!
+            // I know the logic is a bit weired... either introspection is explicitly 
+            // disabled or it is ok!
             LOG.debug("Introspection is disabled!");
             return results;
         }
         
-        Introspector introspector = new Introspector();
+        Introspector introspector = 
+            (Introspector) properties.get(ResolverStrategy.PROPERTY_INTROSPECTOR);
+        if (introspector == null) {
+            String message = "No Introspector defined in properties!";
+            LOG.warn(message);
+            throw new IllegalStateException(message);
+        }
         Class clazz = ResolveHelpers.loadClass(classLoader, className);
         if (clazz != null) {
             try {
@@ -84,7 +95,8 @@ public class ByIntrospection extends AbstractResolverClassCommand {
                     results.put(clazz.getName(), descriptor);
                 }
             } catch (MarshalException e) {
-                String message = "Failed to generate class descriptor for: " + clazz + " with exception: " + e;
+                String message = "Failed to generate class descriptor for: " 
+                    + clazz + " with exception: " + e;
                 LOG.warn(message);
                 throw new ResolverException(message);
             }

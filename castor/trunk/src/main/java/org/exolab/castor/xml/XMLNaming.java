@@ -45,8 +45,7 @@
 
 package org.exolab.castor.xml;
 
-import org.exolab.castor.util.Configuration;
-import org.exolab.castor.util.LocalConfiguration;
+import org.castor.xml.BackwardCompatibilityContext;
 
 /**
  * An abstract class to handing XML naming
@@ -84,12 +83,11 @@ public abstract class XMLNaming {
     
     
     /**
-     * Returns the default instance of XMLNaming
+     * Returns the default instance of XMLNaming.
      * @see org.exolab.castor.util.Configuration
     **/
     public static final XMLNaming getInstance() {
-        Configuration config = LocalConfiguration.getInstance();
-        return config.getXMLNaming(); 
+        return new BackwardCompatibilityContext().getXMLNaming(); 
     } //-- getInstance
     
 } //-- Naming

@@ -45,6 +45,7 @@
 
  package org.exolab.castor.xml.schema.reader;
 
+import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
@@ -106,42 +107,49 @@ public class WildcardUnmarshaller extends ComponentReader {
       //----------------/
      //- Constructors -/
     //----------------/
-    public WildcardUnmarshaller
-        (ComplexType complexType, Schema schema, String element, AttributeSet atts, Resolver resolver)
-    {
-        super();
-        _wildcard = new Wildcard(complexType);
-        init(schema, element, atts, resolver);
+    public WildcardUnmarshaller(
+            final InternalContext internalContext,
+            final ComplexType complexType, 
+            final Schema schema,
+            final String element,
+            final AttributeSet atts) {
+        this(internalContext, schema, element, atts, new Wildcard(complexType));
     }
 
-    public WildcardUnmarshaller
-        (Group group, Schema schema, String element, AttributeSet atts, Resolver resolver)
-    {
-        super();
-        _wildcard = new Wildcard(group);
-        init(schema, element, atts, resolver);
+    public WildcardUnmarshaller(
+            final InternalContext internalContext,
+            final Group group,
+            final Schema schema,
+            final String element,
+            final AttributeSet atts) {
+        this(internalContext, schema, element, atts, new Wildcard(group));
     }
 
-    public WildcardUnmarshaller
-        (AttributeGroup attGroup, Schema schema, String element, AttributeSet atts, Resolver resolver)
-    {
-        super();
-        _wildcard = new Wildcard(attGroup);
-        init(schema, element, atts, resolver);
+    public WildcardUnmarshaller(
+            final InternalContext internalContext,
+            final AttributeGroup attGroup,
+            final Schema schema,
+            final String element,
+            final AttributeSet atts) {
+        this(internalContext, schema, element, atts, new Wildcard(attGroup));
     }
 
 
     /**
-     * Creates a new WildcardUnmarshaller
+     * Creates a new WildcardUnmarshaller.
+     * @param internalContext the internalContext to get some configuration settings from
      * @param schema the Schema to which the Wildcard belongs
      * @param element the name of the element
      * @param atts the AttributeList
-     * @param resolver the resolver being used for reference resolving
     **/
-    public void init
-        (Schema schema, String element, AttributeSet atts, Resolver resolver)
-    {
-        setResolver(resolver);
+    private WildcardUnmarshaller(
+            final InternalContext internalContext,
+            final Schema schema, 
+            final String element, 
+            final AttributeSet atts,
+            final Wildcard wildcard) {
+        super(internalContext);
+        _wildcard = wildcard;
         this._schema = schema;
         this._element = element;
 
@@ -278,7 +286,7 @@ public class WildcardUnmarshaller extends ComponentReader {
         }
          //-- <annotation>
         if (SchemaNames.ANNOTATION.equals(name)) {
-            unmarshaller = new AnnotationUnmarshaller(atts);
+            unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
         }
 
         else {
