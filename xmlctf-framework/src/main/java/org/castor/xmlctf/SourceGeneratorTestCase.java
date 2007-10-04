@@ -153,6 +153,7 @@ public class SourceGeneratorTestCase extends XMLTestCase {
         verbose("================================================\n");
 
         // Set up and run the source generator so we can test using the generated source
+        _sourceGenerator.setXMLContext(getXMLContext());
         _sourceGenerator.setUp();
         _sourceGenerator.runTest();
 

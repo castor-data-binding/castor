@@ -26,6 +26,7 @@ import org.exolab.castor.tests.framework.testDescriptor.ConfigurationType;
 import org.exolab.castor.tests.framework.testDescriptor.CustomTest;
 import org.exolab.castor.tests.framework.testDescriptor.FailureType;
 import org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType;
+import org.exolab.castor.xml.XMLContext;
 
 /**
  * Implements a test case that tests code written by the XML source generator.
@@ -94,6 +95,8 @@ class TestWithCustomTest extends TestCase {
      * @throws Exception if anything goes wrong during setup
      */
     protected void setUp() throws Exception {
+        _delegate.setXMLContext(new XMLContext());
+
         if (_delegate instanceof MarshallingFrameworkTestCase) {
             ((MarshallingFrameworkTestCase)_delegate).setUp();
         } else if (_delegate instanceof SourceGeneratorTestCase) {

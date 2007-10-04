@@ -74,6 +74,7 @@ import org.exolab.castor.xml.MarshalListener;
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.UnmarshalListener;
 import org.exolab.castor.xml.Unmarshaller;
+import org.exolab.castor.xml.XMLContext;
 import org.xml.sax.InputSource;
 
 /**
@@ -135,6 +136,8 @@ public abstract class XMLTestCase extends TestCase {
     protected final FailureType    _failure;
     /** Used only to retrieve the classloader. */
     protected final CastorTestCase _test;
+    /** The internal Castor XML context. */
+    private XMLContext _xmlContext;
 
     /**
      * Instantiate a new XMLTestCase with the given name.
@@ -161,6 +164,7 @@ public abstract class XMLTestCase extends TestCase {
         _failure        = unit.getFailure();
         _test           = test;
         _outputRootFile = test.getOutputRootFile();
+        _xmlContext     = null;
     }
 
     /**
@@ -178,6 +182,19 @@ public abstract class XMLTestCase extends TestCase {
         _skip           = tc._skip;
         _failure        = tc._failure;
         _test           = tc._test;
+        _xmlContext     = null;
+    }
+    
+    protected abstract void setUp() throws Exception;
+    
+    protected abstract void tearDown() throws Exception;
+
+    public void setXMLContext(XMLContext xmlContext) {
+        _xmlContext = xmlContext;
+    }
+    
+    public XMLContext getXMLContext() {
+        return _xmlContext;
     }
 
     /**
@@ -321,7 +338,9 @@ public abstract class XMLTestCase extends TestCase {
     }
 
     private Marshaller createMarshaler(final File marshalOutput) throws Exception {
-        Marshaller marshaller = new Marshaller(new FileWriter(marshalOutput));
+        getXMLContext().getInternalContext().getXMLClassDescriptorResolver().cleanDescriptorCache();
+        Marshaller marshaller = getXMLContext().createMarshaller();
+        marshaller.setWriter(new FileWriter(marshalOutput));
 
         //-- Configuration for marshaler?  Use config from unit test case if available
         Configuration config = _unitTest.getConfiguration();
@@ -389,12 +408,19 @@ public abstract class XMLTestCase extends TestCase {
 
         final Unmarshaller unmar;
         if (_mapping != null) {
-            unmar = new Unmarshaller(_mapping);
+//J            unmar = new Unmarshaller(_mapping);
+            unmar = getXMLContext().createUnmarshaller();
+            unmar.setMapping(_mapping);
         } else {
             if (_test.getClassLoader() != null) {
-                unmar = new Unmarshaller(_rootClass, _test.getClassLoader());
+//J                unmar = new Unmarshaller(_rootClass, _test.getClassLoader());
+                unmar = getXMLContext().createUnmarshaller();
+                unmar.setClassLoader(_test.getClassLoader());
+                unmar.setClass(_rootClass);
             } else {
-                unmar = new Unmarshaller(_rootClass);
+//J                unmar = new Unmarshaller(_rootClass);
+                unmar = getXMLContext().createUnmarshaller();
+                unmar.setClass(_rootClass);
             }
         }
 

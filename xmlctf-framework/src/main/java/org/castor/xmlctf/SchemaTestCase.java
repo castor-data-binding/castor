@@ -66,9 +66,11 @@ import org.castor.xmlctf.util.FileServices;
 import org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences;
 import org.exolab.castor.tests.framework.testDescriptor.UnitTestCase;
 import org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType;
+import org.exolab.castor.xml.XMLContext;
 import org.exolab.castor.xml.schema.Schema;
 import org.exolab.castor.xml.schema.reader.SchemaReader;
 import org.exolab.castor.xml.schema.writer.SchemaWriter;
+import org.xml.sax.InputSource;
 
 /**
  * A JUnit test case for testing the Castor Schema Object Model.
@@ -146,6 +148,10 @@ public class SchemaTestCase extends XMLTestCase {
         } catch (IOException e) {
             fail("IOException copying support files " + e);
         }
+        if (getXMLContext() == null) {
+         // not wrapped inside a TestWithXy test!
+            setXMLContext(new XMLContext());
+        }
     }
 
     /**
@@ -217,7 +223,8 @@ public class SchemaTestCase extends XMLTestCase {
     private Schema testReadingSchema(final String url) {
         verbose("--> Reading XML Schema: " + url);
         try {
-            SchemaReader reader = new SchemaReader(url);
+            SchemaReader reader = getXMLContext().createSchemaReader(new InputSource(url));
+// #JG           SchemaReader reader = new SchemaReader(url);
             Schema returnValue  = reader.read();
             if (_failure != null && _failure.getContent() && _failure.getFailureStep() != null &&
                  _failure.getFailureStep().equals(FailureStepType.PARSE_SCHEMA)) {
@@ -248,7 +255,8 @@ public class SchemaTestCase extends XMLTestCase {
 
             File         output = new File(_outputRootFile, fileName);
             FileWriter   writer = new FileWriter(output);
-            SchemaWriter sw     = new SchemaWriter(new PrintWriter(writer, true));
+            SchemaWriter sw     = getXMLContext().createSchemaWriter(new PrintWriter(writer, true));
+// #JG           SchemaWriter sw     = new SchemaWriter(new PrintWriter(writer, true));
             sw.write(schema);
             writer.close();
         } catch (Exception e) {

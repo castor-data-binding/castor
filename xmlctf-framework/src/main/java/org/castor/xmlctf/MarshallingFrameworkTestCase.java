@@ -183,6 +183,7 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
         ClassLoader loader = _test.getClassLoader();
         loader = new URLClassLoader(new URL[] {_outputRootFile.toURL()}, loader);
         _test.setClassLoader(loader);
+        getXMLContext().getInternalContext().setClassLoader(loader);
 
         verbose("Root class specified in TestDescriptor...");
         verbose("Loading class: " + _rootClassName);

@@ -53,6 +53,9 @@ import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 import java.io.Serializable;
 import java.lang.reflect.Method;
+
+import org.castor.core.util.Configuration;
+import org.castor.xml.XMLConfiguration;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.util.LocalConfiguration;
@@ -249,8 +252,11 @@ public final class CollectionHandlers
             Method          method;
 
             allInfo = new Vector();
-            LocalConfiguration config = LocalConfiguration.getInstance();
-            tokenizer = new StringTokenizer( config.getProperty( "org.exolab.castor.mapping.collections", "" ), ", " );
+            Configuration configuration = XMLConfiguration.newInstance();
+            tokenizer = new StringTokenizer(configuration.getString(XMLConfiguration.COLLECTION_HANDLERS_FOR_JAVA_11_OR_12, ""), ", ");
+// Joachim 2007-09-01 old local configuration is dead!
+//            LocalConfiguration config = LocalConfiguration.getInstance();
+//            tokenizer = new StringTokenizer( config.getProperty( "org.exolab.castor.mapping.collections", "" ), ", " );
             while ( tokenizer.hasMoreTokens() ) {
                 try {
                     if ( CollectionHandlers.class.getClassLoader() != null )
