@@ -22,6 +22,7 @@ import junit.framework.TestSuite;
 
 import org.exolab.castor.tests.framework.testDescriptor.OnlySourceGenerationTest;
 import org.exolab.castor.tests.framework.testDescriptor.UnitTestCase;
+import org.exolab.castor.xml.XMLContext;
 
 /**
  * This class encapsulate all the logic to run the tests patterns for the source
@@ -89,6 +90,11 @@ public class OnlySourceGenerationTestCase extends XMLTestCase {
         verbose("\n================================================");
         verbose("Test suite '"+_test.getName()+"': setting up test '" + _name+"'");
         verbose("================================================\n");
+        if (getXMLContext() == null) {
+            // not wrapped inside a TestWithXy test!
+            setXMLContext(new XMLContext());
+        }
+        _sourceGenerator.setXMLContext(getXMLContext());
         _sourceGenerator.setUp();
     }
 

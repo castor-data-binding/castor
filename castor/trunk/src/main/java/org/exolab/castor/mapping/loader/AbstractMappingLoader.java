@@ -61,6 +61,8 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.util.Properties;
 
+
+import org.castor.xml.InternalContext;
 import org.castor.util.Messages;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.CollectionHandler;
@@ -130,8 +132,15 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
     /** Factory method name for type-safe enumerations. */
     protected static final String VALUE_OF = "valueOf";
 
+    /**
+     * The {@link InternalContext} is the centerpiece providing runtime configuration
+     * and state information.
+     */
+    private InternalContext _internalContext;
+
     /** Map of field handlers associated by their name. */
     private final Map _fieldHandlers = new HashMap();
+
     //--------------------------------------------------------------------------
 
     /**
@@ -1200,6 +1209,14 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
      */
     public class TypeInfoReference {
         public TypeInfo typeInfo = null;
+    }
+
+    public void setInternalContext(final InternalContext internalContext) {
+        _internalContext = internalContext;
+    }
+    
+    public InternalContext getInternalContext() {
+        return _internalContext;
     }
 
 }

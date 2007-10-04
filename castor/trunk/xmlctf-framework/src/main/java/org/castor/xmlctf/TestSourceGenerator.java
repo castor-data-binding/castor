@@ -176,6 +176,7 @@ public class TestSourceGenerator extends XMLTestCase {
             URL[] urlList = {_test.getTestFile().toURL(), _outputRootFile.toURL()};
             ClassLoader loader =  new URLClassLoader(urlList, _test.getClass().getClassLoader());
             _test.setClassLoader(loader);
+            getXMLContext().getInternalContext().setClassLoader(loader);
         } catch (Exception e) {
             if (!checkExceptionWasExpected(e, FailureStepType.LOAD_GENERATED_CLASSES)) {
                 fail("Unable to process the test case:" + e);

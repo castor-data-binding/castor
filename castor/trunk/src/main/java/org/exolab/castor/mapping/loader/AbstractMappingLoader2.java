@@ -97,6 +97,13 @@ public abstract class AbstractMappingLoader2 implements MappingLoader {
             if (!isAllowRedefinition()) {
                 throw new MappingException("mapping.duplicateDescriptors", classname);
             }
+            for (Iterator iterator = _descriptors.iterator(); iterator.hasNext(); ) {
+                ClassDescriptor d = (ClassDescriptor) iterator.next();
+                if (classname.equals(d.getJavaClass().getName())) {
+                    _descriptors.remove(d);
+                }
+            }
+            _descriptors.add(descriptor);
         } else {
             _descriptors.add(descriptor);
         }

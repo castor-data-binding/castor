@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 
 import org.exolab.castor.tests.framework.testDescriptor.FailureType;
 import org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType;
+import org.exolab.castor.xml.XMLContext;
 
 /**
  * Implements a test case that tests code written by the XML source generator.
@@ -84,11 +85,13 @@ class TestWithRandomObject extends TestCase {
      * @throws Exception if anything goes wrong during setup
      */
     protected void setUp() throws Exception {
-        if (_delegate instanceof MarshallingFrameworkTestCase) {
-            ((MarshallingFrameworkTestCase)_delegate).setUp();
-        } else if (_delegate instanceof SourceGeneratorTestCase) {
-            ((SourceGeneratorTestCase)_delegate).setUp();
-        }
+        _delegate.setXMLContext(new XMLContext());
+        _delegate.setUp();
+//        if (_delegate instanceof MarshallingFrameworkTestCase) {
+//            ((MarshallingFrameworkTestCase)_delegate).setUp();
+//        } else if (_delegate instanceof SourceGeneratorTestCase) {
+//            ((SourceGeneratorTestCase)_delegate).setUp();
+//        }
     }
 
     /**
@@ -97,11 +100,12 @@ class TestWithRandomObject extends TestCase {
      * @throws Exception if anything goes wrong during teardown
      */
     protected void tearDown() throws Exception {
-        if (_delegate instanceof MarshallingFrameworkTestCase) {
-            ((MarshallingFrameworkTestCase)_delegate).tearDown();
-        } else if (_delegate instanceof SourceGeneratorTestCase) {
-            ((SourceGeneratorTestCase)_delegate).tearDown();
-        }
+        _delegate.setUp();
+//        if (_delegate instanceof MarshallingFrameworkTestCase) {
+//            ((MarshallingFrameworkTestCase)_delegate).tearDown();
+//        } else if (_delegate instanceof SourceGeneratorTestCase) {
+//            ((SourceGeneratorTestCase)_delegate).tearDown();
+//        }
     }
 
     /**

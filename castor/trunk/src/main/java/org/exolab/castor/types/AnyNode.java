@@ -51,7 +51,7 @@ package org.exolab.castor.types;
 import java.io.StringWriter;
 import java.util.Stack;
 
-import org.exolab.castor.util.LocalConfiguration;
+import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.Serializer;
 import org.exolab.castor.xml.util.AnyNode2SAX;
 
@@ -530,17 +530,17 @@ public final class AnyNode implements java.io.Serializable {
      * @return the String representation of this AnyNode.
      */
     public String toString() {
-        Serializer serializer = LocalConfiguration.getInstance().getSerializer();
+        Serializer serializer = new InternalContext().getSerializer();
         if (serializer == null) {
             throw new RuntimeException("Unable to obtain serializer");
         }
 
         StringWriter writer = new StringWriter();
 
-        serializer.setOutputCharStream( writer );
+        serializer.setOutputCharStream(writer);
 
         try {
-            AnyNode2SAX.fireEvents(this,serializer.asDocumentHandler());
+            AnyNode2SAX.fireEvents(this, serializer.asDocumentHandler());
         } catch (java.io.IOException ioe) {
             return privateToString();
         } catch (org.xml.sax.SAXException saxe) {
