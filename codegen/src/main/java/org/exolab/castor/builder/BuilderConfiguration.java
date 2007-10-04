@@ -56,10 +56,10 @@ import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
+import org.castor.core.util.Configuration;
 import org.castor.xml.JavaNaming;
 import org.castor.xml.JavaNamingImpl;
-import org.exolab.castor.util.Configuration;
-import org.exolab.castor.util.LocalConfiguration;
+import org.castor.xml.XMLConfiguration;
 
 /**
  * The configuration for the SourceGenerator.
@@ -581,7 +581,7 @@ public class BuilderConfiguration {
     protected final synchronized void load() {
         if (_defaultProps == null) {
             //-- load defaults from JAR
-            _defaultProps = Configuration.loadProperties(
+            _defaultProps = org.exolab.castor.util.Configuration.loadProperties(
                     Property.RESOURCE_NAME, Property.CONFIG_FILENAME_PROPERTY);
 
             //-- load local defaults
@@ -618,12 +618,12 @@ public class BuilderConfiguration {
             }
         }
 
-        Configuration rtconf =  LocalConfiguration.getInstance();
+        Configuration rtconf =  XMLConfiguration.newInstance();
 
         // Parse XML namespace and package list from both castor.properties and
         // castorbuilder.properties
-        processNamespacePackageMappings(rtconf.getProperty(Property.NAMESPACE_PACKAGES_OLD, ""));
-        processNamespacePackageMappings(rtconf.getProperty(Property.NAMESPACE_PACKAGES, ""));
+        processNamespacePackageMappings(rtconf.getString(Property.NAMESPACE_PACKAGES_OLD, ""));
+        processNamespacePackageMappings(rtconf.getString(Property.NAMESPACE_PACKAGES, ""));
         processNamespacePackageMappings(_defaultProps.getProperty(
                 Property.NAMESPACE_PACKAGES_OLD, ""));
         processNamespacePackageMappings(_defaultProps.getProperty(

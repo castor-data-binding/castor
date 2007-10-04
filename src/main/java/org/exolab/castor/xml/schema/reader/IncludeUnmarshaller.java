@@ -46,6 +46,7 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
+import org.castor.xml.InternalContext;
 import org.exolab.castor.net.*;
 import org.exolab.castor.xml.*;
 import org.exolab.castor.xml.schema.*;
@@ -65,13 +66,16 @@ public class IncludeUnmarshaller extends ComponentReader
 {
 
 
-    public IncludeUnmarshaller
-        (Schema schema, AttributeSet atts, Resolver resolver, URIResolver uriResolver,
-         Locator locator, SchemaUnmarshallerState state)
-		throws XMLException
-    {
-        super();
-        setResolver(resolver);
+    public IncludeUnmarshaller(
+            final InternalContext internalContext,
+            final Schema schema,
+            final AttributeSet atts,
+            final URIResolver uriResolver,
+            final Locator locator,
+            final SchemaUnmarshallerState state)
+    throws XMLException {
+        super(internalContext);
+
         setURIResolver(uriResolver);
         URILocation uri = null;
 		//-- Get schemaLocation
@@ -137,13 +141,13 @@ public class IncludeUnmarshaller extends ComponentReader
         	return;
 		Parser parser = null;
 		try {
-		    parser = state.getConfiguration().getParser();
+		    parser = getInternalContext().getParser();
 		}
 		catch(RuntimeException rte) {}
 		if (parser == null) {
 		    throw new SchemaException("Error failed to create parser for include");
 		}
-		SchemaUnmarshaller schemaUnmarshaller = new SchemaUnmarshaller(true, state, getURIResolver());
+		SchemaUnmarshaller schemaUnmarshaller = new SchemaUnmarshaller(getInternalContext(), true, state, getURIResolver());
 
 		if (state.cacheIncludedSchemas)
 		    schemaUnmarshaller.setSchema(includedSchema);

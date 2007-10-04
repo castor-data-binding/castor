@@ -56,6 +56,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.Parser;
 import org.xml.sax.InputSource;
 import org.castor.util.Messages;
+import org.castor.xml.InternalContext;
 import org.exolab.castor.util.Configuration;
 import org.exolab.castor.util.LocalConfiguration;
 
@@ -68,9 +69,9 @@ import org.exolab.castor.util.LocalConfiguration;
  */
 public abstract class Importer
 {
+    private InternalContext _xmlContext = new InternalContext();
 
-    private Configuration    _config = LocalConfiguration.getInstance();
-    
+//    private Configuration    _config = LocalConfiguration.getInstance();
 
     private ImportDescriptor _importDesc;
 
@@ -110,14 +111,14 @@ public abstract class Importer
     public void importDocument( InputStream stream )
 	throws ImportExportException
     {
-	importDocument( _config.getParser(), new InputSource( stream ) );
+	importDocument( _xmlContext.getParser(), new InputSource( stream ) );
     }
 
 
     public void importDocument( Reader reader )
 	throws ImportExportException
     {
-	importDocument( _config.getParser(), new InputSource( reader ) );
+	importDocument( _xmlContext.getParser(), new InputSource( reader ) );
     }
 
 
@@ -143,14 +144,14 @@ public abstract class Importer
     public void readImportDescriptor( InputStream input )
 	throws IOException, SAXException
     {
-	readImportDescriptor( _config.getParser(), new InputSource( input ) );
+	readImportDescriptor( _xmlContext.getParser(), new InputSource( input ) );
     }
 
 
     public void readImportDescriptor( Reader input )
 	throws IOException, SAXException
     {
-	readImportDescriptor( _config.getParser(), new InputSource( input ) );
+	readImportDescriptor( _xmlContext.getParser(), new InputSource( input ) );
     }
 
 

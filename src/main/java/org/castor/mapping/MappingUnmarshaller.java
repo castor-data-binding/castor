@@ -23,6 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.CoreConfiguration;
 import org.castor.util.Messages;
+import org.castor.xml.InternalContext;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingLoader;
@@ -57,6 +58,12 @@ public final class MappingUnmarshaller {
     /** A flag that indicates of whether or not to allow redefinitions of class
      *  mappings. */
     private boolean _allowRedefinitions = false;
+
+    /**
+     * The {@link InternalContext}?holds all 'global' Castor states and access to
+     * configuration.
+     */
+    private InternalContext _internalContext;
     
     //--------------------------------------------------------------------------
 
@@ -129,6 +136,7 @@ public final class MappingUnmarshaller {
                     "CastorXmlMapping", bindingType);
             loader.setClassLoader(mapping.getClassLoader());
             loader.setAllowRedefinitions(_allowRedefinitions);
+            loader.setInternalContext(_internalContext);
             loader.loadMapping(mapping.getRoot(), param);
             return loader;
         }
@@ -249,6 +257,14 @@ public final class MappingUnmarshaller {
         } catch (Exception ex) {
             throw new MappingException(ex);
         }
+    }
+
+    /**
+     * To set the internal context.
+     * @param internalContext the {@link InternalContext}?to use
+     */
+    public void setInternalContext(final InternalContext internalContext) {
+        _internalContext = internalContext;
     }
 
     //--------------------------------------------------------------------------

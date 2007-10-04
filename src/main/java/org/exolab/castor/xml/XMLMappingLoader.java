@@ -49,18 +49,16 @@
  */
 package org.exolab.castor.xml;
 
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Properties;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.castor.mapping.BindingType;
-import org.castor.util.Messages;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.FieldDescriptor;
@@ -76,21 +74,17 @@ import org.exolab.castor.mapping.loader.TypeInfo;
 import org.exolab.castor.mapping.loader.Types;
 import org.exolab.castor.mapping.xml.BindXml;
 import org.exolab.castor.mapping.xml.ClassMapping;
-import org.exolab.castor.mapping.xml.FieldHandlerDef;
 import org.exolab.castor.mapping.xml.FieldMapping;
 import org.exolab.castor.mapping.xml.MapTo;
 import org.exolab.castor.mapping.xml.MappingRoot;
-import org.exolab.castor.mapping.xml.Param;
 import org.exolab.castor.mapping.xml.Property;
 import org.exolab.castor.mapping.xml.types.BindXmlAutoNamingType;
 import org.exolab.castor.mapping.xml.types.FieldMappingCollectionType;
-import org.exolab.castor.util.LocalConfiguration;
 import org.exolab.castor.xml.handlers.ContainerFieldHandler;
 import org.exolab.castor.xml.handlers.ToStringFieldHandler;
 import org.exolab.castor.xml.util.ContainerElement;
 import org.exolab.castor.xml.util.XMLClassDescriptorAdapter;
 import org.exolab.castor.xml.util.XMLClassDescriptorImpl;
-import org.exolab.castor.xml.util.XMLClassDescriptorResolverImpl;
 import org.exolab.castor.xml.util.XMLContainerElementFieldDescriptor;
 import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 import org.exolab.castor.xml.validators.IdRefValidator;
@@ -105,6 +99,12 @@ import org.exolab.castor.xml.validators.NameValidator;
  * @version $Revision$ $Date: 2006-02-23 01:37:50 -0700 (Thu, 23 Feb 2006) $
  */
 public final class XMLMappingLoader extends AbstractMappingLoader {
+
+    /** 
+     * {@link Log} instance to be used. 
+     */
+    private static final Log LOG = LogFactory.getLog(XMLMappingLoader.class);
+    
     //-----------------------------------------------------------------------------------
 
     /** The default xml prefix used on certain attributes such as xml:lang, xml:base,
@@ -118,7 +118,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
     private static final String NCNAME = "NCName";
 
     /** The string argument for the valueOf method, used for introspection. */
-    private static final Class[] STRING_ARG = { String.class };
+    private static final Class[] STRING_ARG = {String.class};
 
     /** Factory method name for type-safe enumerations. This is primarily for allowing
      *  users to map classes that were created by Castor's SourceGenerator. */
@@ -126,26 +126,14 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
 
     //-----------------------------------------------------------------------------------
 
-    /** A reference to the internal ClassDescriptorResolver. */
-    private XMLClassDescriptorResolverImpl _cdResolver;
-
-    /** The default NodeType for primitives. */
-    private NodeType _primitiveNodeType = null;
-
-    /** Naming conventions. */
-    private XMLNaming _naming = null;
-
-    //-----------------------------------------------------------------------------------
-
     /**
-     * Creates a new XMLMappingLoader
+     * Creates a new XMLMappingLoader.
+     * Joachim 2007-08-19: called via ClassLoader from XMLMappingLoaderFactory.getMappingLoader()
+     * must not be modified!!!
+     * @param loader the class loader to use
      */
-    public XMLMappingLoader(ClassLoader loader) {
+    public XMLMappingLoader(final ClassLoader loader) {
         super(loader);
-
-        LocalConfiguration config = LocalConfiguration.getInstance();
-        _primitiveNodeType = config.getPrimitiveNodeType();
-        _naming = config.getXMLNaming();
     }
 
     //-----------------------------------------------------------------------------------
@@ -163,208 +151,241 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
     public void loadMapping(final MappingRoot mapping, final Object param)
     throws MappingException {
         if (loadMapping()) {
-        	createFieldHandlers(mapping);
-        	createClassDescriptors(mapping);
+            createFieldHandlers(mapping);
+            createClassDescriptors(mapping);
         }
     }
 
     //-----------------------------------------------------------------------------------
     
-
-    
-    protected final ClassDescriptor createClassDescriptor(final ClassMapping clsMap)
+    /**
+     * To create the class descriptor for the given class mapping.
+     * Throws IllegalStateException if the class has no valid internal context.
+     * @param clsMap the class mapping information to process
+     * @return the {@link ClassDescriptor} created for the class mapping
+     * @throws MappingException ...
+     */
+    protected ClassDescriptor createClassDescriptor(final ClassMapping clsMap)
     throws MappingException {
-        if (clsMap.getAutoComplete()) {
-            if ((clsMap.getMapTo() == null) &&
-                ((clsMap.getClassChoice() == null) ||
-                 (clsMap.getClassChoice().getFieldMappingCount() == 0)) &&
-                (clsMap.getIdentityCount() == 0))
-            {
-                // If we make it here we simply try to load a compiled mapping
-                if (_cdResolver == null) { createResolver(); }
-                try {
-                    ClassDescriptor clsDesc = _cdResolver.resolve(clsMap.getName());
-                    if (clsDesc != null) { return clsDesc; }
-                } catch(ResolverException rx) {
-                    
-                }
-            }
+        // execution makes no sense without a context or without a resolver...
+        if ((getInternalContext() == null) 
+                || (getInternalContext().getXMLClassDescriptorResolver() == null)) {
+            String message = "Internal context or class descriptor resolver within are not valid";
+            LOG.warn(message);
+            throw new IllegalStateException(message);
         }
-        
         // Create the class descriptor.
         XMLClassDescriptorAdapter xmlClassDesc = new XMLClassDescriptorAdapter();
-        
-        // Obtain the Java class.
-        Class javaClass = resolveType(clsMap.getName());
-        if (clsMap.getVerifyConstructable()) {
-            if (!Types.isConstructable(javaClass, true)) {
-                throw new MappingException(
-                        "mapping.classNotConstructable", javaClass.getName());
-            }
-        }
-        xmlClassDesc.setJavaClass(javaClass);
 
-        // Obtain XML name.
-        String xmlName;
-        MapTo mapTo = clsMap.getMapTo();
-        if ((mapTo != null) && (mapTo.getXml() != null)) {
-            xmlName = mapTo.getXml();
-        } else {
-            String clsName = javaClass.getName();
-            int idx = clsName.lastIndexOf('.');
-            if (idx >= 0) { clsName = clsName.substring(idx + 1); }
-            xmlName = _naming.toXMLName(clsName);
-        }
-        xmlClassDesc.setXMLName(xmlName);
+        // Introspection and package level stuff needs to be disabled !!
+        getInternalContext().getXMLClassDescriptorResolver().setUseIntrospection(false);
+        getInternalContext().getXMLClassDescriptorResolver().setLoadPackageMappings(false);
 
-        // If this class extends another class, we need to obtain the extended
-        // class and make sure this class indeed extends it.
-        ClassDescriptor extDesc = getExtended(clsMap, javaClass);
-        xmlClassDesc.setExtends((XMLClassDescriptor) extDesc);
-        
-        // Create all field descriptors.
-        AbstractFieldDescriptor[] allFields = createFieldDescriptors(clsMap, javaClass);
-
-        // Make sure there are no two fields with the same name.
-        checkFieldNameDuplicates(allFields, javaClass);
-        
-        // Identify identity and normal fields. Note that order must be preserved.
-        List fieldList = new ArrayList(allFields.length);
-        List idList = new ArrayList();
-        if (extDesc == null) {
-            // Sort fields into 2 lists based on identity definition of field.
-            for (int i = 0; i < allFields.length; i++) {
-                if (!allFields[i].isIdentity()) {
-                    fieldList.add(allFields[i]);
-                } else {
-                    idList.add(allFields[i]);
+        try {
+            if (clsMap.getAutoComplete()) {
+                if ((clsMap.getMapTo() == null) 
+                        && ((clsMap.getClassChoice() == null) 
+                                || (clsMap.getClassChoice().getFieldMappingCount() == 0)) 
+                                && (clsMap.getIdentityCount() == 0)) {
+                    // If we make it here we simply try to load a compiled mapping
+                    try {
+                        ClassDescriptor clsDesc = 
+                            getInternalContext()
+                            .getXMLClassDescriptorResolver().resolve(clsMap.getName());
+                        if (clsDesc != null) { return clsDesc; }
+                    } catch (ResolverException e) {
+                        if (LOG.isDebugEnabled()) {
+                            String message =
+                                new StringBuffer().append("Ignoring exception: ").append(e)
+                                .append(" at resolving: ").append(clsMap.getName()).toString();
+                            LOG.debug(message);
+                        }
+                    }
                 }
             }
             
-            if (idList.size() == 0) {
-                // Found no identities based on identity definition of field.
-                // Try to find identities based on identity definition on class.
-                String[] idNames = clsMap.getIdentity();
-                
-                FieldDescriptor identity;
-                for (int i = 0; i < idNames.length; i++) {
-                    identity = findIdentityByName(fieldList, idNames[i], javaClass);
-                    if (identity != null) {
-                        idList.add(identity);
+            // Obtain the Java class.
+            Class javaClass = resolveType(clsMap.getName());
+            if (clsMap.getVerifyConstructable()) {
+                if (!Types.isConstructable(javaClass, true)) {
+                    throw new MappingException(
+                            "mapping.classNotConstructable", javaClass.getName());
+                }
+            }
+            xmlClassDesc.setJavaClass(javaClass);
+
+            // Obtain XML name.
+            String xmlName;
+            MapTo mapTo = clsMap.getMapTo();
+            if ((mapTo != null) && (mapTo.getXml() != null)) {
+                xmlName = mapTo.getXml();
+            } else {
+                String clsName = javaClass.getName();
+                int idx = clsName.lastIndexOf('.');
+                if (idx >= 0) { clsName = clsName.substring(idx + 1); }
+                xmlName = getInternalContext().getXMLNaming().toXMLName(clsName);
+            }
+            xmlClassDesc.setXMLName(xmlName);
+
+            // If this class extends another class, we need to obtain the extended
+            // class and make sure this class indeed extends it.
+            ClassDescriptor extDesc = getExtended(clsMap, javaClass);
+            xmlClassDesc.setExtends((XMLClassDescriptor) extDesc);
+            
+            // Create all field descriptors.
+            AbstractFieldDescriptor[] allFields = createFieldDescriptors(clsMap, javaClass);
+
+            // Make sure there are no two fields with the same name.
+            checkFieldNameDuplicates(allFields, javaClass);
+            
+            // Identify identity and normal fields. Note that order must be preserved.
+            List fieldList = new ArrayList(allFields.length);
+            List idList = new ArrayList();
+            if (extDesc == null) {
+                // Sort fields into 2 lists based on identity definition of field.
+                for (int i = 0; i < allFields.length; i++) {
+                    if (!allFields[i].isIdentity()) {
+                        fieldList.add(allFields[i]);
                     } else {
-                        throw new MappingException("mapping.identityMissing",
-                                idNames[i], javaClass.getName());
+                        idList.add(allFields[i]);
                     }
                 }
+                
+                if (idList.size() == 0) {
+                    // Found no identities based on identity definition of field.
+                    // Try to find identities based on identity definition on class.
+                    String[] idNames = clsMap.getIdentity();
+                    
+                    FieldDescriptor identity;
+                    for (int i = 0; i < idNames.length; i++) {
+                        identity = findIdentityByName(fieldList, idNames[i], javaClass);
+                        if (identity != null) {
+                            idList.add(identity);
+                        } else {
+                            throw new MappingException("mapping.identityMissing",
+                                    idNames[i], javaClass.getName());
+                        }
+                    }
+                }
+            } else {
+                // Add all fields of extending class to field list.
+                for (int i = 0; i < allFields.length; i++) { fieldList.add(allFields[i]); }
+                
+                // Add identity of extended class to identity list.
+                if (extDesc.getIdentity() != null) { idList.add(extDesc.getIdentity()); }
+                
+                // Search redefined identities in extending class.
+                FieldDescriptor identity;
+                for (int i = 0; i < idList.size(); i++) {
+                    String idname = ((FieldDescriptor) idList.get(i)).getFieldName();
+                    identity = findIdentityByName(fieldList, idname, javaClass);
+                    if (identity != null) { idList.set(i, identity); }
+                }
             }
-        } else {
-            // Add all fields of extending class to field list.
-            for (int i = 0; i < allFields.length; i++) { fieldList.add(allFields[i]); }
             
-            // Add identity of extended class to identity list.
-            if (extDesc.getIdentity() != null) { idList.add(extDesc.getIdentity()); }
+            FieldDescriptor xmlId = null;
+            if (idList.size() != 0) { xmlId = (FieldDescriptor) idList.get(0); }
             
-            // Search redefined identities in extending class.
-            FieldDescriptor identity;
-            for (int i = 0; i < idList.size(); i++) {
-                String idname = ((FieldDescriptor) idList.get(i)).getFieldName();
-                identity = findIdentityByName(fieldList, idname, javaClass);
-                if (identity != null) { idList.set(i, identity); }
+            if (xmlId != null) { xmlClassDesc.setIdentity((XMLFieldDescriptorImpl) xmlId); }
+            for (int i = 0; i < fieldList.size(); i++) {
+                FieldDescriptor fieldDesc = (FieldDescriptor) fieldList.get(i);
+                if (fieldDesc != null) {
+                    xmlClassDesc.addFieldDescriptor((XMLFieldDescriptorImpl) fieldDesc);
+                }
             }
-        }
-        
-        FieldDescriptor xmlId = null;
-        if (idList.size() != 0) { xmlId = (FieldDescriptor) idList.get(0); }
-        
-        if (xmlId != null) { xmlClassDesc.setIdentity((XMLFieldDescriptorImpl) xmlId); }
-        for (int i = 0; i < fieldList.size(); i++) {
-            FieldDescriptor fieldDesc = (FieldDescriptor) fieldList.get(i);
-            if (fieldDesc != null) {
-                xmlClassDesc.addFieldDescriptor((XMLFieldDescriptorImpl) fieldDesc);
-            }
-        }
-        
-        if (clsMap.getAutoComplete()) {
+            
+            if (clsMap.getAutoComplete()) {
 
-            XMLClassDescriptor referenceDesc = null;
-            
-            Class type = xmlClassDesc.getJavaClass();
-            
-            //-- check compiled descriptors 
-            if (_cdResolver == null) { createResolver(); }
-            try {
-                referenceDesc = (XMLClassDescriptor) _cdResolver.resolve(type);
-            } catch (ResolverException rx) {
-                throw new MappingException(rx);
-            }
-
-            if (referenceDesc == null) {
-                Introspector introspector = new Introspector();
+                XMLClassDescriptor referenceDesc = null;
+                
+                Class type = xmlClassDesc.getJavaClass();
+                
+                //-- check compiled descriptors 
+                if ((getInternalContext() == null) 
+                        || (getInternalContext().getXMLClassDescriptorResolver() == null)) {
+                    String message = "Internal context or class descriptor resolver within are not valid";
+                    LOG.warn(message);
+                    throw new IllegalStateException(message);
+                }
                 try {
-                    referenceDesc = introspector.generateClassDescriptor(type);
-                    if (clsMap.getExtends() != null) {
-                        //-- clear parent from introspected descriptor since
-                        //-- a mapping was provided in the mapping file
-                        ((XMLClassDescriptorImpl)referenceDesc).setExtends(null);
+                    referenceDesc = (XMLClassDescriptor) getInternalContext().getXMLClassDescriptorResolver().resolve(type);
+                } catch (ResolverException rx) {
+                    throw new MappingException(rx);
+                }
+
+                if (referenceDesc == null) {
+                    Introspector introspector = getInternalContext().getIntrospector();
+                    try {
+                        referenceDesc = introspector.generateClassDescriptor(type);
+                        if (clsMap.getExtends() != null) {
+                            //-- clear parent from introspected descriptor since
+                            //-- a mapping was provided in the mapping file
+                            ((XMLClassDescriptorImpl) referenceDesc).setExtends(null);
+                        }
+                    } catch (MarshalException mx) {
+                        String error = "unable to introspect class '" +
+                            type.getName() + "' for auto-complete: ";
+                        throw new MappingException(error + mx.getMessage());
                     }
-                } catch (MarshalException mx) {
-                    String error = "unable to introspect class '" +
-                        type.getName() + "' for auto-complete: ";
-                    throw new MappingException(error + mx.getMessage());
+                }
+
+                //-- check for identity
+                String identity = "";
+                if (clsMap.getIdentityCount() > 0) {
+                    identity = clsMap.getIdentity(0);
+                }
+
+                
+                FieldDescriptor[] xmlFields2 = xmlClassDesc.getFields();
+
+                // Attributes
+                XMLFieldDescriptor[] introFields = referenceDesc.getAttributeDescriptors();
+                for (int i = 0; i < introFields.length; ++i) {
+                    if (!isMatchFieldName(xmlFields2, introFields[i].getFieldName())) {
+                        // If there is no field with this name, we can add it
+                        if (introFields[i].getFieldName().equals(identity)) {
+                            xmlClassDesc.setIdentity(introFields[i]);
+                        }
+                        else {
+                            xmlClassDesc.addFieldDescriptor(introFields[i]);
+                        }
+                    }
+                }
+
+                // Elements
+                introFields = referenceDesc.getElementDescriptors();
+                for (int i = 0; i < introFields.length; ++i) {
+                    if (!isMatchFieldName(xmlFields2, introFields[i].getFieldName())) {
+                        // If there is no field with this name, we can add it
+                        if (introFields[i].getFieldName().equals(identity)) {
+                            xmlClassDesc.setIdentity(introFields[i]);
+                        }
+                        else {
+                            xmlClassDesc.addFieldDescriptor(introFields[i]);
+                        }
+                    }
+                }
+
+                // Content
+                XMLFieldDescriptor field = referenceDesc.getContentDescriptor();
+                if (field != null) {
+                    if (!isMatchFieldName(xmlFields2, field.getFieldName())) {
+                        // If there is no field with this name, we can add
+                        xmlClassDesc.addFieldDescriptor(field);
+                    }
                 }
             }
 
-            //-- check for identity
-            String identity = "";
-            if (clsMap.getIdentityCount() > 0)
-                identity = clsMap.getIdentity(0);
-
-            
-            FieldDescriptor[] xmlFields2 = xmlClassDesc.getFields();
-
-            // Attributes
-            XMLFieldDescriptor[] introFields = referenceDesc.getAttributeDescriptors();
-            for (int i = 0; i<introFields.length; ++i) {
-                if (!isMatchFieldName(xmlFields2, introFields[i].getFieldName())) {
-                    // If there is no field with this name, we can add it
-                    if (introFields[i].getFieldName().equals(identity)) {
-                        xmlClassDesc.setIdentity(introFields[i]);
-                    }
-                    else {
-                        xmlClassDesc.addFieldDescriptor(introFields[i]);
-                    }
-                }
+            // Copy ns-uri + ns-prefix + element-definition
+            if (mapTo != null) {
+                xmlClassDesc.setNameSpacePrefix(mapTo.getNsPrefix());
+                xmlClassDesc.setNameSpaceURI(mapTo.getNsUri());
+                xmlClassDesc.setElementDefinition(mapTo.getElementDefinition());
             }
-
-            // Elements
-            introFields = referenceDesc.getElementDescriptors();
-            for (int i = 0; i<introFields.length; ++i) {
-                if (!isMatchFieldName(xmlFields2, introFields[i].getFieldName())) {
-                    // If there is no field with this name, we can add it
-                    if (introFields[i].getFieldName().equals(identity)) {
-                        xmlClassDesc.setIdentity(introFields[i]);
-                    }
-                    else {
-                        xmlClassDesc.addFieldDescriptor(introFields[i]);
-                    }
-                }
-            }
-
-            // Content
-            XMLFieldDescriptor field = referenceDesc.getContentDescriptor();
-            if (field!= null)
-                if (!isMatchFieldName(xmlFields2, field.getFieldName()))
-                    // If there is no field with this name, we can add
-                    xmlClassDesc.addFieldDescriptor(field);
-
-
         }
-
-        // Copy ns-uri + ns-prefix + element-definition
-        if (mapTo != null) {
-            xmlClassDesc.setNameSpacePrefix(mapTo.getNsPrefix());
-            xmlClassDesc.setNameSpaceURI(mapTo.getNsUri());
-            xmlClassDesc.setElementDefinition(mapTo.getElementDefinition());
+        finally {
+            getInternalContext().getXMLClassDescriptorResolver().setUseIntrospection(true);
+            getInternalContext().getXMLClassDescriptorResolver().setLoadPackageMappings(true);
         }
         
         return xmlClassDesc;
@@ -386,7 +407,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
         FieldDescriptor[] fields;
 
         fields = clsDesc.getFields();
-        for ( int i = 0 ; i < fields.length ; ++i ) {
+        for (int i = 0 ; i < fields.length ; ++i ) {
             if (fields[i].getClassDescriptor() != null) continue;
             ClassDescriptor   relDesc;
             
@@ -406,13 +427,6 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
 
     //-----------------------------------------------------------------------------------
 
-    private void createResolver() {
-        _cdResolver = (XMLClassDescriptorResolverImpl) 
-            ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
-        _cdResolver.setIntrospection(false);
-        _cdResolver.setLoadPackageMappings(false);
-    }
-    
     /**
      * Match if a field named <code>fieldName</code> is in fields
      */
@@ -506,7 +520,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
 
         if (nodeType == null) {
             if (isPrimitive(javaClass))
-                nodeType = _primitiveNodeType;
+                nodeType = getInternalContext().getPrimitiveNodeType();
             else
                 nodeType = NodeType.Element;
         }
@@ -517,11 +531,11 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
         //-- Collections to be handled properly.
         if ((!deriveNameByClass) && ((xmlName == null) && (match == null)))
         {
-            xmlName = _naming.toXMLName( fieldDesc.getFieldName() );
+            xmlName = getInternalContext().getXMLNaming().toXMLName( fieldDesc.getFieldName() );
             match = xmlName + ' ' + fieldDesc.getFieldName();
         }
 
-        xmlDesc = new XMLFieldDescriptorImpl( fieldDesc, xmlName, nodeType, _primitiveNodeType );
+        xmlDesc = new XMLFieldDescriptorImpl( fieldDesc, xmlName, nodeType, getInternalContext().getPrimitiveNodeType() );
 
         //-- transient?
         xmlDesc.setTransient(isXMLTransient);
@@ -719,12 +733,16 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
      * @param loadPackageMappings a boolean that enables or
      * disables the loading of package specific mapping files
      */
-    public void setLoadPackageMappings(boolean loadPackageMappings)
-    {
-        if (_cdResolver == null) {
-            createResolver();
+    public void setLoadPackageMappings(final boolean loadPackageMappings) {
+        if ((getInternalContext() == null) 
+                || (getInternalContext().getXMLClassDescriptorResolver() == null)) {
+            String message = "Internal context or class descriptor resolver within are not valid";
+            LOG.warn(message);
+            throw new IllegalStateException(message);
         }
-        _cdResolver.setLoadPackageMappings(loadPackageMappings);
+        getInternalContext()
+            .getXMLClassDescriptorResolver()
+            .setLoadPackageMappings(loadPackageMappings);
     } //-- setLoadPackageMappings
 
 
@@ -761,7 +779,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
             = new XMLFieldDescriptorImpl(fieldDesc,
                                          fieldDesc.getXMLName(),
                                          fieldDesc.getNodeType(),
-                                         _primitiveNodeType);
+                                         getInternalContext().getPrimitiveNodeType());
         //-- nullify xmlName so that auto-naming will be enabled,
         //-- we can't do this in the constructor because
         //-- XMLFieldDescriptorImpl will create a default one.
@@ -782,7 +800,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
 
         //-- Change fieldType of original field descriptor and
         //-- return new descriptor
-        return new XMLContainerElementFieldDescriptor(fieldDesc, _primitiveNodeType);
+        return new XMLContainerElementFieldDescriptor(fieldDesc, getInternalContext().getPrimitiveNodeType());
     } //-- createWrapperDescriptor
 
     /**

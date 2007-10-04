@@ -46,6 +46,7 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
+import org.castor.xml.InternalContext;
 import org.exolab.castor.net.*;
 import org.exolab.castor.xml.*;
 import org.exolab.castor.xml.schema.*;
@@ -92,16 +93,19 @@ public class RedefineUnmarshaller extends ComponentReader
 	 * The XML Schema imported
 	 */
 	
-    public RedefineUnmarshaller
-        (Schema schema, AttributeSet atts, Resolver resolver, URIResolver uriResolver, Locator locator, SchemaUnmarshallerState state)
-		throws XMLException
-    {
-        super();
+    public RedefineUnmarshaller(
+            final InternalContext internalContext,
+            final Schema schema,
+            final AttributeSet atts,
+            final URIResolver uriResolver,
+            final Locator locator,
+            final SchemaUnmarshallerState state)
+    throws XMLException {
+        super(internalContext);
         if (schema == null) {
         	String err = SchemaNames.REDEFINE + " must be used with an existing parent XML Schema.";
         	throw new SchemaException(err);
         }
-        setResolver(resolver);
         setURIResolver(uriResolver);
 
         URILocation uri = null;
@@ -177,14 +181,14 @@ public class RedefineUnmarshaller extends ComponentReader
         //-- Parser Schema
 		Parser parser = null;
 		try {
-		    parser = state.getConfiguration().getParser();
+		    parser = getInternalContext().getParser();
 		}
 		catch(RuntimeException rte) {}
 		if (parser == null) {
 		    throw new SchemaException("Error failed to create parser for import");
 		}
 		//-- Create Schema object and setup unmarshaller
-		SchemaUnmarshaller schemaUnmarshaller = new SchemaUnmarshaller(state);
+		SchemaUnmarshaller schemaUnmarshaller = new SchemaUnmarshaller(getInternalContext(), state);
 		schemaUnmarshaller.setURIResolver(getURIResolver());
 		schemaUnmarshaller.setSchema(importedSchema);
 		Sax2ComponentReader handler = new Sax2ComponentReader(schemaUnmarshaller);
@@ -270,24 +274,24 @@ public class RedefineUnmarshaller extends ComponentReader
     	
     	//-- <annotation>
     	if (name.equals(SchemaNames.ANNOTATION)) {
-    		_unmarshaller = new AnnotationUnmarshaller(atts);
+    		_unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
     	}
     	//-- <attributeGroup>
     	else if (name.equals(SchemaNames.ATTRIBUTE_GROUP)) {
-    		_unmarshaller = new AttributeGroupUnmarshaller(_schema, atts);
+    		_unmarshaller = new AttributeGroupUnmarshaller(getInternalContext(), _schema, atts);
     	}
     	//-- <complexType>
     	else if (name.equals(SchemaNames.COMPLEX_TYPE)) {
     		_unmarshaller
-			= new ComplexTypeUnmarshaller(_schema, atts, getResolver());
+			= new ComplexTypeUnmarshaller(getInternalContext(), _schema, atts);
     	}
     	//-- <simpleType>
     	else if (name.equals(SchemaNames.SIMPLE_TYPE)) {
-    		_unmarshaller = new SimpleTypeUnmarshaller(_schema, atts);
+    		_unmarshaller = new SimpleTypeUnmarshaller(getInternalContext(), _schema, atts);
     	}
     	//-- <group>
     	else if (name.equals(SchemaNames.GROUP)) {
-    		_unmarshaller = new ModelGroupUnmarshaller(_schema, atts, getResolver());
+    		_unmarshaller = new ModelGroupUnmarshaller(getInternalContext(), _schema, atts);
     	}
     	else {
     		//--Exception here

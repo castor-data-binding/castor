@@ -44,11 +44,11 @@
  */
 package org.exolab.castor.xml.util;
 
+import org.castor.xml.BackwardCompatibilityContext;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
-import org.exolab.castor.util.LocalConfiguration;
 import org.exolab.castor.xml.NodeType;
 import org.exolab.castor.xml.XMLClassDescriptor;
 import org.exolab.castor.xml.XMLFieldDescriptor;
@@ -96,7 +96,7 @@ public class XMLClassDescriptorAdapter extends XMLClassDescriptorImpl {
         }
 
         if (primitiveNodeType == null) {
-            primitiveNodeType = LocalConfiguration.getInstance().getPrimitiveNodeType();
+            primitiveNodeType = new BackwardCompatibilityContext().getPrimitiveNodeType();
         }
 
         if (primitiveNodeType == null) {

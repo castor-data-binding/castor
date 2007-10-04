@@ -52,8 +52,9 @@ import java.io.InputStream;
 import java.util.Vector;
 import java.util.Hashtable;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.castor.util.Messages;
-import org.exolab.castor.util.LocalConfiguration;
 import org.exolab.castor.mapping.Mapping;
 
 import org.exolab.castor.xml.Unmarshaller;
@@ -76,6 +77,11 @@ import org.xml.sax.InputSource;
 **/
 public class SimpleTypesFactory {
 
+    /**
+     * The Logger instance to use.
+     */
+    private static final Log LOG = LogFactory.getLog(SimpleTypesFactory.class);
+    
     //Type Codes:
 
     /**
@@ -426,10 +432,14 @@ public class SimpleTypesFactory {
 		        TypeList typeList = (TypeList)unmarshaller.unmarshal( new org.xml.sax.InputSource(is) );
 
                 //print what we just read (only in debug mode and if we have a logWriter)
-                LocalConfiguration config = LocalConfiguration.getInstance();
-		        if (config.debug() && getLogWriter()!= null) {
-                    typeList.Print(getLogWriter());
+		        // TODO: Joachim 2007-09-04 remove me
+                // LocalConfiguration config = LocalConfiguration.getInstance();
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug(typeList.toString());
                 }
+		        //if (config.debug() && getLogWriter()!= null) {
+                //    typeList.Print(getLogWriter());
+                //}
 
                 //Store the types by name in the typesByName and typesByCode hashtables
                 //and create for each its associated SimpleType instance.

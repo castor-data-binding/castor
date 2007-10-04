@@ -13,7 +13,10 @@
  */
 package org.exolab.castor.util;
 
+import org.castor.xml.XMLConfiguration;
+import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.Marshaller;
+import org.exolab.castor.xml.XMLContext;
 import org.exolab.castor.util.Configuration;
 import org.exolab.castor.util.LocalConfiguration;
 
@@ -52,13 +55,26 @@ public class ChangeLog2XML {
     private static final String VERSION_SEPARATOR   = "---";
     private static final String VERSION_TOKEN       = "Version";
     
-    
+    /**
+     * The {@link InternalContext} holding global state and configuration
+     * information.
+     */
+    private InternalContext _internalContext;
+
     /**
      * Creates a new instance of ChangeLog2XML
      *
      */
     public ChangeLog2XML() {
         super();
+    }
+    
+    /**
+     * To set the {@link InternalContext} into the ChangeLog2XML instance.
+     * @param internalContext the context to set
+     */
+    public void setInternalContext(final InternalContext internalContext) {
+        _internalContext = internalContext;
     }
     
     /**
@@ -200,8 +216,8 @@ public class ChangeLog2XML {
         // 2. mapping file for customization
         // 3. output file name
         
-        
-        ChangeLog2XML parser = new ChangeLog2XML();
+        XMLContext xmlContext = new XMLContext();
+        ChangeLog2XML parser = xmlContext.createChangeLog2XML();
         
         try {
             File file = new File(DEFAULT_FILE);
@@ -209,9 +225,11 @@ public class ChangeLog2XML {
             
             file = new File(DEFAULT_OUTPUT);
             FileWriter writer = new FileWriter(file);
-            LocalConfiguration config = LocalConfiguration.getInstance();
-            config.getProperties().setProperty(Configuration.Property.Indent, "true");
-            Marshaller marshaller = new Marshaller(writer);
+
+            xmlContext.setProperty(XMLConfiguration.USE_INDENTATION, true);
+            Marshaller marshaller = xmlContext.createMarshaller();
+            marshaller.setWriter(writer);
+            
             marshaller.setRootElement("changelog");
             marshaller.setSuppressXSIType(true);
             marshaller.marshal(changelog);

@@ -45,6 +45,7 @@
 
 package org.exolab.castor.xml.schema.reader;
 
+import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.XMLException;
 
 /**
@@ -58,11 +59,13 @@ public class CharacterUnmarshaller extends ComponentReader {
     private StringBuffer sb = null;
     
     private String currentName = null;
+
     /**
-     * Creates a new StringUnmarshaller
+     * Creates a new StringUnmarshaller.
+     * @param internalContext the internalContext to get some configuration settings from
     **/
-    public CharacterUnmarshaller() {
-        super();
+    public CharacterUnmarshaller(final InternalContext internalContext) {
+        super(internalContext);
         sb = new StringBuffer();
     } //-- CharacterUnmarshaller
     

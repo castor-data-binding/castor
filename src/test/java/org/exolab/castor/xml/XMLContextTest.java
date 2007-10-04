@@ -3,6 +3,7 @@ package org.exolab.castor.xml;
 import junit.framework.TestCase;
 
 import org.castor.test.entity.Entity;
+import org.castor.xml.InternalContext;
 import org.exolab.castor.mapping.Mapping;
 import org.xml.sax.InputSource;
 
@@ -11,7 +12,7 @@ public class XMLContextTest extends TestCase {
     private static final String MAPPING_FILE = "org/castor/test/entity/mapping.xml";
 
     /**
-     * Test {@link XMLContext} by providing a generated package.
+     * Test {@link InternalContext} by providing a generated package.
      * @throws Exception
      */
     public void testXMLContextByPackage() throws Exception {
@@ -36,15 +37,13 @@ public class XMLContextTest extends TestCase {
      */
     public void testXMLContextByMapping() throws Exception {
         
-
-        Mapping mapping = XMLContext.createMapping();
+        XMLContext xmlContext = new XMLContext();
+        Mapping mapping = xmlContext.createMapping();
         mapping.loadMapping(new InputSource(getResource(MAPPING_FILE)));
         
-        XMLContext context = new XMLContext();
-        context.addMapping(mapping);
-        assertNotNull (context);
+        xmlContext.addMapping(mapping);
         
-        Unmarshaller unmarshaller = context.createUnmarshaller();
+        Unmarshaller unmarshaller = xmlContext.createUnmarshaller();
         assertNotNull(unmarshaller);
         
         unmarshaller.setClass(Entity.class);

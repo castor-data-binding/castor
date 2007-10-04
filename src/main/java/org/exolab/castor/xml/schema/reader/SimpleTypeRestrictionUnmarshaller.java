@@ -46,6 +46,7 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
+import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
@@ -100,14 +101,16 @@ public class SimpleTypeRestrictionUnmarshaller extends ComponentReader {
 
     /**
      * Creates a new RestrictionUnmarshaller
+     * @param internalContext the internalContext to get some configuration settings from
      * @param typeDefinition the SimpleType being unmarshalled
      * @param atts the AttributeList
     **/
-    public SimpleTypeRestrictionUnmarshaller
-        (SimpleTypeDefinition typeDefinition, AttributeSet atts)
-        throws XMLException
-    {
-        super();
+    public SimpleTypeRestrictionUnmarshaller(
+            final InternalContext internalContext,
+            final SimpleTypeDefinition typeDefinition, 
+            final AttributeSet atts)
+    throws XMLException {
+        super(internalContext);
 
         _typeDefinition  = typeDefinition;
         _schema          = typeDefinition.getSchema();
@@ -189,7 +192,7 @@ public class SimpleTypeRestrictionUnmarshaller extends ComponentReader {
                     "'restriction' elements.");
 
             foundAnnotation = true;
-            unmarshaller = new AnnotationUnmarshaller(atts);
+            unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
         }
         else if (SchemaNames.SIMPLE_TYPE.equals(name)) {
             if (foundSimpleType)
@@ -201,12 +204,12 @@ public class SimpleTypeRestrictionUnmarshaller extends ComponentReader {
                     "elements, must appear before any facets.");
 
             foundSimpleType = true;
-            unmarshaller = new SimpleTypeUnmarshaller(_schema, atts);
+            unmarshaller = new SimpleTypeUnmarshaller(getInternalContext(), _schema, atts);
 
         }
         else if (FacetUnmarshaller.isFacet(name)) {
             foundFacets = true;
-            unmarshaller = new FacetUnmarshaller(name, atts);
+            unmarshaller = new FacetUnmarshaller(getInternalContext(), name, atts);
         }
         else illegalElement(name);
 

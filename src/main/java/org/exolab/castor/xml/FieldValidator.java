@@ -198,7 +198,7 @@ public class FieldValidator extends Validator {
             if (_descriptor.isRequired() 
                     && _descriptor.getSchemaType() != null
                     && _descriptor.getSchemaType().equals("IDREF") 
-                    && context.getConfiguration().getLenientIdValidation()) {
+                    && context.getInternalContext().getLenientIdValidation()) {
                 return;
             }
             StringBuffer buff = new StringBuffer();

@@ -85,6 +85,19 @@ public class TypeList
         output.flush();
     }
 
+    /**
+     * To generate a {@link String} representing this class instance.
+     * @see java.lang.Object#toString()
+     */
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("Types count: ").append(types.size());
+        for (int index = 0; index < types.size(); index++) {
+            Type t = (Type) (types.elementAt(index));
+            sb.append(t.toString());
+        }
+        return sb.toString();
+    }
 }
 
 

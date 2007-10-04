@@ -46,21 +46,32 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
-import org.exolab.castor.net.*;
-import org.exolab.castor.xml.*;
-import org.exolab.castor.xml.schema.*;
-import org.xml.sax.*;
+import org.castor.xml.InternalContext;
+import org.exolab.castor.net.URIException;
+import org.exolab.castor.net.URILocation;
+import org.exolab.castor.net.URIResolver;
+import org.exolab.castor.xml.AttributeSet;
+import org.exolab.castor.xml.XMLException;
+import org.exolab.castor.xml.schema.Schema;
+import org.exolab.castor.xml.schema.SchemaException;
+import org.exolab.castor.xml.schema.SchemaNames;
+import org.xml.sax.InputSource;
+import org.xml.sax.Locator;
+import org.xml.sax.Parser;
 
 public class ImportUnmarshaller extends ComponentReader
 {
 
 
-    public ImportUnmarshaller
-        (Schema schema, AttributeSet atts, Resolver resolver, URIResolver uriResolver, Locator locator, SchemaUnmarshallerState state)
-        throws XMLException
-    {
-        super();
-        setResolver(resolver);
+    public ImportUnmarshaller(
+            final InternalContext internalContext,
+            final Schema schema,
+            final AttributeSet atts,
+            final URIResolver uriResolver,
+            final Locator locator, 
+            final SchemaUnmarshallerState state)
+    throws XMLException {
+        super(internalContext);
         setURIResolver(uriResolver);
 
         URILocation uri = null;
@@ -177,14 +188,14 @@ public class ImportUnmarshaller extends ComponentReader
         //-- Parser Schema
         Parser parser = null;
         try {
-            parser = state.getConfiguration().getParser();
+            parser = getInternalContext().getParser();
         }
         catch(RuntimeException rte) {}
         if (parser == null) {
             throw new SchemaException("Error failed to create parser for import");
         }
     //-- Create Schema object and setup unmarshaller
-    SchemaUnmarshaller schemaUnmarshaller = new SchemaUnmarshaller(state);
+    SchemaUnmarshaller schemaUnmarshaller = new SchemaUnmarshaller(getInternalContext(), state);
           schemaUnmarshaller.setURIResolver(getURIResolver());
     schemaUnmarshaller.setSchema(importedSchema);
     Sax2ComponentReader handler = new Sax2ComponentReader(schemaUnmarshaller);

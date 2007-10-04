@@ -46,6 +46,7 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
+import org.castor.xml.InternalContext;
 import org.exolab.castor.net.URIResolver;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
@@ -62,23 +63,16 @@ import org.xml.sax.Locator;
 **/
 public abstract class ComponentReader {
 
-
       //--------------------/
      //- Member Variables -/
     //--------------------/
+    /** The Castor XML context to use. */
+    private InternalContext _internalContext;
+    
+    private Locator _documentLocator;
 
     /**
-     * The document locator
-    **/
-    protected Locator _locator = null;
-
-    /**
-     * The resolver to be used for resolving id references
-    **/
-    private Resolver _resolver;
-
-    /**
-     * The resolver to be used for resolving href
+     * The resolver to be used for resolving href.
      */
     private URIResolver _uriResolver;
 
@@ -86,9 +80,18 @@ public abstract class ComponentReader {
      //- Constructors -/
     //----------------/
 
-    public ComponentReader() {
+    private ComponentReader() {
         super();
     } //-- ComponentReader
+    
+    /**
+     * To hand down a couple of configuration items to all Unmarshaller classes.
+     * @param internalContext the InternalContext to use
+     */
+    protected ComponentReader(final InternalContext internalContext) {
+        this();
+        _internalContext = internalContext;
+    }
 
       //-----------/
      //- Methods -/
@@ -114,16 +117,12 @@ public abstract class ComponentReader {
     **/
     public void finish() throws XMLException {}
 
-    public Locator getDocumentLocator() {
-        return _locator;
-    } //-- getLocator
-
     /**
      * Returns the resolver used for resolving id references.
      * @return the resolver used for resolving id references.
     **/
     public Resolver getResolver() {
-        return _resolver;
+        return _internalContext.getSchemaResolver();
     } //-- getResolver
 
     /**
@@ -141,7 +140,7 @@ public abstract class ComponentReader {
      * id references
     **/
     public void setResolver(Resolver resolver) {
-        _resolver = resolver;
+        _internalContext.setSchemaResolver(resolver);
     } //-- setResolver
 
 
@@ -188,8 +187,8 @@ public abstract class ComponentReader {
         throws XMLException
     {
 
-        if (_locator != null) {
-            err += "\n   line: " + _locator.getLineNumber();
+        if (getDocumentLocator() != null) {
+            err += "\n   line: " + getDocumentLocator().getLineNumber();
         }
 
         throw new XMLException(err);
@@ -204,8 +203,8 @@ public abstract class ComponentReader {
         throws XMLException
     {
 
-        if (_locator != null) {
-            String err =  "An error occured at line: " + _locator.getLineNumber();
+        if (getDocumentLocator() != null) {
+            String err =  "An error occured at line: " + getDocumentLocator().getLineNumber();
             throw new XMLException(err, ex);
         }
         throw new XMLException(ex);
@@ -222,8 +221,8 @@ public abstract class ComponentReader {
         String err = "Illegal attribute '" + attName +
             "' found on element <" + elementName() + ">.";
 
-        if (_locator != null) {
-            err += "\n   line: " + _locator.getLineNumber();
+        if (getDocumentLocator() != null) {
+            err += "\n   line: " + getDocumentLocator().getLineNumber();
         }
 
         throw new XMLException(err);
@@ -239,8 +238,8 @@ public abstract class ComponentReader {
         String err = "Illegal element '" + name +
             "' found as child of <" + elementName() + ">.";
 
-        if (_locator != null) {
-            err += "\n   line: " + _locator.getLineNumber();
+        if (getDocumentLocator() != null) {
+            err += "\n   line: " + getDocumentLocator().getLineNumber();
         }
 
         throw new XMLException(err);
@@ -269,8 +268,8 @@ public abstract class ComponentReader {
         String err = "redefintion of element '" + name +
             "' within element <" + elementName() + ">.";
 
-        if (_locator != null) {
-            err += "\n   line: " + _locator.getLineNumber();
+        if (getDocumentLocator() != null) {
+            err += "\n   line: " + getDocumentLocator().getLineNumber();
         }
 
         if (xtraInfo != null) {
@@ -313,8 +312,12 @@ public abstract class ComponentReader {
         }
     } //-- toInt
 
-    public void setDocumentLocator(Locator locator) {
-        this._locator = locator;
+    public Locator getDocumentLocator() {
+        return _documentLocator;
+    } //-- getDocumentLocator
+
+    public void setDocumentLocator(Locator documentLocator) {
+        _documentLocator = documentLocator;
     } //-- setDocumentLocator
 
     /**
@@ -366,5 +369,20 @@ public abstract class ComponentReader {
 
     } //-- startElement
 
+    /**
+     * To set the Castor XML context to be used.
+     * @param internalContext the Castor XML context to be used
+     */
+    public void setInternalContext(final InternalContext internalContext) {
+        _internalContext = internalContext;
+    }
+    
+    /**
+     * To get the Castor XML context used.
+     * @return the Castor XML context used
+     */
+    public InternalContext getInternalContext() {
+        return _internalContext;
+    }
 } //-- ComponentReader
 

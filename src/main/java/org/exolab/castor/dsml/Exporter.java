@@ -56,6 +56,7 @@ import org.xml.sax.DocumentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.Parser;
 import org.xml.sax.InputSource;
+import org.castor.xml.InternalContext;
 import org.exolab.castor.util.Configuration;
 import org.exolab.castor.util.LocalConfiguration;
 import org.exolab.castor.dsml.SearchDescriptor;
@@ -71,8 +72,9 @@ import org.exolab.castor.dsml.ImportDescriptor;
 public abstract class Exporter
 {
 
+    private InternalContext _xmlContext = new InternalContext();
 
-    private Configuration _config = LocalConfiguration.getInstance();
+//    private Configuration _config = LocalConfiguration.getInstance();
     
     private SearchDescriptor _searchDesc;
 
@@ -85,7 +87,7 @@ public abstract class Exporter
 	throws ImportExportException
     {
         try {
-            export( _config.getSerializer( output ), serverSchema, importPolicy );
+            export( _xmlContext.getSerializer( output ), serverSchema, importPolicy );
         } catch ( IOException except ) {
             throw new ImportExportException( except );
         }
@@ -96,7 +98,7 @@ public abstract class Exporter
 	throws ImportExportException
     {
         try {
-            export( _config.getSerializer( output ), serverSchema, importPolicy );
+            export( _xmlContext.getSerializer( output ), serverSchema, importPolicy );
         } catch ( IOException except ) {
             throw new ImportExportException( except );
         }
@@ -135,14 +137,14 @@ public abstract class Exporter
     public void readSearchDescriptor( InputStream input )
 	throws IOException, SAXException
     {
-	readSearchDescriptor( _config.getParser(), new InputSource( input ) );
+	readSearchDescriptor( _xmlContext.getParser(), new InputSource( input ) );
     }
 
 
     public void readSearchDescriptor( Reader input )
 	throws IOException, SAXException
     {
-	readSearchDescriptor( _config.getParser(), new InputSource( input ) );
+	readSearchDescriptor( _xmlContext.getParser(), new InputSource( input ) );
     }
 
 

@@ -46,6 +46,7 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
+import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
@@ -102,18 +103,17 @@ public class ExtensionUnmarshaller extends ComponentReader {
     //----------------/
 
     /**
-     * Creates a new ExtensionUnmarshaller
+     * Creates a new ExtensionUnmarshaller.
+     * @param internalContext the internalContext to get some configuration settings from
      * @param complexType the ComplexType being unmarshalled
      * @param atts the AttributeList
-     * @param resolver the resolver being used for reference resolving
     **/
-    public ExtensionUnmarshaller
-        (ComplexType complexType, AttributeSet atts, Resolver resolver)
-        throws XMLException
-    {
-        super();
-
-        setResolver(resolver);
+    public ExtensionUnmarshaller (
+            final InternalContext internalContext,
+            final ComplexType complexType,
+            final AttributeSet atts)
+        throws XMLException {
+        super(internalContext);
 
         _complexType = complexType;
         _schema      = complexType.getSchema();
@@ -209,14 +209,14 @@ public class ExtensionUnmarshaller extends ComponentReader {
           //-- <anyAttribute>
         if (SchemaNames.ANY_ATTRIBUTE.equals(name)) {
             unmarshaller
-                 = new WildcardUnmarshaller(_complexType, _schema, name, atts, getResolver());
+                 = new WildcardUnmarshaller(getInternalContext(), _complexType, _schema, name, atts);
         }
 
         //-- attribute declarations
         else if (SchemaNames.ATTRIBUTE.equals(name)) {
             foundAttributes = true;
             unmarshaller
-                = new AttributeUnmarshaller(_schema, atts, getResolver());
+                = new AttributeUnmarshaller(getInternalContext(), _schema, atts);
         }
         //-- attribute group declarations
         else if (SchemaNames.ATTRIBUTE_GROUP.equals(name)) {
@@ -232,7 +232,7 @@ public class ExtensionUnmarshaller extends ComponentReader {
 
             foundAttributes = true;
             unmarshaller
-                = new AttributeGroupUnmarshaller(_schema, atts);
+                = new AttributeGroupUnmarshaller(getInternalContext(), _schema, atts);
         }
         //--<group>
         else if ( name.equals(SchemaNames.GROUP) )
@@ -247,7 +247,7 @@ public class ExtensionUnmarshaller extends ComponentReader {
 
             foundModelGroup = true;
             unmarshaller
-                = new ModelGroupUnmarshaller(_schema, atts, getResolver());
+                = new ModelGroupUnmarshaller(getInternalContext(), _schema, atts);
         }
         else if (SchemaNames.isGroupName(name) && (name != SchemaNames.GROUP) ) {
             if (foundAttributes)
@@ -265,7 +265,7 @@ public class ExtensionUnmarshaller extends ComponentReader {
 
             foundModelGroup = true;
             unmarshaller
-                = new GroupUnmarshaller(_schema, name, atts, getResolver());
+                = new GroupUnmarshaller(getInternalContext(), _schema, name, atts);
         }
         //-- element declarations
         else if (SchemaNames.ANY_ATTRIBUTE.equals(name)) {
@@ -282,11 +282,10 @@ public class ExtensionUnmarshaller extends ComponentReader {
                     "an 'extension' element.");
 
             foundAnnotation = true;
-            unmarshaller = new AnnotationUnmarshaller(atts);
+            unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
         }
         else illegalElement(name);
 
-        unmarshaller.setDocumentLocator(getDocumentLocator());
     } //-- startElement
 
     /**

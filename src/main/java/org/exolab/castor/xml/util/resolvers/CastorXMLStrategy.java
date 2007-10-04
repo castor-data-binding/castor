@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.xml.InternalContext;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.xml.ResolverException;
 import org.exolab.castor.xml.XMLClassDescriptor;
@@ -38,6 +39,7 @@ import org.exolab.castor.xml.util.ResolverStrategy;
  * @since 1.2
  */
 public class CastorXMLStrategy implements ResolverStrategy {
+    /** Logger to be used. */
     private static final Log LOG = LogFactory.getLog(CastorXMLStrategy.class);
 
     /** The strategy configuration held as map of properties. */
@@ -47,12 +49,11 @@ public class CastorXMLStrategy implements ResolverStrategy {
      * CastorXMLStrategy requires a configuration to be set. Within the constructor the
      * commands building the strategy are instantiated, a command configuration is created
      * and the descriptor cache.
-     * @param configuration the strategy configuration to use.
      */
     public CastorXMLStrategy() {
         _properties = new HashMap();
-    } //-- CastorXmlStrategy(Configuration)
-    
+    } //-- CastorXmlStrategy()
+
     /**
      * {@inheritDoc}
      */

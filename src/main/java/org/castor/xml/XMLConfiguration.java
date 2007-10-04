@@ -17,13 +17,9 @@
  */
 package org.castor.xml;
 
-import java.util.Hashtable;
-import java.util.Map;
-
 import org.castor.core.CoreConfiguration;
 import org.castor.core.util.CastorConfiguration;
 import org.castor.core.util.Configuration;
-import org.xml.sax.SAXException;
 
 /**
  * Castor configuration of XML modul.
@@ -176,7 +172,7 @@ public final class XMLConfiguration extends Configuration {
         "org.exolab.castor.parser.namespaces";
     
     /**
-     * Property specifying XML namespace to Java package mappings
+     * Property specifying XML namespace to Java package mappings.
      * 
      * <pre>
      * org.exolab.castor.xml.nspackages
@@ -313,7 +309,7 @@ public final class XMLConfiguration extends Configuration {
       * </pre>
       */
      public static final String STRICT_ELEMENTS = "org.exolab.castor.xml.strictelements";
-     
+
      /**
       * Property specifying whether or not to save the "keys" of a {@link Hashtable} or 
       * {@link Map} during marshalling. By default this is true.
@@ -410,11 +406,11 @@ public final class XMLConfiguration extends Configuration {
      
      /**
       * Property specifying whether element strictness for introspected classes/elements
-      * should be lenient (aka allowed); defaults to true
+      * should be lenient (aka allowed); defaults to true.
       * 
       * Possible values:
       * - false
-      * - tre (default)
+      * - true (default)
       * 
       * <pre>
       * org.exolab.castor.xml.lenient.introspected.element.strictness=true
@@ -425,5 +421,56 @@ public final class XMLConfiguration extends Configuration {
      public static final String LENIENT_INTROSPECTED_ELEMENT_STRICTNESS = 
          "org.exolab.castor.xml.lenient.introspected.element.strictness";
 
+     /**
+      * Property specifying which collections handlers should be used for
+      * Java 1.1 and Java 1.2 run-times.
+      * 
+      * <pre>
+      * org.exolab.castor.mapping.collections
+      * </pre>
+      */
+    public static final String COLLECTION_HANDLERS_FOR_JAVA_11_OR_12 = 
+        "org.exolab.castor.mapping.collections";
+
+    /**
+     * Property specifying if introspection should be used at class resolving.
+     * 
+     * <pre>
+     * org.castor.xml.class-resolver.use-introspection
+     * </pre>
+     */
+    public static final String USE_INTROSPECTION 
+        = "org.castor.xml.class-resolver.use-introspection";
+
+    /**
+     * The property name for enabling collection wrapping.
+     * The property controls whether or not collections
+     * (arrays, vectors, etc) should be wrapped in a container element.
+     * For example:
+     *
+     * <pre>
+     *    &lt;foos&gt;
+     *       &lt;foo&gt;foo1&lt;/foo&gt;
+     *       &lt;foo&gt;foo2&lt;/foo&gt;
+     *    &lt;/foos&gt;
+     *
+     *   instead of the default:
+     *
+     *    &lt;foos&gt;foo1&lt;foos&gt;
+     *    &lt;foos&gt;foo2&lt;/foos&gt;
+     *
+     * </pre>
+     *
+     * Use this property with a value of true or false in the
+     * castor.properties file
+     *
+     * org.exolab.castor.xml.introspector.wrapCollections=true
+     * -or-
+     * org.exolab.castor.xml.introspector.wrapCollections=false
+     *
+     * This property is false by default.
+     */
+    public static final String WRAP_COLLECTIONS_PROPERTY =
+        "org.exolab.castor.xml.introspector.wrapCollections";
 
 }

@@ -868,14 +868,17 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
      * @param context the ValidationContext
      */
     public void validate(Object object, ValidationContext context)
-        throws ValidationException
-    {
+    throws ValidationException {
         if (object == null) {
             throw new ValidationException("Cannot validate a null object.");
         }
+        Class a = getJavaClass();
+        ClassLoader acl = a.getClassLoader();
+        Class b = object.getClass();
+        ClassLoader bcl = b.getClassLoader();
         if (!getJavaClass().isAssignableFrom(object.getClass())) {
-            String err = "The given object is not an instance of the class"+
-                " described by this ClassDecriptor.";
+            String err = "The given object is not an instance of the class"
+                + " described by this ClassDecriptor.";
             throw new ValidationException(err);
         }
 

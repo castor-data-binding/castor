@@ -56,7 +56,7 @@ public class IdRefValidator implements TypeValidator {
         // get the id of the target object
         String id = null;
         try {
-            ClassDescriptorResolver classDescriptorResolver = context.getResolver();
+            ClassDescriptorResolver classDescriptorResolver = context.getClassDescriptorResolver();
             ClassDescriptor classDescriptor = classDescriptorResolver.resolve(object.getClass());
             FieldDescriptor fieldDescriptor = classDescriptor.getIdentity();
             FieldHandler fieldHandler = fieldDescriptor.getHandler();

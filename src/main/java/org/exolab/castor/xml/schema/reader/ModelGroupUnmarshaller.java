@@ -46,6 +46,7 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
+import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
@@ -106,16 +107,17 @@ public class ModelGroupUnmarshaller extends ComponentReader {
     //----------------/
 
     /**
-     * Creates a new ModelGroupUnmarshaller
+     * Creates a new ModelGroupUnmarshaller.
+     * @param internalContext the internalContext to get some configuration settings from
      * @param schema the Schema to which the ModelGroup belongs
      * @param atts the AttributeList
-     * @param resolver the resolver being used for reference resolving
     **/
-    public ModelGroupUnmarshaller
-        (Schema schema, AttributeSet atts, Resolver resolver)
-    {
-        super();
-        setResolver(resolver);
+    public ModelGroupUnmarshaller(
+            final InternalContext internalContext,
+            final Schema schema, 
+            final AttributeSet atts) {
+        super(internalContext);
+
         this._schema = schema;
 
         _group = new ModelGroup(_schema);
@@ -248,12 +250,12 @@ public class ModelGroupUnmarshaller extends ComponentReader {
                     "element definitions.");
 
             foundAnnotation = true;
-            unmarshaller = new AnnotationUnmarshaller(atts);
+            unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
         }
 
         else if (SchemaNames.isGroupName(name)) {
             unmarshaller
-                = new GroupUnmarshaller(_schema, name, atts, getResolver());
+                = new GroupUnmarshaller(getInternalContext(), _schema, name, atts);
         }
         else {
             StringBuffer err = new StringBuffer("illegal element <");

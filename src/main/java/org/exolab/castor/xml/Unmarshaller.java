@@ -45,8 +45,6 @@
 
 package org.exolab.castor.xml;
 
-
-//-- castor imports
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.util.HashMap;
@@ -57,11 +55,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.mapping.BindingType;
 import org.castor.mapping.MappingUnmarshaller;
+import org.castor.xml.InternalContext;
+import org.castor.xml.XMLConfiguration;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingLoader;
-import org.exolab.castor.util.Configuration;
-import org.exolab.castor.util.LocalConfiguration;
 import org.exolab.castor.util.ObjectFactory;
 import org.exolab.castor.xml.location.FileLocation;
 import org.exolab.castor.xml.util.DOMEventProducer;
@@ -72,6 +70,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.Parser;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
+
 /**
  * An unmarshaller to allowing unmarshalling of XML documents to
  * Java Objects. The Class must specify
@@ -84,7 +83,7 @@ import org.xml.sax.XMLReader;
 public class Unmarshaller {
 
     /**
-     * Logger from commons-logging
+     * Logger from commons-logging.
      */
     private static final Log LOG = LogFactory.getLog(Unmarshaller.class);
 
@@ -93,12 +92,7 @@ public class Unmarshaller {
     //----------------------------/
 
     /**
-     * The class descriptor resolver
-     */
-    private XMLClassDescriptorResolver _cdResolver = null;
-
-    /**
-     * The Class that this Unmarshaller was created with
+     * The Class that this Unmarshaller was created with.
      */
     private Class _class = null;
 
@@ -107,16 +101,10 @@ public class Unmarshaller {
      * arrays) should be cleared upon initial use by Castor.
      * False by default for backward compatibility.
      */
-     private boolean _clearCollections = false;
+     private boolean _clearCollections = false;    
 
     /**
-     * Castor configuration
-     */
-     private Configuration _config = null;
-     
-
-    /**
-     * A user specified IDResolver for resolving IDREFs
+     * A user specified IDResolver for resolving IDREFs.
      */
     private IDResolver _idResolver = null;
 
@@ -184,67 +172,101 @@ public class Unmarshaller {
     /**
      * An optional factory for unmarshalling objects
      */
-	private ObjectFactory _objectFactory;
+    private ObjectFactory _objectFactory;
+
+    /** 
+     * The Castor XML context to use at unmarshalling. 
+     */
+    private InternalContext _internalContext;
     
     //----------------/
     //- Constructors -/
     //----------------/
 
+    public Unmarshaller(final Class clazz) {
+        this(new XMLContext().getInternalContext(), clazz);
+    }
+
     /**
-     * Creates a new basic Unmarshaller
+     * Creates a new basic Unmarshaller.
      *
      * When using this constructor it will most likely be
      * necessary to use a mapping file or ClassDescriptorResolver
      * So that the Unmarshaller can find the classes during the
      * unmarshalling process.
      */
-    public Unmarshaller() {
-        this((Class)null, (ClassLoader)null);
+    public Unmarshaller(final InternalContext internalContext) {
+        this(internalContext, (Class) null, (ClassLoader) null);
     } //-- Unmarshaller()
 
     /**
-     * Creates a new Unmarshaller with the given Class
+     * Creates a new Unmarshaller with the given Class.
      *
      * @param c the Class to create the Unmarshaller for, this
      * may be null, if the Unmarshaller#setMapping is called
      * to load a mapping for the root element of xml document.
      */
-    public Unmarshaller(Class c) {
-        this(c, null);
+    public Unmarshaller(final InternalContext internalContext, final Class c) {
+        this(internalContext, c, null);
     } //-- Unmarshaller(Class)
 
     /**
-     * Creates a new Unmarshaller with the given Class
+     * Creates a new Unmarshaller with the given Class.
      *
+     * @param internalContext the context to be used, for config, and such...
      * @param c the Class to create the Unmarshaller for, this
      * may be null, if the Unmarshaller#setMapping is called
      * to load a mapping for the root element of xml document.
      * @param loader The ClassLoader to use.
      */
-    public Unmarshaller(Class c, ClassLoader loader) {
+    public Unmarshaller(final InternalContext internalContext, final Class c, final ClassLoader loader) {
         super();
-        initConfig();
+
+        _internalContext = internalContext;
+        _validate = _internalContext.marshallingValidation();
+        _ignoreExtraElements = (!_internalContext.strictElements());
+        
+        //-- process namespace to package mappings
+        String mappings = 
+            _internalContext.getStringProperty(XMLConfiguration.NAMESPACE_PACKAGE_MAPPINGS);
+        if (mappings != null) {
+            StringTokenizer tokens = new StringTokenizer(mappings, ",");
+            while (tokens.hasMoreTokens()) {
+                String token = tokens.nextToken();
+                int sepIdx = token.indexOf('=');
+                if (sepIdx < 0) {
+                    continue;
+                }
+                String ns = token.substring(0, sepIdx).trim();
+                String javaPackage = token.substring(sepIdx + 1).trim();
+                addNamespaceToPackageMapping(ns, javaPackage);
+            }
+        }
+
         setClass(c);
         _loader = loader;
         if ((loader == null) && (c != null)) {
             _loader = c.getClassLoader();
         }
-        _cdResolver = (XMLClassDescriptorResolver) 
-            ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
-        _cdResolver.setClassLoader(loader);
+        _internalContext.setClassLoader(_loader);
+
     } //-- Unmarshaller(Class)
 
+    public Unmarshaller(final Mapping mapping) throws MappingException {
+        this(new XMLContext().getInternalContext(), mapping);
+    }
 
     /**
-     * Creates a new Unmarshaller with the given Mapping
+     * Creates a new Unmarshaller with the given Mapping.
      *
+     * @param internalContext the internal context to use
      * @param mapping The Mapping to use.
+     * @throws MappingException in case that Unmarshaller fails to be instantiated 
      */
-    public Unmarshaller(Mapping mapping)
-        throws MappingException
-    {
-        super();
-        initConfig();
+    public Unmarshaller(final InternalContext internalContext, final Mapping mapping)
+    throws MappingException {
+        this(internalContext, null, null);
+//        initConfig();
         if (mapping != null) {
             setMapping(mapping);
             this._loader = mapping.getClassLoader();
@@ -253,14 +275,16 @@ public class Unmarshaller {
 
 
     /**
-     * Creates a new Unmarshaller with the given Object
+     * Creates a new Unmarshaller with the given Object.
      *
+     * @param internalContext the internal context to use
      * @param root the instance to unmarshal into. This
      * may be null, if the Unmarshaller#setMapping is called
      * to load a mapping for the root element of xml document.
      */
-    public Unmarshaller(Object root) {
-        initConfig();
+    public Unmarshaller(final InternalContext internalContext, final Object root) {
+        this(internalContext, null, null);
+//        initConfig();
         if (root != null) {
             final Class clazz = root.getClass();
             setClass(clazz);
@@ -268,35 +292,10 @@ public class Unmarshaller {
         }
         _instanceObj = root;
     } //-- Unmarshaller(Class)
-
-    /**
-     * Used by constructors to get configuration information
-     */
-    private void initConfig() {
-        _config   = LocalConfiguration.getInstance();
-        _validate = _config.marshallingValidation();
-        _ignoreExtraElements = (!_config.strictElements());
-        
-        //-- process namespace to package mappings
-        String mappings = _config.getProperty(Configuration.Property.NamespacePackages, null);
-        if (mappings != null) {
-            StringTokenizer tokens = new StringTokenizer(mappings, ",");
-            while(tokens.hasMoreTokens()) {
-                String token = tokens.nextToken();
-                int sepIdx = token.indexOf('=');
-                if (sepIdx < 0) continue;
-                String ns = token.substring(0,sepIdx).trim();
-                String javaPackage = token.substring(sepIdx+1).trim();
-                addNamespaceToPackageMapping(ns, javaPackage);
-            }
-        }
-        
-        
-    } //-- initConfig
     
     /**
      * Adds a mapping from the given namespace URI to the given
-     * package name
+     * package name.
      * 
      * @param nsURI the namespace URI to map from
      * @param packageName the package name to map to
@@ -322,18 +321,12 @@ public class Unmarshaller {
 
         UnmarshalHandler handler = new UnmarshalHandler(_class);
         
-        if (_cdResolver == null) {
-            _cdResolver = (XMLClassDescriptorResolver) 
-                ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
-            _cdResolver.setClassLoader(_loader);
-        }
-        handler.setResolver(_cdResolver);
         handler.setClearCollections(_clearCollections);
         handler.setReuseObjects(_reuseObjects);
         handler.setValidation(_validate);
         handler.setIgnoreExtraAttributes(_ignoreExtraAtts);
         handler.setIgnoreExtraElements(_ignoreExtraElements);
-        handler.setConfiguration(_config);
+        handler.setInternalContext(_internalContext);
         handler.setWhitespacePreserve(_wsPreserve);
         
         // If the object factory has been set, set it on the handler
@@ -504,16 +497,10 @@ public class Unmarshaller {
             _loader = mapping.getClassLoader();
         }
         
-        if (_cdResolver == null) {
-            _cdResolver = (XMLClassDescriptorResolver) ClassDescriptorResolverFactory
-                .createClassDescriptorResolver(BindingType.XML);
-            
-            _cdResolver.setClassLoader(_loader);
-        }
-        
         MappingUnmarshaller mum = new MappingUnmarshaller();
+        mum.setInternalContext(_internalContext);
         MappingLoader resolver = mum.getMappingLoader(mapping, BindingType.XML);
-        _cdResolver.setMappingLoader(resolver);
+        _internalContext.getXMLClassDescriptorResolver().setMappingLoader(resolver);
     }
 
     /**
@@ -528,26 +515,6 @@ public class Unmarshaller {
     public void setReuseObjects(boolean reuse) {
         _reuseObjects = reuse;
     } //-- setReuseObjects
-
-    /**
-     * Sets the ClassDescriptorResolver to use during unmarshalling
-     * @param cdr the ClassDescriptorResolver to use
-     * @see #setMapping
-     * <BR />
-     * <B>Note:</B> This method will nullify any Mapping
-     * currently being used by this Unmarshaller
-    **/
-    public void setResolver( XMLClassDescriptorResolver cdr ) {
-
-        if (cdr != null)
-            _cdResolver = cdr;
-        else {
-            _cdResolver = (XMLClassDescriptorResolver) 
-                ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
-            _cdResolver.setClassLoader(_loader);
-        }
-
-    } //-- setResolver
 
     /**
      * Sets an optional {@link UnmarshalListener} to receive pre and
@@ -683,15 +650,15 @@ public class Unmarshaller {
         
         //-- First try XMLReader
         try {
-            reader = _config.getXMLReader();
+            reader = _internalContext.getXMLReader();
             if (entityResolver != null)
                 reader.setEntityResolver(entityResolver);
-        } catch(RuntimeException rx) {
+        } catch (RuntimeException rx) {
         	LOG.debug("Unable to create SAX XMLReader, attempting SAX Parser.");
         }
         
         if (reader == null) {
-            parser = _config.getParser();
+            parser = _internalContext.getParser();
             if (parser == null)
                 throw new MarshalException("Unable to create SAX Parser.");
             if (entityResolver != null)
@@ -714,10 +681,10 @@ public class Unmarshaller {
                 parser.parse(source);
             }
         }
-        catch(java.io.IOException ioe) {
+        catch (java.io.IOException ioe) {
             throw new MarshalException(ioe);
         }
-        catch(org.xml.sax.SAXException sx) {
+        catch (org.xml.sax.SAXException sx) {
             convertSAXExceptionToMarshalException(handler, sx);
         }
 
@@ -808,8 +775,10 @@ public class Unmarshaller {
      * @param clazz The root class to be used during unmarshalling.
      * @return An {@link Unmarshaller} instance.
      */
-    private static Unmarshaller createUnmarshaller(Class clazz) {
-        Unmarshaller unmarshaller = new Unmarshaller(clazz);
+    private static Unmarshaller createUnmarshaller(final Class clazz) {
+        XMLContext xmlContext = new XMLContext();
+        Unmarshaller unmarshaller = xmlContext.createUnmarshaller();
+        unmarshaller.setClass(clazz);
         
         // TODO: Should this be at level INFO?
         if (LOG.isDebugEnabled()) {
@@ -869,36 +838,58 @@ public class Unmarshaller {
         return unmarshaller.unmarshal(node);
     } //-- void unmarshal(Writer)
 
-	/**
-     * Set an object factory for the unmarshaller. This
-     * factory will be used to construct the objects being
-     * unmarshalled.
-     * @param objectFactory Factory used for constructing objects
-     *        during unmarshalling.
-	 */
-	public void setObjectFactory(ObjectFactory objectFactory) {
-		this._objectFactory = objectFactory;
-	} // -- setObjectFactory
+    /**
+     * Set an object factory for the unmarshaller. This factory will be used to
+     * construct the objects being unmarshalled.
+     * 
+     * @param objectFactory
+     *            Factory used for constructing objects during unmarshalling.
+     */
+    public void setObjectFactory(final ObjectFactory objectFactory) {
+        this._objectFactory = objectFactory;
+    } // -- setObjectFactory
     
-	/**
-	 * Returns the value of the given Castor XML-specific property.
-	 * @param name Qualified name of the CASTOR XML-specific property.
-	 * @return The current value of the given property.
-	 * @since 1.1.2
-    */
-	public String getProperty(final String name) {
-	    return _config.getProperties().getProperty(name);
-	}
-
-	/**
-     * Sets a custom value of a given Castor XML-specific property.
-	 * @param name Name of the Castor XML property 
-	 * @param value Custom value to set.
+    /**
+     * Returns the value of the given Castor XML-specific property.
+     * 
+     * @param name
+     *            Qualified name of the CASTOR XML-specific property.
+     * @return The current value of the given property.
      * @since 1.1.2
-	 */
-	public void setProperty(final String name, final String value) {
-	    _config.getProperties().setProperty(name, value);
-	}
+     */
+    public String getProperty(final String name) {
+        Object propertyValue = _internalContext.getProperty(name);
+        if ((propertyValue != null) && !(propertyValue instanceof String)) {
+            String message = 
+                "Requested property: " + name 
+                + " is not of type String, but: " + propertyValue.getClass() 
+                + " throwing IllegalStateException.";
+            LOG.warn(message);
+            throw new IllegalStateException(message);
+        }
+        return (String) propertyValue;
+    }
+
+    /**
+     * Sets a custom value of a given Castor XML-specific property.
+     * 
+     * @param name
+     *            Name of the Castor XML property
+     * @param value
+     *            Custom value to set.
+     * @since 1.1.2
+     */
+    public void setProperty(final String name, final String value) {
+        _internalContext.setProperty(name, value);
+    }
+
+    /**
+     * To set the internal XML Context to be used.
+     * @param xmlContext the context to be used
+     */
+    public void setInternalContext(final InternalContext xmlContext) {
+        _internalContext = xmlContext;
+    }
     
 } //-- Unmarshaller
 

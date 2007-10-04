@@ -46,6 +46,7 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
+import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
@@ -90,27 +91,31 @@ public class ComplexContentUnmarshaller extends ComponentReader {
     //----------------/
 
     /**
-     * Creates a new ComplexContentUnmarshaller
+     * Creates a new ComplexContentUnmarshaller.
+     * @param internalContext the internalContext to get some configuration settings from
      * @param complexType the complexType we are unmarshalling
      * @param atts the AttributeList
-     * @param resolver the resolver being used for reference resolving
     **/
-    public ComplexContentUnmarshaller
-        (ComplexType complexType, AttributeSet atts, Resolver resolver)
-        throws XMLException
-    {
+    public ComplexContentUnmarshaller(
+            final InternalContext internalContext, 
+            final ComplexType complexType, 
+            final AttributeSet atts)
+    throws XMLException {
+        super(internalContext);
 
         _complexType = complexType;
 
-		//-- read contentType
+        //-- read contentType
         String content = atts.getValue(SchemaNames.MIXED);
 
-		if (content != null) {
-            if (content.equals("true"))
-		       _complexType.setContentType(ContentType.valueOf("mixed"));
-            if (content.equals("false"))
-			   _complexType.setContentType(ContentType.valueOf("elementOnly"));
-		}
+        if (content != null) {
+            if (content.equals("true")) {
+                _complexType.setContentType(ContentType.valueOf("mixed"));
+            }
+            if (content.equals("false")) {
+                _complexType.setContentType(ContentType.valueOf("elementOnly"));
+            }
+        }
 
     } //-- ComplexContentUnmarshaller
 
@@ -175,7 +180,7 @@ public class ComplexContentUnmarshaller extends ComponentReader {
             foundExtension = true;
 
             ExtensionUnmarshaller extension =
-                new ExtensionUnmarshaller(_complexType, atts, getResolver());
+                new ExtensionUnmarshaller(getInternalContext(), _complexType, atts);
             unmarshaller = extension;
         }
         //-- restriction
@@ -192,7 +197,7 @@ public class ComplexContentUnmarshaller extends ComponentReader {
 
             foundRestriction = true;
 			unmarshaller=
-			new ComplexContentRestrictionUnmarshaller(_complexType, atts, getResolver());
+			new ComplexContentRestrictionUnmarshaller(getInternalContext(), _complexType, atts);
         }
         //-- annotation
         else if (name.equals(SchemaNames.ANNOTATION)) {
@@ -205,11 +210,10 @@ public class ComplexContentUnmarshaller extends ComponentReader {
                     "of a 'complexContent' element.");
 
             foundAnnotation = true;
-            unmarshaller = new AnnotationUnmarshaller(atts);
+            unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
         }
         else illegalElement(name);
 
-        unmarshaller.setDocumentLocator(getDocumentLocator());
     } //-- startElement
 
     /**

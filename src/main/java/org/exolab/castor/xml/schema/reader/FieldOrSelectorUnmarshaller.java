@@ -46,6 +46,7 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
+import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
@@ -92,16 +93,19 @@ public class FieldOrSelectorUnmarshaller extends ComponentReader {
     //----------------/
 
     /**
-     * Creates a new FieldOrSelectorUnmarshaller
+     * Creates a new FieldOrSelectorUnmarshaller.
      *
+     * @param internalContext the internalContext to get some configuration settings from
      * @param elementName the name of the element being unmarshalled.
      * @param atts the AttributeList.
     **/
-    public FieldOrSelectorUnmarshaller
-        (String elementName, AttributeSet atts)
+    public FieldOrSelectorUnmarshaller(
+            final InternalContext internalContext,
+            final String elementName,
+            final AttributeSet atts)
         throws XMLException
     {
-        super();
+        super(internalContext);
         
         _elementName = elementName;
 
@@ -187,7 +191,7 @@ public class FieldOrSelectorUnmarshaller extends ComponentReader {
                 error("Only one (1) annotation may appear as a child of '" +
                     _elementName + "'.");
             _foundAnnotation = true;
-            _unmarshaller = new AnnotationUnmarshaller(atts);
+            _unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
         }
         else illegalElement(name);
 

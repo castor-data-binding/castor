@@ -46,6 +46,7 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
+import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
@@ -86,13 +87,14 @@ public class AnnotationUnmarshaller extends ComponentReader {
     //----------------/
 
     /**
-     * Creates a new AnnotationUnmarshaller
+     * Creates a new AnnotationUnmarshaller.
+     * @param internalContext the XMLContext to get some configuration settings from
      * @param atts the AttributeList
     **/
-    public AnnotationUnmarshaller (AttributeSet atts) 
+    public AnnotationUnmarshaller (final InternalContext internalContext, final AttributeSet atts) 
         throws XMLException
     {
-        super();
+        super(internalContext);
         
         _annotation = new Annotation();
         
@@ -156,10 +158,10 @@ public class AnnotationUnmarshaller extends ComponentReader {
         }
         
         if (SchemaNames.APPINFO.equals(name)) {
-            unmarshaller = new AppInfoUnmarshaller(atts);
+            unmarshaller = new AppInfoUnmarshaller(getInternalContext(), atts);
         }
         else if (SchemaNames.DOCUMENTATION.equals(name)) {
-            unmarshaller = new DocumentationUnmarshaller(atts);
+            unmarshaller = new DocumentationUnmarshaller(getInternalContext(), atts);
         }
         else illegalElement(name);
     

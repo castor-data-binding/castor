@@ -50,6 +50,7 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.xml.InternalContext;
 import org.exolab.castor.util.Configuration;
 import org.exolab.castor.util.LocalConfiguration;
 
@@ -61,24 +62,24 @@ import org.exolab.castor.util.LocalConfiguration;
  * @version $Revision$ $Date: 2004-10-06 02:10:17 -0600 (Wed, 06 Oct 2004) $
  */
 public class ValidationContext {
-
     /** Logger for debugging and error information. */
     private static final Log LOG = LogFactory.getLog(ValidationContext.class);
 
-    /** The Castor configuration. */
-    private Configuration              _config           = null;
+    /** The Castor internal context - mother of all dwelling. */
+    private InternalContext _internalContext = null;
+
     /** A flag to indicate fail-fast validation. When true, the first error
      * encounted will cause a Validation Exception. When false, the validator
      * should attempt to validate as much as possible, collecting as many errors
      * as possible before throwing a validation exception. */
     private boolean                    _failFast         = true;
-    /** The ClassDescriptorResolver to be used for loading and resolving
-     * ClassDescriptors during validation. */
-    private XMLClassDescriptorResolver _resolver         = null;
+
     /** The List of objects marked as validated. */
     private final Set                  _validated        = new HashSet();
+
     /** The Set of already encountered IDs (of type &lt;xsd:ID>). */
     private final Set                  _ids              = new HashSet();
+
     /** The Set of temporary unreseolved IDREFS. */
     private final Set                  _unresolvedIdrefs = new HashSet();
 
@@ -90,24 +91,28 @@ public class ValidationContext {
     }
 
     /**
-     * Returns the Configuration to use during validation.
-     *
-     * @return the Configuration to use. Will never be null.
+     * To get the {@link InternalContext} to use.
+     * @return the {@link InternalContext}?to use
      */
-     public Configuration getConfiguration() {
-        if (_config == null) {
-            _config = LocalConfiguration.getInstance();
-        }
-        return _config;
-     }
+    public InternalContext getInternalContext() {
+        return _internalContext;
+    }
+
+    /**
+     * To set which {@link InternalContext} should be used. 
+     * @param internalContext the {@link InternalContext} to use
+     */
+    public void setInternalContext(final InternalContext internalContext) {
+        _internalContext = internalContext;
+    }
 
     /**
      * Returns the ClassDescriptorResolver to use during validation.
      *
      * @return the ClassDescriptorResolver to use. May be null.
      */
-    public XMLClassDescriptorResolver getResolver() {
-        return _resolver;
+    public XMLClassDescriptorResolver getClassDescriptorResolver() {
+        return _internalContext.getXMLClassDescriptorResolver();
     }
 
     /**
@@ -123,15 +128,6 @@ public class ValidationContext {
      */
     public boolean isFailFast() {
         return _failFast;
-    }
-
-    /**
-     * Sets the Configuration used during validation.
-     *
-     * @param config the Configuration to use
-     */
-    public void setConfiguration(final Configuration config) {
-        _config = config;
     }
 
     /**
@@ -151,15 +147,6 @@ public class ValidationContext {
      */
     public void setFailFast(final boolean failFast) {
         _failFast = failFast;
-    }
-
-    /**
-     * Sets the ClassDescriptorResolver to use during validation.
-     *
-     * @param resolver the ClassDescriptorResolver to use.
-     */
-    public void setResolver(final XMLClassDescriptorResolver resolver) {
-        _resolver = resolver;
     }
 
     /**
@@ -209,7 +196,7 @@ public class ValidationContext {
         if (!_ids.contains(id)) {
             _ids.add(id);
             _unresolvedIdrefs.remove(id);
-        } else if (!_config.getLenientIdValidation()){
+        } else if (!_internalContext.getLenientIdValidation()){
             throw new ValidationException ("ID " + id + " is already used within current document.");
         }
     }
@@ -251,5 +238,4 @@ public class ValidationContext {
         _validated.clear();
         _unresolvedIdrefs.clear();
     }
-
 }

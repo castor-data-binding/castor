@@ -154,6 +154,7 @@ public abstract class AbstractGeneratorTest extends TestCase {
         Mapping mapping = new Mapping();
         mapping.loadMapping(mappingURL);
         new MappingUnmarshaller().loadMappingOnly(mapping);
+        // TODO: Joachim 2007-09-07 the InternalContext should be set into the unmarshaller!
         _generator.setMapping(mapping);
         _generator.createSchema();
 

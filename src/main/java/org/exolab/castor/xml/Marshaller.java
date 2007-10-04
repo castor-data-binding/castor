@@ -56,6 +56,9 @@ import org.castor.mapping.MappingUnmarshaller;
 import org.castor.util.Base64Encoder;
 import org.castor.util.Messages;
 import org.castor.util.HexDecoder;
+import org.castor.xml.BackwardCompatibilityContext;
+import org.castor.xml.XMLConfiguration;
+import org.castor.xml.InternalContext;
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.MapItem;
 import org.exolab.castor.mapping.Mapping;
@@ -170,11 +173,6 @@ public class Marshaller extends MarshalFramework {
     private boolean _asDocument = true;
 
     /**
-     * The ClassDescriptorResolver used for resolving XMLClassDescriptors
-    **/
-    private XMLClassDescriptorResolver _cdResolver = null;
-
-    /**
      * The depth of the sub tree, 0 denotes document level
     **/
     int depth = 0;
@@ -192,11 +190,6 @@ public class Marshaller extends MarshalFramework {
     private ContentHandler  _handler      = null;
 
     /**
-     * Castor configuration
-     */
-    private Configuration _config = null;
-
-    /**
      * flag to indicate whether or not to use xsi:type
     **/
     private boolean _marshalExtendedType = true;
@@ -212,16 +205,6 @@ public class Marshaller extends MarshalFramework {
      * The namespace stack
     **/
     private Namespaces _namespaces = null;
-
-    /**
-     * The XMLNaming instance being used.
-    **/
-    private XMLNaming _naming = null;
-
-    /**
-     * Insert NameSpace prefix declarations at the root node
-     */
-    //private boolean _nsPrefixAtRoot = false;
 
     /**
      * current java packages being used during marshalling
@@ -332,6 +315,17 @@ public class Marshaller extends MarshalFramework {
     }
 
     /**
+     * Creates a new Marshaller with the given writer.
+     * @param out the Writer to serialize to
+    **/
+    public Marshaller( Writer out )
+        throws IOException
+    {
+        initialize();
+        setWriter(out);
+    } //-- Marshaller
+
+    /**
      * Sets the java.io.Writer to be used during marshalling.
      * @param out The writer to use for marshalling
      * @throws IOException If there's a problem accessing the java.io.Writer provided
@@ -343,21 +337,10 @@ public class Marshaller extends MarshalFramework {
         configureSerializer(out);
     }
 
-    /**
-     * Creates a new Marshaller with the given writer.
-     * @param out the Writer to serialize to
-    **/
-    public Marshaller( Writer out )
-        throws IOException
-    {
-        initialize();
-        setWriter(out);
-    } //-- Marshaller
-
 
     private void configureSerializer(Writer out) throws IOException
     {
-        _serializer = _config.getSerializer();
+        _serializer = getInternalContext().getSerializer();
 
         if (_serializer == null)
             throw new RuntimeException("Unable to obtain serializer");
@@ -396,29 +379,25 @@ public class Marshaller extends MarshalFramework {
      * the Constructors
     **/
     private void initialize() {
-        _config          = LocalConfiguration.getInstance();
+        setInternalContext(new BackwardCompatibilityContext());
         _namespaces      = new Namespaces();
         _packages        = new ArrayList(3);
-        _cdResolver      = (XMLClassDescriptorResolver)
-            ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
         _parents         = new SafeStack();
-        _validate        = _config.marshallingValidation();
-        _naming          = XMLNaming.getInstance();
+        _validate        = getInternalContext().marshallingValidation();
+//        _naming          = XMLNaming.getInstance();
         _processingInstructions = new ArrayList(3);
         _attributes      = new AttributesImpl();
         _topLevelAtts    = new AttributeSetImpl();
-
-        //-- saveMapKeys
-        String val = _config.getProperty(Configuration.Property.SaveMapKeys, "true");
-        if ("false".equalsIgnoreCase(val) || "off".equalsIgnoreCase(val)) {
-            _saveMapKeys = false;
-        }
+        _saveMapKeys = 
+            getInternalContext().getBooleanProperty(XMLConfiguration.SAVE_MAP_KEYS).booleanValue();
         
-        //-- proxy interfaces to search for if defined
-        String prop = _config.getProperty(Configuration.Property.ProxyInterfaces, "");
-        StringTokenizer tokenizer = new StringTokenizer(prop, ", ");
-        while (tokenizer.hasMoreTokens()) {
-            _proxyInterfaces.add(tokenizer.nextToken());
+        String prop = 
+            getInternalContext().getStringProperty(XMLConfiguration.PROXY_INTERFACES);
+        if (prop != null) {
+            StringTokenizer tokenizer = new StringTokenizer(prop, ", ");
+            while (tokenizer.hasMoreTokens()) {
+                _proxyInterfaces.add(tokenizer.nextToken());
+            }
         }
     } //-- initialize();
 
@@ -454,7 +433,7 @@ public class Marshaller extends MarshalFramework {
 
         if (_serializer != null) {
             if (_format == null) {
-                _format = _config.getOutputFormat();
+                _format = getInternalContext().getOutputFormat();
             }
             _format.setDoctype(publicId, systemId);
             //-- reset output format, this needs to be done
@@ -528,7 +507,7 @@ public class Marshaller extends MarshalFramework {
         if (_serializer != null) {
 
             if (_format == null) {
-                _format = _config.getOutputFormat();
+                _format = getInternalContext().getOutputFormat();
             }
             _format.setOmitXMLDeclaration( ! asDocument );
             _format.setOmitDocumentType( ! asDocument );
@@ -563,14 +542,21 @@ public class Marshaller extends MarshalFramework {
      * @param mapping Mapping to using during marshalling.
      */
     public void setMapping(final Mapping mapping) throws MappingException {
-        if (_cdResolver == null) {
-            _cdResolver = (XMLClassDescriptorResolver) ClassDescriptorResolverFactory
-                .createClassDescriptorResolver(BindingType.XML);
+//        if (_cdResolver == null) {
+//            _cdResolver = (XMLClassDescriptorResolver) ClassDescriptorResolverFactory
+//                .createClassDescriptorResolver(BindingType.XML);
+//        }
+        if ((getInternalContext() == null) 
+                || (getInternalContext().getXMLClassDescriptorResolver() == null)) {
+            String message = "No internal context or no class descriptor in context.";
+            LOG.warn(message);
+            throw new IllegalStateException(message);
         }
 
         MappingUnmarshaller mum = new MappingUnmarshaller();
+        mum.setInternalContext(getInternalContext());
         MappingLoader resolver = mum.getMappingLoader(mapping, BindingType.XML);
-        _cdResolver.setMappingLoader(resolver);
+        getInternalContext().getXMLClassDescriptorResolver().setMappingLoader(resolver);
     }
 
     /**
@@ -652,18 +638,24 @@ public class Marshaller extends MarshalFramework {
      * @return the ClassDescriptorResolver
      * @see #setResolver
      */
-    public ClassDescriptorResolver getResolver() {
+    public XMLClassDescriptorResolver getResolver() {
 
-        if (_cdResolver == null) {
-            _cdResolver = (XMLClassDescriptorResolver)
-            ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
+//        if (_cdResolver == null) {
+//            _cdResolver = (XMLClassDescriptorResolver)
+//            ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
+//        }
+        if ((getInternalContext() == null) 
+                || (getInternalContext().getXMLClassDescriptorResolver() == null)) {
+            String message = "No internal context or no class descriptor in context.";
+            LOG.warn(message);
+            throw new IllegalStateException(message);
         }
-        return _cdResolver;
+        return getInternalContext().getXMLClassDescriptorResolver();
 
     } //-- getResolver
 
     /**
-     * Sets the ClassDescriptorResolver to use during marshalling
+     * Sets the ClassDescriptorResolver to use during marshalling.
      *
      * <BR />
      * <B>Note:</B> This method will nullify any Mapping
@@ -673,9 +665,12 @@ public class Marshaller extends MarshalFramework {
      * @see #setMapping
      * @see #getResolver
      */
-    public void setResolver(XMLClassDescriptorResolver cdr) {
+    public void setResolver(final XMLClassDescriptorResolver cdr) {
 
-        if (cdr != null) _cdResolver = cdr;
+        if (cdr != null) {
+            getInternalContext().setXMLClassDescriptorResolver(cdr);
+//            _cdResolver = cdr;
+        }
 
     } //-- setResolver
 
@@ -962,7 +957,7 @@ public class Marshaller extends MarshalFramework {
                 name = name.substring(idx+1);
             }
             //-- remove capitalization
-            name = _naming.toXMLName(name);
+            name = getInternalContext().getXMLNaming().toXMLName(name);
         }
 
         //-- obtain the class descriptor
@@ -1025,7 +1020,7 @@ public class Marshaller extends MarshalFramework {
                             String nsURI = descriptor.getNameSpaceURI();
                             XMLClassDescriptor tmpDesc = null;
                             try {
-                                tmpDesc = _cdResolver.resolveByXMLName(name, nsURI, null);
+                                tmpDesc = getResolver().resolveByXMLName(name, nsURI, null);
                             }
                             catch(ResolverException rx) {
                                 //-- exception not important as we're simply
@@ -1051,7 +1046,7 @@ public class Marshaller extends MarshalFramework {
                             //-- one
                             if (atRoot) {
                                 if (_useXSITypeAtRoot) {
-                                    XMLMappingLoader ml = (XMLMappingLoader) _cdResolver.getMappingLoader();
+                                    XMLMappingLoader ml = (XMLMappingLoader) getResolver().getMappingLoader();
                                     if (ml != null) {
                                         containsDesc = (ml.getDescriptor(_class.getName()) != null);
                                     }
@@ -1179,7 +1174,7 @@ public class Marshaller extends MarshalFramework {
              // with the XML name of this class
              XMLClassDescriptor xmlElementNameClassDesc = null;
              try {
-                 xmlElementNameClassDesc = _cdResolver.resolveByXMLName(xmlElementName, null, null);
+                 xmlElementNameClassDesc = getResolver().resolveByXMLName(xmlElementName, null, null);
              }
              catch(ResolverException rx) {
                  //-- exception not important as we're simply
@@ -1194,7 +1189,7 @@ public class Marshaller extends MarshalFramework {
              if ((xmlElementName != null) && (xmlElementNameClassDesc != null)) {
                  // More than one class can map to a given element name
                  try {
-                     Iterator classDescriptorIter = _cdResolver.resolveAllByXMLName(xmlElementName, null, null);
+                     Iterator classDescriptorIter = getResolver().resolveAllByXMLName(xmlElementName, null, null);
                      for (; classDescriptorIter.hasNext();) {
                          xmlElementNameClassDesc = (XMLClassDescriptor) classDescriptorIter.next();
                          if (_class == xmlElementNameClassDesc.getJavaClass())
@@ -1226,7 +1221,7 @@ public class Marshaller extends MarshalFramework {
 
                         // Try to find a field descriptor by inheritance in the parent object
                         InheritanceMatch[] matches =
-                              searchInheritance(xmlElementName, null, tempContaining, _cdResolver);
+                              searchInheritance(xmlElementName, null, tempContaining); // TODO: Joachim, _cdResolver);
 
                         if (matches.length == 1) {
 
@@ -2135,7 +2130,7 @@ public class Marshaller extends MarshalFramework {
 
         if (_serializer != null) {
             if (_format == null) {
-                _format = _config.getOutputFormat();
+                _format = getInternalContext().getOutputFormat();
             }
             _format.setEncoding(encoding);
             //-- reset output format, this needs to be done
@@ -2256,7 +2251,7 @@ public class Marshaller extends MarshalFramework {
 
         try {
             if (!isPrimitive(_class))
-                classDesc = (XMLClassDescriptor) _cdResolver.resolve(_class);
+                classDesc = (XMLClassDescriptor) getResolver().resolve(_class);
         }
         catch(ResolverException rx) {
             Throwable actual = rx.getCause();
@@ -2540,8 +2535,9 @@ public class Marshaller extends MarshalFramework {
             //-- we must have a valid element before marshalling
             Validator validator = new Validator();
             ValidationContext context = new ValidationContext();
-            context.setConfiguration(_config);
-            context.setResolver(_cdResolver);
+            context.setInternalContext(getInternalContext());
+//            context.setConfiguration(_config);
+//            context.setResolver(_cdResolver);
             validator.validate(object, context);
         }
     }
@@ -2553,7 +2549,7 @@ public class Marshaller extends MarshalFramework {
      * @since 1.1.2
     */
     public String getProperty(final String name) {
-        return _config.getProperties().getProperty(name);
+        return getInternalContext().getStringProperty(name);
     }
 
     /**
@@ -2563,7 +2559,7 @@ public class Marshaller extends MarshalFramework {
      * @since 1.1.2
      */
     public void setProperty(final String name, final String value) {
-        _config.getProperties().setProperty(name, value);
+        getInternalContext().setProperty(name, value);
     }
     
     /**
@@ -2668,6 +2664,13 @@ public class Marshaller extends MarshalFramework {
         }
     }
 
+    /**
+     * To set the content handler which is used as destination at marshalling.
+     * @param contentHandler the content handler to use as destination at marshalling
+     */
+    public void setContentHandler(final ContentHandler contentHandler) {
+        _handler = contentHandler;
+    }
 } //-- Marshaller
 
 

@@ -66,6 +66,7 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.mapping.BindingType;
 import org.castor.util.Base64Decoder;
 import org.castor.util.HexDecoder;
+import org.castor.xml.XMLConfiguration;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.ExtendedFieldHandler;
 import org.exolab.castor.mapping.FieldHandler;
@@ -166,21 +167,23 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      */
     private boolean          _clearCollections = false;
 
-    /**
-     * The Castor configuration.
-     */
-    private Configuration    _config       = null;
+    // TODO: Joachim 2007-09-04 remove me
+//    /**
+//     * The Castor configuration.
+//     */
+//    private Configuration    _config       = null;
 
     /**
      * The SAX Document Locator.
     **/
     private Locator          _locator      = null;
 
-    /**
-     * The ClassDescriptorResolver which is used to "resolve"
-     * or find ClassDescriptors.
-    **/
-    private XMLClassDescriptorResolver _cdResolver = null;
+// TODO: Joachim
+//    /**
+//     * The ClassDescriptorResolver which is used to "resolve"
+//     * or find ClassDescriptors.
+//    **/
+//    private XMLClassDescriptorResolver _cdResolver = null;
 
     /**
      * The IDResolver for resolving IDReferences.
@@ -451,15 +454,15 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         _reuseObjects = reuse;
     } //-- setReuseObjects
 
-    /**
-     * Sets the ClassDescriptorResolver to use for loading and
-     * resolving ClassDescriptors
-     *
-     * @param cdResolver the ClassDescriptorResolver to use
-    **/
-    public void setResolver(XMLClassDescriptorResolver cdResolver) {
-        this._cdResolver = cdResolver;
-    } //-- setResolver
+//    /**
+//     * Sets the ClassDescriptorResolver to use for loading and
+//     * resolving ClassDescriptors
+//     *
+//     * @param cdResolver the ClassDescriptorResolver to use
+//    **/
+//    public void setResolver(XMLClassDescriptorResolver cdResolver) {
+//        this._cdResolver = cdResolver;
+//    } //-- setResolver
 
     /**
      * Sets the root (top-level) object to use for unmarshalling into.
@@ -873,7 +876,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 ValidationException last = null;
                 
                 //-- check unresolved references
-                if (_resolveTable != null && !_config.getLenientIdValidation()) {
+                if (_resolveTable != null && !getInternalContext().getLenientIdValidation()) {
                     Enumeration enumeration = _resolveTable.keys();
                     while (enumeration.hasMoreElements()) {
                         Object ref = enumeration.nextElement();
@@ -892,10 +895,12 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 try {
                     Validator validator = new Validator();
                     ValidationContext context = new ValidationContext();
-                    context.setResolver(_cdResolver);
-                    context.setConfiguration(_config);
+//                    context.setResolver(_cdResolver);
+                    // TODO: Joachim 2007-09-04 remove me
+//                    context.setConfiguration(_config);
+                    context.setInternalContext(getInternalContext());
                     validator.validate(state.object, context);
-                    if (!_config.getLenientIdValidation()) {
+                    if (!getInternalContext().getLenientIdValidation()) {
                         validator.checkUnresolvedIdrefs(context);
                     }
                     context.cleanup();
@@ -1457,14 +1462,20 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     _topClass = _topObject.getClass();
                 }
             }
-            if (_cdResolver == null) {
-                if (_topClass == null) {
-                    String err = "The class for the root element '" +
-                        name + "' could not be found.";
-                    throw new SAXException(err);
-                }
-                _cdResolver = (XMLClassDescriptorResolver) ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
-                _cdResolver.setClassLoader(_loader);
+//            if (_cdResolver == null) {
+//                if (_topClass == null) {
+//                    String err = "The class for the root element '" +
+//                        name + "' could not be found.";
+//                    throw new SAXException(err);
+//                }
+//                _cdResolver = (XMLClassDescriptorResolver) ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
+//                _cdResolver.setClassLoader(_loader);
+//            }
+            if (getInternalContext().getXMLClassDescriptorResolver() == null) {
+                // Joachim 2007-09-04 check is new
+                String message = "XMLClassDescriptorResolver is not set!";
+                LOG.warn(message);
+                throw new IllegalStateException(message);
             }
 
             _topState = new UnmarshalState();            
@@ -1789,7 +1800,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             if ((descriptor == null) && (!targetState.wrapper)) {
                 MarshalFramework.InheritanceMatch[] matches = null;
                 try {
-                    matches = searchInheritance(name, namespace, classDesc, _cdResolver);
+                    matches = searchInheritance(name, namespace, classDesc); // TODO: Joachim, _cdResolver);
                 }
                 catch(MarshalException rx) {
                     //-- TODO: 
@@ -1863,7 +1874,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             count++;
         }
         
-        if (descriptor != null && isValidating() && !_config.getLenientSequenceOrder()) {
+        if (descriptor != null && isValidating() && !getInternalContext().getLenientSequenceOrder()) {
             try {
                 classDesc.checkDescriptorForCorrectOrderWithinSequence(descriptor, parentState, name);
             } catch (ValidationException e) {
@@ -1901,8 +1912,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
             //-- If we are skipping elements that have appeared in the XML but for
             //-- which we have no mapping, increase the ignore depth counter and return
-            boolean lenientElementStrictnessForIntrospection = Boolean.valueOf( 
-                _config.getProperty("org.exolab.castor.xml.lenient.introspected.element.strictness", "true")).booleanValue();
+            boolean lenientElementStrictnessForIntrospection = 
+                getInternalContext()
+                .getBooleanProperty(XMLConfiguration.LENIENT_INTROSPECTED_ELEMENT_STRICTNESS)
+                .booleanValue();
             if (! _strictElements) {
                 ++_ignoreElementDepth;
                 //-- remove the StateInfo we just added
@@ -2433,19 +2446,20 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      //- Protected Methods -/
     //---------------------/
 
-    /**
-     * Sets the current Castor configuration. Currently this
-     * Configuration is only used during Validation (which is
-     * why this method is currently protected, since it has
-     * no effect at this point on the actual configuration of 
-     * the unmarshaller)
-     *
-     * Currently, this method should only be called by the 
-     * Unmarshaller.
-     */
-    protected void setConfiguration(Configuration config) {
-        _config = config;
-    } //-- setConfiguration
+    // TODO: Joachim 2007-09-04 remove me
+//    /**
+//     * Sets the current Castor configuration. Currently this
+//     * Configuration is only used during Validation (which is
+//     * why this method is currently protected, since it has
+//     * no effect at this point on the actual configuration of 
+//     * the unmarshaller)
+//     *
+//     * Currently, this method should only be called by the 
+//     * Unmarshaller.
+//     */
+//    protected void setConfiguration(Configuration config) {
+//        _config = config;
+//    } //-- setConfiguration
     
       //-------------------/
      //- Private Methods -/
@@ -2536,7 +2550,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             XMLClassDescriptor classDesc = null;
             
             try {
-                classDesc = _cdResolver.resolveByXMLName(type, typeNamespaceURI, _loader);            
+                classDesc = getInternalContext().getXMLClassDescriptorResolver().resolveByXMLName(type, typeNamespaceURI, _loader);            
 
                 if (classDesc != null)
                     return classDesc.getJavaClass().getName();
@@ -2552,7 +2566,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 if ((mappedPackage != null) && (mappedPackage.length() > 0)) {
                     adjClassName = mappedPackage + "." + className;
                 }
-            	classDesc = _cdResolver.resolve(adjClassName, _loader);
+            	classDesc = getInternalContext().getXMLClassDescriptorResolver().resolve(adjClassName, _loader);
                 if (classDesc != null)
                     return classDesc.getJavaClass().getName();
 
@@ -2561,7 +2575,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 	adjClassName = currentPackage + '.' + className;
                 }
                 
-                classDesc = _cdResolver.resolve(adjClassName, _loader);
+                classDesc = getInternalContext().getXMLClassDescriptorResolver().resolve(adjClassName, _loader);
                 if (classDesc != null)
                     return classDesc.getJavaClass().getName();
                 
@@ -2570,7 +2584,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 //-- that was marshalled with a previous Castor. A
                 //-- bug fix in the XMLMappingLoader prevents old
                 //-- xsi:type that are missing the "java:"
-                classDesc = _cdResolver.resolve(type, _loader);
+                classDesc = getInternalContext().getXMLClassDescriptorResolver().resolve(type, _loader);
                 if (classDesc != null)
                     return classDesc.getJavaClass().getName();
             }
@@ -2938,7 +2952,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         if (classDesc.getIdentity() == descriptor) {
             
             try {
-                _idResolver.bind(attValue, parent, isValidating() && !_config.getLenientIdValidation());
+                _idResolver.bind(attValue, parent, isValidating() && !getInternalContext().getLenientIdValidation());
             } catch (ValidationException e) {
                 throw new SAXException("Duplicate ID " + attValue + " encountered.", e);
             }
@@ -3354,15 +3368,16 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         if (_class.isArray()) return null;
         if (isPrimitive(_class)) return null;
 
-        if (_cdResolver == null)
-            _cdResolver = (XMLClassDescriptorResolver) 
-                ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
+// TODO: Joachim
+//        if (_cdResolver == null)
+//            _cdResolver = (XMLClassDescriptorResolver) 
+//                ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
 
         XMLClassDescriptor classDesc = null;
 
 
         try {
-            classDesc = (XMLClassDescriptor) _cdResolver.resolve(_class);
+            classDesc = (XMLClassDescriptor) getInternalContext().getXMLClassDescriptorResolver().resolve(_class);
         }
         catch(ResolverException rx) {
             // TODO
@@ -3390,14 +3405,15 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         (String className, ClassLoader loader)
         throws SAXException
     {
-        if (_cdResolver == null)
-            _cdResolver = (XMLClassDescriptorResolver) 
-                ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
+// TODO: Joachim
+//        if (_cdResolver == null)
+//            _cdResolver = (XMLClassDescriptorResolver) 
+//                ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
 
         
         XMLClassDescriptor classDesc = null;
         try {
-            classDesc = _cdResolver.resolve(className, loader);
+            classDesc = getInternalContext().getXMLClassDescriptorResolver().resolve(className, loader);
         }
         catch(ResolverException rx) {
             throw new SAXException(rx);
@@ -3424,7 +3440,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     {
         
         try {
-            return _cdResolver.resolveByXMLName(name, namespace, loader);
+            return getInternalContext().getXMLClassDescriptorResolver().resolveByXMLName(name, namespace, loader);
         }
         catch(ResolverException rx) {
             throw new SAXException(rx);

@@ -85,6 +85,14 @@ public class TypeProperty
 
     public void Print(PrintWriter output)
     {
-        output.println(name + " : " + value);
+        output.println(toString());
+    }
+    
+    /**
+     * To generate a {@link String} representing this class instance.
+     * @see java.lang.Object#toString()
+     */
+    public String toString() {
+        return name + " : " + value;
     }
 }

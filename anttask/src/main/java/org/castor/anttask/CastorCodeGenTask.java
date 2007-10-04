@@ -55,6 +55,8 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.taskdefs.MatchingTask;
 import org.apache.tools.ant.types.FileSet;
+import org.castor.xml.BackwardCompatibilityContext;
+import org.castor.xml.InternalContext;
 import org.exolab.castor.builder.SourceGenerator;
 import org.exolab.castor.builder.binding.ExtendedBinding;
 import org.exolab.castor.builder.factory.FieldInfoFactory;
@@ -101,6 +103,9 @@ public final class CastorCodeGenTask extends MatchingTask {
 
     //--------------------------------------------------------------------------
 
+    /** Castor XML context - the mother of all. */
+    private InternalContext _internalContext;
+    
     /** If processing one schema file, this lists the file. */
     private File _schemaFile = null;
     
@@ -169,7 +174,8 @@ public final class CastorCodeGenTask extends MatchingTask {
      * No-arg constructor.
      */
     public CastorCodeGenTask() {
-        // Nothing needed
+        super();
+        _internalContext = new BackwardCompatibilityContext();
     }
 
     //--------------------------------------------------------------------------
@@ -552,7 +558,7 @@ public final class CastorCodeGenTask extends MatchingTask {
         public void generateSource(final InputSource source, final String packageName) {
             Parser parser = null;
             try {
-                parser = LocalConfiguration.getInstance().getParser();
+                parser = _internalContext.getParser();
             } catch (RuntimeException e) {
                 throw new BuildException("Unable to create SAX parser.", e);
             }
@@ -562,7 +568,7 @@ public final class CastorCodeGenTask extends MatchingTask {
 
             SchemaUnmarshaller schemaUnmarshaller = null;
             try {
-                schemaUnmarshaller = new SchemaUnmarshaller();
+                schemaUnmarshaller = new SchemaUnmarshaller(_internalContext);
             } catch (XMLException e) {
                 throw new BuildException("Unable to create schema unmarshaller.", e);
             }

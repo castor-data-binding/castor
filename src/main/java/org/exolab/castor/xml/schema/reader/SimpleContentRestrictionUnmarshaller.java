@@ -45,6 +45,7 @@
 
 package org.exolab.castor.xml.schema.reader;
 
+import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
@@ -108,16 +109,19 @@ public class SimpleContentRestrictionUnmarshaller extends ComponentReader {
      //- Constructors -/
     //----------------/
     /**
-     * Creates a new RestrictionUnmarshaller
+     * Creates a new RestrictionUnmarshaller.
+     * @param internalContext the internalContext to get some configuration settings from
      * @param complexType the complexType being unmarshalled
      * @param atts the AttributeList
      */
     public SimpleContentRestrictionUnmarshaller(
-            ComplexType complexType, AttributeSet atts, Resolver resolver) {
+            final InternalContext internalContext,
+            final ComplexType complexType, 
+            final AttributeSet atts) {
         
-        super();
-	    setResolver(resolver);	    
-	    _complexType  = complexType;
+        super(internalContext);
+
+        _complexType  = complexType;
         _complexType.setDerivationMethod(SchemaNames.RESTRICTION);
         _complexType.setRestriction(true);
         _schema  = complexType.getSchema();
@@ -257,7 +261,7 @@ public class SimpleContentRestrictionUnmarshaller extends ComponentReader {
                     "'restriction' elements.");
 
             foundAnnotation = true;
-            unmarshaller = new AnnotationUnmarshaller(atts);
+            unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
         }
 
 		else if (SchemaNames.SIMPLE_TYPE.equals(name)) {
@@ -274,7 +278,7 @@ public class SimpleContentRestrictionUnmarshaller extends ComponentReader {
                     "elements, must appear before any attribute elements.");
 
 			foundSimpleType = true;
-            unmarshaller = new SimpleTypeUnmarshaller(_schema, atts);
+            unmarshaller = new SimpleTypeUnmarshaller(getInternalContext(), _schema, atts);
 
         }
         else if (FacetUnmarshaller.isFacet(name)) {
@@ -283,7 +287,7 @@ public class SimpleContentRestrictionUnmarshaller extends ComponentReader {
 	             error("A 'facet', as a child of 'restriction' "+
                     "elements, must appear before any attribute elements.");
 
-			unmarshaller = new FacetUnmarshaller(name, atts);
+			unmarshaller = new FacetUnmarshaller(getInternalContext(), name, atts);
 			if (_simpleTypeDef == null) {
 			    SimpleContent content = (SimpleContent)_complexType.getContentType();
 			    _simpleTypeDef = new SimpleTypeDefinition(_schema, content.getTypeName(),_id);
@@ -291,7 +295,7 @@ public class SimpleContentRestrictionUnmarshaller extends ComponentReader {
         }
         else if (SchemaNames.ATTRIBUTE.equals(name)) {
              foundAttribute = true;
-             unmarshaller = new AttributeUnmarshaller(_schema,atts, getResolver());
+             unmarshaller = new AttributeUnmarshaller(getInternalContext(), _schema, atts);
 		}
 		else if (SchemaNames.ATTRIBUTE_GROUP.equals(name)) {
 
@@ -301,17 +305,15 @@ public class SimpleContentRestrictionUnmarshaller extends ComponentReader {
                     "attributeGroups, but not defining ones.");
              }
 			 foundAttributeGroup = true;
-			 unmarshaller = new AttributeGroupUnmarshaller(_schema,atts);
+			 unmarshaller = new AttributeGroupUnmarshaller(getInternalContext(), _schema, atts);
 		}
         //-- <anyAttribute>
         else if (SchemaNames.ANY_ATTRIBUTE.equals(name)) {
             unmarshaller
-                 = new WildcardUnmarshaller(_complexType, _schema, name, atts, getResolver());
+                 = new WildcardUnmarshaller(getInternalContext(), _complexType, _schema, name, atts);
         }
 
 		else illegalElement(name);
-
-        unmarshaller.setDocumentLocator(getDocumentLocator());
     } //-- startElement
 
     /**

@@ -4,14 +4,13 @@ import java.io.StringReader;
 import java.io.StringWriter;
 
 import junit.framework.TestCase;
-
 import net.sf.cglib.proxy.Factory;
 
+import org.castor.xml.XMLConfiguration;
 import org.exolab.castor.mapping.Mapping;
-import org.exolab.castor.util.Configuration;
-import org.exolab.castor.util.LocalConfiguration;
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
+import org.exolab.castor.xml.XMLContext;
 
 public final class Test1342 extends TestCase {
     private static final String MAPPING_FILE = "mapping.xml";
@@ -145,16 +144,28 @@ public final class Test1342 extends TestCase {
      * @throws Exception For any exception thrown.
      */
     public void testMarshalSimpleBeanProxy() throws Exception {
-        Configuration config = LocalConfiguration.getInstance();
-        config.getProperties().setProperty(
-                Configuration.Property.ProxyInterfaces, "net.sf.cglib.proxy.Factory");
+        XMLContext xmlContext = new XMLContext();
+        xmlContext.setProperty(XMLConfiguration.PROXY_INTERFACES, "net.sf.cglib.proxy.Factory");
         
-        Mapping mapping = new Mapping();
+        Mapping mapping = xmlContext.createMapping();
         mapping.loadMapping(getClass().getResource(MAPPING_FILE).toExternalForm());
         
         StringWriter out = new StringWriter();
-        Marshaller marshaller = new Marshaller(out);
+        Marshaller marshaller = xmlContext.createMarshaller();
+        marshaller.setWriter(out);
         marshaller.setMapping(mapping);
+        
+// Joachim 2007-09-04 before XMLContext was introduced it looked like:
+//        Configuration config = LocalConfiguration.getInstance();
+//        config.getProperties().setProperty(
+//                XMLConfiguration.PROXY_INTERFACES, "net.sf.cglib.proxy.Factory");
+//        
+//        Mapping mapping = new Mapping();
+//        mapping.loadMapping(getClass().getResource(MAPPING_FILE).toExternalForm());
+//        
+//        StringWriter out = new StringWriter();
+//        Marshaller marshaller = new Marshaller(out);
+//        marshaller.setMapping(mapping);
         
         Bean bean = new Bean(new Integer(999), "element of 999", null);
         Bean proxy = (Bean) Proxy.newInstance(bean);
@@ -187,16 +198,28 @@ public final class Test1342 extends TestCase {
      * @throws Exception For any exception thrown.
      */
     public void testMarshalReferingBeanProxy() throws Exception {
-        Configuration config = LocalConfiguration.getInstance();
-        config.getProperties().setProperty(
-                Configuration.Property.ProxyInterfaces, "net.sf.cglib.proxy.Factory");
+        XMLContext xmlContext = new XMLContext();
+        xmlContext.setProperty(XMLConfiguration.PROXY_INTERFACES, "net.sf.cglib.proxy.Factory");
         
-        Mapping mapping = new Mapping();
+        Mapping mapping = xmlContext.createMapping();
         mapping.loadMapping(getClass().getResource(MAPPING_FILE).toExternalForm());
         
         StringWriter out = new StringWriter();
-        Marshaller marshaller = new Marshaller(out);
+        Marshaller marshaller = xmlContext.createMarshaller();
+        marshaller.setWriter(out);
         marshaller.setMapping(mapping);
+        
+// Joachim 2007-09-04 before XMLContext was introduced it looked like:
+//        Configuration config = LocalConfiguration.getInstance();
+//        config.getProperties().setProperty(
+//                XMLConfiguration.PROXY_INTERFACES, "net.sf.cglib.proxy.Factory");
+//        
+//        Mapping mapping = new Mapping();
+//        mapping.loadMapping(getClass().getResource(MAPPING_FILE).toExternalForm());
+//        
+//        StringWriter out = new StringWriter();
+//        Marshaller marshaller = new Marshaller(out);
+//        marshaller.setMapping(mapping);
         
         Bean refered = new Bean(new Integer(999), "element of 999", null);
         Bean referedProxy = (Bean) Proxy.newInstance(refered);

@@ -148,4 +148,26 @@ public class Type
         }
         output.println();
     }
+    
+    /**
+     * To generate a {@link String} representing this class instance.
+     * @see java.lang.Object#toString()
+     */
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("name: ").append(name);
+        sb.append(" code: ").append(code);
+        sb.append(" base: ").append(base);
+        sb.append(" impl: ").append(impl);
+        sb.append(" derivedBy: ").append(derivedBy);
+        sb.append('\n');
+        sb.append("Facets count: ").append(facet.size());
+        sb.append('\n');
+        for (int index = 0; index < facet.size(); index++) {
+            TypeProperty tp = (TypeProperty) (facet.elementAt(index));
+            sb.append(tp.toString());
+        }
+        sb.append('\n');
+        return sb.toString();
+    }
 }
