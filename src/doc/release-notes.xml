@@ -333,6 +333,26 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    
             </summary>
             <bugs>
+                <bug id="2157" tool="jira">
+                    <description>
+                        Fixed different behaviour of Configuration constructors.
+                    </description>
+                    <contributor>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>All</module>
+                    <date>20071006</date>
+                </bug>
                 <bug id="2119" tool="jira">
                     <description>
                         Introduced new internal configuration handling for Castor XML.
@@ -350,8 +370,8 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                         <email>jgrueneis@gmail.com</email>
                     </reporter>
                     <type>Enh.</type>
-                    <module>JDO</module>
-                    <date>200710002</date>
+                    <module>XML</module>
+                    <date>20071002</date>
                 </bug>
                 <bug id="2177" tool="jira">
                     <description>
