@@ -52,13 +52,13 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.util.Enumeration;
 import java.util.TooManyListenersException;
-import org.xml.sax.SAXException;
-import org.xml.sax.Parser;
-import org.xml.sax.InputSource;
+
 import org.castor.util.Messages;
+import org.castor.xml.BackwardCompatibilityContext;
 import org.castor.xml.InternalContext;
-import org.exolab.castor.util.Configuration;
-import org.exolab.castor.util.LocalConfiguration;
+import org.xml.sax.InputSource;
+import org.xml.sax.Parser;
+import org.xml.sax.SAXException;
 
 
 /**
@@ -69,9 +69,7 @@ import org.exolab.castor.util.LocalConfiguration;
  */
 public abstract class Importer
 {
-    private InternalContext _xmlContext = new InternalContext();
-
-//    private Configuration    _config = LocalConfiguration.getInstance();
+    private InternalContext _xmlContext = new BackwardCompatibilityContext();
 
     private ImportDescriptor _importDesc;
 

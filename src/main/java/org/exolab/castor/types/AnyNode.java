@@ -51,7 +51,7 @@ package org.exolab.castor.types;
 import java.io.StringWriter;
 import java.util.Stack;
 
-import org.castor.xml.InternalContext;
+import org.castor.xml.BackwardCompatibilityContext;
 import org.exolab.castor.xml.Serializer;
 import org.exolab.castor.xml.util.AnyNode2SAX;
 
@@ -530,7 +530,7 @@ public final class AnyNode implements java.io.Serializable {
      * @return the String representation of this AnyNode.
      */
     public String toString() {
-        Serializer serializer = new InternalContext().getSerializer();
+        Serializer serializer = new BackwardCompatibilityContext().getSerializer();
         if (serializer == null) {
             throw new RuntimeException("Unable to obtain serializer");
         }

@@ -63,6 +63,7 @@ import java.util.Properties;
 
 
 import org.castor.xml.InternalContext;
+import org.castor.xml.AbstractInternalContext;
 import org.castor.util.Messages;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.CollectionHandler;
@@ -133,7 +134,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
     protected static final String VALUE_OF = "valueOf";
 
     /**
-     * The {@link InternalContext} is the centerpiece providing runtime configuration
+     * The {@link AbstractInternalContext} is the centerpiece providing runtime configuration
      * and state information.
      */
     private InternalContext _internalContext;

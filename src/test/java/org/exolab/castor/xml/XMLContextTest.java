@@ -3,7 +3,7 @@ package org.exolab.castor.xml;
 import junit.framework.TestCase;
 
 import org.castor.test.entity.Entity;
-import org.castor.xml.InternalContext;
+import org.castor.xml.AbstractInternalContext;
 import org.exolab.castor.mapping.Mapping;
 import org.xml.sax.InputSource;
 
@@ -12,7 +12,7 @@ public class XMLContextTest extends TestCase {
     private static final String MAPPING_FILE = "org/castor/test/entity/mapping.xml";
 
     /**
-     * Test {@link InternalContext} by providing a generated package.
+     * Test {@link AbstractInternalContext} by providing a generated package.
      * @throws Exception
      */
     public void testXMLContextByPackage() throws Exception {

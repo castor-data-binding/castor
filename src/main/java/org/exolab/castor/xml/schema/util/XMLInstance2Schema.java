@@ -53,6 +53,7 @@ import java.io.Writer;
 
 import org.castor.xml.BackwardCompatibilityContext;
 import org.castor.xml.InternalContext;
+import org.castor.xml.AbstractInternalContext;
 import org.exolab.castor.util.NestedIOException;
 import org.exolab.castor.xml.schema.Order;
 import org.exolab.castor.xml.schema.Schema;
@@ -69,7 +70,7 @@ import org.xml.sax.Parser;
 public class XMLInstance2Schema {
     
     /** 
-     * The {@link InternalContext} used to get Parser from.
+     * The {@link AbstractInternalContext} used to get Parser from.
      */
     private InternalContext _internalContext;
     

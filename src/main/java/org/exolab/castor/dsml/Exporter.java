@@ -48,19 +48,17 @@ package org.exolab.castor.dsml;
 
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Writer;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Reader;
-import org.xml.sax.DocumentHandler;
-import org.xml.sax.SAXException;
-import org.xml.sax.Parser;
-import org.xml.sax.InputSource;
+import java.io.Writer;
+
+import org.castor.xml.BackwardCompatibilityContext;
 import org.castor.xml.InternalContext;
-import org.exolab.castor.util.Configuration;
-import org.exolab.castor.util.LocalConfiguration;
-import org.exolab.castor.dsml.SearchDescriptor;
-import org.exolab.castor.dsml.ImportDescriptor;
+import org.xml.sax.DocumentHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.Parser;
+import org.xml.sax.SAXException;
 
 
 /**
@@ -72,9 +70,7 @@ import org.exolab.castor.dsml.ImportDescriptor;
 public abstract class Exporter
 {
 
-    private InternalContext _xmlContext = new InternalContext();
-
-//    private Configuration _config = LocalConfiguration.getInstance();
+    private InternalContext _xmlContext = new BackwardCompatibilityContext();
     
     private SearchDescriptor _searchDesc;
 
