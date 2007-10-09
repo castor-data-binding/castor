@@ -333,13 +333,33 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    
             </summary>
             <bugs>
+                <bug id="2185" tool="jira">
+                    <description>
+                        Create interface for InternalContext and make all existing *InternalContext classes implement this interface
+                    </description>
+                    <contributor>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>All</module>
+                    <date>20071009</date>
+                </bug>
                 <bug id="2157" tool="jira">
                     <description>
                         Fixed different behaviour of Configuration constructors.
                     </description>
                     <contributor>
                         <name>Joachim Grueneis</name>
-                        <email>jgrueneis@gmail.com</email>
+                        <email>jgrueneis@codehaus.org</email>
                     </contributor>
                     <submitter>
                         <name>Werner Guttmann</name>
@@ -347,7 +367,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                     </submitter>
                     <reporter>
                         <name>Joachim Grueneis</name>
-                        <email>jgrueneis@gmail.com</email>
+                        <email>jgrueneis@codehaus.org</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>All</module>
@@ -359,7 +379,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                     </description>
                     <contributor>
                         <name>Joachim Grueneis</name>
-                        <email>jgrueneis@gmail.com</email>
+                        <email>jgrueneis@codehaus.org</email>
                     </contributor>
                     <submitter>
                         <name>Werner Guttmann</name>
@@ -367,7 +387,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                     </submitter>
                     <reporter>
                         <name>Joachim Grueneis</name>
-                        <email>jgrueneis@gmail.com</email>
+                        <email>jgrueneis@codehaus.org</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>XML</module>
@@ -399,15 +419,15 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                     </description>
                     <contributor>
                         <name>Joachim Grueneis</name>
-                        <email>jgrueneis@gmail.com</email>
+                        <email>jgrueneis@codehaus.org</email>
                     </contributor>
                     <submitter>
                         <name>Joachim Grueneis</name>
-                        <email>jgrueneis@gmail.com</email>
+                        <email>jgrueneis@codehaus.org</email>
                     </submitter>
                     <reporter>
                         <name>Joachim Grueneis</name>
-                        <email>jgrueneis@gmail.com</email>
+                        <email>jgrueneis@codehaus.org</email>
                     </reporter>
                     <type>Improvement</type>
                     <module>General</module>
@@ -419,15 +439,15 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                     </description>
                     <contributor>
                         <name>Joachim Grueneis</name>
-                        <email>jgrueneis@gmail.com</email>
+                        <email>jgrueneis@codehaus.org</email>
                     </contributor>
                     <submitter>
                         <name>Joachim Grueneis</name>
-                        <email>jgrueneis@gmail.com</email>
+                        <email>jgrueneis@codehaus.org</email>
                     </submitter>
                     <reporter>
                         <name>Joachim Grueneis</name>
-                        <email>jgrueneis@gmail.com</email>
+                        <email>jgrueneis@codehaus.org</email>
                     </reporter>
                     <type>Improvement</type>
                     <module>General</module>
@@ -845,7 +865,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                     </description>
                     <contributor>
                         <name>Joachim Grüneis</name>
-                        <email>jgrueneis@gmail.com</email>
+                        <email>jgrueneis@codehaus.org</email>
                     </contributor>
                     <submitter>
                         <name>Werner Guttmann</name>
@@ -853,7 +873,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                     </submitter>
                     <reporter>
                         <name>Joachim Grüneis</name>
-                        <email>jgrueneis@gmail.com</email>
+                        <email>jgrueneis@codehaus.org</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>XML</module>
@@ -908,7 +928,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                     </description>
                     <contributor>
                         <name>Joachim Grüneis</name>
-                        <email>jgrueneis@gmail.com</email>
+                        <email>jgrueneis@codehaus.org</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
@@ -916,7 +936,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                     </submitter>
                     <reporter>
                         <name>Joachim Grüneis</name>
-                        <email>jgrueneis@gmail.com</email>
+                        <email>jgrueneis@codehaus.org</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>XML</module>
@@ -1088,7 +1108,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                     </description>
                     <contributor>
                         <name>Joachim Grüneis</name>
-                        <email>jgrueneis@gmail.com</email>
+                        <email>jgrueneis@codehaus.org</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
@@ -1096,7 +1116,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                     </submitter>
                     <reporter>
                         <name>Joachim Grüneis</name>
-                        <email>jgrueneis@gmail.com</email>
+                        <email>jgrueneis@codehaus.org</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>XML</module>

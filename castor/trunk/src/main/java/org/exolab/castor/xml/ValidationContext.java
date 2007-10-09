@@ -51,6 +51,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.xml.InternalContext;
+import org.castor.xml.AbstractInternalContext;
 import org.exolab.castor.util.Configuration;
 import org.exolab.castor.util.LocalConfiguration;
 
@@ -91,16 +92,16 @@ public class ValidationContext {
     }
 
     /**
-     * To get the {@link InternalContext} to use.
-     * @return the {@link InternalContext}?to use
+     * To get the {@link AbstractInternalContext} to use.
+     * @return the {@link AbstractInternalContext}?to use
      */
     public InternalContext getInternalContext() {
         return _internalContext;
     }
 
     /**
-     * To set which {@link InternalContext} should be used. 
-     * @param internalContext the {@link InternalContext} to use
+     * To set which {@link AbstractInternalContext} should be used. 
+     * @param internalContext the {@link AbstractInternalContext} to use
      */
     public void setInternalContext(final InternalContext internalContext) {
         _internalContext = internalContext;

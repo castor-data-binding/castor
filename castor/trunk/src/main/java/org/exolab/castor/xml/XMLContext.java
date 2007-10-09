@@ -23,6 +23,7 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.mapping.BindingType;
 import org.castor.mapping.MappingUnmarshaller;
 import org.castor.xml.InternalContext;
+import org.castor.xml.AbstractInternalContext;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingLoader;
@@ -54,27 +55,29 @@ public class XMLContext {
     private InternalContext _internalContext;
 
     /**
-     * Creates an instance of {@link XMLContext} with an empty internal XML context.
+     * Creates an instance of {@link XMLContext} with an internal XML context.
      */
     public XMLContext() {
-        _internalContext = new InternalContext();
+        AbstractInternalContext internalContext = new AbstractInternalContext() {};
         
-        _internalContext.setClassLoader(getClass().getClassLoader());
+        internalContext.setClassLoader(getClass().getClassLoader());
         
         XMLClassDescriptorResolver cdr = (XMLClassDescriptorResolver) ClassDescriptorResolverFactory
             .createClassDescriptorResolver(BindingType.XML);
-        cdr.setInternalContext(_internalContext);
-        _internalContext.setXMLClassDescriptorResolver(cdr);
+        cdr.setInternalContext(internalContext);
+        internalContext.setXMLClassDescriptorResolver(cdr);
 
         Introspector introspector = new Introspector();
-        introspector.setInternalContext(_internalContext);
-        _internalContext.setIntrospector(introspector);
+        introspector.setInternalContext(internalContext);
+        internalContext.setIntrospector(introspector);
         
         ResolverStrategy resolverStrategy = new CastorXMLStrategy();
-        _internalContext.setResolverStrategy(resolverStrategy);
+        internalContext.setResolverStrategy(resolverStrategy);
 
         Resolver schemaResolver = new ScopableResolver();
-        _internalContext.setSchemaResolver(schemaResolver);
+        internalContext.setSchemaResolver(schemaResolver);
+        
+        _internalContext = internalContext;
     }
     
     /**
@@ -274,10 +277,10 @@ public class XMLContext {
     }
 
     /**
-     * To get the {@link InternalContext} as used when instantiating other
+     * To get the {@link AbstractInternalContext} as used when instantiating other
      * classes.
      * 
-     * @return the {@link InternalContext} used
+     * @return the {@link AbstractInternalContext} used
      */
     public InternalContext getInternalContext() {
         return _internalContext;

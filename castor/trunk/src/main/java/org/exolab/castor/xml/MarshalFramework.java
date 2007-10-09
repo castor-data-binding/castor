@@ -48,7 +48,9 @@ package org.exolab.castor.xml;
 import java.util.Iterator;
 import java.util.Vector;
 
+import org.castor.xml.BackwardCompatibilityContext;
 import org.castor.xml.InternalContext;
+import org.castor.xml.AbstractInternalContext;
 import org.castor.xml.JavaNaming;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.CollectionHandler;
@@ -167,7 +169,7 @@ abstract class MarshalFramework {
     //-----------------------------/
     
     /**
-     * The {@link InternalContext} to use at all un-marshal actions.
+     * The {@link AbstractInternalContext} to use at all un-marshal actions.
      * @since 1.1.3
      */
     private InternalContext _internalContext;
@@ -180,7 +182,7 @@ abstract class MarshalFramework {
      * We need some stuff initialized here.
      */
     public MarshalFramework() {
-        _internalContext = new InternalContext();
+        _internalContext = new BackwardCompatibilityContext();
     }
 
     /**
@@ -201,16 +203,16 @@ abstract class MarshalFramework {
     }
     
     /**
-     * To get the {@link InternalContext} to use.
-     * @return the {@link InternalContext} to use
+     * To get the {@link AbstractInternalContext} to use.
+     * @return the {@link AbstractInternalContext} to use
      */
     public InternalContext getInternalContext() {
         return _internalContext;
     }
     
     /**
-     * To set the {@link InternalContext} to use.
-     * @param internalContext the {@link InternalContext} to use
+     * To set the {@link AbstractInternalContext} to use.
+     * @param internalContext the {@link AbstractInternalContext} to use
      */
     public void setInternalContext(final InternalContext internalContext) {
         _internalContext = internalContext;

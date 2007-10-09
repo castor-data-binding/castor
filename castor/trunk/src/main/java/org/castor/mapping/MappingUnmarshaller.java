@@ -24,6 +24,7 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.core.CoreConfiguration;
 import org.castor.util.Messages;
 import org.castor.xml.InternalContext;
+import org.castor.xml.AbstractInternalContext;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingLoader;
@@ -60,7 +61,7 @@ public final class MappingUnmarshaller {
     private boolean _allowRedefinitions = false;
 
     /**
-     * The {@link InternalContext}?holds all 'global' Castor states and access to
+     * The {@link AbstractInternalContext}?holds all 'global' Castor states and access to
      * configuration.
      */
     private InternalContext _internalContext;
@@ -261,7 +262,7 @@ public final class MappingUnmarshaller {
 
     /**
      * To set the internal context.
-     * @param internalContext the {@link InternalContext}?to use
+     * @param internalContext the {@link AbstractInternalContext}?to use
      */
     public void setInternalContext(final InternalContext internalContext) {
         _internalContext = internalContext;

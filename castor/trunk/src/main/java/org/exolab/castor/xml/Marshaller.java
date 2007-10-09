@@ -58,7 +58,7 @@ import org.castor.util.Messages;
 import org.castor.util.HexDecoder;
 import org.castor.xml.BackwardCompatibilityContext;
 import org.castor.xml.XMLConfiguration;
-import org.castor.xml.InternalContext;
+import org.castor.xml.AbstractInternalContext;
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.MapItem;
 import org.exolab.castor.mapping.Mapping;

@@ -13,8 +13,9 @@
  */
 package org.exolab.castor.util;
 
-import org.castor.xml.XMLConfiguration;
 import org.castor.xml.InternalContext;
+import org.castor.xml.XMLConfiguration;
+import org.castor.xml.AbstractInternalContext;
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.XMLContext;
 import org.exolab.castor.util.Configuration;
@@ -56,7 +57,7 @@ public class ChangeLog2XML {
     private static final String VERSION_TOKEN       = "Version";
     
     /**
-     * The {@link InternalContext} holding global state and configuration
+     * The {@link AbstractInternalContext} holding global state and configuration
      * information.
      */
     private InternalContext _internalContext;
@@ -70,7 +71,7 @@ public class ChangeLog2XML {
     }
     
     /**
-     * To set the {@link InternalContext} into the ChangeLog2XML instance.
+     * To set the {@link AbstractInternalContext} into the ChangeLog2XML instance.
      * @param internalContext the context to set
      */
     public void setInternalContext(final InternalContext internalContext) {
