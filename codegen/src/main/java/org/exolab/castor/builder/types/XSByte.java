@@ -111,6 +111,16 @@ public final class XSByte extends AbstractDigitsFacet {
     /**
      * {@inheritDoc}
      */
+    public String createDefaultValueWithString(final String variableName) {
+        if (_asWrapper) { 
+            return "new java.lang.Byte(" + variableName + ")";
+        }
+        return "new java.lang.Byte(" + variableName + ").byteValue()";
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
     public String createToJavaObjectCode(final String variableName) {
         if (_asWrapper) { return variableName; }
         return "new java.lang.Byte(" + variableName + ")";

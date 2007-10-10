@@ -105,6 +105,16 @@ public final class XSBoolean extends AbstractWhiteSpaceFacet {
     /**
      * {@inheritDoc}
      */
+    public String createDefaultValueWithString(final String variableName) {
+        if (_asWrapper) { 
+            return "new java.lang.Boolean(" +  variableName + ").booleanValue()";
+        }
+        return "new java.lang.Boolean(" +  variableName + ").booleanValue()";
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
     public String createToJavaObjectCode(final String variableName) {
         if (_asWrapper) { return variableName; }
         return "(" + variableName + " ? java.lang.Boolean.TRUE : java.lang.Boolean.FALSE)";

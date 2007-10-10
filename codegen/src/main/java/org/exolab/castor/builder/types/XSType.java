@@ -280,6 +280,16 @@ public abstract class XSType {
     //--------------------------------------------------------------------------
 
     /**
+     * Creates source code for an additional constructor that deals with default
+     * values as specified in the XML schema instance.
+     * @param variableName Name of the constructor argument.
+     * @return Source code for dealing with default values.
+     */
+    public String createDefaultValueWithString(final String variableName) {
+        return " new " + getJType() + "(" + variableName + ")";
+    }
+    
+    /**
      * Reads and sets the facets for XSType.
      * 
      * @param simpleType The SimpleType containing the facets.
