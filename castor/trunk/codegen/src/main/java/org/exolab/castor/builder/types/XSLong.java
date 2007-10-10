@@ -114,6 +114,16 @@ public final class XSLong extends AbstractDigitsFacet {
     /**
      * {@inheritDoc}
      */
+    public String createDefaultValueWithString(final String variableName) {
+        if (_asWrapper) {
+            return "new java.lang.Long(" + variableName + ")"; 
+        }
+        return "new java.lang.Long(" + variableName + ").longValue()";
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
     public String createToJavaObjectCode(final String variableName) {
         if (_asWrapper) { return variableName; }
         return "new java.lang.Long(" + variableName + ")";

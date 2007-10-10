@@ -114,6 +114,16 @@ public final class XSInt extends AbstractDigitsFacet {
     /**
      * {@inheritDoc}
      */
+    public String createDefaultValueWithString(final String variableName) {
+        if (_asWrapper) {
+            return "new java.lang.Integer(" + variableName + ")"; 
+        }
+        return "new java.lang.Integer(" + variableName + ").intValue()";
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
     public String createToJavaObjectCode(final String variableName) {
         if (_asWrapper) { return variableName; }
         return "new java.lang.Integer(" + variableName + ")";

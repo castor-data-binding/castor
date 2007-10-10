@@ -1,4 +1,0 @@
-<?xml version="1.0"?>
-<test xmlns="http://www.mac.com/neiltaylor/xsdList">
-    <MyElement use="foo">Value Two</MyElement>
-</test>

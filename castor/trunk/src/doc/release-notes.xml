@@ -333,6 +333,27 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    
             </summary>
             <bugs>
+                <bug id="2053" tool="jira">
+                    <description>
+                        Fixed problem in code generation related to complex elements with 
+                        default value.
+                    </description>
+                    <contributor>
+                        <name>Matthias Epheser</name>
+                        <email>matthias.epheser@indoqa.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Matthias Epheser</name>
+                        <email>matthias.epheser@indoqa.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen.</module>
+                    <date>20071010</date>
+                </bug>
                 <bug id="2185" tool="jira">
                     <description>
                         Create interface for InternalContext and make all existing *InternalContext classes implement this interface

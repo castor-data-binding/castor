@@ -503,6 +503,7 @@ public final class SourceFactory extends BaseFactory {
 
         extractAnnotations(component.getAnnotated(), jClass);
 
+        createContructorForDefaultValueForSimpleContent(component.getAnnotated(), classInfo);
         makeMethods(component, sgState, state, jClass, baseClass);
 
         sgState.bindReference(jClass, classInfo);
@@ -520,6 +521,46 @@ public final class SourceFactory extends BaseFactory {
         
         return classes;
     }
+    
+    /**
+     * This method ads a contructor with a string parameter to set the default
+     * value of a simple content
+     * 
+     * @param annotated
+     * @param classInfo
+     */
+    private void createContructorForDefaultValueForSimpleContent(
+            final Annotated annotated, final ClassInfo classInfo) {
+        if (!(annotated instanceof ElementDecl)) {
+            return;
+        }
+
+        ElementDecl elementDecl = (ElementDecl) annotated;
+        if (elementDecl.getType().isComplexType()
+                && ((ComplexType) elementDecl.getType()).isSimpleContent()
+                && classInfo.getTextField() != null) {
+            JParameter parameter = new JParameter(
+                    new JClass("java.lang.String"), "defaultValue");
+            JConstructor constructor = classInfo.getJClass().createConstructor(
+                    new JParameter[] {parameter});
+            JSourceCode sourceCode = new JSourceCode();
+            sourceCode.add("try {");
+            
+            FieldInfo textFieldInfo =  classInfo.getTextField();
+            XSType textFieldType = textFieldInfo.getSchemaType();
+            
+            sourceCode.addIndented("this._content = " 
+                    + textFieldType.createDefaultValueWithString(
+                            "defaultValue") + ";"); 
+            sourceCode.add(" } catch(Exception e) {");
+            sourceCode.addIndented(" // TODO what happens in case of exception?");
+            sourceCode.add(" } ");
+            constructor.setSourceCode(sourceCode);
+            classInfo.getJClass().addConstructor(constructor);
+        }
+
+    }
+     
 
     /**
      * Extract 'dcoumentation' annotations from the {@link Annotated} instance given.

@@ -113,6 +113,16 @@ public final class XSUnsignedByte extends AbstractDigitsFacet {
     /**
      * {@inheritDoc}
      */
+    public String createDefaultValueWithString(final String variableName) {
+        if (_asWrapper) {
+            return "new java.lang.Short(" + variableName + ")"; 
+        }
+        return "new java.lang.Short(" + variableName + ").shortValue()";
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
     public String createToJavaObjectCode(final String variableName) {
         if (_asWrapper) { return variableName; }
         return "new java.lang.Short(" + variableName + ")";
