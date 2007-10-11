@@ -55,6 +55,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.mapping.BindingType;
 import org.castor.mapping.MappingUnmarshaller;
+import org.castor.xml.BackwardCompatibilityContext;
 import org.castor.xml.InternalContext;
 import org.castor.xml.XMLConfiguration;
 import org.exolab.castor.mapping.Mapping;
@@ -183,8 +184,26 @@ public class Unmarshaller {
     //- Constructors -/
     //----------------/
 
+    /**
+     * An empty default constructor which:
+     * - sets the internal context to the backward compatibility context
+     * - all other flags to defaults
+     * Internally the Unmarshaller(Class) constructor is called.
+     */
+    public Unmarshaller() {
+        this((Class) null);
+    }
+
+    /**
+     * A constructor which sets the root class.
+     * 
+     * Internally calls constructor Unmarshaller(InternalContext, Class) with
+     * an instance of BackwardCompatibilityContext as context.
+     * 
+     * @param clazz root class for unmarshalling
+     */
     public Unmarshaller(final Class clazz) {
-        this(new XMLContext().getInternalContext(), clazz);
+        this(new BackwardCompatibilityContext(), clazz);
     }
 
     /**
@@ -194,14 +213,17 @@ public class Unmarshaller {
      * necessary to use a mapping file or ClassDescriptorResolver
      * So that the Unmarshaller can find the classes during the
      * unmarshalling process.
+     * 
+     * @param internalContext the {@link InternalContext} to use
      */
     public Unmarshaller(final InternalContext internalContext) {
         this(internalContext, (Class) null, (ClassLoader) null);
-    } //-- Unmarshaller()
+    }
 
     /**
      * Creates a new Unmarshaller with the given Class.
-     *
+     * 
+     * @param internalContext the {@link InternalContext} to use
      * @param c the Class to create the Unmarshaller for, this
      * may be null, if the Unmarshaller#setMapping is called
      * to load a mapping for the root element of xml document.
@@ -219,9 +241,15 @@ public class Unmarshaller {
      * to load a mapping for the root element of xml document.
      * @param loader The ClassLoader to use.
      */
-    public Unmarshaller(final InternalContext internalContext, final Class c, final ClassLoader loader) {
+    public Unmarshaller(
+            final InternalContext internalContext, 
+            final Class c, final ClassLoader loader) {
         super();
-
+        if (internalContext == null) {
+            String message = "InternalContext must not be null";
+            LOG.warn(message);
+            throw new IllegalArgumentException(message);
+        }
         _internalContext = internalContext;
         _validate = _internalContext.marshallingValidation();
         _ignoreExtraElements = (!_internalContext.strictElements());
@@ -249,11 +277,17 @@ public class Unmarshaller {
             _loader = c.getClassLoader();
         }
         _internalContext.setClassLoader(_loader);
+    }
 
-    } //-- Unmarshaller(Class)
-
+    /**
+     * Creates a new Unmarshaller with the given Mapping.
+     * An instance of BackwardsCompatibilityContext is used as InternalContext.
+     *
+     * @param mapping The Mapping to use.
+     * @throws MappingException in case that Unmarshaller fails to be instantiated 
+     */
     public Unmarshaller(final Mapping mapping) throws MappingException {
-        this(new XMLContext().getInternalContext(), mapping);
+        this(new BackwardCompatibilityContext(), mapping);
     }
 
     /**
@@ -266,13 +300,22 @@ public class Unmarshaller {
     public Unmarshaller(final InternalContext internalContext, final Mapping mapping)
     throws MappingException {
         this(internalContext, null, null);
-//        initConfig();
         if (mapping != null) {
             setMapping(mapping);
             this._loader = mapping.getClassLoader();
         }
-    } //-- Unmarshaller(Mapping)
+    }
 
+    /**
+     * Creates a new Unmarshaller with the given Object.
+     *
+     * @param root the instance to unmarshal into. This
+     * may be null, if the Unmarshaller#setMapping is called
+     * to load a mapping for the root element of xml document.
+     */
+    public Unmarshaller(final Object root) {
+        this(new BackwardCompatibilityContext(), root);
+    }
 
     /**
      * Creates a new Unmarshaller with the given Object.
@@ -284,14 +327,13 @@ public class Unmarshaller {
      */
     public Unmarshaller(final InternalContext internalContext, final Object root) {
         this(internalContext, null, null);
-//        initConfig();
         if (root != null) {
             final Class clazz = root.getClass();
             setClass(clazz);
             _loader = clazz.getClassLoader();
         }
         _instanceObj = root;
-    } //-- Unmarshaller(Class)
+    }
     
     /**
      * Adds a mapping from the given namespace URI to the given
@@ -300,15 +342,13 @@ public class Unmarshaller {
      * @param nsURI the namespace URI to map from
      * @param packageName the package name to map to
      */
-    public void addNamespaceToPackageMapping(String nsURI, String packageName) {
-        
-        
+    public void addNamespaceToPackageMapping(final String nsURI, final String packageName) {
         if (_namespaceToPackage == null) {
-        	_namespaceToPackage = new HashMap();
+            _namespaceToPackage = new HashMap();
         }
-        if (nsURI == null) nsURI = "";
-        if (packageName == null) packageName = "";
-        _namespaceToPackage.put(nsURI, packageName);
+        String iNsUri = (nsURI == null) ? "" : nsURI;
+        String iPackageName = (packageName == null) ? "" : packageName;
+        _namespaceToPackage.put(iNsUri, iPackageName);
         
     } //-- addNamespaceToPackageMapping
     
@@ -885,10 +925,10 @@ public class Unmarshaller {
 
     /**
      * To set the internal XML Context to be used.
-     * @param xmlContext the context to be used
+     * @param internalContext the context to be used
      */
-    public void setInternalContext(final InternalContext xmlContext) {
-        _internalContext = xmlContext;
+    public void setInternalContext(final InternalContext internalContext) {
+        _internalContext = internalContext;
     }
     
 } //-- Unmarshaller

@@ -333,6 +333,26 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    
             </summary>
             <bugs>
+                <bug id="2190" tool="jira">
+                    <description>
+                        (Re-)added empty default constructor for Unmarshaller
+                    </description>
+                    <contributor>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>All</module>
+                    <date>20071011</date>
+                </bug>
                 <bug id="2053" tool="jira">
                     <description>
                         Fixed problem in code generation related to complex elements with 
