@@ -58,7 +58,7 @@ public class XMLContext {
      * Creates an instance of {@link XMLContext} with an internal XML context.
      */
     public XMLContext() {
-        AbstractInternalContext internalContext = new AbstractInternalContext() {};
+        AbstractInternalContext internalContext = new AbstractInternalContext() { };
         
         internalContext.setClassLoader(getClass().getClassLoader());
         
@@ -277,10 +277,12 @@ public class XMLContext {
     }
 
     /**
-     * To get the {@link AbstractInternalContext} as used when instantiating other
-     * classes.
+     * To get the {@link InternalContext} as used when instantiating other
+     * classes. Mind that this method is only used in tests and should
+     * NOT be used in production code!
      * 
-     * @return the {@link AbstractInternalContext} used
+     * @return the {@link InternalContext} used
+     * @deprecated
      */
     public InternalContext getInternalContext() {
         return _internalContext;
