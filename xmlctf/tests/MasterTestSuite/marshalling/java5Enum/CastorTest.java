@@ -1,7 +1,6 @@
 import java.io.FileWriter;
 import java.io.IOException;
 
-import org.exolab.castor.util.LocalConfiguration;
 import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.ValidationException;

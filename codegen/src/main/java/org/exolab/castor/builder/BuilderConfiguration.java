@@ -48,6 +48,7 @@ package org.exolab.castor.builder;
 //--Castor imports
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -56,19 +57,30 @@ import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Configuration;
+import org.castor.util.Messages;
 import org.castor.xml.JavaNaming;
 import org.castor.xml.JavaNamingImpl;
 import org.castor.xml.XMLConfiguration;
 
 /**
  * The configuration for the SourceGenerator.
+ * @HACK this class is a configuration but does not base on Castor
+ * Configuration! Raised CASTOR-2195 to solve this issue.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class BuilderConfiguration {
+    /**
+     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     * Commons Logging</a> instance used for all logging.
+     */
+    private static final Log LOG = LogFactory.getLog(BuilderConfiguration.class);
+
     /** String representation of directory self pointer. */
     private static final String SELF_DIRECTORY = "./";
     
@@ -581,7 +593,7 @@ public class BuilderConfiguration {
     protected final synchronized void load() {
         if (_defaultProps == null) {
             //-- load defaults from JAR
-            _defaultProps = org.exolab.castor.util.Configuration.loadProperties(
+            _defaultProps = loadProperties(
                     Property.RESOURCE_NAME, Property.CONFIG_FILENAME_PROPERTY);
 
             //-- load local defaults
@@ -779,5 +791,98 @@ public class BuilderConfiguration {
         return (AnnotationBuilder[])
             this._annotationBuilders.toArray(
                     new AnnotationBuilder[this._annotationBuilders.size()]);
+    }
+
+    /**
+     * Load the configuration will not complain about inability to load
+     * configuration file from one of the default directories, but if
+     * it cannot find the JAR's configuration file, will throw a
+     * run time exception.
+     */
+    public static Properties loadProperties(String resourceName, String fileName)
+    {
+        File        file;
+        Properties properties = new Properties();
+
+        boolean found = false;
+        
+        // Get detault configuration from the Castor JAR.
+        // Complain if not found.
+        InputStream resourceStream = null;
+        try {
+            resourceStream = Configuration.class.getResourceAsStream(resourceName); 
+            properties.load(resourceStream);
+            
+            //-- debug information:
+            //URL url = Configuration.class.getResource( resourceName );
+            //System.out.println("loading configuration: " + url.toExternalForm());
+            //-- end debug information
+            
+            found = true;
+        } 
+        catch (Exception except) {
+            // Do nothing as we will check classpath 
+            // and java lib directory below
+        } finally {
+            if (resourceStream != null) {
+                try {
+                    resourceStream.close();
+                } catch (IOException e) {
+                    LOG.warn("Problem closing stream for " + resourceName);
+                }
+            }
+        }
+
+        // Get overriding configuration from the Java
+        // library directory, ignore if not found. If
+        // found merge existing properties.
+        String javaHome = null;
+        try {
+            javaHome = System.getProperty("java.home");
+        } catch (SecurityException e) {
+            // Not a critical error, but users will need to know if they need to change their config.   
+            LOG.warn(Messages.format("conf.privilegesError", e));
+        } catch (Exception e) {
+            // As we will be trying something else later, record the error for setup purposes,
+            // but do not actually treat as a critical failure.
+            LOG.warn(Messages.format("conf.nonCriticalError", e));
+        }
+        
+        if (javaHome != null) {
+            InputStream fileStream = null;
+            try {      
+                file = new File( javaHome, "lib" );
+                file = new File( file, fileName );
+                if ( file.exists() ) {
+                    properties = new Properties(properties);
+                    fileStream = new FileInputStream(file);
+                    properties.load(fileStream);
+                    found = true;
+                }      
+            } catch (SecurityException e) {
+                // Not a critical error, but users will need to know if they need to change their config.   
+                LOG.warn(Messages.format("conf.privilegesError", e));
+            } catch (IOException e) {
+                // Report that we were unable to load the resource.
+                LOG.warn(Messages.format("conf.nonCriticalError", e));
+            } finally {
+                if (fileStream != null) {
+                    try {
+                        fileStream.close();
+                    } catch (IOException e) {
+                        LOG.warn("Problem closing stream for " + fileName);
+                    }
+                }
+            }
+        }
+        
+
+        //-- Cannot find any castor.properties file(s).
+        if (!found) {
+            throw new RuntimeException( Messages.format( "conf.noDefaultConfigurationFile",
+                                                            fileName ) );
+        }
+
+        return properties;
     }
 } //-- BuilderProperties

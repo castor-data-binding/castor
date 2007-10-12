@@ -63,7 +63,6 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.mapping.BindingType;
 import org.castor.util.Base64Decoder;
 import org.castor.util.HexDecoder;
 import org.castor.xml.XMLConfiguration;
@@ -72,7 +71,6 @@ import org.exolab.castor.mapping.ExtendedFieldHandler;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.MapItem;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
-import org.exolab.castor.util.Configuration;
 import org.exolab.castor.util.DefaultObjectFactory;
 import org.exolab.castor.util.ObjectFactory;
 import org.exolab.castor.xml.descriptors.PrimitivesClassDescriptor;

@@ -333,6 +333,26 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    
             </summary>
             <bugs>
+                <bug id="2188" tool="jira">
+                    <description>
+                        Remove old Configuration and LocalConfiguration
+                    </description>
+                    <contributor>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>All</module>
+                    <date>20071012</date>
+                </bug>
                 <bug id="2190" tool="jira">
                     <description>
                         (Re-)added empty default constructor for Unmarshaller
@@ -346,8 +366,8 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                         <email>jgrueneis@codehaus.org</email>
                     </submitter>
                     <reporter>
-                        <name>Joachim Grueneis</name>
-                        <email>jgrueneis@codehaus.org</email>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>All</module>

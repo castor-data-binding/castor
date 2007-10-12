@@ -66,8 +66,6 @@ import org.exolab.castor.mapping.TypeConvertor;
 import org.exolab.castor.mapping.loader.CollectionHandlers;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 import org.exolab.castor.mapping.loader.TypeInfo;
-import org.exolab.castor.util.Configuration;
-import org.exolab.castor.util.LocalConfiguration;
 import org.exolab.castor.util.ReflectionUtil;
 import org.exolab.castor.xml.descriptors.CoreDescriptors;
 import org.exolab.castor.xml.handlers.ContainerFieldHandler;

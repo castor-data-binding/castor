@@ -13,15 +13,6 @@
  */
 package org.exolab.castor.util;
 
-import org.castor.xml.InternalContext;
-import org.castor.xml.XMLConfiguration;
-import org.castor.xml.AbstractInternalContext;
-import org.exolab.castor.xml.Marshaller;
-import org.exolab.castor.xml.XMLContext;
-import org.exolab.castor.util.Configuration;
-import org.exolab.castor.util.LocalConfiguration;
-
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -30,6 +21,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+
+import org.castor.xml.InternalContext;
+import org.castor.xml.XMLConfiguration;
+import org.exolab.castor.xml.Marshaller;
+import org.exolab.castor.xml.XMLContext;
 
 /**
  * A simple command line utility that parses Castor's change log file and outputs the
