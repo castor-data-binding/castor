@@ -60,7 +60,6 @@ import org.castor.xml.InternalContext;
 import org.exolab.castor.builder.SourceGenerator;
 import org.exolab.castor.builder.binding.ExtendedBinding;
 import org.exolab.castor.builder.factory.FieldInfoFactory;
-import org.exolab.castor.util.LocalConfiguration;
 import org.exolab.castor.xml.XMLException;
 import org.exolab.castor.xml.schema.Schema;
 import org.exolab.castor.xml.schema.reader.Sax2ComponentReader;

@@ -51,9 +51,6 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.xml.InternalContext;
-import org.castor.xml.AbstractInternalContext;
-import org.exolab.castor.util.Configuration;
-import org.exolab.castor.util.LocalConfiguration;
 
 /**
  * A class which can be used to hold validation information, used

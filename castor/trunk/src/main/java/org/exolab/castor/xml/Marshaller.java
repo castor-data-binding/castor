@@ -49,49 +49,11 @@
  */
 package org.exolab.castor.xml;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.castor.mapping.BindingType;
-import org.castor.mapping.MappingUnmarshaller;
-import org.castor.util.Base64Encoder;
-import org.castor.util.Messages;
-import org.castor.util.HexDecoder;
-import org.castor.xml.BackwardCompatibilityContext;
-import org.castor.xml.XMLConfiguration;
-import org.castor.xml.AbstractInternalContext;
-import org.exolab.castor.mapping.CollectionHandler;
-import org.exolab.castor.mapping.MapItem;
-import org.exolab.castor.mapping.Mapping;
-import org.exolab.castor.mapping.FieldHandler;
-import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.mapping.MapHandler;
-import org.exolab.castor.mapping.MappingLoader;
-import org.exolab.castor.mapping.handlers.MapHandlers;
-import org.exolab.castor.mapping.loader.CollectionHandlers;
-
-import org.exolab.castor.types.AnyNode;
-import org.exolab.castor.xml.descriptors.RootArrayDescriptor;
-import org.exolab.castor.xml.descriptors.StringClassDescriptor;
-import org.exolab.castor.xml.handlers.DateFieldHandler;
-import org.exolab.castor.xml.handlers.EnumFieldHandler;
-import org.exolab.castor.xml.util.*;
-import org.exolab.castor.util.Configuration;
-import org.exolab.castor.util.LocalConfiguration;
-import org.exolab.castor.util.SafeStack;
-
-//-- misc xml related imports
-import org.xml.sax.*;
-import org.xml.sax.helpers.AttributesImpl;
-
-import org.w3c.dom.Node;
-
 import java.io.IOException;
 import java.io.PrintWriter;
-//import java.io.Serializable;
 import java.io.Writer;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -100,6 +62,43 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 import java.util.StringTokenizer;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.castor.mapping.BindingType;
+import org.castor.mapping.MappingUnmarshaller;
+import org.castor.util.Base64Encoder;
+import org.castor.util.HexDecoder;
+import org.castor.util.Messages;
+import org.castor.xml.BackwardCompatibilityContext;
+import org.castor.xml.XMLConfiguration;
+import org.exolab.castor.mapping.CollectionHandler;
+import org.exolab.castor.mapping.FieldHandler;
+import org.exolab.castor.mapping.MapHandler;
+import org.exolab.castor.mapping.MapItem;
+import org.exolab.castor.mapping.Mapping;
+import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.mapping.MappingLoader;
+import org.exolab.castor.mapping.handlers.MapHandlers;
+import org.exolab.castor.mapping.loader.CollectionHandlers;
+import org.exolab.castor.types.AnyNode;
+import org.exolab.castor.util.SafeStack;
+import org.exolab.castor.xml.descriptors.RootArrayDescriptor;
+import org.exolab.castor.xml.descriptors.StringClassDescriptor;
+import org.exolab.castor.xml.handlers.DateFieldHandler;
+import org.exolab.castor.xml.handlers.EnumFieldHandler;
+import org.exolab.castor.xml.util.AnyNode2SAX2;
+import org.exolab.castor.xml.util.AttributeSetImpl;
+import org.exolab.castor.xml.util.DocumentHandlerAdapter;
+import org.exolab.castor.xml.util.SAX2DOMHandler;
+import org.exolab.castor.xml.util.XMLClassDescriptorAdapter;
+import org.exolab.castor.xml.util.XMLClassDescriptorImpl;
+import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
+import org.w3c.dom.Node;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.DocumentHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributesImpl;
 
 /**
  * A Marshaller that serializes Java Object's to XML

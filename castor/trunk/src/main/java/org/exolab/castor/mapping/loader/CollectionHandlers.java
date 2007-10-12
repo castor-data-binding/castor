@@ -47,18 +47,17 @@
 package org.exolab.castor.mapping.loader;
 
 
-import java.util.Vector;
+import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
-import java.io.Serializable;
-import java.lang.reflect.Method;
+import java.util.Vector;
 
 import org.castor.core.util.Configuration;
 import org.castor.xml.XMLConfiguration;
-import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.CollectionHandler;
-import org.exolab.castor.util.LocalConfiguration;
+import org.exolab.castor.mapping.MappingException;
 
 
 /**
