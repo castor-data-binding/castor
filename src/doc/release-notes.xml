@@ -333,6 +333,26 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    
             </summary>
             <bugs>
+                <bug id="1950" tool="jira">
+                    <description>
+                        Fixed problems with code generation for &lt;xs:unsignedShort&gt;.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Raghavan Eachampadi</name>
+                        <email>reachampadi@fugensolutions.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen.</module>
+                    <date>20071013</date>
+                </bug>
                 <bug id="2188" tool="jira">
                     <description>
                         Remove old Configuration and LocalConfiguration
