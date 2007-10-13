@@ -92,7 +92,7 @@ public final class XSUnsignedShort extends AbstractDigitsFacet {
     /**
      * {@inheritDoc}
      */
-    public boolean isPrimitive() { return false; }
+    public boolean isPrimitive() { return true; }
     
     /**
      * {@inheritDoc}

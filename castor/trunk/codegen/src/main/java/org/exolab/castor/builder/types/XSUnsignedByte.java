@@ -91,7 +91,7 @@ public final class XSUnsignedByte extends AbstractDigitsFacet {
     /**
      * {@inheritDoc}
      */
-    public boolean isPrimitive() { return false; }
+    public boolean isPrimitive() { return true; }
     
     /**
      * {@inheritDoc}
