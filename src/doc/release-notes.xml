@@ -333,6 +333,27 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    
             </summary>
             <bugs>
+                <bug id="2198" tool="jira">
+                    <description>
+                        Fixed problem with incorrect @Override annotation on getJavaClass() methods 
+                        on generated classes.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Aslam Karachiwala</name>
+                        <email>akwala@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen.</module>
+                    <date>20071018</date>
+                </bug>
                 <bug id="1950" tool="jira">
                     <description>
                         Fixed problems with code generation for &lt;xs:unsignedShort&gt;.
