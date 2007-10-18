@@ -78,7 +78,6 @@ public final class Java5HacksHelper {
         createMethodSpec("getAccessMode",       0, "",                  "");
         createMethodSpec("getExtends",          0, "",                  "");
         createMethodSpec("getIdentity",         0, "",                  "");
-        createMethodSpec("getJavaClass",        0, "",                  "");
         createMethodSpec("getNameSpacePrefix",  0, "",                  "");
         createMethodSpec("getNameSpaceURI",     0, "",                  "");
         createMethodSpec("getValidator",        0, "",                  "");
