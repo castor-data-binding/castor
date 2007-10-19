@@ -209,7 +209,9 @@ public final class SingleClassGenerator {
         while (classKeys.hasMoreElements()) {
             ClassInfo classInfo = state.resolve(classKeys.nextElement());
             JClass jClass = classInfo.getJClass();
-            if (!state.processed(jClass)) {
+            if (!state.processed(jClass) 
+                    && (inCurrentSchema(state, classInfo) 
+                            || _sourceGenerator.getGenerateImportedSchemas())) {
                 process(jClass, state);
                 if (state.getStatusCode() == SGStateInfo.STOP_STATUS) {
                     return false;
@@ -217,6 +219,21 @@ public final class SingleClassGenerator {
             }
         }
         return true;
+    }
+
+    /**
+     * Indicates whether {@link ClassInfo} instance is defined within target namespace.
+     * @param state The Sourcegenerator state.
+     * @param classInfo The {@link ClassInfo} instance to be analyzed.
+     * @return True if it's within the targetNamespace
+     */
+    private boolean inCurrentSchema(final SGStateInfo state, final ClassInfo classInfo) {
+        final String targetNamespace = state.getSchema().getTargetNamespace();
+        boolean inCurrentSchema = true;
+        if (targetNamespace != null) {
+            inCurrentSchema = targetNamespace.equals(classInfo.getNamespaceURI());
+        }
+        return inCurrentSchema;
     }
 
     /**
