@@ -333,6 +333,26 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    
             </summary>
             <bugs>
+                <bug id="2200" tool="jira">
+                    <description>
+                        Included classes of org.castor.xml and org.castor.core packages in castor-xml.jar.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>All</module>
+                    <date>20071019</date>
+                </bug>
                 <bug id="1881" tool="jira">
                     <description>
                         Fixed problem with 'unwanted' generated classes for (complex) type

@@ -512,6 +512,8 @@
                        org/castor/messages.properties,
                        org/castor/mapping/**,
                        org/castor/util/**,
+                       org/castor/xml/**,
+                       org/castor/core/**,
                        org/exolab/castor/*,
                        org/exolab/castor/builder/**,
                        org/exolab/castor/core/**,
