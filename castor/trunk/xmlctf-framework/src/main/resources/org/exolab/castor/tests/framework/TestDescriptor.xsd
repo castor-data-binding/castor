@@ -111,6 +111,14 @@
                 		</xsd:sequence>
                 	</xsd:complexType>
                 </xsd:element>
+                <!-- source files not expected (iow that should not be generated), optional -->
+                <xsd:element name="sourcesNotExpected" minOccurs="0">
+                	<xsd:complexType>
+                		<xsd:sequence>
+                			<xsd:element name="sourceNotExpected" type="xsd:string" minOccurs="1" maxOccurs="unbounded"/>
+                		</xsd:sequence>
+                	</xsd:complexType>
+                </xsd:element>
                 <!-- individual test cases -->
                 <xsd:element ref="test:UnitTestCase" minOccurs="1" maxOccurs="unbounded"/>
             </xsd:sequence>
