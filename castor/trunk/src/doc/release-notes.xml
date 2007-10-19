@@ -333,6 +333,27 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    
             </summary>
             <bugs>
+                <bug id="1881" tool="jira">
+                    <description>
+                        Fixed problem with 'unwanted' generated classes for (complex) type
+                        definitions defined in an imported XML schema.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Matthias Hanisch</name>
+                        <email>matze@camline.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen.</module>
+                    <date>20071019</date>
+                </bug>
                 <bug id="2198" tool="jira">
                     <description>
                         Fixed problem with incorrect @Override annotation on getJavaClass() methods 

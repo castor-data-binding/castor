@@ -137,7 +137,7 @@ public class SourceGenerator extends BuilderConfiguration {
     static final String APP_URI = "http://www.castor.org";
     /** Warning message to remind users to create source code for imported schema. */
     private static final String IMPORT_WARNING
-        = "Warning: Do not forget to generate source code for the following imported schema: ";
+        = "Note: No code will be generated for the following *imported* schema: ";
 
     //----------------------/
     //- Instance Variables -/
@@ -729,9 +729,7 @@ public class SourceGenerator extends BuilderConfiguration {
     private void generateAllClassFiles(final Schema schema, final SGStateInfo sInfo)
                                                                  throws IOException {
         // Before processing the current schema, process its imported schemas
-        if (_generateImported) {
-            processImportedSchemas(schema, sInfo);
-        }
+        processImportedSchemas(schema, sInfo);
 
         //-- ** Generate code for all TOP-LEVEL structures **
 
@@ -789,12 +787,15 @@ public class SourceGenerator extends BuilderConfiguration {
      * @throws IOException if this Exception occurs while processing an import schema
      */
     private void processImportedSchemas(final Schema schema, final SGStateInfo sInfo)
-                                                                    throws IOException {
+    throws IOException {
         Enumeration enumeration = schema.getImportedSchema();
         while (enumeration.hasMoreElements()) {
             Schema importedSchema = (Schema) enumeration.nextElement();
             if (!_generateImported) {
-                LOG.warn(IMPORT_WARNING + importedSchema.getSchemaLocation());
+                LOG.warn("Note: No code will be generated for the following *imported* schema: " 
+                        + importedSchema.getSchemaLocation() + "; if this is on intention, please "
+                        + "do not forget to generate code for this schema as well. Alternatively," 
+                        + "consider using the 'generateImportedSchemas' flag.");
                 continue;
             }
 
@@ -1177,4 +1178,13 @@ public class SourceGenerator extends BuilderConfiguration {
     public JClassRegistry getXMLInfoRegistry() {
         return _xmlInfoRegistry;
     }
+
+    /**
+     * Indicates whether classes should be created for imported XML schemas as well.
+     * @return true if classes should be created for imported schemas.
+     */
+    public boolean getGenerateImportedSchemas() {
+        return _generateImported;
+    }    
+    
 } //-- SourceGenerator
