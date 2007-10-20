@@ -213,11 +213,9 @@ org.castor.cpa.persistence.TypeConvertors=\
                 <h3>Refactord Castor configuration</h3>
 
                 <p>We have added a new class hierarchy to handle independed configurations
-                   for every modul of Castor. At the moment the old configuration classes
-                   are still used for XML but everything is in place to use the new one.
-                   Having said that this should not change anything for the user of Castor
-                   as he still specifies his properties in a single castor.properties file
-                   for all modules.</p>
+                   for every modul of Castor. Having said that this should not change anything
+                   for the user of Castor as he still specifies his properties in a single
+                   castor.properties file for all modules.</p>
                    
 
 				<h3>Refactored JavaNaming</h3>
