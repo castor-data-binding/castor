@@ -66,6 +66,7 @@
         <ul>
           <li><a href="how-to-implement-custom-serializer.html">How to implement a custom serializer</a></li>
           <li><a href="how-to-fetch-dtds-and-schemas-from-jars.html">How to fetch DTDs and XML Schemas from JAR files</a></li>
+          <li><a href="how-to-map-hibernate-proxies.html">How to marshal Hibernate proxies</a></li>
         </ul>
       </section>
 
