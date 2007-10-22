@@ -54,6 +54,8 @@ import org.exolab.castor.xml.ValidationException;
 
 import java.text.ParseException;
 
+import javax.naming.OperationNotSupportedException;
+
 /**
  * The base class for recurring Duration types.
  * <p>
@@ -118,7 +120,7 @@ public abstract class RecurringDurationBase implements java.io.Serializable {
         try {
             this.setDuration(duration);
             this.setPeriodInternal(period);
-        } catch (OperationNotSupportedException e) {
+        } catch (UnsupportedOperationException e) {
             String err = "Recurring Duration: " + e;
             throw new IllegalArgumentException(err);
         }
@@ -191,7 +193,7 @@ public abstract class RecurringDurationBase implements java.io.Serializable {
      *             this exception is thrown when changing the value of the
      *             period facet is not allowed
      */
-    public void setPeriod (TimeDuration period) throws OperationNotSupportedException {
+    public void setPeriod (TimeDuration period) throws UnsupportedOperationException {
         setPeriodInternal(period);
     }
 
@@ -200,11 +202,11 @@ public abstract class RecurringDurationBase implements java.io.Serializable {
      *
      * @param period
      *            the period to set
-     * @throws OperationNotSupportedException
+     * @throws UnsupportedOperationException
      *             this exception is thrown when changing the value of the
      *             period facet is not allowed
      */
-    public void setPeriod (String period) throws OperationNotSupportedException {
+    public void setPeriod (String period) throws UnsupportedOperationException {
         try {
             setPeriodInternal(TimeDuration.parseTimeDuration(period));
         } catch (ParseException e) {
@@ -218,11 +220,11 @@ public abstract class RecurringDurationBase implements java.io.Serializable {
      *
      * @param duration
      *            the period to set
-     * @throws OperationNotSupportedException
+     * @throws UnsupportedOperationException
      *             this exception is thrown when changing the value of the
      *             duration facet is not allowed
      */
-    public void setDuration(TimeDuration duration) throws OperationNotSupportedException {
+    public void setDuration(TimeDuration duration) throws UnsupportedOperationException {
         _duration = duration;
     }
 
@@ -231,11 +233,11 @@ public abstract class RecurringDurationBase implements java.io.Serializable {
      *
      * @param duration
      *            the period to set
-     * @throws OperationNotSupportedException
+     * @throws UnsupportedOperationException
      *             this exception is thrown when changing the value of the
      *             duration facet is not allowed
      */
-    public void setDuration(String duration) throws OperationNotSupportedException {
+    public void setDuration(String duration) throws UnsupportedOperationException {
         try {
             _duration = TimeDuration.parseTimeDuration(duration);
         } catch (ParseException e) {
@@ -249,11 +251,11 @@ public abstract class RecurringDurationBase implements java.io.Serializable {
      *
      * @param hour
      *            the hour to set
-     * @throws OperationNotSupportedException
+     * @throws UnsupportedOperationException
      *             this exception is thrown when changing the value of the hour
      *             field is not allowed
      */
-    public void setHour(short hour) throws OperationNotSupportedException {
+    public void setHour(short hour) throws UnsupportedOperationException {
         String err = "";
         if (hour > 23) {
             err = "the hour field ("+hour+")must be strictly lower than 24";
@@ -267,11 +269,11 @@ public abstract class RecurringDurationBase implements java.io.Serializable {
      *
      * @param minute
      *            the minute to set
-     * @throws OperationNotSupportedException
+     * @throws UnsupportedOperationException
      *             this exception is thrown when changing the value of the
      *             minute field is not allowed
      */
-    public void setMinute(short minute) throws OperationNotSupportedException {
+    public void setMinute(short minute) throws UnsupportedOperationException {
         String err = "";
         if (minute == -1 && _hour != -1) {
             err = "minute cannot be omitted if the previous field is not omitted.";
@@ -290,11 +292,11 @@ public abstract class RecurringDurationBase implements java.io.Serializable {
      *            the second to set
      * @param millsecond
      *            the millisecond to set
-     * @throws OperationNotSupportedException
+     * @throws UnsupportedOperationException
      *             this exception is thrown when changing the value of the
      *             second field is not allowed
      */
-    public void setSecond(short second,short millsecond) throws OperationNotSupportedException {
+    public void setSecond(short second,short millsecond) throws UnsupportedOperationException {
         String err = "";
         if ( (second == -1) && (_minute != -1)) {
             err = "second cannot be omitted if the previous field is not omitted.";
@@ -314,11 +316,11 @@ public abstract class RecurringDurationBase implements java.io.Serializable {
      *            the time zone hour to set
      * @param minute
      *            the time zone minute to set
-     * @throws OperationNotSupportedException
+     * @throws UnsupportedOperationException
      *             this exception is thrown when changing the value of the time
      *             zone fields is not allowed
      */
-    public void setZone(short hour, short minute) throws OperationNotSupportedException {
+    public void setZone(short hour, short minute) throws UnsupportedOperationException {
         String err = "";
         if (hour > 23) {
             err = "the zone hour field ("+hour+")must be strictly lower than 24";
@@ -347,11 +349,11 @@ public abstract class RecurringDurationBase implements java.io.Serializable {
      *            <li>zoneHour</li>
      *            <li>zoneMinute</li>
      *            </ul>
-     * @throws OperationNotSupportedException
+     * @throws UnsupportedOperationException
      *             this exception is thrown when changing the value of a time
      *             related field is not allowed
      */
-    public void setValues(short[] values) throws OperationNotSupportedException {
+    public void setValues(short[] values) throws UnsupportedOperationException {
         this.setHour(values[0]);
         this.setMinute(values[1]);
         this.setSecond(values[2], values[3]);
@@ -368,11 +370,11 @@ public abstract class RecurringDurationBase implements java.io.Serializable {
     /**
      * set the time zone negative field to true
      *
-     * @throws OperationNotSupportedException
+     * @throws UnsupportedOperationException
      *             this exception is thrown when changing the time zone fields
      *             is not allowed
      */
-    public void setZoneNegative() throws OperationNotSupportedException {
+    public void setZoneNegative() throws UnsupportedOperationException {
         _zoneNegative = true;
     }
 

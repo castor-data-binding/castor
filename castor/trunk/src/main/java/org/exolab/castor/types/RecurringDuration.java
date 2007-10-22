@@ -134,7 +134,7 @@ public class RecurringDuration extends RecurringDurationBase{
      * @see #setValues
      */
      public RecurringDuration(String duration, String period, short[] values)
-        throws OperationNotSupportedException
+        throws UnsupportedOperationException
     {
         this(duration, period);
         if (values.length != 10) {
@@ -162,7 +162,7 @@ public class RecurringDuration extends RecurringDurationBase{
      * @param year year to set up
      */
     public void setYear(short year)
-        throws OperationNotSupportedException
+        throws UnsupportedOperationException
     {
         String err ="";
         if (year < -1) {
@@ -187,7 +187,7 @@ public class RecurringDuration extends RecurringDurationBase{
      * Note 1<month<12
      */
     public void setMonth(short month)
-        throws OperationNotSupportedException
+        throws UnsupportedOperationException
     {
         String err ="";
         if (month == -1) {
@@ -218,7 +218,7 @@ public class RecurringDuration extends RecurringDurationBase{
      */
 
     public void setDay(short day)
-        throws OperationNotSupportedException
+        throws UnsupportedOperationException
     {
         String err = "";
         if  (day == -1) {
@@ -298,7 +298,7 @@ public class RecurringDuration extends RecurringDurationBase{
      * @see RecurringDurationBase#setValues
      */
      public void setValues(short[] values)
-        throws OperationNotSupportedException
+        throws UnsupportedOperationException
     {
         this.setCentury(values[0]);
         this.setYear(values[1]);
@@ -673,7 +673,7 @@ public class RecurringDuration extends RecurringDurationBase{
             }
             else result.isUTC();
             temp = null;
-        } catch (OperationNotSupportedException e) {
+        } catch (UnsupportedOperationException e) {
             //we are sure that this method is used with a recurringDuration
             //(if not a ParseException is thrown) so we can never reach that point
         }

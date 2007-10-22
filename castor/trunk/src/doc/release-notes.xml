@@ -331,6 +331,27 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    
             </summary>
             <bugs>
+                <bug id="2191" tool="jira">
+                    <description>
+                        Removed usage of org.exolab.castor.types.OperationNotSupportedException and 
+                        switched to using java.lang.UnsupportedOperationException
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20071022</date>
+                </bug>
                 <bug id="2200" tool="jira">
                     <description>
                         Included classes of org.castor.xml and org.castor.core packages in castor-xml.jar.

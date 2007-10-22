@@ -89,7 +89,7 @@ public class Century extends TimePeriod {
             temp = -temp;
             try {
                 this.setZoneNegative();
-            } catch (OperationNotSupportedException e) {
+            } catch (UnsupportedOperationException e) {
                 //we are sure that we are dealing with a Century type
                 //so we can never reach that point
             }
@@ -100,7 +100,7 @@ public class Century extends TimePeriod {
             temp = temp % (60*60*1000);
             short zmin = (short)(temp / (60*1000));
             super.setZone(zhour, zmin);
-        } catch (OperationNotSupportedException e) {
+        } catch (UnsupportedOperationException e) {
             //we are sure that we are dealing with a Century type
             //so we can never reach that point
         }
@@ -192,37 +192,37 @@ public class Century extends TimePeriod {
 
     /////////////////////////// DISALLOWED METHODS ///////////////////////////
 
-    public void setYear(short year) throws OperationNotSupportedException {
+    public void setYear(short year) throws UnsupportedOperationException {
         String err = "In a Century : the year field must not be changed";
-        throw new OperationNotSupportedException(err);
+        throw new UnsupportedOperationException(err);
     }
-    public void setMonth(short month) throws OperationNotSupportedException {
+    public void setMonth(short month) throws UnsupportedOperationException {
         String err = "In a Century : the month field must not be changed";
-        throw new OperationNotSupportedException(err);
+        throw new UnsupportedOperationException(err);
     }
-    public void setDay(short day) throws OperationNotSupportedException {
+    public void setDay(short day) throws UnsupportedOperationException {
         String err = "In a Century : the day field must not be changed";
-        throw new OperationNotSupportedException(err);
+        throw new UnsupportedOperationException(err);
     }
-    public void setHour(short hour) throws OperationNotSupportedException {
+    public void setHour(short hour) throws UnsupportedOperationException {
         String err = "In a Century : the hour field must not be changed";
-        throw new OperationNotSupportedException(err);
+        throw new UnsupportedOperationException(err);
     }
-    public void setMinute(short minute) throws OperationNotSupportedException {
+    public void setMinute(short minute) throws UnsupportedOperationException {
         String err = "In a Century : the minute field must not be changed";
-        throw new OperationNotSupportedException(err);
+        throw new UnsupportedOperationException(err);
     }
-    public void setSecond(short second, short millsecond) throws OperationNotSupportedException {
+    public void setSecond(short second, short millsecond) throws UnsupportedOperationException {
         String err = "In a Century : the second field must not be changed";
-        throw new OperationNotSupportedException(err);
+        throw new UnsupportedOperationException(err);
     }
-    public void setZone(short hour, short minute) throws OperationNotSupportedException {
+    public void setZone(short hour, short minute) throws UnsupportedOperationException {
         String err = "In a Century : the time zone field must not be changed";
-        throw new OperationNotSupportedException(err);
+        throw new UnsupportedOperationException(err);
     }
-    public void setZoneNegative() throws OperationNotSupportedException {
+    public void setZoneNegative() throws UnsupportedOperationException {
         String err = "In a Century : the time zone field must not be changed";
-        throw new OperationNotSupportedException(err);
+        throw new UnsupportedOperationException(err);
     }
 
 } //--Century

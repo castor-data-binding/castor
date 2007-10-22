@@ -92,7 +92,7 @@ public class Month extends TimePeriod {
             temp = -temp;
             try {
                 super.setZoneNegative();
-            } catch (OperationNotSupportedException e) {
+            } catch (UnsupportedOperationException e) {
             }
         }
         short zhour = (short) (temp / (60*60*1000));
@@ -100,55 +100,55 @@ public class Month extends TimePeriod {
         short zmin = (short)(temp / (60*1000));
         try {
             super.setZone(zhour,zmin);
-        } catch (OperationNotSupportedException e) {
+        } catch (UnsupportedOperationException e) {
         }
     }
 
     /*Disallow the access to set day method*/
     public void setDay(short day)
-        throws OperationNotSupportedException
+        throws UnsupportedOperationException
     {
         String err = "In a Month : the day field must not be changed";
-        throw new OperationNotSupportedException(err);
+        throw new UnsupportedOperationException(err);
     }
 
     /*Disallow the access to set time methods */
     public void setHour(short hour)
-        throws OperationNotSupportedException
+        throws UnsupportedOperationException
     {
         String err = "In a Month : the hour field must not be changed";
-        throw new OperationNotSupportedException(err);
+        throw new UnsupportedOperationException(err);
     }
 
     public void setMinute(short minute)
-        throws OperationNotSupportedException
+        throws UnsupportedOperationException
     {
         String err = "In a Month : the minute field must not be changed";
-        throw new OperationNotSupportedException(err);
+        throw new UnsupportedOperationException(err);
     }
 
 
     public void setSecond(short second,short millsecond)
-        throws OperationNotSupportedException
+        throws UnsupportedOperationException
     {
         String err = "In a Month : the second fields must not be changed";
-        throw new OperationNotSupportedException(err);
+        throw new UnsupportedOperationException(err);
     }
 
 
     public void setZone(short hour, short minute)
-        throws OperationNotSupportedException
+        throws UnsupportedOperationException
     {
         String err = "In a Month : the time zone fields must not be changed";
-        throw new OperationNotSupportedException(err);
+        throw new UnsupportedOperationException(err);
     }
 
 
     public void setZoneNegative()
-        throws OperationNotSupportedException
+        throws UnsupportedOperationException
     {
         String err = "In a Month : the tinme zone fields must not be changed";
-        throw new OperationNotSupportedException(err);
+        throw new UnsupportedOperationException(err);
     }
 
 
@@ -224,7 +224,7 @@ public class Month extends TimePeriod {
         }
         try {
             result.setYear(Short.parseShort( temp.substring(2,4) ));
-        } catch(OperationNotSupportedException e){
+        } catch(UnsupportedOperationException e){
         }
         temp=token.nextToken();
         if (temp.length() != 2)
@@ -234,7 +234,7 @@ public class Month extends TimePeriod {
         }
         try {
             result.setMonth(Short.parseShort(temp));
-        } catch(OperationNotSupportedException e) {
+        } catch(UnsupportedOperationException e) {
         }
         temp = null;
         return result;
