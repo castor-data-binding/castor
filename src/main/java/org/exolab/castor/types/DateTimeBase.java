@@ -172,22 +172,22 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
 
     /**
      * Set the negative field to true.
-     * @throws OperationNotSupportedException
+     * @throws UnsupportedOperationException
      *             this exception is thrown when changing the value of the
      *             "century+year is negative" field is not allowed.
      */
-    public void setNegative() throws OperationNotSupportedException {
+    public void setNegative() throws UnsupportedOperationException {
         _isNegative = true;
     }
 
     /**
      * Set the century field. Note: year 0000 is not allowed.
      * @param century the value to set
-     * @throws OperationNotSupportedException
+     * @throws UnsupportedOperationException
      *             this exception is thrown when changing the value of the
      *             century field is not allowed
      */
-    public void setCentury(short century) throws OperationNotSupportedException {
+    public void setCentury(short century) throws UnsupportedOperationException {
         String err = "";
         if (century < 0) {
             err = "century " + century + " must not be negative.";
@@ -205,11 +205,11 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
      *
      * @param year
      *            the year to set
-     * @throws OperationNotSupportedException
+     * @throws UnsupportedOperationException
      *             in an overridden method in a derived class if that derived
      *             class does not support the year element.
      */
-    public void setYear(short year) throws OperationNotSupportedException {
+    public void setYear(short year) throws UnsupportedOperationException {
         String err = "";
         if (year < 0) {
             err = "year " + year + " must not be negative.";
@@ -233,11 +233,11 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
     /**
      * Sets the Month Field. Note 1 <= month <= 12.
      * @param month the value to set up
-     * @throws OperationNotSupportedException
+     * @throws UnsupportedOperationException
      *             in an overridden method in a derived class if that derived
      *             class does not support the month element.
      */
-    public void setMonth(short month) throws OperationNotSupportedException {
+    public void setMonth(short month) throws UnsupportedOperationException {
         String err = "";
         if (month == -1) {
             if (_century != -1) {
@@ -259,11 +259,11 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
      *
      * @param day
      *            the value to set up
-     * @throws OperationNotSupportedException
+     * @throws UnsupportedOperationException
      *             in an overridden method in a derived class if that derived
      *             class does not support the day element.
      */
-    public void setDay(short day) throws OperationNotSupportedException {
+    public void setDay(short day) throws UnsupportedOperationException {
         String err = "";
         if  (day == -1) {
             if (_month != -1) {
@@ -301,11 +301,11 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
      *
      * @param hour
      *            the hour to set
-     * @throws OperationNotSupportedException
+     * @throws UnsupportedOperationException
      *             this exception is thrown when changing the value of the hour
      *             field is not allowed
      */
-    public void setHour(short hour) throws OperationNotSupportedException {
+    public void setHour(short hour) throws UnsupportedOperationException {
         if (hour > 23) {
             String err = "hour " + hour + " must be strictly less than 24";
             throw new IllegalArgumentException(err);
@@ -322,11 +322,11 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
      *
      * @param minute
      *            the minute to set.
-     * @throws OperationNotSupportedException
+     * @throws UnsupportedOperationException
      *             this exception is thrown when changing the value of the
      *             minute field is not allowed
      */
-    public void setMinute(short minute) throws OperationNotSupportedException {
+    public void setMinute(short minute) throws UnsupportedOperationException {
         if (minute > 59) {
             String err = "minute " + minute + " must be strictly less than 60.";
             throw new IllegalArgumentException(err);
@@ -348,11 +348,11 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
      *            the second to set
      * @param millsecond
      *            the millisecond to set
-     * @throws OperationNotSupportedException
+     * @throws UnsupportedOperationException
      *             this exception is thrown when changing the value of the
      *             second field is not allowed
      */
-    public void setSecond(short second,short millsecond) throws OperationNotSupportedException {
+    public void setSecond(short second,short millsecond) throws UnsupportedOperationException {
         setSecond(second);
         setMilliSecond(millsecond);
     }
@@ -363,11 +363,11 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
      *
      * @param second
      *            the second to set
-     * @throws OperationNotSupportedException
+     * @throws UnsupportedOperationException
      *             this exception is thrown when changing the value of the
      *             second field is not allowed
      */
-    public void setSecond(short second) throws OperationNotSupportedException {
+    public void setSecond(short second) throws UnsupportedOperationException {
         if (second > 60) {
            String err = "seconds " + second + " must be less than 60";
            throw new IllegalArgumentException(err);
@@ -384,11 +384,11 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
      *
      * @param millisecond
      *            the millisecond to set
-     * @throws OperationNotSupportedException
+     * @throws UnsupportedOperationException
      *             this exception is thrown when changing the value of the
      *             millisecond field is not allowed
      */
-    public void setMilliSecond(short millisecond) throws OperationNotSupportedException {
+    public void setMilliSecond(short millisecond) throws UnsupportedOperationException {
         if (millisecond < 0) {
             String err = "milliseconds " + millisecond + " cannot be negative.";
             throw new IllegalArgumentException(err);
@@ -412,7 +412,7 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
      *
      * @param zoneNegative
      *            indicates whether or not the time zone is negative.
-     * @throws OperationNotSupportedException
+     * @throws UnsupportedOperationException
      *             this exception is thrown when changing the time zone fields
      *             is not allowed
      */
@@ -432,7 +432,7 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
      *            The time zone hour to set. Must be positive.
      * @param minute
      *            The time zone minute to set.
-     * @throws OperationNotSupportedException
+     * @throws UnsupportedOperationException
      *             this exception is thrown when changing the value of the time
      *             zone fields is not allowed
      */
@@ -451,7 +451,7 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
      *
      * @param hour
      *            the time zone hour to set.  Must be positive.
-     * @throws OperationNotSupportedException
+     * @throws UnsupportedOperationException
      *             this exception is thrown when changing the value of the time
      *             zone fields is not allowed
      */
@@ -476,7 +476,7 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
      *
      * @param minute
      *            the time zone minute to set
-     * @throws OperationNotSupportedException
+     * @throws UnsupportedOperationException
      *             this exception is thrown when changing the value of the time
      *             zone fields is not allowed
      */
@@ -497,39 +497,39 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
 
     ////////////////////////Getter methods//////////////////////////////////////
 
-    public boolean isNegative() throws OperationNotSupportedException {
+    public boolean isNegative() throws UnsupportedOperationException {
         return _isNegative;
     }
 
-    public short getCentury() throws OperationNotSupportedException {
+    public short getCentury() throws UnsupportedOperationException {
         return _century;
     }
 
-    public short getYear() throws OperationNotSupportedException {
+    public short getYear() throws UnsupportedOperationException {
         return _year;
     }
 
-    public short getMonth() throws OperationNotSupportedException {
+    public short getMonth() throws UnsupportedOperationException {
         return _month;
     }
 
-    public short getDay() throws OperationNotSupportedException {
+    public short getDay() throws UnsupportedOperationException {
         return _day;
     }
 
-    public short getHour() throws OperationNotSupportedException {
+    public short getHour() throws UnsupportedOperationException {
         return _hour;
     }
 
-    public short getMinute() throws OperationNotSupportedException {
+    public short getMinute() throws UnsupportedOperationException {
         return _minute;
     }
 
-    public short getSeconds() throws OperationNotSupportedException {
+    public short getSeconds() throws UnsupportedOperationException {
         return _second;
     }
 
-    public short getMilli() throws OperationNotSupportedException {
+    public short getMilli() throws UnsupportedOperationException {
         return _millsecond;
     }
 
@@ -624,7 +624,7 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
             temp = _month + sign * duration.getMonth();
             carry = fQuotient(temp - 1, 12);
             this.setMonth((short) (modulo(temp - 1, 12) + 1));
-        } catch (OperationNotSupportedException e) {
+        } catch (UnsupportedOperationException e) {
             // Ignore
         }
 
@@ -633,7 +633,7 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
             temp = _century * 100 + _year + sign * duration.getYear() + carry;
             this.setCentury((short) (temp / 100));
             this.setYear((short) (temp % 100));
-        } catch (OperationNotSupportedException e) {
+        } catch (UnsupportedOperationException e) {
             // Ignore
         }
 
@@ -660,7 +660,7 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
             temp = _second + sign * duration.getSeconds() + carry;
             carry = fQuotient(temp, 60);
             this.setSecond((short)modulo(temp , 60));
-        } catch (OperationNotSupportedException e) {
+        } catch (UnsupportedOperationException e) {
             // Ignore
         }
 
@@ -669,7 +669,7 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
             temp = _minute + sign * duration.getMinute() + carry;
             carry = fQuotient(temp, 60);
             this.setMinute((short)modulo(temp , 60));
-        } catch (OperationNotSupportedException e) {
+        } catch (UnsupportedOperationException e) {
             // Ignore
         }
 
@@ -678,7 +678,7 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
             temp = _hour + sign*duration.getHour() + carry;
             carry = fQuotient(temp, 24);
             this.setHour((short)modulo(temp , 24));
-        } catch (OperationNotSupportedException e) {
+        } catch (UnsupportedOperationException e) {
             // Ignore
         }
 
@@ -707,13 +707,13 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
                     temp = this.getCentury() * 100 + this.getYear() + fQuotient(temp - 1, 12);
                     this.setCentury((short) (temp / 100));
                     this.setYear((short) (temp % 100));
-                } catch (OperationNotSupportedException e) {
+                } catch (UnsupportedOperationException e) {
                     // Ignore
                 }
             }
 
             this.setDay((short)tempDay);
-        } catch (OperationNotSupportedException e) {
+        } catch (UnsupportedOperationException e) {
             // Ignore
         }
     } // addDuration

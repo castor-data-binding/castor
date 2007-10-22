@@ -270,66 +270,66 @@ public class GYear extends DateTimeBase {
      }
      public short getMonth() {
          String err = "org.exolab.castor.types.GYear does not have a Month field.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
      public void setMonth(short year) {
          String err = "org.exolab.castor.types.GYear does not have a Month field.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
      public boolean hasDay() {
          return false;
      }
      public short getDay() {
          String err = "org.exolab.castor.types.GYear does not have a Day field.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
      public void setDay(short month) {
          String err = "org.exolab.castor.types.GYear does not have a Day field.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
      public boolean hasHour() {
          return false;
      }
      public short getHour() {
          String err = "org.exolab.castor.types.GYear does not have an Hour field.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
      public void setHour(short hour) {
          String err = "org.exolab.castor.types.GYear does not have an Hour field.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
      public boolean hasMinute() {
          return false;
      }
      public short getMinute() {
          String err = "org.exolab.castor.types.GYear does not have a Minute field.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
      public void setMinute(short minute) {
          String err = "org.exolab.castor.types.GYear does not have a Minute field.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
      public boolean hasSeconds() {
          return false;
      }
      public short getSeconds() {
          String err = "org.exolab.castor.types.GYear does not have a Seconds field.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
      public void setSecond(short second) {
          String err = "org.exolab.castor.types.GYear does not have a Seconds field.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
      public boolean hasMilli() {
          return false;
      }
      public short getMilli() {
          String err = "org.exolab.castor.types.GYear does not have a Milliseconds field.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
      public void setMilliSecond(short millisecond) {
          String err = "org.exolab.castor.types.GYear does not have a Milliseconds field.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
 
 }

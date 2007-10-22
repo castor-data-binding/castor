@@ -278,77 +278,77 @@ public class GMonthDay extends DateTimeBase {
      }
      public boolean isNegative() {
          String err = "org.exolab.castor.types.GMonthDay does not have a 'negative' field.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
      public void setNegative() {
          String err = "org.exolab.castor.types.GMonthDay cannot be negative.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
      public boolean hasCentury() {
          return false;
      }
      public short getCentury() {
          String err = "org.exolab.castor.types.GMonthDay does not have a Century field.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
      public void setCentury(short century) {
          String err = "org.exolab.castor.types.GMonthDay does not have a Century field.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
      public boolean hasYear() {
          return false;
      }
      public short getYear() {
          String err = "org.exolab.castor.types.GMonthDay does not have a Year field.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
      public void setYear(short year) {
          String err = "org.exolab.castor.types.GMonthDay does not have a Year field.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
      public boolean hasHour() {
          return false;
      }
      public short getHour() {
          String err = "org.exolab.castor.types.GMonthDay does not have an Hour field.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
      public void setHour(short hour) {
          String err = "org.exolab.castor.types.GMonthDay does not have an Hour field.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
      public boolean hasMinute() {
          return false;
      }
      public short getMinute() {
          String err = "org.exolab.castor.types.GMonthDay does not have a Minute field.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
      public void setMinute(short minute) {
          String err = "org.exolab.castor.types.GMonthDay does not have a Minute field.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
      public boolean hasSeconds() {
          return false;
      }
      public short getSeconds() {
          String err = "org.exolab.castor.types.GMonthDay does not have a Seconds field.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
      public void setSecond(short second) {
          String err = "org.exolab.castor.types.GMonthDay does not have a Seconds field.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
      public boolean hasMilli() {
          return false;
      }
      public short getMilli() {
          String err = "org.exolab.castor.types.GMonthDay does not have a Milliseconds field.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
      public void setMilliSecond(short millisecond) {
          String err = "org.exolab.castor.types.GMonthDay does not have a Milliseconds field.";
-         throw new OperationNotSupportedException(err);
+         throw new UnsupportedOperationException(err);
      }
 
 }

@@ -248,55 +248,55 @@ public class Time extends DateTimeBase {
     }
     public boolean isNegative() {
         String err = "org.exolab.castor.types.Time does not have a 'negative' field.";
-        throw new OperationNotSupportedException(err);
+        throw new UnsupportedOperationException(err);
     }
     public void setNegative() {
         String err = "org.exolab.castor.types.Time cannot be negative.";
-        throw new OperationNotSupportedException(err);
+        throw new UnsupportedOperationException(err);
     }
     public boolean hasCentury() {
         return false;
     }
     public short getCentury() {
         String err = "org.exolab.castor.types.Time does not have a Century field.";
-        throw new OperationNotSupportedException(err);
+        throw new UnsupportedOperationException(err);
     }
     public void setCentury(short century) {
         String err = "org.exolab.castor.types.Time does not have a Century field.";
-        throw new OperationNotSupportedException(err);
+        throw new UnsupportedOperationException(err);
     }
     public boolean hasYear() {
         return false;
     }
     public short getYear() {
         String err = "org.exolab.castor.types.Time does not have a Year field.";
-        throw new OperationNotSupportedException(err);
+        throw new UnsupportedOperationException(err);
     }
     public void setYear(short year) {
         String err = "org.exolab.castor.types.Time does not have a Year field.";
-        throw new OperationNotSupportedException(err);
+        throw new UnsupportedOperationException(err);
     }
     public boolean hasMonth() {
         return false;
     }
     public short getMonth() {
         String err = "org.exolab.castor.types.Time does not have a Month field.";
-        throw new OperationNotSupportedException(err);
+        throw new UnsupportedOperationException(err);
     }
     public void setMonth(short month) {
         String err = "org.exolab.castor.types.Time does not have a Month field.";
-        throw new OperationNotSupportedException(err);
+        throw new UnsupportedOperationException(err);
     }
     public boolean hasDay() {
         return false;
     }
     public short getDay() {
         String err = "org.exolab.castor.types.Time does not have a Day field.";
-        throw new OperationNotSupportedException(err);
+        throw new UnsupportedOperationException(err);
     }
     public void setDay(short month) {
         String err = "org.exolab.castor.types.Time does not have a Day field.";
-        throw new OperationNotSupportedException(err);
+        throw new UnsupportedOperationException(err);
     }
 
 } //Time

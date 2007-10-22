@@ -152,7 +152,7 @@ public class TimePeriod extends RecurringDuration{
         }
         try {
             this.setYear(Short.parseShort( temp.substring(2,4) ));
-        } catch (OperationNotSupportedException e) {
+        } catch (UnsupportedOperationException e) {
             //we are sure that this method is used with a timePeriod type
             //(if not a ParseException is thrown) so we can never reach that point
         }
@@ -167,7 +167,7 @@ public class TimePeriod extends RecurringDuration{
         }
         try {
             this.setMonth(Short.parseShort(temp));
-        } catch (OperationNotSupportedException e) {
+        } catch (UnsupportedOperationException e) {
             //we are sure that this method is used with a timePeriod type
             //(if not a ParseException is thrown) so we can never reach that point
         }
@@ -181,7 +181,7 @@ public class TimePeriod extends RecurringDuration{
         }
         try {
             this.setDay(Short.parseShort(temp));
-        } catch (OperationNotSupportedException e) {
+        } catch (UnsupportedOperationException e) {
             //we are sure that this method is used with a timePeriod type
             //(if not a ParseException is thrown) so we can never reach that point
         }
@@ -203,7 +203,7 @@ public class TimePeriod extends RecurringDuration{
 
          try {
             this.setHour(Short.parseShort( temp ));
-         } catch (OperationNotSupportedException e) {
+         } catch (UnsupportedOperationException e) {
             //we are sure that this method is used with a timePeriod type
             //(if not a ParseException is thrown) so we can never reach that point
          }
@@ -217,7 +217,7 @@ public class TimePeriod extends RecurringDuration{
         }
         try {
             this.setMinute( Short.parseShort(temp));
-        } catch (OperationNotSupportedException e) {
+        } catch (UnsupportedOperationException e) {
             //we are sure that this method is used with a timePeriod type
             //(if not a ParseException is thrown) so we can never reach that point
         }
@@ -238,7 +238,7 @@ public class TimePeriod extends RecurringDuration{
         try {
             this.setSecond(Short.parseShort(temp.substring(0,2)),
                            Short.parseShort(milsecond));
-        } catch (OperationNotSupportedException e) {
+        } catch (UnsupportedOperationException e) {
             //we are sure that this method is used with a timePeriod type
             //(if not a ParseException is thrown) so we can never reach that point
         }
@@ -248,7 +248,7 @@ public class TimePeriod extends RecurringDuration{
         if (timeZone) {
             try {
                 if (zoneStr.startsWith("-")) this.setZoneNegative();
-            } catch (OperationNotSupportedException e) {
+            } catch (UnsupportedOperationException e) {
             //we are sure that this method is used with a timePeriod type
             //(if not a ParseException is thrown) so we can never reach that point
             }
@@ -258,7 +258,7 @@ public class TimePeriod extends RecurringDuration{
             try {
                 this.setZone(Short.parseShort(zoneStr.substring(1,3)),
                              Short.parseShort(zoneStr.substring(4,6)));
-            } catch (OperationNotSupportedException e) {
+            } catch (UnsupportedOperationException e) {
             //we are sure that this method is used with a timePeriod type
             //(if not a ParseException is thrown) so we can never reach that point
             }
@@ -270,9 +270,9 @@ public class TimePeriod extends RecurringDuration{
 
 
      public void setPeriod(TimeDuration period)
-        throws OperationNotSupportedException
+        throws UnsupportedOperationException
     {
-        throw new OperationNotSupportedException("in a time period type,the period must not be changed");
+        throw new UnsupportedOperationException("in a time period type,the period must not be changed");
     }
 
 } //TimePeriod

@@ -352,7 +352,7 @@ public final class AnyNode implements java.io.Serializable {
     public AnyNode getFirstAttribute() {
         if (this.getNodeType() != ELEMENT) {
             String err = "This node type can not contain attributes";
-            throw new OperationNotSupportedException(err);
+            throw new UnsupportedOperationException(err);
         }
 
         boolean found = false;
@@ -380,7 +380,7 @@ public final class AnyNode implements java.io.Serializable {
     public AnyNode getFirstNamespace() {
         if (this.getNodeType() != ELEMENT) {
             String err = "This node type can not contain namespaces";
-            throw new OperationNotSupportedException(err);
+            throw new UnsupportedOperationException(err);
         }
 
         AnyNode tempNode = this.getFirstChildNode();
@@ -629,7 +629,7 @@ public final class AnyNode implements java.io.Serializable {
         if ( ((node.getNodeType() == ATTRIBUTE) || (node.getNodeType()== NAMESPACE)) &&
               (this.getNodeType() != node.getNodeType())) {
             String err = "a NAMESPACE or an ATTRIBUTE can only be add as a sibling to a node of the same type";
-            throw new OperationNotSupportedException(err);
+            throw new UnsupportedOperationException(err);
         }
 
         if (_nextSiblingNode == null) {
