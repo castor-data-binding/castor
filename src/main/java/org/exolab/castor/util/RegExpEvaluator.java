@@ -53,16 +53,16 @@ package org.exolab.castor.util;
 public interface RegExpEvaluator {
 
     /**
-     * Returns true if the given String is matched by the regular expression of
-     * this RegExpEvaluator.
+     * Returns true if the given String matches the regular expression of
+     * this {@link RegExpEvaluator}.
      *
      * @param value
      *            the String to check the production of
      * @return true if the given string matches the regular expression of this
-     *         RegExpEvaluator
+     *         {@link RegExpEvaluator}
      * @see #setExpression
      */
-    public boolean matches(String value);
+    boolean matches(String value);
 
     /**
      * Sets the regular expression to match against during a call to
@@ -71,6 +71,6 @@ public interface RegExpEvaluator {
      * @param rexpr
      *            the regular expression
      */
-    public void setExpression(String rexpr);
+    void setExpression(String rexpr);
 
-} //-- RegExpEvaluator
+}
