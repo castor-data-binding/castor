@@ -43,31 +43,46 @@
 
       <companies>
 
-        <company id="wguttmn">
-          <name>Werner Guttmann</name>
-          <url>n/a</url>
+        <company id="Indoqa">
+          <name>Indoqa</name>
+          <url>http://www.indoqa.com/en/services/opensource-technology</url>
           <contact>
             <name>Werner Guttmann</name>
-            <email><a href="mailto:wguttmn@codehaus.org">wguttmn@codehaus.org</a></email>
-            <phone>n/a</phone>
+            <email><a href="mailto:werner DOT guttmann @ indoqa DOT com">Werner Guttmann</a></email>
+            <phone>on request</phone>
+            <skype>on request</skype>
             <description>Technical architect, Castor JDO committer</description>
           </contact>
           <description>
-            As a long-term committer of Castor (JDO), I offer expertise in the area of
-            J2EE applications, with a strong emphasis on the integration of persistence
-            frameworks, object/relational mapping tools and XML data binding
-            frameworks in general and Castor JDO and XML in particular; I support
-            clients in their focus to integrate such frameworks into their
-            enterprise computing platforms.
+            <b>Indoqa</b> offers expertise in the area of J2EE applications, with a strong 
+            emphasis on the integration of the following (essential) framework areas:
+            
+            <ul>
+                <li>object/relational mapping tools</li>
+                <li>XML data binding frameworks</li>
+                <li>Spring</li>
+            </ul>
+            
+            in general and Castor JDO and XML in particular. Above that, we aspire to 
+            support clients in their focus to integrate such frameworks into their 
+            enterprise computing platforms<br/>
             <br/>
-            As a committer of Castor, I am/have been responsible for ...
+            In the person of <b>Werner Guttmann</b>, Indoqa provides a long-time committer 
+            and the current project lead of Castor, who has been responsible for:
 
             <ul>
               <li>Improving and maintaining both Castor JDO and XML</li>
               <li>Enhancing the Castor XML code generator</li>
-              <li>Castor JDO offering for Spring ORM</li>
               <li>Providing JPA 3.0 compliance</li>
+              <li>Providing JAXB 2.1 compliance</li>
+              <li>Castor JDO offering for Spring ORM</li>
+              <li>Castor XML offering for Spring</li>
             </ul>
+            
+            <br/>
+            In the person of <b>Matthias Epheser</b>, Indoqa provides a long-time contributor
+            in code areas related to code generation.
+            
           </description>
         </company>
 

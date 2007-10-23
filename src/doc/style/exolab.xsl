@@ -714,7 +714,7 @@
           </td>
           <td>
             <span class="bodyGrey">
-              <xsl:value-of select="description"/>
+              <xsl:apply-templates select="description"/>
             </span>
           </td>
         </tr>
