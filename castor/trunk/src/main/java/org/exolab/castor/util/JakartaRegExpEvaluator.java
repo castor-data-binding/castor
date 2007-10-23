@@ -43,80 +43,71 @@
  * $Id$
  */
 
- package org.exolab.castor.util;
+package org.exolab.castor.util;
 
- import org.apache.regexp.*;
- 
- /**
-  * An implementation of the RegExpEvaluator that uses the
-  * Jakarta Regular Expression library. For more information
-  * about the Jakarta RE library please visit:
-  * <a href="http://jakarta.apache.org/regexp/">
-  * http://jakarta.apache.org/regexp/</a>
-  *
-  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
-  * @version $Revision$ $Date: 2004-02-14 02:16:35 -0700 (Sat, 14 Feb 2004) $
- **/
- public class JakartaRegExpEvaluator 
-    implements RegExpEvaluator
-{
-    
+import org.apache.regexp.*;
+import org.castor.util.Messages;
+
+/**
+ * An implementation of {@link RegExpEvaluator} that uses the Jakarta Regular
+ * Expression library. For more information about the Jakarta RE library please
+ * visit: <a href="http://jakarta.apache.org/regexp/">
+ * http://jakarta.apache.org/regexp/</a>
+ * 
+ * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
+ * @version $Revision$ $Date: 2004-02-14 02:16:35 -0700 (Sat, 14 Feb
+ *          2004) $
+ */
+public class JakartaRegExpEvaluator implements RegExpEvaluator {
+
+    /**
+     * Reguar expression denoting a beginning of line.
+     */
     private static final String BOL = "^(";
+
+    /**
+     * Regular expression denoting end of line.
+     */
     private static final String EOL = ")$";
-    
+
     /**
      * The Regular expression
-    **/
-    private RE _regexp = null;
-    
+     */
+    private RE _regexp;
+
     /**
-     * Creates a new JakartaRegExpEvaluator
-    **/
-    public JakartaRegExpEvaluator() {
-        super();
-    } //-- JakartaRegExpEvaluator
-    
-    /**
-     * Sets the regular expression to match against during
-     * a call to #matches
-     *
-     * @param rexpr the regular expression
-    **/
-    public void setExpression(String rexpr) {
-        
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.util.RegExpEvaluator#setExpression(java.lang.String)
+     */
+    public void setExpression(final String rexpr) {
+
         if (rexpr != null) {
             try {
-                //-- patch and compile expression
+                // -- patch and compile expression
                 _regexp = new RE(BOL + rexpr + EOL);
+            } catch (RESyntaxException ex) {
+                String message = Messages.format("regexp.eval.error", rexpr);
+                IllegalArgumentException iae = new IllegalArgumentException(
+                        message);
+                iae.initCause(ex);
+                throw iae;
             }
-            catch(RESyntaxException ex) {
-                String err = "RegExp Syntax error: ";
-                err += ex.getMessage();
-                err += " ; error occured with the following "+
-                    "regular expression: " + rexpr;
-                
-                throw new IllegalArgumentException(err);
-            }
-        }
-        else
+        } else {
             _regexp = null;
-    } //-- setExpression
-    
+        }
+    }
+
     /**
-     * Returns true if the given String is matched by the 
-     * regular expression of this RegExpEvaluator
-     *
-     * @param value the String to check the production of
-     * @return true if the given string matches the regular
-     * expression of this RegExpEvaluator
-     * @see #setExpression
-    **/
-    public boolean matches(String value)
-    {
-        if (_regexp != null) return _regexp.match(value);
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.util.RegExpEvaluator#matches(java.lang.String)
+     */
+    public boolean matches(final String value) {
+        if (_regexp != null) {
+            return _regexp.match(value);
+        }
         return true;
-    } //-- matches
-    
- } //-- JakartaRegExpEvaluator
- 
- 
+    }
+
+}
