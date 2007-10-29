@@ -251,6 +251,13 @@
       </navLink>
     </section>
 
+    <section name="Tools">
+        <navLink>
+            <url>schemaGen-antask.xml</url>
+            <display>Schema generator</display>
+        </navLink>
+    </section>
+    
     <section name="Advanced JDO">
       <navLink>
         <url>jdo-caching-detail.xml</url>
