@@ -293,7 +293,7 @@ public class RecurringDuration extends RecurringDurationBase{
      *      <li>zoneMinute</li>
      * </ul>
      *
-     * @throws OperationNotSupportedException this exception is thrown if changing
+     * @throws UnsupportedOperationException this exception is thrown if changing
      *         the value of one field os not allowed
      * @see RecurringDurationBase#setValues
      */
