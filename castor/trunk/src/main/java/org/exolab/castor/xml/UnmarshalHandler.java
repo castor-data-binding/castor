@@ -1072,6 +1072,12 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         //-- remove current namespace scoping
         _namespaces = _namespaces.getParent();
 
+        // remove additional (artifical aka container) state introduced for single-valued (iow maxOccurs="1") choices.
+        boolean isChoice = (state.classDesc instanceof XMLClassDescriptorImpl
+                && ((XMLClassDescriptorImpl)state.classDesc).isChoice());
+        if (state.fieldDesc.isContainer() && isChoice && !state.fieldDesc.isMultivalued()) {
+            this.endElement(state.elementName);
+        }
     } //-- endElement
 
     /**

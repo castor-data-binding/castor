@@ -1441,5 +1441,7 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
         _substitutes = substitutes;
     }
          
-    
+    public boolean isChoice() {
+        return this._compositor == CHOICE;
+    }
 } //-- XMLClassDescriptor
