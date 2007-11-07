@@ -1,6 +1,5 @@
 package harness;
 
-import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.xml.NodeType;
 import org.exolab.castor.xml.TypeValidator;
@@ -54,49 +53,58 @@ public abstract class BaseHarnessDescriptor implements XMLClassDescriptor {
     private org.exolab.castor.xml.XMLFieldDescriptor _identity;
 
     /**
-     **/
+     * {@inheritDoc}
+     * @see org.exolab.castor.xml.XMLClassDescriptor#getAttributeDescriptors()
+     */
     public org.exolab.castor.xml.XMLFieldDescriptor[] getAttributeDescriptors() {
         return _attributeDescriptors;
     }
 
     /**
-     **/
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.XMLClassDescriptor#getElementDescriptors()
+     */
     public org.exolab.castor.xml.XMLFieldDescriptor[] getElementDescriptors() {
         return _elementDescriptors;
     }
 
     /**
-     **/
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.XMLClassDescriptor#getNameSpaceURI()
+     */
     public java.lang.String getNameSpaceURI() {
         return _nsURI;
     }
 
     /**
-     **/
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.XMLClassDescriptor#getXMLName()
+     */
     public java.lang.String getXMLName() {
         return _xmlName;
     }
 
     /**
-     **/
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.XMLClassDescriptor#getNameSpacePrefix()
+     */
     public java.lang.String getNameSpacePrefix() {
         return _nsPrefix;
     }
 
     /**
-     * Checks whether the given XMLFieldDescriptor is the one actually expected,
-     * given the natural order as defined by a sequence definition
+     * {@inheritDoc}
      * 
-     * @param elementDescriptor
-     *            The XML field descriptor to be checked
-     * @throws ValidationException
-     *             If the descriptor is not the one expected
-     * @see org.exolab.castor.xml.XMLClassDescriptor#checkDescriptorForCorrectOrderWithinSequence(org.exolab.castor.xml.XMLFieldDescriptor,
-     *      UnmarshalState, String)
+     * @see org.exolab.castor.xml.XMLClassDescriptor#checkDescriptorForCorrectOrderWithinSequence(org.exolab.castor.xml.XMLFieldDescriptor, org.exolab.castor.xml.UnmarshalState, java.lang.String)
      */
     public void checkDescriptorForCorrectOrderWithinSequence(
-            XMLFieldDescriptor elementDescriptor, UnmarshalState parentState,
-            String xmlName) throws ValidationException {
+            final XMLFieldDescriptor elementDescriptor, 
+            final UnmarshalState parentState,
+            final String xmlName) throws ValidationException {
         // nothing to check
     }
 
@@ -118,7 +126,7 @@ public abstract class BaseHarnessDescriptor implements XMLClassDescriptor {
 
     /**
      * Returns the current {@link AccessMode} instance.
-     * @return
+     * @return The current access mode.
      */
     public org.exolab.castor.mapping.AccessMode getAccessMode() {
         return null;
@@ -159,7 +167,7 @@ public abstract class BaseHarnessDescriptor implements XMLClassDescriptor {
     }
 
     /**
-     * TODO
+     * TODO.
      */
     public void resetElementCount() {
         // nothing to reset
@@ -200,15 +208,15 @@ public abstract class BaseHarnessDescriptor implements XMLClassDescriptor {
      * descriptor is available.
      *
      * @param name the xml name to match against
-     * @param nodeType, the NodeType to match against, or null if
+     * @param namespace the xml namspace to match against
+     * @param nodeType the NodeType to match against, or null if
      * the node type is not known.
      * @return the matching descriptor, or null if no matching
      * descriptor is available.
      *
     **/
-    public XMLFieldDescriptor getFieldDescriptor
-        (String name, String namespace, NodeType nodeType) 
-    {
+    public XMLFieldDescriptor getFieldDescriptor(final String name,
+            final String namespace, final NodeType nodeType) {
         
         boolean wild = (nodeType == null);
         
@@ -216,8 +224,12 @@ public abstract class BaseHarnessDescriptor implements XMLClassDescriptor {
             XMLFieldDescriptor desc = null;
             for (int i = 0; i < _elementDescriptors.length; i++) {
                 desc = _elementDescriptors[i];
-                if (desc == null) continue;
-                if (desc.matches(name, namespace)) return desc;
+                if (desc == null) {
+                    continue;
+                }
+                if (desc.matches(name, namespace)) {
+                    return desc;
+                }
             }
         }
         
@@ -225,13 +237,27 @@ public abstract class BaseHarnessDescriptor implements XMLClassDescriptor {
             XMLFieldDescriptor desc = null;
             for (int i = 0; i < _attributeDescriptors.length; i++) {
                 desc = _attributeDescriptors[i];
-                if (desc == null) continue;
-                if (desc.matches(name, namespace)) return desc;
+                if (desc == null) {
+                    continue;
+                }
+                if (desc.matches(name, namespace)) {
+                    return desc;
+                }
             }
         }
         
         return null;
         
     }
+    
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.XMLClassDescriptor#isChoice()
+     */
+    public boolean isChoice() {
+        return false;
+    }
+    
 }
 

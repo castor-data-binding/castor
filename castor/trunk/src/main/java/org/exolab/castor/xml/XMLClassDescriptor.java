@@ -165,6 +165,12 @@ public interface XMLClassDescriptor extends ClassDescriptor {
             final XMLFieldDescriptor elementDescriptor, 
             UnmarshalState parentState, String xmlName) throws ValidationException;
 
+    /**
+     * Indicates whether the XML artifact described by this descriptor is a <xsd:choice>.
+     * @return True if the artifact described is a choice.
+     */
+    public boolean isChoice();
+    
 } //-- XMLClassDescriptor
 
 

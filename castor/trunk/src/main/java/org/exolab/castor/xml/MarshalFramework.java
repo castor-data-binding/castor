@@ -816,5 +816,17 @@ abstract class MarshalFramework {
         public FieldDescriptor getIdentity() {
             return _classDesc.getIdentity();
         } //-- getIdentity
+        
+        /**
+         * {@inheritDoc}
+         * 
+         * @see org.exolab.castor.xml.XMLClassDescriptor#isChoice()
+         */
+        public boolean isChoice() {
+            return false;
+        }
+        
     } //-- InternalXMLClassDescriptor
+    
+    
 } //-- MarshalFramework
