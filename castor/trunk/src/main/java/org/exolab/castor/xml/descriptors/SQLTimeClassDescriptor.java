@@ -45,9 +45,6 @@ import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.xml.NodeType;
 import org.exolab.castor.xml.TypeValidator;
-import org.exolab.castor.xml.UnmarshalState;
-import org.exolab.castor.xml.ValidationException;
-import org.exolab.castor.xml.XMLClassDescriptor;
 import org.exolab.castor.xml.XMLFieldDescriptor;
 import org.exolab.castor.xml.XMLFieldHandler;
 import org.exolab.castor.xml.handlers.SQLTimeFieldHandler;
@@ -59,7 +56,7 @@ import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
  * @author <a href="kvisco-at-intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr 2006) $
  */
-public class SQLTimeClassDescriptor implements XMLClassDescriptor {
+public class SQLTimeClassDescriptor extends BaseDescriptor {
 
     /** Used for returning no attribute and no element fields. */
     private static final XMLFieldDescriptor[]   NO_FIELDS  = new XMLFieldDescriptor[0];
@@ -277,39 +274,5 @@ public class SQLTimeClassDescriptor implements XMLClassDescriptor {
     public AccessMode getAccessMode() {
         return null;
     } // -- getAccessMode
-
-    /**
-     * Returns true if the given object represented by this XMLClassDescriptor
-     * can accept a member whose name is given. An XMLClassDescriptor can accept
-     * a field if it contains a descriptor that matches the given name and if
-     * the given object can hold this field (i.e a value is not already set for
-     * this field).
-     * <p>
-     * This is mainly used for container objects (that can contain other
-     * objects), in this particular case the implementation returns false.
-     *
-     * @param name the xml name of the field to check
-     * @param namespace the namespace uri
-     * @param object the object represented by this XMLCLassDescriptor
-     * @return true if the given object represented by this XMLClassDescriptor
-     *         can accept a member whose name is given.
-     */
-    public boolean canAccept(final String name, final String namespace, final Object object) {
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.exolab.castor.xml.XMLClassDescriptor#
-     *      checkDescriptorForCorrectOrderWithinSequence(org.exolab.castor.xml.XMLFieldDescriptor,
-     *      org.exolab.castor.xml.UnmarshalState, java.lang.String)
-     */
-    public void checkDescriptorForCorrectOrderWithinSequence(
-            final XMLFieldDescriptor elementDescriptor, 
-            final UnmarshalState parentState, 
-            final String xmlName) throws ValidationException {
-        // no implementation
-    }
 
 } //-- class: SQLTimeClassDescriptor

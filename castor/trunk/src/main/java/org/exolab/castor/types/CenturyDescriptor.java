@@ -61,11 +61,11 @@ import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 public class CenturyDescriptor extends BaseDescriptor {
 
     /** The name of the XML element. */
-    private static final String                 _xmlName = "century";
+    private static final String XML_NAME = "century";
     /** Our field descriptor. */
     private static final XMLFieldDescriptorImpl _contentDescriptor;
     /** Our field descriptor array.  Lists the fields we describe. */
-    private static final FieldDescriptor[]      _fields;
+    private static final FieldDescriptor[] _fields;
 
     static {
         _contentDescriptor = new XMLFieldDescriptorImpl(String.class, "content",
@@ -80,7 +80,7 @@ public class CenturyDescriptor extends BaseDescriptor {
     //----------------/
 
     public CenturyDescriptor() {
-        super(_xmlName, Century.class);
+        super(XML_NAME, Century.class);
     } //--CenturyDescriptor
 
     //------------------/
