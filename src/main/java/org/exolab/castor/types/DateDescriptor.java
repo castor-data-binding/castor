@@ -62,11 +62,11 @@ import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 public class DateDescriptor extends BaseDescriptor {
 
     /** The name of the XML element. */
-    private static final String                 _xmlName = "date";
+    private static final String XML_NAME = "date";
     /** Our field descriptor. */
     private static final XMLFieldDescriptorImpl _contentDescriptor;
     /** Our field descriptor array.  Lists the fields we describe. */
-    private static final FieldDescriptor[]      _fields;
+    private static final FieldDescriptor[] _fields;
 
     static {
         _contentDescriptor = new XMLFieldDescriptorImpl(String.class, "content",
@@ -81,7 +81,7 @@ public class DateDescriptor extends BaseDescriptor {
     //----------------/
 
     public DateDescriptor() {
-        super(_xmlName, Date.class);
+        super(XML_NAME, Date.class);
     } //-- DateDescriptor
 
     //------------------/

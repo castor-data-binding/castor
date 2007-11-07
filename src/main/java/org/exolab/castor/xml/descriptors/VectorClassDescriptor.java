@@ -42,9 +42,6 @@ import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.xml.NodeType;
 import org.exolab.castor.xml.TypeValidator;
-import org.exolab.castor.xml.UnmarshalState;
-import org.exolab.castor.xml.ValidationException;
-import org.exolab.castor.xml.XMLClassDescriptor;
 import org.exolab.castor.xml.XMLFieldDescriptor;
 import org.exolab.castor.xml.XMLFieldHandler;
 import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
@@ -56,7 +53,7 @@ import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
  * @version $Revision$ $Date: 2004-12-16 22:49:25 -0700 (Thu, 16 Dec
  *          2004) $
  */
-public class VectorClassDescriptor implements XMLClassDescriptor {
+public class VectorClassDescriptor extends BaseDescriptor {
 
     /** The set of attribute descriptors. */
     private static final XMLFieldDescriptor[]   NO_ATTRIBUTES = new XMLFieldDescriptor[0];
@@ -329,19 +326,5 @@ public class VectorClassDescriptor implements XMLClassDescriptor {
         // with a wild-card '*', just return true since it can accept any object
         return true;
     } //-- canAccept
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.exolab.castor.xml.XMLClassDescriptor#
-     *      checkDescriptorForCorrectOrderWithinSequence(org.exolab.castor.xml.XMLFieldDescriptor,
-     *      org.exolab.castor.xml.UnmarshalState, java.lang.String)
-     */
-    public void checkDescriptorForCorrectOrderWithinSequence(
-            final XMLFieldDescriptor elementDescriptor, 
-            final UnmarshalState parentState, 
-            final String xmlName) throws ValidationException {
-        // no implementation
-    }
 
 }
