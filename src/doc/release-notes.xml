@@ -331,6 +331,26 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    
             </summary>
             <bugs>
+               <bug id="2215" tool="jira">
+                    <description>
+                        Exposed isChoice() method to org.exolab.castor.xml.XMLClassDescriptor.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20071107</date>
+                </bug>
                <bug id="2212" tool="jira">
                     <description>
                         Partially refactored class hierarchy of (some) descriptor classes.
@@ -349,7 +369,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                     </reporter>
                     <type>Enh.</type>
                     <module>XML</module>
-                    <date>20071023</date>
+                    <date>20071107</date>
                 </bug>
                 <bug id="1150" tool="jira">
                     <description>

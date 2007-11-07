@@ -42,4 +42,13 @@ public abstract class BaseDescriptor implements XMLClassDescriptor {
         // no implementation
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.XMLClassDescriptor#isChoice()
+     */
+    public boolean isChoice() {
+        return false;
+    }
+    
 }
