@@ -931,5 +931,24 @@ public class Unmarshaller {
         _internalContext = internalContext;
     }
     
+    /**
+     * To get the internal XML Context that is in use.
+     * @return the {@link InternalContext} in use
+     */
+    public InternalContext getInternalContext() {
+        return _internalContext;
+    }
+    
+    /**
+     * Sets the XMLClassDescriptorResolver to use during unmarshalling
+     * @param xmlClassDescriptorResolver the XMLClassDescriptorResolver to use
+     * @see #setMapping
+     * <BR />
+     * <B>Note:</B> This method will nullify any Mapping
+     * currently being used by this Unmarshaller
+     */
+    public void setResolver(XMLClassDescriptorResolver xmlClassDescriptorResolver) {
+        _internalContext.setResolver(xmlClassDescriptorResolver);
+    }
 } //-- Unmarshaller
 
