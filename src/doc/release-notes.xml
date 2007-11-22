@@ -329,8 +329,35 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                		property from this file to switch to the new default mechanism.
                	</p>
                    
+                <h3>Static unmarshal methods on generated classes with Java 5.0 and above</h3>
+                
+                <p>For classes generated to be used with Java 5.0 (and above) that are part of 
+                   a type hierarchy, the static <tt>unmarshal</tt> methods will now return 
+                   the exact sub-type (i.e. the class where the method is defined), and not
+                   the parent type. This should improve type strictness and help in avoiding 
+                   unnecessary casts.</p>
             </summary>
             <bugs>
+               <bug id="2209" tool="jira">
+                    <description>
+                        Improved 'contract' for static unmarshal methods on generated classes for Java 5.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Aslam Karachiwala</name>
+                        <email>akwala@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20071122</date>
+                </bug>
                <bug id="2215" tool="jira">
                     <description>
                         Exposed isChoice() method to org.exolab.castor.xml.XMLClassDescriptor.

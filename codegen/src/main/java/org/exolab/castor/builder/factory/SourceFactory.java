@@ -1087,7 +1087,14 @@ public final class SourceFactory extends BaseFactory {
         //-- create main unmarshal method
 
         //-- search for proper base class
-        JClass returnType = findBaseClass(parent, sgState);
+        // TODO[WG]: java 5.0 allows different types for unmarshal method in extension hierarchy
+        JClass returnType;
+        if (!getConfig().useJava50()) {
+            returnType = findBaseClass(parent, sgState);
+        } else {
+            returnType = parent;             
+        }
+        
         JMethod jMethod = new JMethod(methodName, returnType,
                                       "the unmarshaled " + returnType);
         jMethod.getModifiers().setStatic(true);
