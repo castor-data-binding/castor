@@ -178,21 +178,7 @@ public final class TypeConversion {
         // try to find a common type for UNIONs, and use it; if not,
         // use 'java.lang.Object' instead.
         if (simpleType.getStructureType() == Structure.UNION) {
-            SimpleType currentUnion = simpleType;
-            SimpleType common = findCommonType((Union) currentUnion);
-            // look at type hierarchy (if any), and try to 
-            // find a common type recursively 
-            while (common == null 
-                    && currentUnion.getBaseType() != null
-                    && currentUnion.getBaseType().getStructureType() == Structure.UNION)
-            {
-                currentUnion = (SimpleType) currentUnion.getBaseType();
-                common = findCommonType((Union) currentUnion);
-            }
-            if (common == null) {
-                return new XSClass(SGTypes.OBJECT);
-            }
-            return convertType(common, packageName, useWrapper, useJava50);
+            return convertUnion(simpleType, packageName, useWrapper, useJava50);
         } else if (base == null) {
             String className = _config.getJavaNaming().toJavaClassName(simpleType.getName());
             return new XSClass(new JClass(className));
@@ -415,6 +401,45 @@ public final class TypeConversion {
 
         return xsType;
     } //-- convertType
+
+    /**
+     * Converts the given XML schema Union type to the appropriate XSType.
+     *
+     * @param simpleType the SimpleType to convert to an XSType instance
+     * @param packageName the packageName for any new class types
+     * @param useJava50 true if source code is to be generated for Java 5
+     * @param useWrapper indicates whether primitive wrappers should be used instead 
+     *   of the actual primitives (e.g. java.lang.Integer instead of int)
+     * @return the XSType which represets the given Simpletype
+     */
+    private XSType convertUnion(final SimpleType simpleType, 
+            final String packageName, 
+            final boolean useWrapper, 
+            final boolean useJava50) {
+        SimpleType currentUnion = simpleType;
+        SimpleType common = findCommonType((Union) currentUnion);
+        // look at type hierarchy (if any), and try to 
+        // find a common type recursively 
+        while (common == null 
+                && currentUnion.getBaseType() != null
+                && currentUnion.getBaseType().getStructureType() == Structure.UNION)
+        {
+            currentUnion = (SimpleType) currentUnion.getBaseType();
+            common = findCommonType((Union) currentUnion);
+        }
+        if (common == null) {
+            return new XSClass(SGTypes.OBJECT);
+        }
+        
+        XSType convertedType = convertType(common, packageName, useWrapper, useJava50);
+        Union unionType = (Union) simpleType;
+        Enumeration memberTypes = unionType.getMemberTypes();
+        while (memberTypes.hasMoreElements()) {
+            SimpleType memberType = (SimpleType) memberTypes.nextElement();
+            convertedType.setFacets(memberType);
+        }
+        return convertedType;
+    }
 
     /**
      * Returns the XSType that corresponds to the given javaType.
