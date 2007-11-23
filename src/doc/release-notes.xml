@@ -338,6 +338,26 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    unnecessary casts.</p>
             </summary>
             <bugs>
+               <bug id="2213" tool="jira">
+                    <description>
+                        Added documentation for integration of Castor with web service frameworks.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>Doc</module>
+                    <date>20071123</date>
+               </bug>
                <bug id="2209" tool="jira">
                     <description>
                         Improved 'contract' for static unmarshal methods on generated classes for Java 5.
