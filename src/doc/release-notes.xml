@@ -338,6 +338,26 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    unnecessary casts.</p>
             </summary>
             <bugs>
+               <bug id="2217" tool="jira">
+                    <description>
+                        Fixed problem in propagation of facets for unions.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Patrick Marchwiak</name>
+                        <email>pmarchwiak@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen</module>
+                    <date>20071123</date>
+               </bug>
                <bug id="2213" tool="jira">
                     <description>
                         Added documentation for integration of Castor with web service frameworks.
