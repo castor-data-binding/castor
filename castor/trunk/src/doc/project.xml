@@ -132,6 +132,10 @@
             <url>spring-xml-intro.html</url>
             <display>Spring XML factories</display>
         </navLink>
+        <navLink highlighted="true">
+            <url>ws-integration.html</url>
+            <display>WS frameworks</display>
+        </navLink>
     </section>
 
     <section name="XML">
