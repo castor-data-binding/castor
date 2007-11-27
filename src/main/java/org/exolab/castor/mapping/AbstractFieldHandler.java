@@ -106,7 +106,7 @@ public abstract class AbstractFieldHandler extends ExtendedFieldHandler implemen
      *
      * @param fieldDesc the FieldDescriptor to set
      */
-    public final void setFieldDescriptor(FieldDescriptor fieldDesc) {
+    public void setFieldDescriptor(FieldDescriptor fieldDesc) {
         _descriptor = fieldDesc;
     } //-- setFieldDescriptor
 

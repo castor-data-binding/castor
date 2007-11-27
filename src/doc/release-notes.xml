@@ -338,6 +338,26 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    unnecessary casts.</p>
             </summary>
             <bugs>
+               <bug id="2196" tool="jira">
+                    <description>
+                        FieldHandler.getFieldDescriptor() now returns an instance of XMLFieldDescriptor.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Bastian</name>
+                        <email>babowe@gmx.de</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20071127</date>
+               </bug>
                <bug id="2217" tool="jira">
                     <description>
                         Fixed problem in propagation of facets for unions.
