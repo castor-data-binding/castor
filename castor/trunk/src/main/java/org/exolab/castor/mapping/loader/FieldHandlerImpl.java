@@ -59,7 +59,9 @@ import org.castor.util.Messages;
 import org.exolab.castor.core.exceptions.CastorIllegalStateException;
 import org.exolab.castor.mapping.AbstractFieldHandler;
 import org.exolab.castor.mapping.ExtendedFieldHandler;
+import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.FieldHandler;
+import org.exolab.castor.mapping.GeneralizedFieldHandler;
 import org.exolab.castor.mapping.TypeConvertor;
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.MappingException;
@@ -955,4 +957,24 @@ public final class FieldHandlerImpl
     {
         return _fieldName;
     }
+    
+    /**
+     * Sets the FieldDescriptor that this FieldHander is
+     * responsibile for. By setting the FieldDescriptor, it
+     * allows the implementation of the FieldHandler methods 
+     * to obtain information about the field itself. This allows
+     * a particular implementation to become more generic and
+     * reusable.
+     *
+     * @param fieldDesc the FieldDescriptor to set
+     */
+    public void setFieldDescriptor(FieldDescriptor fieldDesc) {
+        super.setFieldDescriptor(fieldDesc);
+        if (_handler != null) {
+            if (_handler instanceof GeneralizedFieldHandler) {
+                ((GeneralizedFieldHandler) _handler).setFieldDescriptor(fieldDesc);
+            }
+        }
+    }
+    
 }

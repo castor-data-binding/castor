@@ -59,6 +59,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.mapping.BindingType;
+import org.exolab.castor.mapping.AbstractFieldHandler;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.FieldDescriptor;
@@ -536,6 +537,11 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
         }
 
         xmlDesc = new XMLFieldDescriptorImpl( fieldDesc, xmlName, nodeType, getInternalContext().getPrimitiveNodeType() );
+        
+        if (xmlDesc.getHandler() != null && xmlDesc.getHandler() instanceof AbstractFieldHandler) {
+            AbstractFieldHandler handler = (AbstractFieldHandler) xmlDesc.getHandler();
+            handler.setFieldDescriptor(xmlDesc);
+        }
 
         //-- transient?
         xmlDesc.setTransient(isXMLTransient);
