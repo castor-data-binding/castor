@@ -70,6 +70,7 @@ import org.exolab.castor.xml.Validator;
 import org.exolab.castor.xml.XMLClassDescriptor;
 import org.exolab.castor.xml.XMLFieldDescriptor;
 import org.exolab.castor.xml.XMLNaming;
+import org.exolab.castor.xml.util.resolvers.ResolveHelpers;
 
 /**
  * The core implementation of XMLClassDescriptor. This class is used by both
@@ -481,14 +482,24 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
                 }
 
                 if (desc.matches(name)) {
-                      if (!desc.matches(WILDCARD)) return desc;
-                      //--  possible wildcard match check for
-                      //--  exact match (we need to extend the
-                      //--  the descriptor interface to handle this
-                      if (name.equals(desc.getXMLName()))
-                        return desc;
-                      //-- assume wild-card match
-                      result = desc;
+                      if (!desc.matches(WILDCARD)) {
+                          // currently, a 'null' namespace value indicates that the XML artifact in question
+                          // either is namespace-less or is part of the default namespace; in both cases, 
+                          // we currently can not perform namespace comparison.
+                          // TODO[wguttmn, 20071205]: add code to handle default namespace declarations rather than checking for null
+                          if (namespace == null 
+                                  || ResolveHelpers.namespaceEquals(namespace, desc.getNameSpaceURI())) {
+                              return desc;
+                          }
+                      } else {
+                          //--  possible wildcard match check for
+                          //--  exact match (we need to extend the
+                          //--  the descriptor interface to handle this
+                          if (name.equals(desc.getXMLName()))
+                              return desc;
+                          //-- assume wild-card match
+                          result = desc;
+                      }
                 }
 
                 //handle container

@@ -20,6 +20,7 @@ import org.exolab.castor.xml.schema.ComplexType;
 import org.exolab.castor.xml.schema.ElementDecl;
 import org.exolab.castor.xml.schema.Group;
 import org.exolab.castor.xml.schema.ModelGroup;
+import org.exolab.castor.xml.schema.Schema;
 import org.exolab.castor.xml.schema.SimpleType;
 import org.exolab.castor.xml.schema.Structure;
 
@@ -82,6 +83,13 @@ public class XPathHelper {
             }
             location.append(ExtendedBinding.PATH_SEPARATOR);
             location.append(((ElementDecl) structure).getName());
+            if (parent instanceof Schema) {
+                Schema schema = (Schema) parent;
+                if (schema.getTargetNamespace() != null) {
+                    String targetNamespace = schema.getTargetNamespace();
+                    location.append("{" + targetNamespace + "}");
+                }
+            }
             break;
 
         case Structure.COMPLEX_TYPE:
