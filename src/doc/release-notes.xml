@@ -338,6 +338,27 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    unnecessary casts.</p>
             </summary>
             <bugs>
+               <bug id="2206" tool="jira">
+                    <description>
+                        Fixed problem handling references to identically named global elements
+                        from different namespaces.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Mitesh Soni</name>
+                        <email>mit_bca1@yahoo.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20071205</date>
+               </bug>
                <bug id="2196" tool="jira">
                     <description>
                         FieldHandler.getFieldDescriptor() now returns an instance of XMLFieldDescriptor.

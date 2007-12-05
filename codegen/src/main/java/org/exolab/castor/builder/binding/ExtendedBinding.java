@@ -239,7 +239,26 @@ public final class ExtendedBinding extends Binding {
         if (xPath == null) {
             return null;
         }
-        return (ComponentBindingType) _componentBindings.get(xPath);
+        ComponentBindingType componentBinding = 
+            (ComponentBindingType) _componentBindings.get(xPath);
+        
+        // if no component binding has been found, retry with xpath without namespaces
+        // this is to ensure backwards compatibility
+        if (componentBinding == null) {
+            int occurence = xPath.indexOf('{');
+            String xPathNoNamespaces = xPath;
+            if (occurence > 0) {
+                while (occurence > 0) {
+                    String xPathOld = xPathNoNamespaces;
+                    xPathNoNamespaces = xPathOld.substring(0, occurence);
+                    int closingOccurence = xPathOld.indexOf('}');
+                    xPathNoNamespaces += xPathOld.substring(closingOccurence + 1);
+                    occurence = xPathNoNamespaces.indexOf('{');
+                }
+                componentBinding = lookupComponentBindingType(xPathNoNamespaces);
+            }
+        }
+        return componentBinding;
     }
 
     /**
