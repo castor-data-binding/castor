@@ -384,6 +384,9 @@ public class DateFieldHandler extends XMLFieldHandler {
             formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
         }
 
+        /* ensure the formatter does not use the default system timezone */
+        formatter.setTimeZone(_timezone);
+        
         GregorianCalendar cal = new GregorianCalendar();
         cal.setTime(date);
         cal.setTimeZone(_timezone);
