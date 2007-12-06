@@ -338,6 +338,26 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    unnecessary casts.</p>
             </summary>
             <bugs>
+               <bug id="2220" tool="jira">
+                    <description>
+                        Fixed problem with not 'using' time zone in DateFieldHandler.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Mark Femal</name>
+                        <email>mark.femal@navy.mil</email>
+                    </submitter>
+                    <reporter>
+                        <name>Mark Femal</name>
+                        <email>mark.femal@navy.mil</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20071206</date>
+               </bug>
                <bug id="2206" tool="jira">
                     <description>
                         Fixed problem handling references to identically named global elements
