@@ -338,17 +338,37 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    unnecessary casts.</p>
             </summary>
             <bugs>
-               <bug id="2220" tool="jira">
+               <bug id="2174" tool="jira">
                     <description>
-                        Fixed problem with not 'using' time zone in DateFieldHandler.
+                        Marshalling 'hexBinary' types produces upper-case hex digits [A-F] only. 
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
                         <email>wguttmn@codehaus.org</email>
                     </contributor>
                     <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Dave Wilmes</name>
+                        <email>djwilmes@up.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20071211</date>
+               </bug>
+               <bug id="2220" tool="jira">
+                    <description>
+                        Fixed problem with not 'using' time zone in DateFieldHandler.
+                    </description>
+                    <contributor>
                         <name>Mark Femal</name>
                         <email>mark.femal@navy.mil</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
                     </submitter>
                     <reporter>
                         <name>Mark Femal</name>

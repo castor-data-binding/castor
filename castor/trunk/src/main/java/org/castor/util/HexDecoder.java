@@ -41,10 +41,12 @@ public final class HexDecoder {
     /**
      * Encoding table.
      */
-    protected static final byte[] ENCODING_TABLE = {(byte) '0', (byte) '1',
-            (byte) '2', (byte) '3', (byte) '4', (byte) '5', (byte) '6',
-            (byte) '7', (byte) '8', (byte) '9', (byte) 'a', (byte) 'b',
-            (byte) 'c', (byte) 'd', (byte) 'e', (byte) 'f' };
+    protected static final byte[] ENCODING_TABLE = {
+        (byte) '0', (byte) '1', (byte) '2', (byte) '3',
+        (byte) '4', (byte) '5', (byte) '6', (byte) '7',
+        (byte) '8', (byte) '9', (byte) 'A', (byte) 'B',
+        (byte) 'C', (byte) 'D', (byte) 'E', (byte) 'F' 
+    };
 
     /**
      * Decoding table.
@@ -59,12 +61,13 @@ public final class HexDecoder {
             DECODING_TABLE[ENCODING_TABLE[i]] = (byte) i;
         }
 
-        DECODING_TABLE['A'] = DECODING_TABLE['a'];
-        DECODING_TABLE['B'] = DECODING_TABLE['b'];
-        DECODING_TABLE['C'] = DECODING_TABLE['c'];
-        DECODING_TABLE['D'] = DECODING_TABLE['d'];
-        DECODING_TABLE['E'] = DECODING_TABLE['e'];
-        DECODING_TABLE['F'] = DECODING_TABLE['f'];
+        // deal with lower case letters as well
+        DECODING_TABLE['a'] = DECODING_TABLE['A'];
+        DECODING_TABLE['b'] = DECODING_TABLE['B'];
+        DECODING_TABLE['c'] = DECODING_TABLE['C'];
+        DECODING_TABLE['d'] = DECODING_TABLE['D'];
+        DECODING_TABLE['e'] = DECODING_TABLE['E'];
+        DECODING_TABLE['f'] = DECODING_TABLE['F'];
     }
 
     static {
