@@ -18,5 +18,10 @@
             <Name>Test Generation &amp; unmarshalling</Name>
             <Input>input.xml</Input>
         </UnitTestCase>
+        <UnitTestCase>
+            <Name>Test Generation &amp; unmarshalling with lower case letters</Name>
+            <Input>input-lower.xml</Input>
+            <GoldFile>output.xml</GoldFile>
+        </UnitTestCase>
     </SourceGeneratorTest>
 </TestDescriptor>
