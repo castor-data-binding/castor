@@ -1242,10 +1242,14 @@ public final class LockEngine {
             // some LRU mechanism, especially if we allow NoCache, to avoid
             // duplicated LockEntry exist at the same time.
             synchronized (_locks) {
+                // consult with the 'first level' cache, aka current transaction 
                 entry = (ObjectLock) _locks.get(internaloid);
                 if (entry == null) {
+                    // consult with the 'second level' cache, aka physical cache
                     CacheEntry cachedEntry = (CacheEntry) _cache.remove(internaloid);
                     if (cachedEntry != null) {
+                        // if there's an {@link CacheEntry} instance, create a new
+                        // ObjectLock instance from its data and put it into first level cache
                         entry = new ObjectLock(cachedEntry);
                         _locks.put(internaloid, entry);
                         
@@ -1260,6 +1264,7 @@ public final class LockEngine {
                 }
                 
                 if (entry == null) {
+                    // create a new ObjectLock instance and put it into first level cache
                     entry = new ObjectLock(internaloid);
                     _locks.put(internaloid, entry);
                 } else {
