@@ -372,6 +372,10 @@
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
         </ant>
+        <ant antfile="${basedir}/xmlctf/build.xml" target="compile.xmlctf" inheritAll="false">
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
+        </ant>
         <ant antfile="${basedir}/cpactf/build.xml" target="compile.cpactf" inheritAll="false">
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
