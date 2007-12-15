@@ -68,26 +68,26 @@ org.exolab.castor.xml.proxyInterfaces=\
 
                 <p>Be aware that no proxy interfaces are defined by default as the interface
                    search slightly decreases marshalling performance.</p>
-                   
+
                 <h3>Added support for complex Java 5 enums for simple type enumerations</h3>
-                
-                <p>In previous versions, castor only supported (un)marshalling of "simple" 
-                   Java 5 enums, meaning enums where all facet values are valid java identifiers. 
-                   In these cases, every enum constant name can be mapped directly to the xml value. 
+
+                <p>In previous versions, castor only supported (un)marshalling of "simple"
+                   Java 5 enums, meaning enums where all facet values are valid java identifiers.
+                   In these cases, every enum constant name can be mapped directly to the xml value.
                    </p>
-                   
-                <p>So if there is at least ONE facet that cannot be mapped directly to a 
-                   valid java identifier, we need to extend the enum pattern. The actual value of the 
-                   enumeration facet is stored in a private String property, the name of the 
+
+                <p>So if there is at least ONE facet that cannot be mapped directly to a
+                   valid java identifier, we need to extend the enum pattern. The actual value of the
+                   enumeration facet is stored in a private String property, the name of the
                    enum constant is translated into a valid identifier. </p>
-                
+
                  <code-panel><![CDATA[
 <xs:simpleType name="CompositeType">
   <xs:restriction base="xs:string">
     <xs:enumeration value="5"/>
     <xs:enumeration value="10"/>
   </xs:restriction>
-</xs:simpleType> 
+</xs:simpleType>
 
 public enum CompositeType {
     VALUE_5("5"),
@@ -111,78 +111,78 @@ public enum CompositeType {
     public java.lang.String value() {
         return this.value;
     }
-    
+
     public java.lang.String toString() {
         return this.value;
     }
 }
 
 <root>
-  <CompositeType>5</CompositeType>    
-</root>    
+  <CompositeType>5</CompositeType>
+</root>
 
     ]]>
-</code-panel> 
-                
-                <p>See <a href="srcgen-properties.html#SimpleType-Enumerations"> the description in 
-                   the Source Generator Properties section</a> for details.</p> 
+</code-panel>
 
-				<h3>Added support for configurable field handlers</h3>
-				
-				<p>
-					Although it was already possible to create custom XML field handers,
-					it was not possible to configure them. It is now possible to define
-					your custom <tt>ConfigurableFieldHander</tt> and add any number of 
-					parameters to it, in the mapping file as follows:
-				</p>
-					
-				<code-panel><![CDATA[
-<mapping>				
+                <p>See <a href="srcgen-properties.html#SimpleType-Enumerations"> the description in
+                   the Source Generator Properties section</a> for details.</p>
+
+                <h3>Added support for configurable field handlers</h3>
+
+                <p>
+                    Although it was already possible to create custom XML field handers,
+                    it was not possible to configure them. It is now possible to define
+                    your custom <tt>ConfigurableFieldHander</tt> and add any number of
+                    parameters to it, in the mapping file as follows:
+                </p>
+
+                <code-panel><![CDATA[
+<mapping>
 
    <field-handler name="myHandler" class="org.some.package.CustomFieldHandlerImpl">
       <param name="date-format" value="yyyyMMddHHmmss"/>
    </field-handler>
-   
+
    <class .... />
-   
+
    <class .../>
-   
+
 </mapping>]]></code-panel>
 
-				<p>
-					and subsequently refer to this custom (configurable) field handler
-					by its name as shown in the following field mapping:
-				</p>
-				
-				<code-panel><![CDATA[
+                <p>
+                    and subsequently refer to this custom (configurable) field handler
+                    by its name as shown in the following field mapping:
+                </p>
+
+                <code-panel><![CDATA[
 <class name="Root">
    <field name="date" type="string" handler="myHandler"/>
 </class>]]></code-panel>
 
-				<p>
-					A typical example is the need to process multiple date formats in one
-					xml file. This can now be done elegantly by configuring multiple
-					instances of a configurable date field handler, each with a different
-					date format.
-				</p>
-				
-				<p>
-				   Please check the new <a href="how-to-write-a-configurablefieldhandler.html">HOW-TO</a>
-					on using custom (configurable) field handlers with Castor.
-				</p>
+                <p>
+                    A typical example is the need to process multiple date formats in one
+                    xml file. This can now be done elegantly by configuring multiple
+                    instances of a configurable date field handler, each with a different
+                    date format.
+                </p>
 
-				<h3>Added support for custom JDO type convertors</h3>
-				
-				<p>
-					You are now able to specify the type convertors for Castor JDO through
-					castor.properties file. Usually you will need 2 type convertors, one that
-					converts from your custom type to a type supported by the database and
-					another one for the opposite conversion. Both type convertor have to implement
-					<b>org.castor.cpa.persistence.convertor.TypeConvertor</b> interface. To
-					easy the implemetation task you can also extend one of our abstract
-					implementations:
-				</p>
-					
+                <p>
+                   Please check the new <a href="how-to-write-a-configurablefieldhandler.html">HOW-TO</a>
+                    on using custom (configurable) field handlers with Castor.
+                </p>
+
+                <h3>Added support for custom JDO type convertors</h3>
+
+                <p>
+                    You are now able to specify the type convertors for Castor JDO through
+                    castor.properties file. Usually you will need 2 type convertors, one that
+                    converts from your custom type to a type supported by the database and
+                    another one for the opposite conversion. Both type convertor have to implement
+                    <b>org.castor.cpa.persistence.convertor.TypeConvertor</b> interface. To
+                    easy the implemetation task you can also extend one of our abstract
+                    implementations:
+                </p>
+
                 <ctable>
                     <crow><td>org.castor.cpa.persistence.convertor.AbstractTypeConvertor</td></crow>
                     <crow><td>org.castor.cpa.persistence.convertor.AbstractSimpleTypeConvertor</td></crow>
@@ -190,13 +190,13 @@ public enum CompositeType {
                     <crow><td>org.castor.cpa.persistence.convertor.AbstractDateTypeConvertor</td></crow>
                 </ctable>
 
-				<p>
-					When adding your type convertors to the list of internal ones you have to
-					take care not to drop any of them. An excerpt of that definition looks as
-					follows:
-				</p>
-					
-				<code-panel><![CDATA[
+                <p>
+                    When adding your type convertors to the list of internal ones you have to
+                    take care not to drop any of them. An excerpt of that definition looks as
+                    follows:
+                </p>
+
+                <code-panel><![CDATA[
 # Type convertors
 #
 org.castor.cpa.persistence.TypeConvertors=\
@@ -208,89 +208,88 @@ org.castor.cpa.persistence.TypeConvertors=\
   org.castor.cpa.persistence.convertor.StringToSqlClob,\
   org.castor.cpa.persistence.convertor.StringToSqlTimestamp]]></code-panel>
 
-				<h2>Changes</h2>
+                <h2>Changes</h2>
 
-                <h3>Refactord Castor configuration</h3>
+                <h3>Refactored Castor configuration</h3>
 
-                <p>We have added a new class hierarchy to handle independed configurations
-                   for every modul of Castor. Having said that this should not change anything
-                   for the user of Castor as he still specifies his properties in a single
+                <p>We have added a new class hierarchy to handle independent configurations
+                   for every module of Castor. Having said that, this should not change anything
+                   for the user of Castor, as he still specifies his properties in a single
                    castor.properties file for all modules.</p>
-                   
 
-				<h3>Refactored JavaNaming</h3>
-				
-				<p>New JavaNaming is an exchangeable service instantiated trough XMLContext
-				   and accessed in a non-static way.
-				</p>
+                <h3>Refactored JavaNaming</h3>
 
-				<h3>Refactored XMLClassDescriptorResolver</h3>
-				
-				<p>New XMLClassDescriptorResolver internally works with strategy and command
-				   pattern to have the possibility to enhance class resolving for future
-				   implementations (e.g. JAXB support).
-				</p>
+                <p>New JavaNaming is an exchangeable service instantiated trough XMLContext
+                   and accessed in a non-static way.
+                </p>
 
-				<h3>Refactored XMLContext</h3>
-				
-				<p>New XMLContext is the information centerpiece and point to start for Castor 
-				   XML stuff. It provides:
-				   <ul>
-				   <li>Factory methods for:
-				       <ol>
-				           <li>Marshaller</li>
-				           <li>Unmarshaller</li>
-				           <li>SchemaReader</li>
-				           <li>SchemaWriter</li>
-				           <li>MappingTool</li>
-				           <li>SourceGenerator</li>
-				       </ol>
-				   </li>
-				   <li>Methods which are used by different XML classes, have (keep) central
-				       information or services and had been kreeping into LocalConfiguration but
-				       have nothing to do with Configuration itself.</li>
-				   </ul>
-				   We head to remove static usages and to a Castor being more loosely linked then
-				   today.
-				</p>
-				
+                <h3>Refactored XMLClassDescriptorResolver</h3>
+
+                <p>New XMLClassDescriptorResolver internally works with strategy and command
+                   pattern to have the possibility to enhance class resolving for future
+                   implementations (e.g. JAXB support).
+                </p>
+
+                <h3>Refactored XMLContext</h3>
+
+                <p>New XMLContext is the information centerpiece and point to start for Castor
+                   XML stuff. It provides:
+                </p>
+                <ul>
+                <li>Factory methods for:
+                    <ol>
+                        <li>Marshaller</li>
+                        <li>Unmarshaller</li>
+                        <li>SchemaReader</li>
+                        <li>SchemaWriter</li>
+                        <li>MappingTool</li>
+                        <li>SourceGenerator</li>
+                    </ol>
+                </li>
+                <li>Methods which are used by different XML classes, have (keep) central
+                    information or services and had been creeping into LocalConfiguration but
+                    have nothing to do with Configuration itself.</li>
+                </ul>
+                <p>We had to remove static usage to make Castor more loosely linked
+                   than before.
+                </p>
+
                 <h3>Fixed support for 'strict elements'</h3>
-               
+
                 <p>When instructing Castor XML during unmarshalling to handle elements 'strict',
                    this worked only in the presence of a mapping file. When the element/class
                    in question was analyzed using Castor's introspector, setting this mode
-                   didn't produce the correct results. As part of a patch, this problem has now been 
-                   fixed so that the behavior is the same irrespective of whether a mapping (file) 
+                   didn't produce the correct results. As part of a patch, this problem has now been
+                   fixed so that the behavior is the same irrespective of whether a mapping (file)
                    is provided for a class or not.</p>
-                
-                <p>For those of you relying on the <i>old</i> behavior, a new property has been 
-                   introduced to allow <i>leniency'</i> and to switch back to pre-patch
+
+                <p>For those of you relying on the <i>old</i> behavior, a new property has been
+                   introduced to allow <i>leniency</i> and to switch back to pre-patch
                    behavior:</p>
-                   
-                   
+
                 <code-panel>
-# Property specifying whether element strictness for introspected 
+# Property specifying whether element strictness for introspected
 # classes/elements should be lenient (aka allowed); defaults to false
 org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </code-panel>
-                
+
                 <h3>Castor XML and <font color="red">JAXP</font> - used per default</h3>
-                
+
                 <p>
-                	We have made some modifications to the way Castor XML obtains
-                	XML parser instances. As per this releae, Castor XML will - per
-                	default - use JAXP and it's SAXParser(Factory) to obtain an instance
-                	of a SAX parser.
+                    We have made some modifications to the way Castor XML obtains
+                    XML parser instances. As per this releae, Castor XML will - per
+                    default - use JAXP and its SAXParser(Factory) to obtain an instance
+                    of a SAX parser.
                 </p>
-                
+
                 <p>
-                	For this to work, we had to comment out the <tt>org.exolab.castor.parser</tt> 
-                	property from the default <tt>castor.properties</tt> as shipped with 
-                	Castor XML. As of this release, the property definition in the default 
-                	<tt>castor.properties</tt> file reads:
-               	</p>
-               	
-               	<code-panel>
+                    For this to work, we had to comment out the <tt>org.exolab.castor.parser</tt>
+                    property from the default <tt>castor.properties</tt> as shipped with
+                    Castor XML. As of this release, the property definition in the default
+                    <tt>castor.properties</tt> file reads:
+                </p>
+
+                <code-panel>
 # Defines a non-default XML parser to be used by Castor. By default,
 # Castor will use JAXP internally to obtain an XML parser.
 # The parser must implement org.xml.sax.Parser. (???)
@@ -300,47 +299,68 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
 # b) With Java 5.0, an external XML parser should be used.
 #
 #org.exolab.castor.parser=org.apache.xerces.parsers.SAXParser</code-panel>
-               	
-               	<p>
-               		With this change, Castor XML will now use JAXP to create
-               		XML parsers, a mechanism that works works equally with Java 1.4 
-               		and Java 5.0, and thus does not require changes to the
-               		<tt>org.exolab.castor.parser</tt> property anymore as with 
-               		older releases of Castor. In other words, with Java 5.0
-               		Castor XML will now make use of the XML parser packaged with 
-               		the JVM.
-               	</p>
-               	
-               	<p>
-               		You should still consider setting this property <b>manually</b> 
-               		in the following cases:
-               		
-               		<ol>
-               			<li>You are on Java 5.0, and you want to use a different XML parser
-               			    (vendor) than the one shipped with the JVM.</li>
-               			<li>You are on Java 5.0, and you want to use a different version of
-               			    the XML parser shipped with the JVM.</li>
-               		</ol>
-               	</p>
-               	
-               	<p>
-               		<b>Note:</b> If you happen to have a custom <tt>castor.properties</tt> file packaged
-               		with your application, please consider removing the <tt>org.exolab.castor.parser</tt>
-               		property from this file to switch to the new default mechanism.
-               	</p>
-                   
+
+                <p>
+                    With this change, Castor XML will now use JAXP to create
+                    XML parsers, a mechanism that works works equally with Java 1.4
+                    and Java 5.0, and thus does not require changes to the
+                    <tt>org.exolab.castor.parser</tt> property anymore as with
+                    older releases of Castor. In other words, with Java 5.0
+                    Castor XML will now make use of the XML parser packaged with
+                    the JVM.
+                </p>
+
+                <p>
+                    You should still consider setting this property <b>manually</b>
+                    in the following cases:
+                </p>
+
+                <ol>
+                    <li>You are on Java 5.0, and you want to use a different XML parser
+                        (vendor) than the one shipped with the JVM.</li>
+                    <li>You are on Java 5.0, and you want to use a different version of
+                        the XML parser shipped with the JVM.</li>
+                </ol>
+
+                <p>
+                    <b>Note:</b> If you happen to have a custom <tt>castor.properties</tt> file packaged
+                    with your application, please consider removing the <tt>org.exolab.castor.parser</tt>
+                    property from this file to switch to the new default mechanism.
+                </p>
+
                 <h3>Static unmarshal methods on generated classes with Java 5.0 and above</h3>
-                
-                <p>For classes generated to be used with Java 5.0 (and above) that are part of 
-                   a type hierarchy, the static <tt>unmarshal</tt> methods will now return 
+
+                <p>For classes generated to be used with Java 5.0 (and above) that are part of
+                   a type hierarchy, the static <tt>unmarshal</tt> methods will now return
                    the exact sub-type (i.e. the class where the method is defined), and not
-                   the parent type. This should improve type strictness and help in avoiding 
+                   the parent type. This should improve type strictness and help in avoiding
                    unnecessary casts.</p>
             </summary>
             <bugs>
+               <bug id="67" tool="jira">
+                    <description>
+                        Generated classes don't compile when using "default" on an element that
+                        extends xsd:string
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Arnaud Blandin</name>
+                        <email>blandin@intalio.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20071214</date>
+               </bug>
                <bug id="2174" tool="jira">
                     <description>
-                        Marshalling 'hexBinary' types produces upper-case hex digits [A-F] only. 
+                        Marshalling 'hexBinary' types produces upper-case hex digits [A-F] only.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -521,7 +541,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="1150" tool="jira">
                     <description>
-                        Fixed problem related to unmarshalling unbounded &lt;sequence&gt;s of 
+                        Fixed problem related to unmarshalling unbounded &lt;sequence&gt;s of
                         &lt;choice&gt;s.
                     </description>
                     <contributor>
@@ -562,7 +582,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="2191" tool="jira">
                     <description>
-                        Removed usage of org.exolab.castor.types.OperationNotSupportedException and 
+                        Removed usage of org.exolab.castor.types.OperationNotSupportedException and
                         switched to using java.lang.UnsupportedOperationException
                     </description>
                     <contributor>
@@ -624,7 +644,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="2198" tool="jira">
                     <description>
-                        Fixed problem with incorrect @Override annotation on getJavaClass() methods 
+                        Fixed problem with incorrect @Override annotation on getJavaClass() methods
                         on generated classes.
                     </description>
                     <contributor>
@@ -705,7 +725,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="2053" tool="jira">
                     <description>
-                        Fixed problem in code generation related to complex elements with 
+                        Fixed problem in code generation related to complex elements with
                         default value.
                     </description>
                     <contributor>
@@ -806,7 +826,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="2166" tool="jira">
                     <description>
-                    	'bin/build clean' cleans all build directories including those of test
+                        'bin/build clean' cleans all build directories including those of test
                     </description>
                     <contributor>
                         <name>Joachim Grueneis</name>
@@ -826,7 +846,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="2167" tool="jira">
                     <description>
-                    	Modify CTFRun.sh to match changes in CTFRun.bat
+                        Modify CTFRun.sh to match changes in CTFRun.bat
                     </description>
                     <contributor>
                         <name>Joachim Grueneis</name>
@@ -846,7 +866,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="2162" tool="jira">
                     <description>
-                    	Switched Castor XML to fully use JAXP to obtain XML parsers
+                        Switched Castor XML to fully use JAXP to obtain XML parsers
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -866,7 +886,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="2158" tool="jira">
                     <description>
-                    	Fixed NullPointerException in FieldValidator.validate(Object, ValidationContext)
+                        Fixed NullPointerException in FieldValidator.validate(Object, ValidationContext)
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -886,8 +906,8 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="2153" tool="jira">
                     <description>
-                    	Fixed problem with validation of &lt;xs:NMTOKEN&gt; during 
-                    	unmarshalling.
+                        Fixed problem with validation of &lt;xs:NMTOKEN&gt; during
+                        unmarshalling.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -907,7 +927,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="2147" tool="jira">
                     <description>
-                    	Added HTML documentation for <i>configurable</i> field handlers.
+                        Added HTML documentation for <i>configurable</i> field handlers.
                     </description>
                     <contributor>
                         <name>Tom van den Berge</name>
@@ -927,8 +947,8 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="2149" tool="jira">
                     <description>
-                    	Added 'changes' section to release notes re:
-                    	<i>configurable</i> field handlers.
+                        Added 'changes' section to release notes re:
+                        <i>configurable</i> field handlers.
                     </description>
                     <contributor>
                         <name>Tom van den Berge</name>
@@ -948,7 +968,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="2148" tool="jira">
                     <description>
-                    	Added HOW-TO <i>configurable</i> field handlers.
+                        Added HOW-TO <i>configurable</i> field handlers.
                     </description>
                     <contributor>
                         <name>Tom van den Berge</name>
@@ -968,8 +988,8 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="2015" tool="jira">
                     <description>
-                    	Fixed a problem with support for 'strict elements' related to introspection
-                    	during XML unmarshalling.
+                        Fixed a problem with support for 'strict elements' related to introspection
+                        during XML unmarshalling.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -989,7 +1009,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="2044" tool="jira">
                     <description>
-                    	Fixed support for milliseconds with XML schema durations.
+                        Fixed support for milliseconds with XML schema durations.
                     </description>
                     <contributor>
                         <name>Shawn Crook</name>
@@ -1009,7 +1029,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="2042" tool="jira">
                     <description>
-                    	Added support for <i>configurable</i> field handlers.
+                        Added support for <i>configurable</i> field handlers.
                     </description>
                     <contributor>
                         <name>Tom van den Berge</name>
@@ -1029,7 +1049,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="2127" tool="jira">
                     <description>
-                    	Improved documentation for using mapping files with Castor XML.
+                        Improved documentation for using mapping files with Castor XML.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -1049,7 +1069,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="2046" tool="jira">
                     <description>
-                    	Moved section on dependencies to a new HTML page.
+                        Moved section on dependencies to a new HTML page.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -1069,7 +1089,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="2051" tool="jira">
                     <description>
-                    	Fixed problem with low centuries and the use of dates.
+                        Fixed problem with low centuries and the use of dates.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -1150,7 +1170,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="2122" tool="jira">
                     <description>
-                        Added 'org.exolab.castor.builder.forceJava4Enums' property to fine-tune 
+                        Added 'org.exolab.castor.builder.forceJava4Enums' property to fine-tune
                         code generation for enums in Java 5.
                     </description>
                     <contributor>
@@ -1251,7 +1271,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="2114" tool="jira">
                     <description>
-                        Removed code duplication from static Marshaller.marshal() 
+                        Removed code duplication from static Marshaller.marshal()
                         methods.
                     </description>
                     <contributor>
@@ -1273,7 +1293,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 <bug id="2106" tool="jira">
                     <description>
                         Moved code for field and method creation (out of FieldInfos)
-                        into new factory classes. This is in preparation for 
+                        into new factory classes. This is in preparation for
                         JAXB work.
                     </description>
                     <contributor>
@@ -1294,7 +1314,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="2113" tool="jira">
                     <description>
-                        Removed code duplication from static Unmarshaller.unmarshal() 
+                        Removed code duplication from static Unmarshaller.unmarshal()
                         methods.
                     </description>
                     <contributor>
@@ -1636,7 +1656,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
             </bugs>
         </release>
-        
+
         <release version="1.1.2.1">
             <description>Maintenance release for Castor 1.1</description>
             <date>June 28, 2007</date>
@@ -1644,10 +1664,10 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
             <summary>
                 <h2>Changes</h2>
 
-                <p>This release is a minor release only and essentially fixes a 
+                <p>This release is a minor release only and essentially fixes a
                     regression issue of 1.1.2 that basically prevents specific user
                     groups from using 1.1.2. Please see below issue list for details.</p>
-                    
+
             </summary>
             <bugs>
                 <bug id="2013" tool="jira">
@@ -1701,7 +1721,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 <h2>Additions</h2>
 
                 <h3>Added support for (un-)marshalling Java 5 enums</h3>
-                
+
                 <p>Castor XML now supports Java 5 enums in all cases where
                    either a mapping file is used or it is relied upon
                    default introspection.</p>
@@ -1721,9 +1741,9 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 <p>Please note that the Castor JAR does <b>not</b>
                    include this component anymore. In other words, if you
                    want to use Castor JDO as a persistence framework,
-                   you will have to download both the Castor XML and Castor JDO 
-                   JARs, as Castor JDO internally uses Castor XML. For details, 
-                   please have a look at the 
+                   you will have to download both the Castor XML and Castor JDO
+                   JARs, as Castor JDO internally uses Castor XML. For details,
+                   please have a look at the
                    <a href="download.html">download instructions</a>.</p>
 
             </summary>
@@ -1770,7 +1790,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="2017" tool="jira">
                     <description>
-                        Fixed ArrayIndexOutOfBoundException in related to timezone 
+                        Fixed ArrayIndexOutOfBoundException in related to timezone
                         offsets that include minutes.
                     </description>
                     <contributor>
@@ -1951,8 +1971,8 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="991" tool="jira">
                     <description>
-                    	Fixed a problem with incorrect import statements/class name 
-                    	references in the context of included/imported XML schemas.
+                        Fixed a problem with incorrect import statements/class name
+                        references in the context of included/imported XML schemas.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -1972,7 +1992,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="991" tool="jira">
                     <description>
-                    	Added support for Java 5 enums during unmarshalling.
+                        Added support for Java 5 enums during unmarshalling.
                     </description>
                     <contributor>
                         <name>Michael Kopp</name>
@@ -1992,7 +2012,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="1221" tool="jira">
                     <description>
-                    	Added support for Java 5 enums during marshalling.
+                        Added support for Java 5 enums during marshalling.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2012,7 +2032,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="1985" tool="jira">
                     <description>
-                    	Trace statements output only if in trace mode.
+                        Trace statements output only if in trace mode.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2032,7 +2052,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="1850" tool="jira">
                     <description>
-                    	Refactored toString() method of XMLException.
+                        Refactored toString() method of XMLException.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2052,8 +2072,8 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="1769" tool="jira">
                     <description>
-                    	Added get-/setProperty() methods to (un-)Marshaller so that properties 
-                    	can be set programmatically.
+                        Added get-/setProperty() methods to (un-)Marshaller so that properties
+                        can be set programmatically.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2073,8 +2093,8 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="1982" tool="jira">
                     <description>
-                    	Fixed a problem with namespace processing in the context of 
-                    	substitution groups.
+                        Fixed a problem with namespace processing in the context of
+                        substitution groups.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2094,8 +2114,8 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="1981" tool="jira">
                     <description>
-                    	Fixed a problem with the processing of substitution groups if sequence +
-                    	order validation enabled..
+                        Fixed a problem with the processing of substitution groups if sequence +
+                        order validation enabled..
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2115,7 +2135,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="1971" tool="jira">
                     <description>
-                    	Made org.exolab.castor.persists.spi.Identity implement java.io.Serializable.
+                        Made org.exolab.castor.persists.spi.Identity implement java.io.Serializable.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2135,7 +2155,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="1964" tool="jira">
                     <description>
-                    	Fixed problem with picking up SAX features from custom castor.properties.
+                        Fixed problem with picking up SAX features from custom castor.properties.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2155,8 +2175,8 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="1962" tool="jira">
                     <description>
-                    	Introduced new 'lenient' properties in castor.properties so that new 
-                    	sequence order and id/href validation can be selectively turned off.
+                        Introduced new 'lenient' properties in castor.properties so that new
+                        sequence order and id/href validation can be selectively turned off.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2176,7 +2196,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="1896" tool="jira">
                     <description>
-                    	Removed (illegal) underscores from calls to PropertyChangeListeners.
+                        Removed (illegal) underscores from calls to PropertyChangeListeners.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2196,7 +2216,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="1957" tool="jira">
                     <description>
-                    	Switched logging for Unmarshaller/UnmarshalHandler to commons-logging.
+                        Switched logging for Unmarshaller/UnmarshalHandler to commons-logging.
                     </description>
                     <contributor>
                         <name>Paul Philion</name>
@@ -2216,7 +2236,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="1947" tool="jira">
                     <description>
-                    	Fixed problem with access to values stored in ehcache related to expiration.
+                        Fixed problem with access to values stored in ehcache related to expiration.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2236,8 +2256,8 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="1955" tool="jira">
                     <description>
-                    	Improved handling of global/local element collisions with identical 
-                    	type for automatic class conflict resolution
+                        Improved handling of global/local element collisions with identical
+                        type for automatic class conflict resolution
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2257,7 +2277,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="1921" tool="jira">
                     <description>
-                    	Fixed incorrect Java version number (as used in Marshaller).
+                        Fixed incorrect Java version number (as used in Marshaller).
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2277,7 +2297,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
                 <bug id="1954" tool="jira">
                     <description>
-                    	XML code generator does not create property* methods for enumerations anymore.
+                        XML code generator does not create property* methods for enumerations anymore.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2317,7 +2337,7 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 </bug>
             </bugs>
         </release>
-        
+
         <release version="1.1.1">
             <description>Maintenance release for Castor 1.1</description>
             <date>April 22, 2007</date>
@@ -2356,41 +2376,41 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                    &lt;xsd:sequence&gt; typed complex types during unmarshaling. A
                    <tt>ValidationException</tt> will be thrown if the expected order
                    cannot be matched.</p>
-                   
+
                 <h3>Added support for &lt;xs:hexBinary&gt;</h3>
-                
+
                 <p>Added support for the XML schema type &lt;xs:hexBinary&gt; during
                    XML code generation.</p>
-                   
+
                 <h3>Added new &lt;contentMember&gt; element to binding filesupport for the <tt>hexBinary</tt> data type</h3>
-                
-                <p>This new element (child of a &lt;componentBinding&gt;) allows to 
+
+                <p>This new element (child of a &lt;componentBinding&gt;) allows to
                    specify a custom member name for the <tt>content</tt> member as generated
                    for a mixed mode complex type definition.</p>
-                
+
                 <h3>Added support for the <tt>hexBinary</tt> data type</h3>
-                
+
                 <p>The XML (Un-)Marshaller now supports the data type <tt>hexBinary</tt>.</p>
-                   
+
                 <h3>Improved interface of XMLClassDescriptorResolver</h3>
-                
+
                 <p>The public interface of <tt>XMLClassDescriptorResolver</tt> has been improved
                    and stream-lined, adding various new methods for pre-loading class
                    descriptors. Please check <a href="xml-best-practise.html">here</a> for
                    details.</p>
 
                  <h3>Added Unmarshaller.setObject(Object)</h3>
-                
+
                 <p>To specify an existing root object to be used during unmarshalling,
-                   <api class="org.exolab.castor.xml.Unmarshaller">setObject(Object)</api> has been 
-                   added, alternatively to the <api class="org.exolab.castor.xml.Unmarshaller">Unmarshaller(Object)</api> 
+                   <api class="org.exolab.castor.xml.Unmarshaller">setObject(Object)</api> has been
+                   added, alternatively to the <api class="org.exolab.castor.xml.Unmarshaller">Unmarshaller(Object)</api>
                    constructor.</p>
-                   
+
             </summary>
             <bugs>
                 <bug id="1945" tool="jira">
                     <description>
-                    	Fixed problem with 'time' type handling in XML instance to schema generator.
+                        Fixed problem with 'time' type handling in XML instance to schema generator.
                     </description>
                     <contributor>
                         <name>Doug Daniels</name>
@@ -2410,9 +2430,9 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                 </bug>
                 <bug id="1937" tool="jira">
                     <description>
-                    	Relaxed various checks in the default ID resolver implementation so 
-                    	that those checks are executed only when the Unmarshaller is configured 
-                    	to be 'validating'.
+                        Relaxed various checks in the default ID resolver implementation so
+                        that those checks are executed only when the Unmarshaller is configured
+                        to be 'validating'.
                     </description>
                     <contributor>
                         <name>Paul Croarkin</name>
@@ -2432,7 +2452,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                 </bug>
                 <bug id="1943" tool="jira">
                     <description>
-                        Added Unmarshaller.setObject(Object) to allow setting of a root object 
+                        Added Unmarshaller.setObject(Object) to allow setting of a root object
                         for unmarshalling.
                     </description>
                     <contributor>
@@ -2453,7 +2473,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                 </bug>
                 <bug id="1939" tool="jira">
                     <description>
-                        Fixed regression issue with automatic conflict resolution and 
+                        Fixed regression issue with automatic conflict resolution and
                         global element conflicts.
                     </description>
                     <contributor>
@@ -2474,7 +2494,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                 </bug>
                 <bug id="1935" tool="jira">
                     <description>
-                        Fixed problem with importing from same namespace multiple times where 
+                        Fixed problem with importing from same namespace multiple times where
                         one import actually includes the other.
                     </description>
                     <contributor>
@@ -2555,7 +2575,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                 </bug>
                 <bug id="1928" tool="jira">
                     <description>
-                        Fixed problem with not-specified binding file during automatic 
+                        Fixed problem with not-specified binding file during automatic
                         naming collision resolution.
                     </description>
                     <contributor>
@@ -2596,8 +2616,8 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                 </bug>
                 <bug id="423" tool="jira">
                     <description>
-                        Added support for &lt;xs:hexBinary&gt; for XML code 
-                        generation and support for HEX en-/decoding during 
+                        Added support for &lt;xs:hexBinary&gt; for XML code
+                        generation and support for HEX en-/decoding during
                         (un)marshalling.
                     </description>
                     <contributor>
@@ -2618,7 +2638,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                 </bug>
                 <bug id="1926" tool="jira">
                     <description>
-                        Renamed XMLClassDescriptorResolver.resolveXML(Class) back to 
+                        Renamed XMLClassDescriptorResolver.resolveXML(Class) back to
                         resolve(Class).
                     </description>
                     <contributor>
@@ -2699,7 +2719,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                 </bug>
                 <bug id="1909" tool="jira">
                     <description>
-                        Improved validation for global elements during XML schema processing 
+                        Improved validation for global elements during XML schema processing
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2759,7 +2779,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                 </bug>
                 <bug id="1910" tool="jira">
                     <description>
-                        Fixed problem with (incorrectly) caching class descriptors in 
+                        Fixed problem with (incorrectly) caching class descriptors in
                         XMLClassDescriptorResolver.
                     </description>
                     <contributor>
@@ -2800,7 +2820,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                 </bug>
                 <bug id="1897" tool="jira">
                     <description>
-                        Added documentation for 'org.exolab.castor.builder.automaticConflictResolution' 
+                        Added documentation for 'org.exolab.castor.builder.automaticConflictResolution'
                         property.
                     </description>
                     <contributor>
@@ -2821,7 +2841,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                 </bug>
                 <bug id="1899" tool="jira">
                     <description>
-                        Fixed problem in ElementDecl.getSubstitutionGroup() related to global 
+                        Fixed problem in ElementDecl.getSubstitutionGroup() related to global
                         element references.
                     </description>
                     <contributor>
@@ -3002,7 +3022,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                 </bug>
                 <bug id="1877" tool="jira">
                     <description>
-                        Fixed problem with build scripts (Windows) related to blanks as 
+                        Fixed problem with build scripts (Windows) related to blanks as
                         part of ENV variables.
                     </description>
                     <contributor>
@@ -3023,7 +3043,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                 </bug>
                 <bug id="1879" tool="jira">
                     <description>
-                        Added 'setClass(Class)' method to Unmarshaller to allow sepecification 
+                        Added 'setClass(Class)' method to Unmarshaller to allow sepecification
                         of an 'expected' class.
                     </description>
                     <contributor>
@@ -3044,7 +3064,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                 </bug>
                 <bug id="1875" tool="jira">
                     <description>
-                        Added new command line parameter 'nameConflictStrategy' to 
+                        Added new command line parameter 'nameConflictStrategy' to
                         SourceGeneratorMain.
                     </description>
                     <contributor>
@@ -3085,7 +3105,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                 </bug>
                 <bug id="1869" tool="jira">
                     <description>
-                        Fixed problem with identifying 'identity' field in the context of 
+                        Fixed problem with identifying 'identity' field in the context of
                         extension hierarchies.
                     </description>
                     <contributor>
