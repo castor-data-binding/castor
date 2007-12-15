@@ -158,17 +158,17 @@ public final class SourceFactory extends BaseFactory {
      */
     public SourceFactory(final BuilderConfiguration config,
             final FieldInfoFactory infoFactory,
-            final GroupNaming groupNaming, 
+            final GroupNaming groupNaming,
             final SourceGenerator sourceGenerator) {
         super(config, infoFactory, groupNaming, sourceGenerator);
 
         // set the config into the info factory (CASTOR-1346)
         infoFactory.setBoundProperties(config.boundPropertiesEnabled());
 
-        this._memberFactory = 
+        this._memberFactory =
             new MemberFactory(config, infoFactory, getGroupNaming(), sourceGenerator);
         this._typeConversion = new TypeConversion(getConfig());
-        this._enumerationFactory = 
+        this._enumerationFactory =
             new EnumerationFactory(getConfig(), getGroupNaming(), sourceGenerator);
     } //-- SourceFactory
 
@@ -308,7 +308,7 @@ public final class SourceFactory extends BaseFactory {
         }
 
         //3-- Create factoryState and chain it to sgState to prevent endless loop
-        FactoryState state = 
+        FactoryState state =
             new FactoryState(className, sgState, packageName, component);
         state.setCreateGroupItem(createGroupItem);
         if (sgState.getCurrentFactoryState() != null) {
@@ -349,11 +349,11 @@ public final class SourceFactory extends BaseFactory {
 
         //-- created from element definition information
         classInfo.setElementDefinition(creatingForAnElement);
-        
+
         // deal with substitution groups
         if (creatingForAnElement) {
             ElementDecl elementDeclaration = (ElementDecl) component.getAnnotated();
-            Enumeration possibleSubstitutes = elementDeclaration.getSubstitutionGroupMembers(); 
+            Enumeration possibleSubstitutes = elementDeclaration.getSubstitutionGroupMembers();
             if (possibleSubstitutes.hasMoreElements()) {
                 List substitutionGroupMembers = new ArrayList();
                 while (possibleSubstitutes.hasMoreElements()) {
@@ -363,8 +363,8 @@ public final class SourceFactory extends BaseFactory {
                 classInfo.setSubstitutionGroups(substitutionGroupMembers);
             }
         }
-                 
-        
+
+
         if (type != null) {
             if (type.isComplexType()) {
                 processComplexType(component, sgState, state);
@@ -511,60 +511,75 @@ public final class SourceFactory extends BaseFactory {
 
         //-- Save source code bindings to prevent duplicate code generation
         sgState.bindSourceCode(component.getAnnotated(), classes);
-        
+
         // custom annotations
         AnnotationBuilder[] annotationBuilders = getConfig().getAnnotationBuilders();
         for (int i = 0; i < annotationBuilders.length; i++) {
             AnnotationBuilder annotationBuilder = annotationBuilders[i];
             annotationBuilder.addClassAnnotations(classInfo, jClass);
         }
-        
+
         return classes;
     }
-    
+
     /**
-     * This method ads a contructor with a string parameter to set the default
-     * value of a simple content
-     * 
-     * @param annotated
-     * @param classInfo
+     * This method adds a contructor with a string parameter to set the default
+     * value of a simple content. If the provided class is not a Simple Content
+     * class, nothing is done.
+     *
+     * @param annotated type information for the class to potentially create a
+     *        constructor for
+     * @param classInfo the ClassInfo for the class to potentially create a
+     *        constructor for
      */
-    private void createContructorForDefaultValueForSimpleContent(
-            final Annotated annotated, final ClassInfo classInfo) {
-        if (!(annotated instanceof ElementDecl)) {
+    private void createContructorForDefaultValueForSimpleContent(final Annotated annotated,
+                                                                 final ClassInfo classInfo) {
+        FieldInfo textFieldInfo =  classInfo.getTextField();
+
+        boolean generate = false;
+        if (annotated instanceof ElementDecl) {
+            XMLType type = ((ElementDecl) annotated).getType();
+            generate = (type.isComplexType() && ((ComplexType) type).isSimpleContent());
+        } else if (annotated instanceof ComplexType && ((ComplexType) annotated).isSimpleContent()) {
+            generate = true;
+        }
+
+        if (textFieldInfo != null) {
+            XSType textFieldType = textFieldInfo.getSchemaType();
+            if (textFieldType != null && (textFieldType.isPrimitive() || textFieldType.getJType().isArray())) {
+                generate = false;
+            }
+        }
+
+        if (!generate) {
             return;
         }
 
-        ElementDecl elementDecl = (ElementDecl) annotated;
-        if (elementDecl.getType().isComplexType()
-                && ((ComplexType) elementDecl.getType()).isSimpleContent()
-                && classInfo.getTextField() != null) {
-            JParameter parameter = new JParameter(
-                    new JClass("java.lang.String"), "defaultValue");
-            JConstructor constructor = classInfo.getJClass().createConstructor(
-                    new JParameter[] {parameter});
-            JSourceCode sourceCode = new JSourceCode();
+        JClass jClass = classInfo.getJClass();
+
+        JParameter parameter = new JParameter(new JClass("java.lang.String"), "defaultValue");
+        JConstructor constructor = jClass.createConstructor(new JParameter[] {parameter});
+        JSourceCode sourceCode = new JSourceCode();
+
+        if (textFieldInfo == null) {
+            sourceCode.add("super(defaultValue);");
+        } else {
             sourceCode.add("try {");
-            
-            FieldInfo textFieldInfo =  classInfo.getTextField();
-            XSType textFieldType = textFieldInfo.getSchemaType();
-            
-            sourceCode.addIndented("this._content = " 
-                    + textFieldType.createDefaultValueWithString(
-                            "defaultValue") + ";"); 
+            sourceCode.addIndented("this._content = "
+                                   + textFieldInfo.getSchemaType().createDefaultValueWithString("defaultValue")
+                                   + ";");
             sourceCode.add(" } catch(Exception e) {");
             sourceCode.addIndented(" // TODO what happens in case of exception?");
             sourceCode.add(" } ");
-            constructor.setSourceCode(sourceCode);
-            classInfo.getJClass().addConstructor(constructor);
         }
 
+        constructor.setSourceCode(sourceCode);
+        jClass.addConstructor(constructor);
     }
-     
 
     /**
      * Extract 'dcoumentation' annotations from the {@link Annotated} instance given.
-     * @param annotated {@link Annotated} instance to extract annotattions from. 
+     * @param annotated {@link Annotated} instance to extract annotattions from.
      * @param jClass {@link JClass} instance to inject annotations into.
      */
     private void extractAnnotations(final Annotated annotated, final JClass jClass) {
@@ -811,7 +826,7 @@ public final class SourceFactory extends BaseFactory {
 
         //--XMLBindingComponent is only used to retrieve the java package
         //-- we need to optimize it by enabling the binding of simpleTypes.
-        XMLBindingComponent comp = 
+        XMLBindingComponent comp =
             new XMLBindingComponent(getConfig(), getGroupNaming());
         if (binding != null) {
             comp.setBinding(binding);
@@ -842,7 +857,7 @@ public final class SourceFactory extends BaseFactory {
 
         className = resolveClassName(className, packageName);
 
-        FactoryState state = new FactoryState(className, sgState, packageName, comp, 
+        FactoryState state = new FactoryState(className, sgState, packageName, comp,
                 (enumeration && getConfig().useJava5Enums()));
 
         state.setParent(sgState.getCurrentFactoryState());
@@ -1092,9 +1107,9 @@ public final class SourceFactory extends BaseFactory {
         if (!getConfig().useJava50()) {
             returnType = findBaseClass(parent, sgState);
         } else {
-            returnType = parent;             
+            returnType = parent;
         }
-        
+
         JMethod jMethod = new JMethod(methodName, returnType,
                                       "the unmarshaled " + returnType);
         jMethod.getModifiers().setStatic(true);
@@ -1198,7 +1213,7 @@ public final class SourceFactory extends BaseFactory {
 
         // The hashCode method has no arguments
         jclass.addMethod(jMethod);
-        
+
         JSourceCode jsc = jMethod.getSourceCode();
         if (jclass.getSuperClassQualifiedName() == null) {
             jsc.add("int result = 17;");
@@ -1207,7 +1222,7 @@ public final class SourceFactory extends BaseFactory {
         }
         jsc.add("");
         jsc.add("long tmp;");
-        
+
         for (int i = 0; i < fields.length; i++) {
             JField temp = fields[i];
             // If the field is an object the hashCode method is called recursively
@@ -1337,9 +1352,9 @@ public final class SourceFactory extends BaseFactory {
                 jsc.unindent();
                 jsc.add("}"); // end of unequal cycle point test
                 jsc.add("if (!thcycle) {");
- 
+
                 jsc.indent();
-                
+
                 jsc.add("if (!");
                 // Special handling for comparing arrays
                 if (temp.getType().isArray()) {
@@ -1358,16 +1373,16 @@ public final class SourceFactory extends BaseFactory {
 
                 jsc.append(") {");
                 jsc.indent();
-                
+
                 jsc.add("org.castor.util.CycleBreaker.releaseCycleHandle(this." + name + ");");
                 jsc.add("org.castor.util.CycleBreaker.releaseCycleHandle(temp." + name + ");");
                 jsc.add("return false;");
                 jsc.unindent();
                 jsc.add("}");
-                
+
                 jsc.add("org.castor.util.CycleBreaker.releaseCycleHandle(this." + name + ");");
                 jsc.add("org.castor.util.CycleBreaker.releaseCycleHandle(temp." + name + ");");
-                
+
                 jsc.unindent();
                 jsc.add("}"); // end of !thcycle
                 jsc.unindent();
@@ -1781,6 +1796,7 @@ public final class SourceFactory extends BaseFactory {
                         fieldInfo = _memberFactory.createFieldInfoForContent(
                                 component, xsType, getConfig().useJava50());
                         fieldInfo.setBound(false);
+
                         handleField(fieldInfo, state);
 
                         //-- remove getter since we don't need to override the original getter
@@ -1841,7 +1857,7 @@ public final class SourceFactory extends BaseFactory {
      * @param model the ContentModelGroup to process
      * @param state the current FactoryState.
      */
-    private void processContentModel(final ContentModelGroup model, 
+    private void processContentModel(final ContentModelGroup model,
             final FactoryState state) {
         //------------------------------/
         //- handle elements and groups -/
@@ -1871,7 +1887,7 @@ public final class SourceFactory extends BaseFactory {
             Annotated annotated = (Annotated) enumeration.nextElement();
             component.setView(annotated);
 
-            switch(annotated.getStructureType()) {
+            switch (annotated.getStructureType()) {
                 case Structure.ELEMENT: //-- handle element declarations
                     fieldInfo = _memberFactory.createFieldInfo(
                             component, state, getConfig().useJava50());
@@ -1881,6 +1897,7 @@ public final class SourceFactory extends BaseFactory {
                     if (contentModel.getMinOccurs() == 0) {
                         fieldInfo.setRequired(false);
                     }
+
                     handleField(fieldInfo, state);
                     break;
                 case Structure.GROUP: //-- handle groups
@@ -2058,7 +2075,7 @@ public final class SourceFactory extends BaseFactory {
                 case XMLInfo.ELEMENT_TYPE:
                     String baseNodeName = fieldInfo.getNodeName();
                     // TODO[WG]: replace this eror check with something more meaningful
-                    if (baseNodeName != null 
+                    if (baseNodeName != null
                             && !(baseNodeName.equals(XMLInfo.CHOICE_NODE_NAME_ERROR_INDICATION))) {
                         present = (base.getElementField(baseNodeName) != null);
                     }
@@ -2084,7 +2101,7 @@ public final class SourceFactory extends BaseFactory {
             //-- do not create access methods for transient fields
             if (!fieldInfo.isTransient()) {
                 fieldInfo.getMemberAndAccessorFactory().createAccessMethods(
-                        fieldInfo, state.getJClass(), getConfig().useJava50(), 
+                        fieldInfo, state.getJClass(), getConfig().useJava50(),
                         getConfig().getAnnotationBuilders());
                 if (fieldInfo.isBound()) {
                     state.setBoundProperties(true);
