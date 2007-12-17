@@ -60,6 +60,8 @@ import org.exolab.castor.builder.conflictresolution.ClassNameCRStrategyRegistry;
 import org.exolab.castor.builder.descriptors.DescriptorSourceFactory;
 import org.exolab.castor.builder.factory.MappingFileSourceFactory;
 import org.exolab.castor.builder.info.ClassInfo;
+import org.exolab.castor.builder.printing.JClassPrinter;
+import org.exolab.castor.builder.printing.JClassPrinterFactory;
 import org.exolab.castor.mapping.xml.MappingRoot;
 import org.exolab.castor.util.dialog.ConsoleDialog;
 import org.exolab.javasource.JClass;
@@ -112,6 +114,12 @@ public final class SingleClassGenerator {
      * resolving class name conflicts.
      */
     private ClassNameCRStrategy _conflictStrategy;
+    
+    /**
+     * The implementation of {@link JClassPrinter} to use for generating the 
+     * Java classes and writing them to the file system.
+     */
+    private JClassPrinter _jClassPrinter;
 
     /**
      * The registry for {@link ClassNameCRStrategy} implementations.
@@ -123,14 +131,15 @@ public final class SingleClassGenerator {
      * @param dialog A ConsoleDialog instance
      * @param sourceGenerator A SourceGenerator instance
      * @param conflictStrategyType Type of the {@link ClassNameCRStrategy} instance to be used.
+     * @param jClassPrinterType The string representation of the printer to be used,
      */
     public SingleClassGenerator(final ConsoleDialog dialog,
             final SourceGenerator sourceGenerator,
-            final String conflictStrategyType) {
+            final String conflictStrategyType,
+            final String jClassPrinterType) {
         this._dialog = dialog;
         this._sourceGenerator = sourceGenerator;
         this._header = new JComment(JComment.HEADER_STYLE);
-        this._header.appendComment(DEFAULT_HEADER);
         this._descSourceFactory = new DescriptorSourceFactory(_sourceGenerator);
         this._mappingSourceFactory = new MappingFileSourceFactory(_sourceGenerator);
 
@@ -139,8 +148,25 @@ public final class SingleClassGenerator {
         this._classNameConflictResolutionStrategyRegistry
                 = new ClassNameCRStrategyRegistry(strategy);
         createNameConflictStrategy(conflictStrategyType);
+        createJClassPrinter(jClassPrinterType);
     }
-
+    
+    /**
+     * Creates a JClassPrinter instance from the given string key. 
+     * @param classPrinterType The string identifier if the printer,
+     */
+    private void createJClassPrinter(final String classPrinterType) {
+        this._jClassPrinter = JClassPrinterFactory.getJClassPrinter(classPrinterType);        
+    }
+    
+    /**
+     * Sets the JClassPrinter instance from the given string key. 
+     * @param classPrinterType The string identifier if the printer,
+     */
+    public void setJClassPrinter(final String classPrinterType) {
+        this.createJClassPrinter(classPrinterType);
+    }
+    
     /**
      * Sets the destination directory.
      *
@@ -303,8 +329,10 @@ public final class SingleClassGenerator {
             //to avoid the compiler complaining with java.util.Date
             jClass.removeImport("org.exolab.castor.types.Date");
             jClass.setHeader(_header);
-
-            jClass.print(_destDir, _lineSeparator);
+            if (_lineSeparator == null) {
+                _lineSeparator = System.getProperty("line.separator");
+            }
+            _jClassPrinter.printClass(jClass, _destDir, _lineSeparator, DEFAULT_HEADER);
         }
 
         //-- Process and print the class descriptor
@@ -331,7 +359,10 @@ public final class SingleClassGenerator {
             if (checkAllowPrinting(desc)) {
                 updateCDRFile(jClass, desc, state);
                 desc.setHeader(_header);
-                desc.print(_destDir, _lineSeparator);
+                if (_lineSeparator == null) {
+                    _lineSeparator = System.getProperty("line.separator");
+                }
+                _jClassPrinter.printClass(desc, _destDir, _lineSeparator, DEFAULT_HEADER);
             }
         } else {
             // TODO cleanup mapping file integration (what does this TODO mean?)
