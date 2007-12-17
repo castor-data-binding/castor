@@ -71,10 +71,10 @@ org.exolab.castor.xml.proxyInterfaces=\
 
                 <h3>Added support for complex Java 5 enums for simple type enumerations</h3>
 
-                <p>In previous versions, castor only supported (un)marshalling of "simple"
+                <p>In previous versions, Castor only supported (un)marshalling of "simple"
                    Java 5 enums, meaning enums where all facet values are valid java identifiers.
                    In these cases, every enum constant name can be mapped directly to the xml value.
-                   </p>
+                </p>
 
                 <p>So if there is at least ONE facet that cannot be mapped directly to a
                    valid java identifier, we need to extend the enum pattern. The actual value of the
@@ -129,11 +129,10 @@ public enum CompositeType {
 
                 <h3>Added support for configurable field handlers</h3>
 
-                <p>
-                    Although it was already possible to create custom XML field handers,
-                    it was not possible to configure them. It is now possible to define
-                    your custom <tt>ConfigurableFieldHander</tt> and add any number of
-                    parameters to it, in the mapping file as follows:
+                <p>Although it was already possible to create custom XML field handers,
+                   it was not possible to configure them. It is now possible to define
+                   your custom <tt>ConfigurableFieldHander</tt> and add any number of
+                   parameters to it, in the mapping file as follows:
                 </p>
 
                 <code-panel><![CDATA[
@@ -149,9 +148,8 @@ public enum CompositeType {
 
 </mapping>]]></code-panel>
 
-                <p>
-                    and subsequently refer to this custom (configurable) field handler
-                    by its name as shown in the following field mapping:
+                <p>and subsequently refer to this custom (configurable) field handler
+                   by its name as shown in the following field mapping:
                 </p>
 
                 <code-panel><![CDATA[
@@ -159,28 +157,25 @@ public enum CompositeType {
    <field name="date" type="string" handler="myHandler"/>
 </class>]]></code-panel>
 
-                <p>
-                    A typical example is the need to process multiple date formats in one
-                    xml file. This can now be done elegantly by configuring multiple
-                    instances of a configurable date field handler, each with a different
-                    date format.
+                <p>A typical example is the need to process multiple date formats in one
+                   xml file. This can now be done elegantly by configuring multiple
+                   instances of a configurable date field handler, each with a different
+                   date format.
                 </p>
 
-                <p>
-                   Please check the new <a href="how-to-write-a-configurablefieldhandler.html">HOW-TO</a>
-                    on using custom (configurable) field handlers with Castor.
+                <p>Please check the new <a href="how-to-write-a-configurablefieldhandler.html">HOW-TO</a>
+                   on using custom (configurable) field handlers with Castor.
                 </p>
 
                 <h3>Added support for custom JDO type convertors</h3>
 
-                <p>
-                    You are now able to specify the type convertors for Castor JDO through
-                    castor.properties file. Usually you will need 2 type convertors, one that
-                    converts from your custom type to a type supported by the database and
-                    another one for the opposite conversion. Both type convertor have to implement
-                    <b>org.castor.cpa.persistence.convertor.TypeConvertor</b> interface. To
-                    easy the implemetation task you can also extend one of our abstract
-                    implementations:
+                <p>You are now able to specify the type convertors for Castor JDO through a
+                   castor.properties file. Usually you will need two type convertors: one that
+                   converts from your custom type to a type supported by the database and
+                   another one for the opposite conversion. Both type convertor have to implement
+                   the <b>org.castor.cpa.persistence.convertor.TypeConvertor</b> interface. To
+                   ease the implemention task you can also extend one of our abstract
+                   implementations:
                 </p>
 
                 <ctable>
@@ -190,10 +185,9 @@ public enum CompositeType {
                     <crow><td>org.castor.cpa.persistence.convertor.AbstractDateTypeConvertor</td></crow>
                 </ctable>
 
-                <p>
-                    When adding your type convertors to the list of internal ones you have to
-                    take care not to drop any of them. An excerpt of that definition looks as
-                    follows:
+                <p>When adding your type convertors to the list of internal ones you have to
+                   take care not to drop any of them. An excerpt of that definition looks as
+                   follows:
                 </p>
 
                 <code-panel><![CDATA[
@@ -214,7 +208,7 @@ org.castor.cpa.persistence.TypeConvertors=\
 
                 <p>We have added a new class hierarchy to handle independent configurations
                    for every module of Castor. Having said that, this should not change anything
-                   for the user of Castor, as he still specifies his properties in a single
+                   for any Castor user, as you still specify properties in a single
                    castor.properties file for all modules.</p>
 
                 <h3>Refactored JavaNaming</h3>
@@ -246,6 +240,8 @@ org.castor.cpa.persistence.TypeConvertors=\
                         <li>SourceGenerator</li>
                     </ol>
                 </li>
+
+                <!-- NOTE:  The following statement needs to be clarified -->
                 <li>Methods which are used by different XML classes, have (keep) central
                     information or services and had been creeping into LocalConfiguration but
                     have nothing to do with Configuration itself.</li>
@@ -337,6 +333,26 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    unnecessary casts.</p>
             </summary>
             <bugs>
+               <bug id="2229" tool="jira">
+                    <description>
+                        CTFRun.sh needs tools.jar to be added to the classpath
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20071216</date>
+               </bug>
                <bug id="67" tool="jira">
                     <description>
                         Generated classes don't compile when using "default" on an element that
@@ -1665,9 +1681,8 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                 <h2>Changes</h2>
 
                 <p>This release is a minor release only and essentially fixes a
-                    regression issue of 1.1.2 that basically prevents specific user
-                    groups from using 1.1.2. Please see below issue list for details.</p>
-
+                   regression issue of 1.1.2 that basically prevents specific user
+                   groups from using 1.1.2. Please see below issue list for details.</p>
             </summary>
             <bugs>
                 <bug id="2013" tool="jira">
@@ -2384,7 +2399,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
                 <h3>Added new &lt;contentMember&gt; element to binding filesupport for the <tt>hexBinary</tt> data type</h3>
 
-                <p>This new element (child of a &lt;componentBinding&gt;) allows to
+                <p>This new element (child of a &lt;componentBinding&gt;) allows one to
                    specify a custom member name for the <tt>content</tt> member as generated
                    for a mixed mode complex type definition.</p>
 
@@ -2395,17 +2410,16 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                 <h3>Improved interface of XMLClassDescriptorResolver</h3>
 
                 <p>The public interface of <tt>XMLClassDescriptorResolver</tt> has been improved
-                   and stream-lined, adding various new methods for pre-loading class
+                   and streamlined, adding various new methods for pre-loading class
                    descriptors. Please check <a href="xml-best-practise.html">here</a> for
                    details.</p>
 
-                 <h3>Added Unmarshaller.setObject(Object)</h3>
+                <h3>Added Unmarshaller.setObject(Object)</h3>
 
                 <p>To specify an existing root object to be used during unmarshalling,
                    <api class="org.exolab.castor.xml.Unmarshaller">setObject(Object)</api> has been
                    added, alternatively to the <api class="org.exolab.castor.xml.Unmarshaller">Unmarshaller(Object)</api>
                    constructor.</p>
-
             </summary>
             <bugs>
                 <bug id="1945" tool="jira">
