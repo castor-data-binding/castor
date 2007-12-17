@@ -33,6 +33,7 @@ CLASSPATH=$CLASSPATH:$CASTOR_HOME/lib/log4j-1.2.13.jar
 CLASSPATH=$CLASSPATH:$CASTOR_HOME/lib/junit_3.8.2.jar
 CLASSPATH=$CLASSPATH:$CASTOR_HOME/lib/jakarta-oro-2.0.5.jar
 CLASSPATH=$CLASSPATH:$CASTOR_HOME/lib/xerces-J_1.4.0.jar
+CLASSPATH=$CLASSPATH:$JAVA_HOME/lib/tools.jar
 
 echo "*** Setting classpath to ..."
 echo $CLASSPATH
@@ -95,4 +96,3 @@ esac
 $JAVA -cp $CLASSPATH org.castor.xmlctf.CastorTestSuiteRunner $WHICHTESTS $*
 
 CLASSPATH=$OLD_CP
-
