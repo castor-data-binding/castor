@@ -62,12 +62,8 @@ import java.util.Vector;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.exceptions.CastorRuntimeException;
-import org.castor.core.util.Configuration;
 import org.castor.xml.BackwardCompatibilityContext;
 import org.castor.xml.InternalContext;
-import org.castor.xml.JavaNaming;
-import org.castor.xml.JavaNamingImpl;
-import org.castor.xml.XMLConfiguration;
 import org.exolab.castor.builder.binding.BindingException;
 import org.exolab.castor.builder.binding.BindingLoader;
 import org.exolab.castor.builder.binding.ExtendedBinding;
@@ -83,6 +79,8 @@ import org.exolab.castor.builder.conflictresolution.WarningViaDialogClassNameCRS
 import org.exolab.castor.builder.factory.FieldInfoFactory;
 import org.exolab.castor.builder.factory.SourceFactory;
 import org.exolab.castor.builder.info.ClassInfo;
+import org.exolab.castor.builder.printing.JClassPrinter;
+import org.exolab.castor.builder.printing.JClassPrinterFactory;
 import org.exolab.castor.mapping.xml.MappingRoot;
 import org.exolab.castor.util.NestedIOException;
 import org.exolab.castor.util.Version;
@@ -192,6 +190,8 @@ public class SourceGenerator extends BuilderConfiguration {
     private String _nameConflictStrategy = WarningViaDialogClassNameCRStrategy.NAME;
     /** JClass to XPATH registry; used for class name conflict resolution. */
     private JClassRegistry _xmlInfoRegistry;
+    /** Strategy for printing JClasses. */
+    private String _jClassPrinterType;
 
     /**
      * Strategy implementation for resolving class name conflicts.
@@ -235,13 +235,15 @@ public class SourceGenerator extends BuilderConfiguration {
 
         _groupNaming = new GroupNaming(getJavaNaming());
 
-        _singleClassGenerator = new SingleClassGenerator(_dialog, this, _nameConflictStrategy);
+        JClassPrinterFactory.init(getJClassPrinterTypes());
+        _jClassPrinterType = JClassPrinterFactory.getDefaultType();
+        _singleClassGenerator = new SingleClassGenerator(_dialog, this, _nameConflictStrategy, 
+        		_jClassPrinterType);
         _bindingComponent = new XMLBindingComponent(this, _groupNaming);
         setBinding(binding);
         
         _conflictResolver.setSourceGenerator(this);
         _xmlInfoRegistry = new JClassRegistry(_conflictResolver, getJavaNaming());
-
     } //-- SourceGenerator
 
     /**
@@ -1177,6 +1179,17 @@ public class SourceGenerator extends BuilderConfiguration {
      */
     public JClassRegistry getXMLInfoRegistry() {
         return _xmlInfoRegistry;
+    }
+    
+    /**
+     * Sets the jclassPrinter type.
+     * @param jClassPrinterType The string identifier of the printer to use.
+     */
+    public final void setJClassPrinter(final String jClassPrinterType) {
+        _jClassPrinterType = jClassPrinterType;
+        if (_singleClassGenerator != null) {
+        	_singleClassGenerator.setJClassPrinter(jClassPrinterType);
+        }
     }
 
     /**

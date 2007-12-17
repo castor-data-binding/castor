@@ -64,6 +64,8 @@ import org.castor.util.Messages;
 import org.castor.xml.JavaNaming;
 import org.castor.xml.JavaNamingImpl;
 import org.castor.xml.XMLConfiguration;
+import org.exolab.castor.builder.printing.JClassPrinter;
+import org.exolab.javasource.JClass;
 
 /**
  * The configuration for the SourceGenerator.
@@ -267,6 +269,15 @@ public class BuilderConfiguration {
          */
         public static final String AUTOMATIC_CONFLICT_RESOLUTION_TYPE_SUFFIX = 
             "org.exolab.castor.builder.automaticConflictResolutionTypeSuffix";
+        
+        /**
+         * Property enlisting the supported {@link JClassPrinter} instances available 
+         * for writing out {@link JClass} instances to the file system 
+         * 
+         * Either "writer" or "template".
+         */
+        public static final String JCLASSPRINTER_TYPES = 
+            "org.exolab.castor.builder.jclassPrinterTypes";
     } //--Property
 
     /**
@@ -582,6 +593,14 @@ public class BuilderConfiguration {
     public final void setLocationPackageMapping(
             final String schemaLocation, final String packageName) {
         _locpackages.put(schemaLocation, packageName);
+    }
+    
+    /**
+     * Returns the string identifier of the jClassPrinter to use.
+     * @return The string identifier of the jClassPrinter to use.
+     */
+    public final String getJClassPrinterTypes() {
+        return _localProps.getProperty(Property.JCLASSPRINTER_TYPES);
     }
 
     /**

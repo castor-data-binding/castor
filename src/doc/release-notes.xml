@@ -333,6 +333,27 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    unnecessary casts.</p>
             </summary>
             <bugs>
+               <bug id="1972" tool="jira">
+                    <description>
+                        Moved logic to write JClass instances to the file system to a new interface,
+                        named JClassPrinter.
+                    </description>
+                    <contributor>
+                        <name>Matthias Epheser</name>
+                        <email>matthias.epheser@indoqa.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Matthias Epheser</name>
+                        <email>matthias.epheser@indoqa.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20071216</date>
+               </bug>
                <bug id="2229" tool="jira">
                     <description>
                         CTFRun.sh needs tools.jar to be added to the classpath
