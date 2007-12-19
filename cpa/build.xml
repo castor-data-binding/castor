@@ -17,6 +17,7 @@
     	<pathelement location="${basedir}/../lib/jta1.0.1.jar"/>
     	<pathelement location="${basedir}/../lib/cglib-full-2.0.2.jar"/>
     	<pathelement location="${basedir}/../lib/log4j-1.2.13.jar"/>
+        <pathelement location="${basedir}/../lib/xerces-J_1.4.0.jar"/>
         <pathelement location="${basedir}/../anttask/build/classes"/>
         <pathelement location="${basedir}/../codegen/build/classes"/>
     </path>
