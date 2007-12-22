@@ -153,6 +153,7 @@
             tarball          Builds the binary distribution in the dist directory
 
             gen.jdo.conf     Use the Source Generator to create the Java classes for jdo-conf.xsd
+            gen.cpactf.conf  Use the Source Generator to create the Java classes for cpactf-conf.xsd
             gen.mapping      Use the Source Generator to create the Java classes for mapping.xsd
             gen.pvd          Use the Source Generator to create the Java classes for the pvd.xsd
         -----------------------------------------------------------
@@ -874,6 +875,11 @@
     <target name="gen.jdo.conf" depends="jar" 
     	    description="Generates the Java classes for jdo-conf.xsd">
         <ant antfile="${basedir}/cpa/build.xml" target="gen.conf.cpa" inheritAll="false" />
+    </target>
+
+    <target name="gen.cpactf.conf" depends="jar" 
+    	    description="Generates the Java classes for cpactf-conf.xsd">
+        <ant antfile="${basedir}/cpactf/build.xml" target="gen.conf.cpactf" inheritAll="false" />
     </target>
 
     <target name="gen.binding" depends="jar" description="Generates the class for binding.xsd">
