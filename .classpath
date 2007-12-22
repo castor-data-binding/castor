@@ -16,6 +16,9 @@
 	<classpathentry kind="src" output="cpa/eclipse" path="cpa/src/test/java"/>
 	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/main/java"/>
 	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/main/resources"/>
+	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/temp/java"/>
+	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/temp/resources"/>
+	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/temp/ddl"/>
 	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/test/java"/>
 	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/test/resources"/>
 	<classpathentry kind="src" output="cpaptf/eclipse" path="cpaptf/src/test/java"/>
