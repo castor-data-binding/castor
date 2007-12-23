@@ -53,6 +53,7 @@ import org.exolab.castor.xml.XMLException;
 import org.exolab.castor.xml.schema.Annotation;
 import org.exolab.castor.xml.schema.AppInfo;
 import org.exolab.castor.xml.schema.Documentation;
+import org.exolab.castor.xml.schema.Schema;
 import org.exolab.castor.xml.schema.SchemaNames;
 
 /**
@@ -98,9 +99,17 @@ public class AnnotationUnmarshaller extends ComponentReader {
         
         _annotation = new Annotation();
         
-        
-        if ((atts != null) && (atts.getSize() > 0))
-            illegalAttribute(atts.getName(0));
+        // check for invalid declared attributes 
+        if ((atts != null) && (atts.getSize() > 0)) {
+            for (int i = 0; i < atts.getSize(); i++) {
+                String namespace = atts.getNamespace(i);
+                // according to the XML schema specification, it must be possible 
+                // to define any attributes with a non-schema namespace
+                if (namespace.equals(Schema.DEFAULT_SCHEMA_NS)) {
+                    illegalAttribute(atts.getName(i));
+                }
+            }
+        }
             
     } //-- AnnotationUnmarshaller
 
