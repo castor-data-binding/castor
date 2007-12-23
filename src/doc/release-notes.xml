@@ -333,6 +333,27 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    unnecessary casts.</p>
             </summary>
             <bugs>
+               <bug id="2236" tool="jira">
+                    <description>
+                        Added command line parameter to Castor source generator (cline, Ant task)
+                        to allow specification of the input source via a valid URL
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Carlo Romero</name>
+                        <email>carlo.romero@gs.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>Gen.</module>
+                    <date>20071223</date>
+               </bug>
                <bug id="2234" tool="jira">
                     <description>
                         Fixed problem with code generation related to the use of attributes 

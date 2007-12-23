@@ -9,12 +9,13 @@
        Describes how to use the Ant task for the Castor XML Code Generator and
        what is currently supported.
     </abstract>
-    <status>Final</status>
+    <status>Draft</status>
   </properties>
 
   <body>
 
     <title>Using the Ant task for the Castor XML Code Generator</title>
+    
     <header>
       <p>API Reference: <api package="org.exolab.castor.builder">The Source Builder API</api></p>
     </header>
@@ -28,11 +29,53 @@
         castor-&lt;version&gt;-codegen-antask.jar must be on the CLASSPATH.
       </p>
 
-      <section title="Configuration">
+      <section title="Specifying the source for generation">
+
+        <p>
+          As shown in the subsequent table, there's multiple ways of specifying the input
+          for the Castor code generator. <b>At least one</b> input source
+          has to be specified. 
+        </p>
+      
+        <ctable>
+          <cheader>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Since</th>
+          </cheader>
+          <crow>
+            <td><b>file</b></td>
+            <td>The XML schema, to be used as input for the source code generator.</td>
+            <td>No.</td>
+            <td> - </td>
+          </crow>
+          <crow>
+            <td><b>dir</b></td>
+            <td>Sets a directory such that all XML schemas in this directory will have 
+                code generated for them.</td>
+            <td>No</td>
+            <td> - </td>
+          </crow>
+          <crow>
+            <td><b>schemaURL</b></td>
+            <td>URL to an XML schema, to be used as input for the source code generator.</td>
+            <td>No.</td>
+            <td><font color="red">1.2</font></td>
+          </crow>
+        </ctable>     
+        
+        <p>
+            In addition, a nested <b>&lt;fileset&gt;</b> can be specified as the source of input. 
+            Please refer to the samples shown below.
+        </p>
+      </section>
+      
+      <section title="Parameters">
 
         <p>
           Please find below the complete list of parameters that can be set on the Castor
-          source generator.
+          source generator to fine-tune the execution behavior.
         </p>
 
         <ctable>
@@ -41,11 +84,6 @@
             <th>Description</th>
             <th>Required</th>
           </cheader>
-          <crow>
-            <td><b>file</b></td>
-            <td>The XML schema, to be used as input for the source code generator.</td>
-            <td>Yes, unless a nested &lt;fileset&gt; element is used.</td>
-          </crow>
           <crow>
             <td><b>package</b></td>
             <td>The default package to be used during source code generation.</td>
@@ -136,29 +174,86 @@
 
       </section>
 
-      <section title="Example">
+      <section title="Examples">
+      
+        <section title="Using a file">
 
-        <p>
-          Below is an example of how to use this task from within an Ant target
-          definition named 'castor:gen:src':
-        </p>
+            <p>
+              Below is an example of how to use this task from within an Ant target
+              definition named 'castor:gen:src':
+            </p>
 
-        <code-panel><![CDATA[
-  <target name="castor:gen:src" depends="init"
-             description="Generate Java source files from XSD.">
+            <code-panel>
+&lt;target name="castor:gen:src" depends="init"
+         description="Generate Java source files from XSD.">
 
-    <taskdef name="castor-srcgen"
+    &lt;taskdef name="castor-srcgen"
              classname="org.castor.anttask.CastorCodeGenTask"
              classpathref="castor.class.path" />
-    <mkdir dir="generated" />
-    <castor-srcgen file="src/schema/sample.xsd"
+    &lt;mkdir dir="generated" />
+    &lt;castor-srcgen <font color="red"><b>file=</b>"src/schema/sample.xsd"</font>
                    todir="generated-source"
                    package="org.castor.example.schema"
                    types="j2"
                    warnings="true" />
-  </target>]]>
-        </code-panel>
+&lt;/target>
+            </code-panel>
 
+        </section>
+
+        <section title="Using an URL">
+
+            <p>
+              Below is the same sample as above, this time using the <b>url</b> attribute
+              as the source of input instead:
+            </p>
+
+            <code-panel>
+&lt;target name="castor:gen:src" depends="init"
+         description="Generate Java source files from XSD.">
+
+    &lt;taskdef name="castor-srcgen"
+             classname="org.castor.anttask.CastorCodeGenTask"
+             classpathref="castor.class.path" />
+    &lt;mkdir dir="generated" />
+    &lt;castor-srcgen <font color="red"><b>schemaURL</b>="http://some.domain/some/path/sample.xsd"</font>
+                   todir="generated-source"
+                   package="org.castor.example.schema"
+                   types="j2"
+                   warnings="true" />
+&lt;/target>
+            </code-panel>
+
+        </section>
+
+        <section title="Using a nested &lt;fileset&gt;">
+
+            <p>
+              Below is the same sample as above, this time using the <b>url</b> attribute
+              as the source of input instead:
+            </p>
+
+            <code-panel>
+&lt;target name="castor:gen:src" depends="init"
+         description="Generate Java source files from XSD.">
+
+    &lt;taskdef name="castor-srcgen"
+             classname="org.castor.anttask.CastorCodeGenTask"
+             classpathref="castor.class.path" />
+    &lt;mkdir dir="generated" />
+    &lt;castor-srcgen todir="generated-source"
+                   package="org.castor.example.schema"
+                   types="j2"
+                   warnings="true" >
+       <font color="red"><b>&lt;fileset dir="${basedir}/src/schema">
+          &lt;include name="**/*.xsd"/>
+       &lt;/fileset></b></font>
+    &lt;/castor-srcgen>
+&lt;/target>
+            </code-panel>
+
+        </section>
+        
       </section>
 
     </section>

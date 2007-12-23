@@ -48,6 +48,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -75,6 +76,7 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:joel.farquhar@montage-dmc.com">Joel Farquhar</a>
  * @author <a href="mailto:ferret AT frii DOT com">Bruce Snyder</a>
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
  * @version $Revision: 6543 $ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public final class CastorCodeGenTask extends MatchingTask {
@@ -98,7 +100,7 @@ public final class CastorCodeGenTask extends MatchingTask {
     
     /** Error message -- no schemas to run code generator on. */
     private static final String NO_SCHEMA_MSG =
-        "At least one of the file or dir attributes, or a fileset element, must be set.";
+        "At least one of the file, url or dir attributes, or a fileset element, must be set.";
 
     //--------------------------------------------------------------------------
 
@@ -107,6 +109,9 @@ public final class CastorCodeGenTask extends MatchingTask {
     
     /** If processing one schema file, this lists the file. */
     private File _schemaFile = null;
+    
+    /** If processing one schema file from an URL, this lists the file. */
+    private String _schemaURL = null;
     
     /** If processing all schemas in a directory, this lists the directory. */
     private File _schemaDir = null;
@@ -187,6 +192,16 @@ public final class CastorCodeGenTask extends MatchingTask {
     public void setFile(final File file) {
         _schemaFile = file;
     }
+
+    /**
+     * Sets an URL for one individual schema that will have code generated for it.
+     * 
+     * @param schemaURL URL for one schema file.
+     */
+    public void setSchemaURL(final String schemaURL) {
+        _schemaURL = schemaURL;
+    }
+
 
     /**
      * Sets the directory such that all schemas in this directory will have code
@@ -460,6 +475,26 @@ public final class CastorCodeGenTask extends MatchingTask {
     }
 
     /**
+     * Runs source generation on a XML schema instance pointed to by an URL. If anything 
+     * goes wrong during source generation a BuildException will be thrown.
+     * 
+     * @param schemaURL An URL to an individual XML schema to generate code for.
+     */
+    private void processURL(final String schemaURL) {
+        log("Processing " + schemaURL);
+        try {
+            InputSource inputSource = new InputSource(schemaURL);
+            _sgen.generateSource(inputSource, _srcpackage);
+        } catch (FileNotFoundException e) {
+            String message = "XML Schema file \"" + _schemaURL + "\" not found.";
+            log(message);
+            throw new BuildException(message);
+        } catch (Exception iox) {
+            throw new BuildException(iox);
+        }
+    }
+
+    /**
      * Public execute method -- entry point for the Ant task.  Loops over all
      * schema that need code generated and creates needed code generators, then
      * executes them. If anything goes wrong during execution of the Ant task a
@@ -469,7 +504,8 @@ public final class CastorCodeGenTask extends MatchingTask {
      */
     public void execute() {
         // Must have something to run the source generator on
-        if (_schemaFile == null && _schemaDir == null && _schemaFilesets.size() == 0) {
+        if (_schemaFile == null && _schemaDir == null && _schemaFilesets.size() == 0
+                && _schemaURL == null) {
             throw new BuildException(NO_SCHEMA_MSG);
         }
 
@@ -503,6 +539,11 @@ public final class CastorCodeGenTask extends MatchingTask {
                     String filePath = subdir.getAbsolutePath() + File.separator + files[j];
                     processFile(filePath);
                 }
+            }
+
+            // Run source generator on URL for XML schema
+            if (_schemaURL != null) {
+                processURL(_schemaURL);
             }
         } finally {
             _sgen = null;

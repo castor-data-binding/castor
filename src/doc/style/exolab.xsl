@@ -992,6 +992,9 @@
   	<xsl:for-each select="td">
   		<td class="cheader"><xsl:value-of select="."/></td>
   	</xsl:for-each>
+    <xsl:for-each select="th">
+        <td class="cheader"><xsl:value-of select="."/></td>
+    </xsl:for-each>
   </xsl:template>
 
   <xsl:template match="crow">
