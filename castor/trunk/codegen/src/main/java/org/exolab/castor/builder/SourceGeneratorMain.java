@@ -56,6 +56,7 @@ import org.exolab.castor.builder.binding.BindingException;
 import org.exolab.castor.builder.binding.BindingLoader;
 import org.exolab.castor.builder.factory.FieldInfoFactory;
 import org.exolab.castor.util.CommandLineOptions;
+import org.xml.sax.InputSource;
 
 /**
  * Main line method for command-line invokation of the source generation tool.
@@ -82,6 +83,7 @@ public final class SourceGeneratorMain {
     private static final String ARGUMENT_GENERATE_MAPPING          = "gen-mapping";
     private static final String ARGUMENT_HELP                      = "h";
     private static final String ARGUMENT_INPUT                     = "i";
+    private static final String ARGUMENT_INPUT_SOURCE              = "is";
     private static final String ARGUMENT_LINE_SEPARATOR            = "line-separator";
     private static final String ARGUMENT_NOMARSHALL                = "nomarshall";
     private static final String ARGUMENT_PACKAGE                   = "package";
@@ -200,7 +202,9 @@ public final class SourceGeneratorMain {
 
         //-- Make sure we have a schema to work on
         String schemaFilename = options.getProperty(ARGUMENT_INPUT);
-        if (schemaFilename == null) {
+        String schemaURL = options.getProperty(ARGUMENT_INPUT_SOURCE);
+        
+        if (schemaFilename == null && schemaURL == null) {
             System.out.println(SourceGenerator.APP_NAME);
             ALL_OPTIONS.printUsage(new PrintWriter(System.out));
             return;
@@ -293,7 +297,11 @@ public final class SourceGeneratorMain {
         }
 
         try {
-            sgen.generateSource(schemaFilename, options.getProperty(ARGUMENT_PACKAGE));
+            if (schemaFilename != null) {
+                sgen.generateSource(schemaFilename, options.getProperty(ARGUMENT_PACKAGE));
+            } else if (schemaURL != null) {
+                sgen.generateSource(new InputSource(schemaURL), options.getProperty(ARGUMENT_PACKAGE));
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -401,6 +409,10 @@ public final class SourceGeneratorMain {
         //-- filename flag
         desc = "Sets the filename for the schema used as input.";
         allOptions.addFlag(ARGUMENT_INPUT, "schema filename", desc);
+
+        //-- filename flag
+        desc = "Sets the input source for the schema used as input.";
+        allOptions.addFlag(ARGUMENT_INPUT_SOURCE, "input source for XML schema", desc);
 
         //-- package name flag
         desc = "Sets the package name for generated code.";

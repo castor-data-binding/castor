@@ -52,7 +52,37 @@ java org.exolab.castor.builder.SourceGeneratorMain -i foo-schema.xsd \
         <tt>"org/exolab/castor/builder/castorbuilder.properties"</tt>.
       </p>
 
-      <section title="Command Line Options">
+      <section title="Specifying the input source">
+
+        <p>
+          There's more than one way of specifying the input for the Castor code 
+          generator. <b>At least one</b> input source must be specified. 
+        </p>
+
+        <ctable border="1" cellspacing="0">
+          <cheader>
+            <th align="center">Option</th>
+            <th>Args</th>
+            <th>Description</th>
+            <th>Version</th>
+          </cheader>
+          <crow>
+            <td align="center">i</td>
+            <td><i>filename</i></td>
+            <td>The input XML Schema file</td>
+            <td> - </td>
+          </crow>
+          <crow>
+            <td align="center">is</td>
+            <td><i>URL</i></td>
+            <td>URL of an XML Schema</td>
+            <td><font color="red">1.2 and newer</font></td>
+          </crow>
+        </ctable>
+        
+      </section>
+      
+      <section title="Other command Line Options">
 
         <ctable border="1" cellspacing="0">
           <cheader>
@@ -61,12 +91,20 @@ java org.exolab.castor.builder.SourceGeneratorMain -i foo-schema.xsd \
             <th>Description</th>
             <th>Optional?</th>
           </cheader>
+<!--           
           <crow>
             <td align="center">i</td>
             <td><i>filename</i></td>
             <td>The input XML Schema file</td>
-            <td>Required</td>
+            <td>At least one of the 'i' or 'is' attributes must be set</td>
           </crow>
+          <crow>
+            <td align="center">is</td>
+            <td><i>input source as URL</i></td>
+            <td>URL of an XML Schema</td>
+            <td>At least one of the 'i' or 'is' attributes must be set</td>
+          </crow>
+ -->          
           <crow>
             <td align="center">package</td>
             <td><i>package-name</i></td>
