@@ -1,5 +1,7 @@
 package org.castor.cpa.test.framework;
 
+import org.castor.core.util.Configuration;
+import org.castor.cpa.CPAConfiguration;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.castor.jdo.conf.JdoConf;
 import org.castor.jdo.engine.DatabaseRegistry;
@@ -63,7 +65,19 @@ public abstract class CPATestCase extends TestCase {
     }
     
     //--------------------------------------------------------------------------
+    
+    public static Configuration getConfiguration() {
+        return CPAConfiguration.getInstance();
+    }
 
+    public static final String getJdoConfBaseURL() {
+        return _registry.getJdoConfBaseURL();
+    }
+    
+    public static final JdoConf getJdoConf(final String name) {
+        return _registry.createJdoConf(name, _database, _transaction);
+    }
+    
     public static final JDOManager getJDOManager(final String name)
     throws MappingException {
         if (!DatabaseRegistry.isDatabaseRegistred(name)) {
