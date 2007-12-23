@@ -907,23 +907,8 @@
         </javac>
     </target>
 
-    <target name="gen.testdescriptor" depends="jar"
-            description="Use the Source Generator to create the Java classes for TestDescriptor.xsd">
-        <delete dir="${gen.src}/testdescriptor"/>
-        <mkdir dir="${gen.src}/testdescriptor"/>
-        <taskdef name="castor-srcgen" classname="org.castor.anttask.CastorCodeGenTask"
-                 classpathref="build.classpath"/>
-        <castor-srcgen file="${xmlctf-source}/main/resources/org/exolab/castor/tests/framework/TestDescriptor.xsd"
-                       todir="${gen.src}/testdescriptor"
-                       package="org.exolab.castor.tests.framework.testDescriptor"
-                       lineseparator="unix"
-                       warnings="true"/>
-        <javac destdir="${classes}" excludes="${excludes}"
-               debug="${main.opt.debug}" encoding="ISO-8859-1" deprecation="off"
-               optimize="on">
-            <src path="${gen.src}" />
-            <classpath refid="build.classpath"/>
-        </javac>
+    <target name="gen.testdescriptor" depends="jar">
+        <ant antfile="${basedir}/xmlctf-framework/build.xml" target="gen.testdescriptor" inheritAll="false" />
     </target>
 
 </project>

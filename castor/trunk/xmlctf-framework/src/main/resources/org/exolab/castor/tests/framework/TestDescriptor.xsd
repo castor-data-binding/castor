@@ -68,11 +68,13 @@
         <xsd:complexType>
             <xsd:sequence>
                 <!-- the reporter name or EMail address-->
-                <xsd:element name="Reporter" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+                <xsd:element name="Reporter" type="xsd:string"/>
+                <!-- Jira issue number -->
+                <xsd:element name="issue" type="xsd:string" minOccurs="0"/>
                 <!-- date of the report-->
-                <xsd:element name="Date_Report" type="xsd:date" minOccurs="1" maxOccurs="1"/>
+                <xsd:element name="Date_Report" type="xsd:date"/>
                 <!-- date of the fix-->
-                <xsd:element name="Date_Fix" type="xsd:date" minOccurs="1" maxOccurs="1"/>
+                <xsd:element name="Date_Fix" type="xsd:date" />
                 <!-- Some comments on the fix or the bug -->
                 <xsd:element name="Comment" type="xsd:string" minOccurs="1" maxOccurs="unbounded"/>
             </xsd:sequence>

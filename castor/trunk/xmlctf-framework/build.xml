@@ -19,6 +19,7 @@
         <pathelement location="${basedir}/../anttask/build/classes"/>
         <pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>
         <pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>
+        <pathelement location="${basedir}/../lib/xerces-J_1.4.0.jar"/>
     </path>
 
     <target name="prepare.xmlctf" unless="prepare.xmlctf.executed">
@@ -56,6 +57,25 @@
         <jar jarfile="${build}/${archive}.jar" basedir="${classes}" includes="**"
              manifest="${classes}/META-INF/MANIFEST.MF"/>
         <copy file="${build}/${archive}.jar" tofile="${basedir}/../dist/${archive}.jar"/>
+    </target>
+
+    <target name="gen.testdescriptor" depends="compile.xmlctf"
+            description="Use the Source Generator to create the Java classes for TestDescriptor.xsd">
+        <delete dir="${gen.src}/testdescriptor"/>
+        <mkdir dir="${gen.src}/testdescriptor"/>
+        <taskdef name="castor-srcgen" classname="org.castor.anttask.CastorCodeGenTask"
+                 classpathref="build.classpath"/>
+        <castor-srcgen file="${main.resources}/org/exolab/castor/tests/framework/TestDescriptor.xsd"
+                       todir="${gen.src}/testdescriptor"
+                       package="org.exolab.castor.tests.framework.testDescriptor"
+                       lineseparator="unix"
+                       warnings="true"/>
+        <javac destdir="${classes}" excludes="${excludes}"
+               debug="${main.opt.debug}" encoding="ISO-8859-1" deprecation="off"
+               optimize="on">
+            <src path="${gen.src}" />
+            <classpath refid="build.classpath"/>
+        </javac>
     </target>
 
 </project>
