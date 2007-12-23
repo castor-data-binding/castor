@@ -1,4 +1,4 @@
-package ctf.jdo.special.test2177;
+package org.castor.cpa.test.test2177;
 
 public final class CustomType {
     private final String _string;
