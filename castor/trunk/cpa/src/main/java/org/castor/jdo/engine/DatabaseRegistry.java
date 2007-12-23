@@ -240,6 +240,15 @@ public final class DatabaseRegistry {
         FACTORIES.clear();
     }
     
+    /**
+     * Unload the database configuration with given name.
+     * 
+     * @param  name     Name of the database to be unloaded.
+     */
+    public static void unloadDatabase(final String name) {
+        FACTORIES.remove(name);
+    }
+    
     //--------------------------------------------------------------------------
     
     /**
