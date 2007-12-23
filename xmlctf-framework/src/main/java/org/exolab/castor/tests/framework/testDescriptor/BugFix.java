@@ -1,8 +1,8 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.1-M2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.1.2.1</a>, using an XML
  * Schema.
- * $Id: BugFix.java 6767 2007-01-19 05:53:39Z ekuns $
+ * $Id$
  */
 
 package org.exolab.castor.tests.framework.testDescriptor;
@@ -21,7 +21,7 @@ import org.exolab.castor.xml.Unmarshaller;
  *  and one or more comments about the bug.
  *  
  * 
- * @version $Revision: 6767 $ $Date$
+ * @version $Revision$ $Date$
  */
 public class BugFix implements java.io.Serializable {
 
@@ -34,6 +34,11 @@ public class BugFix implements java.io.Serializable {
      * Field _reporter.
      */
     private java.lang.String _reporter;
+
+    /**
+     * Field _issue.
+     */
+    private java.lang.String _issue;
 
     /**
      * Field _date_Report.
@@ -165,6 +170,16 @@ public class BugFix implements java.io.Serializable {
     public org.exolab.castor.types.Date getDate_Report(
     ) {
         return this._date_Report;
+    }
+
+    /**
+     * Returns the value of field 'issue'.
+     * 
+     * @return the value of field 'Issue'.
+     */
+    public java.lang.String getIssue(
+    ) {
+        return this._issue;
     }
 
     /**
@@ -308,6 +323,16 @@ public class BugFix implements java.io.Serializable {
     public void setDate_Report(
             final org.exolab.castor.types.Date date_Report) {
         this._date_Report = date_Report;
+    }
+
+    /**
+     * Sets the value of field 'issue'.
+     * 
+     * @param issue the value of field 'issue'.
+     */
+    public void setIssue(
+            final java.lang.String issue) {
+        this._issue = issue;
     }
 
     /**

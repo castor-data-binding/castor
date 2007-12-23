@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.1-M2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.1.2.1</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -94,15 +94,57 @@ public class BugFixDescriptor extends org.exolab.castor.xml.util.XMLClassDescrip
                 return null;
             }
         };
+        desc.setSchemaType("string");
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/Test");
         desc.setRequired(true);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
         //-- validation code for: _reporter
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(1);
+        { //-- local scope
+            org.exolab.castor.xml.validators.StringValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.StringValidator();
+            fieldValidator.setValidator(typeValidator);
+            typeValidator.setWhiteSpace("preserve");
+        }
+        desc.setValidator(fieldValidator);
+        //-- _issue
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.String.class, "_issue", "issue", org.exolab.castor.xml.NodeType.Element);
+        desc.setImmutable(true);
+        handler = new org.exolab.castor.xml.XMLFieldHandler() {
+            public java.lang.Object getValue( java.lang.Object object ) 
+                throws IllegalStateException
+            {
+                BugFix target = (BugFix) object;
+                return target.getIssue();
+            }
+            public void setValue( java.lang.Object object, java.lang.Object value) 
+                throws IllegalStateException, IllegalArgumentException
+            {
+                try {
+                    BugFix target = (BugFix) object;
+                    target.setIssue( (java.lang.String) value);
+                } catch (java.lang.Exception ex) {
+                    throw new IllegalStateException(ex.toString());
+                }
+            }
+            public java.lang.Object newInstance(java.lang.Object parent) {
+                return null;
+            }
+        };
+        desc.setSchemaType("string");
+        desc.setHandler(handler);
+        desc.setNameSpaceURI("http://castor.exolab.org/Test");
+        desc.setMultivalued(false);
+        addFieldDescriptor(desc);
+        addSequenceElement(desc);
+        
+        //-- validation code for: _issue
+        fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
             org.exolab.castor.xml.validators.StringValidator typeValidator;
             typeValidator = new org.exolab.castor.xml.validators.StringValidator();
@@ -133,11 +175,13 @@ public class BugFixDescriptor extends org.exolab.castor.xml.util.XMLClassDescrip
                 return new org.exolab.castor.types.Date();
             }
         };
+        desc.setSchemaType("date");
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/Test");
         desc.setRequired(true);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
         //-- validation code for: _date_Report
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
@@ -171,11 +215,13 @@ public class BugFixDescriptor extends org.exolab.castor.xml.util.XMLClassDescrip
                 return new org.exolab.castor.types.Date();
             }
         };
+        desc.setSchemaType("date");
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/Test");
         desc.setRequired(true);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
         //-- validation code for: _date_Fix
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
@@ -218,11 +264,13 @@ public class BugFixDescriptor extends org.exolab.castor.xml.util.XMLClassDescrip
                 return null;
             }
         };
+        desc.setSchemaType("string");
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/Test");
         desc.setRequired(true);
         desc.setMultivalued(true);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
         //-- validation code for: _commentList
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
