@@ -333,6 +333,28 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    unnecessary casts.</p>
             </summary>
             <bugs>
+               <bug id="2234" tool="jira">
+                    <description>
+                        Fixed problem with code generation related to the use of attributes 
+                        on &lt;xs:annotation&gt;, &lt;xs:appInfo&gt;, etc. that are
+                        declared on a namespace other than the default schema namespace.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Aparajitha</name>
+                        <email>mailto:aparvatala@osi-tech.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen.</module>
+                    <date>20071223</date>
+               </bug>
                 <bug id="2240" tool="jira">
                     <description>
                         Refactored special tests 881 and 2177.
