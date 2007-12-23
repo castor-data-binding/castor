@@ -221,6 +221,26 @@ implements DataObjects, Referenceable, ObjectFactory, Serializable {
     }
 
     /**
+     * Method to dispose a JDOManager instance.
+     * <br/>
+     * <b>Experimental:</b> Only intended to test loading of configurations
+     * at JDOManager and DatabaseRegistry at the moment. Will not cleanup
+     * all internal object structures that get initialized with a call to
+     * JDOManager.createInstance().
+     *   
+     * @param  databaseName Database name as configured in the JDOManager
+     *         configuration file.
+     */
+    public static void disposeInstance(final String databaseName) {
+        _jdoInstances.remove(databaseName);
+        DatabaseRegistry.unloadDatabase(databaseName);
+            
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Successfully disposed JDOManager instance: " + databaseName);
+        }
+    }
+
+    /**
      * Initialize the JDOManager configuration with given name, engine, datasource,
      * transaction demarcation and mapping.
      * 
