@@ -223,7 +223,7 @@ public abstract class AbstractConnectionFactory implements ConnectionFactory {
      * 
      * @throws MappingException If concrete factory could not be initialized.
      */
-    protected abstract void initializeFactory() throws MappingException;
+    public abstract void initializeFactory() throws MappingException;
     
     //--------------------------------------------------------------------------
     
