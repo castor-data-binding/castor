@@ -71,7 +71,7 @@ public final class DriverConnectionFactory extends AbstractConnectionFactory {
      * {@inheritDoc}
      * @see org.castor.jdo.engine.AbstractConnectionFactory#initializeFactory()
      */
-    protected void initializeFactory() throws MappingException {
+    public void initializeFactory() throws MappingException {
         Enumeration params;
         Param       param;
         

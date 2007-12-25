@@ -66,10 +66,10 @@ public final class Test1158 extends CPATestCase {
             }
         } catch (MappingException ex) {
             LOG.error(ex.getMessage(), ex);
-            fail();
+            fail(ex.getMessage());
         } catch (PersistenceException ex) {
             LOG.error(ex.getMessage(), ex);
-            fail();
+            fail(ex.getMessage());
         }
     }
     
@@ -90,10 +90,10 @@ public final class Test1158 extends CPATestCase {
             }
         } catch (MappingException ex) {
             LOG.error(ex.getMessage(), ex);
-            fail();
+            fail(ex.getMessage());
         } catch (PersistenceException ex) {
             LOG.error(ex.getMessage(), ex);
-            fail();
+            fail(ex.getMessage());
         }
     }
 }

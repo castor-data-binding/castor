@@ -48,7 +48,7 @@ public final class ConnectionProxy implements InvocationHandler {
      * @param con JDBC Connectio instance to be proxied.
      * @param calledBy Name of the class using creating and this proxy class. 
      */
-    protected ConnectionProxy(final Connection con, final String calledBy) {
+    public ConnectionProxy(final Connection con, final String calledBy) {
         _connection = con;
         _calledBy = calledBy;
         

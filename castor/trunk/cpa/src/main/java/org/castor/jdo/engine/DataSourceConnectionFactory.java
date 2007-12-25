@@ -210,7 +210,7 @@ public final class DataSourceConnectionFactory extends AbstractConnectionFactory
      * {@inheritDoc}
      * @see org.castor.jdo.engine.AbstractConnectionFactory#initializeFactory()
      */
-    protected void initializeFactory() throws MappingException {
+    public void initializeFactory() throws MappingException {
         _dataSource = loadDataSource(getDatabase(), getMapping().getClassLoader());
 
         if (LOG.isDebugEnabled()) {
