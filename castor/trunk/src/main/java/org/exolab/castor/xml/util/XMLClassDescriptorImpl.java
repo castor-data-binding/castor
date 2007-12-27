@@ -379,7 +379,9 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
                 List substitutes =  expectedElementDescriptor.getSubstitutes();
                 if (substitutes != null && !substitutes.isEmpty()) {
                     if (substitutes.contains(elementName)) {
-                        parentState.expectedIndex++;
+                        if (!parentState.withinMultivaluedElement) {
+                            parentState.expectedIndex++;
+                        }
                         return;
                     }
                 }
