@@ -140,6 +140,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
             <groupId>velocity</groupId>
             <artifactId>velocity</artifactId>
             <version>1.5</version>
+            <optional>true</optional>
         </dependency>
 
 	</dependencies>
