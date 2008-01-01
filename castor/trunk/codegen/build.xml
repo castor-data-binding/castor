@@ -4,8 +4,11 @@
     <property name="source"               value="${basedir}/src"/>
     <property name="main.java"            value="${source}/main/java"/>
     <property name="main.resources"       value="${source}/main/resources"/>
+	<property name="test.java"            value="${source}/test/java"/>
+    <property name="test.resources"       value="${source}/test/resources"/>
     <property name="build"                value="${basedir}/build"/>
     <property name="classes"              value="${build}/classes"/>
+	<property name="test.classes"         value="${build}/test"/>
     <property name="archive"              value="${project}-${version}${release}-codegen"/>
     <property name="gen.src"              value="${build}/generated-sources"/>
 
@@ -18,6 +21,20 @@
         <pathelement location="${basedir}/../anttask/build/classes"/>
     </path>
 
+    <path id="test.classpath">
+        <pathelement location="${basedir}/build/classes"/>
+        <pathelement location="${basedir}/build/test"/>
+        <pathelement location="${basedir}/../build/classes"/>
+    	<pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>
+    	<pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>
+    	<pathelement location="${basedir}/../lib/velocity-1.5.jar"/>
+    	<pathelement location="${basedir}/../lib/commons-collections-3.1.jar"/>
+      	<pathelement location="${basedir}/../lib/commons-lang-2.1.jar"/>
+        <pathelement location="${basedir}/../anttask/build/classes"/>
+    	<pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>
+    	<pathelement location="${basedir}/../bin/lib/ant-junit-1.6.jar"/>
+    </path>
+
     <target name="prepare.codegen" unless="prepare.codegen.executed">
         <mkdir dir="${build}"/>
         <mkdir dir="${classes}"/>
@@ -26,6 +43,10 @@
 
     <target name="clean.codegen" description="Removes CodeGen build directory">
         <delete dir="${build}"/>
+    </target>
+
+    <target name="clean.tests.codegen" description="Removes CodeGen test build directory">
+        <delete dir="${test.classes}"/>
     </target>
 
     <target name="compile.codegen" depends="prepare.codegen" description="Compile CodeGen">
@@ -50,17 +71,32 @@
         <copy file="${build}/${archive}.jar" tofile="${basedir}/../dist/${archive}.jar"/>
     </target>
 
-    <target name="compile.bugs.codegen" depends="prepare.codegen,compile.codegen" description="Build the tests packages">
-        <mkdir dir="${build}/test"/>
-        <javac srcdir="${source}/test/java" destdir="${build}/test"
+    <target name="compile.bugs.codegen" depends="compile.codegen" 
+    	    description="Build the tests packages">
+        <mkdir dir="${test.classes}"/>
+        <javac srcdir="${test.java}" destdir="${test.classes}"
                debug="on" encoding="ISO-8859-1" deprecation="${deprecation}">
             <classpath refid="build.classpath"/>
         </javac>
 
-        <copy todir="${build}/test">
-            <fileset dir="${source}/test/resources"/>
+        <copy todir="${test.classes}">
+            <fileset dir="${test.resources}"/>
         </copy>
     </target>
+	
+	<target name="tests.codegen" description="Runs
+		JUnit tests" depends="compile.bugs.codegen">
+		<junit printsummary="true">
+			<formatter type="plain" />
+			<batchtest>
+				<fileset dir="${test.classes}">
+					<include name="**/Test*"/>
+					<include name="**/*Test"/>
+				</fileset>
+			</batchtest>
+			<classpath refid="test.classpath" />
+		</junit>
+	</target>
 	
     <target name="gen.binding" depends="compile.codegen"
             description="Use the Source Generator to create the Java classes for binding.xsd">
