@@ -95,6 +95,7 @@ public final class SourceGeneratorMain {
     private static final String ARGUMENT_VERBOSE                   = "verbose";
     private static final String ARGUMENT_FAIL_ON_ERROR             = "fail";
     private static final String ARGUMENT_NAME_CONFLICT_STRATEGY    = "nameConflictStrategy";
+    private static final String ARGUMENT_NAME_JCLASSPRINTER        = "classPrinter";    
 
     private static final String ARG_VALUE_LINE_SEPARATION_MAC      = "mac";
     private static final String ARG_VALUE_LINE_SEPARATION_UNIX     = "unix";
@@ -276,6 +277,13 @@ public final class SourceGeneratorMain {
             System.out.println(CASE_INSENSITIVE_MSG + nameConflictStrategy);
         }
 
+        String jClassPrinterType = options.getProperty(ARGUMENT_NAME_JCLASSPRINTER);
+        if (jClassPrinterType != null) {
+            sgen.setJClassPrinter(jClassPrinterType);
+            System.out.print("-- ");
+            System.out.println(CASE_INSENSITIVE_MSG + jClassPrinterType);
+        }
+        
         String bindingFilename = options.getProperty(ARGUMENT_BINDING_FILENAME);
         if (bindingFilename != null) {
             try {

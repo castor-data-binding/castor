@@ -120,6 +120,15 @@ public final class JEnumConstant extends JAnnotatedElementHelper implements JMem
     public String[] getArguments() {
         return _arguments;
     }
+    
+    /**
+     * Returns the amount of arguments.
+     * 
+     * @return The amount of arguments.
+     */
+    public int getArgumentCount() {
+        return _arguments.length;
+    }
 
     /**
      * Adds the given JMethod to this JEnumConstant.
@@ -199,6 +208,10 @@ public final class JEnumConstant extends JAnnotatedElementHelper implements JMem
             marray[i] = (JMethod) _methods.elementAt(i);
         }
         return marray;
+    }
+    
+    public int getMethodCount() {
+        return _methods.size();
     }
 
     /**

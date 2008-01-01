@@ -14,6 +14,10 @@ set CP=%CP%;"..\lib\junit_3.8.2.jar"
 set CP=%CP%;"..\lib\jakarta-oro-2.0.5.jar"
 set CP=%CP%;"..\lib\xerces-J_1.4.0.jar"
 
+set CP=%CP%;"..\lib\velocity-1.5.jar"
+set CP=%CP%;"..\lib\commons-collections-3.1.jar"
+set CP=%CP%;"..\lib\commons-lang-2.1.jar"
+
 echo *** Setting classpath to ...
 echo %CP%
 

@@ -73,7 +73,8 @@ public final class JEnum extends JClass {
     }
     
     /**
-     * only allow private constructors. 
+     * Override to only allow private constructors. 
+     * @param constructor The constructor that should be added.
      */
     public void addConstructor(final JConstructor constructor) {
         if (constructor.getModifiers().isPrivate()) {   
@@ -149,6 +150,15 @@ public final class JEnum extends JClass {
             farray[i] = (JEnumConstant) _constants.get(i);
         }
         return farray;
+    }
+    
+    /**
+     * Returns the amount of enum constants.
+     * 
+     * @return The amount of enum constants.
+     */
+    public int getConstantCount() {
+        return this._constants.size();
     }
 
     //--------------------------------------------------------------------------

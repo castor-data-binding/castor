@@ -128,6 +128,14 @@ public final class JConstructor extends JAnnotatedElementHelper {
         }
         return jpArray;
     }
+    
+    /**
+     * Returns the amount of parameters.
+     * @return The amount of parameters.
+     */
+    public int getParameterCount() {
+        return _params.size();
+    }
 
     /**
      * Adds the given parameter to this JConstructor's list of parameters.

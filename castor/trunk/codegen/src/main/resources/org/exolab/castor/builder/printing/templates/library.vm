@@ -1,0 +1,128 @@
+#*
+ *
+ * This file contains reusable macros for 
+ *   - "javadoc": a comment for class/contructor/method/field
+ *   - "classDefinition": including modifiers, classname, superclass and interfaces
+ *   - "member": for class members, including type, name and initial value
+ *   - "constructor": including modifiers and parameters
+ *   - "method": creates method signature (modifiers, returnType, parameters, exceptions) and method body
+ *   - "enumConstant": creates a enum constant (javadoc, name, parameters, methods)
+ * 
+ *#
+
+#macro (packageDeclaration $jClass)
+#if($jClass.getPackageName())
+package ${jClass.getPackageName()}; ##
+#end
+#end
+
+#macro (javadoc $comment $shift)
+#if($comment) 
+${shift}/**
+#foreach($line in $helper.getLines($comment.getComment()))
+${shift} *  $line
+#end
+#foreach($line in $comment.getDescriptors())
+${shift} *  $line	
+#end
+${shift} */
+#end
+#end
+
+#macro (classDefinition $jClass $shift) 
+${shift}$jClass.getModifiers() class ${jClass.getLocalName()} #superclass($jClass)#interfacesDefinition($jClass)
+#end
+
+#macro (enumDefinition $jClass $shift) 
+${shift}$jClass.getModifiers() enum ${jClass.getLocalName()} #superclass($jClass)#interfacesDefinition($jClass)
+#end
+
+#macro (superclass $jClass)
+#if(${jClass.getSuperClass()})
+extends ${jClass.getSuperClass().getQualifiedName()} ##
+#end
+#end
+
+#macro (interfacesDefinition $jClass)
+#if($jClass.getInterfaceCount() > 0)
+implements ##
+#foreach($interface in $jClass.getInterfaces())
+${interface}## 
+#if($velocityCount < $jClass.getInterfaceCount()), #{end}##
+#end
+#end
+#end
+
+#macro (enumConstant $jEnumConstant $shift)
+${shift}$jEnumConstant.getName()#enumConstantArguments($jEnumConstant)#enumConstantMethods($jEnumConstant $shift)##
+#end
+
+#macro (enumConstantArguments  $jEnumConstant)
+#if($jEnumConstant.getArgumentCount() > 0)
+(##
+#foreach($jEnumConstantArgument in $jEnumConstant.getArguments())
+$jEnumConstantArgument#if($velocityCount < $jClass.getArgumentCount()),#end
+#end
+)##
+#end
+#end
+
+#macro (enumConstantMethods  $jEnumConstant $shift)
+#if($jEnumConstant.getMethodCount() > 0)
+{##
+#foreach($jEnumConstantMethod in $jEnumConstant.getMethods())
+#method($jEnumConstantMethod $shift)
+#end
+)##
+#end
+#end
+
+#macro (member $field $shift)
+${shift}${field}#if($field.getInitString() && !$field.isDateTime()) = $field.getInitString()#{end};
+#end
+
+#macro (staticInitializationCode $jClass $shift)
+#if(!${jClass.getStaticInitializationCode().isEmpty()})
+${shift}static {
+#foreach($line in $jClass.getStaticInitializationCode().getSource())
+${shift}$line	
+#end
+${shift}}
+
+#end
+#end
+
+#macro (constructor $constructor $shift)
+${shift}$constructor.getModifiers() ## 
+${jClass.getLocalName()} (##
+#foreach($parameter in $constructor.getParameters())
+${parameter}##
+#if($velocityCount < $constructor.getParameterCount()), #{end}#end) {
+#foreach($line in $constructor.getSourceCode().getSource())
+${shift}$line	
+#end
+${shift}}
+
+#end
+
+#macro (method $method $shift)
+${shift}$method.getModifiers() #returntype($method) $method.getName() #parameters($method) #exceptions($method){
+#foreach(${line} in ${method.getSourceCode().getSource()})
+${shift}${line}
+#end
+${shift}}
+
+#end
+
+#macro (returntype $method)
+#if($method.getReturnType())$method.getReturnType()#{else}void#end	
+#end
+
+#macro (parameters $method)(#foreach($parameter in $method.getParameters())$parameter #if($velocityCount < $method.getParameterCount()), #{end}#end)#end
+
+#macro (exceptions $method)#if($method.getExceptionCount() > 0)throws #foreach($exception in $method.getExceptions())$exception#if($velocityCount < $method.getExceptionCount()), #{end}#{end}#{end}#end
+
+#macro (annotation $annotation $shift)
+$helper.printAnnotation( $annotation, $shift )
+#end
+

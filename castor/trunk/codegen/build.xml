@@ -14,6 +14,7 @@
         <pathelement location="${basedir}/../build/classes"/>
     	<pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>
     	<pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>
+    	<pathelement location="${basedir}/../lib/velocity-1.5.jar"/>
         <pathelement location="${basedir}/../anttask/build/classes"/>
     </path>
 
