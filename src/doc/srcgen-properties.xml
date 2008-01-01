@@ -103,6 +103,15 @@
             <td><tt>false</tt></td>
             <td>0.9.1</td>
           </crow>
+          <crow>
+            <td><a href="#Class-printing">org.exolab.castor.builder.jclassPrinterTypes</a></td>
+            <td>Specifies which <b>mode</b> to use for class <i>printing</i> during
+                XML code generation.</td>
+            <td><tt>org.exolab.castor.builder.printing.WriterJClassPrinter</tt>/
+                <tt>org.exolab.castor.builder.printing.TemplateJClassPrinter</tt></td>
+            <td><tt>org.exolab.castor.builder.printing.WriterJClassPrinter</tt></td>
+            <td><font color="red">1.2</font></td>
+          </crow>
         </ctable>
 
     </section>
@@ -471,6 +480,34 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
      	<p>Adds additional getter/setter methods for the field in question, such 
      	   as get/set by reference and set as copy methods.</p>
      	   
+     </section>
+     
+     <section title="Class printing">
+     
+        <p>
+            As of release 1.2, Castor supports the use of Velocity-based code templates
+            for code generation. For the time being, Castor will support two modes
+            for code generation, i.e. the new Velocity-based and an old legacy mode.
+            <b>Default</b> will be the <i>legacy</i> mode; this will be changed with a 
+            later release of Castor.
+        </p>
+                
+        <p>
+            In order to use the new Velocity-based code generation, please
+            override the following code generator property in a custom
+            <tt>castorbuilder.properties</tt> as shown:
+                    
+            <code-panel>
+org.exolab.castor.builder.jclassPrinterTypes=\
+   org.exolab.castor.builder.printing.TemplateJClassPrinter,\
+   org.exolab.castor.builder.printing.WriterJClassPrinter</code-panel>
+        </p>
+                
+        <p>
+            As we consider the code stable enough for a major release, we do encourage users 
+            to use the new Velocity-based mode and to provide us with (valuable) feedback.
+        </p>
+     
      </section>
 
   </section>

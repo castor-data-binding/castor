@@ -188,7 +188,7 @@ public class SourceGenerator extends BuilderConfiguration {
     private GroupNaming _groupNaming = null;
     /** Strategy for name conflict resolution. */
     private String _nameConflictStrategy = WarningViaDialogClassNameCRStrategy.NAME;
-    /** JClass to XPATH registry; used for class name conflict resolution. */
+    /** JClass to XPATH registry, used for class name conflict resolution. */
     private JClassRegistry _xmlInfoRegistry;
     /** Strategy for printing JClasses. */
     private String _jClassPrinterType;

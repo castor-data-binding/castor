@@ -137,7 +137,7 @@ public final class JAnnotation {
     //--------------------------------------------------------------------------
 
     /** Name of a single element. */
-    private static final String VALUE = "value";
+    public static final String VALUE = "value";
 
     //--------------------------------------------------------------------------
 

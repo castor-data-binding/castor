@@ -191,6 +191,15 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
     public final Enumeration getImports() {
         return _imports.elements();
     }
+    
+    /**
+     * Returns the amount of imports.
+     * 
+     * @return The amount of imports.
+     */
+    public final int getImportCount() {
+        return _imports.size();
+    }
 
     /**
      * Returns true if the given classname exists in the imports of this
@@ -368,7 +377,7 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
      * @return The count of the number of Interfaces that have been added to
      *         this JStructure.
      */
-    protected final int getInterfaceCount() {
+    public final int getInterfaceCount() {
         return _interfaces.size();
     }
 

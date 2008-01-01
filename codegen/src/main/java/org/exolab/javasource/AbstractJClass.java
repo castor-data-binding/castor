@@ -92,6 +92,14 @@ public abstract class AbstractJClass extends JStructure {
         }
         return farray;
     }
+    
+    /**
+     * Returns the amount of fields.
+     * @return The amount of fields.
+     */
+    public final int getFieldCount() {
+        return _fields.size();
+    }
 
     /**
      * {@inheritDoc}
@@ -206,7 +214,11 @@ public abstract class AbstractJClass extends JStructure {
         }
         return jcArray;
     }
-
+    
+    public final int getContructorsCount() {
+    	return _constructors.size();
+    }
+    
     /**
      * Adds the given Constructor to this classes list of constructors. The
      * constructor must have been created with this JClass' createConstructor.
@@ -279,6 +291,10 @@ public abstract class AbstractJClass extends JStructure {
      */
     public final JMethod getMethod(final int index) {
         return (JMethod) _methods.elementAt(index);
+    }
+    
+    public final int getMethodCount() {
+    	return _methods.size(); 
     }
 
     /**
@@ -400,6 +416,15 @@ public abstract class AbstractJClass extends JStructure {
             return carray;
         }
         return new JClass[0];
+    }
+    
+    public final int getInnerClassCount() {
+    	if (_innerClasses != null) {
+    		return _innerClasses.size();
+    	} 
+    	return 0;
+    	
+    		
     }
 
     /**

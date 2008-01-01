@@ -35,6 +35,32 @@
             <summary>
                 <h2>Additions</h2>
 
+                <h3>Code generator now supports use of Velocity as template engine</h3>
+                
+                <p>
+                    Castor now supports the use of Velocity-based code templates
+                    for code generation. For the time being, Castor will support two modes
+                    for code generation, i.e. the new Velocity-based and an old legacy mode.
+                    <b>Default</b> will be the <i>legacy</i> mode; this will be changed with a 
+                    later release of Castor.
+                </p>
+                
+                <p>
+                    In order to use the new Velocity-based code generation, please
+                    override the following code generator property in a custom
+                    <tt>castorbuilder.properties</tt> as shown:
+                    
+                    <code-panel>
+org.exolab.castor.builder.jclassPrinterTypes=\
+   org.exolab.castor.builder.printing.TemplateJClassPrinter,\
+   org.exolab.castor.builder.printing.WriterJClassPrinter</code-panel>
+                </p>
+                
+                <p>
+                    Users are encouraged the use the new Velocity-based mode and to provide
+                    us with (valuable) feedback.
+                </p>
+                 
                 <h3>Added special processing of proxied classes</h3>
 
                 <p>Objects that were lazy loaded from a persistence layer often are
@@ -333,6 +359,26 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    unnecessary casts.</p>
             </summary>
             <bugs>
+                <bug id="1972" tool="jira">
+                    <description>
+                        Added Velocity as templating engine for code generation.
+                    </description>
+                    <contributor>
+                        <name>Matthias Epheser</name>
+                        <email>matthias.epheser@indoqa.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Matthias Epheser</name>
+                        <email>matthias.epheser@indoqa.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>Gen.</module>
+                    <date>20080101</date>
+               </bug>
                 <bug id="2235" tool="jira">
                     <description>
                         Fixed problem related to sequence ordering and substitution groups.

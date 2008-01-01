@@ -152,9 +152,52 @@
 				</p>
 				
 				<p>
-				   In addition to the dependencies for <a name="#Castor-XML">Castor XML</a>, 
-				   no further additional dependencies are required.
+				   In addition to the dependencies for the Castor XML code generator, 
+				   the Castor XML code generator will require additional dependencies 
+                   as enlisted below:
 				</p>
+
+                <ctable>
+                    <cheader>
+                        <td>Name</td>
+                        <td>Minimal version</td>
+                        <td>Binary</td>
+                        <td>Required/Optional</td>
+                        <td>Version</td>
+                    </cheader>
+                    <crow>
+                        <td><a href="http://velocity.apache.org">Apache Velocity</a> - template engine</td>
+                        <td>1.5</td>
+                        <td><a href="http://mirror.deri.at/apache/velocity/engine/1.5/velocity-1.5.zip">Download</a></td>
+                        <td>Optional</td>
+                        <td><font color="red">1.2 and later</font></td>
+                    </crow>
+                    <crow>
+                        <td>Apache Jakarta - commons-collections</td>
+                        <td>3.1</td>
+                        <td><a href="http://apache.4any.org/commons/collections/binaries/commons-collections-3.2.tar.gz">Download</a></td>
+                        <td>Optional</td>
+                        <td><font color="red">1.2 and later</font></td>
+                    </crow>
+                    <crow>
+                        <td>Apache Jakarta - commons-lang</td>
+                        <td>2.1</td>
+                        <td><a href="http://archive.apache.org/dist/commons/lang/binaries/commons-lang-2.1.tar.gz">Download</a></td>
+                        <td>Optional</td>
+                        <td><font color="red">1.2 and later</font></td>
+                    </crow>
+                </ctable>
+                
+                <p>
+                    These dependencies are <b>optional</b> as the use of Velocity-based templates
+                    for XML code generation is optional with release 1.2 and higher. Once you enable
+                    this mode, all dependencies given turn <font color="red">required</font>.
+                </p>
+                
+                <p>
+                    Please refer to <a href="srcgen-property.html#Class printing">here</a> for details on 
+                    these code generation modes.
+                </p>
 				
 			</section>
 

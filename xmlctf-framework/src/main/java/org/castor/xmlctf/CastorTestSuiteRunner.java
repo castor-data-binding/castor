@@ -161,11 +161,11 @@ public class CastorTestSuiteRunner extends TestCase {
 
         System.out.println("Pseudo-random number generator seed:  " + RandomHelper.getSeed());
 
-        String[] testCaseName = {CastorTestSuiteRunner.class.getName()};
-
         if (text) {
+            String[] testCaseName = {CastorTestSuiteRunner.class.getName()};
             junit.textui.TestRunner.main(testCaseName);
         } else {
+            String[] testCaseName = {"-noloading", CastorTestSuiteRunner.class.getName()};
             junit.swingui.TestRunner.main(testCaseName);
         }
     }

@@ -261,6 +261,15 @@ public final class JSourceCode {
         short indent = (short) (jcs.getIndent() + _currentIndent - DEFAULT_INDENT_SIZE);
         _source.addElement(new JCodeStatement(jcs.getStatement(), indent));
     }
+    
+    /**
+     * Returns a vector of source lines.
+     * 
+     * @return A vector of source lines.
+     */
+    public Vector getSource() {
+		return _source;
+	}
 
     //--------------------------------------------------------------------------
 

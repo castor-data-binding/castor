@@ -168,6 +168,15 @@ public final class JMethod implements JMember, JAnnotatedElement {
     public JClass[] getExceptions() {
         return _signature.getExceptions();
     }
+    
+    /**
+     * Returns the amount of exceptions thrown.
+     * 
+     * @return The amount of exceptions thrown.
+     */
+    public int getExceptionCount() {
+        return _signature.getExceptions().length;
+    }
 
     /**
      * Returns the modifiers for this JMethod.
@@ -207,6 +216,15 @@ public final class JMethod implements JMember, JAnnotatedElement {
      */
     public JParameter[] getParameters() {
         return _signature.getParameters();
+    }
+    
+    /**
+     * Returns the amount of parameters.
+     * 
+     * @return The amount of parameters.
+     */
+    public int getParameterCount() {
+        return _signature.getParameters().length;
     }
 
     /**

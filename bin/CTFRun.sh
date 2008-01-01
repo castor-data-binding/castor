@@ -33,6 +33,12 @@ CLASSPATH=$CLASSPATH:$CASTOR_HOME/lib/log4j-1.2.13.jar
 CLASSPATH=$CLASSPATH:$CASTOR_HOME/lib/junit_3.8.2.jar
 CLASSPATH=$CLASSPATH:$CASTOR_HOME/lib/jakarta-oro-2.0.5.jar
 CLASSPATH=$CLASSPATH:$CASTOR_HOME/lib/xerces-J_1.4.0.jar
+
+# libs required for code generation using velocity
+CLASSPATH=$CLASSPATH:$CASTOR_HOME/lib/velocity-1.5.jar
+CLASSPATH=$CLASSPATH:$CASTOR_HOME/lib/commons-collections-3.1.jar
+CLASSPATH=$CLASSPATH:$CASTOR_HOME/lib/commons-lang-2.1.jar
+
 CLASSPATH=$CLASSPATH:$JAVA_HOME/lib/tools.jar
 
 echo "*** Setting classpath to ..."
