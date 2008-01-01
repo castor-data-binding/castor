@@ -229,6 +229,7 @@
         <ant antfile="${basedir}/xmlctf/build.xml" target="clean.xmlctf" inheritAll="false" />
         <ant antfile="${basedir}/cpactf/build.xml" target="clean.cpactf" inheritAll="false" />
         <ant antfile="${basedir}/cpaptf/build.xml" target="clean.cpaptf" inheritAll="false" />
+        <ant antfile="${basedir}/codegen/build.xml" target="clean.tests.codegen" inheritAll="false" />
     </target>
 
     <target name="compile"
@@ -854,6 +855,10 @@
         </ant>
     </target>
 
+	<target name="junit.tests.run" depends="tests" description="Runs all unit tests">
+        <ant antfile="${basedir}/codegen/build.xml" target="tests.codegen" inheritAll="false" />
+	</target>
+		
     <target name="automated_build" depends="jar,compile.tests">
         <!-- this mimics the CTFRun.sh script -->
         <delete includeEmptyDirs="true">
