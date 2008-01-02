@@ -278,6 +278,17 @@ public class BuilderConfiguration {
          */
         public static final String JCLASSPRINTER_TYPES = 
             "org.exolab.castor.builder.jclassPrinterTypes";
+        
+        /**
+         * Property specifying whether extra members/methods for extracting XML schema
+         * documentation should be made available; defaults to false
+         * <pre>
+         * org.exolab.castor.builder.extraDocumentationMethods=false
+         * </pre>
+         */
+        public static final String EXTRA_DOCUMENTATION_METHODS = 
+            "org.exolab.castor.builder.extraDocumentationMethods";
+        
     } //--Property
 
     /**
@@ -503,6 +514,18 @@ public class BuilderConfiguration {
         _localProps.setProperty(Property.JAVA_VERSION, "5.0");
     }
         
+    /**
+     * Returns true if extra methods for accessing XML schema documentation should
+     * be generated; default to 'false'.
+     *
+     * @return true if if extra methods for accessing XML schema documentation should be generated
+     */
+    public final boolean generateExtraDocumentationMethods() {
+        String extraDocumentationMethods = 
+            _localProps.getProperty(Property.EXTRA_DOCUMENTATION_METHODS, "false");
+        return new Boolean(extraDocumentationMethods).booleanValue();
+    }
+    
     /**
      * Returns the maximum number of static constant definitions that are
      * acceptable within one class file; default is 1000.
