@@ -581,8 +581,8 @@ public final class SourceFactory extends BaseFactory {
     }
 
     /**
-     * Extract 'dcoumentation' annotations from the {@link Annotated} instance given.
-     * @param annotated {@link Annotated} instance to extract annotattions from.
+     * Extract 'documentation' annotations from the {@link Annotated} instance given.
+     * @param annotated {@link Annotated} instance to extract annotations from.
      * @param jClass {@link JClass} instance to inject annotations into.
      */
     private void extractAnnotations(final Annotated annotated, final JClass jClass) {
@@ -592,46 +592,60 @@ public final class SourceFactory extends BaseFactory {
             jClass.getJDocComment().setComment(comment);
             
             if (getConfig().generateExtraDocumentationMethods()) {
-
-                JField documentationsField = 
-                    new JField(new JClass("java.util.Map"), "_xmlSchemaDocumentations");
-                documentationsField.setComment("The content of the <xsd:documentation> elements");
-                documentationsField.setInitString("new java.util.HashMap()");
-                jClass.addMember(documentationsField);
-
-                Enumeration annotations = annotated.getAnnotations();
-                while (annotations.hasMoreElements()) {
-                    Annotation annotation = (Annotation) annotations.nextElement();
-                    Enumeration documentations = annotation.getDocumentation();
-                    while (documentations.hasMoreElements()) {
-                        Documentation documentation = (Documentation) documentations.nextElement();
-                        JConstructor defaultConstructor = jClass.getConstructor(0);
-                        String documentationContent = normalize(documentation.getContent());
-                        documentationContent = 
-                            StringUtil.replaceAll(documentationContent, "\n", "\"\n+ \" ");
-                        defaultConstructor.getSourceCode().add("_xmlSchemaDocumentations.put(\"" 
-                                +  documentation.getSource() + "\", \"" 
-                                + documentationContent + "\");");
-                    }
-                }
-
-                JMethod aMethod = new JMethod("getXmlSchemaDocumentations", 
-                        new JClass("java.util.Map"), 
-                " A collection of documentation elements.");
-                JSourceCode sourceCode = aMethod.getSourceCode();
-                sourceCode.add("return _xmlSchemaDocumentations;");
-                jClass.addMethod(aMethod);
-
-                JMethod anotherMethod = new JMethod("getXmlSchemaDocumentation", 
-                        new JClass("java.lang.String"), 
-                            " A specific XML schema documentation element.");
-                JParameter parameter = new JParameter(new JClass("java.lang.String"), "source");
-                anotherMethod.addParameter(parameter);
-                sourceCode = anotherMethod.getSourceCode();
-                sourceCode.add("return (java.lang.String) _xmlSchemaDocumentations.get(source);");
-                jClass.addMethod(anotherMethod);
+                generateExtraDocumentationMethods(annotated, jClass);
             }
         }
+    }
+
+    /**
+     * Creates the #getXmlSchemaDocumentation methods for the given JClass.
+     * 
+     * @param annotated
+     *            The {@link Annotation} instance to extract the XML schema
+     *            documentation instances from.
+     * @param parent
+     *            the JClass to create the #getXmlSchemaDocumentation() methods
+     *            for
+     */
+    private void generateExtraDocumentationMethods(final Annotated annotated,
+            final JClass jClass) {
+        JField documentationsField = 
+            new JField(new JClass("java.util.Map"), "_xmlSchemaDocumentations");
+        documentationsField.setComment("The content of the <xsd:documentation> elements");
+        documentationsField.setInitString("new java.util.HashMap()");
+        jClass.addMember(documentationsField);
+
+        Enumeration annotations = annotated.getAnnotations();
+        while (annotations.hasMoreElements()) {
+            Annotation annotation = (Annotation) annotations.nextElement();
+            Enumeration documentations = annotation.getDocumentation();
+            while (documentations.hasMoreElements()) {
+                Documentation documentation = (Documentation) documentations.nextElement();
+                JConstructor defaultConstructor = jClass.getConstructor(0);
+                String documentationContent = normalize(documentation.getContent());
+                documentationContent = 
+                    StringUtil.replaceAll(documentationContent, "\n", "\"\n+ \" ");
+                defaultConstructor.getSourceCode().add("_xmlSchemaDocumentations.put(\"" 
+                        +  documentation.getSource() + "\", \"" 
+                        + documentationContent + "\");");
+            }
+        }
+
+        JMethod aMethod = new JMethod("getXmlSchemaDocumentations", 
+                new JClass("java.util.Map"), 
+        " A collection of documentation elements.");
+        JSourceCode sourceCode = aMethod.getSourceCode();
+        sourceCode.add("return _xmlSchemaDocumentations;");
+        jClass.addMethod(aMethod);
+
+        JMethod anotherMethod = new JMethod("getXmlSchemaDocumentation", 
+                new JClass("java.lang.String"), 
+                    " A specific XML schema documentation element.");
+        JParameter parameter = new JParameter(new JClass("java.lang.String"), "source");
+        anotherMethod.addParameter(parameter);
+        sourceCode = anotherMethod.getSourceCode();
+        sourceCode.add("return (java.lang.String) _xmlSchemaDocumentations.get(source);");
+        jClass.addMethod(anotherMethod);
     }
 
     /**
