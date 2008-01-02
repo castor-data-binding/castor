@@ -95,6 +95,31 @@ org.exolab.castor.xml.proxyInterfaces=\
                 <p>Be aware that no proxy interfaces are defined by default as the interface
                    search slightly decreases marshalling performance.</p>
 
+                <h3>Added support for (programmatic) access to XML schema documentation information</h3>
+                
+                <p>
+                    The Castor XML code generator - if configured as shown below - now
+                    generates additional methods to allow programmatic access to 
+                    &lt;xs:documentation&gt; elements for top-level type/element definitions as
+                    follows:
+                    
+                    <code-panel>
+    public java.lang.String getXmlSchemaDocumentation(final java.lang.String source);
+    public java.util.Map getXmlSchemaDocumentations();</code-panel>
+                </p>
+                 
+                <p>
+                    In order to have these additional methods generated as shown above, 
+                    please override the following code generator property in a custom 
+                    <tt>castorbuilder.properties</tt> as shown:
+                    
+                    <code-panel>
+# Property specifying whether extra members/methods for extracting XML schema
+# documentation should be made available; defaults to false
+org.exolab.castor.builder.extraDocumentationMethods=<b>true</b></code-panel>
+
+                </p>
+                
                 <h3>Added support for complex Java 5 enums for simple type enumerations</h3>
 
                 <p>In previous versions, Castor only supported (un)marshalling of "simple"
@@ -359,6 +384,26 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    unnecessary casts.</p>
             </summary>
             <bugs>
+                <bug id="1983" tool="jira">
+                    <description>
+                        Added support for programmatic access to &lt;xs:annotation&gt; node information.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Régis Décamps</name>
+                        <email>decamps@users.sf.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>Gen.</module>
+                    <date>20080102</date>
+                </bug>
                 <bug id="1972" tool="jira">
                     <description>
                         Added Velocity as templating engine for code generation.

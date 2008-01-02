@@ -59,19 +59,15 @@ public abstract class Annotated extends Structure {
     /**
      * The Annotations of this Annotated structure
     **/
-    private Vector _annotations = null;
+    private Vector _annotations = new Vector(1);;
     
-    public Annotated() {
-        _annotations = new Vector(1);
-    } //-- Annotated
-    
-    /**
+   /**
      * Adds the given Annotation to this Annotated Structure
      * @param annotation the Annotation to add
     **/
     public void addAnnotation(Annotation annotation) {
         _annotations.addElement(annotation);
-    } //-- addAnnotation
+    }
     
     /**
      * Returns an Enumeration of the Annotations contained within
@@ -81,7 +77,7 @@ public abstract class Annotated extends Structure {
     **/
     public Enumeration getAnnotations() {
         return _annotations.elements();
-    } //-- getAnnotations
+    }
     
     /**
      * Removes the given Annotation from this Annotated Structure
@@ -89,6 +85,6 @@ public abstract class Annotated extends Structure {
     **/
     public void removeAnnotation(Annotation annotation) {
         _annotations.removeElement(annotation);
-    } //-- removeAnnotation
+    }
     
 } //-- Annotated

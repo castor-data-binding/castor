@@ -112,6 +112,14 @@
             <td><tt>org.exolab.castor.builder.printing.WriterJClassPrinter</tt></td>
             <td><font color="red">1.2</font></td>
           </crow>
+          <crow>
+            <td><a href="#Extra-documentation-methods">org.exolab.castor.builder.extraDocumentationMethods</a></td>
+            <td>specifying whether extra members/methods for extracting XML schema
+                documentation should be made available.</td>
+            <td><tt>true</tt>/<tt>false</tt></td>
+            <td><tt>false</tt></td>
+            <td><font color="red">1.2</font></td>
+          </crow>
         </ctable>
 
     </section>
@@ -509,6 +517,35 @@ org.exolab.castor.builder.jclassPrinterTypes=\
         </p>
      
      </section>
+     
+     <section title="Extra documentation methods">
+     
+     
+        <p>
+            As of release 1.2, the Castor XML code generator - if configured as shown below - now
+            supports generation of additional methods to allow programmatic access to 
+            &lt;xs:documentation&gt; elements for top-level type/element definitions as
+            follows:
+            
+            <code-panel>
+public java.lang.String getXmlSchemaDocumentation(final java.lang.String source);
+public java.util.Map getXmlSchemaDocumentations();</code-panel>
+        </p>
+                 
+        <p>
+            In order to have these additional methods generated as shown above, 
+            please override the following code generator property in a custom 
+            <tt>castorbuilder.properties</tt> as shown:
+                
+            <code-panel>
+# Property specifying whether extra members/methods for extracting XML schema
+# documentation should be made available; defaults to false
+org.exolab.castor.builder.extraDocumentationMethods=<b>true</b></code-panel>
+
+        </p>
+     </section>
+     
+     
 
   </section>
 

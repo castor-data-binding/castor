@@ -55,6 +55,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.castor.util.StringUtil;
 import org.exolab.castor.builder.AnnotationBuilder;
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.FactoryState;
@@ -73,11 +74,13 @@ import org.exolab.castor.builder.types.XSClass;
 import org.exolab.castor.builder.types.XSString;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.xml.schema.Annotated;
+import org.exolab.castor.xml.schema.Annotation;
 import org.exolab.castor.xml.schema.AttributeDecl;
 import org.exolab.castor.xml.schema.AttributeGroupDecl;
 import org.exolab.castor.xml.schema.ComplexType;
 import org.exolab.castor.xml.schema.ContentModelGroup;
 import org.exolab.castor.xml.schema.ContentType;
+import org.exolab.castor.xml.schema.Documentation;
 import org.exolab.castor.xml.schema.ElementDecl;
 import org.exolab.castor.xml.schema.Facet;
 import org.exolab.castor.xml.schema.Group;
@@ -587,6 +590,47 @@ public final class SourceFactory extends BaseFactory {
         String comment  = extractCommentsFromAnnotations(annotated);
         if (comment != null) {
             jClass.getJDocComment().setComment(comment);
+            
+            if (getConfig().generateExtraDocumentationMethods()) {
+
+                JField documentationsField = 
+                    new JField(new JClass("java.util.Map"), "_xmlSchemaDocumentations");
+                documentationsField.setComment("The content of the <xsd:documentation> elements");
+                documentationsField.setInitString("new java.util.HashMap()");
+                jClass.addMember(documentationsField);
+
+                Enumeration annotations = annotated.getAnnotations();
+                while (annotations.hasMoreElements()) {
+                    Annotation annotation = (Annotation) annotations.nextElement();
+                    Enumeration documentations = annotation.getDocumentation();
+                    while (documentations.hasMoreElements()) {
+                        Documentation documentation = (Documentation) documentations.nextElement();
+                        JConstructor defaultConstructor = jClass.getConstructor(0);
+                        String documentationContent = normalize(documentation.getContent());
+                        documentationContent = 
+                            StringUtil.replaceAll(documentationContent, "\n", "\"\n+ \" ");
+                        defaultConstructor.getSourceCode().add("_xmlSchemaDocumentations.put(\"" 
+                                +  documentation.getSource() + "\", \"" 
+                                + documentationContent + "\");");
+                    }
+                }
+
+                JMethod aMethod = new JMethod("getXmlSchemaDocumentations", 
+                        new JClass("java.util.Map"), 
+                " A collection of documentation elements.");
+                JSourceCode sourceCode = aMethod.getSourceCode();
+                sourceCode.add("return _xmlSchemaDocumentations;");
+                jClass.addMethod(aMethod);
+
+                JMethod anotherMethod = new JMethod("getXmlSchemaDocumentation", 
+                        new JClass("java.lang.String"), 
+                            " A specific XML schema documentation element.");
+                JParameter parameter = new JParameter(new JClass("java.lang.String"), "source");
+                anotherMethod.addParameter(parameter);
+                sourceCode = anotherMethod.getSourceCode();
+                sourceCode.add("return (java.lang.String) _xmlSchemaDocumentations.get(source);");
+                jClass.addMethod(anotherMethod);
+            }
         }
     }
 
