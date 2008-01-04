@@ -33,7 +33,8 @@
 
     <target name="compile.xmlctf" depends="prepare.xmlctf" description="Compile XML CTF">
         <javac srcdir="${main.java}" destdir="${classes}"
-               debug="on" encoding="ISO-8859-1" deprecation="false">
+               debug="on" encoding="ISO-8859-1" deprecation="false"
+        	   source="1.4" target="1.4">
             <classpath refid="build.classpath"/>
         </javac>
         <copy todir="${classes}">
