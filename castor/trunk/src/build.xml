@@ -21,13 +21,15 @@
     <property name="xmlctf-source"        value="${basedir}/xmlctf-framework/src"/>
     <property name="java"                 value="${source}/main/java"/>
     <property name="main.resources"       value="${source}/main/resources" />
-    <property name="test-resources"       value="${source}/test/resources" />
+	<property name="test.java"            value="${source}/test/java"/>
+    <property name="test.resources"       value="${source}/test/resources"/>
     <property name="etc"                  value="${source}/etc"/>
     <property name="check"                value="check"/>
     <property name="build"                value="${basedir}/build"/>
     <property name="build-doc"            value="build/doc"/>
     <property name="build-howto"          value="build/doc/howto"/>
     <property name="classes"              value="${build}/classes"/>
+	<property name="test.classes"         value="${build}/test"/>
     <property name="dist"                 value="dist"/>
     <property name="target"               value="target"/>
     <property name="lib"                  value="lib"/>
@@ -73,6 +75,12 @@
         <pathelement location="${basedir}/examples/build/classes" />
     </path>
 
+    <path id="test.classpath">
+    	<path refid="build.classpath"/>
+        <pathelement location="${test.classes}"/>
+    	<pathelement location="${basedir}/../bin/lib/ant-junit-1.6.jar"/>
+    </path>
+	
     <path id="javadoc.classpath">
         <fileset dir="${lib}">
             <include name="*.jar"/>
@@ -164,6 +172,7 @@
     <target name="prepare" unless="prepare.executed">
         <mkdir dir="${build}"/>
         <mkdir dir="${classes}"/>
+        <mkdir dir="${test.classes}"/>
         <mkdir dir="${dist}"/>
         <!-- Copy the DTD and schema to the schema directory -->
         <delete dir="${schema}"/>
@@ -225,6 +234,7 @@
 
     <target name="clean.tests" description="Removes the build artifacts related to tests">
         <delete dir="${build}/tests" />
+        <delete dir="${test.classes}" />
         <ant antfile="${basedir}/xmlctf-framework/build.xml" target="clean.xmlctf" inheritAll="false" />
         <ant antfile="${basedir}/xmlctf/build.xml" target="clean.xmlctf" inheritAll="false" />
         <ant antfile="${basedir}/cpactf/build.xml" target="clean.cpactf" inheritAll="false" />
@@ -335,6 +345,18 @@
             </fileset>
         </copy>
     </target>
+	
+	<target name="compile.unit.tests" depends="compile" 
+		    description="Builds the unit tests">
+        <javac srcdir="${test.java}" destdir="${test.classes}"
+               debug="on" encoding="ISO-8859-1" deprecation="${deprecation}">
+            <classpath refid="build.classpath"/>
+        </javac>
+
+        <copy todir="${test.classes}">
+            <fileset dir="${test.resources}"/>
+        </copy>
+	</target>
 
 	<target name="compile.tests" depends="prepare,compile" description="Build the tests packages">
         <!-- create directory for tests in ${build} directory -->
@@ -855,8 +877,23 @@
         </ant>
     </target>
 
-	<target name="junit.tests.run" depends="tests" description="Runs all unit tests">
+	<target name="run.unit.tests" depends="compile.unit.tests" description="Runs all unit tests">
         <ant antfile="${basedir}/codegen/build.xml" target="tests.codegen" inheritAll="false" />
+
+		<!-- execute junit tests for XML core module -->
+		<echo message="*** Running unit tests for XML core ..." />
+		<junit printsummary="true" haltonerror="true" haltonfailure="true">
+			<formatter type="plain" />
+			<batchtest>
+				<fileset dir="${test.classes}">
+					<include name="**/Test*"/>
+					<include name="**/*Test"/>
+					<exclude name="**/*TestAll*"/>
+				</fileset>
+			</batchtest>
+			<classpath refid="test.classpath" />
+		</junit>
+		
 	</target>
 		
     <target name="automated_build" depends="jar,compile.tests">
