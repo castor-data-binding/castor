@@ -384,6 +384,26 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    unnecessary casts.</p>
             </summary>
             <bugs>
+                <bug id="2253" tool="jira">
+                    <description>
+                        castor.xml.properties: org.exolab.castor.parser setting is wrong
+                    </description>
+                    <contributor>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20080104</date>
+                </bug>
                 <bug id="1983" tool="jira">
                     <description>
                         Added support for programmatic access to &lt;xs:annotation&gt; node information.
