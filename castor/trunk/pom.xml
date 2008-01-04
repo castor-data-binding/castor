@@ -139,8 +139,9 @@
         <developer>
             <id>wguttmn</id>
             <name>Werner Guttmann</name>
-            <email>werner.guttmann@gmx.net</email>
-            <organization>Anecon</organization>
+            <email>wguttmn@codehaus.org</email>
+            <organization>Indoqa</organization>
+            <organizationUrl>http://www.indoqa.com</organizationUrl>
             <roles>
                 <role>Castor JDO Lead</role>
                 <role>Castor XML Lead</role>
