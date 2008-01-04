@@ -133,7 +133,6 @@ public abstract class AbstractInternalContext implements InternalContext {
      */
     public void addMapping(final Mapping mapping) throws MappingException {
          MappingUnmarshaller mappingUnmarshaller = new MappingUnmarshaller();
-         mappingUnmarshaller.setInternalContext(this);
          MappingLoader mappingLoader = 
              mappingUnmarshaller.getMappingLoader(mapping, BindingType.XML);
          _xmlClassDescriptorResolver.setMappingLoader(mappingLoader);        
