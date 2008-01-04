@@ -1345,33 +1345,40 @@ public class Marshaller extends MarshalFramework {
         }
 
         for (int i = 0; i < descriptors.length; i++) {
-            if (descriptors[i] == null) continue;
-            String path = descriptors[i].getLocationPath();
+            XMLFieldDescriptor attributeDescriptor = descriptors[i];
+            if (attributeDescriptor == null) {
+                continue;
+            }
+            String path = attributeDescriptor.getLocationPath();
             if ((path != null) && (path.length() > 0)) {
-                //-- save for later
+                //-- save for later processing
                 if (nestedAtts == null) {
                     nestedAtts = new XMLFieldDescriptor[descriptors.length - i];
                 }
-                nestedAtts[nestedAttCount++] = descriptors[i];
-                continue;
+                nestedAtts[nestedAttCount] = attributeDescriptor;
+                nestedAttCount++;
+            } else {
+                processAttribute(object, attributeDescriptor, atts);
             }
-            processAttribute(object, descriptors[i], atts);
         }
 
         //-- handle ancestor nested attributes
         if (mstate.nestedAttCount > 0) {
             for (int i = 0; i < mstate.nestedAtts.length; i++) {
-                XMLFieldDescriptor attDesc = mstate.nestedAtts[i];
-                if (attDesc == null) continue;
-                String path = attDesc.getLocationPath();
-                if (name.equals(path)) {
+                XMLFieldDescriptor attributeDescriptor = mstate.nestedAtts[i];
+                if (attributeDescriptor == null) {
+                    continue;
+                }
+                String locationPath = attributeDescriptor.getLocationPath();
+                if (name.equals(locationPath)) {
+                    // indicate that this 'nested' attribute has been processed
                     mstate.nestedAtts[i] = null;
-                    mstate.nestedAttCount = 0;
-                    processAttribute(mstate.getOwner(), attDesc, atts);
+                    // decrease number of unprocessed 'nested' attributes by one
+                    mstate.nestedAttCount--;
+                    processAttribute(mstate.getOwner(), attributeDescriptor, atts);
                 }
             }
         }
-
 
         //-- Look for attributes in container fields,
         //-- (also handle container in container)
