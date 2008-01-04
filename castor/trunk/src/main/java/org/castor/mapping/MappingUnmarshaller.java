@@ -34,7 +34,14 @@ import org.exolab.castor.mapping.xml.Include;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 import org.exolab.castor.mapping.xml.MappingRoot;
 import org.exolab.castor.util.DTDResolver;
+import org.exolab.castor.xml.ClassDescriptorResolverFactory;
+import org.exolab.castor.xml.Introspector;
 import org.exolab.castor.xml.Unmarshaller;
+import org.exolab.castor.xml.XMLClassDescriptorResolver;
+import org.exolab.castor.xml.schema.Resolver;
+import org.exolab.castor.xml.schema.ScopableResolver;
+import org.exolab.castor.xml.util.ResolverStrategy;
+import org.exolab.castor.xml.util.resolvers.CastorXMLStrategy;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -74,6 +81,25 @@ public final class MappingUnmarshaller {
     public MappingUnmarshaller() {
         _registry = new MappingLoaderRegistry(new CoreConfiguration());
         _idResolver = new MappingUnmarshallIDResolver();
+        AbstractInternalContext internalContext = new AbstractInternalContext() { };
+        internalContext.setClassLoader(getClass().getClassLoader());
+        
+        XMLClassDescriptorResolver cdr = (XMLClassDescriptorResolver) ClassDescriptorResolverFactory
+            .createClassDescriptorResolver(BindingType.XML);
+        cdr.setInternalContext(internalContext);
+        internalContext.setXMLClassDescriptorResolver(cdr);
+
+        Introspector introspector = new Introspector();
+        introspector.setInternalContext(internalContext);
+        internalContext.setIntrospector(introspector);
+        
+        ResolverStrategy resolverStrategy = new CastorXMLStrategy();
+        internalContext.setResolverStrategy(resolverStrategy);
+
+        Resolver schemaResolver = new ScopableResolver();
+        internalContext.setSchemaResolver(schemaResolver);
+        
+        _internalContext = internalContext;
     }
     
     /**
@@ -264,9 +290,9 @@ public final class MappingUnmarshaller {
      * To set the internal context.
      * @param internalContext the {@link AbstractInternalContext}?to use
      */
-    public void setInternalContext(final InternalContext internalContext) {
-        _internalContext = internalContext;
-    }
+//    public void setInternalContext(final InternalContext internalContext) {
+//        _internalContext = internalContext;
+//    }
 
     //--------------------------------------------------------------------------
 }

@@ -538,7 +538,6 @@ public class Unmarshaller {
         }
         
         MappingUnmarshaller mum = new MappingUnmarshaller();
-        mum.setInternalContext(_internalContext);
         MappingLoader resolver = mum.getMappingLoader(mapping, BindingType.XML);
         _internalContext.getXMLClassDescriptorResolver().setMappingLoader(resolver);
     }

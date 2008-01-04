@@ -553,7 +553,6 @@ public class Marshaller extends MarshalFramework {
         }
 
         MappingUnmarshaller mum = new MappingUnmarshaller();
-        mum.setInternalContext(getInternalContext());
         MappingLoader resolver = mum.getMappingLoader(mapping, BindingType.XML);
         getInternalContext().getXMLClassDescriptorResolver().setMappingLoader(resolver);
     }

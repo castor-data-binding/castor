@@ -88,7 +88,6 @@ public class XMLContext {
      */
     public void addMapping(final Mapping mapping) throws MappingException {
          MappingUnmarshaller mappingUnmarshaller = new MappingUnmarshaller();
-         mappingUnmarshaller.setInternalContext(_internalContext);
          MappingLoader mappingLoader = 
              mappingUnmarshaller.getMappingLoader(mapping, BindingType.XML);
          _internalContext.getXMLClassDescriptorResolver()
