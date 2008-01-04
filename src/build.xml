@@ -164,6 +164,9 @@
             gen.cpactf.conf  Use the Source Generator to create the Java classes for cpactf-conf.xsd
             gen.mapping      Use the Source Generator to create the Java classes for mapping.xsd
             gen.pvd          Use the Source Generator to create the Java classes for the pvd.xsd
+        	
+            run.unit.tests   Executes the unit tests for the complete project
+        	
         -----------------------------------------------------------
         </echo>
     </target>
