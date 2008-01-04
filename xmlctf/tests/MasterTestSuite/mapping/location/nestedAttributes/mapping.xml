@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+
+<mapping>
+    <class name="Entity">
+        <map-to xml="car" />
+
+        <field name="elementOne" direct="true" type="java.lang.String">
+            <bind-xml name="element1" />
+        </field>
+
+        <field name="attributeOne" direct="true" type="java.lang.String">
+            <bind-xml name="attr1" location="element1" node="attribute" />
+        </field>
+
+        <field name="elementTwo" direct="true" type="java.lang.String">
+            <bind-xml name="element2" />
+        </field>
+
+        <field name="attributeTwo" direct="true" type="java.lang.String">
+            <bind-xml name="attr2" location="element2" node="attribute" />
+        </field>
+
+    </class>
+
+</mapping>
