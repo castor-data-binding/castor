@@ -51,7 +51,8 @@
 
     <target name="compile.codegen" depends="prepare.codegen" description="Compile CodeGen">
         <javac srcdir="${main.java}" destdir="${classes}" 
-               debug="on" encoding="ISO-8859-1" deprecation="false">
+               debug="on" encoding="ISO-8859-1" deprecation="false"
+        	   source="1.4" target="1.4">
             <classpath refid="build.classpath"/>
         </javac>
         <copy todir="${classes}">
@@ -75,7 +76,8 @@
     	    description="Build the tests packages">
         <mkdir dir="${test.classes}"/>
         <javac srcdir="${test.java}" destdir="${test.classes}"
-               debug="on" encoding="ISO-8859-1" deprecation="${deprecation}">
+               debug="on" encoding="ISO-8859-1" deprecation="${deprecation}"
+        	   source="1.4" target="1.4">
             <classpath refid="build.classpath"/>
         </javac>
 
@@ -113,7 +115,7 @@
                        warnings="true"/>
         <javac destdir="${classes}" excludes="${excludes}"
                debug="${main.opt.debug}" encoding="ISO-8859-1" deprecation="off"
-               optimize="on">
+               optimize="on" source="1.4" target="1.4">
             <src path="${gen.src}/binding" />
             <classpath refid="build.classpath"/>
         </javac>
