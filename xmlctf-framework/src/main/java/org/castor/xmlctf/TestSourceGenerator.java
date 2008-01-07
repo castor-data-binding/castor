@@ -173,7 +173,7 @@ public class TestSourceGenerator extends XMLTestCase {
         // 3. Nest the class loader to look into the tmp dir (don't forget previous path)
         verbose("--> Set up the class loader");
         try {
-            URL[] urlList = {_test.getTestFile().toURL(), _outputRootFile.toURL()};
+            URL[] urlList = {_test.getTestFile().toURI().toURL(), _outputRootFile.toURI().toURL()};
             ClassLoader loader =  new URLClassLoader(urlList, _test.getClass().getClassLoader());
             _test.setClassLoader(loader);
             getXMLContext().getInternalContext().setClassLoader(loader);
@@ -239,6 +239,9 @@ public class TestSourceGenerator extends XMLTestCase {
 
         // Do we have a castorbuilder.properties file?
         if (_propertyFileName != null) {
+            if (!(new File(_test.getTestFile(), _propertyFileName)).exists()) {
+                fail("Test properties file '" + _propertyFileName + "' does not exist; check TestDescriptor.xml");
+            }
             Properties prop = new Properties();
             prop.load(_test.getClassLoader().getResourceAsStream(_propertyFileName));
             sourceGen.setDefaultProperties(prop);
