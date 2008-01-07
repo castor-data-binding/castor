@@ -70,6 +70,7 @@ import org.exolab.castor.xml.Validator;
 import org.exolab.castor.xml.XMLClassDescriptor;
 import org.exolab.castor.xml.XMLFieldDescriptor;
 import org.exolab.castor.xml.AbstractXMLNaming;
+import org.exolab.castor.xml.XMLNaming;
 import org.exolab.castor.xml.util.resolvers.ResolveHelpers;
 
 /**
@@ -109,7 +110,7 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
     /**
      * Naming Conventions.
      */
-    private static AbstractXMLNaming _naming = null;
+    private static XMLNaming _naming = null;
 
     /**
      * The set of attribute descriptors.
