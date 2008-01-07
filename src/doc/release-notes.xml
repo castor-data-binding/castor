@@ -384,6 +384,27 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    unnecessary casts.</p>
             </summary>
             <bugs>
+                <bug id="2255" tool="jira">
+                    <description>
+                        Introduced interface XMLNaming and renamed abstract class XMLNaming
+                        to AbstractXMLNaming.
+                    </description>
+                    <contributor>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </reporter>
+                    <type>Enhancement</type>
+                    <module>XML</module>
+                    <date>20080107</date>
+                </bug>
                 <bug id="2254" tool="jira">
                     <description>
                         XMLCTF: If a properties file is specified but not provided, the CTF complaint is not helpful

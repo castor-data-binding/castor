@@ -45,6 +45,7 @@
 package org.exolab.castor.xml;
 
 import org.castor.xml.BackwardCompatibilityContext;
+import org.castor.xml.XMLNaming;
 
 /**
  * An abstract class to handing XML naming

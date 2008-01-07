@@ -55,6 +55,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.castor.xml.XMLNaming;
 import org.exolab.castor.mapping.AbstractFieldHandler;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.ClassDescriptor;
@@ -70,7 +71,6 @@ import org.exolab.castor.xml.Validator;
 import org.exolab.castor.xml.XMLClassDescriptor;
 import org.exolab.castor.xml.XMLFieldDescriptor;
 import org.exolab.castor.xml.AbstractXMLNaming;
-import org.exolab.castor.xml.XMLNaming;
 import org.exolab.castor.xml.util.resolvers.ResolveHelpers;
 
 /**
