@@ -155,6 +155,10 @@
         <url>xml-properties.xml</url>
         <display>Properties</display>
       </navLink>
+      <navLink highlighted="true">
+        <url>xmlparser.xml</url>
+        <display>XML parsers</display>
+      </navLink>
       <navLink>
         <url>xml-faq.xml</url>
         <display>XML FAQ</display>

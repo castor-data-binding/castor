@@ -1,0 +1,77 @@
+<document url="http://castor.codehaus.org/dependencies.xml">
+
+    <properties>
+        <title>Castor and XML parsers</title>
+        <author email="werner DOT guttmann AT gmx DOT net">Werner Guttmann</author>
+        <abstract>Outlines the use of XML parsers with Castor XML</abstract>
+        <status>Final</status>
+    </properties>
+
+    <body>
+        <title>Usage of Castor and XML parsers</title>
+
+        <section title="Usage of Castor and XML parsers">
+
+            <p>
+                Being an <b>XML data binding framework</b> by definition, Castor XML relies on the 
+                availability of an XML parser at run-time. In Java, an XML parser is by 
+                default accessed though either the DOM or the SAX APIs: that implies
+                that the XML Parser used needs to comply with either (or both) of these APIs.
+            </p>
+            
+            <p>
+                With the creation of the JAXP API (and its addition to the Java language 
+                definition as of Java 5.0), Castor internally has been enabled to allow
+                usage of the JAXP interfaces to interface to XML parsers. As such, 
+                Castor XML allows the use of a JAXP-compliant XML parser as well.
+            </p>
+
+            <p>
+                By default, Castor ships with
+                <a href="http://xml.apache.org/xerces">Apache Xerces</a>
+                2.6.2. You may, of course, upgrade to a newer version
+                of
+                <a href="http://xml.apache.org/xerces">Apache Xerces</a>
+                at your convenience, or switch to any other XML parser as long as it is
+                JAXP compliant or implements a particular SAX interface. Please note that
+                users of Java 5.0 and above do not need to have Xerces available 
+                at run-time, as JAXP and Xerces have both been integrated into the run-time
+                library of Java.
+            </p>
+
+            <p>
+                For marshalling, Castor XML can equally use any JAXP complaint XML parser (or
+                interact with an XML parser that implements the SAX API), with the exception 
+                of the following special case: when using 'pretty printing' during marhalling 
+                (by setting the corresponding property in <tt>castor.properties</tt>
+                to <tt>true</tt>) with Java 1.4 or below, 
+                <a href="http://xml.apache.org/xerces">Apache Xerces</a>
+                has to be on the classpath, as Castor XML internally uses Xerces' <tt>XMLSerializer</tt>
+                to implement this feature.
+            </p>
+            
+            <p>
+                The following table enlists the requirements relative to the Java version
+                used in your environment.
+            </p>
+                
+            <ctable>
+                <cheader>
+                    <td>Java 1.4 and below</td>
+                    <td>Java 5.0 and above</td>
+                </cheader>
+                <crow>
+                    <td>Xerces 2.6.2</td>
+                    <td> - </td>
+                </crow>
+                <crow>
+                    <td>XML APIs</td>
+                    <td> - </td>
+                </crow>
+            </ctable>
+
+        </section>
+        
+    </body>
+
+</document>
