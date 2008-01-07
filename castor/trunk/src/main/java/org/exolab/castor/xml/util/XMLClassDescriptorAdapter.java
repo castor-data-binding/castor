@@ -45,6 +45,7 @@
 package org.exolab.castor.xml.util;
 
 import org.castor.xml.BackwardCompatibilityContext;
+import org.castor.xml.XMLNaming;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
@@ -53,7 +54,6 @@ import org.exolab.castor.xml.NodeType;
 import org.exolab.castor.xml.XMLClassDescriptor;
 import org.exolab.castor.xml.XMLFieldDescriptor;
 import org.exolab.castor.xml.AbstractXMLNaming;
-import org.exolab.castor.xml.XMLNaming;
 
 /**
  * An adapter class which can turn an ordinary ClassDescriptor into an

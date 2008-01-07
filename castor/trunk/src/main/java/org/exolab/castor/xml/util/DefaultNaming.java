@@ -44,8 +44,8 @@
  */
 package org.exolab.castor.xml.util;
 
+import org.castor.xml.XMLNaming;
 import org.exolab.castor.xml.AbstractXMLNaming;
-import org.exolab.castor.xml.XMLNaming;
 
 /**
  * The default implementation of org.exolab.castor.xml.Naming

@@ -57,6 +57,7 @@ import java.util.Vector;
 import org.castor.xml.InternalContext;
 import org.castor.xml.JavaNaming;
 import org.castor.xml.XMLConfiguration;
+import org.castor.xml.XMLNaming;
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.FieldHandlerFactory;

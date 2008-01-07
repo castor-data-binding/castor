@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exolab.castor.xml;
+package org.castor.xml;
 
 /**
  * XMLNaming contains all methods required by Castor to build valid XML names.
