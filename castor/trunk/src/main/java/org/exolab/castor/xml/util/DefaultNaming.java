@@ -44,14 +44,14 @@
  */
 package org.exolab.castor.xml.util;
 
-import org.exolab.castor.xml.XMLNaming;
+import org.exolab.castor.xml.AbstractXMLNaming;
 
 /**
  * The default implementation of org.exolab.castor.xml.Naming
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
-public final class DefaultNaming extends XMLNaming {
+public final class DefaultNaming extends AbstractXMLNaming {
 
     /**
      * The lower case style with hyphens to separate words. <I>Default</I>
@@ -108,7 +108,7 @@ public final class DefaultNaming extends XMLNaming {
      * @return the xml name representation of the given String <BR>
      *         <B>examples:</B><BR>
      *         "Blob" becomes "blob" and "DataSource" becomes "data-source".
-     * @see org.exolab.castor.xml.XMLNaming
+     * @see org.exolab.castor.xml.AbstractXMLNaming
      */
     public String createXMLName(final Class c) {
         //-- create default XML name
@@ -131,7 +131,7 @@ public final class DefaultNaming extends XMLNaming {
      * @return the xml name representation of the given String <BR>
      *         <B>examples:</B><BR>
      *         "Blob" becomes "blob" and "DataSource" becomes "data-source".
-     * @see org.exolab.castor.xml.XMLNaming
+     * @see org.exolab.castor.xml.AbstractXMLNaming
      */
     public String toXMLName(final String name) {
         if (name == null) {

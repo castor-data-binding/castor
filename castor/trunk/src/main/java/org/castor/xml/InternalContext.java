@@ -29,7 +29,7 @@ import org.exolab.castor.xml.OutputFormat;
 import org.exolab.castor.xml.ResolverException;
 import org.exolab.castor.xml.Serializer;
 import org.exolab.castor.xml.XMLClassDescriptorResolver;
-import org.exolab.castor.xml.XMLNaming;
+import org.exolab.castor.xml.AbstractXMLNaming;
 import org.exolab.castor.xml.schema.Resolver;
 import org.exolab.castor.xml.util.ResolverStrategy;
 import org.xml.sax.DocumentHandler;
@@ -135,7 +135,7 @@ public interface InternalContext {
      *
      * @return the naming conventions to use for the XML framework     
      */
-    public abstract XMLNaming getXMLNaming();
+    public abstract AbstractXMLNaming getXMLNaming();
 
     /**
      * Returns the naming conventions to use for the XML framework.
@@ -143,7 +143,7 @@ public interface InternalContext {
      * @return the naming conventions to use for the XML framework
      * @TODO: Joachim should be synchronized, shouldn't it be??
      */
-    public abstract XMLNaming getXMLNaming(final ClassLoader classLoader); //-- getXMLNaming
+    public abstract AbstractXMLNaming getXMLNaming(final ClassLoader classLoader); //-- getXMLNaming
 
     /**
      * The {@link JavaNaming} instance to be used.

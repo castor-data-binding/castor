@@ -184,12 +184,12 @@ public final class XMLConfiguration extends Configuration {
     /**
      * Property specifying the 'type' of the XML naming conventions
      * to use. Values of this property must be either "mixed", "lower", or
-     * the name of a class which extends {@link org.exolab.castor.xml.XMLNaming}.
+     * the name of a class which extends {@link org.exolab.castor.xml.AbstractXMLNaming}.
      * 
      * Possible values:
      * - 'mixed' 
      * - 'lower'
-     * - A class name (which extends {@link org.exolab.castor.xml.XMLNaming}).
+     * - A class name (which extends {@link org.exolab.castor.xml.AbstractXMLNaming}).
      * 
      * <pre>
      * org.exolab.castor.xml.naming
