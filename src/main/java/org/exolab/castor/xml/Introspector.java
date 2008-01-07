@@ -132,12 +132,12 @@ public final class Introspector {
     /**
      * The default naming conventions
     **/
-    private static XMLNaming _defaultNaming = null;
+    private static AbstractXMLNaming _defaultNaming = null;
 
     /**
      * The naming conventions to use
     **/
-    private XMLNaming _xmlNaming = null;
+    private AbstractXMLNaming _xmlNaming = null;
 
     /**
      * The NodeType to use for primitives
@@ -938,7 +938,7 @@ public final class Introspector {
      * value of null, will reset the XMLNaming to the
      * default specified in the castor.properties file.
     **/
-    public void setNaming(XMLNaming naming) {
+    public void setNaming(AbstractXMLNaming naming) {
         if (naming == null)
             _xmlNaming = _defaultNaming;
         else

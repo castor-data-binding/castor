@@ -52,7 +52,7 @@ import org.castor.xml.BackwardCompatibilityContext;
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-09-12 03:23:33 -0600 (Fri, 12 Sep 2003) $
 **/
-public abstract class XMLNaming {
+public abstract class AbstractXMLNaming {
 
 
     //--------------------/
@@ -86,7 +86,7 @@ public abstract class XMLNaming {
      * Returns the default instance of XMLNaming.
      * @see org.exolab.castor.util.Configuration
     **/
-    public static final XMLNaming getInstance() {
+    public static final AbstractXMLNaming getInstance() {
         return new BackwardCompatibilityContext().getXMLNaming(); 
     } //-- getInstance
     
