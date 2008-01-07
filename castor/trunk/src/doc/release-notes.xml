@@ -384,6 +384,26 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    unnecessary casts.</p>
             </summary>
             <bugs>
+                <bug id="2254" tool="jira">
+                    <description>
+                        XMLCTF: If a properties file is specified but not provided, the CTF complaint is not helpful
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>CTF</module>
+                    <date>20080106</date>
+                </bug>
                 <bug id="2252" tool="jira">
                     <description>
                         Fixed problem with marshalling multiple 'nested' attributes (where a location path is used).
