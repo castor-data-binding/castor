@@ -38,6 +38,7 @@ import org.exolab.castor.xml.Serializer;
 import org.exolab.castor.xml.XMLClassDescriptorResolver;
 import org.exolab.castor.xml.XMLContext;
 import org.exolab.castor.xml.AbstractXMLNaming;
+import org.exolab.castor.xml.XMLNaming;
 import org.exolab.castor.xml.XMLSerializerFactory;
 import org.exolab.castor.xml.schema.Resolver;
 import org.exolab.castor.xml.util.DefaultNaming;
@@ -96,7 +97,7 @@ public abstract class AbstractInternalContext implements InternalContext {
     /**
      * The {@link AbstractXMLNaming} to be used.
      */
-    private AbstractXMLNaming _xmlNaming;
+    private XMLNaming _xmlNaming;
     
     /**
      * The {@link JavaNaming} to be used.
@@ -190,14 +191,14 @@ public abstract class AbstractInternalContext implements InternalContext {
     /**
      * @see org.castor.xml.InternalContext#getXMLNaming()
      */
-    public AbstractXMLNaming getXMLNaming() {
+    public XMLNaming getXMLNaming() {
         return getXMLNaming(null);
     }
 
     /**
      * @see org.castor.xml.InternalContext#getXMLNaming(java.lang.ClassLoader)
      */
-    public AbstractXMLNaming getXMLNaming(final ClassLoader classLoader) {
+    public XMLNaming getXMLNaming(final ClassLoader classLoader) {
         
         if (_xmlNaming != null) {
             return _xmlNaming;
@@ -218,7 +219,7 @@ public abstract class AbstractInternalContext implements InternalContext {
                 } else {
                     cls = Class.forName(prop);
                 }
-                _xmlNaming = (AbstractXMLNaming) cls.newInstance();
+                _xmlNaming = (XMLNaming) cls.newInstance();
             } catch (Exception e) {
                 throw new RuntimeException("Failed to load XMLNaming: " + e);
             }

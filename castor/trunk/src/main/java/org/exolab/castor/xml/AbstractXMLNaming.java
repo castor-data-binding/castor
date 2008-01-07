@@ -42,7 +42,6 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.xml;
 
 import org.castor.xml.BackwardCompatibilityContext;
@@ -52,33 +51,22 @@ import org.castor.xml.BackwardCompatibilityContext;
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-09-12 03:23:33 -0600 (Fri, 12 Sep 2003) $
 **/
-public abstract class AbstractXMLNaming {
+public abstract class AbstractXMLNaming implements XMLNaming {
 
 
     //--------------------/
     //- Abstract Methods -/
     //--------------------/
     
-    /**
-     * Creates the XML Name for the given class The actual
-     * behavior of this method is determined by the
-     * implementation. The only restriction is that the name
-     * returned must be a valid xml name.
-     * 
-     * @param c the Class to create the XML Name for
-     * @return the XML name based on the given class
-    **/
+    /* (non-Javadoc)
+	 * @see org.exolab.castor.xml.XMLNaming#createXMLName(java.lang.Class)
+	 */
     public abstract String createXMLName(Class c);
 
     
-    /**
-     * Converts the given String to an XML name. The actual
-     * behavior of this method is determined by the
-     * implementation. The only restriction is that the name
-     * returned must be a valid xml name.
-     *
-     * @return an XML name based on the given String
-    **/
+    /* (non-Javadoc)
+	 * @see org.exolab.castor.xml.XMLNaming#toXMLName(java.lang.String)
+	 */
     public abstract String toXMLName(String name);
     
     
@@ -86,7 +74,7 @@ public abstract class AbstractXMLNaming {
      * Returns the default instance of XMLNaming.
      * @see org.exolab.castor.util.Configuration
     **/
-    public static final AbstractXMLNaming getInstance() {
+    public static final XMLNaming getInstance() {
         return new BackwardCompatibilityContext().getXMLNaming(); 
     } //-- getInstance
     

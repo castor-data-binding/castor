@@ -53,6 +53,7 @@ import org.exolab.castor.xml.NodeType;
 import org.exolab.castor.xml.XMLClassDescriptor;
 import org.exolab.castor.xml.XMLFieldDescriptor;
 import org.exolab.castor.xml.AbstractXMLNaming;
+import org.exolab.castor.xml.XMLNaming;
 
 /**
  * An adapter class which can turn an ordinary ClassDescriptor into an
@@ -110,7 +111,7 @@ public class XMLClassDescriptorAdapter extends XMLClassDescriptorImpl {
             if (classDesc instanceof XMLClassDescriptor) {
                 xmlName = ((XMLClassDescriptor) classDesc).getXMLName();
             } else {
-                AbstractXMLNaming naming = AbstractXMLNaming.getInstance();
+                XMLNaming naming = AbstractXMLNaming.getInstance();
                 String name = classDesc.getJavaClass().getName();
                 //-- strip package
                 int idx = name.lastIndexOf('.');
@@ -186,7 +187,7 @@ public class XMLClassDescriptorAdapter extends XMLClassDescriptorImpl {
                 }
             } else {
                 String name = fieldDesc.getFieldName();
-                AbstractXMLNaming naming = AbstractXMLNaming.getInstance();
+                XMLNaming naming = AbstractXMLNaming.getInstance();
                 String xmlFieldName = naming.toXMLName(name);
 
                 if (identity == fieldDesc) {
@@ -218,7 +219,7 @@ public class XMLClassDescriptorAdapter extends XMLClassDescriptorImpl {
             if ( identity instanceof XMLFieldDescriptor ) {
                 setIdentity((XMLFieldDescriptor)identity);
             } else {
-                AbstractXMLNaming naming = AbstractXMLNaming.getInstance();
+                XMLNaming naming = AbstractXMLNaming.getInstance();
                 xmlFieldName = naming.toXMLName(identity.getFieldName());
                 setIdentity(new XMLFieldDescriptorImpl(identity,
                                                        xmlFieldName,

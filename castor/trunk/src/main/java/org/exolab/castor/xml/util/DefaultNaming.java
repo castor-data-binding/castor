@@ -45,13 +45,14 @@
 package org.exolab.castor.xml.util;
 
 import org.exolab.castor.xml.AbstractXMLNaming;
+import org.exolab.castor.xml.XMLNaming;
 
 /**
  * The default implementation of org.exolab.castor.xml.Naming
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
-public final class DefaultNaming extends AbstractXMLNaming {
+public final class DefaultNaming extends AbstractXMLNaming implements XMLNaming {
 
     /**
      * The lower case style with hyphens to separate words. <I>Default</I>
