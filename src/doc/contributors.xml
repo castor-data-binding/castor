@@ -60,7 +60,7 @@
 
   <!--
       PLEASE KEEP THIS SECTION (COMMITTERS) SORTED BY ORDER OF WHO COMMITS
-      MOST FREQUENTLY. Quesitons are sent more often to those people at the top
+      MOST FREQUENTLY. Questions are sent more often to those people at the top
       of this list.   -->
 
   <contributor type="Committer">
@@ -109,21 +109,6 @@
   </contributor>
 
   <contributor type="Committer">
-    <name surname="Visco" given="Keith"/>
-    <email>keith@kvisco.com</email>
-    <project>XML</project>
-    <description>
-      Intial Castor XML author and Castor Project Lead until 1.0.2.
-      Responsible for all things wrong in Castor XML.
-      Enhancements, bug fixes, documention, etc.
-    </description>
-    <status>inactive</status>
-    <since>
-      <date>The beginning</date>
-    </since>
-  </contributor>
-
-  <contributor type="Committer">
     <name surname="Kuns" given="Edward" />
     <email>edward.kuns@aspect.com</email>
     <project>XML</project>
@@ -138,7 +123,43 @@
     </since>
   </contributor>
 
-  <contributor type="Committer">
+  <!-- ********** -->
+  <!-- Google Summe of Code student -->
+  <!-- ********** -->
+
+  <contributor type="GSOC student">
+    <name surname="Matthias" given="Epheser" />
+    <email>matthias.epheser@indoqa.com</email>
+    <project>XML</project>
+    <description>
+      Committed a lot of new functionality to the XML code generator, 
+      including. the integration of Velocity as template engine, etc.
+    </description>
+    <since>
+      <date>Summer 2007</date>
+    </since>
+  </contributor>
+
+  <!-- ********** -->
+  <!-- FORMER COMMITTERS -->
+  <!-- ********** -->
+  
+  <contributor type="Inactive Committer">
+    <name surname="Visco" given="Keith"/>
+    <email>keith@kvisco.com</email>
+    <project>XML</project>
+    <description>
+      Intial Castor XML author and Castor Project Lead until 1.0.2.
+      Responsible for all things wrong in Castor XML.
+      Enhancements, bug fixes, documention, etc.
+    </description>
+    <status>inactive</status>
+    <since>
+      <date>The beginning</date>
+    </since>
+  </contributor>
+
+  <contributor type="Inactive Committer">
     <name surname="Fawcett" given="Andrew"/>
     <email>Andrew.Fawcett@coda.com</email>
     <company id="coda"/>
@@ -150,7 +171,7 @@
     </since>
   </contributor>
 
-  <contributor type="Committer">
+  <contributor type="Inactive Committer">
     <name surname="Snyder" given="Bruce"/>
     <email>bruce DOT snyder AT gmail DOT com</email>
     <project>JDO</project>
@@ -161,7 +182,7 @@
     <status>inactive</status>
   </contributor>
 
-  <contributor type="Committer">
+  <contributor type="Inactive Committer">
     <name surname="Fuchs" given="Martin" />
     <email>martin-fuchs@gmx.net</email>
     <company id="mentopolis"/>
@@ -176,7 +197,7 @@
     </since>
   </contributor>
 
-  <contributor type="Committer">
+  <contributor type="Inactive Committer">
     <name surname="Block" given="Gregory" />
     <email>gblock@ctoforaday.com</email>
     <project>JDO</project>
@@ -191,7 +212,7 @@
     </since>
   </contributor>
 
-  <contributor type="Committer">
+  <contributor type="Inactive Committer">
     <name surname="Hugubakken" given="Stein" />
     <email>dulci@start.no</email>
     <project>JDO</project>
@@ -204,7 +225,7 @@
     </since>
   </contributor>
 
-  <contributor type="Committer">
+  <contributor type="Inactive Committer">
     <name surname="Blandin" given="Arnaud"/>
     <email>blandin@intalio.com</email>
     <company id="intalio"/>
@@ -217,7 +238,7 @@
     <status>inactive</status>
   </contributor>
 
-  <contributor type="Committer">
+  <contributor type="Inactive Committer">
     <name surname="Yip" given="Thomas"/>
     <email>tomtactic-web@yahoo.com</email>
     <company id="leafsoft"/>
@@ -230,7 +251,7 @@
     <status>inactive</status>
   </contributor>
 
-  <contributor type="Committer">
+  <contributor type="Inactive Committer">
     <name surname="Arkin" given="Assaf"/>
     <email>arkin@intalio.com</email>
     <company id="intalio"/>
@@ -246,7 +267,7 @@
     </since>
   </contributor>
 
-  <contributor type="Committer">
+  <contributor type="Inactive Committer">
     <name surname="Gignoux" given="Sebastien"/>
     <email>gignoux@intalio.com</email>
     <description>XML Mapping enhancements, bug fixes, documentation and some testing.</description>
@@ -254,7 +275,7 @@
     <status>inactive</status>
   </contributor>
 
-  <contributor type="Committer">
+  <contributor type="Inactive Committer">
     <name surname="Thielen" given="Thorsten"/>
     <email>thorsten@ipcon.de</email>
     <description>Enhancements to OQL.</description>
@@ -262,7 +283,7 @@
     <status>inactive</status>
   </contributor>
 
-  <contributor type="Committer">
+  <contributor type="Inactive Committer">
     <name surname="Sahuc" given="Sebastien"/>
     <email>ssahuc@intalio.com</email>
     <company id="intalio"/>
@@ -271,7 +292,7 @@
     <status>inactive</status>
   </contributor>
 
-  <contributor type="Committer">
+  <contributor type="Inactive Committer">
     <name surname="Wolpert" given="Ned"/>
     <email>wolpert@codeheadsystems.com</email>
     <company id="codehead"/>
@@ -280,7 +301,7 @@
     <status>inactive</status>
   </contributor>
 
-  <contributor type="Committer">
+  <contributor type="Inactive Committer">
     <name surname="Guessant" given="Mickael"/>
     <email>mickael.guessant@fisystem.com</email>
     <description>JDO enhancements, help on the mailing list.</description>
@@ -288,7 +309,7 @@
     <status>inactive</status>
   </contributor>
 
-  <contributor type="Committer">
+  <contributor type="Inactive Committer">
     <name surname="Nitz" given="Oleg"/>
     <email>on@ibis.odessa.ua</email>
     <company id="ibis"/>
@@ -300,7 +321,7 @@
     <status>inactive</status>
   </contributor>
 
-  <contributor type="Committer">
+  <contributor type="Inactive Committer">
     <name surname="Maucherat" given="Remy"/>
     <email>remm@apache.org</email>
     <company id="sun"/>
@@ -309,7 +330,7 @@
     <status>inactive</status>
   </contributor>
 
-  <contributor type="Committer">
+  <contributor type="Inactive Committer">
     <name surname="Karpenstein" given="Nissim"/>
     <email>nissim@nksystems.com</email>
     <company id="nksystems"/>
@@ -318,7 +339,7 @@
     <status>inactive</status>
   </contributor>
 
-  <contributor type="Committer">
+  <contributor type="Inactive Committer">
     <name surname="Fritz" given="Markus"/>
     <email>mfritz@justis.de</email>
     <company id="justis"/>
@@ -1447,6 +1468,18 @@
     of providing good tools for people they don't even know. In return for
     their love and devotion you may bug them with questions, bug fixes,
     patches and offer them free beer.
+  </type>
+
+  <type name="Inactive Committer">
+    Inactive committers are .. well, inactive. In other words, they are of the 
+    same status as a committer, with the only difference that all their 
+    contributions happened in the past.
+  </type>
+
+  <type name="GSOC student">
+    Contributors who jointed the project for an extended period (3 months)
+    as student under the umbrella of the Google summer of code program, working 
+    with existing committers on larg-ish junks of new functionality..
   </type>
 
   <type name="Contributor">
