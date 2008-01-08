@@ -167,6 +167,10 @@
         <url>xml-howto.xml</url>
         <display>XML HOW-TOs</display>
       </navLink>
+      <navLink highlighted="true">
+        <url>xml-tips-tricks.xml</url>
+        <display>Tips &amp; Tricks</display>
+      </navLink>
       <navLink>
         <url>xml-fieldhandlers.xml</url>
         <display>Custom Handlers</display>
@@ -248,6 +252,10 @@
       <navLink>
         <url>jdo-howto.xml</url>
         <display>JDO HOW-TOs</display>
+      </navLink>
+      <navLink highlighted="true">
+        <url>jdo-tips-tricks.xml</url>
+        <display>Tips &amp; Tricks</display>
       </navLink>
       <navLink>
         <url>jdo-other-features.xml</url>
@@ -354,14 +362,12 @@
         <url>conf-lib.xml</url>
         <display>Configuration</display>
       </navLink>
-      <navLink>
-        <url>tips-tricks.xml</url>
-        <display>Tips &amp; Tricks</display>
-      </navLink>
+<!--       
       <navLink>
          <url>http://www.brainopolis.com/castorwiki/Wiki.jsp?page=Main</url>
          <display>CastorWiki</display>
       </navLink>
+-->      
       <navLink>
       </navLink>
       <navLink>
