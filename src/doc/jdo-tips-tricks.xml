@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <document url="http://castor.codehaus.org/tips-tricks.xml">
   <body>
-    <title>Castor Tips &amp; Tricks</title>
+    <title>Castor JDO - Tips &amp; Tricks</title>
 
     <section title="Logging and Tracing">
 
@@ -36,7 +36,7 @@
 
     </section>
 
-    <section title="JDO: Access Mode">
+    <section title="Access Mode">
 
       <p>If you are using JDO objects with the default access mode ('shared') and too many transactions
          abort when attempting to commit due to locks, you should consider upgrading to an 'exclusive'
@@ -59,7 +59,7 @@
 
     </section>
 
-    <section title="JDO: Inheritence">
+    <section title="Inheritence">
 
       <p>There are two types of inheritence: Java inheritence and relational inheritence.</p>
 
@@ -81,36 +81,7 @@
 
     </section>
 
-    <section title="XML: Indentation">
-
-      <p>By default the marshaler writes XML documents without indentation. When
-         developing using Castor or when debugging an application that uses
-         Castor, it might be desireable to use indentation to make the XML
-         documents human-readable. To turn indentation on, modify the Castor
-         properties file, or create a new properties file in the classpath
-         (named <tt>castor.properties</tt>) with the following content:</p>
-
-      <pre>
-org.exolab.castor.indent=true
-      </pre>
-
-      <p>Indentation inflates the size of the generated XML documents, and also
-         consumes more CPU. It is recommended not to use indentation in a
-         production environment.</p>
-
-    </section>
-
-    <section title="XML:Marshal validation">
-        <p>It is possible to disable the validation in the marshaling framework
-           by modifying the Castor properties file or by creating a new
-           properties file in the classpath (named <tt>castor.properties</tt>)
-           with the following content:</p>
-        <pre>
-org.exolab.castor.marshalling.validation=false
-        </pre>
-    </section>
-
-    <section title="JDO: Views of Same Object">
+    <section title="Views of Same Object">
 
       <p>It is possible to use different objects and mappings to the same tables. For example,
          it is possible to define a subset of a table and load only several of the columns,
@@ -138,7 +109,7 @@ org.exolab.castor.marshalling.validation=false
 
     </section>
 
-    <section title="JDO: Upgrading Locks">
+    <section title="Upgrading Locks">
 
       <p>When an object is loaded into memory in the default access mode ('shared'),
          a read lock is acquired on that object. When the transaction commits, if there
@@ -158,35 +129,13 @@ org.exolab.castor.marshalling.validation=false
 
     </section>
 
-    <section title="XML/JDO: NoClassDefFoundError">
+    <section title="NoClassDefFoundError">
        <p>
           Check your CLASSPATH, check it often, there is no reason not to!
        </p>
     </section>
 
-    <section title="XML: Mapping: auto-complete">
-       <p>
-          <b>Note: this only works with Castor-XML.</b>
-       </p>
-       <p>
-          To save time when writing your mappings, try using the <i>auto-complete</i>
-          attribute of <i>class</i>. When using auto-complete, Castor will introspect
-          your class and automatically fill in any missing fields.
-       </p>
-       <p>
-          <b>Example:</b>
-          <code>&lt;class name="com.acme.Foo" auto-complete="true"/&gt;</code>
-       </p>
-       <p>
-          This is also compatible with generated descriptor files. You can use a mapping file
-          to override some of the behavior of a compiled descriptor by using auto-complete.</p>
-       <p><b>**</b>Note: Be careful to make sure you use the exact field name as specified
-          in the generated descriptor file in order to modify the behavior of the field descriptor!
-          Otherwise, you'll probably end up with two fields being marshaled!
-       </p>
-    </section>
-
-    <section title="XML/JDO: Create method">
+    <section title="Create method">
       <p>
          Castor requires that classes have a public, no-argument constructor
          in order to provide the ability to marshal &amp; unmarshal objects of that type.
@@ -246,35 +195,6 @@ org.exolab.castor.marshalling.validation=false
         by the current <tt>&lt;class&gt;</tt> element). In the future it may be possible
         to use external static factory methods.
       </p>
-    </section>
-
-    <section title="XML: MarshalListener and UnmarshalListener">
-      <p>
-         Castor allows control on the object being marshaled or unmarshaled by
-         a set of two listener interfaces: MarshalListener and UnmarshalListener.
-      </p>
-
-      <p>
-         The MarshalListener interface located in <code>org.exolab.castor.xml</code> listens to
-         two different events that are intercepted by the following methods:
-         <ul>
-             <li>preMarshal: this method is called before an object gets marshaled.</li>
-             <li>postMarshal: this method is called once an object has been marshaled.</li>
-         </ul>
-      </p>
-
-      <p>
-         The UnmarshalListener located also in <code>org.exolab.castor.xml</code> listens to
-         four different events that are intercepted by the following methods:
-         <ul>
-             <li>initialized: this method is called once an object has been instantiated.</li>
-             <li>attributesProcessed: this method is called when the attributes have just been read and processed.</li>
-             <li>fieldAdded: this method is called when an object is added to a parent.</li>
-             <li>unmarshalled: this method is called when an object has been <b>fully</b> unmarshaled.</li>
-
-         </ul>
-      </p>
-
     </section>
 
   </body>
