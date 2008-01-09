@@ -384,6 +384,27 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    unnecessary casts.</p>
             </summary>
             <bugs>
+                <bug id="2132" tool="jira">
+                    <description>
+                        Fixed problem with unmarshalling the same element from 2 different namespaces
+                        using a mapping file.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Christophe Delory</name>
+                        <email>Christophe.Delory@thomson.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20080109</date>
+                </bug>
                 <bug id="2255" tool="jira">
                     <description>
                         Introduced interface XMLNaming and renamed abstract class XMLNaming
