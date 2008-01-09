@@ -1349,8 +1349,13 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             if ((namespaceURI == null) || (namespaceURI.length() == 0)) {
                 namespaceURI = _namespaces.getNamespaceURI(prefix);
             }
-        }
-        else {
+        } else {
+            // check for default namespace declaration 
+            String defaultNamespace = _namespaces.getNamespaceURI("");
+            // TODO[WG]: remove unnecessary check as it simply is wrong
+            if (defaultNamespace != null && !defaultNamespace.equals("http://castor.exolab.org")) {
+                namespaceURI = defaultNamespace;
+            }
             //-- adjust empty namespace
             if ((namespaceURI != null) && (namespaceURI.length() == 0))
                 namespaceURI = null;

@@ -716,7 +716,15 @@ public class XMLFieldDescriptorImpl extends AbstractFieldDescriptor implements X
     }
 
     public String toString() {
-        return "XMLFieldDesciptor: " + getFieldName() + " AS " + _xmlName;
+        StringBuffer buffer = new StringBuffer(32);
+        buffer.append("XMLFieldDesciptor: ");
+        buffer.append(getFieldName());
+        buffer.append(" AS ");
+        buffer.append(_xmlName);
+        if (getNameSpaceURI() != null) {
+            buffer.append("{" + getNameSpaceURI() + "}");
+        }
+        return buffer.toString();
     }
 
     //-------------------/
