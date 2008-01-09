@@ -54,7 +54,7 @@
                   <Color-K>100</Color-K>
                 </Color-Space>
                 <Is-Variable>true</Is-Variable>
-                <Data>Left Variable Data (Employee.Complete Name) – diff</Data>
+                <Data>Left Variable Data (Employee.Complete Name) - diff</Data>
                 <Variable-Data>
                   <Class-Id>{B2E02FD8-7701-488F-AE08-12CCB65A2DB8}</Class-Id>
                   <Attribute-Id>Full Name</Attribute-Id>
