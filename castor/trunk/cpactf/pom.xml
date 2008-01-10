@@ -6,7 +6,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.codehaus.castor</groupId>
 	<artifactId>castor-cpactf</artifactId>
-	<version>1.1.2.1</version>
+	<version>1.2-SNAPSHOT</version>
 
 	<!-- 
 		<parent>
@@ -47,7 +47,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 		<dependency>
 			<groupId>org.codehaus.castor</groupId>
 			<artifactId>castor-jdo</artifactId>
-			<version>1.1.2</version>
+			<version>1.2-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
