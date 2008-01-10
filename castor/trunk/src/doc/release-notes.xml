@@ -61,6 +61,22 @@ org.exolab.castor.builder.jclassPrinterTypes=\
                     us with (valuable) feedback.
                 </p>
                  
+                <h3>Execution of CTF test suite in Maven</h3>
+                
+                <p>
+                    Added support for executing CTF test suite as part of a standard Maven
+                    build. To execute the CTF test suite from Maven, simply issue a
+                    <tt>mvn test</tt> in the <tt>xmlctf</tt> module, and the test suite
+                    will be run in addition to the standard unit tests.
+                </p>
+                
+                <p>
+                    Once the remainder of the code in the parent module has been moved
+                    to its own <tt>xml</tt> module, it will be possible to have the execution
+                    of the test suite as part of the release process, which will only succeed
+                    if all tests (including those from the CTF suite) pass successfully.
+                </p>
+                
                 <h3>Added special processing of proxied classes</h3>
 
                 <p>Objects that were lazy loaded from a persistence layer often are
@@ -384,6 +400,27 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    unnecessary casts.</p>
             </summary>
             <bugs>
+                <bug id="2047" tool="jira">
+                    <description>
+                        Added support for executing the CTF test suite as part of a 'mvn test'
+                        in the 'xmlctf' module.
+                    </description>
+                    <contributor>
+                        <name>Matthias Epheser</name>
+                        <email>matthias.epheser@indoqa.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20080110</date>
+                </bug>
                 <bug id="1917" tool="jira">
                     <description>
                         Restored pre-1.0 behavior with regards to unresolvable type references

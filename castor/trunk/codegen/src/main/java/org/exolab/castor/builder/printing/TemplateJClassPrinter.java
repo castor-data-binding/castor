@@ -25,6 +25,7 @@ import org.exolab.javasource.JClass;
 
 /**
  * Prints the given JClass to the filesystem using velocity templates.
+ * @since 1.2
  */
 public class TemplateJClassPrinter implements JClassPrinter {
 
@@ -34,10 +35,14 @@ public class TemplateJClassPrinter implements JClassPrinter {
     public static final String TEMPLATE_PACKAGE = "/org/exolab/castor/builder/printing/templates/";
     
     /**
-     * Constructor inits the velocity engine.
+     * Indicates whether Velocity has been already initialized.
      */
-    public TemplateJClassPrinter() {
-        
+    private boolean initialized = false;
+    
+    /**
+     * Initialises the Velocity engine
+     */
+    private void initializeVelocity() {
         // init velocity
         Velocity.setProperty("velocimacro.permissions.allowInline", "true");
         Velocity.setProperty("velocimacro.library", 
@@ -46,6 +51,7 @@ public class TemplateJClassPrinter implements JClassPrinter {
         Velocity.setProperty("classPathResource.resource.loader.class", 
                 "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         try {
+            // TODO: use reflection to call init on Velocity
             Velocity.init();
         } catch (Exception e) {
             System.out.println("init fails!");
@@ -59,6 +65,11 @@ public class TemplateJClassPrinter implements JClassPrinter {
      */
     public void printClass(final JClass jClass, final String outputDir, 
             final String lineSeparator, final String header) {
+        
+        if (!initialized) {
+            initializeVelocity();
+            initialized = true;
+        }
        	
         try {
 
