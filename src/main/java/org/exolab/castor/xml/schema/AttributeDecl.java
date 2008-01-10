@@ -627,4 +627,12 @@ public final class AttributeDecl extends Annotated {
     	_schema = schema;
     }
 
+    /**
+     * Indicates whether a type is set for this element definiion. 
+     * @return True if a type is set.
+     */
+    public boolean hasXMLType() {
+        return (_simpleType != null);
+    }
+    
 } //-- AttrDecl

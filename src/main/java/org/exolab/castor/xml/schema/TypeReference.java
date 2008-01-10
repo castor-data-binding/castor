@@ -117,11 +117,16 @@ public class TypeReference extends XMLType {
         catch (IllegalArgumentException iax) {
             exception = iax;
         }
-        if (referredType != null) return; //we found it, return it
+        if (referredType != null) {
+            return; 
+        }
+        
         //-- try to find a complex type
-        referredType= getSchema().getComplexType(getName());
+        referredType = getSchema().getComplexType(getName());
 
-        if (referredType != null) return; //we found it, return it
+        if (referredType != null) {
+            return; 
+        }
 
         //-- rethrow exception if necessary
         if (exception != null) throw exception;

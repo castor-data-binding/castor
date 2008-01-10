@@ -384,6 +384,27 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    unnecessary casts.</p>
             </summary>
             <bugs>
+                <bug id="1917" tool="jira">
+                    <description>
+                        Restored pre-1.0 behavior with regards to unresolvable type references
+                        in XML code generation.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Simon Lord</name>
+                        <email>simon.lord@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen.</module>
+                    <date>20080110</date>
+                </bug>
                 <bug id="2132" tool="jira">
                     <description>
                         Fixed problem with unmarshalling the same element from 2 different namespaces

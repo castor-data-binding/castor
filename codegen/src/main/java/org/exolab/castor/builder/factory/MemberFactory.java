@@ -67,6 +67,7 @@ import org.exolab.castor.builder.types.XSListType;
 import org.exolab.castor.builder.types.XSClass;
 import org.exolab.castor.builder.types.XSString;
 import org.exolab.castor.builder.types.XSType;
+import org.exolab.castor.xml.schema.AttributeDecl;
 import org.exolab.castor.xml.schema.ComplexType;
 import org.exolab.castor.xml.schema.ElementDecl;
 import org.exolab.castor.xml.schema.Facet;
@@ -333,8 +334,16 @@ public final class MemberFactory extends BaseFactory {
                 //-- treat unspecified type as anyType
                 switch (component.getAnnotated().getStructureType()) {
                 case Structure.ATTRIBUTE:
+                    AttributeDecl attribute = (AttributeDecl) component.getAnnotated();
+                    if (!attribute.hasXMLType()) {
+                        xsType = new XSClass(SGTypes.OBJECT);
+                    } 
+                    break;                
                 case Structure.ELEMENT:
-                    xsType = new XSClass(SGTypes.OBJECT);
+                    ElementDecl element = (ElementDecl) component.getAnnotated();
+                    if (!element.hasXMLType()) {
+                        xsType = new XSClass(SGTypes.OBJECT);
+                    } 
                     break;
                 default:
                     // probably a model-group

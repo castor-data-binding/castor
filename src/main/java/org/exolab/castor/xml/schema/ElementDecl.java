@@ -870,6 +870,14 @@ public class ElementDecl extends Particle implements Referable {
     private void setSchema(final Schema schema) {
         _schema = schema;
     }
+
+    /**
+     * Indicates whether a type is set for this element definiion. 
+     * @return True if a type is set.
+     */
+    public boolean hasXMLType() {
+        return (_xmlType != null);
+    }
     
    
 } //-- Element
