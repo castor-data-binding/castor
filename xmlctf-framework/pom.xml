@@ -30,7 +30,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 					<source>1.4</source>
 					<target>1.4</target>
 					<includes>
-						<include implementation="java.lang.String">org/exolab/castor/tests/framework/**</include>
+						<include implementation="java.lang.String">org/**</include>
 					</includes>
 				</configuration>
 			</plugin>

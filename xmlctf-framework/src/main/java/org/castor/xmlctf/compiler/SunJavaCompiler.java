@@ -35,6 +35,7 @@ import org.castor.xmlctf.util.FileServices;
  * @since 1.0.5
  */
 public class SunJavaCompiler implements Compiler {
+    
     private static final int COMPILATION_SUCCESS  = 0;
     private static final int COMPILATION_ERROR    = 1;
     private static final int COMPILATION_CMDERR   = 2;
@@ -95,7 +96,9 @@ public class SunJavaCompiler implements Compiler {
             Class cls = loader.loadClass(COMPILE_CLASSNAME);
             _compileMethod = cls.getMethod(COMPILE_METHODNAME, COMPILE_PARAMTYPE);
         } catch (Exception ex) {
-            throw new IllegalStateException("Failed to find compile method.");
+            IllegalStateException ise = new IllegalStateException("Failed to find compile method.");
+            ise.initCause(ex);
+            throw ise;
         }
 
         _initialized = true;
@@ -161,12 +164,16 @@ public class SunJavaCompiler implements Compiler {
             args.add(_javaVersion);
         }
         args.add("-classpath");
-        args.add(System.getProperty("java.class.path") + ";" + destDir.getAbsolutePath());
+        String classPathOverriden = System.getProperty("xmlctf.classpath.override");
+        if (classPathOverriden != null) {
+            args.add(classPathOverriden + ";" + destDir.getAbsolutePath());
+        } else {
+            args.add(System.getProperty("java.class.path") + ";" + destDir.getAbsolutePath());            
+        }
         args.add("-d");
         args.add(destDir.getAbsolutePath());
         args.add("-sourcepath");
         args.add(srcDir.getAbsolutePath());
-
         return args;
     }
 
