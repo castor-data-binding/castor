@@ -20,6 +20,12 @@
 		</extensions>
 	</build>
 
+    <scm>
+       <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/codegen-testcase-archetype</connection>
+       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/codegen-testcase-archetype</developerConnection>
+       <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/codegen-testcase-archetype</url>
+    </scm>
+
 	<!--  redundant; will be removed once we switch to parent structure -->
 	<distributionManagement>
 		<repository>
