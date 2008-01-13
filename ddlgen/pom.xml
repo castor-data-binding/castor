@@ -49,6 +49,13 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 
 	
 	</build>
+
+    <scm>
+       <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/ddlgen</connection>
+       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/ddlgen</developerConnection>
+       <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/ddlgen</url>
+    </scm>
+
 	<developers>
 		<developer>
 			<name>Ralf Joachim</name>
