@@ -42,14 +42,22 @@ http://maven.apache.org/maven-v4_0_0.xsd">
         </plugins>
     </build>
 
-    <dependencies>
-    <!-- 
-        <dependency>
-            <groupId>org.codehaus.castor</groupId>
-            <artifactId>castor-codegen</artifactId>
-            <version>1.2-SNAPSHOT</version>
-        </dependency>
- -->
+    <scm>
+       <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/xmlctf</connection>
+       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/xmlctf</developerConnection>
+       <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/xmlctf</url>
+    </scm>
+
+	<dependencies>
+		<!--  
+			replaced with dependency to castor-testsuite-xml-framework by Werner
+		<dependency>
+			<groupId>org.codehaus.castor</groupId>
+			<artifactId>castor-codegen</artifactId>
+			<version>1.2-SNAPSHOT</version>
+		</dependency>
+		-->
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

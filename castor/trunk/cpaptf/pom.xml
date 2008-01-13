@@ -20,6 +20,12 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 	<name>Performance test suite for Castor JDO</name>
 	<url>http://www.castor.org</url>
 
+    <scm>
+       <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/cpaptf</connection>
+       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/cpaptf</developerConnection>
+       <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/cpaptf</url>
+    </scm>
+
 	<developers>
 		<developer>
 			<name>Ralf Joachim</name>

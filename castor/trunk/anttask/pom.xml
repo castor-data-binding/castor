@@ -71,6 +71,12 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 		
 	</build>
 
+    <scm>
+       <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/anttask</connection>
+       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/anttask</developerConnection>
+       <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/anttask</url>
+    </scm>
+
 	<dependencies>
 
 		<dependency>

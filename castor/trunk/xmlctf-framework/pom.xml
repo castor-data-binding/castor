@@ -80,6 +80,12 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 
 	</build>
 
+    <scm>
+       <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/xmlctf-framework</connection>
+       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/xmlctf-framework</developerConnection>
+       <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/xmlctf-framework</url>
+    </scm>
+
 	<dependencies>
 
 		<dependency>

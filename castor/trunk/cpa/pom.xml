@@ -110,6 +110,12 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 
 	</build>
 
+    <scm>
+       <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/cpa</connection>
+       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/cpa</developerConnection>
+       <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/cpa</url>
+    </scm>
+
 	<dependencies>
 
 		<dependency>
