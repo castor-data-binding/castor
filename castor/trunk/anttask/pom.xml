@@ -18,7 +18,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 		
 	<packaging>jar</packaging>
 
-	<name>Castor</name>
+	<name>Castor - ant tasks</name>
 
 	<build>
 		<plugins>
