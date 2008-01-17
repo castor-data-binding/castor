@@ -58,7 +58,6 @@ import org.exolab.castor.xml.schema.ContentType;
 import org.exolab.castor.xml.schema.ElementDecl;
 import org.exolab.castor.xml.schema.Group;
 import org.exolab.castor.xml.schema.ModelGroup;
-import org.exolab.castor.xml.schema.Resolver;
 import org.exolab.castor.xml.schema.Schema;
 import org.exolab.castor.xml.schema.SchemaException;
 import org.exolab.castor.xml.schema.SchemaNames;
@@ -66,17 +65,47 @@ import org.exolab.castor.xml.schema.Wildcard;
 import org.exolab.castor.xml.schema.XMLType;
 
 /**
- * A class for Unmarshalling ComplexTypes
+ * A class for unmarshalling XML Schema <complexType> definitions.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
 **/
 public class ComplexTypeUnmarshaller extends ComponentReader {
 
-
-      //--------------------/
-     //- Member Variables -/
-    //--------------------/
-
+    /**
+     * Represents the textual representation of the value '0'
+     */
+    private static final String VALUE_0 = "0";
+    
+    /**
+     * Represents the textual representation of the value '1'
+     */
+    private static final String VALUE_1 = "1";
+    
+    /**
+     * Represents the textual representation of the value 'false'
+     */
+    private static final String VALUE_FALSE = "false";
+    
+    /**
+     * Represents the textual representation of the value 'true'
+     */
+    private static final String VALUE_TRUE = "true";
+    
+    /**
+     * Represents the XML schema keyword 'restrictions'
+     */
+    private static final String KEYWORD_RESTRICTIONS = "restrictions";
+    
+    /**
+     * Represents the XML schema keyword 'extensions'
+     */
+    private static final String KEYWORD_EXTENSION = "extension";
+    
+    /**
+     * Represents the XML schema keyword 'derivedBy'
+     */
+    private static final String KEYWORD_DERIVED_BY = "derivedBy";
+    
     /**
      * The current ComponentReader
     **/
@@ -91,28 +120,22 @@ public class ComplexTypeUnmarshaller extends ComponentReader {
      * The Attribute reference for the Attribute we are constructing
     **/
     private ComplexType _complexType = null;
-	private boolean allowAnnotation     = true;
-    private boolean foundAnnotation     = false;
-    private boolean foundAnyAttribute   = false;
-    private boolean foundAttributes     = false;
-    private boolean foundSimpleContent  = false;
+	private boolean allowAnnotation = true;
+    private boolean foundAnnotation = false;
+    private boolean foundAnyAttribute = false;
+    private boolean foundAttributes = false;
+    private boolean foundSimpleContent = false;
     private boolean foundComplexContent = false;
-    private boolean foundModelGroup     = false;
-
-
+    private boolean foundModelGroup = false;
 
     private Schema _schema = null;
 
-
-      //----------------/
-     //- Constructors -/
-    //----------------/
-
     /**
-     * Creates a new ComplexTypeUnmarshaller.
-     * @param internalContext the internalContext to get some configuration settings from
-     * @param schema the Schema to which the ComplexType belongs
-     * @param atts the AttributeList
+     * Creates a new {@link ComplexTypeUnmarshaller} instance.
+     * @param internalContext the {@link InternalContext} instance to get some configuration settings from
+     * @param schema the {@link Schema} to which the {@link ComplexType} belongs.
+     * @param atts the attribute list associated with this {@link ComplexType}.
+     * @see Schema
     **/
     public ComplexTypeUnmarshaller(
             final InternalContext internalContext, 
@@ -130,27 +153,29 @@ public class ComplexTypeUnmarshaller extends ComponentReader {
         //-- handle attributes
         String attValue = null;
 
+        //-- read @name attribute
         _complexType.setName(atts.getValue(SchemaNames.NAME_ATTR));
 
         //-- read contentType
         String content = atts.getValue(SchemaNames.MIXED);
-
 		if (content != null) {
-            if (content.equals("true"))
-		       _complexType.setContentType(ContentType.valueOf("mixed"));
-            if (content.equals("false"))
-			   _complexType.setContentType(ContentType.valueOf("elementOnly"));
+            if (isTurnedOn(content)) {
+                _complexType.setContentType(ContentType.mixed);
+            }
+            if (isTurnedOff(content)) {
+                _complexType.setContentType(ContentType.elemOnly);
+            }
 		}
 
         //-- base and derivedBy
         String base = atts.getValue(SchemaNames.BASE_ATTR);
         if ((base != null) && (base.length() > 0)) {
 
-            String derivedBy = atts.getValue("derivedBy");
+            String derivedBy = atts.getValue(KEYWORD_DERIVED_BY);
             _complexType.setDerivationMethod(derivedBy);
             if ((derivedBy == null) ||
                 (derivedBy.length() == 0) ||
-                (derivedBy.equals("extension")))
+                (derivedBy.equals(KEYWORD_EXTENSION)))
             {
                 XMLType baseType= schema.getType(base);
                 if (baseType == null)
@@ -158,7 +183,7 @@ public class ComplexTypeUnmarshaller extends ComponentReader {
                 else
                     _complexType.setBaseType(baseType);
             }
-            else if (derivedBy.equals("restrictions")) {
+            else if (derivedBy.equals(KEYWORD_RESTRICTIONS)) {
                 String err = "restrictions not yet supported for <type>.";
                 throw new SchemaException(err);
             }
@@ -170,23 +195,43 @@ public class ComplexTypeUnmarshaller extends ComponentReader {
 
         }
 
-        //-- @abstract
+        //-- read @abstract attribute
         attValue = atts.getValue(SchemaNames.ABSTRACT);
         if (attValue != null) {
             Boolean bool = Boolean.valueOf(attValue);
             _complexType.setAbstract(bool.booleanValue());
         }
         
-		//-- @block
+		//-- read @block attribute
         _complexType.setBlock(atts.getValue(SchemaNames.BLOCK_ATTR));
         
-        //-- @final
+        //-- read @final attribute
         _complexType.setFinal(atts.getValue(SchemaNames.FINAL_ATTR));
         
-        //-- @id
+        //-- read @id attribute
         _complexType.setId(atts.getValue(SchemaNames.ID_ATTR));
 
-    } //-- ComplexTypeUnmarshaller
+    }
+
+    /**
+     * Checks whether a given property is turned on, i.e. its value is set to 
+     * 'false' or '0'.
+     * @param property Property value
+     * @return True of the property is 'turned off'.
+     */
+    private boolean isTurnedOff(String content) {
+        return content.equals(VALUE_FALSE) || content.equals(VALUE_0);
+    }
+
+    /**
+     * Checks whether a given property is turned on, i.e. its value is set to 
+     * 'true' or '1'.
+     * @param property Property value
+     * @return True of the property is 'turned on'.
+     */
+    private boolean isTurnedOn(String property) {
+        return property.equals(VALUE_TRUE) || property.equals(VALUE_1);
+    }
 
       //-----------/
      //- Methods -/
