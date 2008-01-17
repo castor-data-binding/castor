@@ -36,7 +36,6 @@ http://maven.apache.org/maven-v4_0_0.xsd">
                 </executions>
                 <configuration>
                     <testRoot>tests/MasterTestSuite/</testRoot>
-                    <pathToTools>D:\bin\j2sdk1.4.2_11\lib\tools.jar</pathToTools>
                 </configuration>
             </plugin>
         </plugins>
