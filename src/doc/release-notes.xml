@@ -400,6 +400,26 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    unnecessary casts.</p>
             </summary>
             <bugs>
+                <bug id="2264" tool="jira">
+                    <description>
+                        Added support for usage of 'mixed="1"' attributes for XML code generation.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Roy van der Kuil</name>
+                        <email>roy.vdkuil@gmail.com</email>
+                    </reporter>
+                    <type>Bug.</type>
+                    <module>Gen.</module>
+                    <date>20080118</date>
+                </bug>
                 <bug id="2047" tool="jira">
                     <description>
                         Added support for executing the CTF test suite as part of a 'mvn test'
