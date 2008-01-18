@@ -185,7 +185,7 @@ public class AnyNode2SAX2 {
             }// attributes
 
             // -- namespace management
-            _context = _context.createNamespaces();
+//            _context = _context.createNamespaces();
             String nsPrefix = node.getNamespacePrefix();
             String nsURI = node.getNamespaceURI();
 
@@ -228,6 +228,7 @@ public class AnyNode2SAX2 {
             // -- handle child&daughter elements
             tempNode = node.getFirstChild();
             while (tempNode != null) {
+            	_context = _context.createNamespaces();
                 processAnyNode(tempNode, handler);
                 tempNode = tempNode.getNextSibling();
             }
