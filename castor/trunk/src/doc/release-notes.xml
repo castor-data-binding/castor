@@ -400,6 +400,28 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    unnecessary casts.</p>
             </summary>
             <bugs>
+                <bug id="2265" tool="jira">
+                    <description>
+                        Fixed problem where marshaller won't correctly handle situations 
+                        where a namespace URI is bound to more than one prefix on 
+                        sibling AnyNode elements, i.e. preserve the namespace prefices.
+                    </description>
+                    <contributor>
+                        <name>Vikas Rawat</name>
+                        <email>vikas.rawat@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Vikas Rawat</name>
+                        <email>vikas.rawat@gmail.com</email>
+                    </reporter>
+                    <type>Bug.</type>
+                    <module>Gen.</module>
+                    <date>20080118</date>
+                </bug>
                 <bug id="2264" tool="jira">
                     <description>
                         Added support for usage of 'mixed="1"' attributes for XML code generation.
