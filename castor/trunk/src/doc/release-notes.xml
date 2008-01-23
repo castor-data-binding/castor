@@ -400,6 +400,27 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    unnecessary casts.</p>
             </summary>
             <bugs>
+                <bug id="2269" tool="jira">
+                    <description>
+                        Fixed problems with the source tarballs and the Javadoc release files
+                        by including the CPA module. 
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Jon Wilmoth</name>
+                        <email>jonwilmoth@yahoo.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>All</module>
+                    <date>20080123</date>
+                </bug>
                 <bug id="2265" tool="jira">
                     <description>
                         Fixed problem where marshaller won't correctly handle situations 

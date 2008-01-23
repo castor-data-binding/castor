@@ -733,9 +733,12 @@
                  encoding="ISO-8859-1" classpathref="javadoc.classpath">
             <sourcepath>
                 <pathelement location="${java}"/>
-                <pathelement location="${basedir}/ddlgen/src/main/java" />
-                <pathelement location="${basedir}/codegen/src/main/java" />
                 <pathelement location="${basedir}/anttask/src/main/java" />
+                <pathelement location="${basedir}/codegen/src/main/java" />
+                <pathelement location="${basedir}/cpa/src/main/java" />
+                <pathelement location="${basedir}/ddlgen/src/main/java" />
+                <pathelement location="${basedir}/xml/src/main/java" />
+                <pathelement location="${basedir}/xmlctf/src/main/java" />
                 <pathelement location="${basedir}/xmlctf-framework/src/main/java" />
             </sourcepath>
         </javadoc>
@@ -796,6 +799,13 @@
               <exclude name="eclipse/" />
           </fileset>
         </copy>
+        <copy todir="${build}/${archive.name}/cpa">
+          <fileset dir="${basedir}/cpa">
+              <exclude name="build/" />
+              <exclude name="target/" />
+              <exclude name="eclipse/" />
+          </fileset>
+        </copy>
         <copy todir="${build}/${archive.name}/ddlgen">
           <fileset dir="${basedir}/ddlgen">
               <exclude name="build/" />
@@ -803,7 +813,13 @@
               <exclude name="eclipse/" />
           </fileset>
         </copy>
-
+        <copy todir="${build}/${archive.name}/xml">
+          <fileset dir="${basedir}/xml">
+              <exclude name="build/" />
+              <exclude name="target/" />
+              <exclude name="eclipse/" />
+          </fileset>
+        </copy>
         <copy todir="${build}/${archive.name}/xmlctf">
           <fileset dir="${basedir}/xmlctf">
               <exclude name="build/" />
@@ -811,7 +827,6 @@
               <exclude name="eclipse/" />
           </fileset>
         </copy>
-
         <copy todir="${build}/${archive.name}/xmlctf-framework">
           <fileset dir="${basedir}/xmlctf-framework">
               <exclude name="build/" />
