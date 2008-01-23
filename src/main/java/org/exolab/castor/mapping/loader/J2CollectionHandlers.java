@@ -271,12 +271,13 @@ public final class J2CollectionHandlers
                 return null;
             }
             public Enumeration elements(Object collection) {
-                if ( collection == null )
+                if (collection == null) {
                     return new CollectionHandlers.EmptyEnumerator();
-                return ((Enumeration) collection);
+                }
+                return new IteratorEnumerator((Iterator) collection);
             }
             public int size(Object collection) {
-                //-- Nothing we can do without iteratin over the iterator
+                //-- Nothing we can do without iterating over the iterator
                 return 0;
             }
             public Object clear(Object collection) {

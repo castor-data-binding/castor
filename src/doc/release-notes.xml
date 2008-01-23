@@ -400,6 +400,27 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    unnecessary casts.</p>
             </summary>
             <bugs>
+                <bug id="2270" tool="jira">
+                    <description>
+                        Fixed problem with usage of 'java.util.Iterator' as return type during 
+                        marshalling.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Abhinav Sopory</name>
+                        <email>abhinavsopory@yahoo.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20080123</date>
+                </bug>
                 <bug id="2269" tool="jira">
                     <description>
                         Fixed problems with the source tarballs and the Javadoc release files
