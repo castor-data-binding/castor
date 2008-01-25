@@ -72,7 +72,8 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 					</archive>
 				</configuration>
 			</plugin>
-			
+
+            <!--  remove this or the next one -->			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
@@ -125,7 +126,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
-			<version>1.1</version>
+			<version>1.1.1</version>
 		</dependency>
 
 		<dependency>
