@@ -530,6 +530,13 @@ public abstract class AbstractInternalContext implements InternalContext {
     }
 
     /**
+     * @see org.castor.xml.InternalContext#setXMLNaming(org.castor.xml.XMLNaming)
+     */
+    public void setXMLNaming(final XMLNaming xmlNaming) {
+        _xmlNaming = xmlNaming;
+    }
+
+    /**
      * @see org.castor.xml.InternalContext#setProperty(java.lang.String, boolean)
      */
     public void setProperty(final String propertyName, final boolean value) {

@@ -15,6 +15,7 @@
  */
 package org.castor.xml;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
@@ -41,6 +42,9 @@ public interface JavaNaming {
 
     /** Create methods start with: create. */
     public static final String METHOD_PREFIX_CREATE = "create";
+    
+    /** The underscore field prefix. */
+    public static final char FIELD_UNDERSCORE_PREFIX = '_';
 
     /**
      * Returns true if the given String is a Java keyword which will cause a
@@ -87,7 +91,7 @@ public interface JavaNaming {
     String toJavaMemberName(String name, boolean useKeywordSubstitutions);
     
     /**
-     * Checks if the given pacckage name is valid or not. Empty pacakge names
+     * Checks if the given package name is valid or not. Empty package names
      * are considered valid!
      * 
      * @param packageName Name of package as String with periods.
@@ -117,6 +121,14 @@ public interface JavaNaming {
     String getQualifiedFileName(String fileName, String packageName);
     
     /**
+     * Gets the class name without package part.
+     * 
+     * @param clazz The class to retrieve the name from
+     * @return the class name without package part or null
+     */
+    String getClassName(Class clazz);
+    
+    /**
      * Gets the package name of the given class name.
      * 
      * @param className The class name to retrieve the package name from.
@@ -124,6 +136,7 @@ public interface JavaNaming {
      *         is <code>null</code> or does not contain a package.
      */
     String getPackageName(String className);
+
     /**
      * Extracts the filed name part from the methods name. Mostly it cuts
      * away the method prefix.
@@ -132,6 +145,15 @@ public interface JavaNaming {
      * @return The extracted field name.
      */
     String extractFieldNameFromMethod(Method method);
+    
+    /**
+     * Extracts the field name part from the Field. Mostly it cuts away
+     * prefixes like '_'.
+     * 
+     * @param field the Field to process
+     * @return The extracted field name.
+     */
+    String extractFieldNameFromField(Field field);
     
     /**
      * Checks if the given method is a set method.

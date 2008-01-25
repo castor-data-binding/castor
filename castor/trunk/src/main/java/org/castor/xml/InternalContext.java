@@ -312,6 +312,12 @@ public interface InternalContext {
     public abstract void setJavaNaming(final JavaNaming javaNaming);
 
     /**
+     * To set the {@link XMLNaming} property.
+     * @param xmlNaming the {@link XMLNaming} to use
+     */
+    abstract void setXMLNaming(final XMLNaming xmlNaming);
+    
+    /**
      * To set any boolean property.
      * @param propertyName name of the property to set
      * @param value boolean value to set
