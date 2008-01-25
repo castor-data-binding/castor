@@ -46,6 +46,7 @@
 package org.castor.xml;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Hashtable;
 
@@ -80,6 +81,7 @@ public class JavaNamingImpl implements JavaNaming {
     
     /** the map of substition words for all keywords. */
     private static final Hashtable SUBST = keywordMap();
+
     /** all known Java keywords. */
     private static final String[] KEYWORDS = {"abstract", "boolean", "break", "byte", "case",
             "catch", "char", "class", "const", "continue", "default", "do", "double", "else",
@@ -214,7 +216,7 @@ public class JavaNamingImpl implements JavaNaming {
             if (mappedName != null) {
                 memberName = mappedName;
             } else {
-                memberName = "_" + memberName;
+                memberName = FIELD_UNDERSCORE_PREFIX + memberName;
             }
         }
         return memberName;
@@ -417,6 +419,22 @@ public class JavaNamingImpl implements JavaNaming {
             fieldName = method.getName().substring(METHOD_PREFIX_ADD.length());
         }
         return toJavaMemberName(fieldName);
+    } //FIELD_UNDERSCORE_PREFIX
+    
+    /**
+     * Extracts the field name part from the Field. Mostly it cuts away
+     * prefixes like '_'.
+     * 
+     * @param field the Field to process
+     * @return The extracted field name.
+     * @see org.castor.xml.JavaNaming#extractFieldNameFromField(java.lang.reflect.Field)
+     */
+    public final String extractFieldNameFromField(Field field) {
+        String fieldName = field.getName();
+        if (fieldName.charAt(0) == FIELD_UNDERSCORE_PREFIX) {
+            fieldName = fieldName.substring(1);
+        }
+        return fieldName;
     }
 
     /**
@@ -575,5 +593,25 @@ public class JavaNamingImpl implements JavaNaming {
      */
     public final String getSetMethodNameForField(final String fieldName) {
         return METHOD_PREFIX_SET + toJavaClassName(fieldName);
+    }
+
+    /**
+     * Gets the class name without package part.
+     * 
+     * @param clazz The class to retrieve the name from
+     * @return the class name without package part or null
+     * {@inheritDoc}
+     * @see org.castor.xml.JavaNaming#getClassName(java.lang.Class)
+     */
+    public String getClassName(Class clazz) {
+        if (clazz == null) {
+            return null;
+        }
+        String name = clazz.getName();
+        int idx = name.lastIndexOf('.');
+        if (idx >= 0) {
+            name = name.substring(idx+1);
+        }
+        return name;
     }
 } // -- JavaNaming

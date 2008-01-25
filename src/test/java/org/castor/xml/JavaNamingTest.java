@@ -197,4 +197,12 @@ public class JavaNamingTest extends TestCase {
     public final void testIsAddMethod() {
         Assert.assertFalse(_javaNaming.isAddMethod(null));
     }
+    
+    private class ForTestingPurposes {}
+
+    public final void testGetClassName() {
+        Assert.assertNull(_javaNaming.getClassName(null));
+        Assert.assertEquals("JavaNamingTest", _javaNaming.getClassName(JavaNamingTest.class));
+        Assert.assertEquals("JavaNamingTest$ForTestingPurposes", _javaNaming.getClassName(ForTestingPurposes.class));
+    }
 }

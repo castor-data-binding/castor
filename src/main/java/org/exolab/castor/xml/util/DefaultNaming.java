@@ -110,15 +110,19 @@ public final class DefaultNaming extends AbstractXMLNaming implements XMLNaming 
      *         <B>examples:</B><BR>
      *         "Blob" becomes "blob" and "DataSource" becomes "data-source".
      * @see org.exolab.castor.xml.AbstractXMLNaming
+     * @deprecated extracting name parts from a Class is responsibility of JavaNaming
      */
     public String createXMLName(final Class c) {
+        UnsupportedOperationException e =
+            new UnsupportedOperationException("Method has moved to JavaNaming!");
+        throw e;
         //-- create default XML name
-        String name = c.getName();
-        int idx = name.lastIndexOf('.');
-        if (idx >= 0) {
-            name = name.substring(idx+1);
-        }
-        return toXMLName(name);
+//        String name = c.getName();
+//        int idx = name.lastIndexOf('.');
+//        if (idx >= 0) {
+//            name = name.substring(idx+1);
+//        }
+//        return toXMLName(name);
     } //-- createXMLName
 
     /**

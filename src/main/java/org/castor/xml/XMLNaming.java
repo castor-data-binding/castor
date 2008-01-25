@@ -33,6 +33,7 @@ public interface XMLNaming {
 	 * 
 	 * @param c the Class to create the XML Name for
 	 * @return the XML name based on the given class
+	 * @deprecated because this method removes the package part which is JavaNaming responsibility
 	 **/
 	public abstract String createXMLName(Class c);
 
