@@ -128,19 +128,19 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
     //------------------/
 
     /**
-     * Creates a new Complextype, with no name
-     * @param schema the owning Schema document
+     * Creates a new {@link ComplexType} instance with no name.
+     * @param schema the owning {@link Schema} document
     **/
-    public ComplexType(Schema schema) {
-        this(schema,null);
+    public ComplexType(final Schema schema) {
+        this(schema, null);
     } //-- Complextype
 
     /**
-     * Creates a new Complextype with the given name
-     * @param schema the owning Schema
-     * @param name of the Complextype
+     * Creates a new {@link ComplexType} with the given name
+     * @param schema The owning {@link Schema} instance
+     * @param name Name of the {@link ComplexType}
     **/
-    public ComplexType(Schema schema, String name) {
+    public ComplexType(final Schema schema, final String name) {
         super();
         if (schema == null) {
             String err = NULL_ARGUMENT + "; 'schema' must not be null.";
