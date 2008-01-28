@@ -26,7 +26,7 @@ package org.exolab.castor.builder.types;
 public final class XSCollectionFactory {
     
     /**
-     * A private constructor as this is a factory which is never meant to be instantiacted.
+     * A private constructor as this is a factory which is never meant to be instantiated.
      */
     private XSCollectionFactory() {
         super();
