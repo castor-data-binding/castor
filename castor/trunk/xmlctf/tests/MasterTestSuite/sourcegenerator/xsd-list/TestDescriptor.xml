@@ -14,5 +14,10 @@
             <Input>input.xml</Input>
             <GoldFile>input.xml</GoldFile>
         </UnitTestCase>
+        <UnitTestCase>
+            <Name>Test round-trip with default namespace</Name>
+            <Input>input-with-default-namespace.xml</Input>
+            <GoldFile>input-with-default-namespace.xml</GoldFile>
+        </UnitTestCase>
      </SourceGeneratorTest>
 </TestDescriptor>
