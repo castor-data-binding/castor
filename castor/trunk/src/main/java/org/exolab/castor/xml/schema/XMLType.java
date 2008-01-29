@@ -164,7 +164,8 @@ public abstract class XMLType extends Annotated
     **/
     public final boolean isSimpleType() {
         return ((getStructureType() == Structure.SIMPLE_TYPE) ||
-                (getStructureType() == Structure.UNION));
+                (getStructureType() == Structure.UNION) ||
+                (getStructureType() == Structure.LIST));
     } //-- isSimpleType
 
 

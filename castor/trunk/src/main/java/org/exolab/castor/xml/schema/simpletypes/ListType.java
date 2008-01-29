@@ -120,7 +120,7 @@ public class ListType extends SimpleType {
      * @return the type of this Schema Structure
      */
     public short getStructureType() {
-        return Structure.SIMPLE_TYPE; //-- should be changed to LIST
+        return Structure.LIST;
     } //-- getStructureType
     
     /** 

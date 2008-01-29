@@ -63,6 +63,7 @@ import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.builder.info.XMLInfo;
+import org.exolab.castor.builder.types.XSList;
 import org.exolab.castor.builder.types.XSListType;
 import org.exolab.castor.builder.types.XSClass;
 import org.exolab.castor.builder.types.XSString;
@@ -253,7 +254,7 @@ public final class MemberFactory extends BaseFactory {
         boolean simpleTypeCollection = false;
 
         if (xmlType != null) {
-            if (xmlType.isSimpleType()) {
+            if (xmlType.isSimpleType() ) {
                 SimpleType simpleType = (SimpleType) xmlType;
 
                 SimpleType baseType = null;
@@ -392,6 +393,10 @@ public final class MemberFactory extends BaseFactory {
             if (!simpleTypeCollection) {
                 xsList.setMaximumSize(maxOccurs);
                 xsList.setMinimumSize(minOccurs);
+            } else {
+                if (xsList instanceof XSList) {
+                    ((XSList) xsList).setDerivedFromXSList(true);
+                }
             }
             fieldInfo = cInfo;
         } else  {
