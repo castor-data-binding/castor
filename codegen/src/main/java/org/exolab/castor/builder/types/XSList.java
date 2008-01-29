@@ -29,6 +29,12 @@ public final class XSList extends XSListType {
 
     /** Type number of this XSType. */
     public static final short TYPE = XSType.COLLECTION;
+    
+    /**
+     * Indicates whether this {@link XSList} instance has been created as a result
+     * of a <xs:list> definition.
+     */
+    private boolean _derivedFromXSList;
 
     //--------------------------------------------------------------------------
 
@@ -60,6 +66,25 @@ public final class XSList extends XSListType {
     public void validationCode(final JSourceCode jsc,
             final String fixedValue, final String validatorInstanceName) {
         getContentType().validationCode(jsc, fixedValue, validatorInstanceName);
+    }
+
+    /**
+     * Sets whether this {@link XSList} instance has been created as a result
+     * of a <xs:list> definition.
+     * @param derivedFromXSList A boolean value, true or false.
+     */
+    public void setDerivedFromXSList(final boolean derivedFromXSList) {
+        _derivedFromXSList = derivedFromXSList;
+    }
+
+    /**
+     * Indicates whether this {@link XSList} instance has been created as a result
+     * of a <xs:list> definition.
+     * @param derivedFromXSList True if this XSList instance has been created as a result 
+     * of a <xs:list> definition.
+     */
+    public boolean isDerivedFromXSList() {
+        return _derivedFromXSList;
     }
     
     //--------------------------------------------------------------------------

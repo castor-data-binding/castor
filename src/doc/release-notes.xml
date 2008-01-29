@@ -400,6 +400,27 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    unnecessary casts.</p>
             </summary>
             <bugs>
+                <bug id="2268" tool="jira">
+                    <description>
+                        Added full support for defining collections using the &lt;xs:list&gt;
+                        construct. 
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20080129</date>
+                </bug>
                 <bug id="2266" tool="jira">
                     <description>
                         For JAXB implementation an additional method in JavaNaming interface - 

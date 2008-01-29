@@ -1688,8 +1688,10 @@ public class Marshaller extends MarshalFramework {
             else if (byteArray) {
                 //-- Base64Encoding / HexBinary
                 String schemaType = descriptor.getSchemaType();
+                String componentType = descriptor.getComponentType();
                 char[] chars = new char[0];
-                if (HexDecoder.DATA_TYPE.equals(schemaType)) {
+                if ((descriptor.isMultivalued() && HexDecoder.DATA_TYPE.equals(componentType)) || 
+                        HexDecoder.DATA_TYPE.equals(schemaType)) {
                     chars = new String(HexDecoder.encode((byte[]) object)).toCharArray();
                 } else {
                     chars = Base64Encoder.encode((byte[]) object);
@@ -1868,6 +1870,22 @@ public class Marshaller extends MarshalFramework {
             //-- handle byte arrays
             if (type.isArray() && (type.getComponentType() == Byte.TYPE)) {
                 marshal(obj, elemDescriptor, handler, myState);
+            } else if (type.isArray() && elemDescriptor.isDerivedFromXSList()) {
+                Object buffer = processXSListType(obj, elemDescriptor);
+                String elemName = elemDescriptor.getXMLName();
+                String elemQName = elemName;
+                if ((nsPrefix != null) && (nsPrefix.length() > 0)) {
+                    elemQName = nsPrefix + ':' + elemName;
+                }
+                char[] chars = buffer.toString().toCharArray();
+                try {
+                    handler.startElement(nsURI, elemName, elemQName, _attributes);
+                    handler.characters(chars,0,chars.length);
+                    handler.endElement(nsURI, elemName, elemQName);
+                }
+                catch(org.xml.sax.SAXException sx) {
+                    throw new MarshalException(sx);
+                }
             }
             //-- handle all other collection types
             else if (isCollection(type)) {
@@ -2371,40 +2389,13 @@ public class Marshaller extends MarshalFramework {
         }
         //-- handle multi-value attributes
         else if (attDescriptor.isMultivalued() && (value != null)) {
-            Enumeration enumeration = null;
-            if (value instanceof Enumeration) {
-                enumeration = (Enumeration)value;
-            }
-            else {
-                CollectionHandler colHandler = null;
-                try {
-                    colHandler = CollectionHandlers.getHandler(value.getClass());
-                }
-                catch(MappingException mx) {
-                    throw new MarshalException(mx);
-                }
-                enumeration = colHandler.elements(value);
-            }
-            if (enumeration.hasMoreElements()) {
-                StringBuffer sb = new StringBuffer();
-                for (int v = 0; enumeration.hasMoreElements(); v++) {
-                    if (v > 0) sb.append(' ');
-                    sb.append(enumeration.nextElement().toString());
-                }
-                value = sb;
-            }
-            else value = null;
+            value = processXSListType(value, attDescriptor);
         }
         else if (value != null) {
             //-- handle hex/base64 content
             Class objType = value.getClass();
             if (objType.isArray() && (objType.getComponentType() == Byte.TYPE)) {
-                final String schemaType = attDescriptor.getSchemaType();
-                if (HexDecoder.DATA_TYPE.equals(schemaType)) {
-                    value = new String(HexDecoder.encode((byte[]) value));
-                } else {
-                    value = new String(Base64Encoder.encode((byte[]) value));
-                }
+                value = encodeBinaryData(value, attDescriptor.getSchemaType());
             }
         }
 
@@ -2418,6 +2409,63 @@ public class Marshaller extends MarshalFramework {
             atts.addAttribute(namespace, localName, qName, CDATA, value.toString());
         }
     } //-- processAttribute
+
+
+    private Object processXSListType(final Object value, XMLFieldDescriptor descriptor) 
+    throws MarshalException {
+        Object returnValue = null;
+        Enumeration enumeration = null;
+        if (value instanceof Enumeration) {
+            enumeration = (Enumeration)value;
+        }
+        else {
+            CollectionHandler colHandler = null;
+            try {
+                colHandler = CollectionHandlers.getHandler(value.getClass());
+            }
+            catch(MappingException mx) {
+                throw new MarshalException(mx);
+            }
+            enumeration = colHandler.elements(value);
+        }
+        if (enumeration.hasMoreElements()) {
+            StringBuffer sb = new StringBuffer();
+            for (int v = 0; enumeration.hasMoreElements(); v++) {
+                if (v > 0) {
+                    sb.append(' ');
+                }
+                Object collectionValue = enumeration.nextElement();
+                //-- handle hex/base64 content
+                Class objType = collectionValue.getClass();
+                if (objType.isArray() && (objType.getComponentType() == Byte.TYPE)) {
+                    collectionValue = encodeBinaryData(collectionValue, descriptor.getComponentType());
+                }
+                
+                sb.append(collectionValue.toString());
+            }
+            returnValue = sb;
+        }
+        
+        return returnValue;
+    }
+
+
+    /**
+     * Encode binary data.
+     * @param valueToEncode The binary data to encode.
+     * @param componentType The XML schema component type.
+     * @return Encoded binary data in {@link String} form.
+     */
+    private Object encodeBinaryData(final Object valueToEncode,
+            final String componentType) {
+        String encodedValue;
+        if (HexDecoder.DATA_TYPE.equals(componentType)) {
+            encodedValue = HexDecoder.encode((byte[]) valueToEncode);
+        } else {
+            encodedValue = new String(Base64Encoder.encode((byte[]) valueToEncode));
+        }
+        return encodedValue;
+    }
 
 
     /**

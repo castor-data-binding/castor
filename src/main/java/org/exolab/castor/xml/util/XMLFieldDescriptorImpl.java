@@ -99,6 +99,9 @@ public class XMLFieldDescriptorImpl extends AbstractFieldDescriptor implements X
     /** The XML Schema type of this field value. */
     private String _schemaType = null;
 
+    /** The XML Schema type of the components for XML schema lists. */
+    private String _componentType = null;
+
     /** The prefix used in case the value of the field described is of type QName. */
     private String _qNamePrefix = null;
 
@@ -107,7 +110,10 @@ public class XMLFieldDescriptorImpl extends AbstractFieldDescriptor implements X
 
     private FieldValidator _validator = null;
 
-    /** The XML name of the field, this is only the local name. */
+    /** 
+     * The local XML name of the field; this does not include any
+     * path elements.
+     */
     private String _xmlName    = null;
 
     /** The relative XML path used when wrapping in nested elements, does not
@@ -116,6 +122,12 @@ public class XMLFieldDescriptorImpl extends AbstractFieldDescriptor implements X
     private String _xmlPath    = null;
 
 	private List _substitutes;
+
+    /**
+     * Indicates whether the field described by this {@link XMLFieldDescriptorImpl} is
+     * created as a result of a <xs:list> definition.
+     */
+    private boolean _derivedFromXSList;
 	
 
     //----------------/
@@ -430,11 +442,29 @@ public class XMLFieldDescriptorImpl extends AbstractFieldDescriptor implements X
     }
 
     /**
+     * Sets the type of the XML Schema type of the value for the field being
+     * described.
+     *
+     * @param componentType The component type for &lt;xs:list&gt;s.
+     */
+    public void setComponentType(final String componentType) {
+        _componentType = componentType;
+    }
+
+    /**
      * @see org.exolab.castor.xml.XMLFieldDescriptor#getSchemaType()
      * {@inheritDoc}
      */
     public String getSchemaType() {
          return _schemaType;
+     }
+
+    /**
+     * {@inheritDoc}
+     * @see org.exolab.castor.xml.XMLFieldDescriptor#getComponentType()
+     */
+    public String getComponentType() {
+         return _componentType;
      }
 
     public void setValidator(final FieldValidator validator) {
@@ -791,6 +821,24 @@ public class XMLFieldDescriptorImpl extends AbstractFieldDescriptor implements X
      */
     public void setSubstitutes(List substitutes) {
         _substitutes = substitutes;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.XMLFieldDescriptor#setDerivedFromXSList(boolean)
+     */
+    public void setDerivedFromXSList(final boolean derivedFromXSList) {
+        _derivedFromXSList = derivedFromXSList;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.XMLFieldDescriptor#isDerivedFromXSList()
+     */
+    public boolean isDerivedFromXSList() {
+        return _derivedFromXSList;
     }
 
 }

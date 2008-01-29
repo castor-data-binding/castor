@@ -58,6 +58,8 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
@@ -741,9 +743,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
         //-- check for special cases
         boolean byteArray = false;
-
-        if (type.isArray())
+        if (type.isArray()) {
             byteArray = (type.getComponentType() == Byte.TYPE);
+        }
 
         //-- If we don't have an instance object and the Class type
         //-- is not a primitive or a byte[] we must simply return
@@ -764,7 +766,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 state.buffer.setLength(0);
             }
 
-            if (type == String.class) {
+            if (type == String.class && !((XMLFieldDescriptorImpl) descriptor).isDerivedFromXSList()) {
                 if (str != null)
                     state.object = str;
                 else if (state.nil) {
@@ -775,20 +777,37 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 }
             }
             //-- special handling for byte[]
-            else if (byteArray) {
+            else if (byteArray && !descriptor.isDerivedFromXSList()) {
                 if (str == null)
                     state.object = new byte[0];
                 else {
-                    //-- Base64/HexBinary decoding
-                    if (HexDecoder.DATA_TYPE.equals(descriptor.getSchemaType())) {
-                        state.object = HexDecoder.decode(str);
-                    } else {
-                        state.object = Base64Decoder.decode(str);
-                    }
+                    state.object = decodeBinaryData(descriptor, str);
                 }
             }
             else if (state.args != null) {
             	state.object = createInstance(state.type, state.args);
+            }
+            else if (descriptor.isMultivalued()
+                    && descriptor.getSchemaType() != null
+                    && descriptor.getSchemaType().equals("list")
+                    && ((XMLFieldDescriptorImpl) descriptor).isDerivedFromXSList()) {
+                StringTokenizer attrValueTokenizer = new StringTokenizer(str);
+                List primitives = new ArrayList();
+                while (attrValueTokenizer.hasMoreTokens()) {
+                    String tokenValue = attrValueTokenizer.nextToken();
+                    if (isPrimitive(descriptor.getFieldType())) {
+                        primitives.add(toPrimitiveObject(type, tokenValue, state.fieldDesc));
+                    } else {
+                        Class valueType = descriptor.getFieldType();
+                        //-- handle base64/hexBinary
+                        if (valueType.isArray()
+                                && (valueType.getComponentType() == Byte.TYPE)) {
+                            primitives.add(decodeBinaryData(descriptor, tokenValue));
+                        }
+                    }
+                    
+                }
+                state.object = primitives;
             }
             else state.object = toPrimitiveObject(type,str,state.fieldDesc);
         }
@@ -812,11 +831,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     //-- handle base64/hexBinary
                     if (valueType.isArray()
                             && (valueType.getComponentType() == Byte.TYPE)) {
-                        if (HexDecoder.DATA_TYPE.equals(descriptor.getSchemaType())) {
-                            value = HexDecoder.decode((String) value);
-                        } else {
-                            value = Base64Decoder.decode((String) value);
-                        }
+                        value = decodeBinaryData(descriptor, (String) value);
                     }
                 }
 
@@ -1030,16 +1045,34 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 if (firstOccurance && _clearCollections) {
                     handler.resetValue(state.object);
                 }
-                
-                //-- finally set the value!!
-                handler.setValue(state.object, val);
-                
-                // If there is a parent for this object, pass along
-                // a notification that we've finished adding a child
-                if ( _unmarshalListener != null ) {
-                    _unmarshalListener.fieldAdded(descriptor.getFieldName(), state.object, fieldState.object);
-                }
 
+                if (descriptor.isMultivalued() 
+                        && descriptor.getSchemaType() != null
+                        && descriptor.getSchemaType().equals("list")
+                        && ((XMLFieldDescriptorImpl) descriptor).isDerivedFromXSList()) {
+                    List values = (List) val;
+                    for (Iterator iterator = values.iterator(); iterator.hasNext();) {
+                        //-- finally set the value!!
+                        Object value = iterator.next();
+                        handler.setValue(state.object, value);
+                        
+                        // If there is a parent for this object, pass along
+                        // a notification that we've finished adding a child
+                        if ( _unmarshalListener != null ) {
+                            _unmarshalListener.fieldAdded(descriptor.getFieldName(), state.object, fieldState.object);
+                        }
+                    }
+                } else {
+                
+                    //-- finally set the value!!
+                    handler.setValue(state.object, val);
+
+                    // If there is a parent for this object, pass along
+                    // a notification that we've finished adding a child
+                    if ( _unmarshalListener != null ) {
+                        _unmarshalListener.fieldAdded(descriptor.getFieldName(), state.object, fieldState.object);
+                    }
+                }                
             }
 
         }
@@ -1079,6 +1112,26 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             this.endElement(state.elementName);
         }
     } //-- endElement
+
+    /**
+     * Decode binary data and return decoded value.
+     * @param descriptor {@link XMLFieldDescriptor} instance for the field whose value requires decoding.
+     * @param binaryData The binary data value to be decoded
+     * @return Decode data.
+     */
+    private byte[] decodeBinaryData(final XMLFieldDescriptor descriptor,
+            final String binaryData) {
+        //-- Base64/HexBinary decoding
+        byte[] decodedValue;
+        if ((descriptor.isMultivalued() 
+                && HexDecoder.DATA_TYPE.equals(descriptor.getComponentType())) 
+                || HexDecoder.DATA_TYPE.equals(descriptor.getSchemaType())) {
+            decodedValue = HexDecoder.decode(binaryData);
+        } else {
+            decodedValue = Base64Decoder.decode(binaryData);
+        }
+        return decodedValue;
+    }
 
     /**
      * <p>ContentHandler#endElement</p>
@@ -3010,52 +3063,69 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
         
         //-- if this is an multi-value attribute
-    	StringTokenizer attrValueTokenizer = null;
-        if (descriptor.isMultivalued())
-        {
-        	attrValueTokenizer = new StringTokenizer(attValue);
-        	if(attrValueTokenizer.hasMoreTokens())
-        		attValue = attrValueTokenizer.nextToken();
-        }
-        
-        while(true)
-        {
-        	//-- value to set
-            Object value = attValue;
-            //-- check for proper type and do type conversion
-            if (isPrimative)
-                value = toPrimitiveObject(type, attValue, descriptor);
-            
-            // special treatment for byte[]s
-            if (isByteArray) {
-                if (attValue == null)
-                    value = new byte[0];
-                else {
-                    //-- Base64/hexbinary decoding
-                    if (HexDecoder.DATA_TYPE.equals(descriptor.getSchemaType())) {
-                        value = HexDecoder.decode(attValue);
-                    } else {
-                        value = Base64Decoder.decode(attValue);
-                    }
-                }
+        if (descriptor.isMultivalued()) {
+            StringTokenizer attrValueTokenizer = new StringTokenizer(attValue);
+        	while (attrValueTokenizer.hasMoreTokens()) {
+                attValue = attrValueTokenizer.nextToken();
+                setAttributeValueOnObject(attValue, descriptor, parent, handler,
+                        type, isPrimative, isQName, isByteArray);
             }
-            
-            //-- check if the value is a QName that needs to
-            //-- be resolved (ns:value -> {URI}value)
-            if(isQName)
-                value = resolveNamespace(value);
-            //-- set value
-            handler.setValue(parent, value);
-            //-- more values?
-            if(attrValueTokenizer==null)
-                break;
-            if(!attrValueTokenizer.hasMoreTokens())
-                break;
-            //-- next value
-            attValue = attrValueTokenizer.nextToken();
+        } else {
+            setAttributeValueOnObject(attValue, descriptor, parent, handler,
+                    type, isPrimative, isQName, isByteArray);
         }
 
     } //-- processAttribute
+
+    /**
+     * Sets the value of an attribute on the target object, using the {@link FieldHandler}
+     * provided.
+     * @param attValue The attribute value.
+     * @param descriptor Corresponding {@link XMLFieldDescriptor} instance for the attribute processed.
+     * @param parent Parent object into which attribute value needs to be 'injected'.
+     * @param handler {@link FieldHandler} used for 'value injection'.
+     * @param type {@link Class} type.
+     * @param isPrimitive Indicates whether the attribute value represents a primitive value.
+     * @param isQName Indicates whether the attribute value represents a QName value.
+     * @param isByteArray Indicates whether the attribute value represents a byte array.
+     * @throws SAXException If there's a problem 'injecting' the attribute value into the target field.
+     */
+    private void setAttributeValueOnObject(final String attValue,
+            final XMLFieldDescriptor descriptor, 
+            final Object parent, 
+            final FieldHandler handler,
+            final Class type, 
+            final boolean isPrimitive, 
+            final boolean isQName,
+            final boolean isByteArray) throws SAXException {
+        //-- value to set
+        Object value = attValue;
+        //-- special type conversion for primitives
+        if (isPrimitive) {
+            value = toPrimitiveObject(type, attValue, descriptor);
+        }
+        
+        //-- special byte[]s provessing, if required
+        if (isByteArray) {
+            if (attValue == null) {
+                value = new byte[0];
+            } else {
+                //-- Base64/hexbinary decoding
+                if (HexDecoder.DATA_TYPE.equals(descriptor.getComponentType())) {
+                    value = HexDecoder.decode(attValue);
+                } else {
+                    value = Base64Decoder.decode(attValue);
+                }
+            }
+        }
+        
+        //-- QName resolution (ns:value -> {URI}value), if required
+        if(isQName) {
+            value = resolveNamespace(value);
+        }
+        //-- set value
+        handler.setValue(parent, value);
+    }
 
     /**
      * Processes the given attribute set, and creates the

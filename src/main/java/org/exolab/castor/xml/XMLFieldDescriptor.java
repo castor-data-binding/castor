@@ -18,6 +18,7 @@ package org.exolab.castor.xml;
 import java.util.List;
 
 import org.exolab.castor.mapping.FieldDescriptor;
+import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 
 /**
  * XML field descriptor. Wraps {@link FieldDescriptor} and adds
@@ -241,12 +242,37 @@ public interface XMLFieldDescriptor extends FieldDescriptor {
      * Returns the possible substitution groups for this class.
      * @return the possible substitution groups for this class.
      */
-    public List getSubstitutes();
+    List getSubstitutes();
 
     /**
      * Sets the possible substitution groups for this class.
      * @param substitutes Possible substitution groups for this class.
      */
-    public void setSubstitutes(List substitutes); 
+    void setSubstitutes(List substitutes); 
 
+    /**
+     * Sets whether the field described by this {@link XMLFieldDescriptorImpl} is
+     * created as a result of a <xs:list> definition.
+     * @param derivedFromXSList A boolean value, true or false.
+     */
+    void setDerivedFromXSList(boolean derivedFromXSList);
+
+    /**
+     * Indicates whether the field described by this {@link XMLFieldDescriptorImpl} is
+     * created as a result of a <xs:list> definition.
+     * @param derivedFromXSList Trueif the field described by this {@link XMLFieldDescriptorImpl} is
+     * created as a result of a <xs:list> definition.
+.
+     */
+    boolean isDerivedFromXSList();
+    
+    /**
+     * Returns the component type of this {@link XMLFieldDescriptor} instance, if 
+     * the field described represents a collection of values.
+     * @return The collection's component type.
+     * @see XMLFieldDescriptor#getSchemaType()
+     */
+    String getComponentType();
+
+    
 }

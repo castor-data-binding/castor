@@ -59,6 +59,7 @@ import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.builder.info.XMLInfo;
+import org.exolab.castor.builder.types.XSList;
 import org.exolab.castor.builder.types.XSListType;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.xml.XMLConstants;
@@ -328,6 +329,7 @@ public final class DescriptorSourceFactory {
                                   final JSourceCode jsc) {
 
         XSType xsType       = member.getSchemaType();
+        XSType xsCollectionType = null;
         boolean any         = false;
         boolean isElement   = (member.getNodeType() == XMLInfo.ELEMENT_TYPE);
         boolean isAttribute = (member.getNodeType() == XMLInfo.ATTRIBUTE_TYPE);
@@ -343,6 +345,7 @@ public final class DescriptorSourceFactory {
 
         if (xsType.isCollection()) {
             //Attributes can handle COLLECTION type for NMTOKENS or IDREFS for instance
+            xsCollectionType = xsType;
             xsType = ((CollectionInfo) member).getContent().getSchemaType();
         }
 
@@ -435,7 +438,15 @@ public final class DescriptorSourceFactory {
         }
 
         // Add the schema type as defined in the schema
-        jsc.add("desc.setSchemaType(\"" + xsType.getName() + "\");");
+        if (xsCollectionType == null) {
+            jsc.add("desc.setSchemaType(\"" + xsType.getName() + "\");");
+        } else {
+            jsc.add("desc.setSchemaType(\"list\");");
+            jsc.add("desc.setComponentType(\"" + xsType.getName() + "\");");
+            if (xsCollectionType instanceof XSList && ((XSList) xsCollectionType).isDerivedFromXSList()) {
+                jsc.add("desc.setDerivedFromXSList(true);");
+            }
+        }
         jsc.add("desc.setHandler(handler);");
 
         //-- container
