@@ -15,27 +15,19 @@
  */
 package org.exolab.castor.xml;
 
-import java.io.IOException;
-import java.io.Writer;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.mapping.BindingType;
 import org.castor.mapping.MappingUnmarshaller;
-import org.castor.xml.InternalContext;
 import org.castor.xml.AbstractInternalContext;
+import org.castor.xml.InternalContext;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingLoader;
 import org.exolab.castor.tools.MappingTool;
 import org.exolab.castor.util.ChangeLog2XML;
-import org.exolab.castor.xml.schema.Resolver;
-import org.exolab.castor.xml.schema.ScopableResolver;
-import org.exolab.castor.xml.schema.reader.SchemaReader;
-import org.exolab.castor.xml.schema.writer.SchemaWriter;
 import org.exolab.castor.xml.util.ResolverStrategy;
 import org.exolab.castor.xml.util.resolvers.CastorXMLStrategy;
-import org.xml.sax.InputSource;
 
 /**
  * Bootstrap class for Castor XML that allows you to load information about the

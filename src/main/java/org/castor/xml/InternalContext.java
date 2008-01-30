@@ -29,7 +29,6 @@ import org.exolab.castor.xml.OutputFormat;
 import org.exolab.castor.xml.ResolverException;
 import org.exolab.castor.xml.Serializer;
 import org.exolab.castor.xml.XMLClassDescriptorResolver;
-import org.exolab.castor.xml.schema.Resolver;
 import org.exolab.castor.xml.util.ResolverStrategy;
 import org.xml.sax.DocumentHandler;
 import org.xml.sax.Parser;
