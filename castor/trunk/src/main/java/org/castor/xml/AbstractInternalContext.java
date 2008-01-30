@@ -39,7 +39,6 @@ import org.exolab.castor.xml.Serializer;
 import org.exolab.castor.xml.XMLClassDescriptorResolver;
 import org.exolab.castor.xml.XMLContext;
 import org.exolab.castor.xml.XMLSerializerFactory;
-import org.exolab.castor.xml.schema.Resolver;
 import org.exolab.castor.xml.util.DefaultNaming;
 import org.exolab.castor.xml.util.ResolverStrategy;
 import org.exolab.castor.xml.util.XMLParserUtils;

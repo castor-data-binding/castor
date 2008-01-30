@@ -20,8 +20,6 @@ import org.exolab.castor.xml.ClassDescriptorResolverFactory;
 import org.exolab.castor.xml.Introspector;
 import org.exolab.castor.xml.XMLClassDescriptorResolver;
 import org.exolab.castor.xml.XMLContext;
-import org.exolab.castor.xml.schema.Resolver;
-import org.exolab.castor.xml.schema.ScopableResolver;
 import org.exolab.castor.xml.util.ResolverStrategy;
 import org.exolab.castor.xml.util.resolvers.CastorXMLStrategy;
 
