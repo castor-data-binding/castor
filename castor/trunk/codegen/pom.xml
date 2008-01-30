@@ -141,6 +141,12 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 			<version>1.2-SNAPSHOT</version>
 		</dependency>
 
+        <dependency>
+            <groupId>org.codehaus.castor</groupId>
+            <artifactId>castor-xml-schema</artifactId>
+            <version>1.2-SNAPSHOT</version>
+        </dependency>
+
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
