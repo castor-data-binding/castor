@@ -97,6 +97,8 @@ import org.exolab.castor.xml.schema.Facet;
 import org.exolab.castor.xml.schema.Group;
 import org.exolab.castor.xml.schema.ModelGroup;
 import org.exolab.castor.xml.schema.Schema;
+import org.exolab.castor.xml.schema.SchemaContext;
+import org.exolab.castor.xml.schema.SchemaContextImpl;
 import org.exolab.castor.xml.schema.SimpleContent;
 import org.exolab.castor.xml.schema.SimpleType;
 import org.exolab.castor.xml.schema.Structure;
@@ -592,9 +594,10 @@ public class SourceGenerator extends BuilderConfiguration {
             return;
         }
 
+        SchemaContext schemaContext = new SchemaContextImpl();
         SchemaUnmarshaller schemaUnmarshaller = null;
         try {
-           schemaUnmarshaller = new SchemaUnmarshaller(_internalContext);
+           schemaUnmarshaller = new SchemaUnmarshaller(schemaContext);
         } catch (XMLException e) {
             //--The default constructor cannot throw exception so this should never happen
             //--just log the exception

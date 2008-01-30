@@ -46,13 +46,12 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
-import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
 import org.exolab.castor.xml.schema.Annotation;
 import org.exolab.castor.xml.schema.ComplexType;
-import org.exolab.castor.xml.schema.Resolver;
+import org.exolab.castor.xml.schema.SchemaContext;
 import org.exolab.castor.xml.schema.SchemaNames;
 
 /**
@@ -91,17 +90,17 @@ public class SimpleContentUnmarshaller extends ComponentReader {
 
     /**
      * Creates a new SimpleContentUnmarshaller.
-     * @param internalContext the internalContext to get some configuration settings from
+     * @param schemaContext the {@link SchemaContext} to get some configuration settings from
      * @param complexType the complexType we are unmarshalling
      * @param atts the AttributeList
     **/
     public SimpleContentUnmarshaller(
-            final InternalContext internalContext,
+            final SchemaContext schemaContext,
             final ComplexType complexType, 
             final AttributeSet atts)
     throws XMLException {
         
-        super(internalContext);
+        super(schemaContext);
 
         _complexType = complexType;
     } //-- SimpleContentUnmarshaller
@@ -166,7 +165,7 @@ public class SimpleContentUnmarshaller extends ComponentReader {
 
             foundExtension = true;
             unmarshaller
-                = new ExtensionUnmarshaller(getInternalContext(), _complexType, atts);
+                = new ExtensionUnmarshaller(getSchemaContext(), _complexType, atts);
         }
         //-- restriction
         else if (SchemaNames.RESTRICTION.equals(name)) {
@@ -183,7 +182,7 @@ public class SimpleContentUnmarshaller extends ComponentReader {
             foundRestriction = true;
 
             unmarshaller =
-			new SimpleContentRestrictionUnmarshaller(getInternalContext(), _complexType, atts);
+			new SimpleContentRestrictionUnmarshaller(getSchemaContext(), _complexType, atts);
         }
         //-- annotation
         else if (name.equals(SchemaNames.ANNOTATION)) {
@@ -196,7 +195,7 @@ public class SimpleContentUnmarshaller extends ComponentReader {
                     "of a 'simpleContent' element.");
 
             foundAnnotation = true;
-            unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
+            unmarshaller = new AnnotationUnmarshaller(getSchemaContext(), atts);
         }
         else illegalElement(name);
 

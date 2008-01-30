@@ -46,11 +46,18 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
-import org.castor.xml.InternalContext;
-import org.exolab.castor.net.*;
-import org.exolab.castor.xml.*;
-import org.exolab.castor.xml.schema.*;
-import org.xml.sax.*;
+import org.exolab.castor.net.URIException;
+import org.exolab.castor.net.URILocation;
+import org.exolab.castor.net.URIResolver;
+import org.exolab.castor.xml.AttributeSet;
+import org.exolab.castor.xml.XMLException;
+import org.exolab.castor.xml.schema.Schema;
+import org.exolab.castor.xml.schema.SchemaContext;
+import org.exolab.castor.xml.schema.SchemaException;
+import org.exolab.castor.xml.schema.SchemaNames;
+import org.xml.sax.InputSource;
+import org.xml.sax.Locator;
+import org.xml.sax.Parser;
 
 /**
  * A simple unmarshaller to read included schemas.
@@ -67,14 +74,14 @@ public class IncludeUnmarshaller extends ComponentReader
 
 
     public IncludeUnmarshaller(
-            final InternalContext internalContext,
+            final SchemaContext schemaContext,
             final Schema schema,
             final AttributeSet atts,
             final URIResolver uriResolver,
             final Locator locator,
             final SchemaUnmarshallerState state)
     throws XMLException {
-        super(internalContext);
+        super(schemaContext);
 
         setURIResolver(uriResolver);
         URILocation uri = null;
@@ -141,13 +148,13 @@ public class IncludeUnmarshaller extends ComponentReader
         	return;
 		Parser parser = null;
 		try {
-		    parser = getInternalContext().getParser();
+		    parser = getSchemaContext().getParser();
 		}
 		catch(RuntimeException rte) {}
 		if (parser == null) {
 		    throw new SchemaException("Error failed to create parser for include");
 		}
-		SchemaUnmarshaller schemaUnmarshaller = new SchemaUnmarshaller(getInternalContext(), true, state, getURIResolver());
+		SchemaUnmarshaller schemaUnmarshaller = new SchemaUnmarshaller(getSchemaContext(), true, state, getURIResolver());
 
 		if (state.cacheIncludedSchemas)
 		    schemaUnmarshaller.setSchema(includedSchema);

@@ -45,7 +45,6 @@
 
 package org.exolab.castor.xml.schema.reader;
 
-import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
@@ -55,8 +54,8 @@ import org.exolab.castor.xml.schema.AttributeGroupReference;
 import org.exolab.castor.xml.schema.ComplexType;
 import org.exolab.castor.xml.schema.ContentType;
 import org.exolab.castor.xml.schema.Facet;
-import org.exolab.castor.xml.schema.Resolver;
 import org.exolab.castor.xml.schema.Schema;
+import org.exolab.castor.xml.schema.SchemaContext;
 import org.exolab.castor.xml.schema.SchemaException;
 import org.exolab.castor.xml.schema.SchemaNames;
 import org.exolab.castor.xml.schema.SimpleContent;
@@ -110,16 +109,16 @@ public class SimpleContentRestrictionUnmarshaller extends ComponentReader {
     //----------------/
     /**
      * Creates a new RestrictionUnmarshaller.
-     * @param internalContext the internalContext to get some configuration settings from
+     * @param schemaContext the {@link SchemaContext} to get some configuration settings from
      * @param complexType the complexType being unmarshalled
      * @param atts the AttributeList
      */
     public SimpleContentRestrictionUnmarshaller(
-            final InternalContext internalContext,
+            final SchemaContext schemaContext,
             final ComplexType complexType, 
             final AttributeSet atts) {
         
-        super(internalContext);
+        super(schemaContext);
 
         _complexType  = complexType;
         _complexType.setDerivationMethod(SchemaNames.RESTRICTION);
@@ -261,7 +260,7 @@ public class SimpleContentRestrictionUnmarshaller extends ComponentReader {
                     "'restriction' elements.");
 
             foundAnnotation = true;
-            unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
+            unmarshaller = new AnnotationUnmarshaller(getSchemaContext(), atts);
         }
 
 		else if (SchemaNames.SIMPLE_TYPE.equals(name)) {
@@ -278,7 +277,7 @@ public class SimpleContentRestrictionUnmarshaller extends ComponentReader {
                     "elements, must appear before any attribute elements.");
 
 			foundSimpleType = true;
-            unmarshaller = new SimpleTypeUnmarshaller(getInternalContext(), _schema, atts);
+            unmarshaller = new SimpleTypeUnmarshaller(getSchemaContext(), _schema, atts);
 
         }
         else if (FacetUnmarshaller.isFacet(name)) {
@@ -287,7 +286,7 @@ public class SimpleContentRestrictionUnmarshaller extends ComponentReader {
 	             error("A 'facet', as a child of 'restriction' "+
                     "elements, must appear before any attribute elements.");
 
-			unmarshaller = new FacetUnmarshaller(getInternalContext(), name, atts);
+			unmarshaller = new FacetUnmarshaller(getSchemaContext(), name, atts);
 			if (_simpleTypeDef == null) {
 			    SimpleContent content = (SimpleContent)_complexType.getContentType();
 			    _simpleTypeDef = new SimpleTypeDefinition(_schema, content.getTypeName(),_id);
@@ -295,7 +294,7 @@ public class SimpleContentRestrictionUnmarshaller extends ComponentReader {
         }
         else if (SchemaNames.ATTRIBUTE.equals(name)) {
              foundAttribute = true;
-             unmarshaller = new AttributeUnmarshaller(getInternalContext(), _schema, atts);
+             unmarshaller = new AttributeUnmarshaller(getSchemaContext(), _schema, atts);
 		}
 		else if (SchemaNames.ATTRIBUTE_GROUP.equals(name)) {
 
@@ -305,12 +304,12 @@ public class SimpleContentRestrictionUnmarshaller extends ComponentReader {
                     "attributeGroups, but not defining ones.");
              }
 			 foundAttributeGroup = true;
-			 unmarshaller = new AttributeGroupUnmarshaller(getInternalContext(), _schema, atts);
+			 unmarshaller = new AttributeGroupUnmarshaller(getSchemaContext(), _schema, atts);
 		}
         //-- <anyAttribute>
         else if (SchemaNames.ANY_ATTRIBUTE.equals(name)) {
             unmarshaller
-                 = new WildcardUnmarshaller(getInternalContext(), _complexType, _schema, name, atts);
+                 = new WildcardUnmarshaller(getSchemaContext(), _complexType, _schema, name, atts);
         }
 
 		else illegalElement(name);

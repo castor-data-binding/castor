@@ -8,7 +8,12 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.core.util.Configuration;
 import org.castor.util.Messages;
+import org.castor.xml.XMLConfiguration;
+import org.exolab.castor.xml.OutputFormat;
+import org.exolab.castor.xml.Serializer;
+import org.exolab.castor.xml.XMLSerializerFactory;
 import org.xml.sax.Parser;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXNotRecognizedException;
@@ -171,4 +176,99 @@ public class XMLParserUtils {
         }
         return parser;
     }
+    
+    public static Parser getParser(final Configuration configuration, final String features) {
+        Parser parser = null;
+        Boolean validation = configuration.getBoolean(XMLConfiguration.PARSER_VALIDATION);
+        Boolean namespaces = configuration.getBoolean(XMLConfiguration.NAMESPACES);
+        String parserClassName = configuration.getString(XMLConfiguration.PARSER);
+        if ((parserClassName == null) || (parserClassName.length() == 0)) {
+            SAXParser saxParser = XMLParserUtils.getSAXParser(validation.booleanValue(), namespaces.booleanValue());
+            if (saxParser != null) {
+                try {
+                    parser = saxParser.getParser();
+                } catch (SAXException e) {
+                    LOG.error(Messages.format("conf.configurationError", e));
+                }
+            }
+        }
+        
+        if (parser == null) {
+            if ((parserClassName == null) 
+                    || (parserClassName.length() == 0) 
+                    || (parserClassName.equalsIgnoreCase("xerces"))) {
+                parserClassName = "org.apache.xerces.parsers.SAXParser";
+            }
+            
+            // if a parser class was specified, we try to create it
+            parser = XMLParserUtils.instantiateParser(parserClassName);
+
+            if (parser instanceof XMLReader) {
+                XMLReader xmlReader = (XMLReader) parser;
+                XMLParserUtils.setFeaturesOnXmlReader(
+                        configuration.getString(XMLConfiguration.PARSER_FEATURES, features),
+                        configuration.getString(XMLConfiguration.PARSER_FEATURES_DISABLED, ""),
+                        validation.booleanValue(),
+                        namespaces.booleanValue(),
+                        xmlReader);
+            }
+        }
+        return parser;
+    }
+    
+    /**
+     * @see org.castor.xml.InternalContext#getSerializer()
+     */
+    public static Serializer getSerializer(final Configuration configuration) {
+        Serializer serializer = getSerializerFactory(
+                configuration.getString(
+                        XMLConfiguration.SERIALIZER_FACTORY)).getSerializer();
+        serializer.setOutputFormat(getOutputFormat(configuration));
+        return serializer;
+    }
+    
+    /**
+     * @see org.castor.xml.InternalContext#getOutputFormat()
+     */
+    public static OutputFormat getOutputFormat(final Configuration configuration) {
+
+        boolean indent = configuration.getBoolean(XMLConfiguration.USE_INDENTATION, false);
+
+        OutputFormat format = getSerializerFactory(
+                configuration.getString(
+                        XMLConfiguration.SERIALIZER_FACTORY))
+                        .getOutputFormat();
+        format.setMethod(OutputFormat.XML);
+        format.setIndenting(indent);
+        
+        // There is a bad interaction between the indentation and the
+        // setPreserveSpace option. The indentated output is strangely indented.
+        if (!indent) {
+            format.setPreserveSpace(true);
+        } 
+
+        return format;
+    } //-- getOutputFormat
+    
+    /**
+     * Returns the currently configured XMLSerializerFactory instance.
+     * @param serializerFactoryName the class name of the serializer factory
+     * @return XMLSerializerFactory to use by Castor
+     */
+    public static XMLSerializerFactory getSerializerFactory(final String serializerFactoryName) {
+        XMLSerializerFactory serializerFactory;
+        
+        try {
+            serializerFactory = (XMLSerializerFactory) 
+            Class.forName(serializerFactoryName).newInstance();
+        } catch (Exception except) {
+            throw new RuntimeException(
+                    Messages.format("conf.failedInstantiateSerializerFactory", 
+                            serializerFactoryName, except));
+        }
+        return serializerFactory;
+    }
+    
+    
 }
+

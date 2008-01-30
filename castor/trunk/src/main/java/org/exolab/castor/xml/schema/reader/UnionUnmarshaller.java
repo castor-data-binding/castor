@@ -46,17 +46,17 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
-import org.castor.xml.InternalContext;
+import java.util.StringTokenizer;
+
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
 import org.exolab.castor.xml.schema.Annotation;
 import org.exolab.castor.xml.schema.Schema;
+import org.exolab.castor.xml.schema.SchemaContext;
 import org.exolab.castor.xml.schema.SchemaNames;
 import org.exolab.castor.xml.schema.SimpleType;
 import org.exolab.castor.xml.schema.Union;
-
-import java.util.StringTokenizer;
 
 /**
  * A class for Unmarshalling XML Schema Union types
@@ -100,15 +100,15 @@ public class UnionUnmarshaller extends ComponentReader {
     /**
      * Creates a new IdentityConstraintUnmarshaller
      *
-     * @param internalContext the internalContext to get some configuration settings from
+     * @param schemaContext the {@link SchemaContext} to get some configuration settings from
      * @param atts the AttributeList
     **/
     public UnionUnmarshaller(
-            final InternalContext internalContext,
+            final SchemaContext schemaContext,
             final Schema schema,
             final AttributeSet atts)
     throws XMLException {
-        super(internalContext);
+        super(schemaContext);
         
         if (schema == null) {
             String err = "'schema' must not be null.";
@@ -188,11 +188,11 @@ public class UnionUnmarshaller extends ComponentReader {
                     elementName() + "'.");
 
             _foundAnnotation = true;
-            _unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
+            _unmarshaller = new AnnotationUnmarshaller(getSchemaContext(), atts);
         }
         else if (SchemaNames.SIMPLE_TYPE.equals(name)) {
             _foundSimpleType = true;
-            _unmarshaller = new SimpleTypeUnmarshaller(getInternalContext(), _schema, atts);
+            _unmarshaller = new SimpleTypeUnmarshaller(getSchemaContext(), _schema, atts);
         }
         else illegalElement(name);
 

@@ -46,10 +46,10 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
-import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
+import org.exolab.castor.xml.schema.SchemaContext;
 
 /**
  * A class for Skipping unknown elements during unmarshalling 
@@ -72,8 +72,8 @@ public class UnknownUnmarshaller extends ComponentReader {
      //- Constructors -/
     //----------------/
 
-    public UnknownUnmarshaller(final InternalContext internalContext, final String name) {
-        super(internalContext);
+    public UnknownUnmarshaller(final SchemaContext schemaContext, final String name) {
+        super(schemaContext);
         this.name = name;
     } //-- UnknownUnmarshaller
 

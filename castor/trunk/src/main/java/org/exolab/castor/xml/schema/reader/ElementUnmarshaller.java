@@ -46,7 +46,6 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
-import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
@@ -54,8 +53,8 @@ import org.exolab.castor.xml.schema.Annotation;
 import org.exolab.castor.xml.schema.ElementDecl;
 import org.exolab.castor.xml.schema.Form;
 import org.exolab.castor.xml.schema.IdentityConstraint;
-import org.exolab.castor.xml.schema.Resolver;
 import org.exolab.castor.xml.schema.Schema;
+import org.exolab.castor.xml.schema.SchemaContext;
 import org.exolab.castor.xml.schema.SchemaException;
 import org.exolab.castor.xml.schema.SchemaNames;
 import org.exolab.castor.xml.schema.XMLType;
@@ -109,16 +108,16 @@ public class ElementUnmarshaller extends ComponentReader {
 
     /**
      * Creates a new ElementUnmarshaller.
-     * @param internalContext the internalContext to get some configuration settings from
+     * @param schemaContext the {@link SchemaContext} to get some configuration settings from
      * @param schema the Schema to which the Element belongs
      * @param atts the AttributeList
     **/
     public ElementUnmarshaller(
-            final InternalContext internalContext,
+            final SchemaContext schemaContext,
             final Schema schema,
             final AttributeSet atts)
     throws XMLException {
-        super(internalContext);
+        super(schemaContext);
 
         this._schema = schema;
 
@@ -238,7 +237,7 @@ public class ElementUnmarshaller extends ComponentReader {
         } else if (minOccurs > 1)
             _element.setMaxOccurs(minOccurs);
 
-        charUnmarshaller = new CharacterUnmarshaller(getInternalContext());
+        charUnmarshaller = new CharacterUnmarshaller(getSchemaContext());
     } //-- ElementUnmarshaller
 
       //-----------/
@@ -306,7 +305,7 @@ public class ElementUnmarshaller extends ComponentReader {
                     "element definitions.");
 
             foundAnnotation = true;
-            unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
+            unmarshaller = new AnnotationUnmarshaller(getSchemaContext(), atts);
         }
         else if (SchemaNames.COMPLEX_TYPE.equals(name)) {
 
@@ -327,7 +326,7 @@ public class ElementUnmarshaller extends ComponentReader {
 
             foundComplexType = true;
             unmarshaller
-                = new ComplexTypeUnmarshaller(getInternalContext(), _schema, atts);
+                = new ComplexTypeUnmarshaller(getSchemaContext(), _schema, atts);
         }
         else if (SchemaNames.SIMPLE_TYPE.equals(name)) {
 
@@ -346,14 +345,14 @@ public class ElementUnmarshaller extends ComponentReader {
                     "'keyref' and 'unique' elements.");
 
             foundSimpleType = true;
-            unmarshaller = new SimpleTypeUnmarshaller(getInternalContext(), _schema, atts);
+            unmarshaller = new SimpleTypeUnmarshaller(getSchemaContext(), _schema, atts);
         }
         else if (SchemaNames.KEY.equals(name) || 
                  SchemaNames.KEYREF.equals(name) ||
                  SchemaNames.UNIQUE.equals(name)) 
         {
             foundIdentityConstraint = true;
-            unmarshaller = new IdentityConstraintUnmarshaller(getInternalContext(), name, atts);
+            unmarshaller = new IdentityConstraintUnmarshaller(getSchemaContext(), name, atts);
         }
         else illegalElement(name);
 

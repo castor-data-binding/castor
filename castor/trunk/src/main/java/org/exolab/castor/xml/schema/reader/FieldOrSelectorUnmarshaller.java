@@ -46,14 +46,14 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
-import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.castor.xml.schema.Annotation;
-import org.exolab.castor.xml.schema.IdentitySelector;
 import org.exolab.castor.xml.schema.IdentityField;
+import org.exolab.castor.xml.schema.IdentitySelector;
+import org.exolab.castor.xml.schema.SchemaContext;
 import org.exolab.castor.xml.schema.SchemaNames;
 
 /**
@@ -95,17 +95,17 @@ public class FieldOrSelectorUnmarshaller extends ComponentReader {
     /**
      * Creates a new FieldOrSelectorUnmarshaller.
      *
-     * @param internalContext the internalContext to get some configuration settings from
+     * @param schemaContext the {@link SchemaContext} to get some configuration settings from
      * @param elementName the name of the element being unmarshalled.
      * @param atts the AttributeList.
     **/
     public FieldOrSelectorUnmarshaller(
-            final InternalContext internalContext,
+            final SchemaContext schemaContext,
             final String elementName,
             final AttributeSet atts)
         throws XMLException
     {
-        super(internalContext);
+        super(schemaContext);
         
         _elementName = elementName;
 
@@ -191,7 +191,7 @@ public class FieldOrSelectorUnmarshaller extends ComponentReader {
                 error("Only one (1) annotation may appear as a child of '" +
                     _elementName + "'.");
             _foundAnnotation = true;
-            _unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
+            _unmarshaller = new AnnotationUnmarshaller(getSchemaContext(), atts);
         }
         else illegalElement(name);
 

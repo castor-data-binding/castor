@@ -46,11 +46,16 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
-import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
-import org.exolab.castor.xml.schema.*;
+import org.exolab.castor.xml.schema.Annotation;
+import org.exolab.castor.xml.schema.Schema;
+import org.exolab.castor.xml.schema.SchemaContext;
+import org.exolab.castor.xml.schema.SchemaNames;
+import org.exolab.castor.xml.schema.SimpleType;
+import org.exolab.castor.xml.schema.Structure;
+import org.exolab.castor.xml.schema.XMLType;
 import org.exolab.castor.xml.schema.simpletypes.ListType;
 
 
@@ -95,15 +100,15 @@ public class SimpleTypeListUnmarshaller extends ComponentReader {
 
     /**
      * Creates a new ListUnmarshaller.
-     * @param internalContext the internalContext to get some configuration settings from
+     * @param schemaContext the {@link SchemaContext} to get some configuration settings from
      * @param atts the AttributeList
     **/
     SimpleTypeListUnmarshaller(
-            final InternalContext internalContext, 
+            final SchemaContext schemaContext, 
             final Schema schema,
             final AttributeSet atts)
     throws XMLException {
-        super(internalContext);
+        super(schemaContext);
         
         _schema = schema;
         _list = new ListType(schema);
@@ -208,7 +213,7 @@ public class SimpleTypeListUnmarshaller extends ComponentReader {
                     "'list' elements.");
 
             foundAnnotation = true;
-            unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
+            unmarshaller = new AnnotationUnmarshaller(getSchemaContext(), atts);
         }
         else if (SchemaNames.SIMPLE_TYPE.equals(name)) {
             if (foundItemType)
@@ -220,7 +225,7 @@ public class SimpleTypeListUnmarshaller extends ComponentReader {
                     "'list' elements.");
 
             foundSimpleType = true;
-            unmarshaller = new SimpleTypeUnmarshaller(getInternalContext(), _schema, atts);
+            unmarshaller = new SimpleTypeUnmarshaller(getSchemaContext(), _schema, atts);
 
         }
         else illegalElement(name);

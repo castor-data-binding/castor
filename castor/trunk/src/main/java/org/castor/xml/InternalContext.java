@@ -269,18 +269,6 @@ public interface InternalContext {
     public abstract Introspector getIntrospector();
 
     /**
-     * To set the {@link Resolver} for Schema*. 
-     * @param schemaResolver the {@link Resolver} for Schema*
-     */
-    public abstract void setSchemaResolver(final Resolver schemaResolver);
-
-    /**
-     * To get the {@link Resolver} to use in Schema*.
-     * @return get the {@link Resolver} to use in Schema*
-     */
-    public abstract Resolver getSchemaResolver();
-
-    /**
      * To get the XMLClassDescriptor resolver strategy to be used when
      * resolving classes into class descriptors.
      * @return the ResolverStrategy to use

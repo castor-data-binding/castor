@@ -51,8 +51,6 @@ import java.util.Enumeration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.xml.BackwardCompatibilityContext;
-import org.castor.xml.InternalContext;
 import org.exolab.castor.types.AnyNode;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.Serializer;
@@ -80,6 +78,8 @@ import org.exolab.castor.xml.schema.KeyRef;
 import org.exolab.castor.xml.schema.ModelGroup;
 import org.exolab.castor.xml.schema.RedefineSchema;
 import org.exolab.castor.xml.schema.Schema;
+import org.exolab.castor.xml.schema.SchemaContext;
+import org.exolab.castor.xml.schema.SchemaContextImpl;
 import org.exolab.castor.xml.schema.SchemaNames;
 import org.exolab.castor.xml.schema.SimpleContent;
 import org.exolab.castor.xml.schema.SimpleType;
@@ -199,7 +199,7 @@ public class SchemaWriter {
     public static boolean enable = false;
     
     /** Castor XML context - mother of all dwelling. */
-    private InternalContext _internalContext = null;
+    private SchemaContext _schemaContext = null;
 
     /**
      * Creates a new SchemaWriter for the given Writer.
@@ -210,7 +210,7 @@ public class SchemaWriter {
     public SchemaWriter(final Writer writer)
     throws IOException {
         this();
-        Serializer serializer = _internalContext.getSerializer();
+        Serializer serializer = _schemaContext.getSerializer();
 
         if (serializer == null) {
             throw new IOException("Unable to obtain serailizer");
@@ -251,15 +251,15 @@ public class SchemaWriter {
      */
     public SchemaWriter() {
         super();
-        _internalContext = new BackwardCompatibilityContext();
+        _schemaContext = new SchemaContextImpl();
     }
     
     /**
-     * To set the InternalContext to be used for the SchemaWriter.
-     * @param internalContext the InternalContext to be used
+     * To set the {@link SchemaContext} to be used for the {@link SchemaWriter}.
+     * @param schemaContext the {@link SchemaContext} to be used
      */
-    public void setInternalContext(final InternalContext internalContext) {
-        _internalContext = internalContext;
+    public void setSchemaContext(final SchemaContext schemaContext) {
+        _schemaContext = schemaContext;
     }
     
     /**
@@ -268,7 +268,7 @@ public class SchemaWriter {
      * @throws IOException in case the Writer cannot be used for DocumentHandler
      */
     public void setDocumentHandler(final Writer writer) throws IOException {
-        Serializer serializer = _internalContext.getSerializer();
+        Serializer serializer = _schemaContext.getSerializer();
 
         if (serializer == null) {
             String message = "Unable to obtain serailizer";

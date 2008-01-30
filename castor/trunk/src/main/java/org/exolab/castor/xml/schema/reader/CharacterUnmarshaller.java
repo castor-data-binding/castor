@@ -45,8 +45,8 @@
 
 package org.exolab.castor.xml.schema.reader;
 
-import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.XMLException;
+import org.exolab.castor.xml.schema.SchemaContext;
 
 /**
  * A utility class for Unmarshalling elements with only String content
@@ -62,10 +62,10 @@ public class CharacterUnmarshaller extends ComponentReader {
 
     /**
      * Creates a new StringUnmarshaller.
-     * @param internalContext the internalContext to get some configuration settings from
+     * @param schemaContext the schema context to get some configuration settings from
     **/
-    public CharacterUnmarshaller(final InternalContext internalContext) {
-        super(internalContext);
+    public CharacterUnmarshaller(final SchemaContext schemaContext) {
+        super(schemaContext);
         sb = new StringBuffer();
     } //-- CharacterUnmarshaller
     

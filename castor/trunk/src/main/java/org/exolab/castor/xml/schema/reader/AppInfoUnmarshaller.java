@@ -45,12 +45,11 @@
 
 package org.exolab.castor.xml.schema.reader;
 
-//-- imported classes and packages
-import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
 import org.exolab.castor.xml.schema.AppInfo;
+import org.exolab.castor.xml.schema.SchemaContext;
 import org.exolab.castor.xml.schema.SchemaNames;
 
 import org.exolab.castor.types.AnyNode;
@@ -86,14 +85,14 @@ public class AppInfoUnmarshaller extends ComponentReader {
 
     /**
      * Creates a new AppInfoUnmarshaller.
-     * @param internalContext the internalContext to get some configuration settings from
+     * @param schemaContext the schema context to get some configuration settings from
      * @param atts the AttributeList
     **/
     public AppInfoUnmarshaller(
-            final InternalContext internalContext, 
+            final SchemaContext schemaContext, 
             final AttributeSet atts)
         throws XMLException {
-        super(internalContext);
+        super(schemaContext);
 
         _appInfo = new AppInfo();
         _appInfo.setSource(atts.getValue(SchemaNames.SOURCE_ATTR));
