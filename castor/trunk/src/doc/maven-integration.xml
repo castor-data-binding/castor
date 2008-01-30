@@ -80,7 +80,7 @@
 <dependency>
    <groupId>org.codehaus.castor</groupId>
    <artifactId>castor</artifactId>
-   <version>1.1.2.1</version>
+   <version>1.2</version>
 </dependency>]]></pre></td>
         <td>1.0.4</td>
             </crow>
@@ -90,7 +90,7 @@
 <dependency>
    <groupId>org.codehaus.castor</groupId>
    <artifactId>castor-jdo</artifactId>
-   <version>1.1.2.1</version>
+   <version>1.2</version>
 </dependency>]]></pre></td>
         <td>1.1.2</td>
             </crow>
@@ -100,7 +100,7 @@
 <dependency>
    <groupId>org.codehaus.castor</groupId>
    <artifactId>castor-ddlgen</artifactId>
-   <version>1.1.2.1</version>
+   <version>1.2</version>
 </dependency>]]></pre></td>
         <td>1.1-M2</td>
             </crow>
@@ -110,7 +110,7 @@
 <dependency>
    <groupId>org.codehaus.castor</groupId>
    <artifactId>castor-codegen</artifactId>
-   <version>1.1.2.1</version>
+   <version>1.2</version>
 </dependency>]]></pre></td>
         <td>1.1-M2</td>
             </crow>
@@ -120,9 +120,19 @@
 <dependency>
    <groupId>org.codehaus.castor</groupId>
    <artifactId>castor-anttasks</artifactId>
-   <version>1.1.2.1</version>
+   <version>1.2</version>
 </dependency>]]></pre></td>
         <td>1.1.1</td>
+            </crow>
+            <crow>
+               <td>Castor XML schema support</td>
+               <td><pre><![CDATA[
+<dependency>
+   <groupId>org.codehaus.castor</groupId>
+   <artifactId>castor-scml-schema</artifactId>
+   <version>1.2</version>
+</dependency>]]></pre></td>
+        <td>1.2</td>
             </crow>
         </ctable>
 
@@ -158,7 +168,7 @@
 <dependency>
    <groupId>org.codehaus.castor</groupId>
    <artifactId>castor</artifactId>
-   <version>1.1.3-SNAPSHOT</version>
+   <version>1.2.1-SNAPSHOT</version>
 </dependency>]]></pre></td>
         		<td>1.0.5-SNAPSHOT</td>
             </crow>
@@ -168,7 +178,7 @@
 <dependency>
    <groupId>org.codehaus.castor</groupId>
    <artifactId>castor-jdo</artifactId>
-   <version>1.1.3-SNAPSHOT</version>
+   <version>1.2.1-SNAPSHOT</version>
 </dependency>]]></pre></td>
         		<td>1.1.1-SNAPSHOT</td>
             </crow>
@@ -178,7 +188,7 @@
 <dependency>
    <groupId>org.codehaus.castor</groupId>
    <artifactId>castor-ddlgen</artifactId>
-   <version>1.1.3-SNAPSHOT</version>
+   <version>1.2.1-SNAPSHOT</version>
 </dependency>]]></pre></td>
         		<td>1.1-M2-SNAPSHOT</td>
             </crow>
@@ -188,7 +198,7 @@
 <dependency>
    <groupId>org.codehaus.castor</groupId>
    <artifactId>castor-codegen</artifactId>
-   <version>1.1.3-SNAPSHOT</version>
+   <version>1.2.1-SNAPSHOT</version>
 </dependency>]]></pre></td>
         		<td>1.1-M2-SNAPSHOT</td>
             </crow>
@@ -198,9 +208,19 @@
 <dependency>
    <groupId>org.codehaus.castor</groupId>
    <artifactId>castor-anttasks</artifactId>
-   <version>1.1.3-SNAPSHOT</version>
+   <version>1.2.1-SNAPSHOT</version>
 </dependency>]]></pre></td>
         		<td>1.1-M2-SNAPSHOT</td>
+            </crow>
+             <crow>
+               <td>Castor XML schema support</td>
+               <td><pre><![CDATA[
+<dependency>
+   <groupId>org.codehaus.castor</groupId>
+   <artifactId>castor-xml-schema</artifactId>
+   <version>1.2.1-SNAPSHOT</version>
+</dependency>]]></pre></td>
+                <td>1.2-SNAPSHOT</td>
             </crow>
             <crow>
                <td>Castor XML Spring factory beans</td>

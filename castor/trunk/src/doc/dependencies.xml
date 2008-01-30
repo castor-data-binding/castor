@@ -120,11 +120,21 @@
 			
 			</section>
 
+            <section title="Castor XML - schema support files">
+
+                <p>
+                    The Castor XML schema support internally uses Castor XML for processing the 
+                    XML schemas to be processed, and thus has the same dependencies as enlisted above.
+                </p>
+                
+            </section>
+
 			<section title="Castor XML - code generator">
 			
 				<p>
-					The Castor XML code generator internally uses Castor XML for processing the 
-					XML schemas to be processed, and thus has the same dependencies as enlisted above.
+					The Castor XML code generator internally uses Castor XML and Castor XML schema 
+                    support for processing the XML schemas to be processed, and thus has the 
+                    joined dependencies of those two packages.
 				</p>
 				
 				<p>
@@ -211,8 +221,9 @@
 			<section title="Castor JDO">
 			
 				<p>
-					Castor JDO internally uses Castor XML for processing the XML mapping file and
-					thus has the same dependencies as enlised above.
+					Castor JDO internally uses Castor XML and Castor XML schema support for 
+                    processing the XML mapping file and	thus has the same dependencies as 
+                    enlisted above.
 				</p>
 				
 				<p>
