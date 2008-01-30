@@ -400,6 +400,26 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    unnecessary casts.</p>
             </summary>
             <bugs>
+                <bug id="2259" tool="jira">
+                    <description>
+                        Fixed regression issue with generation of 'default' constructors.
+                    </description>
+                    <contributor>
+                        <name>Matthias Epheser</name>
+                        <email>matthias.epheser@indoqa.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Pradeep Kadambar</name>
+                        <email>pradeep.kg.rao@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XMLGen</module>
+                    <date>20080130</date>
+                </bug>
                 <bug id="2268" tool="jira">
                     <description>
                         Added full support for defining collections using the &lt;xs:list&gt;
