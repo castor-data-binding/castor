@@ -63,6 +63,8 @@ import org.exolab.castor.builder.binding.ExtendedBinding;
 import org.exolab.castor.builder.factory.FieldInfoFactory;
 import org.exolab.castor.xml.XMLException;
 import org.exolab.castor.xml.schema.Schema;
+import org.exolab.castor.xml.schema.SchemaContext;
+import org.exolab.castor.xml.schema.SchemaContextImpl;
 import org.exolab.castor.xml.schema.reader.Sax2ComponentReader;
 import org.exolab.castor.xml.schema.reader.SchemaUnmarshaller;
 import org.xml.sax.InputSource;
@@ -606,9 +608,10 @@ public final class CastorCodeGenTask extends MatchingTask {
                 throw new BuildException("Unable to create SAX parser.");
             }
 
+            SchemaContext schemaContext = new SchemaContextImpl();
             SchemaUnmarshaller schemaUnmarshaller = null;
             try {
-                schemaUnmarshaller = new SchemaUnmarshaller(_internalContext);
+                schemaUnmarshaller = new SchemaUnmarshaller(schemaContext);
             } catch (XMLException e) {
                 throw new BuildException("Unable to create schema unmarshaller.", e);
             }

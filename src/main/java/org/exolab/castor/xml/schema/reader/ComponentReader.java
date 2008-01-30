@@ -45,12 +45,11 @@
 
 package org.exolab.castor.xml.schema.reader;
 
-//-- imported classes and packages
-import org.castor.xml.InternalContext;
 import org.exolab.castor.net.URIResolver;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
+import org.exolab.castor.xml.schema.SchemaContext;
 import org.exolab.castor.xml.schema.Resolver;
 import org.xml.sax.Locator;
 
@@ -67,7 +66,7 @@ public abstract class ComponentReader {
      //- Member Variables -/
     //--------------------/
     /** The Castor XML context to use. */
-    private InternalContext _internalContext;
+    private SchemaContext _schemaContext;
     
     private Locator _documentLocator;
 
@@ -86,11 +85,11 @@ public abstract class ComponentReader {
     
     /**
      * To hand down a couple of configuration items to all Unmarshaller classes.
-     * @param internalContext the InternalContext to use
+     * @param schemaContext the {@link SchemaContext} to use
      */
-    protected ComponentReader(final InternalContext internalContext) {
+    protected ComponentReader(final SchemaContext schemaContext) {
         this();
-        _internalContext = internalContext;
+        _schemaContext = schemaContext;
     }
 
       //-----------/
@@ -122,7 +121,7 @@ public abstract class ComponentReader {
      * @return the resolver used for resolving id references.
     **/
     public Resolver getResolver() {
-        return _internalContext.getSchemaResolver();
+        return _schemaContext.getSchemaResolver();
     } //-- getResolver
 
     /**
@@ -140,7 +139,7 @@ public abstract class ComponentReader {
      * id references
     **/
     public void setResolver(Resolver resolver) {
-        _internalContext.setSchemaResolver(resolver);
+        _schemaContext.setSchemaResolver(resolver);
     } //-- setResolver
 
 
@@ -370,19 +369,19 @@ public abstract class ComponentReader {
     } //-- startElement
 
     /**
-     * To set the Castor XML context to be used.
-     * @param internalContext the Castor XML context to be used
+     * To set the Castor XML schema context to be used.
+     * @param schemaContext the Castor XML schema context to be used
      */
-    public void setInternalContext(final InternalContext internalContext) {
-        _internalContext = internalContext;
+    public void setSchemaContext(final SchemaContext schemaContext) {
+        _schemaContext = schemaContext;
     }
     
     /**
-     * To get the Castor XML context used.
-     * @return the Castor XML context used
+     * To get the Castor XML schema context used.
+     * @return the Castor XML schema context used
      */
-    public InternalContext getInternalContext() {
-        return _internalContext;
+    public SchemaContext getSchemaContext() {
+        return _schemaContext;
     }
 } //-- ComponentReader
 

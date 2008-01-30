@@ -52,7 +52,6 @@ import java.util.HashMap;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
-import org.castor.xml.InternalContext;
 import org.exolab.castor.net.URIResolver;
 import org.exolab.castor.net.util.URIResolverImpl;
 import org.exolab.castor.xml.AttributeSet;
@@ -64,6 +63,7 @@ import org.exolab.castor.xml.schema.AttributeGroupDecl;
 import org.exolab.castor.xml.schema.ComplexType;
 import org.exolab.castor.xml.schema.ElementDecl;
 import org.exolab.castor.xml.schema.Form;
+import org.exolab.castor.xml.schema.SchemaContext;
 import org.exolab.castor.xml.schema.ModelGroup;
 import org.exolab.castor.xml.schema.RedefineSchema;
 import org.exolab.castor.xml.schema.Schema;
@@ -134,37 +134,37 @@ public class SchemaUnmarshaller extends ComponentReader {
      //- Constructors -/
     //----------------/
 
-    public SchemaUnmarshaller(final InternalContext internalContext)
+    public SchemaUnmarshaller(final SchemaContext schemaContext)
     throws XMLException {
-        this(internalContext, null, null);
+        this(schemaContext, null, null);
         foundSchemaDef = false;
     } //-- SchemaUnmarshaller
 
     public SchemaUnmarshaller(
-            final InternalContext internalContext,
+            final SchemaContext schemaContext,
             final SchemaUnmarshallerState state)
     throws XMLException {
-        this(internalContext, null, null);
+        this(schemaContext, null, null);
         _state = state;
         foundSchemaDef = false;
     } //-- SchemaUnmarshaller
 
     /**
      * Called from IncludeUnmarshaller.
-     * @param internalContext
+     * @param schemaContext
      * @param include
      * @param state
      * @param uriResolver
      * @throws XMLException
      */
     public SchemaUnmarshaller(
-            final InternalContext internalContext,
+            final SchemaContext schemaContext,
             final boolean include,
             final SchemaUnmarshallerState state,
             final URIResolver uriResolver)
         throws XMLException {
 
-        this(internalContext, null, uriResolver);
+        this(schemaContext, null, uriResolver);
         _state = state;
         _include = include;
         foundSchemaDef = false;
@@ -172,18 +172,18 @@ public class SchemaUnmarshaller extends ComponentReader {
 
     //--backward compatibility
     public SchemaUnmarshaller(
-            final InternalContext internalContext,
+            final SchemaContext schemaContext,
             final AttributeSet atts)
     throws XMLException {
-        this(internalContext, atts, null);
+        this(schemaContext, atts, null);
     }
 
     private SchemaUnmarshaller(
-            final InternalContext internalContext,
+            final SchemaContext schemaContext,
             final AttributeSet atts,
             final URIResolver uriResolver)
     throws XMLException {
-        super(internalContext);
+        super(schemaContext);
 
         _schema = new Schema();
         //--initialize the schema to ensure that the default namespace
@@ -502,48 +502,48 @@ public class SchemaUnmarshaller extends ComponentReader {
 
         //-- <annotation>
         if (name.equals(SchemaNames.ANNOTATION)) {
-            unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
+            unmarshaller = new AnnotationUnmarshaller(getSchemaContext(), atts);
         }
         //--<attribute>
         else if (name.equals(SchemaNames.ATTRIBUTE)) {
-            unmarshaller = new AttributeUnmarshaller(getInternalContext(), _schema,atts);
+            unmarshaller = new AttributeUnmarshaller(getSchemaContext(), _schema,atts);
         }
         //-- <attributeGroup>
         else if (name.equals(SchemaNames.ATTRIBUTE_GROUP)) {
-            unmarshaller = new AttributeGroupUnmarshaller(getInternalContext(), _schema, atts);
+            unmarshaller = new AttributeGroupUnmarshaller(getSchemaContext(), _schema, atts);
         }
         //-- <complexType>
         else if (name.equals(SchemaNames.COMPLEX_TYPE)) {
             unmarshaller
-                = new ComplexTypeUnmarshaller(getInternalContext(), _schema, atts);
+                = new ComplexTypeUnmarshaller(getSchemaContext(), _schema, atts);
         }
         //-- <element>
         else if (name.equals(SchemaNames.ELEMENT)) {
             unmarshaller
-                = new ElementUnmarshaller(getInternalContext(), _schema, atts);
+                = new ElementUnmarshaller(getSchemaContext(), _schema, atts);
         }
         //-- <simpleType>
         else if (name.equals(SchemaNames.SIMPLE_TYPE)) {
-            unmarshaller = new SimpleTypeUnmarshaller(getInternalContext(), _schema, atts);
+            unmarshaller = new SimpleTypeUnmarshaller(getSchemaContext(), _schema, atts);
         }
         //-- <group>
         else if (name.equals(SchemaNames.GROUP)) {
-             unmarshaller = new ModelGroupUnmarshaller(getInternalContext(), _schema, atts);
+             unmarshaller = new ModelGroupUnmarshaller(getSchemaContext(), _schema, atts);
         }
         //-- <include>
         else if (name.equals(SchemaNames.INCLUDE)) {
             unmarshaller
-                = new IncludeUnmarshaller(getInternalContext(), _schema, atts, getURIResolver(),getDocumentLocator(), _state);
+                = new IncludeUnmarshaller(getSchemaContext(), _schema, atts, getURIResolver(),getDocumentLocator(), _state);
         }
         //-- <import>
         else if (name.equals(SchemaNames.IMPORT)) {
             unmarshaller
-                = new ImportUnmarshaller(getInternalContext(), _schema, atts, getURIResolver(), getDocumentLocator(), _state);
+                = new ImportUnmarshaller(getSchemaContext(), _schema, atts, getURIResolver(), getDocumentLocator(), _state);
         }
         //-- <redefine>
         else if (name.equals(SchemaNames.REDEFINE)) {
         	unmarshaller
-			= new RedefineUnmarshaller(getInternalContext(), _schema, atts, getURIResolver(), getDocumentLocator(), _state);
+			= new RedefineUnmarshaller(getSchemaContext(), _schema, atts, getURIResolver(), getDocumentLocator(), _state);
         }
         else {
             //-- we should throw a new Exception here
@@ -553,7 +553,7 @@ public class SchemaUnmarshaller extends ComponentReader {
             System.out.print(name);
             System.out.print("> elements are either currently unsupported ");
             System.out.println("or non-valid schema elements.");
-            unmarshaller = new UnknownUnmarshaller(getInternalContext(), name);
+            unmarshaller = new UnknownUnmarshaller(getSchemaContext(), name);
         }
 
 //        unmarshaller.setDocumentLocator(getDocumentLocator());

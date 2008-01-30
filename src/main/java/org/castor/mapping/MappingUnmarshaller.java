@@ -96,9 +96,6 @@ public final class MappingUnmarshaller {
         ResolverStrategy resolverStrategy = new CastorXMLStrategy();
         internalContext.setResolverStrategy(resolverStrategy);
 
-        Resolver schemaResolver = new ScopableResolver();
-        internalContext.setSchemaResolver(schemaResolver);
-        
         _internalContext = internalContext;
     }
     

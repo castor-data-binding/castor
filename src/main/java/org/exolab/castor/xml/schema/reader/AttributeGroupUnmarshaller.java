@@ -45,8 +45,6 @@
 
 package org.exolab.castor.xml.schema.reader;
 
-//-- imported classes and packages
-import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
@@ -55,6 +53,7 @@ import org.exolab.castor.xml.schema.AttributeDecl;
 import org.exolab.castor.xml.schema.AttributeGroup;
 import org.exolab.castor.xml.schema.AttributeGroupDecl;
 import org.exolab.castor.xml.schema.AttributeGroupReference;
+import org.exolab.castor.xml.schema.SchemaContext;
 import org.exolab.castor.xml.schema.Schema;
 import org.exolab.castor.xml.schema.SchemaException;
 import org.exolab.castor.xml.schema.SchemaNames;
@@ -99,16 +98,16 @@ public class AttributeGroupUnmarshaller extends ComponentReader {
 
     /**
      * Creates a new AttributeGroupUnmarshaller.
-     * @param internalContext the internalContext to get some configuration settings from
+     * @param schemaContext the schema context to get some configuration settings from
      * @param schema the Schema to which the AttributeGroup belongs
      * @param atts the AttributeList
     **/
     public AttributeGroupUnmarshaller(
-            final InternalContext internalContext, 
+            final SchemaContext schemaContext, 
             final Schema schema, 
             final AttributeSet atts) 
     throws XMLException {
-        super(internalContext);
+        super(schemaContext);
         this._schema = schema;
 
 
@@ -203,7 +202,7 @@ public class AttributeGroupUnmarshaller extends ComponentReader {
             foundAnyAttribute = true;
             allowAnnotation = true;
             unmarshaller
-                 = new WildcardUnmarshaller(getInternalContext(), _attributeGroup, _schema, name, atts);
+                 = new WildcardUnmarshaller(getSchemaContext(), _attributeGroup, _schema, name, atts);
         }
         //-- attribute declarations
         else if (SchemaNames.ATTRIBUTE.equals(name)) {
@@ -213,7 +212,7 @@ public class AttributeGroupUnmarshaller extends ComponentReader {
                 error("AttributeGroup references may not have children.");
 
             unmarshaller
-                = new AttributeUnmarshaller(getInternalContext(), _schema, atts);
+                = new AttributeUnmarshaller(getSchemaContext(), _schema, atts);
         }
         //-- element declarations
         else if (SchemaNames.ATTRIBUTE_GROUP.equals(name)) {
@@ -221,11 +220,11 @@ public class AttributeGroupUnmarshaller extends ComponentReader {
             if (isRef)
                 error("AttributeGroup references may not have children.");
             unmarshaller
-                = new AttributeGroupUnmarshaller(getInternalContext(), _schema, atts);
+                = new AttributeGroupUnmarshaller(getSchemaContext(), _schema, atts);
         }
         else if (name.equals(SchemaNames.ANNOTATION)) {
             if (!allowAnnotation) outOfOrder(name);
-            unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
+            unmarshaller = new AnnotationUnmarshaller(getSchemaContext(), atts);
         }
         else illegalElement(name);
 

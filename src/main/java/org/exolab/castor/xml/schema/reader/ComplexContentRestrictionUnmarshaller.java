@@ -45,7 +45,6 @@
 
 package org.exolab.castor.xml.schema.reader;
 
-import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
@@ -53,8 +52,8 @@ import org.exolab.castor.xml.schema.Annotation;
 import org.exolab.castor.xml.schema.AttributeDecl;
 import org.exolab.castor.xml.schema.AttributeGroupReference;
 import org.exolab.castor.xml.schema.ComplexType;
+import org.exolab.castor.xml.schema.SchemaContext;
 import org.exolab.castor.xml.schema.Group;
-import org.exolab.castor.xml.schema.Resolver;
 import org.exolab.castor.xml.schema.Schema;
 import org.exolab.castor.xml.schema.SchemaException;
 import org.exolab.castor.xml.schema.SchemaNames;
@@ -102,16 +101,16 @@ public class ComplexContentRestrictionUnmarshaller extends ComponentReader {
     //----------------/
     /**
      * Creates a new RestrictionUnmarshaller.
-     * @param internalContext the internalContext to get some configuration settings from
+     * @param schemaContext the schema context to get some configuration settings from
      * @param complexType the complexType being unmarshalled
      * @param atts the AttributeList
      */
     public ComplexContentRestrictionUnmarshaller(
-            final InternalContext internalContext, 
+            final SchemaContext schemaContext, 
             final ComplexType complexType, 
             final AttributeSet atts)
     throws XMLException {
-        super(internalContext);
+        super(schemaContext);
         _complexType = complexType;
         _schema  = complexType.getSchema();
 
@@ -219,7 +218,7 @@ public class ComplexContentRestrictionUnmarshaller extends ComponentReader {
                     "'restriction' elements.");
 
             foundAnnotation = true;
-            unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
+            unmarshaller = new AnnotationUnmarshaller(getSchemaContext(), atts);
         }
 
 	   //-- ModelGroup declarations (choice, all, sequence, group)
@@ -235,12 +234,12 @@ public class ComplexContentRestrictionUnmarshaller extends ComponentReader {
 
             foundModelGroup = true;
             unmarshaller
-                = new GroupUnmarshaller(getInternalContext(), _schema, name, atts);
+                = new GroupUnmarshaller(getSchemaContext(), _schema, name, atts);
         }
 
 	    else if (SchemaNames.ATTRIBUTE.equals(name)) {
              foundAttribute = true;
-             unmarshaller = new AttributeUnmarshaller(getInternalContext(), _schema,atts);
+             unmarshaller = new AttributeUnmarshaller(getSchemaContext(), _schema,atts);
 		}
 
 		else if (SchemaNames.ATTRIBUTE_GROUP.equals(name)) {
@@ -251,12 +250,12 @@ public class ComplexContentRestrictionUnmarshaller extends ComponentReader {
                     "attributeGroups, but not defining ones.");
              }
 			 foundAttributeGroup = true;
-			 unmarshaller = new AttributeGroupUnmarshaller(getInternalContext(), _schema,atts);
+			 unmarshaller = new AttributeGroupUnmarshaller(getSchemaContext(), _schema,atts);
 		}
 		   //-- <anyAttribute>
         else if (SchemaNames.ANY_ATTRIBUTE.equals(name)) {
             unmarshaller
-                 = new WildcardUnmarshaller(getInternalContext(), _complexType, _schema, name, atts);
+                 = new WildcardUnmarshaller(getSchemaContext(), _complexType, _schema, name, atts);
         }
 
         else illegalElement(name);

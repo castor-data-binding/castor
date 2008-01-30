@@ -68,6 +68,7 @@ import org.exolab.castor.tests.framework.testDescriptor.UnitTestCase;
 import org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType;
 import org.exolab.castor.xml.XMLContext;
 import org.exolab.castor.xml.schema.Schema;
+import org.exolab.castor.xml.schema.SchemaContextImpl;
 import org.exolab.castor.xml.schema.reader.SchemaReader;
 import org.exolab.castor.xml.schema.writer.SchemaWriter;
 import org.xml.sax.InputSource;
@@ -223,8 +224,11 @@ public class SchemaTestCase extends XMLTestCase {
     private Schema testReadingSchema(final String url) {
         verbose("--> Reading XML Schema: " + url);
         try {
-            SchemaReader reader = getXMLContext().createSchemaReader(new InputSource(url));
-// #JG           SchemaReader reader = new SchemaReader(url);
+            SchemaReader reader = new SchemaReader();
+            
+            reader.setSchemaContext(new SchemaContextImpl());
+            reader.setInputSource(new InputSource(url));
+            
             Schema returnValue  = reader.read();
             if (_failure != null && _failure.getContent() && _failure.getFailureStep() != null &&
                  _failure.getFailureStep().equals(FailureStepType.PARSE_SCHEMA)) {
@@ -255,9 +259,12 @@ public class SchemaTestCase extends XMLTestCase {
 
             File         output = new File(_outputRootFile, fileName);
             FileWriter   writer = new FileWriter(output);
-            SchemaWriter sw     = getXMLContext().createSchemaWriter(new PrintWriter(writer, true));
-// #JG           SchemaWriter sw     = new SchemaWriter(new PrintWriter(writer, true));
-            sw.write(schema);
+            
+            SchemaWriter schemaWriter = new SchemaWriter();
+            schemaWriter.setSchemaContext(new SchemaContextImpl());
+            schemaWriter.setDocumentHandler(new PrintWriter(writer, true));
+            
+            schemaWriter.write(schema);
             writer.close();
         } catch (Exception e) {
             if (!checkExceptionWasExpected(e, FailureStepType.WRITE_SCHEMA)) {

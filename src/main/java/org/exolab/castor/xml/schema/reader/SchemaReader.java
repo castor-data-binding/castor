@@ -50,14 +50,14 @@ import java.io.Reader;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.xml.BackwardCompatibilityContext;
-import org.castor.xml.InternalContext;
 import org.exolab.castor.net.URIException;
 import org.exolab.castor.net.URILocation;
 import org.exolab.castor.net.URIResolver;
 import org.exolab.castor.util.NestedIOException;
 import org.exolab.castor.xml.XMLException;
 import org.exolab.castor.xml.schema.Schema;
+import org.exolab.castor.xml.schema.SchemaContext;
+import org.exolab.castor.xml.schema.SchemaContextImpl;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
@@ -82,7 +82,7 @@ public class SchemaReader {
     /**
      * The Castor XML Context... mother of all.
      */
-    private InternalContext _internalContext;
+    private SchemaContext _schemaContext;
 
     /**
      * XML Parser instance
@@ -131,11 +131,9 @@ public class SchemaReader {
      */
     private void init() throws IOException {
         // -- get default parser from Configuration
-        _internalContext = new BackwardCompatibilityContext();
+        _schemaContext = new SchemaContextImpl();
 
-        Parser parser = null;
-
-        parser = _internalContext.getParser();
+        Parser parser = _schemaContext.getParser();
 
         if (parser == null) {
             String message = "fatal error: unable to create SAX parser.";
@@ -204,7 +202,7 @@ public class SchemaReader {
     } //-- SchemaReader
 
     /**
-     * New style how to create a SchemaReader instance, requiring that InternalContext
+     * New style how to create a SchemaReader instance, requiring that {@link SchemaContext}
      * and InputSource are set before calling {@link read}. 
      */
     public SchemaReader() {
@@ -212,14 +210,14 @@ public class SchemaReader {
     }
 
     /**
-     * To set the InternalContext to be used. Also resets the parser as it depends
-     * of the InternalContext.
-     * @param internalContext the InternalContext to be used
+     * To set the {@link SchemaContext} to be used. Also resets the parser as it depends
+     * of the {@link SchemaContext}.
+     * @param schemaContext the {@link SchemaContext} to be used
      */
-    public void setInternalContext(final InternalContext internalContext) {
-        this._internalContext = internalContext;
+    public void setSchemaContext(final SchemaContext schemaContext) {
+        this._schemaContext = schemaContext;
         
-        Parser p = _internalContext.getParser();
+        Parser p = _schemaContext.getParser();
         if (p != null) {
             _parser = p;
         }
@@ -270,7 +268,7 @@ public class SchemaReader {
             SchemaUnmarshallerState state = new SchemaUnmarshallerState();            
 // Joachim            state.setConfiguration(_config);            
             state.cacheIncludedSchemas = _cacheIncludedSchemas;
-            schemaUnmarshaller = new SchemaUnmarshaller(_internalContext, state);
+            schemaUnmarshaller = new SchemaUnmarshaller(_schemaContext, state);
             if (_uriResolver != null)
                 schemaUnmarshaller.setURIResolver(_uriResolver);
             

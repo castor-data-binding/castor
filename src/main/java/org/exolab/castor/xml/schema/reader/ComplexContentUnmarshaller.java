@@ -46,14 +46,13 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
-import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
 import org.exolab.castor.xml.schema.Annotation;
 import org.exolab.castor.xml.schema.ComplexType;
 import org.exolab.castor.xml.schema.ContentType;
-import org.exolab.castor.xml.schema.Resolver;
+import org.exolab.castor.xml.schema.SchemaContext;
 import org.exolab.castor.xml.schema.SchemaNames;
 
 /**
@@ -92,16 +91,16 @@ public class ComplexContentUnmarshaller extends ComponentReader {
 
     /**
      * Creates a new ComplexContentUnmarshaller.
-     * @param internalContext the internalContext to get some configuration settings from
+     * @param schemaContext the schema context to get some configuration settings from
      * @param complexType the complexType we are unmarshalling
      * @param atts the AttributeList
     **/
     public ComplexContentUnmarshaller(
-            final InternalContext internalContext, 
+            final SchemaContext schemaContext, 
             final ComplexType complexType, 
             final AttributeSet atts)
     throws XMLException {
-        super(internalContext);
+        super(schemaContext);
 
         _complexType = complexType;
 
@@ -180,7 +179,7 @@ public class ComplexContentUnmarshaller extends ComponentReader {
             foundExtension = true;
 
             ExtensionUnmarshaller extension =
-                new ExtensionUnmarshaller(getInternalContext(), _complexType, atts);
+                new ExtensionUnmarshaller(getSchemaContext(), _complexType, atts);
             unmarshaller = extension;
         }
         //-- restriction
@@ -197,7 +196,7 @@ public class ComplexContentUnmarshaller extends ComponentReader {
 
             foundRestriction = true;
 			unmarshaller=
-			new ComplexContentRestrictionUnmarshaller(getInternalContext(), _complexType, atts);
+			new ComplexContentRestrictionUnmarshaller(getSchemaContext(), _complexType, atts);
         }
         //-- annotation
         else if (name.equals(SchemaNames.ANNOTATION)) {
@@ -210,7 +209,7 @@ public class ComplexContentUnmarshaller extends ComponentReader {
                     "of a 'complexContent' element.");
 
             foundAnnotation = true;
-            unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
+            unmarshaller = new AnnotationUnmarshaller(getSchemaContext(), atts);
         }
         else illegalElement(name);
 

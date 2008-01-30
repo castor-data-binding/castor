@@ -46,11 +46,28 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
-import org.castor.xml.InternalContext;
-import org.exolab.castor.net.*;
-import org.exolab.castor.xml.*;
-import org.exolab.castor.xml.schema.*;
-import org.xml.sax.*;
+import org.exolab.castor.net.URIException;
+import org.exolab.castor.net.URILocation;
+import org.exolab.castor.net.URIResolver;
+import org.exolab.castor.xml.AttributeSet;
+import org.exolab.castor.xml.Namespaces;
+import org.exolab.castor.xml.XMLException;
+import org.exolab.castor.xml.schema.Annotation;
+import org.exolab.castor.xml.schema.AttributeGroup;
+import org.exolab.castor.xml.schema.AttributeGroupDecl;
+import org.exolab.castor.xml.schema.ComplexType;
+import org.exolab.castor.xml.schema.Group;
+import org.exolab.castor.xml.schema.ModelGroup;
+import org.exolab.castor.xml.schema.RedefineSchema;
+import org.exolab.castor.xml.schema.Schema;
+import org.exolab.castor.xml.schema.SchemaContext;
+import org.exolab.castor.xml.schema.SchemaException;
+import org.exolab.castor.xml.schema.SchemaNames;
+import org.exolab.castor.xml.schema.SimpleType;
+import org.exolab.castor.xml.schema.XMLType;
+import org.xml.sax.InputSource;
+import org.xml.sax.Locator;
+import org.xml.sax.Parser;
 
 /**
  * The purpose of this class is to read redefined elements in an XML schema.
@@ -94,14 +111,14 @@ public class RedefineUnmarshaller extends ComponentReader
 	 */
 	
     public RedefineUnmarshaller(
-            final InternalContext internalContext,
+            final SchemaContext schemaContext,
             final Schema schema,
             final AttributeSet atts,
             final URIResolver uriResolver,
             final Locator locator,
             final SchemaUnmarshallerState state)
     throws XMLException {
-        super(internalContext);
+        super(schemaContext);
         if (schema == null) {
         	String err = SchemaNames.REDEFINE + " must be used with an existing parent XML Schema.";
         	throw new SchemaException(err);
@@ -181,14 +198,14 @@ public class RedefineUnmarshaller extends ComponentReader
         //-- Parser Schema
 		Parser parser = null;
 		try {
-		    parser = getInternalContext().getParser();
+		    parser = getSchemaContext().getParser();
 		}
 		catch(RuntimeException rte) {}
 		if (parser == null) {
 		    throw new SchemaException("Error failed to create parser for import");
 		}
 		//-- Create Schema object and setup unmarshaller
-		SchemaUnmarshaller schemaUnmarshaller = new SchemaUnmarshaller(getInternalContext(), state);
+		SchemaUnmarshaller schemaUnmarshaller = new SchemaUnmarshaller(getSchemaContext(), state);
 		schemaUnmarshaller.setURIResolver(getURIResolver());
 		schemaUnmarshaller.setSchema(importedSchema);
 		Sax2ComponentReader handler = new Sax2ComponentReader(schemaUnmarshaller);
@@ -274,24 +291,24 @@ public class RedefineUnmarshaller extends ComponentReader
     	
     	//-- <annotation>
     	if (name.equals(SchemaNames.ANNOTATION)) {
-    		_unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
+    		_unmarshaller = new AnnotationUnmarshaller(getSchemaContext(), atts);
     	}
     	//-- <attributeGroup>
     	else if (name.equals(SchemaNames.ATTRIBUTE_GROUP)) {
-    		_unmarshaller = new AttributeGroupUnmarshaller(getInternalContext(), _schema, atts);
+    		_unmarshaller = new AttributeGroupUnmarshaller(getSchemaContext(), _schema, atts);
     	}
     	//-- <complexType>
     	else if (name.equals(SchemaNames.COMPLEX_TYPE)) {
     		_unmarshaller
-			= new ComplexTypeUnmarshaller(getInternalContext(), _schema, atts);
+			= new ComplexTypeUnmarshaller(getSchemaContext(), _schema, atts);
     	}
     	//-- <simpleType>
     	else if (name.equals(SchemaNames.SIMPLE_TYPE)) {
-    		_unmarshaller = new SimpleTypeUnmarshaller(getInternalContext(), _schema, atts);
+    		_unmarshaller = new SimpleTypeUnmarshaller(getSchemaContext(), _schema, atts);
     	}
     	//-- <group>
     	else if (name.equals(SchemaNames.GROUP)) {
-    		_unmarshaller = new ModelGroupUnmarshaller(getInternalContext(), _schema, atts);
+    		_unmarshaller = new ModelGroupUnmarshaller(getSchemaContext(), _schema, atts);
     	}
     	else {
     		//--Exception here

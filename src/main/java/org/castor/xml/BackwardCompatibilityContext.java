@@ -58,8 +58,5 @@ public class BackwardCompatibilityContext extends AbstractInternalContext implem
         
         ResolverStrategy resolverStrategy = new CastorXMLStrategy();
         setResolverStrategy(resolverStrategy);
-
-        Resolver schemaResolver = new ScopableResolver();
-        setSchemaResolver(schemaResolver);
     }
 }

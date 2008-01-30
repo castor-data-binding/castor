@@ -46,13 +46,13 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
-import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
 import org.exolab.castor.xml.schema.Annotation;
 import org.exolab.castor.xml.schema.Facet;
 import org.exolab.castor.xml.schema.Schema;
+import org.exolab.castor.xml.schema.SchemaContext;
 import org.exolab.castor.xml.schema.SchemaNames;
 import org.exolab.castor.xml.schema.SimpleType;
 import org.exolab.castor.xml.schema.Structure;
@@ -101,16 +101,16 @@ public class SimpleTypeRestrictionUnmarshaller extends ComponentReader {
 
     /**
      * Creates a new RestrictionUnmarshaller
-     * @param internalContext the internalContext to get some configuration settings from
+     * @param schemaContext the {@link SchemaContext} to get some configuration settings from
      * @param typeDefinition the SimpleType being unmarshalled
      * @param atts the AttributeList
     **/
     public SimpleTypeRestrictionUnmarshaller(
-            final InternalContext internalContext,
+            final SchemaContext schemaContext,
             final SimpleTypeDefinition typeDefinition, 
             final AttributeSet atts)
     throws XMLException {
-        super(internalContext);
+        super(schemaContext);
 
         _typeDefinition  = typeDefinition;
         _schema          = typeDefinition.getSchema();
@@ -192,7 +192,7 @@ public class SimpleTypeRestrictionUnmarshaller extends ComponentReader {
                     "'restriction' elements.");
 
             foundAnnotation = true;
-            unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
+            unmarshaller = new AnnotationUnmarshaller(getSchemaContext(), atts);
         }
         else if (SchemaNames.SIMPLE_TYPE.equals(name)) {
             if (foundSimpleType)
@@ -204,12 +204,12 @@ public class SimpleTypeRestrictionUnmarshaller extends ComponentReader {
                     "elements, must appear before any facets.");
 
             foundSimpleType = true;
-            unmarshaller = new SimpleTypeUnmarshaller(getInternalContext(), _schema, atts);
+            unmarshaller = new SimpleTypeUnmarshaller(getSchemaContext(), _schema, atts);
 
         }
         else if (FacetUnmarshaller.isFacet(name)) {
             foundFacets = true;
-            unmarshaller = new FacetUnmarshaller(getInternalContext(), name, atts);
+            unmarshaller = new FacetUnmarshaller(getSchemaContext(), name, atts);
         }
         else illegalElement(name);
 

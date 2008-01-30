@@ -45,12 +45,11 @@
 
 package org.exolab.castor.xml.schema.reader;
 
-//-- imported classes and packages
-import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
 import org.exolab.castor.xml.schema.Documentation;
+import org.exolab.castor.xml.schema.SchemaContext;
 import org.exolab.castor.xml.schema.SchemaNames;
 import org.exolab.castor.types.AnyNode;
 
@@ -85,11 +84,11 @@ public class DocumentationUnmarshaller extends ComponentReader {
 
     /**
      * Creates a new DocumentationUnmarshaller.
-     * @param internalContext the internalContext to get some configuration settings from
+     * @param schemaContext the schema context to get some configuration settings from
      * @param atts the AttributeList
     **/
-    public DocumentationUnmarshaller(final InternalContext internalContext, final AttributeSet atts) {
-        super(internalContext);
+    public DocumentationUnmarshaller(final SchemaContext schemaContext, final AttributeSet atts) {
+        super(schemaContext);
 
         _documentation = new Documentation();
 

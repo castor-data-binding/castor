@@ -44,20 +44,6 @@ public final class XMLConfiguration extends Configuration {
     //--------------------------------------------------------------------------
     
     /**
-     * Get the one and only static XML configuration.
-     * 
-     * @return One and only configuration instance for Castor XML modul.
-     * @deprecated Don't limit your applications flexibility by using a static configuration. Use
-     *             your own configuration instance created with one of the newInstance() methods
-     *             instead.
-     */
-    // TODO Remove method after support for static configuration has been terminated.
-    public static synchronized Configuration getInstance() {
-        if (_instance == null) { _instance = newInstance(); }
-        return _instance;
-    }
-    
-    /**
      * Factory method for a default XML configuration instance. Application and domain class
      * loaders will be initialized to the one used to load the Configuration class. The
      * configuration instance returned will be a CastorConfiguration with a XMLConfiguration and

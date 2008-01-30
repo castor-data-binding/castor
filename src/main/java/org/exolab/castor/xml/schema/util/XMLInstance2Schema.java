@@ -51,7 +51,6 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Writer;
 
-import org.castor.xml.AbstractInternalContext;
 import org.castor.xml.BackwardCompatibilityContext;
 import org.castor.xml.InternalContext;
 import org.exolab.castor.util.NestedIOException;
@@ -83,7 +82,7 @@ import org.xml.sax.SAXException;
 public class XMLInstance2Schema {
 
     /**
-     * The {@link AbstractInternalContext} used to get Parser from.
+     * The {@link InternalContext} used to get Parser from.
      */
     private InternalContext _internalContext;
 

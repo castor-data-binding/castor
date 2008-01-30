@@ -30,6 +30,7 @@ import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingLoader;
 import org.exolab.castor.util.RegExpEvaluator;
+import org.exolab.castor.xml.AbstractXMLNaming;
 import org.exolab.castor.xml.Introspector;
 import org.exolab.castor.xml.NodeType;
 import org.exolab.castor.xml.OutputFormat;
@@ -37,7 +38,6 @@ import org.exolab.castor.xml.ResolverException;
 import org.exolab.castor.xml.Serializer;
 import org.exolab.castor.xml.XMLClassDescriptorResolver;
 import org.exolab.castor.xml.XMLContext;
-import org.exolab.castor.xml.AbstractXMLNaming;
 import org.exolab.castor.xml.XMLSerializerFactory;
 import org.exolab.castor.xml.schema.Resolver;
 import org.exolab.castor.xml.util.DefaultNaming;
@@ -77,11 +77,6 @@ public abstract class AbstractInternalContext implements InternalContext {
      * The XMLContext knows the one Introspector to be used.
      */
     private Introspector _introspector;
-
-    /**
-     * The {@link Resolver} to be used by Schema* stuff.
-     */
-    private Resolver _schemaResolver;
 
     /**
      * The XMLClassDescriptor resolver strategy to use.
@@ -244,42 +239,7 @@ public abstract class AbstractInternalContext implements InternalContext {
      * @see org.castor.xml.InternalContext#getParser(java.lang.String)
      */
     public Parser getParser(final String features) {
-        Parser parser = null;
-        Boolean validation = _configuration.getBoolean(XMLConfiguration.PARSER_VALIDATION);
-        Boolean namespaces = _configuration.getBoolean(XMLConfiguration.NAMESPACES);
-        String parserClassName = _configuration.getString(XMLConfiguration.PARSER);
-        if ((parserClassName == null) || (parserClassName.length() == 0)) {
-            SAXParser saxParser = XMLParserUtils.getSAXParser(validation.booleanValue(), namespaces.booleanValue());
-            if (saxParser != null) {
-                try {
-                    parser = saxParser.getParser();
-                } catch (SAXException e) {
-                    LOG.error(Messages.format("conf.configurationError", e));
-                }
-            }
-        }
-        
-        if (parser == null) {
-            if ((parserClassName == null) 
-                    || (parserClassName.length() == 0) 
-                    || (parserClassName.equalsIgnoreCase("xerces"))) {
-                parserClassName = "org.apache.xerces.parsers.SAXParser";
-            }
-            
-            // if a parser class was specified, we try to create it
-            parser = XMLParserUtils.instantiateParser(parserClassName);
-
-            if (parser instanceof XMLReader) {
-                XMLReader xmlReader = (XMLReader) parser;
-                XMLParserUtils.setFeaturesOnXmlReader(
-                        _configuration.getString(XMLConfiguration.PARSER_FEATURES, features),
-                        _configuration.getString(XMLConfiguration.PARSER_FEATURES_DISABLED, ""),
-                        validation.booleanValue(),
-                        namespaces.booleanValue(),
-                        xmlReader);
-            }
-        }
-        return parser;
+        return XMLParserUtils.getParser(_configuration, features);
     }
 
     /**
@@ -287,7 +247,7 @@ public abstract class AbstractInternalContext implements InternalContext {
      */
     public XMLReader getXMLReader() {
         return getXMLReader(null);
-    } //-- getXMLReader
+    }
     
     /**
      * @see org.castor.xml.InternalContext#getXMLReader(java.lang.String)
@@ -383,34 +343,14 @@ public abstract class AbstractInternalContext implements InternalContext {
      * @see org.castor.xml.InternalContext#getSerializer()
      */
     public Serializer getSerializer() {
-        Serializer serializer = getSerializerFactory(
-                _configuration.getString(
-                        XMLConfiguration.SERIALIZER_FACTORY)).getSerializer();
-        serializer.setOutputFormat(getOutputFormat());
-        return serializer;
+        return XMLParserUtils.getSerializer(_configuration);
     }
     /**
      * @see org.castor.xml.InternalContext#getOutputFormat()
      */
     public OutputFormat getOutputFormat() {
-
-        boolean indent = _configuration.getBoolean(XMLConfiguration.USE_INDENTATION, false);
-
-        OutputFormat format = getSerializerFactory(
-                _configuration.getString(
-                        XMLConfiguration.SERIALIZER_FACTORY))
-                        .getOutputFormat();
-        format.setMethod(OutputFormat.XML);
-        format.setIndenting(indent);
-        
-        // There is a bad interaction between the indentation and the
-        // setPreserveSpace option. The indentated output is strangely indented.
-        if (!indent) {
-            format.setPreserveSpace(true);
-        } 
-
-        return format;
-    } //-- getOutputFormat
+        return XMLParserUtils.getOutputFormat(_configuration);
+    }
     
     /**
      * Returns the currently configured XMLSerializerFactory instance.
@@ -418,17 +358,7 @@ public abstract class AbstractInternalContext implements InternalContext {
      * @return XMLSerializerFactory to use by Castor
      */
     protected XMLSerializerFactory getSerializerFactory(final String serializerFactoryName) {
-        XMLSerializerFactory serializerFactory;
-        
-        try {
-            serializerFactory = (XMLSerializerFactory) 
-            Class.forName(serializerFactoryName).newInstance();
-        } catch (Exception except) {
-            throw new RuntimeException(
-                    Messages.format("conf.failedInstantiateSerializerFactory", 
-                            serializerFactoryName, except));
-        }
-        return serializerFactory;
+        return XMLParserUtils.getSerializerFactory(serializerFactoryName);
     }
 
     /**
@@ -478,20 +408,6 @@ public abstract class AbstractInternalContext implements InternalContext {
      */
     public Introspector getIntrospector() {
         return _introspector;
-    }
-
-    /**
-     * @see org.castor.xml.InternalContext#setSchemaResolver(org.exolab.castor.xml.schema.Resolver)
-     */
-    public void setSchemaResolver(final Resolver schemaResolver) {
-        _schemaResolver = schemaResolver;
-    }
-
-    /**
-     * @see org.castor.xml.InternalContext#getSchemaResolver()
-     */
-    public Resolver getSchemaResolver() {
-        return _schemaResolver;
     }
 
     /**

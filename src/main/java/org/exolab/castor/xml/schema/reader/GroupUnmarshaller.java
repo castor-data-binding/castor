@@ -46,17 +46,16 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
-import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
 import org.exolab.castor.xml.schema.Annotation;
-import org.exolab.castor.xml.schema.Group;
 import org.exolab.castor.xml.schema.ElementDecl;
+import org.exolab.castor.xml.schema.Group;
 import org.exolab.castor.xml.schema.ModelGroup;
 import org.exolab.castor.xml.schema.Order;
-import org.exolab.castor.xml.schema.Resolver;
 import org.exolab.castor.xml.schema.Schema;
+import org.exolab.castor.xml.schema.SchemaContext;
 import org.exolab.castor.xml.schema.SchemaException;
 import org.exolab.castor.xml.schema.SchemaNames;
 import org.exolab.castor.xml.schema.Wildcard;
@@ -118,17 +117,17 @@ public class GroupUnmarshaller extends ComponentReader {
 
     /**
      * Creates a new GroupUnmarshaller.
-     * @param internalContext the internalContext to get some configuration settings from
+     * @param schemaContext the {@link SchemaContext} to get some configuration settings from
      * @param schema the Schema to which the Group belongs
      * @param element the element name for this type of group
      * @param atts the AttributeList
     **/
     public GroupUnmarshaller(
-            final InternalContext internalContext,
+            final SchemaContext schemaContext,
             final Schema schema,
             final String element,
             final AttributeSet atts) {
-        super(internalContext);
+        super(schemaContext);
 
         this._schema = schema;
 
@@ -267,19 +266,19 @@ public class GroupUnmarshaller extends ComponentReader {
                     "element definitions.");
 
             foundAnnotation = true;
-            unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
+            unmarshaller = new AnnotationUnmarshaller(getSchemaContext(), atts);
         }
         else if (SchemaNames.ELEMENT.equals(name)) {
             foundElement = true;
             unmarshaller
-                = new ElementUnmarshaller(getInternalContext(), _schema, atts);
+                = new ElementUnmarshaller(getSchemaContext(), _schema, atts);
         }
         //--group
         else if (name.equals(SchemaNames.GROUP))
         {
             foundModelGroup = true;
             unmarshaller
-                = new ModelGroupUnmarshaller(getInternalContext(), _schema, atts);
+                = new ModelGroupUnmarshaller(getSchemaContext(), _schema, atts);
         }
 
         //--all, sequence, choice
@@ -289,14 +288,14 @@ public class GroupUnmarshaller extends ComponentReader {
             if (SchemaNames.ALL.equals(name))
                foundAll = true;
             unmarshaller
-                = new GroupUnmarshaller(getInternalContext(), _schema, name, atts);
+                = new GroupUnmarshaller(getSchemaContext(), _schema, name, atts);
         }
         //--any
         else if (SchemaNames.ANY.equals(name)) {
              if (foundAll)
                 error("<any> can not appear as a child of a <all> element");
              unmarshaller
-                 = new WildcardUnmarshaller(getInternalContext(), _group, _schema, name, atts);
+                 = new WildcardUnmarshaller(getSchemaContext(), _group, _schema, name, atts);
         }
 
         else {

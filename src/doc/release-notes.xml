@@ -400,24 +400,24 @@ org.exolab.castor.xml.lenient.introspected.element.strictness=false
                    unnecessary casts.</p>
             </summary>
             <bugs>
-                <bug id="2259" tool="jira">
+                <bug id="2285" tool="jira">
                     <description>
-                        Fixed regression issue with generation of 'default' constructors.
+                        Created new SchemaContext class and switched schema related code to using it.
                     </description>
                     <contributor>
-                        <name>Matthias Epheser</name>
-                        <email>matthias.epheser@indoqa.com</email>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
                     </contributor>
                     <submitter>
                         <name>Werner Guttmann</name>
                         <email>wguttmn@codehaus.org</email>
                     </submitter>
                     <reporter>
-                        <name>Pradeep Kadambar</name>
-                        <email>pradeep.kg.rao@gmail.com</email>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
                     </reporter>
                     <type>Bug</type>
-                    <module>XMLGen</module>
+                    <module>XML</module>
                     <date>20080130</date>
                 </bug>
                 <bug id="2268" tool="jira">

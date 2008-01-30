@@ -46,7 +46,6 @@
 package org.exolab.castor.xml.schema.reader;
 
 //-- imported classes and packages
-import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
@@ -56,8 +55,8 @@ import org.exolab.castor.xml.schema.AttributeGroupReference;
 import org.exolab.castor.xml.schema.ComplexType;
 import org.exolab.castor.xml.schema.Group;
 import org.exolab.castor.xml.schema.ModelGroup;
-import org.exolab.castor.xml.schema.Resolver;
 import org.exolab.castor.xml.schema.Schema;
+import org.exolab.castor.xml.schema.SchemaContext;
 import org.exolab.castor.xml.schema.SchemaException;
 import org.exolab.castor.xml.schema.SchemaNames;
 import org.exolab.castor.xml.schema.SimpleContent;
@@ -104,16 +103,16 @@ public class ExtensionUnmarshaller extends ComponentReader {
 
     /**
      * Creates a new ExtensionUnmarshaller.
-     * @param internalContext the internalContext to get some configuration settings from
+     * @param schemaContext the {@link SchemaContext} to get some configuration settings from
      * @param complexType the ComplexType being unmarshalled
      * @param atts the AttributeList
     **/
     public ExtensionUnmarshaller (
-            final InternalContext internalContext,
+            final SchemaContext schemaContext,
             final ComplexType complexType,
             final AttributeSet atts)
         throws XMLException {
-        super(internalContext);
+        super(schemaContext);
 
         _complexType = complexType;
         _schema      = complexType.getSchema();
@@ -209,14 +208,14 @@ public class ExtensionUnmarshaller extends ComponentReader {
           //-- <anyAttribute>
         if (SchemaNames.ANY_ATTRIBUTE.equals(name)) {
             unmarshaller
-                 = new WildcardUnmarshaller(getInternalContext(), _complexType, _schema, name, atts);
+                 = new WildcardUnmarshaller(getSchemaContext(), _complexType, _schema, name, atts);
         }
 
         //-- attribute declarations
         else if (SchemaNames.ATTRIBUTE.equals(name)) {
             foundAttributes = true;
             unmarshaller
-                = new AttributeUnmarshaller(getInternalContext(), _schema, atts);
+                = new AttributeUnmarshaller(getSchemaContext(), _schema, atts);
         }
         //-- attribute group declarations
         else if (SchemaNames.ATTRIBUTE_GROUP.equals(name)) {
@@ -232,7 +231,7 @@ public class ExtensionUnmarshaller extends ComponentReader {
 
             foundAttributes = true;
             unmarshaller
-                = new AttributeGroupUnmarshaller(getInternalContext(), _schema, atts);
+                = new AttributeGroupUnmarshaller(getSchemaContext(), _schema, atts);
         }
         //--<group>
         else if ( name.equals(SchemaNames.GROUP) )
@@ -247,7 +246,7 @@ public class ExtensionUnmarshaller extends ComponentReader {
 
             foundModelGroup = true;
             unmarshaller
-                = new ModelGroupUnmarshaller(getInternalContext(), _schema, atts);
+                = new ModelGroupUnmarshaller(getSchemaContext(), _schema, atts);
         }
         else if (SchemaNames.isGroupName(name) && (name != SchemaNames.GROUP) ) {
             if (foundAttributes)
@@ -265,7 +264,7 @@ public class ExtensionUnmarshaller extends ComponentReader {
 
             foundModelGroup = true;
             unmarshaller
-                = new GroupUnmarshaller(getInternalContext(), _schema, name, atts);
+                = new GroupUnmarshaller(getSchemaContext(), _schema, name, atts);
         }
         //-- element declarations
         else if (SchemaNames.ANY_ATTRIBUTE.equals(name)) {
@@ -282,7 +281,7 @@ public class ExtensionUnmarshaller extends ComponentReader {
                     "an 'extension' element.");
 
             foundAnnotation = true;
-            unmarshaller = new AnnotationUnmarshaller(getInternalContext(), atts);
+            unmarshaller = new AnnotationUnmarshaller(getSchemaContext(), atts);
         }
         else illegalElement(name);
 

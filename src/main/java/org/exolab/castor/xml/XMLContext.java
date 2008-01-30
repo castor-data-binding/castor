@@ -74,9 +74,6 @@ public class XMLContext {
         ResolverStrategy resolverStrategy = new CastorXMLStrategy();
         internalContext.setResolverStrategy(resolverStrategy);
 
-        Resolver schemaResolver = new ScopableResolver();
-        internalContext.setSchemaResolver(schemaResolver);
-        
         _internalContext = internalContext;
     }
     
@@ -191,36 +188,36 @@ public class XMLContext {
         return unmarshaller;
     }
     
-    /**
-     * To create a schema reader instance for reading XSD files.
-     * @param inputSource the InputSource to read from
-     * @return the SchemaReader instance created and initialized
-     */
-    public SchemaReader createSchemaReader(final InputSource inputSource) {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Creating new SchemaReader instance.");
-        }
-        SchemaReader sr = new SchemaReader();
-        sr.setInternalContext(_internalContext);
-        sr.setInputSource(inputSource);
-        return sr;
-    }
-    
-    /**
-     * To create a schema writer instance for writing XSD files.
-     * @param writer the Writer to write the text representation of the schema to
-     * @return the SchemaWriter instance created and initialized
-     * @throws IOException in case that initialization of SchemaWriter fails
-     */
-    public SchemaWriter createSchemaWriter(final Writer writer) throws IOException {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Creating new SchemaWriter instance.");
-        }
-        SchemaWriter sw = new SchemaWriter();
-        sw.setInternalContext(_internalContext);
-        sw.setDocumentHandler(writer);
-        return sw;
-    }
+//    /**
+//     * To create a schema reader instance for reading XSD files.
+//     * @param inputSource the InputSource to read from
+//     * @return the SchemaReader instance created and initialized
+//     */
+//    public SchemaReader createSchemaReader(final InputSource inputSource) {
+//        if (LOG.isDebugEnabled()) {
+//            LOG.debug("Creating new SchemaReader instance.");
+//        }
+//        SchemaReader sr = new SchemaReader();
+//        sr.setInternalContext(_internalContext);
+//        sr.setInputSource(inputSource);
+//        return sr;
+//    }
+//    
+//    /**
+//     * To create a schema writer instance for writing XSD files.
+//     * @param writer the Writer to write the text representation of the schema to
+//     * @return the SchemaWriter instance created and initialized
+//     * @throws IOException in case that initialization of SchemaWriter fails
+//     */
+//    public SchemaWriter createSchemaWriter(final Writer writer) throws IOException {
+//        if (LOG.isDebugEnabled()) {
+//            LOG.debug("Creating new SchemaWriter instance.");
+//        }
+//        SchemaWriter sw = new SchemaWriter();
+//        sw.setInternalContext(_internalContext);
+//        sw.setDocumentHandler(writer);
+//        return sw;
+//    }
 
     /**
      * To create a MappingTool instance.
