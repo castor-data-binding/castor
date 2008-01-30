@@ -506,7 +506,7 @@ public final class SourceFactory extends BaseFactory {
 
         extractAnnotations(component.getAnnotated(), jClass);
 
-        createContructorForDefaultValueForSimpleContent(component.getAnnotated(), classInfo);
+        createContructorForDefaultValueForSimpleContent(component.getAnnotated(), classInfo, sgState);
         makeMethods(component, sgState, state, jClass, baseClass);
 
         sgState.bindReference(jClass, classInfo);
@@ -536,17 +536,30 @@ public final class SourceFactory extends BaseFactory {
      *        constructor for
      */
     private void createContructorForDefaultValueForSimpleContent(final Annotated annotated,
-                                                                 final ClassInfo classInfo) {
+                                                                 final ClassInfo classInfo,
+                                                                 final SGStateInfo sgStateInfo) {
         FieldInfo textFieldInfo =  classInfo.getTextField();
 
         boolean generate = false;
+        boolean inherited = false;
+        
+        // check if there is some field inherited from a type
         if (annotated instanceof ElementDecl) {
             XMLType type = ((ElementDecl) annotated).getType();
+            ClassInfo typeInfo = sgStateInfo.resolve(type);
+            if (typeInfo != null && typeInfo.getTextField() != null ) {
+            	textFieldInfo = typeInfo.getTextField();
+            	inherited = true;
+            }
             generate = (type.isComplexType() && ((ComplexType) type).isSimpleContent());
-        } else if (annotated instanceof ComplexType && ((ComplexType) annotated).isSimpleContent()) {
+        } 
+        
+        // check if we are a complexType ourself
+        else if (annotated instanceof ComplexType && ((ComplexType) annotated).isSimpleContent()) {
             generate = true;
         }
 
+        // discard primitiv types and collections
         if (textFieldInfo != null) {
             XSType textFieldType = textFieldInfo.getSchemaType();
             if (textFieldType != null && (textFieldType.isPrimitive() || textFieldType.getJType().isArray())) {
@@ -558,13 +571,13 @@ public final class SourceFactory extends BaseFactory {
             return;
         }
 
+        // create constructor
         JClass jClass = classInfo.getJClass();
-
         JParameter parameter = new JParameter(new JClass("java.lang.String"), "defaultValue");
         JConstructor constructor = jClass.createConstructor(new JParameter[] {parameter});
         JSourceCode sourceCode = new JSourceCode();
 
-        if (textFieldInfo == null) {
+        if (inherited) {
             sourceCode.add("super(defaultValue);");
         } else {
             sourceCode.add("try {");
@@ -572,7 +585,7 @@ public final class SourceFactory extends BaseFactory {
                                    + textFieldInfo.getSchemaType().createDefaultValueWithString("defaultValue")
                                    + ";");
             sourceCode.add(" } catch(Exception e) {");
-            sourceCode.addIndented(" // TODO what happens in case of exception?");
+            sourceCode.addIndented("throw new RuntimeException(\"Unable to cast default value for simple content!\");");
             sourceCode.add(" } ");
         }
 
