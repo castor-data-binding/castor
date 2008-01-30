@@ -210,14 +210,18 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 		<repository>
 			<id>codehaus-snapshots</id>
 			<name>Maven Codehaus Snapshots</name>
-			<url>http://snapshots.repository.codehaus.org/</url>
+			<url>
+				http://snapshots.repository.codehaus.org
+			</url>
 		</repository>
 	</repositories>
 
 	<pluginRepositories>
 		<pluginRepository>
 			<id>Maven Codehaus Snapshots</id>
-			<url>http://snapshots.maven.codehaus.org/maven2/</url>
+			<url>
+				http://snapshots.maven.codehaus.org/maven2
+			</url>
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
