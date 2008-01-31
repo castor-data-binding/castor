@@ -14,16 +14,23 @@ fi
 
 JAVA=$JAVA_HOME/bin/java
 
-DIRNAME=`dirname $0`
-CASTOR_HOME=`cd $DIRNAME/..; pwd`
+if [ -z "$CASTOR_HOME" ] ; then
+  DIRNAME=`dirname $0`
+  CASTOR_HOME=`cd $DIRNAME/..; pwd`
+fi
+
 BUILD_D=$CASTOR_HOME/xmlctf/build
 LIB_D=$CASTOR_HOME/lib
 
 # Start off classpath with "etc" for log4j.xml
 CLASSPATH=$CASTOR_HOME/src/etc
 CLASSPATH=$CLASSPATH:$(echo $CASTOR_HOME/dist/castor-*-xmlctf.jar)
+CLASSPATH=$CLASSPATH:$(echo $CASTOR_HOME/dist/castor-*-xmlctf-framework.jar)
+CLASSPATH=$CLASSPATH:$CASTOR_HOME/xmlctf/build/classes
+CLASSPATH=$CLASSPATH:$CASTOR_HOME/xmlctf-framework/build/classes
 CLASSPATH=$CLASSPATH:$(echo $CASTOR_HOME/dist/castor-*-xml.jar)
 CLASSPATH=$CLASSPATH:$(echo $CASTOR_HOME/dist/castor-*-codegen.jar)
+CLASSPATH=$CLASSPATH:$(echo $CASTOR_HOME/dist/castor-*-xml-schema.jar)
 CLASSPATH=$CLASSPATH:$BUILD_D/tests
 CLASSPATH=$CLASSPATH:$JAVA_HOME/lib/tools.jar
 CLASSPATH=$CLASSPATH:$(echo $LIB_D/*.jar | tr ' ' ':')

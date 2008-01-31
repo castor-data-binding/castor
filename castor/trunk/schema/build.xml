@@ -1,8 +1,5 @@
-<project name="Castor XML schema" default="compile" basedir=".">
+<project name="Castor XML schema" default="compile.schema" basedir=".">
 
-	<!-- !!! this is a template only !!! -->
-	
-	
     <property environment="env" />
     <property name="source"               value="${basedir}/src"/>
     <property name="main.java"            value="${source}/main/java"/>
@@ -12,7 +9,7 @@
     <property name="build"                value="${basedir}/build"/>
     <property name="classes"              value="${build}/classes"/>
 	<property name="test.classes"         value="${build}/test"/>
-    <property name="archive"              value="${project}-xml-schema-${version}${release}"/>
+    <property name="archive"              value="${project}-${version}${release}-xml-schema"/>
     <property name="gen.src"              value="${build}/generated-sources"/>
 
     <path id="build.classpath">
@@ -27,21 +24,21 @@
         <pathelement location="${basedir}/build/test"/>
     </path>
 
-    <target name="prepare" unless="prepare.executed">
+    <target name="prepare.schema" unless="prepare.executed">
         <mkdir dir="${build}"/>
         <mkdir dir="${classes}"/>
         <property name="prepare.executed" value="true"/>
     </target>
 
-    <target name="clean" description="Removes build directory">
+    <target name="clean.schema" description="Removes build directory">
         <delete dir="${build}"/>
     </target>
 
-    <target name="clean.tests" description="Removes test build directory">
+    <target name="clean.tests.schema" description="Removes test build directory">
         <delete dir="${test.classes}"/>
     </target>
 
-    <target name="compile" depends="prepare" description="Compile sources">
+    <target name="compile.schema" depends="prepare.schema" description="Compile sources">
         <javac srcdir="${main.java}" destdir="${classes}" 
                debug="on" encoding="ISO-8859-1" deprecation="false"
         	   source="1.4" target="1.4">
@@ -58,13 +55,13 @@
         </copy>
     </target>
 
-    <target name="jar" depends="compile" description="Build JAR file">
+    <target name="jar.schema" depends="compile.schema" description="Build JAR file">
         <jar jarfile="${build}/${archive}.jar" basedir="${classes}" includes="**"
              manifest="${classes}/META-INF/MANIFEST.MF"/>
         <copy file="${build}/${archive}.jar" tofile="${basedir}/../dist/${archive}.jar"/>
     </target>
 
-	<target name="tests" description="Runs JUnit tests" depends="compile">
+	<target name="tests.schema" description="Runs JUnit tests" depends="compile.schema">
 		<junit printsummary="true">
 			<formatter type="plain" />
 			<batchtest>
