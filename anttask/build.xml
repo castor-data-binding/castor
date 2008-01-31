@@ -12,6 +12,7 @@
         <pathelement location="${basedir}/../build/classes"/>
         <pathelement location="${basedir}/../ddlgen/build/classes"/>
         <pathelement location="${basedir}/../codegen/build/classes"/>
+        <pathelement location="${basedir}/../schema/build/classes"/>
     </path>
 
     <target name="prepare.anttask" unless="prepare.anttask.executed">

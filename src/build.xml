@@ -46,7 +46,7 @@
     <property name="main.opt.debug"       value="true"/>
     <property name="archive.name"         value="${project}-${version}${release}"/>
     <property name="exampleexcludes"      value="SourceGenerator/*,**/dax/**"/>
-    <property name="excludes"             value="**/package.html,**/dax/**,**/dax/engine/**"/>
+    <property name="excludes"             value="**/package.html,**/dax/**,**/dax/engine/**, org/exolab/castor/xml/schema/**,org/exolab/castor/xml/dtd/**"/>
     <property name="testexcludes"         value="**/package.html, **/MasterTestSuite/**, **/RegressionTestSuite/**" />
     <!--    org.exolab.castor.dax, -->
     <property name="allpackagenames"      value="org.*"/>
@@ -73,6 +73,7 @@
         <pathelement location="${basedir}/cpactf/build/classes" />
         <pathelement location="${basedir}/cpaptf/build/classes" />
         <pathelement location="${basedir}/examples/build/classes" />
+        <pathelement location="${basedir}/schema/build/classes" />
     </path>
 
     <path id="test.classpath">
@@ -233,6 +234,7 @@
         <ant antfile="${basedir}/cpactf/build.xml" target="clean.cpactf" inheritAll="false" />
         <ant antfile="${basedir}/cpaptf/build.xml" target="clean.cpaptf" inheritAll="false" />
         <ant antfile="${basedir}/examples/build.xml" target="clean.examples" inheritAll="false" />
+        <ant antfile="${basedir}/schema/build.xml" target="clean" inheritAll="false" />
     </target>
 
     <target name="clean.tests" description="Removes the build artifacts related to tests">
@@ -243,6 +245,7 @@
         <ant antfile="${basedir}/cpactf/build.xml" target="clean.cpactf" inheritAll="false" />
         <ant antfile="${basedir}/cpaptf/build.xml" target="clean.cpaptf" inheritAll="false" />
         <ant antfile="${basedir}/codegen/build.xml" target="clean.tests.codegen" inheritAll="false" />
+        <ant antfile="${basedir}/schema/build.xml" target="clean.tests" inheritAll="false" />
     </target>
 
     <target name="compile"
@@ -261,6 +264,7 @@
 
     <target name="compile.all" depends="prepare,compile.commons"
             description="Compile the Castor packages">
+    	<!-- compile artifacts in project root -->
         <javac srcdir="${java}" destdir="${classes}" excludes="${excludes}"
                debug="on" encoding="ISO-8859-1" deprecation="${deprecation}"
                includes="${castor.xml.files}">
@@ -274,11 +278,6 @@
                 <patternset refid="support.files" />
             </fileset>
         </copy>
-
-        <ant antfile="${basedir}/codegen/build.xml" target="compile.codegen" inheritAll="false">
-            <property name="version" value="${version}"/>
-            <property name="release" value="${release}"/>
-        </ant>
 
     	<!-- left-overs from Castor JDO code -->
         <javac srcdir="${java}" destdir="${classes}" excludes="${excludes}"
@@ -307,6 +306,16 @@
             <include name="**/*.dtd" />
         </replace>
 
+    	<!-- build XML schema support -->
+        <ant antfile="${basedir}/schema/build.xml" target="compile" inheritAll="false">
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
+        </ant>
+    	<!-- build XML code generator -->
+        <ant antfile="${basedir}/codegen/build.xml" target="compile.codegen" inheritAll="false">
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
+        </ant>
     	<!-- build DDL generator -->
         <ant antfile="${basedir}/ddlgen/build.xml" target="compile.ddlgen" inheritAll="false">
             <property name="version" value="${version}"/>
@@ -601,6 +610,12 @@
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
         </ant>
+        <!-- create JAR for XML schema support code -->
+        <ant antfile="${basedir}/schema/build.xml" target="jar" inheritAll="false">
+            <property name="project" value="${project}"/>
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
+        </ant>
     </target>
 
     <target name="CTFjar" depends="compile.tests" description="Build the CTF.jar file for JDO and XMLCTF.jar for XML">
@@ -740,6 +755,7 @@
                 <pathelement location="${basedir}/xml/src/main/java" />
                 <pathelement location="${basedir}/xmlctf/src/main/java" />
                 <pathelement location="${basedir}/xmlctf-framework/src/main/java" />
+                <pathelement location="${basedir}/schema/src/main/java" />
             </sourcepath>
         </javadoc>
     </target>
@@ -771,6 +787,7 @@
         <mkdir dir="${build}/${archive.name}/cpactf"/>
         <mkdir dir="${build}/${archive.name}/cpaptf"/>
         <mkdir dir="${build}/${archive.name}/examples"/>
+        <mkdir dir="${build}/${archive.name}/schema"/>
     	
 
         <!-- <copydir src="${source}" dest="${build}/${archive.name}/src" defaultexcludes="true"/> -->
@@ -834,6 +851,13 @@
               <exclude name="eclipse/" />
           </fileset>
         </copy>
+        <copy todir="${build}/${archive.name}/schema">
+          <fileset dir="${basedir}/schema">
+              <exclude name="build/" />
+              <exclude name="target/" />
+              <exclude name="eclipse/" />
+          </fileset>
+        </copy>
 
         <tar includes="${archive.name}/**" basedir="${build}" tarfile="${dist}/${archive.name}-src.tar"/>
         <gzip src="${dist}/${archive.name}-src.tar" zipfile="${dist}/${archive.name}-src.tgz"/>
@@ -861,6 +885,7 @@
             	<include name="${archive.name}-ddlgen.jar"/>
             	<include name="${archive.name}-codegen.jar"/>
                 <include name="${archive.name}-anttasks.jar"/>
+                <include name="${archive.name}-xml-schema.jar"/>
         	</fileset>
         </copy>
         <copy todir="${build}/${archive.name}">
@@ -897,7 +922,8 @@
 
 	<target name="run.unit.tests" depends="compile.unit.tests" description="Runs all unit tests">
         <ant antfile="${basedir}/codegen/build.xml" target="tests.codegen" inheritAll="false" />
-
+        <ant antfile="${basedir}/schema/build.xml" target="tests" inheritAll="false" />
+		
 		<!-- execute junit tests for XML core module -->
 		<echo message="*** Running unit tests for XML core ..." />
 		<junit printsummary="true" haltonerror="true" haltonfailure="true">
