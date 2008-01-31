@@ -1,37 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src/main/java"/>
-	<classpathentry kind="src" path="src/main/resources"/>
-	<classpathentry kind="src" path="src/test/java"/>
-	<classpathentry kind="src" path="src/test/resources"/>
+	<classpathentry kind="src" output="eclipse" path="src/main/java"/>
+	<classpathentry kind="src" output="eclipse" path="src/main/resources"/>
+	<classpathentry kind="src" output="eclipse" path="src/test/java"/>
+	<classpathentry kind="src" output="eclipse" path="src/test/resources"/>
 
 	<classpathentry kind="src" output="xml/eclipse" path="xml/src/main/java"/>
 	<classpathentry kind="src" output="xml/eclipse" path="xml/src/main/resources"/>
 	<classpathentry kind="src" output="xml/eclipse" path="xml/src/test/java"/>
 	<classpathentry kind="src" output="xml/eclipse" path="xml/src/test/resources"/>
-
-	<classpathentry kind="src" output="xmlctf/eclipse" path="xmlctf/src/main/java"/>
-	<classpathentry kind="src" output="xmlctf/eclipse" path="xmlctf/src/main/resources"/>
-	<classpathentry kind="src" output="xmlctf/eclipse" path="xmlctf/src/test/resources"/>
-
-	<classpathentry kind="src" output="xmlctf-framework/eclipse" path="xmlctf-framework/src/main/java"/>
-	<classpathentry kind="src" output="xmlctf-framework/eclipse" path="xmlctf-framework/src/main/resources"/>
-	<classpathentry kind="src" output="xmlctf-framework/eclipse" path="xmlctf-framework/src/test/resources"/>
-
-	<classpathentry kind="src" path="src/bugs"/>
-
-	<classpathentry kind="src" output="anttask/eclipse" path="anttask/src/main/java"/>
-	<classpathentry kind="src" output="anttask/eclipse" path="anttask/src/main/resources"/>
-
+	
 	<classpathentry kind="src" output="codegen/eclipse" path="codegen/src/main/java"/>
 	<classpathentry kind="src" output="codegen/eclipse" path="codegen/src/main/resources"/>
 	<classpathentry kind="src" output="codegen/eclipse" path="codegen/src/test/java"/>
 	<classpathentry kind="src" output="codegen/eclipse" path="codegen/src/test/resources"/>
 
+	<classpathentry kind="src" output="schema/eclipse" path="schema/src/main/java"/>
+	<classpathentry kind="src" output="schema/eclipse" path="schema/src/main/resources"/>
+	
+	<classpathentry kind="src" output="anttask/eclipse" path="anttask/src/main/java"/>
+	<classpathentry kind="src" output="anttask/eclipse" path="anttask/src/main/resources"/>
+	
 	<classpathentry kind="src" output="cpa/eclipse" path="cpa/src/main/java"/>
 	<classpathentry kind="src" output="cpa/eclipse" path="cpa/src/main/resources"/>
 	<classpathentry kind="src" output="cpa/eclipse" path="cpa/src/test/java"/>
+	
+	<classpathentry kind="src" output="ddlgen/eclipse" path="ddlgen/src/main/java"/>
+	<classpathentry kind="src" output="ddlgen/eclipse" path="ddlgen/src/main/resources"/>
+	<classpathentry kind="src" output="ddlgen/eclipse" path="ddlgen/src/test/java"/>
+	<classpathentry kind="src" output="ddlgen/eclipse" path="ddlgen/src/test/resources"/>
+	
+	<classpathentry kind="src" output="xmlctf-framework/eclipse" path="xmlctf-framework/src/main/java"/>
+	<classpathentry kind="src" output="xmlctf-framework/eclipse" path="xmlctf-framework/src/main/resources"/>
+	<classpathentry kind="src" output="xmlctf-framework/eclipse" path="xmlctf-framework/src/test/resources"/>
 
+	<classpathentry kind="src" output="xmlctf/eclipse" path="xmlctf/src/main/java"/>
+	<classpathentry kind="src" output="xmlctf/eclipse" path="xmlctf/src/main/resources"/>
+	<classpathentry kind="src" output="xmlctf/eclipse" path="xmlctf/src/test/resources"/>
+	
+	<classpathentry kind="src" path="src/bugs"/>
+	
 	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/main/java"/>
 	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/main/resources"/>
 	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/temp/java"/>
@@ -39,16 +47,11 @@
 	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/temp/ddl"/>
 	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/test/java"/>
 	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/test/resources"/>
-
+	
 	<classpathentry kind="src" output="cpaptf/eclipse" path="cpaptf/src/test/java"/>
 	<classpathentry kind="src" output="cpaptf/eclipse" path="cpaptf/src/test/resources"/>
-
-	<classpathentry kind="src" output="ddlgen/eclipse" path="ddlgen/src/main/java"/>
-	<classpathentry kind="src" output="ddlgen/eclipse" path="ddlgen/src/main/resources"/>
-	<classpathentry kind="src" output="ddlgen/eclipse" path="ddlgen/src/test/java"/>
-	<classpathentry kind="src" output="ddlgen/eclipse" path="ddlgen/src/test/resources"/>
-
-	<classpathentry excluding="codegen/" kind="src" output="examples/eclipse" path="examples/src/main/java"/>
+	
+	<classpathentry kind="src" output="examples/eclipse" path="examples/src/main/java" excluding="codegen/"/>
 	<classpathentry kind="src" output="examples/eclipse" path="examples/src/main/resources"/>
 
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>

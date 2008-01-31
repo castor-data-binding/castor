@@ -4,6 +4,8 @@
 # 2007-10-01 Joachim, I align the shell script with the Java script
 # even that the shell script is a bit more flexible I think it is better
 # to synchronize the two scripts...
+# 2008-01-31 Joachim: added schema/build/classes to classpath definition
+# after schema had been extracted from main sources tree
 
 if [ -z "$JAVA_HOME" ] ; then
   JAVA=`which java`
@@ -19,14 +21,17 @@ JAVA=$JAVA_HOME/bin/java
 
 OLD_CP=$CLASSPATH
 
-DIRNAME=`dirname $0`
-CASTOR_HOME=`cd $DIRNAME/..; pwd`
+if [ -z "$CASTOR_HOME" ] ; then
+  DIRNAME=`dirname $0`
+  CASTOR_HOME=`cd $DIRNAME/..; pwd`
+fi
 
 CLASSPATH=$CASTOR_HOME/build/tests
 CLASSPATH=$CLASSPATH:$CASTOR_HOME/xmlctf/build/classes
 CLASSPATH=$CLASSPATH:$CASTOR_HOME/xmlctf-framework/build/classes
 CLASSPATH=$CLASSPATH:$CASTOR_HOME/build/classes
 CLASSPATH=$CLASSPATH:$CASTOR_HOME/codegen/build/classes
+CLASSPATH=$CLASSPATH:$CASTOR_HOME/schema/build/classes
 
 CLASSPATH=$CLASSPATH:$CASTOR_HOME/lib/commons-logging-1.1.jar
 CLASSPATH=$CLASSPATH:$CASTOR_HOME/lib/log4j-1.2.13.jar

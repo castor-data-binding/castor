@@ -234,7 +234,7 @@
         <ant antfile="${basedir}/cpactf/build.xml" target="clean.cpactf" inheritAll="false" />
         <ant antfile="${basedir}/cpaptf/build.xml" target="clean.cpaptf" inheritAll="false" />
         <ant antfile="${basedir}/examples/build.xml" target="clean.examples" inheritAll="false" />
-        <ant antfile="${basedir}/schema/build.xml" target="clean" inheritAll="false" />
+        <ant antfile="${basedir}/schema/build.xml" target="clean.schema" inheritAll="false" />
     </target>
 
     <target name="clean.tests" description="Removes the build artifacts related to tests">
@@ -245,7 +245,7 @@
         <ant antfile="${basedir}/cpactf/build.xml" target="clean.cpactf" inheritAll="false" />
         <ant antfile="${basedir}/cpaptf/build.xml" target="clean.cpaptf" inheritAll="false" />
         <ant antfile="${basedir}/codegen/build.xml" target="clean.tests.codegen" inheritAll="false" />
-        <ant antfile="${basedir}/schema/build.xml" target="clean.tests" inheritAll="false" />
+        <ant antfile="${basedir}/schema/build.xml" target="clean.tests.schema" inheritAll="false" />
     </target>
 
     <target name="compile"
@@ -307,7 +307,7 @@
         </replace>
 
     	<!-- build XML schema support -->
-        <ant antfile="${basedir}/schema/build.xml" target="compile" inheritAll="false">
+        <ant antfile="${basedir}/schema/build.xml" target="compile.schema" inheritAll="false">
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
         </ant>
@@ -611,7 +611,7 @@
             <property name="release" value="${release}"/>
         </ant>
         <!-- create JAR for XML schema support code -->
-        <ant antfile="${basedir}/schema/build.xml" target="jar" inheritAll="false">
+        <ant antfile="${basedir}/schema/build.xml" target="jar.schema" inheritAll="false">
             <property name="project" value="${project}"/>
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
