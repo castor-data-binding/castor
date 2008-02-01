@@ -22,9 +22,20 @@
               <span class="newsSummary"-->
 
         <news id="61">
+            <title>Article series on Castor available at IBM developerWorks</title>
+            <author>Werner Guttmann</author>
+            <date>Feb 01 2008</date>
+            <time>17:16:15</time>
+            <summary>
+                Brett McLaughlin has written an article series on <b>(XML) data binding 
+                with Castor</b> on IBM developerWorks. The first article is available 
+                <a href="http://www.ibm.com/developerworks/xml/library/x-xjavacastor1/">here</a>.
+            </summary>
+        </news>
+        <news id="61">
             <title>Welcome Joachim Grueneis to the team</title>
             <author>Werner Guttmann</author>
-            <date>Sep 11 2006</date>
+            <date>Sep 11 2007</date>
             <time>17:16:15</time>
             <summary>
 	            I'm very happy to announce that <i>Joachim Grueneis</i> has joined the Castor
