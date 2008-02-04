@@ -1,0 +1,64 @@
+<project name="Castor XML - CTF" default="compile.xmlctf" basedir=".">
+
+    <!-- $Id: build.xml 0000 2007-01-19 21:12:08Z ekuns $ -->
+
+    <property environment="env" />
+    <property name="source"               value="${basedir}/src"/>
+    <property name="main.java"            value="${source}/main/java"/>
+    <property name="main.resources"       value="${source}/main/resources"/>
+    <property name="test.resources"       value="${source}/test/resources"/>
+    <property name="build"                value="${basedir}/build"/>
+    <property name="classes"              value="${build}/classes"/>
+    <property name="archive"              value="${project}-${version}${release}-xmlctf"/>
+    <property name="gen.src"              value="${build}/generated-sources"/>
+
+    <path id="build.classpath">
+        <pathelement location="${basedir}/build/classes"/>
+        <pathelement location="${basedir}/../build/classes"/>
+        <pathelement location="${basedir}/../schema/build/classes"/>
+        <pathelement location="${basedir}/../codegen/build/classes"/>
+        <pathelement location="${basedir}/../anttask/build/classes"/>
+        <pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>
+        <pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>
+    </path>
+
+    <target name="prepare.xmlctf" unless="prepare.xmlctf.executed">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${classes}"/>
+        <property name="prepare.xmlctf.executed" value="true"/>
+    </target>
+
+    <target name="clean.xmlctf" description="Removes XML CTF build directory">
+        <delete dir="${build}"/>
+    </target>
+
+    <target name="compile.xmlctf" depends="prepare.xmlctf" description="Compile XML CTF">
+        <javac srcdir="${main.java}" destdir="${classes}"
+               debug="on" encoding="ISO-8859-1" deprecation="false"
+        	   source="1.4" target="1.4">
+            <classpath refid="build.classpath"/>
+        </javac>
+        <copy todir="${classes}">
+            <fileset dir="${main.resources}">
+                <include name="**"/>
+            </fileset>
+            <filterset begintoken="$$" endtoken="$$">
+                <filter token="VERSION" value="${version}"/>
+                <filter token="RELEASE" value="${release}"/>
+            </filterset>
+        </copy>
+        <copy todir="${classes}">
+            <fileset dir="${test.resources}">
+                <include name="log4j.xml"/>
+                <include name="castor.properties"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="jar.xmlctf" depends="compile.xmlctf" description="Build XML CTF JAR file">
+        <jar jarfile="${build}/${archive}.jar" basedir="${classes}" includes="**"
+             manifest="${classes}/META-INF/MANIFEST.MF"/>
+        <copy file="${build}/${archive}.jar" tofile="${basedir}/../dist/${archive}.jar"/>
+    </target>
+
+</project>

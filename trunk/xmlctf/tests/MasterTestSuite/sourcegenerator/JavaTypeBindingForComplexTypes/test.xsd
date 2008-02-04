@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://test"
+           xmlns="http://test"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           attributeFormDefault="unqualified"
+           elementFormDefault="qualified">
+
+   <!--xs:complexType name="itemType">
+       <xs:attribute name="name" type="xs:string"/>
+   </xs:complexType-->
+
+   <xs:complexType name="pathType">
+      <xs:sequence>
+         <xs:element name="item" maxOccurs="unbounded" minOccurs="1">
+             <xs:complexType>
+                  <xs:attribute name="name" type="xs:string"/>
+             </xs:complexType>
+         </xs:element>
+         <xs:element name="simpleItem" maxOccurs="unbounded" minOccurs="0" type="xs:string"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:element name="path" type="pathType" />
+
+</xs:schema>

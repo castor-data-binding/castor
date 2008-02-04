@@ -1,0 +1,25 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+
+    <Name>Test get methods starting with 'iterate' where no mappig file is used</Name>
+    <Author>Werner Guttmann</Author>
+
+    <Comment>
+      Tests getter methods starting with 'iterate' where no mapping file is present
+      and reflection is used to derive the decriptors.
+    </Comment>
+
+    <Category>basic capability</Category>
+
+    <MarshallingTest>
+        <Root_Object>DomainClass</Root_Object>
+
+        <UnitTestCase>
+            <Name>Test01</Name>
+            <Input>input.xml</Input>
+            <GoldFile>input.xml</GoldFile>
+        </UnitTestCase>
+
+    </MarshallingTest>
+
+</TestDescriptor>

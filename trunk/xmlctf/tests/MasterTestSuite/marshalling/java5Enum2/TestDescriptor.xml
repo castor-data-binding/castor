@@ -1,0 +1,41 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+
+    <Name>Marshalling-Java-5-Enum</Name>
+    <Author>Mathias Epheser</Author>
+
+    <Comment>
+        Tests that the marshaller will correctly output Java 5 enums.
+        Tests "simple" enums and "complex" ones with a value object
+    </Comment>
+
+    <Category>basic capability</Category>
+	<MinimumJavaVersion>1.5</MinimumJavaVersion>
+
+    <MarshallingTest>
+        <Root_Object>Root</Root_Object>
+        <UnitTestCase>
+            <Name>TestMarshallSimpleEnum</Name>
+            <Input>input-plain.xml</Input>
+            <GoldFile>input-plain.xml</GoldFile>
+        </UnitTestCase>
+        <UnitTestCase>
+            <Name>TestMarshallComplexEnum</Name>
+            <Input>input-complex.xml</Input>
+            <GoldFile>input-complex.xml</GoldFile>
+        </UnitTestCase>
+        <UnitTestCase>
+            <Failure>true</Failure>
+            <Name>TestMarshallComplexEnumWrongInput</Name>
+            <Input>input-complex-wrong.xml</Input>
+            <GoldFile>input-complex-wrong.xml</GoldFile>
+        </UnitTestCase>
+        <UnitTestCase>
+            <Failure>true</Failure>
+            <Name>TestMarshallComplexEnumWithoutToString</Name>
+            <Input>input-complex-withouttostring.xml</Input>
+            <GoldFile>input-complex-withouttostring.xml</GoldFile>
+        </UnitTestCase>
+    </MarshallingTest>
+
+</TestDescriptor>

@@ -1,0 +1,15 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Tests name conflicts with java.lang.*</Name>
+    <Author>Edward Kuns</Author>
+    <Comment>
+        Tests name conflicts with java.lang.*
+    </Comment>
+    <Category>basic capability</Category>
+    <OnlySourceGenerationTest>
+        <Schema>test.xsd</Schema>
+        <UnitTestCase>
+            <Name>Test Source Generation</Name>
+        </UnitTestCase>
+     </OnlySourceGenerationTest>
+</TestDescriptor>

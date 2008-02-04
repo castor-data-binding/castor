@@ -1,0 +1,23 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Support for duration schema type</Name>
+    <Author>Werner Guttmann</Author>
+    <Comment>
+       Tests the support for duration schema type
+    </Comment>
+    <Category>basic capability</Category>
+    <SourceGeneratorTest>
+        <Schema>test.xsd</Schema>
+        <Root_Object random="false" dump="true">Test</Root_Object>
+        <UnitTestCase>
+            <Name>Test plain duration</Name>
+            <Input>input.xml</Input>
+            <GoldFile/>
+        </UnitTestCase>
+        <UnitTestCase>
+            <Name>Test with milliseconds</Name>
+            <Input>input-with-milli.xml</Input>
+            <GoldFile/>
+        </UnitTestCase>
+    </SourceGeneratorTest>
+</TestDescriptor>

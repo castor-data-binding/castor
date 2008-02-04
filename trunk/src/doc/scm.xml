@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.codehaus.org/scm.xml">
+
+  <properties>
+    <title>Subversion Access and Issue Tracking</title>
+    <abstract>Outlines how to access the Subversion repository.</abstract>
+    <status>Final</status>
+  </properties>
+
+  <body>
+    <title>Subversion Access and Issue Tracking</title>
+
+    <section title="Issue Reporting and Tracking - JIRA">
+
+      <p>Please use <a href="http://jira.codehaus.org/browse/CASTOR">JIRA</a> for
+         reporting any issue and tracking their progress. In addition, Jira offers many
+         additonal (more sophisticated) features that allow you to keep in touch with
+         the project's current progress.</p>
+
+      <p>Before submitting issues, please read
+         <a href="how-to-submit-a-bug.xml">'How to submit an issue'</a>.</p>
+
+    </section>
+
+    <section title="Subversion access">
+
+      <p>The source code, documentation and libraries are available from Subversion</p>
+
+      <p>To checkout the Castor source as a committer:</p>
+
+      <code-panel>
+  $ svn co https://svn.codehaus.org/castor
+      </code-panel>
+
+      <p>To checkout the Castor source anonymously:</p>
+
+      <code-panel>
+  $ svn co http://svn.codehaus.org/castor
+      </code-panel>
+
+      <p>To browse the Castor source:</p>
+
+      <code-panel>
+  $ http://svn.codehaus.org/castor
+      </code-panel>
+
+      <p>Using FishEye, one of the following snapshots can also be downloaded:</p>
+
+      <ul>
+        <li><a href="http://svn.castor.codehaus.org/viewrep/~tarball=zip/castor/castor/trunk/trunk.zip">ZIP archive</a></li>
+        <li><a href="http://svn.castor.codehaus.org/viewrep/~tarball=tgz/castor/castor/trunk/trunk.tgz">TGZ archive</a></li>
+        <li><a href="http://svn.castor.codehaus.org/viewrep/~tarball=tbz2/castor/castor/trunk/trunk.tbz2">TBZ2 archive</a></li>
+      </ul>
+
+      <p>The last alternative is to <a href="download.xml">download</a> the full source
+         distribution for a given release.</p>
+   </section>
+
+   <section title="Information on Subversion">
+
+      <p>For more information about Subversion and various tools to access Subversion
+         repositories you may want to take a look at
+         <a href="http://subversion.tigris.org/">Subversion site</a>.
+         <!--
+         Additional information is also provided at
+         <a href="http://docs.codehaus.org/display/HAUS/Subversion+at+the+haus">Codehaus wiki</a>.
+         -->
+         </p>
+         
+    </section>
+
+  </body>
+</document>
