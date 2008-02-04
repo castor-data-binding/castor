@@ -28,7 +28,6 @@
 
 -->
 
-<!-- 
         <release version="SVN">
             <description>New and on-going development</description>
             <date>tbd</date>
@@ -38,7 +37,6 @@
             <bugs>
             </bugs>
         </release>
- -->        
 
         <release version="1.2">
             <description>Release of Castor 1.2 GA</description>
