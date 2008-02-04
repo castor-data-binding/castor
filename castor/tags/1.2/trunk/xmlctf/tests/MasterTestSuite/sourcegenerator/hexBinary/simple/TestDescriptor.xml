@@ -1,0 +1,27 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Tests support for xsd:hexBinary</Name>
+    <Author>Werner Guttmann</Author>
+    <Comment>Regression test case for bug CASTOR-423</Comment>
+    <Category>basic capability</Category>
+    <BugFix>
+        <Reporter>johan@kawoo.co.uk</Reporter>
+        <Date_Report>2007-01-31</Date_Report>
+        <Date_Fix>2007-04-01</Date_Fix>
+        <Comment>Added support for xs:hexBinary</Comment>
+    </BugFix>
+
+    <SourceGeneratorTest>
+        <Schema>test.xsd</Schema>
+        <Root_Object random="true" dump="true">CallData</Root_Object>
+        <UnitTestCase>
+            <Name>Test Generation &amp; unmarshalling</Name>
+            <Input>input.xml</Input>
+        </UnitTestCase>
+        <UnitTestCase>
+            <Name>Test Generation &amp; unmarshalling with lower case letters</Name>
+            <Input>input-lower.xml</Input>
+            <GoldFile>output.xml</GoldFile>
+        </UnitTestCase>
+    </SourceGeneratorTest>
+</TestDescriptor>

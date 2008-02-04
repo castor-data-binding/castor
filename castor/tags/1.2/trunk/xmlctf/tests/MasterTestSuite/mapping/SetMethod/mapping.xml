@@ -1,0 +1,23 @@
+
+<mapping>
+
+        <class name="Set_Root">
+                <map-to xml="set-root"/>
+                <field name="Name"
+                       set-method="setName"
+                       type="string"> 
+                        <bind-xml name="Name" node="element"/>
+                </field>
+                <field name="Value"
+                       set-method="setValue"
+                       type="integer"> 
+                        <bind-xml name="Value" node="element"/>
+                </field>
+                <field name="All"
+                       get-method="getAll"
+                       type="string"> 
+                        <bind-xml name="All" node="element"/>
+                </field>
+        </class>
+
+</mapping>

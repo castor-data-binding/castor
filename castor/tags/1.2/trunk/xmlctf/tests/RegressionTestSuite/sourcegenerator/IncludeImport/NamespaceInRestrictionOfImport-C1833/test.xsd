@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.castor.org/root"
+            xmlns:root="http://www.castor.org/root"
+            xmlns:imp="http://www.castor.org/imported"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+    <xsd:import namespace="http://www.castor.org/imported" schemaLocation="imported.xsd"/>
+
+    <xsd:complexType name="RootType">
+        <xsd:complexContent>
+            <xsd:restriction base="imp:ImportedType">
+                <xsd:sequence>
+                    <xsd:element name="First"  type="xsd:string"/>
+                    <xsd:element name="Second" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:restriction>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:element name="Root" type="root:RootType"/>
+
+</xsd:schema>

@@ -1,0 +1,22 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Test the correct reading/writing of restriction in complexType</Name>
+    <Author>Arnaud Blandin</Author>
+    <Comment>Regression testing
+    </Comment>
+    <BugFix>
+        <Reporter>Ted Toth [ted.toth@vincera.com]</Reporter>
+        <Date_Report>2002-10-07</Date_Report>
+        <Date_Fix>2002-10-08</Date_Fix>
+        <Comment>Look first for the targetNamespace when resolving an XML Type</Comment>
+    </BugFix>
+    <Category>basic capability</Category>
+
+    <SchemaTest>
+
+        <UnitTestCase>
+            <Schema>restriction.xsd</Schema>
+        </UnitTestCase>
+
+    </SchemaTest>
+</TestDescriptor>

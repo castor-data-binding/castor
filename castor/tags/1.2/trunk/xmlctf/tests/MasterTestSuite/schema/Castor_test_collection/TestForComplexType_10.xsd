@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.castor.org/Test"
+            xmlns:cst="http://www.castor.org/Test"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+   <!-- Test for complexType definition with annotation -->
+
+   <xsd:complexType name="type1">
+      <xsd:annotation>
+         <xsd:documentation>Test annotation</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:element name="elem1" type="xsd:double"/>
+         <xsd:element name="elem2" type="xsd:QName"/>
+      </xsd:sequence>
+   </xsd:complexType>
+
+</xsd:schema>

@@ -1,0 +1,7 @@
+<expected>
+	<match method="regexp" index="0">create table simple \( fieldinterger integer not null, fieldinterger2 integer \);</match>
+	<match method="plain" index="1"></match>
+
+	<match method="regexp" index="0" engine="mysql">create table simple \( fieldinterger integer\({0}\) not null, fieldinterger2 integer\({0}\) \);</match>
+	<match method="plain" index="1" engine="mysql"></match>
+</expected>

@@ -1,0 +1,137 @@
+#*
+ *
+ * This is the main template to create classes that are compatible to the ones
+ * created by the old source generation process (using the print methods)
+ * 
+ * It creates:
+ *   - package declaration
+ *   - package and class imports (including the ones derived from inner classes
+ *   - classdefinition
+ *   - member variables
+ *   - static initializers
+ *   - constructors
+ *   - methods
+ *   - inner classes
+ *   - javadoc statements
+ *   - inner classes
+ *
+ **###
+#packageDeclaration($jClass) 
+
+## IMPORTS *#
+#if( $jClass.getImportCount() > 0 )
+
+#foreach( $import in $jClass.getImports() )
+import $import;
+#end
+#foreach( $inner in $jClass.getInnerClasses() )
+#foreach( $import in $inner.getImports() )
+import $import;
+#end
+#end
+#end
+
+## CLASS/ENUM DEFINITION *#
+#javadoc( $jClass.getJDocComment() "" )
+#foreach( $annotation in $jClass.getAnnotations() )
+#annotation( $annotation "")
+#end
+#if( $helper.isEnum($jClass) )
+#enumDefinition( $jClass "") { ##
+#{else}
+#classDefinition( $jClass "") { ##
+
+#{end}
+
+## ENUM CONSTANTS *#
+#if( $helper.isEnum($jClass))
+
+#foreach($constant in $jClass.getConstants())
+#javadoc($constant.getComment() "    ")
+#foreach( $annotation in $constant.getAnnotations() )
+#annotation( $annotation "    ")
+#end
+#enumConstant($constant "    ")##
+#if($velocityCount < $jClass.getConstantCount()), #else; #end
+
+#end
+#end
+
+## MEMBERS *#
+#if( $jClass.getFieldCount() > 0 )
+#foreach( $field in $jClass.getFields() )
+#javadoc( $field.getComment() "    " )
+#foreach( $annotation in $field.getAnnotations() )
+#annotation( $annotation "    ")
+#end
+#member( $field "    " )
+
+#end
+#end
+
+## STATIC INITIALIZERS *#
+#staticInitializationCode($jClass "    ")
+
+## CONSTRUCTORS *#
+#if( $jClass.getContructorsCount() > 0 )
+#foreach( $constructor in $jClass.getConstructors() )
+#foreach( $annotation in $constructor.getAnnotations() )
+#annotation( $annotation "    ")
+#end
+#constructor ( $constructor "    " )
+#end
+#end
+
+## METHODS *#
+#if( $jClass.getMethodCount() > 0)
+#foreach( $method in $jClass.getMethods() )
+#javadoc( $method.getJDocComment() "    " )
+#foreach( $annotation in $method.getAnnotations() )
+#annotation( $annotation "    ")
+#end
+#method( $method "    " )   
+
+#end
+#end
+
+## INNER CLASSES *#
+#if( $jClass.getInnerClassCount() > 0)
+#foreach( $inner in $jClass.getInnerClasses() )
+#javadoc( $inner.getJDocComment() "    " )
+#foreach( $annotation in $inner.getAnnotations() )
+#annotation( $annotation "    ")
+#end
+#classDefinition( $inner "    ") {
+#if( $inner.getFieldCount() > 0 )
+#foreach( $field in $inner.getFields() )
+#javadoc( $field.getComment() "        " )
+#foreach( $annotation in $field.getAnnotations() )
+#annotation( $annotation "        ")
+#end
+#member( $field "        " )
+#end
+#end
+#staticInitializationCode($inner "        ")
+#if( $inner.getContructorsCount() > 0 )
+#foreach( $constructor in $inner.getConstructors() )
+#foreach( $annotation in $constructor.getAnnotations() )
+#annotation( $annotation "        ")
+#end
+#constructor ( $constructor "        " )
+#end
+#end
+#if( $inner.getMethodCount() > 0)
+#foreach( $method in $inner.getMethods() )
+#javadoc( $method.getJDocComment() "        " )
+#foreach( $annotation in $method.getAnnotations() )
+#annotation( $annotation "        ")
+#end
+#method( $method "        " )   
+#end
+    }
+#end
+
+#end
+#end
+
+}

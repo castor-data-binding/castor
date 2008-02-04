@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<def:item xmlns:def="default" xmlns:media="http://search.yahoo.com/mrss/">
+	<def:description>My description field</def:description>
+	<media:description>My media description field</media:description>
+</def:item>

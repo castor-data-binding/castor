@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<site>
+  <bannerLeft>
+    <name>Castor</name>
+    <!-- <src>http://maven.apache.org/images/apache-maven-project.png</src> -->
+    <href>http://castor.org/</href>
+  </bannerLeft>
+<!--  
+  <bannerRight>
+    <src>http://maven.apache.org/images/maven-small.gif</src>
+  </bannerRight>
+-->  
+  <body>
+    <links>
+      <item name="Maven" href="http://maven.apache.org/"/>
+      <item name="Codehaus" href="http://www.codehaus.org/"/>
+    </links>
+
+    <menu name="Documentation">
+    
+        <item name="How to ..." href="/how-to-use-marshaller.html" />
+    	
+    </menu>
+
+    ${reports}
+
+  </body>
+</site>

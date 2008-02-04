@@ -1,0 +1,24 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+
+    <Name>Mapping-Namespaces</Name>
+    <Author>Keith Visco</Author>
+
+    <Comment>
+        Tests the support of HashMap in the mapping and marshalling frameworks
+    </Comment>
+
+    <Category>basic capability</Category>
+
+    <MarshallingTest>
+        <Root_Object>Namespaces_Root</Root_Object>
+
+        <UnitTestCase>
+            <Name>Test01</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+            <GoldFile>output.xml</GoldFile>
+        </UnitTestCase>
+    </MarshallingTest>
+
+</TestDescriptor>
