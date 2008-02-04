@@ -28,9 +28,21 @@
 
 -->
 
+<!-- 
         <release version="SVN">
             <description>New and on-going development</description>
             <date>tbd</date>
+            <managed-by>Werner Guttmann</managed-by>
+            <summary>
+            </summary>
+            <bugs>
+            </bugs>
+        </release>
+ -->        
+
+        <release version="1.2">
+            <description>Release of Castor 1.2 GA</description>
+            <date>February 4, 2008</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
                 <h2>Additions</h2>

@@ -21,6 +21,36 @@
 -->
 
         <item>
+            <title>1.2 GA available</title>
+            <pubDate>Mon, 04 Feb 2008 20:21:22 +0100</pubDate>
+            <author>Werner Guttmann</author>
+            <link>http://castor.codehaus.org/news.html#item63</link>
+            <guid>http://castor.codehaus.org/news.html#item63</guid>
+            <description><![CDATA[
+                <p>
+                  Castor 1.2 has been made available at http://dist.codehaus.org/castor/1.2/
+                </p>
+                <p>
+                  For details about the features added and the bugs fixed,
+                  please have a look at the release notes at
+                  http://castor.codehaus.org/release-notes.html
+                </p>
+            ]]></description>
+        </item>
+        <item>
+            <title>Article series on Castor available at IBM developerWorks</title>
+            <pubDate>Sun, 02 Feb 2008 20:21:22 +0100</pubDate>
+            <author>Werner Guttmann</author>
+            <link>http://castor.codehaus.org/news.html#item62</link>
+            <guid>http://castor.codehaus.org/news.html#item62</guid>
+            <description><![CDATA[
+                <p>Brett McLaughlin has written an article series on <b>(XML) data binding 
+                   with Castor</b> on <b>IBM developerWorks</b>. The first article is available 
+                   http://www.ibm.com/developerworks/xml/library/x-xjavacastor1/.
+                </p>
+            ]]></description>
+        </item>
+        <item>
             <title>Welcome Joachim Grueneis to the team</title>
             <pubDate>Tue, 11 Sep 2007 20:21:22 +0100</pubDate>
             <author>Werner Guttmann</author>
