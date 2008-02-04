@@ -788,7 +788,9 @@
         <mkdir dir="${build}/${archive.name}/cpaptf"/>
         <mkdir dir="${build}/${archive.name}/examples"/>
         <mkdir dir="${build}/${archive.name}/schema"/>
-    	
+        <mkdir dir="${build}/${archive.name}/xml"/>
+        <mkdir dir="${build}/${archive.name}/codegen-testcase-archetype"/>
+        <mkdir dir="${build}/${archive.name}/maven-plugins"/>
 
         <!-- <copydir src="${source}" dest="${build}/${archive.name}/src" defaultexcludes="true"/> -->
         <copy todir="${build}/${archive.name}/src">
@@ -853,6 +855,27 @@
         </copy>
         <copy todir="${build}/${archive.name}/schema">
           <fileset dir="${basedir}/schema">
+              <exclude name="build/" />
+              <exclude name="target/" />
+              <exclude name="eclipse/" />
+          </fileset>
+        </copy>
+        <copy todir="${build}/${archive.name}/xml">
+          <fileset dir="${basedir}/xml">
+              <exclude name="build/" />
+              <exclude name="target/" />
+              <exclude name="eclipse/" />
+          </fileset>
+        </copy>
+        <copy todir="${build}/${archive.name}/codegen-testcase-archetype">
+          <fileset dir="${basedir}/codegen-testcase-archetype">
+              <exclude name="build/" />
+              <exclude name="target/" />
+              <exclude name="eclipse/" />
+          </fileset>
+        </copy>
+        <copy todir="${build}/${archive.name}/maven-plugins">
+          <fileset dir="${basedir}/maven-plugins">
               <exclude name="build/" />
               <exclude name="target/" />
               <exclude name="eclipse/" />
