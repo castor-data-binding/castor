@@ -1,0 +1,20 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Test basic use of "import" statements when a package directive is specified</Name>
+    <Author>Werner Guttmann</Author>
+    <Comment>
+        Tests correct behaviour when an XML schema imports another one *and* a package
+        is set manually when calling the source generator.
+    </Comment>
+    <Category>basic capability</Category>
+    <SourceGeneratorTest>
+        <Schema>ResolverRecords.xsd</Schema>
+        <Package>test</Package>
+        <Root_Object random="false" dump="true">test.Records</Root_Object>
+        <UnitTestCase>
+            <Name>TestGenerationWithPackageSpecified</Name>
+            <Input>input.xml</Input>
+            <GenerateImported>true</GenerateImported>
+        </UnitTestCase>
+    </SourceGeneratorTest>
+</TestDescriptor>

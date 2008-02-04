@@ -1,0 +1,194 @@
+<cpactf-conf default-database="mysql-drv" default-transaction="local">
+    <configuration name="test356">
+        <description>Mapping configuration for test356</description>
+        <mapping href="/org/castor/cpa/test/test356/mapping.xml"/>
+    </configuration>
+    
+    <configuration name="test881">
+        <description>Mapping configuration for test881</description>
+        <mapping href="/org/castor/cpa/test/test881/mapping.xml"/>
+    </configuration>
+    
+    <configuration name="test954">
+        <description>Mapping configuration for test954</description>
+        <mapping href="/org/castor/cpa/test/test954/mapping.xml"/>
+    </configuration>
+    
+    <configuration name="test972">
+        <description>Mapping configuration for test972</description>
+        <mapping href="/org/castor/cpa/test/test972/mapping.xml"/>
+    </configuration>
+    
+    <configuration name="test1002">
+        <description>Mapping configuration for test1002</description>
+        <mapping href="/org/castor/cpa/test/test1002/mapping.xml"/>
+    </configuration>
+    
+    <configuration name="test1158">
+        <description>Mapping configuration for test1158</description>
+        <mapping href="/org/castor/cpa/test/test1158/mapping.xml"/>
+    </configuration>
+    
+    <configuration name="test1355">
+        <description>Mapping configuration for test1355</description>
+        <mapping href="/org/castor/cpa/test/test1355/mapping.xml"/>
+    </configuration>
+    
+    <configuration name="test1379">
+        <description>Mapping configuration for test1379</description>
+        <mapping href="/org/castor/cpa/test/test1379/mapping.xml"/>
+    </configuration>
+    
+    <configuration name="test2177">
+        <description>Mapping configuration for test2177</description>
+        <mapping href="/org/castor/cpa/test/test2177/mapping.xml"/>
+    </configuration>
+    
+    
+    
+    <database name="db2-drv" engine="db2">
+        <description>Database configuration for DB2</description>
+        <driver url="jdbc:db2:TEST"
+                class-name="COM.ibm.db2.jdbc.app.DB2Driver">
+            <param name="user" value="test"/>
+            <param name="password" value="test"/>
+        </driver>
+    </database>
+
+    <database name="derby-drv" engine="derby">
+        <description>Database configuration for Derby</description>
+        <driver url="jdbc:derby://localhost:1527/tests;retrieveMessagesFromServerOnGetMessage=true" 
+                class-name="org.apache.derby.jdbc.ClientDriver">
+            <param name="user" value="test"/>
+            <param name="password" value="test"/>
+        </driver>
+    </database>
+
+    <database name="hsql-drv" engine="hsql">
+        <description>Database configuration for HSQL</description>
+        <driver url="jdbc:hsqldb:hsql://localhost/test"
+                class-name="org.hsqldb.jdbcDriver">
+            <param name="user" value="sa"/>
+            <param name="password" value=""/>
+        </driver>
+    </database>
+
+    <database name="mssql-ds" engine="sql-server">
+        <description>Database configuration for MSSQL</description>
+        <data-source class-name="com.inet.tds.TdsDataSource"> 
+            <param name="user" value="test"/>
+            <param name="password" value="test"/>
+            <param name="serverName" value="localhost"/>
+            <param name="databaseName" value="test"/>
+            <param name="portNumber" value="1433"/>
+        </data-source>
+    </database>
+
+    <database name="mysql-drv" engine="mysql">
+        <description>Database configuration for MySQL</description>
+        <driver url="jdbc:mysql://localhost:3306/test"
+                class-name="com.mysql.jdbc.Driver">
+            <param name="user" value="test"/>
+            <param name="password" value="test"/>
+        </driver>
+    </database>
+
+    <database name="mysql-ds" engine="mysql">
+        <description>Database configuration for MySQL</description>
+        <data-source class-name="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">
+            <param name="url" value="jdbc:mysql://localhost:3306/test"/>
+            <param name="user" value="test"/>
+            <param name="password" value="test"/>
+        </data-source>
+    </database>
+
+    <database name="mysql-dbcp" engine="mysql">
+        <description>Database configuration for MySQL</description>
+        <data-source class-name="org.apache.commons.dbcp.BasicDataSource">
+            <param name="driver-class-name" value="org.gjt.mm.mysql.Driver"/>
+            <param name="url" value="jdbc:mysql://localhost:3306/test"/>
+            <param name="username" value="test"/>
+            <param name="password" value="test"/>
+            <param name="max-active" value="10"/>
+        </data-source>
+    </database>
+
+    <database name="oracle-drv" engine="oracle">
+        <description>Database configuration for Oracle</description>
+        <driver url="jdbc:oracle:thin:@localhost:1521:TEST"
+                class-name="oracle.jdbc.driver.OracleDriver">
+            <param name="user" value="test"/>
+            <param name="password" value="secret"/>
+        </driver>
+    </database>
+
+    <database name="oracle-ds" engine="oracle">
+        <description>Database configuration for Oracle</description>
+        <data-source class-name="oracle.jdbc.pool.OracleConnectionPoolDataSource">
+            <param name="URL" value="jdbc:oracle:thin:@localhost:1521:TEST"/>
+            <param name="user" value="test"/>
+            <param name="password" value="secret"/>
+        </data-source>
+    </database>
+
+	<database name="pointbase-drv" engine="pointbase">
+        <description>Database configuration for Pointbase</description>
+		<driver url="jdbc:pointbase://localhost:9092/castor"
+                class-name="com.pointbase.jdbc.jdbcUniversalDriver">
+            <param name="user" value="pbpublic"/>
+			<param name="password" value="pbpublic"/>
+		</driver>
+	</database>
+
+    <database name="postgresql-drv" engine="postgresql">
+        <description>Database configuration for PostgreSQL</description>
+        <driver url="jdbc:postgresql:test"
+                class-name="org.postgresql.Driver">
+            <param name="user" value="test"/>
+            <param name="password" value="secret"/>
+        </driver>
+    </database>
+
+    <database name="progress-drv" engine="progress">
+        <description>Database configuration for Progress</description>
+        <driver url="jdbc:progress:" class-name="">
+            <param name="user" value="test"/>
+            <param name="password" value="test"/>
+        </driver>
+    </database>
+
+    <database name="sapdb-drv" engine="sapdb">
+        <description>Database configuration for MaxDB</description>
+        <driver url="jdbc:sapdb://localhost/test"
+                class-name="com.sap.dbtech.jdbc.DriverSapDB">
+            <param name="user" value="admin"/>
+            <param name="password" value="secure"/>
+        </driver>
+    </database>
+
+    <database name="sapdb-ds" engine="sapdb">
+        <description>Database configuration for MaxDB</description>
+        <data-source class-name="com.sap.dbtech.jdbcext.DataSourceSapDB">
+            <param name="url" value="jdbc:sapdb://localhost/test"/>
+            <param name="user" value="admin"/>
+            <param name="password" value="secure"/>
+        </data-source>
+    </database>
+
+    <database name="sybase-ds" engine="sybase" default="data-source">
+        <description>Database configuration for Sybase</description>
+        <data-source class-name="com.sybase.jdbc2.jdbc.SybDataSource">
+            <param name="user" value="test"/>
+            <param name="password" value="secret"/>
+            <param name="portNumber" value="4100"/>
+            <param name="serverName" value="arkin"/>
+        </data-source>
+    </database>
+
+
+
+    <transaction name="local" mode="local">
+        <description>Transactions managed locally by Castor</description>
+    </transaction>
+</cpactf-conf>
+

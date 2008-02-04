@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+            targetNamespace="http://www.mac.com/neiltaylor/xsdBinding">
+
+   <xsd:element name="test" type="TestType" >
+      
+   </xsd:element>
+
+   <xsd:complexType name="TestType" >
+         <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+               <xsd:attribute name="use" />
+            </xsd:extension>
+         </xsd:simpleContent>
+      </xsd:complexType>
+      
+</xsd:schema>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://castor.org/home/zip"
+    targetNamespace="http://castor.org/home/zip">
+
+    <xs:element name="HomeZip">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="Zip">
+                    <xs:attribute name="abc" type="xs:string" />
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="Zip">
+        <xs:union memberTypes="Blank2 Blank1"></xs:union>
+    </xs:simpleType>
+
+    <xs:simpleType name="Blank1">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="2" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Blank2">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="10" />
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

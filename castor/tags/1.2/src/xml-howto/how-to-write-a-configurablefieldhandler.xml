@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/howto/how-to-write-a-configurablefieldhandler.xml">
+  <properties>
+	  <title>How to write a ConfigurableFieldHandler</title>
+    <abstract>
+       Describes how to write a custom configurable field handler.
+    </abstract>
+    <status>Final</status>
+  </properties>
+  <body>
+	  <title>How to write a ConfigurableFieldHandler</title>
+    <header>
+    </header>
+
+    <section title="Intended Audience">
+
+        <p>Anyone who wants to write a configurable field hander.</p>
+        
+    </section>
+
+    <section title="When (not) to use ConfigurableFieldHandler">
+
+    	<p>
+    		If you want to have a custom FieldHandler that works in a fixed manner, you
+    		should consider subclassing
+    		<a href="xml-fieldhandlers.html#Writing-a-GeneralizedFieldHandler"><tt>GeneralizedFieldHandler</tt></a>
+    		, or implementing
+    		<a href="xml-fieldhandlers.html#Writing-a-simple-FieldHandler"><tt>FieldHandler</tt></a>.
+    	</p>
+
+    	<p>
+    		However if you want your FieldHandler to operate more flexibly, based on
+    		configuration, <tt>ConfigurableFieldHandler</tt> may be what you're looking 
+    		for.
+    	</p>
+    	
+    </section>
+    
+    <section title="Implement your ConfigurableFieldHandler">
+
+		<p>Basically, two approaches exist for implementing a configurable field handler.</p>
+		
+		<p>The most straightforward one is simply to implement the <tt>ConfigurableFieldHandler</tt>
+		interface. This interface extends the <tt>FieldHandler</tt> interface.</p>
+		
+		<p>The other approach is to subclass any of the <i>convenience FieldHandler implementations</i>.
+		These are <tt>AbstractFieldHandler</tt> and <tt>GeneralizedFieldHandler</tt>. Both classes
+		already implement the <tt>ConfigurableFieldHandler</tt> interface, so you don't have to
+		implement it yourself explicitly. However the implementation of the single
+		<tt>ConfigurableFieldHandler</tt> method (<tt>setConfiguration</tt>) is an empty method. 
+		So you'd have to override this method yourself in order to do something useful with the
+		configuration.</p>
+		
+		<p>The two approaches differ only marginally. If the convenience classes provide useful
+		functionality for you, you'd probably be better off using them. Otherwise simply implementing
+		the <tt>ConfigurableFieldHandler</tt> interface is a good choice.</p>
+
+        <p>For this exercise, we choose to implement the <tt>ConfigurableFieldHandler</tt>, 
+        and decide to convert dates, using a configurable date pattern:</p>
+        
+  	    <code-panel top-caption="FieldHandlerImpl.java">
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Properties;
+
+import org.exolab.castor.mapping.ConfigurableFieldHandler;
+import org.exolab.castor.mapping.ValidityException;
+
+public class FieldHandlerImpl implements ConfigurableFieldHandler {
+
+    private SimpleDateFormat formatter;
+
+    public FieldHandlerImpl() {
+    	//
+    }
+
+    /**
+     * Sets the configuration for this field handler. The config object is supposed to have one
+     * property, named "date-format", with a date format pattern compatible with 
+     * java.text.SimpleDateFormat.
+     * 
+     * @param config the configuration object.
+     * @throws ValidityException if config doesn't have the required parameter, or if the parameter
+     *      value is not a valid date pattern.
+     */    
+    public void setConfiguration(Properties config) throws ValidityException {
+    	String pattern = config.getProperty("date-format");
+    	if (pattern == null) {
+    		throw new ValidityException("Required parameter \"date-format\" is missing for CustomDateFieldHandler.");
+    	}
+    	try {
+    		formatter = new SimpleDateFormat(pattern);
+    	} catch (IllegalArgumentException e) {
+    		throw new ValidityException("Pattern \""+pattern+"\" is not a valid date format.");
+    	}
+    }
+
+    /**
+     * Returns the value of the field from the object.
+     *
+     * @param object The object
+     * @return The value of the field
+     * @throws IllegalStateException The Java object has changed and
+     *  is no longer supported by this handler, or the handler is not
+     *  compatible with the Java object
+     */
+    public Object getValue( Object object )
+        throws IllegalStateException
+    {
+        Root root = (Root)object;
+        Date value = root.getDate();
+        if (value == null) return null;
+        return formatter.format(value);
+    }
+
+    /**
+     * Sets the value of the field on the object.
+     *
+     * @param object The object
+     * @param value The new value
+     * @throws IllegalStateException The Java object has changed and
+     *  is no longer supported by this handler, or the handler is not
+     *  compatible with the Java object
+     * @throws IllegalArgumentException The value passed is not of
+     *  a supported type
+     */
+    public void setValue( Object object, Object value )
+        throws IllegalStateException, IllegalArgumentException
+    {
+        Root root = (Root)object;
+        Date date = null;
+        try {
+            date = formatter.parse((String)value);
+        }
+        catch(ParseException px) {
+            throw new IllegalArgumentException(px.getMessage());
+        }
+        root.setDate(date);
+
+    }
+    
+    /**
+     * Creates a new instance of the object described by this field.
+     *
+     * @param parent The object for which the field is created
+     * @return A new instance of the field's value
+     * @throws IllegalStateException This field is a simple type and
+     *  cannot be instantiated
+     */
+    public Object newInstance( Object parent )
+        throws IllegalStateException
+    {
+        //-- Since it's marked as a string...just return null,
+        //-- it's not needed.
+        return null;
+    }
+
+    /**
+     * Sets the value of the field to a default value.
+     *
+     * Reference fields are set to null, primitive fields are set to
+     * their default value, collection fields are emptied of all
+     * elements.
+     *
+     * @param object The object
+     * @throws IllegalStateException The Java object has changed and
+     *  is no longer supported by this handler, or the handler is not
+     *  compatible with the Java object
+     */
+    public void resetValue( Object object )
+        throws IllegalStateException, IllegalArgumentException
+    {
+        ((Root)object).setDate(null);
+    }
+
+    /**
+     * @deprecated No longer supported
+     */
+    public void checkValidity( Object object )
+        throws ValidityException, IllegalStateException
+    {
+        // do nothing
+    }
+}</code-panel>            
+
+		<p>
+		   For a ConfigurableFieldHandler, we have to override the method <tt>setConfiguration</tt> of
+		   the superclass <tt>AbstractFieldHandler</tt>. <tt>AbstractFieldHandler</tt> implements this
+		   method on behalf of the <tt>ConfigurableFieldHandler</tt> interface, but does not do anything.            
+        </p>
+        
+    </section>        
+    
+    <section title="Define and use the handler">
+    
+    	<p>All we have to do now is define the ConfigurableFieldHandler in the mapping file (using a
+    	&lt;field-handler&gt; element), configure it, and use it in some xml field.</p>
+    	
+       	<code-panel top-caption="mapping.xml">
+&lt;?xml version="1.0"?&gt;
+&lt;mapping&gt;
+   
+   <b>&lt;field-handler name="myHandler" class="org.some.package.CustomFieldHandlerImpl"&gt;
+      &lt;param name="date-format" value="yyyyMMddHHmmss"/&gt;
+   &lt;/field-handler&gt;</b>
+   
+   &lt;class name="Root"&gt;
+      &lt;field name="date" type="string" <b>handler="myHandler"</b>/&gt;
+   &lt;/class&gt;
+
+&lt;/mapping&gt;</code-panel>
+
+		<p>
+	      	This mapping file defines a custom configurable field handler instance named "myHandler", of
+      		the type we've just implemented, and configures it with some fancy date pattern. A regular 
+      		class mapping defines a field called "date", and specifies that conversion to and from this
+      		field will be performed by the "myHandler" instance.    	
+    	</p>
+    	
+    	<p>
+    		It would be perfectly legal to use "myHandler" for other fields as well, and also 
+    		to define other field-handler instances of the class <tt>FieldHandlerImpl</tt> (or 
+    		any other class).</p>
+    	
+    	<p>
+    		To complete the example, here's the "Root" class that is used in the example 
+    		mapping file:
+    	</p>
+    	
+	    <code-panel top-caption="Root.java">
+import java.util.Date;
+
+public class Root {
+
+    private Date _date = null;
+
+    public Root() {
+    }
+
+    public Date getDate() {
+        return _date;
+    }
+
+    public void setDate(Date date) {
+       this._date = date;
+    }
+
+}</code-panel>
+
+		<p>And here a sample XML document:</p>
+		
+    	<code-panel top-caption="Sample XML document">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+   &lt;date&gt;20070711234859&lt;/date&gt;
+&lt;/root&gt;</code-panel>
+
+    	<p>
+    		With these classes, xml mapping file and xml sample file, you should be able to marshall
+    		and unmarshall the date field.
+    	</p>
+    	
+    </section>
+    
+    </body>
+</document>

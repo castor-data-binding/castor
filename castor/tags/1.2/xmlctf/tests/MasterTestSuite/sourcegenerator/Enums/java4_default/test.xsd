@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2007 sp2 (http://www.altova.com) by Ron Corcuera (OCLC) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+    
+    <xs:element name="root">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="screenSize"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="screenSize" default="Medium">
+        <xs:simpleType>
+            <xs:restriction base="xs:token">
+                <xs:enumeration value="Small"/>
+                <xs:enumeration value="Medium"/>
+                <xs:enumeration value="Large"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="email"/>
+</xs:schema>

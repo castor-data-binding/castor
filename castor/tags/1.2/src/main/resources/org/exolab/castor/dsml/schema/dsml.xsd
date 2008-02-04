@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+
+<!-- XML Schema Description for DSML -->
+<!-- Last updated: 1999-11-30        -->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/1999/XMLSchema"
+  targetNS="http://www.dsml.org/DSML"
+  version="1.0"
+  xmlns="http://www.w3.org/1999/09/24-xmlschema">
+
+<!-- DATA TYPES -->
+
+<datatype name="true-false">
+  <basetype name="string"/>   
+  <enumeration>   
+    <literal>true</literal>
+    <literal>false</literal>
+  </enumeration>
+</datatype>
+
+<datatype name="oid">
+  <basetype name="string"/>   
+</datatype>
+
+<datatype name="uri-ref">
+  <basetype name="string"/>   
+</datatype>
+
+<datatype name="distinguished-name">
+  <basetype name="string"/>   
+</datatype>
+
+<!-- DOCUMENT ELEMENT -->
+
+<element name="dsml">
+  <archetype>
+    <element ref="directory-schema" minOccurs="0"/>
+    <element ref="directory-entries" minOccurs="0"/>
+    <attribute name="complete" type="true-false"/>
+  </archetype>
+</element>
+
+<!-- SCHEMA -->
+
+<element name="directory-schema">
+  <archetype>
+    <group order="choice" minOccurs="0" maxOccurs="*">
+      <element ref="class"/>
+      <element ref="attribute-type"/>
+    </group>
+  </archetype>
+</element>
+
+<!-- element types common to class and attribute-type -->
+<element name="name" type="string"/>
+<element name="description" type="string"/>
+<element name="object-identifier" type="oid"/>
+
+<element name="class">
+  <archetype>
+    <element ref="name" maxOccurs="*"/>
+    <element ref="description" minOccurs="0"/>
+    <element ref="object-identifier" minOccurs="0"/>
+    <element ref="attribute" minOccurs="0" maxOccurs="*"/>
+    <attribute name="id" type="id" minOccurs="1"/>
+    <attribute name="sup" type="uri-ref"/>
+    <attribute name="obsolete" type="true-false" default="false"/>
+    <attribute name="type" type="NCName" minOccurs="1">
+      <enumeration>
+        <literal>structural</literal>
+        <literal>abstract</literal>
+        <literal>auxiliary</literal>
+      </enumeration>
+    </attribute>
+  </archetype>
+</element>
+
+<element name="attribute">
+  <archetype content="empty">
+    <attribute name="ref" type="uri-ref" minOccurs="1"/>
+    <attribute name="required" type="true-false" minOccurs="1"/>
+  </archetype>
+</element>
+
+<element name="attribute-type">
+  <archetype>
+    <element ref="name" maxOccurs="*"/>
+    <element ref="description" minOccurs="0"/>
+    <element ref="object-identifier" minOccurs="0"/>
+    <element name="syntax" type="oid" minOccurs="0"/>
+    <element name="equality" type="oid" minOccurs="0"/>
+    <element name="ordering" type="oid" minOccurs="0"/>
+    <element name="substring" type="oid" minOccurs="0"/>
+    <attribute name="id" type="id" minOccurs="1"/>
+    <attribute name="sup" type="uri-ref"/>
+    <attribute name="obsolete" type="true-false" default="false"/>
+    <attribute name="single-value" type="true-false" default="false"/>
+    <attribute name="user-modification" type="true-false" default="true"/>
+  </archetype>
+</element>
+
+<!-- ENTRIES -->
+
+<element name="directory-entries">
+  <archetype>
+    <element ref="entry" minOccurs="0" maxOccurs="*"/>
+  </archetype>
+</element>
+
+<element name="entry">
+  <archetype>
+    <!-- minimum occur for objectclass and attr are zero to allow for
+         an entry that only expresses objectclasses or non-objectclass
+         directory attributes -->
+    <element ref="objectclass" minOccurs="0" maxOccurs="*"/>
+    <element ref="attr" minOccurs="0" maxOccurs="*"/>
+    <attribute name="dn" type="distinguished-name" minOccurs="1"/>
+  </archetype>
+</element>
+
+<element name="objectclass">
+  <archetype>
+    <attribute name="ref" type="uri-ref"/>
+    <element name="oc-value" maxOccurs="*" type="string">
+      <archetype>
+        <attribute name="ref" type="uri-ref"/>
+      </archetype>
+    </element>
+  </archetype>
+</element>
+
+<element name="attr">
+  <archetype>
+    <element ref="value" maxOccurs="*"/> 
+    <attribute name="name" type="string" minOccurs="1"/>
+    <attribute name="ref" type="uri-ref"/>
+  </archetype>
+</element>
+
+<element name="value" type="string">
+  <archetype> 
+    <attribute name="encoding" type="string"/>
+  </archetype>
+</element>
+
+</xsd:schema>

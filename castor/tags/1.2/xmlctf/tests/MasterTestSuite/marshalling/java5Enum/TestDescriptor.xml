@@ -1,0 +1,23 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+
+    <Name>Marshalling-Java-5-Enum</Name>
+    <Author>Werner Guttmann</Author>
+
+    <Comment>
+        Tests that the marshaller will correctly output Java 5 enums
+    </Comment>
+
+    <Category>basic capability</Category>
+	<MinimumJavaVersion>1.5</MinimumJavaVersion>
+
+    <MarshallingTest>
+        <Root_Object>CastorTest</Root_Object>
+        <UnitTestCase>
+            <Name>TestMarshallJava5Enum</Name>
+            <Input>input.xml</Input>
+            <GoldFile>input.xml</GoldFile>
+        </UnitTestCase>
+    </MarshallingTest>
+
+</TestDescriptor>

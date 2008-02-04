@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Specification-Title: Castor COMMONS
+Specification-Version: $VERSION$$RELEASE$
+Implementation-Title: Castor
+Implementation-Version: $VERSION$$RELEASE$
+Class-Path: commons-logging.jar
+
+Name: org/castor
+Sealed: false

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container>
+    <list xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="test-classb">
+        <additional-data>wurst</additional-data>
+    </list>
+</container>

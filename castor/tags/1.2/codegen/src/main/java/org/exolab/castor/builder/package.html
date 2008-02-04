@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <title>Castor XML code generator</title>
+    </head>
+    <body>
+        <p><b>Castor XML code generator</b></p>
+    
+        <dl>
+          <dt><b>Version: </b></dt><dd>$Revision$</dd>
+          <dt><b>Author: </b></dt>
+          <dd><a href="mailto:kvisco@intalio.com">Keith Visco</a></dd>
+          <dt><b>Author: </b></dt>
+          <dd><a href="mailto:blandin@intalio.com">Arnaud Blandin</a></dd>
+        </dl>
+    
+        <p>
+           This package is primarily used with Castor XML, however some people do
+           use it for Castor JDO. Some incompatabilities may exist.
+        </p>
+    
+        <p>
+           The class {@link org.exolab.castor.builder.SourceGenerator}
+           is used for creating Java source code from an XML Schema. Currently
+           the version of XML Schema that is supported by the SourceGenerator is
+           a subset of the W3C XML Schema 1.0 Recommendation (20010502).
+           A <a href="./binding/package-summary.html">binding file</a> can be used to customize
+           the generated sources. More information may be obtained in the Castor documentation.
+        </p>
+    
+        <p>
+           The class {@link org.exolab.castor.builder.SourceGeneratorMain}
+           is the main(String[]) entry point used when invoking the source generator
+           from the command line.  This class parses the command-line arguments,
+           sets up the proper configuration, and then passes control to
+           <code>org.exolab.castor.builder.SourceGenerator</code>.
+        </p>
+    
+        <p>
+          The file org/exolab/castor/builder/castorbuilder.properties
+          is used for configuring some advanced options.
+        </p>
+    </body>
+</html>

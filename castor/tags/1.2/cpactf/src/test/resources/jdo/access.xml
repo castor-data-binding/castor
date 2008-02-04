@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<!DOCTYPE databases PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.org/jdo-conf.dtd">
+
+<database name="test" engine="generic" >
+    <driver url="jdbc:odbc:test"
+            class-name="sun.jdbc.odbc.JdbcOdbcDriver">
+      <param name="user" value="test"/>
+      <param name="password" value="test"/>
+    </driver>
+  <mapping href="mapping.xml" />
+</database>
+
+
