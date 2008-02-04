@@ -6,7 +6,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.codehaus.castor</groupId>
     <artifactId>castor-testsuite-xml</artifactId>
-    <version>1.2</version>
+    <version>1.2.1-SNAPSHOT</version>
 
     <!-- 
         <parent>
@@ -25,7 +25,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
             <plugin>
                 <groupId>org.codehaus.castor</groupId>
                 <artifactId>castor-maven-plugins</artifactId>
-                <version>1.2</version>
+                <version>1.2.1-SNAPSHOT</version>
                 <executions>
                     <execution>
                         <phase>test</phase>
@@ -48,15 +48,6 @@ http://maven.apache.org/maven-v4_0_0.xsd">
     </scm>
 
 	<dependencies>
-		<!--  
-			replaced with dependency to castor-testsuite-xml-framework by Werner
-		<dependency>
-			<groupId>org.codehaus.castor</groupId>
-			<artifactId>castor-codegen</artifactId>
-			<version>1.2</version>
-		</dependency>
-		-->
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -65,7 +56,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
         <dependency>
             <groupId>org.codehaus.castor</groupId>
             <artifactId>castor-testsuite-xml-framework</artifactId>
-            <version>1.2</version>
+            <version>1.2.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
