@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.codehaus.castor</groupId>
 	<artifactId>castor-examples</artifactId>
-	<version>1.2-SNAPSHOT</version>
+	<version>1.2</version>
 	
 <!-- 
 	<parent>
@@ -93,7 +93,7 @@
 		<dependency>
 			<groupId>org.codehaus.castor</groupId>
 			<artifactId>castor</artifactId>
-			<version>1.2-SNAPSHOT</version>
+			<version>1.2</version>
 		</dependency>
 
 		<dependency>
