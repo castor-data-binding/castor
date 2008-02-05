@@ -1584,6 +1584,18 @@ public class SchemaWriter {
 
         //-- handle restriction
         SimpleType base = (SimpleType)simpleType.getBaseType();
+
+        /*
+         * In case we don't have a direct reference on the base type,
+         * check whether its definition can be obtained from one of the
+         * imported schemas.
+         */
+        String typeName = simpleType.getBaseTypeName();
+        if(base == null && typeName != null) {
+        	Schema schema = simpleType.getSchema();
+        	base = getSimpleTypeFromSchema(schema, typeName);
+        }
+
         boolean isRestriction = false;
         if (base != null) {
             if (simpleType instanceof ListType) {
@@ -1598,7 +1610,7 @@ public class SchemaWriter {
 
             _atts.clear();
 
-            String typeName = base.getName();
+            typeName = base.getName();
             //-- add "xsd" prefix if necessary
             if (typeName.indexOf(':') < 0) {
                 if (base.isBuiltInType()) {
@@ -1649,7 +1661,7 @@ public class SchemaWriter {
 
             boolean topLevel = (itemType.getParent() == itemType.getSchema());
             if (itemType.isBuiltInType() || topLevel) {
-                String typeName = itemType.getName();
+                typeName = itemType.getName();
                 //-- add "xsd" prefix if necessary
                 if ((typeName.indexOf(':') < 0) && itemType.isBuiltInType()) {
                     typeName = schemaPrefix + typeName;
@@ -1761,5 +1773,25 @@ public class SchemaWriter {
     	return schema.getNamespaces().getNamespacePrefix(namespace);
     } //-- getNSPrefix
     
-
+    
+    /**
+     * Walks over provided schema and its hierarchy looking for
+     * the named type.
+     * 
+     * @param schema Schema instance where to start searching from.
+     * @param typeName Name of the type we search.
+     * 
+     * @return Definition of the simple type is found, null otherwise.
+     */
+    private SimpleType getSimpleTypeFromSchema(Schema schema, String typeName) {
+    	SimpleType base = schema.getSimpleType(typeName);
+    	if(base == null) {
+    		Enumeration imports = schema.getImportedSchema();
+    		while (imports.hasMoreElements() && base == null) {
+				Schema sch = (Schema) imports.nextElement();
+				base = getSimpleTypeFromSchema(sch, typeName);
+			}
+    	}
+    	return base;
+    }
 } //-- SchemaWriter

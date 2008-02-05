@@ -153,6 +153,14 @@ class DeferredSimpleType extends SimpleType {
     public short getStructureType() {
         return Structure.UNKNOWN;
     } //-- getStructureType
+    
+    /**
+     * Overridden to return the local copy of the base type's name we own.
+     * @see XMLType#getBaseTypeName()
+     */
+    public String getBaseTypeName() {
+        return baseTypeName;
+    }
 }
 
 

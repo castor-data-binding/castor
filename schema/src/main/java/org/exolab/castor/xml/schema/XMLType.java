@@ -246,5 +246,12 @@ public abstract class XMLType extends Annotated
      */
     XMLType getType() { return this; }
 
-
+    /**
+     * If this type has a base type, this returns its name.<br/>
+     * Returns null otherwise.
+     * @return Base type's name if available, null otherwise.
+     */
+    public String getBaseTypeName() {
+        return baseType != null ? baseType.getName() : null;
+    }
 } //-- XMLType
