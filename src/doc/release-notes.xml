@@ -35,6 +35,27 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2277" tool="jira">
+                    <description>
+                        Fixed problem with class name resolution for referenced attribute definitions
+                        that use an anynymous simple type enumeration.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Kelvin Chung</name>
+                        <email>kelvSYC@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XMLGen</module>
+                    <date>20080205</date>
+                </bug>
             </bugs>
         </release>
 

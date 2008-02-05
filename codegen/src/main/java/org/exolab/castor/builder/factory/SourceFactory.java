@@ -1769,7 +1769,9 @@ public final class SourceFactory extends BaseFactory {
             // Look for referenced type (if any) for setting type, and use
             // it, if found.
             if (sType == null && attr.getReference() != null) {
-                attr.setSimpleType(attr.getReference().getSimpleType());
+                SimpleType referencedSimpleType = attr.getReference().getSimpleType();
+                attr.setSimpleType(referencedSimpleType);
+                sType = referencedSimpleType;
             }
 
             if (sType != null && !(SimpleTypesFactory.isBuiltInType(sType.getTypeCode()))) {
