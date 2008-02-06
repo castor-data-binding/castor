@@ -108,11 +108,6 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
     private static final String WILDCARD = "*";
 
     /**
-     * Naming Conventions.
-     */
-    private static XMLNaming _naming = null;
-
-    /**
      * The set of attribute descriptors.
      */
     private XMLFieldDescriptors _attributes = null;
@@ -212,13 +207,6 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
     //----------------/
 
     /**
-     * Static initializer.
-     */
-    static {
-        _naming = AbstractXMLNaming.getInstance();
-    }
-
-    /**
      * Creates an XMLClassDescriptor class used by the Marshalling Framework.
      *
      * @param type the Class type with which this ClassDescriptor describes.
@@ -230,7 +218,7 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
         }
 
         this._class = type;
-        setXMLName(null);
+        // useless, no name is known setXMLName(null);
     } //-- XMLClassDescriptorImpl
 
     /**
@@ -777,8 +765,8 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
      */
     public void setXMLName(String xmlName) {
         if (xmlName == null) {
-            if (_class != null) {
-                _xmlName = toXMLName(_class.getName());
+            if (_xmlName == null && _class != null) {
+                _xmlName = _class.getName();
             }
         }
         else this._xmlName = xmlName;
@@ -1358,13 +1346,13 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
         this._introspected = introspected;
     } //-- setIntrospected
 
-    protected String toXMLName(String className) {
-        //-- create default XML name
-        String name = className;
-        int idx = name.lastIndexOf('.');
-        if (idx >= 0) name = name.substring(idx+1);
-        return _naming.toXMLName(name);
-    }
+//    protected String toXMLName(String className) {
+//        //-- create default XML name
+//        String name = className;
+//        int idx = name.lastIndexOf('.');
+//        if (idx >= 0) name = name.substring(idx+1);
+//        return _naming.toXMLName(name);
+//    }
 
     //-------------------/
     //- Private Methods -/
