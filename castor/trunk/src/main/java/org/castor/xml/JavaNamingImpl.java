@@ -430,6 +430,9 @@ public class JavaNamingImpl implements JavaNaming {
      * @see org.castor.xml.JavaNaming#extractFieldNameFromField(java.lang.reflect.Field)
      */
     public final String extractFieldNameFromField(Field field) {
+        if (field == null) {
+            return null;
+        }
         String fieldName = field.getName();
         if (fieldName.charAt(0) == FIELD_UNDERSCORE_PREFIX) {
             fieldName = fieldName.substring(1);
