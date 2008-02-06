@@ -40,12 +40,12 @@
  *
  * Copyright 2002 (C) Intalio, Inc. All Rights Reserved.
  *
- * $Id$
+ * $Id: SimpleListener.java 6785 2007-01-29 05:09:59Z ekuns $
  *
  */
 
 import org.exolab.castor.xml.MarshalListener;
-import org.castor.xml.UnmarshalListener;
+import org.exolab.castor.xml.UnmarshalListener;
 import org.castor.xmlctf.CastorTestable;
 
 import java.util.Vector;
@@ -93,7 +93,7 @@ public class SimpleListener implements MarshalListener, UnmarshalListener, Casto
     }
 
     /** UnmarshalListener */
-    public void initialized (Object o, Object p) {
+    public void initialized (Object o) {
         log(o, "Initialized");
     }
 
@@ -103,12 +103,12 @@ public class SimpleListener implements MarshalListener, UnmarshalListener, Casto
     }
 
     /** UnmarshalListener */
-    public void unmarshalled (Object o, Object p) {
+    public void unmarshalled (Object o) {
         log(o, "Unmarshalled");
     }
 
     /** UnmarshalListener */
-    public void attributesProcessed(Object o, Object p) {
+    public void attributesProcessed(Object o) {
         log(o, "Attributes Processed");
     }
 

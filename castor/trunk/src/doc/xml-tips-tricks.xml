@@ -171,15 +171,18 @@ org.exolab.castor.marshalling.validation=false
       </p>
 
       <p>
-         The UnmarshalListener located also in <code>org.exolab.castor.xml</code> listens to
+         The UnmarshalListener located also in <code>org.castor.xml</code> listens to
          four different events that are intercepted by the following methods:
          <ul>
              <li>initialized: this method is called once an object has been instantiated.</li>
              <li>attributesProcessed: this method is called when the attributes have just been read and processed.</li>
              <li>fieldAdded: this method is called when an object is added to a parent.</li>
              <li>unmarshalled: this method is called when an object has been <b>fully</b> unmarshaled.</li>
-
          </ul>
+         <b>Note:</b> The <code>UnmarshalListener</code> had been part of <code>org.exolab.castor.xml</code>
+         but as an extention of this interface had been required a new interface in <code>org.castor.xml</code>
+         was introduced. Currently the <code>org.exolab.castor.xml.UnmarshalListener</code> interface
+         can still be used but is deprecated.
       </p>
 
     </section>

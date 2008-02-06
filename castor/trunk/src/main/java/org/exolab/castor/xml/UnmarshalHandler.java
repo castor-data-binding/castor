@@ -67,6 +67,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.util.Base64Decoder;
 import org.castor.util.HexDecoder;
+import org.castor.xml.UnmarshalListenerAdapter;
 import org.castor.xml.XMLConfiguration;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.ExtendedFieldHandler;
@@ -167,23 +168,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      */
     private boolean          _clearCollections = false;
 
-    // TODO: Joachim 2007-09-04 remove me
-//    /**
-//     * The Castor configuration.
-//     */
-//    private Configuration    _config       = null;
-
     /**
      * The SAX Document Locator.
     **/
     private Locator          _locator      = null;
-
-// TODO: Joachim
-//    /**
-//     * The ClassDescriptorResolver which is used to "resolve"
-//     * or find ClassDescriptors.
-//    **/
-//    private XMLClassDescriptorResolver _cdResolver = null;
 
     /**
      * The IDResolver for resolving IDReferences.
@@ -193,7 +181,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
    /**
     * The unmarshaller listener.
     */
-    private UnmarshalListener _unmarshalListener = null;
+    private org.castor.xml.UnmarshalListener _unmarshalListener = null;
     
     /**
      * A flag indicating whether or not to perform validation.
@@ -474,12 +462,29 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     } //-- setRootObject
 
     /**
-     * Sets an {@link UnmarshalListener}.
+     * Sets an {@link org.exolab.castor.xml.UnmarshalListener}.
      *
-     * @param listener the UnmarshalListener to use with this instance
+     * @param listener the {@link org.exolab.castor.xml.UnmarshalListener} to use with this instance
      * of the UnmarshalHandler.
-    **/
-    public void setUnmarshalListener (UnmarshalListener listener) {
+     * @deprecated please move to the new {@link org.castor.xml.UnmarshalListener} interface
+     */
+    public void setUnmarshalListener (org.exolab.castor.xml.UnmarshalListener listener) {
+        if (listener == null) {
+            listener = null;
+        } else {
+            UnmarshalListenerAdapter adapter = new UnmarshalListenerAdapter();
+            adapter.setOldListener(listener);
+            _unmarshalListener = adapter;
+        }
+    }
+
+    /**
+     * Sets an {@link org.castor.xml.UnmarshalListener}.
+     *
+     * @param listener the {@link org.castor.xml.UnmarshalListener} to use with this instance
+     * of the UnmarshalHandler.
+     */
+    public void setUnmarshalListener (org.castor.xml.UnmarshalListener listener) {
         _unmarshalListener = listener;
     }
 
@@ -879,7 +884,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         //-- We're finished processing the object, so notify the
         //-- Listener (if any).
         if ( _unmarshalListener != null && state.object != null ) {
-            _unmarshalListener.unmarshalled(state.object);
+            _unmarshalListener.unmarshalled(state.object, (state.parent==null)?null:state.parent.object);
         }
 
         //-- if we are at root....just validate and we are done
@@ -1704,11 +1709,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 //--The top object has just been initialized
                 //--notify the listener
                 if ( _unmarshalListener != null )
-                    _unmarshalListener.initialized(_topState.object);
+                    _unmarshalListener.initialized(_topState.object, (_topState.parent==null)?null:_topState.parent.object);
                     
                 processAttributes(atts, classDesc);
                 if ( _unmarshalListener != null )
-                    _unmarshalListener.attributesProcessed(_topState.object);
+                    _unmarshalListener.attributesProcessed(_topState.object, (_topState.parent==null)?null:_topState.parent.object);
                 processNamespaces(classDesc);
             }
             
@@ -2384,10 +2389,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             //--The object has just been initialized
             //--notify the listener
             if ( _unmarshalListener != null )
-                _unmarshalListener.initialized(state.object);
+                _unmarshalListener.initialized(state.object, (state.parent==null)?null:state.parent.object);
             processAttributes(atts, classDesc);
             if ( _unmarshalListener != null )
-                _unmarshalListener.attributesProcessed(state.object);
+                _unmarshalListener.attributesProcessed(state.object, (state.parent==null)?null:state.parent.object);
             processNamespaces(classDesc);
         }
         else if ((state.type != null) && (!state.primitiveOrImmutable)) {

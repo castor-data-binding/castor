@@ -35,6 +35,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2282" tool="jira">
+                    <description>
+                        Introduced a new (extended) UnmarshalListener interface meant to replace the existing.
+                    </description>
+                    <contributor>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </reporter>
+                    <type>Improvement</type>
+                    <module>XML</module>
+                    <date>20080206</date>
+                </bug>
                 <bug id="2283" tool="jira">
                     <description>
                         Removed static initialization of XMLClassDescriptorImpl which wasn't used but

@@ -72,7 +72,6 @@ import org.exolab.castor.util.NestedIOException;
 import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.MarshalListener;
 import org.exolab.castor.xml.Marshaller;
-import org.exolab.castor.xml.UnmarshalListener;
 import org.exolab.castor.xml.Unmarshaller;
 import org.exolab.castor.xml.XMLContext;
 import org.xml.sax.InputSource;
@@ -424,9 +423,16 @@ public abstract class XMLTestCase extends TestCase {
             }
         }
 
-        if (_listener != null && _listener instanceof UnmarshalListener
+        if (_listener != null
+                && _listener instanceof org.exolab.castor.xml.UnmarshalListener
                 && _listenerType.getType() != TypeType.MARSHAL_TYPE) {
-            unmar.setUnmarshalListener((UnmarshalListener)_listener);
+            unmar.setUnmarshalListener((org.exolab.castor.xml.UnmarshalListener)_listener);
+        }
+
+        if (_listener != null
+                && _listener instanceof org.castor.xml.UnmarshalListener
+                && _listenerType.getType() != TypeType.MARSHAL_TYPE) {
+            unmar.setUnmarshalListener((org.castor.xml.UnmarshalListener)_listener);
         }
 
         unmar.setDebug(_verbose);
@@ -497,7 +503,9 @@ public abstract class XMLTestCase extends TestCase {
         }
 
         Object o = listenerClass.newInstance();
-        if (o instanceof UnmarshalListener || o instanceof MarshalListener) {
+        if (o instanceof org.castor.xml.UnmarshalListener ||
+                o instanceof org.exolab.castor.xml.UnmarshalListener ||
+                o instanceof MarshalListener) {
             _listener = o;
         } else {
             _listener = null;
