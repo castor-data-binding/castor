@@ -40,69 +40,12 @@
  *
  * Copyright 2002 (C) Intalio, Inc. All Rights Reserved.
  *
- * $Id$
+ * $Id: C.java 5951 2006-05-30 22:18:48Z bsnyder $
  *
  */
 
 /**
- * Simple implementation of MarshalListener and UnmarshalListener
- * that does nothing to the elements being marshaled/unmarshalled.
- * It merely stores them on a list for later reporting.
+ * Dummy extension of BaseClass with no further context.
  */
-public class MutatingListener extends SimpleListener {
-
-    /** MarshalListener */
-    public boolean preMarshal (Object o) {
-
-        modifyObject(o);
-        super.preMarshal(o);
-
-        // Just for the hell of it, don't marshal a C.
-        if ( o instanceof C ) return false;
-
-        return true;
-    }
-
-    /** MarshalListener */
-    public void postMarshal (Object o) {
-        super.postMarshal(o);
-    }
-
-    /** UnmarshalListener */
-    public void initialized (Object o, Object p) {
-        modifyObject(o);
-        super.initialized(o, p);
-    }
-
-    /** UnmarshalListener */
-    public void fieldAdded (String fieldName, Object parent, Object child) {
-        modifyObject(parent);
-        modifyObject(child);
-        super.fieldAdded(fieldName, parent, child);
-    }
-
-    /** UnmarshalListener */
-    public void unmarshalled (Object o, Object p) {
-        modifyObject(o);
-        super.unmarshalled(o, p);
-    }
-    
-    /** UnmarshalListener */
-    public void attributesProcessed(Object o, Object p) {
-        log(o, "Attributes Processed");
-    }
-
-    private void modifyObject (Object o) {
-        if ( o instanceof BaseClass ) {
-            BaseClass base = (BaseClass)o;
-            base.setNumMods( base.getNumMods()+1 );
-            if ( base instanceof B ) {
-                base.setElement(base.getElement() + ":X");
-            } else {
-                base.setAttribute(base.getAttribute() + ":X");
-            }
-        }
-    }
-
+public class C extends BaseClass {
 }
-

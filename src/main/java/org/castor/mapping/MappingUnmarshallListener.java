@@ -17,10 +17,10 @@ package org.castor.mapping;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.xml.UnmarshalListener;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.xml.Include;
 import org.exolab.castor.util.DTDResolver;
-import org.exolab.castor.xml.UnmarshalListener;
 
 /**
  * An UnmarshalListener to handle mapping includes.
@@ -50,23 +50,23 @@ public final class MappingUnmarshallListener implements UnmarshalListener {
     /**
      * Not used for includes processing.
      * 
-     * @see org.exolab.castor.xml.UnmarshalListener#initialized(java.lang.Object)
+     * @see org.castor.xml.UnmarshalListener#initialized(java.lang.Object)
      * {@inheritDoc}
      */
-    public void initialized(final Object object) { }
+    public void initialized(final Object target, final Object parent) { }
 
     /**
      * Not used for includes processing.
      * 
-     * @see org.exolab.castor.xml.UnmarshalListener#attributesProcessed(java.lang.Object)
+     * @see org.castor.xml.UnmarshalListener#attributesProcessed(java.lang.Object)
      * {@inheritDoc}
      */
-    public void attributesProcessed(final Object object) { }
+    public void attributesProcessed(final Object target, final Object parent) { }
 
     /**
      * Not used for includes processing.
      * 
-     * @see org.exolab.castor.xml.UnmarshalListener#fieldAdded(java.lang.String,
+     * @see org.castor.xml.UnmarshalListener#fieldAdded(java.lang.String,
      *      java.lang.Object, java.lang.Object)
      * {@inheritDoc}
      */
@@ -78,12 +78,12 @@ public final class MappingUnmarshallListener implements UnmarshalListener {
      * all of its children (if any).
      *
      * @param object the Object that was unmarshalled.
-     * @see org.exolab.castor.xml.UnmarshalListener#unmarshalled(java.lang.Object)
+     * @see org.castor.xml.UnmarshalListener#unmarshalled(java.lang.Object)
      * {@inheritDoc}
      */
-    public void unmarshalled(final Object object) {
-        if (object instanceof Include) {
-            Include include = (Include) object;
+    public void unmarshalled(final Object target, final Object parent) {
+        if (target instanceof Include) {
+            Include include = (Include) target;
             try {
                 _unmarshaller.loadMappingInternal(_mapping, _resolver, include.getHref());
             } catch (Exception ex) {

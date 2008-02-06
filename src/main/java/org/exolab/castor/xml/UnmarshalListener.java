@@ -50,18 +50,27 @@ package org.exolab.castor.xml;
 
 
 /**
+ * <p>
  * An interface to allow external "listening" to objects when
  * they are being unmarshalled for various tracking purposes and
  * potential modification. An implementation of
  * this interface may be registered with the Unmarshaller.
+ * </p>
  * <p>
  * The UnmarshalListener interface does <em>not</em> report on
  * native data types that are unmarshalled.
+ * </p>
+ * <p>
+ * This iterface was deprecated with Castor 1.2.1 and should no
+ * longer be used! Please use the replacing interface:
+ * @see org.castor.xml.UnmarshalListener
+ * </p>
  *
  * @author <a href="mailto:paul@priorartisans.com">Paul Christmann</a>
  * @author <a href="mailto:kvsico@intalio.com">Keith Visco</a>
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$
+ * @deprecated a new extended interface was introduced
 **/
 public interface UnmarshalListener {
 

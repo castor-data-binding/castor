@@ -1,4 +1,4 @@
-/*
+/**
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -40,115 +40,69 @@
  *
  * Copyright 2002 (C) Intalio, Inc. All Rights Reserved.
  *
- * $Id$
+ * $Id: MutatingListener.java 5951 2006-05-30 22:18:48Z bsnyder $
  *
  */
-
-import org.exolab.castor.xml.MarshalListener;
-import org.castor.xml.UnmarshalListener;
-import org.castor.xmlctf.CastorTestable;
-
-import java.util.Vector;
 
 /**
  * Simple implementation of MarshalListener and UnmarshalListener
  * that does nothing to the elements being marshaled/unmarshalled.
  * It merely stores them on a list for later reporting.
  */
-public class SimpleListener implements MarshalListener, UnmarshalListener, CastorTestable {
-
-    private Vector _calls;
-
-    public SimpleListener () {
-        _calls = new Vector();
-    }
-
-    protected void log (String msg) {
-        _calls.add(new LogEntry(msg));
-    }
-
-    protected void log (Object o, String msg) {
-        if ( !(o instanceof LogEntry) )
-            log(msg + " (" + o + "/" + o.getClass().getName() + ")");
-    }
-
-    protected void log (String field, Object parent, Object child) {
-        if ( parent instanceof LogEntry || child instanceof LogEntry ) return;
-
-        String msg = "Child " +
-            child + "/" + child.getClass().getName() + " added to " +
-            parent + "/" + parent.getClass().getName() + " " + field;
-        log(msg);
-    }
+public class MutatingListener extends SimpleListener {
 
     /** MarshalListener */
     public boolean preMarshal (Object o) {
-        log(o, "PreMarshal");
+
+        modifyObject(o);
+        super.preMarshal(o);
+
+        // Just for the hell of it, don't marshal a C.
+        if ( o instanceof C ) return false;
+
         return true;
     }
 
     /** MarshalListener */
     public void postMarshal (Object o) {
-        log(o, "PostMarshal");
+        super.postMarshal(o);
     }
 
     /** UnmarshalListener */
-    public void initialized (Object o, Object p) {
-        log(o, "Initialized");
+    public void initialized (Object o) {
+        modifyObject(o);
+        super.initialized(o);
     }
 
     /** UnmarshalListener */
     public void fieldAdded (String fieldName, Object parent, Object child) {
-        log(fieldName, parent, child);
+        modifyObject(parent);
+        modifyObject(child);
+        super.fieldAdded(fieldName, parent, child);
     }
 
     /** UnmarshalListener */
-    public void unmarshalled (Object o, Object p) {
-        log(o, "Unmarshalled");
+    public void unmarshalled (Object o) {
+        modifyObject(o);
+        super.unmarshalled(o);
     }
-
+    
     /** UnmarshalListener */
-    public void attributesProcessed(Object o, Object p) {
+    public void attributesProcessed(Object o) {
         log(o, "Attributes Processed");
     }
 
-    /** mapping.xml */
-    public Vector getCalls () {
-        return _calls;
-    }
-
-    /** mapping.xml */
-    public void setCalls (Vector calls) {
-        _calls = calls;
-    }
-
-    /** CastorTestable */
-    public boolean equals (Object o) {
-        if ( !(o instanceof SimpleListener) ) {
-            return false;
+    private void modifyObject (Object o) {
+        if ( o instanceof BaseClass ) {
+            BaseClass base = (BaseClass)o;
+            base.setNumMods( base.getNumMods()+1 );
+            if ( base instanceof B ) {
+                base.setElement(base.getElement() + ":X");
+            } else {
+                base.setAttribute(base.getAttribute() + ":X");
+            }
         }
-
-        SimpleListener l = (SimpleListener)o;
-        if ( _calls.size() != l.getCalls().size() ) return false;
-
-        return toString().equals(l.toString());
-    }
-
-    /** CastorTestable */
-    public String dumpFields() {
-        StringBuffer buf = new StringBuffer();
-        buf.append("<" + getClass().getName() + ">");
-        for (int i=0;i<_calls.size(); i++) {
-            buf.append("<call number=\"" + (i+1) + "\">" +
-                       _calls.get(i).toString() + "</call>");
-        }
-        buf.append("</" + getClass().getName() + "/>");
-        return buf.toString();
-    }
-
-    /** CastorTestable */
-    public void randomizeFields() throws InstantiationException, IllegalAccessException {
-        // Not Implemented
     }
 
 }
+

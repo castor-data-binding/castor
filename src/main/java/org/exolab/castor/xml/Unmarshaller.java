@@ -57,6 +57,7 @@ import org.castor.mapping.BindingType;
 import org.castor.mapping.MappingUnmarshaller;
 import org.castor.xml.BackwardCompatibilityContext;
 import org.castor.xml.InternalContext;
+import org.castor.xml.UnmarshalListenerAdapter;
 import org.castor.xml.XMLConfiguration;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
@@ -148,7 +149,7 @@ public class Unmarshaller {
     /**
      * The unmarshaller listener that listens to unmarshalling event
      */
-    private UnmarshalListener _unmarshalListener = null;
+    private org.castor.xml.UnmarshalListener _unmarshalListener = null;
 
     /**
      * The flag indicating whether or not to validate during
@@ -556,10 +557,37 @@ public class Unmarshaller {
     } //-- setReuseObjects
 
     /**
-     * Sets an optional {@link UnmarshalListener} to receive pre and
+     * Sets an optional {@link org.exolab.castor.xml.UnmarshalListener} to receive pre and
      * post unmarshal notification for each Object in the tree.
      * An UnmarshalListener is often used to allow objects to
-     * appropriately initialize themselves by taking appliction
+     * appropriately initialize themselves by taking application
+     * specific behavior as they are unloaded.
+     * Current only one (1) listener is allowed. If you need
+     * register multiple listeners, you will have to create
+     * your own master listener that will forward the
+     * event notifications and manage the multiple
+     * listeners.<br/>
+     * The deprecated listener set with this method will be wrapped by an
+     * adapter.
+     *
+     * @param listener the {@link org.exolab.castor.xml.UnmarshalListener} to set.
+     * @deprecated replaced by {@link org.castor.xml.UnmarshalListener}
+     */
+    public void setUnmarshalListener(org.exolab.castor.xml.UnmarshalListener listener) {
+        if (listener == null) {
+            _unmarshalListener = null;
+        } else {
+            UnmarshalListenerAdapter adapter = new UnmarshalListenerAdapter();
+            adapter.setOldListener(listener);
+            _unmarshalListener = adapter;
+        }
+    }
+
+    /**
+     * Sets an optional {@link org.castor.xml.UnmarshalListener} to receive pre and
+     * post unmarshal notification for each Object in the tree.
+     * An UnmarshalListener is often used to allow objects to
+     * appropriately initialize themselves by taking application
      * specific behavior as they are unloaded.
      * Current only one (1) listener is allowed. If you need
      * register multiple listeners, you will have to create
@@ -567,12 +595,11 @@ public class Unmarshaller {
      * event notifications and manage the multiple
      * listeners.
      *
-     * @param listener the {@link UnmarshalListener} to set.
-    **/
-    public void setUnmarshalListener(UnmarshalListener listener) {
+     * @param listener the {@link org.castor.xml.UnmarshalListener} to set.
+     */
+    public void setUnmarshalListener(org.castor.xml.UnmarshalListener listener) {
         _unmarshalListener = listener;
-    } //-- setUnmarshalListener
-
+    }
 
     /**
      * Sets the flag for validation.
