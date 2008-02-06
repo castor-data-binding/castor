@@ -221,9 +221,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
             if ((mapTo != null) && (mapTo.getXml() != null)) {
                 xmlName = mapTo.getXml();
             } else {
-                String clsName = javaClass.getName();
-                int idx = clsName.lastIndexOf('.');
-                if (idx >= 0) { clsName = clsName.substring(idx + 1); }
+                String clsName = getInternalContext().getJavaNaming().getClassName(javaClass);
                 xmlName = getInternalContext().getXMLNaming().toXMLName(clsName);
             }
             xmlClassDesc.setXMLName(xmlName);

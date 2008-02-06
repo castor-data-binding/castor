@@ -45,6 +45,8 @@
 package org.exolab.castor.xml.util;
 
 import org.castor.xml.BackwardCompatibilityContext;
+import org.castor.xml.InternalContext;
+import org.castor.xml.JavaNaming;
 import org.castor.xml.XMLNaming;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
@@ -53,7 +55,6 @@ import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
 import org.exolab.castor.xml.NodeType;
 import org.exolab.castor.xml.XMLClassDescriptor;
 import org.exolab.castor.xml.XMLFieldDescriptor;
-import org.exolab.castor.xml.AbstractXMLNaming;
 
 /**
  * An adapter class which can turn an ordinary ClassDescriptor into an
@@ -63,8 +64,11 @@ import org.exolab.castor.xml.AbstractXMLNaming;
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class XMLClassDescriptorAdapter extends XMLClassDescriptorImpl {
+    private InternalContext _internalContext;
+    
     public XMLClassDescriptorAdapter() {
         super();
+        _internalContext = new BackwardCompatibilityContext();
     }
 
     /**
@@ -88,7 +92,7 @@ public class XMLClassDescriptorAdapter extends XMLClassDescriptorImpl {
     public XMLClassDescriptorAdapter(final ClassDescriptor classDesc,
             String xmlName, NodeType primitiveNodeType)
     throws MappingException {
-        super();
+        this();
 
         if (classDesc == null) {
             String err = "The ClassDescriptor argument to "
@@ -111,14 +115,8 @@ public class XMLClassDescriptorAdapter extends XMLClassDescriptorImpl {
             if (classDesc instanceof XMLClassDescriptor) {
                 xmlName = ((XMLClassDescriptor) classDesc).getXMLName();
             } else {
-                XMLNaming naming = AbstractXMLNaming.getInstance();
-                String name = classDesc.getJavaClass().getName();
-                //-- strip package
-                int idx = name.lastIndexOf('.');
-                if (idx >= 0) {
-                    name = name.substring(idx + 1);
-                }
-                xmlName = naming.toXMLName(name);
+                String clsName = _internalContext.getJavaNaming().getClassName(classDesc.getJavaClass());
+                xmlName = _internalContext.getXMLNaming().toXMLName(clsName);
             }
         }
         setXMLName(xmlName);
@@ -187,8 +185,7 @@ public class XMLClassDescriptorAdapter extends XMLClassDescriptorImpl {
                 }
             } else {
                 String name = fieldDesc.getFieldName();
-                XMLNaming naming = AbstractXMLNaming.getInstance();
-                String xmlFieldName = naming.toXMLName(name);
+                String xmlFieldName = _internalContext.getXMLNaming().toXMLName(name);
 
                 if (identity == fieldDesc) {
                     setIdentity(new XMLFieldDescriptorImpl(fieldDesc,
@@ -219,8 +216,7 @@ public class XMLClassDescriptorAdapter extends XMLClassDescriptorImpl {
             if ( identity instanceof XMLFieldDescriptor ) {
                 setIdentity((XMLFieldDescriptor)identity);
             } else {
-                XMLNaming naming = AbstractXMLNaming.getInstance();
-                xmlFieldName = naming.toXMLName(identity.getFieldName());
+                xmlFieldName = _internalContext.getXMLNaming().toXMLName(identity.getFieldName());
                 setIdentity(new XMLFieldDescriptorImpl(identity,
                                                        xmlFieldName,
                                                        NodeType.Attribute,
