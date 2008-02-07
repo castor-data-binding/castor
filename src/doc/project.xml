@@ -117,6 +117,10 @@
         <url>support.xml</url>
         <display>Support</display>
       </navLink>
+      <navLink>
+        <url>http://bamboo.ci.codehaus.org/browse/CASTOR</url>
+        <display>Continuous builds</display>
+      </navLink>
       <navLink highlighted="true">
         <url>professional-services.xml</url>
         <display><b>Prof. services</b></display>
