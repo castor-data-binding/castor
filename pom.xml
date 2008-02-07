@@ -37,10 +37,6 @@
                     <target>1.3</target>
                     <excludes>
                         <exclude implementation="java.lang.String">SourceGenerator/**</exclude>
-                        <exclude implementation="java.lang.String">org/exolab/castor/builder/**</exclude>
-                        <exclude implementation="java.lang.String">org/exolab/javasource/**</exclude>
-                        <exclude implementation="java.lang.String">org/exolab/castor/xml/schema/**</exclude>
-                        <exclude implementation="java.lang.String">org/exolab/castor/xml/dtd/**</exclude>
                     </excludes>
                     <testExcludes>
                         <exclude implementation="java.lang.String">xml/MasterTestSuite/**</exclude>
