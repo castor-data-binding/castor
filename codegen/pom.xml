@@ -107,6 +107,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 				</executions>
 			</plugin>
 
+<!-- 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -119,6 +120,24 @@ http://maven.apache.org/maven-v4_0_0.xsd">
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/assembly/assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attached</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+ -->
 
 		</plugins>
 
@@ -149,7 +168,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 
 		<dependency>
 			<groupId>org.codehaus.castor</groupId>
-			<artifactId>castor</artifactId>
+			<artifactId>castor-xml</artifactId>
 			<version>1.2.1-SNAPSHOT</version>
 		</dependency>
 
