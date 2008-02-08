@@ -8,13 +8,12 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 	<artifactId>castor-codegen</artifactId>
 	<version>1.2.1-SNAPSHOT</version>
 
-	<!-- 
-		<parent>
+	<parent>
 		<groupId>org.codehaus.castor</groupId>
 		<artifactId>castor</artifactId>
-		<version>1.1-M3</version>
-		</parent>
-	-->
+		<version>1.2.1-SNAPSHOT</version>
+	</parent>
+    
 	<packaging>jar</packaging>
 
 	<name>Castor XML - Code generator</name>
@@ -56,70 +55,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 				-->
 			</plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.4</source>
-					<target>1.4</target>
-					<includes>
-						<include implementation="java.lang.String">
-							org/exolab/castor/builder/**
-						</include>
-						<include implementation="java.lang.String">
-							org/exolab/javasource/**
-						</include>
-					</includes>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifestFile>
-							src/main/resources/META-INF/MANIFEST.MF
-						</manifestFile>
-					</archive>
-				</configuration>
-			</plugin>
-
-			<!--  remove this or the next one -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<configuration>
-					<attach>true</attach>
-				</configuration>
-			</plugin>
-
-			<!--  redundant; will be removed once we switch to parent structure -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-<!-- 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+<!-- s
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
@@ -141,15 +77,6 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 
 		</plugins>
 
-		<!--  redundant; will be removed once we switch to parent structure -->
-		<extensions>
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-webdav</artifactId>
-				<version>1.0-beta-1</version>
-			</extension>
-		</extensions>
-
 	</build>
 
 	<scm>
@@ -169,104 +96,37 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 		<dependency>
 			<groupId>org.codehaus.castor</groupId>
 			<artifactId>castor-xml</artifactId>
-			<version>1.2.1-SNAPSHOT</version>
 		</dependency>
 
         <dependency>
             <groupId>org.codehaus.castor</groupId>
             <artifactId>castor-xml-schema</artifactId>
-            <version>1.2.1-SNAPSHOT</version>
         </dependency>
 
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
-			<version>1.1.1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.2</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.13</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>velocity</groupId>
 			<artifactId>velocity</artifactId>
-			<version>1.5</version>
 			<optional>true</optional>
 		</dependency>
 
 	</dependencies>
-
-	<!--  redundant; will be removed once we switch to parent structure -->
-	<distributionManagement>
-		<repository>
-			<id>codehaus.org</id>
-			<name>Castor Central Distribution Repository</name>
-			<url>dav:https://dav.codehaus.org/repository/castor/</url>
-		</repository>
-		<snapshotRepository>
-			<id>codehaus.org</id>
-			<name>Castor Central Development Repository</name>
-			<url>
-				dav:https://dav.codehaus.org/snapshots.repository/castor/
-			</url>
-		</snapshotRepository>
-		<site>
-			<id>codehaus.org</id>
-			<url>dav:https://dav.codehaus.org/castor/</url>
-		</site>
-	</distributionManagement>
-
-	<repositories>
-		<repository>
-			<id>java.net</id>
-			<name>java.net Maven Repository</name>
-			<url>
-				https://maven-repository.dev.java.net/nonav/repository
-			</url>
-			<layout>legacy</layout>
-		</repository>
-		<repository>
-			<id>maven2-repository.dev.java.net</id>
-			<name>Java.net Repository for Maven 2</name>
-			<url>
-				https://maven2-repository.dev.java.net/nonav/repository
-			</url>
-			<layout>default</layout>
-		</repository>
-		<repository>
-			<id>codehaus-snapshots</id>
-			<name>Maven Codehaus Snapshots</name>
-			<url>
-				http://snapshots.repository.codehaus.org
-			</url>
-		</repository>
-	</repositories>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>Maven Codehaus Snapshots</id>
-			<url>
-				http://snapshots.maven.codehaus.org/maven2
-			</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</pluginRepository>
-	</pluginRepositories>
 
 </project>
 

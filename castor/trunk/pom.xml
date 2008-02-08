@@ -14,8 +14,8 @@
         <module>anttask</module>
         <module>cpa</module>
         <module>ddlgen</module>
-        <module>codegen</module>
      -->
+        <module>codegen</module>
         <module>schema</module>
         <module>xml</module>
     </modules>
@@ -350,12 +350,26 @@
                 </dependency>
             -->
 
+            <dependency>
+                <groupId>velocity</groupId>
+                <artifactId>velocity</artifactId>
+                <version>1.5</version>
+                <optional>true</optional>
+            </dependency>
+
             <!--  module dependencies -->            
             <dependency>
                 <groupId>org.codehaus.castor</groupId>
                 <artifactId>castor-xml</artifactId>
                 <version>1.2.1-SNAPSHOT</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.codehaus.castor</groupId>
+                <artifactId>castor-xml-schema</artifactId>
+                <version>1.2.1-SNAPSHOT</version>
+            </dependency>
+
             
         </dependencies>
     </dependencyManagement>
@@ -385,6 +399,13 @@
 			<url>https://maven2-repository.dev.java.net/nonav/repository</url>
 			<layout>default</layout>	  
 		</repository>        
+        <repository>
+            <id>codehaus-snapshots</id>
+            <name>Maven Codehaus Snapshots</name>
+            <url>
+                http://snapshots.repository.codehaus.org
+            </url>
+        </repository>
     </repositories>
 
     <pluginRepositories>
