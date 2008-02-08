@@ -18,7 +18,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
      -->    
     <packaging>jar</packaging>
 
-    <name>Castor XML schema</name>
+    <name>Castor XML - schema</name>
     <description>
         Functionality to reading, processing and writing XML schema documents.
     </description>
