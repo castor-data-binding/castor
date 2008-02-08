@@ -7,120 +7,17 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 	<groupId>org.codehaus.castor</groupId>
 	<artifactId>castor-jdo</artifactId>
 	<version>1.2.1-SNAPSHOT</version>
-	
-	<!-- 
-	<parent>
-		<groupId>org.codehaus.castor</groupId>
-		<artifactId>castor</artifactId>
-		<version>1.1-SNAPSHOT</version>
-	</parent>
-	 -->	
+
+    <parent>
+        <groupId>org.codehaus.castor</groupId>
+        <artifactId>castor</artifactId>
+        <version>1.2.1-SNAPSHOT</version>
+    </parent>
+
 	<packaging>jar</packaging>
 
 	<name>Castor JDO - Persistence framework</name>
 	<description>TBD</description>
-
-	<build>
-		<plugins>
-		
-		<!-- 
-	     <plugin>
-	        <groupId>org.codehaus.mojo</groupId>
-	        <artifactId>castor-maven-plugin</artifactId>
-	        <version>1.0</version>
-            <configuration>
-                  <schema>src/main/resources/org/exolab/castor/builder/binding/binding.xsd</schema>
-                  <packaging>org.exolab.castor.builder.binding</packaging>
-                  <properties>src/main/resources/org/exolab/castor/builder/binding.generation.properties</properties>
-            </configuration>
-	        <dependencies>
-	          <dependency> 
-	            <groupId>org.codehaus.castor</groupId>
-	            <artifactId>castor</artifactId>
-	            <version>1.1-M3-SNAPSHOT</version>
-	          </dependency>
-	        </dependencies>
-            <executions>
-                <execution>
-                	<goals>
-                		<goal>generate</goal>
-                	</goals>
-                 </execution>
-            </executions>	        
- 	      </plugin>		
- -->	        
-	      
-			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.4</source>
-					<target>1.4</target>
-					<!-- 
-					<includes>
-						<include implementation="java.lang.String">org/exolab/castor/builder/**</include>
-						<include implementation="java.lang.String">org/exolab/javasource/**</include>
-					</includes>
-					-->
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
-					</archive>
-				</configuration>
-			</plugin>
-			
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
- 				<configuration>
-					<attach>true</attach>
-				</configuration>
-			</plugin>
-			
-			<!--  redundant; will be removed once we switch to parent structure -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-		</plugins>
-		
-		<!--  redundant; will be removed once we switch to parent structure -->
-		<extensions>
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-webdav</artifactId>
-				<version>1.0-beta-1</version>
-			</extension>
-		</extensions>
-
-	</build>
 
     <scm>
        <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/cpa</connection>
@@ -177,24 +74,6 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 		</dependency>
 
 	</dependencies>
-
-	<!--  redundant; will be removed once we switch to parent structure -->
-    <distributionManagement>
-        <repository>
-          <id>codehaus.org</id>
-          <name>Castor Central Distribution Repository</name>
-          <url>dav:https://dav.codehaus.org/repository/castor/</url>
-        </repository>
-        <snapshotRepository>
-          <id>codehaus.org</id>
-          <name>Castor Central Development Repository</name>
-          <url>dav:https://dav.codehaus.org/snapshots.repository/castor/</url>
-        </snapshotRepository>
-        <site>
-          <id>codehaus.org</id>
-          <url>dav:https://dav.codehaus.org/castor/</url>
-        </site>
-    </distributionManagement>
     
     <reporting>
     	<plugins>
@@ -213,7 +92,6 @@ http://maven.apache.org/maven-v4_0_0.xsd">
     		</plugin>
     	</plugins>
     </reporting>
-
 
 </project>
 

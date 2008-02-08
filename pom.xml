@@ -10,14 +10,26 @@
     <packaging>pom</packaging>
     
     <modules>
-    <!-- 
-        <module>anttask</module>
-        <module>cpa</module>
-        <module>ddlgen</module>
-     -->
-        <module>codegen</module>
-        <module>schema</module>
         <module>xml</module>
+        <module>schema</module>
+        <module>codegen</module>
+        <module>ddlgen</module>
+        <module>anttask</module>
+        <module>xmlctf-framework</module>
+        <!--  Joachim: the tests are not yet running when started using mvn install in super project
+        <module>xmlctf</module>
+        -->
+        <module>cpa</module>
+        <!-- Joachim: cpactf is not yet successfully executeable..
+        <module>cpactf</module>
+        -->
+        <!-- Joachim: cpaptf are performance tests - nothing for every time execution
+        <module>cpaptf</module>
+        -->
+        <!-- Joachim: examples not yet successfully executeable..
+        <module>cpaptf</module>
+        -->
+        <module>maven-plugins</module>
     </modules>
      
     <name>Castor</name>
@@ -294,14 +306,18 @@
                 <groupId>ant</groupId>
                 <artifactId>ant</artifactId>
                 <version>1.6</version>
+                <!--  Joachim: this must not be test otherwise subproject anttask wont even compile!
                 <scope>test</scope>
+                -->
             </dependency>
     
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>3.8.2</version>
+                <!--  Joachim: this must not be test otherwise subproject xmlctf-framework wont even compile!
                 <scope>test</scope>
+                -->
             </dependency>
     
             <dependency>
