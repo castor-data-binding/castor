@@ -1,84 +1,23 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-http://maven.apache.org/maven-v4_0_0.xsd">
+						http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.codehaus.castor</groupId>
 	<artifactId>castor-testsuite-xml-framework</artifactId>
 	<version>1.2.1-SNAPSHOT</version>
-	
-	<!-- 
-	<parent>
-		<groupId>org.codehaus.castor</groupId>
-		<artifactId>castor</artifactId>
-		<version>1.1-M2-SNAPSHOT</version>
-	</parent>
-	 -->	
+
+    <parent>
+        <groupId>org.codehaus.castor</groupId>
+        <artifactId>castor</artifactId>
+        <version>1.2.1-SNAPSHOT</version>
+    </parent>
+
 	<packaging>jar</packaging>
 
 	<name>Castor XML - test suite framework code</name>
 	<description></description>
-
-	<build>
-		<plugins>
-		
-			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.4</source>
-					<target>1.4</target>
-					<includes>
-						<include implementation="java.lang.String">org/**</include>
-					</includes>
-				</configuration>
-			</plugin>
-			
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
-					</archive>
-				</configuration>
-			</plugin>
-			
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
- 				<configuration>
-					<attach>true</attach>
-				</configuration>
-			</plugin>
-			
-			<!--  redundant; will be removed once we switch to parent structure -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			
-
-		</plugins>
-		
-		<!--  redundant; will be removed once we switch to parent structure -->
-		<extensions>
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-webdav</artifactId>
-				<version>1.0-beta-1</version>
-			</extension>
-		</extensions>
-
-	</build>
 
     <scm>
        <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/xmlctf-framework</connection>
@@ -107,24 +46,6 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 		</dependency>
 
 	</dependencies>
-
-	<!--  redundant; will be removed once we switch to parent structure -->
-    <distributionManagement>
-        <repository>
-          <id>codehaus.org</id>
-          <name>Castor Central Distribution Repository</name>
-          <url>dav:https://dav.codehaus.org/repository/castor/</url>
-        </repository>
-        <snapshotRepository>
-          <id>codehaus.org</id>
-          <name>Castor Central Development Repository</name>
-          <url>dav:https://dav.codehaus.org/snapshots.repository/castor/</url>
-        </snapshotRepository>
-        <site>
-          <id>codehaus.org</id>
-          <url>dav:https://dav.codehaus.org/castor/</url>
-        </site>
-    </distributionManagement>
 
 </project>
 
