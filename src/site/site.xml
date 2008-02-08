@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<site>
+<project>
   <bannerLeft>
     <name>Castor</name>
     <!-- <src>http://maven.apache.org/images/apache-maven-project.png</src> -->
@@ -25,4 +25,4 @@
     ${reports}
 
   </body>
-</site>
+</project>
