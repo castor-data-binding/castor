@@ -15,8 +15,8 @@
         <module>cpa</module>
         <module>ddlgen</module>
         <module>codegen</module>
-        <module>schema</module>
      -->
+        <module>schema</module>
         <module>xml</module>
     </modules>
      
