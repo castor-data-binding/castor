@@ -547,12 +547,12 @@ public final class SourceFactory extends BaseFactory {
         if (annotated instanceof ElementDecl) {
             XMLType type = ((ElementDecl) annotated).getType();
             ClassInfo typeInfo = sgStateInfo.resolve(type);
-            if (typeInfo != null && typeInfo.getTextField() != null ) {
-            	textFieldInfo = typeInfo.getTextField();
-            	inherited = true;
+            if (typeInfo != null && typeInfo.getTextField() != null) {
+                textFieldInfo = typeInfo.getTextField();
+                inherited = true;
             }
             generate = (type.isComplexType() && ((ComplexType) type).isSimpleContent());
-        } 
+        }
         
         // check if we are a complexType ourself
         else if (annotated instanceof ComplexType && ((ComplexType) annotated).isSimpleContent()) {
@@ -562,7 +562,7 @@ public final class SourceFactory extends BaseFactory {
         // discard primitiv types and collections
         if (textFieldInfo != null) {
             XSType textFieldType = textFieldInfo.getSchemaType();
-            if (textFieldType != null && (textFieldType.isPrimitive() || textFieldType.getJType().isArray())) {
+            if (textFieldType != null && textFieldType.getJType().isArray()) {
                 generate = false;
             }
         }
@@ -581,9 +581,9 @@ public final class SourceFactory extends BaseFactory {
             sourceCode.add("super(defaultValue);");
         } else {
             sourceCode.add("try {");
-            sourceCode.addIndented("this._content = "
-                                   + textFieldInfo.getSchemaType().createDefaultValueWithString("defaultValue")
-                                   + ";");
+            String defaultValue = 
+                textFieldInfo.getSchemaType().createDefaultValueWithString("defaultValue");
+            sourceCode.addIndented("setContent(" + defaultValue + ");");
             sourceCode.add(" } catch(Exception e) {");
             sourceCode.addIndented("throw new RuntimeException(\"Unable to cast default value for simple content!\");");
             sourceCode.add(" } ");
@@ -1891,9 +1891,11 @@ public final class SourceFactory extends BaseFactory {
                     //-- else just use superclass setters/getters
                     //-- do nothing
                 } else {
-                    while (temp.getBaseType() != null) {
+                    // 
+                    while (temp.getBaseType() != null && !temp.isBuiltInType()) {
                         temp = (SimpleType) temp.getBaseType();
                     }
+                    
                     xsType = _typeConversion.convertType(
                             temp, state.getPackageName(), getConfig().useJava50());
                     fieldInfo = _memberFactory.createFieldInfoForContent(

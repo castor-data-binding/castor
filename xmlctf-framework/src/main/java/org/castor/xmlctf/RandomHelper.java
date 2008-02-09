@@ -498,6 +498,15 @@ public class RandomHelper {
     }
 
     /**
+     * Returns a random short.
+     * @param l An unused parameter, used only for polymorphism.
+     * @return a random short.
+     */
+    public static short getRandom(short l) {
+        return new Integer(_rand.nextInt()).shortValue();
+    }
+
+    /**
      * Returns a random double.
      * @param d An unused parameter, used only for polymorphism.
      * @return a random double.

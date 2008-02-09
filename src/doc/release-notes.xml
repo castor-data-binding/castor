@@ -35,6 +35,28 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2275" tool="jira">
+                    <description>
+                        Fixed problem with &lt;simpleContent&gt; derived from &lt;xsd:integer&lt;
+                        where the type of the Java property generatd was BigDecimal (rathr than 
+                        long). 
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Kelvin Chung</name>
+                        <email>kelvSYC@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XMLGen</module>
+                    <date>20080209</date>
+                </bug>
                 <bug id="2282" tool="jira">
                     <description>
                         Introduced a new (extended) UnmarshalListener interface meant to replace the existing.

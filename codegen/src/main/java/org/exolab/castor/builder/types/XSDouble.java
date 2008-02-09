@@ -158,5 +158,15 @@ public final class XSDouble extends AbstractRangeFacet {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public String createDefaultValueWithString(final String variableName) {
+        if (_asWrapper) {
+            return "java.lang.Double.valueOf(" + variableName + ")"; 
+        }
+        return "java.lang.Double.valueOf(" + variableName + ").doubleValue()";
+    }
+
     //--------------------------------------------------------------------------
 }
