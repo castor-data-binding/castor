@@ -15,21 +15,7 @@
         <module>codegen</module>
         <module>ddlgen</module>
         <module>anttask</module>
-        <module>xmlctf-framework</module>
-        <!--  Joachim: the tests are not yet running when started using mvn install in super project
-        <module>xmlctf</module>
-        -->
         <module>cpa</module>
-        <!-- Joachim: cpactf is not yet successfully executeable..
-        <module>cpactf</module>
-        -->
-        <!-- Joachim: cpaptf are performance tests - nothing for every time execution
-        <module>cpaptf</module>
-        -->
-        <!-- Joachim: examples not yet successfully executeable..
-        <module>cpaptf</module>
-        -->
-        <module>maven-plugins</module>
     </modules>
      
     <name>Castor</name>
@@ -561,18 +547,28 @@
     <ciManagement>
         <system>bamboo</system>
         <url>http://bamboo.ci.codehaus.org/browse/CASTOR</url>
-<!--         
-        <notifiers>
-          <notifier>
-            <type>mail</type>
-            <sendOnError>true</sendOnError>
-            <sendOnFailure>true</sendOnFailure>
-            <sendOnSuccess>false</sendOnSuccess>
-            <sendOnWarning>false</sendOnWarning>
-            <configuration><address>continuum@127.0.0.1</address></configuration>
-          </notifier>
-        </notifiers>
- -->        
     </ciManagement>
-
+    
+    <profiles>
+        <!-- profile for executing all tests as well -->
+        <profile>
+            <id>tests</id>
+            <modules>
+                <module>xmlctf-framework</module>
+                <module>maven-plugins</module>
+                <!--  Joachim: the tests are not yet running when started using mvn install in super project
+                <module>xmlctf</module>
+                -->
+                <!-- Joachim: cpactf is not yet successfully executeable..
+                <module>cpactf</module>
+                -->
+                <!-- Joachim: cpaptf are performance tests - nothing for every time execution
+                <module>cpaptf</module>
+                -->
+                <!-- Joachim: examples not yet successfully executeable..
+                <module>cpaptf</module>
+                -->
+            </modules>            
+        </profile>
+    </profiles>
 </project>
