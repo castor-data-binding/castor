@@ -158,5 +158,15 @@ public final class XSFloat extends AbstractRangeFacet {
         }
     }
     
+    /**
+     * {@inheritDoc}
+     */
+    public String createDefaultValueWithString(final String variableName) {
+        if (_asWrapper) {
+            return "java.lang.Float.valueOf(" + variableName + ")"; 
+        }
+        return "java.lang.Float.valueOf(" + variableName + ").floatValue()";
+    }
+    
     //--------------------------------------------------------------------------
 }
