@@ -15,46 +15,139 @@
 
     <section title="Features">
 
-      <p>
-        Short feature list (we haven't got all day):
-      </p>
+        <p><b>Definition</b> (<i><a href="http://en.wikipedia.org/wiki/Castor_(software)">wikipedia.org</a></i>)<br/>
+           
+           <code-panel>
+  <b>Castor</b> is an open source data binding framework for moving data from 
+  XML to Java programming language objects and from Java to 
+  databases.</code-panel></p>
+           
+           
+        <p>Castor is made up of (independent) modules as follows:</p>
+        
+        <ul>
+            <li><a href="#Castor-XML">Castor XML</a></li>
+            <li><a href="#Castor-XML-code-generator">Castor XML - Code generator</a></li>
+            <li><a href="#Castor-JDO">Castor JDO - Persistence framework</a></li>
+            <li><a href="#Castor-JDO-DDL-generator">Castor JDO - DDL generator</a></li>
+            <li><a href="#Additional-tools">Additional tools</a></li>
+            <li><a href="#Integration-with-other-frameworks">Integration with other frameworks</a></li>
+        </ul>
+        
+        <section title="Castor XML">
+        
+            <p>
+                <b><a href="./xml-framework.html">XML data binding framework</a></b> to bind XML artefacts to 
+                Java objects and vice versa.
+            </p>
+            
+            <ul>
+                <li>Employs default mapping conventions for mapping-less operation.</li>
+                <li>(Optional) mapping file for existing (more complex) object models</li>
+                <li>XML-based <a href="./xml-mapping.xml">mapping file</a> to specify bindings for existing object models.</li>
+                <li>Support for schemaless Java-to-XML binding.</li>
+            </ul>
+            
+        </section>
+        
+        <section title="Castor XML code generator">
 
-      <ul>
-        <li>
-          Castor XML: Java object model to and from XML (XML databinding).
-          <ul>
-            <li>Generate source code from an XML Schema</li>
-            <li>Default introspection or mapping file for existing object models</li>
-          </ul>
-        </li>
+            <p>
+               <b><a href="./sourcegen.html">Code generator</a></b> that generates 
+               Java source code from XML Schema information.</p>
+            
+            <ul>
+                <li>Generates Java domain classes based upon the type/element definitions
+                    in the given XML schema(s).</li>
+                <li>Support for native Java 5 artifacts (e.g. enums, annotations)</li>
+                <li>Support for enum-style classes for Java 1.4</li>
+                <li>Additionally generates descriptor classes to be used during
+                    (un)marshalling to dramatically enhance performance.</li>
+                <li>Extended support for in-object validation (through validation 
+                    rules encoded in descriptor classes).</li>
+            </ul>
 
-        <li>
-          Castor JDO: Java object persistence to RDBMS
-          <ul>
-            <li>
+        </section>
+        
+        <section title="Castor JDO">
+        
+            <p>
+               Java <b><a href="./jdo-introduction.html">persistence framework</a></b> 
+               to bind Java objects to RDBMS tables.
+            </p>
+            
+            <ul>
+                <li>XML-based <a href="./jdo-mapping.html">JDO mapping file</a> to specify bindings for (existing) object models</li>
+                <li>Support for ODMG <a href="./oql.html">OQL queries</a>.</li>
+                <li>EJB container managed persistence provider for OpenEJB</li>
+                <li>Supports two-phase commits, object rollback and deadlock detection.</li>
+                <li>Support for in-memory <a href="./jdo-caching-detail.html">caching</a> 
+                    (various cache providers).</li>
+                <li>Support for <i>write-at-commit</i> to reduce JDBC operations.</li>
+            </ul>
+            
+            <p>
               Castor JDO is not the same-as or compatible with Sun's JDO. We have
               a different approach to handling data object to RDBMS mappings.
               Please see the <a href="jdo-faq.html">JDO FAQ</a> for more information.
-            </li>
-          </ul>
-        </li>
+            </p>
+            
+        </section>
+        
+        <section title="Castor JDO DDL generator">
+        
+            <p>Generates DDL statements from JDO mapping files.</p>
+        
+        </section>
+        
+        <section title="Additional tools">
 
-        <li>XML-based mapping file to specify bindings for existing object models</li>
-        <li>Support for schemaless Java-to-XML binding</li>
-        <li>In-memory caching and write-at-commit reduce JDBC operations</li>
-        <li>Two-phase commit transactions, object rollback, and deadlock detection</li>
-        <li>OQL query mapping to SQL queries</li>
-        <li>EJB container managed persistence provider for OpenEJB</li>
-        <li>Ability to create base mapping from existing Java classes</li>
-        <li>Ability to create an XML Schema from an XML input document</li>
-      </ul>
+            <ul>
+                <li><b>MappingTool</b>: Ability to create base mapping from existing Java classes</li>
+                <li><b>XMLInstance2Schema</b>: Ability to create an XML Schema from an XML input document</li>
+                <li><b>DTDConvertor</b>: Converts a DTD definition to an equivalent XML schema definition.</li>
+            </ul>
 
+        </section>
+        
+        <section title="Build management integration">
+
+            <p>Various artefacts to support build management systems.</p>
+            
+            <ul>
+                <li><a href="./srcgen-anttask.html">Ant task definitions</a> for 
+                    XML code generator</li>
+                <li><a href="http://mojo.codehaus.org/castor-maven-plugin/">Maven plugin</a> 
+                    for XML code generator</li>
+            </ul>
+
+        </section>
+        
+        <section title="Integration with other frameworks">
+        
+            <p>Castor is currently integrated with the following frameworks or has support
+               for being integrated:</p>
+        
+            <ul>
+                <li><a href="./spring-orm-integration.html">Spring ORM</a> support for Castor</li>
+                <li><a href="http://static.springframework.org/spring-ws/site/reference/html/oxm.html">Spring OXM</a> for Castor</li>
+                <li><a href="./spring-xml-intro.html">Spring XML</a> artifacts</li>
+                <li><a href="./ws-integration.html">Web Service</a> toolkits</li>
+                <li>Apache Cocoon (Castor transformer)</li>
+                <li><a href="http://www.mulesource.org/display/EXTENDEDXML/">extendedXML module</a> 
+                    for Mule, offering enhanced XML-transformation
+                    support for Mule, using Castor</li>
+            </ul>
+        </section>
+        
+
+
+    </section>
+    
       <p>
         See the <a href="status.xml">status page</a> for a more complete feature
         list and for more information.
       </p>
-
-    </section>
 
   </body>
 
