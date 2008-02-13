@@ -21,6 +21,19 @@
               <span class="newsTitle">Latest Release</span><br/><br/>
               <span class="newsSummary"-->
 
+        <news id="64">
+            <title>Castor mailing lists available for browsing and searching at http://castor.markmail.org</title>
+            <author>Werner Guttmann</author>
+            <date>Feb 13 2008</date>
+            <time>20:21:22</time>
+            <summary>
+                Castor's mailing lists are now available for browsing and searching at
+                <a href="http://castor.markmail.org">http://castor.markmail.org</a>.<br/><br/>
+
+                More info about the site, its features and its inner workings is in 
+                the <a href="http://markmail.org/docs/faq.xqy">FAQ</a>.
+            </summary>
+        </news>
         <news id="63">
             <title>Castor 1.2 released</title>
             <author>Werner Guttmann</author>
