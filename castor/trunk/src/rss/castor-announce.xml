@@ -21,6 +21,23 @@
 -->
 
         <item>
+            <title>Castor mailing lists available for browsing and searching at http://castor.markmail.org</title>
+            <pubDate>Wed, 13 Feb 2008 12:11:10 +0100</pubDate>
+            <author>Werner Guttmann</author>
+            <link>http://castor.codehaus.org/news.html#item64</link>
+            <guid>http://castor.codehaus.org/news.html#item64</guid>
+            <description><![CDATA[
+                <p>
+                  Castor's mailing lists are now available for browsing and searching at
+                  http://castor.markmail.org.
+                </p>
+                <p>
+                    More info about the site, its features and its inner workings is in 
+                    the FAQ at http://markmail.org/docs/faq.xqy.
+                </p>
+            ]]></description>
+        </item>
+        <item>
             <title>1.2 GA available</title>
             <pubDate>Mon, 04 Feb 2008 20:21:22 +0100</pubDate>
             <author>Werner Guttmann</author>
