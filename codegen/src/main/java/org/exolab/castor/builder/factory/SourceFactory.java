@@ -994,9 +994,6 @@ public final class SourceFactory extends BaseFactory {
      * @param parent the JClass to create the #marshal methods for
      */
     private void createPropertyChangeMethods(final JClass parent) {
-        parent.addImport("java.beans.PropertyChangeEvent");
-        parent.addImport("java.beans.PropertyChangeListener");
-
         //-- add vector to hold listeners
         String vName = "propertyChangeSupport";
         JField field = new JField(SGTypes.PROPERTY_CHANGE_SUPPORT, vName);
@@ -1129,7 +1126,7 @@ public final class SourceFactory extends BaseFactory {
             jMethod.getModifiers().setAbstract(true);
         } else {
             JSourceCode jsc = jMethod.getSourceCode();
-            jsc.add("Marshaller.marshal(this, out);");
+            jsc.add("org.exolab.castor.xml.Marshaller.marshal(this, out);");
         }
 
         //-- create helper marshal method
@@ -1156,11 +1153,8 @@ public final class SourceFactory extends BaseFactory {
         } else {
             JSourceCode jsc = jMethod.getSourceCode();
             jsc = jMethod.getSourceCode();
-            jsc.add("Marshaller.marshal(this, handler);");
+            jsc.add("org.exolab.castor.xml.Marshaller.marshal(this, handler);");
         }
-
-        parent.addImport("org.exolab.castor.xml.Marshaller");
-        parent.addImport("org.exolab.castor.xml.Unmarshaller");
     } //-- createMarshalMethods
 
     private void createUnmarshalMethods(final JClass parent, final SGStateInfo sgState) {
@@ -1194,7 +1188,7 @@ public final class SourceFactory extends BaseFactory {
         JSourceCode jsc = jMethod.getSourceCode();
         jsc.add("return (");
         jsc.append(returnType.getName());
-        jsc.append(") Unmarshaller.unmarshal(");
+        jsc.append(") org.exolab.castor.xml.Unmarshaller.unmarshal(");
         jsc.append(parent.getName());
         jsc.append(".class, reader);");
     } //-- createUnmarshalMethods
@@ -2062,7 +2056,6 @@ public final class SourceFactory extends BaseFactory {
             final SimpleType simpleType, final FactoryState state) {
         // Added by robertlaferla at comcast dot net 01/21/2004
         if (getConfig().useEnumeratedTypeInterface()) {
-            state.getJClass().addImport(ENUM_ACCESS_INTERFACE);
             state.getJClass().addInterface(ENUM_ACCESS_INTERFACE);
         } // end enumTypeInterface
 

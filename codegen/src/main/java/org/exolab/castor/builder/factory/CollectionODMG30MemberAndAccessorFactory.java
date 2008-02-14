@@ -41,17 +41,9 @@ public class CollectionODMG30MemberAndAccessorFactory extends CollectionMemberAn
                 SGTypes.createEnumeration(fieldInfo.getContentType().getJType(), useJava50),
                 "an Enumeration over all elements of this collection");
 
-        if (!jClass.hasImport("java.util.Vector")) {
-            jClass.addImport("java.util.Vector");
-        }
-
-        if (!jClass.hasImport("java.util.Iterator")) {
-            jClass.addImport("java.util.Iterator");
-        }
-
         JSourceCode sourceCode = method.getSourceCode();
-        sourceCode.add("Vector v = new Vector();"); // ODMG 3.0
-        sourceCode.add("Iterator i = ");
+        sourceCode.add("java.util.Vector v = new java.util.Vector();"); // ODMG 3.0
+        sourceCode.add("java.util.Iterator i = ");
         sourceCode.append(fieldInfo.getName());
         sourceCode.append(".iterator();");
         sourceCode.add("");

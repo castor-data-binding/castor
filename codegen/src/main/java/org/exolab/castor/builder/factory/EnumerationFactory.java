@@ -138,7 +138,6 @@ public final class EnumerationFactory extends BaseFactory {
             return;
         }
 
-        jClass.addImport("java.util.Hashtable");
         JField  field  = null;
         JField  fHash  = new JField(
                 SGTypes.createHashtable(getConfig().useJava50()), "_memberTable");
@@ -476,10 +475,10 @@ public final class EnumerationFactory extends BaseFactory {
         mInit.getModifiers().makePrivate();
         mInit.getModifiers().setStatic(true);
         if (getConfig().useJava50()) {
-            mInit.getSourceCode().add("Hashtable<Object, Object> members"
-                    + " = new Hashtable<Object, Object>();");
+            mInit.getSourceCode().add("java.util.Hashtable<Object, Object> members"
+                    + " = new java.util.Hashtable<Object, Object>();");
         } else {
-            mInit.getSourceCode().add("Hashtable members = new Hashtable();");
+            mInit.getSourceCode().add("java.util.Hashtable members = new java.util.Hashtable();");
         }
         return mInit;
     }

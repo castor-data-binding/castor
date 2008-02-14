@@ -35,6 +35,27 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2294" tool="jira">
+                    <description>
+                        Cleaned up XML code generator code to avoid generation of unnecessary
+                        import statements.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>John Gollan</name>
+                        <email>john_j_gollan@raytheon.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XMLGen</module>
+                    <date>20080214</date>
+                </bug>
                 <bug id="2275" tool="jira">
                     <description>
                         Fixed problem with &lt;simpleContent&gt; derived from &lt;xsd:integer&lt;
