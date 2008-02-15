@@ -35,6 +35,28 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2299" tool="jira">
+                    <description>
+                        Fixed problem with element name collisions between child and parent 
+                        complex type definitions when a binding file is used to address this
+                        name collision.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Michael</name>
+                        <email>mmendonca@galdosinc.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XMLGen</module>
+                    <date>20080215</date>
+                </bug>
                 <bug id="2294" tool="jira">
                     <description>
                         Cleaned up XML code generator code to avoid generation of unnecessary

@@ -2145,7 +2145,16 @@ public final class SourceFactory extends BaseFactory {
                     // TODO[WG]: replace this eror check with something more meaningful
                     if (baseNodeName != null
                             && !(baseNodeName.equals(XMLInfo.CHOICE_NODE_NAME_ERROR_INDICATION))) {
-                        present = (base.getElementField(baseNodeName) != null);
+                        // check whether there is an equally named field in the base
+                        // class, and don't forget to consider the namspaces as well to 
+                        // determine whether the fields are really equal.
+                        FieldInfo inheritedFieldInfo = base.getElementField(baseNodeName);
+                        if (inheritedFieldInfo != null) {
+                            if (fieldInfo.getNamespaceURI()
+                                    .equals(inheritedFieldInfo.getNamespaceURI())) {
+                                present = true;
+                            }
+                        }
                     }
                     break;
                 default:
