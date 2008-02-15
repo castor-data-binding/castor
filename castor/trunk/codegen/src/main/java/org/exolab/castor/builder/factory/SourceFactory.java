@@ -902,13 +902,25 @@ public final class SourceFactory extends BaseFactory {
         if (binding != null) {
             comp.setBinding(binding);
         }
-        comp.setView(simpleType);
+        
+        // set component view for anonymous simple types to parent 
+        if (simpleType.getName() == null) {
+            Annotated annotated = (Annotated) simpleType.getParent();
+            comp.setView(annotated);
+        } else {
+            comp.setView(simpleType);
+        }
 
         String packageName = comp.getJavaPackage();
         if ((packageName == null) || (packageName.length() == 0)) {
             packageName = sgState.getPackageName();
         }
 
+        // reset component view for anonymous simple types
+        if (simpleType.getName() == null) {
+            comp.setView(simpleType);
+        }
+        
         if (simpleType.hasFacet(Facet.ENUMERATION)) {
             enumeration = true;
             // Fix packageName
