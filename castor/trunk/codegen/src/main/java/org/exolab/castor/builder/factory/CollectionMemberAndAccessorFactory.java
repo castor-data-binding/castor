@@ -120,7 +120,7 @@ public class CollectionMemberAndAccessorFactory extends FieldMemberAndAccessorFa
     protected void createEnumerateMethod(final CollectionInfo fieldInfo, 
             final JClass jClass, final boolean useJava50) {
         JMethod method = new JMethod("enumerate" + fieldInfo.getMethodSuffix(),
-                SGTypes.createEnumeration(fieldInfo.getContentType().getJType(), useJava50),
+                SGTypes.createEnumeration(fieldInfo.getContentType().getJType(), useJava50, true),
                 "an Enumeration over all " + fieldInfo.getContentType().getJType() + " elements");
 
         JSourceCode sourceCode = method.getSourceCode();
@@ -412,7 +412,7 @@ public class CollectionMemberAndAccessorFactory extends FieldMemberAndAccessorFa
     protected void createIteratorMethod(final CollectionInfo fieldInfo, 
             final JClass jClass, final boolean useJava50) {
         JMethod method = new JMethod("iterate" + fieldInfo.getMethodSuffix(),
-                SGTypes.createIterator(fieldInfo.getContentType().getJType(), useJava50),
+                SGTypes.createIterator(fieldInfo.getContentType().getJType(), useJava50, true),
                 "an Iterator over all possible elements in this collection");
 
         JSourceCode sourceCode = method.getSourceCode();
