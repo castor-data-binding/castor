@@ -28,6 +28,10 @@ public final class JCollectionType extends JComponentizedType {
     /** Name of the actual collection instance to be used, e.g. java.util.ArrayList. */
     private String _instanceName;
 
+    /**
+     * Indicates whether (for generics) '? extends' should be emitted.
+     */
+    private boolean _useExtends;
     //--------------------------------------------------------------------------
 
     /**
@@ -41,6 +45,23 @@ public final class JCollectionType extends JComponentizedType {
             final JType componentType, 
             final boolean useJava50) {
         super(typeName, componentType, useJava50);
+        _useExtends = false;
+    }
+    
+    /**
+     * Creates an instance of a collection type, of type 'collectionName'.
+     * 
+     * @param typeName Name of the collection type interface.
+     * @param componentType Component type.
+     * @param useJava50 True if Java 5.0 should be used.
+     * @param useExtends True if '? extends' should be emitted for generics (Java 5.0 ff only).
+     */
+    public JCollectionType(final String typeName, 
+            final JType componentType, 
+            final boolean useJava50,
+            final boolean useExtends) {
+        super(typeName, componentType, useJava50);
+        _useExtends = useExtends;
     }
     
     /**
@@ -73,6 +94,9 @@ public final class JCollectionType extends JComponentizedType {
                     JPrimitiveType primitive = (JPrimitiveType) getComponentType();
                     return _instanceName + "<" + primitive.getWrapperName() + ">";
                 }
+                if (_useExtends) {
+                    return _instanceName + "<? extends " + getComponentType().toString() + ">";
+                }
                 return _instanceName + "<" + getComponentType().toString() + ">";
             }
 
@@ -93,6 +117,9 @@ public final class JCollectionType extends JComponentizedType {
                 JPrimitiveType primitive = (JPrimitiveType) getComponentType();
                 return getName() + "<" + primitive.getWrapperName() + ">";
             } 
+            if (_useExtends) {
+                return getName() + "<? extends " + getComponentType().toString() + ">";
+            }
             return getName() + "<" + getComponentType().toString() + ">";
         }
         

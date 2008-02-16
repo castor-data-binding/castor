@@ -506,7 +506,7 @@ public final class EnumerationFactory extends BaseFactory {
     private void createEnumerateMethod(final JClass jClass, final String className) {
         // TODO for the time being return Enumeration<Object> for Java 5.0; change
         JMethod mEnumerate = new JMethod("enumerate",
-                SGTypes.createEnumeration(SGTypes.OBJECT, getConfig().useJava50()),
+                SGTypes.createEnumeration(SGTypes.OBJECT, getConfig().useJava50(), true),
                 "an Enumeration over all possible instances of " + className);
         mEnumerate.getModifiers().setStatic(true);
         jClass.addMethod(mEnumerate);

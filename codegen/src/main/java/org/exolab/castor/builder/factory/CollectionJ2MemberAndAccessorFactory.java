@@ -39,7 +39,7 @@ public class CollectionJ2MemberAndAccessorFactory extends CollectionMemberAndAcc
     protected final void createEnumerateMethod(final CollectionInfo fieldInfo, 
             final JClass jClass, final boolean useJava50) {
         JMethod method = new JMethod("enumerate" + fieldInfo.getMethodSuffix(),
-                SGTypes.createEnumeration(fieldInfo.getContentType().getJType(), useJava50),
+                SGTypes.createEnumeration(fieldInfo.getContentType().getJType(), useJava50, true),
                 "an Enumeration over all possible elements of this collection");
 
         JSourceCode sourceCode = method.getSourceCode();
