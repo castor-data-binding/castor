@@ -1,0 +1,20 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Test code generation for collections in Java 5.0, where enumerate* and
+          iterate* methds are created.</Name>
+    <Author>Werner Guttmann</Author>
+    <Comment>
+       The generated clas(es) should include various iterate*() and enumerate*() 
+       methods, and as some of those classes are part of a type hierarchy,
+       with Java 5.0 the return type of these methods should carry
+       an '? extends' in their type definition.</Comment>
+    <Category>basic capability</Category>
+    <MinimumJavaVersion>1.5</MinimumJavaVersion>
+    <OnlySourceGenerationTest>
+        <Schema>test.xsd</Schema>
+        <Property_File>builder.properties</Property_File>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+        </UnitTestCase>
+    </OnlySourceGenerationTest>
+</TestDescriptor>

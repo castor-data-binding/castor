@@ -49,6 +49,9 @@ import org.exolab.javasource.JCollectionType;
 import org.exolab.javasource.JType;
 
 /**
+ * A collection of type definitions and factory methods to create those types, as used
+ * by the XML code generator of Castor during code generation.
+ * 
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-10-10 06:35:52 -0600 (Mon, 10 Oct 2005) $
  */
@@ -117,7 +120,20 @@ public class SGTypes {
      * @return {@link JCollectionType} instance representing an enumeration
      */
     public static final JType createEnumeration(final JType jType, final boolean usejava50) {
-        return new JCollectionType("java.util.Enumeration", jType, usejava50);
+        return createEnumeration(jType, usejava50, false);
+    }
+
+    /**
+     * Factory method for creating a {@link JCollectionType} instance representing 
+     * an enumeration.
+     * @param jType The content type of the collection.
+     * @param usejava50 Whether Java 5.0 is the target JVM. 
+     * @param useExtends True if '? extends' should be emitted for generics (Java 5.0 ff only).
+     * @return {@link JCollectionType} instance representing an enumeration
+     */
+    public static final JType createEnumeration(final JType jType, final boolean usejava50,
+            final boolean useExtends) {
+        return new JCollectionType("java.util.Enumeration", jType, usejava50, useExtends);
     }
 
     /**
@@ -128,7 +144,20 @@ public class SGTypes {
      * @return {@link JCollectionType} instance representing an {@link Iterator}
      */
     public static final JType createIterator(final JType jType, final boolean usejava50) {
-        return new JCollectionType("java.util.Iterator", jType, usejava50);
+        return createIterator(jType, usejava50, false);
+    }
+
+    /**
+     * Factory method for creating a {@link JCollectionType} instance representing 
+     * an {@link Iterator} instance.
+     * @param jType The content type of the collection.
+     * @param usejava50 Whether Java 5.0 is the target JVM. 
+     * @param useExtends True if '? extends' should be emitted for generics (Java 5.0 ff only).
+     * @return {@link JCollectionType} instance representing an {@link Iterator}
+     */
+    public static final JType createIterator(final JType jType, final boolean usejava50,
+            final boolean useExtends) {
+        return new JCollectionType("java.util.Iterator", jType, usejava50, useExtends);
     }
 
     /**
