@@ -33,14 +33,14 @@
    <version>1.0.4</version>
 </dependency>]]></code-panel>
 
-    <p>and make sure you include the Codehaus Maven 2 repository in your
+    <p>and make sure you include the Codehaus Maven repository in your
        POM (if you happen to be an early adaptor) similar to ...</p>
 
     <code-panel><![CDATA[
 <repository>
-    <id>codehaus-snapshots</id>
-    <name>Maven Codehaus Snapshots</name>
-    <url>http://maven.codehaus.org/maven2/</url>
+    <id>codehaus</id>
+    <name>Maven Codehaus repository</name>
+    <url>http://repository.codehaus.org/</url>
 </repository>]]></code-panel>
 
     <p>Once a specific Castor release has been propagated to the main Maven 2
@@ -143,9 +143,9 @@
 
             <source><![CDATA[
 <repository>
-    <id>codehaus-repository</id>
-    <name>Codehaus Maven 2 repository</name>
-    <url>http://maven.codehaus.org/maven2/</url>
+    <id>codehaus</id>
+    <name>Codehaus Maven repository</name>
+    <url>http://repository.codehaus.org/</url>
 </repository>]]></source>
 
     </section>
@@ -251,8 +251,8 @@
             <source><![CDATA[
 <repository>
     <id>codehaus-snapshots</id>
-    <name>Maven Codehaus Snapshots</name>
-    <url>http://snapshots.maven.codehaus.org/maven2/</url>
+    <name>Maven Codehaus snapshot repository</name>
+    <url>http://snapshots.repository.codehaus.org/</url>
 </repository>]]></source>
 
     </section>

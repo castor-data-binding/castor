@@ -35,6 +35,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2300" tool="jira">
+                    <description>
+                        Fixed the (snapshot) repository references in the Maven integration HTMl docs.
+                    </description>
+                    <contributor>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>General</module>
+                    <date>20080219</date>
+                </bug>
                 <bug id="2293" tool="jira">
                     <description>
                         Fixed problem with method signatures during code generation,
