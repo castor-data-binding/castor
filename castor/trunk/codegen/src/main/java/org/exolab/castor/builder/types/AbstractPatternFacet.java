@@ -60,6 +60,13 @@ public abstract class AbstractPatternFacet extends XSType {
     //--------------------------------------------------------------------------
 
     /**
+     * {@inheritDoc}
+     */
+    protected void setFacet(final Facet facet) {
+        addPatternFacet(facet);
+    }
+
+    /**
      * Transfer given facet if it is a pattern.
      *
      * @param facet The facet to transfer.

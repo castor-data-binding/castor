@@ -153,8 +153,7 @@ public abstract class AbstractLengthFacet extends AbstractWhiteSpaceFacet {
      * {@inheritDoc}
      */
     protected final void setFacet(final Facet facet) {
-        addPatternFacet(facet);
-        setWhiteSpaceFacet(facet);
+        super.setFacet(facet);
         setLengthFacet(facet);
     }
     

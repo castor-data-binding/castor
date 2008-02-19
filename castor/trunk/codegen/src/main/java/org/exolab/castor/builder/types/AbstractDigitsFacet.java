@@ -114,9 +114,7 @@ public abstract class AbstractDigitsFacet extends AbstractRangeFacet {
      * {@inheritDoc}
      */
     protected final void setFacet(final Facet facet) {
-        addPatternFacet(facet);
-        setWhiteSpaceFacet(facet);
-        setRangeFacet(facet);
+        super.setFacet(facet);
         setDigitsFacet(facet);
     }
 
