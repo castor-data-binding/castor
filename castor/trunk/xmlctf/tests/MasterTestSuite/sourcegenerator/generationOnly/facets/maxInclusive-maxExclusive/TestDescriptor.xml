@@ -1,0 +1,41 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+
+	<Name>Tests validity of various schema constraints</Name>
+	<Author>Sergei Ivanov</Author>
+	<Comment>
+		Make sure that the maxExclusive facet is used according to the
+		XML schema specification
+	</Comment>
+	<Category>basic capability</Category>
+
+	<BugFix>
+		<Reporter>Sergei Ivanov</Reporter>
+		<issue>CASTOR-1107</issue>
+		<Date_Report>2005-05-10</Date_Report>
+		<Date_Fix>2008-02-06</Date_Fix>
+		<Comment>Added validation code</Comment>
+	</BugFix>
+
+	<OnlySourceGenerationTest>
+		<Schema>test.xsd</Schema>
+		<UnitTestCase>
+			<Name>Test Source Generation</Name>
+			<!--
+			<Failure
+				exception="org.exolab.castor.xml.ValidationException"
+				FailureStep="source-generation">
+				true
+			</Failure>
+			-->
+			<Comment>
+				Must fail because both maxExclusive
+				and maxInclusive are specified
+			</Comment>
+			<Comment>SKIP is set until the relevant functionality is implemented</Comment>
+			<Comment>The test case cannot go to completion at the moment</Comment>
+			<Skip>true</Skip>
+		</UnitTestCase>
+	</OnlySourceGenerationTest>
+
+</TestDescriptor>
