@@ -105,12 +105,12 @@ public final class EnumerationFactory extends BaseFactory {
         // reset _maxSuffix value to 0
         _maxSuffix = 0;
         boolean generateConstantDefinitions = true;
-        int numberOfEnumerationFacets = simpleType.getNumberOfFacets("enumeration");
+        int numberOfEnumerationFacets = simpleType.getNumberOfFacets(Facet.ENUMERATION);
         if (numberOfEnumerationFacets > _maxEnumerationsPerClass) {
             generateConstantDefinitions = false;
         }
 
-        Enumeration enumeration = simpleType.getFacets("enumeration");
+        Enumeration enumeration = simpleType.getFacets(Facet.ENUMERATION);
 
         XMLBindingComponent component = new XMLBindingComponent(getConfig(), getGroupNaming());
         if (binding != null) {
@@ -122,7 +122,7 @@ public final class EnumerationFactory extends BaseFactory {
         boolean useValuesAsName = true;
         useValuesAsName = selectNamingScheme(component, enumeration, useValuesAsName);
 
-        enumeration = simpleType.getFacets("enumeration");
+        enumeration = simpleType.getFacets(Facet.ENUMERATION);
 
         JClass jClass = state.getJClass();
         String className = jClass.getLocalName();
@@ -580,7 +580,7 @@ public final class EnumerationFactory extends BaseFactory {
             baseType = _typeConversion.convertType(base, getConfig().useJava50());
         }
 
-        Enumeration enumeration = simpleType.getFacets("enumeration");
+        Enumeration enumeration = simpleType.getFacets(Facet.ENUMERATION);
 
         JClass jClass    = state.getJClass();
         String className = jClass.getLocalName();
@@ -672,7 +672,6 @@ public final class EnumerationFactory extends BaseFactory {
      * @return the identifier for the enum value
      *
      * @author rhett-sutphin@uiowa.edu
-     * @param type
      */
     private String translateEnumValueToIdentifier(final EnumBindingType enumBinding,
                                                   final Facet facet) {

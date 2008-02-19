@@ -145,8 +145,7 @@ public abstract class AbstractRangeFacet extends AbstractWhiteSpaceFacet {
      * {@inheritDoc}
      */
     protected void setFacet(final Facet facet) {
-        addPatternFacet(facet);
-        setWhiteSpaceFacet(facet);
+        super.setFacet(facet);
         setRangeFacet(facet);
     }
 
