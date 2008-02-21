@@ -14,6 +14,9 @@ public class TestSourceGenerator extends TestCase {
         generator.setDestDir("./codegen/src/test/java");
         generator.setSuppressNonFatalWarnings(true);
         
+        // uncomment to use Velocity for code generation
+//        generator.setJClassPrinterType("velocity");
+        
         // uncomment the next line to set a binding file for source generation
 //      generator.setBinding(new InputSource(getClass().getResource("binding.xml").toExternalForm()));
 
