@@ -81,6 +81,7 @@ import org.exolab.castor.builder.factory.SourceFactory;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.printing.JClassPrinter;
 import org.exolab.castor.builder.printing.JClassPrinterFactory;
+import org.exolab.castor.builder.printing.JClassPrinterFactoryRegistry;
 import org.exolab.castor.mapping.xml.MappingRoot;
 import org.exolab.castor.util.NestedIOException;
 import org.exolab.castor.util.Version;
@@ -192,14 +193,24 @@ public class SourceGenerator extends BuilderConfiguration {
     private String _nameConflictStrategy = WarningViaDialogClassNameCRStrategy.NAME;
     /** JClass to XPATH registry, used for class name conflict resolution. */
     private JClassRegistry _xmlInfoRegistry;
-    /** Strategy for printing JClasses. */
-    private String _jClassPrinterType;
 
     /**
      * Strategy implementation for resolving class name conflicts.
      */
     private ClassNameConflictResolver _conflictResolver = 
         new XPATHClassNameConflictResolver();
+
+    /**
+     * The default type of the {@link JClassPrinterFactory} to use for instantiating
+     * instances of {@link JClassPrinter} instances.
+     */
+    private String _jclassPrinterType = "standard";
+
+    /**
+     * {@link JClassPrinterFactoryRegistry} instance to be used for obtaining instances
+     * of {@link JClassPrinterFactory} instances.
+     */
+    private JClassPrinterFactoryRegistry _jclassPrinterFactoryRegistry;
 
     /**
      * Creates a SourceGenerator using the default FieldInfo factory.
@@ -237,16 +248,25 @@ public class SourceGenerator extends BuilderConfiguration {
 
         _groupNaming = new GroupNaming(getJavaNaming());
 
-        JClassPrinterFactory.init(getJClassPrinterTypes());
-        _jClassPrinterType = JClassPrinterFactory.getDefaultType();
+        _jclassPrinterFactoryRegistry = new JClassPrinterFactoryRegistry(this);
         _singleClassGenerator = new SingleClassGenerator(_dialog, this, _nameConflictStrategy, 
-        		_jClassPrinterType);
+                _jclassPrinterType);
         _bindingComponent = new XMLBindingComponent(this, _groupNaming);
         setBinding(binding);
         
         _conflictResolver.setSourceGenerator(this);
         _xmlInfoRegistry = new JClassRegistry(_conflictResolver, getJavaNaming());
     } //-- SourceGenerator
+
+    /**
+     * Returns the selected {@link JClassPrinter} type, as defined by the list of 
+     * {@link JClassPrinterFactory} instances enlisted in the Castor XML code generator
+     * property file.
+     * @return the selected {@link JClassPrinter} type.
+     */
+    private String getJClassPrinterType() {
+        return _jclassPrinterType;
+    }
 
     /**
      * Sets the filename of the mapping file.
@@ -1188,10 +1208,10 @@ public class SourceGenerator extends BuilderConfiguration {
      * Sets the jclassPrinter type.
      * @param jClassPrinterType The string identifier of the printer to use.
      */
-    public final void setJClassPrinter(final String jClassPrinterType) {
-        _jClassPrinterType = jClassPrinterType;
+    public final void setJClassPrinterType(final String jClassPrinterType) {
+        _jclassPrinterType = jClassPrinterType;
         if (_singleClassGenerator != null) {
-        	_singleClassGenerator.setJClassPrinter(jClassPrinterType);
+            _singleClassGenerator.setJClassPrinterType(jClassPrinterType);
         }
     }
 
@@ -1201,6 +1221,14 @@ public class SourceGenerator extends BuilderConfiguration {
      */
     public boolean getGenerateImportedSchemas() {
         return _generateImported;
+    }
+
+    /**
+     * Returns the registry for {@link JClassPrinterFactory} instances.
+     * @return the registry for {@link JClassPrinterFactory} instances.
+     */
+    public JClassPrinterFactoryRegistry getJClassPrinterFactoryRegistry() {
+        return _jclassPrinterFactoryRegistry;
     }    
     
 } //-- SourceGenerator

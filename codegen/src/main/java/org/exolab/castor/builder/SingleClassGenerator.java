@@ -61,7 +61,7 @@ import org.exolab.castor.builder.descriptors.DescriptorSourceFactory;
 import org.exolab.castor.builder.factory.MappingFileSourceFactory;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.printing.JClassPrinter;
-import org.exolab.castor.builder.printing.JClassPrinterFactory;
+import org.exolab.castor.builder.printing.JClassPrinterFactoryRegistry;
 import org.exolab.castor.mapping.xml.MappingRoot;
 import org.exolab.castor.util.dialog.ConsoleDialog;
 import org.exolab.javasource.JClass;
@@ -156,15 +156,17 @@ public final class SingleClassGenerator {
      * @param classPrinterType The string identifier if the printer,
      */
     private void createJClassPrinter(final String classPrinterType) {
-        this._jClassPrinter = JClassPrinterFactory.getJClassPrinter(classPrinterType);        
+        JClassPrinterFactoryRegistry registry = _sourceGenerator.getJClassPrinterFactoryRegistry();
+        this._jClassPrinter = 
+            registry.getJClassPrinterFactory(classPrinterType).getJClassPrinter();        
     }
     
     /**
-     * Sets the JClassPrinter instance from the given string key. 
-     * @param classPrinterType The string identifier if the printer,
+     * Sets the type of the {@link JClassPrinter} instance to be used for {@link JClass} writing. 
+     * @param jclassPrinterType The string identifier if the printer,
      */
-    public void setJClassPrinter(final String classPrinterType) {
-        this.createJClassPrinter(classPrinterType);
+    public void setJClassPrinterType(final String jclassPrinterType) {
+        this.createJClassPrinter(jclassPrinterType);
     }
     
     /**

@@ -16,25 +16,34 @@
 package org.exolab.castor.builder.printing;
 
 /**
- * Factory class to create {@link JClassPrinter} instances.
- * 
+ * {@link JClassPrinterFactory} instance that returns Velocity-based 
+ * {@link JClassPrinter} instances.
+ *  
  * @since 1.2.1
  */
-public interface JClassPrinterFactory {
+public class TemplateJClassPrinterFactory implements JClassPrinterFactory {
+
+    /** 
+     * The name of the factory.
+     */
+    private static final String NAME = "velocity";
 
     /**
-     * Returns a short name for this {@link JClassPrinterFactory} instance.
-     * @return a short name (used for setting the JClassPrinter type on the {@link SourceGenerator}.
+     * {@inheritDoc}
      * 
-     * @see SourceGenerator#setJClassPrinterType(String)
+     * @see org.exolab.castor.builder.printing.JClassPrinterFactory#getJClassPrinter()
      */
-    String getName();
-    
+    public JClassPrinter getJClassPrinter() {
+        return new TemplateJClassPrinter();
+    }
+
     /**
-     * Returns the {@link JClassPrinter} instance as identified by this {@link JClassPrinterFactory}
-     * instance.
-     * @return Returns the actual {@link JClassPrinter} instance 
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.builder.printing.JClassPrinterFactory#getName()
      */
-    JClassPrinter getJClassPrinter();
-    
+    public String getName() {
+        return NAME;
+    }
+
 }

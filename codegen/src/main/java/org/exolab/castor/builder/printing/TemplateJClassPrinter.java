@@ -25,6 +25,7 @@ import org.exolab.javasource.JClass;
 
 /**
  * Prints the given JClass to the filesystem using velocity templates.
+ * 
  * @since 1.2
  */
 public class TemplateJClassPrinter implements JClassPrinter {
@@ -33,44 +34,47 @@ public class TemplateJClassPrinter implements JClassPrinter {
      * The package that contains the velocity templates.
      */
     public static final String TEMPLATE_PACKAGE = "/org/exolab/castor/builder/printing/templates/";
-    
+
     /**
      * Indicates whether Velocity has been already initialized.
      */
-    private boolean initialized = false;
-    
+    private boolean _initialized = false;
+
     /**
-     * Initialises the Velocity engine
+     * Initialises the Velocity engine.
      */
     private void initializeVelocity() {
         // init velocity
         Velocity.setProperty("velocimacro.permissions.allowInline", "true");
-        Velocity.setProperty("velocimacro.library", 
+        Velocity.setProperty("velocimacro.library",
                 "/org/exolab/castor/builder/printing/templates/library.vm");
         Velocity.setProperty("resource.loader", "classPathResource");
-        Velocity.setProperty("classPathResource.resource.loader.class", 
-                "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        Velocity
+                .setProperty("classPathResource.resource.loader.class",
+                        "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         try {
-            // TODO: use reflection to call init on Velocity
             Velocity.init();
         } catch (Exception e) {
             System.out.println("init fails!");
             e.printStackTrace();
         }
     }
-    
+
     /**
+     * {@inheritDoc}
+     * 
      * @see org.exolab.castor.builder.printing.JClassPrinter#printClass(
-     * org.exolab.javasource.JClass, java.lang.String, java.lang.String, java.lang.String)
+     *      org.exolab.javasource.JClass, java.lang.String, java.lang.String,
+     *      java.lang.String)
      */
-    public void printClass(final JClass jClass, final String outputDir, 
+    public void printClass(final JClass jClass, final String outputDir,
             final String lineSeparator, final String header) {
-        
-        if (!initialized) {
+
+        if (!_initialized) {
             initializeVelocity();
-            initialized = true;
+            _initialized = true;
         }
-       	
+
         try {
 
             // provide objects
@@ -79,17 +83,18 @@ public class TemplateJClassPrinter implements JClassPrinter {
             context.put("helper", new TemplateHelper());
 
             // print the class
-            Template template  = 
-                Velocity.getTemplate(TEMPLATE_PACKAGE + "main.vm");                
-            FileWriter fileWriter = new FileWriter(new File(jClass.getFilename(outputDir)));
+            Template template = 
+                Velocity.getTemplate(TEMPLATE_PACKAGE + "main.vm");
+            FileWriter fileWriter = 
+                new FileWriter(new File(jClass.getFilename(outputDir)));
             template.merge(context, fileWriter);
             fileWriter.flush();
             fileWriter.close();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-   }
+    }
 
 }

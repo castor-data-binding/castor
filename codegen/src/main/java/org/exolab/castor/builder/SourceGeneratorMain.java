@@ -170,6 +170,9 @@ public final class SourceGeneratorMain {
     private static final String NAME_CONFLICT_STRATEGY_MSG =
         "Using name conflict strategy ";
 
+    private static final String JCLASSPRINTER_TYPE_MSG =
+        "Using JClass printing type ";
+
     /** The full set of command-line options. */
     private static final CommandLineOptions ALL_OPTIONS     = setupCommandLineOptions();
 
@@ -279,9 +282,9 @@ public final class SourceGeneratorMain {
 
         String jClassPrinterType = options.getProperty(ARGUMENT_NAME_JCLASSPRINTER);
         if (jClassPrinterType != null) {
-            sgen.setJClassPrinter(jClassPrinterType);
+            sgen.setJClassPrinterType(jClassPrinterType);
             System.out.print("-- ");
-            System.out.println(CASE_INSENSITIVE_MSG + jClassPrinterType);
+            System.out.println(JCLASSPRINTER_TYPE_MSG + jClassPrinterType);
         }
         
         String bindingFilename = options.getProperty(ARGUMENT_BINDING_FILENAME);

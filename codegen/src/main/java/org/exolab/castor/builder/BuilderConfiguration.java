@@ -64,8 +64,6 @@ import org.castor.util.Messages;
 import org.castor.xml.JavaNaming;
 import org.castor.xml.JavaNamingImpl;
 import org.castor.xml.XMLConfiguration;
-import org.exolab.castor.builder.printing.JClassPrinter;
-import org.exolab.javasource.JClass;
 
 /**
  * The configuration for the SourceGenerator.
@@ -271,17 +269,15 @@ public class BuilderConfiguration {
             "org.exolab.castor.builder.automaticConflictResolutionTypeSuffix";
         
         /**
-         * Property enlisting the supported {@link JClassPrinter} instances available 
-         * for writing out {@link JClass} instances to the file system 
-         * 
-         * Either "writer" or "template".
+         * Property enlisting the supported {@link JClassPrinterFactory} instances available 
+         * for creating {@link JClassPrinter} instances.
          */
-        public static final String JCLASSPRINTER_TYPES = 
-            "org.exolab.castor.builder.jclassPrinterTypes";
-        
+        public static final String JCLASSPRINTER_FACTORIES = 
+            "org.exolab.castor.builder.jclassPrinterFactories";
+
         /**
          * Property specifying whether extra members/methods for extracting XML schema
-         * documentation should be made available; defaults to false
+         * documentation should be made available; defaults to false.
          * <pre>
          * org.exolab.castor.builder.extraDocumentationMethods=false
          * </pre>
@@ -619,12 +615,14 @@ public class BuilderConfiguration {
     }
     
     /**
-     * Returns the string identifier of the jClassPrinter to use.
-     * @return The string identifier of the jClassPrinter to use.
+     * Returns a String representing the list of {@link JClassPrinterFactory} instances
+     * configured in the Castor XML code generator property file.
+     * @return the list of {@link JClassPrinterFactory} instances as configured, as string.
      */
-    public final String getJClassPrinterTypes() {
-        return _localProps.getProperty(Property.JCLASSPRINTER_TYPES);
+    public final String getJClassPrinterFactories() {
+        return _localProps.getProperty(Property.JCLASSPRINTER_FACTORIES);
     }
+
 
     /**
      * Called by {@link #getDefault} to load the configuration the first time.
