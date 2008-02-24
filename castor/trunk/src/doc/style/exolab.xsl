@@ -579,31 +579,6 @@
     </xsl:choose>
   </xsl:template>
 
-  <xsl:template match="mailing-lists">
-    <xsl:apply-templates/>
-  </xsl:template>
-
-  <xsl:template match="mailing-list">
-    <div>
-      [
-      <a href="mailto:{@name}-subscribe@castor.{@server}">Subscribe</a> |
-      <a href="mailto:{@name}-unsubscribe@castor.{@server}">Unsubscribe</a>
-      <!-- | <a href="mailto:{@name}@{@server}">Post Message</a> -->
-      <xsl:if test="@archive">
-         | <a href="{@archive}">Archive</a>
-    </xsl:if>
-      ]
-    </div>
-  </xsl:template>
-
-  <xsl:template match="mailing-list/title">
-    <xsl:apply-templates/>
-  </xsl:template>
-
-  <xsl:template match="mailing-list/description">
-    <xsl:apply-templates/>
-  </xsl:template>
-
   <xsl:template match="contributors">
     <xsl:for-each select="type">
       <xsl:variable name="type" select="@name"/>
