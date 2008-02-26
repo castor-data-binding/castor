@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/howto/how-to-map-both-structure-and-content.xml">
+  <properties>
+    <title>How to map 'text' content</title>
+    <abstract>
+       General information about using a mapping file to map towards XML text content.
+    </abstract>
+    <status>Final</status>
+  </properties>
+  <body>
+    <title>How to map 'text' content</title>
+    <header>
+    </header>
+
+    <section title="Intended Audience">
+    
+        <p>
+            Any user who needs to unmarshal/marshal XML that has data represented as
+            <b>text</b> as well as attributes/elements.
+        </p>
+        
+    </section>
+    
+    <section title="Define the mapping">
+    
+        <p>Consider you have XML with a structure defined as follows:</p>
+        
+        <code-panel>
+&lt;xml version="1.0" encoding="UTF-08"?>
+&lt;person>
+    &lt;name>Jennifer&lt;/name>
+    <font color="red">&lt;age dob="21-feb-1987">21&lt;/age></font>
+    &lt;employment>
+        &lt;company name="unesco" />
+    &lt;/employment>
+&lt;/person>
+        </code-panel>
+        
+        <p>
+            Notice the structure the element <b>age</b>, which has both text as well as XML markup
+            as its content. A mapping for above XML would be as follows:
+        </p>
+        
+        <code-panel>
+&lt;xml version="1.0" encoding="UTF-08"?>
+&lt;mapping>
+    &lt;class name="abc.Person">
+        &lt;map-to xml="Person"/>
+        &lt;field name="name" type="java.lang.String">
+            &lt;bind-xml name="name" node="element"/>
+        &lt;/field>
+        &lt;field name="age" type="abc.Age">
+            &lt;bind-xml name="age" node="element"/>
+        &lt;/field>
+        &lt;field name="company" type="abc.Company">
+            &lt;bind-xml name="company" node="element" location="employment"/>
+        &lt;/field>
+    &lt;/class>
+    
+    &lt;class name="abc.Age">
+        &lt;map-to xml="age"/>
+        &lt;field name="dob" type="java.lang.String">
+            &lt;bind-xml name="dob" node="attribute"/>
+        &lt;/field> 
+        &lt;field name="ageValue" type="java.lang.String">
+            &lt;bind-xml node="<b><font color="red">text</font></b>"/>
+        &lt;/field>
+    &lt;/class>
+    
+    &lt;class name="abc.Company">
+        &lt;field name="name" type="java.lang.String">
+            &lt;bind-xml name="name" node="attribute"/>
+        &lt;/field> 
+    &lt;/class>
+&lt;/mapping>
+        </code-panel>        
+
+        <p>
+            Please note the different node types of the members of the <tt>abc.Age</tt> 
+            class, especially where the Java member <tt>ageValue</tt> is mapped to 
+            a node of type <b>text</b>.
+        </p>
+                        
+    </section>
+
+  </body>
+  
+</document>
+               
