@@ -6,18 +6,28 @@
     <section title="News">
       <ul>
         <li>
-          <b>Release 1.1.3:</b> Added special processing of proxied classes. The property
-          org.exolab.castor.xml.proxyInterfaces allows you to specify a list of interfaces
-          that such proxied objects implement. If your object implements one of these interfaces
-          Castor will not use the class itself but its superclass at introspection or to find
-          class mappings and ClassDescriptors.
+            Added a section on how to access the properties as defined in the 
+            Castor properties file from within code.
         </li>
         <li>
-          <b>Release 0.9.7:</b> Added new org.exolab.castor.persist.useProxies property to allow
-          configuration of JDBC proxy classes. If enabled, JDBC proxy classes will be used to wrap
-          <tt>java.sql.Connection</tt> and <tt>java.sql.PreparedStatement</tt>
-          instances, to allow for more detailed and complete JDBC statements to be output
-          during logging. When turned off, no logging statements will be generated at all.
+            <b>Release 1.2:</b>: Access to the <api>org.exolab.castor.util.LocalConfiguration</api>
+            class has been removed completely. To access the properties as used by Castor
+            from code, please refer to the below section.
+        </li>
+        <li>
+            <b>Release 1.1.3:</b>
+            Added special processing of proxied classes. The property
+            org.exolab.castor.xml.proxyInterfaces allows you to specify a list of interfaces
+            that such proxied objects implement. If your object implements one of these
+            interfaces Castor will not use the class itself but its superclass at
+            introspection or to find class mappings and ClassDescriptors.
+        </li>
+        <li>
+            <b>Release 0.9.7:</b> Added new org.exolab.castor.persist.useProxies property to allow
+            configuration of JDBC proxy classes. If enabled, JDBC proxy classes will be used to wrap
+            <tt>java.sql.Connection</tt> and <tt>java.sql.PreparedStatement</tt>
+            instances, to allow for more detailed and complete JDBC statements to be output
+            during logging. When turned off, no logging statements will be generated at all.
         </li>
       </ul>
     </section>
@@ -207,6 +217,32 @@
       </ctable>
       
       </section>
+      
+      <section title="Accessing the properties from within code">
+      
+        <p>
+            As of Castor 1.1, it is possible to read and set the value of properties
+            programmatically using the <tt>getProperty(String)</tt> 
+            and <tt>setProperty(String,String)</tt> on the following classes:
+        </p>
+        
+        <ul>
+            <li><api>org.exolab.castor.xml.Unmarshaller</api></li>
+            <li><api>org.exolab.castor.xml.Marshaller</api></li>
+            <li><api>org.exolab.castor.xml.XMLContext</api></li>
+        </ul>
+        
+        <p>
+            Whilst using the setter methods on the first two classes will change the 
+            settings of the respective instances only, using the <tt>setProperty()</tt>
+            method on the <tt><api>XMLContext</api></tt> class will change the configuration globally,
+            and affect all <tt><api>Unmarshaller</api></tt> and <tt><api>Marshaller</api></tt> 
+            instances created thereafter using the <tt>
+            <api class="org.exolab.castor.xml.XMLContent">createUnmarshaller()</api></tt> and 
+            <tt><api class="org.exolab.castor.xml.XMLContext">createMarshaller()</api></tt> methods.
+        </p>
+            
+      </section> 
       
       <section title="Current configuration file">
       
