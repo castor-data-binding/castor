@@ -24,6 +24,7 @@
 	<classpathentry kind="src" output="xmlctf-framework/eclipse" path="xmlctf-framework/src/test/resources"/>
 	<classpathentry kind="src" output="xmlctf/eclipse" path="xmlctf/src/main/java"/>
 	<classpathentry kind="src" output="xmlctf/eclipse" path="xmlctf/src/main/resources"/>
+	<classpathentry kind="src" output="xmlctf/eclipse" path="xmlctf/src/test/java"/>
 	<classpathentry kind="src" output="xmlctf/eclipse" path="xmlctf/src/test/resources"/>
 	<classpathentry kind="src" path="src/bugs"/>
 	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/main/java"/>

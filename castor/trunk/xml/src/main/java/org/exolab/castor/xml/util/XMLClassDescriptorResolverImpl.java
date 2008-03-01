@@ -80,15 +80,35 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
     private static final Log LOG = LogFactory.getLog(XMLClassDescriptorResolverImpl.class);
 
     /**
-     * XMLContext provides the information required.
+     * All resolved decriptors are kept here.
      */
-    private InternalContext _internalContext;
-   
+    private DescriptorCacheImpl _descriptorCache;
+    /**
+     * The MappingLoader instance to read descriptors from.
+     */
+    private MappingLoader _mappingLoader;
+    /**
+     * The domain class loader to use.
+     */
+    private ClassLoader _classLoader;
+    /**
+     * A flag to signal if introspection should be used or not.
+     */
+    private Boolean _useIntrospector;
+    /**
+     * A flag to signal if descriptors should be determines via package
+     * file .castor.cdr .
+     */
+    private Boolean _loadPackageMappings;
+    /**
+     * The introspector to use.
+     */
+    private Introspector _introspector;
     /**
      * The place where all resolving strategies and their commands put the results into
      * and can be read from.
      */
-    private DescriptorCacheImpl _descriptorCache;
+    private ResolverStrategy _resolverStrategy;
 
     /**
      * Creates a new ClassDescriptorResolverImpl.
@@ -99,48 +119,55 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
     public XMLClassDescriptorResolverImpl() {
         super();
         _descriptorCache = new DescriptorCacheImpl();
-    } //-- ClassDescriptorResolverImpl
+    }
 
     /**
      * {@inheritDoc}
+     * The InternalContext itself is not stored! But all values of interest are read
+     * and stored in local attributes.
      */
     public void setInternalContext(final InternalContext internalContext) {
-        _internalContext = internalContext;
+        _mappingLoader = internalContext.getMappingLoader();
+        _classLoader = internalContext.getClassLoader();
+        _useIntrospector = internalContext.getUseIntrospector();
+        _loadPackageMappings = internalContext.getLoadPackageMapping();
+        _introspector = internalContext.getIntrospector();
+        _resolverStrategy = internalContext.getResolverStrategy();
     }
 
     /**
      * {@inheritDoc}
      */
     public MappingLoader getMappingLoader() {
-        return _internalContext.getMappingLoader();
+        return _mappingLoader;
     }
     
     /**
      * {@inheritDoc}
      */
     public void setClassLoader(final ClassLoader loader) {
-        _internalContext.setClassLoader(loader);
+        _classLoader = loader;
     }
 
     /**
      * {@inheritDoc}
      */
     public void setUseIntrospection(final boolean enable) {
-        _internalContext.setUseIntrospector(Boolean.valueOf(enable));
+        _useIntrospector = Boolean.valueOf(enable);
     }
     
     /**
      * {@inheritDoc}
      */
     public void setLoadPackageMappings(final boolean loadPackageMappings) {
-        _internalContext.setLoadPackageMapping(Boolean.valueOf(loadPackageMappings));
+        _loadPackageMappings = Boolean.valueOf(loadPackageMappings);
     }
     
     /**
      * {@inheritDoc}
      */
     public void setMappingLoader(final MappingLoader mappingLoader) {
-        _internalContext.setMappingLoader(mappingLoader);
+        _mappingLoader = mappingLoader;
         if (mappingLoader != null) {
             Iterator descriptors = mappingLoader.descriptorIterator();
             while (descriptors.hasNext()) {
@@ -154,14 +181,14 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
      * {@inheritDoc}
      */
     public void setIntrospector(final Introspector introspector) {
-        _internalContext.setIntrospector(introspector);
+        _introspector = introspector;
     }
 
     /**
      * {@inheritDoc}
      */
     public void setResolverStrategy(final ResolverStrategy resolverStrategy) {
-        _internalContext.setResolverStrategy(resolverStrategy);
+        _resolverStrategy = resolverStrategy;
     }
     
     /**
@@ -174,7 +201,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
      */
     private ResolverStrategy getResolverStrategy() {
         setAttributesIntoStrategy();
-        return _internalContext.getResolverStrategy();
+        return _resolverStrategy;
     }
     
     /**
@@ -191,7 +218,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
             return _descriptorCache.getDescriptor(type.getName());
         }
         
-        ClassLoader l = _internalContext.getClassLoader();
+        ClassLoader l = _classLoader;
         if (l == null) { l = type.getClassLoader(); }
         if (l == null) { l = Thread.currentThread().getContextClassLoader(); }
         
@@ -212,7 +239,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
             return _descriptorCache.getDescriptor(className);
         }
         
-        ClassLoader l = _internalContext.getClassLoader();
+        ClassLoader l = _classLoader;
         if (l == null) { l = Thread.currentThread().getContextClassLoader(); }
         
         return this.resolve(className, l);
@@ -234,7 +261,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
         }
         
         ClassLoader l = loader;
-        if (l == null) { l = _internalContext.getClassLoader(); }
+        if (l == null) { l = _classLoader; }
         if (l == null) { l = Thread.currentThread().getContextClassLoader(); }
         
         getResolverStrategy().setProperty(ResolverStrategy.PROPERTY_CLASS_LOADER, l);
@@ -367,16 +394,16 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
      * Only exception is the class loader property which is always set in the resolve method.
      */
     private void setAttributesIntoStrategy() {
-        ResolverStrategy strategy = _internalContext.getResolverStrategy();
+        ResolverStrategy strategy = _resolverStrategy;
         strategy.setProperty(
                 ResolverStrategy.PROPERTY_LOAD_PACKAGE_MAPPINGS, 
-                _internalContext.getLoadPackageMapping());
+                _loadPackageMappings);
         strategy.setProperty(
-                ResolverStrategy.PROPERTY_USE_INTROSPECTION, _internalContext.getUseIntrospector());
+                ResolverStrategy.PROPERTY_USE_INTROSPECTION, _useIntrospector);
         strategy.setProperty(
-                ResolverStrategy.PROPERTY_MAPPING_LOADER, _internalContext.getMappingLoader());
+                ResolverStrategy.PROPERTY_MAPPING_LOADER, _mappingLoader);
         strategy.setProperty(
-                ResolverStrategy.PROPERTY_INTROSPECTOR, _internalContext.getIntrospector());
+                ResolverStrategy.PROPERTY_INTROSPECTOR, _introspector);
     }
 
     /**

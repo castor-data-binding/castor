@@ -53,8 +53,10 @@ public class BackwardCompatibilityContext extends AbstractInternalContext implem
         Introspector introspector = new Introspector();
         introspector.setInternalContext(this);
         setIntrospector(introspector);
+        cdr.setIntrospector(introspector);
         
         ResolverStrategy resolverStrategy = new CastorXMLStrategy();
         setResolverStrategy(resolverStrategy);
+        cdr.setResolverStrategy(resolverStrategy);
     }
 }
