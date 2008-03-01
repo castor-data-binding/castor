@@ -15,7 +15,6 @@
  */
 package org.exolab.castor.xml.util.resolvers;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -57,8 +56,8 @@ public abstract class AbstractResolverPackageCommand implements ResolverPackageC
         ClassLoader classLoader = (ClassLoader) properties.get(
                 ResolverStrategy.PROPERTY_CLASS_LOADER);
         if (classLoader == null) {
-            LOG.debug("No class loader available.");
-            return new HashMap();
+            LOG.debug("No domain class loader set, taking it from class.getClassLoader().");
+            classLoader = this.getClass().getClassLoader();
         }
         return internalResolve(pName, classLoader, properties);
     }

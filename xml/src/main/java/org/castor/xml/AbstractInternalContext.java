@@ -477,6 +477,9 @@ public abstract class AbstractInternalContext implements InternalContext {
      */
     public void setClassLoader(final ClassLoader classLoader) {
         _classLoader = classLoader;
+        if (_xmlClassDescriptorResolver != null) {
+            _xmlClassDescriptorResolver.setClassLoader(classLoader);
+        }
     }
 
     /**

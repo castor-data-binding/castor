@@ -35,9 +35,31 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2295" tool="jira">
+                    <description>
+                        Two things have been changed. First the AbstractResolverPackageCommand will work even if no
+                        ClassLoader was set before. Second XMLClassDescriptorResolverImpl does no longer work with
+                        InternalContext but gets all required values directly set.
+                    </description>
+                    <contributor>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Nikita Mekh</name>
+                        <email>omikron@tut.by</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20080301</date>
+                </bug>
                 <bug id="2300" tool="jira">
                     <description>
-                        Fixed the (snapshot) repository references in the Maven integration HTMl docs.
+                        Fixed the (snapshot) repository references in the Maven integration HTML docs.
                     </description>
                     <contributor>
                         <name>Joachim Grueneis</name>

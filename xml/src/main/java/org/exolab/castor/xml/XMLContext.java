@@ -56,15 +56,17 @@ public class XMLContext {
         
         XMLClassDescriptorResolver cdr = (XMLClassDescriptorResolver) ClassDescriptorResolverFactory
             .createClassDescriptorResolver(BindingType.XML);
-        cdr.setInternalContext(internalContext);
         internalContext.setXMLClassDescriptorResolver(cdr);
+        cdr.setInternalContext(internalContext);
 
         Introspector introspector = new Introspector();
         introspector.setInternalContext(internalContext);
         internalContext.setIntrospector(introspector);
+        cdr.setIntrospector(introspector);
         
         ResolverStrategy resolverStrategy = new CastorXMLStrategy();
         internalContext.setResolverStrategy(resolverStrategy);
+        cdr.setResolverStrategy(resolverStrategy);
 
         _internalContext = internalContext;
     }
