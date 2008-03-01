@@ -549,24 +549,34 @@
     </ciManagement>
     
     <profiles>
-        <!-- profile for executing all tests as well -->
+        <!-- profile for executing all XML integration suite tests -->
         <profile>
-            <id>tests</id>
+            <id>xmltests</id>
             <modules>
                 <module>xmlctf-framework</module>
                 <module>maven-plugins</module>
-                <!--  Joachim: the tests are not yet running when started using mvn install in super project
                 <module>xmlctf</module>
-                -->
-                <!-- Joachim: cpactf is not yet successfully executeable..
+            </modules>            
+        </profile>
+        <!-- profile for executing all CPA integration suite tests -->
+        <profile>
+            <id>cpatests</id>
+            <modules>
                 <module>cpactf</module>
-                -->
-                <!-- Joachim: cpaptf are performance tests - nothing for every time execution
+            </modules>            
+        </profile>
+        <!-- profile for executing all CPA performance suite tests -->
+        <profile>
+            <id>cpaptftests</id>
+            <modules>
                 <module>cpaptf</module>
-                -->
-                <!-- Joachim: examples not yet successfully executeable..
-                <module>cpaptf</module>
-                -->
+            </modules>            
+        </profile>
+        <!-- profile for building and testing examples project -->
+        <profile>
+            <id>examples</id>
+            <modules>
+                <module>examples</module>
             </modules>            
         </profile>
     </profiles>
