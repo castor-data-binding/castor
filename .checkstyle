@@ -11,9 +11,6 @@
         <file-match-pattern match-pattern="cpactf[/\\]src[/\\]test[/\\]java[/\\].*\.java" include-pattern="true"/>
         <file-match-pattern match-pattern="cpaptf[/\\]src[/\\]test[/\\]java[/\\].*\.java" include-pattern="true"/>
     </fileset>
-    <fileset name="anttask main" enabled="true" check-config-name="castor-main-checks" local="true">
-        <file-match-pattern match-pattern="anttask[/\\]src[/\\]main[/\\]java[/\\].*\.java" include-pattern="true"/>
-    </fileset>
     <fileset name="codegen main" enabled="true" check-config-name="castor-main-checks" local="true">
         <file-match-pattern match-pattern="codegen[/\\]src[/\\]main[/\\]java[/\\].*\.java" include-pattern="true"/>
     </fileset>
@@ -30,5 +27,11 @@
         <file-match-pattern match-pattern="cpa[/\\]src[/\\]main[/\\]java[/\\].*\.java" include-pattern="true"/>
         <file-match-pattern match-pattern="cpactf[/\\]src[/\\]main[/\\]java[/\\].*\.java" include-pattern="true"/>
         <file-match-pattern match-pattern="cpa[/\\]src[/\\]main[/\\]java[/\\]org[/\\]castor[/\\]jdo[/\\]conf[/\\].*\.java" include-pattern="false"/>
+    </fileset>
+    <fileset name="anttask main" enabled="true" check-config-name="castor-main-checks" local="true">
+        <file-match-pattern match-pattern="anttask[/\\]src[/\\]main[/\\]java[/\\].*\.java" include-pattern="true"/>
+    </fileset>
+    <fileset name="schema main" enabled="true" check-config-name="castor-main-checks" local="true">
+        <file-match-pattern match-pattern="schema[/\\]src[/\\]main[/\\]java[/\\].*\.java" include-pattern="true"/>
     </fileset>
 </fileset-config>
