@@ -39,7 +39,7 @@ import java.util.IdentityHashMap;
  */
 public class CycleBreaker {
     /** Hash of threads and objects that we are keeping track of. */
-    private static IdentityHashMap threadHash = new IdentityHashMap();
+    private static IdentityHashMap _threadHash = new IdentityHashMap();
     
     /**
      * Test to see if we are about to begin cycling on a method call to beingHashed.
@@ -47,14 +47,14 @@ public class CycleBreaker {
      * @param beingHashed the object to check for a cycle.
      * @return true if a cycle is about to occur on this non-null object.
      */
-    public static boolean startingToCycle(Object beingHashed) {
-        if (beingHashed==null) {
+    public static boolean startingToCycle(final Object beingHashed) {
+        if (beingHashed == null) {
             return false;
         }
         
-        Object hthr = threadHash.get(Thread.currentThread());
+        Object hthr = _threadHash.get(Thread.currentThread());
         if (hthr == null) {
-            threadHash.put(Thread.currentThread(), hthr = new IdentityHashMap());
+            _threadHash.put(Thread.currentThread(), hthr = new IdentityHashMap());
             ((IdentityHashMap) hthr).put(beingHashed, beingHashed); 
             return false; // first call. no cycle detected
         }
@@ -73,17 +73,17 @@ public class CycleBreaker {
      * 
      * @param beingHashed the object for which the cycle-lock will be released.
      */
-    public static void releaseCycleHandle(Object beingHashed) {
+    public static void releaseCycleHandle(final Object beingHashed) {
         if (beingHashed == null) {
             return;
         }
-        Object hthr = threadHash.get(Thread.currentThread());
+        Object hthr = _threadHash.get(Thread.currentThread());
         if (hthr != null) {
             if (((IdentityHashMap) hthr).containsKey(beingHashed)) {
                 ((IdentityHashMap) hthr).remove(beingHashed); 
                 // release any references if we have no more CycleHandles
                 if (((IdentityHashMap) hthr).size() == 0) {
-                    threadHash.remove(hthr);
+                    _threadHash.remove(hthr);
                 }
             }
         }

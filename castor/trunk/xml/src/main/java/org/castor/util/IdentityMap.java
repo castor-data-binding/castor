@@ -175,7 +175,7 @@ public final class IdentityMap implements Map {
     }
 
     /**
-     * Check for prime number
+     * Check for prime number.
      * 
      * @param  candidate  Number to be checked for being a prime number.
      * @return <code>true</code> if the given number is a prime number
@@ -346,7 +346,7 @@ public final class IdentityMap implements Map {
         private Entry   _next = null;
 
         /**
-         * Construct an entry
+         * Construct an entry.
          * 
          * @param key    Key of entry.
          * @param hash   Identity hashcode of key.
