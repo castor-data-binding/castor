@@ -34,4 +34,7 @@
     <fileset name="schema main" enabled="true" check-config-name="castor-main-checks" local="true">
         <file-match-pattern match-pattern="schema[/\\]src[/\\]main[/\\]java[/\\].*\.java" include-pattern="true"/>
     </fileset>
+    <fileset name="xml main" enabled="true" check-config-name="castor-main-checks" local="true">
+        <file-match-pattern match-pattern="xml[/\\]src[/\\]main[/\\]java[/\\].*\.java" include-pattern="true"/>
+    </fileset>
 </fileset-config>

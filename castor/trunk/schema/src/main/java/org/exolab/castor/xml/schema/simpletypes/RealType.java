@@ -76,6 +76,16 @@ public class RealType extends AtomicType {
     public long getMaxMantissa()                    { return _maxMantissa; }
     public long getMinExponent()                    { return _minExponent; }
     public long getMaxExponent()                    { return _maxExponent; }
+    
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.SimpleType#isNumericType()
+     */
+    public boolean isNumericType() {
+        return true;
+    }
+    
 }
 
 

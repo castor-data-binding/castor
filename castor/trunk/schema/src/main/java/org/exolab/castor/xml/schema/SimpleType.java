@@ -45,80 +45,78 @@
 
 package org.exolab.castor.xml.schema;
 
-import org.exolab.castor.xml.*;
-
 import java.util.Enumeration;
-import java.util.Iterator;
+
+import org.exolab.castor.xml.ValidationException;
 
 /**
- * An XML Schema SimpleType
+ * An XML Schema SimpleType.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr 2006) $
 **/
 
 public abstract class SimpleType extends XMLType
-    implements Referable
-{
+    implements Referable {
 
     /**
      * The value of the final attribute used for 
-     * blocking all types of derivation
+     * blocking all types of derivation.
     **/
     public static final String FINAL_ALL         = "#all";
     
     /**
      * The value of the final attribute used for 
-     * blocking list derivation
+     * blocking list derivation.
     **/
     public static final String FINAL_LIST        = "list";
     
     /**
      * The value of the final attribute used for 
-     * blocking union derivation
+     * blocking union derivation.
     **/
     public static final String FINAL_UNION       = "union";
     
     /**
      * The value of the final attribute used for 
-     * blocking restriction derivation
+     * blocking restriction derivation.
     **/
     public static final String FINAL_RESTRICTION = "restriction";
     
     /**
-     * The constraining facets of this type
+     * The constraining facets of this type.
     **/
-    private FacetList facets     = null;
+    private FacetList _facets = null;
 
     /**
-     * The value of the final attribute (optional)
+     * The value of the final attribute (optional).
     **/
     private String _final = null;
     
     /**
-     * The parent structure of this SimpleType
+     * The parent structure of this {@link SimpleType}.
      * (Schema, AttributeDecl or ElementDecl)
     **/
-    private Structure parent = null;
+    private Structure _parent = null;
 
 
     /**
-     * The code for this simple type
+     * The code for this simple type.
      * (As defined by SimpleTypesFactory)
     **/
-    private int typeCode= SimpleTypesFactory.INVALID_TYPE;
+    private int _typeCode = SimpleTypesFactory.INVALID_TYPE;
 
     /**
-     * An attribute that indicates if this SimpleType is
-     * a redefinition
+     * An attribute that indicates if this {@link SimpleType} is
+     * a redefinition.
      */
     private boolean _redefinition = false;
     
     /**
-     * Default constructor
+     * Default constructor.
      */
     public SimpleType() {
         super();
-        this.facets  = new FacetList();
+        this._facets  = new FacetList();
     }
 
 
@@ -126,41 +124,49 @@ public abstract class SimpleType extends XMLType
      * Adds the given Facet to this Simpletype.
      * @param facet the Facet to add to this Simpletype
     **/
-    public void addFacet(Facet facet) {
+    public void addFacet(final Facet facet) {
 
-        if (facet == null) return;
+        if (facet == null) {
+            return;
+        }
 
         String name = facet.getName();
 
-        if (name == null) return;
+        if (name == null) {
+            return;
+        }
 
-        facets.add(facet);
+        _facets.add(facet);
 
-    } //-- addFacet
+    }
 
     /**
-     * Returns the first facet associated with the given name
+     * Returns the first facet associated with the given name.
+     * @param name the name of the Facet to look for
      * @return the first facet associated with the given name
     **/
-    public Facet getFacet(String name) {
-        Enumeration facets= getFacets(name);
+    public Facet getFacet(final String name) {
+        Enumeration facets = getFacets(name);
 
-        if (facets == null) return null;
+        if (facets == null) {
+            return null;
+        }
 
-        return (Facet)facets.nextElement();
-    } //-- getFacet
+        return (Facet) facets.nextElement();
+    }
 
     /**
-     * Returns the facets associated with the given name
+     * Returns the facets associated with the given name.
+     * @param name the name of the Facet to look for
      * @return the facets associated with the given name
     **/
-    public Enumeration getFacets(String name) {
+    public Enumeration getFacets(final String name) {
         FacetListEnumerator fle = null;
-        SimpleType datatype = (SimpleType)getBaseType();
+        SimpleType datatype = (SimpleType) getBaseType();
         if (datatype != null) {
-            fle = (FacetListEnumerator)datatype.getFacets(name);
+            fle = (FacetListEnumerator) datatype.getFacets(name);
         }
-        fle = new FacetListEnumerator(facets, fle);
+        fle = new FacetListEnumerator(_facets, fle);
         fle.setMask(name);
         return fle;
     } //-- getFacets
@@ -172,13 +178,13 @@ public abstract class SimpleType extends XMLType
     **/
     public Enumeration getFacets() {
         FacetListEnumerator fle = null;
-        SimpleType datatype = (SimpleType)getBaseType();
+        SimpleType datatype = (SimpleType) getBaseType();
         if (datatype != null) {
-            fle = (FacetListEnumerator)datatype.getFacets();
+            fle = (FacetListEnumerator) datatype.getFacets();
         }
-        fle = new FacetListEnumerator(facets, fle);
+        fle = new FacetListEnumerator(_facets, fle);
         return fle;
-    } //-- getFacets
+    }
 
 
     /**
@@ -191,16 +197,63 @@ public abstract class SimpleType extends XMLType
     **/
     public String getFinal() {
         return _final;
-    } //-- getFinal
+    }
     
     /**
-     * Returns the facets of this type (without the parent's facets)
+     * Returns the facets of this type (without the parent's facets).
+     * @return the local facets of this type.
      */
     public Enumeration getLocalFacets()    {
-        if (facets == null) return null;
-        return facets.enumerate();
+        if (_facets == null) {
+            return null;
+        }
+        return _facets.enumerate();
     }
 
+    /**
+     * Returns an enumeration of the effective facets for this type.
+     * A set of effective facets contains all local facets
+     * and only those inherited facets that are not overridden
+     * by the local facets.
+     *
+     * @return an enumeration of the effective facets for this type.
+     *
+     * @see #getLocalFacets()
+     * @see #getFacets() 
+     */
+    public Enumeration getEffectiveFacets() {
+        final Enumeration localFacets = getLocalFacets();
+        final SimpleType baseType = (SimpleType) getBaseType();
+        if (baseType == null) {
+            // There's no base type ==> return local facets
+            return localFacets;
+        }
+        final Enumeration effectiveBaseFacets = baseType.getEffectiveFacets();
+        if (localFacets == null) {
+            // There's a base type, but no local facets ==> return
+            // effective facets of the base type
+            return effectiveBaseFacets;
+        }
+        // There are both local and inherited facets ==> merge them
+        final FacetList filteredBaseFacets = new FacetList();
+        OUTER:
+        while (effectiveBaseFacets.hasMoreElements()) {
+            final Facet baseFacet = (Facet) effectiveBaseFacets.nextElement();
+            // Check whether one of the local facets
+            // overrides the inherited facet
+            for (int i = 0; i < _facets.size(); i++) {
+                final Facet localFacet = _facets.get(i);
+                if (localFacet.overridesBase(baseFacet)) {
+                    continue OUTER;
+                }
+            }
+            // Base facet is not overridden ==> keep it in the list
+            filteredBaseFacets.add(baseFacet);
+        }
+        return new FacetListEnumerator(
+                _facets,
+                (FacetListEnumerator) filteredBaseFacets.enumerate());
+    }
 
     /**
      * Returns the built in type this type is derived from.
@@ -220,7 +273,7 @@ public abstract class SimpleType extends XMLType
      * @return the parent of this SimpleType
     **/
     public Structure getParent() {
-        return parent;
+        return _parent;
     } //-- getParent
 
     /**
@@ -240,31 +293,53 @@ public abstract class SimpleType extends XMLType
      * @return true if this Simpletype has a specified Facet
      * with the given name
     **/
-    public boolean hasFacet(String name) {
-        if (name == null) return false;
-        for (int i = 0; i < facets.size(); i++) {
-            Facet facet = facets.get(i);
-            if (name.equals(facet.getName())) return true;
+    public boolean hasFacet(final String name) {
+        if (name == null) {
+            return false;
+        }
+        for (int i = 0; i < _facets.size(); i++) {
+            Facet facet = _facets.get(i);
+            if (name.equals(facet.getName())) {
+                return true;
+            }
         }
         return false;
-    } //-- hasFacet
-
+    }
 
     /**
-     * Returns true if this SimpleType is a built in type
+     * Returns true if this SimpleType is a built in type.
      * @return true if this SimpleType is a built in type
     **/
     public boolean isBuiltInType() {
-        return SimpleTypesFactory.isBuiltInType( typeCode );
-    } //-- isBuiltInType
+        return SimpleTypesFactory.isBuiltInType(_typeCode);
+    }
     
+    /**
+     * Indicates whether this {@link SimpleType} is a numeric type.
+     * @return True if this SimpleType is a numeric type
+    **/
+    public boolean isNumericType() {
+        if (!isBuiltInType()) {
+            return ((SimpleType) getBaseType()).isNumericType();
+        }
+        return false;
+    }    
+
+    /**
+     * Indicates whether this {@link SimpleType} is a date/time type.
+     * @return True if this SimpleType is a date/time type
+    **/
+    public boolean isDateTimeType() {
+        return SimpleTypesFactory.isDateTimeType(_typeCode);
+    }
+
     /**
      * Returns true if this simpleType is a redefinition.
      * 
      * @return true if this simpleType is a redefinition.
      */
     public boolean isRedefined() {
-    	return _redefinition;
+        return _redefinition;
     }
     
 
@@ -272,20 +347,26 @@ public abstract class SimpleType extends XMLType
      * Sets this Group has redefined. 
      */
     public void setRedefined() {
-    	_redefinition = true;
+        _redefinition = true;
     }
     
     /**
-     * Gets the code for this simple type 
+     * Gets the code for this simple type. 
      * (as defined in SimpleTypesFactory)
      *
      * @return the type code for this simple type
     **/
-    public int getTypeCode() { return typeCode; }
+    public int getTypeCode() { 
+        return _typeCode; 
+    }
 
 
-    /** Package private setter of the code for this simple type **/
-    void setTypeCode(int code) { typeCode= code; }
+    /** 
+     * Package private setter of the code for this simple type. 
+     **/
+    void setTypeCode(final int code) { 
+        _typeCode = code;
+    }
 
 
 
@@ -364,7 +445,7 @@ public abstract class SimpleType extends XMLType
      */
     public boolean removeFacet(Facet facet) {
         if (facet == null) return false;
-        return facets.remove(facet);
+        return _facets.remove(facet);
     } //-- removeFacet
     
     
@@ -380,10 +461,10 @@ public abstract class SimpleType extends XMLType
      */
     public boolean removeFacet(String name) {
         if (name == null) return false;
-        for (int i = facets.size()-1; i > 0; i--) {
-            Facet facet = facets.get(i);
+        for (int i = _facets.size()-1; i > 0; i--) {
+            Facet facet = _facets.get(i);
             if (name.equals(facet.getName())) {
-                facets.remove(i);
+                _facets.remove(i);
                 return true;
             }
         }
@@ -428,17 +509,33 @@ public abstract class SimpleType extends XMLType
     } //-- getStructureType
 
     /**
-     * Checks the validity of this SimpleType defintion.
+     * Checks the validity of this SimpleType definition.
      *
      * @throws ValidationException when this SimpleType definition
      * is invalid.
     **/
-    public void validate()
-        throws ValidationException
-    {
-        //-- NOT YET IMPLEMENTED
-        
-    } //-- validate
+    public void validate() throws ValidationException {
+        final Enumeration localFacets = getLocalFacets();
+        final SimpleType datatype = (SimpleType) getBaseType();
+        if (localFacets != null) {
+            while (localFacets.hasMoreElements()) {
+                final Facet facet = (Facet) localFacets.nextElement();
+                Enumeration baseFacets = null;
+                if (datatype != null) {
+                    baseFacets = datatype.getFacets();
+                }
+                try {
+                    facet.checkConstraints(getLocalFacets(), baseFacets);
+                } catch (SchemaException e) {
+                    throw new ValidationException(
+                            "Facet validation failed for type '" + getName() + "'", e);
+                }
+            }
+        }
+
+        //-- TODO: NOT YET FULLY IMPLEMENTED
+
+    }
 
     //-- protected Methods -/
 
@@ -469,7 +566,7 @@ public abstract class SimpleType extends XMLType
      * Currently this should only be Schema, ElementDecl or AttributeDecl.
     **/
     protected void setParent(Structure parent) {
-        this.parent = parent;
+        this._parent = parent;
     } //-- setParent
 
     /**
@@ -478,7 +575,7 @@ public abstract class SimpleType extends XMLType
      * @param target the SimpleType to copy facets to
      */
     protected void copyFacets(SimpleType target) { 
-        target.facets.add(facets); 
+        target._facets.add(_facets); 
     } //-- copyFacets
     
     /**

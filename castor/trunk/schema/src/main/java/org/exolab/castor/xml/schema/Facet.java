@@ -44,6 +44,9 @@
  */
 package org.exolab.castor.xml.schema;
 
+import java.math.BigDecimal;
+import java.util.Enumeration;
+
 import org.exolab.castor.xml.ValidationException;
 
 /**
@@ -87,11 +90,16 @@ public class Facet extends Annotated {
     private final String  _value;
 
     /**
-     * Creates a new Facet with the given name
+     * The owning {@link SimpleType} instance. 
+     */
+    private SimpleType _owningType;
+
+    /**
+     * Creates a new Facet with the given name.
      * @param name the name of the Facet
      * @param value the value of the Facet
     **/
-    public Facet(String name, String value) {
+    public Facet(final String name, final String value) {
         if (name == null) {
             String err = NULL_ARGUMENT;
             err += "Facet: 'name' and 'value' must not be null.";
@@ -104,18 +112,18 @@ public class Facet extends Annotated {
         }
         this._name  = name;
         this._value = value;
-    } //-- Facet
+    }
 
     /**
-     * Returns the name of this Facet
+     * Returns the name of this Facet.
      * @return the name of this Facet
     **/
     public String getName() {
         return _name;
-    } //-- getName
+    }
 
     /**
-     * Returns the character (String) representation of this facet
+     * Returns the character (String) representation of this facet.
      * @return the value of this facet
     **/
     public String getValue() {
@@ -132,68 +140,81 @@ public class Facet extends Annotated {
     }
 
     /**
-     * Returns an int representation of the value of this facet
+     * Returns an int representation of the value of this facet.
      * @return an int representation of the value of this facet
      * @throws NumberFormatException if the value fails to parse as a int.
     **/
     public int toInt() throws NumberFormatException {
         return Integer.parseInt(_value);
-    } //-- toInt
+    }
 
     /**
-     * Returns a long representation of the value of this facet
+     * Returns a long representation of the value of this facet.
      * @return a long representation of the value of this facet
      * @throws NumberFormatException if the value fails to parse as a long.
     **/
     public long toLong() throws NumberFormatException {
         return Long.parseLong(_value);
-    } //-- toInt
+    }
 
     /**
-     * Returns an short representation of the value of this facet
+     * Returns an short representation of the value of this facet.
      * @return an short representation of the value of this facet
      * @throws NumberFormatException if the value fails to parse as a short.
     **/
     public short toShort() throws NumberFormatException {
         return Short.parseShort(_value);
-    } //-- toShort
+    }
 
     /**
-     * Returns a double representation of the value of this facet
+     * Returns a double representation of the value of this facet.
      * @return a double representation of the value of this facet
      * @throws NumberFormatException if the value fails to parse as a float.
      */
     public float toFloat() throws NumberFormatException {
-        if (_value.equals("INF")) return Float.POSITIVE_INFINITY;
-        if (_value.equals("-INF")) return Float.NEGATIVE_INFINITY;
+        if (_value.equals("INF")) {
+            return Float.POSITIVE_INFINITY;
+        }
+        if (_value.equals("-INF")) {
+            return Float.NEGATIVE_INFINITY;
+        }
         return Float.valueOf(_value).floatValue();
-    } //-- toInt
+    }
 
     /**
-     * Returns a double representation of the value of this facet
+     * Returns a double representation of the value of this facet.
      * @return a double representation of the value of this facet
      * @throws NumberFormatException if the value fails to parse as a double.
     **/
     public double toDouble() throws NumberFormatException {
         return Double.valueOf(_value).doubleValue();
-    } //-- toInt
+    }
 
     /**
-     * Returns a byte representation of the value of this facet
+     * Returns a byte representation of the value of this facet.
      * @return a byte representation of the value of this facet
      * @throws NumberFormatException if the value fails to parse as a byte.
     **/
     public byte toByte() throws NumberFormatException {
         return Byte.parseByte(_value);
-    } //-- toInt
+    }
 
     /**
-     * Returns the type of this Schema Structure
+     * Returns a {@link BigDecimal} representation of the value of this facet.
+     * @return a {@link BigDecimal} representation of the value of this facet
+     * @throws NumberFormatException if the value cannot be parsed as number
+     */
+    public BigDecimal toBigDecimal() throws NumberFormatException {
+        return new BigDecimal(_value);
+    }
+
+    /**
+     * Returns the type of this Schema Structure.
      * @return the type of this Schema Structure
     **/
     public short getStructureType() {
         return Structure.FACET;
-    } //-- getStructureType
+    }
 
     /**
      * Checks the validity of this Schema defintion.
@@ -201,7 +222,68 @@ public class Facet extends Annotated {
      * is invalid.
     **/
     public void validate() throws ValidationException {
+        // TODO: shouldn't this be converted to an abstract method ? 
          //-- do nothing for now
-    } //-- validate
+    }
+
+    /**
+     * Checks whether the current facet overrides a facet of the base data type.
+     * This does generally happen when a data type is derived by restriction
+     * and it therefore has facet(s), which are more restrictive than the ones
+     * of the base data type.
+     *
+     * <p>This method is used for merging facets of the base and derived types,
+     * in order to create an effective set of facets for the derived type.
+     *
+     * <p>It's important to note that this method does not perform any validity
+     * checks. Validation must be generally performed <b>before</b> trying
+     * to merge facets of the base and derived types.
+     *
+     * @param baseFacet a facet of the base data type
+     * @return <code>true</code>,
+     *         if the current facet overrides <code>baseFacet</code>;
+     *         <code>false</code>, otherwise.
+     * 
+     * @see #checkConstraints(Enumeration,Enumeration)
+     * @see SimpleType#getEffectiveFacets()
+     */
+    public boolean overridesBase(final Facet baseFacet) {
+        return getName().equals(baseFacet.getName());
+    }
+
+    /**
+     * Checks the constraints on the current facet against
+     * the other local facets of the same derived data type
+     * and facets of the base data type.
+     * Validation is performed according to the rules defined in
+     * "<a href="http://www.w3.org/TR/xmlschema-2/">XML Schema Part 2:
+     * Datatypes Second Edition</a>" document.
+     *
+     * @param localFacets local facets of the data type
+     * @param baseFacets  merged facets of the base data type
+     * @throws SchemaException when the current facet does not satisfy
+     *                         schema component validation constraints
+     */
+    public void checkConstraints(
+            final Enumeration localFacets, final Enumeration baseFacets)
+            throws SchemaException {
+        // Does nothing by default
+    }
+
+    /**
+     * Sets the owning {@link SimpleType} instance.
+     * @param owningType The owning {@link SimpleType} instance.
+     */
+    public void setOwningType(final SimpleType owningType) {
+        _owningType = owningType;
+    }
+
+    /**
+     * Returns the owning {@link SimpleType} instance.
+     * @return The owning {@link SimpleType} instance.
+     */
+    public SimpleType getOwningType() {
+        return _owningType;
+    }
 
 } //-- Facet

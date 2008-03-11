@@ -51,6 +51,7 @@ import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
 import org.exolab.castor.xml.schema.Annotation;
 import org.exolab.castor.xml.schema.Facet;
+import org.exolab.castor.xml.schema.FacetFactory;
 import org.exolab.castor.xml.schema.SchemaContext;
 import org.exolab.castor.xml.schema.SchemaException;
 import org.exolab.castor.xml.schema.SchemaNames;
@@ -68,7 +69,7 @@ public class FacetUnmarshaller extends ComponentReader {
     //--------------------/
 
     /**
-     * The current ComponentReader
+     * The current ComponentReader.
     **/
     private ComponentReader unmarshaller = null;
 
@@ -111,9 +112,10 @@ public class FacetUnmarshaller extends ComponentReader {
             throw new IllegalArgumentException(err);
         }
 
-        _facet = new Facet(name, atts.getValue(SchemaNames.VALUE_ATTR));
+        _facet = FacetFactory.getInstance().createFacet(
+                name, atts.getValue(SchemaNames.VALUE_ATTR));
 
-    } //-- ArchetypeUnmarshaller
+    } //-- FacetUnmarshaller
 
       //-----------/
      //- Methods -/

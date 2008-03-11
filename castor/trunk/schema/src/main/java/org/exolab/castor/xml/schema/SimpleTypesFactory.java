@@ -45,23 +45,24 @@
 
 package org.exolab.castor.xml.schema;
 
-import java.io.PrintWriter;
-import java.io.PrintStream;
 import java.io.InputStream;
-
-import java.util.Vector;
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.Hashtable;
+import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.util.Messages;
 import org.exolab.castor.mapping.Mapping;
-
 import org.exolab.castor.xml.Unmarshaller;
-import org.exolab.castor.xml.schema.SchemaException;
-import org.exolab.castor.xml.schema.simpletypes.*;
-import org.exolab.castor.xml.schema.simpletypes.factory.*;
-
+import org.exolab.castor.xml.schema.simpletypes.AtomicType;
+import org.exolab.castor.xml.schema.simpletypes.ListType;
+import org.exolab.castor.xml.schema.simpletypes.RealType;
+import org.exolab.castor.xml.schema.simpletypes.UrType;
+import org.exolab.castor.xml.schema.simpletypes.factory.Type;
+import org.exolab.castor.xml.schema.simpletypes.factory.TypeList;
+import org.exolab.castor.xml.schema.simpletypes.factory.TypeProperty;
 import org.xml.sax.InputSource;
 
 /**
@@ -181,29 +182,57 @@ public class SimpleTypesFactory {
     private static final Schema _builtInSchema = new Schema();
 
      /**
-     * Tells if a type code corresponds to an xml schema built in type
+     * Indicates if a type code corresponds to an xml schema built in type.
+     * @param codeType The type code to check.
+     * @return True if the given type code represents an XML schema built-in type.
      */
-    public static boolean isBuiltInType(int codeType)
-    {
+    public static boolean isBuiltInType(final int codeType) {
         return USER_TYPE < codeType;
     }
 
     /**
-     * Tells if a type code corresponds to an xml schema (built in) primitive type
+     * Tells if a type code corresponds to an xml schema (built-in) 
+     * primitive type.
+     * @param codeType The type code to check.
+     * @return True if the given type code represents an XML schema built-in primitive type.
      */
-    public static boolean isPrimitiveType(int codeType)
-    {
-        return (STRING_TYPE <= codeType)&&(codeType <= NOTATION_TYPE);
+    public static boolean isPrimitiveType(final int codeType) {
+        return (STRING_TYPE <= codeType) && (codeType <= NOTATION_TYPE);
     }
+    
+    /**
+     * Tells if a type code corresponds to an xml schema (built-in) 
+     * numeric type.
+     * @param codeType The type code to check.
+     * @return True if the given type code represents an XML schema built-in numeric type.
+     */
+    public static boolean isNumericType(final int codeType) {
+        return ((FLOAT_TYPE <= codeType) && (codeType <= DECIMAL_TYPE)) 
+        || ((INTEGER_TYPE <= codeType) && (codeType <= POSITIVE_INTEGER_TYPE));
+    }
+    
+    /**
+     * Tells if a type code corresponds to an xml schema (built-in) 
+     * date/time type.
+     * @param codeType The type code to check.
+     * @return True if the given type code represents an XML schema built-in date/time type.
+     */
+    public static boolean isDateTimeType(final int codeType) {
+        return (DURATION_TYPE <= codeType) && (codeType <= GMONTH_TYPE);
+    }
+    
 
     /**
-     * Gets an instance of a class derived from SimpleType representing the
+     * Gets an instance of a class derived from {@link SimpleType} representing the
      * built in type which name is given as a parameter.
+     * @param typeName Name of the simple type.
+     * @return The {@link SimpleType} instance for the type name.
      */
-    public SimpleType getBuiltInType(String typeName)
-    {
-        Type type= getType(typeName);
-        if (type == null) return null;
+    public SimpleType getBuiltInType(final String typeName) {
+        Type type = getType(typeName);
+        if (type == null) {
+            return null;
+        }
         return type.getSimpleType();
     }
 
@@ -500,22 +529,28 @@ public class SimpleTypesFactory {
         }
 
         //Adds the facets to the result
-        Vector facets= type.getFacet();
-        for (int index= 0; index < facets.size(); index++) {
-            TypeProperty prop= (TypeProperty)facets.elementAt(index);
+        Vector facets = type.getFacet();
+        FacetFactory facetFactory = FacetFactory.getInstance();
+        for (int index = 0; index < facets.size(); index++) {
+            TypeProperty prop = (TypeProperty) facets.elementAt(index);
             if (!prop.getPseudo()) {
                 //adds a "real" facet (defined in the xml specs)
-                result.addFacet( new Facet(prop.getName(), prop.getValue()) );
-            }
-            else {
+                Facet facet = facetFactory.createFacet(prop.getName(), prop.getValue());
+                facet.setOwningType(result);
+                result.addFacet(facet);
+            } else {
                 //sets the information linked with the pseudo facet
-                if (RealType.class.isInstance(result))
-                {
-                    RealType realResult= (RealType)result;
-                    if      (prop.getName().equals("minM")) realResult.setMinMantissa( Long.parseLong(prop.getValue()) );
-                    else if (prop.getName().equals("maxM")) realResult.setMaxMantissa( Long.parseLong(prop.getValue()) );
-                    else if (prop.getName().equals("minE")) realResult.setMinExponent( Long.parseLong(prop.getValue()) );
-                    else if (prop.getName().equals("maxE")) realResult.setMaxExponent( Long.parseLong(prop.getValue()) );
+                if (RealType.class.isInstance(result)) {
+                    RealType realResult = (RealType) result;
+                    if (prop.getName().equals("minM")) {
+                        realResult.setMinMantissa(Long.parseLong(prop.getValue()));
+                    } else if (prop.getName().equals("maxM")) {
+                        realResult.setMaxMantissa(Long.parseLong(prop.getValue()));
+                    } else if (prop.getName().equals("minE")) {
+                        realResult.setMinExponent(Long.parseLong(prop.getValue()));
+                    } else if (prop.getName().equals("maxE")) {
+                        realResult.setMaxExponent(Long.parseLong(prop.getValue()));
+                    }
                 }
             }
         }
