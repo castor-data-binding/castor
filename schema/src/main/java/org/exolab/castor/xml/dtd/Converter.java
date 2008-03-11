@@ -68,6 +68,7 @@ import org.exolab.castor.xml.schema.ContentType;
 import org.exolab.castor.xml.schema.Documentation;
 import org.exolab.castor.xml.schema.ElementDecl;
 import org.exolab.castor.xml.schema.Facet;
+import org.exolab.castor.xml.schema.FacetFactory;
 import org.exolab.castor.xml.schema.Group;
 import org.exolab.castor.xml.schema.Order;
 import org.exolab.castor.xml.schema.Particle;
@@ -544,6 +545,7 @@ public class Converter {
        {
            type = schema.getSimpleType( schema.getBuiltInTypeName(SimpleTypesFactory.ENTITY_TYPE) );
        }
+       
        else if (dtdAttribute.isENTITIESType())
        {
            type = schema.getSimpleType( schema.getBuiltInTypeName(SimpleTypesFactory.ENTITIES_TYPE) );
@@ -562,8 +564,12 @@ public class Converter {
                             schema.getBuiltInTypeName(SimpleTypesFactory.NOTATION_TYPE),
                                                                         "restriction");
            Iterator values = dtdAttribute.getValues();
-           while(values.hasNext()) {
-               type.addFacet(new Facet(Facet.ENUMERATION, (String)values.next()));
+           FacetFactory facetFactory = FacetFactory.getInstance();
+           while (values.hasNext()) {
+            Facet facet = facetFactory.createFacet(
+                       Facet.ENUMERATION, (String) values.next());
+            facet.setOwningType(type);
+            type.addFacet(facet);
            }
 
        }
@@ -573,8 +579,12 @@ public class Converter {
                             schema.getBuiltInTypeName(SimpleTypesFactory.NMTOKEN_TYPE),
                                                                         "restriction");
           Iterator values = dtdAttribute.getValues();
-          while(values.hasNext()) {
-             type.addFacet(new Facet(Facet.ENUMERATION, (String)values.next()));
+          FacetFactory facetFactory = FacetFactory.getInstance();
+          while (values.hasNext()) {
+            Facet facet = facetFactory.createFacet(
+                     Facet.ENUMERATION, (String)values.next());
+            facet.setOwningType(type);
+            type.addFacet(facet);
           }
        }
        else

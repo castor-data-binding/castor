@@ -53,6 +53,16 @@ package org.exolab.castor.xml.schema.simpletypes;
 public class DecimalType extends AtomicType {
     /** SerialVersionUID */
     private static final long serialVersionUID = -5292080472364200642L;
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.SimpleType#isNumericType()
+     */
+    public boolean isNumericType() {
+        return true;
+    }
+    
 }
 
 

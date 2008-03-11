@@ -35,6 +35,27 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1107" tool="jira">
+                    <description>
+                        Added code to the XML code generator to validate XML schema 
+                        constraints (partially).
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Sergei Ivanov</name>
+                        <email>sergei_ivanov@mail.ru</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XMLGen</module>
+                    <date>20080311</date>
+                </bug>
                 <bug id="2295" tool="jira">
                     <description>
                         Two things have been changed. First the AbstractResolverPackageCommand will work even if no

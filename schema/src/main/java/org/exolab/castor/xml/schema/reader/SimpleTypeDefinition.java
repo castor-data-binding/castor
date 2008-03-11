@@ -206,6 +206,10 @@ public class SimpleTypeDefinition {
         _final = finalValue;
     }
 
+    Object getBaseType() {
+        return _baseType;
+    }
+
 } //-- SimpleTypeDefinition
 
 

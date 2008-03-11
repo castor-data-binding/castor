@@ -247,7 +247,9 @@ public class SimpleTypeRestrictionUnmarshaller extends ComponentReader {
             _typeDefinition.setBaseType(type);
         }
         else {
-            _typeDefinition.addFacet((Facet)unmarshaller.getObject());
+            Facet facet = (Facet) unmarshaller.getObject();
+            facet.setOwningType((SimpleType) _typeDefinition.getBaseType());
+            _typeDefinition.addFacet(facet);
         }
 
 

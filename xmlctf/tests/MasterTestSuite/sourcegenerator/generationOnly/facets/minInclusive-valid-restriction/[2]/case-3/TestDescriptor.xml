@@ -21,20 +21,15 @@
 		<Schema>test.xsd</Schema>
 		<UnitTestCase>
 			<Name>Test Source Generation</Name>
-			<!--
 			<Failure
 				exception="org.exolab.castor.xml.ValidationException"
 				FailureStep="source-generation">
 				true
 			</Failure>
-			-->
 			<Comment>
 				Must fail because minInclusive is greater than
 				the parent maxInclusive
 			</Comment>
-			<Comment>SKIP is set until the relevant functionality is implemented</Comment>
-			<Comment>The test case cannot go to completion at the moment</Comment>
-			<Skip>true</Skip>
 		</UnitTestCase>
 	</OnlySourceGenerationTest>
 

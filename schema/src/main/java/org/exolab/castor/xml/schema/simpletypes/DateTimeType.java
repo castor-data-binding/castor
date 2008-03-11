@@ -53,6 +53,17 @@ package org.exolab.castor.xml.schema.simpletypes;
 public class DateTimeType extends AtomicType {
     /** SerialVersionUID */
     private static final long serialVersionUID = 799183446555870630L;
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.SimpleType#isDateTimeType()
+     */
+    public boolean isDateTimeType() {
+        return true;
+    }
+    
+    
 }
 
 
