@@ -104,13 +104,13 @@
             <td>0.9.1</td>
           </crow>
           <crow>
-            <td><a href="#Class-printing">org.exolab.castor.builder.jclassPrinterTypes</a></td>
-            <td>Specifies which <b>mode</b> to use for class <i>printing</i> during
+            <td><a href="#Class-printing">org.exolab.castor.builder.jclassPrinterFactories</a></td>
+            <td>Enlists the available modes for (J)Class <i>printing</i> during
                 XML code generation.</td>
-            <td><tt>org.exolab.castor.builder.printing.WriterJClassPrinter</tt>/
-                <tt>org.exolab.castor.builder.printing.TemplateJClassPrinter</tt></td>
-            <td><tt>org.exolab.castor.builder.printing.WriterJClassPrinter</tt></td>
-            <td><font color="red">1.2</font></td>
+            <td><tt>org.exolab.castor.builder.printing.WriterJClassPrinterFactory</tt>/
+                <tt>org.exolab.castor.builder.printing.TemplateJClassPrinterFactory</tt></td>
+            <td>n/a</td>
+            <td><font color="red">1.2.1</font></td>
           </crow>
           <crow>
             <td><a href="#Extra-documentation-methods">org.exolab.castor.builder.extraDocumentationMethods</a></td>
@@ -502,18 +502,18 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                 
         <p>
             In order to use the new Velocity-based code generation, please
-            override the following code generator property in a custom
-            <tt>castorbuilder.properties</tt> as shown:
-                    
-            <code-panel>
-org.exolab.castor.builder.jclassPrinterTypes=\
-   org.exolab.castor.builder.printing.TemplateJClassPrinter,\
-   org.exolab.castor.builder.printing.WriterJClassPrinter</code-panel>
+            call the <api class="org.exolab.castor.builder.SourceGenerator">setJCLassPrinterType(String)</api> method on the SourceGenerator class
+            with a value of <tt>velocity</tt>.
         </p>
-                
+        
         <p>
             As we consider the code stable enough for a major release, we do encourage users 
             to use the new Velocity-based mode and to provide us with (valuable) feedback.
+        </p>
+        
+        <p>
+            Please note that we have changed the mechanics of changing the JClass printing
+            type between releases 1.2 and 1.2.1.
         </p>
      
      </section>

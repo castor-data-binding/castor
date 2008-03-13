@@ -35,6 +35,28 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2302" tool="jira">
+                    <description>
+                        Refactored JClassPrinterFactory approach and added a registy for these
+                        factories so that Velocity classes are really optional when executing 
+                        the XML code generator in standard (= default) mode.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XMLGen</module>
+                    <date>20080313/date>
+                </bug>
                 <bug id="1107" tool="jira">
                     <description>
                         Added code to the XML code generator to validate XML schema 

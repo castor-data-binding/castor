@@ -235,6 +235,14 @@ java org.exolab.castor.builder.SourceGeneratorMain -i foo-schema.xsd \
             </td>
             <td>Optional</td>
           </crow>
+          <crow>
+            <td align="center">jclassPrintingType</td>
+            <td>JClass printing mode.</td>
+            <td>Specifies the JClass printing mode to use during XML code generation; possible
+                values are<tt>standard</tt> (default) and <tt>velocity</tt>; if no value
+                is specified, the default mode is <tt>standard</tt>.</td>
+            <td>Optional</td>
+          </crow>
         </ctable>
 
         <section title="Collection Types">

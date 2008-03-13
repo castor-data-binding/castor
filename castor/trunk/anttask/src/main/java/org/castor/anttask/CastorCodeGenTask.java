@@ -67,6 +67,7 @@ import org.exolab.castor.xml.schema.SchemaContext;
 import org.exolab.castor.xml.schema.SchemaContextImpl;
 import org.exolab.castor.xml.schema.reader.Sax2ComponentReader;
 import org.exolab.castor.xml.schema.reader.SchemaUnmarshaller;
+import org.exolab.javasource.JClass;
 import org.xml.sax.InputSource;
 import org.xml.sax.Parser;
 import org.xml.sax.SAXException;
@@ -165,11 +166,16 @@ public final class CastorCodeGenTask extends MatchingTask {
     /** CastorBuilderProperties file. */
     private String _properties;
     
-    /** The name conflict strategy to use */
+    /** The name conflict strategy to use. */
     private String _nameConflictStrategy = "warnViaConsoleDialog";
     
-    /** Name of the automatic clas name conflict strategy to use */
+    /** Name of the automatic clas name conflict strategy to use. */
     private String _automaticConflictStrategy = "xpath";
+    
+    /**
+     * Mode for printing JClass instances.
+     */
+    private String _jclassPrinterType = "standard";
     
     /** SourceGenerator instance. */
     private SourceGenerator _sgen;
@@ -371,6 +377,14 @@ public final class CastorCodeGenTask extends MatchingTask {
     public void setProperties(final String properties) {
         _properties = properties;
     }
+    
+    /**
+     * Sets the mode for printing JClass instances.
+     * @param jclassPrinterType The new mode for printing {@link JClass} instances.
+     */
+    public void setJClassPrinterType(final String jclassPrinterType) {
+        _jclassPrinterType = jclassPrinterType;
+    }
 
     //--------------------------------------------------------------------------
 
@@ -438,6 +452,8 @@ public final class CastorCodeGenTask extends MatchingTask {
         _sgen.setNameConflictStrategy(_nameConflictStrategy);
         
         _sgen.setClassNameConflictResolver(_automaticConflictStrategy);
+        
+        _sgen.setJClassPrinterType(_jclassPrinterType);
 
         _sgen.setTestable(_testable);
         if (this._testable) { log(CASTOR_TESTABLE_MSG); }

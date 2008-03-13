@@ -83,70 +83,83 @@
             <th>Attribute</th>
             <th>Description</th>
             <th>Required</th>
+            <th>Since</th>
           </cheader>
           <crow>
             <td><b>package</b></td>
             <td>The default package to be used during source code generation.</td>
             <td>No; if not given, all classes will be placed in the root package.</td>
+            <td>-</td>
           </crow>
           <crow>
             <td><b>todir</b></td>
             <td>The destination directory to be used during source code generation. In
                 this directory all generated Java classes will be placed.</td>
             <td>No</td>
+            <td>-</td>
           </crow>
           <crow>
             <td><b>bindingfile</b></td>
             <td>A Castor source generator binding file, as detailed <a href="">here</a>.</td>
             <td>No</td>
+            <td>-</td>
           </crow>
           <crow>
             <td><b>lineseparator</b></td>
             <td>Defines whether to use Unix- or Windows- or Mac-style line separators during source code generation. Possible values are: 'unix', 'win' or 'mac'.</td>
             <td>No; if not set, system property 'line.separator' is used instead.</td>
+            <td>-</td>
           </crow>
           <crow>
             <td><b>types</b></td>
             <td>Defines what collection types to use (Java 1 vs. Java 2). Possible values: 'vector', 'arraylist' (aka 'j2') or 'odmg'.</td>
             <td>No; if not set, the default collection used will be Java 1 type</td>
+            <td>-</td>
           </crow>
           <crow>
             <td><b>verbose</b></td>
             <td>Whether to output any logging messages as emitted by the source generator</td>
             <td>No</td>
+            <td>-</td>
           </crow>
           <crow>
             <td><b>warnings</b></td>
             <td>Whether to suppress any warnings as otherwise emitted by the source generator</td>
             <td>No</td>
+            <td>-</td>
           </crow>
           <crow>
             <td><b>nodesc</b></td>
             <td>If used, instructs the source generator not to generate *Descriptor classes.</td>
             <td>No</td>
+            <td>-</td>
           </crow>
           <crow>
             <td><b>nomarshal</b></td>
             <td>If specified, instructs the source generator not to create (un)marshalling
                 methods within the Java classes generated.</td>
             <td>No</td>
+            <td>-</td>
           </crow>
           <crow>
             <td><b>caseInsensitive</b></td>
             <td>If used, instructs the source generator to generate code for enumerated type
                 lookup in a case insensitive manner.</td>
             <td>No</td>
+            <td>-</td>
           </crow>
           <crow>
             <td><b>sax1</b></td>
             <td>If used, instructs the source generator to generate SAX-1 compliant code.</td>
             <td>No</td>
+            <td>-</td>
           </crow>
           <crow>
             <td><b>generateImportedSchemas</b></td>
             <td>If used, instructs the source generator to generate code for imported
                 schemas as well.</td>
             <td>No</td>
+            <td>-</td>
           </crow>
           <crow>
             <td><b>nameConflictStrategy</b></td>
@@ -154,6 +167,7 @@
                 possible values are '<tt>warnViaConsoleDialog</tt>' and 
                 '<tt>informViaLog</tt>'.</td>
             <td>No</td>
+            <td>-</td>
           </crow>
           <crow>
             <td><b>properties</b></td>
@@ -162,6 +176,7 @@
                 generator through a <tt>castorbuilder.properties</tt> (that has to be
                 placed on the CLASSPATH)</td>
             <td>No</td>
+            <td>-</td>
           </crow>
           <crow>
             <td><b>automaticConflictStrategy</b></td>
@@ -169,6 +184,15 @@
                 code generation; possible values are '<tt>type</tt>' and '<tt>xpath</tt>'
                 (default being '<tt>xpath</tt>').</td>
             <td>No</td>
+            <td>-</td>
+          </crow>
+          <crow>
+            <td><b>jclassPrinterType</b></td>
+            <td>Sets the mode for printing JClass instances during XML 
+                code generation; possible values are '<tt>standard</tt>' and '<tt>velocity</tt>'
+                (default being '<tt>standard</tt>').</td>
+            <td>No</td>
+            <td><font color="red">1.2.1</font></td>
           </crow>
         </ctable>
 
