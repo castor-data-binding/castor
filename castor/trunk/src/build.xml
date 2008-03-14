@@ -19,10 +19,10 @@
     <property name="name"                 value="Castor"/>
     <property name="source"               value="${basedir}/src"/>
     <property name="xmlctf-source"        value="${basedir}/xmlctf-framework/src"/>
-    <property name="java"                 value="${source}/main/java"/>
-    <property name="main.resources"       value="${source}/main/resources" />
-	<property name="test.java"            value="${source}/test/java"/>
-    <property name="test.resources"       value="${source}/test/resources"/>
+    <property name="java"                 value="${basedir}/xml/src/main/java"/>
+    <property name="main.resources"       value="${basedir}/xml/src/main/resources" />
+	<property name="test.java"            value="${basedir}/xml/src/test/java"/>
+    <property name="test.resources"       value="${basedir}/xml/src/test/resources"/>
     <property name="etc"                  value="${source}/etc"/>
     <property name="check"                value="check"/>
     <property name="build"                value="${basedir}/build"/>
