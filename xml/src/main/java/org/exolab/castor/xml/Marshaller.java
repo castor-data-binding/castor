@@ -1421,16 +1421,20 @@ public class Marshaller extends MarshalFramework {
             else
                 introspected = Introspector.introspected(classDesc);
 
+            boolean useJavaPrefix = false;
             if ((typeName == null) || introspected) {
                 typeName = JAVA_PREFIX + _class.getName();
+                useJavaPrefix  = true;
             }
             else if (classDesc instanceof RootArrayDescriptor) {
                 typeName = JAVA_PREFIX + _class.getName();
+                useJavaPrefix = true;
             }
             else {
                 String dcn = classDesc.getClass().getName();
                 if (dcn.equals(XMLClassDescriptorImpl.class.getName())) {
                     typeName = JAVA_PREFIX + _class.getName();
+                    useJavaPrefix = true;
                 }
                 else {
                     //-- calculate proper prefix
@@ -1446,6 +1450,10 @@ public class Marshaller extends MarshalFramework {
             }
             //-- save type information
             atts.addAttribute(XSI_NAMESPACE, TYPE_ATTR, XSI_TYPE, CDATA, typeName);
+            if (useJavaPrefix) {
+                //-- declare Java namespace, if necessary
+                declareNamespace("java", "http://java.sun.com");
+            }
         }
 
         if (isNil) {
