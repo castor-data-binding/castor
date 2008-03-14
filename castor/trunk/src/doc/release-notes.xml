@@ -35,6 +35,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2231" tool="jira">
+                    <description>
+                        Added namespace definition for a "java:" prefix when used by Castor.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Nicolas Cazottes</name>
+                        <email>ncazottes@sqli.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20080314</date>
+                </bug>
                 <bug id="2308" tool="jira">
                     <description>
                         Improved the XPATH statements produced for the location attribute of
