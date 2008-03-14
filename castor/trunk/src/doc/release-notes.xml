@@ -55,7 +55,7 @@
                     </reporter>
                     <type>Bug</type>
                     <module>XMLGen</module>
-                    <date>20080313/date>
+                    <date>20080313</date>
                 </bug>
                 <bug id="1107" tool="jira">
                     <description>
