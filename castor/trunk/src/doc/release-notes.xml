@@ -35,6 +35,28 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2308" tool="jira">
+                    <description>
+                        Improved the XPATH statements produced for the location attribute of
+                        a ValidationException to cater for positions within multi-valued
+                        fields as well.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Dave Sinclair</name>
+                        <email>david.sinclair@ge.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20080314</date>
+                </bug>
                 <bug id="2302" tool="jira">
                     <description>
                         Refactored JClassPrinterFactory approach and added a registy for these

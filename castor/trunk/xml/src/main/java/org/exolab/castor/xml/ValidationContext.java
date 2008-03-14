@@ -70,23 +70,16 @@ public class ValidationContext {
      * encounted will cause a Validation Exception. When false, the validator
      * should attempt to validate as much as possible, collecting as many errors
      * as possible before throwing a validation exception. */
-    private boolean                    _failFast         = true;
+    private boolean _failFast = true;
 
     /** The List of objects marked as validated. */
-    private final Set                  _validated        = new HashSet();
+    private final Set _validated = new HashSet();
 
     /** The Set of already encountered IDs (of type &lt;xsd:ID>). */
-    private final Set                  _ids              = new HashSet();
+    private final Set _ids = new HashSet();
 
-    /** The Set of temporary unreseolved IDREFS. */
-    private final Set                  _unresolvedIdrefs = new HashSet();
-
-    /**
-     * Creates a new ValidationContext.
-     */
-    public ValidationContext() {
-        super();
-    }
+    /** The Set of temporary unresolved IDREFS. */
+    private final Set _unresolvedIdrefs = new HashSet();
 
     /**
      * To get the {@link AbstractInternalContext} to use.
@@ -194,8 +187,9 @@ public class ValidationContext {
         if (!_ids.contains(id)) {
             _ids.add(id);
             _unresolvedIdrefs.remove(id);
-        } else if (!_internalContext.getLenientIdValidation()){
-            throw new ValidationException ("ID " + id + " is already used within current document.");
+        } else if (!_internalContext.getLenientIdValidation()) {
+            throw new ValidationException ("ID " + id 
+                    + " is already used within current document.");
         }
     }
 

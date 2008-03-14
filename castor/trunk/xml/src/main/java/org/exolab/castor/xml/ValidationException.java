@@ -55,11 +55,16 @@ public class ValidationException extends XMLException {
     /** SerialVersionUID */
     private static final long serialVersionUID = 2220902174700444631L;
 
-    /** The location for this Exception. */
-    private Location            _location   = null;
-    /** The next Exception in the list, allowing the reporting of several
-     * validation Exceptions. */
-    private ValidationException _next       = null;
+    /** 
+     * The location for this Exception. 
+     */
+    private Location _location   = null;
+    
+    /** 
+     * The next Exception in the list, allowing the reporting of several
+     * validation Exceptions.
+     */
+    private ValidationException _next = null;
 
     /**
      * Creates a new ValidationException with no message or nested Exception.
