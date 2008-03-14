@@ -71,6 +71,7 @@ import org.exolab.castor.xml.Validator;
 import org.exolab.castor.xml.XMLClassDescriptor;
 import org.exolab.castor.xml.XMLFieldDescriptor;
 import org.exolab.castor.xml.AbstractXMLNaming;
+import org.exolab.castor.xml.location.XPathLocation;
 import org.exolab.castor.xml.util.resolvers.ResolveHelpers;
 
 /**
@@ -895,12 +896,12 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
 
             //-- cascade call for validation
             if (_extends instanceof XMLClassDescriptorImpl) {
-                ((XMLClassDescriptorImpl)_extends).validate(object, context);
-            }
-            else {
-                TypeValidator validator = _extends.getValidator();
-                if (validator != null)
-                    validator.validate(object, context);
+                ((XMLClassDescriptorImpl) _extends).validate(object, context);
+            } else {
+                TypeValidator baseValidator = _extends.getValidator();
+                if (baseValidator != null) {
+                    baseValidator.validate(object, context);
+                }
             }
 
             //-- get local element descriptors by filtering out inherited ones
@@ -926,7 +927,8 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
             //-- get local attribute descriptors by filtering out inherited ones
             XMLFieldDescriptor[] inheritedAttributes = _extends.getAttributeDescriptors();
             XMLFieldDescriptor[] allAttributes = localAttributes;
-            localAttributes = new XMLFieldDescriptor[allAttributes.length - inheritedAttributes.length];
+            localAttributes = 
+                new XMLFieldDescriptor[allAttributes.length - inheritedAttributes.length];
             localIdx = 0;
             for (int i = 0; i < allAttributes.length; i++) {
                 XMLFieldDescriptor desc = allAttributes[i];
@@ -956,7 +958,9 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
                 for (int i = 0; i < localElements.length; i++) {
                     XMLFieldDescriptor desc = localElements[i];
 
-                    if (desc == null) continue;
+                    if (desc == null) {
+                        continue;
+                    }
 
                     FieldHandler handler = desc.getHandler();
 
@@ -978,12 +982,13 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
                             if (desc.isContainer()) {
                                 err = "The group '" + desc.getFieldName();
                                 err += "' cannot exist at the same time that ";
-                                if (fieldDesc.isContainer())
+                                if (fieldDesc.isContainer()) {
                                     err += "the group '" + fieldDesc.getFieldName();
-                                else err += "the element '" + fieldDesc.getXMLName();
-                                err +="' also exists.";
-                            }
-                            else {
+                                } else {
+                                    err += "the element '" + fieldDesc.getXMLName();
+                                }
+                                err += "' also exists.";
+                            } else {
                                  err = "The element '" + desc.getXMLName();
                                  err += "' cannot exist at the same time that ";
                                  err += "element '" + fieldDesc.getXMLName() + "' also exists.";
@@ -994,10 +999,11 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
                         fieldDesc = desc;
 
                         FieldValidator fieldValidator = desc.getValidator();
-                        if (fieldValidator != null)
+                        if (fieldValidator != null) {
                             fieldValidator.validate(object, context);
+                        }
                     }
-                }//for
+                }
 
                 // if all elements are mandatory, print the grammar that the choice 
                 // must match.
@@ -1008,7 +1014,9 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
                     String sep = " | ";
                     for (int i = 0; i < localElements.length; i++) {
                         XMLFieldDescriptor  desc = localElements[i];
-                        if (desc == null) continue;
+                        if (desc == null) {
+                            continue;
+                        }
 
                         FieldValidator fieldValidator = desc.getValidator();
                         if (fieldValidator.getMinOccurs() == 0) {
@@ -1020,23 +1028,19 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
                     }
                     buffer.append(')');
                     if (!existsOptionalElement) {
-                        String err = "In the choice contained in <"+ this.getXMLName()
-                                     +">, at least one of these elements must appear:\n"
+                        String err = "In the choice contained in <" + this.getXMLName()
+                                     + ">, at least one of these elements must appear:\n"
                                      + buffer.toString();
                         throw new ValidationException(err);
                     }
                 }
                 //-- handle attributes, not affected by choice
                 for (int i = 0; i < localAttributes.length; i++) {
-                    FieldValidator fieldValidator = localAttributes[i].getValidator();
-                    if (fieldValidator != null)
-                        fieldValidator.validate(object, context);
+                    validateField(object, context, localAttributes[i]);
                 }
                 //-- handle content, not affected by choice
                 if (contentDescriptor != null) {
-                    FieldValidator fieldValidator = contentDescriptor.getValidator();
-                    if (fieldValidator != null)
-                        fieldValidator.validate(object, context);
+                    validateField(object, context, contentDescriptor);
                 }
                 break;
             //-- Currently SEQUENCE is handled the same as all
@@ -1047,28 +1051,70 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
 
                 //-- handle elements
                 for (int i = 0; i < localElements.length; i++) {
-                    if (localElements[i] == null) continue;
-                    FieldValidator fieldValidator = localElements[i].getValidator();
-                    if (fieldValidator != null)
-                        fieldValidator.validate(object, context);
+                    final XMLFieldDescriptor fieldDescriptor = localElements[i];
+                    if (fieldDescriptor == null) {
+                        continue;
+                    }
+                    validateField(object, context, fieldDescriptor);
                 }
                 //-- handle attributes
                 // for (int i = 0; i < _attributes.size(); i++) {
                 for (int i = 0; i < localAttributes.length; i++) {
-                    FieldValidator fieldValidator = localAttributes[i].getValidator();
-                    if (fieldValidator != null)
-                        fieldValidator.validate(object, context);
+                    validateField(object, context, localAttributes[i]);
                 }
                 //-- handle content
                 if (contentDescriptor != null) {
-                    FieldValidator fieldValidator = contentDescriptor.getValidator();
-                    if (fieldValidator != null)
-                        fieldValidator.validate(object, context);
+                    validateField(object, context, contentDescriptor);
                 }
                 break;
         }
 
     } //-- validate
+
+    /**
+     * Validates agiven field of an object, as described by its {@link XMLFieldDescriptor}
+     * instance.
+     * @param object The parent object, whose field to validate.
+     * @param context The current {@link ValidationContext} instance.
+     * @param fieldDescriptor The {@link XMLFieldDescriptor} instance describing the 
+     *          field to validate.
+     * @throws ValidationException If validation did report a problem.
+     */
+    private void validateField(final Object object, final ValidationContext context,
+            final XMLFieldDescriptor fieldDescriptor) throws ValidationException {
+        FieldValidator fieldValidator = fieldDescriptor.getValidator();
+        if (fieldValidator != null) {
+            try {
+                fieldValidator.validate(object, context);
+            } catch (ValidationException e) {
+                if (fieldDescriptor.getNodeType() == NodeType.Attribute 
+                        || fieldDescriptor.getNodeType() == NodeType.Element) {
+                    addLocationInformation(fieldDescriptor, e);
+                }
+                throw e;
+            }
+        }
+    }
+
+    /**
+     * Adds location information to the {@link ValidationException} instance.
+     * @param localElement The {@link XMLFieldDescriptor} instance whose has been responsible for
+     * generating the error.
+     * @param e The {@link ValidationException} to enrich.
+     */
+    private void addLocationInformation(final XMLFieldDescriptor localElement,
+            final ValidationException e) {
+        XPathLocation loc = (XPathLocation) e.getLocation();
+        if (loc == null) {
+            loc = new XPathLocation();
+            e.setLocation(loc);
+            if (localElement.getNodeType() == NodeType.Attribute) {
+                loc.addAttribute(localElement.getXMLName());
+            } else {
+                loc.addChild(localElement.getXMLName());
+            }
+        }
+    }
 
     //-------------------------------------/
     //- Implementation of ClassDescriptor -/

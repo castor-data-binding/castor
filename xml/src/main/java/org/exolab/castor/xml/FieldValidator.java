@@ -50,6 +50,7 @@ import java.util.List;
 import java.util.Vector;
 
 import org.exolab.castor.mapping.FieldHandler;
+import org.exolab.castor.xml.location.XPathLocation;
 
 /**
  * Handles field validation.
@@ -230,6 +231,7 @@ public class FieldValidator extends Validator {
 
         Class type = value.getClass();
         int size = 1;
+        long occurence = -1;
 
         try {
             if (type.isArray()) {
@@ -238,6 +240,7 @@ public class FieldValidator extends Validator {
                     size = Array.getLength(value);
                     if (_validator != null) {
                         for (int i = 0; i < size; i++) {
+                            occurence = i + 1;
                             _validator.validate(Array.get(value, i), context);
                         }
                     } else {
@@ -251,20 +254,23 @@ public class FieldValidator extends Validator {
                 // The following code should be changed to use CollectionHandler
                 // </NOTE>
                 size = 0;
-                for (Enumeration enumeration = (Enumeration)value; enumeration.hasMoreElements(); ) {
+                for (Enumeration enumeration = (Enumeration) value; 
+                   enumeration.hasMoreElements(); ) {
                     ++size;
                     validateInstance(context, enumeration.nextElement());
                 }
             } else if (value instanceof Vector) {
-                Vector vector = (Vector)value;
+                Vector vector = (Vector) value;
                 size = vector.size();
                 for (int i = 0; i < size; i++) {
+                    occurence = i + 1;
                     validateInstance(context, vector.elementAt(i));
                 }
             } else if (value instanceof List) {
-                List list = (List)value;
+                List list = (List) value;
                 size = list.size();
                 for (int i = 0; i < size; i++) {
+                    occurence = i + 1;
                     validateInstance(context, list.get(i));
                 }
             } else {
@@ -275,7 +281,10 @@ public class FieldValidator extends Validator {
             String err = "The following exception occured while validating field: "
                          + _descriptor.getFieldName() + " of class: "
                          + object.getClass().getName();
-            throw new ValidationException(err, vx);
+            
+            ValidationException validationException = new ValidationException(err, vx);
+            addLocationInformation(_descriptor, validationException, occurence);
+            throw validationException;
         }
 
         // Check sizes of collection
@@ -324,6 +333,31 @@ public class FieldValidator extends Validator {
             _validator.validate(value, context);
         } else {
             super.validate(value, context);
+        }
+    }
+
+    /**
+     * Adds location information to the {@link ValidationException} instance.
+     * @param fieldDescriptor The {@link XMLFieldDescriptor} instance whose has been responsible for
+     * generating the error.
+     * @param e The {@link ValidationException} to enrich.
+     * @param occurence If greater than 0, denotes the position of the invalid collection value.
+     */
+    private void addLocationInformation(final XMLFieldDescriptor fieldDescriptor,
+            final ValidationException e, final long occurence) {
+        XPathLocation loc = (XPathLocation) e.getLocation();
+        if (loc == null) {
+            loc = new XPathLocation();
+            e.setLocation(loc);
+            String xmlName = fieldDescriptor.getXMLName();
+            if (occurence > 0) {
+                xmlName += "[" + occurence + "]";
+            }
+            if (fieldDescriptor.getNodeType() == NodeType.Attribute) {
+                loc.addAttribute(xmlName);
+            } else {
+                loc.addChild(xmlName);
+            }
         }
     }
 
