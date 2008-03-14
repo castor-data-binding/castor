@@ -21,6 +21,23 @@
               <span class="newsTitle">Latest Release</span><br/><br/>
               <span class="newsSummary"-->
 
+        <news id="65">
+            <title>Google Summer of Code 2008 and Castor - Project ideas</title>
+            <author>Werner Guttmann</author>
+            <date>March 14 2008</date>
+            <time>10:11:09</time>
+            <summary>
+                Castor is - again - putting up numerous project proposals with 
+                <a href="http://code.google.com/soc/2008/">Google's Summer of 
+                Code 2008 program</a>.<br/><br/>
+
+                Please find the current project proposal ideas at 
+                <a href="http://gsoc.codehaus.org/Castor+Ideas">http://gsoc.codehaus.org/Castor+Ideas </a>.
+                <br/><br/>
+                
+                Any feedback, questions and/or suggestions welcome.
+            </summary>
+        </news>
         <news id="64">
             <title>Castor mailing lists available for browsing and searching at http://castor.markmail.org</title>
             <author>Werner Guttmann</author>
