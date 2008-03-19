@@ -71,6 +71,7 @@ import org.castor.util.Base64Encoder;
 import org.castor.util.HexDecoder;
 import org.castor.util.Messages;
 import org.castor.xml.BackwardCompatibilityContext;
+import org.castor.xml.InternalContext;
 import org.castor.xml.XMLConfiguration;
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.FieldHandler;
@@ -203,24 +204,24 @@ public class Marshaller extends MarshalFramework {
     /**
      * The namespace stack
     **/
-    private Namespaces _namespaces = null;
+    private Namespaces _namespaces = new Namespaces();
 
     /**
-     * current java packages being used during marshalling
+     * Records Java packages being used during marshalling.
     **/
-    private List   _packages = null;
+    private List _packages = new ArrayList();
 
     /**
      * A stack of parent objects...to prevent circular
      * references from being marshalled.
     **/
-    private Stack   _parents  = null;
+    private Stack _parents  = new SafeStack();
 
     /**
      * A list of ProcessingInstructions to output
      * upon marshalling of the document
     **/
-    private List _processingInstructions = null;
+    private List _processingInstructions = new ArrayList();
 
     /**
      * Name of the root element to use
@@ -255,13 +256,13 @@ public class Marshaller extends MarshalFramework {
      * The set of optional top-level attributes
      * set by the user.
     **/
-    private AttributeSetImpl _topLevelAtts = null;
+    private AttributeSetImpl _topLevelAtts = new AttributeSetImpl();
 
     /**
      * The AttributeList which is to be used during marshalling,
      * instead of creating a bunch of new ones.
      */
-    private AttributesImpl _attributes = null;
+    private AttributesImpl _attributes = new AttributesImpl();
 
     /**
      * The validation flag
@@ -379,28 +380,42 @@ public class Marshaller extends MarshalFramework {
     **/
     private void initialize() {
         setInternalContext(new BackwardCompatibilityContext());
-        _namespaces      = new Namespaces();
-        _packages        = new ArrayList(3);
-        _parents         = new SafeStack();
-        _validate        = getInternalContext().marshallingValidation();
-//        _naming          = XMLNaming.getInstance();
-        _processingInstructions = new ArrayList(3);
-        _attributes      = new AttributesImpl();
-        _topLevelAtts    = new AttributeSetImpl();
-        _saveMapKeys = 
-            getInternalContext().getBooleanProperty(XMLConfiguration.SAVE_MAP_KEYS).booleanValue();
-        
-        String prop = 
-            getInternalContext().getStringProperty(XMLConfiguration.PROXY_INTERFACES);
+    }
+
+  /**
+   * To set the {@link InternalContext} to use, and to 
+   * initialize {@link Marshaller} properties linked to it.
+   * @param internalContext the {@link InternalContext} to use
+   */
+  public void setInternalContext(final InternalContext internalContext) {
+      super.setInternalContext(internalContext);
+      deriveProperties();
+  }
+
+
+  /**
+     * Derive class-level properties from {@link XMLConfiguration} as defined
+     * {@link InternalContext}. This method will be called after a new
+     * {@link InternalContext} or a property has been set.
+     * 
+     * @link #setInternalContext(InternalContext)
+     */
+    private void deriveProperties() {
+        _validate = getInternalContext().marshallingValidation();
+        _saveMapKeys = getInternalContext().getBooleanProperty(
+                XMLConfiguration.SAVE_MAP_KEYS).booleanValue();
+
+        String prop = getInternalContext().getStringProperty(
+                XMLConfiguration.PROXY_INTERFACES);
         if (prop != null) {
             StringTokenizer tokenizer = new StringTokenizer(prop, ", ");
             while (tokenizer.hasMoreTokens()) {
                 _proxyInterfaces.add(tokenizer.nextToken());
             }
         }
-    } //-- initialize();
-
-    /**
+    }
+    
+   /**
      * Adds the given processing instruction data to the set of
      * processing instructions to output during marshalling.
      *
@@ -688,6 +703,10 @@ public class Marshaller extends MarshalFramework {
     public void setValidation(boolean validate) {
         _validate = validate;
     } //-- setValidation
+    
+    public boolean getValidation() {
+        return _validate;
+    }
 
     /**
      * If True the marshaller will use the 'xsi:type' attribute
@@ -2589,9 +2608,7 @@ public class Marshaller extends MarshalFramework {
         return result;
     }
 
-    private void validate(Object object)
-        throws ValidationException
-    {
+    private void validate(final Object object) throws ValidationException {
         if  (_validate) {
             //-- we must have a valid element before marshalling
             Validator validator = new Validator();
@@ -2621,11 +2638,12 @@ public class Marshaller extends MarshalFramework {
      */
     public void setProperty(final String name, final String value) {
         getInternalContext().setProperty(name, value);
+        deriveProperties();
     }
     
     /**
      * Inner-class used for handling wrapper elements
-     * and locations
+     * and locations.
      */
     static class WrapperInfo {
 

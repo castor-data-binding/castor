@@ -234,13 +234,13 @@ public class Unmarshaller {
     } //-- Unmarshaller(Class)
 
     /**
-     * Creates a new Unmarshaller with the given Class.
+     * Creates a new {@link Unmarshaller} with the given Class.
      *
-     * @param internalContext the context to be used, for config, and such...
-     * @param c the Class to create the Unmarshaller for, this
+     * @param internalContext the {@link InternalContext} to be used, for config, and such...
+     * @param c the {@link Class} to create the {@link Unmarshaller} for, this
      * may be null, if the Unmarshaller#setMapping is called
      * to load a mapping for the root element of xml document.
-     * @param loader The ClassLoader to use.
+     * @param loader The {@link ClassLoader} to use.
      */
     public Unmarshaller(
             final InternalContext internalContext, 
@@ -251,26 +251,7 @@ public class Unmarshaller {
             LOG.warn(message);
             throw new IllegalArgumentException(message);
         }
-        _internalContext = internalContext;
-        _validate = _internalContext.marshallingValidation();
-        _ignoreExtraElements = (!_internalContext.strictElements());
-        
-        //-- process namespace to package mappings
-        String mappings = 
-            _internalContext.getStringProperty(XMLConfiguration.NAMESPACE_PACKAGE_MAPPINGS);
-        if (mappings != null) {
-            StringTokenizer tokens = new StringTokenizer(mappings, ",");
-            while (tokens.hasMoreTokens()) {
-                String token = tokens.nextToken();
-                int sepIdx = token.indexOf('=');
-                if (sepIdx < 0) {
-                    continue;
-                }
-                String ns = token.substring(0, sepIdx).trim();
-                String javaPackage = token.substring(sepIdx + 1).trim();
-                addNamespaceToPackageMapping(ns, javaPackage);
-            }
-        }
+        setInternalContext(internalContext);
 
         setClass(c);
         _loader = loader;
@@ -955,6 +936,35 @@ public class Unmarshaller {
      */
     public void setInternalContext(final InternalContext internalContext) {
         _internalContext = internalContext;
+        deriveProperties();
+    }
+
+    /**
+     * Derive class-level properties from {@link XMLConfiguration} as defined
+     * {@link InternalContext}. This method will be called after a new {@link InternalContext}
+     * has been set.
+     * @link #setInternalContext(InternalContext)
+     */
+    private void deriveProperties() {
+        _validate = _internalContext.marshallingValidation();
+        _ignoreExtraElements = (!_internalContext.strictElements());
+        
+        //-- process namespace to package mappings
+        String mappings = 
+            _internalContext.getStringProperty(XMLConfiguration.NAMESPACE_PACKAGE_MAPPINGS);
+        if (mappings != null) {
+            StringTokenizer tokens = new StringTokenizer(mappings, ",");
+            while (tokens.hasMoreTokens()) {
+                String token = tokens.nextToken();
+                int sepIdx = token.indexOf('=');
+                if (sepIdx < 0) {
+                    continue;
+                }
+                String ns = token.substring(0, sepIdx).trim();
+                String javaPackage = token.substring(sepIdx + 1).trim();
+                addNamespaceToPackageMapping(ns, javaPackage);
+            }
+        }
     }
     
     /**

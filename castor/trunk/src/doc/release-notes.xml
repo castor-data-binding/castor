@@ -35,6 +35,27 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2312" tool="jira">
+                    <description>
+                        Fixed problem with property resolution when setting a new InternalContext 
+                        instance on an existing Un-/Marshaller.
+                    </description>
+                    <contributor>
+                        <name>Philippe Rouxel</name>
+                        <email>prouxel.pacte@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Philippe Rouxel</name>
+                        <email>prouxel.pacte@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20080319</date>
+                </bug>
                 <bug id="2231" tool="jira">
                     <description>
                         Added namespace definition for a "java:" prefix when used by Castor.
