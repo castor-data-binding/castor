@@ -4,8 +4,9 @@ set JAVA=%JAVA_HOME%\bin\java
 set OLDCP=%CLASSPATH%
 set CLASSPATH=..\build\tests;%JAVA_HOME%\lib\tools.jar
 set cp=%CLASSPATH%
-for %%i in (..\dist\castor-*-xmlctf.jar) do call cp.bat %%i
+for %%i in (..\dist\castor-*-xmlctf-framework.jar) do call cp.bat %%i
 for %%i in (..\dist\castor-*-xml.jar) do call cp.bat %%i
+for %%i in (..\dist\castor-*-xml-schema.jar) do call cp.bat %%i
 for %%i in (..\dist\castor-*-codegen.jar) do call cp.bat %%i
 for %%i in (..\lib\*.jar) do call cp.bat %%i
 rmdir /q /s ..\build\tests\output>nul
