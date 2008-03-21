@@ -44,6 +44,7 @@
  */
 package org.exolab.castor.xml.validators;
 
+import org.castor.xml.XMLConfiguration;
 import org.exolab.castor.xml.TypeValidator;
 import org.exolab.castor.xml.ValidationContext;
 import org.exolab.castor.xml.ValidationException;
@@ -79,28 +80,28 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
      */
     public IntegerValidator() {
         super();
-    } // -- IntegerValidator
+    }
 
     /**
      * Clears the fixed value for this IntegerValidator.
      */
     public void clearFixed() {
         _useFixed = false;
-    } // -- clearFixed
+    }
 
     /**
      * Clears the maximum value for this IntegerValidator.
      */
     public void clearMax() {
         _useMax = false;
-    } // -- clearMax
+    }
 
     /**
      * Clears the minimum value for this IntegerValidator.
      */
     public void clearMin() {
         _useMin = false;
-    } // -- clearMin
+    }
 
     /**
      * Returns the configured fixed value for Integer validation.  Returns
@@ -113,7 +114,7 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
             return new Long(_fixed);
         }
         return null;
-    } // -- getFixed
+    }
 
     /**
      * Returns the configured maximum value for xsd:integer validation. Returns
@@ -126,7 +127,7 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
             return new Long(_max);
         }
         return null;
-    } // -- getMaxInclusive
+    }
 
     /**
      * Returns the configured minimum value for xsd:integer validation. Returns
@@ -139,7 +140,7 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
             return new Long(_min);
         }
         return null;
-    } // -- getMinInclusive
+    }
 
     /**
      * Returns the configured maximum number of digits (inclusive) for
@@ -153,7 +154,7 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
             return new Integer(_totalDigits);
         }
         return null;
-    } // -- getTotalDigits
+    }
 
     /**
      * Returns true if a fixed value to validate against has been set.
@@ -162,7 +163,7 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
      */
     public boolean hasFixed() {
         return _useFixed;
-    } // -- hasFixed
+    }
 
     /**
      * Sets the fixed value that integers validated with this validated must be
@@ -179,7 +180,26 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
     public void setFixed(final long fixedValue) {
         _useFixed = true;
         this._fixed = fixedValue;
-    } // -- setFixed
+    }
+
+    /**
+     * Sets the fixed value that integers validated with this validated must be
+     * equal to.
+     * <p>
+     * NOTE: Using Fixed values takes preceedence over using max and mins, and
+     * is really the same as setting both max-inclusive and min-inclusive to the
+     * same value
+     * 
+     * Added for backward compatibility with old &lt;xs:integer&gt; implementation.
+     *
+     * @param fixedValue
+     *            the fixed value an integer validated with this validator must
+     *            be equal to.
+     */
+    public void setFixed(final int fixedValue) {
+        _useFixed = true;
+        this._fixed = fixedValue;
+    }
 
     /**
      * Sets the fixed value for xsd:Integer validation.
@@ -207,7 +227,21 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
     public void setMinExclusive(final long minValue) {
         _useMin = true;
         _min = minValue + 1;
-    } // -- setMinExclusive
+    }
+
+    /**
+     * Sets the minimum (exclusive) value for xsd:integer validation.  To pass
+     * validation, an xsd:Integer must be greater than this value.
+     * 
+     * Added for backward compatibility with old &lt;xs:integer&gt; implementation.
+     *
+     * @param minValue
+     *            the minimum (exclusive) value for xsd:Integer validation.
+     */
+    public void setMinExclusive(final int minValue) {
+        _useMin = true;
+        _min = minValue + 1;
+    }
 
     /**
      * Sets the minimum (inclusive) value for xsd:integer validation.  To pass
@@ -219,8 +253,22 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
     public void setMinInclusive(final long minValue) {
         _useMin = true;
         _min = minValue;
-    } // -- setMinInclusive
+    }
 
+    /**
+     * Sets the minimum (inclusive) value for xsd:integer validation.  To pass
+     * validation, an xsd:integer must be greater than or equal to this value.
+     *
+     * Added for backward compatibility with old &lt;xs:integer&gt; implementation.
+     *
+     * @param minValue
+     *            the minimum (inclusive) value for xsd:integer validation.
+     */
+    public void setMinInclusive(final int minValue) {
+        _useMin = true;
+        _min = minValue;
+    }
+    
     /**
      * Sets the maximum (exclusive) value for xsd:integer validation.  To pass
      * validation, a xsd:integer must be less than this value.
@@ -231,7 +279,22 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
     public void setMaxExclusive(final long maxValue) {
         _useMax = true;
         _max = maxValue - 1;
-    } // -- setMaxExclusive
+    }
+
+    /**
+     * Sets the maximum (exclusive) value for xsd:integer validation.  To pass
+     * validation, a xsd:integer must be less than this value.
+     *
+     * Added for backward compatibility with old &lt;xs:integer&gt; implementation.
+     *
+     * @param maxValue
+     *            the maximum (exclusive) value for xsd:integer validation.
+     */
+    public void setMaxExclusive(final int maxValue) {
+        _useMax = true;
+        _max = maxValue - 1;
+    }
+
 
     /**
      * Sets the maximum (inclusive) value for xsd:integer validation.  To pass
@@ -243,7 +306,21 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
     public void setMaxInclusive(final long maxValue) {
         _useMax = true;
         _max = maxValue;
-    } // -- setMaxInclusive
+    }
+
+    /**
+     * Sets the maximum (inclusive) value for xsd:integer validation.  To pass
+     * validation, a xsd:integer must be less than or equal to this value.
+     *
+     * Added for backward compatibility with old &lt;xs:integer&gt; implementation.
+     *
+     * @param maxValue
+     *            the maximum (inclusive) value for xsd:integer validation.
+     */
+    public void setMaxInclusive(final int maxValue) {
+        _useMax = true;
+        _max = maxValue;
+    }
 
     /**
      * Sets the maximum number of digits for xsd:integer validation. To pass
@@ -303,7 +380,7 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
         if (hasPattern()) {
             super.validate(Long.toString(i), context);
         }
-    } // -- validate
+    }
 
     /**
      * Validates the given Object.
@@ -314,7 +391,7 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
      */
     public void validate(final Object object) throws ValidationException {
         validate(object, (ValidationContext) null);
-    } // -- validate
+    }
 
     /**
      * Validates the given Object.
@@ -336,11 +413,23 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
         try {
             value = ((Long) object).longValue();
         } catch (Exception ex) {
-            String err = "Expecting an Long, received instead: ";
-            err += object.getClass().getName();
-            throw new ValidationException(err);
+            String lenientProperty = context.getInternalContext()
+                .getStringProperty(XMLConfiguration.LENIENT_INTEGER_VALIDATION);
+            if (Boolean.valueOf(lenientProperty).booleanValue()) {
+                try {
+                    value = ((Integer) object).longValue();
+                } catch (Exception e) {
+                    String err = "Expecting a Long/Integer, received instead: ";
+                    err += object.getClass().getName();
+                    throw new ValidationException(err);
+                }
+            } else {
+                String err = "Expecting an Long, received instead: ";
+                err += object.getClass().getName();
+                throw new ValidationException(err);
+            }
         }
         validate(value, context);
-    } //-- validate
+    }
 
-} //-- IntegerValidator
+}
