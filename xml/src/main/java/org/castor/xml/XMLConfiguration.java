@@ -459,4 +459,19 @@ public final class XMLConfiguration extends Configuration {
     public static final String WRAP_COLLECTIONS_PROPERTY =
         "org.exolab.castor.xml.introspector.wrapCollections";
 
+    /**
+     * Property that allows to specify whether the validation for 
+     * &lt;xs:integer&gt; should accept the old 'int/Integer' members as well;
+     * default to false.
+     * 
+     * Possible values:
+     * - false  (default)
+     * - true
+     * 
+     * <pre>
+     * org.exolab.castor.xml.lenient.integer.validation=false
+     * </pre>
+     */
+    public static final String LENIENT_INTEGER_VALIDATION = 
+        "org.exolab.castor.xml.lenient.integer.validation";    
 }

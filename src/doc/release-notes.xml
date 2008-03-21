@@ -33,8 +33,42 @@
             <date>tbd</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
+                <h2>Changes</h2>
+                
+                <h3>Re-introduced backwards compatibility for code generated from &lt;xs:integer&gt;</h3>
+                
+                <p>
+                    Added new <tt>org.exolab.castor.xml.lenient.integer.validation</tt>
+                    property to allow configuration of leniency for validation for Java properties 
+                    generated from <tt>&lt;xs:integer&gt;</tt> types during code generation. This
+                    will allow successful validation for Java members that have been generated with Castor
+                    versions of 1.0.5 and older.
+                </p>
+                
             </summary>
             <bugs>
+                <bug id="1948" tool="jira">
+                    <description>
+                        (Re-)introduced full backwards compatibility for code generated for 
+                        &lt;xs:integer&gt; XML artefacts, allowing for classes generated with Castor
+                        1.1 and older to be used again for un-/marshalling.
+                    </description>
+                    <contributor>
+                        <name>Simon Lord</name>
+                        <email>simon.lord@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Simon Lord</name>
+                        <email>simon.lord@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20080321</date>
+                </bug>
                 <bug id="2312" tool="jira">
                     <description>
                         Fixed problem with property resolution when setting a new InternalContext 

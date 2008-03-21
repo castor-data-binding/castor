@@ -10,6 +10,12 @@
             Castor properties file from within code.
         </li>
         <li>
+            <b>Release 1.2.1:</b>: 
+            Added new <tt>org.exolab.castor.xml.lenient.integer.validation</tt>
+            property to allow configuration of leniency for validation for Java properties 
+            generated from <tt>&lt;xs:integer&gt;</tt> types during code generation.
+        </li>
+        <li>
             <b>Release 1.2:</b>: Access to the <api>org.exolab.castor.util.LocalConfiguration</api>
             class has been removed completely. To access the properties as used by Castor
             from code, please refer to the below section.
@@ -194,14 +200,14 @@
       		<td>org.exolab.castor.xml.lenient.sequence.order</td>
       		<td>Specifies whether sequence order validation should be lenient.</td>
       		<td><tt>false</tt> or <tt>true</tt></td>
-      		<td><tt>default</tt></td>
+      		<td><tt>false</tt></td>
       		<td><font color="red">1.1</font></td>
       	</crow>
       	<crow>
       		<td>org.exolab.castor.xml.lenient.id.validation</td>
-      		<td>Sppecifies whether id/href validation should be lenient.</td>
+      		<td>Specifies whether id/href validation should be lenient.</td>
       		<td><tt>false</tt> or <tt>true</tt></td>
-      		<td><tt>default</tt></td>
+      		<td><tt>false</tt></td>
       		<td><font color="red">1.1</font></td>
       	</crow>
       	<crow>
@@ -214,6 +220,14 @@
       		<td> - </td>
       		<td><font color="red">1.1.3</font></td>
       	</crow>
+        <crow>
+            <td>org.exolab.castor.xml.lenient.integer.validation</td>
+            <td>Specifies whether validation for Java properties generated from &lt;xs:integer&gt;
+                should be lenient, i.e. allow for <tt>int</tt>s as well.</td>
+            <td><tt>false</tt> or <tt>true</tt></td>
+            <td><tt>false</tt></td>
+            <td><font color="red">1.2.1</font></td>
+        </crow>
       </ctable>
       
       </section>

@@ -1,0 +1,41 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+
+    <Name>Test unmarshalling of &lt;xs:integer&gt; with integer leniency turned on</Name>
+    <Author>Werner Guttmann</Author>
+
+    <Comment>
+      Tests that the unmarshaller will correctly handle validation for classes
+      generated with Castor 1.1 (and earlier) where the Java type used for 
+      &lt;xs:integer&gt; typed artefacts was int (rather than long).
+    </Comment>
+
+    <Category>basic capability</Category>
+
+    <MarshallingTest>
+
+        <Root_Object>Test</Root_Object>
+        <UnitTestCase>
+            <Name>Simple Test</Name>
+            <Configuration>
+                <Unmarshal>
+                    <Call-method name="setProperty">
+                        <Value type="java.lang.String">org.exolab.castor.xml.lenient.integer.validation</Value>
+                        <Value type="java.lang.String">true</Value>
+                    </Call-method>
+                </Unmarshal>
+            </Configuration>
+            <Input>input.xml</Input>
+            <GoldFile>input.xml</GoldFile>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Simple Test</Name>
+            <Input>input.xml</Input>
+            <GoldFile>input.xml</GoldFile>
+            <Failure>true</Failure>
+        </UnitTestCase>
+
+    </MarshallingTest>
+
+</TestDescriptor>
