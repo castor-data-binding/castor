@@ -81,10 +81,17 @@ public class SchemaUnmarshaller extends ComponentReader {
 
 
 
+    /**
+     * W3C XML schema namespace.
+     */
     public static final String XSD_NAMESPACE
         = "http://www.w3.org/2001/XMLSchema";
 
 
+    /**
+     * Unsupported namespace definitions, pointing to older
+     * XML schema specifications.
+     */
     public static final String[] UNSUPPORTED_NAMESPACES = {
         "http://www.w3.org/2000/10/XMLSchema",
         "http://www.w3.org/1999/XMLSchema"
@@ -95,23 +102,25 @@ public class SchemaUnmarshaller extends ComponentReader {
     //--------------------/
 
     /**
-     * is this an included schema?
+     * Indicates whether the {@link Schema} processed represents an 
+     * included schema.
      */
     private boolean _include = false;
+    
     /**
-     * The current ComponentReader
+     * The current {@link ComponentReader}.
     **/
-    private ComponentReader unmarshaller;
+    private ComponentReader _unmarshaller;
 
     /**
-     * Flag to indicate we are inside an annotation element
+     * Flag to indicate that we are inside an annotation element.
     **/
     private int _annotationDepth = 0;
 
     /**
-     * The current branch depth
+     * The current branch depth.
     **/
-    private int depth = 0;
+    private int _depth = 0;
 
     boolean skipAll = false;
 
@@ -120,26 +129,42 @@ public class SchemaUnmarshaller extends ComponentReader {
     private boolean foundSchemaDef = false;
 
 
-    private String defaultNS = null;
+    /**
+     * The default namespace URI to be used.
+     */
+    private String _defaultNS = null;
 
     /**
-     * The SchemaUnmarsahller state
+     * The {@link SchemaUnmarshaller} state.
      */
     private SchemaUnmarshallerState _state = null;
-    
    
+    /**
+     * Remapped prefix mappings.
+     */
     private RemappedPrefixes _prefixMappings = null;
     
       //----------------/
      //- Constructors -/
     //----------------/
 
+    /**
+     * Creates a {@link SchemaUnmarshaller} instance.
+     * @param schemaContext A {@link SchemaContext} to be used during schema unmarshalling.
+     * @throws XMLException Indicates that the XML schema cannnot be processed
+     */
     public SchemaUnmarshaller(final SchemaContext schemaContext)
     throws XMLException {
         this(schemaContext, null, null);
         foundSchemaDef = false;
     } //-- SchemaUnmarshaller
 
+    /**
+     * Creates a {@link SchemaUnmarshaller} instance.
+     * @param schemaContext A {@link SchemaContext} to be used during schema unmarshalling.
+     * @param state A {@link SchemaUnmarshallerState} to be used during unmarshalling.
+     * @throws XMLException Indicates that the XML schema cannnot be processed
+     */
     public SchemaUnmarshaller(
             final SchemaContext schemaContext,
             final SchemaUnmarshallerState state)
@@ -150,12 +175,16 @@ public class SchemaUnmarshaller extends ComponentReader {
     } //-- SchemaUnmarshaller
 
     /**
+     * Creates a {@link SchemaUnmarshaller} instance.
+     * @param schemaContext A {@link SchemaContext} to be used during schema unmarshalling.
+     * @param include Indicates whether the {@link Schema} to be processed ia an included schema.
+     * @param state A {@link SchemaUnmarshallerState} to be used during unmarshalling.
+     * @param uriResolver {@link URIResolver} to be used during processing.
+     * @throws XMLException Signals a problem in processing the XML schema.
+     * 
      * Called from IncludeUnmarshaller.
-     * @param schemaContext
-     * @param include
-     * @param state
-     * @param uriResolver
-     * @throws XMLException
+     * 
+     * @see {@link IncludeUnmarshaller}
      */
     public SchemaUnmarshaller(
             final SchemaContext schemaContext,
@@ -170,14 +199,26 @@ public class SchemaUnmarshaller extends ComponentReader {
         foundSchemaDef = false;
     }
 
-    //--backward compatibility
+    /**
+     * Creates a {@link SchemaUnmarshaller} instance.
+     * Exists for backward compatibility 
+     * @param schemaContext A {@link SchemaContext} to be used during schema unmarshalling.
+     * @param atts Attribute set to be processed.
+     * @throws XMLException Signals a problem in processing the XML schema.
+     */
     public SchemaUnmarshaller(
             final SchemaContext schemaContext,
-            final AttributeSet atts)
-    throws XMLException {
+            final AttributeSet atts) throws XMLException {
         this(schemaContext, atts, null);
     }
 
+    /**
+     * Creates a {@link SchemaUnmarshaller} instance.
+     * @param schemaContext A {@link SchemaContext} to be used during schema unmarshalling.
+     * @param atts Attribute set to be processed.
+     * @param uriResolver {@link URIResolver} to be used during processing.
+     * @throws XMLException Signals a problem in processing the XML schema.
+     */
     private SchemaUnmarshaller(
             final SchemaContext schemaContext,
             final AttributeSet atts,
@@ -202,16 +243,25 @@ public class SchemaUnmarshaller extends ComponentReader {
         init(atts);
     } //-- SchemaUnmarshaller
 
+    /**
+     * Returns the {@link Schema} instance representing the XML schema (file) just 
+     * processed.
+     * @return the {@link Schema} instance obtained from processing an XML schema file.
+     */
     public Schema getSchema() {
         return _schema;
     }
 
-    public void setSchema(Schema schema) {
+    /**
+     * Sets the {@link Schema} instance to be processed.
+     * @param schema {@link Schema} instancetp be processed.
+     */
+    public void setSchema(final Schema schema) {
         _schema = schema;
     }
 
     /**
-     * Returns the Object created by this ComponentReader
+     * Returns the Object created by this ComponentReader.
      * @return the Object created by this ComponentReader
     **/
     public Object getObject() {
@@ -220,7 +270,7 @@ public class SchemaUnmarshaller extends ComponentReader {
 
     /**
      * Returns the name of the element that this ComponentReader
-     * handles
+     * handles.
      * @return the name of the element that this ComponentReader
      * handles
     **/
@@ -230,26 +280,31 @@ public class SchemaUnmarshaller extends ComponentReader {
 
 
     /**
-     * initializes the Schema object with the given attribute list
+     * Initializes the Schema object with the given attribute list.
      * @param atts the AttributeList for the schema
-    **/
-    private void init(AttributeSet atts)
-            throws XMLException
-    {
-        if (atts == null) return;
+     * @throws XMLException Signals a problem in initializing the {@link Schema} 
+     * object instance
+     */
+    private void init(final AttributeSet atts) throws XMLException {
+        if (atts == null) {
+            return;
+        }
 
         String attValue = null;
 
         String nsURI = atts.getValue(SchemaNames.TARGET_NS_ATTR);
-        if (nsURI != null &&  nsURI.length() == 0)
-           throw new SchemaException("empty string is not a legal namespace.");
+        if (nsURI != null &&  nsURI.length() == 0) {
+            throw new SchemaException("empty string is not a legal namespace.");
+        }
         if ((nsURI != null) && (nsURI.length() > 0)) {
-        	if (!_state.cacheIncludedSchemas) {
-	        	//if we are including a schema we must take care
-	            //that the namespaces are the same
-	            if ( (_include) &&(!_schema.getTargetNamespace().equals(nsURI)) ) {
-	               throw new SchemaException("The target namespace of the included components must be the same as the target namespace of the including schema");
-	            }
+            if (!_state.cacheIncludedSchemas) {
+                //if we are including a schema we must take care
+                //that the namespaces are the same
+                if ((_include) && (!_schema.getTargetNamespace().equals(nsURI))) {
+                    throw new SchemaException("The target namespace of the included " 
+                            + "components must be the same as the target namespace " 
+                            + "of the including schema");
+                }
             }
                _schema.setTargetNamespace(nsURI);
         }
@@ -295,13 +350,16 @@ public class SchemaUnmarshaller extends ComponentReader {
     } //-- init
 
     /**
-     * Handles namespace attributes
-    **/
-    private void handleNamespaces(Namespaces namespaces)
-        throws XMLException
-    {
+     * Handles namespace attributes.
+     * @param namespaces The name space to handle.
+     * @throws XMLException If there's a problem related to namespace handling.
+     */
+    private void handleNamespaces(final Namespaces namespaces) 
+        throws XMLException {
 
-        if (namespaces == null) return;
+        if (namespaces == null) {
+            return;
+        }
 
         Enumeration enumeration = namespaces.getLocalNamespaces();
 
@@ -313,8 +371,8 @@ public class SchemaUnmarshaller extends ComponentReader {
             if (prefixes.length == 0) {
                 //-- this should never happen, but report error just
                 //-- in case there is a bug in Namespaces class.
-                String error = "unexpected error processing the following "+
-                    "namespace: '" + ns + "'; the prefix could not be resolved.";
+                String error = "unexpected error processing the following "
+                    + "namespace: '" + ns + "'; the prefix could not be resolved.";
                 throw new XMLException(error);
             }
 
@@ -330,15 +388,17 @@ public class SchemaUnmarshaller extends ComponentReader {
                     if (!tmpURI.equals(ns)) {
                         if (!hasCollisions) {
                             hasCollisions = true;
-                            if (_prefixMappings == null)
+                            if (_prefixMappings == null) {
                                 _prefixMappings = new RemappedPrefixes();
-                            else
+                            } else {
                                 _prefixMappings = _prefixMappings.newRemappedPrefixes();
+                            }
                         }
                         
                         //-- create a new prefix
-                        if (prefix.length() == 0) 
+                        if (prefix.length() == 0) {
                             prefix = "ns";
+                        }
                             
                         int count = 1;
                         String newPrefix = prefix + count;
@@ -354,9 +414,8 @@ public class SchemaUnmarshaller extends ComponentReader {
                         }
                         _prefixMappings.addMapping(prefix, newPrefix);
                         prefix = newPrefix;
-                    }
-                    //-- we may need to "reset" a currently mapped prefix
-                    else {
+                    } else {
+                        //-- we may need to "reset" a currently mapped prefix
                         if (_prefixMappings != null) {
                             if (_prefixMappings.isRemappedPrefix(prefix)) {
                                 //-- reset mapping in this scope
@@ -368,22 +427,22 @@ public class SchemaUnmarshaller extends ComponentReader {
                 //-- end collision handling
                 
                 if (prefix.length() == 0) {
-                    defaultNS = ns;
+                    _defaultNS = ns;
                     //register the default namespace with the empty string
-                    _schema.addNamespace("", defaultNS);
-                }
-                else {
+                    _schema.addNamespace("", _defaultNS);
+                } else {
                     //-- check for old unsupported schema namespaces
                     for (int nsIdx = 0; nsIdx < UNSUPPORTED_NAMESPACES.length; nsIdx++) {
-                        if (ns.equals(UNSUPPORTED_NAMESPACES[nsIdx]))
-                            error("The following namespace \"" + ns +
-                                "\" is no longer supported. Please update to " +
-                                " the W3C XML Schema Recommendation.");
+                        if (ns.equals(UNSUPPORTED_NAMESPACES[nsIdx])) {
+                            error("The following namespace \"" + ns 
+                                    + "\" is no longer supported. Please update to " 
+                                    + " the W3C XML Schema Recommendation.");
+                        }
                     }
                     _schema.addNamespace(prefix, ns);
-		        }
-		    }
-		}
+                }
+            }
+        }
 
     } //-- handleNamespaces
 
@@ -391,10 +450,17 @@ public class SchemaUnmarshaller extends ComponentReader {
      * Remaps any QName attributes for the given element and attributeSet.
      * This method is a work around for the lack of namespace scoping 
      * support in the Schema Object Model
+     * 
+     * @param name Name of the element handled.
+     * @param namespace Namepace of the element processed.
+     * @param atts The attributes of the element processed.
      */
-    private void handleRemapping(String name, String namespace, AttributeSetImpl atts) {
+    private void handleRemapping(final String name, final String namespace, 
+            final AttributeSetImpl atts) {
         
-        if (_prefixMappings == null) return;
+        if (_prefixMappings == null) {
+            return;
+        }
         
         //-- increase depth for scoping
         _prefixMappings.depth++;
@@ -425,13 +491,15 @@ public class SchemaUnmarshaller extends ComponentReader {
      * with the element.
      * @param nsDecls the namespace declarations being declared for this
      * element. This may be null.
+     * @throws XMLException To indicate a problem in processing the current element.
     **/
-    public void startElement(String name, String namespace, AttributeSet atts,
-        Namespaces nsDecls)
-        throws XMLException
-    {
+    public void startElement(final String name, 
+            String namespace, final AttributeSet atts,
+            final Namespaces nsDecls) throws XMLException {
 
-        if (skipAll) return;
+        if (skipAll) {
+            return;
+        }
         
         //-- DEBUG
         //System.out.println("#startElement: " + name + " {" + namespace + "}");
@@ -440,14 +508,15 @@ public class SchemaUnmarshaller extends ComponentReader {
 
         //-- process namespaces...unless we are inside an 
         //-- annotation
-        if (_annotationDepth == 0)
+        if (_annotationDepth == 0) {
             handleNamespaces(nsDecls);
+        }
 
         //-- backward compatibility, we'll need to
         //-- remove this at some point
         if ((!foundSchemaDef) && (namespace == null)) {
-            if (defaultNS == null) {
-                defaultNS = XSD_NAMESPACE;
+            if (_defaultNS == null) {
+                _defaultNS = XSD_NAMESPACE;
                 namespace = XSD_NAMESPACE;
                 System.out.println("No namespace declaration has been " +
                     "found for " + name);
@@ -455,8 +524,10 @@ public class SchemaUnmarshaller extends ComponentReader {
                 System.out.println(XSD_NAMESPACE);
             }
         }
-        if (namespace == null) namespace = defaultNS;
-        //-- end of backward compatibility
+        if (namespace == null) {
+            namespace = _defaultNS;
+            //-- end of backward compatibility
+        }
 
         //-- keep track of annotations
         if (name.equals(SchemaNames.ANNOTATION)) {
@@ -466,34 +537,34 @@ public class SchemaUnmarshaller extends ComponentReader {
         //-- check namespace
         if (!XSD_NAMESPACE.equals(namespace)) {
             if (_annotationDepth == 0) {
-                error("'"+ name + "' has not been declared in the XML "+
-                    "Schema namespace.");
+                error("'" + name + "' has not been declared in the XML "
+                        + "Schema namespace.");
             }
         }
 
         //-- handle namespace prefix remapping
         if (_annotationDepth == 0) { 
             if (_prefixMappings != null) {
-                handleRemapping(name, namespace, (AttributeSetImpl)atts);
+                handleRemapping(name, namespace, (AttributeSetImpl) atts);
             }
         }
         
         //-- Do delagation if necessary
-        if (unmarshaller != null) {
+        if (_unmarshaller != null) {
             try {
-                unmarshaller.startElement(name, namespace, atts, nsDecls);
-            }
-            catch(RuntimeException rtx) {
+                _unmarshaller.startElement(name, namespace, atts, nsDecls);
+            } catch (RuntimeException rtx) {
                 error(rtx);
             }
-            ++depth;
+            ++_depth;
             return;
         }
 
         if (name.equals(SchemaNames.SCHEMA)) {
 
-            if (foundSchemaDef)
+            if (foundSchemaDef) {
                 illegalElement(name);
+            }
 
             foundSchemaDef = true;
             init(atts);
@@ -502,50 +573,43 @@ public class SchemaUnmarshaller extends ComponentReader {
 
         //-- <annotation>
         if (name.equals(SchemaNames.ANNOTATION)) {
-            unmarshaller = new AnnotationUnmarshaller(getSchemaContext(), atts);
-        }
-        //--<attribute>
-        else if (name.equals(SchemaNames.ATTRIBUTE)) {
-            unmarshaller = new AttributeUnmarshaller(getSchemaContext(), _schema,atts);
-        }
-        //-- <attributeGroup>
-        else if (name.equals(SchemaNames.ATTRIBUTE_GROUP)) {
-            unmarshaller = new AttributeGroupUnmarshaller(getSchemaContext(), _schema, atts);
-        }
-        //-- <complexType>
-        else if (name.equals(SchemaNames.COMPLEX_TYPE)) {
-            unmarshaller
+            _unmarshaller = new AnnotationUnmarshaller(getSchemaContext(), atts);
+        } else if (name.equals(SchemaNames.ATTRIBUTE)) {
+            //--<attribute>
+            _unmarshaller = new AttributeUnmarshaller(getSchemaContext(), _schema, atts);
+        } else if (name.equals(SchemaNames.ATTRIBUTE_GROUP)) {
+            //-- <attributeGroup>
+            _unmarshaller = new AttributeGroupUnmarshaller(getSchemaContext(), _schema, atts);
+        } else if (name.equals(SchemaNames.COMPLEX_TYPE)) {
+            //-- <complexType>
+            _unmarshaller
                 = new ComplexTypeUnmarshaller(getSchemaContext(), _schema, atts);
-        }
-        //-- <element>
-        else if (name.equals(SchemaNames.ELEMENT)) {
-            unmarshaller
+        } else if (name.equals(SchemaNames.ELEMENT)) {
+            //-- <element>
+            _unmarshaller
                 = new ElementUnmarshaller(getSchemaContext(), _schema, atts);
-        }
-        //-- <simpleType>
-        else if (name.equals(SchemaNames.SIMPLE_TYPE)) {
-            unmarshaller = new SimpleTypeUnmarshaller(getSchemaContext(), _schema, atts);
-        }
-        //-- <group>
-        else if (name.equals(SchemaNames.GROUP)) {
-             unmarshaller = new ModelGroupUnmarshaller(getSchemaContext(), _schema, atts);
-        }
-        //-- <include>
-        else if (name.equals(SchemaNames.INCLUDE)) {
-            unmarshaller
-                = new IncludeUnmarshaller(getSchemaContext(), _schema, atts, getURIResolver(),getDocumentLocator(), _state);
-        }
-        //-- <import>
-        else if (name.equals(SchemaNames.IMPORT)) {
-            unmarshaller
-                = new ImportUnmarshaller(getSchemaContext(), _schema, atts, getURIResolver(), getDocumentLocator(), _state);
-        }
-        //-- <redefine>
-        else if (name.equals(SchemaNames.REDEFINE)) {
-        	unmarshaller
-			= new RedefineUnmarshaller(getSchemaContext(), _schema, atts, getURIResolver(), getDocumentLocator(), _state);
-        }
-        else {
+        } else if (name.equals(SchemaNames.SIMPLE_TYPE)) {
+            //-- <simpleType>
+            _unmarshaller = new SimpleTypeUnmarshaller(getSchemaContext(), _schema, atts);
+        } else if (name.equals(SchemaNames.GROUP)) {
+            //-- <group>
+             _unmarshaller = new ModelGroupUnmarshaller(getSchemaContext(), _schema, atts);
+        } else if (name.equals(SchemaNames.INCLUDE)) {
+            //-- <include>
+            _unmarshaller
+                = new IncludeUnmarshaller(getSchemaContext(), _schema, atts, 
+                        getURIResolver(), getDocumentLocator(), _state);
+        } else if (name.equals(SchemaNames.IMPORT)) {
+            //-- <import>
+            _unmarshaller
+                = new ImportUnmarshaller(getSchemaContext(), _schema, atts, 
+                        getURIResolver(), getDocumentLocator(), _state);
+        } else if (name.equals(SchemaNames.REDEFINE)) {
+            //-- <redefine>
+            _unmarshaller
+            = new RedefineUnmarshaller(getSchemaContext(), _schema, atts, 
+                    getURIResolver(), getDocumentLocator(), _state);
+        } else {
             //-- we should throw a new Exception here
             //-- but since we don't support everything
             //-- yet, simply add an UnknownDef object
@@ -553,7 +617,7 @@ public class SchemaUnmarshaller extends ComponentReader {
             System.out.print(name);
             System.out.print("> elements are either currently unsupported ");
             System.out.println("or non-valid schema elements.");
-            unmarshaller = new UnknownUnmarshaller(getSchemaContext(), name);
+            _unmarshaller = new UnknownUnmarshaller(getSchemaContext(), name);
         }
 
 //        unmarshaller.setDocumentLocator(getDocumentLocator());
@@ -566,18 +630,22 @@ public class SchemaUnmarshaller extends ComponentReader {
      * @param name the NCName of the element. It is an error
      * if the name is a QName (ie. contains a prefix).
      * @param namespace the namespace of the element.
+     * @throws XMLException To indicate that the current element cannnot be processed successfully.
     **/
     public void endElement(String name, String namespace)
-        throws XMLException
-    {
-        if (skipAll) return;
+        throws XMLException {
+        if (skipAll) {
+            return;
+        }
 
         //-- DEBUG
         //System.out.println("#endElement: " + name + " {" + namespace + "}");
         //-- /DEBUG
 
         //-- backward compatibility
-        if (namespace == null) namespace =  defaultNS;
+        if (namespace == null) {
+            namespace =  _defaultNS;
+        }
 
         //-- keep track of annotations
         if (name.equals(SchemaNames.ANNOTATION)) {
@@ -588,113 +656,109 @@ public class SchemaUnmarshaller extends ComponentReader {
         if (_prefixMappings != null) {
             if (_prefixMappings.depth == 0) {
                 _prefixMappings = _prefixMappings.getParent();
+            } else {
+                --_prefixMappings.depth;
             }
-            else --_prefixMappings.depth;
         }
 
         //-- Do delagation if necessary
-        if ((unmarshaller != null) && (depth > 0)) {
-            unmarshaller.endElement(name, namespace);
-            --depth;
+        if ((_unmarshaller != null) && (_depth > 0)) {
+            _unmarshaller.endElement(name, namespace);
+            --_depth;
             return;
         }
-
 
         //-- use internal JVM String
         name = name.intern();
 
-        if (name == SchemaNames.SCHEMA) return;
+        if (name == SchemaNames.SCHEMA) {
+            return;
+        }
 
         //-- check for name mismatches
-        if ((unmarshaller != null)) {
-            if (!name.equals(unmarshaller.elementName())) {
+        if ((_unmarshaller != null)) {
+            if (!name.equals(_unmarshaller.elementName())) {
                 String err = "error: missing end element for ";
-                err += unmarshaller.elementName();
+                err += _unmarshaller.elementName();
                 throw new SchemaException(err);
             }
-        }
-        else {
+        } else {
             String err = "error: missing start element for " + name;
             throw new SchemaException(err);
         }
 
         //-- call unmarshaller.finish() to perform any necessary cleanup
-        unmarshaller.finish();
+        _unmarshaller.finish();
 
         //-- <annotation>
         if (name.equals(SchemaNames.ANNOTATION)) {
-            _schema.addAnnotation((Annotation)unmarshaller.getObject());
-        }
-        //-- <attribute>
-        else if (name.equals(SchemaNames.ATTRIBUTE)) {
-            _schema.addAttribute((AttributeDecl)unmarshaller.getObject());
-        }
-        //-- <attributeGroup>
-        else if (name.equals(SchemaNames.ATTRIBUTE_GROUP)) {
-            Object obj = unmarshaller.getObject();
+            _schema.addAnnotation((Annotation) _unmarshaller.getObject());
+        } else if (name.equals(SchemaNames.ATTRIBUTE)) {
+            //-- <attribute>
+            _schema.addAttribute((AttributeDecl) _unmarshaller.getObject());
+        } else if (name.equals(SchemaNames.ATTRIBUTE_GROUP)) {
+            //-- <attributeGroup>
+            Object obj = _unmarshaller.getObject();
             try {
-                _schema.addAttributeGroup((AttributeGroupDecl)obj);
-            }
-            catch (ClassCastException ex) {
-                String err = "Top-level AttributeGroups must be defining "+
-                    "AttributeGroups and not referring AttributeGroups.";
+                _schema.addAttributeGroup((AttributeGroupDecl) obj);
+            } catch (ClassCastException ex) {
+                String err = "Top-level AttributeGroups must be defining "
+                    + "AttributeGroups and not referring AttributeGroups.";
                 error(err);
             }
-        }
-        //-- <complexType>
-        else if (name.equals(SchemaNames.COMPLEX_TYPE)) {
+        } else if (name.equals(SchemaNames.COMPLEX_TYPE)) {
+            //-- <complexType>
             ComplexType complexType = null;
-            complexType = ((ComplexTypeUnmarshaller)unmarshaller).getComplexType();
+            complexType = ((ComplexTypeUnmarshaller) _unmarshaller).getComplexType();
             _schema.addComplexType(complexType);
             if (complexType.getName() != null) {
                 getResolver().addResolvable(complexType.getReferenceId(), complexType);
-            }
-            else {
+            } else {
                 System.out.println("warning: top-level complexType with no name.");
             }
-        }
-        //-- <simpleType>
-        else if (name.equals(SchemaNames.SIMPLE_TYPE)) {
+        } else if (name.equals(SchemaNames.SIMPLE_TYPE)) {
+            //-- <simpleType>
             SimpleType simpleType = null;
-            simpleType = ((SimpleTypeUnmarshaller)unmarshaller).getSimpleType();
+            simpleType = ((SimpleTypeUnmarshaller) _unmarshaller).getSimpleType();
             _schema.addSimpleType(simpleType);
             getResolver().addResolvable(simpleType.getReferenceId(), simpleType);
-        }
-        //--<element>
-        else if (name.equals(SchemaNames.ELEMENT)) {
+        } else if (name.equals(SchemaNames.ELEMENT)) {
+            //--<element>
             ElementDecl element = null;
-            element = ((ElementUnmarshaller)unmarshaller).getElement();
+            element = ((ElementUnmarshaller) _unmarshaller).getElement();
             _schema.addElementDecl(element);
-        }
-        //--<group>
-        else if (name.equals(SchemaNames.GROUP)) {
+        } else if (name.equals(SchemaNames.GROUP)) {
+            //--<group>
             ModelGroup group = null;
-            group = (((ModelGroupUnmarshaller)unmarshaller).getGroup());
+            group = (((ModelGroupUnmarshaller) _unmarshaller).getGroup());
             _schema.addModelGroup(group);
-        }
-        //--<redefine>
-        else if (name.equals(SchemaNames.REDEFINE)) {
-        	RedefineSchema redefine = null;
-        	redefine = (RedefineSchema) (((RedefineUnmarshaller)unmarshaller).getObject());
-        	if ((redefine.getSchemaLocation() == null) && (redefine.hasRedefinition()) ) {
-        		_schema.removeRedefineSchema(redefine);
-        		String err = "A <redefine> structure with no 'schemaLocation' attribute must contain only <annotation> elements";
-        		error(err);
-        	}
+        } else if (name.equals(SchemaNames.REDEFINE)) {
+            //--<redefine>
+            RedefineSchema redefine = null;
+            redefine = (RedefineSchema) (((RedefineUnmarshaller) _unmarshaller).getObject());
+            if ((redefine.getSchemaLocation() == null) && (redefine.hasRedefinition())) {
+                _schema.removeRedefineSchema(redefine);
+                String err = "A <redefine> structure with no 'schemaLocation' " 
+                    + "attribute must contain only <annotation> elements";
+                error(err);
+            }
         }
 
-        unmarshaller = null;
+        _unmarshaller = null;
     } //-- endElement
 
-    public void characters(char[] ch, int start, int length)
-        throws XMLException
-    {
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.reader.ComponentReader#characters(char[], int, int)
+     */
+    public void characters(final char[] ch, final int start, final int length)
+        throws XMLException {
         //-- Do delagation if necessary
-        if (unmarshaller != null) {
-            unmarshaller.characters(ch, start, length);
+        if (_unmarshaller != null) {
+            _unmarshaller.characters(ch, start, length);
         }
     } //-- characters
-
     
     /**
      * This class handles remapping of namespace prefixes
@@ -716,7 +780,7 @@ public class SchemaUnmarshaller extends ComponentReader {
         
         static {
             
-            synchronized(QNAME_TABLE) {
+            synchronized (QNAME_TABLE) {
                 
                 if (!initialized) {
                     
@@ -726,27 +790,27 @@ public class SchemaUnmarshaller extends ComponentReader {
                     
                     //-- attribute                    
                     QNAME_TABLE.put(SchemaNames.ATTRIBUTE, new String [] {
-                        SchemaNames.REF_ATTR, SchemaNames.TYPE_ATTR } );
+                        SchemaNames.REF_ATTR, SchemaNames.TYPE_ATTR });
                         
                     //-- attributeGroup
                     QNAME_TABLE.put(SchemaNames.ATTRIBUTE_GROUP, new String [] {
-                        SchemaNames.REF_ATTR } );
+                        SchemaNames.REF_ATTR });
                         
                     //-- element
                     QNAME_TABLE.put(SchemaNames.ELEMENT, new String [] {
-                        SchemaNames.REF_ATTR, SchemaNames.TYPE_ATTR } );
+                        SchemaNames.REF_ATTR, SchemaNames.TYPE_ATTR });
                         
                     //-- extension
                     QNAME_TABLE.put(SchemaNames.EXTENSION, new String [] {
-                        SchemaNames.BASE_ATTR } );
+                        SchemaNames.BASE_ATTR });
 
                     //-- group
                     QNAME_TABLE.put(SchemaNames.GROUP, new String [] {
-                        SchemaNames.REF_ATTR } );
+                        SchemaNames.REF_ATTR });
                         
                     //-- restriction
                     QNAME_TABLE.put(SchemaNames.RESTRICTION, new String [] {
-                        SchemaNames.BASE_ATTR } );
+                        SchemaNames.BASE_ATTR });
                         
                     
                     //-- custom mappings
@@ -756,12 +820,10 @@ public class SchemaUnmarshaller extends ComponentReader {
                     if (is != null) {
                         try {
                             props.load(is);
-                        }
-                        catch(java.io.IOException iox) {
+                        } catch (java.io.IOException iox) {
                             //-- just use built-in mappings
                         }
                     }
-                    
                                         
                     Enumeration keys = props.propertyNames();
                     while (keys.hasMoreElements()) {
@@ -785,8 +847,6 @@ public class SchemaUnmarshaller extends ComponentReader {
         
         int depth = 0;
         
-        
-        
         public boolean isRemappedPrefix(String prefix) {
             
             if (prefix == null) prefix = "";
@@ -805,7 +865,7 @@ public class SchemaUnmarshaller extends ComponentReader {
             return _parent;
         }
         
-        public String getPrefixMapping(String oldPrefix) {
+        public String getPrefixMapping(final String oldPrefix) {
             
             if (_prefixes != null) {
                 String newPrefix = (String)_prefixes.get(oldPrefix);
@@ -826,7 +886,7 @@ public class SchemaUnmarshaller extends ComponentReader {
             return rp;
         }
         
-        public void addMapping(String oldPrefix, String newPrefix) {
+        public void addMapping(final String oldPrefix, final String newPrefix) {
             if (_prefixes == null) {
                 _prefixes = new HashMap();
             }
@@ -834,28 +894,31 @@ public class SchemaUnmarshaller extends ComponentReader {
         }
 
         public String remapQName(String value) {
-            if (value == null) return null;
+            if (value == null) {
+                return null;
+            }
             
             //-- non-default namespace
             int idx = value.indexOf(':');
             String prefix = "";
             if (idx >= 0) {
                 prefix = value.substring(0, idx);
+            } else {
+                idx = -1;            
             }
-            else idx = -1;            
             String newPrefix = getPrefixMapping(prefix);
             if (!prefix.equals(newPrefix)) {
-                if (newPrefix.length() == 0) 
-                    value = value.substring(idx+1);
-                else
-                    value = newPrefix + ":" + value.substring(idx+1);
+                if (newPrefix.length() == 0) {
+                    value = value.substring(idx + 1);
+                } else {
+                    value = newPrefix + ":" + value.substring(idx + 1);
+                }
             }
             
             return value;
         } //-- remapValue
         
     }
-    
     
 } //-- SchemaUnmarshaller
 
