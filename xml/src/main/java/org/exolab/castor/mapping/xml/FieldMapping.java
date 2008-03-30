@@ -1,18 +1,11 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.1.2.1</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.2</a>, using an XML
  * Schema.
  * $Id$
  */
 
 package org.exolab.castor.mapping.xml;
-
-  //---------------------------------/
- //- Imported classes and packages -/
-//---------------------------------/
-
-import org.exolab.castor.xml.Marshaller;
-import org.exolab.castor.xml.Unmarshaller;
 
 /**
  * Class FieldMapping.
@@ -75,6 +68,16 @@ public class FieldMapping implements java.io.Serializable {
      * keeps track of state for field: _lazy
      */
     private boolean _has_lazy;
+
+    /**
+     * Field _nillable.
+     */
+    private boolean _nillable = false;
+
+    /**
+     * keeps track of state for field: _nillable
+     */
+    private boolean _has_nillable;
 
     /**
      * Field _container.
@@ -196,6 +199,13 @@ public class FieldMapping implements java.io.Serializable {
     public void deleteLazy(
     ) {
         this._has_lazy= false;
+    }
+
+    /**
+     */
+    public void deleteNillable(
+    ) {
+        this._has_nillable= false;
     }
 
     /**
@@ -359,6 +369,16 @@ public class FieldMapping implements java.io.Serializable {
     }
 
     /**
+     * Returns the value of field 'nillable'.
+     * 
+     * @return the value of field 'Nillable'.
+     */
+    public boolean getNillable(
+    ) {
+        return this._nillable;
+    }
+
+    /**
      * Returns the value of field 'required'.
      * 
      * @return the value of field 'Required'.
@@ -449,6 +469,16 @@ public class FieldMapping implements java.io.Serializable {
     }
 
     /**
+     * Method hasNillable.
+     * 
+     * @return true if at least one Nillable has been added
+     */
+    public boolean hasNillable(
+    ) {
+        return this._has_nillable;
+    }
+
+    /**
      * Method hasRequired.
      * 
      * @return true if at least one Required has been added
@@ -509,6 +539,16 @@ public class FieldMapping implements java.io.Serializable {
     }
 
     /**
+     * Returns the value of field 'nillable'.
+     * 
+     * @return the value of field 'Nillable'.
+     */
+    public boolean isNillable(
+    ) {
+        return this._nillable;
+    }
+
+    /**
      * Returns the value of field 'required'.
      * 
      * @return the value of field 'Required'.
@@ -555,7 +595,7 @@ public class FieldMapping implements java.io.Serializable {
     public void marshal(
             final java.io.Writer out)
     throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
-        Marshaller.marshal(this, out);
+        org.exolab.castor.xml.Marshaller.marshal(this, out);
     }
 
     /**
@@ -572,7 +612,7 @@ public class FieldMapping implements java.io.Serializable {
     public void marshal(
             final org.xml.sax.ContentHandler handler)
     throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
-        Marshaller.marshal(this, handler);
+        org.exolab.castor.xml.Marshaller.marshal(this, handler);
     }
 
     /**
@@ -726,6 +766,17 @@ public class FieldMapping implements java.io.Serializable {
     }
 
     /**
+     * Sets the value of field 'nillable'.
+     * 
+     * @param nillable the value of field 'nillable'.
+     */
+    public void setNillable(
+            final boolean nillable) {
+        this._nillable = nillable;
+        this._has_nillable = true;
+    }
+
+    /**
      * Sets the value of field 'required'.
      * 
      * @param required the value of field 'required'.
@@ -792,7 +843,7 @@ public class FieldMapping implements java.io.Serializable {
     public static org.exolab.castor.mapping.xml.FieldMapping unmarshal(
             final java.io.Reader reader)
     throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
-        return (org.exolab.castor.mapping.xml.FieldMapping) Unmarshaller.unmarshal(org.exolab.castor.mapping.xml.FieldMapping.class, reader);
+        return (org.exolab.castor.mapping.xml.FieldMapping) org.exolab.castor.xml.Unmarshaller.unmarshal(org.exolab.castor.mapping.xml.FieldMapping.class, reader);
     }
 
     /**
