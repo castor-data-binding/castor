@@ -562,6 +562,7 @@ public class OrderItem {
                   direct         ( true | false )  "false"
                   lazy           ( true | false )  "false"
                   transient      ( true | false )  "false"
+                  nillable       ( true | false )  "false"
                   get-method     NMTOKEN  #IMPLIED
                   set-method     NMTOKEN  #IMPLIED
                   create-method  NMTOKEN  #IMPLIED
@@ -768,6 +769,8 @@ public class OrderItem {
             above for more details.</li>
 
           <li><b>required:</b> the field can the optional or required</li>
+
+          <li><b>nillable:</b> the field can be of content '<tt>nil</tt>'</li>
 
           <li><b>transient:</b> if true, this field will be ignored during the
           marshalling. This is usefull in when used with the auto-complete

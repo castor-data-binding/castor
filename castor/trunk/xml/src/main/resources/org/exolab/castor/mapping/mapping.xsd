@@ -108,6 +108,7 @@
       <xsd:attribute name="type"          type="xsd:string" use="optional"/>
       <xsd:attribute name="required"      type="xsd:boolean"  use="optional"   default="false"/>
       <xsd:attribute name="transient"     type="xsd:boolean"  use="optional"   default="false"/>
+      <xsd:attribute name="nillable"      type="xsd:boolean"  use="optional"   default="false"/>
       <xsd:attribute name="direct"        type="xsd:boolean"  use="optional"   default="false"/>
       <xsd:attribute name="lazy"          type="xsd:boolean"  use="optional"   default="false"/>
       <xsd:attribute name="container"     type="xsd:boolean"  use="optional"/>

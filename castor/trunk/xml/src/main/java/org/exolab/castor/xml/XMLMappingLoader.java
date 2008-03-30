@@ -583,6 +583,8 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
         }
 
         xmlDesc.setContainer(fieldMap.getContainer());
+        
+        xmlDesc.setNillable(fieldMap.isNillable());
 
         if (xml != null) {
 

@@ -1475,7 +1475,7 @@ public class Marshaller extends MarshalFramework {
             }
         }
 
-        if (isNil) {
+        if (isNil && !_suppressXSIType) {
             //-- declare XSI namespace, if necessary
             declareNamespace(XSI_PREFIX, XSI_NAMESPACE);
             //-- add xsi:nil="true"
@@ -1780,23 +1780,23 @@ public class Marshaller extends MarshalFramework {
             //-- used previously cached value?
             if ((i == firstNonNullIdx) && (firstNonNullValue != null)) {
                 obj = firstNonNullValue;
-            }
-            //-- obtain value from handler
-            else {
+            } else {
+                //-- obtain value from handler
                 try {
                     obj = elemDescriptor.getHandler().getValue(object);
-                }
-                catch(IllegalStateException ise) {
+                } catch (IllegalStateException ise) {
                     LOG.warn("Error marshalling " + object, ise);
                     continue;
                 }
             }
-
-            if (obj == null || (obj instanceof Enumeration && !((Enumeration)obj).hasMoreElements())) {
-                if (elemDescriptor.isNillable() && (elemDescriptor.isRequired())) {
+            
+            if (obj == null 
+                    || (obj instanceof Enumeration && !((Enumeration) obj).hasMoreElements())) {
+                             if (elemDescriptor.isNillable() && (elemDescriptor.isRequired())) {
                     nil = true;
+                } else {
+                    continue;
                 }
-                else continue;
             }
 
 
@@ -1943,7 +1943,9 @@ public class Marshaller extends MarshalFramework {
                 }
             }
             //-- otherwise just marshal object as is
-            else marshal(obj, elemDescriptor, handler, myState);
+            else {
+                marshal(obj, elemDescriptor, handler, myState);
+            }
 
             if (nestedAttCount > 0) {
                 nestedAttCount = myState.nestedAttCount;
@@ -1965,7 +1967,9 @@ public class Marshaller extends MarshalFramework {
             }
         }
 
-
+        // TODO: Handling additional attributes at the end causes elements to be marshalled in the wrong
+        // order when element 'text' is null, but their attribute value is not null. Can this be fixed
+        // to process element attributes even when the element text value is null?
 
         //-- Handle any additional attribute locations that were
         //-- not handled when dealing with wrapper elements
