@@ -1255,13 +1255,20 @@ public final class XMLBindingComponent implements BindingComponent {
             //--simpleType or AnyType
             if (type != null && type.isSimpleType()) {
                 String packageName = null;
+                String className = null;
                 if (((SimpleType) type).getSchema() != getSchema()) {
                     XMLBindingComponent comp = new XMLBindingComponent(_config, getGroupNaming());
                     comp.setBinding(_binding);
                     comp.setView(type);
                     packageName = comp.getJavaPackage();
+                    if (comp.getClass() != null) {
+                        className = comp.getJavaClassName();
+                    }
                 } else {
                     packageName = getJavaPackage();
+                    if (_class != null) {
+                        className = getJavaClassName();
+                    }
                 }
 
                 if ((packageName == null) || (packageName.length() == 0)) {
@@ -1270,7 +1277,7 @@ public final class XMLBindingComponent implements BindingComponent {
                 }
 
                 result = _typeConversion.convertType((SimpleType) type, 
-                        packageName, useWrapper,_config.useJava50());
+                        packageName, useWrapper, _config.useJava50(), className);
             }
         }
 
