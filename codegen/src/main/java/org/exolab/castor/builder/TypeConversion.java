@@ -97,6 +97,7 @@ import org.exolab.castor.xml.schema.SimpleTypesFactory;
 import org.exolab.castor.xml.schema.Structure;
 import org.exolab.castor.xml.schema.Union;
 import org.exolab.javasource.JClass;
+import org.exolab.javasource.JNaming;
 import org.exolab.javasource.JType;
 
 /**
@@ -147,7 +148,7 @@ public final class TypeConversion {
      */
     public XSType convertType(final SimpleType simpleType, final String packageName,
                               final boolean useJava50) {
-         return convertType(simpleType, packageName, _config.usePrimitiveWrapper(), useJava50);
+         return convertType(simpleType, packageName, _config.usePrimitiveWrapper(), useJava50, null);
     }
 
     /**
@@ -159,10 +160,13 @@ public final class TypeConversion {
      *        wrappers be used instead of the actual primitives (e.g.
      *        java.lang.Integer instead of int)
      * @param useJava50 true if source code is to be generated for Java 5
+     * @param javaClassBindingName valid java Class Name specified by corresponding 
+     *        binding component
      * @return the XSType which represets the given Simpletype
      */
     public XSType convertType(final SimpleType simpleType, final String packageName,
-            final boolean useWrapper, final boolean useJava50) {
+            final boolean useWrapper, final boolean useJava50, 
+            final String javaClassBindingName) {
         if (simpleType == null) {
             return null;
         }
@@ -184,7 +188,7 @@ public final class TypeConversion {
             return new XSClass(new JClass(className));
         }
 
-        xsType = findXSTypeForEnumeration(simpleType, packageName);
+        xsType = findXSTypeForEnumeration(simpleType, packageName, javaClassBindingName);
         if (xsType != null) {
             return xsType;
         }
@@ -353,7 +357,7 @@ public final class TypeConversion {
                 xsQName.setFacets(simpleType);
                 return xsQName;
             case SimpleTypesFactory.STRING_TYPE:               //-- string
-                xsType = findXSTypeForEnumeration(simpleType, packageName);
+                xsType = findXSTypeForEnumeration(simpleType, packageName, javaClassBindingName);
                 if (xsType == null) {
                     // Not an enumerated String type
                     XSString xsString = new XSString();
@@ -431,7 +435,7 @@ public final class TypeConversion {
             return new XSClass(SGTypes.OBJECT);
         }
         
-        XSType convertedType = convertType(common, packageName, useWrapper, useJava50);
+        XSType convertedType = convertType(common, packageName, useWrapper, useJava50, null);
         Union unionType = (Union) simpleType;
         Enumeration memberTypes = unionType.getMemberTypes();
         while (memberTypes.hasMoreElements()) {
@@ -505,13 +509,20 @@ public final class TypeConversion {
     }
 
     /**
-     * Returns an XSType for an enumerated type.  For non-enumerated types,
+     * Returns an XSType for an enumerated type. For non-enumerated types,
      * returns null.
-     * @param simpleType the SimpleType being inspected
-     * @param packageName current package name
+     * 
+     * @param simpleType
+     *            the SimpleType being inspected
+     * @param packageName
+     *            current package name
+     * @param javaClassBindingName
+     *            valid Java Class Name specified by corresponding binding
+     *            component
      * @return an XSType for an enumerated type, null for a non-enumerated type.
      */
-    private XSType findXSTypeForEnumeration(final SimpleType simpleType, final String packageName) {
+    private XSType findXSTypeForEnumeration(final SimpleType simpleType, 
+            final String packageName, final String javaClassBindingName) {
         if (!simpleType.hasFacet(Facet.ENUMERATION)) {
             return null;
         }
@@ -521,17 +532,31 @@ public final class TypeConversion {
 
         //-- anonymous type
         if (typeName == null) {
+            if (javaClassBindingName != null) {
+                // handled by binding file
+                if (!JNaming.isInJavaLang(javaClassBindingName) 
+                        && !JNaming.isReservedByCastor(javaClassBindingName) 
+                        && !JNaming.isReservedByWindows(javaClassBindingName)) {
+                    typeName = javaClassBindingName;
+//                    typeName += "Type";
+                }
+            }
+        }
+               
+        if (typeName == null) {
+            // not handled by binding file
             Structure parent = simpleType.getParent();
             if (parent instanceof ElementDecl) {
                 typeName = ((ElementDecl) parent).getName();
             } else if (parent instanceof AttributeDecl) {
                 typeName = ((AttributeDecl) parent).getName();
             }
+                
             typeName = typeName + "Type";
         }
 
         String className = _config.getJavaNaming().toJavaClassName(typeName);
-
+        
         // Get the appropriate package name for this type
         String typePackageName = packageName;
         if (typePackageName == null) {

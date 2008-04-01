@@ -47,6 +47,27 @@
                 
             </summary>
             <bugs>
+                <bug id="2289" tool="jira">
+                    <description>
+                        Added support for changing the binding (name, namespace) of an anonymous 
+                        enumeration in a binding file. 
+                    </description>
+                    <contributor>
+                        <name>Dennis Spenkelink</name>
+                        <email>dspenkelink@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Dennis Spenkelink</name>
+                        <email>dspenkelink@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20080401</date>
+                </bug>
                 <bug id="2143" tool="jira">
                     <description>
                         Added support for 'nillable' content (actually elements only) 
