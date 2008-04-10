@@ -16,6 +16,9 @@
         <module>ddlgen</module>
         <module>anttask</module>
         <module>cpa</module>
+        
+        <module>cpa-testcase-archetype</module>
+        <module>codegen-testcase-archetype</module>
     </modules>
      
     <name>Castor</name>
