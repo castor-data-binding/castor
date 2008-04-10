@@ -6,50 +6,18 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.codehaus.castor</groupId>
 	<artifactId>cpa-testcase</artifactId>
-	<version>1.0</version>
 	<packaging>maven-plugin</packaging>
 
-<!-- 
     <parent>
         <groupId>org.codehaus.castor</groupId>
         <artifactId>castor</artifactId>
         <version>1.2.1-SNAPSHOT</version>
     </parent>
--->
- 	
-	<build>
-		<!--  redundant; will be removed once we switch to parent structure -->
-		<extensions>
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-webdav</artifactId>
-				<version>1.0-beta-1</version>
-			</extension>
-		</extensions>
-	</build>
 
     <scm>
        <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/cpa-testcase-archetype</connection>
        <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/cpa-testcase-archetype</developerConnection>
        <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/cpa-testcase-archetype</url>
     </scm>
-
-	<!--  redundant; will be removed once we switch to parent structure -->
-	<distributionManagement>
-		<repository>
-			<id>codehaus.org</id>
-			<name>Castor Central Distribution Repository</name>
-			<url>dav:https://dav.codehaus.org/repository/castor/</url>
-		</repository>
-		<snapshotRepository>
-			<id>codehaus.org</id>
-			<name>Castor Central Development Repository</name>
-			<url>dav:https://dav.codehaus.org/snapshots.repository/castor/</url>
-		</snapshotRepository>
-		<site>
-			<id>codehaus.org</id>
-			<url>dav:https://dav.codehaus.org/castor/</url>
-		</site>
-	</distributionManagement>
 
 </project>
