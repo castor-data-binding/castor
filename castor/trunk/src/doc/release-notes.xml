@@ -47,6 +47,27 @@
                 
             </summary>
             <bugs>
+                <bug id="2326" tool="jira">
+                    <description>
+                        Fixed problem with persistence of entities that has fields that are
+                        all part of object identity. 
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Victor Manuel Iniestra Alvarez</name>
+                        <email>viniestra@hotmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20080411</date>
+                </bug>
                 <bug id="2323" tool="jira">
                     <description>
                         Fixed problem with name collision detection for Windows-specific keywords. 
