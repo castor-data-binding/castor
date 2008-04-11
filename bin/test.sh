@@ -26,5 +26,10 @@ CLASSPATH=$CLASSPATH:$CASTOR_HOME/cpa/build/classes
 CLASSPATH=`echo $LIB_D/*.jar | tr ' ' ':'`:$CLASSPATH
 CLASSPATH=`echo $LIB_D/tests/*.jar | tr ' ' ':'`:$CLASSPATH
 
+# add something like the following to include
+# database driver to your classpath
+#
+# CLASSPATH=`echo $CASTOR_HOME/../*.jar | tr ' ' ':'`:$CLASSPATH
+
 #$JAVA -Xms256M -Xmx512M -cp $CLASSPATH MainApp -execute $1 $2 $3 $4 $5 $6
 $JAVA -cp $CLASSPATH MainApp -execute $1 $2 $3 $4 $5 $6

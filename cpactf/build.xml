@@ -6,8 +6,8 @@
     <property name="source"               value="${basedir}/src"/>
     <property name="main.java"            value="${source}/main/java"/>
     <property name="main.resources"       value="${source}/main/resources"/>
-    <property name="test.java"            value="${source}/test/java"/>
-    <property name="test.resources"       value="${source}/test/resources"/>
+    <property name="test.java"            value="${source}/old/java"/>
+    <property name="test.resources"       value="${source}/old/resources"/>
     <property name="build"                value="${basedir}/build"/>
     <property name="classes"              value="${build}/classes"/>
     <property name="archive"              value="${project}-${version}${release}-cpactf"/>
@@ -52,7 +52,7 @@
                 <filter token="RELEASE" value="${release}"/>
             </filterset>
         </copy>
-        <copy todir="${build}" file="src/test/resources/log4j.xml"/>
+        <copy todir="${build}" file="src/old/resources/log4j.xml"/>
         <javac srcdir="${test.java}" destdir="${classes}"
                debug="on" encoding="ISO-8859-1" deprecation="false">
             <classpath refid="build.classpath"/>
