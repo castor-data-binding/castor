@@ -342,7 +342,7 @@ public final class SQLStatementLoad {
             int columnIndex = ids.length + 1;
             
             Set processedTables = new HashSet();
-            if (fields[0].isJoined()) {
+            if (fields.length > 0 && fields[0].isJoined()) {
                 processedTables.add(_engine.getDescriptor().getTableName());
             }
             boolean notNull;
