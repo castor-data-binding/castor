@@ -229,7 +229,8 @@
     	
     	<delete>
     	    <fileset dir="${basedir}/bin">
-    	    	  <include name="*-log.txt*"/>
+    	    	<include name="*-log.txt*"/>
+    	        <include name="serialized.out"/>
     	    </fileset>
     	</delete>
 
