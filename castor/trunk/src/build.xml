@@ -226,6 +226,12 @@
         <delete dir="${dist}"/>
         <delete dir="${schema}"/>
         <delete dir="${gen.src}"/>
+    	
+    	<delete>
+    	    <fileset dir="${basedir}/bin">
+    	    	  <include name="*-log.txt*"/>
+    	    </fileset>
+    	</delete>
 
         <ant antfile="${basedir}/ddlgen/build.xml" target="clean.ddlgen" inheritAll="false" />
         <ant antfile="${basedir}/cpa/build.xml" target="clean.cpa" inheritAll="false" />
