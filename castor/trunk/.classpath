@@ -29,11 +29,12 @@
 	<classpathentry kind="src" path="src/bugs"/>
 	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/main/java"/>
 	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/main/resources"/>
-	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/temp/java"/>
-	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/temp/resources"/>
-	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/temp/ddl"/>
 	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/test/java"/>
 	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/test/resources"/>
+	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/test/ddl"/>
+	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/old/java"/>
+	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/old/resources"/>
+	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/old/ddl"/>
 	<classpathentry kind="src" output="cpaptf/eclipse" path="cpaptf/src/test/java"/>
 	<classpathentry kind="src" output="cpaptf/eclipse" path="cpaptf/src/test/resources"/>
 	<classpathentry excluding="codegen/" kind="src" output="examples/eclipse" path="examples/src/main/java"/>
