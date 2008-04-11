@@ -153,6 +153,15 @@ create table tc1x_pks_person (
 
 create unique index tc1x_pks_person_pk on tc1x_pks_person( fname, lname );
 
+drop table if exists tc1x_pks_only;
+
+create table tc1x_pks_only(
+  fname varchar(15)    not null,
+  lname varchar(15)    not null
+);
+
+create unique index tc1x_pks_only_pk on tc1x_pks_only( fname, lname );
+
 drop table if exists tc1x_pks_employee;
 
 create table tc1x_pks_employee (
@@ -587,7 +596,7 @@ create table tc7x_sorted_container (
 drop table if exists tc7x_sorted_item;
 create table tc7x_sorted_item(
   id        int not null,
-  id_1		int not null,
+  id_1        int not null,
   name      varchar(200) not null
 );
 
@@ -612,7 +621,7 @@ insert into tc7x_as_assoc1 (id, name) values (1, 'assoc1');
 create table tc7x_as_main (
   id        int not null primary key,
   name      varchar(200) not null,
-  assoc1_id	int null
+  assoc1_id    int null
 );
 
 insert into tc7x_as_main (id, name, assoc1_id) values (1, 'main', 1);
@@ -629,7 +638,7 @@ insert into tc7x_as_main_many (id, name) values (1, 'main');
 create table tc7x_as_assoc_many (
   id        int not null primary key,
   name      varchar(200) not null,
-  main_id	int
+  main_id    int
 );
 
 insert into tc7x_as_assoc_many (id, name, main_id) values (1, 'assoc.many.1', 1);
@@ -781,15 +790,15 @@ drop table if exists tc8x_circ_brother;
 drop table if exists tc8x_circ_sister;
 
 create table tc8x_circ_brother (
-	brother_id int not null PRIMARY KEY,
-	brother_sibling int
+    brother_id int not null PRIMARY KEY,
+    brother_sibling int
 );
 
 create table tc8x_circ_sister (
-	sister_id int not null PRIMARY KEY,
-	sister_sibling int
+    sister_id int not null PRIMARY KEY,
+    sister_sibling int
 );
-	
+    
 -- tc166.TestLazy1to1
 drop table if exists tc8x_lazy_11_chd;
 create table tc8x_lazy_11_chd (
@@ -806,16 +815,16 @@ create table tc8x_lazy_11_par (
 
 drop table if exists tc8x_lazy_11_author;
 create table tc8x_lazy_11_author (
-  id			bigint not null,
-  first_name	varchar(100) not null,
-  last_name		varchar(100) not null
+  id            bigint not null,
+  first_name    varchar(100) not null,
+  last_name        varchar(100) not null
 );
 
 drop table if exists tc8x_lazy_11_book;
 create table tc8x_lazy_11_book (
-  id			bigint not null,
-  name 			varchar(100) not null,
-  author_id		bigint not null
+  id            bigint not null,
+  name             varchar(100) not null,
+  author_id        bigint not null
 );
 
 insert into tc8x_lazy_11_chd (id, descr) values (1, 'child 1');
@@ -845,10 +854,10 @@ drop table if exists tc8x_trans_master;
 create table tc8x_trans_master (
   id        int not null,
   name      varchar(200) not null,
-  propty1	int,
-  propty2	int,
-  propty3	int,
-  ent2		int
+  propty1    int,
+  propty2    int,
+  propty3    int,
+  ent2        int
 );
 
 drop table if exists tc8x_trans_child1;
@@ -875,7 +884,7 @@ insert into tc8x_trans_child2 (id, descr) values (3, 'description3');
 drop table if exists tc8x_self_refer_parent;
 create table tc8x_self_refer_parent (
   id        int not null primary key,
-  fid		int,
+  fid        int,
   name      varchar(200) not null
 );
 
@@ -966,8 +975,8 @@ insert into tc8x_child_compound (id1, id2, descr) values (1, 1, 'childCompound1'
 
 drop table if exists tc9x_foo;
 create table tc9x_foo (
-  id        		int not null,
-  field     		varchar(200) not null
+  id                int not null,
+  field             varchar(200) not null
 );
 
 insert into tc9x_foo (id, field) values (1, 'a foo');
@@ -982,8 +991,8 @@ insert into tc9x_bar (id) values (2);
 
 drop table if exists tc9x_customer;
 create table tc9x_customer (
-	id				int not null,
-	description 	varchar(200) not null			
+    id                int not null,
+    description     varchar(200) not null            
 );
 
 insert into tc9x_customer (id, description) values (1, 'alice');
@@ -991,10 +1000,10 @@ insert into tc9x_customer (id, description) values (2, 'bob');
 
 drop table if exists tc9x_subscription;
 create table tc9x_subscription (
-	id				int not null,
-	createddate		datetime,
-	description		varchar(200),
-	customer_id		int not null
+    id                int not null,
+    createddate        datetime,
+    description        varchar(200),
+    customer_id        int not null
 );
 
 insert into tc9x_subscription (id, createddate, customer_id) values (1, now(), 2);
@@ -1002,14 +1011,14 @@ insert into tc9x_subscription (id, createddate, customer_id) values (2, now(), 2
 
 drop table if exists tc9x_supersubscription;
 create table tc9x_supersubscription (
-	id			int not null
+    id            int not null
 );
 
 drop table if exists tc9x_credit;
 create table tc9x_credit (
-	id						int not null,
-	balance					int not null,
-	supersubscription_id	int not null
+    id                        int not null,
+    balance                    int not null,
+    supersubscription_id    int not null
 );
 
 drop table if exists tc9x_poly_ordr;
@@ -1036,8 +1045,8 @@ drop table if exists tc9x_poly_prod;
 create table tc9x_poly_prod (
   id        int not null,
   name      varchar(200) not null,
-  detail	int not null,
-  owner		int
+  detail    int not null,
+  owner        int
 );
 
 drop table if exists tc9x_poly_computer;
@@ -1105,25 +1114,25 @@ create table tc9x_poly_server_multi (
 
 drop table if exists tc9x_poly_order_product;
 create table tc9x_poly_order_product (
-  order_id	int not null,
+  order_id    int not null,
   product_id int not null
 );
 
 drop table if exists tc9x_poly_table_m;
 create table tc9x_poly_table_m (
-  id	int not null,
-  name	varchar(20) not null
+  id    int not null,
+  name    varchar(20) not null
 );
 
 drop table if exists tc9x_poly_table_n;
 create table tc9x_poly_table_n (
-  id	int not null,
-  name	varchar(20) not null
+  id    int not null,
+  name    varchar(20) not null
 );
 
 drop table if exists tc9x_poly_m_n;
 create table tc9x_poly_m_n (
-  m_id	int not null,
+  m_id    int not null,
   n_id int not null
 );
 
@@ -1280,35 +1289,35 @@ INSERT INTO tc9x_poly_depend_object VALUES(1, 1, 'This is a description');
  
 drop table if exists tc200_self_relation_folder;
 create table tc200_self_relation_folder (
-  id          int		     	not null,  
-  name        varchar(255)    	not null,
-  parent_id	  int				null
+  id          int                 not null,  
+  name        varchar(255)        not null,
+  parent_id      int                null
   
 );
 
 drop table if exists tc200_self_relation_folder_parent;
 create table tc200_self_relation_folder_parent (
-  id          int		     	not null,  
-  name        varchar(255)    	not null
+  id          int                 not null,  
+  name        varchar(255)        not null
 );
 
 drop table if exists tc200_self_relation_folder_extend;
 create table tc200_self_relation_folder_extend (
-  id          int		     	not null,  
-  parent_id	  int				null
+  id          int                 not null,  
+  parent_id      int                null
 );
 
 drop table if exists tc202_foreign_key_first_entity_1;
 create table tc202_foreign_key_first_entity_1 (
-	id int NOT NULL,
-	number int NULL
+    id int NOT NULL,
+    number int NULL
 );
 
 drop table if exists tc202_foreign_key_first_entity_n;
 create table tc202_foreign_key_first_entity_n (
-	id int NOT NULL,
-	entity int NOT NULL,
-	number int NULL
+    id int NOT NULL,
+    entity int NOT NULL,
+    number int NULL
 );
 
 insert into tc202_foreign_key_first_entity_1 VALUES (1, 1);
