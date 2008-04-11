@@ -361,4 +361,16 @@
       <sql name="fname lname" />
     </field>
   </class>
+  
+  <class name="ctf.jdo.tc1x.PrimaryKeysOnly" identity="firstName lastName">
+    <description>testing multiple primary key (where all fields are part of identity)</description>
+    <map-to table="tc1x_pks_only" />
+    <field name="firstName" type="string"  required="true">
+      <sql name="fname" type="varchar" />
+    </field>
+    <field name="lastName" type="string" required="true">
+      <sql name="lname" type="varchar" />
+    </field>
+  </class>
+  
 </mapping>
