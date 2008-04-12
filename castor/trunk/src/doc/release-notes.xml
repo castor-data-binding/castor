@@ -47,6 +47,26 @@
                 
             </summary>
             <bugs>
+                <bug id="1961" tool="jira">
+                    <description>
+                        Fixed NumberFormatException: For input string: "10g".
+                    </description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Radovana Straube</name>
+                        <email>radovana.straube@bol-systemhaus.de</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20080412</date>
+                </bug>
                 <bug id="2291" tool="jira">
                     <description>
                         Renamed cpactf/src/test to cpactf/src/old and cpactf/src/temp to cpactf/src/test.

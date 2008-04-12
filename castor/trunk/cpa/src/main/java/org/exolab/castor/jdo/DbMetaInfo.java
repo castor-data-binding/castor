@@ -67,6 +67,9 @@ public final class DbMetaInfo {
      * Logging </a> instance used for all logging.
      */
     private static Log _log = LogFactory.getFactory().getInstance(DbMetaInfo.class);
+    
+    private static final String RELEASE = "Release ";
+    private static final int RELEASE_LENGTH = RELEASE.length();
 
     private DatabaseMetaData _connInfo;
     private Connection _conn = null;
@@ -92,24 +95,45 @@ public final class DbMetaInfo {
                 _connInfo = _conn.getMetaData();
 
                 String dbProdVer = _connInfo.getDatabaseProductVersion();
-            
-                 // find the first numeric word in the version string 
-                int i = 0;
-                for ( ;; ) {
-                     int n = dbProdVer.indexOf(' ', i);
-        
-                     String word = (n != -1) ? dbProdVer.substring(i, n) : dbProdVer.substring(i);
-        
-                     if (Character.isDigit(word.charAt(0))) {
-                         _dbVersion = word;
-                         break;
-                     }
 
-                    if (n == -1) {
-                        break;
+                /* Some examples for the returned product version of Oracle DBs:
+                 * Oracle9i Enterprise Edition Release 9.2.0.5.0 - Production
+                 * With the Partitioning, OLAP and Oracle Data Mining options
+                 * JServer Release 9.2.0.5.0 - Production
+                 * 
+                 * Oracle Database 10g Enterprise Edition Release 10.2.0.2.0 - 64bit Production
+                 * With the Partitioning, OLAP and Data Mining options
+                 */
+
+                String word = null;
+
+                 // search for the substring "Release" and read the following version number
+                int idx = dbProdVer.indexOf(RELEASE);
+                if (idx != -1) {
+                    idx += RELEASE_LENGTH;
+
+                    int n = dbProdVer.indexOf(' ', idx);
+                    word = (n != -1) ? dbProdVer.substring(idx, n) : dbProdVer.substring(idx);
+
+                    if (Character.isDigit(word.charAt(0))) { _dbVersion = word; }
+                }
+
+                if (_dbVersion == null) {
+                     // find the first numeric word in the version string 
+                    int i = 0;
+                    while (true) {
+                        int n = dbProdVer.indexOf(' ', i);
+                        word = (n != -1) ? dbProdVer.substring(i, n) : dbProdVer.substring(i);
+
+                        if (Character.isDigit(word.charAt(0))) {
+                             _dbVersion = word;
+                             break;
+                        }
+
+                        if (n == -1) { break; }
+
+                        i = n + 1;
                     }
-
-                    i = n + 1;
                 }
             } catch (SQLException e) {
                 _dbVersion = "";
