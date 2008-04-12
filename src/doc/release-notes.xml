@@ -47,6 +47,26 @@
                 
             </summary>
             <bugs>
+                <bug id="2291" tool="jira">
+                    <description>
+                        Renamed cpactf/src/test to cpactf/src/old and cpactf/src/temp to cpactf/src/test.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20080411</date>
+                </bug>
                 <bug id="2326" tool="jira">
                     <description>
                         Fixed problem with persistence of entities that has fields that are
