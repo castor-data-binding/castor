@@ -48,6 +48,7 @@
           <li><a href="how-to-prevent-collection-from-being-exposed.html">How to prevent a collection from being exposed</a></li>
           <li><a href="how-to-write-a-configurablefieldhandler.html">How to write a configurable field handler</a></li>
           <li><a href="how-to-map-both-structure-and-content.html">How to map text content</a></li>
+         <li><a href="how-to-work-with-wrapper-elements-around-collections.html">How to work with wrapper elements around collections</a></li>
         </ul>
       </section>
 
