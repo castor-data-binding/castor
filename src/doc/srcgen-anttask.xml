@@ -135,6 +135,13 @@
             <td>-</td>
           </crow>
           <crow>
+            <td><b>generateMapping</b></td>
+            <td>If used, instructs the source generator to (additionally) generate a mapping
+                file.</td>
+            <td>No</td>
+            <td>-</td>
+          </crow>
+          <crow>
             <td><b>nomarshal</b></td>
             <td>If specified, instructs the source generator not to create (un)marshalling
                 methods within the Java classes generated.</td>

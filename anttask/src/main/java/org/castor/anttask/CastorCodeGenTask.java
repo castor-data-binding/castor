@@ -151,6 +151,11 @@ public final class CastorCodeGenTask extends MatchingTask {
     /** If true, marshaling code will not be generated. */
     private boolean _nomarshal;
     
+    /**
+     * If true, a mapping file will be generated (additionaly).
+     */
+    private boolean _generateMapping;
+    
     /** If true, Castor's CTF testable framework code will be generated. */
     private boolean _testable;
     
@@ -454,6 +459,8 @@ public final class CastorCodeGenTask extends MatchingTask {
         _sgen.setClassNameConflictResolver(_automaticConflictStrategy);
         
         _sgen.setJClassPrinterType(_jclassPrinterType);
+        
+        _sgen.setGenerateMappingFile(_generateMapping);
 
         _sgen.setTestable(_testable);
         if (this._testable) { log(CASTOR_TESTABLE_MSG); }

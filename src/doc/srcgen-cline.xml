@@ -161,6 +161,12 @@ java org.exolab.castor.builder.SourceGeneratorMain -i foo-schema.xsd \
             <td>Optional</td>
           </crow>
           <crow>
+            <td align="center">gen-mapping</td>
+            <td><br/></td>
+            <td>(Additionally) Generate a mapping file.</td>
+            <td>Optional</td>
+          </crow>
+          <crow>
             <td align="center">nomarshall</td>
             <td><br/></td>
             <td>
