@@ -188,7 +188,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      **/
     private boolean _validate = true;
 
-    private Hashtable _resolveTable = null;
+    private Hashtable _resolveTable = new Hashtable();
     
 	private HashMap _javaPackages = null;    
 
@@ -865,12 +865,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             }
             //-- Handle references
             else if (descriptor.isReference()) {
-                UnmarshalState pState = (UnmarshalState)_stateInfo.peek();
+                UnmarshalState pState = (UnmarshalState) _stateInfo.peek();
                 processIDREF(state.buffer.toString(), descriptor, pState.object);
                 _namespaces = _namespaces.getParent();
                 return;
-            }
-            else {
+            } else {
                 //-- check for non-whitespace...and report error
                 if (!isWhitespace(state.buffer)) {
                     String err = "Illegal Text data found as child of: "
@@ -883,8 +882,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         
         //-- We're finished processing the object, so notify the
         //-- Listener (if any).
-        if ( _unmarshalListener != null && state.object != null ) {
-            _unmarshalListener.unmarshalled(state.object, (state.parent==null)?null:state.parent.object);
+        if (_unmarshalListener != null && state.object != null) {
+            _unmarshalListener.unmarshalled(state.object, 
+                    (state.parent == null) ? null : state.parent.object);
         }
 
         //-- if we are at root....just validate and we are done
@@ -913,9 +913,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 try {
                     Validator validator = new Validator();
                     ValidationContext context = new ValidationContext();
-//                    context.setResolver(_cdResolver);
-                    // TODO: Joachim 2007-09-04 remove me
-//                    context.setConfiguration(_config);
                     context.setInternalContext(getInternalContext());
                     validator.validate(state.object, context);
                     if (!getInternalContext().getLenientIdValidation()) {
@@ -2540,18 +2537,13 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @param parent the target/parent object for the field
      * @param descriptor the XMLFieldDescriptor for the field
      */
-    private void addReference(String idRef, Object parent, XMLFieldDescriptor descriptor) 
-    {
+    private void addReference(final String idRef, final Object parent, 
+            final XMLFieldDescriptor descriptor) {
         
         ReferenceInfo refInfo = new ReferenceInfo(idRef, parent, descriptor);
-        
-        if (_resolveTable == null) 
-            _resolveTable = new Hashtable();
-        else {
-            refInfo.setNext((ReferenceInfo)_resolveTable.get(idRef));
-        }
+        refInfo.setNext((ReferenceInfo) _resolveTable.get(idRef));
         _resolveTable.put(idRef, refInfo);
-    } //-- addReference
+    }
     
     /**
      * Creates an instance of the given class /type, using 
@@ -2743,6 +2735,22 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
             String name      = descriptor.getXMLName();
             String namespace = descriptor.getNameSpaceURI();
+            String path = descriptor.getLocationPath();
+            String fullAttributePath = "";
+            
+            if (path != null && path.length() > 0) {
+                fullAttributePath += path + "/"; 
+            }
+            
+            fullAttributePath += name;
+            
+            if (fullAttributePath != null && !name.equals(fullAttributePath)) {
+                int index = atts.getIndex(name, namespace);
+                if (index >= 0) {
+                    processedAtts[index] = true;
+                }
+                continue;
+            }
 
             int index = atts.getIndex(name, namespace);
 
@@ -3250,28 +3258,27 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     }
 
     /**
-     * Processes the given IDREF
+     * Processes the given IDREF.
      *
      * @param idRef the ID of the object in which to reference
      * @param descriptor the current FieldDescriptor
      * @param parent the current parent object
      * @return true if the ID was found and resolved properly
      */
-    private boolean processIDREF
-        (String idRef, XMLFieldDescriptor descriptor, Object parent)
-    {
+    private boolean processIDREF (final String idRef, final XMLFieldDescriptor descriptor, 
+            final Object parent) {
         Object value = _idResolver.resolve(idRef);
         if (value == null) {
             //-- save state to resolve later
             addReference(idRef, parent, descriptor);
-        }
-        else {
+        } else {
             FieldHandler handler = descriptor.getHandler();
-            if (handler != null)
+            if (handler != null) {
                 handler.setValue(parent, value);
+            }
         }
         return (value != null);
-    } //-- processIDREF
+    }
 
     /**
      * Processes the attributes and namespace declarations found
@@ -3612,30 +3619,33 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     } //-- loadClass
 
     /**
-     * Resolves the current set of waiting references for the given Id
-     * @param id the id that references are waiting for
-     * @param value, the value of the resolved id
+     * Resolves the current set of waiting references for the given Id.
+     * @param id the id that references are waiting for.
+     * @param value the value of the resolved id.
+     * @throws SAXException Indicates a problem resolving an IDREF
     **/
-    private void resolveReferences(String id, Object value)
-        throws org.xml.sax.SAXException
-    {
-        if ((id == null) || (value == null)) return;
-        if (_resolveTable == null) return;
+    private void resolveReferences(final String id, final Object value)
+        throws org.xml.sax.SAXException {
+        if ((id == null) || (value == null)) {
+            return;
+        }
+        if (_resolveTable == null) {
+            return;
+        }
 
-        ReferenceInfo refInfo = (ReferenceInfo)_resolveTable.remove(id);
+        ReferenceInfo refInfo = (ReferenceInfo) _resolveTable.remove(id);
         while (refInfo != null) {
             try {
                 FieldHandler handler = refInfo.getDescriptor().getHandler();
-                if (handler != null)
+                if (handler != null) {
                     handler.setValue(refInfo.getTarget(), value);
+                }
                     
                 //-- special handling for MapItems
                 if (refInfo.getTarget() instanceof MapItem) {
                     resolveReferences(refInfo.getTarget().toString(), refInfo.getTarget());
                 }
-            }
-            catch(java.lang.IllegalStateException ise) {
-
+            } catch (java.lang.IllegalStateException ise) {
                 String err = "Attempting to resolve an IDREF: " +
                         id + "resulted in the following error: " +
                         ise.toString();
@@ -3643,7 +3653,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             }
             refInfo = refInfo.getNext();
         }
-    } //-- resolveReferences
+    }
 
     /**
      * Converts a String to the given primitive object type
