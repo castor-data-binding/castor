@@ -47,6 +47,27 @@
                 
             </summary>
             <bugs>
+                <bug id="2330" tool="jira">
+                    <description>
+                        Fixed problem with attribute resolution at unmarshalling for attributes
+                        that use a location and are rooted at the root node.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Nikolai Grigoriev</name>
+                        <email>ngrigoriev@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20080418</date>
+                </bug>
                 <bug id="1961" tool="jira">
                     <description>
                         Fixed NumberFormatException: For input string: "10g".
