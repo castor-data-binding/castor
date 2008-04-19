@@ -6,11 +6,13 @@ import junit.framework.TestCase;
 
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
+import org.exolab.castor.xml.XMLContext;
 import org.xml.sax.InputSource;
 
 public final class TestTemplate extends TestCase {
     
     private static final String SAMPLE_FILE = "input.xml";
+    private XMLContext context;
     
     public TestTemplate() {
         super();
@@ -20,12 +22,20 @@ public final class TestTemplate extends TestCase {
         super(name);
     }
 
+    
+    protected void setUp() throws Exception {
+        this.context = new XMLContext();
+        context.setProperty("org.exolab.castor.indent", "true");
+    }
+
     /**
      * Test method.
      * @throws Exception For any exception thrown.
      */
     public void testUnmarshalEntity() throws Exception {
-        Unmarshaller unmarshaller = new Unmarshaller (Entity.class);
+
+        Unmarshaller unmarshaller = getXMLContext().createUnmarshaller();
+        unmarshaller.setClass(Entity.class);
         
         Entity entity = (Entity) unmarshaller.unmarshal(new InputSource(getClass().getResource(SAMPLE_FILE).toExternalForm()));
         assertNotNull (entity);
@@ -38,9 +48,10 @@ public final class TestTemplate extends TestCase {
      * @throws Exception For any exception thrown.
      */
     public void testMarshalEntity() throws Exception {
-        
+
         StringWriter out = new StringWriter();
-        Marshaller marshaller = new Marshaller (out);
+        Marshaller marshaller = getXMLContext().createMarshaller();
+        marshaller.setWriter(out);
         
         Entity entity = new Entity();
         entity.setId(new Integer(100));
@@ -50,4 +61,7 @@ public final class TestTemplate extends TestCase {
         System.out.println(out.toString());
     }
     
+    private XMLContext getXMLContext() {
+        return this.context;
+    }
 }
