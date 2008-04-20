@@ -63,7 +63,10 @@ import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.QueryResults;
 import org.exolab.castor.jdo.TransactionNotInProgressException;
-import org.mockejb.jndi.MockContextFactory;
+
+// Removed mockejb.jar as it is only used by this test which
+// never gets executed at the moment.
+// import org.mockejb.jndi.MockContextFactory;
 
 /**
  * @author Administrator
@@ -115,8 +118,11 @@ public final class TestTransactionManagedEnvironment extends CastorTestCase {
         this test class to access these resources
         */
         
-        //set the MockContext as the initial context factory
-        MockContextFactory.setAsInitial();
+        // Removed mockejb.jar as it is only used by this test which
+        // never gets executed at the moment.
+        // set the MockContext as the initial context factory
+        // MockContextFactory.setAsInitial();
+        
         // create the initial context 
         _context = new InitialContext();
     }

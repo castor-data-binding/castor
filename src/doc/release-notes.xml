@@ -47,6 +47,26 @@
                 
             </summary>
             <bugs>
+                <bug id="1699" tool="jira">
+                    <description>
+                        Removed dependency for mockejb.jar.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20080420</date>
+                </bug>
                 <bug id="2330" tool="jira">
                     <description>
                         Fixed problem with attribute resolution at unmarshalling for attributes
