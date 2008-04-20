@@ -63,14 +63,19 @@ import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.JDO;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.MappingException;
-import org.mockejb.jndi.MockContextFactory;
 
-import tyrex.resource.Resource;
-import tyrex.resource.ResourceException;
-import tyrex.resource.Resources;
-import tyrex.tm.DomainConfigurationException;
-import tyrex.tm.RecoveryException;
-import tyrex.tm.TransactionDomain;
+// Removed mockejb.jar as it is only used by this test which
+// never gets executed at the moment.
+// import org.mockejb.jndi.MockContextFactory;
+
+// Removed tyrex.jar as it is only used by this test which
+// never gets executed at the moment.
+//import tyrex.resource.Resource;
+//import tyrex.resource.ResourceException;
+//import tyrex.resource.Resources;
+//import tyrex.tm.DomainConfigurationException;
+//import tyrex.tm.RecoveryException;
+//import tyrex.tm.TransactionDomain;
 
 /**
  * This Category is intended to allow developers to test Castor in a J2EE 
@@ -79,135 +84,120 @@ import tyrex.tm.TransactionDomain;
  */
 
 public class JDOJ2EECategory extends TestHarness {
-	
-	//our JDO 
-	private JDO      _jdo;
-	
-	//initial jndi context to bind 
-	//transaction manager and datasource to
-	private Context context;
-	
-	//Tyrex domain and resources
-	private TransactionDomain domain;
-	private Resources resources;
-	private Resource DSResource;
-	private DataSource dataSource;
-	
-	//TransactionManger and UserTransaction
-	private TransactionManager tm;
-	private UserTransaction ut;
-	/*
-	 names to bind our resources to in JNDI.
-	 */
-	//this must match the jndiEnc attribute in j2ee.xml transaction-manager element
-	static String TMJNDIName = "java:/TransactionManager";
-	//this must match the jndi name element in the database attriute in j2ee.xml
-	static String DSJNDIName = "java:/jdbc/castorDS";
-	//this is the standard location for UserTransactions
-	static String UTJNDIName = "java:/UserTransaction";
-	
-	public JDOJ2EECategory( TestHarness superTest, String name, String description, Object jdo ) 
-	throws Exception {
-		super( superTest, name, description );
-		_jdo = (JDO) jdo;
-		try {
-			new URL( _jdo.getConfiguration() );
-		} catch ( MalformedURLException e ) {
-			_jdo.setConfiguration( getClass().getResource( _jdo.getConfiguration() ).toString() );
-		}
-		
-		/* 
-		 The following code configures the J2EE environment.
-		 It creates an InitialContext in which to bind
-		 1) A TransactionManager 
-		 2) A Datasource
-		 3) A UserTransaction
-		 all delivered from a Tyrex domain.
-		 */
-		
-		//set up a JNDI environment
-		try 
-		{
-			//set the MockContext as the initial context
-			MockContextFactory.setAsInitial();
-			//create the initial context that will be used for binding our TM
-			context = new InitialContext( );
-		}
-		catch ( NamingException e )
-		{
-			throw new Exception( "Couldn't set up an InitialContext: " + e.getMessage() );
-		}
-		
-		//set up Tyrex
-		//this uses the tyrex-domain.xml config in the tests/jdo directory 
-		try 
-		{
-			domain = TransactionDomain.createDomain( "src/tests/jdo/tyrex-domain.xml" );
-			domain.recover();
-			resources = domain.getResources();
-		}
-		catch ( DomainConfigurationException e )
-		{
-			throw new Exception( "Failed to configure Tyrex domain: " + e.getMessage() );
-		}
-		catch ( RecoveryException e )
-		{
-			throw new Exception( "Failed to start the Tyrex domain: " + e.getMessage() );
-		}
-		
-		//get the TransactionManager from Tyrex
-		tm = domain.getTransactionManager();
-		
-		//get the datasource from Tyrex
-		try 
-		{
-			DSResource = resources.getResource( "castor-datasource" );
-			dataSource = (DataSource) DSResource;
-		}
-		catch ( ResourceException e ) 
-		{
-			throw new Exception( "Failed to get DataSource from Tyrex: " + e.getMessage() );
-		}
-		
-		//get a UserTransaction from Tyrex
-		ut = domain.getUserTransaction();
-		
-		//put everything in JNDI
-		try
-		{
-			context.bind( TMJNDIName ,  tm );
-			context.bind( DSJNDIName , dataSource );
-			context.bind( UTJNDIName , ut );
-		}
-		catch ( NamingException e ) 
-		{
-			throw new Exception( "Couldn't bind to JNDI: " + e.getMessage() );
-		}
-		
-		_jdo.setDatabaseName( "test" );
-		_jdo.setLockTimeout( 120 );
-		_jdo.setAutoStore( true );
-		_jdo.setDatabasePooling( true );
-		_jdo.setClassLoader(Thread.currentThread().getContextClassLoader());
-	}
-	
-	/*
-	 Retrieve a Database from the configured
-	 JDO object.
-	 */
-	public Database getDatabase( boolean verbose )
-	throws PersistenceException
-	{
-		return _jdo.getDatabase();
-	}
-	
-	/*
-	 Obtain the JDO object directly. 
-	 */
-	public JDO getJDO() {
-		return _jdo;
-	}
-	
+    //our JDO 
+    private JDO      _jdo;
+    
+    //initial jndi context to bind 
+    //transaction manager and datasource to
+    private Context context;
+    
+    //Tyrex domain and resources
+//    private TransactionDomain domain;
+//    private Resources resources;
+//    private Resource DSResource;
+    private DataSource dataSource;
+
+    //TransactionManger and UserTransaction
+    private TransactionManager tm;
+    private UserTransaction ut;
+    /*
+     names to bind our resources to in JNDI.
+     */
+    //this must match the jndiEnc attribute in j2ee.xml transaction-manager element
+    static String TMJNDIName = "java:/TransactionManager";
+    //this must match the jndi name element in the database attriute in j2ee.xml
+    static String DSJNDIName = "java:/jdbc/castorDS";
+    //this is the standard location for UserTransactions
+    static String UTJNDIName = "java:/UserTransaction";
+    
+    public JDOJ2EECategory( TestHarness superTest, String name, String description, Object jdo ) 
+    throws Exception {
+        super( superTest, name, description );
+        _jdo = (JDO) jdo;
+        try {
+            new URL( _jdo.getConfiguration() );
+        } catch ( MalformedURLException e ) {
+            _jdo.setConfiguration( getClass().getResource( _jdo.getConfiguration() ).toString() );
+        }
+        
+        /* 
+         The following code configures the J2EE environment.
+         It creates an InitialContext in which to bind
+         1) A TransactionManager 
+         2) A Datasource
+         3) A UserTransaction
+         all delivered from a Tyrex domain.
+         */
+        
+        //set up a JNDI environment
+        try {
+            //set the MockContext as the initial context
+//            MockContextFactory.setAsInitial();
+            
+            //create the initial context that will be used for binding our TM
+            context = new InitialContext( );
+        } catch (NamingException e) {
+            throw new Exception( "Couldn't set up an InitialContext: " + e.getMessage() );
+        }
+
+//        //set up Tyrex
+//        //this uses the tyrex-domain.xml config in the tests/jdo directory 
+//        try  {
+//            domain = TransactionDomain.createDomain( "src/tests/jdo/tyrex-domain.xml" );
+//            domain.recover();
+//            resources = domain.getResources();
+//        } catch (DomainConfigurationException e) {
+//            throw new Exception( "Failed to configure Tyrex domain: " + e.getMessage() );
+//        } catch (RecoveryException e) {
+//            throw new Exception( "Failed to start the Tyrex domain: " + e.getMessage() );
+//        }
+//
+//        //get the TransactionManager from Tyrex
+//        tm = domain.getTransactionManager();
+//        
+//        //get the datasource from Tyrex
+//        try  {
+//            DSResource = resources.getResource( "castor-datasource" );
+//            dataSource = (DataSource) DSResource;
+//        } catch (ResourceException e)  {
+//            throw new Exception( "Failed to get DataSource from Tyrex: " + e.getMessage() );
+//        }
+//        
+//        //get a UserTransaction from Tyrex
+//        ut = domain.getUserTransaction();
+        
+        //put everything in JNDI
+        try {
+            context.bind( TMJNDIName ,  tm );
+            context.bind( DSJNDIName , dataSource );
+            context.bind( UTJNDIName , ut );
+        } catch (NamingException e)  {
+            throw new Exception( "Couldn't bind to JNDI: " + e.getMessage() );
+        }
+        
+        _jdo.setDatabaseName( "test" );
+        _jdo.setLockTimeout( 120 );
+        _jdo.setAutoStore( true );
+        _jdo.setDatabasePooling( true );
+        _jdo.setClassLoader(Thread.currentThread().getContextClassLoader());
+    }
+    
+    /*
+     Retrieve a Database from the configured
+     JDO object.
+     */
+    public Database getDatabase(boolean verbose)
+    throws PersistenceException {
+        return _jdo.getDatabase();
+    }
+    
+    /*
+     Obtain the JDO object directly. 
+     */
+    public JDO getJDO() {
+        return _jdo;
+    }
+    
     public Connection getJDBCConnection() throws SQLException {
         String name = _jdo.getDatabaseName();
         ConnectionFactory factory = null;
@@ -218,5 +208,4 @@ public class JDOJ2EECategory extends TestHarness {
         }
         return factory.createConnection();
     }
-	
 }
