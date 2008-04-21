@@ -129,7 +129,7 @@
                <td><pre><![CDATA[
 <dependency>
    <groupId>org.codehaus.castor</groupId>
-   <artifactId>castor-scml-schema</artifactId>
+   <artifactId>castor-xml-schema</artifactId>
    <version>1.2</version>
 </dependency>]]></pre></td>
         <td>1.2</td>
