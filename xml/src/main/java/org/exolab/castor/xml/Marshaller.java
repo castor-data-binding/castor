@@ -274,37 +274,67 @@ public class Marshaller extends MarshalFramework {
     private final Set _proxyInterfaces = new HashSet();
 
     /**
-     * Creates a new Marshaller with the given DocumentHandler.
+     * Creates a new {@link Marshaller} with the given SAX {@link DocumentHandler}.
      *
-     * @param handler the DocumentHandler to "marshal" to.
+     * @param handler the SAX {@link DocumentHandler} to "marshal" to.
+     * 
+     * @deprecate Please use {@link XMLContext#createMarshaller()} and 
+     *    {@link Marshaller#setDocumentHandler(DocumentHandler)} instead
+     * 
+     * @see {@link XMLContext#createMarshaller()}
+     * @see {@link Marshaller#setDocumentHandler(DocumentHandler)}
+     * @see XMLContext
+     * 
     **/
-    public Marshaller( DocumentHandler handler ) {
-        if ( handler == null )
-            throw new IllegalArgumentException( "Argument 'handler' is null." );
+    public Marshaller(final DocumentHandler handler) {
+        if (handler == null) {
+            throw new IllegalArgumentException("The given 'org.sax.DocumentHandler' " 
+                    + "instance is null.");
+        }
 
-        _handler = new DocumentHandlerAdapter(handler);
+        setContentHandler(new DocumentHandlerAdapter(handler));
 
         // call internal initializer
         initialize();
-    } //-- Marshaller
-
+    }
 
     /**
-     * Creates a new Marshaller with the given SAX ContentHandler.
+     * Sets the given SAX {@link DocumentHandler} to 'marshal' into.
      *
-     * @param handler the ContentHandler to "marshal" to.
+     * @param handler the SAX {@link DocumentHandler} to "marshal" to.
     **/
-    public Marshaller( ContentHandler handler )
-        throws IOException
-    {
-        if ( handler == null )
-            throw new IllegalArgumentException( "Argument 'handler' is null." );
+    public void setDocumentHandler(final DocumentHandler handler) {
+        if (handler == null) {
+            throw new IllegalArgumentException("The given 'org.sax.DocumentHandler' " 
+                    + "instance is null.");
+        }
 
-        _handler = handler;
+        setContentHandler(new DocumentHandlerAdapter(handler));
+    }
+
+    /**
+     * Creates a new {@link Marshaller} with the given SAX {@link ContentHandler}.
+     *
+     * @param contentHandler the {@link ContentHandler} to "marshal" to.
+     * 
+     * @deprecate Please use {@link XMLContext#createMarshaller()} and 
+     *    {@link Marshaller#setContentHandler(ContentHandler)} instead
+     * 
+     * @see {@link XMLContext#createMarshaller()}
+     * @see {@link Marshaller#setContentHandler(ContentHandler)}
+     * @see XMLContext
+     * 
+    **/
+    public Marshaller(final ContentHandler contentHandler) {
+        if (contentHandler == null) {
+            throw new IllegalArgumentException("The given 'org.sax.ContentHandler' is null.");
+        }
+
+        setContentHandler(contentHandler);
 
         // call internal initializer
         initialize();
-    } //-- Marshaller
+    }
 
     /**
      * Creates a default instance of Marshaller, where the sink needs to be set
@@ -317,22 +347,31 @@ public class Marshaller extends MarshalFramework {
     /**
      * Creates a new Marshaller with the given writer.
      * @param out the Writer to serialize to
+     * @throws IOException If the given {@link Writer} instance cannot be opened.
+     * @deprecate Please use {@link XMLContext#createMarshaller()} and 
+     *    {@link Marshaller#setWriter(Writer)} instead
+     * 
+     * @see {@link XMLContext#createMarshaller()}
+     * @see {@link Marshaller#setWriter(Writer)}
+     * @see XMLContext
+     * 
     **/
-    public Marshaller( Writer out )
-        throws IOException
-    {
+    public Marshaller(final Writer out) throws IOException {
         initialize();
         setWriter(out);
-    } //-- Marshaller
+    }
 
     /**
      * Sets the java.io.Writer to be used during marshalling.
-     * @param out The writer to use for marshalling
-     * @throws IOException If there's a problem accessing the java.io.Writer provided
+     * 
+     * @param out
+     *            The writer to use for marshalling
+     * @throws IOException
+     *             If there's a problem accessing the java.io.Writer provided
      */
-    public void setWriter (Writer out) throws IOException {
+    public void setWriter (final Writer out) throws IOException {
         if (out == null) {
-            throw new IllegalArgumentException( "Argument 'out' is null.");
+            throw new IllegalArgumentException("The given 'java.io.Writer instance' is null.");
         }
         configureSerializer(out);
     }
@@ -360,24 +399,45 @@ public class Marshaller extends MarshalFramework {
     }
 
     /**
-     * Creates a new Marshaller for the given DOM Node.
+     * Creates a new {@link Marshaller} for the given DOM {@link Node}.
      *
-     * @param node the DOM node to marshal into.
+     * @param node the DOM {@link Node} to marshal into.
+     * 
+     * @deprecate Please use {@link XMLContext#createMarshaller()} and 
+     *    {@link Marshaller#setNode(Node)} instead
+     * 
+     * @see {@link XMLContext#createMarshaller()}
+     * @see {@link Marshaller#setNode(Node)}
+     * @see XMLContext
+     * 
+     * 
     **/
-    public Marshaller( Node node )
-    {
-        if ( node == null )
-            throw new IllegalArgumentException( "Argument 'node' is null." );
-        _handler = new DocumentHandlerAdapter(new SAX2DOMHandler( node ));
+    public Marshaller(final Node node) {
+        if (node == null) {
+            throw new IllegalArgumentException("The given org.w3c.dom.Node instance is null.");
+        }
+        setContentHandler(new DocumentHandlerAdapter(new SAX2DOMHandler(node)));
 
         // call internal initializer
         initialize();
-    } //-- Marshaller
-
+    }
+    
     /**
-     * Initializes this Marshaller. This is common code shared among
-     * the Constructors
+     * Sets the W3C {@link Node} instance to marshal to.
+     *
+     * @param node the DOM {@link Node} to marshal into.
     **/
+    public void setNode(final Node node) {
+        if (node == null) {
+            throw new IllegalArgumentException("The given org.w3c.dom.Node instance is null.");
+        }
+        setContentHandler(new DocumentHandlerAdapter(new SAX2DOMHandler(node)));
+    }
+    
+    /**
+     * Initializes this Marshaller. This is common code shared among the
+     * Constructors
+     */
     private void initialize() {
         setInternalContext(new BackwardCompatibilityContext());
     }
@@ -2524,52 +2584,63 @@ public class Marshaller extends MarshalFramework {
     } //-- processContainerAttributes
 
     /**
-     * Processes the attributes for container objects
+     * Processes the attributes for container objects.
      *
      * @param target the object currently being marshalled.
      * @param containerFieldDesc the XMLFieldDescriptor for the containter to process
      * @param atts the SAX attributes list to add any necessary attributes to.
+     * @throws MarshalException If there's a problem marshalling the attribute(s).
      */
     private void processContainerAttributes
-        (Object target, XMLFieldDescriptor containerFieldDesc, AttributesImpl atts)
-        throws MarshalException
-    {
+        (final Object target, final XMLFieldDescriptor containerFieldDesc, 
+                final AttributesImpl atts)
+        throws MarshalException {
         if (target.getClass().isArray()) {
              int length = Array.getLength(target);
              for (int j = 0; j < length; j++) {
                   Object item = Array.get(target, j);
-                  if (item != null)
-                      processContainerAttributes(item, containerFieldDesc, atts);
+                  if (item != null) {
+                    processContainerAttributes(item, containerFieldDesc, atts);
+                }
              }
              return;
-        }
-        else if (target instanceof Enumeration) {
-            Enumeration enumeration = (Enumeration)target;
+        } else if (target instanceof Enumeration) {
+            Enumeration enumeration = (Enumeration) target;
             while (enumeration.hasMoreElements()) {
                 Object item = enumeration.nextElement();
-                if (item != null)
+                if (item != null) {
                     processContainerAttributes(item, containerFieldDesc, atts);
+                }
             }
             return;
         }
 
         Object containerObject = containerFieldDesc.getHandler().getValue(target);
 
-        if (containerObject == null) return;
+        if (containerObject == null) {
+            return;
+        }
 
         XMLClassDescriptor containerClassDesc
-            = (XMLClassDescriptor)containerFieldDesc.getClassDescriptor();
+            = (XMLClassDescriptor) containerFieldDesc.getClassDescriptor();
 
         if (containerClassDesc == null) {
             containerClassDesc = getClassDescriptor(containerFieldDesc.getFieldType());
-            if (containerClassDesc == null) return;
+            if (containerClassDesc == null) {
+                return;
+            }
         }
 
         // Look for attributes
         XMLFieldDescriptor[] attrDescriptors = containerClassDesc.getAttributeDescriptors();
         for (int idx = 0; idx < attrDescriptors.length; idx++) {
-            if (attrDescriptors[idx] == null) continue;
-            processAttribute(containerObject, attrDescriptors[idx], atts);
+            if (attrDescriptors[idx] == null) {
+                continue;
+            }
+            if (attrDescriptors[idx].getLocationPath() == null 
+                    || attrDescriptors[idx].getLocationPath().length() == 0) {
+                processAttribute(containerObject, attrDescriptors[idx], atts);
+            }
         }
 
         // recursively process containers
@@ -2748,8 +2819,8 @@ public class Marshaller extends MarshalFramework {
     }
 
     /**
-     * To set the content handler which is used as destination at marshalling.
-     * @param contentHandler the content handler to use as destination at marshalling
+     * To set the SAX {@link ContentHandler} which is used as destination at marshalling.
+     * @param contentHandler the SAX {@link ContentHandler} to use as destination at marshalling
      */
     public void setContentHandler(final ContentHandler contentHandler) {
         _handler = contentHandler;
