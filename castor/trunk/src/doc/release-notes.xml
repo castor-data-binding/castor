@@ -47,6 +47,26 @@
                 
             </summary>
             <bugs>
+                <bug id="2343" tool="jira">
+                    <description>
+                        Prepared SQLStatementCreate to move whole generation code into KeyGenerator implementations.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20080422</date>
+                </bug>
                 <bug id="2352" tool="jira">
                     <description>
                         Fixed to long table names and some failures in SQL script of oracle.

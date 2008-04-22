@@ -106,65 +106,34 @@ public class SQLStatementCreate {
     }
     
     private void buildStatement() {
-        // Create statement to insert a new row into the table
-        // using the specified primary key if one is required
-        StringBuffer sql = new StringBuffer("INSERT INTO ");
-        sql.append(_factory.quoteName(_mapTo)).append(" (");
-        
-        int count = 0;
-        boolean keyGened = false;
-
-        SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
-        for (int i = 0; i < ids.length; i++) {
-            if ((_keyGen == null) || (_keyGen.getStyle() == KeyGenerator.BEFORE_INSERT)) {
-                if (count > 0) { sql.append(','); }
-                keyGened = true;
-                sql.append(_factory.quoteName(ids[i].getName()));
-                ++count;
-            }
-        }
-        
-        SQLFieldInfo[] fields = _engine.getInfo();
-        for (int i = 0; i < fields.length; ++i) {
-            if (fields[i].isStore()) {
-                SQLColumnInfo[] columns = fields[i].getColumnInfo();
-                for (int j = 0; j < columns.length; j++) {
-                    if (count > 0) { sql.append(','); }
-                    sql.append(_factory.quoteName(columns[j].getName()));
-                    ++count;
-                }
-            }
-        }
-        
-        // it is possible to have no fields in INSERT statement:
-        // only the primary key field in the table,
-        // with KeyGenerator DURING_INSERT or BEFORE_INSERT
-        if (count == 0) {
-            sql.setLength(sql.length() - 2); // cut " ("
-        } else {
-            sql.append(")");
-        }
-        sql.append(" VALUES (");
-        for (int i = 0; i < count; ++i) {
-            if (i > 0) { sql.append(','); }
-            sql.append('?');
-        }
-        sql.append(')');
-        
-        _statement = sql.toString();
-
-        if (!keyGened) {
+        if (_keyGen == null) {
+            buildStatementWithIdentities();
+        } else if (_keyGen.getStyle() == KeyGenerator.BEFORE_INSERT) {
+            buildStatementWithIdentities();
+        } else if (_keyGen.getStyle() == KeyGenerator.DURING_INSERT) {
+            buildStatementWithoutIdentities();
             try {
+                SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
+                _statement = _keyGen.patchSQL(_statement, ids[0].getName());
+                _statement = "{call " + _statement + "}";
+            } catch (MappingException except)  {
+                LOG.fatal(except);
+                
+                // proceed without this stupid key generator
+                _keyGen = null;
+                buildStatementWithIdentities();
+            }
+        } else if (_keyGen.getStyle() == KeyGenerator.AFTER_INSERT) {
+            buildStatementWithoutIdentities();
+            try {
+                SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
                 _statement = _keyGen.patchSQL(_statement, ids[0].getName());
             } catch (MappingException except)  {
                 LOG.fatal(except);
+                
                 // proceed without this stupid key generator
                 _keyGen = null;
-                buildStatement();
-                return;
-            }
-            if (_keyGen.getStyle() == KeyGenerator.DURING_INSERT) {
-                _statement = "{call " + _statement + "}";
+                buildStatementWithIdentities();
             }
         }
 
@@ -173,66 +142,148 @@ public class SQLStatementCreate {
         }
     }
     
+    private void buildStatementWithIdentities() {
+        StringBuffer insert = new StringBuffer();
+        insert.append("INSERT INTO ");
+        insert.append(_factory.quoteName(_mapTo));
+        insert.append(" (");
+        
+        StringBuffer values = new StringBuffer();
+        values.append(" VALUES (");
+        
+        int count = 0;
+
+        SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
+        for (int i = 0; i < ids.length; i++) {
+            if (count > 0) {
+                insert.append(',');
+                values.append(',');
+            }
+            insert.append(_factory.quoteName(ids[i].getName()));
+            values.append('?');
+            ++count;
+        }
+        
+        SQLFieldInfo[] fields = _engine.getInfo();
+        for (int i = 0; i < fields.length; ++i) {
+            if (fields[i].isStore()) {
+                SQLColumnInfo[] columns = fields[i].getColumnInfo();
+                for (int j = 0; j < columns.length; j++) {
+                    if (count > 0) {
+                        insert.append(',');
+                        values.append(',');
+                    }
+                    insert.append(_factory.quoteName(columns[j].getName()));
+                    values.append('?');
+                    ++count;
+                }
+            }
+        }
+        
+        insert.append(')');
+        values.append(')');
+        
+        _statement = insert.append(values).toString();
+    }
+    
+    private void buildStatementWithoutIdentities() {
+        StringBuffer insert = new StringBuffer();
+        insert.append("INSERT INTO ");
+        insert.append(_factory.quoteName(_mapTo));
+        insert.append(" (");
+        
+        StringBuffer values = new StringBuffer();
+        values.append(" VALUES (");
+        
+        int count = 0;
+
+        // is it right to omit all identities in this case?
+        // maybe we should support to define a separat keygen
+        // for every identity or complex/custom keygen that
+        // supports multiple columns.
+        
+        SQLFieldInfo[] fields = _engine.getInfo();
+        for (int i = 0; i < fields.length; ++i) {
+            if (fields[i].isStore()) {
+                SQLColumnInfo[] columns = fields[i].getColumnInfo();
+                for (int j = 0; j < columns.length; j++) {
+                    if (count > 0) {
+                        insert.append(',');
+                        values.append(',');
+                    }
+                    insert.append(_factory.quoteName(columns[j].getName()));
+                    values.append('?');
+                    ++count;
+                }
+            }
+        }
+        
+        // it is possible to have no fields in INSERT statement
+        if (count == 0) {
+            // is it neccessary to omit "()" after table name in case
+            // the table holds only identities? maybe this depends on
+            // the database engine.
+            
+            // cut " ("
+            insert.setLength(insert.length() - 2);
+        } else {
+            insert.append(')');
+        }
+        values.append(')');
+        
+        _statement = insert.append(values).toString();
+    }
+
     public Object executeStatement(final Database database, final Connection conn,
             final Identity identity, final ProposedEntity entity)
     throws PersistenceException {
+        if (_keyGen == null) {
+            return executeStatementNoKeygen(database, conn, identity, entity);
+        } else if (_keyGen.getStyle() == KeyGenerator.BEFORE_INSERT) {
+            return executeStatementBeforeInsert(database, conn, identity, entity);
+        } else if (_keyGen.getStyle() == KeyGenerator.DURING_INSERT) {
+            return executeStatementDuringInsert(database, conn, identity, entity);
+        } else if (_keyGen.getStyle() == KeyGenerator.AFTER_INSERT) {
+            return executeStatementAfterInsert(database, conn, identity, entity);
+        }
+        
+        throw new PersistenceException("unknown key generator");
+    }
+
+    public Object executeStatementNoKeygen(final Database database,
+            final Connection conn, final Identity identity, final ProposedEntity entity)
+    throws PersistenceException {
         Identity internalIdentity = identity;
         SQLEngine extended = _engine.getExtends();
-        if ((extended == null) && (_keyGen == null) && (internalIdentity == null)) {
+        if ((extended == null) && (internalIdentity == null)) {
             throw new PersistenceException(Messages.format("persist.noIdentity", _type));
         }
 
         PreparedStatement stmt = null;
         try {
-            // Must create record in the parent table first.
-            // All other dependents are created afterwards.
-            if (extended != null) {
-                // | quick and very dirty hack to try to make multiple class on the same table work
-                if (!extended.getDescriptor().getTableName().equals(_mapTo)) {
-                    internalIdentity = extended.create(database, conn, entity, internalIdentity);
-                }
+            // must create record in the parent table first. all other dependents
+            // are created afterwards. quick and very dirty hack to try to make
+            // multiple class on the same table work.
+            if ((extended != null) && !extended.getDescriptor().getTableName().equals(_mapTo)) {
+                internalIdentity = extended.create(database, conn, entity, internalIdentity);
             }
             
-            if ((_keyGen != null) && (_keyGen.getStyle() == KeyGenerator.BEFORE_INSERT)) {
-                // Generate key before INSERT
-                // genKey return identity in JDO type
-                internalIdentity = generateKey(database, conn, null);
-            }
-
-            if ((_keyGen != null) && (_keyGen.getStyle() == KeyGenerator.DURING_INSERT)) {
-                stmt = conn.prepareCall(_statement);
-            } else {
-                
-                if (_useJDBC30) {
-                    Field field = Statement.class.getField("RETURN_GENERATED_KEYS");
-                    Integer rgk = (Integer) field.get(_statement);
-                    
-                    Class[] types = new Class[] {String.class, int.class};
-                    Object[] args = new Object[] {_statement, rgk};
-                    Method method = Connection.class.getMethod("prepareStatement", types);
-                    stmt = (PreparedStatement) method.invoke(conn, args);
-                        
-                    // stmt = conn.prepareStatement(_statement,
-                    //         Statement.RETURN_GENERATED_KEYS);
-                } else {
-                    stmt = conn.prepareStatement(_statement);
-                }
-            }
+            // we only need to care on JDBC 3.0 at after INSERT.
+            stmt = conn.prepareStatement(_statement);
              
             if (LOG.isTraceEnabled()) {
                 LOG.trace(Messages.format("jdo.creating", _type, stmt.toString()));
             }
             
-            // Must remember that SQL column index is base one
-            int count = 1;
             SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
-            if ((_keyGen == null) || (_keyGen.getStyle() == KeyGenerator.BEFORE_INSERT)) {
-                if (internalIdentity.size() != ids.length) {
-                    throw new PersistenceException("Size of identity field mismatched!");
-                }
-                for (int i = 0; i < ids.length; i++) {
-                    stmt.setObject(count++, ids[i].toSQL(internalIdentity.get(i)));
-                }
+            if (internalIdentity.size() != ids.length) {
+                throw new PersistenceException("Size of identity field mismatched!");
+            }
+
+            // must remember that SQL column index is base one.
+            int count = 1;
+            for (int i = 0; i < ids.length; i++) {
+                stmt.setObject(count++, ids[i].toSQL(internalIdentity.get(i)));
             }
 
             if (LOG.isTraceEnabled()) {
@@ -241,48 +292,251 @@ public class SQLStatementCreate {
 
             count = bindFields(entity, stmt, count);
 
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(Messages.format("jdo.creating", _type, stmt.toString()));
+            }
+
+            stmt.executeUpdate();
+
+            stmt.close();
+
+            return internalIdentity;
+        } catch (SQLException except) {
+            LOG.fatal(Messages.format("jdo.storeFatal",  _type,  _statement), except);
+
+            Boolean isDupKey = _factory.isDuplicateKeyException(except);
+            if (Boolean.TRUE.equals(isDupKey)) {
+                throw new DuplicateIdentityException(Messages.format(
+                        "persist.duplicateIdentity", _type, internalIdentity), except);
+            } else if (Boolean.FALSE.equals(isDupKey)) {
+                throw new PersistenceException(Messages.format("persist.nested", except), except);
+            }
+
+            // check for duplicate key the old fashioned way, after the INSERT
+            // failed to prevent race conditions and optimize INSERT times.
+            _lookupStatement.executeStatement(conn, internalIdentity);
+
+            try {
+                if (stmt != null) { stmt.close(); }
+            } catch (SQLException except2) {
+                LOG.warn("Problem closing JDBC statement", except2);
+            }
+            
+            throw new PersistenceException(Messages.format("persist.nested", except), except);
+        }
+    }
+
+    public Object executeStatementBeforeInsert(final Database database,
+            final Connection conn, final Identity identity, final ProposedEntity entity)
+    throws PersistenceException {
+        Identity internalIdentity = identity;
+        SQLEngine extended = _engine.getExtends();
+
+        PreparedStatement stmt = null;
+        try {
+            // must create record in the parent table first. all other dependents
+            // are created afterwards. quick and very dirty hack to try to make
+            // multiple class on the same table work.
+            if ((extended != null) && !extended.getDescriptor().getTableName().equals(_mapTo)) {
+                internalIdentity = extended.create(database, conn, entity, internalIdentity);
+            }
+            
+            // generate key before INSERT.
+            internalIdentity = generateKey(database, conn, null);
+
+            // we only need to care on JDBC 3.0 at after INSERT.
+            stmt = conn.prepareStatement(_statement);
+             
+            if (LOG.isTraceEnabled()) {
+                LOG.trace(Messages.format("jdo.creating", _type, stmt.toString()));
+            }
+            
+            SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
+            if (internalIdentity.size() != ids.length) {
+                throw new PersistenceException("Size of identity field mismatched!");
+            }
+
+            // must remember that SQL column index is base one.
+            int count = 1;
+            for (int i = 0; i < ids.length; i++) {
+                stmt.setObject(count++, ids[i].toSQL(internalIdentity.get(i)));
+            }
+
             if (LOG.isTraceEnabled()) {
                 LOG.trace(Messages.format("jdo.creating", _type, stmt.toString()));
             }
 
-            // Generate key during INSERT
-            if ((_keyGen != null) && (_keyGen.getStyle() == KeyGenerator.DURING_INSERT)) {
-                CallableStatement cstmt = (CallableStatement) stmt;
-                int sqlType;
+            count = bindFields(entity, stmt, count);
 
-                sqlType = ids[0].getSqlType();
-                cstmt.registerOutParameter(count, sqlType);
-                
-                // TODO Verify that this really works (WG) !!!
-                if (LOG.isDebugEnabled()) {
-                      LOG.debug(Messages.format("jdo.creating", _type, cstmt.toString()));
-                }
-                
-                cstmt.execute();
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(Messages.format("jdo.creating", _type, stmt.toString()));
+            }
 
-                // First skip all results "for maximum portability"
-                // as proposed in CallableStatement javadocs.
-                while (cstmt.getMoreResults() || (cstmt.getUpdateCount() != -1)) {
-                    // no code to execute
-                }
+            stmt.executeUpdate();
 
-                // Identity is returned in the last parameter
-                // Workaround: for INTEGER type in Oracle getObject returns BigDecimal
-                Object temp;
-                if (sqlType == java.sql.Types.INTEGER) {
-                    temp = new Integer(cstmt.getInt(count));
-                } else {
-                    temp = cstmt.getObject(count);
-                }
-                internalIdentity = new Identity(ids[0].toJava(temp));
+            stmt.close();
+
+            return internalIdentity;
+        } catch (SQLException except) {
+            LOG.fatal(Messages.format("jdo.storeFatal",  _type,  _statement), except);
+
+            Boolean isDupKey = _factory.isDuplicateKeyException(except);
+            if (Boolean.TRUE.equals(isDupKey)) {
+                throw new DuplicateIdentityException(Messages.format(
+                        "persist.duplicateIdentity", _type, internalIdentity), except);
+            } else if (Boolean.FALSE.equals(isDupKey)) {
+                throw new PersistenceException(Messages.format("persist.nested", except), except);
+            }
+
+            // check for duplicate key the old fashioned way, after the INSERT
+            // failed to prevent race conditions and optimize INSERT times.
+            _lookupStatement.executeStatement(conn, internalIdentity);
+
+            try {
+                if (stmt != null) { stmt.close(); }
+            } catch (SQLException except2) {
+                LOG.warn("Problem closing JDBC statement", except2);
+            }
+            
+            throw new PersistenceException(Messages.format("persist.nested", except), except);
+        }
+    }
+
+    public Object executeStatementDuringInsert(final Database database,
+            final Connection conn, final Identity identity, final ProposedEntity entity)
+    throws PersistenceException {
+        Identity internalIdentity = identity;
+        SQLEngine extended = _engine.getExtends();
+
+        PreparedStatement stmt = null;
+        try {
+            // must create record in the parent table first. all other dependents
+            // are created afterwards. quick and very dirty hack to try to make
+            // multiple class on the same table work.
+            if ((extended != null) && !extended.getDescriptor().getTableName().equals(_mapTo)) {
+                internalIdentity = extended.create(database, conn, entity, internalIdentity);
+            }
+            
+            stmt = conn.prepareCall(_statement);
+             
+            if (LOG.isTraceEnabled()) {
+                LOG.trace(Messages.format("jdo.creating", _type, stmt.toString()));
+            }
+            
+            // must remember that SQL column index is base one.
+            int count = 1;
+            count = bindFields(entity, stmt, count);
+
+            if (LOG.isTraceEnabled()) {
+                LOG.trace(Messages.format("jdo.creating", _type, stmt.toString()));
+            }
+
+            SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
+
+            // generate key during INSERT.
+            CallableStatement cstmt = (CallableStatement) stmt;
+
+            int sqlType = ids[0].getSqlType();
+            cstmt.registerOutParameter(count, sqlType);
+            
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(Messages.format("jdo.creating", _type, cstmt.toString()));
+            }
+            
+            cstmt.execute();
+
+            // first skip all results "for maximum portability"
+            // as proposed in CallableStatement javadocs.
+            while (cstmt.getMoreResults() || (cstmt.getUpdateCount() != -1)) {
+                // no code to execute
+            }
+
+            // identity is returned in the last parameter.
+            // workaround for INTEGER type in Oracle getObject returns BigDecimal.
+            Object temp;
+            if (sqlType == java.sql.Types.INTEGER) {
+                temp = new Integer(cstmt.getInt(count));
             } else {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug(Messages.format("jdo.creating", _type, stmt.toString()));
-                }
+                temp = cstmt.getObject(count);
+            }
+            internalIdentity = new Identity(ids[0].toJava(temp));
 
-                stmt.executeUpdate();
+            stmt.close();
 
-                if (_useJDBC30 && internalIdentity == null) {
+            return internalIdentity;
+        } catch (SQLException except) {
+            LOG.fatal(Messages.format("jdo.storeFatal",  _type,  _statement), except);
+
+            Boolean isDupKey = _factory.isDuplicateKeyException(except);
+            if (Boolean.TRUE.equals(isDupKey)) {
+                throw new DuplicateIdentityException(Messages.format(
+                        "persist.duplicateIdentity", _type, internalIdentity), except);
+            } else if (Boolean.FALSE.equals(isDupKey)) {
+                throw new PersistenceException(Messages.format("persist.nested", except), except);
+            }
+
+            // check for duplicate key the old fashioned way, after the INSERT
+            // failed to prevent race conditions and optimize INSERT times.
+            _lookupStatement.executeStatement(conn, internalIdentity);
+
+            try {
+                if (stmt != null) { stmt.close(); }
+            } catch (SQLException except2) {
+                LOG.warn("Problem closing JDBC statement", except2);
+            }
+            
+            throw new PersistenceException(Messages.format("persist.nested", except), except);
+        }
+    }
+
+    public Object executeStatementAfterInsert(final Database database,
+            final Connection conn, final Identity identity, final ProposedEntity entity)
+    throws PersistenceException {
+        Identity internalIdentity = identity;
+        SQLEngine extended = _engine.getExtends();
+
+        PreparedStatement stmt = null;
+        try {
+            // must create record in the parent table first. all other dependents
+            // are created afterwards. quick and very dirty hack to try to make
+            // multiple class on the same table work.
+            if ((extended != null) && !extended.getDescriptor().getTableName().equals(_mapTo)) {
+                internalIdentity = extended.create(database, conn, entity, internalIdentity);
+            }
+            
+            if ((internalIdentity == null) && _useJDBC30) {
+                Field field = Statement.class.getField("RETURN_GENERATED_KEYS");
+                Integer rgk = (Integer) field.get(_statement);
+                
+                Class[] types = new Class[] {String.class, int.class};
+                Object[] args = new Object[] {_statement, rgk};
+                Method method = Connection.class.getMethod("prepareStatement", types);
+                stmt = (PreparedStatement) method.invoke(conn, args);
+                    
+                // stmt = conn.prepareStatement(_statement, Statement.RETURN_GENERATED_KEYS);
+            } else {
+                stmt = conn.prepareStatement(_statement);
+            }
+             
+            if (LOG.isTraceEnabled()) {
+                LOG.trace(Messages.format("jdo.creating", _type, stmt.toString()));
+            }
+            
+            // must remember that SQL column index is base one.
+            int count = 1;
+            count = bindFields(entity, stmt, count);
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(Messages.format("jdo.creating", _type, stmt.toString()));
+            }
+
+            stmt.executeUpdate();
+
+            SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
+
+            if (internalIdentity == null) {
+                if (_useJDBC30) {
+                    // use key returned by INSERT statement.
                     Class cls = PreparedStatement.class;
                     Method method = cls.getMethod("getGeneratedKeys", (Class[]) null);
                     ResultSet keySet = (ResultSet) method.invoke(stmt, (Object[]) null);
@@ -306,14 +560,12 @@ public class SQLStatementCreate {
                         i++;
                     }
                     internalIdentity = new Identity(keys.toArray());
-                }
-            }
 
-            stmt.close();
-
-            // Generate key after INSERT
-            if ((_keyGen != null) && (_keyGen.getStyle() == KeyGenerator.AFTER_INSERT)) {
-                if (!_useJDBC30) {
+                    stmt.close();
+                } else {
+                    stmt.close();
+                    
+                    // generate key after INSERT.
                     internalIdentity = generateKey(database, conn, stmt);
                 }
             }
@@ -322,31 +574,19 @@ public class SQLStatementCreate {
         } catch (SQLException except) {
             LOG.fatal(Messages.format("jdo.storeFatal",  _type,  _statement), except);
 
-            // [oleg] Check for duplicate key based on X/Open error code
-            // Bad way: all validation exceptions are reported as DuplicateKey
-            //if ( except.getSQLState() != null &&
-            //     except.getSQLState().startsWith( "23" ) )
-            //    throw new DuplicateIdentityException( _clsDesc.getJavaClass(), identity );
-
-            // Good way: let PersistenceFactory try to determine
-            Boolean isDupKey;
-
-            isDupKey = _factory.isDuplicateKeyException(except);
+            Boolean isDupKey = _factory.isDuplicateKeyException(except);
             if (Boolean.TRUE.equals(isDupKey)) {
                 throw new DuplicateIdentityException(Messages.format(
                         "persist.duplicateIdentity", _type, internalIdentity), except);
             } else if (Boolean.FALSE.equals(isDupKey)) {
                 throw new PersistenceException(Messages.format("persist.nested", except), except);
             }
-            // else unknown, let's check directly.
 
-            // [oleg] Check for duplicate key the old fashioned way,
-            //        after the INSERT failed to prevent race conditions
-            //        and optimize INSERT times
+            // check for duplicate key the old fashioned way, after the INSERT
+            // failed to prevent race conditions and optimize INSERT times.
             _lookupStatement.executeStatement(conn, internalIdentity);
 
             try {
-                // Close the insert/select statement
                 if (stmt != null) { stmt.close(); }
             } catch (SQLException except2) {
                 LOG.warn("Problem closing JDBC statement", except2);
