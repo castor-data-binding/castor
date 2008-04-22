@@ -463,7 +463,7 @@ create table tc3x_extends2 (
   ext     integer         not null
 );
 
-create unique index tc3x_extends1_pk on tc3x_extends2 ( id );
+create unique index tc3x_extends2_pk on tc3x_extends2 ( id );
 
 -- The test stored procedure on PL/SQL
 CREATE OR REPLACE PACKAGE test AS
@@ -1110,13 +1110,13 @@ insert into tc9x_customer (id, description) values (2, 'bob');
 drop table tc9x_subscription;
 create table tc9x_subscription (
 	id				int not null,
-	createddate		datetime,
+	createddate		date,
 	description		varchar(200),
 	customer_id		int not null
 );
 
-insert into tc9x_subscription (id, createddate, customer_id) values (1, now(), 2);
-insert into tc9x_subscription (id, createddate, customer_id) values (2, now(), 2);
+insert into tc9x_subscription (id, createddate, customer_id) values (1, SYSDATE, 2);
+insert into tc9x_subscription (id, createddate, customer_id) values (2, SYSDATE, 2);
 
 drop table tc9x_supersubscription;
 create table tc9x_supersubscription (
@@ -1442,7 +1442,7 @@ insert into tc7x_sorted_item (id, id_1, name) values (1, 1, 'container item 1');
 insert into tc7x_sorted_item (id, id_1, name) values (2, 1, 'container item 2');
 insert into tc7x_sorted_item (id, id_1, name) values (3, 2, 'container item 3');
 
-# TC20x - self-referential relations 
+-- TC20x - self-referential relations 
  
 drop table tc200_self_relation_folder;
 create table tc200_self_relation_folder (
@@ -1452,14 +1452,14 @@ create table tc200_self_relation_folder (
   
 );
 
-drop table tc200_self_relation_folder_parent;
-create table tc200_self_relation_folder_parent (
+drop table tc200_self_relation_parent;
+create table tc200_self_relation_parent (
   id          int		     	not null,  
   name        varchar(255)    	not null
 );
 
-drop table tc200_self_relation_folder_extend;
-create table tc200_self_relation_folder_extend (
+drop table tc200_self_relation_extend;
+create table tc200_self_relation_extend (
   id          int		     	not null,  
   parent_id	  int				DEFAULT null
 );
@@ -1467,4 +1467,3 @@ create table tc200_self_relation_folder_extend (
 spool off
 
 commit;
-
