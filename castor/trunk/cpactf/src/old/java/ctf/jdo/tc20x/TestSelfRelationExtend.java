@@ -35,8 +35,8 @@ import org.exolab.castor.jdo.QueryResults;
  * database.
  */
 public final class TestSelfRelationExtend extends CastorTestCase {
-    private static final String PARENT_TABLE_NAME = "tc200_self_relation_folder_parent";
-    private static final String EXTEND_TABLE_NAME = "tc200_self_relation_folder_extend";
+    private static final String PARENT_TABLE_NAME = "tc200_self_relation_parent";
+    private static final String EXTEND_TABLE_NAME = "tc200_self_relation_extend";
 
     private JDOCategory _category;
 
