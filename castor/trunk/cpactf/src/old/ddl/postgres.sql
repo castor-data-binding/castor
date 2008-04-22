@@ -1237,14 +1237,14 @@ create table tc200_self_relation_folder (
   
 );
 
-drop table tc200_self_relation_folder_parent;
-create table tc200_self_relation_folder_parent (
+drop table tc200_self_relation_parent;
+create table tc200_self_relation_parent (
   id          int		     	not null,  
   name        varchar(255)    	not null
 );
 
-drop table tc200_self_relation_folder_extend;
-create table tc200_self_relation_folder_extend (
+drop table tc200_self_relation_extend;
+create table tc200_self_relation_extend (
   id          int		     	not null,  
   parent_id	  int				null
 );

@@ -28,7 +28,7 @@
     </class>
 
 	<class name="ctf.jdo.tc20x.SelfRelationFolderParent" identity="id">
-        <map-to table="tc200_self_relation_folder_parent" />
+        <map-to table="tc200_self_relation_parent" />
         <field name="id" type="integer" required="true">
             <sql name="id" type="integer" />
         </field>
@@ -39,7 +39,7 @@
     </class>
 
 	<class name="ctf.jdo.tc20x.SelfRelationFolderExtend" extends="ctf.jdo.tc20x.SelfRelationFolderParent" identity="id">
-        <map-to table="tc200_self_relation_folder_extend" />
+        <map-to table="tc200_self_relation_extend" />
         <field name="id" type="integer" required="true">
             <sql name="id" type="integer" />
         </field>
