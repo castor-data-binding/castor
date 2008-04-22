@@ -47,6 +47,26 @@
                 
             </summary>
             <bugs>
+                <bug id="2352" tool="jira">
+                    <description>
+                        Fixed to long table names and some failures in SQL script of oracle.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20080422</date>
+                </bug>
                 <bug id="1699" tool="jira">
                     <description>
                         Removed dependency for mockejb.jar.
