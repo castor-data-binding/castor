@@ -47,6 +47,26 @@
                 
             </summary>
             <bugs>
+                <bug id="2358" tool="jira">
+                    <description>
+                        Improved HTML docs on SVN access.
+                    </description>
+                    <contributor>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Bernhard Woditschka</name>
+                        <email>bernhard.woditschka@gmail.com</email>
+                    </reporter>
+                    <type>Enh./type>
+                    <module>HTML</module>
+                    <date>20080425</date>
+                </bug>
                 <bug id="2343" tool="jira">
                     <description>
                         Prepared SQLStatementCreate to move whole generation code into KeyGenerator implementations.

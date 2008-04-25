@@ -23,37 +23,78 @@
     </section>
 
     <section title="Subversion access">
+    
+      <p>
+         The Codehaus hosts five active top level projects, including Castor itself (main)
+         and a couple of sub-projects within Castor main. The source code, documentation 
+         and libraries of the top level projects are available from Subversion.
+      </p>
 
-      <p>The source code, documentation and libraries are available from Subversion</p>
+      <section title="Castor (main)">
+         <p>
+            To checkout the Castor-main source as a committer:
+         </p>
+   
+         <code-panel>
+ $ svn co https://svn.codehaus.org/castor/castor/trunk</code-panel>
+   
+         <p>To checkout the Castor-main source anonymously:</p>
+   
+         <code-panel>
+ $ svn co http://svn.codehaus.org/castor/castor/trunk</code-panel>
+   
+         <p>To browse the Castor-main source:</p>
+   
+         <code-panel>
+ $ http://svn.codehaus.org/castor/castor/trunk</code-panel>
+   
+         <p>
+            If you happen to be behind a (corporate) firewall and thus are not able 
+            to use SVN, one of the following snapshots can also be downloaded (using
+            FishEye):
+         </p>
+   
+         <ul>
+           <li><a href="http://svn.castor.codehaus.org/viewrep/~tarball=zip/castor/castor/trunk/trunk.zip">ZIP archive</a></li>
+           <li><a href="http://svn.castor.codehaus.org/viewrep/~tarball=tgz/castor/castor/trunk/trunk.tgz">TGZ archive</a></li>
+           <li><a href="http://svn.castor.codehaus.org/viewrep/~tarball=tbz2/castor/castor/trunk/trunk.tbz2">TBZ2 archive</a></li>
+         </ul>
+   
+         <p>
+            Alternatively, <a href="download.xml">download</a> the full source
+            distribution for a given release.
+         </p>
+      
+      </section>
+      
+      <section title="Related projects">
+      
+         <p>
+            There is four more top-level projects related to Castor, that can be checked 
+            out from the following URLs:
+         </p>
+         
+         <ul>
+         	<li>castor-jaxb-2.0
+         <code-panel>
+  $ svn co http://svn.codehaus.org/castor/castor-jaxb-2.0/trunk</code-panel>
+         	</li>
+         	<li>castor-jpa
+         <code-panel>
+  $ svn co http://svn.codehaus.org/castor/castor-jpa/trunk</code-panel>
+         	</li>
+         	<li>castor-spring
+         <code-panel>
+  $ svn co http://svn.codehaus.org/castor/castor-spring/trunk</code-panel>
+         	</li>
+         	<li>spring-xml
+         <code-panel>
+  $ svn co http://svn.codehaus.org/castor/spring-xml/trunk</code-panel>
+         	</li>
+         </ul>
+      
+      </section>
 
-      <p>To checkout the Castor source as a committer:</p>
-
-      <code-panel>
-  $ svn co https://svn.codehaus.org/castor
-      </code-panel>
-
-      <p>To checkout the Castor source anonymously:</p>
-
-      <code-panel>
-  $ svn co http://svn.codehaus.org/castor
-      </code-panel>
-
-      <p>To browse the Castor source:</p>
-
-      <code-panel>
-  $ http://svn.codehaus.org/castor
-      </code-panel>
-
-      <p>Using FishEye, one of the following snapshots can also be downloaded:</p>
-
-      <ul>
-        <li><a href="http://svn.castor.codehaus.org/viewrep/~tarball=zip/castor/castor/trunk/trunk.zip">ZIP archive</a></li>
-        <li><a href="http://svn.castor.codehaus.org/viewrep/~tarball=tgz/castor/castor/trunk/trunk.tgz">TGZ archive</a></li>
-        <li><a href="http://svn.castor.codehaus.org/viewrep/~tarball=tbz2/castor/castor/trunk/trunk.tbz2">TBZ2 archive</a></li>
-      </ul>
-
-      <p>The last alternative is to <a href="download.xml">download</a> the full source
-         distribution for a given release.</p>
    </section>
 
    <section title="Information on Subversion">
