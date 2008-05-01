@@ -9,7 +9,7 @@ create table tc0x_sample (
   id      int           not null,
   value1  varchar(200)  not null,
   value2  varchar(200)
-);
+) ENGINE = INNODB;
 
 create unique index tc0x_sample_pk on tc0x_sample ( id );
 
@@ -520,14 +520,14 @@ create unique index tc7x_col_pk on tc7x_col( id );
 drop table if exists tc7x_item;
 create table tc7x_item (
   iid       integer         not null,
-  id      integer         not null
+  id      integer         null
 );
 create unique index tc7x_item_pk on tc7x_item( iid );
 
 drop table if exists tc7x_comp_item;
 create table tc7x_comp_item (
   iid       integer         not null,
-  id      integer         not null
+  id      integer         null
 );
 create unique index tc7x_comp_item_pk on tc7x_comp_item( iid );
 
@@ -1230,25 +1230,25 @@ CREATE TABLE tc9x_poly_container (
 ) ;
 INSERT INTO tc9x_poly_container VALUES ('200','100');
 
-DROP TABLE IF EXISTS tc9x_poly_Product;
-CREATE TABLE tc9x_poly_Product(
+DROP TABLE IF EXISTS tc9x_poly_product;
+CREATE TABLE tc9x_poly_product(
   IdProd int PRIMARY KEY,
   NameProd   VARCHAR(30) NULL,
   DescProd   VARCHAR(30) NULL);
 
-DROP TABLE IF EXISTS tc9x_poly_ActProduct;
-CREATE TABLE tc9x_poly_ActProduct(
+DROP TABLE IF EXISTS tc9x_poly_actproduct;
+CREATE TABLE tc9x_poly_actproduct(
   IdAct int PRIMARY KEY REFERENCES Product (IdProd),
   BestSeason VARCHAR(30) NULL);
 
-DROP TABLE IF EXISTS tc9x_poly_ComposedOffer;
-CREATE TABLE tc9x_poly_ComposedOffer(
+DROP TABLE IF EXISTS tc9x_poly_composedoffer;
+CREATE TABLE tc9x_poly_composedoffer(
   IdCOffer NUMERIC(10) PRIMARY KEY REFERENCES Product (IdProd),
   NameCO   VARCHAR(30) NULL,
   DescCO   VARCHAR(30) NULL);
 
-DROP TABLE IF EXISTS tc9x_poly_OfferComposition;
-CREATE TABLE tc9x_poly_OfferComposition(
+DROP TABLE IF EXISTS tc9x_poly_offercomposition;
+CREATE TABLE tc9x_poly_offercomposition(
   Offer NUMERIC(10),
   Product NUMERIC(10), 
   CONSTRAINT unique_rel UNIQUE (Offer, Product) );
