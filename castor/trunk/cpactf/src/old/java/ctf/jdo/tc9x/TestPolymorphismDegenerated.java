@@ -87,7 +87,7 @@ public final class TestPolymorphismDegenerated extends CastorTestCase {
 
         String oql = "select o from " + Subscription.class.getName()
                 + " o where o.customer = 2";
-        QueryResults qrs = db.getOQLQuery(oql).execute();
+        QueryResults qrs = db.getOQLQuery(oql).execute(true);
         
         assertEquals(2, qrs.size());
         

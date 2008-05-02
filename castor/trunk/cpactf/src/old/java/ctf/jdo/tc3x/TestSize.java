@@ -42,10 +42,14 @@
  */
 package ctf.jdo.tc3x;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import harness.CastorTestCase;
 import harness.TestHarness;
 import jdo.JDOCategory;
 
+import org.castor.jdo.util.JDOUtils;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.PersistenceException;
@@ -89,14 +93,17 @@ public class TestSize extends CastorTestCase {
     }
     
     public final void removeRecords() throws PersistenceException {
-        _db.begin();
-        OQLQuery oqlquery = _db.getOQLQuery(
-                "SELECT object FROM " + Entity.class.getName() + " object");
-        QueryResults enumeration = oqlquery.execute(true);
-        while (enumeration.hasMore()) {
-            _db.remove(enumeration.next());
+        Connection conn = null;
+        try {
+            conn = _category.getJDBCConnection();
+            conn.setAutoCommit(false);
+            conn.createStatement().executeUpdate("DELETE FROM tc3x_entity");
+            conn.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            JDOUtils.closeConnection (conn);
         }
-        _db.commit();
     }
     
     public final void createRecords() throws PersistenceException {
