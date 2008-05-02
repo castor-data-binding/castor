@@ -18,17 +18,20 @@
         </layout>
     </appender>
 
+   <!-- 
     <category name="org.castor">
       <priority value="info" />
     </category>
-
+    -->
     <category name="org.castor.cache.simple">
       <priority value="info" />
     </category>
     
+    <!-- 
     <category name="org.exolab.castor">
       <priority value="info" />
     </category>
+     -->
 
     <category name="ptf">
       <priority value="info" />
