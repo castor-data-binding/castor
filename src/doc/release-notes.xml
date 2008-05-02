@@ -47,6 +47,26 @@
                 
             </summary>
             <bugs>
+                <bug id="2372" tool="jira">
+                    <description>
+                        Fixed failing cpactf tests on oracle.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20080502</date>
+                </bug>
                 <bug id="2371" tool="jira">
                     <description>
                         Fixed failing cpactf tests on mysql.
