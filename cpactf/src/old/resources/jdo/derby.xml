@@ -3,9 +3,21 @@
                            "http://castor.org/jdo-conf.xsd"> 
 
 <jdo-conf>
+<!--
+    <database name="derby" engine="derby">
+        <driver url="jdbc:derby:cpactf/src/old/database/derby"
+                class-name="org.apache.derby.jdbc.EmbeddedDriver">
+            <param name="user" value="test"/>
+            <param name="password" value="test"/>
+        </driver>
+        <mapping href="jdo/mapping.xml"/>
+    </database>
+    <transaction-demarcation mode="local"/>
+-->
+
     <database name="derby" engine="derby" >
-        <driver url="jdbc:derby://localhost:1527/tests;retrieveMessagesFromServerOnGetMessage=true" 
-            class-name="org.apache.derby.jdbc.ClientDriver">
+        <driver url="jdbc:derby://localhost:1527/test" 
+                class-name="org.apache.derby.jdbc.ClientDriver">
             <param name="user" value="test" />
             <param name="password" value="test" />
         </driver>

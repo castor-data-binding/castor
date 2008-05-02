@@ -107,6 +107,5 @@ public final class TestDependsNoKeyGen extends CastorTestCase {
         assertNotNull(master);
         db.remove(master);
         db.commit();
-}
-    
+    }
 }
