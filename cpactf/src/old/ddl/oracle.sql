@@ -152,6 +152,15 @@ create table tc1x_pks_person (
 
 create unique index tc1x_pks_person_pk on tc1x_pks_person( fname, lname );
 
+drop table tc1x_pks_only;
+
+create table tc1x_pks_only(
+  fname varchar(15)    not null,
+  lname varchar(15)    not null
+);
+
+create unique index tc1x_pks_only_pk on tc1x_pks_only( fname, lname );
+
 drop table tc1x_pks_employee;
 
 create table tc1x_pks_employee (
@@ -331,6 +340,10 @@ create table tc2x_keygen_string (
 );
 
 create unique index tc2x_keygen_string_pk on tc2x_keygen_string ( id );
+
+drop sequence tc2x_keygen_string_seq;
+
+create sequence tc2x_keygen_string_seq;
 
 drop table tc2x_keygen_ext_string;
 create table tc2x_keygen_ext_string (
@@ -704,6 +717,24 @@ create unique index tc8x_pks_category_pk on tc8x_pks_category( id );
 
 -- grant all on tc8x_pks_category to test;
 
+drop table tc8x_circ_brother;
+drop table tc8x_circ_sister;
+drop sequence tc8x_circ_brother_seq;
+drop sequence tc8x_circ_sister_seq;
+
+create table tc8x_circ_brother (
+    brother_id int not null PRIMARY KEY,
+    brother_sibling int
+);
+
+create sequence tc8x_circ_brother_seq;
+
+create table tc8x_circ_sister (
+    sister_id int not null PRIMARY KEY,
+    sister_sibling int
+);
+
+create sequence tc8x_circ_sister_seq;
 
 -- base class
 drop table test_rel_person;

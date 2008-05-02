@@ -450,9 +450,9 @@
 
     <!-- tc3x -->
     <case id="TC30" class="ctf.jdo.tc3x.TestOql"/>
-    <case id="TC31" class="ctf.jdo.tc3x.TestOqlExtends"/>
-    <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/>
-    <case id="TC33" class="ctf.jdo.tc3x.TestLimitWithOffsetClause"/>
+    <!-- <case id="TC31" class="ctf.jdo.tc3x.TestOqlExtends"/> -->
+    <!-- <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/> -->
+    <!-- <case id="TC33" class="ctf.jdo.tc3x.TestLimitWithOffsetClause"/> -->
     <!-- <case id="TC34" class="ctf.jdo.tc3x.TestLimitWithOffsetExtend"/> -->
     <!-- <case id="TC35" class="ctf.jdo.tc3x.TestSize"/> -->
     <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/>

@@ -83,8 +83,8 @@ public final class TestCircularRef extends CastorTestCase {
 
         LOG.info("Delete everything");
         Statement stmt = _conn.createStatement();
-        stmt.executeUpdate("delete from circ_brother");
-        stmt.executeUpdate("delete from circ_sister");
+        stmt.executeUpdate("delete from tc8x_circ_brother");
+        stmt.executeUpdate("delete from tc8x_circ_sister");
         _conn.commit();
 
     }
