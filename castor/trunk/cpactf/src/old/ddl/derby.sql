@@ -1,4 +1,4 @@
-connect 'jdbc:derby://127.0.0.1/tests;create=true;user=test;password=test';
+-- connect 'jdbc:derby://127.0.0.1/tests;create=true;user=test;password=test';
 
 -- tc0x TESTS
 
@@ -152,6 +152,15 @@ create table tc1x_pks_person (
 
 create unique index tc1x_pks_prs_pk on tc1x_pks_person( fname, lname );
 
+drop table tc1x_pks_only;
+
+create table tc1x_pks_only(
+  fname varchar(15)    not null,
+  lname varchar(15)    not null
+);
+
+create unique index tc1x_pks_only_pk on tc1x_pks_only( fname, lname );
+
 drop table tc1x_pks_employee;
 
 create table tc1x_pks_employee (
@@ -274,7 +283,9 @@ create table tc2x_group (
 create unique index tc2x_group_pk on tc2x_group ( id );
 
 drop table tc2x_depend2;
+
 drop table tc2x_depend_master;
+
 drop table tc2x_depend1;
 
 create table tc2x_depend1 (
@@ -311,7 +322,8 @@ create table tc2x_keygen_ext (
 
 create unique index tc2x_keygen_ext_pk on tc2x_keygen_ext ( id );
 
-drop table if exists tc2x_keygen_string;
+drop table  tc2x_keygen_string;
+
 create table tc2x_keygen_string (
   id    varchar(200)  not null,
   attr  varchar(200)  not null
@@ -319,7 +331,8 @@ create table tc2x_keygen_string (
 
 create unique index tc2x_keygen_string_pk on tc2x_keygen_string ( id );
 
-drop table if exists tc2x_keygen_ext_string;
+drop table  tc2x_keygen_ext_string;
+
 create table tc2x_keygen_ext_string (
   id   varchar(200) not null,
   ext  varchar(200) not null
@@ -358,8 +371,6 @@ create table tc2x_identity_ext (
   id   integer not null primary key generated always as identity,
   ext  varchar(200) not null
 );
-
-create unique index tc2x_ident_ext_pk on tc2x_identity_ext ( id );
 
 drop table  tc2x_seqtable;
 
@@ -453,16 +464,17 @@ create table tc3x_extends2 (
 create unique index tc3x_extends2_pk on tc3x_extends2 ( id );
 
 drop table tc3x_nq_entity;
+
 create table tc3x_nq_entity (
   id        integer not null primary key,
   name      varchar(200) not null
 );
 
 
-
 -- UNDEFINED TESTS
 
 -- tc7x_table
+
 drop table   tc7x_table;
 
 create table tc7x_table (
@@ -473,9 +485,6 @@ create table tc7x_table (
 
 create unique index tc7x_table_pk on tc7x_table ( id );
 
--- grant all on tc7x_table to test;
-
-
 drop table   test_table2;
 
 create table test_table2 (
@@ -485,9 +494,6 @@ create table test_table2 (
 );
 
 create unique index test_table2_pk on test_table2 ( id );
-
--- grant all on test_table to test;
-
 
 -- test many to many
 
@@ -500,24 +506,12 @@ create table tc7x_many_group (
   value1    varchar(100)  not null
 );
 
--- create unique index test_mgroup_pk on tc7x_many_group ( gid );
-
--- grant all on tc7x_many_group to test;
-
-
-
 create table tc7x_many_person (
    pid      int          not null primary key,
    value1   varchar(100) not null,
    helloworld varchar(100) ,
    sthelse varchar(100) 
 );
-
--- create unique index test_mperson_pk on tc7x_many_person ( pid );
-
--- grant all on tc7x_many_person to test;
-
-
 
 create table tc7x_group_person (
   gid int         not null,
@@ -530,13 +524,8 @@ create table tc7x_group_person (
     REFERENCES tc7x_many_group(gid)
 );
 
-create index test_gperson_p_pk on tc7x_group_person ( pid );
-
-create index test_gperson_g_pk on tc7x_group_person ( gid );
-
--- grant all on tc7x_group_person to test;
-
 drop table tc7x_as_main;
+
 drop table tc7x_as_assoc1;
 
 create table tc7x_as_assoc1 (
@@ -548,7 +537,7 @@ create table tc7x_as_assoc1 (
 insert into tc7x_as_assoc1 (id, name) values (1, 'assoc1');
 
 create table tc7x_as_main (
-  id        int not null primary key,
+  id        int not null,
   name      varchar(200) not null,
   assoc1_id	int default null,
   constraint pk_tc7x_as_main primary key (id)
@@ -557,7 +546,9 @@ create table tc7x_as_main (
 insert into tc7x_as_main (id, name, assoc1_id) values (1, 'main', 1);
 
 drop table tc7x_as_assoc_many;
+
 drop table tc7x_as_main_many;
+
 create table tc7x_as_main_many (
   id        int not null,
   name      varchar(200) not null,
@@ -577,6 +568,7 @@ insert into tc7x_as_assoc_many (id, name, main_id) values (1, 'assoc.many.1', 1)
 insert into tc7x_as_assoc_many (id, name, main_id) values (2, 'assoc.many.2', 1);
 
 -- test multiple pk
+
 drop table tc8x_pks_person;
 
 create table tc8x_pks_person (
@@ -587,9 +579,6 @@ create table tc8x_pks_person (
 
 create unique index tc8x_pks_per_pk on tc8x_pks_person( fname, lname );
 
--- grant all on tc8x_pks_person to test;
-
-
 drop table tc8x_pks_employee;
 
 create table tc8x_pks_employee (
@@ -599,9 +588,6 @@ create table tc8x_pks_employee (
 );
 
 create unique index t_pks_per_emp_pk on tc8x_pks_employee( fname, lname );
-
--- grant all on tc8x_pks_employee to test;
-
 
 drop table tc8x_pks_payroll;
 
@@ -617,9 +603,6 @@ create unique index tc8x_pks_pay_fk on tc8x_pks_payroll( fname, lname );
 
 create unique index tc8x_pks_pay_pk on tc8x_pks_payroll( id );
 
--- grant all on tc8x_pks_payroll to test;
-
-
 drop table tc8x_pks_project;
 
 create table tc8x_pks_project (
@@ -630,9 +613,6 @@ create table tc8x_pks_project (
 );
 
 create unique index tc8x_pks_pro_pk on tc8x_pks_project( id );
-
--- grant all on tc8x_pks_payroll to test;
-
 
 drop table tc8x_pks_address;
 
@@ -648,9 +628,6 @@ create table tc8x_pks_address (
 
 create unique index tc8x_pks_add_pk on tc8x_pks_address( id );
 
--- grant all on tc8x_pks_add to test;
-
-
 drop table tc8x_pks_contract;
 
 create table tc8x_pks_contract (
@@ -665,9 +642,6 @@ create unique index tc8x_pks_cont_fk on tc8x_pks_contract( fname, lname );
 
 create unique index tc8x_pks_cont_pk on tc8x_pks_contract( policy_no, contract_no );
 
--- grant all on tc8x_pks_cont to test;
-
-
 drop table tc8x_pks_category_contract;
 
 create table tc8x_pks_category_contract (
@@ -675,9 +649,6 @@ create table tc8x_pks_category_contract (
   contract_no int      not null,
   cate_id int          not null
 );
-
--- grant all on tc8x_pks_category_contract to test;
-
 
 drop table tc8x_pks_category;
 
@@ -688,10 +659,8 @@ create table tc8x_pks_category (
 
 create unique index tc8x_pks_cat_pk on tc8x_pks_category( id );
 
--- grant all on tc8x_pks_category to test;
-
-
 -- base class
+
 drop table test_rel_person;
 
 create table test_rel_person (
@@ -703,10 +672,8 @@ create table test_rel_person (
 
 create unique index test_rel_per_pk on test_rel_person( pid );
 
--- grant all on test_rel_person to test;
-
-
 -- extend base class (person)
+
 drop table test_rel_employee;
 
 create table test_rel_employee (
@@ -716,10 +683,8 @@ create table test_rel_employee (
 
 create unique index test_rel_empl_pk on test_rel_employee( pid );
 
--- grant all on test_rel_employee to test;
-
-
 -- depends class of person
+
 drop table test_rel_address;
 
 create table test_rel_address (
@@ -735,10 +700,8 @@ create index test_rel_addr_fk on test_rel_address( pid );
 
 create unique index test_rel_addr_pk on test_rel_address( id );
 
--- grant all on test_rel_address to test;
-
-
 -- depend class of employee
+
 drop table test_rel_payroll;
 
 create table test_rel_payroll (
@@ -752,10 +715,6 @@ create index test_rel_pay_fk on test_rel_payroll( pid );
 
 create unique index test_rel_pay_pk on test_rel_payroll( id );
 
--- grant all on test_rel_payroll to test;
--- end for test_relations
-
-
 drop table   test_master;
 
 create table test_master (
@@ -764,13 +723,10 @@ create table test_master (
   group_id numeric(10,0)  
 );
 
-create unique index test_master_pk
-  on test_master ( id );
-
--- grant all on test_master to test;
-
+create unique index test_master_pk on test_master ( id );
 
 -- test_detail
+
 drop table   test_detail;
 
 create table test_detail (
@@ -779,13 +735,10 @@ create table test_detail (
   value1      varchar(200)  not null
 );
 
-create unique index test_detail_pk
-  on test_detail ( detail_id );
-
--- grant all on test_detail to test;
-
+create unique index test_detail_pk on test_detail ( detail_id );
 
 -- test_detail2
+
 drop table test_detail2;
 
 create table test_detail2 (
@@ -796,12 +749,9 @@ create table test_detail2 (
 
 create unique index test_detail2_pk on test_detail2 ( detail2_id );
 
--- grant all on test_detail2 to test;
-
 drop table test_detail3;
 
-create table test_detail3
-(
+create table test_detail3 (
   detail3_id  numeric(10,0)  not null,
   detail_id  numeric(10,0)  not null,
   value1      varchar(200 )  not null
@@ -809,10 +759,8 @@ create table test_detail3
 
 create unique index test_detail3_pk on test_detail3 ( detail3_id );
 
--- grant all on test_detail3 to test;
-
-
 -- test_keygen
+
 drop table   test_keygen;
 
 create table test_keygen (
@@ -820,13 +768,10 @@ create table test_keygen (
   attr  varchar(200)  not null
 );
 
-create unique index test_keygen_pk
-  on test_keygen ( id );
-
--- grant all on test_keygen to test;
-
+create unique index test_keygen_pk on test_keygen ( id );
 
 -- test_keygen_ext
+
 drop table test_keygen_ext;
 
 create table test_keygen_ext (
@@ -835,9 +780,6 @@ create table test_keygen_ext (
 );
 
 create unique index test_keygen_ext_pk on test_keygen_ext ( id );
-
--- grant all on test_keygen_ext to test;
-
 
 drop table test_uuid;
 
@@ -848,9 +790,6 @@ create table test_uuid (
 
 create unique index test_uuid_pk on test_uuid ( id );
 
--- grant all on test_uuid to test;
-
-
 drop table test_uuid_ext;
 
 create table test_uuid_ext (
@@ -859,9 +798,6 @@ create table test_uuid_ext (
 );
 
 create unique index test_uuid_ext_pk on test_uuid_ext ( id );
-
--- grant all on test_uuid_ext to test;
-
 
 drop table   test_seqtable;
 
@@ -873,25 +809,19 @@ create table test_seqtable (
 create unique index test_seqtable_pk
   on test_seqtable ( table_name );
 
--- grant all on test_seqtable to test;
-
-
 -- sequences not supported by Apache Derby
 -- drop sequence   test_keygen_seq;
 -- create sequence test_keygen_seq;
 -- grant all on test_keygen_seq to test;
 
-
 -- test the identity key generator
+
 -- drop table test_identity;
 
 -- create table test_identity (
 --   id int not null generated always as identity,
 --   attr varchar(200) not null
 -- );
-
--- grant all on test_identity to test;
-
 
 -- drop table test_identity_ext;
 
@@ -902,10 +832,8 @@ create unique index test_seqtable_pk
 
 -- create unique index test_ident_ext_pk on test_identity_ext ( id );
 
--- grant all on test_identity_ext to test;
-
-
 -- tc7x_col
+
 drop table tc7x_col;
 
 create table tc7x_col (
@@ -913,9 +841,6 @@ create table tc7x_col (
 );
 
 create unique index tc7x_col_pk on tc7x_col( id );
-
--- grant all on tc7x_col to test;
-
 
 drop table tc7x_item;
 
@@ -926,20 +851,17 @@ create table tc7x_item (
 
 create unique index tc7x_item_pk on tc7x_item( iid );
 
--- grant all on tc7x_item to test;
-
 drop table tc7x_comp_item;
 
 create table tc7x_comp_item (
   iid       integer         not null,
-  id      integer         not null
+  id      integer
 );
 
 create unique index tc7x_comp_item_pk on tc7x_comp_item( iid );
 
--- grant all on tc7x_comp_item to test;
-
 -- list_types
+
 drop table list_types;
 
 create table list_types (
@@ -957,9 +879,6 @@ create table list_types (
   o_bfile BLOB  
 );
 
--- grant all on list_types to test;
-
-
 drop table test_oqltag;
 
 create table test_oqltag (
@@ -971,26 +890,30 @@ create index test_oqltag_fk1 on test_oqltag( id1 );
 
 create index test_oqltag_fk2 on test_oqltag( id2 );
 
--- grant all on test_oqltag to test;
-
-
 drop table tc8x_nton_a;
+
 create table tc8x_nton_a (
   id         varchar(20)      not null,
   status     int              not null
 );
--- grant all on tc8x_nton_a to test;
 
 drop table tc8x_nton_b;
+
 create table tc8x_nton_b (
   id         varchar(20)      not null,
   status     int              not null
 );
--- grant all on tc8x_nton_b to test;
 
+alter table tc7x_master
+	drop constraint fk_master_depend1;
+
+alter table tc7x_depend2
+	drop constraint fk_depend2_master;
 
 drop table tc7x_master;
+
 drop table tc7x_depend1;
+
 drop table tc7x_depend2;
 
 create table tc7x_depend1(
@@ -998,24 +921,17 @@ create table tc7x_depend1(
   constraint pk_depend1 primary key (id)
 );
 
--- grant all on tc7x_depend1 to test;
-
 create table tc7x_master(
   depend1_id int,
   id int not null,
   constraint pk_master primary key (id)
 );
 
--- grant all on tc7x_master to test;
-
-
 create table tc7x_depend2(
   master_id int,
   id int not null,
   constraint pk_depend2 primary key (id)
 );
-
--- grant all on tc7x_depend2 to test;
 
 alter table tc7x_master
 	add constraint fk_master_depend1
@@ -1026,6 +942,7 @@ alter table tc7x_depend2
 	foreign key (master_id) references tc7x_master(id);
 
 drop table tc8x_circ_brother;
+
 drop table tc8x_circ_sister;
 
 create table tc8x_circ_brother (
@@ -1039,13 +956,16 @@ create table tc8x_circ_sister (
 	constraint pk_sister primary key (sister_id));
 
 -- tc166.TestLazy1to1
+
 drop table tc8x_lazy_11_chd;
+
 create table tc8x_lazy_11_chd (
   id        int not null,
   descr     varchar(20) not null
 );
 
 drop table tc8x_lazy_11_par;
+
 create table tc8x_lazy_11_par (
   id        int not null,
   descr     varchar(20) not null,
@@ -1053,6 +973,7 @@ create table tc8x_lazy_11_par (
 );
 
 drop table tc8x_lazy_11_author;
+
 create table tc8x_lazy_11_author (
   id			int not null,
   first_name		varchar(100) not null,
@@ -1060,6 +981,7 @@ create table tc8x_lazy_11_author (
 );
 
 drop table tc8x_lazy_11_book;
+
 create table tc8x_lazy_11_book (
   id			int not null,
   name 			varchar(100) not null,
@@ -1081,6 +1003,7 @@ insert into tc8x_lazy_11_author (id, first_name, last_name) values (1, 'Joe', 'W
 insert into tc8x_lazy_11_book (id, name, author_id) select 1, 'test book', tc8x_lazy_11_author.id from tc8x_lazy_11_author;
 	
 drop table tc8x_enum_prod;
+
 create table tc8x_enum_prod (
   id        int not null,
   name      varchar(200) not null,
@@ -1090,6 +1013,7 @@ create table tc8x_enum_prod (
 -- test objects for TestTransientAttribute 
 
 drop table tc8x_trans_master;
+
 create table tc8x_trans_master (
   id        int not null,
   name      varchar(200) not null,
@@ -1100,12 +1024,14 @@ create table tc8x_trans_master (
 );
 
 drop table tc8x_trans_child1;
+
 create table tc8x_trans_child1 (
   id        int not null,
   descr     varchar(200) not null
 );
 
 drop table tc8x_trans_child2;
+
 create table tc8x_trans_child2 (
   id        int not null,
   descr     varchar(200) not null
@@ -1120,6 +1046,7 @@ insert into tc8x_trans_child2 (id, descr) values (3, 'description3');
 -- tc8x
 
 drop table tc8x_self_refer_parent;
+
 create table tc8x_self_refer_parent (
   id        int not null,
   fid		int,
@@ -1131,6 +1058,7 @@ insert into tc8x_self_refer_parent (id, fid, name) values (2, 1, 'entity2');
 insert into tc8x_self_refer_parent (id, fid, name) values (3, 1, 'entity3');
 
 drop table tc8x_self_refer_child;
+
 create table tc8x_self_refer_child (
   id        int not null,
   descr     varchar(200) not null
@@ -1140,40 +1068,43 @@ insert into tc8x_self_refer_child (id, descr) values (1, 'description1');
 insert into tc8x_self_refer_child (id, descr) values (2, 'description2');
 insert into tc8x_self_refer_child (id, descr) values (3, 'description3');
 
-DROP TABLE tc8x_test_depends_ns;
-CREATE TABLE tc8x_test_depends_ns (
-  id int(11) NOT NULL key generated always as identity,
-  master_id int(11) NOT NULL default '0',
-  descrip varchar(50) NOT NULL default '',
-  PRIMARY KEY  (id),
-  KEY master_id (master_id)
-);
+-- DROP TABLE tc8x_test_depends_ns;
 
-DROP TABLE tc8x_test_master_ns;
-CREATE TABLE tc8x_test_master_ns (
-  id int(11) NOT NULL key generated always as identity,
+-- CREATE TABLE tc8x_test_depends_ns (
+--   id int NOT NULL key generated always as identity,
+--   master_id int NOT NULL default '0',
+--   descrip varchar(50) NOT NULL default '',
+--   PRIMARY KEY  (id),
+--   KEY master_id (master_id)
+-- );
+-- 
+-- DROP TABLE tc8x_test_master_ns;
+-- 
+-- CREATE TABLE tc8x_test_master_ns (
+--   id int NOT NULL key generated always as identity,
+--   descrip varchar(50) NOT NULL default '',
+--   PRIMARY KEY  (id)
+-- );
+ 
+DROP TABLE tc8x_test_depends_ns_nokg;
+ 
+CREATE TABLE tc8x_test_depends_ns_nokg (
+  id int NOT NULL,
+  master_id int NOT NULL,
   descrip varchar(50) NOT NULL default '',
   PRIMARY KEY  (id)
 );
 
-DROP TABLE tc8x_test_depends_ns_nokg;
-CREATE TABLE tc8x_test_depends_ns_nokg (
-  id int(11) NOT NULL,
-  master_id int(11) NOT NULL default '0',
-  descrip varchar(50) NOT NULL default '',
-  PRIMARY KEY  (id),
-  KEY master_id (master_id)
-);
-
-
 DROP TABLE tc8x_test_master_ns_nokg;
+
 CREATE TABLE tc8x_test_master_ns_nokg (
-  id int(11) NOT NULL,
+  id int NOT NULL,
   descrip varchar(50) NOT NULL default '',
   PRIMARY KEY  (id)
 );
 
 drop table tc8x_parent;
+
 create table tc8x_parent (
   id        int not null PRIMARY KEY,
   name      varchar(200) not null
@@ -1182,6 +1113,7 @@ create table tc8x_parent (
 insert into tc8x_parent (id, name) values (1, 'entity1');
 
 drop table tc8x_child;
+
 create table tc8x_child (
   id        int not null PRIMARY KEY,
   descr     varchar(200) not null
@@ -1190,6 +1122,7 @@ create table tc8x_child (
 insert into tc8x_child (id, descr) values (1, 'child1');
 
 drop table tc8x_parent_compound;
+
 create table tc8x_parent_compound (
   id1       int not null,
   id2       int not null,
@@ -1200,6 +1133,7 @@ create table tc8x_parent_compound (
 insert into tc8x_parent_compound (id1, id2, name) values (1, 1, 'entityCompound1');
 
 drop table tc8x_child_compound;
+
 create table tc8x_child_compound (
   id1       int not null,
   id2       int not null,
@@ -1213,6 +1147,7 @@ insert into tc8x_child_compound (id1, id2, descr) values (1, 1, 'childCompound1'
 -- tc9x TESTS
 
 drop table tc9x_foo;
+
 create table tc9x_foo (
   id        		int not null,
   field     		varchar(200) not null
@@ -1222,6 +1157,7 @@ insert into tc9x_foo (id, field) values (1, 'a foo');
 insert into tc9x_foo (id, field) values (2, 'a bar');
 
 drop table tc9x_bar;
+
 create table tc9x_bar (
   id        int not null
 );
@@ -1229,6 +1165,7 @@ create table tc9x_bar (
 insert into tc9x_bar (id) values (2);
 
 drop table tc9x_customer;
+
 create table tc9x_customer (
 	id				int not null,
 	description 	varchar(200) not null			
@@ -1238,22 +1175,25 @@ insert into tc9x_customer (id, description) values (1, 'alice');
 insert into tc9x_customer (id, description) values (2, 'bob');
 
 drop table tc9x_subscription;
+
 create table tc9x_subscription (
 	id				int not null,
-	createddate		datetime,
+	createddate		timestamp,
 	description		varchar(200),
 	customer_id		int not null
 );
 
-insert into tc9x_subscription (id, createddate, customer_id) values (1, now(), 2);
-insert into tc9x_subscription (id, createddate, customer_id) values (2, now(), 2);
+insert into tc9x_subscription (id, createddate, customer_id) values (1, CURRENT_TIMESTAMP, 2);
+insert into tc9x_subscription (id, createddate, customer_id) values (2, CURRENT_TIMESTAMP, 2);
 
 drop table tc9x_supersubscription;
+
 create table tc9x_supersubscription (
 	id			int not null
 );
 
 drop table tc9x_credit;
+
 create table tc9x_credit (
 	id						int not null,
 	balance					int not null,
@@ -1261,12 +1201,14 @@ create table tc9x_credit (
 );
 
 drop table  tc9x_poly_ordr;
+
 create table tc9x_poly_ordr (
   id int not null,
   name varchar (20) not null
 );
 
 drop table  tc9x_poly_detail;
+
 create table tc9x_poly_detail (
   id int not null,
   category varchar (20) not null,
@@ -1274,6 +1216,7 @@ create table tc9x_poly_detail (
 );
 
 drop table  tc9x_poly_owner;
+
 create table tc9x_poly_owner (
   id int not null,
   name varchar (20) not null,
@@ -1281,6 +1224,7 @@ create table tc9x_poly_owner (
 );
 
 drop table  tc9x_poly_prod;
+
 create table tc9x_poly_prod (
   id        int not null,
   name      varchar(200) not null,
@@ -1289,12 +1233,14 @@ create table tc9x_poly_prod (
 );
 
 drop table  tc9x_poly_computer;
+
 create table tc9x_poly_computer (
   id   int not null,
   cpu  varchar(200) not null
 );
 
 drop table  tc9x_poly_laptop;
+
 create table tc9x_poly_laptop (
   id   int not null,
   weight  int not null,
@@ -1302,6 +1248,7 @@ create table tc9x_poly_laptop (
 );
 
 drop table  tc9x_poly_server;
+
 create table tc9x_poly_server (
   id   int not null,
   numberOfCPUs  int not null,
@@ -1309,6 +1256,7 @@ create table tc9x_poly_server (
 );
 
 drop table  tc9x_poly_car;
+
 create table tc9x_poly_car (
   id   int not null,
   kw   int not null,
@@ -1316,12 +1264,14 @@ create table tc9x_poly_car (
 );
 
 drop table  tc9x_poly_truck;
+
 create table tc9x_poly_truck (
   id   int not null,
   max_weight   int not null
 );
 
 drop table  tc9x_poly_prod_multi;
+
 create table tc9x_poly_prod_multi (
   id1        int not null,
   id2        int not null,
@@ -1329,6 +1279,7 @@ create table tc9x_poly_prod_multi (
 );
 
 drop table  tc9x_poly_computer_multi;
+
 create table tc9x_poly_computer_multi (
   id1   int not null,
   id2        int not null,
@@ -1336,6 +1287,7 @@ create table tc9x_poly_computer_multi (
 );
 
 drop table  tc9x_poly_laptop_multi;
+
 create table tc9x_poly_laptop_multi (
   id1   int not null,
   id2        int not null,
@@ -1344,6 +1296,7 @@ create table tc9x_poly_laptop_multi (
 );
 
 drop table  tc9x_poly_server_multi;
+
 create table tc9x_poly_server_multi (
   id1   int not null,
   id2        int not null,
@@ -1352,29 +1305,32 @@ create table tc9x_poly_server_multi (
 );
 
 drop table  tc9x_poly_order_product;
+
 create table tc9x_poly_order_product (
   order_id	int not null,
   product_id int not null
 );
 
 drop table  tc9x_poly_table_m;
+
 create table tc9x_poly_table_m (
   id	int not null,
   name	varchar(20) not null
 );
 
 drop table  tc9x_poly_table_n;
+
 create table tc9x_poly_table_n (
   id	int not null,
   name	varchar(20) not null
 );
 
 drop table  tc9x_poly_m_n;
+
 create table tc9x_poly_m_n (
   m_id	int not null,
   n_id int not null
 );
-
 
 insert into tc9x_poly_detail (id, category, location) values (1, 'category 1', 'location 1');
 insert into tc9x_poly_detail (id, category, location) values (2, 'category 2', 'location 2');
@@ -1439,6 +1395,16 @@ insert into tc9x_poly_table_n (id, name) values (1, 'n1');
 insert into tc9x_poly_table_n (id, name) values (2, 'n2');
 
 DROP TABLE  tc9x_poly_base;
+DROP TABLE tc8x_test_depends_ns_nokg;
+ 
+CREATE TABLE tc8x_test_depends_ns_nokg (
+  id int NOT NULL,
+  master_id int NOT NULL default '0',
+  descrip varchar(50) NOT NULL default '',
+  PRIMARY KEY  (id),
+  KEY master_id (master_id)
+);
+
 CREATE TABLE tc9x_poly_base (
   id varchar(64) NOT NULL default '',
   color varchar(64) default NULL,
@@ -1448,52 +1414,63 @@ CREATE TABLE tc9x_poly_base (
 INSERT INTO tc9x_poly_base VALUES ('100','red');
 
 DROP TABLE  tc9x_poly_derived;
+
 CREATE TABLE tc9x_poly_derived (
   id varchar(64) NOT NULL default '',
   scent varchar(64) default NULL,
   PRIMARY KEY  (ID)
 ) ;
+
 INSERT INTO tc9x_poly_derived VALUES ('100','vanilla');
 
-
 DROP TABLE  tc9x_poly_container;
+
 CREATE TABLE tc9x_poly_container (
   id varchar(64) NOT NULL default '',
   reference varchar(64) default NULL,
   PRIMARY KEY  (ID)
 ) ;
+
 INSERT INTO tc9x_poly_container VALUES ('200','100');
 
+DROP TABLE  tc9x_poly_OfferComposition;
+
+DROP TABLE  tc9x_poly_ComposedOffer;
+
+DROP TABLE  tc9x_poly_ActProduct;
+
 DROP TABLE  tc9x_poly_Product;
+
 CREATE TABLE tc9x_poly_Product(
   IdProd int not null PRIMARY KEY,
   NameProd   VARCHAR(30) default NULL,
-  DescProd   VARCHAR(30) default NULL);
+  DescProd   VARCHAR(30) default NULL
+);
 
-DROP TABLE  tc9x_poly_ActProduct;
 CREATE TABLE tc9x_poly_ActProduct(
   IdAct int not null PRIMARY KEY REFERENCES tc9x_poly_Product (IdProd),
-  BestSeason VARCHAR(30) default NULL);
+  BestSeason VARCHAR(30) default NULL
+);
 
-DROP TABLE  tc9x_poly_ComposedOffer;
 CREATE TABLE tc9x_poly_ComposedOffer(
-  IdCOffer NUMERIC(10) not null PRIMARY KEY REFERENCES tc9x_poly_Product (IdProd),
+  IdCOffer int not null PRIMARY KEY REFERENCES tc9x_poly_Product (IdProd),
   NameCO   VARCHAR(30) default NULL,
-  DescCO   VARCHAR(30) default NULL);
+  DescCO   VARCHAR(30) default NULL
+);
 
-DROP TABLE  tc9x_poly_OfferComposition;
 CREATE TABLE tc9x_poly_OfferComposition(
   Offer NUMERIC(10) not null,
   Product NUMERIC(10) not null, 
-  CONSTRAINT unique_rel UNIQUE (Offer, Product) );
-
+  CONSTRAINT unique_rel UNIQUE (Offer, Product)
+);
 	
-# TC129 
+-- TC129 
 
 DROP TABLE tc7x_container;
+
 CREATE TABLE tc7x_container (
   id int NOT NULL ,
-  name varchar(200) NULL,
+  name varchar(200) default NULL,
   PRIMARY KEY (id)
 );
 
@@ -1504,9 +1481,10 @@ INSERT INTO tc7x_container (id, name) VALUES
   (4,'Container 4');
 
 DROP TABLE tc7x_container_item;
+
 CREATE TABLE tc7x_container_item (
   id int NOT NULL,
-  item int default DEFAULT NULL,
+  item int DEFAULT NULL,
   value varchar(200) DEFAULT NULL,
   PRIMARY KEY (id)
 );
@@ -1524,12 +1502,14 @@ INSERT INTO tc7x_container_item (id, item, value) VALUES
 # TC128a
 
 drop table tc7x_sorted_container;
+
 create table tc7x_sorted_container (
   id        int not null,
   name      varchar(200) not null
 );
 
 drop table tc7x_sorted_item;
+
 create table tc7x_sorted_item(
   id        int not null,
   id_1		int not null,
@@ -1547,6 +1527,7 @@ insert into tc7x_sorted_item (id, id_1, name) values (3, 2, 'container item 3');
 # TC20x - self-referential relations 
  
 drop table tc200_self_relation_folder;
+
 create table tc200_self_relation_folder (
   id          int		     	not null,  
   name        varchar(255)    	not null,
@@ -1555,12 +1536,14 @@ create table tc200_self_relation_folder (
 );
 
 drop table tc200_self_relation_parent;
+
 create table tc200_self_relation_parent (
   id          int		     	not null,  
   name        varchar(255)    	not null
 );
 
 drop table tc200_self_relation_extend;
+
 create table tc200_self_relation_extend (
   id          int		     	not null,  
   parent_id	  int				DEFAULT null

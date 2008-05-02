@@ -818,7 +818,7 @@
 
     <!-- tc0x -->
     <case id="TC01" class="ctf.jdo.tc0x.TestDuplicateKey"/>
-    <case id="TC02" class="ctf.jdo.tc0x.TestConcurrent"/>
+    <!-- <case id="TC02" class="ctf.jdo.tc0x.TestConcurrent"/> -->
     <case id="TC03" class="ctf.jdo.tc0x.TestReadOnly"/>
     <case id="TC04" class="ctf.jdo.tc0x.TestDeadlock"/>
     <case id="TC05" class="ctf.jdo.tc0x.TestUpdate"/>
@@ -852,11 +852,11 @@
     <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
     <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
     <case id="TC28" class="ctf.jdo.tc2x.TestDependentKeyGenUpdate"/>
-    <case id="TC29" class="ctf.jdo.tc2x.TestDependentOrder"/>
+    <!-- <case id="TC29" class="ctf.jdo.tc2x.TestDependentOrder"/> -->
 
     <!-- tc3x -->
     <case id="TC30" class="ctf.jdo.tc3x.TestOql"/>
-    <case id="TC31" class="ctf.jdo.tc3x.TestOqlExtends"/>
+    <!-- <case id="TC31" class="ctf.jdo.tc3x.TestOqlExtends"/> -->
     <!-- <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/>
          LIMIT clause not supported by Apache Derby -->
     <!-- <case id="TC33" class="ctf.jdo.tc3x.TestLimitWithOffsetClause"/>
@@ -891,7 +891,7 @@
 
     <!-- tc8x -->
     <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
-    <case id="TC81" class="ctf.jdo.tc8x.TestDepends"/>
+    <!-- <case id="TC81" class="ctf.jdo.tc8x.TestDepends"/> -->
     <case id="TC82" class="ctf.jdo.tc8x.TestDependsNoKeyGen"/>
     <case id="TC83" class="ctf.jdo.tc8x.TestIdentityPerFieldMapping"/>
     <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
