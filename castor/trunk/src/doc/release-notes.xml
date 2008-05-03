@@ -45,8 +45,59 @@
                     versions of 1.0.5 and older.
                 </p>
                 
+                <h3>Moved SQL drivers into new org.castor.cpa.persistence.sql.driver package</h3>
+                
+                <p>
+                    As we had to change the package of the drivers in castor.properties anyway,
+                    we also renamed the property that configures the classnames of the available
+                    drivers from <tt>org.exolab.castor.jdo.engines</tt> to
+                    <tt>org.castor.cpa.persistence.sql.driver.factories</tt>.
+                </p>
+
+                <p>
+                    The entry in properties file should now be:
+                </p>
+                    <code-panel>
+# List of persistence factories for the supported database servers:
+#
+org.castor.cpa.persistence.sql.driver.factories=\
+  org.castor.cpa.persistence.sql.driver.OracleFactory,\
+  org.castor.cpa.persistence.sql.driver.PostgreSQLFactory,\
+  org.castor.cpa.persistence.sql.driver.SybaseFactory,\
+  org.castor.cpa.persistence.sql.driver.SQLServerFactory,\
+  org.castor.cpa.persistence.sql.driver.DB2Factory,\
+  org.castor.cpa.persistence.sql.driver.InformixFactory,\
+  org.castor.cpa.persistence.sql.driver.HsqlFactory,\
+  org.castor.cpa.persistence.sql.driver.InstantDBFactory,\
+  org.castor.cpa.persistence.sql.driver.InterbaseFactory,\
+  org.castor.cpa.persistence.sql.driver.MySQLFactory,\
+  org.castor.cpa.persistence.sql.driver.SapDbFactory,\
+  org.castor.cpa.persistence.sql.driver.GenericFactory,\
+  org.castor.cpa.persistence.sql.driver.DerbyFactory,\
+  org.castor.cpa.persistence.sql.driver.PointbaseFactory,\
+  org.castor.cpa.persistence.sql.driver.ProgressFactory</code-panel>
             </summary>
             <bugs>
+                <bug id="2374" tool="jira">
+                    <description>
+                        Moved SQL drivers into new org.castor.cpa.persistence.sql.driver package.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20080503</date>
+                </bug>
                 <bug id="2373" tool="jira">
                     <description>
                         Fixed failing cpactf tests on derby.

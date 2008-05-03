@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.jdo.drivers;
+package org.castor.cpa.persistence.sql.driver;
 
 import junit.framework.TestCase;
 

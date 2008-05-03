@@ -109,7 +109,6 @@ public class OracleFactory extends GenericFactory {
      * (need to fix SimpleQueryExecutor).
      * 
      * @inheritDoc
-     * @see org.exolab.castor.jdo.engine.BaseFactory#adjustSqlType(java.lang.Class)
      */
     public Class adjustSqlType(final Class sqlType) {
         if (sqlType == java.lang.Integer.class) {

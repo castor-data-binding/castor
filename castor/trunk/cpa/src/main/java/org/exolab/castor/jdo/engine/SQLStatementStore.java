@@ -222,7 +222,7 @@ public final class SQLStatementStore {
                 
                 // bind the old fields of the row to be stored into the preparedStatement
                 if (oldentity.getFields() != null) {
-                    boolean supportsSetNull = ((BaseFactory) _factory).supportsSetNullInWhere();
+                    boolean supportsSetNull = _factory.supportsSetNullInWhere();
                     
                     for (int i = 0; i < fields.length; ++i) {
                         if (fields[i].isStore() && fields[i].isDirtyCheck()) {
@@ -351,7 +351,7 @@ public final class SQLStatementStore {
     throws PersistenceException {
         if (oldentity.getFields() == null) {
             return _statementLazy;
-        } else if (((BaseFactory) _factory).supportsSetNullInWhere()) {
+        } else if (_factory.supportsSetNullInWhere()) {
             return _statementDirty;
         } else {
             int pos = _statementDirty.length() - 1;
