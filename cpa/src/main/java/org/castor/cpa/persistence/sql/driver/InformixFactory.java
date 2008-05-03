@@ -40,7 +40,7 @@
  *
  * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
  */
-package org.exolab.castor.jdo.drivers;
+package org.castor.cpa.persistence.sql.driver;
 
 import org.exolab.castor.persist.spi.QueryExpression;
 

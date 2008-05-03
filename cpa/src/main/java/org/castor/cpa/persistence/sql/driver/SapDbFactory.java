@@ -42,15 +42,11 @@
  *
  * $Id$
  */
-
-
-package org.exolab.castor.jdo.drivers;
-
+package org.castor.cpa.persistence.sql.driver;
 
 import java.util.StringTokenizer;
 
 import org.exolab.castor.persist.spi.QueryExpression;
-
 
 /**
  * PersistenceFactory for SAP DB.

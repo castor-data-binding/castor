@@ -42,13 +42,9 @@
  *
  * $Id$
  */
-
-
-package org.exolab.castor.jdo.drivers;
-
+package org.castor.cpa.persistence.sql.driver;
 
 import org.exolab.castor.persist.spi.QueryExpression;
-
 
 /**
  * {@link org.exolab.castor.persist.spi.PersistenceFactory} for DB 2 driver.

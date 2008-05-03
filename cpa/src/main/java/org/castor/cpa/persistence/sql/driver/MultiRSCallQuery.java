@@ -42,8 +42,7 @@
  *
  * $Id$
  */
-
-package org.exolab.castor.jdo.drivers;
+package org.castor.cpa.persistence.sql.driver;
 
 import java.sql.Connection;
 import java.sql.SQLException;

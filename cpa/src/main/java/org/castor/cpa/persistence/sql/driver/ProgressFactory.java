@@ -13,8 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.castor.jdo.drivers;
+package org.castor.cpa.persistence.sql.driver;
 
 import org.exolab.castor.jdo.drivers.GenericFactory;
 import org.exolab.castor.persist.spi.QueryExpression;
@@ -49,7 +48,4 @@ public final class ProgressFactory extends GenericFactory {
     public String quoteName(final String name) {
         return doubleQuoteName(name);
     }
-
-
-
 }

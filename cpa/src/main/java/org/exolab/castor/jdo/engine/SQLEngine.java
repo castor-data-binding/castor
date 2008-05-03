@@ -80,7 +80,7 @@ public final class SQLEngine implements Persistence {
 
     private final SQLStatementStore _storeStatement;
 
-    SQLEngine(final JDOClassDescriptor clsDesc, final PersistenceFactory factory,
+    public SQLEngine(final JDOClassDescriptor clsDesc, final PersistenceFactory factory,
               final String stampField) throws MappingException {
 
         _clsDesc = clsDesc;
