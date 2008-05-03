@@ -42,16 +42,11 @@
  *
  * $Id$
  */
-
-
-package org.exolab.castor.jdo.drivers;
-
+package org.castor.cpa.persistence.sql.driver;
 
 import java.util.StringTokenizer;
 
-import org.exolab.castor.jdo.engine.BaseFactory;
 import org.exolab.castor.persist.spi.QueryExpression;
-
 
 /**
  * {@link org.exolab.castor.persist.spi.PersistenceFactory} for generic JDBC driver.

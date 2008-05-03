@@ -42,7 +42,7 @@
  *
  * $Id$
  */
-package org.exolab.castor.jdo.drivers;
+package org.castor.cpa.persistence.sql.driver;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;

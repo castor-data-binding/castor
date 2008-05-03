@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.castor.cpa.persistence.sql.driver;
 
-package org.castor.jdo.drivers;
-
-import org.exolab.castor.jdo.drivers.JDBCQueryExpression;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 
 /**

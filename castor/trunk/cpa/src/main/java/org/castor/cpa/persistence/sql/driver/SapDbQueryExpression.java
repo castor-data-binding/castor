@@ -42,17 +42,13 @@
  *
  * $Id$
  */
-
-
-package org.exolab.castor.jdo.drivers;
-
+package org.castor.cpa.persistence.sql.driver;
 
 import java.util.Enumeration;
 import java.util.Vector;
 
 import org.exolab.castor.jdo.engine.JDBCSyntax;
 import org.exolab.castor.persist.spi.PersistenceFactory;
-
 
 /**
  * QueryExpression for SAP DB.

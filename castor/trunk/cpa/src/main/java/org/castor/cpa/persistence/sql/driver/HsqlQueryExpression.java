@@ -42,7 +42,7 @@
  *
  * $Id$
  */
-package org.exolab.castor.jdo.drivers;
+package org.castor.cpa.persistence.sql.driver;
 
 import java.util.Enumeration;
 import java.util.Hashtable;

@@ -42,10 +42,7 @@
  *
  * $Id$
  */
-
-
-package org.exolab.castor.jdo.engine;
-
+package org.castor.cpa.persistence.sql.driver;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,12 +50,13 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.util.Messages;
+import org.exolab.castor.jdo.engine.JDOClassDescriptor;
+import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.persist.spi.PersistenceQuery;
-
 
 /**
  * {@link org.exolab.castor.persist.spi.PersistenceFactory} for generic JDBC driver.

@@ -1,5 +1,4 @@
-
-package org.exolab.castor.jdo.drivers;
+package org.castor.cpa.persistence.sql.driver;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -7,7 +6,6 @@ import java.util.Vector;
 
 import org.exolab.castor.jdo.engine.JDBCSyntax;
 import org.exolab.castor.persist.spi.PersistenceFactory;
-
 
 /**
  * QueryExpression for Interbase.
@@ -96,33 +94,32 @@ public final class InterbaseQueryExpression extends JDBCQueryExpression {
     }
 
     void appendJoin(final Join join) {
+        if (join._outer) {
+            _sql.append(JDBCSyntax.LEFT_JOIN);
+        } else {
+            _sql.append(JDBCSyntax.INNER_JOIN);
+        }
 
-      if (join._outer) {
-          _sql.append(JDBCSyntax.LEFT_JOIN);
-      } else {
-          _sql.append(JDBCSyntax.INNER_JOIN);
-      }
-
-      String tableAlias = join._rightTable;
-      String tableName = (String) _tables.get(tableAlias);
-      if (tableAlias.equals(tableName)) {
-          _sql.append(_factory.quoteName(tableName));
-      } else {
-          _sql.append(_factory.quoteName(tableName) + " "
-                  + _factory.quoteName(tableAlias));
-      }
-      _sql.append(JDBCSyntax.ON);
-      for (int j = 0; j < join._leftColumns.length; ++j) {
-          if (j > 0) {
-              _sql.append(JDBCSyntax.AND);
-          }
-          _sql.append(_factory.quoteName(join._leftTable
-                  + JDBCSyntax.TABLE_COLUMN_SEPARATOR
-                  + join._leftColumns[j])).append(OP_EQUALS);
-          _sql.append(_factory.quoteName(join._rightTable
-                  + JDBCSyntax.TABLE_COLUMN_SEPARATOR
-                  + join._rightColumns[j]));
-      }
+        String tableAlias = join._rightTable;
+        String tableName = (String) _tables.get(tableAlias);
+        if (tableAlias.equals(tableName)) {
+            _sql.append(_factory.quoteName(tableName));
+        } else {
+            _sql.append(_factory.quoteName(tableName) + " "
+                    + _factory.quoteName(tableAlias));
+        }
+        _sql.append(JDBCSyntax.ON);
+        for (int j = 0; j < join._leftColumns.length; ++j) {
+            if (j > 0) {
+                _sql.append(JDBCSyntax.AND);
+            }
+            _sql.append(_factory.quoteName(join._leftTable
+                    + JDBCSyntax.TABLE_COLUMN_SEPARATOR
+                    + join._leftColumns[j])).append(OP_EQUALS);
+            _sql.append(_factory.quoteName(join._rightTable
+                    + JDBCSyntax.TABLE_COLUMN_SEPARATOR
+                    + join._rightColumns[j]));
+        }
     }
 }
 
