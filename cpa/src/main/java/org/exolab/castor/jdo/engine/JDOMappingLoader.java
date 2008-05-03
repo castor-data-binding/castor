@@ -94,6 +94,7 @@ import org.exolab.castor.mapping.xml.MappingRoot;
 import org.exolab.castor.mapping.xml.NamedQuery;
 import org.exolab.castor.mapping.xml.Param;
 import org.exolab.castor.mapping.xml.types.SqlDirtyType;
+import org.exolab.castor.persist.spi.PersistenceFactory;
 
 /**
  * A JDO implementation of mapping helper. Creates JDO class descriptors
@@ -164,7 +165,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
 
     /** The JDO PersistenceFactory (aka BaseFactory) is used for adjusting SQL type for
      *  the given database. */
-    private BaseFactory _factory;
+    private PersistenceFactory _factory;
 
     //-----------------------------------------------------------------------------------
 
@@ -190,7 +191,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     public void loadMapping(final MappingRoot mapping, final Object param)
     throws MappingException {
         if (loadMapping()) {
-            _factory = (BaseFactory) param;
+            _factory = (PersistenceFactory) param;
             
             createKeyGenDescriptors(mapping);
             createClassDescriptors(mapping);

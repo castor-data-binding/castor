@@ -56,10 +56,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.util.Messages;
 import org.exolab.castor.jdo.PersistenceException;
-import org.exolab.castor.jdo.drivers.DB2Factory;
-import org.exolab.castor.jdo.drivers.InterbaseFactory;
-import org.exolab.castor.jdo.drivers.OracleFactory;
-import org.exolab.castor.jdo.drivers.PostgreSQLFactory;
+import org.castor.cpa.persistence.sql.driver.DB2Factory;
+import org.castor.cpa.persistence.sql.driver.InterbaseFactory;
+import org.castor.cpa.persistence.sql.driver.OracleFactory;
+import org.castor.cpa.persistence.sql.driver.PostgreSQLFactory;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 

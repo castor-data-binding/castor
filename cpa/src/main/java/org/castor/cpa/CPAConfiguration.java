@@ -154,10 +154,10 @@ public final class CPAConfiguration extends Configuration {
     public static final String LOB_BUFFER_SIZE =
         "org.exolab.castor.jdo.lobBufferSize";
     
-    /** Property listing all the available persistence
-     *  factories. (<tt>org.exolab.castor.jdo.engines</tt>). */
+    /** Property listing all the available persistence factories.
+     *  (<tt>org.castor.cpa.persistence.sql.driver.factories</tt>). */
     public static final String PERSISTENCE_FACTORIES = 
-        "org.exolab.castor.jdo.engines";
+        "org.castor.cpa.persistence.sql.driver.factories";
 
     /** Property listing all the available
      *  {@link org.exolab.castor.persist.TxSynchronizable}
