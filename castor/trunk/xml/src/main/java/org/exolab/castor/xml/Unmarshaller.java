@@ -62,8 +62,10 @@ import org.castor.xml.XMLConfiguration;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingLoader;
+import org.exolab.castor.types.AnyNode;
 import org.exolab.castor.util.ObjectFactory;
 import org.exolab.castor.xml.location.FileLocation;
+import org.exolab.castor.xml.util.AnyNode2SAX2;
 import org.exolab.castor.xml.util.DOMEventProducer;
 import org.w3c.dom.Node;
 import org.xml.sax.ContentHandler;
@@ -678,6 +680,29 @@ public class Unmarshaller {
 
     } //-- unmarshal(SAX2EventProducer)
 
+    /**
+     * Unmarshals objects of this {@link Unmarshaller}'s Class type
+     * from an {@link AnyNode} instance.
+     * 
+     * The Class must specify the proper access methods
+     * (setters/getters) in order for instances of the Class
+     * to be properly unmarshalled.
+     * 
+     * @param anyNode {@link AnyNode} instance to be unmarshalled from
+     * @exception MarshalException when there is an error during
+     * the unmarshalling process
+     * @return The {@link Object} instance that is a result of unmarshalling.
+     **/
+    public Object unmarshal(final AnyNode anyNode)
+    throws MarshalException {
+        UnmarshalHandler handler = createHandler();
+        try {
+            AnyNode2SAX2.fireEvents(anyNode, handler);
+        } catch (SAXException sex) {
+            convertSAXExceptionToMarshalException(handler, sex);       
+        }
+        return handler.getObject();
+    }
 
     /**
      * Unmarshals Objects of this Unmarshaller's Class type.
