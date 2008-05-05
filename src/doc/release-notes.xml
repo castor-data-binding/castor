@@ -78,6 +78,26 @@ org.castor.cpa.persistence.sql.driver.factories=\
   org.castor.cpa.persistence.sql.driver.ProgressFactory</code-panel>
             </summary>
             <bugs>
+                <bug id="2378" tool="jira">
+                    <description>
+                        Added unmarshal(AnyNode) method to Unmarshaller.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Mattias Jiderhamn</name>
+                        <email>mj-lists@expertsystem.se</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20080505</date>
+                </bug>
                 <bug id="2374" tool="jira">
                     <description>
                         Moved SQL drivers into new org.castor.cpa.persistence.sql.driver package.
