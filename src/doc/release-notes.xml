@@ -78,6 +78,26 @@ org.castor.cpa.persistence.sql.driver.factories=\
   org.castor.cpa.persistence.sql.driver.ProgressFactory</code-panel>
             </summary>
             <bugs>
+                <bug id="2377" tool="jira">
+                    <description>
+                        Transferred old tests TC30 and TC31 to new JDO test framework.
+                    </description>
+                    <contributor>
+                        <name>Udai Gupta</name>
+                        <email>mailtoud@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Udai Gupta</name>
+                        <email>mailtoud@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20080512</date>
+                </bug>
                 <bug id="2378" tool="jira">
                     <description>
                         Added unmarshal(AnyNode) method to Unmarshaller.

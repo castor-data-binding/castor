@@ -1,4 +1,15 @@
 <cpactf-conf default-database="mysql-drv" default-transaction="local">
+   
+    <configuration name="test30">
+        <description>Mapping configuration for test30</description>
+        <mapping href="/org/castor/cpa/test/test30/mapping.xml"/>
+    </configuration>
+    
+     <configuration name="test31">
+        <description>Mapping configuration for test30</description>
+        <mapping href="/org/castor/cpa/test/test31/mapping.xml"/>
+    </configuration>
+
     <configuration name="test356">
         <description>Mapping configuration for test356</description>
         <mapping href="/org/castor/cpa/test/test356/mapping.xml"/>
