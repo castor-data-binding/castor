@@ -1021,6 +1021,12 @@
   </contributor>
 
   <contributor type="Contributor">
+    <name surname="Udai" given="Gupta"/>
+    <email>mailtoud@gmail.com</email>
+    <description>Transferred some tests to new JDO test framework</description>
+  </contributor>
+
+  <contributor type="Contributor">
     <name surname="Ulrich" given="Lutz"/>
     <email>ulrich@optimal-systems.de</email>
     <description>Patch for Castor XML bug 1416</description>
