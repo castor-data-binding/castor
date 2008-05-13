@@ -7,6 +7,7 @@
 	<groupId>org.codehaus.castor</groupId>
 	<artifactId>cpa-testcase</artifactId>
 	<packaging>maven-plugin</packaging>
+    <name>Castor CPA - JUnit test archetype</name>
 
     <parent>
         <groupId>org.codehaus.castor</groupId>
