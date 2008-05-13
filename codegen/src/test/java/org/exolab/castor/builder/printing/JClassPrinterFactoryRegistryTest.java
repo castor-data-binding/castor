@@ -15,6 +15,8 @@
  */
 package org.exolab.castor.builder.printing;
 
+import java.util.Arrays;
+
 import org.exolab.castor.builder.BuilderConfiguration;
 
 import junit.framework.TestCase;
@@ -41,8 +43,8 @@ public class JClassPrinterFactoryRegistryTest extends TestCase {
         String[] jclassPrinterFactoryNames = _registry.getJClassPrinterFactoryNames();
         assertNotNull(jclassPrinterFactoryNames);
         assertTrue(jclassPrinterFactoryNames.length == 2);
-        assertEquals(jclassPrinterFactoryNames[0], "velocity");
-        assertEquals(jclassPrinterFactoryNames[1], "standard");
+        assertTrue(Arrays.asList(jclassPrinterFactoryNames).contains("standard"));
+        assertTrue(Arrays.asList(jclassPrinterFactoryNames).contains("velocity"));
     }
     
     public final void testObtainStandardJClassPrinter() {
