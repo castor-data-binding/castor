@@ -25,10 +25,13 @@
 		
 		<section title="Contribution">
 	        <ul>
+	            <li><a href="how-to-setup-castor-project-in-eclipse.html">How to setup Castor project in eclipse</a></li>
+                <li><a href="how-to-run-jdo-unit-tests.html">How to run Castor JDO's database independend unit tests</a></li>
+                <li><a href="how-to-run-jdo-test-suite.html">How to run Castor JDO's test suite</a></li>
+                <li><a href="how-to-run-jdo-performance-tests.html">How to run Castor JDO's performance tests</a></li>
                 <li><a href="how-to-submit-a-bug.html">How to submit a bug report</a></li>
 	            <li><a href="how-to-prepare-a-patch.html">How to prepare a patch</a></li>
 	            <li><font color="lightgrey">How to Contribute a Patch via Jira</font></li>
-                <li><a href="how-to-run-jdo-ctf-suite.html">How to run Castor JDO's test suite</a></li>
 	        </ul>
 		</section>
         

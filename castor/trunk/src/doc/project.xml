@@ -253,7 +253,7 @@
         <url>jdo-examples.xml</url>
         <display>JDO Examples</display>
       </navLink>
-      <navLink>
+      <navLink highlighted="true">
         <url>jdo-howto.xml</url>
         <display>JDO HOW-TOs</display>
       </navLink>
