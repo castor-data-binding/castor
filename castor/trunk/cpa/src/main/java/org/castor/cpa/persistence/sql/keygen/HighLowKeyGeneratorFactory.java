@@ -42,10 +42,7 @@
  *
  * $Id$
  */
-
-
-package org.exolab.castor.jdo.keygen;
-
+package org.castor.cpa.persistence.sql.keygen;
 
 import java.util.Properties;
 
@@ -53,7 +50,6 @@ import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.KeyGenerator;
 import org.exolab.castor.persist.spi.KeyGeneratorFactory;
 import org.exolab.castor.persist.spi.PersistenceFactory;
-
 
 /**
  * HIGH-LOW key generator factory.
