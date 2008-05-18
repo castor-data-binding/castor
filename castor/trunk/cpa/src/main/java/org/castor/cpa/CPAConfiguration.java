@@ -145,10 +145,10 @@ public final class CPAConfiguration extends Configuration {
     public static final String DEFAULT_TIMEZONE =
         "org.exolab.castor.jdo.defaultTimeZone";
     
-    /** Property listing all the available key genence
-     *  factories. (<tt>org.exolab.castor.jdo.keyGeneratorFactories</tt>). */
+    /** Property listing all the available key genence factories.
+     *  (<tt>org.castor.cpa.persistence.sql.keygen.factories</tt>). */
     public static final String KEYGENERATOR_FACTORIES = 
-        "org.exolab.castor.jdo.keyGeneratorFactories";
+        "org.castor.cpa.persistence.sql.keygen.factories";
 
     /** Property name of LOB buffer size in castor.properties. */
     public static final String LOB_BUFFER_SIZE =
