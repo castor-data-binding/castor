@@ -42,7 +42,7 @@
  *
  * $Id$
  */
-package org.exolab.castor.jdo.keygen;
+package org.castor.cpa.persistence.sql.keygen;
 
 import java.lang.reflect.Method;
 import java.sql.Connection;

@@ -63,10 +63,7 @@
  * "live long and in prosper"
  * ----------------------------------------------
 **/
-
-
-package org.exolab.castor.jdo.keygen;
-
+package org.castor.cpa.persistence.sql.keygen;
 
 import java.net.InetAddress;
 import java.sql.Connection;
