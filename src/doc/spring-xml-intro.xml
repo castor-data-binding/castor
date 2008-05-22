@@ -30,7 +30,7 @@
 <mapping>
 
   <!--  Mapping for Product  -->
-  <class name="org.springframework.xml.entity.Product" identity="id">
+  <class name="org.castor.spring.xml.Product" identity="id">
     <map-to xml="product" />
 	<field name="id" type="integer">
 		  <bind-xml name="id" node="element"/>
@@ -74,10 +74,10 @@ public class Product {
                Spring configuration as follows:</p>
             
             <source><![CDATA[
-<bean id="resolver" class="org.springframework.xml.castor.CastorResolverFactoryBean"/>
+<bean id="resolver" class="org.castor.spring.xml.CastorResolverFactoryBean"/>
 
 <bean id="marshaller"
-      class="org.springframework.xml.castor.CastorMarshallerFactoryBean">
+      class="org.castor.spring.xml.CastorMarshallerFactoryBean">
    <property name="resolver"><ref local="resolver"/></property>
 </bean>
             ]]></source>
@@ -114,10 +114,10 @@ Marshaller marshaller = (Marshaller) this.context.getBean("marshaller");
                Spring configuration as follows:</p>
             
             <source><![CDATA[
-<bean id="resolver" class="org.springframework.xml.castor.CastorResolverFactoryBean"/>
+<bean id="resolver" class="org.castor.spring.xml.CastorResolverFactoryBean"/>
             
 <bean id="unmarshaller"
-      class="org.springframework.xml.castor.CastorUnmarshallerFactoryBean">
+      class="org.castor.spring.xml.CastorUnmarshallerFactoryBean">
    <property name="resolver"><ref local="resolver"/></property>
 </bean>
     	    ]]></source>
@@ -163,7 +163,7 @@ assertEquals("name", product.getName());
 	   	   for the '<tt>resolver</tt>' bean as follows:</p>
 	   	   
 	   	<source><![CDATA[
-<bean id="resolver" class="org.springframework.xml.castor.CastorResolverFactoryBean">
+<bean id="resolver" class="org.castor.spring.xml.CastorResolverFactoryBean">
    <property name="mappingLocations">
       <list>
          <value>mapping.xml</value>
@@ -178,7 +178,7 @@ assertEquals("name", product.getName());
            '<tt>resolver</tt>' as follows:</p>
 
 	   	<source><![CDATA[
-<bean id="resolver" class="org.springframework.xml.castor.CastorResolverFactoryBean">
+<bean id="resolver" class="org.castor.spring.xml.CastorResolverFactoryBean">
    <property name="mappingLocations">
       <list>
          <value>mapping1.xml</value>
