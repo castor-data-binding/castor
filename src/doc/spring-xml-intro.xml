@@ -14,13 +14,6 @@
     <body>
         <title>How to use the Spring FactoryBeans for Castor XML</title>
         
-        <section title="Requirements">
-        
-	        <p>For the following example configuration to work, release <tt>1.0-SNAPSHOT</tt>
-	           or above is required.</p>
-           
-        </section>
-
         <section name="Prerequisites">
         
         	<p>The following sections assume that you have a valid Castor XML
@@ -67,6 +60,87 @@ public class Product {
 			</source>
         </section>
         
+        <section name="How to bootstrap Castor XML configuration">
+        
+            <p>
+               As of Castor 1.2.1, a new <tt>XMLContext</tt> clas has been 
+               added to allow a single point of configuration for all data binding 
+               work related to Castor, and to re-use it throughout your work.
+            </p>
+            
+            <p>
+               To define an XMLContext and base all <tt>Marshaller</tt> and 
+               <tt>Unmarshaller</tt> instances on this configuration, please
+               add a bean definition to your application context as follows:
+            </p>
+            
+            <source><![CDATA[
+   <bean id="xmlContext" class="org.castor.spring.xml.XMLContextFactoryBean" />
+            ]]></source>
+            
+            <p>
+               The following sections describe how to ...
+               
+               <ul>
+                  <li>configure custom mapping(s)</li>
+                  <li>configure (global) XML-specific properties</li>
+                  <li>supply hints to the <tt>XMLContext</tt> where to look for (generated) descriptor classes</li>
+               </ul>
+            </p>
+            
+            <section name="Adding mappings">
+            
+               <p>
+                  To pre-configure your <tt>XMLContext</tt> instances with one or more 
+                  custom mapping file(s) to gain a finer level of control (as such 
+                  overriding the default introspection mechanism employed otherwise),
+                  please amend above bean definition as follows:
+               </p>
+
+            <source>
+<font color="grey">&lt;bean id="xmlContext" class="org.castor.spring.xml.XMLContextFactoryBean"&gt;</font>
+   <b>&lt;property name="mappingLocations"&gt;
+      &lt;list&gt;
+         &lt;value&gt;mapping.xml&lt;/value&gt;
+      &lt;/list&gt;
+   &lt;/property&gt;</b>
+<font color="grey">&lt;/bean&gt;</font>
+            </source>
+            
+               
+            </section>
+            
+            <section name="Setting global properties">
+
+               <p>
+                  <tt>XMLContext</tt> allows the programmatic definition of XML-specific
+                  properties through its <tt>setProperty(String, String)</tt> method. This 
+                  functionality is accessible through the property <b>castorProperties</b>,
+                  a sample usage of which is shown in the following bean definition for 
+                  an XMLcontext:
+               </p>
+
+            <source>
+<font color="grey">&lt;bean id="xmlContext" class="org.castor.spring.xml.XMLContextFactoryBean"&gt;</font>
+   <b>&lt;property name="castorProperties"&gt;
+      &lt;props&gt;
+         &lt;prop key="org.exolab.castor.indent"&gt;true&lt;/prop&gt;
+      &lt;/props&gt;
+   &lt;/property&gt;</b>
+<font color="grey">&lt;/bean&gt;</font>
+            </source>
+
+            </section>
+            
+            <section name="Finding generated descriptors">
+
+               <p>TBA</p>
+
+            </section>            
+            
+            
+        </section>
+        
         <section name="How to use the CastorMarshallerFactoryBean">
 
             <p>Before you'll be able to obtain an instance of <tt>Marshaller</tt>
@@ -74,13 +148,16 @@ public class Product {
                Spring configuration as follows:</p>
             
             <source><![CDATA[
-<bean id="resolver" class="org.castor.spring.xml.CastorResolverFactoryBean"/>
-
 <bean id="marshaller"
       class="org.castor.spring.xml.CastorMarshallerFactoryBean">
-   <property name="resolver"><ref local="resolver"/></property>
+   <property name="xmlContext"><ref local="xmlContext"/></property>
 </bean>
             ]]></source>
+
+            <p>
+               Please note that the <tt>XMLContext</tt> defiened in the previous section 
+               is injected by supplying a reference on the <tt>xmlContext</tt> property.
+            </p>
             
             <p>Based upon this configuration, you will be able to obtain a <tt>Marshaller</tt> 
                instance as follows:</p>
@@ -114,13 +191,16 @@ Marshaller marshaller = (Marshaller) this.context.getBean("marshaller");
                Spring configuration as follows:</p>
             
             <source><![CDATA[
-<bean id="resolver" class="org.castor.spring.xml.CastorResolverFactoryBean"/>
-            
 <bean id="unmarshaller"
       class="org.castor.spring.xml.CastorUnmarshallerFactoryBean">
-   <property name="resolver"><ref local="resolver"/></property>
+   <property name="xmlContext"><ref local="xmlContext"/></property>
 </bean>
     	    ]]></source>
+          
+            <p>
+               Please note that the <tt>XMLContext</tt> defiened in the previous section 
+               is injected by supplying a reference on the <tt>xmlContext</tt> property.
+            </p>
             
             <p>Based upon this configuration, you will be able to obtain a <tt>Unmarshaller</tt> 
                instance as follows:</p>
@@ -155,12 +235,22 @@ assertEquals("name", product.getName());
     
 	   </section>
 	   
-	   <section name="How to specify a mapping file">
+	   <section name="Backwards compatibility - Resolvr &amp; how to specify a mapping file">
 	   
-	   	<p>To specify that the Castor <tt>(Un)Marshaller</tt> instances
-	   	   should use a custom mapping file (in addition to the default
-	   	   introspection mechanism), please amend above bean definition
-	   	   for the '<tt>resolver</tt>' bean as follows:</p>
+            <p>
+               This section describes how to use a Castor <tt>YMLClassDescriptorResolver</tt>
+               instance (for use with Castor versions before the <tt>XMLContext</tt> has been
+               added) to load custom mapping files once (and once only), and 
+               how to pass this 'resolver' instance to <tt>Marshaller</tt> and 
+               <tt>Unmarshaller</tt> instances for re-use.
+            </p>
+            
+      	   	<p>
+               To specify that the Castor <tt>(Un)Marshaller</tt> instances
+      	   	   should use a custom mapping file (in addition to the default
+      	   	   introspection mechanism), please amend above bean definition
+      	   	   for the '<tt>resolver</tt>' bean as follows:
+            </p>
 	   	   
 	   	<source><![CDATA[
 <bean id="resolver" class="org.castor.spring.xml.CastorResolverFactoryBean">
