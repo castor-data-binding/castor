@@ -261,16 +261,10 @@ public final class XMLInstance2SchemaHandler
             }
             
             if (cType != null) {
-                //-- add attributes
-                try {
-                    for (int i = 0; i < sInfo.attributes.size(); i++) {
-                        AttributeDecl attDecl = 
-                            (AttributeDecl)sInfo.attributes.elementAt(i);
-                        cType.addAttributeDecl(attDecl);
-                    }
-                }
-                catch(SchemaException sx) {
-                    throw new SAXException(sx);
+                for (int i = 0; i < sInfo.attributes.size(); i++) {
+                    AttributeDecl attDecl = 
+                        (AttributeDecl)sInfo.attributes.elementAt(i);
+                    cType.addAttributeDecl(attDecl);
                 }
             }
         }
