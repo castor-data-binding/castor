@@ -5,7 +5,6 @@ Specification-Version: $VERSION$$RELEASE$
 Implementation-Title: Castor
 Implementation-Vendor: Intalio Inc.
 Implementation-Version: $VERSION$$RELEASE$
-Class-Path: xerces.jar jdbc-se2.0.jar jndi.jar jta1.0.1.jar
 
 Name: org/exolab/castor
 Sealed: false
