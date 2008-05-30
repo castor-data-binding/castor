@@ -402,8 +402,14 @@ public final class ExtendedBinding extends Binding {
                 //--handle complexType
                 if (!xpathUsed) {
                     currentPath += COMPLEXTYPE_ID;
+                } else {
+                    if (!name.substring(1, 12).equals("complexType")) {
+                        currentPath += PATH_SEPARATOR + COMPLEXTYPE_ID;
+                        currentPath += name.substring(1);
+                    } else {
+                        currentPath += name;
+                    }
                 }
-                currentPath += name;
                 _componentBindings.put(currentPath, binding);
                 break;
 

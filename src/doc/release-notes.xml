@@ -100,6 +100,27 @@ org.castor.cpa.persistence.sql.keygen.factories=\
   org.castor.cpa.persistence.sql.keygen.UUIDKeyGeneratorFactory</code-panel>
             </summary>
             <bugs>
+                <bug id="2379" tool="jira">
+                    <description>
+                        Fixed inconsistency with code generation binding for global
+                        complex type definitions.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                         <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Gaël Lhez</name>
+                        <email>baldurien@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XMLGen</module>
+                    <date>20080530</date>
+                </bug>
                 <bug id="2375" tool="jira">
                     <description>
                         Moved SQL keygenerators into new org.castor.cpa.persistence.sql.keygen package.
