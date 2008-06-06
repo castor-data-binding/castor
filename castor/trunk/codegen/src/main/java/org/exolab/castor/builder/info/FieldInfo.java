@@ -54,12 +54,13 @@ import java.util.List;
 
 import org.exolab.castor.builder.factory.FieldMemberAndAccessorFactory;
 import org.exolab.castor.builder.types.XSType;
+import org.exolab.javasource.JField;
 import org.exolab.javasource.JType;
 
 /**
- * A class for representing field members of a Class. FieldInfo objects hold all
+ * A class for representing field members of a class. FieldInfo objects hold all
  * the information required about a member in order to be able to produce
- * marshal/unmarshal and validation code.
+ * XML data binding (marshal/unmarshal) and validation code.
  *
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
@@ -74,22 +75,27 @@ public class FieldInfo extends XMLInfo {
     public static final int READ_WRITE_METHODS       = 3;
 
     /** Method prefixes for "Add" methods. */
-    public static final String METHOD_PREFIX_ADD    = "add";
+    protected static final String METHOD_PREFIX_ADD    = "add";
     /** Method prefixes for "Delete" methods. */
-    public static final String METHOD_PREFIX_DELETE = "delete";
+    protected static final String METHOD_PREFIX_DELETE = "delete";
     /** Method prefixes for "Get" methods. */
-    public static final String METHOD_PREFIX_GET    = "get";
+    protected static final String METHOD_PREFIX_GET    = "get";
     /** Method prefixes for "Has" methods. */
-    public static final String METHOD_PREFIX_HAS    = "has";
+    protected static final String METHOD_PREFIX_HAS    = "has";
     /** Method prefixes for "Set" methods. */
-    public static final String METHOD_PREFIX_SET    = "set";
+    protected static final String METHOD_PREFIX_SET    = "set";
     /** Method prefixes for "Is" methods. */
-    public static final String METHOD_PREFIX_IS     = "is";
+    protected static final String METHOD_PREFIX_IS     = "is";
 
     /** The Java name for Members described by this FieldInfo. */
     private String _name       = null;
 
+    /**
+     * {@link ClassInfo} instance which 'own' (declares) this
+     * {@link FieldInfo}.
+     */
     private ClassInfo _declaringClassInfo = null;
+    
     /** JavaDoc comment. */
     private String _comment    = null;
 
@@ -123,7 +129,10 @@ public class FieldInfo extends XMLInfo {
     /** Visibility of this FieldInfo. */
     private String _visibility = "private";
     
-    /** This factory creates a JField out of a FieldInfo */
+    /** 
+     * Factory responsible for creating a {@link JField} out of a 
+     * {@link FieldInfo}.
+     */
     private FieldMemberAndAccessorFactory _memberAndAccessorFactory;
     
     /**
@@ -223,6 +232,15 @@ public class FieldInfo extends XMLInfo {
         }
         return METHOD_PREFIX_SET + getMethodSuffix();
     } //-- getWriteMethodName
+    
+    /**
+     * Get the 'is' method for this FieldInfo. 
+     * 
+     * @return the name of the 'is' method for this FieldInfo
+     */
+    public final String getIsMethodName() {
+        return METHOD_PREFIX_IS + getMethodSuffix();
+    }
 
    /**
     * Returns the fully qualified name of the XMLFieldHandler to use.
@@ -289,11 +307,11 @@ public class FieldInfo extends XMLInfo {
      *
      * @return true if the has and delete methods are needed.
      */
-    public final boolean isHasAndDeleteMethods() {
+    public final boolean requiresHasAndDeleteMethods() {
         XSType xsType = getSchemaType();
         JType jType  = xsType.getJType();
         return ((!xsType.isEnumerated()) && jType.isPrimitive());
-    } //-- isHasMethod
+    } //-- requiresHasAndDeleteMethods
 
     /**
      * Returns true if this field represents a nillable field. A nillable field

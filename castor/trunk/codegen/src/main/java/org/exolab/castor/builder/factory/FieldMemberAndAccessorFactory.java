@@ -60,8 +60,14 @@ public class FieldMemberAndAccessorFactory {
                     jsc.add("try {");
                     jsc.indent();
                 }
-                buffer.append(FieldInfo.METHOD_PREFIX_SET);
-                buffer.append(fieldInfo.getMethodSuffix());
+                /*
+                 * fieldInfo.getWriteMethodName() will either prefix the method
+                 * with 'add' (for multivalued fields) or 'set'! 
+                 * @see FieldInfo#getWriteMethodeName() 
+                 */ 
+                buffer.append(fieldInfo.getWriteMethodName());
+                //buffer.append(FieldInfo.METHOD_PREFIX_SET);
+                //buffer.append(fieldInfo.getMethodSuffix());
                 buffer.append('(');
                 buffer.append(value);
                 buffer.append(");");
@@ -165,7 +171,7 @@ public class FieldMemberAndAccessorFactory {
         if ((fieldInfo.getMethods() & FieldInfo.WRITE_METHOD) > 0) {
             createSetterMethod(fieldInfo, jClass, useJava50);
         }
-        if (fieldInfo.isHasAndDeleteMethods()) {
+        if (fieldInfo.requiresHasAndDeleteMethods()) {
             createHasAndDeleteMethods(fieldInfo, jClass);
         }
     } //-- createAccessMethods
@@ -218,7 +224,7 @@ public class FieldMemberAndAccessorFactory {
         JType jType  = xsType.getJType();
 
         //-- create get method
-        method = new JMethod(FieldInfo.METHOD_PREFIX_GET + mname, jType,
+        method = new JMethod(fieldInfo.getReadMethodName(), jType,
                              "the value of field '" + mname + "'.");
         if (useJava50) {
             Java5HacksHelper.addOverrideAnnotations(method.getSignature());
@@ -239,7 +245,7 @@ public class FieldMemberAndAccessorFactory {
         if (xsType.getType() == XSType.BOOLEAN_TYPE) {
 
             // -- create is<Property>t method
-            method = new JMethod(FieldInfo.METHOD_PREFIX_IS + mname, jType,
+            method = new JMethod(fieldInfo.getIsMethodName(), jType,
                     "the value of field '" + mname + "'.");
             if (useJava50) {
                 Java5HacksHelper.addOverrideAnnotations(method.getSignature());
@@ -274,7 +280,7 @@ public class FieldMemberAndAccessorFactory {
         xsType.getJType();
 
         //-- create hasMethod
-        method = new JMethod(FieldInfo.METHOD_PREFIX_HAS + mname, JType.BOOLEAN,
+        method = new JMethod(fieldInfo.getHasMethodName(), JType.BOOLEAN,
                              "true if at least one " + mname + " has been added");
         jClass.addMethod(method);
         jsc = method.getSourceCode();
@@ -284,7 +290,7 @@ public class FieldMemberAndAccessorFactory {
         jsc.append(";");
 
         //-- create delete method
-        method = new JMethod(FieldInfo.METHOD_PREFIX_DELETE + mname);
+        method = new JMethod(fieldInfo.getDeleteMethodName());
         jClass.addMethod(method);
         jsc = method.getSourceCode();
         jsc.add("this._has");
@@ -363,7 +369,12 @@ public class FieldMemberAndAccessorFactory {
         JType jType   = xsType.getJType();
 
         //-- create set method
-        method = new JMethod(FieldInfo.METHOD_PREFIX_SET + mname);
+        /*
+         * fieldInfo.getWriteMethodName() will either prefix the method
+         * with 'add' (for multivalued fields) or 'set'! 
+         * @see FieldInfo#getWriteMethodeName() 
+         */ 
+        method = new JMethod(fieldInfo.getWriteMethodName());
         jClass.addMethod(method);
 
         String paramName = fieldInfo.getName();
@@ -426,7 +437,7 @@ public class FieldMemberAndAccessorFactory {
         }
 
         //-- hasProperty
-        if (fieldInfo.isHasAndDeleteMethods()) {
+        if (fieldInfo.requiresHasAndDeleteMethods()) {
             jsc.add("this._has");
             jsc.append(fieldName);
             jsc.append(" = true;");

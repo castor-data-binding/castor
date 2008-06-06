@@ -100,6 +100,27 @@ org.castor.cpa.persistence.sql.keygen.factories=\
   org.castor.cpa.persistence.sql.keygen.UUIDKeyGeneratorFactory</code-panel>
             </summary>
             <bugs>
+                <bug id="2405" tool="jira">
+                    <description>
+                        Removed code duplication across FieldInfoAccessFactory and 
+                        FieldInfo.
+                    </description>
+                    <contributor>
+                        <name>Sebastian Gabmeyer</name>
+                        <email>dexxter@quantentunnel.de</email>
+                    </contributor>
+                    <submitter>
+                         <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Sebastian Gabmeyer</name>
+                        <email>dexxter@quantentunnel.de</email>
+                    </reporter>
+                    <type>Refactoring</type>
+                    <module>XMLGen</module>
+                    <date>20080606</date>
+                </bug>
                 <bug id="2379" tool="jira">
                     <description>
                         Fixed inconsistency with code generation binding for global
