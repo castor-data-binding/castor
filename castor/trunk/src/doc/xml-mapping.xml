@@ -563,6 +563,7 @@ public class OrderItem {
                   lazy           ( true | false )  "false"
                   transient      ( true | false )  "false"
                   nillable       ( true | false )  "false"
+                  container      ( true | false )  "false"
                   get-method     NMTOKEN  #IMPLIED
                   set-method     NMTOKEN  #IMPLIED
                   create-method  NMTOKEN  #IMPLIED
@@ -773,11 +774,16 @@ public class OrderItem {
           <li><b>nillable:</b> the field can be of content '<tt>nil</tt>'</li>
 
           <li><b>transient:</b> if true, this field will be ignored during the
-          marshalling. This is usefull in when used with the auto-complete
-          option.</li>
+              marshalling. This is usefull in when used with the auto-complete
+              option.</li>
 
           <li><b>direct:</b> if true, Castor will expect a public variable in the object
             and will modify it directly</li>
+            
+          <li><b>container:</b> Indicates whether the field should be treated as a container, 
+             i.e. only it's fields should be persisted, but not the containing 
+             class itself. In this case, the container attribute should
+             be set to true (supported in Castor XML only).</li>
 
           <li><b>collection:</b> if a parent expects more than one occurrence of
             one of its element, it is necessary to specify which collection
@@ -874,6 +880,66 @@ public class OrderItem {
 &lt;class name="org.some.package.Root"&gt;
    &lt;field name="member" type="string" <b><font color="red">handler="myHandler"</font></b>/&gt;
 &lt;/class&gt;</code-panel>
+        
+        </section>
+
+        <section title="Sample 3: Using the container attribute">
+        
+            <p>
+               Assume you have a class mapping for a class <tt>Order</tt> which defines -
+               amongst others - a field mapping as follows, where the field <tt>item</tt>
+               refers to an instance of a class <tt>Item</tt>.
+            </p>
+                
+            <code-panel>
+&lt;class name="some.example.Order"&gt;
+            
+   ...
+   &lt;field name="item" type="some.example.Item" &gt;
+      &lt;bind-xml&gt; name="item" node="element" /&gt;
+   &lt;/field&gt;
+   ...
+&lt;/class&gt;
+
+&lt;class name="some.example.Item"&gt;
+   &lt;field name="id" type="long" /&gt;
+   &lt;field name="description" type="string" /&gt;
+&lt;/class&gt;</code-panel>
+
+            <p>
+                Marshalling an instance of <tt>Order</tt> would produce XML as follows:
+            </p>
+            
+            <code-panel>
+&lt;order&gt;
+    ...
+    &lt;item&gt;
+        &lt;id&gt;100&lt;/id&gt;
+        &lt;description&gt;...&lt;/description&gt;
+    &lt;/item&gt;
+&lt;/order&gt;</code-panel>
+
+           <p>
+               If you do not want the <tt>Item</tt> instance to be marshalled,
+               but only its fields, change the field mapping for the <tt>item</tt>
+               member to be as follows:
+           </p>
+
+           <code-panel>
+&lt;field name="item" type="some.example.Item" <font color="red">container="false"</font> &gt;
+   &lt;bind-xml&gt; name="item" node="element" /&gt;
+&lt;/field&gt;</code-panel>        
+
+            <p>
+                The resulting XML would look as follows:
+            </p>
+            
+            <code-panel>
+&lt;order&gt;
+    ...
+    &lt;id&gt;100&lt;/id&gt;
+    &lt;description&gt;...&lt;/description&gt;
+&lt;/order&gt;</code-panel>
         
         </section>
           
