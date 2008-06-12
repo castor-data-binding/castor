@@ -752,70 +752,99 @@ public class OrderItem {
           </li>
         </li>
 
-        <p>Description of the attributes: </p>
+        <h4>Description of the attributes</h4>
 
-        <ul>
-          <li><b>name:</b> The field 'name' is required even if no such field exists in the
-            class. If 'direct' access is used, 'name' should be the name of a public
-            variable in the object we are mapping (The field must be public, not
-            static and not transient). If no direct access and no 'get-/set-method'
-            is specified, this name will be used to infer the name of the accessors
-            methods.</li>
+        <ctable>
+            <cheader>
+                <td>Name</td>
+                <td>Description</td>
+            </cheader>
+            <crow>
+                <td><b>name</b></td>
+                <td>The field 'name' is required even if no such field exists in the
+                    class. If 'direct' access is used, 'name' should be the name of 
+                    a public instance member in the object to be mapped (the field 
+                    must be public, not static and not transient). If no direct access 
+                    and no 'get-/set-method' is specified, this name will be used to 
+                    infer the name of the accessors methods.</td>
+            </crow>
+            <crow>
+                <td><b>type</b></td>
+                <td>The Java type of the field. It is used to access the field. Castor 
+                    will use this information to cast the XML information (like string 
+                    into integer). It is also used to define the signature of the accessor 
+                    methods. If a collection is specified, this is used to specify the 
+                    type of the objects held by the collection. See description
+                    above for more details.</td>
+            </crow>
+            <crow>
+                <td><b>required</b></td>
+                <td>A field can be optional or required.</td>
+            </crow>
+            <crow>
+                <td><b>nillable</b></td>
+                <td>A field can be of content '<tt>nil</tt>'.</td>
+            </crow>
+            <crow>
+                <td><b>transient</b></td>
+                <td>If true, this field will be ignored during the marshalling. This 
+                    is usefull when used together with the auto-complete="true"
+                    option.</td>
+            </crow>
+            <crow>
+                <td><b>direct</b></td>
+                <td>If true, Castor will expect a public variable in the containing class
+                    and will access it directly (for both reading and writing).</td>
+            </crow>
+            <crow>
+                <td><b>container</b></td>
+                <td>Indicates whether the field should be treated as a container, 
+                    i.e. only it's fields should be persisted, but not the containing
+                    class itself. In this case, the container attribute should be set 
+                    to true (supported in Castor XML only).</td>
+            </crow>
+            <crow>
+                <td><b>collection</b></td>
+                <td>If a parent expects more than one occurrence of one of its 
+                    element, it is necessary to specify which collection Castor will 
+                    use to handle them. The type specified is used to define the type 
+                    of the content inside the collection.</td>
+            </crow>
+            <crow>
+                <td><b>get-method</b></td>
+                <td>Optional name of the 'get method' Castor should use. If this attribute 
+                    is not set and the set-method attribute is not set, then Castor will try 
+                    to infer the name of this method with the algorithm described above.</td>
+            </crow>
+            <crow>
+                <td><b>set-method</b></td>
+                <td>Optional name of the 'set method' Castor should use. If this attribute 
+                    is not set and the get-method attribute is not set, then Castor will try 
+                    to infer the name of this method with the algorithm described above.</td>
+            </crow>
+            <crow>
+                <td><b>create-method</b></td>
+                <td>Optionally defines a factory method for the instantiation of a FieldHandler</td>
+            </crow>
+            <crow>
+                <td><b>handler</b></td>
+                <td>If present, specifies one of the following:<br/>
+                    <ol>
+                       <li>The fully-qualified class name of a custom field handler implementation, or</li>
+                       <li>The (short) name of a 
+                           <a href="xml-fieldhandlers.html#Use-ConfigurableFieldHandler-for-more-flexibility">configurable field handler</a>
+                           definition.</li>
+                    </ol></td>
+            </crow>
+         </ctable>
 
-          <li><b>type:</b> the Java type of the field. It is used to access the
-            field. Castor will use this information to cast the XML information
-            (like string into integer). It is also used to define the signature of
-            the accessors method. If a collection is specified, this is used to
-            specify the type of the object inside the collection. See description
-            above for more details.</li>
+         <h4>Description of the content</h4>
 
-          <li><b>required:</b> the field can the optional or required</li>
-
-          <li><b>nillable:</b> the field can be of content '<tt>nil</tt>'</li>
-
-          <li><b>transient:</b> if true, this field will be ignored during the
-              marshalling. This is usefull in when used with the auto-complete
-              option.</li>
-
-          <li><b>direct:</b> if true, Castor will expect a public variable in the object
-            and will modify it directly</li>
-            
-          <li><b>container:</b> Indicates whether the field should be treated as a container, 
-             i.e. only it's fields should be persisted, but not the containing 
-             class itself. In this case, the container attribute should
-             be set to true (supported in Castor XML only).</li>
-
-          <li><b>collection:</b> if a parent expects more than one occurrence of
-            one of its element, it is necessary to specify which collection
-            Castor will use to handle them. The type specified is used to
-            define the type of the content inside the collection.</li>
-
-          <li><b>get-method:</b> optional name of the get method Castor should use. If
-            this attribute is not set and the set-method attribute is not set, then
-            Castor will try to guess the name with the algorithm described above.</li>
-
-          <li><b>set-method:</b> optional name of the set method Castor should use. If
-            this attribute is not set and the get-method attribute is not set, then
-            Castor will try to guess the name with the algorithm described above.
-          </li>
-
-          <li><b>create-method:</b> Factory method for instantiation of FieldHandler</li>
-          
-          <li><b>handler:</b> If present, specifies one of the following:<br/>
-              <ol>
-              	<li>The fully-qualified class name of a custom field handler implementation, or</li>
-              	<li>The (short) name of a 
-              	    <a href="xml-fieldhandlers.html#Use-ConfigurableFieldHandler-for-more-flexibility">configurable field handler</a>
-            		definition.</li>
-              </ol>
-          </li>
-        </ul>
-
-        <p>Description of the content:</p>
-
-        <p>In the case of XML mapping, the content of a field element should be one and
-          only one &lt;xml> element describing how this given field will be mapped into the
-          XML document.</p>
+         <p>
+             In the case of XML mapping, the content of a field element should be one and
+             only one <b>&lt;bind-xml></b> element describing how this given field will be mapped into the
+             XML document.
+         </p>
           
           <section title="Mapping constructor arguments (since 0.9.5)">
             <p>
@@ -948,6 +977,8 @@ public class OrderItem {
 
       <section title="The &lt;bind-xml> element">
 
+        <h4>Grammar</h4>
+        
         <code-panel><![CDATA[
 <!ELEMENT bind-xml (class?, property*)>
 <!ATTLIST bind-xml
@@ -961,50 +992,55 @@ public class OrderItem {
           auto-naming ( deriveByClass | deriveByField ) #IMPLIED
           transient   ( true | false ) "false">]]></code-panel>
 
-        <p><tt>&lt;bind-xml></tt> is used to describe how a given Java field 
-           should appear in an XML document. It is used both for marshalling and unmarshalling.</p>
-
-        <p>Description of the attributes:</p>
+        <h4>Definiton</h4>
         
-        <table cellpadding="2" cellspacing="2">
-        	<tr>
+        <p>
+            The <tt>&lt;bind-xml></tt> element is used to describe how a given Java field 
+                should appear in an XML document. It is used both for marshalling 
+                and unmarshalling.
+        </p>
+
+        <h4>Description of the attributes:</h4>
+        
+        <ctable>
+        	<crow>
         		<td valign="top"><b>name</b></td>
         		<td>The name of the element or attribute.<br/>
 		              Note: The name is a QName, and a namespace prefix may be used to indicate the
 		              element or attribute belongs to a certain namespace. Note the prefix is not
 		              preserved or used during marshalling, it's simply used for
 		              qualification of which namespace the element or attribute belongs.</td>
-		    </tr>
-		    <tr>
+		    </crow>
+		    <crow>
 		    	<td valign="top"><b>auto-naming</b></td>
 		    	<td>If no name is specified, this attribute controls how castor will 
 		    	    automatically create a name for the field. Normally, the name is 
 		    	    created using the field name, however many times it is necessary 
 		    	    to create the name by using the class type instead (such as
             		heterogenenous collections).</td>
-            </tr>
-            <tr>
+            </crow>
+            <crow>
             	<td valign="top"><b>type</b></td>
             	<td>XML Schema type (of the value of this field) that requires specific 
             	    handling in the Castor Marshalling Framework (such as 'QName' for 
             	    instance).</td>
-            </tr>
-            <tr>
+            </crow>
+            <crow>
             	<td valign="top"><b>location</b><br/>(since 0.9.4.4)</td>
             	<td>Allows the user to specify the "sub-path" for which the value
                     should be marshalled to and from. This is useful for "wrapping" values in 
                     elements or for mapping values that appear on sub-elements to the 
                     current "element" represented by the class mapping. For more information,
                     see the <a href="#6.-Location-attribute">Location attribute</a> below.</td>
-            </tr>
-            <tr>
+            </crow>
+            <crow>
             	<td valign="top"><b>QName-prefix</b></td>
             	<td>When the field represents a QName value, a prefix can be provided that
                     is used when marshalling value of type QName. More information on the 
                     use of 'QName-prefix' can be found in the 
                     <a href="./SourceGeneratorUser.pdf">SourceGenerator Documentation</a></td>
-            </tr>
-            <tr>
+            </crow>
+            <crow>
             	<td valign="top"><b>reference</b></td>
             	<td>Indicates if this field has to be treated as a reference by the 
             	    unmarshaller. In order to work properly, you must specify the node 
@@ -1013,26 +1049,26 @@ public class OrderItem {
             	    Remember to make sure that an <i>identity</i> field is specified
                     on the <tt>&lt;class&gt;</tt> mapping for the object type being 
                     referenced so that Castor knows what the object's identity is.</td>
-            </tr>
-            <tr>
+            </crow>
+            <crow>
             	<td valign="top"><b>matches</b></td>
             	<td>Allows overriding the matches rules for the name of the element. It 
             	    is a standard regular expression and will be used instead of the 'name'
             	    field. A '*' will match any xml name, however it will only be matched 
             	    if no other field exists that matches the xml name.</td>
-            </tr>
-            <tr>
+            </crow>
+            <crow>
             	<td valign="top"><b>node</b></td>
             	<td>Indicates if the name corresponds to an attribute, an element,
                     or text content. By default, primitive types are assumed to be 
                     an attribute, otherwise the node is assumed to be an elemen</td>
-            </tr>
-            <tr>
+            </crow>
+            <crow>
             	<td valign="top"><b>transient</b></td>
             	<td>Allows for making this field transient for XML. The default value is 
             	    inherited from the &lt;field&gt; element.</td>
-            </tr>
-		</table>
+            </crow>
+		</ctable>
 		
 		<section title="Nested class mapping">
 		
