@@ -474,7 +474,7 @@ public final class SQLQuery implements PersistenceQuery {
         if (extendingClassDescriptors.size() > 0) {
             int numberOfExtendLevels = SQLHelper.numberOfExtendingClassDescriptors(
                     _requestedEngine.getDescriptor());
-            JDOClassDescriptor leafDescriptor = null;
+            JDOClassDescriptorImpl leafDescriptor = null;
             Object[] returnValues = null;
             try {
                 returnValues = SQLHelper.calculateNumberOfFields(extendingClassDescriptors,
@@ -485,7 +485,7 @@ public final class SQLQuery implements PersistenceQuery {
                 throw new PersistenceException("Problem calculating number of concrete fields.", e);
             }
             
-            leafDescriptor = (JDOClassDescriptor) returnValues[0];
+            leafDescriptor = (JDOClassDescriptorImpl) returnValues[0];
             
             if (leafDescriptor != null) {
                 if (!leafDescriptor.getJavaClass().getName().equals(

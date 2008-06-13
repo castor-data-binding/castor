@@ -93,7 +93,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
 
     private Class _objClass;
 
-    private JDOClassDescriptor _clsDesc;
+    private JDOClassDescriptorImpl _clsDesc;
 
     private QueryExpression _expr;
 
@@ -569,7 +569,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
 
         private Vector                 _pathInfo;
 
-        private JDOClassDescriptor     _classDescriptor;
+        private JDOClassDescriptorImpl     _classDescriptor;
 
         private org.exolab.castor.persist.QueryResults _results;
 
@@ -580,7 +580,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
          * @param clsDesc
          */
         OQLEnumeration(final org.exolab.castor.persist.QueryResults results,
-                final Vector pathInfo, final JDOClassDescriptor clsDesc) {
+                final Vector pathInfo, final JDOClassDescriptorImpl clsDesc) {
             _results = results;
             _pathInfo = pathInfo;
             _classDescriptor = clsDesc;
@@ -754,7 +754,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
         }
         
         private Object followPath(final Object parent) {
-            JDOClassDescriptor curClassDesc = _classDescriptor;
+            JDOClassDescriptorImpl curClassDesc = _classDescriptor;
             Object curObject = parent;
             for (int i = 1; i < _pathInfo.size(); i++) {
                 String curFieldName = (String) _pathInfo.elementAt(i);
@@ -763,7 +763,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
                         curClassDesc.getField(curFieldName);
                     FieldHandler handler = curFieldDesc.getHandler();
                     curObject = handler.getValue(curObject);
-                    curClassDesc = (JDOClassDescriptor) curFieldDesc.getClassDescriptor();
+                    curClassDesc = (JDOClassDescriptorImpl) curFieldDesc.getClassDescriptor();
                 } catch (Exception ex) {
                     throw new NoSuchElementException(
                             "An exception was thrown trying to access get methods to follow "
