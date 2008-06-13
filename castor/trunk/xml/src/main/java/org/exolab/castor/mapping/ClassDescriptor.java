@@ -53,33 +53,34 @@ package org.exolab.castor.mapping;
  * @see FieldDescriptor
  */
 public interface ClassDescriptor {
+    
     /**
      * Returns the Java class represented by this descriptor.
      *
      * @return The Java class
      */
-    public Class getJavaClass();
+    Class getJavaClass();
 
     /**
      * Returns a list of fields represented by this descriptor.
      *
      * @return A list of fields
      */
-    public FieldDescriptor[] getFields();
+    FieldDescriptor[] getFields();
 
     /**
      * Returns the class descriptor of the class extended by this class.
      *
      * @return The extended class descriptor
      */
-    public ClassDescriptor getExtends();
+    ClassDescriptor getExtends();
 
     /**
      * Returns the identity field, null if this class has no identity.
      *
      * @return The identity field
      */
-    public FieldDescriptor getIdentity();
+    FieldDescriptor getIdentity();
 }
 
 
