@@ -68,7 +68,7 @@ public final class SQLEngine implements Persistence {
 
     private final PersistenceFactory    _factory;
 
-    private final JDOClassDescriptor    _clsDesc;
+    private final JDOClassDescriptorImpl    _clsDesc;
 
     private KeyGenerator                _keyGen;
     
@@ -80,7 +80,7 @@ public final class SQLEngine implements Persistence {
 
     private final SQLStatementStore _storeStatement;
 
-    public SQLEngine(final JDOClassDescriptor clsDesc, final PersistenceFactory factory,
+    public SQLEngine(final JDOClassDescriptorImpl clsDesc, final PersistenceFactory factory,
               final String stampField) throws MappingException {
 
         _clsDesc = clsDesc;
@@ -122,7 +122,7 @@ public final class SQLEngine implements Persistence {
          * No loop or circle should exist
          */
         // then, we put depended class ids in the back
-        JDOClassDescriptor base = clsDesc;
+        JDOClassDescriptorImpl base = clsDesc;
 
         // walk until the base class which this class extends
         base = clsDesc;
@@ -133,7 +133,7 @@ public final class SQLEngine implements Persistence {
             //     throw new MappingException(
             //             "Class should not both depends on and extended other classes");
             // }
-            base = (JDOClassDescriptor) base.getExtends();
+            base = (JDOClassDescriptorImpl) base.getExtends();
             stack.push(base);
             // do we need to add loop detection?
         }
@@ -169,7 +169,7 @@ public final class SQLEngine implements Persistence {
 
         // then do the fields
         while (!stack.empty()) {
-            base = (JDOClassDescriptor) stack.pop();
+            base = (JDOClassDescriptorImpl) stack.pop();
             FieldDescriptor[] fieldDescriptors = base.getFields();
             for (int i = 0; i < fieldDescriptors.length; i++) {
                 // fieldDescriptors[i] is persistent in db if it is not transient
@@ -220,7 +220,7 @@ public final class SQLEngine implements Persistence {
      * Used by {@link org.exolab.castor.jdo.OQLQuery} to retrieve the class descriptor.
      * @return the JDO class descriptor.
      */
-    public JDOClassDescriptor getDescriptor() {
+    public JDOClassDescriptorImpl getDescriptor() {
         return _clsDesc;
     }
 

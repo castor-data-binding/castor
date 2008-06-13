@@ -64,7 +64,7 @@ import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.Persistent;
 import org.exolab.castor.jdo.TimeStampable;
 import org.exolab.castor.jdo.engine.JDOCallback;
-import org.exolab.castor.jdo.engine.JDOClassDescriptor;
+import org.exolab.castor.jdo.engine.JDOClassDescriptorImpl;
 import org.exolab.castor.jdo.engine.JDOFieldDescriptor;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.ClassDescriptor;
@@ -215,9 +215,9 @@ public class ClassMolder {
             ds.pairExtends(this, extendsClassMapping.getName());
         }
 
-        if (clsDesc instanceof JDOClassDescriptor) {
-            _cacheParams = ((JDOClassDescriptor) clsDesc).getCacheParams();
-            _isKeyGenUsed = (((JDOClassDescriptor) clsDesc)
+        if (clsDesc instanceof JDOClassDescriptorImpl) {
+            _cacheParams = ((JDOClassDescriptorImpl) clsDesc).getCacheParams();
+            _isKeyGenUsed = (((JDOClassDescriptorImpl) clsDesc)
                     .getKeyGeneratorDescriptor() != null);
         }
 
@@ -281,8 +281,8 @@ public class ClassMolder {
 
                 String relatedType = fmFields[i].getType();
                 ClassDescriptor relDesc = loader.getDescriptor(relatedType);
-                if (relDesc instanceof JDOClassDescriptor) {
-                    FieldDescriptor[] relatedIds = ((JDOClassDescriptor) relDesc).getIdentities();
+                if (relDesc instanceof JDOClassDescriptorImpl) {
+                    FieldDescriptor[] relatedIds = ((JDOClassDescriptorImpl) relDesc).getIdentities();
                     relatedIdSQL = new String[relatedIds.length];
                     relatedIdType = new int[relatedIds.length];
                     relatedIdConvertTo = new TypeConvertor[relatedIds.length];
@@ -1403,7 +1403,7 @@ public class ClassMolder {
      * @return The actual (OQL) statement 
      */
     public String getNamedQuery(final String name) {
-        return (String) ((JDOClassDescriptor) _clsDesc).getNamedQueries().get(name);
+        return (String) ((JDOClassDescriptorImpl) _clsDesc).getNamedQueries().get(name);
     }
 }
 

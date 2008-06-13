@@ -246,7 +246,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         }
 
         // Create the class descriptor.
-        JDOClassDescriptor clsDesc = new JDOClassDescriptor();
+        JDOClassDescriptorImpl clsDesc = new JDOClassDescriptorImpl();
         
         // Set reference to class mapping on class descriptor.
         clsDesc.setMapping(clsMap);
@@ -263,12 +263,12 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         // class and make sure this class indeed extends it.
         ClassDescriptor extDesc = getExtended(clsMap, javaClass);
         if (extDesc != null) {
-            if (!(extDesc instanceof JDOClassDescriptor)) {
+            if (!(extDesc instanceof JDOClassDescriptorImpl)) {
                 throw new IllegalArgumentException(
                         "Extended class does not have a JDO descriptor");
             }
             
-            ((JDOClassDescriptor) extDesc).addExtended(clsDesc);
+            ((JDOClassDescriptorImpl) extDesc).addExtended(clsDesc);
         }
         clsDesc.setExtends(extDesc);
         
@@ -324,7 +324,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             for (int i = 0; i < allFields.length; i++) { fieldList.add(allFields[i]); }
             
             // Add all identities of extended class to identity list.
-            FieldDescriptor[] extIds = ((JDOClassDescriptor) extDesc).getIdentities();
+            FieldDescriptor[] extIds = ((JDOClassDescriptorImpl) extDesc).getIdentities();
             for (int i = 0; i < extIds.length; i++) { idList.add(extIds[i]); }
             
             // Search redefined identities in extending class.
@@ -360,7 +360,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
      * @param clsDesc JDO class descriptor to set the access mode on.
      * @param clsMap Class mapping to extract the access mode from.
      */
-    private void extractAndSetAccessMode(final JDOClassDescriptor clsDesc,
+    private void extractAndSetAccessMode(final JDOClassDescriptorImpl clsDesc,
             final ClassMapping clsMap) {
         if (clsMap.getAccess() != null) {
             clsDesc.setAccessMode(AccessMode.valueOf(clsMap.getAccess().toString()));
@@ -376,7 +376,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
      * @throws MappingException If cache type <code>none</code> has been specified for
      *         a class that implements <code>TimeStampable</code> interface.
      */
-    private void extractAndAddCacheParams(final JDOClassDescriptor clsDesc,
+    private void extractAndAddCacheParams(final JDOClassDescriptorImpl clsDesc,
             final ClassMapping clsMap, final Class javaClass)
     throws MappingException {
         clsDesc.addCacheParam(Cache.PARAM_NAME, clsMap.getName());
@@ -413,7 +413,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
      * @param clsMap Class mapping to extract the named queries from.
      * @throws MappingException On duplicate query names.
      */
-    private void extractAndAddNamedQueries(final JDOClassDescriptor clsDesc,
+    private void extractAndAddNamedQueries(final JDOClassDescriptorImpl clsDesc,
             final ClassMapping clsMap)
     throws MappingException {
         Enumeration namedQueriesEnum = clsMap.enumerateNamedQuery();
@@ -440,7 +440,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
      * @param clsDesc JDO class descriptor to set the key generator descriptor at.
      * @param clsMap Class mapping name of key generator.
      */
-    private void extractAndSetKeyGeneratorDescriptor(final JDOClassDescriptor clsDesc,
+    private void extractAndSetKeyGeneratorDescriptor(final JDOClassDescriptorImpl clsDesc,
             final ClassMapping clsMap) {
         KeyGeneratorDescriptor keyGenDesc = null;
         

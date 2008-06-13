@@ -62,7 +62,7 @@ import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
-public class JDOClassDescriptor extends ClassDescriptorImpl {
+public class JDOClassDescriptorImpl extends ClassDescriptorImpl {
     //-----------------------------------------------------------------------------------
 
     /** The name of the SQL table. */
@@ -82,7 +82,7 @@ public class JDOClassDescriptor extends ClassDescriptorImpl {
 
     //-----------------------------------------------------------------------------------
 
-    public JDOClassDescriptor() {
+    public JDOClassDescriptorImpl() {
         super();
     }
     

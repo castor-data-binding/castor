@@ -100,6 +100,26 @@ org.castor.cpa.persistence.sql.keygen.factories=\
   org.castor.cpa.persistence.sql.keygen.UUIDKeyGeneratorFactory</code-panel>
             </summary>
             <bugs>
+                <bug id="2417" tool="jira">
+                    <description>
+                        Renamed JDOClassDescriptor to JDOClassDescriptorImpl. 
+                    </description>
+                    <contributor>
+                         <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                         <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                         <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </reporter>
+                    <type>Refactoring</type>
+                    <module>CPA</module>
+                    <date>20080613</date>
+                </bug>
                 <bug id="2405" tool="jira">
                     <description>
                         Removed code duplication across FieldInfoAccessFactory and 

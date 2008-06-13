@@ -48,7 +48,7 @@ public class SQLFieldInfo {
     
     private final FieldDescriptor _fieldDescriptor;
     
-    public SQLFieldInfo(final JDOClassDescriptor clsDesc,
+    public SQLFieldInfo(final JDOClassDescriptorImpl clsDesc,
                         final FieldDescriptor fieldDesc,
                         final String classTable, final boolean ext)
     throws MappingException {
@@ -56,11 +56,11 @@ public class SQLFieldInfo {
         
         ClassDescriptor related = fieldDesc.getClassDescriptor();
         if (related != null) {
-            if (!(related instanceof JDOClassDescriptor)) {
+            if (!(related instanceof JDOClassDescriptorImpl)) {
                 throw new MappingException("Related class is not JDOClassDescriptor");
             }
 
-            FieldDescriptor[] relids = ((JDOClassDescriptor) related).getIdentities();
+            FieldDescriptor[] relids = ((JDOClassDescriptorImpl) related).getIdentities();
             String[] relnames = new String[relids.length];
             for (int i = 0; i < relids.length; i++) {
                 relnames[i] = ((JDOFieldDescriptor) relids[i]).getSQLName()[0];
@@ -82,7 +82,7 @@ public class SQLFieldInfo {
 
             String[] names = relnames;
             if (!(fieldDesc instanceof JDOFieldDescriptor)) {
-                _tableName = ((JDOClassDescriptor) related).getTableName();
+                _tableName = ((JDOClassDescriptorImpl) related).getTableName();
                 _store = false;
                 _multi = fieldDesc.isMultivalued();
                 _joined = true;
@@ -117,7 +117,7 @@ public class SQLFieldInfo {
                     _joined = false;
                     _joinFields = classnames;
                 } else {
-                    _tableName = ((JDOClassDescriptor) related).getTableName();
+                    _tableName = ((JDOClassDescriptorImpl) related).getTableName();
                     _store = false;
                     _multi = jdoFieldDesc.isMultivalued();
                     _joined = true;
