@@ -174,7 +174,16 @@
       <xsd:attribute name="nillable"      type="xsd:boolean"  use="optional"   default="false"/>
       <xsd:attribute name="direct"        type="xsd:boolean"  use="optional"   default="false"/>
       <xsd:attribute name="lazy"          type="xsd:boolean"  use="optional"   default="false"/>
-      <xsd:attribute name="container"     type="xsd:boolean"  use="optional"/>
+      <xsd:attribute name="container"     type="xsd:boolean"  use="optional">
+        <xsd:annotation>
+            <xsd:documentation>
+                Indicates whether the field should be treated as a container, 
+                i.e. only it's fields should be persisted, but not the containing 
+                class itself. In this case, the container attribute should
+                be set to true (supported in Castor XML only).
+            </xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
       <xsd:attribute name="get-method"    type="xsd:string"  use="optional"/>
       <xsd:attribute name="has-method"    type="xsd:string"  use="optional"/>
       <xsd:attribute name="set-method"    type="xsd:string"  use="optional"/>
