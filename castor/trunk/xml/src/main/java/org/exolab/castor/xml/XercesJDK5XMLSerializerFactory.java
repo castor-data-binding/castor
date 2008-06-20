@@ -17,26 +17,28 @@ package org.exolab.castor.xml;
 
 /**
  * Xerces-specific implementation of the {@link XMLSerializerFactory} interface.
- * Returns Xerces-specific instances of the {@link Serializer} and 
+ * Returns Xerces-specific instances of the {@link Serializer} and
  * {@link OutputFormat} interfaces.
  * 
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision: 6216 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
+ * @version $Revision: 6216 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr
+ *          2006) $
  */
 public class XercesJDK5XMLSerializerFactory implements XMLSerializerFactory {
-	/**
-	 * @see org.exolab.castor.xml.XMLSerializerFactory#getSerializer()
-     * {@inheritDoc}
-	 */
-	public Serializer getSerializer() {
-		return new XercesJDK5Serializer();
-	}
 
-	/**
-	 * @see org.exolab.castor.xml.XMLSerializerFactory#getOutputFormat()
-     * {@inheritDoc}
-	 */
-	public OutputFormat getOutputFormat() {
-		return new XercesJDK5OutputFormat();
-	}
+    /**
+     * @see org.exolab.castor.xml.XMLSerializerFactory#getSerializer()
+     *      {@inheritDoc}
+     */
+    public Serializer getSerializer() {
+        return new XercesJDK5Serializer();
+    }
+
+    /**
+     * @see org.exolab.castor.xml.XMLSerializerFactory#getOutputFormat()
+     *      {@inheritDoc}
+     */
+    public OutputFormat getOutputFormat() {
+        return new XercesJDK5OutputFormat();
+    }
 }
