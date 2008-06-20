@@ -20,25 +20,25 @@ import org.exolab.castor.xml.Serializer;
 import org.exolab.castor.xml.XMLSerializerFactory;
 
 /**
- * "Weblogic's refactored Xerces"-specific implementation of the XMLSerializerFactory
- * interface. Returns Xerces-specific instances of the {@link Serializer} and 
- * {@link OutputFormat} interfaces.
+ * "Weblogic's refactored Xerces"-specific implementation of the
+ * XMLSerializerFactory interface. Returns Xerces-specific instances of the
+ * {@link Serializer} and {@link OutputFormat} interfaces.
  * 
  * @author Thierry Guerin
  */
 public class WeblogicXercesXMLSerializerFactory implements XMLSerializerFactory {
 
-    /** 
-     * @inheritDoc
+    /**
+     * {@inheritDoc}
      */
-	public Serializer getSerializer() {
-		return new WeblogicXercesSerializer();
-	}
+    public Serializer getSerializer() {
+        return new WeblogicXercesSerializer();
+    }
 
-    /** 
-     * @inheritDoc
+    /**
+     * {@inheritDoc}
      */
-	public OutputFormat getOutputFormat() {
-		return new WeblogicXercesOutputFormat();
-	}
+    public OutputFormat getOutputFormat() {
+        return new WeblogicXercesOutputFormat();
+    }
 }
