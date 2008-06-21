@@ -129,6 +129,10 @@ public abstract class AbstractMappingLoader2 implements MappingLoader {
         return _descriptors.iterator();
     }
 
+    public final List getDescriptors() {
+        return _descriptors;
+    }
+    
     //--------------------------------------------------------------------------
     
     /**
