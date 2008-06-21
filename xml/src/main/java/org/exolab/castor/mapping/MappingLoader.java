@@ -45,6 +45,7 @@
 package org.exolab.castor.mapping;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.castor.mapping.BindingType;
 
@@ -89,4 +90,10 @@ public interface MappingLoader {
      * added. Each element is of type {@link ClassDescriptor}.
      */
     Iterator descriptorIterator();
+    
+    /**
+     * Returns a List of {@link ClassDescriptor}s of all known descriptors.
+     * @return List of {@link ClassDescriptor}
+     */
+    List getDescriptors();
 }
