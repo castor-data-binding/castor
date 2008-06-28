@@ -263,7 +263,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         // class and make sure this class indeed extends it.
         ClassDescriptor extDesc = getExtended(clsMap, javaClass);
         if (extDesc != null) {
-            if (!(extDesc instanceof JDOClassDescriptorImpl)) {
+            if (!(extDesc instanceof JDOClassDescriptor)) {
                 throw new IllegalArgumentException(
                         "Extended class does not have a JDO descriptor");
             }
@@ -324,7 +324,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             for (int i = 0; i < allFields.length; i++) { fieldList.add(allFields[i]); }
             
             // Add all identities of extended class to identity list.
-            FieldDescriptor[] extIds = ((JDOClassDescriptorImpl) extDesc).getIdentities();
+            FieldDescriptor[] extIds = ((JDOClassDescriptor) extDesc).getIdentities();
             for (int i = 0; i < extIds.length; i++) { idList.add(extIds[i]); }
             
             // Search redefined identities in extending class.

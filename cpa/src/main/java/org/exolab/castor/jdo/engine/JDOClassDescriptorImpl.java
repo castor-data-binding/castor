@@ -62,8 +62,8 @@ import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
-public class JDOClassDescriptorImpl extends ClassDescriptorImpl {
-    //-----------------------------------------------------------------------------------
+public class JDOClassDescriptorImpl extends ClassDescriptorImpl 
+    implements JDOClassDescriptor {
 
     /** The name of the SQL table. */
     private String  _tableName;
@@ -80,14 +80,10 @@ public class JDOClassDescriptorImpl extends ClassDescriptorImpl {
     /** The key generator specified for this class. */
     private KeyGeneratorDescriptor _keyGenDesc;
 
-    //-----------------------------------------------------------------------------------
-
     public JDOClassDescriptorImpl() {
         super();
     }
     
-    //-----------------------------------------------------------------------------------
-
     protected void setTableName(final String tableName) {
         _tableName = tableName;
     }
@@ -148,14 +144,10 @@ public class JDOClassDescriptorImpl extends ClassDescriptorImpl {
         return _keyGenDesc;
     }
     
-    //-----------------------------------------------------------------------------------
 
     /**
-     * Returns a JDOFieldDescriptor for the field with the name passed. <code>null</code>
-     * if named field does not exist.
-     *
-     * @param name Name of the field to return.
-     * @return Field if it exists, otherwise <code>null</code>.
+     * {@inheritDoc}
+     * @see org.exolab.castor.jdo.engine.JDOClassDescriptor#getField(java.lang.String)
      */
     public JDOFieldDescriptor getField(final String name) {
         FieldDescriptor[] fields = getFields();
@@ -181,8 +173,6 @@ public class JDOClassDescriptorImpl extends ClassDescriptorImpl {
         return null;
     }
 
-    //-----------------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -190,5 +180,4 @@ public class JDOClassDescriptorImpl extends ClassDescriptorImpl {
         return getJavaClass().getName() + " AS " + _tableName;
     }
 
-    //-----------------------------------------------------------------------------------
 }

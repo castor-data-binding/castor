@@ -15,6 +15,7 @@
  */
 package org.exolab.castor.jdo.engine;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
 
@@ -73,5 +74,21 @@ public interface JDOClassDescriptor extends ClassDescriptor {
      */
     FieldDescriptor[] getIdentities();
     
+    /**
+     * Returns a collection of class descriptors that extend this class descriptor.
+     *
+     * @return A collection of class descriptors.
+     */
+    Collection getExtended();
+
+    /**
+     * Returns a JDOFieldDescriptor for the field with the name passed. <code>null</code>
+     * if named field does not exist.
+     *
+     * @param name Name of the field to return.
+     * @return Field if it exists, otherwise <code>null</code>.
+     */
+    JDOFieldDescriptor getField(String name);
+
 
 }

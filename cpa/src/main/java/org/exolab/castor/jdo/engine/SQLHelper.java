@@ -47,20 +47,20 @@ public final class SQLHelper {
             final int numberOfIdentityColumns, final int numberOfFields,
             final int numberOfExtendLevels, final ResultSet rs) throws SQLException {
         
-        JDOClassDescriptorImpl potentialLeafDescriptor = null;
+        JDOClassDescriptor potentialLeafDescriptor = null;
         int suggestedNumberOfFields = numberOfFields;
         Collection potentialActualClassDescriptor = new LinkedList();
         int numberOfIdentitiesToAnalyze = 0;
         addExtendingClassDescriptors(potentialActualClassDescriptor, extendingClassDescriptors);
         
-        JDOClassDescriptorImpl potentialClassDescriptor = null;
-        JDOClassDescriptorImpl potentialClassDescriptorPrevious = null;
+        JDOClassDescriptor potentialClassDescriptor = null;
+        JDOClassDescriptor potentialClassDescriptorPrevious = null;
         int initialColumnIndex =
             numberOfFields + numberOfIdentityColumns * numberOfExtendLevels + 1;
         int columnIndex = initialColumnIndex;
         int numberOfExtendingClassDescriptors = 0;
         for (Iterator iter = potentialActualClassDescriptor.iterator(); iter.hasNext(); ) {
-            potentialClassDescriptor = (JDOClassDescriptorImpl) iter.next();
+            potentialClassDescriptor = (JDOClassDescriptor) iter.next();
             numberOfExtendingClassDescriptors += 1;
             if (LOG.isDebugEnabled()) {
                 LOG.debug ("Potential extending class descriptor: "
@@ -138,11 +138,11 @@ public final class SQLHelper {
         return new Object[] {potentialLeafDescriptor, new Integer (suggestedNumberOfFields) };
     }
 
-    public static int numberOfExtendingClassDescriptors(final JDOClassDescriptorImpl classDescriptor) {
+    public static int numberOfExtendingClassDescriptors(final JDOClassDescriptor classDescriptor) {
         int numberOfExtendLevels = 1;
-        JDOClassDescriptorImpl currentClassDescriptor = classDescriptor;
+        JDOClassDescriptor currentClassDescriptor = classDescriptor;
         while (currentClassDescriptor.getExtends() != null) {
-            currentClassDescriptor = (JDOClassDescriptorImpl) currentClassDescriptor.getExtends();
+            currentClassDescriptor = (JDOClassDescriptor) currentClassDescriptor.getExtends();
             numberOfExtendLevels++;
         }
         return numberOfExtendLevels;
@@ -151,15 +151,15 @@ public final class SQLHelper {
     public static void addExtendingClassDescriptors(
             final Collection classDescriptorsToAdd, final Collection extendingClassDescriptors) {
 
-        JDOClassDescriptorImpl classDescriptor = null; 
+        JDOClassDescriptor classDescriptor = null; 
         for (Iterator iter = extendingClassDescriptors.iterator(); iter.hasNext(); ) {
-            classDescriptor = (JDOClassDescriptorImpl) iter.next(); 
+            classDescriptor = (JDOClassDescriptor) iter.next(); 
             classDescriptorsToAdd.add (classDescriptor);
             addExtendingClassDescriptors(classDescriptorsToAdd, classDescriptor.getExtended());
         }
     }
     
-    public static String[] getIdentitySQLNames(final JDOClassDescriptorImpl desc) {
+    public static String[] getIdentitySQLNames(final JDOClassDescriptor desc) {
         FieldDescriptor[] identities = desc.getIdentities();
         String[] sqlNames = new String[identities.length];
         for (int i = 0; i < identities.length; i++) {
