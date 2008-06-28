@@ -16,8 +16,10 @@ import org.exolab.castor.xml.util.resolvers.ResolveHelpers;
 /**
  * JDO-specific {@link ClassDescriptorResolver} instance that provides functionality
  * to find or "resolve" {@link ClassDescriptor}s from a given class (name).
+ * 
+ * @see JDOClassDescriptorResolver
  */
-public class JDOClassDescriptorResolverImpl implements ClassDescriptorResolver {
+public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolver {
 
     /**
      * File name prefix used for JDO-specific descriptor classes.
@@ -65,13 +67,9 @@ public class JDOClassDescriptorResolverImpl implements ClassDescriptorResolver {
     }
 
     /**
-     * Returns the ClassDescriptor for the given class.
+     * {@inheritDoc}
      * 
-     * @param type
-     *            the class name to find the ClassDescriptor for
-     * @exception ResolverException Indicates that the given {@link Class} 
-     *            cannot be resolved.
-     * @return the ClassDescriptor for the given class
+     * @see org.exolab.castor.xml.util.JDOClassDescriptorResolver#resolve(java.lang.String)
      */
     public ClassDescriptor resolve(final String type) throws ResolverException {
         try {
@@ -147,7 +145,7 @@ public class JDOClassDescriptorResolverImpl implements ClassDescriptorResolver {
         // }
 
         return classDesc;
-    } // -- resolve
+    }
 
     /**
      * Tries to load a {@link ClassDescriptor} for the given type 
@@ -199,7 +197,8 @@ public class JDOClassDescriptorResolverImpl implements ClassDescriptorResolver {
 
     /**
      * {@inheritDoc}
-     * @see org.exolab.castor.xml.ClassDescriptorResolver#getMappingLoader()
+     * 
+     * @see org.exolab.castor.xml.util.JDOClassDescriptorResolver#getMappingLoader()
      */
     public MappingLoader getMappingLoader() {
         return _mappingLoader;
@@ -216,27 +215,27 @@ public class JDOClassDescriptorResolverImpl implements ClassDescriptorResolver {
     }
 
     /**
-     * Adds a given {@link Class} instance manually, so that it can be loaded from 
-     * the file system.
-     * @param domainClass A given {@link Class} instance.
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.util.JDOClassDescriptorResolver#addClass(java.lang.Class)
      */
     public void addClass(final Class domainClass) {
         _classes.add(domainClass);
     }
 
     /**
-     * Adds a given package name manually, so that class descriptors can be loaded from 
-     * this package (from the file system).
-     * @param packageName A given package name.
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.util.JDOClassDescriptorResolver#addPackage(java.lang.String)
      */
     public void addPackage(final String packageName) {
         _packages.add(packageName);
     }
 
     /**
-     * Returns an iterator over all the known descriptors in the original order they have been
-     * added. Each element is of type {@link ClassDescriptor}.
-     * @return an {@link Iterator} over all the known JDO class descriptors.
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.util.JDOClassDescriptorResolver#descriptorIterator()
      */
     public Iterator descriptorIterator() {
         List allDescriptors = new ArrayList();
@@ -248,8 +247,9 @@ public class JDOClassDescriptorResolverImpl implements ClassDescriptorResolver {
     }
     
     /**
-     * Returns the {@link ClassLoader} instance as used internally.
-     * @return The {@link ClassLoader} instance used internally.
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.util.JDOClassDescriptorResolver#getClassLoader()
      */
     public ClassLoader getClassLoader() {
         return _mappingLoader.getClassLoader();

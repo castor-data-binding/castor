@@ -39,9 +39,8 @@ import org.exolab.castor.persist.LockEngine;
 import org.exolab.castor.persist.PersistenceEngineFactory;
 import org.exolab.castor.persist.PersistenceFactoryRegistry;
 import org.exolab.castor.persist.spi.PersistenceFactory;
-import org.exolab.castor.xml.ClassDescriptorResolver;
 import org.exolab.castor.xml.ClassDescriptorResolverFactory;
-import org.exolab.castor.xml.util.JDOClassDescriptorResolverImpl;
+import org.exolab.castor.xml.util.JDOClassDescriptorResolver;
 
 /**
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
@@ -83,7 +82,7 @@ public abstract class AbstractConnectionFactory implements ConnectionFactory {
      * A {@link ClassDescriptorResolver} instance to be used for class to 
      * class descriptor resolution.
      */
-    private JDOClassDescriptorResolverImpl _classDescriptorResolver = null;
+    private JDOClassDescriptorResolver _classDescriptorResolver = null;
     
     /**
      * Constructs a new AbstractConnectionFactory with given name, engine and mapping.
@@ -210,7 +209,7 @@ public abstract class AbstractConnectionFactory implements ConnectionFactory {
         
         MappingUnmarshaller mappingUnmarshaller = new MappingUnmarshaller();
         if (_classDescriptorResolver == null) {
-            _classDescriptorResolver = (JDOClassDescriptorResolverImpl) 
+            _classDescriptorResolver = (JDOClassDescriptorResolver) 
             ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.JDO);
         }
         MappingLoader mappingLoader = 
@@ -277,7 +276,7 @@ public abstract class AbstractConnectionFactory implements ConnectionFactory {
      * @param classDescriptorResolver A custom {@link ClassDescriptorResolver} instance to be used.
      */
     public void setClassDescriptorResolver(
-            final JDOClassDescriptorResolverImpl classDescriptorResolver) {
+            final JDOClassDescriptorResolver classDescriptorResolver) {
         _classDescriptorResolver = classDescriptorResolver;
     }
 

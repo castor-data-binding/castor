@@ -80,7 +80,7 @@ import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.xml.ClassDescriptorResolver;
 import org.exolab.castor.xml.ResolverException;
-import org.exolab.castor.xml.util.JDOClassDescriptorResolverImpl;
+import org.exolab.castor.xml.util.JDOClassDescriptorResolver;
 
 /**
  * ClassMolder is a 'binder' for one type of data object and its corresponding 
@@ -288,7 +288,7 @@ public class ClassMolder {
 //                    classDescrResolver.getMappingLoader().getDescriptor(relatedType);
                 ClassDescriptor relDesc = null;
                 try {
-                    relDesc = ((JDOClassDescriptorResolverImpl) classDescrResolver).resolve(fmFields[i].getType());
+                    relDesc = ((JDOClassDescriptorResolver) classDescrResolver).resolve(fmFields[i].getType());
                 } catch (ResolverException e) {
                     throw new MappingException("Problem resolving class descriptor for class " 
                             + fmFields.getClass(), e);

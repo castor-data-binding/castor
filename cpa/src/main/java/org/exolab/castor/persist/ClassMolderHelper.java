@@ -26,7 +26,7 @@ import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.xml.ClassDescriptorResolver;
 import org.exolab.castor.xml.ResolverException;
-import org.exolab.castor.xml.util.JDOClassDescriptorResolverImpl;
+import org.exolab.castor.xml.util.JDOClassDescriptorResolver;
 
 /**
  * Utility class that provides (mostly) static methods in relation to the functions
@@ -66,9 +66,9 @@ public final class ClassMolderHelper {
         MappingLoader mappingLoader = cdResolver.getMappingLoader();
 
         // TODO[WG]: remove down-cast
-        DatingService ds = new DatingService(((JDOClassDescriptorResolverImpl) cdResolver).getClassLoader());
+        DatingService ds = new DatingService(((JDOClassDescriptorResolver) cdResolver).getClassLoader());
 
-        Iterator iter = ((JDOClassDescriptorResolverImpl) cdResolver).descriptorIterator();
+        Iterator iter = ((JDOClassDescriptorResolver) cdResolver).descriptorIterator();
         while (iter.hasNext()) {
             Object next = iter.next();
             ClassDescriptor nextCd = (ClassDescriptor) next;

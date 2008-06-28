@@ -31,7 +31,7 @@ import org.castor.jdo.util.JDOConfFactory;
 import org.castor.util.Messages;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.xml.util.JDOClassDescriptorResolverImpl;
+import org.exolab.castor.xml.util.JDOClassDescriptorResolver;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
@@ -106,7 +106,7 @@ public final class DatabaseRegistry {
      */
     public static synchronized void loadDatabase(final InputSource source,
             final EntityResolver resolver, final ClassLoader loader,
-            final JDOClassDescriptorResolverImpl classDescriptorResolver)
+            final JDOClassDescriptorResolver classDescriptorResolver)
             throws MappingException {
         
         // Load the JDO configuration file from the specified input source.
@@ -164,7 +164,7 @@ public final class DatabaseRegistry {
     public static synchronized void loadDatabase(final JdoConf jdoConf,
             final EntityResolver resolver, final ClassLoader loader,
             final String baseURI,
-            final JDOClassDescriptorResolverImpl classDescriptorResolver)
+            final JDOClassDescriptorResolver classDescriptorResolver)
             throws MappingException {
         // Do we need to initialize database now or should we
         // wait until we want to use it.
