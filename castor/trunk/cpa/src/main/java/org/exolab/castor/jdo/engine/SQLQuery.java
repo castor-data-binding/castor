@@ -470,11 +470,12 @@ public final class SQLQuery implements PersistenceQuery {
         // "multi field" each fetchRaw is called, we might reuse them.
 
         int originalFieldNumber = _requestedEngine.getInfo().length;
-        Collection extendingClassDescriptors = _requestedEngine.getDescriptor().getExtended();
+        Collection extendingClassDescriptors = 
+            ((JDOClassDescriptorImpl) _requestedEngine.getDescriptor()).getExtended();
         if (extendingClassDescriptors.size() > 0) {
             int numberOfExtendLevels = SQLHelper.numberOfExtendingClassDescriptors(
                     _requestedEngine.getDescriptor());
-            JDOClassDescriptorImpl leafDescriptor = null;
+            JDOClassDescriptor leafDescriptor = null;
             Object[] returnValues = null;
             try {
                 returnValues = SQLHelper.calculateNumberOfFields(extendingClassDescriptors,
@@ -485,7 +486,7 @@ public final class SQLQuery implements PersistenceQuery {
                 throw new PersistenceException("Problem calculating number of concrete fields.", e);
             }
             
-            leafDescriptor = (JDOClassDescriptorImpl) returnValues[0];
+            leafDescriptor = (JDOClassDescriptor) returnValues[0];
             
             if (leafDescriptor != null) {
                 if (!leafDescriptor.getJavaClass().getName().equals(

@@ -82,7 +82,8 @@ public final class SQLStatementLoad {
 
         // obtain the number of ClassDescriptor that extend this one.
         _numberOfExtendLevels = SQLHelper.numberOfExtendingClassDescriptors(engine.getDescriptor());
-        _extendingClassDescriptors = engine.getDescriptor().getExtended();
+        _extendingClassDescriptors = 
+            ((JDOClassDescriptorImpl) engine.getDescriptor()).getExtended();
 
         buildStatement();
     }
@@ -95,10 +96,10 @@ public final class SQLStatementLoad {
             Vector joinTables = new Vector();
 
             // join all the extended table
-            JDOClassDescriptorImpl curDesc = _engine.getDescriptor();
-            JDOClassDescriptorImpl baseDesc;
+            JDOClassDescriptor curDesc = _engine.getDescriptor();
+            JDOClassDescriptor baseDesc;
             while (curDesc.getExtends() != null) {
-                baseDesc = (JDOClassDescriptorImpl) curDesc.getExtends();
+                baseDesc = (JDOClassDescriptor) curDesc.getExtends();
                 String[] curDescIdNames = SQLHelper.getIdentitySQLNames(curDesc);
                 String[] baseDescIdNames = SQLHelper.getIdentitySQLNames(baseDesc);
                 expr.addInnerJoin(curDesc.getTableName(), curDescIdNames,
@@ -131,7 +132,7 @@ public final class SQLStatementLoad {
                 
                 // add id columns to select statement
                 if (!alias.equals(aliasOld) && !field.isJoined()) {
-                    JDOClassDescriptorImpl classDescriptor = (JDOClassDescriptorImpl) 
+                    JDOClassDescriptor classDescriptor = (JDOClassDescriptor) 
                         field.getFieldDescriptor().getContainingClassDescriptor();
                     boolean isTableNameAlreadyAdded = identitiesUsedForTable.containsKey(
                             classDescriptor.getTableName());
@@ -173,13 +174,13 @@ public final class SQLStatementLoad {
 
             // 'join' all the extending tables 
             List classDescriptorsToAdd = new LinkedList();
-            JDOClassDescriptorImpl classDescriptor = null;
+            JDOClassDescriptor classDescriptor = null;
             SQLHelper.addExtendingClassDescriptors(classDescriptorsToAdd,
-                    _engine.getDescriptor().getExtended());
+                    ((JDOClassDescriptorImpl) _engine.getDescriptor()).getExtended());
             
             if (classDescriptorsToAdd.size() > 0) {
                 for (Iterator iter = classDescriptorsToAdd.iterator(); iter.hasNext(); ) {
-                    classDescriptor = (JDOClassDescriptorImpl) iter.next();
+                    classDescriptor = (JDOClassDescriptor) iter.next();
                     
                     if (LOG.isTraceEnabled()) {
                         LOG.trace("Adding outer left join for "
@@ -319,7 +320,7 @@ public final class SQLStatementLoad {
                 Object[] returnValues = 
                     SQLHelper.calculateNumberOfFields(_extendingClassDescriptors, 
                             ids.length, fields.length, _numberOfExtendLevels, rs);
-                JDOClassDescriptorImpl potentialLeafDescriptor = (JDOClassDescriptorImpl) returnValues[0];
+                JDOClassDescriptor potentialLeafDescriptor = (JDOClassDescriptor) returnValues[0];
                 
                 if ((potentialLeafDescriptor != null)
                         && !potentialLeafDescriptor.getJavaClass().getName().equals(_type)) {

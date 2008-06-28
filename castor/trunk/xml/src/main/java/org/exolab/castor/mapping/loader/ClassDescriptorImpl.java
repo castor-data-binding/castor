@@ -62,104 +62,180 @@ import org.exolab.castor.mapping.xml.ClassMapping;
 public class ClassDescriptorImpl implements ClassDescriptor {
     //-----------------------------------------------------------------------------------
 
+    /**
+     * {@link ClassMapping} instance holding class mapping information required
+     * during initialization of e.g. (JDO) ClassMolder.
+     */
     private ClassMapping _mapping;
     
-    /** The Java class for this descriptor. */
+    /** 
+     * The Java class for this descriptor. 
+     */
     private Class _javaClass;
 
-    /** The descriptor of the class which this class extends,
-     *  or null if this is a top-level class. */
+    /** 
+     * The descriptor of the class which this class extends,
+     * or null if this is a top-level class. 
+     */
     private ClassDescriptor _extends;
     
-    /** A collection of class descriptors that extend this class, or 
-     *  an empty collection if this is a leaf class. */
+    /** 
+     * A collection of class descriptors that extend this class, or 
+     * an empty collection if this is a leaf class. 
+     */
     private final Collection _extended = new LinkedList();
 
+    /**
+     * The {@link ClassDescriptor} of the class which this class
+     * depends upon.
+     */
     private ClassDescriptor _depends;
 
-    /** The fields described for this class. */
+    /** #
+     * The fields described for this class.
+     */
     private FieldDescriptor[] _fields;
 
-    /** The field of the identity for this class. */
+    /** 
+     * The field of the identity for this class. 
+     */
     private FieldDescriptor[] _identities;
 
-    //-----------------------------------------------------------------------------------
-
+    /**
+     * Sets the {@link ClassMapping} instance.
+     * @param mapping The {@link ClassMapping} instance to be used.
+     */
     public void setMapping(final ClassMapping mapping) {
         _mapping = mapping;
     }
     
+    /**
+     * Returns the {@link ClassMapping} instance used.
+     * @return The {@link ClassMapping} instance used.
+     */
     public ClassMapping getMapping() {
         return _mapping;
     }
     
+    /**
+     * Sets the Java {@link Class} as described by this descriptor.
+     * @param javaClass The Java {@link Class} instance as described by this descriptor.
+     */
     public void setJavaClass(final Class javaClass) {
         _javaClass = javaClass;
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.mapping.ClassDescriptor#getJavaClass()
+     */
     public Class getJavaClass() {
         return _javaClass;
     }
     
+    /**
+     * Sets the descriptor of the class which this class extends.
+     * @param extend the descriptor of the class which this class extends.
+     */
     public void setExtends(final ClassDescriptor extend) {
         _extends = extend;
     }
     
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.mapping.ClassDescriptor#getExtends()
+     */
     public ClassDescriptor getExtends() {
         return _extends;
     }
     
+    /**
+     * Adds a {@link ClassDescriptor} that extends this class.
+     * @param classDesc A {@link ClassDescriptor} that extends this class.
+     */
     public void addExtended(final ClassDescriptor classDesc) {
         _extended.add(classDesc);
     }
     
     /**
-     * Returns a collection of class descriptors that extend this class descriptor.
-     *
-     * @return A collection of class descriptors.
+     * Sets the {@link ClassDescriptor} of the class which this class
+     * depends upon. 
+     * @param depends the {@link ClassDescriptor} of the class which this class
+     * depends upon 
      */
-    public Collection getExtended() {
-    	return _extended;
-    }
-    
     public void setDepends(final ClassDescriptor depends) {
         _depends = depends;
     }
 
+    /**
+     * Returns the {@link ClassDescriptor} of the class which this class
+     * depends upon.
+     * @return the {@link ClassDescriptor} of the class which this class
+     * depends upon.
+     */
     public ClassDescriptor getDepends() {
         return _depends;
     }
 
+    /**
+     * Sets the {@link FieldDescriptor}s that describe the fields defined for this class.
+     * @param fields the {@link FieldDescriptor}s that describe the fields defined for this class.
+     */
     public void setFields(final FieldDescriptor[] fields) {
         _fields = fields;
     }
 
+    /**
+     * {@inheritDoc}
+     * @see org.exolab.castor.mapping.ClassDescriptor#getFields()
+     */
     public FieldDescriptor[] getFields() {
         return _fields;
     }
     
+    /**
+     * Sets the {@link FieldDescriptor}s that describe the identities as defined for this class. 
+     * @param identities the {@link FieldDescriptor}s that describe the identities as defined 
+     *     for this class.
+     */
     public void setIdentities(final FieldDescriptor[] identities) {
         _identities = identities;
     }
 
+    /**
+     * Returns the {@link FieldDescriptor}s that describe the identities as defined for this class.
+     * @return the {@link FieldDescriptor}s that describe the identities as defined for this class.
+     */
     public FieldDescriptor[] getIdentities() {
         return _identities;
     }
 
+    /**
+     * {@inheritDoc}
+     * @see org.exolab.castor.mapping.ClassDescriptor#getIdentity()
+     */
     public FieldDescriptor getIdentity() {
         return (_identities == null) ? null : _identities[0];
     }
-    
-    //-----------------------------------------------------------------------------------
 
     /**
+     * Returns a collection of {@link ClassDescriptor}s that extend this class (descriptor).
+     * @return A collection of {@link ClassDescriptor}s that extend this class.
+     */
+    public Collection getExtended() {
+        return _extended;
+    }
+    
+    /**
      * {@inheritDoc}
+     * @see java.lang.Object#toString()
      */
     public String toString() {
         return _javaClass.getName();
     }
 
-    //-----------------------------------------------------------------------------------
 }
 
 
