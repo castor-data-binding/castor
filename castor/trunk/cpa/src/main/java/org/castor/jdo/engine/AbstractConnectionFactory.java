@@ -41,6 +41,7 @@ import org.exolab.castor.persist.PersistenceFactoryRegistry;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.xml.ClassDescriptorResolver;
 import org.exolab.castor.xml.ClassDescriptorResolverFactory;
+import org.exolab.castor.xml.util.JDOClassDescriptorResolverImpl;
 
 /**
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
@@ -49,7 +50,6 @@ import org.exolab.castor.xml.ClassDescriptorResolverFactory;
  * @since 0.9.9
  */
 public abstract class AbstractConnectionFactory implements ConnectionFactory {
-    //--------------------------------------------------------------------------
 
     /** The name of the generic SQL engine, if no SQL engine specified. */
     public static final String GENERIC_ENGINE = "generic";
@@ -58,12 +58,10 @@ public abstract class AbstractConnectionFactory implements ConnectionFactory {
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(AbstractConnectionFactory.class);
 
-    //--------------------------------------------------------------------------
-    
     /** Has the factory been initialized? */
     private boolean             _initialized = false;
     
-    /** The jdo configuartion. */
+    /** The JDO configuration. */
     private JdoConf             _jdoConf;
     
     /** Index of the database configuration in the jdo configuration. */
@@ -80,9 +78,13 @@ public abstract class AbstractConnectionFactory implements ConnectionFactory {
     
     /** The LockEngine only available after initialization. */
     private LockEngine          _engine = null;
-    
-    //--------------------------------------------------------------------------
 
+    /**
+     * A {@link ClassDescriptorResolver} instance to be used for class to 
+     * class descriptor resolution.
+     */
+    private JDOClassDescriptorResolverImpl _classDescriptorResolver = null;
+    
     /**
      * Constructs a new AbstractConnectionFactory with given name, engine and mapping.
      * Factory will be ready to use without calling initialize first.
@@ -111,8 +113,8 @@ public abstract class AbstractConnectionFactory implements ConnectionFactory {
      * Constructs a new AbstractConnectionFactory with given database and mapping.
      * Initialize needs to be called before using the factory to create connections.
      * 
-     * @param jdoConf   The jdo configuartion.
-     * @param index     Index of the database configuration in the jdo configuration.
+     * @param jdoConf   The JDO configuration.
+     * @param index     Index of the database configuration in the JDO configuration.
      * @param mapping   The mapping to load.
      */
     protected AbstractConnectionFactory(final JdoConf jdoConf, final int index,
@@ -124,8 +126,6 @@ public abstract class AbstractConnectionFactory implements ConnectionFactory {
         _txManager = null;
     }
     
-    //--------------------------------------------------------------------------
-
     /**
      * Initialize factory if it had not been initialized before.
      * 
@@ -208,14 +208,16 @@ public abstract class AbstractConnectionFactory implements ConnectionFactory {
             throw new MappingException(msg);
         }
         
-        MappingUnmarshaller mum = new MappingUnmarshaller();
-        ClassDescriptorResolver cdResolver = 
+        MappingUnmarshaller mappingUnmarshaller = new MappingUnmarshaller();
+        if (_classDescriptorResolver == null) {
+            _classDescriptorResolver = (JDOClassDescriptorResolverImpl) 
             ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.JDO);
+        }
         MappingLoader mappingLoader = 
-            mum.getMappingLoader(_mapping, BindingType.JDO, factory);
-        cdResolver.setMappingLoader(mappingLoader);
+            mappingUnmarshaller.getMappingLoader(_mapping, BindingType.JDO, factory);
+        _classDescriptorResolver.setMappingLoader(mappingLoader);
         _engine = new PersistenceEngineFactory().createEngine(
-                this, cdResolver, factory);
+                this, _classDescriptorResolver, factory);
     }
     
     /**
@@ -225,42 +227,58 @@ public abstract class AbstractConnectionFactory implements ConnectionFactory {
      */
     public abstract void initializeFactory() throws MappingException;
     
-    //--------------------------------------------------------------------------
-    
     /**
      * Get the name of the database configuration.
      * 
      * @return The name of the database configuration.
      */
-    public final String getName() { return _name; }
+    public final String getName() {
+        return _name; 
+    }
     
     /**
      * Get the database configuration.
      * 
      * @return The database configuration.
      */
-    public final Database getDatabase() { return _jdoConf.getDatabase(_index); }
+    public final Database getDatabase() { 
+        return _jdoConf.getDatabase(_index);
+    }
 
     /**
      * Get the mapping to load.
      * 
      * @return The mapping to load.
      */
-    public final Mapping getMapping() { return _mapping; }
+    public final Mapping getMapping() {
+        return _mapping;
+    }
     
     /**
      * Get the transaction manager.
      * 
      * @return The transaction manager.
      */
-    public final TransactionManager getTransactionManager() { return _txManager; }
+    public final TransactionManager getTransactionManager() { 
+        return _txManager;
+    }
     
     /**
      * Get the LockEngine only available after initialization.
      * 
      * @return The LockEngine.
      */
-    public final LockEngine getEngine() { return _engine; }
+    public final LockEngine getEngine() { 
+        return _engine;
+    }
 
-    //--------------------------------------------------------------------------
+    /**
+     * Sets a custom {@link ClassDescriptorResolver} instance.
+     * @param classDescriptorResolver A custom {@link ClassDescriptorResolver} instance to be used.
+     */
+    public void setClassDescriptorResolver(
+            final JDOClassDescriptorResolverImpl classDescriptorResolver) {
+        _classDescriptorResolver = classDescriptorResolver;
+    }
+
 }

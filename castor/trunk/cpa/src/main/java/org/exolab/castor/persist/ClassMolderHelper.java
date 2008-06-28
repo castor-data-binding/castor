@@ -26,9 +26,18 @@ import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.xml.ClassDescriptorResolver;
 import org.exolab.castor.xml.ResolverException;
+import org.exolab.castor.xml.util.JDOClassDescriptorResolverImpl;
 
+/**
+ * Utility class that provides (mostly) static methods in relation to the functions
+ * required by a {@link ClassMolder}.
+ *
+ */
 public final class ClassMolderHelper {
     
+    /**
+     * Logger used for logging.
+     */
     public static final Log LOG = LogFactory.getLog(ClassMolderHelper.class);
     
     private ClassMolderHelper() {
@@ -40,6 +49,7 @@ public final class ClassMolderHelper {
      *
      * @param   lock      LockEngine for all the ClassMolder
      * @param   factory   factory class for getting Persistent of the ClassMolder
+     * @param cdResolver {@link ClassDescriptorResolver} instance used for resolving {@link ClassDescriptor}.
      *
      * @return  Vector of all of the <tt>ClassMolder</tt>s from a MappingLoader
      * @throws ClassNotFoundException 
@@ -55,11 +65,14 @@ public final class ClassMolderHelper {
 
         MappingLoader mappingLoader = cdResolver.getMappingLoader();
 
-        DatingService ds = new DatingService(mappingLoader.getClassLoader());
+        // TODO[WG]: remove down-cast
+        DatingService ds = new DatingService(((JDOClassDescriptorResolverImpl) cdResolver).getClassLoader());
 
-        Iterator iter = mappingLoader.descriptorIterator();
+        Iterator iter = ((JDOClassDescriptorResolverImpl) cdResolver).descriptorIterator();
         while (iter.hasNext()) {
-            Class toResolve = ((ClassDescriptor) iter.next()).getJavaClass();
+            Object next = iter.next();
+            ClassDescriptor nextCd = (ClassDescriptor) next;
+            Class toResolve = nextCd.getJavaClass();
             try {
                 desc = cdResolver.resolve(toResolve);
             } catch (ResolverException e) {
@@ -67,7 +80,7 @@ public final class ClassMolderHelper {
             }
             
             persist = factory.getPersistence(desc);
-            mold = createClassMolder(ds, mappingLoader, lock, desc, persist);
+            mold = createClassMolder(ds, cdResolver, lock, desc, persist);
             result.add(mold);
         }
 
@@ -76,13 +89,13 @@ public final class ClassMolderHelper {
     }
     
     private static ClassMolder createClassMolder(final DatingService ds,
-            final MappingLoader mappingLoader, final LockEngine lockEngine,
+            final ClassDescriptorResolver cdResolver, final LockEngine lockEngine,
             final ClassDescriptor descriptor, final Persistence persistence)
     throws MappingException, ClassNotFoundException {
-        return new ClassMolder(ds, (AbstractMappingLoader) mappingLoader, lockEngine,
+        return new ClassMolder(ds, cdResolver, lockEngine,
                 descriptor, persistence);
     }
-
+    
     /**
      * A utility method which compare object.
      * @param o1 First object instance 

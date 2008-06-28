@@ -50,9 +50,15 @@ public interface XMLConstants {
     /** XML name type QNAME. (qualified name.) */
     short NAME_TYPE_QNAME   = 3;
 
-    /** name of per package mapping file */
+    /** name of per package mapping file. */
     String PKG_MAPPING_FILE = ".castor.xml";
     
-    /** name of the class descriptor resolver file */
+    /** name of the class descriptor resolver file. */
     String PKG_CDR_LIST_FILE = ".castor.cdr";
+    
+    /** This suffix is added to a class name to make its descriptor. */
+    String JDO_DESCRIPTOR_SUFFIX   = "JDODescriptor";
+
+    /** JDODescriptors are placed into this special package relative to the generated source. */
+    String JDO_DESCRIPTOR_PACKAGE  = "jdo_descriptors";
 }

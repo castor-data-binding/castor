@@ -45,27 +45,33 @@
 package org.exolab.castor.jdo;
 
 /**
- * A callback get/set the timestamp.
- *
+ * A call-back get/set the time stamp.
+ * 
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
- * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
+ * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar
+ *          2003) $
  */
 public interface TimeStampable {
+    
+    /**
+     * Default time stamp. 
+     */
     long NO_TIMESTAMP = 0;
 
     /**
-     * Set the timestamp.
+     * Set the time stamp.
      * 
-     * @param timestamp The timestamp
+     * @param timestamp
+     *                The time stamp
      */
     void jdoSetTimeStamp(long timestamp);
 
     /**
-     * Get the timestamp.
-     * NOTE: immediately after the object creation this method must return 0,
-     * this is an indication of the new object.
+     * Get the time stamp. 
+     * 
+     * NOTE: immediately after the object creation this
+     * method must return 0, this is an indication of the new object.
+     * @return the current time stamp. 
      */
     long jdoGetTimeStamp();
 }
-
-

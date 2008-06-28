@@ -100,6 +100,27 @@ org.castor.cpa.persistence.sql.keygen.factories=\
   org.castor.cpa.persistence.sql.keygen.UUIDKeyGeneratorFactory</code-panel>
             </summary>
             <bugs>
+                <bug id="2394" tool="jira">
+                    <description>
+                        Added new loadConfiguration() method to JDOManager that allows
+                        to pass in a JDOClassDescriptorResolver.
+                    </description>
+                    <contributor>
+                         <name>Lukas Lang</name>
+                         <email>lukas.lang@inode.at</email>
+                    </contributor>
+                    <submitter>
+                         <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                         <name>Lukas Lang</name>
+                         <email>lukas.lang@inode.at</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>CPA</module>
+                    <date>20080628</date>
+                </bug>
                 <bug id="2419" tool="jira">
                     <description>
                         Refactored code to use new JDOClassDescriptor interface.
