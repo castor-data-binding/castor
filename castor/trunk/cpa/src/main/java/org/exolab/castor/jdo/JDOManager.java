@@ -80,7 +80,7 @@ import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.LockEngine;
 import org.exolab.castor.persist.spi.CallbackInterceptor;
 import org.exolab.castor.persist.spi.InstanceFactory;
-import org.exolab.castor.xml.util.JDOClassDescriptorResolverImpl;
+import org.exolab.castor.xml.util.JDOClassDescriptorResolver;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
@@ -357,7 +357,7 @@ implements DataObjects, Referenceable, ObjectFactory, Serializable {
      */
     public static void loadConfiguration(final InputSource source,
             final EntityResolver resolver, final ClassLoader loader,
-            final JDOClassDescriptorResolverImpl classDescriptorResolver)
+            final JDOClassDescriptorResolver classDescriptorResolver)
             throws MappingException {
         DatabaseRegistry.loadDatabase(source, resolver, loader, classDescriptorResolver);
         
@@ -401,7 +401,7 @@ implements DataObjects, Referenceable, ObjectFactory, Serializable {
      */
     public static void loadConfiguration(final String url,
             final ClassLoader loader,
-            final JDOClassDescriptorResolverImpl classDescriptorResolver)
+            final JDOClassDescriptorResolver classDescriptorResolver)
             throws MappingException {
         loadConfiguration(new InputSource(url), null, loader, classDescriptorResolver);    
     }
