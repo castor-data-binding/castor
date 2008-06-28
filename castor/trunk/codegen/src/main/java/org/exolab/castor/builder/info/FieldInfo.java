@@ -49,10 +49,16 @@
  */
 package org.exolab.castor.builder.info;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.exolab.castor.builder.factory.FieldMemberAndAccessorFactory;
+import org.exolab.castor.builder.info.nature.PropertyHolder;
+import org.exolab.castor.builder.info.nature.XMLNature;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.javasource.JField;
 import org.exolab.javasource.JType;
@@ -65,8 +71,17 @@ import org.exolab.javasource.JType;
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public class FieldInfo extends XMLInfo {
-
+public class FieldInfo implements XMLInfo, PropertyHolder {
+    /**
+     * Map holding the properties set and read by Natures.
+     */
+    private Map _properties = new HashMap();
+    
+    /**
+     * Set holding applicable natures.
+     */
+    private Set _natures = new HashSet();
+    
     /** The Read / Getter method flag. */
     public static final int READ_METHOD              = 1;
     /** The Write / Setter method flag. */
@@ -142,7 +157,7 @@ public class FieldInfo extends XMLInfo {
 
     /**
      * Creates a new FieldInfo with the given XML Schema type and the given
-     * member name.
+     * member name. Adds the {@link XMLNature} for legacy compliance.
      *
      * @param type
      *            the XML Schema type of this member
@@ -155,6 +170,7 @@ public class FieldInfo extends XMLInfo {
             final FieldMemberAndAccessorFactory memberAndAccessorFactory) {
         this._name    = name;
         this._memberAndAccessorFactory = memberAndAccessorFactory;
+        this.addNature(XMLNature.class.getName());
         setSchemaType(type);
     } //-- FieldInfo
 
@@ -538,4 +554,226 @@ public class FieldInfo extends XMLInfo {
      
      
 
+    /**
+     * @see org.exolab.castor.builder.info.nature.PropertyHolder#
+     *      getProperty(java.lang.String)
+     * @param name
+     *            of the property
+     * @return value of the property
+     */
+    public final Object getProperty(final String name) {
+        return _properties.get(name);
+    }
+
+    /**
+     * @see org.exolab.castor.builder.info.nature.PropertyHolder#
+     *      setProperty(java.lang.String, java.lang.Object)
+     * @param name
+     *            of the property
+     * @param value
+     *            of the property
+     */
+    public final void setProperty(final String name, final Object value) {
+        _properties.put(name, value);
+    }
+
+    /**
+     * @see org.exolab.castor.builder.info.nature.NatureExtendable#
+     *      addNature(java.lang.String)
+     * @param nature
+     *            ID of the Nature
+     */
+    public final void addNature(final String nature) {
+        _natures.add(nature);
+    }
+
+    /**
+     * @see org.exolab.castor.builder.info.nature.NatureExtendable#
+     *      hasNature(java.lang.String)
+     * @param nature
+     *            ID of the Nature
+     * @return true if the Nature ID was added.
+     */
+    public final boolean hasNature(final String nature) {
+        return _natures.contains(nature);
+    }
+    
+    /**
+     * Returns the namespace prefix of the object described by this XMLInfo.
+     *
+     * @return the namespace prefix of the object described by this XMLInfo
+     */
+    public final String getNamespacePrefix() {
+        XMLNature xmlNature = new XMLNature(this);
+        return xmlNature.getNamespacePrefix();
+    }
+
+    /**
+     * Returns the namespace URI of the object described by this XMLInfo.
+     *
+     * @return the namespace URI of the object described by this XMLInfo
+     */
+    public final String getNamespaceURI() {
+        XMLNature xmlNature = new XMLNature(this);
+        return xmlNature.getNamespaceURI();
+    }
+
+    /**
+     * Returns the XML name for the object described by this XMLInfo.
+     *
+     * @return the XML name for the object described by this XMLInfo, or null if
+     *         no name has been set
+     */
+    public final String getNodeName() {
+        XMLNature xmlNature = new XMLNature(this);
+        return xmlNature.getNodeName();
+    }
+
+    /**
+     * Returns the node type for the object described by this XMLInfo.
+     *
+     * @return the node type for the object described by this XMLInfo
+     */
+    public final short getNodeType() {
+        XMLNature xmlNature = new XMLNature(this);
+        return xmlNature.getNodeType();
+    }
+
+    /**
+     * Returns the string name of the nodeType, either "attribute", "element" or
+     * "text".
+     *
+     * @return the name of the node-type of the object described by this
+     *         XMLInfo.
+     */
+    public final String getNodeTypeName() {
+        XMLNature xmlNature = new XMLNature(this);
+        return xmlNature.getNodeTypeName();
+    }
+
+    /**
+     * Returns the XML Schema type for the described object.
+     *
+     * @return the XML Schema type.
+     */
+    public final XSType getSchemaType() {
+        XMLNature xmlNature = new XMLNature(this);
+        return xmlNature.getSchemaType();
+    }
+
+    /**
+     * Returns true if XSD is global element or element with anonymous type.
+     *
+     * @return true if xsd is element
+     */
+    public final boolean isElementDefinition() {
+        XMLNature xmlNature = new XMLNature(this);
+        return xmlNature.isElementDefinition();
+    }
+
+    /**
+     * Return whether or not the object described by this XMLInfo is
+     * multi-valued (appears more than once in the XML document).
+     *
+     * @return true if this object can appear more than once.
+     */
+    public boolean isMultivalued() {
+        XMLNature xmlNature = new XMLNature(this);
+        return xmlNature.isMultivalued();
+    }
+
+    /**
+     * Return true if the XML object described by this XMLInfo must appear at
+     * least once in the XML document (or object model).
+     *
+     * @return true if the XML object must appear at least once.
+     */
+    public final boolean isRequired() {
+        XMLNature xmlNature = new XMLNature(this);
+        return xmlNature.isRequired();
+    }
+
+    /**
+     * Sets whether or not XSD is element or not.
+     *
+     * @param elementDef The flag indicating whether or not XSD is global
+     *        element, element with anonymous type or not.
+     */
+    public final void setElementDefinition(final boolean elementDef) {
+        XMLNature xmlNature = new XMLNature(this);
+        xmlNature.setElementDefinition(elementDef);
+    }
+
+    /**
+     * Sets whether the XML object can appear more than once in the XML document.
+     *
+     * @param multivalued The boolean indicating whether or not the object can appear
+     *        more than once.
+     */
+    public final void setMultivalued(final boolean multivalued) {
+        XMLNature xmlNature = new XMLNature(this);
+        xmlNature.setMultivalued(multivalued);
+    }
+
+    /**
+     * Sets the desired namespace prefix for this XMLInfo There is no guarantee
+     * that this prefix will be used.
+     *
+     * @param nsPrefix the desired namespace prefix
+     */
+    public final void setNamespacePrefix(final String nsPrefix) {
+        XMLNature xmlNature = new XMLNature(this);
+        xmlNature.setNamespacePrefix(nsPrefix);
+    }
+
+    /**
+     * Sets the Namespace URI for this XMLInfo.
+     *
+     * @param nsURI the Namespace URI for this XMLInfo
+     */
+    public final void setNamespaceURI(final String nsURI) {
+        XMLNature xmlNature = new XMLNature(this);
+        xmlNature.setNamespaceURI(nsURI);
+    }
+
+    /**
+     * Sets the XML name of the object described by this XMLInfo.
+     *
+     * @param name the XML node name of the described object.
+     */
+    public final void setNodeName(final String name) {
+        XMLNature xmlNature = new XMLNature(this);
+        xmlNature.setNodeName(name);
+    }
+
+    /**
+     * Sets the nodeType for this XMLInfo.
+     *
+     * @param nodeType the node type of the described object
+     */
+    public final void setNodeType(final short nodeType) {
+        XMLNature xmlNature = new XMLNature(this);
+        xmlNature.setNodeType(nodeType);
+    }
+
+    /**
+     * Sets whether or not the XML object must appear at least once.
+     *
+     * @param required the flag indicating whether or not this XML object is
+     *        required
+     */
+    public final void setRequired(final boolean required) {
+        XMLNature xmlNature = new XMLNature(this);
+        xmlNature.setRequired(required);
+    }
+
+    /**
+     * Sets the XML Schema type for this XMLInfo.
+     *
+     * @param xsType the XML Schema type
+     */
+    public final void setSchemaType(final XSType xsType) {
+        XMLNature xmlNature = new XMLNature(this);
+        xmlNature.setSchemaType(xsType);
+    }
 }
