@@ -65,6 +65,26 @@ public class JDOClassDescriptorResolverImpl implements ClassDescriptorResolver {
     }
 
     /**
+     * Returns the ClassDescriptor for the given class.
+     * 
+     * @param type
+     *            the class name to find the ClassDescriptor for
+     * @exception ResolverException Indicates that the given {@link Class} 
+     *            cannot be resolved.
+     * @return the ClassDescriptor for the given class
+     */
+    public ClassDescriptor resolve(final String type) throws ResolverException {
+        try {
+            if (getMappingLoader().getClassLoader() != null) {
+                return resolve(getMappingLoader().getClassLoader().loadClass(type));
+            }
+            return resolve(Class.forName(type));
+        } catch (ClassNotFoundException e) {
+            throw new ResolverException("Problem loading class " + type);
+        }
+    }
+
+    /**
      * Returns the ClassDescriptor for the given class using the following
      * strategy.<br><br>
      * <ul>
@@ -93,13 +113,7 @@ public class JDOClassDescriptorResolverImpl implements ClassDescriptorResolver {
             return classDesc;
         }
 
-        // 2) load ClassDescriptor from file system
-        classDesc = loadClassDescriptor(type);
-        if (classDesc != null) {
-            return classDesc;
-        }
-
-        // 3) load ClassDescriptor from mapping loader
+        // 2) load ClassDescriptor from mapping loader
         if (_mappingLoader != null) {
             classDesc = _mappingLoader.getDescriptor(type.getName());
             if (classDesc != null) {
@@ -107,6 +121,13 @@ public class JDOClassDescriptorResolverImpl implements ClassDescriptorResolver {
                 return classDesc;
             }
         }
+        
+        // 3) load ClassDescriptor from file system
+        classDesc = loadClassDescriptor(type);
+        if (classDesc != null) {
+            return classDesc;
+        }
+
 
         // TODO: consider for future extensions
         // String pkgName = getPackageName(type.getName());
@@ -187,7 +208,8 @@ public class JDOClassDescriptorResolverImpl implements ClassDescriptorResolver {
     /**
      * {@inheritDoc}
      * 
-     * @see org.exolab.castor.xml.ClassDescriptorResolver#setMappingLoader(org.exolab.castor.mapping.MappingLoader)
+     * @see org.exolab.castor.xml.ClassDescriptorResolver
+     *     #setMappingLoader(org.exolab.castor.mapping.MappingLoader)
      */
     public void setMappingLoader(final MappingLoader mappingLoader) {
         this._mappingLoader = mappingLoader;

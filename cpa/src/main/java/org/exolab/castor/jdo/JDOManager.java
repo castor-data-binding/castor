@@ -80,6 +80,7 @@ import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.LockEngine;
 import org.exolab.castor.persist.spi.CallbackInterceptor;
 import org.exolab.castor.persist.spi.InstanceFactory;
+import org.exolab.castor.xml.util.JDOClassDescriptorResolverImpl;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
@@ -132,7 +133,6 @@ import org.xml.sax.InputSource;
  */
 public final class JDOManager
 implements DataObjects, Referenceable, ObjectFactory, Serializable {
-    //--------------------------------------------------------------------------
 
     /** SerialVersionUID. */
     private static final long serialVersionUID = -7108469291509131893L;
@@ -174,7 +174,6 @@ implements DataObjects, Referenceable, ObjectFactory, Serializable {
      */
     private static InputSource _source;
     
-    //--------------------------------------------------------------------------
 
     /**
      * Factory method for creating a JDOManager instance for one of the
@@ -185,7 +184,7 @@ implements DataObjects, Referenceable, ObjectFactory, Serializable {
      *         configuration file.
      * @return A JDOManager instance.
      * @throws MappingException The mapping file is invalid, or any error
-     *         occured trying to load the mapping from JDOManager configuration
+     *         occurred trying to load the mapping from JDOManager configuration
      *         file.
      */
     public static JDOManager createInstance(final String databaseName)
@@ -337,7 +336,30 @@ implements DataObjects, Referenceable, ObjectFactory, Serializable {
                                          final EntityResolver resolver,
                                          final ClassLoader loader)
     throws MappingException {
-        DatabaseRegistry.loadDatabase(source, resolver, loader);
+        loadConfiguration(source, resolver, loader, null);
+    }
+
+    /**
+     * Load the JDOManager configuration from the specified input source using 
+     * a custom class loader. In addition, a custom entity resolver can be 
+     * provided. 
+     * 
+     * @param  source   The JDOManager configuration file describing the
+     *         databases, connection factory and mappings.
+     * @param  resolver An (optional) entity resolver to resolve cached
+     *         entities, e.g. for external mapping documents. 
+     * @param  loader   The class loader to use, null for the default
+     * @param classDescriptorResolver
+     *                {@link ClassDescriptorResolver} used for class to class
+     *                descriptor resolution.
+     * @throws MappingException The mapping file is invalid, or any error
+     *         occurred trying to load the JDO configuration/mapping
+     */
+    public static void loadConfiguration(final InputSource source,
+            final EntityResolver resolver, final ClassLoader loader,
+            final JDOClassDescriptorResolverImpl classDescriptorResolver)
+            throws MappingException {
+        DatabaseRegistry.loadDatabase(source, resolver, loader, classDescriptorResolver);
         
         _classLoader = loader;
         _entityResolver = resolver;
@@ -358,9 +380,32 @@ implements DataObjects, Referenceable, ObjectFactory, Serializable {
     public static void loadConfiguration(final String url,
                                          final ClassLoader loader)
     throws MappingException {
-        loadConfiguration(new InputSource(url), null, loader);
+        loadConfiguration(new InputSource(url), null, loader, null);
     }
-    
+
+    /**
+     * Load the JDOManager configuration from the specified location using a
+     * custom class loader.
+     * 
+     * @param url
+     *                The location from which to load the configuration file.
+     * @param loader
+     *                The custom class loader to use, null for the default. *
+     * @param classDescriptorResolver
+     *                {@link ClassDescriptorResolver} used for class to class
+     *                descriptor resolution.
+     * 
+     * @throws MappingException
+     *                 The mapping file is invalid, or any error occurred trying
+     *                 to load the JDOManager configuration/mapping.
+     */
+    public static void loadConfiguration(final String url,
+            final ClassLoader loader,
+            final JDOClassDescriptorResolverImpl classDescriptorResolver)
+            throws MappingException {
+        loadConfiguration(new InputSource(url), null, loader, classDescriptorResolver);    
+    }
+
     /**
      * Load the JDOManager configuration from the specified location.
      * 
@@ -373,8 +418,6 @@ implements DataObjects, Referenceable, ObjectFactory, Serializable {
         loadConfiguration(new InputSource(url), null, null);
     }
     
-    //--------------------------------------------------------------------------
-
     /**
      * The URL of the configuration file. If the URL is specified, the first
      * attempt to load a database of this type will use the specified
@@ -429,8 +472,6 @@ implements DataObjects, Referenceable, ObjectFactory, Serializable {
      * The name of this database.
      */
     private String _databaseName;
-
-    //--------------------------------------------------------------------------
 
     /**
      * Constructs a new JDOManager database factory.
@@ -899,7 +940,6 @@ implements DataObjects, Referenceable, ObjectFactory, Serializable {
             LOG.fatal ("Problem closing down caches", e);
         }
     }
-    //--------------------------------------------------------------------------
 }
 
 

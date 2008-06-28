@@ -115,9 +115,6 @@ public final class Mapping {
      * @throws MappingException If no mapping source has been loaded previously.
      */
     public List getMappingSources() throws MappingException {
-        if (_mappings.size() == 0) {
-            throw new MappingException("Must call loadMapping first");
-        }
         return Collections.unmodifiableList(_mappings);
     }
 

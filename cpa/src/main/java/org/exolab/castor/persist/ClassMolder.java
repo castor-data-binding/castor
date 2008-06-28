@@ -71,7 +71,6 @@ import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.TypeConvertor;
-import org.exolab.castor.mapping.loader.AbstractMappingLoader;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 import org.exolab.castor.mapping.xml.ClassMapping;
@@ -79,6 +78,9 @@ import org.exolab.castor.mapping.xml.FieldMapping;
 import org.exolab.castor.persist.spi.CallbackInterceptor;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.Persistence;
+import org.exolab.castor.xml.ClassDescriptorResolver;
+import org.exolab.castor.xml.ResolverException;
+import org.exolab.castor.xml.util.JDOClassDescriptorResolverImpl;
 
 /**
  * ClassMolder is a 'binder' for one type of data object and its corresponding 
@@ -177,14 +179,16 @@ public class ClassMolder {
      * 
      * @param ds is the helper class for resolving depends and extends relationship
      *        among all the ClassMolder in the same LockEngine.
-     * @param loader the mapping loader.
+     * @param classDescrResolver {@link ClassDescriptorResolver} instance
+     * @param classDescrResolver class descriptor resolver.
      * @param lock the lock engine.
      * @param clsDesc the classDescriptor for the base class.
      * @param persist the Persistence for the base class.
      * @throws ClassNotFoundException If a class cannot be loaded.
      * @throws MappingException if an error occurred with analyzing the mapping information.
      */
-    ClassMolder(final DatingService ds, final AbstractMappingLoader loader, final LockEngine lock,
+    ClassMolder(final DatingService ds, final ClassDescriptorResolver classDescrResolver, 
+            final LockEngine lock,
             final ClassDescriptor clsDesc, final Persistence persist)
             throws ClassNotFoundException, MappingException {
 
@@ -279,8 +283,17 @@ public class ClassMolder {
                     }
                 }
 
-                String relatedType = fmFields[i].getType();
-                ClassDescriptor relDesc = loader.getDescriptor(relatedType);
+//                String relatedType = fmFields[i].getType();
+//                ClassDescriptor relDesc = 
+//                    classDescrResolver.getMappingLoader().getDescriptor(relatedType);
+                ClassDescriptor relDesc = null;
+                try {
+                    relDesc = ((JDOClassDescriptorResolverImpl) classDescrResolver).resolve(fmFields[i].getType());
+                } catch (ResolverException e) {
+                    throw new MappingException("Problem resolving class descriptor for class " 
+                            + fmFields.getClass(), e);
+                }
+                                
                 if (relDesc instanceof JDOClassDescriptor) {
                     FieldDescriptor[] relatedIds = ((JDOClassDescriptor) relDesc).getIdentities();
                     relatedIdSQL = new String[relatedIds.length];

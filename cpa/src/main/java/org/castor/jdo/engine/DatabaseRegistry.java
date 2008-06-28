@@ -31,6 +31,7 @@ import org.castor.jdo.util.JDOConfFactory;
 import org.castor.util.Messages;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.xml.util.JDOClassDescriptorResolverImpl;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
@@ -42,7 +43,6 @@ import org.xml.sax.InputSource;
  * @since 0.9.9
  */
 public final class DatabaseRegistry {
-    //--------------------------------------------------------------------------
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
@@ -50,8 +50,6 @@ public final class DatabaseRegistry {
 
     /** Map of all registered connection factories by name. */
     private static final Hashtable  FACTORIES = new Hashtable();
-
-    //--------------------------------------------------------------------------
 
     /**
      * Instantiates a DataSourceConnectionFactory with given name, engine, datasource
@@ -88,15 +86,37 @@ public final class DatabaseRegistry {
                                                  final EntityResolver resolver,
                                                  final ClassLoader loader)
     throws MappingException {
+        loadDatabase(source, resolver, loader, null);
+    }
+
+    /**
+     * Instantiates a ConnectionFactory from the JDO configuration file.
+     * 
+     * @param source
+     *                {@link InputSource} pointing to the JDO configuration.
+     * @param resolver
+     *                An entity resolver.
+     * @param loader
+     *                A class loader
+     * @param classDescriptorResolver
+     *                {@link ClassDescriptorResolver} used for class to class
+     *                descriptor resolution.
+     * @throws MappingException
+     *                 If the database cannot be instantiated/loaded.
+     */
+    public static synchronized void loadDatabase(final InputSource source,
+            final EntityResolver resolver, final ClassLoader loader,
+            final JDOClassDescriptorResolverImpl classDescriptorResolver)
+            throws MappingException {
         
         // Load the JDO configuration file from the specified input source.
         JdoConf jdoConf = null;
         jdoConf = JDOConfFactory.createJdoConf(source, resolver, loader);
         LOG.debug("Loaded jdo conf successfully"); 
 
-        loadDatabase(jdoConf, resolver, loader, source.getSystemId());
+        loadDatabase(jdoConf, resolver, loader, source.getSystemId(), classDescriptorResolver);
     }
-    
+
     /**
      * Creates a entry for every database and associates them with their name in a
      * map. It then instantiates all databases if
@@ -116,6 +136,36 @@ public final class DatabaseRegistry {
                                                   final ClassLoader loader,
                                                   final String baseURI)
     throws MappingException {
+        loadDatabase(jdoConf, resolver, loader, baseURI, null);
+    }
+
+    /**
+     * Creates a entry for every database and associates them with their name in
+     * a map. It then instantiates all databases if
+     * 'org.exolab.castor.jdo.DatabaseInitializeAtLoad' key can not be found or
+     * is set to <code>true</code> in castor.properties file. If above
+     * property is set to <code>false</code> it will instantiate all databases
+     * only when they are needed.
+     * 
+     * @param jdoConf
+     *                An in-memory jdo configuration.
+     * @param resolver
+     *                An entity resolver.
+     * @param loader
+     *                A class loader
+     * @param baseURI
+     *                The base URL for the mapping
+     * @param classDescriptorResolver
+     *                {@link ClassDescriptorResolver} used for class to class
+     *                descriptor resolution.
+     * @throws MappingException
+     *                 If the database cannot be instantiated/loadeed.
+     */
+    public static synchronized void loadDatabase(final JdoConf jdoConf,
+            final EntityResolver resolver, final ClassLoader loader,
+            final String baseURI,
+            final JDOClassDescriptorResolverImpl classDescriptorResolver)
+            throws MappingException {
         // Do we need to initialize database now or should we
         // wait until we want to use it.
         Configuration cfg = CPAConfiguration.getInstance();
@@ -134,6 +184,7 @@ public final class DatabaseRegistry {
             if (baseURI != null) { mapping.setBaseURL(baseURI); }
             
             factory = DatabaseRegistry.createFactory(jdoConf, i, mapping);
+            factory.setClassDescriptorResolver(classDescriptorResolver);
             if (init) { factory.initialize(); }
             String name = databases[i].getName();
             if (FACTORIES.put(name, factory) != null) {
@@ -249,12 +300,9 @@ public final class DatabaseRegistry {
         FACTORIES.remove(name);
     }
     
-    //--------------------------------------------------------------------------
-    
     /**
      * Hide constructor of utility class.
      */
     private DatabaseRegistry() { }
     
-    //--------------------------------------------------------------------------
 }
