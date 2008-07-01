@@ -16,6 +16,8 @@
         <module>ddlgen</module>
         <module>anttask</module>
         <module>cpa</module>
+
+        <module>xmlctf-framework</module>
         
         <module>cpa-testcase-archetype</module>
         <module>codegen-testcase-archetype</module>
