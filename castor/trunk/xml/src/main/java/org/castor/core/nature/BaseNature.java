@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package org.exolab.castor.builder.info.nature;
+package org.castor.core.nature;
 
 /**
  * Adds property handle methods and a constructor including a health check. See

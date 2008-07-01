@@ -18,8 +18,8 @@ package org.exolab.castor.builder.info.nature;
 
 import junit.framework.TestCase;
 
+import org.castor.core.nature.PropertyHolder;
 import org.exolab.castor.builder.factory.FieldInfoFactory;
-import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.builder.info.XMLInfo;
 import org.exolab.castor.builder.types.XSClass;
 import org.exolab.javasource.JClass;

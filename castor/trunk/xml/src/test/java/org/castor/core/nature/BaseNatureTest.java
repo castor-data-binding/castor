@@ -14,11 +14,12 @@
  * limitations under the License.
  *
  */
-package org.exolab.castor.builder.info.nature;
+package org.castor.core.nature;
 
 import junit.framework.TestCase;
 
-import org.exolab.castor.builder.info.ClassInfo;
+import org.castor.core.nature.BaseNature;
+import org.castor.core.nature.PropertyHolder;
 import org.exolab.javasource.JClass;
 
 /**
@@ -88,7 +89,7 @@ public final class BaseNatureTest extends TestCase {
      * Values must not overwrite each other.
      */
     public void testUsageOfTwoNaturesUsingSameKey() {
-        ClassInfo ci = new ClassInfo(new JClass("test"));
+        PropertyHolderTest ci = new PropertyHolderTest();
         ci.addNature(BaseNatureWrapper.class.getName());
         ci.addNature(SecondBaseNatureWrapper.class.getName());
         BaseNatureWrapper bnw = new BaseNatureWrapper(ci);
@@ -117,11 +118,11 @@ public final class BaseNatureTest extends TestCase {
      * Tests correct implementation of the getId method.
      */
     public void testId() {
-        ClassInfo ci = new ClassInfo(new JClass("test"));
+        PropertyHolderTest ci = new PropertyHolderTest();
         ci.addNature(BaseNatureWrapper.class.getName());
         BaseNatureWrapper bnw = new BaseNatureWrapper(ci);
         assertEquals(
-                "org.exolab.castor.builder.info.nature.BaseNatureTest$BaseNatureWrapper",
+                "org.castor.core.nature.BaseNatureTest$BaseNatureWrapper",
                 bnw.getId());
         assertEquals(bnw.getId(), bnw.getClass().getName());
     }
@@ -130,7 +131,7 @@ public final class BaseNatureTest extends TestCase {
      * Retrieve a property if it was not set before.
      */
     public void testGetPropertyIfNotSet() {
-        ClassInfo ci = new ClassInfo(new JClass("test"));
+        PropertyHolderTest ci = new PropertyHolderTest();
         ci.addNature(BaseNatureWrapper.class.getName());
         BaseNatureWrapper bnw = new BaseNatureWrapper(ci);
         assertNull(bnw.getProperty("keynotset"));
@@ -140,7 +141,7 @@ public final class BaseNatureTest extends TestCase {
      * Retrieve a regularly set property.
      */
     public void testGetSetProperty() {
-        ClassInfo ci = new ClassInfo(new JClass("test"));
+        PropertyHolderTest ci = new PropertyHolderTest();
         ci.addNature(BaseNatureWrapper.class.getName());
         BaseNatureWrapper bnw = new BaseNatureWrapper(ci);
         bnw.setProperty("testproperty", "testvalue");
@@ -151,7 +152,7 @@ public final class BaseNatureTest extends TestCase {
      * Set a property twice. The last set value is actual.
      */
     public void testSetPropertyTwice() {
-        ClassInfo ci = new ClassInfo(new JClass("test"));
+        PropertyHolderTest ci = new PropertyHolderTest();
         ci.addNature(BaseNatureWrapper.class.getName());
         BaseNatureWrapper bnw = new BaseNatureWrapper(ci);
         bnw.setProperty("testproperty", "testvalue");
@@ -163,7 +164,7 @@ public final class BaseNatureTest extends TestCase {
      * Set null as value.
      */
     public void testSetNullAsValue() {
-        ClassInfo ci = new ClassInfo(new JClass("test"));
+        PropertyHolderTest ci = new PropertyHolderTest();
         ci.addNature(BaseNatureWrapper.class.getName());
         BaseNatureWrapper bnw = new BaseNatureWrapper(ci);
         bnw.setProperty("testproperty", null);
@@ -174,7 +175,7 @@ public final class BaseNatureTest extends TestCase {
      * Null as a key must not be set.
      */
     public void testSetNullAsKey() {
-        ClassInfo ci = new ClassInfo(new JClass("test"));
+        PropertyHolderTest ci = new PropertyHolderTest();
         ci.addNature(BaseNatureWrapper.class.getName());
         BaseNatureWrapper bnw = new BaseNatureWrapper(ci);
         bnw.setProperty(null, "testvalue");
@@ -185,7 +186,7 @@ public final class BaseNatureTest extends TestCase {
      * Test use of empty String as key. Usage is allowed.
      */
     public void testSetEmptyStringAsKey() {
-        ClassInfo ci = new ClassInfo(new JClass("test"));
+        PropertyHolderTest ci = new PropertyHolderTest();
         ci.addNature(BaseNatureWrapper.class.getName());
         BaseNatureWrapper bnw = new BaseNatureWrapper(ci);
         bnw.setProperty("", "testvalue");
@@ -196,7 +197,7 @@ public final class BaseNatureTest extends TestCase {
      * Checks if the health check works.
      */
     public void testInstantiationNatureNotSet() {
-        ClassInfo ci = new ClassInfo(new JClass("test"));
+        PropertyHolderTest ci = new PropertyHolderTest();
         try {
             BaseNatureWrapper bnw = new BaseNatureWrapper(ci);
             assertNull(bnw);
@@ -211,7 +212,7 @@ public final class BaseNatureTest extends TestCase {
      * implemented.
      */
     public void testGetBooleanPropertyDefaultFalse() {
-        ClassInfo ci = new ClassInfo(new JClass("test"));
+        PropertyHolderTest ci = new PropertyHolderTest();
         ci.addNature(BaseNatureWrapper.class.getName());
         BaseNatureWrapper bnw = new BaseNatureWrapper(ci);
         assertEquals(false, bnw.getBooleanPropertyDefaultFalse("notsetbefore"));
@@ -222,7 +223,7 @@ public final class BaseNatureTest extends TestCase {
      * implemented. Property was set before.
      */
     public void testGetBooleanPropertyDefaultFalseButSet() {
-        ClassInfo ci = new ClassInfo(new JClass("test"));
+        PropertyHolderTest ci = new PropertyHolderTest();
         ci.addNature(BaseNatureWrapper.class.getName());
         BaseNatureWrapper bnw = new BaseNatureWrapper(ci);
         bnw.setProperty("setbefore", new Boolean(true));

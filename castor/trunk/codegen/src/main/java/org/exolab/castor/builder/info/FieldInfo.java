@@ -56,8 +56,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.castor.core.nature.PropertyHolder;
 import org.exolab.castor.builder.factory.FieldMemberAndAccessorFactory;
-import org.exolab.castor.builder.info.nature.PropertyHolder;
 import org.exolab.castor.builder.info.nature.XMLNature;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.javasource.JField;

@@ -1,4 +1,6 @@
-package org.exolab.castor.builder.info.nature;
+package org.castor.core.nature;
+
+import org.castor.core.nature.PropertyHolder;
 
 import junit.framework.TestCase;
 
