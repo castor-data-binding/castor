@@ -57,7 +57,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
-import org.exolab.castor.builder.info.nature.PropertyHolder;
+import org.castor.core.nature.PropertyHolder;
 import org.exolab.castor.builder.info.nature.XMLNature;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.javasource.JClass;

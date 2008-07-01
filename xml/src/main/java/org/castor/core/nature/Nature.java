@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package org.exolab.castor.builder.info.nature;
+package org.castor.core.nature;
 
 /**
  * A Nature defines a perception of any arbitrary Class.

@@ -14,7 +14,9 @@
  * limitations under the License.
  *
  */
-package org.exolab.castor.builder.info.nature;
+package org.castor.core.nature;
+
+import org.castor.core.nature.NatureExtendable;
 
 import junit.framework.TestCase;
 
@@ -37,24 +39,24 @@ public abstract class BaseNatureExtendableTest extends TestCase {
      * Tests addNature.
      */
     public final void testAddNature() {
-        _extender.addNature(JDOClassNature.class.getName());
-        assertTrue(_extender.hasNature(JDOClassNature.class.getName()));
+        _extender.addNature(TestNature.class.getName());
+        assertTrue(_extender.hasNature(TestNature.class.getName()));
     }
 
     /**
      * Tests a double invoke of addNature.
      */
     public final void testAddNatureTwice() {
-        _extender.addNature(JDOClassNature.class.getName());
-        _extender.addNature(JDOClassNature.class.getName());
-        assertTrue(_extender.hasNature(JDOClassNature.class.getName()));
+        _extender.addNature(TestNature.class.getName());
+        _extender.addNature(TestNature.class.getName());
+        assertTrue(_extender.hasNature(TestNature.class.getName()));
     }
 
     /**
      * Tests hasNature without added before.
      */
     public final void testhasNatureNotAddedBefore() {
-        assertFalse(_extender.hasNature(JDOClassNature.class.getName()));
+        assertFalse(_extender.hasNature(TestNature.class.getName()));
     }
 
 }

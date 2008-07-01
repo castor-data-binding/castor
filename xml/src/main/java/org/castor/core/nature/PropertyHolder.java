@@ -14,34 +14,32 @@
  * limitations under the License.
  *
  */
-package org.exolab.castor.builder.info.nature;
+package org.castor.core.nature;
 
 /**
- * Defines a marker interface that any class needs to implement that wants 
- * to allow natures to be layered on top.
- * 
+ * PropertyHolder provides get and set methods on a holder. 
  * @see ClassInfo
  * @see Nature
  * 
- * @author Tobias Hochwallner, Sebastian Gabmeyer
+ * @author Sebastian Gabmeyer
  * @since 1.2.1
  *
  */
-public interface NatureExtendable {
+public interface PropertyHolder extends NatureExtendable {
     
     /**
-     * Checks if a specified nature has been added.
+     * Get a property by its name.
      * 
-     * @param nature the name of the nature.
-     * @return true if the specified nature was added.
+     * @param name the name of the property to get.
+     * @return the property as specified by the name.
      */
-    boolean hasNature(String nature);
+    Object getProperty(final String name);
     
     /**
-     * Adds a specified nature.
+     * Set a property specified by the name to the passed value.
      * 
-     * @param nature the name of the nature
+     * @param name the name of the property to set.
+     * @param value the value to set the specified property to.
      */
-    void addNature(String nature);
-
+    void setProperty(final String name, final Object value);
 }

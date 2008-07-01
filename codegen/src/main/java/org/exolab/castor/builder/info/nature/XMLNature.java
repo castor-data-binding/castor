@@ -16,6 +16,8 @@
  */
 package org.exolab.castor.builder.info.nature;
 
+import org.castor.core.nature.BaseNature;
+import org.castor.core.nature.PropertyHolder;
 import org.exolab.castor.builder.info.XMLInfo;
 import org.exolab.castor.builder.types.XSType;
 

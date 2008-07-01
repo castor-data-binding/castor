@@ -19,6 +19,7 @@ package org.exolab.castor.builder.info.nature;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.castor.core.nature.BaseNature;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.mapping.AccessMode;
 

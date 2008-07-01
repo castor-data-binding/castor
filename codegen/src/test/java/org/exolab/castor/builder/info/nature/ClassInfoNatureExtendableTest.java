@@ -16,6 +16,7 @@
  */
 package org.exolab.castor.builder.info.nature;
 
+import org.castor.core.nature.BaseNatureExtendableTest;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.javasource.JClass;
 

@@ -16,6 +16,7 @@
  */
 package org.exolab.castor.builder.info.nature;
 
+import org.castor.core.nature.BaseNature;
 import org.exolab.castor.builder.info.FieldInfo;
 
 /**
