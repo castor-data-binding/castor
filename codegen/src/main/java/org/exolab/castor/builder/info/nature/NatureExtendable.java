@@ -17,7 +17,7 @@
 package org.exolab.castor.builder.info.nature;
 
 /**
- * Defines a marekr interface that any class needs to implement that wants 
+ * Defines a marker interface that any class needs to implement that wants 
  * to allow natures to be layered on top.
  * 
  * @see ClassInfo
