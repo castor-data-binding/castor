@@ -45,16 +45,18 @@
 
 package org.exolab.castor.xml.schema.reader;
 
+import java.util.Enumeration;
+import java.util.Stack;
+
+import org.exolab.castor.types.AnyNode;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
+import org.exolab.castor.xml.Unmarshaller;
+import org.exolab.castor.xml.XMLContext;
 import org.exolab.castor.xml.XMLException;
 import org.exolab.castor.xml.schema.AppInfo;
 import org.exolab.castor.xml.schema.SchemaContext;
 import org.exolab.castor.xml.schema.SchemaNames;
-
-import org.exolab.castor.types.AnyNode;
-import java.util.Enumeration;
-import java.util.Stack;
 
 /**
  * A class for unmarshalling XML Schema {@literal <appinfo>} elements
@@ -69,16 +71,37 @@ public class AppInfoUnmarshaller extends ComponentReader {
     //--------------------/
 
     /**
-     * The Attribute reference for the Attribute we are constructing
+     * The Attribute reference for the Attribute we are constructing.
      */
     private AppInfo _appInfo = null;
 
     /**
-     * Stack of AnyNodes being unmarshalled
+     * Stack of AnyNodes being unmarshalled.
      */
     private Stack _nodes = null;
 
+    /**
+     * Name of the table annotation element.
+     */
+    private static final String TABLE_NAME = "table";
+    
+    /**
+     * Name of the column annotation element.
+     */
+    private static final String COLUMN_NAME = "column";
 
+    /**
+     * Package where to find JDO classes to unmarshall annotations.
+     */
+    private static final String JDO_PACKAGE = 
+        "org.exolab.castor.xml.schema.annotations.jdo";
+    
+    /**
+     * JDO Namespace.
+     */
+    private static final String JDO_NAMESPACE = 
+        "http://www.castor.org/binding/persistence";
+    
       //----------------/
      //- Constructors -/
     //----------------/
@@ -87,6 +110,7 @@ public class AppInfoUnmarshaller extends ComponentReader {
      * Creates a new AppInfoUnmarshaller.
      * @param schemaContext the schema context to get some configuration settings from
      * @param atts the AttributeList
+     * @throws XMLException if instantiation failed for any reason.
     **/
     public AppInfoUnmarshaller(
             final SchemaContext schemaContext, 
@@ -106,7 +130,7 @@ public class AppInfoUnmarshaller extends ComponentReader {
     //-----------/
 
     /**
-     *
+     * @return appinfo.
     **/
     public AppInfo getAppInfo() {
         return _appInfo;
@@ -114,7 +138,7 @@ public class AppInfoUnmarshaller extends ComponentReader {
 
     /**
      * Returns the name of the element that this ComponentReader
-     * handles
+     * handles.
      * @return the name of the element that this ComponentReader
      * handles
     **/
@@ -131,7 +155,7 @@ public class AppInfoUnmarshaller extends ComponentReader {
     } //-- finish
 
     /**
-     * Returns the Object created by this ComponentReader
+     * Returns the Object created by this ComponentReader.
      * @return the Object created by this ComponentReader
     **/
     public Object getObject() {
@@ -150,16 +174,18 @@ public class AppInfoUnmarshaller extends ComponentReader {
      * with the element.
      * @param nsDecls the namespace declarations being declared for this 
      * element. This may be null.
+     * @throws XMLException if any error occurs
     **/
     public void startElement(String name, String namespace, AttributeSet atts,
         Namespaces nsDecls)
-        throws XMLException
-    {
+        throws XMLException {
         
         String prefix = null;
         if (nsDecls != null) {
             //-- find prefix (elements use default namespace if null)
-            if (namespace == null) namespace = "";
+            if (namespace == null) {
+                namespace = "";
+            }
             prefix = nsDecls.getNamespacePrefix(namespace);
         }
         
@@ -170,9 +196,9 @@ public class AppInfoUnmarshaller extends ComponentReader {
         if (nsDecls != null) {
             Enumeration enumeration = nsDecls.getLocalNamespaces();
             while (enumeration.hasMoreElements()) {
-                namespace = (String)enumeration.nextElement();
+                namespace = (String) enumeration.nextElement();
                 prefix = nsDecls.getNamespacePrefix(namespace);
-                node.addNamespace ( new AnyNode(AnyNode.NAMESPACE, 
+                node.addNamespace (new AnyNode(AnyNode.NAMESPACE, 
                                                 null,  //-- no local name for a ns decl.
                                                 prefix, 
                                                 namespace,
@@ -185,12 +211,13 @@ public class AppInfoUnmarshaller extends ComponentReader {
                 namespace = atts.getNamespace(i);
                 if ((nsDecls != null) && (namespace != null)) {
                     prefix = nsDecls.getNamespacePrefix(namespace);
+                } else {
+                    prefix = null;
                 }
-                else prefix = null;
-                node.addAttribute( new AnyNode(AnyNode.ATTRIBUTE, 
+                node.addAttribute(new AnyNode(AnyNode.ATTRIBUTE, 
                                            atts.getName(i), 
                                            prefix, namespace, 
-                                           atts.getValue(i)) );
+                                           atts.getValue(i)));
             }
         }
 
@@ -202,24 +229,33 @@ public class AppInfoUnmarshaller extends ComponentReader {
      * @param name the NCName of the element. It is an error
      * if the name is a QName (ie. contains a prefix).
      * @param namespace the namespace of the element.
+     * @throws XMLException if unmarshalling fails.
+     * 
     **/
-    public void endElement(String name, String namespace)
-        throws XMLException
-    {
-        AnyNode node = (AnyNode)_nodes.pop();
+    public void endElement(final String name, final String namespace)
+        throws XMLException {
+        AnyNode node = (AnyNode) _nodes.pop();
         if (_nodes.isEmpty()) {
+            //-- unmarshall jdo appinfo content
+            if (node.getNamespaceURI().equals(JDO_NAMESPACE) 
+                    && (node.getLocalName().equals(TABLE_NAME) 
+                            || node.getLocalName().equals(COLUMN_NAME))) {
+                XMLContext context = new XMLContext();
+                context.addPackage(JDO_PACKAGE);
+                Unmarshaller unmarshaller = context.createUnmarshaller();               
+                unmarshaller.setClassLoader(getClass().getClassLoader());
+                _appInfo.getJdoContent().add(unmarshaller.unmarshal(node));
+            }            
             //-- add to appInfo
             _appInfo.add(node);
-        }
-        else {
+        } else {
             //-- add to parent AnyNode
-            ((AnyNode)_nodes.peek()).addChild(node);
+            ((AnyNode) _nodes.peek()).addChild(node);
         }
     } //-- endElement
 
     public void characters(char[] ch, int start, int length)
-        throws XMLException
-    {
+        throws XMLException {
         //-- Do delagation if necessary
         AnyNode text = new AnyNode(AnyNode.TEXT, 
                                    null,  //-- no local name for text nodes 
@@ -228,10 +264,9 @@ public class AppInfoUnmarshaller extends ComponentReader {
                                    new String(ch, start, length));
                                    
         if (!_nodes.isEmpty()) {
-            AnyNode parent = (AnyNode)_nodes.peek();
+            AnyNode parent = (AnyNode) _nodes.peek();
             parent.addChild(text);
-        }
-        else {
+        } else {
             _appInfo.add(text);
         }
         

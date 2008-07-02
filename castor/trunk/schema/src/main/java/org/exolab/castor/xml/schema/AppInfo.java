@@ -45,6 +45,9 @@
 
 package org.exolab.castor.xml.schema;
 
+import java.util.LinkedList;
+import java.util.List;
+
 
 /**
  * A class which represents the AppInfo element
@@ -57,11 +60,14 @@ public class AppInfo extends AnnotationItem {
     /** SerialVersionUID */
     private static final long serialVersionUID = -8678983924238645714L;
 
+    private List _jdoContent = null;
+    
     /**
      * Creates a new AppInfo
      */
     public AppInfo() {
         super();
+        _jdoContent = new LinkedList();
     } //-- AppInfo
     
     //-------------------------------/
@@ -76,5 +82,19 @@ public class AppInfo extends AnnotationItem {
     public short getStructureType() {
         return Structure.APPINFO;
     } //-- getStructureType
+
+    /**
+     * @return the jdoContent
+     */
+    public final List getJdoContent() {
+        return _jdoContent;
+    }
+
+    /**
+     * @param jdoContent the jdoContent to set
+     */
+    public final void setJdoContent(List jdoContent) {
+        _jdoContent = jdoContent;
+    }
     
 } //-- class: AppInfo
