@@ -288,6 +288,20 @@
             </fileset>
         </copy>
 
+    	<!-- compile test classes -->
+        <javac srcdir="${test.java}" destdir="${test.classes}"
+               debug="on" encoding="ISO-8859-1" deprecation="${deprecation}">
+            <classpath refid="build.classpath"/>
+        </javac>
+        <copy todir="${test.classes}">
+            <fileset dir="${test.java}">
+                <patternset refid="support.files" />
+            </fileset>
+            <fileset dir="${test.resources}">
+                <patternset refid="support.files" />
+            </fileset>
+        </copy>
+
     	<!-- left-overs from Castor JDO code -->
         <javac srcdir="${java}" destdir="${classes}" excludes="${excludes}"
                debug="on" encoding="ISO-8859-1" deprecation="${deprecation}"
