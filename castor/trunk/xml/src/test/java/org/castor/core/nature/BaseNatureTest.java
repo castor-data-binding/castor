@@ -20,7 +20,6 @@ import junit.framework.TestCase;
 
 import org.castor.core.nature.BaseNature;
 import org.castor.core.nature.PropertyHolder;
-import org.exolab.javasource.JClass;
 
 /**
  * Runs various tests on the {@link BaseNature}. Due to visibility restrictions, an
