@@ -12,7 +12,7 @@
     <property name="archive"              value="${project}-${version}${release}-codegen"/>
     <property name="gen.src"              value="${build}/generated-sources"/>
 
-    <path id="build.classpath">
+    <path id="build.compile.classpath">
         <pathelement location="${basedir}/build/classes"/>
         <pathelement location="${basedir}/../build/classes"/>
         <pathelement location="${basedir}/../schema/build/classes"/>
@@ -20,6 +20,12 @@
     	<pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>
     	<pathelement location="${basedir}/../lib/velocity-1.5.jar"/>
         <pathelement location="${basedir}/../anttask/build/classes"/>
+    </path>
+
+    <path id="build.test-compile.classpath">
+        <path refid="build.compile.classpath"/>
+        <pathelement location="${basedir}/build/test"/>
+        <pathelement location="${basedir}/../build/test"/>
     </path>
 
     <path id="test.classpath">
@@ -54,7 +60,7 @@
         <javac srcdir="${main.java}" destdir="${classes}" 
                debug="on" encoding="ISO-8859-1" deprecation="false"
         	   source="1.4" target="1.4">
-            <classpath refid="build.classpath"/>
+            <classpath refid="build.compile.classpath"/>
         </javac>
         <copy todir="${classes}">
             <fileset dir="${main.resources}">
@@ -79,7 +85,7 @@
         <javac srcdir="${test.java}" destdir="${test.classes}"
                debug="on" encoding="ISO-8859-1" deprecation="${deprecation}"
         	   source="1.4" target="1.4">
-            <classpath refid="build.classpath"/>
+            <classpath refid="build.test-compile.classpath"/>
         </javac>
 
         <copy todir="${test.classes}">
@@ -106,7 +112,7 @@
         <delete dir="${gen.src}/binding"/>
         <mkdir dir="${gen.src}/binding"/>
         <taskdef name="castor-srcgen" classname="org.castor.anttask.CastorCodeGenTask"
-                 classpathref="build.classpath"/>
+                 classpathref="build.compile.classpath"/>
         <castor-srcgen file="${main.resources}/org/exolab/castor/builder/binding/binding.xsd"
                        todir="${gen.src}/binding"
                        package="org.exolab.castor.builder.binding.xml"
@@ -118,7 +124,7 @@
                debug="${main.opt.debug}" encoding="ISO-8859-1" deprecation="off"
                optimize="on" source="1.4" target="1.4">
             <src path="${gen.src}/binding" />
-            <classpath refid="build.classpath"/>
+            <classpath refid="build.compile.classpath"/>
         </javac>
     </target>
 
