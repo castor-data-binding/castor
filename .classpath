@@ -10,6 +10,8 @@
 	<classpathentry kind="src" output="codegen/eclipse" path="codegen/src/test/resources"/>
 	<classpathentry kind="src" output="schema/eclipse" path="schema/src/main/java"/>
 	<classpathentry kind="src" output="schema/eclipse" path="schema/src/main/resources"/>
+	<classpathentry kind="src" output="schema/eclipse" path="schema/src/test/java"/>
+	<classpathentry kind="src" output="schema/eclipse" path="schema/src/test/resources"/>
 	<classpathentry kind="src" output="anttask/eclipse" path="anttask/src/main/java"/>
 	<classpathentry kind="src" output="anttask/eclipse" path="anttask/src/main/resources"/>
 	<classpathentry kind="src" output="cpa/eclipse" path="cpa/src/main/java"/>

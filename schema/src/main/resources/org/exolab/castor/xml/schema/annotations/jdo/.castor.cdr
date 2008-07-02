@@ -1,0 +1,8 @@
+#Wed Jul 02 23:20:47 CEST 2008
+org.exolab.castor.xml.schema.annotations.jdo.ManyToMany=org.exolab.castor.xml.schema.annotations.jdo.descriptors.ManyToManyDescriptor
+org.exolab.castor.xml.schema.annotations.jdo.Column=org.exolab.castor.xml.schema.annotations.jdo.descriptors.ColumnDescriptor
+org.exolab.castor.xml.schema.annotations.jdo.OneToMany=org.exolab.castor.xml.schema.annotations.jdo.descriptors.OneToManyDescriptor
+org.exolab.castor.xml.schema.annotations.jdo.OneToOne=org.exolab.castor.xml.schema.annotations.jdo.descriptors.OneToOneDescriptor
+org.exolab.castor.xml.schema.annotations.jdo.PkType=org.exolab.castor.xml.schema.annotations.jdo.descriptors.PkTypeDescriptor
+org.exolab.castor.xml.schema.annotations.jdo.PrimaryKey=org.exolab.castor.xml.schema.annotations.jdo.descriptors.PrimaryKeyDescriptor
+org.exolab.castor.xml.schema.annotations.jdo.Table=org.exolab.castor.xml.schema.annotations.jdo.descriptors.TableDescriptor
