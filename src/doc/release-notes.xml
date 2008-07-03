@@ -100,9 +100,10 @@ org.castor.cpa.persistence.sql.keygen.factories=\
   org.castor.cpa.persistence.sql.keygen.UUIDKeyGeneratorFactory</code-panel>
             </summary>
             <bugs>
-                <bug id="2448" tool="jira">
+                <bug id="2412" tool="jira">
                     <description>
-                        Add more JDO specific attributes to the simple-schema.xsd.
+                        Extract JDO annotations from XML schema (object model) and fill 
+                        {Class|Field}Infos using the proper JDO natures.
                     </description>
                     <contributor>
                          <name>Sebastian Gabmeyer</name>
@@ -118,6 +119,26 @@ org.castor.cpa.persistence.sql.keygen.factories=\
                     </reporter>
                     <type>Enh.</type>
                     <module>Schema</module>
+                    <date>20080703</date>
+                </bug>
+                <bug id="2448" tool="jira">
+                    <description>
+                        Add more JDO specific attributes to the simple-schema.xsd.
+                    </description>
+                    <contributor>
+                         <name>Lukas Lang</name>
+                         <email>lukas.lang@inode.at</email>
+                    </contributor>
+                    <submitter>
+                         <name>Werner Guttmann</name>
+                         <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                         <name>Lukas Lang</name>
+                         <email>lukas.lang@inode.at</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XMLgen.</module>
                     <date>20080703</date>
                 </bug>
                 <bug id="2450" tool="jira">

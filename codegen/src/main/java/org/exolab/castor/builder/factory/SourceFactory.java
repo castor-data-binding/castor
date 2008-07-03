@@ -70,11 +70,15 @@ import org.exolab.castor.builder.binding.XMLBindingComponent;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.builder.info.XMLInfo;
+import org.exolab.castor.builder.info.nature.JDOClassNature;
+import org.exolab.castor.builder.info.nature.JDOFieldNature;
 import org.exolab.castor.builder.types.XSClass;
 import org.exolab.castor.builder.types.XSString;
 import org.exolab.castor.builder.types.XSType;
+import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.castor.xml.schema.Annotation;
+import org.exolab.castor.xml.schema.AppInfo;
 import org.exolab.castor.xml.schema.AttributeDecl;
 import org.exolab.castor.xml.schema.AttributeGroupDecl;
 import org.exolab.castor.xml.schema.ComplexType;
@@ -94,6 +98,12 @@ import org.exolab.castor.xml.schema.SimpleTypesFactory;
 import org.exolab.castor.xml.schema.Structure;
 import org.exolab.castor.xml.schema.Wildcard;
 import org.exolab.castor.xml.schema.XMLType;
+import org.exolab.castor.xml.schema.annotations.jdo.Column;
+import org.exolab.castor.xml.schema.annotations.jdo.ManyToMany;
+import org.exolab.castor.xml.schema.annotations.jdo.OneToMany;
+import org.exolab.castor.xml.schema.annotations.jdo.OneToOne;
+import org.exolab.castor.xml.schema.annotations.jdo.PrimaryKey;
+import org.exolab.castor.xml.schema.annotations.jdo.Table;
 import org.exolab.javasource.JAnnotation;
 import org.exolab.javasource.JAnnotationType;
 import org.exolab.javasource.JClass;
@@ -433,7 +443,7 @@ public final class SourceFactory extends BaseFactory {
                     if (complexType.getContentType() == ContentType.mixed) {
                         FieldInfo fieldInfo = _memberFactory.createFieldInfoForContent(
                                 component, new XSString(), getConfig().useJava50());
-                        handleField(fieldInfo, state);
+                        handleField(fieldInfo, state, component);
                     } else if (complexType.getContentType().getType() == ContentType.SIMPLE) {
                         SimpleContent simpleContent = (SimpleContent) complexType.getContentType();
                         SimpleType temp = simpleContent.getSimpleType();
@@ -441,7 +451,7 @@ public final class SourceFactory extends BaseFactory {
                                 temp, packageName, getConfig().useJava50());
                         FieldInfo fieldInfo = _memberFactory.createFieldInfoForContent(
                                 component, xsType, getConfig().useJava50());
-                        handleField(fieldInfo, state);
+                        handleField(fieldInfo, state, component);
                         temp = null;
                     } else {
                         // handle multi-valued choice group
@@ -503,7 +513,8 @@ public final class SourceFactory extends BaseFactory {
             jClass.getModifiers().setAbstract(true);
             classInfo.setAbstract(true);
         }
-
+        
+        processAppInfo(component.getAnnotated(), classInfo);
         extractAnnotations(component.getAnnotated(), jClass);
 
         createContructorForDefaultValueForSimpleContent(component.getAnnotated(), classInfo, sgState);
@@ -1719,6 +1730,108 @@ public final class SourceFactory extends BaseFactory {
     ///////////////////////////////////////////////
 
     /**
+     * This method handles the processing of AppInfo elements from the input
+     * schema and adds the information found therein to the specified
+     * {@link ClassInfo}.
+     * 
+     * @param annotated
+     *            the {@link org.exolab.castor.xml.schema.Structure} holding the
+     *            {@link AppInfo} annotations.
+     * @param cInfo
+     *            the {@link ClassInfo} to store the information found in the
+     *            AppInfos in.
+     * @see ClassInfo
+     * @see AppInfo
+     * @see Annotated
+     */
+    private void processAppInfo(final Annotated annotated, final ClassInfo cInfo) {
+        Enumeration annotations = annotated.getAnnotations();
+        while (annotations.hasMoreElements()) {
+            Annotation ann = (Annotation) annotations.nextElement();
+            Enumeration appInfos = ann.getAppInfo();
+            while (appInfos.hasMoreElements()) {
+                AppInfo appInfo = (AppInfo) appInfos.nextElement();
+                List content = appInfo.getJdoContent();
+                Iterator it = content.iterator();
+                if (it.hasNext()) {
+                    cInfo.addNature(JDOClassNature.class.getName());
+                    JDOClassNature cNature = new JDOClassNature(cInfo);
+                    while (it.hasNext()) {
+                        Object tmpObject = it.next();
+                        if (tmpObject instanceof Table) {
+                            Table table = (Table) tmpObject;
+                            cNature.setTableName(table.getName());
+                            cNature.setAccessMode(AccessMode.valueOf("shared"));
+                         // TODO: Uncomment next line as soon as Annotation Classes have been updated!
+//                            cNature.setAccessMode(AccessMode.valueOf(table.getAccessMode().toString()));
+                            PrimaryKey pk = table.getPrimaryKey();
+                            Iterator pIt = pk.iterateKey();
+                            while (pIt.hasNext()) {
+                                cNature.addPrimaryKey((String) pIt.next());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * This method handles the processing of AppInfo elements from the input
+     * schema and adds the information found therein to the specified
+     * {@link FieldInfo}.
+     * 
+     * @param annotated
+     *            the {@link org.exolab.castor.xml.schema.Structure} holding the
+     *            {@link AppInfo} annotations.
+     * @param fInfo
+     *            the {@link ClassInfo} to store the information found in the
+     *            AppInfos in.
+     * @see FieldInfo
+     * @see AppInfo
+     * @see Annotated
+     */
+    private void processAppInfo(final Annotated annotated, final FieldInfo fInfo) {
+        Enumeration annotations = annotated.getAnnotations();
+        
+        while (annotations.hasMoreElements()) {
+            Annotation ann = (Annotation) annotations.nextElement();
+            Enumeration appInfos = ann.getAppInfo();
+            while (appInfos.hasMoreElements()) {
+                AppInfo appInfo = (AppInfo) appInfos.nextElement();
+                List content = appInfo.getJdoContent();
+                Iterator it = content.iterator();
+                if (it.hasNext()) {
+                    fInfo.addNature(JDOFieldNature.class.getName());
+                    JDOFieldNature fNature = new JDOFieldNature(fInfo);
+
+                    while (it.hasNext()) {
+                        Object tmpObject = it.next();
+                        if (tmpObject instanceof Column) {
+                            Column column = (Column) tmpObject;
+                            fNature.setColumnName(column.getName());
+                            fNature.setColumnType(column.getType());
+                            fNature.setReadOnly(column.isReadOnly());
+                            fNature.setDirty(false);
+                            // TODO: Uncomment next line as soon as Annotation Classes have been updated! 
+//                            fNature.setDirty(column.getDirty());
+                        } else if (tmpObject instanceof OneToOne) {
+                            OneToOne relation = (OneToOne) tmpObject;
+                            // oneToOne relation not supported by JDOFieldNature
+                        } else if (tmpObject instanceof OneToMany) {
+                            // oneToMany relation not supported by
+                            // JDOFieldNature
+                        } else if (tmpObject instanceof ManyToMany) {
+                            // manyToMany relation not supported by
+                            // JDOFieldNature
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
      * Process the attributes contained in this complexType.
      * @param binding
      * @param complexType the given complex type.
@@ -1790,7 +1903,7 @@ public final class SourceFactory extends BaseFactory {
 
             FieldInfo fieldInfo = _memberFactory.createFieldInfo(
                     component, state, getConfig().useJava50());
-            handleField(fieldInfo, state);
+            handleField(fieldInfo, state, component);
         }
     }
 
@@ -1876,7 +1989,7 @@ public final class SourceFactory extends BaseFactory {
                                 component, xsType, getConfig().useJava50());
                         fieldInfo.setBound(false);
 
-                        handleField(fieldInfo, state);
+                        handleField(fieldInfo, state, component);
 
                         //-- remove getter since we don't need to override the original getter
                         String mname = fieldInfo.getReadMethodName();
@@ -1906,7 +2019,7 @@ public final class SourceFactory extends BaseFactory {
                             temp, state.getPackageName(), getConfig().useJava50());
                     fieldInfo = _memberFactory.createFieldInfoForContent(
                             component, xsType, getConfig().useJava50());
-                    handleField(fieldInfo, state);
+                    handleField(fieldInfo, state, component);
                 }
             }
         } //--base not null
@@ -1923,7 +2036,7 @@ public final class SourceFactory extends BaseFactory {
             if (complexType.getContentType() == ContentType.mixed) {
                 FieldInfo fieldInfo = _memberFactory.createFieldInfoForContent(
                         component, new XSString(), getConfig().useJava50());
-                handleField(fieldInfo, state);
+                handleField(fieldInfo, state, component);
             }
         }
         //--process the contentModelGroup
@@ -1979,7 +2092,7 @@ public final class SourceFactory extends BaseFactory {
                         fieldInfo.setRequired(false);
                     }
 
-                    handleField(fieldInfo, state);
+                    handleField(fieldInfo, state, component);
                     break;
                 case Structure.GROUP: //-- handle groups
                     Group group = (Group) annotated;
@@ -2008,7 +2121,7 @@ public final class SourceFactory extends BaseFactory {
                         if (contentModel.getParticleCount() > 0) {
                             fieldInfo = _memberFactory.createFieldInfo(
                                     component, state.getSGStateInfo(), getConfig().useJava50());
-                            handleField(fieldInfo, state);
+                            handleField(fieldInfo, state, component);
                         }
                     } else {
                        //--else we just flatten the group
@@ -2032,7 +2145,7 @@ public final class SourceFactory extends BaseFactory {
                         if (modelgroup.getParticleCount() > 0) {
                             fieldInfo = _memberFactory.createFieldInfo(
                                     component, state.getSGStateInfo(), getConfig().useJava50());
-                            handleField(fieldInfo, state);
+                            handleField(fieldInfo, state, component);
                         }
                         break;
                     }
@@ -2044,7 +2157,7 @@ public final class SourceFactory extends BaseFactory {
                     Wildcard wildcard = (Wildcard) annotated;
                     FieldInfo fieldForAny = _memberFactory.createFieldInfoForAny(
                             wildcard, getConfig().useJava50());
-                    handleField(fieldForAny, state);
+                    handleField(fieldForAny, state, component);
                     break;
 
                 default:
@@ -2116,8 +2229,9 @@ public final class SourceFactory extends BaseFactory {
      *
      * @param fieldInfo The fieldInfo to add
      * @param state the current FactoryState
+     * @param component the current XMLBindingComponent to read AppInfos from.
      */
-    private void handleField(final FieldInfo fieldInfo, final FactoryState state) {
+    private void handleField(final FieldInfo fieldInfo, final FactoryState state, final XMLBindingComponent component) {
         if (fieldInfo == null) {
             return;
         }
@@ -2142,7 +2256,9 @@ public final class SourceFactory extends BaseFactory {
                 sInfo.getDialog().notify(warn);
             }
         }
-
+        
+        processAppInfo(component.getAnnotated(), fieldInfo);
+        
         JSourceCode scInitializer = state.getJClass().getConstructor(0).getSourceCode();
 
         ClassInfo base = state.getClassInfo().getBaseClass();
