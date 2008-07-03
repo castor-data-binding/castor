@@ -29,6 +29,15 @@
     </scm>
 
     <build>
+       <resources>
+          <!--  instructs Maven to copy .castor.cdr files -->
+          <resource>
+             <directory>target/generated-sources/castor</directory>
+             <includes>
+                <include>**/*.cdr</include>
+             </includes>
+          </resource>
+       </resources>
        <plugins>
           <plugin>
              <groupId>org.codehaus.mojo</groupId>
@@ -39,7 +48,6 @@
                 <packaging>org.exolab.castor.xml.schema.annotations.jdo</packaging>
                 <properties>src/main/resources/binding.generation.properties</properties>
              </configuration>
-             <!-- 
              <executions>
                 <execution>
                    <goals>
@@ -47,7 +55,26 @@
                    </goals>
                 </execution>
              </executions>
-              -->
+          </plugin>
+          <!--  redundant, once new castor-maven-plugin has been deployed -->
+          <plugin>
+             <groupId>org.codehaus.mojo</groupId>
+             <artifactId>build-helper-maven-plugin</artifactId>
+             <version>1.1</version>
+             <executions>
+                <execution>
+                   <id>add-source</id>
+                   <phase>generate-sources</phase>
+                   <goals>
+                      <goal>add-source</goal>
+                   </goals>
+                   <configuration>
+                      <sources>
+                         <source>target/generated-sources/castor</source>
+                      </sources>
+                   </configuration>
+                </execution>
+             </executions>
           </plugin>
        </plugins>
     </build>
