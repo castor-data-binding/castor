@@ -100,6 +100,26 @@ org.castor.cpa.persistence.sql.keygen.factories=\
   org.castor.cpa.persistence.sql.keygen.UUIDKeyGeneratorFactory</code-panel>
             </summary>
             <bugs>
+                <bug id="2448" tool="jira">
+                    <description>
+                        Add more JDO specific attributes to the simple-schema.xsd.
+                    </description>
+                    <contributor>
+                         <name>Sebastian Gabmeyer</name>
+                         <email>dexxter@quantentunnel.de</email>
+                    </contributor>
+                    <submitter>
+                         <name>Werner Guttmann</name>
+                         <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                         <name>Sebastian Gabmeyer</name>
+                         <email>dexxter@quantentunnel.de</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>Schema</module>
+                    <date>20080703</date>
+                </bug>
                 <bug id="2450" tool="jira">
                     <description>
                         Switch to a Maven driven approach for the generation of the JDO annotations
