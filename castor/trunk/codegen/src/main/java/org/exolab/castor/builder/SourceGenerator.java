@@ -212,6 +212,8 @@ public class SourceGenerator extends BuilderConfiguration {
      */
     private JClassPrinterFactoryRegistry _jclassPrinterFactoryRegistry;
 
+    protected SGStateInfo _sInfo;
+
     /**
      * Creates a SourceGenerator using the default FieldInfo factory.
      */
@@ -710,12 +712,11 @@ public class SourceGenerator extends BuilderConfiguration {
             _sourceFactory.setCaseInsensitive(_caseInsensitive);
         }
 
-        //-- create a new Source Generation State object for this invocation
-        SGStateInfo sInfo = new SGStateInfo(schema, this);
-        sInfo.setPackageName(packageName);
-        sInfo.setDialog(_dialog);
-        sInfo.setVerbose(_verbose);
-        sInfo.setSuppressNonFatalWarnings(_suppressNonFatalWarnings);
+        _sInfo = new SGStateInfo(schema, this);
+        _sInfo.setPackageName(packageName);
+        _sInfo.setDialog(_dialog);
+        _sInfo.setVerbose(_verbose);
+        _sInfo.setSuppressNonFatalWarnings(_suppressNonFatalWarnings);
 
         //--map the schemaLocation of the schema with the packageName defined
         if (packageName != null) {
@@ -725,11 +726,11 @@ public class SourceGenerator extends BuilderConfiguration {
         //--We start with a blank list of schemas processed
         _schemasProcessed.clear();
 
-        generateAllClassFiles(schema, sInfo);
+        generateAllClassFiles(schema, _sInfo);
 
         //-- TODO Cleanup integration (what does this comment mean?)
         if (!_createDescriptors && _generateMapping) {
-            generateMappingFile(packageName, sInfo);
+            generateMappingFile(packageName, _sInfo);
         }
         
         // output statistical information from JClassRegistry in 'automatic'mode only
