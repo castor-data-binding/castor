@@ -23,67 +23,48 @@
       <section title="Latest Stable Release">
 
         <section title="Castor">
-          <ul><b>Lastest Released Version: Castor $STABLE_VERSION$ $STABLE_RELEASE$</b><br/>
-            <b>Release date: $STABLE_RELEASE_DATE$</b>
-            <li><a href="release-notes.xml">What changed?</a></li>
-            <li>
-              The Castor JAR (XML, DAX; <b>without</b> code generator and JDO)<br/>
-              <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$.jar</url>
-              <br/>&#xA0;
-            </li>
-            <li>
-              The Castor JAR (XML only, <b>without</b> code generator)<br/>
-              <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-xml.jar</url>
-              <br/>&#xA0;
-            </li>
-            <li>
-              <font color="red"><b>*** NEW ***</b></font> Castor JDO (only)<br/>
-              <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-jdo.jar</url>
-              <br/>&#xA0;
-            </li>
-            <li>
-              <font color="red"><b>*** NEW ***</b></font> Castor XML code generator<br/>
-              <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-codegen.jar</url>
-              <br/>&#xA0;
-            </li>
-            <li>
-              <font color="red"><b>*** NEW ***</b></font> Ant task definition for Castor XML code generator<br/>
-              <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-anttasks.jar</url>
-              <br/>&#xA0;
-            </li>
-            <li>
-              <font color="red"><b>*** NEW ***</b></font> DDL generator<br/>
-              <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-ddlgen.jar</url>
-              <br/>&#xA0;
-            </li>
-            <li>
-              <font color="red"><b>*** NEW ***</b></font> Castor XML schema support<br/>
-              <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-xml-schema.jar</url>
-              <br/>&#xA0;
-            </li>
-          </ul>
+        
+            <p>
+                <b>Lastest Released Version: Castor $STABLE_VERSION$ $STABLE_RELEASE$</b><br/>
+                <b>Release date: $STABLE_RELEASE_DATE$</b><br/>
+                <a href="release-notes.xml">Release notes</a> - What changed ? 
+            </p>
+            
+            <ctable>
+                <crow>
+                    <td>Castor XML</td>
+                    <td>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-xml.jar</td>
+                </crow>
+                <crow>
+                    <td>Castor Core</td>
+                    <td>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-core.jar</td>
+                </crow>
+                <crow>
+                    <td>Castor JDO</td>
+                    <td>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-jdo.jar</td>
+                </crow>
+                <crow>
+                    <td>Castor XML code generator</td>
+                    <td>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-codegen.jar</td>
+                </crow>
+                <crow>
+                    <td>Ant task definition for Castor XML code generator</td>
+                    <td>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-anttasks.jar</td>
+                </crow>
+                <crow>
+                    <td>Castor JDO DDLGen</td>
+                    <td>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-ddlgen.jar</td>
+                </crow>
+                <crow>
+                    <td>Castor XML schema support</td>
+                    <td>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-xml-schema.jar</td>
+                </crow>
+            </ctable>
 
-          <p>
-            <font color="red"><b>*** Note ***</b></font>: Please note that the
-            Castor XML JAR no longer includes the code for Castor JDO, the DDL
-            generator or XML code generator (and of course still do not include
-            the code for the Ant task for the XML code generator.) In other
-            words, if you want to use Castor JDO, the Castor XML Schema code 
-            generator or the DDL generator, you will need to download JARs in 
-            addition to the JARs you downloaded previously.
-          </p>
-          
         </section>
 
         <section title="Download sets">
         
-          <p><font color="red"><b>Note:</b></font> Please note that as part of the 
-             1.1 release, the new JARs for the XML code generator, its Ant task and 
-             the DDL generator have <font color="red"><b>not</b></font> been included as 
-             part of download sets enlisted below. This will be fixed with 
-             Castor 1.1.1. For the time being, please download these files 
-             as required from the links provided above.</p>
-
           <ul>
             <li>
               The Castor JARs, docs, DTDs, command line tools, and examples<br/>
@@ -227,46 +208,41 @@
               <br/>&#xA0;
             </li>
             <li>
-              The Castor JAR (XML only, <b>without</b> code generator and JDO)<br/>
+              The Castor XML JAR<br/>
               <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-xml.jar</url>
               <br/>&#xA0;
             </li>
             <li>
-              <font color="red"><b>*** NEW ***</b></font> Castor JDO (only)<br/>
+              Castor JDO<br/>
               <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-codegen.jar</url>
               <br/>&#xA0;
             </li>
             <li>
-              <font color="red"><b>*** NEW ***</b></font> Castor XML code generator<br/>
+              Castor XML code generator<br/>
               <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-codegen.jar</url>
               <br/>&#xA0;
             </li>
             <li>
-              <font color="red"><b>*** NEW ***</b></font> Ant task definition for Castor XML code generator<br/>
+              Ant task definition for Castor XML code generator<br/>
               <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-anttasks.jar</url>
               <br/>&#xA0;
             </li>
             <li>
-              <font color="red"><b>*** NEW ***</b></font> DDL generator<br/>
+              Castor JDO DDL generator<br/>
               <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-ddlgen.jar</url>
               <br/>&#xA0;
             </li>
             <li>
-              <font color="red"><b>*** NEW ***</b></font> Castor XML schema support<br/>
+              Castor XML schema support<br/>
               <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-xml-schema.jar</url>
               <br/>&#xA0;
             </li>
+            <li>
+              <font color="red"><b>*** NEW ***</b></font> The Castor Core JAR<br/>
+              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-core.jar</url>
+              <br/>&#xA0;
+            </li>
           </ul>
-
-          <p>
-            <font color="red"><b>*** Note ***</b></font>: Please note that the
-            Castor XML JAR no longer includes the code for Castor JDO, the DDL
-            generator or XML code generator (and of course still do not include
-            the code for the Ant task for the XML code generator.) In other
-            words, if you want to use the Castor JDO, the XML Schema code generator or
-            the DDL generator, you will need to download JARs in addition to
-            the JARs you downloaded previously.
-          </p>
 
         </section>
 
