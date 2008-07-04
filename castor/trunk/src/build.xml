@@ -825,6 +825,7 @@
         <mkdir dir="${build}/${archive.name}/examples"/>
         <mkdir dir="${build}/${archive.name}/schema"/>
         <mkdir dir="${build}/${archive.name}/xml"/>
+        <mkdir dir="${build}/${archive.name}/core"/>
         <mkdir dir="${build}/${archive.name}/codegen-testcase-archetype"/>
         <mkdir dir="${build}/${archive.name}/cpa-testcase-archetype"/>
         <mkdir dir="${build}/${archive.name}/maven-plugins"/>
@@ -892,6 +893,13 @@
         </copy>
         <copy todir="${build}/${archive.name}/schema">
           <fileset dir="${basedir}/schema">
+              <exclude name="build/" />
+              <exclude name="target/" />
+              <exclude name="eclipse/" />
+          </fileset>
+        </copy>
+        <copy todir="${build}/${archive.name}/core">
+          <fileset dir="${basedir}/core">
               <exclude name="build/" />
               <exclude name="target/" />
               <exclude name="eclipse/" />
@@ -974,15 +982,17 @@
             	<include name="${archive.name}-codegen.jar"/>
                 <include name="${archive.name}-anttasks.jar"/>
                 <include name="${archive.name}-xml-schema.jar"/>
-                <include name="${archive.name}-xml-core.jar"/>
+                <include name="${archive.name}-core.jar"/>
         	</fileset>
         </copy>
         <copy todir="${build}/${archive.name}">
             <fileset dir="${lib}" includes="jdbc-se2.0.jar,jndi.jar,jta1.0.1.jar,xerces.jar,ldapjdk.jar,xslp.jar"/>
         </copy>
+    	<!--
         <copy todir="${build}/${archive.name}/schema">
             <fileset dir="${schema}" />
         </copy>
+        -->
         <copy todir="${build}/${archive.name}/doc">
             <fileset dir="${build}/doc" />
         </copy>
@@ -1012,6 +1022,7 @@
 	<target name="run.unit.tests" depends="compile.unit.tests" description="Runs all unit tests">
         <ant antfile="${basedir}/codegen/build.xml" target="tests.codegen" inheritAll="false" />
         <ant antfile="${basedir}/schema/build.xml" target="tests" inheritAll="false" />
+        <ant antfile="${basedir}/core/build.xml" target="tests.core" inheritAll="false" />
 		
 		<!-- execute junit tests for XML core module -->
 		<echo message="*** Running unit tests for XML core ..." />
