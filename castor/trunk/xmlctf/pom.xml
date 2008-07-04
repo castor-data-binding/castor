@@ -34,7 +34,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <testRoot>tests/MasterTestSuite/</testRoot>
+                    <testRoot>${basedir}/tests/MasterTestSuite/</testRoot>
                 </configuration>
             </plugin>
         </plugins>
