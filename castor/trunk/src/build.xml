@@ -236,6 +236,7 @@
     	    </fileset>
     	</delete>
 
+        <ant antfile="${basedir}/core/build.xml" target="clean.core" inheritAll="false" />
         <ant antfile="${basedir}/ddlgen/build.xml" target="clean.ddlgen" inheritAll="false" />
         <ant antfile="${basedir}/cpa/build.xml" target="clean.cpa" inheritAll="false" />
         <ant antfile="${basedir}/codegen/build.xml" target="clean.codegen" inheritAll="false" />
@@ -249,6 +250,7 @@
     <target name="clean.tests" description="Removes the build artifacts related to tests">
         <delete dir="${build}/tests" />
         <delete dir="${test.classes}" />
+        <ant antfile="${basedir}/core/build.xml" target="clean.tests.core" inheritAll="false" />
         <ant antfile="${basedir}/xmlctf-framework/build.xml" target="clean.xmlctf" inheritAll="false" />
         <ant antfile="${basedir}/xmlctf/build.xml" target="clean.xmlctf" inheritAll="false" />
         <ant antfile="${basedir}/cpactf/build.xml" target="clean.cpactf" inheritAll="false" />
@@ -329,6 +331,11 @@
             <include name="**/*.dtd" />
         </replace>
 
+        <!-- build core -->
+        <ant antfile="${basedir}/core/build.xml" target="compile.core" inheritAll="false">
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
+        </ant>
     	<!-- build XML schema support -->
         <ant antfile="${basedir}/schema/build.xml" target="compile.schema" inheritAll="false">
             <property name="version" value="${version}"/>
@@ -635,6 +642,12 @@
         </ant>
         <!-- create JAR for XML schema support code -->
         <ant antfile="${basedir}/schema/build.xml" target="jar.schema" inheritAll="false">
+            <property name="project" value="${project}"/>
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
+        </ant>
+        <!-- create JAR for core code -->
+        <ant antfile="${basedir}/core/build.xml" target="jar.core" inheritAll="false">
             <property name="project" value="${project}"/>
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
@@ -961,6 +974,7 @@
             	<include name="${archive.name}-codegen.jar"/>
                 <include name="${archive.name}-anttasks.jar"/>
                 <include name="${archive.name}-xml-schema.jar"/>
+                <include name="${archive.name}-xml-core.jar"/>
         	</fileset>
         </copy>
         <copy todir="${build}/${archive.name}">
