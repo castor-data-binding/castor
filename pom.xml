@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
     
     <modules>
+        <module>core</module>
         <module>xml</module>
         <module>schema</module>
         <module>codegen</module>
@@ -376,6 +377,11 @@
                 <version>1.2.1-SNAPSHOT</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.codehaus.castor</groupId>
+                <artifactId>castor-core</artifactId>
+                <version>1.2.1-SNAPSHOT</version>
+            </dependency>
             
         </dependencies>
     </dependencyManagement>
@@ -584,5 +590,17 @@
                 <module>examples</module>
             </modules>            
         </profile>
+        
+        <!-- 
+        <profile>
+            <activation>
+                <jdk>1.4</jdk>
+            </activation>
+            <modules>
+               <module>xmlctf</module>
+            </modules>
+        </profile>
+         -->        
     </profiles>
+    
 </project>
