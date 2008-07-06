@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   xmlns:jdo="http://www.castor.org/binding/persistence">
+
+   <xs:element name="father">
+      <xs:annotation>
+         <xs:documentation>Documentation of Father Class.</xs:documentation>
+         <xs:appinfo>
+            <jdo:table name="Father">
+               <jdo:primaryKey>
+                  <jdo:key>ssnr</jdo:key>
+               </jdo:primaryKey>
+            </jdo:table>
+         </xs:appinfo>
+      </xs:annotation>
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="ssnr" type="xs:integer" minOccurs="1" maxOccurs="1">
+               <xs:annotation>
+                  <xs:documentation>The Social Security Number.</xs:documentation>
+                  <xs:appinfo>
+                     <jdo:column name="ssnr" type="integer" />
+                  </xs:appinfo>
+               </xs:annotation>
+            </xs:element>
+            <xs:element name="firstName" type="xs:string" minOccurs="1" maxOccurs="1">
+               <xs:annotation>
+                  <xs:documentation>The first name of the Father.</xs:documentation>
+                  <xs:appinfo>
+                     <jdo:column name="firstName" type="varchar" />
+                  </xs:appinfo>
+               </xs:annotation>
+            </xs:element>
+            <xs:element name="lastName" type="xs:string" maxOccurs="1" minOccurs="1">
+               <xs:annotation>
+                  <xs:documentation>The Last Name of the Father.</xs:documentation>
+                  <xs:appinfo>
+                     <jdo:column name="lastName" type="varchar" />
+                  </xs:appinfo>
+               </xs:annotation>
+            </xs:element>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+</xs:schema>
