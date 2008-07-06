@@ -61,7 +61,7 @@ import org.exolab.castor.builder.descriptors.DescriptorSourceFactory;
 import org.exolab.castor.builder.descriptors.JDOClassDescriptorFactory;
 import org.exolab.castor.builder.factory.MappingFileSourceFactory;
 import org.exolab.castor.builder.info.ClassInfo;
-import org.exolab.castor.builder.info.nature.JDOClassNature;
+import org.exolab.castor.builder.info.nature.JDOClassInfoNature;
 import org.exolab.castor.builder.printing.JClassPrinter;
 import org.exolab.castor.builder.printing.JClassPrinterFactoryRegistry;
 import org.exolab.castor.mapping.xml.MappingRoot;
@@ -375,7 +375,7 @@ public final class SingleClassGenerator {
         //-- Process and print the class descriptors
         if (classInfo != null) {
             processClassDescriptor(jClass, state, classInfo);
-            if (classInfo.hasNature(JDOClassNature.class.getName())) {
+            if (classInfo.hasNature(JDOClassInfoNature.class.getName())) {
                 processJDOClassDescriptor(jClass, state, classInfo);
             }
         }

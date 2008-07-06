@@ -26,7 +26,7 @@ import org.exolab.castor.builder.info.FieldInfo;
  * @author Lukas Lang
  * @since 1.2.1
  */
-public final class JDOFieldNature extends BaseNature {
+public final class JDOFieldInfoNature extends BaseNature {
 
     /**
      * Constant for the property name for the sql type of the column.
@@ -51,7 +51,7 @@ public final class JDOFieldNature extends BaseNature {
      * @param fieldInfo
      *            in focus.
      */
-    public JDOFieldNature(final FieldInfo fieldInfo) {
+    public JDOFieldInfoNature(final FieldInfo fieldInfo) {
         super(fieldInfo);
     }
 

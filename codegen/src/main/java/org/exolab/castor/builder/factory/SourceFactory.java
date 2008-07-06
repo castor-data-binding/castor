@@ -70,8 +70,8 @@ import org.exolab.castor.builder.binding.XMLBindingComponent;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.builder.info.XMLInfo;
-import org.exolab.castor.builder.info.nature.JDOClassNature;
-import org.exolab.castor.builder.info.nature.JDOFieldNature;
+import org.exolab.castor.builder.info.nature.JDOClassInfoNature;
+import org.exolab.castor.builder.info.nature.JDOFieldInfoNature;
 import org.exolab.castor.builder.types.XSClass;
 import org.exolab.castor.builder.types.XSString;
 import org.exolab.castor.builder.types.XSType;
@@ -1754,8 +1754,8 @@ public final class SourceFactory extends BaseFactory {
                 List content = appInfo.getJdoContent();
                 Iterator it = content.iterator();
                 if (it.hasNext()) {
-                    cInfo.addNature(JDOClassNature.class.getName());
-                    JDOClassNature cNature = new JDOClassNature(cInfo);
+                    cInfo.addNature(JDOClassInfoNature.class.getName());
+                    JDOClassInfoNature cNature = new JDOClassInfoNature(cInfo);
                     while (it.hasNext()) {
                         Object tmpObject = it.next();
                         if (tmpObject instanceof Table) {
@@ -1802,8 +1802,8 @@ public final class SourceFactory extends BaseFactory {
                 List content = appInfo.getJdoContent();
                 Iterator it = content.iterator();
                 if (it.hasNext()) {
-                    fInfo.addNature(JDOFieldNature.class.getName());
-                    JDOFieldNature fNature = new JDOFieldNature(fInfo);
+                    fInfo.addNature(JDOFieldInfoNature.class.getName());
+                    JDOFieldInfoNature fNature = new JDOFieldInfoNature(fInfo);
 
                     while (it.hasNext()) {
                         Object tmpObject = it.next();

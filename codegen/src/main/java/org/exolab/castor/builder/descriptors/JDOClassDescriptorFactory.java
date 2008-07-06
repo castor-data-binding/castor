@@ -17,7 +17,7 @@ package org.exolab.castor.builder.descriptors;
 
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.info.ClassInfo;
-import org.exolab.castor.builder.info.nature.JDOClassNature;
+import org.exolab.castor.builder.info.nature.JDOClassInfoNature;
 import org.exolab.castor.xml.XMLConstants;
 import org.exolab.javasource.JClass;
 import org.exolab.javasource.JConstructor;
@@ -81,7 +81,7 @@ public final class JDOClassDescriptorFactory {
                 .getName());
         JDODescriptorJClass classDesc = new JDODescriptorJClass(_config,
                 descriptorClassName, jClass);
-        JDOClassNature cNature = new JDOClassNature(classInfo);
+        JDOClassInfoNature cNature = new JDOClassInfoNature(classInfo);
 
         // -- get handle to default constructor
         JConstructor ctor = classDesc.getConstructor(0);
