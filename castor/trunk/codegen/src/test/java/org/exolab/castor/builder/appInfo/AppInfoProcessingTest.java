@@ -25,8 +25,8 @@ import org.exolab.castor.builder.SGStateInfo;
 import org.exolab.castor.builder.ExtendedSourceGenerator;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.FieldInfo;
-import org.exolab.castor.builder.info.nature.JDOClassNature;
-import org.exolab.castor.builder.info.nature.JDOFieldNature;
+import org.exolab.castor.builder.info.nature.JDOClassInfoNature;
+import org.exolab.castor.builder.info.nature.JDOFieldInfoNature;
 import org.exolab.javasource.JClass;
 import org.xml.sax.InputSource;
 
@@ -119,7 +119,7 @@ public class AppInfoProcessingTest extends TestCase {
 
         assertEquals("father", cInfo.getNodeName());
 
-        JDOClassNature cNature = new JDOClassNature(cInfo);
+        JDOClassInfoNature cNature = new JDOClassInfoNature(cInfo);
 
         assertEquals("Father", cNature.getTableName());
 
@@ -141,7 +141,7 @@ public class AppInfoProcessingTest extends TestCase {
 
         assertNotNull(fInfo);
 
-        JDOFieldNature fNature = new JDOFieldNature(fInfo);
+        JDOFieldInfoNature fNature = new JDOFieldInfoNature(fInfo);
 
         assertEquals("ssnr", fNature.getColumnName());
         assertEquals("integer", fNature.getColumnType());
@@ -150,7 +150,7 @@ public class AppInfoProcessingTest extends TestCase {
 
         assertNotNull(fInfo);
 
-        fNature = new JDOFieldNature(fInfo);
+        fNature = new JDOFieldInfoNature(fInfo);
 
         assertEquals("firstName", fNature.getColumnName());
         assertEquals("varchar", fNature.getColumnType());
@@ -159,7 +159,7 @@ public class AppInfoProcessingTest extends TestCase {
 
         assertNotNull(fInfo);
 
-        fNature = new JDOFieldNature(fInfo);
+        fNature = new JDOFieldInfoNature(fInfo);
 
         assertEquals("lastName", fNature.getColumnName());
         assertEquals("varchar", fNature.getColumnType());
@@ -231,7 +231,7 @@ public class AppInfoProcessingTest extends TestCase {
                  * No JDO-specific information should be stored to this
                  * ClassInfo.
                  */
-                assertFalse(cInfo.hasNature(JDOClassNature.class.getName()));
+                assertFalse(cInfo.hasNature(JDOClassInfoNature.class.getName()));
 //                JDOClassNature cNature = new JDOClassNature(cInfo);
 //                
 //                assertEquals(null, cNature.getTableName());
@@ -243,7 +243,7 @@ public class AppInfoProcessingTest extends TestCase {
                 assertEquals(0, cInfo.getFieldCount());
                 
             } else if (cInfo.getNodeName().equals("bookType")) {
-                JDOClassNature cNature = new JDOClassNature(cInfo);
+                JDOClassInfoNature cNature = new JDOClassInfoNature(cInfo);
                 
                 assertEquals("book", cNature.getTableName());
                 
@@ -266,8 +266,8 @@ public class AppInfoProcessingTest extends TestCase {
                 
                 assertNotNull(fInfo);
                 
-                fInfo.addNature(JDOFieldNature.class.getName());
-                JDOFieldNature fNature = new JDOFieldNature(fInfo);
+                fInfo.addNature(JDOFieldInfoNature.class.getName());
+                JDOFieldInfoNature fNature = new JDOFieldInfoNature(fInfo);
                 
                 assertEquals("cover_type", fNature.getColumnName());
                 assertEquals("varchar", fNature.getColumnType());
@@ -277,7 +277,7 @@ public class AppInfoProcessingTest extends TestCase {
                 
                 assertNotNull(fInfo);
                 
-                fNature = new JDOFieldNature(fInfo);
+                fNature = new JDOFieldInfoNature(fInfo);
                 
                 assertEquals("isbn", fNature.getColumnName());
                 assertEquals("varchar", fNature.getColumnType());
@@ -287,7 +287,7 @@ public class AppInfoProcessingTest extends TestCase {
                 
                 assertNotNull(fInfo);
                 
-                fNature = new JDOFieldNature(fInfo);
+                fNature = new JDOFieldInfoNature(fInfo);
                 
                 assertEquals("title", fNature.getColumnName());
                 assertEquals("varchar", fNature.getColumnType());
@@ -338,7 +338,7 @@ public class AppInfoProcessingTest extends TestCase {
         for (int i = 0; i < cInfos.size(); ++i) {
             ClassInfo cInfo = (ClassInfo) cInfos.get(i);
             
-            assertFalse(cInfo.hasNature(JDOClassNature.class.getName()));
+            assertFalse(cInfo.hasNature(JDOClassInfoNature.class.getName()));
 
 //            /*
 //             * No JDO-specific information should be stored to the
@@ -431,7 +431,7 @@ public class AppInfoProcessingTest extends TestCase {
             
             assertNotNull(cInfo);
             
-            JDOClassNature cNature = new JDOClassNature(cInfo);
+            JDOClassInfoNature cNature = new JDOClassInfoNature(cInfo);
             
             assertNotNull(cNature);
             
@@ -453,7 +453,7 @@ public class AppInfoProcessingTest extends TestCase {
                 for (int j = 0; j < fInfos.length; ++j) {
                     FieldInfo fInfo = fInfos[j];
                     assertNotNull(fInfo);
-                    JDOFieldNature fNature = new JDOFieldNature(fInfo);
+                    JDOFieldInfoNature fNature = new JDOFieldInfoNature(fInfo);
                     assertNotNull(fNature);
                     
                     String columnName = fNature.getColumnName();
@@ -491,7 +491,7 @@ public class AppInfoProcessingTest extends TestCase {
                 
                 assertNotNull(fInfo);
                 
-                JDOFieldNature fNature = new JDOFieldNature(fInfo);
+                JDOFieldInfoNature fNature = new JDOFieldInfoNature(fInfo);
                 
                 assertNotNull(fNature);
                 

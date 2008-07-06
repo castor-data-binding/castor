@@ -25,7 +25,7 @@ import org.exolab.castor.builder.types.XSClass;
 import org.exolab.javasource.JClass;
 
 /**
- * Tests access to {@link ClassInfo} properties via {@link XMLNature}.
+ * Tests access to {@link ClassInfo} properties via {@link XMLInfoNature}.
  * 
  * @author Lukas Lang
  * @since 1.2.1
@@ -35,7 +35,7 @@ public final class XMLNatureClassInfoTest extends TestCase {
     /**
      * The XMLNature the tests uses.
      */
-    private XMLNature _xml;
+    private XMLInfoNature _xml;
     
     /**
      * The abstract PropertHolder.
@@ -47,7 +47,7 @@ public final class XMLNatureClassInfoTest extends TestCase {
      */
     public XMLNatureClassInfoTest() {
         _holder = new ClassInfo(new JClass("test"));
-        _xml = new XMLNature(_holder);
+        _xml = new XMLInfoNature(_holder);
     }
     
     /**

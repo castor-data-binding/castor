@@ -24,7 +24,7 @@ import org.exolab.castor.builder.types.XSClass;
 import org.exolab.javasource.JClass;
 
 /**
- * Tests access to {@link FieldInfo} properties via {@link JDOFieldNature}. Remember that
+ * Tests access to {@link FieldInfo} properties via {@link JDOFieldInfoNature}. Remember that
  * behavior of properties not set before is specified in the {@link BaseNature}
  * class and tested in {@link BaseNatureTest}. Property implementation will not
  * be tested in here.
@@ -42,8 +42,8 @@ public final class JDOFieldNatureTest extends TestCase {
         FieldInfoFactory factory = new FieldInfoFactory();
         FieldInfo isbn = factory.createFieldInfo(
                 new XSClass(new JClass("Book")), "isbn");
-        isbn.addNature(JDOFieldNature.class.getName());
-        JDOFieldNature jdo = new JDOFieldNature(isbn);
+        isbn.addNature(JDOFieldInfoNature.class.getName());
+        JDOFieldInfoNature jdo = new JDOFieldInfoNature(isbn);
 
         jdo.setColumnName("ISBN");
         assertEquals("ISBN", jdo.getColumnName());
@@ -57,8 +57,8 @@ public final class JDOFieldNatureTest extends TestCase {
         FieldInfoFactory factory = new FieldInfoFactory();
         FieldInfo isbn = factory.createFieldInfo(
                 new XSClass(new JClass("Book")), "isbn");
-        isbn.addNature(JDOFieldNature.class.getName());
-        JDOFieldNature jdo = new JDOFieldNature(isbn);
+        isbn.addNature(JDOFieldInfoNature.class.getName());
+        JDOFieldInfoNature jdo = new JDOFieldInfoNature(isbn);
 
         jdo.setColumnType("varchar");
         assertEquals("varchar", jdo.getColumnType());
@@ -71,8 +71,8 @@ public final class JDOFieldNatureTest extends TestCase {
         FieldInfoFactory factory = new FieldInfoFactory();
         FieldInfo isbn = factory.createFieldInfo(
                 new XSClass(new JClass("Book")), "isbn");
-        isbn.addNature(JDOFieldNature.class.getName());
-        JDOFieldNature jdo = new JDOFieldNature(isbn);
+        isbn.addNature(JDOFieldInfoNature.class.getName());
+        JDOFieldInfoNature jdo = new JDOFieldInfoNature(isbn);
         jdo.setReadOnly(true);
         assertEquals(true, jdo.isReadOnly());
     }
@@ -84,8 +84,8 @@ public final class JDOFieldNatureTest extends TestCase {
         FieldInfoFactory factory = new FieldInfoFactory();
         FieldInfo isbn = factory.createFieldInfo(
                 new XSClass(new JClass("Book")), "isbn");
-        isbn.addNature(JDOFieldNature.class.getName());
-        JDOFieldNature jdo = new JDOFieldNature(isbn);
+        isbn.addNature(JDOFieldInfoNature.class.getName());
+        JDOFieldInfoNature jdo = new JDOFieldInfoNature(isbn);
         jdo.setDirty(true);
         assertEquals(true, jdo.isDirty());
     }

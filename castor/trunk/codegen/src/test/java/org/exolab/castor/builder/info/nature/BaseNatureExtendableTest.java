@@ -39,24 +39,24 @@ public abstract class BaseNatureExtendableTest extends TestCase {
      * Tests addNature.
      */
     public final void testAddNature() {
-        _extender.addNature(JDOClassNature.class.getName());
-        assertTrue(_extender.hasNature(JDOClassNature.class.getName()));
+        _extender.addNature(JDOClassInfoNature.class.getName());
+        assertTrue(_extender.hasNature(JDOClassInfoNature.class.getName()));
     }
 
     /**
      * Tests a double invoke of addNature.
      */
     public final void testAddNatureTwice() {
-        _extender.addNature(JDOClassNature.class.getName());
-        _extender.addNature(JDOClassNature.class.getName());
-        assertTrue(_extender.hasNature(JDOClassNature.class.getName()));
+        _extender.addNature(JDOClassInfoNature.class.getName());
+        _extender.addNature(JDOClassInfoNature.class.getName());
+        assertTrue(_extender.hasNature(JDOClassInfoNature.class.getName()));
     }
 
     /**
      * Tests hasNature without added before.
      */
     public final void testhasNatureNotAddedBefore() {
-        assertFalse(_extender.hasNature(JDOClassNature.class.getName()));
+        assertFalse(_extender.hasNature(JDOClassInfoNature.class.getName()));
     }
 
 }

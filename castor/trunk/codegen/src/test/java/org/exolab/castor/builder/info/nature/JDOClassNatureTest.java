@@ -26,7 +26,7 @@ import org.exolab.castor.mapping.AccessMode;
 import org.exolab.javasource.JClass;
 
 /**
- * Tests access to {@link ClassInfo} properties via {@link JDOClassNature}. Remember that
+ * Tests access to {@link ClassInfo} properties via {@link JDOClassInfoNature}. Remember that
  * behavior of properties not set before is specified in the {@link BaseNature}
  * class and tested in {@link BaseNatureTest}. Property implementation will not
  * be tested in here.
@@ -51,9 +51,9 @@ public final class JDOClassNatureTest extends TestCase {
      */
     public void testUsage() {
         ClassInfo classInfo = new ClassInfo(new JClass("test"));
-        if (!classInfo.hasNature(JDOClassNature.class.getName())) {
-            classInfo.addNature(JDOClassNature.class.getName());
-            JDOClassNature jdo = new JDOClassNature(classInfo);
+        if (!classInfo.hasNature(JDOClassInfoNature.class.getName())) {
+            classInfo.addNature(JDOClassInfoNature.class.getName());
+            JDOClassInfoNature jdo = new JDOClassInfoNature(classInfo);
             jdo.setTableName("BOOK");
             jdo.addPrimaryKey("ISBN");
             // TODO Tobias jdo.addPrimaryKey("ISBN","Generator");
@@ -68,8 +68,8 @@ public final class JDOClassNatureTest extends TestCase {
      */
     public void testTableName() {
         ClassInfo classInfo = new ClassInfo(new JClass("test"));
-        classInfo.addNature(JDOClassNature.class.getName());
-        JDOClassNature jdo = new JDOClassNature(classInfo);
+        classInfo.addNature(JDOClassInfoNature.class.getName());
+        JDOClassInfoNature jdo = new JDOClassInfoNature(classInfo);
         jdo.setTableName("BOOK");
         assertEquals("BOOK", jdo.getTableName());
     }
@@ -80,8 +80,8 @@ public final class JDOClassNatureTest extends TestCase {
      */
     public void testPrimaryKeys() {
         ClassInfo classInfo = new ClassInfo(new JClass("test"));
-        classInfo.addNature(JDOClassNature.class.getName());
-        JDOClassNature jdo = new JDOClassNature(classInfo);
+        classInfo.addNature(JDOClassInfoNature.class.getName());
+        JDOClassInfoNature jdo = new JDOClassInfoNature(classInfo);
 
         List columns = new LinkedList();
         columns.add("ISBN");
@@ -105,8 +105,8 @@ public final class JDOClassNatureTest extends TestCase {
      */
     public void testAccessMode() {
         ClassInfo classInfo = new ClassInfo(new JClass("test"));
-        classInfo.addNature(JDOClassNature.class.getName());
-        JDOClassNature jdo = new JDOClassNature(classInfo);
+        classInfo.addNature(JDOClassInfoNature.class.getName());
+        JDOClassInfoNature jdo = new JDOClassInfoNature(classInfo);
         jdo.setAccessMode(AccessMode.Shared);
         assertNotNull(jdo.getAccessMode());
         assertEquals(AccessMode.Shared, jdo.getAccessMode());

@@ -25,7 +25,7 @@ import org.exolab.castor.builder.types.XSClass;
 import org.exolab.javasource.JClass;
 
 /**
- * Tests access to {@link FieldInfo} properties via {@link XMLNature}.
+ * Tests access to {@link FieldInfo} properties via {@link XMLInfoNature}.
  * 
  * @author Lukas Lang
  * @since 1.2.1
@@ -35,7 +35,7 @@ public final class XMLNatureFieldInfoTest extends TestCase {
     /**
      * The XMLNature the tests uses.
      */
-    private XMLNature _xml;
+    private XMLInfoNature _xml;
     
     /**
      * The abstract PropertHolder.
@@ -49,7 +49,7 @@ public final class XMLNatureFieldInfoTest extends TestCase {
         FieldInfoFactory factory = new FieldInfoFactory();
         _holder = factory.createFieldInfo(
                 new XSClass(new JClass("Book")), "isbn");
-        _xml = new XMLNature(_holder);
+        _xml = new XMLInfoNature(_holder);
     }
     
     /**
