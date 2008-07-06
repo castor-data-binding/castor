@@ -124,7 +124,7 @@ public final class JDODescriptorJClass extends JClass {
         addImport("org.exolab.castor.mapping.xml.MapTo");
         addImport("org.exolab.castor.mapping.xml.Sql");
         addImport("org.exolab.castor.mapping.xml.types.ClassMappingAccessType");
-        addImport("org.castor.core.exception.DescriptorInstantiationException");
+        addImport("org.castor.core.exception.IllegalClassDescriptorInitialization");
         addImport("java.lang.reflect.Method");
     }
 
