@@ -28,7 +28,7 @@ import org.exolab.castor.builder.types.XSType;
  * @author Lukas Lang
  * @since 1.2.1
  */
-public final class XMLNature extends BaseNature {
+public final class XMLInfoNature extends BaseNature {
 
     /**
      * Property namespace prefix.
@@ -76,7 +76,7 @@ public final class XMLNature extends BaseNature {
      * @param holder
      *            in focus.
      */
-    public XMLNature(final PropertyHolder holder) {
+    public XMLInfoNature(final PropertyHolder holder) {
         super(holder);
     }
 

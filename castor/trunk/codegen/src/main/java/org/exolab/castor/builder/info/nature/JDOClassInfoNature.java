@@ -32,7 +32,7 @@ import org.exolab.castor.mapping.AccessMode;
  * @author Tobias Hochwallner
  * @since 1.2.1
  */
-public final class JDOClassNature extends BaseNature {
+public final class JDOClassInfoNature extends BaseNature {
 
     /**
      * Property key of primary key.
@@ -53,7 +53,7 @@ public final class JDOClassNature extends BaseNature {
      * @param classInfo
      *            the classinfo in focus.
      */
-    public JDOClassNature(final ClassInfo classInfo) {
+    public JDOClassInfoNature(final ClassInfo classInfo) {
         super(classInfo);
     }
 

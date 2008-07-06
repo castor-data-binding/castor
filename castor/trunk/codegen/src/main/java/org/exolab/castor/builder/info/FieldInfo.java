@@ -58,7 +58,7 @@ import java.util.Set;
 
 import org.castor.core.nature.PropertyHolder;
 import org.exolab.castor.builder.factory.FieldMemberAndAccessorFactory;
-import org.exolab.castor.builder.info.nature.XMLNature;
+import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.javasource.JField;
 import org.exolab.javasource.JType;
@@ -157,7 +157,7 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
 
     /**
      * Creates a new FieldInfo with the given XML Schema type and the given
-     * member name. Adds the {@link XMLNature} for legacy compliance.
+     * member name. Adds the {@link XMLInfoNature} for legacy compliance.
      *
      * @param type
      *            the XML Schema type of this member
@@ -170,7 +170,7 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
             final FieldMemberAndAccessorFactory memberAndAccessorFactory) {
         this._name    = name;
         this._memberAndAccessorFactory = memberAndAccessorFactory;
-        this.addNature(XMLNature.class.getName());
+        this.addNature(XMLInfoNature.class.getName());
         setSchemaType(type);
     } //-- FieldInfo
 
@@ -604,7 +604,7 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
      * @return the namespace prefix of the object described by this XMLInfo
      */
     public final String getNamespacePrefix() {
-        XMLNature xmlNature = new XMLNature(this);
+        XMLInfoNature xmlNature = new XMLInfoNature(this);
         return xmlNature.getNamespacePrefix();
     }
 
@@ -614,7 +614,7 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
      * @return the namespace URI of the object described by this XMLInfo
      */
     public final String getNamespaceURI() {
-        XMLNature xmlNature = new XMLNature(this);
+        XMLInfoNature xmlNature = new XMLInfoNature(this);
         return xmlNature.getNamespaceURI();
     }
 
@@ -625,7 +625,7 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
      *         no name has been set
      */
     public final String getNodeName() {
-        XMLNature xmlNature = new XMLNature(this);
+        XMLInfoNature xmlNature = new XMLInfoNature(this);
         return xmlNature.getNodeName();
     }
 
@@ -635,7 +635,7 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
      * @return the node type for the object described by this XMLInfo
      */
     public final short getNodeType() {
-        XMLNature xmlNature = new XMLNature(this);
+        XMLInfoNature xmlNature = new XMLInfoNature(this);
         return xmlNature.getNodeType();
     }
 
@@ -647,7 +647,7 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
      *         XMLInfo.
      */
     public final String getNodeTypeName() {
-        XMLNature xmlNature = new XMLNature(this);
+        XMLInfoNature xmlNature = new XMLInfoNature(this);
         return xmlNature.getNodeTypeName();
     }
 
@@ -657,7 +657,7 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
      * @return the XML Schema type.
      */
     public final XSType getSchemaType() {
-        XMLNature xmlNature = new XMLNature(this);
+        XMLInfoNature xmlNature = new XMLInfoNature(this);
         return xmlNature.getSchemaType();
     }
 
@@ -667,7 +667,7 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
      * @return true if xsd is element
      */
     public final boolean isElementDefinition() {
-        XMLNature xmlNature = new XMLNature(this);
+        XMLInfoNature xmlNature = new XMLInfoNature(this);
         return xmlNature.isElementDefinition();
     }
 
@@ -678,7 +678,7 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
      * @return true if this object can appear more than once.
      */
     public boolean isMultivalued() {
-        XMLNature xmlNature = new XMLNature(this);
+        XMLInfoNature xmlNature = new XMLInfoNature(this);
         return xmlNature.isMultivalued();
     }
 
@@ -689,7 +689,7 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
      * @return true if the XML object must appear at least once.
      */
     public final boolean isRequired() {
-        XMLNature xmlNature = new XMLNature(this);
+        XMLInfoNature xmlNature = new XMLInfoNature(this);
         return xmlNature.isRequired();
     }
 
@@ -700,7 +700,7 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
      *        element, element with anonymous type or not.
      */
     public final void setElementDefinition(final boolean elementDef) {
-        XMLNature xmlNature = new XMLNature(this);
+        XMLInfoNature xmlNature = new XMLInfoNature(this);
         xmlNature.setElementDefinition(elementDef);
     }
 
@@ -711,7 +711,7 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
      *        more than once.
      */
     public final void setMultivalued(final boolean multivalued) {
-        XMLNature xmlNature = new XMLNature(this);
+        XMLInfoNature xmlNature = new XMLInfoNature(this);
         xmlNature.setMultivalued(multivalued);
     }
 
@@ -722,7 +722,7 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
      * @param nsPrefix the desired namespace prefix
      */
     public final void setNamespacePrefix(final String nsPrefix) {
-        XMLNature xmlNature = new XMLNature(this);
+        XMLInfoNature xmlNature = new XMLInfoNature(this);
         xmlNature.setNamespacePrefix(nsPrefix);
     }
 
@@ -732,7 +732,7 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
      * @param nsURI the Namespace URI for this XMLInfo
      */
     public final void setNamespaceURI(final String nsURI) {
-        XMLNature xmlNature = new XMLNature(this);
+        XMLInfoNature xmlNature = new XMLInfoNature(this);
         xmlNature.setNamespaceURI(nsURI);
     }
 
@@ -742,7 +742,7 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
      * @param name the XML node name of the described object.
      */
     public final void setNodeName(final String name) {
-        XMLNature xmlNature = new XMLNature(this);
+        XMLInfoNature xmlNature = new XMLInfoNature(this);
         xmlNature.setNodeName(name);
     }
 
@@ -752,7 +752,7 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
      * @param nodeType the node type of the described object
      */
     public final void setNodeType(final short nodeType) {
-        XMLNature xmlNature = new XMLNature(this);
+        XMLInfoNature xmlNature = new XMLInfoNature(this);
         xmlNature.setNodeType(nodeType);
     }
 
@@ -763,7 +763,7 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
      *        required
      */
     public final void setRequired(final boolean required) {
-        XMLNature xmlNature = new XMLNature(this);
+        XMLInfoNature xmlNature = new XMLInfoNature(this);
         xmlNature.setRequired(required);
     }
 
@@ -773,7 +773,7 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
      * @param xsType the XML Schema type
      */
     public final void setSchemaType(final XSType xsType) {
-        XMLNature xmlNature = new XMLNature(this);
+        XMLInfoNature xmlNature = new XMLInfoNature(this);
         xmlNature.setSchemaType(xsType);
     }
 }
