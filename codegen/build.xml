@@ -20,6 +20,7 @@
     	<pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>
     	<pathelement location="${basedir}/../lib/velocity-1.5.jar"/>
         <pathelement location="${basedir}/../anttask/build/classes"/>
+        <pathelement location="${basedir}/../schema/target/generated-sources/castor"/>
     </path>
 
     <path id="build.test-compile.classpath">
