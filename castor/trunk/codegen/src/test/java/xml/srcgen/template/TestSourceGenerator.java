@@ -14,6 +14,9 @@ public class TestSourceGenerator extends TestCase {
         generator.setDestDir("./codegen/src/test/java");
         generator.setSuppressNonFatalWarnings(true);
         
+        // uncomment to have JDO-specific class descriptors created 
+//        generator.setJdoDescriptorCreation(true);
+        
         // uncomment to use Velocity for code generation
 //        generator.setJClassPrinterType("velocity");
         
