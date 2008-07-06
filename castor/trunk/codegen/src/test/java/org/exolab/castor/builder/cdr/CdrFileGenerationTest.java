@@ -44,6 +44,7 @@ public class CdrFileGenerationTest extends TestCase {
         _generator = new SourceGenerator();
         _generator.setDestDir(_destDir);
         _generator.setSuppressNonFatalWarnings(true);
+        _generator.setJdoDescriptorCreation(true);
     }
 
     public final void tearDown() throws Exception {
