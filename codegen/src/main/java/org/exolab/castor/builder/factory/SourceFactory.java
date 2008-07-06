@@ -98,12 +98,12 @@ import org.exolab.castor.xml.schema.SimpleTypesFactory;
 import org.exolab.castor.xml.schema.Structure;
 import org.exolab.castor.xml.schema.Wildcard;
 import org.exolab.castor.xml.schema.XMLType;
-import org.exolab.castor.xml.schema.annotations.jdo.Column;
-import org.exolab.castor.xml.schema.annotations.jdo.ManyToMany;
-import org.exolab.castor.xml.schema.annotations.jdo.OneToMany;
-import org.exolab.castor.xml.schema.annotations.jdo.OneToOne;
-import org.exolab.castor.xml.schema.annotations.jdo.PrimaryKey;
-import org.exolab.castor.xml.schema.annotations.jdo.Table;
+//import org.exolab.castor.xml.schema.annotations.jdo.Column;
+//import org.exolab.castor.xml.schema.annotations.jdo.ManyToMany;
+//import org.exolab.castor.xml.schema.annotations.jdo.OneToMany;
+//import org.exolab.castor.xml.schema.annotations.jdo.OneToOne;
+//import org.exolab.castor.xml.schema.annotations.jdo.PrimaryKey;
+//import org.exolab.castor.xml.schema.annotations.jdo.Table;
 import org.exolab.javasource.JAnnotation;
 import org.exolab.javasource.JAnnotationType;
 import org.exolab.javasource.JClass;
@@ -1758,18 +1758,18 @@ public final class SourceFactory extends BaseFactory {
                     JDOClassInfoNature cNature = new JDOClassInfoNature(cInfo);
                     while (it.hasNext()) {
                         Object tmpObject = it.next();
-                        if (tmpObject instanceof Table) {
-                            Table table = (Table) tmpObject;
-                            cNature.setTableName(table.getName());
-                            cNature.setAccessMode(AccessMode.valueOf("shared"));
-                         // TODO: Uncomment next line as soon as Annotation Classes have been updated!
-//                            cNature.setAccessMode(AccessMode.valueOf(table.getAccessMode().toString()));
-                            PrimaryKey pk = table.getPrimaryKey();
-                            Iterator pIt = pk.iterateKey();
-                            while (pIt.hasNext()) {
-                                cNature.addPrimaryKey((String) pIt.next());
-                            }
-                        }
+//                        if (tmpObject instanceof Table) {
+//                            Table table = (Table) tmpObject;
+//                            cNature.setTableName(table.getName());
+//                            cNature.setAccessMode(AccessMode.valueOf("shared"));
+//                         // TODO: Uncomment next line as soon as Annotation Classes have been updated!
+////                            cNature.setAccessMode(AccessMode.valueOf(table.getAccessMode().toString()));
+//                            PrimaryKey pk = table.getPrimaryKey();
+//                            Iterator pIt = pk.iterateKey();
+//                            while (pIt.hasNext()) {
+//                                cNature.addPrimaryKey((String) pIt.next());
+//                            }
+//                        }
                     }
                 }
             }
@@ -1807,24 +1807,24 @@ public final class SourceFactory extends BaseFactory {
 
                     while (it.hasNext()) {
                         Object tmpObject = it.next();
-                        if (tmpObject instanceof Column) {
-                            Column column = (Column) tmpObject;
-                            fNature.setColumnName(column.getName());
-                            fNature.setColumnType(column.getType());
-                            fNature.setReadOnly(column.isReadOnly());
-                            fNature.setDirty(false);
-                            // TODO: Uncomment next line as soon as Annotation Classes have been updated! 
+//                        if (tmpObject instanceof Column) {
+//                            Column column = (Column) tmpObject;
+//                            fNature.setColumnName(column.getName());
+//                            fNature.setColumnType(column.getType());
+//                            fNature.setReadOnly(column.isReadOnly());
+//                            fNature.setDirty(false);
+//                            // TODO: Uncomment next line as soon as Annotation Classes have been updated! 
 //                            fNature.setDirty(column.getDirty());
-                        } else if (tmpObject instanceof OneToOne) {
-                            OneToOne relation = (OneToOne) tmpObject;
-                            // oneToOne relation not supported by JDOFieldNature
-                        } else if (tmpObject instanceof OneToMany) {
-                            // oneToMany relation not supported by
-                            // JDOFieldNature
-                        } else if (tmpObject instanceof ManyToMany) {
-                            // manyToMany relation not supported by
-                            // JDOFieldNature
-                        }
+//                        } else if (tmpObject instanceof OneToOne) {
+//                            OneToOne relation = (OneToOne) tmpObject;
+//                            // oneToOne relation not supported by JDOFieldNature
+//                        } else if (tmpObject instanceof OneToMany) {
+//                            // oneToMany relation not supported by
+//                            // JDOFieldNature
+//                        } else if (tmpObject instanceof ManyToMany) {
+//                            // manyToMany relation not supported by
+//                            // JDOFieldNature
+//                        }
                     }
                 }
             }
