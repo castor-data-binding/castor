@@ -22,6 +22,8 @@
         
         <module>cpa-testcase-archetype</module>
         <module>codegen-testcase-archetype</module>
+        
+        <!-- <module>xmlctf</module>  -->
     </modules>
      
     <name>Castor</name>
