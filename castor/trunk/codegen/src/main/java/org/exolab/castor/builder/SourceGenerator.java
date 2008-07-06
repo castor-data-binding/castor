@@ -161,9 +161,18 @@ public class SourceGenerator extends BuilderConfiguration {
     private boolean _suppressNonFatalWarnings = false;
     /** Determines whether or not to print extra messages. */
     private boolean _verbose = false;
-    /** A flag indicating whether or not to create
-     *  descriptors for the generated classes. */
+    
+    /** 
+     * A flag indicating whether or not to create XML-specific class
+     * descriptors for the generated classes.
+     */
     private boolean _createDescriptors = true;
+    /** 
+     * A flag indicating whether or not to create JDO-specific class
+     * descriptors for the generated classes.
+     */
+    private boolean _createJdoDescriptors = false;
+    
     /** A flag indicating whether or not to generate sources
      *  for imported XML Schemas. */
     private boolean _generateImported = false;
@@ -378,6 +387,20 @@ public class SourceGenerator extends BuilderConfiguration {
     public final void setDescriptorCreation(final boolean createDescriptors) {
         _createDescriptors = createDescriptors;
         _singleClassGenerator.setDescriptorCreation(createDescriptors);
+    } //-- setDescriptorCreation
+
+    /**
+     * Sets whether or not to create JDO-specific class descriptors for the 
+     * generated classes.
+     * By default, JDO-specific class descriptors are NOT generated.
+     *
+     * @param createJdoDescriptors a boolean, when true indicates to generated
+     *        JDO-specific class descriptors
+     *
+     */
+    public final void setJdoDescriptorCreation(final boolean createJdoDescriptors) {
+        _createJdoDescriptors = createJdoDescriptors;
+        _singleClassGenerator.setJdoDescriptorCreation(createJdoDescriptors);
     } //-- setDescriptorCreation
 
     /**
