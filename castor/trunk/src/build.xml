@@ -76,6 +76,7 @@
         <pathelement location="${basedir}/cpaptf/build/classes" />
         <pathelement location="${basedir}/examples/build/classes" />
         <pathelement location="${basedir}/schema/build/classes" />
+        <pathelement location="${basedir}/core/build/classes" />
     </path>
 
     <path id="test.classpath">
