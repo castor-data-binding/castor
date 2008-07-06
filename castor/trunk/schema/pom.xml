@@ -82,8 +82,8 @@
     <dependencies>
 
         <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
+            <groupId>org.codehaus.castor</groupId>
+            <artifactId>castor-core</artifactId>
         </dependency>
         
         <dependency>
@@ -91,6 +91,11 @@
             <artifactId>castor-xml</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+        
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
