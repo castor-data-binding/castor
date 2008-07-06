@@ -58,8 +58,10 @@ import java.util.Properties;
 import org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy;
 import org.exolab.castor.builder.conflictresolution.ClassNameCRStrategyRegistry;
 import org.exolab.castor.builder.descriptors.DescriptorSourceFactory;
+import org.exolab.castor.builder.descriptors.JDOClassDescriptorFactory;
 import org.exolab.castor.builder.factory.MappingFileSourceFactory;
 import org.exolab.castor.builder.info.ClassInfo;
+import org.exolab.castor.builder.info.nature.JDOClassNature;
 import org.exolab.castor.builder.printing.JClassPrinter;
 import org.exolab.castor.builder.printing.JClassPrinterFactoryRegistry;
 import org.exolab.castor.mapping.xml.MappingRoot;
@@ -88,6 +90,11 @@ public final class SingleClassGenerator {
 
     /** Name of the CDR (Class Descriptor Resolver) file. */
     private static final String CDR_FILE = ".castor.cdr";
+    
+    /** 
+     * Name of the JDO-specific class descriptor resolver file.
+     */
+    private static final String JDO_CDR_FILE = ".castor.jdo.cdr";
 
     /** True if the user should be prompted to overwrite when a file already exists. */
     private boolean _promptForOverwrite = true;
@@ -97,13 +104,28 @@ public final class SingleClassGenerator {
     private String _lineSeparator = null;
     /** A flag indicating whether or not to create descriptors for the generated classes. */
     private boolean _createDescriptors = true;
+    
+    /** 
+     * A flag indicating whether or not to create JDO descriptors for 
+     * the generated classes.
+     */
+    private boolean _createJdoDescriptors = true;
 
     /** The header at the top of each generated file. */
     private final JComment _header;
     /** Console dialog used to prompt the user when something is wrong. */
     private final ConsoleDialog _dialog;
-    /** The DescriptorSourceFactory instance. */
-    private final DescriptorSourceFactory _descSourceFactory;
+    
+    /** 
+     * The DescriptorSourceFactory instance.
+     */
+    private final DescriptorSourceFactory _descriptorSourceFactory;
+    
+    /** 
+     * The JDOClassDescriptorFactory instance. 
+     */
+    private JDOClassDescriptorFactory _jdoDescriptorSourceFactory;
+    
     /** The MappingFileSourceFactory instance. */
     private final MappingFileSourceFactory _mappingSourceFactory;
     /** The SourceGenerator instance that created us. */
@@ -125,6 +147,7 @@ public final class SingleClassGenerator {
      * The registry for {@link ClassNameCRStrategy} implementations.
      */
     private ClassNameCRStrategyRegistry _classNameConflictResolutionStrategyRegistry;
+
     
     /**
      * Creates an instance of this class.
@@ -140,7 +163,8 @@ public final class SingleClassGenerator {
         this._dialog = dialog;
         this._sourceGenerator = sourceGenerator;
         this._header = new JComment(JComment.HEADER_STYLE);
-        this._descSourceFactory = new DescriptorSourceFactory(_sourceGenerator);
+        this._descriptorSourceFactory = new DescriptorSourceFactory(_sourceGenerator);
+        this._jdoDescriptorSourceFactory = new JDOClassDescriptorFactory(_sourceGenerator);
         this._mappingSourceFactory = new MappingFileSourceFactory(_sourceGenerator);
 
         final String strategy = sourceGenerator.getProperty(
@@ -208,7 +232,18 @@ public final class SingleClassGenerator {
     public void setDescriptorCreation(final boolean createDescriptors) {
         _createDescriptors = createDescriptors;
     } //-- setDescriptorCreation
-
+    
+    
+    /**
+     * Sets whether or not to create JDOClassDescriptors for the generated classes.
+     * By default, descriptors are generated.
+     * 
+     * @param createJdoDescriptors if true, JDOClassDescriptors are generated.
+     */
+    public void setJdoDescriptorCreation(final boolean createJdoDescriptors) {
+        _createJdoDescriptors = createJdoDescriptors;
+    }
+    
     /**
      * Sets whether or not to prompt when we would otherwise overwrite an
      * existing JClass.  If set to false, then it is always OK to overwrite
@@ -337,9 +372,12 @@ public final class SingleClassGenerator {
             _jClassPrinter.printClass(jClass, _destDir, _lineSeparator, DEFAULT_HEADER);
         }
 
-        //-- Process and print the class descriptor
+        //-- Process and print the class descriptors
         if (classInfo != null) {
             processClassDescriptor(jClass, state, classInfo);
+            if (classInfo.hasNature(JDOClassNature.class.getName())) {
+                processJDOClassDescriptor(jClass, state, classInfo);
+            }
         }
 
         return state.getStatusCode() != SGStateInfo.STOP_STATUS;
@@ -357,9 +395,9 @@ public final class SingleClassGenerator {
     private void processClassDescriptor(final JClass jClass, final SGStateInfo state,
                                         final ClassInfo classInfo) throws IOException {
         if (_createDescriptors) {
-            JClass desc = _descSourceFactory.createSource(classInfo);
+            JClass desc = _descriptorSourceFactory.createSource(classInfo);
             if (checkAllowPrinting(desc)) {
-                updateCDRFile(jClass, desc, state);
+                updateCDRFile(jClass, desc, state, CDR_FILE);
                 desc.setHeader(_header);
                 if (_lineSeparator == null) {
                     _lineSeparator = System.getProperty("line.separator");
@@ -380,6 +418,37 @@ public final class SingleClassGenerator {
             }
             mapping.addClassMapping(_mappingSourceFactory.createMapping(classInfo));
         }
+    }
+    
+    /**
+     * Process/generate JDOClassDescriptors for the given {@link ClassInfo}.
+     * 
+     * @param jClass
+     *            a structure to represent Java Source Files. See {@link JClass}
+     *            for details.
+     * @param state
+     *            the state of the SourceGenerator.
+     * @param classInfo
+     *            the object holding all necessary information to generate the
+     *            source code for the JDOClassDescriptor.
+     * @throws IOException
+     *             If an already existing '.castor.cdr' file can not be loaded
+     *             or found
+     */
+    private void processJDOClassDescriptor(final JClass jClass, final SGStateInfo state,
+            final ClassInfo classInfo) throws IOException {
+        
+        if (_createJdoDescriptors) {
+            JClass desc = _jdoDescriptorSourceFactory.createSource(classInfo);
+            if (checkAllowPrinting(desc)) {
+                updateCDRFile(jClass, desc, state, JDO_CDR_FILE);
+                desc.setHeader(_header);
+                if (_lineSeparator == null) {
+                    _lineSeparator = System.getProperty("line.separator");
+                }
+                _jClassPrinter.printClass(desc, _destDir, _lineSeparator, DEFAULT_HEADER);
+            }
+        }  
     }
 
     /**
@@ -460,15 +529,16 @@ public final class SingleClassGenerator {
      * @param jClass JClass instance describing the entity class
      * @param jDesc JClass instance describing is *Descriptor class
      * @param sInfo state info
+     * @param cdrFileName the filename of the class descriptor resolver (cdr) file
      * @throws IOException If an already existing '.castor.cdr' file can not be
      *         found or loaded
      */
-    private void updateCDRFile(final JClass jClass, final JClass jDesc, final SGStateInfo sInfo)
-                                                      throws IOException {
+    private void updateCDRFile(final JClass jClass, final JClass jDesc,
+            final SGStateInfo sInfo, final String cdrFileName) throws IOException {
         String entityFilename = jClass.getFilename(_destDir);
         File file = new File(entityFilename);
         File parentDirectory = file.getParentFile();
-        File cdrFile = new File(parentDirectory, CDR_FILE);
+        File cdrFile = new File(parentDirectory, cdrFileName);
         String cdrFilename = cdrFile.getAbsolutePath();
 
         Properties props = sInfo.getCDRFile(cdrFilename);
