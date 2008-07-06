@@ -109,7 +109,7 @@ public final class SingleClassGenerator {
      * A flag indicating whether or not to create JDO descriptors for 
      * the generated classes.
      */
-    private boolean _createJdoDescriptors = true;
+    private boolean _createJdoDescriptors = false;
 
     /** The header at the top of each generated file. */
     private final JComment _header;
