@@ -8,6 +8,7 @@ set CLASSPATH=%CLASSPATH%;..\xmlctf-framework\build\classes
 set CLASSPATH=%CLASSPATH%;..\build\classes
 set CLASSPATH=%CLASSPATH%;..\codegen\build\classes;
 set CLASSPATH=%CLASSPATH%;..\schema\build\classes;
+set CLASSPATH=%CLASSPATH%;..\core\build\classes;
 set cp=%CLASSPATH%
 
 set CP=%CP%;"..\lib\commons-logging-1.1.jar"
