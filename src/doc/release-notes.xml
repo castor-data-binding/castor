@@ -100,6 +100,27 @@ org.castor.cpa.persistence.sql.keygen.factories=\
   org.castor.cpa.persistence.sql.keygen.UUIDKeyGeneratorFactory</code-panel>
             </summary>
             <bugs>
+
+                <bug id="2446" tool="jira">
+                    <description>
+                        Refactored JDOClassDescriptorResolver to use command pattern for resolution. 
+                    </description>
+                    <contributor>
+                         <name>Lukas Lang</name>
+                         <email>lukas.lang@inode.at</email>
+                    </contributor>
+                    <submitter>
+                         <name>Werner Guttmann</name>
+                         <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                          <name>Lukas Lang</name>
+                         <email>lukas.lang@inode.at</email>
+                   </reporter>
+                    <type>Enh.</type>
+                    <module>CPA</module>
+                    <date>20080707</date>
+                </bug>
                 <bug id="2446" tool="jira">
                     <description>
                         Created a set of "naturable" commands for (JDO) class descriptor resolution. 
