@@ -17,6 +17,7 @@
         <pathelement location="${basedir}/../build/classes"/>
         <pathelement location="${basedir}/../schema/build/classes"/>
         <pathelement location="${basedir}/../anttask/build/classes"/>
+        <pathelement location="${basedir}/../core/build/classes"/>
     	
     	<!-- JARs -->
     	<pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>

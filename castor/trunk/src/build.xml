@@ -267,6 +267,11 @@
 
     <target name="compile.commons" depends="prepare"
             description="Compile the Castor COMMONS packages">
+        <!-- build core -->
+        <ant antfile="${basedir}/core/build.xml" target="compile.core" inheritAll="false">
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
+        </ant>
         <javac srcdir="${java}" destdir="${classes}" excludes="${excludes}"
                debug="on" encoding="ISO-8859-1" deprecation="${deprecation}"
                includes="${castor.commons.files}">
@@ -276,6 +281,11 @@
 
     <target name="compile.all" depends="prepare,compile.commons"
             description="Compile the Castor packages">
+        <!-- build core -->
+        <ant antfile="${basedir}/core/build.xml" target="compile.core" inheritAll="false">
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
+        </ant>
     	<!-- compile artifacts in project root -->
         <javac srcdir="${java}" destdir="${classes}" excludes="${excludes}"
                debug="on" encoding="ISO-8859-1" deprecation="${deprecation}"
@@ -332,11 +342,6 @@
             <include name="**/*.dtd" />
         </replace>
 
-        <!-- build core -->
-        <ant antfile="${basedir}/core/build.xml" target="compile.core" inheritAll="false">
-            <property name="version" value="${version}"/>
-            <property name="release" value="${release}"/>
-        </ant>
     	<!-- build XML schema support -->
         <ant antfile="${basedir}/schema/build.xml" target="compile.schema" inheritAll="false">
             <property name="version" value="${version}"/>
