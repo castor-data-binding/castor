@@ -32,6 +32,11 @@ http://maven.apache.org/maven-v4_0_0.xsd">
     <dependencies>
 
         <dependency>
+            <groupId>org.codehaus.castor</groupId>
+            <artifactId>castor-core</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
         </dependency>
