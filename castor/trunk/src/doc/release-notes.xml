@@ -100,6 +100,26 @@ org.castor.cpa.persistence.sql.keygen.factories=\
   org.castor.cpa.persistence.sql.keygen.UUIDKeyGeneratorFactory</code-panel>
             </summary>
             <bugs>
+                <bug id="2445" tool="jira">
+                    <description>
+                        Created JDOConstants in core module. 
+                    </description>
+                    <contributor>
+                         <name>Lukas Lang</name>
+                         <email>lukas.lang@inode.at</email>
+                    </contributor>
+                    <submitter>
+                         <name>Werner Guttmann</name>
+                         <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                          <name>Lukas Lang</name>
+                         <email>lukas.lang@inode.at</email>
+                   </reporter>
+                    <type>Enh.</type>
+                    <module>Core</module>
+                    <date>20080707</date>
+                </bug>
                 <bug id="2447" tool="jira">
                     <description>
                         Enable creation of a JDO-specific CDR File. 
