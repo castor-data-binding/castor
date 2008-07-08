@@ -101,6 +101,28 @@ org.castor.cpa.persistence.sql.keygen.factories=\
             </summary>
             <bugs>
 
+
+                <bug id="2466" tool="jira">
+                    <description>
+                        Refactored XMLInfo usage (part I) - Inline all XMLInfo.set* 
+                        methods() that internally use XMLInfoNature  
+                    </description>
+                    <contributor>
+                         <name>Werner Guttmann</name>
+                         <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                         <name>Werner Guttmann</name>
+                         <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                         <name>Werner Guttmann</name>
+                         <email>wguttmn@codehaus.org</email>
+                   </reporter>
+                    <type>Enh.</type>
+                    <module>XMLGen.</module>
+                    <date>20080708</date>
+                </bug>
                 <bug id="2446" tool="jira">
                     <description>
                         Refactored JDOClassDescriptorResolver to use command pattern for resolution. 
