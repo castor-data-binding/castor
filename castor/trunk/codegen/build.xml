@@ -25,7 +25,7 @@
     	<pathelement location="${basedir}/../lib/velocity-1.5.jar"/>
     	
     	<!-- *** NEW *** - path to generated sources -->
-        <pathelement location="${basedir}/../schema/target/generated-sources/castor"/>
+        <pathelement location="${basedir}/../schema/target/classes"/>
     </path>
 
     <path id="build.test-compile.classpath">
