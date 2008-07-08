@@ -50,6 +50,7 @@
 package org.exolab.castor.builder.info;
 
 import org.exolab.castor.builder.factory.FieldMemberAndAccessorFactory;
+import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.builder.types.XSCollectionFactory;
 import org.exolab.castor.builder.types.XSType;
 
@@ -82,8 +83,11 @@ public class CollectionInfoJ2 extends CollectionInfo {
         super(contentType, name, elementName, useJava50, 
                 memberAndAccessorFactory, contentMemberAndAccessorFactory);
         // --override the schemaType
-        this.setSchemaType(XSCollectionFactory.createCollection(collectionType, 
-                contentType, useJava50));
+        if (hasNature(XMLInfoNature.class.getName())) {
+            XMLInfoNature xmlNature = new XMLInfoNature(this);
+            xmlNature.setSchemaType(XSCollectionFactory.createCollection(collectionType, 
+                    contentType, useJava50));
+        }
     } // -- CollectionInfoJ2
     
 }

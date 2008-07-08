@@ -63,6 +63,7 @@ import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.builder.info.XMLInfo;
+import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.builder.types.XSList;
 import org.exolab.castor.builder.types.XSListType;
 import org.exolab.castor.builder.types.XSClass;
@@ -151,32 +152,37 @@ public final class MemberFactory extends BaseFactory {
             result = this.getInfoFactory().createFieldInfo(xsType, vName);
         }
 
-        if (any.getMinOccurs() > 0) {
-            result.setRequired(true);
-        } else {
-            result.setRequired(false);
+        if (result.hasNature(XMLInfoNature.class.getName())) {
+            XMLInfoNature xmlNature = new XMLInfoNature(result);
+            
+            if (any.getMinOccurs() > 0) {
+                xmlNature.setRequired(true);
+            } else {
+                xmlNature.setRequired(false);
+            }
+            
+            xmlNature.setNodeName(xmlName);
+            
+            //--LIMITATION:
+            //-- 1- we currently support only the FIRST namespace
+            //-- 2- ##other, ##any are not supported
+            if (any.getNamespaces().hasMoreElements()) {
+                String nsURI = (String) any.getNamespaces().nextElement();
+                if (nsURI.length() > 0) {
+                    if (nsURI.equals("##targetNamespace")) {
+                        Schema schema = any.getSchema();
+                        if (schema != null) {
+                            xmlNature.setNamespaceURI(schema.getTargetNamespace());
+                        }
+                    } else if (!nsURI.startsWith("##")) {
+                        xmlNature.setNamespaceURI(nsURI);
+                    }
+                }
+            } //--first namespace
         }
 
-        result .setNodeName(xmlName);
-
-        //--LIMITATION:
-        //-- 1- we currently support only the FIRST namespace
-        //-- 2- ##other, ##any are not supported
-        if (any.getNamespaces().hasMoreElements()) {
-             String nsURI = (String) any.getNamespaces().nextElement();
-             if (nsURI.length() > 0) {
-                 if (nsURI.equals("##targetNamespace")) {
-                     Schema schema = any.getSchema();
-                     if (schema != null) {
-                         result.setNamespaceURI(schema.getTargetNamespace());
-                     }
-                 } else if (!nsURI.startsWith("##")) {
-                     result.setNamespaceURI(nsURI);
-                 }
-             }
-        } //--first namespace
         return result;
-    } //-- createFieldInfoForAny()
+    }
 
     /**
      * Creates a FieldInfo to hold the value of a choice.
@@ -188,14 +194,20 @@ public final class MemberFactory extends BaseFactory {
         XSType xsType = new XSClass(SGTypes.OBJECT, "any");
         FieldInfo fInfo = null;
         fInfo = this.getInfoFactory().createFieldInfo(xsType, fieldName);
-        fInfo.setNodeType(XMLInfo.ELEMENT_TYPE);
         fInfo.setComment("Internal choice value storage");
-        fInfo.setRequired(false);
         fInfo.setTransient(true);
-        fInfo.setNodeName("##any");
         fInfo.setMethods(FieldInfo.READ_METHOD);
+        
+        if (fInfo.hasNature(XMLInfoNature.class.getName())) {
+            XMLInfoNature xmlNature = new XMLInfoNature(fInfo);
+            
+            xmlNature.setNodeType(XMLInfo.ELEMENT_TYPE);
+            xmlNature.setRequired(false);
+            xmlNature.setNodeName("##any");
+        }
+        
         return fInfo;
-    } //-- createFieldInfoForChoiceValue
+    }
 
     /**
      * Creates a FieldInfo for content.
@@ -218,10 +230,13 @@ public final class MemberFactory extends BaseFactory {
         } else {
             fInfo = this.getInfoFactory().createFieldInfo(xsType, fieldName);
         }
-        fInfo.setNodeType(XMLInfo.TEXT_TYPE);
+        XMLInfoNature xmlNature1 = new XMLInfoNature(fInfo);
+        xmlNature1.setNodeType(XMLInfo.TEXT_TYPE);
         fInfo.setComment("internal content storage");
-        fInfo.setRequired(false);
-        fInfo.setNodeName("#text");
+        XMLInfoNature xmlNature2 = new XMLInfoNature(fInfo);
+        xmlNature2.setRequired(false);
+        XMLInfoNature xmlNature = new XMLInfoNature(fInfo);
+        xmlNature.setNodeName("#text");
         if (xsType instanceof XSString) {
             fInfo.setDefaultValue("\"\"");
         }
@@ -420,18 +435,23 @@ public final class MemberFactory extends BaseFactory {
         }
 
         // initialize the field
-        fieldInfo.setNodeName(xmlName);
-        fieldInfo.setRequired(minOccurs > 0);
+        XMLInfoNature xmlNature1 = new XMLInfoNature(fieldInfo);
+        xmlNature1.setNodeName(xmlName);
+        XMLInfoNature xmlNature5 = new XMLInfoNature(fieldInfo);
+        xmlNature5.setRequired(minOccurs > 0);
         switch (component.getAnnotated().getStructureType()) {
             case Structure.ELEMENT:
-                 fieldInfo.setNodeType(XMLInfo.ELEMENT_TYPE);
+                 XMLInfoNature xmlNature3 = new XMLInfoNature(fieldInfo);
+                xmlNature3.setNodeType(XMLInfo.ELEMENT_TYPE);
                  break;
             case Structure.ATTRIBUTE:
-                fieldInfo.setNodeType(XMLInfo.ATTRIBUTE_TYPE);
+                XMLInfoNature xmlNature4 = new XMLInfoNature(fieldInfo);
+                xmlNature4.setNodeType(XMLInfo.ATTRIBUTE_TYPE);
                 break;
             case Structure.MODELGROUP:
             case Structure.GROUP:
-                fieldInfo.setNodeName(XMLInfo.CHOICE_NODE_NAME_ERROR_INDICATION);
+                XMLInfoNature xmlNature2 = new XMLInfoNature(fieldInfo);
+                xmlNature2.setNodeName(XMLInfo.CHOICE_NODE_NAME_ERROR_INDICATION);
                 fieldInfo.setContainer(true);
                 break;
             default:
@@ -441,7 +461,8 @@ public final class MemberFactory extends BaseFactory {
         //-- handle namespace URI / prefix
         String nsURI = component.getTargetNamespace();
         if ((nsURI != null) && (nsURI.length() > 0)) {
-            fieldInfo.setNamespaceURI(nsURI);
+            XMLInfoNature xmlNature = new XMLInfoNature(fieldInfo);
+            xmlNature.setNamespaceURI(nsURI);
             // TODO set the prefix used in the XML Schema
             //      in order to use it inside the Marshaling Framework
         }
