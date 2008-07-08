@@ -576,7 +576,7 @@ public final class LockEngine {
 
             return newoid;
         } catch (LockNotGrantedException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             throw new PersistenceException(Messages.format(
                     "persist.nested", "Key Generator Failure. Duplicated Identity is generated!"));
         } finally {
