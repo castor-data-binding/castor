@@ -72,6 +72,7 @@ import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.builder.info.XMLInfo;
 import org.exolab.castor.builder.info.nature.JDOClassInfoNature;
 import org.exolab.castor.builder.info.nature.JDOFieldInfoNature;
+import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.builder.types.XSClass;
 import org.exolab.castor.builder.types.XSString;
 import org.exolab.castor.builder.types.XSType;
@@ -348,137 +349,141 @@ public final class SourceFactory extends BaseFactory {
         JClass    jClass    = state.getJClass();
         initialize(jClass);
 
-        //-- name information
-        classInfo.setNodeName(component.getXMLName());
-
-        //-- namespace information
-        classInfo.setNamespaceURI(component.getTargetNamespace());
-
-        //5--processing the type
-        XMLType type = component.getXMLType();
-        boolean createForSingleGroup = false;
-        boolean creatingForAnElement =
-            (component.getAnnotated().getStructureType() == Structure.ELEMENT);
-
-        //-- created from element definition information
-        classInfo.setElementDefinition(creatingForAnElement);
-
-        // deal with substitution groups
-        if (creatingForAnElement) {
-            ElementDecl elementDeclaration = (ElementDecl) component.getAnnotated();
-            Enumeration possibleSubstitutes = elementDeclaration.getSubstitutionGroupMembers();
-            if (possibleSubstitutes.hasMoreElements()) {
-                List substitutionGroupMembers = new ArrayList();
-                while (possibleSubstitutes.hasMoreElements()) {
-                    ElementDecl substitute = (ElementDecl) possibleSubstitutes.nextElement();
-                    substitutionGroupMembers.add(substitute.getName());
+        if (classInfo.hasNature(XMLInfoNature.class.getName())) {
+            XMLInfoNature xmlNature = new XMLInfoNature(classInfo);
+            
+            //-- name information
+            xmlNature.setNodeName(component.getXMLName());
+            
+            //-- namespace information
+            xmlNature.setNamespaceURI(component.getTargetNamespace());
+            
+            //5--processing the type
+            XMLType type = component.getXMLType();
+            boolean createForSingleGroup = false;
+            boolean creatingForAnElement =
+                (component.getAnnotated().getStructureType() == Structure.ELEMENT);
+            
+            //-- created from element definition information
+            xmlNature.setElementDefinition(creatingForAnElement);
+            
+            // deal with substitution groups
+            if (creatingForAnElement) {
+                ElementDecl elementDeclaration = (ElementDecl) component.getAnnotated();
+                Enumeration possibleSubstitutes = elementDeclaration.getSubstitutionGroupMembers();
+                if (possibleSubstitutes.hasMoreElements()) {
+                    List substitutionGroupMembers = new ArrayList();
+                    while (possibleSubstitutes.hasMoreElements()) {
+                        ElementDecl substitute = (ElementDecl) possibleSubstitutes.nextElement();
+                        substitutionGroupMembers.add(substitute.getName());
+                    }
+                    classInfo.setSubstitutionGroups(substitutionGroupMembers);
                 }
-                classInfo.setSubstitutionGroups(substitutionGroupMembers);
             }
-        }
 
-
-        if (type != null) {
-            if (type.isComplexType()) {
-                processComplexType(component, sgState, state);
-            } else if (type.isSimpleType()) {
-                SimpleType simpleType = (SimpleType) type;
-                //-- handle our special case for enumerated types
-                if (simpleType.hasFacet(Facet.ENUMERATION)) {
-                    processSimpleTypeEnumeration(component, sgState, classInfo, simpleType);
-                } else {
-                    //////////////////////////////////////////////////////////
-                    //NOTE: generate sources if the flag for generating sources
-                    //from imported schemas is on
-                    //////////////////////////////////////////////////////////
+            if (type != null) {
+                if (type.isComplexType()) {
+                    processComplexType(component, sgState, state);
+                } else if (type.isSimpleType()) {
+                    SimpleType simpleType = (SimpleType) type;
+                    //-- handle our special case for enumerated types
+                    if (simpleType.hasFacet(Facet.ENUMERATION)) {
+                        processSimpleTypeEnumeration(component, sgState, classInfo, simpleType);
+                    } else {
+                        //////////////////////////////////////////////////////////
+                        //NOTE: generate sources if the flag for generating sources
+                        //from imported schemas is on
+                        //////////////////////////////////////////////////////////
+                        return new JClass[0];
+                    }
+                } else if (type.isAnyType()) {
+                    //-- Do not create classes for AnyType
+                    xmlNature.setSchemaType(new XSClass(SGTypes.OBJECT));
                     return new JClass[0];
                 }
-            } else if (type.isAnyType()) {
-                //-- Do not create classes for AnyType
-                classInfo.setSchemaType(new XSClass(SGTypes.OBJECT));
-                return new JClass[0];
-            }
-        } else {
-            //--no type we must be facing an XML schema group
-            //--MODEL GROUP OR GROUP
-            createForSingleGroup = processSchemaGroup(component, state, classInfo);
-        }
-
-        //6--createGroupItem
-        if (createGroupItem) {
-            //-- create Bound Properties code
-            if (component.hasBoundProperties()) {
-                createPropertyChangeMethods(jClass);
-            }
-
-            sgState.bindReference(jClass, classInfo);
-
-            classes[1] = jClass;
-
-            //-- create main group class
-            String fname = component.getJavaClassName() + ITEM_NAME;
-            fname = getJavaNaming().toJavaMemberName(fname, false);
-
-            FieldInfo fInfo = null;
-            if (createForSingleGroup) {
-                //By default a nested group Item can occur only once
-                fInfo = getInfoFactory().createFieldInfo(new XSClass(jClass), fname);
             } else {
-                fInfo = getInfoFactory().createCollection(
-                        new XSClass(jClass), "_items", fname, getJavaNaming(), getConfig().useJava50());
+                //--no type we must be facing an XML schema group
+                //--MODEL GROUP OR GROUP
+                createForSingleGroup = processSchemaGroup(component, state, classInfo);
             }
-            fInfo.setContainer(true);
-            String newClassName = className.substring(0, className.length() - 4);
-            state = new FactoryState(newClassName, sgState, packageName, component);
-            classInfo = state.getClassInfo();
-            jClass    = state.getJClass();
-            initialize(jClass);
-            if (type != null && type.isComplexType()) {
-                ComplexType complexType = (ComplexType) type;
-                if (complexType.isTopLevel() ^ creatingForAnElement) {
-                    //process attributes and content type since it has not be performed before
-                    Annotated saved = component.getAnnotated();
-                    processAttributes(component.getBinding(), complexType, state);
-                    component.setView(saved);
-                    if (complexType.getContentType() == ContentType.mixed) {
-                        FieldInfo fieldInfo = _memberFactory.createFieldInfoForContent(
-                                component, new XSString(), getConfig().useJava50());
-                        handleField(fieldInfo, state, component);
-                    } else if (complexType.getContentType().getType() == ContentType.SIMPLE) {
-                        SimpleContent simpleContent = (SimpleContent) complexType.getContentType();
-                        SimpleType temp = simpleContent.getSimpleType();
-                        XSType xsType = _typeConversion.convertType(
-                                temp, packageName, getConfig().useJava50());
-                        FieldInfo fieldInfo = _memberFactory.createFieldInfoForContent(
-                                component, xsType, getConfig().useJava50());
-                        handleField(fieldInfo, state, component);
-                        temp = null;
-                    } else {
-                        // handle multi-valued choice group
-                        classInfo.setSchemaType(new XSClass(jClass));
+
+            //6--createGroupItem
+            if (createGroupItem) {
+                //-- create Bound Properties code
+                if (component.hasBoundProperties()) {
+                    createPropertyChangeMethods(jClass);
+                }
+
+                sgState.bindReference(jClass, classInfo);
+
+                classes[1] = jClass;
+
+                //-- create main group class
+                String fname = component.getJavaClassName() + ITEM_NAME;
+                fname = getJavaNaming().toJavaMemberName(fname, false);
+
+                FieldInfo fInfo = null;
+                if (createForSingleGroup) {
+                    //By default a nested group Item can occur only once
+                    fInfo = getInfoFactory().createFieldInfo(new XSClass(jClass), fname);
+                } else {
+                    fInfo = getInfoFactory().createCollection(
+                            new XSClass(jClass), "_items", fname, getJavaNaming(), getConfig().useJava50());
+                }
+                fInfo.setContainer(true);
+                String newClassName = className.substring(0, className.length() - 4);
+                state = new FactoryState(newClassName, sgState, packageName, component);
+                classInfo = state.getClassInfo();
+                jClass    = state.getJClass();
+                initialize(jClass);
+                if (type != null && type.isComplexType()) {
+                    ComplexType complexType = (ComplexType) type;
+                    if (complexType.isTopLevel() ^ creatingForAnElement) {
+                        //process attributes and content type since it has not be performed before
+                        Annotated saved = component.getAnnotated();
+                        processAttributes(component.getBinding(), complexType, state);
+                        component.setView(saved);
+                        if (complexType.getContentType() == ContentType.mixed) {
+                            FieldInfo fieldInfo = _memberFactory.createFieldInfoForContent(
+                                    component, new XSString(), getConfig().useJava50());
+                            handleField(fieldInfo, state, component);
+                        } else if (complexType.getContentType().getType() == ContentType.SIMPLE) {
+                            SimpleContent simpleContent = (SimpleContent) complexType.getContentType();
+                            SimpleType temp = simpleContent.getSimpleType();
+                            XSType xsType = _typeConversion.convertType(
+                                    temp, packageName, getConfig().useJava50());
+                            FieldInfo fieldInfo = _memberFactory.createFieldInfoForContent(
+                                    component, xsType, getConfig().useJava50());
+                            handleField(fieldInfo, state, component);
+                            temp = null;
+                        } else {
+                            // handle multi-valued choice group
+                            xmlNature.setSchemaType(new XSClass(jClass));
+                        }
                     }
                 }
+
+                classInfo.addFieldInfo(fInfo);
+                fInfo.getMemberAndAccessorFactory().createJavaField(fInfo, jClass);
+                fInfo.getMemberAndAccessorFactory().createAccessMethods(
+                        fInfo, jClass, getConfig().useJava50(), getConfig().getAnnotationBuilders());
+                fInfo.getMemberAndAccessorFactory().generateInitializerCode(
+                        fInfo, jClass.getConstructor(0).getSourceCode());
+
+                //-- name information
+                xmlNature.setNodeName(component.getXMLName());
+
+                //-- mark as a container
+                classInfo.setContainer(true);
+                // -- if we have a superclass, make sure that the actual type extends it, not the
+                // xxxItem holder class.
+                String actSuperClass = classes[1].getSuperClassQualifiedName();
+                jClass.setSuperClass(actSuperClass);
+                classes[1].setSuperClass(null);
             }
 
-            classInfo.addFieldInfo(fInfo);
-            fInfo.getMemberAndAccessorFactory().createJavaField(fInfo, jClass);
-            fInfo.getMemberAndAccessorFactory().createAccessMethods(
-                    fInfo, jClass, getConfig().useJava50(), getConfig().getAnnotationBuilders());
-            fInfo.getMemberAndAccessorFactory().generateInitializerCode(
-                    fInfo, jClass.getConstructor(0).getSourceCode());
-
-            //-- name information
-            classInfo.setNodeName(component.getXMLName());
-
-            //-- mark as a container
-            classInfo.setContainer(true);
-            // -- if we have a superclass, make sure that the actual type extends it, not the
-            // xxxItem holder class.
-            String actSuperClass = classes[1].getSuperClassQualifiedName();
-            jClass.setSuperClass(actSuperClass);
-            classes[1].setSuperClass(null);
         }
-
+        
         classes[0] = jClass;
 
         //7--set the class information given the component information
@@ -769,7 +774,8 @@ public final class SourceFactory extends BaseFactory {
             } else {
                 tmpClass = createSourceCode(component.getBinding(), simpleType, sgState);
             }
-            classInfo.setSchemaType(new XSClass(tmpClass));
+            XMLInfoNature xmlNature = new XMLInfoNature(classInfo);
+            xmlNature.setSchemaType(new XSClass(tmpClass));
         }
     }
 
@@ -963,14 +969,17 @@ public final class SourceFactory extends BaseFactory {
 
         //-- XML information
         Schema  schema = simpleType.getSchema();
-        classInfo.setNamespaceURI(schema.getTargetNamespace());
-        classInfo.setNodeName(typeName);
+        XMLInfoNature xmlNature = new XMLInfoNature(classInfo);
+        xmlNature.setNamespaceURI(schema.getTargetNamespace());
+        XMLInfoNature xmlNature1 = new XMLInfoNature(classInfo);
+        xmlNature1.setNodeName(typeName);
 
         extractAnnotations(simpleType, jClass);
 
         XSClass xsClass = new XSClass(jClass, typeName);
 
-        classInfo.setSchemaType(xsClass);
+        XMLInfoNature xmlNature2 = new XMLInfoNature(classInfo);
+        xmlNature2.setSchemaType(xsClass);
 
         //-- handle enumerated types
         if (enumeration) {
@@ -1921,7 +1930,8 @@ public final class SourceFactory extends BaseFactory {
         String typeName = component.getXMLName();
 
         ClassInfo classInfo = state.getClassInfo();
-        classInfo.setSchemaType(new XSClass(state.getJClass(), typeName));
+        XMLInfoNature xmlNature = new XMLInfoNature(classInfo);
+        xmlNature.setSchemaType(new XSClass(state.getJClass(), typeName));
 
         /// I don't believe this should be here: kv 20030423
         ///classInfo.setNamespaceURI(component.getTargetNamespace());
@@ -2089,7 +2099,8 @@ public final class SourceFactory extends BaseFactory {
                     //-- a group with minOccurs = 0;
                     //-- (kvisco - 20021007)
                     if (contentModel.getMinOccurs() == 0) {
-                        fieldInfo.setRequired(false);
+                        XMLInfoNature xmlNature = new XMLInfoNature(fieldInfo);
+                        xmlNature.setRequired(false);
                     }
 
                     handleField(fieldInfo, state, component);
@@ -2270,7 +2281,7 @@ public final class SourceFactory extends BaseFactory {
                     break;
                 case XMLInfo.ELEMENT_TYPE:
                     String baseNodeName = fieldInfo.getNodeName();
-                    // TODO[WG]: replace this eror check with something more meaningful
+                    // TODO[WG]: replace this error check with something more meaningful
                     if (baseNodeName != null
                             && !(baseNodeName.equals(XMLInfo.CHOICE_NODE_NAME_ERROR_INDICATION))) {
                         // check whether there is an equally named field in the base

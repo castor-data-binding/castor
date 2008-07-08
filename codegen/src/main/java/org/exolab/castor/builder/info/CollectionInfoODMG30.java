@@ -46,6 +46,7 @@ package org.exolab.castor.builder.info;
 
 import org.exolab.castor.builder.SourceGeneratorConstants;
 import org.exolab.castor.builder.factory.FieldMemberAndAccessorFactory;
+import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.builder.types.XSCollectionFactory;
 import org.exolab.castor.builder.types.XSListType;
 import org.exolab.castor.builder.types.XSType;
@@ -78,7 +79,10 @@ public final class CollectionInfoODMG30 extends CollectionInfo {
         final XSListType collection = 
             XSCollectionFactory.createCollection(SourceGeneratorConstants.FIELD_INFO_ODMG,
                         contentType, useJava50);
-        this.setSchemaType(collection);
+        if (hasNature(XMLInfoNature.class.getName())) {
+            XMLInfoNature xmlNature = new XMLInfoNature(this);
+            xmlNature.setSchemaType(collection);
+        }
     }
 
 }

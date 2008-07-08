@@ -45,6 +45,7 @@
 package org.exolab.castor.builder.info;
 
 import org.exolab.castor.builder.factory.FieldMemberAndAccessorFactory;
+import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.builder.types.XSId;
 
 /**
@@ -61,8 +62,10 @@ public final class IdentityInfo extends FieldInfo {
     public IdentityInfo(final String name, 
             final FieldMemberAndAccessorFactory memberAndAccessorFactory) {
         super(new XSId(), name, memberAndAccessorFactory);
-        setNodeType(XMLInfo.ATTRIBUTE_TYPE);
-    } // -- SGId
-
+        if (hasNature(XMLInfoNature.class.getName())) {
+            XMLInfoNature xmlNature = new XMLInfoNature(this);
+            xmlNature.setNodeType(XMLInfo.ATTRIBUTE_TYPE);
+        }
+    }
    
 }
