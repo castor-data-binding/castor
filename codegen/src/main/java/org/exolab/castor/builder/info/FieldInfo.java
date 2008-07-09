@@ -244,7 +244,7 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
      * @return the name of the write method for this FieldInfo.
      */
     public final String getWriteMethodName() {
-        if (isMultivalued()) {
+        if (new XMLInfoNature(this).isMultivalued()) {
             return METHOD_PREFIX_ADD + getMethodSuffix();
         }
         return METHOD_PREFIX_SET + getMethodSuffix();
@@ -325,7 +325,7 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
      * @return true if the has and delete methods are needed.
      */
     public final boolean requiresHasAndDeleteMethods() {
-        XSType xsType = getSchemaType();
+        XSType xsType = new XMLInfoNature(this).getSchemaType();
         JType jType  = xsType.getJType();
         return ((!xsType.isEnumerated()) && jType.isPrimitive());
     } //-- requiresHasAndDeleteMethods
@@ -599,99 +599,4 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
         return _natures.contains(nature);
     }
     
-    /**
-     * Returns the namespace prefix of the object described by this XMLInfo.
-     *
-     * @return the namespace prefix of the object described by this XMLInfo
-     */
-    public final String getNamespacePrefix() {
-        XMLInfoNature xmlNature = new XMLInfoNature(this);
-        return xmlNature.getNamespacePrefix();
-    }
-
-    /**
-     * Returns the namespace URI of the object described by this XMLInfo.
-     *
-     * @return the namespace URI of the object described by this XMLInfo
-     */
-    public final String getNamespaceURI() {
-        XMLInfoNature xmlNature = new XMLInfoNature(this);
-        return xmlNature.getNamespaceURI();
-    }
-
-    /**
-     * Returns the XML name for the object described by this XMLInfo.
-     *
-     * @return the XML name for the object described by this XMLInfo, or null if
-     *         no name has been set
-     */
-    public final String getNodeName() {
-        XMLInfoNature xmlNature = new XMLInfoNature(this);
-        return xmlNature.getNodeName();
-    }
-
-    /**
-     * Returns the node type for the object described by this XMLInfo.
-     *
-     * @return the node type for the object described by this XMLInfo
-     */
-    public final short getNodeType() {
-        XMLInfoNature xmlNature = new XMLInfoNature(this);
-        return xmlNature.getNodeType();
-    }
-
-    /**
-     * Returns the string name of the nodeType, either "attribute", "element" or
-     * "text".
-     *
-     * @return the name of the node-type of the object described by this
-     *         XMLInfo.
-     */
-    public final String getNodeTypeName() {
-        XMLInfoNature xmlNature = new XMLInfoNature(this);
-        return xmlNature.getNodeTypeName();
-    }
-
-    /**
-     * Returns the XML Schema type for the described object.
-     *
-     * @return the XML Schema type.
-     */
-    public final XSType getSchemaType() {
-        XMLInfoNature xmlNature = new XMLInfoNature(this);
-        return xmlNature.getSchemaType();
-    }
-
-    /**
-     * Returns true if XSD is global element or element with anonymous type.
-     *
-     * @return true if xsd is element
-     */
-    public final boolean isElementDefinition() {
-        XMLInfoNature xmlNature = new XMLInfoNature(this);
-        return xmlNature.isElementDefinition();
-    }
-
-    /**
-     * Return whether or not the object described by this XMLInfo is
-     * multi-valued (appears more than once in the XML document).
-     *
-     * @return true if this object can appear more than once.
-     */
-    public boolean isMultivalued() {
-        XMLInfoNature xmlNature = new XMLInfoNature(this);
-        return xmlNature.isMultivalued();
-    }
-
-    /**
-     * Return true if the XML object described by this XMLInfo must appear at
-     * least once in the XML document (or object model).
-     *
-     * @return true if the XML object must appear at least once.
-     */
-    public final boolean isRequired() {
-        XMLInfoNature xmlNature = new XMLInfoNature(this);
-        return xmlNature.isRequired();
-    }
-
 }

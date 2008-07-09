@@ -52,6 +52,7 @@ package org.exolab.castor.builder.info;
 
 import org.exolab.castor.builder.SourceGeneratorConstants;
 import org.exolab.castor.builder.factory.FieldMemberAndAccessorFactory;
+import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.builder.types.XSCollectionFactory;
 import org.exolab.castor.builder.types.XSListType;
 import org.exolab.castor.builder.types.XSType;
@@ -150,7 +151,7 @@ public class CollectionInfo extends FieldInfo {
      * @return the type of content in this collection.
      */
     public final XSType getContentType() {
-        return this.getContent().getSchemaType();
+        return new XMLInfoNature(this.getContent()).getSchemaType();
     }
 
     /**
@@ -169,7 +170,7 @@ public class CollectionInfo extends FieldInfo {
      * @return the schema type represented by this collection.
      */
     public final XSListType getXSList() {
-        return (XSListType) this.getSchemaType();
+        return (XSListType) new XMLInfoNature(this).getSchemaType();
     }
 
     /**

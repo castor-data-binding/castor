@@ -27,6 +27,7 @@ import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.builder.info.nature.JDOClassInfoNature;
 import org.exolab.castor.builder.info.nature.JDOFieldInfoNature;
+import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.javasource.JClass;
 import org.xml.sax.InputSource;
 
@@ -116,8 +117,9 @@ public class AppInfoProcessingTest extends TestCase {
         assertEquals(1, cInfos.size());
 
         ClassInfo cInfo = (ClassInfo) cInfos.get(0);
+        XMLInfoNature xmlNature = new XMLInfoNature(cInfo);
 
-        assertEquals("father", cInfo.getNodeName());
+        assertEquals("father", xmlNature.getNodeName());
 
         JDOClassInfoNature cNature = new JDOClassInfoNature(cInfo);
 
@@ -226,7 +228,9 @@ public class AppInfoProcessingTest extends TestCase {
 
             assertNotNull(cInfo);
 
-            if (cInfo.getNodeName().equals("book")) {
+            XMLInfoNature xmlNature = new XMLInfoNature(cInfo);
+            
+            if (xmlNature.getNodeName().equals("book")) {
                 /*
                  * No JDO-specific information should be stored to this
                  * ClassInfo.
@@ -242,7 +246,7 @@ public class AppInfoProcessingTest extends TestCase {
                 
                 assertEquals(0, cInfo.getFieldCount());
                 
-            } else if (cInfo.getNodeName().equals("bookType")) {
+            } else if (xmlNature.getNodeName().equals("bookType")) {
                 JDOClassInfoNature cNature = new JDOClassInfoNature(cInfo);
                 
                 assertEquals("book", cNature.getTableName());
@@ -432,10 +436,11 @@ public class AppInfoProcessingTest extends TestCase {
             assertNotNull(cInfo);
             
             JDOClassInfoNature cNature = new JDOClassInfoNature(cInfo);
+            XMLInfoNature xmlNature = new XMLInfoNature(cInfo);
             
             assertNotNull(cNature);
             
-            if (cInfo.getNodeName().equals("person")) {
+            if (xmlNature.getNodeName().equals("person")) {
                 String tableName = cNature.getTableName();
                 assertEquals("person", tableName);
                 
@@ -459,23 +464,25 @@ public class AppInfoProcessingTest extends TestCase {
                     String columnName = fNature.getColumnName();
                     String columnType = fNature.getColumnType();
                     
-                    if (fInfo.getNodeName().equals("ssn")) {    
+                    XMLInfoNature xmlFieldNature = new XMLInfoNature(fInfo);
+                    
+                    if (xmlFieldNature.getNodeName().equals("ssn")) {    
                         assertEquals("ssn", columnName);
                         assertEquals("bigint", columnType);
-                    } else if (fInfo.getNodeName().equals("firstName")) {
+                    } else if (xmlFieldNature.getNodeName().equals("firstName")) {
                         assertEquals("firstName", columnName);
                         assertEquals("varchar", columnType);
-                    } else if (fInfo.getNodeName().equals("lastName")) {
+                    } else if (xmlFieldNature.getNodeName().equals("lastName")) {
                         assertEquals("lastName", columnName);
                         assertEquals("varchar", columnType);
-                    } else if (fInfo.getNodeName().equals("birthdate")) {
+                    } else if (xmlFieldNature.getNodeName().equals("birthdate")) {
                         assertEquals("birthdate", columnName);
                         assertEquals("date", columnType);
                     } else {
                         fail("Unexpected FieldInfo Element encountered!");
                     }
                 }
-            } else if (cInfo.getNodeName().equals("insurant")) {
+            } else if (xmlNature.getNodeName().equals("insurant")) {
                 String tableName = cNature.getTableName();
                 assertEquals("insurant", tableName);
                 

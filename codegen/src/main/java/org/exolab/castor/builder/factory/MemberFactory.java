@@ -230,18 +230,18 @@ public final class MemberFactory extends BaseFactory {
         } else {
             fInfo = this.getInfoFactory().createFieldInfo(xsType, fieldName);
         }
-        XMLInfoNature xmlNature1 = new XMLInfoNature(fInfo);
-        xmlNature1.setNodeType(XMLInfo.TEXT_TYPE);
         fInfo.setComment("internal content storage");
-        XMLInfoNature xmlNature2 = new XMLInfoNature(fInfo);
-        xmlNature2.setRequired(false);
-        XMLInfoNature xmlNature = new XMLInfoNature(fInfo);
-        xmlNature.setNodeName("#text");
         if (xsType instanceof XSString) {
             fInfo.setDefaultValue("\"\"");
         }
+        if (fInfo.hasNature(XMLInfoNature.class.getName())) {
+            XMLInfoNature xmlNature = new XMLInfoNature(fInfo);
+            xmlNature.setNodeType(XMLInfo.TEXT_TYPE);
+            xmlNature.setRequired(false);
+            xmlNature.setNodeName("#text");
+        }
         return fInfo;
-    } //-- createFieldInfoForContent
+    }
 
     /**
      * Creates a FieldInfo object for the given XMLBindingComponent.
@@ -288,7 +288,8 @@ public final class MemberFactory extends BaseFactory {
                         classInfo = resolver.resolve(xmlType);
                     }
                     if (classInfo != null) {
-                        xsType = classInfo.getSchemaType();
+                        XMLInfoNature xmlNature = new XMLInfoNature(classInfo);
+                        xsType = xmlNature.getSchemaType();
                     }
                 } else if ((simpleType instanceof ListType) || (baseType instanceof ListType)) {
                     if (baseType != null) {
@@ -308,7 +309,8 @@ public final class MemberFactory extends BaseFactory {
             } else if (xmlType.isAnyType()) {
                 //-- Just treat as java.lang.Object.
                 if (classInfo != null) {
-                    xsType = classInfo.getSchemaType();
+                    XMLInfoNature xmlNature = new XMLInfoNature(classInfo);
+                    xsType = xmlNature.getSchemaType();
                 }
                 if (xsType == null) {
                     xsType = new XSClass(SGTypes.OBJECT);
@@ -326,7 +328,8 @@ public final class MemberFactory extends BaseFactory {
                         // if we have not processed the <complexType> referenced
                         // by the ClassInfo yet, this will return null
                         // TODO find a way to resolve an unprocessed <complexType>
-                        xsType = typeInfo.getSchemaType();
+                        XMLInfoNature xmlNature = new XMLInfoNature(typeInfo);
+                        xsType = xmlNature.getSchemaType();
                     } else {
                         String className = temp.getQualifiedName();
                         if (className != null) {
@@ -435,23 +438,19 @@ public final class MemberFactory extends BaseFactory {
         }
 
         // initialize the field
-        XMLInfoNature xmlNature1 = new XMLInfoNature(fieldInfo);
-        xmlNature1.setNodeName(xmlName);
-        XMLInfoNature xmlNature5 = new XMLInfoNature(fieldInfo);
-        xmlNature5.setRequired(minOccurs > 0);
+        XMLInfoNature xmlNature = new XMLInfoNature(fieldInfo);
+        xmlNature.setNodeName(xmlName);
+        xmlNature.setRequired(minOccurs > 0);
         switch (component.getAnnotated().getStructureType()) {
             case Structure.ELEMENT:
-                 XMLInfoNature xmlNature3 = new XMLInfoNature(fieldInfo);
-                xmlNature3.setNodeType(XMLInfo.ELEMENT_TYPE);
+                xmlNature.setNodeType(XMLInfo.ELEMENT_TYPE);
                  break;
             case Structure.ATTRIBUTE:
-                XMLInfoNature xmlNature4 = new XMLInfoNature(fieldInfo);
-                xmlNature4.setNodeType(XMLInfo.ATTRIBUTE_TYPE);
+                xmlNature.setNodeType(XMLInfo.ATTRIBUTE_TYPE);
                 break;
             case Structure.MODELGROUP:
             case Structure.GROUP:
-                XMLInfoNature xmlNature2 = new XMLInfoNature(fieldInfo);
-                xmlNature2.setNodeName(XMLInfo.CHOICE_NODE_NAME_ERROR_INDICATION);
+                xmlNature.setNodeName(XMLInfo.CHOICE_NODE_NAME_ERROR_INDICATION);
                 fieldInfo.setContainer(true);
                 break;
             default:
@@ -461,7 +460,6 @@ public final class MemberFactory extends BaseFactory {
         //-- handle namespace URI / prefix
         String nsURI = component.getTargetNamespace();
         if ((nsURI != null) && (nsURI.length() > 0)) {
-            XMLInfoNature xmlNature = new XMLInfoNature(fieldInfo);
             xmlNature.setNamespaceURI(nsURI);
             // TODO set the prefix used in the XML Schema
             //      in order to use it inside the Marshaling Framework

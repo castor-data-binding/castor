@@ -3,6 +3,7 @@ package org.exolab.castor.builder.factory;
 import org.castor.xml.JavaNaming;
 import org.exolab.castor.builder.AnnotationBuilder;
 import org.exolab.castor.builder.info.FieldInfo;
+import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.javasource.JClass;
 import org.exolab.javasource.JDocComment;
@@ -45,9 +46,11 @@ public class FieldMemberAndAccessorFactory {
      */
     public void generateInitializerCode(final FieldInfo fieldInfo, final JSourceCode jsc) {
         //set the default value
-        if (!fieldInfo.getSchemaType().isPrimitive()) {
+        XMLInfoNature xmlNature = new XMLInfoNature(fieldInfo);
+        
+        if (!xmlNature.getSchemaType().isPrimitive()) {
             String value = fieldInfo.getDefaultValue();
-            boolean dateTime = fieldInfo.getSchemaType().isDateTime();
+            boolean dateTime = xmlNature.getSchemaType().isDateTime();
             if (value == null) {
                 value = fieldInfo.getFixedValue();
             }
@@ -91,11 +94,12 @@ public class FieldMemberAndAccessorFactory {
      * @param jClass the jclass the jField will be added to
      */
     public final void createJavaField(final FieldInfo fieldInfo,  final JClass jClass) {
-        XSType type = fieldInfo.getSchemaType();
+        XMLInfoNature xmlNature = new XMLInfoNature(fieldInfo);
+        XSType type = xmlNature.getSchemaType();
         JType jType = type.getJType();
         JField field = new JField(type.getJType(), fieldInfo.getName());
 
-        if (fieldInfo.getSchemaType().isDateTime()) {
+        if (xmlNature.getSchemaType().isDateTime()) {
             field.setDateTime(true);
         }
 
@@ -119,7 +123,7 @@ public class FieldMemberAndAccessorFactory {
             field.setInitString(fieldInfo.getDefaultValue());
         }
 
-        if (fieldInfo.getFixedValue() != null && !fieldInfo.getSchemaType().isDateTime()) {
+        if (fieldInfo.getFixedValue() != null && !xmlNature.getSchemaType().isDateTime()) {
             field.setInitString(fieldInfo.getFixedValue());
         }
 
@@ -220,7 +224,7 @@ public class FieldMemberAndAccessorFactory {
 
         String mname = fieldInfo.getMethodSuffix();
 
-        XSType xsType = fieldInfo.getSchemaType();
+        XSType xsType = new XMLInfoNature(fieldInfo).getSchemaType();
         JType jType  = xsType.getJType();
 
         //-- create get method
@@ -276,7 +280,7 @@ public class FieldMemberAndAccessorFactory {
 
         String mname = fieldInfo.getMethodSuffix();
 
-        XSType xsType = fieldInfo.getSchemaType();
+        XSType xsType = new XMLInfoNature(fieldInfo).getSchemaType();
         xsType.getJType();
 
         //-- create hasMethod
@@ -364,8 +368,10 @@ public class FieldMemberAndAccessorFactory {
         JMethod method    = null;
         JSourceCode jsc   = null;
 
+        XMLInfoNature xmlNature = new XMLInfoNature(fieldInfo);
+        
         String mname  = fieldInfo.getMethodSuffix();
-        XSType xsType = fieldInfo.getSchemaType();
+        XSType xsType = xmlNature.getSchemaType();
         JType jType   = xsType.getJType();
 
         //-- create set method
@@ -419,7 +425,7 @@ public class FieldMemberAndAccessorFactory {
             jsc.append(fieldInfo.getFieldInfoReference().getName());
             jsc.append(" = ");
 
-            JType referencedJType = fieldInfo.getFieldInfoReference().getSchemaType().getJType();
+            JType referencedJType = new XMLInfoNature(fieldInfo.getFieldInfoReference()).getSchemaType().getJType();
             if (referencedJType.isPrimitive()) {
                 jsc.append(paramName);
             } else if (jType.isPrimitive()) {

@@ -59,6 +59,7 @@ import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.builder.info.XMLInfo;
+import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.builder.types.XSList;
 import org.exolab.castor.builder.types.XSListType;
 import org.exolab.castor.builder.types.XSType;
@@ -123,9 +124,10 @@ public final class DescriptorSourceFactory {
         //-- get handle to default constuctor
         JConstructor cons = classDesc.getConstructor(0);
         JSourceCode jsc   = cons.getSourceCode();
+            XMLInfoNature xmlNature = new XMLInfoNature(classInfo);
 
         //-- Set namespace prefix
-        String nsPrefix = classInfo.getNamespacePrefix();
+        String nsPrefix = xmlNature.getNamespacePrefix();
         if ((nsPrefix != null) && (nsPrefix.length() > 0)) {
             jsc.add("_nsPrefix = \"");
             jsc.append(nsPrefix);
@@ -133,7 +135,7 @@ public final class DescriptorSourceFactory {
         }
 
         //-- Set namespace URI
-        String nsURI = classInfo.getNamespaceURI();
+        String nsURI = xmlNature.getNamespaceURI();
         if ((nsURI != null) && (nsURI.length() > 0)) {
             jsc.add("_nsURI = \"");
             jsc.append(nsURI);
@@ -141,7 +143,7 @@ public final class DescriptorSourceFactory {
         }
 
         //-- set XML Name
-        String xmlName = classInfo.getNodeName();
+        String xmlName = xmlNature.getNodeName();
         if (xmlName != null) {
             jsc.add("_xmlName = \"");
             jsc.append(xmlName);
@@ -149,11 +151,11 @@ public final class DescriptorSourceFactory {
         }
 
         //-- set Element Definition flag
-        boolean elementDefinition = classInfo.isElementDefinition();
+        boolean elementDefinition = xmlNature.isElementDefinition();
         jsc.add("_elementDefinition = ");
         jsc.append(new Boolean(elementDefinition).toString());
         jsc.append(";");
-
+        
         //-- set grouping compositor
         if (classInfo.isChoice()) {
             jsc.add("");
@@ -214,7 +216,7 @@ public final class DescriptorSourceFactory {
             }
 
             if (base != null) {
-                String baseNodeName = member.getNodeName();
+                String baseNodeName = xmlNature.getNodeName();
                 if (baseNodeName.equals(XMLInfo.CHOICE_NODE_NAME_ERROR_INDICATION)) {
                     createDescriptor(classDesc, member, localClassName, nsURI, jsc);
                 } else {
@@ -246,7 +248,7 @@ public final class DescriptorSourceFactory {
             }
 
             if (base != null) {
-                String baseNodeName = member.getNodeName();
+                String baseNodeName = xmlNature.getNodeName();
                 if (baseNodeName == null) {
                     createDescriptor(classDesc, member, localClassName, nsURI, jsc);
                 } else if (baseNodeName.equals(XMLInfo.CHOICE_NODE_NAME_ERROR_INDICATION)) {
@@ -300,12 +302,13 @@ public final class DescriptorSourceFactory {
      */
     private static void createRestrictedDescriptor(final FieldInfo member, final JSourceCode jsc) {
         jsc.add("desc = (org.exolab.castor.xml.util.XMLFieldDescriptorImpl) getFieldDescriptor(\"");
-        jsc.append(member.getNodeName());
+        XMLInfoNature xmlNature = new XMLInfoNature(member);
+        jsc.append(xmlNature.getNodeName());
         jsc.append("\"");
         jsc.append(", _nsURI");
-        if (member.getNodeType() == XMLInfo.ELEMENT_TYPE) {
+        if (xmlNature.getNodeType() == XMLInfo.ELEMENT_TYPE) {
             jsc.append(", org.exolab.castor.xml.NodeType.Element);");
-        } else if (member.getNodeType() == XMLInfo.ATTRIBUTE_TYPE) {
+        } else if (xmlNature.getNodeType() == XMLInfo.ATTRIBUTE_TYPE) {
             jsc.append(", org.exolab.castor.xml.NodeType.Attribute);");
         } else {
             jsc.append("org.exolab.castor.xml.NodeType.Text);");
@@ -328,12 +331,15 @@ public final class DescriptorSourceFactory {
                                   final String localClassName, final String nsURI,
                                   final JSourceCode jsc) {
 
-        XSType xsType       = member.getSchemaType();
+        XMLInfoNature xmlNature = new XMLInfoNature(member);
+        
+        XSType xsType = xmlNature.getSchemaType();
         XSType xsCollectionType = null;
+        
         boolean any         = false;
-        boolean isElement   = (member.getNodeType() == XMLInfo.ELEMENT_TYPE);
-        boolean isAttribute = (member.getNodeType() == XMLInfo.ATTRIBUTE_TYPE);
-        boolean isText      = (member.getNodeType() == XMLInfo.TEXT_TYPE);
+        boolean isElement   = (xmlNature.getNodeType() == XMLInfo.ELEMENT_TYPE);
+        boolean isAttribute = (xmlNature.getNodeType() == XMLInfo.ATTRIBUTE_TYPE);
+        boolean isText      = (xmlNature.getNodeType() == XMLInfo.TEXT_TYPE);
 
         jsc.add("//-- ");
         jsc.append(member.getName());
@@ -346,18 +352,18 @@ public final class DescriptorSourceFactory {
         if (xsType.isCollection()) {
             //Attributes can handle COLLECTION type for NMTOKENS or IDREFS for instance
             xsCollectionType = xsType;
-            xsType = ((CollectionInfo) member).getContent().getSchemaType();
+            xsType = new XMLInfoNature(((CollectionInfo) member).getContent()).getSchemaType();
         }
 
         // Resolve how the node name parameter to the XMLFieldDescriptorImpl constructor is supplied
-        String nodeName = member.getNodeName();
+        String nodeName = xmlNature.getNodeName();
         String nodeNameParam = null;
         if ((nodeName != null) && (!isText)) {
             //-- By default the node name parameter is a literal string
             nodeNameParam = "\"" + nodeName + "\"";
             if (_config.classDescFieldNames()) {
                 //-- The node name parameter is a reference to a public static final
-                nodeNameParam = member.getNodeName().toUpperCase();
+                nodeNameParam = nodeName.toUpperCase();
                 //-- Expose node name as public static final (reused by XMLFieldDescriptorImpl)
                 JModifiers publicStaticFinal = new JModifiers();
                 publicStaticFinal.makePublic();
@@ -465,14 +471,14 @@ public final class DescriptorSourceFactory {
 
         //-- Handle namespaces
         //-- FieldInfo namespace has higher priority than ClassInfo namespace.
-        if (member.getNamespaceURI() != null) {
+        if (xmlNature.getNamespaceURI() != null) {
             jsc.add("desc.setNameSpaceURI(\"");
-            jsc.append(member.getNamespaceURI());
+            jsc.append(xmlNature.getNamespaceURI());
             jsc.append("\");");
         }
 
         //-- required
-        if (member.isRequired()) {
+        if (xmlNature.isRequired()) {
             jsc.add("desc.setRequired(true);");
         }
 
@@ -488,7 +494,7 @@ public final class DescriptorSourceFactory {
 
         //-- mark as multi or single valued for elements
         if (isElement || isAttribute) {
-            jsc.add("desc.setMultivalued(" + member.isMultivalued());
+            jsc.add("desc.setMultivalued(" + xmlNature.isMultivalued());
             jsc.append(");");
         }
 
@@ -539,6 +545,8 @@ public final class DescriptorSourceFactory {
      */
     private void addSpecialHandlerLogic(final FieldInfo member, final XSType xsType,
                                         final JSourceCode jsc) {
+        XMLInfoNature xmlNature = new XMLInfoNature(member);
+        
         if (xsType.isEnumerated()) {
             jsc.add("handler = new org.exolab.castor.xml.handlers.EnumFieldHandler(");
             jsc.append(classType(xsType.getJType()));
@@ -550,7 +558,7 @@ public final class DescriptorSourceFactory {
             jsc.add("desc.setImmutable(true);");
         } else if (xsType.getType() == XSType.DECIMAL_TYPE) {
             jsc.add("desc.setImmutable(true);");
-        } else if (member.getSchemaType().isCollection()) {
+        } else if (xmlNature.getSchemaType().isCollection()) {
             //-- Handle special Collection Types such as NMTOKENS and IDREFS
             switch (xsType.getType()) {
                 case XSType.NMTOKEN_TYPE:
@@ -570,7 +578,7 @@ public final class DescriptorSourceFactory {
                     //-- uses special code in UnmarshalHandler
                     //-- see UnmarshalHandler#processIDREF
                     jsc.add("desc.setMultivalued(");
-                    jsc.append("" + member.isMultivalued());
+                    jsc.append("" + xmlNature.isMultivalued());
                     jsc.append(");");
                     break;
                 default:
@@ -605,7 +613,8 @@ public final class DescriptorSourceFactory {
                 return;
             }
 
-            XSType xsType = member.getSchemaType();
+            XMLInfoNature xmlNature = new XMLInfoNature(member);
+            XSType xsType = xmlNature.getSchemaType();
             //--handle collections
             if (xsType.isCollection()) {
                 XSListType xsList = (XSListType) xsType;
@@ -618,7 +627,7 @@ public final class DescriptorSourceFactory {
                     jsc.append(Integer.toString(xsList.getMaximumSize()));
                     jsc.append(");");
                 }
-            } else if (member.isRequired()) {
+            } else if (xmlNature.isRequired()) {
                 jsc.add("fieldValidator.setMinOccurs(1);");
             }
 
