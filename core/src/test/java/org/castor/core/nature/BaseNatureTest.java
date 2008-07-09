@@ -16,6 +16,9 @@
  */
 package org.castor.core.nature;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import junit.framework.TestCase;
 
 import org.castor.core.nature.BaseNature;
@@ -228,5 +231,34 @@ public final class BaseNatureTest extends TestCase {
         bnw.setProperty("setbefore", new Boolean(true));
         assertEquals(true, bnw.getBooleanPropertyDefaultFalse("setbefore"));
     }
+    
+    /**
+     * Checks, whether a new List is instantiated if property was not set before.
+     */
+    public void testGetPropertyAsListPropertyNotSet() {
+        PropertyHolderTest ph = new PropertyHolderTest();
+        ph.addNature(BaseNatureWrapper.class.getName());
+        BaseNatureWrapper bnw = new BaseNatureWrapper(ph);
+        List notset = bnw.getPropertyAsList("notsetbefore");
+        assertNotNull(notset);
+        assertEquals(0, notset.size());
+    }
+    
+    /**
+     * Checks, whether a new List is instantiated if property was not set
+     * before.
+     */
+    public void testGetPropertyAsListPropertySet() {
+        PropertyHolderTest ph = new PropertyHolderTest();
+        ph.addNature(BaseNatureWrapper.class.getName());
+        BaseNatureWrapper bnw = new BaseNatureWrapper(ph);
+        ArrayList list = new ArrayList();
+        list.add("entry");
+        bnw.setProperty("setbefore", list);
+        List setbefore = bnw.getPropertyAsList("setbefore");
+        assertNotNull(setbefore);
+        assertEquals(1, setbefore.size());
+        assertEquals("entry", setbefore.get(0));
+    }    
 
 }
