@@ -16,6 +16,9 @@
  */
 package org.castor.core.nature;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Adds property handle methods and a constructor including a health check. See
  * constructor comments for more details.
@@ -94,6 +97,8 @@ public abstract class BaseNature implements Nature {
 
     /**
      * Returns boolean value of the property or false if property value is null.
+     * Make sure, not to request a property, which does not have a boolean
+     * value!
      * 
      * @param propertyName
      *            name of the property.
@@ -106,5 +111,31 @@ public abstract class BaseNature implements Nature {
             return false;
         }
         return b.booleanValue();
+    }
+
+    /**
+     * Returns the {@link PropertyHolder}.
+     * @return the holder
+     */
+    protected final PropertyHolder getHolder() {
+        return _holder;
+    }
+
+    /**
+     * Returns value of the property as a List. If the property was not set
+     * before, a new List will be returned. Make sure, not to request a
+     * property, which is not a List!
+     * 
+     * @param propertyName
+     *            name of the property.
+     * @return A List.
+     */
+    protected List getPropertyAsList(String property) {
+        List list = (List) getProperty(property);
+        if (list == null) {
+            list = new LinkedList();
+            this.setProperty(property, list);
+        }
+        return list;
     }
 }

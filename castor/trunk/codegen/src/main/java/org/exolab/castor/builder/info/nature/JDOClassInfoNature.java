@@ -16,11 +16,13 @@
  */
 package org.exolab.castor.builder.info.nature;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.castor.core.nature.BaseNature;
 import org.exolab.castor.builder.info.ClassInfo;
+import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.mapping.AccessMode;
 
 /**
@@ -69,27 +71,25 @@ public final class JDOClassInfoNature extends BaseNature {
     }
 
     /**
-     * Adds a column to the primary key. the order of the key columns is not
+     * Adds a column to the primary key. The order of the key columns is not
      * guaranteed.
      * 
      * @param column
      *            column name
      */
     public void addPrimaryKey(final String column) {
-        LinkedList list = (LinkedList) this.getProperty(PRIMARY_KEY);
-        if (list == null) {
-            list = new LinkedList();
-            this.setProperty(PRIMARY_KEY, list);
-        }
-        list.add(column);
+        List primaryKey = getPropertyAsList(PRIMARY_KEY);
+        primaryKey.add(column);
     }
-
+    
     /**
-     * Returns an Array of Strings holding the columns of the primary key. Keep
-     * in mind that by contract of <code>addPrimaryKey(String primaryKey)</code>
-     * the order is not guaranteed.
+     * Returns a List of {@String}s holding the columns of the primary key.
+     * Keep in mind that by contract of
+     * <code>addPrimaryKey(String primaryKey)</code> the order is not
+     * guaranteed.
      * 
-     * @return the names of the primary key's columns
+     * @return the names of the primary key's columns or null if no key added
+     *         before.
      */
     public List getPrimaryKeys() {
         return (List) this.getProperty(PRIMARY_KEY);
