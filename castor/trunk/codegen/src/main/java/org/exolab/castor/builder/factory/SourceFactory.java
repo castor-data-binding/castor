@@ -574,10 +574,11 @@ public final class SourceFactory extends BaseFactory {
         else if (annotated instanceof ComplexType && ((ComplexType) annotated).isSimpleContent()) {
             generate = true;
         }
+        
 
         // discard primitiv types and collections
         if (textFieldInfo != null) {
-            XSType textFieldType = textFieldInfo.getSchemaType();
+            XSType textFieldType = new XMLInfoNature(textFieldInfo).getSchemaType();
             if (textFieldType != null && textFieldType.getJType().isArray()) {
                 generate = false;
             }
@@ -587,6 +588,8 @@ public final class SourceFactory extends BaseFactory {
             return;
         }
 
+        XMLInfoNature xmlNature = new XMLInfoNature(textFieldInfo);
+        
         // create constructor
         JClass jClass = classInfo.getJClass();
         JParameter parameter = new JParameter(new JClass("java.lang.String"), "defaultValue");
@@ -598,7 +601,7 @@ public final class SourceFactory extends BaseFactory {
         } else {
             sourceCode.add("try {");
             String defaultValue = 
-                textFieldInfo.getSchemaType().createDefaultValueWithString("defaultValue");
+                xmlNature.getSchemaType().createDefaultValueWithString("defaultValue");
             sourceCode.addIndented("setContent(" + defaultValue + ");");
             sourceCode.add(" } catch(Exception e) {");
             sourceCode.addIndented("throw new RuntimeException(\"Unable to cast default value for simple content!\");");
@@ -971,15 +974,13 @@ public final class SourceFactory extends BaseFactory {
         Schema  schema = simpleType.getSchema();
         XMLInfoNature xmlNature = new XMLInfoNature(classInfo);
         xmlNature.setNamespaceURI(schema.getTargetNamespace());
-        XMLInfoNature xmlNature1 = new XMLInfoNature(classInfo);
-        xmlNature1.setNodeName(typeName);
+        xmlNature.setNodeName(typeName);
 
         extractAnnotations(simpleType, jClass);
 
         XSClass xsClass = new XSClass(jClass, typeName);
 
-        XMLInfoNature xmlNature2 = new XMLInfoNature(classInfo);
-        xmlNature2.setSchemaType(xsClass);
+        xmlNature.setSchemaType(xsClass);
 
         //-- handle enumerated types
         if (enumeration) {
@@ -2247,23 +2248,25 @@ public final class SourceFactory extends BaseFactory {
             return;
         }
 
+        XMLInfoNature xmlNature = new XMLInfoNature(fieldInfo);
+        
         if (CLASS_METHOD_SUFFIX.equals(fieldInfo.getMethodSuffix())) {
             SGStateInfo sInfo = state.getSGStateInfo();
             if (!sInfo.getSuppressNonFatalWarnings()) {
                 String warn = "warning a field name conflicts with \""
                     + CLASS_KEYWORD + "\", please use a binding file to specify "
-                    + "a different name for the " + fieldInfo.getNodeTypeName()
-                    + " '" + fieldInfo.getNodeName() + "'.";
+                    + "a different name for the " + xmlNature.getNodeTypeName()
+                    + " '" + xmlNature.getNodeName() + "'.";
                 sInfo.getDialog().notify(warn);
             }
-        } else if (CLASS_KEYWORD.equals(fieldInfo.getNodeName())) {
+        } else if (CLASS_KEYWORD.equals(xmlNature.getNodeName())) {
             SGStateInfo sInfo = state.getSGStateInfo();
             if (!sInfo.getSuppressNonFatalWarnings()) {
                 String warn = "warning a field name conflicts with \""
                     + CLASS_KEYWORD + "\" and is being replaced by \"clazz\". "
                     + "You may use a binding file to specify a different "
-                    + "name for the " + fieldInfo.getNodeTypeName()
-                    + " '" + fieldInfo.getNodeName() + "'.";
+                    + "name for the " + xmlNature.getNodeTypeName()
+                    + " '" + xmlNature.getNodeName() + "'.";
                 sInfo.getDialog().notify(warn);
             }
         }
@@ -2275,12 +2278,12 @@ public final class SourceFactory extends BaseFactory {
         ClassInfo base = state.getClassInfo().getBaseClass();
         boolean present = false;
         if (base != null) {
-            switch (fieldInfo.getNodeType()) {
+            switch (new XMLInfoNature(fieldInfo).getNodeType()) {
                 case XMLInfo.ATTRIBUTE_TYPE:
-                    present = (base.getAttributeField(fieldInfo.getNodeName()) != null);
+                    present = (base.getAttributeField(xmlNature.getNodeName()) != null);
                     break;
                 case XMLInfo.ELEMENT_TYPE:
-                    String baseNodeName = fieldInfo.getNodeName();
+                    String baseNodeName = xmlNature.getNodeName();
                     // TODO[WG]: replace this error check with something more meaningful
                     if (baseNodeName != null
                             && !(baseNodeName.equals(XMLInfo.CHOICE_NODE_NAME_ERROR_INDICATION))) {
@@ -2288,9 +2291,10 @@ public final class SourceFactory extends BaseFactory {
                         // class, and don't forget to consider the namspaces as well to 
                         // determine whether the fields are really equal.
                         FieldInfo inheritedFieldInfo = base.getElementField(baseNodeName);
+                        
                         if (inheritedFieldInfo != null) {
-                            if (fieldInfo.getNamespaceURI()
-                                    .equals(inheritedFieldInfo.getNamespaceURI())) {
+                            if (xmlNature.getNamespaceURI()
+                                    .equals(new XMLInfoNature(inheritedFieldInfo).getNamespaceURI())) {
                                 present = true;
                             }
                         }
@@ -2302,7 +2306,7 @@ public final class SourceFactory extends BaseFactory {
         }
 
         state.getClassInfo().addFieldInfo(fieldInfo);
-        present = present && !fieldInfo.isMultivalued();
+        present = present && !xmlNature.isMultivalued();
         //create the relevant Java fields only if the field
         //info is not yet in the base classInfo or if it is not a collection
         if (!present) {

@@ -20,6 +20,7 @@ import java.util.Enumeration;
 import org.exolab.castor.builder.SGStateInfo;
 import org.exolab.castor.builder.binding.XPathHelper;
 import org.exolab.castor.builder.info.ClassInfo;
+import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.util.dialog.ConsoleDialog;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.castor.xml.schema.SchemaNames;
@@ -104,9 +105,12 @@ extends BaseClassNameCRStrategy implements ClassNameCRStrategy {
                 error.append(" '");
                 error.append(XPathHelper.getSchemaLocation(a1));
             } else {
-                error.append(newClassInfo.getNodeTypeName());
-                error.append(" '");
-                error.append(newClassInfo.getNodeName());
+                if (newClassInfo.hasNature(XMLInfoNature.class.getName())) {
+                    XMLInfoNature xmlNature = new XMLInfoNature(newClassInfo);
+                    error.append(xmlNature.getNodeTypeName());
+                    error.append(" '");
+                    error.append(xmlNature.getNodeName());
+                }
             }
             error.append("' and ");
             if (a2 != null) {
@@ -114,9 +118,12 @@ extends BaseClassNameCRStrategy implements ClassNameCRStrategy {
                 error.append(" '");
                 error.append(XPathHelper.getSchemaLocation(a2));
             } else {
-                error.append(oldClassInfo.getNodeTypeName());
-                error.append(" '");
-                error.append(oldClassInfo.getNodeName());
+                if (oldClassInfo.hasNature(XMLInfoNature.class.getName())) {
+                    XMLInfoNature xmlNature = new XMLInfoNature(oldClassInfo);
+                    error.append(xmlNature.getNodeTypeName());
+                    error.append(" '");
+                    error.append(xmlNature.getNodeName());
+                }
             }
             error.append("'. Please use a Binding file to solve this problem.");
             error.append("Continue anyway [not recommended] ");

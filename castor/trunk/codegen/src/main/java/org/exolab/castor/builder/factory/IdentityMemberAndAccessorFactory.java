@@ -3,6 +3,7 @@ package org.exolab.castor.builder.factory;
 import org.castor.xml.JavaNaming;
 import org.exolab.castor.builder.SGTypes;
 import org.exolab.castor.builder.info.FieldInfo;
+import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.javasource.JMethod;
 import org.exolab.javasource.JParameter;
 import org.exolab.javasource.JSourceCode;
@@ -30,7 +31,7 @@ public class IdentityMemberAndAccessorFactory extends FieldMemberAndAccessorFact
      */
     public JMethod[] createAccessMethods(final FieldInfo fieldInfo) {
             String mname = fieldInfo.getMethodSuffix();
-            JType jType = fieldInfo.getSchemaType().getJType();
+            JType jType = new XMLInfoNature(fieldInfo).getSchemaType().getJType();
 
             JMethod[] methods = new JMethod[3];
             methods[0] = makeGetMethod(fieldInfo, mname, jType); // -- create get method

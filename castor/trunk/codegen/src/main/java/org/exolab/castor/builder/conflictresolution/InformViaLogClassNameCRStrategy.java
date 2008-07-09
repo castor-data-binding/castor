@@ -22,6 +22,7 @@ import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.builder.SGStateInfo;
 import org.exolab.castor.builder.binding.XPathHelper;
 import org.exolab.castor.builder.info.ClassInfo;
+import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.util.dialog.ConsoleDialog;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.castor.xml.schema.ElementDecl;
@@ -98,6 +99,7 @@ extends BaseClassNameCRStrategy implements ClassNameCRStrategy {
         
         StringBuffer message = new StringBuffer();
         message.append("Warning: A class name generation conflict has occured between ");
+        
         if (a1 != null) {
             message.append(SchemaNames.getStructureName(a1));
             message.append(" '");
@@ -110,9 +112,12 @@ extends BaseClassNameCRStrategy implements ClassNameCRStrategy {
                 message.append(XPathHelper.getSchemaLocation(a1));
             }
         } else {
-            message.append(newClassInfo.getNodeTypeName());
-            message.append(" '");
-            message.append(newClassInfo.getNodeName());
+            if (newClassInfo.hasNature(XMLInfoNature.class.getName())) {
+                XMLInfoNature xmlNature = new XMLInfoNature(newClassInfo);
+                message.append(xmlNature.getNodeTypeName());
+                message.append(" '");
+                message.append(xmlNature.getNodeName());
+            }
         }
         message.append("' and ");
         if (a2 != null) {
@@ -127,9 +132,12 @@ extends BaseClassNameCRStrategy implements ClassNameCRStrategy {
                 message.append(XPathHelper.getSchemaLocation(a2));
             }
         } else {
-            message.append(oldClassInfo.getNodeTypeName());
-            message.append(" '");
-            message.append(oldClassInfo.getNodeName());
+            if (oldClassInfo.hasNature(XMLInfoNature.class.getName())) {
+                XMLInfoNature xmlNature = new XMLInfoNature(oldClassInfo);
+                message.append(xmlNature.getNodeTypeName());
+                message.append(" '");
+                message.append(xmlNature.getNodeName());
+            }
         }
         message.append("'. Please use a Binding file to solve this problem.");
         LOG.warn(message);

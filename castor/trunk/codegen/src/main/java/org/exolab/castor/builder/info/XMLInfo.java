@@ -44,8 +44,6 @@
  */
 package org.exolab.castor.builder.info;
 
-import org.exolab.castor.builder.types.XSType;
-
 /**
  * A class for storing XML related information.
  *
@@ -65,74 +63,5 @@ public interface XMLInfo {
      * Identifies the node name for a choice group.
      */
     String CHOICE_NODE_NAME_ERROR_INDICATION = "-error-if-this-is-used-";
-
-
-    /**
-     * Returns the XML name for the object described by this XMLInfo.
-     *
-     * @return the XML name for the object described by this XMLInfo, or null if
-     *         no name has been set
-     */
-    String getNodeName();
-    
-    /**
-     * Returns the namespace prefix of the object described by this XMLInfo.
-     *
-     * @return the namespace prefix of the object described by this XMLInfo
-     */
-    String getNamespacePrefix();
-
-    /**
-     * Returns the namespace URI of the object described by this XMLInfo.
-     *
-     * @return the namespace URI of the object described by this XMLInfo
-     */
-    String getNamespaceURI();
-
-    /**
-     * Returns true if XSD is global element or element with anonymous type.
-     *
-     * @return true if xsd is element
-     */
-    boolean isElementDefinition();
-
-    /**
-     * Returns the node type for the object described by this XMLInfo.
-     *
-     * @return the node type for the object described by this XMLInfo
-     */
-    short getNodeType();
-
-    /**
-     * Returns the string name of the nodeType, either "attribute", "element" or
-     * "text".
-     *
-     * @return the name of the node-type of the object described by this
-     *         XMLInfo.
-     */
-    String getNodeTypeName();
-
-    /**
-     * Returns the XML Schema type for the described object.
-     *
-     * @return the XML Schema type.
-     */
-    XSType getSchemaType();
-
-    /**
-     * Return whether or not the object described by this XMLInfo is
-     * multi-valued (appears more than once in the XML document).
-     *
-     * @return true if this object can appear more than once.
-     */
-    boolean isMultivalued();
-
-    /**
-     * Return true if the XML object described by this XMLInfo must appear at
-     * least once in the XML document (or object model).
-     *
-     * @return true if the XML object must appear at least once.
-     */
-    boolean isRequired();
 
 }

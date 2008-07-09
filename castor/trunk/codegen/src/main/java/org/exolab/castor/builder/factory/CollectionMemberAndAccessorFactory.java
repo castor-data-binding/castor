@@ -5,6 +5,7 @@ import org.exolab.castor.builder.AnnotationBuilder;
 import org.exolab.castor.builder.SGTypes;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.FieldInfo;
+import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.javasource.JArrayType;
 import org.exolab.javasource.JClass;
@@ -618,7 +619,7 @@ public class CollectionMemberAndAccessorFactory extends FieldMemberAndAccessorFa
             final JClass jClass, final boolean useJava50) {
         JMethod method = new JMethod("set" + fieldInfo.getMethodSuffix() 
                 + fieldInfo.getReferenceSuffix());
-        final JType collectionJType = fieldInfo.getSchemaType().getJType();
+        final JType collectionJType = new XMLInfoNature(fieldInfo).getSchemaType().getJType();
         JParameter parameter = new JParameter(
                 collectionJType, fieldInfo.getParameterPrefix() + collectionJType.getLocalName());
         method.addParameter(parameter);

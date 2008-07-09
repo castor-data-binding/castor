@@ -21,6 +21,7 @@ import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.builder.info.XMLInfo;
+import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.builder.types.XSListType;
 import org.exolab.castor.builder.types.XSClass;
 import org.exolab.castor.builder.types.XSType;
@@ -63,6 +64,8 @@ public final class XMLFieldHandlerFactory {
             final XSType xsType, final String localClassName,
             final JSourceCode jsc, final boolean forGeneralizedHandler) {
 
+        XMLInfoNature xmlNature = new XMLInfoNature(member);
+        
         boolean any = false;
         boolean isEnumerated = false;
 
@@ -80,8 +83,8 @@ public final class XMLFieldHandlerFactory {
 
         createGetValueMethod(member, xsType, localClassName, jsc);
 
-        boolean isAttribute = (member.getNodeType() == XMLInfo.ATTRIBUTE_TYPE);
-        boolean isContent = (member.getNodeType() == XMLInfo.TEXT_TYPE);
+        boolean isAttribute = (xmlNature.getNodeType() == XMLInfo.ATTRIBUTE_TYPE);
+        boolean isContent = (xmlNature.getNodeType() == XMLInfo.TEXT_TYPE);
 
         createSetValueMethod(member, xsType, localClassName, jsc, any, isAttribute, isContent);
         createResetMethod(member, localClassName, jsc);
@@ -102,6 +105,9 @@ public final class XMLFieldHandlerFactory {
     private void createGetValueMethod(final FieldInfo member, final XSType xsType,
             final String localClassName, final JSourceCode jsc) {
         // -- getValue(Object) method
+        
+        XMLInfoNature xmlNature = new XMLInfoNature(member);
+        
         if (_config.useJava50()) {
             jsc.add("@Override");
         }
@@ -117,13 +123,13 @@ public final class XMLFieldHandlerFactory {
         jsc.append(") object;");
         // -- handle primitives
         if ((!xsType.isEnumerated()) && (xsType.getJType().isPrimitive())
-                && (!member.isMultivalued())) {
+                && (!xmlNature.isMultivalued())) {
             jsc.add("if (!target." + member.getHasMethodName() + "()) { return null; }");
         }
         // -- Return field value
         jsc.add("return ");
         String value = "target." + member.getReadMethodName() + "()";
-        if (member.isMultivalued()) {
+        if (xmlNature.isMultivalued()) {
             jsc.append(value); // --Be careful : different for attributes
         } else {
             jsc.append(xsType.createToJavaObjectCode(value));
@@ -166,9 +172,12 @@ public final class XMLFieldHandlerFactory {
         jsc.append(localClassName);
         jsc.append(") object;");
         // -- check for null primitives
+        
+        XMLInfoNature xmlNature = new XMLInfoNature(member);
+        
         if (xsType.isPrimitive() && !_config.usePrimitiveWrapper()) {
-            if ((!member.isRequired()) && (!xsType.isEnumerated())
-                    && (!member.isMultivalued())) {
+            if ((!xmlNature.isRequired()) && (!xsType.isEnumerated())
+                    && (!xmlNature.isMultivalued())) {
                 jsc
                         .add("// if null, use delete method for optional primitives ");
                 jsc.add("if (value == null) {");
@@ -236,7 +245,7 @@ public final class XMLFieldHandlerFactory {
             final String localClassName,
             final JSourceCode jsc) {
         // -- reset method (handle collections only)
-        if (member.isMultivalued()) {
+        if (new XMLInfoNature(member).isMultivalued()) {
             CollectionInfo cInfo = (CollectionInfo) member;
             // FieldInfo content = cInfo.getContent();
             jsc.add("public void resetValue(Object object)"
@@ -290,9 +299,11 @@ public final class XMLFieldHandlerFactory {
         // }
 
         // check whether class of member is declared as abstract
-        if (member.getSchemaType() != null
-                && member.getSchemaType().getJType() instanceof JClass) {
-            JClass jClass = (JClass) member.getSchemaType().getJType();
+        XMLInfoNature xmlNature = new XMLInfoNature(member);
+        
+        if (xmlNature.getSchemaType() != null
+                && xmlNature.getSchemaType().getJType() instanceof JClass) {
+            JClass jClass = (JClass) xmlNature.getSchemaType().getJType();
             isAbstract = jClass.getModifiers().isAbstract();
         }
 
@@ -301,8 +312,8 @@ public final class XMLFieldHandlerFactory {
             isAbstract = jClass.getModifiers().isAbstract();
         }
 
-        if (!isAbstract && member.getSchemaType() instanceof XSListType) {
-            XSListType xsList = (XSListType) member.getSchemaType();
+        if (!isAbstract && xmlNature.getSchemaType() instanceof XSListType) {
+            XSListType xsList = (XSListType) xmlNature.getSchemaType();
             if (xsList.getContentType().getJType() instanceof JClass) {
                 JClass componentType = (JClass) xsList.getContentType().getJType();
                 if (componentType.getModifiers().isAbstract()) {

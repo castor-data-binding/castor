@@ -49,6 +49,7 @@ import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.builder.info.XMLInfo;
+import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.mapping.xml.BindXml;
 import org.exolab.castor.mapping.xml.ClassChoice;
@@ -96,22 +97,24 @@ public final class MappingFileSourceFactory {
         MapTo mapTo = new MapTo();
         classMapping.setMapTo(mapTo);
 
-        String nsPrefix = classInfo.getNamespacePrefix();
+        XMLInfoNature xmlNature = new XMLInfoNature(classInfo);
+
+        String nsPrefix = xmlNature.getNamespacePrefix();
         if ((nsPrefix != null) && (nsPrefix.length() > 0)) {
             mapTo.setNsPrefix(nsPrefix);
         }
 
         //-- Set namespace URI
-        String nsURI = classInfo.getNamespaceURI();
+        String nsURI = xmlNature.getNamespaceURI();
         if ((nsURI != null) && (nsURI.length() > 0)) {
             mapTo.setNsUri(nsURI);
         }
 
         //-- set XML Name
-        mapTo.setXml(classInfo.getNodeName());
+        mapTo.setXml(xmlNature.getNodeName());
 
         //-- set Element Definition flag
-        mapTo.setElementDefinition(classInfo.isElementDefinition());
+        mapTo.setElementDefinition(xmlNature.isElementDefinition());
 
         //-- set grouping compositor
         if (classInfo.isChoice()) {
@@ -154,7 +157,7 @@ public final class MappingFileSourceFactory {
             }
 
             //-- skip inherited fields
-            if (base != null && base.getAttributeField(member.getNodeName()) != null) {
+            if (base != null && base.getAttributeField(xmlNature.getNodeName()) != null) {
                 continue;
             }
 
@@ -174,7 +177,7 @@ public final class MappingFileSourceFactory {
             }
 
             //-- skip inherited fields
-            if (base != null && base.getElementField(member.getNodeName()) != null) {
+            if (base != null && base.getElementField(xmlNature.getNodeName()) != null) {
                 continue;
             }
 
@@ -197,10 +200,13 @@ public final class MappingFileSourceFactory {
      */
     private void createFieldMapping(final ClassMapping classMapping, final FieldInfo member,
                                     final String nsURI) {
-        XSType xsType = member.getSchemaType();
+        XMLInfoNature xmlNature = new XMLInfoNature(member);
+        
+        XSType xsType = xmlNature.getSchemaType();
+
         boolean any = false;
-        boolean isAttribute = (member.getNodeType() == XMLInfo.ATTRIBUTE_TYPE);
-        boolean isText = (member.getNodeType() == XMLInfo.TEXT_TYPE);
+        boolean isAttribute = (xmlNature.getNodeType() == XMLInfo.ATTRIBUTE_TYPE);
+        boolean isText = (xmlNature.getNodeType() == XMLInfo.TEXT_TYPE);
 
         //-- a hack, I know, I will change later (kv)
         if (member.getName().equals("_anyObject")) {
@@ -209,7 +215,7 @@ public final class MappingFileSourceFactory {
 
         //Attributes can handle COLLECTION type for NMTOKENS or IDREFS for instance
         if (xsType.isCollection()) {
-            xsType = ((CollectionInfo) member).getContent().getSchemaType();
+            xsType = new XMLInfoNature(((CollectionInfo) member).getContent()).getSchemaType();
         }
 
         //-- create class choice on demand
@@ -236,7 +242,7 @@ public final class MappingFileSourceFactory {
         BindXml bindXml = new BindXml();
         fieldMap.setBindXml(bindXml);
 
-        String nodeName = member.getNodeName();
+        String nodeName = xmlNature.getNodeName();
         if ((nodeName != null) && (!isText)) {
             bindXml.setName(nodeName);
         }
@@ -285,7 +291,7 @@ public final class MappingFileSourceFactory {
 //      }
 
         // required
-        if (member.isRequired()) {
+        if (xmlNature.isRequired()) {
             fieldMap.setRequired(true);
         }
 

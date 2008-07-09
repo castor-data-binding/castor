@@ -51,6 +51,7 @@ package org.exolab.castor.builder.info;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -137,7 +138,7 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
 
         fieldInfo.setDeclaringClassInfo(this);
 
-        switch(fieldInfo.getNodeType()) {
+        switch(new XMLInfoNature(fieldInfo).getNodeType()) {
             case XMLInfo.ATTRIBUTE_TYPE:
                 if (!_atts.contains(fieldInfo)) {
                     _atts.addElement(fieldInfo);
@@ -184,7 +185,7 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
             return false;
         }
 
-        switch (fieldInfo.getNodeType()) {
+        switch (new XMLInfoNature(fieldInfo).getNodeType()) {
             case XMLInfo.ATTRIBUTE_TYPE:
                 if (_atts != null) {
                     return _atts.contains(fieldInfo);
@@ -234,7 +235,7 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
 
         for (int i = 0; i < _atts.size(); i++) {
             FieldInfo temp = (FieldInfo) _atts.get(i);
-            if (temp.getNodeName().equals(nodeName)) {
+            if (new XMLInfoNature(temp).getNodeName().equals(nodeName)) {
                 return temp;
             }
         }
@@ -280,7 +281,7 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
         if (_elements != null) {
             for (int i = 0; i < _elements.size(); i++) {
                 FieldInfo temp = (FieldInfo) _elements.get(i);
-                String elementNodeName = temp.getNodeName();
+                String elementNodeName = new XMLInfoNature(temp).getNodeName();
                 if (elementNodeName != null && elementNodeName.equals(nodeName)) {
                     return temp;
                 }
@@ -467,101 +468,6 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
      */
     public boolean hasNature(final String nature) {
         return _natures.contains(nature);
-    }
-
-    /**
-     * Returns the namespace prefix of the object described by this XMLInfo.
-     *
-     * @return the namespace prefix of the object described by this XMLInfo
-     */
-    public String getNamespacePrefix() {
-        XMLInfoNature xmlNature = new XMLInfoNature(this);
-        return xmlNature.getNamespacePrefix();
-    }
-
-    /**
-     * Returns the namespace URI of the object described by this XMLInfo.
-     *
-     * @return the namespace URI of the object described by this XMLInfo
-     */
-    public String getNamespaceURI() {
-        XMLInfoNature xmlNature = new XMLInfoNature(this);
-        return xmlNature.getNamespaceURI();
-    }
-
-    /**
-     * Returns the XML name for the object described by this XMLInfo.
-     *
-     * @return the XML name for the object described by this XMLInfo, or null if
-     *         no name has been set
-     */
-    public String getNodeName() {
-        XMLInfoNature xmlNature = new XMLInfoNature(this);
-        return xmlNature.getNodeName();
-    }
-
-    /**
-     * Returns the node type for the object described by this XMLInfo.
-     *
-     * @return the node type for the object described by this XMLInfo
-     */
-    public short getNodeType() {
-        XMLInfoNature xmlNature = new XMLInfoNature(this);
-        return xmlNature.getNodeType();
-    }
-
-    /**
-     * Returns the string name of the nodeType, either "attribute", "element" or
-     * "text".
-     *
-     * @return the name of the node-type of the object described by this
-     *         XMLInfo.
-     */
-    public String getNodeTypeName() {
-        XMLInfoNature xmlNature = new XMLInfoNature(this);
-        return xmlNature.getNodeTypeName();
-    }
-
-    /**
-     * Returns the XML Schema type for the described object.
-     *
-     * @return the XML Schema type.
-     */
-    public XSType getSchemaType() {
-        XMLInfoNature xmlNature = new XMLInfoNature(this);
-        return xmlNature.getSchemaType();
-    }
-
-    /**
-     * Returns true if XSD is global element or element with anonymous type.
-     *
-     * @return true if xsd is element
-     */
-    public boolean isElementDefinition() {
-        XMLInfoNature xmlNature = new XMLInfoNature(this);
-        return xmlNature.isElementDefinition();
-    }
-
-    /**
-     * Return whether or not the object described by this XMLInfo is
-     * multi-valued (appears more than once in the XML document).
-     *
-     * @return true if this object can appear more than once.
-     */
-    public boolean isMultivalued() {
-        XMLInfoNature xmlNature = new XMLInfoNature(this);
-        return xmlNature.isMultivalued();
-    }
-
-    /**
-     * Return true if the XML object described by this XMLInfo must appear at
-     * least once in the XML document (or object model).
-     *
-     * @return true if the XML object must appear at least once.
-     */
-    public boolean isRequired() {
-        XMLInfoNature xmlNature = new XMLInfoNature(this);
-        return xmlNature.isRequired();
     }
 
 }
