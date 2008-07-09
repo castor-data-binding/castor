@@ -100,7 +100,26 @@ org.castor.cpa.persistence.sql.keygen.factories=\
   org.castor.cpa.persistence.sql.keygen.UUIDKeyGeneratorFactory</code-panel>
             </summary>
             <bugs>
-
+                <bug id="2469" tool="jira">
+                    <description>
+                        Added a JDO-specific nature for 1:1 relations. 
+                    </description>
+                    <contributor>
+                         <name>Lukas Lang</name>
+                         <email>lukas.lang@inode.at</email>
+                    </contributor>
+                    <submitter>
+                         <name>Werner Guttmann</name>
+                         <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                         <name>Lukas Lang</name>
+                         <email>lukas.lang@inode.at</email>
+                   </reporter>
+                    <type>Enh.</type>
+                    <module>XMLGen.</module>
+                    <date>20080709</date>
+                </bug>
                 <bug id="2471" tool="jira">
                     <description>
                         Refactored XMLInfo usage (part II) - Inlined all remaining XMLInfo 
