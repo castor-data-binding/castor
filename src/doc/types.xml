@@ -230,6 +230,8 @@ org.exolab.castor.jdo.defaultTimeZone=
                   <tr><td>tinyint</td><td>java.lang.Byte</td></tr>
                   <tr bgcolor="#DEDEDE"><td>varbinary</td><td>byte[]</td></tr>
                   <tr><td>varchar</td><td>java.lang.String</td></tr>
+                   <tr bgcolor="#DEDEDE"><td>other</td><td>java.lang.Object</td></tr>
+                  <tr><td>javaobject</td><td>java.lang.Object</td></tr>
                </table>
             </td>
          </tr>
