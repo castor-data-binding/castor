@@ -13,23 +13,12 @@ public final class TestTemplate extends TestCase {
     
     private JDOManager _jdo = null;
 
-    public static void main(final String[] args) throws Exception {
-        TestTemplate test = new TestTemplate();
-        test.setUp();
-        test.testQueryEntity();
-        test.tearDown();
-    }
-    
     protected void setUp() throws Exception {
         super.setUp();
         
         String config = getClass().getResource(JDO_CONF_FILE).toString();
         JDOManager.loadConfiguration(config, getClass().getClassLoader());
         _jdo = JDOManager.createInstance(DATABASE_NAME);
-    }
-    
-    protected void tearDown() throws Exception {
-        super.tearDown();
     }
     
     public void testQueryEntity() throws Exception {
