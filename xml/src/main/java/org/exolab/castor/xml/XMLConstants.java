@@ -59,6 +59,7 @@ public interface XMLConstants {
     /** This suffix is added to a class name to make its descriptor. */
     String JDO_DESCRIPTOR_SUFFIX   = "JDODescriptor";
 
+    // TODO !!!! point to JDOCOnstants !!!!!
     /** JDODescriptors are placed into this special package relative to the generated source. */
     String JDO_DESCRIPTOR_PACKAGE  = "jdo_descriptors";
 }
