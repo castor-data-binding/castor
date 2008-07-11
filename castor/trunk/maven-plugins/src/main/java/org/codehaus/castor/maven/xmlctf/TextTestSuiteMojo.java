@@ -22,28 +22,25 @@ import junit.textui.TestRunner;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
- * Uses a simple junit.ui.TestRunner TextRunner to run the XMLCTF
- * test suite.
- *
+ * Uses a simple junit.ui.TestRunner TextRunner to run the XMLCTF test suite.
+ * 
  * @goal xmlctf-text
  * @since 1.2
  */
-public class TextTestSuiteMojo extends AbstractTestSuiteMojo{
+public class TextTestSuiteMojo extends AbstractTestSuiteMojo {
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.codehaus.castor.maven.xmlctf.AbstractTestSuiteMojo#runJUnit(junit.framework.Test)
-	 */
-	public void runJUnit(Test testSuite) throws MojoExecutionException{
-		TestResult result = TestRunner.run(testSuite);
-		if (result.errorCount() > 0 || result.failureCount() > 0) {
-			throw new MojoExecutionException("Errors or Failures occured testing the MasterTestSuite!");
-		}
-	}
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.codehaus.castor.maven.xmlctf.AbstractTestSuiteMojo#runJUnit(junit.framework.Test)
+     */
+    public void runJUnit(Test testSuite) throws MojoExecutionException {
+        TestResult result = TestRunner.run(testSuite);
 
-
+        if (result.errorCount() > 0 || result.failureCount() > 0) {
+            throw new MojoExecutionException(
+                    "Errors or Failures occured testing the MasterTestSuite!");
+        }
+    }
 
 }
-
-
