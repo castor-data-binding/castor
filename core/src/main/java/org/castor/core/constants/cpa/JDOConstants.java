@@ -33,7 +33,7 @@ public interface JDOConstants {
     /**
      * Package name of the sub-package where descriptors can be found.
      */
-    String JDO_DESCRIPTOR_PACKAGE = "descriptors";
+    String JDO_DESCRIPTOR_PACKAGE = "jdo_descriptors";
 
     /**
      * JDO namespace (as used by the extensions for the XML code generator).
