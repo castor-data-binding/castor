@@ -471,7 +471,7 @@ public final class SourceFactory extends BaseFactory {
                         fInfo, jClass.getConstructor(0).getSourceCode());
 
                 //-- name information
-                xmlNature.setNodeName(component.getXMLName());
+                new XMLInfoNature(classInfo).setNodeName(component.getXMLName());
 
                 //-- mark as a container
                 classInfo.setContainer(true);
