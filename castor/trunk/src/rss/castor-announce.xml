@@ -21,6 +21,21 @@
 -->
 
         <item>
+            <title>Welcome Lukas Lang to the team</title>
+            <pubDate>Sat, 12 Jul 2008 20:21:22 +0100</pubDate>
+            <author>Werner Guttmann</author>
+            <link>http://castor.codehaus.org/news.html#item66</link>
+            <guid>http://castor.codehaus.org/news.html#item66</guid>
+            <description><![CDATA[
+                <p>
+                   I'm very happy to announce that <i>Lukas Lang</i> has joined the Castor
+                   team as committer. Lukas' initial focus will be on the JDO extensions 
+                   for the Castor XML code generator, where he is currently working with me 
+                   (and a group of students) on completing this new (and exciting) feature.
+                </p>
+            ]]></description>
+        </item>
+        <item>
             <title>Castor mailing lists available for browsing and searching at http://castor.markmail.org</title>
             <pubDate>Wed, 13 Feb 2008 12:11:10 +0100</pubDate>
             <author>Werner Guttmann</author>

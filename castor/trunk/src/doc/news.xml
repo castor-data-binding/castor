@@ -16,11 +16,18 @@
 
     <section title="Castor News">
 
-      <!--table width="100%" border="0" cellspacing="1" cellpadding="2" bgcolor="#990033"><tr><td>
-          <table width="100%" border="0" cellspacing="1" cellpadding="8" bgcolor="#EDEDED"><tr><td>
-              <span class="newsTitle">Latest Release</span><br/><br/>
-              <span class="newsSummary"-->
-
+        <news id="66">
+            <title>Welcome Lukas Lang to the team</title>
+            <author>Werner Guttmann</author>
+            <date>Jul 12 2008</date>
+            <time>17:16:15</time>
+            <summary>
+                I'm very happy to announce that <b>Lukas Lang</b> has joined the Castor
+                team as committer. Lukas' initial focus will be on the <b>JDO extensions</b> 
+                for the Castor XML code generator, where he is currently working with me 
+                (and a group of students) on completing this new (and exciting) feature.
+            </summary>
+        </news>
         <news id="65">
             <title>Google Summer of Code 2008 and Castor - Project ideas</title>
             <author>Werner Guttmann</author>
