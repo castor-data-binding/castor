@@ -62,11 +62,6 @@
         <fileset dir="${lib}">
             <include name="*.jar"/>
         </fileset>
-<!-- Joachim 2008-04-21 the directory no longer exists...
-        <fileset dir="${lib}/tests">
-            <include name="*.jar"/>
-        </fileset>
--->
         <pathelement location="${basedir}/ddlgen/build/classes" />
         <pathelement location="${basedir}/codegen/build/classes" />
         <pathelement location="${basedir}/cpa/build/classes" />
@@ -1103,4 +1098,9 @@
         <ant antfile="${basedir}/xmlctf-framework/build.xml" target="gen.testdescriptor" inheritAll="false" />
     </target>
 
+<!--
+    <target name="gen.jdo.annotations" depends="jar">
+        <ant antfile="${basedir}/schema/build.xml" target="gen.jdo.annotations" inheritAll="false" />
+    </target>
+-->
 </project>
