@@ -127,6 +127,9 @@ public class CollectionInfo extends FieldInfo {
                 this.getElementName());
         this._content = new FieldInfo(contentType, "v" + this.getMethodSuffix(), 
                 contentMemberAndAccessorFactory);
+        
+        // indicates that - per definition - we are dealing with multi-valuedness
+        new XMLInfoNature(this).setMultivalued(true);
     } // -- CollectionInfo
     
 
@@ -171,15 +174,6 @@ public class CollectionInfo extends FieldInfo {
      */
     public final XSListType getXSList() {
         return (XSListType) new XMLInfoNature(this).getSchemaType();
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.exolab.castor.builder.info.XMLInfo#isMultivalued()
-     */
-    public final boolean isMultivalued() {
-        return true;
     }
 
     /**
@@ -257,5 +251,4 @@ public class CollectionInfo extends FieldInfo {
         return _referenceSuffix;
     }
 
-
-} // -- CollectionInfo
+}

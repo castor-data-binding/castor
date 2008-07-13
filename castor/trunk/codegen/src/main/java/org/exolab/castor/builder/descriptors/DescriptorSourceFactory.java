@@ -63,6 +63,8 @@ import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.builder.types.XSList;
 import org.exolab.castor.builder.types.XSListType;
 import org.exolab.castor.builder.types.XSType;
+import org.exolab.castor.mapping.FieldDescriptor;
+import org.exolab.castor.xml.Validator;
 import org.exolab.castor.xml.XMLConstants;
 import org.exolab.castor.xml.XMLFieldDescriptor;
 import org.exolab.javasource.JClass;
@@ -216,7 +218,7 @@ public final class DescriptorSourceFactory {
             }
 
             if (base != null) {
-                String baseNodeName = xmlNature.getNodeName();
+                String baseNodeName = new XMLInfoNature(member).getNodeName();
                 if (baseNodeName.equals(XMLInfo.CHOICE_NODE_NAME_ERROR_INDICATION)) {
                     createDescriptor(classDesc, member, localClassName, nsURI, jsc);
                 } else {
@@ -295,8 +297,12 @@ public final class DescriptorSourceFactory {
     }
 
     /**
-     * Create special code for handling a member that is a restriction.
-     * This will only change the Validation Code
+     * Create special code for handling a member that is a restriction,
+     * only changing the validation code.
+     * 
+     * This basically works by obtaining the {@link FieldDescriptor} instance from the
+     * base class, and setting a new {@link Validator} instance.
+     *  
      * @param member the restricted member for which we generate the restriction handling.
      * @param jsc the source code to which we append the validation code.
      */
