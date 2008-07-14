@@ -283,9 +283,6 @@ public class ClassMolder {
                     }
                 }
 
-//                String relatedType = fmFields[i].getType();
-//                ClassDescriptor relDesc = 
-//                    classDescrResolver.getMappingLoader().getDescriptor(relatedType);
                 ClassDescriptor relDesc = null;
                 try {
                     relDesc = ((JDOClassDescriptorResolver) classDescrResolver).resolve(fmFields[i].getType());
@@ -453,22 +450,6 @@ public class ClassMolder {
             _priority  = maxPrior;
         }
         return _priority;
-    }
-
-    /**
-     * Load an object with specified identity from the persistent storage.
-     *
-     * @param tx   the TransactionContext in action
-     * @param oid  the object identity of the desired object
-     * @param locker   the {@link DepositBox} of the object which is used to
-     *                 store the dirty checking cache of the object.
-     * @param suggestedAccessMode the acessMode for the object
-     * @return the object stamp for the object in the persistent storage
-     */
-    public Object load(final TransactionContext tx, final OID oid, final DepositBox locker,
-            final ProposedEntity proposedObject, final AccessMode suggestedAccessMode)
-    throws PersistenceException {
-        return load(tx, oid, locker, proposedObject, suggestedAccessMode, null);
     }
 
     /**
@@ -1203,13 +1184,6 @@ public class ClassMolder {
     }
 
     /**
-     * Mutator method to set the PersistenceEngine of.
-     */
-    public void setPersistence(final Persistence persist) {
-        _persistence = persist;
-    }
-
-    /**
      * Get the base class of this ClassMolder given a ClassLoader.
      * 
      * @param loader the classloader.
@@ -1252,21 +1226,6 @@ public class ClassMolder {
     }
 
     /**
-     * Get the FieldMolder of the fields of the base type,
-     * except the identity fields.
-     */
-    public FieldMolder[] getFields() {
-        return _fhs;
-    }
-
-    /**
-     * Get the FieldMolders of the identity fields.
-     */
-    public FieldMolder[] getIds() {
-        return _ids;
-    }
-
-    /**
      * Get the extends class' ClassMolder.
      */
     public ClassMolder getExtends() {
@@ -1301,21 +1260,6 @@ public class ClassMolder {
      */
     public boolean isDependent() {
         return _depends != null;
-    }
-
-    /**
-     * Set all persistence fields of object of the base type to null.
-     * @param object - target object
-     */
-    public void setFieldsNull(final Object object) {
-        // TODO [WG]: remove method ?
-        /*
-        for ( int i=0; i < _ids.length; i++ ) {
-            _ids[i].setValue( object, null );
-        }
-        for ( int i=0; i < _fhs.length; i++ ) {
-            _fhs[i].setValue( object, null );
-        }*/
     }
 
     /**
@@ -1381,12 +1325,6 @@ public class ClassMolder {
      */
     public void expireCache(final TransactionContext tx, final ObjectLock locker)
     throws PersistenceException {
-        
-        // TODO [WG]: can this really happen, or is this obsolete code
-        if (locker == null) {
-            return;
-        }
-
         // get field values from cache
         Object[] fields = locker.getObject();
 
@@ -1419,4 +1357,3 @@ public class ClassMolder {
         return (String) ((JDOClassDescriptor) _clsDesc).getNamedQueries().get(name);
     }
 }
-
