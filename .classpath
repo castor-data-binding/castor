@@ -10,6 +10,7 @@
 	<classpathentry kind="src" output="codegen/eclipse" path="codegen/src/test/resources"/>
 	<classpathentry kind="src" output="schema/eclipse" path="schema/src/main/java"/>
 	<classpathentry kind="src" output="schema/eclipse" path="schema/src/main/resources"/>
+	<classpathentry kind="src" output="schema/eclipse" path="schema/target/generated-sources/castor"/>
 	<classpathentry kind="src" output="schema/eclipse" path="schema/src/test/java"/>
 	<classpathentry kind="src" output="schema/eclipse" path="schema/src/test/resources"/>
 	<classpathentry kind="src" output="anttask/eclipse" path="anttask/src/main/java"/>
@@ -41,7 +42,6 @@
 	<classpathentry kind="src" output="cpaptf/eclipse" path="cpaptf/src/test/resources"/>
 	<classpathentry excluding="codegen/" kind="src" output="examples/eclipse" path="examples/src/main/java"/>
 	<classpathentry kind="src" output="examples/eclipse" path="examples/src/main/resources"/>
-	<!-- <classpathentry kind="src" path="schema/target/generated-sources/castor"/> -->
 	<classpathentry kind="src" path="core/src/main/java"/>
 	<classpathentry kind="src" path="core/src/main/resources"/>
 	<classpathentry kind="src" path="core/src/test/java"/>
