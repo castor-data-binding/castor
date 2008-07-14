@@ -1330,7 +1330,6 @@ public abstract class AbstractTransactionContext implements TransactionContext {
                 // Object has been deleted inside transaction,
                 // engine must forget about it.
                 engine.forgetObject(this, oid);
-                molder.setFieldsNull(toCommit);
             } else {
                 // Object has been created/accessed inside the
                 // transaction, release its lock.

@@ -236,49 +236,6 @@ public final class LockEngine {
                 }
                 throw new MappingException("Some base class can not be resolved!");
             }
-            // XXX [SMH]: Remove this comment-block or is it something we need?
-            /*
-            while ( enumeration.hasMoreElements() ) {
-                molder = (ClassMolder) enumeration.nextElement();
-                if ( molder.getExtends() != null ) {
-                    ClassMolder extend = molder.getExtends();
-                    while ( extend.getExtends() != null ) {
-                        extend = extend.getExtends();
-                    }
-                    // ssa, FIXME : Is that part still necessary ?
-//                    if ( _typeInfo.containsKey( extend.getName() ) ) {
-                    if ( false ) {
-                        baseInfo = (TypeInfo)_typeInfo.get( extend.getName() );
-                        _typeInfo.put( molder.getName(), baseInfo );
-                    } else {
-                        waitingForBase.add( molder );
-                    }
-                } else {
-                    LRU lru = LRU.create( molder.getCacheType(), molder.getCacheParam() );
-
-                    info = new TypeInfo( molder, new HashMap(), lru ); 
-
-                    _typeInfo.put( molder.getName(), info );
-                }
-            }
-            // we then iterate through all extended classes in which the 
-            // using the base typeInfo.
-            enumeration = waitingForBase.elements();
-            while ( enumeration.hasMoreElements() ) {
-                molder = (ClassMolder) enumeration.nextElement();
-                ClassMolder extend = molder.getExtends();
-                while ( extend.getExtends() != null ) {
-                    extend = extend.getExtends();
-                }
-                baseInfo = (TypeInfo) _typeInfo.get( extend.getName() );
-                if ( baseInfo != null ) {
-                    info = new TypeInfo( molder, baseInfo );
-                    _typeInfo.put( molder.getName(), info );
-                } else {
-                    throw new MappingException(
-                            "Base class "+extend.getName()+" of "+molder.getName()+" not found!");
-                }
-            } */
         } catch (ClassNotFoundException e) {
             throw new MappingException("Declared Class not found!");
         }
@@ -359,12 +316,6 @@ public final class LockEngine {
      * @throws ObjectDeletedWaitingForLockException The object has been deleted, but is waiting
      *         for a lock.
      */
-    public OID load(final TransactionContext tx, final OID oid, final ProposedEntity proposedObject,
-            final AccessMode suggestedAccessMode, final int timeout)
-    throws PersistenceException {
-        return load(tx, oid, proposedObject, suggestedAccessMode, timeout, null);
-    }
-
     public OID load(final TransactionContext tx, final OID oid, final ProposedEntity proposedObject,
             final AccessMode suggestedAccessMode, final int timeout, final QueryResults results)
     throws PersistenceException {
