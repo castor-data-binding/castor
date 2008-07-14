@@ -13,29 +13,25 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @author <a href="mailto:dulci@start.no">Stein M. Hugubakken</a>
  */
 public abstract class AbstractKeyGenerator implements KeyGenerator {
-    private abstract class AbstractIdentityValue implements IdentityValue {
-        public AbstractIdentityValue() { }
-    }
-
-    private class BigDecimalIdentityValue extends AbstractIdentityValue {
-        public Object getValue(final ResultSet rs) throws SQLException {
-            return rs.getBigDecimal(1);
-        }
-    }
-
-    private class IntegerIdentityValue extends AbstractIdentityValue {
+    private class IntegerSqlTypeHandler implements SqlTypeHandler {
         public Object getValue(final ResultSet rs) throws SQLException {
             return new Integer(rs.getInt(1));
         }
     }
 
-    private class LongIdentityValue extends AbstractIdentityValue {
+    private class LongSqlTypeHandler implements SqlTypeHandler {
         public Object getValue(final ResultSet rs) throws SQLException {
             return new Long(rs.getLong(1));
         }
     }
 
-    private class StringIdentityValue extends AbstractIdentityValue {
+    private class BigDecimalSqlTypeHandler implements SqlTypeHandler {
+        public Object getValue(final ResultSet rs) throws SQLException {
+            return rs.getBigDecimal(1);
+        }
+    }
+
+    private class StringSqlTypeHandler implements SqlTypeHandler {
         public Object getValue(final ResultSet rs) throws SQLException {
             return rs.getString(1);
         }
@@ -45,14 +41,14 @@ public abstract class AbstractKeyGenerator implements KeyGenerator {
 
     protected String _factoryName;
 
-    protected byte _style = AFTER_INSERT;
+    private SqlTypeHandler _sqlTypeHandler;
 
-    protected IdentityValue _identityValue = null;
+    private byte _style;
 
     protected void checkSupportedFactory(final PersistenceFactory factory)
     throws MappingException {
         _factoryName = factory.getFactoryName();
-        String supportedFactoryNames[] = getSupportedFactoryNames();
+        String[] supportedFactoryNames = getSupportedFactoryNames();
         boolean supported = false;
         for (int i = 0; i < supportedFactoryNames.length; i++) {
             if (_factoryName.equals(supportedFactoryNames[i])) {
@@ -61,55 +57,67 @@ public abstract class AbstractKeyGenerator implements KeyGenerator {
         }
 
         if (!supported) {
-            String msg = Messages.format("mapping.keyGenNotCompatible", getClass().getName(), _factoryName); 
+            String msg = Messages.format("mapping.keyGenNotCompatible",
+                    getClass().getName(), _factoryName); 
             throw new MappingException(msg);
         }
     }
 
+    protected abstract String[] getSupportedFactoryNames();
+
+    protected void initSqlTypeHandler(final int sqlType) {
+        if (sqlType == Types.INTEGER) {
+            _sqlTypeHandler = new IntegerSqlTypeHandler();
+        } else if (sqlType == Types.BIGINT) {
+            _sqlTypeHandler = new LongSqlTypeHandler();
+        } else if ((sqlType == Types.CHAR) || (sqlType == Types.VARCHAR)) {
+            _sqlTypeHandler = new StringSqlTypeHandler();
+        } else {
+            _sqlTypeHandler = new BigDecimalSqlTypeHandler();
+        }
+    }
+    
+    protected SqlTypeHandler getSqlTypeHandler() {
+        return _sqlTypeHandler;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public void supportsSqlType(final int sqlType) throws MappingException {
         if (sqlType != Types.INTEGER
                 && sqlType != Types.NUMERIC
                 && sqlType != Types.DECIMAL
                 && sqlType != Types.BIGINT) {
-            String msg = Messages.format("mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)); 
+            String msg = Messages.format("mapping.keyGenSQLType",
+                    getClass().getName(), new Integer(sqlType)); 
             throw new MappingException(msg);
         }
     }
 
+    protected final void setStyle(final byte style) {
+        _style = style;
+    }
+
     /**
-     * Style of key generator: BEFORE_INSERT, DURING_INSERT or AFTER_INSERT ?
+     * {@inheritDoc}
      */
-    public byte getStyle() {
+    public final byte getStyle() {
         return _style;
     }
 
-    public abstract String[] getSupportedFactoryNames();
-
-    protected void initIdentityValue(final int sqlType) {
-        if (sqlType == Types.INTEGER) {
-            _identityValue = new IntegerIdentityValue();
-        } else if (sqlType == Types.BIGINT) {
-            _identityValue = new LongIdentityValue();
-        } else if ((sqlType == Types.CHAR) || (sqlType == Types.VARCHAR)) {
-            _identityValue = new StringIdentityValue();
-        } else {
-            _identityValue = new BigDecimalIdentityValue();
-        }
-    }
-
     /**
-     * Is key generated in the same connection as INSERT? Default is true.
-     */
-    public boolean isInSameConnection() {
-        return true;
-    }
-
-    /**
-     * Gives a possibility to patch the Castor-generated SQL statement
-     * for INSERT (makes sense for DURING_INSERT key generators).
+     * {@inheritDoc}
      */
     public String patchSQL(final String insert, final String primKeyName)
     throws MappingException {
         return insert;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isInSameConnection() {
+        return true;
     }
 }

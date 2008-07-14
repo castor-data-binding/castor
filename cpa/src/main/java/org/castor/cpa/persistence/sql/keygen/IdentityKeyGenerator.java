@@ -46,6 +46,7 @@ package org.castor.cpa.persistence.sql.keygen;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Properties;
@@ -55,17 +56,21 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.util.Messages;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.persist.spi.KeyGenerator;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 
 /**
  * IDENTITY key generator.
+ * 
+ * @see IdentityKeyGeneratorFactory
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
  * @author <a href="mailto:dulci@start.no">Stein M. Hugubakken</a>
  * @author <a href="bruce DOT snyder AT gmail DOT com">Bruce Snyder</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
- * @see IdentityKeyGeneratorFactory
  */
-public final class IdentityKeyGenerator extends AbstractKeyGenerator {
+public final class IdentityKeyGenerator implements KeyGenerator {
+    //-----------------------------------------------------------------------------------
+
     private abstract class IdentityKeyGenValueHandler extends AbstractKeyGenValueHandler {
         protected abstract Object getValue(Connection conn, String tableName) throws PersistenceException;
     }
@@ -83,11 +88,10 @@ public final class IdentityKeyGenerator extends AbstractKeyGenerator {
             // Statement worked with IBM UDB v7 and v8 but not with IBM DB2 v6.
             // StringBuffer buf = new StringBuffer("SELECT IDENTITY_VAL_LOCAL() FROM ");
             // buf.append(tableName).append(" FETCH FIRST ROW ONLY");
+            // return getValue(buf.toString(), conn);
             
             // Statement works with IBM UDB and IBM DB2.
-            StringBuffer buf = new StringBuffer();
-            buf.append("SELECT IDENTITY_VAL_LOCAL() FROM sysibm.sysdummy1");           
-            return getValue(buf.toString(), conn);
+            return getValue("SELECT IDENTITY_VAL_LOCAL() FROM sysibm.sysdummy1", conn);
         }
     }
 
@@ -150,15 +154,47 @@ public final class IdentityKeyGenerator extends AbstractKeyGenerator {
         }
     }
     
+    //-----------------------------------------------------------------------------------
+
+    private class IntegerSqlTypeHandler implements SqlTypeHandler {
+        public Object getValue(final ResultSet rs) throws SQLException {
+            return new Integer(rs.getInt(1));
+        }
+    }
+
+    private class LongSqlTypeHandler implements SqlTypeHandler {
+        public Object getValue(final ResultSet rs) throws SQLException {
+            return new Long(rs.getLong(1));
+        }
+    }
+
+    private class BigDecimalSqlTypeHandler implements SqlTypeHandler {
+        public Object getValue(final ResultSet rs) throws SQLException {
+            return rs.getBigDecimal(1);
+        }
+    }
+
+    private class StringSqlTypeHandler implements SqlTypeHandler {
+        public Object getValue(final ResultSet rs) throws SQLException {
+            return rs.getString(1);
+        }
+    }
+
+    //-----------------------------------------------------------------------------------
+
     /**
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      * Commons Logging</a> instance used for all logging.
      */
     private static Log _log = LogFactory.getFactory().getInstance(IdentityKeyGenerator.class);
     
-    private IdentityKeyGenValueHandler _type = null;
+    private final PersistenceFactory _factory;
+    
+    private SqlTypeHandler _sqlTypeHandler;
 
-    private String _fName = null;
+    private IdentityKeyGenValueHandler _type;
+
+    //-----------------------------------------------------------------------------------
 
     /**
      * Initialize the IDENTITY key generator.
@@ -169,72 +205,73 @@ public final class IdentityKeyGenerator extends AbstractKeyGenerator {
      */
     public IdentityKeyGenerator(final PersistenceFactory factory, final int sqlType)
     throws MappingException {
-        _fName = factory.getFactoryName();
-        
-        checkSupportedFactory(factory);
+        _factory = factory;
+
+        supportsFactory(factory);
         supportsSqlType(sqlType);
-        initIdentityValue(sqlType);
-        initType(_fName);
+        initSqlTypeHandler(sqlType);
+        initType();
     }
 
-    public String[] getSupportedFactoryNames() {
-        return new String[] {"sybase", "sql-server", "hsql", "mysql", "informix", "sapdb",
+    private void supportsFactory(final PersistenceFactory factory)
+    throws MappingException {
+        String factoryName = factory.getFactoryName();
+        String[] supportedFactoryNames = new String[] {
+                "sybase", "sql-server", "hsql", "mysql", "informix", "sapdb",
                 "db2", "derby", "postgresql", "pointbase" };
-     }
-         
-    /**
-     * Determine if the key generator supports a given sql type.
-     *
-     * @param sqlType
-     * @throws MappingException
-     */
-    public void supportsSqlType(final int sqlType) throws MappingException {
-        if (sqlType != Types.INTEGER && sqlType != Types.NUMERIC
-                && sqlType != Types.DECIMAL && sqlType != Types.BIGINT) {
-            throw new MappingException(Messages.format(
-                    "mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
-        }
-
-        if (sqlType != Types.INTEGER && _fName.equals("hsql")) {
-            throw new MappingException(Messages.format(
-                    "mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
-        }
-
-        if (sqlType != Types.NUMERIC && _fName.equals("derby")) {
-                throw new MappingException(Messages.format(
-                        "mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
+        boolean supported = false;
+        for (int i = 0; i < supportedFactoryNames.length; i++) {
+            if (factoryName.equals(supportedFactoryNames[i])) {
+                supported = true;
             }
+        }
+
+        if (!supported) {
+            String msg = Messages.format("mapping.keyGenNotCompatible",
+                    getClass().getName(), factoryName); 
+            throw new MappingException(msg);
+        }
     }
 
-    private void initType(final String fName) {
-        if (fName.equals("hsql")) {
+    private void initSqlTypeHandler(final int sqlType) {
+        if (sqlType == Types.INTEGER) {
+            _sqlTypeHandler = new IntegerSqlTypeHandler();
+        } else if (sqlType == Types.BIGINT) {
+            _sqlTypeHandler = new LongSqlTypeHandler();
+        } else if ((sqlType == Types.CHAR) || (sqlType == Types.VARCHAR)) {
+            _sqlTypeHandler = new StringSqlTypeHandler();
+        } else {
+            _sqlTypeHandler = new BigDecimalSqlTypeHandler();
+        }
+    }
+    
+    private void initType() {
+        String factoryName = _factory.getFactoryName();
+        if (factoryName.equals("hsql")) {
             _type = new HsqlType();
-        } else if (fName.equals("mysql")) {
+        } else if (factoryName.equals("mysql")) {
             _type = new MySqlType();
-        } else if (fName.equals("informix")) {
+        } else if (factoryName.equals("informix")) {
             _type = new InformixType();
-        } else if (fName.equals("db2")) {
+        } else if (factoryName.equals("db2")) {
             _type = new DB2Type();
-        } else if (fName.equals("sapdb")) {
+        } else if (factoryName.equals("sapdb")) {
             _type = new SapDbType();
-        } else if (fName.equals("derby")) {
+        } else if (factoryName.equals("derby")) {
             _type = new DerbyType();
-        } else if (fName.equals("postgresql")) {
+        } else if (factoryName.equals("postgresql")) {
             _type = new PostgresqlType();
         } else {
             _type = new DefaultType();
         }
         _type.setGenerator(this);
-        _type.setIdentityValue(_identityValue);
+        _type.setSqlTypeHandler(_sqlTypeHandler);
     }
 
+    //-----------------------------------------------------------------------------------
+
     /**
-     * @param conn An open connection within the given transaction.
-     * @param tableName The table name.
-     * @param primKeyName The primary key name.
-     * @param props A temporary replacement for Principal object.
-     * @return A new key.
-     * @throws PersistenceException An error occured talking to persistent storage.
+     * {@inheritDoc}
      */
     public Object generateKey(final Connection conn, final String tableName,
             final String primKeyName, final Properties props) throws PersistenceException {
@@ -245,4 +282,53 @@ public final class IdentityKeyGenerator extends AbstractKeyGenerator {
             return null;
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void supportsSqlType(final int sqlType) throws MappingException {
+        String factoryName = _factory.getFactoryName();
+        if (factoryName.equals("hsql")) {
+            if (sqlType != Types.INTEGER) {
+                throw new MappingException(Messages.format(
+                        "mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
+            }
+        } else if (factoryName.equals("derby")) {
+            if (sqlType != Types.NUMERIC) {
+                throw new MappingException(Messages.format(
+                        "mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
+            }
+        } else {
+            if ((sqlType != Types.INTEGER)
+                    && (sqlType != Types.NUMERIC)
+                    && (sqlType != Types.DECIMAL)
+                    && (sqlType != Types.BIGINT)) {
+                throw new MappingException(Messages.format(
+                        "mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public byte getStyle() {
+        return AFTER_INSERT;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isInSameConnection() {
+        return true;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public String patchSQL(final String insert, final String primKeyName) {
+        return insert;
+    }
+
+    //-----------------------------------------------------------------------------------
 }
