@@ -79,7 +79,7 @@ public final class SequenceKeyGenerator extends AbstractKeyGenerator {
     private class DefaultType extends SequenceKeyGenValueHandler {
         protected Object getValue(final Connection conn, final String tableName,
                 final String primKeyName, final Properties props) throws Exception {
-            if (_style == BEFORE_INSERT) {
+            if (getStyle() == BEFORE_INSERT) {
                 return getValue("SELECT nextval('" + getSeqName(tableName, primKeyName) + "')", conn);
             } else if (_triggerPresent && _factoryName.equals("postgresql")) {
                 Object insStmt = props.get("insertStatement");
@@ -135,7 +135,7 @@ public final class SequenceKeyGenerator extends AbstractKeyGenerator {
             final int sqlType) throws MappingException {
         checkSupportedFactory(factory);
         supportsSqlType(sqlType);
-        initIdentityValue(sqlType);
+        initSqlTypeHandler(sqlType);
         initType();
         
         boolean returning = "true".equals(params.getProperty("returning"));
@@ -150,14 +150,14 @@ public final class SequenceKeyGenerator extends AbstractKeyGenerator {
         
         _seqName = params.getProperty("sequence", "{0}_seq");
 
-        _style = (_factoryName.equals(PostgreSQLFactory.FACTORY_NAME)
+        setStyle(_factoryName.equals(PostgreSQLFactory.FACTORY_NAME)
                 || _factoryName.equals(InterbaseFactory.FACTORY_NAME)
                 || _factoryName.equals(DB2Factory.FACTORY_NAME)
                 ? BEFORE_INSERT : (returning ? DURING_INSERT : AFTER_INSERT));
         if (_triggerPresent && !returning) {
-            _style = AFTER_INSERT;
+            setStyle(AFTER_INSERT);
         }
-        if (_triggerPresent && _style == BEFORE_INSERT) {
+        if (_triggerPresent && (getStyle() == BEFORE_INSERT)) {
             throw new MappingException(Messages.format("mapping.keyGenParamNotCompat",
                     "trigger=\"true\"", getClass().getName(), _factoryName));
         }
@@ -205,7 +205,7 @@ public final class SequenceKeyGenerator extends AbstractKeyGenerator {
             _type = new DefaultType();
         }
         _type.setGenerator(this);
-        _type.setIdentityValue(_identityValue);
+        _type.setSqlTypeHandler(getSqlTypeHandler());
      }
     
     /**
@@ -240,7 +240,7 @@ public final class SequenceKeyGenerator extends AbstractKeyGenerator {
         int lp1;  // the first left parenthesis, which starts fields list
         int lp2;  // the second left parenthesis, which starts values list
 
-        if (_style == BEFORE_INSERT) {
+        if (getStyle() == BEFORE_INSERT) {
             return insert;
         }
 
@@ -301,7 +301,7 @@ public final class SequenceKeyGenerator extends AbstractKeyGenerator {
                 sb.insert(lp1 + 1, _factory.quoteName(primKeyName) + ",");
             }
         }
-        if (_style == DURING_INSERT) {
+        if (getStyle() == DURING_INSERT) {
             // append 'RETURNING primKeyName INTO ?'
             sb.append(" RETURNING ");
             sb.append(_factory.quoteName(primKeyName));

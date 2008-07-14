@@ -111,6 +111,12 @@ public interface KeyGenerator {
     byte getStyle();
 
     /**
+     * Is key generated in the same connection as INSERT?
+     * For DURING_INSERT style this method is never called.
+     */
+    boolean isInSameConnection();
+
+    /**
      * Gives a possibility to patch the Castor-generated SQL statement
      * for INSERT (indended mainly for DURING_INSERT style of key generators, 
      * other key generators usually simply return the passed parameter).
@@ -134,10 +140,4 @@ public interface KeyGenerator {
      * @param primKeyName The primary key name
      */
     String patchSQL(String insert, String primKeyName) throws MappingException;
-
-    /**
-     * Is key generated in the same connection as INSERT?
-     * For DURING_INSERT style this method is never called.
-     */
-    boolean isInSameConnection();
 }

@@ -11,14 +11,14 @@ import org.exolab.castor.persist.spi.KeyGenerator;
 
 public abstract class AbstractKeyGenValueHandler {
     private KeyGenerator _keyGenerator;
-    private IdentityValue _identityValue;
+    private SqlTypeHandler _sqlTypeHandler;
 
     AbstractKeyGenValueHandler() { }
     
     public Object getValue(final PreparedStatement stmt)
     throws PersistenceException, SQLException {
         ResultSet rs = stmt.executeQuery();
-        if (rs.next()) { return _identityValue.getValue(rs); }
+        if (rs.next()) { return _sqlTypeHandler.getValue(rs); }
         String msg = Messages.format("persist.keyGenFailed", _keyGenerator.getClass().getName());
         throw new PersistenceException(msg);
     }
@@ -48,8 +48,8 @@ public abstract class AbstractKeyGenValueHandler {
         _keyGenerator = generator;
     }
 
-    public void setIdentityValue(final IdentityValue identityValue) {
-        _identityValue = identityValue;
+    public void setSqlTypeHandler(final SqlTypeHandler sqlTypeHandler) {
+        _sqlTypeHandler = sqlTypeHandler;
     }
 }
 
