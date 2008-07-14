@@ -17,7 +17,6 @@ package org.castor.persist.cache;
 
 import org.exolab.castor.jdo.TimeStampable;
 import org.exolab.castor.persist.OID;
-import org.exolab.castor.persist.ObjectLock;
 
 /**
  * Utility class to store 'data' accessed through Castor JDO in performance caches.
@@ -43,22 +42,15 @@ public final class CacheEntry implements java.io.Serializable {
 
     //--------------------------------------------------------------------------
 
-    /**
-     * Private default constructor invoced through reflection for testing only.
-     */
-    private CacheEntry() { }
-
-
-    /**
-     * Construct a CacheEntry from the given ObjectLock.
-     * 
-     * @param lock  The ObjectLock this CacheEntry should be initialized from.
-     */
-    public CacheEntry(final ObjectLock lock) {
-        _oid = lock.getOID();
-        _entry = lock.getObject();
-        _timeStamp = lock.getTimeStamp();
+    public CacheEntry() { }
+    
+    public CacheEntry(final OID oid, final Object[] entry, final long timeStamp) {
+        _oid = oid;
+        _entry = entry;
+        _timeStamp = timeStamp;
     }
+    
+    //--------------------------------------------------------------------------
 
     /**
      * Get OID of the entry to be cached.

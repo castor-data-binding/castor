@@ -23,7 +23,6 @@ import junit.framework.TestSuite;
 
 import org.exolab.castor.jdo.TimeStampable;
 import org.exolab.castor.persist.OID;
-import org.exolab.castor.persist.ObjectLock;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
@@ -35,11 +34,8 @@ public final class TestCacheEntry extends TestCase {
         TestSuite suite = new TestSuite("CacheEntry Tests");
 
         suite.addTest(new TestCacheEntry("testOIDConstructor"));
-        suite.addTest(new TestCacheEntry("testCacheEntryConstructor"));
-        suite.addTest(new TestCacheEntry("testObjectLockConstructor"));
-
-        suite.addTest(new TestCacheEntry("testGetterSetter"));
         suite.addTest(new TestCacheEntry("testConstructor"));
+        suite.addTest(new TestCacheEntry("testGetterSetter"));
 
         return suite;
     }
@@ -59,27 +55,13 @@ public final class TestCacheEntry extends TestCase {
         return (OID) constructor.newInstance(null);
     }
 
-    public void testCacheEntryConstructor() throws Exception {
-        Constructor constructor = CacheEntry.class.getDeclaredConstructor(null);
-        constructor.setAccessible(true);
-        Object obj = constructor.newInstance(null);
+    public void testConstructor() throws Exception {
+        Object obj = new CacheEntry();
         assertTrue(obj instanceof CacheEntry);
     }
 
-    private CacheEntry createCacheEntry() throws Exception {
-        Constructor constructor = CacheEntry.class.getDeclaredConstructor(null);
-        constructor.setAccessible(true);
-        return (CacheEntry) constructor.newInstance(null);
-    }
-
-    public void testObjectLockConstructor() throws Exception {
-        CacheEntry ce = createCacheEntry();
-        Object object = new ObjectLock(ce);
-        assertTrue(object instanceof ObjectLock);
-    }
-
     public void testGetterSetter() throws Exception {
-        CacheEntry ce = createCacheEntry();
+        CacheEntry ce = new CacheEntry();
         assertNull(ce.getOID());
         assertNull(ce.getEntry());
         assertEquals(TimeStampable.NO_TIMESTAMP, ce.getTimeStamp());
@@ -100,22 +82,5 @@ public final class TestCacheEntry extends TestCase {
         assertTrue(Long.MAX_VALUE == ce.getTimeStamp());
         ce.setTimeStamp(Long.MIN_VALUE);
         assertTrue(Long.MIN_VALUE == ce.getTimeStamp());
-    }
-
-    public void testConstructor() throws Exception {
-        OID oid = createOID();
-        Object[] entry = new Object[] {};
-
-        CacheEntry src = createCacheEntry();
-        src.setOID(oid);
-        src.setEntry(entry);
-        src.setTimeStamp(Long.MAX_VALUE);
-
-        ObjectLock ol = new ObjectLock(src);
-        
-        CacheEntry dest = new CacheEntry(ol);
-        assertTrue(oid == dest.getOID());
-        assertTrue(entry == dest.getEntry());
-        assertTrue(Long.MAX_VALUE == dest.getTimeStamp());
     }
 }

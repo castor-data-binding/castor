@@ -1250,7 +1250,8 @@ public final class LockEngine {
                     if (cachedEntry != null) {
                         // if there's an {@link CacheEntry} instance, create a new
                         // ObjectLock instance from its data and put it into first level cache
-                        entry = new ObjectLock(cachedEntry);
+                        entry = new ObjectLock(cachedEntry.getOID(),
+                                cachedEntry.getEntry(), cachedEntry.getTimeStamp());
                         _locks.put(internaloid, entry);
                         
                         OID cacheOid = entry.getOID();
@@ -1322,7 +1323,8 @@ public final class LockEngine {
                                 _cache.expire(internaloid);
                                 entry.expired();
                             } else {
-                                _cache.put(internaloid, new CacheEntry(entry));
+                                _cache.put(internaloid, new CacheEntry(
+                                        entry.getOID(), entry.getObject(), entry.getTimeStamp()));
                             }
                         }
                     }
@@ -1470,7 +1472,8 @@ public final class LockEngine {
                 synchronized (_locks) {
                     entry.leave();
                     if (entry.isDisposable()) {
-                        _cache.put(oid, new CacheEntry(entry));
+                        _cache.put(oid, new CacheEntry(
+                                entry.getOID(), entry.getObject(), entry.getTimeStamp()));
                         _locks.remove(oid);
                     }
                 }
@@ -1503,7 +1506,8 @@ public final class LockEngine {
                 synchronized (_locks) {
                     entry.leave();
                     if (entry.isDisposable()) {
-                        _cache.put(oid, new CacheEntry(entry));
+                        _cache.put(oid, new CacheEntry(
+                                entry.getOID(), entry.getObject(), entry.getTimeStamp()));
                         if (entry.isExpired()) {
                             _cache.expire(oid);
                             entry.expired();

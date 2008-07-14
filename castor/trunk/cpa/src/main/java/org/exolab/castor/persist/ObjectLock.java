@@ -47,7 +47,6 @@ package org.exolab.castor.persist;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.persist.TransactionContext;
-import org.castor.persist.cache.CacheEntry;
 import org.castor.util.Messages;
 import org.exolab.castor.jdo.LockNotGrantedException;
 
@@ -174,16 +173,13 @@ public final class ObjectLock implements DepositBox {
         }
     }
     
-    public ObjectLock(final CacheEntry entry) {
-        this(entry.getOID());
+    public ObjectLock(final OID oid, final Object[] object, final long timeStamp) {
+        this(oid);
         
-        _isExpired = false; 
-        _expiredObject = null;
-        _object = entry.getEntry();
-        _timeStamp = entry.getTimeStamp();
+        _object = object;
+        _timeStamp = timeStamp;
     }
-
-
+    
     /**
      * Return the object's OID.
      */
