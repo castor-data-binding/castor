@@ -16,12 +16,17 @@
  */
 package org.exolab.castor.builder.info.nature;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.exolab.castor.builder.factory.FieldInfoFactory;
 import org.exolab.castor.builder.info.ClassInfo;
+import org.exolab.castor.builder.info.FieldInfo;
+import org.exolab.castor.builder.info.XMLInfo;
+import org.exolab.castor.builder.types.XSClass;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.javasource.JClass;
 
@@ -31,7 +36,7 @@ import org.exolab.javasource.JClass;
  * class and tested in {@link BaseNatureTest}. Property implementation will not
  * be tested in here.
  * 
- * @author Tobias Hochwallner
+ * @author Tobias Hochwallner, Lukas Lang
  * @since 1.2.1
  */
 public final class JDOClassNatureTest extends TestCase {
@@ -112,4 +117,202 @@ public final class JDOClassNatureTest extends TestCase {
         assertEquals(AccessMode.Shared, jdo.getAccessMode());
     }
 
+    /**
+     * Tests if getFields returns a list of {@link JDOFieldInfoNature}s.
+     */
+    public void testGetElementFields() {
+        ClassInfo classInfo = new ClassInfo(new JClass("test"));
+        FieldInfoFactory factory = new FieldInfoFactory();
+        FieldInfo field = factory.createFieldInfo(new XSClass(
+                new JClass("Book")), "isbn");
+        field.addNature(JDOFieldInfoNature.class.getName());
+        JDOFieldInfoNature jdoField = new JDOFieldInfoNature(field);
+        jdoField.setColumnName("isbn");
+        jdoField.setColumnType("integer");
+        classInfo.addFieldInfo(field);
+        classInfo.addNature(JDOClassInfoNature.class.getName());
+        JDOClassInfoNature jdo = new JDOClassInfoNature(classInfo);
+
+        List jdoFields = jdo.getFields();
+        assertEquals(1, jdoFields.size());
+        JDOFieldInfoNature jdoFieldReceived = (JDOFieldInfoNature) jdoFields
+                .get(0);
+        assertEquals("integer", jdoFieldReceived.getColumnType());
+        assertEquals("isbn", jdoFieldReceived.getColumnName());
+    }
+    
+    /**
+     * Tests if getFields returns a list of {@link JDOFieldInfoNature}s.
+     */
+    public void testGetElementFieldsWithMoreThanOneField() {
+        ClassInfo classInfo = new ClassInfo(new JClass("test"));
+        FieldInfoFactory factory = new FieldInfoFactory();
+        FieldInfo isbn = factory.createFieldInfo(new XSClass(
+                new JClass("Book")), "isbn");
+        FieldInfo title = factory.createFieldInfo(new XSClass(
+                new JClass("Book")), "title");
+        isbn.addNature(JDOFieldInfoNature.class.getName());
+        title.addNature(JDOFieldInfoNature.class.getName());
+        JDOFieldInfoNature jdoIsbn = new JDOFieldInfoNature(isbn);
+        JDOFieldInfoNature jdoTitle = new JDOFieldInfoNature(title);
+        jdoIsbn.setColumnName("isbn");
+        jdoIsbn.setColumnType("integer");
+        jdoTitle.setColumnName("title");
+        jdoTitle.setColumnType("varchar");
+        
+        classInfo.addFieldInfo(isbn);
+        classInfo.addFieldInfo(title);
+        classInfo.addNature(JDOClassInfoNature.class.getName());
+        JDOClassInfoNature jdo = new JDOClassInfoNature(classInfo);
+
+        List jdoFields = jdo.getFields();
+        assertEquals(2, jdoFields.size());
+        
+        JDOFieldInfoNature jdoFieldReceived = (JDOFieldInfoNature) jdoFields
+                .get(0);
+        
+        // We can not depend on the order of the received Natures.
+        if (jdoFieldReceived.getColumnName().equals("isbn")) {
+            assertEquals("integer", jdoFieldReceived.getColumnType());
+            // Now check the second field
+            jdoFieldReceived = (JDOFieldInfoNature) jdoFields.get(1);
+            assertEquals("title", jdoFieldReceived.getColumnName());
+            assertEquals("varchar", jdoFieldReceived.getColumnType());
+        } else if (jdoFieldReceived.getColumnName().equals("title")) {
+            assertEquals("varchar", jdoFieldReceived.getColumnType());
+            // Now check the second field
+            jdoFieldReceived = (JDOFieldInfoNature) jdoFields.get(1);
+            assertEquals("isbn", jdoFieldReceived.getColumnName());
+            assertEquals("integer", jdoFieldReceived.getColumnType());
+        } else {
+            fail("Fields not found!");
+        }
+    }
+
+    /**
+     * Test getFields with a ClassInfo having a FieldInfo but without
+     * JDOFieldInfoNature.
+     */
+    public void testGetElementFieldsWithoutNatures() {
+        ClassInfo classInfo = new ClassInfo(new JClass("test"));
+        FieldInfoFactory factory = new FieldInfoFactory();
+        FieldInfo field = factory.createFieldInfo(new XSClass(
+                new JClass("Book")), "isbn");
+        classInfo.addFieldInfo(field);
+        classInfo.addNature(JDOClassInfoNature.class.getName());
+        JDOClassInfoNature jdo = new JDOClassInfoNature(classInfo);
+
+        List jdoFields = jdo.getFields();
+        assertEquals(0, jdoFields.size());
+    }
+
+    /**
+     * Test getFields with a ClassInfo no fields added before.
+     */
+    public void testGetElementFieldsNoFieldsAdded() {
+        ClassInfo classInfo = new ClassInfo(new JClass("test"));
+        classInfo.addNature(JDOClassInfoNature.class.getName());
+        JDOClassInfoNature jdo = new JDOClassInfoNature(classInfo);
+
+        List jdoFields = jdo.getFields();
+        assertEquals(0, jdoFields.size());
+    }
+    
+    /**
+     * Tests if getFields returns a list of {@link JDOFieldInfoNature}s.
+     */
+    public void testGetElementFieldsOnlyOneHasNature() {
+        ClassInfo classInfo = new ClassInfo(new JClass("test"));
+        FieldInfoFactory factory = new FieldInfoFactory();
+        FieldInfo field = factory.createFieldInfo(new XSClass(
+                new JClass("Book")), "isbn");
+        FieldInfo field2 = factory.createFieldInfo(new XSClass(
+                new JClass("Book")), "abc");
+        field.addNature(JDOFieldInfoNature.class.getName());
+        JDOFieldInfoNature jdoField = new JDOFieldInfoNature(field);
+        jdoField.setColumnName("isbn");
+        jdoField.setColumnType("integer");
+        classInfo.addFieldInfo(field);
+        classInfo.addFieldInfo(field2);
+        classInfo.addNature(JDOClassInfoNature.class.getName());
+        JDOClassInfoNature jdo = new JDOClassInfoNature(classInfo);
+
+        List jdoFields = jdo.getFields();
+        assertEquals(1, jdoFields.size());
+        JDOFieldInfoNature jdoFieldReceived = (JDOFieldInfoNature) jdoFields
+                .get(0);
+        assertEquals("integer", jdoFieldReceived.getColumnType());
+        assertEquals("isbn", jdoFieldReceived.getColumnName());
+    }
+    
+    /**
+     * Tests if getFields returns a list of {@link JDOFieldInfoNature}s.
+     */
+    public void testGetAttributeTextElementFields() {
+        ClassInfo classInfo = new ClassInfo(new JClass("test"));
+        FieldInfoFactory factory = new FieldInfoFactory();
+        
+        FieldInfo elementField = factory.createFieldInfo(new XSClass(
+                new JClass("Book")), "isbn");
+        // Set node type
+        elementField.addNature(XMLInfoNature.class.getName());
+        new XMLInfoNature(elementField).setNodeType(XMLInfo.ELEMENT_TYPE);
+        // Set column name
+        elementField.addNature(JDOFieldInfoNature.class.getName());
+        JDOFieldInfoNature jdoField = new JDOFieldInfoNature(elementField);
+        jdoField.setColumnName("isbn");
+        classInfo.addFieldInfo(elementField);
+        
+        FieldInfo attributeField = factory.createFieldInfo(new XSClass(
+                new JClass("Book")), "title");
+        // Set node type
+        attributeField.addNature(XMLInfoNature.class.getName());
+        new XMLInfoNature(attributeField).setNodeType(XMLInfo.ATTRIBUTE_TYPE);
+        // Set column name
+        attributeField.addNature(JDOFieldInfoNature.class.getName());
+        jdoField = new JDOFieldInfoNature(attributeField);
+        jdoField.setColumnName("title");
+        classInfo.addFieldInfo(attributeField);
+        
+        FieldInfo textField = factory.createFieldInfo(new XSClass(
+                new JClass("Book")), "price");
+        // Set node type
+        textField.addNature(XMLInfoNature.class.getName());
+        new XMLInfoNature(textField).setNodeType(XMLInfo.TEXT_TYPE);
+        // Set column name
+        textField.addNature(JDOFieldInfoNature.class.getName());
+        jdoField = new JDOFieldInfoNature(textField);
+        jdoField.setColumnName("price");
+        classInfo.addFieldInfo(textField);
+        
+        // Add JDO Nature to ClassInfo.
+        classInfo.addNature(JDOClassInfoNature.class.getName());
+        JDOClassInfoNature jdo = new JDOClassInfoNature(classInfo);
+
+        List jdoFields = jdo.getFields();
+        assertEquals(3, jdoFields.size());
+
+        boolean containsElementField = false;
+        boolean containsAttributeField = false;
+        boolean containsTextField = false;
+        
+        for (Iterator fieldIt = jdoFields.iterator(); fieldIt.hasNext();) {
+            JDOFieldInfoNature nature = (JDOFieldInfoNature) fieldIt.next();
+            if (nature.getColumnName().equals("isbn")) {
+                containsElementField = true;
+            } else if (nature.getColumnName().equals("title")) {
+                containsAttributeField = true;
+            } else if (nature.getColumnName().equals("price")) {
+                containsTextField = true;
+            }
+        }
+        
+        assertTrue(containsElementField);
+        assertTrue(containsAttributeField);
+        assertTrue(containsTextField);
+    }
+    
+    
+    
+    
 }

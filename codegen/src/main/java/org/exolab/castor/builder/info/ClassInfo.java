@@ -49,6 +49,7 @@
  */
 package org.exolab.castor.builder.info;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -468,6 +469,22 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
      */
     public boolean hasNature(final String nature) {
         return _natures.contains(nature);
+    }
+
+    /**
+     * Returns all attribute {@link FieldInfo}s as a collection.
+     * @return attribute fields.
+     */
+    public Collection getAttributeFieldsAsCollection() {
+        return this._atts;
+    }
+
+    /**
+     * Returns all element {@link FieldInfo}s as a collection.
+     * @return element fields.
+     */
+    public Collection getElementFieldsAsCollection() {
+        return this._elements;
     }
 
 }

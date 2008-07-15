@@ -133,5 +133,35 @@ public final class JDOClassInfoNature extends BaseNature {
     public AccessMode getAccessMode() {
         return (AccessMode) this.getProperty(ACCESS_MODE);
     }
+    
+    /**
+     * Returns a List of {@link JDOFieldInfoNature}s of all {@link FieldInfo}s
+     * if the field has a a {@link JDOFieldInfoNature} or an empty List if no
+     * field has the Nature. Included are attribute, text and element fields.
+     * 
+     * @return List of {@link JDOFieldInfoNature}s.
+     */
+    public List getFields() {       
+        ClassInfo holder = (ClassInfo) getHolder();
+        // Now merge all fields.
+        List mergedFields = new LinkedList();
+        mergedFields.addAll(holder.getAttributeFieldsAsCollection());
+        mergedFields.addAll(holder.getElementFieldsAsCollection());
+        FieldInfo textField = holder.getTextField();
+        if (textField != null) {
+            mergedFields.add(textField); 
+        }
+        // Walk through all fields and check for Nature.
+        Iterator fieldIterator = mergedFields.iterator();
+        List naturedFields = new LinkedList();
+        while (fieldIterator.hasNext()) {
+            FieldInfo field = (FieldInfo) fieldIterator.next();
+            if (field.hasNature(JDOFieldInfoNature.class.getName())) {
+                JDOFieldInfoNature nature = new JDOFieldInfoNature(field);
+                naturedFields.add(nature);
+            }
+        }
+        return naturedFields;
+    }
 
 }
