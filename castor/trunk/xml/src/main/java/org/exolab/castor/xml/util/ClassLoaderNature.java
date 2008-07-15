@@ -34,7 +34,7 @@ public final class ClassLoaderNature extends BaseNature {
      * Constructor takes the {@link PropertyHolder} in use.
      * @param holder PropertyHolder in use.
      */
-    protected ClassLoaderNature(final PropertyHolder holder) {
+    public ClassLoaderNature(final PropertyHolder holder) {
         super(holder);
     }
 
