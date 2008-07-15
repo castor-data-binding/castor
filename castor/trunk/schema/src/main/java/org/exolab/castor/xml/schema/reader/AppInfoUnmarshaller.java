@@ -91,6 +91,12 @@ public class AppInfoUnmarshaller extends ComponentReader {
     private static final String COLUMN_NAME = "column";
 
     /**
+     * Name of the one-to-one annotation element.
+     */
+    private static final Object ONE_TO_ONE_NAME = "one-to-one";
+    
+    
+    /**
      * Package where to find JDO classes to unmarshall annotations.
      */
     private static final String JDO_PACKAGE = 
@@ -101,6 +107,7 @@ public class AppInfoUnmarshaller extends ComponentReader {
      */
     private static final String JDO_NAMESPACE = 
         "http://www.castor.org/binding/persistence";
+
     
       //----------------/
      //- Constructors -/
@@ -239,7 +246,8 @@ public class AppInfoUnmarshaller extends ComponentReader {
             //-- unmarshall jdo appinfo content
             if (node.getNamespaceURI().equals(JDO_NAMESPACE) 
                     && (node.getLocalName().equals(TABLE_NAME) 
-                            || node.getLocalName().equals(COLUMN_NAME))) {
+                            || node.getLocalName().equals(COLUMN_NAME)
+                            || node.getLocalName().equals(ONE_TO_ONE_NAME))) {
                 XMLContext context = new XMLContext();
                 context.addPackage(JDO_PACKAGE);
                 Unmarshaller unmarshaller = context.createUnmarshaller();               
