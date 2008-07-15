@@ -100,6 +100,26 @@ org.castor.cpa.persistence.sql.keygen.factories=\
   org.castor.cpa.persistence.sql.keygen.UUIDKeyGeneratorFactory</code-panel>
             </summary>
             <bugs>
+                <bug id="2470" tool="jira">
+                    <description>
+                        Added a JDO-specific nature for 1:M relations. 
+                    </description>
+                    <contributor>
+                         <name>Lukas Lang</name>
+                         <email>lukas.lang@inode.at</email>
+                    </contributor>
+                    <submitter>
+                         <name>Werner Guttmann</name>
+                         <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                         <name>Lukas Lang</name>
+                         <email>lukas.lang@inode.at</email>
+                   </reporter>
+                    <type>Enh.</type>
+                    <module>XMLGen.</module>
+                    <date>20080715</date>
+                </bug>
                 <bug id="2467" tool="jira">
                     <description>
                         Added a getFields() method to JDOClassInfoNature. 
@@ -118,9 +138,8 @@ org.castor.cpa.persistence.sql.keygen.factories=\
                    </reporter>
                     <type>Enh.</type>
                     <module>XMLGen.</module>
-                    <date>20080714</date>
+                    <date>20080715</date>
                 </bug>
-                <bug id="" tool="jira">
                 <bug id="2479" tool="jira">
                     <description>
                         Remove unused code from ClassMolder, LockEngine and ObjectLock
