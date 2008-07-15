@@ -61,6 +61,7 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.cache.Cache;
 import org.castor.cache.simple.CountLimited;
 import org.castor.cache.simple.TimeLimited;
+import org.castor.core.constants.cpa.JDOConstants;
 import org.castor.core.util.Configuration;
 import org.castor.cpa.CPAConfiguration;
 import org.castor.cpa.persistence.convertor.AbstractSimpleTypeConvertor;
@@ -95,6 +96,9 @@ import org.exolab.castor.mapping.xml.NamedQuery;
 import org.exolab.castor.mapping.xml.Param;
 import org.exolab.castor.mapping.xml.types.SqlDirtyType;
 import org.exolab.castor.persist.spi.PersistenceFactory;
+import org.exolab.castor.xml.util.ClassLoaderNature;
+import org.exolab.castor.xml.util.ClassResolutionByFile;
+import org.exolab.castor.xml.util.resolvers.ResolveHelpers;
 
 /**
  * A JDO implementation of mapping helper. Creates JDO class descriptors
@@ -481,11 +485,31 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         return null;
     }
 
+    /**
+     * Walks through all fields of a descriptor and resolves relation
+     * {@link ClassDescriptor}s by using mapping information or, if not
+     * present, resolution by file to support generated
+     * {@link JDOClassDescriptor}s. Resolved {@link ClassDescriptor}s will be
+     * set as a field's descriptor.
+     * 
+     * @param clsDesc
+     *            The ClassDescriptor in focus.
+     */
     protected void resolveRelations(final ClassDescriptor clsDesc) {
         FieldDescriptor[] fields = clsDesc.getFields();
         for (int i = 0; i < fields.length; ++i) {
             FieldDescriptor field = fields[i];
             ClassDescriptor desc = getDescriptor(field.getFieldType().getName());
+            // Resolve ClassDescriptor from the file system as well.
+            if (desc == null && !field.getFieldType().isPrimitive()) {
+                ClassResolutionByFile resolutionCommand = new ClassResolutionByFile();
+                resolutionCommand.addNature(ClassLoaderNature.class.getName());
+                ClassLoaderNature clNature = new ClassLoaderNature(
+                        resolutionCommand);
+                clNature.setClassLoader(getClassLoader());
+                desc = resolutionCommand.resolve(field.getFieldType());
+                ((JDOFieldDescriptorImpl) field).setClassDescriptor(desc);
+            }
             if ((desc != null) && (field instanceof FieldDescriptorImpl)) {
                 ((FieldDescriptorImpl) field).setClassDescriptor(desc);
             }
