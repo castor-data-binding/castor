@@ -32,6 +32,7 @@ import org.exolab.castor.xml.schema.Schema;
 import org.exolab.castor.xml.schema.SchemaContext;
 import org.exolab.castor.xml.schema.SchemaContextImpl;
 import org.exolab.castor.xml.schema.annotations.jdo.Column;
+import org.exolab.castor.xml.schema.annotations.jdo.OneToOne;
 import org.exolab.castor.xml.schema.annotations.jdo.Table;
 import org.xml.sax.InputSource;
 import org.xml.sax.Parser;
@@ -304,4 +305,102 @@ public class SchemaUnmarshallerTest extends TestCase {
             fail(e.getMessage());
         }
     }
+    
+    /**
+     * Test tries to unmarshall jdo specific content in appinfo elements within
+     * a complete annoted schema.<br>
+     * <br>
+     * Action: Parse an annoted schema.<br>
+     * Precondition: schema-entity.xml holds a correct annoted schema with
+     * appinfo content.<br>
+     * Postcondition: The complexType bookType holds a table object in it's
+     * annotations. The element declaration of isbn holds a column object. The
+     * element declaration of title also holds a column object.
+     */
+    public void testUnmarshallOneToOneSchema() {
+        Parser parser = null;
+        InternalContext internalContext = new BackwardCompatibilityContext();
+
+        try {
+            parser = internalContext.getParser();
+        } catch (RuntimeException rte) {
+            fail("Can't optain sax parser!");
+        }
+
+        if (parser == null) {
+            fail("Unable to create SAX parser.");
+        }
+
+        SchemaContext schemaContext = new SchemaContextImpl();
+        SchemaUnmarshaller schemaUnmarshaller = null;
+        try {
+            schemaUnmarshaller = new SchemaUnmarshaller(schemaContext);
+        } catch (XMLException e) {
+            fail(e.getMessage());
+        }
+
+        Sax2ComponentReader handler = new Sax2ComponentReader(
+                schemaUnmarshaller);
+        parser.setDocumentHandler(handler);
+        parser.setErrorHandler(handler);
+
+        try {
+            parser.parse(new InputSource(new FileInputStream(getClass()
+                    .getResource("schema-one-to-one.xsd").getFile())));
+        } catch (java.io.IOException ioe) {
+            fail("error reading XML Schema file");
+        } catch (org.xml.sax.SAXException sx) {
+            fail(sx.getMessage());
+        }
+
+        Schema schema = schemaUnmarshaller.getSchema();
+        ComplexType bookType = schema.getComplexType("bookType");
+        Enumeration annotations = bookType.getAnnotations();
+        Annotation annotation = (Annotation) annotations.nextElement();
+        Enumeration appInfos = annotation.getAppInfo();
+        AppInfo appInfo = (AppInfo) appInfos.nextElement();
+        List jdoContent = appInfo.getJdoContent();
+
+        assertEquals(1, jdoContent.size());
+        Table t = (Table) jdoContent.get(0);
+        assertEquals("book", t.getName());
+        assertEquals("isbn", t.getPrimaryKey().getKey(0));
+
+        ElementDecl isbn = bookType.getElementDecl("isbn");
+        annotations = isbn.getAnnotations();
+        annotation = (Annotation) annotations.nextElement();
+        appInfos = annotation.getAppInfo();
+        appInfo = (AppInfo) appInfos.nextElement();
+        jdoContent = appInfo.getJdoContent();
+
+        assertEquals(1, jdoContent.size());
+        Column c = (Column) jdoContent.get(0);
+        assertEquals("isbn", c.getName());
+        assertEquals("varchar", c.getType());
+
+        ElementDecl title = bookType.getElementDecl("title");
+        annotations = title.getAnnotations();
+        annotation = (Annotation) annotations.nextElement();
+        appInfos = annotation.getAppInfo();
+        appInfo = (AppInfo) appInfos.nextElement();
+        jdoContent = appInfo.getJdoContent();
+
+        assertEquals(1, jdoContent.size());
+        c = (Column) jdoContent.get(0);
+        assertEquals("title", c.getName());
+        assertEquals("varchar", c.getType());
+        
+        ElementDecl author = bookType.getElementDecl("author");
+        annotations = author.getAnnotations();
+        annotation = (Annotation) annotations.nextElement();
+        appInfos = annotation.getAppInfo();
+        appInfo = (AppInfo) appInfos.nextElement();
+        jdoContent = appInfo.getJdoContent();
+
+        assertEquals(1, jdoContent.size());
+        OneToOne oneToOne = (OneToOne) jdoContent.get(0);
+        assertEquals("author_id", oneToOne.getName());
+        
+    }
+    
 }
