@@ -95,6 +95,15 @@ public class AppInfoUnmarshaller extends ComponentReader {
      */
     private static final Object ONE_TO_ONE_NAME = "one-to-one";
     
+    /**
+     * Name of the one-to-many annotation element.
+     */
+    private static final String ONE_TO_MANY = "one-to-many";
+
+    /**
+     * Name of the many-to-many annotation element.
+     */
+    private static final String MANY_TO_MANY = "many-to-many";
     
     /**
      * Package where to find JDO classes to unmarshall annotations.
@@ -243,11 +252,12 @@ public class AppInfoUnmarshaller extends ComponentReader {
         throws XMLException {
         AnyNode node = (AnyNode) _nodes.pop();
         if (_nodes.isEmpty()) {
-            //-- unmarshall jdo appinfo content
+            //- unmarshall JDO appinfo content
             if (node.getNamespaceURI().equals(JDO_NAMESPACE) 
                     && (node.getLocalName().equals(TABLE_NAME) 
                             || node.getLocalName().equals(COLUMN_NAME)
-                            || node.getLocalName().equals(ONE_TO_ONE_NAME))) {
+                            || node.getLocalName().equals(ONE_TO_ONE_NAME)
+                            || node.getLocalName().equals(ONE_TO_MANY))) {
                 XMLContext context = new XMLContext();
                 context.addPackage(JDO_PACKAGE);
                 Unmarshaller unmarshaller = context.createUnmarshaller();               
