@@ -73,6 +73,8 @@ import org.exolab.castor.builder.info.XMLInfo;
 import org.exolab.castor.builder.info.nature.JDOClassInfoNature;
 import org.exolab.castor.builder.info.nature.JDOFieldInfoNature;
 import org.exolab.castor.builder.info.nature.XMLInfoNature;
+import org.exolab.castor.builder.info.nature.relation.JDOOneToManyNature;
+import org.exolab.castor.builder.info.nature.relation.JDOOneToOneNature;
 import org.exolab.castor.builder.types.XSClass;
 import org.exolab.castor.builder.types.XSString;
 import org.exolab.castor.builder.types.XSType;
@@ -1811,29 +1813,28 @@ public final class SourceFactory extends BaseFactory {
                 AppInfo appInfo = (AppInfo) appInfos.nextElement();
                 List content = appInfo.getJdoContent();
                 Iterator it = content.iterator();
-                if (it.hasNext()) {
-                    fInfo.addNature(JDOFieldInfoNature.class.getName());
-                    JDOFieldInfoNature fNature = new JDOFieldInfoNature(fInfo);
-
+                if (it.hasNext()) {                 
                     while (it.hasNext()) {
                         Object tmpObject = it.next();
                         if (tmpObject instanceof Column) {
+                            fInfo.addNature(JDOFieldInfoNature.class.getName());
+                            JDOFieldInfoNature fNature = new JDOFieldInfoNature(fInfo);
                             Column column = (Column) tmpObject;
                             fNature.setColumnName(column.getName());
                             fNature.setColumnType(column.getType());
                             fNature.setReadOnly(column.isReadOnly());
                             fNature.setDirty(false);
-                            // TODO: Uncomment next line as soon as Annotation Classes have been updated! 
-//                            fNature.setDirty(column.getDirty());
+                            fNature.setDirty(column.getDirty());
                         } else if (tmpObject instanceof OneToOne) {
                             OneToOne relation = (OneToOne) tmpObject;
-                            // oneToOne relation not supported by JDOFieldNature
+                            fInfo.addNature(JDOOneToOneNature.class.getName());
+                            JDOOneToOneNature oneNature = new JDOOneToOneNature(fInfo);
+                            oneNature.addForeignKey(relation.getName());
                         } else if (tmpObject instanceof OneToMany) {
-                            // oneToMany relation not supported by
-                            // JDOFieldNature
-                        } else if (tmpObject instanceof ManyToMany) {
-                            // manyToMany relation not supported by
-                            // JDOFieldNature
+                            OneToMany relation = (OneToMany) tmpObject;
+                            fInfo.addNature(JDOOneToManyNature.class.getName());
+                            JDOOneToManyNature manyNature = new JDOOneToManyNature(fInfo);
+                            manyNature.addForeignKey(relation.getName());
                         }
                     }
                 }
