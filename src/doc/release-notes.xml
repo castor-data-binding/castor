@@ -102,6 +102,27 @@ org.castor.cpa.persistence.sql.keygen.factories=\
             <bugs>
                 <bug id="2412" tool="jira">
                     <description>
+                        Extended AppInfoUnmarshaller to support 1:1 and 1:M relations 
+                        as well. 
+                    </description>
+                    <contributor>
+                         <name>Filip Hianik</name>
+                         <email>NonSense86@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                         <name>Werner Guttmann</name>
+                         <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                         <name>Filip Hianik</name>
+                         <email>NonSense86@gmail.com</email>
+                   </reporter>
+                    <type>Enh.</type>
+                    <module>XMLGen.</module>
+                    <date>20080716</date>
+                </bug>
+                <bug id="2412" tool="jira">
+                    <description>
                         Added code to support 1:1 and 1:M relations during 
                         &lt;appinfo&gt; processing. 
                     </description>
