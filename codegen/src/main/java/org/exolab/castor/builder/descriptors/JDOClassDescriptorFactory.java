@@ -15,6 +15,7 @@
  */
 package org.exolab.castor.builder.descriptors;
 
+import org.castor.core.constants.cpa.JDOConstants;
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.nature.JDOClassInfoNature;
@@ -194,7 +195,7 @@ public final class JDOClassDescriptorFactory {
 
         if (descPackage != null && descPackage.length() > 0) {
             descPackage = descPackage + "."
-                    + XMLConstants.JDO_DESCRIPTOR_PACKAGE + ".";
+                    + JDOConstants.JDO_DESCRIPTOR_PACKAGE + ".";
         } else {
             descPackage = "";
         }
