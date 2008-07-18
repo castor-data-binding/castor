@@ -46,6 +46,7 @@
 	<classpathentry kind="src" path="core/src/main/resources"/>
 	<classpathentry kind="src" path="core/src/test/java"/>
 	<classpathentry kind="src" path="core/src/test/resources"/>
+	<classpathentry kind="src" path="cpa/src/test/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/jakarta-oro-2.0.5.jar"/>
 	<classpathentry kind="lib" path="lib/jakarta-regexp-1.1.jar"/>
