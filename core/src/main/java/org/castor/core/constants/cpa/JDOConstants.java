@@ -51,7 +51,23 @@ public interface JDOConstants {
     String ANNOTATIONS_COLUMN_NAME = "column";
 
     /**
+     * Name of the one-to-one annotation element.
+     */
+    String ANNOTATIONS_ONE_TO_ONE_NAME = "one-to-one";
+    
+    /**
+     * Name of the one-to-many annotation element.
+     */
+    String ANNOTATIONS_ONE_TO_MANY = "one-to-many";
+
+    /**
+     * Name of the many-to-many annotation element.
+     */
+    String ANNOTATIONS_MANY_TO_MANY = "many-to-many";
+    
+    /**
      * Package where to find generated JDO classes to unmarshal annotations.
      */
     String GENERATED_ANNOTATION_CLASSES_PACKAGE = "org.exolab.castor.xml.schema.annotations.jdo";
+    
 }

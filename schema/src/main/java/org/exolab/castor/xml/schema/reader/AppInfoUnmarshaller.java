@@ -48,6 +48,7 @@ package org.exolab.castor.xml.schema.reader;
 import java.util.Enumeration;
 import java.util.Stack;
 
+import org.castor.core.constants.cpa.JDOConstants;
 import org.exolab.castor.types.AnyNode;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
@@ -66,228 +67,176 @@ import org.exolab.castor.xml.schema.SchemaNames;
 public class AppInfoUnmarshaller extends ComponentReader {
 
 
-      //--------------------/
-     //- Member Variables -/
-    //--------------------/
+  /**
+   * The Attribute reference for the Attribute we are constructing.
+   */
+  private AppInfo _appInfo = null;
 
-    /**
-     * The Attribute reference for the Attribute we are constructing.
-     */
-    private AppInfo _appInfo = null;
+  /**
+   * Stack of AnyNodes being unmarshalled.
+   */
+  private Stack _nodes  = new Stack();
 
-    /**
-     * Stack of AnyNodes being unmarshalled.
-     */
-    private Stack _nodes = null;
+  /**
+   * Creates a new AppInfoUnmarshaller.
+   * @param schemaContext the schema context to get some configuration settings from
+   * @param atts the AttributeList
+   * @throws XMLException if instantiation failed for any reason.
+  **/
+  public AppInfoUnmarshaller(
+          final SchemaContext schemaContext, 
+          final AttributeSet atts)
+      throws XMLException {
+      super(schemaContext);
 
-    /**
-     * Name of the table annotation element.
-     */
-    private static final String TABLE_NAME = "table";
-    
-    /**
-     * Name of the column annotation element.
-     */
-    private static final String COLUMN_NAME = "column";
+      _appInfo = new AppInfo();
+      _appInfo.setSource(atts.getValue(SchemaNames.SOURCE_ATTR));
+      
+  }
 
-    /**
-     * Name of the one-to-one annotation element.
-     */
-    private static final Object ONE_TO_ONE_NAME = "one-to-one";
-    
-    /**
-     * Name of the one-to-many annotation element.
-     */
-    private static final String ONE_TO_MANY = "one-to-many";
+  /**
+   * @return appinfo.
+  **/
+  public AppInfo getAppInfo() {
+      return _appInfo;
+  }
 
-    /**
-     * Name of the many-to-many annotation element.
-     */
-    private static final String MANY_TO_MANY = "many-to-many";
-    
-    /**
-     * Package where to find JDO classes to unmarshall annotations.
-     */
-    private static final String JDO_PACKAGE = 
-        "org.exolab.castor.xml.schema.annotations.jdo";
-    
-    /**
-     * JDO Namespace.
-     */
-    private static final String JDO_NAMESPACE = 
-        "http://www.castor.org/binding/persistence";
+  /**
+   * Returns the name of the element that this ComponentReader
+   * handles.
+   * @return the name of the element that this ComponentReader
+   * handles
+  **/
+  public String elementName() {
+      return SchemaNames.APPINFO;
+  }
 
-    
-      //----------------/
-     //- Constructors -/
-    //----------------/
+  /**
+   * Called to signal an end of unmarshalling. This method should
+   * be overridden to perform any necessary clean up by an unmarshaller
+  **/
+  public void finish() {
+      //-- do nothing
+  }
 
-    /**
-     * Creates a new AppInfoUnmarshaller.
-     * @param schemaContext the schema context to get some configuration settings from
-     * @param atts the AttributeList
-     * @throws XMLException if instantiation failed for any reason.
-    **/
-    public AppInfoUnmarshaller(
-            final SchemaContext schemaContext, 
-            final AttributeSet atts)
-        throws XMLException {
-        super(schemaContext);
+  /**
+   * Returns the Object created by this ComponentReader.
+   * @return the Object created by this ComponentReader
+  **/
+  public Object getObject() {
+      return getAppInfo();
+  }
 
-        _appInfo = new AppInfo();
-        _appInfo.setSource(atts.getValue(SchemaNames.SOURCE_ATTR));
-        
-        _nodes = new Stack();
+  /**
+   * Signals the start of an element with the given name.
+   *
+   * @param name the NCName of the element. It is an error
+   * if the name is a QName (ie. contains a prefix).
+   * @param namespace the namespace of the element. This may be null.
+   * Note: A null namespace is not the same as the default namespace unless
+   * the default namespace is also null.
+   * @param atts the AttributeSet containing the attributes associated
+   * with the element.
+   * @param nsDecls the namespace declarations being declared for this 
+   * element. This may be null.
+   * @throws XMLException if any error occurs
+  **/
+  public void startElement(String name, String namespace, AttributeSet atts,
+      Namespaces nsDecls)
+      throws XMLException {
+      
+      String prefix = null;
+      if (nsDecls != null) {
+          //-- find prefix (elements use default namespace if null)
+          if (namespace == null) {
+              namespace = "";
+          }
+          prefix = nsDecls.getNamespacePrefix(namespace);
+      }
+      
+      AnyNode node = new AnyNode(AnyNode.ELEMENT, name, prefix, namespace, null);
+      _nodes.push(node);
+      
+      //-- process namespace nodes
+      if (nsDecls != null) {
+          Enumeration enumeration = nsDecls.getLocalNamespaces();
+          while (enumeration.hasMoreElements()) {
+              namespace = (String) enumeration.nextElement();
+              prefix = nsDecls.getNamespacePrefix(namespace);
+              node.addNamespace (new AnyNode(AnyNode.NAMESPACE, 
+                                              null,  //-- no local name for a ns decl.
+                                              prefix, 
+                                              namespace,
+                                              null)); //-- no value
+          }
+      }
+      //-- process attributes
+      if (atts != null) {
+          for (int i = 0; i < atts.getSize(); i++) {
+              namespace = atts.getNamespace(i);
+              if ((nsDecls != null) && (namespace != null)) {
+                  prefix = nsDecls.getNamespacePrefix(namespace);
+              } else {
+                  prefix = null;
+              }
+              node.addAttribute(new AnyNode(AnyNode.ATTRIBUTE, 
+                                         atts.getName(i), 
+                                         prefix, namespace, 
+                                         atts.getValue(i)));
+          }
+      }
 
-    } //-- AppInfoUnmarshaller
+  }
 
-      //-----------/
-     //- Methods -/
-    //-----------/
+  /**
+   * Signals to end of the element with the given name.
+   *
+   * @param name the NCName of the element. It is an error
+   * if the name is a QName (ie. contains a prefix).
+   * @param namespace the namespace of the element.
+   * @throws XMLException if unmarshalling fails.
+   * 
+  **/
+  public void endElement(final String name, final String namespace)
+      throws XMLException {
+      AnyNode node = (AnyNode) _nodes.pop();
+      if (_nodes.isEmpty()) {
+          //- unmarshall JDO appinfo content
+          if (node.getNamespaceURI().equals(JDOConstants.JDO_NAMESPACE) 
+                  && (node.getLocalName().equals(JDOConstants.ANNOTATIONS_TABLE_NAME) 
+                          || node.getLocalName().equals(JDOConstants.ANNOTATIONS_COLUMN_NAME)
+                          || node.getLocalName().equals(JDOConstants.ANNOTATIONS_ONE_TO_ONE_NAME)
+                          || node.getLocalName().equals(JDOConstants.ANNOTATIONS_ONE_TO_MANY))) {
+              XMLContext context = new XMLContext();
+              context.addPackage(JDOConstants.GENERATED_ANNOTATION_CLASSES_PACKAGE);
+              Unmarshaller unmarshaller = context.createUnmarshaller();               
+              unmarshaller.setClassLoader(getClass().getClassLoader());
+              _appInfo.getJdoContent().add(unmarshaller.unmarshal(node));
+          }            
+          //-- add to appInfo
+          _appInfo.add(node);
+      } else {
+          //-- add to parent AnyNode
+          ((AnyNode) _nodes.peek()).addChild(node);
+      }
+  }
 
-    /**
-     * @return appinfo.
-    **/
-    public AppInfo getAppInfo() {
-        return _appInfo;
-    } //-- getArchetype
+  public void characters(char[] ch, int start, int length)
+      throws XMLException {
+      //-- Do delegation if necessary
+      AnyNode text = new AnyNode(AnyNode.TEXT, 
+                                 null,  //-- no local name for text nodes 
+                                 null,  //-- no prefix
+                                 null,  //-- no namespace
+                                 new String(ch, start, length));
+                                 
+      if (!_nodes.isEmpty()) {
+          AnyNode parent = (AnyNode) _nodes.peek();
+          parent.addChild(text);
+      } else {
+          _appInfo.add(text);
+      }
+      
+  }
 
-    /**
-     * Returns the name of the element that this ComponentReader
-     * handles.
-     * @return the name of the element that this ComponentReader
-     * handles
-    **/
-    public String elementName() {
-        return SchemaNames.APPINFO;
-    } //-- elementName
-
-    /**
-     * Called to signal an end of unmarshalling. This method should
-     * be overridden to perform any necessary clean up by an unmarshaller
-    **/
-    public void finish() {
-        //-- do nothing
-    } //-- finish
-
-    /**
-     * Returns the Object created by this ComponentReader.
-     * @return the Object created by this ComponentReader
-    **/
-    public Object getObject() {
-        return getAppInfo();
-    } //-- getObject
-
-    /**
-     * Signals the start of an element with the given name.
-     *
-     * @param name the NCName of the element. It is an error
-     * if the name is a QName (ie. contains a prefix).
-     * @param namespace the namespace of the element. This may be null.
-     * Note: A null namespace is not the same as the default namespace unless
-     * the default namespace is also null.
-     * @param atts the AttributeSet containing the attributes associated
-     * with the element.
-     * @param nsDecls the namespace declarations being declared for this 
-     * element. This may be null.
-     * @throws XMLException if any error occurs
-    **/
-    public void startElement(String name, String namespace, AttributeSet atts,
-        Namespaces nsDecls)
-        throws XMLException {
-        
-        String prefix = null;
-        if (nsDecls != null) {
-            //-- find prefix (elements use default namespace if null)
-            if (namespace == null) {
-                namespace = "";
-            }
-            prefix = nsDecls.getNamespacePrefix(namespace);
-        }
-        
-        AnyNode node = new AnyNode(AnyNode.ELEMENT, name, prefix, namespace, null);
-        _nodes.push(node);
-        
-        //-- process namespace nodes
-        if (nsDecls != null) {
-            Enumeration enumeration = nsDecls.getLocalNamespaces();
-            while (enumeration.hasMoreElements()) {
-                namespace = (String) enumeration.nextElement();
-                prefix = nsDecls.getNamespacePrefix(namespace);
-                node.addNamespace (new AnyNode(AnyNode.NAMESPACE, 
-                                                null,  //-- no local name for a ns decl.
-                                                prefix, 
-                                                namespace,
-                                                null)); //-- no value
-            }
-        }
-        //-- process attributes
-        if (atts != null) {
-            for (int i = 0; i < atts.getSize(); i++) {
-                namespace = atts.getNamespace(i);
-                if ((nsDecls != null) && (namespace != null)) {
-                    prefix = nsDecls.getNamespacePrefix(namespace);
-                } else {
-                    prefix = null;
-                }
-                node.addAttribute(new AnyNode(AnyNode.ATTRIBUTE, 
-                                           atts.getName(i), 
-                                           prefix, namespace, 
-                                           atts.getValue(i)));
-            }
-        }
-
-    } //-- startElement
-
-    /**
-     * Signals to end of the element with the given name.
-     *
-     * @param name the NCName of the element. It is an error
-     * if the name is a QName (ie. contains a prefix).
-     * @param namespace the namespace of the element.
-     * @throws XMLException if unmarshalling fails.
-     * 
-    **/
-    public void endElement(final String name, final String namespace)
-        throws XMLException {
-        AnyNode node = (AnyNode) _nodes.pop();
-        if (_nodes.isEmpty()) {
-            //- unmarshall JDO appinfo content
-            if (node.getNamespaceURI().equals(JDO_NAMESPACE) 
-                    && (node.getLocalName().equals(TABLE_NAME) 
-                            || node.getLocalName().equals(COLUMN_NAME)
-                            || node.getLocalName().equals(ONE_TO_ONE_NAME)
-                            || node.getLocalName().equals(ONE_TO_MANY))) {
-                XMLContext context = new XMLContext();
-                context.addPackage(JDO_PACKAGE);
-                Unmarshaller unmarshaller = context.createUnmarshaller();               
-                unmarshaller.setClassLoader(getClass().getClassLoader());
-                _appInfo.getJdoContent().add(unmarshaller.unmarshal(node));
-            }            
-            //-- add to appInfo
-            _appInfo.add(node);
-        } else {
-            //-- add to parent AnyNode
-            ((AnyNode) _nodes.peek()).addChild(node);
-        }
-    } //-- endElement
-
-    public void characters(char[] ch, int start, int length)
-        throws XMLException {
-        //-- Do delagation if necessary
-        AnyNode text = new AnyNode(AnyNode.TEXT, 
-                                   null,  //-- no local name for text nodes 
-                                   null,  //-- no prefix
-                                   null,  //-- no namespace
-                                   new String(ch, start, length));
-                                   
-        if (!_nodes.isEmpty()) {
-            AnyNode parent = (AnyNode) _nodes.peek();
-            parent.addChild(text);
-        } else {
-            _appInfo.add(text);
-        }
-        
-    } //-- characters
-
-} //-- AppInfoUnmarshaller
+}
