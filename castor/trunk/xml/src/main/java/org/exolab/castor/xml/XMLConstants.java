@@ -55,11 +55,4 @@ public interface XMLConstants {
     
     /** name of the class descriptor resolver file. */
     String PKG_CDR_LIST_FILE = ".castor.cdr";
-    
-    /** This suffix is added to a class name to make its descriptor. */
-    String JDO_DESCRIPTOR_SUFFIX   = "JDODescriptor";
-
-    // TODO !!!! point to JDOCOnstants !!!!!
-    /** JDODescriptors are placed into this special package relative to the generated source. */
-    String JDO_DESCRIPTOR_PACKAGE  = "jdo_descriptors";
 }

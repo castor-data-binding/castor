@@ -100,6 +100,26 @@ org.castor.cpa.persistence.sql.keygen.factories=\
   org.castor.cpa.persistence.sql.keygen.UUIDKeyGeneratorFactory</code-panel>
             </summary>
             <bugs>
+                <bug id="2455" tool="jira">
+                    <description>
+                        Consolidated CPA/JDO constants used by JDOClassDescriptorFactory. 
+                    </description>
+                    <contributor>
+                         <name>Werner Guttmann</name>
+                         <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                         <name>Werner Guttmann</name>
+                         <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                         <name>Lukas Lang</name>
+                         <email>lukas.lang@inode.at</email>
+                   </reporter>
+                    <type>XMLGen.</type>
+                    <module>Schema</module>
+                    <date>20080718</date>
+                </bug>
                 <bug id="2454" tool="jira">
                     <description>
                         Consolidated CPA/JDO constants used by AppInfoUnmarshaller. 
