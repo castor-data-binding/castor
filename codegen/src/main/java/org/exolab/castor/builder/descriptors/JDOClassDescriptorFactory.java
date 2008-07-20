@@ -313,7 +313,7 @@ public final class JDOClassDescriptorFactory {
        // TODO IS THERE A NEED TO CHECK THIS?!
        String fullName = classInfo.getJClass().getName();
        if ((fullName != null) && (fullName.length() > 0)) {
-           jsc.add("addCacheParam(\"name\",\"");
+           jsc.add("addCacheParam(\"name\", \"");
            jsc.append(fullName);
            jsc.append("\");");
        }
@@ -390,7 +390,7 @@ public final class JDOClassDescriptorFactory {
        // TODO IS THERE A NEED TO CHECK THIS?!
        if ((type != null) && (type.length() > 0)) {
            jsc.add("TypeInfo " + name
-                   + "Type = new TypeInfo(" + type + ".class);");
+                   + "Type = new TypeInfo(" + wrapperType + ".class);");
        }
 
        jsc.add("// Set columns required (= not null)");
@@ -442,7 +442,6 @@ public final class JDOClassDescriptorFactory {
        jsc.add("throw new RuntimeException(e1.getMessage());");
        jsc.unindent();
        jsc.add("}");
-
 
        //-- JDOFieldDescriptorImpl constructor
        jsc.add("// Instantiate " + name + " field descriptor");
@@ -630,10 +629,8 @@ public final class JDOClassDescriptorFactory {
 
        jsc.unindent();
        jsc.add("null, new String[] { " + name + "SqlName }, ");
-//       jsc.append(Boolean.toString(fNature.isDirty()) + ", ");
-//       jsc.append(Boolean.toString(fNature.isReadOnly()) + ");");
-       jsc.append("false, ");
-       jsc.append("false);");
+       jsc.append(Boolean.toString(oneNature.isDirty()) + ", ");
+       jsc.append(Boolean.toString(oneNature.isReadOnly()) + ");");
        jsc.unindent();
 
        jsc.add("");
@@ -689,7 +686,7 @@ public final class JDOClassDescriptorFactory {
     */
    private JSourceCode createOneToManyFieldInfoPart(final FieldInfo fInfo, final JSourceCode jsc) {
        
-       JDOFieldInfoNature fNature = new JDOFieldInfoNature(fInfo);
+       //JDOFieldInfoNature fNature = new JDOFieldInfoNature(fInfo);
        JDOClassInfoNature cNature = new JDOClassInfoNature(fInfo.getDeclaringClassInfo());
        JDOOneToManyNature manyNature = new JDOOneToManyNature(fInfo);
        XMLInfoNature xmlNature = new XMLInfoNature(fInfo);
@@ -726,7 +723,7 @@ public final class JDOClassDescriptorFactory {
        // TODO IS THERE A NEED TO CHECK THIS?!
        if ((type != null) && (type.length() > 0)) {
            jsc.add("TypeInfo " + name
-                   + "Type = new TypeInfo(" + getLocalName(type) + ".class);");
+                   + "Type = new TypeInfo(" + type + ".class);");
        }
 
        jsc.add("// Set columns required (= not null)");
@@ -749,7 +746,12 @@ public final class JDOClassDescriptorFactory {
                    + toUpperCaseFirstLetter(name) + "\", null);");
            jsc.add("Method " + name + "SetMethod = "
                    + className + ".class.getMethod(\"set"
-                   + toUpperCaseFirstLetter(name) + "\", new Class[]{List.class});");
+                   + toUpperCaseFirstLetter(name) + "\", new Class[]{");       
+       }
+       
+       // TODO IS THERE A NEED TO CHECK THIS?!
+       if ((type != null) && (type.length() > 0)) {
+           jsc.addIndented(type + "[].class});");
        }
 
        jsc.add("");
@@ -782,7 +784,7 @@ public final class JDOClassDescriptorFactory {
        jsc.indent();
        jsc.add(name + "Handler, ");
        jsc.append(Boolean.toString(fInfo.isTransient()) + ", ");
-       jsc.append("new String[] { " + name + "SqlName },");
+       jsc.append("new String[] { },");
        jsc.add("new int[] {SQLTypeInfos");
        jsc.indent();
        jsc.add(".javaType2sqlTypeNum(");
@@ -794,8 +796,8 @@ public final class JDOClassDescriptorFactory {
 
        jsc.unindent();
        jsc.add("null, new String[] { " + name + "SqlName }, ");
-       jsc.append(Boolean.toString(fNature.isDirty()) + ", ");
-       jsc.append(Boolean.toString(fNature.isReadOnly()) + ");");
+       jsc.append(Boolean.toString(manyNature.isDirty()) + ", ");
+       jsc.append(Boolean.toString(manyNature.isReadOnly()) + ");");
        jsc.unindent();
 
        jsc.add("");
@@ -817,16 +819,17 @@ public final class JDOClassDescriptorFactory {
        jsc.add(name + "FM.setName(\"" + name + "\");");
        jsc.add(name + "FM.setRequired(" + xmlNature.isRequired() + ");");
        // TODO support of other collection types
-       jsc.add(name + "FM.setCollection(FieldMappingCollectionType.ARRAYLIST);");
+       jsc.add(name + "FM.setCollection(FieldMappingCollectionType.ARRAY);");
        
        //-- sql part
        jsc.add("Sql " + name + "Sql = new Sql();");
        jsc.add(name + "Sql.addName(\"" + sqlName + "\");");
 
-       String sqlType = fNature.getColumnType();
-       if ((sqlType != null) && (sqlType.length() > 0)) {
-           jsc.add(name + "Sql.setType(\"" + sqlType + "\");");
-       }
+//       String sqlType = fNature.getColumnType();
+//       if ((sqlType != null) && (sqlType.length() > 0)) {
+//           jsc.add(name + "Sql.setType(\"" + sqlType + "\");");
+//       }
+       jsc.add(name + "Sql.setType(\"integer\");");
        
        jsc.add(name + "Sql.setManyKey(new String[] {\"" + sqlName + "\"});");
        jsc.add(name + "FM.setSql(" + name + "Sql);");
