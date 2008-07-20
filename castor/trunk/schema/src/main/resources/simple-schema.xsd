@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-   xmlns:jdo="http://www.castor.org/binding/persistence"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jdo="http://www.castor.org/binding/persistence"
    targetNamespace="http://www.castor.org/binding/persistence" elementFormDefault="qualified"
    attributeFormDefault="unqualified">
-
    <xs:element name="table">
       <xs:annotation>
          <xs:documentation>
@@ -97,6 +95,22 @@
                </xs:documentation>
             </xs:annotation>
          </xs:attribute>
+         <xs:attribute name="read-only" type="xs:boolean" use="optional" default="false">
+            <xs:annotation>
+               <xs:documentation>
+                  Attribute 'read-only' is used to set off changing the column. If true, no update
+                  can be performed.
+               </xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="dirty" type="xs:boolean" use="optional" default="false">
+            <xs:annotation>
+               <xs:documentation>
+                  If the value is 'true', the field will not be checked against the database for
+                  modification.
+               </xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
       </xs:complexType>
    </xs:element>
    <xs:element name="one-to-many">
@@ -114,6 +128,22 @@
             <xs:annotation>
                <xs:documentation>
                   The name attribute specifies the name of the column that represents this relation.
+               </xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="read-only" type="xs:boolean" use="optional" default="false">
+            <xs:annotation>
+               <xs:documentation>
+                  Attribute 'read-only' is used to set off changing the column. If true, no update
+                  can be performed.
+               </xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="dirty" type="xs:boolean" use="optional" default="false">
+            <xs:annotation>
+               <xs:documentation>
+                  If the value is 'true', the field will not be checked against the database for
+                  modification.
                </xs:documentation>
             </xs:annotation>
          </xs:attribute>
@@ -148,10 +178,7 @@
          <xs:element name="key" type="xs:string" maxOccurs="unbounded" />
       </xs:sequence>
    </xs:complexType>
-
-   <!-- 
-      The JDO data types are modelled after the short names found at 
-      http://castor.org/types.html
+   <!--
+      The JDO data types are modelled after the short names found at http://castor.org/types.html
    -->
-
 </xs:schema>
