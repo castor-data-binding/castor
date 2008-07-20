@@ -15,6 +15,7 @@
     <path id="build.classpath">
         <pathelement location="${basedir}/build/classes"/>
         <pathelement location="${basedir}/../build/classes"/>
+        <pathelement location="${basedir}/../core/build/classes"/>
     	<pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>
     	<pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>
     </path>
