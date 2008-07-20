@@ -100,6 +100,27 @@ org.castor.cpa.persistence.sql.keygen.factories=\
   org.castor.cpa.persistence.sql.keygen.UUIDKeyGeneratorFactory</code-panel>
             </summary>
             <bugs>
+                <bug id="2470" tool="jira">
+                    <description>
+                        Added 'dirty' and 'read-only' properties to JDO-specific
+                        1:M relation nature.
+                    </description>
+                    <contributor>
+                         <name>Filip Hianik</name>
+                         <email>NonSense86@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                         <name>Werner Guttmann</name>
+                         <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                         <name>Filip Hianik</name>
+                         <email>NonSense86@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XMLgen.</module>
+                    <date>20080720</date>
+                </bug>
                 <bug id="2469" tool="jira">
                     <description>
                         Added 'dirty' and 'read-only' properties to JDO-specific
