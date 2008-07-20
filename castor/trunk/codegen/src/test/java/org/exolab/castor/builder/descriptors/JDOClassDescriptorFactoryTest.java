@@ -234,7 +234,7 @@ public class JDOClassDescriptorFactoryTest extends TestCase {
         _statement = "isbnFieldDescr = new JDOFieldDescriptorImpl(isbnFieldName, isbnType,";
         assertTrue(checkSource(_statement));
         
-        _statement = "isbnHandler, false, new String[] { isbn },";
+        _statement = "isbnHandler, false, new String[] { \"isbn\" },";
         assertTrue(checkSource(_statement));
         
         _statement = "new int[] {SQLTypeInfos";
@@ -325,7 +325,7 @@ public class JDOClassDescriptorFactoryTest extends TestCase {
         _statement = "titleFieldDescr = new JDOFieldDescriptorImpl(titleFieldName, titleType,";
         assertTrue(checkSource(_statement));
         
-        _statement = "titleHandler, false, new String[] { title },";
+        _statement = "titleHandler, false, new String[] { \"title\" },";
         assertTrue(checkSource(_statement));
         
         _statement = "new int[] {SQLTypeInfos";
@@ -507,7 +507,7 @@ public class JDOClassDescriptorFactoryTest extends TestCase {
         _statement = "idFieldDescr = new JDOFieldDescriptorImpl(idFieldName, idType,";
         assertTrue(checkSource(_statement));
         
-        _statement = "idHandler, false, new String[] { id },";
+        _statement = "idHandler, false, new String[] { \"id\" },";
         assertTrue(checkSource(_statement));
         
         _statement = "new int[] {SQLTypeInfos";
@@ -574,7 +574,7 @@ public class JDOClassDescriptorFactoryTest extends TestCase {
         _statement = "FieldMapping addressFM = new FieldMapping();";
         assertTrue(checkSource(_statement));
         
-        _statement = "TypeInfo addressType = new TypeInfo(Address.class);";
+        _statement = "TypeInfo addressType = new TypeInfo(ctf.jdo.sg.onetoone.Address.class);";
         assertTrue(checkSource(_statement));
         
         _statement = "addressType.setRequired(true);";
@@ -607,7 +607,7 @@ public class JDOClassDescriptorFactoryTest extends TestCase {
         _statement = "new int[] {SQLTypeInfos";
         assertTrue(checkSource(_statement));
         
-        _statement = ".javaType2sqlTypeNum(Address.class) },";
+        _statement = ".javaType2sqlTypeNum(ctf.jdo.sg.onetoone.Address.class) },";
         assertTrue(checkSource(_statement));
         
         _statement = "null, new String[] { addressSqlName }, false, false);";
@@ -785,7 +785,7 @@ public class JDOClassDescriptorFactoryTest extends TestCase {
         _statement = "idFieldDescr = new JDOFieldDescriptorImpl(idFieldName, idType,";
         assertTrue(checkSource(_statement));
         
-        _statement = "idHandler, false, new String[] { id },";
+        _statement = "idHandler, false, new String[] { \"id\" },";
         assertTrue(checkSource(_statement));
         
         _statement = "new int[] {SQLTypeInfos";
@@ -882,7 +882,7 @@ public class JDOClassDescriptorFactoryTest extends TestCase {
         _statement = "new int[] {SQLTypeInfos";
         assertTrue(checkSource(_statement));
         
-        _statement = ".javaType2sqlTypeNum(Flat.class) },";
+        _statement = ".javaType2sqlTypeNum(org.castor.cpa.functional.onetomany.Flat.class) },";
         assertTrue(checkSource(_statement));
         
         _statement = "null, new String[] { flatSqlName }, false, false);";
