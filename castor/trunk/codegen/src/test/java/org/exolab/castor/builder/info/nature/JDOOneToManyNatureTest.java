@@ -83,4 +83,30 @@ public class JDOOneToManyNatureTest extends TestCase {
             fail("No keys found!");
         }
     }
+    
+    /**
+     * Tests get and set of read only.
+     */
+    public void testReadOnly() {
+        FieldInfoFactory factory = new FieldInfoFactory();
+        FieldInfo flat = factory.createFieldInfo(
+                new XSClass(new JClass("House")), "flat");
+        flat.addNature(JDOOneToManyNature.class.getName());
+        JDOOneToManyNature relation = new JDOOneToManyNature(flat);
+        relation.setReadOnly(true);
+        assertEquals(true, relation.isReadOnly());
+    }
+
+    /**
+     * Tests get and set of dirty.
+     */
+    public void testDirty() {
+        FieldInfoFactory factory = new FieldInfoFactory();
+        FieldInfo flat = factory.createFieldInfo(
+                new XSClass(new JClass("House")), "flat");
+        flat.addNature(JDOOneToManyNature.class.getName());
+        JDOOneToManyNature jdo = new JDOOneToManyNature(flat);
+        jdo.setDirty(true);
+        assertEquals(true, jdo.isDirty());
+    }
 }

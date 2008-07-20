@@ -22,8 +22,8 @@ import org.castor.core.nature.BaseNature;
 import org.exolab.castor.builder.info.FieldInfo;
 
 /**
- * A {@link JDOOneToManyNature} defines typed properties needed in the 
- * context a one-to-many relation between two {@link FieldInfo}s.
+ * A {@link JDOOneToManyNature} defines typed properties needed in the context a
+ * one-to-many relation between two {@link FieldInfo}s.
  * 
  * @author Lukas Lang, Filip Hianik
  * @since 1.2.1
@@ -33,7 +33,15 @@ public class JDOOneToManyNature extends BaseNature {
     /**
      * Property key for foreign key.
      */
-    private static final String FOREIGN_KEY = "foreignkey";
+    private static final String MANY_KEY = "manykey";
+    /**
+     * Property key for the property read only.
+     */
+    private static final String READONLY = "readonly";
+    /**
+     * Property key for the property dirty.
+     */
+    private static final String DIRTY = "dirty";
 
     /**
      * Constructor taking a {@link FieldInfo}.
@@ -44,7 +52,7 @@ public class JDOOneToManyNature extends BaseNature {
     public JDOOneToManyNature(final FieldInfo field) {
         super(field);
     }
-    
+
     /**
      * Returns the Nature Id.
      * 
@@ -54,10 +62,51 @@ public class JDOOneToManyNature extends BaseNature {
     public String getId() {
         return getClass().getName();
     }
-    
+
     /**
-     * Returns a List of {@String}s holding the columns of the foreign key.
-     * Keep in mind that by contract of
+     * Returns true if no update on the column can be performed, false
+     * otherwise. Default value is false.
+     * 
+     * @return true if readonly, false if not or not set.
+     */
+    public boolean isReadOnly() {
+        return getBooleanPropertyDefaultFalse(READONLY);
+    }
+
+    /**
+     * Sets the column read only.
+     * 
+     * @param readOnly
+     *            true if read only.
+     */
+    public void setReadOnly(final boolean readOnly) {
+        setProperty(READONLY, new Boolean(readOnly));
+    }
+
+    /**
+     * Returns true if field will NOT be checked against the database for
+     * modification, otherwise false. Default value is false.
+     * 
+     * @return true if field is not updated, false if not or not set.
+     */
+    public boolean isDirty() {
+        return getBooleanPropertyDefaultFalse(DIRTY);
+    }
+
+    /**
+     * If set true, field will NOT be checked against the database for
+     * modification, otherwise set false.
+     * 
+     * @param dirty
+     *            true if field should not be updated.
+     */
+    public void setDirty(final boolean dirty) {
+        setProperty(DIRTY, new Boolean(dirty));
+    }
+
+    /**
+     * Returns a List of {@String}s holding the columns of the foreign
+     * key. Keep in mind that by contract of
      * <code>addPrimaryKey(String foreignKey)</code> the order is not
      * guaranteed.
      * 
@@ -65,19 +114,20 @@ public class JDOOneToManyNature extends BaseNature {
      *         before.
      */
     public List getForeignKeys() {
-        return (List) this.getProperty(FOREIGN_KEY);
+        return (List) this.getProperty(MANY_KEY);
     }
-    
+
     /**
      * Adds a column to the foreign key. By contract, the order of the key
-     * columns is not guaranteed and depends on the returned List implementation 
+     * columns is not guaranteed and depends on the returned List implementation
      * the {@link BaseNature} is using.
      * 
      * @param column
      *            The column name.
      */
     public void addForeignKey(final String column) {
-        List foreignKey = getPropertyAsList(FOREIGN_KEY);
+        List foreignKey = getPropertyAsList(MANY_KEY);
         foreignKey.add(column);
     }
+    
 }
