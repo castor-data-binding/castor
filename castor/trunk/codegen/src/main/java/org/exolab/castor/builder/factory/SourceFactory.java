@@ -1830,11 +1830,15 @@ public final class SourceFactory extends BaseFactory {
                             fInfo.addNature(JDOOneToOneNature.class.getName());
                             JDOOneToOneNature oneNature = new JDOOneToOneNature(fInfo);
                             oneNature.addForeignKey(relation.getName());
+                            oneNature.setDirty(relation.isDirty());
+                            oneNature.setReadOnly(relation.isReadOnly());
                         } else if (tmpObject instanceof OneToMany) {
                             OneToMany relation = (OneToMany) tmpObject;
                             fInfo.addNature(JDOOneToManyNature.class.getName());
                             JDOOneToManyNature manyNature = new JDOOneToManyNature(fInfo);
                             manyNature.addForeignKey(relation.getName());
+                            manyNature.setDirty(relation.isDirty());
+                            manyNature.setReadOnly(relation.isReadOnly());
                         }
                     }
                 }
