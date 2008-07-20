@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Lukas Lang
+ * Copyright 2008 Lukas Lang, Filip Hianik
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -82,4 +82,31 @@ public final class JDOOneToOneNatureTest extends TestCase {
             fail("No keys found!");
         }
     }
+    
+    /**
+     * Tests get and set of read only.
+     */
+    public void testReadOnly() {
+        FieldInfoFactory factory = new FieldInfoFactory();
+        FieldInfo address = factory.createFieldInfo(
+                new XSClass(new JClass("Employee")), "address");
+        address.addNature(JDOOneToOneNature.class.getName());
+        JDOOneToOneNature relation = new JDOOneToOneNature(address);
+        relation.setReadOnly(true);
+        assertEquals(true, relation.isReadOnly());
+    }
+
+    /**
+     * Tests get and set of dirty.
+     */
+    public void testDirty() {
+        FieldInfoFactory factory = new FieldInfoFactory();
+        FieldInfo address = factory.createFieldInfo(
+                new XSClass(new JClass("Employee")), "address");
+        address.addNature(JDOOneToOneNature.class.getName());
+        JDOOneToOneNature jdo = new JDOOneToOneNature(address);
+        jdo.setDirty(true);
+        assertEquals(true, jdo.isDirty());
+    }
+
 }

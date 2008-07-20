@@ -25,7 +25,7 @@ import org.exolab.castor.builder.info.FieldInfo;
  * A {@link JDOOneToOneNature} defines a one-to-one relation between two
  * {@link FieldInfo}s.
  * 
- * @author Lukas Lang
+ * @author Lukas Lang, Filip Hianik
  */
 public final class JDOOneToOneNature extends BaseNature {
 
@@ -33,7 +33,15 @@ public final class JDOOneToOneNature extends BaseNature {
      * Property key for foreign key.
      */
     private static final String FOREIGN_KEY = "foreignkey";
-
+    /**
+     * Property key for the property read only.
+     */
+    private static final String READONLY = "readonly";
+    /**
+     * Property key for the property dirty.
+     */
+    private static final String DIRTY = "dirty";
+    
     /**
      * Constructor taking a {@link FieldInfo}.
      * 
@@ -52,6 +60,47 @@ public final class JDOOneToOneNature extends BaseNature {
      */
     public String getId() {
         return getClass().getName();
+    }
+    
+    /**
+     * Returns true if no update on the column can be performed, false
+     * otherwise. Default value is false.
+     * 
+     * @return true if readonly, false if not or not set.
+     */
+    public boolean isReadOnly() {
+        return getBooleanPropertyDefaultFalse(READONLY);
+    }
+
+    /**
+     * Sets the column read only.
+     * 
+     * @param readOnly
+     *            true if read only.
+     */
+    public void setReadOnly(final boolean readOnly) {
+        setProperty(READONLY, new Boolean(readOnly));
+    }
+    
+    /**
+     * Returns true if field will NOT be checked against the database for
+     * modification, otherwise false. Default value is false.
+     * 
+     * @return true if field is not updated, false if not or not set.
+     */
+    public boolean isDirty() {
+        return getBooleanPropertyDefaultFalse(DIRTY);
+    }
+
+    /**
+     * If set true, field will NOT be checked against the database for
+     * modification, otherwise set false.
+     * 
+     * @param dirty
+     *            true if field should not be updated.
+     */
+    public void setDirty(final boolean dirty) {
+        setProperty(DIRTY, new Boolean(dirty));
     }
 
     /**
