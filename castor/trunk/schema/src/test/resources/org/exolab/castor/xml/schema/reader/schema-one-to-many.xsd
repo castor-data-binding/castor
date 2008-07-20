@@ -38,7 +38,7 @@
          <xs:element name="author" type="authorType">
             <xs:annotation>
                <xs:appinfo>
-                    <jdo:one-to-one name="author_id" read-only="true" dirty="true"/>
+                    <jdo:one-to-many name="author_id" read-only="true" dirty="true"/>
                 </xs:appinfo>
             </xs:annotation>
          </xs:element>
