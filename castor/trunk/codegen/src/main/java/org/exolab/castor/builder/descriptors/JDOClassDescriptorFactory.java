@@ -26,6 +26,7 @@ import org.exolab.castor.builder.info.nature.JDOFieldInfoNature;
 import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.builder.info.nature.relation.JDOOneToManyNature;
 import org.exolab.castor.builder.info.nature.relation.JDOOneToOneNature;
+import org.exolab.castor.builder.types.XSList;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.javasource.JClass;
 import org.exolab.javasource.JConstructor;
@@ -365,7 +366,6 @@ public final class JDOClassDescriptorFactory {
        String name = xmlNature.getNodeName();
        jsc.add("");
        jsc.add("//" + name + " field");
-
        jsc.add("String " + name + "FieldName = \"" + name + "\";");
 
        //-- initialize objects
@@ -404,7 +404,6 @@ public final class JDOClassDescriptorFactory {
 
        //-- get/set methods
        jsc.indent();
-       // TODO HOW ABOUT GETTING THE NAME FROM NATURE?
        String className = fInfo.getDeclaringClassInfo().getJClass().getLocalName();
        // TODO IS THERE A NEED TO CHECK THIS?!
        if ((className != null) && (className.length() > 0)) {
@@ -657,14 +656,7 @@ public final class JDOClassDescriptorFactory {
 
        //-- sql part
        jsc.add("Sql " + name + "Sql = new Sql();");
-       jsc.add(name + "Sql.addName(\"" + sqlName + "\");");
-
-//       String sqlType = fNature.getColumnType();
-//       if ((sqlType != null) && (sqlType.length() > 0)) {
-//           jsc.add(name + "Sql.setType(\"" + sqlType + "\");");
-//       }
-       jsc.add(name + "Sql.setType(\"integer\");");
-       
+       jsc.add(name + "Sql.addName(\"" + sqlName + "\");");       
        jsc.add(name + "Sql.setManyKey(new String[] {\"" + sqlName + "\"});");
        jsc.add(name + "FM.setSql(" + name + "Sql);");
 
@@ -706,10 +698,10 @@ public final class JDOClassDescriptorFactory {
 
        //-- set typeInfo
        String type = null;
-       XSType schemaType;
+       XSList schemaType;
        
-       schemaType = xmlNature.getSchemaType();
-       JType javaType = schemaType.getJType();
+       schemaType = (XSList) xmlNature.getSchemaType();
+       JType javaType = schemaType.getContentType().getJType();
        type = javaType.toString();
        
        String wrapperType = null;
@@ -717,8 +709,7 @@ public final class JDOClassDescriptorFactory {
         wrapperType = ((JPrimitiveType) javaType).getWrapperName();
        } else {
            wrapperType = type;
-       }
-       
+       }       
 
        // TODO IS THERE A NEED TO CHECK THIS?!
        if ((type != null) && (type.length() > 0)) {
@@ -824,13 +815,6 @@ public final class JDOClassDescriptorFactory {
        //-- sql part
        jsc.add("Sql " + name + "Sql = new Sql();");
        jsc.add(name + "Sql.addName(\"" + sqlName + "\");");
-
-//       String sqlType = fNature.getColumnType();
-//       if ((sqlType != null) && (sqlType.length() > 0)) {
-//           jsc.add(name + "Sql.setType(\"" + sqlType + "\");");
-//       }
-       jsc.add(name + "Sql.setType(\"integer\");");
-       
        jsc.add(name + "Sql.setManyKey(new String[] {\"" + sqlName + "\"});");
        jsc.add(name + "FM.setSql(" + name + "Sql);");
 
