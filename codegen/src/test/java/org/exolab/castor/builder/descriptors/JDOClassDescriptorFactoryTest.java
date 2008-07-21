@@ -3,9 +3,7 @@ package org.exolab.castor.builder.descriptors;
 import java.util.Iterator;
 import java.util.Vector;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,6 +19,7 @@ import org.exolab.castor.builder.info.nature.relation.JDOOneToManyNature;
 import org.exolab.castor.builder.info.nature.relation.JDOOneToOneNature;
 import org.exolab.castor.builder.types.XSClass;
 import org.exolab.castor.builder.types.XSInt;
+import org.exolab.castor.builder.types.XSList;
 import org.exolab.castor.builder.types.XSString;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.javasource.JClass;
@@ -58,38 +57,14 @@ public class JDOClassDescriptorFactoryTest extends TestCase {
     private JDOFieldInfoNature _fNature; 
     private XMLInfoNature _xmlNature;
     private FieldMemberAndAccessorFactory _memberAndAccessorFactory;
-    
-    /**
-     * 
-     * @return JUnit Test
-     * @throws Exception 
-     *              while creating the suite
-     */
-    public static Test suite() throws Exception {
-        TestSuite suite = new TestSuite("Test JDOClassDescriptorFactory");
-        suite.addTest(new JDOClassDescriptorFactoryTest("testCreateSourceEntity"));
-        suite.addTest(new JDOClassDescriptorFactoryTest("testCreateSourceOneToOne"));
-        suite.addTest(new JDOClassDescriptorFactoryTest("testCreateSourceOneToMany"));
-        return suite;
-    }
-    
+        
     /**
      * Default Constructor.
      */
     public JDOClassDescriptorFactoryTest() {
         super();
     }
-    
-    /**
-     * Constructor that sets the name of the test.
-     * 
-     * @param name
-     *            of the test.
-     */
-    public JDOClassDescriptorFactoryTest(final String name) {
-        super(name);
-    }
-    
+        
     /**
      * Test SetUp Method.
      * 
@@ -589,7 +564,7 @@ public class JDOClassDescriptorFactoryTest extends TestCase {
         _statement = "Method addressSetMethod = Employee.class.getMethod(\"setAddress\", new Class[]{";
         assertTrue(checkSource(_statement));
         
-        _statement = "Address.class});";
+        _statement = "ctf.jdo.sg.onetoone.Address.class});";
         assertTrue(checkSource(_statement));
         
         _statement = "addressHandler = new FieldHandlerImpl(addressFieldName, null, null";
@@ -642,10 +617,7 @@ public class JDOClassDescriptorFactoryTest extends TestCase {
                  
         _statement = "addressSql.addName(\"address_id\");";
         assertTrue(checkSource(_statement));
-        
-        _statement = "addressSql.setType(\"integer\");";
-        assertTrue(checkSource(_statement));
-        
+                
         _statement = "addressSql.setManyKey(new String[] {\"address_id\"});";
         assertTrue(checkSource(_statement));
         
@@ -699,7 +671,8 @@ public class JDOClassDescriptorFactoryTest extends TestCase {
         _cNature.addPrimaryKey(_fieldInfo.getName());
         
         //-- FLAT_ID
-        XSClass type2 = new XSClass(new JClass("org.castor.cpa.functional.onetomany.Flat"));
+        XSList type2 = new XSList("array", 
+                new XSClass(new JClass("org.castor.cpa.functional.onetomany.Flat")), true);
         fieldName = "flat";     
         _fieldInfo = new FieldInfo(type2, fieldName, _memberAndAccessorFactory);
         _fieldInfo.addNature(JDOFieldInfoNature.class.getName());
@@ -864,8 +837,11 @@ public class JDOClassDescriptorFactoryTest extends TestCase {
         _statement = "Method flatGetMethod = House.class.getMethod(\"getFlat\", null);";
         assertTrue(checkSource(_statement));
         
-        _statement = "Method flatSetMethod = House.class.getMethod(\"setFlat\", new Class[]{List.class});";
-//        assertTrue(checkSource(_statement));
+        _statement = "Method flatSetMethod = House.class.getMethod(\"setFlat\", new Class[]{";
+        assertTrue(checkSource(_statement));
+        
+        _statement = "org.castor.cpa.functional.onetomany.Flat[].class});";
+        assertTrue(checkSource(_statement));
                 
         _statement = "flatHandler = new FieldHandlerImpl(flatFieldName, null, null";
         assertTrue(checkSource(_statement));
@@ -876,8 +852,8 @@ public class JDOClassDescriptorFactoryTest extends TestCase {
         _statement = "flatFieldDescr = new JDOFieldDescriptorImpl(flatFieldName, flatType,";
         assertTrue(checkSource(_statement));
         
-        _statement = "flatHandler, false, new String[] { \"flatSqlName\" },";
-//        assertTrue(checkSource(_statement));
+        _statement = "flatHandler, false, new String[] { },";
+        assertTrue(checkSource(_statement));
         
         _statement = "new int[] {SQLTypeInfos";
         assertTrue(checkSource(_statement));
@@ -909,18 +885,15 @@ public class JDOClassDescriptorFactoryTest extends TestCase {
         _statement = "flatFM.setRequired(true);";
         assertTrue(checkSource(_statement));
         
-        _statement = "flatFM.setCollection(FieldMappingCollectionType.ARRAYLIST);";
-//        assertTrue(checkSource(_statement));
+        _statement = "flatFM.setCollection(FieldMappingCollectionType.ARRAY);";
+        assertTrue(checkSource(_statement));
         
         _statement = "Sql flatSql = new Sql();";
         assertTrue(checkSource(_statement));
                  
         _statement = "flatSql.addName(\"flat_id\");";
         assertTrue(checkSource(_statement));
-        
-        _statement = "flatSql.setType(\"integer\");";
-        assertTrue(checkSource(_statement));
-        
+                
         _statement = "flatSql.setManyKey(new String[] {\"flat_id\"});";
         assertTrue(checkSource(_statement));
         
