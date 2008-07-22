@@ -245,6 +245,12 @@
             the individual modules and the structure within a module. 
         </p>
         
+        <p>
+            <b>Note</b>: Please note that as of release 1.2.1 of Castor, the majority 
+            of the committers uses Maven 2 exclusively for building and
+            testing and deploying the Castor code base.
+        </p> 
+        
         <section title="Project layout">
         
             <p>
@@ -261,6 +267,7 @@
             <ctable border="1">
                 <cheader><td>Name</td><td>Description</td><td>Since</td></cheader>
                 <crow><td>anttask</td><td>Ant task definitions for Castor tools</td><td>1.0.5</td></crow>
+                <crow><td>core</td><td>Castor core classes</td><td>1.2.1</td></crow>
                 <crow><td>cpa</td><td>Castor JDO - persistence framework</td><td>1.1</td></crow>
                 <crow><td>xml</td><td>XML data binding framework</td><td>1.2.1</td></crow>
                 <crow><td>codegen</td><td>XML code generator</td><td>1.1.1</td></crow>
