@@ -239,6 +239,17 @@
             </roles>
             <timezone>-6</timezone>
         </developer>
+        
+        <developer>
+            <name>Lukas Lang</name>
+            <email>lukas.lang@inode.at</email>
+            <organization>N/A</organization>
+            <roles>
+                <role>Committer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+        
     </developers>
 
     <mailingLists>
