@@ -66,7 +66,7 @@
   <contributor type="Committer">
     <name surname="Guttmann" given="Werner" />
     <email>werner.guttmann@gmx.net</email>
-    <project>JDO</project>
+    <project>JDO &amp; XML</project>
     <company id="indoqa" />
     <description>
       Current Castor project lead; JDO enhancements including distributed caches,
@@ -109,6 +109,20 @@
   </contributor>
 
   <contributor type="Committer">
+    <name surname="Lang" given="Lukas" />
+    <email>lukas.lang@inode.at</email>
+    <project>XML and JDO</project>
+    <description>
+      Contributed to JDO extensions for Castor XML code generator, including major 
+      refactorings of XML code generation and JDO
+    </description>
+    <status>active</status>
+    <since>
+      <date>Jul. 2008</date>
+    </since>
+  </contributor>
+  
+  <contributor type="Committer">
     <name surname="Kuns" given="Edward" />
     <email>edward.kuns@aspect.com</email>
     <project>XML</project>
@@ -122,6 +136,7 @@
       <date>Oct. 2006</date>
     </since>
   </contributor>
+
 
   <!-- ********** -->
   <!-- Google Summe of Code student -->
