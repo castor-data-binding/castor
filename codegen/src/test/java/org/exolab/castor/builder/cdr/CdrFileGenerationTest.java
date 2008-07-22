@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
 
+import org.castor.core.constants.cpa.JDOConstants;
 import org.exolab.castor.builder.SourceGenerator;
 import org.xml.sax.InputSource;
 
@@ -59,7 +60,7 @@ public class CdrFileGenerationTest extends TestCase {
         _cdrDirectoryName = pkgName.replace('.', File.separatorChar);
         _generator.generateSource(inputSource, pkgName);
         File cdrFile = new File((new File(_destDir, _cdrDirectoryName))
-                .getPath(), ".castor.jdo.cdr");
+                .getPath(), JDOConstants.PKG_CDR_LIST_FILE);
 
         assertTrue(cdrFile.exists());
 

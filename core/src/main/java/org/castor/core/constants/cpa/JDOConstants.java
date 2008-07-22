@@ -70,4 +70,9 @@ public interface JDOConstants {
      */
     String GENERATED_ANNOTATION_CLASSES_PACKAGE = "org.exolab.castor.xml.schema.annotations.jdo";
     
+    /**
+     * Name of the JDP-specific CDR file.
+     */
+    String PKG_CDR_LIST_FILE = ".castor.jdo.cdr";
+    
 }
