@@ -17,6 +17,7 @@
         <module>ddlgen</module>
         <module>anttask</module>
         <module>cpa</module>
+        <!-- <module>castor-tests</module> -->
 
         <module>xmlctf-framework</module>
         
@@ -303,7 +304,28 @@
                 <scope>test</scope>
                 -->
             </dependency>
-    
+
+            <dependency>
+            	<groupId>org.codehaus.castor</groupId>
+            	<artifactId>spring-orm</artifactId>
+            	<version>1.3-SNAPSHOT</version>
+            	<scope>test</scope>
+            </dependency>
+
+            <dependency>
+            	<groupId>org.springframework</groupId>
+            	<artifactId>spring-beans</artifactId>
+            	<version>2.5.5</version>
+            	<scope>test</scope>
+            </dependency>
+
+            <dependency>
+            	<groupId>org.springframework</groupId>
+            	<artifactId>spring-context</artifactId>
+            	<version>2.5.5</version>
+            	<scope>test</scope>
+            </dependency>
+
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
@@ -383,6 +405,12 @@
                 <groupId>org.codehaus.castor</groupId>
                 <artifactId>castor-core</artifactId>
                 <version>1.2.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+            	<groupId>org.codehaus.castor</groupId>
+            	<artifactId>castor-tests</artifactId>
+            	<version>1.2.1-SNAPSHOT</version>
             </dependency>
 
             <dependency>
