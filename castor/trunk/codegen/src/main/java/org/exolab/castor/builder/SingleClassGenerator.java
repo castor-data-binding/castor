@@ -55,6 +55,7 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Properties;
 
+import org.castor.core.constants.cpa.JDOConstants;
 import org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy;
 import org.exolab.castor.builder.conflictresolution.ClassNameCRStrategyRegistry;
 import org.exolab.castor.builder.descriptors.DescriptorSourceFactory;
@@ -91,12 +92,6 @@ public final class SingleClassGenerator {
 
     /** Name of the CDR (Class Descriptor Resolver) file. */
     private static final String CDR_FILE = ".castor.cdr";
-    
-    /** 
-     * Name of the JDO-specific class descriptor resolver file.
-     */
-    private static final String JDO_CDR_FILE = ".castor.jdo.cdr";
-
     /** True if the user should be prompted to overwrite when a file already exists. */
     private boolean _promptForOverwrite = true;
     /** Destination directory where all our output goes. */
@@ -445,7 +440,7 @@ public final class SingleClassGenerator {
         if (_createJdoDescriptors) {
             JClass desc = _jdoDescriptorSourceFactory.createSource(classInfo);
             if (checkAllowPrinting(desc)) {
-                updateCDRFile(jClass, desc, state, JDO_CDR_FILE);
+                updateCDRFile(jClass, desc, state, JDOConstants.PKG_CDR_LIST_FILE);
                 desc.setHeader(_header);
                 if (_lineSeparator == null) {
                     _lineSeparator = System.getProperty("line.separator");
