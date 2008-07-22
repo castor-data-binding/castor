@@ -54,6 +54,7 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
         super();
         registerCommand(new ClassResolutionByMappingLoader());
         registerCommand(new ClassResolutionByFile());
+        registerCommand(new ClassResolutionByCDR());
     }
 
     /**
@@ -62,6 +63,9 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
      * @param command to register.
      */
     private void registerCommand(final ClassDescriptorResolutionCommand command) {
+//        //TODO: temporal implementation - following 2 lines need to be revised!
+//        ClassLoaderNature clNature = new ClassLoaderNature(command);
+//        clNature.setClassLoader(getClass().getClassLoader());
         _commands.put(command.getClass().getName(), command);
     }
     
@@ -122,6 +126,13 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
             return classDesc;
         }
 
+        // 4) load ClassDescriptor from file system through CDR file 
+        // (as added via addPackage())
+        classDesc = (lookup(ClassResolutionByCDR.class.getName())).resolve(type);
+        if (classDesc != null) {
+            _classDescriptorCache.put(type, classDesc);
+            return classDesc;
+        }
 
         // TODO: consider for future extensions
         // String pkgName = getPackageName(type.getName());
@@ -211,7 +222,9 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
      * @see org.exolab.castor.xml.util.JDOClassDescriptorResolver#addPackage(java.lang.String)
      */
     public void addPackage(final String packageName) {
-        _packages.add(packageName);
+//        _packages.add(packageName);
+        new PackageBasedCDRResolutionNature(lookup(ClassResolutionByCDR.class.getName()))
+                .addPackageName(packageName);
     }
 
     /**
@@ -225,6 +238,12 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
         for (Iterator iterator = _classes.iterator(); iterator.hasNext(); ) {
             allDescriptors.add(lookup(ClassResolutionByFile.class.getName())
                     .resolve((Class) iterator.next()));
+        }
+        for (Iterator iterator = _packages.iterator(); iterator.hasNext(); ) {
+            allDescriptors
+                    .add(((ClassResolutionByCDR) lookup(ClassResolutionByCDR.class.getName()))
+                            .getDescriptors((String) iterator.next()).values());
+//                            .getDescriptors();
         }
         return allDescriptors.iterator();
     }
