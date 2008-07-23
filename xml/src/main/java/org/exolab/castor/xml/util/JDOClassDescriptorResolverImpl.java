@@ -1,34 +1,39 @@
 package org.exolab.castor.xml.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingLoader;
 import org.exolab.castor.xml.ResolverException;
 
 /**
- * JDO-specific {@link ClassDescriptorResolver} instance that provides functionality
- * to find or "resolve" {@link ClassDescriptor}s from a given class (name).
+ * JDO-specific {@link ClassDescriptorResolver} instance that provides
+ * functionality to find or "resolve" {@link ClassDescriptor}s from a given
+ * class (name).
  * 
  * @see JDOClassDescriptorResolver
  */
-public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolver {
-    
+public class JDOClassDescriptorResolverImpl implements
+        JDOClassDescriptorResolver {
+
     /**
-     * A key ({@link Class}) value ({@link ClassDescriptor}) 
-     * pair to cache already resolved JDO class descriptors. 
+     * A key ({@link Class}) value ({@link ClassDescriptor}) pair to cache
+     * already resolved JDO class descriptors.
      */
     private Map _classDescriptorCache = new HashMap();
 
     /**
-     * A {@link MappingLoader} instance which this {@link ClassDescriptorResolver} instance
-     * turns to to load {@link ClassDescriptor} instances as defined in a Castor
-     * JDO mapping file.
+     * A {@link MappingLoader} instance which this
+     * {@link ClassDescriptorResolver} instance turns to to load
+     * {@link ClassDescriptor} instances as defined in a Castor JDO mapping
+     * file.
      */
     private MappingLoader _mappingLoader;
 
@@ -46,7 +51,7 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
      * {@link JDOClassDescriptor} resolution commands.
      */
     private Map _commands = new HashMap();
-    
+
     /**
      * Creates an instance of this class, with no classed manually added.
      */
@@ -58,17 +63,20 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
     }
 
     /**
-     * Registers a {@link ClassDescriptorResolutionCommand} used 
-     * to resolve {@link JDOClassDescriptor}s.
-     * @param command to register.
+     * Registers a {@link ClassDescriptorResolutionCommand} used to resolve
+     * {@link JDOClassDescriptor}s.
+     * 
+     * @param command
+     *            to register.
      */
     private void registerCommand(final ClassDescriptorResolutionCommand command) {
-//        //TODO: temporal implementation - following 2 lines need to be revised!
-//        ClassLoaderNature clNature = new ClassLoaderNature(command);
-//        clNature.setClassLoader(getClass().getClassLoader());
+        // //TODO: temporal implementation - following 2 lines need to be
+        // revised!
+        // ClassLoaderNature clNature = new ClassLoaderNature(command);
+        // clNature.setClassLoader(getClass().getClassLoader());
         _commands.put(command.getClass().getName(), command);
     }
-    
+
     /**
      * {@inheritDoc}
      * 
@@ -77,7 +85,8 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
     public ClassDescriptor resolve(final String type) throws ResolverException {
         try {
             if (getMappingLoader().getClassLoader() != null) {
-                return resolve(getMappingLoader().getClassLoader().loadClass(type));
+                return resolve(getMappingLoader().getClassLoader().loadClass(
+                        type));
             }
             return resolve(Class.forName(type));
         } catch (ClassNotFoundException e) {
@@ -87,7 +96,8 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
 
     /**
      * Returns the ClassDescriptor for the given class using the following
-     * strategy.<br><br>
+     * strategy.<br>
+     * <br>
      * <ul>
      * <li>Lookup the class descriptor cache
      * <li>Call {@link ClassResolutionByMappingLoader} command
@@ -96,8 +106,8 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
      * 
      * @param type
      *            the Class to find the ClassDescriptor for
-     * @exception ResolverException Indicates that the given {@link Class} 
-     *            cannot be resolved.
+     * @exception ResolverException
+     *                Indicates that the given {@link Class} cannot be resolved.
      * @return the ClassDescriptor for the given class, null if not found
      */
     public ClassDescriptor resolve(final Class type) throws ResolverException {
@@ -113,12 +123,13 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
             return classDesc;
         }
 
-        classDesc = lookup(ClassResolutionByMappingLoader.class.getName()).resolve(type);
+        classDesc = lookup(ClassResolutionByMappingLoader.class.getName())
+                .resolve(type);
         if (classDesc != null) {
             _classDescriptorCache.put(type, classDesc);
-            return classDesc; 
+            return classDesc;
         }
-        
+
         // 3) load ClassDescriptor from file system
         classDesc = lookup(ClassResolutionByFile.class.getName()).resolve(type);
         if (classDesc != null) {
@@ -126,9 +137,10 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
             return classDesc;
         }
 
-        // 4) load ClassDescriptor from file system through CDR file 
+        // 4) load ClassDescriptor from file system through CDR file
         // (as added via addPackage())
-        classDesc = (lookup(ClassResolutionByCDR.class.getName())).resolve(type);
+        classDesc = (lookup(ClassResolutionByCDR.class.getName()))
+                .resolve(type);
         if (classDesc != null) {
             _classDescriptorCache.put(type, classDesc);
             return classDesc;
@@ -156,7 +168,9 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
 
     /**
      * Look up the given command in the command map.
-     * @param commandName The command.
+     * 
+     * @param commandName
+     *            The command.
      * @return A {@link ClassDescriptorResolutionCommand}, null if not found.
      */
     private ClassDescriptorResolutionCommand lookup(final String commandName) {
@@ -165,7 +179,9 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
 
     /**
      * Resolves a {@link ClassDescriptor} by a cache lookup.
-     * @param type type to look up.
+     * 
+     * @param type
+     *            type to look up.
      * @return a {@link ClassDescriptor} if found, null if not.
      */
     private ClassDescriptor resolveByCache(final Class type) {
@@ -173,7 +189,6 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
         classDesc = (ClassDescriptor) _classDescriptorCache.get(type);
         return classDesc;
     }
-
 
     /**
      * {@inheritDoc}
@@ -188,12 +203,12 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
      * {@inheritDoc}
      * 
      * @see org.exolab.castor.xml.ClassDescriptorResolver
-     *     #setMappingLoader(org.exolab.castor.mapping.MappingLoader)
+     *      #setMappingLoader(org.exolab.castor.mapping.MappingLoader)
      */
     public void setMappingLoader(final MappingLoader mappingLoader) {
         this._mappingLoader = mappingLoader;
         for (Iterator iterator = _commands.values().iterator(); iterator
-                .hasNext(); ) {
+                .hasNext();) {
             ClassDescriptorResolutionCommand command = (ClassDescriptorResolutionCommand) iterator
                     .next();
             if (command.hasNature(MappingLoaderNature.class.getName())) {
@@ -222,9 +237,16 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
      * @see org.exolab.castor.xml.util.JDOClassDescriptorResolver#addPackage(java.lang.String)
      */
     public void addPackage(final String packageName) {
-//        _packages.add(packageName);
-        new PackageBasedCDRResolutionNature(lookup(ClassResolutionByCDR.class.getName()))
-                .addPackageName(packageName);
+        this._packages.add(packageName);
+        for (Iterator iterator = _commands.values().iterator(); iterator
+                .hasNext();) {
+            ClassDescriptorResolutionCommand command = (ClassDescriptorResolutionCommand) iterator
+                    .next();
+            if (command.hasNature(PackageBasedCDRResolutionNature.class.getName())) {
+                new PackageBasedCDRResolutionNature(command)
+                        .addPackageName(packageName);
+            }
+        }
     }
 
     /**
@@ -235,19 +257,24 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
     public Iterator descriptorIterator() {
         List allDescriptors = new ArrayList();
         allDescriptors.addAll(_mappingLoader.getDescriptors());
-        for (Iterator iterator = _classes.iterator(); iterator.hasNext(); ) {
+        for (Iterator iterator = _classes.iterator(); iterator.hasNext();) {
             allDescriptors.add(lookup(ClassResolutionByFile.class.getName())
                     .resolve((Class) iterator.next()));
         }
-        for (Iterator iterator = _packages.iterator(); iterator.hasNext(); ) {
-            allDescriptors
-                    .add(((ClassResolutionByCDR) lookup(ClassResolutionByCDR.class.getName()))
-                            .getDescriptors((String) iterator.next()).values());
-//                            .getDescriptors();
+        ClassResolutionByCDR cdrNature = (ClassResolutionByCDR) 
+            lookup(ClassResolutionByCDR.class.getName());
+        for (Iterator iterator = _packages.iterator(); iterator.hasNext();) {
+            String packageName = (String) iterator.next();
+            Map descriptors = cdrNature.getDescriptors(packageName);
+            for (Iterator descriptorIterator = descriptors.entrySet().iterator(); descriptorIterator
+                    .hasNext();) {
+                Entry entry = (Entry) descriptorIterator.next();
+                allDescriptors.add(entry.getValue());
+            } 
         }
         return allDescriptors.iterator();
     }
-    
+
     /**
      * {@inheritDoc}
      * 
