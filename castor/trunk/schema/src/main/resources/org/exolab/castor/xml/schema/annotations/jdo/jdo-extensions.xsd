@@ -31,6 +31,15 @@
                </xs:restriction>
             </xs:simpleType>
          </xs:attribute>
+         <xs:attribute name="detachable" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>
+                    Attribute 'detachable' is used to indicate that the 
+                    domain entity generated will support Castor JDO
+                    long transactions out of the box. 
+                </xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
       </xs:complexType>
    </xs:element>
    <xs:element name="column">

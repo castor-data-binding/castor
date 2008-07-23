@@ -52,6 +52,11 @@ public final class JDOClassInfoNature extends BaseNature {
     private static final String ACCESS_MODE = "accessmode";
 
     /**
+     * Property key of 'detachable' flag.
+     */
+    private static final String DETACHABLE = "detachable";
+
+    /**
      * @param classInfo
      *            the classinfo in focus.
      */
@@ -135,6 +140,24 @@ public final class JDOClassInfoNature extends BaseNature {
     }
     
     /**
+     * Sets whether the entity is 'detachable'.
+     * 
+     * @param detachable True if entity should be detachable
+     */
+    public void setDetachable(final boolean detachable) {
+        this.setProperty(DETACHABLE, new Boolean(detachable));
+    }
+    
+    /**
+     * Indicates whether the entity in question is 'detachable'.
+     * 
+     * @return True if the entity is 'detachable'.
+     */
+    public boolean getDetachable() {
+        return this.getBooleanPropertyDefaultFalse(DETACHABLE);
+    }
+    
+    /**
      * Returns a List of {@link JDOFieldInfoNature}s of all {@link FieldInfo}s
      * if the field has a a {@link JDOFieldInfoNature} or an empty List if no
      * field has the Nature. Included are attribute, text and element fields.
@@ -163,5 +186,6 @@ public final class JDOClassInfoNature extends BaseNature {
         }
         return naturedFields;
     }
+
 
 }
