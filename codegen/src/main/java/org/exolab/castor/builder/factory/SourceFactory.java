@@ -526,6 +526,13 @@ public final class SourceFactory extends BaseFactory {
 
         createContructorForDefaultValueForSimpleContent(component.getAnnotated(), classInfo, sgState);
         makeMethods(component, sgState, state, jClass, baseClass);
+        
+        if (classInfo.hasNature(JDOClassInfoNature.class.getName())) {
+            JDOClassInfoNature jdoNature = new JDOClassInfoNature(classInfo);
+            if (jdoNature.getDetachable()) {
+                createJdoTimestampImplementations(jClass);
+            }
+        }
 
         sgState.bindReference(jClass, classInfo);
         sgState.bindReference(component.getAnnotated(), classInfo);
@@ -994,12 +1001,41 @@ public final class SourceFactory extends BaseFactory {
         if (state.hasBoundProperties() && !enumeration) {
             createPropertyChangeMethods(jClass);
         }
+        
+        if (classInfo.hasNature(JDOClassInfoNature.class.getName())) {
+            JDOClassInfoNature jdoNature = new JDOClassInfoNature(classInfo);
+            if (jdoNature.getDetachable()) {
+                createJdoTimestampImplementations(jClass);
+            }
+        }
 
         sgState.bindReference(jClass, classInfo);
         sgState.bindReference(simpleType, classInfo);
 
         return jClass;
-    } //-- createSourceCode(SimpleType);
+    }
+
+    private void createJdoTimestampImplementations(final JClass jClass) {
+
+        jClass.addInterface("org.exolab.castor.jdo.TimeStampable");
+        
+        JField jdoTimestamp = new JField(JType.LONG, "_jdoTimeStamp");
+        jClass.addField(jdoTimestamp);
+        
+        JMethod getTSMethod = new JMethod("jdoGetTimeStamp", JType.LONG,
+                 "returns the current time stamp");
+        JSourceCode getSourceCode = getTSMethod.getSourceCode();
+        getSourceCode.addIndented("return _jdoTimeStamp;");
+        jClass.addMethod(getTSMethod);
+
+        JMethod setTSMethod = new JMethod("jdoSetTimeStamp");
+        JParameter parameter = new JParameter(JType.LONG, "jdoTimeStamp");
+        setTSMethod.addParameter(parameter);
+        JSourceCode setSourceCode = setTSMethod.getSourceCode();
+        setSourceCode.addIndented("this._jdoTimeStamp = jdoTimeStamp;");
+        jClass.addMethod(setTSMethod);
+     }
+
 
     //-------------------/
     //- Private Methods -/
@@ -1774,6 +1810,7 @@ public final class SourceFactory extends BaseFactory {
                             Table table = (Table) tmpObject;
                             cNature.setTableName(table.getName());
                             cNature.setAccessMode(AccessMode.valueOf("shared"));
+                            cNature.setDetachable(table.isDetachable());
                          // TODO: Uncomment next line as soon as Annotation Classes have been updated!
 //                            cNature.setAccessMode(AccessMode.valueOf(table.getAccessMode().toString()));
                             PrimaryKey pk = table.getPrimaryKey();
