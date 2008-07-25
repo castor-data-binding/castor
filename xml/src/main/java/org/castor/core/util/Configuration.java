@@ -120,7 +120,7 @@ public abstract class Configuration {
     //--------------------------------------------------------------------------
     
     /**
-     * Load modul configuration from default locations.
+     * Load module configuration from default locations.
      * <br/>
      * First it loads default configuration contained in Castor JAR. This gets overwritten
      * by a configuration found on Java library directory. If no configuration could be found
@@ -132,7 +132,7 @@ public abstract class Configuration {
     protected void loadDefaultProperties(final String path, final String filename) {
         Properties properties = new Properties();
         
-        // Get detault configuration from the Castor JAR.
+        // Get default configuration from the Castor JAR.
         boolean inCastorJar = loadFromClassPath(properties, path + filename);
 
         // Get overriding configuration from the Java library directory, ignore if not
