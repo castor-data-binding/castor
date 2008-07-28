@@ -76,13 +76,12 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 			<optional>true</optional>
 		</dependency>
 
-		<dependency>
-			<groupId>org.mockejb</groupId>
-			<artifactId>mockejb</artifactId>
-			<version>0.5</version>
-			<optional>true</optional>
-		</dependency>
-
+      <dependency>
+          <groupId>org.mockejb</groupId>
+          <artifactId>mockejb</artifactId>
+          <version>0.6-beta2</version>
+          <scope>test</scope>
+      </dependency>
 	</dependencies>
 
 	<reporting>
