@@ -8,13 +8,12 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 	<artifactId>castor-cpactf</artifactId>
 	<version>1.2.1-SNAPSHOT</version>
 
-	<!-- 
-		<parent>
+    <parent>
 		<groupId>org.codehaus.castor</groupId>
 		<artifactId>castor</artifactId>
-		<version>1.1.1-SNAPSHOT</version>
-		</parent>
-	-->
+		<version>1.2.1-SNAPSHOT</version>
+	</parent>
+   
 	<packaging>jar</packaging>
 
 	<name>Functional test suite for Castor JDO</name>
@@ -82,6 +81,13 @@ http://maven.apache.org/maven-v4_0_0.xsd">
           <version>0.6-beta2</version>
           <scope>test</scope>
       </dependency>
+      
+      <dependency>
+         <groupId>org.apache.derby</groupId>
+         <artifactId>derby</artifactId>
+         <scope>test</scope>
+      </dependency>
+            
 	</dependencies>
 
 	<reporting>
