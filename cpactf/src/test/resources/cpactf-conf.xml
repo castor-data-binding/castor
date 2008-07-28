@@ -66,6 +66,15 @@
         </driver>
     </database>
 
+    <database name="derby-embedded" engine="derby">
+        <description>Database configuration for Derby (embedded)</description>
+        <driver url="jdbc:derby:target/cpactf;create=true" 
+                class-name="org.apache.derby.jdbc.EmbeddedDriver">
+            <param name="user" value="cpactf"/>
+            <param name="password" value="cpactf"/>
+        </driver>
+    </database>
+
     <database name="derby-drv" engine="derby">
         <description>Database configuration for Derby</description>
         <driver url="jdbc:derby://localhost:1527/cpactf" 
