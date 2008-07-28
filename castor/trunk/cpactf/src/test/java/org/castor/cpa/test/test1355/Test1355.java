@@ -33,7 +33,8 @@ public final class Test1355 extends CPATestCase {
     }
     
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL);
+        return (engine == DatabaseEngineType.MYSQL 
+                || engine == DatabaseEngineType.DERBY);
     }
     
     /**

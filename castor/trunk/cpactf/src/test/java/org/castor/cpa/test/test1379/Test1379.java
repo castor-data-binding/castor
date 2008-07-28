@@ -14,7 +14,8 @@ public class Test1379 extends CPATestCase {
     private static final String DBNAME = "test1379";
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL);
+        return (engine == DatabaseEngineType.MYSQL 
+                || engine == DatabaseEngineType.DERBY);
     }
     
     public void test() throws Exception {

@@ -6,6 +6,7 @@ import junit.framework.TestSuite;
 import org.castor.core.util.Configuration;
 import org.castor.cpa.CPAConfiguration;
 import org.castor.cpa.test.framework.CPATestCase;
+import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.exolab.castor.jdo.Database;
 
 public final class Test2177 extends CPATestCase {
@@ -21,6 +22,13 @@ public final class Test2177 extends CPATestCase {
 
         return suite;
     }
+
+    
+    public boolean include(DatabaseEngineType engine) {
+        return (engine == DatabaseEngineType.MYSQL 
+                || engine == DatabaseEngineType.DERBY);
+    }
+
 
     private String _memConvertors;
     

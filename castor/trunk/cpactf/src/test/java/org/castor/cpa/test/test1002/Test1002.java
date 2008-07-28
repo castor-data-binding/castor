@@ -37,7 +37,8 @@ public final class Test1002 extends CPATestCase {
     private Object _memInitFlag;
     
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL);
+        return (engine == DatabaseEngineType.MYSQL 
+                || engine == DatabaseEngineType.DERBY);
     }
     
     protected void setUp() throws Exception {

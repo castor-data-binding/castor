@@ -31,7 +31,8 @@ public final class Test972 extends CPATestCase {
     }
     
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL);
+        return (engine == DatabaseEngineType.MYSQL 
+                || engine == DatabaseEngineType.DERBY);
     }
     
     public void testLongTransaction() throws Exception {

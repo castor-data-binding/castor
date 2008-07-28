@@ -39,8 +39,10 @@ public final class TestOQLPassThrough extends CPATestCase {
     }
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL);
+        return (engine == DatabaseEngineType.MYSQL 
+                || engine == DatabaseEngineType.DERBY);
     }
+    
     public void setUp() throws Exception {
        _db = getJDOManager(DBNAME).getDatabase();
 
