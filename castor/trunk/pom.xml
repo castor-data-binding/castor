@@ -17,12 +17,13 @@
         <module>ddlgen</module>
         <module>anttask</module>
         <module>cpa</module>
-        <!-- <module>castor-tests</module> -->
 
         <module>xmlctf-framework</module>
         
         <module>cpa-testcase-archetype</module>
         <module>codegen-testcase-archetype</module>
+        
+        <!-- <module>jdo-extensions-it</module> -->
         
         <!-- <module>xmlctf</module>  -->
     </modules>
@@ -408,6 +409,12 @@
             <dependency>
                 <groupId>org.codehaus.castor</groupId>
                 <artifactId>castor-xml-schema</artifactId>
+                <version>1.2.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.codehaus.castor</groupId>
+                <artifactId>castor-codegen</artifactId>
                 <version>1.2.1-SNAPSHOT</version>
             </dependency>
 
