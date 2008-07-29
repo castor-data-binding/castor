@@ -385,6 +385,10 @@
         <url>license.xml</url>
         <display>License</display>
       </navLink>
+      <navLink highlighted="true">
+        <url>user-experience.xml</url>
+        <display>User stories</display>
+      </navLink>
       <navLink>
         <url>contributors.xml</url>
         <display>Contributors</display>
