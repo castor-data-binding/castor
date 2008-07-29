@@ -74,7 +74,7 @@
           </crow>
           <crow>
             <td><a href="#Generate-equals()/hashCode()-method">org.exolab.castor.builder.equalsmethod</a></td>
-            <td>Generation of <tt>equals</tt> method</td>
+            <td>Generation of <tt>equals</tt>/<tt>hashCode()</tt> method</td>
             <td><tt>true</tt>/<tt>false</tt></td>
             <td><tt>false</tt></td>
             <td>0.9.1</td>
