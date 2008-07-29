@@ -73,7 +73,7 @@
             <td>0.8.9</td>
           </crow>
           <crow>
-            <td><a href="#Generate-equals()-method">org.exolab.castor.builder.equalsmethod</a></td>
+            <td><a href="#Generate-equals()/hashCode()-method">org.exolab.castor.builder.equalsmethod</a></td>
             <td>Generation of <tt>equals</tt> method</td>
             <td><tt>true</tt>/<tt>false</tt></td>
             <td><tt>false</tt></td>
@@ -416,20 +416,24 @@ org.exolab.castor.builder.superclass=com.xyz.BaseObject</code-panel>
             </p>
         </section>
 
-        <section title="Generate equals() method">
+        <section title="Generate equals()/hashCode() method">
             <p>Since version: 0.9.1</p>
             <p>
-                The Source Generator can override the 'equals()' method for the
-                generated objects.
+                The Source Generator can override the <tt>equals()</tt> 
+                and <tt>hashCode()</tt> method for the generated objects.
             </p>
-            <p>Note: hashcode() is not currently overriden.</p>
-            <p> To generate the equals() method , edit the castorbuilder.properties file :
+            
+            <p>
+                To have <tt>equals()</tt> and <tt>hashCode()</tt> methods generated, 
+                override the following property in your custom 
+                castorbuilder.properties file:
+            </p>
             <code-panel>
-# Set to true if you want to generate the equals method
-# for each generated class.
+# Set to true if you want to have an equals() and 
+# hashCode() method generated for each generated class;
 # false by default
-#org.exolab.castor.builder.equalsmethod=true</code-panel>
-            </p>
+org.exolab.castor.builder.equalsmethod=true</code-panel>
+
         </section>
 
         <section title="Maps java primitive types to wrapper object">
