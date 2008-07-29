@@ -110,7 +110,7 @@
 
   <contributor type="Committer">
     <name surname="Lang" given="Lukas" />
-    <email>lukas.lang@inode.at</email>
+    <email>lukaslang@codehaus.org</email>
     <project>XML and JDO</project>
     <description>
       Contributed to JDO extensions for Castor XML code generator, including major 
