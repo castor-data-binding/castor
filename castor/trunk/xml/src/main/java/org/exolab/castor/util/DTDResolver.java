@@ -65,7 +65,7 @@ import org.exolab.castor.net.util.URIUtils;
  * <li>XML Schema DTDs
  * </ul>
  * <p>
- * Thie resolver can resolve both public and system identifiers, and will return
+ * This resolver can resolve both public and system identifiers, and will return
  * an input stream into a cached resource in the Castor JAR.
  * <p>
  * This resolver can be used as wrapper to another entity resolver. For example,
