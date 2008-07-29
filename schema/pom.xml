@@ -46,7 +46,7 @@
              <configuration>
                 <schema>${basedir}/src/main/resources/org/exolab/castor/xml/schema/annotations/jdo/jdo-extensions.xsd</schema>
                 <packaging>org.exolab.castor.xml.schema.annotations.jdo</packaging>
-                <properties>${basedir}/src/main/resources/org/exolab/castor/xml/schema/annotations/jdo/jdo-extensions.properties</properties>
+                <!-- <properties>${basedir}/src/main/resources/org/exolab/castor/xml/schema/annotations/jdo/jdo-extensions.properties</properties> -->
              </configuration>
              <executions>
                 <execution>
