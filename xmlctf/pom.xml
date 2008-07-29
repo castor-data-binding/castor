@@ -37,6 +37,15 @@
                     <testRoot>${basedir}/tests/MasterTestSuite/</testRoot>
                 </configuration>
             </plugin>
+            
+            <plugin>
+                <groupId>org.codehaus.castor</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            
         </plugins>
     </build>
 
