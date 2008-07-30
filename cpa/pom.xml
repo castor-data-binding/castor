@@ -6,7 +6,6 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.codehaus.castor</groupId>
 	<artifactId>castor-jdo</artifactId>
-	<version>1.2.1-SNAPSHOT</version>
 
     <parent>
         <groupId>org.codehaus.castor</groupId>
@@ -30,13 +29,11 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 		<dependency>
 			<groupId>org.codehaus.castor</groupId>
 			<artifactId>castor-xml</artifactId>
-			<version>1.2.1-SNAPSHOT</version>
 		</dependency>
 
         <dependency>
             <groupId>org.codehaus.castor</groupId>
             <artifactId>castor-xml-schema</artifactId>
-            <version>1.2.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>

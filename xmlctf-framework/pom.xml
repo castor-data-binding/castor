@@ -6,7 +6,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.codehaus.castor</groupId>
 	<artifactId>castor-testsuite-xml-framework</artifactId>
-	<version>1.2.1-SNAPSHOT</version>
 
     <parent>
         <groupId>org.codehaus.castor</groupId>
@@ -25,12 +24,65 @@
        <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/xmlctf-framework</url>
     </scm>
 
+<!--
+    <build>
+       <resources>
+          <resource>
+             <directory>target/generated-sources/castor</directory>
+             <includes>
+                <include>**/*.cdr</include>
+             </includes>
+          </resource>
+          <resource>
+             <directory>src/main/resources</directory>
+          </resource>
+       </resources>
+       <plugins>
+          <plugin>
+             <groupId>org.codehaus.mojo</groupId>
+             <artifactId>castor-maven-plugin</artifactId>
+             <version>2.0-SNAPSHOT</version>
+             <configuration>
+                <schema>${basedir}/src/main/resources/org/exolab/castor/tests/framework/TestDescriptor.xsd</schema>
+                <packaging>org.exolab.castor.tests.framework.testDescriptor</packaging>
+             </configuration>
+             <executions>
+                <execution>
+                   <goals>
+                      <goal>generate</goal>
+                   </goals>
+                </execution>
+             </executions>
+          </plugin>
+          <!-- 
+          <plugin>
+             <groupId>org.codehaus.mojo</groupId>
+             <artifactId>build-helper-maven-plugin</artifactId>
+             <version>1.1</version>
+             <executions>
+                <execution>
+                   <id>add-source</id>
+                   <phase>generate-sources</phase>
+                   <goals>
+                      <goal>add-source</goal>
+                   </goals>
+                   <configuration>
+                      <sources>
+                         <source>target/generated-sources/castor</source>
+                      </sources>
+                   </configuration>
+                </execution>
+             </executions>
+          </plugin>
+           -->
+       </plugins>
+    </build>
+-->
 	<dependencies>
 
 		<dependency>
 			<groupId>org.codehaus.castor</groupId>
 			<artifactId>castor-codegen</artifactId>
-			<version>1.2.1-SNAPSHOT</version>
 		</dependency>
 
         <dependency>

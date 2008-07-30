@@ -6,15 +6,13 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.codehaus.castor</groupId>
 	<artifactId>castor-cpaptf</artifactId>
-	<version>1.2.1-SNAPSHOT</version>
 	
-<!-- 
 	<parent>
 		<groupId>org.codehaus.castor</groupId>
 		<artifactId>castor</artifactId>
-		<version>1.1.1-SNAPSHOT</version>
+		<version>1.2.1-SNAPSHOT</version>
 	</parent>
- -->		
+
 	<packaging>jar</packaging>
 
 	<name>Performance test suite for Castor JDO</name>
@@ -53,7 +51,6 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 		<dependency>
 			<groupId>org.codehaus.castor</groupId>
 			<artifactId>castor-xml</artifactId>
-			<version>1.2.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
