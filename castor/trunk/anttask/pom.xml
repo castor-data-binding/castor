@@ -6,7 +6,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.codehaus.castor</groupId>
 	<artifactId>castor-anttasks</artifactId>
-	<version>1.2.1-SNAPSHOT</version>
 
     <parent>
         <groupId>org.codehaus.castor</groupId>
@@ -30,13 +29,11 @@
 		<dependency>
 			<groupId>org.codehaus.castor</groupId>
 			<artifactId>castor-codegen</artifactId>
-			<version>1.2.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.codehaus.castor</groupId>
 			<artifactId>castor-ddlgen</artifactId>
-			<version>1.2.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
