@@ -28,7 +28,6 @@ http://maven.apache.org/maven-v4_0_0.xsd">
        <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/xml</url>
     </scm>
 
-<!--
     <build>
        <resources>
           <resource>
@@ -59,28 +58,8 @@ http://maven.apache.org/maven-v4_0_0.xsd">
                 </execution>
              </executions>
           </plugin>
-          <plugin>
-             <groupId>org.codehaus.mojo</groupId>
-             <artifactId>build-helper-maven-plugin</artifactId>
-             <version>1.1</version>
-             <executions>
-                <execution>
-                   <id>add-source</id>
-                   <phase>generate-sources</phase>
-                   <goals>
-                      <goal>add-source</goal>
-                   </goals>
-                   <configuration>
-                      <sources>
-                         <source>target/generated-sources/castor</source>
-                      </sources>
-                   </configuration>
-                </execution>
-             </executions>
-          </plugin>
        </plugins>
     </build>
--->
     <dependencies>
 
         <dependency>
