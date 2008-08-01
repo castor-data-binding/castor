@@ -16,8 +16,10 @@
  */
 package org.castor.core.nature;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Adds property handle methods and a constructor including a health check. See
@@ -138,4 +140,23 @@ public abstract class BaseNature implements Nature {
         }
         return list;
     }
+    
+    /**
+     * Returns value of the property as a List. If the property was not set
+     * before, a new List will be returned. Make sure, not to request a
+     * property, which is not a List!
+     * 
+     * @param propertyName
+     *            name of the property.
+     * @return A List.
+     */
+    protected Map getPropertyAsMap(String property) {
+        Map map = (Map) getProperty(property);
+        if (map == null) {
+            map = new HashMap();
+            this.setProperty(property, map);
+        }
+        return map;
+    }
+    
 }

@@ -17,7 +17,9 @@
 package org.castor.core.nature;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
@@ -259,6 +261,35 @@ public final class BaseNatureTest extends TestCase {
         assertNotNull(setbefore);
         assertEquals(1, setbefore.size());
         assertEquals("entry", setbefore.get(0));
+    }    
+
+    /**
+     * Checks, whether a new Map is instantiated if property was not set before.
+     */
+    public void testGetPropertyAsMapPropertyNotSet() {
+        PropertyHolderTest ph = new PropertyHolderTest();
+        ph.addNature(BaseNatureWrapper.class.getName());
+        BaseNatureWrapper bnw = new BaseNatureWrapper(ph);
+        Map notset = bnw.getPropertyAsMap("notsetbefore");
+        assertNotNull(notset);
+        assertEquals(0, notset.size());
+    }
+
+    /**
+     * Checks, whether a new Map is instantiated if property was not set
+     * before.
+     */
+    public void testGetPropertyAsMapPropertySet() {
+        PropertyHolderTest ph = new PropertyHolderTest();
+        ph.addNature(BaseNatureWrapper.class.getName());
+        BaseNatureWrapper bnw = new BaseNatureWrapper(ph);
+        Map map = new HashMap();
+        map.put("key", "entry");
+        bnw.setProperty("setbefore", map);
+        Map setbefore = bnw.getPropertyAsMap("setbefore");
+        assertNotNull(setbefore);
+        assertEquals(1, setbefore.size());
+        assertEquals("entry", setbefore.get("key"));
     }    
 
 }
