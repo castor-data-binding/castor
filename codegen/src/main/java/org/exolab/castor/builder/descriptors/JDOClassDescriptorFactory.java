@@ -292,10 +292,13 @@ public final class JDOClassDescriptorFactory {
        JDOClassInfoNature cNature = new JDOClassInfoNature(classInfo);
 
        jsc.add("");
+       
+       jsc.add("addNature(ClassDescriptorJDONature.class.getName());");
+       jsc.add("ClassDescriptorJDONature jdoNature = new ClassDescriptorJDONature(this);");
 
        //-- set table name
        String tableName = cNature.getTableName();
-       jsc.add("setTableName(\"" + tableName + "\");");
+       jsc.add("jdoNature.setTableName(\"" + tableName + "\");");
 
        //-- set corresponding Java class
        // TODO IS THERE A NEED TO CHECK THIS?!
@@ -308,13 +311,13 @@ public final class JDOClassDescriptorFactory {
 
        //-- set access mode
        String accessMode = cNature.getAccessMode().getName();
-       jsc.add("setAccessMode(AccessMode.valueOf(\"" + accessMode + "\"));");
+       jsc.add("jdoNature.setAccessMode(AccessMode.valueOf(\"" + accessMode + "\"));");
 
        //-- set cache key
        // TODO IS THERE A NEED TO CHECK THIS?!
        String fullName = classInfo.getJClass().getName();
        if ((fullName != null) && (fullName.length() > 0)) {
-           jsc.add("addCacheParam(\"name\", \"");
+           jsc.add("jdoNature.addCacheParam(\"name\", \"");
            jsc.append(fullName);
            jsc.append("\");");
        }

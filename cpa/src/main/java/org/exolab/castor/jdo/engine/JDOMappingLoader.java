@@ -61,7 +61,6 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.cache.Cache;
 import org.castor.cache.simple.CountLimited;
 import org.castor.cache.simple.TimeLimited;
-import org.castor.core.constants.cpa.JDOConstants;
 import org.castor.core.util.Configuration;
 import org.castor.cpa.CPAConfiguration;
 import org.castor.cpa.persistence.convertor.AbstractSimpleTypeConvertor;
@@ -70,6 +69,7 @@ import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.mapping.BindingType;
 import org.castor.util.Messages;
 import org.exolab.castor.jdo.TimeStampable;
+import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.CollectionHandler;
@@ -81,6 +81,7 @@ import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.TypeConvertor;
 import org.exolab.castor.mapping.loader.AbstractFieldDescriptor;
 import org.exolab.castor.mapping.loader.AbstractMappingLoader;
+import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
 import org.exolab.castor.mapping.loader.CollectionHandlers;
 import org.exolab.castor.mapping.loader.FieldDescriptorImpl;
 import org.exolab.castor.mapping.loader.FieldHandlerFriend;
@@ -98,7 +99,6 @@ import org.exolab.castor.mapping.xml.types.SqlDirtyType;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.xml.util.ClassLoaderNature;
 import org.exolab.castor.xml.util.ClassResolutionByFile;
-import org.exolab.castor.xml.util.resolvers.ResolveHelpers;
 
 /**
  * A JDO implementation of mapping helper. Creates JDO class descriptors
@@ -109,7 +109,6 @@ import org.exolab.castor.xml.util.resolvers.ResolveHelpers;
  * @version $Revision$ $Date: 2006-04-13 07:37:49 -0600 (Thu, 13 Apr 2006) $
  */
 public final class JDOMappingLoader extends AbstractMappingLoader {
-    //-----------------------------------------------------------------------------------
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      *  Logging </a> instance used for all logging. */
@@ -120,8 +119,6 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
 
     /** Separators after parameter, e.g. "char[01]". */
     private static final char RIGHT_PARAM_SEPARATOR = ']';
-
-    //-----------------------------------------------------------------------------------
 
     /**
      * Extracts parameter for type convertor from the SQL type definition of the
@@ -152,8 +149,6 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         return sqlTypeDef.substring(0, sep);
     }
 
-    //-----------------------------------------------------------------------------------
-
     private final TypeConvertorRegistry _typeConvertorRegistry;
 
     /** Map of key generator descriptors associated by their name. */
@@ -171,8 +166,6 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
      *  the given database. */
     private PersistenceFactory _factory;
 
-    //-----------------------------------------------------------------------------------
-
     public JDOMappingLoader(final ClassLoader loader) {
         super(loader);
 
@@ -180,14 +173,10 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         _typeConvertorRegistry = new TypeConvertorRegistry(config);
     }
     
-    //-----------------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
     public BindingType getBindingType() { return BindingType.JDO; }
-
-    //-----------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -239,8 +228,6 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         }
     }
     
-    //-----------------------------------------------------------------------------------
-
     protected ClassDescriptor createClassDescriptor(final ClassMapping clsMap)
     throws MappingException {
         // If there is no SQL information for class, ignore it.
@@ -249,8 +236,10 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             return null;
         }
 
-        // Create the class descriptor.
-        JDOClassDescriptorImpl clsDesc = new JDOClassDescriptorImpl();
+        // Create the class descriptor, and register the JDO nature with it.
+        ClassDescriptorImpl clsDesc = new ClassDescriptorImpl();
+        clsDesc.addNature(ClassDescriptorJDONature.class.getName());
+        ClassDescriptorJDONature jdoNature = new ClassDescriptorJDONature(clsDesc);
         
         // Set reference to class mapping on class descriptor.
         clsDesc.setMapping(clsMap);
@@ -267,12 +256,12 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         // class and make sure this class indeed extends it.
         ClassDescriptor extDesc = getExtended(clsMap, javaClass);
         if (extDesc != null) {
-            if (!(extDesc instanceof JDOClassDescriptor)) {
+            if (!(extDesc.hasNature(ClassDescriptorJDONature.class.getName()))) {
                 throw new IllegalArgumentException(
                         "Extended class does not have a JDO descriptor");
             }
             
-            ((JDOClassDescriptorImpl) extDesc).addExtended(clsDesc);
+            new ClassDescriptorJDONature(extDesc).addExtended(clsDesc);
         }
         clsDesc.setExtends(extDesc);
         
@@ -328,7 +317,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             for (int i = 0; i < allFields.length; i++) { fieldList.add(allFields[i]); }
             
             // Add all identities of extended class to identity list.
-            FieldDescriptor[] extIds = ((JDOClassDescriptor) extDesc).getIdentities();
+            FieldDescriptor[] extIds = ((ClassDescriptorImpl) extDesc).getIdentities();
             for (int i = 0; i < extIds.length; i++) { idList.add(extIds[i]); }
             
             // Search redefined identities in extending class.
@@ -342,18 +331,18 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         
         // Set identities on class descriptor.
         FieldDescriptor[] ids = new FieldDescriptor[idList.size()];
-        clsDesc.setIdentities((FieldDescriptor[]) idList.toArray(ids));
+        clsDesc.setIdentities(((FieldDescriptor[]) idList.toArray(ids)));
 
         // Set fields on class descriptor.
         FieldDescriptor[] fields = new FieldDescriptor[fieldList.size()];
         clsDesc.setFields((FieldDescriptor[]) fieldList.toArray(fields));
         
-        clsDesc.setTableName(clsMap.getMapTo().getTable());
+        jdoNature.setTableName(clsMap.getMapTo().getTable());
         
-        extractAndSetAccessMode(clsDesc, clsMap);
-        extractAndAddCacheParams(clsDesc, clsMap, javaClass);
-        extractAndAddNamedQueries(clsDesc, clsMap);
-        extractAndSetKeyGeneratorDescriptor(clsDesc, clsMap);
+        extractAndSetAccessMode(jdoNature, clsMap);
+        extractAndAddCacheParams(jdoNature, clsMap, javaClass);
+        extractAndAddNamedQueries(jdoNature, clsMap);
+        extractAndSetKeyGeneratorDescriptor(jdoNature, clsMap);
 
         return clsDesc;
     }
@@ -361,29 +350,29 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     /**
      * Extract access mode from class mapping and set it at JDO class descriptor.
      * 
-     * @param clsDesc JDO class descriptor to set the access mode on.
+     * @param jdoNature JDO class descriptor to set the access mode on.
      * @param clsMap Class mapping to extract the access mode from.
      */
-    private void extractAndSetAccessMode(final JDOClassDescriptorImpl clsDesc,
+    private void extractAndSetAccessMode(final ClassDescriptorJDONature jdoNature,
             final ClassMapping clsMap) {
         if (clsMap.getAccess() != null) {
-            clsDesc.setAccessMode(AccessMode.valueOf(clsMap.getAccess().toString()));
+            jdoNature.setAccessMode(AccessMode.valueOf(clsMap.getAccess().toString()));
         }
     }
     
     /**
      * Extract cache parameters from class mapping and add them to JDO class descriptor.
      * 
-     * @param clsDesc JDO class descriptor to add the cache parameters to.
+     * @param jdoNature JDO class descriptor to add the cache parameters to.
      * @param clsMap Class mapping to extract the cache parameters from.
      * @param javaClass Class the cache parameters are defined for.
      * @throws MappingException If cache type <code>none</code> has been specified for
      *         a class that implements <code>TimeStampable</code> interface.
      */
-    private void extractAndAddCacheParams(final JDOClassDescriptorImpl clsDesc,
+    private void extractAndAddCacheParams(final ClassDescriptorJDONature jdoNature,
             final ClassMapping clsMap, final Class javaClass)
     throws MappingException {
-        clsDesc.addCacheParam(Cache.PARAM_NAME, clsMap.getName());
+        jdoNature.addCacheParam(Cache.PARAM_NAME, clsMap.getName());
 
         CacheTypeMapping cacheMapping = clsMap.getCacheTypeMapping();
         if (cacheMapping != null) {
@@ -394,30 +383,30 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
                             "persist.wrongCacheTypeSpecified", clsMap.getName()));
                 }
             }
-            clsDesc.addCacheParam(Cache.PARAM_TYPE, type);
+            jdoNature.addCacheParam(Cache.PARAM_TYPE, type);
             
             Param[] params = cacheMapping.getParam();
             for (int i = 0; i < params.length; i++) {
-                clsDesc.addCacheParam(params[i].getName(), params[i].getValue());
+                jdoNature.addCacheParam(params[i].getName(), params[i].getValue());
             }
 
             String debug = new Boolean(cacheMapping.getDebug()).toString();
-            clsDesc.addCacheParam(Cache.PARAM_DEBUG, debug);
+            jdoNature.addCacheParam(Cache.PARAM_DEBUG, debug);
 
             String capacity = Long.toString(cacheMapping.getCapacity());
-            clsDesc.addCacheParam(CountLimited.PARAM_CAPACITY, capacity);
-            clsDesc.addCacheParam(TimeLimited.PARAM_TTL, capacity);
+            jdoNature.addCacheParam(CountLimited.PARAM_CAPACITY, capacity);
+            jdoNature.addCacheParam(TimeLimited.PARAM_TTL, capacity);
         }
     }
     
     /**
      * Extract named queries from class mapping and add them to JDO class descriptor.
      * 
-     * @param clsDesc JDO class descriptor to add the named queries to.
+     * @param jdoNature JDO class descriptor to add the named queries to.
      * @param clsMap Class mapping to extract the named queries from.
      * @throws MappingException On duplicate query names.
      */
-    private void extractAndAddNamedQueries(final JDOClassDescriptorImpl clsDesc,
+    private void extractAndAddNamedQueries(final ClassDescriptorJDONature jdoNature,
             final ClassMapping clsMap)
     throws MappingException {
         Enumeration namedQueriesEnum = clsMap.enumerateNamedQuery();
@@ -430,7 +419,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             }
             _queryNames.add(queryName);
 
-            clsDesc.addNamedQuery(queryName, query.getQuery());
+            jdoNature.addNamedQuery(queryName, query.getQuery());
         }
     }
     
@@ -441,10 +430,10 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
      * added to the map of class descriptors. Set the key generator descriptor at the
      * class descriptor.
      * 
-     * @param clsDesc JDO class descriptor to set the key generator descriptor at.
+     * @param jdoNature JDO class descriptor to set the key generator descriptor at.
      * @param clsMap Class mapping name of key generator.
      */
-    private void extractAndSetKeyGeneratorDescriptor(final JDOClassDescriptorImpl clsDesc,
+    private void extractAndSetKeyGeneratorDescriptor(final ClassDescriptorJDONature jdoNature,
             final ClassMapping clsMap) {
         KeyGeneratorDescriptor keyGenDesc = null;
         
@@ -458,7 +447,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             }
         }
         
-        clsDesc.setKeyGeneratorDescriptor(keyGenDesc);
+        jdoNature.setKeyGeneratorDescriptor(keyGenDesc);
     }
     
     protected FieldDescriptor findIdentityByName(
@@ -489,7 +478,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
      * Walks through all fields of a descriptor and resolves relation
      * {@link ClassDescriptor}s by using mapping information or, if not
      * present, resolution by file to support generated
-     * {@link JDOClassDescriptor}s. Resolved {@link ClassDescriptor}s will be
+     * {@link ClassDescriptor}s. Resolved {@link ClassDescriptor}s will be
      * set as a field's descriptor.
      * 
      * @param clsDesc
@@ -515,8 +504,6 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             }
         }
     }
-
-    //-----------------------------------------------------------------------------------
 
     /**
      * Parse the sql type attribute to build an
@@ -814,5 +801,4 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         return jdoFieldDescriptor;
     }
 
-    //-----------------------------------------------------------------------------------
 }

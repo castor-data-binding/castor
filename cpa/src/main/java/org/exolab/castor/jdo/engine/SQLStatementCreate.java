@@ -43,6 +43,7 @@ import org.exolab.castor.core.exceptions.CastorIllegalStateException;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Identity;
@@ -75,7 +76,7 @@ public class SQLStatementCreate {
         _engine = engine;
         _factory = factory;
         _type = engine.getDescriptor().getJavaClass().getName();
-        _mapTo = engine.getDescriptor().getTableName();
+        _mapTo = new ClassDescriptorJDONature(engine.getDescriptor()).getTableName();
         
         _keyGen = getKeyGenerator(engine, factory);
 
@@ -91,7 +92,8 @@ public class SQLStatementCreate {
             final PersistenceFactory factory) throws MappingException {
         KeyGenerator keyGen = null;
         if (engine.getDescriptor().getExtends() == null) {
-            KeyGeneratorDescriptor keyGenDesc = engine.getDescriptor().getKeyGeneratorDescriptor();
+            KeyGeneratorDescriptor keyGenDesc = 
+                new ClassDescriptorJDONature(engine.getDescriptor()).getKeyGeneratorDescriptor();
             if (keyGenDesc != null) {
                 FieldDescriptor fldDesc = engine.getDescriptor().getIdentity();
                 int[] tempType = ((JDOFieldDescriptor) fldDesc).getSQLType();
@@ -264,7 +266,7 @@ public class SQLStatementCreate {
             // must create record in the parent table first. all other dependents
             // are created afterwards. quick and very dirty hack to try to make
             // multiple class on the same table work.
-            if ((extended != null) && !extended.getDescriptor().getTableName().equals(_mapTo)) {
+            if ((extended != null) && !new ClassDescriptorJDONature(extended.getDescriptor()).getTableName().equals(_mapTo)) {
                 internalIdentity = extended.create(database, conn, entity, internalIdentity);
             }
             
@@ -337,7 +339,7 @@ public class SQLStatementCreate {
             // must create record in the parent table first. all other dependents
             // are created afterwards. quick and very dirty hack to try to make
             // multiple class on the same table work.
-            if ((extended != null) && !extended.getDescriptor().getTableName().equals(_mapTo)) {
+            if ((extended != null) && !new ClassDescriptorJDONature(extended.getDescriptor()).getTableName().equals(_mapTo)) {
                 internalIdentity = extended.create(database, conn, entity, internalIdentity);
             }
             
@@ -413,7 +415,7 @@ public class SQLStatementCreate {
             // must create record in the parent table first. all other dependents
             // are created afterwards. quick and very dirty hack to try to make
             // multiple class on the same table work.
-            if ((extended != null) && !extended.getDescriptor().getTableName().equals(_mapTo)) {
+            if ((extended != null) && !new ClassDescriptorJDONature(extended.getDescriptor()).getTableName().equals(_mapTo)) {
                 internalIdentity = extended.create(database, conn, entity, internalIdentity);
             }
             
@@ -500,7 +502,7 @@ public class SQLStatementCreate {
             // must create record in the parent table first. all other dependents
             // are created afterwards. quick and very dirty hack to try to make
             // multiple class on the same table work.
-            if ((extended != null) && !extended.getDescriptor().getTableName().equals(_mapTo)) {
+            if ((extended != null) && !new ClassDescriptorJDONature(extended.getDescriptor()).getTableName().equals(_mapTo)) {
                 internalIdentity = extended.create(database, conn, entity, internalIdentity);
             }
             

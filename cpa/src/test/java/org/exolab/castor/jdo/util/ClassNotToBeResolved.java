@@ -16,7 +16,7 @@
 package org.exolab.castor.jdo.util;
 
 /**
- * Empty class to test resolving of a {@link JDOClassDescriptor} from a package
+ * Empty class to test resolving of a {@link ClassDescriptor} from a package
  * which contains a .jdo.castor.cdr file.
  * 
  * This class should not be resolved as it is not associated with a

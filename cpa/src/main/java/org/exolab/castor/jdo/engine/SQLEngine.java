@@ -28,9 +28,12 @@ import org.castor.util.Messages;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
+import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.mapping.AccessMode;
+import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.KeyGenerator;
@@ -68,7 +71,7 @@ public final class SQLEngine implements Persistence {
 
     private final PersistenceFactory    _factory;
 
-    private final JDOClassDescriptor    _clsDesc;
+    private final ClassDescriptor    _clsDesc;
 
     private KeyGenerator                _keyGen;
     
@@ -80,7 +83,7 @@ public final class SQLEngine implements Persistence {
 
     private final SQLStatementStore _storeStatement;
 
-    public SQLEngine(final JDOClassDescriptor clsDesc, final PersistenceFactory factory,
+    public SQLEngine(final ClassDescriptor clsDesc, final PersistenceFactory factory,
               final String stampField) throws MappingException {
 
         _clsDesc = clsDesc;
@@ -88,7 +91,7 @@ public final class SQLEngine implements Persistence {
         _keyGen = null;
         
         if (_clsDesc.getExtends() == null) {
-            KeyGeneratorDescriptor keyGenDesc = clsDesc.getKeyGeneratorDescriptor();
+            KeyGeneratorDescriptor keyGenDesc = new ClassDescriptorJDONature(clsDesc).getKeyGeneratorDescriptor();
             if (keyGenDesc != null) {
                 int[] tempType = ((JDOFieldDescriptor) _clsDesc.getIdentity()).getSQLType();
                 _keyGen = keyGenDesc.getKeyGeneratorRegistry().getKeyGenerator(
@@ -122,7 +125,7 @@ public final class SQLEngine implements Persistence {
          * No loop or circle should exist
          */
         // then, we put depended class ids in the back
-        JDOClassDescriptor base = clsDesc;
+        ClassDescriptor base = clsDesc;
 
         // walk until the base class which this class extends
         base = clsDesc;
@@ -133,7 +136,7 @@ public final class SQLEngine implements Persistence {
             //     throw new MappingException(
             //             "Class should not both depends on and extended other classes");
             // }
-            base = (JDOClassDescriptor) base.getExtends();
+            base = base.getExtends();
             stack.push(base);
             // do we need to add loop detection?
         }
@@ -142,8 +145,8 @@ public final class SQLEngine implements Persistence {
         // clsDesc
         // we always put the original id info in front
         // [oleg] except for SQL name, it may differ.
-        FieldDescriptor[] baseIdDescriptors = base.getIdentities();
-        FieldDescriptor[] idDescriptors = clsDesc.getIdentities();
+        FieldDescriptor[] baseIdDescriptors = ((ClassDescriptorImpl) base).getIdentities();
+        FieldDescriptor[] idDescriptors = ((ClassDescriptorImpl) clsDesc).getIdentities();
 
         for (int i = 0; i < baseIdDescriptors.length; i++) {
             if (baseIdDescriptors[i] instanceof JDOFieldDescriptor) {
@@ -169,7 +172,7 @@ public final class SQLEngine implements Persistence {
 
         // then do the fields
         while (!stack.empty()) {
-            base = (JDOClassDescriptor) stack.pop();
+            base = (ClassDescriptor) stack.pop();
             FieldDescriptor[] fieldDescriptors = base.getFields();
             for (int i = 0; i < fieldDescriptors.length; i++) {
                 // fieldDescriptors[i] is persistent in db if it is not transient
@@ -179,7 +182,7 @@ public final class SQLEngine implements Persistence {
                             || (fieldDescriptors[i].getClassDescriptor() != null))  {
                         
                         fieldsInfo.add(new SQLFieldInfo(clsDesc, fieldDescriptors[i],
-                                base.getTableName(), !stack.empty()));
+                                new ClassDescriptorJDONature(base).getTableName(), !stack.empty()));
                     }
                 }
             }
@@ -220,14 +223,14 @@ public final class SQLEngine implements Persistence {
      * Used by {@link org.exolab.castor.jdo.OQLQuery} to retrieve the class descriptor.
      * @return the JDO class descriptor.
      */
-    public JDOClassDescriptor getDescriptor() {
+    public ClassDescriptor getDescriptor() {
         return _clsDesc;
     }
 
     public PersistenceQuery createQuery(final QueryExpression query, final Class[] types,
                                         final AccessMode accessMode)
     throws QueryException {
-        AccessMode mode = (accessMode != null) ? accessMode : _clsDesc.getAccessMode();
+        AccessMode mode = (accessMode != null) ? accessMode : new ClassDescriptorJDONature(_clsDesc).getAccessMode();
         String sql = query.getStatement(mode == AccessMode.DbLocked);
         
         if (LOG.isDebugEnabled()) {

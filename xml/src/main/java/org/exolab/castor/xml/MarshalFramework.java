@@ -45,7 +45,11 @@
 
 package org.exolab.castor.xml;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 import org.castor.xml.BackwardCompatibilityContext;
@@ -614,6 +618,16 @@ abstract class MarshalFramework {
         private FieldDescriptor[]    _fields     = null;
         
         /**
+         * Map holding the properties set and read by Natures.
+         */
+        private Map _properties = new HashMap();
+        
+        /**
+         * Map holding the available natures.
+         */
+        private Set _natures = new HashSet();
+        
+        /**
          * Creates a new InternalXMLClassDescriptor for the given
          * XMLClassDescriptor.
          */
@@ -825,7 +839,51 @@ abstract class MarshalFramework {
         public boolean isChoice() {
             return false;
         }
-        
+
+        /**
+         * @see org.exolab.castor.builder.info.nature.PropertyHolder#
+         *      getProperty(java.lang.String)
+         * @param name
+         *            of the property
+         * @return value of the property
+         */
+        public Object getProperty(final String name) {
+            return _properties.get(name);
+        }
+
+        /**
+         * @see org.exolab.castor.builder.info.nature.PropertyHolder#
+         *      setProperty(java.lang.String, java.lang.Object)
+         * @param name
+         *            of the property
+         * @param value
+         *            of the property
+         */
+        public void setProperty(final String name, final Object value) {
+            _properties.put(name, value);
+        }
+
+        /**
+         * @see org.exolab.castor.builder.info.nature.NatureExtendable#
+         *      addNature(java.lang.String)
+         * @param nature
+         *            ID of the Nature
+         */
+        public void addNature(final String nature) {
+            _natures.add(nature);
+        }
+
+        /**
+         * @see org.exolab.castor.builder.info.nature.NatureExtendable#
+         *      hasNature(java.lang.String)
+         * @param nature
+         *            ID of the Nature
+         * @return true if the Nature ID was added.
+         */
+        public boolean hasNature(final String nature) {
+            return _natures.contains(nature);
+        }
+
     } //-- InternalXMLClassDescriptor
     
     

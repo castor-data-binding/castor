@@ -30,6 +30,7 @@ import org.castor.util.Messages;
 import org.exolab.castor.jdo.ObjectDeletedException;
 import org.exolab.castor.jdo.ObjectModifiedException;
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.persist.spi.QueryExpression;
@@ -64,7 +65,7 @@ public final class SQLStatementStore {
         _engine = engine;
         _factory = factory;
         _type = engine.getDescriptor().getJavaClass().getName();
-        _mapTo = engine.getDescriptor().getTableName();
+        _mapTo = new ClassDescriptorJDONature(engine.getDescriptor()).getTableName();
         
         // iterate through all fields to check whether there is a field
         // to persist at all; in the case of extend relationships where no 
@@ -157,7 +158,7 @@ public final class SQLStatementStore {
         SQLEngine extended = _engine.getExtends();
         if (extended != null) {
             // | quick and very dirty hack to try to make multiple class on the same table work
-            if (!extended.getDescriptor().getTableName().equals(_mapTo)) {
+            if (!new ClassDescriptorJDONature(extended.getDescriptor()).getTableName().equals(_mapTo)) {
                 extended.store(conn, identity, newentity, oldentity);
             }
         }

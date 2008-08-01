@@ -23,11 +23,11 @@ import java.util.Vector;
 
 import org.exolab.castor.jdo.DbMetaInfo;
 import org.exolab.castor.jdo.QueryException;
-import org.exolab.castor.jdo.engine.JDOClassDescriptor;
-import org.exolab.castor.jdo.engine.JDOClassDescriptorImpl;
 import org.exolab.castor.jdo.engine.JDOFieldDescriptor;
 import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.jdo.engine.SQLHelper;
+import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
+import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.loader.Types;
 import org.exolab.castor.persist.LockEngine;
 import org.exolab.castor.persist.spi.QueryExpression;
@@ -62,7 +62,7 @@ public class ParseTreeWalker {
     private HashMap _allPaths;
 
     private SQLEngine _engine;
-    private JDOClassDescriptor _clsDesc;
+    private ClassDescriptor _clsDesc;
 
     //projection types
     public static final int AGGREGATE = 1;
@@ -152,7 +152,7 @@ public class ParseTreeWalker {
      *
      * @return The _clsDesc member.
      */
-    public JDOClassDescriptor getClassDescriptor() {
+    public ClassDescriptor getClassDescriptor() {
         return _clsDesc;
     }
 
@@ -320,16 +320,16 @@ public class ParseTreeWalker {
      * @return JDOFieldDescriptor for the specified field, null if not found.
      */
     private JDOFieldDescriptor getFieldDesc(final String fieldName,
-                                            final JDOClassDescriptor clsDesc) {
+                                            final ClassDescriptor clsDesc) {
 
-        JDOClassDescriptor classDescriptor = clsDesc;
+        ClassDescriptor classDescriptor = clsDesc;
         JDOFieldDescriptor fieldDescriptor;
         while (classDescriptor != null) {
-            fieldDescriptor = classDescriptor.getField(fieldName);
+            fieldDescriptor = new ClassDescriptorJDONature(classDescriptor).getField(fieldName);
             if (fieldDescriptor != null) {
                 return fieldDescriptor;
             }
-            classDescriptor = (JDOClassDescriptor) classDescriptor.getExtends();
+            classDescriptor = classDescriptor.getExtends();
         }
         return null;
     }
@@ -344,23 +344,23 @@ public class ParseTreeWalker {
      * @param tableIndex Field index in the path info
      */
     private Object[] getFieldAndClassDesc(final String fieldName,
-                                          final JDOClassDescriptor clsDesc,
+                                          final ClassDescriptor clsDesc,
                                           final QueryExpression expr,
                                           final Vector path, final int tableIndex) {
         
         JDOFieldDescriptor field = null;
-        JDOClassDescriptor cd = clsDesc;
+        ClassDescriptor cd = clsDesc;
         JDOFieldDescriptor tempField = null;
-        JDOClassDescriptor tempCd = clsDesc;
+        ClassDescriptor tempCd = clsDesc;
         Object[] retVal;
 
         while (tempCd != null) {
-            tempField = tempCd.getField(fieldName);
+            tempField = new ClassDescriptorJDONature(tempCd).getField(fieldName);
             if (tempField != null) {
                 field = tempField;
                 cd = tempCd;
             }
-            tempCd = (JDOClassDescriptor) tempCd.getExtends();
+            tempCd = tempCd.getExtends();
         }
      
         if (field == null) { return null; }
@@ -369,18 +369,18 @@ public class ParseTreeWalker {
         retVal = new Object[] {field, cd};
         if (cd != clsDesc) {
             // now add inner join for "extends"
-            String tableAlias1 = clsDesc.getTableName();
-            String tableAlias2 = cd.getTableName();
+            String tableAlias1 = new ClassDescriptorJDONature(clsDesc).getTableName();
+            String tableAlias2 = new ClassDescriptorJDONature(cd).getTableName();
             if (tableIndex > 0) {
                 tableAlias1 = buildTableAlias(tableAlias1, path, tableIndex);
                 tableAlias2 = buildTableAlias(tableAlias2, path, tableIndex);
             }
-            expr.addTable(cd.getTableName(), tableAlias2);
+            expr.addTable(new ClassDescriptorJDONature(cd).getTableName(), tableAlias2);
             String[] clsDescIdNames = SQLHelper.getIdentitySQLNames(clsDesc);
             String[] cdIdNames = SQLHelper.getIdentitySQLNames(cd);
             expr.addInnerJoin(
-                    clsDesc.getTableName(), clsDescIdNames, tableAlias1,
-                    cd.getTableName(), cdIdNames, tableAlias2);
+                    new ClassDescriptorJDONature(clsDesc).getTableName(), clsDescIdNames, tableAlias1,
+                    new ClassDescriptorJDONature(cd).getTableName(), cdIdNames, tableAlias2);
         }
         return retVal;
     }
@@ -456,7 +456,7 @@ public class ParseTreeWalker {
                 }
 
                 //use the ClassDescriptor to check that the rest of the path is valid.
-                JDOClassDescriptor curClassDesc = _clsDesc;
+                ClassDescriptor curClassDesc = _clsDesc;
                 JDOFieldDescriptor curField = null;
                 int count = 0;
                 String curToken;
@@ -480,7 +480,7 @@ public class ParseTreeWalker {
                     }
                     projectionName.append(".").append(curName);
                     projectionInfo.addElement(curName);
-                    curClassDesc = (JDOClassDescriptor) curField.getClassDescriptor();
+                    curClassDesc = curField.getClassDescriptor();
                     if ((curClassDesc == null) && iter.hasNext()) {
                         throw new QueryException("An non-reference field was requested: "
                                 + curName + " (" + curClassDesc + ")");
@@ -990,24 +990,24 @@ public class ParseTreeWalker {
             selectPart = _parseTree.getChild(0);
         }
 
-        _queryExpr.addTable(_clsDesc.getTableName());
+        _queryExpr.addTable(new ClassDescriptorJDONature(_clsDesc).getTableName());
 
         // add table names and joins for all base classes
-        JDOClassDescriptor oldDesc = _clsDesc;
-        JDOClassDescriptor tempDesc = (JDOClassDescriptor) _clsDesc.getExtends();
+        ClassDescriptor oldDesc = _clsDesc;
+        ClassDescriptor tempDesc = _clsDesc.getExtends();
         while (tempDesc != null) {
-            String tableName = tempDesc.getTableName();
+            String tableName = new ClassDescriptorJDONature(tempDesc).getTableName();
             _queryExpr.addTable(tableName);
             
             JDOFieldDescriptor leftField = (JDOFieldDescriptor) oldDesc.getIdentity();
             JDOFieldDescriptor rightField = (JDOFieldDescriptor) tempDesc.getIdentity();
             
             _queryExpr.addInnerJoin(
-                    oldDesc.getTableName(), leftField.getSQLName(),
-                    tempDesc.getTableName(), rightField.getSQLName());
+                    new ClassDescriptorJDONature(oldDesc).getTableName(), leftField.getSQLName(),
+                    new ClassDescriptorJDONature(tempDesc).getTableName(), rightField.getSQLName());
 
             oldDesc = tempDesc;
-            tempDesc = (JDOClassDescriptor) tempDesc.getExtends();
+            tempDesc = tempDesc.getExtends();
         }
         _queryExpr.addSelect(getSQLExpr(selectPart));
     }
@@ -1079,7 +1079,7 @@ public class ParseTreeWalker {
         }
 
         // the class for the join is even this class or one of the base classes
-        JDOClassDescriptor sourceClass = _clsDesc;
+        ClassDescriptor sourceClass = _clsDesc;
 
         for (int i = 1; i < path.size() - 1; i++) {
             JDOFieldDescriptor fieldDesc = null;
@@ -1091,40 +1091,41 @@ public class ParseTreeWalker {
                 throw new IllegalStateException("Field not found:" + path.elementAt(i));
             }
             fieldDesc = (JDOFieldDescriptor) fieldAndClass[0];
-            sourceClass = (JDOClassDescriptor) fieldAndClass[1];
+            sourceClass = (ClassDescriptor) fieldAndClass[1];
 
-            JDOClassDescriptor clsDesc =
-                (JDOClassDescriptor) fieldDesc.getClassDescriptor();
+            ClassDescriptor clsDesc = fieldDesc.getClassDescriptor();
             if (clsDesc != null) {
                 //we must add this table as a join
+                ClassDescriptorJDONature sourceClassJDONature = 
+                    new ClassDescriptorJDONature(sourceClass);
                 if (fieldDesc.getManyKey() == null) {
                     //a many -> one relationship
                     JDOFieldDescriptor foreignKey =
                         (JDOFieldDescriptor) clsDesc.getIdentity();
-                    String sourceTableAlias = sourceClass.getTableName();
+                    String sourceTableAlias = sourceClassJDONature.getTableName();
                     if (i > 1) {
                         sourceTableAlias = buildTableAlias(sourceTableAlias, path, i - 1);
                     }
 
                     _queryExpr.addInnerJoin(
-                            sourceClass.getTableName(), fieldDesc.getSQLName(),
+                            sourceClassJDONature.getTableName(), fieldDesc.getSQLName(),
                             sourceTableAlias,
-                            clsDesc.getTableName(), foreignKey.getSQLName(),
-                            buildTableAlias(clsDesc.getTableName(), path, i));
+                            new ClassDescriptorJDONature(clsDesc).getTableName(), foreignKey.getSQLName(),
+                            buildTableAlias(new ClassDescriptorJDONature(clsDesc).getTableName(), path, i));
                 } else if (fieldDesc.getManyTable() == null) {
                     //a one -> many relationship
                     JDOFieldDescriptor identity =
                         (JDOFieldDescriptor) sourceClass.getIdentity();
-                    String sourceTableAlias = sourceClass.getTableName();
+                    String sourceTableAlias = sourceClassJDONature.getTableName();
                     if (i > 1) {
                         sourceTableAlias = buildTableAlias(sourceTableAlias, path, i - 1);
                     }
 
                     _queryExpr.addInnerJoin(
-                            sourceClass.getTableName(), identity.getSQLName(),
+                            sourceClassJDONature.getTableName(), identity.getSQLName(),
                             sourceTableAlias,
-                            clsDesc.getTableName(), fieldDesc.getManyKey(),
-                            buildTableAlias(clsDesc.getTableName(), path, i));
+                            new ClassDescriptorJDONature(clsDesc).getTableName(), fieldDesc.getManyKey(),
+                            buildTableAlias(new ClassDescriptorJDONature(clsDesc).getTableName(), path, i));
                 } else {
                     //a many -> many relationship
                     JDOFieldDescriptor identity =
@@ -1132,14 +1133,14 @@ public class ParseTreeWalker {
                     JDOFieldDescriptor foreignKey =
                         (JDOFieldDescriptor) clsDesc.getIdentity();
                     String manyTableAlias = fieldDesc.getManyTable();
-                    String sourceTableAlias = sourceClass.getTableName();
+                    String sourceTableAlias = sourceClassJDONature.getTableName();
                     if (i > 1) {
                         manyTableAlias = buildTableAlias(manyTableAlias, path, i - 1);
                         sourceTableAlias = buildTableAlias(sourceTableAlias, path, i - 1);
                     }
 
                     _queryExpr.addInnerJoin(
-                            sourceClass.getTableName(), identity.getSQLName(),
+                            sourceClassJDONature.getTableName(), identity.getSQLName(),
                             sourceTableAlias,
                             fieldDesc.getManyTable(), fieldDesc.getManyKey(),
                             manyTableAlias);
@@ -1147,8 +1148,8 @@ public class ParseTreeWalker {
                     _queryExpr.addInnerJoin(
                             fieldDesc.getManyTable(), fieldDesc.getSQLName(),
                             manyTableAlias,
-                            clsDesc.getTableName(), foreignKey.getSQLName(),
-                            buildTableAlias(clsDesc.getTableName(), path, i));
+                            new ClassDescriptorJDONature(clsDesc).getTableName(), foreignKey.getSQLName(),
+                            buildTableAlias(new ClassDescriptorJDONature(clsDesc).getTableName(), path, i));
                 }
                 sourceClass = clsDesc;
             }
@@ -1324,18 +1325,19 @@ public class ParseTreeWalker {
                         "fieldInfo for " + exprTree.toStringEx() + " not found");
             }
             
-            JDOClassDescriptor clsDesc =
-              (JDOClassDescriptor) field.getContainingClassDescriptor();
+            ClassDescriptor clsDesc = field.getContainingClassDescriptor();
             if (clsDesc == null) {
                 throw new IllegalStateException(
                         "ContainingClass of " + field.toString() + " is null !");
             }
             
             String clsTableAlias;
-            if (tokenType == TokenType.DOT && path != null && path.size() > 2) {
+            ClassDescriptorJDONature classDescriptorJDONature = 
+                new ClassDescriptorJDONature(clsDesc);
+                if (tokenType == TokenType.DOT && path != null && path.size() > 2) {
               clsTableAlias = buildTableAlias(
-                                              clsDesc.getTableName(), path, path.size() - 2);
-              JDOClassDescriptor srcDesc = _clsDesc;
+                      classDescriptorJDONature.getTableName(), path, path.size() - 2);
+              ClassDescriptor srcDesc = _clsDesc;
               for (int i = 1; i < path.size(); i++) {
                 Object[] fieldAndClass = getFieldAndClassDesc(
                                                               (String) path.elementAt(i),
@@ -1347,10 +1349,10 @@ public class ParseTreeWalker {
                 }
                 JDOFieldDescriptor fieldDesc =
                   (JDOFieldDescriptor) fieldAndClass[0];
-                srcDesc = (JDOClassDescriptor) fieldDesc.getClassDescriptor();
+                srcDesc = fieldDesc.getClassDescriptor();
               }
             } else {
-              clsTableAlias = buildTableAlias(clsDesc.getTableName(), path, 9999);
+              clsTableAlias = buildTableAlias(classDescriptorJDONature.getTableName(), path, 9999);
             }
             
             return _queryExpr.encodeColumn(clsTableAlias, field.getSQLName()[0]);

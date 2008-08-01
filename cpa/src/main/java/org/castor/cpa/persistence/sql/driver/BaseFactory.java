@@ -50,8 +50,8 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.util.Messages;
-import org.exolab.castor.jdo.engine.JDOClassDescriptor;
 import org.exolab.castor.jdo.engine.SQLEngine;
+import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Persistence;
@@ -77,12 +77,14 @@ public abstract class BaseFactory implements PersistenceFactory {
      * {@inheritDoc}
      */
     public Persistence getPersistence(final ClassDescriptor clsDesc) {
-        if (!(clsDesc instanceof JDOClassDescriptor)) { return null; }
+        if (!(clsDesc.hasNature(ClassDescriptorJDONature.class.getName()))) { 
+            return null; 
+        }
         
         try {
             Persistence sqlEngine = (SQLEngine) _classDescriptorToPersistence.get(clsDesc);
             if (sqlEngine == null) {
-                sqlEngine = new SQLEngine((JDOClassDescriptor) clsDesc, this, null);
+                sqlEngine = new SQLEngine(clsDesc, this, null);
                 _classDescriptorToPersistence.put(clsDesc, sqlEngine);
             }
             return sqlEngine;

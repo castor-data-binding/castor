@@ -41,7 +41,9 @@ import org.castor.util.Messages;
 import org.exolab.castor.jdo.ObjectNotFoundException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
+import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.mapping.AccessMode;
+import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.Persistence;
@@ -78,12 +80,12 @@ public final class SQLStatementLoad {
         _engine = engine;
         _factory = factory;
         _type = engine.getDescriptor().getJavaClass().getName();
-        _mapTo = engine.getDescriptor().getTableName();
+        _mapTo = new ClassDescriptorJDONature(engine.getDescriptor()).getTableName();
 
         // obtain the number of ClassDescriptor that extend this one.
         _numberOfExtendLevels = SQLHelper.numberOfExtendingClassDescriptors(engine.getDescriptor());
         _extendingClassDescriptors = 
-            ((JDOClassDescriptorImpl) engine.getDescriptor()).getExtended();
+            new ClassDescriptorJDONature(engine.getDescriptor()).getExtended();
 
         buildStatement();
     }
@@ -96,15 +98,15 @@ public final class SQLStatementLoad {
             Vector joinTables = new Vector();
 
             // join all the extended table
-            JDOClassDescriptor curDesc = _engine.getDescriptor();
-            JDOClassDescriptor baseDesc;
+            ClassDescriptor curDesc = _engine.getDescriptor();
+            ClassDescriptor baseDesc;
             while (curDesc.getExtends() != null) {
-                baseDesc = (JDOClassDescriptor) curDesc.getExtends();
+                baseDesc = curDesc.getExtends();
                 String[] curDescIdNames = SQLHelper.getIdentitySQLNames(curDesc);
                 String[] baseDescIdNames = SQLHelper.getIdentitySQLNames(baseDesc);
-                expr.addInnerJoin(curDesc.getTableName(), curDescIdNames,
-                                  baseDesc.getTableName(), baseDescIdNames);
-                joinTables.add(baseDesc.getTableName());
+                expr.addInnerJoin(new ClassDescriptorJDONature(curDesc).getTableName(), curDescIdNames,
+                        new ClassDescriptorJDONature(baseDesc).getTableName(), baseDescIdNames);
+                joinTables.add(new ClassDescriptorJDONature(baseDesc).getTableName());
                 curDesc = baseDesc;
             }
             
@@ -125,23 +127,23 @@ public final class SQLStatementLoad {
                 if ((i == 0) && field.isJoined()) {
                     String[] identities = SQLHelper.getIdentitySQLNames(_engine.getDescriptor());
                     for (int j = 0; j < identities.length; j++) {
-                        expr.addColumn(curDesc.getTableName(), identities[j]);
+                        expr.addColumn(new ClassDescriptorJDONature(curDesc).getTableName(), identities[j]);
                     }
-                    identitiesUsedForTable.put(curDesc.getTableName(), Boolean.TRUE);
+                    identitiesUsedForTable.put(new ClassDescriptorJDONature(curDesc).getTableName(), Boolean.TRUE);
                 }
                 
                 // add id columns to select statement
                 if (!alias.equals(aliasOld) && !field.isJoined()) {
-                    JDOClassDescriptor classDescriptor = (JDOClassDescriptor) 
+                    ClassDescriptor classDescriptor =  
                         field.getFieldDescriptor().getContainingClassDescriptor();
                     boolean isTableNameAlreadyAdded = identitiesUsedForTable.containsKey(
-                            classDescriptor.getTableName());
+                            new ClassDescriptorJDONature(classDescriptor).getTableName());
                     if (!isTableNameAlreadyAdded) {
                         String[] identities = SQLHelper.getIdentitySQLNames(classDescriptor);
                         for (int j = 0; j < identities.length; j++) {
                             expr.addColumn(alias, identities[j]);
                         }
-                        identitiesUsedForTable.put(classDescriptor.getTableName(), Boolean.TRUE);
+                        identitiesUsedForTable.put(new ClassDescriptorJDONature(classDescriptor).getTableName(), Boolean.TRUE);
                     }
                 }
 
@@ -153,7 +155,7 @@ public final class SQLStatementLoad {
                         leftCol[j] = ids[j + offset].getName();
                     }
                     if (joinTables.contains(field.getTableName())
-                            || _engine.getDescriptor().getTableName().equals(
+                            || new ClassDescriptorJDONature(_engine.getDescriptor()).getTableName().equals(
                                     field.getTableName())) {
                         
                         // should not mix with aliases in ParseTreeWalker
@@ -174,25 +176,26 @@ public final class SQLStatementLoad {
 
             // 'join' all the extending tables 
             List classDescriptorsToAdd = new LinkedList();
-            JDOClassDescriptor classDescriptor = null;
+            ClassDescriptor classDescriptor = null;
             SQLHelper.addExtendingClassDescriptors(classDescriptorsToAdd,
-                    ((JDOClassDescriptorImpl) _engine.getDescriptor()).getExtended());
+                    new ClassDescriptorJDONature(_engine.getDescriptor()).getExtended());
             
             if (classDescriptorsToAdd.size() > 0) {
                 for (Iterator iter = classDescriptorsToAdd.iterator(); iter.hasNext(); ) {
-                    classDescriptor = (JDOClassDescriptor) iter.next();
-                    
+                    classDescriptor = (ClassDescriptor) iter.next();
+                    ClassDescriptorJDONature classDescriptorJDONature = 
+                        new ClassDescriptorJDONature(classDescriptor);
                     if (LOG.isTraceEnabled()) {
                         LOG.trace("Adding outer left join for "
                                 + classDescriptor.getJavaClass().getName() + " on table "
-                                + classDescriptor.getTableName());
+                                + classDescriptorJDONature.getTableName());
                     }
                     
                     String[] engDescIdNames = SQLHelper.getIdentitySQLNames(
                             _engine.getDescriptor());
                     String[] clsDescIdNames = SQLHelper.getIdentitySQLNames(classDescriptor);
                     expr.addOuterJoin(_mapTo, engDescIdNames, 
-                            classDescriptor.getTableName(), clsDescIdNames);
+                            classDescriptorJDONature.getTableName(), clsDescIdNames);
 
                     Persistence persistenceEngine;
                     try {
@@ -206,23 +209,23 @@ public final class SQLStatementLoad {
                     SQLEngine engine = (SQLEngine) persistenceEngine;
                     SQLColumnInfo[] idInfos = engine.getColumnInfoForIdentities();
                     for (int i = 0; i < idInfos.length; i++) {
-                        expr.addColumn (classDescriptor.getTableName(), idInfos[i].getName());
+                        expr.addColumn (classDescriptorJDONature.getTableName(), idInfos[i].getName());
                     }
                     
                     SQLFieldInfo[] fieldInfos = ((SQLEngine) persistenceEngine).getInfo();
                     for (int i = 0; i < fieldInfos.length; i++) {
                         boolean hasFieldToAdd = false;
                         SQLColumnInfo[] columnInfos = fieldInfos[i].getColumnInfo();
-                        if (classDescriptor.getTableName().equals(fieldInfos[i].getTableName())) {
+                        if (classDescriptorJDONature.getTableName().equals(fieldInfos[i].getTableName())) {
                             for (int j = 0; j < columnInfos.length; j++) {
-                                expr.addColumn(classDescriptor.getTableName(),
+                                expr.addColumn(classDescriptorJDONature.getTableName(),
                                         fieldInfos[i].getColumnInfo()[j].getName());
                             }
                             hasFieldToAdd = true;
                         }
                         
                         if (hasFieldToAdd) {
-                            expr.addTable(classDescriptor.getTableName());
+                            expr.addTable(classDescriptorJDONature.getTableName());
                         }
                     }
                 }
@@ -320,7 +323,7 @@ public final class SQLStatementLoad {
                 Object[] returnValues = 
                     SQLHelper.calculateNumberOfFields(_extendingClassDescriptors, 
                             ids.length, fields.length, _numberOfExtendLevels, rs);
-                JDOClassDescriptor potentialLeafDescriptor = (JDOClassDescriptor) returnValues[0];
+                ClassDescriptor potentialLeafDescriptor = (ClassDescriptor) returnValues[0];
                 
                 if ((potentialLeafDescriptor != null)
                         && !potentialLeafDescriptor.getJavaClass().getName().equals(_type)) {
@@ -344,7 +347,7 @@ public final class SQLStatementLoad {
             
             Set processedTables = new HashSet();
             if (fields.length > 0 && fields[0].isJoined()) {
-                processedTables.add(_engine.getDescriptor().getTableName());
+                processedTables.add(new ClassDescriptorJDONature(_engine.getDescriptor()).getTableName());
             }
             boolean notNull;
             // index in fields[] for storing result of SQLTypes.getObject()
@@ -394,7 +397,7 @@ public final class SQLStatementLoad {
                 columnIndex = ids.length + 1;
                 processedTables.clear();
                 if (fields[0].isJoined()) {
-                    processedTables.add(_engine.getDescriptor().getTableName());
+                    processedTables.add(new ClassDescriptorJDONature(_engine.getDescriptor()).getTableName());
                 }
 
                 for (int i = 0; i < fields.length; ++i) {

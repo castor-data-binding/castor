@@ -27,6 +27,7 @@ import org.castor.util.Messages;
 import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
+import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.PersistenceFactory;
@@ -52,7 +53,7 @@ public final class SQLStatementLookup {
         _engine = engine;
         _factory = factory;
         _type = engine.getDescriptor().getJavaClass().getName();
-        _mapTo = engine.getDescriptor().getTableName();
+        _mapTo = new ClassDescriptorJDONature(engine.getDescriptor()).getTableName();
         
         buildStatement();
     }

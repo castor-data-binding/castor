@@ -48,7 +48,7 @@ public class JDOClassDescriptorResolverImpl implements
     protected List _packages = new LinkedList();
 
     /**
-     * {@link JDOClassDescriptor} resolution commands.
+     * JDO-specific {@link ClassDescriptor} resolution commands.
      */
     private Map _commands = new HashMap();
 
@@ -64,7 +64,7 @@ public class JDOClassDescriptorResolverImpl implements
 
     /**
      * Registers a {@link ClassDescriptorResolutionCommand} used to resolve
-     * {@link JDOClassDescriptor}s.
+     * {@link ClassDescriptor}s.
      * 
      * @param command
      *            to register.

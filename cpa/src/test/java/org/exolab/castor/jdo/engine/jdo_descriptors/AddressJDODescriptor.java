@@ -7,13 +7,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.exolab.castor.jdo.engine.Address;
-import org.exolab.castor.jdo.engine.JDOClassDescriptorImpl;
 import org.exolab.castor.jdo.engine.JDOFieldDescriptor;
 import org.exolab.castor.jdo.engine.JDOFieldDescriptorImpl;
+import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 import org.exolab.castor.mapping.loader.TypeInfo;
 import org.exolab.castor.mapping.xml.ClassChoice;
@@ -31,7 +32,7 @@ import org.exolab.castor.mapping.xml.types.ClassMappingAccessType;
  * @author Tobias Hochwallner, Lukas Lang
  * 
  */
-public class AddressJDODescriptor extends JDOClassDescriptorImpl {
+public class AddressJDODescriptor extends ClassDescriptorImpl {
 
     /**
      * Logger.
@@ -44,6 +45,7 @@ public class AddressJDODescriptor extends JDOClassDescriptorImpl {
      */
     public AddressJDODescriptor() {
         super();
+        addNature(ClassDescriptorJDONature.class.getName());
         ClassMapping mapping = new ClassMapping();
         ClassChoice choice = new ClassChoice();
         MapTo mapTo = new MapTo();
@@ -51,13 +53,13 @@ public class AddressJDODescriptor extends JDOClassDescriptorImpl {
         LOG.debug("Constructor invoked");
 
         // Set DB table name
-        setTableName("address");
+        new ClassDescriptorJDONature(this).setTableName("address");
         // Set corresponding Java class
         setJavaClass(Address.class);
         // Set access mode
-        setAccessMode(AccessMode.Shared);
+        new ClassDescriptorJDONature(this).setAccessMode(AccessMode.Shared);
         // Set cache key
-        addCacheParam("name", "org.castor.cpa.functional.onetoone.Address");
+        new ClassDescriptorJDONature(this).addCacheParam("name", "org.castor.cpa.functional.onetoone.Address");
 
         // Configure class mapping
         mapping.setAccess(ClassMappingAccessType.SHARED);
@@ -77,7 +79,7 @@ public class AddressJDODescriptor extends JDOClassDescriptorImpl {
         // Set fields
         setFields(new FieldDescriptor[] {});
         // Set identity
-        setIdentities(new FieldDescriptor[] { idFieldDescr });
+        setIdentities((new FieldDescriptor[] { idFieldDescr }));
 
         LOG.debug("Instantiation finished");
     }

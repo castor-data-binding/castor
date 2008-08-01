@@ -37,7 +37,7 @@ public final class JDODescriptorJClass extends JClass {
      * JDODescriptors extend this base class.
      */
     private static final String JDO_CLASS_DESCRIPTOR = 
-        "org.exolab.castor.jdo.engine.JDOClassDescriptorImpl";
+        "org.exolab.castor.mapping.loader.ClassDescriptorImpl";
 
     /** 
      * The type being described by the Descriptor class we'll generate.
@@ -110,6 +110,7 @@ public final class JDODescriptorJClass extends JClass {
      * Adds our default imports.
      */
     private void addImports() {
+        addImport("org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature");
         addImport("org.castor.jdo.engine.SQLTypeInfos");
         addImport("org.exolab.castor.jdo.engine.JDOFieldDescriptor");
         addImport("org.exolab.castor.jdo.engine.JDOFieldDescriptorImpl");
