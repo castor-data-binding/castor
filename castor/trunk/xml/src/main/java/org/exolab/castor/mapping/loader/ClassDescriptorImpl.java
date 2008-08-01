@@ -44,23 +44,37 @@
  */
 package org.exolab.castor.mapping.loader;
 
-import java.util.Collection;
-import java.util.LinkedList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.xml.ClassMapping;
 
 /**
- * A basic class descriptor implementation. Engines will extend this class to provide
- * additional functionality.
+ * The standard {@link ClassDescriptor} implementation, holding general OO information
+ * about the class <i>described</i>.<p/>
+ * 
+ * Engines will use {@link Nature}s to augment this class with engine-specific knowledge 
+ * and functionality, using {@link #addNature(String)} to register these views
+ * with this class.<p/>
+ * 
+ * Once a Nature has been registered with this {@link ClassDescriptor}, the nature
+ * can be applied to the {@link ClassDescriptor} and nature-specific properties
+ * can be accessed in a type-safe way.
  *
+ * @see Nature
+ * @see #addNature(String)
+ * @see #hasNature(String)
+ * 
  * @author <a href="mailto:arkin AT intalio DOT com">Assaf Arkin</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
  * @version $Revision$ $Date: 2006-01-07 15:48:31 -0700 (Sat, 07 Jan 2006) $
  */
 public class ClassDescriptorImpl implements ClassDescriptor {
-    //-----------------------------------------------------------------------------------
 
     /**
      * {@link ClassMapping} instance holding class mapping information required
@@ -79,12 +93,6 @@ public class ClassDescriptorImpl implements ClassDescriptor {
      */
     private ClassDescriptor _extends;
     
-    /** 
-     * A collection of class descriptors that extend this class, or 
-     * an empty collection if this is a leaf class. 
-     */
-    private final Collection _extended = new LinkedList();
-
     /**
      * The {@link ClassDescriptor} of the class which this class
      * depends upon.
@@ -96,8 +104,18 @@ public class ClassDescriptorImpl implements ClassDescriptor {
      */
     private FieldDescriptor[] _fields;
 
-    /** 
-     * The field of the identity for this class. 
+    /**
+     * Map holding the properties set and read by natures.
+     */
+    private Map _properties = new HashMap();
+    
+    /**
+     * Map holding the available natures.
+     */
+    private Set _natures = new HashSet();
+
+   /**
+     * Identity {@link FieldDescriptor}s. 
      */
     private FieldDescriptor[] _identities;
 
@@ -152,14 +170,6 @@ public class ClassDescriptorImpl implements ClassDescriptor {
     }
     
     /**
-     * Adds a {@link ClassDescriptor} that extends this class.
-     * @param classDesc A {@link ClassDescriptor} that extends this class.
-     */
-    public void addExtended(final ClassDescriptor classDesc) {
-        _extended.add(classDesc);
-    }
-    
-    /**
      * Sets the {@link ClassDescriptor} of the class which this class
      * depends upon. 
      * @param depends the {@link ClassDescriptor} of the class which this class
@@ -196,6 +206,59 @@ public class ClassDescriptorImpl implements ClassDescriptor {
     }
     
     /**
+     * {@inheritDoc}
+     * @see java.lang.Object#toString()
+     */
+    public String toString() {
+        return _javaClass.getName() + "[" + _natures.toString() + "]";
+    }
+
+    /**
+     * @see org.exolab.castor.builder.info.nature.PropertyHolder#
+     *      getProperty(java.lang.String)
+     * @param name
+     *            of the property
+     * @return value of the property
+     */
+    public Object getProperty(final String name) {
+        return _properties.get(name);
+    }
+
+    /**
+     * @see org.exolab.castor.builder.info.nature.PropertyHolder#
+     *      setProperty(java.lang.String, java.lang.Object)
+     * @param name
+     *            of the property
+     * @param value
+     *            of the property
+     */
+    public void setProperty(final String name, final Object value) {
+        _properties.put(name, value);
+    }
+
+    /**
+     * @see org.exolab.castor.builder.info.nature.NatureExtendable#
+     *      addNature(java.lang.String)
+     * @param nature
+     *            ID of the Nature
+     */
+    public void addNature(final String nature) {
+        _natures.add(nature);
+    }
+
+    /**
+     * @see org.exolab.castor.builder.info.nature.NatureExtendable#
+     *      hasNature(java.lang.String)
+     * @param nature
+     *            ID of the Nature
+     * @return true if the Nature ID was added.
+     */
+    public boolean hasNature(final String nature) {
+        return _natures.contains(nature);
+
+    }
+    
+    /**
      * Sets the {@link FieldDescriptor}s that describe the identities as defined for this class. 
      * @param identities the {@link FieldDescriptor}s that describe the identities as defined 
      *     for this class.
@@ -213,29 +276,18 @@ public class ClassDescriptorImpl implements ClassDescriptor {
     }
 
     /**
-     * {@inheritDoc}
-     * @see org.exolab.castor.mapping.ClassDescriptor#getIdentity()
+     * Returns the first {@link FieldDescriptor} instance.
+     * @return the first {@link FieldDescriptor} instance
      */
     public FieldDescriptor getIdentity() {
-        return (_identities == null) ? null : _identities[0];
+        FieldDescriptor[] identities = getIdentities();
+        if (identities == null) {
+            return null;
+        }
+        return identities[0];
     }
 
-    /**
-     * Returns a collection of {@link ClassDescriptor}s that extend this class (descriptor).
-     * @return A collection of {@link ClassDescriptor}s that extend this class.
-     */
-    public Collection getExtended() {
-        return _extended;
-    }
     
-    /**
-     * {@inheritDoc}
-     * @see java.lang.Object#toString()
-     */
-    public String toString() {
-        return _javaClass.getName();
-    }
-
 }
 
 

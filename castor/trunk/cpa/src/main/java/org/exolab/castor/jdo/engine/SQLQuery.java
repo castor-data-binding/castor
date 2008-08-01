@@ -32,9 +32,12 @@ import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.persist.ProposedEntity;
 import org.castor.util.Messages;
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.mapping.AccessMode;
+import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.persist.spi.PersistenceFactory;
@@ -99,9 +102,9 @@ public final class SQLQuery implements PersistenceQuery {
         _types = types;
         _values = new Object[ _types.length ];
         _sql = sql;
-        _identSqlType = new int[_engine.getDescriptor().getIdentities().length];
+        _identSqlType = new int[((ClassDescriptorImpl) _engine.getDescriptor()).getIdentities().length];
         for (int i = 0; i < _identSqlType.length; i++) {
-            FieldDescriptor fldDesc = _engine.getDescriptor().getIdentities()[i];
+            FieldDescriptor fldDesc = ((ClassDescriptorImpl) _engine.getDescriptor()).getIdentities()[i];
             _identSqlType[i] = ((JDOFieldDescriptor) fldDesc).getSQLType()[0];
         }
         
@@ -471,11 +474,11 @@ public final class SQLQuery implements PersistenceQuery {
 
         int originalFieldNumber = _requestedEngine.getInfo().length;
         Collection extendingClassDescriptors = 
-            ((JDOClassDescriptorImpl) _requestedEngine.getDescriptor()).getExtended();
+            new ClassDescriptorJDONature(_requestedEngine.getDescriptor()).getExtended();
         if (extendingClassDescriptors.size() > 0) {
             int numberOfExtendLevels = SQLHelper.numberOfExtendingClassDescriptors(
                     _requestedEngine.getDescriptor());
-            JDOClassDescriptor leafDescriptor = null;
+            ClassDescriptor leafDescriptor = null;
             Object[] returnValues = null;
             try {
                 returnValues = SQLHelper.calculateNumberOfFields(extendingClassDescriptors,
@@ -486,7 +489,7 @@ public final class SQLQuery implements PersistenceQuery {
                 throw new PersistenceException("Problem calculating number of concrete fields.", e);
             }
             
-            leafDescriptor = (JDOClassDescriptor) returnValues[0];
+            leafDescriptor = (ClassDescriptor) returnValues[0];
             
             if (leafDescriptor != null) {
                 if (!leafDescriptor.getJavaClass().getName().equals(

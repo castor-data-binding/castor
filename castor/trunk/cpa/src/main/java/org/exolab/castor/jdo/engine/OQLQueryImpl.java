@@ -63,12 +63,14 @@ import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.Query;
 import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.jdo.QueryResults;
+import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.jdo.oql.Lexer;
 import org.exolab.castor.jdo.oql.ParamInfo;
 import org.exolab.castor.jdo.oql.ParseTreeNode;
 import org.exolab.castor.jdo.oql.ParseTreeWalker;
 import org.exolab.castor.jdo.oql.Parser;
 import org.exolab.castor.mapping.AccessMode;
+import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.TypeConvertor;
@@ -93,7 +95,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
 
     private Class _objClass;
 
-    private JDOClassDescriptor _clsDesc;
+    private ClassDescriptor _clsDesc;
 
     private QueryExpression _expr;
 
@@ -565,11 +567,11 @@ public class OQLQueryImpl implements Query, OQLQuery {
      * execution of the OQL query.
      */
     class OQLEnumeration implements QueryResults, Enumeration {
-        private Object                 _lastObject;
+        private Object _lastObject;
 
-        private Vector                 _pathInfo;
+        private Vector _pathInfo;
 
-        private JDOClassDescriptor     _classDescriptor;
+        private ClassDescriptor _classDescriptor;
 
         private org.exolab.castor.persist.QueryResults _results;
 
@@ -580,7 +582,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
          * @param clsDesc
          */
         OQLEnumeration(final org.exolab.castor.persist.QueryResults results,
-                final Vector pathInfo, final JDOClassDescriptor clsDesc) {
+                final Vector pathInfo, final ClassDescriptor clsDesc) {
             _results = results;
             _pathInfo = pathInfo;
             _classDescriptor = clsDesc;
@@ -754,15 +756,15 @@ public class OQLQueryImpl implements Query, OQLQuery {
         }
         
         private Object followPath(final Object parent) {
-            JDOClassDescriptor curClassDesc = _classDescriptor;
+            ClassDescriptor curClassDesc = _classDescriptor;
             Object curObject = parent;
             for (int i = 1; i < _pathInfo.size(); i++) {
                 String curFieldName = (String) _pathInfo.elementAt(i);
                 try {
-                    JDOFieldDescriptor curFieldDesc = curClassDesc.getField(curFieldName);
+                    JDOFieldDescriptor curFieldDesc = new ClassDescriptorJDONature(curClassDesc).getField(curFieldName);
                     FieldHandler handler = curFieldDesc.getHandler();
                     curObject = handler.getValue(curObject);
-                    curClassDesc = (JDOClassDescriptor) curFieldDesc.getClassDescriptor();
+                    curClassDesc = curFieldDesc.getClassDescriptor();
                 } catch (Exception ex) {
                     throw new NoSuchElementException(
                             "An exception was thrown trying to access get methods to follow "

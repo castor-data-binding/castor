@@ -1,11 +1,26 @@
 package org.exolab.castor.xml.descriptors;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import org.exolab.castor.xml.UnmarshalState;
 import org.exolab.castor.xml.ValidationException;
 import org.exolab.castor.xml.XMLClassDescriptor;
 import org.exolab.castor.xml.XMLFieldDescriptor;
 
 public abstract class BaseDescriptor implements XMLClassDescriptor {
+    
+    /**
+     * Map holding the properties set and read by Natures.
+     */
+    private Map _properties = new HashMap();
+    
+    /**
+     * Map holding the available natures.
+     */
+    private Set _natures = new HashSet();
 
     /**
      * Returns true if the given object represented by this XMLClassDescriptor
@@ -50,5 +65,50 @@ public abstract class BaseDescriptor implements XMLClassDescriptor {
     public boolean isChoice() {
         return false;
     }
-    
+
+    /**
+     * @see org.exolab.castor.builder.info.nature.PropertyHolder#
+     *      getProperty(java.lang.String)
+     * @param name
+     *            of the property
+     * @return value of the property
+     */
+    public Object getProperty(final String name) {
+        return _properties.get(name);
+    }
+
+    /**
+     * @see org.exolab.castor.builder.info.nature.PropertyHolder#
+     *      setProperty(java.lang.String, java.lang.Object)
+     * @param name
+     *            of the property
+     * @param value
+     *            of the property
+     */
+    public void setProperty(final String name, final Object value) {
+        _properties.put(name, value);
+    }
+
+    /**
+     * @see org.exolab.castor.builder.info.nature.NatureExtendable#
+     *      addNature(java.lang.String)
+     * @param nature
+     *            ID of the Nature
+     */
+    public void addNature(final String nature) {
+        _natures.add(nature);
+    }
+
+    /**
+     * @see org.exolab.castor.builder.info.nature.NatureExtendable#
+     *      hasNature(java.lang.String)
+     * @param nature
+     *            ID of the Nature
+     * @return true if the Nature ID was added.
+     */
+    public boolean hasNature(final String nature) {
+        return _natures.contains(nature);
+    }
+
+
 }

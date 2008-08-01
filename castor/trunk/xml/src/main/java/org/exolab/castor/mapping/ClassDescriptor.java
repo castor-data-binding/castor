@@ -44,6 +44,8 @@
  */
 package org.exolab.castor.mapping;
 
+import org.castor.core.nature.PropertyHolder;
+
 /**
  * Describes the properties of a class and its fields. Implementations
  * will extend this inteface to provide additional properties.
@@ -52,7 +54,7 @@ package org.exolab.castor.mapping;
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  * @see FieldDescriptor
  */
-public interface ClassDescriptor {
+public interface ClassDescriptor extends PropertyHolder {
     
     /**
      * Returns the Java class represented by this descriptor.
@@ -81,6 +83,7 @@ public interface ClassDescriptor {
      * @return The identity field
      */
     FieldDescriptor getIdentity();
+    
 }
 
 

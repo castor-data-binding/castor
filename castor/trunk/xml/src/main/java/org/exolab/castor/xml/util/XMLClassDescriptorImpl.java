@@ -52,8 +52,12 @@ package org.exolab.castor.xml.util;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.castor.xml.XMLNaming;
 import org.exolab.castor.mapping.AbstractFieldHandler;
@@ -203,9 +207,15 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
     
     private List _substitutes = new LinkedList();    
 
-    //----------------/
-    //- Constructors -/
-    //----------------/
+    /**
+     * Map holding the properties set and read by Natures.
+     */
+    private Map _properties = new HashMap();
+    
+    /**
+     * Map holding the available natures.
+     */
+    private Set _natures = new HashSet();
 
     /**
      * Creates an XMLClassDescriptor class used by the Marshalling Framework.
@@ -1492,4 +1502,49 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
     public boolean isChoice() {
         return this._compositor == CHOICE;
     }
+    
+    /**
+     * @see org.exolab.castor.builder.info.nature.PropertyHolder#
+     *      getProperty(java.lang.String)
+     * @param name
+     *            of the property
+     * @return value of the property
+     */
+    public Object getProperty(final String name) {
+        return _properties.get(name);
+    }
+
+    /**
+     * @see org.exolab.castor.builder.info.nature.PropertyHolder#
+     *      setProperty(java.lang.String, java.lang.Object)
+     * @param name
+     *            of the property
+     * @param value
+     *            of the property
+     */
+    public void setProperty(final String name, final Object value) {
+        _properties.put(name, value);
+    }
+
+    /**
+     * @see org.exolab.castor.builder.info.nature.NatureExtendable#
+     *      addNature(java.lang.String)
+     * @param nature
+     *            ID of the Nature
+     */
+    public void addNature(final String nature) {
+        _natures.add(nature);
+    }
+
+    /**
+     * @see org.exolab.castor.builder.info.nature.NatureExtendable#
+     *      hasNature(java.lang.String)
+     * @param nature
+     *            ID of the Nature
+     * @return true if the Nature ID was added.
+     */
+    public boolean hasNature(final String nature) {
+        return _natures.contains(nature);
+    }
+    
 } //-- XMLClassDescriptor

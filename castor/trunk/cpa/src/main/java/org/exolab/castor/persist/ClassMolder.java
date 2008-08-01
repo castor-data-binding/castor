@@ -64,8 +64,8 @@ import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.Persistent;
 import org.exolab.castor.jdo.TimeStampable;
 import org.exolab.castor.jdo.engine.JDOCallback;
-import org.exolab.castor.jdo.engine.JDOClassDescriptor;
 import org.exolab.castor.jdo.engine.JDOFieldDescriptor;
+import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
@@ -219,10 +219,9 @@ public class ClassMolder {
             ds.pairExtends(this, extendsClassMapping.getName());
         }
 
-        if (clsDesc instanceof JDOClassDescriptor) {
-            _cacheParams = ((JDOClassDescriptor) clsDesc).getCacheParams();
-            _isKeyGenUsed = (((JDOClassDescriptor) clsDesc)
-                    .getKeyGeneratorDescriptor() != null);
+        if (clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
+            _cacheParams = new ClassDescriptorJDONature(clsDesc).getCacheParams();
+            _isKeyGenUsed = new ClassDescriptorJDONature(clsDesc).getKeyGeneratorDescriptor() != null;
         }
 
         // construct <tt>FieldMolder</tt>s for each of the identity fields of
@@ -291,8 +290,8 @@ public class ClassMolder {
                             + fmFields.getClass(), e);
                 }
                                 
-                if (relDesc instanceof JDOClassDescriptor) {
-                    FieldDescriptor[] relatedIds = ((JDOClassDescriptor) relDesc).getIdentities();
+                if (relDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
+                    FieldDescriptor[] relatedIds = ((ClassDescriptorImpl) relDesc).getIdentities();
                     relatedIdSQL = new String[relatedIds.length];
                     relatedIdType = new int[relatedIds.length];
                     relatedIdConvertTo = new TypeConvertor[relatedIds.length];
@@ -1354,6 +1353,6 @@ public class ClassMolder {
      * @return The actual (OQL) statement 
      */
     public String getNamedQuery(final String name) {
-        return (String) ((JDOClassDescriptor) _clsDesc).getNamedQueries().get(name);
+        return (String) new ClassDescriptorJDONature(_clsDesc).getNamedQueries().get(name);
     }
 }
