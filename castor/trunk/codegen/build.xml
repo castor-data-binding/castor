@@ -23,10 +23,6 @@
     	<pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>
     	<pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>
     	<pathelement location="${basedir}/../lib/velocity-1.5.jar"/>
-    	
-    	<!-- *** NEW *** - path to generated sources -->
-        <pathelement location="${basedir}/../schema/target/classes"/>
-        <pathelement location="${basedir}/../xml/target/classes"/>
     </path>
 
     <path id="build.test-compile.classpath">
