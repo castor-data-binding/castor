@@ -72,6 +72,8 @@
         <pathelement location="${basedir}/examples/build/classes" />
         <pathelement location="${basedir}/schema/build/classes" />
         <pathelement location="${basedir}/core/build/classes" />
+        <pathelement location="${basedir}/xml/target/classes" />
+    	
     </path>
 
     <path id="test.classpath">

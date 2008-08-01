@@ -17,6 +17,10 @@
         <pathelement location="${basedir}/../schema/build/classes"/>
         <pathelement location="${basedir}/../anttask/build/classes"/>
         <pathelement location="${basedir}/../codegen/build/classes"/>
+    	
+        <!-- artefacts fom Maven generate-source phase -->
+        <pathelement location="${basedir}/../xml/target/classes"/>
+    	
     	<!-- third-party libs -->
     	<pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>
     	<pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>

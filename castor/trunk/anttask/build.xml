@@ -13,6 +13,9 @@
         <pathelement location="${basedir}/../ddlgen/build/classes"/>
         <pathelement location="${basedir}/../codegen/build/classes"/>
         <pathelement location="${basedir}/../schema/build/classes"/>
+    	
+    	<!-- artefacts fom Maven generate-source phase -->
+        <pathelement location="${basedir}/../xml/target/classes"/>
     </path>
 
     <target name="prepare.anttask" unless="prepare.anttask.executed">
