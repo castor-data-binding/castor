@@ -4,18 +4,19 @@
     <property name="source"               value="${basedir}/src"/>
     <property name="main.java"            value="${source}/main/java"/>
     <property name="main.resources"       value="${source}/main/resources"/>
+	<property name="main.generated"       value="${basedir}/target/generated-sources/castor" />
 	<property name="test.java"            value="${source}/test/java"/>
     <property name="test.resources"       value="${source}/test/resources"/>
     <property name="build"                value="${basedir}/build"/>
     <property name="classes"              value="${build}/classes"/>
 	<property name="test.classes"         value="${build}/test"/>
     <property name="archive"              value="${project}-${version}${release}-xml-schema"/>
-    <property name="gen.src"              value="${build}/generated-sources"/>
+    <property name="gen.src"              value="${basedir}/target/generated-sources/castor"/>
 
     <path id="build.classpath">
         <pathelement location="${basedir}/build/classes"/>
-        <pathelement location="${basedir}/../xml/classes"/>
         <pathelement location="${basedir}/../build/classes"/>
+        <pathelement location="${basedir}/../xml/build/classes"/>
         <pathelement location="${basedir}/../core/build/classes"/>
     	<pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>
     	<pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>
@@ -44,6 +45,11 @@
         <javac srcdir="${main.java}" destdir="${classes}" 
                debug="on" encoding="ISO-8859-1" deprecation="false"
         	   source="1.4" target="1.4">
+            <classpath refid="build.classpath"/>
+        </javac>
+        <javac srcdir="${main.generated}" destdir="${classes}" 
+               debug="on" encoding="ISO-8859-1" deprecation="false"
+               source="1.4" target="1.4">
             <classpath refid="build.classpath"/>
         </javac>
         <copy todir="${classes}">
@@ -75,5 +81,21 @@
 			<classpath refid="test.classpath" />
 		</junit>
 	</target>
+
+    <target name="generate.schema" depends="prepare.schema"
+            description="Use the Source Generator to create the Java classes for jdo-extensions.xsd"
+    	    >
+        <delete dir="${gen.src}"/>
+        <mkdir dir="${gen.src}"/>
+        <taskdef name="castor-srcgen" classname="org.castor.anttask.CastorCodeGenTask"
+                 classpathref="build.classpath"/>
+        <castor-srcgen file="${main.resources}/org/exolab/castor/xml/schema/annotations/jdo/jdo-extensions.xsd"
+                       todir="${gen.src}"
+                       package="org.exolab.castor.xml.schema.annotations.jdo"
+                       lineseparator="unix"
+                       types="j2"
+                       warnings="true"/>
+    </target>
+
 
 </project>
