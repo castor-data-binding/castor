@@ -13,6 +13,8 @@
     <path id="build.classpath">
         <pathelement location="${basedir}/../build/classes"/>
     	<pathelement location="${basedir}/../lib/commons-logging-1.1.jar" />
+    	
+        <pathelement location="${basedir}/../xml/target/classes"/>
     </path>
 
     <target name="prepare.ddlgen" unless="prepare.ddlgen.executed">

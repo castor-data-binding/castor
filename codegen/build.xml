@@ -26,6 +26,7 @@
     	
     	<!-- *** NEW *** - path to generated sources -->
         <pathelement location="${basedir}/../schema/target/classes"/>
+        <pathelement location="${basedir}/../xml/target/classes"/>
     </path>
 
     <path id="build.test-compile.classpath">

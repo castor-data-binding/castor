@@ -15,6 +15,7 @@
     <path id="build.classpath">
         <pathelement location="${basedir}/build/classes"/>
         <pathelement location="${basedir}/../build/classes"/>
+        <pathelement location="${basedir}/../core/build/classes"/>
         <pathelement location="${basedir}/../schema/build/classes"/>
         <pathelement location="${basedir}/../codegen/build/classes"/>
         <pathelement location="${basedir}/../anttask/build/classes"/>
