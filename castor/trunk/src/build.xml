@@ -283,7 +283,12 @@
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
         </ant>
-    	<!-- compile artifacts in project root -->
+    	<!-- compile artifacts in XML module -->
+        <javac srcdir="${basedir}/xml/target/generated-sources/castor" destdir="${classes}" excludes="${excludes}"
+               debug="on" encoding="ISO-8859-1" deprecation="${deprecation}"
+               includes="${castor.xml.files}">
+            <classpath refid="build.classpath"/>
+        </javac>
         <javac srcdir="${java}" destdir="${classes}" excludes="${excludes}"
                debug="on" encoding="ISO-8859-1" deprecation="${deprecation}"
                includes="${castor.xml.files}">

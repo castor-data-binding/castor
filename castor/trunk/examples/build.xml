@@ -18,15 +18,12 @@
     <path id="build.classpath">
         <pathelement location="${basedir}/build/classes"/>
         <pathelement location="${basedir}/../build/classes"/>
+        <pathelement location="${basedir}/../core/build/classes"/>
         <pathelement location="${basedir}/../cpa/build/classes"/>
         <pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>
         <pathelement location="${basedir}/../lib/ldapjdk_4.1.jar"/>
         <pathelement location="${basedir}/../lib/log4j-1.2.13.jar"/>
         <pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>
-    	
-        <!-- artefacts fom Maven generate-source phase -->
-        <pathelement location="${basedir}/../xml/target/classes"/>
-    	
     </path>
 
     <target name="prepare.examples" unless="prepare.examples.executed">
