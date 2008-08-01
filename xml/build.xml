@@ -6,6 +6,7 @@
     <property name="main.resources"       value="${source}/main/resources"/>
 	<property name="test.java"            value="${source}/test/java"/>
     <property name="test.resources"       value="${source}/test/resources"/>
+    <property name="main.generated"       value="${basedir}/target/generated-sources/castor"/>
     <property name="build"                value="${basedir}/build"/>
     <property name="classes"              value="${build}/classes"/>
 	<property name="test.classes"         value="${build}/test"/>
@@ -44,6 +45,11 @@
         	   source="1.4" target="1.4">
             <classpath refid="build.classpath"/>
         </javac>
+        <javac srcdir="${main.generated}" destdir="${classes}" 
+               debug="on" encoding="ISO-8859-1" deprecation="false"
+               source="1.4" target="1.4">
+            <classpath refid="build.classpath"/>
+        </javac>
         <copy todir="${classes}">
             <fileset dir="${main.resources}">
                 <include name="**"/>
@@ -60,9 +66,6 @@
              manifest="${classes}/META-INF/MANIFEST.MF">
         	<fileset dir="${classes}">
         		<include name="**" />
-        	</fileset>
-        	<fileset dir="${basedir}/target/classes">
-        		<include name="org/exolab/castor/mapping/xml/**/*.class" />
         	</fileset>
         </jar>
         <copy file="${build}/${archive}.jar" tofile="${basedir}/../dist/${archive}.jar"/>
