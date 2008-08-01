@@ -1,8 +1,5 @@
 <project name="Castor XML - Core module" default="compile" basedir=".">
 
-	<!-- !!! this is a template only !!! -->
-	
-	
     <property environment="env" />
     <property name="source"               value="${basedir}/src"/>
     <property name="main.java"            value="${source}/main/java"/>
@@ -19,6 +16,7 @@
         <pathelement location="${basedir}/build/classes"/>
     	<pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>
     	<pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>
+        <pathelement location="${basedir}/target/classes" />
     </path>
 
     <path id="test.classpath">
@@ -58,8 +56,15 @@
     </target>
 
     <target name="jar" depends="compile" description="Build JAR file">
-        <jar jarfile="${build}/${archive}.jar" basedir="${classes}" includes="**"
-             manifest="${classes}/META-INF/MANIFEST.MF"/>
+        <jar jarfile="${build}/${archive}.jar" 
+             manifest="${classes}/META-INF/MANIFEST.MF">
+        	<fileset dir="${classes}">
+        		<include name="**" />
+        	</fileset>
+        	<fileset dir="${basedir}/target/classes">
+        		<include name="org/exolab/castor/mapping/xml/**/*.class" />
+        	</fileset>
+        </jar>
         <copy file="${build}/${archive}.jar" tofile="${basedir}/../dist/${archive}.jar"/>
     </target>
 
