@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="urn:www.castor.org:xmlctf:sourcegenerator:xsd-list"
+	xmlns:tns="urn:www.castor.org:xmlctf:sourcegenerator:xsd-list"
+	elementFormDefault="qualified">
+	
+	<xs:simpleType name="multiValuedInteger">
+		<xs:list itemType="xs:integer" />
+	</xs:simpleType>
+
+    <xs:simpleType name="multiValuedString">
+        <xs:list itemType="xs:string" />
+    </xs:simpleType>
+
+    <xs:simpleType name="multiValuedHexBinary">
+        <xs:list itemType="xs:hexBinary" />
+    </xs:simpleType>
+	
+	<xs:element name="XmlListSample">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="FirstInteger" type="xs:integer"
+					minOccurs="0" maxOccurs="unbounded" />
+				<xs:element name="FirstString" type="xs:string"
+					minOccurs="0" maxOccurs="unbounded" />
+                <xs:element name="hexBinary" type="xs:hexBinary"
+                    minOccurs="0" maxOccurs="unbounded" />
+				<xs:element name="XmlIntegerListElement" type="tns:multiValuedInteger" />
+                <xs:element name="XmlStringListElement" type="tns:multiValuedString" />
+                <xs:element name="XmlHexBinaryListElement" type="tns:multiValuedHexBinary" />
+ 			</xs:sequence>
+			<xs:attribute name="XmlIntegerListAttribute" type="tns:multiValuedInteger" />
+            <xs:attribute name="XmlStringListAttribute" type="tns:multiValuedString" />
+            <xs:attribute name="XmlHexBinaryListAttribute" type="tns:multiValuedHexBinary" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

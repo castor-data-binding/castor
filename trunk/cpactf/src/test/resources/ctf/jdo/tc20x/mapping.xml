@@ -1,0 +1,104 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.exolab.org/mapping.dtd">
+<mapping>
+
+	<!-- mapping for class to test bug 928 - internal self-relation -->
+	<class name="ctf.jdo.tc20x.SelfRelationFolder" identity="id">
+        <map-to table="tc200_self_relation_folder" />
+        <field name="id" type="integer" required="true">
+            <sql name="id" type="integer" />
+        </field>
+		<field name="name" type="string"  required="true">
+            <sql name="name" type="varchar" />
+        </field>
+         
+		 <field name="children" 
+		       type="ctf.jdo.tc20x.SelfRelationFolder"
+			   collection="collection"
+			   get-method="getChildren"
+			   set-method="setChildren">
+            
+				<sql many-key="parent_id" />
+        </field>
+		
+		<field name="parent" type="ctf.jdo.tc20x.SelfRelationFolder" required="false">
+             <sql name="parent_id" />
+        </field>
+    </class>
+
+	<class name="ctf.jdo.tc20x.SelfRelationFolderParent" identity="id">
+        <map-to table="tc200_self_relation_folder_parent" />
+        <field name="id" type="integer" required="true">
+            <sql name="id" type="integer" />
+        </field>
+		<field name="name" type="string"  required="true">
+            <sql name="name" type="varchar" />
+        </field>
+         
+    </class>
+
+	<class name="ctf.jdo.tc20x.SelfRelationFolderExtend" extends="ctf.jdo.tc20x.SelfRelationFolderParent" identity="id">
+        <map-to table="tc200_self_relation_folder_extend" />
+        <field name="id" type="integer" required="true">
+            <sql name="id" type="integer" />
+        </field>
+		 <field name="children" 
+		       type="ctf.jdo.tc20x.SelfRelationFolderExtend"
+			   collection="collection"
+			   get-method="getChildren"
+			   set-method="setChildren">
+            
+				<sql many-key="parent_id" />
+        </field>
+		
+		<field name="parent" type="ctf.jdo.tc20x.SelfRelationFolderExtend" required="false">
+             <sql name="parent_id" />
+        </field>
+    </class>
+
+	<class name="ctf.jdo.tc20x.ForeignKeyFirstEntity1" identity="id">
+		<map-to table="tc202_foreign_key_first_entity_1"/>
+		<field name="entities" type="ctf.jdo.tc20x.ForeignKeyFirstEntityN" collection="collection">
+			<sql many-key="entity"/>
+		</field>
+		<field name="number" type="java.lang.Integer">
+			<sql name="number" type="integer"/>
+		</field>
+		<field name="id" type="java.lang.Integer">
+			<sql name="id" type="integer"/>
+		</field>
+	</class>
+    
+	<class name="ctf.jdo.tc20x.ForeignKeyFirstEntityN" identity="id">
+		<map-to table="tc202_foreign_key_first_entity_n"/>
+		<field name="entity" type="ctf.jdo.tc20x.ForeignKeyFirstEntity1">
+			<sql name="entity"/>
+		</field>
+		<field name="id" type="java.lang.Integer">
+			<sql name="id" type="integer"/>
+		</field>
+	</class>
+
+    <class name="ctf.jdo.tc20x.TimezoneEntity" identity="id">
+        <description>TimezoneEntity</description>
+        <map-to table="tc203_timezone_entity"/>
+        <field name="id" type="integer">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string">
+            <sql name="name" type="char"/>
+        </field>
+        <field name="startDate" type="date">
+            <sql name="start_date" type="date"/>
+        </field>
+        <field name="startTime" type="date">
+            <sql name="start_time" type="time"/>
+        </field>
+        <field name="startTimestamp" type="date">
+            <sql name="start_stamp" type="timestamp"/>
+        </field>
+    </class>
+    
+</mapping>
+

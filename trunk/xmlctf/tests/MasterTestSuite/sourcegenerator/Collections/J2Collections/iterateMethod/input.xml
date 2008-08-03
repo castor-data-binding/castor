@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmlCollectionTest>
+    <objects>
+        <key>key1</key>
+        <value>value1</value>
+    </objects>
+    <objects>
+        <key>key2</key>
+        <value>value2</value>
+    </objects>
+    <integers>5</integers>
+    <integers>10</integers>
+    <integers>7</integers>
+</xmlCollectionTest>

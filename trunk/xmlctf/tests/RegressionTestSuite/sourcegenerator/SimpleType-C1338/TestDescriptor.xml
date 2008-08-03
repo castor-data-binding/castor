@@ -1,0 +1,22 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+  <Name>Test xs:list simple type source generation</Name>
+  <Author>Edward Kuns</Author>
+  <Comment>Regression test case for bug CASTOR-1338</Comment>
+  <Category>basic capability</Category>
+  <BugFix>
+    <Reporter>brod@ifao.net</Reporter>
+    <Date_Report>2006-03-03</Date_Report>
+    <Date_Fix></Date_Fix>
+    <Comment>This bug is not yet fixed</Comment>
+  </BugFix>
+
+  <SourceGeneratorTest>
+    <Schema>castor-1338.xsd</Schema>
+    <Root_Object random="false" dump="true">TestElement</Root_Object>
+    <UnitTestCase>
+      <Name>Test Generation</Name>
+      <Input>input.xml</Input>
+    </UnitTestCase>
+  </SourceGeneratorTest>
+</TestDescriptor>

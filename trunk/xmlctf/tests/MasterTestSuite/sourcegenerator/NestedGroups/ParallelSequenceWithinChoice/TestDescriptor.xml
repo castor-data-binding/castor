@@ -1,0 +1,19 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+	<Name>Test XML Schema Nested Groups</Name>
+	<Author>Werner Guttmann</Author>
+	<Comment>
+		Complex test that ensures that a set of nested sequences within a choice are
+		correctly handled
+	</Comment>
+	<Category>basic capability</Category>
+	<SourceGeneratorTest>
+		<Schema>test.xsd</Schema>
+		<Root_Object random="false" dump="true">NCIPMessage</Root_Object>
+		<UnitTestCase>
+			<Name>Test Generation</Name>
+			<Input>input.xml</Input>
+			<GoldFile/>
+		</UnitTestCase>
+	</SourceGeneratorTest>
+</TestDescriptor>

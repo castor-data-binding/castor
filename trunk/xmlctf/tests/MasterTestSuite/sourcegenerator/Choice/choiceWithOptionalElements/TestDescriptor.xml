@@ -1,0 +1,17 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Test xs:choice where the choice contains at least one optional element definition</Name>
+    <Author>Werner Guttmann</Author>
+    <Comment>Regression test case for bug CASTOR-1902</Comment>
+    <Category>basic capability</Category>
+
+    <SourceGeneratorTest>
+        <Schema>test.xsd</Schema>
+        <Root_Object random="false" dump="true">XcapDirectory</Root_Object>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Input>input-empty.xml</Input>
+            <GoldFile/>
+        </UnitTestCase>
+    </SourceGeneratorTest>
+</TestDescriptor>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AKConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="test.xsd">
+    <handler>handler</handler>
+    <timeout>0</timeout>
+    <allowMultiplePartsPerCnxn>false</allowMultiplePartsPerCnxn>
+    <CategoryList>
+        <CnxnCategory MaxConnectionsAllowed="1" value="" />
+    </CategoryList>
+</AKConfig>
+

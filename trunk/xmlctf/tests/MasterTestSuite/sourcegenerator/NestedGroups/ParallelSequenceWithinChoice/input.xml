@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NCIPMessage version="http://www.niso.org/ncip/v1_0/imp1/xtd/ncip_version.xsd"
+						xsi:noNamespaceSchemaLocation="D:\Documents%20and%20Settings\corcuera\Desktop\download\ncip_short_schema.xsd"
+						xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <CheckOutItemResponse>
+        <ResponseHeader>
+            <FromAgencyId>
+                <UniqueAgencyId>
+                    <Scheme>www.oclc.org/ncip/v1_0/imp1/firstsearch/schemes/uniqueagencyid/OSU.scm</Scheme>
+                    <Value>OSU</Value>
+                </UniqueAgencyId>
+            </FromAgencyId>
+            <ToAgencyId>
+                <UniqueAgencyId>
+                    <Scheme>www.oclc.org/ncip/v1_0/imp1/firstsearch/schemes/uniqueagencyid/fsagencyroles.scm</Scheme>
+                    <Value>OCL</Value>
+                </UniqueAgencyId>
+            </ToAgencyId>
+        </ResponseHeader>
+        <UniqueItemId>
+            <UniqueAgencyId>
+                <Scheme>www.oclc.org/ncip/v1_0/imp1/firstsearch/schemes/uniqueagencyid/OSU.scm</Scheme>
+                <Value>OSU</Value>
+            </UniqueAgencyId>
+            <ItemIdentifierValue>ISBN1095924521</ItemIdentifierValue>
+        </UniqueItemId>
+        <UniqueUserId>
+            <UniqueAgencyId>
+                <Scheme>www.oclc.org/ncip/v1_0/imp1/firstsearch/schemes/uniqueagencyid/OSU.scm</Scheme>
+                <Value>OSU</Value>
+            </UniqueAgencyId>
+            <UserIdentifierValue>UOSUTEST002</UserIdentifierValue>
+        </UniqueUserId>
+        <DateDue>2007-08-13T04:00:00.000Z</DateDue>
+        <ItemOptionalFields>
+            <BibliographicDescription>
+                <Author>Not Available</Author>
+                <PlaceOfPublication>Not Available</PlaceOfPublication>
+                <PublicationDate>Not Available</PublicationDate>
+                <Title>Not Available</Title>
+            </BibliographicDescription>
+        </ItemOptionalFields>
+    </CheckOutItemResponse>
+</NCIPMessage>

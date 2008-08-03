@@ -1,0 +1,24 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+
+    <Name>Introspection-ByteArrays</Name>
+    <Author>Keith Visco</Author>
+
+    <Comment>
+      Tests the special handling of byte[] in the mapping file with introspection
+    </Comment>
+
+    <Category>basic capability</Category>
+
+    <MarshallingTest>
+        <Root_Object>Foo</Root_Object>
+
+        <UnitTestCase>
+            <Name>Test01</Name>
+            <Input>input.xml</Input>
+            <GoldFile>input.xml</GoldFile>
+        </UnitTestCase>
+
+    </MarshallingTest>
+
+</TestDescriptor>

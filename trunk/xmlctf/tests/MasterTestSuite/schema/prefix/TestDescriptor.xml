@@ -1,0 +1,16 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Test the correct reading/writing of QNames</Name>
+    <Author>Arnaud Blandin</Author>
+    <Comment>Regression testing
+    </Comment>
+    <Category>basic capability</Category>
+
+    <SchemaTest>
+
+        <UnitTestCase>
+            <Schema>prefix.xsd</Schema>
+        </UnitTestCase>
+
+    </SchemaTest>
+</TestDescriptor>

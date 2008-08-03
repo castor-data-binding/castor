@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<xsd:simpleType name="amount">
+  <xsd:restriction base="xsd:decimal">
+    <xsd:totalDigits value="13"/>
+    <xsd:fractionDigits value="2"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:element name="foo">
+   <xsd:complexType>
+      <xsd:sequence>
+         <xsd:element name="value" type="amount"/>
+      </xsd:sequence>
+   </xsd:complexType>
+</xsd:element>
+
+</xsd:schema>

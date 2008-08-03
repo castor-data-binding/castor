@@ -1,0 +1,22 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Test java4 style enums</Name>
+    <Author>Matthias Epheser</Author>
+    <Comment>
+       Tests the generation and unmarshalling of old castor style java4 enum classes
+    </Comment>
+    <Category>basic capability</Category>
+    <SourceGeneratorTest>
+        <Schema>test.xsd</Schema>
+        <Root_Object random="false" dump="true">Root</Root_Object>
+        <UnitTestCase>
+            <Name>Test Source Generation</Name>
+            <Input>input.xml</Input>
+        </UnitTestCase>
+        <UnitTestCase>
+            <Name>Test invalid input file</Name>
+            <Input>input_wrong.xml</Input>
+            <Failure>true</Failure>
+        </UnitTestCase>
+    </SourceGeneratorTest>
+</TestDescriptor>

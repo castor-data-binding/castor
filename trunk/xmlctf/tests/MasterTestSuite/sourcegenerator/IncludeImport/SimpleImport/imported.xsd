@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.castor.org/imported"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="unqualified"
+            attributeFormDefault="unqualified">
+
+    <xsd:complexType name="ImportedType">
+        <xsd:sequence>
+            <xsd:element name="First"  type="xsd:string"/>
+            <xsd:element name="Second" type="xsd:string"/>
+            <xsd:element name="Third"  type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+</xsd:schema>

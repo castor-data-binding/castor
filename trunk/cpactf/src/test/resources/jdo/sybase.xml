@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!DOCTYPE jdo-conf PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.org/jdo-conf.dtd">
+<!-- Database file for Sybase 11 - requires jConnect 5.2 -->
+<jdo-conf>
+   <database name="sybase" engine="sybase" >
+      <data-source class-name="com.sybase.jdbc2.jdbc.SybDataSource">
+         <param name="user" value="test" />
+         <param name="password" value="secret" />
+         <param name="portNumber" value="4100" />
+         <param name="serverName" value="arkin" />
+      </data-source>
+      <mapping href="mapping.xml" />
+   </database>
+   <transaction-demarcation mode="local" />
+</jdo-conf>
+
+

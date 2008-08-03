@@ -1,6 +1,0 @@
-<dataset>
-	<table name="book">
-		<column>isbn</column>
-		<column>title</column>
-	</table>
-</dataset>

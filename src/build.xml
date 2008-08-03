@@ -19,10 +19,10 @@
     <property name="name"                 value="Castor"/>
     <property name="source"               value="${basedir}/src"/>
     <property name="xmlctf-source"        value="${basedir}/xmlctf-framework/src"/>
-    <property name="java"                 value="${basedir}/xml/src/main/java"/>
-    <property name="main.resources"       value="${basedir}/xml/src/main/resources" />
-	<property name="test.java"            value="${basedir}/xml/src/test/java"/>
-    <property name="test.resources"       value="${basedir}/xml/src/test/resources"/>
+    <property name="java"                 value="${source}/main/java"/>
+    <property name="main.resources"       value="${source}/main/resources" />
+	<property name="test.java"            value="${source}/test/java"/>
+    <property name="test.resources"       value="${source}/test/resources"/>
     <property name="etc"                  value="${source}/etc"/>
     <property name="check"                value="check"/>
     <property name="build"                value="${basedir}/build"/>
@@ -62,6 +62,9 @@
         <fileset dir="${lib}">
             <include name="*.jar"/>
         </fileset>
+        <fileset dir="${lib}/tests">
+            <include name="*.jar"/>
+        </fileset>
         <pathelement location="${basedir}/ddlgen/build/classes" />
         <pathelement location="${basedir}/codegen/build/classes" />
         <pathelement location="${basedir}/cpa/build/classes" />
@@ -71,9 +74,6 @@
         <pathelement location="${basedir}/cpaptf/build/classes" />
         <pathelement location="${basedir}/examples/build/classes" />
         <pathelement location="${basedir}/schema/build/classes" />
-        <pathelement location="${basedir}/core/build/classes" />
-        <pathelement location="${basedir}/xml/target/classes" />
-    	
     </path>
 
     <path id="test.classpath">
@@ -226,15 +226,7 @@
         <delete dir="${dist}"/>
         <delete dir="${schema}"/>
         <delete dir="${gen.src}"/>
-    	
-    	<delete>
-    	    <fileset dir="${basedir}/bin">
-    	    	<include name="*-log.txt*"/>
-    	        <include name="serialized.out"/>
-    	    </fileset>
-    	</delete>
 
-        <ant antfile="${basedir}/core/build.xml" target="clean.core" inheritAll="false" />
         <ant antfile="${basedir}/ddlgen/build.xml" target="clean.ddlgen" inheritAll="false" />
         <ant antfile="${basedir}/cpa/build.xml" target="clean.cpa" inheritAll="false" />
         <ant antfile="${basedir}/codegen/build.xml" target="clean.codegen" inheritAll="false" />
@@ -248,7 +240,6 @@
     <target name="clean.tests" description="Removes the build artifacts related to tests">
         <delete dir="${build}/tests" />
         <delete dir="${test.classes}" />
-        <ant antfile="${basedir}/core/build.xml" target="clean.tests.core" inheritAll="false" />
         <ant antfile="${basedir}/xmlctf-framework/build.xml" target="clean.xmlctf" inheritAll="false" />
         <ant antfile="${basedir}/xmlctf/build.xml" target="clean.xmlctf" inheritAll="false" />
         <ant antfile="${basedir}/cpactf/build.xml" target="clean.cpactf" inheritAll="false" />
@@ -264,11 +255,6 @@
 
     <target name="compile.commons" depends="prepare"
             description="Compile the Castor COMMONS packages">
-        <!-- build core -->
-        <ant antfile="${basedir}/core/build.xml" target="compile.core" inheritAll="false">
-            <property name="version" value="${version}"/>
-            <property name="release" value="${release}"/>
-        </ant>
         <javac srcdir="${java}" destdir="${classes}" excludes="${excludes}"
                debug="on" encoding="ISO-8859-1" deprecation="${deprecation}"
                includes="${castor.commons.files}">
@@ -278,17 +264,7 @@
 
     <target name="compile.all" depends="prepare,compile.commons"
             description="Compile the Castor packages">
-        <!-- build core -->
-        <ant antfile="${basedir}/core/build.xml" target="compile.core" inheritAll="false">
-            <property name="version" value="${version}"/>
-            <property name="release" value="${release}"/>
-        </ant>
-    	<!-- compile artifacts in XML module -->
-        <javac srcdir="${basedir}/xml/target/generated-sources/castor" destdir="${classes}" excludes="${excludes}"
-               debug="on" encoding="ISO-8859-1" deprecation="${deprecation}"
-               includes="${castor.xml.files}">
-            <classpath refid="build.classpath"/>
-        </javac>
+    	<!-- compile artifacts in project root -->
         <javac srcdir="${java}" destdir="${classes}" excludes="${excludes}"
                debug="on" encoding="ISO-8859-1" deprecation="${deprecation}"
                includes="${castor.xml.files}">
@@ -299,20 +275,6 @@
                 <patternset refid="support.files" />
             </fileset>
             <fileset dir="${main.resources}">
-                <patternset refid="support.files" />
-            </fileset>
-        </copy>
-
-    	<!-- compile test classes -->
-        <javac srcdir="${test.java}" destdir="${test.classes}"
-               debug="on" encoding="ISO-8859-1" deprecation="${deprecation}">
-            <classpath refid="build.classpath"/>
-        </javac>
-        <copy todir="${test.classes}">
-            <fileset dir="${test.java}">
-                <patternset refid="support.files" />
-            </fileset>
-            <fileset dir="${test.resources}">
                 <patternset refid="support.files" />
             </fileset>
         </copy>
@@ -654,12 +616,6 @@
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
         </ant>
-        <!-- create JAR for core code -->
-        <ant antfile="${basedir}/core/build.xml" target="jar.core" inheritAll="false">
-            <property name="project" value="${project}"/>
-            <property name="version" value="${version}"/>
-            <property name="release" value="${release}"/>
-        </ant>
     </target>
 
     <target name="CTFjar" depends="compile.tests" description="Build the CTF.jar file for JDO and XMLCTF.jar for XML">
@@ -832,11 +788,7 @@
         <mkdir dir="${build}/${archive.name}/cpaptf"/>
         <mkdir dir="${build}/${archive.name}/examples"/>
         <mkdir dir="${build}/${archive.name}/schema"/>
-        <mkdir dir="${build}/${archive.name}/xml"/>
-        <mkdir dir="${build}/${archive.name}/core"/>
-        <mkdir dir="${build}/${archive.name}/codegen-testcase-archetype"/>
-        <mkdir dir="${build}/${archive.name}/cpa-testcase-archetype"/>
-        <mkdir dir="${build}/${archive.name}/maven-plugins"/>
+    	
 
         <!-- <copydir src="${source}" dest="${build}/${archive.name}/src" defaultexcludes="true"/> -->
         <copy todir="${build}/${archive.name}/src">
@@ -906,62 +858,6 @@
               <exclude name="eclipse/" />
           </fileset>
         </copy>
-        <copy todir="${build}/${archive.name}/core">
-          <fileset dir="${basedir}/core">
-              <exclude name="build/" />
-              <exclude name="target/" />
-              <exclude name="eclipse/" />
-          </fileset>
-        </copy>
-        <copy todir="${build}/${archive.name}/xml">
-          <fileset dir="${basedir}/xml">
-              <exclude name="build/" />
-              <exclude name="target/" />
-              <exclude name="eclipse/" />
-          </fileset>
-        </copy>
-        <copy todir="${build}/${archive.name}/examples">
-          <fileset dir="${basedir}/examples">
-              <exclude name="build/" />
-              <exclude name="target/" />
-              <exclude name="eclipse/" />
-          </fileset>
-        </copy>
-        <copy todir="${build}/${archive.name}/cpactf">
-          <fileset dir="${basedir}/cpactf">
-              <exclude name="build/" />
-              <exclude name="target/" />
-              <exclude name="eclipse/" />
-          </fileset>
-        </copy>
-        <copy todir="${build}/${archive.name}/cpaptf">
-          <fileset dir="${basedir}/cpaptf">
-              <exclude name="build/" />
-              <exclude name="target/" />
-              <exclude name="eclipse/" />
-          </fileset>
-        </copy>
-        <copy todir="${build}/${archive.name}/codegen-testcase-archetype">
-          <fileset dir="${basedir}/codegen-testcase-archetype">
-              <exclude name="build/" />
-              <exclude name="target/" />
-              <exclude name="eclipse/" />
-          </fileset>
-        </copy>
-        <copy todir="${build}/${archive.name}/cpa-testcase-archetype">
-          <fileset dir="${basedir}/cpa-testcase-archetype">
-              <exclude name="build/" />
-              <exclude name="target/" />
-              <exclude name="eclipse/" />
-          </fileset>
-        </copy>
-        <copy todir="${build}/${archive.name}/maven-plugins">
-          <fileset dir="${basedir}/maven-plugins">
-              <exclude name="build/" />
-              <exclude name="target/" />
-              <exclude name="eclipse/" />
-          </fileset>
-        </copy>
 
         <tar includes="${archive.name}/**" basedir="${build}" tarfile="${dist}/${archive.name}-src.tar"/>
         <gzip src="${dist}/${archive.name}-src.tar" zipfile="${dist}/${archive.name}-src.tgz"/>
@@ -990,17 +886,14 @@
             	<include name="${archive.name}-codegen.jar"/>
                 <include name="${archive.name}-anttasks.jar"/>
                 <include name="${archive.name}-xml-schema.jar"/>
-                <include name="${archive.name}-core.jar"/>
         	</fileset>
         </copy>
         <copy todir="${build}/${archive.name}">
             <fileset dir="${lib}" includes="jdbc-se2.0.jar,jndi.jar,jta1.0.1.jar,xerces.jar,ldapjdk.jar,xslp.jar"/>
         </copy>
-    	<!--
         <copy todir="${build}/${archive.name}/schema">
             <fileset dir="${schema}" />
         </copy>
-        -->
         <copy todir="${build}/${archive.name}/doc">
             <fileset dir="${build}/doc" />
         </copy>
@@ -1030,7 +923,6 @@
 	<target name="run.unit.tests" depends="compile.unit.tests" description="Runs all unit tests">
         <ant antfile="${basedir}/codegen/build.xml" target="tests.codegen" inheritAll="false" />
         <ant antfile="${basedir}/schema/build.xml" target="tests" inheritAll="false" />
-        <ant antfile="${basedir}/core/build.xml" target="tests.core" inheritAll="false" />
 		
 		<!-- execute junit tests for XML core module -->
 		<echo message="*** Running unit tests for XML core ..." />
@@ -1105,9 +997,4 @@
         <ant antfile="${basedir}/xmlctf-framework/build.xml" target="gen.testdescriptor" inheritAll="false" />
     </target>
 
-<!--
-    <target name="gen.jdo.annotations" depends="jar">
-        <ant antfile="${basedir}/schema/build.xml" target="gen.jdo.annotations" inheritAll="false" />
-    </target>
--->
 </project>

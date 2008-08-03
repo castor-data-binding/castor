@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<root xmlns="http://www.castor.org/MasterTestSuite/xml/SourceGenerator/IDREFS">
+   <element1 id1="CASTOR"/>
+   <element2 id2="POLLUX"/>
+   <element3 id3="PROMETHEE"/>
+   <elementRef idref="CASTOR WRONG"/>
+</root>

@@ -1,0 +1,7 @@
+<expected>
+	<match method="regexp" index="0">create table prod_group \( id integer not null, name char\({1}\) \); create table prod \( id integer not null, name char\({1}\), group_id integer \);</match>
+	<match method="regexp" index="1">alter table prod add constraint prod_group foreign key \(group_id\) references prod_group \(id\);</match>
+
+	<match method="regexp" index="0" engine="mysql">create table prod_group \( id integer\({0}\) not null, name char\({1}\) \); create table prod \( id integer\({0}\) not null, name char\({1}\), group_id integer\({0}\) \);</match>
+	<match method="regexp" index="1" engine="mysql">alter table prod add constraint prod_group foreign key prod_group \(group_id\) references prod_group \(id\) on delete cascade on update restrict;</match>
+</expected>
