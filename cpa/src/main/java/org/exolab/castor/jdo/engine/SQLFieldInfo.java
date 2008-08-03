@@ -18,6 +18,7 @@
 package org.exolab.castor.jdo.engine;
 
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
+import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
@@ -65,7 +66,7 @@ public class SQLFieldInfo {
             FieldDescriptor[] relids = ((ClassDescriptorImpl) related).getIdentities();
             String[] relnames = new String[relids.length];
             for (int i = 0; i < relids.length; i++) {
-                relnames[i] = ((JDOFieldDescriptor) relids[i]).getSQLName()[0];
+                relnames[i] = new FieldDescriptorJDONature(relids[i]).getSQLName()[0];
                 if (relnames[i] == null) {
                     throw new MappingException("Related class identities field does "
                             + "not contains sql information!");
@@ -75,7 +76,7 @@ public class SQLFieldInfo {
             FieldDescriptor[] classids = ((ClassDescriptorImpl) clsDesc).getIdentities();
             String[] classnames = new String[classids.length];
             for (int i = 0; i < classids.length; i++) {
-                classnames[i] = ((JDOFieldDescriptor) classids[i]).getSQLName()[0];
+                classnames[i] = new FieldDescriptorJDONature(classids[i]).getSQLName()[0];
                 if (classnames[i] == null) {
                     throw new MappingException("Related class identities field does "
                             + "not contains sql information!");
@@ -83,7 +84,7 @@ public class SQLFieldInfo {
             }
 
             String[] names = relnames;
-            if (!(fieldDesc instanceof JDOFieldDescriptor)) {
+            if (!(fieldDesc.hasNature(FieldDescriptorJDONature.class.getName()))) {
                 _tableName = new ClassDescriptorJDONature(related).getTableName();
                 _store = false;
                 _multi = fieldDesc.isMultivalued();
@@ -91,74 +92,77 @@ public class SQLFieldInfo {
                 _joinFields = classnames;
                 _dirtyCheck = true;
             } else {
-                JDOFieldDescriptor jdoFieldDesc = (JDOFieldDescriptor) fieldDesc;
+                final FieldDescriptorJDONature jdoFieldNature = 
+                    new FieldDescriptorJDONature(fieldDesc);
 
-                names = jdoFieldDesc.getSQLName();
+                names = jdoFieldNature.getSQLName();
                 if ((names != null) && (names.length != relids.length)) {
                     throw new MappingException("The number of column of foreign keys "
                             + "doesn't not match with what specified in manyKey");
                 }
                 names = (names != null) ? names : relnames;
 
-                String[] joins = jdoFieldDesc.getManyKey();
+                String[] joins = jdoFieldNature.getManyKey();
                 if ((joins != null) && (joins.length != classids.length)) {
                     throw new MappingException("The number of column of foreign keys "
                             + "doesn't not match with what specified in manyKey");
                 }
 
-                if (jdoFieldDesc.getManyTable() != null) {
-                    _tableName = jdoFieldDesc.getManyTable();
+                if (jdoFieldNature.getManyTable() != null) {
+                    _tableName = jdoFieldNature.getManyTable();
                     _store = false;
-                    _multi = jdoFieldDesc.isMultivalued();
+                    _multi = fieldDesc.isMultivalued();
                     _joined = true;
                     _joinFields = (joins != null) ? joins : classnames;
-                } else if (jdoFieldDesc.getSQLName() != null) {
+                } else if (jdoFieldNature.getSQLName() != null) {
                     _tableName = classTable;
-                    _store = !ext && !jdoFieldDesc.isReadonly();
+                    _store = !ext && !jdoFieldNature.isReadonly();
                     _multi = false;
                     _joined = false;
                     _joinFields = classnames;
                 } else {
                     _tableName = new ClassDescriptorJDONature(related).getTableName();
                     _store = false;
-                    _multi = jdoFieldDesc.isMultivalued();
+                    _multi = fieldDesc.isMultivalued();
                     _joined = true;
                     _joinFields = (joins != null) ? joins : classnames;
                 }
 
-                _dirtyCheck = jdoFieldDesc.isDirtyCheck();
+                _dirtyCheck = jdoFieldNature.isDirtyCheck();
             }
 
             _columns = new SQLColumnInfo[relids.length];
             for (int i = 0; i < relids.length; i++) {
-                if (!(relids[i] instanceof JDOFieldDescriptor)) {
+                if (!(relids[i].hasNature(FieldDescriptorJDONature.class.getName()))) {
                     throw new MappingException("Related class identities field does "
                             + "not contains sql information!");
                 }
 
-                JDOFieldDescriptor relId = (JDOFieldDescriptor) relids[i];
+                FieldDescriptor relId = relids[i];
                 FieldHandlerImpl fh = (FieldHandlerImpl) relId.getHandler();
-                _columns[i] = new SQLColumnInfo(names[i], relId.getSQLType()[0],
+                _columns[i] = new SQLColumnInfo(names[i], 
+                        new FieldDescriptorJDONature(relId).getSQLType()[0],
                         fh.getConvertTo(), fh.getConvertFrom());
             }
         } else {
-            // primitive field
-            JDOFieldDescriptor jdoFieldDesc = (JDOFieldDescriptor) fieldDesc;
+            final FieldDescriptorJDONature jdoFieldNature = 
+                new FieldDescriptorJDONature(fieldDesc);
 
             _tableName = classTable;
-            _store = !ext && !jdoFieldDesc.isReadonly();
+            _store = !ext && !new FieldDescriptorJDONature(fieldDesc).isReadonly();
             _multi = false;
             _joined = false;
             _joinFields = null;
-            _dirtyCheck = jdoFieldDesc.isDirtyCheck();
+            _dirtyCheck = jdoFieldNature.isDirtyCheck();
             
             _columns = new SQLColumnInfo[1];
-            String sqlName = jdoFieldDesc.getFieldName();
-            if (jdoFieldDesc.getSQLName() != null) {
-                sqlName = jdoFieldDesc.getSQLName()[0];
+            String sqlName = fieldDesc.getFieldName();
+            if (jdoFieldNature.getSQLName() != null) {
+                sqlName = jdoFieldNature.getSQLName()[0];
             }
-            FieldHandlerImpl fh = (FieldHandlerImpl) jdoFieldDesc.getHandler();
-            _columns[0] = new SQLColumnInfo(sqlName, jdoFieldDesc.getSQLType()[0],
+            FieldHandlerImpl fh = (FieldHandlerImpl) fieldDesc.getHandler();
+            _columns[0] = new SQLColumnInfo(sqlName, 
+                    jdoFieldNature.getSQLType()[0],
                     fh.getConvertTo(), fh.getConvertFrom());
         }
     }

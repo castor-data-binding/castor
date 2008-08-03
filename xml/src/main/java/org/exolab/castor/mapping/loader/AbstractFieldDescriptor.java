@@ -1,11 +1,15 @@
 package org.exolab.castor.mapping.loader;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.FieldHandler;
 
 public abstract class AbstractFieldDescriptor implements FieldDescriptor {
-    //--------------------------------------------------------------------------
 
     /** A reference to the containing class descriptor (parent). */
     private ClassDescriptor _parent;
@@ -37,7 +41,15 @@ public abstract class AbstractFieldDescriptor implements FieldDescriptor {
     /** True if the field is part of the identity of the class. */
     private boolean _identity;
 
-    //--------------------------------------------------------------------------
+    /**
+     * Map holding the properties set and read by natures.
+     */
+    private Map _properties = new HashMap();
+
+    /**
+     * Map holding the available natures.
+     */
+    private Set _natures = new HashSet();
 
     /**
      * @see org.exolab.castor.mapping.FieldDescriptor#setContainingClassDescriptor(
@@ -210,6 +222,51 @@ public abstract class AbstractFieldDescriptor implements FieldDescriptor {
      */
     public final boolean isIdentity() {
         return _identity;
+    }
+
+    /**
+     * @see org.exolab.castor.builder.info.nature.PropertyHolder#
+     *      getProperty(java.lang.String)
+     * @param name
+     *            of the property
+     * @return value of the property
+     */
+    public Object getProperty(final String name) {
+        return _properties.get(name);
+    }
+
+    /**
+     * @see org.exolab.castor.builder.info.nature.PropertyHolder#
+     *      setProperty(java.lang.String, java.lang.Object)
+     * @param name
+     *            of the property
+     * @param value
+     *            of the property
+     */
+    public void setProperty(final String name, final Object value) {
+        _properties.put(name, value);
+    }
+
+    /**
+     * @see org.exolab.castor.builder.info.nature.NatureExtendable#
+     *      addNature(java.lang.String)
+     * @param nature
+     *            ID of the Nature
+     */
+    public void addNature(final String nature) {
+        _natures.add(nature);
+    }
+
+    /**
+     * @see org.exolab.castor.builder.info.nature.NatureExtendable#
+     *      hasNature(java.lang.String)
+     * @param nature
+     *            ID of the Nature
+     * @return true if the Nature ID was added.
+     */
+    public boolean hasNature(final String nature) {
+        return _natures.contains(nature);
+    
     }
 
     //--------------------------------------------------------------------------

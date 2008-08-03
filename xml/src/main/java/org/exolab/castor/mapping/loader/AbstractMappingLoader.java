@@ -450,8 +450,8 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
                 // copy non identity field from list of fields.
                 fieldList.add(field);
             } else {
-                if (field instanceof FieldDescriptorImpl) {
-                    ((FieldDescriptorImpl) field).setRequired(true);
+                if (field instanceof AbstractFieldDescriptor) {
+                    ((AbstractFieldDescriptor) field).setRequired(true);
                 }
                 if (field.getHandler() instanceof FieldHandlerImpl) {
                     ((FieldHandlerImpl) field.getHandler()).setRequired(true);
@@ -574,7 +574,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
             }
         }
 
-        FieldDescriptorImpl fieldDesc = new FieldDescriptorImpl(
+        AbstractFieldDescriptor fieldDesc = new FieldDescriptorImpl(
                 fieldName, typeInfo, handler, fieldMap.getTransient());
 
         fieldDesc.setRequired(fieldMap.getRequired());

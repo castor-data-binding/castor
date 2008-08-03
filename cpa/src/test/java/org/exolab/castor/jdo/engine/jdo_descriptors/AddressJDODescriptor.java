@@ -7,14 +7,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.exolab.castor.jdo.engine.Address;
-import org.exolab.castor.jdo.engine.JDOFieldDescriptor;
-import org.exolab.castor.jdo.engine.JDOFieldDescriptorImpl;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
+import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
+import org.exolab.castor.mapping.loader.FieldDescriptorImpl;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 import org.exolab.castor.mapping.loader.TypeInfo;
 import org.exolab.castor.mapping.xml.ClassChoice;
@@ -74,7 +74,7 @@ public class AddressJDODescriptor extends ClassDescriptorImpl {
         // Set mapping
         setMapping(mapping);
 
-        JDOFieldDescriptor idFieldDescr = initId(choice);
+        FieldDescriptor idFieldDescr = initId(choice);
 
         // Set fields
         setFields(new FieldDescriptor[] {});
@@ -88,9 +88,9 @@ public class AddressJDODescriptor extends ClassDescriptorImpl {
      * @param choice
      * @return jdo field descriptor for id
      */
-    private JDOFieldDescriptor initId(final ClassChoice choice) {
+    private FieldDescriptor initId(final ClassChoice choice) {
         String idFieldName = "id";
-        JDOFieldDescriptorImpl idFieldDescr;
+        FieldDescriptorImpl idFieldDescr;
         FieldMapping idFM = new FieldMapping();
         TypeInfo idType = new TypeInfo(java.lang.Integer.class);
         // Set columns required (=not null)
@@ -114,11 +114,17 @@ public class AddressJDODescriptor extends ClassDescriptorImpl {
         }
 
         // Instantiate title field descriptor
-        idFieldDescr = new JDOFieldDescriptorImpl(idFieldName, idType,
-                idHandler, false, new String[] { idFieldName },
-                new int[] { SQLTypeInfos
-                        .javaType2sqlTypeNum(java.lang.Integer.class) },
-                null, new String[] {}, false, false);
+        idFieldDescr = new FieldDescriptorImpl(idFieldName, idType,
+                idHandler, false);
+        
+        idFieldDescr.addNature(FieldDescriptorJDONature.class.getName());
+        FieldDescriptorJDONature idJdoNature = new FieldDescriptorJDONature(idFieldDescr);
+        
+        idJdoNature.setSQLName(new String[] { idFieldName });
+        idJdoNature.setSQLType(new int[] { SQLTypeInfos.javaType2sqlTypeNum(java.lang.Integer.class) });
+        idJdoNature.setManyKey(null);
+        idJdoNature.setDirtyCheck(false);
+        idJdoNature.setReadOnly(false);
 
         // Set parent class descriptor
         idFieldDescr.setContainingClassDescriptor(this);

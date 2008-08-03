@@ -372,7 +372,7 @@ public final class JDOClassDescriptorFactory {
        jsc.add("String " + name + "FieldName = \"" + name + "\";");
 
        //-- initialize objects
-       jsc.add("JDOFieldDescriptorImpl " + name + "FieldDescr;");
+       jsc.add("FieldDescriptorImpl " + name + "FieldDescr;");
 
        jsc.add("FieldMapping " + name + "FM = new FieldMapping();");
 
@@ -445,29 +445,57 @@ public final class JDOClassDescriptorFactory {
        jsc.unindent();
        jsc.add("}");
 
-       //-- JDOFieldDescriptorImpl constructor
+//       //-- JDOFieldDescriptorImpl constructor
+//       jsc.add("// Instantiate " + name + " field descriptor");
+//       jsc.add(name + "FieldDescr = new JDOFieldDescriptorImpl(");
+//       jsc.append(name + "FieldName, " + name + "Type,");
+//       jsc.indent();
+//       jsc.add(name + "Handler, ");
+//       jsc.append(Boolean.toString(fInfo.isTransient()) + ", ");
+//       String sqlName = new JDOFieldInfoNature(fInfo).getColumnName();
+//       jsc.append("new String[] { \"" + sqlName + "\" },");
+//       jsc.add("new int[] {SQLTypeInfos");
+//       jsc.indent();
+//       jsc.add(".javaType2sqlTypeNum(");
+//
+//       // TODO IS THERE NEED TO CHECK THIS?!
+//       if ((type != null) && (type.length() > 0)) {
+//           jsc.append(wrapperType + ".class) },");
+//       }
+//
+//       jsc.unindent();
+//       jsc.add("null, new String[] {}, ");
+//       jsc.append(Boolean.toString(fNature.isDirty()) + ", ");
+//       jsc.append(Boolean.toString(fNature.isReadOnly()) + ");");
+//       jsc.unindent();
+
+       //-- invoke FieldDescriptorImpl constructor
        jsc.add("// Instantiate " + name + " field descriptor");
-       jsc.add(name + "FieldDescr = new JDOFieldDescriptorImpl(");
+       jsc.add(name + "FieldDescr = new FieldDescriptorImpl(");
        jsc.append(name + "FieldName, " + name + "Type,");
-       jsc.indent();
-       jsc.add(name + "Handler, ");
-       jsc.append(Boolean.toString(fInfo.isTransient()) + ", ");
+       jsc.append(name + "Handler, ");
+       jsc.append(Boolean.toString(fInfo.isTransient()) + ");");
+
+       jsc.add(name + "FieldDescr.addNature(FieldDescriptorJDONature.class.getName());");
+
+       jsc.add("FieldDescriptorJDONature " + name + "FieldJdoNature = new FieldDescriptorJDONature(" 
+               + name + "FieldDescr);");
+
        String sqlName = new JDOFieldInfoNature(fInfo).getColumnName();
-       jsc.append("new String[] { \"" + sqlName + "\" },");
-       jsc.add("new int[] {SQLTypeInfos");
-       jsc.indent();
-       jsc.add(".javaType2sqlTypeNum(");
+       jsc.add(name + "FieldJdoNature.setSQLName(new String[] { \"" + sqlName + "\" });");
+       jsc.add(name + "FieldJdoNature.setSQLType(new int[] {SQLTypeInfos");
+       jsc.append(".javaType2sqlTypeNum(");
 
        // TODO IS THERE NEED TO CHECK THIS?!
        if ((type != null) && (type.length() > 0)) {
-           jsc.append(wrapperType + ".class) },");
+           jsc.append(wrapperType + ".class) });");
        }
 
-       jsc.unindent();
-       jsc.add("null, new String[] {}, ");
-       jsc.append(Boolean.toString(fNature.isDirty()) + ", ");
-       jsc.append(Boolean.toString(fNature.isReadOnly()) + ");");
-       jsc.unindent();
+       // jsc.add("null, new String[] {}, ");
+       jsc.add(name + "FieldJdoNature.setManyTable(null);");
+       jsc.add(name + "FieldJdoNature.setManyKey(new String[] {});");
+       jsc.add(name + "FieldJdoNature.setDirtyCheck(" + Boolean.toString(fNature.isDirty()) + ");");
+       jsc.add(name + "FieldJdoNature.setReadOnly(" + Boolean.toString(fNature.isReadOnly()) + ");");
 
        jsc.add("");
 
@@ -536,7 +564,7 @@ public final class JDOClassDescriptorFactory {
        jsc.add("String " + name + "SqlName = \"" + sqlName + "\";");
        
        //-- initialize objects
-       jsc.add("JDOFieldDescriptorImpl " + name + "FieldDescr;");
+       jsc.add("FieldDescriptorImpl " + name + "FieldDescr;");
        jsc.add("FieldMapping " + name + "FM = new FieldMapping();");
 
        //-- set typeInfo
@@ -612,28 +640,54 @@ public final class JDOClassDescriptorFactory {
        jsc.add("}");
 
 
-       //-- JDOFieldDescriptorImpl constructor
+//       //-- JDOFieldDescriptorImpl constructor
+//       jsc.add("// Instantiate " + name + " field descriptor");
+//       jsc.add(name + "FieldDescr = new JDOFieldDescriptorImpl(");
+//       jsc.append(name + "FieldName, " + name + "Type,");
+//       jsc.indent();
+//       jsc.add(name + "Handler, ");
+//       jsc.append(Boolean.toString(fInfo.isTransient()) + ", ");
+//       jsc.append("new String[] { " + name + "SqlName },");
+//       jsc.add("new int[] {SQLTypeInfos");
+//       jsc.indent();
+//       jsc.add(".javaType2sqlTypeNum(");
+//
+//       // TODO IS THERE NEED TO CHECK THIS?!
+//       if ((type != null) && (type.length() > 0)) {
+//           jsc.append(wrapperType + ".class) },");
+//       }
+//
+//       jsc.unindent();
+//       jsc.add("null, new String[] { " + name + "SqlName }, ");
+//       jsc.append(Boolean.toString(oneNature.isDirty()) + ", ");
+//       jsc.append(Boolean.toString(oneNature.isReadOnly()) + ");");
+//       jsc.unindent();
+
+       //-- invoke FieldDescriptorImpl constructor
        jsc.add("// Instantiate " + name + " field descriptor");
-       jsc.add(name + "FieldDescr = new JDOFieldDescriptorImpl(");
+       jsc.add(name + "FieldDescr = new FieldDescriptorImpl(");
        jsc.append(name + "FieldName, " + name + "Type,");
-       jsc.indent();
-       jsc.add(name + "Handler, ");
-       jsc.append(Boolean.toString(fInfo.isTransient()) + ", ");
-       jsc.append("new String[] { " + name + "SqlName },");
-       jsc.add("new int[] {SQLTypeInfos");
-       jsc.indent();
-       jsc.add(".javaType2sqlTypeNum(");
+       jsc.append(name + "Handler, ");
+       jsc.append(Boolean.toString(fInfo.isTransient()) + ");");
+
+       jsc.add(name + "FieldDescr.addNature(FieldDescriptorJDONature.class.getName());");
+
+       jsc.add("FieldDescriptorJDONature " + name + "FieldJdoNature = new FieldDescriptorJDONature(" 
+               + name + "FieldDescr);");
+
+       jsc.add(name + "FieldJdoNature.setSQLName(new String[] { " + name + "SqlName });");
+       jsc.add(name + "FieldJdoNature.setSQLType(new int[] {SQLTypeInfos");
+       jsc.append(".javaType2sqlTypeNum(");
 
        // TODO IS THERE NEED TO CHECK THIS?!
        if ((type != null) && (type.length() > 0)) {
-           jsc.append(wrapperType + ".class) },");
+           jsc.append(wrapperType + ".class) });");
        }
 
-       jsc.unindent();
-       jsc.add("null, new String[] { " + name + "SqlName }, ");
-       jsc.append(Boolean.toString(oneNature.isDirty()) + ", ");
-       jsc.append(Boolean.toString(oneNature.isReadOnly()) + ");");
-       jsc.unindent();
+//       jsc.add(name + "FieldJdoNature.setManyTable(null);");
+       jsc.add(name + "FieldJdoNature.setManyKey(new String[] { " + name + "SqlName });");
+       jsc.add(name + "FieldJdoNature.setDirtyCheck(" + Boolean.toString(oneNature.isDirty()) + ");");
+       jsc.add(name + "FieldJdoNature.setReadOnly(" + Boolean.toString(oneNature.isReadOnly()) + ");");
 
        jsc.add("");
 
@@ -696,7 +750,7 @@ public final class JDOClassDescriptorFactory {
        jsc.add("String " + name + "SqlName = \"" + sqlName + "\";");
        
        //-- initialize objects
-       jsc.add("JDOFieldDescriptorImpl " + name + "FieldDescr;");
+       jsc.add("FieldDescriptorImpl " + name + "FieldDescr;");
        jsc.add("FieldMapping " + name + "FM = new FieldMapping();");
 
        //-- set typeInfo
@@ -771,29 +825,54 @@ public final class JDOClassDescriptorFactory {
        jsc.add("}");
 
 
-       //-- JDOFieldDescriptorImpl constructor
+//       //-- JDOFieldDescriptorImpl constructor
+//       jsc.add("// Instantiate " + name + " field descriptor");
+//       jsc.add(name + "FieldDescr = new JDOFieldDescriptorImpl(");
+//       jsc.append(name + "FieldName, " + name + "Type,");
+//       jsc.indent();
+//       jsc.add(name + "Handler, ");
+//       jsc.append(Boolean.toString(fInfo.isTransient()) + ", ");
+//       jsc.append("new String[] { },");
+//       jsc.add("new int[] {SQLTypeInfos");
+//       jsc.indent();
+//       jsc.add(".javaType2sqlTypeNum(");
+//
+//       // TODO IS THERE NEED TO CHECK THIS?!
+//       if ((type != null) && (type.length() > 0)) {
+//           jsc.append(wrapperType + ".class) },");
+//       }
+//
+//       jsc.unindent();
+//       jsc.add("null, new String[] { " + name + "SqlName }, ");
+//       jsc.append(Boolean.toString(manyNature.isDirty()) + ", ");
+//       jsc.append(Boolean.toString(manyNature.isReadOnly()) + ");");
+//       jsc.unindent();
+
+       //-- invoke FieldDescriptorImpl constructor
        jsc.add("// Instantiate " + name + " field descriptor");
-       jsc.add(name + "FieldDescr = new JDOFieldDescriptorImpl(");
+       jsc.add(name + "FieldDescr = new FieldDescriptorImpl(");
        jsc.append(name + "FieldName, " + name + "Type,");
-       jsc.indent();
-       jsc.add(name + "Handler, ");
-       jsc.append(Boolean.toString(fInfo.isTransient()) + ", ");
-       jsc.append("new String[] { },");
-       jsc.add("new int[] {SQLTypeInfos");
-       jsc.indent();
-       jsc.add(".javaType2sqlTypeNum(");
+       jsc.append(name + "Handler, ");
+       jsc.append(Boolean.toString(fInfo.isTransient()) + ");");
+       
+       jsc.add(name + "FieldDescr.addNature(FieldDescriptorJDONature.class.getName());");
+
+       jsc.add("FieldDescriptorJDONature " + name + "FieldJdoNature = new FieldDescriptorJDONature(" 
+               + name + "FieldDescr);");
+
+       jsc.add(name + "FieldJdoNature.setSQLName(null);");
+       jsc.add(name + "FieldJdoNature.setSQLType(new int[] {SQLTypeInfos");
+       jsc.append(".javaType2sqlTypeNum(");
 
        // TODO IS THERE NEED TO CHECK THIS?!
        if ((type != null) && (type.length() > 0)) {
-           jsc.append(wrapperType + ".class) },");
+           jsc.append(wrapperType + ".class) });");
        }
 
-       jsc.unindent();
-       jsc.add("null, new String[] { " + name + "SqlName }, ");
-       jsc.append(Boolean.toString(manyNature.isDirty()) + ", ");
-       jsc.append(Boolean.toString(manyNature.isReadOnly()) + ");");
-       jsc.unindent();
-
+       jsc.add(name + "FieldJdoNature.setManyKey(new String[] { " + name + "SqlName });");
+       jsc.add(name + "FieldJdoNature.setDirtyCheck(" + Boolean.toString(manyNature.isDirty()) + ");");
+       jsc.add(name + "FieldJdoNature.setReadOnly(" + Boolean.toString(manyNature.isReadOnly()) + ");");
+       
        jsc.add("");
 
        //-- parent class descriptor

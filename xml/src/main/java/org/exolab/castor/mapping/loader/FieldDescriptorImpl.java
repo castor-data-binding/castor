@@ -15,6 +15,7 @@
  */
 package org.exolab.castor.mapping.loader;
 
+
 import org.exolab.castor.mapping.FieldHandler;
 
 /**
@@ -26,7 +27,6 @@ import org.exolab.castor.mapping.FieldHandler;
  * @version $Revision$ $Date: 2005-12-06 14:55:28 -0700 (Tue, 06 Dec 2005) $
  */
 public class FieldDescriptorImpl extends AbstractFieldDescriptor {
-    //--------------------------------------------------------------------------
 
     protected FieldDescriptorImpl() { }
     
@@ -59,11 +59,20 @@ public class FieldDescriptorImpl extends AbstractFieldDescriptor {
         setMultivalued(typeInfo.getCollectionHandler() != null);
     }
 
-    //--------------------------------------------------------------------------
-
     public String toString() {
-        return getFieldName() + "(" + getFieldType().getName() + ")";
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(getFieldName() + "(" + getFieldType().getName() + ")");
+//        try {
+//            Class natureClass = Class.forName("org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature");
+//            if (hasNature(natureClass.getName())) {
+//                FieldDescriptorJDONature jdoNature = new FieldDescriptorJDONature(this);
+//                buffer.append(jdoNature.getSQLName() == null ? "" : " AS " 
+//                    + jdoNature.getSQLName()[0]);
+//            }
+//        } catch (ClassNotFoundException e) {
+//            // ignore
+//        }
+        return buffer.toString();
     }
 
-    //--------------------------------------------------------------------------
 }

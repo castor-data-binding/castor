@@ -112,8 +112,8 @@ public final class JDODescriptorJClass extends JClass {
     private void addImports() {
         addImport("org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature");
         addImport("org.castor.jdo.engine.SQLTypeInfos");
-        addImport("org.exolab.castor.jdo.engine.JDOFieldDescriptor");
-        addImport("org.exolab.castor.jdo.engine.JDOFieldDescriptorImpl");
+//        addImport("org.exolab.castor.jdo.engine.JDOFieldDescriptor");
+//        addImport("org.exolab.castor.jdo.engine.JDOFieldDescriptorImpl");
         addImport("org.exolab.castor.mapping.AccessMode");
         addImport("org.exolab.castor.mapping.FieldDescriptor");
         addImport("org.exolab.castor.mapping.FieldHandler");
@@ -128,6 +128,8 @@ public final class JDODescriptorJClass extends JClass {
         addImport("org.exolab.castor.mapping.xml.types.ClassMappingAccessType");
         addImport("org.castor.core.exception.IllegalClassDescriptorInitialization");
         addImport("org.exolab.castor.mapping.xml.types.FieldMappingCollectionType");
+        addImport("org.exolab.castor.mapping.loader.FieldDescriptorImpl");
+        addImport("org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature");
         addImport("java.lang.reflect.Method");
     }
 

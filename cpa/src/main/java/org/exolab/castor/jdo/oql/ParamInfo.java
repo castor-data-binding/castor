@@ -49,7 +49,8 @@ package org.exolab.castor.jdo.oql;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.jdo.util.ClassLoadingUtils;
 import org.exolab.castor.jdo.QueryException;
-import org.exolab.castor.jdo.engine.JDOFieldDescriptor;
+import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
+import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.TypeConvertor;
 import org.exolab.castor.mapping.loader.Types;
 
@@ -94,7 +95,7 @@ private ClassLoader _classLoader;
    *      systemType or if the type is not found.
    */
   public ParamInfo(final String userDefinedType, final String systemType,
-          final JDOFieldDescriptor desc, final ClassLoader classLoader)
+          final FieldDescriptor desc, final ClassLoader classLoader)
   throws QueryException {
     _userDefinedType = userDefinedType;
     _systemType = systemType;
@@ -134,11 +135,12 @@ private ClassLoader _classLoader;
     if (desc != null) {
         _fieldType = desc.getFieldType();
         try {
-            _sqlType = SQLTypeInfos.sqlTypeNum2javaType(desc.getSQLType()[0]);
+            _sqlType = SQLTypeInfos.sqlTypeNum2javaType( 
+                    new FieldDescriptorJDONature(desc).getSQLType()[0]);
         } catch (Exception ex) {
             throw new QueryException("Can't determine SQL class: " + ex);
         }
-        _convertor = desc.getConvertor();
+        _convertor = new FieldDescriptorJDONature(desc).getConvertor();
     }
   }
 

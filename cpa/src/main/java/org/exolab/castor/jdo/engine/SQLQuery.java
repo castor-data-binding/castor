@@ -33,6 +33,7 @@ import org.castor.persist.ProposedEntity;
 import org.castor.util.Messages;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
+import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
@@ -105,7 +106,7 @@ public final class SQLQuery implements PersistenceQuery {
         _identSqlType = new int[((ClassDescriptorImpl) _engine.getDescriptor()).getIdentities().length];
         for (int i = 0; i < _identSqlType.length; i++) {
             FieldDescriptor fldDesc = ((ClassDescriptorImpl) _engine.getDescriptor()).getIdentities()[i];
-            _identSqlType[i] = ((JDOFieldDescriptor) fldDesc).getSQLType()[0];
+            _identSqlType[i] =  new FieldDescriptorJDONature(fldDesc).getSQLType()[0];
         }
         
         _isCallSql = isCallSql;

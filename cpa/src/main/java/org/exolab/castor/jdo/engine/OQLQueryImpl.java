@@ -71,6 +71,7 @@ import org.exolab.castor.jdo.oql.ParseTreeWalker;
 import org.exolab.castor.jdo.oql.Parser;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.ClassDescriptor;
+import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.TypeConvertor;
@@ -761,7 +762,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
             for (int i = 1; i < _pathInfo.size(); i++) {
                 String curFieldName = (String) _pathInfo.elementAt(i);
                 try {
-                    JDOFieldDescriptor curFieldDesc = new ClassDescriptorJDONature(curClassDesc).getField(curFieldName);
+                    FieldDescriptor curFieldDesc = new ClassDescriptorJDONature(curClassDesc).getField(curFieldName);
                     FieldHandler handler = curFieldDesc.getHandler();
                     curObject = handler.getValue(curObject);
                     curClassDesc = curFieldDesc.getClassDescriptor();
