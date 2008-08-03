@@ -67,7 +67,7 @@ import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.MapItem;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.TypeConvertor;
-import org.exolab.castor.mapping.loader.AbstractFieldDescriptor;
+import org.exolab.castor.mapping.loader.FieldDescriptorImpl;
 import org.exolab.castor.mapping.loader.AbstractMappingLoader;
 import org.exolab.castor.mapping.loader.CollectionHandlers;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
@@ -232,7 +232,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
             xmlClassDesc.setExtends((XMLClassDescriptor) extDesc);
             
             // Create all field descriptors.
-            AbstractFieldDescriptor[] allFields = createFieldDescriptors(clsMap, javaClass);
+            FieldDescriptorImpl[] allFields = createFieldDescriptors(clsMap, javaClass);
 
             // Make sure there are no two fields with the same name.
             checkFieldNameDuplicates(allFields, javaClass);
@@ -438,7 +438,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
     } //-- method: isMatchFieldName
 
 
-    protected AbstractFieldDescriptor createFieldDesc( Class javaClass, FieldMapping fieldMap )
+    protected FieldDescriptorImpl createFieldDesc( Class javaClass, FieldMapping fieldMap )
         throws MappingException
     {
 

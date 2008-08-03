@@ -94,7 +94,6 @@ import org.exolab.castor.mapping.xml.Param;
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
 public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
-    //--------------------------------------------------------------------------
 
     /** The prefix for the "add" method. */
     private static final String ADD_METHOD_PREFIX = "add";
@@ -142,8 +141,6 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
     /** Map of field handlers associated by their name. */
     private final Map _fieldHandlers = new HashMap();
 
-    //--------------------------------------------------------------------------
-
     /**
      * Constructs a new mapping helper. This constructor is used by a derived class.
      *
@@ -153,16 +150,12 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
         super(loader);
     }
 
-    //--------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
     public final String getSourceType() {
         return "CastorXmlMapping";
     }
-
-    //--------------------------------------------------------------------------
 
     /**
      * Loads the mapping from the specified mapping object if not loaded previously.
@@ -398,7 +391,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
      * @throws MappingException An exception indicating why mapping for the class cannot
      *         be created.
      */
-    protected final AbstractFieldDescriptor[] createFieldDescriptors(final ClassMapping clsMap,
+    protected final FieldDescriptorImpl[] createFieldDescriptors(final ClassMapping clsMap,
                                                                      final Class javaClass) throws MappingException {
         FieldMapping[] fldMap = null;
 
@@ -407,10 +400,10 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
         }
 
         if ((fldMap == null) || (fldMap.length == 0)) {
-            return new AbstractFieldDescriptor[0];
+            return new FieldDescriptorImpl[0];
         }
 
-        AbstractFieldDescriptor[] fields = new AbstractFieldDescriptor[fldMap.length];
+        FieldDescriptorImpl[] fields = new FieldDescriptorImpl[fldMap.length];
         for (int i = 0; i < fldMap.length; i++) {
             fields[i] = createFieldDesc(javaClass, fldMap[i]);
 
@@ -450,8 +443,8 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
                 // copy non identity field from list of fields.
                 fieldList.add(field);
             } else {
-                if (field instanceof AbstractFieldDescriptor) {
-                    ((AbstractFieldDescriptor) field).setRequired(true);
+                if (field instanceof FieldDescriptorImpl) {
+                    ((FieldDescriptorImpl) field).setRequired(true);
                 }
                 if (field.getHandler() instanceof FieldHandlerImpl) {
                     ((FieldHandlerImpl) field.getHandler()).setRequired(true);
@@ -495,7 +488,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
      * @throws MappingException The field or its accessor methods are not
      *         found, not accessible, not of the specified type, etc.
      */
-    protected AbstractFieldDescriptor createFieldDesc(final Class javaClass,
+    protected FieldDescriptorImpl createFieldDesc(final Class javaClass,
                                                       final FieldMapping fieldMap) throws MappingException {
         String fieldName = fieldMap.getName();
 
@@ -574,7 +567,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
             }
         }
 
-        AbstractFieldDescriptor fieldDesc = new FieldDescriptorImpl(
+        FieldDescriptorImpl fieldDesc = new FieldDescriptorImpl(
                 fieldName, typeInfo, handler, fieldMap.getTransient());
 
         fieldDesc.setRequired(fieldMap.getRequired());
