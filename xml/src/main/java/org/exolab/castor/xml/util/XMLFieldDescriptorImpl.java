@@ -20,7 +20,7 @@ import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.MapItem;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.mapping.loader.AbstractFieldDescriptor;
+import org.exolab.castor.mapping.loader.FieldDescriptorImpl;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 import org.exolab.castor.xml.FieldValidator;
 import org.exolab.castor.xml.NodeType;
@@ -45,7 +45,7 @@ import java.util.Properties;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr 2006) $
  */
-public class XMLFieldDescriptorImpl extends AbstractFieldDescriptor implements XMLFieldDescriptor {
+public class XMLFieldDescriptorImpl extends FieldDescriptorImpl implements XMLFieldDescriptor {
     private static final String WILD_CARD = "*";
 
     private static final String NULL_CLASS_ERR
