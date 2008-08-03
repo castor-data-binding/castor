@@ -13,46 +13,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.cpa.query.object.select;
+package org.castor.cpa.query.object.literal;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
-import org.castor.cpa.query.object.expression.AbstractExpression;
-
 /**
- * Final class that represents date expression.
+ * Final immutable class that represents a time literal.
  * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public final class DateExpression extends AbstractExpression {
+public final class TimeLiteral extends AbstractTemporalLiteral {
     //--------------------------------------------------------------------------
-       
-    /** The date of date expression. */
-    private Date _date;
 
+    /** Date format for time literal. */
+    private static final DateFormat DF = new SimpleDateFormat("HH:mm:ss.SSS");
+    
     //--------------------------------------------------------------------------
     
-   /**
-     * Gets the date of date expression.
-     * 
-     * @return the date of date expression
-     */
-    public Date getDate() {
-        return _date;
-    }
-
-
     /**
-     * Sets the date of date expression.
+     * Construct a time literal with given date.
      * 
-     * @param date the new date of date expression
+     * @param value Date value for the time literal.
      */
-    public void setDate(final Date date) {
-        _date = date;
+    public TimeLiteral(final Date value) {
+        super(value);
+    }
+    
+    /**
+     * Construct a time literal with given calendar.
+     * 
+     * @param value Calendar value for the time literal.
+     */
+    public TimeLiteral(final Calendar value) {
+        super(value);
     }
 
     //--------------------------------------------------------------------------
@@ -61,10 +60,8 @@ public final class DateExpression extends AbstractExpression {
      * {@inheritDoc}
      */
     public StringBuilder toString(final StringBuilder sb) {
-        SimpleDateFormat sdf =  new SimpleDateFormat("yyyy-MM-dd");
-        return sb.append('\'').append(sdf.format(_date).toString()).append('\'');
+        return sb.append("TIME '").append(DF.format(getValue())).append('\'');
     }
 
     //--------------------------------------------------------------------------
-    
 }

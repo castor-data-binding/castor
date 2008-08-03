@@ -15,8 +15,6 @@
  */
 package org.castor.cpa.query.object.literal;
 
-
-
 /**
  * Mock literal class for testing AbstractLiteral class.
  * 

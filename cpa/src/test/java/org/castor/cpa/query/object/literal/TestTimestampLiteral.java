@@ -13,30 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.cpa.query.object.select;
+package org.castor.cpa.query.object.literal;
 
-import org.castor.cpa.query.object.expression.AbstractExpression;
+import junit.framework.TestCase;
 
 /**
- * Final class that represents a enum expression.
- *
+ * Junit Test for testing TimestampLiteral class.
+ * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public final class EnumExpression extends AbstractExpression {
+public class TestTimestampLiteral extends TestCase {
+    //--------------------------------------------------------------
 
-    //--------------------------------------------------------------------------
-    
-    /**
-     * {@inheritDoc}
-     */
-    public StringBuilder toString(final StringBuilder sb) {
-        // TODO Auto-generated method stub
-        return null;
+    public TestTimestampLiteral(final String name) {
+        super(name);
     }
 
-    //--------------------------------------------------------------------------
-          
+    //--------------------------------------------------------------
+    
+    // TODO implement tests
+
+    //--------------------------------------------------------------
 }

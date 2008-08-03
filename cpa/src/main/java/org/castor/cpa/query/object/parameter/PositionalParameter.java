@@ -43,7 +43,7 @@ public final class PositionalParameter extends AbstractParameter {
     //--------------------------------------------------------------------------
 
     /**
-     * Gets the position of the positional parameter.
+     * Get the position of the positional parameter.
      *
      * @return Position of the positional parameter.
      */

@@ -44,7 +44,7 @@ public final class StringLiteral extends AbstractLiteral {
     //--------------------------------------------------------------------------
 
     /**
-     * Gets the value of StringLiteral.
+     * Get the value of StringLiteral.
      *
      * @return Value of the StringLiteral.
      */

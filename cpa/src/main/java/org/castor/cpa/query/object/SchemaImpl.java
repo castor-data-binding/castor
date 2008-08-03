@@ -38,7 +38,7 @@ public final class SchemaImpl extends AbstractField implements Schema  {
     private Class _type;
  
     /** The identifier of the schema. */
-    private String _identifier;
+    private final String _identifier;
     
     //--------------------------------------------------------------------------
     
