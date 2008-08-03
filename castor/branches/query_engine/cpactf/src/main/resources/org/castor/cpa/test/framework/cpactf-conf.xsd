@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    The CPA Castor Test Framework configuration file XML Schema
+
+    Namespace: http://castor.org/JDO
+    System:    http://castor.org/cpactf-conf.xsd
+    Public:    -//EXOLAB/CPA Castor Test Framework Configuration Schema Version 1.0//EN
+
+    Note: This schema is under evolution and subject to change.
+ -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://castor.org/JDO"
+  xmlns="http://castor.org/JDO"
+  version="$$VERSION$$$RELEASE$">
+
+  <xsd:annotation>
+    <xsd:documentation>
+      XML Scheman for the CPA Castor Test Framework configuration file 
+    </xsd:documentation>
+  </xsd:annotation>
+
+  <xsd:element name="cpactf-conf">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="configuration" minOccurs="1" maxOccurs="unbounded"/>
+        <xsd:element ref="database" minOccurs="1" maxOccurs="unbounded"/>
+        <xsd:element ref="transaction" minOccurs="1" maxOccurs="unbounded"/>
+      </xsd:sequence>
+      <xsd:attribute name="default-database" type="xsd:string" use="required"/>
+      <xsd:attribute name="default-transaction" type="xsd:string" use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="configuration">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="description" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="mapping" minOccurs="1" maxOccurs="unbounded"/>
+      </xsd:sequence>
+      <xsd:attribute name="name" type="xsd:ID" use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="mapping">
+    <xsd:complexType>
+      <xsd:attribute name="href" type="xsd:string" use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="database">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="description" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+        <xsd:choice>
+          <xsd:element ref="driver"/>
+          <xsd:element ref="data-source"/>
+          <xsd:element ref="jndi"/>
+        </xsd:choice>
+      </xsd:sequence>
+      <xsd:attribute name="name" type="xsd:ID" use="required"/>
+      <xsd:attribute name="engine" use="required">
+        <xsd:simpleType>
+           <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="db2"/>
+              <xsd:enumeration value="derby"/>
+              <xsd:enumeration value="hsql"/>
+              <xsd:enumeration value="mysql"/>
+              <xsd:enumeration value="oracle"/>
+              <xsd:enumeration value="pointbase"/>
+              <xsd:enumeration value="postgresql"/>
+              <xsd:enumeration value="progress"/>
+              <xsd:enumeration value="sapdb"/>
+              <xsd:enumeration value="sql-server"/>
+              <xsd:enumeration value="sybase"/>
+           </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="driver">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="param" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+      <xsd:attribute name="url" type="xsd:string" use="required"/>
+      <xsd:attribute name="class-name" type="xsd:string" use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="data-source">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="param" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+      <xsd:attribute name="class-name" type="xsd:string" use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="jndi">
+    <xsd:complexType>
+       <xsd:attribute name="name" type="xsd:string" use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="transaction">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="description" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="manager" minOccurs="0" maxOccurs="1"/>
+      </xsd:sequence>
+      <xsd:attribute name="name" type="xsd:ID" use="required"/>
+      <xsd:attribute name="mode" use="required">
+        <xsd:simpleType>
+           <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="local"/>
+              <xsd:enumeration value="global"/>
+           </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="manager">
+    <xsd:complexType>
+      <xsd:sequence>
+         <xsd:element ref="param" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+      <xsd:attribute name="name" type="xsd:string" use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="param">
+    <xsd:complexType>
+      <xsd:attribute name="name" type="xsd:string" use="required"/>
+      <xsd:attribute name="value" type="xsd:string" use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+
+</xsd:schema>

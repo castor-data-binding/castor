@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:ns1="http://www.fpml.org/2004/FpML-4-1"
+	xmlns:dsig="http://www.w3.org/2000/09/xmldsig#"
+	xmlns="http://www.fpml.org/2003/FpML-4-0"
+	targetNamespace="http://www.fpml.org/2003/FpML-4-0"
+	attributeFormDefault="unqualified" elementFormDefault="qualified">
+
+	<xsd:complexType name="CBMTransactionEvent">
+		<xsd:sequence>
+			<xsd:element name="eventEffectiveDate" type="xsd:date"
+				minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="underlyerAdjustment">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="CBMTransactionEvent">
+					<xsd:sequence>
+						<xsd:element name="unwindCashflow" minOccurs="0" type="xsd:integer" />
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+
+
+</xsd:schema>
+

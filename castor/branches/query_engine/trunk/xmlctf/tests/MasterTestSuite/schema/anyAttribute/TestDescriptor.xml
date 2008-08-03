@@ -1,0 +1,23 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Test the reading of AnyAttribute under AttributeGroup</Name>
+    <Author>Arnaud Blandin</Author>
+    <Comment>Regression testing
+    </Comment>
+    <Category>basic capability</Category>
+    <SchemaTest>
+
+        <UnitTestCase>
+            <Schema>anyAttribute_AttributeGroup.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>anyAttribute_Annotation.xsd</Schema>
+            <Comment>
+                We lose an Annotation during processing.
+            </Comment>
+            <SchemaDifferences FailureStep="compare-to-reference">1</SchemaDifferences>
+        </UnitTestCase>
+
+    </SchemaTest>
+ </TestDescriptor>

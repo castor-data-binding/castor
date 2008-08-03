@@ -1,0 +1,21 @@
+<?xml version='1.0'?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+  <xs:element name="TestElement" type="TestType"/>
+
+  <xs:complexType name="TestType">
+    <xs:attribute name="MyAttrib" type="MyType"/>
+  </xs:complexType>
+
+  <xs:simpleType name="MyType">
+    <xs:list itemType="BaseType"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="BaseType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[0-9]{1,8}"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

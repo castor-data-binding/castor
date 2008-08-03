@@ -1,0 +1,29 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Make sure that xs:choice fails nicely if more than one choice is taken but maxOccurs="1"</Name>
+    <Author>Edward Kuns</Author>
+    <Comment>Regression test case for bug CASTOR-204</Comment>
+    <Category>basic capability</Category>
+    <BugFix>
+        <Reporter>stefan.schwickert@dekabank.de</Reporter>
+        <Date_Report>2002-10-10</Date_Report>
+        <Date_Fix>2006-10-12</Date_Fix>
+        <Comment>
+            Date_Fix is the date the test case was attached.  The bug was fixed
+            at some unknown time between Date_Report and Date_Fix.
+        </Comment>
+        <Comment>This bug was fixed, so this test case makes sure it stays fixed</Comment>
+    </BugFix>
+
+    <SourceGeneratorTest>
+        <Schema>test.xsd</Schema>
+        <Root_Object random="false" dump="true">Request</Root_Object>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Input>badDocument.xml</Input>
+            <!-- StackOverflowException is what we want to avoid -->
+            <Failure exception="org.exolab.castor.core.exceptions.CastorException"
+                     FailureStep="unmarshal-reference">true</Failure>
+        </UnitTestCase>
+    </SourceGeneratorTest>
+</TestDescriptor>

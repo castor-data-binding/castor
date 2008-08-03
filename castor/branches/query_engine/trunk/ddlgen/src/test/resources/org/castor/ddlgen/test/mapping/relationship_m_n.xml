@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+	<description>n-m relationship</description>
+	<!--  Mapping for Product  -->
+	<class name="myapp.Product" identity="id">
+		<description>Product definition</description>
+		<map-to table="prod" xml="product" />
+		<field name="id" type="integer">
+			<sql name="id" type="integer" />
+		</field>
+		<field name="name" type="string">
+			<sql name="name" type="char" />
+		</field>
+
+		<!-- Product has reference to Category with
+			many-many relationship -->
+		<field name="categories" type="myapp.Category" required="true"
+			collection="vector">
+			<sql many-table="category_prod"
+				many-key="prod_id" name="category_id"/>
+		</field>
+
+	</class>
+
+	<!--  Mapping for Category  -->
+	<class name="myapp.Category" identity="id">
+		<description>
+			A product category, any number of products can belong to the
+			same category, a product can belong to any number of
+			categories
+		</description>
+		<map-to table="category" xml="category" />
+		<field name="id" type="integer">
+			<sql name="id" type="char" />
+		</field>
+		<field name="name" type="string">
+			<sql name="name" type="char" />
+			<bind-xml node="element" />
+		</field>
+		<field name="products" type="myapp.Product" required="true"
+			collection="vector">
+			<sql many-table="category_prod"
+				many-key="category_id" name="prod_id"/>
+		</field>
+	</class>
+</mapping>

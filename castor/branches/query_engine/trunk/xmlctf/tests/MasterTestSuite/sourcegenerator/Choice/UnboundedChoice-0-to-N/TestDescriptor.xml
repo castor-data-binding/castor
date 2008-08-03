@@ -1,0 +1,31 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Make sure that unbounded xs:choice works at code generation</Name>
+    <Author>Werner Guttmann</Author>
+    <Comment>Regression test case for bug CASTOR-936</Comment>
+    <Category>basic capability</Category>
+    <BugFix>
+        <Reporter>carlo.romero@gs.com</Reporter>
+        <Date_Report>2006-10-23</Date_Report>
+        <Date_Fix>2006-11-16</Date_Fix>
+        <Comment>This bug was fixed, so this test case makes sure it stays fixed</Comment>
+    </BugFix>
+
+    <SourceGeneratorTest>
+        <Schema>test.xsd</Schema>
+        <BindingFile>binding.xml</BindingFile>
+        <Root_Object random="false" dump="true">CressidaElement</Root_Object>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Input>input.xml</Input>
+        </UnitTestCase>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Input>input2.xml</Input>
+        </UnitTestCase>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Input>input3.xml</Input>
+        </UnitTestCase>
+    </SourceGeneratorTest>
+</TestDescriptor>

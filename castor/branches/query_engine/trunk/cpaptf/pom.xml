@@ -1,0 +1,77 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.codehaus.castor</groupId>
+	<artifactId>castor-cpaptf</artifactId>
+	<version>1.2</version>
+	
+<!-- 
+	<parent>
+		<groupId>org.codehaus.castor</groupId>
+		<artifactId>castor</artifactId>
+		<version>1.1.1-SNAPSHOT</version>
+	</parent>
+ -->		
+	<packaging>jar</packaging>
+
+	<name>Performance test suite for Castor JDO</name>
+	<url>http://www.castor.org</url>
+
+    <scm>
+       <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/cpaptf</connection>
+       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/cpaptf</developerConnection>
+       <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/cpaptf</url>
+    </scm>
+
+	<developers>
+		<developer>
+			<name>Ralf Joachim</name>
+			<email>ralf.joachim@syscon-world.de</email>
+			<organization>Syscon</organization>
+			<roles>
+				<role>Castor JDO committer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+        <developer>
+            <id>wguttmn</id>
+            <name>Werner Guttmann</name>
+            <email>wguttmn@codehaus.org</email>
+            <roles>
+                <role>Castor JDO committer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+
+	</developers>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.codehaus.castor</groupId>
+			<artifactId>castor</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.2</version>
+		</dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>3.1.12</version>
+            <scope>test</scope>
+            <optional>true</optional>
+        </dependency>
+
+	</dependencies>
+
+</project>
+
+

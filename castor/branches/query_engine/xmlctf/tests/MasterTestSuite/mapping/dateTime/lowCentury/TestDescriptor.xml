@@ -1,0 +1,23 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+
+    <Name>Low-Century</Name>
+    <Author>Werner Guttmann</Author>
+
+    <Comment>
+        Tests the handling of ölow centuries with dates.
+    </Comment>
+
+    <Category>basic capability</Category>
+
+    <MarshallingTest>
+        <Root_Object>Foo</Root_Object>
+
+        <UnitTestCase>
+            <Name>Test01</Name>
+            <Input>input.xml</Input>
+        </UnitTestCase>
+
+    </MarshallingTest>
+
+</TestDescriptor>

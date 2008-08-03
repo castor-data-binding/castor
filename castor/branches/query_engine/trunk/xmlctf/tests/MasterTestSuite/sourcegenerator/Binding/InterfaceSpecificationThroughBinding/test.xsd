@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.S4iSystems.com"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.S4iSystems.com"
+	elementFormDefault="qualified">
+	<xsd:annotation>
+		<xsd:appinfo>
+			Copyright (c) 2006 S4i Systems Inc. and others. All rights reserved.
+		</xsd:appinfo>
+		<xsd:documentation xml:lang="en">
+			S4i Express WebView End User Filter File data. This file
+			contains a list of end user specified controls and document
+			filters to control the S4i Express WebView document list
+			selection for eventual display or distribution.
+		</xsd:documentation>
+	</xsd:annotation>
+
+	<!-- WebView End User Document Filter & Properties Root Element -->
+	<xsd:element name="ExpUserProperties">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="AdminRights" />
+				<xsd:element ref="ClientRights" />
+				<xsd:element ref="PageLayout" />
+				<xsd:element ref="FilterGroupList" />
+			</xsd:sequence>
+			<xsd:attribute name="version" use="required" type="xpVersionType" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- Filter statement property custom attribute group -->
+	<xsd:attributeGroup name="filterPropertyAttr">
+		<xsd:attribute name="view" use="required" type="xsd:boolean" />
+		<xsd:attribute name="update" use="required" type="xsd:boolean" />
+		<xsd:attribute name="title" use="required" type="string60Type" />
+	</xsd:attributeGroup>
+	
+	<!-- The following properties are set in the administrator on the host or server -->	
+	<xsd:element name="AdminRights">
+		<xsd:complexType>
+			<xsd:all>
+				<xsd:element name="loadDefaultFilters" type="xsd:boolean" />
+				<xsd:element name="networkUserID" type="genericOS400NameType" />
+				<xsd:element name="proxyUserID"	type="os400NameType" />
+				<xsd:element name="filterFilename" type="xsd:string" />
+				<xsd:element name="loginExitProgram" type="xsd:string" />
+				<xsd:element name="logoutExitProgram" type="xsd:string" />
+				<xsd:element name="networkUserStatus" type="xsd:boolean" />
+				<xsd:element name="sortFilterListByDescription" type="xsd:boolean" minOccurs="0" />
+				<xsd:element name="createNewFilter" type="xsd:boolean" />
+				<xsd:element name="advancedFilterEdit" type="xsd:boolean" />
+				<xsd:element name="dhtml" type="xsd:boolean" minOccurs="0" />
+				<xsd:element name="acrobatExternal" type="xsd:boolean" />
+				<xsd:element name="defaultSingleItemAction" type="singleItemActionType" /> 
+			</xsd:all>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<!-- The following properties are set in the destination record -->
+	<xsd:element name="ClientRights">
+		<xsd:complexType>
+			<xsd:all>
+				<xsd:element name="localEmail" type="xsd:boolean" />
+				<xsd:element name="hostEmail" type="xsd:boolean" />
+				<xsd:element name="localPrint" type="xsd:boolean" />
+				<xsd:element name="hostPrint" type="xsd:boolean" />
+				<xsd:element name="hostFTP" type="xsd:boolean" />
+				<xsd:element name="hostFax" type="xsd:boolean" />
+				<xsd:element name="clientDownload" type="xsd:boolean" />
+				<xsd:element name="localSave" type="xsd:boolean" />
+				<xsd:element name="administrator" type="xsd:boolean" />
+			</xsd:all>
+		</xsd:complexType>
+	</xsd:element>
+
+
+	<!--===( Page level control and layout )==============================-->
+	<!-- The following properties are set by the end user and control page layout -->
+	<xsd:element name="PageLayout">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="reportClick" />
+				<xsd:element ref="sortColumn" />
+				<xsd:element ref="docColLayout" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="reportClick">
+		<xsd:complexType>
+			<xsd:simpleContent>
+				<xsd:extension base="reportClickType"> 
+				</xsd:extension>
+			</xsd:simpleContent>	
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="sortColumn">
+		<xsd:complexType>
+			<xsd:simpleContent>
+				<xsd:extension base="colNameType"> 
+				<xsd:attribute name="sortOrder" use="required" type="sortOrderType" />
+				</xsd:extension>
+			</xsd:simpleContent>	
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="docColLayout">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="colName" minOccurs="18" maxOccurs="20" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="colName">
+		<xsd:complexType>
+			<xsd:simpleContent>
+				<xsd:extension base="colNameType"> 
+				<xsd:attribute name="view" use="required" type="xsd:boolean" />
+				<xsd:attribute name="title" use="required" type="string30Type" />
+				<xsd:attribute name="titleRow" use="required" type="rowType" />
+				<xsd:attribute name="titleCol" use="required" type="xsd:integer" />
+				<xsd:attribute name="dtaRow" use="required" type="rowType" />
+				<xsd:attribute name="dtaCol" use="required" type="xsd:integer" />
+				<xsd:attribute name="dtaWidth" use="required" type="xsd:integer" />
+				</xsd:extension>
+			</xsd:simpleContent>	
+		</xsd:complexType>
+	</xsd:element>
+
+
+	<!--===( Filter List / Filter Group / Filter Statements )=============-->
+	<!-- List of all defined filters groups (folders) -->
+	<xsd:element name="FilterGroupList">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element maxOccurs="unbounded" ref="FilterGroup" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- Group of filter statements (folder) -->
+	<xsd:element name="FilterGroup">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element maxOccurs="unbounded" ref="Filter" />
+			</xsd:sequence>
+			<xsd:attributeGroup ref="filterPropertyAttr" />
+			<!-- Group filter list is expanded -->
+			<xsd:attribute name="expandList" use="required" type="xsd:boolean" />	
+			<xsd:attribute name="userFilterGroup" use="optional" default="true" type="xsd:boolean" />
+			<xsd:attribute name="groupId" use="prohibited" type="xsd:integer" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="Filter">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="removable" type="xsd:boolean" />
+				<xsd:element name="modifiable" type="xsd:boolean" />
+				<xsd:element name="active" type="xsd:boolean" />
+				<xsd:element name="autoExecute" type="xsd:boolean" />
+				<xsd:element name="priority" type="xsd:integer" />
+				<xsd:element name="Description" >
+					<xsd:complexType>
+						<xsd:simpleContent>
+							<xsd:extension base="string60Type">
+								<xsd:attributeGroup ref="filterPropertyAttr" />
+							</xsd:extension>
+						</xsd:simpleContent>	
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="ReportName" type="i5osName"/>
+				<xsd:element name="SegmentName" type="i5osName" />
+				<xsd:element name="Version" >
+					<xsd:complexType>
+						<xsd:simpleContent>
+							<xsd:extension base="versionNbrType">
+								<xsd:attributeGroup ref="filterPropertyAttr" />
+							</xsd:extension>
+						</xsd:simpleContent>	
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="FromDate" type="filterDate" />
+				<xsd:element name="ToDate" type="filterDate" />
+				<xsd:element name="ExpIndex" type="expIndex" />
+				<xsd:element name="SortOrder" type="SortOrder" minOccurs="0" />
+				<xsd:element name="DftAction" type="DftAction" />
+				<xsd:element name="fromPage" type="xsd:integer" minOccurs="0" />
+				<xsd:element name="toPage" type="xsd:integer" minOccurs="0" />
+				<xsd:element ref="docColLayout" minOccurs="0" />
+			</xsd:sequence>
+			<xsd:attribute name="xslFile" use="required" type="xsd:string" />
+			<!-- Previous submission item count -->
+			<xsd:attribute name="prvCount" use="required" type="xsd:integer" />	
+			<!-- Previous submission response time -->
+			<xsd:attribute name="prvDuration" use="required" type="xsd:float" />
+			<!-- Previous submission date & time -->
+			<xsd:attribute name="prvDate" use="required" type="xsd:dateTime" />
+			<!-- Total item count for average calculation -->
+			<xsd:attribute name="totCount" use="required" type="xsd:integer" />
+			<!-- Total submissions for average calculation -->
+			<xsd:attribute name="totSubmit" use="required" type="xsd:integer" />
+			<!-- Total submission response time for average calculation -->
+			<xsd:attribute name="totDuration" use="required" type="xsd:double" />
+			<xsd:attribute name="groupId" use="prohibited" type="xsd:integer" />
+			<xsd:attribute name="filterId" use="prohibited" type="xsd:integer" />
+		</xsd:complexType>
+	</xsd:element>
+			
+	<!--===( Common custom data types )===================================-->
+	<xsd:complexType name="DftAction">
+		<xsd:simpleContent>
+			<xsd:extension base="singleItemActionType">
+				<xsd:attributeGroup ref="filterPropertyAttr" />
+			</xsd:extension>
+		</xsd:simpleContent>	
+	</xsd:complexType>
+
+	<xsd:complexType name="SortOrder">
+        <xsd:annotation>
+        	<xsd:documentation>Deprecated in Version 2.09.00 Order is now maintained in the filter file</xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleContent>
+			<xsd:extension base="xsd:integer">
+				<xsd:attributeGroup ref="filterPropertyAttr" />
+			</xsd:extension>
+		</xsd:simpleContent>	
+	</xsd:complexType>
+		
+	<xsd:complexType name="i5osName">
+		<xsd:simpleContent>
+			<xsd:extension base="genericOS400NameType"> 
+				<xsd:attributeGroup ref="filterPropertyAttr" />
+			</xsd:extension>
+		</xsd:simpleContent>	
+	</xsd:complexType>
+
+
+	<xsd:complexType name="filterDate">
+		<xsd:simpleContent>
+			<xsd:extension base="dateType">
+				<xsd:attributeGroup ref="filterPropertyAttr" />
+			</xsd:extension>
+		</xsd:simpleContent>	
+	</xsd:complexType>
+
+	<xsd:complexType name="expIndex" mixed="true">
+			<xsd:sequence>
+				<xsd:element name="IndexData1" type="indexData" />
+				<xsd:element name="IndexData2" type="indexData" />
+				<xsd:element name="IndexData3" type="indexData" />
+				<xsd:element name="IndexData4" type="indexData" />
+				<xsd:element name="IndexData5" type="indexData" />
+			</xsd:sequence>
+			<xsd:attributeGroup ref="filterPropertyAttr" />
+			<xsd:attribute name="indexName" use="required" type="os400NameType" />
+	</xsd:complexType>
+	
+	<xsd:complexType name="indexData">
+		<xsd:simpleContent>
+			<xsd:extension base="indexDataStringType">
+				<xsd:attributeGroup ref="filterPropertyAttr" />
+			</xsd:extension>
+		</xsd:simpleContent>	
+	</xsd:complexType>
+	
+	<!-- Limit name to 40 characters -->
+	<xsd:simpleType name="indexDataStringType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0" />
+			<xsd:maxLength value="40" />
+			<xsd:whiteSpace value="replace" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+		
+	<!-- Single item action type validation -->
+	<xsd:simpleType name="singleItemActionType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="*VIEW" />
+			<xsd:enumeration value="*PRINT" />
+			<xsd:enumeration value="*CLIENT" />
+			<xsd:enumeration value="*FAX" />
+			<xsd:enumeration value="*FTP" />
+			<xsd:enumeration value="*MAIL" />
+			<xsd:enumeration value="*LIST" />
+			<xsd:enumeration value="*PROPERTY" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<!-- ReportName name hyperlink click action type validation -->
+	<xsd:simpleType name="reportClickType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="*NONE" />
+			<xsd:enumeration value="*DEFAULT" />
+			<xsd:enumeration value="*VIEW" />
+			<xsd:enumeration value="*PRINT" />
+			<xsd:enumeration value="*CLIENT" />
+			<xsd:enumeration value="*FAX" />
+			<xsd:enumeration value="*FTP" />
+			<xsd:enumeration value="*MAIL" />
+			<xsd:enumeration value="*PROPERTY" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<!-- Current sort column order -->
+	<xsd:simpleType name="sortOrderType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="*ASCENDING" />
+			<xsd:enumeration value="*DESCENDING" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<!-- Document list table column names -->
+	<xsd:simpleType name="colNameType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="*REPORT" />
+			<xsd:enumeration value="*SEGMENT" />
+			<xsd:enumeration value="*VERSION" />
+			<xsd:enumeration value="*CRTDATE" />
+			<xsd:enumeration value="*CRTTIME" />
+			<!-- Date & time in single cell -->
+			<xsd:enumeration value="*CRTDATETIME" />
+			<xsd:enumeration value="*NBRPAGES" />
+			<xsd:enumeration value="*DOCTYPE" />
+			<xsd:enumeration value="*LOCATION" />
+			<!-- Document definition description text -->
+			<xsd:enumeration value="*RPTDESC" />
+			<!-- Segment definition description text -->
+			<xsd:enumeration value="*SEGDESC" />
+			<xsd:enumeration value="*IDXNAME" />
+			<!-- Index definition description text -->
+			<xsd:enumeration value="*IDXDESC" />
+			<xsd:enumeration value="*IDXDTA1" />
+			<xsd:enumeration value="*IDXDTA2" />
+			<xsd:enumeration value="*IDXDTA3" />
+			<xsd:enumeration value="*IDXDTA4" />
+			<xsd:enumeration value="*IDXDTA5" />
+			<!-- All index data field values separated by / character -->
+			<xsd:enumeration value="*IDXDTA" />
+			<xsd:enumeration value="*ANNOTOK" />
+			<xsd:enumeration value="*NONE" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<!-- Row type valid values: *HEADER/*DATAROW1/*DATAROW2/*NONE -->
+	<xsd:simpleType name="rowType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="*TITLE" />
+			<xsd:enumeration value="*ROW1" />
+			<xsd:enumeration value="*ROW2" />
+			<xsd:enumeration value="*NONE" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<!-- Limit version number to +/- integer or * character -->
+	<xsd:simpleType name="versionNbrType">
+		<xsd:restriction base="xsd:string">
+ 			<xsd:pattern value="\*" />			<!-- Match single * character -->
+ 			<xsd:pattern value="\d{1,7}" />		<!-- Match digit characters -->
+ 			<xsd:pattern value="\-\d{1,7}" />	<!-- Match digit characters -->
+			<xsd:minLength value="1" />
+			<xsd:maxLength value="8" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<!-- Limit top level version number to "XPvr.mm_WV" string -->
+	<xsd:simpleType name="xpVersionType">
+		<xsd:restriction base="xsd:string">
+ 			<xsd:pattern value="XP\d\d\.\d\d_WV" />
+ 			<xsd:minLength value="10" />
+			<xsd:maxLength value="10" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!-- Limit name to 60 characters and remove all pre/post whitespace -->
+	<xsd:simpleType name="string60Type">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1" />
+			<xsd:maxLength value="60" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!-- Limit name to 30 characters retain all whitespace -->
+	<xsd:simpleType name="string30Type">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0" />
+			<xsd:maxLength value="30" />
+			<xsd:whiteSpace value="replace" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<!-- Date or relative date or * type -->
+	<xsd:simpleType name="dateType">
+		<xsd:restriction base="xsd:string">
+ 			<xsd:pattern value="\*" />		<!-- Match single * character -->
+			<xsd:pattern value="(0[1-9]|1[012])/(0[1-9]|[12][0-9]|3[01])/(19|20)\d\d" /> <!-- Match mm/dd/yyyy -->
+ 			<xsd:pattern value="\d{1,3}" />	<!-- Relative number -->		
+			<xsd:maxLength value="10" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+
+	<!-- Valid OS/400 name - 10 char max -->
+	<xsd:simpleType name="os400NameType">
+		<xsd:restriction base="xsd:string">
+			<!-- <pattern value="\p{Lu}[\p{Lu}\p{N}]{1,9}"></pattern> -->
+			<xsd:pattern value="[A-Z@#$_*]{1}[A-Z0-9@#$_.]{1,9}" />
+			<xsd:maxLength value="10" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!-- Valid Generic OS/400 name - 10 char max -->
+	<xsd:simpleType name="genericOS400NameType">
+		<xsd:restriction base="xsd:string">
+			<!-- <pattern value="\p{Lu}[\p{Lu}\p{N}]{1,9}"></pattern> -->
+			<xsd:pattern value="[A-Z@#$_*]{1}[A-Z0-9@#$_.*]{1,9}" />
+			<xsd:maxLength value="10" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

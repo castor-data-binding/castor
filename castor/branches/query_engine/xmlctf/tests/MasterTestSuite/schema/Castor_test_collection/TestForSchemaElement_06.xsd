@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+   <!-- Test for schema element with complexType definitions(s) -->
+   <!--
+        Please see TestsForComplexTypeElement_** for more complex tests
+        regarding complexType definitions
+    -->
+
+   <!-- basic complexType definition -->
+   <xsd:complexType name="type1"/>
+
+   <!-- basic complexType definition -->
+   <xsd:complexType name="type2">
+      <xsd:sequence>
+          <xsd:element name="elem1" type="xsd:string"/>
+      </xsd:sequence>
+      <xsd:attribute name="attr1" type="xsd:string"/>
+   </xsd:complexType>
+
+</xsd:schema>

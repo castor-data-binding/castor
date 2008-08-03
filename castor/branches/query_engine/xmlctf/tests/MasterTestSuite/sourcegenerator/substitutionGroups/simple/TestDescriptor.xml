@@ -1,0 +1,38 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Collection of tests for substitution groups</Name>
+    <Author>Werner Guttmann</Author>
+    <Comment>Tests substitution group funtionality</Comment>
+    <Category>basic capability</Category>
+    <SourceGeneratorTest>
+        <Schema>test.xsd</Schema>
+        <Property_File>builder.properties</Property_File>
+        <BindingFile>binding.xml</BindingFile>
+        <Root_Object random="false" dump="true">SingleUnderlyer</Root_Object>
+        <UnitTestCase>
+			<GenerateImported>true</GenerateImported>
+            <Name>TestSingleUnderlyer1</Name>
+            <Input>input-1.xml</Input>
+            <GoldFile/>
+        </UnitTestCase>
+        <UnitTestCase>
+			<GenerateImported>true</GenerateImported>
+            <Name>TestSingleUnderlyer2</Name>
+            <Input>input-2.xml</Input>
+            <GoldFile/>
+        </UnitTestCase>
+        <UnitTestCase>
+			<GenerateImported>true</GenerateImported>
+            <Name>TestSingleUnderlyer3</Name>
+            <Input>input-3.xml</Input>
+            <GoldFile/>
+        </UnitTestCase>
+        <UnitTestCase>
+			<GenerateImported>true</GenerateImported>
+            <Name>TestSingleUnderlyerWithWrongSequence</Name>
+            <Input>input-4.xml</Input>
+            <GoldFile/>
+            <Failure>true</Failure>
+        </UnitTestCase>
+    </SourceGeneratorTest>
+</TestDescriptor>

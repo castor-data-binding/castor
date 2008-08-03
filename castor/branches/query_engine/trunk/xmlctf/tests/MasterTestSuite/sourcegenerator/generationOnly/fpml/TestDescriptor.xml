@@ -1,0 +1,18 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Tests source geneneration (only) for the fpml schemas</Name>
+    <Author>Edward Kuns</Author>
+    <Comment>Without this binding file, things go badly awry</Comment>
+    <Category>basic capability</Category>
+    <OnlySourceGenerationTest>
+        <Schema>fpml-main-4-2.xsd</Schema>
+        <Schema>ml-pb-1-0.xsd</Schema>
+        <BindingFile>binding.xml</BindingFile>
+        <UnitTestCase>
+            <Name>Test Source Generation</Name>
+            <Comment>SKIP is set until this test case is finished</Comment>
+            <Comment>The test case cannot go to completion at the moment</Comment>
+            <Skip>true</Skip>
+        </UnitTestCase>
+     </OnlySourceGenerationTest>
+</TestDescriptor>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.codehaus.org/sourcegen.xml">
+
+  <properties>
+    <title>The Source Code Generator</title>
+    <author email="keith AT kvisco DOT com">Keith Visco</author>
+    <author email="blandin@intalio.com">Arnaud Blandin</author>
+    <abstract>
+       Describes how to use the Source Code Generator, and what features and
+       options are currently supported.
+    </abstract>
+    <status>Draft</status>
+  </properties>
+
+  <body>
+
+    <title>Using the Source Code Generator</title>
+    <header>
+      <p>
+        API Reference: <api package="org.exolab.castor.builder">The Source
+         Builder API</api>
+      </p>
+    </header>
+
+    <section title="News">
+
+      <section title="Source generation &amp; Java 5.0">
+
+        <p>
+          Since <b>release 1.0.2</b>, the Castor source generator supports
+          the generation of Java 5.0 compliant code. The generated code --
+          with the new feature enabled -- will make use of the following
+          Java 5.0-specific artifacts:
+        </p>
+
+        <ul>
+          <li>
+            Use of parameterized collections, e.g.
+            <tt>ArrayList&lt;String&gt;</tt>.
+          </li>
+          <li>
+            Use of <tt>@Override</tt> annotations with the generated methods
+            that require it.
+          </li>
+          <li>
+            Use of <tt>@SuppressWarnings</tt> with "unused" method parameters
+            on the generated methods that needed it.
+          </li>
+          <li>Added "enum" to the list of reserved keywords.</li>
+        </ul>
+
+        <p>
+          To enable this feature (off by default), please add or uncomment
+          the following property in your custom
+          <tt>castorbuilder.properties</tt> file:
+        </p>
+
+        <code-panel>
+# Specifies whether the sources generated should be source compatible with
+# Java 1.4 or Java 5.  Legal values are "1.4" and "5.0".  When "5.0" is
+# selected, generated source will use Java 5 features such as generics and
+# annotations.
+# Defaults to "1.4".
+#
+org.exolab.castor.builder.javaVersion=5.0
+        </code-panel>
+
+      </section>
+
+    </section>
+
+    <section title="Introduction">
+
+      <p>
+        Castor's Source Code Generator creates a set of Java classes which
+        represent an object model for an XML Schema (W3C XML Schema 1.0 Second
+        Edition, Recommendation)<sup>1</sup>, as well as the necessary Class
+        Descriptors used by the <a href="xml-framework.xml">marshaling
+        framework</a> to obtain information about the generated classes.
+      </p>
+
+      <note>
+        The generated source files will need to be compiled.  A later
+        release may add an Ant taskdef to handle this automatically.
+      </note>
+
+    </section>
+
+	<section title="Invoking the XML code generator">
+	
+		<p>The XML code generator can be invoked in many ways, including by 
+		   command line, via an Ant task and via Maven. Please follow the 
+		   below links for detailed instructions on each invocation mode.</p>
+		   
+		<ul>
+			<li><a href="srcgen-cline.html">Command line interface</a></li>
+			<li><a href="srcgen-anttask.html">Ant task for Castor code generation</a></li>
+			<li><a href="srcgen-maven-plugin.html">Maven 2 plugin for Castor code generation</a></li>
+		</ul>
+	
+    </section>
+
+    <section title="XML Schema">
+
+      <p>
+        The input file for the source code generator is an XML
+        Schema<sup>2</sup>.  The currently supported version is the
+        <b>W3C XML Schema 1.0, Second Edition Recommendation</b><sup>1</sup>.
+        For more information about XML Schema Support, check the
+        <a href="xmlschema.xml">XML Schema page</a>
+      </p>
+
+    </section>
+
+    <section>
+      <body-note>
+        <sup>1</sup>Castor supports the
+        <a href="http://www.w3.org/TR/XMLschema-1">XML Schema 1.0 Second
+        Edition Recommendation</a></body-note>
+      <body-note>
+        <sup>2</sup>XML Schema is a <a href="http://www.w3.org">W3C</a>
+        Recommendation
+      </body-note>
+      <body-note>
+        <sup>3</sup>XPath is a <a href="http://www.w3.org">W3C</a>
+        Recommendation
+      </body-note>
+
+    </section>
+
+  </body>
+
+</document>

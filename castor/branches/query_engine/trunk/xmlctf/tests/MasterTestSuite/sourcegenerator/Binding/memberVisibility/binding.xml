@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding xmlns="http://www.castor.org/SourceGenerator/Binding"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.castor.org/SourceGenerator/Binding binding.xsd"
+	defaultBindingType="type">
+
+	<elementBinding name="/root/firstInteger">
+		<member visibility="protected" />
+	</elementBinding>
+
+	<elementBinding name="/root/thirdString">
+		<member visibility="public" />
+	</elementBinding>
+
+</binding>

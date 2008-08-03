@@ -1,0 +1,15 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Tests source geneneration (only) for a schema with restricted attributes</Name>
+    <Author>Werner Guttmann</Author>
+    <Comment>
+        Tests code generation where attributes are restricted.
+    </Comment>
+    <Category>basic capability</Category>
+    <OnlySourceGenerationTest>
+        <Schema>test.xsd</Schema>
+        <UnitTestCase>
+            <Name>Test Source Generation</Name>
+        </UnitTestCase>
+    </OnlySourceGenerationTest>
+</TestDescriptor>

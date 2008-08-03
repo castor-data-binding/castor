@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileset-config file-format-version="1.2.0" simple-config="false">
+    <local-check-config name="castor-main-checks" location="src/tools/checkstyle/castor-main-checks.xml" type="project" description="">
+        <additional-data name="protect-config-file" value="true"/>
+    </local-check-config>
+    <local-check-config name="castor-test-checks" location="src/tools/checkstyle/castor-test-checks.xml" type="project" description="">
+        <additional-data name="protect-config-file" value="true"/>
+    </local-check-config>
+    <fileset name="cpa test" enabled="true" check-config-name="castor-test-checks" local="true">
+        <file-match-pattern match-pattern="cpa[/\\]src[/\\]test[/\\]java[/\\].*\.java" include-pattern="true"/>
+        <file-match-pattern match-pattern="cpactf[/\\]src[/\\]test[/\\]java[/\\].*\.java" include-pattern="true"/>
+        <file-match-pattern match-pattern="cpaptf[/\\]src[/\\]test[/\\]java[/\\].*\.java" include-pattern="true"/>
+    </fileset>
+    <fileset name="anttask main" enabled="true" check-config-name="castor-main-checks" local="true">
+        <file-match-pattern match-pattern="anttask[/\\]src[/\\]main[/\\]java[/\\].*\.java" include-pattern="true"/>
+    </fileset>
+    <fileset name="codegen main" enabled="true" check-config-name="castor-main-checks" local="true">
+        <file-match-pattern match-pattern="codegen[/\\]src[/\\]main[/\\]java[/\\].*\.java" include-pattern="true"/>
+    </fileset>
+    <fileset name="codegen test" enabled="true" check-config-name="castor-test-checks" local="true">
+        <file-match-pattern match-pattern="codegen[/\\]src[/\\]test[/\\]java[/\\].*\.java" include-pattern="true"/>
+    </fileset>
+    <fileset name="ddlgen main" enabled="true" check-config-name="castor-main-checks" local="true">
+        <file-match-pattern match-pattern="ddlgen[/\\]src[/\\]main[/\\]java[/\\].*\.java" include-pattern="true"/>
+    </fileset>
+    <fileset name="ddlgen test" enabled="true" check-config-name="castor-test-checks" local="true">
+        <file-match-pattern match-pattern="ddlgen[/\\]src[/\\]test[/\\]java[/\\].*\.java" include-pattern="true"/>
+    </fileset>
+    <fileset name="cpa main" enabled="true" check-config-name="castor-main-checks" local="true">
+        <file-match-pattern match-pattern="cpa[/\\]src[/\\]main[/\\]java[/\\].*\.java" include-pattern="true"/>
+        <file-match-pattern match-pattern="cpactf[/\\]src[/\\]main[/\\]java[/\\].*\.java" include-pattern="true"/>
+        <file-match-pattern match-pattern="cpa[/\\]src[/\\]main[/\\]java[/\\]org[/\\]castor[/\\]jdo[/\\]conf[/\\].*\.java" include-pattern="false"/>
+    </fileset>
+</fileset-config>

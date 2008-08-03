@@ -1,0 +1,30 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Test that 'import' schemas are processed correctly</Name>
+    <Author>Arnaud Blandin</Author>
+    <Comment>Regression testing</Comment>
+    <Comment>
+        The bugzilla entry reported for when using a two-layer inclusion
+        mechanism Castor fails to read the schema (see bug 876)
+    </Comment>
+    <Category>basic capability</Category>
+
+    <BugFix>
+        <Reporter>Alexandre Nouvel[nouvel@irit.fr]</Reporter>
+        <Date_Report>2002-02-11</Date_Report>
+        <Date_Fix>2002-05-17</Date_Fix>
+        <Comment></Comment>
+    </BugFix>
+
+    <SchemaTest>
+        <UnitTestCase>
+            <Schema>A.xsd</Schema>
+            <SchemaDifferences FailureStep="compare-to-reference">1</SchemaDifferences>
+            <Comment>
+                We expect one failure as the schemaLocation attribute gets fully
+                qualified in the processed schema but is a relative reference in
+                the original schema.
+            </Comment>
+        </UnitTestCase>
+    </SchemaTest>
+</TestDescriptor>
