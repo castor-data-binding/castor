@@ -132,7 +132,7 @@ public interface XMLFieldDescriptor extends FieldDescriptor {
      *
      * @return the value of the property, or null.
      */
-    String getProperty(String propertyName);
+    String getXMLProperty(String propertyName);
 
     /**
      * Returns the XML Schema type of the XML field being described.

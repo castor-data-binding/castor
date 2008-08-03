@@ -29,6 +29,7 @@ import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
+import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
@@ -93,7 +94,7 @@ public final class SQLEngine implements Persistence {
         if (_clsDesc.getExtends() == null) {
             KeyGeneratorDescriptor keyGenDesc = new ClassDescriptorJDONature(clsDesc).getKeyGeneratorDescriptor();
             if (keyGenDesc != null) {
-                int[] tempType = ((JDOFieldDescriptor) _clsDesc.getIdentity()).getSQLType();
+                int[] tempType =  new FieldDescriptorJDONature(_clsDesc.getIdentity()).getSQLType();
                 _keyGen = keyGenDesc.getKeyGeneratorRegistry().getKeyGenerator(
                         _factory, keyGenDesc, (tempType == null) ? 0 : tempType[0]);
 
@@ -149,17 +150,18 @@ public final class SQLEngine implements Persistence {
         FieldDescriptor[] idDescriptors = ((ClassDescriptorImpl) clsDesc).getIdentities();
 
         for (int i = 0; i < baseIdDescriptors.length; i++) {
-            if (baseIdDescriptors[i] instanceof JDOFieldDescriptor) {
+            if (baseIdDescriptors[i].hasNature(FieldDescriptorJDONature.class.getName())) {
                 String name = baseIdDescriptors[i].getFieldName();
-                String[] sqlName = ((JDOFieldDescriptor) baseIdDescriptors[i]).getSQLName();
-                int[] sqlType = ((JDOFieldDescriptor) baseIdDescriptors[i]).getSQLType();
+                String[] sqlName = 
+                    new FieldDescriptorJDONature(baseIdDescriptors[i]).getSQLName();
+                int[] sqlType =  new FieldDescriptorJDONature(baseIdDescriptors[i]).getSQLType();
                 FieldHandlerImpl fh = (FieldHandlerImpl) baseIdDescriptors[i].getHandler();
 
                 // The extending class may have other SQL names for identity fields
                 for (int j = 0; j < idDescriptors.length; j++) {
                     if (name.equals(idDescriptors[j].getFieldName())
-                            && (idDescriptors[j] instanceof JDOFieldDescriptor)) {
-                        sqlName = ((JDOFieldDescriptor) idDescriptors[j]).getSQLName();
+                            && (idDescriptors[j].hasNature(FieldDescriptorJDONature.class.getName()))) {
+                        sqlName = new FieldDescriptorJDONature(idDescriptors[j]).getSQLName();
                         break;
                     }
                 }
@@ -178,7 +180,7 @@ public final class SQLEngine implements Persistence {
                 // fieldDescriptors[i] is persistent in db if it is not transient
                 // and it is a JDOFieldDescriptor or has a ClassDescriptor
                 if (!fieldDescriptors[i].isTransient()) {
-                    if ((fieldDescriptors[i] instanceof JDOFieldDescriptor)
+                    if ((fieldDescriptors[i].hasNature(FieldDescriptorJDONature.class.getName()))
                             || (fieldDescriptors[i].getClassDescriptor() != null))  {
                         
                         fieldsInfo.add(new SQLFieldInfo(clsDesc, fieldDescriptors[i],
@@ -272,11 +274,11 @@ public final class SQLEngine implements Persistence {
 
         count = 1;
         jdoFields0[0] = _clsDesc.getIdentity().getFieldName();
-        sqlTypes0[0] = ((JDOFieldDescriptor) _clsDesc.getIdentity()).getSQLType()[0];
+        sqlTypes0[0] =  new FieldDescriptorJDONature(_clsDesc.getIdentity()).getSQLType()[0];
         for (int i = 0; i < fields.length; ++i) {
-            if (fields[i] instanceof JDOFieldDescriptor) {
-                jdoFields0[count] = ((JDOFieldDescriptor) fields[i]).getSQLName()[0];
-                sqlTypes0[count] = ((JDOFieldDescriptor) fields[i]).getSQLType()[0];
+            if (fields[i].hasNature(FieldDescriptorJDONature.class.getName())) {
+                jdoFields0[count] = new FieldDescriptorJDONature(fields[i]).getSQLName()[0];
+                sqlTypes0[count] =  new FieldDescriptorJDONature(fields[i]).getSQLType()[0];
                 ++count;
             }
         }

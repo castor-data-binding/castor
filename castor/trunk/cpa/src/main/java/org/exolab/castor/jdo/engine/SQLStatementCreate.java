@@ -44,6 +44,7 @@ import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
+import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Identity;
@@ -96,7 +97,7 @@ public class SQLStatementCreate {
                 new ClassDescriptorJDONature(engine.getDescriptor()).getKeyGeneratorDescriptor();
             if (keyGenDesc != null) {
                 FieldDescriptor fldDesc = engine.getDescriptor().getIdentity();
-                int[] tempType = ((JDOFieldDescriptor) fldDesc).getSQLType();
+                int[] tempType = new FieldDescriptorJDONature(fldDesc).getSQLType();
                 keyGen = keyGenDesc.getKeyGeneratorRegistry().getKeyGenerator(
                         factory, keyGenDesc, (tempType == null) ? 0 : tempType[0]);
 

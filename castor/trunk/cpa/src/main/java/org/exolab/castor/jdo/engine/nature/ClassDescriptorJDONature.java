@@ -24,7 +24,6 @@ import java.util.Properties;
 
 import org.castor.core.nature.BaseNature;
 import org.castor.core.nature.PropertyHolder;
-import org.exolab.castor.jdo.engine.JDOFieldDescriptor;
 import org.exolab.castor.jdo.engine.KeyGeneratorDescriptor;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.ClassDescriptor;
@@ -206,28 +205,26 @@ public class ClassDescriptorJDONature extends BaseNature {
     }
 
     /**
-     * Returns the {@link JDOFieldDescriptor} for the given name.
+     * Returns the {@link FieldDescriptor} for the given name.
      * @param name A field name.
-     * @return The associated {@link JDOFieldDescriptor}.
+     * @return The associated {@link FieldDescriptor}.
      */
-    public JDOFieldDescriptor getField(final String name) {
+    public FieldDescriptor getField(final String name) {
         FieldDescriptor[] fields = ((ClassDescriptor) getHolder()).getFields();
         for (int i = 0; i < fields.length; ++i) {
             FieldDescriptor field = fields[i];
-            if ((field instanceof JDOFieldDescriptor)
+            if ((field.hasNature(FieldDescriptorJDONature.class.getName()))
                     && (field.getFieldName().equals(name))) {
-                
-                return (JDOFieldDescriptor) field;
+                return field;
             }
         }
         
         FieldDescriptor[] identities = ((ClassDescriptorImpl) getHolder()).getIdentities();
         for (int i = 0; i < identities.length; ++i) {
             FieldDescriptor field = identities[i];
-            if ((field instanceof JDOFieldDescriptor)
+            if ((field.hasNature(FieldDescriptorJDONature.class.getName()))
                     && (field.getFieldName().equals(name))) {
-                
-                return (JDOFieldDescriptor) field;
+                return field;
             }
         }
 

@@ -94,7 +94,7 @@ public class XMLFieldDescriptorImpl extends AbstractFieldDescriptor implements X
     private String _nsURI = null;
 
     /** The "user-set" properties of this XMLFieldDescriptor. */
-    private Properties _properties = null;
+    private Properties _xmlProperties = null;
 
     /** The XML Schema type of this field value. */
     private String _schemaType = null;
@@ -405,20 +405,20 @@ public class XMLFieldDescriptorImpl extends AbstractFieldDescriptor implements X
      * @param value The value of the property.
      * @see #getProperty
      */
-    public void setProperty(final String propertyName, final String value) {
+    public void setXMLProperty(final String propertyName, final String value) {
         if (propertyName == null) {
             String err = "The argument 'propertyName' must not be null.";
             throw new IllegalArgumentException(err);
         }
 
-        if (_properties == null) {
-            _properties = new Properties();
+        if (_xmlProperties == null) {
+            _xmlProperties = new Properties();
         }
 
         if (value == null) {
-            _properties.remove(propertyName);
+            _xmlProperties.remove(propertyName);
         } else {
-            _properties.put(propertyName, value);
+            _xmlProperties.put(propertyName, value);
         }
     }
 
@@ -426,9 +426,9 @@ public class XMLFieldDescriptorImpl extends AbstractFieldDescriptor implements X
      * @see org.exolab.castor.xml.XMLFieldDescriptor#getProperty(java.lang.String)
      * {@inheritDoc}
      */
-    public String getProperty(final String propertyName) {
-        if ((_properties == null) || (propertyName == null)) { return null; }
-        return _properties.getProperty(propertyName);
+    public String getXMLProperty(final String propertyName) {
+        if ((_xmlProperties == null) || (propertyName == null)) { return null; }
+        return _xmlProperties.getProperty(propertyName);
     }
 
     /**

@@ -1464,13 +1464,13 @@ public class Marshaller extends MarshalFramework {
         if (!isNil) processContainerAttributes(object, classDesc, atts);
 
         //-- xml:space
-        String attValue = descriptor.getProperty(XMLFieldDescriptor.PROPERTY_XML_SPACE);
+        String attValue = descriptor.getXMLProperty(XMLFieldDescriptor.PROPERTY_XML_SPACE);
         if (attValue != null) {
             atts.addAttribute(Namespaces.XML_NAMESPACE, SPACE_ATTR, XML_SPACE_ATTR, CDATA, attValue);
         }
 
         //-- xml:lang
-        attValue = descriptor.getProperty(XMLFieldDescriptor.PROPERTY_XML_LANG);
+        attValue = descriptor.getXMLProperty(XMLFieldDescriptor.PROPERTY_XML_LANG);
         if (attValue != null) {
             atts.addAttribute(Namespaces.XML_NAMESPACE, LANG_ATTR, XML_LANG_ATTR, CDATA, attValue);
         }

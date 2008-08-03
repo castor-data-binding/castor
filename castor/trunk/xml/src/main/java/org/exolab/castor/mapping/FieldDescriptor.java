@@ -15,6 +15,8 @@
  */
 package org.exolab.castor.mapping;
 
+import org.castor.core.nature.PropertyHolder;
+
 /**
  * Describes the properties of a field. Implementations will extend this inteface to
  * provide additional properties.
@@ -23,7 +25,7 @@ package org.exolab.castor.mapping;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2005-12-06 14:55:28 -0700 (Tue, 06 Dec 2005) $
  */
-public interface FieldDescriptor {
+public interface FieldDescriptor extends PropertyHolder {
     //--------------------------------------------------------------------------
 
     /**

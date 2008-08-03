@@ -64,8 +64,8 @@ import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.Persistent;
 import org.exolab.castor.jdo.TimeStampable;
 import org.exolab.castor.jdo.engine.JDOCallback;
-import org.exolab.castor.jdo.engine.JDOFieldDescriptor;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
+import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
@@ -270,8 +270,8 @@ public class ClassMolder {
                 for (int j = 0; j < fmId.length; j++) {
                     idSQL[j] = fmId[j].getSql().getName()[0];
 
-                    if (fd[j] instanceof JDOFieldDescriptor) {
-                        int[] type = ((JDOFieldDescriptor) fd[j]).getSQLType();
+                    if (fd[j].hasNature(FieldDescriptorJDONature.class.getName())) {
+                        int[] type = new FieldDescriptorJDONature(fd[j]).getSQLType();
                         idType[j] = (type == null) ? 0 : type[0];
                         FieldHandlerImpl fh = (FieldHandlerImpl) fd[j].getHandler();
                         idConvertTo[j] = fh.getConvertTo();
@@ -297,10 +297,10 @@ public class ClassMolder {
                     relatedIdConvertTo = new TypeConvertor[relatedIds.length];
                     relatedIdConvertFrom = new TypeConvertor[relatedIds.length];
                     for (int j = 0; j < relatedIdSQL.length; j++) {
-                        if (relatedIds[j] instanceof JDOFieldDescriptor) {
-                            String[] tempId = ((JDOFieldDescriptor) relatedIds[j]).getSQLName();
+                        if (relatedIds[j].hasNature(FieldDescriptorJDONature.class.getName())) {
+                            String[] tempId = new FieldDescriptorJDONature(relatedIds[j]).getSQLName();
                             relatedIdSQL[j] = (tempId == null) ? null : tempId[0];
-                            int[] tempType = ((JDOFieldDescriptor) relatedIds[j]).getSQLType();
+                            int[] tempType =  new FieldDescriptorJDONature(relatedIds[j]).getSQLType();
                             relatedIdType[j] = (tempType == null) ? 0 : tempType[0];
                             FieldHandlerImpl fh = (FieldHandlerImpl) relatedIds[j].getHandler();
                             relatedIdConvertTo[j] = fh.getConvertTo();

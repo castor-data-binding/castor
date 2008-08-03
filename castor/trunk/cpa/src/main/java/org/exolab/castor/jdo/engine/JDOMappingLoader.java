@@ -70,6 +70,7 @@ import org.castor.mapping.BindingType;
 import org.castor.util.Messages;
 import org.exolab.castor.jdo.TimeStampable;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
+import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.CollectionHandler;
@@ -95,6 +96,7 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 import org.exolab.castor.mapping.xml.MappingRoot;
 import org.exolab.castor.mapping.xml.NamedQuery;
 import org.exolab.castor.mapping.xml.Param;
+import org.exolab.castor.mapping.xml.Sql;
 import org.exolab.castor.mapping.xml.types.SqlDirtyType;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.xml.util.ClassLoaderNature;
@@ -456,12 +458,12 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         for (int i = 0; i < fldList.size(); i++) {
             FieldDescriptor field = (FieldDescriptor) fldList.get(i);
             if (idName.equals(field.getFieldName())) {
-                if (!(field instanceof JDOFieldDescriptor)) {
+                if (!(field.hasNature(FieldDescriptorJDONature.class.getName()))) {
                     throw new IllegalStateException(
                             "Identity field must be of type JDOFieldDescriptor");
                 }
                 
-                String[] sqlName = ((JDOFieldDescriptor) field).getSQLName();
+                String[] sqlName = new FieldDescriptorJDONature(field).getSQLName();
                 if (sqlName == null) {
                     throw new MappingException("mapping.noSqlName",
                             field.getFieldName(), javaClass.getName());
@@ -497,10 +499,10 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
                         resolutionCommand);
                 clNature.setClassLoader(getClassLoader());
                 desc = resolutionCommand.resolve(field.getFieldType());
-                ((JDOFieldDescriptorImpl) field).setClassDescriptor(desc);
-            }
-            if ((desc != null) && (field instanceof FieldDescriptorImpl)) {
                 ((FieldDescriptorImpl) field).setClassDescriptor(desc);
+            }
+            if ((desc != null) && (field instanceof AbstractFieldDescriptor)) {
+                ((AbstractFieldDescriptor) field).setClassDescriptor(desc);
             }
         }
     }
@@ -653,7 +655,8 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             final FieldMapping fieldMap) throws MappingException {
 
         // If not an SQL field, return a stock field descriptor.
-        if (fieldMap.getSql() == null) {
+        Sql sql = fieldMap.getSql();
+        if (sql == null) {
             return super.createFieldDesc(javaClass, fieldMap);
         }
         
@@ -759,7 +762,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             }
         }
                 
-        String[] sqlName = fieldMap.getSql().getName();
+        String[] sqlName = sql.getName();
 
         String[] sqlTypes = getSqlTypes(fieldMap);
 
@@ -778,27 +781,46 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             sqlTypeNum = new int[] {SQLTypeInfos.javaType2sqlTypeNum(sqlType)};
         }
 
-        JDOFieldDescriptorImpl jdoFieldDescriptor = new JDOFieldDescriptorImpl(
-                fieldName, typeInfo, handler, fieldMap.getTransient(),
-                sqlName, sqlTypeNum,
-                fieldMap.getSql().getManyTable(),
-                fieldMap.getSql().getManyKey(),
-                !SqlDirtyType.IGNORE.equals(fieldMap.getSql().getDirty()),
-                fieldMap.getSql().getReadOnly());
+        // create FieldDescriptor(Impl) instance, and apply JDO nature
+        FieldDescriptorImpl fieldDescriptor = 
+            new FieldDescriptorImpl(fieldName, typeInfo, handler, fieldMap.getTransient());
+        fieldDescriptor.addNature(FieldDescriptorJDONature.class.getName());
         
-        jdoFieldDescriptor.setRequired(fieldMap.getRequired());
+        FieldDescriptorJDONature fieldJdoNature = 
+            new FieldDescriptorJDONature(fieldDescriptor);
+        
+        if (sqlName.length > 0) {
+            fieldJdoNature.setSQLName(sqlName);
+        }
+        fieldJdoNature.setSQLType(sqlTypeNum);
+        fieldJdoNature.setManyTable(sql.getManyTable());
+        if (sql.getManyKey().length > 0) {
+            fieldJdoNature.setManyKey(sql.getManyKey());
+        }
+        fieldJdoNature.setDirtyCheck(!SqlDirtyType.IGNORE.equals(sql.getDirty()));
+        fieldJdoNature.setReadOnly(sql.getReadOnly());
+        
+//        JDOFieldDescriptorImpl jdoFieldDescriptor = new JDOFieldDescriptorImpl(
+//                fieldName, typeInfo, handler, fieldMap.getTransient(),
+//                sqlName, sqlTypeNum,
+//                sql.getManyTable(),
+//                sql.getManyKey(),
+//                !SqlDirtyType.IGNORE.equals(sql.getDirty()),
+//                sql.getReadOnly());
+        
+        fieldDescriptor.setRequired(fieldMap.getRequired());
 
         // If we're using an ExtendedFieldHandler we need to set the FieldDescriptor
         if (exfHandler != null) {
-            ((FieldHandlerFriend) exfHandler).setFieldDescriptor(jdoFieldDescriptor);
+            ((FieldHandlerFriend) exfHandler).setFieldDescriptor(fieldDescriptor);
         }
 
         // if SQL mapping declares transient 
-        if (fieldMap.getSql().getTransient()) {
-            jdoFieldDescriptor.setTransient(true);
+        if (sql.getTransient()) {
+            fieldDescriptor.setTransient(true);
         }
         
-        return jdoFieldDescriptor;
+        return fieldDescriptor;
     }
 
 }

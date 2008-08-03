@@ -27,6 +27,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
+import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
@@ -74,12 +75,14 @@ public final class SQLHelper {
             
             for (int i = 0; i < identityDescriptors.length; i++) {
                 Object temp;
-                JDOFieldDescriptor jdoFieldDescriptor = (JDOFieldDescriptor) identityDescriptors[i];
-                if (jdoFieldDescriptor.getSQLName().length == 1) {
+                final FieldDescriptorJDONature jdoFieldNature = 
+                    new FieldDescriptorJDONature(identityDescriptors[i]);
+                
+                if (jdoFieldNature.getSQLName().length == 1) {
                     temp = SQLTypeInfos.getValue(rs, columnIndex++, java.sql.Types.JAVA_OBJECT);
                 } else {
-                    Object[] temps = new Object[jdoFieldDescriptor.getSQLName().length];
-                    for (int j = 0; j < jdoFieldDescriptor.getSQLName().length; j++) {
+                    Object[] temps = new Object[jdoFieldNature.getSQLName().length];
+                    for (int j = 0; j < jdoFieldNature.getSQLName().length; j++) {
                         temps[j] = SQLTypeInfos.getValue(
                                 rs, columnIndex++, java.sql.Types.JAVA_OBJECT);
                     }
@@ -111,8 +114,8 @@ public final class SQLHelper {
                 FieldDescriptor[] potentialFields = 
                     potentialClassDescriptor.getFields();
                 for (int i = 0; i < potentialFields.length; i++) {
-                    JDOFieldDescriptor jdoFieldDescriptor = (JDOFieldDescriptor) potentialFields[i];
-                    String[] columnNames = jdoFieldDescriptor.getSQLName();
+                    String[] columnNames = 
+                        new FieldDescriptorJDONature(potentialFields[i]).getSQLName();
                     if (columnNames != null) {
                         columnIndex = columnIndex + columnNames.length;
                     }
@@ -166,7 +169,7 @@ public final class SQLHelper {
         FieldDescriptor[] identities = ((ClassDescriptorImpl) desc).getIdentities();
         String[] sqlNames = new String[identities.length];
         for (int i = 0; i < identities.length; i++) {
-            sqlNames[i] = ((JDOFieldDescriptor) identities[i]).getSQLName()[0];
+            sqlNames[i] = new FieldDescriptorJDONature(identities[i]).getSQLName()[0];
         }
 
         return sqlNames;

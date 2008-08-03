@@ -614,7 +614,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
             if ((props != null) && (props.length > 0)) {
                 for (int pIdx = 0; pIdx < props.length; pIdx++) {
                     Property prop = props[pIdx];
-                    xmlDesc.setProperty(prop.getName(), prop.getValue());
+                    xmlDesc.setXMLProperty(prop.getName(), prop.getValue());
                 }
             }
         }
