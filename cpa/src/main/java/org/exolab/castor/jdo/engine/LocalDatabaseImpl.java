@@ -47,10 +47,10 @@ public class LocalDatabaseImpl extends AbstractDatabaseImpl {
      * Creates an instance of this class.
      * @param dbName database name
      * @param lockTimeout Lock timeout
-     * @param callback Callback interceptor
+     * @param callback {@link CallbackInterceptor} instance
      * @param instanceFactory Instance factory.
      * @param classLoader Current class loader
-     * @param autoStore Indicates whetehr to use 'auto-storing'
+     * @param autoStore Indicates whether to use 'auto-storing'
      * @throws DatabaseNotFoundException If the specified database configuration cannot be found.
      */
     public LocalDatabaseImpl(final String dbName, 
@@ -161,7 +161,7 @@ public class LocalDatabaseImpl extends AbstractDatabaseImpl {
             _ctx.prepare();
             _ctx.commit();
         } catch (TransactionAbortedException except) {
-            _log.error(Messages.format("jdo.txAborted", except.getMessage()), except);
+            _log.info(Messages.format("jdo.txAborted", except.getMessage()), except);
             _ctx.rollback();
             throw except;
         } finally {
