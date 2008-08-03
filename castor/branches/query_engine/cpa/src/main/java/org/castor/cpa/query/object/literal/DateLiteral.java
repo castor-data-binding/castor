@@ -15,52 +15,52 @@
  */
 package org.castor.cpa.query.object.literal;
 
-import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
- * Final immutable class that represents a BigDecimal literal.
- *
+ * Final immutable class that represents a date literal.
+ * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public final class BigDecimalLiteral extends AbstractNumericLiteral {
+public final class DateLiteral extends AbstractTemporalLiteral {
     //--------------------------------------------------------------------------
 
-    /** Value of the BigDecimalLiteral. */
-    private final BigDecimal _value;
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Construct BigDecimalLiteral with given value.
-     * 
-     * @param value Value of the BigDecimalLiteral.
-     */
-    public BigDecimalLiteral(final BigDecimal value) {
-        if (value == null) { throw new NullPointerException(); }
-        _value = value;
-    }
+    /** Date format for date literal. */
+    private static final DateFormat DF = new SimpleDateFormat("yyyy-MM-dd");
     
     //--------------------------------------------------------------------------
-
+    
     /**
-     * Get the value of BigDecimalLiteral.
-     *
-     * @return Value of the BigDecimalLiteral.
+     * Construct a date literal with given date.
+     * 
+     * @param value Date value for the date literal.
      */
-    public BigDecimal getValue() {
-        return _value;
+    public DateLiteral(final Date value) {
+        super(value);
+    }
+    
+    /**
+     * Construct a date literal with given calendar.
+     * 
+     * @param value Calendar value for the date literal.
+     */
+    public DateLiteral(final Calendar value) {
+        super(value);
     }
 
     //--------------------------------------------------------------------------
-
+    
     /**
      * {@inheritDoc}
      */
     public StringBuilder toString(final StringBuilder sb) {
-        return sb.append(_value);
+        return sb.append("DATE '").append(DF.format(getValue())).append('\'');
     }
 
     //--------------------------------------------------------------------------

@@ -44,7 +44,7 @@ public final class NamedParameter extends AbstractParameter {
     //--------------------------------------------------------------------------
 
     /**
-     * Gets the name of the named parameter.
+     * Get the name of the named parameter.
      *
      * @return Name of the named parameter.
      */

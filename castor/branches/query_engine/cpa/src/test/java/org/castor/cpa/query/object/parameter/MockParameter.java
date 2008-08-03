@@ -15,7 +15,6 @@
  */
 package org.castor.cpa.query.object.parameter;
 
-
 /**
  * Mock class for testing AbstractParameter.
  * 

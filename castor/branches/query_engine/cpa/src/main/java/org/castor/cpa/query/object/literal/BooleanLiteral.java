@@ -43,7 +43,7 @@ public final class BooleanLiteral extends AbstractLiteral {
     //--------------------------------------------------------------------------
 
     /**
-     * Gets the value of BooleanLiteral.
+     * Get the value of BooleanLiteral.
      *
      * @return Value of the BooleanLiteral.
      */

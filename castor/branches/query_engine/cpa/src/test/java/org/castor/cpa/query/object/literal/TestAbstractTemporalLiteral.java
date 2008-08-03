@@ -15,53 +15,49 @@
  */
 package org.castor.cpa.query.object.literal;
 
-import java.math.BigDecimal;
+import junit.framework.TestCase;
+
+import org.castor.cpa.query.Expression;
+import org.castor.cpa.query.Literal;
+import org.castor.cpa.query.QueryObject;
+import org.castor.cpa.query.object.expression.AbstractExpression;
 
 /**
- * Final immutable class that represents a BigDecimal literal.
- *
+ * Junit Test for testing AbstractNumericLiteral class.
+ * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public final class BigDecimalLiteral extends AbstractNumericLiteral {
+public class TestAbstractTemporalLiteral extends TestCase {
     //--------------------------------------------------------------------------
 
-    /** Value of the BigDecimalLiteral. */
-    private final BigDecimal _value;
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Construct BigDecimalLiteral with given value.
-     * 
-     * @param value Value of the BigDecimalLiteral.
-     */
-    public BigDecimalLiteral(final BigDecimal value) {
-        if (value == null) { throw new NullPointerException(); }
-        _value = value;
+    public TestAbstractTemporalLiteral(final String name) {
+        super(name);
     }
     
     //--------------------------------------------------------------------------
-
+    
     /**
-     * Get the value of BigDecimalLiteral.
-     *
-     * @return Value of the BigDecimalLiteral.
+     * Junit Test for instance.
      */
-    public BigDecimal getValue() {
-        return _value;
+    public static void testInstance() {
+        QueryObject n = new MockNumericLiteral();
+        assertTrue(n instanceof AbstractNumericLiteral);
+        assertTrue(n instanceof AbstractLiteral);
+        assertTrue(n instanceof Literal);
+        assertTrue(n instanceof AbstractExpression);
+        assertTrue(n instanceof Expression);
     }
 
-    //--------------------------------------------------------------------------
-
     /**
-     * {@inheritDoc}
+     * Junit Test for toString.
      */
-    public StringBuilder toString(final StringBuilder sb) {
-        return sb.append(_value);
-    }
+    public static void testToString() {
+        Literal n = new MockNumericLiteral();
+        assertEquals("correct", n.toString()); 
+    } 
 
     //--------------------------------------------------------------------------
 }

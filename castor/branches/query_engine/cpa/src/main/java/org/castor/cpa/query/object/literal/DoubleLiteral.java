@@ -43,7 +43,7 @@ public final class DoubleLiteral extends AbstractNumericLiteral {
     //--------------------------------------------------------------------------
 
     /**
-     * Gets the value of DoubleLiteral.
+     * Get the value of DoubleLiteral.
      *
      * @return Value of the DoubleLiteral.
      */

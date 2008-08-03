@@ -43,7 +43,7 @@ public final class LongLiteral extends AbstractNumericLiteral {
     //--------------------------------------------------------------------------
 
     /**
-     * Gets the value of LongLiteral.
+     * Get the value of LongLiteral.
      *
      * @return Value of the LongLiteral.
      */

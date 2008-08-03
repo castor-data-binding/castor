@@ -13,46 +13,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.cpa.query.object.select;
+package org.castor.cpa.query.object.literal;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
-import org.castor.cpa.query.object.expression.AbstractExpression;
-
 /**
- * Final class that represents time expression.
+ * Final immutable class that represents a timestamp literal.
  * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public final class TimeExpression extends AbstractExpression {
+public final class TimestampLiteral extends AbstractTemporalLiteral {
     //--------------------------------------------------------------------------
-    
-    /** The time of time expression. */
-    private Date _time;
 
+    /** Date format for timestamp literal. */
+    private static final DateFormat DF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+    
     //--------------------------------------------------------------------------
     
     /**
-     * Gets the time of time expression.
+     * Construct a timestamp literal with given date.
      * 
-     * @return the time of time expression
+     * @param value Date value for the timestamp literal.
      */
-    public Date getTime() {
-        return _time;
+    public TimestampLiteral(final Date value) {
+        super(value);
     }
-
-
+    
     /**
-     * Sets the time of time expression.
+     * Construct a timestamp literal with given calendar.
      * 
-     * @param time the new time of time expression
+     * @param value Calendar value for the timestamp literal.
      */
-    public void setTime(final Date time) {
-        _time = time;
+    public TimestampLiteral(final Calendar value) {
+        super(value);
     }
 
     //--------------------------------------------------------------------------
@@ -61,10 +60,8 @@ public final class TimeExpression extends AbstractExpression {
      * {@inheritDoc}
      */
     public StringBuilder toString(final StringBuilder sb) {
-        SimpleDateFormat sdf =  new SimpleDateFormat("HH:mm:ss.SSS");
-        return sb.append('\'').append(sdf.format(_time).toString()).append('\'');
+        return sb.append("TIMESTAMP '").append(DF.format(getValue())).append('\'');
     }
 
     //--------------------------------------------------------------------------
-    
 }

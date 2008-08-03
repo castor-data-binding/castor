@@ -46,12 +46,12 @@ import org.castor.cpa.query.object.function.Trim;
 import org.castor.cpa.query.object.function.Upper;
 import org.castor.cpa.query.object.literal.BigDecimalLiteral;
 import org.castor.cpa.query.object.literal.BooleanLiteral;
+import org.castor.cpa.query.object.literal.DateLiteral;
 import org.castor.cpa.query.object.literal.DoubleLiteral;
 import org.castor.cpa.query.object.literal.LongLiteral;
 import org.castor.cpa.query.object.literal.StringLiteral;
-import org.castor.cpa.query.object.select.DateExpression;
-import org.castor.cpa.query.object.select.TimeExpression;
-import org.castor.cpa.query.object.select.TimestampExpression;
+import org.castor.cpa.query.object.literal.TimeLiteral;
+import org.castor.cpa.query.object.literal.TimestampLiteral;
 
 /**
  * Abstract base class for Expressions.
@@ -565,16 +565,11 @@ extends AbstractQueryObject implements Expression {
         comp.setOperator(e);
         Expression d = null;
         if (temporalType == TemporalType.DATE) {
-            d = new DateExpression();
-            ((DateExpression) d).setDate(value);
-            
+            d = new DateLiteral(value);
         } else if (temporalType == TemporalType.TIME) {
-            d = new TimeExpression();
-            ((TimeExpression) d).setTime(value);
-            
+            d = new TimeLiteral(value);
         } else if (temporalType == TemporalType.TIMESTAMP) {
-            d = new TimestampExpression();
-            ((TimestampExpression) d).setTimestamp(value);
+            d = new TimestampLiteral(value);
         }
         comp.setCompare(d);
         return comp;
@@ -671,16 +666,11 @@ extends AbstractQueryObject implements Expression {
         comp.setOperator(e);
         Expression d = null;
         if (temporalType == TemporalType.DATE) {
-            d = new DateExpression();
-            ((DateExpression) d).setDate(value);
-            
+            d = new DateLiteral(value);
         } else if (temporalType == TemporalType.TIME) {
-            d = new TimeExpression();
-            ((TimeExpression) d).setTime(value);
-            
+            d = new TimeLiteral(value);
         } else if (temporalType == TemporalType.TIMESTAMP) {
-            d = new TimestampExpression();
-            ((TimestampExpression) d).setTimestamp(value);
+            d = new TimestampLiteral(value);
         }
         comp.setCompare(d);
         return comp;
@@ -765,16 +755,11 @@ extends AbstractQueryObject implements Expression {
         comp.setOperator(e);
         Expression d = null;
         if (temporalType == TemporalType.DATE) {
-            d = new DateExpression();
-            ((DateExpression) d).setDate(value);
-            
+            d = new DateLiteral(value);
         } else if (temporalType == TemporalType.TIME) {
-            d = new TimeExpression();
-            ((TimeExpression) d).setTime(value);
-            
+            d = new TimeLiteral(value);
         } else if (temporalType == TemporalType.TIMESTAMP) {
-            d = new TimestampExpression();
-            ((TimestampExpression) d).setTimestamp(value);
+            d = new TimestampLiteral(value);
         }
         comp.setCompare(d);
         return comp;
@@ -859,16 +844,11 @@ extends AbstractQueryObject implements Expression {
         comp.setOperator(e);
         Expression d = null;
         if (temporalType == TemporalType.DATE) {
-            d = new DateExpression();
-            ((DateExpression) d).setDate(value);
-            
+            d = new DateLiteral(value);
         } else if (temporalType == TemporalType.TIME) {
-            d = new TimeExpression();
-            ((TimeExpression) d).setTime(value);
-            
+            d = new TimeLiteral(value);
         } else if (temporalType == TemporalType.TIMESTAMP) {
-            d = new TimestampExpression();
-            ((TimestampExpression) d).setTimestamp(value);
+            d = new TimestampLiteral(value);
         }
         comp.setCompare(d);
         return comp;
@@ -953,16 +933,11 @@ extends AbstractQueryObject implements Expression {
         comp.setOperator(e);
         Expression d = null;
         if (temporalType == TemporalType.DATE) {
-            d = new DateExpression();
-            ((DateExpression) d).setDate(value);
-            
+            d = new DateLiteral(value);
         } else if (temporalType == TemporalType.TIME) {
-            d = new TimeExpression();
-            ((TimeExpression) d).setTime(value);
-            
+            d = new TimeLiteral(value);
         } else if (temporalType == TemporalType.TIMESTAMP) {
-            d = new TimestampExpression();
-            ((TimestampExpression) d).setTimestamp(value);
+            d = new TimestampLiteral(value);
         }
         comp.setCompare(d);
         return comp;
@@ -1047,16 +1022,11 @@ extends AbstractQueryObject implements Expression {
         comp.setOperator(e);
         Expression d = null;
         if (temporalType == TemporalType.DATE) {
-            d = new DateExpression();
-            ((DateExpression) d).setDate(value);
-            
+            d = new DateLiteral(value);
         } else if (temporalType == TemporalType.TIME) {
-            d = new TimeExpression();
-            ((TimeExpression) d).setTime(value);
-            
+            d = new TimeLiteral(value);
         } else if (temporalType == TemporalType.TIMESTAMP) {
-            d = new TimestampExpression();
-            ((TimestampExpression) d).setTimestamp(value);
+            d = new TimestampLiteral(value);
         }
         comp.setCompare(d);
         return comp;
@@ -1271,22 +1241,14 @@ extends AbstractQueryObject implements Expression {
         Expression l = null;
         Expression h = null;
         if (temporalType == TemporalType.DATE) {
-            l = new DateExpression();
-            ((DateExpression) l).setDate(low);
-            h = new DateExpression();
-            ((DateExpression) h).setDate(high);
-            
+            l = new DateLiteral(low);
+            h = new DateLiteral(high);
         } else if (temporalType == TemporalType.TIME) {
-            l = new TimeExpression();
-            ((TimeExpression) l).setTime(low);
-            h = new TimeExpression();
-            ((TimeExpression) h).setTime(high);
-            
+            l = new TimeLiteral(low);
+            h = new TimeLiteral(high);
         } else if (temporalType == TemporalType.TIMESTAMP) {
-            l = new TimestampExpression();
-            ((TimestampExpression) l).setTimestamp(low);
-            h = new TimestampExpression();
-            ((TimestampExpression) h).setTimestamp(high);
+            l = new TimestampLiteral(low);
+            h = new TimestampLiteral(high);
         }
         bw.setLow(l);
         bw.setHigh(h);
@@ -1373,22 +1335,14 @@ extends AbstractQueryObject implements Expression {
         Expression l = null;
         Expression h = null;
         if (temporalType == TemporalType.DATE) {
-            l = new DateExpression();
-            ((DateExpression) l).setDate(low);
-            h = new DateExpression();
-            ((DateExpression) h).setDate(high);
-            
+            l = new DateLiteral(low);
+            h = new DateLiteral(high);
         } else if (temporalType == TemporalType.TIME) {
-            l = new TimeExpression();
-            ((TimeExpression) l).setTime(low);
-            h = new TimeExpression();
-            ((TimeExpression) h).setTime(high);
-            
+            l = new TimeLiteral(low);
+            h = new TimeLiteral(high);
         } else if (temporalType == TemporalType.TIMESTAMP) {
-            l = new TimestampExpression();
-            ((TimestampExpression) l).setTimestamp(low);
-            h = new TimestampExpression();
-            ((TimestampExpression) h).setTimestamp(high);
+            l = new TimestampLiteral(low);
+            h = new TimestampLiteral(high);
         }
         bw.setLow(l);
         bw.setHigh(h);
