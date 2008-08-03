@@ -80,11 +80,10 @@ import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.GeneralizedFieldHandler;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.TypeConvertor;
-import org.exolab.castor.mapping.loader.AbstractFieldDescriptor;
+import org.exolab.castor.mapping.loader.FieldDescriptorImpl;
 import org.exolab.castor.mapping.loader.AbstractMappingLoader;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
 import org.exolab.castor.mapping.loader.CollectionHandlers;
-import org.exolab.castor.mapping.loader.FieldDescriptorImpl;
 import org.exolab.castor.mapping.loader.FieldHandlerFriend;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 import org.exolab.castor.mapping.loader.TypeInfo;
@@ -271,7 +270,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         clsDesc.setDepends(getDepended(clsMap, javaClass));
         
         // Create all field descriptors.
-        AbstractFieldDescriptor[] allFields = createFieldDescriptors(clsMap, javaClass);
+        FieldDescriptorImpl[] allFields = createFieldDescriptors(clsMap, javaClass);
 
         // Make sure there are no two fields with the same name.
         checkFieldNameDuplicates(allFields, javaClass);
@@ -501,8 +500,8 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
                 desc = resolutionCommand.resolve(field.getFieldType());
                 ((FieldDescriptorImpl) field).setClassDescriptor(desc);
             }
-            if ((desc != null) && (field instanceof AbstractFieldDescriptor)) {
-                ((AbstractFieldDescriptor) field).setClassDescriptor(desc);
+            if ((desc != null) && (field instanceof FieldDescriptorImpl)) {
+                ((FieldDescriptorImpl) field).setClassDescriptor(desc);
             }
         }
     }
@@ -651,7 +650,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     }
 
 
-    protected AbstractFieldDescriptor createFieldDesc(final Class javaClass,
+    protected FieldDescriptorImpl createFieldDesc(final Class javaClass,
             final FieldMapping fieldMap) throws MappingException {
 
         // If not an SQL field, return a stock field descriptor.
