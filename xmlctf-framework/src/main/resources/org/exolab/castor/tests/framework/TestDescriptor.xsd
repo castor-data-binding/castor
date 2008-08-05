@@ -336,7 +336,7 @@
             <xsd:simpleContent>
                 <xsd:extension base="xsd:string">
                     <!-- java type -->
-                    <xsd:attribute name="type" type="xsd:string" required="true"/>
+                    <xsd:attribute name="type" type="xsd:string" use="required" />
                 </xsd:extension>
             </xsd:simpleContent>
         </xsd:complexType>
