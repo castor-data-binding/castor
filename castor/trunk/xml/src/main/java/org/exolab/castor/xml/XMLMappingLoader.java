@@ -125,8 +125,6 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
      *  users to map classes that were created by Castor's SourceGenerator. */
     private static final String VALUE_OF = "valueOf";
 
-    //-----------------------------------------------------------------------------------
-
     /**
      * Creates a new XMLMappingLoader.
      * Joachim 2007-08-19: called via ClassLoader from XMLMappingLoaderFactory.getMappingLoader()
@@ -137,14 +135,12 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
         super(loader);
     }
 
-    //-----------------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
-    public BindingType getBindingType() { return BindingType.XML; }
-
-    //-----------------------------------------------------------------------------------
+    public BindingType getBindingType() { 
+        return BindingType.XML; 
+    }
 
     /**
      * {@inheritDoc}
@@ -162,11 +158,11 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
     /**
      * To create the class descriptor for the given class mapping.
      * Throws IllegalStateException if the class has no valid internal context.
-     * @param clsMap the class mapping information to process
+     * @param classMapping the class mapping information to process
      * @return the {@link ClassDescriptor} created for the class mapping
      * @throws MappingException ...
      */
-    protected ClassDescriptor createClassDescriptor(final ClassMapping clsMap)
+    protected ClassDescriptor createClassDescriptor(final ClassMapping classMapping)
     throws MappingException {
         // execution makes no sense without a context or without a resolver...
         if ((getInternalContext() == null) 
@@ -183,22 +179,22 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
         getInternalContext().getXMLClassDescriptorResolver().setLoadPackageMappings(false);
 
         try {
-            if (clsMap.getAutoComplete()) {
-                if ((clsMap.getMapTo() == null) 
-                        && ((clsMap.getClassChoice() == null) 
-                                || (clsMap.getClassChoice().getFieldMappingCount() == 0)) 
-                                && (clsMap.getIdentityCount() == 0)) {
+            if (classMapping.getAutoComplete()) {
+                if ((classMapping.getMapTo() == null) 
+                        && ((classMapping.getClassChoice() == null) 
+                                || (classMapping.getClassChoice().getFieldMappingCount() == 0)) 
+                                && (classMapping.getIdentityCount() == 0)) {
                     // If we make it here we simply try to load a compiled mapping
                     try {
                         ClassDescriptor clsDesc = 
                             getInternalContext()
-                            .getXMLClassDescriptorResolver().resolve(clsMap.getName());
+                            .getXMLClassDescriptorResolver().resolve(classMapping.getName());
                         if (clsDesc != null) { return clsDesc; }
                     } catch (ResolverException e) {
                         if (LOG.isDebugEnabled()) {
                             String message =
                                 new StringBuffer().append("Ignoring exception: ").append(e)
-                                .append(" at resolving: ").append(clsMap.getName()).toString();
+                                .append(" at resolving: ").append(classMapping.getName()).toString();
                             LOG.debug(message);
                         }
                     }
@@ -206,8 +202,8 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
             }
             
             // Obtain the Java class.
-            Class javaClass = resolveType(clsMap.getName());
-            if (clsMap.getVerifyConstructable()) {
+            Class javaClass = resolveType(classMapping.getName());
+            if (classMapping.getVerifyConstructable()) {
                 if (!Types.isConstructable(javaClass, true)) {
                     throw new MappingException(
                             "mapping.classNotConstructable", javaClass.getName());
@@ -217,7 +213,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
 
             // Obtain XML name.
             String xmlName;
-            MapTo mapTo = clsMap.getMapTo();
+            MapTo mapTo = classMapping.getMapTo();
             if ((mapTo != null) && (mapTo.getXml() != null)) {
                 xmlName = mapTo.getXml();
             } else {
@@ -228,11 +224,11 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
 
             // If this class extends another class, we need to obtain the extended
             // class and make sure this class indeed extends it.
-            ClassDescriptor extDesc = getExtended(clsMap, javaClass);
+            ClassDescriptor extDesc = getExtended(classMapping, javaClass);
             xmlClassDesc.setExtends((XMLClassDescriptor) extDesc);
             
             // Create all field descriptors.
-            FieldDescriptorImpl[] allFields = createFieldDescriptors(clsMap, javaClass);
+            FieldDescriptorImpl[] allFields = createFieldDescriptors(classMapping, javaClass);
 
             // Make sure there are no two fields with the same name.
             checkFieldNameDuplicates(allFields, javaClass);
@@ -253,7 +249,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
                 if (idList.size() == 0) {
                     // Found no identities based on identity definition of field.
                     // Try to find identities based on identity definition on class.
-                    String[] idNames = clsMap.getIdentity();
+                    String[] idNames = classMapping.getIdentity();
                     
                     FieldDescriptor identity;
                     for (int i = 0; i < idNames.length; i++) {
@@ -293,7 +289,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
                 }
             }
             
-            if (clsMap.getAutoComplete()) {
+            if (classMapping.getAutoComplete()) {
 
                 XMLClassDescriptor referenceDesc = null;
                 
@@ -316,7 +312,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
                     Introspector introspector = getInternalContext().getIntrospector();
                     try {
                         referenceDesc = introspector.generateClassDescriptor(type);
-                        if (clsMap.getExtends() != null) {
+                        if (classMapping.getExtends() != null) {
                             //-- clear parent from introspected descriptor since
                             //-- a mapping was provided in the mapping file
                             ((XMLClassDescriptorImpl) referenceDesc).setExtends(null);
@@ -330,8 +326,8 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
 
                 //-- check for identity
                 String identity = "";
-                if (clsMap.getIdentityCount() > 0) {
-                    identity = clsMap.getIdentity(0);
+                if (classMapping.getIdentityCount() > 0) {
+                    identity = classMapping.getIdentity(0);
                 }
 
                 
