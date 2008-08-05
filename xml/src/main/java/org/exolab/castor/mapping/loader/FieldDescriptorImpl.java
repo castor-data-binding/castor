@@ -50,8 +50,10 @@ public class FieldDescriptorImpl implements FieldDescriptor {
      * Map holding the available natures.
      */
     private Set _natures = new HashSet();
-
     
+    /**
+     * Creates a default instance of a field descriptor.
+     */
     protected FieldDescriptorImpl() { }
 
     /**
@@ -305,6 +307,7 @@ public class FieldDescriptorImpl implements FieldDescriptor {
     public String toString() {
         StringBuffer buffer = new StringBuffer();
         buffer.append(getFieldName() + "(" + getFieldType().getName() + ")");
+        // TODO[WG]: find a way to emit additional nature-specific information.
 //        try {
 //            Class natureClass = Class.forName("org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature");
 //            if (hasNature(natureClass.getName())) {
