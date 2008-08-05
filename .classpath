@@ -67,6 +67,5 @@
 	<classpathentry kind="lib" path="lib/commons-collections-3.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang-2.1.jar"/>
 	<classpathentry kind="lib" path="lib/velocity-1.5.jar"/>
-	<classpathentry kind="lib" path="D:/dev/maven/repository/mysql/mysql-connector-java/3.1.12/mysql-connector-java-3.1.12.jar"/>
 	<classpathentry kind="output" path="eclipse"/>
 </classpath>
