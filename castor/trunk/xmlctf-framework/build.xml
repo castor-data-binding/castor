@@ -6,6 +6,7 @@
     <property name="source"               value="${basedir}/src"/>
     <property name="main.java"            value="${source}/main/java"/>
     <property name="main.resources"       value="${source}/main/resources"/>
+    <property name="main.generated"       value="${basedir}/target/generated-sources/castor" />
     <property name="test.resources"       value="${source}/test/resources"/>
     <property name="build"                value="${basedir}/build"/>
     <property name="classes"              value="${build}/classes"/>
@@ -34,7 +35,12 @@
         <delete dir="${build}"/>
     </target>
 
-    <target name="compile.xmlctf" depends="prepare.xmlctf" description="Compile XML CTF">
+	<target name="compile.xmlctf" depends="prepare.xmlctf" description="Compile XML CTF">
+        <javac srcdir="${main.generated}" destdir="${classes}" 
+               debug="on" encoding="ISO-8859-1" deprecation="false"
+               source="1.4" target="1.4">
+            <classpath refid="build.classpath"/>
+        </javac>
         <javac srcdir="${main.java}" destdir="${classes}"
                debug="on" encoding="ISO-8859-1" deprecation="false"
         	   source="1.4" target="1.4">
