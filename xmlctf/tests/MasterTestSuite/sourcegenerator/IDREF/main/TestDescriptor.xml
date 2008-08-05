@@ -60,13 +60,6 @@
         </UnitTestCase>
         <UnitTestCase>
             <Name>Test marshalling XML document instance after manual IDREF change</Name>
-            <Configuration>
-                <Marshal>
-                    <Call-method name="setValidation">
-                        <Value type="boolean">true</Value>
-                    </Call-method>
-                </Marshal>
-            </Configuration>
             <CustomTest>
                 <TestClass>TestMarshalIDREF</TestClass>
                 <Methods>
@@ -76,6 +69,13 @@
                     <Call-method name="testMarshallNullHref"/>
                 </Methods>
             </CustomTest>
+            <Configuration>
+                <Marshal>
+                    <Call-method name="setValidation">
+                        <Value type="boolean">true</Value>
+                    </Call-method>
+                </Marshal>
+            </Configuration>
         </UnitTestCase>
      </SourceGeneratorTest>
 </TestDescriptor>
