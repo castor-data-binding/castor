@@ -69,7 +69,7 @@ public interface XMLFieldDescriptor extends FieldDescriptor {
      * separator (forward slash '/').
      * <p>
      * The location path name is "relative" to the parent Class. The name of the
-     * parent should not be included in the path.
+     * parent must not be included in the path.
      * <p>
      * For example, give the following two classes:
      * <pre>
@@ -92,7 +92,7 @@ public interface XMLFieldDescriptor extends FieldDescriptor {
      *    &lt;/root&gt;
      * </pre>
      *
-     * Since foo has no associated class, the path for 'bar' would be: "foo"
+     * Since &lt;foo&gt; has no associated class, the path for 'bar' would be: "foo"
      *
      * @return The "relative" XML path for the field being described.
      */
@@ -114,10 +114,10 @@ public interface XMLFieldDescriptor extends FieldDescriptor {
     String getNameSpaceURI();
 
     /**
-     * Returns the NodeType of the Field being described. The NodeType
-     * represents the Type of Node that the Field will be marshaled into XML as.
+     * Returns the node type of the field being described. The {@link NodeType}
+     * represents the type of node that the field will be marshaled into XML as.
      *
-     * @return the NodeType of the Field being described.
+     * @return the {@link NodeType} of the Field being described.
      */
     NodeType getNodeType();
 

@@ -132,8 +132,11 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     public static String definition2param(final String sqlTypeDef) {
         int left = sqlTypeDef.indexOf(LEFT_PARAM_SEPARATOR);
         int right = sqlTypeDef.indexOf(RIGHT_PARAM_SEPARATOR);
-        if (right < 0) { right = sqlTypeDef.length(); }
-        if (left < 0) { return null; }
+        if (right < 0)
+            right = sqlTypeDef.length();
+        if (left < 0) {
+            return null;
+        }
         return sqlTypeDef.substring(left + 1, right);
     }
 
@@ -146,7 +149,9 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
      */
     public static String definition2type(final String sqlTypeDef) {
         int sep = sqlTypeDef.indexOf(LEFT_PARAM_SEPARATOR);
-        if (sep < 0) { return sqlTypeDef; }
+        if (sep < 0) {
+            return sqlTypeDef;
+        }
         return sqlTypeDef.substring(0, sep);
     }
 
@@ -163,10 +168,17 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     /** Set of names of all named queries to identify duplicate names. */    
     private final Set _queryNames = new HashSet();
 
-    /** The JDO PersistenceFactory (aka BaseFactory) is used for adjusting SQL type for
-     *  the given database. */
+    /** 
+     * The JDO {@link PersistenceFactory} is used for adjusting SQL type for
+     * the given database. 
+     */
     private PersistenceFactory _factory;
 
+    /**
+     * Creates an instance of {@link JDOMappingLoader}, providing a 
+     * {@link ClassLoader} instance.
+     * @param loader A Custom {@link ClassLoader} instance.
+     */
     public JDOMappingLoader(final ClassLoader loader) {
         super(loader);
 
@@ -177,7 +189,9 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     /**
      * {@inheritDoc}
      */
-    public BindingType getBindingType() { return BindingType.JDO; }
+    public BindingType getBindingType() { 
+        return BindingType.JDO; 
+    }
 
     /**
      * {@inheritDoc}
@@ -229,11 +243,11 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         }
     }
     
-    protected ClassDescriptor createClassDescriptor(final ClassMapping clsMap)
+    protected ClassDescriptor createClassDescriptor(final ClassMapping classMapping)
     throws MappingException {
         // If there is no SQL information for class, ignore it.
-        if ((clsMap.getMapTo() == null) || (clsMap.getMapTo().getTable() == null)) {
-            LOG.info(Messages.format("mapping.ignoringMapping", clsMap.getName()));
+        if ((classMapping.getMapTo() == null) || (classMapping.getMapTo().getTable() == null)) {
+            LOG.info(Messages.format("mapping.ignoringMapping", classMapping.getName()));
             return null;
         }
 
@@ -243,10 +257,10 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         ClassDescriptorJDONature jdoNature = new ClassDescriptorJDONature(clsDesc);
         
         // Set reference to class mapping on class descriptor.
-        clsDesc.setMapping(clsMap);
+        clsDesc.setMapping(classMapping);
         
         // Obtain the Java class.
-        Class javaClass = resolveType(clsMap.getName());
+        Class javaClass = resolveType(classMapping.getName());
         if (!Types.isConstructable(javaClass, true)) {
             throw new MappingException(
                     "mapping.classNotConstructable", javaClass.getName());
@@ -255,7 +269,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         
         // If this class extends another class, we need to obtain the extended
         // class and make sure this class indeed extends it.
-        ClassDescriptor extDesc = getExtended(clsMap, javaClass);
+        ClassDescriptor extDesc = getExtended(classMapping, javaClass);
         if (extDesc != null) {
             if (!(extDesc.hasNature(ClassDescriptorJDONature.class.getName()))) {
                 throw new IllegalArgumentException(
@@ -267,10 +281,10 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         clsDesc.setExtends(extDesc);
         
         // If this class depends on another class, obtain the depended class.
-        clsDesc.setDepends(getDepended(clsMap, javaClass));
+        clsDesc.setDepends(getDepended(classMapping, javaClass));
         
         // Create all field descriptors.
-        FieldDescriptorImpl[] allFields = createFieldDescriptors(clsMap, javaClass);
+        FieldDescriptorImpl[] allFields = createFieldDescriptors(classMapping, javaClass);
 
         // Make sure there are no two fields with the same name.
         checkFieldNameDuplicates(allFields, javaClass);
@@ -296,7 +310,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             if (idList.size() == 0) {
                 // Found no identities based on identity definition of field.
                 // Try to find identities based on identity definition on class.
-                String[] idNames = clsMap.getIdentity();
+                String[] idNames = classMapping.getIdentity();
                 if ((idNames == null) || (idNames.length == 0)) {
                     // There are also no identity definitions on class.
                     throw new MappingException("mapping.noIdentity", javaClass.getName());
@@ -338,12 +352,12 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         FieldDescriptor[] fields = new FieldDescriptor[fieldList.size()];
         clsDesc.setFields((FieldDescriptor[]) fieldList.toArray(fields));
         
-        jdoNature.setTableName(clsMap.getMapTo().getTable());
+        jdoNature.setTableName(classMapping.getMapTo().getTable());
         
-        extractAndSetAccessMode(jdoNature, clsMap);
-        extractAndAddCacheParams(jdoNature, clsMap, javaClass);
-        extractAndAddNamedQueries(jdoNature, clsMap);
-        extractAndSetKeyGeneratorDescriptor(jdoNature, clsMap);
+        extractAndSetAccessMode(jdoNature, classMapping);
+        extractAndAddCacheParams(jdoNature, classMapping, javaClass);
+        extractAndAddNamedQueries(jdoNature, classMapping);
+        extractAndSetKeyGeneratorDescriptor(jdoNature, classMapping);
 
         return clsDesc;
     }
@@ -785,6 +799,18 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             new FieldDescriptorImpl(fieldName, typeInfo, handler, fieldMap.getTransient());
         fieldDescriptor.addNature(FieldDescriptorJDONature.class.getName());
         
+        fieldDescriptor.setRequired(fieldMap.getRequired());
+
+        // If we're using an ExtendedFieldHandler we need to set the FieldDescriptor
+        if (exfHandler != null) {
+            ((FieldHandlerFriend) exfHandler).setFieldDescriptor(fieldDescriptor);
+        }
+
+        // if SQL mapping declares transient 
+        if (sql.getTransient()) {
+            fieldDescriptor.setTransient(true);
+        }
+        
         FieldDescriptorJDONature fieldJdoNature = 
             new FieldDescriptorJDONature(fieldDescriptor);
         
@@ -798,26 +824,6 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         }
         fieldJdoNature.setDirtyCheck(!SqlDirtyType.IGNORE.equals(sql.getDirty()));
         fieldJdoNature.setReadOnly(sql.getReadOnly());
-        
-//        JDOFieldDescriptorImpl jdoFieldDescriptor = new JDOFieldDescriptorImpl(
-//                fieldName, typeInfo, handler, fieldMap.getTransient(),
-//                sqlName, sqlTypeNum,
-//                sql.getManyTable(),
-//                sql.getManyKey(),
-//                !SqlDirtyType.IGNORE.equals(sql.getDirty()),
-//                sql.getReadOnly());
-        
-        fieldDescriptor.setRequired(fieldMap.getRequired());
-
-        // If we're using an ExtendedFieldHandler we need to set the FieldDescriptor
-        if (exfHandler != null) {
-            ((FieldHandlerFriend) exfHandler).setFieldDescriptor(fieldDescriptor);
-        }
-
-        // if SQL mapping declares transient 
-        if (sql.getTransient()) {
-            fieldDescriptor.setTransient(true);
-        }
         
         return fieldDescriptor;
     }
