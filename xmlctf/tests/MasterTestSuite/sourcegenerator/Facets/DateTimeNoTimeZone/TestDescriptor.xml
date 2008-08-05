@@ -1,5 +1,5 @@
 <?xml version='1.0'?>
-<TestDescriptor>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
     <Name>Test xsd:dateTime schema facets</Name>
     <Author>Edward Kuns</Author>
     <Comment>CASTOR-1227</Comment>
@@ -12,16 +12,15 @@
         <UnitTestCase>
             <Name>Test (Un)Marshaling</Name>
             <Input>input.xml</Input>
+            <GoldFile/> <!-- Temporarily suppress XML comparison -->
             <Comment>
                 Until time zone handling is fixed, XML comparison is suppressed
                 for this test.
             </Comment>
-            <GoldFile/> <!-- Temporarily suppress XML comparison -->
         </UnitTestCase>
 
         <UnitTestCase>
             <Name>Test Date handling</Name>
-            <Comment>Test org.exolab.castor.types.Date</Comment>
             <CustomTest>
                 <TestClass>TestClassDate</TestClass>
                 <Methods>
@@ -31,11 +30,11 @@
                     <Call-method name="testUnmarshalBadDates"/>
                 </Methods>
             </CustomTest>
+            <Comment>Test org.exolab.castor.types.Date</Comment>
         </UnitTestCase>
 
         <UnitTestCase>
             <Name>Test DateTime handling</Name>
-            <Comment>Test org.exolab.castor.types.DateTime</Comment>
             <CustomTest>
                 <TestClass>TestClassDateTime</TestClass>
                 <Methods>
@@ -45,11 +44,11 @@
                     <Call-method name="testUnmarshalBadDateTimes"/>
                 </Methods>
             </CustomTest>
+            <Comment>Test org.exolab.castor.types.DateTime</Comment>
         </UnitTestCase>
 
         <UnitTestCase>
             <Name>Test Time handling</Name>
-            <Comment>Test org.exolab.castor.types.Time</Comment>
             <CustomTest>
                 <TestClass>TestClassTime</TestClass>
                 <Methods>
@@ -59,11 +58,11 @@
                     <Call-method name="testUnmarshalBadTimes"/>
                 </Methods>
             </CustomTest>
+            <Comment>Test org.exolab.castor.types.Time</Comment>
         </UnitTestCase>
 
         <UnitTestCase>
             <Name>Test GDay handling</Name>
-            <Comment>Test org.exolab.castor.types.GDay</Comment>
             <CustomTest>
                 <TestClass>TestClassGDay</TestClass>
                 <Methods>
@@ -73,11 +72,11 @@
                     <Call-method name="testUnmarshalBadGDays"/>
                 </Methods>
             </CustomTest>
+            <Comment>Test org.exolab.castor.types.GDay</Comment>
         </UnitTestCase>
 
         <UnitTestCase>
             <Name>Test GMonth handling</Name>
-            <Comment>Test org.exolab.castor.types.GMonth</Comment>
             <CustomTest>
                 <TestClass>TestClassGMonth</TestClass>
                 <Methods>
@@ -87,11 +86,11 @@
                     <Call-method name="testUnmarshalBadGMonths"/>
                 </Methods>
             </CustomTest>
+            <Comment>Test org.exolab.castor.types.GMonth</Comment>
         </UnitTestCase>
 
         <UnitTestCase>
             <Name>Test GMonthDay handling</Name>
-            <Comment>Test org.exolab.castor.types.GMonthDay</Comment>
             <CustomTest>
                 <TestClass>TestClassGMonthDay</TestClass>
                 <Methods>
@@ -101,11 +100,11 @@
                     <Call-method name="testUnmarshalBadGMonthDays"/>
                 </Methods>
             </CustomTest>
+            <Comment>Test org.exolab.castor.types.GMonthDay</Comment>
         </UnitTestCase>
 
         <UnitTestCase>
             <Name>Test GYear handling</Name>
-            <Comment>Test org.exolab.castor.types.GYear</Comment>
             <CustomTest>
                 <TestClass>TestClassGYear</TestClass>
                 <Methods>
@@ -115,11 +114,11 @@
                     <Call-method name="testUnmarshalBadGYears"/>
                 </Methods>
             </CustomTest>
+            <Comment>Test org.exolab.castor.types.GYear</Comment>
         </UnitTestCase>
 
         <UnitTestCase>
             <Name>Test GYearMonth handling</Name>
-            <Comment>Test org.exolab.castor.types.GYearMonth</Comment>
             <CustomTest>
                 <TestClass>TestClassGYearMonth</TestClass>
                 <Methods>
@@ -129,11 +128,11 @@
                     <Call-method name="testUnmarshalBadGYearMonths"/>
                 </Methods>
             </CustomTest>
+            <Comment>Test org.exolab.castor.types.GYearMonth</Comment>
         </UnitTestCase>
 
         <UnitTestCase>
             <Name>Test Duration handling</Name>
-            <Comment>Test org.exolab.castor.types.Duration</Comment>
             <CustomTest>
                 <TestClass>TestClassDuration</TestClass>
                 <Methods>
@@ -143,6 +142,7 @@
                     <Call-method name="testUnmarshalBadDurations"/>
                 </Methods>
             </CustomTest>
+            <Comment>Test org.exolab.castor.types.Duration</Comment>
         </UnitTestCase>
     </SourceGeneratorTest>
 </TestDescriptor>

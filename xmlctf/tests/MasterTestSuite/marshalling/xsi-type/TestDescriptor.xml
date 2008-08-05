@@ -1,5 +1,5 @@
 <?xml version='1.0'?>
-<TestDescriptor>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
 
     <Name>Introspection-xsi-type</Name>
     <Author>Keith Visco</Author>
@@ -14,6 +14,7 @@
     <MarshallingTest>
         <Root_Object>java.util.ArrayList</Root_Object>
         <UnitTestCase>
+            <Name>Test01</Name>
             <Configuration>
                 <Marshal>
                     <Call-method name="setUseXSITypeAtRoot">
@@ -21,7 +22,6 @@
                     </Call-method>
                 </Marshal>
             </Configuration>
-            <Name>Test01</Name>
             <Input>input.xml</Input>
             <GoldFile>input.xml</GoldFile>
         </UnitTestCase>

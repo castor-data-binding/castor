@@ -1,5 +1,5 @@
 <?xml version='1.0'?>
-<TestDescriptor>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
     <Name>Test the handling of IDREFS and IDREF</Name>
     <Author>Arnaud Blandin</Author>
     <Comment>
@@ -12,6 +12,7 @@
     <Schema>IDREFS.xsd</Schema>
         <Root_Object random="false" dump="true">Root</Root_Object>
         <UnitTestCase>
+            <Name>Test Generation</Name>
             <Configuration>
                 <Unmarshal>
                     <Call-method name="setValidation">
@@ -19,10 +20,10 @@
                     </Call-method>
                 </Unmarshal>
             </Configuration>
-           <Name>Test Generation</Name>
             <Input>input-ok.xml</Input>
         </UnitTestCase>
         <UnitTestCase>
+            <Name>Test Marshalling with the generated Descriptors</Name>
             <Configuration>
                 <Unmarshal>
                     <Call-method name="setValidation">
@@ -30,11 +31,11 @@
                     </Call-method>
                 </Unmarshal>
             </Configuration>
-            <Name>Test Marshalling with the generated Descriptors</Name>
             <Input>input-ok.xml</Input>
             <ObjectBuilder>IDREFSBuilder</ObjectBuilder>
         </UnitTestCase>
         <UnitTestCase>
+            <Name>TestGenerationAndUnmarshalInvalid</Name>
             <Configuration>
                 <Unmarshal>
                     <Call-method name="setValidation">
@@ -42,18 +43,10 @@
                     </Call-method>
                 </Unmarshal>
             </Configuration>
-            <Name>TestGenerationAndUnmarshalInvalid</Name>
             <Input>input-invalid.xml</Input>
             <Failure FailureStep="unmarshal-reference">true</Failure>
         </UnitTestCase>
         <UnitTestCase>
-            <Configuration>
-                <Marshal>
-                    <Call-method name="setValidation">
-                        <Value type="boolean">true</Value>
-                    </Call-method>
-                </Marshal>
-            </Configuration>
             <Name>Test marshalling various valid and invalid objects</Name>
             <CustomTest>
                 <TestClass>TestMarshalIDREFS</TestClass>
@@ -64,6 +57,13 @@
                     <Call-method name="testMarshallNullHref"/>
                 --></Methods>
             </CustomTest>
+            <Configuration>
+                <Marshal>
+                    <Call-method name="setValidation">
+                        <Value type="boolean">true</Value>
+                    </Call-method>
+                </Marshal>
+            </Configuration>
         </UnitTestCase>
      </SourceGeneratorTest>
 </TestDescriptor>

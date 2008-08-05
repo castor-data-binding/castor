@@ -1,5 +1,5 @@
 <?xml version='1.0'?>
-<TestDescriptor>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
     <Name>
         Test specification of correct binding during XML code generation
         when a package name is specified based upon a target namespace
@@ -16,14 +16,14 @@
         <Root_Object random="false" dump="true">net.elementa.bind.ROOT</Root_Object>
         <UnitTestCase>
             <Name>UnmarshallingWithStandardValue</Name>
-            <Comment>Test unmarshalling with standard value</Comment>
             <Input>input.xml</Input>
+            <Comment>Test unmarshalling with standard value</Comment>
         </UnitTestCase>
         <UnitTestCase>
             <Name>UnmarshallingWithWrongValue</Name>
-            <Comment>Test unmarshalling with wrong value</Comment>
             <Input>input-wrong.xml</Input>
             <Failure>true</Failure>
+            <Comment>Test unmarshalling with wrong value</Comment>
         </UnitTestCase>
     </SourceGeneratorTest>
 </TestDescriptor>

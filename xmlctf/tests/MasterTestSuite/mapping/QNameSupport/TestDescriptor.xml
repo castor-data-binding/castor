@@ -1,5 +1,5 @@
 <?xml version='1.0'?>
-<TestDescriptor>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
 
     <Name>QName support for element or attribute value</Name>
     <Author>Arnaud Blandin</Author>
@@ -27,8 +27,8 @@
             <Name>Comparison Test</Name>
             <Mapping_File>mapping.xml</Mapping_File>
             <Input>QName-input.xml</Input>
-            <ObjectBuilder>QName_Builder</ObjectBuilder>
             <GoldFile>QName-input.xml</GoldFile>
+            <ObjectBuilder>QName_Builder</ObjectBuilder>
         </UnitTestCase>
 
     </MarshallingTest>

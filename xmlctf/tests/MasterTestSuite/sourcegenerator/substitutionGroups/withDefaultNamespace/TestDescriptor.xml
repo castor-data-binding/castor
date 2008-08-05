@@ -1,5 +1,5 @@
 <?xml version='1.0'?>
-<TestDescriptor>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
     <Name>Tests for substitution groups with default namespace</Name>
     <Author>Werner Guttmann</Author>
     <Comment>Tests substitution group funtionality</Comment>
@@ -9,10 +9,10 @@
         <Property_File>builder.properties</Property_File>
         <Root_Object random="false" dump="true">PurchaseOrder</Root_Object>
         <UnitTestCase>
-			<GenerateImported>true</GenerateImported>
             <Name>TestPurchaseOrder</Name>
             <Input>input.xml</Input>
             <GoldFile/>
+			<GenerateImported>true</GenerateImported>
         </UnitTestCase>
     </SourceGeneratorTest>
 </TestDescriptor>

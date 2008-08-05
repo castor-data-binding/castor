@@ -1,5 +1,5 @@
 <?xml version='1.0'?>
-<TestDescriptor>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
     <Name>Test the handling of IDREFs with forward references</Name>
     <Author>Werner Guttmann</Author>
     <Comment>
@@ -13,6 +13,7 @@
         <BindingFile>binding.xml</BindingFile>
         <Root_Object random="false" dump="true">PartialTermination</Root_Object>
         <UnitTestCase>
+            <Name>TestValidXMLDocument</Name>
             <Configuration>
                 <Unmarshal>
                     <Call-method name="setValidation">
@@ -20,9 +21,8 @@
                     </Call-method>
                 </Unmarshal>
             </Configuration>
-            <Name>TestValidXMLDocument</Name>
-            <Comment>Test valid XML document instance with IDREFs that has forward references</Comment>
             <Input>input.xml</Input>
+            <Comment>Test valid XML document instance with IDREFs that has forward references</Comment>
         </UnitTestCase>
     </SourceGeneratorTest>
 </TestDescriptor>
