@@ -1,5 +1,5 @@
 <?xml version='1.0'?>
-<TestDescriptor>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
     <Name>Test xsd:string with default when referenced from another element</Name>
     <Author>Edward Kuns</Author>
     <Comment>
@@ -7,13 +7,13 @@
         xsd:string) and it contains a default, the source generator generates
         uncompileable code.
     </Comment>
+    <Category>basic capability</Category>
     <BugFix>
         <Reporter>blandin@intalio.com</Reporter>
         <Date_Report>2002-02-19</Date_Report>
         <Date_Fix>2007-12-14</Date_Fix>
         <Comment></Comment>
     </BugFix>
-    <Category>basic capability</Category>
 
     <OnlySourceGenerationTest>
         <Schema>test.xsd</Schema>

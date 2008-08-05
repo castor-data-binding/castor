@@ -1,5 +1,5 @@
 <?xml version='1.0'?>
-<TestDescriptor>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
     <Name>Collection of tests for substitution groups</Name>
     <Author>Werner Guttmann</Author>
     <Comment>Tests substitution group funtionality</Comment>
@@ -10,29 +10,29 @@
         <BindingFile>binding.xml</BindingFile>
         <Root_Object random="false" dump="true">SingleUnderlyer</Root_Object>
         <UnitTestCase>
-			<GenerateImported>true</GenerateImported>
             <Name>TestSingleUnderlyer1</Name>
             <Input>input-1.xml</Input>
             <GoldFile/>
+			<GenerateImported>true</GenerateImported>
         </UnitTestCase>
         <UnitTestCase>
-			<GenerateImported>true</GenerateImported>
             <Name>TestSingleUnderlyer2</Name>
             <Input>input-2.xml</Input>
             <GoldFile/>
+			<GenerateImported>true</GenerateImported>
         </UnitTestCase>
         <UnitTestCase>
-			<GenerateImported>true</GenerateImported>
             <Name>TestSingleUnderlyer3</Name>
             <Input>input-3.xml</Input>
             <GoldFile/>
+			<GenerateImported>true</GenerateImported>
         </UnitTestCase>
         <UnitTestCase>
-			<GenerateImported>true</GenerateImported>
             <Name>TestSingleUnderlyerWithWrongSequence</Name>
             <Input>input-4.xml</Input>
             <GoldFile/>
             <Failure>true</Failure>
+			<GenerateImported>true</GenerateImported>
         </UnitTestCase>
     </SourceGeneratorTest>
 </TestDescriptor>

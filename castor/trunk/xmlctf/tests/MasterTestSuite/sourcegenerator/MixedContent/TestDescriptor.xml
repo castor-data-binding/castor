@@ -1,5 +1,5 @@
 <?xml version='1.0'?>
-<TestDescriptor>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
     <Name>Mixed content was processed incorrectly when container elements were used</Name>
     <Author>Arnaud Blandin</Author>
     <Comment>Regression test case for bug 1358</Comment>
@@ -17,11 +17,11 @@
         <UnitTestCase>
             <Name>Test Generation</Name>
             <Input>input.xml</Input>
+            <GoldFile/> <!-- Temporarily suppress XML comparison -->
             <Comment>
                 This bug is fixed, but another exists that causes us to suppress
                 XML file comparison:  Mixed content is not handled properly.
             </Comment>
-            <GoldFile/> <!-- Temporarily suppress XML comparison -->
         </UnitTestCase>
     </SourceGeneratorTest>
 </TestDescriptor>

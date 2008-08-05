@@ -1,15 +1,15 @@
 <?xml version='1.0'?>
-<TestDescriptor>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
     <Name>Test the correct reading of restriction of list types</Name>
     <Author>Gilles Gaillard</Author>
     <Comment>Regression testing for bug 1169</Comment>
+    <Category>basic capability</Category>
     <BugFix>
         <Reporter>Gilles Gaillard (gillesGaillard@compuserve.com)</Reporter>
         <Date_Report>2003-01-03</Date_Report>
         <Date_Fix>2003-01-11</Date_Fix>
         <Comment>Applied patch from Gilles, sets baseType accordingly</Comment>
     </BugFix>
-    <Category>basic capability</Category>
     <SchemaTest>
 
         <UnitTestCase>

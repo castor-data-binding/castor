@@ -1,5 +1,5 @@
 <?xml version='1.0'?>
-<TestDescriptor>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
     <Name>Test the handling of IDs</Name>
     <Author>Werner Guttmann</Author>
     <Comment>
@@ -14,6 +14,7 @@
         <Root_Object random="false" dump="true">PartialTerminationElement</Root_Object>
 
         <UnitTestCase>
+            <Name>Test valid XML document instance with IDs</Name>
             <Configuration>
                 <Unmarshal>
                     <Call-method name="setValidation">
@@ -21,11 +22,11 @@
                     </Call-method>
                 </Unmarshal>
             </Configuration>
-            <Name>Test valid XML document instance with IDs</Name>
             <Input>input-ok.xml</Input>
         </UnitTestCase>
 
         <UnitTestCase>
+            <Name>Test invalid (empty ID) XML document instance with IDs</Name>
             <Configuration>
                 <Unmarshal>
                     <Call-method name="setValidation">
@@ -33,12 +34,12 @@
                     </Call-method>
                 </Unmarshal>
             </Configuration>
-            <Name>Test invalid (empty ID) XML document instance with IDs</Name>
             <Input>input-with-empty-id.xml</Input>
             <Failure FailureStep="unmarshal-reference">true</Failure>
         </UnitTestCase>
 
         <UnitTestCase>
+            <Name>Test invalid XML document instance with duplicate IDs</Name>
             <Configuration>
                 <Unmarshal>
                     <Call-method name="setValidation">
@@ -46,7 +47,6 @@
                     </Call-method>
                 </Unmarshal>
             </Configuration>
-            <Name>Test invalid XML document instance with duplicate IDs</Name>
             <Input>input-with-duplicate-ids.xml</Input>
             <Failure FailureStep="unmarshal-reference">true</Failure>
         </UnitTestCase>

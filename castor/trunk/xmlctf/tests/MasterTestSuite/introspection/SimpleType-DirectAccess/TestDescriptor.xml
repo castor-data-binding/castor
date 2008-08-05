@@ -1,5 +1,5 @@
 <?xml version='1.0'?>
-<TestDescriptor>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
 
     <Name>Simple type handling with direct field access with introspection</Name>
     <Author>Sebastien Gignoux</Author>
@@ -29,15 +29,15 @@
         <UnitTestCase>
             <Name>Element node</Name>
             <Input>input-element.xml</Input>
-            <ObjectBuilder>Builder</ObjectBuilder>
             <GoldFile>output.xml</GoldFile>
+            <ObjectBuilder>Builder</ObjectBuilder>
         </UnitTestCase>
 
         <UnitTestCase>
             <Name>Attribute node</Name>
             <Input>input-attribute.xml</Input>
-            <ObjectBuilder>Builder</ObjectBuilder>
             <GoldFile>output.xml</GoldFile>
+            <ObjectBuilder>Builder</ObjectBuilder>
         </UnitTestCase>
 
     </MarshallingTest>

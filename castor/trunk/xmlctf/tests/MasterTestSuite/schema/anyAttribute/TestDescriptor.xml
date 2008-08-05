@@ -1,5 +1,5 @@
 <?xml version='1.0'?>
-<TestDescriptor>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
     <Name>Test the reading of AnyAttribute under AttributeGroup</Name>
     <Author>Arnaud Blandin</Author>
     <Comment>Regression testing
@@ -13,10 +13,10 @@
 
         <UnitTestCase>
             <Schema>anyAttribute_Annotation.xsd</Schema>
+            <SchemaDifferences FailureStep="compare-to-reference">1</SchemaDifferences>
             <Comment>
                 We lose an Annotation during processing.
             </Comment>
-            <SchemaDifferences FailureStep="compare-to-reference">1</SchemaDifferences>
         </UnitTestCase>
 
     </SchemaTest>

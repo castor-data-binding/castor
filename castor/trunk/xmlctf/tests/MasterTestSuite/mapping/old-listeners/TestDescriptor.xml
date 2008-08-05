@@ -1,5 +1,5 @@
 <?xml version='1.0'?>
-<TestDescriptor>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
 
     <Name>Unmarshalling Listener Test</Name>
     <Author>Paul Christmann</Author>
@@ -27,8 +27,8 @@
             <Input>input.xml</Input>
             <GoldFile>goldfiles/data/output.xml</GoldFile>
             <Listener>
-                <ClassName>SimpleListener</ClassName>
                 <GoldFile>goldfiles/listeners/simple-unmarshal.xml</GoldFile>
+                <ClassName>SimpleListener</ClassName>
                 <Type>Unmarshal</Type>
             </Listener>
         </UnitTestCase>
@@ -39,8 +39,8 @@
             <Input>input.xml</Input>
             <GoldFile>goldfiles/data/output.xml</GoldFile>
             <Listener>
-                <ClassName>SimpleListener</ClassName>
                 <GoldFile>goldfiles/listeners/simple-marshal.xml</GoldFile>
+                <ClassName>SimpleListener</ClassName>
                 <Type>Marshal</Type>
             </Listener>
         </UnitTestCase>
@@ -51,8 +51,8 @@
             <Input>input.xml</Input>
             <GoldFile>goldfiles/data/output.xml</GoldFile>
             <Listener>
-                <ClassName>SimpleListener</ClassName>
                 <GoldFile>goldfiles/listeners/simple-listener.xml</GoldFile>
+                <ClassName>SimpleListener</ClassName>
                 <Type>Both</Type>
             </Listener>
         </UnitTestCase>
@@ -63,8 +63,8 @@
             <Input>input.xml</Input>
             <GoldFile>goldfiles/data/modified-unmarshal.xml</GoldFile>
             <Listener>
-                <ClassName>MutatingListener</ClassName>
                 <GoldFile>goldfiles/listeners/modified-unmarshal.xml</GoldFile>
+                <ClassName>MutatingListener</ClassName>
                 <Type>Unmarshal</Type>
             </Listener>
         </UnitTestCase>
@@ -75,8 +75,8 @@
             <Input>input.xml</Input>
             <GoldFile>goldfiles/data/modified-marshal.xml</GoldFile>
             <Listener>
-                <ClassName>MutatingListener</ClassName>
                 <GoldFile>goldfiles/listeners/modified-marshal.xml</GoldFile>
+                <ClassName>MutatingListener</ClassName>
                 <Type>Marshal</Type>
             </Listener>
         </UnitTestCase>

@@ -1,5 +1,5 @@
 <?xml version='1.0'?>
-<TestDescriptor>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
     <Name>Collection of tests for the definition and use of simpleType definitions</Name>
     <Author>Werner Guttmann</Author>
     <Comment>See CASTOR-1839</Comment>
@@ -9,11 +9,11 @@
         <BindingFile>binding.xml</BindingFile>
         <Root_Object random="false" dump="true">com.test.syncitem.SyncItem</Root_Object>
         <UnitTestCase>
-			<GenerateImported>true</GenerateImported>
             <Name>Tests code generation for simple types defined as restrictions of UNIONs</Name>
             <Input>input.xml</Input>
-            <!--  to avoid XML comparison, as it fails -->
             <GoldFile/>
+			<GenerateImported>true</GenerateImported>
+            <!--  to avoid XML comparison, as it fails -->
         </UnitTestCase>
     </SourceGeneratorTest>
 </TestDescriptor>

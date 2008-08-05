@@ -1,5 +1,5 @@
 <?xml version='1.0'?>
-<TestDescriptor>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
     <Name>Test specification of enum binding(s) through the binding file</Name>
     <Author>Werer Guttmann</Author>
     <Comment>
@@ -13,18 +13,18 @@
         <Root_Object random="false" dump="true">ProcessDefinition</Root_Object>
         <UnitTestCase>
             <Name>UnmarshallingWithStandardValue</Name>
-            <Comment>Test unmarshalling with standard value</Comment>
             <Input>input.xml</Input>
+            <Comment>Test unmarshalling with standard value</Comment>
         </UnitTestCase>
         <UnitTestCase>
             <Name>UnamrshallingWithEnumBinding</Name>
-            <Comment>Test unmarshallig with value where there is an enum binding</Comment>
             <Input>input2.xml</Input>
+            <Comment>Test unmarshallig with value where there is an enum binding</Comment>
         </UnitTestCase>
         <UnitTestCase>
             <Name>UnmarshallingWithNoBindingButContenttousValue</Name>
-            <Comment>Test unmarshallig with value where there is no enum binding, but a contentious value</Comment>
             <Input>input3.xml</Input>
+            <Comment>Test unmarshallig with value where there is no enum binding, but a contentious value</Comment>
         </UnitTestCase>
     </SourceGeneratorTest>
 </TestDescriptor>
