@@ -62,14 +62,17 @@ import org.exolab.castor.persist.spi.KeyGeneratorFactory;
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
 public final class KeyGeneratorFactoryRegistry {
-    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
-     *  Logging </a> instance used for all logging. */
+    
+    /** 
+     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
+     * Logging </a> instance used for all logging. 
+     */
     private static final Log LOG = LogFactory.getLog(KeyGeneratorFactoryRegistry.class);
     
     /**
-     * Association between key genarator name and KeyGeneratorFactory.
+     * Association between key generator name and {@link KeyGeneratorFactory} instances.
      */
-    private static Hashtable  _factories;
+    private static Hashtable _factories = new Hashtable();
 
     /**
      * Returns a key generator factory with the specified name.
@@ -93,14 +96,12 @@ public final class KeyGeneratorFactoryRegistry {
      * @return Names of key generator factories
      */
     public static String[] getKeyGeneratorFactoryNames() {
-        String[]    names;
-        Enumeration enumeration;
-
         load();
-        names = new String[ _factories.size() ];
-        enumeration = _factories.keys();
+        String[] names = new String[_factories.size()];
+        Enumeration enumeration = _factories.keys();
+
         for (int i = 0; i < names.length; ++i) {
-            names[ i ] = (String) enumeration.nextElement();
+            names[i] = (String) enumeration.nextElement();
         }
         return names;
     }
@@ -110,9 +111,7 @@ public final class KeyGeneratorFactoryRegistry {
      * Load the key generators from the properties file, if not loaded before.
      */
     private static synchronized void load() {
-        if (_factories == null) {
-            _factories = new Hashtable();
-            
+        if (_factories.isEmpty()) {
             Configuration config = CPAConfiguration.getInstance();
             Object[] objects = config.getObjectArray(
                     CPAConfiguration.KEYGENERATOR_FACTORIES, config.getApplicationClassLoader());

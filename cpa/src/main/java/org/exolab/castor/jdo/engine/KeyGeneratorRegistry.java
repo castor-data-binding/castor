@@ -78,49 +78,51 @@ final class KeyGeneratorRegistry {
     /**
      * Association between key generator names (aliases) and instances.
      */
-    private Hashtable  _keyGens = new Hashtable();
-
+    private Hashtable _keyGenerators = new Hashtable();
 
     /**
-     * Returns a key generator with the specified description
+     * Returns a key generator based upon the specified (key generator) description
      * for the specified persistence factory.
      *
      * @param factory The persistence factory
-     * @param desc The key generator description
-     * @return The {@link KeyGenerator}
+     * @param descriptor The key generator description
+     * @param sqlType SQL type identifier.
+     * @return The {@link KeyGenerator} instance to be used.
      */
     public KeyGenerator getKeyGenerator(final PersistenceFactory factory,
-            final KeyGeneratorDescriptor desc, final int sqlType) throws MappingException {
-        String keyGenName;
-        KeyGeneratorFactory keyGenFactory;
-        KeyGenerator keyGen;
+            final KeyGeneratorDescriptor descriptor, final int sqlType) throws MappingException {
+        KeyGeneratorFactory keyGeneratorFactory;
+        String keyGeneratorName = descriptor.getName() + " " + sqlType;
+        
+        // check whether there's already a valid KeyGenerator instance registered.
+        KeyGenerator keyGenerator = (KeyGenerator) _keyGenerators.get(keyGeneratorName);
 
-        keyGenName = desc.getName() + " " + sqlType;
-        keyGen = (KeyGenerator) _keyGens.get(keyGenName);
-        if (keyGen == null) {
-            keyGenFactory = KeyGeneratorFactoryRegistry.getKeyGeneratorFactory(
-                    desc.getKeyGeneratorFactoryName());
+        if (keyGenerator == null) {
+            keyGeneratorFactory = KeyGeneratorFactoryRegistry.getKeyGeneratorFactory(
+                    descriptor.getKeyGeneratorFactoryName());
 
-            if (keyGenFactory != null) {
-                keyGen = keyGenFactory.getKeyGenerator(factory, desc.getParams(), sqlType);
-                if (keyGen != null) {
+            if (keyGeneratorFactory != null) {
+                keyGenerator = 
+                    keyGeneratorFactory.getKeyGenerator(factory, descriptor.getParams(), sqlType);
+                if (keyGenerator != null) {
                     if (_log.isDebugEnabled()) {
-                        _log.debug("Key generator " + desc.getKeyGeneratorFactoryName()
-                                + " has been instantiated, parameters: " + desc.getParams());
+                        _log.debug("Key generator " + descriptor.getKeyGeneratorFactoryName()
+                                + " has been instantiated, parameters: " + descriptor.getParams());
                     }
                 }
             }
-            if (keyGen == null) {
+            if (keyGenerator == null) {
                 /*
                  * Don't throw exception here, just notify and continue without
                  * key generator
                  */
                 _log.warn(Messages.format(
-                        "mapping.noKeyGen", desc.getKeyGeneratorFactoryName()));
+                        "mapping.noKeyGen", descriptor.getKeyGeneratorFactoryName()));
                 return null;
             }
-            _keyGens.put(keyGenName, keyGen);
-        }    
-        return keyGen;
+            _keyGenerators.put(keyGeneratorName, keyGenerator);
+        }
+        
+        return keyGenerator;
     }
 }

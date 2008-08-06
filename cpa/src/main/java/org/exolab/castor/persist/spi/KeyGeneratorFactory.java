@@ -56,6 +56,7 @@ import org.exolab.castor.mapping.MappingException;
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public interface KeyGeneratorFactory {
+    
     /**
      * Produce the key generator.
      * 
@@ -64,6 +65,8 @@ public interface KeyGeneratorFactory {
      * @param sqlType The SQL type of the primary key, the generated identities must have
      *        the corresponding Java type, e.g. java.sql.Types.INTEGER corresponds to
      *        java.lang.Integer, java.sql.Types.NUMERIC corresponds to java.lang.BigDecimal.
+     * @return A {@link KeyGenerator} instance.
+     * @throws MappingException If there's a problem resolving the mapping information. 
      */
     KeyGenerator getKeyGenerator(PersistenceFactory factory, Properties params, int sqlType)
     throws MappingException;
@@ -73,6 +76,7 @@ public interface KeyGeneratorFactory {
      * key generators in a mapping configuration file.
      * If several key generators of the same type are used for the same
      * database, then they are referenced by aliases.
+     * @return Name of the {@link KeyGenerator} used to identify key generator (types).
      */
     String getName();
 }

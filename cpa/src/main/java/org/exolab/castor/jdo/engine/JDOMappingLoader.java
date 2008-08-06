@@ -157,8 +157,10 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
 
     private final TypeConvertorRegistry _typeConvertorRegistry;
 
-    /** Map of key generator descriptors associated by their name. */
-    private final Map _keyGenDescs = new HashMap();
+    /** 
+     * Map of key generator descriptors associated by their name. 
+     */
+    private final Map _keyGeneratorDescriptors = new HashMap();
 
     /** Used by the constructor for creating key generators. Each database must have a
      *  proprietary KeyGeneratorRegistry instance, otherwise it is impossible to
@@ -220,10 +222,17 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         while (enumeration.hasMoreElements()) {
             KeyGeneratorDef def = (KeyGeneratorDef) enumeration.nextElement();
             
+            // resolve name of the key generator definition; if there's an alias
+            // defined, use it; if not, fall back to the name attribute (this
+            // is to ensure that for one key generator type (e.g. HIGH-LOW), it is 
+            // possible to define more than one instance with individual
+            // configuration(s).
             String name = def.getAlias();
-            if (name == null) { name = def.getName(); }
+            if (name == null) { 
+                name = def.getName(); 
+            }
             
-            KeyGeneratorDescriptor desc = (KeyGeneratorDescriptor) _keyGenDescs.get(name);
+            KeyGeneratorDescriptor desc = (KeyGeneratorDescriptor) _keyGeneratorDescriptors.get(name);
             if (desc != null) {
                 throw new MappingException(Messages.format("mapping.dupKeyGen", name));
             }
@@ -239,7 +248,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             desc = new KeyGeneratorDescriptor(
                     name, def.getName(), params, _keyGenReg);
             
-            _keyGenDescs.put(name, desc);
+            _keyGeneratorDescriptors.put(name, desc);
         }
     }
     
@@ -357,7 +366,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         extractAndSetAccessMode(jdoNature, classMapping);
         extractAndAddCacheParams(jdoNature, classMapping, javaClass);
         extractAndAddNamedQueries(jdoNature, classMapping);
-        extractAndSetKeyGeneratorDescriptor(jdoNature, classMapping);
+        extractAndSetKeyGeneratorDescriptor(jdoNature, classMapping.getKeyGenerator());
 
         return clsDesc;
     }
@@ -439,30 +448,31 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     }
     
     /**
-     * Extract name of key generator to use from class mapping. Search for an already
-     * existing key generator descriptor, e.g. those generated from the key generator
-     * definitions in mapping. If no descriptor can be found a new one is created and
-     * added to the map of class descriptors. Set the key generator descriptor at the
-     * class descriptor.
+     * Resolves (or creates) the key generator from a given key generator name.
+     * 
+     * Search for an already existing key generator descriptor, e.g. those generated 
+     * from the key generator definitions in mapping. If no descriptor can be found 
+     * a new one is created and added to the map of class descriptors. Set the 
+     * key generator descriptor at the class descriptor.
      * 
      * @param jdoNature JDO class descriptor to set the key generator descriptor at.
-     * @param clsMap Class mapping name of key generator.
+     * @param string Name of the key generator.
      */
     private void extractAndSetKeyGeneratorDescriptor(final ClassDescriptorJDONature jdoNature,
-            final ClassMapping clsMap) {
-        KeyGeneratorDescriptor keyGenDesc = null;
+            final String keyGeneratorName) {
+        KeyGeneratorDescriptor keyGeneratorDescriptor = null;
         
-        String keyGenName = clsMap.getKeyGenerator();
-        if (keyGenName != null) {
-            keyGenDesc = (KeyGeneratorDescriptor) _keyGenDescs.get(keyGenName);
-            if (keyGenDesc == null) {
-                keyGenDesc = new KeyGeneratorDescriptor(
-                        keyGenName, keyGenName, new Properties(), _keyGenReg);
-                _keyGenDescs.put(keyGenName, keyGenDesc);
+        if (keyGeneratorName != null) {
+            keyGeneratorDescriptor = (KeyGeneratorDescriptor) 
+                _keyGeneratorDescriptors.get(keyGeneratorName);
+            if (keyGeneratorDescriptor == null) {
+                keyGeneratorDescriptor = new KeyGeneratorDescriptor(
+                        keyGeneratorName, keyGeneratorName, new Properties(), _keyGenReg);
+                _keyGeneratorDescriptors.put(keyGeneratorName, keyGeneratorDescriptor);
             }
         }
         
-        jdoNature.setKeyGeneratorDescriptor(keyGenDesc);
+        jdoNature.setKeyGeneratorDescriptor(keyGeneratorDescriptor);
     }
     
     protected FieldDescriptor findIdentityByName(
