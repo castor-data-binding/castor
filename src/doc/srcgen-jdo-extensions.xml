@@ -267,7 +267,7 @@ CREATE TABLE book_table (
                 where the content is described as follows:
             </p>
             
-            <ctable>
+            <ctable caption="&lt;one-to-one&gt; - Definitions">
                 <cheader>
                     <td>Name</td>
                     <td>Description</td>
