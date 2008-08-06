@@ -1,0 +1,182 @@
+<?xml version="1.0"?>
+<document url="http://castor.org/srcgen-jdo-extensions.xml">
+   <properties>
+      <title>The Castor XML Code Generator - JDO extensions</title>
+      <author email="werner DOT guttmann AT gmx DOT net"> Werner Guttmann</author>
+      <abstract> Presents the user with ...</abstract>
+      <status>Final</status>
+   </properties>
+   <body>
+   
+      <title>JDO extension for the Castor XML code generator</title>
+      
+      <section title="Introduction">
+      
+         <p>
+            In this section we illustrate the use of the JDO extensions for the XML code 
+            generator.
+         </p>
+      </section>
+      
+      <section title="The schema elements">
+      
+        <p>
+            The following XML artifacts are available to annotate an existing XML schema
+            with JDO extension-specific information.
+        </p>
+        
+        <section title="Sample XML schema">
+        
+            <p>
+                To facilitate the detailed explanations in the following 
+                sections, we now define a few &lt;complexType&gt; definitions
+                that we want to map against an existing database schema.
+            </p> 
+        
+            <code-panel>
+&lt;complexType name="bookType"&gt;
+   &lt;sequence&gt;
+      &lt;element name="isbn" type="xs:string" /&gt;
+      &lt;element name="pages" type="xs:integer" /&gt;
+      &lt;element name="lector" type="lectorType" /&gt;
+      &lt;element name="authors" type="authorType" maxOccurs="unbounded" /&gt;
+   &lt;/sequence&gt;
+&lt;/complexType&gt;
+
+&lt;complexType name="lectorType"&gt;
+   &lt;sequence&gt;
+      &lt;element name="siNumber" type="xs:integer" /&gt;
+      &lt;element name="name" type="xs:string" /&gt;
+   &lt;/sequence&gt;
+&lt;/complexType&gt;
+
+&lt;complexType name="authorType"&gt;
+   &lt;sequence&gt;
+      &lt;element name="siNumber" type="xs:integer" /&gt;
+      &lt;element name="name" type="xs:string" /&gt;
+   &lt;/sequence&gt;
+&lt;/complexType&gt;
+            </code-panel>
+            
+        </section>
+        
+        <section name="&lt;table&gt; element">
+        
+            <p>
+                The &lt;table&gt; element allows you to map an &lt;complexType&gt;
+                definition to a table within a database, and to specify the
+                identity (frequently referred to as primary key).
+            </p>
+            
+            <code-panel>
+<font color="grey">&lt;complexType name="authorType"&gt;</font>
+   &lt;xs:annotation&gt;
+      &lt;xs:appinfo&gt;
+         <b>&lt;jdo:table name="author_table"&gt;
+            &lt;jdo:primary-key&gt;
+               &lt;jdo:key&gt;siNumber&lt;/jdo:key&gt;
+            &lt;/jdo:primary-key&gt;
+         &lt;/jdo:table&gt;</b>
+      &lt;/xs:appinfo&gt;
+   &lt;/xs:annotation&gt;
+   <font color="grey">&lt;sequence&gt;
+      &lt;element name="siNumber" type="xs:integer" /&gt;
+      &lt;element name="name" type="xs:string" /&gt;
+   &lt;/sequence&gt;
+&lt;/complexType&gt;</font></code-panel>
+
+            <p>
+                This maps the &lt;complexType&gt; <tt>authorType</tt> to
+                the table <tt>author_table</tt>, and specifies that the 
+                member <tt>siNumber</tt> be used as object identity (aka primary 
+                key).
+            </p>
+
+            <p>
+                The &lt;table&gt; element is defined as follows:
+            </p>
+        
+            <code-panel>
+&lt;xs:element name="table">
+   &lt;xs:complexType>
+      &lt;xs:sequence>
+         &lt;xs:element name="primaryKey" type="jdo:pkType"/>
+      &lt;/xs:sequence>
+      &lt;xs:attribute name="name" type="xs:string" use="required"/>
+      &lt;xs:attribute name="accessMode" use="optional" default="shared">
+         &lt;xs:simpleType>
+            &lt;xs:restriction base="xs:string">
+               &lt;xs:enumeration value="read-only"/>
+               &lt;xs:enumeration value="shared"/>
+               &lt;xs:enumeration value="exclusive"/>
+               &lt;xs:enumeration value="db-locked"/>
+            &lt;/xs:restriction>
+         &lt;/xs:simpleType>
+      &lt;/xs:attribute>
+      &lt;xs:attribute name="detachable" type="xs:boolean" default="false"/>
+   &lt;/xs:complexType>
+&lt;/xs:element></code-panel>
+
+        </section>
+        
+        <section title="&lt;column&gt; element">
+
+            <p>
+                The &lt;column&gt; element allows you to map a member of content model 
+                of a &lt;complexType&gt; definition to a column within a database.
+            </p>
+
+            <code-panel>
+<font color="darkgrey">&lt;complexType name="authorType"&gt;
+   &lt;xs:annotation&gt;
+      &lt;xs:appinfo&gt;</font>
+         <font color="grey">&lt;jdo:table name="author_table"&gt;
+            &lt;jdo:primary-key&gt;
+               &lt;jdo:key&gt;siNumber&lt;/jdo:key&gt;
+            &lt;/jdo:primary-key&gt;
+         &lt;/jdo:table&gt;</font>
+      <font color="darkgrey">&lt;/xs:appinfo&gt;
+   &lt;/xs:annotation&gt;
+   &lt;sequence&gt;
+      &lt;element name="siNumber" type="xs:integer" &gt;</font>
+         &lt;xs:annotation&gt;
+            &lt;xs:appinfo&gt;
+                <b>&lt;jdo:column name="sin" type="integer" /&gt;</b>
+            &lt;/xs:appinfo&gt;
+         &lt;/xs:annotation&gt;
+      <font color="darkgrey">&lt;/element&gt;
+      &lt;element name="name" type="xs:string" /&gt;
+   &lt;/sequence&gt;
+&lt;/complexType&gt;</font></code-panel>
+
+            <p>
+                This maps the &lt;element&gt; <tt>isNUmber</tt> to
+                the column <tt>sin</tt>, and specifies the database type
+                to be used for persistence.
+            </p>
+            
+            <p>
+                The &lt;column&gt; element is defined as follows:
+            </p>
+            
+            <code-panel>
+&lt;xs:element name="column"&gt;
+   &lt;xs:complexType>
+      &lt;xs:complexContent>
+         &lt;xs:extension base="jdo:readonlyDirtyType">
+            &lt;xs:attribute name="name" type="xs:string" use="required" />
+            &lt;xs:attribute name="type" type="xs:string" use="required" />
+            &lt;xs:attribute name="acceptNull" type="xs:boolean" use="optional"
+               default="true" />
+         &lt;/xs:extension>
+      &lt;/xs:complexContent>
+   &lt;/xs:complexType>
+&lt;/xs:element></code-panel>
+        
+        </section>
+        
+      </section>
+      
+  
+   </body>
+</document>
