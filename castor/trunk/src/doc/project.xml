@@ -322,11 +322,11 @@
     </section>
 
     <section name="DDL Generator">
-      <navLink highlighted="true">
+      <navLink">
         <url>ddlgen.xml</url>
         <display>Using DDL Generator</display>
       </navLink>
-      <navLink highlighted="true">
+      <navLink>
         <url>ddlgen-properties.xml</url>
         <display>Properties</display>
       </navLink>
@@ -334,7 +334,7 @@
         <url>ddlgen-anttask.xml</url>
         <display>Ant task</display>
       </navLink>
-      <navLink highlighted="true">
+      <navLink>
         <url>ddlgen-mapping.xml</url>
         <display>Type Mapping</display>
       </navLink>
