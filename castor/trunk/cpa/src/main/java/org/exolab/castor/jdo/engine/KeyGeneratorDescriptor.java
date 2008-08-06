@@ -58,16 +58,39 @@ import java.util.Properties;
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
 final public class KeyGeneratorDescriptor {
+    
+    /**
+     * Name of the key generator (could be an alias).
+     */
     private final String _name;
 
+    /**
+     * Name of the key generator (type); if an alias is defined, this
+     * is the type of the key generator used.
+     */
     private final String _keyGenFactoryName;
 
+    /**
+     * Configuration parameters for the key generator.
+     */
     private final Properties _params;
 
+    /**
+     * The key generator (definition) registry. 
+     */
     private final KeyGeneratorRegistry _keyGenReg;
 
-    public KeyGeneratorDescriptor(final String name, final String keyGenFactoryName,
-            final Properties params, final KeyGeneratorRegistry keyGenReg) {
+    /**
+     * Creates an instance of this clas.
+     * @param name Key generator name (could be an alias) 
+     * @param keyGenFactoryName (key generator (type) name.
+     * @param params Key generator parameters
+     * @param keyGenReg Key generator (definition) registry.
+     */
+    public KeyGeneratorDescriptor(final String name, 
+            final String keyGenFactoryName,
+            final Properties params, 
+            final KeyGeneratorRegistry keyGenReg) {
         _name = name;
         _keyGenFactoryName = keyGenFactoryName;
         _params = params;
