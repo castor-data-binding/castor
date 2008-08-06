@@ -18,22 +18,19 @@
          </p>
       </section>
       
-      <section title="The schema elements">
-      
-        <p>
-            The following XML artifacts are available to annotate an existing XML schema
-            with JDO extension-specific information.
-        </p>
-        
-        <section title="Sample XML schema">
+        <section title="Prerequisite">
         
             <p>
                 To facilitate the detailed explanations in the following 
                 sections, we now define a few &lt;complexType&gt; definitions
-                that we want to map against an existing database schema.
-            </p> 
+                that we want to map against an existing database schema, and the 
+                corresponding SQL statements to create the required tables.
+            </p>
+                
+            <section title="Sample XML schemas">
         
-            <code-panel>
+           
+               <code-panel>
 &lt;complexType name="bookType"&gt;
    &lt;sequence&gt;
       &lt;element name="isbn" type="xs:string" /&gt;
@@ -55,10 +52,33 @@
       &lt;element name="siNumber" type="xs:integer" /&gt;
       &lt;element name="name" type="xs:string" /&gt;
    &lt;/sequence&gt;
-&lt;/complexType&gt;
-            </code-panel>
+&lt;/complexType&gt;</code-panel>
             
+           </section>
+           
+           <section title="Prerequisite: Sample DDL statements">
+           
+                <code-panel>
+CREATE TABLE author_table (
+);
+
+CREATE TABLE lector_table (
+);
+
+CREATE TABLE book_table (
+);</code-panel>
+                
+           </section>
+        
         </section>
+        
+      <section title="The schema elements">
+      
+        <p>
+            The following XML artifacts are available to annotate an existing XML schema
+            with JDO extension-specific information.
+        </p>
+        
         
         <section name="&lt;table&gt; element">
         
@@ -174,6 +194,103 @@
 &lt;/xs:element></code-panel>
         
         </section>
+        
+        <section title="&lt;one-to-one&gt; element">
+        
+            <p>
+                The &lt;one-to-one&gt; element allows you to map a member of content model 
+                of a &lt;complexType&gt; definition to a 1:1 relation to another
+                &lt;complexType&gt;.
+            </p>
+        
+            <code-panel>
+<font color="grey">&lt;complexType name="bookType"&gt;
+   &lt;xs:annotation&gt;
+      &lt;xs:appinfo&gt;
+         &lt;jdo:table name="book_type_table"&gt;
+            &lt;jdo:primary-key&gt;
+               &lt;jdo:key&gt;isbn&lt;/jdo:key&gt;
+            &lt;/jdo:primary-key&gt;
+         &lt;/jdo:table&gt;
+      &lt;/xs:appinfo&gt;
+   &lt;/xs:annotation&gt;
+   &lt;sequence&gt;
+      &lt;element name="isbn" type="xs:string" &gt;
+         &lt;xs:annotation&gt;
+            &lt;xs:appinfo&gt;
+                &lt;jdo:column name="isbn" type="varchar" /&gt;
+            &lt;/xs:appinfo&gt;
+         &lt;/xs:annotation&gt;
+      &lt;/element&gt;
+      &lt;element name="pages" type="xs:integer" &gt;
+         &lt;xs:annotation&gt;
+            &lt;xs:appinfo&gt;
+                &lt;jdo:column name="pages" type="integer" /&gt;
+            &lt;/xs:appinfo&gt;
+         &lt;/xs:annotation&gt;
+      &lt;/element&gt;
+      &lt;element name="lector" type="lectorType" &gt;</font>
+         &lt;xs:annotation&gt;
+            &lt;xs:appinfo&gt;
+               <b>&lt;jdo:one-to-one name="lector_id" /&gt;</b>
+            &lt;/xs:appinfo&gt;
+         &lt;/xs:annotation&gt;
+      <font color="grey">&lt;/element&gt;
+      &lt;element name="authors" type="authorType" maxOccurs="unbounded" &gt;
+         ...
+      &lt;/element&gt;
+   &lt;/sequence&gt;
+&lt;/complexType&gt;</font></code-panel>
+
+            <p>
+                This maps the &lt;element&gt; <tt>lector</tt> to
+                1:1 relation to the <tt>lectorType</tt> &lt;complexType&gt;, and specifies 
+                the (column name of the) foreign key to be used.
+            </p>
+            
+            <p>
+                The &lt;one-to-one&gt; element is defined as follows:
+            </p>
+
+            <code-panel>
+&lt;xs:element name="one-to-one"&gt;
+   &lt;xs:complexType&gt;
+      &lt;xs:complexContent&gt;
+         &lt;xs:extension base="jdo:readonlyDirtyType"&gt;
+            &lt;xs:attribute name="name" type="xs:string"/&gt;
+         &lt;/xs:extension&gt;
+      &lt;/xs:complexContent&gt;
+   &lt;/xs:complexType&gt;
+&lt;/xs:element&gt;</code-panel>
+
+            <p>
+                where the content is described as follows:
+            </p>
+            
+            <ctable>
+                <cheader>
+                    <td>Name</td>
+                    <td>Description</td>
+                </cheader>
+                <crow>
+                    <td>name</td>
+                    <td>
+                        Specifies the name of the column that represents the foreign 
+                        key of this relation.
+                    </td>
+                </crow>
+            </ctable>
+                
+        </section>
+        
+        <section title="&lt;one-to-many&gt; element">
+        
+            <p>
+               TBD
+            </p>
+            
+        </section>
+        
         
       </section>
       
