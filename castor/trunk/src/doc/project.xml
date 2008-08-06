@@ -322,7 +322,7 @@
     </section>
 
     <section name="DDL Generator">
-      <navLink">
+      <navLink>
         <url>ddlgen.xml</url>
         <display>Using DDL Generator</display>
       </navLink>
