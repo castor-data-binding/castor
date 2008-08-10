@@ -24,13 +24,12 @@ package org.castor.cpa.query;
  * @since 1.3
  */
 public enum TrimSpecification {
-    
-    /** The LEADING. */
+    /** Trim LEADING characters. */
     LEADING,
     
-    /** The TRAILING. */
+    /** Trim TRAILING characters. */
     TRAILING,
     
-    /** The BOTH. */
+    /** Trim BOTH (leading and trailing) characters. */
     BOTH
 }

@@ -47,7 +47,7 @@ public class TestAbs extends TestCase {
     /**
      * Junit Test for instance.
      */
-    public static void testInstance() {
+    public void testInstance() {
         QueryObject n = new Abs();
         assertTrue(n instanceof AbstractFunction);
         assertTrue(n instanceof Function);
@@ -58,7 +58,7 @@ public class TestAbs extends TestCase {
     /**
      * Junit Test for Getter and Setter methods.
      */
-    public static void testGSetter() {
+    public void testGSetter() {
         Abs n = new Abs();
         Expression number = new MockExpression();
         n.setNumber(number);
@@ -68,7 +68,7 @@ public class TestAbs extends TestCase {
      /**
       * Junit Test for toString method.
       */
-     public static void testToString() {
+     public void testToString() {
          Abs n = new Abs();
          
          n.setNumber(null);

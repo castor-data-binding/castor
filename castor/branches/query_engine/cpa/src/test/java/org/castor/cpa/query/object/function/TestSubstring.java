@@ -47,7 +47,7 @@ public class TestSubstring extends TestCase {
     /**
      * Junit Test for instance.
      */
-    public static void testInstance() {
+    public void testInstance() {
         QueryObject n = new Substring();
         assertTrue(n instanceof AbstractFunction);
         assertTrue(n instanceof Function);
@@ -58,7 +58,7 @@ public class TestSubstring extends TestCase {
     /**
      * Junit Test for Getter and Setter methods.
      */
-    public static void testGSetter() {
+    public void testGSetter() {
         Substring n = new Substring();
         Expression string = new MockExpression();
         Expression start = new MockExpression();
@@ -74,7 +74,7 @@ public class TestSubstring extends TestCase {
      /**
       * Junit Test for toString method.
       */
-     public static void testToString() {
+     public void testToString() {
          Substring n = new Substring();
          Expression string = new MockExpression();
          Expression start = new MockExpression();

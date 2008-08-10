@@ -24,13 +24,12 @@ package org.castor.cpa.query;
  * @since 1.3
  */
 public enum TemporalType {
-    
-    /** The DATE. */
+    /** DATE. */
     DATE,
     
-    /** The TIME. */
+    /** TIME. */
     TIME,
     
-    /** The TIMESTAMP. */
+    /** TIMESTAMP. */
     TIMESTAMP
 }

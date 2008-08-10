@@ -28,20 +28,12 @@ import junit.framework.TestCase;
 public class TestAbstractQueryObject extends TestCase {
     //--------------------------------------------------------------------------
 
-    /**
-     * Instantiates a new junit Test for abstract query object.
-     * 
-     * @param name the name
-     */
     public TestAbstractQueryObject(final String name) {
         super(name);
     }
 
     //--------------------------------------------------------------------------
 
-    /**
-     * Junit Test for toString.
-     */
     public static void testToString() {
         MockQueryObject n = new MockQueryObject();
         assertEquals("queryObject", n.toString()); 

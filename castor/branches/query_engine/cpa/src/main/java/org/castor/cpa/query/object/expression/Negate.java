@@ -25,20 +25,51 @@ import org.castor.cpa.query.Expression;
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public final class Negate extends CompoundExpression {
+public final class Negate extends AbstractExpression {
+    //--------------------------------------------------------------------------
+    
+    /** Expression to negate. */
+    private Expression _expression;
+    
+    //--------------------------------------------------------------------------
+    
+    /**
+     * Get expression to negate.
+     * 
+     * @return Expression to negate.
+     */
+    public Expression getExpression() {
+        return _expression;
+    }
+    
+    /**
+     * Set expression to negate.
+     * 
+     * @param expression Expression to negate.
+     */
+    public void setExpression(final Expression expression) {
+        _expression = expression;
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     */
+    public Expression negate() {
+        return _expression;  
+    }
+
     //--------------------------------------------------------------------------
     
     /**
      * {@inheritDoc}
      */
-    protected String getOperator() { return " - "; }
-    
-    
-    /**
-     * {@inheritDoc}
-     */
-    public Expression negate() {
-        return this;
+    public StringBuilder toString(final StringBuilder sb) {
+        sb.append('-');
+        if (_expression != null) { _expression.toString(sb); }
+        return sb;
     }
+    
     //--------------------------------------------------------------------------   
 }

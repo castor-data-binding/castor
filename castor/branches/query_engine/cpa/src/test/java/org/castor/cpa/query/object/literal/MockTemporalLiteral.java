@@ -13,16 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.cpa.query.object.expression;
+package org.castor.cpa.query.object.literal;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
- * Abstract base class for multiplicative expression.
+ * Mock literal class for testing AbstractTemporalLiteral class.
  * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public abstract class MultiplicativeExpression extends CompoundExpression {
+public final class MockTemporalLiteral extends AbstractTemporalLiteral {
+    public MockTemporalLiteral(final Date value) {
+        super(value);
+    }
+    
+    public MockTemporalLiteral(final Calendar value) {
+        super(value);
+    }
 
+    public StringBuilder toString(final StringBuilder sb) {
+        return sb;
+    }
 }

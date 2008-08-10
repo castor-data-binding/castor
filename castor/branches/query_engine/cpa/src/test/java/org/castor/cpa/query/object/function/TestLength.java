@@ -47,7 +47,7 @@ public class TestLength extends TestCase {
     /**
      * Junit Test for instance.
      */
-    public static void testInstance() {
+    public void testInstance() {
         QueryObject n = new Length();
         assertTrue(n instanceof AbstractFunction);
         assertTrue(n instanceof Function);
@@ -58,7 +58,7 @@ public class TestLength extends TestCase {
     /**
      * Junit Test for Getter and Setter methods.
      */
-    public static void testGSetter() {
+    public void testGSetter() {
         Length n = new Length();
         Expression exp = new MockExpression();
         n.setString(exp);
@@ -68,7 +68,7 @@ public class TestLength extends TestCase {
      /**
       * Junit Test for toString method.
       */
-     public static void testToString() {
+     public void testToString() {
          Length n = new Length();
          
          n.setString(null);

@@ -18,6 +18,8 @@ package org.castor.cpa.query.object.literal;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.castor.cpa.query.TemporalType;
+
 /**
  * Abstract immutable base class for temporal literals.
  *
@@ -27,6 +29,44 @@ import java.util.Date;
  * @since 1.3
  */
 public abstract class AbstractTemporalLiteral extends AbstractLiteral {
+    //--------------------------------------------------------------------------
+    
+    /**
+     * Factory method to create a temporal literal for the date given that matches the
+     * temporal type given.
+     * 
+     * @param temporalType Temporal type of the temporal literal to return.
+     * @param value Date value for the temporal literal.
+     * @return Temporal literal.
+     */
+    public static AbstractTemporalLiteral createInstance(
+            final TemporalType temporalType, final Date value) {
+        switch (temporalType) {
+            case DATE:      return new DateLiteral(value);
+            case TIME:      return new TimeLiteral(value);
+            case TIMESTAMP: return new TimestampLiteral(value);
+            default:        throw new IllegalArgumentException();
+        } 
+    }
+    
+    /**
+     * Factory method to create a temporal literal for the calendar given that matches the
+     * temporal type given.
+     * 
+     * @param temporalType Temporal type of the temporal literal to return.
+     * @param value Calendar value for the temporal literal.
+     * @return Temporal literal.
+     */
+    public static AbstractTemporalLiteral createInstance(
+            final TemporalType temporalType, final Calendar value) {
+        switch (temporalType) {
+            case DATE:      return new DateLiteral(value);
+            case TIME:      return new TimeLiteral(value);
+            case TIMESTAMP: return new TimestampLiteral(value);
+            default:        throw new IllegalArgumentException();
+        } 
+    }
+    
     //--------------------------------------------------------------------------
     
     /** Date value of the temporal literal. */

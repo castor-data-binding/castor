@@ -40,6 +40,6 @@ public final class Divide extends CompoundExpression {
         addExpression(expression);
         return this;
     }
+    
     //--------------------------------------------------------------------------
-
 }

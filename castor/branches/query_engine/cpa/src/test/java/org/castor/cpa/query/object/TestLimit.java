@@ -28,13 +28,17 @@ import org.castor.cpa.query.SelectQuery;
  * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
+ * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr
+ *          2006) $
  * @since 1.3
  */
 public class TestLimit extends TestCase {
-   
+    // --------------------------------------------------------------------------
+
     private static String _common = "SELECT o.bar FROM org.castor.cpa.query.Foo AS o ";
-    
+
+    // --------------------------------------------------------------------------
+
     public static void testWithLimitLong() {
         SelectQuery select = QueryFactory.newSelectQuery();
         Schema schema = select.newSchema(Foo.class, "o");
@@ -43,9 +47,9 @@ public class TestLimit extends TestCase {
         select.setLimit(4);
         String expected = "LIMIT 4";
         assertEquals(_common + expected, select.toString());
-        System.out.println(select.toString());
+        //System.out.println(select.toString());
     }
-    
+
     public static void testWithLimitParam() {
         SelectQuery select = QueryFactory.newSelectQuery();
         Schema schema = select.newSchema(Foo.class, "o");
@@ -55,9 +59,9 @@ public class TestLimit extends TestCase {
         select.setLimit(param);
         String expected = "LIMIT Parameter";
         assertEquals(_common + expected, select.toString());
-        System.out.println(select.toString());
+        //System.out.println(select.toString());
     }
-    
+
     public static void testWithLimitLongOffsetLong() {
         SelectQuery select = QueryFactory.newSelectQuery();
         Schema schema = select.newSchema(Foo.class, "o");
@@ -66,10 +70,9 @@ public class TestLimit extends TestCase {
         select.setLimit(4, 6);
         String expected = "LIMIT 4 OFFSET 6";
         assertEquals(_common + expected, select.toString());
-        System.out.println(select.toString());
+       // System.out.println(select.toString());
     }
-    
-    
+
     public static void testWithLimitParamOffsetParam() {
         SelectQuery select = QueryFactory.newSelectQuery();
         Schema schema = select.newSchema(Foo.class, "o");
@@ -80,6 +83,8 @@ public class TestLimit extends TestCase {
         select.setLimit(param1, param2);
         String expected = "LIMIT Parameter OFFSET Parameter";
         assertEquals(_common + expected, select.toString());
-        System.out.println(select.toString());
+       // System.out.println(select.toString());
     }
+    // --------------------------------------------------------------------------
+
 }

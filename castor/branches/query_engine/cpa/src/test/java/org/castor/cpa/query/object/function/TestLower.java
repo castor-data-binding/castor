@@ -47,7 +47,7 @@ public class TestLower extends TestCase {
     /**
      * Junit Test for instance.
      */
-    public static void testInstance() {
+    public void testInstance() {
         QueryObject n = new Lower();
         assertTrue(n instanceof AbstractFunction);
         assertTrue(n instanceof Function);
@@ -58,7 +58,7 @@ public class TestLower extends TestCase {
     /**
      * Junit Test for Getter and Setter methods.
      */
-    public static void testGSetter() {
+    public void testGSetter() {
         Lower n = new Lower();
         Expression exp = new MockExpression();
         n.setString(exp);
@@ -68,7 +68,7 @@ public class TestLower extends TestCase {
      /**
       * Junit Test for toString method.
       */
-     public static void testToString() {
+     public void testToString() {
          Lower n = new Lower();
          
          n.setString(null);

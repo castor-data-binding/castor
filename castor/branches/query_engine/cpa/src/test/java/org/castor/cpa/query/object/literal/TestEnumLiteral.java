@@ -34,6 +34,8 @@ public class TestEnumLiteral extends TestCase {
 
     //--------------------------------------------------------------
     
+    public void testSomething() { }
+    
     // TODO implement tests
 
     //--------------------------------------------------------------

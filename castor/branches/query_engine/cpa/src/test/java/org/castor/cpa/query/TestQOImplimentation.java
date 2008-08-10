@@ -20,54 +20,70 @@ import junit.framework.TestCase;
 import org.castor.cpa.query.object.OrderImpl;
 
 /**
- * The Class TestQOImplimentation.
+ * Junit test for testing query object implimentation.
+ * 
+ * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
+ * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr
+ *          2006) $
+ * @since 1.3
  */
 public class TestQOImplimentation extends TestCase {
+    // --------------------------------------------------------------------------
 
-    /**
-     * Instantiates a new junit Test for qo implimentation.
-     * 
-     * @param name the name
-     */
     public TestQOImplimentation(final String name) {
         super(name);
     }
 
-    /**
-     * Junit Test for simple select.
-     */
+    // --------------------------------------------------------------------------
+
     public static void testSimpleSelect() {
         SelectQuery select = QueryFactory.newSelectQuery();
         Schema schema = select.newSchema(Foo.class, "o");
         select.addSchema(schema);
-        System.out.println(select.toString());
+        //System.out.println(select.toString());
+        String expected = "SELECT  FROM org.castor.cpa.query.Foo AS o";
+        String actual = select.toString();
+        assertEquals(actual, expected);
     }
-    
+
     public static void testDistinctSelect() {
         SelectQuery select = QueryFactory.newSelectQuery();
         Schema schema = select.newSchema(Foo.class, "o");
         select.setDistinct(true);
         select.addSchema(schema);
-        System.out.println(select.toString());
+        //System.out.println(select.toString());
+        String expected = "SELECT DISTINCT  FROM org.castor.cpa.query.Foo AS o";
+        String actual = select.toString();
+        assertEquals(actual, expected);
     }
-    
-    
+
     public static void testProjectionSelect() {
         SelectQuery select = QueryFactory.newSelectQuery();
         Schema schema = select.newSchema(Foo.class, "o");
         select.addProjection(schema.field("bar"));
         select.addSchema(schema);
-        System.out.println(select.toString());
+        //System.out.println(select.toString());
+        String expected = "SELECT o.bar FROM org.castor.cpa.query.Foo AS o";
+        String actual = select.toString();
+        assertEquals(actual, expected);
     }
-    
-    
+
     public static void testOrderBySelect() {
         SelectQuery select = QueryFactory.newSelectQuery();
         Schema schema = select.newSchema(Foo.class, "o");
         select.setDistinct(true);
         select.addProjection(schema.field("bar"));
         select.addSchema(schema);
-        Order order = new OrderImpl(schema.field("kit"), OrderDirection.ASCENDING);
+        Order order = new OrderImpl(schema.field("kit"),
+                OrderDirection.ASCENDING);
         select.setOrder(order);
+        //System.out.println(select.toString());
+        String expected = "SELECT DISTINCT o.bar FROM org.castor.cpa.query.Foo AS o" 
+            + " ORDER BY o.kit ASC";
+        String actual = select.toString();
+        assertEquals(actual, expected);
     }
+
+    // --------------------------------------------------------------------------
 }

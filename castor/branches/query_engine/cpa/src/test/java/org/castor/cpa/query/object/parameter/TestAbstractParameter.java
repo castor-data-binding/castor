@@ -63,8 +63,21 @@ public class TestAbstractParameter extends TestCase {
         assertEquals("correct", n.toString()); 
      }
      
-     // TODO add test for isNull()
-     // TODO add test for isNotNull()
+     /**
+      * Junit Test for isNull().
+      */
+     public void testIsNull() {
+        Parameter n = new MockParameter();
+        assertEquals("correct IS NULL", n.isNull().toString()); 
+     }
 
+     /**
+      * Junit Test for isNull().
+      */
+     public void testIsNotNull() {
+        Parameter n = new MockParameter();
+        assertEquals("correct IS NOT NULL", n.isNotNull().toString()); 
+     }
+     
      //--------------------------------------------------------------------------
 }

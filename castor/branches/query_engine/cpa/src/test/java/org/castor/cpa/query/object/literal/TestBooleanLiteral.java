@@ -44,13 +44,13 @@ public class TestBooleanLiteral extends TestCase {
     /**
      * Junit Test for instance Boolean Literal.
      */
-    public static void testInstance() {
+    public void testInstance() {
         Literal n = new BooleanLiteral(true);
         assertTrue(n != null);
      }
     
     /**
-     * Junit Test for conctructor and getter.
+     * Junit Test for constructor and getter.
      */
     public void testConstructor() {
         BooleanLiteral n = new BooleanLiteral(true);
@@ -63,7 +63,7 @@ public class TestBooleanLiteral extends TestCase {
     /**
      * Junit Test for Boolean Literal toString method.
      */
-    public static void testToString() {
+    public void testToString() {
         BooleanLiteral n = new BooleanLiteral(true);
         assertEquals("true", n.toString()); 
 
