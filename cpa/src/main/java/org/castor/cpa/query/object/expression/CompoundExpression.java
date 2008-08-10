@@ -15,6 +15,7 @@
  */
 package org.castor.cpa.query.object.expression;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -29,92 +30,69 @@ import org.castor.cpa.query.Expression;
  * @since 1.3
  */
 public abstract class CompoundExpression extends AbstractExpression {
-
     //--------------------------------------------------------------------------
     
-    /** The expressions. */
+    /** List of expressions. */
     private List < Expression > _expressions;
-    
-    
 
     //--------------------------------------------------------------------------
-    
 
     /**
-     * Adds the expression.
+     * Get operator of the compound expression.
      * 
-     * @param index the index
-     * @param expression the expression
+     * @return Operator of the compound expression.
      */
-    public final void addExpression(final int index, final Expression expression) {
-        _expressions.add(index, expression);
-    }
+    protected abstract String getOperator();
     
+    //--------------------------------------------------------------------------
+
     /**
-     * Adds the expression.
+     * Add expression to the end of the list.
      * 
-     * @param expression the expression
+     * @param expression Expression to add to end of list.
      */
     public final void addExpression(final Expression expression) {
+        if (_expressions == null) { _expressions = new ArrayList < Expression > (); }
         _expressions.add(expression);
     }
 
-
     /**
-     * Gets the expressions.
+     * Get list of expressions.
      * 
-     * @return the expressions
+     * @return List of expressions.
      */
     public final List < Expression > getExpressions() {
         return _expressions;
     }
 
     /**
-     * Sets the expressions.
+     * Set list of expressions.
      * 
-     * @param expressions the new expressions
+     * @param expressions List of expressions.
      */
     public final void setExpressions(final List < Expression > expressions) {
         _expressions = expressions;
     }
     
-    /**
-     * Gets the operator.
-     * 
-     * @return the operator
-     */
-    protected abstract String getOperator();
-    
+    //--------------------------------------------------------------------------
+
     /**
      * {@inheritDoc}
      */ 
-   public final StringBuilder toString(final StringBuilder sb) {
-       for (Iterator < Expression > iter = _expressions.iterator(); iter.hasNext(); ) {
-          Expression expression = iter.next();
-          if (expression instanceof Add 
-                  || expression instanceof Multiply  
-                  || expression instanceof Concat) {
-              sb.append('(');
-              expression.toString(sb);
-              sb.append(')');
-          } else if (expression != null) {
-           if (expression instanceof Subtract 
-                   || expression instanceof Divide 
-                   || expression instanceof Remainder) {
-               sb.append('(');
-               expression.toString(sb);
-               sb.append(')');
-           } else if (expression instanceof Negate) {
-               sb.append("(");
-               sb.append(" - ");
-               expression.toString(sb);
-               sb.append(')'); 
-           } else {  
-              expression.toString(sb);
-           }
-          }
-          if (iter.hasNext()) { sb.append(getOperator()); }
+    public final StringBuilder toString(final StringBuilder sb) {
+        for (Iterator < Expression > iter = _expressions.iterator(); iter.hasNext(); ) {
+            Expression expression = iter.next();
+            if (expression instanceof CompoundExpression) {
+                sb.append('(');
+                expression.toString(sb);
+                sb.append(')');
+            } else {
+                expression.toString(sb);
+            }
+            if (iter.hasNext()) { sb.append(getOperator()); }
         }
         return sb;
     }
+
+    //--------------------------------------------------------------------------
 }

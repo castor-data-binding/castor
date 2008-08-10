@@ -47,7 +47,7 @@ public class TestPositionalParameter extends TestCase {
     /**
      * Junit Test for instance.
      */
-    public static void testInstance() {
+    public void testInstance() {
         QueryObject n = new PositionalParameter(0);
         assertTrue(n instanceof AbstractParameter);
         assertTrue(n instanceof Parameter);
@@ -66,7 +66,7 @@ public class TestPositionalParameter extends TestCase {
     /**
      * Junit Test for toString method.
      */
-    public static void testToString() {
+    public void testToString() {
         PositionalParameter p = new PositionalParameter(8);
         assertEquals("?8", p.toString()); 
     }   

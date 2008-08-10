@@ -17,7 +17,6 @@ package org.castor.cpa.query.object.expression;
 
 import org.castor.cpa.query.Expression;
 
-
 /**
  * Final class that represents add arithmetic expression.
  * 
@@ -41,6 +40,6 @@ public final class Add extends CompoundExpression {
         addExpression(expression);
         return this;
     }
-  //--------------------------------------------------------------------------
-
+    
+    //--------------------------------------------------------------------------
 }

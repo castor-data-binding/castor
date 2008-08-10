@@ -48,7 +48,7 @@ public class TestOrder extends TestCase {
         select.setOrder(order);
         String expected = "ORDER BY o.check ASC";
         assertEquals(_common + expected, select.toString());
-        System.out.println(select.toString());
+        //System.out.println(select.toString());
     }
     
     public static void testWithFieldDirection() {
@@ -60,7 +60,7 @@ public class TestOrder extends TestCase {
         select.setOrder(order);
         String expected = "ORDER BY o.check DESC";
         assertEquals(_common + expected, select.toString());
-        System.out.println(select.toString());
+        //System.out.println(select.toString());
     }
     
     public static void testWithAddMultiple() {
@@ -73,7 +73,7 @@ public class TestOrder extends TestCase {
         select.setOrder(order);
         String expected = "ORDER BY o.check DESC, o.book ASC";
         assertEquals(_common + expected, select.toString());
-        System.out.println(select.toString());
+        //System.out.println(select.toString());
     }
   
     //--------------------------------------------------------------------------

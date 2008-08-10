@@ -42,7 +42,7 @@ public class TestAbstractLiteral extends TestCase {
     /**
      * Junit Test for instance.
      */
-    public static void testInstance() {
+    public void testInstance() {
         QueryObject n = new MockLiteral();
         assertTrue(n instanceof AbstractLiteral);
         assertTrue(n instanceof Literal);
@@ -53,7 +53,7 @@ public class TestAbstractLiteral extends TestCase {
     /**
      * Junit Test for toString.
      */
-    public static void testToString() {
+    public void testToString() {
         Literal n = new MockLiteral();
         assertEquals("correct", n.toString()); 
     } 

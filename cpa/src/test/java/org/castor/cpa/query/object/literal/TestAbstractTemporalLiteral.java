@@ -15,6 +15,12 @@
  */
 package org.castor.cpa.query.object.literal;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import junit.framework.TestCase;
 
 import org.castor.cpa.query.Expression;
@@ -42,9 +48,12 @@ public class TestAbstractTemporalLiteral extends TestCase {
     /**
      * Junit Test for instance.
      */
-    public static void testInstance() {
-        QueryObject n = new MockNumericLiteral();
-        assertTrue(n instanceof AbstractNumericLiteral);
+    public void testInstance() throws ParseException {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        Date date = df.parse("2008-08-08 12:34:56.789");
+        
+        QueryObject n = new MockTemporalLiteral(date);
+        assertTrue(n instanceof AbstractTemporalLiteral);
         assertTrue(n instanceof AbstractLiteral);
         assertTrue(n instanceof Literal);
         assertTrue(n instanceof AbstractExpression);
@@ -52,12 +61,37 @@ public class TestAbstractTemporalLiteral extends TestCase {
     }
 
     /**
-     * Junit Test for toString.
+     * Junit test for constructor.
      */
-    public static void testToString() {
-        Literal n = new MockNumericLiteral();
-        assertEquals("correct", n.toString()); 
-    } 
+    public void testConstructor() throws ParseException {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        Date date = df.parse("2008-08-08 12:34:56.789");
+        
+        AbstractTemporalLiteral tl1 = new MockTemporalLiteral(date);
+        assertEquals(date, tl1.getValue());
+
+        try {
+            new MockTemporalLiteral((Date) null);
+            fail("NullPointerException should have been thrown");
+        } catch (NullPointerException ex) {
+            assertTrue(true);
+        }
+        
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        
+        AbstractTemporalLiteral tl2 = new MockTemporalLiteral(cal);
+        assertEquals(date, tl2.getValue());
+        
+        try {
+            new MockTemporalLiteral((Calendar) null);
+            fail("NullPointerException should have been thrown");
+        } catch (NullPointerException ex) {
+            assertTrue(true);
+        }
+    }
+    
+    // TODO add tests for both createInstance methods
 
     //--------------------------------------------------------------------------
 }

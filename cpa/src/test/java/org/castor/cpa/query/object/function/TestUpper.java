@@ -47,7 +47,7 @@ public class TestUpper extends TestCase {
     /**
      * Junit Test for instance.
      */
-    public static void testInstance() {
+    public void testInstance() {
         QueryObject n = new Upper();
         assertTrue(n instanceof AbstractFunction);
         assertTrue(n instanceof Function);
@@ -58,7 +58,7 @@ public class TestUpper extends TestCase {
     /**
      * Junit Test for Getter and Setter methods.
      */
-    public static void testGSetter() {
+    public void testGSetter() {
         Upper n = new Upper();
         Expression string = new MockExpression();
         n.setString(string);
@@ -68,7 +68,7 @@ public class TestUpper extends TestCase {
      /**
       * Junit Test for toString method.
       */
-     public static void testToString() {
+     public void testToString() {
          Upper n = new Upper();
          
          n.setString(null);

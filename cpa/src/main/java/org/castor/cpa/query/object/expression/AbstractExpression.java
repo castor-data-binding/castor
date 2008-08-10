@@ -16,7 +16,6 @@
 package org.castor.cpa.query.object.expression;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -44,14 +43,12 @@ import org.castor.cpa.query.object.function.Sqrt;
 import org.castor.cpa.query.object.function.Substring;
 import org.castor.cpa.query.object.function.Trim;
 import org.castor.cpa.query.object.function.Upper;
+import org.castor.cpa.query.object.literal.AbstractTemporalLiteral;
 import org.castor.cpa.query.object.literal.BigDecimalLiteral;
 import org.castor.cpa.query.object.literal.BooleanLiteral;
-import org.castor.cpa.query.object.literal.DateLiteral;
 import org.castor.cpa.query.object.literal.DoubleLiteral;
 import org.castor.cpa.query.object.literal.LongLiteral;
 import org.castor.cpa.query.object.literal.StringLiteral;
-import org.castor.cpa.query.object.literal.TimeLiteral;
-import org.castor.cpa.query.object.literal.TimestampLiteral;
 
 /**
  * Abstract base class for Expressions.
@@ -61,8 +58,9 @@ import org.castor.cpa.query.object.literal.TimestampLiteral;
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public abstract class AbstractExpression
-extends AbstractQueryObject implements Expression {
+public abstract class AbstractExpression extends AbstractQueryObject implements Expression {
+    //--------------------------------------------------------------------------
+
     /**
      * {@inheritDoc}
      */
@@ -88,20 +86,14 @@ extends AbstractQueryObject implements Expression {
      * {@inheritDoc}
      */
     public Expression add(final Expression expression) {
-        if (expression instanceof Add) {
-            ((Add) expression).addExpression(0, this);
-            return expression;
-        }
-        
         Add add = new Add();
-        if (add.getExpressions() == null) {
-             add.setExpressions(new ArrayList < Expression > ());
-        }
         add.addExpression(this);
         add.addExpression(expression);
         return add;
     }
     
+    //--------------------------------------------------------------------------
+
     /**
      * {@inheritDoc}
      */
@@ -127,20 +119,14 @@ extends AbstractQueryObject implements Expression {
      * {@inheritDoc}
      */
     public Expression subtract(final Expression expression) {
-        if (expression instanceof Subtract) {
-            ((Subtract) expression).addExpression(0, this);
-            return expression;
-        }
-        
-        Subtract concat = new Subtract();
-        if (concat.getExpressions() == null) {
-             concat.setExpressions(new ArrayList < Expression > ());
-        }
-        concat.addExpression(this);
-        concat.addExpression(expression);
-        return concat;
+        Subtract subtract = new Subtract();
+        subtract.addExpression(this);
+        subtract.addExpression(expression);
+        return subtract;
     }
     
+    //--------------------------------------------------------------------------
+
     /**
      * {@inheritDoc}
      */
@@ -151,21 +137,14 @@ extends AbstractQueryObject implements Expression {
     /**
      * {@inheritDoc}
      */
-    // TODO implement
     public Expression concat(final Expression expression) {
-        if (expression instanceof Concat) {
-            ((Concat) expression).addExpression(0, this);
-            return expression;
-        }
-        
         Concat concat = new Concat();
-        if (concat.getExpressions() == null) {
-             concat.setExpressions(new ArrayList < Expression > ());
-        }
         concat.addExpression(this);
         concat.addExpression(expression);
         return concat;
     }
+
+    //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -191,22 +170,15 @@ extends AbstractQueryObject implements Expression {
     /**
      * {@inheritDoc}
      */
-    // TODO implement
     public Expression multiply(final Expression expression) {
-        if (expression instanceof Multiply) {
-            ((Multiply) expression).addExpression(0, this);
-            return expression;
-        }
-        
         Multiply multiply = new Multiply();
-        if (multiply.getExpressions() == null) {
-             multiply.setExpressions(new ArrayList < Expression > ());
-        }
         multiply.addExpression(this);
         multiply.addExpression(expression);
         return multiply;
     }
     
+    //--------------------------------------------------------------------------
+
     /**
      * {@inheritDoc}
      */
@@ -231,22 +203,15 @@ extends AbstractQueryObject implements Expression {
     /**
      * {@inheritDoc}
      */
-    // TODO implement
     public Expression divide(final Expression expression) {
-        if (expression instanceof Divide) {
-            ((Divide) expression).addExpression(0, this);
-            return expression;
-        }
-        
         Divide divide = new Divide();
-        if (divide.getExpressions() == null) {
-             divide.setExpressions(new ArrayList < Expression > ());
-        }
         divide.addExpression(this);
         divide.addExpression(expression);
         return divide;  
     }     
     
+    //--------------------------------------------------------------------------
+
     /**
      * {@inheritDoc}
      */
@@ -272,20 +237,14 @@ extends AbstractQueryObject implements Expression {
      * {@inheritDoc}
      */
     public Expression remainder(final Expression expression) {
-        if (expression instanceof Remainder) {
-            ((Remainder) expression).addExpression(0, this);
-            return expression;
-        }
-        
-        Remainder divide = new Remainder();
-        if (divide.getExpressions() == null) {
-             divide.setExpressions(new ArrayList < Expression > ());
-        }
-        divide.addExpression(this);
-        divide.addExpression(expression);
-        return divide;  
+        Remainder remainder = new Remainder();
+        remainder.addExpression(this);
+        remainder.addExpression(expression);
+        return remainder;  
     }
     
+    //--------------------------------------------------------------------------
+
     /**
      * {@inheritDoc}
      */
@@ -298,10 +257,7 @@ extends AbstractQueryObject implements Expression {
      */
     public Expression negate() {
         Negate negate = new Negate();
-        if (negate.getExpressions() == null) {
-            negate.setExpressions(new ArrayList < Expression > ());
-        }
-        negate.addExpression(this);
+        negate.setExpression(this);
         return negate;  
     }
 
@@ -309,178 +265,179 @@ extends AbstractQueryObject implements Expression {
      * {@inheritDoc}
      */
     public final Function length() {
-        return new Length();
+        Length length = new Length();
+        length.setString(this);
+        return length;
     }
     
     /**
      * {@inheritDoc}
      */
     public final Function abs() {
-        return new Abs();
+        Abs abs = new Abs();
+        abs.setNumber(this);
+        return abs;
     }
     
     /**
      * {@inheritDoc}
      */
     public final Function sqrt() {
-        return new Sqrt();
+        Sqrt sqrt = new Sqrt();
+        sqrt.setNumber(this);
+        return sqrt;
     }
     
     /**
      * {@inheritDoc}
      */
     public final Function lower() {
-        return new Lower();
+        Lower lower = new Lower();
+        lower.setString(this);
+        return lower;
     }
 
     /**
      * {@inheritDoc}
      */
     public final Function upper() {
-        return new Upper();
+        Upper upper = new Upper();
+        upper.setString(this);
+        return upper;
     }
     
+    //--------------------------------------------------------------------------
+
     /**
      * {@inheritDoc}
      */
     public final Function locate(final String value) {
-        Locate loc = new Locate();
-        loc.setValue(new StringLiteral(value));
-        return loc;
+        return locate(new StringLiteral(value));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Function locate(final Expression value) {
-        Locate loc = new Locate();
-        loc.setValue(value);
-        return loc;
+        Locate locate = new Locate();
+        locate.setValue(value);
+        return locate;
     }
     
     /**
      * {@inheritDoc}
      */
     public final Function locate(final String value, final int index) {
-        Locate loc = new Locate();
-        loc.setValue(new StringLiteral(value));
-        loc.setIndex(new LongLiteral(index));
-        return loc;
+        return locate(new StringLiteral(value), new LongLiteral(index));
     }
     
     /**
      * {@inheritDoc}
      */
     public final Function locate(final String value, final Expression index) {
-        Locate loc = new Locate();
-        loc.setValue(new StringLiteral(value));
-        loc.setIndex(index);
-        return loc;
+        return locate(new StringLiteral(value), index);
     }
     
     /**
      * {@inheritDoc}
      */
     public final Function locate(final Expression value, final int index) {
-        Locate loc = new Locate();
-        loc.setValue(value);
-        loc.setIndex(new LongLiteral(index));
-        return loc;
+        return locate(value, new LongLiteral(index));
     }
     
     /**
      * {@inheritDoc}
      */
     public final Function locate(final Expression value, final Expression index) {
-        Locate loc = new Locate();
-        loc.setValue(value);
-        loc.setIndex(index);
-        return loc;
+        Locate locate = new Locate();
+        locate.setValue(value);
+        locate.setIndex(index);
+        return locate;
     }
     
+    //--------------------------------------------------------------------------
+
     /**
      * {@inheritDoc}
      */
     public final Function substring(final int index, final int length) {
-        Substring sb = new Substring();
-        sb.setIndex(new LongLiteral(index));
-        sb.setLength(new LongLiteral(length));
-        return sb;
+        return substring(new LongLiteral(index), new LongLiteral(length));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Function substring(final int index, final Expression length) {
-        Substring sb = new Substring();
-        sb.setIndex(new LongLiteral(index));
-        sb.setLength(length);
-        return sb;
+        return substring(new LongLiteral(index), length);
     }
     
     /**
      * {@inheritDoc}
      */
     public final Function substring(final Expression index, final int length) {
-        Substring sb = new Substring();
-        sb.setIndex(index);
-        sb.setLength(new LongLiteral(length));
-        return sb;
+        return substring(index, new LongLiteral(length));
     }
     
     /**
      * {@inheritDoc}
      */
     public final Function substring(final Expression index, final Expression length) {
-        Substring sb = new Substring();
-        sb.setIndex(index);
-        sb.setLength(length);
-        return sb;
+        Substring substring = new Substring();
+        substring.setIndex(index);
+        substring.setLength(length);
+        return substring;
     }
     
+    //--------------------------------------------------------------------------
+
     /**
      * {@inheritDoc}
      */
     public final Function trim() {
-        Function f = new Trim();
-        return f;
+        Trim trim = new Trim();
+        trim.setString(this);
+        return trim;
     }
 
     /**
      * {@inheritDoc}
      */
     public final Function trim(final char character) {
-        Trim f = new Trim();
-        f.setCharacter(new StringLiteral(Character.toString(character)));
-        return f;
+        Trim trim = new Trim();
+        trim.setString(this);
+        trim.setCharacter(new StringLiteral(Character.toString(character)));
+        return trim;
     }
     
     /**
      * {@inheritDoc}
      */
     public final Function trim(final Parameter character) {
-        Trim f = new Trim();
-        f.setCharacter(character);
-        return f;
+        Trim trim = new Trim();
+        trim.setString(this);
+        trim.setCharacter(character);
+        return trim;
     }
     
     /**
      * {@inheritDoc}
      */
     public final Function trim(final TrimSpecification trimSpecification) {
-        Trim f = new Trim();
-        f.setSpecification(trimSpecification);
-        return f;
+        Trim trim = new Trim();
+        trim.setString(this);
+        trim.setSpecification(trimSpecification);
+        return trim;
     }
     
     /**
      * {@inheritDoc}
      */
     public final Function trim(final TrimSpecification trimSpecification, final char character) {
-        Trim f = new Trim();
-        f.setSpecification(trimSpecification);
-        f.setCharacter(new StringLiteral(Character.toString(character)));
-        return f;
+        Trim trim = new Trim();
+        trim.setString(this);
+        trim.setSpecification(trimSpecification);
+        trim.setCharacter(new StringLiteral(Character.toString(character)));
+        return trim;
     }
     
     /**
@@ -488,746 +445,541 @@ extends AbstractQueryObject implements Expression {
      */
     public final Function trim(final TrimSpecification trimSpecification,
             final Parameter character) {
-        Trim f = new Trim();
-        f.setSpecification(trimSpecification);
-        f.setCharacter(character);
-        return f;        
+        Trim trim = new Trim();
+        trim.setString(this);
+        trim.setSpecification(trimSpecification);
+        trim.setCharacter(character);
+        return trim;        
     }
     
+    //--------------------------------------------------------------------------
+
     /**
      * {@inheritDoc}
      */
     public final Condition equal(final boolean value) {
-        Comparison comp = new Comparison();
-        Equal e = new Equal();
-        e.setExpression(this);
-        comp.setOperator(e);
-        comp.setCompare(new BooleanLiteral(value));
-        return comp;
+        return equal(new BooleanLiteral(value));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Condition equal(final long value) {
-        Comparison comp = new Comparison();
-        Equal e = new Equal();
-        e.setExpression(this);
-        comp.setOperator(e);
-        comp.setCompare(new LongLiteral(value));
-        return comp;
+        return equal(new LongLiteral(value));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Condition equal(final double value) {
-        Comparison comp = new Comparison();
-        Equal e = new Equal();
-        e.setExpression(this);
-        comp.setOperator(e);
-        comp.setCompare(new DoubleLiteral(value));
-        return comp;
+        return equal(new DoubleLiteral(value));
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition equal(final BigDecimal value) {
-        Comparison comp = new Comparison();
-        Equal e = new Equal();
-        e.setExpression(this);
-        comp.setOperator(e);
-        comp.setCompare(new BigDecimalLiteral(value));
-        return comp;
+        return equal(new BigDecimalLiteral(value));
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition equal(final String value) {
-        Comparison comp = new Comparison();
-        Equal e = new Equal();
-        e.setExpression(this);
-        comp.setOperator(e);
-        comp.setCompare(new StringLiteral(value));
-        return comp;
+        return equal(new StringLiteral(value));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Condition equal(final TemporalType temporalType, final Date value) {
-        
-        Comparison comp = new Comparison();
-        Equal e = new Equal();
-        e.setExpression(this);
-        comp.setOperator(e);
-        Expression d = null;
-        if (temporalType == TemporalType.DATE) {
-            d = new DateLiteral(value);
-        } else if (temporalType == TemporalType.TIME) {
-            d = new TimeLiteral(value);
-        } else if (temporalType == TemporalType.TIMESTAMP) {
-            d = new TimestampLiteral(value);
-        }
-        comp.setCompare(d);
-        return comp;
+        return equal(AbstractTemporalLiteral.createInstance(temporalType, value));
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition equal(final TemporalType temporalType, final Calendar value) {
-        Date date = new Date(value.getTimeInMillis());
-        return equal(temporalType, date);
+        return equal(AbstractTemporalLiteral.createInstance(temporalType, value));
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition equal(final Expression value) {
-        Comparison comp = new Comparison();
         Equal e = new Equal();
         e.setExpression(this);
+
+        Comparison comp = new Comparison();
         comp.setOperator(e);
         comp.setCompare(value);
         return comp;
     }
 
+    //--------------------------------------------------------------------------
+
     /**
      * {@inheritDoc}
      */
     public final Condition notEqual(final boolean value) {
-        Comparison comp = new Comparison();
-        NotEqual ne = new NotEqual();
-        ne.setExpression(this);
-        comp.setOperator(ne);
-        comp.setCompare(new BooleanLiteral(value));
-        return comp;
+        return notEqual(new BooleanLiteral(value));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Condition notEqual(final long value) {
-        Comparison comp = new Comparison();
-        NotEqual ne = new NotEqual();
-        ne.setExpression(this);
-        comp.setOperator(ne);
-        comp.setCompare(new LongLiteral(value));
-        return comp;
+        return notEqual(new LongLiteral(value));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Condition notEqual(final double value) {
-        Comparison comp = new Comparison();
-        NotEqual ne = new NotEqual();
-        ne.setExpression(this);
-        comp.setOperator(ne);
-        comp.setCompare(new DoubleLiteral(value));
-        return comp;
+        return notEqual(new DoubleLiteral(value));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Condition notEqual(final BigDecimal value) {
-        Comparison comp = new Comparison();
-        NotEqual ne = new NotEqual();
-        ne.setExpression(this);
-        comp.setOperator(ne);
-        comp.setCompare(new BigDecimalLiteral(value));
-        return comp;
+        return notEqual(new BigDecimalLiteral(value));
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition notEqual(final String value) {
-        Comparison comp = new Comparison();
-        NotEqual ne = new NotEqual();
-        ne.setExpression(this);
-        comp.setOperator(ne);
-        comp.setCompare(new StringLiteral(value));
-        return comp;
+        return notEqual(new StringLiteral(value));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Condition notEqual(final TemporalType temporalType, final Date value) {
-        
-        Comparison comp = new Comparison();
-        NotEqual e = new NotEqual();
-        e.setExpression(this);
-        comp.setOperator(e);
-        Expression d = null;
-        if (temporalType == TemporalType.DATE) {
-            d = new DateLiteral(value);
-        } else if (temporalType == TemporalType.TIME) {
-            d = new TimeLiteral(value);
-        } else if (temporalType == TemporalType.TIMESTAMP) {
-            d = new TimestampLiteral(value);
-        }
-        comp.setCompare(d);
-        return comp;
+        return notEqual(AbstractTemporalLiteral.createInstance(temporalType, value));
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition notEqual(final TemporalType temporalType, final Calendar value) {
-        Date date = new Date(value.getTimeInMillis());
-        return notEqual(temporalType, date);
+        return notEqual(AbstractTemporalLiteral.createInstance(temporalType, value));
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition notEqual(final Expression value) {
-        Comparison comp = new Comparison();
         NotEqual ne = new NotEqual();
         ne.setExpression(this);
+
+        Comparison comp = new Comparison();
         comp.setOperator(ne);
         comp.setCompare(value);
         return comp;
     }
     
+    //--------------------------------------------------------------------------
+
     /**
      * {@inheritDoc}
      */
     public final Condition lessThan(final long value) {
-        Comparison comp = new Comparison();
-        LessThan lt = new LessThan();
-        lt.setExpression(this);
-        comp.setOperator(lt);
-        comp.setCompare(new LongLiteral(value));
-        return comp;
+        return lessThan(new LongLiteral(value));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Condition lessThan(final double value) {
-        Comparison comp = new Comparison();
-        LessThan lt = new LessThan();
-        lt.setExpression(this);
-        comp.setOperator(lt);
-        comp.setCompare(new DoubleLiteral(value));
-        return comp;
+        return lessThan(new DoubleLiteral(value));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Condition lessThan(final BigDecimal value) {
-        Comparison comp = new Comparison();
-        LessThan lt = new LessThan();
-        lt.setExpression(this);
-        comp.setOperator(lt);
-        comp.setCompare(new BigDecimalLiteral(value));
-        return comp;
+        return lessThan(new BigDecimalLiteral(value));
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition lessThan(final String value) {
-        Comparison comp = new Comparison();
-        LessThan lt = new LessThan();
-        lt.setExpression(this);
-        comp.setOperator(lt);
-        comp.setCompare(new StringLiteral(value));
-        return comp;
+        return lessThan(new StringLiteral(value));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Condition lessThan(final TemporalType temporalType, final Date value) {
-        
-        Comparison comp = new Comparison();
-        LessThan e = new LessThan();
-        e.setExpression(this);
-        comp.setOperator(e);
-        Expression d = null;
-        if (temporalType == TemporalType.DATE) {
-            d = new DateLiteral(value);
-        } else if (temporalType == TemporalType.TIME) {
-            d = new TimeLiteral(value);
-        } else if (temporalType == TemporalType.TIMESTAMP) {
-            d = new TimestampLiteral(value);
-        }
-        comp.setCompare(d);
-        return comp;
+        return lessThan(AbstractTemporalLiteral.createInstance(temporalType, value));
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition lessThan(final TemporalType temporalType, final Calendar value) {
-        Date date = new Date(value.getTimeInMillis());
-        return lessThan(temporalType, date);
+        return lessThan(AbstractTemporalLiteral.createInstance(temporalType, value));
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition lessThan(final Expression value) {
-        Comparison comp = new Comparison();
         LessThan lt = new LessThan();
         lt.setExpression(this);
+
+        Comparison comp = new Comparison();
         comp.setOperator(lt);
         comp.setCompare(value);
         return comp;
     }
     
+    //--------------------------------------------------------------------------
+
     /**
      * {@inheritDoc}
      */
     public final Condition lessEqual(final long value) {
-        Comparison comp = new Comparison();
-        LessEqual le = new LessEqual();
-        le.setExpression(this);
-        comp.setOperator(le);
-        comp.setCompare(new LongLiteral(value));
-        return comp;
+        return lessEqual(new LongLiteral(value));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Condition lessEqual(final double value) {
-        Comparison comp = new Comparison();
-        LessEqual le = new LessEqual();
-        le.setExpression(this);
-        comp.setOperator(le);
-        comp.setCompare(new DoubleLiteral(value));
-        return comp;
+        return lessEqual(new DoubleLiteral(value));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Condition lessEqual(final BigDecimal value) {
-        Comparison comp = new Comparison();
-        LessEqual le = new LessEqual();
-        le.setExpression(this);
-        comp.setOperator(le);
-        comp.setCompare(new BigDecimalLiteral(value));
-        return comp;
+        return lessEqual(new BigDecimalLiteral(value));
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition lessEqual(final String value) {
-        Comparison comp = new Comparison();
-        LessEqual le = new LessEqual();
-        le.setExpression(this);
-        comp.setOperator(le);
-        comp.setCompare(new StringLiteral(value));
-        return comp;
+        return lessEqual(new StringLiteral(value));
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition lessEqual(final TemporalType temporalType, final Date value) {
-        
-        Comparison comp = new Comparison();
-        LessEqual e = new LessEqual();
-        e.setExpression(this);
-        comp.setOperator(e);
-        Expression d = null;
-        if (temporalType == TemporalType.DATE) {
-            d = new DateLiteral(value);
-        } else if (temporalType == TemporalType.TIME) {
-            d = new TimeLiteral(value);
-        } else if (temporalType == TemporalType.TIMESTAMP) {
-            d = new TimestampLiteral(value);
-        }
-        comp.setCompare(d);
-        return comp;
+        return lessEqual(AbstractTemporalLiteral.createInstance(temporalType, value));
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition lessEqual(final TemporalType temporalType, final Calendar value) {
-        Date date = new Date(value.getTimeInMillis());
-        return lessEqual(temporalType, date);
+        return lessEqual(AbstractTemporalLiteral.createInstance(temporalType, value));
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition lessEqual(final Expression value) {
-        Comparison comp = new Comparison();
         LessEqual le = new LessEqual();
         le.setExpression(this);
+
+        Comparison comp = new Comparison();
         comp.setOperator(le);
         comp.setCompare(value);
         return comp;
     }
     
+    //--------------------------------------------------------------------------
+
     /**
      * {@inheritDoc}
      */
     public final Condition greaterEqual(final long value) {
-        Comparison comp = new Comparison();
-        GreaterEqual ge = new GreaterEqual();
-        ge.setExpression(this);
-        comp.setOperator(ge);
-        comp.setCompare(new LongLiteral(value));
-        return comp;
+        return greaterEqual(new LongLiteral(value));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Condition greaterEqual(final double value) {
-        Comparison comp = new Comparison();
-        GreaterEqual ge = new GreaterEqual();
-        ge.setExpression(this);
-        comp.setOperator(ge);
-        comp.setCompare(new DoubleLiteral(value));
-        return comp;
+        return greaterEqual(new DoubleLiteral(value));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Condition greaterEqual(final BigDecimal value) {
-        Comparison comp = new Comparison();
-        GreaterEqual ge = new GreaterEqual();
-        ge.setExpression(this);
-        comp.setOperator(ge);
-        comp.setCompare(new BigDecimalLiteral(value));
-        return comp;
+        return greaterEqual(new BigDecimalLiteral(value));
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition greaterEqual(final String value) {
-        Comparison comp = new Comparison();
-        GreaterEqual ge = new GreaterEqual();
-        ge.setExpression(this);
-        comp.setOperator(ge);
-        comp.setCompare(new StringLiteral(value));
-        return comp;
+        return greaterEqual(new StringLiteral(value));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Condition greaterEqual(final TemporalType temporalType, final Date value) {
-        
-        Comparison comp = new Comparison();
-        GreaterEqual e = new GreaterEqual();
-        e.setExpression(this);
-        comp.setOperator(e);
-        Expression d = null;
-        if (temporalType == TemporalType.DATE) {
-            d = new DateLiteral(value);
-        } else if (temporalType == TemporalType.TIME) {
-            d = new TimeLiteral(value);
-        } else if (temporalType == TemporalType.TIMESTAMP) {
-            d = new TimestampLiteral(value);
-        }
-        comp.setCompare(d);
-        return comp;
+        return greaterEqual(AbstractTemporalLiteral.createInstance(temporalType, value));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Condition greaterEqual(final TemporalType temporalType, final Calendar value) {
-        Date date = new Date(value.getTimeInMillis());
-        return greaterEqual(temporalType, date);
+        return greaterEqual(AbstractTemporalLiteral.createInstance(temporalType, value));
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition greaterEqual(final Expression value) {
-        Comparison comp = new Comparison();
         GreaterEqual ge = new GreaterEqual();
         ge.setExpression(this);
+
+        Comparison comp = new Comparison();
         comp.setOperator(ge);
         comp.setCompare(value);
         return comp;
     }
 
+    //--------------------------------------------------------------------------
+
     /**
      * {@inheritDoc}
      */
     public final Condition greaterThan(final long value) {
-        Comparison comp = new Comparison();
-        GreaterThan gt = new GreaterThan();
-        gt.setExpression(this);
-        comp.setOperator(gt);
-        comp.setCompare(new LongLiteral(value));
-        return comp;
+        return greaterThan(new LongLiteral(value));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Condition greaterThan(final double value) {
-        Comparison comp = new Comparison();
-        GreaterThan gt = new GreaterThan();
-        gt.setExpression(this);
-        comp.setOperator(gt);
-        comp.setCompare(new DoubleLiteral(value));
-        return comp;
+        return greaterThan(new DoubleLiteral(value));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Condition greaterThan(final BigDecimal value) {
-        Comparison comp = new Comparison();
-        GreaterThan gt = new GreaterThan();
-        gt.setExpression(this);
-        comp.setOperator(gt);
-        comp.setCompare(new BigDecimalLiteral(value));
-        return comp;
+        return greaterThan(new BigDecimalLiteral(value));
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition greaterThan(final String value) {
-        Comparison comp = new Comparison();
-        GreaterThan gt = new GreaterThan();
-        gt.setExpression(this);
-        comp.setOperator(gt);
-        comp.setCompare(new StringLiteral(value));
-        return comp;
+        return greaterThan(new StringLiteral(value));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Condition greaterThan(final TemporalType temporalType, final Date value) {
-        
-        Comparison comp = new Comparison();
-        GreaterThan e = new GreaterThan();
-        e.setExpression(this);
-        comp.setOperator(e);
-        Expression d = null;
-        if (temporalType == TemporalType.DATE) {
-            d = new DateLiteral(value);
-        } else if (temporalType == TemporalType.TIME) {
-            d = new TimeLiteral(value);
-        } else if (temporalType == TemporalType.TIMESTAMP) {
-            d = new TimestampLiteral(value);
-        }
-        comp.setCompare(d);
-        return comp;
+        return greaterThan(AbstractTemporalLiteral.createInstance(temporalType, value));
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition greaterThan(final TemporalType temporalType, final Calendar value) {
-        Date date = new Date(value.getTimeInMillis());
-        return greaterThan(temporalType, date);
+        return greaterThan(AbstractTemporalLiteral.createInstance(temporalType, value));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Condition greaterThan(final Expression value) {
-        Comparison comp = new Comparison();
         GreaterThan gt = new GreaterThan();
         gt.setExpression(this);
+
+        Comparison comp = new Comparison();
         comp.setOperator(gt);
         comp.setCompare(value);
         return comp;
     }
     
+    //--------------------------------------------------------------------------
+
     /**
      * {@inheritDoc}
      */
     public final Condition like(final String pattern) {
-        Like l = new Like();
-        l.setPattern(new StringLiteral(pattern));
-        l.setExpression(this);
-        return l;
+        Like like = new Like();
+        like.setNot(false);
+        like.setExpression(this);
+        like.setPattern(new StringLiteral(pattern));
+        return like;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public final Condition like(final Parameter pattern) {
+        Like like = new Like();
+        like.setNot(false);
+        like.setExpression(this);
+        like.setPattern(pattern);
+        return like;
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition like(final String pattern, final char escape) {
-        Like l = new Like();
-        l.setPattern(new StringLiteral(pattern));
-        l.setEscape(new StringLiteral(Character.toString(escape)));
-        l.setExpression(this);
-        return l;
+        Like like = new Like();
+        like.setNot(false);
+        like.setExpression(this);
+        like.setPattern(new StringLiteral(pattern));
+        like.setEscape(new StringLiteral(Character.toString(escape)));
+        return like;
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition like(final String pattern, final Parameter escape) {
-        Like l = new Like();
-        l.setPattern(new StringLiteral(pattern));
-        l.setEscape(escape);
-        l.setExpression(this);
-        return l;
+        Like like = new Like();
+        like.setNot(false);
+        like.setExpression(this);
+        like.setPattern(new StringLiteral(pattern));
+        like.setEscape(escape);
+        return like;
     }
 
     /**
      * {@inheritDoc}
      */
-    public final Condition like(final Parameter pattern) {
-        Like l = new Like();
-        l.setPattern(pattern);
-        l.setExpression(this);
-        return l;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
     public final Condition like(final Parameter pattern, final char escape) {
-        Like l = new Like();
-        l.setPattern(pattern);
-        l.setEscape(new StringLiteral(Character.toString(escape)));
-        l.setExpression(this);
-        return l;
+        Like like = new Like();
+        like.setNot(false);
+        like.setExpression(this);
+        like.setPattern(pattern);
+        like.setEscape(new StringLiteral(Character.toString(escape)));
+        return like;
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition like(final Parameter pattern, final Parameter escape) {
-        Like l = new Like();
-        l.setPattern(pattern);
-        l.setEscape(escape);
-        l.setExpression(this);
-        return l;
+        Like like = new Like();
+        like.setNot(false);
+        like.setExpression(this);
+        like.setPattern(pattern);
+        like.setEscape(escape);
+        return like;
     }
     
+    //--------------------------------------------------------------------------
+
     /**
      * {@inheritDoc}
      */
     public final Condition notLike(final String pattern) {
-        Like l = new Like();
-        l.setPattern(new StringLiteral(pattern));
-        l.setExpression(this);
-        l.setNot(true);
-        return l;
+        Like like = new Like();
+        like.setNot(true);
+        like.setExpression(this);
+        like.setPattern(new StringLiteral(pattern));
+        return like;
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition notLike(final String pattern, final char escape) {
-        Like l = new Like();
-        l.setPattern(new StringLiteral(pattern));
-        l.setEscape(new StringLiteral(Character.toString(escape)));
-        l.setExpression(this);
-        l.setNot(true);
-        return l;
+        Like like = new Like();
+        like.setNot(true);
+        like.setExpression(this);
+        like.setPattern(new StringLiteral(pattern));
+        like.setEscape(new StringLiteral(Character.toString(escape)));
+        return like;
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition notLike(final String pattern, final Parameter escape) {
-        Like l = new Like();
-        l.setPattern(new StringLiteral(pattern));
-        l.setEscape(escape);
-        l.setExpression(this);
-        l.setNot(true);
-        return l;
+        Like like = new Like();
+        like.setNot(true);
+        like.setExpression(this);
+        like.setPattern(new StringLiteral(pattern));
+        like.setEscape(escape);
+        return like;
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition notLike(final Parameter pattern) {
-        Like l = new Like();
-        l.setPattern(pattern);
-        l.setExpression(this);
-        l.setNot(true);
-        return l;
+        Like like = new Like();
+        like.setNot(true);
+        like.setExpression(this);
+        like.setPattern(pattern);
+        return like;
     }
 
     /**
      * {@inheritDoc}
      */
     public final Condition notLike(final Parameter pattern, final char escape) {
-        Like l = new Like();
-        l.setPattern(pattern);
-        l.setEscape(new StringLiteral(Character.toString(escape)));
-        l.setExpression(this);
-        l.setNot(true);
-        return l;
+        Like like = new Like();
+        like.setNot(true);
+        like.setExpression(this);
+        like.setPattern(pattern);
+        like.setEscape(new StringLiteral(Character.toString(escape)));
+        return like;
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition notLike(final Parameter pattern, final Parameter escape) {
-        Like l = new Like();
-        l.setPattern(pattern);
-        l.setEscape(escape);
-        l.setExpression(this);
-        l.setNot(true);
-        return l;
+        Like like = new Like();
+        like.setNot(true);
+        like.setExpression(this);
+        like.setPattern(pattern);
+        like.setEscape(escape);
+        return like;
     }
     
+    //--------------------------------------------------------------------------
+
     /**
      * {@inheritDoc}
      */
     public final Condition between(final long low, final long high) {
-        Between b = new Between();
-        b.setLow(new LongLiteral(low));
-        b.setHigh(new LongLiteral(high));
-        b.setExpression(this);
-        return b;
+        return between(new LongLiteral(low), new LongLiteral(high));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Condition between(final double low, final double high) {
-        Between b = new Between();
-        b.setLow(new DoubleLiteral(low));
-        b.setHigh(new DoubleLiteral(high));
-        b.setExpression(this);
-        return b;
+        return between(new DoubleLiteral(low), new DoubleLiteral(high));
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition between(final BigDecimal low, final BigDecimal high) {
-        Between b = new Between();
-        b.setLow(new BigDecimalLiteral(low));
-        b.setHigh(new BigDecimalLiteral(high));
-        b.setExpression(this);
-        return b;
+        return between(new BigDecimalLiteral(low), new BigDecimalLiteral(high));
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition between(final String low, final String high) {
-        Between b = new Between();
-        b.setLow(new StringLiteral(low));
-        b.setHigh(new StringLiteral(high));
-        b.setExpression(this);
-        return b;
+        return between(new StringLiteral(low), new StringLiteral(high));
     }
 
     /**
@@ -1235,24 +987,8 @@ extends AbstractQueryObject implements Expression {
      */
     public final Condition between(final TemporalType temporalType,
             final Date low, final Date high) {
-        
-        Between bw = new Between();
-        bw.setExpression(this);
-        Expression l = null;
-        Expression h = null;
-        if (temporalType == TemporalType.DATE) {
-            l = new DateLiteral(low);
-            h = new DateLiteral(high);
-        } else if (temporalType == TemporalType.TIME) {
-            l = new TimeLiteral(low);
-            h = new TimeLiteral(high);
-        } else if (temporalType == TemporalType.TIMESTAMP) {
-            l = new TimestampLiteral(low);
-            h = new TimestampLiteral(high);
-        }
-        bw.setLow(l);
-        bw.setHigh(h);
-        return bw;
+        return between(AbstractTemporalLiteral.createInstance(temporalType, low),
+                AbstractTemporalLiteral.createInstance(temporalType, high));
     }
 
     /**
@@ -1260,68 +996,50 @@ extends AbstractQueryObject implements Expression {
      */
     public final Condition between(final TemporalType temporalType,
             final Calendar low, final Calendar high) {
-        Date l = new Date(low.getTimeInMillis());
-        Date h = new Date(high.getTimeInMillis());
-        return between(temporalType, l, h);
+        return between(AbstractTemporalLiteral.createInstance(temporalType, low),
+                AbstractTemporalLiteral.createInstance(temporalType, high));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Condition between(final Expression low, final Expression high) {
-        Between b = new Between();
-        b.setLow(low);
-        b.setHigh(high);
-        b.setExpression(this);
-        return b;
+        Between between = new Between();
+        between.setNot(false);
+        between.setExpression(this);
+        between.setLow(low);
+        between.setHigh(high);
+        return between;
     }
+
+    //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
      */
     public final Condition notBetween(final long low, final long high) {
-        Between b = new Between();
-        b.setLow(new LongLiteral(low));
-        b.setHigh(new LongLiteral(high));
-        b.setExpression(this);
-        b.setNot(true);
-        return b;
+        return notBetween(new LongLiteral(low), new LongLiteral(high));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Condition notBetween(final double low, final double high) {
-        Between b = new Between();
-        b.setLow(new DoubleLiteral(low));
-        b.setHigh(new DoubleLiteral(high));
-        b.setExpression(this);
-        b.setNot(true);
-        return b;
+        return notBetween(new DoubleLiteral(low), new DoubleLiteral(high));
     }
 
     /**
      * {@inheritDoc}
      */
     public final Condition notBetween(final BigDecimal low, final BigDecimal high) {
-        Between b = new Between();
-        b.setLow(new BigDecimalLiteral(low));
-        b.setHigh(new BigDecimalLiteral(high));
-        b.setExpression(this);
-        b.setNot(true);
-        return b;
+        return notBetween(new BigDecimalLiteral(low), new BigDecimalLiteral(high));
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition notBetween(final String low, final String high) {
-        Between b = new Between();
-        b.setLow(new StringLiteral(low));
-        b.setHigh(new StringLiteral(high));
-        b.setExpression(this);
-        b.setNot(true);
-        return b;
+        return notBetween(new StringLiteral(low), new StringLiteral(high));
     }
 
     /**
@@ -1329,25 +1047,8 @@ extends AbstractQueryObject implements Expression {
      */
     public final Condition notBetween(final TemporalType temporalType,
             final Date low, final Date high) {
-        
-        Between bw = new Between();
-        bw.setExpression(this);
-        Expression l = null;
-        Expression h = null;
-        if (temporalType == TemporalType.DATE) {
-            l = new DateLiteral(low);
-            h = new DateLiteral(high);
-        } else if (temporalType == TemporalType.TIME) {
-            l = new TimeLiteral(low);
-            h = new TimeLiteral(high);
-        } else if (temporalType == TemporalType.TIMESTAMP) {
-            l = new TimestampLiteral(low);
-            h = new TimestampLiteral(high);
-        }
-        bw.setLow(l);
-        bw.setHigh(h);
-        bw.setNot(true);
-        return bw;
+        return notBetween(AbstractTemporalLiteral.createInstance(temporalType, low),
+                AbstractTemporalLiteral.createInstance(temporalType, high));
     }
     
     /**
@@ -1355,20 +1056,21 @@ extends AbstractQueryObject implements Expression {
      */
     public final Condition notBetween(final TemporalType temporalType,
             final Calendar low, final Calendar high) {
-        Date l = new Date(low.getTimeInMillis());
-        Date h = new Date(high.getTimeInMillis());
-        return notBetween(temporalType, l, h);
+        return notBetween(AbstractTemporalLiteral.createInstance(temporalType, low),
+                AbstractTemporalLiteral.createInstance(temporalType, high));
     }
     
     /**
      * {@inheritDoc}
      */
     public final Condition notBetween(final Expression low, final Expression high) {
-        Between b = new Between();
-        b.setLow(low);
-        b.setHigh(high);
-        b.setExpression(this);
-        b.setNot(true);
-        return b;
+        Between between = new Between();
+        between.setNot(true);
+        between.setExpression(this);
+        between.setLow(low);
+        between.setHigh(high);
+        return between;
     }
+
+    //--------------------------------------------------------------------------
 }

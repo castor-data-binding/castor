@@ -48,7 +48,7 @@ public class TestLocate extends TestCase {
     /**
      * Junit Test for instance.
      */
-    public static void testInstance() {
+    public void testInstance() {
         QueryObject n = new Locate();
         assertTrue(n instanceof AbstractFunction);
         assertTrue(n instanceof Function);
@@ -59,7 +59,7 @@ public class TestLocate extends TestCase {
     /**
      * Junit Test for constructor.
      */
-    public static void testConstructor() {
+    public void testConstructor() {
         Locate n = new Locate();
         assertTrue(n.getIndex() instanceof LongLiteral);
         assertEquals(1, ((LongLiteral) n.getIndex()).getValue());
@@ -68,7 +68,7 @@ public class TestLocate extends TestCase {
     /**
      * Junit Test for Getter and Setter methods.
      */
-    public static void testGSetter() {
+    public void testGSetter() {
         Locate n = new Locate();
         Expression string = new MockExpression();
         Expression value = new MockExpression();
@@ -84,8 +84,7 @@ public class TestLocate extends TestCase {
      /**
       * Junit Test for toString method.
       */
-     public static void testToString() {
-         // TODO test different parameter combinations
+     public void testToString() {
          Locate n = new Locate();
          Expression string = new MockExpression();
          Expression value = new MockExpression();
@@ -95,6 +94,8 @@ public class TestLocate extends TestCase {
          n.setValue(value);
          n.setIndex(index);
          assertEquals("LOCATE(expression, expression, expression)", n.toString()); 
+
+         // TODO test different parameter combinations
      } 
 
      //--------------------------------------------------------------------------

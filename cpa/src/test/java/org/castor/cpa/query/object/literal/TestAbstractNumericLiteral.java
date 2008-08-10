@@ -15,6 +15,11 @@
  */
 package org.castor.cpa.query.object.literal;
 
+import org.castor.cpa.query.Expression;
+import org.castor.cpa.query.Literal;
+import org.castor.cpa.query.QueryObject;
+import org.castor.cpa.query.object.expression.AbstractExpression;
+
 import junit.framework.TestCase;
 
 /**
@@ -34,7 +39,26 @@ public class TestAbstractNumericLiteral extends TestCase {
     
     //--------------------------------------------------------------------------
     
-    // TODO implement tests
+    
+    /**
+     * Junit Test for instance.
+     */
+    public void testInstance() {
+        QueryObject n = new MockNumericLiteral();
+        assertTrue(n instanceof AbstractNumericLiteral);
+        assertTrue(n instanceof AbstractLiteral);
+        assertTrue(n instanceof Literal);
+        assertTrue(n instanceof AbstractExpression);
+        assertTrue(n instanceof Expression);
+    }
+
+    /**
+     * Junit Test for toString.
+     */
+    public void testToString() {
+        Literal n = new MockNumericLiteral();
+        assertEquals("correct", n.toString()); 
+    } 
 
     //--------------------------------------------------------------------------
 }

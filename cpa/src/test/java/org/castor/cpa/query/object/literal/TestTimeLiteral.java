@@ -15,6 +15,17 @@
  */
 package org.castor.cpa.query.object.literal;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import org.castor.cpa.query.Expression;
+import org.castor.cpa.query.Literal;
+import org.castor.cpa.query.QueryObject;
+import org.castor.cpa.query.object.expression.AbstractExpression;
+
 import junit.framework.TestCase;
 
 /**
@@ -34,7 +45,63 @@ public class TestTimeLiteral extends TestCase {
 
     //--------------------------------------------------------------
     
-    // TODO implement tests
+    /**
+     * Junit Test for instance Time Temporal Literal.
+     * @throws ParseException 
+     */
+    public void testInstance() throws ParseException {
+        DateFormat df = new SimpleDateFormat("HH:mm:ss.SSS");
+        Date date = df.parse("12:34:56.789");
+        
+        QueryObject n = new TimeLiteral(date);
+        assertTrue(n instanceof AbstractTemporalLiteral);
+        assertTrue(n instanceof AbstractLiteral);
+        assertTrue(n instanceof Literal);
+        assertTrue(n instanceof AbstractExpression);
+        assertTrue(n instanceof Expression);
+     }
+   
+    /**
+     * Junit test for constructor.
+     */
+    public void testConstructor() throws ParseException {
+        DateFormat df = new SimpleDateFormat("HH:mm:ss.SSS");
+        Date date = df.parse("12:34:56.789");
+        
+        AbstractTemporalLiteral tl1 = new TimeLiteral(date);
+        assertEquals(date, tl1.getValue());
+
+        try {
+            new TimeLiteral((Date) null);
+            fail("NullPointerException should have been thrown");
+        } catch (NullPointerException ex) {
+            assertTrue(true);
+        }
+        
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        
+        AbstractTemporalLiteral tl2 = new TimeLiteral(cal);
+        assertEquals(date, tl2.getValue());
+        
+        try {
+            new TimeLiteral((Calendar) null);
+            fail("NullPointerException should have been thrown");
+        } catch (NullPointerException ex) {
+            assertTrue(true);
+        }
+    } 
+
+    /**
+     * Junit Test for Time Literal toString method.
+     */
+    public void testToString() throws ParseException {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        Date date = df.parse("2008-08-08 12:34:56.789");
+
+        TimeLiteral n = new TimeLiteral(date);
+        assertEquals("TIME '12:34:56.789'", n.toString());
+    } 
 
     //--------------------------------------------------------------
 }

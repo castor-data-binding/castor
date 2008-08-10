@@ -56,7 +56,7 @@ public class TestSelect extends TestCase {
                         + "WHERE  NOT (o.pen = 3) AND (o.pen <= 4) "
                         + "ORDER BY o.check ASC, o.cake DESC LIMIT 34 OFFSET 45";
         assertEquals(expected, select.toString());
-        System.out.println(select.toString());
+        //System.out.println(select.toString());
     }
     //--------------------------------------------------------------------------
 }

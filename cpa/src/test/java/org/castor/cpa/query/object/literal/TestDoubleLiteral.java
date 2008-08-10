@@ -47,7 +47,7 @@ public class TestDoubleLiteral extends TestCase {
     /**
      * Junit Test for instance Double Literal.
      */
-    public static void testInstance() {
+    public void testInstance() {
         QueryObject n = new DoubleLiteral(0);
         assertTrue(n instanceof AbstractNumericLiteral);
         assertTrue(n instanceof AbstractLiteral);
@@ -57,7 +57,7 @@ public class TestDoubleLiteral extends TestCase {
      }
 
     /**
-     * Junit Test for conctructor and getter.
+     * Junit Test for constructor and getter.
      */
     public void testConstructor() {
         DoubleLiteral n = new DoubleLiteral(2.04);
@@ -67,7 +67,7 @@ public class TestDoubleLiteral extends TestCase {
     /**
      * Junit Test for Double Literal toString method.
      */
-    public static void testToString() {
+    public void testToString() {
         DoubleLiteral n = new DoubleLiteral(2.04);
         assertEquals("2.04", n.toString()); 
      }

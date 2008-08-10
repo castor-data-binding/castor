@@ -47,7 +47,7 @@ public class TestStringLiteral extends TestCase {
     /**
      * Junit Test for instance String Literal.
      */
-    public static void testInstance() {
+    public void testInstance() {
         QueryObject n = new StringLiteral("");
         assertTrue(n instanceof AbstractLiteral);
         assertTrue(n instanceof Literal);
@@ -56,7 +56,7 @@ public class TestStringLiteral extends TestCase {
      }
     
     /**
-     * Junit Test for conctructor and getter.
+     * Junit Test for constructor and getter.
      */
     public void testConstructor() {
         try {
@@ -73,7 +73,7 @@ public class TestStringLiteral extends TestCase {
     /**
      * Junit Test for String Literal toString method.
      */
-    public static void testToString() {
+    public void testToString() {
         StringLiteral n = new StringLiteral("a string");
         assertEquals("'a string'", n.toString());
         

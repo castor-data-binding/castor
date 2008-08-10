@@ -40,6 +40,6 @@ public final class Concat extends CompoundExpression {
         addExpression(expression);
         return this;
     }
+    
     //--------------------------------------------------------------------------
-
 }

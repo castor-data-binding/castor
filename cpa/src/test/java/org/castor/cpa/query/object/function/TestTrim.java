@@ -49,7 +49,7 @@ public class TestTrim extends TestCase {
     /**
      * Junit Test for instance.
      */
-    public static void testInstance() {
+    public void testInstance() {
         QueryObject n = new Trim();
         assertTrue(n instanceof AbstractFunction);
         assertTrue(n instanceof Function);
@@ -60,7 +60,7 @@ public class TestTrim extends TestCase {
     /**
      * Junit Test for constructor.
      */
-    public static void testConstructor() {
+    public void testConstructor() {
         Trim n = new Trim();
         assertEquals(TrimSpecification.BOTH, n.getSpecification());
         assertTrue(n.getCharacter() instanceof StringLiteral);
@@ -70,7 +70,7 @@ public class TestTrim extends TestCase {
     /**
      * Junit Test for Getter and Setter methods.
      */
-    public static void testGSetter() {
+    public void testGSetter() {
         Expression exp = new MockExpression();
         TrimSpecification t = TrimSpecification.LEADING;
         StringLiteral c = new StringLiteral("Char");
@@ -88,8 +88,7 @@ public class TestTrim extends TestCase {
      /**
       * Junit Test for toString method.
       */
-     public static void testToString() {
-         // TODO test different parameter combinations
+     public void testToString() {
          Expression exp = new MockExpression();
          TrimSpecification t = TrimSpecification.LEADING;
          StringLiteral c = new StringLiteral("Char");
@@ -100,6 +99,8 @@ public class TestTrim extends TestCase {
          n.setCharacter(c);
          
          assertEquals("TRIM(LEADING 'Char' FROM expression)", n.toString()); 
+
+         // TODO test different parameter combinations
      } 
 
      //--------------------------------------------------------------------------

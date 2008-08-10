@@ -47,7 +47,7 @@ public class TestLongLiteral extends TestCase {
     /**
      * Junit Test for instance Long Literal.
      */
-    public static void testInstance() {
+    public void testInstance() {
         QueryObject n = new LongLiteral(0);
         assertTrue(n instanceof AbstractNumericLiteral);
         assertTrue(n instanceof AbstractLiteral);
@@ -57,7 +57,7 @@ public class TestLongLiteral extends TestCase {
      }
     
     /**
-     * Junit Test for conctructor and getter.
+     * Junit Test for constructor and getter.
      */
     public void testConstructor() {
         LongLiteral n = new LongLiteral(222L);
@@ -67,7 +67,7 @@ public class TestLongLiteral extends TestCase {
     /**
      * Junit Test for Long Literal toString method.
      */
-    public static void testToString() {
+    public void testToString() {
         LongLiteral n = new LongLiteral(222L);
         assertEquals("222", n.toString()); 
      }

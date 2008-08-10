@@ -16,8 +16,12 @@
 package org.castor.cpa.query;
 
 /**
- * The Class Foo.
+ * Dummy class Foo for testing implementation of query objects.
+ * 
+ * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
+ * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
+ * @since 1.3
  */
 public class Foo {
-
 }

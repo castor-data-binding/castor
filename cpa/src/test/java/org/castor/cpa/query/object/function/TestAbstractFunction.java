@@ -47,7 +47,7 @@ public class TestAbstractFunction extends TestCase {
     /**
      * Junit Test for instance.
      */
-    public static void testInstance() {
+    public void testInstance() {
         QueryObject n = new MockFunction();
         assertTrue(n instanceof AbstractFunction);
         assertTrue(n instanceof Function);
@@ -58,7 +58,7 @@ public class TestAbstractFunction extends TestCase {
      /**
       * Junit Test for toString.
       */
-     public static void testToString() {
+     public void testToString() {
         Function n = new MockFunction();
         assertEquals("function", n.toString()); 
      } 

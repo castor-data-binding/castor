@@ -50,7 +50,7 @@ public class TestCustomFunction extends TestCase {
     /**
      * Junit Test for instance.
      */
-    public static void testInstance() {
+    public void testInstance() {
         QueryObject n = new CustomFunction("");
         assertTrue(n instanceof AbstractFunction);
         assertTrue(n instanceof Function);
@@ -67,7 +67,7 @@ public class TestCustomFunction extends TestCase {
     /**
      * Junit Test for Getter and Setter methods.
      */
-    public static void testGSetter() {
+    public void testGSetter() {
         CustomFunction n = new CustomFunction("");
         List < Expression >  parameters = new ArrayList < Expression > ();
         parameters.add(new MockExpression());
@@ -79,7 +79,7 @@ public class TestCustomFunction extends TestCase {
      /**
       * Junit Test for toString method.
       */
-     public static void testToString() {
+     public void testToString() {
          CustomFunction n = new CustomFunction("CUSTOM");
          
          n.setParameters(null);
