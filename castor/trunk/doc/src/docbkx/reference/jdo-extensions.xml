@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<chapter id="jdo.extensions">
+  <title>JDO extensions for the Castor XML code generator</title>
+  
+  <section id="jdo.extensions.why">
+    <title>JDO extensions - Motivation</title>
+    <para>tbd</para>
+  </section>
+  
+  
+  <section id="jdo.extensions.prerequisites">
+    <title>Prerequisites</title>
+    
+            <para>
+                To facilitate the detailed explanations in the following 
+                sections, we now define a few &lt;complexType&gt; definitions
+                that we want to map against an existing database schema, and the 
+                corresponding SQL statements to create the required tables.
+            </para>
+                
+            <section id="jdo.extensions.prerequisites.xml.schemas">
+                <title>Sample XML schemas</title>
+           
+               <programlisting language="xml">
+               <![CDATA[
+<complexType name="bookType">
+   <sequence>
+      <element name="isbn" type="xs:string" />
+      <element name="pages" type="xs:integer" />
+      <element name="lector" type="lectorType" />
+      <element name="authors" type="authorType" maxOccurs="unbounded" />
+   </sequence>
+</complexType>
+
+<complexType name="lectorType">
+   <sequence>
+      <element name="siNumber" type="xs:integer" />
+      <element name="name" type="xs:string" />
+   </sequence>
+</complexType>
+
+<complexType name="authorType">
+   <sequence>
+      <element name="siNumber" type="xs:integer" />
+      <element name="name" type="xs:string" />
+   </sequence>
+</complexType>]]>
+            </programlisting>
+            
+           </section>
+           
+           <section id="jdo.extensions.prerequisites.ddl.statements">
+            <title>Sample DDL statements</title>
+           
+                <programlisting>
+CREATE TABLE author_table (
+   sin INTEGER NOT NULL,
+   name VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE lector_table (
+   sin INTEGER NOT NULL,
+   name VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE book_table (
+   isbn varchar(13) NOT NULL,
+   pages INTEGER,
+   lector_id INTEGER NOT NULL,
+   author_id INTEGER NOT NULL
+);</programlisting>
+                
+           </section>
+        
+        </section>
+
+
+</chapter>

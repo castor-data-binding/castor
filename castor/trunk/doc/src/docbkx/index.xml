@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<book xmlns:xi="http://www.w3.org/2001/XInclude">
+  <bookinfo>
+    <title>Castor 1.3 - Reference documentation</title>
+
+    <releaseinfo>Castor 1.3</releaseinfo>
+
+    <authorgroup>
+      <author>
+        <firstname>Werner</firstname>
+        <surname>Guttmann</surname>
+        <affiliation>
+            <orgname>Indoqa</orgname>
+        </affiliation>        
+      </author>
+    </authorgroup>
+
+    <legalnotice>
+      <para>Copies of this document may be made for your own use and for
+      distribution to others, provided that you do not charge any fee for such
+      copies and further provided that each copy contains this Copyright
+      Notice, whether distributed in print or electronically.</para>
+    </legalnotice>
+  </bookinfo>
+
+  <xi:include href="reference/introduction.xml" />
+  
+  <xi:include href="reference/jdo-extensions.xml" />
+  
+</book>
