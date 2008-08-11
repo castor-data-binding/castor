@@ -230,6 +230,28 @@
          </p>
        </section>
 
+       <section title="bibs-crea-mapeo">
+         <p>
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                       A stored procedure for MSSQL that generates Castor JDO Mapping's
+                       from the database information. 
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Author:</td>
+                    <td>Víctor Manuel Iniestra Álvarez</td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td> <url>http://sourceforge.net/projects/bibs-crea-mapeo/</url></td>
+                </tr>
+            </table>
+         </p>
+       </section>
+
        <section title="Raccoon">
          <p>
             <table border="0">
