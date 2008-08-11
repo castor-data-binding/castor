@@ -15,6 +15,8 @@
  */
 package org.castor.cpa.query.object.condition;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.castor.cpa.query.Condition;
@@ -30,30 +32,76 @@ import org.castor.cpa.query.Condition;
 public abstract class CompoundCondition extends AbstractCondition {
     //--------------------------------------------------------------------------
 
-    /** The conditions. */
-    private List < Condition > _conditions;
+    /** List of conditions. */
+    private List < Condition > _conditions = new ArrayList < Condition > ();
   
     //--------------------------------------------------------------------------
 
     /**
-     * Gets the conditions.
+     * Get operator of the compound condition.
      * 
-     * @return the conditions
+     * @return Operator of the compound condition.
+     */
+    protected abstract String getOperator();
+    
+    /**
+     * {@inheritDoc}
+     */
+    public final Condition not() {
+        Not n = new Not();
+        n.setCondition(this);
+        return n;
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Add condition to the end of the list.
+     * 
+     * @param condition Condition to add to end of list.
+     */
+    public final void addCondition(final Condition condition) {
+        _conditions.add(condition);
+    }
+
+    /**
+     * Add all conditions to the end of the list.
+     * 
+     * @param conditions List of condition to add to end of list.
+     */
+    public final void addAllConditions(final List < Condition > conditions) {
+        if (_conditions == null) { _conditions = new ArrayList < Condition > (); }
+        _conditions.addAll(conditions);
+    }
+
+    /**
+     * Get list of conditions.
+     * 
+     * @return List of conditions.
      */
     public final List < Condition > getConditions() {
         return _conditions;
     }
 
-    /**
-     * Sets the conditions.
-     * 
-     * @param conditions the new conditions
-     */
-    public final void setConditions(final List < Condition > conditions) {
-        _conditions = conditions;
-    }
-    
-    
     //--------------------------------------------------------------------------
 
+    /**
+     * {@inheritDoc}
+     */ 
+    public final StringBuilder toString(final StringBuilder sb) {
+        for (Iterator < Condition > iter = _conditions.iterator(); iter.hasNext(); ) {
+            Condition condition = iter.next();
+            if (condition instanceof CompoundCondition) {
+                sb.append('(');
+                condition.toString(sb);
+                sb.append(')');
+            } else {
+                condition.toString(sb);
+            }
+            if (iter.hasNext()) { sb.append(getOperator()); }
+        }
+        return sb;
+    }
+
+    //--------------------------------------------------------------------------
 }

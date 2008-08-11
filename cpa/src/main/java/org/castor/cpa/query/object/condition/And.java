@@ -28,60 +28,22 @@ import org.castor.cpa.query.Condition;
 public final class And extends CompoundCondition {
     //--------------------------------------------------------------------------
 
-    /** The _condition. */
-    private Condition _condition;
-    
-    /** The _parent. */
-    private Condition _parent;
-    
-    //--------------------------------------------------------------------------
-
-    /**
-     * Gets the condition.
-     * 
-     * @return the condition
-     */
-    public Condition getCondition() {
-        return _condition;
-    }
-
-    /**
-     * Sets the condition.
-     * 
-     * @param condition the new condition
-     */
-    public void setCondition(final Condition condition) {
-        _condition = condition;
-    }
-
-    /**
-     * Gets the parent.
-     * 
-     * @return the parent
-     */
-    public Condition getParent() {
-        return _parent;
-    }
-
-    /**
-     * Sets the parent.
-     * 
-     * @param parent the new parent
-     */
-    public void setParent(final Condition parent) {
-       _parent = parent;
-    }
-
-    //--------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
-    public StringBuilder toString(final StringBuilder sb) {
-        _parent.toString(sb);
-        sb.append(" AND (");
-        _condition.toString(sb);
-        sb.append(")");
-        return sb;
+    protected String getOperator() { return " AND "; }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public Condition and(final Condition condition) {
+        if (condition instanceof And) {
+            addAllConditions(((And) condition).getConditions());
+        } else {
+            addCondition(condition);
+        }
+        return this;
     }
+
+    //--------------------------------------------------------------------------
 }

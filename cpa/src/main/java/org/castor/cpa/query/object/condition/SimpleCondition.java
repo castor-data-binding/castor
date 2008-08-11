@@ -15,6 +15,7 @@
  */
 package org.castor.cpa.query.object.condition;
 
+import org.castor.cpa.query.Condition;
 import org.castor.cpa.query.Expression;
 
 /**
@@ -26,32 +27,61 @@ import org.castor.cpa.query.Expression;
  * @since 1.3
  */
 public abstract class SimpleCondition extends AbstractCondition {
-
     //--------------------------------------------------------------------------
  
-    /** The _expression. */
+    /** Invert test result? */
+    private boolean _not;
+
+    /** Expression to test for the simple condition. */
     private Expression _expression;
 
     //--------------------------------------------------------------------------
  
     /**
-     * Gets the expression.
+     * {@inheritDoc}
+     */
+    public final Condition not() {
+        _not = !_not;
+        return this;
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Does test result get inverted?
      * 
-     * @return the expression
+     * @return <code>true</code> if test result gets inverted, <code>false</code> otherwise.
+     */
+    public final boolean isNot() {
+        return _not;
+    }
+
+    /**
+     * Set if test result has to be inverted.
+     * 
+     * @param not <code>true</code> if test result gets inverted, <code>false</code> otherwise.
+     */
+    public final void setNot(final boolean not) {
+        _not = not;
+    }
+    
+    /**
+     * Get expression to test.
+     * 
+     * @return Expression to test.
      */
     public final Expression getExpression() {
         return _expression;
     }
 
     /**
-     * Sets the expression.
+     * Set expression to test.
      * 
-     * @param expression the new expression
+     * @param expression Expression to test.
      */
     public final void setExpression(final Expression expression) {
         _expression = expression;
     }
 
     //--------------------------------------------------------------------------
- 
 }

@@ -28,94 +28,74 @@ import org.castor.cpa.query.Expression;
 public final class Like extends SimpleCondition {
     //--------------------------------------------------------------------------
 
-    /** The pattern of like simple condition. */
+    /** Pattern of like condition. */
     private Expression _pattern;
 
-    /** The escape of like simple condition. */
+    /** Escape character of like condition. */
     private Expression _escape;
     
-    /** The _not of like simple condition. */
-    private boolean _not;
-
     //--------------------------------------------------------------------------
 
     /**
-     * Gets the pattern of like simple condition.
+     * Get pattern of like condition.
      * 
-     * @return the pattern of like simple condition
+     * @return Pattern of like condition.
      */
     public Expression getPattern() {
         return _pattern;
     }
 
     /**
-     * Sets the pattern of like simple condition.
+     * Set pattern of like condition.
      * 
-     * @param pattern the new pattern of like simple condition
+     * @param pattern Pattern of like condition.
      */
     public void setPattern(final Expression pattern) {
         _pattern = pattern;
     }
 
     /**
-     * Gets the escape of like simple condition.
+     * Gets escape character of like condition.
      * 
-     * @return the escape of like simple condition
+     * @return Escape character of like condition.
      */
     public Expression getEscape() {
         return _escape;
     }
 
     /**
-     * Sets the escape of like simple condition.
+     * Set escape character of like condition.
      * 
-     * @param escape the new escape of like simple condition
+     * @param escape Escape character of like condition.
      */
     public void setEscape(final Expression escape) {
         _escape = escape;
     }
     
-    /**
-     * Checks if is not of like simple condition.
-     * 
-     * @return true, if is not of like simple condition
-     */
-    public boolean isNot() {
-        return _not;
-    }
-
-    /**
-     * Sets the not of like simple condition.
-     * 
-     * @param not the new not of like simple condition
-     */
-    public void setNot(final boolean not) {
-        _not = not;
-    }
-
     //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
      */
     public StringBuilder toString(final StringBuilder sb) {
-        if (this.getExpression() != null) {
-            this.getExpression().toString(sb);
+        sb.append('(');
+        if (getExpression() != null) {
+            getExpression().toString(sb);
         }
-        if (_not) {
+        if (isNot()) {
             sb.append(" NOT");
         }
+        sb.append(" LIKE ");
         if (_pattern != null) {
-            sb.append(" LIKE ");
             _pattern.toString(sb);
-            if (_escape != null) {
-             sb.append(" ESCAPE ");
-             _escape.toString(sb);
-            }
         }
+        if (_escape != null) {
+            sb.append(" ESCAPE ");
+            _escape.toString(sb);
+        }
+        sb.append(')');
         return sb;
     }
 
     //--------------------------------------------------------------------------
-
 }

@@ -27,6 +27,7 @@ import org.castor.cpa.query.Parameter;
 import org.castor.cpa.query.object.literal.BigDecimalLiteral;
 import org.castor.cpa.query.object.literal.BooleanLiteral;
 import org.castor.cpa.query.object.literal.DoubleLiteral;
+import org.castor.cpa.query.object.literal.EnumLiteral;
 import org.castor.cpa.query.object.literal.LongLiteral;
 import org.castor.cpa.query.object.literal.StringLiteral;
 
@@ -41,120 +42,76 @@ import org.castor.cpa.query.object.literal.StringLiteral;
 public final class In extends SimpleCondition implements InCondition {
     //--------------------------------------------------------------------------
 
-    /** The value of in simple condition. */
-    private List < Expression > _value;
+    /** List of items to test against. */
+    private List < Expression > _items = new ArrayList < Expression > ();
 
-    /** The not of in simple condition. */
-    private boolean _not;
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Gets the value of in simple condition.
-     * 
-     * @return the value of in simple condition
-     */
-    public List < Expression > getValue() {
-        return _value;
-    }
-
-    /**
-     * Sets the value of in simple condition.
-     * 
-     * @param value the new value of in simple condition
-     */
-    public void setValue(final List < Expression > value) {
-        _value = value;
-    }
-
-
-    /**
-     * Checks if is not of in simple condition.
-     * 
-     * @return true, if is not of in simple condition
-     */
-    public boolean isNot() {
-        return _not;
-    }
-
-    /**
-     * Sets the not of in simple condition.
-     * 
-     * @param not the new not of in simple condition
-     */
-    public void setNot(final boolean not) {
-        _not = not;
-    }
-    
     //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
      */
     public void add(final boolean value) {
-        if (_value == null) { _value = new ArrayList < Expression > (); }
-        _value.add(new BooleanLiteral(value));
+        _items.add(new BooleanLiteral(value));
     }
 
     /**
      * {@inheritDoc}
      */
     public void add(final long value) {
-        if (_value == null) { _value = new ArrayList < Expression > (); }
-        _value.add(new LongLiteral(value));  
+        _items.add(new LongLiteral(value));  
     }
-
 
     /**
      * {@inheritDoc}
      */
     public void add(final double value) {
-        if (_value == null) { _value = new ArrayList < Expression > (); }
-        _value.add(new DoubleLiteral(value)); 
+        _items.add(new DoubleLiteral(value)); 
     }
-
 
     /**
      * {@inheritDoc}
      */
     public void add(final BigDecimal value) {
-        if (_value == null) { _value = new ArrayList < Expression > (); }
-        _value.add(new BigDecimalLiteral(value));
+        _items.add(new BigDecimalLiteral(value));
     }
-
 
     /**
      * {@inheritDoc}
      */
     public void add(final String value) {
-        if (_value == null) { _value = new ArrayList < Expression > (); }
-        _value.add(new StringLiteral(value));
+        _items.add(new StringLiteral(value));
     }
-
 
     /**
      * {@inheritDoc}
      */
     public void add(final Enum < ? > value) {
-        // TODO implementation
+        _items.add(new EnumLiteral(value));
     }
-
 
     /**
      * {@inheritDoc}
      */
     public void add(final Literal value) {
-        if (_value == null) { _value = new ArrayList < Expression > (); }
-        _value.add(value);
+        _items.add(value);
     }
-
 
     /**
      * {@inheritDoc}
      */
     public void add(final Parameter value) {
-        if (_value == null) { _value = new ArrayList < Expression > (); }
-        _value.add(value);
+        _items.add(value);
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Get list of items to test against.
+     * 
+     * @return List of items to test against.
+     */
+    public List < Expression > getItems() {
+        return _items;
     }
 
     //--------------------------------------------------------------------------
@@ -163,25 +120,22 @@ public final class In extends SimpleCondition implements InCondition {
      * {@inheritDoc}
      */
     public StringBuilder toString(final StringBuilder sb) {
-       if (this.getExpression() != null) {
-        this.getExpression().toString(sb);
+        sb.append('(');
+        if (getExpression() != null) {
+            getExpression().toString(sb);
         }
-      if (_not) {
-          sb.append(" NOT ");
-      }
+        if (isNot()) {
+            sb.append(" NOT ");
+        }
         sb.append(" IN (");   
-        if (_value != null) {
-            for (Iterator < Expression > iter = _value.iterator(); iter.hasNext(); ) {
-                iter.next().toString(sb);
-                if (iter.hasNext()) {
-                    sb.append(", ");
-                }
-            }
+        for (Iterator < Expression > iter = _items.iterator(); iter.hasNext(); ) {
+            iter.next().toString(sb);
+            if (iter.hasNext()) { sb.append(", "); }
         }
         sb.append(")");
+        sb.append(')');
         return sb;
     }
     
     //--------------------------------------------------------------------------
-
 }

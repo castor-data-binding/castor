@@ -28,91 +28,74 @@ import org.castor.cpa.query.Expression;
 public final class Between extends SimpleCondition {
     //--------------------------------------------------------------------------
 
-    /** The low of between simple condition. */
+    /** Low bound of between range. */
     private Expression _low;
 
-    /** The high of between simple condition. */
+    /** High bound of between range. */
     private Expression _high;
 
-    /** The not of between simple condition.. */
-    private boolean _not;
     //--------------------------------------------------------------------------
 
     /**
-     * Gets the low of between simple condition.
+     * Get low bound of between range.
      * 
-     * @return the low of between simple condition
+     * @return Low bound of between range.
      */
     public Expression getLow() {
         return _low;
     }
 
     /**
-     * Sets the low of between simple condition.
+     * Set low bound of between range.
      * 
-     * @param low the new low of between simple condition
+     * @param low Low bound of between range.
      */
     public void setLow(final Expression low) {
         _low = low;
     }
 
     /**
-     * Gets the high of between simple condition.
+     * Get high bound of between range.
      * 
-     * @return the high of between simple condition
+     * @return High bound of between range.
      */
     public Expression getHigh() {
         return _high;
     }
 
     /**
-     * Sets the high of between simple condition.
+     * Set high bound of between range.
      * 
-     * @param high the new high of between simple condition
+     * @param high High bound of between range.
      */
     public void setHigh(final Expression high) {
         _high = high;
     }
 
-    /**
-     * Checks if is not.
-     * 
-     * @return true, if is not
-     */
-    public boolean isNot() {
-        return _not;
-    }
-
-    /**
-     * Sets the not.
-     * 
-     * @param not the new not
-     */
-    public void setNot(final boolean not) {
-        _not = not;
-    }
-    
     //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
      */
     public StringBuilder toString(final StringBuilder sb) {
-        if (this.getExpression() != null) {
-            this.getExpression().toString(sb);
+        sb.append('(');
+        if (getExpression() != null) {
+            getExpression().toString(sb);
         }
-        if (_not) {
+        if (isNot()) {
             sb.append(" NOT");
         }
-        if (_low != null && _high != null) {
-            sb.append(" BETWEEN ");
+        sb.append(" BETWEEN ");
+        if (_low != null) {
             _low.toString(sb);
-            sb.append(" AND ");
+        }
+        sb.append(" AND ");
+        if (_high != null) {
             _high.toString(sb);
         }
+        sb.append(')');
         return sb;
     }
 
     //--------------------------------------------------------------------------
-
 }

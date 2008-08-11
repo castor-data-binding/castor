@@ -15,6 +15,7 @@
  */
 package org.castor.cpa.query.object.condition;
 
+import org.castor.cpa.query.Condition;
 import org.castor.cpa.query.Expression;
 
 /**
@@ -25,51 +26,105 @@ import org.castor.cpa.query.Expression;
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public final class Comparison extends SimpleCondition {
+public final class Comparison extends AbstractCondition {
+    //--------------------------------------------------------------------------
+    
+    /** Equal comparison operator. */
+    public static final ComparisonOperator EQUAL = new Equal();
+
+    /** Not equal comparison operator. */
+    public static final ComparisonOperator NOT_EQUAL = new NotEqual();
+
+    /** Less than comparison operator. */
+    public static final ComparisonOperator LESS_THAN = new LessThan();
+    
+    /** Less equal comparison operator. */
+    public static final ComparisonOperator LESS_EQUAL = new LessEqual();
+    
+    /** Greater equal comparison operator. */
+    public static final ComparisonOperator GREATER_EQUAL = new GreaterEqual();
+    
+    /** Greater than comparison operator. */
+    public static final ComparisonOperator GREATER_THAN = new GreaterThan();
+    
     //--------------------------------------------------------------------------
 
-    /** The compare of comparison simple condition. */
-    private Expression _compare;
-
-    /** The operator of comparison simple condition. */
+    /** Comarison operator of comparison condition. */
     private ComparisonOperator _operator;
 
+    /** Left side expression of comparison condition. */
+    private Expression _leftSide;
+
+    /** Right side expression of comparison condition. */
+    private Expression _rightSide;
+
+    //--------------------------------------------------------------------------
+    
+    /**
+     * Construct new comparison.
+     * 
+     * @param operator Comparison operator for the comparison.
+     */
+    public Comparison(final ComparisonOperator operator) {
+        if (operator == null) { throw new NullPointerException(); }
+        _operator = operator;
+    }
+
+    //--------------------------------------------------------------------------
+    
+    /**
+     * {@inheritDoc}
+     */
+    public Condition not() {
+        _operator = _operator.not();
+        return this;
+    }
+
     //--------------------------------------------------------------------------
 
     /**
-     * Gets the compare of comparison simple condition.
+     * Get comarison operator of comparison condition.
      * 
-     * @return the compare of comparison simple condition
-     */
-    public Expression getCompare() {
-        return _compare;
-    }
-
-    /**
-     * Sets the compare of comparison simple condition.
-     * 
-     * @param compare the new compare of comparison simple condition
-     */
-    public void setCompare(final Expression compare) {
-        _compare = compare;
-    }
-
-    /**
-     * Gets the operator of comparison simple condition.
-     * 
-     * @return the operator of comparison simple condition
+     * @return Comarison operator of comparison condition.
      */
     public ComparisonOperator getOperator() {
         return _operator;
     }
 
     /**
-     * Sets the operator of comparison simple condition.
+     * Get left side expression of comparison condition.
      * 
-     * @param operator the new operator of comparison simple condition
+     * @return Left side expression of comparison condition.
      */
-    public void setOperator(final ComparisonOperator operator) {
-        _operator = operator;
+    public Expression getLeftSide() {
+        return _leftSide;
+    }
+
+    /**
+     * Set left side expression of comparison condition.
+     * 
+     * @param expression Left side expression of comparison condition.
+     */
+    public void setLeftSide(final Expression expression) {
+        _leftSide = expression;
+    }
+
+    /**
+     * Get right side expression of comparison condition.
+     * 
+     * @return Right side expression of comparison condition.
+     */
+    public Expression getRightSide() {
+        return _rightSide;
+    }
+
+    /**
+     * Set right side expression of comparison condition.
+     * 
+     * @param expression Right side expression of comparison condition.
+     */
+    public void setRightSide(final Expression expression) {
+        _rightSide = expression;
     }
 
     //--------------------------------------------------------------------------
@@ -78,18 +133,17 @@ public final class Comparison extends SimpleCondition {
      * {@inheritDoc}
      */
     public StringBuilder toString(final StringBuilder sb) {
-        if (_operator != null) {
-           sb.append('(');
-           _operator.getExpression().toString(sb);
-           _operator.toString(sb);
+        sb.append('(');
+        if (_leftSide != null) {
+            _leftSide.toString(sb);
         }
-        if (_compare != null) {
-           _compare.toString(sb);
-           sb.append(')');
+        _operator.toString();
+        if (_rightSide != null) {
+            _rightSide.toString(sb);
         }
+        sb.append(')');
         return sb;
     }
 
     //--------------------------------------------------------------------------
-
 }

@@ -34,18 +34,27 @@ public final class Not  extends AbstractCondition {
     //--------------------------------------------------------------------------    
     
     /**
-     * Gets the condition of not condition.
+     * {@inheritDoc}
+     */
+    public Condition not() {
+        return _condition;
+    }
+
+    //--------------------------------------------------------------------------    
+
+    /**
+     * Get condition of not condition.
      * 
-     * @return the condition of not condition
+     * @return Condition of not condition.
      */
     public Condition getCondition() {
         return _condition;
     }
 
     /**
-     * Sets the condition of not condition.
+     * Set condition of not condition.
      * 
-     * @param condition the new condition of not condition
+     * @param condition Condition of not condition.
      */
     public void setCondition(final Condition condition) {
         _condition = condition;

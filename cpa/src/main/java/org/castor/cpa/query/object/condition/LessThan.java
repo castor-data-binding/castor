@@ -23,18 +23,30 @@ package org.castor.cpa.query.object.condition;
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public final class LessThan extends ComparisonOperator {
-
+public final class LessThan implements ComparisonOperator {
+    //--------------------------------------------------------------------------
+    
+    /**
+     * Protect constructor from being called from everywhere.
+     * Use constants from Comparison instead.
+     */
+    protected LessThan() { }
+    
     //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
      */
-    public StringBuilder toString(final StringBuilder sb) {
-       // TODO Auto-generated method stub
-         return sb.append(" < ");
+    public ComparisonOperator not() {
+        return Comparison.GREATER_EQUAL;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String toString() {
+        return " < ";
     }
 
     //--------------------------------------------------------------------------
-
 }
