@@ -28,13 +28,7 @@ import org.castor.cpa.query.TrimSpecification;
 import org.castor.cpa.query.object.AbstractQueryObject;
 import org.castor.cpa.query.object.condition.Between;
 import org.castor.cpa.query.object.condition.Comparison;
-import org.castor.cpa.query.object.condition.Equal;
-import org.castor.cpa.query.object.condition.GreaterEqual;
-import org.castor.cpa.query.object.condition.GreaterThan;
-import org.castor.cpa.query.object.condition.LessEqual;
-import org.castor.cpa.query.object.condition.LessThan;
 import org.castor.cpa.query.object.condition.Like;
-import org.castor.cpa.query.object.condition.NotEqual;
 import org.castor.cpa.query.object.function.Abs;
 import org.castor.cpa.query.object.function.Length;
 import org.castor.cpa.query.object.function.Locate;
@@ -507,12 +501,9 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
      * {@inheritDoc}
      */
     public final Condition equal(final Expression value) {
-        Equal e = new Equal();
-        e.setExpression(this);
-
-        Comparison comp = new Comparison();
-        comp.setOperator(e);
-        comp.setCompare(value);
+        Comparison comp = new Comparison(Comparison.EQUAL);
+        comp.setLeftSide(this);
+        comp.setRightSide(value);
         return comp;
     }
 
@@ -571,12 +562,9 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
      * {@inheritDoc}
      */
     public final Condition notEqual(final Expression value) {
-        NotEqual ne = new NotEqual();
-        ne.setExpression(this);
-
-        Comparison comp = new Comparison();
-        comp.setOperator(ne);
-        comp.setCompare(value);
+        Comparison comp = new Comparison(Comparison.NOT_EQUAL);
+        comp.setLeftSide(this);
+        comp.setRightSide(value);
         return comp;
     }
     
@@ -628,12 +616,9 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
      * {@inheritDoc}
      */
     public final Condition lessThan(final Expression value) {
-        LessThan lt = new LessThan();
-        lt.setExpression(this);
-
-        Comparison comp = new Comparison();
-        comp.setOperator(lt);
-        comp.setCompare(value);
+        Comparison comp = new Comparison(Comparison.LESS_THAN);
+        comp.setLeftSide(this);
+        comp.setRightSide(value);
         return comp;
     }
     
@@ -685,12 +670,9 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
      * {@inheritDoc}
      */
     public final Condition lessEqual(final Expression value) {
-        LessEqual le = new LessEqual();
-        le.setExpression(this);
-
-        Comparison comp = new Comparison();
-        comp.setOperator(le);
-        comp.setCompare(value);
+        Comparison comp = new Comparison(Comparison.LESS_EQUAL);
+        comp.setLeftSide(this);
+        comp.setRightSide(value);
         return comp;
     }
     
@@ -742,12 +724,9 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
      * {@inheritDoc}
      */
     public final Condition greaterEqual(final Expression value) {
-        GreaterEqual ge = new GreaterEqual();
-        ge.setExpression(this);
-
-        Comparison comp = new Comparison();
-        comp.setOperator(ge);
-        comp.setCompare(value);
+        Comparison comp = new Comparison(Comparison.GREATER_EQUAL);
+        comp.setLeftSide(this);
+        comp.setRightSide(value);
         return comp;
     }
 
@@ -799,12 +778,9 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
      * {@inheritDoc}
      */
     public final Condition greaterThan(final Expression value) {
-        GreaterThan gt = new GreaterThan();
-        gt.setExpression(this);
-
-        Comparison comp = new Comparison();
-        comp.setOperator(gt);
-        comp.setCompare(value);
+        Comparison comp = new Comparison(Comparison.GREATER_THAN);
+        comp.setLeftSide(this);
+        comp.setRightSide(value);
         return comp;
     }
     

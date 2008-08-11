@@ -28,63 +28,22 @@ import org.castor.cpa.query.Condition;
 public final class Or extends CompoundCondition {
     //--------------------------------------------------------------------------
 
-    /** The condition of or compound condition. */
-    private Condition _condition;
-    
-    /** The parent of or compound condition. */
-    private Condition _parent;
-
-    //--------------------------------------------------------------------------
-    
-
-    /**
-     * Gets the condition of or compound condition.
-     * 
-     * @return the condition of or compound condition
-     */
-    public Condition getCondition() {
-        return _condition;
-    }
-
-    /**
-     * Sets the condition of or compound condition.
-     * 
-     * @param condition the new condition of or compound condition
-     */
-    public void setCondition(final Condition condition) {
-        _condition = condition;
-    }
-
-    /**
-     * Gets the parent of or compound condition.
-     * 
-     * @return the parent of or compound condition
-     */
-    public Condition getParent() {
-        return _parent;
-    }
-
-    /**
-     * Sets the parent of or compound condition.
-     * 
-     * @param parent the new parent of or compound condition
-     */
-    public void setParent(final Condition parent) {
-       _parent = parent;
-    }
-
-    //--------------------------------------------------------------------------
-   
     /**
      * {@inheritDoc}
      */
-    public StringBuilder toString(final StringBuilder sb) {
-        _parent.toString(sb);
-        sb.append(" OR (");
-        _condition.toString(sb);
-        sb.append(")");
-        return sb;
+    protected String getOperator() { return " OR "; }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public Condition or(final Condition condition) {
+        if (condition instanceof Or) {
+            addAllConditions(((Or) condition).getConditions());
+        } else {
+            addCondition(condition);
+        }
+        return this;
     }
-    //--------------------------------------------------------------------------
 
+    //--------------------------------------------------------------------------
 }

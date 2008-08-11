@@ -33,7 +33,7 @@ public abstract class CompoundExpression extends AbstractExpression {
     //--------------------------------------------------------------------------
     
     /** List of expressions. */
-    private List < Expression > _expressions;
+    private List < Expression > _expressions = new ArrayList < Expression > ();
 
     //--------------------------------------------------------------------------
 
@@ -52,7 +52,6 @@ public abstract class CompoundExpression extends AbstractExpression {
      * @param expression Expression to add to end of list.
      */
     public final void addExpression(final Expression expression) {
-        if (_expressions == null) { _expressions = new ArrayList < Expression > (); }
         _expressions.add(expression);
     }
 
@@ -65,15 +64,6 @@ public abstract class CompoundExpression extends AbstractExpression {
         return _expressions;
     }
 
-    /**
-     * Set list of expressions.
-     * 
-     * @param expressions List of expressions.
-     */
-    public final void setExpressions(final List < Expression > expressions) {
-        _expressions = expressions;
-    }
-    
     //--------------------------------------------------------------------------
 
     /**
