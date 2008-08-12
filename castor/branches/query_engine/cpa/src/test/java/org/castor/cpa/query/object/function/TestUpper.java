@@ -30,7 +30,7 @@ import org.castor.cpa.query.object.expression.AbstractExpression;
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public class TestUpper extends TestCase {
+public final class TestUpper extends TestCase {
     //--------------------------------------------------------------------------
 
     /**
@@ -53,7 +53,7 @@ public class TestUpper extends TestCase {
         assertTrue(n instanceof Function);
         assertTrue(n instanceof AbstractExpression);
         assertTrue(n instanceof Expression);
-     }
+    }
 
     /**
      * Junit Test for Getter and Setter methods.
@@ -63,21 +63,21 @@ public class TestUpper extends TestCase {
         Expression string = new MockExpression();
         n.setString(string);
         assertEquals(string, n.getString()); 
-     }
+    }
      
-     /**
-      * Junit Test for toString method.
-      */
-     public void testToString() {
-         Upper n = new Upper();
-         
-         n.setString(null);
-         assertEquals("UPPER()", n.toString()); 
+    /**
+     * Junit Test for toString method.
+     */
+    public void testToString() {
+        Upper n = new Upper();
+        
+        n.setString(null);
+        assertEquals("UPPER()", n.toString()); 
 
-         Expression string = new MockExpression();
-         n.setString(string);
-         assertEquals("UPPER(expression)", n.toString()); 
-     } 
+        Expression string = new MockExpression();
+        n.setString(string);
+        assertEquals("UPPER(expression)", n.toString()); 
+    } 
 
-     //--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

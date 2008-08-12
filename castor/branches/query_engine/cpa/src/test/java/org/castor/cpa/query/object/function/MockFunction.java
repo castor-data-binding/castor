@@ -24,7 +24,14 @@ package org.castor.cpa.query.object.function;
  * @since 1.3
  */
 public final class MockFunction extends AbstractFunction {
+    //--------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     */
     public StringBuilder toString(final StringBuilder sb) {
         return sb.append("function");
     }
+
+    //--------------------------------------------------------------------------
 }

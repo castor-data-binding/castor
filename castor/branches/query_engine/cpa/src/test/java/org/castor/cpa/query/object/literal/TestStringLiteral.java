@@ -30,7 +30,7 @@ import org.castor.cpa.query.object.expression.AbstractExpression;
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public class TestStringLiteral extends TestCase {
+public final class TestStringLiteral extends TestCase {
     //--------------------------------------------------------------
 
     /**
@@ -53,7 +53,7 @@ public class TestStringLiteral extends TestCase {
         assertTrue(n instanceof Literal);
         assertTrue(n instanceof AbstractExpression);
         assertTrue(n instanceof Expression);
-     }
+    }
     
     /**
      * Junit Test for constructor and getter.
@@ -68,7 +68,7 @@ public class TestStringLiteral extends TestCase {
         
         StringLiteral n = new StringLiteral("a string");
         assertEquals("a string", n.getValue()); 
-     }
+    }
     
     /**
      * Junit Test for String Literal toString method.
@@ -79,7 +79,7 @@ public class TestStringLiteral extends TestCase {
         
         n = new StringLiteral("a string with quote's");
         assertEquals("'a string with quote''s'", n.toString()); 
-     } 
+    } 
 
     //--------------------------------------------------------------
 }

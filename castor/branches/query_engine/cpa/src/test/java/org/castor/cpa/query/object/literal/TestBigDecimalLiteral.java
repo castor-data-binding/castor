@@ -32,7 +32,7 @@ import org.castor.cpa.query.object.expression.AbstractExpression;
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public class TestBigDecimalLiteral extends TestCase {
+public final class TestBigDecimalLiteral extends TestCase {
     //--------------------------------------------------------------
 
     /**
@@ -56,7 +56,7 @@ public class TestBigDecimalLiteral extends TestCase {
         assertTrue(n instanceof Literal);
         assertTrue(n instanceof AbstractExpression);
         assertTrue(n instanceof Expression);
-     }
+    }
 
     /**
      * Junit Test for constructor and getter.
@@ -72,7 +72,7 @@ public class TestBigDecimalLiteral extends TestCase {
         BigDecimal val = new BigDecimal("1115.37");
         BigDecimalLiteral n = new BigDecimalLiteral(val);
         assertEquals(val, n.getValue()); 
-     }
+    }
     
     /**
      * Junit Test for BigDecimal literal toString method.
@@ -80,7 +80,7 @@ public class TestBigDecimalLiteral extends TestCase {
     public void testToString() {
         BigDecimalLiteral n = new BigDecimalLiteral(new BigDecimal("1115.37"));
         assertEquals("1115.37", n.toString()); 
-     }
+    }
 
     //--------------------------------------------------------------
 }

@@ -27,6 +27,8 @@ import java.util.Date;
  * @since 1.3
  */
 public final class MockTemporalLiteral extends AbstractTemporalLiteral {
+    //--------------------------------------------------------------------------
+
     public MockTemporalLiteral(final Date value) {
         super(value);
     }
@@ -35,7 +37,14 @@ public final class MockTemporalLiteral extends AbstractTemporalLiteral {
         super(value);
     }
 
+    //--------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     */
     public StringBuilder toString(final StringBuilder sb) {
         return sb;
     }
+
+    //--------------------------------------------------------------------------
 }

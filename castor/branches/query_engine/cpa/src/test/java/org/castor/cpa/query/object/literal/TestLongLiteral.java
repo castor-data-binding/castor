@@ -30,7 +30,7 @@ import org.castor.cpa.query.object.expression.AbstractExpression;
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public class TestLongLiteral extends TestCase {
+public final class TestLongLiteral extends TestCase {
     //--------------------------------------------------------------
 
     /**
@@ -54,7 +54,7 @@ public class TestLongLiteral extends TestCase {
         assertTrue(n instanceof Literal);
         assertTrue(n instanceof AbstractExpression);
         assertTrue(n instanceof Expression);
-     }
+    }
     
     /**
      * Junit Test for constructor and getter.
@@ -62,7 +62,7 @@ public class TestLongLiteral extends TestCase {
     public void testConstructor() {
         LongLiteral n = new LongLiteral(222L);
         assertEquals(222L, n.getValue()); 
-     }
+    }
     
     /**
      * Junit Test for Long Literal toString method.
@@ -70,7 +70,7 @@ public class TestLongLiteral extends TestCase {
     public void testToString() {
         LongLiteral n = new LongLiteral(222L);
         assertEquals("222", n.toString()); 
-     }
+    }
 
     //--------------------------------------------------------------
 }

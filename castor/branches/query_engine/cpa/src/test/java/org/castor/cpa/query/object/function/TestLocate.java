@@ -31,7 +31,7 @@ import org.castor.cpa.query.object.literal.LongLiteral;
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public class TestLocate extends TestCase {
+public final class TestLocate extends TestCase {
     //--------------------------------------------------------------------------
 
     /**
@@ -54,7 +54,7 @@ public class TestLocate extends TestCase {
         assertTrue(n instanceof Function);
         assertTrue(n instanceof AbstractExpression);
         assertTrue(n instanceof Expression);
-     }
+    }
 
     /**
      * Junit Test for constructor.
@@ -63,7 +63,7 @@ public class TestLocate extends TestCase {
         Locate n = new Locate();
         assertTrue(n.getIndex() instanceof LongLiteral);
         assertEquals(1, ((LongLiteral) n.getIndex()).getValue());
-     }
+    }
 
     /**
      * Junit Test for Getter and Setter methods.
@@ -79,24 +79,60 @@ public class TestLocate extends TestCase {
         assertEquals(string, n.getString());
         assertEquals(value, n.getValue());
         assertEquals(index, n.getIndex());
-     }
+    }
      
-     /**
-      * Junit Test for toString method.
-      */
-     public void testToString() {
-         Locate n = new Locate();
-         Expression string = new MockExpression();
-         Expression value = new MockExpression();
-         Expression index = new MockExpression();
-         
-         n.setString(string);
-         n.setValue(value);
-         n.setIndex(index);
-         assertEquals("LOCATE(expression, expression, expression)", n.toString()); 
+    /**
+     * Junit Test for toString method.
+     */
+    public void testToString() {
+        Locate n = new Locate();
+        Expression string = new MockExpression();
+        Expression value = new MockExpression();
+        Expression index = new MockExpression();
+        
+        n.setString(string);
+        n.setValue(value);
+        n.setIndex(index);
+        assertEquals("LOCATE(expression, expression, expression)", n.toString());
 
-         // TODO test different parameter combinations
-     } 
+        n.setString(new MockExpression());
+        n.setValue(null);
+        n.setIndex(new MockExpression());
+        assertEquals("LOCATE(expression, , expression)", n.toString());
 
-     //--------------------------------------------------------------------------
+        n.setString(new MockExpression());
+        n.setValue(new MockExpression());
+        n.setIndex(null);
+        assertEquals("LOCATE(expression, expression, )", n.toString());
+
+        n.setString(null);
+        n.setValue(new MockExpression());
+        n.setIndex(new MockExpression());
+        assertEquals("LOCATE(, expression, expression)", n.toString());
+
+        n.setString(null);
+        n.setValue(null);
+        n.setIndex(new MockExpression());
+        assertEquals("LOCATE(, , expression)", n.toString());
+
+        n.setString(new MockExpression());
+        n.setValue(null);
+        n.setIndex(null);
+        assertEquals("LOCATE(expression, , )", n.toString());
+        
+        n.setString(null);
+        n.setValue(new MockExpression());
+        n.setIndex(null);
+        assertEquals("LOCATE(, expression, )", n.toString());
+        
+        n.setString(null);
+        n.setValue(null);
+        n.setIndex(null);
+        assertEquals("LOCATE(, , )", n.toString());
+        
+        // TODO add test with LongLiteral, DoubleLiteral and BigDecimalLiteral
+        // that cause defaultStart flag to be true and false
+    } 
+
+    //--------------------------------------------------------------------------
 }

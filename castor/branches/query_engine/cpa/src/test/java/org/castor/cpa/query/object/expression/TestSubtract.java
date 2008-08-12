@@ -15,51 +15,41 @@
  */
 package org.castor.cpa.query.object.expression;
 
-import java.math.BigDecimal;
-
 import junit.framework.TestCase;
 
-import org.castor.cpa.query.Condition;
 import org.castor.cpa.query.Expression;
-import org.castor.cpa.query.Field;
-import org.castor.cpa.query.Foo;
-import org.castor.cpa.query.QueryFactory;
-import org.castor.cpa.query.Schema;
-import org.castor.cpa.query.SelectQuery;
+import org.castor.cpa.query.QueryObject;
 
 /**
  * Junit Test for testing subtract arithmetic expression of query objects.
  * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
+ * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr
+ *          2006) $
  * @since 1.3
  */
-public class TestSubtract extends TestCase {
-    //--------------------------------------------------------------------------
-
-    private static String _common = "SELECT o.bar FROM org.castor.cpa.query.Foo AS o WHERE ";
-
-    //--------------------------------------------------------------------------
-
-    public static void testAll() {
-        SelectQuery select = QueryFactory.newSelectQuery();
-        Schema schema = select.newSchema(Foo.class, "o");
-        select.addProjection(schema.field("bar"));
-        Field field = schema.field("position");
-        Expression exp = new MockExpression();
-        Condition condition = field
-        .subtract(2)
-        .subtract(4.0)
-        .subtract(new BigDecimal("4"))
-        .subtract(exp)
-        .equal(3);
-        select.setWhere(condition);
-        select.addSchema(schema);
-        String expected = "o.position - 2 - 4.0 - 4 - expression = 3";
-        assertEquals(_common + expected, select.toString());
-        System.out.println(select.toString());
+public final class TestSubtract extends TestCase {
+    // --------------------------------------------------------------------------
+    /**
+     * Junit Test for instance.
+     */
+    public void testInstance() {
+        QueryObject n = new Subtract();
+        assertTrue(n instanceof CompoundExpression);
+        assertTrue(n instanceof AbstractExpression);
+        assertTrue(n instanceof Expression);
     }
 
-    //--------------------------------------------------------------------------
+    /**
+     * Junit Test for getOperator.
+     */
+    public void testGetOperator() {
+        Subtract m = new Subtract();
+        assertEquals(" - ", m.getOperator());
+    }
+    
+    // TODO add test for subtract factory method
+    
+    // --------------------------------------------------------------------------
 }

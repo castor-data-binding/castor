@@ -13,25 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.cpa.query.object.parameter;
+package org.castor.cpa.query.object.expression;
 
 /**
- * Mock class for testing AbstractParameter.
+ * Mock class for compound expression testing.
  * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public final class MockParameter extends AbstractParameter {
-    //--------------------------------------------------------------------------
+public final class MockCompoundExpression extends CompoundExpression {
+    // --------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
      */
-    public StringBuilder toString(final StringBuilder sb) {
-        return sb.append("correct");
+    protected String getOperator() {
+        return " & ";
     }
 
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
 }

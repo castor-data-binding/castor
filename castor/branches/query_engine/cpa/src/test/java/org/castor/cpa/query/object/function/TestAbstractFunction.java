@@ -30,7 +30,7 @@ import org.castor.cpa.query.object.expression.AbstractExpression;
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public class TestAbstractFunction extends TestCase {
+public final class TestAbstractFunction extends TestCase {
     //--------------------------------------------------------------------------
  
     /**
@@ -53,15 +53,15 @@ public class TestAbstractFunction extends TestCase {
         assertTrue(n instanceof Function);
         assertTrue(n instanceof AbstractExpression);
         assertTrue(n instanceof Expression);
-     }
+    }
 
-     /**
-      * Junit Test for toString.
-      */
-     public void testToString() {
-        Function n = new MockFunction();
-        assertEquals("function", n.toString()); 
-     } 
+    /**
+     * Junit Test for toString.
+     */
+    public void testToString() {
+       Function n = new MockFunction();
+       assertEquals("function", n.toString()); 
+    } 
 
-     //--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

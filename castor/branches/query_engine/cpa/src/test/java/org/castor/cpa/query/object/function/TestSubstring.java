@@ -30,7 +30,7 @@ import org.castor.cpa.query.object.expression.AbstractExpression;
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public class TestSubstring extends TestCase {
+public final class TestSubstring extends TestCase {
     //--------------------------------------------------------------------------
 
     /**
@@ -53,7 +53,7 @@ public class TestSubstring extends TestCase {
         assertTrue(n instanceof Function);
         assertTrue(n instanceof AbstractExpression);
         assertTrue(n instanceof Expression);
-     }
+    }
 
     /**
      * Junit Test for Getter and Setter methods.
@@ -69,42 +69,42 @@ public class TestSubstring extends TestCase {
         assertEquals(string, n.getString());
         assertEquals(start, n.getIndex());
         assertEquals(length, n.getLength());
-     }
+    }
      
-     /**
-      * Junit Test for toString method.
-      */
-     public void testToString() {
-         Substring n = new Substring();
-         Expression string = new MockExpression();
-         Expression start = new MockExpression();
-         Expression length = new MockExpression();
-         
-         n.setString(string);
-         n.setIndex(start);
-         n.setLength(length);
-         assertEquals("SUBSTRING(expression, expression, expression)", n.toString()); 
-         
-         n.setString(null);
-         n.setIndex(start);
-         n.setLength(length);
-         assertEquals("SUBSTRING(, expression, expression)", n.toString()); 
-         
-         n.setString(string);
-         n.setIndex(null);
-         n.setLength(length);
-         assertEquals("SUBSTRING(expression, , expression)", n.toString()); 
-         
-         n.setString(string);
-         n.setIndex(start);
-         n.setLength(null);
-         assertEquals("SUBSTRING(expression, expression, )", n.toString()); 
-         
-         n.setString(null);
-         n.setIndex(null);
-         n.setLength(null);
-         assertEquals("SUBSTRING(, , )", n.toString()); 
-     } 
+    /**
+     * Junit Test for toString method.
+     */
+    public void testToString() {
+        Substring n = new Substring();
+        Expression string = new MockExpression();
+        Expression start = new MockExpression();
+        Expression length = new MockExpression();
+        
+        n.setString(string);
+        n.setIndex(start);
+        n.setLength(length);
+        assertEquals("SUBSTRING(expression, expression, expression)", n.toString()); 
+        
+        n.setString(null);
+        n.setIndex(start);
+        n.setLength(length);
+        assertEquals("SUBSTRING(, expression, expression)", n.toString()); 
+        
+        n.setString(string);
+        n.setIndex(null);
+        n.setLength(length);
+        assertEquals("SUBSTRING(expression, , expression)", n.toString()); 
+        
+        n.setString(string);
+        n.setIndex(start);
+        n.setLength(null);
+        assertEquals("SUBSTRING(expression, expression, )", n.toString()); 
+        
+        n.setString(null);
+        n.setIndex(null);
+        n.setLength(null);
+        assertEquals("SUBSTRING(, , )", n.toString()); 
+    } 
 
-     //--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

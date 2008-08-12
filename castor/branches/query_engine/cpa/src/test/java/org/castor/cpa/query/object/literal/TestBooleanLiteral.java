@@ -27,7 +27,7 @@ import org.castor.cpa.query.Literal;
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public class TestBooleanLiteral extends TestCase {
+public final class TestBooleanLiteral extends TestCase {
     //--------------------------------------------------------------
 
     /**
@@ -47,7 +47,7 @@ public class TestBooleanLiteral extends TestCase {
     public void testInstance() {
         Literal n = new BooleanLiteral(true);
         assertTrue(n != null);
-     }
+    }
     
     /**
      * Junit Test for constructor and getter.
@@ -58,7 +58,7 @@ public class TestBooleanLiteral extends TestCase {
 
         n = new BooleanLiteral(false);
         assertEquals(false, n.getValue()); 
-}
+    }
 
     /**
      * Junit Test for Boolean Literal toString method.
@@ -69,7 +69,7 @@ public class TestBooleanLiteral extends TestCase {
 
         n = new BooleanLiteral(false);
         assertEquals("false", n.toString()); 
-     }
+    }
 
     //--------------------------------------------------------------
 }

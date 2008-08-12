@@ -17,43 +17,44 @@ package org.castor.cpa.query.object.expression;
 
 import junit.framework.TestCase;
 
-import org.castor.cpa.query.Condition;
-import org.castor.cpa.query.Field;
-import org.castor.cpa.query.Foo;
-import org.castor.cpa.query.QueryFactory;
-import org.castor.cpa.query.Schema;
-import org.castor.cpa.query.SelectQuery;
-import org.castor.cpa.query.object.literal.LongLiteral;
+import org.castor.cpa.query.Expression;
+import org.castor.cpa.query.QueryObject;
 
 /**
  * Junit Test for testing negate arithmetic expression of query objects.
  * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
+ * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr
+ *          2006) $
  * @since 1.3
  */
-public class TestNegate extends TestCase {
-    //--------------------------------------------------------------------------
+public final class TestNegate extends TestCase {
+    // --------------------------------------------------------------------------
 
-    private static String _common = "SELECT o.bar FROM org.castor.cpa.query.Foo AS o WHERE ";
-
-    //--------------------------------------------------------------------------
-
-    public static void testAll() {
-        SelectQuery select = QueryFactory.newSelectQuery();
-        Schema schema = select.newSchema(Foo.class, "o");
-        select.addProjection(schema.field("bar"));
-        Field field = schema.field("position");
-        Condition condition = field.add((new LongLiteral(3)).add(56).negate())
-        .equal(34);
-        select.setWhere(condition);
-        select.addSchema(schema);
-        String expected = "o.position + ( - (3 + 56)) = 34";
-        assertEquals(_common + expected, select.toString());
-        System.out.println(select.toString());
+    /**
+     * Junit Test for instance.
+     */
+    public void testInstance() {
+        QueryObject n = new Negate();
+        assertTrue(n instanceof AbstractExpression);
+        assertTrue(n instanceof Expression);
     }
 
-    //--------------------------------------------------------------------------
+    /**
+     * Junit Test for GetSetExpression and toString.
+     */
+    public void testGetSetExpressionToString() {
+        MockExpression exp = new MockExpression();
 
+        Negate n = new Negate();
+        n.setExpression(exp);
+        assertEquals(exp, n.getExpression());
+    }
+    
+    // TODO add test for toString method
+    
+    // TODO add test for negate factory method
+
+    // --------------------------------------------------------------------------
 }
