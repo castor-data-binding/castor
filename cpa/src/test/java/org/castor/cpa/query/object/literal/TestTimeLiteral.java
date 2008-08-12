@@ -36,7 +36,7 @@ import junit.framework.TestCase;
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public class TestTimeLiteral extends TestCase {
+public final class TestTimeLiteral extends TestCase {
     //--------------------------------------------------------------
 
     public TestTimeLiteral(final String name) {
@@ -59,7 +59,7 @@ public class TestTimeLiteral extends TestCase {
         assertTrue(n instanceof Literal);
         assertTrue(n instanceof AbstractExpression);
         assertTrue(n instanceof Expression);
-     }
+    }
    
     /**
      * Junit test for constructor.

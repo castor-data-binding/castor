@@ -33,7 +33,7 @@ import org.castor.cpa.query.object.expression.AbstractExpression;
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public class TestCustomFunction extends TestCase {
+public final class TestCustomFunction extends TestCase {
     //--------------------------------------------------------------------------
 
     /**
@@ -62,7 +62,7 @@ public class TestCustomFunction extends TestCase {
         } catch (NullPointerException ex) {
             assertTrue(n instanceof CustomFunction);
         }
-     }
+    }
 
     /**
      * Junit Test for Getter and Setter methods.
@@ -74,41 +74,41 @@ public class TestCustomFunction extends TestCase {
         parameters.add(new MockExpression());
         n.setParameters(parameters);
         assertEquals(parameters, n.getParameters());
-     }
+    }
      
-     /**
-      * Junit Test for toString method.
-      */
-     public void testToString() {
-         CustomFunction n = new CustomFunction("CUSTOM");
-         
-         n.setParameters(null);
-         assertEquals("CUSTOM()", n.toString()); 
-         
-         List < Expression >  parameters = new ArrayList < Expression > ();
-         parameters.add(new MockExpression());
-         parameters.add(new MockExpression());
-         n.setParameters(parameters);
-         assertEquals("CUSTOM(expression, expression)", n.toString());
-         
-         parameters = new ArrayList < Expression > ();
-         parameters.add(new MockExpression());
-         parameters.add(null);
-         n.setParameters(parameters);
-         assertEquals("CUSTOM(expression, )", n.toString());
-         
-         parameters = new ArrayList < Expression > ();
-         parameters.add(null);
-         parameters.add(new MockExpression());
-         n.setParameters(parameters);
-         assertEquals("CUSTOM(, expression)", n.toString());
-         
-         parameters = new ArrayList < Expression > ();
-         parameters.add(null);
-         parameters.add(null);
-         n.setParameters(parameters);
-         assertEquals("CUSTOM(, )", n.toString()); 
-     } 
+    /**
+     * Junit Test for toString method.
+     */
+    public void testToString() {
+        CustomFunction n = new CustomFunction("CUSTOM");
+        
+        n.setParameters(null);
+        assertEquals("CUSTOM()", n.toString()); 
+        
+        List < Expression >  parameters = new ArrayList < Expression > ();
+        parameters.add(new MockExpression());
+        parameters.add(new MockExpression());
+        n.setParameters(parameters);
+        assertEquals("CUSTOM(expression, expression)", n.toString());
+        
+        parameters = new ArrayList < Expression > ();
+        parameters.add(new MockExpression());
+        parameters.add(null);
+        n.setParameters(parameters);
+        assertEquals("CUSTOM(expression, )", n.toString());
+        
+        parameters = new ArrayList < Expression > ();
+        parameters.add(null);
+        parameters.add(new MockExpression());
+        n.setParameters(parameters);
+        assertEquals("CUSTOM(, expression)", n.toString());
+        
+        parameters = new ArrayList < Expression > ();
+        parameters.add(null);
+        parameters.add(null);
+        n.setParameters(parameters);
+        assertEquals("CUSTOM(, )", n.toString()); 
+    } 
 
-     //--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

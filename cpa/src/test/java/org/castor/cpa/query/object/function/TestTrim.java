@@ -32,7 +32,7 @@ import org.castor.cpa.query.object.literal.StringLiteral;
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public class TestTrim extends TestCase {
+public final class TestTrim extends TestCase {
     //--------------------------------------------------------------------------
 
     /**
@@ -55,7 +55,7 @@ public class TestTrim extends TestCase {
         assertTrue(n instanceof Function);
         assertTrue(n instanceof AbstractExpression);
         assertTrue(n instanceof Expression);
-     }
+    }
 
     /**
      * Junit Test for constructor.
@@ -65,7 +65,7 @@ public class TestTrim extends TestCase {
         assertEquals(TrimSpecification.BOTH, n.getSpecification());
         assertTrue(n.getCharacter() instanceof StringLiteral);
         assertEquals(" ", ((StringLiteral) n.getCharacter()).getValue());
-     }
+    }
 
     /**
      * Junit Test for Getter and Setter methods.
@@ -83,25 +83,55 @@ public class TestTrim extends TestCase {
         assertEquals(exp, n.getString()); 
         assertEquals(t, n.getSpecification());
         assertEquals(c, n.getCharacter());
-     }
+    }
      
-     /**
-      * Junit Test for toString method.
-      */
-     public void testToString() {
-         Expression exp = new MockExpression();
-         TrimSpecification t = TrimSpecification.LEADING;
-         StringLiteral c = new StringLiteral("Char");
+    /**
+     * Junit Test for toString method.
+     */
+    public void testToString() {
+        Expression exp = new MockExpression();
+        TrimSpecification t = TrimSpecification.LEADING;
+        StringLiteral c = new StringLiteral("Char");
 
-         Trim n = new Trim();
-         n.setString(exp);
-         n.setSpecification(t);
-         n.setCharacter(c);
-         
-         assertEquals("TRIM(LEADING 'Char' FROM expression)", n.toString()); 
+        Trim n = new Trim();
+        
+        n.setString(null);
+        n.setSpecification(t);
+        n.setCharacter(c);
+        assertEquals("TRIM(LEADING 'Char' FROM )", n.toString());
 
-         // TODO test different parameter combinations
-     } 
+        n.setString(exp);
+        n.setSpecification(null);
+        n.setCharacter(c);
+        assertEquals("TRIM( 'Char' FROM expression)", n.toString());
 
-     //--------------------------------------------------------------------------
+        n.setString(exp);
+        n.setSpecification(t);
+        n.setCharacter(null);
+        assertEquals("TRIM(LEADING  FROM expression)", n.toString());
+
+        n.setString(exp);
+        n.setSpecification(null);
+        n.setCharacter(null);
+        assertEquals("TRIM(  FROM expression)", n.toString());
+
+        n.setString(null);
+        n.setSpecification(t);
+        n.setCharacter(null);
+        assertEquals("TRIM(LEADING  FROM )", n.toString());
+
+        n.setString(null);
+        n.setSpecification(null);
+        n.setCharacter(c);
+        assertEquals("TRIM( 'Char' FROM )", n.toString());
+
+        n.setString(null);
+        n.setSpecification(null);
+        n.setCharacter(null);
+        assertEquals("TRIM(  FROM )", n.toString());
+        
+        // TODO add tests where withSpec or/and withChar are false
+    }
+
+    //--------------------------------------------------------------------------
 }

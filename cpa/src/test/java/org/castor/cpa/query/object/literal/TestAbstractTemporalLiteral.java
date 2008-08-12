@@ -23,6 +23,7 @@ import java.util.Date;
 
 import junit.framework.TestCase;
 
+import org.castor.cpa.query.TemporalType;
 import org.castor.cpa.query.Expression;
 import org.castor.cpa.query.Literal;
 import org.castor.cpa.query.QueryObject;
@@ -36,7 +37,7 @@ import org.castor.cpa.query.object.expression.AbstractExpression;
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public class TestAbstractTemporalLiteral extends TestCase {
+public final class TestAbstractTemporalLiteral extends TestCase {
     //--------------------------------------------------------------------------
 
     public TestAbstractTemporalLiteral(final String name) {
@@ -66,6 +67,8 @@ public class TestAbstractTemporalLiteral extends TestCase {
     public void testConstructor() throws ParseException {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         Date date = df.parse("2008-08-08 12:34:56.789");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
         
         AbstractTemporalLiteral tl1 = new MockTemporalLiteral(date);
         assertEquals(date, tl1.getValue());
@@ -76,9 +79,6 @@ public class TestAbstractTemporalLiteral extends TestCase {
         } catch (NullPointerException ex) {
             assertTrue(true);
         }
-        
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
         
         AbstractTemporalLiteral tl2 = new MockTemporalLiteral(cal);
         assertEquals(date, tl2.getValue());
@@ -91,7 +91,30 @@ public class TestAbstractTemporalLiteral extends TestCase {
         }
     }
     
-    // TODO add tests for both createInstance methods
+    /**
+     * Junit tests for both createInstance methods.
+     */
+    public void testCreateInstance() throws ParseException {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        Date date = df.parse("2008-08-08 12:34:56.789");
+        
+        AbstractTemporalLiteral d = AbstractTemporalLiteral.createInstance(TemporalType.DATE, date);
+        assertTrue(d instanceof DateLiteral);
+        d = AbstractTemporalLiteral.createInstance(TemporalType.TIME, date);
+        assertTrue(d instanceof TimeLiteral);
+        d = AbstractTemporalLiteral.createInstance(TemporalType.TIMESTAMP, date);
+        assertTrue(d instanceof TimestampLiteral);
+    
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+    
+        d = AbstractTemporalLiteral.createInstance(TemporalType.DATE, cal);
+        assertTrue(d instanceof DateLiteral);
+        d = AbstractTemporalLiteral.createInstance(TemporalType.TIME, cal);
+        assertTrue(d instanceof TimeLiteral);
+        d = AbstractTemporalLiteral.createInstance(TemporalType.TIMESTAMP, cal);
+        assertTrue(d instanceof TimestampLiteral);
+    }
 
     //--------------------------------------------------------------------------
 }

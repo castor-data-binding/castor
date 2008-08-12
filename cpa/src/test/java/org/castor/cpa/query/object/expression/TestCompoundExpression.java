@@ -15,13 +15,15 @@
  */
 package org.castor.cpa.query.object.expression;
 
-import junit.framework.TestCase;
+import java.util.List;
 
 import org.castor.cpa.query.Expression;
 import org.castor.cpa.query.QueryObject;
 
+import junit.framework.TestCase;
+
 /**
- * Junit Test for testing remainder arithmetic expression of query objects.
+ * Junit Test for testing abstract compound expression class.
  * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
@@ -29,13 +31,14 @@ import org.castor.cpa.query.QueryObject;
  *          2006) $
  * @since 1.3
  */
-public final class TestRemainder extends TestCase {
+public final class TestCompoundExpression extends TestCase {
     // --------------------------------------------------------------------------
+
     /**
      * Junit Test for instance.
      */
     public void testInstance() {
-        QueryObject n = new Remainder();
+        QueryObject n = new MockCompoundExpression();
         assertTrue(n instanceof CompoundExpression);
         assertTrue(n instanceof AbstractExpression);
         assertTrue(n instanceof Expression);
@@ -45,11 +48,38 @@ public final class TestRemainder extends TestCase {
      * Junit Test for getOperator.
      */
     public void testGetOperator() {
-        Remainder m = new Remainder();
-        assertEquals(" % ", m.getOperator());
+        MockCompoundExpression n = new MockCompoundExpression();
+        assertEquals(" & ", n.getOperator());
+    }
+
+    /**
+     * Junit Test for GetSetExpression.
+     */
+    public void testGetSetExpression() {
+        MockExpression exp1 = new MockExpression();
+        MockExpression exp2 = new MockExpression();
+        MockExpression exp3 = new MockExpression();
+        
+        MockCompoundExpression n = new MockCompoundExpression();
+        n.addExpression(exp1);
+        n.addExpression(exp2);
+        n.addExpression(exp3);
+        
+        List < Expression > exps = n.getExpressions();
+        assertTrue(exps.contains(exp1));
+        assertTrue(exps.contains(exp2));
+        assertTrue(exps.contains(exp3));
     }
     
-    // TODO add test for remainder factory method
-    
+    /**
+     * Junit Test for toString.
+     */
+    public void testToString() {
+        MockCompoundExpression n = new MockCompoundExpression();
+        n.addExpression(new MockExpression());
+        n.addExpression(new MockExpression());
+        assertEquals("expression & expression", n.toString());
+    }
+
     // --------------------------------------------------------------------------
 }

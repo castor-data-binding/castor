@@ -30,7 +30,7 @@ import org.castor.cpa.query.object.expression.AbstractExpression;
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public class TestNamedParameter extends TestCase {
+public final class TestNamedParameter extends TestCase {
     //--------------------------------------------------------------------------
 
     /**

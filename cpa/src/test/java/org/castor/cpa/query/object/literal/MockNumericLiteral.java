@@ -24,7 +24,14 @@ package org.castor.cpa.query.object.literal;
  * @since 1.3
  */
 public final class MockNumericLiteral extends AbstractNumericLiteral {
+    //--------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     */
     public StringBuilder toString(final StringBuilder sb) {
         return sb.append("correct");
     }
+
+    //--------------------------------------------------------------------------
 }

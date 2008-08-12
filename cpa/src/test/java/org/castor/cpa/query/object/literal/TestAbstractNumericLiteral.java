@@ -30,7 +30,7 @@ import junit.framework.TestCase;
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public class TestAbstractNumericLiteral extends TestCase {
+public final class TestAbstractNumericLiteral extends TestCase {
     //--------------------------------------------------------------------------
 
     public TestAbstractNumericLiteral(final String name) {
@@ -38,7 +38,6 @@ public class TestAbstractNumericLiteral extends TestCase {
     }
     
     //--------------------------------------------------------------------------
-    
     
     /**
      * Junit Test for instance.
