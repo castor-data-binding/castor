@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<chapter id="showcase">
+  <title>Showcase</title>
+
+    
+  <section>
+    <title>Docbook demo</title>
+
+    <para>
+      The above diagram highlights the interactions and key services provided by the Spring Batch framework. The colors
+      used are important to understanding the responsibilities of a developer in Spring Batch. Grey represents an
+      external application such as an enterprise scheduler or a database. It's important to note that scheduling is
+      grey, and should thus be considered separate from Spring Batch. Blue represents application architecture services.
+      In most cases these are provided by Spring Batch with out of the box implementations, but an architecture team may
+      make specific implementations that better address their specific needs. Yellow represents the pieces that must be
+      configured by a developer. For example, they need to configure their job schedule so that the job is kicked off at
+      the appropriate time. They also need to create a job configuration that defines how their job will be run. It is
+      also worth noting that the
+      <classname>ItemReader</classname>
+      and
+      <classname>ItemWriter</classname>
+      used by an application may just as easily be a custom one made by the developer for the specific batch job, rather
+      than one provided by Spring Batch or even an architecture team.
+    </para>
+
+    <para>
+      The following example shows the use of the
+      <literal>osgi</literal>
+      namespace within the familiar Spring beans element:
+    </para>
+
+    <para>The following example shows the use of the <literal>osgi</literal>
+    namespace within the familiar Spring beans element:</para>
+
+  <programlistingco>
+     <areaspec>
+        <area id="service-registry.xml.ns.default.beans" coords="2"/>
+          <area id="service-registry.xml.ns.default.beans.osgi" coords="4"/>
+          <area id="service-registry.xml.ns.default.beans.beans.25" coords="6"/>
+          <area id="service-registry.xml.ns.default.beans.osgi.service" coords="10"/>
+       </areaspec>
+       <programlisting language="xml"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:osgi="http://www.springframework.org/schema/osgi"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans   
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/osgi  
+       http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+
+    <osgi:service id="simpleServiceOsgi" ref="simpleService"
+      interface="org.xyz.MyService" />
+</beans>]]></programlisting>
+       <calloutlist>
+         <callout arearefs="service-registry.xml.ns.default.beans">
+            <para>Use Spring Framework <literal>beans</literal> schema as the default namespace.
+            </para>
+         </callout>
+       
+         <callout arearefs="service-registry.xml.ns.default.beans.osgi">
+            <para>Import Spring Dynamic Modules schema and associate a prefix with its namespace (<literal>osgi</literal> in this example).
+            </para>
+         </callout>
+         <callout arearefs="service-registry.xml.ns.default.beans.beans.25">
+          <para>Make sure to import Spring beans schema version <emphasis>2.5</emphasis>.</para>
+         </callout>
+         <callout arearefs="service-registry.xml.ns.default.beans.osgi.service">
+          <para>Use Spring Dynamic Modules elements using the declared namespace prefix (in this example <literal>osgi</literal>).</para>
+         </callout>
+       </calloutlist>
+  </programlistingco>
+
+    <para>
+      The Batch Application Style is organized into four logical tiers, which include Run, Job, Application, and Data.
+      The primary goal for organizing an application according to the tiers is to embed what is known as "separation of
+      concerns" within the system. These tiers can be conceptual but may prove effective in mapping the deployment of
+      the artifacts onto physical components like Java runtimes and integration with data sources and targets. Effective
+      separation of concerns results in reducing the impact of change to the system. The four conceptual tiers
+      containing batch artifacts are:
+    </para>
+
+    <para>
+      <itemizedlist>
+        <listitem>
+          <para>
+            <emphasis role="bold">Run Tier:</emphasis>
+            The Run Tier is concerned with the scheduling and launching of the application. A vendor product is
+            typically used in this tier to allow time-based and interdependent scheduling of batch jobs as well as
+            providing parallel processing capabilities.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            <emphasis role="bold">Job Tier:</emphasis>
+            The Job Tier is responsible for the overall execution of a batch job. It sequentially executes batch steps,
+            ensuring that all steps are in the correct state and all appropriate policies are enforced.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            <emphasis role="bold">Application Tier:</emphasis>
+            The Application Tier contains components required to execute the program. It contains specific tasklets that
+            address the required batch functionality and enforces policies around a tasklet execution (e.g., commit
+            intervals, capture of statistics, etc.)
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            <emphasis role="bold">Data Tier:</emphasis>
+            The Data Tier provides the integration with the physical data sources that might include databases, files,
+            or queues.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+    <para>
+      As a summary, the following table lists the attributes names, possible values and a short description for each of
+      them.
+    </para>
+  </section>
+
+      <section id="service-registry:export:service:attributes1">
+       <title><literal>service</literal> element attribute</title>
+       <para>
+       As a summary, the following table lists the attributes names, possible values and
+       a short description for each of them.
+       </para>
+       <table id="service-export-options1" pgwide="1" align="center">
+          <title>OSGi <![CDATA[<service>]]> attributes</title>
+          <tgroup cols="6">
+            <colspec colname="c1"/>
+            <colspec colname="c2"/>
+            <colspec colname="c3"/>
+            <colspec colname="c4"/>
+            <colspec colname="c5"/>
+            <colspec colname="c6" align="justify"/>
+            <spanspec spanname="values" namest="c2" nameend="c5" align="center"/>
+            <thead>
+              <row>
+                <entry>Name</entry>
+                <entry spanname="values">Values</entry>
+                <entry>Description</entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry>interface</entry>
+                <entry spanname="values">fully qualified class name (such as <classname>java.lang.Thread</classname>)</entry>
+                <entry>the fully qualified name of the class under which the object will be exported</entry>
+              </row>
+              <row>
+                <entry>ref</entry>
+                <entry spanname="values">any bean name</entry>
+                <entry>Reference to the named bean to be exported as a service in the service registry.</entry>
+              </row>
+              <row>
+                <entry>context-class-loader</entry>
+                <entry namest="c2" nameend="c3">unmanaged</entry>
+                <entry namest="c4" nameend="c5">service-provider</entry>
+                <entry>Defines how the context class loader will be managed when an operation is invoked on the 
+                exported service. The default value is <literal>unmanaged</literal> which means that no management of 
+                the context class loader is attempted. A value of <literal>service-provider</literal> guarantees that
+                the context class loader will have visibility of all the resources on the class path of 
+                bundle exporting the service.</entry>
+              </row>
+              <row>
+                <entry>auto-export</entry>
+                <entry>disabled</entry>
+                <entry>interfaces</entry>
+                <entry>class-hierarchy</entry>
+                <entry>all-classes</entry>
+                <entry>Enables Spring to automatically manage the set of service interfaces advertised for the
+        service. By default this facility is <literal>disabled</literal>. A value of <literal>interfaces</literal> advertises all 
+                of the Java interfaces supported by the exported service. A value of <literal>class-hierarchy</literal> 
+                advertises all the Java classes in the hierarchy of the exported service. A value of 
+                <literal>all-classes</literal> advertises all Java interfaces and classes.</entry>
+              </row>
+              <row>
+                <entry>ranking</entry>
+                <entry spanname="values">any integer value</entry>
+                <entry>Specify the service ranking to be used when advertising the service. Default value is 0.</entry>
+              </row>
+              
+            </tbody>
+          </tgroup>
+      </table>        
+      </section>
+
+        <section id="service-registry:refs:singular:bean-name">
+          <title>The <literal>bean-name</literal> attribute</title>
+
+          <para>The <literal>bean-name</literal> attribute is a convenient
+          short-cut for specifying a filter expression that matches on the
+          <literal>bean-name</literal> property automatically set when exporting a bean using the
+          <literal>service</literal> element (see <xref linkend="service-registry:export"/>).</para>
+
+          <para>Consider the following exporter/importer declarations:</para>
+          
+         <programlistingco>
+       <areaspec>
+          <areaset id="service-registry:refs:bean-name" coords="">
+            <area id="service-registry:refs:bean-name.1" coords="1 11"/>
+            <area id="service-registry:refs:bean-name.2" coords="3 48"/>
+          </areaset>
+       </areaspec>
+           <programlisting language="xml"><![CDATA[<bean id="messageServiceBean" scope="bundle" class="com.xyz.MessageServiceImpl"/>
+<!-- service exporter -->
+<osgi:service id="messageServiceExporter" ref="messageServiceBean" interface="com.xyz.MessageService"/>]]>
+</programlisting>
+          </programlistingco>
+      <programlistingco>
+       <areaspec>
+          <area id="service-registry:refs:bean-name" coords="2 15"/>
+       </areaspec>
+           <programlisting language="xml"><![CDATA[<osgi:reference id="messageService" interface="com.xyz.MessageService"
+   bean-name="messageServiceBean"/>
+]]></programlisting>
+        </programlistingco>
+        <calloutlist>
+          <callout arearefs="service-registry:refs:bean-name">
+            <para>the name used with <literal>bean-name</literal> attribute</para>
+          </callout>
+        </calloutlist>
+        
+        <para>will match only OSGi services that advertise <interfacename>MessageService</interfacename>
+        interface and have the property named <literal>org.springframework.osgi.bean.name</literal> set
+        to value <literal>messageServiceBean</literal>. In short, this means finding all Spring-DM exported
+        beans that implement interface <interfacename>MessageService</interfacename> and are named
+        <literal>messageServiceBean</literal>.</para>
+        
+        </section>
+
+</chapter>
