@@ -48,7 +48,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -84,6 +85,10 @@ import org.xml.sax.SAXException;
  */
 public final class CastorCodeGenTask extends MatchingTask {
     //--------------------------------------------------------------------------
+
+    /** Message indicating that the method setJdoDescriptorCreation cannot be invoked. */
+    private static final String PROBLEM_SETTING_JDO_DESC = 
+        "Problem calling SourceGenerator.setJdoDescriptorCreation: ";
 
     /** Msg indicating class descriptor generation has been disabled. */
     private static final String DISABLE_DESCRIPTORS_MSG =
@@ -176,7 +181,10 @@ public final class CastorCodeGenTask extends MatchingTask {
     
     /** Name of the automatic clas name conflict strategy to use. */
     private String _automaticConflictStrategy = "xpath";
-    
+
+    /** Whether to generate JDO descriptors. */
+    private boolean _generateJdoDescriptors;
+
     /**
      * Mode for printing JClass instances.
      */
@@ -355,6 +363,16 @@ public final class CastorCodeGenTask extends MatchingTask {
     }
 
     /**
+     * Controls whether to generate JDO-specific class descriptors.
+     * 
+     * @param generateJdoDescriptors True if JDP class descriptors should be generated
+     */
+    public void setGenerateJdoDescriptors(final boolean generateJdoDescriptors) {
+        _generateJdoDescriptors = generateJdoDescriptors;
+    }
+
+
+    /**
      * Controls whether to generate SAX-1 compliant code.
      * 
      * @param sax1 True if SAX-1 compliant code should be generated.
@@ -461,6 +479,11 @@ public final class CastorCodeGenTask extends MatchingTask {
         _sgen.setJClassPrinterType(_jclassPrinterType);
         
         _sgen.setGenerateMappingFile(_generateMapping);
+        
+        if (_generateJdoDescriptors) {
+            callSetterMethodUsingReflection(_sgen, "setJdoDescriptorCreation",
+                    boolean.class, new Boolean(_generateJdoDescriptors));
+        }
 
         _sgen.setTestable(_testable);
         if (this._testable) { log(CASTOR_TESTABLE_MSG); }
@@ -659,6 +682,35 @@ public final class CastorCodeGenTask extends MatchingTask {
             }
         }
     }
+    
+    /**
+     * Helper method to invoke a setter method on {@link SourceGenerator} that might not 
+     * be available due to a version issue.
+     * 
+     * @param sgen {@link SourceGenerator} instance
+     * @param methodName Name of the method
+     * @param parameterType Type of the method parameter.
+     * @param parameterValue Actual parameter value to be used during method invocation.
+     * @throws BuildException If the method cannot be invoked.
+     */
+    private void callSetterMethodUsingReflection(final SourceGenerator sgen,
+            final String methodName, final Class parameterType,
+            final Object parameterValue) throws BuildException {
+        try {
+            Method method = sgen.getClass().getMethod(methodName,
+                    new Class[] {parameterType});
+            method.invoke(sgen, new Object[] {parameterValue});
+        } catch (NoSuchMethodException e) {
+            // unable to find method to configure JDO descriptor creation.
+        } catch (IllegalArgumentException e) {
+            throw new BuildException(PROBLEM_SETTING_JDO_DESC, e);
+        } catch (IllegalAccessException e) {
+            throw new BuildException(PROBLEM_SETTING_JDO_DESC, e);
+        } catch (InvocationTargetException e) {
+            throw new BuildException(PROBLEM_SETTING_JDO_DESC, e);
+        }
+    }
 
-    //--------------------------------------------------------------------------
+
+
 }

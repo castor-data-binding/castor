@@ -201,6 +201,13 @@
             <td>No</td>
             <td><font color="red">1.2.1</font></td>
           </crow>
+          <crow>
+            <td><b>generateJdoDescriptors</b></td>
+            <td>If used, instructs the source generator to generate JDO class
+                descriptors as well; default is false.</td>
+            <td>No</td>
+            <td><font color="red">1.2.1</font></td>
+          </crow>
         </ctable>
 
       </section>
