@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.codehaus.castor</groupId>
     <artifactId>castor</artifactId>
-    <version>1.2.1-SNAPSHOT</version>
+    <version>1.3-SNAPSHOT</version>
     <packaging>pom</packaging>
     
     <modules>
@@ -403,49 +403,49 @@
             <dependency>
                 <groupId>org.codehaus.castor</groupId>
                 <artifactId>castor-xml</artifactId>
-                <version>1.2.1-SNAPSHOT</version>
+                <version>1.3-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.codehaus.castor</groupId>
                 <artifactId>castor-xml-schema</artifactId>
-                <version>1.2.1-SNAPSHOT</version>
+                <version>1.3-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.codehaus.castor</groupId>
                 <artifactId>castor-codegen</artifactId>
-                <version>1.2.1-SNAPSHOT</version>
+                <version>1.3-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.codehaus.castor</groupId>
                 <artifactId>castor-ddlgen</artifactId>
-                <version>1.2.1-SNAPSHOT</version>
+                <version>1.3-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.codehaus.castor</groupId>
                 <artifactId>castor-core</artifactId>
-                <version>1.2.1-SNAPSHOT</version>
+                <version>1.3-SNAPSHOT</version>
             </dependency>
 
             <dependency>
             	<groupId>org.codehaus.castor</groupId>
             	<artifactId>castor-tests</artifactId>
-            	<version>1.2.1-SNAPSHOT</version>
+            	<version>1.3-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.codehaus.castor</groupId>
                 <artifactId>castor-jdo</artifactId>
-                <version>1.2.1-SNAPSHOT</version>
+                <version>1.3-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.codehaus.castor</groupId>
                 <artifactId>castor-testsuite-xml-framework</artifactId>
-                <version>1.2.1-SNAPSHOT</version>
+                <version>1.3-SNAPSHOT</version>
             </dependency>
             
         </dependencies>
