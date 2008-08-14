@@ -161,6 +161,7 @@
             source           Builds the source tarball in the dist directory
             tarball          Builds the binary distribution in the dist directory
 
+            gen.jdo.parser   Use the Source Generator to create the Java classes for CastorQL Parser
             gen.jdo.conf     Use the Source Generator to create the Java classes for jdo-conf.xsd
             gen.cpactf.conf  Use the Source Generator to create the Java classes for cpactf-conf.xsd
             gen.mapping      Use the Source Generator to create the Java classes for mapping.xsd
@@ -956,6 +957,10 @@
                 <pathelement path="build/tests"/>
             </classpath>
         </java>
+    </target>
+
+    <target name="gen.jdo.parser" description="Generates the Java classes for CastorQL Parser">
+        <ant antfile="${basedir}/cpa/build.xml" target="gen.parser" inheritAll="false" />
     </target>
 
     <target name="gen.jdo.conf" depends="jar" 
