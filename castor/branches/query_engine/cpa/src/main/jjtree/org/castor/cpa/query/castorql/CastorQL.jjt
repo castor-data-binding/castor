@@ -1,0 +1,444 @@
+// Castor final query language
+// verified against Castor 1.2 parser and lexer
+// changed naming to be similar to EJB QL
+// changed structure of productions to be similar to EJB QL
+// added some features of EJB QL
+// for details refer issue Castor-3998
+options{
+  //  JDK_VERSION = "1.5";	
+  STATIC = false;
+  NODE_EXTENDS = "ExtendNode";
+//  DEBUG_PARSER          = true ;
+//  DEBUG_TOKEN_MANAGER   = true ;
+}
+PARSER_BEGIN(CastorQLParser)
+package org.castor.cpa.query.castorql;
+public class CastorQLParser{}PARSER_END(CastorQLParser)
+
+SKIP:{ " " | "\r"  | "\t"  | "\n" }
+
+// Keywords
+TOKEN[IGNORE_CASE]:{
+    <PLUS:"+">
+  | <MINUS:"-">
+  | <CONCATE:"||">
+  | <MULTIPLY:"*">
+  | <DIVIDE:"/">
+  | <REMAINDER:"%">
+  | <GREATERTHAN:">">
+  | <LESSTHAN:"<">
+  | <GREATEREQUAL:">=">
+  | <LESSEQUAL:"<=">
+  | <EQUAL:"=">
+  | <NOTEQUAL1:"!=">
+  | <NOTEQUAL2:"<>">
+  | <IN:"IN">
+  | <AS:"AS">
+  | <IS:"IS">
+  | <OR:"OR">
+  | <BY:"BY">
+  | <MOD:"MOD">
+  | <ABS:"ABS">
+  | <AND:"AND">
+  | <ASC:"ASC">
+  | <NOT:"NOT">
+  | <NIL:"NIL">
+  | <DESC:"DESC">
+  | <NULL:"NULL">
+  | <DATE:"DATE">
+  | <FROM:"FROM">
+  | <TIME:"TIME">
+  | <LIKE:"LIKE">
+  | <LIMIT:"LIMIT">
+  | <ORDER:"ORDER">
+  | <WHERE:"WHERE">
+  | <SELECT:"SELECT">
+  | <OFFSET:"OFFSET">
+  | <ESCAPE:"ESCAPE">
+  | <BETWEEN:"BETWEEN">
+  | <DISTINCT:"DISTINCT">
+  | <UNDEFINED:"UNDEFINED">
+  | <TIMESTAMP:"TIMESTAMP">
+  | <IS_DEFINED:"IS_DEFINED">
+  | <IS_UNDEFINED:"IS_UNDEFINED">
+}
+TOKEN:{
+    <BOOLEAN_LITERAL:<TRUE>  | <FALSE>>
+  | <INTEGER_LITERAL:(<DIGIT>)+>
+  | <FLOAT_LITERAL:(<DIGIT>)+("."(<DIGIT>)+(("E"  | "e")(<PLUS>  | <MINUS>)?(<DIGIT>)+)?)?>
+  | <TIMESTAMP_LITERAL:"'"<DIGIT><DIGIT><DIGIT><DIGIT>"-"<DIGIT><DIGIT>"-"<DIGIT><DIGIT>(" ")*<DIGIT><DIGIT>":"<DIGIT><DIGIT>":"<DIGIT><DIGIT>("."(<DIGIT>)+)?"'">
+  | <DATE_LITERAL:"'"<DIGIT><DIGIT><DIGIT><DIGIT>"-"<DIGIT><DIGIT>"-"<DIGIT><DIGIT>"'">
+  | <TIME_LITERAL:"'"<DIGIT><DIGIT>":"<DIGIT><DIGIT>":"<DIGIT><DIGIT>("."(<DIGIT>)+)?"'">
+  | <STRING_LITERAL:"'" (~["'",":","-"])* ( "\"" (~["'",":","-"])* )* "'">
+  | <CHAR_LITERAL:"'" (~["'",":","-"])* ( "''" (~["'",":","-"])* )* "'">
+/* UNICODE IDENTIFIER */
+  |<IDENTIFIER: <LETTER>(<LETTER> | <DIGIT>)* >
+ /* UNICODE LETTER */
+  | <LETTER:
+      [ 
+       "\u0024",             // for '$'
+       "\u0041"-"\u005a",    // for A-Z
+       "\u005f",             // for '_'
+       "\u0061"-"\u007a"    // for a-z
+      ]
+  >
+/* UNICODE DIGIT */  
+|   <DIGIT:
+      [
+       "\u0030"-"\u0039"  // for 0-9
+      ]
+  >
+  | <#TRUE:"TRUE"  | "true">
+  | <#FALSE:"FALSE"  | "false">
+}
+
+
+SimpleNode select_statement():{}{
+  select_clause()from_clause()(where_clause())?(orderby_clause())?(limit_clause())?{
+    return jjtThis;
+  }
+}
+void select_clause():{
+  Token t;
+}
+{
+  <SELECT>(t = <DISTINCT>{
+    jjtThis.setKind(t.kind);
+  }
+  )?select_expression()
+}
+void select_expression():{}{
+  LOOKAHEAD(2)path()(<AS>identifier())?
+  | identifier()":"path()
+}
+void from_clause():{}{
+  <FROM>from_declaration()
+}
+void from_declaration():{}{
+  LOOKAHEAD(2)path()(<AS>)?identifier()
+  | identifier()<IN>path()
+}
+void where_clause():{}{
+  <WHERE>conditional_expression()
+}
+void orderby_clause():{}{
+  <ORDER><BY>orderby_item()(","orderby_item())*
+}
+void orderby_item():{
+  Token t;
+}
+{
+  path()(t = <ASC>{
+    jjtThis.setKind(t.kind);
+  }
+  | t = <DESC>{
+    jjtThis.setKind(t.kind);
+  }
+  )?
+}
+void limit_clause():{}{
+  <LIMIT>(integer_literal()
+  | parameter())(<OFFSET>(integer_literal()
+  | parameter()))?
+}
+void conditional_expression():{}{
+  conditional_term()(<OR>conditional_term())*
+}
+void conditional_term():{}{
+  conditional_factor()(<AND>conditional_factor())*
+}
+void conditional_factor():{
+  Token t;
+}
+{
+  (t = <NOT>{
+    jjtThis.setKind(t.kind);
+  }
+  )?conditional_primary()
+}
+void conditional_primary():{}{
+  LOOKAHEAD(21)"("conditional_expression()")"
+  | LOOKAHEAD(21)comparison_expression()
+  | LOOKAHEAD(21)between_expression()
+  | LOOKAHEAD(21)like_expression()
+  | LOOKAHEAD(21)in_expression()
+  | LOOKAHEAD(21)null_expression()
+}
+void comparison_expression():{}{
+  expression()comparison_operator()expression()
+}
+void comparison_operator():{
+  Token t;
+}
+{
+  t = <LESSTHAN>{
+    jjtThis.setKind(t.kind);
+  }
+  | t = <LESSEQUAL>{
+    jjtThis.setKind(t.kind);
+  }
+  | t = <GREATEREQUAL>{
+    jjtThis.setKind(t.kind);
+  }
+  | t = <GREATERTHAN>{
+    jjtThis.setKind(t.kind);
+  }
+  | t = <EQUAL>{
+    jjtThis.setKind(t.kind);
+  }
+  | t = <NOTEQUAL1>{
+    jjtThis.setKind(t.kind);
+  }
+  | t = <NOTEQUAL2>{
+    jjtThis.setKind(t.kind);
+  }
+}
+void between_expression():{
+  Token t;
+}
+{
+  expression()(t = <NOT>{
+    jjtThis.setKind(t.kind);
+  }
+  )?<BETWEEN>expression()<AND>expression()
+}
+void like_expression():{
+  Token t;
+}
+{
+  expression()(t = <NOT>{
+    jjtThis.setKind(t.kind);
+  }
+  )?<LIKE>(string_literal()
+  | parameter())(<ESCAPE>(string_literal()
+  | parameter()))?
+}
+void in_expression():{
+  Token t;
+}
+{
+  path()(t = <NOT>{
+    jjtThis.setKind(t.kind);
+  }
+  )?<IN>"("in_item()(","in_item())*")"
+}
+void in_item():{}{
+  LOOKAHEAD(2)path()
+  | parameter()
+  | literal()
+}
+void null_expression():{
+  Token t;
+}
+{
+  (LOOKAHEAD(2)path()
+  | parameter())<IS>(t = <NOT>{
+    jjtThis.setKind(t.kind);
+  }
+  )?<NULL>
+}
+void expression():{
+  Token t;
+}
+{
+  term()((t = <PLUS>{
+    jjtThis.setKind(t.kind);
+  }
+  | t = <MINUS>{
+    jjtThis.setKind(t.kind);
+  }
+  | t = <CONCATE>{
+    jjtThis.setKind(t.kind);
+  }
+  )term())?
+}
+void term():{
+  Token t;
+}
+{
+  factor()((t = <MULTIPLY>{
+    jjtThis.setKind(t.kind);
+  }
+  | t = <DIVIDE>{
+    jjtThis.setKind(t.kind);
+  }
+  | t = <MOD>{
+    jjtThis.setKind(t.kind);
+  }
+  | t = <REMAINDER>{
+    jjtThis.setKind(t.kind);
+  }
+  )factor())?
+}
+void factor():{
+  Token t;
+}
+{
+  (t = <PLUS>{
+    jjtThis.setKind(t.kind);
+  }
+  | t = <MINUS>{
+    jjtThis.setKind(t.kind);
+  }
+  | t = <ABS>{
+    jjtThis.setKind(t.kind);
+  }
+  )?primary()
+}
+void primary():{}{
+  "("expression()")"
+  | LOOKAHEAD(2)parameter()
+  | LOOKAHEAD(2)literal()
+  | LOOKAHEAD(2)function()
+  | undefined_function()
+  | LOOKAHEAD(2)date_time_function()
+  | LOOKAHEAD(2)time_primary()
+  | LOOKAHEAD(2)date_primary()
+  | LOOKAHEAD(2)timestamp_primary()
+  | LOOKAHEAD(2)path()
+}
+void function():{}{
+  identifier()"("expression()(","expression())*")"
+}
+void undefined_function():{
+  Token t;
+}
+{
+  (t = <IS_UNDEFINED>{
+    jjtThis.setKind(t.kind);
+  }
+  | t = <IS_DEFINED>{
+    jjtThis.setKind(t.kind);
+  }
+  )"("expression()")"
+}
+void date_time_function():{
+  Token t;
+}
+{
+  t = <DATE>"("date_literal()")"{
+    jjtThis.setKind(t.kind);
+  }
+  | t = <TIME>"("time_literal()")"{
+    jjtThis.setKind(t.kind);
+  }
+  | t = <TIMESTAMP>"("timestamp_literal()")"{
+    jjtThis.setKind(t.kind);
+  }
+}
+void date_primary():{}{
+  <DATE> date_literal()
+}
+void time_primary():{}{
+  <TIME> time_literal()
+}
+void timestamp_primary():{}{
+  <TIMESTAMP> timestamp_literal()
+}
+void literal():{
+  Token t;
+}
+{
+  t = <NIL>{
+    jjtThis.setKind(t.kind);
+  }
+  | t = <UNDEFINED>{
+    jjtThis.setKind(t.kind);
+  }
+  | boolean_literal()
+  | LOOKAHEAD(2)integer_literal()
+  | LOOKAHEAD(2)float_literal()
+  | LOOKAHEAD(2)char_literal()
+  | string_literal()
+}
+void parameter():{}{
+  positional_parameter()
+  | named_parameter()
+  | castor_parameter()
+}
+void positional_parameter():{}{
+  "?"integer_literal()
+}
+void named_parameter():{}{
+  ":"identifier()
+}
+void castor_parameter():{}{
+  "$"("("identifier()")")?integer_literal()
+}
+void path():{}{
+  identifier()(("."
+  | "->")identifier())*
+}
+void identifier():{
+  Token t;
+}
+{
+  t = <IDENTIFIER>{
+    jjtThis.setText(t.image);
+  }
+}
+void boolean_literal():{
+  Token t;
+}
+{
+  t = <BOOLEAN_LITERAL>{
+    jjtThis.setText(t.image);
+  }
+}
+void integer_literal():{
+  Token t;
+}
+{
+  t = <INTEGER_LITERAL>{
+    jjtThis.setText(t.image);
+  }
+}
+void float_literal():{
+  Token t;
+}
+{
+  t = <FLOAT_LITERAL>{
+    jjtThis.setText(t.image);
+  }
+}
+void char_literal():{
+  Token t;
+}
+{
+  t = <CHAR_LITERAL>{
+    jjtThis.setText(t.image);
+  }
+}
+void string_literal():{
+  Token t;
+}
+{
+  t = <STRING_LITERAL>{
+    jjtThis.setText(t.image);
+  }
+}
+void timestamp_literal():{
+  Token t;
+}
+{
+  t = <TIMESTAMP_LITERAL>{
+    jjtThis.setText(t.image);
+  }
+}
+void date_literal():{
+  Token t;
+}
+{
+  t = <DATE_LITERAL>{
+    jjtThis.setText(t.image);
+  }
+}
+void time_literal():{
+  Token t;
+}
+{
+  t = <TIME_LITERAL>{
+    jjtThis.setText(t.image);
+  }
+}
+

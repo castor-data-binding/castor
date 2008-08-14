@@ -7,6 +7,7 @@ set CP="%ANT_LIB_DIR%\ant-1.6.jar"
 set CP=%CP%;"%ANT_LIB_DIR%\ant-1.6-launcher.jar"
 set CP=%CP%;"%ANT_LIB_DIR%\ant-1.6-trax.jar"
 set CP=%CP%;"%ANT_LIB_DIR%\ant-junit-1.6.jar"
+set CP=%CP%;"%ANT_LIB_DIR%\ant-nodeps-1.6.jar"
 REM Include JUnit JAR
 set CP=%CP%;"%LIB_DIR%\junit_3.8.2.jar"
 REM Include compiled Castor artefacts

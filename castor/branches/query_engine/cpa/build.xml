@@ -2,8 +2,13 @@
 
     <property environment="env" />
     <property name="source"               value="${basedir}/src"/>
+    <property name="target"               value="${basedir}/target"/>
     <property name="main.java"            value="${source}/main/java"/>
     <property name="main.resources"       value="${source}/main/resources"/>
+    <property name="main.jjtree"          value="${source}/main/jjtree"/>
+    <property name="jjtree.target"        value="${target}/generated-sources/jjtree"/>
+    <property name="javacc.target"        value="${target}/generated-sources/javacc"/>
+    <property name="javacc.home"          value="${basedir}/../lib" />
     <property name="build"                value="${basedir}/build"/>
     <property name="classes"              value="${build}/classes"/>
     <property name="archive"              value="${project}-${version}${release}-jdo"/>
@@ -26,14 +31,40 @@
     <target name="prepare.cpa" unless="prepare.cpa.executed">
         <mkdir dir="${build}"/>
         <mkdir dir="${classes}"/>
+    	<mkdir dir="${jjtree.target}/org/castor/cpa/query/castorql"/>
+    	<mkdir dir="${javacc.target}/org/castor/cpa/query/castorql"/>
         <property name="prepare.cpa.executed" value="true"/>
     </target>
 
     <target name="clean.cpa" description="Removes JDO build directory">
         <delete dir="${build}"/>
+        <delete failonerror="false">
+            <fileset dir="${jjtree.target}/org/castor/cpa/query/castorql"/>
+        </delete>
+        <delete failonerror="false">
+            <fileset dir="${javacc.target}/org/castor/cpa/query/castorql"/>
+        </delete>
     </target>
 
-    <target name="compile.cpa" depends="prepare.cpa" description="Compile Castor JDO">
+    <target name="gen.parser" depends="prepare.cpa" description="Creating and Compiling CastorQL Parser">
+        <jjtree target="${main.jjtree}/org/castor/cpa/query/castorql/CastorQL.jjt"
+                outputdirectory="${jjtree.target}/org/castor/cpa/query/castorql" 
+                javacchome="${javacc.home}"/> 
+        <javacc target="${jjtree.target}/org/castor/cpa/query/castorql/CastorQL.jj" 
+                outputdirectory="${javacc.target}/org/castor/cpa/query/castorql" 
+                javacchome="${javacc.home}" />
+        <copy todir="${javacc.target}/org/castor/cpa/query/castorql">
+            <fileset dir="${jjtree.target}/org/castor/cpa/query/castorql">
+                <include name="*.java"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="compile.cpa" depends="gen.parser" description="Compile Castor JDO">
+        <javac srcdir="${javacc.target}" destdir="${classes}" 
+               debug="on" encoding="ISO-8859-1" deprecation="false">
+            <classpath refid="build.classpath"/>
+        </javac>
         <javac srcdir="${main.java}" destdir="${classes}" 
                debug="on" encoding="ISO-8859-1" deprecation="false">
             <classpath refid="build.classpath"/>

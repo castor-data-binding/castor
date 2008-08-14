@@ -24,6 +24,7 @@
 	<classpathentry kind="src" output="cpa/eclipse" path="cpa/src/main/java"/>
 	<classpathentry kind="src" output="cpa/eclipse" path="cpa/src/main/resources"/>
 	<classpathentry kind="src" output="cpa/eclipse" path="cpa/src/test/java"/>
+	<classpathentry kind="src" output="cpa/eclipse" path="cpa/target/generated-sources/javacc"/>
 	
 	<classpathentry kind="src" output="ddlgen/eclipse" path="ddlgen/src/main/java"/>
 	<classpathentry kind="src" output="ddlgen/eclipse" path="ddlgen/src/main/resources"/>
