@@ -2564,237 +2564,118 @@ javac com/xyz/*.java</programlisting>
               </row>
             </thead>
             <tbody>
-
-          <row>
-            <entry>anyURI</entry>
-            <entry>
-              enumeration<br/>
-            </entry>
-            <entry><literal>java.lang.String</literal></entry>
-          </row>
-
-          <row>
-            <entry>base64Binary</entry>
-            <entry>&#160;</entry>
-            <entry>primitive <literal>byte[]</literal></entry>
-          </row>
-
-          <row>
-            <entry>boolean</entry>
-            <entry>
-              pattern<br/>
-            </entry>
-            <entry>
-              primitive <literal>boolean</literal> or <literal>java.lang.Boolean</literal><a href="#sup-2"><sup>2</sup></a>
-            </entry>
-          </row>
-
-          <row>
-            <entry>date</entry>
-            <entry>
-              enumeration<br/>
-              maxInclusive<br/>
-              maxExclusive<br/>
-              minInclusive<br/>
-              minExclusive<br/>
-              pattern<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
-            </entry>
-            <entry><literal>org.exolab.castor.types.Date</literal></entry>
-          </row>
-
-          <row>
-            <entry>dateTime</entry>
-            <entry>
-              enumeration<br/>
-              maxInclusive<br/>
-              maxExclusive<br/>
-              minInclusive<br/>
-              minExclusive<br/>
-              pattern<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
-            </entry>
-            <entry><literal>java.util.Date</literal></entry>
-          </row>
-
-          <row>
-            <entry>decimal</entry>
-            <entry>
-              totalDigits<br/>
-              fractionDigits<br/>
-              pattern<br/>
-              whiteSpace<br/>
-              enumeration<br/>
-              maxInclusive<br/>
-              maxExclusive<br/>
-              minInclusive<br/>
-              minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
-            </entry>
-            <entry><literal>java.math.BigDecimal</literal></entry>
-          </row>
-
-          <row>
-            <entry>double</entry>
-            <entry>
-              pattern<br/>
-              enumeration<br/>
-              maxInclusive<br/>
-              maxExclusive<br/>
-              minInclusive<br/>
-              minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
-            </entry>
-            <entry>
-              primitive <literal>double</literal> or <literal>java.lang.Double</literal><a href="#sup-2"><sup>2</sup></a>
-            </entry>
-          </row>
-
-          <row>
-            <entry>duration</entry>
-            <entry>
-              pattern<br/>
-              enumeration<br/>
-              maxInclusive<br/>
-              maxExclusive<br/>
-              minInclusive<br/>
-              minExclusive<br/>
-              whitespace<sup>1</sup><!-- Only legal value is "collapse" -->
-            </entry>
-            <entry><literal>org.exolab.castor.types.Duration</literal></entry>
-          </row>
-
-          <row>
-            <entry>float</entry>
-            <entry>
-              pattern<br/>
-              enumeration<br/>
-              maxInclusive<br/>
-              maxExclusive<br/>
-              minInclusive<br/>
-              minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
-            </entry>
-            <entry>
-              primitive <literal>float</literal> or <literal>java.lang.Float</literal><a href="#sup-2"><sup>2</sup></a>
-            </entry>
-          </row>
-
-          <row>
-            <entry>gDay</entry>
-            <entry>
-              pattern<br/>
-              enumeration<br/>
-              maxInclusive<br/>
-              maxExclusive<br/>
-              minInclusive<br/>
-              minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
-            </entry>
-            <entry><literal>org.exolab.castor.types.GDay</literal></entry>
-          </row>
-
-          <row>
-            <entry>gMonth</entry>
-            <entry>
-              pattern<br/>
-              enumeration<br/>
-              maxInclusive<br/>
-              maxExclusive<br/>
-              minInclusive<br/>
-              minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
-            </entry>
-            <entry><literal>org.exolab.castor.types.GMonth</literal></entry>
-          </row>
-
-          <row>
-            <entry>gMonthDay</entry>
-            <entry>
-              pattern<br/>
-              enumeration<br/>
-              maxInclusive<br/>
-              maxExclusive<br/>
-              minInclusive<br/>
-              minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
-            </entry>
-            <entry><literal>org.exolab.castor.types.GMonthDay</literal></entry>
-          </row>
-
-          <row>
-            <entry>gYear</entry>
-            <entry>
-              pattern<br/>
-              enumeration<br/>
-              maxInclusive<br/>
-              maxExclusive<br/>
-              minInclusive<br/>
-              minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
-            </entry>
-            <entry><literal>org.exolab.castor.types.GYear</literal></entry>
-          </row>
-
-          <row>
-            <entry>gYearMonth</entry>
-            <entry>
-              pattern<br/>
-              enumeration<br/>
-              maxInclusive<br/>
-              maxExclusive<br/>
-              minInclusive<br/>
-              minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
-            </entry>
-            <entry><literal>org.exolab.castor.types.GYearMonth</literal></entry>
-          </row>
-
-          <row>
-            <entry>hexBinary</entry>
-            <entry>&#160;</entry>
-            <entry>primitive <literal>byte[]</literal></entry>
-          </row>
-
-          <row>
-            <entry>QName</entry>
-            <entry>
-               length<br/>
-               minLength<br/>
-               maxLength<br/>
-               pattern<br/>
-               enumeration<br/>
-            </entry>
-            <entry><literal>java.lang.String</literal></entry>
-          </row>
-
-          <row>
-            <entry>string</entry>
-            <entry>
-              length<br/>
-              minLength<br/>
-              maxLength<br/>
-              pattern<br/>
-              enumeration<br/>
-              whiteSpace<br/>
-            </entry>
-            <entry><literal>java.lang.String</literal></entry>
-          </row>
-
-          <row>
-            <entry>time</entry>
-            <entry>
-              pattern<br/>
-              enumeration<br/>
-              maxInclusive<br/>
-              maxExclusive<br/>
-              minInclusive<br/>
-              minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
-            </entry>
-            <entry><literal>org.exolab.castor.types.Time</literal></entry>
-          </row>
-          
+             <row>
+               <entry>anyURI</entry>
+               <entry>enumeration</entry>
+               <entry><classname>java.lang.String</classname></entry>
+             </row>
+             <row>
+               <entry>base64Binary</entry>
+               <entry>&#160;</entry>
+               <entry><classname>byte[]</classname></entry>
+             </row>
+             <row>
+               <entry>boolean</entry>
+               <entry>pattern</entry>
+               <entry>
+                 <literal>boolean</literal> or <classname>java.lang.Boolean</classname><footnote id="footnote.primitive.types"><para>For the various numerical types, the
+          default behavior is to generate primitive types.  However, if the
+          use of wrappers is enabled by the following line in the
+          <literal>castorbuilder.properties</literal> file:
+          <code>org.exolab.castor.builder.primitivetowrapper=true</code> then
+          the <literal>java.lang.*</literal> wrapper objects (as specified above) will be
+          used instead.
+                 </para></footnote>
+               </entry>
+             </row>
+             <row>
+               <entry>date</entry>
+               <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnote id="footnote.types.primitive.1">
+                   <para>
+                       For the date/time and numeric types, the only supported value for whitespace 
+                       is "collapse".
+                   </para>
+               </footnote></entry>
+               <entry><classname>org.exolab.castor.types.Date</classname></entry>
+             </row>
+             <row>
+               <entry>dateTime</entry>
+               <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/>
+               </entry>
+               <entry><classname>java.util.Date</classname></entry>
+             </row>
+             <row>
+               <entry>decimal</entry>
+               <entry>
+                 totalDigits, fractionDigits, pattern, whiteSpace, enumeration, maxInclusive, 
+                 maxExclusive, minInclusive, minExclusive, whitespace<footnoteref linkend="footnote.types.primitive.1"/>
+               </entry>
+               <entry><classname>java.math.BigDecimal</classname></entry>
+             </row>
+             <row>
+               <entry>double</entry>
+               <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
+               <entry>
+                 <classname>double</classname> or <classname>java.lang.Double</classname><footnoteref linkend="footnote.types.primitive"/>
+               </entry>
+             </row>
+             <row>
+               <entry>duration</entry>
+               <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
+               <entry><classname>org.exolab.castor.types.Duration</classname></entry>
+             </row>
+             <row>
+               <entry>float</entry>
+               <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
+               <entry>
+                 <classname>float</classname> or <classname>java.lang.Float</classname><a href="#sup-2"><sup>2</sup></a>
+               </entry>
+             </row>
+             <row>
+               <entry>gDay</entry>
+               <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
+               <entry><classname>org.exolab.castor.types.GDay</classname></entry>
+             </row>
+             <row>
+               <entry>gMonth</entry>
+               <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
+               <entry><classname>org.exolab.castor.types.GMonth</classname></entry>
+             </row>
+             <row>
+               <entry>gMonthDay</entry>
+               <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
+               <entry><classname>org.exolab.castor.types.GMonthDay</classname></entry>
+             </row>
+             <row>
+               <entry>gYear</entry>
+               <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
+               <entry><classname>org.exolab.castor.types.GYear</classname></entry>
+             </row>
+             <row>
+               <entry>gYearMonth</entry>
+               <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
+               <entry><classname>org.exolab.castor.types.GYearMonth</classname></entry>
+             </row>
+             <row>
+               <entry>hexBinary</entry>
+               <entry>&#160;</entry>
+               <entry><classname>byte[]</classname></entry>
+             </row>
+             <row>
+               <entry>QName</entry>
+               <entry>length, minLength, maxLength, pattern, enumeration</entry>
+               <entry><classname>java.lang.String</classname></entry>
+             </row>
+             <row>
+               <entry>string</entry>
+               <entry>length, minLength, maxLength, pattern, enumeration, whiteSpace</entry>
+               <entry><classname>java.lang.String</classname></entry>
+             </row>
+             <row>
+               <entry>time</entry>
+               <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
+               <entry><classname>org.exolab.castor.types.Time</classname></entry>
+             </row>
           </tbody>
           </tgroup>
           </table>
