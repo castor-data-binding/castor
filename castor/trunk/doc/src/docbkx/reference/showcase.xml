@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
 "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 <chapter id="showcase">
@@ -234,5 +233,53 @@
         <literal>messageServiceBean</literal>.</para>
         
         </section>
+
+    <!--  play with references  -->
+   <section xml:id="ch01"><title>XRef Samples</title>
+   <para>This paragraph demonstrates several features of
+   <tag>XRef</tag>.
+   </para>
+   
+   <itemizedlist>
+   <listitem><para>A straight link generates the
+   cross-reference text: <xref linkend="ch02"/>.
+   </para></listitem>
+   <listitem><para>A link to an element with an
+   <tag class="attribute">XRefLabel</tag>:
+   <xref linkend="ch03"/>.
+   </para></listitem>
+   <listitem><para>A link with an
+   <tag class="attribute">EndTerm</tag>:
+   <xref linkend="ch04" endterm="ch04short"/>.
+   </para></listitem>
+   </itemizedlist>
+   </section>
+   
+   <section xml:id="ch02">
+     <title>The Second Chapter</title>
+     <para>Some content here</para>
+   </section>
+   
+   <section xml:id="ch03" xreflabel="Chapter the Third">
+     <title>The Third Chapter</title>
+     <para>Some content here</para>
+   </section>
+   
+   <section xml:id="ch04">
+     <title>The Fourth Chapter</title>
+     <titleabbrev xml:id="ch04short">Chapter 4</titleabbrev>
+     <para>Some content here</para>
+   </section>
+   
+   <section xml:id="external links">
+   
+    <title>blah</title>
+    
+    <para>
+    <classname>org.castor.core.Nature</classname> <link linkend="Sun Java">http://java.sun.com</link>
+    </para>
+   
+   </section>
+
 
 </chapter>
