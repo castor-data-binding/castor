@@ -2534,8 +2534,8 @@ javac com/xyz/*.java</programlisting>
         You will find next a list of the supported XML Schema datatypes and
         structures in the Source Code Generator. For a more detailed support of
         XML Schema structure and more information on the Schema Object Model,
-        please refer to  <a href="./SourceGeneratorUser.pdf">Source Generator
-        User Document (PDF).</a>
+        please refer to  <ulink url="http://www.castor.org/SourceGeneratorUser.pdf">Source Generator
+        User Document (PDF).</ulink>
       </para>
 
     </section>
@@ -2547,15 +2547,23 @@ javac com/xyz/*.java</programlisting>
         corresponding facets and the Java mapping type.
       </para>
 
-      <section title="Primitive Datatypes">
+      <section id="xml.code.generator.schema.support.datatypes.built-in.primitive">
+        <title>Primitive Datatypes</title>
 
-<!-- 
-        <ctable>
-          <row>
-            <th align="left">XML Schema Type</th>
-            <th align="left">Supported Facets</th>
-            <th align="left">Java mapping type</th>
-          </row>
+        <table id="xml.code.generator.schema.support.datatypes.built-in.primitive.table" align="center">
+          <title>Supported primitive data types</title>
+          <tgroup cols="3">
+            <colspec colname="c1"/>
+            <colspec colname="c2"/>
+            <colspec colname="c3"/>
+            <thead>
+              <row>
+                <entry>XML Schema Type</entry>
+                <entry>Supported Facets</entry>
+                <entry>Java mapping type</entry>
+              </row>
+            </thead>
+            <tbody>
 
           <row>
             <entry>anyURI</entry>
@@ -2590,7 +2598,7 @@ javac com/xyz/*.java</programlisting>
               minInclusive<br/>
               minExclusive<br/>
               pattern<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!- Only legal value is "collapse" ->
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </entry>
             <entry><literal>org.exolab.castor.types.Date</literal></entry>
           </row>
@@ -2604,7 +2612,7 @@ javac com/xyz/*.java</programlisting>
               minInclusive<br/>
               minExclusive<br/>
               pattern<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!- Only legal value is "collapse" ->
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </entry>
             <entry><literal>java.util.Date</literal></entry>
           </row>
@@ -2621,7 +2629,7 @@ javac com/xyz/*.java</programlisting>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!- Only legal value is "collapse" ->
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </entry>
             <entry><literal>java.math.BigDecimal</literal></entry>
           </row>
@@ -2635,7 +2643,7 @@ javac com/xyz/*.java</programlisting>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!- Only legal value is "collapse" ->
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </entry>
             <entry>
               primitive <literal>double</literal> or <literal>java.lang.Double</literal><a href="#sup-2"><sup>2</sup></a>
@@ -2651,7 +2659,7 @@ javac com/xyz/*.java</programlisting>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
-              whitespace<sup>1</sup><!- Only legal value is "collapse" ->
+              whitespace<sup>1</sup><!-- Only legal value is "collapse" -->
             </entry>
             <entry><literal>org.exolab.castor.types.Duration</literal></entry>
           </row>
@@ -2665,7 +2673,7 @@ javac com/xyz/*.java</programlisting>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!- Only legal value is "collapse" ->
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </entry>
             <entry>
               primitive <literal>float</literal> or <literal>java.lang.Float</literal><a href="#sup-2"><sup>2</sup></a>
@@ -2681,7 +2689,7 @@ javac com/xyz/*.java</programlisting>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!- Only legal value is "collapse" ->
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </entry>
             <entry><literal>org.exolab.castor.types.GDay</literal></entry>
           </row>
@@ -2695,7 +2703,7 @@ javac com/xyz/*.java</programlisting>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!- Only legal value is "collapse" ->
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </entry>
             <entry><literal>org.exolab.castor.types.GMonth</literal></entry>
           </row>
@@ -2709,7 +2717,7 @@ javac com/xyz/*.java</programlisting>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!- Only legal value is "collapse" ->
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </entry>
             <entry><literal>org.exolab.castor.types.GMonthDay</literal></entry>
           </row>
@@ -2723,7 +2731,7 @@ javac com/xyz/*.java</programlisting>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!- Only legal value is "collapse" ->
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </entry>
             <entry><literal>org.exolab.castor.types.GYear</literal></entry>
           </row>
@@ -2737,7 +2745,7 @@ javac com/xyz/*.java</programlisting>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!- Only legal value is "collapse" ->
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </entry>
             <entry><literal>org.exolab.castor.types.GYearMonth</literal></entry>
           </row>
@@ -2782,37 +2790,47 @@ javac com/xyz/*.java</programlisting>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!- Only legal value is "collapse" ->
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </entry>
             <entry><literal>org.exolab.castor.types.Time</literal></entry>
           </row>
-        </ctable>
-        
-        -->
+          
+          </tbody>
+          </tgroup>
+          </table>
       </section>
 
-      <section title="Derived Datatypes">
+      <section id="xml.code.generator.schema.support.datatypes.built-in.derived">
+        <title>Derived Datatypes</title>
       
-      <!-- 
-        <ctable border="1">
-          <row>
-            <th align="left">Type</th>
-            <th align="left">Supported Facets</th>
-            <th align="left">Java mapping type</th>
-          </row>
-
+         <table id="xml.code.generator.schema.support.datatypes.built-in.derived.table" align="center">
+          <title>Supported derived data types</title>
+          <tgroup cols="3">
+            <colspec colname="c1"/>
+            <colspec colname="c2"/>
+            <colspec colname="c3"/>
+            <thead>
+              <row>
+                <entry>Type</entry>
+                <entry>Supported Facets</entry>
+                <entry>Java mapping type</entry>
+              </row>
+            </thead>
+            <tbody>
           <row>
             <entry>byte</entry>
             <entry>
-              totalDigits<br/>
-              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
-              pattern<br/>
-              enumeration<br/>
-              maxInclusive<br/>
-              maxExclusive<br/>
-              minInclusive<br/>
-              minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!- Only legal value is "collapse" ->
+                <para>
+                    totalDigits<br/>
+                    fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
+                    pattern<br/>
+                    enumeration<br/>
+                    maxInclusive<br/>
+                    maxExclusive<br/>
+                    minInclusive<br/>
+                    minExclusive<br/>
+                    whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
+                </para>
             </entry>
             <entry>
               primitive <literal>byte</literal> or <literal>java.lang.Byte</literal><a href="#sup-2"><sup>2</sup></a>
@@ -2862,7 +2880,7 @@ javac com/xyz/*.java</programlisting>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!- Only legal value is "collapse" ->
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </entry>
             <entry>
               primitive <literal>int</literal> or <literal>java.lang.Integer</literal><a href="#sup-2"><sup>2</sup></a>
@@ -2880,7 +2898,7 @@ javac com/xyz/*.java</programlisting>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!- Only legal value is "collapse" ->
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </entry>
             <entry>
               primitive <literal>long</literal> or <literal>java.lang.Long</literal><a href="#sup-2"><sup>2</sup></a>
@@ -2913,7 +2931,7 @@ javac com/xyz/*.java</programlisting>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!- Only legal value is "collapse" ->
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </entry>
             <entry>
               primitive <literal>long</literal> or <literal>java.lang.Long</literal><a href="#sup-2"><sup>2</sup></a>
@@ -2945,7 +2963,7 @@ javac com/xyz/*.java</programlisting>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!- Only legal value is "collapse" ->
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </entry>
             <entry>
               primitive <literal>long</literal> or <literal>java.lang.Long</literal><a href="#sup-2"><sup>2</sup></a>
@@ -2986,7 +3004,7 @@ javac com/xyz/*.java</programlisting>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!- Only legal value is "collapse" ->
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </entry>
             <entry>
               primitive <literal>long</literal> or <literal>java.lang.Long</literal><a href="#sup-2"><sup>2</sup></a>
@@ -3004,7 +3022,7 @@ javac com/xyz/*.java</programlisting>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!- Only legal value is "collapse" ->
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </entry>
             <entry>
               primitive <literal>long</literal> or <literal>java.lang.Long</literal><a href="#sup-2"><sup>2</sup></a>
@@ -3034,7 +3052,7 @@ javac com/xyz/*.java</programlisting>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!-  Only legal value is "collapse" ->
+              whitespace<a href="#sup-1"><sup>1</sup></a><!--  Only legal value is "collapse" -->
             </entry>
             <entry>
               primitive <literal>long</literal> or <literal>java.lang.Long</literal><a href="#sup-2"><sup>2</sup></a>
@@ -3052,7 +3070,7 @@ javac com/xyz/*.java</programlisting>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!- Only legal value is "collapse" ->
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </entry>
             <entry>
               primitive <literal>short</literal> or <literal>java.lang.Short</literal><a href="#sup-2"><sup>2</sup></a>
@@ -3084,7 +3102,7 @@ javac com/xyz/*.java</programlisting>
               maxInclusive<br/>
               minInclusive<br/>
               pattern<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!- Only legal value is "collapse" ->
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </entry>
             <entry>
               primitive <literal>short</literal> or <literal>java.lang.Short</literal><a href="#sup-2"><sup>2</sup></a>
@@ -3101,7 +3119,7 @@ javac com/xyz/*.java</programlisting>
               maxInclusive<br/>
               minInclusive<br/>
               pattern<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!- Only legal value is "collapse" ->
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </entry>
             <entry>
               primitive <literal>long</literal> or <literal>java.lang.Long</literal><a href="#sup-2"><sup>2</sup></a>
@@ -3119,7 +3137,7 @@ javac com/xyz/*.java</programlisting>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!- Only legal value is "collapse" ->
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </entry>
             <entry><literal>java.math.BigInteger</literal></entry>
           </row>
@@ -3135,14 +3153,14 @@ javac com/xyz/*.java</programlisting>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!- Only legal value is "collapse" ->
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </entry>
             <entry>
               primitive <literal>int</literal> or <literal>java.lang.Integer</literal><a href="#sup-2"><sup>2</sup></a>
             </entry>
           </row>
-        </ctable>
-         -->
+            </tbody></tgroup>
+        </table>
 
         <para>
           Notes:
