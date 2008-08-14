@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
 "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 <chapter id="xml.code.generator">
@@ -2070,7 +2069,7 @@ org.exolab.castor.builder.automaticConflictResolutionTypeSuffix=ByBy</programlis
    
                <para>Above configuration will trigger source generation using the default
                   values as explained at the 
-                  <link linkend="Castor plugin page">http://mojo.codehaus.org/castor-maven-plugin/howto.html</link>, 
+                  <ulink url="http://mojo.codehaus.org/castor-maven-plugin/howto.html">Castor plugin page</ulink>, 
                   assuming that the XML schema(s) are located at <literal>src/main/castor</literal>, and code will 
                   be saved at <literal>target/generated-sources/castor</literal>. When generating sources
                   for multiple schemas at the same time, you can put namespace to 
@@ -2095,7 +2094,7 @@ org.exolab.castor.builder.automaticConflictResolutionTypeSuffix=ByBy</programlis
    
                <para>
                 Details on the available configuration properties can be found 
-                <link linkend="here">http://mojo.codehaus.org/castor-maven-plugin/generate-mojo.html</link>.
+                <ulink url="http://mojo.codehaus.org/castor-maven-plugin/generate-mojo.html">here</ulink>.
                </para>
    
                <para>By default, the Maven Castor plugin has been built and tested against 
@@ -2490,8 +2489,8 @@ javac com/xyz/*.java</programlisting>
     <section title="Introduction">
 
       <para>
-        Castor XML supports the <link linkend="W3C
-        XML Schema 1.0 Second Edition Recommendation document (10/28/2004)">http://www.w3.org/TR/xmlschema-1/"</link>
+        Castor XML supports the <ulink url="http://www.w3.org/TR/xmlschema-1/">W3C
+        XML Schema 1.0 Second Edition Recommendation document (10/28/2004)</ulink>
         The Schema Object Model (located in the package
         <api package="org.exolab.castor.xml.schema">org.exolab.castor.xml.schema</api>)
         provides an in-memory representation of a given XML schema whereas the
@@ -3542,7 +3541,7 @@ java -cp %CP% org.exolab.castor.builder.SourceGeneratorMain -i invoice.xsd -pack
             <programlisting language="java">
 /** 
  * This class was automatically generated with 
- * <link linkend="Castor 1.0.4">http://castor.exolab.org</link>,
+ * <ulink url="http://castor.exolab.org">Castor 1.0.4</ulink>,
  * using an XML Schema.
  */
 

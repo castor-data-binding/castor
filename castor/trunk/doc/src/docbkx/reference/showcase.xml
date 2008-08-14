@@ -276,7 +276,7 @@
     <title>blah</title>
     
     <para>
-    <classname>org.castor.core.Nature</classname> <link linkend="Sun Java">http://java.sun.com</link>
+    <classname>org.castor.core.Nature</classname> <ulink url="http://java.sun.com">Sun Java</ulink>
     </para>
    
    </section>
