@@ -29,8 +29,7 @@ import junit.framework.TestCase;
  * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr
- *          2006) $
+ * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
 public class TestCastorQLTreeWalker extends TestCase {
@@ -124,7 +123,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                    + " WHERE o.deleted = true";
+                    + " WHERE (o.deleted = true)";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -150,7 +149,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                    + " WHERE o.deleted = 67";
+                    + " WHERE (o.deleted = 67)";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -176,7 +175,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                    + " WHERE o.deleted = 67.43";
+                    + " WHERE (o.deleted = 67.43)";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -202,7 +201,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                    + " WHERE o.deleted = 'Testing'";
+                    + " WHERE (o.deleted = 'Testing')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -228,7 +227,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                    + " WHERE o.deleted = DATE '2008-08-04'";
+                    + " WHERE (o.deleted = DATE '2008-08-04')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -254,7 +253,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                    + " WHERE o.deleted = TIME '03:22:04.900'";
+                    + " WHERE (o.deleted = TIME '03:22:04.900')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -280,7 +279,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                    + " WHERE o.deleted = TIMESTAMP '2008-08-05 03:22:04.000'";
+                    + " WHERE (o.deleted = TIMESTAMP '2008-08-05 03:22:04.000')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -306,7 +305,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                    + " WHERE o.deleted != true";
+                    + " WHERE (o.deleted != true)";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -332,7 +331,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted != 67";
+                    + "WHERE (o.deleted != 67)";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -358,7 +357,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted != 67.43";
+                    + "WHERE (o.deleted != 67.43)";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -384,7 +383,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted != 'Testing'";
+                    + "WHERE (o.deleted != 'Testing')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -410,7 +409,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                    + " WHERE o.deleted != DATE '2008-08-04'";
+                    + " WHERE (o.deleted != DATE '2008-08-04')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -436,7 +435,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                    + " WHERE o.deleted != TIME '03:22:04.000'";
+                    + " WHERE (o.deleted != TIME '03:22:04.000')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -462,7 +461,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                    + " WHERE o.deleted != TIMESTAMP '2008-08-05 03:22:04.000'";
+                    + " WHERE (o.deleted != TIMESTAMP '2008-08-05 03:22:04.000')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -488,7 +487,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted < 67";
+                    + "WHERE (o.deleted < 67)";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -514,7 +513,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted < 67.43";
+                    + "WHERE (o.deleted < 67.43)";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -540,7 +539,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted < 'Testing'";
+                    + "WHERE (o.deleted < 'Testing')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -566,7 +565,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                    + " WHERE o.deleted < DATE '2008-08-04'";
+                    + " WHERE (o.deleted < DATE '2008-08-04')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -592,7 +591,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                    + " WHERE o.deleted < TIME '03:22:04.000'";
+                    + " WHERE (o.deleted < TIME '03:22:04.000')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -618,7 +617,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                    + " WHERE o.deleted < TIMESTAMP '2008-08-05 03:22:04.000'";
+                    + " WHERE (o.deleted < TIMESTAMP '2008-08-05 03:22:04.000')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -644,7 +643,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted <= 67";
+                    + "WHERE (o.deleted <= 67)";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -670,7 +669,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted <= 67.43";
+                    + "WHERE (o.deleted <= 67.43)";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -696,7 +695,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted <= 'Testing'";
+                    + "WHERE (o.deleted <= 'Testing')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -722,7 +721,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                    + " WHERE o.deleted <= DATE '2008-08-04'";
+                    + " WHERE (o.deleted <= DATE '2008-08-04')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -748,7 +747,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                    + " WHERE o.deleted <= TIME '03:22:04.000'";
+                    + " WHERE (o.deleted <= TIME '03:22:04.000')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -774,7 +773,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                    + " WHERE o.deleted <= TIMESTAMP '2008-08-05 03:22:04.000'";
+                    + " WHERE (o.deleted <= TIMESTAMP '2008-08-05 03:22:04.000')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -800,7 +799,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted >= 67";
+                    + "WHERE (o.deleted >= 67)";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -826,7 +825,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted >= 67.43";
+                    + "WHERE (o.deleted >= 67.43)";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -852,7 +851,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted >= 'Testing'";
+                    + "WHERE (o.deleted >= 'Testing')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -878,7 +877,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                    + " WHERE o.deleted >= DATE '2008-08-04'";
+                    + " WHERE (o.deleted >= DATE '2008-08-04')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -904,7 +903,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                    + " WHERE o.deleted >= TIME '03:22:04.000'";
+                    + " WHERE (o.deleted >= TIME '03:22:04.000')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -930,7 +929,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                    + " WHERE o.deleted >= TIMESTAMP '2008-08-05 03:22:04.090'";
+                    + " WHERE (o.deleted >= TIMESTAMP '2008-08-05 03:22:04.090')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -956,7 +955,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted > 67";
+                    + "WHERE (o.deleted > 67)";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -982,7 +981,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted > 67.43";
+                    + "WHERE (o.deleted > 67.43)";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1008,7 +1007,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted > 'Testing'";
+                    + "WHERE (o.deleted > 'Testing')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1034,7 +1033,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                    + " WHERE o.deleted > DATE '2008-08-04'";
+                    + " WHERE (o.deleted > DATE '2008-08-04')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1060,7 +1059,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                    + " WHERE o.deleted > TIME '03:22:04.000'";
+                    + " WHERE (o.deleted > TIME '03:22:04.000')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1086,7 +1085,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                    + " WHERE o.deleted > TIMESTAMP '2008-08-05 03:22:04.009'";
+                    + " WHERE (o.deleted > TIMESTAMP '2008-08-05 03:22:04.009')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1112,7 +1111,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.$8de_leted LIKE '%s@T#'";
+                    + "WHERE (o.$8de_leted LIKE '%s@T#')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1138,7 +1137,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted LIKE 'sT' ESCAPE 'r'";
+                    + "WHERE (o.deleted LIKE 'sT' ESCAPE 'r')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1164,7 +1163,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted LIKE 'sT' ESCAPE :N";
+                    + "WHERE (o.deleted LIKE 'sT' ESCAPE :N)";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1190,7 +1189,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted LIKE :NamedParameter";
+                    + "WHERE (o.deleted LIKE :NamedParameter)";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1216,7 +1215,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted LIKE :NamedParameter ESCAPE 'r'";
+                    + "WHERE (o.deleted LIKE :NamedParameter ESCAPE 'r')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1242,7 +1241,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted LIKE :NamedParameter ESCAPE :N";
+                    + "WHERE (o.deleted LIKE :NamedParameter ESCAPE :N)";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1268,7 +1267,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted NOT LIKE 'sT'";
+                    + "WHERE (o.deleted NOT LIKE 'sT')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1294,7 +1293,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted NOT LIKE 'sT' ESCAPE 'r'";
+                    + "WHERE (o.deleted NOT LIKE 'sT' ESCAPE 'r')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1320,7 +1319,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted NOT LIKE 'sT' ESCAPE :N";
+                    + "WHERE (o.deleted NOT LIKE 'sT' ESCAPE :N)";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1346,7 +1345,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted NOT LIKE :NamedParameter";
+                    + "WHERE (o.deleted NOT LIKE :NamedParameter)";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1372,7 +1371,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted NOT LIKE :NamedParameter ESCAPE 'r'";
+                    + "WHERE (o.deleted NOT LIKE :NamedParameter ESCAPE 'r')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1398,7 +1397,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted NOT LIKE :NamedParameter ESCAPE :N";
+                    + "WHERE (o.deleted NOT LIKE :NamedParameter ESCAPE :N)";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1424,7 +1423,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted BETWEEN 95 AND 400";
+                    + "WHERE (o.deleted BETWEEN 95 AND 400)";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1450,7 +1449,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted BETWEEN 95.43 AND 400.95";
+                    + "WHERE (o.deleted BETWEEN 95.43 AND 400.95)";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1476,7 +1475,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted BETWEEN 'Low' AND 'High'";
+                    + "WHERE (o.deleted BETWEEN 'Low' AND 'High')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1502,7 +1501,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted BETWEEN DATE '2007-08-05' AND DATE '2008-08-05'";
+                    + "WHERE (o.deleted BETWEEN DATE '2007-08-05' AND DATE '2008-08-05')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1528,7 +1527,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted BETWEEN TIME '06:52:56.000' AND TIME '08:52:56.000'";
+                    + "WHERE (o.deleted BETWEEN TIME '06:52:56.000' AND TIME '08:52:56.000')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1555,8 +1554,8 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted BETWEEN TIMESTAMP '2007-08-05 06:52:56.130' AND "
-                    + "TIMESTAMP '2008-08-05 08:52:56.130'";
+                    + "WHERE (o.deleted BETWEEN TIMESTAMP '2007-08-05 06:52:56.130' AND "
+                    + "TIMESTAMP '2008-08-05 08:52:56.130')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1582,7 +1581,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted NOT BETWEEN 95 AND 400";
+                    + "WHERE (o.deleted NOT BETWEEN 95 AND 400)";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1608,7 +1607,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted NOT BETWEEN 95.43 AND 400.95";
+                    + "WHERE (o.deleted NOT BETWEEN 95.43 AND 400.95)";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1634,7 +1633,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted NOT BETWEEN 'Low' AND 'High'";
+                    + "WHERE (o.deleted NOT BETWEEN 'Low' AND 'High')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1660,7 +1659,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted NOT BETWEEN DATE '2007-08-05' AND DATE '2008-08-05'";
+                    + "WHERE (o.deleted NOT BETWEEN DATE '2007-08-05' AND DATE '2008-08-05')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1686,7 +1685,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted NOT BETWEEN TIME '06:52:56.000' AND TIME '08:52:56.000'";
+                    + "WHERE (o.deleted NOT BETWEEN TIME '06:52:56.000' AND TIME '08:52:56.000')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1713,8 +1712,8 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted NOT BETWEEN TIMESTAMP '2007-08-05 06:52:56.013' AND "
-                    + "TIMESTAMP '2008-08-05 08:52:56.013'";
+                    + "WHERE (o.deleted NOT BETWEEN TIMESTAMP '2007-08-05 06:52:56.013' AND "
+                    + "TIMESTAMP '2008-08-05 08:52:56.013')";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1740,7 +1739,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted NOT  IN (3, 4.0, :asd)";
+                    + "WHERE (o.deleted NOT  IN (3, 4.0, :asd))";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1766,7 +1765,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted IS NOT NULL";
+                    + "WHERE (o.deleted IS NOT NULL)";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1793,8 +1792,8 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted + (3 * 5) = 4 AND ((o.deleted + 3) * 5 = 4)"
-                    + " OR (o.deleted LIKE 'jk' AND (o.deleted IS NULL))";
+                    + "WHERE ((o.deleted + (3 * 5) = 4) AND ((o.deleted + 3) * 5 = 4))"
+                    + " OR ((o.deleted LIKE 'jk') AND (o.deleted IS NULL))";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1820,7 +1819,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted = CustomFUNCTION(o.deleted)";
+                    + "WHERE (o.deleted = CustomFUNCTION(o.deleted))";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
@@ -1846,7 +1845,7 @@ public class TestCastorQLTreeWalker extends TestCase {
             Parser parser = new CastorQLParserAdapter();
             QueryObject qo = parser.parse(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE o.deleted = CustomFUNCTION(o.deleted, o.edited)";
+                    + "WHERE (o.deleted = CustomFUNCTION(o.deleted, o.edited))";
             String actual = qo.toString();
             // System.out.println(qo.toString());
             assertEquals(expected, actual);
