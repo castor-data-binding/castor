@@ -26,7 +26,11 @@ import org.castor.cpa.query.object.expression.AbstractExpression;
  * @since 1.3
  */
 public final class MockExpression extends AbstractExpression {
+    //--------------------------------------------------------------
+    
     public StringBuilder toString(final StringBuilder sb) {
         return sb.append("expression");
     }
+    
+    //--------------------------------------------------------------
 }

@@ -19,14 +19,14 @@ import junit.framework.TestCase;
 
 import org.castor.cpa.query.Expression;
 import org.castor.cpa.query.QueryObject;
+import org.castor.cpa.query.object.literal.LongLiteral;
 
 /**
  * Junit Test for testing divide arithmetic expression of query objects.
  * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr
- *          2006) $
+ * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
 public final class TestDivide extends TestCase {
@@ -45,11 +45,22 @@ public final class TestDivide extends TestCase {
      * Junit Test for getOperator.
      */
     public void testGetOperator() {
-        Divide m = new Divide();
-        assertEquals(" / ", m.getOperator());
-    }
+        Divide divide = new Divide();
+        assertEquals(" / ", divide.getOperator());
+    }   
     
-    // TODO add test for divide factory method
-    
+    /**
+     * Junit Test for overwritten divide factory method.
+     */
+    public void testFactoryMethodDivide() {
+        Divide divide = new Divide();
+        divide.addExpression(new LongLiteral(3));
+        divide.addExpression(new LongLiteral(2));
+        
+        Expression n = divide;
+        Expression exp = n.divide(new LongLiteral(1));
+        assertEquals("3 / 2 / 1", exp.toString());
+    }    
+
     // --------------------------------------------------------------------------
 }

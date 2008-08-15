@@ -45,7 +45,7 @@ public final class TestTrim extends TestCase {
     }
 
     //--------------------------------------------------------------------------
-    
+
     /**
      * Junit Test for instance.
      */
@@ -79,58 +79,71 @@ public final class TestTrim extends TestCase {
         n.setString(exp);
         n.setSpecification(t);
         n.setCharacter(c);
-        
-        assertEquals(exp, n.getString()); 
+
+        assertEquals(exp, n.getString());
         assertEquals(t, n.getSpecification());
         assertEquals(c, n.getCharacter());
     }
-     
+
     /**
      * Junit Test for toString method.
      */
     public void testToString() {
-        Expression exp = new MockExpression();
-        TrimSpecification t = TrimSpecification.LEADING;
-        StringLiteral c = new StringLiteral("Char");
 
         Trim n = new Trim();
-        
+
         n.setString(null);
-        n.setSpecification(t);
-        n.setCharacter(c);
+        n.setSpecification(TrimSpecification.LEADING);
+        n.setCharacter(new StringLiteral("Char"));
         assertEquals("TRIM(LEADING 'Char' FROM )", n.toString());
 
-        n.setString(exp);
+        n.setString(new MockExpression());
         n.setSpecification(null);
-        n.setCharacter(c);
+        n.setCharacter(new StringLiteral("Char"));
         assertEquals("TRIM( 'Char' FROM expression)", n.toString());
 
-        n.setString(exp);
-        n.setSpecification(t);
+        n.setString(new MockExpression());
+        n.setSpecification(TrimSpecification.LEADING);
         n.setCharacter(null);
         assertEquals("TRIM(LEADING  FROM expression)", n.toString());
 
-        n.setString(exp);
+        n.setString(new MockExpression());
         n.setSpecification(null);
         n.setCharacter(null);
         assertEquals("TRIM(  FROM expression)", n.toString());
 
         n.setString(null);
-        n.setSpecification(t);
+        n.setSpecification(TrimSpecification.LEADING);
         n.setCharacter(null);
         assertEquals("TRIM(LEADING  FROM )", n.toString());
 
         n.setString(null);
         n.setSpecification(null);
-        n.setCharacter(c);
+        n.setCharacter(new StringLiteral("Char"));
         assertEquals("TRIM( 'Char' FROM )", n.toString());
 
         n.setString(null);
         n.setSpecification(null);
         n.setCharacter(null);
         assertEquals("TRIM(  FROM )", n.toString());
-        
-        // TODO add tests where withSpec or/and withChar are false
+
+        // withChar false and withSpec false
+        n.setString(new MockExpression());
+        n.setSpecification(TrimSpecification.BOTH);
+        n.setCharacter(new StringLiteral(" "));
+        assertEquals("TRIM(expression)", n.toString());
+
+        // withChar true and withSpec false
+        n.setString(new MockExpression());
+        n.setSpecification(TrimSpecification.BOTH);
+        n.setCharacter(new StringLiteral("Char"));
+        assertEquals("TRIM('Char' FROM expression)", n.toString());
+
+        // withChar false and withSpec true
+        n.setString(new MockExpression());
+        n.setSpecification(TrimSpecification.TRAILING);
+        n.setCharacter(new StringLiteral(" "));
+        assertEquals("TRIM(TRAILING FROM expression)", n.toString());
     }
 
     //--------------------------------------------------------------------------

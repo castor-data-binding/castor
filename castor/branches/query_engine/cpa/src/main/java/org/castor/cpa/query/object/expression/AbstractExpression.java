@@ -314,6 +314,7 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
      */
     public final Function locate(final Expression value) {
         Locate locate = new Locate();
+        locate.setString(this);
         locate.setValue(value);
         return locate;
     }
@@ -344,6 +345,7 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
      */
     public final Function locate(final Expression value, final Expression index) {
         Locate locate = new Locate();
+        locate.setString(this);
         locate.setValue(value);
         locate.setIndex(index);
         return locate;
@@ -377,6 +379,7 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
      */
     public final Function substring(final Expression index, final Expression length) {
         Substring substring = new Substring();
+        substring.setString(this);
         substring.setIndex(index);
         substring.setLength(length);
         return substring;

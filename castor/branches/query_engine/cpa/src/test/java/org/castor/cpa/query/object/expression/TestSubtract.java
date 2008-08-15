@@ -19,18 +19,19 @@ import junit.framework.TestCase;
 
 import org.castor.cpa.query.Expression;
 import org.castor.cpa.query.QueryObject;
+import org.castor.cpa.query.object.literal.LongLiteral;
 
 /**
  * Junit Test for testing subtract arithmetic expression of query objects.
  * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr
- *          2006) $
+ * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
 public final class TestSubtract extends TestCase {
     // --------------------------------------------------------------------------
+    
     /**
      * Junit Test for instance.
      */
@@ -45,11 +46,22 @@ public final class TestSubtract extends TestCase {
      * Junit Test for getOperator.
      */
     public void testGetOperator() {
-        Subtract m = new Subtract();
-        assertEquals(" - ", m.getOperator());
+        Subtract subtract = new Subtract();
+        assertEquals(" - ", subtract.getOperator());
     }
     
-    // TODO add test for subtract factory method
-    
+    /**
+     * Junit Test for overwritten subtract factory method.
+     */
+    public void testFactoryMethodSubtract() {
+        Subtract subtract = new Subtract();
+        subtract.addExpression(new LongLiteral(3));
+        subtract.addExpression(new LongLiteral(2));
+        
+        Expression n = subtract;
+        Expression exp = n.subtract(new LongLiteral(1));
+        assertEquals("3 - 2 - 1", exp.toString());
+    }    
+
     // --------------------------------------------------------------------------
 }
