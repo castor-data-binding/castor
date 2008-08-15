@@ -54,15 +54,53 @@ public final class TestEnumLiteral extends TestCase {
      * Junit Test for constructor and getter.
      */
     public void testConstructor() {
-        // TODO test EnumLiteral(String) constructor
-        // in addition to the success case also use parameters that
-        // reproduce each fail situation
-
-        // TODO test passing null to EnumLiteral(Enum) constructor
-        // see StringLiteral as an example
+        try {
+            new EnumLiteral((String) null);
+            fail("NullPointerException expected !!!");
+        } catch (NullPointerException e) {
+            assertTrue(true);
+        }
         
-        EnumLiteral n = new EnumLiteral(MockEnum.TEST1);
-        assertEquals(MockEnum.TEST1, n.getValue());
+        try {
+            new EnumLiteral("WrongStringPath");
+            fail("IllegalArgumentException expected !!!");
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
+
+        try {
+            new EnumLiteral("org.castor.cpa.query.object.literal.InvalidEnum.TEST1");
+            fail("IllegalArgumentException expected !!!");
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
+
+        try {
+            new EnumLiteral("org.castor.cpa.query.object.literal.MockLiteral.TEST1");
+            fail("IllegalArgumentException expected !!!");
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
+
+        try {
+            new EnumLiteral("org.castor.cpa.query.object.literal.MockEnum.INVALID");
+            fail("IllegalArgumentException expected !!!");
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
+
+        EnumLiteral n1 = new EnumLiteral("org.castor.cpa.query.object.literal.MockEnum.TEST1");
+        assertEquals(MockEnum.TEST1, n1.getValue());
+
+        try {
+            new EnumLiteral((Enum) null);
+            fail("NullPointerException expected !!!");
+        } catch (NullPointerException e) {
+            assertTrue(true);
+        }
+        
+        EnumLiteral n2 = new EnumLiteral(MockEnum.TEST2);
+        assertEquals(MockEnum.TEST2, n2.getValue());
     }
     
     /**

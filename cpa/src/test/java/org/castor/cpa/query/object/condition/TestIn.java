@@ -16,18 +16,23 @@
 package org.castor.cpa.query.object.condition;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.castor.cpa.query.Condition;
+import org.castor.cpa.query.Expression;
 import org.castor.cpa.query.Field;
-import org.castor.cpa.query.Foo;
 import org.castor.cpa.query.InCondition;
 import org.castor.cpa.query.Literal;
-import org.castor.cpa.query.QueryFactory;
-import org.castor.cpa.query.Schema;
-import org.castor.cpa.query.SelectQuery;
+import org.castor.cpa.query.Parameter;
+import org.castor.cpa.query.QueryObject;
+import org.castor.cpa.query.object.literal.BigDecimalLiteral;
+import org.castor.cpa.query.object.literal.BooleanLiteral;
+import org.castor.cpa.query.object.literal.DoubleLiteral;
+import org.castor.cpa.query.object.literal.EnumLiteral;
 import org.castor.cpa.query.object.literal.LongLiteral;
-import org.castor.cpa.query.object.parameter.NamedParameter;
+import org.castor.cpa.query.object.literal.StringLiteral;
 
 /**
  * Junit Test for testing in condition of query objects.
@@ -37,42 +42,84 @@ import org.castor.cpa.query.object.parameter.NamedParameter;
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public class TestIn extends TestCase {
+public final class TestIn extends TestCase {
   //--------------------------------------------------------------
     
-    private static String _common = "SELECT o.bar FROM org.castor.cpa.query.Foo AS o WHERE ";
-    
-  //--------------------------------------------------------------
-    
-    public static void testWithAll() {
-        SelectQuery select = QueryFactory.newSelectQuery();
-        Schema schema = select.newSchema(Foo.class, "o");
-        select.addProjection(schema.field("bar"));
-        Field field = schema.field("position");
-        InCondition condition = field.in();
-        //boolean
-        condition.add(false);
-        //long
-        condition.add(3L);
-        //double
-        condition.add(4.0);
-        //big decimal
-        condition.add(new BigDecimal("99.56"));
-        //String
-        condition.add("String");
-        //TODO Enum
-        //Literal
-        Literal l = new LongLiteral(55L);
-        condition.add(l);
-        //Parameter
-        NamedParameter p = new NamedParameter("any");
-        condition.add(p);
-        select.setWhere(condition);
-        select.addSchema(schema);
-        String expected = "o.position IN (false, 3, 4.0, 99.56, 'String', 55, :any)";
-        assertEquals(_common + expected, select.toString());
-        System.out.println(select.toString());
+    /**
+     * Junit Test for instance.
+     */
+    public void testInstance() {
+        QueryObject n = new In();
+        assertTrue(n instanceof SimpleCondition);
+        assertTrue(n instanceof AbstractCondition);
+        assertTrue(n instanceof InCondition);
+        assertTrue(n instanceof Condition);
+     }
+
+    /**
+     * Junit Test for factory methods.
+     */
+    public void testItems() {
+        In n = new In();
+        BigDecimal bigDecimal = new BigDecimal("34.67");
+        n.add(bigDecimal);
+        n.add(true);
+        n.add(5.6);
+        n.add(MockEnum.TEST2);
+        Literal literal = new StringLiteral("stringLiteral");
+        n.add(literal);
+        n.add(342);
+        Parameter parameter = new MockParameter();
+        n.add(parameter);
+        n.add("string");
+        List < Expression > list = n.getItems();
+        assertEquals(bigDecimal, ((BigDecimalLiteral) list.get(0)).getValue());
+        assertEquals(true, ((BooleanLiteral) list.get(1)).getValue());
+        assertEquals(5.6, ((DoubleLiteral) list.get(2)).getValue());
+        assertEquals(MockEnum.TEST2, ((EnumLiteral) list.get(3)).getValue());
+        assertEquals(literal, list.get(4));
+        assertEquals(342, ((LongLiteral) list.get(5)).getValue());
+        assertEquals(parameter, list.get(6));
+        assertEquals("string", ((StringLiteral) list.get(7)).getValue());
     }
+
+    /**
+     * Junit Test for toString.
+     */
+    public void testToString() {
+        In n = new In();
+        n.setExpression(new MockExpression());
+        BigDecimal bigDecimal = new BigDecimal("34.67");
+        n.add(bigDecimal);
+        n.add(true);
+        n.add(5.6);
+        n.add(MockEnum.TEST2);
+        Literal literal = new StringLiteral("stringLiteral");
+        n.add(literal);
+        n.add(342);
+        Parameter parameter = new MockParameter();
+        n.add(parameter);
+        n.add("string");
+        assertEquals("(expression IN (34.67, true, 5.6, " 
+                + "org.castor.cpa.query.object.condition.MockEnum.TEST2," 
+                + " 'stringLiteral', 342, parameter, 'string'))", n.toString());
+     }
     
+    /**
+     * Junit Test for toString.
+     */
+    public void testFactoryMethods() {
+        Field n = new MockField();
+        InCondition items = n.in();
+        items.add(true);
+        items.add(5.6);
+        assertEquals("(field IN (true, 5.6))", items.toString());
+    
+        items = n.notIn();
+        items.add(true);
+        items.add(5.6);
+
+        assertEquals("(field NOT  IN (true, 5.6))", items.toString());
+    }
   //--------------------------------------------------------------
 }

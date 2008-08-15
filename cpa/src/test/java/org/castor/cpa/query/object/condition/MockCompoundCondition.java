@@ -15,22 +15,21 @@
  */
 package org.castor.cpa.query.object.condition;
 
-import org.castor.cpa.query.object.parameter.AbstractParameter;
-
 /**
- * Mock parameter class for testing.
+ * Mock condition class for testing.
  * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public final class MockParameter extends AbstractParameter {
-    //--------------------------------------------------------------
-    
-    public StringBuilder toString(final StringBuilder sb) {
-        return sb.append("parameter");
+public class MockCompoundCondition extends CompoundCondition {
+
+    /**
+     * {@inheritDoc}
+     */
+    protected String getOperator() {
+        return " operator ";
     }
 
-    //--------------------------------------------------------------
 }

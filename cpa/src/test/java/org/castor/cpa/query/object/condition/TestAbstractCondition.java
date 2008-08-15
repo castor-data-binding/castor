@@ -15,52 +15,38 @@
  */
 package org.castor.cpa.query.object.condition;
 
+import org.castor.cpa.query.Condition;
+import org.castor.cpa.query.QueryObject;
 import junit.framework.TestCase;
 
-import org.castor.cpa.query.Condition;
-import org.castor.cpa.query.Field;
-import org.castor.cpa.query.QueryObject;
-
 /**
- * Junit Test for testing null condition of query objects.
+ * Junit Test for testing abstract condition class.
  * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
+ * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr
+ *          2006) $
  * @since 1.3
  */
-public final class TestNull extends TestCase {
-  //--------------------------------------------------------------
+public final class TestAbstractCondition extends TestCase {
+   //--------------------------------------------------------------------------
     
     /**
      * Junit Test for instance.
      */
     public void testInstance() {
-        QueryObject n = new Null();
-        assertTrue(n instanceof SimpleCondition);
+        QueryObject n = new MockCondition();
         assertTrue(n instanceof AbstractCondition);
         assertTrue(n instanceof Condition);
      }
-    
-    /**
-     * Junit Test for toString.
-     */
-    public void testToString() {
-        Null n = new Null();
-        n.setExpression(new MockField());
-        n.setNot(true);
-        assertEquals("(field IS NOT NULL)", n.toString());
-    }
-    
-    /**
-     * Junit Test for toString.
-     */
-    public void testFactoryMethods() {
-        Field n = new MockField();
-        Condition condition = n.isNull();
-        assertEquals("(field IS NULL)", condition.toString());
-        condition = n.isNotNull();
-        assertEquals("(field IS NOT NULL)", condition.toString());
-    }
-  //--------------------------------------------------------------
+
+     /**
+      * Junit Test for toString.
+      */
+     public void testToString() {
+        AbstractCondition n = new MockCondition();
+        assertEquals("Condition", n.toString()); 
+     } 
+
+     //--------------------------------------------------------------------------
 }

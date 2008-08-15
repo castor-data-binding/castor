@@ -15,22 +15,42 @@
  */
 package org.castor.cpa.query.object.condition;
 
-import org.castor.cpa.query.object.parameter.AbstractParameter;
+import junit.framework.TestCase;
 
 /**
- * Mock parameter class for testing.
+ * Junit Test for testing greater than comparison condition of query objects.
  * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public final class MockParameter extends AbstractParameter {
-    //--------------------------------------------------------------
-    
-    public StringBuilder toString(final StringBuilder sb) {
-        return sb.append("parameter");
-    }
+public final class TestGreaterThan extends TestCase {
+    //--------------------------------------------------------------    
+   
+    /**
+     * Junit Test for instance.
+     */
+    public void testInstance() {
+        ComparisonOperator n = new GreaterThan();
+        assertTrue(n != null);
+     }
 
+    /**
+     * Junit Test for not.
+     */
+    public void testNot() {
+        ComparisonOperator n = new GreaterThan();
+        assertTrue(n.not() instanceof LessEqual);
+     }
+
+    /**
+     * Junit Test for toString.
+     */
+    public void testToString() {
+        ComparisonOperator n = new GreaterThan();
+        assertEquals(" > ", n.toString());
+     }
+    
     //--------------------------------------------------------------
 }

@@ -15,12 +15,16 @@
  */
 package org.castor.cpa.query.object.function;
 
+import java.math.BigDecimal;
+
 import junit.framework.TestCase;
 
 import org.castor.cpa.query.Expression;
 import org.castor.cpa.query.Function;
 import org.castor.cpa.query.QueryObject;
 import org.castor.cpa.query.object.expression.AbstractExpression;
+import org.castor.cpa.query.object.literal.BigDecimalLiteral;
+import org.castor.cpa.query.object.literal.DoubleLiteral;
 import org.castor.cpa.query.object.literal.LongLiteral;
 
 /**
@@ -130,8 +134,35 @@ public final class TestLocate extends TestCase {
         n.setIndex(null);
         assertEquals("LOCATE(, , )", n.toString());
         
-        // TODO add test with LongLiteral, DoubleLiteral and BigDecimalLiteral
-        // that cause defaultStart flag to be true and false
+        n.setString(new MockExpression());
+        n.setValue(new MockExpression());
+        n.setIndex(new LongLiteral(1));
+        assertEquals("LOCATE(expression, expression)", n.toString());
+        
+        n.setString(new MockExpression());
+        n.setValue(new MockExpression());
+        n.setIndex(new LongLiteral(2));
+        assertEquals("LOCATE(expression, expression, 2)", n.toString());
+        
+        n.setString(new MockExpression());
+        n.setValue(new MockExpression());
+        n.setIndex(new DoubleLiteral(1.0));
+        assertEquals("LOCATE(expression, expression)", n.toString());
+
+        n.setString(new MockExpression());
+        n.setValue(new MockExpression());
+        n.setIndex(new DoubleLiteral(2.0));
+        assertEquals("LOCATE(expression, expression, 2.0)", n.toString());
+        
+        n.setString(new MockExpression());
+        n.setValue(new MockExpression());
+        n.setIndex(new BigDecimalLiteral(new BigDecimal("1.0")));
+        assertEquals("LOCATE(expression, expression)", n.toString());
+        
+        n.setString(new MockExpression());
+        n.setValue(new MockExpression());
+        n.setIndex(new BigDecimalLiteral(new BigDecimal("2.0")));
+        assertEquals("LOCATE(expression, expression, 2.0)", n.toString());
     } 
 
     //--------------------------------------------------------------------------

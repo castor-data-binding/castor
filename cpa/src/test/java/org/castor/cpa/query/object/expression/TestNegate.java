@@ -19,14 +19,14 @@ import junit.framework.TestCase;
 
 import org.castor.cpa.query.Expression;
 import org.castor.cpa.query.QueryObject;
+import org.castor.cpa.query.object.function.MockExpression;
 
 /**
  * Junit Test for testing negate arithmetic expression of query objects.
  * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr
- *          2006) $
+ * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
 public final class TestNegate extends TestCase {
@@ -42,7 +42,7 @@ public final class TestNegate extends TestCase {
     }
 
     /**
-     * Junit Test for GetSetExpression and toString.
+     * Junit Test for GetSetter.
      */
     public void testGetSetExpressionToString() {
         MockExpression exp = new MockExpression();
@@ -52,9 +52,29 @@ public final class TestNegate extends TestCase {
         assertEquals(exp, n.getExpression());
     }
     
-    // TODO add test for toString method
+    /**
+     * Junit Test for toString.
+     */
+    public void testToString() {
+        MockExpression exp = new MockExpression();
+        
+        Negate n = new Negate();
+        n.setExpression(exp);
+        assertEquals("-expression", n.toString());
+    }
     
-    // TODO add test for negate factory method
+    /**
+     * Junit Test for overwritten negate factory method.
+     */
+    public void testFactoryMethodNegate() {
+        MockExpression exp = new MockExpression();
+        
+        Negate negate = new Negate();
+        negate.setExpression(exp);
+
+        Expression n = negate;
+        assertEquals(exp, n.negate());
+    } 
 
     // --------------------------------------------------------------------------
 }

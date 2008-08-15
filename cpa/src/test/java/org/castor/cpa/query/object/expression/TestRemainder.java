@@ -19,14 +19,14 @@ import junit.framework.TestCase;
 
 import org.castor.cpa.query.Expression;
 import org.castor.cpa.query.QueryObject;
+import org.castor.cpa.query.object.literal.LongLiteral;
 
 /**
  * Junit Test for testing remainder arithmetic expression of query objects.
  * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr
- *          2006) $
+ * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
 public final class TestRemainder extends TestCase {
@@ -45,11 +45,22 @@ public final class TestRemainder extends TestCase {
      * Junit Test for getOperator.
      */
     public void testGetOperator() {
-        Remainder m = new Remainder();
-        assertEquals(" % ", m.getOperator());
+        Remainder remainder = new Remainder();
+        assertEquals(" % ", remainder.getOperator());
     }
     
-    // TODO add test for remainder factory method
-    
+    /**
+     * Junit Test for overwritten remainder factory method.
+     */
+    public void testFactoryMethodRemainder() {
+        Remainder remainder = new Remainder();
+        remainder.addExpression(new LongLiteral(3));
+        remainder.addExpression(new LongLiteral(2));
+        
+        Expression n = remainder;
+        Expression exp = n.remainder(new LongLiteral(1));
+        assertEquals("3 % 2 % 1", exp.toString());
+    }    
+
     // --------------------------------------------------------------------------
 }

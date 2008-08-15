@@ -17,6 +17,7 @@ package org.castor.cpa.query.object.expression;
 
 import org.castor.cpa.query.Expression;
 import org.castor.cpa.query.QueryObject;
+import org.castor.cpa.query.object.literal.StringLiteral;
 
 import junit.framework.TestCase;
 
@@ -25,8 +26,7 @@ import junit.framework.TestCase;
  * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr
- *          2006) $
+ * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
 public final class TestConcat extends TestCase {
@@ -46,11 +46,22 @@ public final class TestConcat extends TestCase {
      * Junit Test for getOperator.
      */
     public void testGetOperator() {
-        Concat m = new Concat();
-        assertEquals(" || ", m.getOperator());
+        Concat concat = new Concat();
+        assertEquals(" || ", concat.getOperator());
     }
 
-    // TODO add test for concat factory method
-    
+    /**
+     * Junit Test for overwritten concat factory method.
+     */
+    public void testFactoryMethodConcat() {
+        Concat concat = new Concat();
+        concat.addExpression(new StringLiteral("3"));
+        concat.addExpression(new StringLiteral("2"));
+        
+        Expression n = concat;
+        Expression exp = n.concat(new StringLiteral("1"));
+        assertEquals("'3' || '2' || '1'", exp.toString());
+    }    
+
     // --------------------------------------------------------------------------
 }

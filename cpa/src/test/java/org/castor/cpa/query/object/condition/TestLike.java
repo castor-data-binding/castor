@@ -18,12 +18,8 @@ package org.castor.cpa.query.object.condition;
 import junit.framework.TestCase;
 
 import org.castor.cpa.query.Condition;
-import org.castor.cpa.query.Field;
-import org.castor.cpa.query.Foo;
-import org.castor.cpa.query.Parameter;
-import org.castor.cpa.query.QueryFactory;
-import org.castor.cpa.query.Schema;
-import org.castor.cpa.query.SelectQuery;
+import org.castor.cpa.query.Expression;
+import org.castor.cpa.query.QueryObject;
 
 /**
  * Junit Test for testing like condition of query objects.
@@ -36,93 +32,106 @@ import org.castor.cpa.query.SelectQuery;
 public class TestLike extends TestCase {
   //--------------------------------------------------------------
     
-    private static String _common = "SELECT o.bar FROM org.castor.cpa.query.Foo AS o WHERE ";
+    /**
+     * Junit Test for instance.
+     */
+    public void testInstance() {
+        QueryObject n = new Like();
+        assertTrue(n instanceof SimpleCondition);
+        assertTrue(n instanceof AbstractCondition);
+        assertTrue(n instanceof Condition);
+     }
 
-  //--------------------------------------------------------------
     
-    public static void testWithString() {
-        SelectQuery select = QueryFactory.newSelectQuery();
-        Schema schema = select.newSchema(Foo.class, "o");
-        select.addProjection(schema.field("bar"));
-        Field field = schema.field("position");
-        Condition condition = field.like("%test%");
-        select.setWhere(condition);
-        select.addSchema(schema);
-        String expected = "o.position LIKE '%test%'";
-        assertEquals(_common + expected, select.toString());
-        System.out.println(select.toString());
+    /**
+     * Junit Test for toString.
+     */
+    public void testToString() {
+        Like n = new Like();
+        
+        n.setExpression(new MockExpression());
+        n.setEscape(new MockExpression());
+        n.setPattern(new MockExpression());
+        n.setNot(true);
+        assertEquals("(expression NOT LIKE expression ESCAPE expression)", n.toString());
+        n.setNot(false);
+        
+        n.setExpression(new MockExpression());
+        n.setEscape(new MockExpression());
+        n.setPattern(new MockExpression());
+        assertEquals("(expression LIKE expression ESCAPE expression)", n.toString());
+    
+        n.setExpression(null);
+        n.setEscape(new MockExpression());
+        n.setPattern(new MockExpression());
+        assertEquals("( LIKE expression ESCAPE expression)", n.toString());
+        
+        n.setExpression(new MockExpression());
+        n.setEscape(null);
+        n.setPattern(new MockExpression());
+        assertEquals("(expression LIKE expression)", n.toString());
+        
+        n.setExpression(new MockExpression());
+        n.setEscape(new MockExpression());
+        n.setPattern(null);
+        assertEquals("(expression LIKE  ESCAPE expression)", n.toString());
+        
+        n.setExpression(null);
+        n.setEscape(null);
+        n.setPattern(new MockExpression());
+        assertEquals("( LIKE expression)", n.toString());
+        
+        n.setExpression(null);
+        n.setEscape(new MockExpression());
+        n.setPattern(null);
+        assertEquals("( LIKE  ESCAPE expression)", n.toString());
+        
+        n.setExpression(new MockExpression());
+        n.setEscape(null);
+        n.setPattern(null);
+        assertEquals("(expression LIKE )", n.toString());
+        
+        n.setExpression(null);
+        n.setEscape(null);
+        n.setPattern(null);
+        assertEquals("( LIKE )", n.toString());
     }
     
-    public static void testWithStringChar() {
-        SelectQuery select = QueryFactory.newSelectQuery();
-        Schema schema = select.newSchema(Foo.class, "o");
-        select.addProjection(schema.field("bar"));
-        Field field = schema.field("position");
-        Condition condition = field.like("%test%", '$');
-        select.setWhere(condition);
-        select.addSchema(schema);
-        String expected = "o.position LIKE '%test%' ESCAPE '$'";
-        assertEquals(_common + expected, select.toString());
-        System.out.println(select.toString());
-    }
+    /**
+     * Junit Test for factory methods.
+     */
+    public void testFactoryMethods() {
+        Expression exp = new MockExpression();
+        Condition condition = exp.like(new MockParameter());
+        assertEquals("(expression LIKE parameter)", condition.toString());
+        condition = exp.notLike(new MockParameter());
+        assertEquals("(expression NOT LIKE parameter)", condition.toString());
+        
+        condition = exp.like("pattern");
+        assertEquals("(expression LIKE 'pattern')", condition.toString());
+        condition = exp.notLike("pattern");
+        assertEquals("(expression NOT LIKE 'pattern')", condition.toString());
+        
+        condition = exp.like(new MockParameter(), 'e');
+        assertEquals("(expression LIKE parameter ESCAPE 'e')", condition.toString());
+        condition = exp.notLike(new MockParameter(), 'e');
+        assertEquals("(expression NOT LIKE parameter ESCAPE 'e')", condition.toString());
+        
+        condition = exp.like(new MockParameter(), new MockParameter());
+        assertEquals("(expression LIKE parameter ESCAPE parameter)", condition.toString());
+        condition = exp.notLike(new MockParameter(), new MockParameter());
+        assertEquals("(expression NOT LIKE parameter ESCAPE parameter)", condition.toString());
+        
+        condition = exp.like("pattern", 'e');
+        assertEquals("(expression LIKE 'pattern' ESCAPE 'e')", condition.toString());
+        condition = exp.notLike("pattern", 'e');
+        assertEquals("(expression NOT LIKE 'pattern' ESCAPE 'e')", condition.toString());
+        
+        condition = exp.like("pattern", new MockParameter());
+        assertEquals("(expression LIKE 'pattern' ESCAPE parameter)", condition.toString());
+        condition = exp.notLike("pattern", new MockParameter());
+        assertEquals("(expression NOT LIKE 'pattern' ESCAPE parameter)", condition.toString());
     
-    public static void testWithStringParam() {
-        SelectQuery select = QueryFactory.newSelectQuery();
-        Schema schema = select.newSchema(Foo.class, "o");
-        select.addProjection(schema.field("bar"));
-        Field field = schema.field("position");
-        Parameter param = new MockParameter();
-        Condition condition = field.like("%test%", param);
-        select.setWhere(condition);
-        select.addSchema(schema);
-        String expected = "o.position LIKE '%test%' ESCAPE param";
-        assertEquals(_common + expected, select.toString());
-        System.out.println(select.toString());
-    }
-    
-    public static void testWithParam() {
-        SelectQuery select = QueryFactory.newSelectQuery();
-        Schema schema = select.newSchema(Foo.class, "o");
-        select.addProjection(schema.field("bar"));
-        Field field = schema.field("position");
-        Parameter param = new MockParameter();
-        Condition condition = field.like(param);
-        select.setWhere(condition);
-        select.addSchema(schema);
-        String expected = "o.position LIKE param";
-        assertEquals(_common + expected, select.toString());
-        System.out.println(select.toString());
-    }
-    
-
-
-    public static void testWithParamChar() {
-        SelectQuery select = QueryFactory.newSelectQuery();
-        Schema schema = select.newSchema(Foo.class, "o");
-        select.addProjection(schema.field("bar"));
-        Field field = schema.field("position");
-        Parameter param = new MockParameter();
-        Condition condition = field.like(param, '$');
-        select.setWhere(condition);
-        select.addSchema(schema);
-        String expected = "o.position LIKE param ESCAPE '$'";
-        assertEquals(_common + expected, select.toString());
-        System.out.println(select.toString());
-    }
-    
-    public static void testWithParamParam() {
-        SelectQuery select = QueryFactory.newSelectQuery();
-        Schema schema = select.newSchema(Foo.class, "o");
-        select.addProjection(schema.field("bar"));
-        Field field = schema.field("position");
-        Parameter param = new MockParameter();
-        Parameter param2 = new MockParameter();
-        Condition condition = field.like(param, param2);
-        select.setWhere(condition);
-        select.addSchema(schema);
-        String expected = "o.position LIKE param ESCAPE param";
-        assertEquals(_common + expected, select.toString());
-        System.out.println(select.toString());
     }
     
   //--------------------------------------------------------------

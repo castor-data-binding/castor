@@ -44,7 +44,7 @@ public class TestQOCondition extends TestCase {
         select.setWhere(condition);
         select.addSchema(schema);
         // System.out.println(select.toString());
-        String expected = "SELECT o.bar FROM org.castor.cpa.query.Foo AS o WHERE o.position = 2";
+        String expected = "SELECT o.bar FROM org.castor.cpa.query.Foo AS o WHERE (o.position = 2)";
         String actual = select.toString();
         assertEquals(actual, expected);
     }
@@ -59,7 +59,7 @@ public class TestQOCondition extends TestCase {
         select.addSchema(schema);
         // System.out.println(select.toString());
         String expected = "SELECT o.bar FROM org.castor.cpa.query.Foo AS o "
-                + "WHERE o.position != true";
+                + "WHERE (o.position != true)";
         String actual = select.toString();
         assertEquals(actual, expected);
     }
@@ -74,7 +74,7 @@ public class TestQOCondition extends TestCase {
         select.addSchema(schema);
         // System.out.println(select.toString());
         String expected = "SELECT o.bar FROM org.castor.cpa.query.Foo AS o"
-                + " WHERE o.position < 7.0";
+                + " WHERE (o.position < 7.0)";
         String actual = select.toString();
         assertEquals(actual, expected);
     }
@@ -89,7 +89,7 @@ public class TestQOCondition extends TestCase {
         select.addSchema(schema);
         // System.out.println(select.toString());
         String expected = "SELECT o.bar FROM org.castor.cpa.query.Foo AS o"
-                + " WHERE o.position <= 'try'";
+                + " WHERE (o.position <= 'try')";
         String actual = select.toString();
         assertEquals(actual, expected);
     }
@@ -104,7 +104,7 @@ public class TestQOCondition extends TestCase {
         select.addSchema(schema);
         // System.out.println(select.toString());
         String expected = "SELECT o.bar FROM org.castor.cpa.query.Foo AS o"
-                + " WHERE o.position >= 40";
+                + " WHERE (o.position >= 40)";
         String actual = select.toString();
         assertEquals(actual, expected);
     }
@@ -119,7 +119,7 @@ public class TestQOCondition extends TestCase {
         select.addSchema(schema);
         // System.out.println(select.toString());
         String expected = "SELECT o.bar FROM org.castor.cpa.query.Foo AS o "
-                + "WHERE o.position > 21.9";
+                + "WHERE (o.position > 21.9)";
         String actual = select.toString();
         assertEquals(actual, expected);
     }
@@ -134,7 +134,7 @@ public class TestQOCondition extends TestCase {
         select.addSchema(schema);
         // System.out.println(select.toString());
         String expected = "SELECT o.bar FROM org.castor.cpa.query.Foo AS o"
-                + " WHERE o.position LIKE 'A%'";
+                + " WHERE (o.position LIKE 'A%')";
         String actual = select.toString();
         assertEquals(actual, expected);
     }
@@ -149,7 +149,7 @@ public class TestQOCondition extends TestCase {
         select.addSchema(schema);
         // System.out.println(select.toString());
         String expected = "SELECT o.bar FROM org.castor.cpa.query.Foo AS o"
-                + " WHERE o.position NOT LIKE 'A%'";
+                + " WHERE (o.position NOT LIKE 'A%')";
         String actual = select.toString();
         assertEquals(actual, expected);
     }
@@ -164,7 +164,7 @@ public class TestQOCondition extends TestCase {
         select.addSchema(schema);
         // System.out.println(select.toString());
         String expected = "SELECT o.bar FROM org.castor.cpa.query.Foo AS o"
-                + " WHERE o.position BETWEEN 'low' AND 'high'";
+                + " WHERE (o.position BETWEEN 'low' AND 'high')";
         String actual = select.toString();
         assertEquals(actual, expected);
     }
@@ -179,7 +179,7 @@ public class TestQOCondition extends TestCase {
         select.addSchema(schema);
         // System.out.println(select.toString());
         String expected = "SELECT o.bar FROM org.castor.cpa.query.Foo AS o"
-                + " WHERE o.position NOT BETWEEN 'low' AND 'high'";
+                + " WHERE (o.position NOT BETWEEN 'low' AND 'high')";
         String actual = select.toString();
         assertEquals(actual, expected);
     }

@@ -53,7 +53,7 @@ public class TestSelect extends TestCase {
         order.add(schema.field("cake"), OrderDirection.DESCENDING);
         select.setLimit(34, 45);
         String expected = "SELECT DISTINCT o.bar FROM org.castor.cpa.query.Foo AS o "
-                        + "WHERE  NOT (o.pen = 3) AND (o.pen <= 4) "
+                        + "WHERE (o.pen != 3) AND (o.pen <= 4) "
                         + "ORDER BY o.check ASC, o.cake DESC LIMIT 34 OFFSET 45";
         assertEquals(expected, select.toString());
         //System.out.println(select.toString());
