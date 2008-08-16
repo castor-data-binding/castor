@@ -29,20 +29,12 @@ public final class TestLessThan extends TestCase {
     //--------------------------------------------------------------
     
     /**
-     * Junit Test for instance.
-     */
-    public void testInstance() {
-        ComparisonOperator n = new LessThan();
-        assertTrue(n != null);
-     }
-
-    /**
      * Junit Test for not.
      */
     public void testNot() {
         ComparisonOperator n = new LessThan();
         assertTrue(n.not() instanceof GreaterEqual);
-     }
+    }
 
     /**
      * Junit Test for toString.
@@ -50,7 +42,7 @@ public final class TestLessThan extends TestCase {
     public void testToString() {
         ComparisonOperator n = new LessThan();
         assertEquals(" < ", n.toString());
-     }
+    }
     
     //--------------------------------------------------------------
 }

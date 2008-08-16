@@ -42,45 +42,82 @@ public final class TestCompoundCondition extends TestCase {
         assertTrue(n instanceof CompoundCondition);
         assertTrue(n instanceof AbstractCondition);
         assertTrue(n instanceof Condition);
-     }
+    }
 
     /**
      * Junit Test for getter setter.
      */
     public void testGetSet() {
-        MockCompoundCondition n = new MockCompoundCondition();
         Condition condition1 = new MockCondition();
         Condition condition2 = new MockCondition();
-        Condition condition3 = new MockCondition();
-        Condition condition4 = new MockCondition();
-        n.addCondition(condition1);
-        n.addCondition(condition2);
-        List < Condition > l = new ArrayList < Condition > ();
-        l.add(condition3);
-        l.add(condition4);
-        List < Condition > list = n.getConditions();
-        list.addAll(l);
-        assertEquals(condition1, list.get(0));
-        assertEquals(condition2, list.get(1));
-        assertEquals(condition3, list.get(2));
-        assertEquals(condition4, list.get(3));
-    } 
+
+        List < Condition > conditions = new ArrayList < Condition > ();
+        conditions.add(condition1);
+        conditions.add(condition2);
+
+        MockCompoundCondition compound1 = new MockCompoundCondition();
+
+        try {
+            compound1.addCondition(null);
+            fail("NullPointerException expected.");
+        } catch (NullPointerException ex) {
+            assertTrue(true);
+        }
+        
+        compound1.addCondition(condition1);
+        compound1.addCondition(condition2);
+        
+        List < Condition > conditions1 = compound1.getConditions();
+        assertNotNull(conditions1);
+        assertEquals(2, conditions1.size());
+        assertEquals(condition1, conditions1.get(0));
+        assertEquals(condition2, conditions1.get(1));
+        
+        MockCompoundCondition compound2 = new MockCompoundCondition();
+
+        try {
+            List < Condition > nulllist = new ArrayList < Condition > ();
+            nulllist.add(null);
+
+            compound2.addAllConditions(nulllist);
+            fail("NullPointerException expected.");
+        } catch (NullPointerException ex) {
+            assertTrue(true);
+        }
+        
+        compound2.addAllConditions(conditions);
+        
+        List < Condition > conditions2 = compound2.getConditions();
+        assertNotNull(conditions2);
+        assertEquals(2, conditions2.size());
+        assertEquals(condition1, conditions2.get(0));
+        assertEquals(condition2, conditions2.get(1));
+    }
     
     public void testToString() {
-        MockCompoundCondition n = new MockCompoundCondition();
-        Condition condition1 = new MockCondition();
-        Condition condition2 = new MockCondition();
-        Condition condition3 = new MockCondition();
-        Condition condition4 = new MockCondition();
-        n.addCondition(condition1);
-        n.addCondition(condition2);
-        List < Condition > l = new ArrayList < Condition > ();
-        l.add(condition3);
-        l.add(condition4);
-        List < Condition > list = n.getConditions();
-        list.addAll(l);
-        assertEquals("Condition operator Condition" 
-                + " operator Condition operator Condition", n.toString());
+        MockCompoundCondition compound1 = new MockCompoundCondition();
+        compound1.addCondition(new MockCondition());
+        compound1.addCondition(new MockCondition());
+        assertEquals("condition operator condition", compound1.toString());
+
+        MockCompoundCondition compound2 = new MockCompoundCondition();
+        compound2.addCondition(new MockCondition());
+        compound2.addCondition(new MockCondition());
+        assertEquals("condition operator condition", compound2.toString());
+
+        MockCompoundCondition compound = new MockCompoundCondition();
+        compound.addCondition(compound1);
+        compound.addCondition(compound2);
+        assertEquals("(condition operator condition) operator (condition operator condition)",
+                compound.toString());
     }
+    
+    public void testFactoryMethodNot() {
+        MockCompoundCondition compound = new MockCompoundCondition();
+        Condition condition = compound.not();
+        assertTrue(condition instanceof Not);
+        assertEquals(compound, ((Not) condition).getCondition());
+    }
+    
     //--------------------------------------------------------------
 }

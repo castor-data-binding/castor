@@ -15,7 +15,6 @@
  */
 package org.castor.cpa.query.object.condition;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.castor.cpa.query.Condition;
@@ -32,7 +31,7 @@ import junit.framework.TestCase;
  * @since 1.3
  */
 public class TestOr extends TestCase {
-   //--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     
     /**
      * Junit Test for instance.
@@ -42,38 +41,64 @@ public class TestOr extends TestCase {
         assertTrue(n instanceof CompoundCondition);
         assertTrue(n instanceof AbstractCondition);
         assertTrue(n instanceof Condition);
-     }
+    }
     
     /**
      * Junit Test for getOperator.
      */
     public final void testGetOperator() {
-        Or n = new Or();
-        assertEquals(" OR ", n.getOperator());
+        Or or = new Or();
+        assertEquals(" OR ", or.getOperator());
     }
     
     /**
      * Junit Test for toString.
      */
     public final void testToString() {
-        Or n = new Or();
-        n.addCondition(new MockCondition());
-        n.addCondition(new MockCondition());
-        List < Condition > conditions = new ArrayList < Condition > ();
-        conditions.add(new MockCondition());
-        conditions.add(new MockCondition());
-        n.addAllConditions(conditions);
-        assertEquals("Condition OR Condition OR Condition OR Condition", n.toString());
+        Or or = new Or();
+        or.addCondition(new MockCondition());
+        or.addCondition(new MockCondition());
+        assertEquals("condition OR condition", or.toString());
     }
     
     /**
      * Junit Test for factory method.
      */
     public final void testFactoryMethod() {
-        Condition n = new MockCondition();
-        Condition condition = n.or(new MockCondition());
-        assertEquals("Condition OR Condition", condition.toString());
+        Condition condition1 = new MockCondition();
+        Condition condition2 = new MockCondition();
+        Condition condition3 = new MockCondition();
+        Condition condition4 = new MockCondition();
+
+        Or or1 = new Or();
+        or1.addCondition(condition1);
+        or1.addCondition(condition2);
+        
+        Or or2 = new Or();
+        or2.addCondition(condition1);
+        or2.addCondition(condition2);
+        
+        Or or3 = new Or();
+        or3.addCondition(condition3);
+        or3.addCondition(condition4);
+        
+        or1.or(condition3);
+        List < Condition > conditions1 = or1.getConditions();
+        assertNotNull(conditions1);
+        assertEquals(3, conditions1.size());
+        assertEquals(condition1, conditions1.get(0));
+        assertEquals(condition2, conditions1.get(1));
+        assertEquals(condition3, conditions1.get(2));
+        
+        or2.or(or3);
+        List < Condition > conditions2 = or2.getConditions();
+        assertNotNull(conditions2);
+        assertEquals(4, conditions2.size());
+        assertEquals(condition1, conditions2.get(0));
+        assertEquals(condition2, conditions2.get(1));
+        assertEquals(condition3, conditions2.get(2));
+        assertEquals(condition4, conditions2.get(3));
     }
     
-//  --------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

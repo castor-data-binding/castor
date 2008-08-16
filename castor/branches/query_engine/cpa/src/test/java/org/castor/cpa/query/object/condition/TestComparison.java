@@ -15,18 +15,11 @@
  */
 package org.castor.cpa.query.object.condition;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 import junit.framework.TestCase;
 
 import org.castor.cpa.query.Condition;
 import org.castor.cpa.query.Expression;
 import org.castor.cpa.query.QueryObject;
-import org.castor.cpa.query.TemporalType;
 
 /**
  * Junit Test for testing comparison condition of query objects.
@@ -40,13 +33,25 @@ public final class TestComparison extends TestCase {
     //--------------------------------------------------------------
     
     /**
+     * Junit Test for constants.
+     */
+    public void testConstants() {
+        assertTrue(Comparison.EQUAL instanceof Equal);
+        assertTrue(Comparison.NOT_EQUAL instanceof NotEqual);
+        assertTrue(Comparison.LESS_THAN instanceof LessThan);
+        assertTrue(Comparison.LESS_EQUAL instanceof LessEqual);
+        assertTrue(Comparison.GREATER_EQUAL instanceof GreaterEqual);
+        assertTrue(Comparison.GREATER_THAN instanceof GreaterThan);
+    }
+    
+    /**
      * Junit Test for instance.
      */
     public void testInstance() {
-        QueryObject n = new Comparison(new Equal());
+        QueryObject n = new Comparison(Comparison.EQUAL);
         assertTrue(n instanceof AbstractCondition);
         assertTrue(n instanceof Condition);
-     }
+    }
     
     /**
      * Junit Test for constructor.
@@ -68,228 +73,42 @@ public final class TestComparison extends TestCase {
      * Junit Test for getters and setters.
      */
     public void testGetSet() {
+        Expression leftExp = new MockExpression();
+        Expression rightExp = new MockExpression();      
 
-       Equal operator = new Equal();
-       Expression leftExp = new MockExpression();
-       Expression rightExp = new MockExpression();      
-       Comparison n = new Comparison(operator);
-       n.setLeftSide(leftExp);
-       n.setRightSide(rightExp);
-       assertEquals(operator, n.getOperator());
-       assertEquals(leftExp, n.getLeftSide());
-       assertEquals(rightExp, n.getRightSide());
+        Comparison n = new Comparison(Comparison.EQUAL);
+        n.setLeftSide(leftExp);
+        n.setRightSide(rightExp);
+        assertEquals(leftExp, n.getLeftSide());
+        assertEquals(rightExp, n.getRightSide());
     }
     
     /**
      * Junit Test for toString.
      */
     public void testToString() {
+        Expression leftExp = new MockExpression();
+        Expression rightExp = new MockExpression();      
 
-       Equal operator = new Equal();
-       Expression leftExp = new MockExpression();
-       Expression rightExp = new MockExpression();      
-       Comparison n = new Comparison(operator);
-       n.setLeftSide(leftExp);
-       n.setRightSide(rightExp);
-       assertEquals("(expression = expression)", n.toString());
+        Comparison n = new Comparison(Comparison.EQUAL);
+        n.setLeftSide(leftExp);
+        n.setRightSide(rightExp);
+        assertEquals("(expression = expression)", n.toString());
     }
     
     /**
-     * Junit Test for factory method of Equal.
-     * @throws ParseException 
+     * Junit Test for not factory method.
      */
-    public void testFactoryMethodEqual() throws ParseException {
-        Expression n = new MockExpression();
-        Condition condition = n.equal(new BigDecimal("345.5"));
-        assertEquals("(expression = 345.5)", condition.toString());
+    public void testFactoryMethodNot() {
+        Comparison n = new Comparison(Comparison.EQUAL);
+        assertTrue(n.getOperator() instanceof Equal);
         
-        condition = n.equal(true);
-        assertEquals("(expression = true)", condition.toString());
-        
-        condition = n.equal(4.8);
-        assertEquals("(expression = 4.8)", condition.toString());
-        
-        condition = n.equal(new MockExpression());
-        assertEquals("(expression = expression)", condition.toString());
-        
-        condition = n.equal(45);
-        assertEquals("(expression = 45)", condition.toString());
-        
-        condition = n.equal("string");
-        assertEquals("(expression = 'string')", condition.toString());
-        
-        Date date = new SimpleDateFormat("HH:mm:ss.SSS").parse("12:34:56.789");
-        condition = n.equal(TemporalType.TIME, date);
-        assertEquals("(expression = TIME '12:34:56.789')", condition.toString());
-        
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        condition = n.equal(TemporalType.TIME, cal);
-        assertEquals("(expression = TIME '12:34:56.789')", condition.toString());
-    
+        n.not();
+        assertTrue(n.getOperator() instanceof NotEqual);
+
+        n.not();
+        assertTrue(n.getOperator() instanceof Equal);
     }
     
-    /**
-     * Junit Test for factory method of NotEqual.
-     * @throws ParseException 
-     */
-    public void testFactoryMethodNotEqual() throws ParseException {
-        Expression n = new MockExpression();
-        Condition condition = n.notEqual(new BigDecimal("345.5"));
-        assertEquals("(expression != 345.5)", condition.toString());
-        
-        condition = n.notEqual(true);
-        assertEquals("(expression != true)", condition.toString());
-        
-        condition = n.notEqual(4.8);
-        assertEquals("(expression != 4.8)", condition.toString());
-        
-        condition = n.notEqual(new MockExpression());
-        assertEquals("(expression != expression)", condition.toString());
-        
-        condition = n.notEqual(45);
-        assertEquals("(expression != 45)", condition.toString());
-        
-        condition = n.notEqual("string");
-        assertEquals("(expression != 'string')", condition.toString());
-        
-        Date date = new SimpleDateFormat("HH:mm:ss.SSS").parse("12:34:56.789");
-        condition = n.notEqual(TemporalType.TIME, date);
-        assertEquals("(expression != TIME '12:34:56.789')", condition.toString());
-        
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        condition = n.notEqual(TemporalType.TIME, cal);
-        assertEquals("(expression != TIME '12:34:56.789')", condition.toString());
-    
-    }
-    
-    /**
-     * Junit Test for factory method of LessThan.
-     * @throws ParseException 
-     */
-    public void testFactoryMethodLessThan() throws ParseException {
-        Expression n = new MockExpression();
-        Condition condition = n.lessThan(new BigDecimal("345.5"));
-        assertEquals("(expression < 345.5)", condition.toString());
-           
-        condition = n.lessThan(4.8);
-        assertEquals("(expression < 4.8)", condition.toString());
-        
-        condition = n.lessThan(new MockExpression());
-        assertEquals("(expression < expression)", condition.toString());
-        
-        condition = n.lessThan(45);
-        assertEquals("(expression < 45)", condition.toString());
-        
-        condition = n.lessThan("string");
-        assertEquals("(expression < 'string')", condition.toString());
-        
-        Date date = new SimpleDateFormat("HH:mm:ss.SSS").parse("12:34:56.789");
-        condition = n.lessThan(TemporalType.TIME, date);
-        assertEquals("(expression < TIME '12:34:56.789')", condition.toString());
-        
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        condition = n.lessThan(TemporalType.TIME, cal);
-        assertEquals("(expression < TIME '12:34:56.789')", condition.toString());
-    
-    }
-    
-    /**
-     * Junit Test for factory method of LessEqual.
-     * @throws ParseException 
-     */
-    public void testFactoryMethodLessEqual() throws ParseException {
-        Expression n = new MockExpression();
-        Condition condition = n.lessEqual(new BigDecimal("345.5"));
-        assertEquals("(expression <= 345.5)", condition.toString());
-           
-        condition = n.lessEqual(4.8);
-        assertEquals("(expression <= 4.8)", condition.toString());
-        
-        condition = n.lessEqual(new MockExpression());
-        assertEquals("(expression <= expression)", condition.toString());
-        
-        condition = n.lessEqual(45);
-        assertEquals("(expression <= 45)", condition.toString());
-        
-        condition = n.lessEqual("string");
-        assertEquals("(expression <= 'string')", condition.toString());
-        
-        Date date = new SimpleDateFormat("HH:mm:ss.SSS").parse("12:34:56.789");
-        condition = n.lessEqual(TemporalType.TIME, date);
-        assertEquals("(expression <= TIME '12:34:56.789')", condition.toString());
-        
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        condition = n.lessEqual(TemporalType.TIME, cal);
-        assertEquals("(expression <= TIME '12:34:56.789')", condition.toString());
-    
-    }
-    
-    /**
-     * Junit Test for factory method of GreaterEqual.
-     * @throws ParseException 
-     */
-    public void testFactoryMethodGreaterEqual() throws ParseException {
-        Expression n = new MockExpression();
-        Condition condition = n.greaterEqual(new BigDecimal("345.5"));
-        assertEquals("(expression >= 345.5)", condition.toString());
-           
-        condition = n.greaterEqual(4.8);
-        assertEquals("(expression >= 4.8)", condition.toString());
-        
-        condition = n.greaterEqual(new MockExpression());
-        assertEquals("(expression >= expression)", condition.toString());
-        
-        condition = n.greaterEqual(45);
-        assertEquals("(expression >= 45)", condition.toString());
-        
-        condition = n.greaterEqual("string");
-        assertEquals("(expression >= 'string')", condition.toString());
-        
-        Date date = new SimpleDateFormat("HH:mm:ss.SSS").parse("12:34:56.789");
-        condition = n.greaterEqual(TemporalType.TIME, date);
-        assertEquals("(expression >= TIME '12:34:56.789')", condition.toString());
-        
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        condition = n.greaterEqual(TemporalType.TIME, cal);
-        assertEquals("(expression >= TIME '12:34:56.789')", condition.toString());
-    
-    }
-    
-    /**
-     * Junit Test for factory method of GreaterThan.
-     * @throws ParseException 
-     */
-    public void testFactoryMethodGreaterThan() throws ParseException {
-        Expression n = new MockExpression();
-        Condition condition = n.greaterThan(new BigDecimal("345.5"));
-        assertEquals("(expression > 345.5)", condition.toString());
-           
-        condition = n.greaterThan(4.8);
-        assertEquals("(expression > 4.8)", condition.toString());
-        
-        condition = n.greaterThan(new MockExpression());
-        assertEquals("(expression > expression)", condition.toString());
-        
-        condition = n.greaterThan(45);
-        assertEquals("(expression > 45)", condition.toString());
-        
-        condition = n.greaterThan("string");
-        assertEquals("(expression > 'string')", condition.toString());
-        
-        Date date = new SimpleDateFormat("HH:mm:ss.SSS").parse("12:34:56.789");
-        condition = n.greaterThan(TemporalType.TIME, date);
-        assertEquals("(expression > TIME '12:34:56.789')", condition.toString());
-        
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        condition = n.greaterThan(TemporalType.TIME, cal);
-        assertEquals("(expression > TIME '12:34:56.789')", condition.toString());
-    
-    }
     //--------------------------------------------------------------
 }

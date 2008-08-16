@@ -29,8 +29,8 @@ import org.castor.cpa.query.QueryObject;
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public class TestLike extends TestCase {
-  //--------------------------------------------------------------
+public final class TestLike extends TestCase {
+    // --------------------------------------------------------------------------
     
     /**
      * Junit Test for instance.
@@ -40,8 +40,21 @@ public class TestLike extends TestCase {
         assertTrue(n instanceof SimpleCondition);
         assertTrue(n instanceof AbstractCondition);
         assertTrue(n instanceof Condition);
-     }
+    }
 
+    /**
+     * Junit Test for getters and setters.
+     */
+    public void testGetSet() {
+        Expression pattern = new MockExpression();
+        Expression escape = new MockExpression();
+
+        Like n = new Like();
+        n.setEscape(escape);
+        n.setPattern(pattern);
+        assertEquals(pattern, n.getPattern());
+        assertEquals(escape, n.getEscape());
+    }
     
     /**
      * Junit Test for toString.
@@ -97,42 +110,5 @@ public class TestLike extends TestCase {
         assertEquals("( LIKE )", n.toString());
     }
     
-    /**
-     * Junit Test for factory methods.
-     */
-    public void testFactoryMethods() {
-        Expression exp = new MockExpression();
-        Condition condition = exp.like(new MockParameter());
-        assertEquals("(expression LIKE parameter)", condition.toString());
-        condition = exp.notLike(new MockParameter());
-        assertEquals("(expression NOT LIKE parameter)", condition.toString());
-        
-        condition = exp.like("pattern");
-        assertEquals("(expression LIKE 'pattern')", condition.toString());
-        condition = exp.notLike("pattern");
-        assertEquals("(expression NOT LIKE 'pattern')", condition.toString());
-        
-        condition = exp.like(new MockParameter(), 'e');
-        assertEquals("(expression LIKE parameter ESCAPE 'e')", condition.toString());
-        condition = exp.notLike(new MockParameter(), 'e');
-        assertEquals("(expression NOT LIKE parameter ESCAPE 'e')", condition.toString());
-        
-        condition = exp.like(new MockParameter(), new MockParameter());
-        assertEquals("(expression LIKE parameter ESCAPE parameter)", condition.toString());
-        condition = exp.notLike(new MockParameter(), new MockParameter());
-        assertEquals("(expression NOT LIKE parameter ESCAPE parameter)", condition.toString());
-        
-        condition = exp.like("pattern", 'e');
-        assertEquals("(expression LIKE 'pattern' ESCAPE 'e')", condition.toString());
-        condition = exp.notLike("pattern", 'e');
-        assertEquals("(expression NOT LIKE 'pattern' ESCAPE 'e')", condition.toString());
-        
-        condition = exp.like("pattern", new MockParameter());
-        assertEquals("(expression LIKE 'pattern' ESCAPE parameter)", condition.toString());
-        condition = exp.notLike("pattern", new MockParameter());
-        assertEquals("(expression NOT LIKE 'pattern' ESCAPE parameter)", condition.toString());
-    
-    }
-    
-  //--------------------------------------------------------------
+    // --------------------------------------------------------------------------
 }

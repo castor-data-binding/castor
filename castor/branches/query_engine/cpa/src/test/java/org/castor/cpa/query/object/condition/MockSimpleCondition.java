@@ -15,34 +15,20 @@
  */
 package org.castor.cpa.query.object.condition;
 
-import junit.framework.TestCase;
-
 /**
- * Junit Test for testing greater equal comparison condition of query objects.
+ * Mock condition class for testing.
  * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public final class TestGreaterEqual extends TestCase {
-    //--------------------------------------------------------------
-    
-    /**
-     * Junit Test for not.
-     */
-    public void testNot() {
-        ComparisonOperator n = new GreaterEqual();
-        assertTrue(n.not() instanceof LessThan);
+public final class MockSimpleCondition extends SimpleCondition {
+    // --------------------------------------------------------------------------
+
+    public StringBuilder toString(final StringBuilder sb) {
+        return sb.append("simple");
     }
 
-    /**
-     * Junit Test for toString.
-     */
-    public void testToString() {
-        ComparisonOperator n = new GreaterEqual();
-        assertEquals(" >= ", n.toString());
-    }
-    
-    //--------------------------------------------------------------
+    // --------------------------------------------------------------------------
 }

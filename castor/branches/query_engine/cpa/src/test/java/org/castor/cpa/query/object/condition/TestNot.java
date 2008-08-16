@@ -21,47 +21,63 @@ import org.castor.cpa.query.Condition;
 import org.castor.cpa.query.QueryObject;
 
 /**
- * Junit Test for testing null condition of query objects.
+ * Junit Test for testing not condition of query objects.
  * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public final class TestNull extends TestCase {
-    // --------------------------------------------------------------------------
+public final class TestNot extends TestCase {
+    //--------------------------------------------------------------
     
     /**
      * Junit Test for instance.
      */
     public void testInstance() {
-        QueryObject n = new Null();
-        assertTrue(n instanceof SimpleCondition);
+        QueryObject n = new Not();
         assertTrue(n instanceof AbstractCondition);
         assertTrue(n instanceof Condition);
+    }
+    
+    /**
+     * Junit Test for getters and setters.
+     */
+    public void testGetSet() {
+        Condition condition = new MockCondition();
+
+        Not not = new Not();
+        not.setCondition(condition);
+        assertEquals(condition, not.getCondition());
     }
     
     /**
      * Junit Test for toString.
      */
     public void testToString() {
-        Null n = new Null();
-        n.setNot(false);
-        n.setExpression(null);
-        assertEquals("( IS NULL)", n.toString());
+        Not not = new Not();
+        assertEquals("NOT ", not.toString());
 
-        n.setNot(true);
-        n.setExpression(null);
-        assertEquals("( IS NOT NULL)", n.toString());
+        not.setCondition(new MockCondition());
+        assertEquals("NOT condition", not.toString());
 
-        n.setNot(false);
-        n.setExpression(new MockField());
-        assertEquals("(field IS NULL)", n.toString());
-
-        n.setNot(true);
-        n.setExpression(new MockField());
-        assertEquals("(field IS NOT NULL)", n.toString());
+        CompoundCondition compound = new MockCompoundCondition();
+        compound.addCondition(new MockCondition());
+        compound.addCondition(new MockCondition());
+        not.setCondition(compound);
+        assertEquals("NOT (condition operator condition)", not.toString());
     }
     
-    // --------------------------------------------------------------------------
+    /**
+     * Junit Test for not factory method.
+     */
+    public void testFactoryMethodNot() {
+        Condition condition = new MockCondition();
+
+        Not not = new Not();
+        not.setCondition(condition);
+        assertEquals(condition, not.not());
+    }
+    
+    //--------------------------------------------------------------
 }

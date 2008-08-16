@@ -18,50 +18,56 @@ package org.castor.cpa.query.object.condition;
 import junit.framework.TestCase;
 
 import org.castor.cpa.query.Condition;
+import org.castor.cpa.query.Expression;
 import org.castor.cpa.query.QueryObject;
 
 /**
- * Junit Test for testing null condition of query objects.
+ * Junit Test for testing not condition of query objects.
  * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public final class TestNull extends TestCase {
-    // --------------------------------------------------------------------------
+public final class TestSimpleCondition extends TestCase {
+    //--------------------------------------------------------------
     
     /**
      * Junit Test for instance.
      */
     public void testInstance() {
-        QueryObject n = new Null();
+        QueryObject n = new MockSimpleCondition();
         assertTrue(n instanceof SimpleCondition);
         assertTrue(n instanceof AbstractCondition);
         assertTrue(n instanceof Condition);
     }
     
     /**
-     * Junit Test for toString.
+     * Junit Test for getters and setters.
      */
-    public void testToString() {
-        Null n = new Null();
-        n.setNot(false);
-        n.setExpression(null);
-        assertEquals("( IS NULL)", n.toString());
-
-        n.setNot(true);
-        n.setExpression(null);
-        assertEquals("( IS NOT NULL)", n.toString());
-
-        n.setNot(false);
-        n.setExpression(new MockField());
-        assertEquals("(field IS NULL)", n.toString());
-
-        n.setNot(true);
-        n.setExpression(new MockField());
-        assertEquals("(field IS NOT NULL)", n.toString());
+    public void testGetSet() {
+        MockSimpleCondition condition = new MockSimpleCondition();
+        assertFalse(condition.isNot());
+        assertNull(condition.getExpression());
+        
+        Expression expression = new MockExpression();
+        condition.setNot(true);
+        condition.setExpression(expression);
+        assertTrue(condition.isNot());
+        assertEquals(expression, condition.getExpression());
     }
     
-    // --------------------------------------------------------------------------
+    /**
+     * Junit Test for not factory method.
+     */
+    public void testFactoryMethodNot() {
+        MockSimpleCondition condition1 = new MockSimpleCondition();
+        assertFalse(condition1.isNot());
+        
+        Condition condition2 = condition1.not();
+        assertEquals(condition1, condition2);
+        assertTrue(condition1.isNot());
+    }
+    
+    //--------------------------------------------------------------
 }

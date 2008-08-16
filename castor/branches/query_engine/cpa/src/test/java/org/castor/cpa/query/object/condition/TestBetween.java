@@ -15,18 +15,11 @@
  */
 package org.castor.cpa.query.object.condition;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 import junit.framework.TestCase;
 
 import org.castor.cpa.query.Condition;
 import org.castor.cpa.query.Expression;
 import org.castor.cpa.query.QueryObject;
-import org.castor.cpa.query.TemporalType;
 
 /**
  * Junit Test for testing between condition of query objects.
@@ -49,6 +42,20 @@ public final class TestBetween extends TestCase {
         assertTrue(n instanceof Condition);
     }
 
+    /**
+     * Junit Test for getters and setters.
+     */
+    public void testGetSet() {
+        Expression high = new MockExpression();
+        Expression low = new MockExpression();
+
+        Between n = new Between();
+        n.setHigh(high);
+        n.setLow(low);
+        assertEquals(high, n.getHigh());
+        assertEquals(low, n.getLow());
+    }
+        
     /**
      * Junit Test for toString.
      */
@@ -105,160 +112,5 @@ public final class TestBetween extends TestCase {
         assertEquals("( BETWEEN  AND )", n.toString());
     }
 
-    /**
-     * Junit Test for factory method for BigDecimal.
-     */
-    public void testFactoryMethodBigDecimal() {
-        Expression exp = new MockExpression();
-        Condition condition = exp.between(new BigDecimal("55.55"),
-                new BigDecimal("54.23"));
-        assertEquals("(expression BETWEEN 55.55 AND 54.23)", condition
-                .toString());
-        condition = exp.notBetween(new BigDecimal("55.55"), new BigDecimal(
-                "54.23"));
-        assertEquals("(expression NOT BETWEEN 55.55 AND 54.23)", condition
-                .toString());
-    }
-
-    /**
-     * Junit Test for factory method for Double.
-     */
-    public void testFactoryMethodDouble() {
-        Expression exp = new MockExpression();
-        Condition condition = exp.between(45.234, 324.234234);
-        assertEquals("(expression BETWEEN 45.234 AND 324.234234)", condition
-                .toString());
-        condition = exp.notBetween(45.234, 324.234234);
-        assertEquals("(expression NOT BETWEEN 45.234 AND 324.234234)",
-                condition.toString());
-    }
-
-    /**
-     * Junit Test for factory method for Expression.
-     */
-    public void testFactoryMethodExpression() {
-        Expression exp = new MockExpression();
-        Condition condition = exp.between(new MockExpression(),
-                new MockExpression());
-        assertEquals("(expression BETWEEN expression AND expression)",
-                condition.toString());
-        condition = exp.notBetween(new MockExpression(), new MockExpression());
-        assertEquals("(expression NOT BETWEEN expression AND expression)",
-                condition.toString());
-    }
-
-    /**
-     * Junit Test for factory method for Long.
-     */
-    public void testFactoryMethodLong() {
-        Expression exp = new MockExpression();
-        Condition condition = exp.between(342, 2345);
-        assertEquals("(expression BETWEEN 342 AND 2345)", condition.toString());
-        condition = exp.notBetween(342, 2345);
-        assertEquals("(expression NOT BETWEEN 342 AND 2345)", condition
-                .toString());
-    }
-
-    /**
-     * Junit Test for factory method for String.
-     */
-    public void testFactoryMethodString() {
-        Expression exp = new MockExpression();
-        Condition condition = exp.between("low", "high");
-        assertEquals("(expression BETWEEN 'low' AND 'high')", condition
-                .toString());
-        condition = exp.notBetween("low", "high");
-        assertEquals("(expression NOT BETWEEN 'low' AND 'high')", condition
-                .toString());
-    }
-
-    /**
-     * Junit Test for factory method for TemporalType.
-     * 
-     * @throws ParseException
-     */
-    public void testFactoryMethodTemporalType() throws ParseException {
-        Expression exp = new MockExpression();
-        Date dateLow = new SimpleDateFormat("HH:mm:ss.SSS")
-                .parse("12:34:56.789");
-        Date dateHigh = new SimpleDateFormat("HH:mm:ss.SSS")
-                .parse("23:45:34.456");
-        Condition condition = exp.between(TemporalType.TIME, dateLow, dateHigh);
-        assertEquals("(expression BETWEEN TIME "
-                + "'12:34:56.789' AND TIME '23:45:34.456')", condition
-                .toString());
-        condition = exp.notBetween(TemporalType.TIME, dateLow, dateHigh);
-        assertEquals("(expression NOT BETWEEN TIME "
-                + "'12:34:56.789' AND TIME '23:45:34.456')", condition
-                .toString());
-
-        dateLow = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
-                .parse("2007-08-08 12:34:56.789");
-        dateHigh = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
-                .parse("2008-08-08 12:34:56.789");
-        condition = exp.between(TemporalType.TIMESTAMP, dateLow, dateHigh);
-        assertEquals(
-                "(expression BETWEEN TIMESTAMP '2007-08-08 12:34:56.789' AND TIMESTAMP "
-                        + "'2008-08-08 12:34:56.789')", condition.toString());
-        condition = exp.notBetween(TemporalType.TIMESTAMP, dateLow, dateHigh);
-        assertEquals(
-                "(expression NOT BETWEEN TIMESTAMP '2007-08-08 12:34:56.789' AND TIMESTAMP "
-                        + "'2008-08-08 12:34:56.789')", condition.toString());
-
-        dateLow = new SimpleDateFormat("yyyy-MM-dd").parse("2007-08-08");
-        dateHigh = new SimpleDateFormat("yyyy-MM-dd").parse("2008-08-08");
-        condition = exp.between(TemporalType.DATE, dateLow, dateHigh);
-        assertEquals("(expression BETWEEN DATE '2007-08-08' AND DATE "
-                + "'2008-08-08')", condition.toString());
-        condition = exp.notBetween(TemporalType.DATE, dateLow, dateHigh);
-        assertEquals("(expression NOT BETWEEN DATE '2007-08-08' AND DATE "
-                + "'2008-08-08')", condition.toString());
-
-        dateLow = new SimpleDateFormat("HH:mm:ss.SSS").parse("13:45:34.456");
-        dateHigh = new SimpleDateFormat("HH:mm:ss.SSS").parse("23:45:34.456");
-        Calendar calLow = Calendar.getInstance();
-        calLow.setTime(dateLow);
-        Calendar calHigh = Calendar.getInstance();
-        calHigh.setTime(dateHigh);
-        condition = exp.between(TemporalType.TIME, calLow, calHigh);
-        assertEquals("(expression BETWEEN TIME '13:45:34.456' AND TIME "
-                + "'23:45:34.456')", condition.toString());
-        condition = exp.notBetween(TemporalType.TIME, calLow, calHigh);
-        assertEquals("(expression NOT BETWEEN TIME '13:45:34.456' AND TIME "
-                + "'23:45:34.456')", condition.toString());
-
-        dateLow = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
-                .parse("2007-08-08 12:34:56.789");
-        dateHigh = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
-                .parse("2007-08-08 22:34:56.789");
-        calLow = Calendar.getInstance();
-        calLow.setTime(dateLow);
-        calHigh = Calendar.getInstance();
-        calHigh.setTime(dateHigh);
-        condition = exp.between(TemporalType.TIMESTAMP, calLow, calHigh);
-        assertEquals(
-                "(expression BETWEEN TIMESTAMP '2007-08-08 12:34:56.789' AND TIMESTAMP "
-                        + "'2007-08-08 22:34:56.789')", condition.toString());
-        condition = exp.notBetween(TemporalType.TIMESTAMP, calLow, calHigh);
-        assertEquals(
-                "(expression NOT BETWEEN TIMESTAMP '2007-08-08 12:34:56.789' AND TIMESTAMP "
-                        + "'2007-08-08 22:34:56.789')", condition.toString());
-
-        dateLow = new SimpleDateFormat("yyyy-MM-dd").parse("2007-08-08");
-        dateHigh = new SimpleDateFormat("yyyy-MM-dd").parse("2008-08-08");
-        calLow = Calendar.getInstance();
-        calLow.setTime(dateLow);
-        calHigh = Calendar.getInstance();
-        calHigh.setTime(dateHigh);
-        condition = exp.between(TemporalType.DATE, calLow, calHigh);
-        assertEquals("(expression BETWEEN DATE '2007-08-08' AND DATE "
-                + "'2008-08-08')", condition.toString());
-        condition = exp.notBetween(TemporalType.DATE, calLow, calHigh);
-        assertEquals("(expression NOT BETWEEN DATE '2007-08-08' AND DATE "
-                + "'2008-08-08')", condition.toString());
-
-    }
-    
-    
-    //  --------------------------------------------------------------
+    // --------------------------------------------------------------------------
 }

@@ -61,6 +61,7 @@ public abstract class CompoundCondition extends AbstractCondition {
      * @param condition Condition to add to end of list.
      */
     public final void addCondition(final Condition condition) {
+        if (condition == null) { throw new NullPointerException(); }
         _conditions.add(condition);
     }
 
@@ -70,7 +71,7 @@ public abstract class CompoundCondition extends AbstractCondition {
      * @param conditions List of condition to add to end of list.
      */
     public final void addAllConditions(final List < Condition > conditions) {
-        if (_conditions == null) { _conditions = new ArrayList < Condition > (); }
+        if (conditions.contains(null)) { throw new NullPointerException(); }
         _conditions.addAll(conditions);
     }
 
@@ -95,7 +96,7 @@ public abstract class CompoundCondition extends AbstractCondition {
                 sb.append('(');
                 condition.toString(sb);
                 sb.append(')');
-            } else {
+            } else if (condition != null) {
                 condition.toString(sb);
             }
             if (iter.hasNext()) { sb.append(getOperator()); }
