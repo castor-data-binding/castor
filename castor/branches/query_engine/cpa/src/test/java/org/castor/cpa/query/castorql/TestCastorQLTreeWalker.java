@@ -15,9 +15,11 @@
  */
 package org.castor.cpa.query.castorql;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
-import org.castor.cpa.query.Parser;
 import org.castor.cpa.query.ParseException;
 import org.castor.cpa.query.TokenManagerError;
 import org.castor.cpa.query.QueryObject;
@@ -34,1831 +36,1109 @@ import junit.framework.TestCase;
  */
 public class TestCastorQLTreeWalker extends TestCase {
     // --------------------------------------------------------------------------
-    // TODO Add Tests for TIME DATE types
-    public final void testOrderBy() {
 
-        try {
-            // Mess the Query to see the exceptions
+    public final void testConstructor() {
+    	
+    	try{
+    		new CastorQLTreeWalker(new SimpleNode(3));
+    		fail("expected IllegalArgumentException !!!");
+    	}catch (IllegalArgumentException e) { 
+    		assertTrue(true);
+    	}
+
+    	try{
+    		new CastorQLTreeWalker((SimpleNode) null);
+    		fail("expected NullPointerException !!!");
+    	}catch (NullPointerException e) { 
+    		assertTrue(true);
+    	}
+    	
+    
+    	SimpleNode root = null;
+		try {
+			root = getSimpleNode("SelecT DisTinct o.item from de.jsci as o");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+    	try {
+    		new CastorQLTreeWalker(root);
+    		assertTrue(true);
+    	} catch (Exception e){
+    		fail("Exception didn't expeccted !!!");
+    		e.printStackTrace();
+    	}
+    	
+    }
+	
+    public final void testOrderBy() throws UnsupportedEncodingException, ParseException {
+
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " order by o.name, o.id desc";
 
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO"
                     + " AS o ORDER BY o.name ASC, o.id DESC";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
-            assertEquals(expected, actual);
 
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
+            assertEquals(expected, actual);
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testLimitOffsetWithInt() {
-
-        try {
+    public final void testLimitOffsetWithInt() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " limit 1 offset 2";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
                     + " LIMIT 1 OFFSET 2";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testLimitOffsetWithParameter() {
-
-        try {
+    public final void testLimitOffsetWithParameter() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " limit ?1 offset ?2";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
                     + " LIMIT ?1 OFFSET ?2";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareEqualWithBoolean() {
-
-        try {
+    public final void testCompareEqualWithBoolean() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted = true";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
                     + " WHERE (o.deleted = true)";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareEqualWithLong() {
-
-        try {
+    public final void testCompareEqualWithLong() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted = 67";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
                     + " WHERE (o.deleted = 67)";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareEqualWithDouble() {
-
-        try {
+    public final void testCompareEqualWithDouble() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted = 67.43";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
                     + " WHERE (o.deleted = 67.43)";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareEqualWithString() {
-
-        try {
+    public final void testCompareEqualWithString() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted = 'Testing'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
                     + " WHERE (o.deleted = 'Testing')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareEqualWithDate() {
-
-        try {
+    public final void testCompareEqualWithDate() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted = DATE '2008-08-04'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
                     + " WHERE (o.deleted = DATE '2008-08-04')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareEqualWithTime() {
-
-        try {
+    public final void testCompareEqualWithTime() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted = Time '03:22:04.9'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
                     + " WHERE (o.deleted = TIME '03:22:04.900')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareEqualWithTimestamp() {
-
-        try {
+    public final void testCompareEqualWithTimestamp() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted = TimeStamp '2008-08-05 03:22:04.000'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
                     + " WHERE (o.deleted = TIMESTAMP '2008-08-05 03:22:04.000')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareNotEqualWithBoolean() {
-
-        try {
+    public final void testCompareNotEqualWithBoolean() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted != true";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
                     + " WHERE (o.deleted != true)";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
-            assertEquals(expected, actual);
 
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
+            assertEquals(expected, actual);
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareNotEqualWithLong() {
-
-        try {
+    public final void testCompareNotEqualWithLong() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted != 67";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted != 67)";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareNotEqualWithDouble() {
-
-        try {
+    public final void testCompareNotEqualWithDouble() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted != 67.43";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted != 67.43)";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareNotEqualWithString() {
-
-        try {
+    public final void testCompareNotEqualWithString() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted != 'Testing'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted != 'Testing')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareNotEqualWithDate() {
-
-        try {
+    public final void testCompareNotEqualWithDate() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted != DATE '2008-08-04'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
                     + " WHERE (o.deleted != DATE '2008-08-04')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareNotEqualWithTime() {
-
-        try {
+    public final void testCompareNotEqualWithTime() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted != Time '03:22:04.000'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
                     + " WHERE (o.deleted != TIME '03:22:04.000')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareNotEqualWithTimestamp() {
-
-        try {
-
+    public final void testCompareNotEqualWithTimestamp() throws UnsupportedEncodingException, ParseException {
+    	
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted != TimeStamp '2008-08-05 03:22:04.000'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
                     + " WHERE (o.deleted != TIMESTAMP '2008-08-05 03:22:04.000')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
-            assertEquals(expected, actual);
 
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
+            assertEquals(expected, actual);
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareLessThanWithLong() {
-
-        try {
+    public final void testCompareLessThanWithLong() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted < 67";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted < 67)";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareLessThanWithDouble() {
-
-        try {
+    public final void testCompareLessThanWithDouble() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted < 67.43";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted < 67.43)";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareLessThanWithString() {
-
-        try {
+    public final void testCompareLessThanWithString() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted < 'Testing'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted < 'Testing')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareLessThanWithDate() {
-
-        try {
+    public final void testCompareLessThanWithDate() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted < DATE '2008-08-04'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
                     + " WHERE (o.deleted < DATE '2008-08-04')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareLessThanWithTime() {
-
-        try {
+    public final void testCompareLessThanWithTime() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted < Time '03:22:04'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
                     + " WHERE (o.deleted < TIME '03:22:04.000')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareLessThanWithTimestamp() {
-
-        try {
+    public final void testCompareLessThanWithTimestamp() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted < TimeStamp '2008-08-05 03:22:04.000'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
                     + " WHERE (o.deleted < TIMESTAMP '2008-08-05 03:22:04.000')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareLessEqualWithLong() {
-
-        try {
+    public final void testCompareLessEqualWithLong() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted <= 67";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted <= 67)";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareLessEqualWithDouble() {
-
-        try {
+    public final void testCompareLessEqualWithDouble() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted <= 67.43";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted <= 67.43)";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareLessEqualWithString() {
-
-        try {
+    public final void testCompareLessEqualWithString() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted <= 'Testing'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted <= 'Testing')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareLessEqualWithDate() {
-
-        try {
+    public final void testCompareLessEqualWithDate() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted <= DATE '2008-08-04'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
                     + " WHERE (o.deleted <= DATE '2008-08-04')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareLessEqualWithTime() {
-
-        try {
+    public final void testCompareLessEqualWithTime() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted <= Time '03:22:04'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
                     + " WHERE (o.deleted <= TIME '03:22:04.000')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareLessEqualWithTimestamp() {
-
-        try {
+    public final void testCompareLessEqualWithTimestamp() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted <= TimeStamp '2008-08-05 03:22:04.000'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
                     + " WHERE (o.deleted <= TIMESTAMP '2008-08-05 03:22:04.000')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareGreaterEqualWithLong() {
-
-        try {
+    public final void testCompareGreaterEqualWithLong() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted >= 67";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted >= 67)";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareGreaterEqualWithDouble() {
-
-        try {
+    public final void testCompareGreaterEqualWithDouble() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted >= 67.43";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted >= 67.43)";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareGreaterEqualWithString() {
-
-        try {
+    public final void testCompareGreaterEqualWithString() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted >= 'Testing'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted >= 'Testing')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareGreaterEqualWithDate() {
-
-        try {
+    public final void testCompareGreaterEqualWithDate() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted >= DATE '2008-08-04'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
                     + " WHERE (o.deleted >= DATE '2008-08-04')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareGreaterEqualWithTime() {
-
-        try {
+    public final void testCompareGreaterEqualWithTime() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted >= Time '03:22:04'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
                     + " WHERE (o.deleted >= TIME '03:22:04.000')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareGreaterEqualWithTimestamp() {
-
-        try {
+    public final void testCompareGreaterEqualWithTimestamp() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted >= TimeStamp '2008-08-05 03:22:04.090'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
                     + " WHERE (o.deleted >= TIMESTAMP '2008-08-05 03:22:04.090')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareGreaterThanWithLong() {
-
-        try {
+    public final void testCompareGreaterThanWithLong() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted > 67";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted > 67)";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareGreaterThanWithDouble() {
-
-        try {
+    public final void testCompareGreaterThanWithDouble() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted > 67.43";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted > 67.43)";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareGreaterThanWithString() {
-
-        try {
-
+    public final void testCompareGreaterThanWithString() throws UnsupportedEncodingException, ParseException {
+    	
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted > 'Testing'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted > 'Testing')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareGreaterThanWithDate() {
-
-        try {
+    public final void testCompareGreaterThanWithDate() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted > DATE '2008-08-04'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
                     + " WHERE (o.deleted > DATE '2008-08-04')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareGreaterThanWithTime() {
-
-        try {
+    public final void testCompareGreaterThanWithTime() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted > Time '03:22:04'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
                     + " WHERE (o.deleted > TIME '03:22:04.000')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCompareGreaterThanWithTimestamp() {
-
-        try {
+    public final void testCompareGreaterThanWithTimestamp() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted > TimeStamp '2008-08-05 03:22:04.009'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
                     + " WHERE (o.deleted > TIMESTAMP '2008-08-05 03:22:04.009')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testLikeWithString() {
-
-        try {
+    public final void testLikeWithString() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.$8de_leted LIKE '%s@T#'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.$8de_leted LIKE '%s@T#')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testLikeWithStringChar() {
-
-        try {
+    public final void testLikeWithStringChar() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted LIKE 'sT' ESCAPE 'r'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted LIKE 'sT' ESCAPE 'r')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testLikeWithStringParameter() {
-
-        try {
+    public final void testLikeWithStringParameter() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted LIKE 'sT' ESCAPE :N";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted LIKE 'sT' ESCAPE :N)";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testLikeWithParameter() {
-
-        try {
+    public final void testLikeWithParameter() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted LIKE :NamedParameter";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted LIKE :NamedParameter)";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testLikeWithParameterChar() {
-
-        try {
+    public final void testLikeWithParameterChar() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted LIKE :NamedParameter Escape 'r'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted LIKE :NamedParameter ESCAPE 'r')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testLikeWithParameterParameter() {
-
-        try {
+    public final void testLikeWithParameterParameter() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted LIKE :NamedParameter Escape :N";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted LIKE :NamedParameter ESCAPE :N)";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testNotLikeWithString() {
+    public final void testNotLikeWithString() throws UnsupportedEncodingException, ParseException {
 
-        try {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted NOT LIKE 'sT'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted NOT LIKE 'sT')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testNotLikeWithStringChar() {
-
-        try {
+    public final void testNotLikeWithStringChar() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted Not LIKE 'sT' ESCAPE 'r'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted NOT LIKE 'sT' ESCAPE 'r')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testNotLikeWithStringParameter() {
-
-        try {
+    public final void testNotLikeWithStringParameter() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted nOt LIKE 'sT' ESCAPE :N";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted NOT LIKE 'sT' ESCAPE :N)";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testNotLikeWithParameter() {
+    public final void testNotLikeWithParameter() throws UnsupportedEncodingException, ParseException {
 
-        try {
-
-            String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
+    	String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted not LIKE :NamedParameter";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted NOT LIKE :NamedParameter)";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testNotLikeWithParameterChar() {
-
-        try {
+    public final void testNotLikeWithParameterChar() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted not LIKE :NamedParameter Escape 'r'";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted NOT LIKE :NamedParameter ESCAPE 'r')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testNotLikeWithParameterParameter() {
-
-        try {
+    public final void testNotLikeWithParameterParameter() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted NOT LIKE :NamedParameter Escape :N";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted NOT LIKE :NamedParameter ESCAPE :N)";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testBetweenWithLong() {
-
-        try {
+    public final void testBetweenWithLong() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted betweEn 95 and 400 ";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted BETWEEN 95 AND 400)";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testBetweenWithDouble() {
-
-        try {
+    public final void testBetweenWithDouble() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted betweEn 95.43 and 400.95 ";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted BETWEEN 95.43 AND 400.95)";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testBetweenWithString() {
-
-        try {
+    public final void testBetweenWithString() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted betweEn 'Low' and 'High' ";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted BETWEEN 'Low' AND 'High')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testBetweenWithDate() {
-
-        try {
+    public final void testBetweenWithDate() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted betweEn DATE '2007-08-05' and DATE '2008-08-05' ";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted BETWEEN DATE '2007-08-05' AND DATE '2008-08-05')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testBetweenWithTime() {
-
-        try {
+    public final void testBetweenWithTime() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted betweEn TIME '06:52:56' and TIME '08:52:56' ";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted BETWEEN TIME '06:52:56.000' AND TIME '08:52:56.000')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
-
+            
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testBetweenWithTimestamp() {
-
-        try {
+    public final void testBetweenWithTimestamp() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted betweEn TIMESTAMP '2007-08-05 06:52:56.130' and "
                     + "TIMESTAMP '2008-08-05 08:52:56.130' ";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted BETWEEN TIMESTAMP '2007-08-05 06:52:56.130' AND "
                     + "TIMESTAMP '2008-08-05 08:52:56.130')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testNotBetweenWithLong() {
-
-        try {
+    public final void testNotBetweenWithLong() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted NOT betweEn 95 and 400 ";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted NOT BETWEEN 95 AND 400)";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testNotBetweenWithDouble() {
-
-        try {
+    public final void testNotBetweenWithDouble() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted NOT betweEn 95.43 and 400.95 ";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted NOT BETWEEN 95.43 AND 400.95)";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testNotBetweenWithString() {
-
-        try {
+    public final void testNotBetweenWithString() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted NOT betweEn 'Low' and 'High' ";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted NOT BETWEEN 'Low' AND 'High')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testNotBetweenWithDate() {
-
-        try {
+    public final void testNotBetweenWithDate() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted NOT betweEn DATE '2007-08-05' and DATE '2008-08-05' ";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted NOT BETWEEN DATE '2007-08-05' AND DATE '2008-08-05')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testNotBetweenWithTime() {
-
-        try {
+    public final void testNotBetweenWithTime() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted NOT betweEn TIME '06:52:56' and TIME '08:52:56' ";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted NOT BETWEEN TIME '06:52:56.000' AND TIME '08:52:56.000')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testNotBetweenWithTimestamp() {
-
-        try {
+    public final void testNotBetweenWithTimestamp() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted NOT betweEn TIMESTAMP '2007-08-05 06:52:56.013' and "
                     + "TIMESTAMP '2008-08-05 08:52:56.013' ";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted NOT BETWEEN TIMESTAMP '2007-08-05 06:52:56.013' AND "
                     + "TIMESTAMP '2008-08-05 08:52:56.013')";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testIn() {
-
-        try {
+    public final void testInWithPath() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                    + " where o.deleted NOT IN (3, 4.0,:asd)";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+                    + " where o.deleted NOT IN (o.path1, o.path2, o.path3)";
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                    + "WHERE (o.deleted NOT  IN (3, 4.0, :asd))";
+                    + "WHERE (o.deleted NOT  IN ('o.path1', 'o.path2', 'o.path3'))";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testNull() {
+    public final void testInParameter() throws UnsupportedEncodingException, ParseException {
 
-        try {
+            String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
+                    + " where o.deleted NOT IN (:test, ?453,:asd)";
+            QueryObject qo = getQO(oql);
+            String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+                    + "WHERE (o.deleted NOT  IN (:test, ?453, :asd))";
+            String actual = qo.toString();
+            assertEquals(expected, actual);
+
+    }
+
+    
+    // --------------------------------------------------------------------------
+
+    public final void testInLiterals() throws UnsupportedEncodingException, ParseException {
+
+            String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
+                    + " where o.deleted NOT IN (34, 453.34, true, 'String')";
+            QueryObject qo = getQO(oql);
+            String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+                    + "WHERE (o.deleted NOT  IN (34, 453.34, true, 'String'))";
+            String actual = qo.toString();
+            assertEquals(expected, actual);
+
+    }
+    
+    // --------------------------------------------------------------------------
+
+    public final void testNull() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted IS NOT NULL";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted IS NOT NULL)";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testComplex() {
-
-        try {
+    public final void testComplex() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted+3*5 = 4 and (o.deleted+3)*5 = 4 "
                     + " or o.deleted LIKE 'jk' and o.deleted IS NULL ";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE ((o.deleted + (3 * 5) = 4) AND ((o.deleted + 3) * 5 = 4))"
                     + " OR ((o.deleted LIKE 'jk') AND (o.deleted IS NULL))";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCustomFunction() {
-
-        try {
-
+    public final void testCustomFunction() throws UnsupportedEncodingException, ParseException {
+    	
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted = CustomFUNCTION (o.deleted)";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted = CustomFUNCTION(o.deleted))";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
     // --------------------------------------------------------------------------
 
-    public final void testCustomFunctionMoreParameters() {
-
-        try {
+    public final void testCustomFunctionMoreParameters() throws UnsupportedEncodingException, ParseException {
 
             String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                     + " where o.deleted = CustomFUNCTION (o.deleted,o.edited)";
-            Parser parser = new CastorQLParserAdapter();
-            QueryObject qo = parser.parse(oql);
+            QueryObject qo = getQO(oql);
             String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
                     + "WHERE (o.deleted = CustomFUNCTION(o.deleted, o.edited))";
             String actual = qo.toString();
-            // System.out.println(qo.toString());
             assertEquals(expected, actual);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace(System.out);
-        } catch (TokenManagerError tkme) {
-            tkme.printStackTrace(System.out);
-        }
 
     }
 
+    private QueryObject getQO(final String oql) throws UnsupportedEncodingException, ParseException {
+		CastorQLParser parser = null;
+		CastorQLParserTokenManager tkmgr = null;
+		try {
+
+			tkmgr = createTkmgr(oql);
+			parser = new CastorQLParser(tkmgr);
+			SimpleNode root = parser.select_statement();
+			CastorQLTreeWalker tw = new CastorQLTreeWalker(root);
+			return tw.getSelect();
+
+		} catch (org.castor.cpa.query.castorql.ParseException e) {
+			parser.ReInit(tkmgr);
+			throw new ParseException(e);
+		} catch (org.castor.cpa.query.castorql.TokenMgrError e) {
+			// parser.ReInit(tkmgr);
+			throw new TokenManagerError(e);
+		}
+	}
+    
+    private SimpleNode getSimpleNode(final String oql) throws UnsupportedEncodingException, ParseException {
+		CastorQLParser parser = null;
+		CastorQLParserTokenManager tkmgr = null;
+		try {
+
+			tkmgr = createTkmgr(oql);
+			parser = new CastorQLParser(tkmgr);
+			return parser.select_statement();
+		} catch (org.castor.cpa.query.castorql.ParseException e) {
+			parser.ReInit(tkmgr);
+			throw new ParseException(e);
+		} catch (org.castor.cpa.query.castorql.TokenMgrError e) {
+			// parser.ReInit(tkmgr);
+			throw new TokenManagerError(e);
+		}
+
+	}
+    private CastorQLParserTokenManager createTkmgr(final String oql) throws UnsupportedEncodingException {
+
+		StringBuffer stringBuffer = new StringBuffer(oql);
+		InputStream bis = new ByteArrayInputStream(stringBuffer.toString()
+				.getBytes("UTF-8"));
+		InputStreamReader isr = new InputStreamReader(bis, "UTF-8");
+		SimpleCharStream jSt = new SimpleCharStream(isr);
+		return new CastorQLParserTokenManager(jSt);
+	}
+    
     // --------------------------------------------------------------------------
 }

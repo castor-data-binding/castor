@@ -547,12 +547,12 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
         // **InItem **//
         for (int i = 0; node.jjtGetNumChildren() > i; i++) {
             if (((SimpleNode) node.jjtGetChild(i).jjtGetChild(0)).id == JJTPARAMETER) {
-                inCond.add(parameter((SimpleNode) node.jjtGetChild(i)
-                        .jjtGetChild(0)));
+                inCond.add(parameter((SimpleNode) node.jjtGetChild(i).jjtGetChild(0)));
             } else if (((SimpleNode) node.jjtGetChild(i).jjtGetChild(0)).id == JJTLITERAL) {
-                inCond.add(literal((SimpleNode) node.jjtGetChild(i)
-                        .jjtGetChild(0)));
-            } 
+                inCond.add(literal((SimpleNode) node.jjtGetChild(i).jjtGetChild(0)));
+            } else if (((SimpleNode) node.jjtGetChild(i).jjtGetChild(0)).id == JJTPATH) {
+                inCond.add(path((SimpleNode) node.jjtGetChild(i).jjtGetChild(0)));
+            }
         }
         return inCond;
     }
@@ -864,7 +864,7 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
      * @return the string
      */
     private String identifier(final SimpleNode node) {
-        return node.getText();
+    	   return node.getText();
     }
 
     /**
