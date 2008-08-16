@@ -33,6 +33,8 @@
         <mkdir dir="${classes}"/>
     	<mkdir dir="${jjtree.target}/org/castor/cpa/query/castorql"/>
     	<mkdir dir="${javacc.target}/org/castor/cpa/query/castorql"/>
+    	<mkdir dir="${jjtree.target}/org/castor/cpa/query/ejbql"/>
+    	<mkdir dir="${javacc.target}/org/castor/cpa/query/ejbql"/>
         <property name="prepare.cpa.executed" value="true"/>
     </target>
 
@@ -40,21 +42,36 @@
         <delete dir="${build}"/>
         <delete failonerror="false">
             <fileset dir="${jjtree.target}/org/castor/cpa/query/castorql"/>
+        	 <fileset dir="${jjtree.target}/org/castor/cpa/query/eqjql"/>
         </delete>
         <delete failonerror="false">
             <fileset dir="${javacc.target}/org/castor/cpa/query/castorql"/>
+        	<fileset dir="${javacc.target}/org/castor/cpa/queryejbql"/>
         </delete>
     </target>
 
     <target name="gen.parser" depends="prepare.cpa" description="Creating and Compiling CastorQL Parser">
         <jjtree target="${main.jjtree}/org/castor/cpa/query/castorql/CastorQL.jjt"
                 outputdirectory="${jjtree.target}/org/castor/cpa/query/castorql" 
+                javacchome="${javacc.home}"/>
+    	<jjtree target="${main.jjtree}/org/castor/cpa/query/ejbql/EjbQL.jjt"
+                outputdirectory="${jjtree.target}/org/castor/cpa/query/ejbql" 
                 javacchome="${javacc.home}"/> 
-        <javacc target="${jjtree.target}/org/castor/cpa/query/castorql/CastorQL.jj" 
+
+    	<javacc target="${jjtree.target}/org/castor/cpa/query/castorql/CastorQL.jj" 
                 outputdirectory="${javacc.target}/org/castor/cpa/query/castorql" 
                 javacchome="${javacc.home}" />
-        <copy todir="${javacc.target}/org/castor/cpa/query/castorql">
+        <javacc target="${jjtree.target}/org/castor/cpa/query/ejbql/EjbQL.jj" 
+                outputdirectory="${javacc.target}/org/castor/cpa/query/ejbql" 
+                javacchome="${javacc.home}" />
+
+    	<copy todir="${javacc.target}/org/castor/cpa/query/castorql">
             <fileset dir="${jjtree.target}/org/castor/cpa/query/castorql">
+                <include name="*.java"/>
+            </fileset>
+        </copy>
+        <copy todir="${javacc.target}/org/castor/cpa/query/ejbql">
+            <fileset dir="${jjtree.target}/org/castor/cpa/query/ejbql">
                 <include name="*.java"/>
             </fileset>
         </copy>
