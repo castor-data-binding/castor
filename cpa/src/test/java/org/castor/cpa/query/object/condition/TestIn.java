@@ -22,7 +22,6 @@ import junit.framework.TestCase;
 
 import org.castor.cpa.query.Condition;
 import org.castor.cpa.query.Expression;
-import org.castor.cpa.query.Field;
 import org.castor.cpa.query.InCondition;
 import org.castor.cpa.query.Literal;
 import org.castor.cpa.query.Parameter;
@@ -43,7 +42,7 @@ import org.castor.cpa.query.object.literal.StringLiteral;
  * @since 1.3
  */
 public final class TestIn extends TestCase {
-  //--------------------------------------------------------------
+    // --------------------------------------------------------------------------
     
     /**
      * Junit Test for instance.
@@ -60,18 +59,20 @@ public final class TestIn extends TestCase {
      * Junit Test for factory methods.
      */
     public void testItems() {
-        In n = new In();
         BigDecimal bigDecimal = new BigDecimal("34.67");
+        Literal literal = new StringLiteral("stringLiteral");
+        Parameter parameter = new MockParameter();
+
+        In n = new In();
         n.add(bigDecimal);
         n.add(true);
         n.add(5.6);
         n.add(MockEnum.TEST2);
-        Literal literal = new StringLiteral("stringLiteral");
         n.add(literal);
         n.add(342);
-        Parameter parameter = new MockParameter();
         n.add(parameter);
         n.add("string");
+        
         List < Expression > list = n.getItems();
         assertEquals(bigDecimal, ((BigDecimalLiteral) list.get(0)).getValue());
         assertEquals(true, ((BooleanLiteral) list.get(1)).getValue());
@@ -87,39 +88,24 @@ public final class TestIn extends TestCase {
      * Junit Test for toString.
      */
     public void testToString() {
+        BigDecimal bigDecimal = new BigDecimal("34.67");
+        Literal literal = new StringLiteral("stringLiteral");
+        Parameter parameter = new MockParameter();
+
         In n = new In();
         n.setExpression(new MockExpression());
-        BigDecimal bigDecimal = new BigDecimal("34.67");
         n.add(bigDecimal);
         n.add(true);
         n.add(5.6);
         n.add(MockEnum.TEST2);
-        Literal literal = new StringLiteral("stringLiteral");
         n.add(literal);
         n.add(342);
-        Parameter parameter = new MockParameter();
         n.add(parameter);
         n.add("string");
         assertEquals("(expression IN (34.67, true, 5.6, " 
-                + "org.castor.cpa.query.object.condition.MockEnum.TEST2," 
-                + " 'stringLiteral', 342, parameter, 'string'))", n.toString());
+                + "org.castor.cpa.query.object.condition.MockEnum.TEST2, " 
+                + "'stringLiteral', 342, parameter, 'string'))", n.toString());
      }
     
-    /**
-     * Junit Test for toString.
-     */
-    public void testFactoryMethods() {
-        Field n = new MockField();
-        InCondition items = n.in();
-        items.add(true);
-        items.add(5.6);
-        assertEquals("(field IN (true, 5.6))", items.toString());
-    
-        items = n.notIn();
-        items.add(true);
-        items.add(5.6);
-
-        assertEquals("(field NOT  IN (true, 5.6))", items.toString());
-    }
-  //--------------------------------------------------------------
+    // --------------------------------------------------------------------------
 }

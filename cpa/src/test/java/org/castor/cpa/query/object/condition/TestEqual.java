@@ -29,20 +29,12 @@ public final class TestEqual extends TestCase {
     //--------------------------------------------------------------
     
     /**
-     * Junit Test for instance.
-     */
-    public void testInstance() {
-        ComparisonOperator n = new Equal();
-        assertTrue(n != null);
-     }
-
-    /**
      * Junit Test for not.
      */
     public void testNot() {
         ComparisonOperator n = new Equal();
         assertTrue(n.not() instanceof NotEqual);
-     }
+    }
 
     /**
      * Junit Test for toString.
@@ -50,7 +42,7 @@ public final class TestEqual extends TestCase {
     public void testToString() {
         ComparisonOperator n = new Equal();
         assertEquals(" = ", n.toString());
-     }
+    }
     
     //--------------------------------------------------------------
 }

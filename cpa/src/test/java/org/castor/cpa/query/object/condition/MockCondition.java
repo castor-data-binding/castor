@@ -25,15 +25,15 @@ import org.castor.cpa.query.Condition;
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public class MockCondition extends AbstractCondition {
+public final class MockCondition extends AbstractCondition {
     // --------------------------------------------------------------
 
-    public final Condition not() {
+    public Condition not() {
         return new MockCondition();
     }
 
-    public final StringBuilder toString(final StringBuilder sb) {
-        return sb.append("Condition");
+    public StringBuilder toString(final StringBuilder sb) {
+        return sb.append("condition");
     }
 
     // --------------------------------------------------------------

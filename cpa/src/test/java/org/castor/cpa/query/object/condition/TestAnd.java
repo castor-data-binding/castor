@@ -15,7 +15,6 @@
  */
 package org.castor.cpa.query.object.condition;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.castor.cpa.query.Condition;
@@ -32,7 +31,7 @@ import junit.framework.TestCase;
  * @since 1.3
  */
 public final class TestAnd extends TestCase {
-   //--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     
     /**
      * Junit Test for instance.
@@ -42,38 +41,64 @@ public final class TestAnd extends TestCase {
         assertTrue(n instanceof CompoundCondition);
         assertTrue(n instanceof AbstractCondition);
         assertTrue(n instanceof Condition);
-     }
+    }
     
     /**
      * Junit Test for getOperator.
      */
     public void testGetOperator() {
-        And n = new And();
-        assertEquals(" AND ", n.getOperator());
+        And and = new And();
+        assertEquals(" AND ", and.getOperator());
     }
     
     /**
      * Junit Test for toString.
      */
     public void testToString() {
-        And n = new And();
-        n.addCondition(new MockCondition());
-        n.addCondition(new MockCondition());
-        List < Condition > conditions = new ArrayList < Condition > ();
-        conditions.add(new MockCondition());
-        conditions.add(new MockCondition());
-        n.addAllConditions(conditions);
-        assertEquals("Condition AND Condition AND Condition AND Condition", n.toString());
+        And and = new And();
+        and.addCondition(new MockCondition());
+        and.addCondition(new MockCondition());
+        assertEquals("condition AND condition", and.toString());
     }
     
     /**
      * Junit Test for factory method.
      */
     public void testFactoryMethod() {
-        Condition n = new MockCondition();
-        Condition condition = n.and(new MockCondition());
-        assertEquals("Condition AND Condition", condition.toString());
+        Condition condition1 = new MockCondition();
+        Condition condition2 = new MockCondition();
+        Condition condition3 = new MockCondition();
+        Condition condition4 = new MockCondition();
+
+        And and1 = new And();
+        and1.addCondition(condition1);
+        and1.addCondition(condition2);
+        
+        And and2 = new And();
+        and2.addCondition(condition1);
+        and2.addCondition(condition2);
+        
+        And and3 = new And();
+        and3.addCondition(condition3);
+        and3.addCondition(condition4);
+        
+        and1.and(condition3);
+        List < Condition > conditions1 = and1.getConditions();
+        assertNotNull(conditions1);
+        assertEquals(3, conditions1.size());
+        assertEquals(condition1, conditions1.get(0));
+        assertEquals(condition2, conditions1.get(1));
+        assertEquals(condition3, conditions1.get(2));
+        
+        and2.and(and3);
+        List < Condition > conditions2 = and2.getConditions();
+        assertNotNull(conditions2);
+        assertEquals(4, conditions2.size());
+        assertEquals(condition1, conditions2.get(0));
+        assertEquals(condition2, conditions2.get(1));
+        assertEquals(condition3, conditions2.get(2));
+        assertEquals(condition4, conditions2.get(3));
     }   
     
-//  --------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

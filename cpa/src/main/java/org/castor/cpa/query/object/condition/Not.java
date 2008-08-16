@@ -66,14 +66,16 @@ public final class Not  extends AbstractCondition {
      * {@inheritDoc}
      */
     public StringBuilder toString(final StringBuilder sb) {
-        if (_condition != null) {
-            sb.append(" NOT (");
+        sb.append("NOT ");
+        if (_condition instanceof CompoundCondition) {
+            sb.append('(');
             _condition.toString(sb);
-            sb.append(")");
+            sb.append(')');
+        } else if (_condition != null) {
+            _condition.toString(sb);
         }  
         return sb;
     }
 
     //--------------------------------------------------------------------------
-
 }
