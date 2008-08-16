@@ -52,8 +52,8 @@ import org.castor.cpa.query.object.parameter.PositionalParameter;
  * @since 1.3
  */
 //@SuppressWarnings("all")
-public final class CastorQLTreeWalker implements CastorQLParserTreeConstants,
-CastorQLParserConstants {
+public final class CastorQLTreeWalker
+implements CastorQLParserTreeConstants, CastorQLParserConstants {
     //--------------------------------------------------------------------------
     
     /** SelectQuery of query objcets. */
