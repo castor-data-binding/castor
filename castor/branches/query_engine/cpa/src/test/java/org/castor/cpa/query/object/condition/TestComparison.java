@@ -30,7 +30,7 @@ import org.castor.cpa.query.QueryObject;
  * @since 1.3
  */
 public final class TestComparison extends TestCase {
-    //--------------------------------------------------------------
+    //--------------------------------------------------------------------------
     
     /**
      * Junit Test for constants.
@@ -110,5 +110,5 @@ public final class TestComparison extends TestCase {
         assertTrue(n.getOperator() instanceof Equal);
     }
     
-    //--------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

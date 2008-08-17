@@ -32,17 +32,6 @@ import org.castor.cpa.query.object.expression.AbstractExpression;
  */
 public final class TestSubstring extends TestCase {
     //--------------------------------------------------------------------------
-
-    /**
-     * Instantiates a new junit Test for SUBSTRING function class of query objects.
-     * 
-     * @param name the name
-     */
-    public TestSubstring(final String name) {
-        super(name);
-    }
-
-    //--------------------------------------------------------------------------
     
     /**
      * Junit Test for instance.

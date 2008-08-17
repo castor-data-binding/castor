@@ -24,7 +24,7 @@ package org.castor.cpa.query;
  * @since 1.3
  */
 public interface Condition extends QueryObject {
-  //--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     
     /**
      * OR condition of condition query object.
@@ -51,5 +51,5 @@ public interface Condition extends QueryObject {
      */
     Condition not();
     
-  //--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

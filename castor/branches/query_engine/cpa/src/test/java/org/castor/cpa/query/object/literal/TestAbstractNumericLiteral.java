@@ -32,12 +32,6 @@ import junit.framework.TestCase;
  */
 public final class TestAbstractNumericLiteral extends TestCase {
     //--------------------------------------------------------------------------
-
-    public TestAbstractNumericLiteral(final String name) {
-        super(name);
-    }
-    
-    //--------------------------------------------------------------------------
     
     /**
      * Junit Test for instance.

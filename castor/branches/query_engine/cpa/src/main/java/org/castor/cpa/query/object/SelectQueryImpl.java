@@ -29,6 +29,7 @@ import org.castor.cpa.query.Literal;
 import org.castor.cpa.query.Order;
 import org.castor.cpa.query.OrderDirection;
 import org.castor.cpa.query.Parameter;
+import org.castor.cpa.query.Projection;
 import org.castor.cpa.query.Schema;
 import org.castor.cpa.query.SelectQuery;
 import org.castor.cpa.query.TemporalType;
@@ -68,8 +69,11 @@ public final class SelectQueryImpl extends AbstractQueryObject implements Select
     /** Order clause of the select query. */
     private Order _order;
     
-    /** Limit clause of the select query. */
-    private Limit _limit;
+    /** The number of records to limit result of select query to. */
+    private Expression _limit;
+    
+    /** The number of records to offset result of select query to. */
+    private Expression _offset;
     
     //--------------------------------------------------------------------------
 
@@ -147,15 +151,19 @@ public final class SelectQueryImpl extends AbstractQueryObject implements Select
     /**
      * {@inheritDoc}
      */
-    public Order newOrder(final Field field) {     
-        return new OrderImpl(field);
+    public Order newOrder(final Field field) {    
+        Order order = new OrderImpl();
+        order.add(field);
+        return order;
     }
     
     /**
      * {@inheritDoc}
      */
     public Order newOrder(final Field field, final OrderDirection direction) {     
-        return new OrderImpl(field, direction);
+        Order order = new OrderImpl();
+        order.add(field, direction);
+        return order;
     }  
     
     /**
@@ -195,14 +203,14 @@ public final class SelectQueryImpl extends AbstractQueryObject implements Select
      * {@inheritDoc}
      */
     public void addProjection(final Field field) {
-        _projections.add(new Projection(field));
+        _projections.add(new ProjectionImpl(field));
     }
 
     /**
      * {@inheritDoc}
      */
     public void addProjection(final Field field, final String alias) {
-        _projections.add(new Projection(field, alias));
+        _projections.add(new ProjectionImpl(field, alias));
     }
 
     /**
@@ -230,30 +238,34 @@ public final class SelectQueryImpl extends AbstractQueryObject implements Select
      * {@inheritDoc}
      */
     public void setLimit(final int limit) {
-        _limit = new Limit(new LongLiteral(limit));
+        _limit = new LongLiteral(limit);
+        _offset = null;
     }
 
     /**
      * {@inheritDoc}
      */
     public void setLimit(final Parameter limit) {
-        _limit = new Limit(limit);
+        _limit = limit;
+        _offset = null; 
     }
 
     /**
      * {@inheritDoc}
      */
     public void setLimit(final int limit, final int offset) {
-        _limit = new Limit(new LongLiteral(limit), new LongLiteral(offset));
+        _limit = new LongLiteral(limit);
+        _offset = new LongLiteral(offset);
     }
 
     /**
      * {@inheritDoc}
      */
     public void setLimit(final Parameter limit, final Parameter offset) {
-        _limit = new Limit(limit, offset);
+        _limit = limit;
+        _offset = offset;
     }
-
+    
     //--------------------------------------------------------------------------
 
     /**
@@ -263,17 +275,13 @@ public final class SelectQueryImpl extends AbstractQueryObject implements Select
         sb.append("SELECT ");
         if (_distinct) { sb.append("DISTINCT "); }
         for (Iterator < Projection > iter = _projections.iterator(); iter.hasNext(); ) {
-            iter.next().toString(sb);
-            if (iter.hasNext()) {
-                sb.append(", ");
-            }
+            iter.next().toFullString(sb);
+            if (iter.hasNext()) { sb.append(", "); }
         }
         sb.append(" FROM ");
         for (Iterator < Schema > iter = _schemas.iterator(); iter.hasNext(); ) {
-            iter.next().toString(sb);
-            if (iter.hasNext()) {
-                sb.append(", ");
-            }
+            iter.next().toFullString(sb);
+            if (iter.hasNext()) { sb.append(", "); }
         }
         if (_where != null) {
             sb.append(" WHERE ");
@@ -286,6 +294,10 @@ public final class SelectQueryImpl extends AbstractQueryObject implements Select
         if (_limit != null) {
             sb.append(" LIMIT ");
             _limit.toString(sb);
+            if (_offset != null) {
+                sb.append(" OFFSET ");
+                _offset.toString(sb);
+            }
         }  
         return sb;
     }

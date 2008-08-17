@@ -43,19 +43,17 @@ public final class SchemaImpl extends AbstractField implements Schema  {
     //--------------------------------------------------------------------------
     
     /**
-     * Construct schema with given identifier. The name given can be an abstract schema name
-     * or the name of the type represented by the schema. If name does not include '.' it is
-     * assumed to be an abstract schema name.
+     * Construct schema with given abstract schema name and identifier.
      * 
-     * @param name The abstract schema name or the name of the type represented by the Schema.
+     * @param name The abstract schema name represented by the Schema.
      * @param identifier The identifier of the schema.
      */
     public SchemaImpl(final String name, final String identifier) {
-        if (name.indexOf('.') < 0) {
-            _abstractName = name;
-        } else {
-            _typeName = name;
-        }
+        if (name == null) { throw new NullPointerException(); }
+        if (identifier == null) { throw new NullPointerException(); }
+        _abstractName = name;
+        _typeName = null;
+        _type = null;
         _identifier = identifier;
     }
     
@@ -66,6 +64,8 @@ public final class SchemaImpl extends AbstractField implements Schema  {
      * @param identifier The identifier of the schema.
      */
     public SchemaImpl(final Class < ? > type, final String identifier) {
+        if (identifier == null) { throw new NullPointerException(); }
+        _abstractName = null;
         _typeName = type.getName();
         _type = type;
         _identifier = identifier;
@@ -115,16 +115,28 @@ public final class SchemaImpl extends AbstractField implements Schema  {
      * {@inheritDoc}
      */ 
     public StringBuilder toString(final StringBuilder sb) {
+        return sb.append(_identifier);
+    }
+
+    /**
+     * {@inheritDoc}
+     */ 
+    public StringBuilder toFullString(final StringBuilder sb) {
         if (_abstractName != null) {
             sb.append(_abstractName);
         } else if (_typeName != null) {
             sb.append(_typeName);
         }
         sb.append(" AS ");
-        if (_identifier != null) {
-            sb.append(_identifier);             
-        }
+        sb.append(_identifier);
         return sb;
+    }
+
+    /**
+     * {@inheritDoc}
+     */ 
+    public String toFullString() {
+        return toFullString(new StringBuilder()).toString();
     }
     
     //--------------------------------------------------------------------------

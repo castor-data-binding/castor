@@ -26,11 +26,14 @@ import org.castor.cpa.query.object.AbstractField;
  * @since 1.3
  */
 public final class MockField extends AbstractField {
-    // --------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
+    /**
+     * {@inheritDoc}
+     */
     public StringBuilder toString(final StringBuilder sb) {
         return sb.append("field");
     }
     
-    // --------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

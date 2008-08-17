@@ -133,18 +133,12 @@ public final class Locate extends AbstractFunction {
         }
 
         sb.append("LOCATE(");
-        if (_string != null) {
-            _string.toString(sb);
-        }
+        if (_string != null) { _string.toString(sb); }
         sb.append(", ");
-        if (_value != null) {
-            _value.toString(sb);
-        }
+        if (_value != null) { _value.toString(sb); }
         if (!defaultStart) {
             sb.append(", ");
-            if (_index != null) {
-                _index.toString(sb);
-            }
+            if (_index != null) { _index.toString(sb); }
         }
         return sb.append(')');
     }

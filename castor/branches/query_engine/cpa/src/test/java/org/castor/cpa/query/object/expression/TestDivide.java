@@ -30,7 +30,8 @@ import org.castor.cpa.query.object.literal.LongLiteral;
  * @since 1.3
  */
 public final class TestDivide extends TestCase {
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
+
     /**
      * Junit Test for instance.
      */
@@ -62,5 +63,5 @@ public final class TestDivide extends TestCase {
         assertEquals("3 / 2 / 1", exp.toString());
     }    
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

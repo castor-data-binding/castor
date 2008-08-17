@@ -31,18 +31,7 @@ import org.castor.cpa.query.object.expression.AbstractExpression;
  * @since 1.3
  */
 public final class TestLongLiteral extends TestCase {
-    //--------------------------------------------------------------
-
-    /**
-     * Instantiates a new junit Test for Long Literal.
-     * 
-     * @param name the name
-     */
-    public TestLongLiteral(final String name) {
-        super(name);
-    }
-
-    //--------------------------------------------------------------
+    //--------------------------------------------------------------------------
     
     /**
      * Junit Test for instance Long Literal.
@@ -72,5 +61,5 @@ public final class TestLongLiteral extends TestCase {
         assertEquals("222", n.toString()); 
     }
 
-    //--------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

@@ -26,7 +26,7 @@ import org.castor.cpa.query.object.parameter.AbstractParameter;
  * @since 1.3
  */
 public final class MockParameter extends AbstractParameter {
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -35,5 +35,5 @@ public final class MockParameter extends AbstractParameter {
         return sb.append("parameter");
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

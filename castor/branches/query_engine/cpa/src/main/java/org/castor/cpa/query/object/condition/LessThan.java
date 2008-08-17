@@ -37,15 +37,15 @@ public final class LessThan implements ComparisonOperator {
     /**
      * {@inheritDoc}
      */
-    public ComparisonOperator not() {
-        return Comparison.GREATER_EQUAL;
+    public String getOperator() {
+        return " < ";
     }
 
     /**
      * {@inheritDoc}
      */
-    public String toString() {
-        return " < ";
+    public ComparisonOperator not() {
+        return Comparison.GREATER_EQUAL;
     }
 
     //--------------------------------------------------------------------------

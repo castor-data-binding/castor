@@ -29,7 +29,7 @@ import org.castor.cpa.query.QueryObject;
  * @since 1.3
  */
 public final class TestNull extends TestCase {
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     
     /**
      * Junit Test for instance.
@@ -63,5 +63,5 @@ public final class TestNull extends TestCase {
         assertEquals("(field IS NOT NULL)", n.toString());
     }
     
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

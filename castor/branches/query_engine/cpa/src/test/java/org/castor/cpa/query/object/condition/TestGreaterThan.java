@@ -26,7 +26,7 @@ import junit.framework.TestCase;
  * @since 1.3
  */
 public final class TestGreaterThan extends TestCase {
-    //--------------------------------------------------------------    
+    //--------------------------------------------------------------------------
    
     /**
      * Junit Test for not.
@@ -37,12 +37,12 @@ public final class TestGreaterThan extends TestCase {
     }
 
     /**
-     * Junit Test for toString.
+     * Junit Test for get operator.
      */
-    public void testToString() {
+    public void testGetOperator() {
         ComparisonOperator n = new GreaterThan();
-        assertEquals(" > ", n.toString());
+        assertEquals(" > ", n.getOperator());
     }
     
-    //--------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

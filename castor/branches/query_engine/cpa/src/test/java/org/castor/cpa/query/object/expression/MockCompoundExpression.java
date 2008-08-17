@@ -24,7 +24,7 @@ package org.castor.cpa.query.object.expression;
  * @since 1.3
  */
 public final class MockCompoundExpression extends CompoundExpression {
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -33,5 +33,5 @@ public final class MockCompoundExpression extends CompoundExpression {
         return " & ";
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

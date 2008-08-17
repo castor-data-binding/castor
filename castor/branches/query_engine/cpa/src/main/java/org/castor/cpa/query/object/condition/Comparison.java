@@ -137,7 +137,7 @@ public final class Comparison extends AbstractCondition {
         if (_leftSide != null) {
             _leftSide.toString(sb);
         }
-        sb.append(_operator.toString());
+        sb.append(_operator.getOperator());
         if (_rightSide != null) {
             _rightSide.toString(sb);
         }

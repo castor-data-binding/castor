@@ -24,6 +24,8 @@ package org.castor.cpa.query;
  * @since 1.3
  */
 public enum TrimSpecification {
+    //--------------------------------------------------------------------------
+
     /** Trim LEADING characters. */
     LEADING,
     
@@ -32,4 +34,6 @@ public enum TrimSpecification {
     
     /** Trim BOTH (leading and trailing) characters. */
     BOTH
+
+    //--------------------------------------------------------------------------
 }

@@ -15,7 +15,6 @@
  */
 package org.castor.cpa.query.object;
 
-
 /**
  * Mock class for testing AbstractQueryObject class.
  * 
@@ -27,8 +26,11 @@ package org.castor.cpa.query.object;
 public final class MockQueryObject extends AbstractQueryObject {
     //--------------------------------------------------------------------------
 
+    /**
+     * {@inheritDoc}
+     */
     public StringBuilder toString(final StringBuilder sb) {
-        return sb.append("queryObject");
+        return sb.append("queryobject");
     }
 
     //--------------------------------------------------------------------------

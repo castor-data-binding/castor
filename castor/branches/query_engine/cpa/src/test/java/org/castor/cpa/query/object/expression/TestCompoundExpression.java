@@ -32,7 +32,7 @@ import junit.framework.TestCase;
  * @since 1.3
  */
 public final class TestCompoundExpression extends TestCase {
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Junit Test for instance.
@@ -81,5 +81,5 @@ public final class TestCompoundExpression extends TestCase {
         assertEquals("expression & expression", n.toString());
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

@@ -32,7 +32,7 @@ import junit.framework.TestCase;
  * @since 1.3
  */
 public final class TestCompoundCondition extends TestCase {
-    //--------------------------------------------------------------
+    //--------------------------------------------------------------------------
     
     /**
      * Junit Test for instance.
@@ -119,5 +119,5 @@ public final class TestCompoundCondition extends TestCase {
         assertEquals(compound, ((Not) condition).getCondition());
     }
     
-    //--------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

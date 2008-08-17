@@ -30,7 +30,7 @@ import org.castor.cpa.query.QueryObject;
  * @since 1.3
  */
 public final class TestSimpleCondition extends TestCase {
-    //--------------------------------------------------------------
+    //--------------------------------------------------------------------------
     
     /**
      * Junit Test for instance.
@@ -69,5 +69,5 @@ public final class TestSimpleCondition extends TestCase {
         assertTrue(condition1.isNot());
     }
     
-    //--------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

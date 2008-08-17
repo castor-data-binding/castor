@@ -28,18 +28,7 @@ import org.castor.cpa.query.Literal;
  * @since 1.3
  */
 public final class TestBooleanLiteral extends TestCase {
-    //--------------------------------------------------------------
-
-    /**
-     * Instantiates a new junit Test for Boolean Literal.
-     * 
-     * @param name the name
-     */
-    public TestBooleanLiteral(final String name) {
-        super(name);
-    }
-    
-    //--------------------------------------------------------------
+    //--------------------------------------------------------------------------
     
     /**
      * Junit Test for instance Boolean Literal.
@@ -71,5 +60,5 @@ public final class TestBooleanLiteral extends TestCase {
         assertEquals("false", n.toString()); 
     }
 
-    //--------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

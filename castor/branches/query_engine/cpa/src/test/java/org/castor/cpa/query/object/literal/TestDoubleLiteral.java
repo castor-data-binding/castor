@@ -31,18 +31,7 @@ import org.castor.cpa.query.object.expression.AbstractExpression;
  * @since 1.3
  */
 public final class TestDoubleLiteral extends TestCase {
-    //--------------------------------------------------------------
-
-    /**
-     * Instantiates a new junit Test for Double Literal.
-     * 
-     * @param name the name
-     */
-    public TestDoubleLiteral(final String name) {
-        super(name);
-    }
-
-    //--------------------------------------------------------------
+    //--------------------------------------------------------------------------
     
     /**
      * Junit Test for instance Double Literal.
@@ -72,5 +61,5 @@ public final class TestDoubleLiteral extends TestCase {
         assertEquals("2.04", n.toString()); 
     }
 
-    //--------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

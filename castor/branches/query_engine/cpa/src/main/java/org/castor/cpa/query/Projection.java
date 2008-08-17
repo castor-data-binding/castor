@@ -13,44 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.cpa.query.object.function;
-
-import junit.framework.TestCase;
-
-import org.castor.cpa.query.Expression;
-import org.castor.cpa.query.Function;
-import org.castor.cpa.query.QueryObject;
-import org.castor.cpa.query.object.expression.AbstractExpression;
+package org.castor.cpa.query;
 
 /**
- * Junit Test for testing AbstractFunction class.
- * 
+ * Interface for Projection of query objects.
+ *
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public final class TestAbstractFunction extends TestCase {
+public interface Projection extends Field {
     //--------------------------------------------------------------------------
-    
-    /**
-     * Junit Test for instance.
-     */
-    public void testInstance() {
-        QueryObject n = new MockFunction();
-        assertTrue(n instanceof AbstractFunction);
-        assertTrue(n instanceof Function);
-        assertTrue(n instanceof AbstractExpression);
-        assertTrue(n instanceof Expression);
-    }
 
     /**
-     * Junit Test for toString.
+     * Append full string representation of projection to the given <code>StringBuilder</code>.
+     * For projection toString() method returns alias only. To get full projection string
+     * one has to call toFullString() method.
+     *
+     * @param sb StringBuilder to append the string representation of this object to.
+     * @return Same instance of StringBuilder given as parameter.
      */
-    public void testToString() {
-       Function n = new MockFunction();
-       assertEquals("function", n.toString()); 
-    } 
+    StringBuilder toFullString(StringBuilder sb);
+
+    /**
+     * Append full string representation of projection to the given <code>StringBuilder</code>.
+     * For projection toString() method returns alias only. To get full projection string
+     * one has to call toFullString() method.
+     *
+     * @return String with full representation of projection.
+     */
+    String toFullString();
 
     //--------------------------------------------------------------------------
 }

@@ -26,7 +26,7 @@ import org.castor.cpa.query.Expression;
  * @since 1.3
  */
 public final class Upper extends AbstractFunction {
-    //--------------------------------------------------------------------------   
+    //--------------------------------------------------------------------------
     
     /** The string expression of UPPER function. */
     private Expression _string;

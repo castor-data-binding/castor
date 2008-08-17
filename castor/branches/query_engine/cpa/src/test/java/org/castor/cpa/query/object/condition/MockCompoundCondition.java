@@ -24,7 +24,7 @@ package org.castor.cpa.query.object.condition;
  * @since 1.3
  */
 public final class MockCompoundCondition extends CompoundCondition {
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -33,5 +33,5 @@ public final class MockCompoundCondition extends CompoundCondition {
         return " operator ";
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

@@ -30,7 +30,7 @@ import org.castor.cpa.query.QueryObject;
  * @since 1.3
  */
 public final class TestLike extends TestCase {
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     
     /**
      * Junit Test for instance.
@@ -110,5 +110,5 @@ public final class TestLike extends TestCase {
         assertEquals("( LIKE )", n.toString());
     }
     
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

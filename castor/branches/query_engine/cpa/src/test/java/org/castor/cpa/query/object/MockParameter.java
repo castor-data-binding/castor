@@ -17,9 +17,8 @@ package org.castor.cpa.query.object;
 
 import org.castor.cpa.query.object.parameter.AbstractParameter;
 
-
 /**
- * Mock class for testing AbstractParameter.
+ * Mock parameter class for testing.
  * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
@@ -29,8 +28,11 @@ import org.castor.cpa.query.object.parameter.AbstractParameter;
 public final class MockParameter extends AbstractParameter {
     //--------------------------------------------------------------------------
 
+    /**
+     * {@inheritDoc}
+     */
     public StringBuilder toString(final StringBuilder sb) {
-        return sb.append("Parameter");
+        return sb.append("parameter");
     }
 
     //--------------------------------------------------------------------------

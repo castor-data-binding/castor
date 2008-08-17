@@ -37,17 +37,6 @@ import org.castor.cpa.query.object.literal.LongLiteral;
  */
 public final class TestLocate extends TestCase {
     //--------------------------------------------------------------------------
-
-    /**
-     * Instantiates a new junit Test for LOCATE function class of query objects.
-     * 
-     * @param name the name
-     */
-    public TestLocate(final String name) {
-        super(name);
-    }
-
-    //--------------------------------------------------------------------------
     
     /**
      * Junit Test for instance.

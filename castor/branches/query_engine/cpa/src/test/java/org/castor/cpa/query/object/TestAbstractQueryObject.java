@@ -25,18 +25,15 @@ import junit.framework.TestCase;
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public class TestAbstractQueryObject extends TestCase {
+public final class TestAbstractQueryObject extends TestCase {
     //--------------------------------------------------------------------------
 
-    public TestAbstractQueryObject(final String name) {
-        super(name);
-    }
-
-    //--------------------------------------------------------------------------
-
-    public static void testToString() {
+    /**
+     * Junit Test for toString method.
+     */
+    public void testToString() {
         MockQueryObject n = new MockQueryObject();
-        assertEquals("queryObject", n.toString()); 
+        assertEquals("queryobject", n.toString()); 
     } 
 
     //--------------------------------------------------------------------------
