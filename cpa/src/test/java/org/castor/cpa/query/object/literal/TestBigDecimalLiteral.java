@@ -33,18 +33,7 @@ import org.castor.cpa.query.object.expression.AbstractExpression;
  * @since 1.3
  */
 public final class TestBigDecimalLiteral extends TestCase {
-    //--------------------------------------------------------------
-
-    /**
-     * Instantiates a new junit Test for BigDecimal literal.
-     * 
-     * @param name the name
-     */
-    public TestBigDecimalLiteral(final String name) {
-        super(name);
-    }
-
-    //--------------------------------------------------------------
+    //--------------------------------------------------------------------------
         
     /**
      * Junit Test for instance BigDecimal literal.
@@ -82,5 +71,5 @@ public final class TestBigDecimalLiteral extends TestCase {
         assertEquals("1115.37", n.toString()); 
     }
 
-    //--------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

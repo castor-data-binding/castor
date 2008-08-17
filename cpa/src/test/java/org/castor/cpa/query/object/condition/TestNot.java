@@ -29,7 +29,7 @@ import org.castor.cpa.query.QueryObject;
  * @since 1.3
  */
 public final class TestNot extends TestCase {
-    //--------------------------------------------------------------
+    //--------------------------------------------------------------------------
     
     /**
      * Junit Test for instance.
@@ -79,5 +79,5 @@ public final class TestNot extends TestCase {
         assertEquals(condition, not.not());
     }
     
-    //--------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

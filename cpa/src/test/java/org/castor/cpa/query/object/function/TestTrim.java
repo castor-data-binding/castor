@@ -36,17 +36,6 @@ public final class TestTrim extends TestCase {
     //--------------------------------------------------------------------------
 
     /**
-     * Instantiates a new junit Test for TRIM function class of query objects.
-     * 
-     * @param name the name
-     */
-    public TestTrim(final String name) {
-        super(name);
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
      * Junit Test for instance.
      */
     public void testInstance() {

@@ -88,12 +88,8 @@ public final class CustomFunction extends AbstractFunction {
         if (_parameters != null) {
             for (Iterator < Expression > iter = _parameters.iterator(); iter.hasNext(); ) {
                 Expression expression = iter.next();
-                if (expression != null) {
-                    expression.toString(sb);
-                }
-                if (iter.hasNext()) {
-                    sb.append(", ");
-                }
+                if (expression != null) { expression.toString(sb); }
+                if (iter.hasNext()) { sb.append(", "); }
             }
         }
         return sb.append(')');

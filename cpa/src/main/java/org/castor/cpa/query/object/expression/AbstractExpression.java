@@ -86,8 +86,6 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
         return add;
     }
     
-    //--------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -119,8 +117,6 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
         return subtract;
     }
     
-    //--------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -137,8 +133,6 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
         concat.addExpression(expression);
         return concat;
     }
-
-    //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -171,8 +165,6 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
         return multiply;
     }
     
-    //--------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -204,8 +196,6 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
         return divide;  
     }     
     
-    //--------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -237,8 +227,6 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
         return remainder;  
     }
     
-    //--------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -300,8 +288,6 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
         return upper;
     }
     
-    //--------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -351,8 +337,6 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
         return locate;
     }
     
-    //--------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -385,8 +369,6 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
         return substring;
     }
     
-    //--------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -449,8 +431,6 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
         return trim;        
     }
     
-    //--------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -509,8 +489,6 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
         comp.setRightSide(value);
         return comp;
     }
-
-    //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -571,8 +549,6 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
         return comp;
     }
     
-    //--------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -625,8 +601,6 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
         return comp;
     }
     
-    //--------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -679,8 +653,6 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
         return comp;
     }
     
-    //--------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -732,8 +704,6 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
         comp.setRightSide(value);
         return comp;
     }
-
-    //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -787,8 +757,6 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
         return comp;
     }
     
-    //--------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -859,8 +827,6 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
         return like;
     }
     
-    //--------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -931,8 +897,6 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
         return like;
     }
     
-    //--------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -990,8 +954,6 @@ public abstract class AbstractExpression extends AbstractQueryObject implements 
         between.setHigh(high);
         return between;
     }
-
-    //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}

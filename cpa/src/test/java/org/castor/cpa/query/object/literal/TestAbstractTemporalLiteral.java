@@ -39,12 +39,6 @@ import org.castor.cpa.query.object.expression.AbstractExpression;
  */
 public final class TestAbstractTemporalLiteral extends TestCase {
     //--------------------------------------------------------------------------
-
-    public TestAbstractTemporalLiteral(final String name) {
-        super(name);
-    }
-    
-    //--------------------------------------------------------------------------
     
     /**
      * Junit Test for instance.

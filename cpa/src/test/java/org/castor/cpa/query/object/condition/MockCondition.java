@@ -26,15 +26,21 @@ import org.castor.cpa.query.Condition;
  * @since 1.3
  */
 public final class MockCondition extends AbstractCondition {
-    // --------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
+    /**
+     * {@inheritDoc}
+     */
     public Condition not() {
         return new MockCondition();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public StringBuilder toString(final StringBuilder sb) {
         return sb.append("condition");
     }
 
-    // --------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

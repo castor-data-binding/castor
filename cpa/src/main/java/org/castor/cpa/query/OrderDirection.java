@@ -24,10 +24,13 @@ package org.castor.cpa.query;
  * @since 1.3
  */
 public enum OrderDirection {
+    //--------------------------------------------------------------------------
     
     /** The ASCENDING direction for order object of query objects. */
     ASCENDING,
     
     /** The DESCENDING direction for order object of query objects. */
     DESCENDING
+
+    //--------------------------------------------------------------------------
 }

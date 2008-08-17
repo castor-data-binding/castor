@@ -30,7 +30,7 @@ import org.castor.cpa.query.object.function.MockExpression;
  * @since 1.3
  */
 public final class TestNegate extends TestCase {
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Junit Test for instance.
@@ -76,5 +76,5 @@ public final class TestNegate extends TestCase {
         assertEquals(exp, n.negate());
     } 
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

@@ -29,10 +29,10 @@ public final class FieldImpl extends AbstractField {
     //--------------------------------------------------------------------------
     
     /** The parent of the field. */
-    private Field _parent;
+    private final Field _parent;
     
     /** The name of the field. */
-    private String _name;
+    private final String _name;
     
     //--------------------------------------------------------------------------
 
@@ -43,6 +43,8 @@ public final class FieldImpl extends AbstractField {
      * @param name The name of the field.
      */
     public FieldImpl(final Field parent, final String name) {
+        if (parent == null) { throw new NullPointerException(); }
+        if (name == null) { throw new NullPointerException(); }
         _parent = parent;
         _name = name;
     }
@@ -73,15 +75,9 @@ public final class FieldImpl extends AbstractField {
      * {@inheritDoc}
      */ 
     public StringBuilder toString(final StringBuilder sb) {
-        if (_parent instanceof SchemaImpl) {
-            sb.append(((SchemaImpl) _parent).getIdentifier());
-        } else if (_parent != null) {
-            _parent.toString(sb);
-        } 
+        _parent.toString(sb); 
         sb.append('.');
-        if (_name != null) {
-            sb.append(_name);            
-        }
+        sb.append(_name);
         return sb;
     }
 

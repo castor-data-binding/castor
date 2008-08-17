@@ -26,7 +26,7 @@ import org.castor.cpa.query.Expression;
  * @since 1.3
  */
 public final class Remainder extends CompoundExpression {
-    //--------------------------------------------------------------------------    
+    //--------------------------------------------------------------------------
     
     /**
      * {@inheritDoc}
@@ -42,5 +42,4 @@ public final class Remainder extends CompoundExpression {
     }
     
     //--------------------------------------------------------------------------
- 
 }

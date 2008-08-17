@@ -27,16 +27,16 @@ public interface ComparisonOperator {
     //--------------------------------------------------------------------------
 
     /**
+     * {@inheritDoc}
+     */
+    String getOperator();
+
+    /**
      * Get invers comparison operator.
      * 
      * @return Invers comparison operator.
      */
     ComparisonOperator not();
     
-    /**
-     * {@inheritDoc}
-     */
-    String toString();
-
     //--------------------------------------------------------------------------
 }

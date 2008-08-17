@@ -31,18 +31,7 @@ import org.castor.cpa.query.object.expression.AbstractExpression;
  * @since 1.3
  */
 public final class TestStringLiteral extends TestCase {
-    //--------------------------------------------------------------
-
-    /**
-     * Instantiates a new junit Test for String Literal.
-     * 
-     * @param name the name
-     */
-    public TestStringLiteral(final String name) {
-        super(name);
-    }
-    
-    //--------------------------------------------------------------
+    //--------------------------------------------------------------------------
     
     /**
      * Junit Test for instance String Literal.
@@ -81,5 +70,5 @@ public final class TestStringLiteral extends TestCase {
         assertEquals("'a string with quote''s'", n.toString()); 
     } 
 
-    //--------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

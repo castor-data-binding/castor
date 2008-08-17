@@ -22,4 +22,27 @@ package org.castor.cpa.query;
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public interface Schema extends Field { }
+public interface Schema extends Field {
+    //--------------------------------------------------------------------------
+
+    /**
+     * Append full string representation of schema to the given <code>StringBuilder</code>.
+     * For schema toString() method returns identifier only. To get full schema string
+     * one has to call toFullString() method.
+     *
+     * @param sb StringBuilder to append the string representation of this object to.
+     * @return Same instance of StringBuilder given as parameter.
+     */
+    StringBuilder toFullString(StringBuilder sb);
+
+    /**
+     * Append full string representation of schema to the given <code>StringBuilder</code>.
+     * For schema toString() method returns alias only. To get full schema string
+     * one has to call toFullString() method.
+     *
+     * @return String with full representation of schema.
+     */
+    String toFullString();
+
+    //--------------------------------------------------------------------------
+}

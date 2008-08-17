@@ -37,13 +37,7 @@ import junit.framework.TestCase;
  * @since 1.3
  */
 public final class TestTimestampLiteral extends TestCase {
-    //--------------------------------------------------------------
-
-    public TestTimestampLiteral(final String name) {
-        super(name);
-    }
-
-    //--------------------------------------------------------------
+    //--------------------------------------------------------------------------
     
     /**
      * Junit Test for instance Time Temporal Literal.
@@ -102,5 +96,5 @@ public final class TestTimestampLiteral extends TestCase {
         assertEquals("TIMESTAMP '2008-08-08 12:34:56.789'", n.toString());
     } 
 
-    //--------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

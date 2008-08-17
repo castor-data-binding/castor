@@ -41,7 +41,7 @@ import junit.framework.TestCase;
  * @since 1.3
  */
 public final class TestAbstractExpression extends TestCase {
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * Junit Test for instance.
@@ -342,31 +342,31 @@ public final class TestAbstractExpression extends TestCase {
     public void testFactoryMethodComparisonNotEqual() throws ParseException {
         AbstractExpression n = new MockExpression();
         Condition condition = n.notEqual(new BigDecimal("345.5"));
-        assertEquals("(expression != 345.5)", condition.toString());
+        assertEquals("(expression <> 345.5)", condition.toString());
         
         condition = n.notEqual(true);
-        assertEquals("(expression != true)", condition.toString());
+        assertEquals("(expression <> true)", condition.toString());
         
         condition = n.notEqual(4.8);
-        assertEquals("(expression != 4.8)", condition.toString());
+        assertEquals("(expression <> 4.8)", condition.toString());
         
         condition = n.notEqual(new MockExpression());
-        assertEquals("(expression != expression)", condition.toString());
+        assertEquals("(expression <> expression)", condition.toString());
         
         condition = n.notEqual(45);
-        assertEquals("(expression != 45)", condition.toString());
+        assertEquals("(expression <> 45)", condition.toString());
         
         condition = n.notEqual("string");
-        assertEquals("(expression != 'string')", condition.toString());
+        assertEquals("(expression <> 'string')", condition.toString());
         
         Date date = new SimpleDateFormat("HH:mm:ss.SSS").parse("12:34:56.789");
         condition = n.notEqual(TemporalType.TIME, date);
-        assertEquals("(expression != TIME '12:34:56.789')", condition.toString());
+        assertEquals("(expression <> TIME '12:34:56.789')", condition.toString());
         
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         condition = n.notEqual(TemporalType.TIME, cal);
-        assertEquals("(expression != TIME '12:34:56.789')", condition.toString());
+        assertEquals("(expression <> TIME '12:34:56.789')", condition.toString());
     }
 
     /**
@@ -626,5 +626,5 @@ public final class TestAbstractExpression extends TestCase {
                 condition.toString());
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

@@ -32,17 +32,6 @@ import org.castor.cpa.query.object.expression.AbstractExpression;
  */
 public final class TestPositionalParameter extends TestCase {
     //--------------------------------------------------------------------------
-
-    /**
-     * Instantiates a new junit Test for positional parameter.
-     * 
-     * @param name the name
-     */
-    public TestPositionalParameter(final String name) {
-        super(name);
-    }
-
-    //--------------------------------------------------------------------------
     
     /**
      * Junit Test for instance.

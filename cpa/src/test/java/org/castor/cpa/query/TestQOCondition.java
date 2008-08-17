@@ -26,14 +26,8 @@ import junit.framework.TestCase;
  *          2006) $
  * @since 1.3
  */
-public class TestQOCondition extends TestCase {
-    // --------------------------------------------------------------------------
-
-    public TestQOCondition(final String name) {
-        super(name);
-    }
-
-    // --------------------------------------------------------------------------
+public final class TestQOCondition extends TestCase {
+    //--------------------------------------------------------------------------
 
     public static void testEqual() {
         SelectQuery select = QueryFactory.newSelectQuery();
@@ -59,7 +53,7 @@ public class TestQOCondition extends TestCase {
         select.addSchema(schema);
         // System.out.println(select.toString());
         String expected = "SELECT o.bar FROM org.castor.cpa.query.Foo AS o "
-                + "WHERE (o.position != true)";
+                + "WHERE (o.position <> true)";
         String actual = select.toString();
         assertEquals(actual, expected);
     }
@@ -183,6 +177,6 @@ public class TestQOCondition extends TestCase {
         String actual = select.toString();
         assertEquals(actual, expected);
     }
-    // --------------------------------------------------------------------------
 
+    //--------------------------------------------------------------------------
 }

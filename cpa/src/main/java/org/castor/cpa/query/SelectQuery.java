@@ -28,6 +28,7 @@ import java.util.Date;
  * @since 1.3
  */
 public interface SelectQuery extends QueryObject {
+    //--------------------------------------------------------------------------
     
     /**
      * Factory method to create new Schema.
@@ -235,4 +236,6 @@ public interface SelectQuery extends QueryObject {
      * @param offset the offset
      */
     void setLimit(Parameter limit, Parameter offset);
+
+    //--------------------------------------------------------------------------
 }

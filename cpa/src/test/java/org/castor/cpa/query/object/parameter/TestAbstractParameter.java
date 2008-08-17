@@ -32,17 +32,6 @@ import org.castor.cpa.query.object.expression.AbstractExpression;
  */
 public final class TestAbstractParameter extends TestCase {
     //--------------------------------------------------------------------------
-
-    /**
-     * Instantiates a new junit Test for abstract parameter.
-     * 
-     * @param name the name
-     */
-    public TestAbstractParameter(final String name) {
-       super(name);
-    }
-
-    //--------------------------------------------------------------------------
     
     /**
      * Junit Test for instance.

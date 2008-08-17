@@ -37,15 +37,15 @@ public final class Equal implements ComparisonOperator {
     /**
      * {@inheritDoc}
      */
-    public ComparisonOperator not() {
-        return Comparison.NOT_EQUAL;
+    public String getOperator() {
+        return " = ";
     }
 
     /**
      * {@inheritDoc}
      */
-    public String toString() {
-        return " = ";
+    public ComparisonOperator not() {
+        return Comparison.NOT_EQUAL;
     }
 
     //--------------------------------------------------------------------------

@@ -26,6 +26,7 @@ import java.math.BigDecimal;
  * @since 1.3
  */
 public interface InCondition extends Condition {
+    //--------------------------------------------------------------------------
     
     /**
      * Adds the.
@@ -82,4 +83,6 @@ public interface InCondition extends Condition {
      * @param value the value
      */
     void add(Parameter value);
+
+    //--------------------------------------------------------------------------
 }

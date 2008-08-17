@@ -24,11 +24,14 @@ package org.castor.cpa.query.object.condition;
  * @since 1.3
  */
 public final class MockSimpleCondition extends SimpleCondition {
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
+    /**
+     * {@inheritDoc}
+     */
     public StringBuilder toString(final StringBuilder sb) {
         return sb.append("simple");
     }
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

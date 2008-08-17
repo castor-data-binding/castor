@@ -28,6 +28,7 @@ import java.util.Date;
  * @since 1.3
  */
 public interface Expression extends QueryObject {
+    //--------------------------------------------------------------------------
     
     /**
      * The method for Add arithmetic expression of query objects.
@@ -1095,4 +1096,6 @@ public interface Expression extends QueryObject {
      * @return The condition
      */
     Condition notBetween(Expression low, Expression high);
+
+    //--------------------------------------------------------------------------
 }

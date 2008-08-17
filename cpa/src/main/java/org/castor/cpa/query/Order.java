@@ -24,6 +24,7 @@ package org.castor.cpa.query;
  * @since 1.3
  */
 public interface Order extends QueryObject {
+    //--------------------------------------------------------------------------
     
     /**
      * Adds the field object to the order object of query objects.
@@ -40,4 +41,6 @@ public interface Order extends QueryObject {
      * @param direction The OrderDirective
      */
     void add(Field field, OrderDirection direction);
+
+    //--------------------------------------------------------------------------
 }

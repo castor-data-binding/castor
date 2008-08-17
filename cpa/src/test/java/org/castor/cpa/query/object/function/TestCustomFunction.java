@@ -35,17 +35,6 @@ import org.castor.cpa.query.object.expression.AbstractExpression;
  */
 public final class TestCustomFunction extends TestCase {
     //--------------------------------------------------------------------------
-
-    /**
-     * Instantiates a new junit Test for CustomFunction function class of query objects.
-     * 
-     * @param name the name
-     */
-    public TestCustomFunction(final String name) {
-        super(name);
-    }
-
-    //--------------------------------------------------------------------------
     
     /**
      * Junit Test for instance.

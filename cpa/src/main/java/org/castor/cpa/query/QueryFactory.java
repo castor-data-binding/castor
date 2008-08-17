@@ -26,6 +26,8 @@ import org.castor.cpa.query.object.SelectQueryImpl;
  * @since 1.3
  */
 public final class QueryFactory {
+    //--------------------------------------------------------------------------
+
     /**
      * The method to create a new SelectQuery.
      * 
@@ -39,4 +41,6 @@ public final class QueryFactory {
      * Hide utility class constructor.
      */
     private QueryFactory() { }
+
+    //--------------------------------------------------------------------------
 }

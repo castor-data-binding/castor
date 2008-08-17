@@ -24,6 +24,7 @@ package org.castor.cpa.query;
  * @since 1.3
  */
 public interface Field extends Expression {
+    //--------------------------------------------------------------------------
     
     /**
      * The method for field object creation of query objects.
@@ -34,6 +35,8 @@ public interface Field extends Expression {
      */
     Field field(String name);
     
+    //--------------------------------------------------------------------------
+
     /**
      * In.
      * 
@@ -61,4 +64,6 @@ public interface Field extends Expression {
      * @return the condition
      */
     Condition isNotNull();
+
+    //--------------------------------------------------------------------------
 }

@@ -30,7 +30,7 @@ import org.castor.cpa.query.object.literal.LongLiteral;
  * @since 1.3
  */
 public final class TestSubtract extends TestCase {
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     
     /**
      * Junit Test for instance.
@@ -63,5 +63,5 @@ public final class TestSubtract extends TestCase {
         assertEquals("3 - 2 - 1", exp.toString());
     }    
 
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

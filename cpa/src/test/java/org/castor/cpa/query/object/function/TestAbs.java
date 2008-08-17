@@ -32,17 +32,6 @@ import org.castor.cpa.query.object.expression.AbstractExpression;
  */
 public final class TestAbs extends TestCase {
     //--------------------------------------------------------------------------
-
-    /**
-     * Instantiates a new junit Test for ABS function class of query objects.
-     * 
-     * @param name the name
-     */
-    public TestAbs(final String name) {
-        super(name);
-    }
-
-    //--------------------------------------------------------------------------
     
     /**
      * Junit Test for instance.

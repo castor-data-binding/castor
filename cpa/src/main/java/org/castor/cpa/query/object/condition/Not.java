@@ -31,7 +31,7 @@ public final class Not  extends AbstractCondition {
     /** The condition of not condition. */
     private Condition _condition;
 
-    //--------------------------------------------------------------------------    
+    //--------------------------------------------------------------------------
     
     /**
      * {@inheritDoc}
@@ -40,7 +40,7 @@ public final class Not  extends AbstractCondition {
         return _condition;
     }
 
-    //--------------------------------------------------------------------------    
+    //--------------------------------------------------------------------------
 
     /**
      * Get condition of not condition.

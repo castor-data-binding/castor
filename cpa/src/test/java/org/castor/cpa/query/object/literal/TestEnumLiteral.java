@@ -33,12 +33,6 @@ import junit.framework.TestCase;
 public final class TestEnumLiteral extends TestCase {
     //--------------------------------------------------------------------------
 
-    public TestEnumLiteral(final String name) {
-        super(name);
-    }
-
-    //--------------------------------------------------------------------------
-
     /**
      * Junit Test for instance Enum Literal.
      */

@@ -22,6 +22,7 @@ import org.castor.cpa.query.Field;
 import org.castor.cpa.query.Foo;
 import org.castor.cpa.query.Order;
 import org.castor.cpa.query.OrderDirection;
+import org.castor.cpa.query.Parameter;
 import org.castor.cpa.query.QueryFactory;
 import org.castor.cpa.query.Schema;
 import org.castor.cpa.query.SelectQuery;
@@ -34,12 +35,62 @@ import org.castor.cpa.query.SelectQuery;
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public class TestSelect extends TestCase {
+public final class TestSelect extends TestCase {
     //--------------------------------------------------------------------------
-   
-    public static void testWithField() {
-        //--------------------------------------------------------------------------
 
+    private static String _common = "SELECT o.bar FROM org.castor.cpa.query.Foo AS o ";
+
+    //--------------------------------------------------------------------------
+
+    public static void testWithLimitLong() {
+        SelectQuery select = QueryFactory.newSelectQuery();
+        Schema schema = select.newSchema(Foo.class, "o");
+        select.addProjection(schema.field("bar"));
+        select.addSchema(schema);
+        select.setLimit(4);
+        String expected = "LIMIT 4";
+        assertEquals(_common + expected, select.toString());
+        //System.out.println(select.toString());
+    }
+
+    public static void testWithLimitParam() {
+        SelectQuery select = QueryFactory.newSelectQuery();
+        Schema schema = select.newSchema(Foo.class, "o");
+        select.addProjection(schema.field("bar"));
+        select.addSchema(schema);
+        Parameter param = new MockParameter();
+        select.setLimit(param);
+        String expected = "LIMIT parameter";
+        assertEquals(_common + expected, select.toString());
+        //System.out.println(select.toString());
+    }
+
+    public static void testWithLimitLongOffsetLong() {
+        SelectQuery select = QueryFactory.newSelectQuery();
+        Schema schema = select.newSchema(Foo.class, "o");
+        select.addProjection(schema.field("bar"));
+        select.addSchema(schema);
+        select.setLimit(4, 6);
+        String expected = "LIMIT 4 OFFSET 6";
+        assertEquals(_common + expected, select.toString());
+       // System.out.println(select.toString());
+    }
+
+    public static void testWithLimitParamOffsetParam() {
+        SelectQuery select = QueryFactory.newSelectQuery();
+        Schema schema = select.newSchema(Foo.class, "o");
+        select.addProjection(schema.field("bar"));
+        select.addSchema(schema);
+        Parameter param1 = new MockParameter();
+        Parameter param2 = new MockParameter();
+        select.setLimit(param1, param2);
+        String expected = "LIMIT parameter OFFSET parameter";
+        assertEquals(_common + expected, select.toString());
+       // System.out.println(select.toString());
+    }
+    
+
+    public static void testWithField() {
         SelectQuery select = QueryFactory.newSelectQuery();
         select.setDistinct(true);
         Schema schema = select.newSchema(Foo.class, "o");
@@ -53,10 +104,11 @@ public class TestSelect extends TestCase {
         order.add(schema.field("cake"), OrderDirection.DESCENDING);
         select.setLimit(34, 45);
         String expected = "SELECT DISTINCT o.bar FROM org.castor.cpa.query.Foo AS o "
-                        + "WHERE (o.pen != 3) AND (o.pen <= 4) "
+                        + "WHERE (o.pen <> 3) AND (o.pen <= 4) "
                         + "ORDER BY o.check ASC, o.cake DESC LIMIT 34 OFFSET 45";
         assertEquals(expected, select.toString());
         //System.out.println(select.toString());
     }
+
     //--------------------------------------------------------------------------
 }

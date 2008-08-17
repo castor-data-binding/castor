@@ -37,13 +37,7 @@ import junit.framework.TestCase;
  * @since 1.3
  */
 public final class TestDateLiteral extends TestCase {
-    //--------------------------------------------------------------
-
-    public TestDateLiteral(final String name) {
-        super(name);
-    }
-
-    //--------------------------------------------------------------
+    //--------------------------------------------------------------------------
     
     /**
      * Junit Test for instance Date Temporal Literal.
@@ -102,5 +96,5 @@ public final class TestDateLiteral extends TestCase {
         assertEquals("DATE '2008-08-08'", n.toString());
     } 
     
-    //--------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }

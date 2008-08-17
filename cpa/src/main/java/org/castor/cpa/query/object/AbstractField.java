@@ -23,7 +23,7 @@ import org.castor.cpa.query.object.condition.Null;
 import org.castor.cpa.query.object.expression.AbstractExpression;
 
 /**
- * Abstract base class for Field and Schema.
+ * Abstract base class for Field, Schema and Projection.
  *
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
@@ -40,6 +40,8 @@ public abstract class AbstractField extends AbstractExpression implements Field 
         return new FieldImpl(this, name);
     }
     
+    //--------------------------------------------------------------------------
+
     /**
      * {@inheritDoc}
      */

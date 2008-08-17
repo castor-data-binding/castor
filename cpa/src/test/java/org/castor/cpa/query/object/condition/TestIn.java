@@ -42,7 +42,7 @@ import org.castor.cpa.query.object.literal.StringLiteral;
  * @since 1.3
  */
 public final class TestIn extends TestCase {
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     
     /**
      * Junit Test for instance.
@@ -107,5 +107,5 @@ public final class TestIn extends TestCase {
                 + "'stringLiteral', 342, parameter, 'string'))", n.toString());
      }
     
-    // --------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 }
