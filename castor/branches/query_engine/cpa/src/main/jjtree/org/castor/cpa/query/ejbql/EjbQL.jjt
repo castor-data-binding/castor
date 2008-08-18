@@ -324,9 +324,9 @@ void function():{
   | t = <CURRENT_DATE>{jjtThis.setKind(t.kind);}
   | t = <CURRENT_TIME>{jjtThis.setKind(t.kind);}
   | t = <CURRENT_TIMESTAMP>{jjtThis.setKind(t.kind);}
-  | t = <DATE>{jjtThis.setKind(t.kind);}"("date_literal()")"
-  | t = <TIME>{jjtThis.setKind(t.kind);}"("time_literal()")"
-  | t = <TIMESTAMP>{jjtThis.setKind(t.kind);} "("timestamp_literal()")")
+  | t = <DATE>{jjtThis.setKind(t.kind);}date_literal()
+  | t = <TIME>{jjtThis.setKind(t.kind);}time_literal()
+  | t = <TIMESTAMP>{jjtThis.setKind(t.kind);} timestamp_literal())
 }
 void trim_specification():{
   Token t;
