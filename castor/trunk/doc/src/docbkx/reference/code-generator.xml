@@ -2698,348 +2698,210 @@ javac com/xyz/*.java</programlisting>
               </row>
             </thead>
             <tbody>
-          <row>
-            <entry>byte</entry>
-            <entry>
-                <para>
-                    totalDigits<br/>
-                    fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
-                    pattern<br/>
-                    enumeration<br/>
-                    maxInclusive<br/>
-                    maxExclusive<br/>
-                    minInclusive<br/>
-                    minExclusive<br/>
-                    whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
-                </para>
-            </entry>
-            <entry>
-              primitive <literal>byte</literal> or <literal>java.lang.Byte</literal><a href="#sup-2"><sup>2</sup></a>
-            </entry>
-          </row>
-
-          <row>
-            <entry>ENTITY</entry>
-            <entry>&#160;</entry>
-            <entry><emphasis role="italic">Not implemented</emphasis></entry>
-          </row>
-
-          <row>
-            <entry>ENTITIES</entry>
-            <entry>&#160;</entry>
-            <entry><emphasis role="italic">Not implemented</emphasis></entry>
-          </row>
-
-          <row>
-            <entry>ID</entry>
-            <entry>
-              enumeration<br/>
-            </entry>
-            <entry><literal>java.lang.String</literal></entry>
-          </row>
-
-          <row>
-            <entry>IDREF</entry>
-            <entry>&#160;</entry>
-            <entry><literal>java.lang.Object</literal></entry>
-          </row>
-
-          <row>
-            <entry>IDREFS</entry>
-            <entry>&#160;</entry>
-            <entry><literal>java.util.Vector</literal> of <literal>java.lang.Object</literal></entry>
-          </row>
-
-          <row>
-            <entry>int</entry>
-            <entry>
-              totalDigits<br/>
-              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
-              pattern<br/>
-              enumeration<br/>
-              maxInclusive<br/>
-              maxExclusive<br/>
-              minInclusive<br/>
-              minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
-            </entry>
-            <entry>
-              primitive <literal>int</literal> or <literal>java.lang.Integer</literal><a href="#sup-2"><sup>2</sup></a>
-            </entry>
-          </row>
-
-          <row>
-            <entry>integer</entry>
-            <entry>
-              totalDigits<br/>
-              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
-              pattern<br/>
-              enumeration<br/>
-              maxInclusive<br/>
-              maxExclusive<br/>
-              minInclusive<br/>
-              minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
-            </entry>
-            <entry>
-              primitive <literal>long</literal> or <literal>java.lang.Long</literal><a href="#sup-2"><sup>2</sup></a>
-            </entry>
-          </row>
-
-          <row>
-            <entry>language</entry>
-            <entry>
-              length<br/>
-              minLength<br/>
-              maxLength<br/>
-              pattern<br/>
-              enumeration<br/>
-              whiteSpace<br/>
-            </entry>
-            <entry>
-              treated as a <literal>xsd:string</literal><a href="#sup-3"><sup>3</sup></a>
-            </entry>
-          </row>
-
-          <row>
-            <entry>long</entry>
-            <entry>
-              totalDigits<br/>
-              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
-              pattern<br/>
-              enumeration<br/>
-              maxInclusive<br/>
-              maxExclusive<br/>
-              minInclusive<br/>
-              minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
-            </entry>
-            <entry>
-              primitive <literal>long</literal> or <literal>java.lang.Long</literal><a href="#sup-2"><sup>2</sup></a>
-            </entry>
-          </row>
-
-          <row>
-            <entry>Name</entry>
-            <entry>&#160;</entry>
-            <entry><emphasis role="italic">Not implemented</emphasis></entry>
-          </row>
-
-          <row>
-            <entry>NCName</entry>
-            <entry>
-               enumeration<br/>
-            </entry>
-            <entry><literal>java.lang.String</literal></entry>
-          </row>
-
-          <row>
-            <entry>negativeInteger</entry>
-            <entry>
-              totalDigits<br/>
-              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
-              pattern<br/>
-              enumeration<br/>
-              maxInclusive<br/>
-              maxExclusive<br/>
-              minInclusive<br/>
-              minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
-            </entry>
-            <entry>
-              primitive <literal>long</literal> or <literal>java.lang.Long</literal><a href="#sup-2"><sup>2</sup></a>
-            </entry>
-          </row>
-
-          <row>
-            <entry>NMTOKEN</entry>
-            <entry>
-               enumeration<br/>
-               length<br/>
-               maxlength<br/>
-               minlength<br/>
-            </entry>
-            <entry><literal>java.lang.String</literal></entry>
-          </row>
-
-          <row>
-            <entry>NMTOKENS</entry>
-            <entry>&#160;</entry>
-            <entry><literal>java.util.Vector</literal> of <literal>java.lang.String</literal></entry>
-          </row>
-
-          <row>
-            <entry>NOTATION</entry>
-            <entry>&#160;</entry>
-            <entry><emphasis role="italic">Not implemented</emphasis></entry>
-          </row>
-
-          <row>
-            <entry>nonNegativeInteger</entry>
-            <entry>
-              totalDigits<br/>
-              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
-              pattern<br/>
-              enumeration<br/>
-              maxInclusive<br/>
-              maxExclusive<br/>
-              minInclusive<br/>
-              minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
-            </entry>
-            <entry>
-              primitive <literal>long</literal> or <literal>java.lang.Long</literal><a href="#sup-2"><sup>2</sup></a>
-            </entry>
-          </row>
-
-          <row>
-            <entry>nonPositiveInteger</entry>
-            <entry>
-              totalDigits<br/>
-              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
-              pattern<br/>
-              enumeration<br/>
-              maxInclusive<br/>
-              maxExclusive<br/>
-              minInclusive<br/>
-              minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
-            </entry>
-            <entry>
-              primitive <literal>long</literal> or <literal>java.lang.Long</literal><a href="#sup-2"><sup>2</sup></a>
-            </entry>
-          </row>
-
-          <row>
-            <entry>normalizedString</entry>
-            <entry>
-               enumeration<br/>
-               length<br/>
-               minLength<br/>
-               maxLength<br/>
-               pattern<br/>
-            </entry>
-            <entry><literal>java.lang.String</literal></entry>
-          </row>
-
-          <row>
-            <entry>positiveInteger</entry>
-            <entry>
-              totalDigits<br/>
-              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
-              pattern<br/>
-              enumeration<br/>
-              maxInclusive<br/>
-              maxExclusive<br/>
-              minInclusive<br/>
-              minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!--  Only legal value is "collapse" -->
-            </entry>
-            <entry>
-              primitive <literal>long</literal> or <literal>java.lang.Long</literal><a href="#sup-2"><sup>2</sup></a>
-            </entry>
-          </row>
-
-          <row>
-            <entry>short</entry>
-            <entry>
-              totalDigits<br/>
-              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
-              pattern<br/>
-              enumeration<br/>
-              maxInclusive<br/>
-              maxExclusive<br/>
-              minInclusive<br/>
-              minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
-            </entry>
-            <entry>
-              primitive <literal>short</literal> or <literal>java.lang.Short</literal><a href="#sup-2"><sup>2</sup></a>
-            </entry>
-          </row>
-
-          <row>
-            <entry>token</entry>
-            <entry>
-              length<br/>
-              minLength<br/>
-              maxLength<br/>
-              pattern<br/>
-              enumeration<br/>
-              whiteSpace<br/>
-            </entry>
-            <entry>
-              treated as a <literal>xsd:string</literal><a href="#sup-3"><sup>3</sup></a>
-            </entry>
-          </row>
-
-          <row>
-            <entry>unsignedByte</entry>
-            <entry>
-              totalDigits<br/>
-              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
-              maxExclusive<br/>
-              minExclusive<br/>
-              maxInclusive<br/>
-              minInclusive<br/>
-              pattern<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
-            </entry>
-            <entry>
-              primitive <literal>short</literal> or <literal>java.lang.Short</literal><a href="#sup-2"><sup>2</sup></a>
-            </entry>
-          </row>
-
-          <row>
-            <entry>unsignedInt</entry>
-            <entry>
-              totalDigits<br/>
-              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
-              maxExclusive<br/>
-              minExclusive<br/>
-              maxInclusive<br/>
-              minInclusive<br/>
-              pattern<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
-            </entry>
-            <entry>
-              primitive <literal>long</literal> or <literal>java.lang.Long</literal><a href="#sup-2"><sup>2</sup></a>
-            </entry>
-          </row>
-
-          <row>
-            <entry>unsignedLong</entry>
-            <entry>
-              totalDigits<br/>
-              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
-              pattern<br/>
-              enumeration<br/>
-              maxInclusive<br/>
-              maxExclusive<br/>
-              minInclusive<br/>
-              minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
-            </entry>
-            <entry><literal>java.math.BigInteger</literal></entry>
-          </row>
-
-          <row>
-            <entry>unsignedShort</entry>
-            <entry>
-              totalDigits<br/>
-              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
-              pattern<br/>
-              enumeration<br/>
-              maxInclusive<br/>
-              maxExclusive<br/>
-              minInclusive<br/>
-              minExclusive<br/>
-              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
-            </entry>
-            <entry>
-              primitive <literal>int</literal> or <literal>java.lang.Integer</literal><a href="#sup-2"><sup>2</sup></a>
-            </entry>
-          </row>
+             <row>
+               <entry>byte</entry>
+               <entry>totalDigits, fractionDigits<footnote id="footnote.types.derived.4"><para>For 
+                      the integral types, the only allowed value for fractionDigits is 0.</para></footnote>, 
+                      pattern, enumeration, maxInclusive, maxExclusive, minInclusive, 
+                      minExclusive, whitespace<footnote id="footnote.types.derived.1"><para>
+                         For the date/time and numeric types, the only supported value for whitespace 
+                         is "collapse".
+                      </para></footnote>
+               </entry>
+               <entry>
+                 <classname>byte</classname>/<classname>java.lang.Byte</classname>
+                 <footnote id="footnote.types.primitive"><para>For the various numerical types, the
+          default behavior is to generate primitive types.  However, if the
+          use of wrappers is enabled by the following line in the
+          <literal>castorbuilder.properties</literal> file:
+          <code>org.exolab.castor.builder.primitivetowrapper=true</code> then
+          the <literal>java.lang.*</literal> wrapper objects (as specified above) will be
+          generated instead.</para></footnote>
+               </entry>
+             </row>
+             <row>
+               <entry>ENTITY</entry>
+               <entry></entry>
+               <entry><emphasis role="bold">Not implemented</emphasis></entry>
+             </row>
+             <row>
+               <entry>ENTITIES</entry>
+               <entry></entry>
+               <entry><emphasis role="bold">Not implemented</emphasis></entry>
+             </row>
+             <row>
+               <entry>ID</entry>
+               <entry>enumeration</entry>
+               <entry><classname>java.lang.String</classname></entry>
+             </row>
+             <row>
+               <entry>IDREF</entry>
+               <entry></entry>
+               <entry><classname>java.lang.Object</classname></entry>
+             </row>
+             <row>
+               <entry>IDREFS</entry>
+               <entry></entry>
+               <entry><classname>java.util.Vector</classname> of <classname>java.lang.Object</classname></entry>
+             </row>
+             <row>
+               <entry>int</entry>
+               <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>, 
+                      pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
+                      whitespace<footnoteref linkend="footnote.types.derived.1"/></entry>
+               <entry>
+                 <classname>int</classname>/<classname>java.lang.Integer</classname><footnoteref linkend="footnote.types.primitive"/>
+               </entry>
+             </row>
+             <row>
+               <entry>integer</entry>
+               <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>, pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, whitespace<footnoteref linkend="footnote.types.derived.1"/></entry>
+               <entry>
+                 <classname>long</classname>/<classname>java.lang.Long</classname><footnoteref linkend="footnote.types.primitive"/>
+               </entry>
+             </row>
+             <row>
+               <entry>language</entry>
+               <entry>length, minLength, maxLength, pattern, enumeration, whiteSpace</entry>
+               <entry>
+                 treated as a <literal>xsd:string</literal><footnote id="footnote.types.primitive.3"><para>
+                    Currently, <literal>&lt;xsd:language&gt;</literal> and 
+                    <literal>&lt;xsd:token&gt;</literal> are treated as if they 
+                    were <literal>&lt;xsd:string&gt;</literal>.
+                </para></footnote>
+               </entry>
+             </row>
+             <row>
+               <entry>long</entry>
+               <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>, 
+                      pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
+                      whitespace<footnoteref linkend="footnote.types.derived.1"/></entry>
+               <entry>
+                 <classname>long</classname>/<classname>java.lang.Long</classname><footnoteref linkend="footnote.types.primitive"/>
+               </entry>
+             </row>
+             <row>
+               <entry>Name</entry>
+               <entry></entry>
+               <entry><emphasis role="bold">Not implemented</emphasis></entry>
+             </row>
+             <row>
+               <entry>NCName</entry>
+               <entry>enumeration</entry>
+               <entry><classname>java.lang.String</classname></entry>
+             </row>
+             <row>
+               <entry>negativeInteger</entry>
+               <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.primitive.4"/>, 
+                      pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
+                      whitespace<footnoteref linkend="footnote.types.derived.1"/></entry>
+               <entry>
+                 <classname>long</classname>/<classname>java.lang.Long</classname><footnoteref linkend="footnote.types.primitive"/>
+               </entry>
+             </row>
+             <row>
+               <entry>NMTOKEN</entry>
+               <entry>enumeration, length, maxlength, minlength</entry>
+               <entry><classname>java.lang.String</classname></entry>
+             </row>
+             <row>
+               <entry>NMTOKENS</entry>
+               <entry></entry>
+               <entry><classname>java.util.Vector</classname> of <classname>java.lang.String</classname></entry>
+             </row>
+             <row>
+               <entry>NOTATION</entry>
+               <entry></entry>
+               <entry><emphasis role="bold">Not implemented</emphasis></entry>
+             </row>
+             <row>
+               <entry>nonNegativeInteger</entry>
+               <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>, 
+                      pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
+                      whitespace<footnoteref linkend="footnote.types.derived.1"/></entry>
+               <entry>
+                 <classname>long</classname>/<classname>java.lang.Long</classname><footnoteref linkend="footnote.types.primitive"/>
+               </entry>
+             </row>
+             <row>
+               <entry>nonPositiveInteger</entry>
+               <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>, 
+                      pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
+                      whitespace<footnoteref linkend="footnote.types.derived.1"/></entry>
+               <entry>
+                 <classname>long</classname>/<classname>java.lang.Long</classname><footnoteref linkend="footnote.types.primitive"/>
+               </entry>
+             </row>
+             <row>
+               <entry>normalizedString</entry>
+               <entry>enumeration, length, minLength, maxLength, pattern</entry>
+               <entry><classname>java.lang.String</classname></entry>
+             </row>
+             <row>
+               <entry>positiveInteger</entry>
+               <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>,
+                 pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
+                 whitespace<footnoteref linkend="footnote.types.derived.1"/>
+               </entry>
+               <entry>
+                 <classname>long</classname>/<classname>java.lang.Long</classname><footnoteref linkend="footnote.types.primitive"/>
+               </entry>
+             </row>
+             <row>
+               <entry>short</entry>
+               <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>,
+                 pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
+                 whitespace<footnoteref linkend="footnote.types.derived.1"/>
+               </entry>
+               <entry>
+                 <literal>short</literal>/<literal>java.lang.Short</literal><footnoteref linkend="footnote.types.primitive"/>
+               </entry>
+             </row>
+             <row>
+               <entry>token</entry>
+               <entry>length, minLength, maxLength, pattern, enumeration, whiteSpace</entry>
+               <entry>
+                 treated as a <literal>xsd:string</literal><footnoteref linkend="footnote.types.primitive.3"/>,
+               </entry>
+             </row>
+             <row>
+               <entry>unsignedByte</entry>
+               <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>,
+                 maxExclusive, minExclusive, maxInclusive, minInclusive, pattern, 
+                 whitespace<footnoteref linkend="footnote.types.derived.1"/>
+               </entry>
+               <entry>
+                 <classname>short</classname>/<classname>java.lang.Short</classname><footnoteref linkend="footnote.types.primitive"/>
+               </entry>
+             </row>
+             <row>
+               <entry>unsignedInt</entry>
+               <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>,
+                 maxExclusive, minExclusive, maxInclusive, minInclusive, pattern,
+                 whitespace<footnoteref linkend="footnote.types.derived.1"/>
+               </entry>
+               <entry>
+                 <classname>long</classname>/<classname>java.lang.Long</classname><footnoteref linkend="footnote.types.primitive"/>
+               </entry>
+             </row>
+             <row>
+               <entry>unsignedLong</entry>
+               <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>,
+                 pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
+                 whitespace<footnoteref linkend="footnote.types.derived.1"/>
+               </entry>
+               <entry><classname>java.math.BigInteger</classname></entry>
+             </row>
+             <row>
+               <entry>unsignedShort</entry>
+               <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>,
+                 pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
+                 whitespace<footnoteref linkend="footnote.types.derived.1"/>
+               </entry>
+               <entry>
+                 <classname>int</classname> or <classname>java.lang.Integer</classname><footnoteref linkend="footnote.types.primitive"/>
+               </entry>
+             </row>
             </tbody></tgroup>
         </table>
 
