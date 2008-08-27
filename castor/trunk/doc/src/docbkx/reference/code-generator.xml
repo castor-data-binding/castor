@@ -727,51 +727,49 @@ org.exolab.castor.builder.extraDocumentationMethods=<emphasis role="bold">true</
     <section id="xml.code.generator.custom.bindings">
         <title>Custom bindings</title>
         
-    <section title="Introduction">
+         <para>
+           This section defines the Castor XML binding file and describes - based upon
+           the use of examples - how to use it.
+         </para>
+   
+         <para>
+           The default binding used to generate the Java Object Model from an XML
+           schema may not meet your expectations. For instance, the default
+           binding doesn't deal with naming collisions that can appear because
+           XML Schema allows an element declaration and a complexType definition
+           to use the same name.  The source generator will attempt to create two
+           Java classes with the same qualified name.  However, the latter class
+           generated will simply overwrite the first one.
+         </para>
+   
+         <para>
+           Another example of where the default source generator binding may not
+           meet your expectations is when you want to change the default datatype
+           binding provided by Castor or when you want to add validation rules by
+           implementing your own validator and passing it to the Source Generator.
+         </para>
 
-      <para>
-        This section defines the Castor XML binding file and describes, with
-        examples, how to use it.
-      </para>
+         <section id="xml.code.generator.custom.bindings.file">
+            <title>Binding File</title>
 
-      <para>
-        The default binding used to generate the Java Object Model from an XML
-        schema may not meet your expectations. For instance, the default
-        binding doesn't deal with naming collisions that can appear because
-        XML Schema allows an element declaration and a complexType definition
-        to use the same name.  The source generator will attempt to create two
-        Java classes with the same qualified name.  However, the second class
-        generated will simply overwrite the first one.
-      </para>
+            <para>
+              The binding declaration is an XML-based language that allows the user
+              to control and tweak details about source generation for the generated
+              classes.  The aim of this section is to provide an overview of the
+              binding file and a definition of the several XML components used to
+              define this binding file.
+            </para>
 
-      <para>
-        Another example of where the default source generator binding may not
-        meet your expectations is when you want to change the default datatype
-        binding provided by Castor or when you want to add validation rules by
-        implementing your own validator and passing it to the Source Generator.
-      </para>
+            <para>
+              A more in-depth presentation  will be available soon in the
+              <ulink url="http://www.castor.org/SourceGeneratorUser.pdf">Source Generator
+              User Document (PDF).</ulink>
+            </para>
 
-    </section>
-
-    <section title="Binding File">
-
-      <para>
-        The Binding declaration is an XML-based language that allows the user
-        to control and tweak details about source generation for the generated
-        classes.  The aim of this section is to provide an overview of the
-        binding file and a definition of the several XML components used to
-        define this binding file.
-      </para>
-
-      <para>
-        A more in-depth presentation  will be available soon in the
-        <a href="./SourceGeneratorUser.pdf">Source Generator User Document
-        (PDF).</a>
-      </para>
-
-      <section title="&lt;binding&gt; element">
+            <section id="xml.code.generator.custom.bindings.file.binding">
+                <title>&lt;binding&gt; element</title>
       
-        <programlisting language="xml"><![CDATA[
+                <programlisting language="xml"><![CDATA[
 <binding
     defaultBindingType = (element|type)>
     (include*,
@@ -783,104 +781,135 @@ org.exolab.castor.builder.extraDocumentationMethods=<emphasis role="bold">true</
      groupBinding)
 </binding>]]></programlisting>
 
-        <para>
-          The binding element is the root element and contains the binding
-          information.</para>
+                <para>
+                    The binding element is the root element and contains the binding
+                    information.
+                </para>
           
-            <table id="xml.code.generator.custom.binding.element" align="center">
-             <title>&lt;column&gt; - Definitions</title>
-             <tgroup cols="4">
-               <colspec colname="c1"/>
-               <colspec colname="c2"/>
-               <colspec colname="c3"/>
-               <colspec colname="c4"/>
-               <thead>
-                 <row>
-                   <entry>Name</entry>
-                   <entry>Description</entry>
-                   <entry>Default</entry>
-                   <entry>Required ?</entry>
-                 </row>
-               </thead>
-               <tbody>
-            <row>
-                <entry>defaultBindingType</entry>
-                <entry>Controls the <a href="srcgen-properties.html#Class-Creation/Mapping">class creation mode</a> 
-                    for details on the available modes. Please note that the mode 
-                    specified in this attribute will override the binding type specified 
-                    in the <literal>castorbuilder.properties</literal> file.</entry>
-                <entry><literal>element</literal></entry>
-                <entry>No</entry>
-            </row>
-            </tbody>
-            </tgroup>
-        </table>
+               <table id="xml.code.generator.custom.binding.element" align="center">
+                <title>&lt;column&gt; - Definitions</title>
+                <tgroup cols="4">
+                  <colspec colname="c1"/>
+                  <colspec colname="c2"/>
+                  <colspec colname="c3"/>
+                  <colspec colname="c4"/>
+                  <thead>
+                    <row>
+                      <entry>Name</entry>
+                      <entry>Description</entry>
+                      <entry>Default</entry>
+                      <entry>Required ?</entry>
+                    </row>
+                  </thead>
+                  <tbody>
+                     <row>
+                         <entry>defaultBindingType</entry>
+                         <entry>Controls the <a href="srcgen-properties.html#Class-Creation/Mapping">class creation mode</a> 
+                             for details on the available modes. Please note that the mode 
+                             specified in this attribute will override the binding type specified 
+                             in the <literal>castorbuilder.properties</literal> file.</entry>
+                         <entry><literal>element</literal></entry>
+                         <entry>No</entry>
+                     </row>
+                  </tbody>
+                  </tgroup>
+                 </table>
         
-      </section>
+            </section>
 
-      <section title="&lt;include&gt; element">
-        <programlisting language="xml">
+            <section id="xml.code.generator.custom.bindings.file.include">
+                <title>&lt;include&gt; element</title>
+                
+                <programlisting language="xml">
 &lt;include
     URI = xsd:anyURI/></programlisting>
 
-        <itemizedlist>
-          <listitem><para><emphasis role="bold">URI:</emphasis>The URI of the binding file to include.</para></listitem>
-        </itemizedlist>
+                <para>
+                    This element allows you to include a binding declaration defined in
+                    another file. This allows reuse of binding files defined for various
+                    XML schemas.
+                </para>
+                
+                <variablelist>
+                    <title>Attributes of &lt;include&gt;</title>
+                    <varlistentry>
+                        <term><emphasis role="bold">URI:</emphasis></term>
+                        <listitem><para>The URI of the binding file to include.</para></listitem>
+                    </varlistentry>
+                </variablelist>
 
-        <para>
-          This element allows you to include a binding declaration defined in
-          another file. This allows reuse of Binding files defined for various
-          XML Schemas.
-        </para>
-      </section>
+            </section>
 
-      <section title="&lt;package&gt; element">
+            <section id="xml.code.generator.custom.bindings.file.package">
+                <title>&lt;package&gt; element</title>
       
-        <programlisting language="xml"><![CDATA[
+                <programlisting language="xml"><![CDATA[
 <package>
     name = xsd:string
     (namespace|schemaLocation) = xsd:string>
 </package>]]></programlisting>
 
-        <itemizedlist>
-          <listitem><para>
-            <emphasis role="bold">name:</emphasis>A fully qualified java package name.
-          </para></listitem>
-          <listitem><para>
-            <emphasis role="bold">namespace:</emphasis>An XML namespace that will be mapped to the
-            package name defined by the <emphasis role="italic">name</emphasis> element.
-          </para></listitem>
-          <listitem><para>
-            <emphasis role="bold">schemaLocation:</emphasis>A URL that locates the schema to be
-            mapped to the package name defined by the <emphasis role="italic">name</emphasis> element.
-          </para></listitem>
-        </itemizedlist>
+                <table align="center">
+                   <title>&lt;package&gt; - Definitions</title>
+                   <tgroup cols="2">
+                      <colspec colname="c1"/>
+                      <colspec colname="c2" align="left"/>
+                      <thead>
+                        <row>
+                          <entry>Name</entry>
+                          <entry>Description</entry>
+                        </row>
+                      </thead>
+                      <tbody>
+                        <row>
+                            <entry>name</entry>
+                            <entry>A fully qualified java package name.</entry>
+                        </row>
+                        <row>
+                            <entry>namespace</entry>
+                            <entry>
+                                An XML namespace that will be mapped to the package name defined 
+                                by the <emphasis role="italic">name</emphasis> element.
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>schemaLocation</entry>
+                            <entry>
+                                A URL that locates the schema to be mapped to the package name 
+                                defined by the <emphasis role="italic">name</emphasis> element.
+                            </entry>
+                        </row>
+                      </tbody>
+                   </tgroup>
+                </table>
 
-        <para>
-          The <emphasis role="italic">targetNamespace</emphasis> attribute of an XML Schema identifies
-          the namespace in which the XML schema elements are defined. This
-          language namespace is defined in the generated Java source as a
-          package declaration. The <literal>&lt;package/></literal> element allows you to define
-          the mapping between an XML namespace and a Java package.
-        </para>
+                <para>
+                    The <literal>targetNamespace</literal> attribute of an XML schema 
+                    identifies the namespace in which the XML schema elements are defined. This
+                    language namespace is defined in the generated Java source as a package 
+                    declaration. The <literal>&lt;package/></literal> element allows you to define
+                    the mapping between an XML namespace and a Java package.
+                </para>
 
-        <para>
-          Moreover, XML Schema allows you to factor the definition of an XML
-          Schema identified by a unique namespace by including several XML
-          Schemas instances to build one XML Schema using the
-          <literal>&lt;xsd:include/></literal> element.  Please make sure you understand
-          the difference between <literal>&lt;xsd:include/></literal> and
-          <literal>&lt;xsd:import/></literal>.  <literal>&lt;xsd:include/></literal> relies on the
-          URI of the included XML schema.  This element allows you to keep the
-          structure hierarchy defined in XML Schema in a single generated Java
-          package.  Thus the binding file allows you to define the mapping
-          between a schemaLocation attribute and a Java package.
-        </para>
-      </section>
+                <para>
+                    Moreover, XML schema allows you to factor the definition of an XML
+                    schema identified by a unique namespace by including several XML
+                    schemas instances to build one XML schema using the
+                    <literal>&lt;xsd:include/></literal> element. Please make sure you understand
+                    the difference between <literal>&lt;xsd:include/></literal> and
+                    <literal>&lt;xsd:import/></literal>. <literal>&lt;xsd:include/></literal> #
+                    relies on the URI of the included XML schema. This element allows you to keep the
+                    structure hierarchy defined in XML schema in a single generated Java
+                    package. Thus the binding file allows you to define the mapping
+                    between a <literal>schemaLocation</literal> attribute and a Java package.
+                </para>
+                
+            </section>
 
-      <section title="&lt;namingXML&gt; element">
+            <section id="xml.code.generator.custom.bindings.file.namingXML">
+                <title>&lt;namingXML&gt; element</title>
       
-        <programlisting language="xml"><![CDATA[
+                <programlisting language="xml"><![CDATA[
 <namingXML>
    (elementName,complexTypeName,modelGroupName)
 </namingXML>
@@ -889,37 +918,60 @@ org.exolab.castor.builder.extraDocumentationMethods=<emphasis role="bold">true</
     (prefix?, suffix?) = xsd:string
 </elementName|complexTypeName|modelGroupName>]]></programlisting>
 
-        <itemizedlist>
-          <listitem><para>
-            <emphasis role="bold">prefix:</emphasis>The prefix to add to the names of the generated classes.
-          </para></listitem>
-          <listitem><para>
-            <emphasis role="bold">suffix:</emphasis>The suffix to append to the the names of the generated classes.
-          </para></listitem>
-        </itemizedlist>
+                <table align="center">
+                   <title>&lt;namingXML&gt; - Definitions</title>
+                   <tgroup cols="2">
+                      <colspec colname="c1"/>
+                      <colspec colname="c2" align="left"/>
+                      <thead>
+                        <row>
+                          <entry>Name</entry>
+                          <entry>Description</entry>
+                        </row>
+                      </thead>
+                      <tbody>
+                        <row>
+                            <entry><emphasis role="italic">prefix</emphasis></entry>
+                            <entry>The prefix to add to the names of the generated classes.</entry>
+                        </row>
+                        <row>
+                            <entry><emphasis role="italic">suffix</emphasis></entry>
+                            <entry>The suffix to append to the the names of the generated classes.</entry>
+                        </row>
+                      </tbody>
+                   </tgroup>
+                </table>
 
-        <para>
-          One of the aim of the binding file is to avoid naming collisions.
-          Indeed, XML Schema allows elements and complexTypes to share the
-          same name, resulting in name collisions when generating sources.
-          Defining a binding for each element and complexType that share the
-          same name is not always a convenient solution (for instance the BPML
-          XML Schema and the UDDI v2.0 XML Schema use the same names for
-          top-level complexTypes and top-level elements). The aim of the
-          <literal>&lt;naming/></literal> XML element is to define a prefix and a suffix for the
-          names of the classes generated for an element, a complexType or a
-          model group definition.
-        </para>
+                <para>
+                    One of the aims of the binding file is to avoid naming collisions.
+                    Indeed, XML schema allows &lt;element&gt;s and &lt;complexType&gt;s to share the
+                    same name, resulting in name collisions when generating sources.
+                    Defining a binding for each element and complexType that share the
+                    same name is not always a convenient solution (for instance the BPML
+                    XML schema and the UDDI v2.0 XML schema use the same names for
+                    top-level complexTypes and top-level elements).
+                </para>
+                
+                <para>
+                    The main aim of the <literal>&lt;namingXML/></literal> element is to define 
+                    default prefices and suffices for the names of the classes generated for an 
+                    &lt;element&gt;, a &lt;complexType&gt; or a model group definition.
+                </para>
 
-        <para>
-          <emphasis role="bold">Note:</emphasis>It is not possible to control the names of the classes
-          generated to represent nested model groups (all, choice,
-          and sequence).
-        </para>
-      </section>
+                <note>
+                    <para>
+                        It is not possible to control the names of the classes
+                        generated to represent nested model groups (all, choice,
+                        and sequence).
+                    </para>
+                </note>
+                
+            </section>
 
-      <section title="&lt;componentBinding&gt; element">
-        <programlisting language="xml"><![CDATA[
+            <section id="xml.code.generator.custom.bindings.file.componentBinding">
+				<title>&lt;componentBinding&gt; element</title>
+
+        		<programlisting language="xml"><![CDATA[
 <elementBinding|attributeBinding|complexTypeBinding|groupBinding
     name = xsd:string>
    ((java-class|interface|member|contentMember),
@@ -929,63 +981,108 @@ org.exolab.castor.builder.extraDocumentationMethods=<emphasis role="bold">true</
      groupBinding*)
 </elementBinding|attributeBinding|complexTypeBinding|groupBinding>]]></programlisting>
 
-        <dl>
-          <dt class="bodyGrey"><emphasis role="bold">name:</emphasis></dt>
-          <dd class="bodyGrey">The name of the XML schema component for which we
-            are defining a binding.</dd>
-        </dl>
+                <table align="center">
+                   <title>&lt;componentBinding&gt; - Definitions</title>
+                   <tgroup cols="2">
+                      <colspec colname="c1"/>
+                      <colspec colname="c2" align="left"/>
+                      <thead>
+                        <row>
+                          <entry>Name</entry>
+                          <entry>Description</entry>
+                        </row>
+                      </thead>
+                      <tbody>
+                        <row>
+                            <entry>name</entry>
+                            <entry>
+                                The name of the XML schema component for which we
+                                are defining a binding.
+                            </entry>
+                        </row>
+                      </tbody>
+                    </tgroup>
+                  </table>
 
-        <para>
-          These elements are the tenets of the binding file since they contain
-          the binding definition for an XML Schema element, attribute,
-          complexType and modelGroup definition. The first child element
-          (<literal>&lt;java-class/></literal>, <literal>&lt;interface></literal>, <literal>&lt;member></literal>
-          or <literal>&lt;contentMember/></literal>) will determine the type of binding one is
-          defining. Please note that defining a <literal>&lt;java-class></literal>
-          binding on an XML Schema attribute will have absolutely no effect.
-        </para>
+                 <para>
+                   These elements are the tenets of the binding file since they contain
+                   the binding definition for an XML schema element, attribute,
+                   complex type and model group definition. The first child element
+                   (<literal>&lt;java-class/></literal>, <literal>&lt;interface></literal>, 
+                   <literal>&lt;member></literal> or <literal>&lt;contentMember/></literal>) 
+                   will determine the type of binding one is defining. Please note that 
+                   defining a <literal>&lt;java-class></literal> binding on an XML schema 
+                   attribute will have absolutely no effect.
+                 </para>
 
-        <para>
-          The binding file is written from an XML Schema point of view; there
-          are two distinct ways to define the XML Schema component for which
-          we are defining a binding. First we can define it through the
-          <literal>name</literal> attribute.
-        </para>
+                 <para>
+                   The binding file is written from an XML schema point of view; there
+                   are two distinct ways to define the XML schema component for which
+                   we are defining a binding.
+                 </para>
+                 
+                 <orderedlist>
+                    <listitem><para>(XPath-style) name</para></listitem>
+                    <listitem><para>Embedded definitions</para></listitem>
+                 </orderedlist>
+                 
+                 <section>
+                    <title>Name</title>
+                    
+                    <para>  
+                      First we can define it through the <literal>name</literal> attribute.
+                    </para>
 
-        <para>
-          The value of the name attribute uniquely identifies the XML Schema
-          Component. It can refer to the top-level component using the NCName
-          of that component or it can use a location language based on
-          <a href="http://www.w3.org/TR/xpath">XPath</a><sup>3</sup>.  The
-          grammar of that language can be defined by the following
-          <a href="http://en.wikipedia.org/wiki/Backus-Naur_form">BNF</a>:
-        </para>
+                    <para>
+                      The value of the name attribute uniquely identifies the XML schema
+                      component. It can refer to the top-level component using the NCName
+                      of that component or it can use a location language based on
+                      <ulink url="http://www.w3.org/TR/xpath">XPath</ulink>. The
+                      grammar of that language can be defined by the following
+                      <ulink url="http://en.wikipedia.org/wiki/Backus-Naur_form">BNF</ulink>:
+                    </para>
 
-        <pre>
-            [1]Path         ::= '/'LocationPath('/'LocationPath)*
-            [2]LocationPath ::= (Complex|ModelGroup|Attribute|Element|Enumeration)
-            [3]Complex      ::= 'complexType:'(<a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>)
-            [4]ModelGroup   ::= 'group:'<a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>
-            [5]Attribute    ::= '@'<a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>
-            [6]Element      ::= <a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>
-            [7]Enumeration  ::= 'enumType':(<a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>)
-        </pre>
+                    <programlisting>
+[1]Path         ::= '/'LocationPath('/'LocationPath)*
+[2]LocationPath ::= (Complex|ModelGroup|Attribute|Element|Enumeration)
+[3]Complex      ::= 'complexType:'(<ulink url="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</ulink>)
+[4]ModelGroup   ::= 'group:'<ulink url="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</ulink>
+[5]Attribute    ::= '@'<ulink url="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</ulink>
+[6]Element      ::= <ulink url="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</ulink>
+[7]Enumeration  ::= 'enumType':(<ulink url="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</ulink>)
+                    </programlisting>
         
-        <para>
-          Please note that <font color="red">as of Castor 1.1</font>, all values 
-          for the <literal>name</literal> attribute have to start with a '/'.
-        </para>
+                    <para>
+                      Please note that all values for the <literal>name</literal> attribute 
+                      have to start with a <literal>'/'</literal>.
+                    </para>
+                    
+                 </section>
+                 
+                 <section>
+                    <title>Embedded definitions</title>
 
-        <para>
-          The second option to identify an XML Schema Component is to embed
-          its binding definition inside its parent binding definition.
-        </para>
+                    <para>
+                      The second option to identify an XML schema component is to embed
+                      its binding definition inside its parent binding definition.
+                    </para>
 
-        <para>
-          For instance, the following binding definitions are equivalent and
-          identify the element '<literal>foo</literal>' defined in the top-level
-          complexType '<literal>fooType</literal>'.
-        </para>
+                    <para>
+                        Considering below XML schema fragment ...
+                    </para>
+                    
+                    <programlisting language="xml"><![CDATA[
+<complexType name="fooType">
+    <sequence>
+        <element name="foo" type="string" />
+    </sequence>
+</complexType>]]></programlisting>
+                    
+                    <para>
+                      the following binding definitions are equivalent and
+                      identify the &lt;element&gt; <literal>foo</literal> defined in the top-level
+                      &lt;complexType&gt; <literal>fooType</literal>.
+                    </para>
 
         <programlisting language="xml"><![CDATA[
 <elementBinding name="/complexType:fooType/foo>
@@ -997,6 +1094,8 @@ org.exolab.castor.builder.extraDocumentationMethods=<emphasis role="bold">true</
       <member name="MyFoo" handler="mypackage.myHandler"/>
    </elementBinding>
 <complexTypeBinding>]]></programlisting>
+
+                 </section>
 
 <!-- 
         <section title="Bindings for anonymous components">
@@ -1017,10 +1116,12 @@ org.exolab.castor.builder.extraDocumentationMethods=<emphasis role="bold">true</
 
         </section>
  -->
-       </section>
+              </section>
 
-      <section title="&lt;java-class&gt; element">
-        <programlisting language="xml"><![CDATA[
+              <section>
+                 <title>&lt;java-class&gt;</title>
+                
+                 <programlisting language="xml"><![CDATA[
 <java-class
     name? = xsd:string
     package? = xsd:string
@@ -1031,11 +1132,11 @@ org.exolab.castor.builder.extraDocumentationMethods=<emphasis role="bold">true</
     (implements*,extends?)
 </java-class>]]></programlisting>
 
-        <para>
-          This element defines all the options for the class to be generated,
-          including common properties such as class name, package name, and
-          so on.
-        </para>
+                 <para>
+                   This element defines all the options for the class to be generated,
+                   including common properties such as class name, package name, and
+                   so on.
+                 </para>
 
         <variablelist>
             <title>Attributes of &lt;java-class&gt;</title>
@@ -1071,73 +1172,76 @@ org.exolab.castor.builder.extraDocumentationMethods=<emphasis role="bold">true</
           </varlistentry>
         </variablelist>
 
-        <para>
-          For instance, the following binding definition instructs the source
-          generator to generate a class <literal>CustomTest</literal> for a global
-          element named 'test', replacing the default class name <literal>Test</literal>
-          with <literal>CustomTest</literal>.
-        </para>
+                 <para>
+                   For instance, the following binding definition instructs the source
+                   generator to generate a class <literal>CustomTest</literal> for a global
+                   element named 'test', replacing the default class name <literal>Test</literal>
+                   with <literal>CustomTest</literal>.
+                 </para>
 
-        <programlisting language="xml"><![CDATA[
+                 <programlisting language="xml"><![CDATA[
 <elementBinding name="/test">
    <java-class name="CustomTest" final="true"/>
 </elementBinding>]]></programlisting>
 
-        <para>
-          In addition to the properties listed above, it is possible to define
-          that the class generated will extend a class given and/or implement
-          one or more interfaces.
-        </para>
+                 <para>
+                   In addition to the properties listed above, it is possible to define
+                   that the class generated will extend a class given and/or implement
+                   one or more interfaces.
+                 </para>
 
-        <para>
-          For instance, the following binding definition instructs the source
-          generator to generate a class <literal>TestWithInterface</literal> that
-          implements the interface <literal>org.castor.sample.SomeInterface</literal> in
-          addition to <literal>java.io.Serializable</literal>.
-        </para>
+                 <para>
+                   For instance, the following binding definition instructs the source
+                   generator to generate a class <literal>TestWithInterface</literal> that
+                   implements the interface <literal>org.castor.sample.SomeInterface</literal> in
+                   addition to <literal>java.io.Serializable</literal>.
+                 </para>
 
-        <programlisting language="xml"><![CDATA[
+                 <programlisting language="xml"><![CDATA[
 <elementBinding name="/test">
    <java-class name="TestWithInterface">
       <implements>org.castor.sample.SomeInterface</implements>
    </java-class>
-</elementBinding>]]></programlisting>
+</elementBinding>]]>
+                 </programlisting>
 
-        <para>
-          The subsequent binding definition instructs the source generator to
-          generate a class <literal>TestWithExtendsAndInterface</literal> that
-          implements the interface <literal>org.castor.sample.SomeInterface</literal> in
-          addition to <literal>java.io.Serializable</literal>, and extends from a
-          (probably abstract) base class <literal>SomeAbstractBaseClass</literal>.
-        </para>
+                 <para>
+                   The subsequent binding definition instructs the source generator to
+                   generate a class <literal>TestWithExtendsAndInterface</literal> that
+                   implements the interface <literal>org.castor.sample.SomeInterface</literal> in
+                   addition to <literal>java.io.Serializable</literal>, and extends from a
+                   (probably abstract) base class <literal>SomeAbstractBaseClass</literal>.
+                 </para>
 
-        <programlisting language="xml"><![CDATA[
+                 <programlisting language="xml"><![CDATA[
 <elementBinding name="/test">
    <java-class name="TestWithExtendsAndInterface">
       <extends>org.castor.sample.SomeAbstractBaseClass</extends>
       <implements>org.castor.sample.SomeInterface</implements>
    </java-class>
-</elementBinding>]]></programlisting>
+</elementBinding>]]>
+                 </programlisting>
 
-        <para>
-          The generated class <literal>SomeAbstractBaseClass</literal> will have a class
-          signature as shown below:
-        </para>
+                 <para>
+                   The generated class <literal>SomeAbstractBaseClass</literal> will have a class
+                   signature as shown below:
+                 </para>
 
-        <programlisting language="xml">
+                 <programlisting language="java">
 ...
 
-public class TestWithExtendsAndInterface
-   extends SomeAbstractBaseClass
-   implements SomeInterface, java.io.Serializable {
+public class <classname>TestWithExtendsAndInterface</classname>
+   extends <classname>SomeAbstractBaseClass</classname>
+   implements <interface>SomeInterface</interface>, <interface>java.io.Serializable</interface> {
    ...
-        </programlisting>
+                 </programlisting>
+    
+            </section>
 
-      </section>
+            <section>
+                <title>&lt;member&gt; element</title>
 
-      <section title="&lt;member&gt; element">
-
-        <programlisting language="xml">
+                <programlisting language="xml">
  &lt;member
   name? = xsd:string
   java-type? = xsd:string
@@ -1147,91 +1251,121 @@ public class TestWithExtendsAndInterface
   collection? = (array|vector|arraylist|hashtable|collection|odmg|set|map|sortedset)
   validator? = xsd:string/></programlisting>
 
-        <para>
-          This element represents the binding for class member. It allows the
-          definition of its name and java type as well as an implementation of
-          FieldHandler to help the Marshaling framework in handling that
-          member. Defining a validator is also possible. The names given for
-          the validator and the fieldHandler must be fully qualified.
-        </para>
+                 <para>
+                   This element represents the binding for class member. It allows the
+                   definition of its name and java type as well as a custom implementation of
+                   <interface>FieldHandler</interface> to help the Marshaling framework in handling that
+                   member. Defining a validator is also possible. The names given for
+                   the validator and the fieldHandler must be fully qualified.
+                 </para>
 
-        <variablelist>
-            <title>Attributes of &lt;member&gt;</title>
-          <varlistentry>
-            <term><emphasis role="bold">name:</emphasis></term>
-            <listitem><para>The name of the class member that will be
-              generated.</para></listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><emphasis role="bold">java-type:</emphasis></term>
-            <listitem><para>the fully qualified name of the java type.</para></listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><emphasis role="bold">wrapper:</emphasis></term>
-            <listitem><para>If true, a wrapper object will be generated in
-              case the Java type is a java primitive.</para></listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><emphasis role="bold">handler:</emphasis></term>
-            <listitem><para>The fully qualified name of the FieldHandler to
-              use.</para></listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><emphasis role="bold">collection:</emphasis></term>
-            <listitem><para>If the schema component can occur more than
-              once then this attribute allows specifying the collection to use
-              to represent the component in Java.</para></listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><emphasis role="bold">validator:</emphasis></term>
-            <listitem><para>The fully qualified name of the FieldValidator
-              to use.</para></listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><emphasis role="bold">visibility:</emphasis></term>
-            <listitem><para>A custom visibility of the content class member generated, with 
-              the default being <literal>public</literal>.</para></listitem>
-          </varlistentry>
-        </variablelist>
+                 <table align="center">
+                   <title>&lt;member&gt; - Definitions</title>
+                   <tgroup cols="2">
+                      <colspec colname="c1"/>
+                      <colspec colname="c2" align="left"/>
+                      <thead>
+                        <row>
+                          <entry>Name</entry>
+                          <entry>Description</entry>
+                        </row>
+                      </thead>
+                      <tbody>
+                        <row>
+                            <entry>name</entry>
+                            <entry>
+                                The name of the class member that will be
+                                generated.
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>java-type</entry>
+                            <entry>Fully qualified name of the java type.</entry>
+                        </row>
+                        <row>
+                            <entry>wrapper</entry>
+                            <entry>
+                                If true, a wrapper object will be generated in
+                                case the Java type is a java primitive.
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>handler</entry>
+                            <entry>
+                                Fully qualified name of the custom FieldHandler to
+                                use.
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>collection</entry>
+                            <entry>
+                                If the schema component can occur more than
+                                once then this attribute allows specifying the collection to use
+                                to represent the component in Java.
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>validator</entry>
+                            <entry>
+                                Fully qualified name of the <interface>FieldValidator</interface>
+                                to use.
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>visibility</entry>
+                            <entry>
+                                A custom visibility of the content class member generated, 
+                                with the default being <literal>public</literal>.
+                            </entry>
+                        </row>
+                      </tbody>
+                    </tgroup>
+                  </table>                        
 
-        <para>For instance, the following binding definition:</para>
+                 <para>
+                    For instance, the following binding definition:
+                 </para>
 
-        <programlisting language="xml"><![CDATA[
-   <elementBinding name="/root/members">
-      <member collection="set"/>
-   </elementBinding>]]></programlisting>
+                 <programlisting language="xml"><![CDATA[
+<elementBinding name="/root/members">
+   <member collection="set"/>
+</elementBinding>]]></programlisting>
 
-        <para>
-          instructs the source generator to generate -- within a class
-          <literal>Root</literal> -- a Java member named <literal>members</literal> using the
-          collection type <literal>java.util.Set</literal> instead of the default
-          <literal>java.util.List</literal>:
-        </para>
+                 <para>
+                      instructs the source generator to generate -- within a class
+                      <classname>Root</classname> -- a Java member named 
+                      <literal>members</literal> using the
+                      collection type <classname>java.util.Set</classname> instead of the default
+                      <classname>java.util.List</classname>:
+                 </para>
 
-        <programlisting language="xml">
-public class Root {
+                 <programlisting language="java">
+         public class Root {
+         
+            private <emphasis role="bold">java.util.Set</emphasis> members;
+         
+            ...
+         
+         }</programlisting>
 
-   private <emphasis role="bold">java.util.Set</emphasis> members;
+                 <para>
+                    The following (slightly amended) binding element:
+                 </para>
 
-   ...
+                 <programlisting language="xml"><![CDATA[
+<elementBinding name="/root/members">
+   <member name="memberSet" collection="set"/>
+</elementBinding>]]></programlisting>
 
-}</programlisting>
+                 <para>
+                   instructs the source generator to generate -- again within a class
+                   <classname>Root</classname> -- a Java member named 
+                   <literal>memberSet</literal> (of the same
+                   collection type as in the previous example), overriding the name of
+                   the member as specified in the XML schema:
+                 </para>
 
-        <para>The following (slightly amended) binding element:</para>
-
-        <programlisting language="xml"><![CDATA[
-   <elementBinding name="/root/members">
-      <member name="memberSet" collection="set"/>
-   </elementBinding>]]></programlisting>
-
-        <para>
-          instructs the source generator to generate -- again within a class
-          <literal>Root</literal> -- a Java member named <literal>memberSet</literal> (of the same
-          collection type as in the previous example), overriding the name of
-          the member as specified in the XML schema:
-        </para>
-
-        <programlisting language="xml">
+                 <programlisting language="java">
 public class Root {
 
    private java.util.Set <emphasis role="bold">memberSet</emphasis>;
@@ -1240,26 +1374,22 @@ public class Root {
 
 }</programlisting>
 
-      </section>
+            </section>
 
-      <section title="&lt;contentMember&gt; element">
+            <section>
+                <title>&lt;contentMember&gt; element</title>
 
-        <section title="Syntax">
-        
-        <programlisting language="xml">
- &lt;contentMember
-  name? = xsd:string
-  visiblity? = (public|protected|private)</programlisting>
+                 <programlisting language="xml">
+          &lt;contentMember
+           name? = xsd:string
+           visiblity? = (public|protected|private)</programlisting>
 
-        </section>
-        
-        <section title="Description">
-        
-        <para>
-          This element represents the binding for <emphasis role="italic">content</emphasis> class member
-          generated as a result of a mixed mode declaraiton of a complex type definition. 
-          It allows the definition of its name and its visibility
-        </para>
+                 <para>
+                   This element represents the binding for <emphasis role="italic">content</emphasis> 
+                   class member generated as a result of a mixed mode declaration of a 
+                   complex type definition. It allows the definition of its name and 
+                   its visibility
+                 </para>
 
         <variablelist>
           <varlistentry>
@@ -1272,35 +1402,33 @@ public class Root {
               </varlistentry>
         </variablelist>
         
-        </section>
+                 <para>
+                   For a complex type definition declared to be <emphasis role="italic">mixed</emphasis>
+                   such as follows ...
+                 </para>
         
-        <section title="Example">
-        
-        <para>
-          For complex type definition declared to be <emphasis role="italic">mixed</emphasis> such as follows ...
-        </para>
-        
-        <programlisting language="xml">
+                 <programlisting language="xml">
 &lt;complexType name="RootType" <emphasis role="bold">mixed="true"</emphasis>>
    &lt;sequence>
       ...
    &gt;/sequence>
 &gt;/complexType></programlisting>
           
-        <para>... the following binding definition ...</para>
+                 <para>... the following binding definition ...</para>
 
-        <programlisting language="xml"><![CDATA[
-   <elementBinding name="/complexType:RootType">
-      <contentMember name="customContentMember"/>
-   </elementBinding>]]></programlisting>
+                 <programlisting language="xml"><![CDATA[
+<elementBinding name="/complexType:RootType">
+   <contentMember name="customContentMember"/>
+</elementBinding>]]></programlisting>
 
-        <para>
-          instructs the source generator to generate -- within a class
-          <literal>RootType</literal> -- a Java member named <literal>customContentMember</literal> 
-          of type java.lang.String:
-        </para>
+                 <para>
+                   instructs the source generator to generate -- within a class
+                   <classname>RootType</classname> -- a Java member named 
+                   <literal>customContentMember</literal> of type 
+                   <classname>java.lang.String</classname>:
+                 </para>
 
-        <programlisting language="xml">
+                 <programlisting language="java">
 public class RootType {
 
    private java.util.String <emphasis role="bold">customContentMember</emphasis>;
@@ -1308,13 +1436,12 @@ public class RootType {
    ...
 }</programlisting>
 
-        </section>
+                </section>
 
-      </section>
+                <section>
+                    <title>&lt;enumBinding&gt; element</title>
 
-      <section title="&lt;enumBinding&gt; element">
-
-        <programlisting language="xml"><![CDATA[
+                    <programlisting language="xml"><![CDATA[
 <enumBinding>
    (enumDef)
 </enumBinding>
@@ -1325,22 +1452,19 @@ public class RootType {
 
 <enumMember>
    (name = xsd:string, value = xsd:string)
-</enumMember>
-]]></programlisting>
+</enumMember>]]></programlisting>
 
-        <para>
-          The <literal>&lt;enumBinding&gt;</literal> element allows more control on the
-          code generated for type-safe enumerations, which are used to
-          represent an XML Schema <literal>&lt;simpleType&gt;</literal> enumeration.
-        </para>
+                    <para>
+                      The <literal>&lt;enumBinding&gt;</literal> element allows more control on the
+                      code generated for type-safe enumerations, which are used to
+                      represent an XML Schema <literal>&lt;simpleType&gt;</literal> enumeration.
+                    </para>
 
-        <section title="Example">
+                   <para>
+                     For instance, given the following XML schema enumeration definition:
+                   </para>
 
-          <para>
-            For instance, given the following XML schema enumeration definition:
-          </para>
-
-          <programlisting language="xml"><![CDATA[
+                   <programlisting language="xml"><![CDATA[
 <xs:simpleType name="durationUnitType">
   <xs:restriction base='xs:string'>
     <xs:enumeration value='Y' />
@@ -1352,20 +1476,20 @@ public class RootType {
   </xs:restriction>
 </simpleType>]]></programlisting>
 
-          <para>
-            the Castor code generator would generate code where the default
-            naming convention used during the generation would overwrite the
-            first constant definition for value '<literal>M</literal>' with the one
-            generated for value '<literal>m</literal>'.
-          </para>
+                   <para>
+                     the Castor code generator would generate code where the default
+                     naming convention used during the generation would overwrite the
+                     first constant definition for value '<literal>M</literal>' with the one
+                     generated for value '<literal>m</literal>'.
+                   </para>
 
-          <para>
-            The following binding definition defines -- through the means of
-            an <literal>&lt;enumMember&gt;</literal> definition for the enumeration
-            value '<literal>M</literal>' -- a special binding for this value:
-          </para>
+                   <para>
+                     The following binding definition defines -- through the means of
+                     an <literal>&lt;enumMember&gt;</literal> definition for the enumeration
+                     value '<literal>M</literal>' -- a special binding for this value:
+                   </para>
 
-          <programlisting language="xml"><![CDATA[
+                   <programlisting language="xml"><![CDATA[
 <enumBinding name="/enumType:durationUnitType">
   <enum-def>
     <enumMember>
@@ -1375,13 +1499,11 @@ public class RootType {
   </enum-def>
 </enumBinding>]]></programlisting>
 
-          <para>
-            and instructs the source generator to generate -- within a class
-            <literal>DurationUnitType</literal> -- a constant definition named
-            <literal>CUSTOM_M</literal> for the enumeration value <literal>M</literal>.
-          </para>
-
-        </section>
+                   <para>
+                     and instructs the source generator to generate -- within a class
+                     <literal>DurationUnitType</literal> -- a constant definition named
+                     <literal>CUSTOM_M</literal> for the enumeration value <literal>M</literal>.
+                   </para>
 
 <!-- 
         <section title="Sample - Nested (anonymous) &lt;simpleType&gt; enumeration">
@@ -1430,307 +1552,357 @@ public class RootType {
         </section>
         -->
 
-      </section>
+                </section>
 
-      <section title="Not implemented yet">
+                <section>
+                    <title>Not implemented yet</title>
 
-        <section title="&lt;javadoc&gt;">
+                    <section>
+                        <title>&lt;javadoc&gt;</title>
 
-          <para>
-            The <literal>&lt;javadoc&gt;</literal> element allows one to enter the
-            necessary JavaDoc representing the generated classes or members.
-          </para>
+                        <para>
+                           The <literal>&lt;javadoc&gt;</literal> element allows one to enter the
+                           necessary JavaDoc representing the generated classes or members.
+                        </para>
 
-        </section>
+                    </section>
 
-        <section title="&lt;interface> element">
+                    <section>
+                        <title>&lt;interface> element</title>
 
-          <programlisting language="xml"><![CDATA[
-    <interface>
-        name = xsd:string
-    </interface>]]></programlisting>
+                        <programlisting language="xml"><![CDATA[
+<interface>
+  name = xsd:string
+</interface>]]></programlisting>
 
-          <itemizedlist>
-            <listitem><para><emphasis role="bold">name:</emphasis>The name of the interface to generate.</para></listitem>
-          </itemizedlist>
+                        <itemizedlist>
+                           <listitem><para><emphasis role="bold">name:</emphasis>The name of the interface to generate.</para></listitem>
+                        </itemizedlist>
 
-          <para>
-            This element specifies the name of the interface to be generated
-            for an XML schema component.
-          </para>
+                        <para>
+                           This element specifies the name of the interface to be generated
+                           for an XML schema component.
+                        </para>
 
-        </section>
+                    </section>
 
-      </section>
+                  </section>
 
-    </section>
+                </section>
     
-    <section title="Class generation conflicts">
+                <section>
+                    <title>Class generation conflicts</title>
     
-        <para>As mentioned previously, you use a binding file for two main reasons:</para>
+                    <para>As mentioned previously, you use a binding file for two main reasons:</para>
         
-        <itemizedlist>
-            <listitem><para>
-            To customize the Java code generated</para></listitem>
-            <listitem><para>To avoid class generation conflicts.</para></listitem>
-        </itemizedlist>
+                    <itemizedlist>
+                        <listitem>
+                            <para>
+                                To customize the Java code generated
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>To avoid class generation conflicts.</para>
+                        </listitem>
+                    </itemizedlist>
         
-        <para>For the latter case, you'll (often) notice such collisions by looking at 
-           generated Java code that frequently does not compile. Whilst this is realtively
-           easy for small(ish) XML schema(s), this task gets tedious for more elaborate 
-           XML schemas. To ease your life in the context of this 'collision detection', 
-           the Castor XML code generator provides you with a few advanced features. The 
-           following sections cover these features in detail.</para>
+                    <para>
+                       For the latter case, you'll (often) notice such collisions by looking at 
+                       generated Java code that frequently does not compile. Whilst this is relatively
+                       easy for small(ish) XML schema(s), this task gets tedious for more elaborate 
+                       XML schemas. To ease your life in the context of this 'collision detection', 
+                       the Castor XML code generator provides you with a few advanced features. The 
+                       following sections cover these features in detail.
+                    </para>
            
-        <section title="Collision reporting">
+                    <section>
+                        <title>Collision reporting</title>
         
-            <para>During code generation, the Castor XML code generator will run into
-               situations where a class (about to be generated, and as such about to be 
-               written to the file system) will overwrite an already existing class. This,
-               for example, is the case if within one XML schema there's two (local)
-               element definitions within separate complex type definitions with the same
-               name. In such a case, Castor will emit warning messages that inform the
-               user that a class will be overwritten.</para>
+                        <para>
+                           During code generation, the Castor XML code generator will run into
+                           situations where a class (about to be generated, and as such about to be 
+                           written to the file system) will overwrite an already existing class. This,
+                           for example, is the case if within one XML schema there's two (local)
+                           element definitions within separate complex type definitions with the same
+                           name. In such a case, Castor will emit warning messages that inform the
+                           user that a class will be overwritten.
+                        </para>
                
-            <para>As of release 1.1, the Castor XML code generator supports two 
-               <emphasis role="italic">reporting modes</emphasis> that allow different levels of control in the event 
-               of such collisions, <literal>warnViaConsoleDialog</literal> and <literal>informViaLog</literal> 
-               mode.</para>
+                        <para>
+                           As of release 1.1, the Castor XML code generator supports two 
+                           <emphasis role="italic">reporting modes</emphasis> that allow different levels of control in the event 
+                           of such collisions, <literal>warnViaConsoleDialog</literal> and <literal>informViaLog</literal> 
+                           mode.
+                        </para>
             
-            <table id="???" align="center">
-             <title>&lt;column&gt; - Definitions</title>
-             <tgroup cols="3">
-               <colspec colname="c1"/>
-               <colspec colname="c2"/>
-               <colspec colname="c3"/>
-               <thead>
-                 <row>
-                   <entry>Mode</entry>
-                   <entry>Description</entry>
-                    <entry>Since</entry>
-                 </row>
-               </thead>
-               <tbody>
-                <row>
-                    <entry><literal>warnViaConsoleDialog</literal></entry>
-                    <entry>Emits warning messages to <literal>stdout</literal> and ask the 
-                        users whether to continue.</entry>
-                    <entry>0.9</entry>
-                </row>
-                <row>
-                    <entry><literal>informViaLog</literal></entry>
-                    <entry>Emits warning messages only via the standard logger.</entry>
-                    <entry>1.1</entry>
-                </row>
-              </tbody>
-             </tgroup>
-            </table>
+                        <table id="???" align="center">
+                         <title>&lt;column&gt; - Definitions</title>
+                         <tgroup cols="3">
+                           <colspec colname="c1"/>
+                           <colspec colname="c2"/>
+                           <colspec colname="c3"/>
+                           <thead>
+                             <row>
+                               <entry>Mode</entry>
+                               <entry>Description</entry>
+                                <entry>Since</entry>
+                             </row>
+                           </thead>
+                           <tbody>
+                            <row>
+                                <entry><literal>warnViaConsoleDialog</literal></entry>
+                                <entry>Emits warning messages to <literal>stdout</literal> and ask the 
+                                    users whether to continue.</entry>
+                                <entry>0.9</entry>
+                            </row>
+                            <row>
+                                <entry><literal>informViaLog</literal></entry>
+                                <entry>Emits warning messages only via the standard logger.</entry>
+                                <entry>1.1</entry>
+                            </row>
+                          </tbody>
+                         </tgroup>
+                        </table>
             
-            <para>Please select the reporting mode of your choice according to your needs, the 
-               default being <literal>warnViaConsoleDialog</literal>. Please note that the
-               <literal>informViaLog</literal> reporting mode should be the preferred choice
-               when using the XML code generator in an automated environment.</para>
+                        <para>
+                           Please select the reporting mode of your choice according to your needs, the 
+                           default being <literal>warnViaConsoleDialog</literal>. Please note that the
+                           <literal>informViaLog</literal> reporting mode should be the preferred choice
+                           when using the XML code generator in an automated environment.
+                        </para>
                
-            <para>In general, the warning messages produced are very useful in assisting
-            you in your creation of the binding file, as shown in below example
-            for the <literal>warnViaConsoleDialog</literal> mode:</para>
+                        <para>
+                           In general, the warning messages produced are very useful in assisting
+                           you in your creation of the binding file, as shown in below example
+                           for the <literal>warnViaConsoleDialog</literal> mode:
+                        </para>
             
-          <programlisting language="xml">
-    Warning: A class name generation conflict has occurred between element
-            '/Data/OrderReceipt/LineItem' and element '/Data/PurchaseOrder/LineItem'.
-            Please use a Binding file to solve this problem.Continue anyway [not recommended] (y|n|?)y
-    Warning: A class name generation conflict has occurred between element
-            '/Data/OrderReceipt/LineItem' and element '/Data/PurchaseOrder/LineItem'.
-            Please use a Binding file to solve this problem.Continue anyway [not recommended] (y|n|?)y
-    Warning: A class name generation conflict has occurred between element
-            '/Data/OrderReceipt/LineItem' and element '/Data/PurchaseOrder/LineItem'.
-            Please use a Binding file to solve this problem.Continue anyway [not recommended] (y|n|?)y
-    Warning: A class name generation conflict has occurred between element
-            'complexType:ReceiptLineItemType/Sku' and element 'complexType:LineItemType/Sku'.
-            Please use a Binding file to solve this problem.Continue anyway [not recommended] (y|n|?)y
-    Warning: A class name generation conflict has occurred between element
-            'complexType:ReceiptLineItemType/Sku' and element 'complexType:LineItemType/Sku'.
-            Please use a Binding file to solve this problem.Continue anyway [not recommended] (y|n|?)y
-    Warning: A class name generation conflict has occurred between element
-            'complexType:ReceiptLineItemType/Sku' and element 'complexType:LineItemType/Sku'.
-            Please use a Binding file to solve this problem.Continue anyway [not recommended] (y|n|?)y
-          </programlisting>
+                        <programlisting>
+ Warning: A class name generation conflict has occurred between element
+         '/Data/OrderReceipt/LineItem' and element '/Data/PurchaseOrder/LineItem'.
+         Please use a Binding file to solve this problem.Continue anyway [not recommended] (y|n|?)y
+ Warning: A class name generation conflict has occurred between element
+         '/Data/OrderReceipt/LineItem' and element '/Data/PurchaseOrder/LineItem'.
+         Please use a Binding file to solve this problem.Continue anyway [not recommended] (y|n|?)y
+ Warning: A class name generation conflict has occurred between element
+         '/Data/OrderReceipt/LineItem' and element '/Data/PurchaseOrder/LineItem'.
+         Please use a Binding file to solve this problem.Continue anyway [not recommended] (y|n|?)y
+ Warning: A class name generation conflict has occurred between element
+         'complexType:ReceiptLineItemType/Sku' and element 'complexType:LineItemType/Sku'.
+         Please use a Binding file to solve this problem.Continue anyway [not recommended] (y|n|?)y
+ Warning: A class name generation conflict has occurred between element
+         'complexType:ReceiptLineItemType/Sku' and element 'complexType:LineItemType/Sku'.
+         Please use a Binding file to solve this problem.Continue anyway [not recommended] (y|n|?)y
+ Warning: A class name generation conflict has occurred between element
+         'complexType:ReceiptLineItemType/Sku' and element 'complexType:LineItemType/Sku'.
+         Please use a Binding file to solve this problem.Continue anyway [not recommended] (y|n|?)y
+                         </programlisting>
           
-            <section title="Reporting mode 'warnViaConsoleDialog'">
+                         <section>
+                            <title>Reporting mode 'warnViaConsoleDialog'</title>
             
-          <para>
-            As already mentioned, this mode emits warning messages to <literal>stdout</literal>, and 
-            asks you whether you want to continue with the code generation or not. This 
-            allows for very fine grained control over the extent of the code generation.
-          </para>
+                            <para>
+                              As already mentioned, this mode emits warning messages to <literal>stdout</literal>, and 
+                              asks you whether you want to continue with the code generation or not. This 
+                              allows for very fine grained control over the extent of the code generation.
+                            </para>
           
-          <para>Please note that there is several <emphasis role="italic">setter</emphasis> methods on the 
-             <api>org.exolab.castor.builder.SourceGenerator</api> that allow you to fine-tune
-             various settings for this reporting mode. Genuinly, we belive that for 
-             automated code generation through either Ant or Maven, the new <literal>informViaLog</literal>
-             is better suited for these needs.</para>
+                            <para>
+                               Please note that there is several <emphasis role="italic">setter</emphasis> methods on the 
+                               <api>org.exolab.castor.builder.SourceGenerator</api> that allow you to fine-tune
+                               various settings for this reporting mode. Genuinely, we believe that for 
+                               automated code generation through either Ant or Maven, the new <literal>informViaLog</literal>
+                               is better suited for these needs.
+                            </para>
             
-            </section>
+                         </section>
         
-        </section>
+                      </section>
         
-        <section title="Automatic collision resolution">
+                      <section>
+                        <title>Automatic collision resolution</title>
         
-            <para>As of Castor 1.1.1, support has been added to the Castor XML code generator 
-               for a (nearly) automatic conflict resolution. To enable this new mode,
-               please override the following property in your custom property file
-               as shown below:</para>
+                        <para>
+                           As of Castor 1.1.1, support has been added to the Castor XML code generator 
+                           for a (nearly) automatic conflict resolution. To enable this new mode,
+                           please override the following property in your custom property file
+                           as shown below:
+                        </para>
                
-            <programlisting language="xml">
-# Specifies whether automatic class name conflict resolution
-# should be used or not; defaults to false.
-#
-org.exolab.castor.builder.automaticConflictResolution=true</programlisting>
+                        <programlisting>
+ # Specifies whether automatic class name conflict resolution
+ # should be used or not; defaults to false.
+ #
+ org.exolab.castor.builder.automaticConflictResolution=true</programlisting>
         
-            <para>As a result of enabling automatic conflict resolution, Castor will try
-               to resolve such name collisions automatically, using one of the following 
-               two strategies:</para>
-               
-            <table id="???Y?" align="center">
-             <title>&lt;column&gt; - Definitions</title>
-             <tgroup cols="4">
-               <colspec colname="c1"/>
-               <colspec colname="c2"/>
-               <colspec colname="c3"/>
-               <colspec colname="c4"/>
-               <thead>
-                 <row>
-                   <entry>Name</entry>
-                   <entry>Description</entry>
-                   <entry>Since</entry>
-                   <entry>Default</entry>
-                 </row>
-               </thead>
-               <tbody>
-                <row>
-                    <entry><literal>xpath</literal></entry>
-                    <entry>Prepends an XPATH fragment to make the suggested Java name unique.</entry>
-                    <entry>1.1.1</entry>
-                    <entry>Yes</entry>
-                </row>
-                <row>
-                    <entry><literal>type</literal></entry>
-                    <entry>Appends type information to the suggested Java name.</entry>
-                    <entry>1.1.1</entry>
-                    <entry>No</entry>
-                </row>
-                </tbody>
-              </tgroup>
-            </table>
+                        <para>
+                           As a result of enabling automatic conflict resolution, Castor will try
+                           to resolve such name collisions automatically, using one of the following 
+                           two strategies:
+                        </para>
+                           
+                        <table id="???Y?" align="center">
+                         <title>&lt;column&gt; - Definitions</title>
+                         <tgroup cols="4">
+                           <colspec colname="c1"/>
+                           <colspec colname="c2"/>
+                           <colspec colname="c3"/>
+                           <colspec colname="c4"/>
+                           <thead>
+                             <row>
+                               <entry>Name</entry>
+                               <entry>Description</entry>
+                               <entry>Since</entry>
+                               <entry>Default</entry>
+                             </row>
+                           </thead>
+                           <tbody>
+                            <row>
+                                <entry><literal>xpath</literal></entry>
+                                <entry>Prepends an XPATH fragment to make the suggested Java name unique.</entry>
+                                <entry>1.1.1</entry>
+                                <entry>Yes</entry>
+                            </row>
+                            <row>
+                                <entry><literal>type</literal></entry>
+                                <entry>Appends type information to the suggested Java name.</entry>
+                                <entry>1.1.1</entry>
+                                <entry>No</entry>
+                            </row>
+                            </tbody>
+                          </tgroup>
+                        </table>
             
-            <section title="Selecting the strategy">
+                        <section>
+                            <title>Selecting the strategy</title>
 
-                <para>For selecting one of the two strategies during XML code generation, please 
-                   see the documentation for the following code artefacts:</para>
+                            <para>
+                               For selecting one of the two strategies during XML code
+                               generation, please see the documentation for the following 
+                               code artifacts:</para>
                    
-                <itemizedlist>
-                    <listitem><para><api class="org.exolab.castor.builder.SourceGenerator">setClassNameConflictResolver</api></para></listitem>
-                    <listitem><para><api>org.exolab.castor.builder.SourceGeneratorMain"</api></para></listitem>
-                    <listitem><para><a href="srcgen-anttask.html">Ant task definition</a></para></listitem>
-                    <listitem><para><a href="srcgen-maven-plugin.html">Maven plugin for Castor XML</a></para></listitem>
-                </itemizedlist>
+                            <itemizedlist>
+                                <listitem><para><api class="org.exolab.castor.builder.SourceGenerator">setClassNameConflictResolver</api></para></listitem>
+                                <listitem><para><api>org.exolab.castor.builder.SourceGeneratorMain"</api></para></listitem>
+                                <listitem><para><xref endterm="xml.code.generator.invocations.anttask.short" linkend="xml.code.generator.invocations.anttask"/></para></listitem>
+                                <listitem><para><xref linkend="xml.code.generator.invocations.maven"/></para></listitem>
+                            </itemizedlist>
                 
-            </section>
+                         </section>
             
-            <para>In order to explain the <emphasis role="italic">modus operandi</emphasis> of these two modes, please
-               assume two complex type definitions <literal>AType</literal> and <literal>BType</literal> 
-               in an XML schema, with both of them defining a local element named <literal>c</literal>.</para>
+                        <para>
+                           In order to explain the <emphasis role="italic">modus operandi</emphasis> of these two modes, please
+                           assume two complex type definitions <literal>AType</literal> and <literal>BType</literal> 
+                           in an XML schema, with both of them defining a local element named <literal>c</literal>.</para>
                  
             
-              <programlisting language="xml"><![CDATA[
-<complexType name="AType">
-    <sequence>
-        <element name="c" type="CType1" />
-    </sequence>
-</complexType>            
+                       <programlisting language="xml"><![CDATA[
+<xs:complexType name="AType">
+    <xs:sequence>
+        <xs:element name="c" type="CType1" />
+    </xs:sequence>
+</xs:complexType>            
 
-<complexType name="BType">
-    <sequence>
-        <element name="c" type="CType2" />
-    </sequence>
-</complexType>]]></programlisting>
+<xs:complexType name="BType">
+    <xs:sequence>
+        <xs:element name="c" type="CType2" />
+    </xs:sequence>
+</xs:complexType>]]></programlisting>
 
-            <para>Without automatic collision resolution enabled, Castor will create 
-               identically named classes <literal>C.java</literal> for both members, and one
-               will overwrite the other. Please note the different types for the
-               two <literal>c</literal> element definitions, which requires two class files to be 
-               generated in order not to lose this information.</para>
+                        <para>
+                           Without automatic collision resolution enabled, Castor will create 
+                           identically named classes <literal>C.java</literal> for both members, and one
+                           will overwrite the other. Please note the different types for the
+                           two <literal>c</literal> element definitions, which requires two class files to be 
+                           generated in order not to lose this information.
+                        </para>
                
-            <section title="'XPATH' strategy">
+                        <section>
+                            <title>'XPATH' strategy</title>
             
-              <para>
-                This strategy will prepend an XPATH fragment to the default Java name 
-                as derived during code generation, the default name (frequently) being the name 
-                of the XML schema artefact, e.g. the element name of the complex type name. The
-                XPATH fragment being prepended is minimal in the sense that the resulting
-                rooted XPATH is unique for the XML schema artefact being processed.
-              </para>
-              
-              <para>With automatic collision resolution enabled and the strategy 'XPATH' 
-                 selected, Castor will create the following two classes, simply prepending 
-                 the name of the complex type to the default element name:</para>
+                            <para>
+                               This strategy will prepend an XPATH fragment to the default Java name 
+                               as derived during code generation, the default name (frequently) being the name 
+                               of the XML schema artifact, e.g. the element name of the complex type name. The
+                               XPATH fragment being prepended is minimal in the sense that the resulting
+                               rooted XPATH is unique for the XML schema artifact being processed.
+                            </para>
+                             
+                            <para>
+                                With automatic collision resolution enabled and the strategy 'XPATH' 
+                                selected, Castor will create the following two classes, simply prepending 
+                                the name of the complex type to the default element name:
+                            </para>
                  
-              <itemizedlist>
-                <listitem><para>ATypeC.java</para></listitem>
-                <listitem><para>BTypeC.java</para></listitem>
-              </itemizedlist>
+                            <itemizedlist>
+                               <listitem><para>ATypeC.java</para></listitem>
+                               <listitem><para>BTypeC.java</para></listitem>
+                            </itemizedlist>
             
-            </section>
+                         </section>
 
-            <section title="'TYPE' strategy">
+                         <section>
+                            <title>'TYPE' strategy</title>
             
-              <para>
-                This strategy will append 'type' information to the default Java name 
-                as derived during code generation, the default name (frequently) being the name 
-                of the XML schema artefact, e.g. the element name of the complex type name.
-              </para>
+                            <para>
+                               This strategy will append 'type' information to the default Java name 
+                               as derived during code generation, the default name (frequently) being the name 
+                               of the XML schema artifact, e.g. the element name of the complex type name.
+                            </para>
               
-              <para>With automatic collision resolution enabled and
-                 the strategy 'TYPE' selected, Castor will create the following two 
-                 classes, simply appending the name of the complex type to the default
-                 element name (with a default '<literal>By</literal>' inserted):</para>
+                            <para>
+                                With automatic collision resolution enabled and
+                                the strategy 'TYPE' selected, Castor will create the following two 
+                                classes, simply appending the name of the complex type to the default
+                                element name (with a default '<literal>By</literal>' inserted):
+                            </para>
                  
-              <itemizedlist>
-                <listitem><para>CByCType1.java</para></listitem>
-                <listitem><para>CByCType2.java</para></listitem>
-              </itemizedlist>
+                            <itemizedlist>
+                               <listitem><para>CByCType1.java</para></listitem>
+                               <listitem><para>CByCType2.java</para></listitem>
+                            </itemizedlist>
  
-                <para>To override the default '<literal>By</literal>' inserted between the default
-                   element name and the type information, please override the following 
-                   property in your custom property file as shown below:</para>
+                            <para>
+                               To override the default '<literal>By</literal>' inserted between the default
+                               element name and the type information, please override the following 
+                               property in your custom property file as shown below:
+                            </para>
                
-            <programlisting language="xml">
+                           <programlisting>
 # Property specifying the 'string' used in type strategy to be inserted 
 # between the actual element name and the type name (during automatic class name 
 # conflict resolution); defaults to 'By'.
 org.exolab.castor.builder.automaticConflictResolutionTypeSuffix=ByBy</programlisting>
             
-            </section>
+                         </section>
             
-            <section title="Conflicts covered">
+                         <section>
+                            <title>Conflicts covered</title>
             
-                <para>The Castor XML code generator, with automatic collision resolution
-                   enabled, is capable of resolving the following collisions
-                   automatically:</para>
+                            <para>
+                               The Castor XML code generator, with automatic collision resolution
+                               enabled, is capable of resolving the following collisions
+                               automatically:
+                            </para>
                    
-                <itemizedlist>
-                    <listitem><para>Name of local element definition same as name of a global element</para></listitem>
-                    <listitem><para>Name of local element definition same as name of another local element definition.</para></listitem>
-                </itemizedlist>
+                            <itemizedlist>
+                                <listitem><para>Name of local element definition same as name of a global element</para></listitem>
+                                <listitem><para>Name of local element definition same as name of another local element definition.</para></listitem>
+                            </itemizedlist>
                 
-                <para>Please note that <emphasis role="italic">collision resolution</emphasis> for a local to local collision
-                   will only take place for the second local element definition encountered (and 
-                   subsequent ones).</para>
-            </section>
+                            <note>
+                               <para>
+                                  Please note that <emphasis role="italic">collision resolution</emphasis> for a local to local collision
+                                  will only take place for the second local element definition encountered (and 
+                                  subsequent ones).
+                               </para>
+                            </note>
+                            
+                         </section>
         
-        </section>
+                      </section>
                
-    </section>
+                  </section>
         
         
     </section>
@@ -1739,13 +1911,15 @@ org.exolab.castor.builder.automaticConflictResolutionTypeSuffix=ByBy</programlis
         <title>Invoking the XML code generator</title>
         
         <section id="xml.code.generator.invocations.anttask">
+            <titleabbrev id="xml.code.generator.invocations.anttask.short">Ant task definition</titleabbrev>
             <title>Ant task</title>
             
          <para>
            An alternative to using the command line as shown in the previous section,
            the Castor Source Generator Ant Task can be used to call the source
            generator for class generation. The only requirement is that the
-           castor-&lt;version&gt;-codegen-antask.jar must be on the CLASSPATH.
+           castor-&lt;version&gt;-codegen-antask.jar must additionally be on 
+           the CLASSPATH.
          </para>
 
         <section id="xml.code.generator.invocations.anttask.source">
@@ -2043,15 +2217,17 @@ org.exolab.castor.builder.automaticConflictResolutionTypeSuffix=ByBy</programlis
             
         </section>
         
-        <section id="xml.code.generator.invocations.maven">
+        <section id="xml.code.generator.invocations.maven"
+                 xreflabel="Maven plugin for Castor XML">
             <title>Maven 2 plugin</title>
             
-         <para>
-           For those of you working with Maven 2 instead of Ant, the Maven 2 plugin for Castor 
-           can be used to integrate source code generation from XML schemas with the Castor XML
-           code generator as part of the standard Maven build life-cycle. The following sections
-           show how to configure the Maven 2 Castor plugin and hwo to instruct Maven 2
-           to generate sources from your XML schemas.</para>
+            <para>
+              For those of you working with Maven 2 instead of Ant, the Maven 2 plugin for Castor 
+              can be used to integrate source code generation from XML schemas with the Castor XML
+              code generator as part of the standard Maven build life-cycle. The following sections
+              show how to configure the Maven 2 Castor plugin and hwo to instruct Maven 2
+              to generate sources from your XML schemas.
+            </para>
 
            <section id="xml.code.generator.invocations.maven.configuration">
                <title>Configuration</title>
@@ -2472,8 +2648,8 @@ javac com/xyz/*.java</programlisting>
 
             <tip>
               For additional information about the Source Generator and its options,
-              you can download the <a href="./SourceGeneratorUser.pdf">Source
-              Generator User Document (PDF).</a> Please note that the use of a
+              you can download the <ulink url="http://www.castor.org/SourceGeneratorUser.pdf">Source Generator
+              User Document (PDF)</ulink>. Please note that the use of a
               binding file is not dicussed in that document.
             </tip>
       
@@ -2936,7 +3112,8 @@ javac com/xyz/*.java</programlisting>
       </section>
     </section>
 
-    <section title="Supported XML Schema Structures">
+    <section id="xml.code.generator.schema.support.structures">
+        <title>Supported XML Schema Structures</title>
 
       <para>
         Supporting XML schema structures is a constant work. The main
@@ -2944,43 +3121,45 @@ javac com/xyz/*.java</programlisting>
         following will give you a rough list of the supported structures. For a
         more detailed support of XML Schema structure in the Source Generator or
         in the Schema Object Model, please refer to
-        <a href="./SourceGeneratorUser.pdf">Source Generator User Document
-        (PDF).</a>
+        <ulink url="http://www.castor.org/SourceGeneratorUser.pdf">Source Generator
+        User Document (PDF)</ulink>.
       </para>
 
       <para>Supported schema components:</para>
 
       <itemizedlist>
-        <listitem><para>Attribute Declaration (<literal>&lt;attribute&gt;</literal>)</para></listitem>
-        <listitem><para>Element Declaration (<literal>&lt;element&gt;</literal>)</para></listitem>
-        <listitem><para>ComplexType Definition (<literal>&lt;complexType&gt;</literal>)</para></listitem>
-        <listitem><para>AttributeGroup Definition (<literal>&lt;attributeGroup&gt;</literal>)</para></listitem>
-        <listitem><para>ModelGroup Definition (<literal>&lt;group&gt;</literal>)</para></listitem>
-        <listitem><para>ModelGroup (<literal>&lt;all&gt;</literal>, <literal>&lt;choice&gt;</literal>, <literal>&lt;sequence&gt;</literal>)</para></listitem>
+        <listitem><para>Attribute declaration (<literal>&lt;attribute&gt;</literal>)</para></listitem>
+        <listitem><para>Element declaration (<literal>&lt;element&gt;</literal>)</para></listitem>
+        <listitem><para>Complex type definition (<literal>&lt;complexType&gt;</literal>)</para></listitem>
+        <listitem><para>Attribute group definition (<literal>&lt;attributeGroup&gt;</literal>)</para></listitem>
+        <listitem><para>Model group definition (<literal>&lt;group&gt;</literal>)</para></listitem>
+        <listitem><para>Model group (<literal>&lt;all&gt;</literal>, <literal>&lt;choice&gt;</literal> and <literal>&lt;sequence&gt;</literal>)</para></listitem>
         <listitem><para>Annotation (<literal>&lt;annotation&gt;</literal>)</para></listitem>
         <listitem><para>Wildcard (<literal>&lt;any&gt;</literal>)</para></listitem>
-        <listitem><para>SimpleType Definition (<literal>&lt;simpleType&gt;</literal>)</para></listitem>
+        <listitem><para>Simple type definition (<literal>&lt;simpleType&gt;</literal>)</para></listitem>
       </itemizedlist>
 
-      <section title="Groups">
+      <section id="xml.code.generator.schema.support.structures.groups">
+        <title>Groups</title>
 
         <para>
-          Grouping support covers both Model Group Definitions
-          (<literal>&lt;group&gt;</literal>) and Model Groups (<literal>&lt;all&gt;</literal>,
-          <literal>&lt;choice&gt;</literal>, <literal>&lt;sequence&gt;</literal>). In this section
-          we will label as a 'nested group' any Model Group whose first parent
-          is another Model Group.
+          Grouping support covers both <emphasis role="bold">model group definitions</emphasis>
+          (<literal>&lt;group&gt;</literal>) and <emphasis role="bold">model groups</emphasis> 
+          (<literal>&lt;all&gt;</literal>, <literal>&lt;choice&gt;</literal> and  
+          <literal>&lt;sequence&gt;</literal>). In this section
+          we will label as a 'nested group' any model group whose first parent
+          is another model group.
         </para>
 
         <itemizedlist>
           <listitem><para>
-            For each top-level Model Group Definition, a class is generated
+            For each top-level model group definition, a class is generated
             either when using the 'element' mapping property or the 'type' one.
           </para></listitem>
 
           <listitem><para>
-            If a group -- nested or not -- appears to have maxOccurs > 1 then a
-            class is generated to represent the items contained in the group.
+            If a group -- nested or not -- appears to have <literal>maxOccurs > 1</literal> 
+            , then a class is generated to represent the items contained in the group.
           </para></listitem>
 
           <listitem><para>
@@ -3005,11 +3184,14 @@ javac com/xyz/*.java</programlisting>
         </itemizedlist>
       </section>
 
-      <section title="Wildcard">
+      <section id="xml.code.generator.schema.support.structures.wildcard">
+        <title>Wildcard</title>
+        
         <para>
-           <literal>&lt;any&gt;</literal> is supported in the Source Generator and will
-           map to an AnyNode. However full namespace validation is not yet
-           implemented even though an AnyNode structure is fully namespace aware.
+           <literal>&lt;any&gt;</literal> is supported and will be mapped to an 
+           <classname>AnyNode</classname> instance. However, full namespace 
+           validation is not yet implemented, even though an <classname>AnyNode</classname>
+           structure is fully namespace aware.
         </para>
 
         <para>
