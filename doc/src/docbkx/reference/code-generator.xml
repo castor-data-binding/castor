@@ -83,14 +83,22 @@ org.exolab.castor.builder.javaVersion=5.0
     <section id="xml.code.generator.introduction.invocation">
         <title>Invoking the XML code generator</title>
     
-        <para>The XML code generator can be invoked in many ways, including by 
+        <para>
+           The XML code generator can be invoked in many ways, including by 
            command line, via an Ant task and via Maven. Please follow the 
-           below links for detailed instructions on each invocation mode.</para>
+           below links for detailed instructions on each invocation mode.
+        </para>
            
         <itemizedlist>
-            <listitem><para><a href="srcgen-cline.html">Command line interface</a></para></listitem>
-            <listitem><para><a href="srcgen-anttask.html">Ant task for Castor code generation</a></para></listitem>
-            <listitem><para><a href="srcgen-maven-plugin.html">Maven 2 plugin for Castor code generation</a></para></listitem>
+            <listitem>
+                <para><xref linkend="xml.code.generator.invocations.cmd"/></para>
+            </listitem>
+            <listitem>
+                <para><xref linkend="xml.code.generator.invocations.anttask"/></para>
+            </listitem>
+            <listitem>
+                <para><xref linkend="xml.code.generator.invocations.maven"/></para>
+            </listitem>
         </itemizedlist>
     
     </section>
@@ -100,30 +108,18 @@ org.exolab.castor.builder.javaVersion=5.0
 
       <para>
         The input file for the source code generator is an XML
-        Schema<sup>2</sup>.  The currently supported version is the
-        <emphasis role="bold">W3C XML Schema 1.0, Second Edition Recommendation</emphasis><sup>1</sup>.
-        For more information about XML Schema Support, check the
-        <a href="xmlschema.xml">XML Schema page</a>
+        schema<footnote><para>XML Schema is a <ulink url="http://www.w3.org">W3C</ulink>
+        Recommendation</para></footnote>footnote>. The currently supported version is the
+        <emphasis role="bold">W3C XML Schema 1.0, Second Edition</emphasis>
+        <footnote><para>Castor supports the
+        <ulink url="http://www.w3.org/TR/XMLschema-1">XML Schema 1.0 Second
+        Edition</ulink></para></footnote>.
+        For more information about XML schema support, check 
+        <xref linkend="xml.code.generator.schema.support" />.
       </para>
 
     </section>
 
-    <section>
-      <body-note>
-        <sup>1</sup>Castor supports the
-        <a href="http://www.w3.org/TR/XMLschema-1">XML Schema 1.0 Second
-        Edition Recommendation</a></body-note>
-      <body-note>
-        <sup>2</sup>XML Schema is a <a href="http://www.w3.org">W3C</a>
-        Recommendation
-      </body-note>
-      <body-note>
-        <sup>3</sup>XPath is a <a href="http://www.w3.org">W3C</a>
-        Recommendation
-      </body-note>
-
-    </section>
-  
   </section>
   
   <!-- code generator properties -->
@@ -133,119 +129,121 @@ org.exolab.castor.builder.javaVersion=5.0
     <section id="xml.code.generator.properties.overview">
         <title>Overview</title>
 
-        <para>Please find below a list of properties that can be configured through 
+        <para>
+           Please find below a list of properties that can be configured through 
            the builder configuration properties, as defined in either the default
            or a custom XML code generator configuration file. These properties allow you 
-           to control various advanced options of the XML source generator.</para>
+           to control various advanced options of the XML source generator.
+        </para>
 
-            <table id="xml.code.generator.properties.overview.grammar" align="center">
-             <title>&lt;column&gt; - Definitions</title>
-             <tgroup cols="5">
-               <colspec colname="c1"/>
-               <colspec colname="c2"/>
-               <colspec colname="c3"/>
-               <colspec colname="c4"/>
-               <colspec colname="c5"/>
-               <thead>
-                 <row>
-                   <entry>Option</entry>
-                   <entry>Description</entry>
-                   <entry>Values</entry>
-                   <entry>Default</entry>
-                   <entry>Since version</entry>
-                 </row>
-               </thead>
-               <tbody>
-          <row>
-            <entry><a href="#Source-generation-&amp;-Java-5.0">org.exolab.castor.builder.javaVersion</a></entry>
-            <entry>Compliance with Java version</entry>
-            <entry><literal>1.4</literal>/<literal>5.0</literal></entry>
-            <entry>1.4</entry>
-            <entry><font color="red">1.0.2</font></entry>
-          </row>
-          <row>
-            <entry><a href="#SimpleType-Enumerations">org.exolab.castor.builder.forceJava4Enums</a></entry>
-            <entry>Forces the code generator to create 'old' Java 1.4 enumeration classes even in Java 5 mode.</entry>
-            <entry><literal>true</literal>/<literal>false</literal></entry>
-            <entry>false</entry>
-            <entry><font color="red">1.1.3</font></entry>
-          </row>
-          <row>
-            <entry><a href="#Bound-Properties">org.exolab.castor.builder.boundproperties</a></entry>
-            <entry>Generation of bound properties</entry>
-            <entry><literal>true</literal>/<literal>false</literal></entry>
-            <entry><literal>false</literal></entry>
-            <entry>0.8.9</entry>
-          </row>
-          <row>
-            <entry><a href="#Class-Creation/Mapping">org.exolab.castor.builder.javaclassmapping</a></entry>
-            <entry>Class generation mode</entry>
-            <entry><literal>element</literal>/<literal>type</literal></entry>
-            <entry><literal>element</literal></entry>
-            <entry>0.9.1</entry>
-          </row>
-          <row>
-            <entry><a href="#Setting-a-super-class">org.exolab.castor.builder.superclass</a></entry>
-            <entry>Global super class (for all classes generated)</entry>
-            <entry>Any valid class name</entry>
-            <entry>-</entry>
-            <entry>0.8.9</entry>
-          </row>
-          <row>
-            <entry><a href="#Mapping-XML-namespaces-to-Java-packages">org.exolab.castor.builder.nspackages</a></entry>
-            <entry>XML namespace to package name mapping</entry>
-            <entry>A series of mappings</entry>
-            <entry>-</entry>
-            <entry>0.8.9</entry>
-          </row>
-          <row>
-            <entry><a href="#Generate-equals()/hashCode()-method">org.exolab.castor.builder.equalsmethod</a></entry>
-            <entry>Generation of <literal>equals</literal>/<literal>hashCode()</literal> method</entry>
-            <entry><literal>true</literal>/<literal>false</literal></entry>
-            <entry><literal>false</literal></entry>
-            <entry>0.9.1</entry>
-          </row>
-          <row>
-            <entry><a href="#Maps-java-primitive-types-to-wrapper-object">org.exolab.castor.builder.primitivetowrapper</a></entry>
-            <entry>Generation of Object wrappers instead of primitives</entry>
-            <entry><literal>true</literal>/<literal>false</literal></entry>
-            <entry><literal>false</literal></entry>
-            <entry>0.9.4</entry>
-          </row>
-          <row>
-            <entry><a href="#Automatic-class-name-conflict-resolution">org.exolab.castor.builder.automaticConflictResolution</a></entry>
-            <entry>Specifies whether <emphasis role="bold">automatic class name conflict resolution</emphasis> 
-                should be used or not</entry>
-            <entry><literal>true</literal>/<literal>false</literal></entry>
-            <entry><literal>false</literal></entry>
-            <entry><font color="red">1.1.1</font></entry>
-          </row>
-          <row>
-            <entry><a href="#Extra-collection-methods">org.exolab.castor.builder.extraCollectionMethods</a></entry>
-            <entry>Specifies whether <emphasis role="bold">extra</emphasis> (additional) methods should be created for  
-                collection-style fields. Set this to true if you want your code to be
-                more compatible with Castor JDO or other persistence frameworks.</entry>
-            <entry><literal>true</literal>/<literal>false</literal></entry>
-            <entry><literal>false</literal></entry>
-            <entry>0.9.1</entry>
-          </row>
-          <row>
-            <entry><a href="#Class-printing">org.exolab.castor.builder.jclassPrinterFactories</a></entry>
-            <entry>Enlists the available modes for (J)Class <emphasis role="italic">printing</emphasis> during
-                XML code generation.</entry>
-            <entry><literal>org.exolab.castor.builder.printing.WriterJClassPrinterFactory</literal>/
-                <literal>org.exolab.castor.builder.printing.TemplateJClassPrinterFactory</literal></entry>
-            <entry>n/a</entry>
-            <entry><font color="red">1.2.1</font></entry>
-          </row>
-          <row>
-            <entry><a href="#Extra-documentation-methods">org.exolab.castor.builder.extraDocumentationMethods</a></entry>
-            <entry>specifying whether extra members/methods for extracting XML schema
-                documentation should be made available.</entry>
-            <entry><literal>true</literal>/<literal>false</literal></entry>
-            <entry><literal>false</literal></entry>
-            <entry><font color="red">1.2</font></entry>
-          </row>
+         <table id="xml.code.generator.properties.overview.grammar" align="center">
+          <title>&lt;column&gt; - Definitions</title>
+          <tgroup cols="5">
+            <colspec colname="c1"/>
+            <colspec colname="c2"/>
+            <colspec colname="c3"/>
+            <colspec colname="c4"/>
+            <colspec colname="c5"/>
+            <thead>
+              <row>
+                <entry>Option</entry>
+                <entry>Description</entry>
+                <entry>Values</entry>
+                <entry>Default</entry>
+                <entry>Since version</entry>
+              </row>
+            </thead>
+            <tbody>
+             <row>
+               <entry><xref linkend="org.exolab.castor.builder.javaVersion" endterm="xml.code.generator.properties.detailed.java50.short"/></entry>
+               <entry>Compliance with Java version</entry>
+               <entry><literal>1.4</literal>/<literal>5.0</literal></entry>
+               <entry>1.4</entry>
+               <entry><emphasis role="bold">1.0.2</emphasis></entry>
+             </row>
+             <row>
+               <entry><a href="#SimpleType-Enumerations">org.exolab.castor.builder.forceJava4Enums</a></entry>
+               <entry>Forces the code generator to create 'old' Java 1.4 enumeration classes even in Java 5 mode.</entry>
+               <entry><literal>true</literal>/<literal>false</literal></entry>
+               <entry>false</entry>
+               <entry><emphasis role="bold">1.1.3</emphasis></entry>
+             </row>
+             <row>
+               <entry><a href="#Bound-Properties">org.exolab.castor.builder.boundproperties</a></entry>
+               <entry>Generation of bound properties</entry>
+               <entry><literal>true</literal>/<literal>false</literal></entry>
+               <entry><literal>false</literal></entry>
+               <entry>0.8.9</entry>
+             </row>
+             <row>
+               <entry><a href="#Class-Creation/Mapping">org.exolab.castor.builder.javaclassmapping</a></entry>
+               <entry>Class generation mode</entry>
+               <entry><literal>element</literal>/<literal>type</literal></entry>
+               <entry><literal>element</literal></entry>
+               <entry>0.9.1</entry>
+             </row>
+             <row>
+               <entry><a href="#Setting-a-super-class">org.exolab.castor.builder.superclass</a></entry>
+               <entry>Global super class (for all classes generated)</entry>
+               <entry>Any valid class name</entry>
+               <entry>-</entry>
+               <entry>0.8.9</entry>
+             </row>
+             <row>
+               <entry><a href="#Mapping-XML-namespaces-to-Java-packages">org.exolab.castor.builder.nspackages</a></entry>
+               <entry>XML namespace to package name mapping</entry>
+               <entry>A series of mappings</entry>
+               <entry>-</entry>
+               <entry>0.8.9</entry>
+             </row>
+             <row>
+               <entry><a href="#Generate-equals()/hashCode()-method">org.exolab.castor.builder.equalsmethod</a></entry>
+               <entry>Generation of <literal>equals</literal>/<literal>hashCode()</literal> method</entry>
+               <entry><literal>true</literal>/<literal>false</literal></entry>
+               <entry><literal>false</literal></entry>
+               <entry>0.9.1</entry>
+             </row>
+             <row>
+               <entry><a href="#Maps-java-primitive-types-to-wrapper-object">org.exolab.castor.builder.primitivetowrapper</a></entry>
+               <entry>Generation of Object wrappers instead of primitives</entry>
+               <entry><literal>true</literal>/<literal>false</literal></entry>
+               <entry><literal>false</literal></entry>
+               <entry>0.9.4</entry>
+             </row>
+             <row>
+               <entry><a href="#Automatic-class-name-conflict-resolution">org.exolab.castor.builder.automaticConflictResolution</a></entry>
+               <entry>Specifies whether <emphasis role="bold">automatic class name conflict resolution</emphasis> 
+                   should be used or not</entry>
+               <entry><literal>true</literal>/<literal>false</literal></entry>
+               <entry><literal>false</literal></entry>
+               <entry><emphasis role="bold">1.1.1</emphasis></entry>
+             </row>
+             <row>
+               <entry><a href="#Extra-collection-methods">org.exolab.castor.builder.extraCollectionMethods</a></entry>
+               <entry>Specifies whether <emphasis role="bold">extra</emphasis> (additional) methods should be created for  
+                   collection-style fields. Set this to true if you want your code to be
+                   more compatible with Castor JDO or other persistence frameworks.</entry>
+               <entry><literal>true</literal>/<literal>false</literal></entry>
+               <entry><literal>false</literal></entry>
+               <entry>0.9.1</entry>
+             </row>
+             <row>
+               <entry><a href="#Class-printing">org.exolab.castor.builder.jclassPrinterFactories</a></entry>
+               <entry>Enlists the available modes for (J)Class <emphasis role="italic">printing</emphasis> during
+                   XML code generation.</entry>
+               <entry><literal>org.exolab.castor.builder.printing.WriterJClassPrinterFactory</literal>/
+                   <literal>org.exolab.castor.builder.printing.TemplateJClassPrinterFactory</literal></entry>
+               <entry>n/a</entry>
+               <entry><emphasis role="bold">1.2.1</emphasis></entry>
+             </row>
+             <row>
+               <entry><a href="#Extra-documentation-methods">org.exolab.castor.builder.extraDocumentationMethods</a></entry>
+               <entry>specifying whether extra members/methods for extracting XML schema
+                   documentation should be made available.</entry>
+               <entry><literal>true</literal>/<literal>false</literal></entry>
+               <entry><literal>false</literal></entry>
+               <entry><emphasis role="bold">1.2</emphasis></entry>
+             </row>
           </tbody>
           </tgroup>
         </table>
@@ -279,26 +277,32 @@ org.exolab.castor.builder.javaVersion=5.0
     <section id="xml.code.generator.properties.detailed">
         <title>Detailed descriptions</title>
 
-        <section id="xml.code.generator.properties.detailed.java50">
+        <section id="xml.code.generator.properties.detailed.java50" 
+                 xreflabel="org.exolab.castor.builder.javaVersion">
             <title>Source generation &amp; Java 5.0</title>
+            <titleabbrev id="xml.code.generator.properties.detailed.java50.short">org.exolab.castor.builder.javaVersion</titleabbrev>
     
-                <para>As of <emphasis role="bold">Castor 1.0.2</emphasis>, the Castor source generator now supports the
-                   generation of Java 5.0 compliant code. The generated code - with the
-                   new feature enabled - will make use of the following Java 5.0-specific
-                   artifacts:
+            <para>
+                As of <emphasis role="bold">Castor 1.0.2</emphasis>, the Castor source generator now supports the
+                generation of Java 5.0 compliant code. The generated code - with the
+                new feature enabled - will make use of the following Java 5.0-specific
+                artifacts:
+ 
+                <itemizedlist>
+                 <listitem><para>Use of parameterized collections, e.g. ArrayList&lt;String&gt;.</para></listitem>
+                 <listitem><para>Use of @Override annotations with the generated methods
+                     that require it.</para></listitem>
+                 <listitem><para>Use of @SupressWarnings with "unused" method parameters
+                     on the generated methods that needed it.</para></listitem>
+                 <listitem><para>Added "enum" to the list of reserved keywords.</para></listitem>
+                </itemizedlist>
+            </para>
     
-                   <itemizedlist>
-                    <listitem><para>Use of parameterized collections, e.g. ArrayList&lt;String&gt;.</para></listitem>
-                    <listitem><para>Use of @Override annotations with the generated methods
-                        that require it.</para></listitem>
-                    <listitem><para>Use of @SupressWarnings with "unused" method parameters
-                        on the generated methods that needed it.</para></listitem>
-                    <listitem><para>Added "enum" to the list of reserved keywords.</para></listitem>
-                   </itemizedlist></para>
-    
-                <para>To enable this feature (off by default), please uncomment the
-                   following property in your custom <literal>castorbuilder.properties</literal>
-                   file:</para>
+            <para>
+                To enable this feature (off by default), please uncomment the
+                following property in your custom <filename>castorbuilder.properties</filename>
+                file:
+            </para>
     
                 <programlisting language="xml">
 # This property specifies whether the sources generated
@@ -310,11 +314,14 @@ org.exolab.castor.builder.javaVersion=5.0</programlisting>
         <section id="xml.code.generator.properties.detailed.enumerations">
             <title>SimpleType Enumerations</title>
         
-          <para>In previous versions, castor only supported (un)marshalling of "simple" 
-                   java5 enums, meaning enums where all facet values are valid java identifiers. 
-                   In these cases, every enum constant name can be mapped directly to the xml value. 
-                   See the following example:</para>
-                   
+            <para>
+                In previous versions, castor only supported (un)marshalling of "simple" 
+                java5 enums, meaning enums where all facet values are valid java identifiers. 
+                In these cases, every enum constant name can be mapped directly to the xml value. 
+                See the following example:
+            </para>
+                
+            <informalexample>
                 <programlisting language="xml"><![CDATA[
 <xs:simpleType name="AlphabeticalType">
   <xs:restriction base="xs:string">
@@ -322,36 +329,40 @@ org.exolab.castor.builder.javaVersion=5.0</programlisting>
     <xs:enumeration value="B"/>
     <xs:enumeration value="C"/>
   </xs:restriction>
-</xs:simpleType>    
+</xs:simpleType>]]></programlisting>
+            </informalexample>
 
+            <programlisting language="java">
 public enum AlphabeticalType {
     A, B, C
-}
+}</programlisting>
 
+            <programlisting language="xml"><![CDATA[
 <root>
   <AlphabeticalType>A</AlphabeticalType>    
 </root>
-    ]]>
-</programlisting>                    
+    ]]></programlisting>                    
 
-                <para>So if there is at least ONE facet that cannot be mapped directly to a 
-                   valid java identifier, we need to extend the enum pattern. Examples for 
-                   these cases are value="5" or value="-s". Castor now introduces an extended 
-                   pattern, similar to the jaxb2 enum handling. The actual value of the 
-                   enumeration facet is stored in a private String property, the name of the 
-                   enum constant is translated into a valid identifier. Additionally, some 
-                   convenience methods are introduced, details about these methods are described 
-                   after the following example:
-                </para>   
+             <para>
+                So if there is at least ONE facet that cannot be mapped directly to a 
+                valid java identifier, we need to extend the enum pattern. Examples for 
+                these cases are value="5" or value="-s". Castor now introduces an extended 
+                pattern, similar to the jaxb2 enum handling. The actual value of the 
+                enumeration facet is stored in a private String property, the name of the 
+                enum constant is translated into a valid identifier. Additionally, some 
+                convenience methods are introduced, details about these methods are described 
+                after the following example:
+             </para>   
                 
-                <programlisting language="xml"><![CDATA[
+             <programlisting language="xml"><![CDATA[
 <xs:simpleType name="CompositeType">
   <xs:restriction base="xs:string">
     <xs:enumeration value="5"/>
     <xs:enumeration value="10"/>
   </xs:restriction>
-</xs:simpleType> 
+</xs:simpleType>]]></programlisting> 
 
+             <programlisting language="java">
 public enum CompositeType {
     VALUE_5("5"),
     VALUE_10("10");
@@ -378,78 +389,93 @@ public enum CompositeType {
     public java.lang.String toString() {
         return this.value;
     }
-}
+}</programlisting>
 
+             <programlisting language="xml"><![CDATA[
 <root>
   <CompositeType>5</CompositeType>    
-</root>    
-
-    ]]>
-</programlisting>   
-                <section id="xml.code.generator.properties.detailed.enumerations.1">
-                    <title>Unmarshalling of complex enums</title>           
-                      
-                <para>Castor uses the static void fromValue(String value) method 
-                   to retrieve the correct instance from the value in the xml 
-                   input file. In our example, the input is "5", fromValue returns
-                   CompositeType.VALUE_5</para>
+</root>]]></programlisting>
+   
+          <section id="xml.code.generator.properties.detailed.enumerations.1">
+             <title>Unmarshalling of complex enums</title>           
                    
-                </section>
+             <para>
+                Castor uses the static void <methodname>fromValue(String value)</methodname>
+                method to retrieve the correct instance from the value in the XML 
+                input file. In our example, the input is "5", fromValue returns
+                <literal>CompositeType.VALUE_5</literal>.
+             </para>
                 
-                <section id="xml.code.generator.properties.detailed.enumerations.2">
-                    <title>Marshalling of complex enums</title>
+          </section>
                 
-                <para>Currently, we have to distinguish between enums with a class 
-                   descriptor and the ones without. If you are using class descriptors, 
-                   the EnumerationHandler uses the value() method to write the xml output.</para>
-                   
-                <para>If no descriptor classes are available, castor uses per default the toString() 
-                   method to marshall the value. In this case, the override of the 
-                   java.lang.Enum.toString() method is mandatory, because 
-                   java.lang.Enum.toString returns the NAME of the facet instead of 
-                   the VALUE. So in our example, "VALUE_10" would be returned instead 
-                   of "10". To avoid this, castor expects an implementation of toString 
-                   that returns "this.value".</para>
-                   
-                </section>
-                   
-                <section id="xml.code.generator.properties.detailed.enumerations.3">
-                    <title>Source Generation of complex enums</title>
+          <section id="xml.code.generator.properties.detailed.enumerations.2">
+             <title>Marshalling of complex enums</title>
+             
+             <para>
+                Currently, we have to distinguish between enums with a class 
+                descriptor and the ones without. If you are using class descriptors, 
+                the EnumerationHandler uses the value() method to write the xml output.
+             </para>
                 
-                <para>If the java version is set to "5.0", the new default behavior of 
+             <para>
+                If no descriptor classes are available, castor uses per default the 
+                <methodname>toString()</methodname> 
+                method to marshall the value. In this case, the override of the 
+                <methodname>java.lang.Enum.toString()</methodname> method is mandatory, because 
+                <methodname>java.lang.Enum.toString()</methodname> returns the NAME of the 
+                facet instead of the VALUE. So in our example, <literal>VALUE_10</literal>
+                would be returned instead of "10". To avoid this, castor expects an 
+                implementation of <methodname>toString()</methodname> that returns 
+                <literal>this.value</literal>.
+             </para>
+             
+          </section>
+                   
+             <section id="xml.code.generator.properties.detailed.enumerations.3">
+                 <title>Source Generation of complex enums</title>
+             
+                <para>
+                   If the java version is set to "5.0", the new default behavior of 
                    castor is to generate complex java5 enums for simpleType enumerations, 
                    as described above. In java 1.4 mode, nothing has changed and the old 
-                   style enumeration classes using a HashMap are created. </para>
-                   
-                <para>Users, who are in java5 mode and still want to use the old style java 
-                   1.4 classes, can force this by setting the new 
-                   "org.exolab.castor.builder.forceJava4Enums" property to true.</para>                          
+                   style enumeration classes using a HashMap are created.
+                </para>
                 
-                <programlisting language="xml">
-#
-# Forces the code generator to create 'old' Java 1.4 enumeration classes instead 
-# of Java 5 enums for xs:simpleType enumerations, even in Java 5 mode.
-#
-# Possible values:
-# - false (default)
-# - true
+                <para>
+                   Users, who are in java5 mode and still want to use the old style java 
+                   1.4 classes, can force this by setting the new 
+                   <literal>org.exolab.castor.builder.forceJava4Enums</literal> property 
+                   to true as follows:
+                </para>                          
+             
+             <programlisting>
+ # Forces the code generator to create 'old' Java 1.4 enumeration classes instead 
+ # of Java 5 enums for xs:simpleType enumerations, even in Java 5 mode.
+ #
+ # Possible values:
+ # - false (default)
+ # - true
 org.exolab.castor.builder.forceJava4Enums=false</programlisting>
 
-            </section>    
+         </section>    
         
         </section>
 
-            <section id="xml.code.generator.properties.detailed.bound.properties">
-                <title>Bound Properties</title>
+        <section id="xml.code.generator.properties.detailed.bound.properties">
+          <title>Bound Properties</title>
 
-                <para>Bound properties are "properties" of a class, which when
-                   updated the class will send out a <api>java.beans.PropertyChangeEvent</api>
-                   to all registered <api>java.beans.PropertyChangeListeners</api>.</para>
+          <para>
+             Bound properties are "properties" of a class, which when
+             updated the class will send out a <classname>java.beans.PropertyChangeEvent</classname>
+             to all registered <classname>java.beans.PropertyChangeListeners</classname>.
+          </para>
 
-                <para>To enable bound properties, please add the following property definition
-                   to your custom builder configuration file:</para>
+          <para>
+             To enable bound properties, please add a property definition
+             to your custom builder configuration file as follows:
+          </para>
 
-                <programlisting language="xml">
+          <programlisting>
 # To enable bound properties uncomment the following line. Please
 # note that currently *all* fields will be treated as bound properties
 # when enabled. This will change in the future when we introduce
@@ -457,11 +483,13 @@ org.exolab.castor.builder.forceJava4Enums=false</programlisting>
 #
 org.exolab.castor.builder.boundproperties=true</programlisting>
 
-                <para>When enabled, <emphasis role="bold">all</emphasis> properties will be treated as bound properties. For
-                   each class that is generated a <literal>setPropertyChangeListener</literal> method is
-                   created as follows:</para>
+          <para>
+             When enabled, <emphasis role="bold">all</emphasis> properties will be treated as bound properties. For
+             each class that is generated a <literal>setPropertyChangeListener</literal> method is
+             created as follows:
+          </para>
 
-                <programlisting language="xml">
+          <programlisting language="java">
 <comment>/**
  * Registers a PropertyChangeListener with this class.
  * @param pcl The PropertyChangeListener to register.
@@ -472,28 +500,36 @@ public void addPropertyChangeListener (java.beans.PropertyChangeListener pcl)
    propertyChangeListeners.addElement(pcl);
 } //-- void addPropertyChangeListener</programlisting>
 
-                <para>Whenever a property of the class is changed, a
-                   <api>java.beans.PropertyChangeEvent</api> will be sent to
-                   all registered listeners. The property name, the old value and
-                   the new value will be set in the <emphasis role="bold">java.beans.PropertyChangeEvent</emphasis>.</para>
+          <para>
+             Whenever a property of the class is changed, a
+             <classname>java.beans.PropertyChangeEvent</classname> will be sent to
+             all registered listeners. The property name, the old value and
+             the new value will be set in the 
+             <emphasis role="bold">java.beans.PropertyChangeEvent</emphasis>.
+          </para>
 
-                <note>To prevent unnecessary overhead, if the property is a collection,
-                      the old value will be <emphasis role="italic">null</emphasis>.</note>
+          <note>
+             To prevent unnecessary overhead, if the property is a collection,
+             the old value will be <emphasis role="italic">null</emphasis>.
+          </note>
 
          </section>
 
          <section id="xml.code.generator.properties.detailed.class.creation">
             <title>Class Creation/Mapping</title>
 
-            <para>The source generator can treat the XML Schema structures such as &lt;complexType&gt;
-               and element in two main ways. The first, and current default method is called the
-               "element" method. The other is called the "type" method.</para>
+            <para>
+               The source generator can treat the XML Schema structures such as 
+               <literal>&lt;complexType&gt;</literal> and <literal>&lt;element&gt;</literal> 
+               in two main ways. The first, and current default method is called the
+               "element" method. The other is called the "type" method.
+            </para>
 
             <table id="xml.code.generator.properties.detailed.class.creation.table" align="center">
              <title>&lt;column&gt; - Definitions</title>
              <tgroup cols="2">
                <colspec colname="c1"/>
-               <colspec colname="c2"/>
+               <colspec colname="c2" align="left" />
                <thead>
                  <row>
                    <entry>Method</entry>
@@ -501,26 +537,34 @@ public void addPropertyChangeListener (java.beans.PropertyChangeListener pcl)
                  </row>
                </thead>
                <tbody>
-              <row>
-                <entry>'element'</entry>
-                <entry>
-                        The "element" method creates classes for all elements whose type is a
+                  <row>
+                   <entry>'element'</entry>
+                   <entry>
+                       <para>
+                           The "element" method creates classes for all elements whose type is a
                            &lt;complexType&gt;. Abstract classes are created for all top-level
                            &lt;complexType&gt;s. Any elements whose type is a top-level type will have
                            a new class create that extends the abstract class which was generated for
-                           that top-level complexType.<br/>
+                           that top-level complexType.
+                        </para>
+                        <para>
                            Classes are not created for elements whose type is a &lt;simpleType&gt;.
-                    </entry>
-                </row>
-                <row>
-                  <entry>'type'</entry>
-                  <entry>
-                           The "type" method creates classes for all top-level &lt;complexType&gt;s, or
-                           elements that contain an "anonymous" (in-lined) &lt;complexType&gt;.<br/>
-                           Classes will not be generated for elements whose type is a top-level
-                           type.
-                    </entry>
-                </row>
+                        </para>
+                   </entry>
+                  </row>
+                  <row>
+                     <entry>'type'</entry>
+                     <entry>
+                        <para>
+                              The "type" method creates classes for all top-level &lt;complexType&gt;s, or
+                              elements that contain an "anonymous" (in-lined) &lt;complexType&gt;.
+                        </para>
+                        <para>
+                              Classes will not be generated for elements whose type is a top-level
+                              type.
+                        </para>
+                       </entry>
+                   </row>
                 </tbody>
                 </tgroup>
             </table>
