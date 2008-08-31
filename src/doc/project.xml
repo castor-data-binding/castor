@@ -59,6 +59,10 @@
         <url>dependencies.xml</url>
         <display>Dependencies</display>
       </navLink>
+      <navlink highlighted="true">
+        <url>reference-guide.html</url>
+        <display>Reference guide</display>
+      </navlink>
       <navLink>
         <url>javadoc/overview-summary.html</url>
         <display>JavaDoc</display>
@@ -186,6 +190,14 @@
     </section>
 
     <section name="XML Code Generator">
+       <navLink>
+        <url>srcgen-link.xml</url>
+        <display>XML Code Generator</display>
+       </navLink>
+    </section>
+
+<!-- 
+    <section name="XML Code Generator">
       <navLink>
         <url>sourcegen.xml</url>
         <display>Introduction</display>
@@ -219,7 +231,7 @@
         <display>Example</display>
       </navLink>
     </section>
-
+ -->
     <section name="JDO">
       <navLink>
         <url>jdo-introduction.xml</url>
