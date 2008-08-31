@@ -2706,545 +2706,546 @@ javac com/xyz/*.java</programlisting>
     <section id="xml.code.generator.schema.support">
         <title>XML schema support</title>
         
-    <section title="Introduction">
+        <para>
+           Castor XML supports the <ulink url="http://www.w3.org/TR/xmlschema-1/">W3C
+           XML Schema 1.0 Second Edition Recommendation document (10/28/2004)</ulink>
+           The Schema Object Model (located in the package
+           <api package="org.exolab.castor.xml.schema">org.exolab.castor.xml.schema</api>)
+           provides an in-memory representation of a given XML schema whereas the
+           XML code generator provides a binding
+           between XML schema data types and structures into the corresponding ones
+           in Java.
+        </para>
 
-      <para>
-        Castor XML supports the <ulink url="http://www.w3.org/TR/xmlschema-1/">W3C
-        XML Schema 1.0 Second Edition Recommendation document (10/28/2004)</ulink>
-        The Schema Object Model (located in the package
-        <api package="org.exolab.castor.xml.schema">org.exolab.castor.xml.schema</api>)
-        provides an in-memory representation of a given XML schema whereas the
-        <a href="./sourcegen.xml">Source Generator</a> provides a binding
-        between XML schema datatypes and structures into the corresponding ones
-        in Java.
-      </para>
+        <para>
+           The Castor Schema Object Model can read
+           (<api package="org.exolab.castor.xml.schema.reader">org.exolab.castor.xml.schema.reader</api>)
+           and write
+           (<api package="org.exolab.castor.xml.schema.writer">org.exolab.castor.xml.schema.writer</api>)
+           an XML Schema as defined by the W3C recommandation. It allows you to
+           create and manipulate an in-memory view of an XML Schema.
+        </para>
 
-      <para>
-        The Castor Schema Object Model can read
-        (<api package="org.exolab.castor.xml.schema.reader">org.exolab.castor.xml.schema.reader</api>)
-        and write
-        (<api package="org.exolab.castor.xml.schema.writer">org.exolab.castor.xml.schema.writer</api>)
-        an XML Schema as defined by the W3C recommandation. It allows you to
-        create and manipulate an in-memory view of an XML Schema.
-      </para>
+        <para>
+           The Castor Schema Object Model supports the W3C XML Schema
+           recommendation with no limitation. However the Source Generator does
+           currently not offer a one to one mapping from an XML Schema component
+           to a Java component for every XML Schema components; some limitations
+           exist. The aim of the following sections is to provide a list of
+           supported features in the Source Generator. Please keep in mind that
+           the Castor Schema Object Model again can handle any XML Schema without
+           limitations.
+        </para>
 
-      <para>
-        The Castor Schema Object Model supports the W3C XML Schema
-        recommendation with no limitation. However the Source Generator does
-        currently not offer a one to one mapping from an XML Schema component
-        to a Java component for every XML Schema components; some limitations
-        exist. The aim of the following sections is to provide a list of
-        supported features in the Source Generator. Please keep in mind that
-        the Castor Schema Object Model again can handle any XML Schema without
-        limitations.
-      </para>
+        <para>
+           Some Schema types do not have a corresponding type in Java.  Thus the
+           Source Generator uses Castor implementation of these specific types
+           (located in the <api package="org.exolab.castor.types"> types package</api>).
+           For instance the <literal>duration</literal> type is implemented directly in
+           Castor. Remember that the representation of XML Schema datatypes does
+           not try to fit the W3C XML Schema specifications exactly. The aim is to
+           map an XML Schema type to the Java type that is the best fit to the XML
+           Schema type.
+        </para>
 
-      <para>
-        Some Schema types do not have a corresponding type in Java.  Thus the
-        Source Generator uses Castor implementation of these specific types
-        (located in the <api package="org.exolab.castor.types"> types package</api>).
-        For instance the <literal>duration</literal> type is implemented directly in
-        Castor. Remember that the representation of XML Schema datatypes does
-        not try to fit the W3C XML Schema specifications exactly. The aim is to
-        map an XML Schema type to the Java type that is the best fit to the XML
-        Schema type.
-      </para>
+        <para>
+           You will find next a list of the supported XML Schema data types and
+           structures in the Source Code Generator. For a more detailed support of
+           XML Schema structure and more information on the Schema Object Model,
+           please refer to  
+           <ulink url="http://www.castor.org/SourceGeneratorUser.pdf">Source Generator
+           User Document (PDF).</ulink>
+        </para>
 
-      <para>
-        You will find next a list of the supported XML Schema datatypes and
-        structures in the Source Code Generator. For a more detailed support of
-        XML Schema structure and more information on the Schema Object Model,
-        please refer to  <ulink url="http://www.castor.org/SourceGeneratorUser.pdf">Source Generator
-        User Document (PDF).</ulink>
-      </para>
+        <section>
+            <title>Supported XML Schema Built-in Datatypes</title>
 
-    </section>
+            <para>
+              The following is a list of the supported datatypes with the
+              corresponding facets and the Java mapping type.
+            </para>
 
-    <section title="Supported XML Schema Built-in Datatypes">
+            <section id="xml.code.generator.schema.support.datatypes.built-in.primitive">
+                <title>Primitive Datatypes</title>
 
-      <para>
-        The following is a list of the supported datatypes with the
-        corresponding facets and the Java mapping type.
-      </para>
+              <table id="xml.code.generator.schema.support.datatypes.built-in.primitive.table" align="center">
+                <title>Supported primitive data types</title>
+                <tgroup cols="3">
+                  <colspec colname="c1"/>
+                  <colspec colname="c2"/>
+                  <colspec colname="c3"/>
+                  <thead>
+                    <row>
+                      <entry>XML Schema Type</entry>
+                      <entry>Supported Facets</entry>
+                      <entry>Java mapping type</entry>
+                    </row>
+                  </thead>
+                  <tbody>
+                   <row>
+                     <entry>anyURI</entry>
+                     <entry>enumeration</entry>
+                     <entry><classname>java.lang.String</classname></entry>
+                   </row>
+                   <row>
+                     <entry>base64Binary</entry>
+                     <entry>&#160;</entry>
+                     <entry><classname>byte[]</classname></entry>
+                   </row>
+                   <row>
+                     <entry>boolean</entry>
+                     <entry>pattern</entry>
+                     <entry>
+                       <literal>boolean</literal> or <classname>java.lang.Boolean</classname><footnote id="footnote.primitive.types"><para>For the various numerical types, the
+                default behavior is to generate primitive types.  However, if the
+                use of wrappers is enabled by the following line in the
+                <literal>castorbuilder.properties</literal> file:
+                <code>org.exolab.castor.builder.primitivetowrapper=true</code> then
+                the <literal>java.lang.*</literal> wrapper objects (as specified above) will be
+                used instead.
+                       </para></footnote>
+                     </entry>
+                   </row>
+                   <row>
+                     <entry>date</entry>
+                     <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnote id="footnote.types.primitive.1">
+                         <para>
+                             For the date/time and numeric types, the only supported value for whitespace 
+                             is "collapse".
+                         </para>
+                     </footnote></entry>
+                     <entry><classname>org.exolab.castor.types.Date</classname></entry>
+                   </row>
+                   <row>
+                     <entry>dateTime</entry>
+                     <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/>
+                     </entry>
+                     <entry><classname>java.util.Date</classname></entry>
+                   </row>
+                   <row>
+                     <entry>decimal</entry>
+                     <entry>
+                       totalDigits, fractionDigits, pattern, whiteSpace, enumeration, maxInclusive, 
+                       maxExclusive, minInclusive, minExclusive, whitespace<footnoteref linkend="footnote.types.primitive.1"/>
+                     </entry>
+                     <entry><classname>java.math.BigDecimal</classname></entry>
+                   </row>
+                   <row>
+                     <entry>double</entry>
+                     <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
+                     <entry>
+                       <classname>double</classname> or <classname>java.lang.Double</classname><footnoteref linkend="footnote.types.primitive"/>
+                     </entry>
+                   </row>
+                   <row>
+                     <entry>duration</entry>
+                     <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
+                     <entry><classname>org.exolab.castor.types.Duration</classname></entry>
+                   </row>
+                   <row>
+                     <entry>float</entry>
+                     <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
+                     <entry>
+                       <classname>float</classname> or <classname>java.lang.Float</classname><a href="#sup-2"><sup>2</sup></a>
+                     </entry>
+                   </row>
+                   <row>
+                     <entry>gDay</entry>
+                     <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
+                     <entry><classname>org.exolab.castor.types.GDay</classname></entry>
+                   </row>
+                   <row>
+                     <entry>gMonth</entry>
+                     <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
+                     <entry><classname>org.exolab.castor.types.GMonth</classname></entry>
+                   </row>
+                   <row>
+                     <entry>gMonthDay</entry>
+                     <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
+                     <entry><classname>org.exolab.castor.types.GMonthDay</classname></entry>
+                   </row>
+                   <row>
+                     <entry>gYear</entry>
+                     <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
+                     <entry><classname>org.exolab.castor.types.GYear</classname></entry>
+                   </row>
+                   <row>
+                     <entry>gYearMonth</entry>
+                     <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
+                     <entry><classname>org.exolab.castor.types.GYearMonth</classname></entry>
+                   </row>
+                   <row>
+                     <entry>hexBinary</entry>
+                     <entry>&#160;</entry>
+                     <entry><classname>byte[]</classname></entry>
+                   </row>
+                   <row>
+                     <entry>QName</entry>
+                     <entry>length, minLength, maxLength, pattern, enumeration</entry>
+                     <entry><classname>java.lang.String</classname></entry>
+                   </row>
+                   <row>
+                     <entry>string</entry>
+                     <entry>length, minLength, maxLength, pattern, enumeration, whiteSpace</entry>
+                     <entry><classname>java.lang.String</classname></entry>
+                   </row>
+                   <row>
+                     <entry>time</entry>
+                     <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
+                     <entry><classname>org.exolab.castor.types.Time</classname></entry>
+                   </row>
+                </tbody>
+                </tgroup>
+                </table>
+            </section>
 
-      <section id="xml.code.generator.schema.support.datatypes.built-in.primitive">
-        <title>Primitive Datatypes</title>
-
-        <table id="xml.code.generator.schema.support.datatypes.built-in.primitive.table" align="center">
-          <title>Supported primitive data types</title>
-          <tgroup cols="3">
-            <colspec colname="c1"/>
-            <colspec colname="c2"/>
-            <colspec colname="c3"/>
-            <thead>
-              <row>
-                <entry>XML Schema Type</entry>
-                <entry>Supported Facets</entry>
-                <entry>Java mapping type</entry>
-              </row>
-            </thead>
-            <tbody>
-             <row>
-               <entry>anyURI</entry>
-               <entry>enumeration</entry>
-               <entry><classname>java.lang.String</classname></entry>
-             </row>
-             <row>
-               <entry>base64Binary</entry>
-               <entry>&#160;</entry>
-               <entry><classname>byte[]</classname></entry>
-             </row>
-             <row>
-               <entry>boolean</entry>
-               <entry>pattern</entry>
-               <entry>
-                 <literal>boolean</literal> or <classname>java.lang.Boolean</classname><footnote id="footnote.primitive.types"><para>For the various numerical types, the
-          default behavior is to generate primitive types.  However, if the
-          use of wrappers is enabled by the following line in the
-          <literal>castorbuilder.properties</literal> file:
-          <code>org.exolab.castor.builder.primitivetowrapper=true</code> then
-          the <literal>java.lang.*</literal> wrapper objects (as specified above) will be
-          used instead.
-                 </para></footnote>
-               </entry>
-             </row>
-             <row>
-               <entry>date</entry>
-               <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnote id="footnote.types.primitive.1">
-                   <para>
-                       For the date/time and numeric types, the only supported value for whitespace 
-                       is "collapse".
-                   </para>
-               </footnote></entry>
-               <entry><classname>org.exolab.castor.types.Date</classname></entry>
-             </row>
-             <row>
-               <entry>dateTime</entry>
-               <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/>
-               </entry>
-               <entry><classname>java.util.Date</classname></entry>
-             </row>
-             <row>
-               <entry>decimal</entry>
-               <entry>
-                 totalDigits, fractionDigits, pattern, whiteSpace, enumeration, maxInclusive, 
-                 maxExclusive, minInclusive, minExclusive, whitespace<footnoteref linkend="footnote.types.primitive.1"/>
-               </entry>
-               <entry><classname>java.math.BigDecimal</classname></entry>
-             </row>
-             <row>
-               <entry>double</entry>
-               <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
-               <entry>
-                 <classname>double</classname> or <classname>java.lang.Double</classname><footnoteref linkend="footnote.types.primitive"/>
-               </entry>
-             </row>
-             <row>
-               <entry>duration</entry>
-               <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
-               <entry><classname>org.exolab.castor.types.Duration</classname></entry>
-             </row>
-             <row>
-               <entry>float</entry>
-               <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
-               <entry>
-                 <classname>float</classname> or <classname>java.lang.Float</classname><a href="#sup-2"><sup>2</sup></a>
-               </entry>
-             </row>
-             <row>
-               <entry>gDay</entry>
-               <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
-               <entry><classname>org.exolab.castor.types.GDay</classname></entry>
-             </row>
-             <row>
-               <entry>gMonth</entry>
-               <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
-               <entry><classname>org.exolab.castor.types.GMonth</classname></entry>
-             </row>
-             <row>
-               <entry>gMonthDay</entry>
-               <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
-               <entry><classname>org.exolab.castor.types.GMonthDay</classname></entry>
-             </row>
-             <row>
-               <entry>gYear</entry>
-               <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
-               <entry><classname>org.exolab.castor.types.GYear</classname></entry>
-             </row>
-             <row>
-               <entry>gYearMonth</entry>
-               <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
-               <entry><classname>org.exolab.castor.types.GYearMonth</classname></entry>
-             </row>
-             <row>
-               <entry>hexBinary</entry>
-               <entry>&#160;</entry>
-               <entry><classname>byte[]</classname></entry>
-             </row>
-             <row>
-               <entry>QName</entry>
-               <entry>length, minLength, maxLength, pattern, enumeration</entry>
-               <entry><classname>java.lang.String</classname></entry>
-             </row>
-             <row>
-               <entry>string</entry>
-               <entry>length, minLength, maxLength, pattern, enumeration, whiteSpace</entry>
-               <entry><classname>java.lang.String</classname></entry>
-             </row>
-             <row>
-               <entry>time</entry>
-               <entry>enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, pattern, whitespace<footnoteref linkend="footnote.types.primitive.1"/></entry>
-               <entry><classname>org.exolab.castor.types.Time</classname></entry>
-             </row>
-          </tbody>
-          </tgroup>
-          </table>
-      </section>
-
-      <section id="xml.code.generator.schema.support.datatypes.built-in.derived">
-        <title>Derived Datatypes</title>
+            <section id="xml.code.generator.schema.support.datatypes.built-in.derived">
+              <title>Derived Datatypes</title>
       
-         <table id="xml.code.generator.schema.support.datatypes.built-in.derived.table" align="center">
-          <title>Supported derived data types</title>
-          <tgroup cols="3">
-            <colspec colname="c1"/>
-            <colspec colname="c2"/>
-            <colspec colname="c3"/>
-            <thead>
-              <row>
-                <entry>Type</entry>
-                <entry>Supported Facets</entry>
-                <entry>Java mapping type</entry>
-              </row>
-            </thead>
-            <tbody>
-             <row>
-               <entry>byte</entry>
-               <entry>totalDigits, fractionDigits<footnote id="footnote.types.derived.4"><para>For 
-                      the integral types, the only allowed value for fractionDigits is 0.</para></footnote>, 
-                      pattern, enumeration, maxInclusive, maxExclusive, minInclusive, 
-                      minExclusive, whitespace<footnote id="footnote.types.derived.1"><para>
-                         For the date/time and numeric types, the only supported value for whitespace 
-                         is "collapse".
+               <table id="xml.code.generator.schema.support.datatypes.built-in.derived.table" align="center">
+                <title>Supported derived data types</title>
+                <tgroup cols="3">
+                  <colspec colname="c1"/>
+                  <colspec colname="c2"/>
+                  <colspec colname="c3"/>
+                  <thead>
+                    <row>
+                      <entry>Type</entry>
+                      <entry>Supported Facets</entry>
+                      <entry>Java mapping type</entry>
+                    </row>
+                  </thead>
+                  <tbody>
+                   <row>
+                     <entry>byte</entry>
+                     <entry>totalDigits, fractionDigits<footnote id="footnote.types.derived.4"><para>For 
+                            the integral types, the only allowed value for fractionDigits is 0.</para></footnote>, 
+                            pattern, enumeration, maxInclusive, maxExclusive, minInclusive, 
+                            minExclusive, whitespace<footnote id="footnote.types.derived.1"><para>
+                               For the date/time and numeric types, the only supported value for whitespace 
+                               is "collapse".
+                            </para></footnote>
+                     </entry>
+                     <entry>
+                       <classname>byte</classname>/<classname>java.lang.Byte</classname>
+                       <footnote id="footnote.types.primitive"><para>For the various numerical types, the
+                default behavior is to generate primitive types.  However, if the
+                use of wrappers is enabled by the following line in the
+                <literal>castorbuilder.properties</literal> file:
+                <code>org.exolab.castor.builder.primitivetowrapper=true</code> then
+                the <literal>java.lang.*</literal> wrapper objects (as specified above) will be
+                generated instead.</para></footnote>
+                     </entry>
+                   </row>
+                   <row>
+                     <entry>ENTITY</entry>
+                     <entry></entry>
+                     <entry><emphasis role="bold">Not implemented</emphasis></entry>
+                   </row>
+                   <row>
+                     <entry>ENTITIES</entry>
+                     <entry></entry>
+                     <entry><emphasis role="bold">Not implemented</emphasis></entry>
+                   </row>
+                   <row>
+                     <entry>ID</entry>
+                     <entry>enumeration</entry>
+                     <entry><classname>java.lang.String</classname></entry>
+                   </row>
+                   <row>
+                     <entry>IDREF</entry>
+                     <entry></entry>
+                     <entry><classname>java.lang.Object</classname></entry>
+                   </row>
+                   <row>
+                     <entry>IDREFS</entry>
+                     <entry></entry>
+                     <entry><classname>java.util.Vector</classname> of <classname>java.lang.Object</classname></entry>
+                   </row>
+                   <row>
+                     <entry>int</entry>
+                     <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>, 
+                            pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
+                            whitespace<footnoteref linkend="footnote.types.derived.1"/></entry>
+                     <entry>
+                       <classname>int</classname>/<classname>java.lang.Integer</classname><footnoteref linkend="footnote.types.primitive"/>
+                     </entry>
+                   </row>
+                   <row>
+                     <entry>integer</entry>
+                     <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>, pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, whitespace<footnoteref linkend="footnote.types.derived.1"/></entry>
+                     <entry>
+                       <classname>long</classname>/<classname>java.lang.Long</classname><footnoteref linkend="footnote.types.primitive"/>
+                     </entry>
+                   </row>
+                   <row>
+                     <entry>language</entry>
+                     <entry>length, minLength, maxLength, pattern, enumeration, whiteSpace</entry>
+                     <entry>
+                       treated as a <literal>xsd:string</literal><footnote id="footnote.types.primitive.3"><para>
+                          Currently, <literal>&lt;xsd:language&gt;</literal> and 
+                          <literal>&lt;xsd:token&gt;</literal> are treated as if they 
+                          were <literal>&lt;xsd:string&gt;</literal>.
                       </para></footnote>
-               </entry>
-               <entry>
-                 <classname>byte</classname>/<classname>java.lang.Byte</classname>
-                 <footnote id="footnote.types.primitive"><para>For the various numerical types, the
-          default behavior is to generate primitive types.  However, if the
-          use of wrappers is enabled by the following line in the
-          <literal>castorbuilder.properties</literal> file:
-          <code>org.exolab.castor.builder.primitivetowrapper=true</code> then
-          the <literal>java.lang.*</literal> wrapper objects (as specified above) will be
-          generated instead.</para></footnote>
-               </entry>
-             </row>
-             <row>
-               <entry>ENTITY</entry>
-               <entry></entry>
-               <entry><emphasis role="bold">Not implemented</emphasis></entry>
-             </row>
-             <row>
-               <entry>ENTITIES</entry>
-               <entry></entry>
-               <entry><emphasis role="bold">Not implemented</emphasis></entry>
-             </row>
-             <row>
-               <entry>ID</entry>
-               <entry>enumeration</entry>
-               <entry><classname>java.lang.String</classname></entry>
-             </row>
-             <row>
-               <entry>IDREF</entry>
-               <entry></entry>
-               <entry><classname>java.lang.Object</classname></entry>
-             </row>
-             <row>
-               <entry>IDREFS</entry>
-               <entry></entry>
-               <entry><classname>java.util.Vector</classname> of <classname>java.lang.Object</classname></entry>
-             </row>
-             <row>
-               <entry>int</entry>
-               <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>, 
-                      pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
-                      whitespace<footnoteref linkend="footnote.types.derived.1"/></entry>
-               <entry>
-                 <classname>int</classname>/<classname>java.lang.Integer</classname><footnoteref linkend="footnote.types.primitive"/>
-               </entry>
-             </row>
-             <row>
-               <entry>integer</entry>
-               <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>, pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, whitespace<footnoteref linkend="footnote.types.derived.1"/></entry>
-               <entry>
-                 <classname>long</classname>/<classname>java.lang.Long</classname><footnoteref linkend="footnote.types.primitive"/>
-               </entry>
-             </row>
-             <row>
-               <entry>language</entry>
-               <entry>length, minLength, maxLength, pattern, enumeration, whiteSpace</entry>
-               <entry>
-                 treated as a <literal>xsd:string</literal><footnote id="footnote.types.primitive.3"><para>
-                    Currently, <literal>&lt;xsd:language&gt;</literal> and 
-                    <literal>&lt;xsd:token&gt;</literal> are treated as if they 
-                    were <literal>&lt;xsd:string&gt;</literal>.
-                </para></footnote>
-               </entry>
-             </row>
-             <row>
-               <entry>long</entry>
-               <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>, 
-                      pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
-                      whitespace<footnoteref linkend="footnote.types.derived.1"/></entry>
-               <entry>
-                 <classname>long</classname>/<classname>java.lang.Long</classname><footnoteref linkend="footnote.types.primitive"/>
-               </entry>
-             </row>
-             <row>
-               <entry>Name</entry>
-               <entry></entry>
-               <entry><emphasis role="bold">Not implemented</emphasis></entry>
-             </row>
-             <row>
-               <entry>NCName</entry>
-               <entry>enumeration</entry>
-               <entry><classname>java.lang.String</classname></entry>
-             </row>
-             <row>
-               <entry>negativeInteger</entry>
-               <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.primitive.4"/>, 
-                      pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
-                      whitespace<footnoteref linkend="footnote.types.derived.1"/></entry>
-               <entry>
-                 <classname>long</classname>/<classname>java.lang.Long</classname><footnoteref linkend="footnote.types.primitive"/>
-               </entry>
-             </row>
-             <row>
-               <entry>NMTOKEN</entry>
-               <entry>enumeration, length, maxlength, minlength</entry>
-               <entry><classname>java.lang.String</classname></entry>
-             </row>
-             <row>
-               <entry>NMTOKENS</entry>
-               <entry></entry>
-               <entry><classname>java.util.Vector</classname> of <classname>java.lang.String</classname></entry>
-             </row>
-             <row>
-               <entry>NOTATION</entry>
-               <entry></entry>
-               <entry><emphasis role="bold">Not implemented</emphasis></entry>
-             </row>
-             <row>
-               <entry>nonNegativeInteger</entry>
-               <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>, 
-                      pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
-                      whitespace<footnoteref linkend="footnote.types.derived.1"/></entry>
-               <entry>
-                 <classname>long</classname>/<classname>java.lang.Long</classname><footnoteref linkend="footnote.types.primitive"/>
-               </entry>
-             </row>
-             <row>
-               <entry>nonPositiveInteger</entry>
-               <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>, 
-                      pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
-                      whitespace<footnoteref linkend="footnote.types.derived.1"/></entry>
-               <entry>
-                 <classname>long</classname>/<classname>java.lang.Long</classname><footnoteref linkend="footnote.types.primitive"/>
-               </entry>
-             </row>
-             <row>
-               <entry>normalizedString</entry>
-               <entry>enumeration, length, minLength, maxLength, pattern</entry>
-               <entry><classname>java.lang.String</classname></entry>
-             </row>
-             <row>
-               <entry>positiveInteger</entry>
-               <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>,
-                 pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
-                 whitespace<footnoteref linkend="footnote.types.derived.1"/>
-               </entry>
-               <entry>
-                 <classname>long</classname>/<classname>java.lang.Long</classname><footnoteref linkend="footnote.types.primitive"/>
-               </entry>
-             </row>
-             <row>
-               <entry>short</entry>
-               <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>,
-                 pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
-                 whitespace<footnoteref linkend="footnote.types.derived.1"/>
-               </entry>
-               <entry>
-                 <literal>short</literal>/<literal>java.lang.Short</literal><footnoteref linkend="footnote.types.primitive"/>
-               </entry>
-             </row>
-             <row>
-               <entry>token</entry>
-               <entry>length, minLength, maxLength, pattern, enumeration, whiteSpace</entry>
-               <entry>
-                 treated as a <literal>xsd:string</literal><footnoteref linkend="footnote.types.primitive.3"/>,
-               </entry>
-             </row>
-             <row>
-               <entry>unsignedByte</entry>
-               <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>,
-                 maxExclusive, minExclusive, maxInclusive, minInclusive, pattern, 
-                 whitespace<footnoteref linkend="footnote.types.derived.1"/>
-               </entry>
-               <entry>
-                 <classname>short</classname>/<classname>java.lang.Short</classname><footnoteref linkend="footnote.types.primitive"/>
-               </entry>
-             </row>
-             <row>
-               <entry>unsignedInt</entry>
-               <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>,
-                 maxExclusive, minExclusive, maxInclusive, minInclusive, pattern,
-                 whitespace<footnoteref linkend="footnote.types.derived.1"/>
-               </entry>
-               <entry>
-                 <classname>long</classname>/<classname>java.lang.Long</classname><footnoteref linkend="footnote.types.primitive"/>
-               </entry>
-             </row>
-             <row>
-               <entry>unsignedLong</entry>
-               <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>,
-                 pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
-                 whitespace<footnoteref linkend="footnote.types.derived.1"/>
-               </entry>
-               <entry><classname>java.math.BigInteger</classname></entry>
-             </row>
-             <row>
-               <entry>unsignedShort</entry>
-               <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>,
-                 pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
-                 whitespace<footnoteref linkend="footnote.types.derived.1"/>
-               </entry>
-               <entry>
-                 <classname>int</classname> or <classname>java.lang.Integer</classname><footnoteref linkend="footnote.types.primitive"/>
-               </entry>
-             </row>
-            </tbody></tgroup>
-        </table>
+                     </entry>
+                   </row>
+                   <row>
+                     <entry>long</entry>
+                     <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>, 
+                            pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
+                            whitespace<footnoteref linkend="footnote.types.derived.1"/></entry>
+                     <entry>
+                       <classname>long</classname>/<classname>java.lang.Long</classname><footnoteref linkend="footnote.types.primitive"/>
+                     </entry>
+                   </row>
+                   <row>
+                     <entry>Name</entry>
+                     <entry></entry>
+                     <entry><emphasis role="bold">Not implemented</emphasis></entry>
+                   </row>
+                   <row>
+                     <entry>NCName</entry>
+                     <entry>enumeration</entry>
+                     <entry><classname>java.lang.String</classname></entry>
+                   </row>
+                   <row>
+                     <entry>negativeInteger</entry>
+                     <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.primitive.4"/>, 
+                            pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
+                            whitespace<footnoteref linkend="footnote.types.derived.1"/></entry>
+                     <entry>
+                       <classname>long</classname>/<classname>java.lang.Long</classname><footnoteref linkend="footnote.types.primitive"/>
+                     </entry>
+                   </row>
+                   <row>
+                     <entry>NMTOKEN</entry>
+                     <entry>enumeration, length, maxlength, minlength</entry>
+                     <entry><classname>java.lang.String</classname></entry>
+                   </row>
+                   <row>
+                     <entry>NMTOKENS</entry>
+                     <entry></entry>
+                     <entry><classname>java.util.Vector</classname> of <classname>java.lang.String</classname></entry>
+                   </row>
+                   <row>
+                     <entry>NOTATION</entry>
+                     <entry></entry>
+                     <entry><emphasis role="bold">Not implemented</emphasis></entry>
+                   </row>
+                   <row>
+                     <entry>nonNegativeInteger</entry>
+                     <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>, 
+                            pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
+                            whitespace<footnoteref linkend="footnote.types.derived.1"/></entry>
+                     <entry>
+                       <classname>long</classname>/<classname>java.lang.Long</classname><footnoteref linkend="footnote.types.primitive"/>
+                     </entry>
+                   </row>
+                   <row>
+                     <entry>nonPositiveInteger</entry>
+                     <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>, 
+                            pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
+                            whitespace<footnoteref linkend="footnote.types.derived.1"/></entry>
+                     <entry>
+                       <classname>long</classname>/<classname>java.lang.Long</classname><footnoteref linkend="footnote.types.primitive"/>
+                     </entry>
+                   </row>
+                   <row>
+                     <entry>normalizedString</entry>
+                     <entry>enumeration, length, minLength, maxLength, pattern</entry>
+                     <entry><classname>java.lang.String</classname></entry>
+                   </row>
+                   <row>
+                     <entry>positiveInteger</entry>
+                     <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>,
+                       pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
+                       whitespace<footnoteref linkend="footnote.types.derived.1"/>
+                     </entry>
+                     <entry>
+                       <classname>long</classname>/<classname>java.lang.Long</classname><footnoteref linkend="footnote.types.primitive"/>
+                     </entry>
+                   </row>
+                   <row>
+                     <entry>short</entry>
+                     <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>,
+                       pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
+                       whitespace<footnoteref linkend="footnote.types.derived.1"/>
+                     </entry>
+                     <entry>
+                       <literal>short</literal>/<literal>java.lang.Short</literal><footnoteref linkend="footnote.types.primitive"/>
+                     </entry>
+                   </row>
+                   <row>
+                     <entry>token</entry>
+                     <entry>length, minLength, maxLength, pattern, enumeration, whiteSpace</entry>
+                     <entry>
+                       treated as a <literal>xsd:string</literal><footnoteref linkend="footnote.types.primitive.3"/>,
+                     </entry>
+                   </row>
+                   <row>
+                     <entry>unsignedByte</entry>
+                     <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>,
+                       maxExclusive, minExclusive, maxInclusive, minInclusive, pattern, 
+                       whitespace<footnoteref linkend="footnote.types.derived.1"/>
+                     </entry>
+                     <entry>
+                       <classname>short</classname>/<classname>java.lang.Short</classname><footnoteref linkend="footnote.types.primitive"/>
+                     </entry>
+                   </row>
+                   <row>
+                     <entry>unsignedInt</entry>
+                     <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>,
+                       maxExclusive, minExclusive, maxInclusive, minInclusive, pattern,
+                       whitespace<footnoteref linkend="footnote.types.derived.1"/>
+                     </entry>
+                     <entry>
+                       <classname>long</classname>/<classname>java.lang.Long</classname><footnoteref linkend="footnote.types.primitive"/>
+                     </entry>
+                   </row>
+                   <row>
+                     <entry>unsignedLong</entry>
+                     <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>,
+                       pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
+                       whitespace<footnoteref linkend="footnote.types.derived.1"/>
+                     </entry>
+                     <entry><classname>java.math.BigInteger</classname></entry>
+                   </row>
+                   <row>
+                     <entry>unsignedShort</entry>
+                     <entry>totalDigits, fractionDigits<footnoteref linkend="footnote.types.derived.4"/>,
+                       pattern, enumeration, maxInclusive, maxExclusive, minInclusive, minExclusive, 
+                       whitespace<footnoteref linkend="footnote.types.derived.1"/>
+                     </entry>
+                     <entry>
+                       <classname>int</classname> or <classname>java.lang.Integer</classname><footnoteref linkend="footnote.types.primitive"/>
+                     </entry>
+                   </row>
+                  </tbody></tgroup>
+              </table>
 
-        <para>
-          Notes:
-        </para>
+              <para>
+                Notes:
+              </para>
 
-        <para>
-          <a name="sup-1"><sup>1</sup></a> For the date/time and numeric types,
-          the only supported value for whitespace is "collapse".
-        </para>
+              <para>
+                <a name="sup-1"><sup>1</sup></a> For the date/time and numeric types,
+                the only supported value for whitespace is "collapse".
+              </para>
+      
+              <para>
+                <a name="sup-2"><sup>2</sup></a> For the various numerical types, the
+                default behavior is to generate primitive types.  However, if the
+                use of wrappers is enabled by the following line in the
+                <literal>castorbuilder.properties</literal> file:
+                <code>org.exolab.castor.builder.primitivetowrapper=true</code> then
+                the <literal>java.lang.*</literal> wrapper objects (as specified above) will be
+                used instead.
+              </para>
+      
+              <para>
+                <a name="sup-3"><sup>3</sup></a> Currently, xsd:language and xsd:token
+                are treated as if they were xsd:string.
+              </para>
+      
+              <para>
+                <a name="sup-4"><sup>4</sup></a> For the integral types, the only
+                allowed value for fractionDigits is 0.
+              </para>
+              
+            </section>
+            
+        </section>
 
-        <para>
-          <a name="sup-2"><sup>2</sup></a> For the various numerical types, the
-          default behavior is to generate primitive types.  However, if the
-          use of wrappers is enabled by the following line in the
-          <literal>castorbuilder.properties</literal> file:
-          <code>org.exolab.castor.builder.primitivetowrapper=true</code> then
-          the <literal>java.lang.*</literal> wrapper objects (as specified above) will be
-          used instead.
-        </para>
+        <section id="xml.code.generator.schema.support.structures">
+            <title>Supported XML Schema Structures</title>
 
-        <para>
-          <a name="sup-3"><sup>3</sup></a> Currently, xsd:language and xsd:token
-          are treated as if they were xsd:string.
-        </para>
+            <para>
+              Supporting XML schema structures is a constant work. The main
+              structures are already supported with some limitations. The
+              following will give you a rough list of the supported structures. For a
+              more detailed support of XML Schema structure in the Source Generator or
+              in the Schema Object Model, please refer to
+              <ulink url="http://www.castor.org/SourceGeneratorUser.pdf">Source Generator
+              User Document (PDF)</ulink>.
+            </para>
 
-        <para>
-          <a name="sup-4"><sup>4</sup></a> For the integral types, the only
-          allowed value for fractionDigits is 0.
-        </para>
-      </section>
-    </section>
+            <para>Supported schema components:</para>
 
-    <section id="xml.code.generator.schema.support.structures">
-        <title>Supported XML Schema Structures</title>
-
-      <para>
-        Supporting XML schema structures is a constant work. The main
-        structures are already supported with some limitations. The
-        following will give you a rough list of the supported structures. For a
-        more detailed support of XML Schema structure in the Source Generator or
-        in the Schema Object Model, please refer to
-        <ulink url="http://www.castor.org/SourceGeneratorUser.pdf">Source Generator
-        User Document (PDF)</ulink>.
-      </para>
-
-      <para>Supported schema components:</para>
-
-      <itemizedlist>
-        <listitem><para>Attribute declaration (<literal>&lt;attribute&gt;</literal>)</para></listitem>
-        <listitem><para>Element declaration (<literal>&lt;element&gt;</literal>)</para></listitem>
-        <listitem><para>Complex type definition (<literal>&lt;complexType&gt;</literal>)</para></listitem>
-        <listitem><para>Attribute group definition (<literal>&lt;attributeGroup&gt;</literal>)</para></listitem>
-        <listitem><para>Model group definition (<literal>&lt;group&gt;</literal>)</para></listitem>
-        <listitem><para>Model group (<literal>&lt;all&gt;</literal>, <literal>&lt;choice&gt;</literal> and <literal>&lt;sequence&gt;</literal>)</para></listitem>
-        <listitem><para>Annotation (<literal>&lt;annotation&gt;</literal>)</para></listitem>
-        <listitem><para>Wildcard (<literal>&lt;any&gt;</literal>)</para></listitem>
-        <listitem><para>Simple type definition (<literal>&lt;simpleType&gt;</literal>)</para></listitem>
-      </itemizedlist>
-
-      <section id="xml.code.generator.schema.support.structures.groups">
-        <title>Groups</title>
-
-        <para>
-          Grouping support covers both <emphasis role="bold">model group definitions</emphasis>
-          (<literal>&lt;group&gt;</literal>) and <emphasis role="bold">model groups</emphasis> 
-          (<literal>&lt;all&gt;</literal>, <literal>&lt;choice&gt;</literal> and  
-          <literal>&lt;sequence&gt;</literal>). In this section
-          we will label as a 'nested group' any model group whose first parent
-          is another model group.
-        </para>
-
-        <itemizedlist>
-          <listitem><para>
-            For each top-level model group definition, a class is generated
-            either when using the 'element' mapping property or the 'type' one.
-          </para></listitem>
-
-          <listitem><para>
-            If a group -- nested or not -- appears to have <literal>maxOccurs > 1</literal> 
-            , then a class is generated to represent the items contained in the group.
-          </para></listitem>
-
-          <listitem><para>
-            For each nested group, a class is generated. The name of the
-            generated class will follow this naming convention:
-            <literal>Name,Compositor+,Counter?</literal> where
             <itemizedlist>
-              <listitem><para>
-                'Name' is name of the top-level component (element, complexType or group).
-              </para></listitem>
-              <listitem><para>
-                'Compositor' is the compositor of the nested group.  For
-                instance, if a 'choice' is nested inside a sequence, the value
-                of Compositor will be <literal>SequenceChoice</literal> ('Sequence'+'Choice').
-                Note: if the 'choice' is inside a Model Group and that Model
-                Group <emphasis role="bold">parent</emphasis> is a Model Group Definition or a
-                complexType then the value of'Compositor' will be only 'Choice'.
-              </para></listitem>
-              <listitem><para>'Counter' is a number that prevents naming collision.</para></listitem>
+              <listitem><para>Attribute declaration (<literal>&lt;attribute&gt;</literal>)</para></listitem>
+              <listitem><para>Element declaration (<literal>&lt;element&gt;</literal>)</para></listitem>
+              <listitem><para>Complex type definition (<literal>&lt;complexType&gt;</literal>)</para></listitem>
+              <listitem><para>Attribute group definition (<literal>&lt;attributeGroup&gt;</literal>)</para></listitem>
+              <listitem><para>Model group definition (<literal>&lt;group&gt;</literal>)</para></listitem>
+              <listitem><para>Model group (<literal>&lt;all&gt;</literal>, <literal>&lt;choice&gt;</literal> and <literal>&lt;sequence&gt;</literal>)</para></listitem>
+              <listitem><para>Annotation (<literal>&lt;annotation&gt;</literal>)</para></listitem>
+              <listitem><para>Wildcard (<literal>&lt;any&gt;</literal>)</para></listitem>
+              <listitem><para>Simple type definition (<literal>&lt;simpleType&gt;</literal>)</para></listitem>
             </itemizedlist>
-          </para></listitem>
-        </itemizedlist>
-      </section>
 
-      <section id="xml.code.generator.schema.support.structures.wildcard">
-        <title>Wildcard</title>
+            <section id="xml.code.generator.schema.support.structures.groups">
+                <title>Groups</title>
+
+              <para>
+                Grouping support covers both <emphasis role="bold">model group definitions</emphasis>
+                (<literal>&lt;group&gt;</literal>) and <emphasis role="bold">model groups</emphasis> 
+                (<literal>&lt;all&gt;</literal>, <literal>&lt;choice&gt;</literal> and  
+                <literal>&lt;sequence&gt;</literal>). In this section
+                we will label as a 'nested group' any model group whose first parent
+                is another model group.
+              </para>
+
+              <itemizedlist>
+                <listitem><para>
+                  For each top-level model group definition, a class is generated
+                  either when using the 'element' mapping property or the 'type' one.
+                </para></listitem>
+      
+                <listitem><para>
+                  If a group -- nested or not -- appears to have <literal>maxOccurs > 1</literal> 
+                  , then a class is generated to represent the items contained in the group.
+                </para></listitem>
+      
+                <listitem><para>
+                  For each nested group, a class is generated. The name of the
+                  generated class will follow this naming convention:
+                  <literal>Name,Compositor+,Counter?</literal> where
+                  <itemizedlist>
+                    <listitem><para>
+                      'Name' is name of the top-level component (element, complexType or group).
+                    </para></listitem>
+                    <listitem><para>
+                      'Compositor' is the compositor of the nested group.  For
+                      instance, if a 'choice' is nested inside a sequence, the value
+                      of Compositor will be <literal>SequenceChoice</literal> ('Sequence'+'Choice').
+                      Note: if the 'choice' is inside a Model Group and that Model
+                      Group <emphasis role="bold">parent</emphasis> is a Model Group Definition or a
+                      complexType then the value of'Compositor' will be only 'Choice'.
+                    </para></listitem>
+                    <listitem><para>'Counter' is a number that prevents naming collision.</para></listitem>
+                  </itemizedlist>
+                </para></listitem>
+              </itemizedlist>
+            </section>
+
+            <section id="xml.code.generator.schema.support.structures.wildcard">
+                <title>Wildcard</title>
         
-        <para>
-           <literal>&lt;any&gt;</literal> is supported and will be mapped to an 
-           <classname>AnyNode</classname> instance. However, full namespace 
-           validation is not yet implemented, even though an <classname>AnyNode</classname>
-           structure is fully namespace aware.
-        </para>
+                <para>
+                    <literal>&lt;any&gt;</literal> is supported and will be mapped to an 
+                    <classname>AnyNode</classname> instance. However, full namespace 
+                    validation is not yet implemented, even though an <classname>AnyNode</classname>
+                    structure is fully namespace aware.
+                </para>
 
-        <para>
-           <literal>&lt;anyAttribute&gt;</literal> is currently not supported. It is a
-           work in progress.
-        </para>
+                <para>
+                   <literal>&lt;anyAttribute&gt;</literal> is currently not supported. It is a
+                   work in progress.
+                </para>
 
-      </section>
-    </section>
+            </section>
+            
+        </section>
         
     </section>
     
