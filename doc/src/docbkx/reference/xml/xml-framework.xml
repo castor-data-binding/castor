@@ -45,51 +45,51 @@
         <programlisting language="java">
 import java.util.Date;
 
-<comment>/** An simple person class */</comment>
+/** An simple person class */
 public class Person implements java.io.Serializable {
 
-   <comment>/** The name of the person */</comment>
+   /** The name of the person */
    private String name = null;
 
-   <comment>/** The Date of birth */</comment>
+   /** The Date of birth */
    private Date dob = null;
 
-   <comment>/** Creates a Person with no name */</comment>
+   /** Creates a Person with no name */
    public Person() {
       super();
    }
 
-   <comment>/** Creates a Person with the given name */</comment>
+   /** Creates a Person with the given name */
    public Person(String name) {
       this.name  = name;
    }
 
-   <comment>/**
+   /**
      * @return date of birth of the person
-     */</comment>
+     */
    public Date getDateOfBirth() {
       return dob;
    }
 
-   <comment>/**
+   /**
      * @return name of the person
-     */</comment>
+     */
    public String getName() {
       return name;
    }
 
-   <comment>/**
+   /**
      * Sets the date of birth of the person
      * @param name the name of the person
-     */</comment>
+     */
    public void setDateOfBirth(Date dob) {
       this.dob = dob;
    }
 
-   <comment>/**
+   /**
      * Sets the name of the person
      * @param name the name of the person
-     */</comment>
+     */
    public void setName(String name) {
       this.name = name;
    }
@@ -140,7 +140,7 @@ public class Person implements java.io.Serializable {
                as follows:
             </para>
 
-         <programlisting>
+         <programlisting language="java">
 <comment>// Create a new Person</comment>
 Person person = new Person("Ryan 'Mad Dog' Madden");
 person.setDateOfBirth(new Date(1955, 8, 15));
@@ -152,21 +152,32 @@ writer = new FileWriter("test.xml");
 Marshaller.marshal(person, writer);</programlisting>
 
          <para>
+            This produces the XML shown in <xref linkend="xml.framework.introspection.ouput" />
+         </para>
+         
+         <example id="xml.framework.introspection.ouput">
+            <title>XML produced in introspection mode</title>
+            <programlisting language="xml">
+            XML to written
+            </programlisting>
+         </example>
+         
+         <para>
             To unmarshal an instance of the person class from XML, you simply call 
             the <api class="org.exolab.castor.xml.Unmarshaller">Unmarshaller</api> 
             as follows:
          </para>
 
-         <programlisting>
+         <programlisting language="java">
 <comment>// Create a Reader to the file to unmarshal from</comment>
 reader = new FileReader("test.xml");
 
 <comment>// Marshal the person object</comment>
 Person person = (Person) Unmarshaller.unmarshal(Person.class, reader);</programlisting>
 
-         <para><emphasis role="bold">Marshalling and unmarshalling is basically that simple.</emphasis></para>
+         <para>Marshalling and unmarshalling is basically that simple.</para>
          
-        <para>
+        <note>
            Note: The above example uses the <emphasis role="italic"><emphasis role="bold">static</emphasis></emphasis> methods of the marshalling 
            framework, and as such no Marshaller and/or Unmarshaller instances need to 
            be created. A common mistake in this context when using a <emphasis role="bold">mapping file</emphasis> is 
@@ -174,14 +185,14 @@ Person person = (Person) Unmarshaller.unmarshal(Person.class, reader);</programl
            <api class="org.exolab.castor.xml.Marshaller">Marshaller</api> or 
            <api class="org.exolab.castor.xml.Unmarshaller">Unmarshaller</api> 
            as in the above example. This won't work, as the mapping will be ignored.
-        </para>
+        </note>
        
          <para>
-            In <emphasis role="italic">introspection mode</emphasis>, Castor XML uses Java reflection to establish
-            the binding between the Java classes (and their properties) and the XML, 
-            following a set of (default) naming rules. Whilst it is possible to 
-            change to a different set of naming rules, there's no way to override 
-            this (default) naming for individual artefacts. In such a case, a 
+            In <emphasis role="italic">introspection mode</emphasis>, Castor XML uses 
+            Java reflection to establish the binding between the Java classes (and their 
+            properties) and the XML, following a set of (default) naming rules. Whilst it 
+            is possible to change to a different set of naming rules, there's no way to override 
+            this (default) naming for individual artifacts. In such a case, a 
             <emphasis role="italic">mapping file</emphasis> should be used.
          </para>  
         
@@ -239,7 +250,7 @@ Person person = (Person) Unmarshaller.unmarshal(Person.class, reader);</programl
         
             <example>
                 <title>Unmarshalling from XML using a mapping</title>
-         <programlisting>
+                <programlisting language="java">
 import org.exolab.castor.xml.XMLContext;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.xml.Unmarshaller;
@@ -261,7 +272,7 @@ unmarshaller.setClass(Person.class);
 
 <comment>// Unmarshal the person object</comment>
 Person person = (Person) unmarshaller.unmarshal(reader);</programlisting>
-</example>
+            </example>
 
             <para>
                To marshal the very same <literal>Person</literal> instance to XML using a
@@ -272,8 +283,8 @@ Person person = (Person) unmarshaller.unmarshal(reader);</programlisting>
             </para>
 
            <example>
-         <title>Marshalling to XML using a mapping</title>
-         <programlisting>
+            <title>Marshalling to XML using a mapping</title>
+            <programlisting language="java">
 import org.exolab.castor.xml.Marshaller;
 
 <comment>// create a Writer to the file to marshal to</comment>
@@ -285,7 +296,7 @@ marshaller.setWriter(writer);
 
 <comment>// marshal the person object</comment>
 marshaller.marshal(person);</programlisting>
-</example>
+            </example>
 
             <para>
                Please have a look at <a href="xml-mapping.html">XML Mapping</a> for a detailed
