@@ -224,17 +224,38 @@ Person person = (Person) Unmarshaller.unmarshal(Person.class, reader);</programl
                following methods:
             </para>
             
-            <ctable>
-               <crow>
-                  <td><api class="org.exolab.castor.xml.XMLContext">createMarshaller</api></td>
-                  <td>Creates a <api class="org.exolab.castor.xml.Marshaller">Marshaller</api> instance.</td>
-               </crow>
-               <crow>
-                  <td><api class="org.exolab.castor.xml.XMLContext">createUnmarshaller</api></td>
-                  <td>Creates a <api class="org.exolab.castor.xml.Unmarshaller">Unmarshaller</api> instance.</td>
-               </crow>
-            </ctable>
-                   
+            <table align="center">
+                <title>Methods on XMLContext to create Un-/Marshaller objects</title>
+                <tgroup cols="2">
+                  <colspec colname="c1"/>
+                  <colspec colname="c2"/>
+                  <thead>
+                    <row>
+                      <entry>Method name</entry>
+                      <entry>Description</entry>
+                    </row>
+                  </thead>
+                  <tbody>
+                   <row>
+                     <entry>
+                        <para><ulink url="org.exolab.castor.xml.XMLContext">createMarshaller</ulink></para>
+                     </entry>
+                     <entry>
+                        <para>Creates a <ulink url="org.exolab.castor.xml.Marshaller">Marshaller</ulink> instance.</para>
+                     </entry>
+                   </row>
+                   <row>
+                     <entry>
+                        <para><ulink url="org.exolab.castor.xml.XMLContext">createUnmarshaller</ulink></para>
+                     </entry>
+                     <entry>
+                        <para>Creates a <ulink url="org.exolab.castor.xml.Unmarshaller">Unmarshaller</ulink> instance.</para>
+                     </entry>
+                   </row>
+                  </tbody>
+               </tgroup>
+            </table>
+            
             <para>
                and call any of the <emphasis role="bold">non-static</emphasis> (un)marshal methods 
                to trigger data binding in either way.
