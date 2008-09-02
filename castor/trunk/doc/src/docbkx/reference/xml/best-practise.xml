@@ -5,20 +5,20 @@
     <title>Best practice</title>
     
     <para>
-     There are many users of Castor XML who (want to) use Castor XML in in
-     high-volume applications. To fine-tune Castor for such an environment,
-     it is necessary to understand many of the product features in detail
-     and to be able to balance their use according to the application needs.
-     Even though many of these features are documented in various places,
-     people frequently asked for a 'best practices' document, a document
-     that brings together these technical topics in one place and that
-     presents them as a set of easy-to-use recipes.
+        There are many users of Castor XML who (want to) use Castor XML in in
+        high-volume applications. To fine-tune Castor for such an environment,
+        it is necessary to understand many of the product features in detail
+        and to be able to balance their use according to the application needs.
+        Even though many of these features are documented in various places,
+        people frequently asked for a 'best practices' document, a document
+        that brings together these technical topics in one place and that
+        presents them as a set of easy-to-use recipes.
     </para>
 
     <para>
-     Please be aware that this document is <emphasis role="italic">under construction</emphasis>.  
-     But still we believe that this document -- even when in its conception
-     phase -- provides valuable information to users of Castor XML.
+        Please be aware that this document is <emphasis role="italic">under construction</emphasis>.  
+        But still we believe that this document -- even when in its conception
+        phase -- provides valuable information to users of Castor XML.
     </para>
 
     <section>
@@ -109,13 +109,13 @@ mapping.loadMapping(new InputSource(...));
 XMLContext context = new XMLContext();
 context.addMapping(mapping);
 
-Marshaller marshaller = <font color="red">context.createMarshaller()</font>;</programlisting>
+Marshaller marshaller =<font color="red">context.createMarshaller()</font>;</programlisting>
 
          <para>
             In the case where no mapping file is used, it is still possible 
-            to instruct the <literal><api class="org.exolab.castor.xml.XMLContext">XMLContext</api></literal> to <emphasis role="italic">pre-load</emphasis>
-            class descriptors for a given package via the methods enlisted
-            below.
+            to instruct the <literal><api class="org.exolab.castor.xml.XMLContext">XMLContext</api></literal> to
+            <emphasis role="italic">pre-load</emphasis> class descriptors for a given 
+            package via the methods enlisted below.
          </para>
 
          <para>
@@ -214,10 +214,12 @@ classDescriptorResolver.setMappingLoader(mappingLoader);</programlisting>
          <section>
             <title>Use of ClassDescriptorResolver with no mappings</title>
          
-            <para>In the case where there's no mapping file, it is still possible 
-               to instruct the <literal><api class="org.exolab.castor.xml.XMLClassDescriptorResolver">XMLClassDescriptorResolver</api></literal> to <emphasis role="italic">pre-load</emphasis>
-               class descriptors for a given package via the 
-               <literal>loadClassDescriptors(String)</literal> method.</para>
+            <para>
+               In the case where there's no mapping file, it is still possible 
+               to instruct the <literal><api class="org.exolab.castor.xml.XMLClassDescriptorResolver">XMLClassDescriptorResolver</api></literal> to
+               <emphasis role="italic">pre-load</emphasis> class descriptors for a given package via the 
+               <literal>loadClassDescriptors(String)</literal> method.
+            </para>
    
            <para>
              As above, create an instance of <literal><api class="org.exolab.castor.xml.XMLClassDescriptorResolver">XMLClassDescriptorResolver</api></literal> using the
@@ -278,5 +280,6 @@ classDescriptorResolver.setMappingLoader(mappingLoader);</programlisting>
     </section>
     
    </section>
-  </section>
+   
+</section>
 
