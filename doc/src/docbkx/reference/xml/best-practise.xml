@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<section>
+    <title>Best practice</title>
+    
+    <para>
+     There are many users of Castor XML who (want to) use Castor XML in in
+     high-volume applications. To fine-tune Castor for such an environment,
+     it is necessary to understand many of the product features in detail
+     and to be able to balance their use according to the application needs.
+     Even though many of these features are documented in various places,
+     people frequently asked for a 'best practices' document, a document
+     that brings together these technical topics in one place and that
+     presents them as a set of easy-to-use recipes.
+    </para>
+
+    <para>
+     Please be aware that this document is <emphasis role="italic">under construction</emphasis>.  
+     But still we believe that this document -- even when in its conception
+     phase -- provides valuable information to users of Castor XML.
+    </para>
+
+    <section>
+        <title>General</title>
+        
+        <section>
+           <title>Source Generator</title>
+           
+           <para>
+             It is not generally recommended to generate code into the default
+             package, especially since code in the default package cannot be
+             referenced from code in any other package.
+           </para>
+   
+           <para>
+             Additionally, we recommend that generated code go into a different
+             package then the code that makes use of the generated code.  For
+             example, if your application uses Castor to process an XML
+             configuration file that is used by code in the package
+             <literal>org.example.userdialog</literal> then we do not recommend that the
+             generated code also go into that package.  However, it would be
+             reasonable to generate source to process this XML configuration file
+             into the package <literal>org.example.userdialog.xmlconfig</literal>.
+           </para>
+
+        <!-- FIXME:  Add section about:  do not store generated code in SCM -->
+      </section>
+    </section>
+
+    <section>
+        <title>Performance Considerations</title>
+    
+        <section>
+            <title>General</title>
+      
+        <para>
+          Creating instances of <api>org.exolab.castor.xml.Marshaller</api> and
+          <api>org.exolab.castor.xml.Unmarshaller</api> for the purpose of XML
+          data binding is easy to achieve at the API usage level.  However,
+          details of API use have an impact on application performance; each
+          instance creation involves setup operations.
+        </para>
+
+        <para>
+          This is generally not an issue for one-off invocations; however, in a
+          multi-threaded, high volume use scenario this can be become a serious
+          issue. Internally, Castor uses a collection of <emphasis role="italic">Descriptor</emphasis>
+          classes to keep information about the Java entities to be marshaled
+          and unmarshaled. With each instance creation of (Un)Marshaller, this
+          collection will be built from scratch (again and again).
+        </para>
+
+        <para>
+          To avoid this initial configuration 'penalty', Castor allows you to
+          cache these Descriptor classes through its
+          <api>org.exolab.castor.xml.ClassDescriptorResolver</api> component.
+          This cache allows reuse of these Descriptor instances between
+          (Un)Marshaller invocations.
+        </para>
+           
+      </section>
+
+      <section>
+        <title>Use of XMLContext - With and without a mapping file</title>
+
+        <para>
+          With the introduction of the new <literal><api class="org.exolab.castor.xml.XMLContext">XMLContext</api></literal> class, the use of a 
+          <literal>ClassDescriptorResolver</literal> has been greatly simplified in that such
+          an instance is managed by the XMLContext per default. As such, there's no need
+          to pass a <literal>ClassDescriptorResolver</literal> instance to <literal>Marshaller</literal>/
+          <literal>Unmarshaller</literal> instances anymore, as this is done automatically
+          when such instances are created through
+          
+          <itemizedlist>
+            <listitem><api class="org.exolab.castor.xml.XMLContext">createMarshaller()</api></listitem>
+            <listitem><api class="org.exolab.castor.xml.XMLContext">createUnmarshaller()</api></listitem>
+          </itemizedlist>
+          
+          For example, to create a <literal>Marshaller</literal> instance that is pre-configured
+          with an instance of <literal>ClassDescriptorResolver</literal>, use the following code 
+          fragment:
+        </para>
+
+        <programlisting language="java">
+Mapping mapping = new Mapping();
+mapping.loadMapping(new InputSource(...));
+        
+XMLContext context = new XMLContext();
+context.addMapping(mapping);
+
+Marshaller marshaller = <font color="red">context.createMarshaller()</font>;</programlisting>
+
+         <para>
+            In the case where no mapping file is used, it is still possible 
+            to instruct the <literal><api class="org.exolab.castor.xml.XMLContext">XMLContext</api></literal> to <emphasis role="italic">pre-load</emphasis>
+            class descriptors for a given package via the methods enlisted
+            below.
+         </para>
+
+         <para>
+            As above, create an instance of <literal><api class="org.exolab.castor.xml.XMLContext">XMLContext</api></literal> and configure it 
+            according to your needs as shown below:
+         </para>
+
+        <programlisting language="java">
+XMLContext context = new XMLContext();
+<font color="red">context.addPackage("your.package.name");</font>
+
+Marshaller marshaller = context.createMarshaller();</programlisting>
+
+         <para>
+            The <literal><api class="org.exolab.castor.xml.XMLContext">XMLContext</api></literal> class 
+            provides for various methods to load class descriptors for individual classes 
+            and/or packages.
+         </para>
+
+            <table>
+                <title>Methods on XMLContext to create Un-/Marshaller objects</title>
+                <tgroup cols="3">
+                  <colspec colname="c1"/>
+                  <colspec colname="c2"/>
+                  <colspec colname="c3"/>
+                  <thead>
+                    <row>
+                      <entry>Method</entry>
+                      <entry>Description</entry>
+                      <entry><literal>.castor.cdr</literal></entry>
+                    </row>
+                  </thead>
+                  <tbody>
+                   <row>
+                    <entry><methodname><api class="org.exolab.castor.xml.XMLContext">addClass(Class)</api></methodname></entry>
+                    <entry>Loads the class descriptor for one class.</entry>
+                    <entry>n/a</entry>
+                   </row>
+                   <row>
+                    <entry><literal><api class="org.exolab.castor.xml.XMLContext">addClass(Class[])</api></literal></entry>
+                    <entry>Loads the class descriptors for a collection of classes.</entry>
+                    <entry>n/a</entry>
+                   </row>
+                   <row>
+                    <entry><literal><api class="org.exolab.castor.xml.XMLContext">addPackage(String)</api></literal></entry>
+                    <entry>Loads the class descriptor for all classes in the defined package.</entry>
+                    <entry>Required</entry>
+                   </row>
+                   <row>
+                    <entry><literal><api class="org.exolab.castor.xml.XMLContext">addPackages(String[])</api></literal></entry>
+                    <entry>Loads the class descriptor for all classes in the defined packages.</entry>
+                    <entry>Required</entry>
+                   </row>
+                  </tbody>
+                </tgroup>
+             </table>
+
+         <note>
+            For some of the methods, pre-loading class descriptords will only work if you provide 
+            the <literal>.castor.cdr</literal> file with your generated classes (as generated by the XML 
+            code generator). If no such file is shipped, Castor will not be able to pre-load the 
+            descriptors, and will fall back to its default descriptor loading mechanism.
+         </note>
+         
+      </section>
+      
+      <section>
+        <title>Use of Marshaller/Unmarshaller</title>
+      
+        <section>
+            <title>Use of ClassDescriptorResolver</title>
+   
+           <para>
+             When you do not use the <literal>XMLContext</literal> class, you will have to manually
+             manage your <literal><api class="org.exolab.castor.xml.XMLClassDescriptorResolver">XMLClassDescriptorResolver</api></literal>. To do so, first create an 
+             instance of <literal><api class="org.exolab.castor.xml.XMLClassDescriptorResolver">XMLClassDescriptorResolver</api></literal> using the following code fragment:
+           </para>
+   
+           <programlisting language="java">
+XMLClassDescriptorResolver classDescriptorResolver = 
+   (XMLClassDescriptorResolver) ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
+MappingUnmarshaller mappingUnmarshaller = new MappingUnmarshaller();
+MappingLoader mappingLoader = 
+   mappingUnmarshaller.getMappingLoader(mapping, BindingType.XML);
+classDescriptorResolver.setMappingLoader(mappingLoader);</programlisting>
+   
+           <para>and then reuse this instance as shown below:</para>
+   
+           <programlisting language="java">
+   Unmarshaller unmarshaller = new Unmarshaller();
+   unmarshaller.setResolver(classDescriptorResolver);
+   unmarshaller.unmarshal(...);</programlisting>
+   
+         </section>
+   
+         <section>
+            <title>Use of ClassDescriptorResolver with no mappings</title>
+         
+            <para>In the case where there's no mapping file, it is still possible 
+               to instruct the <literal><api class="org.exolab.castor.xml.XMLClassDescriptorResolver">XMLClassDescriptorResolver</api></literal> to <emphasis role="italic">pre-load</emphasis>
+               class descriptors for a given package via the 
+               <literal>loadClassDescriptors(String)</literal> method.</para>
+   
+           <para>
+             As above, create an instance of <literal><api class="org.exolab.castor.xml.XMLClassDescriptorResolver">XMLClassDescriptorResolver</api></literal> using the
+             following code fragment:
+           </para>
+   
+           <programlisting language="java">
+   XMLClassDescriptorResolver classDescriptorResolver = (XMlClassDescriptorResolver)
+      ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
+   classDescriptorResolver.setClassLoader(...);
+   classDescriptorResolver.addPackage("your.package.name");</programlisting>
+   
+           <para>
+              and then reuse this instance as shown above. The 
+              <literal><api class="org.exolab.castor.xml.XMLClassDescriptorResolver">XMLClassDescriptorResolver</api></literal>
+              interface provides various other methods to load class descriptors for individual
+              classes and/or packages.
+           </para>
+              
+           <ctable>
+            <cheader>
+                <td>Method</td>
+                <td>Description</td>
+                <td>.castor.cdr</td>
+            </cheader>
+            <crow>
+                <td><literal><api class="org.exolab.castor.xml.XMLClassDescriptorResolver">addClass(String)</api></literal></td>
+                <td>Loads the class descriptor for one class.</td>
+                <td>n/a</td>
+            </crow>
+            <crow>
+                <td><literal><api class="org.exolab.castor.xml.XMLClassDescriptorResolver">addClass(String[])</api></literal></td>
+                <td>Loads the class descriptors for a collection of classes.</td>
+                <td>n/a</td>
+            </crow>
+            <crow>
+                <td><literal><api class="org.exolab.castor.xml.XMLClassDescriptorResolver">addPackage(String)</api></literal></td>
+                <td>Loads the class descriptor for all classes in the defined package.</td>
+                <td>Required</td>
+            </crow>
+            <crow>
+                <td><literal><api class="org.exolab.castor.xml.XMLClassDescriptorResolver">addPackages(String[])</api></literal></td>
+                <td>Loads the class descriptor for all classes in the defined packages.</td>
+                <td>Required</td>
+            </crow>
+           </ctable>
+           
+           <note>
+              For some of the methods, pre-loading class descriptords will only work if you provide 
+              the <literal>.castor.cdr</literal> file with your generated classes (as generated by the XML 
+              code generator). If no such file is shipped, Castor will not be able to pre-load the 
+              descriptors, and will fall back to its default descriptor loading mechanism.
+           </note>
+           
+   
+       </section>
+    
+    </section>
+    
+   </section>
+  </section>
+

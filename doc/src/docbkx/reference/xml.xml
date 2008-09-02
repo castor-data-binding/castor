@@ -6,5 +6,6 @@
     
     <xi:include href="xml/xml-framework.xml" />
     <xi:include href="xml/xml2.xml" />
+    <xi:include href="xml/best-practise.xml" />
 
 </chapter>
