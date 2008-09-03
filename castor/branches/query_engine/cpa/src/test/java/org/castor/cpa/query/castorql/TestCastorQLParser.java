@@ -88,15 +88,10 @@ public class TestCastorQLParser extends TestCase {
                     jSt);
 
             parser = new CastorQLParser(tkmgr);
-
-            parser.select_statement();
-
+            parser.castorQL();
         } catch (Exception e) {
-
-            System.out.println("NOK.");
-            System.out.println(e.getMessage());
+            e.printStackTrace();
             parser.ReInit(System.in);
-
         } catch (Error e) {
             e.printStackTrace();
         }

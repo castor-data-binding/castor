@@ -37,7 +37,7 @@ import junit.framework.TestCase;
 public class TestCastorQLTreeWalker extends TestCase {
     // --------------------------------------------------------------------------
 
-    public final void testConstructor() throws ParseException {
+    public final void testConstructor() {
 
         try {
             new CastorQLTreeWalker(new SimpleNode(3));
@@ -1042,31 +1042,16 @@ public class TestCastorQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
-    public final void testInWithPath() throws UnsupportedEncodingException,
-            ParseException {
+    public final void testInWithPath() throws UnsupportedEncodingException, ParseException {
 
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted NOT IN (org.castor.cpa.query.castorql.MockEnum.TEST1" 
-                + ", org.castor.cpa.query.castorql.MockEnum.TEST2)";
+                + " where o.deleted NOT IN (o.path1, o.path2, o.path3)";
         QueryObject qo = getQO(oql);
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted NOT  IN (org.castor.cpa.query.castorql.MockEnum.TEST1" 
-                + ", org.castor.cpa.query.castorql.MockEnum.TEST2))";
+                + "WHERE (o.deleted NOT  IN ('o.path1', 'o.path2', 'o.path3'))";
         String actual = qo.toString();
         assertEquals(expected, actual);
-    }
 
-    // --------------------------------------------------------------------------
-
-    public final void testInWithPathFail() throws UnsupportedEncodingException {
-        String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted NOT IN (org.castor.cpa.query.castorql.MockEnum.INVALID)";
-        try {
-            getQO(oql);
-            fail("ParseException expected !!!");
-        } catch (ParseException e) {
-            assertTrue(true);
-        }
     }
 
     // --------------------------------------------------------------------------
@@ -1156,15 +1141,39 @@ public class TestCastorQLTreeWalker extends TestCase {
 
     }
 
+    // --------------------------------------------------------------------------
+
+    public final void testUndefinedFunction() throws UnsupportedEncodingException, ParseException {
+
+        String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
+                + " where IS_UNDEFINED (o.field)";
+        QueryObject qo = getQO(oql);
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+                + "WHERE (o.field IS NULL)";
+        String actual = qo.toString();
+        assertEquals(expected, actual);
+
+        oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
+                + " where IS_DEFINED (o.field)";
+        qo = getQO(oql);
+        expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+                + "WHERE (o.field IS NOT NULL)";
+        actual = qo.toString();
+        assertEquals(expected, actual);
+
+    }
+
+    // --------------------------------------------------------------------------
+
     private QueryObject getQO(final String oql) 
-                        throws UnsupportedEncodingException, ParseException {
+            throws UnsupportedEncodingException, ParseException {
         CastorQLParser parser = null;
         CastorQLParserTokenManager tkmgr = null;
         try {
 
             tkmgr = createTkmgr(oql);
             parser = new CastorQLParser(tkmgr);
-            SimpleNode root = parser.select_statement();
+            SimpleNode root = parser.castorQL();
             CastorQLTreeWalker tw = new CastorQLTreeWalker(root);
             return tw.getSelect();
 
@@ -1185,7 +1194,7 @@ public class TestCastorQLTreeWalker extends TestCase {
 
             tkmgr = createTkmgr(oql);
             parser = new CastorQLParser(tkmgr);
-            return parser.select_statement();
+            return parser.castorQL();
         } catch (org.castor.cpa.query.castorql.ParseException e) {
             parser.ReInit(tkmgr);
             throw new ParseException(e);
