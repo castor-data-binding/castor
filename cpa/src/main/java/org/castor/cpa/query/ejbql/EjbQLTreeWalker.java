@@ -70,8 +70,8 @@ public final class EjbQLTreeWalker implements EjbQLParserTreeConstants, EjbQLPar
      */
     public EjbQLTreeWalker(final SimpleNode node) throws ParseException {
         if (node != null) {
-            if (node.id == JJTSELECT_STATEMENT) {
-                selectStatement(node);
+            if (node.id == JJTEJBQL) {
+                selectStatement((SimpleNode) node.jjtGetChild(0));
             } else {
                 throw new IllegalArgumentException();
             }
@@ -110,20 +110,20 @@ public final class EjbQLTreeWalker implements EjbQLParserTreeConstants, EjbQLPar
         _select = QueryFactory.newSelectQuery();
         // First the schema need to be setup
 
-        if (((SimpleNode) node.jjtGetChild(1)).id == JJTFROM_CLAUSE) {
+        if (((SimpleNode) node.jjtGetChild(1)).id == JJTFROMCLAUSE) {
             fromClause((SimpleNode) node.jjtGetChild(1));
         }
-        if (((SimpleNode) node.jjtGetChild(0)).id == JJTSELECT_CLAUSE) {
+        if (((SimpleNode) node.jjtGetChild(0)).id == JJTSELECTCLAUSE) {
             selectClause((SimpleNode) node.jjtGetChild(0));
         }
         for (int i = 2; node.jjtGetNumChildren() > i; i++) {
-            if (((SimpleNode) node.jjtGetChild(i)).id == JJTWHERE_CLAUSE) {
+            if (((SimpleNode) node.jjtGetChild(i)).id == JJTWHERECLAUSE) {
                 whereClause((SimpleNode) node.jjtGetChild(i));
             }
-            if (((SimpleNode) node.jjtGetChild(i)).id == JJTORDERBY_CLAUSE) {
+            if (((SimpleNode) node.jjtGetChild(i)).id == JJTORDERBYCLAUSE) {
                 orderbyClause((SimpleNode) node.jjtGetChild(i));
             }
-            if (((SimpleNode) node.jjtGetChild(i)).id == JJTLIMIT_CLAUSE) {
+            if (((SimpleNode) node.jjtGetChild(i)).id == JJTLIMITCLAUSE) {
                 limitClause((SimpleNode) node.jjtGetChild(i));
             }
         }
@@ -138,7 +138,7 @@ public final class EjbQLTreeWalker implements EjbQLParserTreeConstants, EjbQLPar
         if (node.getKind() == DISTINCT) {
             _select.setDistinct(true);
         }
-        if (((SimpleNode) node.jjtGetChild(0)).id == JJTSELECT_EXPRESSION) {
+        if (((SimpleNode) node.jjtGetChild(0)).id == JJTSELECTEXPRESSION) {
             selectExpression((SimpleNode) node.jjtGetChild(0));
         }
     }
@@ -166,7 +166,7 @@ public final class EjbQLTreeWalker implements EjbQLParserTreeConstants, EjbQLPar
      * @param node the node
      */
     private void fromClause(final SimpleNode node) {
-        if (((SimpleNode) node.jjtGetChild(0)).id == JJTFROM_DECLARATION) {
+        if (((SimpleNode) node.jjtGetChild(0)).id == JJTFROMDECLARATION) {
             fromDeclaration((SimpleNode) node.jjtGetChild(0));
         }
     }
@@ -191,7 +191,7 @@ public final class EjbQLTreeWalker implements EjbQLParserTreeConstants, EjbQLPar
      * @throws ParseException Exception thrown by parser when parsing an invalid query. 
      */
     private void whereClause(final SimpleNode node) throws ParseException {
-        if (((SimpleNode) node.jjtGetChild(0)).id == JJTCONDITIONAL_EXPRESSION) {
+        if (((SimpleNode) node.jjtGetChild(0)).id == JJTCONDITIONALEXPRESSION) {
             Condition condition = null;
             condition = conditionalExpression((SimpleNode) node.jjtGetChild(0), condition);
             _select.setWhere(condition);
@@ -205,7 +205,7 @@ public final class EjbQLTreeWalker implements EjbQLParserTreeConstants, EjbQLPar
      */
     private void orderbyClause(final SimpleNode node) {
         for (int i = 0; node.jjtGetNumChildren() > i; i++) {
-            if (((SimpleNode) node.jjtGetChild(i)).id == JJTORDERBY_ITEM) {
+            if (((SimpleNode) node.jjtGetChild(i)).id == JJTORDERBYITEM) {
                 orderbyItem((SimpleNode) node.jjtGetChild(i));
             }
         }
@@ -251,8 +251,8 @@ public final class EjbQLTreeWalker implements EjbQLParserTreeConstants, EjbQLPar
                     && ((SimpleNode) node.jjtGetChild(1)).id == JJTPARAMETER) {
                 _select.setLimit(parameter((SimpleNode) node.jjtGetChild(0)),
                         parameter((SimpleNode) node.jjtGetChild(1)));
-            } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTINTEGER_LITERAL
-                    && ((SimpleNode) node.jjtGetChild(1)).id == JJTINTEGER_LITERAL) {
+            } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTINTEGERLITERAL
+                    && ((SimpleNode) node.jjtGetChild(1)).id == JJTINTEGERLITERAL) {
                 _select.setLimit(integerLiteral((SimpleNode) node.jjtGetChild(0)),
                         integerLiteral((SimpleNode) node.jjtGetChild(1)));
             }
@@ -270,11 +270,11 @@ public final class EjbQLTreeWalker implements EjbQLParserTreeConstants, EjbQLPar
     private Condition conditionalExpression(final SimpleNode node, final Condition condition)
             throws ParseException {
         Condition c = condition;
-        if (((SimpleNode) node.jjtGetChild(0)).id == JJTCONDITIONAL_TERM) {
+        if (((SimpleNode) node.jjtGetChild(0)).id == JJTCONDITIONALTERM) {
             c = conditionalTerm((SimpleNode) node.jjtGetChild(0), c);
         }
         for (int i = 1; node.jjtGetNumChildren() > i; i++) {
-            if (((SimpleNode) node.jjtGetChild(i)).id == JJTCONDITIONAL_TERM) {
+            if (((SimpleNode) node.jjtGetChild(i)).id == JJTCONDITIONALTERM) {
                 c = c.or(conditionalTerm((SimpleNode) node.jjtGetChild(i), c));
             }
         }
@@ -292,11 +292,11 @@ public final class EjbQLTreeWalker implements EjbQLParserTreeConstants, EjbQLPar
     private Condition conditionalTerm(final SimpleNode node, final Condition condition)
             throws ParseException {
         Condition c = condition;
-        if (((SimpleNode) node.jjtGetChild(0)).id == JJTCONDITIONAL_FACTOR) {
+        if (((SimpleNode) node.jjtGetChild(0)).id == JJTCONDITIONALFACTOR) {
             c = conditionalFactor((SimpleNode) node.jjtGetChild(0), c);
         }
         for (int i = 1; node.jjtGetNumChildren() > i; i++) {
-            if (((SimpleNode) node.jjtGetChild(i)).id == JJTCONDITIONAL_FACTOR) {
+            if (((SimpleNode) node.jjtGetChild(i)).id == JJTCONDITIONALFACTOR) {
                 c = c.and(conditionalFactor((SimpleNode) node.jjtGetChild(i), c));
             }
         }
@@ -314,7 +314,7 @@ public final class EjbQLTreeWalker implements EjbQLParserTreeConstants, EjbQLPar
     private Condition conditionalFactor(final SimpleNode node, final Condition condition)
             throws ParseException {
         Condition c = condition;
-        if (((SimpleNode) node.jjtGetChild(0)).id == JJTCONDITIONAL_PRIMARY) {
+        if (((SimpleNode) node.jjtGetChild(0)).id == JJTCONDITIONALPRIMARY) {
             c = conditionalPrimary((SimpleNode) node.jjtGetChild(0), c);
             if (node.getKind() == NOT) {
                 c.not();
@@ -334,17 +334,17 @@ public final class EjbQLTreeWalker implements EjbQLParserTreeConstants, EjbQLPar
     private Condition conditionalPrimary(final SimpleNode node, final Condition condition)
             throws ParseException {
         Condition c = condition;
-        if (((SimpleNode) node.jjtGetChild(0)).id == JJTCONDITIONAL_EXPRESSION) {
+        if (((SimpleNode) node.jjtGetChild(0)).id == JJTCONDITIONALEXPRESSION) {
             return conditionalExpression((SimpleNode) node.jjtGetChild(0), c);
-        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTCOMPARISON_EXPRESSION) {
+        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTCOMPARISONEXPRESSION) {
             return comparisonExpression((SimpleNode) node.jjtGetChild(0));
-        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTBETWEEN_EXPRESSION) {
+        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTBETWEENEXPRESSION) {
             return betweenExpression((SimpleNode) node.jjtGetChild(0));
-        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTLIKE_EXPRESSION) {
+        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTLIKEEXPRESSION) {
             return likeExpression((SimpleNode) node.jjtGetChild(0));
-        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTIN_EXPRESSION) {
+        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTINEXPRESSION) {
             return inExpression((SimpleNode) node.jjtGetChild(0));
-        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTNULL_EXPRESSION) {
+        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTNULLEXPRESSION) {
             return nullExpression((SimpleNode) node.jjtGetChild(0));
         }
         return c;
@@ -433,17 +433,17 @@ public final class EjbQLTreeWalker implements EjbQLParserTreeConstants, EjbQLPar
                     condition = expression((SimpleNode) node.jjtGetChild(0)).notLike(
                             parameter((SimpleNode) node.jjtGetChild(1)),
                             parameter((SimpleNode) node.jjtGetChild(2)));
-                } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTCHAR_LITERAL
-                        && ((SimpleNode) node.jjtGetChild(2)).id == JJTCHAR_LITERAL) {
+                } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTCHARLITERAL
+                        && ((SimpleNode) node.jjtGetChild(2)).id == JJTCHARLITERAL) {
                     condition = expression((SimpleNode) node.jjtGetChild(0)).notLike(
                             stringLiteral((SimpleNode) node.jjtGetChild(1)),
                             stringLiteral((SimpleNode) node.jjtGetChild(2)).charAt(0));
                 } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTPARAMETER
-                        && ((SimpleNode) node.jjtGetChild(2)).id == JJTCHAR_LITERAL) {
+                        && ((SimpleNode) node.jjtGetChild(2)).id == JJTCHARLITERAL) {
                     condition = expression((SimpleNode) node.jjtGetChild(0)).notLike(
                             parameter((SimpleNode) node.jjtGetChild(1)),
                             stringLiteral((SimpleNode) node.jjtGetChild(2)).charAt(0));
-                } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTCHAR_LITERAL
+                } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTCHARLITERAL
                         && ((SimpleNode) node.jjtGetChild(2)).id == JJTPARAMETER) {
                     condition = expression((SimpleNode) node.jjtGetChild(0)).notLike(
                             stringLiteral((SimpleNode) node.jjtGetChild(1)),
@@ -453,7 +453,7 @@ public final class EjbQLTreeWalker implements EjbQLParserTreeConstants, EjbQLPar
                 if (((SimpleNode) node.jjtGetChild(1)).id == JJTPARAMETER) {
                     condition = expression((SimpleNode) node.jjtGetChild(0)).notLike(
                             parameter((SimpleNode) node.jjtGetChild(1)));
-                } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTCHAR_LITERAL) {
+                } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTCHARLITERAL) {
                     condition = expression((SimpleNode) node.jjtGetChild(0)).notLike(
                             stringLiteral((SimpleNode) node.jjtGetChild(1)));
                 }
@@ -465,17 +465,17 @@ public final class EjbQLTreeWalker implements EjbQLParserTreeConstants, EjbQLPar
                     condition = expression((SimpleNode) node.jjtGetChild(0)).like(
                             parameter((SimpleNode) node.jjtGetChild(1)),
                             parameter((SimpleNode) node.jjtGetChild(2)));
-                } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTCHAR_LITERAL
-                        && ((SimpleNode) node.jjtGetChild(2)).id == JJTCHAR_LITERAL) {
+                } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTCHARLITERAL
+                        && ((SimpleNode) node.jjtGetChild(2)).id == JJTCHARLITERAL) {
                     condition = expression((SimpleNode) node.jjtGetChild(0)).like(
                             stringLiteral((SimpleNode) node.jjtGetChild(1)),
                             stringLiteral((SimpleNode) node.jjtGetChild(2)).charAt(0));
                 } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTPARAMETER
-                        && ((SimpleNode) node.jjtGetChild(2)).id == JJTCHAR_LITERAL) {
+                        && ((SimpleNode) node.jjtGetChild(2)).id == JJTCHARLITERAL) {
                     condition = expression((SimpleNode) node.jjtGetChild(0)).like(
                             parameter((SimpleNode) node.jjtGetChild(1)),
                             stringLiteral((SimpleNode) node.jjtGetChild(2)).charAt(0));
-                } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTCHAR_LITERAL
+                } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTCHARLITERAL
                         && ((SimpleNode) node.jjtGetChild(2)).id == JJTPARAMETER) {
                     condition = expression((SimpleNode) node.jjtGetChild(0)).like(
                             stringLiteral((SimpleNode) node.jjtGetChild(1)),
@@ -485,7 +485,7 @@ public final class EjbQLTreeWalker implements EjbQLParserTreeConstants, EjbQLPar
                 if (((SimpleNode) node.jjtGetChild(1)).id == JJTPARAMETER) {
                     condition = expression((SimpleNode) node.jjtGetChild(0)).like(
                             parameter((SimpleNode) node.jjtGetChild(1)));
-                } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTCHAR_LITERAL) {
+                } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTCHARLITERAL) {
                     condition = expression((SimpleNode) node.jjtGetChild(0)).like(
                             stringLiteral((SimpleNode) node.jjtGetChild(1)));
                 }
@@ -673,15 +673,15 @@ public final class EjbQLTreeWalker implements EjbQLParserTreeConstants, EjbQLPar
             if (node.jjtGetNumChildren() == 1) {
                 return expression((SimpleNode) node.jjtGetChild(0)).trim();
             } else if (node.jjtGetNumChildren() == 2) {
-                if (((SimpleNode) node.jjtGetChild(0)).id == JJTCHAR_LITERAL) {
+                if (((SimpleNode) node.jjtGetChild(0)).id == JJTCHARLITERAL) {
                     return expression((SimpleNode) node.jjtGetChild(1)).trim(
                             stringLiteral((SimpleNode) node.jjtGetChild(0)).charAt(0));
-                } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTTRIM_SPECIFICATION) {
+                } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTTRIMSPECIFICATION) {
                     return expression((SimpleNode) node.jjtGetChild(1)).trim(
                             trimSpecification((SimpleNode) node.jjtGetChild(0)));
                 }
             } else if (node.jjtGetNumChildren() == three) {
-                if (((SimpleNode) node.jjtGetChild(0)).id == JJTTRIM_SPECIFICATION) {
+                if (((SimpleNode) node.jjtGetChild(0)).id == JJTTRIMSPECIFICATION) {
                     return expression((SimpleNode) node.jjtGetChild(2)).trim(
                             trimSpecification((SimpleNode) node.jjtGetChild(0))
                             , stringLiteral((SimpleNode) node.jjtGetChild(1)).charAt(0));
@@ -766,13 +766,13 @@ public final class EjbQLTreeWalker implements EjbQLParserTreeConstants, EjbQLPar
      * @return the literal
      */
     private Literal literal(final SimpleNode node) {
-        if (((SimpleNode) node.jjtGetChild(0)).id == JJTBOOLEAN_LITERAL) {
+        if (((SimpleNode) node.jjtGetChild(0)).id == JJTBOOLEANLITERAL) {
             return new BooleanLiteral(booleanLiteral((SimpleNode) node.jjtGetChild(0)));
-        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTINTEGER_LITERAL) {
+        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTINTEGERLITERAL) {
             return new LongLiteral(integerLiteral((SimpleNode) node.jjtGetChild(0)));
-        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTFLOAT_LITERAL) {
+        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTFLOATLITERAL) {
             return new DoubleLiteral(floatLiteral((SimpleNode) node.jjtGetChild(0)));
-        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTCHAR_LITERAL) {
+        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTCHARLITERAL) {
             return new StringLiteral(stringLiteral((SimpleNode) node.jjtGetChild(0)));
         }
         return null;
@@ -785,10 +785,10 @@ public final class EjbQLTreeWalker implements EjbQLParserTreeConstants, EjbQLPar
      * @return the parameter
      */
     private Parameter parameter(final SimpleNode node) {
-        if (((SimpleNode) node.jjtGetChild(0)).id == JJTPOSITIONAL_PARAMETER) {
+        if (((SimpleNode) node.jjtGetChild(0)).id == JJTPOSITIONALPARAMETER) {
             return positionalParameter((SimpleNode) node.jjtGetChild(0));
         }
-        if (((SimpleNode) node.jjtGetChild(0)).id == JJTNAMED_PARAMETER) {
+        if (((SimpleNode) node.jjtGetChild(0)).id == JJTNAMEDPARAMETER) {
             return namedParameter((SimpleNode) node.jjtGetChild(0));
         }
         return null;

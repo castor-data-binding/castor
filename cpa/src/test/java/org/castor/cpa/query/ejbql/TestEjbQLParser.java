@@ -89,7 +89,7 @@ public class TestEjbQLParser extends TestCase {
 
             parser = new EjbQLParser(tkmgr);
 
-            parser.select_statement();
+            parser.ejbQL();
 
         } catch (Exception e) {
 
