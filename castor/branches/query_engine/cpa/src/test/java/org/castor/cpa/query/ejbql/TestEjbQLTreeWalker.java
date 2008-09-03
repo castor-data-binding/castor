@@ -1336,7 +1336,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
             tkmgr = createTkmgr(oql);
             parser = new EjbQLParser(tkmgr);
-            SimpleNode root = parser.select_statement();
+            SimpleNode root = parser.ejbQL();
             EjbQLTreeWalker tw = new EjbQLTreeWalker(root);
             return tw.getSelect();
 
@@ -1357,7 +1357,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
             tkmgr = createTkmgr(oql);
             parser = new EjbQLParser(tkmgr);
-            return parser.select_statement();
+            return parser.ejbQL();
         } catch (org.castor.cpa.query.ejbql.ParseException e) {
             parser.ReInit(tkmgr);
             throw new ParseException(e);
