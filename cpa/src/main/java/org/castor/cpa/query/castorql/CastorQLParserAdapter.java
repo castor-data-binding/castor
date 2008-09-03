@@ -51,7 +51,7 @@ public final class CastorQLParserAdapter extends AbstractParser {
 
             tkmgr = createTkmgr(oql);
             parser = new CastorQLParser(tkmgr);
-            SimpleNode root = parser.select_statement();
+            SimpleNode root = parser.castorQL();
             CastorQLTreeWalker tw = new CastorQLTreeWalker(root);
             return tw.getSelect();
 
@@ -83,7 +83,7 @@ public final class CastorQLParserAdapter extends AbstractParser {
 
             tkmgr = createTkmgr(oql);
             parser = new CastorQLParser(tkmgr);
-            return parser.select_statement();
+            return parser.castorQL();
         } catch (org.castor.cpa.query.castorql.ParseException e) {
             parser.ReInit(tkmgr);
             throw new ParseException(e);

@@ -15,6 +15,7 @@
  */
 package org.castor.cpa.query.castorql;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,6 @@ import org.castor.cpa.query.Literal;
 import org.castor.cpa.query.Order;
 import org.castor.cpa.query.OrderDirection;
 import org.castor.cpa.query.Parameter;
-import org.castor.cpa.query.ParseException;
 import org.castor.cpa.query.QueryFactory;
 import org.castor.cpa.query.Schema;
 import org.castor.cpa.query.SelectQuery;
@@ -35,7 +35,6 @@ import org.castor.cpa.query.object.function.CustomFunction;
 import org.castor.cpa.query.object.literal.BooleanLiteral;
 import org.castor.cpa.query.object.literal.DateLiteral;
 import org.castor.cpa.query.object.literal.DoubleLiteral;
-import org.castor.cpa.query.object.literal.EnumLiteral;
 import org.castor.cpa.query.object.literal.LongLiteral;
 import org.castor.cpa.query.object.literal.StringLiteral;
 import org.castor.cpa.query.object.literal.TimeLiteral;
@@ -72,12 +71,11 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
      * Instantiates a new castor ql tree walker.
      * 
      * @param node the node SimpleNode of JJTree
-     * @throws ParseException Exception thrown by parser when parsing an invalid query.
      */
-    public CastorQLTreeWalker(final SimpleNode node) throws ParseException {
+    public CastorQLTreeWalker(final SimpleNode node) {
         if (node != null) {
-            if (node.id == JJTSELECT_STATEMENT) {
-                selectStatement(node);
+            if (node.id == JJTCASTORQL) {
+                selectStatement((SimpleNode) node.jjtGetChild(0));
             } else { 
                 throw new IllegalArgumentException();
             }
@@ -112,26 +110,25 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
      * Select clause.
      * 
      * @param node the SimpleNode of JJTree
-     * @throws ParseException Exception thrown by parser when parsing an invalid query.
      */
-    private void selectStatement(final SimpleNode node) throws ParseException {
+    private void selectStatement(final SimpleNode node) {
         _select = QueryFactory.newSelectQuery();
         // First the schema need to be setup
 
-        if (((SimpleNode) node.jjtGetChild(1)).id == JJTFROM_CLAUSE) {
+        if (((SimpleNode) node.jjtGetChild(1)).id == JJTFROMCLAUSE) {
             fromClause((SimpleNode) node.jjtGetChild(1));
         }
-        if (((SimpleNode) node.jjtGetChild(0)).id == JJTSELECT_CLAUSE) {
+        if (((SimpleNode) node.jjtGetChild(0)).id == JJTSELECTCLAUSE) {
             selectClause((SimpleNode) node.jjtGetChild(0));
         }
         for (int i = 2; node.jjtGetNumChildren() > i; i++) {
-            if (((SimpleNode) node.jjtGetChild(i)).id == JJTWHERE_CLAUSE) {
+            if (((SimpleNode) node.jjtGetChild(i)).id == JJTWHERECLAUSE) {
                 whereClause((SimpleNode) node.jjtGetChild(i));
             }
-            if (((SimpleNode) node.jjtGetChild(i)).id == JJTORDERBY_CLAUSE) {
+            if (((SimpleNode) node.jjtGetChild(i)).id == JJTORDERBYCLAUSE) {
                 orderbyClause((SimpleNode) node.jjtGetChild(i));
             }
-            if (((SimpleNode) node.jjtGetChild(i)).id == JJTLIMIT_CLAUSE) {
+            if (((SimpleNode) node.jjtGetChild(i)).id == JJTLIMITCLAUSE) {
                 limitClause((SimpleNode) node.jjtGetChild(i));
             }
         }
@@ -146,7 +143,7 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
         if (node.getKind() == DISTINCT) {
             _select.setDistinct(true);
         }
-        if (((SimpleNode) node.jjtGetChild(0)).id == JJTSELECT_EXPRESSION) {
+        if (((SimpleNode) node.jjtGetChild(0)).id == JJTSELECTEXPRESSION) {
             selectExpression((SimpleNode) node.jjtGetChild(0));
         }
     }
@@ -173,7 +170,7 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
      * @param node of the SimpleNode of JJTree
      */
     private void fromClause(final SimpleNode node) {
-        if (((SimpleNode) node.jjtGetChild(0)).id == JJTFROM_DECLARATION) {
+        if (((SimpleNode) node.jjtGetChild(0)).id == JJTFROMDECLARATION) {
             fromDeclaration((SimpleNode) node.jjtGetChild(0));
         }
     }
@@ -195,10 +192,9 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
      * Where clause.
      * 
      * @param node of the SimpleNode of JJTree
-     * @throws ParseException Exception thrown by parser when parsing an invalid query.
      */
-    private void whereClause(final SimpleNode node) throws ParseException {
-        if (((SimpleNode) node.jjtGetChild(0)).id == JJTCONDITIONAL_EXPRESSION) {
+    private void whereClause(final SimpleNode node) {
+        if (((SimpleNode) node.jjtGetChild(0)).id == JJTCONDITIONALEXPRESSION) {
             Condition condition = null;
             condition = conditionalExpression((SimpleNode) node.jjtGetChild(0),
                     condition);
@@ -213,7 +209,7 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
      */
     private void orderbyClause(final SimpleNode node) {
         for (int i = 0; node.jjtGetNumChildren() > i; i++) {
-            if (((SimpleNode) node.jjtGetChild(i)).id == JJTORDERBY_ITEM) {
+            if (((SimpleNode) node.jjtGetChild(i)).id == JJTORDERBYITEM) {
                 orderbyItem((SimpleNode) node.jjtGetChild(i));
             }
         }
@@ -263,8 +259,8 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
                     && ((SimpleNode) node.jjtGetChild(1)).id == JJTPARAMETER) {
                 _select.setLimit(parameter((SimpleNode) node.jjtGetChild(0)),
                         parameter((SimpleNode) node.jjtGetChild(1)));
-            } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTINTEGER_LITERAL
-                    && ((SimpleNode) node.jjtGetChild(1)).id == JJTINTEGER_LITERAL) {
+            } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTINTEGERLITERAL
+                    && ((SimpleNode) node.jjtGetChild(1)).id == JJTINTEGERLITERAL) {
                 _select.setLimit(integerLiteral((SimpleNode) node
                         .jjtGetChild(0)), integerLiteral((SimpleNode) node
                                 .jjtGetChild(1)));
@@ -278,16 +274,14 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
      * @param node of the SimpleNode of JJTree
      * @param condition the condition
      * @return the condition
-     * @throws ParseException Exception thrown by parser when parsing an invalid query.
      */
-    private Condition conditionalExpression(final SimpleNode node, final Condition condition) 
-            throws ParseException {
+    private Condition conditionalExpression(final SimpleNode node, final Condition condition) {
         Condition c = condition;
-        if (((SimpleNode) node.jjtGetChild(0)).id == JJTCONDITIONAL_TERM) {
+        if (((SimpleNode) node.jjtGetChild(0)).id == JJTCONDITIONALTERM) {
             c = conditionalTerm((SimpleNode) node.jjtGetChild(0), c);
         }
         for (int i = 1; node.jjtGetNumChildren() > i; i++) {
-            if (((SimpleNode) node.jjtGetChild(i)).id == JJTCONDITIONAL_TERM) {
+            if (((SimpleNode) node.jjtGetChild(i)).id == JJTCONDITIONALTERM) {
                 c = c.or(conditionalTerm((SimpleNode) node.jjtGetChild(i), c));
             }
         }
@@ -300,16 +294,14 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
      * @param node of the SimpleNode of JJTree
      * @param condition the condition           
      * @return the condition
-     * @throws ParseException Exception thrown by parser when parsing an invalid query. 
      */
-    private Condition conditionalTerm(final SimpleNode node, final Condition condition) 
-            throws ParseException {
+    private Condition conditionalTerm(final SimpleNode node, final Condition condition) {
         Condition c = condition;
-        if (((SimpleNode) node.jjtGetChild(0)).id == JJTCONDITIONAL_FACTOR) {
+        if (((SimpleNode) node.jjtGetChild(0)).id == JJTCONDITIONALFACTOR) {
             c = conditionalFactor((SimpleNode) node.jjtGetChild(0), c);
         }
         for (int i = 1; node.jjtGetNumChildren() > i; i++) {
-            if (((SimpleNode) node.jjtGetChild(i)).id == JJTCONDITIONAL_FACTOR) {
+            if (((SimpleNode) node.jjtGetChild(i)).id == JJTCONDITIONALFACTOR) {
                 c = c.and(conditionalFactor((SimpleNode) node.jjtGetChild(i), c));
             }
         }
@@ -322,12 +314,10 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
      * @param node of the SimpleNode of JJTree
      * @param condition the condition        
      * @return the condition
-     * @throws ParseException Exception thrown by parser when parsing an invalid query.
      */
-    private Condition conditionalFactor(final SimpleNode node, final Condition condition) 
-            throws ParseException {
+    private Condition conditionalFactor(final SimpleNode node, final Condition condition) {
         Condition c = condition;
-        if (((SimpleNode) node.jjtGetChild(0)).id == JJTCONDITIONAL_PRIMARY) {
+        if (((SimpleNode) node.jjtGetChild(0)).id == JJTCONDITIONALPRIMARY) {
             c = conditionalPrimary((SimpleNode) node.jjtGetChild(0), c);
             if (node.getKind() == NOT) {
                 c.not();
@@ -342,23 +332,23 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
      * @param node of the SimpleNode of JJTree
      * @param condition the condition 
      * @return the condition
-     * @throws ParseException Exception thrown by parser when parsing an invalid query.
      */
-    private Condition conditionalPrimary(final SimpleNode node, final Condition condition) 
-            throws ParseException {
+    private Condition conditionalPrimary(final SimpleNode node, final Condition condition) {
         Condition c = condition;
-        if (((SimpleNode) node.jjtGetChild(0)).id == JJTCONDITIONAL_EXPRESSION) {
+        if (((SimpleNode) node.jjtGetChild(0)).id == JJTCONDITIONALEXPRESSION) {
             return conditionalExpression((SimpleNode) node.jjtGetChild(0), c);
-        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTCOMPARISON_EXPRESSION) {
+        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTCOMPARISONEXPRESSION) {
             return comparisonExpression((SimpleNode) node.jjtGetChild(0));
-        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTBETWEEN_EXPRESSION) {
+        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTBETWEENEXPRESSION) {
             return betweenExpression((SimpleNode) node.jjtGetChild(0));
-        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTLIKE_EXPRESSION) {
+        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTLIKEEXPRESSION) {
             return likeExpression((SimpleNode) node.jjtGetChild(0));
-        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTIN_EXPRESSION) {
+        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTINEXPRESSION) {
             return inExpression((SimpleNode) node.jjtGetChild(0));
-        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTNULL_EXPRESSION) {
+        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTNULLEXPRESSION) {
             return nullExpression((SimpleNode) node.jjtGetChild(0));
+        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTUNDEFINEDFUNCTION) {
+            return undefinedFunction((SimpleNode) node.jjtGetChild(0));
         }
         return c;
     }
@@ -451,8 +441,8 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
                     .notLike(
                             parameter((SimpleNode) node.jjtGetChild(1)),
                             parameter((SimpleNode) node.jjtGetChild(2)));
-                } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTSTRING_LITERAL
-                        && ((SimpleNode) node.jjtGetChild(2)).id == JJTSTRING_LITERAL) {
+                } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTSTRINGLITERAL
+                        && ((SimpleNode) node.jjtGetChild(2)).id == JJTSTRINGLITERAL) {
                     condition = expression((SimpleNode) node.jjtGetChild(0))
                     .notLike(
                             stringLiteral((SimpleNode) node
@@ -461,14 +451,14 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
                                             (SimpleNode) node.jjtGetChild(2))
                                             .charAt(0));
                 } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTPARAMETER
-                        && ((SimpleNode) node.jjtGetChild(2)).id == JJTSTRING_LITERAL) {
+                        && ((SimpleNode) node.jjtGetChild(2)).id == JJTSTRINGLITERAL) {
                     condition = expression((SimpleNode) node.jjtGetChild(0))
                     .notLike(
                             parameter((SimpleNode) node.jjtGetChild(1)),
                             stringLiteral(
                                     (SimpleNode) node.jjtGetChild(2))
                                     .charAt(0));
-                } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTSTRING_LITERAL
+                } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTSTRINGLITERAL
                         && ((SimpleNode) node.jjtGetChild(2)).id == JJTPARAMETER) {
                     condition = expression((SimpleNode) node.jjtGetChild(0))
                     .notLike(
@@ -481,7 +471,7 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
                     condition = expression((SimpleNode) node.jjtGetChild(0))
                     .notLike(
                             parameter((SimpleNode) node.jjtGetChild(1)));
-                } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTSTRING_LITERAL) {
+                } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTSTRINGLITERAL) {
                     condition = expression((SimpleNode) node.jjtGetChild(0))
                     .notLike(
                             stringLiteral((SimpleNode) node
@@ -495,8 +485,8 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
                     condition = expression((SimpleNode) node.jjtGetChild(0))
                     .like(parameter((SimpleNode) node.jjtGetChild(1)),
                             parameter((SimpleNode) node.jjtGetChild(2)));
-                } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTSTRING_LITERAL
-                        && ((SimpleNode) node.jjtGetChild(2)).id == JJTSTRING_LITERAL) {
+                } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTSTRINGLITERAL
+                        && ((SimpleNode) node.jjtGetChild(2)).id == JJTSTRINGLITERAL) {
                     condition = expression((SimpleNode) node.jjtGetChild(0))
                     .like(
                             stringLiteral((SimpleNode) node
@@ -505,14 +495,14 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
                                             (SimpleNode) node.jjtGetChild(2))
                                             .charAt(0));
                 } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTPARAMETER
-                        && ((SimpleNode) node.jjtGetChild(2)).id == JJTSTRING_LITERAL) {
+                        && ((SimpleNode) node.jjtGetChild(2)).id == JJTSTRINGLITERAL) {
                     condition = expression((SimpleNode) node.jjtGetChild(0))
                     .like(
                             parameter((SimpleNode) node.jjtGetChild(1)),
                             stringLiteral(
                                     (SimpleNode) node.jjtGetChild(2))
                                     .charAt(0));
-                } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTSTRING_LITERAL
+                } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTSTRINGLITERAL
                         && ((SimpleNode) node.jjtGetChild(2)).id == JJTPARAMETER) {
                     condition = expression((SimpleNode) node.jjtGetChild(0))
                     .like(
@@ -524,7 +514,7 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
                 if (((SimpleNode) node.jjtGetChild(1)).id == JJTPARAMETER) {
                     condition = expression((SimpleNode) node.jjtGetChild(0))
                     .like(parameter((SimpleNode) node.jjtGetChild(1)));
-                } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTSTRING_LITERAL) {
+                } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTSTRINGLITERAL) {
                     condition = expression((SimpleNode) node.jjtGetChild(0))
                     .like(
                             stringLiteral((SimpleNode) node
@@ -540,36 +530,30 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
      * 
      * @param node of the SimpleNode of JJTree
      * @return the condition
-     * @throws ParseException Exception thrown by parser when parsing an invalid query. 
      */
-    private Condition inExpression(final SimpleNode node) throws ParseException {
+    private Condition inExpression(final SimpleNode node) {
         InCondition inCond = null;
         if (node.getKind() == NOT) {
             if (((SimpleNode) node.jjtGetChild(0)).id == JJTPATH) {
-                inCond = _schema.field(identifier((SimpleNode) node.jjtGetChild(0).jjtGetChild(1)))
-                        .notIn();
+                inCond = _schema.field(
+                        identifier((SimpleNode) node.jjtGetChild(0)
+                                .jjtGetChild(1))).notIn();
             }
         } else {
             if (((SimpleNode) node.jjtGetChild(0)).id == JJTPATH) {
-                inCond = _schema.field(identifier((SimpleNode) node.jjtGetChild(0).jjtGetChild(1)))
-                        .in();
+                inCond = _schema.field(
+                        identifier((SimpleNode) node.jjtGetChild(0)
+                                .jjtGetChild(1))).in();
             }
         }
         // **InItem **//
-        for (int i = 1; node.jjtGetNumChildren() > i; i++) {
+        for (int i = 0; node.jjtGetNumChildren() > i; i++) {
             if (((SimpleNode) node.jjtGetChild(i).jjtGetChild(0)).id == JJTPARAMETER) {
                 inCond.add(parameter((SimpleNode) node.jjtGetChild(i).jjtGetChild(0)));
             } else if (((SimpleNode) node.jjtGetChild(i).jjtGetChild(0)).id == JJTLITERAL) {
                 inCond.add(literal((SimpleNode) node.jjtGetChild(i).jjtGetChild(0)));
             } else if (((SimpleNode) node.jjtGetChild(i).jjtGetChild(0)).id == JJTPATH) {
-                try {
-                    inCond.add(new EnumLiteral(
-                            path((SimpleNode) node.jjtGetChild(i).jjtGetChild(0))));
-                } catch (IllegalArgumentException ille) {
-                    throw new org.castor.cpa.query.ParseException(ille);
-                } catch (NullPointerException e) {
-                    throw new org.castor.cpa.query.ParseException(e);
-                }
+                inCond.add(path((SimpleNode) node.jjtGetChild(i).jjtGetChild(0)));
             }
         }
         return inCond;
@@ -597,6 +581,29 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
         return condition;
     }
 
+    /**
+     * Undefined function.
+     * 
+     * @param node of the SimpleNode of JJTree
+
+     * @return the function
+     */
+    private Condition undefinedFunction(final SimpleNode node) {
+        Condition condition = null;
+        SimpleNode field = (SimpleNode) node.jjtGetChild(0)
+                           .jjtGetChild(0).jjtGetChild(0).
+                           jjtGetChild(0).jjtGetChild(0).jjtGetChild(1); 
+        if (((SimpleNode) node.jjtGetChild(0)).id == JJTEXPRESSION) {
+            if (node.getKind() == IS_DEFINED) {
+                condition = _schema.field(identifier(field)).isNotNull();
+            } else {
+                condition = _schema.field(identifier(field)).isNull();
+            }
+        }
+        return condition;
+        
+    }
+    
     /**
      * Expression.
      * 
@@ -675,15 +682,11 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
             return literal((SimpleNode) node.jjtGetChild(0));
         } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTFUNCTION) {
             return function((SimpleNode) node.jjtGetChild(0));
-        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTUNDEFINED_FUNCTION) {
-            return undefinedFunction((SimpleNode) node.jjtGetChild(0));
-        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTDATE_TIME_FUNCTION) {
-            return dateTimeFunction((SimpleNode) node.jjtGetChild(0));
-        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTDATE_PRIMARY) {
+        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTDATEPRIMARY) {
             return datePrimary((SimpleNode) node.jjtGetChild(0));
-        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTTIME_PRIMARY) {
+        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTTIMEPRIMARY) {
             return timePrimary((SimpleNode) node.jjtGetChild(0));
-        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTTIMESTAMP_PRIMARY) {
+        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTTIMESTAMPPRIMARY) {
             return timestampPrimary((SimpleNode) node.jjtGetChild(0));
         }
         return null;
@@ -709,33 +712,6 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
     }
 
     /**
-     * Undefined function.
-     * 
-     * @param node of the SimpleNode of JJTree
-
-     * @return the function
-     */
-    private Function undefinedFunction(final SimpleNode node) {
-        // if (node.getKind() == IS_DEFINED) {
-        // return (((Field)expression((SimpleNode)
-        // node.jjtGetChild(0))).isNotNull();
-        // } else {
-        // }
-        return null;
-    }
-
-    /**
-     * Datetime function.
-     * 
-     * @param node of the SimpleNode of JJTree
-     * @return the function
-     */
-    private Function dateTimeFunction(final SimpleNode node) {
-        // TODO
-        return null;
-    }
-
-    /**
      * Date primary.
      * 
      * @param node of the SimpleNode of JJTree
@@ -746,7 +722,7 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
         DateLiteral date = null;
         try {
             date = new DateLiteral(sdf.parse(dateLiteral((SimpleNode) node.jjtGetChild(0))));
-        } catch (java.text.ParseException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
         }
         return date;
@@ -774,7 +750,7 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
         }
         try {
             time = new TimeLiteral(sdf.parse(sTime));
-        } catch (java.text.ParseException e) {
+        } catch (ParseException e) {
             e.printStackTrace(System.out);
         }
         return time;
@@ -792,7 +768,7 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
         TimestampLiteral timestamp = null;
         try {
             timestamp = new TimestampLiteral(sdf.parse(sTimestamp));
-        } catch (java.text.ParseException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
         }
         return timestamp;
@@ -805,16 +781,16 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
      * @return the literal
      */
     private Literal literal(final SimpleNode node) {
-        if (((SimpleNode) node.jjtGetChild(0)).id == JJTBOOLEAN_LITERAL) {
+        if (((SimpleNode) node.jjtGetChild(0)).id == JJTBOOLEANLITERAL) {
             return new BooleanLiteral(booleanLiteral((SimpleNode) node
                     .jjtGetChild(0)));
-        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTINTEGER_LITERAL) {
+        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTINTEGERLITERAL) {
             return new LongLiteral(integerLiteral((SimpleNode) node
                     .jjtGetChild(0)));
-        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTFLOAT_LITERAL) {
+        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTFLOATLITERAL) {
             return new DoubleLiteral(floatLiteral((SimpleNode) node
                     .jjtGetChild(0)));
-        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTSTRING_LITERAL) {
+        } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTSTRINGLITERAL) {
             return new StringLiteral(stringLiteral((SimpleNode) node
                     .jjtGetChild(0)));
         }
@@ -828,11 +804,11 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
      * @return the parameter
      */
     private Parameter parameter(final SimpleNode node) {
-        if (((SimpleNode) node.jjtGetChild(0)).id == JJTPOSITIONAL_PARAMETER
-                || ((SimpleNode) node.jjtGetChild(0)).id == JJTCASTOR_PARAMETER) {
+        if (((SimpleNode) node.jjtGetChild(0)).id == JJTPOSITIONALPARAMETER
+                || ((SimpleNode) node.jjtGetChild(0)).id == JJTCASTORPARAMETER) {
             return positionalParameter((SimpleNode) node.jjtGetChild(0));
         }
-        if (((SimpleNode) node.jjtGetChild(0)).id == JJTNAMED_PARAMETER) {
+        if (((SimpleNode) node.jjtGetChild(0)).id == JJTNAMEDPARAMETER) {
             return namedParameter((SimpleNode) node.jjtGetChild(0));
         }
         return null;
