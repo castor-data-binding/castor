@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<document url="http://castor.codehaus.org/support.xml">
+<document url="support.xml">
   <body>
     <title>Castor Support</title>
 
@@ -18,15 +18,14 @@
         <a href="#Documentation">documentation</a> is the best place to start.
         If you have trouble or have more advanced questions not available in the
         online documentation, then please consider subscribing to one of the
-        various available <a href="lists.xml">mailing lists</a> or join the
-        <a href="/phpBB2">Castor Forums</a>. In general, the lists and forums
+        various available <a href="lists.xml">mailing lists</a>. In general, the lists 
         are the best place to ask questions about the product.
       </p>
 
       <p>
-        We moved to <a href="http://www.codehaus.org">the Codehaus</a> in
+        We moved to <a href="http://www.codehaus.org">The Codehaus</a> in
         January 2005, and we greatly benefit from the infrastructure available
-        at this site.  Due to this, we are in a position to offer you additonal
+        at this site.  Due to this, we are in a position to offer you additional
         communication channels:
       </p>
 
@@ -42,7 +41,7 @@
 
       <p>
         Please note, though, that for problems of any kind, you should still use
-        one of the mailing list as your prefered way of communicating to us, as
+        one of the mailing list as your preferred way of communicating to us, as
         this enables other users to browse through old email at one of the
         available mailing list archives.
       </p>
