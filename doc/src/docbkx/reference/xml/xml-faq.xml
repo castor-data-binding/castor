@@ -3,7 +3,45 @@
 "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 <section>
 	<title>XML FAQ</title>
-	<section>
+   
+    <para>
+        This section provides answers to frequently answered questions, i.e.
+        questions that have been asked repeatedly on one of the mailing 
+        lists. Please check with these F.A.Q.s frequently, as addressing questions
+        that have been answered in the past already again and again places
+        an unnecessary burden on the committers/contributors. 
+    </para>
+    
+    <para>
+        This section is structured along the lines of the following areas ...
+        
+    </para>
+    
+    <itemizedlist>
+        <listitem>
+            <para><xref linkend="xml.faq.general"/></para>
+        </listitem>
+        <listitem>
+            <para><xref linkend="xml.faq.introspection"/></para>
+        </listitem>
+        <listitem>
+            <para><xref linkend="xml.faq.mapping"/></para>
+        </listitem>
+        <listitem>
+            <para><xref linkend="xml.faq.marshalling"/></para>
+        </listitem>
+        <listitem>
+            <para><xref linkend="xml.faq.generation"/></para>
+        </listitem>
+        <listitem>
+            <para><xref linkend="xml.faq.misc"/></para>
+        </listitem>
+        <listitem>
+            <para><xref linkend="xml.faq.serialization"/></para>
+        </listitem>
+    </itemizedlist> 
+    
+	<section id="xml.faq.general">
 		<title>General</title>
 		<section>
 			<title>How do I set the encoding?</title>
@@ -259,7 +297,7 @@
 	</section>
 
 
-	<section>
+	<section id="xml.faq.introspection">
 		<title>Introspection</title>
 		<section>
 			<title>Can private methods be introspected?</title>
@@ -272,7 +310,7 @@
 		</section>
 	</section>
 
-	<section>
+	<section id="xml.faq.mapping">
 		<title>Mapping</title>
 		<section>
 			<title>My mapping file seems to have no effect!</title>
@@ -348,7 +386,7 @@
 	</section>
 
 
-	<section>
+	<section id="xml.faq.marshalling">
 		<title>Marshalling</title>
 		<section>
 			<title>
@@ -375,27 +413,28 @@
 				Note: This will slow down the marshalling process
 			</para>
 		</section>
+      
+      	<section>
+      		<title>What is the order of the marshalled XML elements?</title>
+      		<para>
+      			If you are using Castor's default introspection to
+      			automatically map the objects into XML, then there is no
+      			guarantee on the order. It simply depends on the order in
+      			which the fields are returned to Castor using the Java
+      			reflection API.
+      		</para>
+      
+      		<para>
+      			Note: If you use a mapping file Castor will generate the XML
+      			in the order in which the mapping file is specified.
+      		</para>
+      		<!-- FIXME:  Waht about srcgen? -->
+      	</section>
+         
 	</section>
 
-	<section>
-		<title>What is the order of the marshalled XML elements?</title>
-		<para>
-			If you are using Castor's default introspection to
-			automatically map the objects into XML, then there is no
-			guarantee on the order. It simply depends on the order in
-			which the fields are returned to Castor using the Java
-			reflection API.
-		</para>
-
-		<para>
-			Note: If you use a mapping file Castor will generate the XML
-			in the order in which the mapping file is specified.
-		</para>
-		<!-- FIXME:  Waht about srcgen? -->
-	</section>
-
-	<section>
-		<title>Source Code Generator</title>
+	<section id="xml.faq.generation">
+		<title>Source code generation</title>
 		<section>
 			<title>Can I use a DTD with the source generator?</title>
 			<para>
@@ -521,7 +560,7 @@
 		</section>
 	</section>
 
-	<section>
+	<section id="xml.faq.misc">
 		<title>Miscellaneous</title>
 		<section>
 			<title>
@@ -605,19 +644,20 @@
 		</section>
 	</section>
 
-	<section>
+	<section id="xml.faq.serialization">
 		<title>Serialization</title>
 
 		<section>
 			<title>
-				Is it true that the use of Castor XML mandates Xerces as
+				Is it true that the use of Castor XML mandates 
+                <ulink url="http://xerces.apache.org">Apache Xerces</ulink> as
 				XML parser?
 			</title>
 
 			<para>
 				Yes and no. It actually depends. When requiring
 				<emphasis role="italic">pretty printing</emphasis>
-				during marshalling, Castor will internally use Apache's
+				during marshalling, Castor internally relies on Apache's
 				Xerces to implement this feature. As such, when not
 				using this feature, Xerces is not a requirement, and any
 				JAXP-compliant XML parser can be used (for
