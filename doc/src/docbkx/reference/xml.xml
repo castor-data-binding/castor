@@ -7,11 +7,11 @@
     <xi:include href="xml/xml-framework.xml" />
     <xi:include href="xml/xml2.xml" />
     <xi:include href="xml/xml-parsers.xml" />
-    <xi:include href="xml/xml-howto.xml" />
-    <xi:include href="xml/xml-faq.xml" />
     <xi:include href="xml/xml-properties.xml" />
     <xi:include href="xml/xml-tips-tricks.xml" />
     <xi:include href="xml/xml-fieldhandlers.xml" />
     <xi:include href="xml/best-practise.xml" />
+    <xi:include href="xml/xml-howto.xml" />
+    <xi:include href="xml/xml-faq.xml" />
 
 </chapter>
