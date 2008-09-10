@@ -16,13 +16,13 @@
 				the Writer is set properly as well:
 			</para>
 			<programlisting language="java">
-				...
-				String encoding = "ISO-8859-1";
-				FileOutputStream fos = new FileOutputStream("result.xml");
-				OutputStreamWriter osw = new OuputStreamWriter(fos, encoding);
-				Marshaller marshaller = new Marshaller(osw);
-				marshaller.setEncoding(encoding);
-				...
+ ...
+ String encoding = "ISO-8859-1";
+ FileOutputStream fos = new FileOutputStream("result.xml");
+ OutputStreamWriter osw = new OuputStreamWriter(fos, encoding);
+ Marshaller marshaller = new Marshaller(osw);
+ marshaller.setEncoding(encoding);
+ ...
 			</programlisting>
 		</section>
 
@@ -69,16 +69,16 @@
 				file, change the following line:
 			</para>
 			<programlisting language="java">
-				org.exolab.castor.parser.namespaces=false
+ org.exolab.castor.parser.namespaces=false
 			</programlisting>
 			<para>to:</para>
 			<programlisting language="java">
-				org.exolab.castor.parser.namespaces=true
+ org.exolab.castor.parser.namespaces=true
 			</programlisting>
 			<note>
 				<para>
 					This work-around has only been tested with
-					Xerces 2.5.
+					Xerces 2.5 and above.
 				</para>
 			</note>
 		</section>
@@ -100,14 +100,14 @@
 				<listitem>
 					<para>Cache the descriptors!</para>
 					<programlisting language="java">
-						import org.exolab.castor.xml.ClassDescriptorResolver;
-						import org.exolab.castor.xml.Unmarshaller;
-						import org.exolab.castor.xml.util.ClassDescriptorResolverImpl;
-						...
-						ClassDescriptorResolver cdr = new ClassDescriptorResovlerImpl(); 
-						...
-						Unmarshaller unm = new Unmarshaller(...);
-						unm.setResolver(cdr);
+ import org.exolab.castor.xml.ClassDescriptorResolver;
+ import org.exolab.castor.xml.Unmarshaller;
+ import org.exolab.castor.xml.util.ClassDescriptorResolverImpl;
+ ...
+ ClassDescriptorResolver cdr = new ClassDescriptorResovlerImpl(); 
+ ...
+ Unmarshaller unm = new Unmarshaller(...);
+ unm.setResolver(cdr);
 					</programlisting>
 					<para>
 						By reusing the same <classname>ClassDescriptorResolver</classname> any
@@ -119,7 +119,7 @@
 				<listitem>
 					<para>Disable validation</para>
 					<programlisting language="java">
-						unm.setValidation(false);
+ unm.setValidation(false);
 					</programlisting>
 				</listitem>
 				<listitem>
@@ -134,11 +134,11 @@
 						set object reuse to true...
 					</para>
 					<programlisting language="java">
-						Unmarshaller unm = new
-						Unmarshaller(myObjectRoot);
+ Unmarshaller unm = new
+ Unmarshaller(myObjectRoot);
 					</programlisting>
 					<programlisting language="java">
-						unm.setReuseObjects(true);
+ unm.setReuseObjects(true);
 					</programlisting>
 				</listitem>
 				<listitem>
@@ -178,8 +178,8 @@
 						method:
 					</para>
 					<programlisting language="java">
-						Unmarshaller unm = new Unmarshaller(...);
-						unm.setIgnoreExtraElements(true);
+ Unmarshaller unm = new Unmarshaller(...);
+ unm.setIgnoreExtraElements(true);
 					</programlisting>
 					<para>
 						If any elements appear in the XML instance that
@@ -198,7 +198,7 @@
 						file:
 					</para>
 					<programlisting language="java">
-						org.exolab.castor.xml.strictelements=false
+ org.exolab.castor.xml.strictelements=false
 					</programlisting>
 				</listitem>
 			</itemizedlist>
@@ -310,7 +310,7 @@
 				of the bind-xml name attribute as such:
 			</para>
 			<programlisting language="java">
-				&lt;bind-xml name="foo:bar" xmlns:foo="http://www.acme.com/foo"/&gt;
+ &lt;bind-xml name="foo:bar" xmlns:foo="http://www.acme.com/foo"/&gt;
 			</programlisting>
 			<para>
 				Note: The namespace prefix is only used for
@@ -337,7 +337,7 @@
 			</para>
 
 			<programlisting language="java">
-				&lt;bind-xml transient="true"/&gt;
+ &lt;bind-xml transient="true"/&gt;
 			</programlisting>
 
 			<para>
@@ -366,9 +366,9 @@
 			</para>
 
 			<programlisting language="java">
-				# True if all documents should be indented on output by default
-				#
-				#org.exolab.castor.indent=true
+ # True if all documents should be indented on output by default
+ #
+ #org.exolab.castor.indent=true
 			</programlisting>
 
 			<para>
@@ -437,11 +437,11 @@
 				Castor generates the following:
 			</para>
 			<programlisting language="java">
-				import types.Foo;
+ import types.Foo;
 			</programlisting>
 			<para>instead of:</para>
 			<programlisting language="java">
-				import com.acme.types.Foo;
+ import com.acme.types.Foo;
 			</programlisting>
 			<para>
 				This usually happens when the namespaces for the
@@ -505,7 +505,7 @@
 			</para>
 
 			<programlisting language="java">
-				org.exolab.castor.builder.extraCollectionMethods=true
+ org.exolab.castor.builder.extraCollectionMethods=true
 			</programlisting>
 
 			<para>
@@ -547,10 +547,10 @@
 			</para>
 
 			<programlisting language="java">
-				org.exolab.castor.parser.namespaces=true
-				org.exolab.castor.sax.features=http://xml.org/sax/features/validation,\
-				http://apache.org/xml/features/validation/schema,\
-				http://apache.org/xml/features/validation/schema-full-checking
+ org.exolab.castor.parser.namespaces=true
+ org.exolab.castor.sax.features=http://xml.org/sax/features/validation,\
+ http://apache.org/xml/features/validation/schema,\
+ http://apache.org/xml/features/validation/schema-full-checking
 			</programlisting>
 
 			<para>
@@ -573,13 +573,13 @@
 			</para>
 
 			<programlisting language="java">
-				Mapping mapping = ... ;
-				FieldHandlerFactoyt factory = ...;
-				Marshaller m = new Marshaller(writer);
-				ClassDescriptorResolverImpl cdr = new ClassDescriptorResolverImpl();
-				cdr.getIntrospector().addFieldHandlerFactory(factory);
-				m.setResolver(cdr);
-				<emphasis role="bold">marshaller.setMapping(mapping)</emphasis>;
+ Mapping mapping = ... ;
+ FieldHandlerFactoyt factory = ...;
+ Marshaller m = new Marshaller(writer);
+ ClassDescriptorResolverImpl cdr = new ClassDescriptorResolverImpl();
+ cdr.getIntrospector().addFieldHandlerFactory(factory);
+ m.setResolver(cdr);
+ <emphasis role="bold">marshaller.setMapping(mapping)</emphasis>;
 			</programlisting>
 
 			<para>
@@ -654,17 +654,17 @@
 				file (thus redefining the default value) as shown below:
 			</para>
 			<programlisting language="java">
-				# Defines the XML parser to be used by Castor. 
-				# The parser must implement org.xml.sax.Parser.
-				org.exolab.castor.parser=org.xml.sax.helpers.XMLReaderAdapter
-				
-				# Defines the (default) XML serializer factory to use by Castor, which must
-				# implement org.exolab.castor.xml.SerializerFactory; default is
-				# org.exolab.castor.xml.XercesXMLSerializerFactory
-				org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSerializerFactory
+ # Defines the XML parser to be used by Castor. 
+ # The parser must implement org.xml.sax.Parser.
+ org.exolab.castor.parser=org.xml.sax.helpers.XMLReaderAdapter
 
-				# Defines the default XML parser to be used by Castor.
-				org.exolab.castor.parser=com.sun.org.apache.xerces.internal.parsers.SAXParser
+ # Defines the (default) XML serializer factory to use by Castor, which must
+ # implement org.exolab.castor.xml.SerializerFactory; default is
+ # org.exolab.castor.xml.XercesXMLSerializerFactory
+ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSerializerFactory
+
+ # Defines the default XML parser to be used by Castor.
+ org.exolab.castor.parser=com.sun.org.apache.xerces.internal.parsers.SAXParser
 			</programlisting>
 		</section>
 
