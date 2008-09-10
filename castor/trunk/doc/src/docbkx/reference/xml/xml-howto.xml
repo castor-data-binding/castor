@@ -11,10 +11,7 @@
 			This is a collection of HOW-TOs. The Castor project is
 			actively seeking additional HOW-TO contributors to expand
 			this collection. For information on how to do that, please
-			see 'How to write a How-to'. Note that document titles
-			<font color="lightgrey">in light grey</font>
-			identify documents that do not exist yet and are thus in
-			search of an author.
+			see 'How to write a How-to'.
 		</para>
 	</section>
 
@@ -23,32 +20,26 @@
 		<itemizedlist>
 			<listitem>
 				<para>
-					<font color="lightgrey">
-						How to Author a How-To
-					</font>
-					<emphasis role="italic">(Author wanted!)</emphasis>
+					How to Author a How-To
+					<emphasis role="bold">(Author wanted!)</emphasis>
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					<font color="lightgrey">How to Author an FAQ</font>
-					<emphasis role="italic">(Author wanted!)</emphasis>
+					How to Author an FAQ
+					<emphasis role="bold">(Author wanted!)</emphasis>
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					<font color="lightgrey">
-						How to Author a Code Snippet
-					</font>
-					<emphasis role="italic">(Author wanted!)</emphasis>
+					How to Author a Code Snippet
+					<emphasis role="bold">(Author wanted!)</emphasis>
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					<font color="lightgrey">
-						How to Author Core Documentation
-					</font>
-					<emphasis role="italic">(Author wanted!)</emphasis>
+					How to Author Core Documentation
+					<emphasis role="bold">(Author wanted!)</emphasis>
 				</para>
 			</listitem>
 		</itemizedlist>
@@ -59,33 +50,29 @@
 		<itemizedlist>
 			<listitem>
 				<para>
-					<a href="how-to-submit-an-xml-bug.html">
+					<ulink url="http://www.castor.org/how-to-submit-an-xml-bug.html">
 						How to submit an XML-specific bug report
-					</a>
+					</ulink>
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					<a href="how-to-prepare-a-patch.html">
+					<ulink url="http://www.castor.org/how-to-prepare-a-patch.html">
 						How to prepare a patch
-					</a>
+					</ulink>
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					<font color="lightgrey">
-						How to Contribute a Patch via Jira
-						<emphasis role="italic">
-							(Author wanted!)
-						</emphasis>
-					</font>
+					How to Contribute a Patch via Jira
+					<emphasis role="bold">(Author wanted!)</emphasis>
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					<a href="how-to-run-xml-ctf-suite.html">
+					<ulink url="http://www.castor.org/how-to-run-xml-ctf-suite.html">
 						How to run Castor XML's test suite
-					</a>
+					</ulink>
 				</para>
 			</listitem>
 		</itemizedlist>
@@ -96,101 +83,95 @@
 		<itemizedlist>
 			<listitem>
 				<para>
-					<a href="how-to-use-XMLContext.html">
+					<ulink url="http://www.castor.org/how-to-use-XMLContext.html">
 						How to use XMLContext for un-/marshalling
-					</a>
+					</ulink>
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					<a href="how-to-map-a-collection.html">
+					<ulink url="http://www.castor.org/how-to-map-a-collection.html">
 						How to map a collection of elements
-					</a>
+					</ulink>
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					<a href="how-to-map-a-hashtable.html">
+					<ulink url="http://www.castor.org/how-to-map-a-hashtable.html">
 						How to map a map/hashtable of elements
-					</a>
+					</ulink>
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					<a href="how-to-map-a-list-at-root.html">
+					<ulink url="http://www.castor.org/how-to-map-a-list-at-root.html">
 						How to map a list of elements at the root
-					</a>
+					</ulink>
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					<a
-						href="how-to-map-a-class-with-constructors.html">
+					<ulink url="http://www.castor.org/how-to-map-a-class-with-constructors.html">
 						How to map constructor arguments
-					</a>
+					</ulink>
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					<a href="how-to-map-an-inner-class.html">
+					<ulink url="http://www.castor.org/how-to-map-an-inner-class.html">
 						How to map an inner class
-					</a>
+					</ulink>
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					<a href="how-to-unmarshal-raw-xml.html">
+					<ulink url="http://www.castor.org/how-to-unmarshal-raw-xml.html">
 						How to Unmarshal raw XML segments into arbitrary
 						types
-					</a>
+					</ulink>
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					<a href="how-to-use-references-in-xml.html">
+					<ulink url="http://www.castor.org/how-to-use-references-in-xml.html">
 						How to use references in XML and Castor
-					</a>
+					</ulink>
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					<a
-						href="how-to-wrap-a-collection-with-a-wrapper-element.html">
+					<ulink url="http://www.castor.org/how-to-wrap-a-collection-with-a-wrapper-element.html">
 						How to wrap a collection with a wrapper element
-					</a>
+					</ulink>
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					<a
-						href="how-to-prevent-collection-from-being-exposed.html">
+					<ulink url="http://www.castor.org/how-to-prevent-collection-from-being-exposed.html">
 						How to prevent a collection from being exposed
-					</a>
+					</ulink>
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					<a
-						href="how-to-write-a-configurablefieldhandler.html">
+					<ulink url="http://www.castor.org/how-to-write-a-configurablefieldhandler.html">
 						How to write a configurable field handler
-					</a>
+					</ulink>
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					<a
-						href="how-to-map-both-structure-and-content.html">
+					<ulink url="http://www.castor.org/how-to-map-both-structure-and-content.html">
 						How to map text content
-					</a>
+					</ulink>
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					<a
-						href="how-to-work-with-wrapper-elements-around-collections.html">
+					<ulink url="http://www.castor.org/how-to-work-with-wrapper-elements-around-collections.html">
 						How to work with wrapper elements around
 						collections
-					</a>
+					</ulink>
 				</para>
 			</listitem>
 		</itemizedlist>
@@ -201,9 +182,9 @@
 		<itemizedlist>
 			<listitem>
 				<para>
-					<a href="how-to-enable-xml-validation.html">
+					<ulink url="http://www.castor.org/how-to-enable-xml-validation.html">
 						How to use XML validation
-					</a>
+					</ulink>
 				</para>
 			</listitem>
 		</itemizedlist>
@@ -214,10 +195,9 @@
 		<itemizedlist>
 			<listitem>
 				<para>
-					<a
-						href="how-to-use-a-binding-file-with-source-generation.html">
+					<ulink url="http://www.castor.org/how-to-use-a-binding-file-with-source-generation.html">
 						How to use a binding file with source generation
-					</a>
+					</ulink>
 				</para>
 			</listitem>
 		</itemizedlist>
@@ -228,24 +208,23 @@
 		<itemizedlist>
 			<listitem>
 				<para>
-					<a href="how-to-implement-custom-serializer.html">
+					<ulink url="http://www.castor.org/how-to-implement-custom-serializer.html">
 						How to implement a custom serializer
-					</a>
+					</ulink>
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					<a
-						href="how-to-fetch-dtds-and-schemas-from-jars.html">
+					<ulink url="http://www.castor.org/how-to-fetch-dtds-and-schemas-from-jars.html">
 						How to fetch DTDs and XML Schemas from JAR files
-					</a>
+					</ulink>
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					<a href="how-to-map-hibernate-proxies.html">
+					<ulink url="http://www.castor.org/how-to-map-hibernate-proxies.html">
 						How to marshal Hibernate proxies
-					</a>
+					</ulink>
 				</para>
 			</listitem>
 		</itemizedlist>
