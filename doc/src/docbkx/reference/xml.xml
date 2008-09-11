@@ -6,6 +6,7 @@
     
     <xi:include href="xml/xml-framework.xml" />
     <xi:include href="xml/xml-mapping.xml" />
+    <xi:include href="xml/xml-configuration.xml" />
     <xi:include href="xml/xml-parsers.xml" />
     <xi:include href="xml/xml-properties.xml" />
     <xi:include href="xml/xml-tips-tricks.xml" />
