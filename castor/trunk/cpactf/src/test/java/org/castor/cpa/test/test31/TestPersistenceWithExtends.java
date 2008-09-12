@@ -31,6 +31,7 @@ public final class TestPersistenceWithExtends extends CPATestCase {
     private static final Log LOG = LogFactory.getLog(TestPersistenceWithExtends.class);
 
     private static final String DBNAME = "test31";
+    private static final String MAPPING = "/org/castor/cpa/test/test31/mapping.xml";
     
     private Database _db;
     
@@ -44,7 +45,7 @@ public final class TestPersistenceWithExtends extends CPATestCase {
     }
 
     public void setUp() throws Exception {
-        _db = getJDOManager(DBNAME).getDatabase();
+        _db = getJDOManager(DBNAME, MAPPING).getDatabase();
         
         reset();
     }

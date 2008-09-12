@@ -11,6 +11,7 @@ import org.exolab.castor.jdo.Database;
 
 public final class Test2177 extends CPATestCase {
     private static final String DBNAME = "test2177";
+    private static final String MAPPING = "/org/castor/cpa/test/test2177/mapping.xml";
 
     public static Test suite() {
         TestSuite suite = new TestSuite(Test2177.class.getName());
@@ -24,7 +25,7 @@ public final class Test2177 extends CPATestCase {
     }
 
     
-    public boolean include(DatabaseEngineType engine) {
+    public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL 
                 || engine == DatabaseEngineType.DERBY);
     }
@@ -59,7 +60,7 @@ public final class Test2177 extends CPATestCase {
     }
     
     public void testLoadEntity1() throws Exception {
-        Database db = getJDOManager(DBNAME).getDatabase();
+        Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
         
         Entity entity = (Entity) db.load(Entity.class, new Integer(1));
@@ -74,7 +75,7 @@ public final class Test2177 extends CPATestCase {
     }
 
     public void testCreateEntity2() throws Exception {
-        Database db = getJDOManager(DBNAME).getDatabase();
+        Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
         
         Entity entity = new Entity();
@@ -88,7 +89,7 @@ public final class Test2177 extends CPATestCase {
     }
 
     public void testUpdateEntity2() throws Exception {
-        Database db = getJDOManager(DBNAME).getDatabase();
+        Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
         
         Entity entity = (Entity) db.load(Entity.class, new Integer(2));
@@ -105,7 +106,7 @@ public final class Test2177 extends CPATestCase {
     }
 
     public void testDeleteEntity2() throws Exception {
-        Database db = getJDOManager(DBNAME).getDatabase();
+        Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
         
         Entity entity = (Entity) db.load(Entity.class, new Integer(2));

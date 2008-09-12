@@ -18,6 +18,7 @@ public final class Test1355 extends CPATestCase {
     private static final Log LOG = LogFactory.getLog(Test1355.class);
     
     private static final String DBNAME = "test1355";
+    private static final String MAPPING = "/org/castor/cpa/test/test1355/mapping.xml";
 
     public static Test suite() {
         TestSuite suite = new TestSuite(Test1355.class.getName());
@@ -41,7 +42,7 @@ public final class Test1355 extends CPATestCase {
      * Load
      */
     public void testLoadLazyCollectionWithoutLazyOneToOne() throws Exception {
-        Database database = getJDOManager(DBNAME).getDatabase();
+        Database database = getJDOManager(DBNAME, MAPPING).getDatabase();
         database.begin();
 
         String oql = "SELECT o FROM " + GolfCourse.class.getName() + " o WHERE id=$1";
@@ -77,7 +78,7 @@ public final class Test1355 extends CPATestCase {
      * Load
      */
     public void testLoadLazyCollectionWithLazyOneToOne() throws Exception {
-        Database database = getJDOManager(DBNAME).getDatabase();
+        Database database = getJDOManager(DBNAME, MAPPING).getDatabase();
         database.begin();
 
         String oql = "SELECT o FROM " + GolfCourse.class.getName() + " o WHERE id=$1";

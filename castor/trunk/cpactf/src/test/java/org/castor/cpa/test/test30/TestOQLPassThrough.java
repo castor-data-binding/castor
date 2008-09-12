@@ -31,6 +31,7 @@ public final class TestOQLPassThrough extends CPATestCase {
     private static final Log LOG = LogFactory.getLog(TestOQLPassThrough.class);
     
     private static final String DBNAME = "test30";
+    private static final String MAPPING = "/org/castor/cpa/test/test30/mapping.xml";
     
     private Database _db;
     
@@ -44,7 +45,7 @@ public final class TestOQLPassThrough extends CPATestCase {
     }
     
     public void setUp() throws Exception {
-       _db = getJDOManager(DBNAME).getDatabase();
+       _db = getJDOManager(DBNAME, MAPPING).getDatabase();
 
         reset();
     }

@@ -15,6 +15,7 @@ import org.exolab.castor.jdo.QueryResults;
 
 public final class Test881 extends CPATestCase {
     private static final String DBNAME = "test881";
+    private static final String MAPPING = "/org/castor/cpa/test/test881/mapping.xml";
 
     public static Test suite() {
         TestSuite suite = new TestSuite(Test881.class.getName());
@@ -39,7 +40,7 @@ public final class Test881 extends CPATestCase {
     }
     
     public void testLoadConfA() throws Exception {
-        JdoConf aConf = createJdoConfA(getJdoConf(DBNAME));
+        JdoConf aConf = createJdoConfA(getJdoConf(DBNAME, MAPPING));
         JDOManager.loadConfiguration(aConf, getJdoConfBaseURL());
 
         executeQuery(JDOManager.createInstance(DBNAME + "-a").getDatabase());
@@ -48,7 +49,7 @@ public final class Test881 extends CPATestCase {
     }
 
     public void testLoadConfB() throws Exception {
-        JdoConf bConf = createJdoConfB(getJdoConf(DBNAME));
+        JdoConf bConf = createJdoConfB(getJdoConf(DBNAME, MAPPING));
         JDOManager.loadConfiguration(bConf, getJdoConfBaseURL());
 
         executeQuery(JDOManager.createInstance(DBNAME + "-b").getDatabase());
@@ -57,7 +58,7 @@ public final class Test881 extends CPATestCase {
     }
 
     public void testLoadConfAB() throws Exception {
-        JdoConf abConf = createJdoConfAB(getJdoConf(DBNAME));
+        JdoConf abConf = createJdoConfAB(getJdoConf(DBNAME, MAPPING));
         JDOManager.loadConfiguration(abConf, getJdoConfBaseURL());
 
         executeQuery(JDOManager.createInstance(DBNAME + "-a").getDatabase());
@@ -71,9 +72,9 @@ public final class Test881 extends CPATestCase {
         // Load configuration for A first followed by B.
         // Why should this behave different as loading A and B
         // from one configuration containing both?
-        JdoConf aConf = createJdoConfA(getJdoConf(DBNAME));
+        JdoConf aConf = createJdoConfA(getJdoConf(DBNAME, MAPPING));
         JDOManager.loadConfiguration(aConf, getJdoConfBaseURL());
-        JdoConf bConf = createJdoConfB(getJdoConf(DBNAME));
+        JdoConf bConf = createJdoConfB(getJdoConf(DBNAME, MAPPING));
         JDOManager.loadConfiguration(bConf, getJdoConfBaseURL());
 
         executeQuery(JDOManager.createInstance(DBNAME + "-a").getDatabase());
@@ -89,9 +90,9 @@ public final class Test881 extends CPATestCase {
         // What shell we do with the second configuration containg A and B?
         // Ignore it completely, only ignore second configuration of B or
         // or replace the first configuration of B with the second one.
-        JdoConf bConf = createJdoConfB(getJdoConf(DBNAME));
+        JdoConf bConf = createJdoConfB(getJdoConf(DBNAME, MAPPING));
         JDOManager.loadConfiguration(bConf, getJdoConfBaseURL());
-        JdoConf abConf = createJdoConfAB(getJdoConf(DBNAME));
+        JdoConf abConf = createJdoConfAB(getJdoConf(DBNAME, MAPPING));
         JDOManager.loadConfiguration(abConf, getJdoConfBaseURL());
 
         executeQuery(JDOManager.createInstance(DBNAME + "-a").getDatabase());
@@ -107,9 +108,9 @@ public final class Test881 extends CPATestCase {
         // What shell we do with the second configuration containg A?
         // Ignore it completely, only ignore second configuration of A or
         // or replace the first configuration of A with the second one.
-        JdoConf abConf = createJdoConfAB(getJdoConf(DBNAME));
+        JdoConf abConf = createJdoConfAB(getJdoConf(DBNAME, MAPPING));
         JDOManager.loadConfiguration(abConf, getJdoConfBaseURL());
-        JdoConf aConf = createJdoConfA(getJdoConf(DBNAME));
+        JdoConf aConf = createJdoConfA(getJdoConf(DBNAME, MAPPING));
         JDOManager.loadConfiguration(aConf, getJdoConfBaseURL());
 
         executeQuery(JDOManager.createInstance(DBNAME + "-a").getDatabase());

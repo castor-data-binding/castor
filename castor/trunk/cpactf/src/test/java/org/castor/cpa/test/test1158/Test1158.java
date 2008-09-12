@@ -33,6 +33,7 @@ public final class Test1158 extends CPATestCase {
     private static final Log LOG = LogFactory.getLog(Test1158.class);
     
     private static final String DBNAME = "test1158";
+    private static final String MAPPING = "/org/castor/cpa/test/test1158/mapping.xml";
 
     public static Test suite() {
         TestSuite suite = new TestSuite(Test1158.class.getName());
@@ -54,7 +55,7 @@ public final class Test1158 extends CPATestCase {
     
     public void testLoad() {
         try {
-            Database db = getJDOManager(DBNAME).getDatabase();
+            Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
             db.begin();
             try {
                 db.load(ExtendedObject.class, new Integer(1));
@@ -76,7 +77,7 @@ public final class Test1158 extends CPATestCase {
     
     public void testSave() {
         try {
-            Database db = getJDOManager(DBNAME).getDatabase();
+            Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
             db.begin();
             try {
                 ExtendedObject obj1 = (ExtendedObject) db.load(

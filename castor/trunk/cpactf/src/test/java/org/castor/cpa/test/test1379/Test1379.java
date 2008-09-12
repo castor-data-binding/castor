@@ -12,6 +12,7 @@ public class Test1379 extends CPATestCase {
     private static final Log LOG = LogFactory.getLog(Test1379.class);
     
     private static final String DBNAME = "test1379";
+    private static final String MAPPING = "/org/castor/cpa/test/test1379/mapping.xml";
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL 
@@ -23,7 +24,7 @@ public class Test1379 extends CPATestCase {
         Product       product;
         QueryResults  results;
 
-        Database db = getJDOManager(DBNAME).getDatabase();
+        Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
 
         removeProduct(db);
         removeComputer(db);

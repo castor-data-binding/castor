@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Ralf Joachim
+ * Copyright 2005 Werner Guttmann, Ralf Joachim
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package org.castor.cpa.test.test356;
 
+import java.text.MessageFormat;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -23,7 +25,6 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.cpa.test.framework.CPATestCase;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.castor.jdo.conf.JdoConf;
-import org.castor.jdo.util.JDOConfFactory;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.JDOManager;
 import org.exolab.castor.jdo.OQLQuery;
@@ -37,6 +38,7 @@ public final class Test356 extends CPATestCase {
     private static final Log LOG = LogFactory.getLog(Test356.class);
     
     private static final String DBNAME = "test356";
+    private static final String MAPPING = "/org/castor/cpa/test/test356/mapping-{0}.xml";
 
     public static Test suite() {
         TestSuite suite = new TestSuite(Test356.class.getName());
@@ -202,18 +204,7 @@ public final class Test356 extends CPATestCase {
     }
     
     private JdoConf createJdoConf(final String extension) {
-        JdoConf orgConf = getJdoConf(DBNAME);
-        org.castor.jdo.conf.Database orgDB = orgConf.getDatabase(0);
-        
-        org.castor.jdo.conf.Mapping newMap = new org.castor.jdo.conf.Mapping();
-        newMap.setHref("/org/castor/cpa/test/test356/mapping-" + extension + ".xml");
-        
-        org.castor.jdo.conf.Database newDB = new org.castor.jdo.conf.Database();
-        newDB.setName(DBNAME + "-" + extension);
-        newDB.setEngine(orgDB.getEngine());
-        newDB.setDatabaseChoice(orgDB.getDatabaseChoice());
-        newDB.addMapping(newMap);
-        
-        return JDOConfFactory.createJdoConf(newDB, orgConf.getTransactionDemarcation());
+        String mapping = MessageFormat.format(MAPPING, new Object[] {extension});
+        return getJdoConf(DBNAME + "-" + extension, mapping);
     }
 }
