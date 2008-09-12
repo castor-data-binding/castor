@@ -78,6 +78,14 @@ public abstract class CPATestCase extends TestCase {
         return _registry.createJdoConf(name, _database, _transaction);
     }
     
+    public static final JdoConf getJdoConf(final String name, final String mapping) {
+        return getJdoConf(name, new String[] {mapping});
+    }
+    
+    public static final JdoConf getJdoConf(final String name, final String[] mappings) {
+        return _registry.createJdoConf(name, _database, _transaction, mappings);
+    }
+    
     public static final JDOManager getJDOManager(final String name)
     throws MappingException {
         if (!DatabaseRegistry.isDatabaseRegistred(name)) {

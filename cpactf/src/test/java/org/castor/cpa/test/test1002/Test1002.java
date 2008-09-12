@@ -33,6 +33,7 @@ public final class Test1002 extends CPATestCase {
     private static final Log LOG = LogFactory.getLog(Test1002.class);
     
     private static final String DBNAME = "test1002";
+    private static final String MAPPING = "/org/castor/cpa/test/test1002/mapping.xml";
 
     private Object _memInitFlag;
     
@@ -62,7 +63,7 @@ public final class Test1002 extends CPATestCase {
     
     public void testLoad() {
         try {
-            JdoConf jdoConf = createJdoConf(getJdoConf(DBNAME));
+            JdoConf jdoConf = createJdoConf(getJdoConf(DBNAME, MAPPING));
             JDOManager.loadConfiguration(jdoConf, getJdoConfBaseURL());
         } catch (Exception ex) {
             LOG.error(ex.getMessage(), ex);

@@ -32,6 +32,7 @@ public final class TestOQLCountFunction extends CPATestCase {
     private static final Log LOG = LogFactory.getLog(TestOQLCountFunction.class);
     
     private static final String DBNAME = "test30";
+    private static final String MAPPING = "/org/castor/cpa/test/test30/mapping.xml";
     
     private static final int MIN_ID = 10;
     private static final int MAX_ID = 29;
@@ -50,7 +51,7 @@ public final class TestOQLCountFunction extends CPATestCase {
     }
 
    public void setUp() throws Exception {
-        _db = getJDOManager(DBNAME).getDatabase();
+        _db = getJDOManager(DBNAME, MAPPING).getDatabase();
 
         reset();
    }

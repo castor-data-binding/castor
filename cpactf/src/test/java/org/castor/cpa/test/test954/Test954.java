@@ -47,6 +47,7 @@ public final class Test954 extends CPATestCase {
     private static final Log LOG = LogFactory.getLog(Test954.class);
     
     private static final String DBNAME = "test954";
+    private static final String MAPPING = "/org/castor/cpa/test/test954/mapping.xml";
 
     private Connection _connection;
     
@@ -76,7 +77,7 @@ public final class Test954 extends CPATestCase {
 
         AbstractConnectionFactory factory = null;
         
-        JdoConf jdoConf = getJdoConf(DBNAME);
+        JdoConf jdoConf = getJdoConf(DBNAME, MAPPING);
         if (jdoConf.getDatabase(0).getDatabaseChoice().getDriver() != null) {
             factory = new DriverConnectionFactory(jdoConf, 0, null);
         } else if (jdoConf.getDatabase(0).getDatabaseChoice().getDataSource() != null) {

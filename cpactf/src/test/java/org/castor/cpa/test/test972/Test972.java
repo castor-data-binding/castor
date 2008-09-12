@@ -16,6 +16,7 @@ public final class Test972 extends CPATestCase {
     private static final Log LOG = LogFactory.getLog(Test972.class);
     
     private static final String DBNAME = "test972";
+    private static final String MAPPING = "/org/castor/cpa/test/test972/mapping.xml";
 
     public static Test suite() {
         TestSuite suite = new TestSuite(Test972.class.getName());
@@ -40,7 +41,7 @@ public final class Test972 extends CPATestCase {
         ProductGroup  group;
         QueryResults  results;
 
-        Database db = getJDOManager(DBNAME).getDatabase();
+        Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
 
         db.begin();
         LOG.info("Begin transaction to remove Product objects");
@@ -142,7 +143,7 @@ public final class Test972 extends CPATestCase {
     }
 
     public void testRollback() throws Exception {
-        Database db = getJDOManager(DBNAME).getDatabase();
+        Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
         LOG.info("Preparing for rollback bug");
 

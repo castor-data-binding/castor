@@ -1,62 +1,12 @@
 <cpactf-conf default-database="mysql-drv" default-transaction="local">
-   
-    <configuration name="test30">
-        <description>Mapping configuration for test30</description>
-        <mapping href="/org/castor/cpa/test/test30/mapping.xml"/>
-    </configuration>
-    
-     <configuration name="test31">
-        <description>Mapping configuration for test30</description>
-        <mapping href="/org/castor/cpa/test/test31/mapping.xml"/>
+
+    <configuration name="testXXX">
+        <description>Mapping configuration for testXXX</description>
+        <mapping href="/org/castor/cpa/test/testXXX/mapping.xml"/>
     </configuration>
 
-    <configuration name="test356">
-        <description>Mapping configuration for test356</description>
-        <mapping href="/org/castor/cpa/test/test356/mapping.xml"/>
-    </configuration>
-    
-    <configuration name="test881">
-        <description>Mapping configuration for test881</description>
-        <mapping href="/org/castor/cpa/test/test881/mapping.xml"/>
-    </configuration>
-    
-    <configuration name="test954">
-        <description>Mapping configuration for test954</description>
-        <mapping href="/org/castor/cpa/test/test954/mapping.xml"/>
-    </configuration>
-    
-    <configuration name="test972">
-        <description>Mapping configuration for test972</description>
-        <mapping href="/org/castor/cpa/test/test972/mapping.xml"/>
-    </configuration>
-    
-    <configuration name="test1002">
-        <description>Mapping configuration for test1002</description>
-        <mapping href="/org/castor/cpa/test/test1002/mapping.xml"/>
-    </configuration>
-    
-    <configuration name="test1158">
-        <description>Mapping configuration for test1158</description>
-        <mapping href="/org/castor/cpa/test/test1158/mapping.xml"/>
-    </configuration>
-    
-    <configuration name="test1355">
-        <description>Mapping configuration for test1355</description>
-        <mapping href="/org/castor/cpa/test/test1355/mapping.xml"/>
-    </configuration>
-    
-    <configuration name="test1379">
-        <description>Mapping configuration for test1379</description>
-        <mapping href="/org/castor/cpa/test/test1379/mapping.xml"/>
-    </configuration>
-    
-    <configuration name="test2177">
-        <description>Mapping configuration for test2177</description>
-        <mapping href="/org/castor/cpa/test/test2177/mapping.xml"/>
-    </configuration>
-    
-    
-    
+
+
     <database name="db2-drv" engine="db2">
         <description>Database configuration for DB2</description>
         <driver url="jdbc:db2:cpactf"
@@ -211,4 +161,3 @@
         <description>Transactions managed locally by Castor</description>
     </transaction>
 </cpactf-conf>
-
