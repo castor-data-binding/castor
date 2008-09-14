@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<document url="http://castor.codehaus.org/release-notes.xml">
+<document url="release-notes.xml">
   <body>
     <title>Release notes</title>
     <section title="Releases">
@@ -100,6 +100,27 @@ org.castor.cpa.persistence.sql.keygen.factories=\
   org.castor.cpa.persistence.sql.keygen.UUIDKeyGeneratorFactory</code-panel>
             </summary>
             <bugs>
+                <bug id="2520" tool="jira">
+                    <description>
+                        Fixed a problem with code generation of &lt;list&gt; of
+                        simple type definitions where enumerations are used.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>R.O. Shore</name>
+                        <email>shorero@chimneystones.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XMLgen.</module>
+                    <date>20080914</date>
+                </bug>
                 <bug id="2524" tool="jira">
                     <description>
                         Simplified configuration of new castor persistence test framework
