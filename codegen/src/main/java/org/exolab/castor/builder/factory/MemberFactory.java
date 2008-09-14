@@ -58,6 +58,7 @@ import org.exolab.castor.builder.ClassInfoResolver;
 import org.exolab.castor.builder.GroupNaming;
 import org.exolab.castor.builder.SGTypes;
 import org.exolab.castor.builder.SourceGenerator;
+import org.exolab.castor.builder.SourceGeneratorConstants;
 import org.exolab.castor.builder.binding.XMLBindingComponent;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.CollectionInfo;
@@ -301,6 +302,36 @@ public final class MemberFactory extends BaseFactory {
                             simpleTypeCollection = true;
                         }
                     }
+                    
+                    // handle special case where the list type uses an item type
+                    // that has enumeration facets defined.
+                    ListType listType = (ListType) simpleType;
+                    if (listType == null) {
+                        listType = (ListType) baseType;
+                    }
+                    SimpleType itemType = listType.getItemType();
+                    if (itemType.hasFacet(Facet.ENUMERATION)) {
+                        ClassInfo itemClassInfo = resolver.resolve(itemType);
+                        if (itemClassInfo != null) {
+                            xsType = new XMLInfoNature(itemClassInfo).getSchemaType();
+                        } else {
+                            XMLBindingComponent temp = new XMLBindingComponent(
+                                    getConfig(), getGroupNaming());
+                            temp.setBinding(component.getBinding());
+                            temp.setView(itemType);
+                            String packageName = temp.getJavaPackage();
+                            if (packageName != null && packageName.length() > 0) {
+                                packageName = packageName + "." + SourceGeneratorConstants.TYPES_PACKAGE;
+                            } else {
+                                packageName = SourceGeneratorConstants.TYPES_PACKAGE;
+                            }
+                            JClass tempClass = new JClass(packageName+ "." + temp.getJavaClassName());
+                            xsType = new XSClass(tempClass);
+                            xsType.setAsEnumerated(true);
+                        }
+                    }
+                    
+                    
                 }
 
                 if (xsType == null) {
