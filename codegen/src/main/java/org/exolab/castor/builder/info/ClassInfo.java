@@ -68,21 +68,21 @@ import org.exolab.javasource.JClass;
  * @version $Revision$ $Date: 2006-04-13 07:37:49 -0600 (Thu, 13 Apr 2006) $
  */
 public final class ClassInfo implements XMLInfo, PropertyHolder {
+    
+    /** The base class. */
+    private ClassInfo _baseClass = null;
+    /**  A reference to the JClass that this ClassInfo describes. */
+    private JClass _class = null;
+    /** true if this ClassInfo represents an abstract class. */
+    private boolean _abstract    = false;
+    
     /** Vector of FieldInfo's for all attributes that are members of this Class. */
     private Vector _atts = new Vector();
     /** Vector of FieldInfo's for all elements that are members of this Class. */
     private Vector _elements = new Vector();
     /** if this ClassInfo represents a TextField, this is this TextField's FieldInfo. */
     private FieldInfo _textField = null;
-    /** The base class. */
-    private ClassInfo _baseClass = null;
-    /**  A reference to the JClass that this ClassInfo describes. */
-    private JClass _class = null;
-    /** The group information for this ClassInfo. */
-    private GroupInfo _groupInfo = null;
-    /** true if this ClassInfo represents an abstract class. */
-    private boolean _abstract    = false;
-
+    
     /**
      * Map holding the properties set and read by Natures.
      */
@@ -107,12 +107,9 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
         }
         this._class = jClass;
 
-        _groupInfo = new GroupInfo();
-    } //-- ClassInfo
-
-    //------------------/
-    //- Public Methods -/
-    //------------------/
+        // set default GroupInfo instance
+        xmlNature.setGroupInfo(new GroupInfo());
+    }
 
     /**
      * Adds the given FieldInfo to this ClassInfo.
@@ -141,7 +138,7 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
                 }
                 break;
         }
-    } //-- addFieldInfo
+    }
 
     /**
      * Adds the given set of FieldInfos to this ClassInfo.
@@ -152,14 +149,14 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
         for (int i = 0; i < fields.length; i++) {
             addFieldInfo(fields[i]);
         }
-    } //-- addFieldInfo
+    }
 
     /**
      * @return true if Classes created with this ClassInfo allow content
      */
     public boolean allowContent() {
         return _textField != null;
-    } //-- allowsTextContent
+    }
 
     /**
      * Returns true if the given FieldInfo is contained within this ClassInfo.
@@ -192,7 +189,7 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
         //    return sourceInfo.contains(fieldInfo);
 
         return false;
-    } //-- contains
+    }
 
     /**
      * Returns an array of XML attribute associated fields.
@@ -298,15 +295,6 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
     } //-- getFieldCount
 
     /**
-     * Returns the GroupInfo for this ClassInfo.
-     *
-     * @return the GroupInfo for this ClassInfo
-     */
-    public GroupInfo getGroupInfo() {
-        return _groupInfo;
-    } //-- getGroupInfo
-
-    /**
      * Returns the JClass described by this ClassInfo.
      *
      * @return the JClass which is described by this ClassInfo
@@ -333,24 +321,6 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
     public boolean isAbstract() {
         return _abstract;
     }
-
-    /**
-     * Returns true if the compositor of this GroupInfo is a choice.
-     *
-     * @return true if the compositor of this GroupInfo is a choice
-     */
-    public boolean isChoice() {
-        return _groupInfo.isChoice();
-    } //-- isChoice
-
-    /**
-     * Returns true if the compositor of this GroupInfo is a sequence.
-     *
-     * @return true if the compositor of this GroupInfo is a sequence
-     */
-    public boolean isSequence() {
-        return _groupInfo.isSequence();
-    } //-- isSequence
 
     /**
      * Sets the class of this ClassInfo to be abstract of
