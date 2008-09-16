@@ -16,6 +16,8 @@
  */
 package org.exolab.castor.builder.info.nature;
 
+import java.util.List;
+
 import org.castor.core.nature.BaseNature;
 import org.castor.core.nature.PropertyHolder;
 import org.exolab.castor.builder.info.XMLInfo;
@@ -67,8 +69,15 @@ public final class XMLInfoNature extends BaseNature {
      */
     private static final String MULTIVALUED = "multivalued";
 
-    /** Indicates the XML object must appear at least once. */
+    /** 
+     * Indicates the XML object must appear at least once. 
+     */
     private static final String REQUIRED = "required";
+
+    /**
+     * Property schema type.
+     */
+    private static final String SUBSTITUTION_GROUP = "substitutionGroup";
 
     /**
      * Constructor taking a PropertyHolder.
@@ -280,6 +289,25 @@ public final class XMLInfoNature extends BaseNature {
      */
     public void setSchemaType(final XSType xsType) {
         this.setProperty(SCHEMA_TYPE, xsType);
+    }
+
+    /**
+     * Returns the possible substitution groups.
+     * 
+     * @return the possible substitution groups.
+     */
+    public List getSubstitutionGroups() {
+        return getPropertyAsList(SUBSTITUTION_GROUP);
+    }
+
+    /**
+     * Sets the possible substitution groups.
+     * 
+     * @param substitutionGroups
+     *            Possible substitution groups.
+     */
+    public void setSubstitutionGroups(final List substitutionGroups) {
+        this.setProperty(SUBSTITUTION_GROUP, substitutionGroups);
     }
 
 }
