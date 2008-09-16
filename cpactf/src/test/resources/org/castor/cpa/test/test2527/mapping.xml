@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                         "http://castor.codehaus.org/mapping.dtd">
+
+<mapping>
+	<class name="org.castor.cpa.test.test2527.LogEntry" key-generator="MAX">
+		<description>Log entry of journal</description>
+        <cache-type type="none"/>
+        <map-to table="TEST2527_LOG"/>
+        <field name="id" type="integer" identity="true">
+            <sql name="ID" type="numeric"/>
+        </field>
+        <field name="timestamp" type="date">
+            <sql name="STAMP" type="timestamp"/>
+        </field>
+        <field name="source" type="string">
+            <sql name="SOURCE" type="char"/>
+        </field>
+        <field name="level" type="string">
+            <sql name="LEVEL" type="char"/>
+        </field>
+        <field name="message" type="string">
+            <sql name="MESSAGE" type="char"/>
+        </field>
+        <field name="exception" type="org.castor.cpa.test.test2527.LogExceptionEntry">
+            <sql many-key="ENTRY_ID" />
+        </field>
+    </class>
+
+	<class name="org.castor.cpa.test.test2527.LogExceptionEntry" key-generator="MAX"
+           depends="org.castor.cpa.test.test2527.LogEntry">
+		<description>Log exception entry of journal</description>
+        <cache-type type="none"/>
+        <map-to table="TEST2527_LOG_EXCEPTION"/>
+        <field name="id" type="integer" identity="true">
+            <sql name="ID" type="numeric"/>
+        </field>
+        <field name="entry" type="org.castor.cpa.test.test2527.LogEntry">
+            <sql name="ENTRY_ID"/>
+        </field>
+        <field name="stackTrace" type="string">
+            <sql name="STACKTRACE" type="clob" dirty="ignore"/>
+        </field>
+    </class>
+	
+	<class name="org.castor.cpa.test.test2527.ReferingLogEntry"
+           extends="org.castor.cpa.test.test2527.LogEntry">
+		<description>Log entry of journal that holds a reference to another object</description>
+        <cache-type type="none"/>
+        <map-to table="TEST2527_LOG_REFERENCE"/>
+        <field name="id">
+            <sql name="ID"/>
+        </field>
+        <field name="type" type="string">
+            <sql name="TYPE" type="char" dirty="ignore"/>
+        </field>
+        <field name="value" type="string">
+            <sql name="VALUE" type="char" dirty="ignore"/>
+        </field>
+    </class>
+</mapping>
