@@ -117,7 +117,7 @@ public final class MappingFileSourceFactory {
         mapTo.setElementDefinition(xmlNature.isElementDefinition());
 
         //-- set grouping compositor
-        if (classInfo.isChoice()) {
+        if (xmlNature.isChoice()) {
             // TODO need a way to specify choice in Mapping file
         }
 

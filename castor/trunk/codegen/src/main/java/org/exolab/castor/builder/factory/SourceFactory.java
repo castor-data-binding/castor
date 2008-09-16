@@ -69,6 +69,7 @@ import org.exolab.castor.builder.binding.ExtendedBinding;
 import org.exolab.castor.builder.binding.XMLBindingComponent;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.FieldInfo;
+import org.exolab.castor.builder.info.GroupInfo;
 import org.exolab.castor.builder.info.XMLInfo;
 import org.exolab.castor.builder.info.nature.JDOClassInfoNature;
 import org.exolab.castor.builder.info.nature.JDOFieldInfoNature;
@@ -752,12 +753,13 @@ public final class SourceFactory extends BaseFactory {
 
             //-- Check Group Type
             Order order = group.getOrder();
+            GroupInfo groupInfo = new XMLInfoNature(classInfo).getGroupInfo();
             if (order == Order.choice) {
-                classInfo.getGroupInfo().setAsChoice();
+                groupInfo.setAsChoice();
             } else if (order == Order.seq) {
-                classInfo.getGroupInfo().setAsSequence();
+                groupInfo.setAsSequence();
             } else {
-                classInfo.getGroupInfo().setAsAll();
+                groupInfo.setAsAll();
             }
 
             return group.getMaxOccurs() == 1;
@@ -842,7 +844,7 @@ public final class SourceFactory extends BaseFactory {
                 if (particle.getStructureType() == Structure.GROUP) {
                     Group group = (Group) particle;
                     if (group.getOrder() == Order.choice) {
-                        classInfo.getGroupInfo().setAsChoice();
+                        new XMLInfoNature(classInfo).getGroupInfo().setAsChoice();
                     }
                 }
             }
@@ -2116,7 +2118,7 @@ public final class SourceFactory extends BaseFactory {
         Enumeration enumeration = contentModel.enumerate();
 
         //-- handle choice item
-        if (state.getClassInfo().isChoice() && state.getFieldInfoForChoice() == null) {
+        if (new XMLInfoNature(state.getClassInfo()).isChoice() && state.getFieldInfoForChoice() == null) {
             state.setFieldInfoForChoice(_memberFactory.createFieldInfoForChoiceValue());
             state.getFieldInfoForChoice().getMemberAndAccessorFactory().createJavaField(
                     state.getFieldInfoForChoice(),
@@ -2156,11 +2158,11 @@ public final class SourceFactory extends BaseFactory {
                     if ((contentModel instanceof ComplexType)
                             || (contentModel instanceof ModelGroup)) {
                         if (group.getOrder() == Order.choice) {
-                            state.getClassInfo().getGroupInfo().setAsChoice();
+                            new XMLInfoNature(state.getClassInfo()).getGroupInfo().setAsChoice();
                         } else if (group.getOrder() == Order.all) {
-                            state.getClassInfo().getGroupInfo().setAsAll();
+                            new XMLInfoNature(state.getClassInfo()).getGroupInfo().setAsAll();
                         } else if (group.getOrder() == Order.seq) {
-                            state.getClassInfo().getGroupInfo().setAsSequence();
+                            new XMLInfoNature(state.getClassInfo()).getGroupInfo().setAsSequence();
                         }
                     }
 

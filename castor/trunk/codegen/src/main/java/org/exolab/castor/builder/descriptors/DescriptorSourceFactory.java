@@ -159,16 +159,15 @@ public final class DescriptorSourceFactory {
         jsc.append(";");
         
         //-- set grouping compositor
-        if (classInfo.isChoice()) {
+        if (xmlNature.isChoice()) {
             jsc.add("");
             jsc.add("//-- set grouping compositor");
             jsc.add("setCompositorAsChoice();");
-        } else if (classInfo.isSequence()) {
+        } else if (xmlNature.isSequence()) {
             jsc.add("");
             jsc.add("//-- set grouping compositor");
             jsc.add("setCompositorAsSequence();");
         }
-
         
         // handle substitution groups
         List substitutionGroups = xmlNature.getSubstitutionGroups();

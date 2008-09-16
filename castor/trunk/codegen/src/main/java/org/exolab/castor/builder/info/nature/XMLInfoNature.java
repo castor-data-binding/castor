@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.castor.core.nature.BaseNature;
 import org.castor.core.nature.PropertyHolder;
+import org.exolab.castor.builder.info.GroupInfo;
 import org.exolab.castor.builder.info.XMLInfo;
 import org.exolab.castor.builder.types.XSType;
 
@@ -83,6 +84,11 @@ public final class XMLInfoNature extends BaseNature {
      * Property container.
      */
     private static final String IS_CONTAINER = "isContainer";
+
+    /**
+     * Property group info.
+     */
+    private static final String GROUP_INFO = "groupInfo";
 
     /**
      * Constructor taking a PropertyHolder.
@@ -337,5 +343,42 @@ public final class XMLInfoNature extends BaseNature {
     public void setContainer(final boolean isContainer) {
         this.setProperty(IS_CONTAINER, new Boolean(isContainer));
     }
+
+    /**
+     * Returns the {@link GroupInfo} for this XML nature.
+     *
+     * @return the {@link GroupInfo} instance.
+     */
+    public GroupInfo getGroupInfo() {
+        return (GroupInfo) this.getProperty(GROUP_INFO);
+    }
+
+    /**
+     * Sets the {@link GroupInfo} for this XML nature.
+     *
+     * @param groupInfo the {@link GroupInfo} instance.
+     */
+    public void setGroupInfo(final GroupInfo groupInfo) {
+        this.setProperty(GROUP_INFO, groupInfo);
+    }
+
+    /**
+     * Returns true if the compositor of this GroupInfo is a choice.
+     *
+     * @return true if the compositor of this GroupInfo is a choice
+     */
+    public boolean isChoice() {
+        return getGroupInfo().isChoice();
+    }
+    
+    /**
+     * Returns true if the compositor of this GroupInfo is a sequence.
+     *
+     * @return true if the compositor of this GroupInfo is a sequence
+     */
+    public boolean isSequence() {
+        return getGroupInfo().isSequence();
+    }
+
 
 }
