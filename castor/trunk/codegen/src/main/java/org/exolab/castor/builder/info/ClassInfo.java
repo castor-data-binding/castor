@@ -52,16 +52,12 @@ package org.exolab.castor.builder.info;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
 import org.castor.core.nature.PropertyHolder;
 import org.exolab.castor.builder.info.nature.XMLInfoNature;
-import org.exolab.castor.builder.types.XSType;
 import org.exolab.javasource.JClass;
 
 /**
@@ -84,11 +80,6 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
     private JClass _class = null;
     /** The group information for this ClassInfo. */
     private GroupInfo _groupInfo = null;
-    /**
-     * true if this ClassInfo describes a container class. That is, a class
-     * which should not be marshalled as XML, but whose members should be.
-     */
-    private boolean _isContainer = false;
     /** true if this ClassInfo represents an abstract class. */
     private boolean _abstract    = false;
 
@@ -353,17 +344,6 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
     } //-- isChoice
 
     /**
-     * Returns true if this ClassInfo describes a container class. A container
-     * class is a class which should not be marshalled as XML, but whose members
-     * should be.
-     *
-     * @return true if this ClassInfo describes a container class.
-     */
-    public boolean isContainer() {
-        return _isContainer;
-    } //-- isContainer
-
-    /**
      * Returns true if the compositor of this GroupInfo is a sequence.
      *
      * @return true if the compositor of this GroupInfo is a sequence
@@ -394,18 +374,6 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
     public void setBaseClass(final ClassInfo base) {
         _baseClass = base;
     }
-
-    /**
-     * Sets whether or not this ClassInfo describes a container class. A
-     * container class is a class which should not be marshalled as XML, but
-     * whose members should be. By default this is false.
-     *
-     * @param isContainer the boolean value when true indicates this class
-     *        should be a container class.
-     */
-    public void setContainer(final boolean isContainer) {
-        _isContainer = isContainer;
-    } //-- setContainer
 
     /**
      * @see org.exolab.castor.builder.info.nature.PropertyHolder#

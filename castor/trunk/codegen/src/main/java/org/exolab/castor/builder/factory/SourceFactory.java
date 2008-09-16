@@ -473,10 +473,12 @@ public final class SourceFactory extends BaseFactory {
                         fInfo, jClass.getConstructor(0).getSourceCode());
 
                 //-- name information
-                new XMLInfoNature(classInfo).setNodeName(component.getXMLName());
+                XMLInfoNature xmlInfoNature = new XMLInfoNature(classInfo);
+                xmlInfoNature.setNodeName(component.getXMLName());
 
                 //-- mark as a container
-                classInfo.setContainer(true);
+                xmlInfoNature.setContainer(true);
+                
                 // -- if we have a superclass, make sure that the actual type extends it, not the
                 // xxxItem holder class.
                 String actSuperClass = classes[1].getSuperClassQualifiedName();

@@ -75,9 +75,14 @@ public final class XMLInfoNature extends BaseNature {
     private static final String REQUIRED = "required";
 
     /**
-     * Property schema type.
+     * Property substitution groups.
      */
     private static final String SUBSTITUTION_GROUP = "substitutionGroup";
+
+    /**
+     * Property container.
+     */
+    private static final String IS_CONTAINER = "isContainer";
 
     /**
      * Constructor taking a PropertyHolder.
@@ -308,6 +313,29 @@ public final class XMLInfoNature extends BaseNature {
      */
     public void setSubstitutionGroups(final List substitutionGroups) {
         this.setProperty(SUBSTITUTION_GROUP, substitutionGroups);
+    }
+
+    /**
+     * Returns true if this ClassInfo describes a container class. A container
+     * class is a class which should not be marshalled as XML, but whose members
+     * should be.
+     *
+     * @return true if this ClassInfo describes a container class.
+     */
+    public boolean isContainer() {
+        return this.getBooleanPropertyDefaultFalse(IS_CONTAINER);
+    }
+
+    /**
+     * Sets whether or not this ClassInfo describes a container class. A
+     * container class is a class which should not be marshalled as XML, but
+     * whose members should be. By default this is false.
+     *
+     * @param isContainer the boolean value when true indicates this class
+     *        should be a container class.
+     */
+    public void setContainer(final boolean isContainer) {
+        this.setProperty(IS_CONTAINER, new Boolean(isContainer));
     }
 
 }
