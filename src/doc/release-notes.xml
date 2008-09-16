@@ -100,6 +100,27 @@ org.castor.cpa.persistence.sql.keygen.factories=\
   org.castor.cpa.persistence.sql.keygen.UUIDKeyGeneratorFactory</code-panel>
             </summary>
             <bugs>
+                <bug id="2528" tool="jira">
+                    <description>
+                        Fixed a problem with the lookup of types already marked 'missing'
+                        in XMLClassDescriptor(Impl).resolve().
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20080916</date>
+                </bug>
                 <bug id="2527" tool="jira">
                     <description>
                         Fixed issue with query returning entities of wrong type

@@ -214,6 +214,13 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
             throw new IllegalArgumentException(message);
         }
         
+        if (_descriptorCache.isMissingDescriptor(type.getName())) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Descriptor for " + type.getName() + " already marked as *MISSING*.");
+            }
+            return null;
+        }
+        
         if (_descriptorCache.getDescriptor(type.getName()) != null) {
             return _descriptorCache.getDescriptor(type.getName());
         }
@@ -235,6 +242,13 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
             throw new IllegalArgumentException(message);
         }
         
+        if (_descriptorCache.isMissingDescriptor(className)) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Descriptor for " + className + " already marked as *MISSING*.");
+            }
+            return null;
+        }
+        
         if (_descriptorCache.getDescriptor(className) != null) {
             return _descriptorCache.getDescriptor(className);
         }
@@ -243,7 +257,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
         if (l == null) { l = Thread.currentThread().getContextClassLoader(); }
         
         return this.resolve(className, l);
-    } // -- resolve(String)
+    }
 
     /**
      * {@inheritDoc}
@@ -255,7 +269,14 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
             LOG.warn(message);
             throw new IllegalArgumentException(message);
         }
-        
+
+        if (_descriptorCache.isMissingDescriptor(className)) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Descriptor for " + className + " already marked as *MISSING*.");
+            }
+            return null;
+        }
+
         if (_descriptorCache.getDescriptor(className) != null) {
             return _descriptorCache.getDescriptor(className);
         }
