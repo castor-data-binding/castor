@@ -100,6 +100,27 @@ org.castor.cpa.persistence.sql.keygen.factories=\
   org.castor.cpa.persistence.sql.keygen.UUIDKeyGeneratorFactory</code-panel>
             </summary>
             <bugs>
+                <bug id="2527" tool="jira">
+                    <description>
+                        Fixed issue with query returning entities of wrong type
+                        for extended class hierarchies.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20080916</date>
+                </bug>
                 <bug id="2520" tool="jira">
                     <description>
                         Fixed a problem with code generation of &lt;list&gt; of

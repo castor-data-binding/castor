@@ -492,6 +492,7 @@ public final class SQLQuery implements PersistenceQuery {
             
             leafDescriptor = (ClassDescriptor) returnValues[0];
             
+            _engine = _requestedEngine;
             if (leafDescriptor != null) {
                 if (!leafDescriptor.getJavaClass().getName().equals(
                         _requestedEngine.getDescriptor().getJavaClass().getName())) {
