@@ -93,10 +93,6 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
     private boolean _abstract    = false;
 
     /**
-     * Holds the possible substitution groups for this class.
-     */
-    private List _substitutionGroups = new LinkedList();
-    /**
      * Map holding the properties set and read by Natures.
      */
     private Map _properties = new HashMap();
@@ -410,22 +406,6 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
     public void setContainer(final boolean isContainer) {
         _isContainer = isContainer;
     } //-- setContainer
-
-    /**
-     * Returns the possible substitution groups for this class.
-     * @return the possible substitution groups for this class.
-     */
-    public List getSubstitutionGroups() {
-        return _substitutionGroups;
-    }
-
-    /**
-     * Sets the possible substitution groups for this class.
-     * @param substitutionGroups Possible substitution groups for this class.
-     */
-    public void setSubstitutionGroups(final List substitutionGroups) {
-        _substitutionGroups = substitutionGroups;
-    }
 
     /**
      * @see org.exolab.castor.builder.info.nature.PropertyHolder#

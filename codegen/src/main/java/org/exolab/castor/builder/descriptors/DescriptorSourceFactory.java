@@ -126,7 +126,7 @@ public final class DescriptorSourceFactory {
         //-- get handle to default constuctor
         JConstructor cons = classDesc.getConstructor(0);
         JSourceCode jsc   = cons.getSourceCode();
-            XMLInfoNature xmlNature = new XMLInfoNature(classInfo);
+        XMLInfoNature xmlNature = new XMLInfoNature(classInfo);
 
         //-- Set namespace prefix
         String nsPrefix = xmlNature.getNamespacePrefix();
@@ -171,7 +171,7 @@ public final class DescriptorSourceFactory {
 
         
         // handle substitution groups
-        List substitutionGroups = classInfo.getSubstitutionGroups();
+        List substitutionGroups = xmlNature.getSubstitutionGroups();
         if (!substitutionGroups.isEmpty()) {
             jsc.add("java.util.List substitutionGroups = new java.util.ArrayList();");
             Iterator substitutionGroupIter = substitutionGroups.iterator();

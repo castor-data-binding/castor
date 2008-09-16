@@ -352,7 +352,7 @@ public final class SourceFactory extends BaseFactory {
         initialize(jClass);
 
         if (classInfo.hasNature(XMLInfoNature.class.getName())) {
-            XMLInfoNature xmlNature = new XMLInfoNature(classInfo);
+            final XMLInfoNature xmlNature = new XMLInfoNature(classInfo);
             
             //-- name information
             xmlNature.setNodeName(component.getXMLName());
@@ -379,7 +379,7 @@ public final class SourceFactory extends BaseFactory {
                         ElementDecl substitute = (ElementDecl) possibleSubstitutes.nextElement();
                         substitutionGroupMembers.add(substitute.getName());
                     }
-                    classInfo.setSubstitutionGroups(substitutionGroupMembers);
+                    xmlNature.setSubstitutionGroups(substitutionGroupMembers);
                 }
             }
 
