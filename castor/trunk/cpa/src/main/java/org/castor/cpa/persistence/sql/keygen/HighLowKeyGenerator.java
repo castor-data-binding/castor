@@ -72,7 +72,7 @@ public final class HighLowKeyGenerator implements KeyGenerator {
          */
         public void init(final ResultSet rs) throws SQLException {
             _last = 0;
-            if (rs != null) { _last = rs.getInt(1); }
+            if ((rs != null) && (rs.isFirst())) { _last = rs.getInt(1); }
             _max = _last + _grab;
         }
         
