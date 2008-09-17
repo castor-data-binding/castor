@@ -1984,6 +1984,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 ++_ignoreElementDepth;
                 //-- remove the StateInfo we just added
                 _stateInfo.pop();
+                // drop Namespace instance as well
+                _namespaces = _namespaces.getParent();
                 if (LOG.isDebugEnabled()) {
                 	LOG.debug(mesg + " - ignoring extra element.");
                 }
