@@ -44,14 +44,6 @@
                 <configuration>
                     <source>1.5</source>
                     <target>1.5</target>
-<!--                     
-                    <excludes>
-                        <exclude implementation="java.lang.String">**</exclude>
-                    </excludes>
-                    <testExcludes>
-                        <exclude implementation="java.lang.String">**</exclude>
-                    </testExcludes>
- -->                    
                 </configuration>
             </plugin>
 
