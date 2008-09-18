@@ -57,6 +57,13 @@
                    </goals>
                 </execution>
              </executions>
+             <dependencies>
+               <dependency>
+                  <groupId>org.codehaus.castor</groupId>
+                  <artifactId>castor-codegen</artifactId>
+                  <version>1.3-SNAPSHOT</version>
+               </dependency>
+             </dependencies>
           </plugin>
           <!--  redundant, once new castor-maven-plugin has been deployed -->
           <plugin>
