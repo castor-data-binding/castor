@@ -36,13 +36,13 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 						src/main/resources/org/exolab/castor/builder/binding.generation.properties
 					</properties>
 				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>org.codehaus.castor</groupId>
-						<artifactId>castor</artifactId>
-						<version>1.1-M3-SNAPSHOT</version>
-					</dependency>
-				</dependencies>
+                <dependencies>
+                  <dependency>
+                     <groupId>org.codehaus.castor</groupId>
+                     <artifactId>castor-codegen</artifactId>
+                     <version>1.3-SNAPSHOT</version>
+                  </dependency>
+                </dependencies>
 				<!-- enable when old sources have been dropped from the repo; until then, manually execute castor:generate
 					<executions>
 					<execution>
