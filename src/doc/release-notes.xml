@@ -35,6 +35,16 @@
             <summary>
                 <h2>Changes</h2>
                 
+                <h3><font color="red">Java 5.0</font> compliance</h3>
+                
+                <p>
+                    As of this release, Castor requires a <font color="red"><b>Java 5.0</b></font> 
+                    (and above) JVM at run-time. In addition, the XML code generator
+                    now emits Java 5.0-complaint code as well (which can be changed back to 
+                    Java 1.4 compliance by setting the <tt>org.exolab.castor.builder.javaVersion</tt> 
+                    property.
+                </p> 
+                
                 <h3>Re-introduced backwards compatibility for code generated from &lt;xs:integer&gt;</h3>
                 
                 <p>
