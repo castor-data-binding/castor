@@ -22,8 +22,8 @@ import java.util.Iterator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.util.Messages;
+import org.exolab.castor.jdo.ConnectionFailedException;
 import org.exolab.castor.jdo.Database;
-import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.TransactionAbortedException;
 import org.exolab.castor.persist.LockEngine;
 
@@ -59,7 +59,7 @@ public final class LocalTransactionContext extends AbstractTransactionContext {
      *      #createConnection(org.exolab.castor.persist.LockEngine)
      */
     protected Connection createConnection(final LockEngine engine)
-    throws PersistenceException {
+    throws ConnectionFailedException {
         // Get a new connection from the engine. Since the engine has no
         // transaction association, we must do this sort of round trip. An attempt
         // to have the transaction association in the engine inflates the code size
@@ -69,7 +69,7 @@ public final class LocalTransactionContext extends AbstractTransactionContext {
             conn.setAutoCommit(false);
             return conn;
         } catch (SQLException ex) {
-            throw new PersistenceException(Messages.format("persist.nested", ex), ex);
+            throw new ConnectionFailedException(Messages.format("persist.nested", ex), ex);
         }
     }
 
