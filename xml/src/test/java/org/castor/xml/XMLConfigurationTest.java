@@ -88,7 +88,7 @@ public class XMLConfigurationTest extends TestCase {
         String serialzierFactory = _configuration.getString(XMLConfiguration.SERIALIZER_FACTORY);
         Assert.assertEquals(
                 "check serializer factory default", 
-                "org.exolab.castor.xml.XercesXMLSerializerFactory", 
+                "org.exolab.castor.xml.XercesJDK5XMLSerializerFactory", 
                 serialzierFactory);
         
         Boolean strictElements = _configuration.getBoolean(XMLConfiguration.STRICT_ELEMENTS);
