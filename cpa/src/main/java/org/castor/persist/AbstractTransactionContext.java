@@ -27,6 +27,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.util.Messages;
 import org.exolab.castor.jdo.ClassNotPersistenceCapableException;
+import org.exolab.castor.jdo.ConnectionFailedException;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.DbMetaInfo;
 import org.exolab.castor.jdo.DuplicateIdentityException;
@@ -274,7 +275,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
      *      org.exolab.castor.persist.LockEngine)
      */
     public final Connection getConnection(final LockEngine engine)
-    throws PersistenceException {
+    throws ConnectionFailedException {
         Connection conn = (Connection) _conns.get(engine);
         if (conn == null) {
             conn = createConnection(engine);
@@ -284,7 +285,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
     }
     
     protected abstract Connection createConnection(final LockEngine engine)
-    throws PersistenceException;
+    throws ConnectionFailedException;
         
     protected final Iterator connectionsIterator() {
         return _conns.values().iterator();
@@ -609,6 +610,9 @@ public abstract class AbstractTransactionContext implements TransactionContext {
             _tracker.untrackObject(objectInTx);
             throw except;
         } catch (ObjectNotFoundException except) {
+            _tracker.untrackObject(objectInTx);
+            throw except;
+        } catch (ConnectionFailedException except) {
             _tracker.untrackObject(objectInTx);
             throw except;
         } catch (LockNotGrantedException except) {
