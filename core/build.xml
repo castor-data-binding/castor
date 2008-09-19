@@ -40,7 +40,7 @@
     <target name="compile.core" depends="prepare.core" description="Compile sources">
         <javac srcdir="${main.java}" destdir="${classes}" 
                debug="on" encoding="ISO-8859-1" deprecation="false"
-               source="1.4" target="1.4">
+               source="1.5" target="1.5">
             <classpath refid="build.classpath"/>
         </javac>
         <copy todir="${classes}">
