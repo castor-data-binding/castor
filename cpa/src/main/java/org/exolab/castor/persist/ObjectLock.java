@@ -586,13 +586,14 @@ public final class ObjectLock implements DepositBox {
         }
     }
 
-    public synchronized void setObject(final TransactionContext tx, final Object[] object) {
+    public synchronized void setObject(final TransactionContext tx,
+            final Object[] object, final long timeStamp) {
 
         _isExpired = false; // initialize cache expiration flag to false
         _expiredObject = null;
 
         if ((_confirmWaiting != null) && (_confirmWaiting == tx)) {
-            _timeStamp = System.currentTimeMillis();
+            _timeStamp = timeStamp;
             _object = object;
             if (_confirmWaitingAction == ACTION_READ) {
                 _readLock = new LinkedTx(tx, null);
@@ -602,7 +603,7 @@ public final class ObjectLock implements DepositBox {
             _confirmWaiting = null;
             notifyAll();
         } else if ((_writeLock != null) && (_writeLock == tx)) {
-            _timeStamp = System.currentTimeMillis();
+            _timeStamp = timeStamp;
             _object = object;
         } else {
             throw new IllegalArgumentException(
@@ -629,6 +630,10 @@ public final class ObjectLock implements DepositBox {
 
     public synchronized long getTimeStamp() {
         return _timeStamp;
+    }
+
+    public synchronized void setTimeStamp(final long timeStamp) {
+        _timeStamp = timeStamp;
     }
 
     synchronized void confirm(final TransactionContext tx, final boolean succeed) {

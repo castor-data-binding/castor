@@ -72,6 +72,7 @@ import org.exolab.castor.jdo.ObjectDeletedException;
 import org.exolab.castor.jdo.ObjectModifiedException;
 import org.exolab.castor.jdo.ObjectNotFoundException;
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.TimeStampable;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Identity;
@@ -618,66 +619,55 @@ public final class LockEngine {
      */
     public boolean update(final TransactionContext tx, final OID oid, final Object object,
             final AccessMode suggestedAccessMode, final int timeout) throws PersistenceException {
-
-        OID internaloid = oid;
-        TypeInfo   typeInfo;
-        ObjectLock lock;
-        boolean    succeed;
-        // [oleg] these variables are not used
-        //boolean    write;
-        //AccessMode accessMode;
-
         // If the object is new, don't try to load it from the cache
-
-        typeInfo = (TypeInfo) _typeInfo.get(internaloid.getName());
+        TypeInfo typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
         if (typeInfo == null) {
             throw new ClassNotPersistenceCapableException(Messages.format(
-                    "persist.classNotPersistenceCapable", internaloid.getName()));
+                    "persist.classNotPersistenceCapable", oid.getName()));
         }
 
-        //accessMode = typeInfo.molder.getAccessMode( suggestedAccessMode );
-        //write = ( accessMode == AccessMode.Exclusive || accessMode == AccessMode.DbLocked );
-        succeed = false;
-        lock = null;
+        boolean succeed = false;
+        ObjectLock lock = null;
+        OID internaloid = oid;
         try {
-            // Create an OID to represent the object and see if we
-            // have a lock (i.e. object is cached).
+            // exclude objects that are locked, cached, dependend or to be created
+            if (!typeInfo.isLocked(internaloid)
+                    && !typeInfo.isCached(internaloid)
+                    && !typeInfo._molder.isDependent()
+                    && (internaloid.getIdentity() != null)) {
+                lock = typeInfo.acquire(internaloid, tx, ObjectLock.ACTION_UPDATE, timeout);
+                internaloid = lock.getOID();
+                
+                Object loadObject = null;
+                try {
+                    loadObject = typeInfo._molder.newInstance(tx.getClassLoader());
+                } catch (Exception ex) {
+                    throw new PersistenceException("faile dto load object", ex);
+                }
 
-            // Object has been loaded before, must acquire lock
-            // on it (write in exclusive mode)
+                ProposedEntity proposedObject = new ProposedEntity(typeInfo._molder);
+                proposedObject.setProposedEntityClass(loadObject.getClass());
+                proposedObject.setEntity(loadObject);
+                
+                try {
+                    typeInfo._molder.load(tx, internaloid, lock, proposedObject,
+                            suggestedAccessMode, null);
 
-            // [Yip] I rather limited update to always acquire read lock
-            // (preferrably dblock), to avoid further concurrency problem.
-            lock = typeInfo.acquire(internaloid, tx, ObjectLock.ACTION_UPDATE, timeout);
-
-            /*
-            if ( write && ! oid.isDbLock() ) {
-                // Db-lock mode we always synchronize the object with
-                // the database and obtain a lock on the object.
-                _log.debug(Messages.format("jdo.loading", typeInfo.javaClass,
-                        OID.flatten(oid.getIdentities())));
-            }*/
-            internaloid = lock.getOID();
-
-            boolean creating = typeInfo._molder.update(tx, internaloid, lock, object,
+                    if (proposedObject.getEntity() instanceof TimeStampable) {
+                        lock.setTimeStamp(((TimeStampable) loadObject).jdoGetTimeStamp());
+                    }
+                } catch (PersistenceException ex) {
+                    // ignore
+                }
+            } else {
+                lock = typeInfo.acquire(internaloid, tx, ObjectLock.ACTION_UPDATE, timeout);
+                internaloid = lock.getOID();
+            }
+            
+            succeed = !typeInfo._molder.update(tx, internaloid, lock, object,
                     suggestedAccessMode);
 
-            if (creating) {
-                succeed = false;
-            } else {
-                succeed = true;
-            }
-
-            return creating;
-
-            /*
-            if ( accessMode == AccessMode.DbLocked )
-                oid.setDbLock( true );
-             */
-            /*
-            if ( accessMode == AccessMode.ReadOnly )
-                typeInfo.release( oid, tx );
-            */
+            return !succeed;
         } catch (ObjectModifiedException e) {
             throw e;
         } catch (ObjectDeletedWaitingForLockException except) {
@@ -691,7 +681,6 @@ public final class LockEngine {
             }
         }
     }
-
 
     /**
      * Called at transaction commit to store an object that has been
@@ -1475,7 +1464,7 @@ public final class LockEngine {
          * @param oid     The Object identifier.
          * @return True if the object is cached. 
          */
-        public boolean isCached(final Object oid) {
+        public boolean isCached(final OID oid) {
             return _cache.containsKey(oid);
         }
         
@@ -1498,7 +1487,7 @@ public final class LockEngine {
      * @param oid Object identity
      * @return True if the specified object is in the cache.
      */
-    public boolean isCached(final Class cls, final Object oid) {
+    public boolean isCached(final Class cls, final OID oid) {
         TypeInfo typeInfo = (TypeInfo) _typeInfo.get(cls.getName());
         return typeInfo.isCached (oid);
     }

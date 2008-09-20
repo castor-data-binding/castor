@@ -73,8 +73,9 @@ public interface DepositBox {
      *
      *  @param  tx the transaction in action
      *  @param  object to be store into deposit box
+     *  @param  timeStamp to be stored into deposit box
      */
-    void setObject(TransactionContext tx, Object[] object);
+    void setObject(TransactionContext tx, Object[] object, long timeStamp);
 
     /** 
      *  Get the object from the DespositBox, only the transaction
@@ -91,4 +92,11 @@ public interface DepositBox {
      * @return The timestamp of this object.
      */
     long getTimeStamp();
+    
+    /**
+     * Set new timestamp for this object.
+     * 
+     * @param timeStamp The new timestamp for this object.
+     */
+    void setTimeStamp(long timeStamp);
 }
