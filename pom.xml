@@ -611,17 +611,6 @@
                 <module>examples</module>
             </modules>            
         </profile>
-        
-        <!-- 
-        <profile>
-            <activation>
-                <jdk>1.4</jdk>
-            </activation>
-            <modules>
-               <module>xmlctf</module>
-            </modules>
-        </profile>
-         -->        
     </profiles>
     
 </project>
