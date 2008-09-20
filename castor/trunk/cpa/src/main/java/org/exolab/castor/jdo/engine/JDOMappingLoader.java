@@ -401,12 +401,6 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         CacheTypeMapping cacheMapping = clsMap.getCacheTypeMapping();
         if (cacheMapping != null) {
             String type = cacheMapping.getType();
-            if ("none".equalsIgnoreCase(type)) {
-                if (TimeStampable.class.isAssignableFrom(javaClass)) {
-                    throw new MappingException(Messages.format(
-                            "persist.wrongCacheTypeSpecified", clsMap.getName()));
-                }
-            }
             jdoNature.addCacheParam(Cache.PARAM_TYPE, type);
             
             Param[] params = cacheMapping.getParam();

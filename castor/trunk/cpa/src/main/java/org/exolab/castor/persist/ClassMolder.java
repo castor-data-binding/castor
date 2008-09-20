@@ -533,8 +533,7 @@ public class ClassMolder {
             oid.setDbLock(accessMode == AccessMode.DbLocked);
             
             // store (new) field values to cache
-            locker.setObject(tx, proposedObject.getFields());
-
+            locker.setObject(tx, proposedObject.getFields(), System.currentTimeMillis());
         }
 
         proposedObject.setActualClassMolder(this);
@@ -573,7 +572,7 @@ public class ClassMolder {
         // set the identities into the target object
         setIdentity(tx, proposedObject.getEntity(), oid.getIdentity());
 
-        // iterates thur all the field of the object and bind all field.
+        // iterates over all the field of the object and bind all field.
         for (int i = 0; i < _fhs.length; i++) {
             fieldType = _fhs[i].getFieldType();
             switch (fieldType) {
@@ -588,6 +587,12 @@ public class ClassMolder {
                 throw new PersistenceException("Unexpected field type!");
             }
         }
+        
+        // set the timeStamp of locker to the one of data object
+        if (proposedObject.getEntity() instanceof TimeStampable) {
+            locker.setTimeStamp(((TimeStampable) proposedObject.getEntity()).jdoGetTimeStamp());
+        }
+
         return stamp;
     }
 
@@ -616,6 +621,12 @@ public class ClassMolder {
         entity.initializeFields(_fhs.length);
         Identity ids = oid.getIdentity();
 
+        // set the new timeStamp into the data object
+        long timeStamp = System.currentTimeMillis();
+        if (object instanceof TimeStampable) {
+            ((TimeStampable) object).jdoSetTimeStamp(timeStamp);
+        }
+
         // copy the object to cache should make a new field now,
         for (int i = 0; i < _fhs.length; i++) {
             fieldType = _fhs[i].getFieldType();
@@ -643,13 +654,8 @@ public class ClassMolder {
         }
 
         // set the field values into the cache
-        locker.setObject(tx, entity.getFields());
+        locker.setObject(tx, entity.getFields(), timeStamp);
         oid.setDbLock(true);
-
-        // set the new timeStamp into the data object
-        if (object instanceof TimeStampable) {
-            ((TimeStampable) object).jdoSetTimeStamp(locker.getTimeStamp());
-        }
 
         // set the identity into the object
         setIdentity(tx, object, createdId);
@@ -782,6 +788,12 @@ public class ClassMolder {
                     Messages.format("persist.objectNotFound", _name, oid));
         }
 
+        // set the new timeStamp into the data object
+        long timeStamp = System.currentTimeMillis();
+        if (object instanceof TimeStampable) {
+            ((TimeStampable) object).jdoSetTimeStamp(timeStamp);
+        }
+
         ProposedEntity newentity = new ProposedEntity();
         newentity.initializeFields(_fhs.length);
         for (int i = 0; i < _fhs.length; i++) {
@@ -817,8 +829,7 @@ public class ClassMolder {
         }
 
         long lockTimestamp = locker.getTimeStamp();
-        long objectTimestamp = _timeStampable ? ((TimeStampable) object)
-                .jdoGetTimeStamp() : 1;
+        long objectTimestamp = _timeStampable ? ((TimeStampable) object).jdoGetTimeStamp() : 1;
 
         if ((objectTimestamp > 0) && (oid.getIdentity() != null)) {
             // valid range of timestamp
@@ -845,7 +856,7 @@ public class ClassMolder {
                 fields = proposedObject.getFields();
                 
                 oid.setDbLock(accessMode == AccessMode.DbLocked);
-                locker.setObject(tx, proposedObject.getFields());
+                locker.setObject(tx, proposedObject.getFields(), System.currentTimeMillis());
             }
 
             // load the original field into the transaction. so, store will
@@ -924,12 +935,11 @@ public class ClassMolder {
         }
 
         // store new field values in cache
-        locker.setObject(tx, fields);
-        
         if (object instanceof TimeStampable) {
-            ((TimeStampable) object).jdoSetTimeStamp(locker.getTimeStamp());
+            locker.setObject(tx, fields, ((TimeStampable) object).jdoGetTimeStamp());
+        } else {
+            locker.setObject(tx, fields, System.currentTimeMillis());
         }
-
     }
 
     /**

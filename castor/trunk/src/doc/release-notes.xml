@@ -55,6 +55,70 @@
                     versions of 1.0.5 and older.
                 </p>
                 
+                <h3>Long transactions that do not depend on cache</h3>
+                
+                <p>
+                    For long transactions (detached objects) to work it was required that the
+                    entity has been kept in cache from being loaded until its update. If the
+                    entity was expired from cache before the update an ObjectModifiedException
+                    had been thrown. While this is no problem if all entities of an application
+                    can be kept in cache all the time, it is one for large scale applications
+                    with millions of entities.
+                </p>
+
+                <p>
+                    With release 1.3 we have changed the handling of timestamps. While it is still
+                    possible to rely on cache only it is now also possible to persist the timestamp
+                    together with the other properties of the entity. Doing so will ensure that the
+                    timestamp do not change even if the entity got expired from cache from being
+                    loaded until it get updated. If this happens the entity gets reloaded during
+                    update which also loads the previous timestamp. Having said that it still is
+                    possible that an ObjectModifiedException is thrown when another user has
+                    changed the same entity in the meantime.
+                </p>
+
+                <p>
+                    See an example entity and its mapping below:
+                </p>
+
+                    <code-panel>
+public class Entity implements TimeStampable {
+    private Integer _id;
+    private String _name;
+    private long _timeStamp;
+    
+    public Integer getId() { return _id; }
+    public void setId(final Integer id) { _id = id; }
+    
+    public String getName() { return _name; }
+    public void setName(final String name) { _name = name; }
+    
+    public long getTimeStamp() { return _timeStamp; }
+    public void setTimeStamp(final long timeStamp) {
+        _timeStamp = timeStamp;
+    }
+    
+    public long jdoGetTimeStamp() { return _timeStamp; }
+    public void jdoSetTimeStamp(final long timestamp) {
+        _timeStamp = timestamp;
+    }
+}</code-panel>
+
+                    <code-panel><![CDATA[
+<class name="Entity">
+    <cache-type type="time-limited" capacity="300"/>
+    <map-to table="entity"/>
+    <field name="id" type="integer" identity="true">
+        <sql name="id" type="integer"/>
+    </field>
+    <field name="name" type="string">
+        <sql name="name" type="char"/>
+    </field>
+    <field name="timeStamp" type="long">
+        <sql name="timestamp" type="numeric" />
+    </field>
+</class>]]></code-panel>
+
                 <h3>Moved SQL drivers into new org.castor.cpa.persistence.sql.driver package</h3>
                 
                 <p>
@@ -110,9 +174,30 @@ org.castor.cpa.persistence.sql.keygen.factories=\
   org.castor.cpa.persistence.sql.keygen.UUIDKeyGeneratorFactory</code-panel>
             </summary>
             <bugs>
+                <bug id="87" tool="jira">
+                    <description>
+                        Added ability to persist timestamps to allow long
+                        transaction that do not depend on cache.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Thomas Yip</name>
+                        <email>yip@intalio.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20080920</date>
+                </bug>
                 <bug id="2532" tool="jira">
                     <description>
-                        Fix issue with object not being untracked when creation of
+                        Fixed issue with object not being untracked when creation of
                         JDBC connection fails.
                     </description>
                     <contributor>
