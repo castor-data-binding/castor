@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="releases-old.xml">
+
+  <properties>
+    <title>Old Castor releases</title>
+    <abstract>
+       Old Castor releases.
+    </abstract>
+    <status>Final</status>
+  </properties>
+
+  <body>
+
+    <title>Old Castor releases - Documentation</title>
+    
+    <section title="Introduction">
+
+        <p>
+            Starting with release 1.3 of Castor, documentation of previous Castor releases
+            will be available for browsing for a restricted number of releases. The
+            following table links to the documentation sets for the enlisted 
+            releases.
+        </p>
+        
+        <ul>
+            <li><a href="1.2/index.html">Release 1.2</a></li>
+        </ul>
+    
+    </section>
+    
+  </body>
+
+</document>
