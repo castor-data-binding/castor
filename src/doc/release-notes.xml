@@ -174,6 +174,27 @@ org.castor.cpa.persistence.sql.keygen.factories=\
   org.castor.cpa.persistence.sql.keygen.UUIDKeyGeneratorFactory</code-panel>
             </summary>
             <bugs>
+                <bug id="1206" tool="jira">
+                    <description>
+                        Save changes to field references with dirthy="ignore" in
+                        database.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Clovis Wichoski</name>
+                        <email>clovis.wichoski@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20080923</date>
+                </bug>
                 <bug id="87" tool="jira">
                     <description>
                         Added ability to persist timestamps to allow long
@@ -184,12 +205,12 @@ org.castor.cpa.persistence.sql.keygen.factories=\
                         <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
-                        <name>Thomas Yip</name>
-                        <email>yip@intalio.com</email>
-                    </submitter>
-                    <reporter>
                         <name>Ralf Joachim</name>
                         <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Thomas Yip</name>
+                        <email>yip@intalio.com</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>
