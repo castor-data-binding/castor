@@ -120,7 +120,7 @@ public class SchemaTestCase extends XMLTestCase {
         SchemaDifferences[] diff = tc.getSchemaDifferences();
         for (int i = 0; i < diff.length; i++) {
             if (diff[i].getFailureStep().equals(step)) {
-                return diff[i].getContent().intValue();
+                return diff[i].getContent();
             }
         }
         return 0;
