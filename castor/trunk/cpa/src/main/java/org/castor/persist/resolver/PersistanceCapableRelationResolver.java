@@ -222,7 +222,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                 }
             }
         } else {
-            if (_fieldMolder.isStored() && _fieldMolder.isCheckDirty()) {
+            if (_fieldMolder.isStored() /* && _fieldMolder.isCheckDirty() */) {
                 flags.setUpdatePersist(true);
             }
             flags.setUpdateCache(true);
