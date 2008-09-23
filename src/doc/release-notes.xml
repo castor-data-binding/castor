@@ -174,6 +174,27 @@ org.castor.cpa.persistence.sql.keygen.factories=\
   org.castor.cpa.persistence.sql.keygen.UUIDKeyGeneratorFactory</code-panel>
             </summary>
             <bugs>
+                <bug id="1196" tool="jira">
+                    <description>
+                        Allow an entity to reference another entity that has been loaded
+                        in a different transaction.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Clovis Wichoski</name>
+                        <email>clovis.wichoski@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20080923</date>
+                </bug>
                 <bug id="1206" tool="jira">
                     <description>
                         Save changes to field references with dirthy="ignore" in
