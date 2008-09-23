@@ -38,6 +38,17 @@
 
   <navSections>
 
+    <section name="Old releases">
+      <navLink>
+        <url>releases-old.xml</url>
+        <display>General</display>
+      </navLink>
+      <navLink>
+        <url>1.2/index.xml</url>
+        <display>Release 1.2</display>
+      </navLink>
+    </section>
+    
     <section name="Main">
       <navLink>
         <url>index.xml</url>
@@ -64,7 +75,7 @@
         <display>Reference guide</display>
       </navlink>
       <navLink>
-        <url>javadoc/overview-summary.html</url>
+        <url>jacastorvadoc/overview-summary.html</url>
         <display>JavaDoc</display>
       </navLink>
       <navLink>
