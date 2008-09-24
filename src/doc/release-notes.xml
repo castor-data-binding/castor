@@ -196,7 +196,7 @@ org.castor.cpa.persistence.sql.keygen.factories=\
                 </bug>
                 <bug id="1196" tool="jira">
                     <description>
-                        Allow an entity to reference another entity that has been loaded
+                        Allowed an entity to reference another entity that has been loaded
                         in a different transaction.
                     </description>
                     <contributor>
@@ -217,7 +217,7 @@ org.castor.cpa.persistence.sql.keygen.factories=\
                 </bug>
                 <bug id="1206" tool="jira">
                     <description>
-                        Save changes to field references with dirthy="ignore" in
+                        Enabled to save changes to field references with dirthy="ignore" in
                         database.
                     </description>
                     <contributor>
@@ -776,7 +776,7 @@ org.castor.cpa.persistence.sql.keygen.factories=\
                 </bug>
                 <bug id="2479" tool="jira">
                     <description>
-                        Remove unused code from ClassMolder, LockEngine and ObjectLock
+                        Removed unused code from ClassMolder, LockEngine and ObjectLock
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -796,7 +796,7 @@ org.castor.cpa.persistence.sql.keygen.factories=\
                 </bug>
                 <bug id="2478" tool="jira">
                     <description>
-                        Made ObjectLock and CachEntry independent from each other
+                        Made ObjectLock and CachEntry independent from each other.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -814,9 +814,9 @@ org.castor.cpa.persistence.sql.keygen.factories=\
                     <module>JDO</module>
                     <date>20080714</date>
                 </bug>
-                <bug id="2477" tool="jira">
+                <bug id="2537" tool="jira">
                     <description>
-                        Prepared KeyGenerator to taken over role of SQLSatementCreate (Part 1)
+                        Refactored HighLow, Identity, Max and UUID key generators.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
