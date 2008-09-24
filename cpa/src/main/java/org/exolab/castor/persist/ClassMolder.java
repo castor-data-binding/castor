@@ -541,12 +541,12 @@ public class ClassMolder {
         return stamp;
     }
 
-    public Object load(final TransactionContext tx, final OID oid, final DepositBox locker,
+    public Object load(final TransactionContext tx, final DepositBox locker,
             final ProposedEntity proposedObject, final AccessMode suggestedAccessMode,
             final QueryResults results)
     throws PersistenceException {
-        
         int fieldType;
+        OID oid = locker.getOID();
         AccessMode accessMode = getAccessMode(suggestedAccessMode);
         
         resetResolvers();

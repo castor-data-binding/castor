@@ -322,7 +322,6 @@ public final class LockEngine {
     throws PersistenceException {
 
         OID internaloid = oid;
-        OID        lockedOid;
         ObjectLock lock;
         TypeInfo   typeInfo;
         boolean    succeed;
@@ -351,9 +350,9 @@ public final class LockEngine {
 
             lock = typeInfo.acquire(internaloid, tx, action, timeout);
 
-            lockedOid = lock.getOID();
-
-            Object stamp = typeInfo._molder.load(tx, lockedOid, lock, proposedObject,
+            OID lockedOid = lock.getOID();
+            
+            Object stamp = typeInfo._molder.load(tx, lock, proposedObject,
                     suggestedAccessMode, results);
 
             // if object has been expanded, return early            
@@ -363,16 +362,10 @@ public final class LockEngine {
                 return internaloid;
             }
             
-            // proposal change: lockedOid parameter is not really neccesary.
-            // we can added getOID() method in DepositBox. It make code a little
-            // bit clear?
-            // And should ClassMolder the one who set stamp?
-
             succeed = true;
 
-            lockedOid.setStamp(stamp);
-
             if (lockedOid != null) {
+                lockedOid.setStamp(stamp);
                 internaloid = lockedOid;
             }
 
@@ -650,8 +643,7 @@ public final class LockEngine {
                 proposedObject.setEntity(loadObject);
                 
                 try {
-                    typeInfo._molder.load(tx, internaloid, lock, proposedObject,
-                            suggestedAccessMode, null);
+                    typeInfo._molder.load(tx, lock, proposedObject, suggestedAccessMode, null);
 
                     if (proposedObject.getEntity() instanceof TimeStampable) {
                         lock.setTimeStamp(((TimeStampable) loadObject).jdoGetTimeStamp());
@@ -1188,28 +1180,19 @@ public final class LockEngine {
                     // consult with the 'second level' cache, aka physical cache
                     CacheEntry cachedEntry = (CacheEntry) _cache.remove(internaloid);
                     if (cachedEntry != null) {
-                        // if there's an {@link CacheEntry} instance, create a new
-                        // ObjectLock instance from its data and put it into first level cache
-                        entry = new ObjectLock(cachedEntry.getOID(),
-                                cachedEntry.getEntry(), cachedEntry.getTimeStamp());
-                        _locks.put(internaloid, entry);
-                        
-                        OID cacheOid = entry.getOID();
+                        OID cacheOid = cachedEntry.getOID();
                         if (internaloid.getName().equals(cacheOid.getName())) {
+                            entry = new ObjectLock(cachedEntry.getOID(),
+                                    cachedEntry.getEntry(), cachedEntry.getTimeStamp());
+                            
                             entry.setOID(internaloid);
-                            _locks.put(internaloid, entry);
                         } else {
-                            entry = null;
+                            entry = new ObjectLock(internaloid);
                         }
+                    } else {
+                        entry = new ObjectLock(internaloid);
                     }
-                }
-                
-                if (entry == null) {
-                    // create a new ObjectLock instance and put it into first level cache
-                    entry = new ObjectLock(internaloid);
                     _locks.put(internaloid, entry);
-                } else {
-                    internaloid = entry.getOID();
                 }
                 entry.enter();
             }

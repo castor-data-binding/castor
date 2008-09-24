@@ -66,6 +66,13 @@ import org.castor.persist.TransactionContext;
  * @author <a href="mailto:yip@intalio.com">Thomas Yip</a>
  */
 public interface DepositBox {
+    /**
+     * Get the object's OID.
+     * 
+     * @return the object's OID.
+     */
+    OID getOID();
+    
     /** 
      *  Set an object into the DespositBox, only a transaction
      *  has the write lock may call it method or IllegalArgumentException
