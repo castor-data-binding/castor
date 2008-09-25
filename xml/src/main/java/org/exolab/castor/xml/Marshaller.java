@@ -2018,8 +2018,25 @@ public class Marshaller extends MarshalFramework {
         if (wrappers != null) {
             try {
                 while (!wrappers.empty()) {
-                    WrapperInfo wInfo = (WrapperInfo)wrappers.pop();
-                    handler.endElement(nsURI, wInfo.localName, wInfo.qName);
+                    WrapperInfo wInfo = (WrapperInfo) wrappers.peek();
+                    boolean popStack = true;
+                    if (nestedAttCount > 0) {
+                        for (int na = 0; na < nestedAtts.length; na++) {
+                            // TODO[LL]: refactor to avoid check against null
+                            if (nestedAtts[na] == null) continue;
+                            String nestedAttributePath = nestedAtts[na].getLocationPath();
+                            if (nestedAttributePath.startsWith(wInfo.location + "/")) {
+                                popStack = false;
+                                break;
+                            }
+                        }
+                    }
+                    if (popStack) {
+                        handler.endElement(nsURI, wInfo.localName, wInfo.qName);
+                        wrappers.pop();
+                    } else {
+                        break;
+                    }
                 }
             }
             catch(SAXException sx) {
@@ -2031,13 +2048,49 @@ public class Marshaller extends MarshalFramework {
         // order when element 'text' is null, but their attribute value is not null. Can this be fixed
         // to process element attributes even when the element text value is null?
 
+        if (wrappers != null && !wrappers.isEmpty()) {
+            dealWithNestedAttributesNested(object, handler, nsPrefix, nsURI,
+                    nestedAttCount, nestedAtts, wrappers);
+        }
+
+        dealWithNestedAttributes(object, handler, nsPrefix, nsURI,
+                nestedAttCount, nestedAtts, new SafeStack());
+
+        //-- finish element
+        try {
+            if (!containerField) {
+                handler.endElement(nsURI, name, qName);
+                //-- undeclare all necesssary namespaces
+                _namespaces.sendEndEvents(handler);
+            }
+        }
+        catch(org.xml.sax.SAXException sx) {
+            throw new MarshalException(sx);
+        }
+
+        --depth;
+        _parents.pop();
+        if (!atRoot) _namespaces = _namespaces.getParent();
+
+        //-- notify listener of post marshal
+        if (_marshalListener != null)
+            _marshalListener.postMarshal(object);
+
+    } //-- void marshal(DocumentHandler)
+
+    private void dealWithNestedAttributes(Object object,
+            ContentHandler handler, String nsPrefix, String nsURI,
+            int nestedAttCount, XMLFieldDescriptor[] nestedAtts, Stack wrappers)
+            throws MarshalException {
         //-- Handle any additional attribute locations that were
         //-- not handled when dealing with wrapper elements
         if (nestedAttCount > 0) {
-            if (wrappers == null) wrappers = new SafeStack();
             for (int i = 0; i < nestedAtts.length; i++) {
                 if (nestedAtts[i] == null) continue;
                 String path = nestedAtts[i].getLocationPath();
+                String currentLoc = null;
+                
+                
                 //-- Make sure attribute has value before continuing
                 //-- We really could use a FieldHandler#hasValue()
                 //-- method (since sometimes getValue() methods may
@@ -2048,7 +2101,6 @@ public class Marshaller extends MarshalFramework {
                     -- nestedAttCount;
                     continue;
                 }
-                String currentLoc = null;
                 try {
                     while (path != null) {
                         int idx = path.indexOf('/');
@@ -2101,28 +2153,94 @@ public class Marshaller extends MarshalFramework {
                 }
             }
         } // if (nestedAttCount > 0)
+    }
 
-        //-- finish element
-        try {
-            if (!containerField) {
-                handler.endElement(nsURI, name, qName);
-                //-- undeclare all necesssary namespaces
-                _namespaces.sendEndEvents(handler);
+    private void dealWithNestedAttributesNested(Object object,
+            ContentHandler handler, String nsPrefix, String nsURI,
+            int nestedAttCount, XMLFieldDescriptor[] nestedAtts, Stack wrappers)
+            throws MarshalException {
+        //-- Handle any additional attribute locations that were
+        //-- not handled when dealing with wrapper elements
+        
+        WrapperInfo wrapperInfo = (WrapperInfo) wrappers.peek();
+        String currentLocation = wrapperInfo.location;
+        
+        if (nestedAttCount > 0) {
+            for (int i = 0; i < nestedAtts.length; i++) {
+                if (nestedAtts[i] == null) continue;
+                String nestedAttributePath = nestedAtts[i].getLocationPath();
+                
+                if (!nestedAttributePath.startsWith(currentLocation + "/")) {
+                    continue;
+                }
+                
+                nestedAttributePath = nestedAttributePath.substring(wrapperInfo.location.length() + 1);
+                String currentLoc = currentLocation;
+                
+                
+                //-- Make sure attribute has value before continuing
+                //-- We really could use a FieldHandler#hasValue()
+                //-- method (since sometimes getValue() methods may
+                //-- be expensive and we don't always want to call it
+                //-- multiple times)
+                if (nestedAtts[i].getHandler().getValue(object) == null) {
+                    nestedAtts[i] = null;
+                    -- nestedAttCount;
+                    continue;
+                }
+                try {
+                    while (nestedAttributePath != null) {
+                        int idx = nestedAttributePath.indexOf('/');
+                        String elemName = null;
+                        if (idx > 0) {
+                            elemName = nestedAttributePath.substring(0,idx);
+                            nestedAttributePath = nestedAttributePath.substring(idx+1);
+                        }
+                        else {
+                            elemName = nestedAttributePath;
+                            nestedAttributePath = null;
+                        }
+                        if (currentLoc == null)
+                            currentLoc = elemName;
+                        else
+                            currentLoc = currentLoc + "/" + elemName;
+
+                        String elemQName = elemName;
+                        if ((nsPrefix != null) && (nsPrefix.length() > 0)) {
+                            elemQName = nsPrefix + ':' + elemName;
+                        }
+                        wrappers.push(new WrapperInfo(elemName, elemQName, null));
+
+                        _attributes.clear();
+                        if (nestedAttributePath == null) {
+                            processAttribute(object, nestedAtts[i],_attributes);
+                            nestedAtts[i] = null;
+                            --nestedAttCount;
+                        }
+                        if (nestedAttCount > 0) {
+                            for (int na = i+1; na < nestedAtts.length; na++) {
+                                if (nestedAtts[na] == null) continue;
+                                String tmpPath = nestedAtts[na].getLocationPath();
+                                if (tmpPath.equals(currentLoc)) {
+                                    processAttribute(object, nestedAtts[na],_attributes);
+                                    nestedAtts[na] = null;
+                                    --nestedAttCount;
+                                }
+                            }
+                        }
+                        handler.startElement(nsURI, elemName, elemQName, _attributes);
+                    }
+
+                    while (!wrappers.empty()) {
+                        WrapperInfo wInfo = (WrapperInfo)wrappers.pop();
+                        handler.endElement(nsURI, wInfo.localName, wInfo.qName);
+                    }
+                } catch (Exception e) {
+                    throw new MarshalException(e);
+                }
             }
-        }
-        catch(org.xml.sax.SAXException sx) {
-            throw new MarshalException(sx);
-        }
-
-        --depth;
-        _parents.pop();
-        if (!atRoot) _namespaces = _namespaces.getParent();
-
-        //-- notify listener of post marshal
-        if (_marshalListener != null)
-            _marshalListener.postMarshal(object);
-
-    } //-- void marshal(DocumentHandler)
+        } // if (nestedAttCount > 0)
+    }
 
 
     /**
