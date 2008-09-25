@@ -22,5 +22,6 @@
       <item name="Issue Tracking" href="https://issues.apache.org/jira/browse/COCOON"/>
       <item name="Download" href="download.html"/>
     </menu>
+    <menu ref="reports"/>
   </body>
 </project>
