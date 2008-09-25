@@ -371,8 +371,8 @@ public class XMLFieldDescriptorImpl extends FieldDescriptorImpl implements XMLFi
         ClassDescriptor parent = getContainingClassDescriptor();
         if ((_nsURI == null) && (parent != null) && _useParentClassNamespace) {
             Class type = getFieldType();
-            boolean test = isPrimitive(type) || isBuiltInType(type) || isMappedItem(type);
-            if ((_nodeType == NodeType.Element) && test) {
+            // boolean test = isPrimitive(type) || isBuiltInType(type) || isMappedItem(type);
+            if ((_nodeType == NodeType.Element) /* && test*/) {
                 if (parent instanceof XMLClassDescriptor) {
                     return ((XMLClassDescriptor) parent).getNameSpaceURI();
                 }
