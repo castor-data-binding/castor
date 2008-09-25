@@ -174,6 +174,27 @@ org.castor.cpa.persistence.sql.keygen.factories=\
   org.castor.cpa.persistence.sql.keygen.UUIDKeyGeneratorFactory</code-panel>
             </summary>
             <bugs>
+                <bug id="2531" tool="jira">
+                    <description>
+                        Fixed problems with namespace inheritance for non-simple mapped
+                        entities. 
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Christophe Delory</name>
+                        <email>delory.christophe@free.fr</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20080925</date>
+                </bug>
                 <bug id="2521" tool="jira">
                     <description>
                         Fixed problems in the area of using (nested) locations with 
