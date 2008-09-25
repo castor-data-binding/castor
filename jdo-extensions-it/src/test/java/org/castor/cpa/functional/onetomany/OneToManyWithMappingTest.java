@@ -17,7 +17,6 @@ package org.castor.cpa.functional.onetomany;
 
 
 import org.exolab.castor.jdo.JDOManager;
-import org.exolab.castor.mapping.MappingException;
 
 /**
  * 
@@ -25,29 +24,16 @@ import org.exolab.castor.mapping.MappingException;
  * 
  */
 public class OneToManyWithMappingTest extends BaseOneToManyTest{
+    /**
+     * Spring bean name.
+     */
+    private static final String JDOMANAGER_BEAN = "JDOManagerMapping";
 
     /**
-     * Castor Config location.
+     * Returns the name of the {@link JDOManager} bean.
+     * @return Bean name.
      */
-    public static final String JDO_CONF_FILE = "jdo-conf-mapping.xml";
-    /**
-     * Database name.
-     */
-    public String DATABASE_NAME = "OneToManyWithMapping";
-
-    /**
-     * SetUp loads JDOManager configuration.
-     */
-    public void setUpJDO() {
-        String config = getClass().getResource(JDO_CONF_FILE).getFile();
-        try {
-            JDOManager.loadConfiguration(config, getClass().getClassLoader(), null);
-            JDOManager.loadConfiguration(config);
-            _jdo = JDOManager.createInstance(DATABASE_NAME);
-        } catch (MappingException e) {
-            e.printStackTrace();
-            fail("Instantiation Failed: " + e.getMessage());
-        }
+    protected String getJDOManagerBeanName() {
+        return JDOMANAGER_BEAN;
     }
-
 }

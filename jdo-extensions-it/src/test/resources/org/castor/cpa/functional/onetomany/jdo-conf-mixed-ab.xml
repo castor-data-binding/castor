@@ -3,6 +3,7 @@
                            "http://castor.org/jdo-conf.dtd">
 
 <jdo-conf>
+    <!-- 
 	<database name="OneToManyMixedABMysql" engine="mysql">
 		<driver url="jdbc:mysql://localhost/template"
 			class-name="com.mysql.jdbc.Driver">
@@ -10,7 +11,7 @@
 			<param name="password" value="test" />
 		</driver>
 		<mapping href="mapping-mixed-ab.xml" />
-	</database>
+	</database>-->
 	<database name="OneToManyMixedAB" engine="derby">
 		<driver url="jdbc:derby:target/test;create=true"
 			class-name="org.apache.derby.jdbc.EmbeddedDriver">

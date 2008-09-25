@@ -17,32 +17,39 @@ package org.castor.cpa.functional.onetomany;
 
 import java.io.FileInputStream;
 
-import javax.naming.spi.DirStateFactory.Result;
-
-import junit.framework.TestCase;
-
-import org.castor.cpa.functional.single.Book;
+import org.castor.cpa.functional.BaseSpringTestCase;
+import org.castor.cpa.functional.single.BaseSingleTest;
 import org.dbunit.DefaultDatabaseTester;
+import org.dbunit.IDatabaseTester;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.dataset.xml.XmlDataSet;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.JDOManager;
 import org.exolab.castor.jdo.OQLQuery;
-import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryResults;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * 
  * 
  * @author Tobias Hochwallner
  */
-public abstract class BaseOneToManyTest extends TestCase {
+public abstract class BaseOneToManyTest extends BaseSpringTestCase {
+    /**
+     * Spring config file.
+     */
+    private static final String SPRING_CONFIG = "spring-config.xml";
 
     /**
      * JDOManager instance, for connecting to database.
      */
     protected JDOManager _jdo = null;
-    private DefaultDatabaseTester dbtester = null;
+
+    /**
+     * The DBUnit {@link IDatabaseTester} to use.
+     */
+    private DefaultDatabaseTester _dbtester = null;
     /**
      * Name of the initial dataset file.
      */
@@ -50,15 +57,25 @@ public abstract class BaseOneToManyTest extends TestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        setUpJDO();
-        dbtester = new DefaultDatabaseTester(new DatabaseConnection(_jdo
-                .getConnectionFactory().createConnection()));
-        dbtester.setDataSet(new XmlDataSet(new FileInputStream(getClass()
-                .getResource(DATA_SET_FILE).getFile())));
-        dbtester.onSetup();
+        _jdo = (JDOManager) _context.getBean(getJDOManagerBeanName());
+        _dbtester = new DefaultDatabaseTester(new DatabaseConnection(_jdo.getConnectionFactory().createConnection()));
+        _dbtester.setDataSet(new XmlDataSet(new FileInputStream(
+                getClass().getResource(DATA_SET_FILE).getFile())));
+        _dbtester.onSetup();
     }
 
-    public abstract void setUpJDO();
+    protected abstract String getJDOManagerBeanName();
+    
+    /**
+     * Returns an {@link ClassPathXmlApplicationContext} for onetomany tests.
+     * 
+     * @return A {@link ClassPathXmlApplicationContext}.
+     * @see BaseSingleTest#getApplicationContext()
+     */
+    protected ApplicationContext getApplicationContext() {
+        return new ClassPathXmlApplicationContext(getClass().getResource(
+                SPRING_CONFIG).toExternalForm());
+    }    
 
     /**
      * Tests if loading an flat element from database works.

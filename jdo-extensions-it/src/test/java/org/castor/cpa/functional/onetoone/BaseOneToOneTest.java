@@ -79,8 +79,7 @@ public abstract class BaseOneToOneTest extends BaseSpringTestCase {
     protected abstract String getJDOManagerBeanName();
 
     /**
-     * Returns an {@link ClassPathXmlApplicationContext} for single entity
-     * tests.
+     * Returns an {@link ClassPathXmlApplicationContext} for onetoone tests.
      * 
      * @return A {@link ClassPathXmlApplicationContext}.
      * @see BaseSingleTest#getApplicationContext()
