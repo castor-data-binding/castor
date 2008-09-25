@@ -20,6 +20,6 @@
 		</driver>
 		<mapping href="mapping.xml" />
 		</database> 
-	-->
+	 -->
 	<transaction-demarcation mode="local" />
 </jdo-conf>

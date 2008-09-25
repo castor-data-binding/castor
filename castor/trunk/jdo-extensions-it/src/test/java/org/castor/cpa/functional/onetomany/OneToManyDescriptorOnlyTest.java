@@ -17,8 +17,6 @@ package org.castor.cpa.functional.onetomany;
 
 
 import org.exolab.castor.jdo.JDOManager;
-import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.xml.util.JDOClassDescriptorResolverImpl;
 
 /**
  * 
@@ -28,31 +26,15 @@ import org.exolab.castor.xml.util.JDOClassDescriptorResolverImpl;
 public class OneToManyDescriptorOnlyTest extends BaseOneToManyTest {
 
     /**
-     * Castor Config location.
+     * Spring bean name.
      */
-    public static final String JDO_CONF_FILE = "jdo-conf.xml";
-    /**
-     * Database name.
-     */
-    public String DATABASE_NAME = "OneToManyDescriptorOnly";
+    private static final String JDOMANAGER_BEAN = "JDOManagerInjected";
 
     /**
-     * SetUp loads JDOManager configuration.
+     * Returns the name of the {@link JDOManager} bean.
+     * @return Bean name.
      */
-    public void setUpJDO() {
-        JDOClassDescriptorResolverImpl classDescriptorResolver = new JDOClassDescriptorResolverImpl();
-        classDescriptorResolver.addClass(Flat.class);
-        classDescriptorResolver.addClass(House.class);
-        String config = getClass().getResource(JDO_CONF_FILE).getFile();
-        try {
-            JDOManager.loadConfiguration(config, getClass().getClassLoader(), null);
-            JDOManager.loadConfiguration(config, getClass().getClassLoader(),
-                    classDescriptorResolver);
-            _jdo = JDOManager.createInstance(DATABASE_NAME);
-        } catch (MappingException e) {
-            e.printStackTrace();
-            fail("Instantiation Failed: " + e.getMessage());
-        }
+    protected String getJDOManagerBeanName() {
+        return JDOMANAGER_BEAN;
     }
-
 }
