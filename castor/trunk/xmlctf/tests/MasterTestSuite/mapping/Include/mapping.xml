@@ -2,6 +2,7 @@
 <mapping>
         <!--include a local mapping -->
         <include href="../xmlctf/tests/MasterTestSuite/mapping/Include/test/mapping.xml"/>
+        <!--  <include href="test/mapping.xml" relativeToContaining="true"/>  -->
 
         <class name="A">
                 <map-to xml="A"/>
