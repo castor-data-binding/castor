@@ -64,6 +64,7 @@ import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.builder.info.XMLInfo;
+import org.exolab.castor.builder.info.NodeType;
 import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.builder.types.XSList;
 import org.exolab.castor.builder.types.XSListType;
@@ -202,7 +203,7 @@ public final class MemberFactory extends BaseFactory {
         if (fInfo.hasNature(XMLInfoNature.class.getName())) {
             XMLInfoNature xmlNature = new XMLInfoNature(fInfo);
             
-            xmlNature.setNodeType(XMLInfo.ELEMENT_TYPE);
+            xmlNature.setNodeType(NodeType.ELEMENT);
             xmlNature.setRequired(false);
             xmlNature.setNodeName("##any");
         }
@@ -237,7 +238,7 @@ public final class MemberFactory extends BaseFactory {
         }
         if (fInfo.hasNature(XMLInfoNature.class.getName())) {
             XMLInfoNature xmlNature = new XMLInfoNature(fInfo);
-            xmlNature.setNodeType(XMLInfo.TEXT_TYPE);
+            xmlNature.setNodeType(NodeType.TEXT);
             xmlNature.setRequired(false);
             xmlNature.setNodeName("#text");
         }
@@ -474,10 +475,10 @@ public final class MemberFactory extends BaseFactory {
         xmlNature.setRequired(minOccurs > 0);
         switch (component.getAnnotated().getStructureType()) {
             case Structure.ELEMENT:
-                xmlNature.setNodeType(XMLInfo.ELEMENT_TYPE);
+                xmlNature.setNodeType(NodeType.ELEMENT);
                  break;
             case Structure.ATTRIBUTE:
-                xmlNature.setNodeType(XMLInfo.ATTRIBUTE_TYPE);
+                xmlNature.setNodeType(NodeType.ATTRIBUTE);
                 break;
             case Structure.MODELGROUP:
             case Structure.GROUP:

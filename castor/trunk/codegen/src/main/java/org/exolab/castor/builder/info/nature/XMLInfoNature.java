@@ -21,7 +21,7 @@ import java.util.List;
 import org.castor.core.nature.BaseNature;
 import org.castor.core.nature.PropertyHolder;
 import org.exolab.castor.builder.info.GroupInfo;
-import org.exolab.castor.builder.info.XMLInfo;
+import org.exolab.castor.builder.info.NodeType;
 import org.exolab.castor.builder.types.XSType;
 
 /**
@@ -144,12 +144,12 @@ public final class XMLInfoNature extends BaseNature {
      * 
      * @return the node type for the object described by this XMLInfo
      */
-    public short getNodeType() {
-        Short s = (Short) this.getProperty(NODE_TYPE);
-        if (s == null) {
-            return XMLInfo.ELEMENT_TYPE;
+    public NodeType getNodeType() {
+        NodeType nodeType = (NodeType) this.getProperty(NODE_TYPE);
+        if (nodeType == null) {
+            return NodeType.ELEMENT;
         }
-        return s.shortValue();
+        return nodeType;
     }
 
     /**
@@ -160,13 +160,13 @@ public final class XMLInfoNature extends BaseNature {
      *         XMLInfo.
      */
     public String getNodeTypeName() {
-        Short s = (Short) this.getProperty(NODE_TYPE);
-        switch (s.shortValue()) {
-        case XMLInfo.ATTRIBUTE_TYPE:
+        NodeType nodeType = getNodeType();
+        switch (nodeType) {
+        case ATTRIBUTE:
             return "attribute";
-        case XMLInfo.ELEMENT_TYPE:
+        case ELEMENT:
             return "element";
-        case XMLInfo.TEXT_TYPE:
+        case TEXT:
             return "text";
         default:
             return "unknown";
@@ -276,9 +276,8 @@ public final class XMLInfoNature extends BaseNature {
      * @param nodeType
      *            the node type of the described object
      */
-    public void setNodeType(final short nodeType) {
-        Short s = new Short(nodeType);
-        this.setProperty(NODE_TYPE, s);
+    public void setNodeType(final NodeType nodeType) {
+        this.setProperty(NODE_TYPE, nodeType);
     }
 
     /**

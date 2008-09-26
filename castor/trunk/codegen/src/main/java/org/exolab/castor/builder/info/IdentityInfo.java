@@ -64,7 +64,7 @@ public final class IdentityInfo extends FieldInfo {
         super(new XSId(), name, memberAndAccessorFactory);
         if (hasNature(XMLInfoNature.class.getName())) {
             XMLInfoNature xmlNature = new XMLInfoNature(this);
-            xmlNature.setNodeType(XMLInfo.ATTRIBUTE_TYPE);
+            xmlNature.setNodeType(NodeType.ATTRIBUTE);
         }
     }
    

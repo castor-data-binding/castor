@@ -100,7 +100,7 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
     public ClassInfo(final JClass jClass) {
         this.addNature(XMLInfoNature.class.getName());
         XMLInfoNature xmlNature = new XMLInfoNature(this);
-        xmlNature.setNodeType(XMLInfo.ELEMENT_TYPE);
+        xmlNature.setNodeType(NodeType.ELEMENT);
         if (jClass == null) {
             String err = "JClass passed to constructor of ClassInfo must not be null.";
             throw new IllegalArgumentException(err);
@@ -124,12 +124,12 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
         fieldInfo.setDeclaringClassInfo(this);
 
         switch(new XMLInfoNature(fieldInfo).getNodeType()) {
-            case XMLInfo.ATTRIBUTE_TYPE:
+            case ATTRIBUTE:
                 if (!_atts.contains(fieldInfo)) {
                     _atts.addElement(fieldInfo);
                 }
                 break;
-            case XMLInfo.TEXT_TYPE:
+            case TEXT:
                 _textField = fieldInfo;
                 break;
             default:
@@ -171,12 +171,12 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
         }
 
         switch (new XMLInfoNature(fieldInfo).getNodeType()) {
-            case XMLInfo.ATTRIBUTE_TYPE:
+            case ATTRIBUTE:
                 if (_atts != null) {
                     return _atts.contains(fieldInfo);
                 }
                 break;
-            case XMLInfo.TEXT_TYPE:
+            case TEXT:
                 return (fieldInfo == _textField);
             default:
                 if (_elements != null) {

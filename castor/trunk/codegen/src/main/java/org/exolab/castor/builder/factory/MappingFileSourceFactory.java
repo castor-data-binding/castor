@@ -48,7 +48,7 @@ import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.FieldInfo;
-import org.exolab.castor.builder.info.XMLInfo;
+import org.exolab.castor.builder.info.NodeType;
 import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.mapping.xml.BindXml;
@@ -205,8 +205,9 @@ public final class MappingFileSourceFactory {
         XSType xsType = xmlNature.getSchemaType();
 
         boolean any = false;
-        boolean isAttribute = (xmlNature.getNodeType() == XMLInfo.ATTRIBUTE_TYPE);
-        boolean isText = (xmlNature.getNodeType() == XMLInfo.TEXT_TYPE);
+        NodeType nodeType = xmlNature.getNodeType();
+        boolean isAttribute = (nodeType == NodeType.ATTRIBUTE);
+        boolean isText = (nodeType == NodeType.TEXT);
 
         //-- a hack, I know, I will change later (kv)
         if (member.getName().equals("_anyObject")) {

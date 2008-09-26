@@ -21,8 +21,21 @@ package org.exolab.castor.builder.info;
  *
  * @author <a href="mailto:wguttmn AT codehaus DOT com">Werner Guttmann</a>
  */
-public enum XMLInfoType {
+public enum NodeType {
     
-    ATTRIBUTE_TYPE, ELEMENT_TYPE, TEXT_TYPE
+    /**
+     * Attribute node (type). 
+     */
+    ATTRIBUTE,
+    
+    /**
+     * Element node (type). 
+     */
+    ELEMENT,
+    
+    /**
+     * Text node (type). 
+     */
+    TEXT
 
 }

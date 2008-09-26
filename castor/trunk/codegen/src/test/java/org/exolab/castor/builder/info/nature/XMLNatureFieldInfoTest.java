@@ -21,6 +21,7 @@ import junit.framework.TestCase;
 import org.castor.core.nature.PropertyHolder;
 import org.exolab.castor.builder.factory.FieldInfoFactory;
 import org.exolab.castor.builder.info.XMLInfo;
+import org.exolab.castor.builder.info.NodeType;
 import org.exolab.castor.builder.types.XSClass;
 import org.exolab.javasource.JClass;
 
@@ -88,15 +89,15 @@ public final class XMLNatureFieldInfoTest extends TestCase {
      * Tests set and get of the _xml node type.
      */
     public void testNodeType() {
-        _xml.setNodeType(XMLInfo.ELEMENT_TYPE);
-        assertEquals(XMLInfo.ELEMENT_TYPE, _xml.getNodeType());
+        _xml.setNodeType(NodeType.ELEMENT);
+        assertEquals(NodeType.ELEMENT, _xml.getNodeType());
     }
 
     /**
      * Tests set and get of the _xml node type name.
      */
     public void testNodeTypeNameElement() {
-        _xml.setNodeType(XMLInfo.ELEMENT_TYPE);
+        _xml.setNodeType(NodeType.ELEMENT);
         assertEquals("element", _xml.getNodeTypeName());
     }
     
@@ -104,7 +105,7 @@ public final class XMLNatureFieldInfoTest extends TestCase {
      * Tests set and get of the _xml node type name.
      */
     public void testNodeTypeNameAttribute() {
-        _xml.setNodeType(XMLInfo.ATTRIBUTE_TYPE);
+        _xml.setNodeType(NodeType.ATTRIBUTE);
         assertEquals("attribute", _xml.getNodeTypeName());
     }
     
@@ -112,17 +113,17 @@ public final class XMLNatureFieldInfoTest extends TestCase {
      * Tests set and get of the _xml node type name.
      */
     public void testNodeTypeNameText() {
-        _xml.setNodeType(XMLInfo.TEXT_TYPE);
+        _xml.setNodeType(NodeType.TEXT);
         assertEquals("text", _xml.getNodeTypeName());
     }
     
-    /**
-     * Tests set and get of the _xml node type name.
-     */
-    public void testNodeTypeNameUnknown() {
-        _xml.setNodeType((short) 5);
-        assertEquals("unknown", _xml.getNodeTypeName());
-    }
+//    /**
+//     * Tests set and get of the _xml node type name.
+//     */
+//    public void testNodeTypeNameUnknown() {
+//        _xml.setNodeType((short) 5);
+//        assertEquals("unknown", _xml.getNodeTypeName());
+//    }
     
     /**
      * Tests set and get of the _xml schema type.
