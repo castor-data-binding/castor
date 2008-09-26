@@ -21,6 +21,7 @@ import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.builder.info.XMLInfo;
+import org.exolab.castor.builder.info.NodeType;
 import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.builder.types.XSListType;
 import org.exolab.castor.builder.types.XSClass;
@@ -83,8 +84,9 @@ public final class XMLFieldHandlerFactory {
 
         createGetValueMethod(member, xsType, localClassName, jsc);
 
-        boolean isAttribute = (xmlNature.getNodeType() == XMLInfo.ATTRIBUTE_TYPE);
-        boolean isContent = (xmlNature.getNodeType() == XMLInfo.TEXT_TYPE);
+        NodeType nodeType = xmlNature.getNodeType();
+        boolean isAttribute = (nodeType == NodeType.ATTRIBUTE);
+        boolean isContent = (nodeType == NodeType.TEXT);
 
         createSetValueMethod(member, xsType, localClassName, jsc, any, isAttribute, isContent);
         createResetMethod(member, localClassName, jsc);

@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 import org.exolab.castor.builder.factory.FieldInfoFactory;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.FieldInfo;
-import org.exolab.castor.builder.info.XMLInfo;
+import org.exolab.castor.builder.info.NodeType;
 import org.exolab.castor.builder.types.XSClass;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.javasource.JClass;
@@ -256,7 +256,7 @@ public final class JDOClassNatureTest extends TestCase {
                 new JClass("Book")), "isbn");
         // Set node type
         elementField.addNature(XMLInfoNature.class.getName());
-        new XMLInfoNature(elementField).setNodeType(XMLInfo.ELEMENT_TYPE);
+        new XMLInfoNature(elementField).setNodeType(NodeType.ELEMENT);
         // Set column name
         elementField.addNature(JDOFieldInfoNature.class.getName());
         JDOFieldInfoNature jdoField = new JDOFieldInfoNature(elementField);
@@ -267,7 +267,7 @@ public final class JDOClassNatureTest extends TestCase {
                 new JClass("Book")), "title");
         // Set node type
         attributeField.addNature(XMLInfoNature.class.getName());
-        new XMLInfoNature(attributeField).setNodeType(XMLInfo.ATTRIBUTE_TYPE);
+        new XMLInfoNature(attributeField).setNodeType(NodeType.ATTRIBUTE);
         // Set column name
         attributeField.addNature(JDOFieldInfoNature.class.getName());
         jdoField = new JDOFieldInfoNature(attributeField);
@@ -278,7 +278,7 @@ public final class JDOClassNatureTest extends TestCase {
                 new JClass("Book")), "price");
         // Set node type
         textField.addNature(XMLInfoNature.class.getName());
-        new XMLInfoNature(textField).setNodeType(XMLInfo.TEXT_TYPE);
+        new XMLInfoNature(textField).setNodeType(NodeType.TEXT);
         // Set column name
         textField.addNature(JDOFieldInfoNature.class.getName());
         jdoField = new JDOFieldInfoNature(textField);

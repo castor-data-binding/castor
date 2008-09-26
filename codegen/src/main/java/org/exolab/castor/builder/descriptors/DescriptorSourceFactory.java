@@ -59,6 +59,7 @@ import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.builder.info.XMLInfo;
+import org.exolab.castor.builder.info.NodeType;
 import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.builder.types.XSList;
 import org.exolab.castor.builder.types.XSListType;
@@ -311,9 +312,10 @@ public final class DescriptorSourceFactory {
         jsc.append(xmlNature.getNodeName());
         jsc.append("\"");
         jsc.append(", _nsURI");
-        if (xmlNature.getNodeType() == XMLInfo.ELEMENT_TYPE) {
+        NodeType nodeType = xmlNature.getNodeType();
+        if (nodeType == NodeType.ELEMENT) {
             jsc.append(", org.exolab.castor.xml.NodeType.Element);");
-        } else if (xmlNature.getNodeType() == XMLInfo.ATTRIBUTE_TYPE) {
+        } else if (nodeType == NodeType.ATTRIBUTE) {
             jsc.append(", org.exolab.castor.xml.NodeType.Attribute);");
         } else {
             jsc.append("org.exolab.castor.xml.NodeType.Text);");
@@ -342,9 +344,10 @@ public final class DescriptorSourceFactory {
         XSType xsCollectionType = null;
         
         boolean any         = false;
-        boolean isElement   = (xmlNature.getNodeType() == XMLInfo.ELEMENT_TYPE);
-        boolean isAttribute = (xmlNature.getNodeType() == XMLInfo.ATTRIBUTE_TYPE);
-        boolean isText      = (xmlNature.getNodeType() == XMLInfo.TEXT_TYPE);
+        NodeType nodeType = xmlNature.getNodeType();
+        boolean isElement   = (nodeType == NodeType.ELEMENT);
+        boolean isAttribute = (nodeType == NodeType.ATTRIBUTE);
+        boolean isText      = (nodeType == NodeType.TEXT);
 
         jsc.add("//-- ");
         jsc.append(member.getName());

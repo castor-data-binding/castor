@@ -2325,10 +2325,10 @@ public final class SourceFactory extends BaseFactory {
         boolean present = false;
         if (base != null) {
             switch (new XMLInfoNature(fieldInfo).getNodeType()) {
-                case XMLInfo.ATTRIBUTE_TYPE:
+                case ATTRIBUTE:
                     present = (base.getAttributeField(xmlNature.getNodeName()) != null);
                     break;
-                case XMLInfo.ELEMENT_TYPE:
+                case ELEMENT:
                     String baseNodeName = xmlNature.getNodeName();
                     // TODO[WG]: replace this error check with something more meaningful
                     if (baseNodeName != null

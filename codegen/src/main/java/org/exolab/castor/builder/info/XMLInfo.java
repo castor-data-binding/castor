@@ -52,13 +52,6 @@ package org.exolab.castor.builder.info;
  */
 public interface XMLInfo {
 
-    /** Represents the attribute node type. */
-    short ATTRIBUTE_TYPE = 0;
-    /** Represents the element node type. */
-    short ELEMENT_TYPE   = 1;
-    /** Represents the text node type. */
-    short TEXT_TYPE      = 2;
-
     /**
      * Identifies the node name for a choice group.
      */
