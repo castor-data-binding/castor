@@ -685,7 +685,7 @@ public class DTXQuery {
                                         relDesc.setTextCol(relFullName, relField);
                                     }
                                 }
-                                if (relField.getName().equals(relMapping.getIdentity())) {
+                                if (relField.getName().equals(relMapping.getIdentity(0))) {
                                     _ids.add(relTable + "." + relFieldName);
                                     desc.addContained(relTable + "." + relFieldName, relMapping);
                                     _classes.put(relTable + "." + relFieldName, relDesc);
