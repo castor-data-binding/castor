@@ -217,7 +217,7 @@ public final class JDocComment {
      * {@inheritDoc}
      */
     public String toString() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("/**\n");
         sb.append(" * ");
         sb.append(" */\n");

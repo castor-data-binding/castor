@@ -242,7 +242,7 @@ public final class JField extends JAnnotatedElementHelper implements JMember {
      * {@inheritDoc}
      */
     public String toString() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append(_modifiers.toString());
         sb.append(' ');
         sb.append(_type);

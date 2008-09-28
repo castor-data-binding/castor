@@ -99,7 +99,7 @@ public abstract class AbstractPatternFacet extends XSType {
         //-- make sure we have characters to escape
         if (str.indexOf('\\') < 0 && str.indexOf('\"') < 0) { return str; }
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         char[] chars = str.toCharArray();
         for (int i = 0; i < chars.length; i++) {

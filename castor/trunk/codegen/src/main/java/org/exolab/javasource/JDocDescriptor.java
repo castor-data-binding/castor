@@ -325,7 +325,7 @@ public final class JDocDescriptor {
      * {@inheritDoc}
      */
     public String toString() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         boolean allowName = true;
         switch(_type) {
             case AUTHOR:

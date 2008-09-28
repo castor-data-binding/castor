@@ -210,7 +210,7 @@ public final class JAnnotationType extends JStructure {
             throw new IllegalArgumentException("argument 'jsw' should not be null.");
         }
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder(100);
 
         printHeader(jsw);
         printPackageDeclaration(jsw);

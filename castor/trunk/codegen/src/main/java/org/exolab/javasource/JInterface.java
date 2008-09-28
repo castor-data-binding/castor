@@ -326,7 +326,7 @@ public final class JInterface extends JStructure {
             throw new IllegalArgumentException("argument 'jsw' should not be null.");
         }
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder(100);
 
         if (!classOnly) {
             printHeader(jsw);

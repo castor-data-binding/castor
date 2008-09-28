@@ -227,7 +227,7 @@ public class BaseFactory {
         //-- process annotations
         Enumeration enumeration = annotated.getAnnotations();
         if (enumeration.hasMoreElements()) {
-            StringBuffer comment = new StringBuffer();
+            StringBuilder comment = new StringBuilder();
             while (enumeration.hasMoreElements()) {
                 Annotation ann = (Annotation) enumeration.nextElement();
                 Enumeration documentations = ann.getDocumentation();

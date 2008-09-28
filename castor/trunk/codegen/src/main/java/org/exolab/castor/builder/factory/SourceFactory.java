@@ -1306,7 +1306,7 @@ public final class SourceFactory extends BaseFactory {
 
             // Prevent inheritance loops from causing infinite loops
             if (classes.contains(superClass)) {
-                StringBuffer buffer = new StringBuffer();
+                StringBuilder buffer = new StringBuilder(64);
                 buffer.append("Loop found in class hierarchy: ");
                 for (Iterator i = classes.iterator(); i.hasNext(); ) {
                     JClass element = (JClass) i.next();
