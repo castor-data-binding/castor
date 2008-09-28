@@ -1227,7 +1227,6 @@ public final class SourceFactory extends BaseFactory {
             jMethod.getModifiers().setAbstract(true);
         } else {
             JSourceCode jsc = jMethod.getSourceCode();
-            jsc = jMethod.getSourceCode();
             jsc.add("org.exolab.castor.xml.Marshaller.marshal(this, handler);");
         }
     } //-- createMarshalMethods
