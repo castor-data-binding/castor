@@ -102,7 +102,7 @@ public class TemplateHelper {
      * @return A string representation of the annotation.
      */
     public String printAnnotation(final JAnnotation annotation, String shift) {
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder stringBuffer = new StringBuilder(32);
         stringBuffer.append(shift);
         stringBuffer.append("@");
         stringBuffer.append(annotation.getAnnotationType().getLocalName());
@@ -166,7 +166,7 @@ public class TemplateHelper {
                 return printAnnotationValue(Array.get(elementValue, 0), shift);
             }
             // Output list items
-            StringBuffer stringBuffer = new StringBuffer();
+            StringBuilder stringBuffer = new StringBuilder();
             stringBuffer.append("\n");
             stringBuffer.append("{");
             stringBuffer.append("\n");

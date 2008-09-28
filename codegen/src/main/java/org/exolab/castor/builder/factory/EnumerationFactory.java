@@ -213,7 +213,7 @@ public final class EnumerationFactory extends BaseFactory {
                 modifiers.setStatic(true);
                 modifiers.makePublic();
 
-                StringBuffer init = new StringBuffer();
+                StringBuilder init = new StringBuilder(32);
                 init.append("new ");
                 init.append(className);
                 init.append("(");
@@ -240,7 +240,7 @@ public final class EnumerationFactory extends BaseFactory {
                 if (generateConstantDefinitions) {
                     jsc.append(objName);
                 } else {
-                    StringBuffer init = new StringBuffer();
+                    StringBuilder init = new StringBuilder(32);
                     init.append("new ");
                     init.append(className);
                     init.append("(");
@@ -600,7 +600,7 @@ public final class EnumerationFactory extends BaseFactory {
         //-- and create the default values for the type.
         int count = 0;
 
-        StringBuffer values = new StringBuffer("{\n");
+        StringBuilder values = new StringBuilder("{\n");
 
         while (enumeration.hasMoreElements()) {
             Facet facet = (Facet) enumeration.nextElement();
@@ -703,7 +703,7 @@ public final class EnumerationFactory extends BaseFactory {
             // just keep going
         }
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder(32);
         String customMemberName = null;
 
         if (enumBinding != null) {
@@ -770,7 +770,7 @@ public final class EnumerationFactory extends BaseFactory {
             return str;
         }
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         char[] chars = str.toCharArray();
 
         for (int i = 0; i < chars.length; i++) {

@@ -356,7 +356,7 @@ public final class JCompUnit {
         // Traverse the nested class and interface heirarchy and
         // update the names to match the compilation unit.
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder(32);
 
         // -- write file header
         if (_header != null) {

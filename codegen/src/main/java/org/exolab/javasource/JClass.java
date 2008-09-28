@@ -189,7 +189,7 @@ public class JClass extends AbstractJClass {
      * @param jsw The JSourceWriter to be used.
      */
     private void printClassDefinitionLine(final JSourceWriter jsw) {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder(32);
 
         //-- first print our annotations
         getAnnotatedElementHelper().printAnnotations(jsw);

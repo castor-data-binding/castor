@@ -204,8 +204,7 @@ public final class JEnum extends JClass {
      * @param jsw The JSourceWriter to be used.
      */
     private void printEnumDefinitionLine(final JSourceWriter jsw) {
-        StringBuffer buffer = new StringBuffer();
-        buffer.setLength(0);
+        StringBuilder buffer = new StringBuilder();
 
         //-- print annotations
         getAnnotatedElementHelper().printAnnotations(jsw);

@@ -148,7 +148,7 @@ public final class JConstructor extends JAnnotatedElementHelper {
 
         //-- check current params
         if (_params.get(parameter.getName()) != null) {
-            StringBuffer err = new StringBuffer();
+            StringBuilder err = new StringBuilder(64);
             err.append("A parameter already exists for the constructor, ");
             err.append(this._declaringClass.getName());
             err.append(", with the name: ");
@@ -289,7 +289,7 @@ public final class JConstructor extends JAnnotatedElementHelper {
      * {@inheritDoc}
      */
     public String toString() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder(32);
         sb.append(_declaringClass.getName());
         sb.append('(');
 

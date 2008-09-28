@@ -454,7 +454,7 @@ public class JClassRegistry {
         
         keyIterator = _localNames.keySet().iterator();
         if (keyIterator.hasNext()) {
-            StringBuffer xmlFragment = new StringBuffer();
+            StringBuilder xmlFragment = new StringBuilder(32);
             xmlFragment.append("<forces>\n");
             while (keyIterator.hasNext()) {
                 String localName = (String) keyIterator.next();

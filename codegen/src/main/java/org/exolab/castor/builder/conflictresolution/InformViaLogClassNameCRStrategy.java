@@ -97,7 +97,7 @@ extends BaseClassNameCRStrategy implements ClassNameCRStrategy {
         String annotated1XPath;
         String annotated2XPath;
         
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         message.append("Warning: A class name generation conflict has occured between ");
         
         if (a1 != null) {

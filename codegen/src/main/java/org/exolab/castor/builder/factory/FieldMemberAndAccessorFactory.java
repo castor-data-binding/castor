@@ -55,7 +55,7 @@ public class FieldMemberAndAccessorFactory {
                 value = fieldInfo.getFixedValue();
             }
             if (value != null) {
-                StringBuffer buffer = new StringBuffer(50);
+                StringBuilder buffer = new StringBuilder(50);
                 //date/time constructors throw ParseException that
                 //needs to be catched in the constructor--> not the prettiest solution
                 //when mulitple date/time in a class.

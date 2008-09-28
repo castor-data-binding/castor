@@ -42,6 +42,8 @@
  */
 package org.exolab.javasource;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -147,7 +149,7 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
         String pName = parameter.getName();
         //-- check current params
         if (_params.get(pName) != null) {
-            StringBuffer err = new StringBuffer();
+            StringBuilder err = new StringBuilder(32);
             err.append("A parameter already exists for this method, ");
             err.append(_name);
             err.append(", with the name: ");
@@ -279,7 +281,7 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
      *         this JMethodSignature.
      */
     protected String[] getParameterClassNames() {
-        Vector names = new Vector(_params.size());
+        List<String> names = new ArrayList<String>(_params.size());
 
         for (int i = 0; i < _params.size(); i++) {
 
@@ -289,13 +291,12 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
             }
             if (!jType.isPrimitive()) {
                 JClass jclass = (JClass) jType;
-                names.addElement(jclass.getName());
+                names.add(jclass.getName());
             }
         }
 
         String[] array = new String[names.size()];
-        names.copyInto(array);
-        return array;
+        return names.toArray(array);
     }
 
     //--------------------------------------------------------------------------
@@ -378,7 +379,7 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
      * {@inheritDoc}
      */
     public String toString() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder(32);
         if (_returnType != null) {
             sb.append(_returnType);
         } else {

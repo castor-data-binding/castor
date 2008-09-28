@@ -98,7 +98,7 @@ extends BaseClassNameCRStrategy implements ClassNameCRStrategy {
                 }
             }
 
-            StringBuffer error = new StringBuffer();
+            StringBuilder error = new StringBuilder(64);
             error.append("Warning: A class name generation conflict has occured between ");
             if (a1 != null) {
                 error.append(SchemaNames.getStructureName(a1));
