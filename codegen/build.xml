@@ -4,6 +4,7 @@
     <property name="source"               value="${basedir}/src"/>
     <property name="main.java"            value="${source}/main/java"/>
     <property name="main.resources"       value="${source}/main/resources"/>
+    <property name="main.generated"       value="${basedir}/target/generated-sources/castor"/>
 	<property name="test.java"            value="${source}/test/java"/>
     <property name="test.resources"       value="${source}/test/resources"/>
     <property name="build"                value="${basedir}/build"/>
@@ -60,6 +61,11 @@
     </target>
 
     <target name="compile.codegen" depends="prepare.codegen" description="Compile CodeGen">
+        <javac srcdir="${main.generated}" destdir="${classes}" 
+               debug="on" encoding="ISO-8859-1" deprecation="false"
+               source="1.5" target="1.5">
+            <classpath refid="build.compile.classpath"/>
+        </javac>
         <javac srcdir="${main.java}" destdir="${classes}" 
                debug="on" encoding="ISO-8859-1" deprecation="false"
         	   source="1.5" target="1.5">
