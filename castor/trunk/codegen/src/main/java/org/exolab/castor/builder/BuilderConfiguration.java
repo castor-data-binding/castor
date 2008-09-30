@@ -838,9 +838,12 @@ public class BuilderConfiguration {
      * configuration file from one of the default directories, but if
      * it cannot find the JAR's configuration file, will throw a
      * run time exception.
+     * 
+     * @param resourceName Name of the source.
+     * @param fileName Name of the configuration file.
+     * @return A {@link Properties} instance holding the actual XML code generator configuration.
      */
-    public static Properties loadProperties(String resourceName, String fileName)
-    {
+    public static Properties loadProperties(final String resourceName, final String fileName) {
         File        file;
         Properties properties = new Properties();
 
@@ -859,8 +862,7 @@ public class BuilderConfiguration {
             //-- end debug information
             
             found = true;
-        } 
-        catch (Exception except) {
+        } catch (Exception except) {
             // Do nothing as we will check classpath 
             // and java lib directory below
         } finally {
@@ -880,7 +882,8 @@ public class BuilderConfiguration {
         try {
             javaHome = System.getProperty("java.home");
         } catch (SecurityException e) {
-            // Not a critical error, but users will need to know if they need to change their config.   
+            // Not a critical error, but users will need to know if they need to 
+            // change their config.   
             LOG.warn(Messages.format("conf.privilegesError", e));
         } catch (Exception e) {
             // As we will be trying something else later, record the error for setup purposes,
@@ -891,16 +894,17 @@ public class BuilderConfiguration {
         if (javaHome != null) {
             InputStream fileStream = null;
             try {      
-                file = new File( javaHome, "lib" );
-                file = new File( file, fileName );
-                if ( file.exists() ) {
+                file = new File(javaHome, "lib");
+                file = new File(file, fileName);
+                if (file.exists()) {
                     properties = new Properties(properties);
                     fileStream = new FileInputStream(file);
                     properties.load(fileStream);
                     found = true;
                 }      
             } catch (SecurityException e) {
-                // Not a critical error, but users will need to know if they need to change their config.   
+                // Not a critical error, but users will need to know if they need to change 
+                // their config.   
                 LOG.warn(Messages.format("conf.privilegesError", e));
             } catch (IOException e) {
                 // Report that we were unable to load the resource.
@@ -919,10 +923,10 @@ public class BuilderConfiguration {
 
         //-- Cannot find any castor.properties file(s).
         if (!found) {
-            throw new RuntimeException( Messages.format( "conf.noDefaultConfigurationFile",
-                                                            fileName ) );
+            throw new RuntimeException(Messages.format("conf.noDefaultConfigurationFile",
+                    fileName));
         }
 
         return properties;
     }
-} //-- BuilderProperties
+}
