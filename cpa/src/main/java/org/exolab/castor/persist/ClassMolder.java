@@ -451,83 +451,89 @@ public class ClassMolder {
         return _priority;
     }
 
+    public void loadTimeStamp(final TransactionContext tx, final DepositBox locker,
+            final AccessMode suggestedAccessMode)
+    throws PersistenceException {
+        Object loadObject = null;
+        try {
+            loadObject = newInstance(tx.getClassLoader());
+        } catch (Exception ex) {
+            throw new PersistenceException("failed to load object", ex);
+        }
+
+        ProposedEntity proposedObject = new ProposedEntity(this);
+        proposedObject.setProposedEntityClass(loadObject.getClass());
+        proposedObject.setEntity(loadObject);
+        
+        OID oid = locker.getOID();
+        
+        Object[] cachedFieldValues = locker.getObject(tx);
+        proposedObject.setFields(cachedFieldValues);
+        
+        AccessMode accessMode = getAccessMode(suggestedAccessMode);
+
+        // load the fields from the persistent storage if the cache is empty
+        // or the access mode is DBLOCKED (thus guaranteeing that a lock at the
+        // database level will be created)
+        if (!proposedObject.isFieldsSet() || accessMode == AccessMode.DbLocked) {
+            proposedObject.initializeFields(_fhs.length);
+
+            Connection conn = tx.getConnection(oid.getMolder().getLockEngine());
+            _persistence.load(conn, proposedObject, oid.getIdentity(), accessMode);
+
+            oid.setDbLock(accessMode == AccessMode.DbLocked);
+            
+            // store (new) field values to cache
+            locker.setObject(tx, proposedObject.getFields(), System.currentTimeMillis());
+        }
+
+        mold(tx, locker, proposedObject, suggestedAccessMode);
+    }
+
     /**
      * Loads the field values.
+     * 
      * @param tx Currently active transaction context
-     * @param oid Current OID.
      * @param locker Current cache instance
      * @param proposedObject ProposedEntity instance
      * @param suggestedAccessMode Suggested access mode
      * @param results OQL QueryResults instance
-     * @return A JDO timestamp.
      * @throws ObjectNotFoundException If the object in question cannot be found.
      * @throws PersistenceException For any other persistence-ralted problem.
      */
-    private Object loadFields(final TransactionContext tx, final OID oid, final DepositBox locker,
+    public void load(final TransactionContext tx, final DepositBox locker,
             final ProposedEntity proposedObject, final AccessMode suggestedAccessMode,
             final QueryResults results)
     throws PersistenceException {
-                   
-        Object stamp = null;
-        AccessMode accessMode = getAccessMode(suggestedAccessMode);
-
-        // set the field values to 'null' anyhow; if we don't find
-        // in the cache later on, this indicates that the field values 
-        // should be loaded from the persistence storage
-        proposedObject.setFields(null);
+        OID oid = locker.getOID();
+        if (oid.getIdentity() == null) {
+            throw new PersistenceException(
+                    "The identities of the object to be loaded is null");
+        }
         
         // try to load the field values from the cache, except when being told
         // to ignore them
         if (!proposedObject.isObjectLockObjectToBeIgnored()) {
             Object[] cachedFieldValues = locker.getObject(tx);
-            if (_log.isDebugEnabled()) {
-                StringBuffer buffer = new StringBuffer(80);
-                buffer.append("Field values loaded from cache: ");
-                if (cachedFieldValues != null) {
-                    buffer.append("[");
-                    for (int i = 0; i < cachedFieldValues.length; i++) {
-                        buffer.append(cachedFieldValues[i]);
-                        if (i > 0) {
-                            buffer.append (",");
-                        }
-                    }
-                    buffer.append("]");
-                } else {
-                    buffer.append("null");
-                }
-            }
             proposedObject.setFields(cachedFieldValues);
+        } else {
+            // set the field values to 'null'. this indicates that the field values 
+            // should be loaded from the persistence storage
+            proposedObject.setFields(null);
         }
         
+        AccessMode accessMode = getAccessMode(suggestedAccessMode);
+
         // load the fields from the persistent storage if the cache is empty
         // or the access mode is DBLOCKED (thus guaranteeing that a lock at the
         // database level will be created)
         if (!proposedObject.isFieldsSet() || accessMode == AccessMode.DbLocked) {
             proposedObject.initializeFields(_fhs.length);
             if (results != null) {
-                stamp = results.getQuery().fetch(proposedObject);
+                results.getQuery().fetch(proposedObject);
             } else {
                 Connection conn = tx.getConnection(oid.getMolder().getLockEngine());
-                stamp = _persistence.load(conn, proposedObject, oid.getIdentity(), accessMode);
-            }
-
-            if (proposedObject.isExpanded()) {
-                if (_log.isDebugEnabled()) {
-                    StringBuffer sb = new StringBuffer();
-                    sb.append("Actual object has been expanded from ");
-                    sb.append(proposedObject.getProposedEntityClass());
-                    sb.append(" to ");
-                    sb.append(proposedObject.getActualEntityClass());
-                    sb.append(", with the field values to set as follows:\n");
-                    for (int i = 0; i < proposedObject.getNumberOfFields(); i++) {
-                        sb.append("field ");
-                        sb.append(i + 1);
-                        sb.append(": ");
-                        sb.append(proposedObject.getField(i));
-                        sb.append('\n');
-                    }
-                    _log.debug(sb);
-                }
+                _persistence.load(conn, proposedObject, oid.getIdentity(), accessMode);
             }
 
             oid.setDbLock(accessMode == AccessMode.DbLocked);
@@ -538,31 +544,19 @@ public class ClassMolder {
 
         proposedObject.setActualClassMolder(this);
 
-        return stamp;
+        // mold only if object has not been expanded
+        if (!proposedObject.isExpanded()) {
+            mold(tx, locker, proposedObject, suggestedAccessMode);
+        }
     }
 
-    public Object load(final TransactionContext tx, final DepositBox locker,
-            final ProposedEntity proposedObject, final AccessMode suggestedAccessMode,
-            final QueryResults results)
+    public void mold(final TransactionContext tx, final DepositBox locker,
+            final ProposedEntity proposedObject, final AccessMode suggestedAccessMode)
     throws PersistenceException {
-        int fieldType;
         OID oid = locker.getOID();
         AccessMode accessMode = getAccessMode(suggestedAccessMode);
         
         resetResolvers();
-        
-        if (oid.getIdentity() == null) {
-            throw new PersistenceException(
-                    "The identities of the object to be loaded is null");
-        }
-        
-        // obtain field values
-        Object stamp = loadFields(tx, oid, locker, proposedObject, suggestedAccessMode, results);
-        
-        // if the object has been expanded, return early
-        if (proposedObject.isExpanded()) {
-            return stamp;
-        }
         
         // set the timeStamp of the data object to locker's timestamp
         if (proposedObject.getEntity() instanceof TimeStampable) {
@@ -574,7 +568,8 @@ public class ClassMolder {
 
         // iterates over all the field of the object and bind all field.
         for (int i = 0; i < _fhs.length; i++) {
-            fieldType = _fhs[i].getFieldType();
+            int fieldType = _fhs[i].getFieldType();
+            
             switch (fieldType) {
             case FieldMolder.PRIMITIVE:
             case FieldMolder.SERIALIZABLE:
@@ -592,8 +587,6 @@ public class ClassMolder {
         if (proposedObject.getEntity() instanceof TimeStampable) {
             locker.setTimeStamp(((TimeStampable) proposedObject.getEntity()).jdoGetTimeStamp());
         }
-
-        return stamp;
     }
 
     /**
@@ -801,7 +794,7 @@ public class ClassMolder {
         }
         
         Connection conn = tx.getConnection(oid.getMolder().getLockEngine());
-        oid.setStamp(_persistence.store(conn, oid.getIdentity(), newentity, oldentity));
+        _persistence.store(conn, oid.getIdentity(), newentity, oldentity);
     }
 
     /**

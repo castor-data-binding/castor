@@ -48,7 +48,7 @@ public abstract class AbstractCallQuery implements PersistenceQuery {
     /**
      * @inheritDoc
      */
-    public Object fetch(final ProposedEntity proposedObject)
+    public void fetch(final ProposedEntity proposedObject)
     throws PersistenceException {
         try {
             // Load all the fields of the object including one-one relations
@@ -65,7 +65,6 @@ public abstract class AbstractCallQuery implements PersistenceQuery {
         } catch (SQLException except) {
             throw new PersistenceException(Messages.format("persist.nested", except));
         }
-        return null;
     }
 
     public void close() {

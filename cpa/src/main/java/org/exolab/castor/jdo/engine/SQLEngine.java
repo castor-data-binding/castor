@@ -346,13 +346,12 @@ public final class SQLEngine implements Persistence {
      * @param entity An Object[] to load field values into
      * @param identity Identity of the object to load.
      * @param accessMode The access mode (null equals shared)
-     * @return The object's stamp, or null
      * @throws PersistenceException A persistence error occured
      */
-    public Object load(final Object conn, final ProposedEntity entity,
+    public void load(final Object conn, final ProposedEntity entity,
                        final Identity identity, final AccessMode accessMode)
     throws PersistenceException {
-        return _loadStatement.executeStatement((Connection) conn, identity, entity, accessMode);
+        _loadStatement.executeStatement((Connection) conn, identity, entity, accessMode);
     }
     
     public String toString() { return _clsDesc.toString(); }

@@ -460,12 +460,11 @@ public final class SQLQuery implements PersistenceQuery {
      * @see org.exolab.castor.persist.spi.PersistenceQuery#fetch(
      *      org.castor.persist.ProposedEntity)
      */
-    public Object fetch(final ProposedEntity proposedObject) throws PersistenceException {
+    public void fetch(final ProposedEntity proposedObject) throws PersistenceException {
         // Fill the given fields[] with the "cached" stuff from our _fields[] .
         for (int i = 0; i < _fields.length; i++) {
             proposedObject.setField(_fields[i], i);
         }
-        return null;
     }
 
     private Object fetchRaw() throws PersistenceException {
