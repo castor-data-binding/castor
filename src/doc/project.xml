@@ -70,10 +70,10 @@
         <url>dependencies.xml</url>
         <display>Dependencies</display>
       </navLink>
-      <navlink highlighted="true">
+      <navLink highlighted="true">
         <url>reference-guide.xml</url>
         <display>Reference guide</display>
-      </navlink>
+      </navLink>
       <navLink>
         <url>javadoc/overview-summary.html</url>
         <display>JavaDoc</display>
