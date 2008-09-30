@@ -69,7 +69,7 @@
                   </fileset>
                 </copy>
                 <move file="target/site/reference/pdf/index.pdf"
-                  tofile="target/site/reference/pdf/corona-docs.pdf" failonerror="false" />
+                  tofile="target/site/reference/pdf/castor-reference-guide-1.3rc1.pdf" failonerror="false" />
               </postProcess>
             </configuration>
             <phase>pre-site</phase>
