@@ -72,6 +72,9 @@
             <classpath refid="build.compile.classpath"/>
         </javac>
         <copy todir="${classes}">
+            <fileset dir="${main.generated}">
+                <include name="**/*.cdr"/>
+            </fileset>
             <fileset dir="${main.resources}">
                 <include name="**"/>
             </fileset>

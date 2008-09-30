@@ -56,6 +56,9 @@
             <fileset dir="${main.resources}">
                 <include name="**"/>
             </fileset>
+            <fileset dir="${main.generated}">
+                <include name="**/*.cdr"/>
+            </fileset>
             <filterset begintoken="$$" endtoken="$$">
 	            <filter token="VERSION" value="${version}"/>
 	            <filter token="RELEASE" value="${release}"/>

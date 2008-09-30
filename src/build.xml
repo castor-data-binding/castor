@@ -295,6 +295,9 @@
             <classpath refid="build.classpath"/>
         </javac>
         <copy todir="${classes}">
+            <fileset dir="${basedir}/xml/target/generated-sources/castor">
+                <include name="**/*.cdr"/>
+            </fileset>
             <fileset dir="${java}">
                 <patternset refid="support.files" />
             </fileset>
