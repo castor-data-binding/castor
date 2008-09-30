@@ -60,7 +60,11 @@ import java.util.Vector;
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public final class JCompUnit {
-    //--------------------------------------------------------------------------
+
+    /**
+     * Initial size for {@link StringBuilder} instances.
+     */
+    private static final int INITIAL_STRING_BUILDER_SIZE = 32;
 
     /** The Id for Source control systems I needed to break the String to prevent
      *  CVS from expanding it here! ;-) */
@@ -78,8 +82,6 @@ public final class JCompUnit {
             " //-  Non-Public Classes / Interfaces  -/",
             "//-------------------------------------/", };
 
-    //--------------------------------------------------------------------------
-
     /** JavaDoc comment for this compilation unit. */
     private JComment            _header        = null;
 
@@ -94,8 +96,6 @@ public final class JCompUnit {
 
     /** The set of top-level interfaces that live in this compilation unit. */
     private Vector              _interfaces    = null;
-
-    //--------------------------------------------------------------------------
 
     /**
      * Creates a new JCompUnit.
@@ -164,8 +164,6 @@ public final class JCompUnit {
         _classes = new Vector();
         _interfaces = new Vector();
     }
-
-    //--------------------------------------------------------------------------
 
     /**
      * Sets the header comment for this JCompUnit.
@@ -289,8 +287,6 @@ public final class JCompUnit {
         return _packageName;
     }
 
-    //--------------------------------------------------------------------------
-
     /**
      * Prints the source code for this JClass in the current directory with the
      * default line seperator of the the runtime platform.
@@ -353,10 +349,10 @@ public final class JCompUnit {
      * @param jsw The JSourceWriter to print to.
      */
     public void print(final JSourceWriter jsw) {
-        // Traverse the nested class and interface heirarchy and
+        // Traverse the nested class and interface hiararchy and
         // update the names to match the compilation unit.
 
-        StringBuilder buffer = new StringBuilder(32);
+        StringBuilder buffer = new StringBuilder(INITIAL_STRING_BUILDER_SIZE);
 
         // -- write file header
         if (_header != null) {
@@ -457,5 +453,4 @@ public final class JCompUnit {
         }
     }
 
-    //--------------------------------------------------------------------------
 }
