@@ -1,4 +1,0 @@
-#Thu Jan 18 15:08:35 CET 2007
-org.exolab.castor.builder.binding.types.FieldTypeVisibilityType=org.exolab.castor.builder.binding.types.descriptors.FieldTypeVisibilityTypeDescriptor
-org.exolab.castor.builder.binding.types.BindingType=org.exolab.castor.builder.binding.types.descriptors.BindingTypeDescriptor
-org.exolab.castor.builder.binding.types.FieldTypeCollectionType=org.exolab.castor.builder.binding.xml.types.descriptors.FieldTypeCollectionTypeDescriptor
