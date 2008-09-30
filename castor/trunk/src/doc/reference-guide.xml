@@ -16,9 +16,9 @@
     <section title="Available formats">
 
         <ul>
-            <li><a href="reference/html/">HTML (single page)</a></li>
-            <li><a href="reference/chunked-html/">Chunked HTML</a></li>
-            <li><a href="reference/pdf/">PDF</a></li>
+            <li><a href="reference/html-single/index.html">HTML (single page)</a></li>
+            <li><a href="reference/html/index.html">Chunked HTML</a></li>
+            <li><a href="reference/pdf/castor-reference-guide-1.3rc1.pdf">PDF</a></li>
         </ul>
     
     </section>
