@@ -33,14 +33,11 @@ import java.util.HashMap;
  * @since 1.0.4
  */
 public final class Java5HacksHelper {
-    //--------------------------------------------------------------------------
 
     /**
      * As a static utility class, we want a private constructor.
      */
     private Java5HacksHelper() { }
-
-    //--------------------------------------------------------------------------
 
     private static class MethodSpec {
         private String _methodName;
@@ -76,8 +73,8 @@ public final class Java5HacksHelper {
 
     static {
         createMethodSpec("getAccessMode",       0, "",                  "");
-        createMethodSpec("getExtends",          0, "",                  "");
-        createMethodSpec("getIdentity",         0, "",                  "");
+        // createMethodSpec("getExtends",          0, "",                  "");
+        // createMethodSpec("getIdentity",         0, "",                  "");
         createMethodSpec("getNameSpacePrefix",  0, "",                  "");
         createMethodSpec("getNameSpaceURI",     0, "",                  "");
         createMethodSpec("getValidator",        0, "",                  "");
@@ -154,5 +151,4 @@ public final class Java5HacksHelper {
         }
     }
 
-    //--------------------------------------------------------------------------
 }
