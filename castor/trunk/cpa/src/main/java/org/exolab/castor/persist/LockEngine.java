@@ -320,80 +320,53 @@ public final class LockEngine {
     public OID load(final TransactionContext tx, final OID oid, final ProposedEntity proposedObject,
             final AccessMode suggestedAccessMode, final int timeout, final QueryResults results)
     throws PersistenceException {
-
-        OID internaloid = oid;
-        ObjectLock lock;
-        TypeInfo   typeInfo;
-        boolean    succeed;
-        short      action;
-
-        typeInfo = (TypeInfo) _typeInfo.get(internaloid.getName());
+        TypeInfo typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
         if (typeInfo == null) {
             throw new ClassNotPersistenceCapableException(Messages.format(
-                    "persist.classNotPersistenceCapable", internaloid.getName()));
+                    "persist.classNotPersistenceCapable", oid.getName()));
         }
 
-        ClassMolder molder = internaloid.getMolder();
+        ClassMolder molder = oid.getMolder();
         AccessMode accessMode = molder.getAccessMode(suggestedAccessMode);
 
-        succeed = false;
-
-        lock = null;
-
+        boolean succeed = false;
+        ObjectLock lock = null;
         try {
-
+            short action;
             if ((accessMode == AccessMode.Exclusive) || (accessMode == AccessMode.DbLocked)) {
                 action = ObjectLock.ACTION_WRITE;
             } else {
                 action = ObjectLock.ACTION_READ;
             }
 
-            lock = typeInfo.acquire(internaloid, tx, action, timeout);
+            lock = typeInfo.acquire(oid, tx, action, timeout);
 
-            OID lockedOid = lock.getOID();
-            
-            Object stamp = typeInfo._molder.load(tx, lock, proposedObject,
-                    suggestedAccessMode, results);
+            typeInfo._molder.load(tx, lock, proposedObject, suggestedAccessMode, results);
 
             // if object has been expanded, return early            
             if (proposedObject.isExpanded()) {
-                // Current transaction holds lock for old OID                
-                typeInfo.release(internaloid, tx);
-                return internaloid;
+                // Current transaction holds lock for old OID
+                typeInfo.release(oid, tx);
+            } else {
+                if (_log.isDebugEnabled()) {
+                    _log.debug(Messages.format("jdo.loading.with.id",
+                            typeInfo._molder.getName(), oid.getIdentity()));
+                }
+
+                succeed = true;
             }
             
-            succeed = true;
-
-            if (lockedOid != null) {
-                lockedOid.setStamp(stamp);
-                internaloid = lockedOid;
-            }
-
-            if (_log.isDebugEnabled()) {
-                if (proposedObject.isExpanded()) {
-                    _log.debug(Messages.format("jdo.loading.with.id",
-                            proposedObject.getActualEntityClass(), internaloid.getIdentity()));
-                } else {
-                    _log.debug(Messages.format("jdo.loading.with.id",
-                            typeInfo._molder.getName(), internaloid.getIdentity()));
-                }
-            }
+            return lock.getOID();
         } catch (ObjectDeletedWaitingForLockException except) {
             // This is equivalent to object does not exist
             throw new ObjectNotFoundException(Messages.format(
-                    "persist.objectNotFound", internaloid.getName(),
-                    internaloid.getIdentity()), except);
+                    "persist.objectNotFound", oid.getName(), oid.getIdentity()), except);
         } catch (LockNotGrantedException e) {
-            if (lock != null) {
-                lock.release(tx);
-            }
+            if (lock != null) { lock.release(tx); }
             throw e;
         } finally {
-            if (lock != null) {
-                lock.confirm(tx, succeed);
-            }
+            if (lock != null) { lock.confirm(tx, succeed); }
         }
-        return internaloid;
     }
 
     /**
@@ -631,23 +604,9 @@ public final class LockEngine {
                 lock = typeInfo.acquire(internaloid, tx, ObjectLock.ACTION_UPDATE, timeout);
                 internaloid = lock.getOID();
                 
-                Object loadObject = null;
+                // set timestamp of lock to the one of persistent object
                 try {
-                    loadObject = typeInfo._molder.newInstance(tx.getClassLoader());
-                } catch (Exception ex) {
-                    throw new PersistenceException("faile dto load object", ex);
-                }
-
-                ProposedEntity proposedObject = new ProposedEntity(typeInfo._molder);
-                proposedObject.setProposedEntityClass(loadObject.getClass());
-                proposedObject.setEntity(loadObject);
-                
-                try {
-                    typeInfo._molder.load(tx, lock, proposedObject, suggestedAccessMode, null);
-
-                    if (proposedObject.getEntity() instanceof TimeStampable) {
-                        lock.setTimeStamp(((TimeStampable) loadObject).jdoGetTimeStamp());
-                    }
+                    typeInfo._molder.loadTimeStamp(tx, lock, suggestedAccessMode);
                 } catch (PersistenceException ex) {
                     // ignore
                 }
@@ -656,8 +615,7 @@ public final class LockEngine {
                 internaloid = lock.getOID();
             }
             
-            succeed = !typeInfo._molder.update(tx, internaloid, lock, object,
-                    suggestedAccessMode);
+            succeed = !typeInfo._molder.update(tx, internaloid, lock, object, suggestedAccessMode);
 
             return !succeed;
         } catch (ObjectModifiedException e) {
@@ -1364,7 +1322,6 @@ public final class LockEngine {
 
                 // copy oid status
                 newoid.setDbLock(orgoid.isDbLock());
-                newoid.setStamp(orgoid.getStamp());
 
                 return newentry;
             }

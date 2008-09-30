@@ -133,12 +133,11 @@ public interface PersistenceQuery {
      * results rather than issuing a new query to load the object.
      *
      * @param proposedObject The fields to load into
-     * @return The object's stamp, or null
      * @throws PersistenceException The object was not found in
      *         persistent storage or any other persistence error occured.
      * @see Persistence#load
      */
-    Object fetch(ProposedEntity proposedObject) throws PersistenceException;
+    void fetch(ProposedEntity proposedObject) throws PersistenceException;
 
     /**
      * Close the query and release all resources held by the query.

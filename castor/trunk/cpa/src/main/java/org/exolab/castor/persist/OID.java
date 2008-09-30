@@ -79,9 +79,6 @@ public final class OID implements Serializable {
     /** The OID of depended object. */
     private final OID _depends;
 
-    /** The object's stamp, used for efficient dirty checking. */
-    private Object _stamp;
-
     /** True if the object is loaded with db-lock access. */
     private boolean _dbLock;
 
@@ -164,29 +161,6 @@ public final class OID implements Serializable {
      */
     public ClassMolder getMolder() {
         return _molder;
-    }
-
-    /**
-     * Returns the OID's stamp. The stamp may be used to efficiently implement
-     * dirty checking. The stamp is set with a call to {@link #setStamp}when
-     * the object is loaded, created or stored in persistent storage. Not all
-     * persistence engines support the stamp mechanism.
-     * 
-     * @return The OID's stamp, or null
-     */
-    Object getStamp() {
-        return _stamp;
-    }
-
-    /**
-     * Sets the OID's stamp. The stamp may be used to efficiently implement
-     * dirty checking. Not all persistence engines support the stamp mechanism.
-     * 
-     * @param stamp
-     *            The OID's stamp
-     */
-    void setStamp(final Object stamp) {
-        _stamp = stamp;
     }
 
     /**

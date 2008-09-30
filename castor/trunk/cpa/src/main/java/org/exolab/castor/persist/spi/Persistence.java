@@ -117,11 +117,10 @@ public interface Persistence {
      * @param proposedObject The fields to load into
      * @param identity object's identity
      * @param accessMode The access mode (null equals shared)
-     * @return The object's stamp, or null
      * @throws PersistenceException The object was not found in persistent
      *         storage or any other persistence error occured.
      */
-    Object load(Object conn, ProposedEntity proposedObject, Identity identity,
+    void load(Object conn, ProposedEntity proposedObject, Identity identity,
             AccessMode accessMode) throws PersistenceException;
 
     /**

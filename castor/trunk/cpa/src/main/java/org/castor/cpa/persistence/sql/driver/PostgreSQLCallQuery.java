@@ -217,7 +217,7 @@ final class PostgreSQLCallQuery implements PersistenceQuery {
         }
     }
 
-    public Object fetch(final ProposedEntity proposedObject) throws PersistenceException {
+    public void fetch(final ProposedEntity proposedObject) throws PersistenceException {
         try {
             // Load all the fields of the object including one-one relations
             // index 0 belongs to the identity
@@ -233,6 +233,5 @@ final class PostgreSQLCallQuery implements PersistenceQuery {
             throw new PersistenceException(Messages.format("persist.nested",
                     except));
         }
-        return null;
     }
 }

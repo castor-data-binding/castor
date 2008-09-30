@@ -270,7 +270,7 @@ public final class SQLStatementLoad {
         return (QueryExpression) _queryExpression.clone();
     }
 
-    public Object executeStatement(final Connection conn, final Identity identity,
+    public void executeStatement(final Connection conn, final Identity identity,
                                    final ProposedEntity entity,
                                    final AccessMode accessMode)
     throws PersistenceException {
@@ -336,7 +336,7 @@ public final class SQLStatementLoad {
                 // make sure that we only return early (as described above), if we actually
                 // found a potential leaf descriptor
                 if (potentialLeafDescriptor != null) {
-                    return null;
+                    return;
                 }
             }
             
@@ -439,6 +439,5 @@ public final class SQLStatementLoad {
             JDOUtils.closeResultSet(rs);
             JDOUtils.closeStatement(stmt);
         }
-        return null;
     }
 }

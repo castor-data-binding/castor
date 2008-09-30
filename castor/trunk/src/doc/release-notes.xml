@@ -185,6 +185,26 @@ org.castor.cpa.persistence.sql.keygen.factories=\
   org.castor.cpa.persistence.sql.keygen.UUIDKeyGeneratorFactory</code-panel>
             </summary>
             <bugs>
+                <bug id="2545" tool="jira">
+                    <description>
+                        Refactored load method of ClassMolder and LockEngine.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20080930</date>
+                </bug>
                 <bug id="2541" tool="jira">
                     <description>
                         Removed needless synchronization afforded by java 5.
