@@ -16,6 +16,20 @@
 
     <section title="Castor News">
 
+        <news id="67">
+            <title>1st release candidate for Castor 1.3 released</title>
+            <author>Werner Guttmann</author>
+            <date>Oct 01 2008</date>
+            <time>23:59:02</time>
+            <summary>
+                I've placed a copy of Castor 1.3 RC1 at the
+                <a href="http://dist.codehaus.org/castor/1.3rc1/">Codehaus</a>.<br/><br/>
+
+                This is a first release candidate for the upcoming 1.3 release. For details about
+                the features added and the bugs fixed, please have a look at the
+                <a href="http://castor.codehaus.org/release-notes.html">release notes</a>.
+            </summary>
+        </news>
         <news id="66">
             <title>Welcome Lukas Lang to the team</title>
             <author>Werner Guttmann</author>
