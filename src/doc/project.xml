@@ -151,7 +151,7 @@
             <url>spring-xml-intro.xml</url>
             <display>Spring XML factories</display>
         </navLink>
-        <navLink highlighted="true">
+        <navLink>
             <url>ws-integration.xml</url>
             <display>WS frameworks</display>
         </navLink>
