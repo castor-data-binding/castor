@@ -10,7 +10,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<groupId>org.codehaus.castor</groupId>
 		<artifactId>castor</artifactId>
-		<version>1.3rc1</version>
+		<version>1.3rc2-SNAPSHOT</version>
 	</parent>
 
 	<packaging>jar</packaging>
