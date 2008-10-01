@@ -27,7 +27,6 @@
                 </bug>
 
 -->
-<!-- 
         <release version="SVN">
             <description>New and on-going development</description>
             <date>tbd</date>
@@ -37,7 +36,6 @@
             <bugs>
             </bugs>
         </release>
--->
 
         <release version="1.3rc1">
             <description>1st release candidate for Castor 1.3</description>
