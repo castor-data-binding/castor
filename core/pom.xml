@@ -10,7 +10,7 @@
     <parent>
         <groupId>org.codehaus.castor</groupId>
         <artifactId>castor</artifactId>
-        <version>1.3-SNAPSHOT</version>
+        <version>1.3rc1</version>
     </parent>
 
     <packaging>jar</packaging>
