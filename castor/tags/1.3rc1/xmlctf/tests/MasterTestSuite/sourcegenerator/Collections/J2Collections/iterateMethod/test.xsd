@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!--
+    The collection object
+    -->
+  <xs:element name="xmlCollectionTest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="objects" minOccurs="0" maxOccurs="64" />
+        <xs:element name="integers" type="intType" minOccurs="1" maxOccurs="256"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!--
+    The object that occurs in our collection
+    -->
+  <xs:element name="objects">
+    <xs:annotation>
+      <xs:documentation>
+        This element contains a data element consisting of a key and a value
+     </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="key" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="value" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="key">
+    <xs:annotation>
+      <xs:documentation>
+        This element contains the property Key
+     </xs:documentation>
+    </xs:annotation>
+    <xs:simpleType>
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="256"/>
+        </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+
+  <xs:element name="value">
+    <xs:annotation>
+      <xs:documentation>
+        This element contains the property Value
+     </xs:documentation>
+    </xs:annotation>
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:minLength value="0"/>
+        <xs:maxLength value="2048"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+
+  <!--
+    The int that occurs in our collection
+    -->
+  <xs:simpleType name="intType">
+    <xs:restriction base="xs:integer">
+      <xs:minInclusive value="0"/>
+      <xs:maxInclusive value="255"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

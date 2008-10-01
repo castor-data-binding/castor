@@ -1,0 +1,23 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+
+    <Name>Mapping-Namespaces-with-Inheritance</Name>
+    <Author>Werner Guttmann</Author>
+
+    <Comment>
+        Regression test case for bug CASTOR-2531
+    </Comment>
+
+    <Category>basic capability</Category>
+
+    <MarshallingTest>
+        <Root_Object>Feed</Root_Object>
+        <UnitTestCase>
+            <Name>NSMapping01</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+            <GoldFile>input.xml</GoldFile>
+        </UnitTestCase>
+    </MarshallingTest>
+
+</TestDescriptor>

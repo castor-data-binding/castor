@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<!DOCTYPE jdo-conf PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.org/jdo-conf.dtd">
+
+<jdo-conf>
+	<database name="OneToOneDescriptorOnly" engine="derby">
+		<driver url="jdbc:derby:target/test;create=true"
+			class-name="org.apache.derby.jdbc.EmbeddedDriver">
+			<param name="user" value="test" />
+			<param name="password" value="test" />
+		</driver>
+		<mapping href="mapping-empty.xml" />
+	</database>
+	<!-- 
+		<database name="OneToOneDescriptorOnlyMysql" engine="mysql">
+		<driver url="jdbc:mysql://localhost/template"
+		class-name="com.mysql.jdbc.Driver">
+		<param name="user" value="test" />
+		<param name="password" value="test" />
+		</driver>
+		<mapping href="mapping-empty.xml" />
+		</database>
+	-->
+	<transaction-demarcation mode="local" />
+</jdo-conf>

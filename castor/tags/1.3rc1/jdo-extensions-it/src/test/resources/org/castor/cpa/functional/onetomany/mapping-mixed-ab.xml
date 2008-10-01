@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+    <class name="org.castor.cpa.functional.onetomany.House">
+        <description>House</description>
+        <map-to table="house" />
+        <field name="id" type="long" identity="true">
+            <sql name="id" type="integer" />
+        </field>
+        <field name="flats" type="org.castor.cpa.functional.onetomany.Flat"
+            collection="array">
+            <sql many-key="house_id" />
+        </field>
+    </class>
+</mapping>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+	<!-- key-generator="MAX" -->
+	<class name="org.castor.cpa.functional.single.Book">
+		<description>Book</description>
+		<map-to table="book" />
+		<field name="isbn" type="long" identity="true">
+			<sql name="isbn" type="integer" />
+		</field>
+		<field name="title" type="string">
+            <sql name="title" type="varchar" />
+        </field>
+	</class>
+</mapping>

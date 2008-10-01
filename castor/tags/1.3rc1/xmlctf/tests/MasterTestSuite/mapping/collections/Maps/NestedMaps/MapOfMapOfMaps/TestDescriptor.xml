@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+
+    <Name>Test mapping of Map of Map of Maps</Name>
+    <Author>Werner Guttmann</Author>
+
+    <Comment>Default test for deeply nested maps</Comment>
+
+    <Category>basic capability</Category>
+
+    <MarshallingTest>
+        <Root_Object>MapOfMapOfMaps</Root_Object>
+
+        <UnitTestCase>
+            <Name>Test01</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+<!--        <GoldFile>output.xml</GoldFile> -->
+        </UnitTestCase>
+    </MarshallingTest>
+
+</TestDescriptor>

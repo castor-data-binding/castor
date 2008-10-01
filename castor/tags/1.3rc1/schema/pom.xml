@@ -1,0 +1,123 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+						http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.codehaus.castor</groupId>
+    <artifactId>castor-xml-schema</artifactId>
+
+    <parent>
+        <groupId>org.codehaus.castor</groupId>
+        <artifactId>castor</artifactId>
+        <version>1.3rc1</version>
+    </parent>
+
+    <packaging>jar</packaging>
+
+    <name>Castor XML - schema</name>
+    <url>http://castor.org</url>
+    <description>
+        Functionality to reading, processing and writing XML schema documents.
+    </description>
+
+    <scm>
+       <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/schema</connection>
+       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/schema</developerConnection>
+       <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/schema</url>
+    </scm>
+
+    <build>
+       <resources>
+          <!--  instructs Maven to copy .castor.cdr files -->
+          <resource>
+             <directory>target/generated-sources/castor</directory>
+             <includes>
+                <include>**/*.cdr</include>
+             </includes>
+          </resource>
+          <resource>
+             <directory>src/main/resources</directory>
+          </resource>
+       </resources>
+       <plugins>
+          <plugin>
+             <groupId>org.codehaus.mojo</groupId>
+             <artifactId>castor-maven-plugin</artifactId>
+             <version>2.0-SNAPSHOT</version>
+             <configuration>
+                <schema>${basedir}/src/main/resources/org/exolab/castor/xml/schema/annotations/jdo/jdo-extensions.xsd</schema>
+                <packaging>org.exolab.castor.xml.schema.annotations.jdo</packaging>
+                <!-- <properties>${basedir}/src/main/resources/org/exolab/castor/xml/schema/annotations/jdo/jdo-extensions.properties</properties> -->
+             </configuration>
+             <executions>
+                <execution>
+                   <goals>
+                      <goal>generate</goal>
+                   </goals>
+                </execution>
+             </executions>
+             <!-- 
+             <dependencies>
+               <dependency>
+                  <groupId>org.codehaus.castor</groupId>
+                  <artifactId>castor-codegen</artifactId>
+                  <version>1.3rc1</version>
+               </dependency>
+             </dependencies>
+             -->
+          </plugin>
+          <!--  redundant, once new castor-maven-plugin has been deployed -->
+          <plugin>
+             <groupId>org.codehaus.mojo</groupId>
+             <artifactId>build-helper-maven-plugin</artifactId>
+             <version>1.1</version>
+             <executions>
+                <execution>
+                   <id>add-source</id>
+                   <phase>generate-sources</phase>
+                   <goals>
+                      <goal>add-source</goal>
+                   </goals>
+                   <configuration>
+                      <sources>
+                         <source>target/generated-sources/castor</source>
+                      </sources>
+                   </configuration>
+                </execution>
+             </executions>
+          </plugin>
+       </plugins>
+    </build>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.codehaus.castor</groupId>
+            <artifactId>castor-core</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.codehaus.castor</groupId>
+            <artifactId>castor-xml</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+</project>

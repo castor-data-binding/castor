@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                        http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.codehaus.castor</groupId>
+	<artifactId>cpa-testcase</artifactId>
+	<packaging>maven-plugin</packaging>
+    <name>Castor CPA - JUnit test archetype</name>
+
+    <parent>
+        <groupId>org.codehaus.castor</groupId>
+        <artifactId>castor</artifactId>
+        <version>1.3rc1</version>
+    </parent>
+
+    <scm>
+       <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/cpa-testcase-archetype</connection>
+       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/cpa-testcase-archetype</developerConnection>
+       <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/cpa-testcase-archetype</url>
+    </scm>
+
+</project>

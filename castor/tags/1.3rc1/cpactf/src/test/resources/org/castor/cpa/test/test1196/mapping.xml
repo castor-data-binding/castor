@@ -1,0 +1,126 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.exolab.org/mapping.dtd">
+<mapping>
+    <class name="org.castor.cpa.test.test1196.Country">
+        <description>Country</description>
+        <cache-type type="count-limited" capacity="20"/>
+        <map-to table="TEST1196_COUNTRY"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="OID" type="char"/>
+        </field>
+        <field name="name" type="string">
+            <sql name="NAME" type="char"/>
+        </field>
+    </class>
+
+    <class name="org.castor.cpa.test.test1196.State">
+        <description>State</description>
+        <cache-type type="count-limited" capacity="50"/>
+        <map-to table="TEST1196_STATE"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="OID" type="char"/>
+        </field>
+        <field name="name" type="string">
+            <sql name="NAME" type="char"/>
+        </field>
+        <field name="country" type="org.castor.cpa.test.test1196.Country">
+            <sql name="COUNTRY"/>
+        </field>
+    </class>
+
+
+    <class name="org.castor.cpa.test.test1196.Car">
+        <description>Car</description>
+        <cache-type type="count-limited" capacity="50"/>
+        <map-to table="TEST1196_CAR"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="OID" type="char"/>
+        </field>
+        <field name="name" type="string">
+            <sql name="NAME" type="char"/>
+        </field>
+        <field name="driver" type="org.castor.cpa.test.test1196.Driver">
+            <sql name="DRIVER"/>
+        </field>
+    </class>
+
+    <class name="org.castor.cpa.test.test1196.Driver">
+        <description>Driver</description>
+        <cache-type type="count-limited" capacity="50"/>
+        <map-to table="TEST1196_DRIVER"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="OID" type="char"/>
+        </field>
+        <field name="name" type="string">
+            <sql name="NAME" type="char"/>
+        </field>
+        <field name="car" type="org.castor.cpa.test.test1196.Car">
+            <sql name="CAR"/>
+        </field>
+    </class>
+
+
+    <class name="org.castor.cpa.test.test1196.Product">
+        <description>Product</description>
+        <cache-type type="count-limited" capacity="20"/>
+        <map-to table="TEST1196_PRODUCT"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="OID" type="char"/>
+        </field>
+        <field name="name" type="string">
+            <sql name="NAME" type="char"/>
+        </field>
+    </class>
+
+    <class name="org.castor.cpa.test.test1196.Computer"
+           extends="org.castor.cpa.test.test1196.Product">
+        <description>Computer</description>
+        <cache-type type="count-limited" capacity="20"/>
+        <map-to table="TEST1196_COMPUTER"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="OID" type="char"/>
+        </field>
+        <field name="number" type="string">
+            <sql name="NUMBER" type="char"/>
+        </field>
+        <field name="orderItem" type="org.castor.cpa.test.test1196.OrderItem">
+            <sql name="ORDERITEM"/>
+        </field>
+    </class>
+
+    <class name="org.castor.cpa.test.test1196.Order">
+        <description>Order</description>
+        <cache-type type="count-limited" capacity="20"/>
+        <map-to table="TEST1196_ORDER"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="OID" type="char"/>
+        </field>
+        <field name="number" type="integer">
+            <sql name="NUMBER" type="integer"/>
+        </field>
+        <field name="orderItems" collection="vector"
+               type="org.castor.cpa.test.test1196.OrderItem">
+            <sql many-key="PARENT"/>
+        </field>
+    </class>
+
+    <class name="org.castor.cpa.test.test1196.OrderItem"
+           depends="org.castor.cpa.test.test1196.Order">
+        <description>OrderItem</description>
+        <cache-type type="count-limited" capacity="100"/>
+        <map-to table="TEST1196_ORDERITEM"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="OID" type="char"/>
+        </field>
+        <field name="quantity" type="integer">
+            <sql name="QUANTITY" type="integer"/>
+        </field>
+        <field name="product" type="org.castor.cpa.test.test1196.Product">
+            <sql name="PRODUCT"/>
+        </field>
+        <field name="parent" type="org.castor.cpa.test.test1196.Order">
+            <sql name="PARENT"/>
+        </field>
+    </class>
+</mapping>

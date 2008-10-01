@@ -1,0 +1,163 @@
+<cpactf-conf default-database="mysql-drv" default-transaction="local">
+
+    <configuration name="testXXX">
+        <description>Mapping configuration for testXXX</description>
+        <mapping href="/org/castor/cpa/test/testXXX/mapping.xml"/>
+    </configuration>
+
+
+
+    <database name="db2-drv" engine="db2">
+        <description>Database configuration for DB2</description>
+        <driver url="jdbc:db2:cpactf"
+                class-name="COM.ibm.db2.jdbc.app.DB2Driver">
+            <param name="user" value="test"/>
+            <param name="password" value="test"/>
+        </driver>
+    </database>
+
+    <database name="derby-embedded" engine="derby">
+        <description>Database configuration for Derby (embedded)</description>
+        <driver url="jdbc:derby:target/cpactf;create=true" 
+                class-name="org.apache.derby.jdbc.EmbeddedDriver">
+            <param name="user" value="cpactf"/>
+            <param name="password" value="cpactf"/>
+        </driver>
+    </database>
+
+    <database name="derby-drv" engine="derby">
+        <description>Database configuration for Derby</description>
+        <driver url="jdbc:derby://localhost:1527/cpactf" 
+                class-name="org.apache.derby.jdbc.ClientDriver">
+            <param name="user" value="test"/>
+            <param name="password" value="test"/>
+        </driver>
+    </database>
+
+    <database name="hsql-drv" engine="hsql">
+        <description>Database configuration for HSQL</description>
+        <driver url="jdbc:hsqldb:hsql://localhost/cpactf"
+                class-name="org.hsqldb.jdbcDriver">
+            <param name="user" value="test"/>
+            <param name="password" value="test"/>
+        </driver>
+    </database>
+
+    <database name="mssql-ds" engine="sql-server">
+        <description>Database configuration for MSSQL</description>
+        <data-source class-name="com.inet.tds.TdsDataSource"> 
+            <param name="user" value="test"/>
+            <param name="password" value="test"/>
+            <param name="serverName" value="localhost"/>
+            <param name="databaseName" value="cpactf"/>
+            <param name="portNumber" value="1433"/>
+        </data-source>
+    </database>
+
+    <database name="mysql-drv" engine="mysql">
+        <description>Database configuration for MySQL</description>
+        <driver url="jdbc:mysql://localhost:3306/cpactf"
+                class-name="com.mysql.jdbc.Driver">
+            <param name="user" value="test"/>
+            <param name="password" value="test"/>
+        </driver>
+    </database>
+
+    <database name="mysql-ds" engine="mysql">
+        <description>Database configuration for MySQL</description>
+        <data-source class-name="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">
+            <param name="url" value="jdbc:mysql://localhost:3306/cpactf"/>
+            <param name="user" value="test"/>
+            <param name="password" value="test"/>
+        </data-source>
+    </database>
+
+    <database name="mysql-dbcp" engine="mysql">
+        <description>Database configuration for MySQL</description>
+        <data-source class-name="org.apache.commons.dbcp.BasicDataSource">
+            <param name="driver-class-name" value="org.gjt.mm.mysql.Driver"/>
+            <param name="url" value="jdbc:mysql://localhost:3306/cpactf"/>
+            <param name="username" value="test"/>
+            <param name="password" value="test"/>
+            <param name="max-active" value="10"/>
+        </data-source>
+    </database>
+
+    <database name="oracle-drv" engine="oracle">
+        <description>Database configuration for Oracle</description>
+        <driver url="jdbc:oracle:thin:@localhost:1521:cpactf"
+                class-name="oracle.jdbc.driver.OracleDriver">
+            <param name="user" value="test"/>
+            <param name="password" value="test"/>
+        </driver>
+    </database>
+
+    <database name="oracle-ds" engine="oracle">
+        <description>Database configuration for Oracle</description>
+        <data-source class-name="oracle.jdbc.pool.OracleConnectionPoolDataSource">
+            <param name="URL" value="jdbc:oracle:thin:@localhost:1521:cpactf"/>
+            <param name="user" value="test"/>
+            <param name="password" value="test"/>
+        </data-source>
+    </database>
+
+	<database name="pointbase-drv" engine="pointbase">
+        <description>Database configuration for Pointbase</description>
+		<driver url="jdbc:pointbase://localhost:9092/cpactf"
+                class-name="com.pointbase.jdbc.jdbcUniversalDriver">
+            <param name="user" value="test"/>
+			<param name="password" value="test"/>
+		</driver>
+	</database>
+
+    <database name="postgresql-drv" engine="postgresql">
+        <description>Database configuration for PostgreSQL</description>
+        <driver url="jdbc:postgresql:cpactf"
+                class-name="org.postgresql.Driver">
+            <param name="user" value="test"/>
+            <param name="password" value="test"/>
+        </driver>
+    </database>
+
+    <database name="progress-drv" engine="progress">
+        <description>Database configuration for Progress</description>
+        <driver url="jdbc:progress:" class-name="">
+            <param name="user" value="test"/>
+            <param name="password" value="test"/>
+        </driver>
+    </database>
+
+    <database name="sapdb-drv" engine="sapdb">
+        <description>Database configuration for MaxDB</description>
+        <driver url="jdbc:sapdb://localhost/cpactf"
+                class-name="com.sap.dbtech.jdbc.DriverSapDB">
+            <param name="user" value="test"/>
+            <param name="password" value="test"/>
+        </driver>
+    </database>
+
+    <database name="sapdb-ds" engine="sapdb">
+        <description>Database configuration for MaxDB</description>
+        <data-source class-name="com.sap.dbtech.jdbcext.DataSourceSapDB">
+            <param name="url" value="jdbc:sapdb://localhost/cpactf"/>
+            <param name="user" value="test"/>
+            <param name="password" value="test"/>
+        </data-source>
+    </database>
+
+    <database name="sybase-ds" engine="sybase" default="data-source">
+        <description>Database configuration for Sybase</description>
+        <data-source class-name="com.sybase.jdbc2.jdbc.SybDataSource">
+            <param name="user" value="test"/>
+            <param name="password" value="test"/>
+            <param name="portNumber" value="4100"/>
+            <param name="serverName" value="cpactf"/>
+        </data-source>
+    </database>
+
+
+
+    <transaction name="local" mode="local">
+        <description>Transactions managed locally by Castor</description>
+    </transaction>
+</cpactf-conf>

@@ -1,0 +1,22 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+  <Name>Implement equals() for AnyNode</Name>
+  <Author>Edward Kuns</Author>
+  <Comment>Regression test case for bug CASTOR-1609</Comment>
+  <Category>basic capability</Category>
+  <BugFix>
+    <Reporter>derek.sayeau@cognos.com</Reporter>
+    <Date_Report>2004-03-26</Date_Report>
+    <Date_Fix>2006-10-06</Date_Fix>
+    <Comment>As of October 2006, this already works</Comment>
+  </BugFix>
+
+  <SourceGeneratorTest>
+    <Schema>schema.xsd</Schema>
+    <Root_Object random="false" dump="true">Extension</Root_Object>
+    <UnitTestCase>
+      <Name>Test Generation</Name>
+      <Input>input.xml</Input>
+    </UnitTestCase>
+  </SourceGeneratorTest>
+</TestDescriptor>

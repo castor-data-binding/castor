@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DeviationSurveyData TotalRows="1" TotalColumns="4">
+	<Row index="0">
+		<Column index="0">
+			<doubleValue>1211.11</doubleValue>
+		</Column>
+		<Column index="1:00">
+			<doubleValue>1131.11</doubleValue>
+		</Column>
+		<Column index="2.33">
+			<doubleValue>1114.11</doubleValue>
+		</Column>
+		<Column index="2-33">
+			<doubleValue>1116.11</doubleValue>
+		</Column>
+		<Column index="2_33">
+			<doubleValue>1118.11</doubleValue>
+		</Column>
+	</Row>
+</DeviationSurveyData>

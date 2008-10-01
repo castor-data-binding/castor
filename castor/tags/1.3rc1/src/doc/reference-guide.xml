@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.codehaus.org/reference-guide.xml">
+
+  <properties>
+    <title>Reference guide fro Castor</title>
+    <abstract>
+       Reference guide for Castor.
+    </abstract>
+    <status>Final</status>
+  </properties>
+
+  <body>
+
+    <title>Reference guide</title>
+    
+    <section title="Available formats">
+
+        <ul>
+            <li><a href="reference/html-single/index.html">HTML (single page)</a></li>
+            <li><a href="reference/html/index.html">Chunked HTML</a></li>
+            <li><a href="reference/pdf/castor-reference-guide-1.3rc1.pdf">PDF</a></li>
+        </ul>
+    
+    </section>
+    
+  </body>
+
+</document>
