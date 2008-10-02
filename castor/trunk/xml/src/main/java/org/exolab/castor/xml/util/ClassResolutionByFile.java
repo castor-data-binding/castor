@@ -67,9 +67,9 @@ public final class ClassResolutionByFile extends BaseResolutionCommand {
                 classDesc = (ClassDescriptor) descriptorClass.newInstance();
                 return classDesc;
             } catch (InstantiationException e) {
-                new RuntimeException(e.getMessage());
+                throw new RuntimeException(e.getMessage(), e);
             } catch (IllegalAccessException e) {
-                new RuntimeException(e.getMessage());
+                throw new RuntimeException(e.getMessage(), e);
             }
         }
         return classDesc;
