@@ -540,7 +540,7 @@ public class SourceGenerator extends BuilderConfiguration {
             if (binding != null) {
                 BindingType type = binding.getDefaultBindingType();
                 if (type != null) {
-                    return (type.getType() == BindingType.ELEMENT_TYPE);
+                    return (type == BindingType.ELEMENT);
                 }
             }
         }
@@ -560,7 +560,7 @@ public class SourceGenerator extends BuilderConfiguration {
             if (binding != null) {
                 BindingType type = binding.getDefaultBindingType();
                 if (type != null) {
-                    return (type.getType() == BindingType.TYPE_TYPE);
+                    return (type == BindingType.TYPE);
                 }
             }
         }
