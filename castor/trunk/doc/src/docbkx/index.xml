@@ -10,11 +10,11 @@
       <author>
         <firstname>Werner</firstname>
         <surname>Guttmann</surname>
-        <email>werner.guttmann@indoqa.com</email>
         <affiliation>
             <jobtitle>Partner</jobtitle>
             <orgname>Indoqa</orgname>
         </affiliation>        
+        <email>werner.guttmann@indoqa.com</email>
       </author>
     </authorgroup>
 
@@ -26,7 +26,7 @@
     </legalnotice>
   </bookinfo>
 
-  <xi:include href="reference/introduction.xml" />
+  <!--  <xi:include href="reference/introduction.xml" />  -->
 
   <xi:include href="reference/xml.xml" />
   
@@ -34,6 +34,6 @@
 
   <xi:include href="reference/jdo-extensions.xml" />
 
-  <xi:include href="reference/showcase.xml" />
+  <!--  <xi:include href="reference/showcase.xml" />  -->
   
 </book>
