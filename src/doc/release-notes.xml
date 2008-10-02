@@ -34,6 +34,27 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2547" tool="jira">
+                    <description>
+                        Fixed problem in incorrect usage of collection related to removal of
+                        data during iteration.
+                    </description>
+                    <contributor>
+                        <name>Dave Brosius</name>
+                        <email>dbrosius@mebigfatguy.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Dave Brosius</name>
+                        <email>dbrosius@mebigfatguy.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20081001</date>
+                </bug>
             </bugs>
         </release>
 

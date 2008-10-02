@@ -100,7 +100,7 @@ public abstract class AbstractMappingLoader2 implements MappingLoader {
             for (Iterator iterator = _descriptors.iterator(); iterator.hasNext(); ) {
                 ClassDescriptor d = (ClassDescriptor) iterator.next();
                 if (classname.equals(d.getJavaClass().getName())) {
-                    _descriptors.remove(d);
+                    iterator.remove();
                 }
             }
             _descriptors.add(descriptor);
