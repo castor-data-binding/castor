@@ -358,7 +358,7 @@ public abstract class XMLTestCase extends TestCase {
         }
 
         if (_listener != null && _listener instanceof MarshalListener
-                && _listenerType.getType() != TypeType.UNMARSHAL_TYPE) {
+                && _listenerType != TypeType.UNMARSHAL) {
             marshaller.setMarshalListener((MarshalListener)_listener);
         }
         return marshaller;
@@ -425,13 +425,13 @@ public abstract class XMLTestCase extends TestCase {
 
         if (_listener != null
                 && _listener instanceof org.exolab.castor.xml.UnmarshalListener
-                && _listenerType.getType() != TypeType.MARSHAL_TYPE) {
+                && _listenerType != TypeType.MARSHAL) {
             unmar.setUnmarshalListener((org.exolab.castor.xml.UnmarshalListener)_listener);
         }
 
         if (_listener != null
                 && _listener instanceof org.castor.xml.UnmarshalListener
-                && _listenerType.getType() != TypeType.MARSHAL_TYPE) {
+                && _listenerType != TypeType.MARSHAL) {
             unmar.setUnmarshalListener((org.castor.xml.UnmarshalListener)_listener);
         }
 

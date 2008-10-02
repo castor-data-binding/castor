@@ -43,6 +43,7 @@
              <version>2.0-SNAPSHOT</version>
              <configuration>
                 <schema>${basedir}/src/main/resources/org/exolab/castor/tests/framework/TestDescriptor.xsd</schema>
+                <properties>${basedir}/src/main/resources/org/exolab/castor/tests/framework/test.descriptor.builder.properties</properties>
                 <packaging>org.exolab.castor.tests.framework.testDescriptor</packaging>
              </configuration>
              <executions>

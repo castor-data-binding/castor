@@ -47,6 +47,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
              <version>2.0-SNAPSHOT</version>
              <configuration>
                 <schema>${basedir}/src/main/resources/org/exolab/castor/mapping/mapping.xsd</schema>
+                <properties>${basedir}/src/main/resources/org/exolab/castor/mapping/mapping.builder.properties</properties>
                 <packaging>org.exolab.castor.mapping.xml</packaging>
                 <bindingfile>${basedir}/src/main/resources/org/exolab/castor/mapping/mapping-binding.xml</bindingfile>
              </configuration>
