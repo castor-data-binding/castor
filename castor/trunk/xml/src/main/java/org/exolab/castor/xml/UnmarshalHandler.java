@@ -3724,7 +3724,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         // boolean
         else if ((type == Boolean.TYPE) || (type == Boolean.class)) {
             if (isNull)
-                primitive = new Boolean(false);
+                primitive = Boolean.FALSE;
             else
 				primitive = (value.equals("1") ||
 							 value.toLowerCase().equals("true"))

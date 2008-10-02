@@ -82,7 +82,7 @@ public class XercesJDK5OutputFormat implements OutputFormat {
 		try {
 			method = _outputFormat.getClass().getMethod(
                     "setIndenting", new Class[] {boolean.class} );
-	    	method.invoke(_outputFormat, new Object[] { new Boolean(indent) });
+	    	method.invoke(_outputFormat, new Object[] { Boolean.valueOf(indent) });
 		} catch (Exception e) {
             String msg = "Problem invoking OutputFormat.setIndenting()";
 			LOG.error(msg, e);
@@ -100,7 +100,7 @@ public class XercesJDK5OutputFormat implements OutputFormat {
 		try {
 			method = _outputFormat.getClass().getMethod(
                     "setPreserveSpace", new Class[] {boolean.class} );
-	    	method.invoke(_outputFormat, new Object[] { new Boolean(preserveSpace) });
+	    	method.invoke(_outputFormat, new Object[] { Boolean.valueOf(preserveSpace) });
 		} catch (Exception e) {
             String msg = "Problem invoking OutputFormat.setPreserveSpace()";
 			LOG.error(msg, e);
@@ -144,7 +144,7 @@ public class XercesJDK5OutputFormat implements OutputFormat {
 		try {
 			method = _outputFormat.getClass().getMethod(
                     "setOmitXMLDeclaration", new Class[] {boolean.class} );
-	    	method.invoke(_outputFormat, new Object[] { new Boolean(omitXMLDeclaration) });
+	    	method.invoke(_outputFormat, new Object[] { Boolean.valueOf(omitXMLDeclaration) });
 		} catch (Exception e) {
             String msg = "Problem invoking OutputFormat.setOmitXMLDeclaration()";
 			LOG.error(msg, e);
@@ -162,7 +162,7 @@ public class XercesJDK5OutputFormat implements OutputFormat {
 		try {
 			method = _outputFormat.getClass().getMethod(
                     "setOmitDocumentType", new Class[] {boolean.class} );
-	    	method.invoke(_outputFormat, new Object[] { new Boolean(omitDocumentType) });
+	    	method.invoke(_outputFormat, new Object[] { Boolean.valueOf(omitDocumentType) });
 		} catch (Exception e) {
             String msg = "Problem invoking OutputFormat.setOmitDocumentType()";
 			LOG.error(msg, e);

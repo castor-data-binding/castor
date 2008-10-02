@@ -103,7 +103,7 @@ public class WeblogicXercesOutputFormat extends WeblogicXercesImplementation imp
     public void setIndenting(boolean indent) {
         // wrap boolean primitive in a Boolean object because the invoke method does the following:
         // Individual parameters are automatically unwrapped to match primitive formal parameters.
-        Boolean[] params = {new Boolean(indent)};
+        Boolean[] params = {Boolean.valueOf(indent)};
         invoke(setIndenting, params);
     }
 
@@ -134,7 +134,7 @@ public class WeblogicXercesOutputFormat extends WeblogicXercesImplementation imp
      * @inheritDoc
      */
     public void setOmitXMLDeclaration(boolean omitXMLDeclaration) {
-        Boolean[] params = {new Boolean(omitXMLDeclaration)};
+        Boolean[] params = {Boolean.valueOf(omitXMLDeclaration)};
         invoke(setOmitXMLDeclaration, params);
     }
 
@@ -142,7 +142,7 @@ public class WeblogicXercesOutputFormat extends WeblogicXercesImplementation imp
      * @inheritDoc
      */
     public void setOmitDocumentType(boolean omitDocumentType) {
-        Boolean[] params = {new Boolean(omitDocumentType)};
+        Boolean[] params = {Boolean.valueOf(omitDocumentType)};
         invoke(setOmitDocumentType, params);
     }
 
