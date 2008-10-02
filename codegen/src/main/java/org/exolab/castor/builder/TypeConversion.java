@@ -437,9 +437,9 @@ public final class TypeConversion {
         
         XSType convertedType = convertType(common, packageName, useWrapper, useJava50, null);
         Union unionType = (Union) simpleType;
-        Enumeration memberTypes = unionType.getMemberTypes();
+        Enumeration<SimpleType> memberTypes = unionType.getMemberTypes();
         while (memberTypes.hasMoreElements()) {
-            SimpleType memberType = (SimpleType) memberTypes.nextElement();
+            SimpleType memberType = memberTypes.nextElement();
             convertedType.setFacets(memberType);
         }
         return convertedType;
@@ -588,9 +588,9 @@ public final class TypeConversion {
      */
     private static SimpleType findCommonType(final Union union) {
         SimpleType common = null;
-        Enumeration enumeration = union.getMemberTypes();
+        Enumeration<SimpleType> enumeration = union.getMemberTypes();
         while (enumeration.hasMoreElements()) {
-            SimpleType type = (SimpleType) enumeration.nextElement();
+            SimpleType type = enumeration.nextElement();
             type = type.getBuiltInBaseType();
             if (common == null) {
                 common = type;

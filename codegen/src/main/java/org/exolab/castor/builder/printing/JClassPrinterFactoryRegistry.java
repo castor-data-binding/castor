@@ -38,7 +38,7 @@ public class JClassPrinterFactoryRegistry {
     private final Log _log = LogFactory.getLog(JClassPrinterFactoryRegistry.class);
 
     /** Association between name of implementation and JClassPrinterFactory instance. */
-    private Map _factories = new HashMap();
+    private Map<String, JClassPrinterFactory> _factories = new HashMap<String, JClassPrinterFactory>();
 
     //--------------------------------------------------------------------------
 
@@ -86,7 +86,7 @@ public class JClassPrinterFactoryRegistry {
      */
     public String[] getJClassPrinterFactoryNames() {
         String[] names = new String[_factories.size()];
-        return (String[]) _factories.keySet().toArray(names);
+        return _factories.keySet().toArray(names);
     }
 
     /**

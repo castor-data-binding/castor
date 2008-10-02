@@ -203,7 +203,7 @@ public final class JDOClassDescriptorFactory {
     * @param primaryKeys Array of primary keys.
     * @return names of all FieldDescriptors as one String (separated by comma)
     */
-   private String setIdentities(final List primaryKeys) {
+   private String setIdentities(final List<?> primaryKeys) {
        String identities = "";
        Object[] pkArray = null;
        if (primaryKeys != null) {

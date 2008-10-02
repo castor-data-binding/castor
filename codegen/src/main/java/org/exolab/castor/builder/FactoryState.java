@@ -81,7 +81,7 @@ public class FactoryState implements ClassInfoResolver {
     private ClassInfoResolver _resolver = null;
 
     /** Keeps track of which classes have been processed. */
-    private Vector _processed = null;
+    private Vector<Annotated> _processed = null;
 
     /** SourceGenerator state. */
     private SGStateInfo _sgState = null;
@@ -142,7 +142,7 @@ public class FactoryState implements ClassInfoResolver {
         }
 
         _sgState = sgState;
-        _processed = new Vector();
+        _processed = new Vector<Annotated>();
 
         // keep the elements and complexType already processed
         // if (resolver instanceof FactoryState) {

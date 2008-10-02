@@ -83,7 +83,7 @@ public final class JDOClassInfoNature extends BaseNature {
      *            column name
      */
     public void addPrimaryKey(final String column) {
-        List primaryKey = getPropertyAsList(PRIMARY_KEY);
+        List<String> primaryKey = getPropertyAsList(PRIMARY_KEY);
         primaryKey.add(column);
     }
     
@@ -96,8 +96,8 @@ public final class JDOClassInfoNature extends BaseNature {
      * @return the names of the primary key's columns or null if no key added
      *         before.
      */
-    public List getPrimaryKeys() {
-        return (List) this.getProperty(PRIMARY_KEY);
+    public List<String> getPrimaryKeys() {
+        return (List<String>) this.getProperty(PRIMARY_KEY);
     }
 
     /**
@@ -164,10 +164,10 @@ public final class JDOClassInfoNature extends BaseNature {
      * 
      * @return List of {@link JDOFieldInfoNature}s.
      */
-    public List getFields() {       
+    public List<JDOFieldInfoNature> getFields() {       
         ClassInfo holder = (ClassInfo) getHolder();
         // Now merge all fields.
-        List mergedFields = new LinkedList();
+        List<FieldInfo> mergedFields = new LinkedList<FieldInfo>();
         mergedFields.addAll(holder.getAttributeFieldsAsCollection());
         mergedFields.addAll(holder.getElementFieldsAsCollection());
         FieldInfo textField = holder.getTextField();
@@ -175,10 +175,10 @@ public final class JDOClassInfoNature extends BaseNature {
             mergedFields.add(textField); 
         }
         // Walk through all fields and check for Nature.
-        Iterator fieldIterator = mergedFields.iterator();
-        List naturedFields = new LinkedList();
+        Iterator<FieldInfo> fieldIterator = mergedFields.iterator();
+        List<JDOFieldInfoNature> naturedFields = new LinkedList<JDOFieldInfoNature>();
         while (fieldIterator.hasNext()) {
-            FieldInfo field = (FieldInfo) fieldIterator.next();
+            FieldInfo field = fieldIterator.next();
             if (field.hasNature(JDOFieldInfoNature.class.getName())) {
                 JDOFieldInfoNature nature = new JDOFieldInfoNature(field);
                 naturedFields.add(nature);

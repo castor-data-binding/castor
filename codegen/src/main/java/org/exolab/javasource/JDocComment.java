@@ -55,7 +55,7 @@ public final class JDocComment {
     //--------------------------------------------------------------------------
 
     /** An ordered list of descriptors. */
-    private Vector _descriptors = null;
+    private Vector<JDocDescriptor> _descriptors = null;
     
     /** The internal buffer for this JDocComment. */
     private StringBuffer _comment     = null;
@@ -68,7 +68,7 @@ public final class JDocComment {
     public JDocComment() {
         super();
         
-        _descriptors = new Vector();
+        _descriptors = new Vector<JDocDescriptor>();
         _comment     = new StringBuffer();
     }
 
@@ -80,7 +80,7 @@ public final class JDocComment {
     public JDocComment(final JDocDescriptor jdesc) {
         super();
         
-        _descriptors = new Vector();
+        _descriptors = new Vector<JDocDescriptor>();
         _comment = new StringBuffer();
         
         addDescriptor(jdesc);
@@ -102,7 +102,7 @@ public final class JDocComment {
         }
 
         for (int i = 0; i < _descriptors.size(); i++) {
-            JDocDescriptor jdd = (JDocDescriptor) _descriptors.elementAt(i);
+            JDocDescriptor jdd = _descriptors.elementAt(i);
 
             short compare = jdesc.compareTo(jdd);
 
@@ -156,7 +156,7 @@ public final class JDocComment {
      *
      * @return An Enumeration of the parameters of this JDocComment.
      */
-    public Enumeration getDescriptors() {
+    public Enumeration<JDocDescriptor> getDescriptors() {
         return _descriptors.elements();
     }
 
@@ -180,7 +180,7 @@ public final class JDocComment {
 
         for (int i = 0; i < _descriptors.size(); i++) {
             JDocDescriptor jdd
-                = (JDocDescriptor) _descriptors.elementAt(i);
+                = _descriptors.elementAt(i);
             if (jdd.getType() == JDocDescriptor.PARAM) {
                 if (name.equals(jdd.getName())) { return jdd; }
             }

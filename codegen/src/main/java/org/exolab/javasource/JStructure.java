@@ -85,7 +85,7 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
     private String _packageName;
 
     /** List of imported classes and packages. */
-    private Vector _imports;
+    private Vector<String> _imports;
 
     /** The Javadoc for this JStructure. */
     private JDocComment _jdc;
@@ -97,7 +97,7 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
     private JModifiers _modifiers;
 
     /** The set of interfaces implemented/extended by this JStructure. */
-    private Vector _interfaces;
+    private Vector<String> _interfaces;
 
     //--------------------------------------------------------------------------
 
@@ -123,11 +123,11 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
         
         _header = null;
         _packageName = JNaming.getPackageFromClassName(name);
-        _imports = new Vector();
+        _imports = new Vector<String>();
         _jdc = new JDocComment(JDocDescriptor.createVersionDesc(DEFAULT_VERSION));
         _annotatedElement = new JAnnotatedElementHelper();
         _modifiers = new JModifiers();
-        _interfaces = new Vector();
+        _interfaces = new Vector<String>();
     }
 
     /**
@@ -188,7 +188,7 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
      *
      * @return The Enumeration of imports. May be empty but will not be null.
      */
-    public final Enumeration getImports() {
+    public final Enumeration<String> getImports() {
         return _imports.elements();
     }
     
@@ -239,7 +239,7 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
             //-- for readabilty keep import list sorted, and make sure
             //-- we do not include more than one of the same import
             for (int i = 0; i < _imports.size(); i++) {
-                String imp = (String) _imports.elementAt(i);
+                String imp = _imports.elementAt(i);
                 if (imp.equals(className)) { return; }
                 if (imp.compareTo(className) > 0) {
                     _imports.insertElementAt(className, i);
@@ -366,7 +366,7 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
      * @return The Enumeration of interface names for this JStructure. May be
      *         empty but will not be null.
      */
-    public final Enumeration getInterfaces() {
+    public final Enumeration<String> getInterfaces() {
         return _interfaces.elements();
     }
 
@@ -570,7 +570,7 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
             jsw.writeln(" //- Imported classes and packages -/");
             jsw.writeln("//---------------------------------/");
             jsw.writeln();
-            Enumeration enumeration = _imports.elements();
+            Enumeration<String> enumeration = _imports.elements();
             while (enumeration.hasMoreElements()) {
                 jsw.write("import ");
                 jsw.write(enumeration.nextElement());

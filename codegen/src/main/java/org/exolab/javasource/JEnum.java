@@ -228,7 +228,7 @@ public final class JEnum extends JClass {
             }
             buffer.append("implements ");
 
-            Enumeration enumeration = getInterfaces();
+            Enumeration<String> enumeration = getInterfaces();
             while (enumeration.hasMoreElements()) {
                 buffer.append(enumeration.nextElement());
                 if (enumeration.hasMoreElements()) { buffer.append(", "); }

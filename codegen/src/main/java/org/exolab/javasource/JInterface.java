@@ -67,7 +67,7 @@ public final class JInterface extends JStructure {
     private JNamedMap _fields;
     
     /** The list of methods of this JInterface. */
-    private Vector _methods;
+    private Vector<JMethodSignature> _methods;
 
     //--------------------------------------------------------------------------
 
@@ -80,7 +80,7 @@ public final class JInterface extends JStructure {
         super(name);
         
         _fields = null;
-        _methods = new Vector();
+        _methods = new Vector<JMethodSignature>();
 
         //-- initialize default Java doc
         getJDocComment().appendComment("Interface " + getLocalName() + ".");
@@ -223,7 +223,7 @@ public final class JInterface extends JStructure {
      */
     public JMethodSignature getMethod(final String name, final int startIndex) {
         for (int i = startIndex; i < _methods.size(); i++) {
-            JMethodSignature jMethod = (JMethodSignature) _methods.elementAt(i);
+            JMethodSignature jMethod = _methods.elementAt(i);
             if (jMethod.getName().equals(name)) { return jMethod; }
         }
         return null;
@@ -236,7 +236,7 @@ public final class JInterface extends JStructure {
      * @return The JMethodSignature at the given index.
      */
     public JMethodSignature getMethod(final int index) {
-        return (JMethodSignature) _methods.elementAt(index);
+        return _methods.elementAt(index);
     }
 
     /**
@@ -257,7 +257,7 @@ public final class JInterface extends JStructure {
         boolean added = false;
         JModifiers modifiers = jMethodSig.getModifiers();
         for (int i = 0; i < _methods.size(); i++) {
-            JMethodSignature tmp = (JMethodSignature) _methods.elementAt(i);
+            JMethodSignature tmp = _methods.elementAt(i);
             //-- first compare modifiers
             if (tmp.getModifiers().isProtected() && !modifiers.isProtected()) {
                 _methods.insertElementAt(jMethodSig, i);
@@ -355,7 +355,7 @@ public final class JInterface extends JStructure {
         buffer.append(getLocalName());
         buffer.append(' ');
         if (getInterfaceCount() > 0) {
-            Enumeration enumeration = getInterfaces();
+            Enumeration<String> enumeration = getInterfaces();
             boolean endl = false;
             if (getInterfaceCount() > 1) {
                 jsw.writeln(buffer.toString());
@@ -440,7 +440,7 @@ public final class JInterface extends JStructure {
         }
 
         for (int i = 0; i < _methods.size(); i++) {
-            JMethodSignature signature = (JMethodSignature) _methods.elementAt(i);
+            JMethodSignature signature = _methods.elementAt(i);
             signature.print(jsw);
             jsw.writeln(';');
         }

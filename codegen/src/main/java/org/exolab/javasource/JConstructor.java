@@ -66,7 +66,7 @@ public final class JConstructor extends JAnnotatedElementHelper {
     private JSourceCode _sourceCode;
     
     /** The exceptions that this JConstructor throws. */
-    private Vector _exceptions;
+    private Vector<JClass> _exceptions;
 
     //--------------------------------------------------------------------------
 
@@ -80,7 +80,7 @@ public final class JConstructor extends JAnnotatedElementHelper {
         _modifiers = new JModifiers();
         _params = new JNamedMap();
         _sourceCode = new JSourceCode();
-        _exceptions = new Vector(1);
+        _exceptions = new Vector<JClass>(1);
     }
 
     //--------------------------------------------------------------------------
@@ -107,7 +107,7 @@ public final class JConstructor extends JAnnotatedElementHelper {
         //-- make sure exception is not already added
         String expClassName = exp.getName();
         for (int i = 0; i < _exceptions.size(); i++) {
-            JClass jClass = (JClass) _exceptions.elementAt(i);
+            JClass jClass = _exceptions.elementAt(i);
             if (expClassName.equals(jClass.getName())) { return; }
         }
         //-- add exception
@@ -273,7 +273,7 @@ public final class JConstructor extends JAnnotatedElementHelper {
             jsw.write("throws ");
             for (int i = 0; i < _exceptions.size(); i++) {
                 if (i > 0) { jsw.write(", "); }
-                JClass jClass = (JClass) _exceptions.elementAt(i);
+                JClass jClass = _exceptions.elementAt(i);
                 jsw.write(jClass.getName());
             }
         }

@@ -58,25 +58,25 @@ public class JClassRegistry {
     /**
      * Registry for holding a set of global element definitions.
      */
-    private Set _globalElements = new HashSet();
+    private Set<String> _globalElements = new HashSet<String>();
 
     /**
      * Registry for mapping an XPATH location to a {@link JClass} instance
      * generated for the XML artefact uniquely identified by the XPATH.
      */
-    private Map _xpathToJClass = new HashMap();
+    private Map<String, JClass> _xpathToJClass = new HashMap<String, JClass>();
 
     /**
      * Registry for recording naming collisions, keyed by the local part of an
      * otherwise rooted XPATH.
      */
-    private Map _localNames = new HashMap();
+    private Map<String, List<String>> _localNames = new HashMap<String, List<String>>();
 
     /**
      * Registry for recording naming collisions, keyed by the typed local part of an
      * otherwise rooted XPATH.
      */
-    private Map _typedLocalNames = new HashMap();
+    private Map<String, String> _typedLocalNames = new HashMap<String, String>();
 
     /** 
      * JavaNaming to be used. 
@@ -168,7 +168,7 @@ public class JClassRegistry {
             // deal with explicit forces
             if (binding.existsForce(localName)) {
 
-                List localNamesList = (List) _localNames.get(localName);
+                List<String> localNamesList = _localNames.get(localName);
                 memorizeCollision(xPath, localName, localNamesList);
 
                 LOG.info("Changing class name for local element " + xPath
@@ -210,13 +210,12 @@ public class JClassRegistry {
                     // its
                     // JClass instance to defer the type of the member currently
                     // processed
-                    Enumeration possibleSubstitutes = referredElement
+                    Enumeration<?> possibleSubstitutes = referredElement
                             .getSubstitutionGroupMembers();
                     if (possibleSubstitutes.hasMoreElements()) {
                         XMLType referredType = referredElement.getType();
                         String xPathType = XPathHelper.getSchemaLocation(referredType);
-                        JClass typeJClass = (JClass) _xpathToJClass
-                            .get(xPathType);
+                        JClass typeJClass = _xpathToJClass.get(xPathType);
                         if (typeJClass != null) {
                             jClass.changeLocalName(typeJClass.getLocalName());
                         } else {
@@ -242,7 +241,7 @@ public class JClassRegistry {
 
         // if already processed, change the JClass instance accordingly
         if (alreadyProcessed) {
-            JClass jClassAlreadyProcessed = (JClass) _xpathToJClass.get(xPath);
+            JClass jClassAlreadyProcessed = _xpathToJClass.get(xPath);
             jClass.changeLocalName(jClassAlreadyProcessed.getLocalName());
             return;
         }
@@ -271,12 +270,12 @@ public class JClassRegistry {
                 // need to do work out the global element's type, and use its
                 // JClass instance to defer the type of the member currently
                 // processed
-                Enumeration possibleSubstitutes = referredElement
+                Enumeration<?> possibleSubstitutes = referredElement
                         .getSubstitutionGroupMembers();
                 if (possibleSubstitutes.hasMoreElements()) {
                     String typeXPath = XPathHelper
                             .getSchemaLocation(referredElement);
-                    JClass referredJClass = (JClass) _xpathToJClass
+                    JClass referredJClass = _xpathToJClass
                             .get(typeXPath + "_class");
                     jClass.changeLocalName(referredJClass.getSuperClass()
                             .getLocalName());
@@ -294,15 +293,15 @@ public class JClassRegistry {
             checkAndChange(jClass, annotated, untypedXPath, typedLocalName);
 
             // remember that we had a collision for this local element
-            List localNamesList = (List) _localNames.get(localName);
+            List<String> localNamesList = _localNames.get(localName);
             memorizeCollision(xPath, localName, localNamesList);
             return;
         }
 
-        List localNamesList = (List) _localNames.get(localName);
+        List<String> localNamesList = _localNames.get(localName);
         memorizeCollision(xPath, localName, localNamesList);
         if (localNamesList == null) {
-            String typedJClassName = (String) _typedLocalNames.get(typedLocalName);
+            String typedJClassName = _typedLocalNames.get(typedLocalName);
             if (typedJClassName == null) {
                 _typedLocalNames.put(typedLocalName, jClass.getName());
             }
@@ -320,11 +319,11 @@ public class JClassRegistry {
      * @param localNamesList Collection store for collisions for that 'local name'.
      */
     private void memorizeCollision(final String xPath, final String localName, 
-            final List localNamesList) {
+            final List<String> localNamesList) {
         // resolve conflict with another element
         if (localNamesList == null) {
             // this name never occured before
-            ArrayList arrayList = new ArrayList();
+            List<String> arrayList = new ArrayList<String>();
             arrayList.add(xPath);
             _localNames.put(localName, arrayList);
             
@@ -347,7 +346,7 @@ public class JClassRegistry {
             final String untypedXPath, final String typedLocalName) {
         
         // check whether we have seen that typed local name already
-        String typedJClassName = (String) _typedLocalNames.get(typedLocalName);
+        String typedJClassName = _typedLocalNames.get(typedLocalName);
         if (typedJClassName != null) {
             // if so, simple re-use it by changing the local class name
             String localClassName = 
@@ -419,33 +418,33 @@ public class JClassRegistry {
     }
 
     /**
-     * Utility method to hgather and output statistical information about naming 
-     * collisions occured during source code generation.
+     * Utility method to gather and output statistical information about naming 
+     * collisions occurred during source code generation.
      * @param binding {@link XMLBindingComponent} instance
      */
     public void printStatistics(final XMLBindingComponent binding) {
-        Iterator keyIterator = _localNames.keySet().iterator();
+        Iterator<String> keyIterator = _localNames.keySet().iterator();
         LOG.info("*** Summary ***");
         if (binding.getBinding() != null 
                 && binding.getBinding().getForces() != null 
                 && binding.getBinding().getForces().size() > 0) {
-            Iterator forceIterator = binding.getBinding().getForces().iterator();
+            Iterator<String> forceIterator = binding.getBinding().getForces().iterator();
             LOG.info("The following 'forces' have been enabled:");
             while (forceIterator.hasNext()) {
-                String forceValue = (String) forceIterator.next();
+                String forceValue = forceIterator.next();
                 LOG.info(forceValue);
             }
         }
         if (keyIterator.hasNext()) {
             LOG.info("Local name conflicts encountered for the following element definitions");
             while (keyIterator.hasNext()) {
-                String localName = (String) keyIterator.next();
-                List collisions = (List) _localNames.get(localName);
+                String localName = keyIterator.next();
+                List<String> collisions = _localNames.get(localName);
                 if (collisions.size() > 1 && !ofTheSameType(collisions)) {
                     LOG.info(localName 
                             + ", with the following (element) definitions being involved:");
-                    for (Iterator iter = collisions.iterator(); iter.hasNext(); ) {
-                        String xPath = (String) iter.next();
+                    for (Iterator<String> iter = collisions.iterator(); iter.hasNext(); ) {
+                        String xPath = iter.next();
                         LOG.info(xPath);
                     }
                 }
@@ -457,8 +456,8 @@ public class JClassRegistry {
             StringBuilder xmlFragment = new StringBuilder(32);
             xmlFragment.append("<forces>\n");
             while (keyIterator.hasNext()) {
-                String localName = (String) keyIterator.next();
-                List collisions = (List) _localNames.get(localName);
+                String localName = keyIterator.next();
+                List<String> collisions = _localNames.get(localName);
                 if (collisions.size() > 1 && !ofTheSameType(collisions)) {
                     xmlFragment.append("   <force>");
                     xmlFragment.append(localName);
@@ -477,12 +476,12 @@ public class JClassRegistry {
      * @param collisions The list of XPATH (collidings) for a local element name
      * @return True if all are of the same type.
      */
-    private boolean ofTheSameType(final List collisions) {
+    private boolean ofTheSameType(final List<String> collisions) {
         boolean allSame = true;
-        Iterator iterator = collisions.iterator();
+        Iterator<String> iterator = collisions.iterator();
         String typeString = null;
         while (iterator.hasNext()) {
-            String xPath = (String) iterator.next();
+            String xPath = iterator.next();
             String newTypeString = xPath.substring(xPath.indexOf("[") + 1, 
                     xPath.indexOf("]"));
             if (typeString != null) {

@@ -146,7 +146,7 @@ public final class JAnnotation {
 
     /** Element values associated with this JAnnotation, contains String,
      *  String[], JAnnotation and JAnnotation[] objects. */
-    private OrderedHashMap _elementValues = new OrderedHashMap();
+    private OrderedHashMap<Object, Object> _elementValues = new OrderedHashMap<Object, Object>();
 
     //--------------------------------------------------------------------------
 
@@ -344,7 +344,7 @@ public final class JAnnotation {
      * @return Array of element names.
      */
     public String[] getElementNames() {
-        return (String[]) _elementValues.keySet().toArray(
+        return _elementValues.keySet().toArray(
                 new String[_elementValues.size()]);
     }
 

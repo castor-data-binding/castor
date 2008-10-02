@@ -103,7 +103,6 @@ import org.exolab.castor.xml.schema.Structure;
 import org.exolab.castor.xml.schema.Wildcard;
 import org.exolab.castor.xml.schema.XMLType;
 import org.exolab.castor.xml.schema.annotations.jdo.Column;
-import org.exolab.castor.xml.schema.annotations.jdo.ManyToMany;
 import org.exolab.castor.xml.schema.annotations.jdo.OneToMany;
 import org.exolab.castor.xml.schema.annotations.jdo.OneToOne;
 import org.exolab.castor.xml.schema.annotations.jdo.PrimaryKey;
@@ -373,11 +372,11 @@ public final class SourceFactory extends BaseFactory {
             // deal with substitution groups
             if (creatingForAnElement) {
                 ElementDecl elementDeclaration = (ElementDecl) component.getAnnotated();
-                Enumeration possibleSubstitutes = elementDeclaration.getSubstitutionGroupMembers();
+                Enumeration<ElementDecl> possibleSubstitutes = elementDeclaration.getSubstitutionGroupMembers();
                 if (possibleSubstitutes.hasMoreElements()) {
-                    List substitutionGroupMembers = new ArrayList();
+                    List<String> substitutionGroupMembers = new ArrayList<String>();
                     while (possibleSubstitutes.hasMoreElements()) {
-                        ElementDecl substitute = (ElementDecl) possibleSubstitutes.nextElement();
+                        ElementDecl substitute = possibleSubstitutes.nextElement();
                         substitutionGroupMembers.add(substitute.getName());
                     }
                     xmlNature.setSubstitutionGroups(substitutionGroupMembers);
@@ -659,12 +658,12 @@ public final class SourceFactory extends BaseFactory {
         documentationsField.setInitString("new java.util.HashMap()");
         jClass.addMember(documentationsField);
 
-        Enumeration annotations = annotated.getAnnotations();
+        Enumeration<Annotation> annotations = annotated.getAnnotations();
         while (annotations.hasMoreElements()) {
-            Annotation annotation = (Annotation) annotations.nextElement();
-            Enumeration documentations = annotation.getDocumentation();
+            Annotation annotation = annotations.nextElement();
+            Enumeration<Documentation> documentations = annotation.getDocumentation();
             while (documentations.hasMoreElements()) {
-                Documentation documentation = (Documentation) documentations.nextElement();
+                Documentation documentation = documentations.nextElement();
                 JConstructor defaultConstructor = jClass.getConstructor(0);
                 String documentationContent = normalize(documentation.getContent());
                 documentationContent = 
@@ -1279,7 +1278,7 @@ public final class SourceFactory extends BaseFactory {
     private JClass findBaseClass(final JClass jClass, final SGStateInfo sgState) {
         JClass returnType = jClass;
 
-        List classes = new LinkedList();
+        List<JClass> classes = new LinkedList<JClass>();
         classes.add(returnType);
 
         while (returnType.getSuperClassQualifiedName() != null) {
@@ -1308,8 +1307,8 @@ public final class SourceFactory extends BaseFactory {
             if (classes.contains(superClass)) {
                 StringBuilder buffer = new StringBuilder(64);
                 buffer.append("Loop found in class hierarchy: ");
-                for (Iterator i = classes.iterator(); i.hasNext(); ) {
-                    JClass element = (JClass) i.next();
+                for (Iterator<JClass> i = classes.iterator(); i.hasNext(); ) {
+                    JClass element = i.next();
                     // If JClass told us the source of the class (ComplexType, Element, ...
                     // then we could report that to and make name conflicts more obvious.
                     buffer.append(element.getName());
@@ -1796,14 +1795,14 @@ public final class SourceFactory extends BaseFactory {
      * @see Annotated
      */
     private void processAppInfo(final Annotated annotated, final ClassInfo cInfo) {
-        Enumeration annotations = annotated.getAnnotations();
+        Enumeration<Annotation> annotations = annotated.getAnnotations();
         while (annotations.hasMoreElements()) {
-            Annotation ann = (Annotation) annotations.nextElement();
-            Enumeration appInfos = ann.getAppInfo();
+            Annotation ann = annotations.nextElement();
+            Enumeration<AppInfo> appInfos = ann.getAppInfo();
             while (appInfos.hasMoreElements()) {
-                AppInfo appInfo = (AppInfo) appInfos.nextElement();
-                List content = appInfo.getJdoContent();
-                Iterator it = content.iterator();
+                AppInfo appInfo = appInfos.nextElement();
+                List<?> content = appInfo.getJdoContent();
+                Iterator<?> it = content.iterator();
                 if (it.hasNext()) {
                     cInfo.addNature(JDOClassInfoNature.class.getName());
                     JDOClassInfoNature cNature = new JDOClassInfoNature(cInfo);
@@ -1817,9 +1816,9 @@ public final class SourceFactory extends BaseFactory {
                          // TODO: Uncomment next line as soon as Annotation Classes have been updated!
 //                            cNature.setAccessMode(AccessMode.valueOf(table.getAccessMode().toString()));
                             PrimaryKey pk = table.getPrimaryKey();
-                            Iterator pIt = pk.iterateKey();
+                            Iterator<String> pIt = pk.iterateKey();
                             while (pIt.hasNext()) {
-                                cNature.addPrimaryKey((String) pIt.next());
+                                cNature.addPrimaryKey(pIt.next());
                             }
                         }
                     }
@@ -1844,15 +1843,15 @@ public final class SourceFactory extends BaseFactory {
      * @see Annotated
      */
     private void processAppInfo(final Annotated annotated, final FieldInfo fInfo) {
-        Enumeration annotations = annotated.getAnnotations();
+        Enumeration<Annotation> annotations = annotated.getAnnotations();
         
         while (annotations.hasMoreElements()) {
-            Annotation ann = (Annotation) annotations.nextElement();
-            Enumeration appInfos = ann.getAppInfo();
+            Annotation ann = annotations.nextElement();
+            Enumeration<AppInfo> appInfos = ann.getAppInfo();
             while (appInfos.hasMoreElements()) {
-                AppInfo appInfo = (AppInfo) appInfos.nextElement();
-                List content = appInfo.getJdoContent();
-                Iterator it = content.iterator();
+                AppInfo appInfo = appInfos.nextElement();
+                List<?> content = appInfo.getJdoContent();
+                Iterator<?> it = content.iterator();
                 if (it.hasNext()) {                 
                     while (it.hasNext()) {
                         Object tmpObject = it.next();
@@ -1899,14 +1898,14 @@ public final class SourceFactory extends BaseFactory {
             return;
         }
 
-        Enumeration enumeration = complexType.getAttributeDecls();
+        Enumeration<AttributeDecl> enumeration = complexType.getAttributeDecls();
         XMLBindingComponent component = new XMLBindingComponent(getConfig(), getGroupNaming());
         if (_binding != null) {
             component.setBinding(_binding);
         }
 
         while (enumeration.hasMoreElements()) {
-            AttributeDecl attr = (AttributeDecl) enumeration.nextElement();
+            AttributeDecl attr = enumeration.nextElement();
 
             component.setView(attr);
 
@@ -2114,7 +2113,7 @@ public final class SourceFactory extends BaseFactory {
         //------------------------------/
 
         ContentModelGroup contentModel = model;
-        Enumeration enumeration = contentModel.enumerate();
+        Enumeration<Annotated> enumeration = contentModel.enumerate();
 
         //-- handle choice item
         if (new XMLInfoNature(state.getClassInfo()).isChoice() && state.getFieldInfoForChoice() == null) {
@@ -2134,7 +2133,7 @@ public final class SourceFactory extends BaseFactory {
         }
 
         while (enumeration.hasMoreElements()) {
-            Annotated annotated = (Annotated) enumeration.nextElement();
+            Annotated annotated = enumeration.nextElement();
             component.setView(annotated);
 
             switch (annotated.getStructureType()) {

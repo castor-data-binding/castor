@@ -80,15 +80,15 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
     public static final int STOP_STATUS   = 1;
 
     /** The in memory mapping files for each package. */
-    private Hashtable _mappings = null;
+    private Hashtable<String, MappingRoot> _mappings = null;
     /** The in memory package listings for each package. */
-    private Hashtable _packageListings = null;
+    private Hashtable<String, Properties> _packageListings = null;
     
     /** The package used when creating new classes. */
     private String _packageName;
     
     /** Keeps track of which JClass files have been processed. */
-    private Vector      _processed   = null;
+    private Vector<JClass>      _processed   = null;
     /** true if existing source files should not be silently overwritten. */
     private boolean     _promptForOverwrite = true;
     /** The schema we are generating source code for. */
@@ -106,18 +106,18 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
     /** Current status of the source generator. */
     private int _status = NORMAL_STATUS;
     /** Maps annotations to generated source code. */
-    private Map _sourcesByComponent = new HashMap();
+    private Map<Annotated, JClass[]> _sourcesByComponent = new HashMap<Annotated, JClass[]>();
 
     /**
      * A cache of already generated classes (by their class name).
      */
-    private Map _sourcesByName = new HashMap();
+    private Map<String, JClass> _sourcesByName = new HashMap<String, JClass>();
 
     /**
      * A cache of already generated classes (as part of an imported schema),
      * keyed by their class name.
      */
-    private Map _importedSourcesByName = new HashMap();
+    private Map<String, JClass> _importedSourcesByName = new HashMap<String, JClass>();
 
     /**
      * Creates a new SGStateInfo.
@@ -129,7 +129,7 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
         super();
         _schema      = schema;
         _packageName = "";
-        _processed   = new Vector();
+        _processed   = new Vector<JClass>();
         _dialog      = new ConsoleDialog();
         _sgen        = sgen;
     }
@@ -172,7 +172,7 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
      * Stores generated sources as processed within an imported schema.
      * @param importedSourcesByName Generated sources as processed within an imported schema.
      */
-    public void storeImportedSourcesByName(final Map importedSourcesByName) {
+    public void storeImportedSourcesByName(final Map<String, JClass> importedSourcesByName) {
         _importedSourcesByName.putAll(importedSourcesByName);
     } //-- storeImportedSourcesByName
 
@@ -186,7 +186,7 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
      */
     JClass getProcessed(final String className) {
         for (int i = 0; i < _processed.size(); i++) {
-            JClass jClass = (JClass) _processed.elementAt(i);
+            JClass jClass = _processed.elementAt(i);
             if (jClass.getName().equals(className)) {
                 return jClass;
             }
@@ -203,7 +203,7 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
      * @return the JClass array
      */
     public JClass[] getSourceCode(final Annotated annotated) {
-        return (JClass[]) _sourcesByComponent.get(annotated);
+        return _sourcesByComponent.get(annotated);
     } //-- getSourceCode
 
     /**
@@ -215,7 +215,7 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
      * @return the JClass if found
      */
     public JClass getSourceCode(final String className) {
-        return (JClass) _sourcesByName.get(className);
+        return _sourcesByName.get(className);
     } //-- getSourceCode
 
     /**
@@ -228,7 +228,7 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
      * @return the (imported) JClass if found
      */
     public JClass getImportedSourceCode(final String className) {
-        return (JClass) _importedSourcesByName.get(className);
+        return _importedSourcesByName.get(className);
     } //-- getImportedSourceCode
 
 
@@ -241,7 +241,7 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
      */
     public MappingRoot getMapping(final String filename) {
         if (_mappings != null && filename != null) {
-            return (MappingRoot) _mappings.get(filename);
+            return _mappings.get(filename);
         }
         return null;
     } //-- getMapping
@@ -254,7 +254,7 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
      */
     public Properties getCDRFile(final String filename) {
         if (_packageListings != null && filename != null) {
-            return (Properties) _packageListings.get(filename);
+            return _packageListings.get(filename);
         }
         return null;
     }
@@ -264,7 +264,7 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
      *
      * @return the set of CDR file names.
      */
-    public Enumeration getCDRFilenames() {
+    public Enumeration<String> getCDRFilenames() {
         if (_packageListings == null) {
             return EMPTY_ENUMERATION;
         }
@@ -276,7 +276,7 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
      *
      * @return the set of mapping filenames.
      */
-    public Enumeration getMappingFilenames() {
+    public Enumeration<String> getMappingFilenames() {
         if (_mappings == null) {
             return EMPTY_ENUMERATION;
         }
@@ -323,7 +323,7 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
      */
     boolean processed(final String className) {
         for (int i = 0; i < _processed.size(); i++) {
-            JClass jClass = (JClass) _processed.elementAt(i);
+            JClass jClass = _processed.elementAt(i);
             if (jClass.getName().equals(className)) {
                 return true;
             }
@@ -399,7 +399,7 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
         }
 
         if (_packageListings == null) {
-            _packageListings = new Hashtable();
+            _packageListings = new Hashtable<String, Properties>();
         }
 
         if (props == null) {
@@ -422,7 +422,7 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
         }
 
         if (_mappings == null) {
-            _mappings = new Hashtable();
+            _mappings = new Hashtable<String, MappingRoot>();
         }
 
         if (mapping == null) {
@@ -530,7 +530,7 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
      * Returns the sources as generated through XML schema imports.
      * @return the sources as generated through XML schema imports.
      */
-    public Map getImportedSourcesByName() {
+    public Map<String, JClass> getImportedSourcesByName() {
         return _importedSourcesByName;
     }
 
@@ -538,7 +538,7 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
      * Returns the sources as generated through XML schema imports.
      * @return the sources as generated through XML schema imports.
      */
-    public Map getSourcesByName() {
+    public Map<String, JClass> getSourcesByName() {
         return _sourcesByName;
     }
 

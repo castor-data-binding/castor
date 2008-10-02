@@ -171,12 +171,12 @@ public final class DescriptorSourceFactory {
         }
         
         // handle substitution groups
-        List substitutionGroups = xmlNature.getSubstitutionGroups();
+        List<String> substitutionGroups = xmlNature.getSubstitutionGroups();
         if (!substitutionGroups.isEmpty()) {
             jsc.add("java.util.List substitutionGroups = new java.util.ArrayList();");
-            Iterator substitutionGroupIter = substitutionGroups.iterator();
+            Iterator<String> substitutionGroupIter = substitutionGroups.iterator();
             while (substitutionGroupIter.hasNext()) {
-                String substitutionGroup = (String) substitutionGroupIter.next();
+                String substitutionGroup = substitutionGroupIter.next();
                 jsc.add("substitutionGroups.add(\"");
                 jsc.append(substitutionGroup);
                 jsc.append("\");");
@@ -527,14 +527,14 @@ public final class DescriptorSourceFactory {
      * @param jsc The {@link JSourceCode} instance to write the substitution groups to.
      */
     private void addSubstitutionGroups(final FieldInfo member, final JSourceCode jsc) {
-        List substitutionGroupMembers = member.getSubstitutionGroupMembers();
+        List<String> substitutionGroupMembers = member.getSubstitutionGroupMembers();
         if (!substitutionGroupMembers.isEmpty()) {
             jsc.add("// set possible substitutes for member " + member.getName());
             jsc.add("java.util.List substitutionGroups" + member.getName() 
                     + " = new java.util.ArrayList();");
-            Iterator substitutionGroupIter = substitutionGroupMembers.iterator();
+            Iterator<String> substitutionGroupIter = substitutionGroupMembers.iterator();
             while (substitutionGroupIter.hasNext()) {
-                String substitutionGroup = (String) substitutionGroupIter.next();
+                String substitutionGroup = substitutionGroupIter.next();
                 jsc.add("substitutionGroups" + member.getName() + ".add(\"");
                 jsc.append(substitutionGroup);
                 jsc.append("\");");

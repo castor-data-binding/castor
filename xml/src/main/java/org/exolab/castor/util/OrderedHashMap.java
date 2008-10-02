@@ -39,21 +39,21 @@ import java.util.Set;
  * @author <a href="mailto:kvisco-at-intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
-public class OrderedHashMap extends HashMap {
-    /** SerialVersionUID */
+public class OrderedHashMap < K , V > extends HashMap < K , V > {
+    /** SerialVersionUID. */
     private static final long serialVersionUID = -1648679783713336948L;
 
     /**
-     * Ordered list of contained values
+     * Ordered list of contained values.
      */
-    private ArrayList _orderedValues = null;
+    private ArrayList < V > _orderedValues = null;
     
     /**
-     * Creates a new OrderedHashMap
+     * Creates a new OrderedHashMap.
      */
     public OrderedHashMap() {
         super();
-        _orderedValues = new ArrayList();
+        _orderedValues = new ArrayList < V > ();
     }
     
     /**
@@ -63,7 +63,7 @@ public class OrderedHashMap extends HashMap {
      */
     public OrderedHashMap(int initialCapacity) {
         super(initialCapacity);
-        _orderedValues = new ArrayList(initialCapacity);
+        _orderedValues = new ArrayList<V>(initialCapacity);
     }
     
     
@@ -73,7 +73,7 @@ public class OrderedHashMap extends HashMap {
      * 
      * @param m the Map to initialize this Map with
      */
-    public OrderedHashMap(Map m) {
+    public OrderedHashMap(Map<? extends K, ? extends V> m) {
         this(m.size());
         putAll(m);
     }
@@ -91,7 +91,7 @@ public class OrderedHashMap extends HashMap {
      * @see java.lang.Object#clone()
      */
     public Object clone() {
-        OrderedHashMap map = new OrderedHashMap(size());
+        OrderedHashMap<K, V> map = new OrderedHashMap<K, V>(size());
         map.putAll(this);
         return map;
         
@@ -103,7 +103,7 @@ public class OrderedHashMap extends HashMap {
      * 
      * @see java.util.Map#entrySet()
      */
-    public Set entrySet() {
+    public Set<Map.Entry<K, V>> entrySet() {
         return Collections.unmodifiableSet(super.entrySet());
     } 
 
@@ -113,17 +113,17 @@ public class OrderedHashMap extends HashMap {
      * 
      * @see java.util.Map#keySet()
      */
-    public Set keySet() {
+    public Set<K> keySet() {
         return Collections.unmodifiableSet(super.keySet());
     } 
     
     /**
      * @see java.util.Map#put(java.lang.Object, java.lang.Object)
      */
-    public Object put(Object key, Object value) {
+    public V put(K key, V value) {
         //-- remove any current value references from
         //-- the ordered list for the given key
-        Object obj = super.get(key);
+        V obj = super.get(key);
         if (obj != null) {
             _orderedValues.remove(obj);
         }
@@ -131,26 +131,22 @@ public class OrderedHashMap extends HashMap {
         _orderedValues.add(value);
         return obj;
     }
-    
+
     /**
      * @see java.util.Map#putAll(java.util.Map)
      */
-    public void putAll(Map m) {
-        Set entries = m.entrySet();
-        if (!entries.isEmpty()) {
-        	Iterator iterator = entries.iterator();
-            while (iterator.hasNext()) {
-            	Map.Entry entry = (Map.Entry)iterator.next();
-                put(entry.getKey(), entry.getValue());
-            }
+    public void putAll(Map<? extends K, ? extends V> m) {
+    	for (Iterator<? extends Map.Entry<? extends K, ? extends V>> entries = m.entrySet().iterator(); entries.hasNext(); ) {
+            Map.Entry<? extends K, ? extends V> e = entries.next();
+            put(e.getKey(), e.getValue());
         }
     }
     
     /**
      * @see java.util.Map#remove(java.lang.Object)
      */
-    public Object remove(Object key) {
-        Object obj = super.remove(key);
+    public V remove(Object key) {
+        V obj = super.remove(key);
         _orderedValues.remove(obj);
         return obj;
     }
@@ -162,7 +158,7 @@ public class OrderedHashMap extends HashMap {
      * 
      * @see java.util.Map#values()
      */
-    public Collection values() {
+    public Collection<V> values() {
         return Collections.unmodifiableList(_orderedValues);
     }
 

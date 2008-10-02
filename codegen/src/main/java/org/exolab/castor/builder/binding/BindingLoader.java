@@ -122,8 +122,9 @@ public final class BindingLoader {
      * @param source
      *            The binding document to load.
      * @throws BindingException
-     *             thrown when an error occured during the unmarshalling.
+     *             thrown when an error occurred during the unmarshalling.
      */
+    @SuppressWarnings("unchecked")
     public void loadBinding(final InputSource source) throws BindingException {
         Binding loaded = null;
         if (_binding == null) {
@@ -141,9 +142,9 @@ public final class BindingLoader {
             _binding.setDefaultBindingType(loaded.getDefaultBindingType());
 
             //--packages
-            Enumeration packages = loaded.enumeratePackage();
+            Enumeration<PackageType> packages = (Enumeration<PackageType>)loaded.enumeratePackage();
             while (packages.hasMoreElements()) {
-                PackageType tempPackage = (PackageType) packages.nextElement();
+                PackageType tempPackage = packages.nextElement();
                 _binding.addPackage(tempPackage);
             }
 
@@ -161,51 +162,51 @@ public final class BindingLoader {
             }
             
             //--elementBindings
-            Enumeration elements = loaded.enumerateElementBinding();
+            Enumeration<ComponentBindingType> elements = (Enumeration<ComponentBindingType>)loaded.enumerateElementBinding();
             while (elements.hasMoreElements()) {
-                ComponentBindingType tempComp = (ComponentBindingType) elements.nextElement();
+                ComponentBindingType tempComp = elements.nextElement();
                 _binding.addElementBinding(tempComp);
             }
 
             //--attributeBindings
-            Enumeration attributes = loaded.enumerateAttributeBinding();
+            Enumeration<ComponentBindingType> attributes = (Enumeration<ComponentBindingType>)loaded.enumerateAttributeBinding();
             while (attributes.hasMoreElements()) {
-                ComponentBindingType  tempComp = (ComponentBindingType) attributes.nextElement();
+                ComponentBindingType  tempComp = attributes.nextElement();
                 _binding.addAttributeBinding(tempComp);
             }
 
             //--ComplexTypeBindings
-            Enumeration complexTypes = loaded.enumerateComplexTypeBinding();
+            Enumeration<ComponentBindingType> complexTypes = (Enumeration<ComponentBindingType>)loaded.enumerateComplexTypeBinding();
             while (complexTypes.hasMoreElements()) {
-                ComponentBindingType tempComp = (ComponentBindingType) complexTypes.nextElement();
+                ComponentBindingType tempComp = complexTypes.nextElement();
                 _binding.addComplexTypeBinding(tempComp);
             }
 
             //--SimpleTypeBindings
-            Enumeration sts = loaded.enumerateSimpleTypeBinding();
+            Enumeration<ComponentBindingType> sts = (Enumeration<ComponentBindingType>)loaded.enumerateSimpleTypeBinding();
             while (sts.hasMoreElements()) {
-                ComponentBindingType tempComp = (ComponentBindingType) sts.nextElement();
+                ComponentBindingType tempComp = sts.nextElement();
                 _binding.addSimpleTypeBinding(tempComp);
             }
 
             //--groupBindings
-            Enumeration groups = loaded.enumerateGroupBinding();
+            Enumeration<ComponentBindingType> groups = (Enumeration<ComponentBindingType>)loaded.enumerateGroupBinding();
             while (groups.hasMoreElements()) {
-                ComponentBindingType tempComp = (ComponentBindingType) groups.nextElement();
+                ComponentBindingType tempComp = groups.nextElement();
                 _binding.addGroupBinding(tempComp);
             }
 
             //--enumBinding
-            Enumeration enums = loaded.enumerateEnumBinding();
+            Enumeration<ComponentBindingType> enums = (Enumeration<ComponentBindingType>)loaded.enumerateEnumBinding();
             while (enums.hasMoreElements()) {
-                ComponentBindingType tempEnum = (ComponentBindingType) enums.nextElement();
+                ComponentBindingType tempEnum = enums.nextElement();
                 _binding.addEnumBinding(tempEnum);
             }
 
             //--included schemas
-            Enumeration includes = loaded.enumerateInclude();
+            Enumeration<IncludeType> includes = (Enumeration<IncludeType>)loaded.enumerateInclude();
             while (includes.hasMoreElements()) {
-                IncludeType tempInclude = (IncludeType) includes.nextElement();
+                IncludeType tempInclude = includes.nextElement();
                 try {
                     loadBinding(tempInclude.getURI());
                 } catch (Exception except) {

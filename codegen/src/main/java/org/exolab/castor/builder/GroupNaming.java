@@ -65,7 +65,7 @@ public final class GroupNaming {
      * A HashTable of HashTables that keeps track of group names for each
      * package.
      */
-    private Hashtable _packageGroupNames = null;
+    private Hashtable<String, Hashtable<Group, String>> _packageGroupNames = null;
 
     /** 
      * JavaNaming to be used. 
@@ -79,7 +79,7 @@ public final class GroupNaming {
      * @param javaNaming the {@link JavaNaming} to be used
      */
     public GroupNaming(final JavaNaming javaNaming) {
-        _packageGroupNames = new Hashtable();
+        _packageGroupNames = new Hashtable<String, Hashtable<Group, String>>();
         // JavaNaming was introduced @since 1.1.3
         _javaNaming = javaNaming;
     } //-- GroupNaming
@@ -94,11 +94,11 @@ public final class GroupNaming {
      *         name combination
      */
     private String getGroupName(final Group group, final String packageName) {
-        Hashtable groupNames = (Hashtable) _packageGroupNames.get(packageName);
+        Hashtable<Group, String> groupNames = _packageGroupNames.get(packageName);
         if (groupNames == null) {
             return null;
         }
-        return (String) groupNames.get(group);
+        return groupNames.get(group);
     }
 
     /**
@@ -111,9 +111,9 @@ public final class GroupNaming {
      *        name combination
      */
     private void putGroupName(final Group group, final String packageName, final String name) {
-        Hashtable groupNames = (Hashtable) _packageGroupNames.get(packageName);
+        Hashtable<Group, String> groupNames = _packageGroupNames.get(packageName);
         if (groupNames == null) {
-            groupNames = new Hashtable();
+            groupNames = new Hashtable<Group, String>();
             _packageGroupNames.put(packageName, groupNames);
         }
         groupNames.put(group, name);
@@ -128,7 +128,7 @@ public final class GroupNaming {
      * @return True if a mapping already exists
      */
     private boolean containsGroupName(final String packageName, final String name) {
-        Hashtable groupNames = (Hashtable) _packageGroupNames.get(packageName);
+        Hashtable<Group, String> groupNames = _packageGroupNames.get(packageName);
         if (groupNames == null) {
             return false;
         }

@@ -42,7 +42,7 @@ public final class ClassNameCRStrategyRegistry {
      * Association between name of {@link ClassNameCRStrategy} implementation
      * and {@link ClassNameCRStrategy} instance.
      */
-    private Map _strategies = new HashMap();
+    private Map<String, ClassNameCRStrategy> _strategies = new HashMap<String, ClassNameCRStrategy>();
 
     //--------------------------------------------------------------------------
 
@@ -59,7 +59,7 @@ public final class ClassNameCRStrategyRegistry {
         while (tokenizer.hasMoreTokens()) {
             String classname = tokenizer.nextToken();
             try {
-                Class cls = loader.loadClass(classname);
+                Class<?> cls = loader.loadClass(classname);
                 Object obj = cls.newInstance();
                 ClassNameCRStrategy strategy = (ClassNameCRStrategy) obj;
                 _strategies.put(strategy.getName(), strategy);
@@ -82,7 +82,7 @@ public final class ClassNameCRStrategyRegistry {
      */
     public String[] getClassNameConflictResolutionStrategyNames() {
         String[] names = new String[_strategies.size()];
-        return (String[]) _strategies.keySet().toArray(names);
+        return _strategies.keySet().toArray(names);
     }
 
     /**

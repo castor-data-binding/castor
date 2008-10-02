@@ -155,7 +155,7 @@ public class SourceGenerator extends BuilderConfiguration {
     /** Allows us to ask the user questions. */
     private final ConsoleDialog _dialog;
     /** A vector that keeps track of all the schemas processed. */
-    private final Vector _schemasProcessed = new Vector(7);
+    private final Vector<Schema> _schemasProcessed = new Vector<Schema>(7);
     
     /** True if we should suppress non-fatal warnings. */
     private boolean _suppressNonFatalWarnings = false;
@@ -782,44 +782,42 @@ public class SourceGenerator extends BuilderConfiguration {
 
         //-- ** Generate code for all TOP-LEVEL structures **
 
-        Enumeration structures;
-
         //-- register all global element names for name conflict resolution
-        for (structures = schema.getElementDecls(); structures.hasMoreElements(); ) {
-            ElementDecl element = (ElementDecl) structures.nextElement();
+        for (Enumeration<ElementDecl> structures = schema.getElementDecls(); structures.hasMoreElements(); ) {
+            ElementDecl element = structures.nextElement();
             _xmlInfoRegistry.prebindGlobalElement(XPathHelper.getSchemaLocation(element));
         }
-        for (structures = schema.getModelGroups(); structures.hasMoreElements(); ) {
-            ModelGroup modelGroup = (ModelGroup) structures.nextElement();
+        for (Enumeration<ModelGroup> structures = schema.getModelGroups(); structures.hasMoreElements(); ) {
+            ModelGroup modelGroup = structures.nextElement();
             _xmlInfoRegistry.prebindGlobalElement(XPathHelper.getSchemaLocation(modelGroup));
         }
 
         //-- handle all top-level element declarations
-        for (structures = schema.getElementDecls(); structures.hasMoreElements(); ) {
-            createClasses((ElementDecl) structures.nextElement(), sInfo);
+        for (Enumeration<ElementDecl> structures = schema.getElementDecls(); structures.hasMoreElements(); ) {
+            createClasses(structures.nextElement(), sInfo);
         }
 
         //-- handle all top-level complextypes
-        for (structures = schema.getComplexTypes(); structures.hasMoreElements(); ) {
-            processComplexType((ComplexType) structures.nextElement(), sInfo);
+        for (Enumeration<ComplexType> structures = schema.getComplexTypes(); structures.hasMoreElements(); ) {
+            processComplexType(structures.nextElement(), sInfo);
         }
 
         //-- handle all top-level simpletypes
-        for (structures = schema.getSimpleTypes(); structures.hasMoreElements(); ) {
-            processSimpleType((SimpleType) structures.nextElement(), sInfo);
+        for (Enumeration<SimpleType> structures = schema.getSimpleTypes(); structures.hasMoreElements(); ) {
+            processSimpleType(structures.nextElement(), sInfo);
         }
 
         //-- handle all top-level groups
-        for (structures = schema.getModelGroups(); structures.hasMoreElements(); ) {
-            createClasses((ModelGroup) structures.nextElement(), sInfo);
+        for (Enumeration<ModelGroup> structures = schema.getModelGroups(); structures.hasMoreElements(); ) {
+            createClasses(structures.nextElement(), sInfo);
         }
 
         //-- clean up any remaining JClasses which need printing
         _singleClassGenerator.processIfNotAlreadyProcessed(sInfo.keys(), sInfo);
 
         //-- handle cdr files
-        for (Enumeration cdrFiles = sInfo.getCDRFilenames(); cdrFiles.hasMoreElements(); ) {
-            String filename = (String) cdrFiles.nextElement();
+        for (Enumeration<String> cdrFiles = sInfo.getCDRFilenames(); cdrFiles.hasMoreElements(); ) {
+            String filename = cdrFiles.nextElement();
             Properties props = sInfo.getCDRFile(filename);
             final FileOutputStream fileOutputStream = new FileOutputStream(new File(filename));
             props.store(fileOutputStream, null);
@@ -837,9 +835,9 @@ public class SourceGenerator extends BuilderConfiguration {
      */
     private void processImportedSchemas(final Schema schema, final SGStateInfo sInfo)
     throws IOException {
-        Enumeration enumeration = schema.getImportedSchema();
+        Enumeration<Schema> enumeration = schema.getImportedSchema();
         while (enumeration.hasMoreElements()) {
-            Schema importedSchema = (Schema) enumeration.nextElement();
+            Schema importedSchema = enumeration.nextElement();
             if (!_generateImported) {
                 LOG.warn("Note: No code will be generated for the following *imported* schema: " 
                         + importedSchema.getSchemaLocation() + "; if this is on intention, please "
@@ -1060,9 +1058,9 @@ public class SourceGenerator extends BuilderConfiguration {
             return;
         }
 
-        Enumeration enumeration = complexType.getAttributeDecls();
+        Enumeration<AttributeDecl> enumeration = complexType.getAttributeDecls();
         while (enumeration.hasMoreElements()) {
-            AttributeDecl attribute = (AttributeDecl) enumeration.nextElement();
+            AttributeDecl attribute = enumeration.nextElement();
             processSimpleType(attribute.getSimpleType(), sInfo);
         }
     } //-- processAttributes
@@ -1083,10 +1081,10 @@ public class SourceGenerator extends BuilderConfiguration {
         //Some special code to handle the fact that the enumerate method will simply skip
         //the first group is the number of particle is one
 
-        Enumeration enumeration = cmGroup.enumerate();
+        Enumeration<Structure> enumeration = cmGroup.enumerate();
 
         while (enumeration.hasMoreElements()) {
-            Structure struct = (Structure) enumeration.nextElement();
+            Structure struct = enumeration.nextElement();
             switch(struct.getStructureType()) {
                 case Structure.ELEMENT:
                     ElementDecl eDecl = (ElementDecl) struct;

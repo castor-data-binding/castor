@@ -77,21 +77,21 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
     private boolean _abstract    = false;
     
     /** Vector of FieldInfo's for all attributes that are members of this Class. */
-    private Vector _atts = new Vector();
+    private Vector<FieldInfo> _atts = new Vector<FieldInfo>();
     /** Vector of FieldInfo's for all elements that are members of this Class. */
-    private Vector _elements = new Vector();
+    private Vector<FieldInfo> _elements = new Vector<FieldInfo>();
     /** if this ClassInfo represents a TextField, this is this TextField's FieldInfo. */
     private FieldInfo _textField = null;
     
     /**
      * Map holding the properties set and read by Natures.
      */
-    private Map _properties = new HashMap();
+    private Map<String, Object> _properties = new HashMap<String, Object>();
     
     /**
      * Map holding the available natures.
      */
-    private Set _natures = new HashSet();
+    private Set<String> _natures = new HashSet<String>();
 
     /**
      * Creates a new ClassInfo. Adds the {@link XMLInfoNature} for legacy compliance.
@@ -219,7 +219,7 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
         }
 
         for (int i = 0; i < _atts.size(); i++) {
-            FieldInfo temp = (FieldInfo) _atts.get(i);
+            FieldInfo temp = _atts.get(i);
             if (new XMLInfoNature(temp).getNodeName().equals(nodeName)) {
                 return temp;
             }
@@ -265,7 +265,7 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
     public FieldInfo getElementField(final String nodeName) {
         if (_elements != null) {
             for (int i = 0; i < _elements.size(); i++) {
-                FieldInfo temp = (FieldInfo) _elements.get(i);
+                FieldInfo temp = _elements.get(i);
                 String elementNodeName = new XMLInfoNature(temp).getNodeName();
                 if (elementNodeName != null && elementNodeName.equals(nodeName)) {
                     return temp;
@@ -393,7 +393,7 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
      * Returns all attribute {@link FieldInfo}s as a collection.
      * @return attribute fields.
      */
-    public Collection getAttributeFieldsAsCollection() {
+    public Collection<FieldInfo> getAttributeFieldsAsCollection() {
         return this._atts;
     }
 
@@ -401,7 +401,7 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
      * Returns all element {@link FieldInfo}s as a collection.
      * @return element fields.
      */
-    public Collection getElementFieldsAsCollection() {
+    public Collection<FieldInfo> getElementFieldsAsCollection() {
         return this._elements;
     }
 
