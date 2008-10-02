@@ -358,9 +358,8 @@ public class OrderItem {
 			</tgroup>
 		</table>
 
-        </section>
-
-		<section id="xml.mapping.mappingfile.sampleclassmappings"><title>Sample &lt;class&gt; mappings</title>
+		<section id="xml.mapping.mappingfile.sampleclassmappings">
+           <title>Sample &lt;class&gt; mappings</title>
 		
         <para>The following mapping fragment defines a class mapping for the <classname>OrderItem</classname>
            class:</para>
@@ -448,7 +447,7 @@ public class OrderItem {
    <order-quantity>100</order-quantity>
 </order-item>]]></programlisting>
 			   
-		</section>
+        </section>
 
       </section>
 
@@ -556,7 +555,7 @@ public class OrderItem {
         
         </section>
 
-      </section>
+        </section>
 
       <section id="xml.mapping.mappingfile.field"><title>The &lt;field> element</title>
 
@@ -1008,6 +1007,8 @@ public void add...(&lt;type&gt; value);
             </tgroup>
          </table>
 
+      </section>
+
         
          <section><title>Description of the content</title>
 
@@ -1145,8 +1146,6 @@ public void add...(&lt;type&gt; value);
           
       </section>
 
-    </section>
-
       <section id="xml.mapping.mappingfile.bindxml"><title>The &lt;bind-xml> element</title>
 
         <section id="xml.mapping.mappingfile.bindxml.grammar"><title>Grammar</title>
@@ -1268,6 +1267,7 @@ public void add...(&lt;type&gt; value);
 		
       </section>
 
+    </section>
     
     <section id="xml.mapping.mappingfile.bindxml.usagepattern"><title>Usage Pattern</title>
 
