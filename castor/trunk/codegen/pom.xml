@@ -39,6 +39,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 					<schema>
 						src/main/resources/org/exolab/castor/builder/binding/binding.xsd
 					</schema>
+                    <properties>${basedir}/src/main/resources/org/exolab/castor/builder/binding/binding.builder.properties</properties>
 					<packaging>
 						org.exolab.castor.builder.binding.xml
 					</packaging>
