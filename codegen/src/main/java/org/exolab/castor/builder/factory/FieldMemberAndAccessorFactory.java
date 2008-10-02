@@ -230,9 +230,9 @@ public class FieldMemberAndAccessorFactory {
         //-- create get method
         method = new JMethod(fieldInfo.getReadMethodName(), jType,
                              "the value of field '" + mname + "'.");
-        if (useJava50) {
-            Java5HacksHelper.addOverrideAnnotations(method.getSignature());
-        }
+//        if (useJava50) {
+//            Java5HacksHelper.addOverrideAnnotations(method.getSignature());
+//        }
         
         for (int i = 0; i < annotationBuilders.length; i++) {
             AnnotationBuilder annotationBuilder = annotationBuilders[i];
@@ -251,9 +251,9 @@ public class FieldMemberAndAccessorFactory {
             // -- create is<Property>t method
             method = new JMethod(fieldInfo.getIsMethodName(), jType,
                     "the value of field '" + mname + "'.");
-            if (useJava50) {
-                Java5HacksHelper.addOverrideAnnotations(method.getSignature());
-            }
+//            if (useJava50) {
+//                Java5HacksHelper.addOverrideAnnotations(method.getSignature());
+//            }
             jClass.addMethod(method);
             createGetterComment(fieldInfo, method.getJDocComment());
             jsc = method.getSourceCode();
@@ -395,9 +395,9 @@ public class FieldMemberAndAccessorFactory {
         }
 
         method.addParameter(new JParameter(jType, paramName));
-        if (useJava50) {
-            Java5HacksHelper.addOverrideAnnotations(method.getSignature()); // DAB Java 5.0 hack
-        }
+//        if (useJava50) {
+//            Java5HacksHelper.addOverrideAnnotations(method.getSignature()); // DAB Java 5.0 hack
+//        }
         createSetterComment(fieldInfo, method.getJDocComment());
         jsc = method.getSourceCode();
 
