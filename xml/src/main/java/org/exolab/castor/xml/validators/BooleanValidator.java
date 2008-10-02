@@ -85,7 +85,7 @@ public class BooleanValidator extends PatternValidator implements TypeValidator 
      */
     public Boolean getFixed() {
         if (_useFixed) {
-            return new Boolean(_fixed);
+            return Boolean.valueOf(_fixed);
         }
         return null;
     } //-- getFixed
@@ -140,7 +140,7 @@ public class BooleanValidator extends PatternValidator implements TypeValidator 
         }
 
         if (hasPattern()) {
-            super.validate(new Boolean(b).toString(), context);
+            super.validate(String.valueOf(b), context);
         }
     } //-- validate
 

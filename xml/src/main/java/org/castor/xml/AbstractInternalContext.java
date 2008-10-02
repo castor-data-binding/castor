@@ -455,7 +455,7 @@ public abstract class AbstractInternalContext implements InternalContext {
      * @see org.castor.xml.InternalContext#setProperty(java.lang.String, boolean)
      */
     public void setProperty(final String propertyName, final boolean value) {
-        _configuration.put(propertyName, new Boolean(value));
+        _configuration.put(propertyName, Boolean.valueOf(value));
     }
     
     /**
