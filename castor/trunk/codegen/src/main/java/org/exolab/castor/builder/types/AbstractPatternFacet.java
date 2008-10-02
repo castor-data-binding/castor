@@ -34,7 +34,7 @@ public abstract class AbstractPatternFacet extends XSType {
     //--------------------------------------------------------------------------
 
     /** The list of pattern facets. */
-    private List _patterns = new LinkedList();
+    private List<String> _patterns = new LinkedList<String>();
 
     //--------------------------------------------------------------------------
 
@@ -53,7 +53,7 @@ public abstract class AbstractPatternFacet extends XSType {
      * 
      * @return List of pattern facets.
      */
-    public final List getPatterns() {
+    public final List<String> getPatterns() {
         return _patterns;
     }
 
@@ -82,8 +82,8 @@ public abstract class AbstractPatternFacet extends XSType {
      * @param validatorName The name of the TypeValidator that the patterns should be added to.
      */
     protected final void codePatternFacet(final JSourceCode jsc, final String validatorName) {
-        for (Iterator i = _patterns.iterator(); i.hasNext(); ) {
-            jsc.add("{0}.addPattern(\"{1}\");", validatorName, escapePattern((String) i.next()));
+        for (Iterator<String> i = _patterns.iterator(); i.hasNext(); ) {
+            jsc.add("{0}.addPattern(\"{1}\");", validatorName, escapePattern(i.next()));
         }
     }
 

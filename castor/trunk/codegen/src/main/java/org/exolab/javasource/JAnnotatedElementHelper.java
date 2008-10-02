@@ -59,7 +59,7 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
     //--------------------------------------------------------------------------
 
     /** Stores annotations associated with the source element containing this helper. */
-    private OrderedHashMap _annotations;
+    private OrderedHashMap<String, JAnnotation> _annotations;
 
     //--------------------------------------------------------------------------
 
@@ -77,7 +77,7 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
      */
     public final JAnnotation getAnnotation(final JAnnotationType annotationType) {
         if (_annotations == null) { return null; }
-        return (JAnnotation) _annotations.get(annotationType.getName());
+        return _annotations.get(annotationType.getName());
     }
 
     /**
@@ -85,7 +85,7 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
      */
     public final JAnnotation[] getAnnotations() {
         if (_annotations == null) { return new JAnnotation[0]; }
-        return (JAnnotation[]) _annotations.values().toArray(
+        return _annotations.values().toArray(
                 new JAnnotation[_annotations.size()]);
     }
 
@@ -109,7 +109,7 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
                     + "' already added.");
         }
         String annotationType = annotation.getAnnotationType().getName();
-        if (_annotations == null) { _annotations = new OrderedHashMap(); }
+        if (_annotations == null) { _annotations = new OrderedHashMap<String, JAnnotation>(); }
         _annotations.put(annotationType, annotation);
     }
 
@@ -121,7 +121,7 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
             throw new IllegalArgumentException(
                     "Annotation for '" + annotationType.getName() + "' not present.");
         }
-        return (JAnnotation) _annotations.remove(annotationType.getName());
+        return _annotations.remove(annotationType.getName());
     }
 
     /**
@@ -143,9 +143,9 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
     public final boolean printAnnotations(final JSourceWriter jsw) {
         boolean printed = false;
         if (_annotations != null) {
-            Iterator annotations = _annotations.values().iterator();
+            Iterator<JAnnotation> annotations = _annotations.values().iterator();
             while (annotations.hasNext()) {
-                JAnnotation annotation = (JAnnotation) annotations.next();
+                JAnnotation annotation = annotations.next();
                 annotation.print(jsw);
                 jsw.writeln();
                 printed = true;

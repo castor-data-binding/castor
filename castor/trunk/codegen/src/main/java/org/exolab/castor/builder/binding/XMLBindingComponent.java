@@ -848,9 +848,9 @@ public final class XMLBindingComponent implements BindingComponent {
                             Structure structure = element.getParent();
                             if (structure instanceof ContentModelGroup) {
                                 ContentModelGroup cmg = (ContentModelGroup) structure;
-                                Enumeration enumeration = cmg.enumerate();
+                                Enumeration<Structure> enumeration = cmg.enumerate();
                                 while (enumeration.hasMoreElements()) {
-                                    Structure tmpStruct = (Structure) enumeration.nextElement();
+                                    Structure tmpStruct = enumeration.nextElement();
                                     if (tmpStruct.getStructureType() == Structure.ELEMENT) {
                                         ElementDecl tmpDecl = (ElementDecl) tmpStruct;
                                         if (tmpDecl.isReference()
@@ -1386,9 +1386,9 @@ public final class XMLBindingComponent implements BindingComponent {
                 //-- if minOccurs == 1, then check to see if all elements inside group are
                 //-- optional, if so, we return 0, not 1.
                 if (minOccurs == 1) {
-                    Enumeration enumeration = group.enumerate();
+                    Enumeration<Annotated> enumeration = group.enumerate();
                     while (enumeration.hasMoreElements()) {
-                        if (getLowerBound((Annotated) enumeration.nextElement()) != 0) {
+                        if (getLowerBound(enumeration.nextElement()) != 0) {
                             return 1;
                         }
                     }

@@ -36,6 +36,26 @@
             <bugs>
                 <bug id="2548" tool="jira">
                     <description>
+                        Generified 'codegen' module.
+                    </description>
+                    <contributor>
+                        <name>Dave Brosius</name>
+                        <email>dbrosius@mebigfatguy.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Dave Brosius</name>
+                        <email>dbrosius@mebigfatguy.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20081002</date>
+                </bug>
+                <bug id="2548" tool="jira">
+                    <description>
                         Removed needless creation of Boolean instances in XML code.
                     </description>
                     <contributor>

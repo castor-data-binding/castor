@@ -129,7 +129,7 @@ public final class ExtendedBinding extends Binding {
     /**
      * The hashtables that contain the different componentBindings.
      */
-    private Hashtable _componentBindings;
+    private Hashtable<String, ComponentBindingType> _componentBindings;
 
     /**
      * A flag that indicates if the component bindings of that Binding have been
@@ -141,12 +141,12 @@ public final class ExtendedBinding extends Binding {
      * Maintains a list of element names where automatic name conflict resolution should be 
      * used all times, incl. the first one.
      */
-    private Set _automaticNameResolutionForced = new HashSet();
+    private Set<String> _automaticNameResolutionForced = new HashSet<String>();
     
     /**
      * Maintains a map of exclusions from the automatic name conflict.  
      */
-   private Map _automaticNameResolutionExcludes = new HashMap();
+   private Map<String, Exclude> _automaticNameResolutionExcludes = new HashMap<String, Exclude>();
 
     /**
      * Default constructor.
@@ -154,7 +154,7 @@ public final class ExtendedBinding extends Binding {
      */
     public ExtendedBinding() {
         super();
-        _componentBindings = new Hashtable();
+        _componentBindings = new Hashtable<String, ComponentBindingType>();
     }
 
     /**
@@ -240,7 +240,7 @@ public final class ExtendedBinding extends Binding {
             return null;
         }
         ComponentBindingType componentBinding = 
-            (ComponentBindingType) _componentBindings.get(xPath);
+            _componentBindings.get(xPath);
         
         // if no component binding has been found, retry with xpath without namespaces
         // this is to ensure backwards compatibility
@@ -504,7 +504,7 @@ public final class ExtendedBinding extends Binding {
      * @return The {@link Exclude} instance.
      */
     public Exclude getExclusion(final String localName) {
-        return (Exclude) _automaticNameResolutionExcludes.get(localName);
+        return _automaticNameResolutionExcludes.get(localName);
     }
 
     /**
@@ -521,7 +521,7 @@ public final class ExtendedBinding extends Binding {
      * Returns all &lt;force&gt; elements defined in the binding file.
      * @return all &lt;force&gt; elements defined in the binding file
      */
-    public Set getForces() {
+    public Set<String> getForces() {
         return _automaticNameResolutionForced;
     }
 

@@ -75,12 +75,12 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
     /**
      * Map holding the properties set and read by Natures.
      */
-    private Map _properties = new HashMap();
+    private Map<String, Object> _properties = new HashMap<String, Object>();
     
     /**
      * Set holding applicable natures.
      */
-    private Set _natures = new HashSet();
+    private Set<String> _natures = new HashSet<String>();
     
     /** The Read / Getter method flag. */
     public static final int READ_METHOD              = 1;

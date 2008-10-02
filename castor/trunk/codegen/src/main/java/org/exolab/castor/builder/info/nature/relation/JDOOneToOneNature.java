@@ -125,7 +125,7 @@ public final class JDOOneToOneNature extends BaseNature {
      *            The column name.
      */
     public void addForeignKey(final String column) {
-        List foreignKey = getPropertyAsList(FOREIGN_KEY);
+        List<String> foreignKey = getPropertyAsList(FOREIGN_KEY);
         foreignKey.add(column);
     }
 

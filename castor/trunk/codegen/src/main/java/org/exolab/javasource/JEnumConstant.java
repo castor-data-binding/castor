@@ -63,7 +63,7 @@ public final class JEnumConstant extends JAnnotatedElementHelper implements JMem
     private JDocComment _comment;
     
     /** A list of methods attached to this JEnumConstant. */
-    private Vector _methods = null;
+    private Vector<JMethod> _methods = null;
 
     //--------------------------------------------------------------------------
 
@@ -86,7 +86,7 @@ public final class JEnumConstant extends JAnnotatedElementHelper implements JMem
     public JEnumConstant(final String name, final String[] arguments) {
         setName(name);
         
-        _methods = new Vector();
+        _methods = new Vector<JMethod>();
         _comment = new JDocComment();
         _comment.appendComment("Constant " + name);
         _arguments = arguments;
@@ -164,7 +164,7 @@ public final class JEnumConstant extends JAnnotatedElementHelper implements JMem
         }
 
         for (int i = 0; i < _methods.size(); i++) {
-            JMethod tmp = (JMethod) _methods.elementAt(i);
+            JMethod tmp = _methods.elementAt(i);
             //-- first compare modifiers
             if (tmp.getModifiers().isPrivate()) {
                 if (!modifiers.isPrivate()) {
@@ -205,7 +205,7 @@ public final class JEnumConstant extends JAnnotatedElementHelper implements JMem
         JMethod[] marray = new JMethod[size];
 
         for (int i = 0; i < _methods.size(); i++) {
-            marray[i] = (JMethod) _methods.elementAt(i);
+            marray[i] = _methods.elementAt(i);
         }
         return marray;
     }
@@ -224,7 +224,7 @@ public final class JEnumConstant extends JAnnotatedElementHelper implements JMem
      */
     public JMethod getMethod(final String name, final int startIndex) {
         for (int i = startIndex; i < _methods.size(); i++) {
-            JMethod jMethod = (JMethod) _methods.elementAt(i);
+            JMethod jMethod = _methods.elementAt(i);
             if (jMethod.getName().equals(name)) { return jMethod; }
         }
         return null;
@@ -237,7 +237,7 @@ public final class JEnumConstant extends JAnnotatedElementHelper implements JMem
      * @return The JMethod.
      */
     public JMethod getMethod(final int index) {
-        return (JMethod) _methods.elementAt(index);
+        return _methods.elementAt(index);
     }
 
     /**
@@ -328,7 +328,7 @@ public final class JEnumConstant extends JAnnotatedElementHelper implements JMem
             jsw.writeln();
             jsw.indent();
             for (int i = 0; i < _methods.size(); i++) {
-                JMethod jMethod = (JMethod) _methods.elementAt(i);
+                JMethod jMethod = _methods.elementAt(i);
                 jMethod.print(jsw);
                 if (i < _methods.size() - 1) { jsw.writeln(); }
             }

@@ -45,9 +45,9 @@ public class TemplateHelper {
      * @param comment The comment as string.
      * @return The comment string splitted into a list.
      */
-    public ArrayList getLines(String comment) {
+    public ArrayList<String> getLines(String comment) {
         comment = removeLineBreaks(comment);
-        ArrayList list = new ArrayList();
+        ArrayList<String> list = new ArrayList<String>();
         do {
             comment = computeLine(comment, list);
         } while (comment.length() > 0);
@@ -62,7 +62,7 @@ public class TemplateHelper {
      * @param list The current list.
      * @return The comment without the next line.
      */
-    private String computeLine(String comment, ArrayList list) {
+    private String computeLine(String comment, ArrayList<String> list) {
         if (comment == null) {
             return ""; 
         }

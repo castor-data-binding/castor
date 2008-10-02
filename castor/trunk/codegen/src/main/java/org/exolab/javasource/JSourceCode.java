@@ -61,7 +61,7 @@ public final class JSourceCode {
     //--------------------------------------------------------------------------
 
     /** A list of JCodeStatements. */
-    private Vector _source = null;
+    private Vector<JCodeStatement> _source = null;
     
     /** The indent size. */
     private short _indentSize = DEFAULT_INDENT_SIZE;
@@ -77,7 +77,7 @@ public final class JSourceCode {
     public JSourceCode() {
         super();
         
-        _source = new Vector();
+        _source = new Vector<JCodeStatement>();
     }
 
     /**
@@ -186,7 +186,7 @@ public final class JSourceCode {
         if (_source.isEmpty()) {
             add(segment);
         } else {
-            JCodeStatement jcs = (JCodeStatement) _source.lastElement();
+            JCodeStatement jcs = _source.lastElement();
             jcs.append(segment);
         }
     }
@@ -205,7 +205,7 @@ public final class JSourceCode {
      */
     public void copyInto(final JSourceCode jsc) {
         for (int i = 0; i < _source.size(); i++) {
-             jsc.addCodeStatement((JCodeStatement) _source.elementAt(i));
+             jsc.addCodeStatement(_source.elementAt(i));
         }
     }
 
@@ -267,7 +267,7 @@ public final class JSourceCode {
      * 
      * @return A vector of source lines.
      */
-    public Vector getSource() {
+    public Vector<JCodeStatement> getSource() {
 		return _source;
 	}
 

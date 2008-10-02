@@ -172,10 +172,10 @@ public class BaseFactory {
      */
     protected String createComment(final Annotated annotated) {
         //-- process annotations
-        Enumeration enumeration = annotated.getAnnotations();
+        Enumeration<Annotation> enumeration = annotated.getAnnotations();
         if (enumeration.hasMoreElements()) {
             //-- just use first annotation
-            return createComment((Annotation) enumeration.nextElement());
+            return createComment(enumeration.nextElement());
         }
         //-- there were no annotations...try possible references
         switch(annotated.getStructureType()) {
@@ -207,10 +207,10 @@ public class BaseFactory {
             return null;
         }
     
-        Enumeration enumeration = annotation.getDocumentation();
+        Enumeration<Documentation> enumeration = annotation.getDocumentation();
         if (enumeration.hasMoreElements()) {
             //-- just use first <info>
-            Documentation documentation = (Documentation) enumeration.nextElement();
+            Documentation documentation = enumeration.nextElement();
             return normalize(documentation.getContent());
         }
         return null;
@@ -225,11 +225,11 @@ public class BaseFactory {
     // TODO: refactor to avoid duplication with createComment() methods
     protected String extractCommentsFromAnnotations(final Annotated annotated) {
         //-- process annotations
-        Enumeration enumeration = annotated.getAnnotations();
+        Enumeration<Annotation> enumeration = annotated.getAnnotations();
         if (enumeration.hasMoreElements()) {
             StringBuilder comment = new StringBuilder();
             while (enumeration.hasMoreElements()) {
-                Annotation ann = (Annotation) enumeration.nextElement();
+                Annotation ann = enumeration.nextElement();
                 Enumeration documentations = ann.getDocumentation();
                 while (documentations.hasMoreElements()) {
                     Documentation documentation = (Documentation) documentations.nextElement();

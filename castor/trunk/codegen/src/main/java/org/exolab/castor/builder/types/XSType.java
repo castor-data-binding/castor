@@ -295,9 +295,9 @@ public abstract class XSType {
      * @param simpleType The SimpleType containing the facets.
      */
     public final void setFacets(final SimpleType simpleType) {
-        Enumeration enumeration = simpleType.getEffectiveFacets();
+        Enumeration<Facet> enumeration = simpleType.getEffectiveFacets();
         while (enumeration.hasMoreElements()) {
-            setFacet((Facet) enumeration.nextElement());
+            setFacet(enumeration.nextElement());
         }
     }
 

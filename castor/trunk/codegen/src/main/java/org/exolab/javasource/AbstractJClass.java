@@ -35,13 +35,13 @@ public abstract class AbstractJClass extends JStructure {
     private JNamedMap _fields;
 
     /** The list of constructors for this JClass. */
-    private Vector _constructors;
+    private Vector<JConstructor> _constructors;
 
     /** The list of methods of this JClass. */
-    private Vector _methods;
+    private Vector<JMethod> _methods;
 
     /** A collection of inner classes for this JClass. */
-    private Vector _innerClasses;
+    private Vector<JClass> _innerClasses;
 
     //--------------------------------------------------------------------------
 
@@ -55,8 +55,8 @@ public abstract class AbstractJClass extends JStructure {
         
         _staticInitializer = new JSourceCode();
         _fields = new JNamedMap();
-        _constructors = new Vector();
-        _methods = new Vector();
+        _constructors = new Vector<JConstructor>();
+        _methods = new Vector<JMethod>();
         _innerClasses = null;
         
         //-- initialize default Java doc
@@ -197,7 +197,7 @@ public abstract class AbstractJClass extends JStructure {
      * @return The JConstructor at the specified index.
      */
     public final JConstructor getConstructor(final int index) {
-        return (JConstructor) _constructors.elementAt(index);
+        return _constructors.elementAt(index);
     }
 
     /**
@@ -210,7 +210,7 @@ public abstract class AbstractJClass extends JStructure {
         JConstructor[] jcArray = new JConstructor[size];
 
         for (int i = 0; i < _constructors.size(); i++) {
-            jcArray[i] = (JConstructor) _constructors.elementAt(i);
+            jcArray[i] = _constructors.elementAt(i);
         }
         return jcArray;
     }
@@ -262,7 +262,7 @@ public abstract class AbstractJClass extends JStructure {
         JMethod[] marray = new JMethod[size];
 
         for (int i = 0; i < _methods.size(); i++) {
-            marray[i] = (JMethod) _methods.elementAt(i);
+            marray[i] = _methods.elementAt(i);
         }
         return marray;
     }
@@ -277,7 +277,7 @@ public abstract class AbstractJClass extends JStructure {
      */
     public final JMethod getMethod(final String name, final int startIndex) {
         for (int i = startIndex; i < _methods.size(); i++) {
-            JMethod jMethod = (JMethod) _methods.elementAt(i);
+            JMethod jMethod = _methods.elementAt(i);
             if (jMethod.getName().equals(name)) { return jMethod; }
         }
         return null;
@@ -290,7 +290,7 @@ public abstract class AbstractJClass extends JStructure {
      * @return The JMethod.
      */
     public final JMethod getMethod(final int index) {
-        return (JMethod) _methods.elementAt(index);
+        return _methods.elementAt(index);
     }
     
     public final int getMethodCount() {
@@ -322,7 +322,7 @@ public abstract class AbstractJClass extends JStructure {
         }
 
         for (int i = 0; i < _methods.size(); i++) {
-            JMethod tmp = (JMethod) _methods.elementAt(i);
+            JMethod tmp = _methods.elementAt(i);
             //-- first compare modifiers
             if (tmp.getModifiers().isPrivate()) {
                 if (!modifiers.isPrivate()) {
@@ -395,7 +395,7 @@ public abstract class AbstractJClass extends JStructure {
 
         JClass innerClass = new JInnerClass(classname);
         if (_innerClasses == null) {
-            _innerClasses = new Vector();
+            _innerClasses = new Vector<JClass>();
         }
         _innerClasses.addElement(innerClass);
         return innerClass;
@@ -469,14 +469,14 @@ public abstract class AbstractJClass extends JStructure {
         printPackageDeclaration(jsw);
 
         //-- get imports from inner-classes
-        Vector removeImports = null;
+        Vector<String> removeImports = null;
         if ((_innerClasses != null) && (_innerClasses.size() > 0)) {
-            removeImports = new Vector();
+            removeImports = new Vector<String>();
             for (int i = 0; i < _innerClasses.size(); i++) {
-                JClass iClass = (JClass) _innerClasses.elementAt(i);
-                Enumeration enumeration = iClass.getImports();
+                JClass iClass = _innerClasses.elementAt(i);
+                Enumeration<String> enumeration = iClass.getImports();
                 while (enumeration.hasMoreElements()) {
-                    String classname = (String) enumeration.nextElement();
+                    String classname = enumeration.nextElement();
 
                     int paramTypeIndex = classname.indexOf("<Object>");
                     if (paramTypeIndex != -1) {
@@ -495,7 +495,7 @@ public abstract class AbstractJClass extends JStructure {
         //-- remove imports from inner-classes, if necessary
         if (removeImports != null) {
             for (int i = 0; i < removeImports.size(); i++) {
-                removeImport((String) removeImports.elementAt(i));
+                removeImport(removeImports.elementAt(i));
             }
         }
     }
@@ -583,7 +583,7 @@ public abstract class AbstractJClass extends JStructure {
         }
 
         for (int i = 0; i < _constructors.size(); i++) {
-            JConstructor jConstructor = (JConstructor) _constructors.elementAt(i);
+            JConstructor jConstructor = _constructors.elementAt(i);
             jConstructor.print(jsw);
             jsw.writeln();
         }
@@ -604,7 +604,7 @@ public abstract class AbstractJClass extends JStructure {
         }
 
         for (int i = 0; i < _methods.size(); i++) {
-            JMethod jMethod = (JMethod) _methods.elementAt(i);
+            JMethod jMethod = _methods.elementAt(i);
             jMethod.print(jsw);
             jsw.writeln();
         }
@@ -624,7 +624,7 @@ public abstract class AbstractJClass extends JStructure {
             jsw.writeln();
 
             for (int i = 0; i < _innerClasses.size(); i++) {
-                JClass jClass = (JClass) _innerClasses.elementAt(i);
+                JClass jClass = _innerClasses.elementAt(i);
                 jClass.print(jsw, true);
                 jsw.writeln();
             }

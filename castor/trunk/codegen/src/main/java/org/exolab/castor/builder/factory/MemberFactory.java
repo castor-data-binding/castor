@@ -532,11 +532,11 @@ public final class MemberFactory extends BaseFactory {
             if (elementDeclaration.isReference()) {
                 elementDeclaration = elementDeclaration.getReference();
             }
-            Enumeration possibleSubstitutes = elementDeclaration.getSubstitutionGroupMembers(); 
+            Enumeration<ElementDecl> possibleSubstitutes = elementDeclaration.getSubstitutionGroupMembers(); 
             if (possibleSubstitutes.hasMoreElements()) {
-                List substitutionGroupMembers = new ArrayList();
+                List<String> substitutionGroupMembers = new ArrayList<String>();
                 while (possibleSubstitutes.hasMoreElements()) {
-                    ElementDecl substitute = (ElementDecl) possibleSubstitutes.nextElement();
+                    ElementDecl substitute = possibleSubstitutes.nextElement();
                     substitutionGroupMembers.add(substitute.getName());
                 }
                 fieldInfo.setSubstitutionGroupMembers(substitutionGroupMembers);

@@ -113,8 +113,8 @@ public class JDOOneToManyNature extends BaseNature {
      * @return the names of the foreign key's columns or null if no keys added
      *         before.
      */
-    public List getForeignKeys() {
-        return (List) this.getProperty(MANY_KEY);
+    public List<String> getForeignKeys() {
+        return (List<String>) this.getProperty(MANY_KEY);
     }
 
     /**
@@ -126,7 +126,7 @@ public class JDOOneToManyNature extends BaseNature {
      *            The column name.
      */
     public void addForeignKey(final String column) {
-        List foreignKey = getPropertyAsList(MANY_KEY);
+        List<String> foreignKey = getPropertyAsList(MANY_KEY);
         foreignKey.add(column);
     }
     

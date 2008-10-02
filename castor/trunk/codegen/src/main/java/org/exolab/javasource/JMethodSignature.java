@@ -78,7 +78,7 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
     private final JDocComment _jdc;
     
     /** The exceptions that this method throws. */
-    private final Vector _exceptions;
+    private final Vector<JClass> _exceptions;
 
     //--------------------------------------------------------------------------
 
@@ -98,7 +98,7 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
         _name = name;
         _modifiers = new JModifiers();
         _params = new JNamedMap(DEFAULT_PARAM_MAP_SIZE);
-        _exceptions = new Vector(1);
+        _exceptions = new Vector<JClass>(1);
     }
 
     /**
@@ -130,7 +130,7 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
         //-- make sure exception is not already added
         String expClassName = exp.getName();
         for (int i = 0; i < _exceptions.size(); i++) {
-            JClass jClass = (JClass) _exceptions.elementAt(i);
+            JClass jClass = _exceptions.elementAt(i);
             if (expClassName.equals(jClass.getName())) { return; }
         }
         //-- add exception
@@ -369,7 +369,7 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
             jsw.write("throws ");
             for (int i = 0; i < _exceptions.size(); i++) {
                 if (i > 0) { jsw.write(", "); }
-                JClass jClass = (JClass) _exceptions.elementAt(i);
+                JClass jClass = _exceptions.elementAt(i);
                 jsw.write(jClass.getName());
             }
         }

@@ -263,7 +263,7 @@ public final class SingleClassGenerator {
      * @throws IOException If an already existing '.castor.cdr' file can not be
      *         loaded or found
      */
-    boolean processIfNotAlreadyProcessed(final Enumeration classKeys,
+    boolean processIfNotAlreadyProcessed(final Enumeration<?> classKeys,
                                          final SGStateInfo state) throws IOException {
         while (classKeys.hasMoreElements()) {
             ClassInfo classInfo = state.resolve(classKeys.nextElement());

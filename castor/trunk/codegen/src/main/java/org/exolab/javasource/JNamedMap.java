@@ -56,10 +56,10 @@ public final class JNamedMap {
     //--------------------------------------------------------------------------
 
     /** Names as mapped to objects. */
-    private Vector _names;
+    private Vector<String> _names;
     
     /** Objects that the names are mapped to. */
-    private Vector _objects;
+    private Vector<Object> _objects;
 
     //--------------------------------------------------------------------------
 
@@ -67,8 +67,8 @@ public final class JNamedMap {
      * Creates a new JNamedMap.
      */
     public JNamedMap() {
-        _names = new Vector();
-        _objects = new Vector();
+        _names = new Vector<String>();
+        _objects = new Vector<Object>();
     }
 
     /**
@@ -77,8 +77,8 @@ public final class JNamedMap {
      * @param size The initial size for this NamedMap.
      */
     public JNamedMap(final int size) {
-        _names = new Vector(size);
-        _objects = new Vector(size);
+        _names = new Vector<String>(size);
+        _objects = new Vector<Object>(size);
     }
 
     //--------------------------------------------------------------------------
@@ -113,7 +113,7 @@ public final class JNamedMap {
      */
     public String getNameByObject(final Object obj) {
         int i = _objects.indexOf(obj);
-        if (i >= 0) { return (String) _names.elementAt(i); }
+        if (i >= 0) { return _names.elementAt(i); }
         return null;
     }
 
@@ -122,8 +122,8 @@ public final class JNamedMap {
      *
      * @return A Vector of names.
      */
-    public Vector getNames() {
-        return (Vector) _names.clone();
+    public Vector<String> getNames() {
+        return (Vector<String>) _names.clone();
     }
 
     /**
@@ -131,8 +131,8 @@ public final class JNamedMap {
      *
      * @return A Vector of Objects.
      */
-    public Vector getObjects() {
-        return (Vector) _objects.clone();
+    public Vector<Object> getObjects() {
+        return (Vector<Object>) _objects.clone();
     }
 
     /**
@@ -145,7 +145,7 @@ public final class JNamedMap {
      */
     public int indexOf(final String name) {
         for (int i = 0; i < _names.size(); i++) {
-            String iName = (String) _names.elementAt(i);
+            String iName = _names.elementAt(i);
             if (iName.equals(name)) { return i; }
         }
         return -1;

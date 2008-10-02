@@ -320,12 +320,12 @@ public class BuilderConfiguration {
     /**
      * Namespace URL to Java package mapping.
      */
-    private Hashtable _nspackages = new Hashtable();
+    private Hashtable<String, String> _nspackages = new Hashtable<String, String>();
 
     /**
      * schemaLocation to Java package mapping.
      */
-    private Hashtable _locpackages = new Hashtable();
+    private Hashtable<String, String> _locpackages = new Hashtable<String, String>();
 
     /** JavaNaming to be used. */
     private JavaNaming _javaNaming;
@@ -335,7 +335,7 @@ public class BuilderConfiguration {
      * annotations to fields, classes and enumConstants 
      * during source generation.
      */
-    private List _annotationBuilders = new ArrayList();
+    private List<AnnotationBuilder> _annotationBuilders = new ArrayList<AnnotationBuilder>();
 
     //------------------/
 
@@ -580,7 +580,7 @@ public class BuilderConfiguration {
             defaults = _defaultProps;
         } else {
             defaults = new Properties(_defaultProps);
-            Enumeration enumeration = properties.keys();
+            Enumeration<?> enumeration = properties.keys();
             while (enumeration.hasMoreElements()) {
                 String name = (String) enumeration.nextElement();
                 defaults.setProperty(name, properties.getProperty(name));
@@ -704,7 +704,7 @@ public class BuilderConfiguration {
         String namespaceURL = (nsURL == null) ? "" : nsURL;
 
         // Lookup Java package via NS
-        String javaPackage = (String) _nspackages.get(namespaceURL);
+        String javaPackage = _nspackages.get(namespaceURL);
         if (javaPackage == null) {
             return "";
         }
@@ -725,7 +725,7 @@ public class BuilderConfiguration {
 
         // Lookup Java package via schemaLocation
         //--Full path
-        String javaPackage = (String) _locpackages.get(schemaLocation);
+        String javaPackage = _locpackages.get(schemaLocation);
         if (javaPackage == null) {
             String cleanedSchemaLocation = schemaLocation;
             //--maybe a relative schemaLocation was given
@@ -736,12 +736,12 @@ public class BuilderConfiguration {
                      cleanedSchemaLocation = schemaLocation.substring(PARENT_DIRECTORY_LENGTH);
                  }
             }
-            Enumeration keys = _locpackages.keys();
+            Enumeration<String> keys = _locpackages.keys();
             boolean found = false;
             while (keys.hasMoreElements() && !found) {
-                String key = (String) keys.nextElement();
+                String key = keys.nextElement();
                 if (cleanedSchemaLocation.endsWith(key)) {
-                    javaPackage = (String) _locpackages.get(key);
+                    javaPackage = _locpackages.get(key);
                     found = true;
                 }
             }
@@ -828,7 +828,7 @@ public class BuilderConfiguration {
      * @return a array of builders for type convenience
      */
     public AnnotationBuilder[] getAnnotationBuilders() {
-        return (AnnotationBuilder[])
+        return
             this._annotationBuilders.toArray(
                     new AnnotationBuilder[this._annotationBuilders.size()]);
     }

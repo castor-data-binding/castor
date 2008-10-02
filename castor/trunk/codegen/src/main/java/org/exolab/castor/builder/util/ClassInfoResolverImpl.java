@@ -59,13 +59,13 @@ import org.exolab.castor.builder.info.ClassInfo;
  */
 public class ClassInfoResolverImpl implements ClassInfoResolver {
     /** ClassInfo cache. */
-    private Hashtable _cache = null;
+    private Hashtable<Object, ClassInfo> _cache = null;
 
     /**
      * Default constructor.
      */
     public ClassInfoResolverImpl() {
-        _cache = new Hashtable();
+        _cache = new Hashtable<Object, ClassInfo>();
     }
 
     /**
@@ -87,7 +87,7 @@ public class ClassInfoResolverImpl implements ClassInfoResolver {
      *
      * @return an Enumeration over the keys using for binding ClassInfo objects.
      */
-    public final Enumeration keys() {
+    public final Enumeration<?> keys() {
         return _cache.keys();
     }
 
@@ -98,7 +98,7 @@ public class ClassInfoResolverImpl implements ClassInfoResolver {
      * @return the ClassInfo which has been bound to the given key.
      */
     public final ClassInfo resolve(final Object key) {
-        return (ClassInfo) _cache.get(key);
+        return _cache.get(key);
     }
 
 }
