@@ -81,7 +81,7 @@ public final class TestQueryFinalize extends CastorTestCase {
         _conn = _category.getJDBCConnection();
         _conn.setAutoCommit(false);
 
-        stream.println("Delete everything");
+        _stream.println("Delete everything");
         Statement stmt = _conn.createStatement();
         stmt.executeUpdate("delete from tc7x_depend2");
         stmt.executeUpdate("delete from tc7x_master");
@@ -99,7 +99,7 @@ public final class TestQueryFinalize extends CastorTestCase {
     }
 
     public void runTest() throws PersistenceException, SQLException {
-        stream.println("Create many master objects");
+        _stream.println("Create many master objects");
         _db.begin();
         for (int i = 0; i < 100; i++) {
             Master master = new Master();
@@ -108,14 +108,14 @@ public final class TestQueryFinalize extends CastorTestCase {
         _db.commit();
 
 
-        stream.println("query master objects");
+        _stream.println("query master objects");
         try {
             _db.begin();
             QueryResults results = getResults(_db);
-            stream.println("query can be garbage collected");
+            _stream.println("query can be garbage collected");
             while (results.hasMore()) {
                 Master master = (Master) results.next();
-                stream.println(master.getId());
+                _stream.println(master.getId());
             }
             _db.commit();
         } catch (Exception e) {

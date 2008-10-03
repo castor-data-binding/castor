@@ -14,7 +14,7 @@ public final class GolfCourseTees extends BaseObject {
     private Integer _yardage;
 
     //Marked as transient because the castor persistent collection is not serializeable
-    private transient Collection _holes = new ArrayList();
+    private transient Collection < GolfCourseHole > _holes = new ArrayList < GolfCourseHole > ();
 
     public GolfCourse getCourse() {
         return _course;
@@ -80,11 +80,11 @@ public final class GolfCourseTees extends BaseObject {
         _yardage = yardage;
     }
 
-    public Collection getHoles() {
+    public Collection < GolfCourseHole > getHoles() {
         return _holes;
     }
     
-    public void setHoles(final Collection holes) {
+    public void setHoles(final Collection < GolfCourseHole > holes) {
         _holes = holes;
     }
 }

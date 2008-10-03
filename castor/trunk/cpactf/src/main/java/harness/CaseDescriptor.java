@@ -37,47 +37,38 @@ public class CaseDescriptor extends BaseHarnessDescriptor {
         _attributeDescriptors = new XMLFieldDescriptorImpl[1];
 
         //-- _class
-        desc = new XMLFieldDescriptorImpl(java.lang.String.class, "_className", "class", NodeType.Attribute);
+        desc = new XMLFieldDescriptorImpl(
+                java.lang.String.class, "_className", "class", NodeType.Attribute);
         desc.setImmutable(true);
-        desc.setHandler( new XMLFieldHandler() {
-            public Object getValue( Object object ) 
-                throws IllegalStateException
-            {
+        desc.setHandler(new XMLFieldHandler() {
+            public Object getValue(final Object object) throws IllegalStateException {
                 Case target = (Case) object;
                 return target.getClassName();
             }
-            public void setValue( Object object, Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
+            public void setValue(final Object object, final Object value)
+            throws IllegalStateException, IllegalArgumentException {
                 try {
                     Case target = (Case) object;
-                    target.setClassName( (java.lang.String) value);
-                }
-                catch (Exception ex) {
+                    target.setClassName((String) value);
+                } catch (Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public Object newInstance( Object parent ) {
+            public Object newInstance(final Object parent) {
                 return null;
             }
-        } );
+        });
         _attributeDescriptors[0] = desc;
 
         //-- initialize element descriptors
         
         _elementDescriptors = new XMLFieldDescriptorImpl[0];
-                
     }
-
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.exolab.castor.mapping.ClassDescriptor#getJavaClass()
      */
-    public java.lang.Class getJavaClass() {
+    public Class < ? > getJavaClass() {
         return Case.class;
-    } //-- java.lang.Class getJavaClass() 
-    
-
+    } 
 }

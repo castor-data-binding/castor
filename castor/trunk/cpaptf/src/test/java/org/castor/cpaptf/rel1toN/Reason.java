@@ -27,16 +27,16 @@ import java.util.Date;
 public final class Reason {
     //-------------------------------------------------------------------------
     
-    private Integer             _id;
-    private String              _name;
-    private String              _description;
-    private boolean             _failure;
-    private Collection          _equipments = new ArrayList();
-    private String              _note;
-    private Date                _createdAt;
-    private String              _createdBy;
-    private Date                _updatedAt;
-    private String              _updatedBy;
+    private Integer _id;
+    private String _name;
+    private String _description;
+    private boolean _failure;
+    private Collection < Equipment > _equipments = new ArrayList < Equipment > ();
+    private String _note;
+    private Date _createdAt;
+    private String _createdBy;
+    private Date _updatedAt;
+    private String _updatedBy;
 
     //-------------------------------------------------------------------------
     
@@ -52,8 +52,8 @@ public final class Reason {
     public boolean getFailure() { return _failure; }
     public void setFailure(final boolean failure) { _failure = failure; }
     
-    public Collection getEquipments() { return _equipments; }
-    public void setEquipments(final Collection equipments) {
+    public Collection < Equipment > getEquipments() { return _equipments; }
+    public void setEquipments(final Collection < Equipment > equipments) {
         _equipments = equipments;
     }
     public void addEquipment(final Equipment equipment) {

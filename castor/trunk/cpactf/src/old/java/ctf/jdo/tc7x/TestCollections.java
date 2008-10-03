@@ -93,8 +93,8 @@ public final class TestCollections extends CastorTestCase {
     }
 
     public void runOnce(final Class masterClass) throws Exception {
-        stream.println("Running...");
-        stream.println("");
+        _stream.println("Running...");
+        _stream.println("");
 
         // delete everything
         _conn.createStatement().executeUpdate("DELETE FROM tc7x_col");
@@ -175,8 +175,8 @@ public final class TestCollections extends CastorTestCase {
     } 
 
     public void runSortedSet(final Class masterClass) throws Exception {
-        stream.println("Running...");
-        stream.println("");
+        _stream.println("Running...");
+        _stream.println("");
         
         // delete everything
         _conn.createStatement().executeUpdate("DELETE FROM tc7x_col");
@@ -260,8 +260,8 @@ public final class TestCollections extends CastorTestCase {
      * Special case for array
      */
     public void runArray() throws Exception {
-        stream.println("Running...");
-        stream.println("");
+        _stream.println("Running...");
+        _stream.println("");
 
         // delete everything
         _conn.createStatement().executeUpdate("DELETE FROM tc7x_col");

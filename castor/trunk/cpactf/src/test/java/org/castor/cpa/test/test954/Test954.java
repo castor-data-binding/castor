@@ -93,7 +93,7 @@ public final class Test954 extends CPATestCase {
         // if connection is not wrapped by a proxy yet, create one now
         if (!useProxies) {
             ClassLoader loader = _connection.getClass().getClassLoader();
-            Class[] interfaces = new Class[] {Connection.class};
+            Class < ? > [] interfaces = new Class < ? > [] {Connection.class};
             InvocationHandler handler = new ConnectionProxy(_connection, getClass().getName());
             _connection = (Connection) Proxy.newProxyInstance(loader, interfaces, handler);
         }

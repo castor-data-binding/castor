@@ -55,15 +55,15 @@ public final class Test1355 extends CPATestCase {
             // shouldn't have to load city, but Castor 1.0M3 throws an exception without
             // debug("Loaded " + course.getCity().getId());
 
-            Iterator tees = course.getTees().iterator();
+            Iterator < GolfCourseTees > tees = course.getTees().iterator();
             while (tees.hasNext()) {
-                GolfCourseTees tee = (GolfCourseTees) tees.next();
+                GolfCourseTees tee = tees.next();
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Loaded " + tee.getClass().getName());
                 }
-                Iterator holes = tee.getHoles().iterator();
+                Iterator < GolfCourseHole > holes = tee.getHoles().iterator();
                 while (holes.hasNext()) {
-                    GolfCourseHole hole = (GolfCourseHole) holes.next();
+                    GolfCourseHole hole = holes.next();
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("Loaded " + hole.getClass().getName());
                     }
@@ -90,15 +90,15 @@ public final class Test1355 extends CPATestCase {
 
             course.getCity();
 
-            Iterator tees = course.getTees().iterator();
+            Iterator < GolfCourseTees > tees = course.getTees().iterator();
             while (tees.hasNext()) {
-                GolfCourseTees tee = (GolfCourseTees) tees.next();
+                GolfCourseTees tee = tees.next();
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Loaded " + tee.getClass().getName());
                 }
-                Iterator holes = tee.getHoles().iterator();
+                Iterator < GolfCourseHole > holes = tee.getHoles().iterator();
                 while (holes.hasNext()) {
-                    GolfCourseHole hole = (GolfCourseHole) holes.next();
+                    GolfCourseHole hole = holes.next();
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("Loaded " + hole.getClass().getName());
                     }

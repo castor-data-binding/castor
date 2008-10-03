@@ -43,37 +43,24 @@
  * $Id$
  */
 
-
 package harness;
-
 
 import java.lang.reflect.Constructor;
 
+public final class Case {
+    private String _className;
 
-public class Case {
-
-    private String  _className;
-
-    public void setClassName( String className )
-    {
+    public void setClassName(final String className) {
         _className = className;
     }
 
-
-    public String getClassName()
-    {
+    public String getClassName() {
         return _className;
     }
 
-
-    public CastorTestCase createTestCase( TestHarness category ) 
-            throws Exception {
-        Class       catClass;
-        Constructor cnst;
-
-        catClass = Class.forName( _className );
-        cnst = catClass.getConstructor( new Class[] { TestHarness.class } );
-        return (CastorTestCase) cnst.newInstance( new Object[] { category } );
+    public CastorTestCase createTestCase(final TestHarness category) throws Exception {
+        Class < ? > catClass = Class.forName(_className);
+        Constructor < ? > cnst = catClass.getConstructor(new Class[] {TestHarness.class});
+        return (CastorTestCase) cnst.newInstance(new Object[] {category});
     }
-
 }

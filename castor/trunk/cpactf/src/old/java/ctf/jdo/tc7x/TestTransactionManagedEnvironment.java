@@ -151,7 +151,7 @@ public final class TestTransactionManagedEnvironment extends CastorTestCase {
             //begin the transaction
             ut.begin();
             //get database - this should be bound to the transaction above
-            _db = _category.getDatabase(verbose);
+            _db = _category.getDatabase(_verbose);
             //execute some test OQL
             oql = _db.getOQLQuery(
                     "SELECT master FROM " + Master.class.getName() + " master");    

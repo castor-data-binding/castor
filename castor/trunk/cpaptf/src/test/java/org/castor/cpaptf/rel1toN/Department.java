@@ -25,15 +25,15 @@ import java.util.Date;
 public final class Department {
     //-------------------------------------------------------------------------
     
-    private Integer         _id;
-    private String          _name;
-    private String          _description;
-    private State           _state;
-    private String          _note;
-    private Date            _createdAt;
-    private String          _createdBy;
-    private Date            _updatedAt;
-    private String          _updatedBy;
+    private Integer _id;
+    private String _name;
+    private String _description;
+    private State _state;
+    private String _note;
+    private Date _createdAt;
+    private String _createdBy;
+    private Date _updatedAt;
+    private String _updatedBy;
 
     //-------------------------------------------------------------------------
     

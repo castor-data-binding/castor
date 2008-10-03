@@ -18,6 +18,7 @@ import org.castor.cpa.test.framework.xml.Param;
 import org.castor.cpa.test.framework.xml.Transaction;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.castor.cpa.test.framework.xml.types.TransactionModeType;
+import org.castor.jdo.conf.JdoConf;
 import org.castor.jdo.util.JDOConfFactory;
 import org.exolab.castor.util.DTDResolver;
 import org.exolab.castor.xml.MarshalException;
@@ -25,7 +26,7 @@ import org.exolab.castor.xml.Unmarshaller;
 import org.exolab.castor.xml.ValidationException;
 import org.xml.sax.InputSource;
 
-public class CPAConfigRegistry {
+public final class CPAConfigRegistry {
     //--------------------------------------------------------------------------
 
     private String _jdoConfBaseURL;
@@ -34,11 +35,14 @@ public class CPAConfigRegistry {
     
     private String _defaultTransactionName;
     
-    private final Map _configurations = new HashMap();
+    private final Map < String, Configuration > _configurations
+        = new HashMap < String, Configuration > ();
     
-    private final Map _databases = new HashMap();
+    private final Map < String, Database > _databases
+        = new HashMap < String, Database > ();
     
-    private final Map _transactions = new HashMap();
+    private final Map < String, Transaction > _transactions
+        = new HashMap < String, Transaction > ();
     
     //--------------------------------------------------------------------------
 
@@ -92,7 +96,7 @@ public class CPAConfigRegistry {
             throw new CPAConfigException("Database config '" + db + "' not found.");
         }
 
-        Database database = (Database) _databases.get(db);
+        Database database = _databases.get(db);
         
         if (database.getEngine() == null) {
             throw new CPAConfigException("No engine specified "
@@ -102,7 +106,7 @@ public class CPAConfigRegistry {
         return database.getEngine();
     }
     
-    public org.castor.jdo.conf.JdoConf createJdoConf(
+    public JdoConf createJdoConf(
             final String cfg, final String db, final String tx) {
         if (cfg == null) {
             throw new CPAConfigException("No configuration name specified.");
@@ -135,7 +139,7 @@ public class CPAConfigRegistry {
     }
     
     private String[] createMappings(final String cfg) {
-        Configuration config = (Configuration) _configurations.get(cfg);
+        Configuration config = _configurations.get(cfg);
         
         int count = config.getMappingCount();
         String[] mappings = new String[count];
@@ -152,7 +156,7 @@ public class CPAConfigRegistry {
     
     private org.castor.jdo.conf.Database createDatabase(
             final String name, final String db, final String[] mappings) {
-        Database database = (Database) _databases.get(db);
+        Database database = _databases.get(db);
         
         if (database.getEngine() == null) {
             throw new CPAConfigException("No engine specified "
@@ -244,7 +248,7 @@ public class CPAConfigRegistry {
     
     private org.castor.jdo.conf.TransactionDemarcation createTransactionDemarcation(
             final String tx) {
-        Transaction trans = (Transaction) _transactions.get(tx);
+        Transaction trans = _transactions.get(tx);
         
         if (trans.getMode() == TransactionModeType.LOCAL) {
             return JDOConfFactory.createLocalTransactionDemarcation();

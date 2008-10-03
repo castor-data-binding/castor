@@ -55,121 +55,141 @@ import junit.framework.TestResult;
 
 public class TestHarness extends TestSuite {
 
-    private String description;
+    private String _description;
 
-    private TestHarness suite;
+    private TestHarness _suite;
 
-    private String name;
+    private String _name;
 
-    public static PrintStream stream;
+    public static PrintStream _stream;
 
-    public static boolean verbose;
+    public static boolean _verbose;
 
-    public TestHarness( TestHarness suite, String name, String description ) {
-        super( name );
-        setName( name );
-        setDescription( description );
-        setSuite( suite );
+    public TestHarness(final TestHarness suite, final String name, final String description) {
+        super(name);
+        setName(name);
+        setDescription(description);
+        setSuite(suite);
     }
-    public static void setVerboseStream( PrintStream verboseStream ) {
-        stream = verboseStream;
+    
+    public static void setVerboseStream(final PrintStream verboseStream) {
+        _stream = verboseStream;
     }
+    
     public static PrintStream getVerboseStream() {
-        return stream;
+        return _stream;
     }
-    public static void setVerbose( boolean vb ) {
-        verbose = vb;
+    
+    public static void setVerbose(final boolean vb) {
+        _verbose = vb;
     }
+    
     public static boolean getVerbose() {
-        return verbose;
+        return _verbose;
     }
-    public void setName( String name ) {
-        this.name = name;
+    
+    public void setName(final String name) {
+        this._name = name;
     }
+    
     public String getName() {
-        return this.name;
+        return this._name;
     }
+    
     public String getDescription() {
-        return description;
+        return _description;
     }
-    public void setDescription( String desc ) {
-        this.description = desc;
+    
+    public void setDescription(final String desc) {
+        this._description = desc;
     }
-    public void setSuite( TestHarness superTest ) {
-        this.suite = superTest;
+    
+    public void setSuite(final TestHarness superTest) {
+        this._suite = superTest;
     }
+    
     public TestHarness getSuite() {
-        return suite;
+        return _suite;
     }
-    public void printInfo( PrintStream ps ) {
-        printInfo( ps, null );
+    
+    public void printInfo(final PrintStream ps) {
+        printInfo(ps, null);
     }
-    public void printInfo( PrintStream ps, String branch ) {
-        //System.out.println( " branch: " + branch + " name: " + getName()  );
-        if ( branch == null || branch.equals("") || branch.startsWith( getName() ) ) {
+    
+    public void printInfo(final PrintStream ps, final String branch) {
+        if ((branch == null) || branch.equals("") || branch.startsWith(getName())) {
             String sub = null;
-            if ( branch != null && branch.startsWith( getName() ) )
-                sub = branch.substring( branch.indexOf(".")==-1?branch.length():branch.indexOf(".")+1 );
-            StringBuffer sb = new StringBuffer();
-            sb.append( getName() );
-            TestHarness upper = suite;
-            while ( upper != null ) {
-                sb.insert( 0, "." );
-                sb.insert( 0, upper.getName() );
-                upper = upper.suite;
+            if ((branch != null) && branch.startsWith(getName())) {
+                sub = branch.substring(
+                        (branch.indexOf(".") == -1)
+                        ? branch.length()
+                        : branch.indexOf(".") + 1);
             }
-            sb.insert( 0, "[" );
-            sb.append( "]" );
-            sb.append( ' ' );
-            sb.append( description );
-            sb.append( '\n' );
-            ps.print( sb.toString() );
+            StringBuffer sb = new StringBuffer();
+            sb.append(getName());
+            TestHarness upper = _suite;
+            while (upper != null) {
+                sb.insert(0, ".");
+                sb.insert(0, upper.getName());
+                upper = upper._suite;
+            }
+            sb.insert(0, "[");
+            sb.append("]");
+            sb.append(' ');
+            sb.append(_description);
+            sb.append('\n');
+            ps.print(sb.toString());
             Enumeration enumeration = tests();
-            while ( enumeration.hasMoreElements() ) {
+            while (enumeration.hasMoreElements()) {
                 Object obj = enumeration.nextElement();
-                if ( obj instanceof TestHarness )
-                    ((TestHarness)obj).printInfo( ps, sub );
-                else if ( obj instanceof CastorTestCase ) 
-                    ((CastorTestCase)obj).printInfo( ps, sub );
+                if (obj instanceof TestHarness) {
+                    ((TestHarness) obj).printInfo(ps, sub);
+                } else if (obj instanceof CastorTestCase) {
+                    ((CastorTestCase) obj).printInfo(ps, sub);
+                }
             }
         }
     }
-    public void run( TestResult result ) {
+    public void run(final TestResult result) {
         System.out.println();
-        System.out.print( "testsuite: "+getName() );
-        super.run( result );
+        System.out.print("testsuite: " + getName());
+        super.run(result);
     }
-    public void run( TestResult result, String branch ) {
-        System.out.println( "testsuite: "+getName()+" branch: "+branch );
-        if ( branch == null || branch.equals("") )
-            run( result );
-        else if ( branch.startsWith( getName() ) ) {
-            String sub = branch.substring( (branch.indexOf(".")==-1?branch.length():branch.indexOf(".")+1) );
-            for (Enumeration e= tests(); e.hasMoreElements(); ) {
-                if (result.shouldStop())
+    public void run(final TestResult result, final String branch) {
+        System.out.println("testsuite: " + getName() + " branch: " + branch);
+        if ((branch == null) || branch.equals("")) {
+            run(result);
+        } else if (branch.startsWith(getName())) {
+            String sub = branch.substring(
+                    (branch.indexOf(".") == -1
+                    ? branch.length()
+                    : branch.indexOf(".") + 1));
+            for (Enumeration e = tests(); e.hasMoreElements(); ) {
+                if (result.shouldStop()) {
                     break;
-                TestHarness test = (TestHarness)e.nextElement();
+                }
+                TestHarness test = (TestHarness) e.nextElement();
                 test.run(result, sub);
             }
         }
     }
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        sb.append( getName() );
-        TestHarness upper = suite;
-        while ( upper != null ) {
-            sb.insert( 0, "." );
-            sb.insert( 0, upper.getName() );
-            upper = upper.suite;
+        sb.append(getName());
+        TestHarness upper = _suite;
+        while (upper != null) {
+            sb.insert(0, ".");
+            sb.insert(0, upper.getName());
+            upper = upper._suite;
         }
-        sb.insert( 0, "[" );
-        sb.append( "]" );
-        sb.append( ' ' );
-        sb.append( description );
-        sb.append( '\n' );
+        sb.insert(0, "[");
+        sb.append("]");
+        sb.append(' ');
+        sb.append(_description);
+        sb.append('\n');
 
         Enumeration enumeration = tests();
-        while ( enumeration.hasMoreElements() ) {
+        while (enumeration.hasMoreElements()) {
             sb.append(enumeration.nextElement()).toString();
         }
         return sb.toString();

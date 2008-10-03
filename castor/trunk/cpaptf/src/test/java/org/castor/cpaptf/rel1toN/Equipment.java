@@ -27,23 +27,23 @@ import java.util.Date;
 public final class Equipment {
     //-------------------------------------------------------------------------
     
-    private Integer         _id;
-    private Type            _type;
-    private String          _number;
-    private String          _description;
-    private Supplier        _supplier;
-    private Integer         _delivery;
-    private Double          _cost;
-    private String          _serial;
-    private State           _state;
-    private Reason          _reason;
-    private Integer         _count;
-    private Collection      _services = new ArrayList();
-    private String          _note;
-    private Date            _createdAt;
-    private String          _createdBy;
-    private Date            _updatedAt;
-    private String          _updatedBy;
+    private Integer _id;
+    private Type _type;
+    private String _number;
+    private String _description;
+    private Supplier _supplier;
+    private Integer _delivery;
+    private Double _cost;
+    private String _serial;
+    private State _state;
+    private Reason _reason;
+    private Integer _count;
+    private Collection < Service > _services = new ArrayList < Service > ();
+    private String _note;
+    private Date _createdAt;
+    private String _createdBy;
+    private Date _updatedAt;
+    private String _updatedBy;
 
     //-------------------------------------------------------------------------
     
@@ -80,8 +80,8 @@ public final class Equipment {
     public Integer getCount() { return _count; }
     public void setCount(final Integer count) { _count = count; }
 
-    public Collection getServices() { return _services; }
-    public void setServices(final Collection services) {
+    public Collection < Service > getServices() { return _services; }
+    public void setServices(final Collection < Service > services) {
         _services = services;
     }
     public void addService(final Service service) {

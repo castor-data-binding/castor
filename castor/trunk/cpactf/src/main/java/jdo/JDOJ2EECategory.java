@@ -85,39 +85,42 @@ import org.exolab.castor.mapping.MappingException;
 
 public class JDOJ2EECategory extends TestHarness {
     //our JDO 
-    private JDO      _jdo;
+    private JDO _jdo;
     
     //initial jndi context to bind 
     //transaction manager and datasource to
-    private Context context;
+    private Context _context;
     
     //Tyrex domain and resources
 //    private TransactionDomain domain;
 //    private Resources resources;
 //    private Resource DSResource;
-    private DataSource dataSource;
+    private DataSource _dataSource;
 
     //TransactionManger and UserTransaction
-    private TransactionManager tm;
-    private UserTransaction ut;
+    private TransactionManager _tm;
+    private UserTransaction _ut;
     /*
      names to bind our resources to in JNDI.
      */
     //this must match the jndiEnc attribute in j2ee.xml transaction-manager element
-    static String TMJNDIName = "java:/TransactionManager";
+    private static final String TMJNDI_NAME = "java:/TransactionManager";
     //this must match the jndi name element in the database attriute in j2ee.xml
-    static String DSJNDIName = "java:/jdbc/castorDS";
+    private static final String DSJNDI_NAME = "java:/jdbc/castorDS";
     //this is the standard location for UserTransactions
-    static String UTJNDIName = "java:/UserTransaction";
+    private static final String UTJNDI_NAME = "java:/UserTransaction";
     
-    public JDOJ2EECategory( TestHarness superTest, String name, String description, Object jdo ) 
+    private static final int LOCK_TIMEOUT = 120;
+    
+    public JDOJ2EECategory(final TestHarness superTest, final String name,
+            final String description, final Object jdo) 
     throws Exception {
-        super( superTest, name, description );
+        super(superTest, name, description);
         _jdo = (JDO) jdo;
         try {
-            new URL( _jdo.getConfiguration() );
-        } catch ( MalformedURLException e ) {
-            _jdo.setConfiguration( getClass().getResource( _jdo.getConfiguration() ).toString() );
+            new URL(_jdo.getConfiguration());
+        } catch (MalformedURLException e) {
+            _jdo.setConfiguration(getClass().getResource(_jdo.getConfiguration()).toString());
         }
         
         /* 
@@ -135,9 +138,9 @@ public class JDOJ2EECategory extends TestHarness {
 //            MockContextFactory.setAsInitial();
             
             //create the initial context that will be used for binding our TM
-            context = new InitialContext( );
+            _context = new InitialContext();
         } catch (NamingException e) {
-            throw new Exception( "Couldn't set up an InitialContext: " + e.getMessage() );
+            throw new Exception("Couldn't set up an InitialContext: " + e.getMessage());
         }
 
 //        //set up Tyrex
@@ -168,17 +171,17 @@ public class JDOJ2EECategory extends TestHarness {
         
         //put everything in JNDI
         try {
-            context.bind( TMJNDIName ,  tm );
-            context.bind( DSJNDIName , dataSource );
-            context.bind( UTJNDIName , ut );
+            _context.bind(TMJNDI_NAME, _tm);
+            _context.bind(DSJNDI_NAME, _dataSource);
+            _context.bind(UTJNDI_NAME, _ut);
         } catch (NamingException e)  {
-            throw new Exception( "Couldn't bind to JNDI: " + e.getMessage() );
+            throw new Exception("Couldn't bind to JNDI: " + e.getMessage());
         }
         
-        _jdo.setDatabaseName( "test" );
-        _jdo.setLockTimeout( 120 );
-        _jdo.setAutoStore( true );
-        _jdo.setDatabasePooling( true );
+        _jdo.setDatabaseName("test");
+        _jdo.setLockTimeout(LOCK_TIMEOUT);
+        _jdo.setAutoStore(true);
+        _jdo.setDatabasePooling(true);
         _jdo.setClassLoader(Thread.currentThread().getContextClassLoader());
     }
     
@@ -186,8 +189,7 @@ public class JDOJ2EECategory extends TestHarness {
      Retrieve a Database from the configured
      JDO object.
      */
-    public Database getDatabase(boolean verbose)
-    throws PersistenceException {
+    public Database getDatabase(final boolean verbose) throws PersistenceException {
         return _jdo.getDatabase();
     }
     

@@ -638,7 +638,7 @@ public final class TestLazyLoading extends CastorTestCase {
         // "refs" collection
         Collection lazyRefs = a1.getRefs();
         if (lazyRefs.size() != 2) {
-            stream.println("Error: incorrect initial collection size in testManyToMany");
+            _stream.println("Error: incorrect initial collection size in testManyToMany");
             fail("Error: incorrect initial collection size in testManyToMany");
         }
 
@@ -655,7 +655,7 @@ public final class TestLazyLoading extends CastorTestCase {
         // "refs" collection
         lazyRefs = a1.getRefs();
         if (lazyRefs.size() > 2) {
-            stream.println("Error: incorrect final collection size in testManyToMany");
+            _stream.println("Error: incorrect final collection size in testManyToMany");
             fail("Error: incorrect final collection size in testManyToMany");
         }
 
