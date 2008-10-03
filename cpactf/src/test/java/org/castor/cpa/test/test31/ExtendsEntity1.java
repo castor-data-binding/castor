@@ -50,15 +50,15 @@ public class ExtendsEntity1 extends PersistentEntity {
     private static final long serialVersionUID = -5458281563382200756L;
 
     private int  _ext;
-    private Collection _list = new ArrayList();
+    private Collection < PersistentEntity > _list = new ArrayList < PersistentEntity > ();
 
     public ExtendsEntity1() { super(); }
 
     public final void setExt(final int ext) { _ext = ext; }
     public final int getExt() { return _ext; }
 
-    public final Collection getList() { return _list; }
-    public final void setList(final Collection list) { _list = list; }
+    public final Collection < PersistentEntity > getList() { return _list; }
+    public final void setList(final Collection < PersistentEntity > list) { _list = list; }
     
     public String toString() {
         return super.toString() + " / " + _ext;

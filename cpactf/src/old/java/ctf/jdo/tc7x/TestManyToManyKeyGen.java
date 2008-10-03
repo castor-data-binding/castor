@@ -106,8 +106,8 @@ public final class TestManyToManyKeyGen extends CastorTestCase {
      * another transaction. 
      */
     public void runTest() throws PersistenceException {
-        stream.println("Running...");
-        stream.println("");
+        _stream.println("Running...");
+        _stream.println("");
 
         deleteGroups();
         deletePersons();
@@ -130,9 +130,9 @@ public final class TestManyToManyKeyGen extends CastorTestCase {
         QueryResults enumeration = oqlclean.execute();
         while (enumeration.hasMore()) {
             _groupA = (ManyGroupKeyGen) enumeration.next();
-            stream.println("Retrieved object: " + _groupA);
+            _stream.println("Retrieved object: " + _groupA);
             _db.remove(_groupA);
-            stream.println("Deleted object: " + _groupA);
+            _stream.println("Deleted object: " + _groupA);
         }
         _db.commit();
     }
@@ -145,9 +145,9 @@ public final class TestManyToManyKeyGen extends CastorTestCase {
         QueryResults enumeration = oqlclean.execute();
         while (enumeration.hasMore()) {
             _person1 = (ManyPersonKeyGen) enumeration.next();
-            stream.println("Retrieved object: " + _person1);
+            _stream.println("Retrieved object: " + _person1);
             _db.remove(_person1);
-            stream.println("Deleted object: " + _person1);
+            _stream.println("Deleted object: " + _person1);
         } 
         _db.commit();
     }
@@ -158,7 +158,7 @@ public final class TestManyToManyKeyGen extends CastorTestCase {
         _db.begin();
         _oql = _db.getOQLQuery("SELECT object FROM " 
                 + ManyGroupKeyGen.class.getName() + " object WHERE id = $1");
-        stream.println("Creating new group with people!");
+        _stream.println("Creating new group with people!");
         _person1 = new ManyPersonKeyGen();
         _person1.setValue1("I am person 1");
         _person1.setGroup(null);
@@ -172,7 +172,7 @@ public final class TestManyToManyKeyGen extends CastorTestCase {
         _db.begin();
         _oql = _db.getOQLQuery("SELECT object FROM " 
                 + ManyGroupKeyGen.class.getName() + " object WHERE id = $1");
-        stream.println("Creating new group with people!");
+        _stream.println("Creating new group with people!");
         _person1 = (ManyPersonKeyGen) _db.load(
                 ManyPersonKeyGen.class, new Integer(_person1Id));
         _person1.setValue1("I am person 1");
@@ -222,7 +222,7 @@ public final class TestManyToManyKeyGen extends CastorTestCase {
         _db.create(_person2);
         _db.create(_groupB);
 
-        stream.println("object created: " + _groupA);
+        _stream.println("object created: " + _groupA);
         _db.commit();
 
         _groupAId = _groupA.getId();
@@ -232,7 +232,7 @@ public final class TestManyToManyKeyGen extends CastorTestCase {
     }
     
     private void check1() throws PersistenceException {
-        stream.println("Load the objects and modify it");
+        _stream.println("Load the objects and modify it");
         _db.begin();
         _oql.bind(_groupAId);
         _groupA = null;
@@ -241,7 +241,7 @@ public final class TestManyToManyKeyGen extends CastorTestCase {
         QueryResults enumeration = _oql.execute();
         if (enumeration.hasMore()) {
             _groupA = (ManyGroupKeyGen) enumeration.next();
-            stream.println("Retrieved object: " + _groupA);
+            _stream.println("Retrieved object: " + _groupA);
             Collection p = _groupA.getPeople();
             if (p != null) {
                 Iterator itor = p.iterator();
@@ -328,7 +328,7 @@ public final class TestManyToManyKeyGen extends CastorTestCase {
     }
     
     private void check2() throws PersistenceException {
-        stream.println("Load the objects again to see if changes done are effective");
+        _stream.println("Load the objects again to see if changes done are effective");
         _db.begin();
         _oql.bind(_groupAId);
         _groupA = null;
@@ -337,7 +337,7 @@ public final class TestManyToManyKeyGen extends CastorTestCase {
         QueryResults enumeration = _oql.execute();
         if (enumeration.hasMore()) {
             _groupA = (ManyGroupKeyGen) enumeration.next();
-            stream.println("Retrieved object: " + _groupA);
+            _stream.println("Retrieved object: " + _groupA);
             Collection p = _groupA.getPeople();
             if (p != null) {
                 Iterator itor = p.iterator();
@@ -473,7 +473,7 @@ public final class TestManyToManyKeyGen extends CastorTestCase {
                 ManyGroupKeyGen.class, new Integer(_groupAId));
         _db.commit();
 
-        stream.println("Modifing object outside of transaction");
+        _stream.println("Modifing object outside of transaction");
         // remove person 3
         Iterator it = _groupA.getPeople().iterator();
         while (it.hasNext()) {
@@ -496,7 +496,7 @@ public final class TestManyToManyKeyGen extends CastorTestCase {
         }
         _person1.setValue1("New new value for person 1");
 
-        stream.println("Update object to a new transaction");
+        _stream.println("Update object to a new transaction");
         _db.setAutoStore(true);
         _db.begin();
         _db.update(_groupA);
@@ -506,7 +506,7 @@ public final class TestManyToManyKeyGen extends CastorTestCase {
     }
     
     private void check7() throws PersistenceException {
-        stream.println("Load the objects again to see if changes done are effective");
+        _stream.println("Load the objects again to see if changes done are effective");
         _db.begin();
         _oql.bind(_groupAId);
         _groupA = null;
@@ -515,7 +515,7 @@ public final class TestManyToManyKeyGen extends CastorTestCase {
         QueryResults enumeration = _oql.execute();
         if (enumeration.hasMore()) {
             _groupA = (ManyGroupKeyGen) enumeration.next();
-            stream.println("Retrieved object: " + _groupA);
+            _stream.println("Retrieved object: " + _groupA);
             Collection p = _groupA.getPeople();
             if (p != null) {
                 Iterator itor = p.iterator();

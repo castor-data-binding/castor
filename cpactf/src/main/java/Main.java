@@ -12,34 +12,24 @@ import harness.CastorTestCase;
 import org.exolab.castor.xml.Unmarshaller;
 import org.exolab.castor.mapping.Mapping;
 
-public class Main extends TestHarness {
+public final class Main extends TestHarness {
 
-    private final static String DEFAULT_FILE = "tests.xml";
+    private static final String DEFAULT_FILE = "tests.xml";
 
-    /**
-     * Arguments
-     */
-    private String testBranchs;
+    /** Arguments. */
+    private String _testBranchs;
 
-    /**
-     * Indicates we only display information of test case, but not running them.
-     */
-    private boolean printInfo;
+    /** Indicates we only display information of test case, but not running them. */
+    private boolean _printInfo;
 
-    /**
-     * The test file
-     */
-    private String testFile;
+    /** The test file. */
+    private String _testFile;
 
-    /**
-     * The test url
-     */
-    private String testUrl;
+    /** The test url. */
+    private String _testUrl;
 
-    /**
-     * The test resource
-     */
-    private String testRes;
+    /** The test resource. */
+    private String _testRes;
 
     public Main() throws Exception {
         this(false, false, false, null, null, null, "castor.mysql");
@@ -48,45 +38,34 @@ public class Main extends TestHarness {
     }
     
     /**
-     * Constructor
+     * Constructor.
      */
-    Main(final boolean verbose, 
-            final boolean printInfo, 
-            final boolean gui, 
-            final String testRes,
-            final String testFile, 
-            final String testUrl, 
-            final String tests)
-            throws Exception {
+    public Main(final boolean verbose, final boolean printInfo, final boolean gui,
+            final String testRes, final String testFile, final String testUrl, final String tests)
+    throws Exception {
         super(null, "Castor", "Root");
         init (false, false, false, null, null, null, tests);
     }
 
-    private void init (final boolean verbose, 
-            final boolean printInfo, 
-            final boolean gui, 
-            final String testRes,
-            final String testFile, 
-            final String testUrl, 
-            final String tests) throws Exception {
+    private void init(final boolean verbose, final boolean printInfo, final boolean gui,
+            final String testRes, final String testFile, final String testUrl, final String tests)
+    throws Exception {
         
-        TestHarness.verbose = verbose;
-        this.printInfo = printInfo;
-        this.testBranchs = tests;
-        this.testFile = testFile;
-        this.testUrl = testUrl;
-        this.testRes = testRes;
+        TestHarness._verbose = verbose;
+        _printInfo = printInfo;
+        _testBranchs = tests;
+        _testFile = testFile;
+        _testUrl = testUrl;
+        _testRes = testRes;
         if (verbose) {
             TestHarness.setVerboseStream(System.out);
             TestHarness.setVerbose(true);
             CastorTestCase.setVerboseStream(System.out);
             CastorTestCase.setVerbose(true);
         } else {
-            TestHarness
-                    .setVerboseStream(new PrintStream(new VoidOutputStream()));
+            TestHarness.setVerboseStream(new PrintStream(new VoidOutputStream()));
             TestHarness.setVerbose(false);
-            CastorTestCase.setVerboseStream(new PrintStream(
-                    new VoidOutputStream()));
+            CastorTestCase.setVerboseStream(new PrintStream(new VoidOutputStream()));
             CastorTestCase.setVerbose(false);
         }
         
@@ -103,20 +82,20 @@ public class Main extends TestHarness {
         mapping = new Mapping();
         mapping.loadMapping(Main.class.getResource("harness/mapping.xml"));
         unm.setMapping(mapping);
-        if (testRes != null) {
+        if (_testRes != null) {
             harness = (Harness) unm.unmarshal(new InputStreamReader(
-                    Main.class.getResourceAsStream(testRes)));
-        } else if (testFile != null) {
+                    Main.class.getResourceAsStream(_testRes)));
+        } else if (_testFile != null) {
             harness = (Harness) unm.unmarshal(new InputStreamReader(
-                    new FileInputStream(testFile)));
-        } else if (testUrl != null) {
+                    new FileInputStream(_testFile)));
+        } else if (_testUrl != null) {
             harness = (Harness) unm.unmarshal(new InputStreamReader(
-                    (new URL(testUrl)).openStream()));
+                    (new URL(_testUrl)).openStream()));
         } else {
             harness = (Harness) unm.unmarshal(new InputStreamReader(
                     Main.class.getResourceAsStream(DEFAULT_FILE)));
         }
-        testApp = harness.createTestHarness(testBranchs);
+        testApp = harness.createTestHarness(_testBranchs);
         return testApp;
     }
     
@@ -132,24 +111,23 @@ public class Main extends TestHarness {
      * Make the setup itself run like a test, such that setup errors is
      * reported.
      */
-    public void run(TestResult result) {
+    public void run(final TestResult result) {
         try {
             TestHarness testApp = setupHarness();
-            if (printInfo)
-                testApp.printInfo(System.out, testBranchs);
-            else
+            if (_printInfo) {
+                testApp.printInfo(System.out, _testBranchs);
+            } else {
                 testApp.run(result);
+            }
         } catch (Exception e) {
             result.addError(this, e);
         }
     }
 
     /**
-     * Helper class that sallows all the verbose output
+     * Helper class that sallows all the verbose output.
      */
     private static class VoidOutputStream extends OutputStream {
-        public void write(int b) {
-        }
+        public void write(final int b) { }
     }
-
 }

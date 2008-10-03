@@ -52,97 +52,76 @@ import java.lang.reflect.Constructor;
 import junit.framework.TestSuite;
 
 public class Category {
-    private String  _name;
+    private String _name;
 
-    private String  _description;
+    private String _description;
 
-    private String  _className;
+    private String _className;
 
-    private Vector  _cases = new Vector();
+    private Vector < Case > _cases = new Vector < Case > ();
 
-    private Object  _object;
+    private Object _object;
 
-    public void setName( String name )
-    {
+    public void setName(final String name) {
         _name = name;
     }
 
-
-    public String getName()
-    {
+    public String getName() {
         return _name;
     }
 
-
-    public void setDescription( String description )
-    {
+    public void setDescription(final String description) {
         _description = description;
     }
 
-
-    public String getDescription()
-    {
+    public String getDescription() {
         return _description;
     }
 
-
-    public void setClassName( String className )
-    {
+    public void setClassName(final String className) {
         _className = className;
     }
 
-
-    public String getClassName()
-    {
+    public String getClassName() {
         return _className;
     }
 
-
-    public void addCase( Case tc )
-    {
-        _cases.addElement( tc );
+    public void addCase(final Case tc) {
+        _cases.addElement(tc);
     }
 
-
-    public Enumeration getCase()
-    {
+    public Enumeration < Case > getCase() {
         return _cases.elements();
     }
 
-
-    public void setObject( Object object )
-    {
+    public void setObject(final Object object) {
         _object = object;
     }
 
-
-    public Object getObject()
-    {
+    public Object getObject() {
         return _object;
     }
 
+    public TestSuite createTestCategory(final TestHarness harness, final String branch)
+    throws Exception {
+        String sub = ((branch == null) || branch.equals(""))
+                   ? null
+                   : branch.substring(
+                           branch.indexOf(".") == -1
+                           ? branch.length()
+                           : branch.indexOf(".") + 1);
 
-    public TestSuite createTestCategory( TestHarness harness, String branch )
-            throws Exception 
-	{
-
-        Class          catClass;
-        Constructor    cnst;
-        TestHarness    category;
-        CastorTestCase tc;
-
-        String sub = (branch==null||branch.equals(""))?null
-            :branch.substring( branch.indexOf(".")==-1?branch.length():branch.indexOf(".")+1 );
-
-        catClass = Class.forName( _className );
-        cnst = catClass.getConstructor( new Class[] { TestHarness.class, String.class, String.class, Object.class } );
-        category = (TestHarness) cnst.newInstance( new Object[] { harness, _name, _description, _object } );
-        for ( int i = 0 ; i < _cases.size() ; ++i ) {
-            tc = ((Case)_cases.elementAt(i)).createTestCase( category );
-            if ( sub == null || sub.trim().equals("") || sub.equals( tc.getName() ) )
-                category.addTest( tc );
+        Class < ? > catClass = Class.forName(_className);
+        Constructor < ? > cnst = catClass.getConstructor(
+                new Class[] {TestHarness.class, String.class, String.class, Object.class});
+        TestHarness category = (TestHarness) cnst.newInstance(
+                new Object[] {harness, _name, _description, _object});
+        for (int i = 0; i < _cases.size(); ++i) {
+            CastorTestCase tc = _cases.elementAt(i).createTestCase(category);
+            if ((sub == null) || sub.trim().equals("") || sub.equals(tc.getName())) {
+                category.addTest(tc);
+            }
         }
         return category;
     }
-
 }

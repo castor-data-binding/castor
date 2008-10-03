@@ -25,11 +25,11 @@ import java.util.Collection;
 public final class Locked {
     //-------------------------------------------------------------------------
     
-    private Integer         _id;
-    private String          _name;
-    private boolean         _in;
-    private boolean         _out;
-    private Collection      _states = new ArrayList();
+    private Integer _id;
+    private String _name;
+    private boolean _in;
+    private boolean _out;
+    private Collection < State >  _states = new ArrayList < State > ();
 
     //-------------------------------------------------------------------------
     
@@ -45,8 +45,8 @@ public final class Locked {
     public boolean getOut() { return _out; }
     public void setOut(final boolean out) { _out = out; }
     
-    public Collection getStates() { return _states; }
-    public void setStates(final Collection states) {
+    public Collection < State > getStates() { return _states; }
+    public void setStates(final Collection < State > states) {
         _states = states;
     }
     public void addState(final State state) {

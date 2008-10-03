@@ -93,8 +93,8 @@ public final class TestManyToMany extends CastorTestCase {
     }
     
     public void runTest() throws PersistenceException {
-        stream.println("Running...");
-        stream.println("");
+        _stream.println("Running...");
+        _stream.println("");
 
         deleteGroups();
         deletePersons();
@@ -117,9 +117,9 @@ public final class TestManyToMany extends CastorTestCase {
         QueryResults enumeration = oqlclean.execute();
         while (enumeration.hasMore()) {
             _groupA = (ManyGroup) enumeration.next();
-            stream.println("Retrieved object: " + _groupA);
+            _stream.println("Retrieved object: " + _groupA);
             _db.remove(_groupA);
-            stream.println("Deleted object: " + _groupA);
+            _stream.println("Deleted object: " + _groupA);
         }
         _db.commit();
     }
@@ -132,9 +132,9 @@ public final class TestManyToMany extends CastorTestCase {
         QueryResults enumeration = oqlclean.execute();
         while (enumeration.hasMore()) {
             _person1 = (ManyPerson) enumeration.next();
-            stream.println("Retrieved object: " + _person1);
+            _stream.println("Retrieved object: " + _person1);
             _db.remove(_person1);
-            stream.println("Deleted object: " + _person1);
+            _stream.println("Deleted object: " + _person1);
         } 
         _db.commit();
     }
@@ -145,7 +145,7 @@ public final class TestManyToMany extends CastorTestCase {
         _db.begin();
         _oql = _db.getOQLQuery("SELECT object FROM " 
                 + ManyGroup.class.getName() + " object WHERE id = $1");
-        stream.println("Creating new group with people!");
+        _stream.println("Creating new group with people!");
         _person1 = new ManyPerson();
         _person1.setValue1("I am person 1");
         _person1.setId(PERSON_1_ID);
@@ -157,7 +157,7 @@ public final class TestManyToMany extends CastorTestCase {
 
         // create new group with two people
         _db.begin();
-        stream.println("Creating new group with people!");
+        _stream.println("Creating new group with people!");
         _person1 = (ManyPerson) _db.load(ManyPerson.class, new Integer(PERSON_1_ID));
         _person1.setValue1("I am person 1");
         ArrayList gPerson1 = new ArrayList();
@@ -212,12 +212,12 @@ public final class TestManyToMany extends CastorTestCase {
         _db.create(_person2);
         _db.create(_groupB);
 
-        stream.println("object created: " + _groupA);
+        _stream.println("object created: " + _groupA);
         _db.commit();
     }
 
     private void check1() throws PersistenceException {
-        stream.println("Load the objects and modify it");
+        _stream.println("Load the objects and modify it");
         _db.begin();
         _oql.bind(GROUP_A_ID);
         _groupA = null;
@@ -226,7 +226,7 @@ public final class TestManyToMany extends CastorTestCase {
         QueryResults enumeration = _oql.execute();
         if (enumeration.hasMore()) {
             _groupA = (ManyGroup) enumeration.next();
-            stream.println("Retrieved object: " + _groupA);
+            _stream.println("Retrieved object: " + _groupA);
             Collection p = _groupA.getPeople();
             if (p != null) {
                 Iterator itor = p.iterator();
@@ -312,7 +312,7 @@ public final class TestManyToMany extends CastorTestCase {
     }
 
     private void check2() throws PersistenceException {
-        stream.println("Load the objects again to see if changes done are effective");
+        _stream.println("Load the objects again to see if changes done are effective");
         _db.begin();
         _oql.bind(GROUP_A_ID);
         _groupA = null;
@@ -321,7 +321,7 @@ public final class TestManyToMany extends CastorTestCase {
         QueryResults enumeration = _oql.execute();
         if (enumeration.hasMore()) {
             _groupA = (ManyGroup) enumeration.next();
-            stream.println("Retrieved object: " + _groupA);
+            _stream.println("Retrieved object: " + _groupA);
             Collection p = _groupA.getPeople();
             if (p != null) {
                 Iterator itor = p.iterator();
@@ -456,7 +456,7 @@ public final class TestManyToMany extends CastorTestCase {
         _groupA = (ManyGroup) _db.load(ManyGroup.class, new Integer(GROUP_A_ID));
         _db.commit();
 
-        stream.println("Modifing object outside of transaction");
+        _stream.println("Modifing object outside of transaction");
         // remove person 3
         Iterator it = _groupA.getPeople().iterator();
         while (it.hasNext()) {
@@ -479,7 +479,7 @@ public final class TestManyToMany extends CastorTestCase {
         }
         _person1.setValue1("New new value for person 1");
 
-        stream.println("Update object to a new transaction");
+        _stream.println("Update object to a new transaction");
         _db.setAutoStore(true);
         _db.begin();
         _db.update(_groupA);
@@ -487,7 +487,7 @@ public final class TestManyToMany extends CastorTestCase {
     }
 
     private void check7() throws PersistenceException {
-        stream.println("Load the objects again to see if changes done are effective");
+        _stream.println("Load the objects again to see if changes done are effective");
         _db.begin();
         _oql.bind(GROUP_A_ID);
         _groupA = null;
@@ -496,7 +496,7 @@ public final class TestManyToMany extends CastorTestCase {
         QueryResults enumeration = _oql.execute();
         if (enumeration.hasMore()) {
             _groupA = (ManyGroup) enumeration.next();
-            stream.println("Retrieved object: " + _groupA);
+            _stream.println("Retrieved object: " + _groupA);
             Collection p = _groupA.getPeople();
             if (p != null) {
                 Iterator itor = p.iterator();

@@ -544,9 +544,9 @@ public final class TestExpireManyToMany extends CastorTestCase {
             enumeration = oqlclean.execute();
             while (enumeration.hasMore()) {
                 group = (ManyGroup) enumeration.next();
-                stream.println("Retrieved object: " + group);
+                _stream.println("Retrieved object: " + group);
                 db.remove(group);
-                stream.println("Deleted object: " + group);
+                _stream.println("Deleted object: " + group);
             }
             db.commit();
 
@@ -558,9 +558,9 @@ public final class TestExpireManyToMany extends CastorTestCase {
             enumeration = oqlclean.execute();
             while (enumeration.hasMore()) {
                 person = (ManyPerson) enumeration.next();
-                stream.println("Retrieved object: " + person);
+                _stream.println("Retrieved object: " + person);
                 db.remove(person);
-                stream.println("Deleted object: " + person);
+                _stream.println("Deleted object: " + person);
             } 
             db.commit();
         } catch (Exception e) {
@@ -589,7 +589,7 @@ public final class TestExpireManyToMany extends CastorTestCase {
         if (_debug) {
             System.out.println(s);
         } else {
-            stream.println(s);
+            _stream.println(s);
         }
     }
 }

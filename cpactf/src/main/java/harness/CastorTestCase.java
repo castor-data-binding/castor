@@ -43,9 +43,7 @@
  * $$
  */
 
-
 package harness;
-
 
 import java.io.PrintStream;
 
@@ -57,34 +55,34 @@ import org.exolab.castor.jdo.Database;
 
 public class CastorTestCase extends TestCase {
 
-    private String description;
+    private String _description;
 
-    private TestHarness suite;
+    private TestHarness _suite;
 
-    private String name;
+    private String _name;
 
-    public static PrintStream stream;
+    public static PrintStream _stream;
 
-    public static boolean verbose;
+    public static boolean _verbose;
 
-    public CastorTestCase( TestHarness suite, String name, String description ) {
-        super( name );
-        setName( name );
-        setDescription( description );
-        setSuite( suite );
+    public CastorTestCase(final TestHarness suite, final String name, final String description) {
+        super(name);
+        setName(name);
+        setDescription(description);
+        setSuite(suite);
     }
 
     /**
-	 * @param name
-	 */
-	public CastorTestCase(String name) {
+     * @param name
+     */
+    public CastorTestCase(final String name) {
         super (name);
-	}
+    }
 
     private void clearCache() {
         try {
-            if (suite instanceof JDOCategory) {
-                Database db = ((JDOCategory) suite).getDatabase();
+            if (_suite instanceof JDOCategory) {
+                Database db = ((JDOCategory) _suite).getDatabase();
                 db.getCacheManager().expireCache();
             }
         } catch (Exception e) {
@@ -92,87 +90,97 @@ public class CastorTestCase extends TestCase {
         }
     }
 
-	public static void setVerboseStream( PrintStream verboseStream ) {
-        stream = verboseStream;
+    public static void setVerboseStream(final PrintStream verboseStream) {
+        _stream = verboseStream;
     }
+
     public static PrintStream getVerboseStream() {
-        return stream;
+        return _stream;
     }
-    public static void setVerbose( boolean vb ) {
-        verbose = vb;
+    
+    public static void setVerbose(final boolean vb) {
+        _verbose = vb;
     }
+    
     public static boolean getVerbose() {
-        return verbose;
+        return _verbose;
     }
-    public void setName( String name ) {
-        this.name = name;
+    
+    public void setName(final String name) {
+        this._name = name;
     }
+    
     public String getName() {
-        return this.name;
+        return this._name;
     }
+    
     public String getDescription() {
-        return description;
+        return _description;
     }
-    public void setDescription( String desc ) {
-        this.description = desc;
+    
+    public void setDescription(final String desc) {
+        this._description = desc;
     }
-    public void setSuite( TestHarness superTest ) {
-        this.suite = superTest;
+    
+    public void setSuite(final TestHarness superTest) {
+        this._suite = superTest;
     }
+    
     public TestHarness getSuite() {
-        return suite;
+        return _suite;
     }
-    public void printInfo( PrintStream ps ) {
-        printInfo( ps, null );
+    
+    public void printInfo(final PrintStream ps) {
+        printInfo(ps, null);
     }
-    public void printInfo( PrintStream ps, String branch ) {
-        //System.out.println( " branch: " + branch + " name: " + getName()  );
-        if ( branch == null || branch.equals("") || branch.startsWith( getName() ) ) {
-        	// XXX [SMH]: sub is never used, delete?
-            //String sub = null;
-            //if ( branch != null && branch.startsWith( getName() ) )
-            //    sub = branch.substring( branch.indexOf(".")==-1?branch.length():branch.indexOf(".")+1 );
+
+    public void printInfo(final PrintStream ps, final String branch) {
+        if ((branch == null) || branch.equals("") || branch.startsWith(getName())) {
             StringBuffer sb = new StringBuffer();
-            sb.append( getName() );
-            TestHarness upper = suite;
-            while ( upper != null ) {
-                sb.insert( 0, "." );
-                sb.insert( 0, upper.getName() );
+            sb.append(getName());
+            TestHarness upper = _suite;
+            while (upper != null) {
+                sb.insert(0, ".");
+                sb.insert(0, upper.getName());
                 upper = upper.getSuite();
             }
-            sb.insert( 0, "[" );
-            sb.append( "]" );
-            sb.append( ' ' );
-            sb.append( description );
-            sb.append( '\n' );
-            ps.print( sb.toString() );
+            sb.insert(0, "[");
+            sb.append("]");
+            sb.append(' ');
+            sb.append(_description);
+            sb.append('\n');
+            ps.print(sb.toString());
         }
     }
-    public void run( TestResult result ) {
+
+    public void run(final TestResult result) {
         System.out.println();
-        System.out.print( "Test: "+getName()+" "+getDescription()+" " );
-        super.run( result );
-		clearCache(); // XXX [SMH]: call to clearCache() added
+        System.out.print("Test: " + getName() + " " + getDescription() + " ");
+        super.run(result);
+        clearCache();
     }
-    public void run( TestResult result, String branch ) {
-        System.out.println( "Test: "+getName()+" Branch: "+branch );
-        if ( branch == null || branch.equals("") )
-            run( result );
+
+    public void run(final TestResult result, final String branch) {
+        System.out.println("Test: " + getName() + " Branch: " + branch);
+        if ((branch == null) || branch.equals("")) {
+            run(result);
+        }
     }
+
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        sb.append( getName() );
-        TestHarness upper = suite;
-        while ( upper != null ) {
-            sb.insert( 0, "." );
-            sb.insert( 0, upper.getName() );
+        sb.append(getName());
+        TestHarness upper = _suite;
+        while (upper != null) {
+            sb.insert(0, ".");
+            sb.insert(0, upper.getName());
             upper = upper.getSuite();
         }
-        sb.insert( 0, "[" );
-        sb.append( "]" );
-        sb.append( ' ' );
-        sb.append( description );
-        sb.append( '\n' );
+        sb.insert(0, "[");
+        sb.append("]");
+        sb.append(' ');
+        sb.append(_description);
+        sb.append('\n');
 
         return sb.toString();
     }

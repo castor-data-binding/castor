@@ -43,11 +43,11 @@
 package org.castor.cpa.test.test31;
 
 public final class GroupEntity {
-    public static final int       DEFAULT_ID = 4;
-    public static final String    DEFAULT_VALUE = "group";
+    public static final int DEFAULT_ID = 4;
+    public static final String DEFAULT_VALUE = "group";
 
-    private int        _id;
-    private String     _value;
+    private int _id;
+    private String _value;
 
     public GroupEntity() {
         _id = DEFAULT_ID;

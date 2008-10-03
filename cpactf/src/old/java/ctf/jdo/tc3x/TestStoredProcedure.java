@@ -102,21 +102,21 @@ public final class TestStoredProcedure extends CastorTestCase {
         object = new Entity();
         object.setId(1);
         object.setValue1(USER1);
-        stream.println("Creating the first new object: " + object);
+        _stream.println("Creating the first new object: " + object);
         _db.create(object);
 
         object = new Entity();
         object.setId(2);
         object.setValue1(USER1);
         object.setValue2(GROUP2);
-        stream.println("Creating the second new object: " + object);
+        _stream.println("Creating the second new object: " + object);
         _db.create(object);
 
         object = new Entity();
         object.setId(3);
         object.setValue1(USER2);
         object.setValue2(GROUP1);
-        stream.println("Creating the second new object: " + object);
+        _stream.println("Creating the second new object: " + object);
         _db.create(object);
 
         _db.commit();

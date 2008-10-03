@@ -459,24 +459,24 @@ public final class TestLoadLazy1toN extends TestCase {
     }
     
     private void iterateStates(final Locked locked) {
-        Collection states = locked.getStates();
-        Iterator iter = states.iterator();
+        Collection < State > states = locked.getStates();
+        Iterator < State > iter = states.iterator();
         while (iter.hasNext()) {
-            iterateEquipments((State) iter.next());
+            iterateEquipments(iter.next());
         }
     }
     
     private void iterateEquipments(final State state) {
-        Collection equipments = state.getEquipments();
-        Iterator iter = equipments.iterator();
+        Collection < Equipment > equipments = state.getEquipments();
+        Iterator < Equipment > iter = equipments.iterator();
         while (iter.hasNext()) {
-            iterateServices((Equipment) iter.next());
+            iterateServices(iter.next());
         }
     }
     
     private void iterateServices(final Equipment equipment) {
-        Collection services = equipment.getServices();
-        Iterator iter = services.iterator();
+        Collection < Service > services = equipment.getServices();
+        Iterator < Service > iter = services.iterator();
         while (iter.hasNext()) {
             iter.next();
         }

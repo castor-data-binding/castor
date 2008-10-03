@@ -58,12 +58,12 @@ import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.MappingException;
 
 public class JDOCategory extends TestHarness {
-    private JDO      _jdo;
+    private JDO _jdo;
 
     public JDOCategory(final TestHarness superTest, final String name,
-                       final String description, final Object jdo ) {
+            final String description, final Object jdo) {
         
-        super( superTest, name, description );
+        super(superTest, name, description);
         _jdo = (JDO) jdo;
         try {
             new URL(_jdo.getConfiguration());

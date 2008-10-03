@@ -27,15 +27,15 @@ import java.util.Date;
 public final class Type {
     //-------------------------------------------------------------------------
     
-    private Integer         _id;
-    private String          _number;
-    private String          _description;
-    private Collection      _equipments = new ArrayList();
-    private String          _note;
-    private Date            _createdAt;
-    private String          _createdBy;
-    private Date            _updatedAt;
-    private String          _updatedBy;
+    private Integer _id;
+    private String _number;
+    private String _description;
+    private Collection < Equipment > _equipments = new ArrayList < Equipment > ();
+    private String _note;
+    private Date _createdAt;
+    private String _createdBy;
+    private Date _updatedAt;
+    private String _updatedBy;
 
     //-------------------------------------------------------------------------
 
@@ -48,8 +48,8 @@ public final class Type {
     public String getDescription() { return _description; }
     public void setDescription(final String description) { _description = description; }
     
-    public Collection getEquipments() { return _equipments; }
-    public void setEquipments(final Collection equipments) {
+    public Collection < Equipment > getEquipments() { return _equipments; }
+    public void setEquipments(final Collection < Equipment > equipments) {
         _equipments = equipments;
     }
     public void addEquipment(final Equipment equipment) {

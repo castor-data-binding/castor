@@ -25,21 +25,21 @@ import java.util.Date;
 public final class Service {
     //-------------------------------------------------------------------------
     
-    private Integer         _id;
-    private Equipment       _equipment;
-    private Integer         _number;
-    private String          _name;
-    private String          _description;
-    private Date            _date;
-    private boolean         _flag1;
-    private boolean         _flag2;
-    private boolean         _flag3;
-    private boolean         _flag4;
-    private String          _note;
-    private Date            _createdAt;
-    private String          _createdBy;
-    private Date            _updatedAt;
-    private String          _updatedBy;
+    private Integer _id;
+    private Equipment _equipment;
+    private Integer _number;
+    private String _name;
+    private String _description;
+    private Date _date;
+    private boolean _flag1;
+    private boolean _flag2;
+    private boolean _flag3;
+    private boolean _flag4;
+    private String _note;
+    private Date _createdAt;
+    private String _createdBy;
+    private Date _updatedAt;
+    private String _updatedBy;
     
     //-------------------------------------------------------------------------
 

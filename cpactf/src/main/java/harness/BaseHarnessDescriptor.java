@@ -60,16 +60,15 @@ public abstract class BaseHarnessDescriptor implements XMLClassDescriptor {
     /**
      * Map holding the properties set and read by Natures.
      */
-    private Map _properties = new HashMap();
+    private Map < String, Object > _properties = new HashMap < String, Object > ();
     
     /**
      * Map holding the available natures.
      */
-    private Set _natures = new HashSet();
+    private Set < String > _natures = new HashSet < String > ();
 
     /**
      * {@inheritDoc}
-     * @see org.exolab.castor.xml.XMLClassDescriptor#getAttributeDescriptors()
      */
     public org.exolab.castor.xml.XMLFieldDescriptor[] getAttributeDescriptors() {
         return _attributeDescriptors;
@@ -77,8 +76,6 @@ public abstract class BaseHarnessDescriptor implements XMLClassDescriptor {
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.exolab.castor.xml.XMLClassDescriptor#getElementDescriptors()
      */
     public org.exolab.castor.xml.XMLFieldDescriptor[] getElementDescriptors() {
         return _elementDescriptors;
@@ -86,8 +83,6 @@ public abstract class BaseHarnessDescriptor implements XMLClassDescriptor {
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.exolab.castor.xml.XMLClassDescriptor#getNameSpaceURI()
      */
     public java.lang.String getNameSpaceURI() {
         return _nsURI;
@@ -95,8 +90,6 @@ public abstract class BaseHarnessDescriptor implements XMLClassDescriptor {
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.exolab.castor.xml.XMLClassDescriptor#getXMLName()
      */
     public java.lang.String getXMLName() {
         return _xmlName;
@@ -104,8 +97,6 @@ public abstract class BaseHarnessDescriptor implements XMLClassDescriptor {
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.exolab.castor.xml.XMLClassDescriptor#getNameSpacePrefix()
      */
     public java.lang.String getNameSpacePrefix() {
         return _nsPrefix;
@@ -113,8 +104,6 @@ public abstract class BaseHarnessDescriptor implements XMLClassDescriptor {
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.exolab.castor.xml.XMLClassDescriptor#checkDescriptorForCorrectOrderWithinSequence(org.exolab.castor.xml.XMLFieldDescriptor, org.exolab.castor.xml.UnmarshalState, java.lang.String)
      */
     public void checkDescriptorForCorrectOrderWithinSequence(
             final XMLFieldDescriptor elementDescriptor, 
@@ -125,7 +114,6 @@ public abstract class BaseHarnessDescriptor implements XMLClassDescriptor {
 
     /**
      * {@inheritDoc}
-     * @see org.exolab.castor.xml.XMLClassDescriptor#getContentDescriptor()
      */
     public org.exolab.castor.xml.XMLFieldDescriptor getContentDescriptor() {
         return _contentDescriptor;
@@ -133,7 +121,6 @@ public abstract class BaseHarnessDescriptor implements XMLClassDescriptor {
 
     /**
      * {@inheritDoc}
-     * @see org.exolab.castor.mapping.ClassDescriptor#getIdentity()
      */
     public org.exolab.castor.mapping.FieldDescriptor getIdentity() {
         return _identity;
@@ -149,7 +136,6 @@ public abstract class BaseHarnessDescriptor implements XMLClassDescriptor {
 
     /**
      * {@inheritDoc}
-     * @see org.exolab.castor.mapping.ClassDescriptor#getExtends()
      */
     public org.exolab.castor.mapping.ClassDescriptor getExtends() {
         return null;
@@ -157,7 +143,6 @@ public abstract class BaseHarnessDescriptor implements XMLClassDescriptor {
 
     /**
      * {@inheritDoc}
-     * @see org.exolab.castor.xml.XMLClassDescriptor#getValidator()
      */
     public TypeValidator getValidator() {
         return null;
@@ -190,7 +175,6 @@ public abstract class BaseHarnessDescriptor implements XMLClassDescriptor {
 
     /**
      * {@inheritDoc}
-     * @see org.exolab.castor.mapping.ClassDescriptor#getFields()
      */
     public org.exolab.castor.mapping.FieldDescriptor[] getFields() {
         int size = _attributeDescriptors.length + _elementDescriptors.length;
@@ -267,8 +251,6 @@ public abstract class BaseHarnessDescriptor implements XMLClassDescriptor {
     
     /**
      * {@inheritDoc}
-     * 
-     * @see org.exolab.castor.xml.XMLClassDescriptor#isChoice()
      */
     public boolean isChoice() {
         return false;
@@ -317,6 +299,4 @@ public abstract class BaseHarnessDescriptor implements XMLClassDescriptor {
     public boolean hasNature(final String nature) {
         return _natures.contains(nature);
     }
-
 }
-

@@ -27,21 +27,21 @@ import java.util.Date;
 public final class State {
     //-------------------------------------------------------------------------
 
-    private Integer         _id;
-    private String          _name;
-    private Locked          _locked;
-    private boolean         _input = false;
-    private boolean         _output = false;
-    private boolean         _service = false;
-    private boolean         _changeFrom = true;
-    private boolean         _changeTo = true;
-    private Collection      _departments = new ArrayList();
-    private Collection      _equipments = new ArrayList();
-    private String          _note;
-    private Date            _createdAt;
-    private String          _createdBy;
-    private Date            _updatedAt;
-    private String          _updatedBy;
+    private Integer _id;
+    private String _name;
+    private Locked _locked;
+    private boolean _input = false;
+    private boolean _output = false;
+    private boolean _service = false;
+    private boolean _changeFrom = true;
+    private boolean _changeTo = true;
+    private Collection < Department > _departments = new ArrayList < Department > ();
+    private Collection < Equipment > _equipments = new ArrayList < Equipment > ();
+    private String _note;
+    private Date _createdAt;
+    private String _createdBy;
+    private Date _updatedAt;
+    private String _updatedBy;
 
     //-------------------------------------------------------------------------
     
@@ -69,8 +69,8 @@ public final class State {
     public boolean getChangeTo() { return _changeTo; }
     public void setChangeTo(final boolean changeTo) { _changeTo = changeTo; }
     
-    public Collection getDepartments() { return _departments; }
-    public void setDepartments(final Collection departments) {
+    public Collection < Department > getDepartments() { return _departments; }
+    public void setDepartments(final Collection < Department > departments) {
         _departments = departments;
     }
     public void addDepartment(final Department department) {
@@ -86,8 +86,8 @@ public final class State {
         }
     }
     
-    public Collection getEquipments() { return _equipments; }
-    public void setEquipments(final Collection equipments) {
+    public Collection < Equipment > getEquipments() { return _equipments; }
+    public void setEquipments(final Collection < Equipment > equipments) {
         _equipments = equipments;
     }
     public void addEquipment(final Equipment equipment) {

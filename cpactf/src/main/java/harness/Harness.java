@@ -58,10 +58,10 @@ public class Harness {
     private String  _description;
 
 
-    private Vector  _categories = new Vector();
+    private Vector < Category >  _categories = new Vector < Category > ();
 
 
-    public void setName( String name ) {
+    public void setName(final String name) {
         _name = name;
     }
 
@@ -71,7 +71,7 @@ public class Harness {
     }
 
 
-    public void setDescription( String description ) {
+    public void setDescription(final String description) {
         _description = description;
     }
 
@@ -81,32 +81,34 @@ public class Harness {
     }
 
 
-    public void setCategory( Category category ) {
-        _categories.addElement( category );
+    public void setCategory(final Category category) {
+        _categories.addElement(category);
     }
 
 
-    public Enumeration getCategory() {
+    public Enumeration < Category > getCategory() {
         return _categories.elements();
     }
 
-
-    public TestHarness createTestHarness( String branch ) 
-            throws Exception {
-
+    public TestHarness createTestHarness(final String branch) throws Exception {
         TestHarness harness;
 
-        String sub = (branch==null||branch.equals(""))?null
-            :branch.substring( branch.indexOf(".")==-1?branch.length():branch.indexOf(".")+1 );
+        String sub =
+            ((branch == null) || branch.equals(""))
+            ? null
+            : branch.substring(
+                    (branch.indexOf(".") == -1)
+                    ? branch.length()
+                    : branch.indexOf(".") + 1);
 
-        harness = new TestHarness( null, _name, _description );
-        for ( int i = 0 ; i < _categories.size(); ++i ) {
-            TestHarness cat = (TestHarness) ((Category)_categories.elementAt( i )).createTestCategory(harness,sub);
-            if ( sub == null || sub.equals("") || sub.startsWith( cat.getName() ) ) {
-                harness.addTest( cat );
+        harness = new TestHarness(null, _name, _description);
+        for (int i = 0; i < _categories.size(); ++i) {
+            Category category = _categories.elementAt(i);
+            TestHarness cat = (TestHarness) category.createTestCategory(harness, sub);
+            if ((sub == null) || sub.equals("") || sub.startsWith(cat.getName())) {
+                harness.addTest(cat);
             }
         }
         return harness;
     }
-
 }

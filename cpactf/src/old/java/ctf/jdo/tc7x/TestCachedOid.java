@@ -79,7 +79,7 @@ public final class TestCachedOid extends CastorTestCase {
         _conn = _category.getJDBCConnection();
         _conn.setAutoCommit(false);
 
-        stream.println("Delete everything");
+        _stream.println("Delete everything");
         Statement stmt = _conn.createStatement();
         stmt.executeUpdate("delete from tc7x_depend2");
         stmt.executeUpdate("delete from tc7x_master");
@@ -90,19 +90,19 @@ public final class TestCachedOid extends CastorTestCase {
     public void runTest() throws PersistenceException, SQLException {
         _db.begin();
 
-        stream.println("Build master object and its dependent objects");
+        _stream.println("Build master object and its dependent objects");
 
         // no ids needed, they come from the key-gen
         Master master = new Master();
         Depend2 depend2 = new Depend2();
         master.addDepend2(depend2);
 
-        stream.println("Create object tree in db");
+        _stream.println("Create object tree in db");
         _db.create(master);
         _db.commit();
 
         // test for bug 1163 : Lock conflict when loading an object present in the cache
-        stream.println("Loading master object in db-locked mode");
+        _stream.println("Loading master object in db-locked mode");
         _db.begin();
         _db.load(Master.class, new Integer(master.getId()), Database.DBLOCKED);
         _db.commit();
