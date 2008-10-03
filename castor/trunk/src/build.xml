@@ -797,12 +797,17 @@
                 <pathelement location="${java}"/>
                 <pathelement location="${basedir}/anttask/src/main/java" />
                 <pathelement location="${basedir}/codegen/src/main/java" />
+                <pathelement location="${basedir}/codegen/target/generated-sources/castor" />
+                <pathelement location="${basedir}/core/src/main/java" />
                 <pathelement location="${basedir}/cpa/src/main/java" />
                 <pathelement location="${basedir}/ddlgen/src/main/java" />
                 <pathelement location="${basedir}/xml/src/main/java" />
+                <pathelement location="${basedir}/xml/target/generated-sources/castor" />
                 <pathelement location="${basedir}/xmlctf/src/main/java" />
                 <pathelement location="${basedir}/xmlctf-framework/src/main/java" />
+                <pathelement location="${basedir}/xmlctf-framework/target/generated-sources/castor" />
                 <pathelement location="${basedir}/schema/src/main/java" />
+                <pathelement location="${basedir}/schema/target/generated-sources/castor" />
             </sourcepath>
         </javadoc>
     </target>
