@@ -58,13 +58,15 @@ http://maven.apache.org/maven-v4_0_0.xsd">
                    </goals>
                 </execution>
              </executions>
+             <!-- 
              <dependencies>
                <dependency>
                   <groupId>org.codehaus.castor</groupId>
                   <artifactId>castor-codegen</artifactId>
-                  <version>1.3rc2-SNAPSHOT</version>
+                  <version>1.3rc1</version>
                </dependency>
              </dependencies>
+              -->
           </plugin>
        </plugins>
     </build>
