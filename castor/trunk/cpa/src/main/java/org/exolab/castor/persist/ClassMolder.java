@@ -180,7 +180,6 @@ public class ClassMolder {
      * @param ds is the helper class for resolving depends and extends relationship
      *        among all the ClassMolder in the same LockEngine.
      * @param classDescrResolver {@link ClassDescriptorResolver} instance
-     * @param classDescrResolver class descriptor resolver.
      * @param lock the lock engine.
      * @param clsDesc the classDescriptor for the base class.
      * @param persist the Persistence for the base class.
@@ -220,8 +219,10 @@ public class ClassMolder {
         }
 
         if (clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
-            _cacheParams = new ClassDescriptorJDONature(clsDesc).getCacheParams();
-            _isKeyGenUsed = new ClassDescriptorJDONature(clsDesc).getKeyGeneratorDescriptor() != null;
+            ClassDescriptorJDONature nature;
+            nature = new ClassDescriptorJDONature(clsDesc);
+            _cacheParams = nature.getCacheParams();
+            _isKeyGenUsed = nature.getKeyGeneratorDescriptor() != null;
         }
 
         // construct <tt>FieldMolder</tt>s for each of the identity fields of
@@ -284,7 +285,9 @@ public class ClassMolder {
 
                 ClassDescriptor relDesc = null;
                 try {
-                    relDesc = ((JDOClassDescriptorResolver) classDescrResolver).resolve(fmFields[i].getType());
+                    JDOClassDescriptorResolver jdoCDR;
+                    jdoCDR = (JDOClassDescriptorResolver) classDescrResolver;
+                    relDesc = jdoCDR.resolve(fmFields[i].getType());
                 } catch (ResolverException e) {
                     throw new MappingException("Problem resolving class descriptor for class " 
                             + fmFields.getClass(), e);
@@ -298,9 +301,11 @@ public class ClassMolder {
                     relatedIdConvertFrom = new TypeConvertor[relatedIds.length];
                     for (int j = 0; j < relatedIdSQL.length; j++) {
                         if (relatedIds[j].hasNature(FieldDescriptorJDONature.class.getName())) {
-                            String[] tempId = new FieldDescriptorJDONature(relatedIds[j]).getSQLName();
+                            FieldDescriptorJDONature nature;
+                            nature = new FieldDescriptorJDONature(relatedIds[j]);
+                            String[] tempId = nature.getSQLName();
                             relatedIdSQL[j] = (tempId == null) ? null : tempId[0];
-                            int[] tempType =  new FieldDescriptorJDONature(relatedIds[j]).getSQLType();
+                            int[] tempType =  nature.getSQLType();
                             relatedIdType[j] = (tempType == null) ? 0 : tempType[0];
                             FieldHandlerImpl fh = (FieldHandlerImpl) relatedIds[j].getHandler();
                             relatedIdConvertTo[j] = fh.getConvertTo();

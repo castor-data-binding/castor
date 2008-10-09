@@ -70,7 +70,8 @@ public final class SQLHelper {
                 LOG.debug ("Potential extending class descriptor: "
                         + potentialClassDescriptor.getJavaClass().getName());
             }
-            FieldDescriptor[] identityDescriptors = ((ClassDescriptorImpl) potentialClassDescriptor).getIdentities();
+            ClassDescriptorImpl cdi = (ClassDescriptorImpl) potentialClassDescriptor;
+            FieldDescriptor[] identityDescriptors = cdi.getIdentities();
             boolean isNull = true;
             
             for (int i = 0; i < identityDescriptors.length; i++) {
@@ -161,7 +162,8 @@ public final class SQLHelper {
         for (Iterator iter = extendingClassDescriptors.iterator(); iter.hasNext(); ) {
             classDescriptor = (ClassDescriptor) iter.next(); 
             classDescriptorsToAdd.add (classDescriptor);
-            addExtendingClassDescriptors(classDescriptorsToAdd, new ClassDescriptorJDONature(classDescriptor).getExtended());
+            ClassDescriptorJDONature nature = new ClassDescriptorJDONature(classDescriptor);
+            addExtendingClassDescriptors(classDescriptorsToAdd, nature.getExtended());
         }
     }
     

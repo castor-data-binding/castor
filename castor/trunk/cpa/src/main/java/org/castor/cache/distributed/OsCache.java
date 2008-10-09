@@ -58,20 +58,20 @@ public final class OsCache extends AbstractBaseCache {
         "com.opensymphony.oscache.base.NeedsRefreshException";
   
     /** Parameter types for calling getFromCache() method on cache instance. */
-    private static final Class[] TYPES_GET = new Class[] {String.class};
+    private static final Class < ? > [] TYPES_GET = new Class[] {String.class};
     
     /** Parameter types for calling cancelUpdate() method on cache instance. */
-    private static final Class[] TYPES_CANCEL = TYPES_GET;
+    private static final Class < ? > [] TYPES_CANCEL = TYPES_GET;
     
     /** Parameter types for calling putInCache() method on cache instance. */
-    private static final Class[] TYPES_PUT =
+    private static final Class < ? > [] TYPES_PUT =
         new Class[] {String.class, Object.class, String[].class};
     
     /** Parameter types for calling flushEntry() method on cache instance. */
-    private static final Class[] TYPES_REMOVE = TYPES_GET;
+    private static final Class < ? > [] TYPES_REMOVE = TYPES_GET;
     
     /** Parameter types for calling flushGroup() method on cache instance. */
-    private static final Class[] TYPES_CLEAR = TYPES_GET;
+    private static final Class < ? > [] TYPES_CLEAR = TYPES_GET;
     
     /** The cache instance. */
     private final Object _cache;
@@ -109,12 +109,11 @@ public final class OsCache extends AbstractBaseCache {
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#initialize(java.util.Properties)
      */
     public void initialize(final Properties params) throws CacheAcquireException {
         super.initialize(params);
 
-        Class cls = _cache.getClass();
+        Class < ? > cls = _cache.getClass();
         try {
             _getMethod = cls.getMethod("getFromCache", TYPES_GET);
             _cancelMethod = cls.getMethod("cancelUpdate", TYPES_CANCEL);
@@ -135,7 +134,6 @@ public final class OsCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#getType()
      */
     public String getType() { return TYPE; }
 
@@ -144,7 +142,6 @@ public final class OsCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#size()
      */
     public int size() {
         throw new UnsupportedOperationException("size()");
@@ -152,7 +149,6 @@ public final class OsCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#isEmpty()
      */
     public boolean isEmpty() {
         throw new UnsupportedOperationException("isEmpty()");
@@ -160,7 +156,6 @@ public final class OsCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#containsKey(java.lang.Object)
      */
     public boolean containsKey(final Object key) {
         return (get(key) != null);
@@ -168,7 +163,6 @@ public final class OsCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#containsValue(java.lang.Object)
      */
     public boolean containsValue(final Object value) {
         throw new UnsupportedOperationException("containsValue(Object)");
@@ -176,7 +170,6 @@ public final class OsCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#get(java.lang.Object)
      */
     public Object get(final Object key) {
         try {
@@ -203,7 +196,6 @@ public final class OsCache extends AbstractBaseCache {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#put(java.lang.Object, java.lang.Object)
      */
     public Object put(final Object key, final Object value) {
         Object oldValue = get(key);
@@ -213,7 +205,6 @@ public final class OsCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#remove(java.lang.Object)
      */
     public Object remove(final Object key) {
         Object oldValue = get(key);
@@ -226,11 +217,12 @@ public final class OsCache extends AbstractBaseCache {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#putAll(java.util.Map)
      */
-    public void putAll(final Map map) {
-        for (Iterator iter = map.entrySet().iterator(); iter.hasNext(); ) {
-            Map.Entry entry = (Map.Entry) iter.next();
+    public void putAll(final Map < ? extends Object, ? extends Object > map) {
+        Iterator < ? extends Entry < ? extends Object, ? extends Object > > iter;
+        iter = map.entrySet().iterator();
+        while (iter.hasNext()) {
+            Entry < ? extends Object, ? extends Object > entry = iter.next();
             String key = String.valueOf(entry.getKey());
             invokeCacheMethod(_putMethod, new Object[] {key, entry.getValue(), _groups});
         }
@@ -238,7 +230,6 @@ public final class OsCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#clear()
      */
     public void clear() {
         invokeCacheMethod(_clearMethod, new Object[] {getName()});
@@ -249,25 +240,22 @@ public final class OsCache extends AbstractBaseCache {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#keySet()
      */
-    public Set keySet() {
+    public Set < Object > keySet() {
         throw new UnsupportedOperationException("keySet()");
     }
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#values()
      */
-    public Collection values() {
+    public Collection < Object > values() {
         throw new UnsupportedOperationException("values()");
     }
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#entrySet()
      */
-    public Set entrySet() {
+    public Set < Entry < Object, Object > > entrySet() {
         throw new UnsupportedOperationException("entrySet()");
     }
     

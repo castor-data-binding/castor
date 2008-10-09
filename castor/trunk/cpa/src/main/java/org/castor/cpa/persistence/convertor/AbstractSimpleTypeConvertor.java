@@ -34,7 +34,7 @@ public abstract class AbstractSimpleTypeConvertor extends AbstractTypeConvertor 
      * @param fromType The type being converted from.
      * @param toType The type being converted to.
      */
-    public AbstractSimpleTypeConvertor(final Class fromType, final Class toType) {
+    public AbstractSimpleTypeConvertor(final Class < ? > fromType, final Class < ? > toType) {
         super(fromType, toType);
     }
     

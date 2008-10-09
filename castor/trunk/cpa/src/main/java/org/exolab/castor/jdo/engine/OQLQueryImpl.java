@@ -762,7 +762,9 @@ public class OQLQueryImpl implements Query, OQLQuery {
             for (int i = 1; i < _pathInfo.size(); i++) {
                 String curFieldName = (String) _pathInfo.elementAt(i);
                 try {
-                    FieldDescriptor curFieldDesc = new ClassDescriptorJDONature(curClassDesc).getField(curFieldName);
+                    ClassDescriptorJDONature nature;
+                    nature = new ClassDescriptorJDONature(curClassDesc);
+                    FieldDescriptor curFieldDesc = nature.getField(curFieldName);
                     FieldHandler handler = curFieldDesc.getHandler();
                     curObject = handler.getValue(curObject);
                     curClassDesc = curFieldDesc.getClassDescriptor();

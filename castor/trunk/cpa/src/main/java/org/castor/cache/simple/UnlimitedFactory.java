@@ -29,13 +29,11 @@ import org.castor.cache.AbstractCacheFactory;
 public final class UnlimitedFactory extends AbstractCacheFactory {
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.CacheFactory#getCacheType()
      */
     public String getCacheType() { return Unlimited.TYPE; }
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.CacheFactory#getCacheClassName()
      */
     public String getCacheClassName() { return Unlimited.class.getName(); }
 }

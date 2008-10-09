@@ -944,7 +944,7 @@ public final class Lexer {
     /**
      * Consumes whitespace characters.
      *
-     * @param currentChar the current character before the call
+     * @param curChar the current character before the call
      * @return The current character after whitespace is consumed
      */
     private char consumeWhiteSpace(final char curChar) {

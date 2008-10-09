@@ -28,13 +28,11 @@ import org.castor.cache.AbstractCacheFactory;
 public final class FIFOHashbeltFactory extends AbstractCacheFactory {
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.CacheFactory#getCacheType()
      */
     public String getCacheType() { return FIFOHashbelt.TYPE; }
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.CacheFactory#getCacheClassName()
      */
     public String getCacheClassName() { return FIFOHashbelt.class.getName(); }
 }

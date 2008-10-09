@@ -29,13 +29,11 @@ import org.castor.cache.AbstractCacheFactory;
 public final class NoCacheFactory extends AbstractCacheFactory {
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.CacheFactory#getCacheType()
      */
     public String getCacheType() { return NoCache.TYPE; }
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.CacheFactory#getCacheClassName()
      */
     public String getCacheClassName() { return NoCache.class.getName(); }
 }

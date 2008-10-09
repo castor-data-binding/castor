@@ -17,8 +17,8 @@ package org.castor.cache.hashbelt;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -134,10 +134,10 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
     public static final int DEFAULT_CONTAINERS = 10;
     
     /** Default container class. */
-    public static final Class DEFAULT_CONTAINER_CLASS = MapContainer.class;
+    public static final Class < ? extends Container > DEFAULT_CONTAINER_CLASS = MapContainer.class;
     
     /** Default reaper class. */
-    public static final Class DEFAULT_REAPER_CLASS = NullReaper.class;
+    public static final Class < ? extends AbstractReaper > DEFAULT_REAPER_CLASS = NullReaper.class;
     
     /** Default capacity of cache. */
     public static final int DEFAULT_CAPACITY = 0;
@@ -206,8 +206,8 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#initialize(java.util.Properties)
      */
+    @SuppressWarnings("unchecked")
     public final void initialize(final Properties params)
     throws CacheAcquireException {
         super.initialize(params);
@@ -223,16 +223,16 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
         }
 
         try {
-            Class cls = DEFAULT_CONTAINER_CLASS;
+            Class < ? extends  Container > cls = DEFAULT_CONTAINER_CLASS;
             param = params.getProperty(PARAM_CONTAINER_CLASS);
             if ((param != null) && !"".equals(param)) {
-                cls = Class.forName(param);
+                cls = (Class < ? extends Container > ) Class.forName(param);
             }
 
             _poolCount = 2 * _containerTarget;
             _pool = new Container[_poolCount];
             for (int i = 0; i < _poolCount; i++) {
-                _pool[i] = (Container) cls.newInstance();
+                _pool[i] = cls.newInstance();
             }
         } catch (Exception ex) {
             String msg = "Failed to instantiate hashbelt container.";
@@ -240,13 +240,13 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
         }
 
         try {
-            Class cls = DEFAULT_REAPER_CLASS;
+            Class < ? extends AbstractReaper > cls = DEFAULT_REAPER_CLASS;
             param = params.getProperty(PARAM_REAPER_CLASS);
             if ((param != null) && !"".equals(param)) {
-                cls = Class.forName(param);
+                cls = (Class < ? extends AbstractReaper > ) Class.forName(param);
             }
 
-            _reaper = (AbstractReaper) cls.newInstance();
+            _reaper = cls.newInstance();
             _reaper.setCache(this);
         } catch (Exception ex) {
             String msg = "Failed to instantiate hashbelt reaper.";
@@ -298,7 +298,6 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#close()
      */
     public final void close() {
         if (_monitoringTimer != null) {
@@ -349,7 +348,6 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#size()
      */
     public final int size() {
         try {
@@ -364,13 +362,11 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#isEmpty()
      */
     public final boolean isEmpty() { return (size() == 0); }
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#containsKey(java.lang.Object)
      */
     public final boolean containsKey(final Object key) {
         if (key == null) { throw new NullPointerException("key"); }
@@ -398,7 +394,6 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#containsValue(java.lang.Object)
      */
     public final boolean containsValue(final Object value) {
         if (value == null) { throw new NullPointerException("value"); }
@@ -425,7 +420,6 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#clear()
      */
     public final void clear() {
         try {
@@ -449,10 +443,9 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#keySet()
      */
-    public final Set keySet() {
-        Set set = new HashSet(size());
+    public final Set < Object > keySet() {
+        Set < Object > set = new HashSet < Object > (size());
         
         try {
             _lock.readLock().acquire();
@@ -475,10 +468,9 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#values()
      */
-    public final Collection values() {
-        Collection col = new ArrayList(size());
+    public final Collection < Object > values() {
+        Collection < Object > col = new ArrayList < Object > (size());
         
         try {
             _lock.readLock().acquire();
@@ -501,10 +493,9 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#entrySet()
      */
-    public final Set entrySet() {
-        Map map = new HashMap(size());
+    public final Set < Entry < Object, Object > > entrySet() {
+        Map < Object, Object > map = new Hashtable < Object, Object > (size());
         
         try {
             _lock.readLock().acquire();

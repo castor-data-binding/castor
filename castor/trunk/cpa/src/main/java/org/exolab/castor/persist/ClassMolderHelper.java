@@ -17,7 +17,6 @@ import org.castor.persist.TransactionContext;
 import org.castor.util.EnumerationIterator;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.mapping.MappingLoader;
 import org.exolab.castor.mapping.loader.AbstractMappingLoader;
 import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;
@@ -47,9 +46,10 @@ public final class ClassMolderHelper {
     /**
      * Resolve and construct all the <tt>ClassMolder</tt>s given a MappingLoader.
      *
-     * @param   lock      LockEngine for all the ClassMolder
-     * @param   factory   factory class for getting Persistent of the ClassMolder
-     * @param cdResolver {@link ClassDescriptorResolver} instance used for resolving {@link ClassDescriptor}.
+     * @param lock LockEngine for all the ClassMolder
+     * @param factory factory class for getting Persistent of the ClassMolder
+     * @param cdResolver {@link ClassDescriptorResolver} instance used for resolving
+     *        {@link ClassDescriptor}.
      *
      * @return  Vector of all of the <tt>ClassMolder</tt>s from a MappingLoader
      * @throws ClassNotFoundException 
@@ -63,10 +63,10 @@ public final class ClassMolderHelper {
         Persistence persist;
         ClassDescriptor desc;
 
-        MappingLoader mappingLoader = cdResolver.getMappingLoader();
-
         // TODO[WG]: remove down-cast
-        DatingService ds = new DatingService(((JDOClassDescriptorResolver) cdResolver).getClassLoader());
+        JDOClassDescriptorResolver jdoCDR;
+        jdoCDR = (JDOClassDescriptorResolver) cdResolver;
+        DatingService ds = new DatingService(jdoCDR.getClassLoader());
 
         Iterator iter = ((JDOClassDescriptorResolver) cdResolver).descriptorIterator();
         while (iter.hasNext()) {

@@ -59,14 +59,14 @@ public interface TypeConvertor extends org.exolab.castor.mapping.TypeConvertor, 
      * 
      * @return The type being converted from.
      */
-    Class fromType();
+    Class < ? > fromType();
     
     /**
      * Get the type being converted to.
      * 
      * @return The type being converted to.
      */
-    Class toType();
+    Class < ? > toType();
     
     /**
      * Convert the object from one type to another.

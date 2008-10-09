@@ -53,16 +53,16 @@ public final class JcsCache extends AbstractBaseCache {
     public static final String IMPLEMENTATION = "org.apache.jcs.JCS";
 
     /** Parameter types for calling getInstance() method on IMPLEMENTATION. */
-    private static final Class[] TYPES_GET_INSTANCE = new Class[] {String.class};
+    private static final Class < ? > [] TYPES_GET_INSTANCE = new Class[] {String.class};
 
     /** Parameter types for calling get() method on cache instance. */
-    private static final Class[] TYPES_GET = new Class[] {Object.class};
+    private static final Class < ? > [] TYPES_GET = new Class[] {Object.class};
 
     /** Parameter types for calling put() method on cache instance. */
-    private static final Class[] TYPES_PUT = new Class[] {Object.class, Object.class};
+    private static final Class < ? > [] TYPES_PUT = new Class[] {Object.class, Object.class};
 
     /** Parameter types for calling remove() method on cache instance. */
-    private static final Class[] TYPES_REMOVE = TYPES_GET;
+    private static final Class < ? > [] TYPES_REMOVE = TYPES_GET;
 
     /** The cache instance. */
     private Object _cache;
@@ -84,7 +84,6 @@ public final class JcsCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#initialize(java.util.Properties)
      */
     public void initialize(final Properties params) throws CacheAcquireException {
         initialize(IMPLEMENTATION, params);
@@ -105,7 +104,7 @@ public final class JcsCache extends AbstractBaseCache {
 
         try {
             ClassLoader ldr = this.getClass().getClassLoader();
-            Class cls = ldr.loadClass(implementation);
+            Class < ? > cls = ldr.loadClass(implementation);
             Method method = cls.getMethod("getInstance", TYPES_GET_INSTANCE);
             _cache = method.invoke(null, new Object[] {getName()});
 
@@ -126,7 +125,6 @@ public final class JcsCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#getType()
      */
     public String getType() { return TYPE; }
 
@@ -135,7 +133,6 @@ public final class JcsCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#size()
      */
     public int size() {
         throw new UnsupportedOperationException("size()");
@@ -143,7 +140,6 @@ public final class JcsCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#isEmpty()
      */
     public boolean isEmpty() {
         throw new UnsupportedOperationException("isEmpty()");
@@ -151,7 +147,6 @@ public final class JcsCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#containsKey(java.lang.Object)
      */
     public boolean containsKey(final Object key) {
         return (get(key) != null);
@@ -159,7 +154,6 @@ public final class JcsCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#containsValue(java.lang.Object)
      */
     public boolean containsValue(final Object value) {
         throw new UnsupportedOperationException("containsValue(Object)");
@@ -167,7 +161,6 @@ public final class JcsCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#get(java.lang.Object)
      */
     public Object get(final Object key) {
         return invokeCacheMethod(_getMethod, new Object[] {key});
@@ -178,7 +171,6 @@ public final class JcsCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#put(java.lang.Object, java.lang.Object)
      */
     public Object put(final Object key, final Object value) {
         Object oldValue = get(key);
@@ -188,7 +180,6 @@ public final class JcsCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#remove(java.lang.Object)
      */
     public Object remove(final Object key) {
         Object oldValue = get(key);
@@ -201,11 +192,12 @@ public final class JcsCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#putAll(java.util.Map)
      */
-    public void putAll(final Map map) {
-        for (Iterator iter = map.entrySet().iterator(); iter.hasNext(); ) {
-            Map.Entry entry = (Map.Entry) iter.next();
+    public void putAll(final Map < ? extends Object, ? extends Object > map) {
+        Iterator < ? extends Entry < ? extends Object, ? extends Object > > iter;
+        iter = map.entrySet().iterator();
+        while (iter.hasNext()) {
+            Entry < ? extends Object, ? extends Object > entry = iter.next();
             Object[] params = new Object[] {entry.getKey(), entry.getValue()};
             invokeCacheMethod(_putMethod, params);
         }
@@ -213,7 +205,6 @@ public final class JcsCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#clear()
      */
     public void clear() {
         invokeCacheMethod(_clearMethod, null);
@@ -224,25 +215,22 @@ public final class JcsCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#keySet()
      */
-    public Set keySet() {
+    public Set < Object > keySet() {
         throw new UnsupportedOperationException("keySet()");
     }
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#values()
      */
-    public Collection values() {
+    public Collection < Object > values() {
         throw new UnsupportedOperationException("values()");
     }
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#entrySet()
      */
-    public Set entrySet() {
+    public Set < Entry < Object, Object > > entrySet() {
         throw new UnsupportedOperationException("entrySet()");
     }
 

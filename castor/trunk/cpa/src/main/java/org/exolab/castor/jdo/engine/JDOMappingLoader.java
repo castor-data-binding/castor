@@ -68,7 +68,6 @@ import org.castor.cpa.persistence.convertor.TypeConvertorRegistry;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.mapping.BindingType;
 import org.castor.util.Messages;
-import org.exolab.castor.jdo.TimeStampable;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.exolab.castor.mapping.AccessMode;
@@ -132,8 +131,9 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     public static String definition2param(final String sqlTypeDef) {
         int left = sqlTypeDef.indexOf(LEFT_PARAM_SEPARATOR);
         int right = sqlTypeDef.indexOf(RIGHT_PARAM_SEPARATOR);
-        if (right < 0)
+        if (right < 0) {
             right = sqlTypeDef.length();
+        }
         if (left < 0) {
             return null;
         }
@@ -160,7 +160,8 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     /** 
      * Map of key generator descriptors associated by their name. 
      */
-    private final Map _keyGeneratorDescriptors = new HashMap();
+    private final Map < String, KeyGeneratorDescriptor > _keyGeneratorDescriptors
+        = new HashMap < String, KeyGeneratorDescriptor > ();
 
     /** Used by the constructor for creating key generators. Each database must have a
      *  proprietary KeyGeneratorRegistry instance, otherwise it is impossible to
@@ -232,7 +233,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
                 name = def.getName(); 
             }
             
-            KeyGeneratorDescriptor desc = (KeyGeneratorDescriptor) _keyGeneratorDescriptors.get(name);
+            KeyGeneratorDescriptor desc = _keyGeneratorDescriptors.get(name);
             if (desc != null) {
                 throw new MappingException(Messages.format("mapping.dupKeyGen", name));
             }
@@ -450,15 +451,14 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
      * key generator descriptor at the class descriptor.
      * 
      * @param jdoNature JDO class descriptor to set the key generator descriptor at.
-     * @param string Name of the key generator.
+     * @param keyGeneratorName Name of the key generator.
      */
     private void extractAndSetKeyGeneratorDescriptor(final ClassDescriptorJDONature jdoNature,
             final String keyGeneratorName) {
         KeyGeneratorDescriptor keyGeneratorDescriptor = null;
         
         if (keyGeneratorName != null) {
-            keyGeneratorDescriptor = (KeyGeneratorDescriptor) 
-                _keyGeneratorDescriptors.get(keyGeneratorName);
+            keyGeneratorDescriptor = _keyGeneratorDescriptors.get(keyGeneratorName);
             if (keyGeneratorDescriptor == null) {
                 keyGeneratorDescriptor = new KeyGeneratorDescriptor(
                         keyGeneratorName, keyGeneratorName, new Properties(), _keyGenReg);
@@ -569,7 +569,6 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         Class internalFieldType = fieldType;
         TypeConvertor convertorTo = null;
         TypeConvertor convertorFrom = null;
-        String        convertorParam = null;
         String        typeName = null;
         Class         sqlType = null;
         String        sqlParam = null;
@@ -649,7 +648,8 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     private class EnumTypeConvertor extends AbstractSimpleTypeConvertor {
         private final Method _method;
 
-        public EnumTypeConvertor(final Class fromType, final Class toType, final Method method) {
+        public EnumTypeConvertor(final Class < ? > fromType,
+                final Class < ? > toType, final Method method) {
             super(fromType, toType);
 
             _method = method;

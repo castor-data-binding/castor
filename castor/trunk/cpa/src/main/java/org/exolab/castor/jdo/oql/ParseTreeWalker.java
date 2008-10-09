@@ -370,8 +370,12 @@ public class ParseTreeWalker {
         retVal = new Object[] {field, cd};
         if (cd != clsDesc) {
             // now add inner join for "extends"
-            String tableAlias1 = new ClassDescriptorJDONature(clsDesc).getTableName();
-            String tableAlias2 = new ClassDescriptorJDONature(cd).getTableName();
+            ClassDescriptorJDONature clsDescNature;
+            clsDescNature = new ClassDescriptorJDONature(clsDesc);
+            String tableAlias1 = clsDescNature.getTableName();
+            ClassDescriptorJDONature cdNature;
+            cdNature = new ClassDescriptorJDONature(cd);
+            String tableAlias2 = cdNature.getTableName();
             if (tableIndex > 0) {
                 tableAlias1 = buildTableAlias(tableAlias1, path, tableIndex);
                 tableAlias2 = buildTableAlias(tableAlias2, path, tableIndex);
@@ -380,8 +384,8 @@ public class ParseTreeWalker {
             String[] clsDescIdNames = SQLHelper.getIdentitySQLNames(clsDesc);
             String[] cdIdNames = SQLHelper.getIdentitySQLNames(cd);
             expr.addInnerJoin(
-                    new ClassDescriptorJDONature(clsDesc).getTableName(), clsDescIdNames, tableAlias1,
-                    new ClassDescriptorJDONature(cd).getTableName(), cdIdNames, tableAlias2);
+                    clsDescNature.getTableName(), clsDescIdNames, tableAlias1,
+                    cdNature.getTableName(), cdIdNames, tableAlias2);
         }
         return retVal;
     }
@@ -1110,13 +1114,15 @@ public class ParseTreeWalker {
                         sourceTableAlias = buildTableAlias(sourceTableAlias, path, i - 1);
                     }
 
+                    ClassDescriptorJDONature clsDescNature;
+                    clsDescNature = new ClassDescriptorJDONature(clsDesc);
                     _queryExpr.addInnerJoin(
                             sourceClassJDONature.getTableName(), 
                             new FieldDescriptorJDONature(fieldDesc).getSQLName(),
                             sourceTableAlias,
-                            new ClassDescriptorJDONature(clsDesc).getTableName(), 
+                            clsDescNature.getTableName(), 
                             new FieldDescriptorJDONature(foreignKey).getSQLName(),
-                            buildTableAlias(new ClassDescriptorJDONature(clsDesc).getTableName(), path, i));
+                            buildTableAlias(clsDescNature.getTableName(), path, i));
                 } else if (fieldJDONature.getManyTable() == null) {
                     //a one -> many relationship
                     FieldDescriptor identity = sourceClass.getIdentity();
@@ -1125,16 +1131,18 @@ public class ParseTreeWalker {
                         sourceTableAlias = buildTableAlias(sourceTableAlias, path, i - 1);
                     }
 
+                    ClassDescriptorJDONature clsDescNature;
+                    clsDescNature = new ClassDescriptorJDONature(clsDesc);
                     _queryExpr.addInnerJoin(
                             sourceClassJDONature.getTableName(), 
                             new FieldDescriptorJDONature(identity).getSQLName(),
                             sourceTableAlias,
-                            new ClassDescriptorJDONature(clsDesc).getTableName(), 
+                            clsDescNature.getTableName(), 
                             fieldJDONature.getManyKey(),
-                            buildTableAlias(new ClassDescriptorJDONature(clsDesc).getTableName(), path, i));
+                            buildTableAlias(clsDescNature.getTableName(), path, i));
                 } else {
                     //a many -> many relationship
-                    FieldDescriptor identity =sourceClass.getIdentity();
+                    FieldDescriptor identity = sourceClass.getIdentity();
                     FieldDescriptor foreignKey = clsDesc.getIdentity();
                     String manyTableAlias = fieldJDONature.getManyTable();
                     String sourceTableAlias = sourceClassJDONature.getTableName();
@@ -1151,13 +1159,15 @@ public class ParseTreeWalker {
                             fieldJDONature.getManyKey(),
                             manyTableAlias);
 
+                    ClassDescriptorJDONature clsDescNature;
+                    clsDescNature = new ClassDescriptorJDONature(clsDesc);
                     _queryExpr.addInnerJoin(
                             fieldJDONature.getManyTable(), 
                             new FieldDescriptorJDONature(fieldDesc).getSQLName(),
                             manyTableAlias,
-                            new ClassDescriptorJDONature(clsDesc).getTableName(), 
+                            clsDescNature.getTableName(), 
                             new FieldDescriptorJDONature(foreignKey).getSQLName(),
-                            buildTableAlias(new ClassDescriptorJDONature(clsDesc).getTableName(), path, i));
+                            buildTableAlias(clsDescNature.getTableName(), path, i));
                 }
                 sourceClass = clsDesc;
             }

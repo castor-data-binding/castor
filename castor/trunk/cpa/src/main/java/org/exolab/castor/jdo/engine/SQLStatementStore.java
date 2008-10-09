@@ -31,6 +31,7 @@ import org.exolab.castor.jdo.ObjectDeletedException;
 import org.exolab.castor.jdo.ObjectModifiedException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
+import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.persist.spi.QueryExpression;
@@ -158,7 +159,8 @@ public final class SQLStatementStore {
         SQLEngine extended = _engine.getExtends();
         if (extended != null) {
             // | quick and very dirty hack to try to make multiple class on the same table work
-            if (!new ClassDescriptorJDONature(extended.getDescriptor()).getTableName().equals(_mapTo)) {
+            ClassDescriptor extDesc = extended.getDescriptor();
+            if (!new ClassDescriptorJDONature(extDesc).getTableName().equals(_mapTo)) {
                 extended.store(conn, identity, newentity, oldentity);
             }
         }

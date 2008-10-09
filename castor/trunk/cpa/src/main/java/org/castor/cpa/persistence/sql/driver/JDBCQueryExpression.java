@@ -529,20 +529,20 @@ public class JDBCQueryExpression implements QueryExpression {
 
         Join(final String leftTable, final String leftColumn, final String rightTable,
                 final String rightColumn, final boolean outer) {
-            this._leftTable = leftTable;
-            this._leftColumns = new String[] {leftColumn};
-            this._rightTable = rightTable;
-            this._rightColumns = new String[] {rightColumn};
-            this._outer = outer;
+            _leftTable = leftTable;
+            _leftColumns = new String[] {leftColumn};
+            _rightTable = rightTable;
+            _rightColumns = new String[] {rightColumn};
+            _outer = outer;
         }
 
         Join(final String leftTable, final String[] leftColumns, final String rightTable,
                 final String[] rightColumns, final boolean outer) {
-            this._leftTable = leftTable;
-            this._leftColumns = (String[]) leftColumns.clone();
-            this._rightTable = rightTable;
-            this._rightColumns = (String[]) rightColumns.clone();
-            this._outer = outer;
+            _leftTable = leftTable;
+            _leftColumns = leftColumns.clone();
+            _rightTable = rightTable;
+            _rightColumns = rightColumns.clone();
+            _outer = outer;
         }
 
         public int hashCode() {

@@ -39,14 +39,13 @@ public final class Unlimited extends AbstractBaseCache {
     public static final String TYPE = "unlimited";
     
     /** The internal map. */
-    private Hashtable _map = new Hashtable();
+    private Hashtable < Object, Object > _map = new Hashtable < Object, Object > ();
     
     //--------------------------------------------------------------------------
     // getters/setters for cache configuration
 
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#getType()
      */
     public String getType() { return TYPE; }
 
@@ -55,19 +54,16 @@ public final class Unlimited extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#size()
      */
     public int size() { return _map.size(); }
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#isEmpty()
      */
     public boolean isEmpty() { return _map.isEmpty(); }
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#containsKey(java.lang.Object)
      */
     public boolean containsKey(final Object key) {
         return _map.containsKey(key);
@@ -75,7 +71,6 @@ public final class Unlimited extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#containsValue(java.lang.Object)
      */
     public boolean containsValue(final Object value) {
         return _map.containsValue(value);
@@ -83,7 +78,6 @@ public final class Unlimited extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#get(java.lang.Object)
      */
     public Object get(final Object key) {
         return _map.get(key);
@@ -94,7 +88,6 @@ public final class Unlimited extends AbstractBaseCache {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#put(java.lang.Object, java.lang.Object)
      */
     public Object put(final Object key, final Object value) {
         return _map.put(key, value);
@@ -102,7 +95,6 @@ public final class Unlimited extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#remove(java.lang.Object)
      */
     public Object remove(final Object key) {
         return _map.remove(key);
@@ -113,13 +105,13 @@ public final class Unlimited extends AbstractBaseCache {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#putAll(java.util.Map)
      */
-    public void putAll(final Map map) { _map.putAll (map); }
+    public void putAll(final Map < ? extends Object, ? extends Object > map) {
+        _map.putAll (map);
+    }
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#clear()
      */
     public void clear() { _map.clear(); }
 
@@ -128,21 +120,18 @@ public final class Unlimited extends AbstractBaseCache {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#keySet()
      */
-    public Set keySet() { return _map.keySet(); }
+    public Set < Object > keySet() { return _map.keySet(); }
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#values()
      */
-    public Collection values() { return _map.values(); }
+    public Collection < Object > values() { return _map.values(); }
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#entrySet()
      */
-    public Set entrySet() { return _map.entrySet(); }
+    public Set < Entry < Object, Object > > entrySet() { return _map.entrySet(); }
 
     //--------------------------------------------------------------------------
 }

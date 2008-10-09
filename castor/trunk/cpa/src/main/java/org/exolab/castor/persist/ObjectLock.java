@@ -712,7 +712,7 @@ public final class ObjectLock implements DepositBox {
      * cancelled whether or not the write is acquired.
      *
      * @param tx The transaction requesting the lock
-     * @param internalTimeout Timeout waiting to acquire lock (in milliseconds),
+     * @param timeout Timeout waiting to acquire lock (in milliseconds),
      *  zero for no waiting
      * @throws LockNotGrantedException Lock could not be granted in
      *  the specified timeout or a dead lock has been detected

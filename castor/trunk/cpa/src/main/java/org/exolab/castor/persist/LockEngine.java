@@ -72,7 +72,6 @@ import org.exolab.castor.jdo.ObjectDeletedException;
 import org.exolab.castor.jdo.ObjectModifiedException;
 import org.exolab.castor.jdo.ObjectNotFoundException;
 import org.exolab.castor.jdo.PersistenceException;
-import org.exolab.castor.jdo.TimeStampable;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Identity;
@@ -402,7 +401,7 @@ public final class LockEngine {
      * specified.
      *
      * @param tx The transaction context
-     * @param internaloid The identity of the object, or null
+     * @param oid The identity of the object, or null
      * @param object The newly created object
      * @return The object's OID
      * @throws DuplicateIdentityException An object with this identity
@@ -564,7 +563,7 @@ public final class LockEngine {
      * the object's timestamp.
      *
      * @param tx The transaction context
-     * @param internaloid The object's identity
+     * @param oid The object's identity
      * @param object The object
      * @param suggestedAccessMode The desired access mode
      * @param timeout The timeout waiting to acquire a lock on the
@@ -643,7 +642,7 @@ public final class LockEngine {
      * object was not stored (not modified), null is returned.
      *
      * @param tx The transaction context
-     * @param internaloid The object's identity
+     * @param oid The object's identity
      * @param object The object to store
      * @param timeout The timeout waiting to acquire a lock on the
      *  object (specified in seconds)
@@ -1114,8 +1113,8 @@ public final class LockEngine {
          * user must call {@link ObjectLock#confirm(TransactionContext, boolean)} 
          * exactly once.
          *
-         * @param internaloid        The OID of the lock.
-         * @param tx         The context of the transaction to acquire lock.
+         * @param oid The OID of the lock.
+         * @param tx The context of the transaction to acquire lock.
          * @param lockAction The inital action to be performed on the lock.
          * @param timeout    The time limit to acquire the lock.
          * @return The object lock for the OID within this transaction context. 
@@ -1216,8 +1215,8 @@ public final class LockEngine {
         /**
          * Upgrade the lock to write lock.
          * 
-         * @param  internaloid      The OID of the lock.
-         * @param  tx       The transaction in action.
+         * @param  oid The OID of the lock.
+         * @param  tx The transaction in action.
          * @param  timeout  Time limit.
          * @return The upgraded ObjectLock instance.
          * @throws ObjectDeletedWaitingForLockException

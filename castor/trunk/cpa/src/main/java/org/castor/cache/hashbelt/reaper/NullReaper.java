@@ -35,8 +35,6 @@ import org.castor.cache.hashbelt.container.Container;
 public final class NullReaper extends AbstractReaper {
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.hashbelt.reaper.Reaper#handleExpiredContainer(
-     *      org.castor.cache.hashbelt.container.Container)
      */
     public void handleExpiredContainer(final Container expiredContainer) { }
 }

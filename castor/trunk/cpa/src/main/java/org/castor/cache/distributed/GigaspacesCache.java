@@ -22,7 +22,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.cache.CacheAcquireException;
 
-
 /**
  * Gigaspaces implementation of Castor JDO Cache.<br><br>
  *
@@ -100,7 +99,7 @@ public final class GigaspacesCache extends AbstractDistributedCache {
     public static final String IMPLEMENTATION = "com.j_spaces.map.CacheFinder";
 
     /** Parameter types for calling getCache() method on IMPLEMENTATION. */
-    private static final Class[] TYPES_FIND_CACHE = new Class[] {String.class};
+    private static final Class < ? > [] TYPES_FIND_CACHE = new Class[] {String.class};
 
     /** Default cache URL. */
     private static final String DEFAULT_CACHE_URL = "/./";
@@ -114,7 +113,6 @@ public final class GigaspacesCache extends AbstractDistributedCache {
 
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#initialize(java.util.Properties)
      */
     public void initialize(final Properties params) throws CacheAcquireException {
         initialize(IMPLEMENTATION, params);
@@ -129,6 +127,7 @@ public final class GigaspacesCache extends AbstractDistributedCache {
      * @param params Parameters to initialize the cache (e.g. name, capacity).
      * @throws CacheAcquireException If cache can not be initialized.
      */
+    @SuppressWarnings("unchecked")
     public void initialize(final String implementation, final Properties params)
     throws CacheAcquireException {
         super.initialize(params);
@@ -149,7 +148,7 @@ public final class GigaspacesCache extends AbstractDistributedCache {
 
         try {
             ClassLoader ldr = this.getClass().getClassLoader();
-            Class cls = ldr.loadClass(implementation);
+            Class < ? > cls = ldr.loadClass(implementation);
             setCache((Map) invokeStaticMethod(
                     cls, "find", TYPES_FIND_CACHE, new Object[] {clusterURL.toString()}));
         } catch (Exception e) {
@@ -165,7 +164,6 @@ public final class GigaspacesCache extends AbstractDistributedCache {
 
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#getType()
      */
     public String getType() { return TYPE; }
 

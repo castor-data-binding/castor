@@ -17,8 +17,7 @@ package org.castor.cache.hashbelt.container;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import org.castor.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A very basic, HashMap-based implementation of the hashmap container strategy,
@@ -34,7 +33,9 @@ import org.castor.util.concurrent.ConcurrentHashMap;
  * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.0
  */
-public final class MapContainer extends ConcurrentHashMap implements Container {
+public final class MapContainer
+extends ConcurrentHashMap < Object, Object >
+implements Container {
     //--------------------------------------------------------------------------
     
     /** SerialVersionUID. */
@@ -48,30 +49,26 @@ public final class MapContainer extends ConcurrentHashMap implements Container {
 
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.hashbelt.container.Container#updateTimestamp()
      */
     public void updateTimestamp() { _timestamp = System.currentTimeMillis(); }
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.hashbelt.container.Container#getTimestamp()
      */
     public long getTimestamp() { return _timestamp; }
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.hashbelt.container.Container#keyIterator()
      */
-    public Iterator keyIterator() {
-        return new ArrayList(keySet()).iterator();
+    public Iterator < Object > keyIterator() {
+        return new ArrayList < Object > (keySet()).iterator();
     }
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.hashbelt.container.Container#valueIterator()
      */
-    public Iterator valueIterator() {
-        return new ArrayList(values()).iterator();
+    public Iterator < Object > valueIterator() {
+        return new ArrayList < Object > (values()).iterator();
     }
     
     //--------------------------------------------------------------------------

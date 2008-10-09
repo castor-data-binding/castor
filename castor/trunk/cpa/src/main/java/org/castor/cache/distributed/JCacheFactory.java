@@ -30,13 +30,11 @@ import org.castor.cache.AbstractCacheFactory;
 public final class JCacheFactory extends AbstractCacheFactory {
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.CacheFactory#getCacheType()
      */
     public String getCacheType() { return JCache.TYPE; }
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.CacheFactory#getCacheClassName()
      */
     public String getCacheClassName() { return JCache.class.getName(); }
 }

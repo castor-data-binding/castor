@@ -63,6 +63,8 @@ public final class SQLEngine implements Persistence {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(SQLEngine.class);
+    
+    private static final String JDO_FIELD_NATURE = FieldDescriptorJDONature.class.getName();
 
     private final SQLFieldInfo[]        _fields;
 
@@ -92,7 +94,8 @@ public final class SQLEngine implements Persistence {
         _keyGen = null;
         
         if (_clsDesc.getExtends() == null) {
-            KeyGeneratorDescriptor keyGenDesc = new ClassDescriptorJDONature(clsDesc).getKeyGeneratorDescriptor();
+            ClassDescriptorJDONature nature = new ClassDescriptorJDONature(clsDesc);
+            KeyGeneratorDescriptor keyGenDesc = nature.getKeyGeneratorDescriptor();
             if (keyGenDesc != null) {
                 int[] tempType =  new FieldDescriptorJDONature(_clsDesc.getIdentity()).getSQLType();
                 _keyGen = keyGenDesc.getKeyGeneratorRegistry().getKeyGenerator(
@@ -160,7 +163,7 @@ public final class SQLEngine implements Persistence {
                 // The extending class may have other SQL names for identity fields
                 for (int j = 0; j < idDescriptors.length; j++) {
                     if (name.equals(idDescriptors[j].getFieldName())
-                            && (idDescriptors[j].hasNature(FieldDescriptorJDONature.class.getName()))) {
+                            && (idDescriptors[j].hasNature(JDO_FIELD_NATURE))) {
                         sqlName = new FieldDescriptorJDONature(idDescriptors[j]).getSQLName();
                         break;
                     }
@@ -232,7 +235,9 @@ public final class SQLEngine implements Persistence {
     public PersistenceQuery createQuery(final QueryExpression query, final Class[] types,
                                         final AccessMode accessMode)
     throws QueryException {
-        AccessMode mode = (accessMode != null) ? accessMode : new ClassDescriptorJDONature(_clsDesc).getAccessMode();
+        AccessMode mode = (accessMode != null)
+                        ? accessMode
+                        : new ClassDescriptorJDONature(_clsDesc).getAccessMode();
         String sql = query.getStatement(mode == AccessMode.DbLocked);
         
         if (LOG.isDebugEnabled()) {

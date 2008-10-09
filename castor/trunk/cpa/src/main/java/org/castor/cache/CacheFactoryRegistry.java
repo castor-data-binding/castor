@@ -45,7 +45,8 @@ public final class CacheFactoryRegistry {
     private static final String PROXY_CLASSNAME = DebuggingCacheProxy.class.getName();
     
     /** Association between {@link Cache} name and factory implementation. */
-    private Hashtable  _cacheFactories = new Hashtable();
+    private Hashtable < String, CacheFactory > _cacheFactories
+        = new Hashtable < String, CacheFactory > ();
     
     //--------------------------------------------------------------------------
 
@@ -86,7 +87,7 @@ public final class CacheFactoryRegistry {
     public Cache getCache(final Properties props, final ClassLoader classLoader) 
     throws CacheAcquireException {
         String cacheType = props.getProperty(Cache.PARAM_TYPE, Cache.DEFAULT_TYPE);
-        CacheFactory cacheFactory = (CacheFactory) _cacheFactories.get(cacheType);
+        CacheFactory cacheFactory = _cacheFactories.get(cacheType);
         if (cacheFactory == null) {
             LOG.error("Unknown cache type '" + cacheType + "'");
             throw new CacheAcquireException("Unknown cache type '" + cacheType + "'");
@@ -101,8 +102,8 @@ public final class CacheFactoryRegistry {
         if (cacheTypeDebug || (cacheDebug && objectDebug)) {
             try {
                 ClassLoader loader = CacheFactoryRegistry.class.getClassLoader();
-                Class cls = loader.loadClass(PROXY_CLASSNAME);
-                Class[] types = new Class[] {Cache.class};
+                Class < ? > cls = loader.loadClass(PROXY_CLASSNAME);
+                Class < ? > [] types = new Class[] {Cache.class};
                 Object[] params = new Object[] {cache};
                 cache = (Cache) cls.getConstructor(types).newInstance(params);
             } catch (Exception e) {
@@ -127,7 +128,7 @@ public final class CacheFactoryRegistry {
      * 
      * @return Collection of the current configured cache factories.
      */
-    public Collection getCacheFactories() {
+    public Collection < CacheFactory > getCacheFactories() {
         return Collections.unmodifiableCollection(_cacheFactories.values());
     }
     
@@ -136,7 +137,7 @@ public final class CacheFactoryRegistry {
      *
      * @return Names of the configured cache factories.
      */
-    public Collection getCacheNames() {
+    public Collection < String > getCacheNames() {
         return Collections.unmodifiableCollection(_cacheFactories.keySet());
     }
     

@@ -72,7 +72,8 @@ public final class IdentityKeyGenerator implements KeyGenerator {
     //-----------------------------------------------------------------------------------
 
     private abstract class IdentityKeyGenValueHandler extends AbstractKeyGenValueHandler {
-        protected abstract Object getValue(Connection conn, String tableName) throws PersistenceException;
+        protected abstract Object getValue(Connection conn, String tableName)
+        throws PersistenceException;
     }
         
     private class DefaultType extends IdentityKeyGenValueHandler {
@@ -104,7 +105,8 @@ public final class IdentityKeyGenerator implements KeyGenerator {
                 stmt = conn.prepareCall("{call IDENTITY()}");
                 v = getValue(stmt);
             } catch (SQLException e) {
-                String msg = Messages.format("persist.keyGenSQL", getClass().getName(), e.toString());
+                String msg = Messages.format("persist.keyGenSQL",
+                        getClass().getName(), e.toString());
                 throw new PersistenceException(msg);
             } finally {
                 if (stmt != null) {

@@ -39,7 +39,6 @@ import org.castor.cache.CacheAcquireException;
  * @since 1.0
  */
 public final class EHCache extends AbstractBaseCache {
- 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      *  Logging </a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(EHCache.class);
@@ -51,16 +50,16 @@ public final class EHCache extends AbstractBaseCache {
     public static final String IMPLEMENTATION = "net.sf.ehcache.CacheManager";
     
     /** Parameter types for calling getCache() method on IMPLEMENTATION. */
-    private static final Class[] TYPES_GET_CACHE = new Class[] {String.class};
+    private static final Class < ? > [] TYPES_GET_CACHE = new Class[] {String.class};
     
     /** Parameter types for calling getFromCache() method on cache instance. */
-    private static final Class[] TYPES_GET = new Class[] {Object.class};
+    private static final Class < ? > [] TYPES_GET = new Class[] {Object.class};
 
     /** Parameter types for calling getFromCache() method on cache instance. */
-    private static final Class[] TYPES_REMOVE = new Class[] {Object.class};
+    private static final Class < ? > [] TYPES_REMOVE = new Class[] {Object.class};
 
     /** Parameter types for calling constrcutor on 'net.sf.ehcache.Element' class. */
-    private static final Class[] TYPES_ELEMENT_CONSTRUCTOR =
+    private static final Class < ? > [] TYPES_ELEMENT_CONSTRUCTOR =
         new Class[] {Object.class, Object.class};
 
     /** The cache instance. */
@@ -88,14 +87,13 @@ public final class EHCache extends AbstractBaseCache {
     private Method _isExpiredMethod;
 
     /** Class instance for 'net.sf.ehcache.Element'. */
-    private Class _elementClass;
+    private Class < ? > _elementClass;
 
-    /** Constructir for 'net.sf.ehcache.Element' class. */
-    private Constructor _elementConstructor;
+    /** Constructor for 'net.sf.ehcache.Element' class. */
+    private Constructor < ? > _elementConstructor;
 
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#initialize(java.util.Properties)
      */
     public void initialize(final Properties params) throws CacheAcquireException {
         initialize(IMPLEMENTATION, params);
@@ -116,7 +114,7 @@ public final class EHCache extends AbstractBaseCache {
 
         try {
             ClassLoader ldr = this.getClass().getClassLoader();
-            Class cls = ldr.loadClass(implementation);
+            Class < ? > cls = ldr.loadClass(implementation);
             invokeStaticMethod(cls, "create", null, null);
             Object factory = invokeStaticMethod(cls, "getInstance", null, null);
             Boolean cacheExists =
@@ -135,7 +133,7 @@ public final class EHCache extends AbstractBaseCache {
             throw new CacheAcquireException(msg, e);
         }
 
-        Class cls = _cache.getClass();
+        Class < ? > cls = _cache.getClass();
 
         try {
             _elementClass = Class.forName("net.sf.ehcache.Element");
@@ -167,7 +165,6 @@ public final class EHCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#size()
      */
     public int size() {
         Integer result = new Integer(-1);
@@ -183,7 +180,6 @@ public final class EHCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#isEmpty()
      */
     public boolean isEmpty() {
         return (size() < 1);
@@ -191,7 +187,6 @@ public final class EHCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#containsKey(java.lang.Object)
      */
     public boolean containsKey(final Object key) {
         return (get(key) != null);
@@ -199,16 +194,13 @@ public final class EHCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#containsValue(java.lang.Object)
      */
     public boolean containsValue(final Object value) {
         throw new UnsupportedOperationException("containsValue(Object)");
     }
 
-
     /**
      * {@inheritDoc}
-     * @see java.util.Map#get(java.lang.Object)
      */
     public Object get(final Object key) {
         Object result = null;
@@ -232,7 +224,6 @@ public final class EHCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#put(java.lang.Object, java.lang.Object)
      */
     public Object put(final Object key, final Object value) {
         Object result = Boolean.FALSE;
@@ -249,7 +240,6 @@ public final class EHCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#remove(java.lang.Object)
      */
     public Object remove(final Object key) {
         Object oldValue = get(key);
@@ -268,11 +258,12 @@ public final class EHCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#putAll(java.util.Map)
      */
-    public void putAll(final Map map) {
-        for (Iterator iter = map.entrySet().iterator(); iter.hasNext(); ) {
-            Map.Entry entry = (Map.Entry) iter.next();
+    public void putAll(final Map < ? extends Object, ? extends Object > map) {
+        Iterator < ? extends Entry < ? extends Object, ? extends Object > > iter;
+        iter = map.entrySet().iterator();
+        while (iter.hasNext()) {
+            Entry < ? extends Object, ? extends Object > entry = iter.next();
             String key = String.valueOf(entry.getKey());
             put (key, entry.getValue());
         }
@@ -280,7 +271,6 @@ public final class EHCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#clear()
      */
     public void clear() {
         try {
@@ -297,25 +287,22 @@ public final class EHCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#keySet()
      */
-    public Set keySet() {
+    public Set < Object > keySet() {
         throw new UnsupportedOperationException("keySet()");
     }
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#values()
      */
-    public Collection values() {
+    public Collection < Object > values() {
         throw new UnsupportedOperationException("values()");
     }
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#entrySet()
      */
-    public Set entrySet() {
+    public Set < Entry < Object, Object > > entrySet() {
         throw new UnsupportedOperationException("entrySet()");
     }
 
@@ -329,7 +316,7 @@ public final class EHCache extends AbstractBaseCache {
     public void shutdown(final String implementation) {
         try {
             ClassLoader ldr = this.getClass().getClassLoader();
-            Class cls = ldr.loadClass(implementation);
+            Class < ? > cls = ldr.loadClass(implementation);
             if (cls != null) {
                 Object factory = invokeStaticMethod(cls, "getInstance", null, null);
                 Method method = cls.getMethod("shutdown", new Class[] {cls});
@@ -342,7 +329,6 @@ public final class EHCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#getType()
      */
     public String getType() { return TYPE; }
 

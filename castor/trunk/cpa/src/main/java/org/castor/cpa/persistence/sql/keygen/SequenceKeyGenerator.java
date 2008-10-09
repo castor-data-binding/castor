@@ -80,16 +80,17 @@ public final class SequenceKeyGenerator extends AbstractKeyGenerator {
         protected Object getValue(final Connection conn, final String tableName,
                 final String primKeyName, final Properties props) throws Exception {
             if (getStyle() == BEFORE_INSERT) {
-                return getValue("SELECT nextval('" + getSeqName(tableName, primKeyName) + "')", conn);
+                return getValue(
+                        "SELECT nextval('" + getSeqName(tableName, primKeyName) + "')", conn);
             } else if (_triggerPresent && _factoryName.equals("postgresql")) {
                 Object insStmt = props.get("insertStatement");
                 Class psqlStmtClass = Class.forName("org.postgresql.Statement");
                 Method getInsertedOID = psqlStmtClass.getMethod("getInsertedOID", (Class[]) null);
-                int insertedOID = ((Integer) getInsertedOID.invoke(insStmt, (Object[]) null)).intValue();
+                Integer insertedOID = (Integer) getInsertedOID.invoke(insStmt, (Object[]) null);
                 PreparedStatement stmt = conn.prepareStatement(
                         "SELECT " + _factory.quoteName(primKeyName)
                         + " FROM " + _factory.quoteName(tableName) + " WHERE OID=?");
-                stmt.setInt(1, insertedOID);
+                stmt.setInt(1, insertedOID.intValue());
                 return getValue(stmt);
             } else {
                 return getValue(
@@ -103,7 +104,8 @@ public final class SequenceKeyGenerator extends AbstractKeyGenerator {
         protected Object getValue(final Connection conn, final String tableName,
                 final String primKeyName, final Properties props)
         throws PersistenceException {
-            return getValue("SELECT nextval FOR " + getSeqName(tableName, primKeyName) + " FROM SYSIBM.SYSDUMMY1", conn);
+            return getValue("SELECT nextval FOR " + getSeqName(tableName, primKeyName)
+                    + " FROM SYSIBM.SYSDUMMY1", conn);
         }
     }
         
@@ -112,7 +114,8 @@ public final class SequenceKeyGenerator extends AbstractKeyGenerator {
                 final String primKeyName, final Properties props)
         throws PersistenceException {
             // interbase only does before_insert, and does it its own way
-            return getValue("SELECT gen_id(" + getSeqName(tableName, primKeyName) + "," + _increment + ") FROM rdb$database", conn);
+            return getValue("SELECT gen_id(" + getSeqName(tableName, primKeyName) + ","
+                    + _increment + ") FROM rdb$database", conn);
         }
     }
              

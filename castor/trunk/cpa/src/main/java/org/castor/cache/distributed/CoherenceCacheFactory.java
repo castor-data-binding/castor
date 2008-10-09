@@ -38,19 +38,16 @@ public final class CoherenceCacheFactory extends AbstractCacheFactory {
 
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.CacheFactory#getCacheType()
      */
     public String getCacheType() { return CoherenceCache.TYPE; }
 
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.CacheFactory#getCacheClassName()
      */
     public String getCacheClassName() { return CoherenceCache.class.getName(); }
 
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.CacheFactory#shutdown()
      */
     public void shutdown() { shutdown(CoherenceCache.IMPLEMENTATION); }
 
@@ -64,7 +61,7 @@ public final class CoherenceCacheFactory extends AbstractCacheFactory {
     public void shutdown(final String implementation) {
         try {
             ClassLoader ldr = this.getClass().getClassLoader();
-            Class cls = ldr.loadClass(implementation);
+            Class < ? > cls = ldr.loadClass(implementation);
             if (cls != null) {
                 Method method = cls.getMethod("shutdown", (Class[]) null);
                 method.invoke(null, (Object[]) null);

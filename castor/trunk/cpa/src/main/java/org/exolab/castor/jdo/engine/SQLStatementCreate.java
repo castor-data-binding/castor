@@ -45,6 +45,7 @@ import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
+import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Identity;
@@ -267,8 +268,11 @@ public class SQLStatementCreate {
             // must create record in the parent table first. all other dependents
             // are created afterwards. quick and very dirty hack to try to make
             // multiple class on the same table work.
-            if ((extended != null) && !new ClassDescriptorJDONature(extended.getDescriptor()).getTableName().equals(_mapTo)) {
-                internalIdentity = extended.create(database, conn, entity, internalIdentity);
+            if (extended != null) {
+                ClassDescriptor extDesc = extended.getDescriptor();
+                if (!new ClassDescriptorJDONature(extDesc).getTableName().equals(_mapTo)) {
+                    internalIdentity = extended.create(database, conn, entity, internalIdentity);
+                }
             }
             
             // we only need to care on JDBC 3.0 at after INSERT.
@@ -340,8 +344,11 @@ public class SQLStatementCreate {
             // must create record in the parent table first. all other dependents
             // are created afterwards. quick and very dirty hack to try to make
             // multiple class on the same table work.
-            if ((extended != null) && !new ClassDescriptorJDONature(extended.getDescriptor()).getTableName().equals(_mapTo)) {
-                internalIdentity = extended.create(database, conn, entity, internalIdentity);
+            if (extended != null) {
+                ClassDescriptor extDesc = extended.getDescriptor();
+                if (!new ClassDescriptorJDONature(extDesc).getTableName().equals(_mapTo)) {
+                    internalIdentity = extended.create(database, conn, entity, internalIdentity);
+                }
             }
             
             // generate key before INSERT.
@@ -416,8 +423,11 @@ public class SQLStatementCreate {
             // must create record in the parent table first. all other dependents
             // are created afterwards. quick and very dirty hack to try to make
             // multiple class on the same table work.
-            if ((extended != null) && !new ClassDescriptorJDONature(extended.getDescriptor()).getTableName().equals(_mapTo)) {
-                internalIdentity = extended.create(database, conn, entity, internalIdentity);
+            if (extended != null) {
+                ClassDescriptor extDesc = extended.getDescriptor();
+                if (!new ClassDescriptorJDONature(extDesc).getTableName().equals(_mapTo)) {
+                    internalIdentity = extended.create(database, conn, entity, internalIdentity);
+                }
             }
             
             stmt = conn.prepareCall(_statement);
@@ -503,8 +513,11 @@ public class SQLStatementCreate {
             // must create record in the parent table first. all other dependents
             // are created afterwards. quick and very dirty hack to try to make
             // multiple class on the same table work.
-            if ((extended != null) && !new ClassDescriptorJDONature(extended.getDescriptor()).getTableName().equals(_mapTo)) {
-                internalIdentity = extended.create(database, conn, entity, internalIdentity);
+            if (extended != null) {
+                ClassDescriptor extDesc = extended.getDescriptor();
+                if (!new ClassDescriptorJDONature(extDesc).getTableName().equals(_mapTo)) {
+                    internalIdentity = extended.create(database, conn, entity, internalIdentity);
+                }
             }
             
             if ((internalIdentity == null) && _useJDBC30) {
@@ -660,9 +673,9 @@ public class SQLStatementCreate {
     /**
      * Bind non-identity fields to prepared statement.
      * 
-     * @param values Field to bind.
+     * @param entity Field to bind.
      * @param stmt PreparedStatement instance.
-     * @param internalCount Field counter
+     * @param count Field counter
      * @throws SQLException If the fields cannot be bound successfully.
      * @throws PersistenceException
      */

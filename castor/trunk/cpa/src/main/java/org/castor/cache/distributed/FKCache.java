@@ -52,7 +52,6 @@ public final class FKCache extends AbstractDistributedCache {
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#initialize(java.util.Properties)
      */
     public void initialize(final Properties params) throws CacheAcquireException {
         initialize(IMPLEMENTATION, params);
@@ -67,13 +66,14 @@ public final class FKCache extends AbstractDistributedCache {
      * @param params Parameters to initialize the cache (e.g. name, capacity).
      * @throws CacheAcquireException If cache can not be initialized.
      */
+    @SuppressWarnings("unchecked")
     public void initialize(final String implementation, final Properties params)
     throws CacheAcquireException {
         super.initialize(params);
         
         try {
             ClassLoader ldr = this.getClass().getClassLoader();
-            Class cls = ldr.loadClass(implementation);
+            Class < ? > cls = ldr.loadClass(implementation);
             Object factory = invokeStaticMethod(cls, "getInstance", null, null); 
             setCache((Map) invokeMethod(factory, "getMapAccess", null, null)); 
         } catch (Exception e) {
@@ -88,7 +88,6 @@ public final class FKCache extends AbstractDistributedCache {
 
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#getType()
      */
     public String getType() { return TYPE; }
 

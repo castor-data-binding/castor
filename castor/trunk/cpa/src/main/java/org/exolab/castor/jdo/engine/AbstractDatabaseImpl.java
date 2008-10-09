@@ -62,7 +62,7 @@ public abstract class AbstractDatabaseImpl implements Database {
 
     /** List of TxSynchronizeable implementations that should all be
      *  informed about changes after commit of transactions. */
-    private ArrayList _synchronizables;
+    private ArrayList < TxSynchronizable > _synchronizables;
 
     /** The lock timeout for this database. Zero for immediate timeout, 
      *  an infinite value for no timeout. The timeout is specified in
@@ -434,7 +434,7 @@ public abstract class AbstractDatabaseImpl implements Database {
      */
     protected void loadSynchronizables() {
         if (_synchronizables == null) {
-            _synchronizables = new ArrayList();
+            _synchronizables = new ArrayList < TxSynchronizable > ();
             
             Configuration config = CPAConfiguration.getInstance();
             Object[] objects = config.getObjectArray(
@@ -456,9 +456,9 @@ public abstract class AbstractDatabaseImpl implements Database {
      */
     protected void registerSynchronizables() {
         if (_synchronizables != null && _synchronizables.size() > 0) {
-            Iterator iter = _synchronizables.iterator();
+            Iterator < TxSynchronizable > iter = _synchronizables.iterator();
             while (iter.hasNext()) {
-                _ctx.addTxSynchronizable((TxSynchronizable) iter.next());
+                _ctx.addTxSynchronizable(iter.next());
             }
         }
     }
@@ -469,9 +469,9 @@ public abstract class AbstractDatabaseImpl implements Database {
      */
     protected void unregisterSynchronizables() {
         if (_synchronizables != null  && _synchronizables.size() > 0) {
-            Iterator iter = _synchronizables.iterator();
+            Iterator < TxSynchronizable > iter = _synchronizables.iterator();
             while (iter.hasNext()) {
-                _ctx.removeTxSynchronizable((TxSynchronizable) iter.next());
+                _ctx.removeTxSynchronizable(iter.next());
             }
         }
     }
