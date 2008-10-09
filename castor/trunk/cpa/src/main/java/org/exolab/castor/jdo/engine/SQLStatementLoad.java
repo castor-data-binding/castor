@@ -34,10 +34,10 @@ import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.core.util.Messages;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.jdo.util.JDOUtils;
 import org.castor.persist.ProposedEntity;
-import org.castor.util.Messages;
 import org.exolab.castor.jdo.ObjectNotFoundException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;

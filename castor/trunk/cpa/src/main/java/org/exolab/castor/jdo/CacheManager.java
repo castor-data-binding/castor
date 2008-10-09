@@ -45,8 +45,8 @@
 
 package org.exolab.castor.jdo;
 
+import org.castor.core.util.Messages;
 import org.castor.persist.TransactionContext;
-import org.castor.util.Messages;
 import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.LockEngine;
 import org.exolab.castor.persist.spi.Identity;

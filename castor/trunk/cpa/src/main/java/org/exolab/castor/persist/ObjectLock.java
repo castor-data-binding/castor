@@ -46,8 +46,8 @@ package org.exolab.castor.persist;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.core.util.Messages;
 import org.castor.persist.TransactionContext;
-import org.castor.util.Messages;
 import org.exolab.castor.jdo.LockNotGrantedException;
 
 /**

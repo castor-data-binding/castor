@@ -47,7 +47,7 @@
 package org.exolab.castor.persist;
 
 
-import org.castor.util.Messages;
+import org.castor.core.util.Messages;
 import org.exolab.castor.jdo.LockNotGrantedException;
 
 

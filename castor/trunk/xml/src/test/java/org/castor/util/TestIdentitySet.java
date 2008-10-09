@@ -18,6 +18,8 @@ package org.castor.util;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.castor.core.util.IdentitySet;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;

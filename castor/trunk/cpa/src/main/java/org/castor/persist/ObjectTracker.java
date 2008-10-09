@@ -24,10 +24,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.castor.core.util.IdentityMap;
+import org.castor.core.util.IdentitySet;
+import org.castor.core.util.Messages;
 import org.castor.persist.proxy.LazyCGLIB;
-import org.castor.util.IdentityMap;
-import org.castor.util.IdentitySet;
-import org.castor.util.Messages;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.LockEngine;

@@ -31,6 +31,7 @@ CLASSPATH=$CLASSPATH:$CASTOR_HOME/xmlctf-framework/build/classes
 CLASSPATH=$CLASSPATH:$(echo $CASTOR_HOME/dist/castor-*-xml.jar)
 CLASSPATH=$CLASSPATH:$(echo $CASTOR_HOME/dist/castor-*-codegen.jar)
 CLASSPATH=$CLASSPATH:$(echo $CASTOR_HOME/dist/castor-*-xml-schema.jar)
+CLASSPATH=$CLASSPATH:$(echo $CASTOR_HOME/dist/castor-*-xml-diff.jar)
 CLASSPATH=$CLASSPATH:$BUILD_D/tests
 CLASSPATH=$CLASSPATH:$JAVA_HOME/lib/tools.jar
 CLASSPATH=$CLASSPATH:$(echo $LIB_D/*.jar | tr ' ' ':')

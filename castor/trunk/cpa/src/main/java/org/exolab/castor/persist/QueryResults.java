@@ -46,9 +46,9 @@ package org.exolab.castor.persist;
 
 import javax.transaction.Status;
 
+import org.castor.core.util.Messages;
 import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
-import org.castor.util.Messages;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.TransactionNotInProgressException;

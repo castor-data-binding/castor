@@ -50,6 +50,7 @@
 	<classpathentry kind="src" path="cpa/src/test/resources"/>
 	<classpathentry kind="src" path="xmlctf-framework/target/generated-sources/castor"/>
 	<classpathentry kind="src" path="codegen/target/generated-sources/castor"/>
+	<classpathentry kind="src" path="diff/src/main/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/jakarta-oro-2.0.5.jar"/>
 	<classpathentry kind="lib" path="lib/jakarta-regexp-1.1.jar"/>

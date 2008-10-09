@@ -46,7 +46,7 @@
 package org.exolab.castor.util;
 
 import org.apache.regexp.*;
-import org.castor.util.Messages;
+import org.castor.core.util.Messages;
 
 /**
  * An implementation of {@link RegExpEvaluator} that uses the Jakarta Regular

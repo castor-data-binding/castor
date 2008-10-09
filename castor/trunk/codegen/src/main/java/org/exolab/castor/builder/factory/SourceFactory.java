@@ -55,7 +55,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.castor.util.StringUtil;
+import org.castor.core.util.StringUtil;
 import org.exolab.castor.builder.AnnotationBuilder;
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.FactoryState;
@@ -1387,9 +1387,9 @@ public final class SourceFactory extends BaseFactory {
             } else {
                 // Calculates hashCode in an acyclic recursive manner
                 jsc.add("if (" + name + " != null");
-                jsc.add("       && !org.castor.util.CycleBreaker.startingToCycle(" + name + ")) {");
+                jsc.add("       && !org.castor.core.util.CycleBreaker.startingToCycle(" + name + ")) {");
                 jsc.add("   result = 37 * result + " + name + ".hashCode();");
-                jsc.add("   org.castor.util.CycleBreaker.releaseCycleHandle(" + name + ");");
+                jsc.add("   org.castor.core.util.CycleBreaker.releaseCycleHandle(" + name + ");");
                 jsc.add("}");
             }
         }
@@ -1477,14 +1477,14 @@ public final class SourceFactory extends BaseFactory {
                 // This prevents string constants and improper DOM subtree self comparisons
                 // (where Q(A(B)) and Q'(C(B)) are compared) screwing up cycle detection
                 jsc.indent();
-                jsc.add("thcycle=org.castor.util.CycleBreaker.startingToCycle(this." + name + ");");
-                jsc.add("tmcycle=org.castor.util.CycleBreaker.startingToCycle(temp." + name + ");");
+                jsc.add("thcycle=org.castor.core.util.CycleBreaker.startingToCycle(this." + name + ");");
+                jsc.add("tmcycle=org.castor.core.util.CycleBreaker.startingToCycle(temp." + name + ");");
                 // equivalent objects *will* cycle at the same time
                 jsc.add("if (thcycle!=tmcycle) {");
                 jsc.indent();
-                jsc.add("if (!thcycle) { org.castor.util.CycleBreaker.releaseCycleHandle(this."
+                jsc.add("if (!thcycle) { org.castor.core.util.CycleBreaker.releaseCycleHandle(this."
                         + name + "); };");
-                jsc.add("if (!tmcycle) { org.castor.util.CycleBreaker.releaseCycleHandle(temp."
+                jsc.add("if (!tmcycle) { org.castor.core.util.CycleBreaker.releaseCycleHandle(temp."
                         + name + "); };");
                 jsc.add("return false;");
                 jsc.unindent();
@@ -1512,14 +1512,14 @@ public final class SourceFactory extends BaseFactory {
                 jsc.append(") {");
                 jsc.indent();
 
-                jsc.add("org.castor.util.CycleBreaker.releaseCycleHandle(this." + name + ");");
-                jsc.add("org.castor.util.CycleBreaker.releaseCycleHandle(temp." + name + ");");
+                jsc.add("org.castor.core.util.CycleBreaker.releaseCycleHandle(this." + name + ");");
+                jsc.add("org.castor.core.util.CycleBreaker.releaseCycleHandle(temp." + name + ");");
                 jsc.add("return false;");
                 jsc.unindent();
                 jsc.add("}");
 
-                jsc.add("org.castor.util.CycleBreaker.releaseCycleHandle(this." + name + ");");
-                jsc.add("org.castor.util.CycleBreaker.releaseCycleHandle(temp." + name + ");");
+                jsc.add("org.castor.core.util.CycleBreaker.releaseCycleHandle(this." + name + ");");
+                jsc.add("org.castor.core.util.CycleBreaker.releaseCycleHandle(temp." + name + ");");
 
                 jsc.unindent();
                 jsc.add("}"); // end of !thcycle

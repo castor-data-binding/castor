@@ -65,11 +65,11 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.core.util.Base64Encoder;
+import org.castor.core.util.HexDecoder;
+import org.castor.core.util.Messages;
 import org.castor.mapping.BindingType;
 import org.castor.mapping.MappingUnmarshaller;
-import org.castor.util.Base64Encoder;
-import org.castor.util.HexDecoder;
-import org.castor.util.Messages;
 import org.castor.xml.BackwardCompatibilityContext;
 import org.castor.xml.InternalContext;
 import org.castor.xml.XMLConfiguration;

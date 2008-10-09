@@ -22,9 +22,9 @@ import java.sql.Statement;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.core.util.Messages;
 import org.castor.jdo.engine.AbstractConnectionFactory;
 import org.castor.jdo.engine.DatabaseRegistry;
-import org.castor.util.Messages;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;

@@ -55,7 +55,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Enumeration;
 import java.util.Iterator;
 
-import org.castor.util.Messages;
+import org.castor.core.util.Messages;
 import org.exolab.castor.core.exceptions.CastorIllegalStateException;
 import org.exolab.castor.mapping.AbstractFieldHandler;
 import org.exolab.castor.mapping.ExtendedFieldHandler;

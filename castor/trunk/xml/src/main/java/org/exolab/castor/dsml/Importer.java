@@ -53,7 +53,7 @@ import java.io.Reader;
 import java.util.Enumeration;
 import java.util.TooManyListenersException;
 
-import org.castor.util.Messages;
+import org.castor.core.util.Messages;
 import org.castor.xml.BackwardCompatibilityContext;
 import org.castor.xml.InternalContext;
 import org.xml.sax.InputSource;

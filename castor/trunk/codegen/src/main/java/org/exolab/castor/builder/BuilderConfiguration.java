@@ -60,7 +60,7 @@ import java.util.StringTokenizer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Configuration;
-import org.castor.util.Messages;
+import org.castor.core.util.Messages;
 import org.castor.xml.JavaNaming;
 import org.castor.xml.JavaNamingImpl;
 import org.castor.xml.XMLConfiguration;

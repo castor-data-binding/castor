@@ -10,6 +10,7 @@ set CLASSPATH=%CLASSPATH%;..\codegen\build\classes;
 set CLASSPATH=%CLASSPATH%;..\schema\build\classes;
 set CLASSPATH=%CLASSPATH%;..\schema\target\classes;
 set CLASSPATH=%CLASSPATH%;..\core\build\classes;
+set CLASSPATH=%CLASSPATH%;..\diff\build\classes;
 set cp=%CLASSPATH%
 
 set CP=%CP%;"..\lib\commons-logging-1.1.jar"

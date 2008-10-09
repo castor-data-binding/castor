@@ -55,7 +55,7 @@ import javax.naming.directory.SearchResult;
 import org.xml.sax.DocumentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributeListImpl;
-import org.castor.util.Base64Encoder;
+import org.castor.core.util.Base64Encoder;
 import org.exolab.castor.dsml.XML;
 import org.exolab.castor.dsml.Producer;
 import org.exolab.castor.dsml.ImportExportException;

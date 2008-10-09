@@ -22,7 +22,7 @@ import java.text.DecimalFormat;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
-import org.castor.util.Messages;
+import org.castor.core.util.Messages;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.KeyGenerator;

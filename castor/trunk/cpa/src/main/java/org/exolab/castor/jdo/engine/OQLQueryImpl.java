@@ -50,11 +50,11 @@ import java.util.NoSuchElementException;
 import java.util.Vector;
 
 import org.castor.core.util.Configuration;
+import org.castor.core.util.Messages;
 import org.castor.cpa.CPAConfiguration;
 import org.castor.cpa.persistence.convertor.TypeConvertorRegistry;
 import org.castor.jdo.util.ClassLoadingUtils;
 import org.castor.persist.TransactionContext;
-import org.castor.util.Messages;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.DbMetaInfo;
 import org.exolab.castor.jdo.OQLQuery;

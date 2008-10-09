@@ -33,8 +33,8 @@ import org.castor.cache.hashbelt.container.Container;
 import org.castor.cache.hashbelt.container.MapContainer;
 import org.castor.cache.hashbelt.reaper.AbstractReaper;
 import org.castor.cache.hashbelt.reaper.NullReaper;
-import org.castor.util.concurrent.ReadWriteLock;
-import org.castor.util.concurrent.WriterPreferenceReadWriteLock;
+import org.castor.core.util.concurrent.ReadWriteLock;
+import org.castor.core.util.concurrent.WriterPreferenceReadWriteLock;
 
 /**
  * An abstract, core implementation of the hashbelt functionality; individual

@@ -56,8 +56,8 @@ import netscape.ldap.LDAPEntry;
 import netscape.ldap.LDAPAttribute;
 import netscape.ldap.LDAPAttributeSet;
 
-import org.castor.util.Base64Decoder;
-import org.castor.util.Messages;
+import org.castor.core.util.Base64Decoder;
+import org.castor.core.util.Messages;
 import org.exolab.castor.dsml.XML;
 
 

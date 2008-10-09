@@ -55,7 +55,7 @@ import netscape.ldap.LDAPConnection;
 import netscape.ldap.LDAPSchema;
 import netscape.ldap.LDAPv2;
 
-import org.castor.util.Messages;
+import org.castor.core.util.Messages;
 import org.exolab.castor.dsml.Consumer;
 import org.exolab.castor.dsml.Exporter;
 import org.exolab.castor.dsml.SearchDescriptor;
