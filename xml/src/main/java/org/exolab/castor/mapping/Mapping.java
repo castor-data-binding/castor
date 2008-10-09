@@ -26,8 +26,8 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.core.util.Messages;
 import org.castor.mapping.MappingSource;
-import org.castor.util.Messages;
 import org.exolab.castor.mapping.xml.MappingRoot;
 import org.exolab.castor.net.util.URIUtils;
 import org.exolab.castor.util.DTDResolver;

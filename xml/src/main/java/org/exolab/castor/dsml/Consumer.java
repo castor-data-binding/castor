@@ -52,7 +52,7 @@ import org.xml.sax.DocumentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.AttributeList;
 import org.xml.sax.Locator;
-import org.castor.util.Messages;
+import org.castor.core.util.Messages;
 
 
 /**

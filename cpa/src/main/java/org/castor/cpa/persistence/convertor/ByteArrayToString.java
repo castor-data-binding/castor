@@ -15,7 +15,7 @@
  */
 package org.castor.cpa.persistence.convertor;
 
-import org.castor.util.Base64Encoder;
+import org.castor.core.util.Base64Encoder;
 
 /**
  * Convert <code>byte[]</code> to <code>String</code>.

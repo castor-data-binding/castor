@@ -15,7 +15,7 @@
  */
 package org.castor.util;
 
-import org.castor.util.StringUtil;
+import org.castor.core.util.StringUtil;
 
 import junit.framework.TestCase;
 

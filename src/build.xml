@@ -243,6 +243,7 @@
         <ant antfile="${basedir}/cpaptf/build.xml" target="clean.cpaptf" inheritAll="false" />
         <ant antfile="${basedir}/examples/build.xml" target="clean.examples" inheritAll="false" />
         <ant antfile="${basedir}/schema/build.xml" target="clean.schema" inheritAll="false" />
+        <ant antfile="${basedir}/diff/build.xml" target="clean.diff" inheritAll="false" />
     </target>
 
     <target name="clean.tests" description="Removes the build artifacts related to tests">
@@ -255,6 +256,7 @@
         <ant antfile="${basedir}/cpaptf/build.xml" target="clean.cpaptf" inheritAll="false" />
         <ant antfile="${basedir}/codegen/build.xml" target="clean.tests.codegen" inheritAll="false" />
         <ant antfile="${basedir}/schema/build.xml" target="clean.tests.schema" inheritAll="false" />
+        <ant antfile="${basedir}/diff/build.xml" target="clean.tests.diff" inheritAll="false" />
     </target>
 
     <target name="compile"
@@ -347,6 +349,11 @@
             <include name="**/*.dtd" />
         </replace>
 
+        <!-- build XML diff support -->
+        <ant antfile="${basedir}/diff/build.xml" target="compile.diff" inheritAll="false">
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
+        </ant>
     	<!-- build XML schema support -->
         <ant antfile="${basedir}/schema/build.xml" target="compile.schema" inheritAll="false">
             <property name="version" value="${version}"/>
@@ -659,6 +666,12 @@
         </ant>
         <!-- create JAR for core code -->
         <ant antfile="${basedir}/core/build.xml" target="jar.core" inheritAll="false">
+            <property name="project" value="${project}"/>
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
+        </ant>
+        <!-- create JAR for XML diff code -->
+        <ant antfile="${basedir}/diff/build.xml" target="jar.diff" inheritAll="false">
             <property name="project" value="${project}"/>
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>

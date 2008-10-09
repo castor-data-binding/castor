@@ -22,7 +22,7 @@ import java.util.Iterator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.CoreConfiguration;
-import org.castor.util.Messages;
+import org.castor.core.util.Messages;
 import org.castor.xml.InternalContext;
 import org.castor.xml.AbstractInternalContext;
 import org.exolab.castor.mapping.Mapping;

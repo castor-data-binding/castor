@@ -54,8 +54,8 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.util.Messages;
 import org.exolab.castor.jdo.PersistenceException;
+import org.castor.core.util.Messages;
 import org.castor.cpa.persistence.sql.driver.DB2Factory;
 import org.castor.cpa.persistence.sql.driver.InterbaseFactory;
 import org.castor.cpa.persistence.sql.driver.OracleFactory;

@@ -32,6 +32,7 @@ CLASSPATH=$CLASSPATH:$CASTOR_HOME/xmlctf-framework/build/classes
 CLASSPATH=$CLASSPATH:$CASTOR_HOME/build/classes
 CLASSPATH=$CLASSPATH:$CASTOR_HOME/codegen/build/classes
 CLASSPATH=$CLASSPATH:$CASTOR_HOME/schema/build/classes
+CLASSPATH=$CLASSPATH:$CASTOR_HOME/diff/build/classes
 
 CLASSPATH=$CLASSPATH:$CASTOR_HOME/lib/commons-logging-1.1.jar
 CLASSPATH=$CLASSPATH:$CASTOR_HOME/lib/log4j-1.2.13.jar

@@ -55,7 +55,7 @@ import org.xml.sax.AttributeList;
 import org.xml.sax.SAXException;
 import org.xml.sax.HandlerBase;
 import org.xml.sax.helpers.AttributeListImpl;
-import org.castor.util.Messages;
+import org.castor.core.util.Messages;
 
 
 /**

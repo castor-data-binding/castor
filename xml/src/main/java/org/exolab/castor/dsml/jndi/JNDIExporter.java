@@ -54,7 +54,7 @@ import javax.naming.directory.SearchControls;
 import javax.naming.directory.DirContext;
 import org.xml.sax.DocumentHandler;
 import org.xml.sax.SAXException;
-import org.castor.util.Messages;
+import org.castor.core.util.Messages;
 import org.exolab.castor.dsml.Consumer;
 import org.exolab.castor.dsml.Exporter;
 import org.exolab.castor.dsml.SearchDescriptor;

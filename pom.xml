@@ -18,6 +18,7 @@
         <module>anttask</module>
         <module>cpa</module>
 
+        <module>diff</module>
         <module>xmlctf-framework</module>
         
         <module>cpa-testcase-archetype</module>
@@ -386,6 +387,12 @@
             <dependency>
                 <groupId>org.codehaus.castor</groupId>
                 <artifactId>castor-testsuite-xml-framework</artifactId>
+                <version>1.3rc2-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.codehaus.castor</groupId>
+                <artifactId>castor-xml-diff</artifactId>
                 <version>1.3rc2-SNAPSHOT</version>
             </dependency>
             

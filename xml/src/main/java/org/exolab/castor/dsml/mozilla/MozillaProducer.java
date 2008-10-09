@@ -59,7 +59,7 @@ import netscape.ldap.LDAPAttributeSchema;
 import netscape.ldap.LDAPObjectClassSchema;
 import netscape.ldap.LDAPSearchResults;
 
-import org.castor.util.Base64Encoder;
+import org.castor.core.util.Base64Encoder;
 import org.exolab.castor.dsml.Producer;
 import org.exolab.castor.dsml.XML;
 

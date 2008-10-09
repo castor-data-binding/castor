@@ -50,6 +50,7 @@ import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.core.util.Messages;
 import org.castor.jdo.util.ClassLoadingUtils;
 import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
@@ -57,7 +58,6 @@ import org.castor.persist.UpdateAndRemovedFlags;
 import org.castor.persist.UpdateFlags;
 import org.castor.persist.resolver.ResolverFactory;
 import org.castor.persist.resolver.ResolverStrategy;
-import org.castor.util.Messages;
 import org.exolab.castor.jdo.ObjectModifiedException;
 import org.exolab.castor.jdo.ObjectNotFoundException;
 import org.exolab.castor.jdo.PersistenceException;

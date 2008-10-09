@@ -46,7 +46,7 @@
 
 package org.exolab.castor.mapping;
 
-import org.castor.util.Messages;
+import org.castor.core.util.Messages;
 
 import java.io.PrintWriter;
 import java.io.PrintStream;

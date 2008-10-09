@@ -65,8 +65,8 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.util.Base64Decoder;
-import org.castor.util.HexDecoder;
+import org.castor.core.util.Base64Decoder;
+import org.castor.core.util.HexDecoder;
 import org.castor.xml.UnmarshalListenerAdapter;
 import org.castor.xml.XMLConfiguration;
 import org.exolab.castor.mapping.ClassDescriptor;

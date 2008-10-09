@@ -24,12 +24,12 @@ import javax.transaction.TransactionManager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.core.util.Messages;
 import org.castor.jdo.conf.Database;
 import org.castor.jdo.conf.DatabaseChoice;
 import org.castor.jdo.conf.JdoConf;
 import org.castor.jdo.conf.Param;
 import org.castor.jdo.drivers.ConnectionProxyFactory;
-import org.castor.util.Messages;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 

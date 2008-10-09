@@ -13,8 +13,8 @@ import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.core.util.EnumerationIterator;
 import org.castor.persist.TransactionContext;
-import org.castor.util.EnumerationIterator;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.AbstractMappingLoader;

@@ -24,8 +24,8 @@ import javax.transaction.Transaction;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.core.util.Messages;
 import org.castor.persist.GlobalTransactionContext;
-import org.castor.util.Messages;
 import org.exolab.castor.jdo.DatabaseNotFoundException;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.PersistenceException;

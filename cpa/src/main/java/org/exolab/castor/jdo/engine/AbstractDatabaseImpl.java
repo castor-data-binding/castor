@@ -20,12 +20,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.castor.core.util.Configuration;
+import org.castor.core.util.Messages;
 import org.castor.cpa.CPAConfiguration;
 import org.castor.jdo.engine.AbstractConnectionFactory;
 import org.castor.jdo.engine.DatabaseRegistry;
 import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
-import org.castor.util.Messages;
 import org.exolab.castor.jdo.CacheManager;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.DatabaseNotFoundException;

@@ -19,7 +19,7 @@ import java.lang.reflect.Method;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.util.Messages;
+import org.castor.core.util.Messages;
 
 /**
  * Xerces-specific OutputFormat instance, used with JDK 5.0 only.

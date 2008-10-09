@@ -64,7 +64,7 @@ import java.util.Properties;
 
 import org.castor.xml.InternalContext;
 import org.castor.xml.AbstractInternalContext;
-import org.castor.util.Messages;
+import org.castor.core.util.Messages;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.ConfigurableFieldHandler;
