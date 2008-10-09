@@ -135,7 +135,7 @@ private ClassLoader _classLoader;
     if (desc != null) {
         _fieldType = desc.getFieldType();
         try {
-            _sqlType = SQLTypeInfos.sqlTypeNum2javaType( 
+            _sqlType = SQLTypeInfos.sqlTypeNum2javaType(
                     new FieldDescriptorJDONature(desc).getSQLType()[0]);
         } catch (Exception ex) {
             throw new QueryException("Can't determine SQL class: " + ex);

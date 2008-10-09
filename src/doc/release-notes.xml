@@ -34,6 +34,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2554" tool="jira">
+                    <description>
+                        Fixed some eclipse and checkstyle warnings at cpa.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20081009</date>
+                </bug>
                 <bug id="2552" tool="jira">
                     <description>
                         Fixed eclipse and checkstyle warnings at cpactf and cpaptf.

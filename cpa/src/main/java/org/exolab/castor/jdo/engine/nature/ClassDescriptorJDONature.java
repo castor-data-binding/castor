@@ -184,7 +184,7 @@ public class ClassDescriptorJDONature extends BaseNature {
     /**
      * Adds a named query to this {@link ClassDescriptor}.
      * @param name The name of the named query.
-     * @param value The query string
+     * @param query The query string
      */
     public void addNamedQuery(final String name, final String query) {
         Map namedQueries = (Map) getProperty(NAMED_QUERIES);

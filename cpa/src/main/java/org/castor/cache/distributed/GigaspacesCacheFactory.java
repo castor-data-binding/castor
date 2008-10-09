@@ -30,26 +30,22 @@ import org.castor.cache.AbstractCacheFactory;
  * @since 1.0
  */
 public final class GigaspacesCacheFactory extends AbstractCacheFactory {
-
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      *  Logging </a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(GigaspacesCacheFactory.class);
 
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.CacheFactory#getCacheType()
      */
     public String getCacheType() { return GigaspacesCache.TYPE; }
 
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.CacheFactory#getCacheClassName()
      */
     public String getCacheClassName() { return GigaspacesCache.class.getName(); }
 
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.CacheFactory#shutdown()
      */
     public void shutdown() { shutdown(GigaspacesCache.IMPLEMENTATION); }
 
@@ -63,7 +59,7 @@ public final class GigaspacesCacheFactory extends AbstractCacheFactory {
     public void shutdown(final String implementation) {
         try {
             ClassLoader ldr = this.getClass().getClassLoader();
-            Class cls = ldr.loadClass(implementation);
+            Class < ? > cls = ldr.loadClass(implementation);
             if (cls != null) {
                 Method method = cls.getMethod("shutdown", (Class[]) null);
                 method.invoke(null, (Object[]) null);

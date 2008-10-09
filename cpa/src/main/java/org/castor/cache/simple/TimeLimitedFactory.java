@@ -29,13 +29,11 @@ import org.castor.cache.AbstractCacheFactory;
 public final class TimeLimitedFactory extends AbstractCacheFactory {
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.CacheFactory#getCacheType()
      */
     public String getCacheType() { return TimeLimited.TYPE; }
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.CacheFactory#getCacheClassName()
      */
     public String getCacheClassName() { return TimeLimited.class.getName(); }
 }

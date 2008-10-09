@@ -26,10 +26,10 @@ public abstract class AbstractTypeConvertor implements TypeConvertor {
     //-----------------------------------------------------------------------------------
 
     /** The type being converted from. */
-    private final Class _fromType;
+    private final Class < ? > _fromType;
 
     /** The type being converted to. */
-    private final Class _toType;
+    private final Class < ? > _toType;
 
     //-----------------------------------------------------------------------------------
 
@@ -39,7 +39,7 @@ public abstract class AbstractTypeConvertor implements TypeConvertor {
      * @param fromType The type being converted from.
      * @param toType The type being converted to.
      */
-    public AbstractTypeConvertor(final Class fromType, final Class toType) {
+    public AbstractTypeConvertor(final Class < ? > fromType, final Class < ? > toType) {
         _fromType = fromType;
         _toType = toType;
     }
@@ -62,12 +62,12 @@ public abstract class AbstractTypeConvertor implements TypeConvertor {
     /**
      * {@inheritDoc}
      */
-    public final Class fromType() { return _fromType; }
+    public final Class < ? > fromType() { return _fromType; }
     
     /**
      * {@inheritDoc}
      */
-    public final Class toType() { return _toType; }
+    public final Class < ? > toType() { return _toType; }
     
     /**
      * {@inheritDoc}

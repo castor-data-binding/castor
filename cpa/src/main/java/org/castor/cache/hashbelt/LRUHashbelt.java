@@ -40,7 +40,6 @@ public final class LRUHashbelt extends AbstractHashbelt {
 
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#getType()
      */
     public String getType() { return TYPE; }
 
@@ -49,7 +48,6 @@ public final class LRUHashbelt extends AbstractHashbelt {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#get(java.lang.Object)
      */
     public Object get(final Object key) {
         if (key == null) { throw new NullPointerException("key"); }
@@ -79,7 +77,6 @@ public final class LRUHashbelt extends AbstractHashbelt {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#put(java.lang.Object, java.lang.Object)
      */
     public Object put(final Object key, final Object value) {
         if (key == null) { throw new NullPointerException("key"); }
@@ -106,7 +103,6 @@ public final class LRUHashbelt extends AbstractHashbelt {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#remove(java.lang.Object)
      */
     public Object remove(final Object key) {
         if (key == null) { throw new NullPointerException("key"); }
@@ -135,14 +131,14 @@ public final class LRUHashbelt extends AbstractHashbelt {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#putAll(java.util.Map)
      */
-    public void putAll(final Map map) {
+    public void putAll(final Map < ? extends Object, ? extends Object > map) {
         if (map.containsKey(null)) { throw new NullPointerException("key"); }
         if (map.containsValue(null)) { throw new NullPointerException("value"); }
 
-        Iterator iter = map.entrySet().iterator();
-        Map.Entry entry;
+        Iterator < ? extends Entry < ? extends Object, ? extends Object > > iter;
+        iter = map.entrySet().iterator();
+        Entry < ? extends Object, ? extends Object > entry;
 
         try {
             lock().writeLock().acquire();
@@ -152,7 +148,7 @@ public final class LRUHashbelt extends AbstractHashbelt {
         
         try {
             while (iter.hasNext()) {
-                entry = (Map.Entry) iter.next();
+                entry = iter.next();
                 putObjectIntoCache(entry.getKey(), entry.getValue());
             }
         } catch (RuntimeException ex) {

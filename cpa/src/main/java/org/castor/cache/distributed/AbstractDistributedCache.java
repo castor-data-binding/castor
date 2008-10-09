@@ -34,7 +34,7 @@ public abstract class AbstractDistributedCache extends AbstractBaseCache {
     //--------------------------------------------------------------------------
 
     /** The cache instance. */
-    private Map _cache = null;
+    private Map < Object, Object > _cache = null;
 
     //--------------------------------------------------------------------------
     // getter/setter for cache
@@ -44,33 +44,32 @@ public abstract class AbstractDistributedCache extends AbstractBaseCache {
      * 
      * @return The cache instance.
      */
-    protected final Map getCache() { return _cache; }
+    protected final Map < Object, Object > getCache() { return _cache; }
     
     /**
      * Set the cache instance.
      * 
      * @param cache The cache instance.
      */
-    protected final void setCache(final Map cache) { _cache = cache; }
+    protected final void setCache(final Map < Object, Object > cache) {
+        _cache = cache;
+    }
     
     //--------------------------------------------------------------------------
     // query operations of map interface
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#size()
      */
     public final int size() { return _cache.size(); }
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#isEmpty()
      */
     public final boolean isEmpty() { return _cache.isEmpty(); }
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#containsKey(java.lang.Object)
      */
     public final boolean containsKey(final Object key) {
         return _cache.containsKey(key);
@@ -78,7 +77,6 @@ public abstract class AbstractDistributedCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#containsValue(java.lang.Object)
      */
     public final boolean containsValue(final Object value) {
         return _cache.containsValue(value);
@@ -86,7 +84,6 @@ public abstract class AbstractDistributedCache extends AbstractBaseCache {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#get(java.lang.Object)
      */
     public final Object get(final Object key) {
         return _cache.get(key);
@@ -97,7 +94,6 @@ public abstract class AbstractDistributedCache extends AbstractBaseCache {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#put(java.lang.Object, java.lang.Object)
      */
     public final Object put(final Object key, final Object value) {
         return _cache.put(key, value);
@@ -105,7 +101,6 @@ public abstract class AbstractDistributedCache extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#remove(java.lang.Object)
      */
     public final Object remove(final Object key) {
         return _cache.remove(key);
@@ -116,13 +111,13 @@ public abstract class AbstractDistributedCache extends AbstractBaseCache {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#putAll(java.util.Map)
      */
-    public final void putAll(final Map map) { _cache.putAll(map); }
+    public final void putAll(final Map < ? extends Object, ? extends Object > map) {
+        _cache.putAll(map);
+    }
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#clear()
      */
     public final void clear() { _cache.clear(); }
 
@@ -131,25 +126,22 @@ public abstract class AbstractDistributedCache extends AbstractBaseCache {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#keySet()
      */
-    public final Set keySet() {
+    public final Set < Object > keySet() {
         return Collections.unmodifiableSet(_cache.keySet());
     }
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#values()
      */
-    public final Collection values() {
+    public final Collection < Object > values() {
         return Collections.unmodifiableCollection(_cache.values());
     }
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#entrySet()
      */
-    public final Set entrySet() {
+    public final Set < Entry < Object, Object > > entrySet() {
         return Collections.unmodifiableSet(_cache.entrySet());
     }
 

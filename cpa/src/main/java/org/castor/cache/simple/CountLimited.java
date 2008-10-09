@@ -60,7 +60,7 @@ public final class CountLimited extends AbstractBaseCache {
     private static final int LRU_NEW = 1;
     
     /** Map keys to positions. */
-    private Hashtable _mapKeyPos = null;
+    private Hashtable < Object, Integer > _mapKeyPos = null;
     
     /** Array of keys. */
     private Object[] _keys = null;
@@ -82,7 +82,6 @@ public final class CountLimited extends AbstractBaseCache {
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#initialize(java.util.Properties)
      */
     public void initialize(final Properties params) throws CacheAcquireException {
         super.initialize(params);
@@ -95,7 +94,7 @@ public final class CountLimited extends AbstractBaseCache {
             _capacity = DEFAULT_CAPACITY;
         }
 
-        _mapKeyPos = new Hashtable(_capacity);
+        _mapKeyPos = new Hashtable < Object, Integer > (_capacity);
         _keys = new Object[_capacity];
         _values = new Object[_capacity];
         _status = new int[_capacity];
@@ -106,7 +105,6 @@ public final class CountLimited extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#getType()
      */
     public String getType() { return TYPE; }
     
@@ -122,19 +120,16 @@ public final class CountLimited extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#size()
      */
     public synchronized int size() { return _mapKeyPos.size(); }
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#isEmpty()
      */
     public synchronized boolean isEmpty() { return _mapKeyPos.isEmpty(); }
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#containsKey(java.lang.Object)
      */
     public synchronized boolean containsKey(final Object key) {
         return _mapKeyPos.containsKey(key);
@@ -142,12 +137,11 @@ public final class CountLimited extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#containsValue(java.lang.Object)
      */
     public synchronized boolean containsValue(final Object value) {
-        Iterator iter = _mapKeyPos.values().iterator();
+        Iterator < Integer > iter = _mapKeyPos.values().iterator();
         while (iter.hasNext()) {
-            Integer pos = (Integer) iter.next();
+            Integer pos = iter.next();
             if (pos != null) {
                 if (value == null) {
                     if (_values[pos.intValue()] == null) { return true; }  
@@ -161,10 +155,9 @@ public final class CountLimited extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#get(java.lang.Object)
      */
     public synchronized Object get(final Object key) {
-        Integer pos = (Integer) _mapKeyPos.get(key);
+        Integer pos = _mapKeyPos.get(key);
         if (pos == null) { return null; }
         int intPos = pos.intValue();
         _status[intPos] = LRU_NEW;
@@ -176,10 +169,9 @@ public final class CountLimited extends AbstractBaseCache {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#put(java.lang.Object, java.lang.Object)
      */
     public synchronized Object put(final Object key, final Object value) {
-        Integer pos = (Integer) _mapKeyPos.get(key);
+        Integer pos = _mapKeyPos.get(key);
         if (pos != null) {
             int intPos = pos.intValue();
             Object old = _values[intPos];
@@ -195,7 +187,7 @@ public final class CountLimited extends AbstractBaseCache {
         }
         
         if (_keys[_cur] != null) {
-            pos = (Integer) _mapKeyPos.remove(_keys[_cur]);
+            pos = _mapKeyPos.remove(_keys[_cur]);
         } else {
             pos = new Integer(_cur);
         }
@@ -213,10 +205,9 @@ public final class CountLimited extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#remove(java.lang.Object)
      */
     public synchronized Object remove(final Object key) {
-        Integer pos = (Integer) _mapKeyPos.remove(key);
+        Integer pos = _mapKeyPos.remove(key);
         if (pos == null) { return null; }
         int intPos = pos.intValue();
         Object old = _values[intPos];
@@ -231,19 +222,18 @@ public final class CountLimited extends AbstractBaseCache {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#putAll(java.util.Map)
      */
-    public void putAll(final Map map) {
-        Iterator iter = map.entrySet().iterator();
+    public void putAll(final Map < ? extends Object, ? extends Object > map) {
+        Iterator < ? extends Entry < ? extends Object, ? extends Object > > iter;
+        iter = map.entrySet().iterator();
         while (iter.hasNext()) {
-            Map.Entry entry = (Map.Entry) iter.next();
+            Entry < ? extends Object, ? extends Object > entry = iter.next();
             put(entry.getKey(), entry.getValue());
         }
     }
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#clear()
      */
     public synchronized void clear() {
         _mapKeyPos.clear();
@@ -259,21 +249,19 @@ public final class CountLimited extends AbstractBaseCache {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#keySet()
      */
-    public synchronized Set keySet() {
+    public synchronized Set < Object > keySet() {
         return Collections.unmodifiableSet(_mapKeyPos.keySet());
     }
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#values()
      */
-    public synchronized Collection values() {
-        Collection col = new ArrayList(_mapKeyPos.size());
-        Iterator iter = _mapKeyPos.values().iterator();
+    public synchronized Collection < Object > values() {
+        Collection < Object > col = new ArrayList < Object > (_mapKeyPos.size());
+        Iterator < Integer > iter = _mapKeyPos.values().iterator();
         while (iter.hasNext()) {
-            Integer pos = (Integer) iter.next();
+            Integer pos = iter.next();
             if (pos != null) {
                 col.add(_values[pos.intValue()]);
             }
@@ -283,14 +271,13 @@ public final class CountLimited extends AbstractBaseCache {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#entrySet()
      */
-    public synchronized Set entrySet() {
-        Map map = new Hashtable(_mapKeyPos.size());
-        Iterator iter = _mapKeyPos.entrySet().iterator();
+    public synchronized Set < Entry < Object, Object > > entrySet() {
+        Map < Object, Object > map = new Hashtable < Object, Object > (_mapKeyPos.size());
+        Iterator < Entry < Object, Integer > > iter = _mapKeyPos.entrySet().iterator();
         while (iter.hasNext()) {
-            Map.Entry entry = (Map.Entry) iter.next();
-            Integer pos = (Integer) entry.getValue();
+            Entry < Object, Integer > entry = iter.next();
+            Integer pos = entry.getValue();
             if (pos != null) {
                 map.put(entry.getKey(), _values[pos.intValue()]);
             }

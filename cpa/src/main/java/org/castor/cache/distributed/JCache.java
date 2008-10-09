@@ -50,14 +50,13 @@ public final class JCache extends AbstractDistributedCache {
     public static final String IMPLEMENTATION = "javax.util.jcache.CacheAccessFactory";
     
     /** Parameter types for calling getMapAccess() method on IMPLEMENTATION. */
-    private static final Class[] TYPES_GET_MAP_ACCESS = new Class[] {String.class};
+    private static final Class < ? > [] TYPES_GET_MAP_ACCESS = new Class[] {String.class};
     
     //--------------------------------------------------------------------------
     // operations for life-cycle management of cache
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#initialize(java.util.Properties)
      */
     public void initialize(final Properties params) throws CacheAcquireException {
         initialize(IMPLEMENTATION, params);
@@ -72,13 +71,14 @@ public final class JCache extends AbstractDistributedCache {
      * @param params Parameters to initialize the cache (e.g. name, capacity).
      * @throws CacheAcquireException If cache can not be initialized.
      */
+    @SuppressWarnings("unchecked")
     public void initialize(final String implementation, final Properties params)
     throws CacheAcquireException {
         super.initialize(params);
 
         try {
             ClassLoader ldr = this.getClass().getClassLoader();
-            Class cls = ldr.loadClass(implementation);
+            Class < ? > cls = ldr.loadClass(implementation);
             Object factory = invokeStaticMethod(cls, "getInstance", null, null); 
             setCache((Map) invokeMethod(factory, "getMapAccess",
                     TYPES_GET_MAP_ACCESS, new Object[] {getName()}));
@@ -94,7 +94,6 @@ public final class JCache extends AbstractDistributedCache {
 
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#getType()
      */
     public String getType() { return TYPE; }
 

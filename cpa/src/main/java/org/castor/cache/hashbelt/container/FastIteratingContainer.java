@@ -18,10 +18,10 @@ package org.castor.cache.hashbelt.container;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.castor.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * The FastIteratingContainer implementation of the Container interface assuems two
@@ -44,13 +44,13 @@ public final class FastIteratingContainer implements Container {
     //--------------------------------------------------------------------------
 
     /** The hashmap to store key/value pairs. */
-    private Map _container = new ConcurrentHashMap();
+    private Map < Object, Object > _container = new ConcurrentHashMap < Object, Object > ();
     
     /** List of keys in the container. */
-    private ArrayList _keys = new ArrayList();
+    private List < Object > _keys = new ArrayList < Object > ();
     
     /** List of values in the container. */
-    private ArrayList _values = new ArrayList();
+    private List < Object > _values = new ArrayList < Object > ();
     
     /** Timestamp of this container. */
     private long _timestamp = 0;
@@ -60,30 +60,26 @@ public final class FastIteratingContainer implements Container {
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.hashbelt.container.Container#updateTimestamp()
      */
     public void updateTimestamp() { _timestamp = System.currentTimeMillis(); }
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.hashbelt.container.Container#getTimestamp()
      */
     public long getTimestamp() { return _timestamp; }
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.hashbelt.container.Container#keyIterator()
      */
-    public synchronized Iterator keyIterator() {
-        return ((ArrayList) _keys.clone()).iterator();
+    public synchronized Iterator < Object > keyIterator() {
+        return new ArrayList < Object > (_keys).iterator();
     }
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.hashbelt.container.Container#valueIterator()
      */
-    public synchronized Iterator valueIterator() {
-        return ((ArrayList) _values.clone()).iterator();
+    public synchronized Iterator < Object > valueIterator() {
+        return new ArrayList < Object > (_values).iterator();
     }
     
     //--------------------------------------------------------------------------
@@ -91,7 +87,6 @@ public final class FastIteratingContainer implements Container {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#size()
      */
     public int size() {
         return _container.size();
@@ -99,7 +94,6 @@ public final class FastIteratingContainer implements Container {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#isEmpty()
      */
     public boolean isEmpty() {
         return _container.isEmpty();
@@ -107,7 +101,6 @@ public final class FastIteratingContainer implements Container {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#containsKey(java.lang.Object)
      */
     public boolean containsKey(final Object key) {
         return _container.containsKey(key);
@@ -115,7 +108,6 @@ public final class FastIteratingContainer implements Container {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#containsValue(java.lang.Object)
      */
     public boolean containsValue(final Object value) {
         return _container.containsValue(value);
@@ -123,7 +115,6 @@ public final class FastIteratingContainer implements Container {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#get(java.lang.Object)
      */
     public Object get(final Object key) {
         return _container.get(key);
@@ -134,7 +125,6 @@ public final class FastIteratingContainer implements Container {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#put(java.lang.Object, java.lang.Object)
      */
     public Object put(final Object key, final Object value) {
         if (value == null) { throw new IllegalArgumentException(); }
@@ -155,7 +145,6 @@ public final class FastIteratingContainer implements Container {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#remove(java.lang.Object)
      */
     public Object remove(final Object key) {
         Object oldValue = _container.remove(key);
@@ -173,22 +162,18 @@ public final class FastIteratingContainer implements Container {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#putAll(java.util.Map)
      */
-    public void putAll(final Map map) {
-        Iterator iter = map.entrySet().iterator();
-        synchronized (this) {
-            while (iter.hasNext()) {
-                Map.Entry entry = (Map.Entry) iter.next();
-                put(entry.getKey(), entry.getValue());
-            }
+    public synchronized void putAll(final Map < ? extends Object, ? extends Object > map) {
+        Iterator < ? extends Entry < ? extends Object, ? extends Object > > iter;
+        iter = map.entrySet().iterator();
+        while (iter.hasNext()) {
+            Entry < ? extends Object, ? extends Object > entry = iter.next();
+            put(entry.getKey(), entry.getValue());
         }
-
     }
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#clear()
      */
     public void clear() {
         _container.clear();
@@ -203,25 +188,22 @@ public final class FastIteratingContainer implements Container {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#keySet()
      */
-    public Set keySet() {
+    public Set < Object > keySet() {
         return _container.keySet();
     }
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#values()
      */
-    public Collection values() {
+    public Collection < Object > values() {
         return _container.values();
     }
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#entrySet()
      */
-    public Set entrySet() {
+    public Set < Entry < Object, Object > > entrySet() {
         return _container.entrySet();
     }
 

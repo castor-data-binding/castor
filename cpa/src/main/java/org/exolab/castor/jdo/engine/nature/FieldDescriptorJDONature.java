@@ -69,6 +69,7 @@ public class FieldDescriptorJDONature extends BaseNature {
 
     /**
      * Returns the SQL many key of the field.
+     * 
      * @return The SQL many key.
      */
     public String[] getManyKey() {
@@ -77,7 +78,8 @@ public class FieldDescriptorJDONature extends BaseNature {
 
     /**
      * Sets the SQL many key of the field.
-     * @param sqlName The SQL (many key.
+     * 
+     * @param manyKey The SQL (many key.
      */
     public void setManyKey(final String[] manyKey) {
         setProperty(MANY_KEY, manyKey);
@@ -85,6 +87,7 @@ public class FieldDescriptorJDONature extends BaseNature {
 
     /**
      * Returns the SQL many table of the field.
+     * 
      * @return The SQL many table.
      */
     public String getManyTable() {
@@ -93,7 +96,8 @@ public class FieldDescriptorJDONature extends BaseNature {
 
     /**
      * Sets the SQL many table of the field.
-     * @param sqlName The SQL many table.
+     * 
+     * @param manyTable The SQL many table.
      */
     public void setManyTable(final String manyTable) {
         setProperty(MANY_TABLE, manyTable);
@@ -101,6 +105,7 @@ public class FieldDescriptorJDONature extends BaseNature {
 
     /**
      * Returns true if field access is read only.
+     * 
      * @return True if field access is read-only.
      */
     public boolean isReadonly() {

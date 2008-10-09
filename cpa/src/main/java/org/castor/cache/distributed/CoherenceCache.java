@@ -48,14 +48,13 @@ public final class CoherenceCache extends AbstractDistributedCache {
     public static final String IMPLEMENTATION = "com.tangosol.net.CacheFactory";
     
     /** Parameter types for calling getCache() method on IMPLEMENTATION. */
-    private static final Class[] TYPES_GET_CACHE = new Class[] {String.class};
+    private static final Class < ? > [] TYPES_GET_CACHE = new Class[] {String.class};
     
     //--------------------------------------------------------------------------
     // operations for life-cycle management of cache
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#initialize(java.util.Properties)
      */
     public void initialize(final Properties params) throws CacheAcquireException {
         initialize(IMPLEMENTATION, params);
@@ -70,13 +69,14 @@ public final class CoherenceCache extends AbstractDistributedCache {
      * @param params Parameters to initialize the cache (e.g. name, capacity).
      * @throws CacheAcquireException If cache can not be initialized.
      */
+    @SuppressWarnings("unchecked")
     public void initialize(final String implementation, final Properties params)
     throws CacheAcquireException {
         super.initialize(params);
         
         try {
             ClassLoader ldr = this.getClass().getClassLoader();
-            Class cls = ldr.loadClass(implementation);
+            Class < ? > cls = ldr.loadClass(implementation);
             setCache((Map) invokeStaticMethod(
                     cls, "getCache", TYPES_GET_CACHE, new Object[] {getName()}));
         } catch (Exception e) {
@@ -88,7 +88,6 @@ public final class CoherenceCache extends AbstractDistributedCache {
 
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#close()
      */
     public void close() {
         super.close();
@@ -108,7 +107,6 @@ public final class CoherenceCache extends AbstractDistributedCache {
 
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#getType()
      */
     public String getType() { return TYPE; }
 

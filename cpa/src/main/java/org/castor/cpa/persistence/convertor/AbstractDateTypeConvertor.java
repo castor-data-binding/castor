@@ -84,7 +84,7 @@ public abstract class AbstractDateTypeConvertor extends AbstractTypeConvertor {
      * @param fromType The type being converted from.
      * @param toType The type being converted to.
      */
-    public AbstractDateTypeConvertor(final Class fromType, final Class toType) {
+    public AbstractDateTypeConvertor(final Class < ? > fromType, final Class < ? > toType) {
         super(fromType, toType);
     }
     

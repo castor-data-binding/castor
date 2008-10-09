@@ -50,7 +50,7 @@ import org.castor.cache.simple.CountLimited;
  * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.0
  */
-public interface Cache extends Map {
+public interface Cache extends Map < Object, Object > {
     //--------------------------------------------------------------------------
     
     /** Mapped initialization parameter <code>type</code>. */

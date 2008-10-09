@@ -57,7 +57,7 @@ import java.util.Properties;
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
-final public class KeyGeneratorDescriptor {
+public final class KeyGeneratorDescriptor {
     
     /**
      * Name of the key generator (could be an alias).

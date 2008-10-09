@@ -46,7 +46,8 @@ public final class WeakReferenceContainer implements Container {
     //--------------------------------------------------------------------------
 
     /** The hashmap to store key/value pairs. */
-    private HashMap _container = new HashMap();
+    private HashMap < Object, WeakReference < Object > > _container
+        = new HashMap < Object, WeakReference < Object > > ();
     
     /** Timestamp of this container. */
     private long _timestamp = 0;
@@ -56,29 +57,25 @@ public final class WeakReferenceContainer implements Container {
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.hashbelt.container.Container#updateTimestamp()
      */
     public void updateTimestamp() { _timestamp = System.currentTimeMillis(); }
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.hashbelt.container.Container#getTimestamp()
      */
     public long getTimestamp() { return _timestamp; }
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.hashbelt.container.Container#keyIterator()
      */
-    public synchronized Iterator keyIterator() {
-        return new ArrayList(keySet()).iterator();
+    public synchronized Iterator < Object > keyIterator() {
+        return new ArrayList < Object > (keySet()).iterator();
     }
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.hashbelt.container.Container#valueIterator()
      */
-    public Iterator valueIterator() {
+    public Iterator < Object > valueIterator() {
         return values().iterator();
     }
     
@@ -87,7 +84,6 @@ public final class WeakReferenceContainer implements Container {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#size()
      */
     public synchronized int size() {
         return _container.size();
@@ -95,7 +91,6 @@ public final class WeakReferenceContainer implements Container {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#isEmpty()
      */
     public synchronized boolean isEmpty() {
         return _container.isEmpty();
@@ -103,7 +98,6 @@ public final class WeakReferenceContainer implements Container {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#containsKey(java.lang.Object)
      */
     public synchronized boolean containsKey(final Object key) {
         return _container.containsKey(key);
@@ -111,13 +105,13 @@ public final class WeakReferenceContainer implements Container {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#containsValue(java.lang.Object)
      */
     public synchronized boolean containsValue(final Object value) {
-        Iterator iter = _container.entrySet().iterator();
+        Iterator < Entry < Object, WeakReference < Object > > > iter;
+        iter = _container.entrySet().iterator();
         while (iter.hasNext()) {
-            Map.Entry entry = (Map.Entry) iter.next();
-            WeakReference ref = (WeakReference) entry.getValue();
+            Entry < Object, WeakReference < Object > > entry = iter.next();
+            WeakReference < Object > ref = entry.getValue();
             // check to see if we've got a referenceable object to return.
             Object found = ref.get();
             if (found != null) {
@@ -133,10 +127,9 @@ public final class WeakReferenceContainer implements Container {
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#get(java.lang.Object)
      */
     public synchronized Object get(final Object key) {
-        WeakReference ref = (WeakReference) _container.get(key);
+        WeakReference < Object > ref = _container.get(key);
         // if we have no ref then there is no entry in the container.
         if (ref == null) { return null; }
         // check to see if we've got a referenceable object to return.
@@ -154,10 +147,9 @@ public final class WeakReferenceContainer implements Container {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#put(java.lang.Object, java.lang.Object)
      */
     public synchronized Object put(final Object key, final Object value) {
-        WeakReference ref = (WeakReference) _container.put(key, new WeakReference(value));
+        WeakReference < Object > ref = _container.put(key, new WeakReference < Object > (value));
         // if we have no ref then there is no previous entry in the container.
         if (ref == null) { return null; }
         // check to see if we've got a referenceable object to return.
@@ -170,10 +162,9 @@ public final class WeakReferenceContainer implements Container {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#remove(java.lang.Object)
      */
     public synchronized Object remove(final Object key) {
-        WeakReference ref = (WeakReference) _container.remove(key);
+        WeakReference < Object > ref = _container.remove(key);
         // if we have no ref then there is no previous entry in the container.
         if (ref == null) { return null; }
         // check to see if we've got a referenceable object to return.
@@ -189,19 +180,18 @@ public final class WeakReferenceContainer implements Container {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#putAll(java.util.Map)
      */
-    public synchronized void putAll(final Map map) {
-        Iterator iter = map.entrySet().iterator();
+    public synchronized void putAll(final Map < ? extends Object, ? extends Object > map) {
+        Iterator < ? extends Entry < ? extends Object, ? extends Object > > iter;
+        iter = map.entrySet().iterator();
         while (iter.hasNext()) {
-            Map.Entry entry = (Map.Entry) iter.next();
-            _container.put(entry.getKey(), new WeakReference(entry.getValue()));
+            Entry < ? extends Object, ? extends Object > entry = iter.next();
+            _container.put(entry.getKey(), new WeakReference < Object > (entry.getValue()));
         }
     }
 
     /**
      * {@inheritDoc}
-     * @see java.util.Map#clear()
      */
     public synchronized void clear() {
         _container.clear();
@@ -212,22 +202,21 @@ public final class WeakReferenceContainer implements Container {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#keySet()
      */
-    public synchronized Set keySet() {
+    public synchronized Set < Object > keySet() {
         return _container.keySet();
     }
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#values()
      */
-    public synchronized Collection values() {
-        Collection col = new ArrayList();
-        Iterator iter = _container.entrySet().iterator();
+    public synchronized Collection < Object > values() {
+        Collection < Object > col = new ArrayList < Object > ();
+        Iterator < Entry < Object, WeakReference < Object > > > iter;
+        iter = _container.entrySet().iterator();
         while (iter.hasNext()) {
-            Map.Entry entry = (Map.Entry) iter.next();
-            WeakReference ref = (WeakReference) entry.getValue();
+            Entry < Object, WeakReference < Object > > entry = iter.next();
+            WeakReference < Object > ref = entry.getValue();
             // check to see if we've got a referenceable object to return.
             Object found = ref.get();
             if (found != null) {
@@ -243,14 +232,14 @@ public final class WeakReferenceContainer implements Container {
     
     /**
      * {@inheritDoc}
-     * @see java.util.Map#entrySet()
      */
-    public synchronized Set entrySet() {
-        HashMap map = new HashMap();
-        Iterator iter = _container.entrySet().iterator();
+    public synchronized Set < Entry < Object, Object > > entrySet() {
+        HashMap < Object, Object > map = new HashMap < Object, Object > ();
+        Iterator < Entry < Object, WeakReference < Object > > > iter;
+        iter = _container.entrySet().iterator();
         while (iter.hasNext()) {
-            Map.Entry entry = (Map.Entry) iter.next();
-            WeakReference ref = (WeakReference) entry.getValue();
+            Entry < Object, WeakReference < Object > > entry = iter.next();
+            WeakReference < Object > ref = entry.getValue();
             // check to see if we've got a referenceable object to return.
             Object found = ref.get();
             if (found != null) {

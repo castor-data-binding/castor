@@ -103,7 +103,8 @@ public final class MaxKeyGenerator implements KeyGenerator {
     /**
      * Initialize the MAX key generator.
      */
-    public MaxKeyGenerator(final PersistenceFactory factory, final int sqlType) throws MappingException {
+    public MaxKeyGenerator(final PersistenceFactory factory, final int sqlType)
+    throws MappingException {
         _factory = factory;
 
         supportsSqlType(sqlType);

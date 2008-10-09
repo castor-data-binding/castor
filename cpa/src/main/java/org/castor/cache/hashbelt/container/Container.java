@@ -32,7 +32,7 @@ import java.util.Map;
  * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.0
  */
-public interface Container extends Map {
+public interface Container extends Map < Object, Object > {
     /**
      * Set the timestamp of this container to System.currentTimeMillis().
      */
@@ -52,7 +52,7 @@ public interface Container extends Map {
      *
      * @return An iterator over the keys currently contained in the container.
      */
-    Iterator keyIterator();
+    Iterator < Object > keyIterator();
     
     /**
      * Returns an iterator over the values contained in this container. If the container
@@ -61,5 +61,5 @@ public interface Container extends Map {
      *
      * @return An iterator over the values currently contained in the container.
      */
-    Iterator valueIterator();
+    Iterator < Object > valueIterator();
 }

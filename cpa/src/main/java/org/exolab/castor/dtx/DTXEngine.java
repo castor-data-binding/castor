@@ -83,9 +83,7 @@ import org.xml.sax.InputSource;
 public class DTXEngine {
 
     private DocumentHandler _handler = null;
-    private String _databaseURL = null;
     private Database _database = null;
-    private String _schemaURL = null;
     private Schema _schema = null;
     private HashMap _classMappings = null;
     private Connection _conn = null;
@@ -115,8 +113,6 @@ public class DTXEngine {
      *
      * @param schemaURL URL string for XML Schema file.  */
     public void setSchema(final String schemaURL) throws DTXException {
-        _schemaURL = schemaURL;
-
         try {
             SchemaReader 
                 reader = new SchemaReader(new InputSource((new URL(schemaURL)).openStream()));
@@ -134,7 +130,6 @@ public class DTXEngine {
      * @param databaseURL URL string for JDO database mapping file.
      */
     public void setDatabase(final String databaseURL) throws DTXException {
-        _databaseURL = databaseURL;
         Unmarshaller unm = new Unmarshaller(Database.class);
 
         unm.setEntityResolver(new DTDResolver());

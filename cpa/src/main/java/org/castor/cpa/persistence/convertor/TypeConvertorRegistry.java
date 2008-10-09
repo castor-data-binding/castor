@@ -35,7 +35,8 @@ public final class TypeConvertorRegistry {
     
     /** Map of maps of type converters. For the outer one the key is <tt>fromType</tt>
      *  while the key of the inner one is <tt>toType</tt>. */
-    private final Map _convertors = new HashMap();
+    private final Map < Class < ? > , Map < Class < ? > , TypeConvertor > > _convertors
+        = new HashMap < Class < ? > , Map < Class < ? > , TypeConvertor > > ();
 
     //-----------------------------------------------------------------------------------
 
@@ -67,11 +68,11 @@ public final class TypeConvertorRegistry {
      * @param toType The Java type to convert to.
      * @param convertor The TypeConverter to convert fromType into toType.
      */
-    private void putConvertor(final Class fromType, final Class toType,
+    private void putConvertor(final Class < ? > fromType, final Class < ? > toType,
             final TypeConvertor convertor) {
-        Map convertors = (Map) _convertors.get(fromType);
+        Map < Class < ? > , TypeConvertor > convertors = _convertors.get(fromType);
         if (convertors == null) {
-            convertors = new HashMap();
+            convertors = new HashMap < Class < ? > , TypeConvertor > ();
             _convertors.put(fromType, convertors);
         }
         convertors.put(toType, convertor);
@@ -86,29 +87,32 @@ public final class TypeConvertorRegistry {
      * @return The TypeConverter to convert fromType into toType.
      * @throws MappingException No suitable convertor was found.
      */
-    private TypeConvertor getConvertor(final Class fromType, final Class toType)
+    private TypeConvertor getConvertor(final Class < ? > fromType, final Class < ? > toType)
     throws MappingException {
         TypeConvertor convertor = null;
         
         // first search exact match of from and to type.
-        Map convertors = (Map) _convertors.get(fromType);
+        Map < Class < ? > , TypeConvertor > convertors = _convertors.get(fromType);
         if (convertors != null) {
-            convertor = (TypeConvertor) convertors.get(toType);
+            convertor = convertors.get(toType);
         }
 
         // if not found yet search assignment compatible from and to type.
         if (convertor == null) {
-            Iterator fromIter = _convertors.entrySet().iterator();
+            Iterator < Map.Entry < Class < ? > , Map < Class < ? > , TypeConvertor > > > fromIter;
+            fromIter = _convertors.entrySet().iterator();
             while ((convertor == null) && fromIter.hasNext()) {
-                Map.Entry fromEntry = (Map.Entry) fromIter.next();
-                if (((Class) fromEntry.getKey()).isAssignableFrom(fromType)) {
-                    convertors = (Map) fromEntry.getValue();
+                Map.Entry < Class < ? > , Map < Class < ? > , TypeConvertor > > fromEntry;
+                fromEntry = fromIter.next();
+                if (fromEntry.getKey().isAssignableFrom(fromType)) {
+                    convertors = fromEntry.getValue();
                     
-                    Iterator toIter = convertors.entrySet().iterator();
+                    Iterator < Map.Entry < Class < ? > , TypeConvertor > > toIter;
+                    toIter = convertors.entrySet().iterator();
                     while ((convertor == null) && toIter.hasNext()) {
-                        Map.Entry toEntry = (Map.Entry) toIter.next();
-                        if (((Class) toEntry.getKey()).isAssignableFrom(toType)) {
-                            convertor = (TypeConvertor) toEntry.getValue();
+                        Map.Entry < Class < ? > , TypeConvertor > toEntry = toIter.next();
+                        if (toEntry.getKey().isAssignableFrom(toType)) {
+                            convertor = toEntry.getValue();
                         }
                     }
                 }
@@ -139,7 +143,7 @@ public final class TypeConvertorRegistry {
      * @return The TypeConverter to convert fromType into toType.
      * @throws MappingException No suitable convertor was found.
      */
-    public TypeConvertor getConvertor(final Class fromType, final Class toType,
+    public TypeConvertor getConvertor(final Class < ? > fromType, final Class < ? > toType,
             final String parameter) throws MappingException {
         TypeConvertor convertor = getConvertor(fromType, toType);
         

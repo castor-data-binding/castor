@@ -39,7 +39,6 @@ public abstract class AbstractBaseCache implements Cache {
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#initialize(java.util.Properties)
      */
     public void initialize(final Properties params) throws CacheAcquireException {
         String param = params.getProperty(Cache.PARAM_NAME, Cache.DEFAULT_NAME);
@@ -48,7 +47,6 @@ public abstract class AbstractBaseCache implements Cache {
 
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#close()
      */
     public void close() { }
 
@@ -57,7 +55,6 @@ public abstract class AbstractBaseCache implements Cache {
 
     /**
      * {@inheritDoc}
-     * @see Cache#getName()
      */
     public final String getName() { return _cacheName; }
     
@@ -66,64 +63,59 @@ public abstract class AbstractBaseCache implements Cache {
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#expire(java.lang.Object)
      */
     public final void expire(final Object key) { remove(key); }
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#expireAll()
      */
     public final void expireAll() { clear(); }
 
-        /**
-         * Invoke static method with given name and arguments having parameters of
-         * types specified on the given target.
-         * 
-         * @param target The target object to invoke the method on.
-         * @param name The name of the method to invoke.
-         * @param types The types of the parameters.
-         * @param arguments The parameters.
-         * @return The result of the method invokation.
-         * @throws NoSuchMethodException If a matching method is not found or if the
-         *         name is "&lt;init&gt;"or "&lt;clinit&gt;".
-         * @throws IllegalAccessException If this Method object enforces Java language
-         *         access control and the underlying method is inaccessible.
-         * @throws InvocationTargetException If the underlying method throws an exception.
-         */
-        protected final Object invokeStaticMethod(final Class target, 
-                final String name, 
-                final Class[] types, 
-                final Object[] arguments) 
-        throws NoSuchMethodException, IllegalAccessException, InvocationTargetException
-        {
-            Method method = target.getMethod(name, types);
-            return method.invoke(null, arguments);
-        }
-    
-        /**
-         * Invoke method with given name and arguments having parameters of types
-         * specified on the given target.
-         * 
-         * @param target The target object to invoke the method on.
-         * @param name The name of the method to invoke.
-         * @param types The types of the parameters.
-         * @param arguments The parameters.
-         * @return The result of the method invokation.
-         * @throws NoSuchMethodException If a matching method is not found or if the
-         *         name is "&lt;init&gt;"or "&lt;clinit&gt;".
-         * @throws IllegalAccessException If this Method object enforces Java language
-         *         access control and the underlying method is inaccessible.
-         * @throws InvocationTargetException If the underlying method throws an exception.
-         */
-        protected final Object invokeMethod(final Object target, 
-                final String name, 
-                final Class[] types, 
-                final Object[] arguments) 
-        throws NoSuchMethodException, IllegalAccessException, InvocationTargetException
-        {
-            Method method = target.getClass().getMethod(name, types);
-            return method.invoke(target, arguments);
-        }
+    //--------------------------------------------------------------------------
+
+    /**
+     * Invoke static method with given name and arguments having parameters of
+     * types specified on the given target.
+     * 
+     * @param target The target object to invoke the method on.
+     * @param name The name of the method to invoke.
+     * @param types The types of the parameters.
+     * @param arguments The parameters.
+     * @return The result of the method invokation.
+     * @throws NoSuchMethodException If a matching method is not found or if the
+     *         name is "&lt;init&gt;"or "&lt;clinit&gt;".
+     * @throws IllegalAccessException If this Method object enforces Java language
+     *         access control and the underlying method is inaccessible.
+     * @throws InvocationTargetException If the underlying method throws an exception.
+     */
+    protected final Object invokeStaticMethod(final Class < ? > target, final String name, 
+            final Class < ? > [] types, final Object[] arguments) 
+    throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        Method method = target.getMethod(name, types);
+        return method.invoke(null, arguments);
+    }
+
+    /**
+     * Invoke method with given name and arguments having parameters of types
+     * specified on the given target.
+     * 
+     * @param target The target object to invoke the method on.
+     * @param name The name of the method to invoke.
+     * @param types The types of the parameters.
+     * @param arguments The parameters.
+     * @return The result of the method invokation.
+     * @throws NoSuchMethodException If a matching method is not found or if the
+     *         name is "&lt;init&gt;"or "&lt;clinit&gt;".
+     * @throws IllegalAccessException If this Method object enforces Java language
+     *         access control and the underlying method is inaccessible.
+     * @throws InvocationTargetException If the underlying method throws an exception.
+     */
+    protected final Object invokeMethod(final Object target, final String name, 
+            final Class < ? > [] types, final Object[] arguments) 
+    throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        Method method = target.getClass().getMethod(name, types);
+        return method.invoke(target, arguments);
+    }
+
     //--------------------------------------------------------------------------
 }

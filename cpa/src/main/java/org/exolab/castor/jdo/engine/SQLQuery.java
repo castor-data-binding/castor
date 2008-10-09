@@ -103,9 +103,10 @@ public final class SQLQuery implements PersistenceQuery {
         _types = types;
         _values = new Object[ _types.length ];
         _sql = sql;
-        _identSqlType = new int[((ClassDescriptorImpl) _engine.getDescriptor()).getIdentities().length];
+        ClassDescriptorImpl cdi = (ClassDescriptorImpl) _engine.getDescriptor();
+        _identSqlType = new int[cdi.getIdentities().length];
         for (int i = 0; i < _identSqlType.length; i++) {
-            FieldDescriptor fldDesc = ((ClassDescriptorImpl) _engine.getDescriptor()).getIdentities()[i];
+            FieldDescriptor fldDesc = cdi.getIdentities()[i];
             _identSqlType[i] =  new FieldDescriptorJDONature(fldDesc).getSQLType()[0];
         }
         

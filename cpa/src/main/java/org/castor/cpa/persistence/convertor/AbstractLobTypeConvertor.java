@@ -50,7 +50,7 @@ public abstract class AbstractLobTypeConvertor extends AbstractTypeConvertor {
      * @param fromType The type being converted from.
      * @param toType The type being converted to.
      */
-    public AbstractLobTypeConvertor(final Class fromType, final Class toType) {
+    public AbstractLobTypeConvertor(final Class < ? > fromType, final Class < ? > toType) {
         super(fromType, toType);
     }
     

@@ -35,7 +35,6 @@ public abstract class AbstractCacheFactory implements CacheFactory {
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.CacheFactory#getCache(java.lang.ClassLoader)
      */
     public final Cache getCache(final ClassLoader classLoader)
     throws CacheAcquireException {
@@ -56,7 +55,6 @@ public abstract class AbstractCacheFactory implements CacheFactory {
 
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.CacheFactory#shutdown()
      */
     public void shutdown() { }
 }
