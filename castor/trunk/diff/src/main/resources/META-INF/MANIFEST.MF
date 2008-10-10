@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Specification-Title: Castor XML diff
+Specification-Vendor: Castor
+Specification-Version: $VERSION$$RELEASE$
+Implementation-Title: Castor
+Implementation-Vendor: Castor
+Implementation-Version: $VERSION$$RELEASE$
+Sealed: true
