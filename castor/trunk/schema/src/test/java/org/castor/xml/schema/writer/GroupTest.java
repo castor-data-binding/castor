@@ -20,39 +20,39 @@ public class GroupTest extends AbstractSchemaTest {
         super(testcase);
     }
 
-    /**
-     * Create simple type
-     */
-    public void testOneChildSubgroup() throws Exception {
-
-        // create targeted schema
-        ComplexType ctype = _schema.createComplexType();
-        ctype.setName("myType");
-        _schema.addComplexType(ctype);
-
-        // create a sequence element
-        Group groupTest = new Group();
-        groupTest.setOrder(Order.seq);
-        ctype.addGroup(groupTest);
-
-        // create a choice element for sequence element
-        Group subgroup = new Group();
-        subgroup.setOrder(Order.choice);
-        subgroup.setMinOccurs(0);
-        subgroup.setMaxOccurs(Particle.UNBOUNDED);
-        groupTest.addGroup(subgroup);
-
-        // create an element for choice
-        ElementDecl elem = new ElementDecl(_schema);
-        elem.setName("myStringType");
-        elem.setTypeReference("string");
-        subgroup.addElementDecl(elem);
-
-        // compare
-        TestResult result = doTest("group_onechildsubgroup.xsd");
-        assertEquals("single attribute test failed", TestResult.IDENTICAL,
-                result);
-    }
+//    /**
+//     * Create simple type
+//     */
+//    public void testOneChildSubgroup() throws Exception {
+//
+//        // create targeted schema
+//        ComplexType ctype = _schema.createComplexType();
+//        ctype.setName("myType");
+//        _schema.addComplexType(ctype);
+//
+//        // create a sequence element
+//        Group groupTest = new Group();
+//        groupTest.setOrder(Order.seq);
+//        ctype.addGroup(groupTest);
+//
+//        // create a choice element for sequence element
+//        Group subgroup = new Group();
+//        subgroup.setOrder(Order.choice);
+//        subgroup.setMinOccurs(0);
+//        subgroup.setMaxOccurs(Particle.UNBOUNDED);
+//        groupTest.addGroup(subgroup);
+//
+//        // create an element for choice
+//        ElementDecl elem = new ElementDecl(_schema);
+//        elem.setName("myStringType");
+//        elem.setTypeReference("string");
+//        subgroup.addElementDecl(elem);
+//
+//        // compare
+//        TestResult result = doTest("group_onechildsubgroup.xsd");
+//        assertEquals("single attribute test failed", TestResult.IDENTICAL,
+//                result);
+//    }
 
     /**
      * Create simple type
