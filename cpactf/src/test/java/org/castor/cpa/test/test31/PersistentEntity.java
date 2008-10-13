@@ -168,7 +168,8 @@ public class PersistentEntity implements Persistent, TimeStampable, Serializable
                 _db.create(child);
             }
         }
-        for (Enumeration < PersistentEntity > en = _origChildren.elements(); en.hasMoreElements();) {
+        for (Enumeration < PersistentEntity > en = _origChildren.elements();
+                en.hasMoreElements();) {
             child = en.nextElement();
             if (!vectorContainsChild(_children, child)) {
                 _db.remove(child);
@@ -183,7 +184,8 @@ public class PersistentEntity implements Persistent, TimeStampable, Serializable
         _origRelated = _related;
     }
     public final void jdoUpdate() throws Exception {
-        for (Enumeration < PersistentEntity > en = _origChildren.elements(); en.hasMoreElements();) {
+        for (Enumeration < PersistentEntity > en = _origChildren.elements();
+                en.hasMoreElements();) {
             _db.update(en.nextElement());
         }
         if (_origRelated != null) {
