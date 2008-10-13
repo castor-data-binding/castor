@@ -319,6 +319,11 @@ public class SQLStatementCreate {
                 throw new PersistenceException(Messages.format("persist.nested", except), except);
             }
 
+            // without an identity we can not check for duplicate key
+            if (internalIdentity == null) {
+                throw new PersistenceException(Messages.format("persist.nested", except), except);
+            }
+
             // check for duplicate key the old fashioned way, after the INSERT
             // failed to prevent race conditions and optimize INSERT times.
             _lookupStatement.executeStatement(conn, internalIdentity);
@@ -395,6 +400,11 @@ public class SQLStatementCreate {
                 throw new DuplicateIdentityException(Messages.format(
                         "persist.duplicateIdentity", _type, internalIdentity), except);
             } else if (Boolean.FALSE.equals(isDupKey)) {
+                throw new PersistenceException(Messages.format("persist.nested", except), except);
+            }
+
+            // without an identity we can not check for duplicate key
+            if (internalIdentity == null) {
                 throw new PersistenceException(Messages.format("persist.nested", except), except);
             }
 
@@ -485,6 +495,11 @@ public class SQLStatementCreate {
                 throw new DuplicateIdentityException(Messages.format(
                         "persist.duplicateIdentity", _type, internalIdentity), except);
             } else if (Boolean.FALSE.equals(isDupKey)) {
+                throw new PersistenceException(Messages.format("persist.nested", except), except);
+            }
+
+            // without an identity we can not check for duplicate key
+            if (internalIdentity == null) {
                 throw new PersistenceException(Messages.format("persist.nested", except), except);
             }
 
@@ -595,6 +610,11 @@ public class SQLStatementCreate {
                 throw new DuplicateIdentityException(Messages.format(
                         "persist.duplicateIdentity", _type, internalIdentity), except);
             } else if (Boolean.FALSE.equals(isDupKey)) {
+                throw new PersistenceException(Messages.format("persist.nested", except), except);
+            }
+
+            // without an identity we can not check for duplicate key
+            if (internalIdentity == null) {
                 throw new PersistenceException(Messages.format("persist.nested", except), except);
             }
 
