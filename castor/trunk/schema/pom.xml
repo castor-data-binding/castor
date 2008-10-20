@@ -105,6 +105,7 @@
         <dependency>
             <groupId>org.codehaus.castor</groupId>
             <artifactId>castor-xml-diff</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
