@@ -96,7 +96,7 @@
         <mkdir dir="${test.classes}"/>
         <javac srcdir="${test.java}" destdir="${test.classes}"
                debug="on" encoding="ISO-8859-1" deprecation="${deprecation}"
-        	   source="1.4" target="1.4">
+        	   source="1.5" target="1.5">
             <classpath refid="build.test-compile.classpath"/>
         </javac>
 
