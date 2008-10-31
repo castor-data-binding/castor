@@ -1,0 +1,4 @@
+<?xml version="1.0" ?>
+<getContractRequest xmlns="http://dummy.com/services/">
+   <contractId>blah</contractId>
+</getContractRequest>

@@ -605,6 +605,9 @@ public final class Introspector {
             }
 
             fieldDesc.setHandler(handler);
+            
+            //-- enable use parent namespace if explicit one doesn't exist
+            fieldDesc.setUseParentsNamespace(true);
 
             //-- Wrap collections?
             if (isCollection && _wrapCollectionsInContainer) {
@@ -633,13 +636,17 @@ public final class Introspector {
                 fieldDesc.setMatches("*");
 
                 //-- wrap the field handler in a special container field
-                //-- handler that will actually do the delgation work
+                //-- handler that will actually do the delegation work
                 FieldHandler cHandler = new ContainerFieldHandler(handler);
                 fieldDesc.setHandler(cHandler);
 
                 fieldDesc = createFieldDescriptor(cType, fieldName, xmlName);
                 fieldDesc.setClassDescriptor(containerClassDesc);
                 fieldDesc.setHandler(cHandler);
+
+                //-- enable use parent namespace if explicit one doesn't exist
+                fieldDesc.setUseParentsNamespace(true);
+                
             }
             //-- add FieldDescriptor to ClassDescriptor
             classDesc.addFieldDescriptor(fieldDesc);
@@ -776,6 +783,9 @@ public final class Introspector {
                 descriptors.put(xmlName, fieldDesc);
                 classDesc.addFieldDescriptor(fieldDesc);
                 fieldDesc.setHandler(handler);
+
+                //-- enable use parent namespace if explicit one doesn't exist
+                fieldDesc.setUseParentsNamespace(true);
 
                 //-- check for instances of java.util.Date
                 if (java.util.Date.class.isAssignableFrom(type)) {
