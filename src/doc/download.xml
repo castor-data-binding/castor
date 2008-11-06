@@ -204,42 +204,42 @@
           <ul>
             <li>
               The Castor JAR (XML, DAX; <b>without</b> XML code generator and JDO)<br/>
-              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$.jar</url>
+              <url>http://dist.codehaus.org/castor/1.3rc1/castor-$VERSION$$RELEASE$.jar</url>
               <br/>&#xA0;
             </li>
             <li>
               The Castor XML JAR<br/>
-              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-xml.jar</url>
+              <url>http://dist.codehaus.org/castor/1.3rc1/castor-$VERSION$$RELEASE$-xml.jar</url>
               <br/>&#xA0;
             </li>
             <li>
               Castor JDO<br/>
-              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-jdo.jar</url>
+              <url>http://dist.codehaus.org/castor/1.3rc1/castor-$VERSION$$RELEASE$-jdo.jar</url>
               <br/>&#xA0;
             </li>
             <li>
               Castor XML code generator<br/>
-              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-codegen.jar</url>
+              <url>http://dist.codehaus.org/castor/1.3rc1/castor-$VERSION$$RELEASE$-codegen.jar</url>
               <br/>&#xA0;
             </li>
             <li>
               Ant task definition for Castor XML code generator<br/>
-              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-anttasks.jar</url>
+              <url>http://dist.codehaus.org/castor/1.3rc1/castor-$VERSION$$RELEASE$-anttasks.jar</url>
               <br/>&#xA0;
             </li>
             <li>
               Castor JDO DDL generator<br/>
-              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-ddlgen.jar</url>
+              <url>http://dist.codehaus.org/castor/1.3rc1/castor-$VERSION$$RELEASE$-ddlgen.jar</url>
               <br/>&#xA0;
             </li>
             <li>
               Castor XML schema support<br/>
-              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-xml-schema.jar</url>
+              <url>http://dist.codehaus.org/castor/1.3rc1/castor-$VERSION$$RELEASE$-xml-schema.jar</url>
               <br/>&#xA0;
             </li>
             <li>
               <font color="red"><b>*** NEW ***</b></font> The Castor Core JAR<br/>
-              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-core.jar</url>
+              <url>http://dist.codehaus.org/castor/1.3rc1/castor-$VERSION$$RELEASE$-core.jar</url>
               <br/>&#xA0;
             </li>
           </ul>
@@ -251,20 +251,20 @@
           <ul>
             <li>
               The Castor JARs, docs, DTDs, command line tools, and examples<br/>
-              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$.tgz</url><br/>
-              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$.zip</url>
+              <url>http://dist.codehaus.org/castor/1.3rc1/castor-$VERSION$$RELEASE$.tgz</url><br/>
+              <url>http://dist.codehaus.org/castor/1.3rc1/castor-$VERSION$$RELEASE$.zip</url>
               <br/>&#xA0;
             </li>
             <li>
               Full documentation including all JavaDocs and specs (big)<br/>
-              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-doc.tgz</url><br/>
-              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-doc.zip</url>
+              <url>http://dist.codehaus.org/castor/1.3rc1/castor-$VERSION$$RELEASE$-doc.tgz</url><br/>
+              <url>http://dist.codehaus.org/castor/1.3rc1/castor-$VERSION$$RELEASE$-doc.zip</url>
               <br/>&#xA0;
             </li>
             <li>
               Full SVN snapshot: All sources, docs, and 3rd party libraries (big)<br/>
-              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-src.tgz</url><br/>
-              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-src.zip</url>
+              <url>http://dist.codehaus.org/castor/1.3rc1/castor-$VERSION$$RELEASE$-src.tgz</url><br/>
+              <url>http://dist.codehaus.org/castor/1.3rc1/castor-$VERSION$$RELEASE$-src.zip</url>
               <br/>&#xA0;
             </li>
           </ul>
@@ -275,12 +275,12 @@
           <ul>
             <li>
               Self-executing JDO examples using Apache Derby (big)<br/>
-              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-examples.zip</url>
+              <url>http://dist.codehaus.org/castor/1.3rc1/castor-$VERSION$$RELEASE$-examples.zip</url>
               <br/>&#xA0;
             </li>
             <li>
               Castor examples -- sources (incl. XML, JDO, source generator)<br/>
-              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-examples-sources.jar</url>
+              <url>http://dist.codehaus.org/castor/1.3rc1/castor-$VERSION$$RELEASE$-examples-sources.jar</url>
               <br/>&#xA0;
             </li>
           </ul>
