@@ -214,7 +214,7 @@
             </li>
             <li>
               Castor JDO<br/>
-              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-codegen.jar</url>
+              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-jdo.jar</url>
               <br/>&#xA0;
             </li>
             <li>
