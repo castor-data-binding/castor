@@ -238,26 +238,26 @@
     <section title="Building Castor">
     
         <p>
-            Castor supports both <a href="http://maven.apache.org">Maven 2</a> 
-            and <a href="http://ant.apache.org">Ant</a> as build management 
-            systems, leaving it up to the developer/contributor to use either. Please
-            refer to the following sections as well to get an idea about the project layout,
-            the individual modules and the structure within a module. 
+            As of release 1.3, Castor supports <a href="http://maven.apache.org">Maven 2</a> 
+            only as build management system. Please refer to the following sections as well 
+            to get an idea about the project layout, the individual modules and the 
+            structure within a module. 
         </p>
         
-        <p>
-            <b>Note</b>: Please note that as of release 1.2.1 of Castor, the majority 
-            of the committers uses Maven 2 exclusively for building and
-            testing and deploying the Castor code base.
-        </p> 
+        <note>
+            Any Maven release higher than 2.0.6 is fine for anybody wishing to 
+            build Castor and either run tests or generate JARs locally. Anybody
+            wishing to deploy build artifacts to a Maven repository will have to 
+            use maven 2.0.9 or higher.
+        </note>
         
         <section title="Project layout">
         
             <p>
                 Castor is a project that is structured into (independent)
                 modules. Those of you familiar with Maven 2 will come to 
-                realize that this layout follows a standard Maven project 
-                structure.
+                realize that this layout follows a standard Maven multi-module 
+                project structure.
             </p>
             
             <p>
@@ -322,6 +322,25 @@
                     <td>Maven archetype for XML code generator</td>
                     <td>1.2</td>
                 </crow>
+                <crow>
+                    <td>cpa-testcase-archetype</td>
+                    <td>Maven archetype for XML code generator</td>
+                    <td>1.2</td>
+                </crow>
+            </ctable>
+
+            <p>
+                Last but not least, there's a module to provide the project documentation
+                for Castor:
+            </p>    
+
+            <ctable border="1">
+                <cheader><td>Name</td><td>Description</td><td>Since</td></cheader>
+                <crow>
+                    <td>doc</td>
+                    <td>Project documentation (reference guide)</td>
+                    <td>1.3rc1</td>
+                </crow>
             </ctable>
             
         </section>
@@ -373,50 +392,36 @@
                 
                 <code-panel>
 > mvn test</code-panel>
+
+                <p>
+                    To build the project JARs locally, issue ...
+                </p>
+
+                <code-panel>
+> mvn jar</code-panel>
+
+                <p>
+                    To install the generated JARs into your <b>local</b> Maven 
+                    repository, issue ...
+                </p>
+
+                <code-panel>
+> mvn install</code-panel>
                 
                 <p>
-                    To run the (plenty) integration test suites availbale with 
-                    Castor, please issue ...
+                    To additionally run the (plenty) integration test suites 
+                    available with Castor during testing, please issue ...
                 </p>
                 
                 <code-panel>
 > mvn test -P tests</code-panel>
+
+                <p>
+                    by activating the <i>tests</i> profile.
+                </p>
     
             </section>
         
-            <section title="Using Ant">
-    
-                <p>
-                  Alternatively to Maven 2, Castor can be built using Ant as its build 
-                  environment. To build Castor from source, run <tt>bin/build.sh</tt> or 
-                  <tt>bin\build.bat</tt> in the Castor root directory with one (or any) 
-                  of the following targets:
-                </p>
-    
-                <ctable cellpadding="4" border="1">
-                  <crow><td>targets</td><td>Lists the build targets</td></crow>
-                  <crow><td>clean</td><td>Cleans the build and distribution directories</td></crow>
-                  <crow><td>all</td><td>Cleans and builds all the packages and examples</td></crow>
-                  <crow><td>release</td><td>Cleans and builds all the release packages
-                                           (JAR, source, doc, tarball) in the dist directory</td></crow>
-                  <crow><td>main</td><td>Builds the main packages (including debugging info)</td></crow>
-                  <crow><td>examples</td><td>Builds the example packages (including debugging info)</td></crow>
-                  <crow><td>tests</td><td>Builds the test packages (including debugging info)</td></crow>
-                  <crow><td>jar</td><td>Builds the binary JAR in the dist directory</td></crow>
-                  <crow><td>doc</td><td>Builds the documentation</td></crow>
-                  <crow><td>javadoc</td><td>Builds the full JavaDocs</td></crow>
-                  <crow><td>source</td><td>Builds the source tarball in the dist directory</td></crow>
-                  <crow><td>tarball</td><td>Builds the binary distribution in the dist directory</td></crow>
-                </ctable>
-        
-                <p>
-                  The Castor source tarball includes the Castor JAR, all dependent library
-                  JARs, readme and license files.  Also, all DTDs and XML schemas can be
-                  found in the <tt>schema</tt> directory.
-                </p>
-    
-          </section>
-      
       </section>
 
 
