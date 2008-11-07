@@ -32,6 +32,19 @@
             <date>tbd</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
+
+                <h2>Changes</h2>
+                
+                <h3>Support for <font color="red">Ant</font> as build tool 
+                    <font color="red">dropped</font></h3>
+                            
+                <p>
+                    For various reasons, support for Ant as build tool has been 
+                    dropped altogether. Please switch to use <b>Maven 2</b>, with the 
+                    relevant project-specific details available at
+                    <a href="contributing.html">here</a>. 
+                </p>
+            
             </summary>
             <bugs>
                 <bug id="2546" tool="jira">
