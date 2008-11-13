@@ -518,16 +518,16 @@ public interface Database {
     void close() throws PersistenceException;
 
     /**
-     * Returns true if the object is persistent. An object is persistent
-     * if it was created or queried in this transaction. If the object
-     * was created or queried in another transaction, or there is no
-     * open transaction, this method returns null.
+     * Returns true if the entity is persistent. An entity is persistent
+     * if it was created or loaded but not removed in this transaction. If
+     * the entity was created or loaded in another transaction, or there is
+     * no open transaction, this method returns false.
      *
-     * @param object The object
-     * @return True if persistent in this transaction
+     * @param entity The entity.
+     * @return True if entity is persistent in this transaction.
      */
-    boolean isPersistent(Object object);
-
+    boolean isPersistent(Object entity);
+    
     /**
      * Returns the object's identity. The identity will be determined by calling the
      * getters of the fields defined as identities in the mapping. If a mapping for
