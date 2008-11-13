@@ -818,6 +818,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         FieldDescriptorJDONature fieldJdoNature = 
             new FieldDescriptorJDONature(fieldDescriptor);
         
+        fieldJdoNature.setTypeConvertor(typeInfo.getConvertorFrom());
         if (sqlName.length > 0) {
             fieldJdoNature.setSQLName(sqlName);
         }
