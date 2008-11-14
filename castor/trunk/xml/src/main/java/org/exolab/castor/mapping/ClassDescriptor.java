@@ -48,7 +48,7 @@ import org.castor.core.nature.PropertyHolder;
 
 /**
  * Describes the properties of a class and its fields. Implementations
- * will extend this inteface to provide additional properties.
+ * will extend this interface to provide additional properties.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
