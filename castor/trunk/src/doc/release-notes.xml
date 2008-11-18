@@ -47,6 +47,26 @@
             
             </summary>
             <bugs>
+                <bug id="2583" tool="jira">
+                    <description>
+                        Fixed test954 of new cpactf test suite failing with datasource.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20081118</date>
+                </bug>
                 <bug id="2582" tool="jira">
                     <description>
                         Enabled execution of new cpactf test suite against oracle.

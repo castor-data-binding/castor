@@ -36,6 +36,7 @@ import org.castor.jdo.engine.AbstractConnectionFactory;
 import org.castor.jdo.engine.DataSourceConnectionFactory;
 import org.castor.jdo.engine.DriverConnectionFactory;
 import org.castor.jdo.engine.JNDIConnectionFactory;
+import org.exolab.castor.mapping.Mapping;
 
 /**
  * @author Administrator
@@ -82,7 +83,7 @@ public final class Test954 extends CPATestCase {
         if (jdoConf.getDatabase(0).getDatabaseChoice().getDriver() != null) {
             factory = new DriverConnectionFactory(jdoConf, 0, null);
         } else if (jdoConf.getDatabase(0).getDatabaseChoice().getDataSource() != null) {
-            factory = new DataSourceConnectionFactory(jdoConf, 0, null);
+            factory = new DataSourceConnectionFactory(jdoConf, 0, new Mapping());
         } else if (jdoConf.getDatabase(0).getDatabaseChoice().getDriver() != null) {
             factory = new JNDIConnectionFactory(jdoConf, 0, null);
         }
