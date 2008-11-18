@@ -30,7 +30,8 @@ public final class Test2527 extends CPATestCase {
     }
     
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL);
+        return (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.ORACLE);
     }
     
     public void test() throws Exception {

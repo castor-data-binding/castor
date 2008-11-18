@@ -94,7 +94,7 @@
 			<sql name="COURSE_TEES_ID"/>
 		</field>
 		<field name="number" type="integer" required="true">
-			<sql name="NUMBER" type="integer"/>
+			<sql name="NUM" type="integer"/>
 		</field>
 		<field name="name" type="string">
 			<sql name="HOLE_NAME" type="char"/>
@@ -203,10 +203,10 @@
 		</field>
 	</class>
 	
-	<key-generator name="IDENTITY" alias="GolfCourse_SEQUENCE"/>
-	<key-generator name="IDENTITY" alias="GolfCourseTees_SEQUENCE"/>
-	<key-generator name="IDENTITY" alias="GolfCourseHole_SEQUENCE"/>
-	<key-generator name="IDENTITY" alias="City_SEQUENCE"/>
-	<key-generator name="IDENTITY" alias="Country_SEQUENCE"/>
-	<key-generator name="IDENTITY" alias="StateProv_SEQUENCE"/>
+	<key-generator name="MAX" alias="GolfCourse_SEQUENCE"/>
+	<key-generator name="MAX" alias="GolfCourseTees_SEQUENCE"/>
+	<key-generator name="MAX" alias="GolfCourseHole_SEQUENCE"/>
+	<key-generator name="MAX" alias="City_SEQUENCE"/>
+	<key-generator name="MAX" alias="Country_SEQUENCE"/>
+	<key-generator name="MAX" alias="StateProv_SEQUENCE"/>
 </mapping>

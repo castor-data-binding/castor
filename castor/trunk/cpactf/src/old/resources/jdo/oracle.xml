@@ -4,19 +4,16 @@
 
 <jdo-conf>
     <database name="oracle" engine="oracle" >
-        <driver url="jdbc:oracle:thin:@localhost:1521:TEST"
+        <driver url="jdbc:oracle:thin:@//192.168.1.201:1521/castor.syscon.priv"
                 class-name="oracle.jdbc.driver.OracleDriver">
             <param name="user" value="test"/>
             <param name="password" value="secret"/>
         </driver>
 <!--
-        <data-source class-name="oracle.jdbc.pool.OracleConnectionCacheImpl">
-            <param name="URL" value="jdbc:oracle:thin:@localhost:1521:TEST" />
+        <data-source class-name="oracle.jdbc.pool.OracleConnectionPoolDataSource">
+            <param name="URL" value="jdbc:oracle:thin:@//192.168.1.201:1521/castor.syscon.priv" />
             <param name="user" value="test" />
             <param name="password" value="secret" />
-            <param name="min-limit" value="5" />
-            <param name="max-limit" value="10" />
-            <param name="cache-scheme" value="1" />
         </data-source>
 -->        
 		<mapping href="jdo/mapping.xml" />

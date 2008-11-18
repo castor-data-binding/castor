@@ -43,7 +43,8 @@ public final class TestSimple extends CPATestCase {
     }
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL);
+        return (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.ORACLE);
     }
     
     public void delete() throws Exception {

@@ -47,6 +47,26 @@
             
             </summary>
             <bugs>
+                <bug id="2582" tool="jira">
+                    <description>
+                        Enabled execution of new cpactf test suite against oracle.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Task</type>
+                    <module>JDO</module>
+                    <date>20081118</date>
+                </bug>
                 <bug id="2567" tool="jira">
                     <description>
                         Fixed SQLException 'Invalid column type' at execution of query.

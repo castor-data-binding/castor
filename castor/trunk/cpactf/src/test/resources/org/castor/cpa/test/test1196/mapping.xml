@@ -82,7 +82,7 @@
             <sql name="OID" type="char"/>
         </field>
         <field name="number" type="string">
-            <sql name="NUMBER" type="char"/>
+            <sql name="NUM" type="char"/>
         </field>
         <field name="orderItem" type="org.castor.cpa.test.test1196.OrderItem">
             <sql name="ORDERITEM"/>
@@ -97,7 +97,7 @@
             <sql name="OID" type="char"/>
         </field>
         <field name="number" type="integer">
-            <sql name="NUMBER" type="integer"/>
+            <sql name="NUM" type="integer"/>
         </field>
         <field name="orderItems" collection="vector"
                type="org.castor.cpa.test.test1196.OrderItem">

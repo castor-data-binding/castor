@@ -17,7 +17,7 @@
             <sql name="SOURCE" type="char"/>
         </field>
         <field name="level" type="string">
-            <sql name="LEVEL" type="char"/>
+            <sql name="LLEVEL" type="char"/>
         </field>
         <field name="message" type="string">
             <sql name="MESSAGE" type="char"/>

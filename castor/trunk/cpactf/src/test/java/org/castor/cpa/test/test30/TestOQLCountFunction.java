@@ -46,8 +46,9 @@ public final class TestOQLCountFunction extends CPATestCase {
     }
     
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL 
-                || engine == DatabaseEngineType.DERBY);
+        return (engine == DatabaseEngineType.MYSQL) 
+            || (engine == DatabaseEngineType.DERBY) 
+            || (engine == DatabaseEngineType.ORACLE);
     }
 
    public void setUp() throws Exception {

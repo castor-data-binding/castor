@@ -4,10 +4,20 @@
 
 <jdo-conf>
     <database name="mysql" engine="mysql" >
-        <driver url="jdbc:mysql://localhost:3306/test" class-name="com.mysql.jdbc.Driver">
+<!--
+        <driver url="jdbc:mysql://localhost:3306/test"
+                class-name="com.mysql.jdbc.Driver">
             <param name="user" value="test" />
             <param name="password" value="test" />
         </driver>
+-->        
+
+        <data-source class-name="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">
+            <param name="url" value="jdbc:mysql://localhost:3306/test"/>
+            <param name="user" value="test"/>
+            <param name="password" value="test"/>
+        </data-source>
+
 <!--
         <data-source class-name="org.apache.commons.dbcp.BasicDataSource">
             <param name="driver-class-name" value="com.mysql.jdbc.Driver"/>

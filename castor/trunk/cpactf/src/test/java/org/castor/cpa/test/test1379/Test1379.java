@@ -15,8 +15,9 @@ public class Test1379 extends CPATestCase {
     private static final String MAPPING = "/org/castor/cpa/test/test1379/mapping.xml";
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL 
-                || engine == DatabaseEngineType.DERBY);
+        return (engine == DatabaseEngineType.MYSQL) 
+            || (engine == DatabaseEngineType.DERBY) 
+            || (engine == DatabaseEngineType.ORACLE);
     }
     
     public void test() throws Exception {

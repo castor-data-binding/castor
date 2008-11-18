@@ -34,8 +34,9 @@ public final class Test1355 extends CPATestCase {
     }
     
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL 
-                || engine == DatabaseEngineType.DERBY);
+        return (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.ORACLE);
     }
     
     /**
@@ -53,7 +54,7 @@ public final class Test1355 extends CPATestCase {
             GolfCourse course = (GolfCourse) queryResults.next();
 
             // shouldn't have to load city, but Castor 1.0M3 throws an exception without
-            // debug("Loaded " + course.getCity().getId());
+            // LOG.debug("Loaded " + course.getCity().getId());
 
             Iterator < GolfCourseTees > tees = course.getTees().iterator();
             while (tees.hasNext()) {
