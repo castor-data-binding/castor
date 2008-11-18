@@ -7,7 +7,7 @@ CREATE TABLE TEST2527_LOG (
             ID         INT NOT NULL,
             STAMP      TIMESTAMP NOT NULL,
             SOURCE     VARCHAR(100) NOT NULL,  
-            LEVEL      VARCHAR(10) NOT NULL,  
+            LLEVEL     VARCHAR(10) NOT NULL,  
             MESSAGE    VARCHAR(500) NULL
 );  
 

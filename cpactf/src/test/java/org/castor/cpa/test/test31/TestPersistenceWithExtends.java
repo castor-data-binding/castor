@@ -40,8 +40,8 @@ public final class TestPersistenceWithExtends extends CPATestCase {
     }    
     
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL 
-                || engine == DatabaseEngineType.DERBY);
+        return (engine == DatabaseEngineType.MYSQL) 
+            || (engine == DatabaseEngineType.DERBY);
     }
 
     public void setUp() throws Exception {

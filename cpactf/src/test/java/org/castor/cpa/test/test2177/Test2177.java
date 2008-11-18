@@ -26,8 +26,9 @@ public final class Test2177 extends CPATestCase {
 
     
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL 
-                || engine == DatabaseEngineType.DERBY);
+        return (engine == DatabaseEngineType.MYSQL) 
+            || (engine == DatabaseEngineType.DERBY) 
+            || (engine == DatabaseEngineType.ORACLE);
     }
 
 
