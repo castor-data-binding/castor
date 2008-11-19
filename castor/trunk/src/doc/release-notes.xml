@@ -47,6 +47,27 @@
             
             </summary>
             <bugs>
+                <bug id="2578" tool="jira">
+                    <description>
+                        Fixed problem code generation for &lt;xs:simpleTypes&gt; 
+                        that are derived from NMTOKENS.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Renee Rivas</name>
+                        <email>renee@raytheon.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20081119</date>
+                </bug>
                 <bug id="2585" tool="jira">
                     <description>
                         Fixed bug in HighLowKeyGenerator that caused TC20 to fail at Oracle.

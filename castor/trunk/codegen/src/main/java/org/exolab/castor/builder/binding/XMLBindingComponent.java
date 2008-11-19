@@ -598,6 +598,7 @@ public final class XMLBindingComponent implements BindingComponent {
                 break;
             case Structure.SIMPLE_TYPE:
             case Structure.UNION:
+            case Structure.LIST:
                 _schema = ((SimpleType) _annotated).getSchema();
                 break;
             default:
