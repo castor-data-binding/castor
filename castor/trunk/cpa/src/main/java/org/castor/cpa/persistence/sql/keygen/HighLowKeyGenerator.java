@@ -124,7 +124,7 @@ public final class HighLowKeyGenerator implements KeyGenerator {
          */
         public void init(final ResultSet rs) throws SQLException {
             _last = 0;
-            if (rs != null) { _last = rs.getLong(1); }
+            if ((rs != null) && (rs.isFirst())) { _last = rs.getLong(1); }
             _max = _last + _grab;
         }
         
@@ -178,7 +178,7 @@ public final class HighLowKeyGenerator implements KeyGenerator {
          */
         public void init(final ResultSet rs) throws SQLException {
             _last = null;
-            if (rs != null) { _last = rs.getBigDecimal(1); }
+            if ((rs != null) && (rs.isFirst())) { _last = rs.getBigDecimal(1); }
             if (_last == null) { _last = ZERO; }
             _max = _last.add(_grab);
         }

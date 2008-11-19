@@ -47,6 +47,26 @@
             
             </summary>
             <bugs>
+                <bug id="2585" tool="jira">
+                    <description>
+                        Fixed bug in HighLowKeyGenerator that caused TC20 to fail at Oracle.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20081119</date>
+                </bug>
                 <bug id="2583" tool="jira">
                     <description>
                         Fixed test954 of new cpactf test suite failing with datasource.
