@@ -813,8 +813,13 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     
                 }
                 state.object = primitives;
+            } else {
+                if (state.nil) {
+                    state.object = null;
+                } else {
+                    state.object = toPrimitiveObject(type,str,state.fieldDesc);
+                }
             }
-            else state.object = toPrimitiveObject(type,str,state.fieldDesc);
         }
         else if (ArrayHandler.class.isAssignableFrom(state.type)) {
             state.object = ((ArrayHandler)state.object).getObject();
@@ -3739,10 +3744,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         }
         // long
         else if ((type == Long.TYPE) || (type == Long.class)) {
-            if (isNull)
+            if (isNull) {
                 primitive = new Long(0);
-            else
+            } else {
                 primitive = new Long(value);
+            }
         }
         // char
         else if ((type == Character.TYPE) || (type == Character.class)) {

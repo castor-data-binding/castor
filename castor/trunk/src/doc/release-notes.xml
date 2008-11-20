@@ -47,6 +47,27 @@
             
             </summary>
             <bugs>
+                <bug id="2565" tool="jira">
+                    <description>
+                        Fixed problem with handling of nil artifacts during 
+                        unmarshalling for primitive values.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Denis Cabasson</name>
+                        <email>denis.cabasson@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20081114</date>
+                </bug>
                 <bug id="2578" tool="jira">
                     <description>
                         Fixed problem code generation for &lt;xs:simpleTypes&gt; 
