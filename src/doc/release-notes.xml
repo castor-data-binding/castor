@@ -47,6 +47,27 @@
             
             </summary>
             <bugs>
+                <bug id="2569" tool="jira">
+                    <description>
+                        Migrated a small framework to process annotations from the
+                        JAXB project to the core module. 
+                    </description>
+                    <contributor>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Alexander Eibner</name>
+                        <email>axi-list@stayduebeauty.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>Core</module>
+                    <date>20081126</date>
+                </bug>
                 <bug id="2580" tool="jira">
                     <description>
                         Fixed problem with line feeds when used as part of 
