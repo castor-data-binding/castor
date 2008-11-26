@@ -47,6 +47,27 @@
             
             </summary>
             <bugs>
+                <bug id="2580" tool="jira">
+                    <description>
+                        Fixed problem with line feeds when used as part of 
+                        a default value definition in XML schemas.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Al Jacinto</name>
+                        <email>alex.jacinto@ge.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XMLGen</module>
+                    <date>20081125</date>
+                </bug>
                 <bug id="2565" tool="jira">
                     <description>
                         Fixed problem with handling of nil artifacts during 
