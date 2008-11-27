@@ -47,6 +47,27 @@
             
             </summary>
             <bugs>
+                <bug id="2564" tool="jira">
+                    <description>
+                        Fixed problem with (Maven) build when Castor resides in a directory 
+                        structure that has spaces in its path.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Martin S. Weber</name>
+                        <email>martin.weber@nist.gov</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>General</module>
+                    <date>20081127</date>
+                </bug>
                 <bug id="2569" tool="jira">
                     <description>
                         Migrated a small framework to process annotations from the

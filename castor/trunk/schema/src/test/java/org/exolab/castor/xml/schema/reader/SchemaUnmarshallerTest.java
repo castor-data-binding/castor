@@ -15,7 +15,8 @@
  */
 package org.exolab.castor.xml.schema.reader;
 
-import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -37,6 +38,7 @@ import org.exolab.castor.xml.schema.annotations.jdo.OneToOne;
 import org.exolab.castor.xml.schema.annotations.jdo.Table;
 import org.xml.sax.InputSource;
 import org.xml.sax.Parser;
+import org.xml.sax.SAXException;
 
 /**
  * This test is a integration test. It verifies whether a SchemaUnmarshaller
@@ -59,44 +61,12 @@ public class SchemaUnmarshallerTest extends TestCase {
      * Postcondition: The complexType bookType holds a table object in it's
      * annotations. The element declaration of isbn holds a column object. The
      * element declaration of title also holds a column object.
+     * @throws IOException 
+     * @throws SAXException 
+     * @throws FileNotFoundException 
      */
-    public void testUnmarshallSchema() {
-        Parser parser = null;
-        InternalContext internalContext = new BackwardCompatibilityContext();
-
-        try {
-            parser = internalContext.getParser();
-        } catch (RuntimeException rte) {
-            fail("Can't optain sax parser!");
-        }
-
-        if (parser == null) {
-            fail("Unable to create SAX parser.");
-        }
-
-        SchemaContext schemaContext = new SchemaContextImpl();
-        SchemaUnmarshaller schemaUnmarshaller = null;
-        try {
-            schemaUnmarshaller = new SchemaUnmarshaller(schemaContext);
-        } catch (XMLException e) {
-            fail(e.getMessage());
-        }
-
-        Sax2ComponentReader handler = new Sax2ComponentReader(
-                schemaUnmarshaller);
-        parser.setDocumentHandler(handler);
-        parser.setErrorHandler(handler);
-
-        try {
-            parser.parse(new InputSource(new FileInputStream(getClass()
-                    .getResource("schema-entity.xsd").getFile())));
-        } catch (java.io.IOException ioe) {
-            fail("error reading XML Schema file");
-        } catch (org.xml.sax.SAXException sx) {
-            fail(sx.getMessage());
-        }
-
-        Schema schema = schemaUnmarshaller.getSchema();
+    public void testUnmarshallSchema() throws FileNotFoundException, SAXException, IOException {
+        Schema schema = unmarshalSchema("schema-entity.xsd");
         ComplexType bookType = schema.getComplexType("bookType");
         Enumeration annotations = bookType.getAnnotations();
         Annotation annotation = (Annotation) annotations.nextElement();
@@ -143,44 +113,11 @@ public class SchemaUnmarshallerTest extends TestCase {
      * with NO JDO content.<br>
      * Postcondition: The complexType bookType, isbn and title have no
      * jdo-specific content in it's annotations.
+     * @throws IOException 
+     * @throws SAXException 
      */
-    public void testUnmarshallNonJdoSchema() {
-        Parser parser = null;
-        InternalContext internalContext = new BackwardCompatibilityContext();
-
-        try {
-            parser = internalContext.getParser();
-        } catch (RuntimeException rte) {
-            fail("Can't optain sax parser!");
-        }
-
-        if (parser == null) {
-            fail("Unable to create SAX parser.");
-        }
-
-        SchemaContext schemaContext = new SchemaContextImpl();
-        SchemaUnmarshaller schemaUnmarshaller = null;
-        try {
-            schemaUnmarshaller = new SchemaUnmarshaller(schemaContext);
-        } catch (XMLException e) {
-            fail(e.getMessage());
-        }
-
-        Sax2ComponentReader handler = new Sax2ComponentReader(
-                schemaUnmarshaller);
-        parser.setDocumentHandler(handler);
-        parser.setErrorHandler(handler);
-
-        try {
-            parser.parse(new InputSource(new FileInputStream(getClass()
-                    .getResource("schema-entity-non-jdo.xsd").getFile())));
-        } catch (java.io.IOException ioe) {
-            fail("error reading XML Schema file");
-        } catch (org.xml.sax.SAXException sx) {
-            fail(sx.getMessage());
-        }
-
-        Schema schema = schemaUnmarshaller.getSchema();
+    public void testUnmarshallNonJdoSchema() throws SAXException, IOException {
+        Schema schema = unmarshalSchema("schema-entity-non-jdo.xsd");
         ComplexType bookType = schema.getComplexType("bookType");
         Enumeration annotations = bookType.getAnnotations();
         Annotation annotation = (Annotation) annotations.nextElement();
@@ -218,44 +155,11 @@ public class SchemaUnmarshallerTest extends TestCase {
      * with NO JDO content, but encapsulated JDO elements.<br>
      * Postcondition: The complexType bookType, isbn and title have no
      * jdo-specific content in it's annotations.
+     * @throws IOException 
+     * @throws SAXException 
      */
-    public void testUnmarshallMixedSchema() {
-        Parser parser = null;
-        InternalContext internalContext = new BackwardCompatibilityContext();
-
-        try {
-            parser = internalContext.getParser();
-        } catch (RuntimeException rte) {
-            fail("Can't optain sax parser!");
-        }
-
-        if (parser == null) {
-            fail("Unable to create SAX parser.");
-        }
-
-        SchemaContext schemaContext = new SchemaContextImpl();
-        SchemaUnmarshaller schemaUnmarshaller = null;
-        try {
-            schemaUnmarshaller = new SchemaUnmarshaller(schemaContext);
-        } catch (XMLException e) {
-            fail(e.getMessage());
-        }
-
-        Sax2ComponentReader handler = new Sax2ComponentReader(
-                schemaUnmarshaller);
-        parser.setDocumentHandler(handler);
-        parser.setErrorHandler(handler);
-
-        try {
-            parser.parse(new InputSource(new FileInputStream(getClass()
-                    .getResource("schema-entity-mixed.xsd").getFile())));
-        } catch (java.io.IOException ioe) {
-            fail("error reading XML Schema file");
-        } catch (org.xml.sax.SAXException sx) {
-            fail(sx.getMessage());
-        }
-
-        Schema schema = schemaUnmarshaller.getSchema();
+    public void testUnmarshallMixedSchema() throws SAXException, IOException {
+        Schema schema = unmarshalSchema("schema-entity-mixed.xsd");
         ComplexType bookType = schema.getComplexType("bookType");
         Enumeration annotations = bookType.getAnnotations();
         Annotation annotation = (Annotation) annotations.nextElement();
@@ -295,44 +199,11 @@ public class SchemaUnmarshallerTest extends TestCase {
      * annotations. The element declaration of isbn holds a column object. The
      * element declaration of title also holds a column object. The element 
      * declaration of author holds a one-to-many object.
+     * @throws IOException 
+     * @throws SAXException 
      */
-    public void testUnmarshallOneToManySchema() {
-        Parser parser = null;
-        InternalContext internalContext = new BackwardCompatibilityContext();
-
-        try {
-            parser = internalContext.getParser();
-        } catch (RuntimeException rte) {
-            fail("Can't optain sax parser!");
-        }
-
-        if (parser == null) {
-            fail("Unable to create SAX parser.");
-        }
-
-        SchemaContext schemaContext = new SchemaContextImpl();
-        SchemaUnmarshaller schemaUnmarshaller = null;
-        try {
-            schemaUnmarshaller = new SchemaUnmarshaller(schemaContext);
-        } catch (XMLException e) {
-            fail(e.getMessage());
-        }
-
-        Sax2ComponentReader handler = new Sax2ComponentReader(
-                schemaUnmarshaller);
-        parser.setDocumentHandler(handler);
-        parser.setErrorHandler(handler);
-
-        try {
-            parser.parse(new InputSource(new FileInputStream(getClass()
-                    .getResource("schema-one-to-many.xsd").getFile())));
-        } catch (java.io.IOException ioe) {
-            fail("error reading XML Schema file");
-        } catch (org.xml.sax.SAXException sx) {
-            fail(sx.getMessage());
-        }
-
-        Schema schema = schemaUnmarshaller.getSchema();
+    public void testUnmarshallOneToManySchema() throws SAXException, IOException {
+        Schema schema = unmarshalSchema("schema-one-to-many.xsd");
         ComplexType bookType = schema.getComplexType("bookType");
         Enumeration annotations = bookType.getAnnotations();
         Annotation annotation = (Annotation) annotations.nextElement();
@@ -415,44 +286,11 @@ public class SchemaUnmarshallerTest extends TestCase {
      * Postcondition: The complexType bookType holds a table object in it's
      * annotations. The element declaration of isbn holds a column object. The
      * element declaration of title also holds a column object.
+     * @throws IOException 
+     * @throws SAXException 
      */
-    public void testUnmarshallOneToOneSchema() {
-        Parser parser = null;
-        InternalContext internalContext = new BackwardCompatibilityContext();
-
-        try {
-            parser = internalContext.getParser();
-        } catch (RuntimeException rte) {
-            fail("Can't optain sax parser!");
-        }
-
-        if (parser == null) {
-            fail("Unable to create SAX parser.");
-        }
-
-        SchemaContext schemaContext = new SchemaContextImpl();
-        SchemaUnmarshaller schemaUnmarshaller = null;
-        try {
-            schemaUnmarshaller = new SchemaUnmarshaller(schemaContext);
-        } catch (XMLException e) {
-            fail(e.getMessage());
-        }
-
-        Sax2ComponentReader handler = new Sax2ComponentReader(
-                schemaUnmarshaller);
-        parser.setDocumentHandler(handler);
-        parser.setErrorHandler(handler);
-
-        try {
-            parser.parse(new InputSource(new FileInputStream(getClass()
-                    .getResource("schema-one-to-one.xsd").getFile())));
-        } catch (java.io.IOException ioe) {
-            fail("error reading XML Schema file");
-        } catch (org.xml.sax.SAXException sx) {
-            fail(sx.getMessage());
-        }
-
-        Schema schema = schemaUnmarshaller.getSchema();
+    public void testUnmarshallOneToOneSchema() throws SAXException, IOException {
+        Schema schema = unmarshalSchema("schema-one-to-one.xsd");
         ComplexType bookType = schema.getComplexType("bookType");
         Enumeration annotations = bookType.getAnnotations();
         Annotation annotation = (Annotation) annotations.nextElement();
@@ -503,6 +341,47 @@ public class SchemaUnmarshallerTest extends TestCase {
         assertTrue(oneToOne.isReadOnly());
         
         
+    }
+
+    /**
+     * Helper method that (manually) unmarshals an XML schema and returns a 
+     * {@link Schema} object instance. 
+     * @param schemaName Name of the XML schema to be unmarshalled.
+     * @return {@link Schema} object instance.
+     * @throws SAXException When a problem with XML data binding occurs.
+     * @throws IOException When the XML schema file cannot be accessed.
+     */
+    private Schema unmarshalSchema(final String schemaName) throws SAXException, IOException {
+        Parser parser = null;
+        InternalContext internalContext = new BackwardCompatibilityContext();
+
+        try {
+            parser = internalContext.getParser();
+        } catch (RuntimeException rte) {
+            fail("Can't optain sax parser!");
+        }
+
+        if (parser == null) {
+            fail("Unable to create SAX parser.");
+        }
+
+        SchemaContext schemaContext = new SchemaContextImpl();
+        SchemaUnmarshaller schemaUnmarshaller = null;
+        try {
+            schemaUnmarshaller = new SchemaUnmarshaller(schemaContext);
+        } catch (XMLException e) {
+            fail(e.getMessage());
+        }
+
+        Sax2ComponentReader handler = new Sax2ComponentReader(
+                schemaUnmarshaller);
+        parser.setDocumentHandler(handler);
+        parser.setErrorHandler(handler);
+
+        parser.parse(new InputSource(getClass().getResource(schemaName).toExternalForm()));
+
+        Schema schema = schemaUnmarshaller.getSchema();
+        return schema;
     }
     
 }

@@ -104,9 +104,10 @@ public abstract class AbstractSchemaTest extends TestCase {
 
         // 2. load expected schema
         URL expectedUrl = this.getClass().getResource(expected);
+        File expectedSchemaFile = new File(expectedUrl.toURI());
 
         // 3. compare using org.castor.xmlctf.xmldiff.XMLDiff
-        XMLDiff diff = new XMLDiff(targetedOutput.getAbsolutePath(), expectedUrl.getFile());
+        XMLDiff diff = new XMLDiff(targetedOutput.getAbsolutePath(), expectedSchemaFile.getAbsolutePath());
         int result = diff.compare();
         TestResult testResult = result == 0 ? TestResult.IDENTICAL : TestResult.DIFFERENCE;
 
