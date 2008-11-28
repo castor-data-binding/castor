@@ -11,6 +11,7 @@
                 
     <xsl:import href="urn:docbkx:stylesheet"/>
     <xsl:import href="highlight.xsl"/>
+    <xsl:import href="tracking.xsl" />
 	
     <!--###################################################
                     HTML Settings
