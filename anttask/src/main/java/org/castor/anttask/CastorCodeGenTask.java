@@ -84,7 +84,6 @@ import org.xml.sax.SAXException;
  * @version $Revision: 6543 $ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public final class CastorCodeGenTask extends MatchingTask {
-    //--------------------------------------------------------------------------
 
     /** Message indicating that the method setJdoDescriptorCreation cannot be invoked. */
     private static final String PROBLEM_SETTING_JDO_DESC = 
@@ -110,8 +109,6 @@ public final class CastorCodeGenTask extends MatchingTask {
     private static final String NO_SCHEMA_MSG =
         "At least one of the file, url or dir attributes, or a fileset element, must be set.";
 
-    //--------------------------------------------------------------------------
-
     /** Castor XML context - the mother of all. */
     private InternalContext _internalContext;
     
@@ -125,7 +122,7 @@ public final class CastorCodeGenTask extends MatchingTask {
     private File _schemaDir = null;
     
     /** If processing a fileset, this lists the fileset. */
-    private Vector _schemaFilesets = new Vector();
+    private Vector < FileSet > _schemaFilesets = new Vector < FileSet > ();
 
     // Begin Source Generator parameters
     /** The package that generated code will belong to. */
@@ -157,7 +154,7 @@ public final class CastorCodeGenTask extends MatchingTask {
     private boolean _nomarshal;
     
     /**
-     * If true, a mapping file will be generated (additionaly).
+     * If true, a mapping file will be generated (additionally).
      */
     private boolean _generateMapping;
     
@@ -193,8 +190,6 @@ public final class CastorCodeGenTask extends MatchingTask {
     /** SourceGenerator instance. */
     private SourceGenerator _sgen;
 
-    //--------------------------------------------------------------------------
-
     /**
      * No-arg constructor.
      */
@@ -202,8 +197,6 @@ public final class CastorCodeGenTask extends MatchingTask {
         super();
         _internalContext = new BackwardCompatibilityContext();
     }
-
-    //--------------------------------------------------------------------------
 
     /**
      * Sets the individual schema that will have code generated for it.
@@ -409,7 +402,14 @@ public final class CastorCodeGenTask extends MatchingTask {
         _jclassPrinterType = jclassPrinterType;
     }
 
-    //--------------------------------------------------------------------------
+    /**
+     * Controls whether a mapping file should (additionally) be generated.
+
+     * @param generateMapping True if a mapping file should be generated.
+     */
+    public void setGenerateMapping(final boolean generateMapping) {
+        _generateMapping = generateMapping;
+    }
 
     /**
      * Configured the code generator. If anything goes wrong during configuration of the
@@ -597,8 +597,6 @@ public final class CastorCodeGenTask extends MatchingTask {
             _sgen = null;
         }
     }
-
-    //--------------------------------------------------------------------------
 
     /**
      * Override Castor's SourceGenerator to inject exception handling.

@@ -47,6 +47,27 @@
             
             </summary>
             <bugs>
+                <bug id="2588" tool="jira">
+                    <description>
+                        Added missing setGenerateMapping(boolean) method to
+                        CastorCodeGenTask class. 
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>AntTask</module>
+                    <date>20080203</date>
+                </bug>
                 <bug id="2564" tool="jira">
                     <description>
                         Fixed problem with (Maven) build when Castor resides in a directory 
