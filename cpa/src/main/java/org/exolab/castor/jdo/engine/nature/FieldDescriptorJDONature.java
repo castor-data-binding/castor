@@ -149,6 +149,10 @@ public class FieldDescriptorJDONature extends BaseNature {
         return (int[]) getProperty(SQL_TYPE);
     }
 
+    /**
+     * Sets the SQL type of this field.
+     * @param sqlType The SQL type of this field.
+     */
     public void setSQLType(final int[] sqlType) {
         setProperty(SQL_TYPE, sqlType);
     }
