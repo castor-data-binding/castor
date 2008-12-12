@@ -47,6 +47,27 @@
             
             </summary>
             <bugs>
+                <bug id="2593" tool="jira">
+                    <description>
+                        Improved exception reporting in the context of custom
+                        field handlers by adding the root cause to the stack trace.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20081212</date>
+                </bug>
                 <bug id="2588" tool="jira">
                     <description>
                         Added missing setGenerateMapping(boolean) method to

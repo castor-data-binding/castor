@@ -376,6 +376,10 @@ public final class FieldHandlerImpl
         return _convertTo;
     }
 
+    /**
+     * {@inheritDoc}
+     * @see org.exolab.castor.mapping.AbstractFieldHandler#getValue(java.lang.Object)
+     */
     public Object getValue(Object object) {
         Object value;
 
@@ -392,7 +396,7 @@ public final class FieldHandlerImpl
                 value = _enumMethod.invoke(object, (Object[]) null);
             } else if (_iterMethod != null ) {
                 // If there is an iterator method supplied, wrap it in an enumeration.
-                value = new IteratorEnumeration((Iterator)_iterMethod.invoke(object, (Object[]) null));
+                value = new IteratorEnumeration((Iterator) _iterMethod.invoke(object, (Object[]) null));
             } else if (_getMethod != null) {
                 if (_getSequence != null) {
                     for (int i = 0; i < _getSequence.length; i++) {
@@ -407,7 +411,7 @@ public final class FieldHandlerImpl
                 // If field has 'has' method, false means field is null and do not attempt to
                 // call getValue. Otherwise, ????
                 if (object == null || (_hasMethod != null 
-                                       && !((Boolean) _hasMethod.invoke(object, (Object[]) null)).booleanValue())) {
+                        && !((Boolean) _hasMethod.invoke(object, (Object[]) null)).booleanValue())) {
                     value = null;
                 } else {
                     value = _getMethod.invoke(object, (Object[]) null);
@@ -427,7 +431,8 @@ public final class FieldHandlerImpl
 
         //-- If a collection, return an enumeration of it's values.
         //-- Only use collection handler, if there is no convertor or enum method.
-        if (_colHandler != null && _enumMethod == null && _iterMethod == null && _convertFrom == null) {
+        if (_colHandler != null && _enumMethod == null 
+                && _iterMethod == null && _convertFrom == null) {
             if (value == null) {
                 return new CollectionHandlers.EmptyEnumerator();
             }
@@ -442,23 +447,29 @@ public final class FieldHandlerImpl
         try {
             return _convertFrom.convert(value);
         } catch (ClassCastException except) {
-            throw new IllegalArgumentException(Messages.format("mapping.wrongConvertor", value.getClass().getName()));
+            String errorMessage = Messages.format("mapping.wrongConvertor", 
+                    value.getClass().getName());
+            throw new IllegalArgumentException(errorMessage, except);
         }
     }
 
-    public void setValue( Object object, Object value )
-    {
-        if ( _colHandler == null || _addMethod != null) {
+    /**
+     * {@inheritDoc}
+     * @see org.exolab.castor.mapping.AbstractFieldHandler#setValue(java.lang.Object, java.lang.Object)
+     */
+    public void setValue(Object object, Object value) {
+        if (_colHandler == null || _addMethod != null) {
 
             // If there is a convertor, apply conversion here.
-            if ( value != null && _convertTo != null ) {
+            if (value != null && _convertTo != null) {
                 try {
                     value = _convertTo.convert(value);
-                } catch ( ClassCastException except ) {
-                    throw new IllegalArgumentException( Messages.format( "mapping.wrongConvertor", value.getClass().getName() ) );
+                } catch (ClassCastException except) {
+                    String errorMessage = 
+                        Messages.format("mapping.wrongConvertor", value.getClass().getName());
+                    throw new IllegalArgumentException(errorMessage, except);
                 }
-            }
-            else {
+            } else {
                 //-- unwrap MapItem if necessary
                 //if (_colHandler != null) {
                 //    if ((value instanceof MapItem) && (_fieldType != MapItem.class))
@@ -470,56 +481,63 @@ public final class FieldHandlerImpl
 
 
             try {
-                if ( _handler != null )
-                    _handler.setValue( object, value );
-                else if ( _field != null )
-                    _field.set( object, value == null ? _default : value );
-                else {
+                if (_handler != null) {
+                    _handler.setValue(object, value);
+                } else if (_field != null) {
+                    _field.set(object, value == null ? _default : value);
+                } else {
                     
                     //-- either add or set
-                    Method setter = selectWriteMethod( value );
+                    Method setter = selectWriteMethod(value);
                     
                     if (setter != null) {
-                        if ( _getSequence != null ) 
-                            for ( int i = 0; i < _getSequence.length; i++ ) {
+                        if (_getSequence != null) {
+                            for (int i = 0; i < _getSequence.length; i++) {
                                 Object last;
 
                                 last = object;
-                                object = _getSequence[ i ].invoke( object, (Object[]) null );
-                                if ( object == null ) {
+                                object = _getSequence[i].invoke(object, (Object[]) null);
+                                if (object == null) {
                                     // if the value is not null, we must instantiate
                                     // the object in the sequence
-                                    if ( value == null || _setSequence[ i ] == null ) break;
-                                    object = Types.newInstance( _getSequence[ i ].getReturnType() );
-                                    _setSequence[ i ].invoke( last, new Object[] { object } );
+                                    if (value == null || _setSequence[i] == null) {
+                                        break;
+                                    }
+                                    object = Types.newInstance(_getSequence[i].getReturnType());
+                                    _setSequence[ i ].invoke(last, new Object[] {object});
                                 }
                             }
-                        if ( object != null ) {
-                            if ( value == null && _deleteMethod != null )
-                                _deleteMethod.invoke( object, (Object[]) null );
-                            else
-                                setter.invoke( object, new Object[] { value == null ? _default : value } );
+                        }
+                        if (object != null) {
+                            if (value == null && _deleteMethod != null) {
+                                _deleteMethod.invoke(object, (Object[]) null);
+                            } else {
+                                setter.invoke(object, 
+                                        new Object[] {value == null ? _default : value});
+                            }
                         }
                     }
                 }
                 // If the field has no set method, ignore it.
                 // If this is a problem, identity it someplace else.
-            } catch ( IllegalArgumentException except ) {
+            } catch (IllegalArgumentException except) {
                 // Graceful way of dealing with unwrapping exception
-                if ( value == null )
-                    throw new IllegalArgumentException( Messages.format( "mapping.typeConversionNull", toString() ) );
-                throw new IllegalArgumentException( Messages.format( "mapping.typeConversion",
-                                                                     toString(), value.getClass().getName() ) );
-            } catch ( IllegalAccessException except ) {
+                if (value == null) {
+                    String errorMessage = Messages.format("mapping.typeConversionNull", toString());
+                    throw new IllegalArgumentException(errorMessage);
+                }
+                String errorMessage = Messages.format("mapping.typeConversion", 
+                        toString(), value.getClass().getName());
+                throw new IllegalArgumentException(errorMessage, except);
+            } catch (IllegalAccessException except) {
                 // This should never happen
-                throw new CastorIllegalStateException(
-                        Messages.format("mapping.schemaChangeNoAccess", toString()),
-                        except);
-            } catch ( InvocationTargetException except ) {
+                String errorMessage = 
+                    Messages.format("mapping.schemaChangeNoAccess", toString());
+                throw new CastorIllegalStateException(errorMessage, except);
+            } catch (InvocationTargetException except) {
                 // This should never happen
                 throw new MappingRuntimeException(except.getTargetException());
             }
-
         } else if ( value != null ) {
             Object collect;
             try {
