@@ -124,7 +124,9 @@ Description:
         <module name="JavadocStyle"/>
     </module>
     <module name="Translation"/>
+<!--     
     <module name="PackageHtml">
         <property name="severity" value="info"/>
     </module>
+ -->    
 </module>
