@@ -729,7 +729,8 @@ org.exolab.castor.builder.automaticConflictResolution=true</programlisting>
                 
         <para>
             In order to use the new Velocity-based code generation, please
-            call the <api class="org.exolab.castor.builder.SourceGenerator">setJCLassPrinterType(String)</api> method on the SourceGenerator class
+            call the method <methodname>setJCLassPrinterType(String)</methodname> on 
+            <classname>org.exolab.castor.builder.SourceGenerator</classname> 
             with a value of <literal>velocity</literal>.
         </para>
         
@@ -1766,7 +1767,7 @@ public class RootType {
           
                             <para>
                                Please note that there is several <emphasis role="italic">setter</emphasis> methods on the 
-                               <api>org.exolab.castor.builder.SourceGenerator</api> that allow you to fine-tune
+                               <classname>org.exolab.castor.builder.SourceGenerator</classname> that allow you to fine-tune
                                various settings for this reporting mode. Genuinely, we believe that for 
                                automated code generation through either Ant or Maven, the new <literal>informViaLog</literal>
                                is better suited for these needs.
@@ -1839,8 +1840,8 @@ public class RootType {
                                code artifacts:</para>
                    
                             <itemizedlist>
-                                <listitem><para><api class="org.exolab.castor.builder.SourceGenerator">setClassNameConflictResolver</api></para></listitem>
-                                <listitem><para><api>org.exolab.castor.builder.SourceGeneratorMain"</api></para></listitem>
+                                <listitem><para><methodname>setClassNameConflictResolver</methodname> on <classname>org.exolab.castor.builder.SourceGenerator</classname></para></listitem>
+                                <listitem><para><classname>org.exolab.castor.builder.SourceGeneratorMain"</classname></para></listitem>
                                 <listitem><para><xref endterm="xml.code.generator.invocations.anttask.short" linkend="xml.code.generator.invocations.anttask"/></para></listitem>
                                 <listitem><para><xref linkend="xml.code.generator.invocations.maven"/></para></listitem>
                             </itemizedlist>
@@ -2723,7 +2724,7 @@ javac com/xyz/*.java</programlisting>
            Castor XML supports the <ulink url="http://www.w3.org/TR/xmlschema-1/">W3C
            XML Schema 1.0 Second Edition Recommendation document (10/28/2004)</ulink>
            The Schema Object Model (located in the package
-           <api package="org.exolab.castor.xml.schema">org.exolab.castor.xml.schema</api>)
+           <package>org.exolab.castor.xml.schema</package>)
            provides an in-memory representation of a given XML schema whereas the
            XML code generator provides a binding
            between XML schema data types and structures into the corresponding ones
@@ -2732,9 +2733,9 @@ javac com/xyz/*.java</programlisting>
 
         <para>
            The Castor Schema Object Model can read
-           (<api package="org.exolab.castor.xml.schema.reader">org.exolab.castor.xml.schema.reader</api>)
+           (<package>org.exolab.castor.xml.schema.reader</package>)
            and write
-           (<api package="org.exolab.castor.xml.schema.writer">org.exolab.castor.xml.schema.writer</api>)
+           (<package>org.exolab.castor.xml.schema.writer</package>)
            an XML Schema as defined by the W3C recommandation. It allows you to
            create and manipulate an in-memory view of an XML Schema.
         </para>
@@ -2753,7 +2754,7 @@ javac com/xyz/*.java</programlisting>
         <para>
            Some Schema types do not have a corresponding type in Java.  Thus the
            Source Generator uses Castor implementation of these specific types
-           (located in the <api package="org.exolab.castor.types"> types package</api>).
+           (located in the <package>org.exolab.castor.types</package> package).
            For instance the <literal>duration</literal> type is implemented directly in
            Castor. Remember that the representation of XML Schema datatypes does
            not try to fit the W3C XML Schema specifications exactly. The aim is to
