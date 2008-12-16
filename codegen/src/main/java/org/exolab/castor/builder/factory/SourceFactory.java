@@ -755,7 +755,7 @@ public final class SourceFactory extends BaseFactory {
             GroupInfo groupInfo = new XMLInfoNature(classInfo).getGroupInfo();
             if (order == Order.choice) {
                 groupInfo.setAsChoice();
-            } else if (order == Order.seq) {
+            } else if (order == Order.sequence) {
                 groupInfo.setAsSequence();
             } else {
                 groupInfo.setAsAll();
@@ -2116,7 +2116,8 @@ public final class SourceFactory extends BaseFactory {
         Enumeration<Annotated> enumeration = contentModel.enumerate();
 
         //-- handle choice item
-        if (new XMLInfoNature(state.getClassInfo()).isChoice() && state.getFieldInfoForChoice() == null) {
+        if (new XMLInfoNature(state.getClassInfo()).isChoice() 
+                && state.getFieldInfoForChoice() == null) {
             state.setFieldInfoForChoice(_memberFactory.createFieldInfoForChoiceValue());
             state.getFieldInfoForChoice().getMemberAndAccessorFactory().createJavaField(
                     state.getFieldInfoForChoice(),
@@ -2159,7 +2160,7 @@ public final class SourceFactory extends BaseFactory {
                             new XMLInfoNature(state.getClassInfo()).getGroupInfo().setAsChoice();
                         } else if (group.getOrder() == Order.all) {
                             new XMLInfoNature(state.getClassInfo()).getGroupInfo().setAsAll();
-                        } else if (group.getOrder() == Order.seq) {
+                        } else if (group.getOrder() == Order.sequence) {
                             new XMLInfoNature(state.getClassInfo()).getGroupInfo().setAsSequence();
                         }
                     }

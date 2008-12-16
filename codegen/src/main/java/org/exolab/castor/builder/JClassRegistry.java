@@ -146,7 +146,7 @@ public class JClassRegistry {
             typedLocalName += "[" + typexPath  + "]";
         } else if (annotated instanceof Group) {
             Group group = (Group) annotated;
-            if (group.getOrder().getType() == Order.CHOICE 
+            if (group.getOrder() == Order.choice 
                     && !_globalElements.contains("/" + localXPath)) {
                 xPath += "/#choice";
             }

@@ -230,9 +230,9 @@ public class BaseFactory {
             StringBuilder comment = new StringBuilder();
             while (enumeration.hasMoreElements()) {
                 Annotation ann = enumeration.nextElement();
-                Enumeration documentations = ann.getDocumentation();
+                Enumeration<Documentation> documentations = ann.getDocumentation();
                 while (documentations.hasMoreElements()) {
-                    Documentation documentation = (Documentation) documentations.nextElement();
+                    Documentation documentation = documentations.nextElement();
                     String content = documentation.getContent();
                     if (content != null) {
                         comment.append(content);

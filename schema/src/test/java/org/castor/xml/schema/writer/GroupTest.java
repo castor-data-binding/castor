@@ -66,7 +66,7 @@ public class GroupTest extends AbstractSchemaTest {
 
         // create a sequence element
         Group group = new Group();
-        group.setOrder(Order.seq);
+        group.setOrder(Order.sequence);
         ctype.addGroup(group);
 
         // create a choice element for sequence element
@@ -105,7 +105,7 @@ public class GroupTest extends AbstractSchemaTest {
 
         // create a sequence element
         Group group = new Group();
-        group.setOrder(Order.seq);
+        group.setOrder(Order.sequence);
         ctype.addGroup(group);
 
         // create a choice element for sequence element

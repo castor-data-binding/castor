@@ -51,7 +51,7 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 /**
- * A class representing the XML Schema Annotation
+ * A class representing the XML Schema Annotation.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $ 
 **/
@@ -60,93 +60,86 @@ public class Annotation extends Structure {
     private static final long serialVersionUID = 2838816224303555598L;
 
     /**
-     * List of {@literal <appinfo>} objects
+     * List of {@literal <appinfo/>} objects.
     **/
-    private Vector appInfoList = null;
+    private Vector<AppInfo> _appInfos = new Vector<AppInfo>();
     
     /**
-     * List of <documentation> objects
+     * List of <documentation/> objects.
     **/
-    private Vector documentationList = null;
-    
+    private Vector<Documentation> _documentations = new Vector<Documentation>();
     
     /**
-     * Creates a new Annotation
-    **/
-    public Annotation() {
-        appInfoList = new Vector();
-        documentationList = new Vector();
-    } //-- Annotation
-    
-    /**
-     * Adds the given AppInfo to this Annotation
+     * Adds the given {@link AppInfo} to this annotation.
      * @param appInfo the AppInfo to add
     **/
-    public void addAppInfo(AppInfo appInfo) {
-        if (appInfo != null) appInfoList.addElement(appInfo);
-    } //-- addAppInfo
+    public void addAppInfo(final AppInfo appInfo) {
+        if (appInfo != null) {
+            _appInfos.addElement(appInfo);
+        }
+    }
     
     /**
-     * Adds the given Documentation to this Annotation
+     * Adds the given Documentation to this Annotation.
      * @param documentation the documentation to add to this Annotation
     **/
-    public void addDocumentation(Documentation documentation) {
-        if (documentation != null) documentationList.addElement(documentation);
-    } //-- addDocumentation
+    public void addDocumentation(final Documentation documentation) {
+        if (documentation != null) {
+            _documentations.addElement(documentation);
+        }
+    }
 
     /**
-     * Returns an enumeration of all AppInfo elements for this Annotation
-     * @return an enumeration of all AppInfo elements for this Annotation
+     * Returns an enumeration of all {@link AppInfo} elements for this Annotation.
+     * @return an enumeration of all {@link AppInfo} elements for this Annotation
     **/
-    public Enumeration getAppInfo() {
-        return appInfoList.elements();
-    } //-- getAppInfo
+    public Enumeration<AppInfo> getAppInfo() {
+        return _appInfos.elements();
+    }
     
     /**
-     * Returns an enumeration of all documentation elements for this Annotation
+     * Returns an enumeration of all documentation elements for this Annotation.
      * @return an enumeration of all documentation elements for this Annotation
     **/
-    public Enumeration getDocumentation() {
-        return documentationList.elements();
-    } //-- getDocumentation
+    public Enumeration<Documentation> getDocumentation() {
+        return _documentations.elements();
+    }
     
     /**
-     * Removes the given AppInfo from this Annotation
+     * Removes the given AppInfo from this Annotation.
      * @param appInfo the AppInfo to remove
     **/
-    public void removeAppInfo(AppInfo appInfo) {
-        if (appInfo != null) appInfoList.removeElement(appInfo);
-    } //-- removeAppInfo
+    public void removeAppInfo(final AppInfo appInfo) {
+        if (appInfo != null) {
+            _appInfos.removeElement(appInfo);
+        }
+    }
 
     /**
-     * Removes the given Documentation from this Annotation
+     * Removes the given {@link Documentation} from this Annotation.
      * @param documentation the Documentation to remove
     **/
-    public void removeDocumentation(Documentation documentation) {
-        if (documentation != null) documentationList.removeElement(documentation);
-    } //-- removeDocumentation
-    
-    //-------------------------------/
-    //- Implementation of Structure -/
-    //-------------------------------/
+    public void removeDocumentation(final Documentation documentation) {
+        if (documentation != null) {
+            _documentations.removeElement(documentation);
+        }
+    }
     
     /**
-     * Returns the type of this Schema Structure
+     * Returns the type of this Schema Structure.
      * @return the type of this Schema Structure
     **/
     public short getStructureType() {
         return Structure.ANNOTATION;
-    } //-- getStructureType
+    }
     
     /**
-     * Checks the validity of this Schema defintion.
+     * Checks the validity of this Schema definition.
      * @exception ValidationException when this Schema definition
      * is invalid.
     **/
-    public void validate()
-        throws ValidationException
-    {
-        //-- do nothing
-    } //-- validate
+    public void validate() throws ValidationException {
+        // -- do nothing
+    }
     
-} //-- Annotation
+}

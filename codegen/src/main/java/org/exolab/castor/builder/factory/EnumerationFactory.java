@@ -110,7 +110,7 @@ public final class EnumerationFactory extends BaseFactory {
             generateConstantDefinitions = false;
         }
 
-        Enumeration enumeration = simpleType.getFacets(Facet.ENUMERATION);
+        Enumeration<Facet> enumeration = simpleType.getFacets(Facet.ENUMERATION);
 
         XMLBindingComponent component = new XMLBindingComponent(getConfig(), getGroupNaming());
         if (binding != null) {
@@ -280,7 +280,7 @@ public final class EnumerationFactory extends BaseFactory {
     
     private void createJava5Enum(final SimpleType simpleType,
             final FactoryState state, final XMLBindingComponent component, 
-            final boolean useValuesAsName, final Enumeration enumeration) {
+            final boolean useValuesAsName, final Enumeration<Facet> enumeration) {
         
         AnnotationBuilder[] annotationBuilders = 
             state.getSGStateInfo().getSourceGenerator().getAnnotationBuilders();
@@ -404,12 +404,12 @@ public final class EnumerationFactory extends BaseFactory {
     }
 
     private boolean selectNamingScheme(final XMLBindingComponent component,
-            final Enumeration enumeration, final boolean useValuesAsName) {
+            final Enumeration<Facet> enumeration, final boolean useValuesAsName) {
         boolean duplicateTranslation = false;
         short numberOfTranslationToSpecialCharacter = 0;
 
         while (enumeration.hasMoreElements()) {
-            Facet facet = (Facet) enumeration.nextElement();
+            Facet facet = enumeration.nextElement();
             String possibleId = translateEnumValueToIdentifier(component.getEnumBinding(), facet);
             if (possibleId.equals("_")) {
                 numberOfTranslationToSpecialCharacter++;
@@ -580,7 +580,7 @@ public final class EnumerationFactory extends BaseFactory {
             baseType = _typeConversion.convertType(base, getConfig().useJava50());
         }
 
-        Enumeration enumeration = simpleType.getFacets(Facet.ENUMERATION);
+        Enumeration<Facet> enumeration = simpleType.getFacets(Facet.ENUMERATION);
 
         JClass jClass    = state.getJClass();
         String className = jClass.getLocalName();

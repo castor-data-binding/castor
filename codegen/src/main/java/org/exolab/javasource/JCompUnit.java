@@ -45,7 +45,6 @@ package org.exolab.javasource;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.Vector;
@@ -83,19 +82,19 @@ public final class JCompUnit {
             "//-------------------------------------/", };
 
     /** JavaDoc comment for this compilation unit. */
-    private JComment            _header        = null;
+    private JComment _header = null;
 
     /** The package for this JCompUnit. */
-    private String              _packageName   = null;
+    private String _packageName = null;
 
     /** The file to which this JCompUnit will be written. */
-    private String              _fileName      = null;
+    private String _fileName = null;
 
     /** The set of top-level classes that live in this compilation unit. */
-    private Vector              _classes       = null;
+    private Vector<JClass> _classes = new Vector<JClass>();
 
     /** The set of top-level interfaces that live in this compilation unit. */
-    private Vector              _interfaces    = null;
+    private Vector<JInterface> _interfaces = new Vector<JInterface>();
 
     /**
      * Creates a new JCompUnit.
@@ -107,7 +106,6 @@ public final class JCompUnit {
     public JCompUnit(final String packageName, final String fileName) {
         _packageName = packageName;
         _fileName = fileName;
-        init();
     }
 
     /**
@@ -140,7 +138,6 @@ public final class JCompUnit {
         String filePrefix = jClass.getLocalName();
 
         _fileName = filePrefix + ".java";
-        init();
         _classes.add(jClass);
     }
 
@@ -153,16 +150,7 @@ public final class JCompUnit {
     public JCompUnit(final JInterface jInterface) {
         _packageName = jInterface.getPackageName();
         _fileName = jInterface.getLocalName() + ".java";
-        init();
         _interfaces.add(jInterface);
-    }
-
-    /**
-     * Common initialization code.
-     */
-    private void init() {
-        _classes = new Vector();
-        _interfaces = new Vector();
     }
 
     /**
@@ -217,22 +205,22 @@ public final class JCompUnit {
      * @return A array of String containing all import classes/packages, also
      *         imports within the same package of this object.
      */
-    public SortedSet getImports() {
-        SortedSet allImports = new TreeSet();
+    public SortedSet<String> getImports() {
+        SortedSet<String> allImports = new TreeSet<String>();
 
         // add imports from classes
         for (int i = 0; i < _classes.size(); ++i) {
-            JClass jClass = (JClass) _classes.get(i);
+            JClass jClass = _classes.get(i);
 
-            Enumeration enumeration = jClass.getImports();
+            Enumeration<String> enumeration = jClass.getImports();
             while (enumeration.hasMoreElements()) {
                 allImports.add(enumeration.nextElement());
             }
         }
 
         for (int i = 0; i < _interfaces.size(); ++i) {
-            JInterface jInterface = (JInterface) _interfaces.get(i);
-            Enumeration enumeration = jInterface.getImports();
+            JInterface jInterface = _interfaces.get(i);
+            Enumeration<String> enumeration = jInterface.getImports();
             while (enumeration.hasMoreElements()) {
                 allImports.add(enumeration.nextElement());
             }
@@ -380,13 +368,11 @@ public final class JCompUnit {
         jsw.writeln(" //- Imported classes, interfaces and packages -/");
         jsw.writeln("//---------------------------------------------/");
         jsw.writeln();
-        SortedSet allImports = getImports();
+        SortedSet<String> allImports = getImports();
         String compUnitPackage = getPackageName();
-        for (Iterator iter = allImports.iterator(); iter.hasNext(); ) {
-            String importName = (String) iter.next();
+        for (String importName : allImports) {
             String importsPackage = JNaming.getPackageFromClassName(importName);
-            if ((importsPackage != null)
-                    && !importsPackage.equals(compUnitPackage)) {
+            if ((importsPackage != null) && !importsPackage.equals(compUnitPackage)) {
                 jsw.write("import ");
                 jsw.write(importName);
                 jsw.writeln(';');
@@ -419,8 +405,7 @@ public final class JCompUnit {
         boolean isFirst = true;
 
         // SortedSet interfaceList = interfaces.sortedOnFullName();
-        for (Enumeration e = _interfaces.elements(); e.hasMoreElements(); ) {
-            JInterface jInterface = (JInterface) e.nextElement();
+        for (JInterface jInterface : _interfaces) {
             if (jInterface.getModifiers().isPublic() == printPublic) {
                 if (isFirst) {
                     String[] header = printPublic ? PUBLIC_HEADER : NON_PUBLIC_HEADER;
@@ -436,8 +421,7 @@ public final class JCompUnit {
         }
 
         // SortedSet classList = classes.sortedOnFullName();
-        for (Enumeration e = _classes.elements(); e.hasMoreElements(); ) {
-            JClass jClass = (JClass) e.nextElement();
+        for (JClass jClass : _classes) {
             if (jClass.getModifiers().isPublic() == printPublic) {
                 if (isFirst) {
                     String[] header = printPublic ? PUBLIC_HEADER : NON_PUBLIC_HEADER;

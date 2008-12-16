@@ -57,34 +57,34 @@ import java.util.Vector;
 public abstract class Annotated extends Structure {
     
     /**
-     * The Annotations of this Annotated structure
+     * The Annotations of this Annotated structure.
     **/
-    private Vector _annotations = new Vector(1);;
+    private Vector<Annotation> _annotations = new Vector<Annotation>(1);
     
    /**
-     * Adds the given Annotation to this Annotated Structure
+     * Adds the given Annotation to this Annotated Structure.
      * @param annotation the Annotation to add
     **/
-    public void addAnnotation(Annotation annotation) {
+    public void addAnnotation(final Annotation annotation) {
         _annotations.addElement(annotation);
     }
     
     /**
      * Returns an Enumeration of the Annotations contained within
-     * this Annotated type
+     * this Annotated type.
      * @return an Enumeration of the Annotation contained within 
      * this Annotated type
     **/
-    public Enumeration getAnnotations() {
+    public Enumeration<Annotation> getAnnotations() {
         return _annotations.elements();
     }
     
     /**
-     * Removes the given Annotation from this Annotated Structure
+     * Removes the given Annotation from this Annotated Structure.
      * @param annotation the Annotation to remove
     **/
-    public void removeAnnotation(Annotation annotation) {
+    public void removeAnnotation(final Annotation annotation) {
         _annotations.removeElement(annotation);
     }
     
-} //-- Annotated
+}

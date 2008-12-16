@@ -137,7 +137,7 @@ public class GroupUnmarshaller extends ComponentReader {
 
 
         if (SchemaNames.SEQUENCE.equals(element)) {
-                _group.setOrder(Order.seq);
+                _group.setOrder(Order.sequence);
         }
         else if (SchemaNames.CHOICE.equals(element)) {
              _group.setOrder(Order.choice);

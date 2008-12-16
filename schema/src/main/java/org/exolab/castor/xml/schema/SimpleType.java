@@ -160,7 +160,7 @@ public abstract class SimpleType extends XMLType
      * @param name the name of the Facet to look for
      * @return the facets associated with the given name
     **/
-    public Enumeration getFacets(final String name) {
+    public Enumeration<Facet> getFacets(final String name) {
         FacetListEnumerator fle = null;
         SimpleType datatype = (SimpleType) getBaseType();
         if (datatype != null) {

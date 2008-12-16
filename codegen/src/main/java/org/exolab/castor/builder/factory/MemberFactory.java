@@ -561,7 +561,7 @@ public final class MemberFactory extends BaseFactory {
             return false;
         }
         
-        return group.getOrder().getType() == Order.CHOICE;
+        return group.getOrder() == Order.choice;
     }
 
     /**

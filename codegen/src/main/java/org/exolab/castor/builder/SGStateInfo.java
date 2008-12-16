@@ -73,7 +73,7 @@ import org.exolab.javasource.JClass;
 public final class SGStateInfo extends ClassInfoResolverImpl {
 
     /** An empty Enumeration to be returned whenever we need an empty Enumeration. */
-    private static final Enumeration EMPTY_ENUMERATION = new Vector(0).elements();
+    private static final Enumeration<String> EMPTY_ENUMERATION = new Vector<String>(0).elements();
     /** The SourceGenerator is still generating source. */
     public static final int NORMAL_STATUS = 0;
     /** The SourceGenerator has been stopped by an error or by the user. */

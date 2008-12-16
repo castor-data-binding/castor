@@ -60,7 +60,6 @@ import org.castor.core.nature.PropertyHolder;
 import org.exolab.castor.builder.factory.FieldMemberAndAccessorFactory;
 import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.builder.types.XSType;
-import org.exolab.javasource.JField;
 import org.exolab.javasource.JType;
 
 /**
@@ -153,7 +152,7 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
     /**
      * Holds the possible substitution groups for this class.
      */
-    private List _substitutionGroupMembers = new LinkedList();
+    private List<String> _substitutionGroupMembers = new LinkedList<String>();
 
     /**
      * Creates a new FieldInfo with the given XML Schema type and the given
@@ -185,14 +184,15 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
         return _memberAndAccessorFactory;
     }
 
-    /* Returns the default value for this FieldInfo.
+    /**
+     * Returns the default value for this FieldInfo.
      *
      * @return the default value for this FieldInfo, or null if no default value
      *         was set;
      */
     public final String getDefaultValue() {
         return _default;
-    } //-- getDefaultValue
+    }
 
     /**
      * Returns the fixed production for this FieldInfo, or null if no fixed
@@ -204,7 +204,7 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
      */
     public final String getFixedValue() {
         return _fixed;
-    } //-- getFixedValue
+    }
 
     /**
      * Returns the name of the delete method for this FieldInfo.
@@ -391,9 +391,13 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
         _isContainer = isContainer;
     } //-- setContainer
 
+    /**
+     * Sets the {@link ClassInfo} of the class that declares this field.
+     * @param declaringClassInfo The {@link ClassInfo} of the declaring class.
+     */
     public final void setDeclaringClassInfo(final ClassInfo declaringClassInfo) {
         this._declaringClassInfo = declaringClassInfo;
-    } //-- setDeclaringClassInfo
+    }
 
     /**
      * Sets the default value for this FieldInfo.
@@ -401,7 +405,7 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
      */
     public final void setDefaultValue(final String defaultValue) {
         this._default = defaultValue;
-    } //-- setDefaultValue;
+    }
 
     /**
      * Sets the "final" status of this FieldInfo. Final members are also
@@ -451,11 +455,11 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
      * Sets the name of the field within the same class that is a reference to
      * this field.
      *
-     * @param fieldInfo
+     * @param fieldInfo {@link FieldInfo} for the referencing field (within the same class).
      */
     public final void setFieldInfoReference(final FieldInfo fieldInfo) {
         _fieldInfoReference = fieldInfo;
-    } //-- setReference
+    }
 
     /**
      * Sets the "static" status of this FieldInfo. Static members are also
@@ -521,7 +525,7 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
      * Sets the possible substitution groups for this class.
      * @param substitutionGroupMembers Possible substitution groups for this class.
      */
-    public void setSubstitutionGroupMembers(final List substitutionGroupMembers) {
+    public void setSubstitutionGroupMembers(final List<String> substitutionGroupMembers) {
         this._substitutionGroupMembers = substitutionGroupMembers;
     }
 
@@ -529,32 +533,42 @@ public class FieldInfo implements XMLInfo, PropertyHolder {
      * Returns the possible substitution groups for this class.
      * @return the possible substitution groups for this class.
      */
-    public List getSubstitutionGroupMembers() {
+    public List<String> getSubstitutionGroupMembers() {
         return this._substitutionGroupMembers;
     }
     
-	public boolean isStatic() {
-		return _static;
-	}
+    /**
+     * Indicates whether this field is static.
+     * @return True if this field is static.
+     */
+    public boolean isStatic() {
+        return _static;
+    }
 
-	public boolean isFinal() {
-		return _final;
-	}
+    /**
+     * Indicates whether this field is final.
+     * @return True if this field is final.
+     */
+    public boolean isFinal() {
+        return _final;
+    }
 
-	public Object getVisibility() {
-		return _visibility;
-	}
+    /**
+     * Returns this field's 'visibility'.
+     * @return This field's visibility.
+     */
+    public Object getVisibility() {
+        return _visibility;
+    }
 
-	public FieldInfo getFieldInfoReference() {
-		return _fieldInfoReference;
-	}
-	
-	
-     
-     
-     
-     
-
+    /**
+     * Returns the reference to the {@link FieldInfo} instance within the same class.
+     * @return the reference to the {@link FieldInfo} instance 
+     */
+    public FieldInfo getFieldInfoReference() {
+        return _fieldInfoReference;
+    }
+    
     /**
      * @see org.exolab.castor.builder.info.nature.PropertyHolder#
      *      getProperty(java.lang.String)

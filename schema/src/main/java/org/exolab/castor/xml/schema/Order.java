@@ -46,63 +46,22 @@
 package org.exolab.castor.xml.schema;
 
 /**
- * An XML Schema model group Order
+ * The order of an XML Schema model group.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
-**/
-public final class Order implements java.io.Serializable {
-    /** SerialVersionUID */
-    private static final long serialVersionUID = -218491941838731735L;
-
-    public static final short ALL      = 0;
-    public static final short SEQUENCE = 1;
-    public static final short CHOICE   = 2;
-
-    public static final Order all    = new Order(Order.ALL);
-    public static final Order choice = new Order(Order.CHOICE);
-    public static final Order seq    = new Order(Order.SEQUENCE);
-
-    private short type = ALL;
-
+ **/
+public enum Order {
+    
     /**
-     * Creates a new Order with the given Type;
-    **/
-    private Order(short type) {
-        this.type = type;
-    } //-- Order
+     * All type.
+     */
+    all, 
+    /**
+     * Choice type.
+     */
+    choice, 
+    /**
+     * Sequence type.
+     */
+    sequence;
 
-    public short getType() {
-        return this.type;
-    } //-- getType
-
-    public String toString() {
-        switch(type) {
-            case CHOICE:
-                return "choice";
-            case SEQUENCE:
-                return "sequence";
-            default:
-                return "all";
-        }
-    }
-
-    public static Order valueOf(String value)
-        throws IllegalArgumentException
-    {
-        if ("all".equals(value)) {
-            return Order.all;
-        }
-        else if ("choice".equals(value)) {
-            return Order.choice;
-        }
-        else if ("sequence".equals(value)) {
-            return Order.seq;
-        }
-        else {
-            StringBuffer sb = new StringBuffer();
-            sb.append(value);
-            sb.append(" is not a valid model group order.");
-            throw new IllegalArgumentException(sb.toString());
-        }
-    } //-- valueOf
-
-} //-- Order
+}
