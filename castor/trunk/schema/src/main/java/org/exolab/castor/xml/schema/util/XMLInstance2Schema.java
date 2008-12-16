@@ -86,7 +86,7 @@ public class XMLInstance2Schema {
      */
     private InternalContext _internalContext;
 
-    private Order _defaultGroup = Order.seq;
+    private Order _defaultGroup = Order.sequence;
 
     /**
      * Creates a new XMLInstance2Schema

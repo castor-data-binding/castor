@@ -53,16 +53,25 @@ public final class Java5HacksHelper {
             _param2ClassName = param2ClassName;
         }
         
-        public String getMethodName() { return _methodName; }
+        public String getMethodName() { 
+            return _methodName; 
+        }
         
-        public int getParamCount() { return _paramCount; }
+        public int getParamCount() { 
+            return _paramCount; 
+        }
         
-        public String getParam1ClassName() { return _param1ClassName; }
+        public String getParam1ClassName() { 
+            return _param1ClassName;
+        }
         
-        public String getParam2ClassName() { return _param2ClassName; }
+        public String getParam2ClassName() { 
+            return _param2ClassName; 
+        }
     }
 
-    private static final HashMap DEFINED_SPECS = new HashMap();
+    private static final HashMap<String, MethodSpec> DEFINED_SPECS = 
+        new HashMap<String, MethodSpec>();
 
     private static void createMethodSpec(final String methodName, final int paramCount,
             final String param1ClassName, final String param2ClassName) {
@@ -110,7 +119,7 @@ public final class Java5HacksHelper {
         }
 
         // If the method name doesn't exist in our list, then jump out
-        MethodSpec methodSpec = (MethodSpec) DEFINED_SPECS.get(name);
+        MethodSpec methodSpec = DEFINED_SPECS.get(name);
         if (methodSpec == null) {
             return;
         }

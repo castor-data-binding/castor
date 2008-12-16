@@ -306,7 +306,8 @@ public final class XMLInfoNature extends BaseNature {
      * 
      * @return the possible substitution groups.
      */
-    public List getSubstitutionGroups() {
+    @SuppressWarnings("unchecked")
+    public List<String> getSubstitutionGroups() {
         return getPropertyAsList(SUBSTITUTION_GROUP);
     }
 
@@ -316,7 +317,7 @@ public final class XMLInfoNature extends BaseNature {
      * @param substitutionGroups
      *            Possible substitution groups.
      */
-    public void setSubstitutionGroups(final List substitutionGroups) {
+    public void setSubstitutionGroups(final List<String> substitutionGroups) {
         this.setProperty(SUBSTITUTION_GROUP, substitutionGroups);
     }
 

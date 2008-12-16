@@ -59,102 +59,105 @@ public class Group extends Particle implements ContentModelGroup, Referable {
     private static final long serialVersionUID = 3133443973681261845L;
 
     /**
-     * the implementation of ContentModelGroup
-    **/
+     * the implementation of ContentModelGroup.
+     **/
     private ContentModelGroup _contentModel = null;
 
     /**
-     * The name of this Group
-    **/
-    private String    name       = null;
+     * The name of this Group.
+     **/
+    private String _name = null;
 
     /**
-     * The Compositor for the Group
-    **/
-    private Order _order = Order.seq;
-
-    private String _id  = null;
+     * The Compositor for the Group.
+     **/
+    private Order _order = Order.sequence;
 
     /**
-     * True if was created for a group tag, false otherwise
-     *  (all, choice, sequence)
+     * ID of this Group (if present at all).
      */
-    private boolean _isModelGroupDefinition= false;
+    private String _id = null;
 
     /**
-     * The parent for this Group (either another Group or a ComplexType)
-    **/
+     * True if was created for a group tag, false otherwise (all, choice,
+     * sequence).
+     */
+    private boolean _isModelGroupDefinition = false;
+
+    /**
+     * The parent for this Group (either another Group or a ComplexType).
+     **/
     private Structure _parent = null;
 
     /**
-     * Creates a new Group, with no name
+     * Creates a new {@link Group}, with no name.
     **/
     public Group() {
         this(null);
-    } //-- Group
+    }
 
     /**
-     * Creates a new Group with the given name
-     * @param name of the Group
+     * Creates a new {@link Group} with the given name.
+     * @param name of the {@link Group}
     **/
-    public Group(String name) {
+    public Group(final String name) {
         super();
-        this.name  = name;
+        this._name  = name;
         _contentModel = new ContentModelGroupImpl();
-    } //-- Group
+    }
 
     /**
-     * Adds a wildcard to this Group model
-     * @param wildcard the Wildcard to add
-     * @exception SchemaException thrown when the wildcard
-     * is an {@literal <anyAttribute>} element
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#addWildcard(org.exolab.castor.xml.schema.Wildcard)
      */
-     public void addWildcard(Wildcard wildcard)
-          throws SchemaException
-    {
-         if (wildcard.isAttributeWildcard())
+    public void addWildcard(final Wildcard wildcard) throws SchemaException {
+         if (wildcard.isAttributeWildcard()) {
             throw new SchemaException("only <any> should be add in a group.");
+        }
         _contentModel.addWildcard(wildcard);
      }
 
     /**
-     * Removes the given Wildcard from this Group.
-     * @param wildcard the Wildcard to remove.
-     * @return true if the wildcard has been successfully removed, false otherwise.
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#removeWildcard(org.exolab.castor.xml.schema.Wildcard)
      */
-     public boolean removeWildcard(Wildcard wildcard) {
-         if (wildcard == null)
+    public boolean removeWildcard(final Wildcard wildcard) {
+        if (wildcard == null) {
             return false;
-         return _contentModel.removeWildcard(wildcard);
+        }
+        return _contentModel.removeWildcard(wildcard);
      }
 
     /**
-     * Returns the ContentModelGroup for this group
-     * Only used for a <group> element
+     * Returns the {@link ContentModelGroup} for this group.
+     * Only used for a <group/> element
      * @return the ContentModelGroup for this group
      */
-     public ContentModelGroup getContentModelGroup() {
+    public ContentModelGroup getContentModelGroup() {
         return _contentModel;
-     }
+    }
+     
     /**
-     * Returns the ID for this Group
-     * @return the ID for this Group, or null if no ID is present
-    **/
+     * Returns the ID for this {@link Group}.
+     * @return the ID for this {@link Group}, or null if no ID is present
+     **/
     public String getId() {
         return _id;
-    } //-- getId
+    }
 
     /**
-     * Returns the name of this Group, or null if no name was defined.
-     * @return the name of this Group, or null if no name was defined
+     * Returns the name of this {@link Group}, or null if no name was defined.
+     * @return the name of this {@link Group}, or null if no name was defined
     **/
     public String getName() {
-        return name;
-    } //-- getName
+        return _name;
+    }
 
     /**
-     * Returns the compositor for this Group
-     * @return the compositor for this Group
+     * Returns the compositor for this {@link Group}.
+     * @return the compositor for this {@link Group}
     **/
     public Order getOrder() {
 
@@ -167,12 +170,13 @@ public class Group extends Particle implements ContentModelGroup, Referable {
         if (_contentModel.getParticleCount() == 1) {
             Particle particle = _contentModel.getParticle(0);
             if (particle.getStructureType() == Structure.GROUP) {
-                if ((getMinOccurs() == 1) && (getMaxOccurs() == 1))
-                    return ((Group)particle).getOrder();
+                if ((getMinOccurs() == 1) && (getMaxOccurs() == 1)) {
+                    return ((Group) particle).getOrder();
+                }
             }
         }
         return this._order;
-    } //-- getOrder
+    }
 
 
     /**
@@ -183,24 +187,25 @@ public class Group extends Particle implements ContentModelGroup, Referable {
     **/
     public Structure getParent() {
         return _parent;
-    } //-- getParent
-
-    /**
-     * Sets if the group is a model group definition
-     * @deprecated Since Castor 0.9.2, to handle properly the <group>
-     * element the class ModelGroup has been created
-     */
-    public void setIsModelGroupDefinition(boolean isModelGroupDefinition) {
-        _isModelGroupDefinition= isModelGroupDefinition;
     }
 
+    /**
+     * Sets if the group is a model group definition.
+     * @deprecated Since Castor 0.9.2, to handle properly the <group/>
+     * element the class ModelGroup has been created
+     * @see ModelGroup
+     */
+    public void setIsModelGroupDefinition(final boolean isModelGroupDefinition) {
+        _isModelGroupDefinition = isModelGroupDefinition;
+    }
 
     /**
-     * Tells if the group is a model group definition
-     * @return true if the group is a model group definition (<group> tag), false
-     * otherwise {@literal <all>}, <choice>, or <sequence> tags.
-     * @deprecated Since Castor 0.9.2, to handle properly the <group>
-     * element the class ModelGroup has been created
+     * Tells if the group is a model group definition.
+     * @return true if the group is a model group definition (<group/> tag), false
+     * otherwise {@literal <all/>}, <choice/>, or <sequence/> tags.
+     * @deprecated Since Castor 0.9.2, to handle properly the <group/>
+     * element the class {@link ModelGroup} has been created
+     * @see ModelGroup
 
      */
     public boolean isModelGroupDefinition() {
@@ -209,139 +214,133 @@ public class Group extends Particle implements ContentModelGroup, Referable {
 
 
     /**
-     * Returns the Id used to Refer to this Object
-     * @return the Id used to Refer to this Object
+     * Returns the Id used to refer to this Object.
+     * @return the Id used to refer to this Object
      * @see Referable
     **/
     public String getReferenceId() {
-        if (name != null) return "group:"+name;
+        if (_name != null) {
+            return "group:" + _name;
+        }
         return null;
-    } //-- getReferenceId
+    }
 
     /**
-     * Sets the name of this Group
-     * @param name the new name for this Group
-    **/
-    public void setName(String name) {
-        this.name = name;
-    } //--setName
+     * Sets the name of this {@link Group}.
+     * @param name the new name for this {@link Group}
+     **/
+    public void setName(final String name) {
+        this._name = name;
+    }
 
     /**
-     * Sets the ID for this Group
-     * @param id the ID for this Group
-    **/
-    public void setId(String id) {
+     * Sets the ID for this {@link Group}.
+     * @param id the ID for this {@link Group}
+     **/
+    public void setId(final String id) {
         _id = id;
-    } //-- setId
+    }
 
     /**
-     * Sets the Order option for this Group
-     * @param order the type of order that this group is restricted to
+     * Sets the {@link Order} for this {@link Group}.
+     * @param order the type of {@link Order} that this {@link Group} is restricted to
     **/
-    public void setOrder(Order order) {
-        if (order == null) this._order = Order.all;
-        else this._order = order;
-    } //-- setOrder
+    public void setOrder(final Order order) {
+        if (order == null) {
+            this._order = Order.all;
+        } else {
+            this._order = order;
+        }
+    }
 
     //---------------------------------------/
     //- Implementation of ContentModelGroup -/
     //---------------------------------------/
 
     /**
-     * Adds the given ElementDecl to this ContentModelGroup
-     * @param elementDecl the ElementDecl to add
-     * @exception SchemaException when an ElementDecl already
-     * exists with the same name as the given ElementDecl
-    **/
-    public void addElementDecl(ElementDecl elementDecl)
-        throws SchemaException
-    {
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#addElementDecl(org.exolab.castor.xml.schema.ElementDecl)
+     */
+    public void addElementDecl(final ElementDecl elementDecl)
+            throws SchemaException {
         _contentModel.addElementDecl(elementDecl);
-        //--set the parent
+        // --set the parent
         elementDecl.setParent(this);
-    } //-- addElementDecl
+    }
 
     /**
-     * Removes the given ElementDecl from this ContentModelGroup.
-     * @param element the ElementDecl to remove.
-     * @return true if the element has been successfully removed, false otherwise.
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#removeElementDecl(org.exolab.castor.xml.schema.ElementDecl)
      */
-     public boolean removeElementDecl(ElementDecl element) {
+    public boolean removeElementDecl(final ElementDecl element) {
          return _contentModel.removeElementDecl(element);
      }
 
-
     /**
-     * Adds the given Group to this ContentModelGroup
-     * @param group the Group to add
-     * @exception SchemaException when a group with the same name as the
-     * specified group already exists in the current scope
-    **/
-    public void addGroup(Group group)
-        throws SchemaException
-    {
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#addGroup(org.exolab.castor.xml.schema.Group)
+     */
+    public void addGroup(final Group group) throws SchemaException {
         _contentModel.addGroup(group);
 
-        //-- set reference to parent
+        // -- set reference to parent
         group.setParent(this);
 
-    } //-- addGroup
+    }
 
     /**
-     * Removes the given Group from this Group.
-     * @param group the Group to remove.
-     * @return true if the group has been successfully removed, false otherwise.
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#removeGroup(org.exolab.castor.xml.schema.Group)
      */
-     public boolean removeGroup(Group group){
+    public boolean removeGroup(final Group group){
         boolean result = _contentModel.removeGroup(group);
         group.setParent(null);
         return result;
-     }
+    }
 
     /**
-     * Adds the given ModelGroup Definition to this Group
-     * @param group the ModelGroup to add
-     * @exception SchemaException when a group with the same name as the
-     * specified group already exists in the current scope
-    **/
-    public void addGroup(ModelGroup group)
-        throws SchemaException
-    {
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#addGroup(org.exolab.castor.xml.schema.ModelGroup)
+     */
+    public void addGroup(final ModelGroup group) throws SchemaException {
         _contentModel.addGroup(group);
 
-        //-- set reference to parent
+        // -- set reference to parent
         group.setParent(this);
-    } //-- addGroup
+    }
 
     /**
-     * Removes the given ModelGroup Definition from this Group.
-     * @param group the ModelGroup Definition to remove.
-     * @return true if the group has been successfully removed, false otherwise.
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#removeGroup(org.exolab.castor.xml.schema.ModelGroup)
      */
-     public boolean removeGroup(ModelGroup group) {
-         boolean result = _contentModel.removeGroup(group);
-         group.setParent(null);
-         return result;
-     }
+    public boolean removeGroup(final ModelGroup group) {
+        boolean result = _contentModel.removeGroup(group);
+        group.setParent(null);
+        return result;
+    }
 
     /**
-     * Returns an enumeration of all the Particles of this
-     * ContentModelGroup
-     *
-     * @return an enumeration of the Particles contained
-     * within this ContentModelGroup
-    **/
-    public Enumeration enumerate() {
-        //-- Some trickery to properly handle
-        //-- XML Schema spec 20000407 section 4.3.5
-        
+     * {@inheritDoc}
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#enumerate()
+     */
+    public Enumeration<Annotated> enumerate() {
+        // -- Some trickery to properly handle
+        // -- XML Schema spec 20000407 section 4.3.5
+
         if (_contentModel.getParticleCount() == 1) {
             Particle particle = _contentModel.getParticle(0);
             if (particle.getStructureType() == Structure.GROUP) {
-                Group temp = (Group)particle;
-                if ( ((getMinOccurs() == 1) && (getMaxOccurs() == 1)) 
-                     && ((temp.getMinOccurs() ==1) && (temp.getMaxOccurs() ==1)))
+                Group temp = (Group) particle;
+                if (((getMinOccurs() == 1) && (getMaxOccurs() == 1))
+                        && ((temp.getMinOccurs() == 1) && (temp.getMaxOccurs() == 1))) {
                     return temp.enumerate();
+                }
             }
         }
         return _contentModel.enumerate();
@@ -349,65 +348,62 @@ public class Group extends Particle implements ContentModelGroup, Referable {
     
      
     /**
-     * Returns the element declaration with the given name, or null if no
-     * element declaration with that name exists in this ContentModelGroup.
-     *
-     * @param name the name of the element.
-     * @return the ElementDecl with the given name, or null if no
-     * ElementDecl exists in this ContentModelGroup.
-    **/
-    public ElementDecl getElementDecl(String name) {
+     * {@inheritDoc}
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#getElementDecl(java.lang.String)
+     */
+    public ElementDecl getElementDecl(final String name) {
         return _contentModel.getElementDecl(name);
-    } //-- getElementDecl
+    }
 
     /**
-     * Returns the Particle at the specified index
-     * @param index the index of the particle to return
-     * @return the CMParticle at the specified index
-    **/
-    public Particle getParticle(int index) {
-        //-- Some trickery to properly handle
-        //-- XML Schema spec 20000407 section 4.3.5
+     * {@inheritDoc}
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#getParticle(int)
+     */
+    public Particle getParticle(final int index) {
+        // -- Some trickery to properly handle
+        // -- XML Schema spec 20000407 section 4.3.5
         if (_contentModel.getParticleCount() == 1) {
             Particle particle = _contentModel.getParticle(0);
             if (particle.getStructureType() == Structure.GROUP) {
-                if ((getMinOccurs() == 1) && (getMaxOccurs() == 1))
-                    return ((Group)particle).getParticle(index);
+                if ((getMinOccurs() == 1) && (getMaxOccurs() == 1)) {
+                    return ((Group) particle).getParticle(index);
+                }
             }
         }
         return _contentModel.getParticle(index);
-    } //-- getParticle
+    }
 
     /**
-     * Returns the number of particles contained within
-     * this ContentModelGroup
-     *
-     * @return the number of particles
-    **/
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#getParticleCount()
+     */
     public int getParticleCount() {
-        //-- Some trickery to properly handle
-        //-- XML Schema spec 20000407 section 4.3.5
+        // -- Some trickery to properly handle
+        // -- XML Schema spec 20000407 section 4.3.5
         if (_contentModel.getParticleCount() == 1) {
             Particle particle = _contentModel.getParticle(0);
             if (particle.getStructureType() == Structure.GROUP) {
-                if ((getMinOccurs() == 1) && (getMaxOccurs() == 1))
-                    return ((Group)particle).getParticleCount();
+                if ((getMinOccurs() == 1) && (getMaxOccurs() == 1)) {
+                    return ((Group) particle).getParticleCount();
+                }
             }
         }
         return _contentModel.getParticleCount();
-    } //-- getParticleCount
+    }
 
     //-------------------------------/
     //- Implementation of Structure -/
     //-------------------------------/
 
     /**
-     * Returns the type of this Schema Structure
-     * @return the type of this Schema Structure
-    **/
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.Structure#getStructureType()
+     */
     public short getStructureType() {
         return Structure.GROUP;
-    } //-- getStructureType
+    }
 
    /**
     * A helper method that returns true if this group
@@ -417,15 +413,15 @@ public class Group extends Particle implements ContentModelGroup, Referable {
     */
     public boolean hasAny() {
         boolean result = false;
-        Enumeration enumeration = _contentModel.enumerate();
+        Enumeration<Structure> enumeration = _contentModel.enumerate();
         while (enumeration.hasMoreElements() && !result) {
-            Structure struct = (Structure)enumeration.nextElement();
+            Structure struct = enumeration.nextElement();
             switch (struct.getStructureType()) {
                 case Structure.ELEMENT:
                     break;
                 case Structure.GROUP:
                 case Structure.MODELGROUP:
-                    result = ((Group)struct).hasAny();
+                    result = ((Group) struct).hasAny();
                     break;
                 case Structure.WILDCARD:
                     result = true;
@@ -438,38 +434,36 @@ public class Group extends Particle implements ContentModelGroup, Referable {
     }
 
     /**
-     * Checks the validity of this Group defintion.
+     * Checks the validity of this {@link Group} defintion.
      *
-     * @throws ValidationException when this Group definition
+     * @throws ValidationException when this {@link Group} definition
      * is invalid.
     **/
-    public void validate()
-        throws ValidationException
-    {
+    public void validate() throws ValidationException {
         if (_order == Order.all) {
-           if (getMaxOccurs() != 1) {
-               String err = "Wrong maxOccurs value for a <all>:"+getMaxOccurs();
-               err += "\n1 is the only possible value.";
-               throw new ValidationException(err);
-           }
-           if (getMinOccurs() > 1) {
-               String err = "Wrong minOccurs value for a <all>:"+getMinOccurs();
-               err += "\n0 or 1 are the only possible values.";
-               throw new ValidationException(err);
-           }
+            if (getMaxOccurs() != 1) {
+                String err = "Wrong maxOccurs value for a <all>:" + getMaxOccurs();
+                err += "\n1 is the only possible value.";
+                throw new ValidationException(err);
+            }
+            if (getMinOccurs() > 1) {
+                String err = "Wrong minOccurs value for a <all>:" + getMinOccurs();
+                err += "\n0 or 1 are the only possible values.";
+                throw new ValidationException(err);
+            }
         }
-        Enumeration enumeration = _contentModel.enumerate();
+        Enumeration<Structure> enumeration = _contentModel.enumerate();
         while (enumeration.hasMoreElements()) {
-            ((Structure)enumeration.nextElement()).validate();
+            enumeration.nextElement().validate();
         }
-    } //-- validate
+    }
 
     /**
-     * Sets the parent for this Group
+     * Sets the parent for this {@link Group}.
      *
-     * @param parent the parent Structure for this Group
-    **/
-    protected void setParent(Structure parent) {
+     * @param parent the parent {@link Structure} for this {@link Group}
+     **/
+    protected void setParent(final Structure parent) {
         if (parent != null) {
             switch (parent.getStructureType()) {
                 case Structure.COMPLEX_TYPE:
@@ -483,51 +477,45 @@ public class Group extends Particle implements ContentModelGroup, Referable {
             }
         }
         _parent = parent;
-    } //-- setParent
+    }
 
     /**
-     * @return true if this Particle is emptiable
+     * Indicates whether this {@link Particle} is 'emptiable'
+     * @return true if this Particle is 'emptiable'
      */
-    public boolean isEmptiable()
-    {
-      if (getMinOccurs() == 0)
-      {
-        return true;
-      }
+    public boolean isEmptiable() {
+      if (getMinOccurs() == 0) {
+            return true;
+        }
       
       boolean result = false;
-      switch (this.getOrder().getType())
-      {
-      case Order.CHOICE:
+      switch (this.getOrder()) {
+      case choice:
         {
-          result = false;
-          Enumeration enumerate = this.enumerate(); 
-          while (enumerate.hasMoreElements())
-          {
-            Particle p = (Particle) enumerate.nextElement();
-            if (p.isEmptiable())
-            {
-              result = true;
-              break;
+            result = false;
+            Enumeration<Annotated> enumerate = this.enumerate();
+            while (enumerate.hasMoreElements()) {
+                Particle p = (Particle) enumerate.nextElement();
+                if (p.isEmptiable()) {
+                    result = true;
+                    break;
+                }
             }
-          }
         }
         break;
         
-      case Order.ALL:
-      case Order.SEQUENCE:
+      case all:
+      case sequence:
         {
-          result = true;
-          Enumeration enumerate = this.enumerate(); 
-          while (enumerate.hasMoreElements())
-          {
-            Particle p = (Particle) enumerate.nextElement();
-            if (!p.isEmptiable())
-            {
-              result = false;
-              break;
+            result = true;
+            Enumeration<Annotated> enumerate = this.enumerate();
+            while (enumerate.hasMoreElements()) {
+                Particle p = (Particle) enumerate.nextElement();
+                if (!p.isEmptiable()) {
+                    result = false;
+                    break;
+                }
             }
-          }
         }
         break;
       }        
@@ -535,4 +523,4 @@ public class Group extends Particle implements ContentModelGroup, Referable {
 
     }
 
-} //-- Group
+}

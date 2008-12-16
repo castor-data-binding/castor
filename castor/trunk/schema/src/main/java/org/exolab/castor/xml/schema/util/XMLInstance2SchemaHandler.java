@@ -99,7 +99,7 @@ public final class XMLInstance2SchemaHandler
     
     private String _nsPrefix = null;
     
-    private Order  _defaultGroupOrder = Order.seq;
+    private Order  _defaultGroupOrder = Order.sequence;
     
       //----------------/
      //- Constructors -/
@@ -320,7 +320,7 @@ public final class XMLInstance2SchemaHandler
                 }
                 
                 //-- change group type if necessary
-                if (checkGroupType && (group.getOrder() == Order.seq)) {
+                if (checkGroupType && (group.getOrder() == Order.sequence)) {
                     //-- make sure element is last item in group,
                     //-- otherwise we need to switch to all
                     boolean found = false;

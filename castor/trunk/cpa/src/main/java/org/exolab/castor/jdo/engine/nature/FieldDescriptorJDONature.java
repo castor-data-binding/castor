@@ -2,8 +2,39 @@ package org.exolab.castor.jdo.engine.nature;
 
 import org.castor.core.nature.BaseNature;
 import org.castor.core.nature.PropertyHolder;
+import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.TypeConvertor;
 
+/**
+ * JDO-specific nature for {@link FieldDescriptor}.<br/><br/>
+ * 
+ * Augments {@link FieldDescriptor} to include persistence-specific data such as 
+ * e.g. the column names, types and other SQL-related information.<br/><br/>
+ * 
+ * To access persistence-specific data of a {@link FieldDescriptor}, use the 
+ * following code fragment to ...
+ * 
+ * <ol>
+ *   <li>check for this nature</li>
+ *   <li>apply this nature to the {@link FieldDescriptor} in question.</li>
+ *   <li>access e.g. the column name.</li>
+ * </ol>
+ * 
+ * <i>Sample - Looking up column name</i>
+ * 
+ * <pre>
+ *    FieldDescriptor fieldDescriptor = ...;                                               
+ *    ...
+ *    if (fieldDescriptor.hasNature(FieldDescriptorJDONature.class.getName()) {              1)
+ *       FieldDescriptorJDONature nature = new FieldDescriptorJDONature(fieldDescriptor);    2)
+ *       ...
+ *       String columnName = nature.getColumnName;                                           3)
+ *    }
+ * </pre>
+ *  
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @since 1.2.1
+ */
 public class FieldDescriptorJDONature extends BaseNature {
 
     /**
@@ -44,7 +75,7 @@ public class FieldDescriptorJDONature extends BaseNature {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      * @see org.castor.core.nature.Nature#getId()
      */
     public String getId() {
@@ -112,6 +143,10 @@ public class FieldDescriptorJDONature extends BaseNature {
         return getBooleanPropertyDefaultFalse(READ_ONLY);
     }
     
+    /**
+     * Sets whether field access if read-only.
+     * @param readOnly True if field access is read-only.
+     */
     public void setReadOnly(final boolean readOnly) {
         setProperty(READ_ONLY, new Boolean(readOnly));
     }
@@ -124,6 +159,10 @@ public class FieldDescriptorJDONature extends BaseNature {
         return getBooleanPropertyDefaultFalse(DIRTY_CHECK);
     }
 
+    /**
+     * Sets whether dirty checking is required for this field.
+     * @param dirtyCheck True if dirty checking is required for this field.
+     */
     public void setDirtyCheck(final boolean dirtyCheck) {
         setProperty(DIRTY_CHECK, new Boolean(dirtyCheck));
     }
@@ -137,6 +176,11 @@ public class FieldDescriptorJDONature extends BaseNature {
         return (TypeConvertor) getProperty(TYPE_CONVERTOR);
     }
 
+    /**
+     * Sets the {@link TypeConvertor} used for converting from field types to
+     *  external types.
+     * @param typeConvertor {@link TypeConvertor} to be used.
+     */
     public void setTypeConvertor(final TypeConvertor typeConvertor) {
         setProperty(TYPE_CONVERTOR, typeConvertor);
     }
@@ -158,5 +202,3 @@ public class FieldDescriptorJDONature extends BaseNature {
     }
 
 }
-
-

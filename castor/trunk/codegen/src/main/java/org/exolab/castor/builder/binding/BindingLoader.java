@@ -142,7 +142,7 @@ public final class BindingLoader {
             _binding.setDefaultBindingType(loaded.getDefaultBindingType());
 
             //--packages
-            Enumeration<PackageType> packages = (Enumeration<PackageType>)loaded.enumeratePackage();
+            Enumeration<PackageType> packages = loaded.enumeratePackage();
             while (packages.hasMoreElements()) {
                 PackageType tempPackage = packages.nextElement();
                 _binding.addPackage(tempPackage);
@@ -162,49 +162,49 @@ public final class BindingLoader {
             }
             
             //--elementBindings
-            Enumeration<ComponentBindingType> elements = (Enumeration<ComponentBindingType>)loaded.enumerateElementBinding();
+            Enumeration<ComponentBindingType> elements = loaded.enumerateElementBinding();
             while (elements.hasMoreElements()) {
                 ComponentBindingType tempComp = elements.nextElement();
                 _binding.addElementBinding(tempComp);
             }
 
             //--attributeBindings
-            Enumeration<ComponentBindingType> attributes = (Enumeration<ComponentBindingType>)loaded.enumerateAttributeBinding();
+            Enumeration<ComponentBindingType> attributes = loaded.enumerateAttributeBinding();
             while (attributes.hasMoreElements()) {
                 ComponentBindingType  tempComp = attributes.nextElement();
                 _binding.addAttributeBinding(tempComp);
             }
 
             //--ComplexTypeBindings
-            Enumeration<ComponentBindingType> complexTypes = (Enumeration<ComponentBindingType>)loaded.enumerateComplexTypeBinding();
+            Enumeration<ComponentBindingType> complexTypes = loaded.enumerateComplexTypeBinding();
             while (complexTypes.hasMoreElements()) {
                 ComponentBindingType tempComp = complexTypes.nextElement();
                 _binding.addComplexTypeBinding(tempComp);
             }
 
             //--SimpleTypeBindings
-            Enumeration<ComponentBindingType> sts = (Enumeration<ComponentBindingType>)loaded.enumerateSimpleTypeBinding();
+            Enumeration<ComponentBindingType> sts = loaded.enumerateSimpleTypeBinding();
             while (sts.hasMoreElements()) {
                 ComponentBindingType tempComp = sts.nextElement();
                 _binding.addSimpleTypeBinding(tempComp);
             }
 
             //--groupBindings
-            Enumeration<ComponentBindingType> groups = (Enumeration<ComponentBindingType>)loaded.enumerateGroupBinding();
+            Enumeration<ComponentBindingType> groups = loaded.enumerateGroupBinding();
             while (groups.hasMoreElements()) {
                 ComponentBindingType tempComp = groups.nextElement();
                 _binding.addGroupBinding(tempComp);
             }
 
             //--enumBinding
-            Enumeration<ComponentBindingType> enums = (Enumeration<ComponentBindingType>)loaded.enumerateEnumBinding();
+            Enumeration<ComponentBindingType> enums = loaded.enumerateEnumBinding();
             while (enums.hasMoreElements()) {
                 ComponentBindingType tempEnum = enums.nextElement();
                 _binding.addEnumBinding(tempEnum);
             }
 
             //--included schemas
-            Enumeration<IncludeType> includes = (Enumeration<IncludeType>)loaded.enumerateInclude();
+            Enumeration<IncludeType> includes = loaded.enumerateInclude();
             while (includes.hasMoreElements()) {
                 IncludeType tempInclude = includes.nextElement();
                 try {

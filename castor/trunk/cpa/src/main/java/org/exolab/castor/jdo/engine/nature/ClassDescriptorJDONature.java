@@ -186,10 +186,11 @@ public class ClassDescriptorJDONature extends BaseNature {
      * @param name The name of the named query.
      * @param query The query string
      */
+    @SuppressWarnings("unchecked")
     public void addNamedQuery(final String name, final String query) {
-        Map namedQueries = (Map) getProperty(NAMED_QUERIES);
+        Map<String, String> namedQueries = (Map<String, String>) getProperty(NAMED_QUERIES);
         if (namedQueries == null) {
-            namedQueries = new HashMap();
+            namedQueries = new HashMap<String, String>();
         }
         namedQueries.put(name, query);
         setProperty(NAMED_QUERIES, namedQueries);
@@ -235,10 +236,11 @@ public class ClassDescriptorJDONature extends BaseNature {
      * Adds a {@link ClassDescriptor} that extends this class.
      * @param classDesc A {@link ClassDescriptor} that extends this class.
      */
+    @SuppressWarnings("unchecked")
     public void addExtended(final ClassDescriptor classDesc) {
-        List extendeds = getPropertyAsList(EXTENDED);
+        List<ClassDescriptor> extendeds = getPropertyAsList(EXTENDED);
         if (extendeds == null) {
-            extendeds = new ArrayList();
+            extendeds = new ArrayList<ClassDescriptor>();
         }
         extendeds.add(classDesc);
         setProperty(EXTENDED, extendeds);
@@ -249,7 +251,8 @@ public class ClassDescriptorJDONature extends BaseNature {
      * Returns a collection of {@link ClassDescriptor}s that extend this class (descriptor).
      * @return A collection of {@link ClassDescriptor}s that extend this class.
      */
-    public Collection getExtended() {
+    @SuppressWarnings("unchecked")
+    public Collection<ClassDescriptor> getExtended() {
         return getPropertyAsList(EXTENDED);
     }
 

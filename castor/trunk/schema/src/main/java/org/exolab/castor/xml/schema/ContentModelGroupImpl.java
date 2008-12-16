@@ -49,7 +49,7 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 /**
- * An implementation of an XML Schema ContentModelGroup
+ * An implementation of an XML Schema content model group.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a> 
@@ -59,47 +59,41 @@ class ContentModelGroupImpl implements ContentModelGroup , java.io.Serializable 
     /** SerialVersionUID */
     private static final long serialVersionUID = -2477271185972337873L;
 
-    private Vector _contentModel = null;
-    private transient ScopableResolver _resolver = null;
-
     /**
-     * Creates a new ContentModelGroup.
-    **/
-    public ContentModelGroupImpl() {
-        _contentModel = new Vector();
-        _resolver = new ScopableResolver();
-    } //-- ContentModelGroup
-
-    /**
-     * Adds a wildcard to this contentModelGroup
-     * @param wildcard the Wildcard to add
-     * @exception SchemaException thrown when the wildcard
-     * is an <anyAttribute> element
+     * Collection holding all {@link Particle}s of this content model group.
      */
-     public void addWildcard(Wildcard wildcard)
-          throws SchemaException
-    {
-         if (wildcard.isAttributeWildcard())
-            throw new SchemaException("only <any> should be add in a group.");
-        _contentModel.addElement(wildcard);
-     }
+    private Vector<Particle> _contentModel = new Vector<Particle>();
+    
+    private transient ScopableResolver _resolver = new ScopableResolver();
 
     /**
-     * Adds the given ElementDecl to this ContentModelGroup
-     * @param elementDecl the ElementDecl to add
-     * @exception SchemaException when an ElementDecl already
-     * exists with the same name as the given ElementDecl
-    **/
-    public void addElementDecl(ElementDecl elementDecl)
-        throws SchemaException
-    {
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#addWildcard(org.exolab.castor.xml.schema.Wildcard)
+     */
+    public void addWildcard(final Wildcard wildcard) throws SchemaException {
+        if (wildcard.isAttributeWildcard()) {
+            throw new SchemaException("only <any> should be add in a group.");
+        }
+        _contentModel.addElement(wildcard);
+    }
 
-        if (elementDecl == null) return;
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#addElementDecl(org.exolab.castor.xml.schema.ElementDecl)
+     */
+    public void addElementDecl(final ElementDecl elementDecl)
+        throws SchemaException {
+
+        if (elementDecl == null) {
+            return;
+        }
 
         String name = elementDecl.getName();
         
         if (!elementDecl.isReference()) {
-            String key = "element:"+name;
+            String key = "element:" + name;
             //-- check for naming collisions
             if (_resolver.resolve(key) != null) {
                 String err = "An element declaration with the given name, ";
@@ -112,44 +106,43 @@ class ContentModelGroupImpl implements ContentModelGroup , java.io.Serializable 
         //-- add to content model
         _contentModel.addElement(elementDecl);
 
-    } //-- addElementDecl
+    }
 
     /**
-     * Removes the given ElementDecl from this ContentModelGroup.
-     * @param elementDecl the ElementDecl to remove.
-     * @return true if the element has been successfully removed, false otherwise.
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#removeElementDecl(org.exolab.castor.xml.schema.ElementDecl)
      */
-     public boolean removeElementDecl(ElementDecl elementDecl) {
-        if (elementDecl == null)
+    public boolean removeElementDecl(final ElementDecl elementDecl) {
+        if (elementDecl == null) {
             return false;
+        }
         int position = _contentModel.indexOf(elementDecl);
-	    if (position >= 0) {
-	        _contentModel.removeElementAt(position);
-	        if (!elementDecl.isReference()) {
-	            String key = "element:"+elementDecl.getName();
+        if (position >= 0) {
+            _contentModel.removeElementAt(position);
+            if (!elementDecl.isReference()) {
+                String key = "element:" + elementDecl.getName();
                 _resolver.removeResolvable(key);
             }
             return true;
-	   }
-       return false;
-     }
-
+        }
+        return false;
+    }
 
     /**
-     * Adds the given Group to this ContentModelGroup
-     * @param group the Group to add
-     * @exception SchemaException when a group with the same name as the
-     * specified group already exists in the current scope
-    **/
-    public void addGroup(Group group)
-        throws SchemaException
-    {
-        if (group == null) return;
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#addGroup(org.exolab.castor.xml.schema.Group)
+     */
+    public void addGroup(final Group group) throws SchemaException {
+        if (group == null) {
+            return;
+        }
 
         String name = group.getName();
         if (name != null) {
-            String key = "group:"+name;
-            //-- check for naming collisions
+            String key = "group:" + name;
+            // -- check for naming collisions
             if (_resolver.resolve(key) != null) {
                 String err = "A group definition with the given name, ";
                 err += name + ", already exists in this scope.";
@@ -159,47 +152,46 @@ class ContentModelGroupImpl implements ContentModelGroup , java.io.Serializable 
             _resolver.addResolvable(key, group);
         }
 
-        //-- add to content model
+        // -- add to content model
         _contentModel.addElement(group);
-    } //-- addGroup
+    }
 
     /**
-     * Removes the given Group from this ContentModelGroup.
-     * @param group the Group to remove.
-     * @return true if the group has been successfully removed, false otherwise.
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#removeGroup(org.exolab.castor.xml.schema.Group)
      */
-     public boolean removeGroup(Group group) {
-       if (group == null)
+    public boolean removeGroup(final Group group) {
+        if (group == null) {
             return false;
+        }
         int position = _contentModel.indexOf(group);
         if (position >= 0) {
-	         String name = group.getName();
-             if (name != null) {
-                 String key = "group:"+name;
-                 _resolver.removeResolvable(key);
-             }
+            String name = group.getName();
+            if (name != null) {
+                String key = "group:" + name;
+                _resolver.removeResolvable(key);
+            }
             _contentModel.removeElementAt(position);
-             return true;
-	   }
-       return false;
-     }
-
+            return true;
+        }
+        return false;
+    }
 
     /**
-     * Adds the given ModelGroup Definition to this ContentModelGroup
-     * @param group the ModelGroup to add
-     * @exception SchemaException when a modelgroup with the same name as the
-     * specified group already exists in the current scope
-    **/
-    public void addGroup(ModelGroup group)
-        throws SchemaException
-    {
-        if (group == null) return;
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#addGroup(org.exolab.castor.xml.schema.ModelGroup)
+     */
+    public void addGroup(final ModelGroup group) throws SchemaException {
+        if (group == null) {
+            return;
+        }
 
         String name = group.getName();
         if ((name != null) && (!group.isReference())) {
-            String key = "group:"+name;
-            //-- check for naming collisions
+            String key = "group:" + name;
+            // -- check for naming collisions
             if (_resolver.resolve(key) != null) {
                 String err = "An element declaration with the given name, ";
                 err += name + ", already exists in this scope.";
@@ -209,142 +201,134 @@ class ContentModelGroupImpl implements ContentModelGroup , java.io.Serializable 
             _resolver.addResolvable(key, group);
         }
 
-        //-- add to content model
+        // -- add to content model
         _contentModel.addElement(group);
-    } //-- addGroup
-
+    }
 
     /**
-     * Removes the given ModelGroup Definition from this ContentModelGroup.
-     * @param group the ModelGroup Definition to remove.
-     * @return true if the group has been successfully removed, false otherwise.
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#removeGroup(org.exolab.castor.xml.schema.ModelGroup)
      */
-     public boolean removeGroup(ModelGroup group){
-       if (group == null)
+    public boolean removeGroup(final ModelGroup group) {
+        if (group == null) {
             return false;
+        }
         int position = _contentModel.indexOf(group);
         if (position >= 0) {
             String name = group.getName();
             if ((name != null) && (!group.isReference())) {
-                String key = "group:"+name;
+                String key = "group:" + name;
                 _resolver.removeResolvable(key);
             }
-	        _contentModel.removeElementAt(position);
-	        return true;
-	   }
-       return false;
-     }
-
-    /**
-     * Removes the given Wildcard from this Group.
-     *
-     * @param wildcard the Wildcard to remove.
-     * @return true if the wildcard has been successfully removed, false otherwise.
-     */
-    public boolean removeWildcard(Wildcard wildcard) {
-         if (wildcard == null)
-            return false;
-        int position = _contentModel.indexOf(wildcard);
-        if (position >= 0) {
-	        _contentModel.removeElementAt(position);
-	        return true;
-	    }
+            _contentModel.removeElementAt(position);
+            return true;
+        }
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#removeWildcard(org.exolab.castor.xml.schema.Wildcard)
+     */
+    public boolean removeWildcard(final Wildcard wildcard) {
+        if (wildcard == null) {
+            return false;
+        }
+        int position = _contentModel.indexOf(wildcard);
+        if (position >= 0) {
+            _contentModel.removeElementAt(position);
+            return true;
+        }
+        return false;
+    }
 
     /**
-     * Returns an enumeration of all the Particles contained
-     * within this ContentModelGroup
-     *
-     * @return an enumeration of all the Particels contained
-     * within this ContentModelGroup
-    **/
-    public Enumeration enumerate() {
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#enumerate()
+     */
+    public Enumeration<Particle> enumerate() {
         return _contentModel.elements();
-    } //-- enumerate
+    }
 
     /**
-     * Returns the element declaration with the given name, or null if no
-     * element declaration with that name exists in this ContentModelGroup.
-     *
-     * @param name the name of the element.
-     * @return the ElementDecl with the given name, or null if no
-     * ElementDecl exists in this ContentModelGroup.
-    **/
-    public ElementDecl getElementDecl(String name) {
-        if (name == null) return null;
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#getElementDecl(java.lang.String)
+     */
+    public ElementDecl getElementDecl(final String name) {
+        if (name == null) {
+            return null;
+        }
         ElementDecl result = null;
         if (_resolver != null) {
-            String key = "element:"+name;
-            result =  (ElementDecl) _resolver.resolve(key);
-            //resolver is always not null (initialized in the constructor)
-            //but it may not contain the element (in case of a complexType)
-            if (result != null)
+            String key = "element:" + name;
+            result = (ElementDecl) _resolver.resolve(key);
+            // resolver is always not null (initialized in the constructor)
+            // but it may not contain the element (in case of a complexType)
+            if (result != null) {
                 return result;
+            }
         }
         for (int i = 0; i < _contentModel.size(); i++) {
-            Particle p = (Particle) _contentModel.elementAt(i);
-            switch (p.getStructureType()) {
-                case Structure.ELEMENT:
-                    ElementDecl e = (ElementDecl)p;
-                    if (name.equals(e.getName())) {
-                        result = e;
-                    }
-                    break;
-                case Structure.GROUP:
-                case Structure.MODELGROUP:
-                    result = ((ContentModelGroup)p).getElementDecl(name);
-                    break;
-                default:
-                    break;
+            Particle particle = _contentModel.elementAt(i);
+            switch (particle.getStructureType()) {
+            case Structure.ELEMENT:
+                ElementDecl e = (ElementDecl) particle;
+                if (name.equals(e.getName())) {
+                    result = e;
+                }
+                break;
+            case Structure.GROUP:
+            case Structure.MODELGROUP:
+                result = ((ContentModelGroup) particle).getElementDecl(name);
+                break;
+            default:
+                break;
             }
-            if (result!=null) break;
+            if (result != null) {
+                break;
+            }
         }
         return result;
-    } //-- getElementDecl
+    }
 
     /**
-     * Returns the maximum number of occurances that this ContentModelGroup
-     * may appear
-     * @return the maximum number of occurances that this ContentModelGroup
-     * may appear.
-     * A non positive (n < 1) value indicates that the
-     * value is unspecified (ie. unbounded).
-    **/
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#getMaxOccurs()
+     */
     public int getMaxOccurs() {
         return 1;
     }
 
     /**
-     * Returns the minimum number of occurances that this ContentModelGroup
-     * must appear
-     * @return the minimum number of occurances that this ContentModelGroup
-     * must appear
-     * A negative (n < 0) value indicates that the value is unspecified.
-    **/
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#getMinOccurs()
+     */
     public int getMinOccurs() {
         return 1;
     }
 
     /**
-     * Returns the Particle at the specified index
-     * @param index the index of the particle to return
-     * @return the CMParticle at the specified index
-    **/
-    public Particle getParticle(int index) {
-        return (Particle) _contentModel.elementAt(index);
-    } //-- getParticle
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#getParticle(int)
+     */
+    public Particle getParticle(final int index) {
+        return _contentModel.elementAt(index);
+    }
 
     /**
-     * Returns the number of particles contained within
-     * this ContentModelGroup
-     *
-     * @return the number of particles
-    **/
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.schema.ContentModelGroup#getParticleCount()
+     */
     public int getParticleCount() {
         return _contentModel.size();
-    } //-- getParticleCount
+    }
 
-
-} //-- ContentModelGroup
+}

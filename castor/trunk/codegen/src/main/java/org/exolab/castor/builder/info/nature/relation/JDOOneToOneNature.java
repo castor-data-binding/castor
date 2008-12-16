@@ -112,8 +112,9 @@ public final class JDOOneToOneNature extends BaseNature {
      * @return the names of the foreign key's columns or null if no keys added
      *         before.
      */
-    public List getForeignKeys() {
-        return (List) this.getProperty(FOREIGN_KEY);
+    @SuppressWarnings("unchecked")
+    public List<String> getForeignKeys() {
+        return (List<String>) this.getProperty(FOREIGN_KEY);
     }
 
     /**
@@ -124,6 +125,7 @@ public final class JDOOneToOneNature extends BaseNature {
      * @param column
      *            The column name.
      */
+    @SuppressWarnings("unchecked")
     public void addForeignKey(final String column) {
         List<String> foreignKey = getPropertyAsList(FOREIGN_KEY);
         foreignKey.add(column);

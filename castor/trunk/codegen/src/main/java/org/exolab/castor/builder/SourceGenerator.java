@@ -137,8 +137,8 @@ public class SourceGenerator extends BuilderConfiguration {
     /** The application URI. */
     static final String APP_URI = "http://www.castor.org";
     /** Warning message to remind users to create source code for imported schema. */
-    private static final String IMPORT_WARNING
-        = "Note: No code will be generated for the following *imported* schema: ";
+    private static final String IMPORT_WARNING = 
+        "Note: No code will be generated for the following *imported* schema: ";
 
     //----------------------/
     //- Instance Variables -/

@@ -48,19 +48,19 @@ package org.exolab.castor.xml.schema;
 import java.util.Enumeration;
 
 /**
- * An XML Schema ModelGroup
+ * An XML Schema ModelGroup.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr 2006) $
 **/
 public interface ContentModelGroup {
 
     /**
-     * Adds the given ElementDecl to this ContentModelGroup
+     * Adds the given ElementDecl to this ContentModelGroup.
      * @param elementDecl the ElementDecl to add
      * @exception SchemaException when an ElementDecl already
      * exists with the same name as the given ElementDecl
     **/
-    public void addElementDecl(ElementDecl elementDecl)
+    void addElementDecl(ElementDecl elementDecl)
         throws SchemaException;
 
     /**
@@ -68,110 +68,105 @@ public interface ContentModelGroup {
      * @param elementDecl the ElementDecl to remove.
      * @return true if the element has been successfully removed, false otherwise.
      */
-     public boolean removeElementDecl(ElementDecl elementDecl);
+    boolean removeElementDecl(ElementDecl elementDecl);
 
     /**
-     * Adds the given Group to this ContentModelGroup
+     * Adds the given {@link Group} to this {@link ContentModelGroup}.
      * @param group the Group to add
      * @exception SchemaException when a group with the same name as the
      * specified group already exists in the current scope
     **/
-    public void addGroup(Group group)
-        throws SchemaException;
+    void addGroup(Group group) throws SchemaException;
 
     /**
-     * Removes the given Group from this ContentModelGroup.
+     * Removes the given {@link Group} from this {@link ContentModelGroup}.
      * @param group the Group to remove.
      * @return true if the group has been successfully removed, false otherwise.
      */
-     public boolean removeGroup(Group group);
+    boolean removeGroup(Group group);
 
     /**
-     * Adds the given ModelGroup Definition to this ContentModelGroup
+     * Adds the given {@link ModelGroup} definition to this {@link ContentModelGroup}.
      * @param group the ModelGroup to add
      * @exception SchemaException when a group with the same name as the
      * specified group already exists in the current scope
     **/
-    public void addGroup(ModelGroup group)
-        throws SchemaException;
+    void addGroup(ModelGroup group) throws SchemaException;
 
     /**
-     * Removes the given ModelGroup Definition from this ContentModelGroup.
-     * @param group the ModelGroup Definition to remove.
+     * Removes the given {@link ModelGroup} definition from this {@link ContentModelGroup}.
+     * @param group the {@link ModelGroup} definition to remove.
      * @return true if the group has been successfully removed, false otherwise.
      */
-     public boolean removeGroup(ModelGroup group);
+    boolean removeGroup(ModelGroup group);
 
     /**
-     * Adds the given wildcard to this ContentModelGroup
-     * @param wilcard the wilcard to add
-     * @exception SchemaException when the wilcard is &lt;anyAttribute> and
+     * Adds the given {@link Wildcard} to this {@link ContentModelGroup}.
+     * @param wilcard the {@link Wildcard} to add
+     * @exception SchemaException when the {@link Wildcard} is &lt;anyAttribute> and
      * not &lt;any>
      */
-     public void addWildcard(Wildcard wilcard)
-         throws SchemaException;
+    void addWildcard(Wildcard wilcard) throws SchemaException;
 
     /**
-     * Removes the given Wildcard from this ContentModelGroup.
-     * @param wildcard the Wildcard to remove.
-     * @return true if the wildcard has been successfully removed, false otherwise.
+     * Removes the given {@link Wildcard} from this {@link ContentModelGroup}.
+     * @param wildcard the {@link Wildcard} to remove.
+     * @return true if the given {@link Wildcard} has been successfully removed, false otherwise.
      */
-     public boolean removeWildcard(Wildcard wildcard);
+    boolean removeWildcard(Wildcard wildcard);
 
     /**
-     * Returns an enumeration of all the Particles contained
-     * within this ContentModelGroup
+     * Returns an enumeration of all the {@link Particle}s contained
+     * within this {@link ContentModelGroup}.
      *
-     * @return an enumeration of all the Particels contained
-     * within this ContentModelGroup
+     * @return an enumeration of all the {@link Particle}s contained
+     * within this {@link ContentModelGroup}
     **/
-    public Enumeration enumerate();
+    Enumeration enumerate();
 
     /**
      * Returns the element declaration with the given name, or null if no
-     * element declaration with that name exists in this ContentModelGroup.
+     * element declaration with that name exists in this 
+     * {@link ContentModelGroup}.
      *
      * @param name the name of the element.
-     * @return the ElementDecl with the given name, or null if no
-     * ElementDecl exists in this ContentModelGroup.
+     * @return the {@link ElementDecl} with the given name, or null if no
+     * ElementDecl exists in this {@link ContentModelGroup}.
     **/
-    public ElementDecl getElementDecl(String name);
+    ElementDecl getElementDecl(String name);
 
     /**
-     * Returns the maximum number of occurances that this ContentModelGroup
-     * may appear
-     * @return the maximum number of occurances that this ContentModelGroup
+     * Returns the maximum number of occurrences that this ContentModelGroup
+     * may appear.
+     * @return the maximum number of occurrences that this ContentModelGroup
      * may appear.
      * A non positive (n < 1) value indicates that the
      * value is unspecified (ie. unbounded).
     **/
-    public int getMaxOccurs();
+    int getMaxOccurs();
 
     /**
-     * Returns the minimum number of occurances that this ContentModelGroup
-     * must appear
-     * @return the minimum number of occurances that this ContentModelGroup
+     * Returns the minimum number of occurrences that this ContentModelGroup
+     * must appear.
+     * @return the minimum number of occurrences that this ContentModelGroup
      * must appear
      * A negative (n < 0) value indicates that the value is unspecified.
     **/
-    public int getMinOccurs();
+    int getMinOccurs();
 
     /**
      * Returns the number of particles contained within
-     * this ContentModelGroup
+     * this {@link ContentModelGroup}.
      *
      * @return the number of particles
     **/
-    public int getParticleCount();
+    int getParticleCount();
 
     /**
-     * Returns the Particle at the specified index
-     * @param index the index of the particle to return
+     * Returns the {@link Particle} at the specified index.
+     * @param index the index of the {@link Particle} to return
      * @return the CMParticle at the specified index
     **/
-    public Particle getParticle(int index);
+    Particle getParticle(int index);
 
-
-
-
-} //-- ContentModelGroup
+}

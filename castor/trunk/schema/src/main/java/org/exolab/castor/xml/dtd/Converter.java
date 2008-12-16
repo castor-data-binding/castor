@@ -348,7 +348,7 @@ public class Converter {
           //-- mixed="true"
 
           group = new Group();
-          group.setOrder(Order.seq);
+          group.setOrder(Order.sequence);
           group.setMinOccurs(0);
           group.setMaxOccurs(-1);
           Wildcard any = new Wildcard(group);
@@ -380,7 +380,7 @@ public class Converter {
 
           if (content instanceof ElementDecl) {
              group = new Group();
-             group.setOrder(Order.seq);
+             group.setOrder(Order.sequence);
              group.addElementDecl((ElementDecl)content);
              complexType.addGroup(group);
           } else {
@@ -464,7 +464,7 @@ public class Converter {
        } else if (dtdContent.isSeqType() || dtdContent.isChoiceType()) {
 
           Group group = new Group();
-          if (dtdContent.isSeqType()) group.setOrder(Order.seq);
+          if (dtdContent.isSeqType()) group.setOrder(Order.sequence);
           else group.setOrder(Order.choice);
 
           Enumeration children = dtdContent.getChildren();
