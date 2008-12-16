@@ -79,7 +79,7 @@ org.exolab.castor.builder.javaVersion=5.0
       <para>
         Castor's Source Code Generator creates a set of Java classes which
         represent an object model for an XML Schema (W3C XML Schema 1.0 Second
-        Edition, Recommendation)<sup>1</sup>, as well as the necessary Class
+        Edition, Recommendation), as well as the necessary Class
         Descriptors used by the <a href="xml-framework.xml">marshaling
         framework</a> to obtain information about the generated classes.
       </para>
@@ -3140,31 +3140,6 @@ javac com/xyz/*.java</programlisting>
                 Notes:
               </para>
 
-              <para>
-                <a name="sup-1"><sup>1</sup></a> For the date/time and numeric types,
-                the only supported value for whitespace is "collapse".
-              </para>
-      
-              <para>
-                <a name="sup-2"><sup>2</sup></a> For the various numerical types, the
-                default behavior is to generate primitive types.  However, if the
-                use of wrappers is enabled by the following line in the
-                <literal>castorbuilder.properties</literal> file:
-                <code>org.exolab.castor.builder.primitivetowrapper=true</code> then
-                the <literal>java.lang.*</literal> wrapper objects (as specified above) will be
-                used instead.
-              </para>
-      
-              <para>
-                <a name="sup-3"><sup>3</sup></a> Currently, xsd:language and xsd:token
-                are treated as if they were xsd:string.
-              </para>
-      
-              <para>
-                <a name="sup-4"><sup>4</sup></a> For the integral types, the only
-                allowed value for fractionDigits is 0.
-              </para>
-              
             </section>
             
         </section>
