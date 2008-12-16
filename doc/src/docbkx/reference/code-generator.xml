@@ -17,12 +17,26 @@
         <section id="xml.code.generator.introduction.news.java50">
             <title>Source generation &amp; Java 5.0</title>
 
-        <para>
-          Since <emphasis role="bold">release 1.0.2</emphasis>, the Castor source generator supports
-          the generation of Java 5.0 compliant code. The generated code --
-          with the new feature enabled -- will make use of the following
-          Java 5.0-specific artifacts:
-        </para>
+            <orderedlist>
+                <listitem>
+                    <para>
+                        Since <emphasis role="bold">release 1.0.2</emphasis>, the Castor 
+                        source generator supports the optional the generation of 
+                        Java 5.0 compliant code.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        With <emphasis role="bold">release 1.3</emphasis>, the XML 
+                        code generator will generate Java 5.0 compliant code by default.
+                    </para>
+                </listitem>
+            </orderedlist>
+        
+           <para>
+               With support for Java 5.0 enabled, the generated code will support the 
+               following Java 5.0-specific artifacts:
+           </para>
 
         <itemizedlist>
           <listitem><para>
@@ -41,17 +55,16 @@
         </itemizedlist>
 
         <para>
-          To enable this feature (off by default), please add or uncomment
-          the following property in your custom
-          <literal>castorbuilder.properties</literal> file:
+          To disable this feature (on by default), please amend the following property 
+          in your custom <literal>castorbuilder.properties</literal> file:
         </para>
 
         <programlisting language="xml">
 # Specifies whether the sources generated should be source compatible with
-# Java 1.4 or Java 5.  Legal values are "1.4" and "5.0".  When "5.0" is
+# Java 1.4 or Java 5.0. Legal values are "1.4" and "5.0".  When "5.0" is
 # selected, generated source will use Java 5 features such as generics and
 # annotations.
-# Defaults to "1.4".
+# Defaults to "5.0".
 #
 org.exolab.castor.builder.javaVersion=5.0
         </programlisting>
