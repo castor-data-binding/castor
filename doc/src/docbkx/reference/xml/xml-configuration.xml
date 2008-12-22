@@ -11,13 +11,9 @@
 		<title>Configuring the Marshaller</title>
 		<para>
 			Before using the
-			<api class="org.exolab.castor.xml.Marshaller">
-				Marshaller
-			</api>
+			<classname>Marshaller</classname>
 			class for marshalling Java objects to XML, the
-			<api class="org.exolab.castor.xml.Marshaller">
-				Marshaller
-			</api>
+			<classname>Marshaller</classname>
 			can be fine-tuned according to your needs by calling a
 			variety of set-methods on this class. This section enlists
 			the available properties and provides you with information
@@ -25,6 +21,7 @@
 		</para>
 
 		<table frame="all">
+            <title>Marshaller properties</title>
 			<tgroup cols="5">
 				<thead>
 					<row>
@@ -40,12 +37,12 @@
 						<entry>suppressNamespaces</entry>
 						<entry></entry>
 						<entry>
-							<tt>true</tt>
+							<literal>true</literal>
 							or
-							<tt>false</tt>
+							<literal>false</literal>
 						</entry>
 						<entry>
-							<tt>false</tt>
+							<literal>false</literal>
 						</entry>
 						<entry>-</entry>
 					</row>
@@ -60,13 +57,9 @@
 
 		<para>
 			Before using the
-			<api class="org.exolab.castor.xml.Unmarshaller">
-				Unmarshaller
-			</api>
+			<classname>Unmarshaller</classname>
 			class for unmarshalling Java objects from XML, the
-			<api class="org.exolab.castor.xml.Marshaller">
-				Unmarshaller
-			</api>
+			<classname>Unmarshaller</classname>
 			can be fine-tuned according to your needs by calling a
 			variety of set-methods on this class. This section enlists
 			the available properties and provides you with information
@@ -74,6 +67,7 @@
 		</para>
 
 		<table frame="all">
+            <title>Unmarshaller properties</title>
 			<tgroup cols="5">
 				<thead>
 					<row>
