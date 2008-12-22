@@ -7,7 +7,7 @@
 		<title>Introduction</title>
 
 		<para>
-			Castor XML is an XML databinding framework. Unlike the two
+			Castor XML is an XML data binding framework. Unlike the two
 			main XML APIs, DOM (Document Object Model) and SAX (Simple
 			API for XML) which deal with the structure of an XML
 			document, Castor enables one to deal with the data defined
@@ -29,19 +29,16 @@
 		</para>
 	</section>
 
-	<section>
+	<section id="xml.framework.data.binding.framework">
 		<title>Castor XML - The XML data binding framework</title>
 		<para>
 			The XML data binding framework, as it's name implies, is
 			responsible for doing the conversion between Java and XML.
 			The framework consists of two worker classes,
-			<ulink url="org/exolab/castor/xml/Marshaller">
-				Marshaller
-			</ulink>
-			and
-			<api>org.exolab.castor.xml.Unmarshaller</api>
+			<classname>org/exolab/castor/xml/Marshaller</classname>	and
+			<classname>org.exolab.castor.xml.Unmarshaller</classname>
 			respectively, and a bootstrap class
-			<api>org.exolab.castor.xml.XMLContext</api>
+			<classname>org.exolab.castor.xml.XMLContext</classname>
 			used for configuration of the XML data binding framework and
 			instantiation of the two worker objects.
 		</para>
@@ -123,13 +120,8 @@ name; } }
 				In this mode, the user makes use of
 				<emphasis role="bold">static</emphasis>
 				methods on the
-				<api class="org.exolab.castor.xml.Marshaller">
-					Marshaller
-				</api>
-				and
-				<api class="org.exolab.castor.xml.Unmarshaller">
-					Unmarshaller
-				</api>
+				<classname>org.exolab.castor.xml.Marshaller</classname> and
+				<classname>org.exolab.castor.xml.Unmarshaller</classname>
 				classes, providing all required data as parameters on
 				these method calls.
 			</para>
@@ -137,9 +129,7 @@ name; } }
 			<para>
 				To marshal an instance of the person class you simply
 				call the
-				<api class="org.exolab.castor.xml.Marshaller">
-					Marshaller
-				</api>
+				<classname>org.exolab.castor.xml.Marshaller</classname>
 				as follows:
 			</para>
 
@@ -170,9 +160,7 @@ XML to written
 			<para>
 				To unmarshal an instance of the person class from XML,
 				you simply call the
-				<api class="org.exolab.castor.xml.Unmarshaller">
-					Unmarshaller
-				</api>
+				<classname>org.exolab.castor.xml.Unmarshaller</classname>
 				as follows:
 			</para>
 
@@ -199,13 +187,8 @@ Unmarshaller.unmarshal(Person.class, reader);
 				created. A common mistake in this context when using a
 				<emphasis role="bold">mapping file</emphasis>
 				is to call the
-				<api class="org.exolab.castor.xml.Marshaller">
-					Marshaller
-				</api>
-				or
-				<api class="org.exolab.castor.xml.Unmarshaller">
-					Unmarshaller
-				</api>
+				<classname>org.exolab.castor.xml.Marshaller</classname>	or
+				<classname>org.exolab.castor.xml.Unmarshaller</classname>
 				as in the above example. This won't work, as the mapping
 				will be ignored.
 			</note>
@@ -240,11 +223,9 @@ Unmarshaller.unmarshal(Person.class, reader);
 			<para>
 				When you are using a mapping file, create an instance of
 				the
-				<api>org.exolab.castor.xml.XMLContext</api>
+				<classname>org.exolab.castor.xml.XMLContext</classname>
 				class and use the
-				<api class="org.exolab.castor.xml.XMLContext">
-					addMapping(Mapping)
-				</api>
+				<methodname>org.exolab.castor.xml.XMLContext.addMapping(Mapping)</methodname>
 				method to provide Castor XML with one of more mapping
 				files.
 			</para>
@@ -254,9 +235,9 @@ Unmarshaller.unmarshal(Person.class, reader);
 				To start using Castor XML for marshalling and/or
 				unmarshalling based upon your custom mapping, create
 				instances of
-				<api>org.exolab.castor.xml.Marshaller</api>
+				<classname>org.exolab.castor.xml.Marshaller</classname>
 				and
-				<api>org.exolab.castor.xml.Unmarshaller</api>
+				<classname>org.exolab.castor.xml.Unmarshaller</classname>
 				as needed using one of the following methods:
 			</para>
 
@@ -331,9 +312,7 @@ Unmarshaller.unmarshal(Person.class, reader);
 				unmarshalling a
 				<literal>Person</literal>
 				instance from XML using a
-				<api class="org.exolab.castor.xml.Unmarshaller">
-					Unmarshaller
-				</api>
+				<classname>org.exolab.castor.xml.Unmarshaller</classname>
 				instance as obtained from an XMLContext previously
 				configured to your needs.
 			</para>
@@ -375,15 +354,11 @@ unmarshaller.unmarshal(reader);
 				To marshal the very same
 				<literal>Person</literal>
 				instance to XML using a
-				<api class="org.exolab.castor.xml.Marshaller">
-					Marshaller
-				</api>
+				<classname>org.exolab.castor.xml.Marshaller</classname>
 				obtained from the
 				<emphasis role="bold">same</emphasis>
-				<api class="org.exolab.castor.xml.XMLContext">
-					XMLContext
-				</api>
-				, use code as follows:
+				<classname>org.exolab.castor.xml.XMLContext</classname>, 
+                use code as follows:
 			</para>
 
 			<example>
@@ -405,7 +380,7 @@ marshaller.marshal(person);
 
 			<para>
 				Please have a look at
-				<a href="xml-mapping.html">XML Mapping</a>
+				<ulink url="http://www.castor.org/xml-mapping.html">XML Mapping</ulink>
 				for a detailed discussion of the mapping file and its
 				structure.
 			</para>
@@ -414,7 +389,7 @@ marshaller.marshal(person);
 				For more information on how to effectively deal with
 				loading mapping file(s) especially in multi-threaded
 				environments, please check the
-				<a href="xml-best-practice.html">best practice</a>
+				<ulink url="http://www.castor.org/xml-best-practice.html">best practice</ulink>
 				section.
 			</para>
 
@@ -443,47 +418,29 @@ marshaller.marshal(person);
 
 		<para>
 			With Castor 1.1.2, the
-			<api class="org.exolab.castor.xml.XMLContext">
-				XMLContext
-			</api>
+			<classname>org.exolab.castor.xml.XMLContext</classname>
 			class has been added to the Castor marshalling framework.
 			This new class provides a bootstrap mechanism for Castor
 			XML, and allows easy (and efficient) instantiation of
-			<api class="org.exolab.castor.xml.Marshaller">
-				Marshaller
-			</api>
+			<classname>org.exolab.castor.xml.Marshaller</classname>
 			and
-			<api class="org.exolab.castor.xml.Unmarshaller">
-				Unmarshaller
-			</api>
+			<classname>org.exolab.castor.xml.Unmarshaller</classname>
 			instances as needed.
 		</para>
 
 		<para>
 			As shown above, the
-			<api class="org.exolab.castor.xml.XMLContext">
-				XMLContext
-			</api>
+			<classname>org.exolab.castor.xml.XMLContext</classname>
 			class offers various factory methods to obtain a new
-			<api class="org.exolab.castor.xml.Marshaller">
-				Marshaller
-			</api>
-			,
-			<api class="org.exolab.castor.xml.Unmarshaller">
-				Unmarshaller
-			</api>
-			.
+			<classname>org.exolab.castor.xml.Marshaller</classname>,
+			<classname>org.exolab.castor.xml.Unmarshaller</classname>.
 		</para>
 
 		<para>
 			When you need more than one
-			<api class="org.exolab.castor.xml.Unmarshaller">
-				Unmarshaller
-			</api>
+			<classname>org.exolab.castor.xml.Unmarshaller</classname>
 			instance in your application, please call
-			<api class="org.exolab.castor.xml.XMLContext">
-				createUnmarshaller
-			</api>
+			<methodname>org.exolab.castor.xml.XMLContext.createUnmarshaller()</methodname>
 			as required. As all
 			<literal>Unmarshaller</literal>
 			instances are created from the very same
@@ -514,8 +471,7 @@ marshaller.marshal(person);
 		<para>
 			If a set of descriptors exist for the classes, then Castor
 			will use those to gain information about how to handle the
-			marshalling. See
-			<a href="#Class Descriptors">Class Descriptors</a>
+			marshalling. See <xref linkend="xml.framework.class.descriptors"/>
 			for more information.
 		</para>
 		<para>
@@ -527,14 +483,12 @@ marshaller.marshal(person);
 		</para>
 		<para>
 			The example illustrated in the previous section
-			<a href="#The Marshalling Framework">
-				The Marshalling Framework
-			</a>
+			<xref linkend="xml.framework.data.binding.framework"/>
 			demonstrates how to use the framework with existing classes.
 		</para>
 	</section>
 
-	<section>
+	<section id="xml.framework.class.descriptors">
 		<title>Class Descriptors</title>
 
 		<para>
@@ -545,17 +499,16 @@ marshaller.marshal(person);
 		</para>
 		<para>
 			Class descriptors contain a set of
-			<a href="#Field Descriptors">Field Descriptors</a>
+			<xref linkend="xml.framework.field.descriptors" />
 		</para>
 		<para>
 			XML Class descriptors provide the marshalling framework with
 			the information it needs about a class in order to be
 			marshalled to and from XML. The XMLClassDescriptor
-			<api>org.exolab.castor.xml.XMLClassDescriptor</api>
-			.
+			<classname>org.exolab.castor.xml.XMLClassDescriptor</classname>.
 		</para>
 		<para>
-			XML Class Descriptors are created four main ways. Two of
+			XML Class Descriptors are created in four main ways. Two of
 			these are basically run-time, and the other two are compile
 			time.
 
@@ -564,10 +517,10 @@ marshaller.marshal(person);
 				<para>
 					To use "compile-time" class descriptors, one can
 					either implement the
-					<api>org.exolab.castor.xml.XMLClassDescriptor</api>
+					<classname>org.exolab.castor.xml.XMLClassDescriptor</classname>
 					interface for each class which needs to be
 					"described", or have the
-					<a href="sourcegen.xml">Source Code Generator</a>
+					<ulink url="http://www.castor.org/sourcegen.xml">Source Code Generator</ulink>
 					create the proper descriptors.
 				</para>
 				<para>
@@ -615,7 +568,7 @@ marshaller.marshal(person);
 					classes which are to be marshalled. The mapping is
 					loaded before any marshalling/unmarshalling takes
 					place. See
-					<api>org.exolab.castor.mapping.Mapping</api>
+					<classname>org.exolab.castor.mapping.Mapping</classname>
 				</para>
 				<para>
 					The main advantage of run-time descriptors is that
