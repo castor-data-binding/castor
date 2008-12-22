@@ -330,12 +330,10 @@
 			</title>
 			<para>
 				Yes! We provide one such tool, see
-				<classname>
-					org.exolab.castor.tools.MappingTool
-				</classname>
-				. There are some
-				<a href="extras.xml">3rd party</a>
-				tools as well.
+				<classname>org.exolab.castor.tools.MappingTool</classname>
+				. There are some 
+                <ulink url="http://www.castor.org/extras.html">3rd party</ulink> 
+                tools as well.
 			</para>
 		</section>
 
@@ -360,7 +358,7 @@
 			<para>
 				For a class mapping, use the &lt;map-to&gt; element. For
 				more information see the
-				<a href="xml-mapping.xml">XML Mapping documentation</a>
+				<ulink url="http://www.castor.org/xml-mapping.html">XML Mapping documentation</ulink>
 				.
 			</para>
 		</section>
@@ -626,10 +624,7 @@
 				<emphasis role="bold">after</emphasis>
 				you set the ClassDescriptorResolver. You will note the
 				following in the Javadoc for
-				<!-- FIXME:  javadoc in stylesheet mangles this reference -->
-				<!--<api>-->
-				org.exolab.castor.xml.Marshaller.html#setResolver(org.exolab.castor.xml.ClassDescriptorResolver)
-				<!--</api>-->
+				<classname>org.exolab.castor.xml.Marshaller.html#setResolver(org.exolab.castor.xml.ClassDescriptorResolver)</classname>
 				:
 			</para>
 
