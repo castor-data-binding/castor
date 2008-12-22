@@ -11,30 +11,30 @@
          <literal>setLogWriter</literal> methods to get detailed information and error
          messages.</para>
 
-      <para>Using a logger with <api>org.exolab.castor.mapping.Mapping</api> will
+      <para>Using a logger with <classname>org.exolab.castor.mapping.Mapping</classname> will
          provide detailed information about mapping decisions made by Castor and
          will show the SQL statements being used.</para>
 
-      <para>Using a logger with <api>org.exolab.castor.jdo.JDO</api> will provide
+      <para>Using a logger with <classname>org.exolab.castor.jdo.JDO</classname> will provide
          trace messages that show when Castor is loading, storing, creating and
          deleting objects. All database operations will appear in the log; if an
          object is retrieved from the cache or is not modified, there will be no
          trace of load/store operations.</para>
 
-      <para>Using a logger with <api>org.exolab.castor.xml.Unmarshaller</api> will
+      <para>Using a logger with <classname>org.exolab.castor.xml.Unmarshaller</classname> will
          provide trace messages that show conflicts between the XML document and
          loaded objects.</para>
 
       <para>A simple trace logger can be obtained from
-         <javadoc>org.exolab.castor.util.Logger</javadoc>. This logger uses the
+         <classname>org.exolab.castor.util.Logger</classname>. This logger uses the
          standard output stream, but prefixes each line with a short message
          that indicates who generated it. It can also print the time and date of
          each message. Since logging is used for warning messages and simple
          tracing, Castor does not require a sophisticated logging mechanism.</para>
 
       <para>Interested in integratating Castor's logging with Log4J? Then see
-         <a href="jdo-faq.html#How-can-I-integrate-Castor's-logging-with-a-logging-infrastructure-using-Log4J?">this
-         question</a> in the JDO FAQ.</para>
+         <ulink url="http://www.castor.org/jdo-faq.html#How-can-I-integrate-Castor's-logging-with-a-logging-infrastructure-using-Log4J?">
+         this question</ulink> in the JDO FAQ.</para>
 
     </section>
 
@@ -83,7 +83,9 @@ org.exolab.castor.indent=true
     <section>
         <title>Mapping: auto-complete</title>
     
-       <note>This only works with Castor-XML.</note>
+       <note>
+            <para>This only works with Castor-XML.</para>
+       </note>
        
        <para>
           To save time when writing your mappings, try using the <emphasis role="italic">auto-complete</emphasis>
