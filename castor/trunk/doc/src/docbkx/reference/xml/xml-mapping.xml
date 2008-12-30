@@ -1050,7 +1050,7 @@ public void add...(&lt;type&gt; value);
         
 			<para>The following mapping fragment defines a <classname>&lt;field&gt;</classname> element for the 
 			   <classname>member</classname> property of the <classname>org.some.package.Root</classname> class, 
-			   specifying a custom <api class="org.exolab.castor.mapping.FieldHandler">FieldHandler</api>
+			   specifying a custom <classname>org.exolab.castor.mapping.FieldHandler</classname>
 			   implementation.</para>
 				   
 			<programlisting language="java">
