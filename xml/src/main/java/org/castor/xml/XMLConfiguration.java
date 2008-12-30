@@ -49,10 +49,10 @@ public final class XMLConfiguration extends Configuration {
      * configuration instance returned will be a CastorConfiguration with a XMLConfiguration and
      * a CoreConfiguration instance as parents. The CastorConfiguration holding user specific
      * properties is the only one that can be modified by put() and remove() methods.
-     * XMLConfiguration and CoreConfiguration are responsble to deliver Castor's default values
+     * XMLConfiguration and CoreConfiguration are responsible to deliver Castor's default values
      * if they have not been overwritten by the user.
      * 
-     * @return Configuration instance for Castor XML modul.
+     * @return Configuration instance for Castor XML module.
      */
     public static Configuration newInstance() {
         Configuration core = new CoreConfiguration();
