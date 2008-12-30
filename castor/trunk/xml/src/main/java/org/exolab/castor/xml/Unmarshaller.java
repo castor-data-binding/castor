@@ -977,7 +977,7 @@ public class Unmarshaller {
         //-- process namespace to package mappings
         String mappings = 
             _internalContext.getStringProperty(XMLConfiguration.NAMESPACE_PACKAGE_MAPPINGS);
-        if (mappings != null) {
+        if (mappings != null && mappings.length() > 0) {
             StringTokenizer tokens = new StringTokenizer(mappings, ",");
             while (tokens.hasMoreTokens()) {
                 String token = tokens.nextToken();
