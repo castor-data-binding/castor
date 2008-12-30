@@ -43,8 +43,7 @@
 package org.exolab.javasource;
 
 import java.lang.reflect.Array;
-
-import org.exolab.castor.util.OrderedHashMap;
+import java.util.LinkedHashMap;
 
 /**
  * JAnnotation represents a single annotation against a code element. The
@@ -134,21 +133,23 @@ import org.exolab.castor.util.OrderedHashMap;
  * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public final class JAnnotation {
-    //--------------------------------------------------------------------------
 
-    /** Name of a single element. */
+    /** 
+     * Name of a single element. 
+     */
     public static final String VALUE = "value";
 
-    //--------------------------------------------------------------------------
-
-    /** Annotation type referenced by this annotation. */
+    /** 
+     * Annotation type referenced by this annotation. 
+     */
     private JAnnotationType _annotationType;
 
-    /** Element values associated with this JAnnotation, contains String,
-     *  String[], JAnnotation and JAnnotation[] objects. */
-    private OrderedHashMap<Object, Object> _elementValues = new OrderedHashMap<Object, Object>();
-
-    //--------------------------------------------------------------------------
+    /** 
+     * Element values associated with this JAnnotation, contains String,
+     *  String[], JAnnotation and JAnnotation[] objects. 
+     */
+    private LinkedHashMap<Object, Object> _elementValues = 
+        new LinkedHashMap<Object, Object>();
 
     /**
      * Constructs a JAnnotation for the given annotation type.
@@ -158,8 +159,6 @@ public final class JAnnotation {
     public JAnnotation(final JAnnotationType annotationType) {
         _annotationType = annotationType;
     }
-
-    //--------------------------------------------------------------------------
 
     /**
      * Returns the JAnnotationType associated with this JAnnotation.
@@ -348,8 +347,6 @@ public final class JAnnotation {
                 new String[_elementValues.size()]);
     }
 
-    //--------------------------------------------------------------------------
-
     /**
      * Prints the source code for this JAnnotation to the given JSourceWriter.
      *
@@ -437,5 +434,4 @@ public final class JAnnotation {
         throw new IllegalArgumentException("'" + elementValue + "' was not expected.");
     }
 
-    //--------------------------------------------------------------------------
 }

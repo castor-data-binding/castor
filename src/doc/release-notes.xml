@@ -47,6 +47,27 @@
             
             </summary>
             <bugs>
+                <bug id="2607" tool="jira">
+                    <description>
+                        Removed OrderedHashMap and replaced its usage with 
+                        java.util.LinkedHashMap.
+                    </description>
+                    <contributor>
+                        <name>Herve Boutemy</name>
+                        <email>herve.boutemy@free.fr</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Herve Boutemy</name>
+                        <email>herve.boutemy@free.fr</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20081230</date>
+                </bug>
                 <bug id="2608" tool="jira">
                     <description>
                         Improved <tt>castor.xml.properties</tt> to be coherent
