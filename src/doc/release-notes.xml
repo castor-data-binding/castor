@@ -47,7 +47,28 @@
             
             </summary>
             <bugs>
-                <bug id="2600" tool="jira">
+                <bug id="2608" tool="jira">
+                    <description>
+                        Improved <tt>castor.xml.properties</tt> to be coherent
+                        in style, content and handling of default values.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Martin Weber</name>
+                        <email>martin.weber@nist.gov</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20081230</date>
+                </bug>
+                <bug id="2609" tool="jira">
                     <description>
                         Improved <tt>castorbuilder.properties</tt> to be coherent
                         in style, content and handling of default values (but

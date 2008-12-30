@@ -310,6 +310,7 @@ public abstract class AbstractInternalContext implements InternalContext {
     } //-- getPrimitiveNodeType
     
     /**
+     * {@inheritDoc}
      * @see org.castor.xml.InternalContext#getRegExpEvaluator()
      */
     public RegExpEvaluator getRegExpEvaluator() {
@@ -317,22 +318,23 @@ public abstract class AbstractInternalContext implements InternalContext {
             return _regExpEvaluator;
         }
         
-        String regExpEvalClassName = _configuration.getString(XMLConfiguration.REG_EXP_CLASS_NAME);
-        if ((regExpEvalClassName == null) || (regExpEvalClassName.length() == 0)) {
+        String className = 
+            _configuration.getString(XMLConfiguration.REG_EXP_CLASS_NAME, "");
+        if (className.length() == 0) {
             _regExpEvaluator = null;
         } else {
             try {
-                Class regExpEvalClass = Class.forName(regExpEvalClassName);
+                Class<?> regExpEvalClass = Class.forName(className);
                 _regExpEvaluator = (RegExpEvaluator) regExpEvalClass.newInstance();
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(
-                        Messages.format("conf.failedInstantiateRegExp", regExpEvalClassName, e));
+                        Messages.format("conf.failedInstantiateRegExp", className, e));
             } catch (InstantiationException e) {
                 throw new RuntimeException(
-                        Messages.format("conf.failedInstantiateRegExp", regExpEvalClassName, e));
+                        Messages.format("conf.failedInstantiateRegExp", className, e));
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(
-                        Messages.format("conf.failedInstantiateRegExp", regExpEvalClassName, e));
+                        Messages.format("conf.failedInstantiateRegExp", className, e));
             }
         }
         return _regExpEvaluator;
