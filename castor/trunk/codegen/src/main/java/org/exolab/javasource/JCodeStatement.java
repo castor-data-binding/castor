@@ -71,6 +71,9 @@ public final class JCodeStatement {
      * {@inheritDoc}
      */
     public String toString() {
+        if (_value.length() == 0) {
+            return "";
+        }
         StringBuilder sb = new StringBuilder(_indentSize + _value.length());
         for (int i = 0; i < _indentSize; i++) { sb.append(' '); }
         sb.append(_value.toString());

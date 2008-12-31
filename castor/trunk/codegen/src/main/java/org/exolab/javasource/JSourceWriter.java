@@ -356,11 +356,13 @@ public final class JSourceWriter extends Writer {
 
     public void writeln(final String string) {
         synchronized (lock) {
-            ensureIndent();
-            try {
-                _out.write(string);
-            } catch (java.io.IOException ioe) {
-                // ignore
+            if (string.length() > 0) {
+                ensureIndent();
+                try {
+                    _out.write(string);
+                } catch (java.io.IOException ioe) {
+                    // ignore
+                }
             }
             linefeed();
             _addIndentation = true;
