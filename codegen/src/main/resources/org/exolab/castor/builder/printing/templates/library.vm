@@ -114,6 +114,10 @@ ${shift}}
 
 #end
 
+#macro (sourceCodeEntry $sourceCodeEntry $shift)
+${shift}$sourceCodeEntry
+#end
+
 #macro (returntype $method)
 #if($method.getReturnType())$method.getReturnType()#{else}void#end	
 #end

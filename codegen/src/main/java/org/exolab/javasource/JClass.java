@@ -44,6 +44,8 @@ package org.exolab.javasource;
 
 import java.util.Enumeration;
 
+import org.exolab.castor.builder.SourceGenerator;
+
 /**
  * A representation of the Java Source code for a Java Class. This is a useful
  * utility when creating in memory source code. This package was modelled after
@@ -54,12 +56,9 @@ import java.util.Enumeration;
  * @version $Revision$ $Date: 2005-05-08 12:32:06 -0600 (Sun, 08 May 2005) $
  */
 public class JClass extends AbstractJClass {
-    //--------------------------------------------------------------------------
 
     /** The superclass for this JClass. */
     private JTypeName _superClass;
-
-    //--------------------------------------------------------------------------
 
     /**
      * Creates a new JClass with the given name.
@@ -72,13 +71,13 @@ public class JClass extends AbstractJClass {
         _superClass = null;
     }
 
-    //--------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
     public final void addImport(final String className) {
-        if ((className == null) || (className.length() == 0)) { return; }
+        if ((className == null) || (className.length() == 0)) {
+            return;
+        }
 
         JTypeName jtName = new JTypeName(className);
 
@@ -148,10 +147,11 @@ public class JClass extends AbstractJClass {
         }
     }
     
-    //--------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
+     * 
+     * @deprecated Please use the Velocity-template based approach instead.
+     * @see SourceGenerator#setJClassPrinterType(String) 
      */
     public void print(final JSourceWriter jsw, final boolean classOnly) {
         if (jsw == null) {
@@ -175,6 +175,7 @@ public class JClass extends AbstractJClass {
         printConstructors(jsw);
         printMethods(jsw);
         printInnerClasses(jsw);
+        printSourceCodeFragments(jsw);
 
         jsw.unindent();
         jsw.writeln('}');
@@ -261,5 +262,4 @@ public class JClass extends AbstractJClass {
         }
     }
 
-    //--------------------------------------------------------------------------
 }

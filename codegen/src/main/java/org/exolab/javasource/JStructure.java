@@ -508,6 +508,7 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
      * Prints the source code for this JStructure to the given JSourceWriter.
      *
      * @param jsw The JSourceWriter to print to.
+     * @deprecated Please use the Velocity-template based approach instead. 
      */
     public abstract void print(JSourceWriter jsw);
 
