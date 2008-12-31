@@ -11,6 +11,7 @@
  *   - static initializers
  *   - constructors
  *   - methods
+ *   - source code fragments
  *   - inner classes
  *   - javadoc statements
  *   - inner classes
@@ -90,6 +91,14 @@ import $import;
 #annotation( $annotation "    ")
 #end
 #method( $method "    " )   
+
+#end
+#end
+
+## SOURCE CODE FRAGMENTS *#
+#if( $jClass.getSourceCodeEntryCount() > 0)
+#foreach( $sourceCodeEntry in $jClass.getSourceCodeEntries() )
+#sourceCodeEntry( $sourceCodeEntry "    " )   
 
 #end
 #end

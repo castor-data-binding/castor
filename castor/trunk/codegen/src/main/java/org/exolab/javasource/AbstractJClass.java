@@ -18,6 +18,8 @@ package org.exolab.javasource;
 import java.util.Enumeration;
 import java.util.Vector;
 
+import org.exolab.castor.builder.SourceGenerator;
+
 /**
  * A abstract base class for representations of the Java Source code for a Java Class.
  *
@@ -26,7 +28,6 @@ import java.util.Vector;
  * @since 1.1
  */
 public abstract class AbstractJClass extends JStructure {
-    //--------------------------------------------------------------------------
 
     /** The source code for static initialization. */
     private JSourceCode _staticInitializer;
@@ -43,7 +44,15 @@ public abstract class AbstractJClass extends JStructure {
     /** A collection of inner classes for this JClass. */
     private Vector<JClass> _innerClasses;
 
-    //--------------------------------------------------------------------------
+    private Vector<String> _sourceCodeEntries = new Vector<String>();
+
+    /**
+     * Returns a collection of (complete) source code fragments.
+     * @return A collection of (complete) source code fragments.
+     */
+    public String[] getSourceCodeEntries() {
+        return _sourceCodeEntries.toArray(new String[_sourceCodeEntries.size()]);
+    }
 
     /**
      * Creates a new AbstractJClass with the given name.
@@ -444,6 +453,8 @@ public abstract class AbstractJClass extends JStructure {
 
     /**
      * {@inheritDoc}
+     * @deprecated Please use the Velocity-template based approach instead.
+     * @see SourceGenerator#setJClassPrinterType(String) 
      */
     public final void print(final JSourceWriter jsw) {
         print(jsw, false);
@@ -455,6 +466,9 @@ public abstract class AbstractJClass extends JStructure {
      * @param classOnly If true, the file header, package declaration, and
      *        imports are not printed.
      * @param jsw The JSourceWriter to print to. Must not be null.
+     * 
+     * @deprecated Please use the Velocity-template based approach instead.
+     * @see SourceGenerator#setJClassPrinterType(String) 
      */
     public abstract void print(final JSourceWriter jsw, final boolean classOnly);
 
@@ -609,6 +623,21 @@ public abstract class AbstractJClass extends JStructure {
             jsw.writeln();
         }
     }
+    
+    protected final void printSourceCodeFragments(final JSourceWriter sourceWriter) {
+        if (!_sourceCodeEntries.isEmpty()) {
+            sourceWriter.writeln();
+            sourceWriter.writeln("  //----------------------------------/");
+            sourceWriter.writeln(" //- Injected source code fragments -/");
+            sourceWriter.writeln("//----------------------------------/");
+            sourceWriter.writeln();
+        }
+        for (String sourceCode : _sourceCodeEntries) {
+            sourceWriter.writeln(sourceCode);
+            sourceWriter.writeln();
+        }
+        
+    }
 
     /**
      * Writes to the JSourceWriter all inner classes belonging to this class.
@@ -631,5 +660,16 @@ public abstract class AbstractJClass extends JStructure {
         }
     }
 
-    //--------------------------------------------------------------------------
+    /**
+     * Adds a complete source code fragment (method) to this class.
+     * @param sourceCode The complete source code fragment to be added.
+     */
+    public void addSourceCode(final String sourceCode) {
+        _sourceCodeEntries.add(sourceCode);
+    }
+
+    public final int getSourceCodeEntryCount() {
+        return _sourceCodeEntries.size(); 
+    }
+    
 }

@@ -45,6 +45,8 @@ package org.exolab.javasource;
 import java.util.Enumeration;
 import java.util.Vector;
 
+import org.exolab.castor.builder.SourceGenerator;
+
 /**
  * A representation of the Java Source code for a Java Interface. This is a
  * useful utility when creating in memory source code. The code in this package
@@ -309,6 +311,9 @@ public final class JInterface extends JStructure {
 
     /**
      * {@inheritDoc}
+     * 
+     * @deprecated Please use the Velocity-template based approach instead.
+     * @see SourceGenerator#setJClassPrinterType(String) 
      */
     public void print(final JSourceWriter jsw) {
         print(jsw, false);
@@ -320,6 +325,9 @@ public final class JInterface extends JStructure {
      * @param jsw The JSourceWriter to print to. Must not be null.
      * @param classOnly If true, generates the class body without the class
      *            header, package declaration, or imports.
+     *            
+     * @deprecated Please use the Velocity-template based approach instead.
+     * @see SourceGenerator#setJClassPrinterType(String) 
      */
     public void print(final JSourceWriter jsw, final boolean classOnly) {
         if (jsw == null) {

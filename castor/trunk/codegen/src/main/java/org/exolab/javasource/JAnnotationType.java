@@ -42,6 +42,8 @@
  */
 package org.exolab.javasource;
 
+import org.exolab.castor.builder.SourceGenerator;
+
 /**
  * Describes the definition of a annotation type class.
  *
@@ -204,6 +206,9 @@ public final class JAnnotationType extends JStructure {
 
     /**
      * {@inheritDoc}
+     * 
+     * @deprecated Please use the Velocity-template based approach instead.
+     * @see SourceGenerator#setJClassPrinterType(String) 
      */
     public void print(final JSourceWriter jsw) {
         if (jsw == null) {
