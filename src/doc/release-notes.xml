@@ -49,6 +49,27 @@
             <bugs>
                 <bug id="2604" tool="jira">
                     <description>
+                        Enhanced the code generator so that empty line will not 
+                        be 'white-spaced'.
+                    </description>
+                    <contributor>
+                        <name>Herve Boutemy</name>
+                        <email>herve.boutemy@free.fr</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Herve Boutemy</name>
+                        <email>herve.boutemy@free.fr</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XMLGen.</module>
+                    <date>20081231</date>
+                </bug>
+                <bug id="2604" tool="jira">
+                    <description>
                         Added methods to (Abstract)JClass to inject complete
                         source code fragments. 
                     </description>
