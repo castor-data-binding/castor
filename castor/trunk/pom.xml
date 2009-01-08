@@ -341,6 +341,12 @@
                 <optional>true</optional>
             </dependency>
 
+	        <dependency>
+	            <groupId>javax.persistence</groupId>
+	            <artifactId>persistence-api</artifactId>
+	            <version>1.0</version>
+	        </dependency>
+
             <!--  module dependencies -->            
             <dependency>
                 <groupId>org.codehaus.castor</groupId>
