@@ -53,6 +53,12 @@ http://maven.apache.org/maven-v4_0_0.xsd">
             <version>1.0.1B</version>
         </dependency>
 
+		<!-- support for JPA annotations -->
+        <dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+		</dependency>
+
 	   <!--  check why this is needed  -->
        <dependency>
             <groupId>tyrex</groupId>
