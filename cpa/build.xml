@@ -63,6 +63,7 @@
         <javac srcdir="${source}/test/java" destdir="${build}/test"
                debug="on" encoding="ISO-8859-1" deprecation="${deprecation}">
             <classpath refid="build.classpath"/>
+        	<exclude name="org/castor/jdo/jpa/**/*.java" />
         </javac>
 <!--
         <copy todir="${build}/test">
