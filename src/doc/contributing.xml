@@ -251,6 +251,13 @@
             use maven 2.0.9 or higher.
         </note>
         
+        <note>
+           Support for Ant as build tool has been dropped completely. Please note, though,
+           that the code base still includes Ant build files. Please
+           do not use them! Those Ant files are in the process of being removed, 
+           which will take us some time.
+        </note>
+        
         <section title="Project layout">
         
             <p>
@@ -375,7 +382,14 @@
 
         </section>
 
-        <section title="Building code"> 
+        <section title="Building code">
+        
+            <note>
+                 Please note that the code base still includes Ant build files. Please
+                 do not use them! Those remaining Ant files in the trunk are in the 
+                 process of being removed, which will take us some more time.
+            </note>
+         
             <section title="Using Maven 2">
             
                 <p>
