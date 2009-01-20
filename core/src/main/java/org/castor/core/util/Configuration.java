@@ -166,7 +166,9 @@ public abstract class Configuration {
         
         // If not found on classpath root, either it doesn't exist, or "." is not part of
         // the classpath, try looking at local working directory.
-        if (!onClasspathRoot) { loadFromWorkingDirectory(properties, filename); }
+        if (!onClasspathRoot) {
+            loadFromWorkingDirectory(properties, filename);
+        }
         
         _map.putAll(properties);
     }
