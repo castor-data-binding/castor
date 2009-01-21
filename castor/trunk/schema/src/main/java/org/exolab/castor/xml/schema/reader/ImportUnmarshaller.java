@@ -85,7 +85,7 @@ public class ImportUnmarshaller extends ComponentReader
         }
 
         boolean hasLocation = (schemaLocation != null);
-        if (schemaLocation != null) {
+        if (hasLocation) {
 
             if (schemaLocation.indexOf("\\") != -1) {
                 String err = "'" + schemaLocation +
