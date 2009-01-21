@@ -2297,11 +2297,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     }
                     if (create) {
                         Arguments args = processConstructorArgs(atts, classDesc);
-                        if ((args.values != null) && (args.values.length > 0)) {
+                        if ((args._values != null) && (args._values.length > 0)) {
                             if (handler instanceof ExtendedFieldHandler) {
                                 ExtendedFieldHandler efh = 
                                     (ExtendedFieldHandler)handler;
-                                state.object = efh.newInstance(parentState.object, args.values);
+                                state.object = efh.newInstance(parentState.object, args._values);
                             }
                             else {
                                 String err = "constructor arguments can only be " +
@@ -2565,8 +2565,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             if (args == null) {
                 instance = _objectFactory.createInstance(type);
             } else {
-                instance = _objectFactory.createInstance(type, args.types,
-                        args.values);
+                instance = _objectFactory.createInstance(type, args._types,
+                        args._values);
             }
         } catch (Exception ex) {
             String msg = "Unable to instantiate " + type.getName() + "; ";
@@ -2662,29 +2662,25 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     } //-- getInstanceType
     
     /**
-     * Looks up the package name from the given namespace URI
+     * Looks up the package name from the given namespace URI.
      * 
      * @param namespace the namespace URI to lookup
      * @return the package name or null.
      */
-    private String getMappedPackage(String namespace) {
+    private String getMappedPackage(final String namespace) {
         String lookUpKey = (namespace != null) ? namespace : "";
-        return (String)_namespaceToPackage.get(lookUpKey);
-    } //-- getMappedPackage
-    
+        return (String) _namespaceToPackage.get(lookUpKey);
+    }
 
     /**
      * Processes the given attribute list, and attempts to add each
-     * Attribute to the current Object on the stack
+     * {@link Attributes} to the current {@link Object} on the stack.
      *
      * @param atts the AttributeSet to process
      * @param classDesc the classDesc to use during processing
-     * @param element the element name used for error reporting
     **/
-    private void processAttributes
-        (AttributeSet atts, XMLClassDescriptor classDesc)
-        throws org.xml.sax.SAXException
-    {
+    private void processAttributes(final AttributeSet atts, XMLClassDescriptor classDesc)
+        throws SAXException {
 
         //-- handle empty attributes
         if ((atts == null) || (atts.getSize() == 0)) {
@@ -2693,16 +2689,18 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     = classDesc.getAttributeDescriptors();
                 for (int i = 0; i < descriptors.length; i++) {
                     XMLFieldDescriptor descriptor = descriptors[i];
-                    if (descriptor == null) continue;
+                    if (descriptor == null) {
+                        continue;
+                    }
                     //-- Since many attributes represent primitive
                     //-- fields, we add an extra validation check here
                     //-- in case the class doesn't have a "has-method".
                     if (descriptor.isRequired() && (isValidating() || LOG.isDebugEnabled())) {
-                        String err = classDesc.getXMLName() + " is missing " +
-                            "required attribute: " + descriptor.getXMLName();
+                        String err = classDesc.getXMLName() + " is missing " 
+                            + "required attribute: " + descriptor.getXMLName();
                         if (_locator != null) {
-                            err += "\n  - line: " + _locator.getLineNumber() +
-                                " column: " + _locator.getColumnNumber();
+                            err += "\n  - line: " + _locator.getLineNumber() 
+                                + " column: " + _locator.getColumnNumber();
                         }
                         if (isValidating()) {
                             throw new SAXException(err);
@@ -2715,7 +2713,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         }
 
 
-        UnmarshalState state = (UnmarshalState)_stateInfo.peek();
+        UnmarshalState state = (UnmarshalState) _stateInfo.peek();
         Object object = state.object;
 
         if (classDesc == null) {
@@ -2733,12 +2731,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         //-- haven't been processed we can ask
         //-- the XMLClassDescriptor for the FieldDescriptor.
 
-        XMLFieldDescriptor[] descriptors = classDesc.getAttributeDescriptors();
-
         boolean[] processedAtts = new boolean[atts.getSize()];
-        for (int i = 0; i < descriptors.length; i++) {
-
-            XMLFieldDescriptor descriptor = descriptors[i];
+        XMLFieldDescriptor[] descriptors = classDesc.getAttributeDescriptors();
+        for (XMLFieldDescriptor descriptor : descriptors) {
 
             String name      = descriptor.getXMLName();
             String namespace = descriptor.getNameSpaceURI();
@@ -2769,8 +2764,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
             try {
                 processAttribute(name, namespace, attValue, descriptor, classDesc, object);
-            }
-            catch(java.lang.IllegalStateException ise) {
+            } catch (IllegalStateException ise) {
                 String err = "unable to add attribute \"" + name + "\" to '";
                 err += state.classDesc.getJavaClass().getName();
                 err += "' due to the following error: " + ise;
@@ -2788,7 +2782,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         //-- Mapping Framework...we need to clean this up
         //-- at some point in the future.
         for (int i = 0; i < processedAtts.length; i++) {
-            if (processedAtts[i]) continue;
+            if (processedAtts[i]) {
+                continue;
+            }
 
             String namespace = atts.getNamespace(i);
             String name = atts.getName(i);
@@ -2796,7 +2792,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             //-- skip XSI attributes
             if (XSI_NAMESPACE.equals(namespace)) {
                 if (NIL_ATTR.equals(name)) {
-                	String value = atts.getValue(i);
+                    String value = atts.getValue(i);
                     state.nil = ("true".equals(value));
                 }
                 continue;
@@ -2829,14 +2825,15 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 String path = state.elementName;
                 StringBuffer pathBuf = null;
                 while (pIdx >= 0) {
-                    UnmarshalState targetState = (UnmarshalState)_stateInfo.elementAt(pIdx);
+                    UnmarshalState targetState = (UnmarshalState) _stateInfo.elementAt(pIdx);
                     --pIdx;
                     if (targetState.wrapper) {
                         //path = targetState.elementName + "/" + path;
-                        if (pathBuf == null) 
+                        if (pathBuf == null) {
                             pathBuf = new StringBuffer();
-                        else
+                        } else {
                             pathBuf.setLength(0);
+                        }
                         pathBuf.append(targetState.elementName);
                         pathBuf.append('/');
                         pathBuf.append(path);
@@ -2848,14 +2845,19 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 
                     if (descriptor != null) {
                         String tmpPath = descriptor.getLocationPath();
-                        if (tmpPath == null) tmpPath = "";
-                        if (path.equals(tmpPath)) break; //-- found
+                        if (tmpPath == null) {
+                            tmpPath = "";
+                        }
+                        if (path.equals(tmpPath)) {
+                            break; //-- found
+                        }
                     }
                         
-                    if (pathBuf == null) 
+                    if (pathBuf == null) {
                         pathBuf = new StringBuffer();
-                    else
+                    } else {
                         pathBuf.setLength(0);
+                    }
                     pathBuf.append(targetState.elementName);
                     pathBuf.append('/');
                     pathBuf.append(path);
@@ -2870,9 +2872,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             if (descriptor == null) {
                 if (_strictAttributes) {
                     //-- handle error
-                    String error = "The attribute '" + name +
-                        "' appears illegally on element '" +
-                        state.elementName + "'.";
+                    String error = "The attribute '" + name 
+                        + "' appears illegally on element '" 
+                        + state.elementName + "'.";
                     throw new SAXException(error);
                 }
                 continue;
@@ -2880,8 +2882,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
             try {
                 processAttribute(name, namespace, atts.getValue(i), descriptor, classDesc, object);
-            }
-            catch(java.lang.IllegalStateException ise) {
+            } catch (IllegalStateException ise) {
                 String err = "unable to add attribute \"" + name + "\" to '";
                 err += state.classDesc.getJavaClass().getName();
                 err += "' due to the following error: " + ise;
@@ -2889,18 +2890,18 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             }
         }
 
-    } //-- processAttributes
+    }
 
     /**
      * Processes the given AttributeSet for wrapper elements.
      * 
      * @param atts the AttributeSet to process
+     * @throws SAXException If the AttributeSet cannot be processed
      */
-    private void processWrapperAttributes(AttributeSet atts)
-        throws org.xml.sax.SAXException
-    {
+    private void processWrapperAttributes(final AttributeSet atts)
+        throws SAXException {
         
-        UnmarshalState state = (UnmarshalState)_stateInfo.peek();
+        UnmarshalState state = (UnmarshalState) _stateInfo.peek();
         
         //-- loop through attributes and look for the
         //-- ancestor objects that they may belong to
@@ -2909,8 +2910,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             String namespace = atts.getNamespace(i);
             
             //-- skip XSI attributes
-            if (XSI_NAMESPACE.equals(namespace))
+            if (XSI_NAMESPACE.equals(namespace)) {
                 continue;
+            }
                 
             XMLFieldDescriptor descriptor = null;
             XMLClassDescriptor classDesc = null;
@@ -2921,14 +2923,15 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             StringBuffer pathBuf = null;
             UnmarshalState targetState = null;
             while (pIdx >= 0) {
-                targetState = (UnmarshalState)_stateInfo.elementAt(pIdx);
+                targetState = (UnmarshalState) _stateInfo.elementAt(pIdx);
                 --pIdx;
                 if (targetState.wrapper) {
                     //path = targetState.elementName + "/" + path;
-                    if (pathBuf == null) 
+                    if (pathBuf == null) {
                         pathBuf = new StringBuffer();
-                    else
+                    } else {
                         pathBuf.setLength(0);
+                    }
                     pathBuf.append(targetState.elementName);
                     pathBuf.append('/');
                     pathBuf.append(path);
@@ -2941,23 +2944,30 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 boolean found = false;
                 for (int a = 0; a < descriptors.length; a++) {
                     descriptor = descriptors[a];
-                    if (descriptor == null) continue;
+                    if (descriptor == null) {
+                        continue;
+                    }
                     if (descriptor.matches(name)) {
                         String tmpPath = descriptor.getLocationPath();
-                        if (tmpPath == null) tmpPath = "";
+                        if (tmpPath == null) {
+                            tmpPath = "";
+                        }
                         if (path.equals(tmpPath)) {
                             found = true;
                             break;
                         }
                     }
                 }
-                if (found) break;
+                if (found) {
+                    break;
+                }
                         
                 //path = targetState.elementName + "/" + path;
-                if (pathBuf == null) 
+                if (pathBuf == null) {
                     pathBuf = new StringBuffer();
-                else
+                } else {
                     pathBuf.setLength(0);
+                }
                 pathBuf.append(targetState.elementName);
                 pathBuf.append('/');
                 pathBuf.append(path);
@@ -2970,14 +2980,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             }
             if (descriptor != null) {
                 try {
-                    processAttribute(name, 
-                                     namespace,
-                                     atts.getValue(i), 
-                                     descriptor, 
-                                     classDesc, 
-                                     targetState.object);
-                }
-                catch(java.lang.IllegalStateException ise) {
+                    processAttribute(name, namespace, atts.getValue(i),
+                            descriptor, classDesc, targetState.object);
+                } catch (IllegalStateException ise) {
                     String err = "unable to add attribute \"" + name + "\" to '";
                     err += state.classDesc.getJavaClass().getName();
                     err += "' due to the following error: " + ise;
@@ -2986,17 +2991,16 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             }
         }
         
-    } //-- processWrapperAttributes
+    }
     
     /**
-     * Processes the given Attribute
+     * Processes the given Attribute.
     **/
     private void processAttribute
-        (String attName, String attNamespace, String attValue,
+        (final String attName, final String attNamespace, String attValue,
          XMLFieldDescriptor descriptor,
-         XMLClassDescriptor classDesc,
-         Object parent) throws org.xml.sax.SAXException
-    {
+         final XMLClassDescriptor classDesc,
+         Object parent) throws SAXException {
 
         //Object value = attValue;
         while (descriptor.isContainer()) {
@@ -3008,9 +3012,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 handler.setValue(parent, containerObject);
             }
 
-            ClassDescriptor containerClassDesc = ((XMLFieldDescriptorImpl)descriptor).getClassDescriptor();
-            descriptor = ((XMLClassDescriptor)containerClassDesc).getFieldDescriptor(
-            		attName, attNamespace, NodeType.Attribute);
+            ClassDescriptor containerClassDesc = 
+                ((XMLFieldDescriptorImpl) descriptor).getClassDescriptor();
+            descriptor = ((XMLClassDescriptor) containerClassDesc).getFieldDescriptor(
+                    attName, attNamespace, NodeType.Attribute);
             parent = containerObject;
         }
 
@@ -3019,11 +3024,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
              //-- fields, we add an extra validation check here
              //-- in case the class doesn't have a "has-method".
              if (descriptor.isRequired() && isValidating()) {
-                String err = classDesc.getXMLName() + " is missing " +
-                    "required attribute: " + attName;
+                String err = classDesc.getXMLName() + " is missing " 
+                    + "required attribute: " + attName;
                 if (_locator != null) {
-                    err += "\n  - line: " + _locator.getLineNumber() +
-                        " column: " + _locator.getColumnNumber();
+                    err += "\n  - line: " + _locator.getLineNumber() 
+                        + " column: " + _locator.getColumnNumber();
                 }
                 throw new SAXException(err);
             }
@@ -3034,7 +3039,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         if (classDesc.getIdentity() == descriptor) {
             
             try {
-                _idResolver.bind(attValue, parent, isValidating() && !getInternalContext().getLenientIdValidation());
+                _idResolver.bind(attValue, parent, 
+                        isValidating() && !getInternalContext().getLenientIdValidation());
             } catch (ValidationException e) {
                 throw new SAXException("Duplicate ID " + attValue + " encountered.", e);
             }
@@ -3045,16 +3051,16 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
             //-- resolve waiting references
             resolveReferences(attValue, parent);
-        }
-        //-- if this is an IDREF(S) then resolve reference(s)
-        else if (descriptor.isReference()) {
+        } else if (descriptor.isReference()) {
+            //-- if this is an IDREF(S) then resolve reference(s)
             if (descriptor.isMultivalued()) {
                 StringTokenizer st = new StringTokenizer(attValue);
                 while (st.hasMoreTokens()) {
                     processIDREF(st.nextToken(), descriptor, parent);
                 }
+            } else {
+                processIDREF(attValue, descriptor, parent);
             }
-            else processIDREF(attValue, descriptor, parent);
             //-- object values have been set by processIDREF
             //-- simply return
             return;
@@ -3062,30 +3068,31 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         
         //-- if it's a constructor argument, we can exit at this point
         //-- since constructor arguments have already been set
-        if (descriptor.isConstructorArgument()) 
+        if (descriptor.isConstructorArgument()) {
             return;
+        }
 
         //-- attribute handler
         FieldHandler handler = descriptor.getHandler();
-        if(handler==null)
-        	return;
+        if (handler == null) {
+            return;
+        }
         
         //-- attribute field type
         Class type = descriptor.getFieldType();
         String valueType = descriptor.getSchemaType();
         boolean isPrimative = isPrimitive(type);
-        boolean isQName = valueType!=null && valueType.equals(QNAME_NAME);
+        boolean isQName = (valueType != null && valueType.equals(QNAME_NAME));
         
         boolean isByteArray = false;
         if (type.isArray()) {
             isByteArray = (type.getComponentType() == Byte.TYPE);
         }
-
         
         //-- if this is an multi-value attribute
         if (descriptor.isMultivalued()) {
             StringTokenizer attrValueTokenizer = new StringTokenizer(attValue);
-        	while (attrValueTokenizer.hasMoreTokens()) {
+            while (attrValueTokenizer.hasMoreTokens()) {
                 attValue = attrValueTokenizer.nextToken();
                 setAttributeValueOnObject(attValue, descriptor, parent, handler,
                         type, isPrimative, isQName, isByteArray);
@@ -3095,7 +3102,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     type, isPrimative, isQName, isByteArray);
         }
 
-    } //-- processAttribute
+    }
 
     /**
      * Sets the value of an attribute on the target object, using the {@link FieldHandler}
@@ -3140,7 +3147,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         }
         
         //-- QName resolution (ns:value -> {URI}value), if required
-        if(isQName) {
+        if (isQName) {
             value = resolveNamespace(value);
         }
         //-- set value
@@ -3149,19 +3156,20 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
     /**
      * Processes the given attribute set, and creates the
-     * constructor arguments
+     * constructor arguments.
      *
      * @param atts the AttributeSet to process
      * @param classDesc the XMLClassDescriptor of the objec
      * @return the array of constructor argument values.
+     * @throws SAXException If there's a problem creating the constructor argument set. 
      */
     private Arguments processConstructorArgs
-        (AttributeSet atts, XMLClassDescriptor classDesc)
-        throws org.xml.sax.SAXException
-    {
+        (final AttributeSet atts, final XMLClassDescriptor classDesc)
+        throws SAXException {
         
-        if (classDesc == null) return new Arguments();
-
+        if (classDesc == null) {
+            return new Arguments();
+        }
 
         //-- Loop through Attribute Descriptors and build
         //-- the argument array
@@ -3170,26 +3178,34 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         //-- un-yet unmarshalled object, we cannot handle
         //-- references as constructor arguments. 
         //-- kvisco - 20030421
-        XMLFieldDescriptor[] descriptors = classDesc.getAttributeDescriptors();
         int count = 0;
-        for (int i = 0; i < descriptors.length; i++) {
-            XMLFieldDescriptor descriptor = descriptors[i];
-            if (descriptor == null) continue;
-            if (descriptor.isConstructorArgument()) ++count;
+        XMLFieldDescriptor[] descriptors = classDesc.getAttributeDescriptors();
+        for (XMLFieldDescriptor fieldDescriptor : descriptors) {
+            if (fieldDescriptor == null) {
+                continue;
+            }
+            if (fieldDescriptor.isConstructorArgument()) {
+                ++count;
+            }
         }
         
         Arguments args = new Arguments();
         
-        if (count == 0) return args;
+        if (count == 0) {
+            return args;
+        }
         
-        args.values = new Object[count];
-        args.types  = new Class[count];
+        args._values = new Object[count];
+        args._types  = new Class[count];
         
-        for (int i = 0; i < descriptors.length; i++) {
-
-            XMLFieldDescriptor descriptor = descriptors[i];
-            if (descriptor == null) continue;
-            if (!descriptor.isConstructorArgument()) continue;
+        for (XMLFieldDescriptor descriptor : descriptors) {
+            
+            if (descriptor == null) {
+                continue;
+            }
+            if (!descriptor.isConstructorArgument()) {
+                continue;
+            }
             
             int argIndex = descriptor.getConstructorArgumentIndex();
             if (argIndex >= count) {
@@ -3197,8 +3213,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 throw new SAXException(err);
             }
 
-            args.types[argIndex] = descriptor.getFieldType();
-            String name      = descriptor.getXMLName();
+            args._types[argIndex] = descriptor.getFieldType();
+            String name = descriptor.getXMLName();
             String namespace = descriptor.getNameSpaceURI();
 
             int index = atts.getIndex(name, namespace);
@@ -3207,8 +3223,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 Object value = atts.getValue(index);
                 //-- check for proper type and do type
                 //-- conversion
-                if (isPrimitive(args.types[argIndex])) {
-                    value = toPrimitiveObject(args.types[argIndex], (String)value, descriptor);
+                if (isPrimitive(args._types[argIndex])) {
+                    value = toPrimitiveObject(args._types[argIndex], (String) value, descriptor);
                 } else {
                     // check whether we are looking at an enum-style object, and if so,
                     // convert the (string) value
@@ -3221,32 +3237,37 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 if ((valueType != null) && (valueType.equals(QNAME_NAME))) {
                         value = resolveNamespace(value);
                 }
-                args.values[argIndex] = value;
-            }
-            else {
-                args.values[argIndex] = null;
+                args._values[argIndex] = value;
+            } else {
+                if (isPrimitive(args._types[argIndex])) {
+                    args._values[argIndex] = 
+                        toPrimitiveObject(args._types[argIndex], null, descriptor);
+                } else {
+                    args._values[argIndex] = null;
+                }
             }
         }
         return args;
-    } //-- processConstructorArgs
+    }
 
     /**
      * Checks whether the actual value passed in should be converted to an enum-style class
-     * instance
+     * instance.
+     * 
      * @param descriptor The {@link XMLFieldDescriptor} instance in question.
      * @param value The actual value (which might need conversion).
      * @return The value, potentially converted to an enum-style class.
      */
-    private Object convertToEnumObject(XMLFieldDescriptor descriptor, Object value) {
+    private Object convertToEnumObject(final XMLFieldDescriptor descriptor, Object value) {
         Class fieldType = descriptor.getFieldType();
         Method valueOfMethod;
         try {
-            valueOfMethod = fieldType.getMethod("valueOf", new Class[] { String.class });
+            valueOfMethod = fieldType.getMethod("valueOf", new Class[] {String.class});
             if (valueOfMethod != null 
                     && Modifier.isStatic(valueOfMethod.getModifiers())) {
                 Class returnType = valueOfMethod.getReturnType();
                 if (returnType.isAssignableFrom(fieldType)) {
-                    Object enumObject = valueOfMethod.invoke(null, new Object[] { value });
+                    Object enumObject = valueOfMethod.invoke(null, new Object[] {value});
                     value = enumObject;
                 }
             }
@@ -3663,24 +3684,24 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     }
 
     /**
-     * Converts a String to the given primitive object type
+     * Converts a String to the given primitive object type.
      *
      * @param type the class type of the primitive in which
      * to convert the String to
      * @param value the String to convert to a primitive
+     * @param fieldDesc Descriptor for the given field (value)
      * @return the new primitive Object
+     * @exception SAXException If the String cannot be converted to a primitive object type
      */
     private Object toPrimitiveObject
-        (Class type, String value, XMLFieldDescriptor fieldDesc) 
-        throws SAXException
-    {
+        (final Class type, final String value, final XMLFieldDescriptor fieldDesc) 
+        throws SAXException {
         try {
             return toPrimitiveObject(type, value);
-        }
-        catch(Exception ex) {
+        } catch (Exception ex) {
             String err = "The following error occured while trying to ";
             err += "unmarshal field " + fieldDesc.getFieldName();
-            UnmarshalState state = (UnmarshalState)_stateInfo.peek();
+            UnmarshalState state = (UnmarshalState) _stateInfo.peek();
             if (state != null) {
                 if (state.object != null) {
                     err += " of class " + state.object.getClass().getName();
@@ -3689,119 +3710,118 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             err += "\n";
             err += ex.getMessage();
             
-            
             throw new SAXException(err, ex);
         }
-    } //-- toPrimitiveObject
+    }
 
 
     /**
-     * Converts a String to the given primitive object type
+     * Converts a {@link String} to the given primitive object type.
      *
      * @param type the class type of the primitive in which
      * to convert the String to
-     * @param value the String to convert to a primitive
-     * @return the new primitive Object
+     * @param value the {@link String} to convert to a primitive
+     * @return the new primitive {@link Object}
      */
-    public static Object toPrimitiveObject(Class type, String value) {
+    public static Object toPrimitiveObject(final Class type, String value) {
 
         Object primitive = value;
 
         if (value != null) {
             //-- trim any numeric values
-            if ((type != Character.TYPE) && (type != Character.class))
+            if ((type != Character.TYPE) && (type != Character.class)) {
                 value = value.trim();
+            }
         }
         
         boolean isNull = ((value == null) || (value.length() == 0));
-
         
         //-- I tried to order these in the order in which
         //-- (I think) types are used more frequently
         
         // int
         if ((type == Integer.TYPE) || (type == Integer.class)) {
-            if (isNull)
+            if (isNull) {
                 primitive = new Integer(0);
-            else
+            } else {
                 primitive = new Integer(value);
-        }
-        // boolean
-        else if ((type == Boolean.TYPE) || (type == Boolean.class)) {
-            if (isNull)
+            }
+        } else if ((type == Boolean.TYPE) || (type == Boolean.class)) {
+            // boolean
+            if (isNull) {
                 primitive = Boolean.FALSE;
-            else
-				primitive = (value.equals("1") ||
-							 value.toLowerCase().equals("true"))
-								? Boolean.TRUE : Boolean.FALSE;
-        }
-        // double
-        else if ((type == Double.TYPE) || (type == Double.class)) {
-            if (isNull)
+            } else {
+                primitive = (value.equals("1") 
+                        || value.toLowerCase().equals("true")) ? Boolean.TRUE : Boolean.FALSE;
+            }
+        } else if ((type == Double.TYPE) || (type == Double.class)) {
+            // double
+            if (isNull) {
                 primitive = new Double(0.0);
-            else
+            } else {
                 primitive = new Double(value);
-        }
-        // long
-        else if ((type == Long.TYPE) || (type == Long.class)) {
+            }
+        } else if ((type == Long.TYPE) || (type == Long.class)) {
+            // long
             if (isNull) {
                 primitive = new Long(0);
             } else {
                 primitive = new Long(value);
             }
-        }
-        // char
-        else if ((type == Character.TYPE) || (type == Character.class)) {
-            if (!isNull)
+        } else if ((type == Character.TYPE) || (type == Character.class)) {
+            // char
+            if (!isNull) {
                 primitive = new Character(value.charAt(0));
-            else
+            } else {
                 primitive = new Character('\0');
-        }
-        // short
-        else if ((type == Short.TYPE) || (type == Short.class)) {
-            if (isNull)
-                primitive = new Short((short)0);
-            else
+            }
+        } else if ((type == Short.TYPE) || (type == Short.class)) {
+            // short
+            if (isNull) {
+                primitive = new Short((short) 0);
+            } else {
                 primitive = new Short(value);
-        }
-        // float
-        else if ((type == Float.TYPE) || (type == Float.class)) {
-            if (isNull)
+            }
+        } else if ((type == Float.TYPE) || (type == Float.class)) {
+            // float
+            if (isNull) {
                 primitive = new Float(0);
-            else
+            } else {
                 primitive = new Float(value);
-        }
-        // byte
-        else if ((type == Byte.TYPE) || (type == Byte.class)) {
-            if (isNull)
+            }
+        } else if ((type == Byte.TYPE) || (type == Byte.class)) {
+            // byte
+            if (isNull) {
                 primitive = new Byte((byte)0);
-            else
+            } else {
                 primitive = new Byte(value);
-        }
-        //BigDecimal
-        else if (type == java.math.BigDecimal.class) {
-            if (isNull)
-               primitive = new java.math.BigDecimal(0);
-            else primitive = new java.math.BigDecimal(value);
-        }
-        //BigInteger
-        else if (type == java.math.BigInteger.class) {
-            if (isNull)
-               primitive = java.math.BigInteger.valueOf(0);
-            else primitive = new java.math.BigInteger(value);
-        }
-        // Java 5.0 enums
-        else if (type.getSuperclass().getName().equals("java.lang.Enum")) {
+            }
+        } else if (type == java.math.BigDecimal.class) {
+            //BigDecimal
+            if (isNull) {
+                primitive = new java.math.BigDecimal(0);
+            } else {
+                primitive = new java.math.BigDecimal(value);
+            }
+        } else if (type == java.math.BigInteger.class) {
+            //BigInteger
+            if (isNull) {
+                primitive = java.math.BigInteger.valueOf(0);
+            } else {
+                primitive = new java.math.BigInteger(value);
+            }
+        } else if (type.getSuperclass().getName().equals("java.lang.Enum")) {
+            // Java 5.0 enums
             if (isNull) {
                 primitive = null;
             } else {
-            	// try discover the fromValue Method
-            	try {
-                    Method valueOfMethod = type.getMethod("fromValue", new Class[]{ String.class });
-                    primitive = valueOfMethod.invoke(null, new Object[]{ value });
+                // try discover the fromValue Method
+                try {
+                    Method valueOfMethod = type.getMethod("fromValue",
+                            new Class[] {String.class});
+                    primitive = valueOfMethod.invoke(null, new Object[] {value});
                     return primitive;
-                } 
-                catch (NoSuchMethodException e) {
+                } catch (NoSuchMethodException e) {
                     // do nothing, check valueOf method
                 } catch (IllegalArgumentException e) {
                     throw new IllegalStateException(e.toString());
@@ -3812,32 +3832,29 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                         throw (RuntimeException) e.getTargetException();
                     }
                 } 
-            	
+                
                 // backwards compability, check valueOf method to support 
                 // "simple" enums without value object
                 try {
-                    Method valueOfMethod = type.getMethod("valueOf", new Class[]{ String.class });
-                    primitive = valueOfMethod.invoke(null, new Object[]{ value });
-                } 
-                catch (IllegalAccessException e) {
+                    Method valueOfMethod = type.getMethod("valueOf",
+                            new Class[] {String.class});
+                    primitive = valueOfMethod.invoke(null, new Object[] {value});
+                } catch (IllegalAccessException e) {
                     throw new IllegalStateException(e.toString());
-                } 
-                catch (InvocationTargetException e) {
+                } catch (InvocationTargetException e) {
                     if (e.getTargetException() instanceof RuntimeException) {
                         throw (RuntimeException) e.getTargetException();
                     }
-                } 
-                catch (NoSuchMethodException e) {
-                    String err = type.getName() +
-                    " does not contain the required method: public static " +
-                    type.getName() + " valueOf(String);";
+                } catch (NoSuchMethodException e) {
+                    String err = type.getName()
+                            + " does not contain the required method: public static "
+                            + type.getName() + " valueOf(String);";
                     throw new IllegalArgumentException(err);
                 }
             }
         }
         return primitive;
-    } //-- toPrimitiveObject
-
+    }
     
     /**
      * A utility class for keeping track of the
@@ -3874,17 +3891,29 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     
     /**
      * Internal class used for passing constructor argument
-     * information
+     * information.
      */
     class Arguments {
-        Object[] values = null;
-        Class[]  types  = null;
+        /**
+         * Constructor argument values.
+         */
+        private Object[] _values = null;
+        /**
+         * Constructor argument types.
+         */
+        private Class[] _types  = null;
         
+        /**
+         * Returns the number of constructor arguments.
+         * @return The number of constructor arguments.
+         */
         public int size() {
-        	if (values == null) return 0;
-            return values.length;
+            if (_values == null) {
+                return 0;
+            }
+            return _values.length;
         }
-    } //-- Arguments
+    }
 
     /**
      * A class for handling Arrays during unmarshalling.
@@ -3895,28 +3924,30 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         
         Class _componentType = null;
         
-        ArrayList _items = null;
+        ArrayList<Object> _items = null;
         
         /**
          * Creates a new ArrayHandler 
          *
          * @param componentType the ComponentType for the array.
          */
-        ArrayHandler(Class componentType) {
+        ArrayHandler(final Class componentType) {
             if (componentType == null) {
                 String err = "The argument 'componentType' may not be null.";
                 throw new IllegalArgumentException(err);
             }
             _componentType = componentType;
-            _items = new ArrayList();
+            _items = new ArrayList<Object>();
         } //-- ArrayHandler
         
         /**
-         * Adds the given object to the underlying array 
-         *
+         * Adds the given object to the underlying array. 
+         * @param obj The object to be added to the underlying array.
          */
-        public void addObject(Object obj) {
-            if (obj == null) return;
+        public void addObject(final Object obj) {
+            if (obj == null) {
+                return;
+            }
             /* disable check for now until we write a 
                small function to handle primitive and their
                associated wrapper classes
@@ -3929,14 +3960,23 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             _items.add(obj);
         }
         
+        /**
+         * Returns the data handled by this class as an array.
+         * @return The data handled internally in the form of an array.
+         */
         public Object getObject() {
             int size = _items.size();
             Object array = Array.newInstance(_componentType, size);
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < size; i++) {
                 Array.set(array, i, _items.get(i));
+            }
             return array;
         }
        
+        /**
+         * Returns the component type handled by this class.
+         * @return The component type handled by this class.
+         */
         public Class componentType() {
             return _componentType;
         }

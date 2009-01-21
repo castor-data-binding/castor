@@ -73,6 +73,28 @@
             
             </summary>
             <bugs>
+                <bug id="2592" tool="jira">
+                    <description>
+                        Fixed a problem with primitive constructor-mapped fields
+                        in the context of 'null' vales (i.e. where the field was not 
+                        present in the XML document). 
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>No Matter</name>
+                        <email>psy051167@mail.ru</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20090121</date>
+                </bug>
                 <bug id="2613" tool="jira">
                     <description>
                         Added a new option to specify the location of a custom Castor 
