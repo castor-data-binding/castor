@@ -44,6 +44,12 @@
                     relevant project-specific details available at
                     <a href="contributing.html">here</a>. 
                 </p>
+                
+                <p>
+                    Please note that the code base still includes Ant build files. Please
+                    do not use them! Ant files in the trunk are in the process of 
+                    being removed, though this will take us some time.
+                </p>
             
             </summary>
             <bugs>
