@@ -74,20 +74,45 @@
 			Castor uses a configuration file for environmental
 			properties that are shared across all the Castor sub
 			systems. The configuration file is specified as a Java
-			properties file with the name
-			<classname>castor.properties</classname>
-			.
+			properties file with the name <filename>castor.properties</filename>.
 		</para>
 
 		<para>
-			The Castor JAR includes a default configuration file. A
-			configuration file in the Java library directory (e.g.
-			<classname>/jdk1.2/lib</classname>
-			) can be used to override the default configuration file
-			with system-wide properties. In addition, a configuration
-			file can be placed in the classpath and will override both
-			the system wide properties and Castor-default configuration.
-		</para>
+			By definition, a default configuration file is included with the
+            Castor XML JAR. Custom properties can be supplied using one of the
+            following methods. Please note that the custom properties specified
+            will <emphasis role="bold">override</emphasis> the default 
+            configuration. 
+        </para>
+        
+        <itemizedlist>
+            <listitem>
+                <para>
+                    Place a file named <filename>castor.properties</filename>
+                    anywhere on the classpath of your application.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Place a file named <filename>castor.properties</filename>
+                    in the working directory of your application.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Use the system property 
+                    <literal>org.castor.user.properties.location</literal> to
+                    specify the location of your custom properties.
+                </para>
+            </listitem>
+        </itemizedlist>
+        
+        <para>
+            Please note that Castor XML - upon startup - will try the methods
+            given above in exactly the sequence as stated above; if it managed
+            to find a custom property file using any of the given methods,
+            it will cancel its search.
+        </para> 
 
 		<para>
 			When running the provided examples, Castor will use the
