@@ -73,6 +73,26 @@
             
             </summary>
             <bugs>
+                <bug id="2622" tool="jira">
+                    <description>
+                        Minor code cleanup.
+                    </description>
+                    <contributor>
+                        <name>Allan Gillis</name>
+                        <email>allan.gillis@drdc-rddc.gc.ca</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Allan Gillis</name>
+                        <email>allan.gillis@drdc-rddc.gc.ca</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20090121</date>
+                </bug>
                 <bug id="2592" tool="jira">
                     <description>
                         Fixed a problem with primitive constructor-mapped fields
