@@ -40,26 +40,38 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.1.3
  */
 public abstract class Configuration {
-    //--------------------------------------------------------------------------
 
-    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     *  Commons Logging</a> instance used for all logging. */
+    /**
+     * Name of the system property that can be used to specify the location
+     * of user properties.
+     */
+    private static final String USER_PROPERTIES_SYSTEM_PROPERTY = 
+        "org.castor.user.properties.location";
+
+    /**
+     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
+     * Logging</a> instance used for all logging.
+     */
     private static final Log LOG = LogFactory.getLog(Configuration.class);
     
-    /** Classloader to be used for all classes of Castor and its required libraries. */
+    /**
+     * {@link ClassLoader} to be used for all classes of Castor and its required
+     * libraries.
+     */
     private final ClassLoader _applicationClassLoader;
     
-    /** Classloader to be used for all domain objects that are marshalled/unmarshalled or
-     *  loaded from the database. */
+    /**
+     * {@link ClassLoader} to be used for all domain objects that are
+     * marshalled/unmarshalled or loaded from the database.
+     */
     private final ClassLoader _domainClassLoader;
     
-    /** Parent configuration. */
+    /** 
+     * Parent configuration. 
+     */
     private final Configuration _parent;
     
-    /** Properties map. */
     private final Map _map = new HashMap();
-    
-    //--------------------------------------------------------------------------
     
     /**
      * Default constructor. Application and domain class loaders will be initialized to the one
@@ -96,8 +108,6 @@ public abstract class Configuration {
         _parent = parent;
     }
     
-    //--------------------------------------------------------------------------
-    
     /**
      * Get classloader to be used for all classes of Castor and its required libraries.
      * 
@@ -116,8 +126,6 @@ public abstract class Configuration {
     public final ClassLoader getDomainClassLoader() {
         return _domainClassLoader;
     }
-    
-    //--------------------------------------------------------------------------
     
     /**
      * Load module configuration from default locations.
@@ -162,14 +170,27 @@ public abstract class Configuration {
         Properties properties = new Properties();
         
         // Get common configuration from the classpath root, ignore if not found.
-        boolean onClasspathRoot = loadFromClassPath(properties, "/" + filename);
+        boolean userPropertiesLoaded = loadFromClassPath(properties, "/" + filename);
         
         // If not found on classpath root, either it doesn't exist, or "." is not part of
         // the classpath, try looking at local working directory.
-        if (!onClasspathRoot) {
-            loadFromWorkingDirectory(properties, filename);
+        if (!userPropertiesLoaded) {
+            userPropertiesLoaded = loadFromWorkingDirectory(properties, filename);
         }
         
+        if (!userPropertiesLoaded) {
+            String property = System.getProperty(USER_PROPERTIES_SYSTEM_PROPERTY);
+            if (property != null && property.length() > 0) {
+                File file = new File(property);
+                if (file.exists()) {
+                    LOG.info("Loading custom Castor properties from " + file.getAbsolutePath());
+                    userPropertiesLoaded = loadFromFile(properties, file);
+                } else {
+                    LOG.warn(file.getAbsolutePath() + " is not a valid file.");
+                }
+            }
+        }
+                    
         _map.putAll(properties);
     }
     
@@ -278,8 +299,6 @@ public abstract class Configuration {
         }
     }
     
-    //--------------------------------------------------------------------------
-    
     /**
      * Put given value associated with given key into the properties map of this configuration. If
      * the configuration previously associated the key to another value the previous value will be
@@ -338,8 +357,6 @@ public abstract class Configuration {
         }
         return value;
     }
-    
-    //--------------------------------------------------------------------------
     
     /**
      * Searches for the property with the specified key in this property map. If the key is not
@@ -708,5 +725,4 @@ public abstract class Configuration {
         throw new ConfigurationException(MessageFormat.format(msg, args));
     }
     
-    //--------------------------------------------------------------------------
 }

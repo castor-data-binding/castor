@@ -50,9 +50,50 @@
                     do not use them! Ant files in the trunk are in the process of 
                     being removed, though this will take us some time.
                 </p>
+                
+                <h2>Additions</h2>
+                
+                <h3>New system property for specifying location of custom Castor XML properties</h3>
+                
+                <p>
+                    A new option has been added to specify the location of a 
+                    custom Castor properties file by the means of a system property. 
+                    This alters the sequence with which Castor XML searches for a 
+                    custom properties as weil. 
+                </p> 
+                
+                <p>
+                    To specify the location of a Castor XM property file by using
+                    a system property, please use ....
+                </p>
+                
+                <code-panel>
+> java -Dorg.castor.user.properties.location=/home/user/user.properties
+                </code-panel>                    
             
             </summary>
             <bugs>
+                <bug id="2613" tool="jira">
+                    <description>
+                        Added a new option to specify the location of a custom Castor 
+                        properties file by the means of a system property. 
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>John Huss</name>
+                        <email>johnthuss@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20090121</date>
+                </bug>
                 <bug id="2604" tool="jira">
                     <description>
                         Enhanced the code generator so that empty line will not 
