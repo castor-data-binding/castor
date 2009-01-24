@@ -61,7 +61,8 @@ public final class TestTimezone extends CastorTestCase {
         LOG.debug("user.timezone = " + System.getProperty("user.timezone"));
         
         Configuration config = CPAConfiguration.newInstance();
-        String testTimezone = config.getString(CPAConfiguration.DEFAULT_TIMEZONE);
+        String testTimezone = config.getString(CPAConfiguration.DEFAULT_TIMEZONE,
+                System.getProperty("user.timezone"));
         LOG.debug(CPAConfiguration.DEFAULT_TIMEZONE + " = " + testTimezone);
         
         Database database = _category.getDatabase();
@@ -171,7 +172,8 @@ public final class TestTimezone extends CastorTestCase {
         LOG.debug("user.timezone = " + System.getProperty("user.timezone"));
         
         Configuration config = CPAConfiguration.newInstance();
-        String testTimezone = config.getString(CPAConfiguration.DEFAULT_TIMEZONE);
+        String testTimezone = config.getString(CPAConfiguration.DEFAULT_TIMEZONE,
+                System.getProperty("user.timezone"));
         LOG.debug(CPAConfiguration.DEFAULT_TIMEZONE + " = " + testTimezone);
         
         Database database = _category.getDatabase();
@@ -278,7 +280,8 @@ public final class TestTimezone extends CastorTestCase {
         LOG.debug("user.timezone = " + System.getProperty("user.timezone"));
         
         Configuration config = CPAConfiguration.newInstance();
-        String testTimezone = config.getString(CPAConfiguration.DEFAULT_TIMEZONE);
+        String testTimezone = config.getString(CPAConfiguration.DEFAULT_TIMEZONE,
+                System.getProperty("user.timezone"));
         LOG.debug(CPAConfiguration.DEFAULT_TIMEZONE + " = " + testTimezone);
         
         Database database = _category.getDatabase();
