@@ -9,16 +9,18 @@
 	<classpathentry kind="src" output="codegen/eclipse" path="codegen/src/main/resources"/>
 	<classpathentry kind="src" output="codegen/eclipse" path="codegen/src/test/java"/>
 	<classpathentry kind="src" output="codegen/eclipse" path="codegen/src/test/resources"/>
+	<classpathentry kind="src" output="codegen/eclipse" path="codegen/target/generated-sources/castor"/>
 	<classpathentry kind="src" output="schema/eclipse" path="schema/src/main/java"/>
 	<classpathentry kind="src" output="schema/eclipse" path="schema/src/main/resources"/>
-	<classpathentry kind="src" output="schema/eclipse" path="schema/target/generated-sources/castor"/>
 	<classpathentry kind="src" output="schema/eclipse" path="schema/src/test/java"/>
 	<classpathentry kind="src" output="schema/eclipse" path="schema/src/test/resources"/>
+	<classpathentry kind="src" output="schema/eclipse" path="schema/target/generated-sources/castor"/>
 	<classpathentry kind="src" output="anttask/eclipse" path="anttask/src/main/java"/>
 	<classpathentry kind="src" output="anttask/eclipse" path="anttask/src/main/resources"/>
 	<classpathentry kind="src" output="cpa/eclipse" path="cpa/src/main/java"/>
 	<classpathentry kind="src" output="cpa/eclipse" path="cpa/src/main/resources"/>
 	<classpathentry kind="src" output="cpa/eclipse" path="cpa/src/test/java"/>
+	<classpathentry kind="src" output="cpa/eclipse" path="cpa/src/test/resources"/>
 	<classpathentry kind="src" output="ddlgen/eclipse" path="ddlgen/src/main/java"/>
 	<classpathentry kind="src" output="ddlgen/eclipse" path="ddlgen/src/main/resources"/>
 	<classpathentry kind="src" output="ddlgen/eclipse" path="ddlgen/src/test/java"/>
@@ -26,11 +28,11 @@
 	<classpathentry kind="src" output="xmlctf-framework/eclipse" path="xmlctf-framework/src/main/java"/>
 	<classpathentry kind="src" output="xmlctf-framework/eclipse" path="xmlctf-framework/src/main/resources"/>
 	<classpathentry kind="src" output="xmlctf-framework/eclipse" path="xmlctf-framework/src/test/resources"/>
+	<classpathentry kind="src" output="xmlctf-framework/eclipse" path="xmlctf-framework/target/generated-sources/castor"/>
 	<classpathentry kind="src" output="xmlctf/eclipse" path="xmlctf/src/main/java"/>
 	<classpathentry kind="src" output="xmlctf/eclipse" path="xmlctf/src/main/resources"/>
 	<classpathentry kind="src" output="xmlctf/eclipse" path="xmlctf/src/test/java"/>
 	<classpathentry kind="src" output="xmlctf/eclipse" path="xmlctf/src/test/resources"/>
-	<classpathentry kind="src" path="src/bugs"/>
 	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/main/java"/>
 	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/main/resources"/>
 	<classpathentry kind="src" output="cpactf/eclipse" path="cpactf/src/test/java"/>
@@ -43,29 +45,25 @@
 	<classpathentry kind="src" output="cpaptf/eclipse" path="cpaptf/src/test/resources"/>
 	<classpathentry excluding="codegen/" kind="src" output="examples/eclipse" path="examples/src/main/java"/>
 	<classpathentry kind="src" output="examples/eclipse" path="examples/src/main/resources"/>
-	<classpathentry kind="src" path="core/src/main/java"/>
-	<classpathentry kind="src" path="core/src/main/resources"/>
-	<classpathentry kind="src" path="core/src/test/java"/>
-	<classpathentry kind="src" path="core/src/test/resources"/>
-	<classpathentry kind="src" path="cpa/src/test/resources"/>
-	<classpathentry kind="src" path="xmlctf-framework/target/generated-sources/castor"/>
-	<classpathentry kind="src" path="codegen/target/generated-sources/castor"/>
-	<classpathentry kind="src" path="diff/src/main/java"/>
+	<classpathentry kind="src" output="core/eclipse" path="core/src/main/java"/>
+	<classpathentry kind="src" output="core/eclipse" path="core/src/main/resources"/>
+	<classpathentry kind="src" output="core/eclipse" path="core/src/test/java"/>
+	<classpathentry kind="src" output="core/eclipse" path="core/src/test/resources"/>
+	<classpathentry kind="src" output="diff/eclipse" path="diff/src/main/java"/>
+	<classpathentry kind="src" path="src/bugs"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/jakarta-oro-2.0.5.jar"/>
-	<classpathentry kind="lib" path="lib/jakarta-regexp-1.1.jar"/>
-	<classpathentry kind="lib" path="lib/jndi_1.2.1.jar"/>
-	<classpathentry kind="lib" path="lib/jta1.0.1.jar"/>
-	<classpathentry kind="lib" path="lib/jtf-0.1.jar"/>
-	<classpathentry kind="lib" path="lib/ldapjdk_4.1.jar"/>
-	<classpathentry kind="lib" path="lib/log4j-1.2.13.jar"/>
-	<classpathentry kind="lib" path="lib/cglib-full-2.0.2.jar"/>
-	<classpathentry kind="lib" path="lib/derby-10.1.2.1.jar"/>
-	<classpathentry kind="lib" path="lib/commons-logging-1.1.jar"/>
-	<classpathentry kind="lib" path="lib/junit_3.8.2.jar"/>
-	<classpathentry kind="lib" path="bin/lib/ant-1.6.jar"/>
-	<classpathentry kind="lib" path="lib/commons-collections-3.1.jar"/>
-	<classpathentry kind="lib" path="lib/commons-lang-2.1.jar"/>
-	<classpathentry kind="lib" path="lib/velocity-1.5.jar"/>
+	<classpathentry kind="var" path="M2_REPO/javax/persistence/persistence-api/1.0/persistence-api-1.0.jar"/>
+	<classpathentry kind="var" path="M2_REPO/javax/transaction/jta/1.0.1B/jta-1.0.1B.jar"/>
+	<classpathentry kind="var" path="M2_REPO/cglib/cglib-full/2.0.2/cglib-full-2.0.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/velocity/velocity/1.5/velocity-1.5.jar"/>
+	<classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.13/log4j-1.2.13.jar"/>
+	<classpathentry kind="var" path="M2_REPO/junit/junit/3.8.2/junit-3.8.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/ant/ant/1.6/ant-1.6.jar"/>
+	<classpathentry kind="var" path="M2_REPO/jakarta-regexp/jakarta-regexp/1.4/jakarta-regexp-1.4.jar"/>
+	<classpathentry kind="var" path="M2_REPO/ldapsdk/ldapsdk/4.1/ldapsdk-4.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/oro/oro/2.0.8/oro-2.0.8.jar"/>
+	<classpathentry kind="var" path="M2_REPO/commons-collections/commons-collections/3.1/commons-collections-3.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/commons-lang/commons-lang/2.1/commons-lang-2.1.jar"/>
 	<classpathentry kind="output" path="eclipse"/>
 </classpath>

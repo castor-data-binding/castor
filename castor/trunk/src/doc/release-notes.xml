@@ -73,6 +73,27 @@
             
             </summary>
             <bugs>
+                <bug id="2623" tool="jira">
+                    <description>
+                        Replaced references in .classpath from jar's of lib directory to jar's of
+                        maven repository using M2_REPO variable.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>All</module>
+                    <date>20090124</date>
+                </bug>
                 <bug id="2622" tool="jira">
                     <description>
                         Minor code cleanup.
