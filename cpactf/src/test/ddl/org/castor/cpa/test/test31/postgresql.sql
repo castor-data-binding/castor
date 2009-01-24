@@ -1,23 +1,23 @@
-DROP TABLE IF EXISTS test31_relation;
-DROP TABLE IF EXISTS test31_extends2;
-DROP TABLE IF EXISTS test31_extends1;
-DROP TABLE IF EXISTS test31_related;
-DROP TABLE IF EXISTS test31_persistent;
-DROP TABLE IF EXISTS test31_group;
+DROP TABLE test31_relation;
+DROP TABLE test31_extends2;
+DROP TABLE test31_extends1;
+DROP TABLE test31_related;
+DROP TABLE test31_persistent;
+DROP TABLE test31_group;
 
 CREATE TABLE test31_group (
   id      numeric(10,0)  not null,
-  value1  varchar(200)  not null
+  value1  varchar(200)   not null
 );
 CREATE UNIQUE INDEX test31_group_pk ON test31_group ( id );
 
 CREATE TABLE test31_persistent (
-  id        integer         not null,
-  ctime     datetime        not null,
-  mtime     datetime        null,
-  value1    varchar(200)    not null,
-  parent_id integer         null,
-  group_id  numeric(10,0)   not null
+  id        integer                       not null,
+  ctime     timestamp without time zone   not null,
+  mtime     timestamp without time zone   null,
+  value1    varchar(200)                  not null,
+  parent_id integer                       null,
+  group_id  numeric(10,0)                 not null
 );
 CREATE UNIQUE INDEX test31_persistent_pk ON test31_persistent ( id );
 
