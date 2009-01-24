@@ -34,6 +34,8 @@ public final class TestQuery extends CPATestCase {
         super(name);
     }
 
+    // Test are only included/excluded for engines that have been tested with this test suite.
+
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.ORACLE)
             || (engine == DatabaseEngineType.MYSQL);

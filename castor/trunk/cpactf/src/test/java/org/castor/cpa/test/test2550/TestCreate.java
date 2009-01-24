@@ -31,6 +31,10 @@ public final class TestCreate extends CPATestCase {
         super(name);
     }
 
+    // Test are only included/excluded for engines that have been tested with this test suite.
+    //
+    // Test uses sequence key generator which is not supported by mysql.
+
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.ORACLE);
     }
