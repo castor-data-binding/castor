@@ -37,7 +37,6 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 			</roles>
 			<timezone>+1</timezone>
 		</developer>
-
 	</developers>
 
     <scm>
@@ -45,6 +44,48 @@ http://maven.apache.org/maven-v4_0_0.xsd">
        <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/cpactf</developerConnection>
        <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/cpactf</url>
     </scm>
+
+    <build>
+       <resources>
+          <resource>
+             <directory>target/generated-sources/castor</directory>
+             <includes>
+                <include>**/*.cdr</include>
+             </includes>
+          </resource>
+          <resource>
+             <directory>src/main/resources</directory>
+          </resource>
+       </resources>
+       <plugins>
+          <plugin>
+             <groupId>org.codehaus.mojo</groupId>
+             <artifactId>castor-maven-plugin</artifactId>
+             <version>2.0-SNAPSHOT</version>
+             <configuration>
+                <schema>${basedir}/src/main/resources/org/castor/cpa/test/framework/cpactf-conf.xsd</schema>
+                <properties>${basedir}/src/main/resources/org/castor/cpa/test/framework/cpactf-conf.builder.properties</properties>
+                <packaging>org.castor.cpa.test.framework.xml</packaging>
+             </configuration>
+             <executions>
+                <execution>
+                   <goals>
+                      <goal>generate</goal>
+                   </goals>
+                </execution>
+             </executions>
+             <!-- 
+             <dependencies>
+               <dependency>
+                  <groupId>org.codehaus.castor</groupId>
+                  <artifactId>castor-codegen</artifactId>
+                  <version>1.3rc1</version>
+               </dependency>
+             </dependencies>
+              -->
+          </plugin>
+       </plugins>
+    </build>
 
 	<dependencies>
 
@@ -85,7 +126,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
          <artifactId>derby</artifactId>
          <scope>test</scope>
       </dependency>
-            
+
 	</dependencies>
 
 	<reporting>
@@ -114,5 +155,3 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 	</reporting>
 
 </project>
-
-

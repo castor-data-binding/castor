@@ -1,3 +1,0 @@
-#Wed Dec 19 01:08:25 GMT+01:00 2007
-org.castor.cpa.test.framework.xml.types.TransactionModeType=org.castor.cpa.test.framework.xml.types.descriptors.TransactionModeTypeDescriptor
-org.castor.cpa.test.framework.xml.types.DatabaseEngineType=org.castor.cpa.test.framework.xml.types.descriptors.DatabaseEngineTypeDescriptor

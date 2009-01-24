@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Specification-Title: Castor XMLCTF
+Specification-Title: Castor CPACTF
 Specification-Vendor: Intalio Inc.
 Specification-Version: $VERSION$$RELEASE$
 Implementation-Title: Castor
