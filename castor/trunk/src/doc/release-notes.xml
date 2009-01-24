@@ -73,6 +73,26 @@
             
             </summary>
             <bugs>
+                <bug id="2624" tool="jira">
+                    <description>
+                        Fixed failing test TC203 of old Castor JDO test suite. 
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20090124</date>
+                </bug>
                 <bug id="2623" tool="jira">
                     <description>
                         Replaced references in .classpath from jar's of lib directory to jar's of
