@@ -39,11 +39,20 @@ public final class TestPersistenceWithExtends extends CPATestCase {
         super(name);
     }    
     
+    // Test are only included/excluded for engines that have been tested with this test suite.
+    //
+    // Configuration of previous test suite.
+    // Inc: db2, postgresql, sybase, pointbase, progress
+    // Exc: hsql, mssql, sapdb, derby
+
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL) 
-            || (engine == DatabaseEngineType.DERBY);
+        return (engine == DatabaseEngineType.MYSQL);
     }
 
+    public boolean exclude(final DatabaseEngineType engine) {
+        return (engine == DatabaseEngineType.ORACLE);
+    }
+    
     public void setUp() throws Exception {
         _db = getJDOManager(DBNAME, MAPPING).getDatabase();
         

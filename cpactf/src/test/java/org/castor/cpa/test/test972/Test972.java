@@ -31,9 +31,10 @@ public final class Test972 extends CPATestCase {
         super(name);
     }
     
+    // Test are only included/excluded for engines that have been tested with this test suite.
+
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL) 
-            || (engine == DatabaseEngineType.DERBY) 
             || (engine == DatabaseEngineType.ORACLE);
     }
     

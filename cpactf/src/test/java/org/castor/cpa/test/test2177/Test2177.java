@@ -24,13 +24,13 @@ public final class Test2177 extends CPATestCase {
         return suite;
     }
 
-    
+    // Test are only included/excluded for engines that have been tested with this test suite.
+
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL) 
             || (engine == DatabaseEngineType.DERBY) 
             || (engine == DatabaseEngineType.ORACLE);
     }
-
 
     private String _memConvertors;
     
