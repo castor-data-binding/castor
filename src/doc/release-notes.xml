@@ -73,9 +73,29 @@
             
             </summary>
             <bugs>
+                <bug id="2629" tool="jira">
+                    <description>
+                        Added generation of files for jdo-conf.xsd with maven. 
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20090125</date>
+                </bug>
                 <bug id="2628" tool="jira">
                     <description>
-                        Added generationof files for cpactf-conf.xsd with maven. 
+                        Added generation of files for cpactf-conf.xsd with maven. 
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>

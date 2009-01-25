@@ -1,7 +1,10 @@
 Manifest-Version: 1.0
-Specification-Title: Spring ORM for Castor
-Implementation-Title: Spring ORM for Castor
-Sealed: true
+Specification-Title: Castor CPA
+Specification-Vendor: Intalio Inc.
+Specification-Version: $VERSION$$RELEASE$
+Implementation-Title: Castor
+Implementation-Vendor: Intalio Inc.
+Implementation-Version: $VERSION$$RELEASE$
 
 
 
