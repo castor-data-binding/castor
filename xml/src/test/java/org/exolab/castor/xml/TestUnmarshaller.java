@@ -22,7 +22,7 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.castor.xml.InternalContext;
-import org.castor.xml.XMLConfiguration;
+import org.castor.xml.XMLProperties;
 
 /**
  * Test case for testing various pieces of functionality of {@link Unmarshaller}.
@@ -61,14 +61,14 @@ public class TestUnmarshaller extends TestCase {
         assertNotNull(unmarshaller);
         
         String lenientSequenceValidation = 
-            unmarshaller.getProperty(XMLConfiguration.LENIENT_SEQUENCE_ORDER);
+            unmarshaller.getProperty(XMLProperties.LENIENT_SEQUENCE_ORDER);
         assertNotNull(lenientSequenceValidation);
         assertEquals("false", lenientSequenceValidation);
         
-        unmarshaller.setProperty(XMLConfiguration.LENIENT_SEQUENCE_ORDER, "true");
+        unmarshaller.setProperty(XMLProperties.LENIENT_SEQUENCE_ORDER, "true");
  
         lenientSequenceValidation = 
-            unmarshaller.getProperty(XMLConfiguration.LENIENT_SEQUENCE_ORDER);
+            unmarshaller.getProperty(XMLProperties.LENIENT_SEQUENCE_ORDER);
         assertNotNull(lenientSequenceValidation);
         assertEquals("true", lenientSequenceValidation);
     }

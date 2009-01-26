@@ -3,8 +3,8 @@ package org.castor.cpa.test.test2177;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.castor.core.util.Configuration;
-import org.castor.cpa.CPAConfiguration;
+import org.castor.core.util.AbstractProperties;
+import org.castor.cpa.CPAProperties;
 import org.castor.cpa.test.framework.CPATestCase;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.exolab.castor.jdo.Database;
@@ -41,8 +41,8 @@ public final class Test2177 extends CPATestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        Configuration cfg = getConfiguration();
-        _memConvertors = cfg.getString(CPAConfiguration.TYPE_CONVERTORS);
+        AbstractProperties properties = getProperties();
+        _memConvertors = properties.getString(CPAProperties.TYPE_CONVERTORS);
         
         StringBuffer convertors = new StringBuffer();
         convertors.append(_memConvertors);
@@ -50,12 +50,12 @@ public final class Test2177 extends CPATestCase {
         convertors.append(FromCustomTypeConvertor.class.getName());
         convertors.append(", ");
         convertors.append(ToCustomTypeConvertor.class.getName());
-        cfg.put(CPAConfiguration.TYPE_CONVERTORS, convertors.toString());
+        properties.put(CPAProperties.TYPE_CONVERTORS, convertors.toString());
     }
     
     protected void tearDown() throws Exception {
-        Configuration cfg = getConfiguration();
-        cfg.put(CPAConfiguration.TYPE_CONVERTORS, _memConvertors);
+        AbstractProperties properties = getProperties();
+        properties.put(CPAProperties.TYPE_CONVERTORS, _memConvertors);
 
         super.tearDown();
     }

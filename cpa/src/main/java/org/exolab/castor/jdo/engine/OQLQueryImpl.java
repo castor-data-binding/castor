@@ -49,9 +49,9 @@ import java.util.Hashtable;
 import java.util.NoSuchElementException;
 import java.util.Vector;
 
-import org.castor.core.util.Configuration;
+import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
-import org.castor.cpa.CPAConfiguration;
+import org.castor.cpa.CPAProperties;
 import org.castor.cpa.persistence.convertor.TypeConvertorRegistry;
 import org.castor.jdo.util.ClassLoadingUtils;
 import org.castor.persist.TransactionContext;
@@ -130,8 +130,8 @@ public class OQLQueryImpl implements Query, OQLQuery {
     
     private TypeConvertorRegistry getTypeConvertorRegistry() {
         if (_typeConvertorRegistry == null) {
-            Configuration config = CPAConfiguration.getInstance();
-            _typeConvertorRegistry = new TypeConvertorRegistry(config);
+            AbstractProperties properties = CPAProperties.getInstance();
+            _typeConvertorRegistry = new TypeConvertorRegistry(properties);
         }
         return _typeConvertorRegistry;
     }

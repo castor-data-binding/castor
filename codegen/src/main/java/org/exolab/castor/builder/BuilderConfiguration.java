@@ -59,11 +59,11 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.util.Configuration;
+import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
 import org.castor.xml.JavaNaming;
 import org.castor.xml.JavaNamingImpl;
-import org.castor.xml.XMLConfiguration;
+import org.castor.xml.XMLProperties;
 
 /**
  * The configuration for the SourceGenerator.
@@ -670,7 +670,7 @@ public class BuilderConfiguration {
             }
         }
 
-        Configuration rtconf =  XMLConfiguration.newInstance();
+        AbstractProperties rtconf =  XMLProperties.newInstance();
 
         // Parse XML namespace and package list from both castor.properties and
         // castorbuilder.properties
@@ -853,7 +853,7 @@ public class BuilderConfiguration {
         // Complain if not found.
         InputStream resourceStream = null;
         try {
-            resourceStream = Configuration.class.getResourceAsStream(resourceName); 
+            resourceStream = AbstractProperties.class.getResourceAsStream(resourceName); 
             properties.load(resourceStream);
             
             //-- debug information:

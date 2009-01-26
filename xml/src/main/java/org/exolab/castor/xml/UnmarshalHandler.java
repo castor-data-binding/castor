@@ -68,7 +68,7 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Base64Decoder;
 import org.castor.core.util.HexDecoder;
 import org.castor.xml.UnmarshalListenerAdapter;
-import org.castor.xml.XMLConfiguration;
+import org.castor.xml.XMLProperties;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.ExtendedFieldHandler;
 import org.exolab.castor.mapping.FieldHandler;
@@ -1983,7 +1983,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             //-- which we have no mapping, increase the ignore depth counter and return
             boolean lenientElementStrictnessForIntrospection = 
                 getInternalContext()
-                .getBooleanProperty(XMLConfiguration.LENIENT_INTROSPECTED_ELEMENT_STRICTNESS)
+                .getBooleanProperty(XMLProperties.LENIENT_INTROSPECTED_ELEMENT_STRICTNESS)
                 .booleanValue();
             if (! _strictElements) {
                 ++_ignoreElementDepth;

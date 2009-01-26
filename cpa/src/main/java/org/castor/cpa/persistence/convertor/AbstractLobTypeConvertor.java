@@ -17,8 +17,8 @@ package org.castor.cpa.persistence.convertor;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.util.Configuration;
-import org.castor.cpa.CPAConfiguration;
+import org.castor.core.util.AbstractProperties;
+import org.castor.cpa.CPAProperties;
 
 /**
  * Abstract base class to convert from one type to another using a large object buffer
@@ -59,9 +59,9 @@ public abstract class AbstractLobTypeConvertor extends AbstractTypeConvertor {
     /**
      * {@inheritDoc}
      */
-    public final void configure(final Configuration configuration) {
-        _lobBufferSize = configuration.getInteger(
-                CPAConfiguration.LOB_BUFFER_SIZE, DEFAULT_LOB_BUFFER_SIZE);
+    public final void configure(final AbstractProperties properties) {
+        _lobBufferSize = properties.getInteger(
+                CPAProperties.LOB_BUFFER_SIZE, DEFAULT_LOB_BUFFER_SIZE);
         if (LOG.isDebugEnabled()) { LOG.debug("Using lobBufferSize: " + _lobBufferSize); }
     }
     

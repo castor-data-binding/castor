@@ -22,9 +22,9 @@ import javax.transaction.TransactionManager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.util.Configuration;
+import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
-import org.castor.cpa.CPAConfiguration;
+import org.castor.cpa.CPAProperties;
 import org.castor.jdo.conf.Database;
 import org.castor.jdo.conf.DatabaseChoice;
 import org.castor.jdo.conf.JdoConf;
@@ -168,8 +168,8 @@ public final class DatabaseRegistry {
             throws MappingException {
         // Do we need to initialize database now or should we
         // wait until we want to use it.
-        Configuration cfg = CPAConfiguration.getInstance();
-        boolean init = cfg.getBoolean(CPAConfiguration.INITIALIZE_AT_LOAD, true);
+        AbstractProperties properties = CPAProperties.getInstance();
+        boolean init = properties.getBoolean(CPAProperties.INITIALIZE_AT_LOAD, true);
         
         // Load the JDO configuration file from the specified input source.
         // databases = JDOConfLoader.getDatabases(baseURI, resolver);

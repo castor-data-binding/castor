@@ -20,8 +20,8 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
-import org.castor.core.CoreConfiguration;
-import org.castor.core.util.Configuration;
+import org.castor.core.CoreProperties;
+import org.castor.core.util.AbstractProperties;
 import org.exolab.castor.mapping.MappingLoader;
 
 /**
@@ -30,14 +30,14 @@ import org.exolab.castor.mapping.MappingLoader;
 public class TestMappingLoaderRegistry extends TestCase {
 
     public final void testGetInstance() throws Exception {
-        Configuration config = new CoreConfiguration();
-        MappingLoaderRegistry registry = new MappingLoaderRegistry(config);
+        AbstractProperties properties = new CoreProperties();
+        MappingLoaderRegistry registry = new MappingLoaderRegistry(properties);
         assertNotNull(registry);
     }
 
     public final void testEnlistMappingLoaders() throws Exception {
-        Configuration config = new CoreConfiguration();
-        MappingLoaderRegistry registry = new MappingLoaderRegistry(config);
+        AbstractProperties properties = new CoreProperties();
+        MappingLoaderRegistry registry = new MappingLoaderRegistry(properties);
         assertNotNull(registry);
 
         Collection factories = registry.getMappingLoaderFactories();
@@ -64,8 +64,8 @@ public class TestMappingLoaderRegistry extends TestCase {
     }
 
     public final void testGetXMLMappingLoader() throws Exception {
-        Configuration config = new CoreConfiguration();
-        MappingLoaderRegistry registry = new MappingLoaderRegistry(config);
+        AbstractProperties properties = new CoreProperties();
+        MappingLoaderRegistry registry = new MappingLoaderRegistry(properties);
         assertNotNull(registry);
 
         MappingLoader mappingLoader = registry.getMappingLoader(

@@ -21,7 +21,7 @@ import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.CoreConfiguration;
+import org.castor.core.CoreProperties;
 import org.castor.core.util.Messages;
 import org.castor.xml.InternalContext;
 import org.castor.xml.AbstractInternalContext;
@@ -77,7 +77,7 @@ public final class MappingUnmarshaller {
      * Construct a new MappingUnmarshaller.
      */
     public MappingUnmarshaller() {
-        _registry = new MappingLoaderRegistry(new CoreConfiguration());
+        _registry = new MappingLoaderRegistry(new CoreProperties());
         _idResolver = new MappingUnmarshallIDResolver();
         AbstractInternalContext internalContext = new AbstractInternalContext() { };
         internalContext.setClassLoader(getClass().getClassLoader());

@@ -26,8 +26,8 @@ import junit.framework.TestSuite;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.util.Configuration;
-import org.castor.cpa.CPAConfiguration;
+import org.castor.core.util.AbstractProperties;
+import org.castor.cpa.CPAProperties;
 import org.castor.cpa.test.framework.CPATestCase;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.castor.jdo.conf.JdoConf;
@@ -75,8 +75,8 @@ public final class Test954 extends CPATestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        Configuration cfg = getConfiguration();
-        boolean useProxies = cfg.getBoolean(CPAConfiguration.USE_JDBC_PROXIES, true);
+        AbstractProperties properties = getProperties();
+        boolean useProxies = properties.getBoolean(CPAProperties.USE_JDBC_PROXIES, true);
 
         AbstractConnectionFactory factory = null;
         

@@ -2,8 +2,8 @@ package org.exolab.castor.xml.schema;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.util.Configuration;
-import org.castor.xml.XMLConfiguration;
+import org.castor.core.util.AbstractProperties;
+import org.castor.xml.XMLProperties;
 import org.exolab.castor.xml.Serializer;
 import org.exolab.castor.xml.util.XMLParserUtils;
 import org.xml.sax.Parser;
@@ -25,16 +25,16 @@ public class SchemaContextImpl implements SchemaContext {
     private Resolver _schemaResolver;
     
     /**
-     * {@link Configuration} instance for retrieving property values related  to XML parsers
+     * {@link AbstractProperties} instance for retrieving property values related  to XML parsers
      */
-    private Configuration _configuration;
+    private AbstractProperties _properties;
     
     /**
      * Creates an instance of {@link SchemaContextImpl}.
      */
     public SchemaContextImpl() {
         super();
-        _configuration = XMLConfiguration.newInstance();
+        _properties = XMLProperties.newInstance();
     }
 
     /**
@@ -50,7 +50,7 @@ public class SchemaContextImpl implements SchemaContext {
      * @see org.castor.xml.InternalContext#getParser(java.lang.String)
      */
     public Parser getParser(final String features) {
-        return XMLParserUtils.getParser(_configuration, features);
+        return XMLParserUtils.getParser(_properties, features);
     }
 
 
@@ -76,7 +76,7 @@ public class SchemaContextImpl implements SchemaContext {
      * @see org.castor.xml.InternalContext#getSerializer()
      */
     public Serializer getSerializer() {
-        return XMLParserUtils.getSerializer(_configuration);
+        return XMLParserUtils.getSerializer(_properties);
     }
 
 }

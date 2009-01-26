@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.castor.core.util.Configuration;
-import org.castor.cpa.CPAConfiguration;
+import org.castor.core.util.AbstractProperties;
+import org.castor.cpa.CPAProperties;
 import org.exolab.castor.mapping.MappingException;
 
 /**
@@ -43,17 +43,17 @@ public final class TypeConvertorRegistry {
     /**
      * Create a new registry instance of type convertors. The registry will be initialized
      * with all type convertors specified through <b>TYPE_CONVERTORS</b> property of given
-     * configuration. The configuration get also passed to the type converters for them to
+     * properties. The properties get also passed to the type converters for them to
      * get any required property.
      * 
-     * @param config The configuration to use.
+     * @param properties The properties to use.
      */
-    public TypeConvertorRegistry(final Configuration config) {
-        Object[] objects = config.getObjectArray(
-                CPAConfiguration.TYPE_CONVERTORS, config.getApplicationClassLoader());
+    public TypeConvertorRegistry(final AbstractProperties properties) {
+        Object[] objects = properties.getObjectArray(
+                CPAProperties.TYPE_CONVERTORS, properties.getApplicationClassLoader());
         for (int i = 0; i < objects.length; i++) {
             TypeConvertor convertor = (TypeConvertor) objects[i];
-            convertor.configure(config);
+            convertor.configure(properties);
             
             putConvertor(convertor.fromType(), convertor.toType(), convertor);
         }

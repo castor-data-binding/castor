@@ -20,8 +20,8 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.util.Configuration;
-import org.castor.cpa.CPAConfiguration;
+import org.castor.core.util.AbstractProperties;
+import org.castor.cpa.CPAProperties;
 
 /**
  * Registry for {@link TransactionManagerFactory} implementations obtained from the
@@ -49,14 +49,14 @@ public final class TransactionManagerFactoryRegistry {
     /**
      * Construct an instance of TransactionManagerFactoryRegistry that loads the
      * {@link TransactionManagerFactory} implementations specified in the given
-     * LocalConfiguration.
+     * properties.
      * 
-     * @param config The LocalConfiguration.
+     * @param properties The properties.
      */
-    public TransactionManagerFactoryRegistry(final Configuration config) {
-        ClassLoader loader = config.getApplicationClassLoader();
-        Object[] objects = config.getObjectArray(
-                CPAConfiguration.TRANSACTION_MANAGER_FACTORIES, loader);
+    public TransactionManagerFactoryRegistry(final AbstractProperties properties) {
+        ClassLoader loader = properties.getApplicationClassLoader();
+        Object[] objects = properties.getObjectArray(
+                CPAProperties.TRANSACTION_MANAGER_FACTORIES, loader);
         for (int i = 0; i < objects.length; i++) {
             TransactionManagerFactory factory = (TransactionManagerFactory) objects[i];
             _factories.put(factory.getName(), factory);

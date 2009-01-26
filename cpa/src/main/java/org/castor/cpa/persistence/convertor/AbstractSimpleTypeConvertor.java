@@ -15,7 +15,7 @@
  */
 package org.castor.cpa.persistence.convertor;
 
-import org.castor.core.util.Configuration;
+import org.castor.core.util.AbstractProperties;
 
 /**
  * Abstract base class to convert from one type to another without any configuration
@@ -43,7 +43,7 @@ public abstract class AbstractSimpleTypeConvertor extends AbstractTypeConvertor 
     /**
      * {@inheritDoc}
      */
-    public final void configure(final Configuration configuration) { }
+    public final void configure(final AbstractProperties properties) { }
     
     /**
      * {@inheritDoc}

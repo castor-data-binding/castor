@@ -15,7 +15,7 @@
  */
 package org.castor.cpa.persistence.convertor;
 
-import org.castor.core.util.Configuration;
+import org.castor.core.util.AbstractProperties;
 
 /**
  * Convert <code>String</code> to <code>Boolean</code>.
@@ -47,7 +47,7 @@ public final class StringToBoolean extends AbstractTypeConvertor {
     /**
      * {@inheritDoc}
      */
-    public void configure(final Configuration configuration) { }
+    public void configure(final AbstractProperties properties) { }
     
     /**
      * {@inheritDoc}

@@ -23,8 +23,8 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.CoreConfiguration;
-import org.castor.core.util.Configuration;
+import org.castor.core.CoreProperties;
+import org.castor.core.util.AbstractProperties;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingLoader;
 
@@ -48,11 +48,11 @@ public final class MappingLoaderRegistry {
     /**
      * Creates an instance of this registry, loading the mapping loader
      * factories from the castor.properties file. 
-     * @param config Configuration.
+     * @param properties Properties.
      */
-    public MappingLoaderRegistry(final Configuration config) {
-        Object[] objects = config.getObjectArray(
-                CoreConfiguration.MAPPING_LOADER_FACTORIES, getClass().getClassLoader());
+    public MappingLoaderRegistry(final AbstractProperties properties) {
+        Object[] objects = properties.getObjectArray(
+                CoreProperties.MAPPING_LOADER_FACTORIES, getClass().getClassLoader());
         for (int i = 0; i < objects.length; i++) {
             _mappingLoaderFactories.add(objects[i]);
         }

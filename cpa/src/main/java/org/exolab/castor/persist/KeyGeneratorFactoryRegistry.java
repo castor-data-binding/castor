@@ -49,8 +49,8 @@ import java.util.Hashtable;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.util.Configuration;
-import org.castor.cpa.CPAConfiguration;
+import org.castor.core.util.AbstractProperties;
+import org.castor.cpa.CPAProperties;
 import org.exolab.castor.persist.spi.KeyGeneratorFactory;
 
 /**
@@ -105,9 +105,10 @@ public final class KeyGeneratorFactoryRegistry {
      */
     private static synchronized void load() {
         if (_factories.isEmpty()) {
-            Configuration config = CPAConfiguration.getInstance();
-            Object[] objects = config.getObjectArray(
-                    CPAConfiguration.KEYGENERATOR_FACTORIES, config.getApplicationClassLoader());
+            AbstractProperties properties = CPAProperties.getInstance();
+            Object[] objects = properties.getObjectArray(
+                    CPAProperties.KEYGENERATOR_FACTORIES,
+                    properties.getApplicationClassLoader());
             for (int i = 0; i < objects.length; i++) {
                 KeyGeneratorFactory factory = (KeyGeneratorFactory) objects[i];
                 _factories.put(factory.getName(), factory);

@@ -15,7 +15,7 @@
  */
 package org.castor.cpa.persistence.convertor;
 
-import org.castor.core.util.Configuration;
+import org.castor.core.util.AbstractProperties;
 
 /**
  * Convert <code>Boolean</code> to <code>Short</code>.
@@ -47,7 +47,7 @@ public final class BooleanToShort extends AbstractTypeConvertor {
     /**
      * {@inheritDoc}
      */
-    public void configure(final Configuration configuration) { }
+    public void configure(final AbstractProperties properties) { }
     
     /**
      * {@inheritDoc}

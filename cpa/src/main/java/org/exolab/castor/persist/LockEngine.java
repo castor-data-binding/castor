@@ -58,9 +58,9 @@ import org.castor.cache.Cache;
 import org.castor.cache.CacheAcquireException;
 import org.castor.cache.CacheFactory;
 import org.castor.cache.CacheFactoryRegistry;
-import org.castor.core.util.Configuration;
+import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
-import org.castor.cpa.CPAConfiguration;
+import org.castor.cpa.CPAProperties;
 import org.castor.jdo.engine.ConnectionFactory;
 import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
@@ -163,8 +163,8 @@ public final class LockEngine {
                       final PersistenceFactory persistenceFactory)
     throws MappingException {
         if (_cacheFactoryRegistry == null) {
-            Configuration config = CPAConfiguration.getInstance();
-            _cacheFactoryRegistry = new CacheFactoryRegistry(config);
+            AbstractProperties properties = CPAProperties.getInstance();
+            _cacheFactoryRegistry = new CacheFactoryRegistry(properties);
         }
         
         _connectionFactory = connectionFactory;

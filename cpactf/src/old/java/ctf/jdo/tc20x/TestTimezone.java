@@ -34,8 +34,8 @@ import jdo.JDOCategory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.util.Configuration;
-import org.castor.cpa.CPAConfiguration;
+import org.castor.core.util.AbstractProperties;
+import org.castor.cpa.CPAProperties;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
 
@@ -60,10 +60,10 @@ public final class TestTimezone extends CastorTestCase {
     public void testDate() throws Exception {
         LOG.debug("user.timezone = " + System.getProperty("user.timezone"));
         
-        Configuration config = CPAConfiguration.newInstance();
-        String testTimezone = config.getString(CPAConfiguration.DEFAULT_TIMEZONE,
+        AbstractProperties properties = CPAProperties.newInstance();
+        String testTimezone = properties.getString(CPAProperties.DEFAULT_TIMEZONE,
                 System.getProperty("user.timezone"));
-        LOG.debug(CPAConfiguration.DEFAULT_TIMEZONE + " = " + testTimezone);
+        LOG.debug(CPAProperties.DEFAULT_TIMEZONE + " = " + testTimezone);
         
         Database database = _category.getDatabase();
 
@@ -171,10 +171,10 @@ public final class TestTimezone extends CastorTestCase {
     public void testTime() throws Exception {
         LOG.debug("user.timezone = " + System.getProperty("user.timezone"));
         
-        Configuration config = CPAConfiguration.newInstance();
-        String testTimezone = config.getString(CPAConfiguration.DEFAULT_TIMEZONE,
+        AbstractProperties properties = CPAProperties.newInstance();
+        String testTimezone = properties.getString(CPAProperties.DEFAULT_TIMEZONE,
                 System.getProperty("user.timezone"));
-        LOG.debug(CPAConfiguration.DEFAULT_TIMEZONE + " = " + testTimezone);
+        LOG.debug(CPAProperties.DEFAULT_TIMEZONE + " = " + testTimezone);
         
         Database database = _category.getDatabase();
 
@@ -279,10 +279,10 @@ public final class TestTimezone extends CastorTestCase {
     public void testTimestamp() throws Exception {
         LOG.debug("user.timezone = " + System.getProperty("user.timezone"));
         
-        Configuration config = CPAConfiguration.newInstance();
-        String testTimezone = config.getString(CPAConfiguration.DEFAULT_TIMEZONE,
+        AbstractProperties properties = CPAProperties.newInstance();
+        String testTimezone = properties.getString(CPAProperties.DEFAULT_TIMEZONE,
                 System.getProperty("user.timezone"));
-        LOG.debug(CPAConfiguration.DEFAULT_TIMEZONE + " = " + testTimezone);
+        LOG.debug(CPAProperties.DEFAULT_TIMEZONE + " = " + testTimezone);
         
         Database database = _category.getDatabase();
 

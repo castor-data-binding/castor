@@ -72,7 +72,7 @@ import org.castor.mapping.BindingType;
 import org.castor.mapping.MappingUnmarshaller;
 import org.castor.xml.BackwardCompatibilityContext;
 import org.castor.xml.InternalContext;
-import org.castor.xml.XMLConfiguration;
+import org.castor.xml.XMLProperties;
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.MapHandler;
@@ -454,7 +454,7 @@ public class Marshaller extends MarshalFramework {
 
 
   /**
-     * Derive class-level properties from {@link XMLConfiguration} as defined
+     * Derive class-level properties from {@link XMLProperties} as defined
      * {@link InternalContext}. This method will be called after a new
      * {@link InternalContext} or a property has been set.
      * 
@@ -463,10 +463,10 @@ public class Marshaller extends MarshalFramework {
     private void deriveProperties() {
         _validate = getInternalContext().marshallingValidation();
         _saveMapKeys = getInternalContext().getBooleanProperty(
-                XMLConfiguration.SAVE_MAP_KEYS).booleanValue();
+                XMLProperties.SAVE_MAP_KEYS).booleanValue();
 
         String prop = getInternalContext().getStringProperty(
-                XMLConfiguration.PROXY_INTERFACES);
+                XMLProperties.PROXY_INTERFACES);
         if (prop != null) {
             StringTokenizer tokenizer = new StringTokenizer(prop, ", ");
             while (tokenizer.hasMoreTokens()) {

@@ -17,49 +17,48 @@
  */
 package org.castor.core;
 
-import org.castor.core.util.Configuration;
+import org.castor.core.util.AbstractProperties;
 
 /**
- * Castor configuration of core modul.
+ * Properties of core modul.
  * 
  * @version $Id: Configuration.java,v 1.8 2006/03/08 17:25:52 jens Exp $
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @since 1.1.3
  */
-public final class CoreConfiguration extends Configuration {
+public final class CoreProperties extends AbstractProperties {
     //--------------------------------------------------------------------------
 
-    /** Path to Castor configuration of core modul. */
+    /** Path to Castor properties of core modul. */
     private static final String FILEPATH = "/org/castor/core/";
 
-    /** Name of Castor configuration of core modul. */
+    /** Name of Castor properties of core modul. */
     private static final String FILENAME = "castor.core.properties";
     
     //--------------------------------------------------------------------------
 
     /**
      * Default constructor. Application and domain class loaders will be initialized to the one
-     * used to load the Configuration class. No parent configuration will be set.
+     * used to load this class. No parent properties will be set.
      * <br/>
      * Note: This constructor is not intended for public use. Use one of the newInstance() methods
-     * of the modul specific configuration instead.
+     * of the modul specific properties instead.
      */
-    public CoreConfiguration() {
+    public CoreProperties() {
         super();
         loadDefaultProperties(FILEPATH, FILENAME);
     }
     
     /**
-     * Construct a configuration that uses the specified class loaders. No parent configuration
-     * will be set.
+     * Construct properties that uses the specified class loaders. No parent properties will be set.
      * <br/>
      * Note: This constructor is not intended for public use. Use one of the newInstance() methods
-     * of the modul specific configuration instead.
+     * of the modul specific properties instead.
      * 
      * @param app Classloader to be used for all classes of Castor and its required libraries.
      * @param domain Classloader to be used for all domain objects.
      */
-    public CoreConfiguration(final ClassLoader application, final ClassLoader domain) {
+    public CoreProperties(final ClassLoader application, final ClassLoader domain) {
         super(application, domain);
         loadDefaultProperties(FILEPATH, FILENAME);
     }

@@ -39,7 +39,7 @@ import org.apache.commons.logging.LogFactory;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @since 1.1.3
  */
-public abstract class Configuration {
+public abstract class AbstractProperties {
 
     /**
      * Name of the system property that can be used to specify the location
@@ -52,7 +52,7 @@ public abstract class Configuration {
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      * Logging</a> instance used for all logging.
      */
-    private static final Log LOG = LogFactory.getLog(Configuration.class);
+    private static final Log LOG = LogFactory.getLog(AbstractProperties.class);
     
     /**
      * {@link ClassLoader} to be used for all classes of Castor and its required
@@ -67,28 +67,27 @@ public abstract class Configuration {
     private final ClassLoader _domainClassLoader;
     
     /** 
-     * Parent configuration. 
+     * Parent properties. 
      */
-    private final Configuration _parent;
+    private final AbstractProperties _parent;
     
     private final Map _map = new HashMap();
     
     /**
      * Default constructor. Application and domain class loaders will be initialized to the one
-     * used to load the Configuration class. No parent configuration will be set.
+     * used to load the concrete properties class. No parent properties will be set.
      */
-    protected Configuration() {
+    protected AbstractProperties() {
         this(null, null);
     }
     
     /**
-     * Construct a configuration that uses the specified class loaders. No parent configuration
-     * will be set.
+     * Construct properties that uses the specified class loaders. No parent properties will be set.
      * 
      * @param app Classloader to be used for all classes of Castor and its required libraries.
      * @param domain Classloader to be used for all domain objects.
      */
-    protected Configuration(final ClassLoader app, final ClassLoader domain) {
+    protected AbstractProperties(final ClassLoader app, final ClassLoader domain) {
         _applicationClassLoader = (app != null) ? app : getClass().getClassLoader();
         _domainClassLoader = (domain != null) ? domain : getClass().getClassLoader();
         
@@ -96,12 +95,12 @@ public abstract class Configuration {
     }
     
     /**
-     * Construct a configuration with given parent. Application and domain class loaders will be
+     * Construct properties with given parent. Application and domain class loaders will be
      * initialized to the ones of the parent. 
      * 
-     * @param parent Parent configuration.
+     * @param parent Parent properties.
      */
-    protected Configuration(final Configuration parent) {
+    protected AbstractProperties(final AbstractProperties parent) {
         _applicationClassLoader = parent.getApplicationClassLoader();
         _domainClassLoader = parent.getDomainClassLoader();
         
@@ -128,48 +127,48 @@ public abstract class Configuration {
     }
     
     /**
-     * Load module configuration from default locations.
+     * Load module properties from default locations.
      * <br/>
-     * First it loads default configuration contained in Castor JAR. This gets overwritten
-     * by a configuration found on Java library directory. If no configuration could be found
-     * until that point a ConfigurationException will be thrown.
+     * First it loads default properties contained in Castor JAR. This gets overwritten
+     * by a properties found on Java library directory. If no properties could be found
+     * until that point a PropertiesException will be thrown.
      * 
-     * @param path Path to the default configuration to load.
-     * @param filename Name of the configuration file.
+     * @param path Path to the default properties to load.
+     * @param filename Name of the properties file.
      */
     protected void loadDefaultProperties(final String path, final String filename) {
         Properties properties = new Properties();
         
-        // Get default configuration from the Castor JAR.
+        // Get default properties from the Castor JAR.
         boolean inCastorJar = loadFromClassPath(properties, path + filename);
 
-        // Get overriding configuration from the Java library directory, ignore if not
+        // Get overriding properties from the Java library directory, ignore if not
         // found. If found merge existing properties.
         boolean inJavaLibDir = loadFromJavaHome(properties, filename);
 
-        // Couldn't find configuration in Castor jar nor Java library directory.
+        // Couldn't find properties in Castor jar nor Java library directory.
         if (!inCastorJar && !inJavaLibDir) {
-            throw new ConfigurationException("Failed to load configuration: " + filename);
+            throw new PropertiesException("Failed to load properties: " + filename);
         }
         
         _map.putAll(properties);
     }
     
     /**
-     * Load common user configuration from classpath root and current working directory.
+     * Load common user properties from classpath root and current working directory.
      * <br/>
-     * First it loads default configuration contained in Castor JAR. This gets overwritten
-     * by a configuration found on Java library directory. If no configuration could be found
-     * until that point a ConfigurationException will be thrown. At last an overriding
-     * configuration is loaded from root of classpath or, if that could not be found, from
+     * First it loads default properties contained in Castor JAR. This gets overwritten
+     * by properties found on Java library directory. If no properties could be found
+     * until that point a PropertiesException will be thrown. At last overriding
+     * properties are loaded from root of classpath or, if that could not be found, from
      * local working directory.
      * 
-     * @param filename Name of the configuration file.
+     * @param filename Name of the properties file.
      */
     protected void loadUserProperties(final String filename) {
         Properties properties = new Properties();
         
-        // Get common configuration from the classpath root, ignore if not found.
+        // Get common properties from the classpath root, ignore if not found.
         boolean userPropertiesLoaded = loadFromClassPath(properties, "/" + filename);
         
         // If not found on classpath root, either it doesn't exist, or "." is not part of
@@ -210,21 +209,21 @@ public abstract class Configuration {
                 properties.load(classPathStream);
                 
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("Configuration loaded from classpath: " + filename);
+                    LOG.debug("Properties loaded from classpath: " + filename);
                 }
                 
                 return true;
             }
             return false;
         } catch (Exception ex) {
-            LOG.warn("Failed to load configuration from classpath: " + filename, ex);
+            LOG.warn("Failed to load properties from classpath: " + filename, ex);
             return false;
         } finally {
             if (classPathStream != null) {
                 try {
                     classPathStream.close();
                 } catch (IOException e) {
-                    LOG.warn("Failed to close configuration from classpath: " + filename);
+                    LOG.warn("Failed to close properties from classpath: " + filename);
                 }
             }
         }
@@ -276,45 +275,45 @@ public abstract class Configuration {
                 properties.load(fileStream);
                 
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("Configuration file loaded: " + file);
+                    LOG.debug("Properties file loaded: " + file);
                 }
                 
                 return true;
             }
             return false;
         } catch (SecurityException ex) {
-            LOG.warn("Security policy prevented access to configuration file: " + file, ex);
+            LOG.warn("Security policy prevented access to properties file: " + file, ex);
             return false;
         } catch (Exception ex) {
-            LOG.warn("Failed to load configuration file: " + file, ex);
+            LOG.warn("Failed to load properties file: " + file, ex);
             return false;
         } finally {
             if (fileStream != null) {
                 try {
                     fileStream.close();
                 } catch (IOException e) {
-                    LOG.warn("Failed to close configuration file: " + file);
+                    LOG.warn("Failed to close properties file: " + file);
                 }
             }
         }
     }
     
     /**
-     * Put given value associated with given key into the properties map of this configuration. If
-     * the configuration previously associated the key to another value the previous value will be
-     * returned. If a mapping for the key previously exist in the parent configuration only, the
+     * Put given value associated with given key into the properties map of this properties. If
+     * the properties previously associated the key to another value the previous value will be
+     * returned. If a mapping for the key previously exist in the parent properties only, the
      * method returns <code>null</code> and not the value of the parent. This allows to distingush
-     * if the mapping existed in this configuration or one of its parents.
+     * if the mapping existed in this properties or one of its parents.
      * <br/>
-     * Putting a value in this configuration does not change the value of its parent but the
-     * parents value isn't visible any more as it gets overwritten by this configurations one.
-     * While this allows to redifine the value of a property it isn't allowed to undefine it.
+     * Putting a value in this properties does not change the value of its parent but the
+     * parents value isn't visible any more as it gets overwritten by this properties one.
+     * While this allows to redefine the value of a property it isn't allowed to undefine it.
      * Therefore a <code>NullPointerException</code> will be thrown if the given value is
      * <code>null</code>.
      * 
-     * @param key Key of the property to put into configuration.
-     * @param value Value to put into configuration associated with the given key..
-     * @return Object in this configuration that previously has been associated with the given key.
+     * @param key Key of the property to put into properties.
+     * @param value Value to put into properties associated with the given key..
+     * @return Object in this properties that previously has been associated with the given key.
      */
     public final synchronized Object put(final String key, final Object value) {
         if (value == null) { throw new NullPointerException(); }
@@ -322,18 +321,18 @@ public abstract class Configuration {
     }
     
     /**
-     * Remove any value previously associated with the given key from this configuration. The value
-     * previously associated with the key int this configuration will be returned. If a mapping
-     * for the key existed in the parent configuration only, the method returns <code>null</code>
+     * Remove any value previously associated with the given key from this properties. The value
+     * previously associated with the key in this properties will be returned. If a mapping
+     * for the key existed in the parent properties only, the method returns <code>null</code>
      * and not the value of the parent. This allows to distingush if the mapping existed in this
-     * configuration or one of its parents.
+     * properties or one of its parents.
      * <br/>
-     * Removing the value from this configuration does not mean that consecutive gets return
+     * Removing the value from this properties does not mean that consecutive gets return
      * <code>null</code> as one of the parents may still contain a mapping for the key that
-     * was hidden by the mapping in this configuration.
+     * was hidden by the mapping in this properties.
      * 
-     * @param key Key of the property to remove from configuration.
-     * @return Object in this configuration that previously has been associated with the given key.
+     * @param key Key of the property to remove from properties.
+     * @return Object in this properties that previously has been associated with the given key.
      */
     public final synchronized Object remove(final String key) {
         return _map.remove(key);
@@ -347,7 +346,7 @@ public abstract class Configuration {
      * If the key maps to any object value, it will be returned as is. If the property is not found,
      * <code>null</code> will be returned.
      *
-     * @param key Key of the property to get from configuration.
+     * @param key Key of the property to get from properties.
      * @return Object in this property map with the specified key value.
      */
     protected synchronized Object get(final String key) {
@@ -366,7 +365,7 @@ public abstract class Configuration {
      * If the key maps to a boolean value, it will be returned as is. For string values that are
      * equal, ignore case, to 'true' or 'false', the respective boolean value will be returned. If
      * the property is not found, <code>null</code> will be returned. For all other types and
-     * string values a ConfigurationException will be thrown. This behaviour is intended for those
+     * string values a PropertiesException will be thrown. This behaviour is intended for those
      * usecases that need distinguish between values that are missconfigured or not specified at
      * all.
      *
@@ -390,8 +389,8 @@ public abstract class Configuration {
         }
         
         Object[] args = new Object[] {key, objectValue};
-        String msg = "Configuration value can not be converted to boolean: {0}={1}";
-        throw new ConfigurationException(MessageFormat.format(msg, args));
+        String msg = "Properties value can not be converted to boolean: {0}={1}";
+        throw new PropertiesException(MessageFormat.format(msg, args));
     }
     
     /**
@@ -432,7 +431,7 @@ public abstract class Configuration {
      * If the key maps to a integer value, it will be returned as is. For string values that can
      * be interpreted as signed decimal integer, the respective integer value will be returned. If
      * the property is not found, <code>null</code> will be returned. For all other types and
-     * string values a ConfigurationException will be thrown. This behaviour is intended for those
+     * string values a PropertiesException will be thrown. This behaviour is intended for those
      * usecases that need distinguish between values that are missconfigured or not specified at
      * all.
      *
@@ -451,14 +450,14 @@ public abstract class Configuration {
                 return Integer.valueOf((String) objectValue);
             } catch (NumberFormatException ex) {
                 Object[] args = new Object[] {key, objectValue};
-                String msg = "Configuration value can not be converted to int: {0}={1}";
-                throw new ConfigurationException(MessageFormat.format(msg, args), ex);
+                String msg = "Properties value can not be converted to int: {0}={1}";
+                throw new PropertiesException(MessageFormat.format(msg, args), ex);
             }
         }
         
         Object[] args = new Object[] {key, objectValue};
-        String msg = "Configuration value can not be converted to int: {0}={1}";
-        throw new ConfigurationException(MessageFormat.format(msg, args));
+        String msg = "Properties value can not be converted to int: {0}={1}";
+        throw new PropertiesException(MessageFormat.format(msg, args));
     }
 
     /**
@@ -497,7 +496,7 @@ public abstract class Configuration {
      * checked.
      * <br/>
      * If the key maps to a string value, it will be returned as is. If the property is not found,
-     * <code>null</code> will be returned. For all other types a ConfigurationException will be
+     * <code>null</code> will be returned. For all other types a PropertiesException will be
      * thrown.
      *
      * @param key Property key.
@@ -513,8 +512,8 @@ public abstract class Configuration {
         }
         
         Object[] args = new Object[] {key, objectValue};
-        String msg = "Configuration value is not a string: {0}={1}";
-        throw new ConfigurationException(MessageFormat.format(msg, args));
+        String msg = "Properties value is not a string: {0}={1}";
+        throw new PropertiesException(MessageFormat.format(msg, args));
     }
     
     /**
@@ -547,7 +546,7 @@ public abstract class Configuration {
      * If the key maps to a string array, it will be returned as is. A simple string will be
      * converted into a string array by splitting it into substrings at every occurence of ','
      * character. If the property is not found, <code>null</code> will be returned. For all other
-     * types a ConfigurationException will be thrown.
+     * types a PropertiesException will be thrown.
      *
      * @param key Property key.
      * @return String array in this property map with the specified key value.
@@ -564,8 +563,8 @@ public abstract class Configuration {
         }
 
         Object[] args = new Object[] {key, objectValue};
-        String msg = "Configuration value is not a String[]: {0}={1}";
-        throw new ConfigurationException(MessageFormat.format(msg, args));
+        String msg = "Properties value is not a String[]: {0}={1}";
+        throw new PropertiesException(MessageFormat.format(msg, args));
     }
     
     /**
@@ -576,7 +575,7 @@ public abstract class Configuration {
      * If the key maps to a class, it will be returned as is. A simple string will be interpreted
      * as class name of which the class will be loaded with the given class loader. If the property
      * is not found, <code>null</code> will be returned. For all other types and if loading of the
-     * class fails a ConfigurationException will be thrown.
+     * class fails a PropertiesException will be thrown.
      *
      * @param key Property key.
      * @param loader Class loader to load classes with.
@@ -595,14 +594,14 @@ public abstract class Configuration {
                 return loader.loadClass(classname);
             } catch (ClassNotFoundException ex) {
                 Object[] args = new Object[] {key, classname};
-                String msg = "Could not find class of configuration value: {0}={1}";
-                throw new ConfigurationException(MessageFormat.format(msg, args), ex);
+                String msg = "Could not find class of properties value: {0}={1}";
+                throw new PropertiesException(MessageFormat.format(msg, args), ex);
             }
         }
 
         Object[] args = new Object[] {key, objectValue};
-        String msg = "Configuration value is not a Class: {0}={1}";
-        throw new ConfigurationException(MessageFormat.format(msg, args));
+        String msg = "Properties value is not a Class: {0}={1}";
+        throw new PropertiesException(MessageFormat.format(msg, args));
     }
     
     /**
@@ -614,7 +613,7 @@ public abstract class Configuration {
      * splitted it into substrings at every occurence of ',' character. Each of these substrings
      * will interpreted as class name of which the class will be loaded with the given class
      * loader. If the property is not found, <code>null</code> will be returned. For all other
-     * types and if loading of one of the classes fails a ConfigurationException will be thrown.
+     * types and if loading of one of the classes fails a PropertiesException will be thrown.
      *
      * @param key Property key.
      * @param loader Class loader to load classes with.
@@ -635,16 +634,16 @@ public abstract class Configuration {
                     classes[i] = loader.loadClass(classnames[i]);
                 } catch (ClassNotFoundException ex) {
                     Object[] args = new Object[] {key, new Integer(i), classnames[i]};
-                    String msg = "Could not find class of configuration value: {0}[{1}]={2}";
-                    throw new ConfigurationException(MessageFormat.format(msg, args), ex);
+                    String msg = "Could not find class of properties value: {0}[{1}]={2}";
+                    throw new PropertiesException(MessageFormat.format(msg, args), ex);
                 }
             }
             return classes;
         }
 
         Object[] args = new Object[] {key, objectValue};
-        String msg = "Configuration value is not a Class[]: {0}={1}";
-        throw new ConfigurationException(MessageFormat.format(msg, args));
+        String msg = "Properties value is not a Class[]: {0}={1}";
+        throw new PropertiesException(MessageFormat.format(msg, args));
     }
     
     /**
@@ -672,7 +671,7 @@ public abstract class Configuration {
      * will interpreted as class name of which the class will be loaded with the given class
      * loader and instantiated using its default constructor. If the property is not found,
      * <code>null</code> will be returned. For all other types and if loading or instantiation of
-     * one of the classes fails a ConfigurationException will be thrown.
+     * one of the classes fails a PropertiesException will be thrown.
      *
      * @param key Property key.
      * @param loader Class loader to load classes with.
@@ -698,31 +697,31 @@ public abstract class Configuration {
                 } catch (ClassNotFoundException ex) {
                     Object[] args = new Object[] {key, new Integer(i), classname};
                     String msg = "Could not find configured class: {0}[{1}]={2}";
-                    throw new ConfigurationException(MessageFormat.format(msg, args), ex);
+                    throw new PropertiesException(MessageFormat.format(msg, args), ex);
                 } catch (IllegalAccessException ex) {
                     Object[] args = new Object[] {key, new Integer(i), classname};
                     String msg = "Could not instantiate configured class: {0}[{1}]={2}";
-                    throw new ConfigurationException(MessageFormat.format(msg, args), ex);
+                    throw new PropertiesException(MessageFormat.format(msg, args), ex);
                 } catch (InstantiationException ex) {
                     Object[] args = new Object[] {key, new Integer(i), classname};
                     String msg = "Could not instantiate configured class: {0}[{1}]={2}";
-                    throw new ConfigurationException(MessageFormat.format(msg, args), ex);
+                    throw new PropertiesException(MessageFormat.format(msg, args), ex);
                 } catch (ExceptionInInitializerError ex) {
                     Object[] args = new Object[] {key, new Integer(i), classname};
                     String msg = "Could not instantiate configured class: {0}[{1}]={2}";
-                    throw new ConfigurationException(MessageFormat.format(msg, args), ex);
+                    throw new PropertiesException(MessageFormat.format(msg, args), ex);
                 } catch (SecurityException ex) {
                     Object[] args = new Object[] {key, new Integer(i), classname};
                     String msg = "Could not instantiate configured class: {0}[{1}]={2}";
-                    throw new ConfigurationException(MessageFormat.format(msg, args), ex);
+                    throw new PropertiesException(MessageFormat.format(msg, args), ex);
                 }
             }
             return objects.toArray();
         }
 
         Object[] args = new Object[] {key, objectValue};
-        String msg = "Configuration value is not an Object[]: {0}={1}";
-        throw new ConfigurationException(MessageFormat.format(msg, args));
+        String msg = "Properties value is not an Object[]: {0}={1}";
+        throw new PropertiesException(MessageFormat.format(msg, args));
     }
     
 }
