@@ -22,8 +22,8 @@ import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.util.Configuration;
-import org.castor.cpa.CPAConfiguration;
+import org.castor.core.util.AbstractProperties;
+import org.castor.cpa.CPAProperties;
 
 /**
  * Registry for {@link CacheFactory} implementations obtained from the Castor
@@ -51,14 +51,14 @@ public final class CacheFactoryRegistry {
     //--------------------------------------------------------------------------
 
     /**
-     * Construct an instance of CacheFactoryRegistry that uses given Configuration
+     * Construct an instance of CacheFactoryRegistry that uses given properties
      * to get required configuration properties.
      * 
-     * @param config The Configuration.
+     * @param properties The properties.
      */
-    public CacheFactoryRegistry(final Configuration config) {
-        Object[] objects = config.getObjectArray(
-                CPAConfiguration.CACHE_FACTORIES, config.getApplicationClassLoader());
+    public CacheFactoryRegistry(final AbstractProperties properties) {
+        Object[] objects = properties.getObjectArray(
+                CPAProperties.CACHE_FACTORIES, properties.getApplicationClassLoader());
         for (int i = 0; i < objects.length; i++) {
             CacheFactory factory = (CacheFactory) objects[i];
             _cacheFactories.put(factory.getCacheType(), factory);

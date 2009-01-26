@@ -8,9 +8,9 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.util.Configuration;
+import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
-import org.castor.xml.XMLConfiguration;
+import org.castor.xml.XMLProperties;
 import org.exolab.castor.xml.OutputFormat;
 import org.exolab.castor.xml.Serializer;
 import org.exolab.castor.xml.XMLSerializerFactory;
@@ -177,13 +177,14 @@ public class XMLParserUtils {
         return parser;
     }
     
-    public static Parser getParser(final Configuration configuration, final String features) {
+    public static Parser getParser(final AbstractProperties properties, final String features) {
         Parser parser = null;
-        Boolean validation = configuration.getBoolean(XMLConfiguration.PARSER_VALIDATION);
-        Boolean namespaces = configuration.getBoolean(XMLConfiguration.NAMESPACES);
-        String parserClassName = configuration.getString(XMLConfiguration.PARSER);
+        Boolean validation = properties.getBoolean(XMLProperties.PARSER_VALIDATION);
+        Boolean namespaces = properties.getBoolean(XMLProperties.NAMESPACES);
+        String parserClassName = properties.getString(XMLProperties.PARSER);
         if ((parserClassName == null) || (parserClassName.length() == 0)) {
-            SAXParser saxParser = XMLParserUtils.getSAXParser(validation.booleanValue(), namespaces.booleanValue());
+            SAXParser saxParser = XMLParserUtils.getSAXParser(
+                    validation.booleanValue(), namespaces.booleanValue());
             if (saxParser != null) {
                 try {
                     parser = saxParser.getParser();
@@ -206,8 +207,8 @@ public class XMLParserUtils {
             if (parser instanceof XMLReader) {
                 XMLReader xmlReader = (XMLReader) parser;
                 XMLParserUtils.setFeaturesOnXmlReader(
-                        configuration.getString(XMLConfiguration.PARSER_FEATURES, features),
-                        configuration.getString(XMLConfiguration.PARSER_FEATURES_DISABLED, ""),
+                        properties.getString(XMLProperties.PARSER_FEATURES, features),
+                        properties.getString(XMLProperties.PARSER_FEATURES_DISABLED, ""),
                         validation.booleanValue(),
                         namespaces.booleanValue(),
                         xmlReader);
@@ -219,25 +220,22 @@ public class XMLParserUtils {
     /**
      * @see org.castor.xml.InternalContext#getSerializer()
      */
-    public static Serializer getSerializer(final Configuration configuration) {
+    public static Serializer getSerializer(final AbstractProperties properties) {
         Serializer serializer = getSerializerFactory(
-                configuration.getString(
-                        XMLConfiguration.SERIALIZER_FACTORY)).getSerializer();
-        serializer.setOutputFormat(getOutputFormat(configuration));
+                properties.getString(XMLProperties.SERIALIZER_FACTORY)).getSerializer();
+        serializer.setOutputFormat(getOutputFormat(properties));
         return serializer;
     }
     
     /**
      * @see org.castor.xml.InternalContext#getOutputFormat()
      */
-    public static OutputFormat getOutputFormat(final Configuration configuration) {
+    public static OutputFormat getOutputFormat(final AbstractProperties properties) {
 
-        boolean indent = configuration.getBoolean(XMLConfiguration.USE_INDENTATION, false);
+        boolean indent = properties.getBoolean(XMLProperties.USE_INDENTATION, false);
 
         OutputFormat format = getSerializerFactory(
-                configuration.getString(
-                        XMLConfiguration.SERIALIZER_FACTORY))
-                        .getOutputFormat();
+                properties.getString(XMLProperties.SERIALIZER_FACTORY)).getOutputFormat();
         format.setMethod(OutputFormat.XML);
         format.setIndenting(indent);
         

@@ -51,15 +51,15 @@ import harness.TestHarness;
 
 import jdo.JDOCategory;
 
-import org.castor.core.util.Configuration;
-import org.castor.cpa.CPAConfiguration;
+import org.castor.core.util.AbstractProperties;
+import org.castor.cpa.CPAProperties;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryResults;
 
 public final class TestSynchronizable extends CastorTestCase {
-    private static ArrayList     _synchronizables = new ArrayList();
+    private static ArrayList    _synchronizables = new ArrayList();
 
     private JDOCategory         _category;
     private Database            _db;
@@ -85,9 +85,9 @@ public final class TestSynchronizable extends CastorTestCase {
      * Get a JDO database
      */
     public void setUp() throws PersistenceException, SQLException {
-        Configuration config = CPAConfiguration.getInstance();
-        _oldProperty = config.getObject(CPAConfiguration.TX_SYNCHRONIZABLE);
-        config.put(CPAConfiguration.TX_SYNCHRONIZABLE, SynchronizableImpl.class.getName());
+        AbstractProperties properties = CPAProperties.getInstance();
+        _oldProperty = properties.getObject(CPAProperties.TX_SYNCHRONIZABLE);
+        properties.put(CPAProperties.TX_SYNCHRONIZABLE, SynchronizableImpl.class.getName());
 
         _db = _category.getDatabase();
     }
@@ -160,11 +160,11 @@ public final class TestSynchronizable extends CastorTestCase {
         _synchronizables.clear();
         _db.close();
         
-        Configuration config = CPAConfiguration.getInstance();
+        AbstractProperties properties = CPAProperties.getInstance();
         if (_oldProperty != null) {
-            config.put(CPAConfiguration.TX_SYNCHRONIZABLE, _oldProperty);
+            properties.put(CPAProperties.TX_SYNCHRONIZABLE, _oldProperty);
         } else {
-            config.remove(CPAConfiguration.TX_SYNCHRONIZABLE);
+            properties.remove(CPAProperties.TX_SYNCHRONIZABLE);
         }
     }
 }

@@ -51,9 +51,9 @@ import org.castor.cache.simple.TimeLimited;
 import org.castor.cache.simple.TimeLimitedFactory;
 import org.castor.cache.simple.Unlimited;
 import org.castor.cache.simple.UnlimitedFactory;
-import org.castor.core.util.Configuration;
-import org.castor.core.util.ConfigurationException;
-import org.castor.cpa.CPAConfiguration;
+import org.castor.core.util.AbstractProperties;
+import org.castor.core.util.PropertiesException;
+import org.castor.cpa.CPAProperties;
 
 /**
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
@@ -83,38 +83,38 @@ public final class TestCacheFactoryRegistry extends TestCase {
         Logger logger = Logger.getLogger(CacheFactoryRegistry.class);
         Level level = logger.getLevel();
 
-        assertEquals("org.castor.cache.Factories", CPAConfiguration.CACHE_FACTORIES);
+        assertEquals("org.castor.cache.Factories", CPAProperties.CACHE_FACTORIES);
         
-        Configuration config = CPAConfiguration.newInstance();
-        String memF = config.getString(CPAConfiguration.CACHE_FACTORIES);
+        AbstractProperties properties = CPAProperties.newInstance();
+        String memF = properties.getString(CPAProperties.CACHE_FACTORIES);
         
-        config.remove(CPAConfiguration.CACHE_FACTORIES);
-        new CacheFactoryRegistry(config);
+        properties.remove(CPAProperties.CACHE_FACTORIES);
+        new CacheFactoryRegistry(properties);
         
-        config.put(CPAConfiguration.CACHE_FACTORIES, "");
-        new CacheFactoryRegistry(config);
+        properties.put(CPAProperties.CACHE_FACTORIES, "");
+        new CacheFactoryRegistry(properties);
         
-        config.put(CPAConfiguration.CACHE_FACTORIES, UnlimitedFactory.class.getName());
-        new CacheFactoryRegistry(config);
+        properties.put(CPAProperties.CACHE_FACTORIES, UnlimitedFactory.class.getName());
+        new CacheFactoryRegistry(properties);
         
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 
-        config.put(CPAConfiguration.CACHE_FACTORIES, "org.castor.cache.simple.UnknownFactory");
+        properties.put(CPAProperties.CACHE_FACTORIES, "org.castor.cache.simple.UnknownFactory");
         try {
-            new CacheFactoryRegistry(config);
+            new CacheFactoryRegistry(properties);
             fail("Should have failed to create unknown class.");
-        } catch (ConfigurationException ex) {
+        } catch (PropertiesException ex) {
             assertTrue(true);
         }
         
         logger.setLevel(level);
 
-        config.put(CPAConfiguration.CACHE_FACTORIES, memF);
+        properties.put(CPAProperties.CACHE_FACTORIES, memF);
     }
 
     public void testGetCacheNames() {
-        Configuration config = CPAConfiguration.newInstance();
-        Collection col = new CacheFactoryRegistry(config).getCacheNames();
+        AbstractProperties properties = CPAProperties.newInstance();
+        Collection col = new CacheFactoryRegistry(properties).getCacheNames();
         assertEquals(13, col.size());
         assertTrue(col.contains(CountLimited.TYPE));
         assertTrue(col.contains(NoCache.TYPE));
@@ -132,8 +132,8 @@ public final class TestCacheFactoryRegistry extends TestCase {
     }
 
     public void testGetCacheFactories() {
-        Configuration config = CPAConfiguration.newInstance();
-        Collection col = new CacheFactoryRegistry(config).getCacheFactories();
+        AbstractProperties properties = CPAProperties.newInstance();
+        Collection col = new CacheFactoryRegistry(properties).getCacheFactories();
         assertEquals(13, col.size());
         assertTrue(containsInstanceOf(col, CountLimitedFactory.class));
         assertTrue(containsInstanceOf(col, NoCacheFactory.class));
@@ -163,8 +163,8 @@ public final class TestCacheFactoryRegistry extends TestCase {
         Logger logger = Logger.getLogger(CacheFactoryRegistry.class);
         Level level = logger.getLevel();
         
-        Configuration config = CPAConfiguration.newInstance();
-        _registry = new CacheFactoryRegistry(config);
+        AbstractProperties properties = CPAProperties.newInstance();
+        _registry = new CacheFactoryRegistry(properties);
         
         Cache cache = null;
         

@@ -61,9 +61,9 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.cache.Cache;
 import org.castor.cache.simple.CountLimited;
 import org.castor.cache.simple.TimeLimited;
-import org.castor.core.util.Configuration;
+import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
-import org.castor.cpa.CPAConfiguration;
+import org.castor.cpa.CPAProperties;
 import org.castor.cpa.persistence.convertor.AbstractSimpleTypeConvertor;
 import org.castor.cpa.persistence.convertor.TypeConvertorRegistry;
 import org.castor.jdo.engine.SQLTypeInfos;
@@ -185,8 +185,8 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     public JDOMappingLoader(final ClassLoader loader) {
         super(loader);
 
-        Configuration config = CPAConfiguration.getInstance();
-        _typeConvertorRegistry = new TypeConvertorRegistry(config);
+        AbstractProperties properties = CPAProperties.getInstance();
+        _typeConvertorRegistry = new TypeConvertorRegistry(properties);
     }
     
     /**

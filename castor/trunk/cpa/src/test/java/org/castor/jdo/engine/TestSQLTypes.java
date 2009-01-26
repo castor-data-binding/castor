@@ -50,8 +50,8 @@ import junit.framework.TestCase;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.util.Configuration;
-import org.castor.cpa.CPAConfiguration;
+import org.castor.core.util.AbstractProperties;
+import org.castor.cpa.CPAProperties;
 import org.castor.cpa.persistence.convertor.TypeConvertorRegistry;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.TypeConvertor;
@@ -70,8 +70,8 @@ public final class TestSQLTypes extends TestCase {
         super(arg0);
         
         if (_registry == null) {
-            Configuration config = CPAConfiguration.newInstance();
-            _registry = new TypeConvertorRegistry(config);
+            AbstractProperties properties = CPAProperties.newInstance();
+            _registry = new TypeConvertorRegistry(properties);
         }
     }
 

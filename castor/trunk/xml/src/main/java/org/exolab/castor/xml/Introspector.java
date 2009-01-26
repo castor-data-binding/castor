@@ -56,7 +56,7 @@ import java.util.Vector;
 
 import org.castor.xml.InternalContext;
 import org.castor.xml.JavaNaming;
-import org.castor.xml.XMLConfiguration;
+import org.castor.xml.XMLProperties;
 import org.castor.xml.XMLNaming;
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.FieldHandler;
@@ -221,9 +221,9 @@ public final class Introspector {
             _javaNaming = _internalContext.getJavaNaming();
             _xmlNaming = _internalContext.getXMLNaming();
             setPrimitiveNodeType(_internalContext.getPrimitiveNodeType());
-            _wrapCollectionsInContainer = _internalContext.getBooleanProperty(XMLConfiguration.WRAP_COLLECTIONS_PROPERTY).booleanValue();
+            _wrapCollectionsInContainer = _internalContext.getBooleanProperty(XMLProperties.WRAP_COLLECTIONS_PROPERTY).booleanValue();
             _saveMapKeys = 
-                _internalContext.getBooleanProperty(XMLConfiguration.SAVE_MAP_KEYS).booleanValue();
+                _internalContext.getBooleanProperty(XMLProperties.SAVE_MAP_KEYS).booleanValue();
         }
     } //-- init
 

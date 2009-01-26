@@ -32,9 +32,9 @@ import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.util.Configuration;
+import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
-import org.castor.cpa.CPAConfiguration;
+import org.castor.cpa.CPAProperties;
 import org.castor.jdo.engine.ConnectionFactory;
 import org.castor.jdo.engine.DatabaseRegistry;
 import org.castor.jdo.engine.SQLTypeInfos;
@@ -82,8 +82,8 @@ public class SQLStatementCreate {
         
         _keyGen = getKeyGenerator(engine, factory);
 
-        Configuration config = CPAConfiguration.getInstance();
-        _useJDBC30 = config.getBoolean(CPAConfiguration.USE_JDBC30, false);
+        AbstractProperties properties = CPAProperties.getInstance();
+        _useJDBC30 = properties.getBoolean(CPAProperties.USE_JDBC30, false);
         
         _lookupStatement = new SQLStatementLookup(engine, factory);
         

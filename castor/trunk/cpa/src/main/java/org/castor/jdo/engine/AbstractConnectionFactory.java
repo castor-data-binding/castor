@@ -22,9 +22,9 @@ import javax.transaction.TransactionManager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.util.Configuration;
+import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
-import org.castor.cpa.CPAConfiguration;
+import org.castor.cpa.CPAProperties;
 import org.castor.jdo.conf.Database;
 import org.castor.jdo.conf.JdoConf;
 import org.castor.jdo.util.JDOConfAdapter;
@@ -142,8 +142,8 @@ public abstract class AbstractConnectionFactory implements ConnectionFactory {
             String txm = adapt.getTransactionManager();
             Properties prop = adapt.getTransactionManagerParameters();
             
-            Configuration conf = CPAConfiguration.getInstance();
-            TransactionManagerRegistry txr = new TransactionManagerRegistry(conf);
+            AbstractProperties properties = CPAProperties.getInstance();
+            TransactionManagerRegistry txr = new TransactionManagerRegistry(properties);
             try {
                 txr.registerTransactionManager(name, txm, prop);
                 _txManager = txr.getTransactionManager(name);

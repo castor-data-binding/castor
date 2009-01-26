@@ -17,81 +17,77 @@
  */
 package org.castor.xml;
 
-import org.castor.core.CoreConfiguration;
-import org.castor.core.util.CastorConfiguration;
-import org.castor.core.util.Configuration;
+import org.castor.core.CoreProperties;
+import org.castor.core.util.CastorProperties;
+import org.castor.core.util.AbstractProperties;
 
 /**
- * Castor configuration of XML modul.
+ * Properties of XML modul.
  * 
  * @version $Id: Configuration.java,v 1.8 2006/03/08 17:25:52 jens Exp $
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @since 1.1.3
  */
-public final class XMLConfiguration extends Configuration {
+public final class XMLProperties extends AbstractProperties {
     //--------------------------------------------------------------------------
 
-    /** Path to Castor configuration of core modul. */
+    /** Path to Castor properties of core modul. */
     private static final String FILEPATH = "/org/castor/xml/";
 
-    /** Name of Castor configuration of core modul. */
+    /** Name of Castor properties of core modul. */
     private static final String FILENAME = "castor.xml.properties";
     
-    /** A static configuration instance to be used during migration to a none static one. */
-    // TODO Remove property after support for static configuration has been terminated.
-    private static Configuration _instance = null;
-
     //--------------------------------------------------------------------------
     
     /**
-     * Factory method for a default XML configuration instance. Application and domain class
-     * loaders will be initialized to the one used to load the Configuration class. The
-     * configuration instance returned will be a CastorConfiguration with a XMLConfiguration and
-     * a CoreConfiguration instance as parents. The CastorConfiguration holding user specific
-     * properties is the only one that can be modified by put() and remove() methods.
-     * XMLConfiguration and CoreConfiguration are responsible to deliver Castor's default values
-     * if they have not been overwritten by the user.
+     * Factory method for a default XML properties instance. Application and domain class
+     * loaders will be initialized to the one used to load this class. The properties instance
+     * returned will be a CastorProperties with a XMLProperties and a CoreProperties instance
+     * as parents. The CastorProperties holding user specific properties is the only one that
+     * can be modified by put() and remove() methods. XMLProperties and CoreProperties are
+     * responsible to deliver Castor's default values if they have not been overwritten by the
+     * user.
      * 
-     * @return Configuration instance for Castor XML module.
+     * @return Properties instance for Castor XML module.
      */
-    public static Configuration newInstance() {
-        Configuration core = new CoreConfiguration();
-        Configuration xml = new XMLConfiguration(core);
-        Configuration castor = new CastorConfiguration(xml);
+    public static AbstractProperties newInstance() {
+        AbstractProperties core = new CoreProperties();
+        AbstractProperties xml = new XMLProperties(core);
+        AbstractProperties castor = new CastorProperties(xml);
         return castor;
     }
     
     /**
-     * Factory method for a XML configuration instance that uses the specified class loaders. The
-     * configuration instance returned will be a CastorConfiguration with a XMLConfiguration and
-     * a CoreConfiguration instance as parents. The CastorConfiguration holding user specific
+     * Factory method for a XML properties instance that uses the specified class loaders. The
+     * properties instance returned will be a CastorProperties with a XMLProperties and
+     * a CoreProperties instance as parents. The CastorProperties holding user specific
      * properties is the only one that can be modified by put() and remove() methods.
-     * XMLConfiguration and CoreConfiguration are responsble to deliver Castor's default values
+     * XMLProperties and CoreProperties are responsble to deliver Castor's default values
      * if they have not been overwritten by the user.
      * 
      * @param app Classloader to be used for all classes of Castor and its required libraries.
      * @param domain Classloader to be used for all domain objects.
-     * @return Configuration instance for Castor XML modul.
+     * @return Properties instance for Castor XML modul.
      */
-    public static Configuration newInstance(final ClassLoader app, final ClassLoader domain) {
-        Configuration core = new CoreConfiguration(app, domain);
-        Configuration xml = new XMLConfiguration(core);
-        Configuration castor = new CastorConfiguration(xml);
+    public static AbstractProperties newInstance(final ClassLoader app, final ClassLoader domain) {
+        AbstractProperties core = new CoreProperties(app, domain);
+        AbstractProperties xml = new XMLProperties(core);
+        AbstractProperties castor = new CastorProperties(xml);
         return castor;
     }
     
     //--------------------------------------------------------------------------
 
     /**
-     * Construct a configuration with given parent. Application and domain class loaders will be
+     * Construct properties with given parent. Application and domain class loaders will be
      * initialized to the ones of the parent. 
      * <br/>
      * Note: This constructor is not intended for public use. Use one of the newInstance() methods
      * instead.
      * 
-     * @param parent Parent configuration.
+     * @param parent Parent properties.
      */
-    public XMLConfiguration(final Configuration parent) {
+    public XMLProperties(final AbstractProperties parent) {
         super(parent);
         loadDefaultProperties(FILEPATH, FILENAME);
     }

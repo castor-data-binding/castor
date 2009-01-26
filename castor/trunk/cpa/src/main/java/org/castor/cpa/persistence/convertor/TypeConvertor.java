@@ -15,7 +15,7 @@
  */
 package org.castor.cpa.persistence.convertor;
 
-import org.castor.core.util.Configuration;
+import org.castor.core.util.AbstractProperties;
 
 /**
  * Interface for a type convertor. A type convertor converts a Java object from one
@@ -32,9 +32,9 @@ public interface TypeConvertor extends org.exolab.castor.mapping.TypeConvertor, 
     /**
      * Configure the converter with given configuration.
      * 
-     * @param configuration Configuration to use.
+     * @param properties Properties to use.
      */
-    void configure(Configuration configuration);
+    void configure(AbstractProperties properties);
     
     /**
      * Initialize the converter with the given parameter. If no parameter is available the method

@@ -23,8 +23,8 @@ import javax.transaction.TransactionManager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.util.Configuration;
-import org.castor.cpa.CPAConfiguration;
+import org.castor.core.util.AbstractProperties;
+import org.castor.cpa.CPAProperties;
 
 /**
  * Registry for {@link TransactionManager} instances obtained by their name.
@@ -126,13 +126,13 @@ public final class TransactionManagerRegistry {
      * Construct an instance of TransactionManagerRegistry that uses given
      * LocalConfiguration to get required configuration properties.
      * 
-     * @param config The LocalConfiguration.
+     * @param properties The properties.
      */
-    public TransactionManagerRegistry(final Configuration config) {
-        _registry = new TransactionManagerFactoryRegistry(config);
+    public TransactionManagerRegistry(final AbstractProperties properties) {
+        _registry = new TransactionManagerFactoryRegistry(properties);
 
-        _initializationAtRegistration = config.getBoolean(
-                CPAConfiguration.TRANSACTION_MANAGER_INIT, false);
+        _initializationAtRegistration = properties.getBoolean(
+                CPAProperties.TRANSACTION_MANAGER_INIT, false);
     }
 
     //--------------------------------------------------------------------------

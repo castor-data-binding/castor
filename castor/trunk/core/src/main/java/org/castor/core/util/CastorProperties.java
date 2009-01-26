@@ -17,32 +17,31 @@
  */
 package org.castor.core.util;
 
-
 /**
- * Castor configuration holding user properties.
+ * Properties class holding user properties.
  * 
  * @version $Id: Configuration.java,v 1.8 2006/03/08 17:25:52 jens Exp $
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @since 1.1.3
  */
-public final class CastorConfiguration extends Configuration {
+public final class CastorProperties extends AbstractProperties {
     //--------------------------------------------------------------------------
 
-    /** Name of common Castor configuration file. */
+    /** Name of common Castor properties file. */
     private static final String FILENAME = "castor.properties";
 
     //--------------------------------------------------------------------------
 
     /**
-     * Construct a configuration with given parent. Application and domain class loaders will be
+     * Construct properties with given parent. Application and domain class loaders will be
      * initialized to the ones of the parent. 
      * <br/>
      * Note: This constructor is not intended for public use. Use one of the newInstance() methods
      * instead.
      * 
-     * @param parent Parent configuration.
+     * @param parent Parent properties.
      */
-    public CastorConfiguration(final Configuration parent) {
+    public CastorProperties(final AbstractProperties parent) {
         super(parent);
         loadUserProperties(FILENAME);
     }

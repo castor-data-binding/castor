@@ -63,8 +63,8 @@ public abstract class AbstractInternalContext implements InternalContext {
     /** Logger to be used. */
     private static final Log LOG = LogFactory.getFactory().getInstance(AbstractInternalContext.class);
 
-    /** The configuration to use internally to provide parser, serializer, ... */
-    private org.castor.core.util.Configuration _configuration;
+    /** The properties to use internally to provide parser, serializer, ... */
+    private org.castor.core.util.AbstractProperties _properties;
     
     /**
      * {@link XMLClassDescriptorResolver} instance used for caching XML-related
@@ -118,7 +118,7 @@ public abstract class AbstractInternalContext implements InternalContext {
      * those values...
      */
     public AbstractInternalContext() {
-        _configuration = XMLConfiguration.newInstance();
+        _properties = XMLProperties.newInstance();
         _javaNaming = new JavaNamingImpl();
     }
     
@@ -171,14 +171,14 @@ public abstract class AbstractInternalContext implements InternalContext {
      * @see org.castor.xml.InternalContext#setProperty(java.lang.String, java.lang.Object)
      */
     public void setProperty(final String propertyName, final Object value) {
-        _configuration.put(propertyName, value);
+        _properties.put(propertyName, value);
     }
 
     /**
      * @see org.castor.xml.InternalContext#getProperty(java.lang.String)
      */
     public Object getProperty(final String propertyName) {
-        return _configuration.getObject(propertyName);
+        return _properties.getObject(propertyName);
     }
 
     /**
@@ -197,7 +197,7 @@ public abstract class AbstractInternalContext implements InternalContext {
             return _xmlNaming;
         }
         
-        String prop = _configuration.getString(XMLConfiguration.XML_NAMING, null);
+        String prop = _properties.getString(XMLProperties.XML_NAMING, null);
         if ((prop == null) || (prop.equalsIgnoreCase("lower"))) {
             _xmlNaming = new DefaultNaming();
         } else if (prop.equalsIgnoreCase("mixed")) {
@@ -238,7 +238,7 @@ public abstract class AbstractInternalContext implements InternalContext {
      * @see org.castor.xml.InternalContext#getParser(java.lang.String)
      */
     public Parser getParser(final String features) {
-        return XMLParserUtils.getParser(_configuration, features);
+        return XMLParserUtils.getParser(_properties, features);
     }
 
     /**
@@ -253,10 +253,10 @@ public abstract class AbstractInternalContext implements InternalContext {
      */
     public XMLReader getXMLReader(final String features) {
         XMLReader reader = null;
-        Boolean validation = _configuration.getBoolean(XMLConfiguration.PARSER_VALIDATION);
-        Boolean namespaces = _configuration.getBoolean(XMLConfiguration.NAMESPACES);
+        Boolean validation = _properties.getBoolean(XMLProperties.PARSER_VALIDATION);
+        Boolean namespaces = _properties.getBoolean(XMLProperties.NAMESPACES);
         
-        String readerClassName = _configuration.getString(XMLConfiguration.PARSER);
+        String readerClassName = _properties.getString(XMLProperties.PARSER);
         
         if (readerClassName == null || readerClassName.length() == 0) {
             SAXParser saxParser = 
@@ -282,8 +282,8 @@ public abstract class AbstractInternalContext implements InternalContext {
         }
 
         XMLParserUtils.setFeaturesOnXmlReader(
-            _configuration.getString(XMLConfiguration.PARSER_FEATURES, features),
-            _configuration.getString(XMLConfiguration.PARSER_FEATURES_DISABLED, ""),
+            _properties.getString(XMLProperties.PARSER_FEATURES, features),
+            _properties.getString(XMLProperties.PARSER_FEATURES_DISABLED, ""),
             validation.booleanValue(), 
             namespaces.booleanValue(),
             reader);
@@ -301,7 +301,7 @@ public abstract class AbstractInternalContext implements InternalContext {
             return _primitiveNodeType;
         }
             
-        String prop = _configuration.getString(XMLConfiguration.PRIMITIVE_NODE_TYPE, null);
+        String prop = _properties.getString(XMLProperties.PRIMITIVE_NODE_TYPE, null);
         if (prop == null) {
             return null;
         }
@@ -319,7 +319,7 @@ public abstract class AbstractInternalContext implements InternalContext {
         }
         
         String className = 
-            _configuration.getString(XMLConfiguration.REG_EXP_CLASS_NAME, "");
+            _properties.getString(XMLProperties.REG_EXP_CLASS_NAME, "");
         if (className.length() == 0) {
             _regExpEvaluator = null;
         } else {
@@ -344,13 +344,13 @@ public abstract class AbstractInternalContext implements InternalContext {
      * @see org.castor.xml.InternalContext#getSerializer()
      */
     public Serializer getSerializer() {
-        return XMLParserUtils.getSerializer(_configuration);
+        return XMLParserUtils.getSerializer(_properties);
     }
     /**
      * @see org.castor.xml.InternalContext#getOutputFormat()
      */
     public OutputFormat getOutputFormat() {
-        return XMLParserUtils.getOutputFormat(_configuration);
+        return XMLParserUtils.getOutputFormat(_properties);
     }
     
     /**
@@ -457,21 +457,21 @@ public abstract class AbstractInternalContext implements InternalContext {
      * @see org.castor.xml.InternalContext#setProperty(java.lang.String, boolean)
      */
     public void setProperty(final String propertyName, final boolean value) {
-        _configuration.put(propertyName, Boolean.valueOf(value));
+        _properties.put(propertyName, Boolean.valueOf(value));
     }
     
     /**
      * @see org.castor.xml.InternalContext#getBooleanProperty(java.lang.String)
      */
     public Boolean getBooleanProperty(final String propertyName) {
-        return _configuration.getBoolean(propertyName);
+        return _properties.getBoolean(propertyName);
     }
 
     /**
      * @see org.castor.xml.InternalContext#getStringProperty(java.lang.String)
      */
     public String getStringProperty(final String propertyName) {
-        return _configuration.getString(propertyName);
+        return _properties.getString(propertyName);
     }
 
     /**
@@ -511,7 +511,7 @@ public abstract class AbstractInternalContext implements InternalContext {
      */
     public boolean getLenientIdValidation() {
         Boolean lenientIdValidation = 
-            _configuration.getBoolean(XMLConfiguration.LENIENT_ID_VALIDATION);
+            _properties.getBoolean(XMLProperties.LENIENT_ID_VALIDATION);
         if (lenientIdValidation == null) {
             String message = "Property lenientIdValidation must not be null";
             LOG.warn(message);
@@ -525,7 +525,7 @@ public abstract class AbstractInternalContext implements InternalContext {
      */
     public boolean getLenientSequenceOrder() {
         Boolean lenientSequenceOrder = 
-            _configuration.getBoolean(XMLConfiguration.LENIENT_SEQUENCE_ORDER);
+            _properties.getBoolean(XMLProperties.LENIENT_SEQUENCE_ORDER);
         if (lenientSequenceOrder == null) {
             String message = "Property lenientSequenceOrder must not be null";
             LOG.warn(message);
@@ -538,28 +538,28 @@ public abstract class AbstractInternalContext implements InternalContext {
      * @see org.castor.xml.InternalContext#getLoadPackageMapping()
      */
     public Boolean getLoadPackageMapping() {
-        return _configuration.getBoolean(XMLConfiguration.LOAD_PACKAGE_MAPPING);
+        return _properties.getBoolean(XMLProperties.LOAD_PACKAGE_MAPPING);
     }
     
     /**
      * @see org.castor.xml.InternalContext#setLoadPackageMapping(java.lang.Boolean)
      */
     public void setLoadPackageMapping(final Boolean loadPackageMapping) {
-        _configuration.put(XMLConfiguration.LOAD_PACKAGE_MAPPING, loadPackageMapping);
+        _properties.put(XMLProperties.LOAD_PACKAGE_MAPPING, loadPackageMapping);
     }
 
     /**
      * @see org.castor.xml.InternalContext#getUseIntrospector()
      */
     public Boolean getUseIntrospector() {
-        return _configuration.getBoolean(XMLConfiguration.USE_INTROSPECTION);
+        return _properties.getBoolean(XMLProperties.USE_INTROSPECTION);
     }
 
     /**
      * @see org.castor.xml.InternalContext#setUseIntrospector(java.lang.Boolean)
      */
     public void setUseIntrospector(final Boolean useIntrospector) {
-        _configuration.put(XMLConfiguration.USE_INTROSPECTION, useIntrospector);
+        _properties.put(XMLProperties.USE_INTROSPECTION, useIntrospector);
     }
 
     /**
@@ -567,7 +567,7 @@ public abstract class AbstractInternalContext implements InternalContext {
      */
     public boolean marshallingValidation() {
         Boolean marshallingValidation = 
-            _configuration.getBoolean(XMLConfiguration.MARSHALLING_VALIDATION);
+            _properties.getBoolean(XMLProperties.MARSHALLING_VALIDATION);
         if (marshallingValidation == null) {
             String message = "Property marshallingValidation must not be null";
             LOG.warn(message);
@@ -581,7 +581,7 @@ public abstract class AbstractInternalContext implements InternalContext {
      */
     public boolean strictElements() {
         Boolean strictElements = 
-            _configuration.getBoolean(XMLConfiguration.STRICT_ELEMENTS);
+            _properties.getBoolean(XMLProperties.STRICT_ELEMENTS);
         if (strictElements == null) {
             String message = "Property strictElements must not be null";
             LOG.warn(message);

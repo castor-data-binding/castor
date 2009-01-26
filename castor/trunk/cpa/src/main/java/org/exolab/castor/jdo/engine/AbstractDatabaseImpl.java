@@ -19,9 +19,9 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.castor.core.util.Configuration;
+import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
-import org.castor.cpa.CPAConfiguration;
+import org.castor.cpa.CPAProperties;
 import org.castor.jdo.engine.AbstractConnectionFactory;
 import org.castor.jdo.engine.DatabaseRegistry;
 import org.castor.persist.ProposedEntity;
@@ -436,9 +436,9 @@ public abstract class AbstractDatabaseImpl implements Database {
         if (_synchronizables == null) {
             _synchronizables = new ArrayList < TxSynchronizable > ();
             
-            Configuration config = CPAConfiguration.getInstance();
-            Object[] objects = config.getObjectArray(
-                    CPAConfiguration.TX_SYNCHRONIZABLE, config.getApplicationClassLoader());
+            AbstractProperties properties = CPAProperties.getInstance();
+            Object[] objects = properties.getObjectArray(
+                    CPAProperties.TX_SYNCHRONIZABLE, properties.getApplicationClassLoader());
             if (objects != null) {
                 for (int i = 0; i < objects.length; i++) {
                     TxSynchronizable sync = (TxSynchronizable) objects[i];

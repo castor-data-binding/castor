@@ -17,7 +17,7 @@ package org.castor.cpa.persistence.convertor;
 
 import java.math.BigDecimal;
 
-import org.castor.core.util.Configuration;
+import org.castor.core.util.AbstractProperties;
 
 /**
  * Convert <code>Boolean</code> to <code>BigDecimal</code>.
@@ -49,7 +49,7 @@ public final class BooleanToBigDecimal extends AbstractTypeConvertor {
     /**
      * {@inheritDoc}
      */
-    public void configure(final Configuration configuration) { }
+    public void configure(final AbstractProperties properties) { }
     
     /**
      * {@inheritDoc}

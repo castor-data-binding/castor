@@ -49,8 +49,8 @@ import java.util.Hashtable;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.util.Configuration;
-import org.castor.cpa.CPAConfiguration;
+import org.castor.core.util.AbstractProperties;
+import org.castor.cpa.CPAProperties;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 
 /**
@@ -108,9 +108,9 @@ public final class PersistenceFactoryRegistry {
         if (_factories == null) {
             _factories = new Hashtable();
 
-            Configuration config = CPAConfiguration.getInstance();
-            Object[] objects = config.getObjectArray(
-                    CPAConfiguration.PERSISTENCE_FACTORIES, config.getApplicationClassLoader());
+            AbstractProperties properties = CPAProperties.getInstance();
+            Object[] objects = properties.getObjectArray(
+                    CPAProperties.PERSISTENCE_FACTORIES, properties.getApplicationClassLoader());
             for (int i = 0; i < objects.length; i++) {
                 PersistenceFactory factory = (PersistenceFactory) objects[i];
                 _factories.put(factory.getFactoryName(), factory);

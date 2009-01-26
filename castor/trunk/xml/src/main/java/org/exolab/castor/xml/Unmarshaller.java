@@ -58,7 +58,7 @@ import org.castor.mapping.MappingUnmarshaller;
 import org.castor.xml.BackwardCompatibilityContext;
 import org.castor.xml.InternalContext;
 import org.castor.xml.UnmarshalListenerAdapter;
-import org.castor.xml.XMLConfiguration;
+import org.castor.xml.XMLProperties;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingLoader;
@@ -965,7 +965,7 @@ public class Unmarshaller {
     }
 
     /**
-     * Derive class-level properties from {@link XMLConfiguration} as defined
+     * Derive class-level properties from {@link XMLProperties} as defined
      * {@link InternalContext}. This method will be called after a new {@link InternalContext}
      * has been set.
      * @link #setInternalContext(InternalContext)
@@ -976,7 +976,7 @@ public class Unmarshaller {
         
         //-- process namespace to package mappings
         String mappings = 
-            _internalContext.getStringProperty(XMLConfiguration.NAMESPACE_PACKAGE_MAPPINGS);
+            _internalContext.getStringProperty(XMLProperties.NAMESPACE_PACKAGE_MAPPINGS);
         if (mappings != null && mappings.length() > 0) {
             StringTokenizer tokens = new StringTokenizer(mappings, ",");
             while (tokens.hasMoreTokens()) {

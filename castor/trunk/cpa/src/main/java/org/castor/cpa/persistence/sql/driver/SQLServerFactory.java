@@ -44,8 +44,8 @@
  */
 package org.castor.cpa.persistence.sql.driver;
 
-import org.castor.core.util.Configuration;
-import org.castor.cpa.CPAConfiguration;
+import org.castor.core.util.AbstractProperties;
+import org.castor.cpa.CPAProperties;
 import org.exolab.castor.persist.spi.QueryExpression;
 
 /**
@@ -64,9 +64,9 @@ public final class SQLServerFactory extends SybaseFactory {
     }
 
     public QueryExpression getQueryExpression() {
-        Configuration config = CPAConfiguration.getInstance();
-        boolean useNewSyntaxForSQLServer = config.getBoolean(
-                CPAConfiguration.MSSQL_ANSI_COMPLIANT, false);
+        AbstractProperties properties = CPAProperties.getInstance();
+        boolean useNewSyntaxForSQLServer = properties.getBoolean(
+                CPAProperties.MSSQL_ANSI_COMPLIANT, false);
         
         if (useNewSyntaxForSQLServer) {
             return new JDBCQueryExpression(this);

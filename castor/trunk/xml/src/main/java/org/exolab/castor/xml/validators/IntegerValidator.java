@@ -44,7 +44,7 @@
  */
 package org.exolab.castor.xml.validators;
 
-import org.castor.xml.XMLConfiguration;
+import org.castor.xml.XMLProperties;
 import org.exolab.castor.xml.TypeValidator;
 import org.exolab.castor.xml.ValidationContext;
 import org.exolab.castor.xml.ValidationException;
@@ -414,7 +414,7 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
             value = ((Long) object).longValue();
         } catch (Exception ex) {
             String lenientProperty = context.getInternalContext()
-                .getStringProperty(XMLConfiguration.LENIENT_INTEGER_VALIDATION);
+                .getStringProperty(XMLProperties.LENIENT_INTEGER_VALIDATION);
             if (Boolean.valueOf(lenientProperty).booleanValue()) {
                 try {
                     value = ((Integer) object).longValue();

@@ -21,8 +21,8 @@ import junit.framework.TestSuite;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.castor.core.util.Configuration;
-import org.castor.cpa.CPAConfiguration;
+import org.castor.core.util.AbstractProperties;
+import org.castor.cpa.CPAProperties;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
@@ -49,18 +49,18 @@ public final class TestTransactionManagerFactoryRegistry extends TestCase {
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 
         assertEquals("org.castor.transactionmanager.Factories",
-                CPAConfiguration.TRANSACTION_MANAGER_FACTORIES);
+                CPAProperties.TRANSACTION_MANAGER_FACTORIES);
         
         Object temp = new TransactionManagerFactoryDummy();
         
-        Configuration config = CPAConfiguration.newInstance();
-        Object mem = config.getObject(CPAConfiguration.TRANSACTION_MANAGER_FACTORIES);
-        config.put(CPAConfiguration.TRANSACTION_MANAGER_FACTORIES,
+        AbstractProperties properties = CPAProperties.newInstance();
+        Object mem = properties.getObject(CPAProperties.TRANSACTION_MANAGER_FACTORIES);
+        properties.put(CPAProperties.TRANSACTION_MANAGER_FACTORIES,
                 "org.castor.transactionmanager.LocalTransactionManagerFactory, "
                 + TransactionManagerFactoryDummy.class.getName());
         
         TransactionManagerFactoryRegistry registry;
-        registry = new TransactionManagerFactoryRegistry(config);
+        registry = new TransactionManagerFactoryRegistry(properties);
         
         String[] names = registry.getTransactionManagerFactoryNames();
         assertEquals(2, names.length);
@@ -83,7 +83,7 @@ public final class TestTransactionManagerFactoryRegistry extends TestCase {
             fail("Unexpected TransactionManagerAcquireException.");
         }
         
-        config.put(CPAConfiguration.TRANSACTION_MANAGER_FACTORIES, mem);
+        properties.put(CPAProperties.TRANSACTION_MANAGER_FACTORIES, mem);
 
         logger.setLevel(level);
     }

@@ -17,98 +17,98 @@
  */
 package org.castor.cpa;
 
-import org.castor.core.CoreConfiguration;
-import org.castor.core.util.CastorConfiguration;
-import org.castor.core.util.Configuration;
-import org.castor.xml.XMLConfiguration;
+import org.castor.core.CoreProperties;
+import org.castor.core.util.CastorProperties;
+import org.castor.core.util.AbstractProperties;
+import org.castor.xml.XMLProperties;
 
 /**
- * Castor configuration of CPA modul.
+ * Properties of CPA modul.
  * 
  * @version $Id: Configuration.java,v 1.8 2006/03/08 17:25:52 jens Exp $
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @since 1.1.3
  */
-public final class CPAConfiguration extends Configuration {
+public final class CPAProperties extends AbstractProperties {
     //--------------------------------------------------------------------------
 
-    /** Path to Castor configuration of core modul. */
+    /** Path to Castor properties of core modul. */
     private static final String FILEPATH = "/org/castor/cpa/";
 
-    /** Name of Castor configuration of core modul. */
+    /** Name of Castor properties of core modul. */
     private static final String FILENAME = "castor.cpa.properties";
     
-    /** A static configuration instance to be used during migration to a none static one. */
+    /** A static properties instance to be used during migration to a none static one. */
     // TODO Remove property after support for static configuration has been terminated.
-    private static Configuration _instance = null;
+    private static AbstractProperties _instance = null;
 
     //--------------------------------------------------------------------------
     
     /**
-     * Get the one and only static CPA configuration.
+     * Get the one and only static CPA properties.
      * 
-     * @return One and only configuration instance for Castor CPA modul.
-     * @deprecated Don't limit your applications flexibility by using a static configuration. Use
-     *             your own configuration instance created with one of the newInstance() methods
+     * @return One and only properties instance for Castor CPA modul.
+     * @deprecated Don't limit your applications flexibility by using static properties. Use
+     *             your own properties instance created with one of the newInstance() methods
      *             instead.
      */
-    // TODO Remove method after support for static configuration has been terminated.
-    public static synchronized Configuration getInstance() {
+    // TODO Remove method after support for static properties has been terminated.
+    public static synchronized AbstractProperties getInstance() {
         if (_instance == null) { _instance = newInstance(); }
         return _instance;
     }
     
     /**
-     * Factory method for a default CPA configuration instance. Application and domain class
-     * loaders will be initialized to the one used to load the Configuration class. The
-     * configuration instance returned will be a CastorConfiguration with a CPAConfiguration, a
-     * XMLConfiguration and a CoreConfiguration instance as parents. The CastorConfiguration
-     * holding user specific properties is the only one that can be modified by put() and remove()
-     * methods. CPAConfiguration, XMLConfiguration and CoreConfiguration are responsble to deliver
-     * Castor's default values if they have not been overwritten by the user.
+     * Factory method for a default CPA properties instance. Application and domain class
+     * loaders will be initialized to the one used to load this class. The properties instance
+     * returned will be a CastorProperties with a CPAProperties, a XMLProperties and a
+     * CoreProperties instance as parents. The CastorProperties holding user specific properties
+     * is the only one that can be modified by put() and remove() methods. CPAProperties,
+     * XMLProperties and CoreProperties are responsble to deliver Castor's default values if they
+     * have not been overwritten by the user.
      * 
-     * @return Configuration instance for Castor CPA modul.
+     * @return Properties instance for Castor CPA modul.
      */
-    public static Configuration newInstance() {
-        Configuration core = new CoreConfiguration();
-        Configuration cpa = new CPAConfiguration(core);
-        Configuration xml = new XMLConfiguration(cpa);
-        Configuration castor = new CastorConfiguration(xml);
+    public static AbstractProperties newInstance() {
+        AbstractProperties core = new CoreProperties();
+        AbstractProperties cpa = new CPAProperties(core);
+        AbstractProperties xml = new XMLProperties(cpa);
+        AbstractProperties castor = new CastorProperties(xml);
         return castor;
     }
     
     /**
-     * Factory method for a CPA configuration instance that uses the specified class loaders. The
-     * configuration instance returned will be a CastorConfiguration with a CPAConfiguration, a
-     * XMLConfiguration and a CoreConfiguration instance as parents. The CastorConfiguration
+     * Factory method for a CPA properties instance that uses the specified class loaders. The
+     * properties instance returned will be a CastorProperties with a CPAProperties, a
+     * XMLProperties and a CoreProperties instance as parents. The CastorProperties
      * holding user specific properties is the only one that can be modified by put() and remove()
-     * methods. CPAConfiguration, XMLConfiguration and CoreConfiguration are responsble to deliver
+     * methods. CPAProperties, XMLProperties and CoreProperties are responsble to deliver
      * Castor's default values if they have not been overwritten by the user.
      * 
      * @param app Classloader to be used for all classes of Castor and its required libraries.
      * @param domain Classloader to be used for all domain objects.
-     * @return Configuration instance for Castor CPA modul.
+     * @return Properties instance for Castor CPA modul.
      */
-    public static Configuration newInstance(final ClassLoader app, final ClassLoader domain) {
-        Configuration core = new CoreConfiguration(app, domain);
-        Configuration cpa = new CPAConfiguration(core);
-        Configuration xml = new XMLConfiguration(cpa);
-        Configuration castor = new CastorConfiguration(xml);
+    public static AbstractProperties newInstance(final ClassLoader app, final ClassLoader domain) {
+        AbstractProperties core = new CoreProperties(app, domain);
+        AbstractProperties cpa = new CPAProperties(core);
+        AbstractProperties xml = new XMLProperties(cpa);
+        AbstractProperties castor = new CastorProperties(xml);
         return castor;
     }
     
     //--------------------------------------------------------------------------
 
     /**
-     * Construct a configuration with given parent. Application and domain class loaders will be
+     * Construct properties with given parent. Application and domain class loaders will be
      * initialized to the ones of the parent. 
      * <br/>
      * Note: This constructor is not intended for public use. Use one of the newInstance() methods
      * instead.
      * 
-     * @param parent Parent configuration.
+     * @param parent Parent properties.
      */
-    public CPAConfiguration(final Configuration parent) {
+    public CPAProperties(final AbstractProperties parent) {
         super(parent);
         loadDefaultProperties(FILEPATH, FILENAME);
     }

@@ -73,7 +73,7 @@ public abstract class AbstractXMLNaming implements XMLNaming {
     
     /**
      * Returns the default instance of XMLNaming.
-     * @see org.exolab.castor.util.Configuration
+     * @see org.exolab.castor.util.AbstractProperties
     **/
     public static final XMLNaming getInstance() {
         return new BackwardCompatibilityContext().getXMLNaming(); 

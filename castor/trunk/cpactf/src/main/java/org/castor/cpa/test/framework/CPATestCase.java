@@ -1,7 +1,7 @@
 package org.castor.cpa.test.framework;
 
-import org.castor.core.util.Configuration;
-import org.castor.cpa.CPAConfiguration;
+import org.castor.core.util.AbstractProperties;
+import org.castor.cpa.CPAProperties;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.castor.jdo.conf.JdoConf;
 import org.castor.jdo.engine.DatabaseRegistry;
@@ -66,8 +66,8 @@ public abstract class CPATestCase extends TestCase {
     
     //--------------------------------------------------------------------------
     
-    public static Configuration getConfiguration() {
-        return CPAConfiguration.getInstance();
+    public static AbstractProperties getProperties() {
+        return CPAProperties.getInstance();
     }
 
     public static final String getJdoConfBaseURL() {

@@ -6,7 +6,7 @@ import java.io.StringWriter;
 import junit.framework.TestCase;
 import net.sf.cglib.proxy.Factory;
 
-import org.castor.xml.XMLConfiguration;
+import org.castor.xml.XMLProperties;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
@@ -145,7 +145,7 @@ public final class Test1342 extends TestCase {
      */
     public void testMarshalSimpleBeanProxy() throws Exception {
         XMLContext xmlContext = new XMLContext();
-        xmlContext.setProperty(XMLConfiguration.PROXY_INTERFACES, "net.sf.cglib.proxy.Factory");
+        xmlContext.setProperty(XMLProperties.PROXY_INTERFACES, "net.sf.cglib.proxy.Factory");
         
         Mapping mapping = xmlContext.createMapping();
         mapping.loadMapping(getClass().getResource(MAPPING_FILE).toExternalForm());
@@ -199,7 +199,7 @@ public final class Test1342 extends TestCase {
      */
     public void testMarshalReferingBeanProxy() throws Exception {
         XMLContext xmlContext = new XMLContext();
-        xmlContext.setProperty(XMLConfiguration.PROXY_INTERFACES, "net.sf.cglib.proxy.Factory");
+        xmlContext.setProperty(XMLProperties.PROXY_INTERFACES, "net.sf.cglib.proxy.Factory");
         
         Mapping mapping = xmlContext.createMapping();
         mapping.loadMapping(getClass().getResource(MAPPING_FILE).toExternalForm());

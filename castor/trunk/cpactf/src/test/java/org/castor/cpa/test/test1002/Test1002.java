@@ -17,8 +17,8 @@ package org.castor.cpa.test.test1002;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.util.Configuration;
-import org.castor.cpa.CPAConfiguration;
+import org.castor.core.util.AbstractProperties;
+import org.castor.cpa.CPAProperties;
 import org.castor.cpa.test.framework.CPATestCase;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.castor.jdo.conf.JdoConf;
@@ -47,17 +47,17 @@ public final class Test1002 extends CPATestCase {
     protected void setUp() throws Exception {
         super.setUp();
         
-        Configuration cfg = getConfiguration();
-        _memInitFlag = cfg.getObject(CPAConfiguration.INITIALIZE_AT_LOAD);
-        cfg.put(CPAConfiguration.INITIALIZE_AT_LOAD, Boolean.toString(false));
+        AbstractProperties properties = getProperties();
+        _memInitFlag = properties.getObject(CPAProperties.INITIALIZE_AT_LOAD);
+        properties.put(CPAProperties.INITIALIZE_AT_LOAD, Boolean.toString(false));
     }
     
     protected void tearDown() throws Exception {
-        Configuration cfg = getConfiguration();
+        AbstractProperties properties = getProperties();
         if (_memInitFlag != null) {
-            cfg.put(CPAConfiguration.INITIALIZE_AT_LOAD, _memInitFlag);
+            properties.put(CPAProperties.INITIALIZE_AT_LOAD, _memInitFlag);
         } else {
-            cfg.remove(CPAConfiguration.INITIALIZE_AT_LOAD);
+            properties.remove(CPAProperties.INITIALIZE_AT_LOAD);
         }
 
         super.tearDown();

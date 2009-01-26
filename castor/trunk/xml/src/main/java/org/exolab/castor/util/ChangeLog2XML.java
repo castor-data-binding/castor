@@ -23,7 +23,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 import org.castor.xml.InternalContext;
-import org.castor.xml.XMLConfiguration;
+import org.castor.xml.XMLProperties;
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.XMLContext;
 
@@ -223,7 +223,7 @@ public class ChangeLog2XML {
             file = new File(DEFAULT_OUTPUT);
             FileWriter writer = new FileWriter(file);
 
-            xmlContext.setProperty(XMLConfiguration.USE_INDENTATION, true);
+            xmlContext.setProperty(XMLProperties.USE_INDENTATION, true);
             Marshaller marshaller = xmlContext.createMarshaller();
             marshaller.setWriter(writer);
             
