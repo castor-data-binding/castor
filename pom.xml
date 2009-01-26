@@ -17,6 +17,7 @@
         <module>ddlgen</module>
         <module>anttask</module>
         <module>cpa</module>
+        <module>cpactf</module>
 
         <module>diff</module>
         <module>xmlctf-framework</module>
@@ -27,6 +28,7 @@
         <!-- <module>jdo-extensions-it</module> -->
         
         <!-- <module>xmlctf</module>  -->
+        <!-- module>fragmentmapper</module> -->
     </modules>
      
     <name>Castor</name>
