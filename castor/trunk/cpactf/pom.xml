@@ -15,7 +15,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
    
 	<packaging>jar</packaging>
 
-	<name>Functional test suite for Castor JDO</name>
+	<name>Castor JDO - Functional test suite</name>
 	<url>http://www.castor.org</url>
 
 	<developers>
@@ -84,6 +84,16 @@ http://maven.apache.org/maven-v4_0_0.xsd">
              </dependencies>
               -->
           </plugin>
+          
+         <plugin>
+            <!--  avoid deployment to Maven repository -->
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+         </plugin>
+         
        </plugins>
     </build>
 
@@ -135,6 +145,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
+                    <skipTests>true</skipTests>
 					<excludes>
 						<exclude>ctf/jdo/**</exclude>
 					</excludes>
