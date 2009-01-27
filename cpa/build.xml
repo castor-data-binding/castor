@@ -5,6 +5,7 @@
     <property name="main.java"            value="${source}/main/java"/>
     <property name="main.resources"       value="${source}/main/resources"/>
     <property name="build"                value="${basedir}/build"/>
+    <property name="target"               value="${basedir}/target/generated-sources/castor"/>
     <property name="classes"              value="${build}/classes"/>
     <property name="archive"              value="${project}-${version}${release}-jdo"/>
     <property name="gen.src"              value="${build}/generated-sources"/>
@@ -37,6 +38,10 @@
     </target>
 
     <target name="compile.cpa" depends="prepare.cpa" description="Compile Castor JDO">
+        <javac srcdir="${target}" destdir="${classes}" 
+               debug="on" encoding="ISO-8859-1" deprecation="false">
+            <classpath refid="build.classpath"/>
+        </javac>
         <javac srcdir="${main.java}" destdir="${classes}" 
                debug="on" encoding="ISO-8859-1" deprecation="false">
             <classpath refid="build.classpath"/>

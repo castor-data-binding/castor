@@ -190,9 +190,11 @@
             </fileset>
         </copy>
         <copy todir="${schema}">
+<!--
             <fileset dir="${cpa.java}/org/castor/jdo/conf">
                 <patternset refid="support.files" />
             </fileset>
+-->
             <fileset dir="${cpa.resources}/org/castor/jdo/conf">
                 <patternset refid="support.files" />
             </fileset>
