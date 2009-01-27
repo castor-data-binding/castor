@@ -25,7 +25,7 @@
             <Name>Test02</Name>
             <Mapping_File>mapping.xml</Mapping_File>
             <Input>input-without.xml</Input>
-            <GoldFile>input.without.xml</GoldFile>
+            <GoldFile>input-with-default.xml</GoldFile>
         </UnitTestCase>
 
     </MarshallingTest>
