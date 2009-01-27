@@ -51,6 +51,16 @@
                     being removed, though this will take us some time.
                 </p>
                 
+                <h3>*Configuration have been replaced by *Properties</h3>
+                            
+                <p>
+                    The classes CoreConfiguration, XMLConfiguration and CPAConfiguration have been
+                    replaced by CoreProperties, XMLProperties and CPAProperties respectively. For
+                    backward compatibility we have kept the *Configuration classes and declared
+                    them deprecated. As we intend to remove *Configuration classes with next Castor
+                    release we encourage you to change your code to use *Properties instead. 
+                </p>
+
                 <h2>Additions</h2>
                 
                 <h3>New system property for specifying location of custom Castor XML properties</h3>

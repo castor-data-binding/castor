@@ -28,7 +28,7 @@ import org.castor.core.util.AbstractProperties;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @since 1.1.3
  */
-public final class XMLProperties extends AbstractProperties {
+public class XMLProperties extends AbstractProperties {
     //--------------------------------------------------------------------------
 
     /** Path to Castor properties of core modul. */

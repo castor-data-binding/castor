@@ -29,7 +29,7 @@ import org.castor.xml.XMLProperties;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @since 1.1.3
  */
-public final class CPAProperties extends AbstractProperties {
+public class CPAProperties extends AbstractProperties {
     //--------------------------------------------------------------------------
 
     /** Path to Castor properties of core modul. */
