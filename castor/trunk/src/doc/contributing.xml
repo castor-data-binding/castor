@@ -437,7 +437,41 @@
             </section>
         
       </section>
+      
+      <section title="Several Castor checkouts parallel in Eclipse">
+      
+        <p>
+            In case you need to check out Castor more than once - as you
+            may be working on several Jira issues at the same time -
+            you'll come across a subtle problem related to how multi-module 
+            Maven projects are being integrated with Eclipse.
+        </p>
+        
+        <p>
+            By definition, when executing <tt>mvn eclipse:eclipse</tt>
+            to generate the Eclipse project files (<tt>.project</tt> and
+            <tt>.classpath</tt>, amongst others) for all the modules, Maven 
+            will use the artifact names of the module as Eclipse project name - which 
+            is fine as long as you are working with one checkout only at a 
+            time. When wanting to use several checkouts in parallel, this 
+            will cause name collisions.
+        </p>
+        
+        <p>  
+            In order to avoid this, please execute the <tt>eclipse:eclipse</tt>
+            goal as follows, passing an arbitrary string to the eclipse plugin
+            to append to the artifact name when deducing the project name.
+        </p>
+        
+        <code-panel>
+mvn -Declipse.projectNameTemplate=[artifactId]-2612</code-panel>
 
+        <p>
+            In above sample, a Jira issue number has been used to uniquely
+            identify the individual modules in Eclipse.
+        </p>
+         
+      </section>
 
     </section>
 
