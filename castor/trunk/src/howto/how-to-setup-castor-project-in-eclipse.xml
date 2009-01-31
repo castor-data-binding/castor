@@ -12,11 +12,14 @@
     <header></header>
     
     <section title="Introduction">
-      <p>Are just interested in how Castor source looks like, want to report a bug or enhancement request
+    
+      <p>
+        Are you just interested in how Castor source looks like, want to report a bug or enhancement request
         or like to contribute to the project? The first step we suggest you to do is to setup a Castor project
         with eclipse IDE. As we use eclipse to work at Castor, there is everything in place to work with
         eclipse. While you are free to use other IDE's, you will need to configure things yourself
-        with them.</p>
+        with them.
+      </p>
     </section>
 
     <section title="Prerequisites">
@@ -43,7 +46,7 @@
     </section>
   
     <section title="Troubleshooting">
-      <p><b>If you have trouble with Subeclipse behide the proxy server:</b> In Windows development environment, open 
+      <p><b>If you have trouble with Subclipse behind a proxy server:</b> In Windows development environment, open 
         the file: <b>C:\Documents and Settings\MyUserId\Application Data\Subversion\servers</b> in text editor. Near
         the bottom of that file is a [global] section with http-proxy-host and http-proxy-port (user and password also)
         settings. Uncommented those lines, modified them for your proxy server and go back to the SVN Repository view
