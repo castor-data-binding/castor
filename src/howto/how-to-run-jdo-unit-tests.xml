@@ -26,7 +26,7 @@
     </section>
     
     <section title="Prerequisites">
-      <p>See: <a href="how-to-setup-castor-project-in eclipse.html">How to setup Castor project in eclipse</a></p>
+      <p>See: <a href="how-to-setup-castor-project-in-eclipse.html">How to setup Castor project in eclipse</a></p>
     </section>
 
     <section title="Execute tests in eclipse">
@@ -36,7 +36,7 @@
     
     <section title="References">
       <ul>
-        <li><a href="how-to-setup-castor-project-in eclipse.html">How to setup Castor project in eclipse</a></li>
+        <li><a href="how-to-setup-castor-project-in-eclipse.html">How to setup Castor project in eclipse</a></li>
       </ul>
     </section>
   </body>
