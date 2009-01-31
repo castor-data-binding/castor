@@ -43,7 +43,7 @@
           
         <li>Check out the latest code from SVN into your prefered developement environment. For instructions on
           this task, take a look at <a href="scm.html#Subversion-access">Subversion access</a>. For eclipse
-          <a href="how-to-setup-castor-project-in eclipse.html">How to setup Castor project in eclipse</a> provides
+          <a href="how-to-setup-castor-project-in-eclipse.html">How to setup Castor project in eclipse</a> provides
           a detailed description of this task.</li>
       </ul>
     </section>
@@ -285,7 +285,7 @@ test castor.mysql.TC30</code-panel>
     
     <section title="References">
       <ul>
-        <li><a href="how-to-setup-castor-project-in eclipse.html">How to setup Castor project in eclipse</a></li>
+        <li><a href="how-to-setup-castor-project-in-eclipse.html">How to setup Castor project in eclipse</a></li>
         <li><a href="scm.html#Subversion-access">Subversion access</a></li>
         <li><a href="test-framework.html">The testing framework</a></li>
       </ul>
