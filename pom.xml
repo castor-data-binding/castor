@@ -25,7 +25,7 @@
         <module>cpa-testcase-archetype</module>
         <module>codegen-testcase-archetype</module>
         
-        <!-- <module>jdo-extensions-it</module> -->
+        <module>jdo-extensions-it</module>
         
         <!-- <module>xmlctf</module>  -->
         <!-- module>fragmentmapper</module> -->
@@ -264,7 +264,7 @@
             <dependency>
             	<groupId>org.codehaus.castor</groupId>
             	<artifactId>spring-orm</artifactId>
-            	<version>1.3rc2-SNAPSHOT</version>
+            	<version>1.3-SNAPSHOT</version>
             	<scope>test</scope>
             </dependency>
 
