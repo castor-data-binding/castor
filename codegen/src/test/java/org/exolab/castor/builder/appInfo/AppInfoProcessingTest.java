@@ -46,7 +46,7 @@ public class AppInfoProcessingTest extends TestCase {
     public final void setUp() throws Exception {
         super.setUp();
         _generator = new ExtendedSourceGenerator();
-        _generator.setDestDir("./codegen/src/test/java");
+        _generator.setDestDir("./codegen/target/generated-sources/castor");
         _generator.setSuppressNonFatalWarnings(true);
 
         // uncomment to use Velocity for code generation
