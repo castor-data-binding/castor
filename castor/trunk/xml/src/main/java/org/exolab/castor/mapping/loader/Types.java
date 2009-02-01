@@ -89,7 +89,7 @@ public class Types {
                          _typeInfos[ i ].javaType );
         }
         if ( loader != null ) {
-            Class aClass = loader.loadClass (typeName);
+            Class aClass = Class.forName(typeName, false, loader);
             // _log.debug ("Loaded class " + aClass);
             return aClass;
         }
