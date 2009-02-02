@@ -37,10 +37,12 @@ public final class Test1355 extends CPATestCase {
     //
     // Temporary disabled test until CASTOR-2584 is resolved. It should be possible to include
     // mysql and oracle engine after issue got resolved.
+    //// Add MSSQL engine too after resolving the issue CASTOR-2584
 
     public boolean exclude(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.ORACLE);
+            || (engine == DatabaseEngineType.ORACLE)
+            || (engine == DatabaseEngineType.SQL_SERVER);
     }
     
     /**

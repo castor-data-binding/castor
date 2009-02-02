@@ -83,6 +83,26 @@
             
             </summary>
             <bugs>
+                <bug id="2631" tool="jira">
+                    <description>
+                        Improved new cpa test suite to be executed with Microsoft SQL Server. 
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Udai Gupta</name>
+                        <email>mailtoud@gmail.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Udai Gupta</name>
+                        <email>mailtoud@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20090201</date>
+                </bug>
                 <bug id="2184" tool="jira">
                     <description>
                         Renamed all *Configuration classes (such as XMLConfiguration,
