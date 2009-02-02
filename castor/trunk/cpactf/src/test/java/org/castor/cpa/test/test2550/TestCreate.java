@@ -32,15 +32,16 @@ public final class TestCreate extends CPATestCase {
     }
 
     // Test are only included/excluded for engines that have been tested with this test suite.
-    //
-    // Test uses sequence key generator which is not supported by mysql.
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.ORACLE);
     }
     
+    // Test uses sequence key generator which is not supported by mysql and mssql.
+
     public boolean exclude(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL);
+        return (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.SQL_SERVER);
     }
     
     public void delete() throws Exception {

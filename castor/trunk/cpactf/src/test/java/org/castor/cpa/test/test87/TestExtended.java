@@ -55,6 +55,12 @@ public final class TestExtended extends CPATestCase {
             || (engine == DatabaseEngineType.ORACLE);
     }
     
+    // SQL_SERVER is excluded until issue CASTOR-2634 is resolved
+    
+    public boolean exclude(final DatabaseEngineType engine) {
+        return (engine == DatabaseEngineType.SQL_SERVER);
+    }
+        
     public void delete() throws Exception {
         JDOManager jdo = getJDOManager(DBNAME, MAPPING);
         

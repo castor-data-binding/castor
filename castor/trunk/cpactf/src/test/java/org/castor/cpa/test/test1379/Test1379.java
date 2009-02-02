@@ -21,6 +21,12 @@ public class Test1379 extends CPATestCase {
             || (engine == DatabaseEngineType.ORACLE);
     }
     
+    // SQL_SERVER is excluded until issue CASTOR-2221 is resolved
+    
+    public boolean exclude(final DatabaseEngineType engine) {
+        return (engine == DatabaseEngineType.SQL_SERVER);
+    }
+    
     public void test() throws Exception {
         Computer      computer = null;
         Product       product;

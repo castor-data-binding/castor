@@ -45,7 +45,7 @@
 
     <database name="mssql-ds" engine="sql-server">
         <description>Database configuration for MSSQL</description>
-        <data-source class-name="com.inet.tds.TdsDataSource"> 
+        <data-source class-name="com.microsoft.sqlserver.jdbc.SQLServerDataSource">  
             <param name="user" value="test"/>
             <param name="password" value="test"/>
             <param name="serverName" value="localhost"/>
