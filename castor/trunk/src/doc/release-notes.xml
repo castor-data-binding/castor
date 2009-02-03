@@ -83,6 +83,27 @@
             
             </summary>
             <bugs>
+                <bug id="1141" tool="jira">
+                    <description>
+                        Eliminated duplicate findAccessor() method of FieldMolder and
+                        AbstractMappingLoader. 
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Gregory Block</name>
+                        <email>gblock@ctoforaday.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20090203</date>
+                </bug>
                 <bug id="2631" tool="jira">
                     <description>
                         Improved new cpa test suite to be executed with Microsoft SQL Server. 

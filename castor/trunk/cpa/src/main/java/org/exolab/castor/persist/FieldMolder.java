@@ -42,10 +42,7 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.persist;
-
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -62,10 +59,10 @@ import org.castor.jdo.util.ClassLoadingUtils;
 import org.exolab.castor.jdo.DataObjectAccessException;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.TypeConvertor;
+import org.exolab.castor.mapping.loader.AbstractMappingLoader;
 import org.exolab.castor.mapping.loader.Types;
 import org.exolab.castor.mapping.xml.FieldMapping;
 import org.exolab.castor.mapping.xml.types.SqlDirtyType;
-
 
 /**
  * FieldMolder represents a field of a data object class. It is used by
@@ -711,14 +708,14 @@ public class FieldMolder {
                 // if field is of type boolean, check whether is<Field>() is defined.
                 if (fieldMap.getType() != null && fieldMap.getType().compareTo("boolean") == 0) {
                     _defaultReflectService._getMethod = 
-                        findAccessor(javaClass, METHOD_IS_PREFIX + capitalize(name),
-                                methodClass, true);
+                        AbstractMappingLoader.findAccessor(
+                                javaClass, METHOD_IS_PREFIX + capitalize(name), methodClass, true);
                 }
                 
                 if (_defaultReflectService._getMethod == null) {
                     _defaultReflectService._getMethod = 
-                        findAccessor(javaClass, METHOD_GET_PREFIX + capitalize(name),
-                                methodClass, true);
+                        AbstractMappingLoader.findAccessor(
+                                javaClass, METHOD_GET_PREFIX + capitalize(name), methodClass, true);
                 }
 
                 if (_defaultReflectService._getMethod == null) {
@@ -739,17 +736,17 @@ public class FieldMolder {
                         _defaultReflectService._getMethod.getReturnType();
                 }
 
-                _defaultReflectService._setMethod = findAccessor(javaClass,
-                        METHOD_SET_PREFIX + capitalize(name), methodClass, false);
+                _defaultReflectService._setMethod = AbstractMappingLoader.findAccessor(
+                        javaClass, METHOD_SET_PREFIX + capitalize(name), methodClass, false);
 
                 if (_defaultReflectService._setMethod == null) {
-                    _defaultReflectService._addMethod = findAccessor(javaClass,
-                            METHOD_ADD_PREFIX + capitalize(name), declaredClass, false);
+                    _defaultReflectService._addMethod = AbstractMappingLoader.findAccessor(
+                            javaClass, METHOD_ADD_PREFIX + capitalize(name), declaredClass, false);
 
                     // look again, but this time without a trailing 's'
                     if ((_defaultReflectService._addMethod == null) && (name.endsWith("s"))) {
-                        _defaultReflectService._addMethod = findAccessor(javaClass,
-                                METHOD_ADD_PREFIX
+                        _defaultReflectService._addMethod = AbstractMappingLoader.findAccessor(
+                                javaClass, METHOD_ADD_PREFIX
                                 + capitalize(name).substring(0, name.length() - 1),
                                 declaredClass, false);
                     }
@@ -776,11 +773,11 @@ public class FieldMolder {
                 // First look up the get accessors
                 if (fieldMap.getGetMethod() != null) {
                     if (_colClass != null) {
-                        _defaultReflectService._getMethod
-                            = findAccessor(javaClass, fieldMap.getGetMethod(), _colClass, true);
+                        _defaultReflectService._getMethod = AbstractMappingLoader.findAccessor(
+                                javaClass, fieldMap.getGetMethod(), _colClass, true);
                     } else {
-                        _defaultReflectService._getMethod
-                            = findAccessor(javaClass, fieldMap.getGetMethod(), methodClass, true);
+                        _defaultReflectService._getMethod = AbstractMappingLoader.findAccessor(
+                                javaClass, fieldMap.getGetMethod(), methodClass, true);
                     }
 
                     if (_defaultReflectService._getMethod == null) {
@@ -803,13 +800,13 @@ public class FieldMolder {
                 if (fieldMap.getSetMethod() != null) {
 
                     if (_colClass != null) {
-                        _defaultReflectService._setMethod = findAccessor(javaClass,
-                                fieldMap.getSetMethod(), _colClass, false);
+                        _defaultReflectService._setMethod = AbstractMappingLoader.findAccessor(
+                                javaClass, fieldMap.getSetMethod(), _colClass, false);
 
                         // find addXXX method only if lazy loading is turned off
                         if ((_defaultReflectService._setMethod == null) && !fieldMap.getLazy()) {
-                            _defaultReflectService._addMethod = findAccessor(javaClass,
-                                    fieldMap.getSetMethod(), declaredClass, false);
+                            _defaultReflectService._addMethod = AbstractMappingLoader.findAccessor(
+                                    javaClass, fieldMap.getSetMethod(), declaredClass, false);
                             if (_defaultReflectService._addMethod != null) {
                                 _addable = true;
                             }
@@ -817,8 +814,8 @@ public class FieldMolder {
 
                     } else {
                         // find setXXX method
-                        _defaultReflectService._setMethod = findAccessor(javaClass,
-                                fieldMap.getSetMethod(), methodClass, false);
+                        _defaultReflectService._setMethod = AbstractMappingLoader.findAccessor(
+                                javaClass, fieldMap.getSetMethod(), methodClass, false);
                     }
 
 
@@ -957,140 +954,6 @@ public class FieldMolder {
         }
         return null;
     }
-
-
-    /**
-     * Returns the named accessor. Uses reflection to return the named
-     * accessor and check the return value or parameter type, if
-     * specified.
-     * 
-     * TODO Most of this code appears to be (badly) duplicated in MappingLoader, which
-     *      is probably a closer source to the true behavior of this method.  At some
-     *      point in the future, this should get rationalized.
-     * 
-     *
-     * @param javaClass The class to which the field belongs
-     * @param methodName The name of the accessor method
-     * @param fieldType The type of the field if known, or null
-     * @param getMethod True if get method, false if set method
-     * @return The method, null if not found
-     * @throws MappingException The method is not accessible or is not of the
-     *  specified type
-     */
-    private static Method findAccessor(final Class javaClass, final String methodName,
-            final Class fieldType, final boolean getMethod) throws MappingException {
-
-        Class internalFieldType = fieldType;
-        Method   method = null;
-        Method[] methods;
-        Class[] parameterTypes;
-        Class fieldTypeFromPrimitive;
-        int      i;
-
-        try {
-            if (getMethod) {
-                // Get method: look for the named method or prepend get to the
-                // method name. Look up the field and potentially check the
-                // return type.
-                method = javaClass.getMethod(methodName, new Class[0]);
-                
-                if (internalFieldType == null) {
-                    internalFieldType = Types.typeFromPrimitive(method.getReturnType());
-                } else {
-                        internalFieldType = Types.typeFromPrimitive(internalFieldType);
-                        Class returnType = Types.typeFromPrimitive(method.getReturnType());
-                        
-                        //-- First check against whether the declared type is
-                        //-- an interface or abstract class. We also check
-                        //-- type as Serializable for CMP 1.1 compatibility.
-                        if (internalFieldType.isInterface()
-                                || ((internalFieldType.getModifiers() & Modifier.ABSTRACT) != 0)
-                                || (internalFieldType == java.io.Serializable.class)) {
-                            if (!internalFieldType.isAssignableFrom(returnType)) {
-                                throw new MappingException("mapping.accessorReturnTypeMismatch",
-                                        method, internalFieldType.getName());
-                            }
-                        } else {
-                            if (!returnType.isAssignableFrom(internalFieldType)) {
-                                throw new MappingException("mapping.accessorReturnTypeMismatch",
-                                        method, internalFieldType.getName());
-                            }
-                        }
-                    }      
-             } else {
-                 method = null;
-                 fieldTypeFromPrimitive = null;
-
-                 // Set method: look for the named method or prepend set to the
-                 // method name. If the field type is know, look up a suitable
-                 // method. If the fielf type is unknown, lookup the first
-                 // method with that name and one parameter.
-                 if (internalFieldType != null) {
-                     fieldTypeFromPrimitive = Types.typeFromPrimitive(internalFieldType);
-                     // first check for setter with reference type (e.g. setXxx(Integer))
-                     try {
-                         method = javaClass.getMethod(methodName,
-                                 new Class[] {fieldTypeFromPrimitive});
-                     } catch (Exception except) {
-                         // if setter for reference type could not be found
-                         // try to find one for primitive type (e.g. setXxx(int))
-                         try {
-                             method = javaClass.getMethod(methodName,
-                                     new Class[] {internalFieldType});
-                         } catch (Exception except2) {
-                             // log.warn ("Unexpected exception", except2);
-                         }
-                     }
-                 }
-                 if (null == method) {
-                     methods = javaClass.getMethods();
-                     method = null;
-                     for (i = 0; i < methods.length; ++i) {
-                         if (methods[i].getName().equals(methodName)) {
-                             parameterTypes = methods[i].getParameterTypes();
-                             if (parameterTypes.length != 1) {
-                                 continue;
-                             }
-                             
-                             Class paramType = Types.typeFromPrimitive(parameterTypes[0]);
-                             
-                             if ((internalFieldType == null)
-                                     || paramType.isAssignableFrom(fieldTypeFromPrimitive)) {
-                                 //-- check straight match
-                                 method = methods[i];
-                                 break;
-                             } else if (internalFieldType.isInterface()
-                                     || ((internalFieldType.getModifiers() & Modifier.ABSTRACT)
-                                             != 0)) {
-                                 //-- Check against whether the declared type is
-                                 //-- an interface or abstract class. 
-                                 if (fieldTypeFromPrimitive.isAssignableFrom(paramType)) {
-                                     method = methods[i];
-                                     break;
-                                 }
-                             }
-                         }
-                     }
-                     if (method == null) {
-                         return null;
-                     }
-                 }
-             }
-             // Make sure method is public and not static.
-             // (note: Class.getMethod() returns only public methods).
-             //if ( ( method.getModifiers() & Modifier.ABSTRACT ) != 0 ||
-             if ((method.getModifiers() & Modifier.STATIC) != 0) {
-                 throw new MappingException("mapping.accessorNotAccessible",
-                         methodName, javaClass.getName());
-             }
-             return method;
-         } catch (MappingException except) {
-             throw except;
-         } catch (Exception except) {
-             //System.out.println(except.toString());
-         }
-         return null;
-     }
 
     private String capitalize(final String name) {
         char first;
