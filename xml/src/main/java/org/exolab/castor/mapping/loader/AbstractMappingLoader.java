@@ -1061,7 +1061,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
                     fieldType = Types.typeFromPrimitive(method.getReturnType());
                 } else {
                     fieldType = Types.typeFromPrimitive(fieldType);
-                    Class returnType = Types.typeFromPrimitive(method.getReturnType());
+                    Class returnType = Types.typeFromPrimitive( method.getReturnType());
 
                     //-- First check against whether the declared type is
                     //-- an interface or abstract class. We also check
@@ -1091,14 +1091,12 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
                 Class fieldTypePrimitive = null;
                 if (fieldType != null) {
                     fieldTypePrimitive = Types.typeFromPrimitive(fieldType);
-                    // first check for setter with reference type (e.g. setXxx(Integer))
                     try {
-                        method = javaClass.getMethod(methodName, new Class[] {fieldTypePrimitive});
+                        method = javaClass.getMethod(methodName, new Class[] {fieldType});
                     } catch (Exception ex) {
-                        // if setter for reference type could not be found
-                        // try to find one for primitive type (e.g. setXxx(int))
                         try {
-                            method = javaClass.getMethod(methodName, new Class[] {fieldType});
+                            method = javaClass.getMethod(
+                                    methodName, new Class[] {fieldTypePrimitive});
                         } catch (Exception ex2) {
                             // LOG.warn("Unexpected exception", ex2);
                         }
@@ -1107,7 +1105,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
 
                 if (method == null) {
                     Method[] methods = javaClass.getMethods();
-                    for (int i = 0; i < methods.length; ++i) {
+                    for (int i = 0 ; i < methods.length ; ++i) {
                         if (methods[i].getName().equals(methodName)) {
                             Class[] paramTypes = methods[i].getParameterTypes();
                             if (paramTypes.length != 1) { continue; }
