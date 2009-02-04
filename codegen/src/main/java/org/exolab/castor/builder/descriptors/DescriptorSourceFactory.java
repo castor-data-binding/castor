@@ -69,8 +69,10 @@ import org.exolab.castor.xml.Validator;
 import org.exolab.castor.xml.XMLConstants;
 import org.exolab.castor.xml.XMLFieldDescriptor;
 import org.exolab.javasource.JClass;
+import org.exolab.javasource.JConstant;
 import org.exolab.javasource.JConstructor;
 import org.exolab.javasource.JField;
+import org.exolab.javasource.JMember;
 import org.exolab.javasource.JModifiers;
 import org.exolab.javasource.JNaming;
 import org.exolab.javasource.JPrimitiveType;
@@ -373,14 +375,9 @@ public final class DescriptorSourceFactory {
                 //-- The node name parameter is a reference to a public static final
                 nodeNameParam = nodeName.toUpperCase();
                 //-- Expose node name as public static final (reused by XMLFieldDescriptorImpl)
-                JModifiers publicStaticFinal = new JModifiers();
-                publicStaticFinal.makePublic();
-                publicStaticFinal.setStatic(true);
-                publicStaticFinal.setFinal(true);
-                JField jField = new JField(SGTypes.STRING, nodeNameParam);
-                jField.setModifiers(publicStaticFinal);
-                jField.setInitString("\"" + nodeName + "\"");
-                classDesc.addMember(jField);
+                JConstant constant = new JConstant(SGTypes.STRING, nodeNameParam);
+                constant.setInitString("\"" + nodeName + "\"");
+                classDesc.addMember(constant);
             }
         }
 
