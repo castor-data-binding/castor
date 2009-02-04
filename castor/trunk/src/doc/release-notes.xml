@@ -83,6 +83,26 @@
             
             </summary>
             <bugs>
+                <bug id="2638" tool="jira">
+                    <description>
+                        Added JConstant class to J* class hierarchy.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XMLgen</module>
+                    <date>20090203</date>
+                </bug>
                 <bug id="1141" tool="jira">
                     <description>
                         Eliminated duplicate findAccessor() method of FieldMolder and
