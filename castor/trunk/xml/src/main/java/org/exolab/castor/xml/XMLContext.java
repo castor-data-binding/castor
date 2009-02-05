@@ -163,8 +163,7 @@ public class XMLContext {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Creating new Marshaller instance.");
         }
-        Marshaller marshaller = new Marshaller();
-        marshaller.setInternalContext(_internalContext);
+        Marshaller marshaller = new Marshaller(_internalContext);
         return marshaller;
     }
     

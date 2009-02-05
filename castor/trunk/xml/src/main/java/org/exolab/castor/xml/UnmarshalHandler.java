@@ -67,6 +67,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Base64Decoder;
 import org.castor.core.util.HexDecoder;
+import org.castor.xml.InternalContext;
 import org.castor.xml.UnmarshalListenerAdapter;
 import org.castor.xml.XMLProperties;
 import org.exolab.castor.mapping.ClassDescriptor;
@@ -287,22 +288,31 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     **/
     protected UnmarshalHandler() {
         this(null);
-    } //-- UnmarshalHandler
+    }
 
     /**
      * Creates a new UnmarshalHandler.
      * 
-     * @param _class the Class to create the UnmarshalHandler for
+     * @param topClass the Class to create the UnmarshalHandler for
      */
-    protected UnmarshalHandler(final Class _class) {
-        super();
+    protected UnmarshalHandler(final Class<?> topClass) {
+        this(null, topClass);
+    }
+    
+    /**
+     * Creates a new UnmarshalHandler.
+     * @param internalContext the {@link InternalContext} to use
+     * @param topClass the Class to work for
+     */
+    protected UnmarshalHandler(final InternalContext internalContext, final Class<?> topClass) {
+        super(internalContext);
         _stateInfo          = new Stack();
         _idResolver         = new IDResolverImpl();
         _javaPackages       = new HashMap();
-        _topClass           = _class;
+        _topClass           = topClass;
         _namespaces         = new Namespaces();
         _namespaceToPackage = new HashMap();
-    } //-- UnmarshalHandler(Class)
+    }
     
     /**
      * Adds a mapping from the given namespace URI to the given

@@ -183,10 +183,19 @@ abstract class MarshalFramework {
     //-----------------------------/
 
     /**
-     * We need some stuff initialized here.
+     * We need some stuff initialized here. MarshalFramework requires internally
+     * an {@link InternalContext}, so either one is given or {@link BackwardCompatibilityContext}
+     * is instantiated! Mind that instantiating {@link BackwardCompatibilityContext}
+     * means to (re-)read configuration files.
+     * @param internalContext either an {@link InternalContext} comes from outside
+     *          or {@link BackwardCompatibilityContext} is instantiated
      */
-    public MarshalFramework() {
-        _internalContext = new BackwardCompatibilityContext();
+    public MarshalFramework(final InternalContext internalContext) {
+        if (internalContext == null) {
+            _internalContext = new BackwardCompatibilityContext();
+        } else {
+            _internalContext = internalContext;
+        }
     }
 
     /**

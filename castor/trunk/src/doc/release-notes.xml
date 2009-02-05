@@ -83,6 +83,46 @@
             
             </summary>
             <bugs>
+                <bug id="2630" tool="jira">
+                    <description>
+                        Marshaller performance - loadDefaultProperties
+                    </description>
+                    <contributor>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Michael McMaster</name>
+                        <email>mmcmaster@spss.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20090205</date>
+                </bug>
+                <bug id="2614" tool="jira">
+                    <description>
+                        XML_NAMING configuration cannot be set programmatically
+                    </description>
+                    <contributor>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Joachim Grueneis</name>
+                        <email>jgrueneis@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>John Huss</name>
+                        <email>johnthuss@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20090205</date>
+                </bug>
                 <bug id="2638" tool="jira">
                     <description>
                         Added JConstant class to J* class hierarchy.
