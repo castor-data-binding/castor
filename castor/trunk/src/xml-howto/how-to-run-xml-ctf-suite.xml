@@ -68,34 +68,26 @@
            commands to run the Castor XML master test suite (default suite).</p>
            
         <code-panel>
-cd &lt;castor-root&gt;/bin
-build clean
-build tests
-CTFrun</code-panel>
+> cd &lt;castor-root&gt;
+> mvn install
+> cd &lt;castor-root&gt;/xmlctf
+> mvn test</code-panel>
 
         <p>To execute just a subset of the master test suite, please change this to:</p>
 
         <code-panel>
-cd &lt;castor-root&gt;/bin
-build clean
-build tests
-CTFrun ../xmlctf/tests/MasterTestSuite/schema</code-panel>
-        
-        <p>To execute just the regression test suite, please change this to:</p>
-           
-        <code-panel>
-cd &lt;castor-root&gt;/bin
-build clean
-build tests
-CTFrun -text ../src/tests/xml/RegressionTestSuite</code-panel>
-           
+> cd &lt;castor-root&gt;
+> mvn install
+> cd &lt;castor-root&gt;/xmlctf
+> mvn test</code-panel>
+
     </section>
-    
+        
     <section title="References">
 
         <ul>
             <li><a href="test-framework.html">The testing framework</a></li>
-            <li><a href="cvs.html">Access to CVS</a></li>
+            <li><a href="scm.html">Access to SVN</a></li>
         </ul>
     
         
