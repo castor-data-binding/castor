@@ -1061,7 +1061,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
                     fieldType = Types.typeFromPrimitive(method.getReturnType());
                 } else {
                     fieldType = Types.typeFromPrimitive(fieldType);
-                    Class returnType = Types.typeFromPrimitive( method.getReturnType());
+                    Class returnType = Types.typeFromPrimitive(method.getReturnType());
 
                     //-- First check against whether the declared type is
                     //-- an interface or abstract class. We also check
@@ -1101,11 +1101,30 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
                             // LOG.warn("Unexpected exception", ex2);
                         }
                     }
+
+                    /* Replace above try catch block with the following one to resolve
+                     * CASTOR-1141 for jdo part. After this change you can use this method
+                     * also in FieldMolder and remove its findAccessor() method to omit
+                     * code duplication. Having said that this introduces a problem
+                     * with xmlctf that have to resolved first.
+                    // first check for setter with reference type (e.g. setXxx(Integer))
+                    try {
+                        method = javaClass.getMethod(methodName, new Class[] {fieldTypePrimitive});
+                    } catch (Exception ex) {
+                        // if setter for reference type could not be found
+                        // try to find one for primitive type (e.g. setXxx(int))
+                        try {
+                            method = javaClass.getMethod(methodName, new Class[] {fieldType});
+                        } catch (Exception ex2) {
+                            // LOG.warn("Unexpected exception", ex2);
+                        }
+                    }
+                    */
                 }
 
                 if (method == null) {
                     Method[] methods = javaClass.getMethods();
-                    for (int i = 0 ; i < methods.length ; ++i) {
+                    for (int i = 0; i < methods.length; ++i) {
                         if (methods[i].getName().equals(methodName)) {
                             Class[] paramTypes = methods[i].getParameterTypes();
                             if (paramTypes.length != 1) { continue; }
