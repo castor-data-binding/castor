@@ -15,7 +15,7 @@
 
     <packaging>maven-plugin</packaging>
 
-    <name>castor-xmlctf-plugin Maven Mojo</name>
+    <name>Castor XML - Maven Mojos for executing XMLCTF tests</name>
     <url>http://maven.apache.org</url>
 
     <scm>
@@ -74,7 +74,7 @@
                 <dependency>
                     <groupId>com.sun</groupId>
                     <artifactId>tools</artifactId>
-                    <version>1.4.2</version>
+                    <version>1.5</version>
                     <scope>system</scope>
                     <systemPath>${java.home}/../lib/tools.jar</systemPath>
                 </dependency>
