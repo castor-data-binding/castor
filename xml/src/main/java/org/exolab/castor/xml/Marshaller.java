@@ -119,12 +119,12 @@ public class Marshaller extends MarshalFramework {
     //---------------------------/
 
     /**
-     * Logger from commons-logging
+     * Logger from commons-logging.
      */
     private static final Log LOG = LogFactory.getLog(Marshaller.class);
 
     /**
-     * The CDATA type..uses for SAX attributes
+     * The CDATA type..uses for SAX attributes.
     **/
     private static final String CDATA = "CDATA";
 
@@ -136,28 +136,28 @@ public class Marshaller extends MarshalFramework {
 
 
     /**
-     * Message name for a non sax capable serializer error
+     * Message name for a non sax capable serializer error.
     **/
     private static final String SERIALIZER_NOT_SAX_CAPABLE
         = "conf.serializerNotSaxCapable";
 
     /**
-     * Namespace declaration for xml schema instance
+     * Namespace declaration for xml schema instance.
     **/
     private static final String XSI_PREFIX = "xsi";
 
     /**
-     * The xsi:type attribute
+     * The xsi:type attribute.
     **/
     private static final String XSI_TYPE = "xsi:type";
 
     /**
-     * Namespace prefix counter
+     * Namespace prefix counter.
     **/
     private int NAMESPACE_COUNTER = 0;
 
     /**
-     * An instance of StringClassDescriptor
+     * An instance of StringClassDescriptor.
     **/
     private static final StringClassDescriptor _StringClassDescriptor
         = new StringClassDescriptor();
@@ -173,7 +173,7 @@ public class Marshaller extends MarshalFramework {
     private boolean _asDocument = true;
 
     /**
-     * The depth of the sub tree, 0 denotes document level
+     * The depth of the sub tree, 0 denotes document level.
     **/
     int depth = 0;
 
@@ -185,12 +185,12 @@ public class Marshaller extends MarshalFramework {
     private OutputFormat _format = null;
 
     /**
-     * The ContentHandler we are marshalling to
+     * The ContentHandler we are marshalling to.
     **/
     private ContentHandler  _handler      = null;
 
     /**
-     * flag to indicate whether or not to use xsi:type
+     * flag to indicate whether or not to use xsi:type.
     **/
     private boolean _marshalExtendedType = true;
 
@@ -202,7 +202,7 @@ public class Marshaller extends MarshalFramework {
     private MarshalListener _marshalListener = null;
 
     /**
-     * The namespace stack
+     * The namespace stack.
     **/
     private Namespaces _namespaces = new Namespaces();
 
@@ -219,18 +219,18 @@ public class Marshaller extends MarshalFramework {
 
     /**
      * A list of ProcessingInstructions to output
-     * upon marshalling of the document
+     * upon marshalling of the document.
     **/
     private List _processingInstructions = new ArrayList();
 
     /**
-     * Name of the root element to use
+     * Name of the root element to use.
      */
     private String _rootElement  = null;
 
     /**
      * A boolean to indicate keys from a map
-     * should be saved when necessary
+     * should be saved when necessary.
      */
     private boolean _saveMapKeys = true;
 
@@ -241,12 +241,12 @@ public class Marshaller extends MarshalFramework {
     private Serializer       _serializer   = null;
 
     /**
-     * A flag to allow suppressing namespaces
+     * A flag to allow suppressing namespaces.
      */
     private boolean _suppressNamespaces = false;
 
     /**
-     * A flag to allow suppressing the xsi:type attribute
+     * A flag to allow suppressing the xsi:type attribute.
      */
     private boolean _suppressXSIType = false;
 
@@ -265,7 +265,7 @@ public class Marshaller extends MarshalFramework {
     private AttributesImpl _attributes = new AttributesImpl();
 
     /**
-     * The validation flag
+     * The validation flag.
      */
     private boolean _validate = false;
 
@@ -287,15 +287,13 @@ public class Marshaller extends MarshalFramework {
      * 
     **/
     public Marshaller(final DocumentHandler handler) {
+        super(null);
         if (handler == null) {
             throw new IllegalArgumentException("The given 'org.sax.DocumentHandler' " 
                     + "instance is null.");
         }
 
         setContentHandler(new DocumentHandlerAdapter(handler));
-
-        // call internal initializer
-        initialize();
     }
 
     /**
@@ -326,14 +324,23 @@ public class Marshaller extends MarshalFramework {
      * 
     **/
     public Marshaller(final ContentHandler contentHandler) {
+        super(null);
         if (contentHandler == null) {
             throw new IllegalArgumentException("The given 'org.sax.ContentHandler' is null.");
         }
 
         setContentHandler(contentHandler);
-
-        // call internal initializer
-        initialize();
+    }
+    
+    /**
+     * The one {@link Marshaller} constructor that is used by {@link XMLContext} which
+     * sets an {@link InternalContext} that comes from outside. Writer or {@link ContentHandler}
+     * have to be set in a second step.
+     * @param internalContext the {@link InternalContext} to initialize the {@link Marshaller}
+     * instance with
+     */
+    public Marshaller(final InternalContext internalContext) {
+        super(internalContext);
     }
 
     /**
@@ -341,7 +348,7 @@ public class Marshaller extends MarshalFramework {
      * separately.
      */
     public Marshaller () {
-        initialize();
+        super(null);
     }
 
     /**
@@ -357,7 +364,7 @@ public class Marshaller extends MarshalFramework {
      * 
     **/
     public Marshaller(final Writer out) throws IOException {
-        initialize();
+        super(null);
         setWriter(out);
     }
 
@@ -413,13 +420,11 @@ public class Marshaller extends MarshalFramework {
      * 
     **/
     public Marshaller(final Node node) {
+        super(null);
         if (node == null) {
             throw new IllegalArgumentException("The given org.w3c.dom.Node instance is null.");
         }
         setContentHandler(new DocumentHandlerAdapter(new SAX2DOMHandler(node)));
-
-        // call internal initializer
-        initialize();
     }
     
     /**
@@ -434,14 +439,6 @@ public class Marshaller extends MarshalFramework {
         setContentHandler(new DocumentHandlerAdapter(new SAX2DOMHandler(node)));
     }
     
-    /**
-     * Initializes this Marshaller. This is common code shared among the
-     * Constructors
-     */
-    private void initialize() {
-        setInternalContext(new BackwardCompatibilityContext());
-    }
-
   /**
    * To set the {@link InternalContext} to use, and to 
    * initialize {@link Marshaller} properties linked to it.

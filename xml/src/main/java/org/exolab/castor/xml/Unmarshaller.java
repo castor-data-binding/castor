@@ -343,7 +343,7 @@ public class Unmarshaller {
     **/
     public UnmarshalHandler createHandler() {
 
-        UnmarshalHandler handler = new UnmarshalHandler(_class);
+        UnmarshalHandler handler = new UnmarshalHandler(_internalContext, _class);
         
         handler.setClearCollections(_clearCollections);
         handler.setReuseObjects(_reuseObjects);

@@ -168,9 +168,41 @@ public abstract class AbstractInternalContext implements InternalContext {
     }
 
     /**
+     * {@inheritDoc}
      * @see org.castor.xml.InternalContext#setProperty(java.lang.String, java.lang.Object)
      */
     public void setProperty(final String propertyName, final Object value) {
+        // resetting all values that are only reinitialized if null
+        if (propertyName == null) {
+            IllegalArgumentException iae = new IllegalArgumentException("setProperty must not be called with a propertyName == null");
+            LOG.warn(iae.getMessage());
+            throw iae;
+        }
+        if (propertyName.equals(XMLProperties.XML_NAMING)) {
+            if (value instanceof String) {
+                setXMLNaming((String)value);
+            } else if (value instanceof XMLNaming) {
+                setXMLNaming((XMLNaming) value);
+            } else {
+                IllegalArgumentException iae = new IllegalArgumentException("XML Naming can only be set to a String or an implementation of XMLNaming");
+                LOG.warn(iae.getMessage());
+                throw iae;
+            }
+        }
+        if (propertyName.equals(XMLProperties.JAVA_NAMING)) {
+            if (value instanceof String) {
+                setJavaNaming((String)value);
+            } else if (value instanceof JavaNaming) {
+                setJavaNaming((JavaNaming) value);
+            } else {
+                IllegalArgumentException iae = new IllegalArgumentException("Java Naming can only be set to a String or an implementation of JavaNaming");
+                LOG.warn(iae.getMessage());
+                throw iae;
+            }
+        }
+        _primitiveNodeType = null;
+        _regExpEvaluator = null;
+        // now writing the new property
         _properties.put(propertyName, value);
     }
 
@@ -182,42 +214,26 @@ public abstract class AbstractInternalContext implements InternalContext {
     }
 
     /**
+     * {@inheritDoc}
      * @see org.castor.xml.InternalContext#getXMLNaming()
      */
     public XMLNaming getXMLNaming() {
-        return getXMLNaming(null);
-    }
-
-    /**
-     * @see org.castor.xml.InternalContext#getXMLNaming(java.lang.ClassLoader)
-     */
-    public XMLNaming getXMLNaming(final ClassLoader classLoader) {
-        
         if (_xmlNaming != null) {
             return _xmlNaming;
         }
         
         String prop = _properties.getString(XMLProperties.XML_NAMING, null);
-        if ((prop == null) || (prop.equalsIgnoreCase("lower"))) {
-            _xmlNaming = new DefaultNaming();
-        } else if (prop.equalsIgnoreCase("mixed")) {
-            DefaultNaming dn = new DefaultNaming();
-            dn.setStyle(DefaultNaming.MIXED_CASE_STYLE);
-            _xmlNaming = dn;
-        } else {
-            try {
-                Class cls = null;
-                if (classLoader != null) {
-                    cls = classLoader.loadClass(prop); 
-                } else {
-                    cls = Class.forName(prop);
-                }
-                _xmlNaming = (XMLNaming) cls.newInstance();
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to load XMLNaming: " + e);
-            }
-        }
+        setXMLNaming(prop);
         return _xmlNaming;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.castor.xml.InternalContext#getXMLNaming(java.lang.ClassLoader)
+     * @deprecated Makes no sence!
+     */
+    public XMLNaming getXMLNaming(final ClassLoader classLoader) {
+        return getXMLNaming();
     } //-- getXMLNaming
 
     /**
@@ -446,11 +462,62 @@ public abstract class AbstractInternalContext implements InternalContext {
         _javaNaming = javaNaming;
     }
 
+    public void setJavaNaming(final String javaNamingProperty) {
+        if (javaNamingProperty == null || javaNamingProperty.length() == 0) {
+            _javaNaming = new JavaNamingImpl();
+        } else {
+            try {
+                Class<JavaNaming> cls = (Class<JavaNaming>) Class.forName(javaNamingProperty);
+                _javaNaming = cls.newInstance();
+            } catch (Exception e) {
+                IllegalArgumentException iae = new IllegalArgumentException(
+                        "Failed to load JavaNaming: " + e);
+                LOG.warn(iae.getMessage());
+                throw iae;
+            }
+        }
+    }
+
     /**
      * @see org.castor.xml.InternalContext#setXMLNaming(org.castor.xml.XMLNaming)
      */
     public void setXMLNaming(final XMLNaming xmlNaming) {
         _xmlNaming = xmlNaming;
+        // propagate to e.g. Introspector also!!
+        if (_introspector != null) {
+            _introspector.setNaming(_xmlNaming);
+        }
+    }
+
+    /**
+     * This XMLNaming setter is meant to be used when working in property style
+     * instead of setting an XMLNaming implementation.
+     * @param xmlNamingProperty to set the XMLNaming property as read from configuration
+     */
+    public void setXMLNaming(final String xmlNamingProperty) {
+        if ((xmlNamingProperty == null) || (xmlNamingProperty.equalsIgnoreCase("lower"))) {
+            setXMLNaming(new DefaultNaming());
+        } else if (xmlNamingProperty.equalsIgnoreCase("mixed")) {
+            DefaultNaming dn = new DefaultNaming();
+            dn.setStyle(DefaultNaming.MIXED_CASE_STYLE);
+            setXMLNaming(dn);
+        } else {
+            try {
+                Class<XMLNaming> cls = (Class<XMLNaming>) Class.forName(xmlNamingProperty);
+                setXMLNaming(cls.newInstance());
+            } catch (Exception e) {
+                IllegalArgumentException iae = new IllegalArgumentException(
+                        "Failed to load XMLNaming: " + e);
+                LOG.warn(iae.getMessage());
+                throw iae;
+            }
+        }
+        if (_xmlNaming == null) {
+            IllegalArgumentException iae = new IllegalArgumentException(
+                    "Failed to correctly set XMLNaming; property was: " + xmlNamingProperty);
+            LOG.warn(iae.getMessage());
+            throw iae;
+        }
     }
 
     /**
