@@ -22,6 +22,8 @@
         <module>diff</module>
         <module>xmlctf-framework</module>
         
+        <module>maven-plugins</module>
+        
         <module>cpa-testcase-archetype</module>
         <module>codegen-testcase-archetype</module>
         
