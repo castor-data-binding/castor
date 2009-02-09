@@ -61,8 +61,7 @@ public final class TestTimezone extends CastorTestCase {
         LOG.debug("user.timezone = " + System.getProperty("user.timezone"));
         
         AbstractProperties properties = CPAProperties.newInstance();
-        String testTimezone = properties.getString(CPAProperties.DEFAULT_TIMEZONE,
-                System.getProperty("user.timezone"));
+        String testTimezone = properties.getString(CPAProperties.DEFAULT_TIMEZONE, "CET");
         LOG.debug(CPAProperties.DEFAULT_TIMEZONE + " = " + testTimezone);
         
         Database database = _category.getDatabase();
@@ -172,8 +171,7 @@ public final class TestTimezone extends CastorTestCase {
         LOG.debug("user.timezone = " + System.getProperty("user.timezone"));
         
         AbstractProperties properties = CPAProperties.newInstance();
-        String testTimezone = properties.getString(CPAProperties.DEFAULT_TIMEZONE,
-                System.getProperty("user.timezone"));
+        String testTimezone = properties.getString(CPAProperties.DEFAULT_TIMEZONE, "CET");
         LOG.debug(CPAProperties.DEFAULT_TIMEZONE + " = " + testTimezone);
         
         Database database = _category.getDatabase();
@@ -280,8 +278,7 @@ public final class TestTimezone extends CastorTestCase {
         LOG.debug("user.timezone = " + System.getProperty("user.timezone"));
         
         AbstractProperties properties = CPAProperties.newInstance();
-        String testTimezone = properties.getString(CPAProperties.DEFAULT_TIMEZONE,
-                System.getProperty("user.timezone"));
+        String testTimezone = properties.getString(CPAProperties.DEFAULT_TIMEZONE, "CET");
         LOG.debug(CPAProperties.DEFAULT_TIMEZONE + " = " + testTimezone);
         
         Database database = _category.getDatabase();
