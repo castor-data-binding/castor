@@ -34,6 +34,8 @@
 
   <xi:include href="reference/jdo-extensions.xml" />
 
+  <xi:include href="reference/jpa.xml" />
+
   <!--  <xi:include href="reference/showcase.xml" />  -->
   
 </book>
