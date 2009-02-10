@@ -862,6 +862,9 @@
         <mkdir dir="${build}/${archive.name}/maven-plugins"/>
 
         <!-- <copydir src="${source}" dest="${build}/${archive.name}/src" defaultexcludes="true"/> -->
+        <copy todir="${build}/${archive.name}/">
+          <fileset dir="${basedir}" includes="pom.xml" />
+        </copy>
         <copy todir="${build}/${archive.name}/src">
           <fileset dir="${source}" />
         </copy>
@@ -985,7 +988,28 @@
               <exclude name="eclipse/" />
           </fileset>
         </copy>
-
+        <copy todir="${build}/${archive.name}/doc">
+          <fileset dir="${basedir}/doc">
+              <exclude name="build/" />
+              <exclude name="target/" />
+              <exclude name="eclipse/" />
+          </fileset>
+        </copy>
+        <copy todir="${build}/${archive.name}/jdo-extensions-it">
+          <fileset dir="${basedir}/jdo-extensions-it">
+              <exclude name="build/" />
+              <exclude name="target/" />
+              <exclude name="eclipse/" />
+          </fileset>
+        </copy>
+        <copy todir="${build}/${archive.name}/diff">
+          <fileset dir="${basedir}/diff">
+              <exclude name="build/" />
+              <exclude name="target/" />
+              <exclude name="eclipse/" />
+          </fileset>
+        </copy>
+    	
         <tar includes="${archive.name}/**" basedir="${build}" tarfile="${dist}/${archive.name}-src.tar"/>
         <gzip src="${dist}/${archive.name}-src.tar" zipfile="${dist}/${archive.name}-src.tgz"/>
         <delete file="${dist}/${archive.name}-src.tar"/>
