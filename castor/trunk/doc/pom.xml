@@ -8,12 +8,12 @@
   <!--parent>
     <groupId>org.codehaus.castor</groupId>
     <artifactId>castor</artifactId>
-    <version>1.3rc2-SNAPSHOT</version>
+    <version>1.3</version>
   </parent-->
 
   <groupId>org.codehaus.castor</groupId>
   <artifactId>castor-docs</artifactId>
-  <version>1.3rc2-SNAPSHOT</version>
+  <version>1.3</version>
   <name>Castor: Documentation</name>
   <description>Castor Documentation - Reference guide and user manuals.</description>
 
@@ -69,7 +69,7 @@
                   </fileset>
                 </copy>
                 <move file="target/site/reference/pdf/index.pdf"
-                  tofile="target/site/reference/pdf/castor-reference-guide-1.3rc2-SNAPSHOT.pdf" failonerror="false" />
+                  tofile="target/site/reference/pdf/castor-reference-guide-1.3.pdf" failonerror="false" />
               </postProcess>
             </configuration>
             <phase>pre-site</phase>
