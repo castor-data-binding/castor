@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.codehaus.org/lists.xml">
+  <body>
+    <title>Castor Mailing Lists</title>
+    <header>
+    </header>
+
+    <section title="Mailing Lists">
+
+    <section title="General notes">
+    
+        <ul>
+            <li>
+                Please manage your <b>subscriptions</b> over at 
+                <a href="http://xircles.codehaus.org">http://xircles.codehaus.org</a>
+            </li>
+            <li>
+                Make sure have are subscribed to a list prior to posting by managing your 
+                subscription at http://xircles.codehaus.org. Although mails from 
+                non-subscribers can be manually moderated through if applicable, our
+                policy is to reject mails from regular posters who fail to properly
+                subscribe. This is to prevent spam and to reduce the workload of
+                the moderators.
+            </li>
+            <li>
+                Please familiarize yourself with the 
+                <a href="#Guidelines">guidelines</a> before posting to the list.
+            </li>
+        </ul>
+    </section>
+
+      <section title="announce@castor.codehaus.org - Announcements">
+
+        <p>
+          This list is a <b>read-only</b> low volume (less than 1 message
+          per week) mailing list for special announcements related to Castor,
+          such as new releases.
+        </p>
+
+        <p><b>Archives:</b></p>
+
+        <ctable>
+            <crow>
+                <td><a href="http://archive.castor.codehaus.org/announce">The Codehaus</a></td>
+            </crow>
+            <crow>
+                <td><a href="http://castor.markmail.org/search/?q=list%3Aannounce">MarkMail.org</a></td>
+            </crow>
+        </ctable>
+
+      </section>
+
+      <section title="user@castor.codehaus.org - User mailing list">
+
+        <p>
+          This list is a moderate volume (between 10 and 25 messages a day)
+          mailing list for the <b>users</b> of Castor. It should be used to
+          discuss general questions related to the use of Castor, problems you
+          are having getting Castor to work, and so on.
+        </p>
+
+        <p><b>Archives:</b></p>
+
+        <ctable>
+            <crow>
+                <td><a href="http://archive.castor.codehaus.org/user">The Codehaus</a></td>
+            </crow>
+            <crow>
+                <td><a href="http://www.mail-archive.com/user@castor.codehaus.org/">mail-archive.com</a></td>
+            </crow>
+            <crow>
+                <td><a href="http://marc.theaimsgroup.com/?l=castor-user&amp;r=1&amp;w=2">The Aims Group</a></td>
+            </crow>
+            <crow>
+                <td><a href="http://news.gmane.org/gmane.comp.java.castor.user">GMANE</a></td>
+            </crow>
+            <crow>
+                <td><a href="http://castor.markmail.org/search/?q=list%3Auser">MarkMail.org</a></td>
+            </crow>
+        </ctable>
+
+      </section>
+
+      <section title="dev@castor.codehaus.org - Development mailing list">
+
+        <p>
+          This list is a moderate volume (possibly fewer than 15 messages a
+          day) mailing list for developers working on or wanting to work on
+          Castor itself (not developers merely working with Castor), for code
+          patches to Castor to be posted (please use diff -u format), and for
+          general Castor questions.
+        </p>
+
+        <p>
+          Note this is NOT for general Castor questions like "Why isn't Castor
+          working for me?" Please ask those sorts of questions on
+          the user mailing list (after reading the FAQ first, of course).
+        </p>
+
+        <p>
+          This list will be used by the main committers to discuss the following
+          items:
+        </p>
+
+        <ul>
+          <li>Bug reports/enhancement requests.</li>
+          <li>On-going development activities.</li>
+          <li>Potential new features to be incorporated into the product.</li>
+          <li>Upcoming releases</li>
+        </ul>
+
+        <p>
+          Please subscribe to this mailing list, as we believe that feedback
+          from the user community on many of these issues is essential for
+          the progress of the project.
+        </p>
+
+        <p>
+          <b>Archives:</b>
+        </p>
+        
+        <ctable>
+            <crow>
+                <td><a href="http://archive.castor.codehaus.org/dev">The Codehaus</a></td>
+            </crow>
+            <crow>
+                <td><a href="http://www.mail-archive.com/dev@castor.codehaus.org/">mail-archive.com</a></td>
+            </crow>
+            <crow>
+                <td><a href="http://marc.theaimsgroup.com/?l=castor-dev&amp;r=1&amp;w=2">The Aims Group</a></td>
+            </crow>
+            <crow>
+                <td><a href="http://news.gmane.org/gmane.comp.java.castor.devel">GMANE</a></td>                
+            </crow>
+            <crow>
+                <td><a href="http://castor.markmail.org/search/?q=list%3Adev">MarkMail.org</a></td>
+            </crow>
+        </ctable>
+
+      </section>
+
+      <section title="scm@castor.codehaus.org - SCM mailing list">
+
+        <p>
+          This <b>read-only</b> list sends out notification messages detailing any change
+          made to the Subversion (SVN) repository where all the source code and
+          libraries are stored for development purposes. The average user probably
+          doesn't need to subscribe to this list.
+        </p>
+
+        <p>
+          <b>Archives:</b>
+        </p>
+
+        <ctable>
+            <crow>
+                <td><a href="http://archive.castor.codehaus.org/scm">The Codehaus</a></td>
+            </crow>
+            <crow>
+                <td><a href="http://castor.markmail.org/search/?q=list%3Ascm">MarkMail.org</a></td>
+            </crow>
+        </ctable>
+
+      </section>
+
+    </section>
+    
+    <section title="user vs. dev">
+
+      <p>
+        Please use above mailing lists for what they are intended for. Please use
+        the descriptions above to target your message to the correct mailing list.
+      </p>
+
+      <p>
+        By all means, please avoid <b>cross-posting</b> messages to both lists,
+        as it will decrease the quality of service we would like to offer.
+      </p>
+
+      <p>
+        Having said that, there might be a valid case for cross-posting
+        a message (e.g. us confirming that a problem is a result of a bug, and hence
+        referring you to 'dev' for further discussions), but in general
+        the use of this should be restricted as much as possible.
+      </p>
+      
+    </section>
+
+    <section title="Interaction and acronyms">
+
+      <p>
+        As we believe that an effective interaction with the user community is
+        essential for Castor to progress as a project, we have decided to establish a
+        slightly more structured approach in dealing with many of the issues we
+        and you encounter.
+      </p>
+
+      <section title="Acronyms">
+        <p>
+          Especially on (but not necessarily restricted to) 'dev', we will be much
+          more interactive about many of the issues mentioned above. As such, we have
+          decided to structure our messages more thoroughly, and have come up with the
+          following set of acronyms to show our intention:
+        </p>
+
+        <ul>
+          <li><i>RFC</i> - <b>R</b>equest <b>F</b>or <b>C</b>omment</li>
+          <li><i>RFV</i> - <b>R</b>equest <b>F</b>or <b>V</b>oting</li>
+          <li><i>ANN</i> - <b>ANN</b>ouncement</li>
+          <li><i>RFR</i> - <b>R</b>equest <b>F</b>or <b>R</b>eview</li>
+        </ul>
+
+      </section>
+
+      <section title="[XML] or [JDO]">
+
+        <p>
+          Please prefix your messages to all mailing list with either [XML] or [JDO].
+          This will help us to improve the time it takes us to react to your needs.
+          Having said that, all committers will monitor both areas.
+        </p>
+
+      </section>
+
+    </section>
+
+    <section title="Guidelines">
+      <p>
+        The following are some general "common-sense" guidelines for using the
+        mailing lists:
+      </p>
+
+      <p>
+        Most people are already following these guidelines. To those people, we
+        thank you. For those of you who are not ... please read carefully.
+      </p>
+
+        <p>
+      <ol>
+         <li>Please be kind and respectful to your fellow castor users.</li>
+
+         <li>
+           Please refrain from using words and phrases like URGENT, IMPORTANT,
+           MY WIFE WILL LEAVE ME IF YOU DO NOT RESPOND, etc, in the subject line
+           of your postings. Or even in the body of the message for that matter.
+           <br/>
+           You may think that things which are URGENT or IMPORTANT to you are
+           just as urgent and important to everyone else reading this list.
+           You'd be surprised at just how wrong an assumption like that can be.
+         </li>
+
+         <li>
+           Please use meaningful subject lines. "Newbie Question", is not
+           meaningful what-so-ever.
+         </li>
+
+         <li>
+           Please provide necessary information, where applicable.  Statements
+           like, "I receive a NullPointerException when using Castor, what's up
+           with that?", are not very helpful, add unnecessary traffic on the
+           list, and will probably never get an answer.
+         </li>
+
+         <li>
+           As a follow-on to #3, when submitting examples please try to submit
+           the smallest possible example which demonstrates the problem. Short
+           examples are easier to follow and will get much quicker responses
+           from developers or other users than long examples with lots of
+           extraneous code/data.  Remember, we're not being paid to do this.
+         </li>
+
+         <li>
+           Please read the documentation before posting. It doesn't take long
+           and it will save us valuable time from having to answer questions
+           that are already covered in the docs.
+         </li>
+
+         <li>
+           Please check the mail archives before posting. Many questions on
+           this list have already been answered before.
+         </li>
+
+         <li>
+           Please refrain from posting confidential information. Once an e-mail
+           is sent to the list, it goes out to all subscribers, including
+           archive engines. We cannot remove or delete messages sent to the
+           list. Once sent they are available for the public to see. If you are
+           unsure about what is confidential or not, check with your manager,
+           supervisor, or the person in charge at your company.
+         </li>
+
+         <li>
+           If you are going on vacation. Please enjoy yourself. We really want
+           you to have fun and get some much needed rest and relaxation. With
+           that being said (and to be perfectly honest), none of us really want
+           to receive your automated vacation responses. Please either add a
+           filter to your vacation response so it doesn't get sent to the list
+           or users posting to the list, or simply remove yourself from the
+           list before you go, and add yourself back when you return.
+         </li>
+
+         <li>
+           Please refrain from sending emails to this mailing list formatted
+           as text/html.
+         </li>
+
+         <li>
+           Please start a new thread per topic/question. That is to say, please
+           avoid 'hijacking' existing threads.
+         </li>
+      </ol>
+      </p>
+
+    </section>
+
+    <section title="A note about HTML-formatted e-mail">
+      <p>
+         As stated in the guildelines above (see #10), <b>please refrain</b>
+         from sending email to these mailing lists formatted as <b>'text/html'</b>
+         under all circumstances.
+      </p>
+      <p>
+        Amongst other things, it complicates life for users not working on
+        Windows and decreases usability of the mailing list archives, as it
+        prevents text searches from returning useful results.
+      </p>
+      <p>
+        Additional information why we consider HTML emails to be avoided can be
+        found <a href="http://www.birdhouse.org/etc/evilmail.html">here</a>.
+      </p>
+    </section>
+
+  </body>
+</document>

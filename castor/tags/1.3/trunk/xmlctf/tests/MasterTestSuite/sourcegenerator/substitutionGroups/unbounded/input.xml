@@ -1,0 +1,9 @@
+<c:Condition xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xmlns:c='urn:oasis:names:tc:xacml:2.0:policy:schema:os'
+    xsi:schemaLocation='urn:oasis:names:tc:xacml: 2.0:policy:schema:os minimal.xsd'>
+    <c:Apply
+        FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-at-least-one-member-of">
+        <c:Apply FunctionId="urn:oasis:names:tc:xacml: 1.0:function:string-bag" />
+        <c:Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-bag" />
+    </c:Apply>
+</c:Condition>

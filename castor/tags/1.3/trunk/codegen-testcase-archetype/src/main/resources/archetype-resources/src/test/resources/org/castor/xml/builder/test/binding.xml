@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<binding>
+
+	<elementBinding name="/sampleElement/second" />
+		<member type="java.lang.Long" />
+	</elementBinding>
+	
+</binding>

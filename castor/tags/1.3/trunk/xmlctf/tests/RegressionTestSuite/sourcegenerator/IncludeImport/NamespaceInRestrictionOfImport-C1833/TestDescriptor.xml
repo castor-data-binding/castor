@@ -1,0 +1,20 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>Test ComplexType restriction of an imported ComplexType</Name>
+    <Author>Edward Kuns</Author>
+    <Comment>
+        There are two distict problems:
+        1) Spurious xmlns="" in some nodes
+        2) Duplication of the restricted
+    </Comment>
+    <Category>basic capability</Category>
+    <SourceGeneratorTest>
+        <Schema>test.xsd</Schema>
+        <Root_Object random="false" dump="true">Root</Root_Object>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Input>input.xml</Input>
+            <GenerateImported>true</GenerateImported>
+        </UnitTestCase>
+    </SourceGeneratorTest>
+</TestDescriptor>

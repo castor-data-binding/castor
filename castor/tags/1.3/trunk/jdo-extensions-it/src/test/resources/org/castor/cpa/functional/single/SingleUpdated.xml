@@ -1,0 +1,10 @@
+<dataset>
+	<table name="book">
+		<column>isbn</column>
+		<column>title</column>
+		<row>
+			<value>1234</value>
+			<value>Heart of Light</value>
+		</row>
+	</table>
+</dataset>

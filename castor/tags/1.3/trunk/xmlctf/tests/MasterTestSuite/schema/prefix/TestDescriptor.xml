@@ -1,0 +1,16 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>Test the correct reading/writing of QNames</Name>
+    <Author>Arnaud Blandin</Author>
+    <Comment>Regression testing
+    </Comment>
+    <Category>basic capability</Category>
+
+    <SchemaTest>
+
+        <UnitTestCase>
+            <Schema>prefix.xsd</Schema>
+        </UnitTestCase>
+
+    </SchemaTest>
+</TestDescriptor>

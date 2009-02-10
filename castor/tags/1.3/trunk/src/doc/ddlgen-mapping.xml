@@ -1,0 +1,395 @@
+<?xml version="1.0"?>
+
+<document url="http://castor.org/srcgen-properties.xml">
+
+  <properties>
+    <title>Castor DDL Generator - Type Mapping</title>
+    <author email="ralf DOT joachim AT syscon DOT eu">Ralf Joachim</author>
+    <abstract>
+       Describes mapping between Castor SQL type, java data type and SQL type of
+       supported database.
+    </abstract>
+    <status>Draft</status>
+  </properties>
+
+  <body>
+
+    <title>Castor DDL Generator - Type Mapping</title>
+
+    <section title="Type Mapping">
+        
+      <p>
+        This section describes the mapping between Castor sql type java.sql.Types
+        constant, java data type, sql type of supported database.
+      </p>
+        
+      <ctable border="1" cellspacing="0">
+        <cheader>
+          <th>Castor Type</th>
+          <th>JDBC Type</th>
+          <th>Java Object Type</th>
+          <th>MySQL</th>
+          <th>PostgreSQL</th>
+          <th>Oracle</th>
+          <th>Derby</th>
+          <th>MSSQL</th>
+          <th>SapDB</th>
+          <th>DB2</th>
+          <th>Sybase</th>
+          <th>HSQL</th>
+          <th>PointBase</th>
+        </cheader>
+        <crow>
+          <td>BIT</td>
+          <td>BIT</td>
+          <td>java.lang.Boolean</td>
+          <td>TINYINT(1)</td>
+          <td>BOOLEAN</td>
+          <td>BOOLEAN</td>
+          <td>CHAR FOR BIT DATA</td>
+          <td>BIT</td>
+          <td>BOOLEAN</td>
+          <td></td>
+          <td>BIT</td>
+          <td>BIT</td>
+          <td>BOOLEAN</td>
+        </crow>
+        <crow>
+          <td>TINYINT</td>
+          <td>TINYINT</td>
+          <td>java.lang.Byte</td>
+          <td>TINYINT</td>
+          <td>SMALLINT</td>
+          <td>SMALLINT</td>
+          <td>SMALLINT</td>
+          <td>TINYINT</td>
+          <td>SMALLINT</td>
+          <td>SMALLINT</td>
+          <td>TINYINT</td>
+          <td>TINYINT</td>
+          <td>SMALLINT</td>
+        </crow>
+        <crow>
+          <td>SMALLINT</td>
+          <td>SMALLINT</td>
+          <td>java.lang.Short</td>
+          <td>SMALLINT</td>
+          <td>SMALLINT</td>
+          <td>SMALLINT</td>
+          <td>SMALLINT</td>
+          <td>SMALLINT</td>
+          <td>SMALLINT</td>
+          <td>SMALLINT</td>
+          <td>SMALLINT</td>
+          <td>SMALLINT</td>
+          <td>SMALLINT</td>
+        </crow>
+        <crow>
+          <td>INTEGER</td>
+          <td>INTEGER</td>
+          <td>java.lang.Integer</td>
+          <td>INTEGER</td>
+          <td>INTEGER</td>
+          <td>INTEGER</td>
+          <td>INTEGER</td>
+          <td>INTEGER</td>
+          <td>INTEGER</td>
+          <td>INTEGER</td>
+          <td>INTEGER</td>
+          <td>INTEGER</td>
+          <td>INTEGER</td>
+        </crow>
+        <crow>
+          <td>BIGINT</td>
+          <td>BIGINT</td>
+          <td>java.lang.Long</td>
+          <td>BIGINT</td>
+          <td>BIGINT</td>
+          <td>NUMERIC</td>
+          <td>BIGINT</td>
+          <td>BIGINT</td>
+          <td>INTEGER</td>
+          <td>BIGINT</td>
+          <td>INTEGER</td>
+          <td>BIGINT</td>
+          <td>NUMERIC</td>
+        </crow>
+        <crow>
+          <td>FLOAT</td>
+          <td>FLOAT</td>
+          <td>java.lang.Double</td>
+          <td>FLOAT</td>
+          <td>DOUBLE PRECISION</td>
+          <td>FLOAT</td>
+          <td>FLOAT</td>
+          <td>FLOAT</td>
+          <td>FLOAT</td>
+          <td>FLOAT</td>
+          <td>FLOAT</td>
+          <td>FLOAT</td>
+          <td>FLOAT</td>
+        </crow>
+        <crow>
+          <td>DOUBLE</td>
+          <td>DOUBLE</td>
+          <td>java.lang.Double</td>
+          <td>DOUBLE</td>
+          <td>DOUBLE PRECISION</td>
+          <td>DOUBLE PRECISION</td>
+          <td>DOUBLE</td>
+          <td>DOUBLE PRECISION</td>
+          <td>DOUBLE PRECISION</td>
+          <td>DOUBLE</td>
+          <td>DOUBLE PRECISION</td>
+          <td>DOUBLE PRECISION</td>
+          <td>DOUBLE PRECISION</td>
+        </crow>
+        <crow>
+          <td>REAL</td>
+          <td>REAL</td>
+          <td>java.lang.Float</td>
+          <td>REAL</td>
+          <td>REAL</td>
+          <td>REAL</td>
+          <td>REAL</td>
+          <td>REAL</td>
+          <td>DOUBLE PRECISION</td>
+          <td>REAL</td>
+          <td>REAL</td>
+          <td>REAL</td>
+          <td>REAL</td>
+        </crow>
+        <crow>
+          <td>NUMERIC</td>
+          <td>NUMERIC</td>
+          <td>java.math.BigDecimal</td>
+          <td>NUMERIC</td>
+          <td>NUMERIC</td>
+          <td>NUMERIC</td>
+          <td>NUMERIC</td>
+          <td>NUMERIC</td>
+          <td>NUMERIC</td>
+          <td>NUMERIC</td>
+          <td>NUMERIC</td>
+          <td>NUMERIC</td>
+          <td>NUMERIC</td>
+        </crow>
+        <crow>
+          <td>DECIMAL</td>
+          <td>DECIMAL</td>
+          <td>java.math.BigDecimal</td>
+          <td>DECIMAL</td>
+          <td>NUMERIC</td>
+          <td>DECIMAL</td>
+          <td>DECIMAL</td>
+          <td>DECIMAL</td>
+          <td>DECIMAL</td>
+          <td>DECIMAL</td>
+          <td>DECIMAL</td>
+          <td>DECIMAL</td>
+          <td>DECIMAL</td>
+        </crow>
+        <crow>
+          <td>CHAR</td>
+          <td>CHAR</td>
+          <td>java.lang.String</td>
+          <td>CHAR</td>
+          <td>CHAR</td>
+          <td>CHAR</td>
+          <td>CHAR</td>
+          <td>CHAR</td>
+          <td>CHAR</td>
+          <td>CHAR</td>
+          <td>CHAR</td>
+          <td>CHAR</td>
+          <td>CHAR</td>
+        </crow>
+        <crow>
+          <td>VARCHAR</td>
+          <td>VARCHAR</td>
+          <td>java.lang.String</td>
+          <td>VARCHAR</td>
+          <td>VARCHAR</td>
+          <td>VARCHAR2</td>
+          <td>VARCHAR</td>
+          <td>VARCHAR</td>
+          <td>VARCHAR</td>
+          <td>VARCHAR</td>
+          <td>VARCHAR</td>
+          <td>VARCHAR</td>
+          <td>VARCHAR</td>
+        </crow>
+        <crow>
+          <td>DATE</td>
+          <td>DATE</td>
+          <td>java.sql.Date</td>
+          <td>DATE</td>
+          <td>DATE</td>
+          <td>DATE</td>
+          <td>DATE</td>
+          <td>DATETIME</td>
+          <td>DATE</td>
+          <td>DATE</td>
+          <td>DATETIME</td>
+          <td>DATE</td>
+          <td>DATE</td>
+        </crow>
+        <crow>
+          <td>TIME</td>
+          <td>TIME</td>
+          <td>java.sql.Time</td>
+          <td>TIME</td>
+          <td>TIME</td>
+          <td>DATE</td>
+          <td>TIME</td>
+          <td>DATETIME</td>
+          <td>TIME</td>
+          <td>TIME</td>
+          <td>DATETIME</td>
+          <td>TIME</td>
+          <td>TIME</td>
+        </crow>
+        <crow>
+          <td>TIMESTAMP</td>
+          <td>TIMESTAMP</td>
+          <td>java.sql.Timestamp</td>
+          <td>TIMESTAMP</td>
+          <td>TIMESTAMP</td>
+          <td>TIMESTAMP</td>
+          <td>TIMESTAMP</td>
+          <td>TIMESTAMP</td>
+          <td>TIMESTAMP</td>
+          <td>TIMESTAMP</td>
+          <td>TIMESTAMP</td>
+          <td>TIMESTAMP</td>
+          <td>TIMESTAMP</td>
+        </crow>
+        <crow>
+          <td>BINARY</td>
+          <td>BINARY</td>
+          <td>byte[]</td>
+          <td>BINARY</td>
+          <td>BYTEA</td>
+          <td>RAW</td>
+          <td>CHAR [n] FOR BIT DATA</td>
+          <td>BINARY</td>
+          <td>BLOB</td>
+          <td>CHAR [n] FOR BIT DATA</td>
+          <td>BINARY</td>
+          <td>BINARY</td>
+          <td>BLOB</td>
+        </crow>
+        <crow>
+          <td>VARBINARY</td>
+          <td>VARBINARY</td>
+          <td>byte[]</td>
+          <td>VARBINARY</td>
+          <td>BYTEA</td>
+          <td>LONG RAW</td>
+          <td>VARCHAR [] FOR BIT DATA</td>
+          <td>VARBINARY</td>
+          <td>BLOB</td>
+          <td>VARCHAR [] FOR BIT DATA</td>
+          <td>VARBINARY</td>
+          <td>VARBINARY</td>
+          <td>BLOB</td>
+        </crow>
+        <crow>
+          <td>LONGVARBINARY</td>
+          <td>LONGVARBINARY</td>
+          <td>byte[]</td>
+          <td>VARBINARY</td>
+          <td>BYTEA</td>
+          <td>LONG RAW</td>
+          <td>LONG VARCHAR FOR BIT DATA</td>
+          <td>IMAGE</td>
+          <td>BLOB</td>
+          <td>LONG VARCHAR FOR BIT DATA</td>
+          <td>VARBINARY</td>
+          <td>LONGVARBINARY</td>
+          <td>BLOB</td>
+        </crow>
+        <crow>
+          <td>OTHER</td>
+          <td>OTHER</td>
+          <td>java.lang.Object</td>
+          <td>BLOB</td>
+          <td>BYTEA</td>
+          <td>BLOB</td>
+          <td>BLOB</td>
+          <td>IMAGE</td>
+          <td>BLOB</td>
+          <td>BLOB</td>
+          <td>IMAGE</td>
+          <td>OTHER</td>
+          <td>BLOB</td>
+        </crow>
+        <crow>
+          <td>JAVA_OBJECT</td>
+          <td>JAVA_OBJECT</td>
+          <td>java.lang.Object</td>
+          <td>BLOB</td>
+          <td>BYTEA</td>
+          <td>BLOB</td>
+          <td>BLOB</td>
+          <td>IMAGE</td>
+          <td>BLOB</td>
+          <td>BLOB</td>
+          <td>IMAGE</td>
+          <td>OBJECT</td>
+          <td>BLOB</td>
+        </crow>
+        <crow>
+          <td>BLOB</td>
+          <td>BLOB</td>
+          <td>java.io.InputStream</td>
+          <td>BLOB</td>
+          <td>BYTEA</td>
+          <td>BLOB</td>
+          <td>BLOB</td>
+          <td>IMAGE</td>
+          <td>BLOB</td>
+          <td>BLOB</td>
+          <td>IMAGE</td>
+          <td>OBJECT</td>
+          <td>BLOB</td>
+        </crow>
+        <crow>
+          <td>CLOB</td>
+          <td>CLOB</td>
+          <td>java.sql.Clob</td>
+          <td>TEXT</td>
+          <td>TEXT</td>
+          <td>CLOB</td>
+          <td>CLOB</td>
+          <td>TEXT</td>
+          <td>CLOB</td>
+          <td>CLOB</td>
+          <td>TEXT</td>
+          <td>OBJECT</td>
+          <td>CLOB</td>
+        </crow>
+       </ctable>
+
+    </section>
+        
+    <section title="JDBC Types not supported by Castor">
+        
+      <p>
+        The following JDBC types are not supported by Castor yet and can therefore not
+        been found in above table. 
+      </p>
+
+      <ul>
+        <li>ARRAY</li>
+        <li>DISTICT</li>
+        <li>REF</li>
+        <li>STRUCT</li>
+      </ul>
+
+    </section>
+        
+  </body>
+
+</document>
+

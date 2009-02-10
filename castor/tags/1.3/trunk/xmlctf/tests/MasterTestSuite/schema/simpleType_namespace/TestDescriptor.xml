@@ -1,0 +1,39 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>Test the reading of simpleType declared in different namespace</Name>
+    <Author>Arnaud Blandin</Author>
+    <Comment>
+        This test ensures that XML Schema built-in types are correctly read when
+        declared in the schema namespace (even default) and that an exception is
+        thrown when the type is not declared in the schema Namespace
+    </Comment>
+    <Comment>Regression testing</Comment>
+    <Category>basic capability</Category>
+
+    <BugFix>
+        <Reporter>Kirchhoff, Florian [Florian.Kirchhoff@qwest.com]</Reporter>
+        <Date_Report>2002-05-01</Date_Report>
+        <Date_Fix>2002-05-01</Date_Fix>
+        <Comment>Added default namespace saving in the schema reader</Comment>
+    </BugFix>
+
+    <SchemaTest>
+        <UnitTestCase>
+              <Schema>simpleType_namespace.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+              <Schema>simpleType_namespace_failure.xsd</Schema>
+              <Failure exception="org.exolab.castor.xml.XMLException"
+                       FailureStep="parse-schema">true</Failure>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>simpleType_default_ns.xsd</Schema>
+            <Comment>
+                Added for default namespace bug reported by Stephan Goetter and
+                Erik Ostermueller (kvisco - 20021017)
+            </Comment>
+        </UnitTestCase>
+      </SchemaTest>
+ </TestDescriptor>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="1.0.0">
+    <xsd:element name="AKConfig" type="AKConfigType">
+        <xsd:annotation>
+            <xsd:documentation>AK Config</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:complexType name="AKConfigType">
+        <xsd:sequence>
+            <xsd:element name="handler" type="xsd:string" />
+            <xsd:element name="timeout" type="xsd:int" />
+            <xsd:element name="allowMultiplePartsPerCnxn" type="xsd:boolean"
+                default="false" />
+            <xsd:element name="CategoryList" type="CategoryListType" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="CategoryListType">
+        <xsd:sequence>
+            <xsd:element name="CnxnCategory" type="CategoryType" minOccurs="0"
+                maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="CategoryType">
+        <xsd:attribute name="value" type="xsd:string" use="required" />
+        <xsd:attribute name="MaxConnectionsAllowed" type="xsd:int" use="optional"
+            default="1" />
+    </xsd:complexType>
+    
+    <xsd:complexType name="XXX">
+        <xsd:sequence>
+            <xsd:element name="xyz" type="xsd:string" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

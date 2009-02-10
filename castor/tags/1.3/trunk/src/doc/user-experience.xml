@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+<document url="http://castor.org/user-experience.xml">
+
+    <properties>
+        <title>Castor and its usage - User stories</title>
+        <author email="wguttmn AT codehaus DOT org">Werner Guttmann</author>
+        <abstract>
+            Describes how Castor is used by its user community.
+        </abstract>
+        <status>Final</status>
+    </properties>
+
+    <body>
+
+        <title>Castor and its usage - User stories</title>
+
+        <section title="Introduction">
+
+            <p>
+                This document tries to communicate how the product (and its various parts)
+                are used in the (professional) world. It presents you with useful information 
+                in what context(s) Castor is being used, and as such provides you with a
+                collection of reference points. 
+            </p>
+
+        </section>
+        
+        <section title="User stories">
+        
+            <section title="Wireless MedCARE">
+            
+                <p>
+                    <ul>
+                        <li>Author: Chuck Kring</li>
+                        <li>Company: Wireless MedCARE</li>
+                    </ul>
+                </p>
+                    
+                <p>
+                    <b>Wireless MedCARE</b> is implementing a patient monitoring solution for 
+                    nursing homes and other long-term care facilities.  A key part of 
+                    our architecture is a Java application that receives data from various 
+                    sensors then sends alerts and/or creates caregiver tasks based upon 
+                    alarms and customer-specific business rules.  This application has a 
+                    complex internal data model so we use Castor to marshal the data model 
+                    to and from an XML configuration file. We also use Castor to marshal a 
+                    facade layer to and from XML in order to implement an XML-RPC 
+                    interface.  We use a manually-generated mapping file for configuration 
+                    but automatically generate a mapping file from the facade objects.
+                </p>
+                 
+            </section>
+            
+        </section>
+
+
+    </body>
+
+</document>

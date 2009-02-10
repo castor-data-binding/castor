@@ -1,0 +1,33 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+
+    <Name>Mapping-Constructors</Name>
+    <Author>Werner Guttmann</Author>
+
+    <Comment>
+        Tests the special handling of constructor arguments that are primitive and
+        missing in the XML input document (as they might be optional).
+    </Comment>
+
+    <Category>basic capability</Category>
+
+    <MarshallingTest>
+        <Root_Object>Foo</Root_Object>
+
+        <UnitTestCase>
+            <Name>Test01</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+            <GoldFile>input.xml</GoldFile>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Test02</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input-without.xml</Input>
+            <GoldFile>input-with-default.xml</GoldFile>
+        </UnitTestCase>
+
+    </MarshallingTest>
+
+</TestDescriptor>

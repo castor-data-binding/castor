@@ -1,0 +1,87 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>Redefine test collection</Name>
+    <Author>Keith Visco</Author>
+    <Comment>This test suite is a work in progress that needs to be completed.</Comment>
+    <Category>basic capability</Category>
+
+    <SchemaTest>
+        <UnitTestCase>
+            <Name>Redefine-Schema-Location</Name>
+            <Schema>TestForRedefine_1.xsd</Schema>
+            <GoldFile>GoldFile-1.xsd</GoldFile>
+            <SchemaDifferences FailureStep="compare-to-reference">1</SchemaDifferences>
+            <Comment>
+                The whole schema is redefined so a different schema is loaded.  Thus,
+                we need to supply a GoldFile.  Otherwise we'd compare TestForRedefine_1.xsd
+                to the totally unrelated schema contained in xsd003.xsdmod.
+            </Comment>
+            <Comment>We expect one difference -- the file URL</Comment>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForRedefine_2.xsd</Schema>
+            <GoldFile>GoldFile-2.xsd</GoldFile>
+            <SchemaDifferences FailureStep="compare-to-reference">1</SchemaDifferences>
+            <Comment>
+                The whole schema is redefined so a different schema is loaded.  Thus,
+                we need to supply a GoldFile.  Otherwise we'd compare TestForRedefine_2.xsd
+                to the different schema contained in xsd003.xsdmod.
+            </Comment>
+            <Comment>We expect one difference -- the file URL</Comment>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForRedefine_3.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForRedefine_error1.xsd</Schema>
+            <Failure exception="org.exolab.castor.xml.XMLException"
+                     FailureStep="parse-schema">true</Failure>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForRedefine_error2.xsd</Schema>
+            <Failure exception="org.exolab.castor.xml.XMLException"
+                     FailureStep="parse-schema">true</Failure>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForRedefine_error3.xsd</Schema>
+            <Failure exception="org.exolab.castor.xml.XMLException"
+                     FailureStep="parse-schema">true</Failure>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForRedefine_error4.xsd</Schema>
+            <Failure exception="org.exolab.castor.xml.XMLException"
+                     FailureStep="parse-schema">true</Failure>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForRedefine_error5.xsd</Schema>
+            <Failure exception="org.exolab.castor.xml.XMLException"
+                     FailureStep="parse-schema">true</Failure>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForRedefine_error6.xsd</Schema>
+            <Failure exception="org.exolab.castor.xml.XMLException"
+                     FailureStep="parse-schema">true</Failure>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForRedefine_error7.xsd</Schema>
+            <Failure exception="org.exolab.castor.xml.XMLException"
+                     FailureStep="parse-schema">true</Failure>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForRedefine_error8.xsd</Schema>
+            <Failure exception="org.exolab.castor.xml.XMLException"
+                     FailureStep="parse-schema">true</Failure>
+        </UnitTestCase>
+
+    </SchemaTest>
+</TestDescriptor>

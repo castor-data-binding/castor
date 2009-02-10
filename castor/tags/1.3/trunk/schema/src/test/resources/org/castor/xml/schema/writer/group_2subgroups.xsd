@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+    <complexType name="myType">
+        <sequence>
+        <choice minOccurs="0" maxOccurs="unbounded">
+            <element name="myStringType" type="string" />
+        </choice>
+        <choice minOccurs="0" maxOccurs="unbounded">
+            <element name="myStringType2" type="string" />
+        </choice>
+        </sequence>
+    </complexType>
+</schema>

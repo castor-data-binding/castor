@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:simpleType name="HOST">
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+    <xs:simpleType name="IDENT">
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+    <xs:simpleType name="PASSWORD">
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+    <xs:complexType name="FLOWER">
+        <xs:sequence>
+            <xs:element name="HOST" type="HOST"/>
+            <xs:element name="ID" type="blahblahblah" />
+            <xs:element name="PASSWORD" type="PASSWORD"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:element name="aFlower" type="FLOWER" />
+</xs:schema>
