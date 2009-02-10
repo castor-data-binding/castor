@@ -1,0 +1,26 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>bug907i</Name>
+    <Author>Keith Visco</Author>
+    <Comment>
+        Regression Test for Bug 907 (Intalio CVS)
+    </Comment>
+    <Category>basic capability</Category>
+   <BugFix>
+      <Reporter>Arnaud Blandin</Reporter>
+      <Date_Report>2001-09-26</Date_Report>
+      <Date_Fix>2002-09-26</Date_Fix>
+      <Comment>Bug 907 (Intalio CVS)</Comment>
+   </BugFix>
+
+    <MarshallingTest>
+        <Root_Object>Foo</Root_Object>
+        <UnitTestCase>
+            <Name>Test unmarshalling namespace prefixed attributes</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+            <GoldFile>output.xml</GoldFile>
+        </UnitTestCase>
+    </MarshallingTest>
+
+</TestDescriptor>

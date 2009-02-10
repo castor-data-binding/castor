@@ -1,0 +1,25 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>Test basic use of "import" statements when a package directive is specified
+    with a value of 'null'</Name>
+    <Author>Werner Guttmann</Author>
+    <Comment>
+        Tests correct behaviour when an XML schema imports another one *and* a package
+        is set manually to 'null' when calling the source generator.
+    </Comment>
+    <Category>basic capability</Category>
+    <SourceGeneratorTest>
+        <Schema>test.xsd</Schema>
+        <Root_Object random="false" dump="true">EnumTest</Root_Object>
+        <expectedSources>
+        	<expectedSource>EnumTest</expectedSource>
+        	<expectedSource>EnumTestDescriptor</expectedSource>
+        	<expectedSource>types.EnumTestEnumAttrType</expectedSource>
+        	<expectedSource>types.descriptors.EnumTestEnumAttrTypeDescriptor</expectedSource>
+        </expectedSources>
+        <UnitTestCase>
+            <Name>TestGenerationWithNullPackage</Name>
+            <Input>input.xml</Input>
+        </UnitTestCase>
+    </SourceGeneratorTest>
+</TestDescriptor>

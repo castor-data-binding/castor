@@ -1,0 +1,18 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="Root">
+       <xs:complexType>
+          <xs:sequence>
+             <xs:element name="vatPercentage" maxOccurs="2">
+               <xs:simpleType>
+                  <xs:restriction base="xs:decimal">
+                     <xs:minExclusive value="0.00"/>
+                     <xs:maxExclusive value="12.0"/>
+                  </xs:restriction>
+               </xs:simpleType>
+             </xs:element>
+           </xs:sequence>
+         </xs:complexType>
+    </xs:element>
+
+</xs:schema>

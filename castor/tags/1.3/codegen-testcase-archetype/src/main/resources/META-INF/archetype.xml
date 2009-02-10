@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<archetype>
+	<id>testcase-archetype</id>
+	<testSources>
+		<source>src/test/java/org/castor/xml/builder/test/TestSourceGenerator.java</source>
+	</testSources>
+	<testResources>
+		<resource>src/test/resources/org/castor/xml/builder/test/builder.properties</resource>
+		<resource>src/test/resources/org/castor/xml/builder/test/test.xsd</resource>
+		<resource>src/test/resources/org/castor/xml/builder/test/binding.xml</resource>
+	</testResources>
+</archetype>

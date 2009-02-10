@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<section id="xml.configuration">
+	<title>Configuring Castor XML (Un)Marshaller</title>
+	<section>
+		<title>Introduction</title>
+		<para>To be defined ...</para>
+	</section>
+	<section>
+		<title>Configuring the Marshaller</title>
+		<para>
+			Before using the
+			<classname>Marshaller</classname>
+			class for marshalling Java objects to XML, the
+			<classname>Marshaller</classname>
+			can be fine-tuned according to your needs by calling a
+			variety of set-methods on this class. This section enlists
+			the available properties and provides you with information
+			about their meaning, possible values and the default value.
+		</para>
+
+		<table frame="all">
+            <title>Marshaller properties</title>
+			<tgroup cols="5">
+				<thead>
+					<row>
+						<entry>Name</entry>
+						<entry>Description</entry>
+						<entry>Values</entry>
+						<entry>Default</entry>
+						<entry>Since</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>suppressNamespaces</entry>
+						<entry></entry>
+						<entry>
+							<literal>true</literal>
+							or
+							<literal>false</literal>
+						</entry>
+						<entry>
+							<literal>false</literal>
+						</entry>
+						<entry>-</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+
+	</section>
+
+	<section>
+		<title>Configuring the Unmarshaller</title>
+
+		<para>
+			Before using the
+			<classname>Unmarshaller</classname>
+			class for unmarshalling Java objects from XML, the
+			<classname>Unmarshaller</classname>
+			can be fine-tuned according to your needs by calling a
+			variety of set-methods on this class. This section enlists
+			the available properties and provides you with information
+			about their meaning, possible values and the default value.
+		</para>
+
+		<table frame="all">
+            <title>Unmarshaller properties</title>
+			<tgroup cols="5">
+				<thead>
+					<row>
+						<entry>Name</entry>
+						<entry>Description</entry>
+						<entry>Values</entry>
+						<entry>Default</entry>
+						<entry>Since</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>rootObject</entry>
+						<entry></entry>
+						<entry>
+							A Class instance identifying the root class
+							to use for unmarshalling.
+						</entry>
+						<entry>-</entry>
+						<entry>-</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+	</section>
+</section>

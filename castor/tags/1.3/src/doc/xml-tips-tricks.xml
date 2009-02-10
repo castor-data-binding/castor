@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.codehaus.org/xml-tips-tricks.xml">
+  <body>
+    <title>Castor XML - Tips &amp; Tricks</title>
+
+    <section title="Logging and Tracing">
+
+      <p>When developing using Castor, we recommend that you use the various
+         <tt>setLogWriter</tt> methods to get detailed information and error
+         messages.</p>
+
+      <p>Using a logger with <api>org.exolab.castor.mapping.Mapping</api> will
+         provide detailed information about mapping decisions made by Castor and
+         will show the SQL statements being used.</p>
+
+      <p>Using a logger with <api>org.exolab.castor.jdo.JDO</api> will provide
+         trace messages that show when Castor is loading, storing, creating and
+         deleting objects. All database operations will appear in the log; if an
+         object is retrieved from the cache or is not modified, there will be no
+         trace of load/store operations.</p>
+
+      <p>Using a logger with <api>org.exolab.castor.xml.Unmarshaller</api> will
+         provide trace messages that show conflicts between the XML document and
+         loaded objects.</p>
+
+      <p>A simple trace logger can be obtained from
+         <javadoc>org.exolab.castor.util.Logger</javadoc>. This logger uses the
+         standard output stream, but prefixes each line with a short message
+         that indicates who generated it. It can also print the time and date of
+         each message. Since logging is used for warning messages and simple
+         tracing, Castor does not require a sophisticated logging mechanism.</p>
+
+      <p>Interested in integratating Castor's logging with Log4J? Then see
+         <a href="jdo-faq.html#How-can-I-integrate-Castor's-logging-with-a-logging-infrastructure-using-Log4J?">this
+         question</a> in the JDO FAQ.</p>
+
+    </section>
+
+    <section title="Indentation">
+
+      <p>By default the marshaler writes XML documents without indentation. When
+         developing using Castor or when debugging an application that uses
+         Castor, it might be desireable to use indentation to make the XML
+         documents human-readable. To turn indentation on, modify the Castor
+         properties file, or create a new properties file in the classpath
+         (named <tt>castor.properties</tt>) with the following content:</p>
+
+      <pre>
+org.exolab.castor.indent=true
+      </pre>
+
+      <p>Indentation inflates the size of the generated XML documents, and also
+         consumes more CPU. It is recommended not to use indentation in a
+         production environment.</p>
+
+    </section>
+
+    <section title="XML:Marshal validation">
+        <p>It is possible to disable the validation in the marshaling framework
+           by modifying the Castor properties file or by creating a new
+           properties file in the classpath (named <tt>castor.properties</tt>)
+           with the following content:</p>
+        <pre>
+org.exolab.castor.marshalling.validation=false
+        </pre>
+    </section>
+
+    <section title="NoClassDefFoundError">
+       <p>
+          Check your CLASSPATH, check it often, there is no reason not to!
+       </p>
+    </section>
+
+    <section title="Mapping: auto-complete">
+       <p>
+          <b>Note: this only works with Castor-XML.</b>
+       </p>
+       <p>
+          To save time when writing your mappings, try using the <i>auto-complete</i>
+          attribute of <i>class</i>. When using auto-complete, Castor will introspect
+          your class and automatically fill in any missing fields.
+       </p>
+       <p>
+          <b>Example:</b>
+          <code>&lt;class name="com.acme.Foo" auto-complete="true"/&gt;</code>
+       </p>
+       <p>
+          This is also compatible with generated descriptor files. You can use a mapping file
+          to override some of the behavior of a compiled descriptor by using auto-complete.</p>
+       <p><b>**</b>Note: Be careful to make sure you use the exact field name as specified
+          in the generated descriptor file in order to modify the behavior of the field descriptor!
+          Otherwise, you'll probably end up with two fields being marshaled!
+       </p>
+    </section>
+
+    <section title="Create method">
+      <p>
+         Castor requires that classes have a public, no-argument constructor
+         in order to provide the ability to marshal &amp; unmarshal objects of that type.
+      </p>
+
+      <p>
+         create-method is an optional attribute to the <tt>&lt;field&gt;</tt> mapping
+         element that can be used to overcome this restriction in cases where you
+         have an existing object model that consists of, say, singleton classes
+         where public, no-argument constructors must not be present by definition.
+      </p>
+
+      <p>
+         Assume for example that a class "<tt>A</tt>" that you want to be able
+         to unmarshal uses a singleton class as one of its properties. When
+         attempting to unmarshal class "<tt>A</tt>", you should get an exception
+         because the singleton property has no public no-arg constructor.
+         Assuming that a reference to the singleton can be obtained via a static
+         getInstance() method, you can add a "create method" to class <tt>A</tt>
+         like this:
+      </p>
+
+      <code>
+         <![CDATA[
+            public MySingleton getSingletonProperty()
+            {
+               return MySingleton.getInstance();
+            }
+         ]]>
+      </code>
+
+      <p>
+         and in the mapping file for class A, you can define the singleton
+         property like this:
+      </p>
+
+      <code>
+         <![CDATA[
+            <field name="mySingletonProperty"
+                  type="com.u2d.MySingleton"
+                  create-method="getSingletonProperty">
+               <bind-xml name="my-singleton-property" node="element" />
+            </field>
+         ]]>
+      </code>
+
+      <p>
+         This illustrates how the create-method attribute is quite a useful
+         mechanism for dealing with exceptional situations where you might
+         want to take advantage of marshaling even when some classes do not
+         have no-argument public constructors.
+      </p>
+
+      <p>
+        <b>Note:</b> As of this writing, the specified create-method must
+        exist as a method in the current class (i.e. the class being described
+        by the current <tt>&lt;class&gt;</tt> element). In the future it may be possible
+        to use external static factory methods.
+      </p>
+    </section>
+
+    <section title="MarshalListener and UnmarshalListener">
+      <p>
+         Castor allows control on the object being marshaled or unmarshaled by
+         a set of two listener interfaces: MarshalListener and UnmarshalListener.
+      </p>
+
+      <p>
+         The MarshalListener interface located in <code>org.exolab.castor.xml</code> listens to
+         two different events that are intercepted by the following methods:
+         <ul>
+             <li>preMarshal: this method is called before an object gets marshaled.</li>
+             <li>postMarshal: this method is called once an object has been marshaled.</li>
+         </ul>
+      </p>
+
+      <p>
+         The UnmarshalListener located also in <code>org.castor.xml</code> listens to
+         four different events that are intercepted by the following methods:
+         <ul>
+             <li>initialized: this method is called once an object has been instantiated.</li>
+             <li>attributesProcessed: this method is called when the attributes have just been read and processed.</li>
+             <li>fieldAdded: this method is called when an object is added to a parent.</li>
+             <li>unmarshalled: this method is called when an object has been <b>fully</b> unmarshaled.</li>
+         </ul>
+         <b>Note:</b> The <code>UnmarshalListener</code> had been part of <code>org.exolab.castor.xml</code>
+         but as an extention of this interface had been required a new interface in <code>org.castor.xml</code>
+         was introduced. Currently the <code>org.exolab.castor.xml.UnmarshalListener</code> interface
+         can still be used but is deprecated.
+      </p>
+
+    </section>
+
+  </body>
+</document>

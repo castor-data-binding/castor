@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbf:binding xmlns:cbf="http://www.castor.org/SourceGenerator/Binding"
+             defaultBindingType='element'>
+
+	<!-- avoid name collisions -->
+	<cbf:elementBinding name="exception">
+		<cbf:java-class name="MyException"/>
+	</cbf:elementBinding>
+
+    <cbf:complexTypeBinding name="interruptedException">
+		<cbf:java-class name="MyInterruptedException"/>
+	</cbf:complexTypeBinding>
+
+    <cbf:elementBinding name="class">
+		<cbf:java-class name="MyClass"/>
+    </cbf:elementBinding>
+
+</cbf:binding>

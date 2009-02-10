@@ -1,0 +1,31 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+
+    <Name>Mapping-Date</Name>
+    <Author>Paul Spencer (paulspencer@mindspring.com)</Author>
+
+    <Comment>
+        Tests the handling of a null Date in the mapping file.
+    </Comment>
+
+    <Category>basic capability</Category>
+
+    <MarshallingTest>
+        <Root_Object>Foo</Root_Object>
+
+        <UnitTestCase>
+            <Name>Test01</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+            <GoldFile>output.xml</GoldFile>
+        </UnitTestCase>
+        <UnitTestCase>
+            <Name>Test02</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input2.xml</Input>
+            <GoldFile>output2.xml</GoldFile>
+        </UnitTestCase>
+
+    </MarshallingTest>
+
+</TestDescriptor>

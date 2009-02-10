@@ -1,0 +1,52 @@
+<project name="Ant task definition for Castor XML code generator" default="compile.anttask" basedir=".">
+    
+    <property environment="env" />
+    <property name="source"               value="${basedir}/src"/>
+    <property name="main.java"            value="${source}/main/java"/>
+    <property name="main.resources"       value="${source}/main/resources" />
+    <property name="build"                value="${basedir}/build"/>
+    <property name="classes"              value="${build}/classes"/>
+    <property name="archive"              value="${project}-${version}${release}-anttasks"/>
+
+    <path id="build.classpath">
+        <pathelement location="${basedir}/../build/classes"/>
+        <pathelement location="${basedir}/../core/build/classes"/>
+        <pathelement location="${basedir}/../ddlgen/build/classes"/>
+        <pathelement location="${basedir}/../codegen/build/classes"/>
+        <pathelement location="${basedir}/../schema/build/classes"/>
+    </path>
+
+    <target name="prepare.anttask" unless="prepare.anttask.executed">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${classes}"/>
+        <property name="prepare.anttask.executed" value="true"/>
+    </target>
+
+    <target name="clean.anttask" description="Removes AntTask build directory">
+        <delete dir="${build}"/>
+    </target>
+
+    <target name="compile.anttask" depends="prepare.anttask" description="Compile AntTask">
+        <javac srcdir="${main.java}" destdir="${classes}" 
+               debug="on" encoding="ISO-8859-1" deprecation="false"
+        	   source="1.5" target="1.5">
+            <classpath refid="build.classpath"/>
+        </javac>
+        <copy todir="${classes}">
+            <fileset dir="${main.resources}">
+                <include name="**"/>
+            </fileset>
+            <filterset begintoken="$$" endtoken="$$">
+	            <filter token="VERSION" value="${version}"/>
+	            <filter token="RELEASE" value="${release}"/>
+            </filterset>
+        </copy>
+    </target>
+
+    <target name="jar.anttask" depends="compile.anttask" description="Build AntTask JAR file">
+        <jar jarfile="${build}/${archive}.jar" basedir="${classes}" includes="**"
+             manifest="${classes}/META-INF/MANIFEST.MF"/>
+        <copy file="${build}/${archive}.jar" tofile="${basedir}/../dist/${archive}.jar"/>
+    </target>
+
+</project>

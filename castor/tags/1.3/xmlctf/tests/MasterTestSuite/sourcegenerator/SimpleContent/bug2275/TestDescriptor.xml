@@ -1,0 +1,18 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>Test that member variable for &lt;xs:integer&gt; is correctly typed as long</Name>
+    <Author>Werner Guttmann</Author>
+    <Comment>
+        When the simple content is restricting an integer XML schema type, 
+        the member generated in the complexType class should be of type long/java.lang.Long.
+        see http://jira.codehaus.org/browse/CASTOR-2275
+    </Comment>
+    <Category>basic capability</Category>
+
+    <OnlySourceGenerationTest>
+        <Schema>test.xsd</Schema>
+        <UnitTestCase>
+            <Name>Test Source Generation</Name>
+        </UnitTestCase>
+    </OnlySourceGenerationTest>
+</TestDescriptor>

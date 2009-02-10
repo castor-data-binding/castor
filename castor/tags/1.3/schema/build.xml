@@ -1,0 +1,104 @@
+<project name="Castor XML schema" default="compile.schema" basedir=".">
+
+    <property environment="env" />
+    <property name="source"               value="${basedir}/src"/>
+    <property name="main.java"            value="${source}/main/java"/>
+    <property name="main.resources"       value="${source}/main/resources"/>
+	<property name="main.generated"       value="${basedir}/target/generated-sources/castor" />
+	<property name="test.java"            value="${source}/test/java"/>
+    <property name="test.resources"       value="${source}/test/resources"/>
+    <property name="build"                value="${basedir}/build"/>
+    <property name="classes"              value="${build}/classes"/>
+	<property name="test.classes"         value="${build}/test"/>
+    <property name="archive"              value="${project}-${version}${release}-xml-schema"/>
+    <property name="gen.src"              value="${basedir}/target/generated-sources/castor"/>
+
+    <path id="build.classpath">
+        <pathelement location="${basedir}/build/classes"/>
+        <pathelement location="${basedir}/../build/classes"/>
+        <pathelement location="${basedir}/../xml/build/classes"/>
+        <pathelement location="${basedir}/../core/build/classes"/>
+    	<pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>
+    	<pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>
+    </path>
+
+    <path id="test.classpath">
+    	<path refid="build.classpath" />
+        <pathelement location="${basedir}/build/test"/>
+    </path>
+
+    <target name="prepare.schema" unless="prepare.executed">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${classes}"/>
+        <property name="prepare.executed" value="true"/>
+    </target>
+
+    <target name="clean.schema" description="Removes build directory">
+        <delete dir="${build}"/>
+    </target>
+
+    <target name="clean.tests.schema" description="Removes test build directory">
+        <delete dir="${test.classes}"/>
+    </target>
+
+    <target name="compile.schema" depends="prepare.schema" description="Compile sources">
+        <javac srcdir="${main.java}" destdir="${classes}" 
+               debug="on" encoding="ISO-8859-1" deprecation="false"
+        	   source="1.5" target="1.5">
+            <classpath refid="build.classpath"/>
+        </javac>
+        <javac srcdir="${main.generated}" destdir="${classes}" 
+               debug="on" encoding="ISO-8859-1" deprecation="false"
+               source="1.5" target="1.5">
+            <classpath refid="build.classpath"/>
+        </javac>
+        <copy todir="${classes}">
+            <fileset dir="${main.resources}">
+                <include name="**"/>
+            </fileset>
+            <fileset dir="${main.generated}">
+                <include name="**/*.cdr"/>
+            </fileset>
+            <filterset begintoken="$$" endtoken="$$">
+	            <filter token="VERSION" value="${version}"/>
+	            <filter token="RELEASE" value="${release}"/>
+            </filterset>
+        </copy>
+    </target>
+
+    <target name="jar.schema" depends="compile.schema" description="Build JAR file">
+        <jar jarfile="${build}/${archive}.jar" basedir="${classes}" includes="**"
+             manifest="${classes}/META-INF/MANIFEST.MF"/>
+        <copy file="${build}/${archive}.jar" tofile="${basedir}/../dist/${archive}.jar"/>
+    </target>
+
+	<target name="tests.schema" description="Runs JUnit tests" depends="compile.schema">
+		<junit printsummary="true">
+			<formatter type="plain" />
+			<batchtest>
+				<fileset dir="${test.classes}">
+					<include name="**/Test*"/>
+					<include name="**/*Test"/>
+				</fileset>
+			</batchtest>
+			<classpath refid="test.classpath" />
+		</junit>
+	</target>
+
+    <target name="generate.schema" depends="prepare.schema"
+            description="Use the Source Generator to create the Java classes for jdo-extensions.xsd"
+    	    >
+        <delete dir="${gen.src}"/>
+        <mkdir dir="${gen.src}"/>
+        <taskdef name="castor-srcgen" classname="org.castor.anttask.CastorCodeGenTask"
+                 classpathref="build.classpath"/>
+        <castor-srcgen file="${main.resources}/org/exolab/castor/xml/schema/annotations/jdo/jdo-extensions.xsd"
+                       todir="${gen.src}"
+                       package="org.exolab.castor.xml.schema.annotations.jdo"
+                       lineseparator="unix"
+                       types="j2"
+                       warnings="true"/>
+    </target>
+
+
+</project>

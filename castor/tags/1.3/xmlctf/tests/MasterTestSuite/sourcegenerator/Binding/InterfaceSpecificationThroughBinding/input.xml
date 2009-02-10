@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExpUserProperties version="XP29.00_WV" 
+	xmlns="http://www.S4iSystems.com" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.S4iSystems.com wvUserFilterFileSchema.xsd ">
+	<AdminRights>
+		<loadDefaultFilters>true</loadDefaultFilters>
+		<networkUserID>*NONE</networkUserID>
+		<proxyUserID>*NONE</proxyUserID>
+		<filterFilename>*NONE</filterFilename>
+		<loginExitProgram>*NONE</loginExitProgram>
+		<logoutExitProgram>*NONE</logoutExitProgram>
+		<networkUserStatus>true</networkUserStatus>
+		<createNewFilter>true</createNewFilter>
+		<advancedFilterEdit>true</advancedFilterEdit>
+		<acrobatExternal>false</acrobatExternal>
+		<defaultSingleItemAction>*PROPERTY</defaultSingleItemAction>
+	  </AdminRights>
+	<ClientRights>
+		<localEmail>true</localEmail>
+		<hostEmail>true</hostEmail>
+		<localPrint>true</localPrint>
+		<hostPrint>true</hostPrint>
+		<hostFTP>true</hostFTP>
+		<hostFax>true</hostFax>
+		<clientDownload>true</clientDownload>
+		<localSave>true</localSave>
+		<administrator>false</administrator>
+	</ClientRights>
+	<PageLayout>
+		<reportClick>*DEFAULT</reportClick>
+		<sortColumn sortOrder="*ASCENDING">*REPORT</sortColumn>
+		<docColLayout>
+			<!-- The following document list data is displayed on row 1 of each list entry -->
+			<colName dtaCol="2" dtaRow="*ROW1" dtaWidth="108" title="Document"        titleCol="2" titleRow="*TITLE" view="true">*REPORT</colName>
+			<colName dtaCol="3" dtaRow="*ROW1" dtaWidth="108" title="Segment"         titleCol="3" titleRow="*TITLE" view="true">*SEGMENT</colName>
+			<colName dtaCol="4" dtaRow="*ROW1" dtaWidth="105" title="Date &amp; time" titleCol="4" titleRow="*TITLE" view="true">*CRTDATETIME</colName>
+			<colName dtaCol="5" dtaRow="*ROW1" dtaWidth="20"  title="Pages"           titleCol="5" titleRow="*ROW2"  view="true">*NBRPAGES</colName>
+			<colName dtaCol="6" dtaRow="*ROW1" dtaWidth="20"  title="Online"          titleCol="6" titleRow="*TITLE" view="true">*LOCATION</colName>
+			<colName dtaCol="7" dtaRow="*ROW1" dtaWidth="102" title="Index"           titleCol="7" titleRow="*TITLE" view="true">*IDXNAME</colName>
+			<colName dtaCol="8" dtaRow="*ROW1" dtaWidth="360" title="Index data"      titleCol="8" titleRow="*TITLE" view="true">*IDXDTA</colName>
+
+			<!-- The following document list data is displayed on row 2 of each list entry -->			
+			<colName dtaCol="3" dtaRow="*ROW2" dtaWidth="0" title="Version="          titleCol="2" titleRow="*ROW2"  view="true">*VERSION</colName>
+			<colName dtaCol="5" dtaRow="*ROW2" dtaWidth="0" title=" Type="            titleCol="4" titleRow="*ROW2"  view="true">*DOCTYPE</colName>
+			<colName dtaCol="7" dtaRow="*ROW2" dtaWidth="0" title=" "                 titleCol="6" titleRow="*ROW2"  view="true">*RPTDESC</colName>
+			<colName dtaCol="9" dtaRow="*ROW2" dtaWidth="0" title=" -- "              titleCol="8" titleRow="*ROW2"  view="true">*SEGDESC</colName>
+			
+			<!-- The following document list data is not displayed -->
+			<colName dtaCol="0" dtaRow="*NONE" dtaWidth="0" title="" titleCol="0" titleRow="*NONE"  view="false">*IDXDESC</colName>
+			<colName dtaCol="0" dtaRow="*NONE" dtaWidth="0" title="" titleCol="0" titleRow="*NONE"  view="false">*ANNOTOK</colName>
+			<colName dtaCol="0" dtaRow="*NONE" dtaWidth="0" title="" titleCol="0" titleRow="*NONE"  view="false">*CRTDATE</colName>
+			<colName dtaCol="0" dtaRow="*NONE" dtaWidth="0" title="" titleCol="0" titleRow="*NONE"  view="false">*CRTTIME</colName>
+			<colName dtaCol="0" dtaRow="*NONE" dtaWidth="0" title="" titleCol="0" titleRow="*NONE"  view="false">*IDXDTA1</colName>
+			<colName dtaCol="0" dtaRow="*NONE" dtaWidth="0" title="" titleCol="0" titleRow="*NONE"  view="false">*IDXDTA2</colName>
+			<colName dtaCol="0" dtaRow="*NONE" dtaWidth="0" title="" titleCol="0" titleRow="*NONE"  view="false">*IDXDTA3</colName>
+			<colName dtaCol="0" dtaRow="*NONE" dtaWidth="0" title="" titleCol="0" titleRow="*NONE"  view="false">*IDXDTA4</colName>
+			<colName dtaCol="0" dtaRow="*NONE" dtaWidth="0" title="" titleCol="0" titleRow="*NONE"  view="false">*IDXDTA5</colName>
+		</docColLayout>
+	</PageLayout>
+	<FilterGroupList>
+		<FilterGroup expandList="true" title="Filter group 1" view="true" update="true">
+			<Filter prvCount="0" prvDate="2001-12-31T12:00:00" prvDuration="0.0" totCount="0" totSubmit="0" totDuration="0.0" xslFile="">
+				<removable>true</removable>
+				<modifiable>true</modifiable>
+				<active>true</active>
+				<autoExecute>false</autoExecute>
+				<priority>10</priority>
+				<Description title="Description: " view="true" update="true">Filter group 1 Filter 1</Description>
+				<ReportName title="Report: " view="true" update="true">*ALL</ReportName>
+				<SegmentName title="Segment: " view="true" update="true">*ALL</SegmentName>
+				<Version title="Version: " view="true" update="true">0</Version>
+				<FromDate title="From Date: " view="true" update="true">*</FromDate>
+				<ToDate title="To Date: " view="true" update="true">*</ToDate>
+				<ExpIndex title="Index: " view="true" update="true" indexName="*ALL">
+					<IndexData1 title="Index Data 1: " view="true" update="true">*ALL</IndexData1>
+					<IndexData2 title="Index Data 2: " view="true" update="true">*ALL</IndexData2>
+					<IndexData3 title="Index Data 3: " view="true" update="true">*ALL</IndexData3>
+					<IndexData4 title="Index Data 4: " view="true" update="true">*ALL</IndexData4>
+					<IndexData5 title="Index Data 5: " view="true" update="true">*ALL</IndexData5>
+				</ExpIndex>
+				<SortOrder title="Sort value" view="true" update="true">0</SortOrder>
+				<DftAction title="Default action" view="true" update="true">*LIST</DftAction>
+			</Filter>
+			<Filter prvCount="0" prvDate="2001-12-31T12:00:00" prvDuration="0.0" totCount="0" totSubmit="0" totDuration="0.0" xslFile="">
+				<removable>true</removable>
+				<modifiable>true</modifiable>
+				<active>true</active>
+				<autoExecute>false</autoExecute>
+				<priority>10</priority>
+				<Description title="Description: " view="true" update="true">Filter group 1 Filter 2</Description>
+				<ReportName title="Report: " view="true" update="true">*ALL</ReportName>
+				<SegmentName title="Segment: " view="true" update="true">*ALL</SegmentName>
+				<Version title="Version: " view="true" update="true">0</Version>
+				<FromDate title="From Date: " view="true" update="true">*</FromDate>
+				<ToDate title="To Date: " view="true" update="true">*</ToDate>
+				<ExpIndex title="Index: " view="true" update="true" indexName="*ALL">
+					<IndexData1 title="Index Data 1: " view="true" update="true">*ALL</IndexData1>
+					<IndexData2 title="Index Data 2: " view="true" update="true">*ALL</IndexData2>
+					<IndexData3 title="Index Data 3: " view="true" update="true">*ALL</IndexData3>
+					<IndexData4 title="Index Data 4: " view="true" update="true">*ALL</IndexData4>
+					<IndexData5 title="Index Data 5: " view="true" update="true">*ALL</IndexData5>
+				</ExpIndex>
+				<SortOrder title="Sort value" view="true" update="true">0</SortOrder>
+				<DftAction title="Default action" view="true" update="true">*LIST</DftAction>
+			</Filter>
+			<Filter prvCount="0" prvDate="2001-12-31T12:00:00" prvDuration="0.0" totCount="0" totSubmit="0" totDuration="0.0" xslFile="">
+				<removable>true</removable>
+				<modifiable>true</modifiable>
+				<active>true</active>
+				<autoExecute>false</autoExecute>
+				<priority>10</priority>
+				<Description title="Description: " view="true" update="true">Filter group 1 Filter 3</Description>
+				<ReportName title="Report: " view="true" update="true">*ALL</ReportName>
+				<SegmentName title="Segment: " view="true" update="true">*ALL</SegmentName>
+				<Version title="Version: " view="true" update="true">0</Version>
+				<FromDate title="From Date: " view="true" update="true">*</FromDate>
+				<ToDate title="To Date: " view="true" update="true">*</ToDate>
+				<ExpIndex title="Index: " view="true" update="true" indexName="*ALL">
+					<IndexData1 title="Index Data 1: " view="true" update="true">*ALL</IndexData1>
+					<IndexData2 title="Index Data 2: " view="true" update="true">*ALL</IndexData2>
+					<IndexData3 title="Index Data 3: " view="true" update="true">*ALL</IndexData3>
+					<IndexData4 title="Index Data 4: " view="true" update="true">*ALL</IndexData4>
+					<IndexData5 title="Index Data 5: " view="true" update="true">*ALL</IndexData5>
+				</ExpIndex>
+				<SortOrder title="Sort value" view="true" update="true">0</SortOrder>
+				<DftAction title="Default action" view="true" update="true">*LIST</DftAction>
+			</Filter>
+		</FilterGroup>
+		<FilterGroup expandList="true" title="Filter group 2" view="true" update="true">
+			<Filter prvCount="0" prvDate="2001-12-31T12:00:00" prvDuration="0.0" totCount="0" totSubmit="0" totDuration="0.0" xslFile="">
+				<removable>true</removable>
+				<modifiable>true</modifiable>
+				<active>true</active>
+				<autoExecute>false</autoExecute>
+				<priority>10</priority>
+				<Description title="Description: " view="true" update="true">Filter group 2 Filter 1</Description>
+				<ReportName title="Report: " view="true" update="true">*ALL</ReportName>
+				<SegmentName title="Segment: " view="true" update="true">*ALL</SegmentName>
+				<Version title="Version: " view="true" update="true">0</Version>
+				<FromDate title="From Date: " view="true" update="true">*</FromDate>
+				<ToDate title="To Date: " view="true" update="true">*</ToDate>
+				<ExpIndex title="Index: " view="true" update="true" indexName="*ALL">
+					<IndexData1 title="Index Data 1: " view="true" update="true">*ALL</IndexData1>
+					<IndexData2 title="Index Data 2: " view="true" update="true">*ALL</IndexData2>
+					<IndexData3 title="Index Data 3: " view="true" update="true">*ALL</IndexData3>
+					<IndexData4 title="Index Data 4: " view="true" update="true">*ALL</IndexData4>
+					<IndexData5 title="Index Data 5: " view="true" update="true">*ALL</IndexData5>
+				</ExpIndex>
+				<SortOrder title="Sort value" view="true" update="true">0</SortOrder>
+				<DftAction title="Default action" view="true" update="true">*LIST</DftAction>
+			</Filter>
+			<Filter prvCount="0" prvDate="2001-12-31T12:00:00" prvDuration="0.0" totCount="0" totSubmit="0" totDuration="0.0" xslFile="">
+				<removable>true</removable>
+				<modifiable>true</modifiable>
+				<active>true</active>
+				<autoExecute>false</autoExecute>
+				<priority>10</priority>
+				<Description title="Description: " view="true" update="true">Filter group 2 Filter 2</Description>
+				<ReportName title="Report: " view="true" update="true">*ALL</ReportName>
+				<SegmentName title="Segment: " view="true" update="true">*ALL</SegmentName>
+				<Version title="Version: " view="true" update="true">0</Version>
+				<FromDate title="From Date: " view="true" update="true">*</FromDate>
+				<ToDate title="To Date: " view="true" update="true">*</ToDate>
+				<ExpIndex title="Index: " view="true" update="true" indexName="*ALL">
+					<IndexData1 title="Index Data 1: " view="true" update="true">*ALL</IndexData1>
+					<IndexData2 title="Index Data 2: " view="true" update="true">*ALL</IndexData2>
+					<IndexData3 title="Index Data 3: " view="true" update="true">*ALL</IndexData3>
+					<IndexData4 title="Index Data 4: " view="true" update="true">*ALL</IndexData4>
+					<IndexData5 title="Index Data 5: " view="true" update="true">*ALL</IndexData5>
+				</ExpIndex>
+				<SortOrder title="Sort value" view="true" update="true">0</SortOrder>
+				<DftAction title="Default action" view="true" update="true">*LIST</DftAction>
+			</Filter>
+			<Filter prvCount="0" prvDate="2001-12-31T12:00:00" prvDuration="0.0" totCount="0" totSubmit="0" totDuration="0.0" xslFile="">
+				<removable>true</removable>
+				<modifiable>true</modifiable>
+				<active>true</active>
+				<autoExecute>false</autoExecute>
+				<priority>10</priority>
+				<Description title="Description: " view="true" update="true">Filter group 2 Filter 3</Description>
+				<ReportName title="Report: " view="true" update="true">*ALL</ReportName>
+				<SegmentName title="Segment: " view="true" update="true">*ALL</SegmentName>
+				<Version title="Version: " view="true" update="true">0</Version>
+				<FromDate title="From Date: " view="true" update="true">*</FromDate>
+				<ToDate title="To Date: " view="true" update="true">*</ToDate>
+				<ExpIndex title="Index: " view="true" update="true" indexName="*ALL">
+					<IndexData1 title="Index Data 1: " view="true" update="true">*ALL</IndexData1>
+					<IndexData2 title="Index Data 2: " view="true" update="true">*ALL</IndexData2>
+					<IndexData3 title="Index Data 3: " view="true" update="true">*ALL</IndexData3>
+					<IndexData4 title="Index Data 4: " view="true" update="true">*ALL</IndexData4>
+					<IndexData5 title="Index Data 5: " view="true" update="true">*ALL</IndexData5>
+				</ExpIndex>
+				<SortOrder title="Sort value" view="true" update="true">0</SortOrder>
+				<DftAction title="Default action" view="true" update="true">*LIST</DftAction>
+			</Filter>
+		</FilterGroup>
+	</FilterGroupList>
+</ExpUserProperties>
+		

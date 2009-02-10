@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+    <complexType name="myType">
+        <complexContent>
+            <extension base="baseType">
+                <sequence>
+                    <element name="myAttr" />
+                    <element name="myAttr2" />
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+    <complexType name="baseType">
+        <sequence>
+            <element name="baseAttr" />
+        </sequence>
+    </complexType>
+</schema>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XmlListSample 
+    XmlIntegerListAttribute="10 20 30 40 50 60"
+    XmlStringListAttribute="string10 string20 string30 string40 string50 string60"
+    XmlHexBinaryListAttribute="014A 014A 014A"
+	xmlns="urn:www.castor.org:xmlctf:sourcegenerator:xsd-list"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="urn:www.castor.org:xmlctf:sourcegenerator:xsd-list xsdList.xsd">
+	<FirstInteger>1000</FirstInteger>
+	<FirstInteger>2000</FirstInteger>
+	<FirstInteger>3000</FirstInteger>
+	<FirstInteger>4000</FirstInteger>
+	<FirstString>firstString</FirstString>
+	<FirstString>secondString</FirstString>
+	<FirstString>thirdString</FirstString>
+    <hexBinary>014A</hexBinary>
+    <hexBinary>014A</hexBinary>
+	<XmlIntegerListElement>100 200 300 400 500</XmlIntegerListElement>
+    <XmlStringListElement>string100 string200 string300 string400 string500</XmlStringListElement>
+    <XmlHexBinaryListElement>014A 014A</XmlHexBinaryListElement>
+</XmlListSample>

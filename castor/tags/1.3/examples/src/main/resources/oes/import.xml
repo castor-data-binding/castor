@@ -1,0 +1,15 @@
+<categories>
+  <category id="1">
+    <short>First</short>
+    <description>Category no. 1</description>
+  </category>
+  <category id="2">
+    <short>Second</short>
+    <description>Category no. 2</description>
+  </category>
+  <category id="3">
+    <short>Third</short>
+    <description>Category no. 3</description>
+  </category>
+</categories>
+

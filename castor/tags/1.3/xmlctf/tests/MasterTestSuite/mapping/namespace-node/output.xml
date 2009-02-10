@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<root xmlns:foo="http://foo.org" xmlns:bar="http://bar.org">
+    A simple test for saving + retrieving namespaces
+</root>
+

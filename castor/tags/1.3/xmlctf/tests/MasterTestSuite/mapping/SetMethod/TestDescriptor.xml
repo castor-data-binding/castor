@@ -1,0 +1,35 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+
+    <Name>Set Method Specification</Name>
+    <Author>Sebastien Gignoux</Author>
+
+    <Comment>
+        Specifying a set method in the mapping file (using set-method attribute)
+        should disable the get method, unless one is specified as well (using
+        the get-method attribute).
+
+        In particular, if either get-method or set-method is used, only one
+        method is supported. Both have to be used to support both get and set.
+
+        In this particular test we are specifying set-only fields in the object
+        model and we specify the name of the set-method in the mapping
+        file. Castor should NOT complain of the absence of the get-method in the
+        object model.
+    </Comment>
+
+    <Category>basic capability</Category>
+
+    <MarshallingTest>
+
+        <Root_Object>Set_Root</Root_Object>
+
+        <UnitTestCase>
+            <Name>Simple Test</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>set-input.xml</Input>
+            <GoldFile>set-output.xml</GoldFile>
+        </UnitTestCase>
+
+    </MarshallingTest>
+</TestDescriptor>

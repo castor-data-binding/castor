@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<chapter id="jdo.extensions">
+  <title>JDO extensions for the Castor XML code generator</title>
+
+    <section id="jdo.extensions.news">
+        <title>News</title>
+
+        <itemizedlist>
+            <listitem>
+                <para><emphasis role="bold">Castor 1.3</emphasis>: JDO extensions released.</para>
+            </listitem>
+        </itemizedlist>    
+    </section>
+  
+  <section id="jdo.extensions.why">
+    <title>JDO extensions - Motivation</title>
+    
+    <para>
+        With Castor 1.2 and previous releases it was already possible to 
+        generate Java classes from an XML schema and use these classes 
+        for XML data binding <emphasis role="bold">without</emphasis> having 
+        to write a mapping file. 
+    </para>
+    
+    <para>
+        This is possible because the Castor XML code generator generated - in 
+        addition to the domain classes - a set of XML descriptor classes as well,
+        with one descriptor class generated per generated domain class. It's this 
+        XML descriptor class that holds all the information required to map Java 
+        classes and/or field members to XML artifacts, as set out in the original
+        XML schema definitions. This includes ....    
+    </para>
+    
+    <itemizedlist>
+        <listitem>
+            <para>artefact names</para>
+        </listitem>
+        <listitem>
+            <para>XML namespace URIs</para>
+        </listitem>
+        <listitem>
+            <para>XML namespace prefix</para>
+        </listitem>
+        <listitem>
+            <para>validation code</para>
+        </listitem>
+    </itemizedlist>
+    
+    <para>
+        Whilst it was already possible to use the generated set of domain classes
+        in Castor JDO for object-/relational mapping purpose, the user still had to 
+        manually write a JDO-specific mapping file. Whilst technically not very difficult,
+        this was still an error-prone task, especially in a context where tens or 
+        hundreds of classes were generated from a set of XML schemas.
+    </para>
+    
+    <para>
+        The <emphasis role="italic">JDO extensions for the Castor XML code generator</emphasis>
+        extend the code generator in such a way that a second set of descriptor classes is
+        generated: the JDO descriptor classes. These new descriptor classes define
+        the mapping between Java (domain) objects and database tables/columns, and as
+        such remove the requirement of having to write a JDO-specific mapping file.
+    </para>
+    
+    <para>
+        The following sections introduce the general principles, define the XML schema 
+        artifacts available to annotate an existing XML schema and highlight the 
+        usage of these artifacts by providing examples. At the same time,
+        a limited set of current product limitations are spelled out.
+    </para>  
+    
+  </section>
+  
+  <section id="jdo.extensions.limitations">
+    <title>Limitations</title>
+  
+    <para>
+        With release 1.3 of Castor, the following limitations exist for the JDO
+        extensions of the XML code generator:
+    </para>
+    
+    <orderedlist>
+        <listitem>
+            <para>
+                The extensions currently can only be used in <emphasis role="bold">type</emphasis>
+                mode of the XML code generator.
+            </para>
+            <para>
+                There's currently no support for <emphasis role="bold">key generators</emphasis>. 
+                There's work in progress to add this functionality, though.
+            </para>
+        </listitem>
+    </orderedlist>
+    
+  </section>
+  
+  <section id="jdo.extensions.prerequisites">
+    <title>Prerequisites</title>
+    
+            <para>
+                To facilitate the detailed explanations in the following 
+                sections, we now define a few &lt;complexType&gt; definitions
+                that we want to map against an existing database schema, and the 
+                corresponding SQL statements to create the required tables.
+            </para>
+                
+            <section id="jdo.extensions.prerequisites.xml.schemas">
+                <title>Sample XML schemas</title>
+           
+               <programlisting language="xml">
+               <![CDATA[
+<complexType name="bookType">
+   <sequence>
+      <element name="isbn" type="xs:string" />
+      <element name="pages" type="xs:integer" />
+      <element name="lector" type="lectorType" />
+      <element name="authors" type="authorType" maxOccurs="unbounded" />
+   </sequence>
+</complexType>
+
+<complexType name="lectorType">
+   <sequence>
+      <element name="siNumber" type="xs:integer" />
+      <element name="name" type="xs:string" />
+   </sequence>
+</complexType>
+
+<complexType name="authorType">
+   <sequence>
+      <element name="siNumber" type="xs:integer" />
+      <element name="name" type="xs:string" />
+   </sequence>
+</complexType>]]>
+            </programlisting>
+            
+           </section>
+           
+           <section id="jdo.extensions.prerequisites.ddl.statements">
+            <title>Sample DDL statements</title>
+           
+                <programlisting>
+CREATE TABLE author_table (
+   sin INTEGER NOT NULL,
+   name VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE lector_table (
+   sin INTEGER NOT NULL,
+   name VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE book_table (
+   isbn varchar(13) NOT NULL,
+   pages INTEGER,
+   lector_id INTEGER NOT NULL,
+   author_id INTEGER NOT NULL
+);</programlisting>
+                
+           </section>
+        
+        </section>
+        
+      <section id="jdo.extensions.schema.elements">
+         <title>The schema elements</title>
+      
+        <para>
+            The following XML artifacts are available to annotate an existing XML schema
+            with JDO extension-specific information.
+        </para>
+        
+        
+        <section id="jdo.extensions.schema.elements.table">
+           <title>&lt;table&gt; element</title>
+        
+            <para>
+                The &lt;table&gt; element allows you to map an &lt;complexType&gt;
+                definition to a table within a database, and to specify the
+                identity (frequently referred to as primary key), as follows:
+            </para>
+
+           <programlistingco>
+              <areaspec>
+                 <area id="jdo.extensions.schema.elements.table.1" units="linecolumn" coords="5 80"/>
+                 <area id="jdo.extensions.schema.elements.table.2" units="linecolumn" coords="6 80"/>
+              </areaspec>
+              <programlisting language="xml"><![CDATA[
+<xs:complexType name="authorType">
+   <xs:annotation>
+      <xs:appinfo>
+         <jdo:table name="author_table">
+            <jdo:primary-key>
+               <jdo:key>siNumber</jdo:key>
+            </jdo:primary-key>
+         </jdo:table>
+      </xs:appinfo>
+   </xs:annotation>
+   <xs:sequence>
+      <xs:element name="siNumber" type="xs:integer" />
+      <xs:element name="name" type="xs:string" />
+   </xs:sequence>
+</xs:complexType>]]>
+              </programlisting>
+           </programlistingco>
+           
+           <para>
+             where ...
+           </para>
+
+           <calloutlist>
+              <!-- <title>Mapping a type to a table - Main artifacts</title>  -->
+              <callout arearefs="jdo.extensions.schema.elements.table.1">
+                  <para>
+                     The <literal><![CDATA[<jdo:table ...>]]></literal> defines the name 
+                     of the database table to which the complex type definition
+                     <literal>authorType</literal> should be mapped. 
+                  </para>
+              </callout>
+             
+              <callout arearefs="jdo.extensions.schema.elements.table.2">
+                  <para>
+                     The <literal><![CDATA[<jdo:primary-key>]]></literal> indicates which 
+                     artifacts of the content model of the complex type definition
+                     should be used as the corresponding object identity; in database
+                     terms, this is often referred to as <literal>primary key</literal>.
+                  </para>
+              </callout>
+           </calloutlist>
+
+            <para>
+                Above example maps the complex  type <literal>authorType</literal> to
+                the table <literal>author_table</literal>, and specifies that the 
+                member <literal>siNumber</literal> be used as object identity.
+            </para>
+
+            <para>
+                Syntactically, the <literal>&lt;table&gt;</literal> element is defined 
+                as follows:
+            </para>
+        
+            <programlisting language="xml"><![CDATA[
+<xs:element name="table">
+   <xs:complexType>
+      <xs:sequence>
+         <xs:element name="primaryKey" type="jdo:pkType"/>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required"/>
+      <xs:attribute name="accessMode" use="optional" default="shared">
+         <xs:simpleType>
+            <xs:restriction base="xs:string">
+               <xs:enumeration value="read-only"/>
+               <xs:enumeration value="shared"/>
+               <xs:enumeration value="exclusive"/>
+               <xs:enumeration value="db-locked"/>
+            </xs:restriction>
+         </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="detachable" type="xs:boolean" default="false"/>
+   </xs:complexType>
+</xs:element>]]>
+            </programlisting>
+
+        </section>
+        
+        <section id="jdo.extensions.schema.elements.column">
+           <title>&lt;column&gt; element</title>
+
+            <para>
+                The &lt;column&gt; element allows you to map a member of content model 
+                of a &lt;complexType&gt; definition to a column within a database.
+            </para>
+
+           <programlistingco>
+              <areaspec>
+                 <area id="jdo.extensions.schema.elements.column.1" units="linecolumn" coords="16 80"/>
+              </areaspec>
+              <programlisting language="xml"><![CDATA[
+<xs:complexType name="authorType">
+   <xs:annotation>
+      <xs:appinfo>
+         <jdo:table name="author_table">
+            <jdo:primary-key>
+               <jdo:key>siNumber</jdo:key>
+            </jdo:primary-key>
+         </jdo:table>
+      </xs:appinfo>
+   </xs:annotation>
+   <xs:sequence>
+      <xs:element name="siNumber" type="xs:integer" >
+         <xs:annotation>
+            <xs:appinfo>
+                <jdo:column name="sin" type="integer" />]]>
+            <![CDATA[</xs:appinfo>
+         </xs:annotation>
+      </xs:element>
+      <xs:element name="name" type="xs:string" />
+   </xs:sequence>
+</xs:complexType>]]>
+              </programlisting>
+            </programlistingco>
+            
+            <para>
+                where ....
+            </para>
+            
+            <calloutlist>
+                 <callout arearefs="jdo.extensions.schema.elements.column.1">
+                     <para>
+                        Defines that the element definition <literal>siNUmber</literal>
+                        be mapped against the database column <literal>sin</literal>, and
+                        that the (database) type of this column is 
+                        <literal>integer</literal>.
+                     </para>
+                 </callout>
+            
+            </calloutlist>
+
+            <para>
+                This maps the element <literal>isNumber</literal> to
+                the database column <literal>sin</literal>, and specifies the database type
+                to be used for persistence (integer, in this case).
+            </para>
+            
+            <para>
+                The <literal>&lt;column&gt;</literal> element is defined as follows:
+            </para>
+            
+            <programlisting language="xml"><![CDATA[
+<xs:element name="column">
+   <xs:complexType>
+      <xs:complexContent>
+         <xs:extension base="jdo:readonlyDirtyType">
+            <xs:attribute name="name" type="xs:string" use="required" />
+            <xs:attribute name="type" type="xs:string" use="required" />
+            <xs:attribute name="acceptNull" type="xs:boolean" use="optional"
+               default="true" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+</xs:element>]]>
+            </programlisting>
+
+            <para>
+                where the content is described as follows:
+            </para>
+
+            <table id="jdo.extensions.schema.elements.column.grammar" align="center">
+             <title>&lt;column&gt; - Definitions</title>
+             <tgroup cols="2">
+               <colspec colname="c1"/>
+               <colspec colname="c2"/>
+               <thead>
+                 <row>
+                   <entry>Name</entry>
+                   <entry>Description</entry>
+                 </row>
+               </thead>
+               <tbody>
+                 <row>
+                   <entry>name</entry>
+                   <entry>Name of the column</entry>
+                 </row>
+                 <row>
+                   <entry>type</entry>
+                   <entry>JDO-type of the column</entry>
+                 </row>
+                 <row>
+                   <entry>acceptNull</entry>
+                   <entry>Whether this field accepts NULL values or not</entry>
+                 </row>
+               </tbody>
+             </tgroup>
+           </table>        
+        
+        </section>
+        
+        <section id="jdo.extensions.schema.elements.one-to-one">
+           <title>&lt;one-to-one&gt; element</title>
+        
+            <para>
+                The &lt;one-to-one&gt; element allows you to map a member of content model 
+                of a &lt;complexType&gt; definition to a 1:1 relation to another
+                &lt;complexType&gt;.
+            </para>
+        
+            <programlisting language="xml"><![CDATA[
+<xs:complexType name="bookType">
+   <xs:annotation>
+      <xs:appinfo>
+         <jdo:table name="book_type_table">
+            <jdo:primary-key>
+               <jdo:key>isbn</jdo:key>
+            </jdo:primary-key>
+         </jdo:table>
+      </xs:appinfo>
+   </xs:annotation>
+   <xs:sequence>
+      <xs:element name="isbn" type="xs:string" >
+         <xs:annotation>
+            <xs:appinfo>
+                <jdo:column name="isbn" type="varchar" />
+            </xs:appinfo>
+         </xs:annotation>
+      </xs:element>
+      <xs:element name="pages" type="xs:integer" >
+         <xs:annotation>
+            <xs:appinfo>
+                <jdo:column name="pages" type="integer" />
+            </xs:appinfo>
+         </xs:annotation>
+      </xs:element>
+      <xs:element name="lector" type="lectorType" >
+         <xs:annotation>
+            <xs:appinfo>
+               <jdo:one-to-one name="lector_id" />
+            </xs:appinfo>
+         </xs:annotation>
+      </xs:element>
+      <xs:element name="authors" type="authorType" maxOccurs="unbounded" >
+         ...
+      </xs:element>
+   </xs:sequence>
+</xs:complexType>]]>
+            </programlisting>
+
+            <para>
+                This maps the element <literal>lector</literal> to a
+                1:1 relation to the complex type <literal>lectorType</literal>, and 
+                specifies the (column name of the) foreign key to be used 
+                (<literal>lector_id</literal> in this case).
+            </para>
+            
+            <para>
+                The <literal>&lt;one-to-one&gt;</literal> element is defined 
+                as follows:
+            </para>
+
+            <programlisting language="xml"><![CDATA[
+<xs:element name="one-to-one">
+   <xs:complexType>
+      <xs:complexContent>
+         <xs:extension base="jdo:readonlyDirtyType">
+            <xs:attribute name="name" type="xs:string"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+</xs:element>]]>
+            </programlisting>
+
+            <para>
+                where the content is described as follows:
+            </para>
+        
+            <table id="jdo.extensions.schema.elements.one-to-one.grammar" align="center">
+             <title>&lt;one-to-one&gt; - Definitions</title>
+             <tgroup cols="2">
+               <colspec colname="c1"/>
+               <colspec colname="c2"/>
+               <thead>
+                 <row>
+                   <entry>Name</entry>
+                   <entry>Description</entry>
+                 </row>
+               </thead>
+               <tbody>
+                 <row>
+                   <entry>name</entry>
+                   <entry>Name of the column that represents the foreign key of this relation</entry>
+                 </row>
+               </tbody>
+             </tgroup>
+           </table>        
+                 
+        </section>
+        
+        <section id="jdo.extensions.schema.elements.one-to-many">
+           <title>&lt;one-to-many&gt; element</title>
+        
+            <para>
+               TBD
+            </para>
+            
+        </section>
+     </section>
+     
+     <section id="jdo.extensions.descriptors">
+        <title>Descriptor classes - Technical background</title>
+        
+        <para>to be defined</para>
+     </section>
+     
+     <section id="jdo.extensions.tool.support">
+        <title>Integration with existing code generation tools</title>
+        
+        <para>tbd</para>
+        
+        <section id="jdo.extensions.tool.support.cmd">
+            <title>Command line</title>
+            
+            <para>to be defined</para>
+        </section>
+        
+        <section id="jdo.extensions.tool.support.anttask">
+            <title>Ant task</title>
+
+            <para>to be defined</para>
+        </section>
+        
+        <section id="jdo.extensions.tool.support.maven.plugin">
+            <title>Maven plugin for Castor</title>
+
+            <para>to be defined</para>
+        </section>
+        
+     </section>
+     
+</chapter>

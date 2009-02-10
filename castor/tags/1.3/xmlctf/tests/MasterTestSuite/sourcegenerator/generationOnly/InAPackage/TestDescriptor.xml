@@ -1,0 +1,14 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>Test code generated into a package</Name>
+    <Author>Edward Kuns</Author>
+    <Comment>Without the Package element, code is generated into the default package</Comment>
+    <Category>basic capability</Category>
+    <OnlySourceGenerationTest>
+        <Schema>test.xsd</Schema>
+        <Package>com.test.mypackage</Package>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+        </UnitTestCase>
+    </OnlySourceGenerationTest>
+</TestDescriptor>
