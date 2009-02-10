@@ -1,0 +1,34 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>Test the reading of a top level element defined with particles information</Name>
+    <Author>Arnaud Blandin</Author>
+    <Comment>
+        This test ensures that particle information cannot be declared on a top
+        level element definition.
+    </Comment>
+    <Comment>Regression testing</Comment>
+    <Category>basic capability</Category>
+
+    <BugFix>
+        <Reporter>Gerber, Jacques-Alexandre[gerber@intalio.com]</Reporter>
+        <Date_Report>2002-12-10</Date_Report>
+        <Date_Fix>2002-10-10</Date_Fix>
+        <Comment>Added validation code</Comment>
+    </BugFix>
+
+    <SchemaTest>
+        <UnitTestCase>
+            <Name>MaxOccursFailure</Name>
+            <Schema>toplevel_maxOccurs_failure.xsd</Schema>
+            <Failure exception="org.exolab.castor.xml.ValidationException"
+                     FailureStep="parse-schema">true</Failure>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>MinOccursFailure</Name>
+            <Schema>toplevel_minOccurs_failure.xsd</Schema>
+            <Failure exception="org.exolab.castor.xml.ValidationException"
+                     FailureStep="parse-schema">true</Failure>
+        </UnitTestCase>
+    </SchemaTest>
+ </TestDescriptor>

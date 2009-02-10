@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding xmlns="http://www.castor.org/SourceGenerator/Binding"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.castor.org/SourceGenerator/Binding binding.xsd"
+	defaultBindingType="type">
+
+	<elementBinding name="/Filter/Description">
+		<java-class name="Description" >
+			<implements>FilterPropertyInterface</implements>
+		</java-class>
+	</elementBinding>
+
+	<elementBinding name="/Filter/Version">
+		<java-class name="Version" >
+			<implements>FilterPropertyInterface</implements>
+		</java-class>
+	</elementBinding>
+
+    <complexTypeBinding name="i5osName">
+		<java-class name="I5osName">
+			<implements>FilterPropertyInterface</implements>
+		</java-class>
+	</complexTypeBinding>
+	 
+	<complexTypeBinding name="filterDate">
+		<java-class name="FilterDate">
+			<implements>FilterPropertyInterface</implements>
+		</java-class>
+	</complexTypeBinding>
+	
+
+	<complexTypeBinding name="expIndex">
+		<java-class name="ExpIndex" >
+			<implements>FilterPropertyInterface</implements>
+		</java-class>
+	</complexTypeBinding>
+
+	<complexTypeBinding name="indexData">
+		<java-class name="IndexData" >
+			<implements>FilterPropertyInterface</implements>
+		</java-class>
+	</complexTypeBinding>
+	
+	<complexTypeBinding name="DftAction">
+		<java-class name="DftAction" >
+			<implements>FilterPropertyInterface</implements>
+		</java-class>
+	</complexTypeBinding>
+	
+		
+</binding>

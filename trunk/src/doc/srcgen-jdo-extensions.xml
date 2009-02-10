@@ -1,0 +1,299 @@
+<?xml version="1.0"?>
+<document url="http://castor.org/srcgen-jdo-extensions.xml">
+   <properties>
+      <title>The Castor XML Code Generator - JDO extensions</title>
+      <author email="werner DOT guttmann AT gmx DOT net"> Werner Guttmann</author>
+      <abstract> Presents the user with ...</abstract>
+      <status>Final</status>
+   </properties>
+   <body>
+   
+      <title>JDO extension for the Castor XML code generator</title>
+      
+      <section title="Introduction">
+      
+         <p>
+            In this section we illustrate the use of the JDO extensions for the XML code 
+            generator.
+         </p>
+      </section>
+      
+        <section title="Prerequisite">
+        
+            <p>
+                To facilitate the detailed explanations in the following 
+                sections, we now define a few &lt;complexType&gt; definitions
+                that we want to map against an existing database schema, and the 
+                corresponding SQL statements to create the required tables.
+            </p>
+                
+            <section title="Sample XML schemas">
+        
+           
+               <code-panel>
+&lt;complexType name="bookType"&gt;
+   &lt;sequence&gt;
+      &lt;element name="isbn" type="xs:string" /&gt;
+      &lt;element name="pages" type="xs:integer" /&gt;
+      &lt;element name="lector" type="lectorType" /&gt;
+      &lt;element name="authors" type="authorType" maxOccurs="unbounded" /&gt;
+   &lt;/sequence&gt;
+&lt;/complexType&gt;
+
+&lt;complexType name="lectorType"&gt;
+   &lt;sequence&gt;
+      &lt;element name="siNumber" type="xs:integer" /&gt;
+      &lt;element name="name" type="xs:string" /&gt;
+   &lt;/sequence&gt;
+&lt;/complexType&gt;
+
+&lt;complexType name="authorType"&gt;
+   &lt;sequence&gt;
+      &lt;element name="siNumber" type="xs:integer" /&gt;
+      &lt;element name="name" type="xs:string" /&gt;
+   &lt;/sequence&gt;
+&lt;/complexType&gt;</code-panel>
+            
+           </section>
+           
+           <section title="Prerequisite: Sample DDL statements">
+           
+                <code-panel>
+CREATE TABLE author_table (
+);
+
+CREATE TABLE lector_table (
+);
+
+CREATE TABLE book_table (
+);</code-panel>
+                
+           </section>
+        
+        </section>
+        
+      <section title="The schema elements">
+      
+        <p>
+            The following XML artifacts are available to annotate an existing XML schema
+            with JDO extension-specific information.
+        </p>
+        
+        
+        <section name="&lt;table&gt; element">
+        
+            <p>
+                The &lt;table&gt; element allows you to map an &lt;complexType&gt;
+                definition to a table within a database, and to specify the
+                identity (frequently referred to as primary key).
+            </p>
+            
+            <code-panel>
+<font color="grey">&lt;complexType name="authorType"&gt;</font>
+   &lt;xs:annotation&gt;
+      &lt;xs:appinfo&gt;
+         <b>&lt;jdo:table name="author_table"&gt;
+            &lt;jdo:primary-key&gt;
+               &lt;jdo:key&gt;siNumber&lt;/jdo:key&gt;
+            &lt;/jdo:primary-key&gt;
+         &lt;/jdo:table&gt;</b>
+      &lt;/xs:appinfo&gt;
+   &lt;/xs:annotation&gt;
+   <font color="grey">&lt;sequence&gt;
+      &lt;element name="siNumber" type="xs:integer" /&gt;
+      &lt;element name="name" type="xs:string" /&gt;
+   &lt;/sequence&gt;
+&lt;/complexType&gt;</font></code-panel>
+
+            <p>
+                This maps the &lt;complexType&gt; <tt>authorType</tt> to
+                the table <tt>author_table</tt>, and specifies that the 
+                member <tt>siNumber</tt> be used as object identity (aka primary 
+                key).
+            </p>
+
+            <p>
+                The &lt;table&gt; element is defined as follows:
+            </p>
+        
+            <code-panel>
+&lt;xs:element name="table">
+   &lt;xs:complexType>
+      &lt;xs:sequence>
+         &lt;xs:element name="primaryKey" type="jdo:pkType"/>
+      &lt;/xs:sequence>
+      &lt;xs:attribute name="name" type="xs:string" use="required"/>
+      &lt;xs:attribute name="accessMode" use="optional" default="shared">
+         &lt;xs:simpleType>
+            &lt;xs:restriction base="xs:string">
+               &lt;xs:enumeration value="read-only"/>
+               &lt;xs:enumeration value="shared"/>
+               &lt;xs:enumeration value="exclusive"/>
+               &lt;xs:enumeration value="db-locked"/>
+            &lt;/xs:restriction>
+         &lt;/xs:simpleType>
+      &lt;/xs:attribute>
+      &lt;xs:attribute name="detachable" type="xs:boolean" default="false"/>
+   &lt;/xs:complexType>
+&lt;/xs:element></code-panel>
+
+        </section>
+        
+        <section title="&lt;column&gt; element">
+
+            <p>
+                The &lt;column&gt; element allows you to map a member of content model 
+                of a &lt;complexType&gt; definition to a column within a database.
+            </p>
+
+            <code-panel>
+<font color="darkgrey">&lt;complexType name="authorType"&gt;
+   &lt;xs:annotation&gt;
+      &lt;xs:appinfo&gt;</font>
+         <font color="grey">&lt;jdo:table name="author_table"&gt;
+            &lt;jdo:primary-key&gt;
+               &lt;jdo:key&gt;siNumber&lt;/jdo:key&gt;
+            &lt;/jdo:primary-key&gt;
+         &lt;/jdo:table&gt;</font>
+      <font color="darkgrey">&lt;/xs:appinfo&gt;
+   &lt;/xs:annotation&gt;
+   &lt;sequence&gt;
+      &lt;element name="siNumber" type="xs:integer" &gt;</font>
+         &lt;xs:annotation&gt;
+            &lt;xs:appinfo&gt;
+                <b>&lt;jdo:column name="sin" type="integer" /&gt;</b>
+            &lt;/xs:appinfo&gt;
+         &lt;/xs:annotation&gt;
+      <font color="darkgrey">&lt;/element&gt;
+      &lt;element name="name" type="xs:string" /&gt;
+   &lt;/sequence&gt;
+&lt;/complexType&gt;</font></code-panel>
+
+            <p>
+                This maps the &lt;element&gt; <tt>isNUmber</tt> to
+                the column <tt>sin</tt>, and specifies the database type
+                to be used for persistence.
+            </p>
+            
+            <p>
+                The &lt;column&gt; element is defined as follows:
+            </p>
+            
+            <code-panel>
+&lt;xs:element name="column"&gt;
+   &lt;xs:complexType>
+      &lt;xs:complexContent>
+         &lt;xs:extension base="jdo:readonlyDirtyType">
+            &lt;xs:attribute name="name" type="xs:string" use="required" />
+            &lt;xs:attribute name="type" type="xs:string" use="required" />
+            &lt;xs:attribute name="acceptNull" type="xs:boolean" use="optional"
+               default="true" />
+         &lt;/xs:extension>
+      &lt;/xs:complexContent>
+   &lt;/xs:complexType>
+&lt;/xs:element></code-panel>
+        
+        </section>
+        
+        <section title="&lt;one-to-one&gt; element">
+        
+            <p>
+                The &lt;one-to-one&gt; element allows you to map a member of content model 
+                of a &lt;complexType&gt; definition to a 1:1 relation to another
+                &lt;complexType&gt;.
+            </p>
+        
+            <code-panel>
+<font color="grey">&lt;complexType name="bookType"&gt;
+   &lt;xs:annotation&gt;
+      &lt;xs:appinfo&gt;
+         &lt;jdo:table name="book_type_table"&gt;
+            &lt;jdo:primary-key&gt;
+               &lt;jdo:key&gt;isbn&lt;/jdo:key&gt;
+            &lt;/jdo:primary-key&gt;
+         &lt;/jdo:table&gt;
+      &lt;/xs:appinfo&gt;
+   &lt;/xs:annotation&gt;
+   &lt;sequence&gt;
+      &lt;element name="isbn" type="xs:string" &gt;
+         &lt;xs:annotation&gt;
+            &lt;xs:appinfo&gt;
+                &lt;jdo:column name="isbn" type="varchar" /&gt;
+            &lt;/xs:appinfo&gt;
+         &lt;/xs:annotation&gt;
+      &lt;/element&gt;
+      &lt;element name="pages" type="xs:integer" &gt;
+         &lt;xs:annotation&gt;
+            &lt;xs:appinfo&gt;
+                &lt;jdo:column name="pages" type="integer" /&gt;
+            &lt;/xs:appinfo&gt;
+         &lt;/xs:annotation&gt;
+      &lt;/element&gt;
+      &lt;element name="lector" type="lectorType" &gt;</font>
+         &lt;xs:annotation&gt;
+            &lt;xs:appinfo&gt;
+               <b>&lt;jdo:one-to-one name="lector_id" /&gt;</b>
+            &lt;/xs:appinfo&gt;
+         &lt;/xs:annotation&gt;
+      <font color="grey">&lt;/element&gt;
+      &lt;element name="authors" type="authorType" maxOccurs="unbounded" &gt;
+         ...
+      &lt;/element&gt;
+   &lt;/sequence&gt;
+&lt;/complexType&gt;</font></code-panel>
+
+            <p>
+                This maps the &lt;element&gt; <tt>lector</tt> to
+                1:1 relation to the <tt>lectorType</tt> &lt;complexType&gt;, and specifies 
+                the (column name of the) foreign key to be used.
+            </p>
+            
+            <p>
+                The &lt;one-to-one&gt; element is defined as follows:
+            </p>
+
+            <code-panel>
+&lt;xs:element name="one-to-one"&gt;
+   &lt;xs:complexType&gt;
+      &lt;xs:complexContent&gt;
+         &lt;xs:extension base="jdo:readonlyDirtyType"&gt;
+            &lt;xs:attribute name="name" type="xs:string"/&gt;
+         &lt;/xs:extension&gt;
+      &lt;/xs:complexContent&gt;
+   &lt;/xs:complexType&gt;
+&lt;/xs:element&gt;</code-panel>
+
+            <p>
+                where the content is described as follows:
+            </p>
+            
+            <ctable caption="&lt;one-to-one&gt; - Definitions">
+                <cheader>
+                    <td>Name</td>
+                    <td>Description</td>
+                </cheader>
+                <crow>
+                    <td>name</td>
+                    <td>
+                        Specifies the name of the column that represents the foreign 
+                        key of this relation.
+                    </td>
+                </crow>
+            </ctable>
+                
+        </section>
+        
+        <section title="&lt;one-to-many&gt; element">
+        
+            <p>
+               TBD
+            </p>
+            
+        </section>
+        
+        
+      </section>
+      
+  
+   </body>
+</document>

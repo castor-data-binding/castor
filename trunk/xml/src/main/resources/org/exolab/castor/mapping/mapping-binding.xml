@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : mapping-binding.xml
+    Created on : December 20, 2002, 3:48 PM
+    Author     : rsutphin
+    Description:
+        A source generator binding file for the mapping
+        schema.
+-->
+
+<cbf:binding xmlns:cbf="http://www.castor.org/SourceGenerator/Binding"
+             defaultBindingType="element">
+
+  <cbf:elementBinding name="mapping">
+    <cbf:java-class name="MappingRoot"/>
+    <cbf:elementBinding name="class">
+      <cbf:member name="classMapping"/>
+    </cbf:elementBinding>
+  </cbf:elementBinding>
+
+  <cbf:elementBinding name="field">
+    <cbf:java-class name="FieldMapping"/>
+  </cbf:elementBinding>
+
+  <cbf:elementBinding name="class">
+    <cbf:java-class name="ClassMapping"/>
+    <cbf:elementBinding name="field">
+      <cbf:member name="fieldMapping"/>
+    </cbf:elementBinding>
+    <cbf:elementBinding name="cache-type">
+      <cbf:member name="cacheTypeMapping"/>
+    </cbf:elementBinding>
+  </cbf:elementBinding>
+
+  <cbf:elementBinding name="cache-type">
+    <cbf:java-class name="CacheTypeMapping"/>
+  </cbf:elementBinding>
+
+  <cbf:elementBinding name="key-generator">
+    <cbf:java-class name="KeyGeneratorDef"/>
+  </cbf:elementBinding>
+  
+  <cbf:elementBinding name="field-handler">
+    <cbf:java-class name="FieldHandlerDef"/>
+  </cbf:elementBinding>
+
+</cbf:binding>

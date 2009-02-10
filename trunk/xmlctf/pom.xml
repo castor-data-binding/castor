@@ -1,0 +1,71 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+						http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.codehaus.castor</groupId>
+    <artifactId>castor-testsuite-xml</artifactId>
+
+    <parent>
+        <groupId>org.codehaus.castor</groupId>
+        <artifactId>castor</artifactId>
+        <version>1.3</version>
+    </parent>
+
+    <packaging>jar</packaging>
+
+    <name>Castor XML - test suite</name>
+    <description></description>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.castor</groupId>
+                <artifactId>castor-maven-plugins</artifactId>
+                <version>1.3</version>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>xmlctf-text</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <testRoot>${basedir}/tests/MasterTestSuite/</testRoot>
+                </configuration>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            
+        </plugins>
+    </build>
+
+    <scm>
+       <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/xmlctf</connection>
+       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/xmlctf</developerConnection>
+       <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/xmlctf</url>
+    </scm>
+
+	<dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.castor</groupId>
+            <artifactId>castor-testsuite-xml-framework</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
+
+

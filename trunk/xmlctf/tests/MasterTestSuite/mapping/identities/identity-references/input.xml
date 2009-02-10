@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<node-list>
+    <node node-num="1">
+        <sibling>2</sibling>
+        <sibling>3</sibling>
+    </node>
+    <node node-num="2">
+        <sibling>1</sibling>
+        <sibling>3</sibling>
+    </node>
+    <node node-num="3">
+        <sibling>1</sibling>
+        <sibling>2</sibling>
+    </node>
+</node-list>

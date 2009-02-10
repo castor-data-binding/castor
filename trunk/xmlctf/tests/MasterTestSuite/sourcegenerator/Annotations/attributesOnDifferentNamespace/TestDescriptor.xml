@@ -1,0 +1,26 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>
+        Test the generation of &lt;xs:annotation&gt;s with attributes attached that are on
+        a different namespace than the default schema namespace.
+    </Name>
+    <Author>Werner Guttmann</Author>
+    <Comment>Regression test case for bug CASTOR-2234</Comment>
+    <Category>basic capability</Category>
+    <BugFix>
+        <Reporter>aparvatala@osi-tech.com</Reporter>
+        <issue>http://jira.codehaus.org/browse/CASTOR-2234</issue>
+        <Date_Report>2007-12-19</Date_Report>
+        <Date_Fix>2007-12-23</Date_Fix>
+        <Comment></Comment>
+    </BugFix>
+
+    <OnlySourceGenerationTest>
+        <Schema>test.xsd</Schema>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Input>input.xml</Input>
+        </UnitTestCase>
+    </OnlySourceGenerationTest>
+</TestDescriptor>
+

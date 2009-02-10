@@ -1,0 +1,23 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>Test the use of xsd-list in the Marshalling Framework</Name>
+    <Author>Joachim Grueneis</Author>
+    <Comment>xsd:list requires special handling for attributes and elements
+    and this test will ensure that it is correctly performed.</Comment>
+    <Category>basic capability</Category>
+
+    <SourceGeneratorTest>
+        <Schema>xsdList.xsd</Schema>
+        <Root_Object random="false" dump="true">XmlListSample</Root_Object>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Input>input.xml</Input>
+            <GoldFile>input.xml</GoldFile>
+        </UnitTestCase>
+        <UnitTestCase>
+            <Name>Test round-trip with default namespace</Name>
+            <Input>input-with-default-namespace.xml</Input>
+            <GoldFile>input-with-default-namespace.xml</GoldFile>
+        </UnitTestCase>
+     </SourceGeneratorTest>
+</TestDescriptor>

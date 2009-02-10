@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<archetype>
+	<id>cpa-archetype</id>
+	<testSources>
+		<source>src/test/java/org/castor/cpa/test/TestJDOManager.java</source>
+        <source>src/test/java/org/castor/cpa/test/entity/Entity.java</source>
+	</testSources>
+	<testResources>
+        <resource>src/test/resources/org/castor/cpa/test/script.sql</resource>
+		<resource>src/test/resources/org/castor/cpa/test/jdo-conf.xml</resource>
+		<resource>src/test/resources/org/castor/cpa/test/mapping.xml</resource>
+		<resource>src/test/resources/org/castor/cpa/test/README.txt</resource>
+	</testResources>
+</archetype>

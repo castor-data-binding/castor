@@ -1,0 +1,21 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>Test collection set to 'set' by binding</Name>
+    <Author>Werner Guttmann</Author>
+    <Comment>
+        Test where collection type is set to 'set' by the means of a binding file.
+        The generated class(es) should include various methods that use
+        'java.util.Set' as signature type.
+    </Comment>
+    <Category>basic capability</Category>
+    <SourceGeneratorTest>
+        <Schema>test.xsd</Schema>
+        <Property_File>builder.properties</Property_File>
+        <BindingFile>binding.xml</BindingFile>
+        <Root_Object random="false" dump="true">Root</Root_Object>
+        <UnitTestCase>
+            <Name>Test Source Generation</Name>
+            <Input>input.xml</Input>
+        </UnitTestCase>
+    </SourceGeneratorTest>
+</TestDescriptor>

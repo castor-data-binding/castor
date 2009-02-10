@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<mapping>
+        <!--include a local mapping -->
+        <include href="../xmlctf/tests/MasterTestSuite/mapping/Include/test/mapping.xml"/>
+        <!--  <include href="test/mapping.xml" relativeToContaining="true"/>  -->
+
+        <class name="A">
+                <map-to xml="A"/>
+                <field name="number"
+                       type="integer">
+                        <bind-xml name="Number"/>
+                </field>
+                <field name="Belement"
+                       type="B">
+                        <bind-xml name="Belement"/>
+                </field>
+        </class>
+
+</mapping>

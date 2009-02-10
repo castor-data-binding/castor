@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/how-to-prepare-a-patch.xml">
+  <properties>
+    <title>How to prepare a patch</title>
+    <abstract>
+       General information about preparing a patch
+    </abstract>
+    <status>Final</status>
+  </properties>
+  <body>
+    <title>How to prepare a (unified) patch</title>
+    <header>
+    </header>
+    
+	<section title="Overview">
+
+        <p>A "patch" is the set of differences between two versions of the same file. Patches are used to 
+           send someone the exact changes that you have made to your version of a program or a 
+           document. They can then apply that patch to their version to merge the changes and bring 
+           their version up-to-date with your version.</p>
+
+        <p>As our example we use the contribution of a simple documentation patch for the 
+        Castor project. The principles apply to any project and to any type of file, e.g. 
+        *.xml, *.java, *.xsd, etc.</p>
+        
+    </section>
+    
+    <section title="Intended Audience">
+
+        <p>Anyone who wants to contribute to a project. This document addresses the basics, 
+        so as to get new people started.</p>
+
+        <p>Our example describes the use of command-line tools for a UNIX system. Other 
+        tools can be used, as long as they produce a "unified diff".</p>
+        
+    </section>
+    
+    <section title="Prerequisites">
+
+        <p>Contributers should have:</p>
+
+        <ul>
+            <li>The source code of the documents as a local working copy of the SVN 
+                repository. If you are working with the current SVN HEAD then you will 
+                have already done a 'svn checkout castor'. However, see 
+                below for other ways of obtaining source for diff comparison.</li>
+            <li>The tools with which to prepare a patch. On UNIX the "svn" program has the 
+                <tt>svn diff</tt> command.</li>
+        </ul>
+            
+    </section>
+
+    <section title="Steps">
+
+        <p>Here is how to proceed.</p>
+
+        <section title="Understand what a patch is">
+
+            <p>A "Patch" is the set of differences between two versions of the same file. A 
+            patch comprises one or more "diff" files. These diffs are produced by the program 
+            of the same name: diff.</p>
+
+            <p>Here is an example of a single diff for one of the Castor How-to pages,
+            where we are suggesting a minor text change. Do not get frightened. These are 
+            just human-readable instructions to the "patch" program.</p>
+
+<code-panel>
+Index: contrib.xml
+===================================================================
+RCS file: /home/projects/castor/src/doc/jdo-howto.xml,v
+retrieving revision 1.7
+diff -u -r1.7 contrib.xml
+--- jdo-howto.xml 30 Apr 2002 07:44:52 -0000      1.7
++++ jdo-howto.xml 26 May 2002 04:08:23 -0000
+@@ -208,7 +208,7 @@
+    to create a patch. (The commands are for Linux.)
+   &lt;/p&gt;
+
+- &lt;s2 title="How to Establish your Local Repository"&gt;
++ &lt;s2 title="How to Establish your Local Working Copy"&gt;
+
+   &lt;p&gt;
+    This will checkout the current copy of the master cvs repository and
+</code-panel>
+
+            <p>That is a "unified diff" ... there a some lines of context on each side of the 
+            changes. This patch is basically saying "Change the text on line 208".</p>
+
+            <ul>
+                <li>lines to be deleted are preceded with -</li>
+                <li>lines to be added are preceded with +</li>
+                <li>contextual lines with no leader remain the same</li>
+            </ul>
+
+        </section>
+
+        <section title="Modify your document and ensure consistency">
+
+            <p>Let us now go though the process of preparing that patch. Go ahead and 
+            edit your local copy of the document at 
+            $CASTOR_HOME/src/doc/jdo-howto.xml.</p>
+
+            <p>Ensure that it is valid XML using your favourite XML editor or an external 
+            validating parser. Please do not leave it up to the poor committer to fix 
+            broken XML.</p>
+
+            <p>Run the '<tt>build doc</tt>' target to be sure that links are not broken and that the new 
+            document is presented as you intend it to be.</p>
+        </section>
+        
+        <section title="Get ready">
+            
+            <p>If you are using the HEAD of SVN then ensure that your working copy is 
+            up-to-date. Of course, if you are using a previous public release version 
+            of Castor, then it is already up-to-date.</p>
+            
+        </section>
+
+        <section title="Generate the differences">
+            
+            <p>Prepare the diff file. SVN will contact the remote repository, ensure that 
+            your working copy is up-to-date, then compare your local copy with the 
+            master repository.</p>
+
+<code-panel>
+    cd src/doc
+    svn diff jdo-howto.xml > $TEMP/castor/patch/jdo-howto.xml.diff
+</code-panel>
+            
+        </section>
+
+        <section title="Describe the patch">
+            
+            <p>Prepare a brief explanation of what your patch does. Get this ready in a 
+            text file before you go to Jira. See further hints about this in 
+            the "Description" section of the How-to Jira.</p>
+
+            <p>What revision of SVN did you patch against? Was it HEAD branch? Was 
+            it a nightly build? Was it a public release?</p>
+            
+        </section>
+
+        <section title="Submit via Jira">
+            
+            <p>To contribute your patch to a specific project, use Jira - The Codehaus Issue Database. The 
+            procedure is explained in How to Contribute a Patch via Jira.</p>
+            
+        </section>
+
+    </section>
+    
+    <section title="Real World Extension">
+        
+        <section title="Multiple diffs in a single patch">
+
+            <p>A patchfile can contain the differences to various individual documents. For example,
+            the following command does that ...</p>
+
+<code-panel>
+    cd src
+    svn diff > $WORK/castor/patch/src.dir.diff
+</code-panel>
+
+            <p>However, be careful not to go overboard with this technique. When producing 
+            multiple diffs in one patchfile, try to limit it to one particular topic, i.e 
+            when fixing the same broken external link in various pages, then it would be fine 
+            to produce a single diff. Consider the committer - they will find it hard to apply 
+            your patch if it also attempts to fix other things.</p>
+            
+        </section>        
+
+
+        <section title="Other ways of obtaining source for diff comparison">
+            
+            <p>Ideally you will prepare your patches against a SVN repository. There are other 
+            ways to do this. They do create more work for the committers, however it may 
+            be the only way that you can do it. We would certainly rather receive your 
+            patch however it comes. As a matter of fact, we would politely ask you 
+            first to send us a unified patch.</p>
+
+            <p>You could get the source document via the web interface to SVN. Here are the steps ...</p>
+
+            <ul>
+                <li>get the relevant XML file via FishEye</li>
+                <li>save the file to your local disk: ./jdo-howto.xml.orig</li>
+                <li>create a copy of the file: ./jdo-howto.xml</li>
+                <li>make your modifications and validate the XML</li>
+                <li>use the "diff" command (i.e. not 'cvs diff') as follows</li>
+                <li><tt>diff -u jdo-howto.xml.orig jdo-howto.xml > $WORK/castor/patch/jdo-howto.xml.diff</tt></li>
+                <li>proceed as for Step 5.</li>
+            </ul>
+
+        </section>
+
+    </section>
+
+    <section title="Tips">
+
+        <ul>
+            <li>Please review your diffs before you submit your patch to JIRA</li>
+        </ul>    
+        
+    </section>
+
+
+    <section title="References">
+
+        <ul>
+            <li>The UNIX manual pages 'man diff' and 'man patch'.</li>
+		    <li><a href="http://subversion.tigris.org/">SVN Home</a> - many useful
+                SVN related items</li>
+        </ul>
+        
+    </section>
+
+    </body>
+</document>

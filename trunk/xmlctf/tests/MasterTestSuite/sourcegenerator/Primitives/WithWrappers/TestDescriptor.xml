@@ -1,0 +1,32 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>Test when using wrapper objects instead of primitives</Name>
+    <Author>Arnaud Blandin</Author>
+    <Comment>
+        Test the following types:
+            -int
+            -integer
+            -float
+            -double
+            -float
+            -long
+            -boolean
+            -short
+            -byte
+    </Comment>
+    <Category>basic capability</Category>
+    <SourceGeneratorTest>
+        <Schema>primitives.xsd</Schema>
+        <Property_File>primitive2wrapper.properties</Property_File>
+        <Root_Object random="false" dump="false">TestPrimitiveToWrapper</Root_Object>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Input>input1.xml</Input>
+        </UnitTestCase>
+        <UnitTestCase>
+            <Name>Test Marshaling with the generated Descriptors</Name>
+            <Input>input1.xml</Input>
+            <ObjectBuilder>PrimitivesBuilder</ObjectBuilder>
+        </UnitTestCase>
+    </SourceGeneratorTest>
+</TestDescriptor>

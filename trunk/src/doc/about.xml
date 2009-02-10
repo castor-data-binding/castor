@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.codehaus.org/about.xml">
+  <properties>
+    <title>About The Castor Project</title>
+    <abstract>
+       General information about the project
+    </abstract>
+    <status>Final</status>
+  </properties>
+
+  <body>
+    <title>About The Castor Project</title>
+    <header>
+    </header>
+
+    <section title="About the Castor Project">
+
+      <p>
+        The Castor project has been developed out of need: the need to get stuff done
+        and the need to write useful code. It has been designed and coded over many cups
+        of Dunkin Donut's Hazlenut coffee, Starbucks' Latte, and tall no-whip White Mochas,
+        as proof that coffee beans do come in handy.  A few rogue contributors prefer
+        the sweetness of Coca Cola to the bitterness of coffee.
+      </p>
+
+      <p>
+        We maintain a full list of <a href="contributors.xml">contributors</a>
+        past and present.
+      </p>
+
+      <p>
+        The Castor Project was started and originally developed by
+        <a href="mailto:keith AT kvisco DOT com">Keith Visco</a> and
+        <a href="mailto:arkin@remove-no-spam.intalio.com">Assaf Arkin</a> of Intalio, Inc.
+        Contributors are welcome to join this project. Please join us on the
+        <a href="lists.xml">mailing list</a>.
+      </p>
+
+      <p>
+        Castor makes use of and includes several third-party software components such as
+        Xerces, Jakarta ORO, and Jakarta Regexp, all developed by the
+        <a href="http://www.apache.org/">Apache Software Foundation</a>.
+        Castor also makes use of and includes the
+        <a href="http://www.junit.org">JUnit testing framework</a>, which is only
+        used in the build and testing components.
+      </p>
+
+    </section>
+
+  </body>
+
+</document>

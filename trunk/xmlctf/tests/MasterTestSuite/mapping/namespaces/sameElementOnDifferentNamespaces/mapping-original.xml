@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Object Mapping DTD Version 1.0//EN" "http://castor.exolab.org/mapping.dtd">
+<mapping:mapping xmlns="default" xmlns:media="http://search.yahoo.com/mrss/" xmlns:mapping="http://castor.exolab.org/">
+    <mapping:class name="Item">
+        <mapping:map-to xml="item" ns-uri="default"/>
+        <mapping:field name="mediaDescription" type="string" get-method="getMediaDescription"
+            set-method="setMediaDescription">
+            <mapping:bind-xml name="media:description" node="element" />
+        </mapping:field>
+        <mapping:field name="description" type="string" get-method="getDescription"
+            set-method="setDescription">
+            <mapping:bind-xml name="description" node="element" />
+        </mapping:field>
+    </mapping:class>
+</mapping:mapping>

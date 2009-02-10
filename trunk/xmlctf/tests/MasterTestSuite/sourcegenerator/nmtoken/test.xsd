@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:element name="DeviationSurveyData">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Row" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="TotalRows" type="xs:NMTOKEN" use="required" />
+			<xs:attribute name="TotalColumns" type="xs:NMTOKEN" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="Row">
+		<xs:complexType>
+			<xs:sequence maxOccurs="unbounded">
+				<xs:element ref="Column" />
+			</xs:sequence>
+			<xs:attribute name="index" type="xs:NMTOKEN" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="Column">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="doubleValue" type="xs:double" />
+			</xs:sequence>
+			<xs:attribute name="index" type="xs:NMTOKEN" use="required" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

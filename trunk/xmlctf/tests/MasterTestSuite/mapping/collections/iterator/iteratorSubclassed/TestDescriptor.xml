@@ -1,0 +1,24 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+
+    <Name>Test get methods starting with 'iterate' when used with a sub-class of java.util.Iterator</Name>
+    <Author>Werner Guttmann</Author>
+
+    <Comment>
+      Tests getter methods starting with 'iterate' when used with a sub-class of java.util.Iterator.
+    </Comment>
+
+    <Category>basic capability</Category>
+
+    <MarshallingTest>
+        <Root_Object>IteratorDelegator</Root_Object>
+
+        <UnitTestCase>
+            <Name>Test01</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+        </UnitTestCase>
+
+    </MarshallingTest>
+
+</TestDescriptor>
