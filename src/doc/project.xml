@@ -47,6 +47,10 @@
         <url>1.2/index.xml</url>
         <display>Release 1.2</display>
       </navLink>
+      <navLink>
+        <url>1.3cr1/index.xml</url>
+        <display>Release 1.3rc1</display>
+      </navLink>
     </section>
     
     <section name="Main">
