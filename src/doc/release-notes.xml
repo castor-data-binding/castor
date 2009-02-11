@@ -32,6 +32,37 @@
             <date>tbd</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
+            </summary>
+            <bugs>
+                <bug id="2636" tool="jira">
+                    <description>
+                        Extended annotation processing framework to allow target 
+                        aware processors and service (including base implementation).
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Peter Schmidt</name>
+                        <email>peter-list@stayduebeauty.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JPA</module>
+                    <date>20090211</date>
+                </bug>
+            </bugs>
+        </release>
+        
+        <release version="1.3">
+            <description>Feature release</description>
+            <date>February 11, 2009</date>
+            <managed-by>Werner Guttmann</managed-by>
+            <summary>
 
                 <h2>Changes</h2>
                 

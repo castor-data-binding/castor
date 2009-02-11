@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 Joachim Grueneis
+ * Copyright 2007 Werner Guttmann
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ public class BaseAnnotationProcessingService implements
      * @see org.castor.annotationprocessing.AnnotationProcessingService#
      *      addAnnotationProcessor(AnnotationProcessor)
      */
-    public final void addAnnotationProcessor(
+    public void addAnnotationProcessor(
             final AnnotationProcessor annotationProcessor) {
         if (annotationProcessor != null) {
             _annotationProcessorMap.put(annotationProcessor
@@ -73,7 +73,7 @@ public class BaseAnnotationProcessingService implements
      * @see org.castor.annotationprocessing.AnnotationProcessingService#
      *      processAnnotations(BaseNature, Annotation[])
      */
-    public final <I extends BaseNature> Annotation[] processAnnotations(I info,
+    public <I extends BaseNature> Annotation[] processAnnotations(I info,
             final Annotation[] annotations) {
         ArrayList<Annotation> unprocessed = new ArrayList<Annotation>();
 
@@ -94,7 +94,7 @@ public class BaseAnnotationProcessingService implements
      * @see org.castor.annotationprocessing.AnnotationProcessingService#processAnnotation
      *      (BaseNature, Annotation)
      */
-    public final <I extends BaseNature, A extends Annotation> boolean processAnnotation(
+    public <I extends BaseNature, A extends Annotation> boolean processAnnotation(
             I info, final A annotation) {
         boolean processed = false;
         AnnotationProcessor annotationProcessor = _annotationProcessorMap
