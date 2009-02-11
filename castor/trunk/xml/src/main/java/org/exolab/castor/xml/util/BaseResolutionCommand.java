@@ -20,6 +20,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.exolab.castor.mapping.ClassDescriptor;
+
 /**
  * Provides basic {@link HashMap} based property implementation for a
  * {@link ClassDescriptorResolutionCommand}.
@@ -40,6 +42,12 @@ public abstract class BaseResolutionCommand implements
      * Added Natures.
      */
     private Set _natures = new HashSet();
+
+    /**
+     * {@link JDOClassDescriptorResolver} used to register
+     * {@link ClassDescriptor} instances during their creation.
+     */
+    private JDOClassDescriptorResolver classDescriptorResolver;
 
     /**
      * Get a Nature property.
@@ -84,6 +92,27 @@ public abstract class BaseResolutionCommand implements
      */
     public final boolean hasNature(final String nature) {
         return _natures.contains(nature);
+    }
+
+    /**
+     * Returns the {@link JDOClassDescriptorResolver} used to register
+     * {@link ClassDescriptor} instances during their creation.
+     * 
+     * @return the {@link JDOClassDescriptorResolver} used to register
+     *         {@link ClassDescriptor} instances
+     */
+    protected JDOClassDescriptorResolver getClassDescriptorResolver() {
+        return classDescriptorResolver;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.util.ClassDescriptorResolutionCommand#setClassDescriptorResolver(org.exolab.castor.xml.util.JDOClassDescriptorResolver)
+     */
+    public void setClassDescriptorResolver(
+            final JDOClassDescriptorResolver classDescriptorResolver) {
+        this.classDescriptorResolver = classDescriptorResolver;
     }
 
 }

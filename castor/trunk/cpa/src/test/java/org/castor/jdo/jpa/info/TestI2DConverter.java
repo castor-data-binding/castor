@@ -24,6 +24,7 @@ import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
 import org.exolab.castor.xml.util.ClassDescriptorResolutionCommand;
+import org.exolab.castor.xml.util.JDOClassDescriptorResolver;
 
 /**
  * Test the conversion features of the {@link InfoToDescriptorConverter} on the
@@ -70,6 +71,11 @@ public class TestI2DConverter extends TestCase {
 
             public boolean hasNature(String nature) {
                 return false;
+            }
+
+            public void setClassDescriptorResolver(
+                    JDOClassDescriptorResolver classDescriptorResolver) {
+                
             }
 
         };

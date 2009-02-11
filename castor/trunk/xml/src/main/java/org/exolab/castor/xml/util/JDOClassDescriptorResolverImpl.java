@@ -1,7 +1,6 @@
 package org.exolab.castor.xml.util;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -11,6 +10,7 @@ import java.util.Map.Entry;
 
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingLoader;
+import org.exolab.castor.xml.ClassDescriptorResolver;
 import org.exolab.castor.xml.ResolverException;
 
 /**
@@ -27,7 +27,8 @@ public class JDOClassDescriptorResolverImpl implements
      * A key ({@link Class}) value ({@link ClassDescriptor}) pair to cache
      * already resolved JDO class descriptors.
      */
-    private Map _classDescriptorCache = new HashMap();
+    private Map<Class<?>, ClassDescriptor> _classDescriptorCache = 
+        new HashMap<Class<?>, ClassDescriptor>();
 
     /**
      * A {@link MappingLoader} instance which this
@@ -40,17 +41,18 @@ public class JDOClassDescriptorResolverImpl implements
     /**
      * List of manually added domain <code>Class</code>es.
      */
-    protected List _classes = new LinkedList();
+    protected List<Class<?>> _classes = new LinkedList<Class<?>>();
 
     /**
      * List of manually added package names.
      */
-    protected List _packages = new LinkedList();
+    protected List<String> _packages = new LinkedList<String>();
 
     /**
      * JDO-specific {@link ClassDescriptor} resolution commands.
      */
-    private Map _commands = new HashMap();
+    private Map<String, ClassDescriptorResolutionCommand> _commands = 
+        new HashMap<String, ClassDescriptorResolutionCommand>();
 
     /**
      * Creates an instance of this class, with no classed manually added.
@@ -74,6 +76,7 @@ public class JDOClassDescriptorResolverImpl implements
         // revised!
         // ClassLoaderNature clNature = new ClassLoaderNature(command);
         // clNature.setClassLoader(getClass().getClassLoader());
+        command.setClassDescriptorResolver(this);
         _commands.put(command.getClass().getName(), command);
     }
 
@@ -174,7 +177,7 @@ public class JDOClassDescriptorResolverImpl implements
      * @return A {@link ClassDescriptorResolutionCommand}, null if not found.
      */
     private ClassDescriptorResolutionCommand lookup(final String commandName) {
-        return (ClassDescriptorResolutionCommand) _commands.get(commandName);
+        return _commands.get(commandName);
     }
 
     /**
@@ -186,7 +189,7 @@ public class JDOClassDescriptorResolverImpl implements
      */
     private ClassDescriptor resolveByCache(final Class type) {
         ClassDescriptor classDesc = null;
-        classDesc = (ClassDescriptor) _classDescriptorCache.get(type);
+        classDesc = _classDescriptorCache.get(type);
         return classDesc;
     }
 
@@ -207,10 +210,7 @@ public class JDOClassDescriptorResolverImpl implements
      */
     public void setMappingLoader(final MappingLoader mappingLoader) {
         this._mappingLoader = mappingLoader;
-        for (Iterator iterator = _commands.values().iterator(); iterator
-                .hasNext();) {
-            ClassDescriptorResolutionCommand command = (ClassDescriptorResolutionCommand) iterator
-                    .next();
+        for (ClassDescriptorResolutionCommand command : _commands.values()) {
             if (command.hasNature(MappingLoaderNature.class.getName())) {
                 new MappingLoaderNature(command)
                         .setMappingLoader(mappingLoader);
@@ -238,11 +238,9 @@ public class JDOClassDescriptorResolverImpl implements
      */
     public void addPackage(final String packageName) {
         this._packages.add(packageName);
-        for (Iterator iterator = _commands.values().iterator(); iterator
-                .hasNext();) {
-            ClassDescriptorResolutionCommand command = (ClassDescriptorResolutionCommand) iterator
-                    .next();
-            if (command.hasNature(PackageBasedCDRResolutionNature.class.getName())) {
+        for (ClassDescriptorResolutionCommand command : _commands.values()) {
+            if (command.hasNature(PackageBasedCDRResolutionNature.class
+                    .getName())) {
                 new PackageBasedCDRResolutionNature(command)
                         .addPackageName(packageName);
             }
@@ -261,16 +259,16 @@ public class JDOClassDescriptorResolverImpl implements
             allDescriptors.add(lookup(ClassResolutionByFile.class.getName())
                     .resolve((Class) iterator.next()));
         }
-        ClassResolutionByCDR cdrNature = (ClassResolutionByCDR) 
-            lookup(ClassResolutionByCDR.class.getName());
+        ClassResolutionByCDR cdrNature = (ClassResolutionByCDR) lookup(ClassResolutionByCDR.class
+                .getName());
         for (Iterator iterator = _packages.iterator(); iterator.hasNext();) {
             String packageName = (String) iterator.next();
             Map descriptors = cdrNature.getDescriptors(packageName);
-            for (Iterator descriptorIterator = descriptors.entrySet().iterator(); descriptorIterator
-                    .hasNext();) {
+            for (Iterator descriptorIterator = descriptors.entrySet()
+                    .iterator(); descriptorIterator.hasNext();) {
                 Entry entry = (Entry) descriptorIterator.next();
                 allDescriptors.add(entry.getValue());
-            } 
+            }
         }
         return allDescriptors.iterator();
     }
