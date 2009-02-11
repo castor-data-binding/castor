@@ -35,4 +35,11 @@ public interface ClassDescriptorResolutionCommand extends PropertyHolder {
      */
     ClassDescriptor resolve(Class type);
 
+    /**
+     * Sets a {@link JDOClassDescriptorResolver} instance to be used for
+     * {@link ClassDescriptor} registration.
+     * @param classDescriptorResolver {@link JDOClassDescriptorResolver} instance to be used.
+     */
+    void setClassDescriptorResolver(JDOClassDescriptorResolver classDescriptorResolver);
+
 }
