@@ -1,11 +1,9 @@
-<cpactf-conf default-database="mysql-drv" default-transaction="local">
+<cpactf-conf default-database="derby-embedded" default-transaction="local">
 
     <configuration name="testXXX">
         <description>Mapping configuration for testXXX</description>
         <mapping href="/org/castor/cpa/test/testXXX/mapping.xml"/>
     </configuration>
-
-
 
     <database name="db2-drv" engine="db2">
         <description>Database configuration for DB2</description>
@@ -18,7 +16,7 @@
 
     <database name="derby-embedded" engine="derby">
         <description>Database configuration for Derby (embedded)</description>
-        <driver url="jdbc:derby:target/cpactf;create=true" 
+        <driver url="jdbc:derby:target/cpactf;create=true"
                 class-name="org.apache.derby.jdbc.EmbeddedDriver">
             <param name="user" value="cpactf"/>
             <param name="password" value="cpactf"/>

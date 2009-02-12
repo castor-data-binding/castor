@@ -94,6 +94,51 @@ http://maven.apache.org/maven-v4_0_0.xsd">
             </configuration>
          </plugin>
          
+         <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>sql-maven-plugin</artifactId>
+            <version>1.3</version>
+            <configuration>
+               <username>cpactf</username>
+               <password>cpactf</password>
+               <driver>org.apache.derby.jdbc.EmbeddedDriver</driver>
+               <skip>${maven.test.skip}</skip>
+            </configuration>
+            <dependencies>
+               <dependency>
+                  <groupId>org.apache.derby</groupId>
+                  <artifactId>derby</artifactId>
+                  <version>10.4.1.3</version>
+               </dependency>
+            </dependencies>
+            <executions>
+               <execution>
+                  <id>create schema</id>
+                  <phase>process-test-resources</phase>
+                  <goals>
+                     <goal>execute</goal>
+                  </goals>
+                  <configuration>
+                     <url>jdbc:derby:${basedir}/target/cpactf;create=true</url>
+                     <autocommit>true</autocommit>
+                     <srcFiles>
+                        <!-- <srcFile>src/test/ddl/org/castor/cpa/test/test2644/derby.sql</srcFile>  -->
+                     </srcFiles>
+                  </configuration>
+               </execution>
+               <execution>
+                  <id>derby shutdown</id>
+                  <phase>process-test-resources</phase>
+                  <goals>
+                     <goal>execute</goal>
+                  </goals>
+                  <configuration>
+                     <url>jdbc:derby:${basedir}/target/cpactf;shutdown=true</url>
+                     <skipOnConnectionError>true</skipOnConnectionError>
+                  </configuration>
+               </execution>
+            </executions>
+         </plugin>
        </plugins>
     </build>
 
@@ -145,21 +190,10 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-                    <skipTests>true</skipTests>
-					<excludes>
-						<exclude>ctf/jdo/**</exclude>
-					</excludes>
-					<!-- JDO test suite
-					<includes>
-						<include>Main.java</include>
-					</includes>
-					<systemProperties>
-						<property>
-							<name>test.category</name>
-							<value>castor.mysql</value>
-						</property>
-					</systemProperties>
-					-->					
+                    <skipTests>false</skipTests>
+                    <includes>
+                        <include>**/*.java</include>
+                    </includes>
 				</configuration>
 			</plugin>
 		</plugins>
