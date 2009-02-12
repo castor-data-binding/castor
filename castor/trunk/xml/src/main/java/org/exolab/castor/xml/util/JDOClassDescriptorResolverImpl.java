@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingLoader;
@@ -28,7 +28,7 @@ public class JDOClassDescriptorResolverImpl implements
      * already resolved JDO class descriptors.
      */
     private Map<Class<?>, ClassDescriptor> _classDescriptorCache = 
-        new HashMap<Class<?>, ClassDescriptor>();
+        new ConcurrentHashMap<Class<?>, ClassDescriptor>();
 
     /**
      * A {@link MappingLoader} instance which this
@@ -129,14 +129,14 @@ public class JDOClassDescriptorResolverImpl implements
         classDesc = lookup(ClassResolutionByMappingLoader.class.getName())
                 .resolve(type);
         if (classDesc != null) {
-            _classDescriptorCache.put(type, classDesc);
+            registerDescriptor(type, classDesc);
             return classDesc;
         }
 
         // 3) load ClassDescriptor from file system
         classDesc = lookup(ClassResolutionByFile.class.getName()).resolve(type);
         if (classDesc != null) {
-            _classDescriptorCache.put(type, classDesc);
+            registerDescriptor(type, classDesc);
             return classDesc;
         }
 
@@ -145,7 +145,7 @@ public class JDOClassDescriptorResolverImpl implements
         classDesc = (lookup(ClassResolutionByCDR.class.getName()))
                 .resolve(type);
         if (classDesc != null) {
-            _classDescriptorCache.put(type, classDesc);
+            registerDescriptor(type, classDesc);
             return classDesc;
         }
 
@@ -188,9 +188,16 @@ public class JDOClassDescriptorResolverImpl implements
      * @return a {@link ClassDescriptor} if found, null if not.
      */
     private ClassDescriptor resolveByCache(final Class type) {
-        ClassDescriptor classDesc = null;
-        classDesc = _classDescriptorCache.get(type);
-        return classDesc;
+        return _classDescriptorCache.get(type);
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.util.JDOClassDescriptorResolver#registerDescriptor(java.lang.Class, org.exolab.castor.mapping.ClassDescriptor)
+     */
+    public void registerDescriptor(final Class type, final ClassDescriptor classDescriptor) {
+        _classDescriptorCache.put(type, classDescriptor);
     }
 
     /**
@@ -252,21 +259,18 @@ public class JDOClassDescriptorResolverImpl implements
      * 
      * @see org.exolab.castor.xml.util.JDOClassDescriptorResolver#descriptorIterator()
      */
-    public Iterator descriptorIterator() {
-        List allDescriptors = new ArrayList();
+    public Iterator<ClassDescriptor> descriptorIterator() {
+        List<ClassDescriptor> allDescriptors = new ArrayList<ClassDescriptor>();
         allDescriptors.addAll(_mappingLoader.getDescriptors());
-        for (Iterator iterator = _classes.iterator(); iterator.hasNext();) {
+        for (Class aClass : _classes) {
             allDescriptors.add(lookup(ClassResolutionByFile.class.getName())
-                    .resolve((Class) iterator.next()));
+                    .resolve(aClass));
         }
-        ClassResolutionByCDR cdrNature = (ClassResolutionByCDR) lookup(ClassResolutionByCDR.class
-                .getName());
-        for (Iterator iterator = _packages.iterator(); iterator.hasNext();) {
-            String packageName = (String) iterator.next();
-            Map descriptors = cdrNature.getDescriptors(packageName);
-            for (Iterator descriptorIterator = descriptors.entrySet()
-                    .iterator(); descriptorIterator.hasNext();) {
-                Entry entry = (Entry) descriptorIterator.next();
+        ClassResolutionByCDR cdrNature = (ClassResolutionByCDR) 
+            lookup(ClassResolutionByCDR.class.getName());
+        for (String packageName : _packages) {
+            Map<String, ClassDescriptor> descriptors = cdrNature.getDescriptors(packageName);
+            for (Map.Entry<String, ClassDescriptor> entry : descriptors.entrySet()) {
                 allDescriptors.add(entry.getValue());
             }
         }
