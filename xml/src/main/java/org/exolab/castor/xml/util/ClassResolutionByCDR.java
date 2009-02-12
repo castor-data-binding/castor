@@ -144,8 +144,8 @@ public class ClassResolutionByCDR extends BaseResolutionCommand {
      *            the package to search descriptors for.
      * @return a {@link java.util.List} of descriptors contained in the package.
      */
-    public Map getDescriptors(final String packageName) {
-        Map descriptors = new HashMap();
+    public Map<String, ClassDescriptor> getDescriptors(final String packageName) {
+        Map<String, ClassDescriptor> descriptors = new HashMap<String, ClassDescriptor>();
 
         ClassLoader loader = new ClassLoaderNature(this).getClassLoader();
 
