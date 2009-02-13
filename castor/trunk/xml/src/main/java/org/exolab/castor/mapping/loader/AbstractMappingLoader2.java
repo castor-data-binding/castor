@@ -11,7 +11,6 @@ import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingLoader;
 
 public abstract class AbstractMappingLoader2 implements MappingLoader {
-    //--------------------------------------------------------------------------
 
     /** The class loader to use. */
     private ClassLoader _loader;
@@ -22,13 +21,16 @@ public abstract class AbstractMappingLoader2 implements MappingLoader {
     /** Has loadMapping been called? */
     private boolean _loaded = false;
 
-    /** All class descriptors in the original order. */
-    private List _descriptors = new Vector();
+    /** 
+     * All class descriptors in the original order. 
+     */
+    private List<ClassDescriptor> _descriptors = new Vector<ClassDescriptor>();
 
-    /** All class descriptors added so far, keyed by classname. */
-    private Map _descriptorsByClassname = new Hashtable();
-
-    //--------------------------------------------------------------------------
+    /** 
+     * All class descriptors added so far, keyed by class name. 
+     */
+    private Map<String, ClassDescriptor> _descriptorsByClassname = 
+        new Hashtable<String, ClassDescriptor>();
 
     public AbstractMappingLoader2(final ClassLoader loader) {
         setClassLoader(loader);
@@ -40,8 +42,6 @@ public abstract class AbstractMappingLoader2 implements MappingLoader {
         _descriptors.clear();
         _descriptorsByClassname.clear();
     }
-
-    //--------------------------------------------------------------------------
 
     /**
      * @see org.exolab.castor.mapping.MappingLoader#setClassLoader(java.lang.ClassLoader)
@@ -81,8 +81,6 @@ public abstract class AbstractMappingLoader2 implements MappingLoader {
         return _allowRedefinitions;
     }
 
-    //--------------------------------------------------------------------------
-    
     /**
      * Adds a class descriptor. Will throw a mapping exception if a descriptor for this class
      * already exists.
@@ -97,8 +95,8 @@ public abstract class AbstractMappingLoader2 implements MappingLoader {
             if (!isAllowRedefinition()) {
                 throw new MappingException("mapping.duplicateDescriptors", classname);
             }
-            for (Iterator iterator = _descriptors.iterator(); iterator.hasNext(); ) {
-                ClassDescriptor d = (ClassDescriptor) iterator.next();
+            for (Iterator<ClassDescriptor> iterator = _descriptors.iterator(); iterator.hasNext(); ) {
+                ClassDescriptor d = iterator.next();
                 if (classname.equals(d.getJavaClass().getName())) {
                     iterator.remove();
                 }
@@ -118,22 +116,20 @@ public abstract class AbstractMappingLoader2 implements MappingLoader {
      */
     public final ClassDescriptor getDescriptor(final String classname) {
         if (classname == null) { return null; }
-        return (ClassDescriptor) _descriptorsByClassname.get(classname);
+        return _descriptorsByClassname.get(classname);
     }
 
     /**
      * @see org.exolab.castor.mapping.MappingLoader#descriptorIterator()
      * {@inheritDoc}
      */
-    public final Iterator descriptorIterator() {
+    public final Iterator<ClassDescriptor> descriptorIterator() {
         return _descriptors.iterator();
     }
 
-    public final List getDescriptors() {
+    public final List<ClassDescriptor> getDescriptors() {
         return _descriptors;
     }
-    
-    //--------------------------------------------------------------------------
     
     /**
      * Return if mapping should be loaded with this MappingLoader instance or if another
@@ -149,5 +145,4 @@ public abstract class AbstractMappingLoader2 implements MappingLoader {
         return true;
     }
     
-    //--------------------------------------------------------------------------
 }
