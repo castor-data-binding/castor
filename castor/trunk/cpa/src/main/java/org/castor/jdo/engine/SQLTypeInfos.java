@@ -58,7 +58,7 @@ public final class SQLTypeInfos {
         private final String _sqlTypeName;
 
         /** Java type. */
-        private final Class _javaType;
+        private final Class<?> _javaType;
 
         /**
          * Construct a new TypeInfo instance with given SQL type number, SQL type name
@@ -68,7 +68,7 @@ public final class SQLTypeInfos {
          * @param sqlTypeName SQL type name.
          * @param javaType Java type.
          */
-        TypeInfo(final int sqlTypeNum, final String sqlTypeName, final Class javaType) {
+        TypeInfo(final int sqlTypeNum, final String sqlTypeName, final Class<?> javaType) {
             _sqlTypeNum     = sqlTypeNum;
             _sqlTypeName = sqlTypeName;
             _javaType  = javaType;
@@ -157,7 +157,7 @@ public final class SQLTypeInfos {
      * @return The suitable Java type
      * @throws MappingException The SQL type is not recognized.
      */
-    public static Class sqlTypeNum2javaType(final int sqlTypeNum)
+    public static Class<?> sqlTypeNum2javaType(final int sqlTypeNum)
     throws MappingException {
         for (int i = 0; i < TYPEINFO.length; ++i) {
             if (sqlTypeNum == TYPEINFO[i]._sqlTypeNum) {
@@ -169,13 +169,31 @@ public final class SQLTypeInfos {
     }
 
     /**
+     * Returns the SQL type name for the given SQL type number.
+     *
+     * @param sqlTypeNum SQL type name (see JDBC API)
+     * @return The SQL type name.
+     * @throws MappingException The SQL type is not recognized.
+     */
+    public static String sqlTypeNum2sqlTypeName(final int sqlTypeNum)
+    throws MappingException {
+        for (int i = 0; i < TYPEINFO.length; ++i) {
+            if (sqlTypeNum == TYPEINFO[i]._sqlTypeNum) {
+                return TYPEINFO[i]._sqlTypeName;
+            }
+        }
+        
+        throw new MappingException("jdo.sqlTypeNotSupported", new Integer(sqlTypeNum));
+    }
+    
+    /**
      * Returns the Java type for the given SQL type name.
      *
      * @param sqlTypeName SQL type name (e.g. numeric).
      * @return The suitable Java type.
      * @throws MappingException The SQL type is not recognized.
      */
-    public static Class sqlTypeName2javaType(final String sqlTypeName)
+    public static Class<?> sqlTypeName2javaType(final String sqlTypeName)
     throws MappingException {
         for (int i = 0; i < TYPEINFO.length; ++i) {
             if (sqlTypeName.equals(TYPEINFO[i]._sqlTypeName)) {
@@ -193,7 +211,7 @@ public final class SQLTypeInfos {
      * @param javaType The Java class of the SQL type.
      * @return SQL type from the specified Java type.
      */
-    public static int javaType2sqlTypeNum(final Class javaType) {
+    public static int javaType2sqlTypeNum(final Class<?> javaType) {
         for (int i = 0; i < TYPEINFO.length; ++i) {
             if (javaType.isAssignableFrom(TYPEINFO[i]._javaType)) {
                 return TYPEINFO[i]._sqlTypeNum;
