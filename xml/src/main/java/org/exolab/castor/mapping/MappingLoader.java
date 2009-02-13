@@ -89,11 +89,11 @@ public interface MappingLoader {
      * Returns an iterator over all the known descriptors in the original order they have been
      * added. Each element is of type {@link ClassDescriptor}.
      */
-    Iterator descriptorIterator();
+    Iterator<ClassDescriptor> descriptorIterator();
     
     /**
      * Returns a List of {@link ClassDescriptor}s of all known descriptors.
      * @return List of {@link ClassDescriptor}
      */
-    List getDescriptors();
+    List<ClassDescriptor> getDescriptors();
 }

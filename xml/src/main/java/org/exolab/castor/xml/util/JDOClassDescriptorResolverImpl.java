@@ -261,11 +261,14 @@ public class JDOClassDescriptorResolverImpl implements
      */
     public Iterator<ClassDescriptor> descriptorIterator() {
         List<ClassDescriptor> allDescriptors = new ArrayList<ClassDescriptor>();
+        // add all descriptors cached by MappingLoader
         allDescriptors.addAll(_mappingLoader.getDescriptors());
-        for (Class aClass : _classes) {
+        // add all descriptors as loaded from file system
+        for (Class<?> aClass : _classes) {
             allDescriptors.add(lookup(ClassResolutionByFile.class.getName())
                     .resolve(aClass));
         }
+        // add all descriptors as loaded by package from file system
         ClassResolutionByCDR cdrNature = (ClassResolutionByCDR) 
             lookup(ClassResolutionByCDR.class.getName());
         for (String packageName : _packages) {
