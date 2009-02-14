@@ -1,10 +1,3 @@
-DROP TABLE test31_relation;
-DROP TABLE test31_extends2;
-DROP TABLE test31_extends1;
-DROP TABLE test31_related;
-DROP TABLE test31_persistent;
-DROP TABLE test31_group;
-
 CREATE TABLE test31_group (
   id      numeric(10,0)  not null,
   value1  varchar(200)  not null

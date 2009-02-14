@@ -42,13 +42,14 @@ public final class TestOQLPassThrough extends CPATestCase {
     // Test are only included/excluded for engines that have been tested with this test suite.
     //
     // Configuration of previous test suite.
-    // Inc: db2, postgresql, sapdb, sybase, derby, pointbase, progress
+    // Inc: db2, postgresql, sapdb, sybase, pointbase, progress
     // Exc: hsql
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL) 
             || (engine == DatabaseEngineType.ORACLE)
-            || (engine == DatabaseEngineType.SQL_SERVER);
+            || (engine == DatabaseEngineType.SQL_SERVER)
+            || (engine == DatabaseEngineType.DERBY);
     }
     
     public void setUp() throws Exception {

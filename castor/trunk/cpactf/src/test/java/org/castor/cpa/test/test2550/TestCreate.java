@@ -37,11 +37,12 @@ public final class TestCreate extends CPATestCase {
         return (engine == DatabaseEngineType.ORACLE);
     }
     
-    // Test uses sequence key generator which is not supported by mysql and mssql.
+    // Test uses sequence key generator which is not supported by derby, mysql and mssql.
 
     public boolean exclude(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.SQL_SERVER);
+            || (engine == DatabaseEngineType.SQL_SERVER)
+            || (engine == DatabaseEngineType.DERBY);
     }
     
     public void delete() throws Exception {
