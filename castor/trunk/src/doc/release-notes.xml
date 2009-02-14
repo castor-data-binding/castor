@@ -34,6 +34,27 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1217" tool="jira">
+                    <description>
+                        Fixed wrong timestamps for same object having hierarchy when loaded by
+                        many referers. 
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Clovis Wichoski</name>
+                        <email>clovis.wichoski@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20090214</date>
+                </bug>
                 <bug id="2654" tool="jira">
                     <description>
                         Refactored handling of KeyGenerator and extracted ValueHandlers. 

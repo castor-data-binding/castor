@@ -52,9 +52,6 @@ public final class ProposedEntity {
     /** The actual ClassMolder. */
     private ClassMolder _actualClassMolder = null;
     
-    /** True if object stored in ObjectLock shoul dbe ignored. */
-    private boolean _objectLockObjectToBeIgnored = false;
-
     //--------------------------------------------------------------------------
 
     /**
@@ -245,14 +242,6 @@ public final class ProposedEntity {
         }
         buffer.append(">");
         return buffer.toString();
-    }
-
-    public boolean isObjectLockObjectToBeIgnored() {
-        return _objectLockObjectToBeIgnored;
-    }
-
-    public void setObjectLockObjectToBeIgnored(final boolean lockObjectToBeIgnored) {
-        _objectLockObjectToBeIgnored = lockObjectToBeIgnored;
     }
 
     //--------------------------------------------------------------------------
