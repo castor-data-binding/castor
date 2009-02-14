@@ -122,7 +122,15 @@ http://maven.apache.org/maven-v4_0_0.xsd">
                      <url>jdbc:derby:${basedir}/target/cpactf;create=true</url>
                      <autocommit>true</autocommit>
                      <srcFiles>
-                        <!-- <srcFile>src/test/ddl/org/castor/cpa/test/test2644/derby.sql</srcFile>  -->
+                        <srcFile>src/test/ddl/org/castor/cpa/test/test1002/derby.sql</srcFile>
+                        <srcFile>src/test/ddl/org/castor/cpa/test/test1158/derby.sql</srcFile>
+                        <srcFile>src/test/ddl/org/castor/cpa/test/test1196/derby.sql</srcFile>
+                        <srcFile>src/test/ddl/org/castor/cpa/test/test1206/derby.sql</srcFile>
+                        <!-- <srcFile>src/test/ddl/org/castor/cpa/test/test1355/derby.sql</srcFile>  -->
+                        <srcFile>src/test/ddl/org/castor/cpa/test/test1379/derby.sql</srcFile>
+                        <srcFile>src/test/ddl/org/castor/cpa/test/test2177/derby.sql</srcFile>
+                        <srcFile>src/test/ddl/org/castor/cpa/test/test2527/derby.sql</srcFile>
+                        <!-- <srcFile>src/test/ddl/org/castor/cpa/test/test2550/derby.sql</srcFile>  -->
                      </srcFiles>
                   </configuration>
                </execution>
