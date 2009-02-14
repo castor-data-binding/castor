@@ -47,8 +47,7 @@ public class Test1379 extends CPATestCase {
 
         // If no such products with ids 5-8 exist, create new objects and persist them
         for (int i = 5; i < 10; ++i) {
-            int j = i + 1;
-            productOql.bind(j);
+            productOql.bind(i);
             results = productOql.execute();
             if (!results.hasMore()) {
                 Computer computerToCreate = new Computer();
