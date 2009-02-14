@@ -42,13 +42,9 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.jdo.engine;
 
-
 import java.util.Properties;
-
 
 /**
  * Describes the properties of a key generator for a given class, 
@@ -76,25 +72,17 @@ public final class KeyGeneratorDescriptor {
     private final Properties _params;
 
     /**
-     * The key generator (definition) registry. 
-     */
-    private final KeyGeneratorRegistry _keyGenReg;
-
-    /**
      * Creates an instance of this clas.
      * @param name Key generator name (could be an alias) 
      * @param keyGenFactoryName (key generator (type) name.
      * @param params Key generator parameters
-     * @param keyGenReg Key generator (definition) registry.
      */
     public KeyGeneratorDescriptor(final String name, 
             final String keyGenFactoryName,
-            final Properties params, 
-            final KeyGeneratorRegistry keyGenReg) {
+            final Properties params) {
         _name = name;
         _keyGenFactoryName = keyGenFactoryName;
         _params = params;
-        _keyGenReg = keyGenReg;
     }
 
     /**
@@ -126,16 +114,5 @@ public final class KeyGeneratorDescriptor {
     public Properties getParams() {
         return _params;
     }
-
-
-    /**
-     * Returns the key generator registry object.
-     *
-     * @return key generator registry object.
-     */
-    public KeyGeneratorRegistry getKeyGeneratorRegistry() {
-        return _keyGenReg;
-    }
-
 }
 

@@ -9,23 +9,16 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.EnumerationIterator;
 import org.castor.persist.TransactionContext;
-import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.AbstractMappingLoader;
 import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;
 import org.exolab.castor.persist.spi.Identity;
-import org.exolab.castor.persist.spi.Persistence;
-import org.exolab.castor.persist.spi.PersistenceFactory;
-import org.exolab.castor.xml.ClassDescriptorResolver;
-import org.exolab.castor.xml.ResolverException;
-import org.exolab.castor.xml.util.JDOClassDescriptorResolver;
 
 /**
  * Utility class that provides (mostly) static methods in relation to the functions
@@ -43,59 +36,6 @@ public final class ClassMolderHelper {
         // nothing to do
     }
 
-    /**
-     * Resolve and construct all the <tt>ClassMolder</tt>s given a MappingLoader.
-     *
-     * @param lock LockEngine for all the ClassMolder
-     * @param factory factory class for getting Persistent of the ClassMolder
-     * @param cdResolver {@link ClassDescriptorResolver} instance used for resolving
-     *        {@link ClassDescriptor}.
-     *
-     * @return  Vector of all of the <tt>ClassMolder</tt>s from a MappingLoader
-     * @throws ClassNotFoundException 
-     */
-    public static Vector resolve(final ClassDescriptorResolver cdResolver,
-            final LockEngine lock, final PersistenceFactory factory)
-    throws MappingException, ClassNotFoundException {
-    
-        Vector result = new Vector();
-        ClassMolder mold;
-        Persistence persist;
-        ClassDescriptor desc;
-
-        // TODO[WG]: remove down-cast
-        JDOClassDescriptorResolver jdoCDR;
-        jdoCDR = (JDOClassDescriptorResolver) cdResolver;
-        DatingService ds = new DatingService(jdoCDR.getClassLoader());
-
-        Iterator iter = ((JDOClassDescriptorResolver) cdResolver).descriptorIterator();
-        while (iter.hasNext()) {
-            Object next = iter.next();
-            ClassDescriptor nextCd = (ClassDescriptor) next;
-            Class toResolve = nextCd.getJavaClass();
-            try {
-                desc = cdResolver.resolve(toResolve);
-            } catch (ResolverException e) {
-                throw new MappingException ("Cannot resolve type for " + toResolve.getName(), e);
-            }
-            
-            persist = factory.getPersistence(desc);
-            mold = createClassMolder(ds, cdResolver, lock, desc, persist);
-            result.add(mold);
-        }
-
-        ds.close();
-        return result;
-    }
-    
-    private static ClassMolder createClassMolder(final DatingService ds,
-            final ClassDescriptorResolver cdResolver, final LockEngine lockEngine,
-            final ClassDescriptor descriptor, final Persistence persistence)
-    throws MappingException, ClassNotFoundException {
-        return new ClassMolder(ds, cdResolver, lockEngine,
-                descriptor, persistence);
-    }
-    
     /**
      * A utility method which compare object.
      * @param o1 First object instance 

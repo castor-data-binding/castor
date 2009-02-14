@@ -37,7 +37,6 @@ import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 import org.exolab.castor.persist.spi.Identity;
-import org.exolab.castor.persist.spi.KeyGenerator;
 import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.persist.spi.PersistenceQuery;
@@ -76,8 +75,6 @@ public final class SQLEngine implements Persistence {
 
     private final ClassDescriptor    _clsDesc;
 
-    private KeyGenerator                _keyGen;
-    
     private final SQLStatementLoad _loadStatement;
 
     private final SQLStatementCreate _createStatement;
@@ -86,29 +83,15 @@ public final class SQLEngine implements Persistence {
 
     private final SQLStatementStore _storeStatement;
 
-    public SQLEngine(final ClassDescriptor clsDesc, final PersistenceFactory factory,
-              final String stampField) throws MappingException {
+    public SQLEngine(final ClassDescriptor clsDesc, final PersistenceFactory factory)
+    throws MappingException {
 
         _clsDesc = clsDesc;
         _factory = factory;
-        _keyGen = null;
-        
-        if (_clsDesc.getExtends() == null) {
-            ClassDescriptorJDONature nature = new ClassDescriptorJDONature(clsDesc);
-            KeyGeneratorDescriptor keyGenDesc = nature.getKeyGeneratorDescriptor();
-            if (keyGenDesc != null) {
-                int[] tempType =  new FieldDescriptorJDONature(_clsDesc.getIdentity()).getSQLType();
-                _keyGen = keyGenDesc.getKeyGeneratorRegistry().getKeyGenerator(
-                        _factory, keyGenDesc, (tempType == null) ? 0 : tempType[0]);
-
-                // Does the key generator support the sql type specified in the mapping?
-                _keyGen.supportsSqlType(tempType[0]);
-            }
-        }
 
         // construct field and id info
-        Vector idsInfo = new Vector();
-        Vector fieldsInfo = new Vector();
+        Vector<SQLColumnInfo> idsInfo = new Vector<SQLColumnInfo>();
+        Vector<SQLFieldInfo> fieldsInfo = new Vector<SQLFieldInfo>();
 
         /*
          * Implementation Note:
@@ -133,7 +116,7 @@ public final class SQLEngine implements Persistence {
 
         // walk until the base class which this class extends
         base = clsDesc;
-        Stack stack = new Stack();
+        Stack<ClassDescriptor> stack = new Stack<ClassDescriptor>();
         stack.push(base);
         while (base.getExtends() != null) {
             // if (base.getDepends() != null) {
@@ -177,7 +160,7 @@ public final class SQLEngine implements Persistence {
 
         // then do the fields
         while (!stack.empty()) {
-            base = (ClassDescriptor) stack.pop();
+            base = stack.pop();
             FieldDescriptor[] fieldDescriptors = base.getFields();
             for (int i = 0; i < fieldDescriptors.length; i++) {
                 // fieldDescriptors[i] is persistent in db if it is not transient
@@ -198,7 +181,7 @@ public final class SQLEngine implements Persistence {
 
         _fields = new SQLFieldInfo[fieldsInfo.size()];
         fieldsInfo.copyInto(_fields);
-
+        
         _loadStatement = new SQLStatementLoad(this, factory);
         _createStatement = new SQLStatementCreate(this, factory);
         _removeStatement = new SQLStatementRemove(this, factory);

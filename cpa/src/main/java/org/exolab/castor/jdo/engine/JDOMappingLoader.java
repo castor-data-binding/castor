@@ -163,13 +163,8 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     private final Map < String, KeyGeneratorDescriptor > _keyGeneratorDescriptors
         = new HashMap < String, KeyGeneratorDescriptor > ();
 
-    /** Used by the constructor for creating key generators. Each database must have a
-     *  proprietary KeyGeneratorRegistry instance, otherwise it is impossible to
-     *  implement stateful key generator algorithms like HIGH-LOW correctly. */
-    private final KeyGeneratorRegistry _keyGenReg = new KeyGeneratorRegistry();
-
     /** Set of names of all named queries to identify duplicate names. */    
-    private final Set _queryNames = new HashSet();
+    private final Set<String> _queryNames = new HashSet<String>();
 
     /** 
      * The JDO {@link PersistenceFactory} is used for adjusting SQL type for
@@ -195,7 +190,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     public BindingType getBindingType() { 
         return BindingType.JDO; 
     }
-
+    
     /**
      * {@inheritDoc}
      */
@@ -247,7 +242,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             }
             
             desc = new KeyGeneratorDescriptor(
-                    name, def.getName(), params, _keyGenReg);
+                    name, def.getName(), params);
             
             _keyGeneratorDescriptors.put(name, desc);
         }
@@ -305,8 +300,8 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         }
         
         // Identify identity and normal fields. Note that order must be preserved.
-        List fieldList = new ArrayList(allFields.length);
-        List idList = new ArrayList();
+        List<FieldDescriptor> fieldList = new ArrayList<FieldDescriptor>(allFields.length);
+        List<FieldDescriptor> idList = new ArrayList<FieldDescriptor>();
         if (extDesc == null) {
             // Sort fields into 2 lists based on identity definition of field.
             for (int i = 0; i < allFields.length; i++) {
@@ -348,7 +343,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             // Search redefined identities in extending class.
             FieldDescriptor identity;
             for (int i = 0; i < idList.size(); i++) {
-                String idName = ((FieldDescriptor) idList.get(i)).getFieldName();
+                String idName = (idList.get(i)).getFieldName();
                 identity = findIdentityByName(fieldList, idName, javaClass);
                 if (identity != null) { idList.set(i, identity); }
             }
@@ -356,11 +351,11 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         
         // Set identities on class descriptor.
         FieldDescriptor[] ids = new FieldDescriptor[idList.size()];
-        clsDesc.setIdentities(((FieldDescriptor[]) idList.toArray(ids)));
+        clsDesc.setIdentities(idList.toArray(ids));
 
         // Set fields on class descriptor.
         FieldDescriptor[] fields = new FieldDescriptor[fieldList.size()];
-        clsDesc.setFields((FieldDescriptor[]) fieldList.toArray(fields));
+        clsDesc.setFields(fieldList.toArray(fields));
         
         jdoNature.setTableName(classMapping.getMapTo().getTable());
         
@@ -461,7 +456,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             keyGeneratorDescriptor = _keyGeneratorDescriptors.get(keyGeneratorName);
             if (keyGeneratorDescriptor == null) {
                 keyGeneratorDescriptor = new KeyGeneratorDescriptor(
-                        keyGeneratorName, keyGeneratorName, new Properties(), _keyGenReg);
+                        keyGeneratorName, keyGeneratorName, new Properties());
                 _keyGeneratorDescriptors.put(keyGeneratorName, keyGeneratorDescriptor);
             }
         }
@@ -470,10 +465,10 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     }
     
     protected FieldDescriptor findIdentityByName(
-            final List fldList, final String idName, final Class javaClass)
+            final List<FieldDescriptor> fldList, final String idName, final Class javaClass)
     throws MappingException {
         for (int i = 0; i < fldList.size(); i++) {
-            FieldDescriptor field = (FieldDescriptor) fldList.get(i);
+            FieldDescriptor field = fldList.get(i);
             if (idName.equals(field.getFieldName())) {
                 if (!(field.hasNature(FieldDescriptorJDONature.class.getName()))) {
                     throw new IllegalStateException(
@@ -534,7 +529,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         String sqlType = fieldMap.getSql().getType();
         if (sqlType == null) { return new String[0]; }
 
-        ArrayList types = new ArrayList();
+        ArrayList<String> types = new ArrayList<String>();
         int current = 0;
         int begin = 0;
         int state = 0;
@@ -560,7 +555,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         }
         types.add(sqlType.substring(begin, current));
         String[] result = new String[types.size()];
-        return (String[]) types.toArray(result);
+        return types.toArray(result);
     }
 
 

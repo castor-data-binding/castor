@@ -42,7 +42,7 @@
  *
  * $Id$
  */
-package org.exolab.castor.persist.spi;
+package org.castor.cpa.persistence.sql.keygen;
 
 import java.sql.Connection;
 import java.util.Properties;

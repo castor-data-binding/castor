@@ -35,6 +35,7 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
 import org.castor.cpa.CPAProperties;
+import org.castor.cpa.persistence.sql.keygen.KeyGenerator;
 import org.castor.jdo.engine.ConnectionFactory;
 import org.castor.jdo.engine.DatabaseRegistry;
 import org.castor.jdo.engine.SQLTypeInfos;
@@ -44,12 +45,9 @@ import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
-import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.exolab.castor.mapping.ClassDescriptor;
-import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Identity;
-import org.exolab.castor.persist.spi.KeyGenerator;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 
 public class SQLStatementCreate {
@@ -75,12 +73,14 @@ public class SQLStatementCreate {
 
     public SQLStatementCreate(final SQLEngine engine, final PersistenceFactory factory)
     throws MappingException {
+        ClassDescriptor clsDesc = engine.getDescriptor();
+        
         _engine = engine;
         _factory = factory;
-        _type = engine.getDescriptor().getJavaClass().getName();
-        _mapTo = new ClassDescriptorJDONature(engine.getDescriptor()).getTableName();
+        _type = clsDesc.getJavaClass().getName();
+        _mapTo = new ClassDescriptorJDONature(clsDesc).getTableName();
         
-        _keyGen = getKeyGenerator(engine, factory);
+        _keyGen = factory.getKeyGenerator(clsDesc);
 
         AbstractProperties properties = CPAProperties.getInstance();
         _useJDBC30 = properties.getBoolean(CPAProperties.USE_JDBC30, false);
@@ -88,25 +88,6 @@ public class SQLStatementCreate {
         _lookupStatement = new SQLStatementLookup(engine, factory);
         
         buildStatement();
-    }
-    
-    private KeyGenerator getKeyGenerator(final SQLEngine engine,
-            final PersistenceFactory factory) throws MappingException {
-        KeyGenerator keyGen = null;
-        if (engine.getDescriptor().getExtends() == null) {
-            KeyGeneratorDescriptor keyGenDesc = 
-                new ClassDescriptorJDONature(engine.getDescriptor()).getKeyGeneratorDescriptor();
-            if (keyGenDesc != null) {
-                FieldDescriptor fldDesc = engine.getDescriptor().getIdentity();
-                int[] tempType = new FieldDescriptorJDONature(fldDesc).getSQLType();
-                keyGen = keyGenDesc.getKeyGeneratorRegistry().getKeyGenerator(
-                        factory, keyGenDesc, (tempType == null) ? 0 : tempType[0]);
-
-                // Does the key generator support the sql type specified in the mapping?
-                keyGen.supportsSqlType(tempType[0]);
-            }
-        }
-        return keyGen;
     }
     
     private void buildStatement() {
@@ -575,7 +556,7 @@ public class SQLStatementCreate {
                     
                     int i = 1;
                     int sqlType;
-                    List keys = new ArrayList();
+                    List<Object> keys = new ArrayList<Object>();
                     while (keySet.next()) {
                         sqlType = ids[i - 1].getSqlType();
                         Object temp;

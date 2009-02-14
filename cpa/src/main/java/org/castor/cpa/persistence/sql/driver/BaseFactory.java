@@ -46,13 +46,22 @@ package org.castor.cpa.persistence.sql.driver;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
+import org.castor.cpa.CPAProperties;
+import org.castor.cpa.persistence.sql.keygen.KeyGenerator;
+import org.castor.cpa.persistence.sql.keygen.KeyGeneratorFactory;
+import org.castor.cpa.persistence.sql.keygen.KeyGeneratorFactoryRegistry;
+import org.exolab.castor.jdo.engine.KeyGeneratorDescriptor;
 import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
+import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.exolab.castor.mapping.ClassDescriptor;
+import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.persist.spi.PersistenceFactory;
@@ -68,11 +77,67 @@ import org.exolab.castor.persist.spi.PersistenceQuery;
 public abstract class BaseFactory implements PersistenceFactory {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
-    private static Log _log = LogFactory.getFactory().getInstance(BaseFactory.class);
+    private static final Log LOG = LogFactory.getLog(BaseFactory.class);
+    
+    /** Key generator registry. */
+    private final KeyGeneratorFactoryRegistry _keyGeneratorFactoryRegistry;
     
     /** Maps class descriptor to persistence engines. */
-    private Map _classDescriptorToPersistence = new HashMap();
+    private final Map<ClassDescriptor, KeyGenerator> _classDescriptorToKeyGenerator =
+        new HashMap<ClassDescriptor, KeyGenerator>();
 
+    /** Maps class descriptor to persistence engines. */
+    private final Map<ClassDescriptor, Persistence> _classDescriptorToPersistence =
+        new HashMap<ClassDescriptor, Persistence>();
+
+    public BaseFactory() {
+        AbstractProperties properties = CPAProperties.getInstance();
+        _keyGeneratorFactoryRegistry = new KeyGeneratorFactoryRegistry(properties);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public KeyGenerator getKeyGenerator(final ClassDescriptor clsDesc)
+    throws MappingException {
+        KeyGenerator keyGen = _classDescriptorToKeyGenerator.get(clsDesc);
+        if (keyGen == null) {
+            KeyGeneratorDescriptor keyGenDesc = 
+                new ClassDescriptorJDONature(clsDesc).getKeyGeneratorDescriptor();
+            
+            if ((clsDesc.getExtends() == null) && (keyGenDesc != null)) {
+                String keyGenFactoryName = keyGenDesc.getKeyGeneratorFactoryName();
+                KeyGeneratorFactory keyGenFactory =
+                    _keyGeneratorFactoryRegistry.getKeyGeneratorFactory(keyGenFactoryName);
+
+                if (keyGenFactory == null) {
+                    String msg = Messages.format("mapping.noKeyGen", keyGenFactoryName);
+                    LOG.warn(msg);
+                    throw new MappingException(msg);
+                }
+
+                FieldDescriptor fldDesc = clsDesc.getIdentity();
+                int[] sqlTypes = new FieldDescriptorJDONature(fldDesc).getSQLType();
+                int sqlType = (sqlTypes == null) ? 0 : sqlTypes[0];
+                
+                Properties keyGenParams = keyGenDesc.getParams();
+                keyGen = keyGenFactory.getKeyGenerator(this, keyGenParams, sqlType);
+                
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Key generator " + keyGenFactoryName
+                            + " has been instantiated, parameters: " + keyGenParams);
+                }
+                
+                // Does the key generator support the sql type specified in the mapping?
+                keyGen.supportsSqlType(sqlType);
+            }
+            
+            _classDescriptorToKeyGenerator.put(clsDesc, keyGen);
+        }
+        
+        return keyGen;
+    }
+    
     /**
      * {@inheritDoc}
      */
@@ -82,18 +147,17 @@ public abstract class BaseFactory implements PersistenceFactory {
         }
         
         try {
-            Persistence sqlEngine = (SQLEngine) _classDescriptorToPersistence.get(clsDesc);
+            Persistence sqlEngine = _classDescriptorToPersistence.get(clsDesc);
             if (sqlEngine == null) {
-                sqlEngine = new SQLEngine(clsDesc, this, null);
+                sqlEngine = new SQLEngine(clsDesc, this);
                 _classDescriptorToPersistence.put(clsDesc, sqlEngine);
             }
             return sqlEngine;
         } catch (MappingException except) {
-            _log.fatal(Messages.format("jdo.fatalException", except));
+            LOG.fatal(Messages.format("jdo.fatalException", except));
             return null;
         }
     }
-
 
     /**
      * Needed to process OQL queries of "CALL" type (using stored procedure

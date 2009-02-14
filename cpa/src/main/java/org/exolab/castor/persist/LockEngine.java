@@ -73,11 +73,14 @@ import org.exolab.castor.jdo.ObjectModifiedException;
 import org.exolab.castor.jdo.ObjectNotFoundException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.AccessMode;
+import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.xml.ClassDescriptorResolver;
+import org.exolab.castor.xml.ResolverException;
+import org.exolab.castor.xml.util.JDOClassDescriptorResolver;
 
 /**
  * LockEngine is a gateway for all the <tt>ClassMolder</tt>s of a persistence 
@@ -171,7 +174,7 @@ public final class LockEngine {
         _persistenceFactory = persistenceFactory;
         
         try {
-            Vector v = ClassMolderHelper.resolve(cdResolver, this, _persistenceFactory);
+            Vector v = resolve(cdResolver);
     
             _typeInfo = new HashMap();
             Enumeration enumeration = v.elements();
@@ -239,6 +242,44 @@ public final class LockEngine {
         } catch (ClassNotFoundException e) {
             throw new MappingException("Declared Class not found!");
         }
+    }
+    
+    /**
+     * Resolve and construct all the <tt>ClassMolder</tt>s given a MappingLoader.
+     *
+     * @param cdResolver {@link ClassDescriptorResolver} instance used for resolving
+     *        {@link ClassDescriptor}.
+     *
+     * @return  Vector of all of the <tt>ClassMolder</tt>s from a MappingLoader
+     * @throws ClassNotFoundException 
+     */
+    private Vector resolve(final ClassDescriptorResolver cdResolver)
+    throws MappingException, ClassNotFoundException {
+        Vector result = new Vector();
+        ClassMolder mold;
+        Persistence persist;
+        ClassDescriptor desc;
+
+        DatingService ds = new DatingService(cdResolver.getMappingLoader().getClassLoader());
+
+        Iterator iter = ((JDOClassDescriptorResolver) cdResolver).descriptorIterator();
+        while (iter.hasNext()) {
+            Object next = iter.next();
+            ClassDescriptor nextCd = (ClassDescriptor) next;
+            Class toResolve = nextCd.getJavaClass();
+            try {
+                desc = cdResolver.resolve(toResolve);
+            } catch (ResolverException e) {
+                throw new MappingException ("Cannot resolve type for " + toResolve.getName(), e);
+            }
+            
+            persist = _persistenceFactory.getPersistence(desc);
+            mold = new ClassMolder(ds, cdResolver, this, desc, persist);
+            result.add(mold);
+        }
+
+        ds.close();
+        return result;
     }
     
     public ConnectionFactory getConnectionFactory() { return _connectionFactory; }
