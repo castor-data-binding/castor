@@ -15,7 +15,6 @@
  */
 package org.castor.cpa.persistence.sql.keygen;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,7 +28,6 @@ import org.castor.core.util.Messages;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.persist.spi.KeyGenerator;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.persist.spi.QueryExpression;
 
@@ -46,58 +44,14 @@ import org.exolab.castor.persist.spi.QueryExpression;
 public final class MaxKeyGenerator implements KeyGenerator {
     //-----------------------------------------------------------------------------------
 
-    private interface MaxSqlTypeHandler {
-        Object getValue(ResultSet rs) throws SQLException;
-    }
-
-    private static class MaxIntegerSqlTypeHandler implements MaxSqlTypeHandler {
-        private static final Integer ONE = new Integer(1);
-        
-        /**
-         * {@inheritDoc}
-         */
-        public Object getValue(final ResultSet rs) throws SQLException {
-            if (!rs.next()) { return ONE; }
-            return new Integer(rs.getInt(1) + 1);
-        }
-    }
-
-    private static class MaxLongSqlTypeHandler implements MaxSqlTypeHandler {
-        private static final Long ONE = new Long(1);
-        
-        /**
-         * {@inheritDoc}
-         */
-        public Object getValue(final ResultSet rs) throws SQLException {
-            if (!rs.next()) { return ONE; }
-            return new Long(rs.getLong(1) + 1);
-        }
-    }
-
-    private static class MaxBigDecimalSqlTypeHandler implements MaxSqlTypeHandler {
-        private static final BigDecimal ONE = new BigDecimal(1);
-
-        /**
-         * {@inheritDoc}
-         */
-        public Object getValue(final ResultSet rs) throws SQLException {
-            if (!rs.next()) { return ONE; }
-            BigDecimal max = rs.getBigDecimal(1);
-            if (max == null) { return ONE; }
-            return max.add(ONE);
-        }
-    }
-
-    //-----------------------------------------------------------------------------------
-
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(MaxKeyGenerator.class);
     
     private final PersistenceFactory _factory;
     
-    private MaxSqlTypeHandler _sqlTypeHandler;
-    
+    private KeyGeneratorTypeHandler < ? extends Object > _typeHandler;
+
     //-----------------------------------------------------------------------------------
 
     /**
@@ -113,11 +67,11 @@ public final class MaxKeyGenerator implements KeyGenerator {
 
     private void initSqlTypeHandler(final int sqlType) {
         if (sqlType == Types.INTEGER) {
-            _sqlTypeHandler = new MaxIntegerSqlTypeHandler();
+            _typeHandler = new KeyGeneratorTypeHandlerInteger(false);
         } else if (sqlType == Types.BIGINT) {
-            _sqlTypeHandler = new MaxLongSqlTypeHandler();
+            _typeHandler = new KeyGeneratorTypeHandlerLong(false);
         } else {
-            _sqlTypeHandler = new MaxBigDecimalSqlTypeHandler();
+            _typeHandler = new KeyGeneratorTypeHandlerBigDecimal(false);
         }
     }
     
@@ -136,7 +90,7 @@ public final class MaxKeyGenerator implements KeyGenerator {
             String sql = getQueryExpression(tableName, primKeyName);
             stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
-            return _sqlTypeHandler.getValue(rs);
+            return _typeHandler.getNextValue(rs);
         } catch (SQLException ex) {
             throw new PersistenceException(Messages.format(
                     "persist.keyGenSQL", getClass().getName(), ex.toString()), ex);

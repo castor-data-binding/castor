@@ -18,15 +18,13 @@ package org.castor.cpa.persistence.sql.keygen;
 import java.util.Properties;
 
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.persist.spi.KeyGenerator;
-import org.exolab.castor.persist.spi.KeyGeneratorFactory;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 
 /**
  * IDENTITY key generator factory. The short name of this key generator is "IDENTITY".
  * <br/>
- * It works for Sybase and SQL Server identity (autoincrement) fields and fetched
- * @@identity after insert.
+ * It works for Sybase and SQL Server identity (autoincrement) fields and fetched @@identity
+ * after insert.
  *
  * @see IdentityKeyGenerator
  * @author <a href="mailto:on AT ibis DOT odessa DOT ua">Oleg Nitz</a>
@@ -39,14 +37,13 @@ public final class IdentityKeyGeneratorFactory implements KeyGeneratorFactory {
     /**
      * {@inheritDoc}
      */
-    public String getName() { return "IDENTITY"; }
+    public String getKeyGeneratorName() { return "IDENTITY"; }
 
     /**
      * {@inheritDoc}
      */
     public KeyGenerator getKeyGenerator(final PersistenceFactory factory,
             final Properties params, final int sqlType) throws MappingException {
-        
         return new IdentityKeyGenerator(factory, sqlType);
     }
 

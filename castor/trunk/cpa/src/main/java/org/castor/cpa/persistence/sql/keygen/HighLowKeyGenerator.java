@@ -31,7 +31,6 @@ import org.castor.core.util.Messages;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.engine.JDBCSyntax;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.persist.spi.KeyGenerator;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.persist.spi.QueryExpression;
 
@@ -45,179 +44,6 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
 public final class HighLowKeyGenerator implements KeyGenerator {
-    //-----------------------------------------------------------------------------------
-    
-    private interface HighLowSqlTypeHandler {
-        void init(final ResultSet rs) throws SQLException;
-        boolean hasNext();
-        Object next();
-        void bindTable(PreparedStatement stmt, int index) throws SQLException;
-        void bindLast(PreparedStatement stmt, int index) throws SQLException;
-        void bindMax(PreparedStatement stmt, int index) throws SQLException;
-    }
-    
-    private static class HighLowIntegerSqlTypeHandler implements HighLowSqlTypeHandler {
-        private final String _table;
-        private final int _grab;
-        private int _last = 0;
-        private int _max = 0;
-        
-        public HighLowIntegerSqlTypeHandler(final String table, final int grab) {
-            _table = table;
-            _grab = grab;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        public void init(final ResultSet rs) throws SQLException {
-            _last = 0;
-            if ((rs != null) && (rs.isFirst())) { _last = rs.getInt(1); }
-            _max = _last + _grab;
-        }
-        
-        /**
-         * {@inheritDoc}
-         */
-        public boolean hasNext() { return _last < _max; }
-        
-        /**
-         * {@inheritDoc}
-         */
-        public Object next() { return new Integer(++_last); }
-        
-        /**
-         * {@inheritDoc}
-         */
-        public void bindTable(final PreparedStatement stmt, final int index) throws SQLException {
-            stmt.setString(index, _table);
-        }
-        
-        /**
-         * {@inheritDoc}
-         */
-        public void bindLast(final PreparedStatement stmt, final int index) throws SQLException {
-            stmt.setInt(index, _last);
-        }
-        
-        /**
-         * {@inheritDoc}
-         */
-        public void bindMax(final PreparedStatement stmt, final int index) throws SQLException {
-            stmt.setInt(index, _max);
-        }
-    }
-
-    private static class HighLowLongSqlTypeHandler implements HighLowSqlTypeHandler {
-        private final String _table;
-        private final long _grab;
-        private long _last = 0;
-        private long _max = 0;
-        
-        public HighLowLongSqlTypeHandler(final String table, final int grab) {
-            _table = table;
-            _grab = grab;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        public void init(final ResultSet rs) throws SQLException {
-            _last = 0;
-            if ((rs != null) && (rs.isFirst())) { _last = rs.getLong(1); }
-            _max = _last + _grab;
-        }
-        
-        /**
-         * {@inheritDoc}
-         */
-        public boolean hasNext() { return _last < _max; }
-        
-        /**
-         * {@inheritDoc}
-         */
-        public Object next() { return new Long(++_last); }
-        
-        /**
-         * {@inheritDoc}
-         */
-        public void bindTable(final PreparedStatement stmt, final int index) throws SQLException {
-            stmt.setString(index, _table);
-        }
-        
-        /**
-         * {@inheritDoc}
-         */
-        public void bindLast(final PreparedStatement stmt, final int index) throws SQLException {
-            stmt.setLong(index, _last);
-        }
-        
-        /**
-         * {@inheritDoc}
-         */
-        public void bindMax(final PreparedStatement stmt, final int index) throws SQLException {
-            stmt.setLong(index, _max);
-        }
-    }
-
-    private static class HighLowBigDecimalSqlTypeHandler implements HighLowSqlTypeHandler {
-        private static final BigDecimal ZERO = new BigDecimal(0);
-        private static final BigDecimal ONE = new BigDecimal(1);
-        private final String _table;
-        private final BigDecimal _grab;
-        private BigDecimal _last = ZERO;
-        private BigDecimal _max = ZERO;
-        
-        public HighLowBigDecimalSqlTypeHandler(final String table, final int grab) {
-            _table = table;
-            _grab = new BigDecimal(grab);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        public void init(final ResultSet rs) throws SQLException {
-            _last = null;
-            if ((rs != null) && (rs.isFirst())) { _last = rs.getBigDecimal(1); }
-            if (_last == null) { _last = ZERO; }
-            _max = _last.add(_grab);
-        }
-        
-        /**
-         * {@inheritDoc}
-         */
-        public boolean hasNext() { return (_last.compareTo(_max) < 0); }
-        
-        /**
-         * {@inheritDoc}
-         */
-        public Object next() {
-            _last = _last.add(ONE);
-            return _last;
-        }
-        
-        /**
-         * {@inheritDoc}
-         */
-        public void bindTable(final PreparedStatement stmt, final int index) throws SQLException {
-            stmt.setString(index, _table);
-        }
-        
-        /**
-         * {@inheritDoc}
-         */
-        public void bindLast(final PreparedStatement stmt, final int index) throws SQLException {
-            stmt.setBigDecimal(index, _last);
-        }
-        
-        /**
-         * {@inheritDoc}
-         */
-        public void bindMax(final PreparedStatement stmt, final int index) throws SQLException {
-            stmt.setBigDecimal(index, _max);
-        }
-    }
-    
     //-----------------------------------------------------------------------------------
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
@@ -236,7 +62,8 @@ public final class HighLowKeyGenerator implements KeyGenerator {
 
     private static final String GLOBAL = "global";
 
-    private final Map _handlers = new HashMap();
+    private final Map < String, HighLowValueHandler < ? extends Object > > _handlers =
+        new HashMap < String, HighLowValueHandler < ? extends Object > > ();
 
     private final PersistenceFactory _factory;
     
@@ -321,14 +148,17 @@ public final class HighLowKeyGenerator implements KeyGenerator {
         String internalTableName = tableName;
         if (_global) { internalTableName = "<GLOBAL>"; }
         
-        HighLowSqlTypeHandler handler = (HighLowSqlTypeHandler) _handlers.get(internalTableName);
+        HighLowValueHandler < ? extends Object > handler = _handlers.get(internalTableName);
         if (handler == null) {
             if (_sqlType == Types.INTEGER) {
-                handler = new HighLowIntegerSqlTypeHandler(internalTableName, _grabSize);
+                KeyGeneratorTypeHandlerInteger typeHandler = new KeyGeneratorTypeHandlerInteger(false);
+                handler = new HighLowValueHandler < Integer > (internalTableName, _grabSize, typeHandler);
             } else if (_sqlType == Types.BIGINT) {
-                handler = new HighLowLongSqlTypeHandler(internalTableName, _grabSize);
+                KeyGeneratorTypeHandlerLong typeHandler = new KeyGeneratorTypeHandlerLong(false);
+                handler = new HighLowValueHandler < Long > (internalTableName, _grabSize, typeHandler);
             } else {
-                handler = new HighLowBigDecimalSqlTypeHandler(internalTableName, _grabSize);
+                KeyGeneratorTypeHandlerBigDecimal typeHandler = new KeyGeneratorTypeHandlerBigDecimal(false);
+                handler = new HighLowValueHandler < BigDecimal > (internalTableName, _grabSize, typeHandler);
             }
             _handlers.put(internalTableName, handler);
         }
@@ -365,21 +195,19 @@ public final class HighLowKeyGenerator implements KeyGenerator {
                     stmt = conn.prepareStatement(lockSQL);
                     handler.bindTable(stmt, 1);
                     ResultSet rs = stmt.executeQuery();
-
-                    if (rs.next()) {
-                        handler.init(rs);
-                        stmt.close();
-                        
+                    handler.init(rs);
+                    boolean found = rs.isFirst();
+                    stmt.close();
+                    
+                    if (found) {
                         stmt = conn.prepareStatement(updateSQL);
                         handler.bindMax(stmt, 1);
                         handler.bindTable(stmt, 2);
                         handler.bindLast(stmt, 3);
-                    } else {
+                        success = (stmt.executeUpdate() == 1);
                         stmt.close();
-
-                        if (_global) {
-                            handler.init(null);
-                        } else {
+                    } else {
+                        if (!_global) {
                             stmt = conn.prepareStatement(maxSQL);
                             rs = stmt.executeQuery();
                             handler.init(rs);
@@ -389,9 +217,9 @@ public final class HighLowKeyGenerator implements KeyGenerator {
                         stmt = conn.prepareStatement(insertSQL);
                         handler.bindTable(stmt, 1);
                         handler.bindMax(stmt, 2);
+                        success = (stmt.executeUpdate() == 1);
+                        stmt.close();
                     }
-                    success = (stmt.executeUpdate() == 1);
-                    stmt.close();
                 }
                 
                 if (success) {

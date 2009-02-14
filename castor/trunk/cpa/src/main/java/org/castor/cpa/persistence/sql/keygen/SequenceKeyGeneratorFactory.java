@@ -18,23 +18,20 @@ package org.castor.cpa.persistence.sql.keygen;
 import java.util.Properties;
 
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.persist.spi.KeyGenerator;
-import org.exolab.castor.persist.spi.KeyGeneratorFactory;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 
 /**
  * SEQUENCE key generator factory. The short name of this key generator is "SEQUENCE".
  * <br/>
- * It uses Oracle/PostrgeSQL SEQUENCEs. There are two optional parameters for this
- * key generator:
+ * It uses Oracle/PostrgeSQL SEQUENCEs. There are two optional parameters for this key generator:
  * <ul>
  * <li>1) name is "sequence" and the default value is "{0}_seq";</li>
  * <li>2) name is "returning", values: "true"/"false", default is "false".</li>
  * </ul>
- * The latter parameter should be used only with Oracle8i, "true" value turns on more
- * efficient RETURNING syntax. It is possible to use naming patterns like this to
- * obtain SEQUENCE name by table name. This gives the possibility to use one global
- * key generator declaration rather than one per table.
+ * The latter parameter should be used only with Oracle8i, "true" value turns on more efficient
+ * RETURNING syntax. It is possible to use naming patterns like this to obtain SEQUENCE name by
+ * table name. This gives the possibility to use one global key generator declaration rather than
+ * one per table.
  *
  * @see SequenceKeyGenerator
  * @author <a href="mailto:on AT ibis DOT odessa DOT ua">Oleg Nitz</a>
@@ -47,7 +44,7 @@ public final class SequenceKeyGeneratorFactory implements KeyGeneratorFactory {
     /**
      * {@inheritDoc}
      */
-    public String getName() { return "SEQUENCE"; }
+    public String getKeyGeneratorName() { return "SEQUENCE"; }
 
     /**
      * {@inheritDoc}

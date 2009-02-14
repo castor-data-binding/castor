@@ -18,19 +18,16 @@ package org.castor.cpa.persistence.sql.keygen;
 import java.util.Properties;
 
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.persist.spi.KeyGenerator;
-import org.exolab.castor.persist.spi.KeyGeneratorFactory;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 
 /**
  * MAX key generator factory. The short name of this key generator is "MAX".
  * <br/>
- * It uses the following alrorithm: the maximum value of the primary key is
- * fetched and the correspondent record is locked until the end of transaction,
- * generator returns (max + 1). The lock guarantees that key generators of
- * concurrent transactions will not use this key value, so DuplicateKeyException
- * is impossible. If the table is empty, generator returns 1, no lock is put,
- * DuplicateKeyException is possible.
+ * It uses the following alrorithm: the maximum value of the primary key is fetched and the
+ * correspondent record is locked until the end of transaction, generator returns (max + 1).
+ * The lock guarantees that key generators of concurrent transactions will not use this key
+ * value, so DuplicateKeyException is impossible. If the table is empty, generator returns 1,
+ * no lock is put, DuplicateKeyException is possible.
  *
  * @see MaxKeyGenerator
  * @author <a href="mailto:on AT ibis DOT odessa DOT ua">Oleg Nitz</a>
@@ -43,7 +40,7 @@ public final class MaxKeyGeneratorFactory implements KeyGeneratorFactory {
     /**
      * {@inheritDoc}
      */
-    public String getName() { return "MAX"; }
+    public String getKeyGeneratorName() { return "MAX"; }
 
     /**
      * {@inheritDoc}

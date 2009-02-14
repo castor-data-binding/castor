@@ -166,10 +166,10 @@ public abstract class AbstractConnectionFactory implements ConnectionFactory {
     private void initializeMapping() throws MappingException {
         try {
             // Initialize all the mappings of the database.
-            Enumeration mappings = _jdoConf.getDatabase(_index).enumerateMapping();
-            org.castor.jdo.conf.Mapping mapConf;
+            Enumeration<? extends org.castor.jdo.conf.Mapping> mappings =
+                _jdoConf.getDatabase(_index).enumerateMapping();
             while (mappings.hasMoreElements()) {
-                mapConf = (org.castor.jdo.conf.Mapping) mappings.nextElement();
+                org.castor.jdo.conf.Mapping mapConf = mappings.nextElement();
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Loading the mapping descriptor: " + mapConf.getHref());
                 }
@@ -208,13 +208,15 @@ public abstract class AbstractConnectionFactory implements ConnectionFactory {
         }
         
         MappingUnmarshaller mappingUnmarshaller = new MappingUnmarshaller();
+        MappingLoader mappingLoader = mappingUnmarshaller.getMappingLoader(
+                _mapping, BindingType.JDO, factory);
+        
         if (_classDescriptorResolver == null) {
             _classDescriptorResolver = (JDOClassDescriptorResolver) 
             ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.JDO);
         }
-        MappingLoader mappingLoader = 
-            mappingUnmarshaller.getMappingLoader(_mapping, BindingType.JDO, factory);
         _classDescriptorResolver.setMappingLoader(mappingLoader);
+        
         _engine = new PersistenceEngineFactory().createEngine(
                 this, _classDescriptorResolver, factory);
     }
@@ -275,7 +277,7 @@ public abstract class AbstractConnectionFactory implements ConnectionFactory {
      * Sets a custom {@link ClassDescriptorResolver} instance.
      * @param classDescriptorResolver A custom {@link ClassDescriptorResolver} instance to be used.
      */
-    public void setClassDescriptorResolver(
+    public final void setClassDescriptorResolver(
             final JDOClassDescriptorResolver classDescriptorResolver) {
         _classDescriptorResolver = classDescriptorResolver;
     }

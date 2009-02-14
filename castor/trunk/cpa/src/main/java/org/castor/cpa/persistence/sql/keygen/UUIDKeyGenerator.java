@@ -25,8 +25,6 @@ import java.util.StringTokenizer;
 import org.castor.core.util.Messages;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.persist.spi.KeyGenerator;
-import org.exolab.castor.persist.spi.PersistenceFactory;
 
 /**
  * UUID key generator.
@@ -57,8 +55,7 @@ public final class UUIDKeyGenerator implements KeyGenerator {
     /**
      * Initialize the UUID key generator.
      */
-    public UUIDKeyGenerator(final PersistenceFactory factory, final int sqlType)
-    throws MappingException {
+    public UUIDKeyGenerator(final int sqlType) throws MappingException {
         supportsSqlType(sqlType);
         initHostAddress();
         

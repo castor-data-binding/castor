@@ -56,7 +56,6 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.persist.spi.KeyGenerator;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 
 /**
@@ -71,9 +70,47 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
 public final class IdentityKeyGenerator implements KeyGenerator {
     //-----------------------------------------------------------------------------------
 
-    private abstract class IdentityKeyGenValueHandler extends AbstractKeyGenValueHandler {
+    private abstract class IdentityKeyGenValueHandler {
+        private KeyGenerator _keyGenerator;
+        private KeyGeneratorTypeHandler < ? extends Object > _typeHandler;
+
         protected abstract Object getValue(Connection conn, String tableName)
         throws PersistenceException;
+
+        public Object getValue(final PreparedStatement stmt)
+        throws PersistenceException, SQLException {
+            ResultSet rs = stmt.executeQuery();
+            return _typeHandler.getValue(rs);
+        }
+
+        public Object getValue(final String sql, final Connection conn)
+        throws PersistenceException {
+            PreparedStatement stmt = null;
+            try {
+                stmt = conn.prepareStatement(sql);
+                return getValue(stmt);
+            } catch (SQLException e) {
+                String msg = Messages.format("persist.keyGenSQL", 
+                        _keyGenerator.getClass().getName(), e.toString());
+                throw new PersistenceException(msg);
+            } finally {
+                if (stmt != null) {
+                    try {
+                        stmt.close();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        }
+
+        public void setGenerator(final KeyGenerator generator) {
+            _keyGenerator = generator;
+        }
+
+        public void setTypeHandler(final KeyGeneratorTypeHandler < ? extends Object > typeHandler) {
+            _typeHandler = typeHandler;
+        }
     }
         
     private class DefaultType extends IdentityKeyGenValueHandler {
@@ -158,32 +195,6 @@ public final class IdentityKeyGenerator implements KeyGenerator {
     
     //-----------------------------------------------------------------------------------
 
-    private class IntegerSqlTypeHandler implements SqlTypeHandler {
-        public Object getValue(final ResultSet rs) throws SQLException {
-            return new Integer(rs.getInt(1));
-        }
-    }
-
-    private class LongSqlTypeHandler implements SqlTypeHandler {
-        public Object getValue(final ResultSet rs) throws SQLException {
-            return new Long(rs.getLong(1));
-        }
-    }
-
-    private class BigDecimalSqlTypeHandler implements SqlTypeHandler {
-        public Object getValue(final ResultSet rs) throws SQLException {
-            return rs.getBigDecimal(1);
-        }
-    }
-
-    private class StringSqlTypeHandler implements SqlTypeHandler {
-        public Object getValue(final ResultSet rs) throws SQLException {
-            return rs.getString(1);
-        }
-    }
-
-    //-----------------------------------------------------------------------------------
-
     /**
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      * Commons Logging</a> instance used for all logging.
@@ -192,7 +203,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
     
     private final PersistenceFactory _factory;
     
-    private SqlTypeHandler _sqlTypeHandler;
+    private KeyGeneratorTypeHandler < ? extends Object > _typeHandler;
 
     private IdentityKeyGenValueHandler _type;
 
@@ -237,13 +248,13 @@ public final class IdentityKeyGenerator implements KeyGenerator {
 
     private void initSqlTypeHandler(final int sqlType) {
         if (sqlType == Types.INTEGER) {
-            _sqlTypeHandler = new IntegerSqlTypeHandler();
+            _typeHandler = new KeyGeneratorTypeHandlerInteger(true);
         } else if (sqlType == Types.BIGINT) {
-            _sqlTypeHandler = new LongSqlTypeHandler();
+            _typeHandler = new KeyGeneratorTypeHandlerLong(true);
         } else if ((sqlType == Types.CHAR) || (sqlType == Types.VARCHAR)) {
-            _sqlTypeHandler = new StringSqlTypeHandler();
+            _typeHandler = new KeyGeneratorTypeHandlerString(true, 8);
         } else {
-            _sqlTypeHandler = new BigDecimalSqlTypeHandler();
+            _typeHandler = new KeyGeneratorTypeHandlerBigDecimal(true);
         }
     }
     
@@ -267,7 +278,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
             _type = new DefaultType();
         }
         _type.setGenerator(this);
-        _type.setSqlTypeHandler(_sqlTypeHandler);
+        _type.setTypeHandler(_typeHandler);
     }
 
     //-----------------------------------------------------------------------------------

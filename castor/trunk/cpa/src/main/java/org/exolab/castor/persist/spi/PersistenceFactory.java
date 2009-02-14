@@ -44,6 +44,7 @@
  */
 package org.exolab.castor.persist.spi;
 
+import org.castor.cpa.persistence.sql.keygen.KeyGenerator;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
 
@@ -71,19 +72,26 @@ public interface PersistenceFactory {
     String getFactoryName();
 
     /**
+     * Returns a key generator as specified in the given class descriptor.
+     * 
+     * @param clsDesc The class descriptor.
+     * @return A suitable key generator or <code>null</code>.
+     * @throws MappingException If creation of key generator fails.
+     */
+    KeyGenerator getKeyGenerator(ClassDescriptor clsDesc) throws MappingException;
+    
+    /**
      * Returns a persistence implementation for the specified object
      * type (given its descriptor) on behalf of the specified cache
      * engine. Return null if no persistence support is available for
      * the specified object type.
      *
-     * @param clsDesc The class descriptor
-     *  (may be null)
-     * @return A suiteable persistence implementation, or null
-     * @throws MappingException Indicates that the object type is not
-     *  supported by the persistence engine due to improper mapping
+     * @param clsDesc The class descriptor.
+     * @return A suitable persistence implementation or <code>null</code>.
+     * @throws MappingException Indicates that the object type is not supported by the persistence
+     *         engine due to improper mapping.
      */
-    Persistence getPersistence(ClassDescriptor clsDesc)
-    throws MappingException;
+    Persistence getPersistence(ClassDescriptor clsDesc) throws MappingException;
 
     /**
      * Returns a new empty query expression suitable for the underlying

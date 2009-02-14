@@ -20,8 +20,7 @@ import org.exolab.castor.xml.ResolverException;
  * 
  * @see JDOClassDescriptorResolver
  */
-public class JDOClassDescriptorResolverImpl implements
-        JDOClassDescriptorResolver {
+public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolver {
 
     /**
      * A key ({@link Class}) value ({@link ClassDescriptor}) pair to cache
@@ -68,12 +67,10 @@ public class JDOClassDescriptorResolverImpl implements
      * Registers a {@link ClassDescriptorResolutionCommand} used to resolve
      * {@link ClassDescriptor}s.
      * 
-     * @param command
-     *            to register.
+     * @param command to register.
      */
     private void registerCommand(final ClassDescriptorResolutionCommand command) {
-        // //TODO: temporal implementation - following 2 lines need to be
-        // revised!
+        // TODO: temporal implementation - following 2 lines need to be revised!
         // ClassLoaderNature clNature = new ClassLoaderNature(command);
         // clNature.setClassLoader(getClass().getClassLoader());
         command.setClassDescriptorResolver(this);
@@ -82,14 +79,11 @@ public class JDOClassDescriptorResolverImpl implements
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.exolab.castor.xml.util.JDOClassDescriptorResolver#resolve(java.lang.String)
      */
     public ClassDescriptor resolve(final String type) throws ResolverException {
         try {
             if (getMappingLoader().getClassLoader() != null) {
-                return resolve(getMappingLoader().getClassLoader().loadClass(
-                        type));
+                return resolve(getMappingLoader().getClassLoader().loadClass(type));
             }
             return resolve(Class.forName(type));
         } catch (ClassNotFoundException e) {
@@ -107,11 +101,9 @@ public class JDOClassDescriptorResolverImpl implements
      * <li>Call {@link ClassResolutionByFile} command
      * </ul>
      * 
-     * @param type
-     *            the Class to find the ClassDescriptor for
-     * @exception ResolverException
-     *                Indicates that the given {@link Class} cannot be resolved.
+     * @param type the Class to find the ClassDescriptor for
      * @return the ClassDescriptor for the given class, null if not found
+     * @throws ResolverException Indicates that the given {@link Class} cannot be resolved.
      */
     public ClassDescriptor resolve(final Class type) throws ResolverException {
         if (type == null) {
@@ -126,8 +118,7 @@ public class JDOClassDescriptorResolverImpl implements
             return classDesc;
         }
 
-        classDesc = lookup(ClassResolutionByMappingLoader.class.getName())
-                .resolve(type);
+        classDesc = lookup(ClassResolutionByMappingLoader.class.getName()).resolve(type);
         if (classDesc != null) {
             registerDescriptor(type, classDesc);
             return classDesc;
@@ -142,8 +133,7 @@ public class JDOClassDescriptorResolverImpl implements
 
         // 4) load ClassDescriptor from file system through CDR file
         // (as added via addPackage())
-        classDesc = (lookup(ClassResolutionByCDR.class.getName()))
-                .resolve(type);
+        classDesc = (lookup(ClassResolutionByCDR.class.getName())).resolve(type);
         if (classDesc != null) {
             registerDescriptor(type, classDesc);
             return classDesc;
@@ -172,8 +162,7 @@ public class JDOClassDescriptorResolverImpl implements
     /**
      * Look up the given command in the command map.
      * 
-     * @param commandName
-     *            The command.
+     * @param commandName The command.
      * @return A {@link ClassDescriptorResolutionCommand}, null if not found.
      */
     private ClassDescriptorResolutionCommand lookup(final String commandName) {
@@ -183,8 +172,7 @@ public class JDOClassDescriptorResolverImpl implements
     /**
      * Resolves a {@link ClassDescriptor} by a cache lookup.
      * 
-     * @param type
-     *            type to look up.
+     * @param type type to look up.
      * @return a {@link ClassDescriptor} if found, null if not.
      */
     private ClassDescriptor resolveByCache(final Class type) {
@@ -193,8 +181,6 @@ public class JDOClassDescriptorResolverImpl implements
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.exolab.castor.xml.util.JDOClassDescriptorResolver#registerDescriptor(java.lang.Class, org.exolab.castor.mapping.ClassDescriptor)
      */
     public void registerDescriptor(final Class type, final ClassDescriptor classDescriptor) {
         _classDescriptorCache.put(type, classDescriptor);
@@ -202,8 +188,6 @@ public class JDOClassDescriptorResolverImpl implements
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.exolab.castor.xml.util.JDOClassDescriptorResolver#getMappingLoader()
      */
     public MappingLoader getMappingLoader() {
         return _mappingLoader;
@@ -211,28 +195,22 @@ public class JDOClassDescriptorResolverImpl implements
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.exolab.castor.xml.ClassDescriptorResolver
-     *      #setMappingLoader(org.exolab.castor.mapping.MappingLoader)
      */
     public void setMappingLoader(final MappingLoader mappingLoader) {
-        this._mappingLoader = mappingLoader;
+        _mappingLoader = mappingLoader;
         for (ClassDescriptorResolutionCommand command : _commands.values()) {
             if (command.hasNature(MappingLoaderNature.class.getName())) {
-                new MappingLoaderNature(command)
-                        .setMappingLoader(mappingLoader);
+                new MappingLoaderNature(command).setMappingLoader(mappingLoader);
             }
             if (command.hasNature(ClassLoaderNature.class.getName())) {
-                new ClassLoaderNature(command).setClassLoader(_mappingLoader
-                        .getClassLoader());
+                new ClassLoaderNature(command).setClassLoader(
+                	_mappingLoader.getClassLoader());
             }
         }
     }
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.exolab.castor.xml.util.JDOClassDescriptorResolver#addClass(java.lang.Class)
      */
     public void addClass(final Class domainClass) {
         _classes.add(domainClass);
@@ -240,24 +218,18 @@ public class JDOClassDescriptorResolverImpl implements
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.exolab.castor.xml.util.JDOClassDescriptorResolver#addPackage(java.lang.String)
      */
     public void addPackage(final String packageName) {
-        this._packages.add(packageName);
+        _packages.add(packageName);
         for (ClassDescriptorResolutionCommand command : _commands.values()) {
-            if (command.hasNature(PackageBasedCDRResolutionNature.class
-                    .getName())) {
-                new PackageBasedCDRResolutionNature(command)
-                        .addPackageName(packageName);
+            if (command.hasNature(PackageBasedCDRResolutionNature.class.getName())) {
+                new PackageBasedCDRResolutionNature(command).addPackageName(packageName);
             }
         }
     }
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.exolab.castor.xml.util.JDOClassDescriptorResolver#descriptorIterator()
      */
     public Iterator<ClassDescriptor> descriptorIterator() {
         List<ClassDescriptor> allDescriptors = new ArrayList<ClassDescriptor>();
@@ -265,8 +237,7 @@ public class JDOClassDescriptorResolverImpl implements
         allDescriptors.addAll(_mappingLoader.getDescriptors());
         // add all descriptors as loaded from file system
         for (Class<?> aClass : _classes) {
-            allDescriptors.add(lookup(ClassResolutionByFile.class.getName())
-                    .resolve(aClass));
+            allDescriptors.add(lookup(ClassResolutionByFile.class.getName()).resolve(aClass));
         }
         // add all descriptors as loaded by package from file system
         ClassResolutionByCDR cdrNature = (ClassResolutionByCDR) 
@@ -282,8 +253,6 @@ public class JDOClassDescriptorResolverImpl implements
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.exolab.castor.xml.util.JDOClassDescriptorResolver#getClassLoader()
      */
     public ClassLoader getClassLoader() {
         return _mappingLoader.getClassLoader();
