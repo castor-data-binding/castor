@@ -214,6 +214,10 @@ public final class OID implements Serializable {
         return _name;
     }
 
+    String getTopClassName() {
+        return _topClassName;
+    }
+
     /**
      * Return the full qualified names of the object's superclasses, if any,
      * otherwise returns null.

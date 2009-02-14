@@ -492,7 +492,7 @@ public class ClassMolder {
             locker.setObject(tx, proposedObject.getFields(), System.currentTimeMillis());
         }
 
-        mold(tx, locker, proposedObject, suggestedAccessMode);
+        mold(tx, locker, proposedObject, accessMode);
     }
 
     /**
@@ -507,7 +507,7 @@ public class ClassMolder {
      * @throws PersistenceException For any other persistence-ralted problem.
      */
     public void load(final TransactionContext tx, final DepositBox locker,
-            final ProposedEntity proposedObject, final AccessMode suggestedAccessMode,
+            final ProposedEntity proposedObject, final AccessMode accessMode,
             final QueryResults results)
     throws PersistenceException {
         OID oid = locker.getOID();
@@ -516,51 +516,25 @@ public class ClassMolder {
                     "The identities of the object to be loaded is null");
         }
         
-        // try to load the field values from the cache, except when being told
-        // to ignore them
-        if (!proposedObject.isObjectLockObjectToBeIgnored()) {
-            Object[] cachedFieldValues = locker.getObject(tx);
-            proposedObject.setFields(cachedFieldValues);
+        proposedObject.initializeFields(_fhs.length);
+        if (results != null) {
+            results.getQuery().fetch(proposedObject);
         } else {
-            // set the field values to 'null'. this indicates that the field values 
-            // should be loaded from the persistence storage
-            proposedObject.setFields(null);
+            Connection conn = tx.getConnection(oid.getMolder().getLockEngine());
+            _persistence.load(conn, proposedObject, oid.getIdentity(), accessMode);
         }
+
+        oid.setDbLock(accessMode == AccessMode.DbLocked);
         
-        AccessMode accessMode = getAccessMode(suggestedAccessMode);
-
-        // load the fields from the persistent storage if the cache is empty
-        // or the access mode is DBLOCKED (thus guaranteeing that a lock at the
-        // database level will be created)
-        if (!proposedObject.isFieldsSet() || accessMode == AccessMode.DbLocked) {
-            proposedObject.initializeFields(_fhs.length);
-            if (results != null) {
-                results.getQuery().fetch(proposedObject);
-            } else {
-                Connection conn = tx.getConnection(oid.getMolder().getLockEngine());
-                _persistence.load(conn, proposedObject, oid.getIdentity(), accessMode);
-            }
-
-            oid.setDbLock(accessMode == AccessMode.DbLocked);
-            
-            // store (new) field values to cache
-            locker.setObject(tx, proposedObject.getFields(), System.currentTimeMillis());
-        }
-
-        proposedObject.setActualClassMolder(this);
-
-        // mold only if object has not been expanded
-        if (!proposedObject.isExpanded()) {
-            mold(tx, locker, proposedObject, suggestedAccessMode);
-        }
+        // store (new) field values to cache
+        locker.setObject(tx, proposedObject.getFields(), System.currentTimeMillis());
     }
 
     public void mold(final TransactionContext tx, final DepositBox locker,
-            final ProposedEntity proposedObject, final AccessMode suggestedAccessMode)
+            final ProposedEntity proposedObject, final AccessMode accessMode)
     throws PersistenceException {
         OID oid = locker.getOID();
-        AccessMode accessMode = getAccessMode(suggestedAccessMode);
-        
+
         resetResolvers();
         
         // set the timeStamp of the data object to locker's timestamp

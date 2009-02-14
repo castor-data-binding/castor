@@ -545,94 +545,50 @@ public abstract class AbstractTransactionContext implements TransactionContext {
         // failure (object no longer exists), hold until a suitable lock is granted
         // (or fail to grant), or report error with the persistence engine.
         try {
-            if (proposedObject.getEntity() != null) {
-                objectInTx = proposedObject.getEntity();
+            if (_instanceFactory != null) {
+                objectInTx = _instanceFactory.newInstance(molder.getName(), _db.getClassLoader());
             } else {
-                // ssa, multi classloader feature
-                // ssa, FIXME : No better way to do that ?
-                // object = molder.newInstance();
-                if (_instanceFactory != null) {
-                    objectInTx = _instanceFactory.newInstance(molder
-                            .getName(), _db.getClassLoader());
-                } else {
-                    objectInTx = molder.newInstance(_db
-                            .getClassLoader());
-                }
-                
-                proposedObject.setProposedEntityClass(objectInTx.getClass());
-                proposedObject.setActualEntityClass(objectInTx.getClass());
-                proposedObject.setEntity(objectInTx);
+                objectInTx = molder.newInstance(_db.getClassLoader());
             }
-
-            molder.setIdentity(this, objectInTx, identity);
-            _tracker.trackObject(molder, oid, objectInTx);
-            OID newoid = engine.load(this, oid, proposedObject,
-                    suggestedAccessMode, _lockTimeout, results);
-                    
-            if (proposedObject.isExpanded()) {
-                // Remove old OID from ObjectTracker
-                _tracker.untrackObject(objectInTx);
-                
-                // Create new OID
-                ClassMolder actualClassMolder = engine.getClassMolder(
-                        proposedObject.getActualEntityClass());
-                OID actualOID = new OID(actualClassMolder, identity);
-                actualClassMolder.setIdentity(this, proposedObject.getEntity(), identity);
-
-                // Create instance of 'expanded object'
-                Object expandedObject = null;
-                try {
-                    expandedObject = actualClassMolder.newInstance(getClassLoader());
-                } catch (Exception e) {
-                    LOG.error("Cannot create instance of " + molder.getName());
-                    throw new PersistenceException(
-                            "Cannot craete instance of " + molder.getName());
-                }
-
-                // Add new OID to ObjectTracker
-                _tracker.trackObject(molder, actualOID, expandedObject);
-                
-                ProposedEntity proposedExpanded = new ProposedEntity(proposedObject);
-                proposedExpanded.setEntity(expandedObject);
-                proposedExpanded.setObjectLockObjectToBeIgnored(true);
-
-                // reload 'expanded object' using correct ClassMolder
-                engine.load(this, actualOID, proposedExpanded,
-                        suggestedAccessMode, _lockTimeout, results);
-
-                objectInTx = proposedExpanded.getEntity();
-            } else {
-                // rehash the object entry, because oid might have changed!
-                _tracker.trackOIDChange(objectInTx, engine, oid, newoid);
-            }            
             
+            molder.setIdentity(this, objectInTx, identity);
+            
+            proposedObject.setProposedEntityClass(objectInTx.getClass());
+            proposedObject.setActualEntityClass(objectInTx.getClass());
+            proposedObject.setEntity(objectInTx);
+
+            trackObject(molder, oid, proposedObject.getEntity());
+            
+            engine.load(this, oid, proposedObject, suggestedAccessMode,
+                    _lockTimeout, results, molder);
         } catch (ClassCastException except) {
-            _tracker.untrackObject(objectInTx);
+            _tracker.untrackObject(proposedObject.getEntity());
             throw except;
         } catch (ObjectNotFoundException except) {
-            _tracker.untrackObject(objectInTx);
+            _tracker.untrackObject(proposedObject.getEntity());
             throw except;
         } catch (ConnectionFailedException except) {
-            _tracker.untrackObject(objectInTx);
+            _tracker.untrackObject(proposedObject.getEntity());
             throw except;
         } catch (LockNotGrantedException except) {
-            _tracker.untrackObject(objectInTx);
+            _tracker.untrackObject(proposedObject.getEntity());
             throw except;
         } catch (ClassNotPersistenceCapableException except) {
-            _tracker.untrackObject(objectInTx);
-            throw new PersistenceException(Messages.format("persist.nested",
-                    except));
+            _tracker.untrackObject(proposedObject.getEntity());
+            throw new PersistenceException(Messages.format("persist.nested", except));
         } catch (InstantiationException e) {
-            _tracker.untrackObject(objectInTx);
+            _tracker.untrackObject(proposedObject.getEntity());
             throw new PersistenceException(e.getMessage(), e);
         } catch (IllegalAccessException e) {
-            _tracker.untrackObject(objectInTx);
+            _tracker.untrackObject(proposedObject.getEntity());
             throw new PersistenceException(e.getMessage(), e);
         } catch (ClassNotFoundException e) {
-            _tracker.untrackObject(objectInTx);
+            _tracker.untrackObject(proposedObject.getEntity());
             throw new PersistenceException(e.getMessage(), e);
         }
 
+        objectInTx = proposedObject.getEntity();
+        
         // Need to copy the contents of this object from the cached
         // copy and deal with it based on the transaction semantics.
         // If the mode is read-only we release the lock and forget about
@@ -658,11 +614,18 @@ public abstract class AbstractTransactionContext implements TransactionContext {
 
             // Release the lock on this object.
             engine.releaseLock(this, oid);
-
         }
         return objectInTx;
     }
+    
+    public void untrackObject(final Object object) {
+        _tracker.untrackObject(object);
+    }
 
+    public void trackObject(final ClassMolder molder, final OID oid, final Object object) {
+        _tracker.trackObject(molder, oid, object);
+    }
+    
     /**
      * {@inheritDoc}
      * @see org.castor.persist.TransactionContext#query(
