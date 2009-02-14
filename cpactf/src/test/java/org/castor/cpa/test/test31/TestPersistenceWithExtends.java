@@ -43,10 +43,11 @@ public final class TestPersistenceWithExtends extends CPATestCase {
     //
     // Configuration of previous test suite.
     // Inc: db2, postgresql, sybase, pointbase, progress
-    // Exc: hsql, sapdb, derby
+    // Exc: hsql, sapdb
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL);
+        return (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.DERBY);
     }
 
     // SQL_SERVER is excluded until issue CASTOR-2634 is resolved

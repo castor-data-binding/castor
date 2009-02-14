@@ -34,6 +34,46 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2649" tool="jira">
+                    <description>
+                        Enabled execution of tests with derby. 
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20090214</date>
+                </bug>
+                <bug id="2655" tool="jira">
+                    <description>
+                        Added SQL scripts for Derby. 
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20090214</date>
+                </bug>
                 <bug id="1217" tool="jira">
                     <description>
                         Fixed wrong timestamps for same object having hierarchy when loaded by

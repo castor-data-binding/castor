@@ -45,12 +45,13 @@ public final class TestOQLCondition extends CPATestCase {
     // Test are only included/excluded for engines that have been tested with this test suite.
     //
     // Configuration of previous test suite.
-    // Inc: db2, postgresql, sapdb, sybase, derby, pointbase, progress
+    // Inc: db2, postgresql, sapdb, sybase, pointbase, progress
     // Exc: hsql
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL) 
-            || (engine == DatabaseEngineType.ORACLE);
+            || (engine == DatabaseEngineType.ORACLE)
+            || (engine == DatabaseEngineType.DERBY);
     }
     
     // SQL_SERVER is excluded until issue CASTOR-2634 is resolved

@@ -35,7 +35,8 @@ public final class TestTimestampChange extends CPATestCase {
     // Test are only included/excluded for engines that have been tested with this test suite.
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL);
+        return (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.DERBY);
     }
     
     public void delete() throws Exception {
