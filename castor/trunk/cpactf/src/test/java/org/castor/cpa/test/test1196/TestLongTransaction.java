@@ -44,7 +44,8 @@ public final class TestLongTransaction extends CPATestCase {
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.ORACLE);
+            || (engine == DatabaseEngineType.ORACLE)
+            || (engine == DatabaseEngineType.DERBY);
     }
     
     // SQL_SERVER is excluded until issue CASTOR-2634 is resolved
