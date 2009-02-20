@@ -34,6 +34,27 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="241" tool="jira">
+                    <description>
+                        Added test to verify that ObjectNotFoundException during load() releases
+                        in-memory read lock.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Levi Purvis</name>
+                        <email>levi.purvis@mckesson.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20090220</date>
+                </bug>
                 <bug id="2649" tool="jira">
                     <description>
                         Enabled execution of tests with derby. 
