@@ -290,7 +290,7 @@ org.exolab.castor.jdo.defaultTimeZone=
       </p>
 
       <p>
-        In the above example the first of six parameterized type convertors
+        In the above example the first of a bunch of parameterized type convertors
         is used, "boolean --&gt; char" convertor.  The parameter must have length 2,
         the first character is the value for <b>false</b>, the second character
         is the value for <b>true</b>. The default value is "FT". The actual
@@ -357,6 +357,34 @@ org.exolab.castor.jdo.defaultTimeZone=
         support. The default value of the parameter is "YMD".
       </p>
     </section>
+
+      <p>
+        The date and time types of <code>org.exolab.castor.types</code> package support 2
+        timelines as defined by XML schema specification. One for timezoned values and one
+        for non-timezoned values which are treated to be local. When converting such types
+        to long the timezone information is lost. In most cases it is no problem to loose
+        for which timezone the value was specified if the value get converted to UTC time
+        before. But we also loose if the value had a timezone or not. This causes that
+        we do not know to which timeline the value belongs. If we just treat it as
+        non-timezoned value while it has been a timezoned one we have changed the value.
+      </p>
+
+      <p>
+        Therefore we have added support for another parameterized type converter. This one
+        allows you to specify if the date and time values created out of a persisted long
+        value are meant to be timezoned or not. By default, without a parameter, local
+        date or time instances are created without a timezone. If you specify the parameter
+        <code>utc</code> in mapping the date or time values are created based on UTC timezone.
+        It need to be noted that such a mapping can only handle date and time values of one
+        of the 2 timelines defined by XML schema specification. Having said that this only
+        applies to the conversion of such values to long and does not cause issues when
+        converting to string and back.
+      </p>
+
+      <code-panel><![CDATA[
+  <field name="timeOfBirth" type="org.exolab.castor.types.Time">
+    <sql name="pers_tob" type="bigint[utc]"/>
+  </field>]]></code-panel>
 
     <section title="BLOB and CLOB Types">
       <p>

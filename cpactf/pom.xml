@@ -123,6 +123,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
                      <autocommit>true</autocommit>
                      <srcFiles>
                         <srcFile>src/test/ddl/org/castor/cpa/test/test1002/derby.sql</srcFile>
+                        <srcFile>src/test/ddl/org/castor/cpa/test/test1073/derby.sql</srcFile>
                         <srcFile>src/test/ddl/org/castor/cpa/test/test1158/derby.sql</srcFile>
                         <srcFile>src/test/ddl/org/castor/cpa/test/test1196/derby.sql</srcFile>
                         <srcFile>src/test/ddl/org/castor/cpa/test/test1206/derby.sql</srcFile>
