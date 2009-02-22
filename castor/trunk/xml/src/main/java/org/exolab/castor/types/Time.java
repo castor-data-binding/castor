@@ -99,15 +99,28 @@ public class Time extends DateTimeBase {
      * By default a Time is not UTC and is local.
      * @param l The long value that represents the time instance.
      */
-    public Time (long l) {
+    public Time(long l) {
+        this(l, false);
+    }
+
+    /**
+     * Constructs a XML Schema Time instance given a long representing the time in milliseconds.
+     * @param l The long value that represents the time instance.
+     * @param utc Does the long value represent a UTC time?
+     */
+    public Time(long l, boolean utc) {
         if (l > 86400000L) {
-            throw new IllegalArgumentException("Bad Time: the long value can't represent more than 24h.");
+            throw new IllegalArgumentException(
+                    "Bad Time: the long value can't represent more than 24h.");
         }
-        this.setHour((short)(l / 3600000));
+        
+        setHour((short) (l / 3600000));
         l = l % 3600000;
-        this.setMinute((short)(l / 60000));
+        setMinute((short) (l / 60000));
         l = l % 60000;
-        this.setSecond((short)(l / 1000), (short)(l % 1000));
+        setSecond((short) (l / 1000), (short) (l % 1000));
+        
+        if (utc) { setZone((short) 0, (short) 0); }
     }
 
    /**
@@ -161,6 +174,34 @@ public class Time extends DateTimeBase {
         result[3] = this.getMilli();
         return result;
     } //getValues
+
+    /**
+     * Converts this Time instance into a long value based on UTC time zone.
+     * @return A long value representing this Time instance.
+     */
+    public long toLong () {
+        int sign = isZoneNegative() ? 1 : -1;
+        int hour = getHour() + sign * getZoneHour();
+        int minute = getMinute() + sign * getZoneMinute();
+        int second = getSeconds();
+        int milli = getMilli();
+        
+        if (minute < 0) {
+            minute = minute + 60;
+            hour = hour - 1;
+        } else if (minute > 59) {
+            minute = minute - 60;
+            hour = hour + 1;
+        }
+        
+        if (hour < 0) {
+            hour = hour + 24;
+        } else if (hour > 23) {
+            hour = hour - 24;
+        }
+        
+        return 3600000 * hour + 60000 * minute + 1000 * second + milli;
+    }
 
     /**
      * converts this Time into a local java Date.

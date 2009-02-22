@@ -368,7 +368,7 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
      *             second field is not allowed
      */
     public void setSecond(short second) throws UnsupportedOperationException {
-        if (second > 60) {
+        if (second > 59) {
            String err = "seconds " + second + " must be less than 60";
            throw new IllegalArgumentException(err);
         } else if (second < 0) {
@@ -775,7 +775,7 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
         Duration temp = new Duration();
         temp.setHour(_zoneHour);
         temp.setMinute(_zoneMinute);
-        if (isZoneNegative()) {
+        if (!isZoneNegative()) {
             temp.setNegative();
         }
 

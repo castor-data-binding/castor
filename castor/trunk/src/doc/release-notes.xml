@@ -34,6 +34,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2658" tool="jira">
+                    <description>
+                        Fixed bug in normalize() method of org.exolab.castor.types.DateTimeBase.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20090222</date>
+                </bug>
                 <bug id="241" tool="jira">
                     <description>
                         Added test to verify that ObjectNotFoundException during load() releases
