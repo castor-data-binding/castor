@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+  <class name="org.castor.cpa.test.test1073.DurationEntity" identity="id">
+  	<cache-type type="none"/>
+    <map-to table="test1073_duration"/>
+    <field name="id" type="integer">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="longDuration" type="org.exolab.castor.types.Duration">
+      <sql name="long_duration" type="bigint"/>
+    </field>
+    <field name="stringDuration" type="org.exolab.castor.types.Duration">
+      <sql name="string_duration" type="char"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test1073.TimeEntity" identity="id">
+  	<cache-type type="none"/>
+    <map-to table="test1073_time"/>
+    <field name="id" type="integer">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="longTimeLocal" type="org.exolab.castor.types.Time">
+      <sql name="long_time_local" type="bigint"/>
+    </field>
+    <field name="longTimeUTC" type="org.exolab.castor.types.Time">
+      <sql name="long_time_utc" type="bigint[utc]"/>
+    </field>
+    <field name="stringTimeLocal" type="org.exolab.castor.types.Time">
+      <sql name="string_time_local" type="char"/>
+    </field>
+    <field name="stringTimeUTC" type="org.exolab.castor.types.Time">
+      <sql name="string_time_utc" type="char"/>
+    </field>
+  </class>
+</mapping>
