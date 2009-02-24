@@ -148,17 +148,15 @@ public abstract class AbstractGeneratorTest extends TestCase {
      *         patterns, loading of test mapping or creation of schema objects.
      */
     protected final void loadData(final String filename) throws Exception {
-        Class cls = AbstractGeneratorTest.class;
-        
-        URL mappingURL = cls.getResource(MAPPING_PATH + filename);
+        URL mappingURL = AbstractGeneratorTest.class.getResource(MAPPING_PATH + filename);
         Mapping mapping = new Mapping();
         mapping.loadMapping(mappingURL);
         new MappingUnmarshaller().loadMappingOnly(mapping);
-        // TODO: Joachim 2007-09-07 the InternalContext should be set into the unmarshaller!
+        // TODO Joachim 2007-09-07 the InternalContext should be set into the unmarshaller!
         _generator.setMapping(mapping);
         _generator.createSchema();
 
-        URL expectedURL = cls.getResource(EXPECTED_PATH + filename);
+        URL expectedURL = AbstractGeneratorTest.class.getResource(EXPECTED_PATH + filename);
         _expected = Expected.getExpectedResult(expectedURL);
         _expected.setConf(_generator.getConfiguration());
     }

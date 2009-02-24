@@ -134,10 +134,10 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
     public static final int DEFAULT_CONTAINERS = 10;
     
     /** Default container class. */
-    public static final Class < ? extends Container > DEFAULT_CONTAINER_CLASS = MapContainer.class;
+    public static final Class<? extends Container> DEFAULT_CONTAINER_CLASS = MapContainer.class;
     
     /** Default reaper class. */
-    public static final Class < ? extends AbstractReaper > DEFAULT_REAPER_CLASS = NullReaper.class;
+    public static final Class<? extends AbstractReaper> DEFAULT_REAPER_CLASS = NullReaper.class;
     
     /** Default capacity of cache. */
     public static final int DEFAULT_CAPACITY = 0;
@@ -223,10 +223,10 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
         }
 
         try {
-            Class < ? extends  Container > cls = DEFAULT_CONTAINER_CLASS;
+            Class<? extends  Container> cls = DEFAULT_CONTAINER_CLASS;
             param = params.getProperty(PARAM_CONTAINER_CLASS);
             if ((param != null) && !"".equals(param)) {
-                cls = (Class < ? extends Container > ) Class.forName(param);
+                cls = (Class<? extends Container>) Class.forName(param);
             }
 
             _poolCount = 2 * _containerTarget;
@@ -240,10 +240,10 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
         }
 
         try {
-            Class < ? extends AbstractReaper > cls = DEFAULT_REAPER_CLASS;
+            Class<? extends AbstractReaper> cls = DEFAULT_REAPER_CLASS;
             param = params.getProperty(PARAM_REAPER_CLASS);
             if ((param != null) && !"".equals(param)) {
-                cls = (Class < ? extends AbstractReaper > ) Class.forName(param);
+                cls = (Class<? extends AbstractReaper>) Class.forName(param);
             }
 
             _reaper = cls.newInstance();
@@ -444,8 +444,8 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public final Set < Object > keySet() {
-        Set < Object > set = new HashSet < Object > (size());
+    public final Set<Object> keySet() {
+        Set<Object> set = new HashSet<Object>(size());
         
         try {
             _lock.readLock().acquire();
@@ -469,8 +469,8 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public final Collection < Object > values() {
-        Collection < Object > col = new ArrayList < Object > (size());
+    public final Collection<Object> values() {
+        Collection<Object> col = new ArrayList<Object>(size());
         
         try {
             _lock.readLock().acquire();
@@ -494,8 +494,8 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public final Set < Entry < Object, Object > > entrySet() {
-        Map < Object, Object > map = new Hashtable < Object, Object > (size());
+    public final Set<Entry<Object, Object>> entrySet() {
+        Map<Object, Object> map = new Hashtable<Object, Object>(size());
         
         try {
             _lock.readLock().acquire();

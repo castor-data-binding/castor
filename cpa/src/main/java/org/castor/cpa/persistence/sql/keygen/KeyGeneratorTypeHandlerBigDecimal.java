@@ -9,7 +9,7 @@ import org.castor.core.util.Messages;
 import org.exolab.castor.jdo.PersistenceException;
 
 public final class KeyGeneratorTypeHandlerBigDecimal
-implements KeyGeneratorTypeHandler < BigDecimal > {
+implements KeyGeneratorTypeHandler <BigDecimal> {
     /** Value to be returned by getValue() method if current row of the record set is not valid
      *  and the type handler should not fail in this case.  */
     private static final BigDecimal ZERO = new BigDecimal(0);

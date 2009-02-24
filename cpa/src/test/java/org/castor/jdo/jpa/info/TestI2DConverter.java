@@ -32,7 +32,7 @@ import org.exolab.castor.xml.util.JDOClassDescriptorResolver;
  * 
  * @author Peter Schmidt
  */
-public class TestI2DConverter extends TestCase {
+public final class TestI2DConverter extends TestCase {
 
     /** the used {@link ClassInfoBuilder}. */
     private ClassInfoBuilder _classBuilder;
@@ -45,39 +45,32 @@ public class TestI2DConverter extends TestCase {
     public void setUp() {
         _classBuilder = new ClassInfoBuilder();
         _cmd = new ClassDescriptorResolutionCommand() {
-
-            public ClassDescriptor resolve(Class type) {
-
+            public ClassDescriptor resolve(final Class type) {
                 try {
-                    return InfoToDescriptorConverter.convert(_classBuilder
-                            .buildClassInfo(type), this);
+                    return InfoToDescriptorConverter.convert(
+                            _classBuilder.buildClassInfo(type), this);
                 } catch (MappingException e) {
                     return null;
                 }
-
             }
 
-            public Object getProperty(String name) {
+            public Object getProperty(final String name) {
                 return null;
             }
 
-            public void setProperty(String name, Object value) {
-
+            public void setProperty(final String name, final Object value) {
             }
 
-            public void addNature(String nature) {
-
+            public void addNature(final String nature) {
             }
 
-            public boolean hasNature(String nature) {
+            public boolean hasNature(final String nature) {
                 return false;
             }
 
             public void setClassDescriptorResolver(
-                    JDOClassDescriptorResolver classDescriptorResolver) {
-                
+                    final JDOClassDescriptorResolver classDescriptorResolver) {
             }
-
         };
     }
 
@@ -135,7 +128,7 @@ public class TestI2DConverter extends TestCase {
         assertEquals(0, fdIdentities.length);
     }
 
-    private ClassInfo buildClassInfo(Class<?> aClass) throws MappingException {
+    private ClassInfo buildClassInfo(final Class<?> aClass) throws MappingException {
         ClassInfo classInfo = _classBuilder.buildClassInfo(aClass);
         return classInfo;
     }

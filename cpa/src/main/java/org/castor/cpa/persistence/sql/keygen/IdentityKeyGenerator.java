@@ -72,7 +72,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
 
     private abstract class IdentityKeyGenValueHandler {
         private KeyGenerator _keyGenerator;
-        private KeyGeneratorTypeHandler < ? extends Object > _typeHandler;
+        private KeyGeneratorTypeHandler<? extends Object> _typeHandler;
 
         protected abstract Object getValue(Connection conn, String tableName)
         throws PersistenceException;
@@ -108,7 +108,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
             _keyGenerator = generator;
         }
 
-        public void setTypeHandler(final KeyGeneratorTypeHandler < ? extends Object > typeHandler) {
+        public void setTypeHandler(final KeyGeneratorTypeHandler<? extends Object> typeHandler) {
             _typeHandler = typeHandler;
         }
     }
@@ -203,7 +203,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
     
     private final PersistenceFactory _factory;
     
-    private KeyGeneratorTypeHandler < ? extends Object > _typeHandler;
+    private KeyGeneratorTypeHandler<? extends Object> _typeHandler;
 
     private IdentityKeyGenValueHandler _type;
 

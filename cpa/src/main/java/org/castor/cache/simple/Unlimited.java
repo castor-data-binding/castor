@@ -39,7 +39,7 @@ public final class Unlimited extends AbstractBaseCache {
     public static final String TYPE = "unlimited";
     
     /** The internal map. */
-    private Hashtable < Object, Object > _map = new Hashtable < Object, Object > ();
+    private Hashtable<Object, Object> _map = new Hashtable<Object, Object>();
     
     //--------------------------------------------------------------------------
     // getters/setters for cache configuration
@@ -106,7 +106,7 @@ public final class Unlimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public void putAll(final Map < ? extends Object, ? extends Object > map) {
+    public void putAll(final Map<? extends Object, ? extends Object> map) {
         _map.putAll (map);
     }
 
@@ -121,17 +121,17 @@ public final class Unlimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public Set < Object > keySet() { return _map.keySet(); }
+    public Set<Object> keySet() { return _map.keySet(); }
     
     /**
      * {@inheritDoc}
      */
-    public Collection < Object > values() { return _map.values(); }
+    public Collection<Object> values() { return _map.values(); }
 
     /**
      * {@inheritDoc}
      */
-    public Set < Entry < Object, Object > > entrySet() { return _map.entrySet(); }
+    public Set<Entry<Object, Object>> entrySet() { return _map.entrySet(); }
 
     //--------------------------------------------------------------------------
 }

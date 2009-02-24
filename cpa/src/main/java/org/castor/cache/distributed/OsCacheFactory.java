@@ -85,8 +85,8 @@ public final class OsCacheFactory implements CacheFactory {
         
         Cache cache = null;
         try {
-            Class < ? > cls = loader.loadClass(getCacheClassName());
-            Constructor < ? > cst = cls.getConstructor(new Class[] {Object.class});
+            Class<?> cls = loader.loadClass(getCacheClassName());
+            Constructor<?> cst = cls.getConstructor(new Class[] {Object.class});
             cache = (Cache) cst.newInstance(new Object[] {_cache});
         } catch (ClassNotFoundException cnfe) {
             String msg = "Cannot find class " + getCacheClassName() + ".";
@@ -144,7 +144,7 @@ public final class OsCacheFactory implements CacheFactory {
      * @return The result of the method invocation.
      */
     private Object invokeMethod(final Object target, final String name,
-            final Class < ? > [] types, final Object[] arguments) {
+            final Class<?>[] types, final Object[] arguments) {
         try {
             Method method = target.getClass().getMethod(name, types);
             return method.invoke(target, arguments);

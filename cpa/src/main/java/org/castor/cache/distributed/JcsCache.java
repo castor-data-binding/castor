@@ -53,16 +53,16 @@ public final class JcsCache extends AbstractBaseCache {
     public static final String IMPLEMENTATION = "org.apache.jcs.JCS";
 
     /** Parameter types for calling getInstance() method on IMPLEMENTATION. */
-    private static final Class < ? > [] TYPES_GET_INSTANCE = new Class[] {String.class};
+    private static final Class<?>[] TYPES_GET_INSTANCE = new Class[] {String.class};
 
     /** Parameter types for calling get() method on cache instance. */
-    private static final Class < ? > [] TYPES_GET = new Class[] {Object.class};
+    private static final Class<?>[] TYPES_GET = new Class[] {Object.class};
 
     /** Parameter types for calling put() method on cache instance. */
-    private static final Class < ? > [] TYPES_PUT = new Class[] {Object.class, Object.class};
+    private static final Class<?>[] TYPES_PUT = new Class[] {Object.class, Object.class};
 
     /** Parameter types for calling remove() method on cache instance. */
-    private static final Class < ? > [] TYPES_REMOVE = TYPES_GET;
+    private static final Class<?>[] TYPES_REMOVE = TYPES_GET;
 
     /** The cache instance. */
     private Object _cache;
@@ -104,7 +104,7 @@ public final class JcsCache extends AbstractBaseCache {
 
         try {
             ClassLoader ldr = this.getClass().getClassLoader();
-            Class < ? > cls = ldr.loadClass(implementation);
+            Class<?> cls = ldr.loadClass(implementation);
             Method method = cls.getMethod("getInstance", TYPES_GET_INSTANCE);
             _cache = method.invoke(null, new Object[] {getName()});
 
@@ -193,11 +193,11 @@ public final class JcsCache extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public void putAll(final Map < ? extends Object, ? extends Object > map) {
-        Iterator < ? extends Entry < ? extends Object, ? extends Object > > iter;
+    public void putAll(final Map<? extends Object, ? extends Object> map) {
+        Iterator<? extends Entry<? extends Object, ? extends Object>> iter;
         iter = map.entrySet().iterator();
         while (iter.hasNext()) {
-            Entry < ? extends Object, ? extends Object > entry = iter.next();
+            Entry<? extends Object, ? extends Object> entry = iter.next();
             Object[] params = new Object[] {entry.getKey(), entry.getValue()};
             invokeCacheMethod(_putMethod, params);
         }
@@ -216,21 +216,21 @@ public final class JcsCache extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public Set < Object > keySet() {
+    public Set<Object> keySet() {
         throw new UnsupportedOperationException("keySet()");
     }
 
     /**
      * {@inheritDoc}
      */
-    public Collection < Object > values() {
+    public Collection<Object> values() {
         throw new UnsupportedOperationException("values()");
     }
 
     /**
      * {@inheritDoc}
      */
-    public Set < Entry < Object, Object > > entrySet() {
+    public Set<Entry<Object, Object>> entrySet() {
         throw new UnsupportedOperationException("entrySet()");
     }
 

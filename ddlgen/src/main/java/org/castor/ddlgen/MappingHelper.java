@@ -149,7 +149,7 @@ public final class MappingHelper {
         boolean isFoundKey = false;
         
         String[] ids = cm.getIdentity();
-        Vector types = new Vector();
+        Vector<String> types = new Vector<String>();
 
         Enumeration ef = cm.getClassChoice().enumerateFieldMapping();
         boolean isExistFieldId = isUseFieldIdentity(cm);
@@ -169,8 +169,7 @@ public final class MappingHelper {
                 }
 
                 if (typeinfo == null) {
-                    String[] refRefType = resolveTypeReferenceForIds(fm
-                            .getType());
+                    String[] refRefType = resolveTypeReferenceForIds(fm.getType());
                     for (int l = 0; l < refRefType.length; l++) {
                         types.add(refRefType[l]);
                         isFoundKey = true;
@@ -243,7 +242,7 @@ public final class MappingHelper {
            }               
         }
 
-        return (String[]) types.toArray(new String[types.size()]);
+        return types.toArray(new String[types.size()]);
     }
 
     /**
@@ -297,7 +296,7 @@ public final class MappingHelper {
      * @return Array of sql names of identities of given ClassMapping.
      */
     public String[] getClassMappingSqlIdentity(final ClassMapping cm, final boolean ext) {
-        Vector ids = new Vector();
+        Vector<String> ids = new Vector<String>();
         
         String[] identities = cm.getIdentity();
         // If child defines identity with same or no type,
@@ -337,7 +336,7 @@ public final class MappingHelper {
             return getClassMappingSqlIdentity((ClassMapping) cm.getExtends(), ext);
         }
 
-        return (String[]) ids.toArray(new String[ids.size()]);
+        return ids.toArray(new String[ids.size()]);
     }
 
     /**
@@ -350,7 +349,7 @@ public final class MappingHelper {
      * @return Array of identity names of given ClassMapping.
      */
     public String[] getClassMappingIdentity(final ClassMapping cm) {
-        Vector ids = new Vector();
+        Vector<String> ids = new Vector<String>();
         
         boolean isExistFieldId = false;
         Enumeration ef = cm.getClassChoice().enumerateFieldMapping();
@@ -375,7 +374,7 @@ public final class MappingHelper {
             return getClassMappingIdentity((ClassMapping) cm.getExtends()); 
         }
 
-        return (String[]) ids.toArray(new String[ids.size()]);
+        return ids.toArray(new String[ids.size()]);
     }
 
     //--------------------------------------------------------------------------

@@ -54,13 +54,13 @@ public abstract class ForeignKey extends AbstractSchemaObject  {
     private int _relationType = ONE_ONE;
     
     /** List of fields referenced by the foreign key. */
-    private List _referencedFields = new ArrayList();
+    private List<Field> _referencedFields = new ArrayList<Field>();
 
     /** Table referenced by the foreign key. */
     private Table _referencedTable;
     
     /** List of foreign key fields. */
-    private List _fields = new ArrayList();
+    private List<Field> _fields = new ArrayList<Field>();
 
     /** Table that holds foreign key. */
     private Table _table;
@@ -110,7 +110,7 @@ public abstract class ForeignKey extends AbstractSchemaObject  {
      * @return Referneced field at given index.
      */
     public final Field getReferenceField(final int index) {
-        return (Field) _referencedFields.get(index);
+        return _referencedFields.get(index);
     }
     
     /**
@@ -156,7 +156,7 @@ public abstract class ForeignKey extends AbstractSchemaObject  {
      * @return Foreign key field at given index.
      */
     public final Field getField(final int index) {
-        return (Field) _fields.get(index);
+        return _fields.get(index);
     }
     
     /**

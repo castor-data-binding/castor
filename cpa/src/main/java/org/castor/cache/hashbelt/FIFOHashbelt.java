@@ -128,13 +128,13 @@ public final class FIFOHashbelt extends AbstractHashbelt {
     /**
      * {@inheritDoc}
      */
-    public void putAll(final Map < ? extends Object, ? extends Object > map) {
+    public void putAll(final Map<? extends Object, ? extends Object> map) {
         if (map.containsKey(null)) { throw new NullPointerException("key"); }
         if (map.containsValue(null)) { throw new NullPointerException("value"); }
 
-        Iterator < ? extends Entry < ? extends Object, ? extends Object > > iter;
+        Iterator<? extends Entry<? extends Object, ? extends Object>> iter;
         iter = map.entrySet().iterator();
-        Entry < ? extends Object, ? extends Object > entry;
+        Entry<? extends Object, ? extends Object> entry;
 
         try {
             lock().writeLock().acquire();

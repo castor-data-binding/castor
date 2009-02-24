@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 import org.castor.jdo.jpa.natures.JPAFieldNature;
 import org.exolab.castor.mapping.MappingException;
 
-public class TestJPAAccessType extends TestCase {
+public final class TestJPAAccessType extends TestCase {
 
     private ClassInfoBuilder _classBuilder;
 
@@ -32,7 +32,6 @@ public class TestJPAAccessType extends TestCase {
     }
 
     public void testFieldAccessed() throws MappingException {
-
         ClassInfo classInfo = buildClassInfo(FieldAccessed.class);
 
         assertNotNull(classInfo);
@@ -44,31 +43,30 @@ public class TestJPAAccessType extends TestCase {
         FieldInfo fieldInfo;
 
         /* check field "primaryKey" */
-        fieldInfo = classInfo.getKeyFieldInfoByName("primaryKey");
+        fieldInfo = classInfo.getKeyFieldInfoByName("_primaryKey");
         assertNull(fieldInfo);
-        fieldInfo = classInfo.getFieldInfoByName("primaryKey");
+        fieldInfo = classInfo.getFieldInfoByName("_primaryKey");
         assertNotNull(fieldInfo);
         assertTrue(fieldInfo.hasNature(JPAFieldNature.class.getName()));
-        assertEquals("primaryKey", fieldInfo.getFieldName());
+        assertEquals("_primaryKey", fieldInfo.getFieldName());
         assertEquals(int.class, fieldInfo.getFieldType());
 
         /* check field "bla" */
-        fieldInfo = classInfo.getFieldInfoByName("bla");
+        fieldInfo = classInfo.getFieldInfoByName("_bla");
         assertNotNull(fieldInfo);
         assertTrue(fieldInfo.hasNature(JPAFieldNature.class.getName()));
-        assertEquals("bla", fieldInfo.getFieldName());
+        assertEquals("_bla", fieldInfo.getFieldName());
         assertEquals(String.class, fieldInfo.getFieldType());
 
         /* check field "blob" */
-        fieldInfo = classInfo.getFieldInfoByName("blob");
+        fieldInfo = classInfo.getFieldInfoByName("_blob");
         assertNotNull(fieldInfo);
         assertTrue(fieldInfo.hasNature(JPAFieldNature.class.getName()));
-        assertEquals("blob", fieldInfo.getFieldName());
+        assertEquals("_blob", fieldInfo.getFieldName());
         assertEquals(String.class, fieldInfo.getFieldType());
     }
 
     public void testPropertyAccessed() throws MappingException {
-
         ClassInfo classInfo = buildClassInfo(PropertyAccessed.class);
         
         assertNotNull(classInfo);
@@ -101,11 +99,9 @@ public class TestJPAAccessType extends TestCase {
         assertTrue(fieldInfo.hasNature(JPAFieldNature.class.getName()));
         assertEquals("blob", fieldInfo.getFieldName());
         assertEquals(String.class, fieldInfo.getFieldType());
-
     }
 
     public void testMixedAccessed() throws MappingException {
-
         ClassInfo classInfo = buildClassInfo(MixedAccessed.class);
 
         assertNotNull(classInfo);
@@ -117,12 +113,12 @@ public class TestJPAAccessType extends TestCase {
         FieldInfo fieldInfo;
 
         /* check field "primaryKey" */
-        fieldInfo = classInfo.getKeyFieldInfoByName("primaryKey");
+        fieldInfo = classInfo.getKeyFieldInfoByName("_primaryKey");
         assertNull(fieldInfo);
-        fieldInfo = classInfo.getFieldInfoByName("primaryKey");
+        fieldInfo = classInfo.getFieldInfoByName("_primaryKey");
         assertNotNull(fieldInfo);
         assertTrue(fieldInfo.hasNature(JPAFieldNature.class.getName()));
-        assertEquals("primaryKey", fieldInfo.getFieldName());
+        assertEquals("_primaryKey", fieldInfo.getFieldName());
         assertEquals(int.class, fieldInfo.getFieldType());
 
         /* check field "bla" */
@@ -138,11 +134,9 @@ public class TestJPAAccessType extends TestCase {
         assertTrue(fieldInfo.hasNature(JPAFieldNature.class.getName()));
         assertEquals("blob", fieldInfo.getFieldName());
         assertEquals(String.class, fieldInfo.getFieldType());
-
     }
 
     public void testWrongAccessed() {
-
         try {
             buildClassInfo(WrongAccessed.class);
             fail();
@@ -151,14 +145,13 @@ public class TestJPAAccessType extends TestCase {
         }
     }
     
-    private ClassInfo buildClassInfo(Class<?> aClass) throws MappingException {
+    private ClassInfo buildClassInfo(final Class<?> aClass) throws MappingException {
         // build class
         ClassInfo classInfo = _classBuilder.buildClassInfo(aClass);
         return classInfo;
     }
 
     private class FieldAccessed {
-        
         @Id
         @Column(name = "primary_key", 
                 unique = true, 
@@ -170,7 +163,7 @@ public class TestJPAAccessType extends TestCase {
                 length = 10, 
                 precision = 100, 
                 scale = 1000)
-        public int primaryKey;
+        public int _primaryKey;
 
         @Column(name = "JPAcolumnTESTbla", 
                 unique = true, 
@@ -182,7 +175,7 @@ public class TestJPAAccessType extends TestCase {
                 length = 10, 
                 precision = 100, 
                 scale = 1000)
-        public String bla;
+        public String _bla;
 
         @Column(name = "JPAcolumnTESTblob", 
                 unique = false, 
@@ -194,16 +187,13 @@ public class TestJPAAccessType extends TestCase {
                 length = 2000, 
                 precision = 200, 
                 scale = 20)
-        public String blob;
+        public String _blob;
     }
 
     private class PropertyAccessed {
-        
-        private int primaryKey;
-
-        private String bla;
-
-        private String blob;
+        private int _primaryKey;
+        private String _bla;
+        private String _blob;
 
         @Id
         @Column(name = "primary_key", 
@@ -217,7 +207,7 @@ public class TestJPAAccessType extends TestCase {
                 precision = 100, 
                 scale = 1000)
         public int getPrimaryKey() {
-            return primaryKey;
+            return _primaryKey;
         }
 
         @Column(name = "JPAcolumnTESTbla", 
@@ -231,7 +221,7 @@ public class TestJPAAccessType extends TestCase {
                 precision = 100, 
                 scale = 1000)
         public String getBla() {
-            return bla;
+            return _bla;
         }
 
         @Column(name = "JPAcolumnTESTblob", 
@@ -245,24 +235,23 @@ public class TestJPAAccessType extends TestCase {
                 precision = 200, 
                 scale = 20)
         public String getBlob() {
-            return blob;
+            return _blob;
         }
 
-        public void setPrimaryKey(int primaryKey) {
-            this.primaryKey = primaryKey;
+        public void setPrimaryKey(final int primaryKey) {
+            _primaryKey = primaryKey;
         }
 
-        public void setBla(String bla) {
-            this.bla = bla;
+        public void setBla(final String bla) {
+            _bla = bla;
         }
 
-        public void setBlob(String blob) {
-            this.blob = blob;
+        public void setBlob(final String blob) {
+            _blob = blob;
         }
     }
 
     private class MixedAccessed {
-        
         @Id
         @Column(name = "primary_key", 
                 unique = true, 
@@ -274,14 +263,14 @@ public class TestJPAAccessType extends TestCase {
                 length = 10, 
                 precision = 100, 
                 scale = 1000)
-        public int primaryKey;
+        public int _primaryKey;
 
-        private String bla;
+        private String _bla;
 
-        private String blob;
+        private String _blob;
 
         public int getPrimaryKey() {
-            return primaryKey;
+            return _primaryKey;
         }
 
         @Column(name = "JPAcolumnTESTbla", 
@@ -295,7 +284,7 @@ public class TestJPAAccessType extends TestCase {
                 precision = 100, 
                 scale = 1000)
         public String getBla() {
-            return bla;
+            return _bla;
         }
 
         @Column(name = "JPAcolumnTESTblob", 
@@ -309,26 +298,23 @@ public class TestJPAAccessType extends TestCase {
                 precision = 200, 
                 scale = 20)
         public String getBlob() {
-            return blob;
+            return _blob;
         }
 
-        public void setBla(String bla) {
-            this.bla = bla;
+        public void setBla(final String bla) {
+            _bla = bla;
         }
 
-        public void setBlob(String blob) {
-            this.blob = blob;
+        public void setBlob(final String blob) {
+            _blob = blob;
         }
     }
 
     private class WrongAccessed {
-        
         @Id
-        private int primaryKey;
-
-        private String bla;
-
-        private String blob;
+        private int _primaryKey;
+        private String _bla;
+        private String _blob;
 
         @Column(name = "primary_key", 
                 unique = true, 
@@ -341,7 +327,7 @@ public class TestJPAAccessType extends TestCase {
                 precision = 100, 
                 scale = 1000)
         public int getPrimaryKey() {
-            return primaryKey;
+            return _primaryKey;
         }
 
         @Column(name = "JPAcolumnTESTbla", 
@@ -355,7 +341,7 @@ public class TestJPAAccessType extends TestCase {
                 precision = 100, 
                 scale = 1000)
         public String getBla() {
-            return bla;
+            return _bla;
         }
 
         @Column(name = "JPAcolumnTESTblob", 
@@ -369,8 +355,7 @@ public class TestJPAAccessType extends TestCase {
                 precision = 200, 
                 scale = 20)
         public String getBlob() {
-            return blob;
+            return _blob;
         }
     }
-
 }

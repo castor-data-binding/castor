@@ -50,7 +50,7 @@ public final class MaxKeyGenerator implements KeyGenerator {
     
     private final PersistenceFactory _factory;
     
-    private KeyGeneratorTypeHandler < ? extends Object > _typeHandler;
+    private KeyGeneratorTypeHandler<? extends Object> _typeHandler;
 
     //-----------------------------------------------------------------------------------
 

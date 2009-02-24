@@ -170,7 +170,7 @@ public final class DebuggingCacheProxy implements Cache {
     /**
      * {@inheritDoc}
      */
-    public void putAll(final Map < ? extends Object, ? extends Object > map) {
+    public void putAll(final Map<? extends Object, ? extends Object> map) {
         _log.debug(getType() + ".putAll(" + map + ") [" + getName() + "]");
         _cache.putAll(map);
     }
@@ -189,7 +189,7 @@ public final class DebuggingCacheProxy implements Cache {
     /**
      * {@inheritDoc}
      */
-    public Set < Object > keySet() {
+    public Set<Object> keySet() {
         _log.debug(getType() + ".keySet() [" + getName() + "]");
         return _cache.keySet();
     }
@@ -197,7 +197,7 @@ public final class DebuggingCacheProxy implements Cache {
     /**
      * {@inheritDoc}
      */
-    public Collection < Object > values() {
+    public Collection<Object> values() {
         _log.debug(getType() + ".values() [" + getName() + "]");
         return _cache.values();
     }
@@ -205,7 +205,7 @@ public final class DebuggingCacheProxy implements Cache {
     /**
      * {@inheritDoc}
      */
-    public Set < Entry < Object, Object > > entrySet() {
+    public Set<Entry<Object, Object>> entrySet() {
         _log.debug(getType() + ".entrySet() [" + getName() + "]");
         return _cache.entrySet();
     }

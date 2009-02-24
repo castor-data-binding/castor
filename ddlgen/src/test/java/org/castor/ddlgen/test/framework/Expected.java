@@ -76,7 +76,7 @@ public final class Expected {
     private DDLGenConfiguration _conf;
     
     /** Expected result patterns to match. */
-    private ArrayList _patterns;
+    private ArrayList<Match> _patterns;
 
     /** Last match pattern used. */
     private transient Match _match;
@@ -123,7 +123,7 @@ public final class Expected {
         _conf = conf;
         
         for (int i = 0; i < _patterns.size(); i++) {
-            Match match = (Match) _patterns.get(i);
+            Match match = _patterns.get(i);
             match.setConf(conf);
         }
     }
@@ -133,7 +133,7 @@ public final class Expected {
      * 
      * @return Expected result patterns to match.
      */
-    public ArrayList getPatterns() {
+    public ArrayList<Match> getPatterns() {
         return _patterns;
     }
 
@@ -142,7 +142,7 @@ public final class Expected {
      * 
      * @param patterns Expected result patterns to match.
      */
-    public void setPatterns(final ArrayList patterns) {
+    public void setPatterns(final ArrayList<Match> patterns) {
         _patterns = patterns;
     }
 
@@ -221,7 +221,7 @@ public final class Expected {
      */
     private Match getPatternByEngine(final String engine) {
         for (int i = 0; i < _patterns.size(); i++) {
-            Match match = (Match) _patterns.get(i);
+            Match match = _patterns.get(i);
             if (match.getEngine() == null) {
                 if (engine == null) { return match; }
             } else if (match.getEngine().equals(engine)) {
@@ -241,7 +241,7 @@ public final class Expected {
      */
     private Match getPatternByEngineAndIndex(final String engine, final int index) {
         for (int i = 0; i < _patterns.size(); i++) {
-            Match match = (Match) _patterns.get(i);
+            Match match = _patterns.get(i);
             if (match.getEngine() == null) {
                 if ((engine == null) && (index == match.getIndex())) { return match; }
             } else if (match.getEngine().equals(engine) && (match.getIndex() == index)) {

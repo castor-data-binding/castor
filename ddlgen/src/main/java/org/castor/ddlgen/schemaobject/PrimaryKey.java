@@ -33,7 +33,7 @@ public abstract class PrimaryKey extends AbstractSchemaObject {
     //--------------------------------------------------------------------------
 
     /** List of primary key fields. */
-    private List _fields = new ArrayList();
+    private List<Field> _fields = new ArrayList<Field>();
 
     /** Table the primary key is used for. */
     private Table _table;
@@ -65,7 +65,7 @@ public abstract class PrimaryKey extends AbstractSchemaObject {
      * @return Primary key field at given index.
      */
     public final Field getField(final int index) {
-        return (Field) _fields.get(index);
+        return _fields.get(index);
     }
     
     /**

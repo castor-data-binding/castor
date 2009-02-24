@@ -48,7 +48,7 @@ public final class CoherenceCache extends AbstractDistributedCache {
     public static final String IMPLEMENTATION = "com.tangosol.net.CacheFactory";
     
     /** Parameter types for calling getCache() method on IMPLEMENTATION. */
-    private static final Class < ? > [] TYPES_GET_CACHE = new Class[] {String.class};
+    private static final Class<?>[] TYPES_GET_CACHE = new Class[] {String.class};
     
     //--------------------------------------------------------------------------
     // operations for life-cycle management of cache
@@ -76,7 +76,7 @@ public final class CoherenceCache extends AbstractDistributedCache {
         
         try {
             ClassLoader ldr = this.getClass().getClassLoader();
-            Class < ? > cls = ldr.loadClass(implementation);
+            Class<?> cls = ldr.loadClass(implementation);
             setCache((Map) invokeStaticMethod(
                     cls, "getCache", TYPES_GET_CACHE, new Object[] {getName()}));
         } catch (Exception e) {

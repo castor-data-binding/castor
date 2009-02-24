@@ -59,7 +59,7 @@ public final class GigaspacesCacheFactory extends AbstractCacheFactory {
     public void shutdown(final String implementation) {
         try {
             ClassLoader ldr = this.getClass().getClassLoader();
-            Class < ? > cls = ldr.loadClass(implementation);
+            Class<?> cls = ldr.loadClass(implementation);
             if (cls != null) {
                 Method method = cls.getMethod("shutdown", (Class[]) null);
                 method.invoke(null, (Object[]) null);

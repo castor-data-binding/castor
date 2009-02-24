@@ -8,7 +8,7 @@ import org.castor.core.util.Messages;
 import org.exolab.castor.jdo.PersistenceException;
 
 public final class KeyGeneratorTypeHandlerInteger
-implements KeyGeneratorTypeHandler < Integer > {
+implements KeyGeneratorTypeHandler <Integer> {
     /** Value to be returned by getValue() method if current row of the record set is not valid
      *  and the type handler should not fail in this case.  */
     private static final Integer ZERO = new Integer(0);

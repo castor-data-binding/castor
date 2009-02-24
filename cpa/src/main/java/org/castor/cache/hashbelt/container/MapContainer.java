@@ -34,7 +34,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since 1.0
  */
 public final class MapContainer
-extends ConcurrentHashMap < Object, Object >
+extends ConcurrentHashMap<Object, Object>
 implements Container {
     //--------------------------------------------------------------------------
     
@@ -60,15 +60,15 @@ implements Container {
     /**
      * {@inheritDoc}
      */
-    public Iterator < Object > keyIterator() {
-        return new ArrayList < Object > (keySet()).iterator();
+    public Iterator<Object> keyIterator() {
+        return new ArrayList<Object>(keySet()).iterator();
     }
     
     /**
      * {@inheritDoc}
      */
-    public Iterator < Object > valueIterator() {
-        return new ArrayList < Object > (values()).iterator();
+    public Iterator<Object> valueIterator() {
+        return new ArrayList<Object>(values()).iterator();
     }
     
     //--------------------------------------------------------------------------

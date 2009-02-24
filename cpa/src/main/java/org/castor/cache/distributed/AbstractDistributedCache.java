@@ -34,7 +34,7 @@ public abstract class AbstractDistributedCache extends AbstractBaseCache {
     //--------------------------------------------------------------------------
 
     /** The cache instance. */
-    private Map < Object, Object > _cache = null;
+    private Map<Object, Object> _cache = null;
 
     //--------------------------------------------------------------------------
     // getter/setter for cache
@@ -44,14 +44,14 @@ public abstract class AbstractDistributedCache extends AbstractBaseCache {
      * 
      * @return The cache instance.
      */
-    protected final Map < Object, Object > getCache() { return _cache; }
+    protected final Map<Object, Object> getCache() { return _cache; }
     
     /**
      * Set the cache instance.
      * 
      * @param cache The cache instance.
      */
-    protected final void setCache(final Map < Object, Object > cache) {
+    protected final void setCache(final Map<Object, Object> cache) {
         _cache = cache;
     }
     
@@ -112,7 +112,7 @@ public abstract class AbstractDistributedCache extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public final void putAll(final Map < ? extends Object, ? extends Object > map) {
+    public final void putAll(final Map<? extends Object, ? extends Object> map) {
         _cache.putAll(map);
     }
 
@@ -127,21 +127,21 @@ public abstract class AbstractDistributedCache extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public final Set < Object > keySet() {
+    public final Set<Object> keySet() {
         return Collections.unmodifiableSet(_cache.keySet());
     }
     
     /**
      * {@inheritDoc}
      */
-    public final Collection < Object > values() {
+    public final Collection<Object> values() {
         return Collections.unmodifiableCollection(_cache.values());
     }
 
     /**
      * {@inheritDoc}
      */
-    public final Set < Entry < Object, Object > > entrySet() {
+    public final Set<Entry<Object, Object>> entrySet() {
         return Collections.unmodifiableSet(_cache.entrySet());
     }
 

@@ -6,16 +6,16 @@ import java.sql.SQLException;
 
 import org.exolab.castor.jdo.PersistenceException;
 
-public final class HighLowValueHandler < T > {
+public final class HighLowValueHandler <T> {
     private final String _table;
     private final int _grab;
-    private final KeyGeneratorTypeHandler < T > _typeHandler;
+    private final KeyGeneratorTypeHandler <T> _typeHandler;
     private T _last;
     private T _max;
     private int _values;
     
     public HighLowValueHandler(final String table, final int grab,
-            final KeyGeneratorTypeHandler < T > typeHandler) {
+            final KeyGeneratorTypeHandler <T> typeHandler) {
         _table = table;
         _grab = grab;
         _typeHandler = typeHandler;

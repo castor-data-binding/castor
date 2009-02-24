@@ -98,9 +98,9 @@ public final class SapDbQueryExpression extends JDBCQueryExpression {
                     sorted.removeElement(join._leftTable);
                     sorted.insertElementAt(join._leftTable, right);
                 }
-            } else if (left < 0 && right >= 0) {
+            } else if ((left < 0) && (right >= 0)) {
                 sorted.insertElementAt(join._leftTable, right);
-            } else if (left >= 0 && right < 0) {
+            } else if ((left >= 0) && (right < 0)) {
                 sorted.insertElementAt(join._rightTable, left + 1);
             } else { // (left < 0 && right < 0)
                 sorted.addElement(join._leftTable);

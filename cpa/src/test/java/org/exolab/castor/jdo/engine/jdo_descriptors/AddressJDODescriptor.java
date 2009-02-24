@@ -59,7 +59,8 @@ public class AddressJDODescriptor extends ClassDescriptorImpl {
         // Set access mode
         new ClassDescriptorJDONature(this).setAccessMode(AccessMode.Shared);
         // Set cache key
-        new ClassDescriptorJDONature(this).addCacheParam("name", "org.castor.cpa.functional.onetoone.Address");
+        new ClassDescriptorJDONature(this).addCacheParam(
+                "name", "org.castor.cpa.functional.onetoone.Address");
 
         // Configure class mapping
         mapping.setAccess(ClassMappingAccessType.SHARED);
@@ -79,7 +80,7 @@ public class AddressJDODescriptor extends ClassDescriptorImpl {
         // Set fields
         setFields(new FieldDescriptor[] {});
         // Set identity
-        setIdentities((new FieldDescriptor[] { idFieldDescr }));
+        setIdentities((new FieldDescriptor[] {idFieldDescr}));
 
         LOG.debug("Instantiation finished");
     }
@@ -99,8 +100,8 @@ public class AddressJDODescriptor extends ClassDescriptorImpl {
         FieldHandler idHandler;
         try {
             idHandler = new FieldHandlerImpl(idFieldName, null, null,
-                    Address.class.getMethod("getId", null), Address.class
-                            .getMethod("setId", new Class[] { int.class }),
+                    Address.class.getMethod("getId"),
+                    Address.class.getMethod("setId", new Class[] {int.class}),
                     idType);
         } catch (SecurityException e1) {
             e1.printStackTrace();
@@ -119,8 +120,9 @@ public class AddressJDODescriptor extends ClassDescriptorImpl {
         idFieldDescr.addNature(FieldDescriptorJDONature.class.getName());
         FieldDescriptorJDONature idJdoNature = new FieldDescriptorJDONature(idFieldDescr);
         
-        idJdoNature.setSQLName(new String[] { idFieldName });
-        idJdoNature.setSQLType(new int[] { SQLTypeInfos.javaType2sqlTypeNum(java.lang.Integer.class) });
+        idJdoNature.setSQLName(new String[] {idFieldName});
+        idJdoNature.setSQLType(
+                new int[] {SQLTypeInfos.javaType2sqlTypeNum(java.lang.Integer.class)});
         idJdoNature.setManyKey(null);
         idJdoNature.setDirtyCheck(false);
         idJdoNature.setReadOnly(false);

@@ -9,7 +9,7 @@ import org.exolab.castor.jdo.TimeStampable;
 public final class Order implements TimeStampable  {
     private String _oid;
     private Integer _number;
-    private Vector < OrderItem > _orderItems;
+    private Vector<OrderItem> _orderItems;
     private long _timeStamp;
     
     public String getOid() { return _oid; }
@@ -18,14 +18,14 @@ public final class Order implements TimeStampable  {
     public Integer getNumber() { return _number; }
     public void setNumber(final Integer number) { _number = number; }
     
-    public Vector < OrderItem > getOrderItems() { return _orderItems; }
-    public void setOrderItems(final Vector < OrderItem > orderItem) {
+    public Vector<OrderItem> getOrderItems() { return _orderItems; }
+    public void setOrderItems(final Vector<OrderItem> orderItem) {
         _orderItems = orderItem;
     }
     public void addOrderItem(final OrderItem orderItem) {
         orderItem.setParent(this);
         if (_orderItems == null) {
-            _orderItems = new Vector < OrderItem > ();
+            _orderItems = new Vector<OrderItem>();
         }
         _orderItems.add(orderItem);
     }

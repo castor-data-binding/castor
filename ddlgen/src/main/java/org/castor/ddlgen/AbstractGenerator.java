@@ -169,7 +169,7 @@ public abstract class AbstractGenerator implements Generator {
     private Schema _schema;
 
     /** handle all resolving tables. */
-    private final Map _resolveTable = new HashMap();
+    private final Map<String, ClassMapping> _resolveTable = new HashMap<String, ClassMapping>();
 
     //--------------------------------------------------------------------------
 
@@ -564,9 +564,9 @@ public abstract class AbstractGenerator implements Generator {
         }
         
         // Create N:M relation tables.
-        Iterator i = _resolveTable.keySet().iterator();
+        Iterator<String> i = _resolveTable.keySet().iterator();
         while (i.hasNext()) {
-            ClassMapping cm = (ClassMapping) _resolveTable.get(i.next());
+            ClassMapping cm = _resolveTable.get(i.next());
             Table table = createTable(cm);
             if (table != null) { _schema.addTable(table); }
         }
@@ -948,7 +948,7 @@ public abstract class AbstractGenerator implements Generator {
         
         // Get table, if not existe, create one.
         if (_resolveTable.containsKey(fm.getSql().getManyTable())) {
-            resolveCm = (ClassMapping) _resolveTable.get(fm.getSql().getManyTable());
+            resolveCm = _resolveTable.get(fm.getSql().getManyTable());
         } else {
             resolveCm = new ClassMapping();
             resolveCm.setName(fm.getSql().getManyTable());

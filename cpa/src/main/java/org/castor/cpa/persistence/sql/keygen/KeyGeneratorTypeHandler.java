@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 import org.exolab.castor.jdo.PersistenceException;
 
-public interface KeyGeneratorTypeHandler < T > {
+public interface KeyGeneratorTypeHandler <T> {
     T getNextValue(ResultSet rs) throws PersistenceException, SQLException;
     T getValue(ResultSet rs) throws PersistenceException, SQLException;
     T increment(T value);

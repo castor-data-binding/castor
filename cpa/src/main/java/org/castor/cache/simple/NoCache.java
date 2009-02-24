@@ -92,7 +92,7 @@ public final class NoCache extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public void putAll(final Map < ? extends Object, ? extends Object > map) { }
+    public void putAll(final Map<? extends Object, ? extends Object> map) { }
 
     /**
      * {@inheritDoc}
@@ -105,17 +105,17 @@ public final class NoCache extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public Set < Object > keySet() { return Collections.emptySet(); }
+    public Set<Object> keySet() { return Collections.emptySet(); }
 
     /**
      * {@inheritDoc}
      */
-    public Collection < Object > values() { return Collections.emptyList(); }
+    public Collection<Object> values() { return Collections.emptyList(); }
 
     /**
      * {@inheritDoc}
      */
-    public Set < Entry < Object, Object > > entrySet() { return Collections.emptySet(); }
+    public Set<Entry<Object, Object>> entrySet() { return Collections.emptySet(); }
     
     //--------------------------------------------------------------------------
 }

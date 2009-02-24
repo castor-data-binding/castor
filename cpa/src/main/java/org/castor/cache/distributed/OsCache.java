@@ -58,20 +58,20 @@ public final class OsCache extends AbstractBaseCache {
         "com.opensymphony.oscache.base.NeedsRefreshException";
   
     /** Parameter types for calling getFromCache() method on cache instance. */
-    private static final Class < ? > [] TYPES_GET = new Class[] {String.class};
+    private static final Class<?>[] TYPES_GET = new Class[] {String.class};
     
     /** Parameter types for calling cancelUpdate() method on cache instance. */
-    private static final Class < ? > [] TYPES_CANCEL = TYPES_GET;
+    private static final Class<?>[] TYPES_CANCEL = TYPES_GET;
     
     /** Parameter types for calling putInCache() method on cache instance. */
-    private static final Class < ? > [] TYPES_PUT =
+    private static final Class<?>[] TYPES_PUT =
         new Class[] {String.class, Object.class, String[].class};
     
     /** Parameter types for calling flushEntry() method on cache instance. */
-    private static final Class < ? > [] TYPES_REMOVE = TYPES_GET;
+    private static final Class<?>[] TYPES_REMOVE = TYPES_GET;
     
     /** Parameter types for calling flushGroup() method on cache instance. */
-    private static final Class < ? > [] TYPES_CLEAR = TYPES_GET;
+    private static final Class<?>[] TYPES_CLEAR = TYPES_GET;
     
     /** The cache instance. */
     private final Object _cache;
@@ -113,7 +113,7 @@ public final class OsCache extends AbstractBaseCache {
     public void initialize(final Properties params) throws CacheAcquireException {
         super.initialize(params);
 
-        Class < ? > cls = _cache.getClass();
+        Class<?> cls = _cache.getClass();
         try {
             _getMethod = cls.getMethod("getFromCache", TYPES_GET);
             _cancelMethod = cls.getMethod("cancelUpdate", TYPES_CANCEL);
@@ -218,11 +218,11 @@ public final class OsCache extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public void putAll(final Map < ? extends Object, ? extends Object > map) {
-        Iterator < ? extends Entry < ? extends Object, ? extends Object > > iter;
+    public void putAll(final Map<? extends Object, ? extends Object> map) {
+        Iterator<? extends Entry<? extends Object, ? extends Object>> iter;
         iter = map.entrySet().iterator();
         while (iter.hasNext()) {
-            Entry < ? extends Object, ? extends Object > entry = iter.next();
+            Entry<? extends Object, ? extends Object> entry = iter.next();
             String key = String.valueOf(entry.getKey());
             invokeCacheMethod(_putMethod, new Object[] {key, entry.getValue(), _groups});
         }
@@ -241,21 +241,21 @@ public final class OsCache extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public Set < Object > keySet() {
+    public Set<Object> keySet() {
         throw new UnsupportedOperationException("keySet()");
     }
 
     /**
      * {@inheritDoc}
      */
-    public Collection < Object > values() {
+    public Collection<Object> values() {
         throw new UnsupportedOperationException("values()");
     }
 
     /**
      * {@inheritDoc}
      */
-    public Set < Entry < Object, Object > > entrySet() {
+    public Set<Entry<Object, Object>> entrySet() {
         throw new UnsupportedOperationException("entrySet()");
     }
     

@@ -73,7 +73,7 @@ public final class FKCache extends AbstractDistributedCache {
         
         try {
             ClassLoader ldr = this.getClass().getClassLoader();
-            Class < ? > cls = ldr.loadClass(implementation);
+            Class<?> cls = ldr.loadClass(implementation);
             Object factory = invokeStaticMethod(cls, "getInstance", null, null); 
             setCache((Map) invokeMethod(factory, "getMapAccess", null, null)); 
         } catch (Exception e) {

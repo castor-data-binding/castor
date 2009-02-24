@@ -68,7 +68,7 @@ public class CaseDescriptor extends BaseHarnessDescriptor {
     /**
      * {@inheritDoc}
      */
-    public Class < ? > getJavaClass() {
+    public Class<?> getJavaClass() {
         return Case.class;
     } 
 }
