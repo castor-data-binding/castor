@@ -34,6 +34,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2663" tool="jira">
+                    <description>
+                        Changed code generation for mapping.xsd from Java 1.4 to Java 5.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>All</module>
+                    <date>20090225</date>
+                </bug>
                 <bug id="1073" tool="jira">
                     <description>
                         Added org.exolab.castor.types.Time <--> java.util.Long convertor.
