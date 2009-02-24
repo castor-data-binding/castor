@@ -50,16 +50,16 @@ public final class EHCache extends AbstractBaseCache {
     public static final String IMPLEMENTATION = "net.sf.ehcache.CacheManager";
     
     /** Parameter types for calling getCache() method on IMPLEMENTATION. */
-    private static final Class < ? > [] TYPES_GET_CACHE = new Class[] {String.class};
+    private static final Class<?>[] TYPES_GET_CACHE = new Class[] {String.class};
     
     /** Parameter types for calling getFromCache() method on cache instance. */
-    private static final Class < ? > [] TYPES_GET = new Class[] {Object.class};
+    private static final Class<?>[] TYPES_GET = new Class[] {Object.class};
 
     /** Parameter types for calling getFromCache() method on cache instance. */
-    private static final Class < ? > [] TYPES_REMOVE = new Class[] {Object.class};
+    private static final Class<?>[] TYPES_REMOVE = new Class[] {Object.class};
 
     /** Parameter types for calling constrcutor on 'net.sf.ehcache.Element' class. */
-    private static final Class < ? > [] TYPES_ELEMENT_CONSTRUCTOR =
+    private static final Class<?>[] TYPES_ELEMENT_CONSTRUCTOR =
         new Class[] {Object.class, Object.class};
 
     /** The cache instance. */
@@ -87,10 +87,10 @@ public final class EHCache extends AbstractBaseCache {
     private Method _isExpiredMethod;
 
     /** Class instance for 'net.sf.ehcache.Element'. */
-    private Class < ? > _elementClass;
+    private Class<?> _elementClass;
 
     /** Constructor for 'net.sf.ehcache.Element' class. */
-    private Constructor < ? > _elementConstructor;
+    private Constructor<?> _elementConstructor;
 
     /**
      * {@inheritDoc}
@@ -114,7 +114,7 @@ public final class EHCache extends AbstractBaseCache {
 
         try {
             ClassLoader ldr = this.getClass().getClassLoader();
-            Class < ? > cls = ldr.loadClass(implementation);
+            Class<?> cls = ldr.loadClass(implementation);
             invokeStaticMethod(cls, "create", null, null);
             Object factory = invokeStaticMethod(cls, "getInstance", null, null);
             Boolean cacheExists =
@@ -133,7 +133,7 @@ public final class EHCache extends AbstractBaseCache {
             throw new CacheAcquireException(msg, e);
         }
 
-        Class < ? > cls = _cache.getClass();
+        Class<?> cls = _cache.getClass();
 
         try {
             _elementClass = Class.forName("net.sf.ehcache.Element");
@@ -259,11 +259,11 @@ public final class EHCache extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public void putAll(final Map < ? extends Object, ? extends Object > map) {
-        Iterator < ? extends Entry < ? extends Object, ? extends Object > > iter;
+    public void putAll(final Map<? extends Object, ? extends Object> map) {
+        Iterator<? extends Entry<? extends Object, ? extends Object>> iter;
         iter = map.entrySet().iterator();
         while (iter.hasNext()) {
-            Entry < ? extends Object, ? extends Object > entry = iter.next();
+            Entry<? extends Object, ? extends Object> entry = iter.next();
             String key = String.valueOf(entry.getKey());
             put (key, entry.getValue());
         }
@@ -288,21 +288,21 @@ public final class EHCache extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public Set < Object > keySet() {
+    public Set<Object> keySet() {
         throw new UnsupportedOperationException("keySet()");
     }
 
     /**
      * {@inheritDoc}
      */
-    public Collection < Object > values() {
+    public Collection<Object> values() {
         throw new UnsupportedOperationException("values()");
     }
 
     /**
      * {@inheritDoc}
      */
-    public Set < Entry < Object, Object > > entrySet() {
+    public Set<Entry<Object, Object>> entrySet() {
         throw new UnsupportedOperationException("entrySet()");
     }
 
@@ -316,7 +316,7 @@ public final class EHCache extends AbstractBaseCache {
     public void shutdown(final String implementation) {
         try {
             ClassLoader ldr = this.getClass().getClassLoader();
-            Class < ? > cls = ldr.loadClass(implementation);
+            Class<?> cls = ldr.loadClass(implementation);
             if (cls != null) {
                 Object factory = invokeStaticMethod(cls, "getInstance", null, null);
                 Method method = cls.getMethod("shutdown", new Class[] {cls});

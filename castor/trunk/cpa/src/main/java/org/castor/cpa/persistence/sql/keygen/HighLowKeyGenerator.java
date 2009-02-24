@@ -62,8 +62,8 @@ public final class HighLowKeyGenerator implements KeyGenerator {
 
     private static final String GLOBAL = "global";
 
-    private final Map < String, HighLowValueHandler < ? extends Object > > _handlers =
-        new HashMap < String, HighLowValueHandler < ? extends Object > > ();
+    private final Map<String, HighLowValueHandler<? extends Object>> _handlers =
+        new HashMap<String, HighLowValueHandler<? extends Object>>();
 
     private final PersistenceFactory _factory;
     
@@ -145,22 +145,25 @@ public final class HighLowKeyGenerator implements KeyGenerator {
      */
     public synchronized Object generateKey(final Connection conn, final String tableName,
             final String primKeyName, final Properties props) throws PersistenceException {
-        String internalTableName = tableName;
-        if (_global) { internalTableName = "<GLOBAL>"; }
+        String intTableName = tableName;
+        if (_global) { intTableName = "<GLOBAL>"; }
         
-        HighLowValueHandler < ? extends Object > handler = _handlers.get(internalTableName);
+        HighLowValueHandler<? extends Object> handler = _handlers.get(intTableName);
         if (handler == null) {
             if (_sqlType == Types.INTEGER) {
-                KeyGeneratorTypeHandlerInteger typeHandler = new KeyGeneratorTypeHandlerInteger(false);
-                handler = new HighLowValueHandler < Integer > (internalTableName, _grabSize, typeHandler);
+                KeyGeneratorTypeHandlerInteger typeHandler =
+                    new KeyGeneratorTypeHandlerInteger(false);
+                handler = new HighLowValueHandler<Integer>(intTableName, _grabSize, typeHandler);
             } else if (_sqlType == Types.BIGINT) {
-                KeyGeneratorTypeHandlerLong typeHandler = new KeyGeneratorTypeHandlerLong(false);
-                handler = new HighLowValueHandler < Long > (internalTableName, _grabSize, typeHandler);
+                KeyGeneratorTypeHandlerLong typeHandler =
+                    new KeyGeneratorTypeHandlerLong(false);
+                handler = new HighLowValueHandler<Long>(intTableName, _grabSize, typeHandler);
             } else {
-                KeyGeneratorTypeHandlerBigDecimal typeHandler = new KeyGeneratorTypeHandlerBigDecimal(false);
-                handler = new HighLowValueHandler < BigDecimal > (internalTableName, _grabSize, typeHandler);
+                KeyGeneratorTypeHandlerBigDecimal typeHandler =
+                    new KeyGeneratorTypeHandlerBigDecimal(false);
+                handler = new HighLowValueHandler<BigDecimal>(intTableName, _grabSize, typeHandler);
             }
-            _handlers.put(internalTableName, handler);
+            _handlers.put(intTableName, handler);
         }
         
         if (!handler.hasNext()) {
@@ -179,7 +182,7 @@ public final class HighLowKeyGenerator implements KeyGenerator {
                 + JDBCSyntax.AND + _seqValue + QueryExpression.OP_EQUALS + JDBCSyntax.PARAMETER;
 
             String maxSQL = JDBCSyntax.SELECT + "MAX(" + primKeyName + ") "
-                + "FROM " + internalTableName;
+                + "FROM " + intTableName;
 
             String insertSQL = "INSERT INTO " + _seqTable
                 + " (" + _seqKey + "," + _seqValue + ") VALUES (?, ?)";

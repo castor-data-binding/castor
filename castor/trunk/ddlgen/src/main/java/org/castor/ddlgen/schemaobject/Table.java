@@ -44,16 +44,16 @@ public abstract class Table extends AbstractSchemaObject {
     //--------------------------------------------------------------------------
 
     /** List of indices for this table. */
-    private List _indices = new ArrayList();
+    private List<Index> _indices = new ArrayList<Index>();
     
     /** List of foreign keys for this table. */
-    private List _foreignKeys = new ArrayList();
+    private List<ForeignKey> _foreignKeys = new ArrayList<ForeignKey>();
     
     /** List of field for this table. */
-    private List _fields = new ArrayList();
+    private List<Field> _fields = new ArrayList<Field>();
     
     /** Map of fields assoizated with their name. */
-    private Map _fieldMap = new HashMap();
+    private Map<String, Field> _fieldMap = new HashMap<String, Field>();
     
     /** Key generator used for identities of this table. */
     private KeyGenerator _keyGenerator;
@@ -91,7 +91,7 @@ public abstract class Table extends AbstractSchemaObject {
      * @return Index at given index.
      */
     public final Index getIndex(final int index) {
-        return (Index) _indices.get(index);        
+        return _indices.get(index);        
     }
     
     /**
@@ -119,7 +119,7 @@ public abstract class Table extends AbstractSchemaObject {
      * @return Foreign key at given index.
      */
     public final ForeignKey getForeignKey(final int index) {
-        return (ForeignKey) _foreignKeys.get(index);
+        return _foreignKeys.get(index);
     }
 
     /**
@@ -148,7 +148,7 @@ public abstract class Table extends AbstractSchemaObject {
      * @return Field at given index.
      */
     public final Field getField(final int index) {
-        return (Field) _fields.get(index);
+        return _fields.get(index);
     }
     
     /**
@@ -158,7 +158,7 @@ public abstract class Table extends AbstractSchemaObject {
      * @return Field with given name.
      */
     public final Field getField(final String name) {
-        return (Field) _fieldMap.get(name);
+        return _fieldMap.get(name);
     }
     
     /**

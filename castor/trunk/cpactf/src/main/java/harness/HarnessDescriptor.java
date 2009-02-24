@@ -103,7 +103,7 @@ public class HarnessDescriptor extends BaseHarnessDescriptor {
         _elementDescriptors[1] = desc;
     }
 
-    public Class < ? > getJavaClass() {
+    public Class<?> getJavaClass() {
         return Harness.class;
     } 
 }

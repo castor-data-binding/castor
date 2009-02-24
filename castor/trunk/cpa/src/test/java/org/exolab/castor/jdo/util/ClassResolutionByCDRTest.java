@@ -36,7 +36,7 @@ import org.exolab.castor.xml.util.PackageBasedCDRResolutionNature;
  * @author Sebastian Gabmeyer
  * @since 1.2.1
  */
-public class ClassResolutionByCDRTest extends TestCase {
+public final class ClassResolutionByCDRTest extends TestCase {
 
     private ClassDescriptorResolutionCommand _resolver;
 
@@ -69,13 +69,13 @@ public class ClassResolutionByCDRTest extends TestCase {
 
     public void testGetDescriptors() throws Exception {
         int expectedNumOfResolvedClasses = 1;
-        List packageNames = new LinkedList();
+        List<String> packageNames = new LinkedList<String>();
         packageNames.add("org.exolab.castor.jdo.util");
-        Map resolvedClasses = new HashMap();
+        Map<String, ClassDescriptor> resolvedClasses = new HashMap<String, ClassDescriptor>();
 
-        for (Iterator it = packageNames.iterator(); it.hasNext();) {
-            Map descriptors = ((ClassResolutionByCDR) _resolver)
-                    .getDescriptors((String) it.next());
+        for (Iterator<String> it = packageNames.iterator(); it.hasNext();) {
+            Map<String, ClassDescriptor> descriptors =
+                ((ClassResolutionByCDR) _resolver).getDescriptors(it.next());
             resolvedClasses.putAll(descriptors);
         }
 

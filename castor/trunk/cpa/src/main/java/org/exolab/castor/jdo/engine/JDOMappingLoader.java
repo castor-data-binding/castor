@@ -160,8 +160,8 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     /** 
      * Map of key generator descriptors associated by their name. 
      */
-    private final Map < String, KeyGeneratorDescriptor > _keyGeneratorDescriptors
-        = new HashMap < String, KeyGeneratorDescriptor > ();
+    private final Map<String, KeyGeneratorDescriptor> _keyGeneratorDescriptors
+        = new HashMap<String, KeyGeneratorDescriptor>();
 
     /** Set of names of all named queries to identify duplicate names. */    
     private final Set<String> _queryNames = new HashSet<String>();
@@ -643,8 +643,8 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     private class EnumTypeConvertor extends AbstractSimpleTypeConvertor {
         private final Method _method;
 
-        public EnumTypeConvertor(final Class < ? > fromType,
-                final Class < ? > toType, final Method method) {
+        public EnumTypeConvertor(final Class<?> fromType,
+                final Class<?> toType, final Method method) {
             super(fromType, toType);
 
             _method = method;

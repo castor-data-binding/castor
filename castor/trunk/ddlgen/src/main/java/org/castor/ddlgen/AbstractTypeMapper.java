@@ -36,7 +36,7 @@ public abstract class AbstractTypeMapper implements TypeMapper {
     //--------------------------------------------------------------------------
 
     /** Map of known types which associates JDBC type to corresponding TypeInfo. */
-    private final Map _types = new HashMap();
+    private final Map<String, TypeInfo> _types = new HashMap<String, TypeInfo>();
     
     //--------------------------------------------------------------------------
 
@@ -78,7 +78,7 @@ public abstract class AbstractTypeMapper implements TypeMapper {
         if (ddlJdbcType.matches(".*\\Q[\\E.*")) {
             ddlJdbcType = ddlJdbcType.substring(0, ddlJdbcType.indexOf("["));
         }
-        return (TypeInfo) _types.get(ddlJdbcType);
+        return _types.get(ddlJdbcType);
     }
 
     //--------------------------------------------------------------------------

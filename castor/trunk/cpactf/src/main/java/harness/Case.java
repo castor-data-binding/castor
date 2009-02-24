@@ -59,8 +59,8 @@ public final class Case {
     }
 
     public CastorTestCase createTestCase(final TestHarness category) throws Exception {
-        Class < ? > catClass = Class.forName(_className);
-        Constructor < ? > cnst = catClass.getConstructor(new Class[] {TestHarness.class});
+        Class<?> catClass = Class.forName(_className);
+        Constructor<?> cnst = catClass.getConstructor(new Class[] {TestHarness.class});
         return (CastorTestCase) cnst.newInstance(new Object[] {category});
     }
 }

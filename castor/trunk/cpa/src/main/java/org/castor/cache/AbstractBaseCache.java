@@ -88,8 +88,8 @@ public abstract class AbstractBaseCache implements Cache {
      *         access control and the underlying method is inaccessible.
      * @throws InvocationTargetException If the underlying method throws an exception.
      */
-    protected final Object invokeStaticMethod(final Class < ? > target, final String name, 
-            final Class < ? > [] types, final Object[] arguments) 
+    protected final Object invokeStaticMethod(final Class<?> target, final String name, 
+            final Class<?>[] types, final Object[] arguments) 
     throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         Method method = target.getMethod(name, types);
         return method.invoke(null, arguments);
@@ -111,7 +111,7 @@ public abstract class AbstractBaseCache implements Cache {
      * @throws InvocationTargetException If the underlying method throws an exception.
      */
     protected final Object invokeMethod(final Object target, final String name, 
-            final Class < ? > [] types, final Object[] arguments) 
+            final Class<?>[] types, final Object[] arguments) 
     throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         Method method = target.getClass().getMethod(name, types);
         return method.invoke(target, arguments);

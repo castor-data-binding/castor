@@ -67,8 +67,8 @@ public class PersistentEntity implements Persistent, TimeStampable, Serializable
     private Date _modificationTime;
     private Integer _parentId;
     private PersistentEntity _parent;
-    private Vector < PersistentEntity > _children;
-    private Vector < PersistentEntity > _origChildren;
+    private Vector<PersistentEntity> _children;
+    private Vector<PersistentEntity> _origChildren;
     private GroupEntity _group;
     private RelatedEntity _related;
     private RelatedEntity _origRelated;
@@ -83,7 +83,7 @@ public class PersistentEntity implements Persistent, TimeStampable, Serializable
     public PersistentEntity(final int id) {
         _id = id;
         _value = DEFAULT_VALUE;
-        _children = new Vector < PersistentEntity > ();
+        _children = new Vector<PersistentEntity>();
     }
 
     public final void setId(final int id) { _id = id; }
@@ -116,9 +116,9 @@ public class PersistentEntity implements Persistent, TimeStampable, Serializable
         child.setParent(this);
         child.setGroup(_group);
     }
-    public final Vector < PersistentEntity > getChildren() { return _children; }
+    public final Vector<PersistentEntity> getChildren() { return _children; }
     public final PersistentEntity findChild(final int id) {
-        for (Enumeration < PersistentEntity > en = _children.elements(); en.hasMoreElements();) {
+        for (Enumeration<PersistentEntity> en = _children.elements(); en.hasMoreElements();) {
             PersistentEntity child = en.nextElement();
             if (child.getId() == id) { return child; }
         }
@@ -128,7 +128,7 @@ public class PersistentEntity implements Persistent, TimeStampable, Serializable
     public final void setGroup(final GroupEntity group) {
         if (_group == group) { return; }
         _group = group;
-        for (Enumeration < PersistentEntity > en = _children.elements(); en.hasMoreElements();) {
+        for (Enumeration<PersistentEntity> en = _children.elements(); en.hasMoreElements();) {
             PersistentEntity child = en.nextElement();
             child.setGroup(_group);
         }
@@ -143,7 +143,7 @@ public class PersistentEntity implements Persistent, TimeStampable, Serializable
 
     public final void jdoPersistent(final Database db) { _db = db; }
     public final void jdoTransient() { _db = null; }
-    public final Class < ? > jdoLoad(final AccessMode accessMode) throws Exception {
+    public final Class<?> jdoLoad(final AccessMode accessMode) throws Exception {
         if (_parentId != null) {
             _parent = (PersistentEntity) _db.load(
                     PersistentEntity.class, _parentId, accessMode);
@@ -154,7 +154,7 @@ public class PersistentEntity implements Persistent, TimeStampable, Serializable
         qry.bind(_id);
         QueryResults res = qry.execute();
         while (res.hasMore()) { _children.addElement((PersistentEntity) res.next()); }
-        _origChildren = new Vector < PersistentEntity > (_children);
+        _origChildren = new Vector<PersistentEntity>(_children);
         _origRelated = _related;
         return null;
     }
@@ -162,13 +162,13 @@ public class PersistentEntity implements Persistent, TimeStampable, Serializable
         if (modified) { _modificationTime = new Date(); }
 
         PersistentEntity child;
-        for (Enumeration < PersistentEntity > en = _children.elements(); en.hasMoreElements();) {
+        for (Enumeration<PersistentEntity> en = _children.elements(); en.hasMoreElements();) {
             child = en.nextElement();
             if (!vectorContainsChild(_origChildren, child)) {
                 _db.create(child);
             }
         }
-        for (Enumeration < PersistentEntity > en = _origChildren.elements();
+        for (Enumeration<PersistentEntity> en = _origChildren.elements();
                 en.hasMoreElements();) {
             child = en.nextElement();
             if (!vectorContainsChild(_children, child)) {
@@ -184,7 +184,7 @@ public class PersistentEntity implements Persistent, TimeStampable, Serializable
         _origRelated = _related;
     }
     public final void jdoUpdate() throws Exception {
-        for (Enumeration < PersistentEntity > en = _origChildren.elements();
+        for (Enumeration<PersistentEntity> en = _origChildren.elements();
                 en.hasMoreElements();) {
             _db.update(en.nextElement());
         }
@@ -206,15 +206,15 @@ public class PersistentEntity implements Persistent, TimeStampable, Serializable
         _creationTime = new Date();
     }
     public final void jdoAfterCreate() throws Exception {
-        for (Enumeration < PersistentEntity > en = _children.elements(); en.hasMoreElements();) {
+        for (Enumeration<PersistentEntity> en = _children.elements(); en.hasMoreElements();) {
             _db.create(en.nextElement());
         }
-        _origChildren = new Vector < PersistentEntity > (_children);
+        _origChildren = new Vector<PersistentEntity>(_children);
         if (_related != null) { _db.create(_related); }
         _origRelated = _related;
     }
     public final void jdoBeforeRemove() throws Exception {
-        for (Enumeration < PersistentEntity > en = _children.elements(); en.hasMoreElements();) {
+        for (Enumeration<PersistentEntity> en = _children.elements(); en.hasMoreElements();) {
             _db.remove(en.nextElement());
         }
         if (_related != null) { _db.remove(_related); }
@@ -224,9 +224,9 @@ public class PersistentEntity implements Persistent, TimeStampable, Serializable
 
     public final void jdoSetTimeStamp(final long timeStamp) { _timeStamp = timeStamp; }
 
-    private boolean vectorContainsChild(final Vector < PersistentEntity > v,
+    private boolean vectorContainsChild(final Vector<PersistentEntity> v,
             final PersistentEntity child) {
-        for (Enumeration < PersistentEntity > en = v.elements(); en.hasMoreElements();) {
+        for (Enumeration<PersistentEntity> en = v.elements(); en.hasMoreElements();) {
             PersistentEntity ch = en.nextElement();
             if (ch.getId() == child.getId()) { return true; }
         }

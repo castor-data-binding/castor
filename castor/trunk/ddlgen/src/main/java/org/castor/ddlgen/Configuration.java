@@ -187,7 +187,7 @@ public class Configuration {
         if (props != null) {
             Object key;
             Object value;
-            for (Enumeration e = props.keys(); e.hasMoreElements(); ) {
+            for (Enumeration<Object> e = props.keys(); e.hasMoreElements(); ) {
                 key = e.nextElement();
                 value = props.get(key);
                 _conf.put(key, value);

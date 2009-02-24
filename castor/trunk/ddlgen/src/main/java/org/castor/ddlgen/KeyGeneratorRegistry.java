@@ -49,10 +49,12 @@ public final class KeyGeneratorRegistry {
     private final DDLGenConfiguration _config;
     
     /** Association between algorithm name and key generator factory implementation. */
-    private final Map _factories = new Hashtable();
+    private final Map<String, KeyGeneratorFactory> _factories =
+        new Hashtable<String, KeyGeneratorFactory>();
     
     /** Association between key generator name and key generator implementation. */
-    private final Map _generators = new Hashtable();
+    private final Map<String, KeyGenerator> _generators =
+        new Hashtable<String, KeyGenerator>();
     
     //--------------------------------------------------------------------------
 
@@ -74,7 +76,7 @@ public final class KeyGeneratorRegistry {
         while (tokenizer.hasMoreTokens()) {
             String classname = tokenizer.nextToken().trim();
             try {
-                Class cls = loader.loadClass(classname);
+                Class<?> cls = loader.loadClass(classname);
                 KeyGeneratorFactory factory = (KeyGeneratorFactory) cls.newInstance();
                 _factories.put(factory.getAlgorithmName(), factory);
                 
@@ -132,7 +134,7 @@ public final class KeyGeneratorRegistry {
         if (algorithm == null) {
             throw new GeneratorException("No algorithm specified");
         }
-        KeyGeneratorFactory factory = (KeyGeneratorFactory) _factories.get(algorithm);
+        KeyGeneratorFactory factory = _factories.get(algorithm);
         if (factory == null) {
             LOG.warn("Unknown KeyGeneratorFactory: " + algorithm);
             throw new GeneratorException("Unknown KeyGeneratorFactory: " + algorithm);
@@ -145,7 +147,7 @@ public final class KeyGeneratorRegistry {
      * 
      * @return Collection of the current configured key generator factories.
      */
-    public Collection getKeyGeneratorFactories() {
+    public Collection<KeyGeneratorFactory> getKeyGeneratorFactories() {
         return Collections.unmodifiableCollection(_factories.values());
     }
     
@@ -155,7 +157,7 @@ public final class KeyGeneratorRegistry {
      *
      * @return Algorithms of current configured key generator factories.
      */
-    public Collection getKeyGeneratorFactoryAlgorithms() {
+    public Collection<String> getKeyGeneratorFactoryAlgorithms() {
         return Collections.unmodifiableCollection(_factories.keySet());
     }
     
@@ -173,7 +175,7 @@ public final class KeyGeneratorRegistry {
         if (alias == null) {
             throw new GeneratorException("No keygenerator alias specified");
         }
-        KeyGenerator generator = (KeyGenerator) _generators.get(alias);
+        KeyGenerator generator = _generators.get(alias);
         if (generator == null) {
             LOG.warn("Unknown KeyGenerator: " + alias);
             throw new GeneratorException("Unknown KeyGenerator: " + alias);
@@ -186,7 +188,7 @@ public final class KeyGeneratorRegistry {
      * 
      * @return Collection of the current registered key generators.
      */
-    public Collection getKeyGenerators() {
+    public Collection<KeyGenerator> getKeyGenerators() {
         return Collections.unmodifiableCollection(_generators.values());
     }
     
@@ -195,7 +197,7 @@ public final class KeyGeneratorRegistry {
      *
      * @return Aliasses of current registered key generators.
      */
-    public Collection getKeyGeneratorAliases() {
+    public Collection<String> getKeyGeneratorAliases() {
         return Collections.unmodifiableCollection(_generators.keySet());
     }
     

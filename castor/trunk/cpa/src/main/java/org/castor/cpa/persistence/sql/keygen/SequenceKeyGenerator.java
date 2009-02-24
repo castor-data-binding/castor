@@ -77,7 +77,7 @@ public final class SequenceKeyGenerator implements KeyGenerator {
 
     private abstract class SequenceKeyGenValueHandler {
         private KeyGenerator _keyGenerator;
-        private KeyGeneratorTypeHandler < ? extends Object > _typeHandler;
+        private KeyGeneratorTypeHandler<? extends Object> _typeHandler;
 
         protected abstract Object getValue(Connection conn, String tableName,
                 String primKeyName, Properties props) throws Exception;
@@ -108,7 +108,7 @@ public final class SequenceKeyGenerator implements KeyGenerator {
             _keyGenerator = generator;
         }
 
-        public void setTypeHandler(final KeyGeneratorTypeHandler < ? extends Object > typeHandler) {
+        public void setTypeHandler(final KeyGeneratorTypeHandler<? extends Object> typeHandler) {
             _typeHandler = typeHandler;
         }
     }
@@ -182,7 +182,7 @@ public final class SequenceKeyGenerator implements KeyGenerator {
 
     private PersistenceFactory _factory;
 
-    private KeyGeneratorTypeHandler < ? extends Object > _typeHandler;
+    private KeyGeneratorTypeHandler<? extends Object> _typeHandler;
 
     private byte _style;
 

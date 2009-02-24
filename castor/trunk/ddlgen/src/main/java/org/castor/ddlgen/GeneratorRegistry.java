@@ -41,7 +41,7 @@ public final class GeneratorRegistry {
     private static final Log LOG = LogFactory.getLog(GeneratorRegistry.class);
     
     /** Association between name of database engine and generator implementation. */
-    private Map _generators = new Hashtable();
+    private Map<String, Generator> _generators = new Hashtable<String, Generator>();
     
     //--------------------------------------------------------------------------
 
@@ -57,10 +57,10 @@ public final class GeneratorRegistry {
         while (tokenizer.hasMoreTokens()) {
             String classname = tokenizer.nextToken().trim();
             try {
-                Class cls = loader.loadClass(classname);
-                Class[] types = new Class[] {DDLGenConfiguration.class};
+                Class<?> cls = loader.loadClass(classname);
+                Class<?>[] types = new Class<?>[] {DDLGenConfiguration.class};
                 Object[] params = new Object[] {config};
-                Constructor cst = cls.getConstructor(types);
+                Constructor<?> cst = cls.getConstructor(types);
                 Generator generator = (Generator) cst.newInstance(params);
                 _generators.put(generator.getEngineName(), generator);
             } catch (Exception ex) {
@@ -83,7 +83,7 @@ public final class GeneratorRegistry {
         if (engine == null) {
             throw new GeneratorException("No database engine specified");
         }
-        Generator generator = (Generator) _generators.get(engine);
+        Generator generator = _generators.get(engine);
         if (generator == null) {
             throw new GeneratorException("Unknown DDL generator: " + engine);
         }
@@ -95,7 +95,7 @@ public final class GeneratorRegistry {
      * 
      * @return Collection of the current configured generators.
      */
-    public Collection getGenerators() {
+    public Collection<Generator> getGenerators() {
         return Collections.unmodifiableCollection(_generators.values());
     }
     
@@ -104,7 +104,7 @@ public final class GeneratorRegistry {
      *
      * @return Names of the configured database engines.
      */
-    public Collection getEngineNames() {
+    public Collection<String> getEngineNames() {
         return Collections.unmodifiableCollection(_generators.keySet());
     }
     

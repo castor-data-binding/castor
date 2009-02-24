@@ -99,7 +99,7 @@ public final class GigaspacesCache extends AbstractDistributedCache {
     public static final String IMPLEMENTATION = "com.j_spaces.map.CacheFinder";
 
     /** Parameter types for calling getCache() method on IMPLEMENTATION. */
-    private static final Class < ? > [] TYPES_FIND_CACHE = new Class[] {String.class};
+    private static final Class<?>[] TYPES_FIND_CACHE = new Class[] {String.class};
 
     /** Default cache URL. */
     private static final String DEFAULT_CACHE_URL = "/./";
@@ -148,7 +148,7 @@ public final class GigaspacesCache extends AbstractDistributedCache {
 
         try {
             ClassLoader ldr = this.getClass().getClassLoader();
-            Class < ? > cls = ldr.loadClass(implementation);
+            Class<?> cls = ldr.loadClass(implementation);
             setCache((Map) invokeStaticMethod(
                     cls, "find", TYPES_FIND_CACHE, new Object[] {clusterURL.toString()}));
         } catch (Exception e) {

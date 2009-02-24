@@ -25,16 +25,16 @@ public abstract class AbstractCallQuery implements PersistenceQuery {
 
     protected Identity _lastIdentity;
 
-    private final Class < ? > [] _types;
+    private final Class<?>[] _types;
 
     protected final Object[] _values;
 
-    private final Class < ? > _javaClass;
+    private final Class<?> _javaClass;
 
     protected final String _call;
 
-    protected AbstractCallQuery(final String call, final Class < ? > [] types,
-            final Class < ? > javaClass, final int[] sqlTypes) {
+    protected AbstractCallQuery(final String call, final Class<?>[] types,
+            final Class<?> javaClass, final int[] sqlTypes) {
         _types = types;
         _javaClass = javaClass;
         _sqlTypes = sqlTypes;
@@ -89,7 +89,7 @@ public abstract class AbstractCallQuery implements PersistenceQuery {
         return _types.length;
     }
 
-    public Class < ? > getParameterType(final int index)
+    public Class<?> getParameterType(final int index)
             throws ArrayIndexOutOfBoundsException {
         return _types[index];
     }
@@ -107,7 +107,7 @@ public abstract class AbstractCallQuery implements PersistenceQuery {
         return 0;
     }
 
-    public Class < ? > getResultType() {
+    public Class<?> getResultType() {
         return _javaClass;
     }
 

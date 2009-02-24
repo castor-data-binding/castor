@@ -60,12 +60,12 @@ public abstract class BaseHarnessDescriptor implements XMLClassDescriptor {
     /**
      * Map holding the properties set and read by Natures.
      */
-    private Map < String, Object > _properties = new HashMap < String, Object > ();
+    private Map<String, Object> _properties = new HashMap<String, Object>();
     
     /**
      * Map holding the available natures.
      */
-    private Set < String > _natures = new HashSet < String > ();
+    private Set<String> _natures = new HashSet<String>();
 
     /**
      * {@inheritDoc}

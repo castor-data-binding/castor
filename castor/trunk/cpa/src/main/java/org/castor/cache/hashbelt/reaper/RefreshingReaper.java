@@ -43,7 +43,7 @@ public abstract class RefreshingReaper extends AbstractReaper {
      * {@inheritDoc}
      */
     public final void handleExpiredContainer(final Container expiredContainer) {
-        Iterator < Object > iter = expiredContainer.keyIterator();
+        Iterator<Object> iter = expiredContainer.keyIterator();
         while (iter.hasNext()) {
             Object key = iter.next();
             Object value = expiredContainer.get(key);

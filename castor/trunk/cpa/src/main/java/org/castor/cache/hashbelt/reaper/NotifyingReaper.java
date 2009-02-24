@@ -36,7 +36,7 @@ public abstract class NotifyingReaper extends AbstractReaper {
      * {@inheritDoc}
      */
     public final void handleExpiredContainer(final Container expiredContainer) {
-        Iterator < Object > iter = expiredContainer.valueIterator();
+        Iterator<Object> iter = expiredContainer.valueIterator();
         while (iter.hasNext()) {
             Object nextValue = iter.next();
             handleExpiredObject(nextValue);

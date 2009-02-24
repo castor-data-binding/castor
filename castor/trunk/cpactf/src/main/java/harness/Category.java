@@ -58,7 +58,7 @@ public class Category {
 
     private String _className;
 
-    private Vector < Case > _cases = new Vector < Case > ();
+    private Vector<Case> _cases = new Vector<Case>();
 
     private Object _object;
 
@@ -90,7 +90,7 @@ public class Category {
         _cases.addElement(tc);
     }
 
-    public Enumeration < Case > getCase() {
+    public Enumeration<Case> getCase() {
         return _cases.elements();
     }
 
@@ -111,8 +111,8 @@ public class Category {
                            ? branch.length()
                            : branch.indexOf(".") + 1);
 
-        Class < ? > catClass = Class.forName(_className);
-        Constructor < ? > cnst = catClass.getConstructor(
+        Class<?> catClass = Class.forName(_className);
+        Constructor<?> cnst = catClass.getConstructor(
                 new Class[] {TestHarness.class, String.class, String.class, Object.class});
         TestHarness category = (TestHarness) cnst.newInstance(
                 new Object[] {harness, _name, _description, _object});

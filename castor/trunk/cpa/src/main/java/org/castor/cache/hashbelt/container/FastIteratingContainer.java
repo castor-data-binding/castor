@@ -44,13 +44,13 @@ public final class FastIteratingContainer implements Container {
     //--------------------------------------------------------------------------
 
     /** The hashmap to store key/value pairs. */
-    private Map < Object, Object > _container = new ConcurrentHashMap < Object, Object > ();
+    private Map<Object, Object> _container = new ConcurrentHashMap<Object, Object>();
     
     /** List of keys in the container. */
-    private List < Object > _keys = new ArrayList < Object > ();
+    private List<Object> _keys = new ArrayList<Object>();
     
     /** List of values in the container. */
-    private List < Object > _values = new ArrayList < Object > ();
+    private List<Object> _values = new ArrayList<Object>();
     
     /** Timestamp of this container. */
     private long _timestamp = 0;
@@ -71,15 +71,15 @@ public final class FastIteratingContainer implements Container {
     /**
      * {@inheritDoc}
      */
-    public synchronized Iterator < Object > keyIterator() {
-        return new ArrayList < Object > (_keys).iterator();
+    public synchronized Iterator<Object> keyIterator() {
+        return new ArrayList<Object>(_keys).iterator();
     }
     
     /**
      * {@inheritDoc}
      */
-    public synchronized Iterator < Object > valueIterator() {
-        return new ArrayList < Object > (_values).iterator();
+    public synchronized Iterator<Object> valueIterator() {
+        return new ArrayList<Object>(_values).iterator();
     }
     
     //--------------------------------------------------------------------------
@@ -163,11 +163,11 @@ public final class FastIteratingContainer implements Container {
     /**
      * {@inheritDoc}
      */
-    public synchronized void putAll(final Map < ? extends Object, ? extends Object > map) {
-        Iterator < ? extends Entry < ? extends Object, ? extends Object > > iter;
+    public synchronized void putAll(final Map<? extends Object, ? extends Object> map) {
+        Iterator<? extends Entry<? extends Object, ? extends Object>> iter;
         iter = map.entrySet().iterator();
         while (iter.hasNext()) {
-            Entry < ? extends Object, ? extends Object > entry = iter.next();
+            Entry<? extends Object, ? extends Object> entry = iter.next();
             put(entry.getKey(), entry.getValue());
         }
     }
@@ -189,21 +189,21 @@ public final class FastIteratingContainer implements Container {
     /**
      * {@inheritDoc}
      */
-    public Set < Object > keySet() {
+    public Set<Object> keySet() {
         return _container.keySet();
     }
     
     /**
      * {@inheritDoc}
      */
-    public Collection < Object > values() {
+    public Collection<Object> values() {
         return _container.values();
     }
     
     /**
      * {@inheritDoc}
      */
-    public Set < Entry < Object, Object > > entrySet() {
+    public Set<Entry<Object, Object>> entrySet() {
         return _container.entrySet();
     }
 

@@ -50,7 +50,7 @@ public final class JCache extends AbstractDistributedCache {
     public static final String IMPLEMENTATION = "javax.util.jcache.CacheAccessFactory";
     
     /** Parameter types for calling getMapAccess() method on IMPLEMENTATION. */
-    private static final Class < ? > [] TYPES_GET_MAP_ACCESS = new Class[] {String.class};
+    private static final Class<?>[] TYPES_GET_MAP_ACCESS = new Class[] {String.class};
     
     //--------------------------------------------------------------------------
     // operations for life-cycle management of cache
@@ -78,7 +78,7 @@ public final class JCache extends AbstractDistributedCache {
 
         try {
             ClassLoader ldr = this.getClass().getClassLoader();
-            Class < ? > cls = ldr.loadClass(implementation);
+            Class<?> cls = ldr.loadClass(implementation);
             Object factory = invokeStaticMethod(cls, "getInstance", null, null); 
             setCache((Map) invokeMethod(factory, "getMapAccess",
                     TYPES_GET_MAP_ACCESS, new Object[] {getName()}));

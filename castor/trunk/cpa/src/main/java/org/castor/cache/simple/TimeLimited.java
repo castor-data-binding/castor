@@ -72,7 +72,7 @@ public class TimeLimited extends AbstractBaseCache {
     private static final TickThread TIMER = new TickThread(DEFAULT_PRECISION);
     
     /** Container for cached objects. */
-    private Hashtable < Object, QueueItem > _map = new Hashtable < Object, QueueItem > ();
+    private Hashtable<Object, QueueItem> _map = new Hashtable<Object, QueueItem>();
 
     /** Real ttl of this cache. */
     private int _ttl = DEFAULT_TTL;
@@ -140,7 +140,7 @@ public class TimeLimited extends AbstractBaseCache {
      * {@inheritDoc}
      */
     public final synchronized boolean containsValue(final Object value) {
-        Iterator < QueueItem > iter = _map.values().iterator();
+        Iterator<QueueItem> iter = _map.values().iterator();
         while (iter.hasNext()) {
             QueueItem item = iter.next();
             if (value == null) {
@@ -189,11 +189,11 @@ public class TimeLimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public final void putAll(final Map < ? extends Object, ? extends Object > map) {
-        Iterator < ? extends Entry < ? extends Object, ? extends Object > > iter;
+    public final void putAll(final Map<? extends Object, ? extends Object> map) {
+        Iterator<? extends Entry<? extends Object, ? extends Object>> iter;
         iter = map.entrySet().iterator();
         while (iter.hasNext()) {
-            Entry < ? extends Object, ? extends Object > entry = iter.next();
+            Entry<? extends Object, ? extends Object> entry = iter.next();
             put(entry.getKey(), entry.getValue());
         }
     }
@@ -209,16 +209,16 @@ public class TimeLimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public final synchronized Set < Object > keySet() {
+    public final synchronized Set<Object> keySet() {
         return Collections.unmodifiableSet(_map.keySet());
     }
 
     /**
      * {@inheritDoc}
      */
-    public final synchronized Collection < Object > values() {
-        Collection < Object > col = new ArrayList < Object > (_map.size());
-        Iterator < QueueItem > iter = _map.values().iterator();
+    public final synchronized Collection<Object> values() {
+        Collection<Object> col = new ArrayList<Object>(_map.size());
+        Iterator<QueueItem> iter = _map.values().iterator();
         while (iter.hasNext()) {
             QueueItem item = iter.next();
             col.add(item._value);
@@ -229,11 +229,11 @@ public class TimeLimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public final synchronized Set < Entry < Object, Object > > entrySet() {
-        Map < Object, Object > map = new Hashtable < Object, Object > (_map.size());
-        Iterator < Entry < Object, QueueItem > > iter = _map.entrySet().iterator();
+    public final synchronized Set<Entry<Object, Object>> entrySet() {
+        Map<Object, Object> map = new Hashtable<Object, Object>(_map.size());
+        Iterator<Entry<Object, QueueItem>> iter = _map.entrySet().iterator();
         while (iter.hasNext()) {
-            Entry < Object, QueueItem > entry = iter.next();
+            Entry<Object, QueueItem> entry = iter.next();
             QueueItem item = entry.getValue();
             map.put(entry.getKey(), item._value);
         }
@@ -288,7 +288,7 @@ public class TimeLimited extends AbstractBaseCache {
      */
     private static final class TickThread extends Thread {
         /** The list of all registered caches. */
-        private ArrayList < TimeLimited > _list = new ArrayList < TimeLimited > ();
+        private ArrayList<TimeLimited> _list = new ArrayList<TimeLimited>();
         
         /** The intervall to checked cache for elapsed entries in milliseconds. */
         private int _tick;
@@ -349,7 +349,7 @@ public class TimeLimited extends AbstractBaseCache {
      */
     private synchronized void tick() {
         if (!_map.isEmpty()) {
-            for (Iterator < QueueItem > iter = _map.values().iterator(); iter.hasNext(); ) {
+            for (Iterator<QueueItem> iter = _map.values().iterator(); iter.hasNext(); ) {
                 QueueItem queueItem = iter.next();
                 Object key = queueItem._key;
                 if (queueItem._time <= 0) {

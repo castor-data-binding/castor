@@ -50,11 +50,11 @@ public class TestI2DCJPATest {
             length = 10, 
             precision = 100, 
             scale = 1000)
-    public String getPrimaryKey() {
+    public final String getPrimaryKey() {
         return _primaryKey;
     }
 
-    public void setPrimaryKey(final String primaryKey) {
+    public final void setPrimaryKey(final String primaryKey) {
         _primaryKey = primaryKey;
     }
 
@@ -68,11 +68,11 @@ public class TestI2DCJPATest {
             length = 10, 
             precision = 100, 
             scale = 1000)
-    public String getBla() {
+    public final String getBla() {
         return _bla;
     }
 
-    public void setBla(final String bla) {
+    public final void setBla(final String bla) {
         _bla = bla;
     }
 
@@ -86,12 +86,11 @@ public class TestI2DCJPATest {
             length = 2000, 
             precision = 200, 
             scale = 20)
-    public String getBlob() {
+    public final String getBlob() {
         return _blob;
     }
 
-    public void setBlob(final String blob) {
+    public final void setBlob(final String blob) {
         _blob = blob;
     }
-
 }

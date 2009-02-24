@@ -155,7 +155,7 @@ public class CategoryDescriptor extends BaseHarnessDescriptor {
         _elementDescriptors[2] = desc;
     }
 
-    public Class < ? > getJavaClass() {
+    public Class<?> getJavaClass() {
         return Category.class;
     } 
 }

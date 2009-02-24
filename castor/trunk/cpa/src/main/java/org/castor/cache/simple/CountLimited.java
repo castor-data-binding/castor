@@ -60,7 +60,7 @@ public final class CountLimited extends AbstractBaseCache {
     private static final int LRU_NEW = 1;
     
     /** Map keys to positions. */
-    private Hashtable < Object, Integer > _mapKeyPos = null;
+    private Hashtable<Object, Integer> _mapKeyPos = null;
     
     /** Array of keys. */
     private Object[] _keys = null;
@@ -94,7 +94,7 @@ public final class CountLimited extends AbstractBaseCache {
             _capacity = DEFAULT_CAPACITY;
         }
 
-        _mapKeyPos = new Hashtable < Object, Integer > (_capacity);
+        _mapKeyPos = new Hashtable<Object, Integer>(_capacity);
         _keys = new Object[_capacity];
         _values = new Object[_capacity];
         _status = new int[_capacity];
@@ -139,7 +139,7 @@ public final class CountLimited extends AbstractBaseCache {
      * {@inheritDoc}
      */
     public synchronized boolean containsValue(final Object value) {
-        Iterator < Integer > iter = _mapKeyPos.values().iterator();
+        Iterator<Integer> iter = _mapKeyPos.values().iterator();
         while (iter.hasNext()) {
             Integer pos = iter.next();
             if (pos != null) {
@@ -223,11 +223,11 @@ public final class CountLimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public void putAll(final Map < ? extends Object, ? extends Object > map) {
-        Iterator < ? extends Entry < ? extends Object, ? extends Object > > iter;
+    public void putAll(final Map<? extends Object, ? extends Object> map) {
+        Iterator<? extends Entry<? extends Object, ? extends Object>> iter;
         iter = map.entrySet().iterator();
         while (iter.hasNext()) {
-            Entry < ? extends Object, ? extends Object > entry = iter.next();
+            Entry<? extends Object, ? extends Object> entry = iter.next();
             put(entry.getKey(), entry.getValue());
         }
     }
@@ -250,16 +250,16 @@ public final class CountLimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public synchronized Set < Object > keySet() {
+    public synchronized Set<Object> keySet() {
         return Collections.unmodifiableSet(_mapKeyPos.keySet());
     }
     
     /**
      * {@inheritDoc}
      */
-    public synchronized Collection < Object > values() {
-        Collection < Object > col = new ArrayList < Object > (_mapKeyPos.size());
-        Iterator < Integer > iter = _mapKeyPos.values().iterator();
+    public synchronized Collection<Object> values() {
+        Collection<Object> col = new ArrayList<Object>(_mapKeyPos.size());
+        Iterator<Integer> iter = _mapKeyPos.values().iterator();
         while (iter.hasNext()) {
             Integer pos = iter.next();
             if (pos != null) {
@@ -272,11 +272,11 @@ public final class CountLimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public synchronized Set < Entry < Object, Object > > entrySet() {
-        Map < Object, Object > map = new Hashtable < Object, Object > (_mapKeyPos.size());
-        Iterator < Entry < Object, Integer > > iter = _mapKeyPos.entrySet().iterator();
+    public synchronized Set<Entry<Object, Object>> entrySet() {
+        Map<Object, Object> map = new Hashtable<Object, Object>(_mapKeyPos.size());
+        Iterator<Entry<Object, Integer>> iter = _mapKeyPos.entrySet().iterator();
         while (iter.hasNext()) {
-            Entry < Object, Integer > entry = iter.next();
+            Entry<Object, Integer> entry = iter.next();
             Integer pos = entry.getValue();
             if (pos != null) {
                 map.put(entry.getKey(), _values[pos.intValue()]);

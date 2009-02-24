@@ -58,7 +58,7 @@ public class Harness {
     private String  _description;
 
 
-    private Vector < Category >  _categories = new Vector < Category > ();
+    private Vector<Category>  _categories = new Vector<Category>();
 
 
     public void setName(final String name) {
@@ -86,7 +86,7 @@ public class Harness {
     }
 
 
-    public Enumeration < Category > getCategory() {
+    public Enumeration<Category> getCategory() {
         return _categories.elements();
     }
 

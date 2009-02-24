@@ -28,10 +28,10 @@ import java.util.Iterator;
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public final class ParseTreeNode {
-    private static final class NullIterator implements Iterator {
+    private static final class NullIterator implements Iterator<ParseTreeNode> {
         public boolean hasNext() { return false; }
 
-        public Object next() { return null; }
+        public ParseTreeNode next() { return null; }
 
         public void remove() { }
     }
@@ -40,7 +40,7 @@ public final class ParseTreeNode {
 
     private ParseTreeNode _parent;
 
-    private ArrayList _children;
+    private ArrayList<ParseTreeNode> _children;
 
     private Token _token;
 
@@ -72,10 +72,10 @@ public final class ParseTreeNode {
     public String toStringEx() {
         StringBuffer s = new StringBuffer("ParseTreeNode{");
         s.append(_token.getTokenValue());
-        Iterator iter = children();
+        Iterator<ParseTreeNode> iter = children();
         while (iter.hasNext()) {
             s.append(',');
-            s.append(((ParseTreeNode) iter.next()).toStringEx());
+            s.append(iter.next().toStringEx());
         }
         s.append('}');
         return s.toString();
@@ -98,7 +98,7 @@ public final class ParseTreeNode {
      */
     public void addChild(final ParseTreeNode child) {
         child.setParent(this);
-        if (_children == null) { _children = new ArrayList(); }
+        if (_children == null) { _children = new ArrayList<ParseTreeNode>(); }
         _children.add(child);
     }
 
@@ -134,7 +134,7 @@ public final class ParseTreeNode {
      * 
      * @return An Iterator of children.
      */
-    public Iterator children() {
+    public Iterator<ParseTreeNode> children() {
         if ((_children == null) || (_children.size() == 0)) {
             return NULL_ITERATOR;
         }
@@ -148,7 +148,7 @@ public final class ParseTreeNode {
      * @return the index child of this node.
      */
     public ParseTreeNode getChild(final int index) {
-        return (ParseTreeNode) _children.get(index);
+        return _children.get(index);
     }
 
     /**
