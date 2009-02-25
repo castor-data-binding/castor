@@ -107,7 +107,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
 
     private Object[] _bindValues;
 
-    private Hashtable _paramInfo;
+    private Hashtable<Integer, ParamInfo> _paramInfo;
 
     private int _fieldNum;
 
@@ -294,8 +294,8 @@ public class OQLQueryImpl implements Query, OQLQuery {
         // create the types array and fill it
         _bindTypes = new Class[_paramInfo.size()];
         int paramIndex = 0;
-        for (Enumeration e = _paramInfo.elements(); e.hasMoreElements(); ) {
-            ParamInfo info = (ParamInfo) e.nextElement();
+        for (Enumeration<ParamInfo> e = _paramInfo.elements(); e.hasMoreElements(); ) {
+            ParamInfo info = e.nextElement();
 
             _bindTypes[paramIndex++] =
                 ((info.getSQLType() == null)) ? info.getTheClass() : info.getSQLType();

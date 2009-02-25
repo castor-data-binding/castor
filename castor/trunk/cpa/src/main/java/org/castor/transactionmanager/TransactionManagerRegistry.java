@@ -48,7 +48,7 @@ public final class TransactionManagerRegistry {
     private boolean _initializationAtRegistration;
 
     /** Association between TransactionManager name and instance. */
-    private Map _managers = new HashMap();
+    private Map<String, Loader> _managers = new HashMap<String, Loader>();
 
     //--------------------------------------------------------------------------
 
@@ -218,7 +218,7 @@ public final class TransactionManagerRegistry {
     public String[] getTransactionManagerNames() {
         synchronized (_managers) {
             String[] names = new String[_managers.size()];
-            return (String[]) _managers.keySet().toArray(names);
+            return _managers.keySet().toArray(names);
         }
     }
 
@@ -235,7 +235,7 @@ public final class TransactionManagerRegistry {
     throws TransactionManagerAcquireException {
         Loader loader = null;
         synchronized (_managers) {
-            loader = (Loader) _managers.get(managerName);
+            loader = _managers.get(managerName);
         }
 
         if (loader == null) {

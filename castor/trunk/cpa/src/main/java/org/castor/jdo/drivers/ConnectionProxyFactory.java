@@ -59,8 +59,8 @@ public final class ConnectionProxyFactory {
      * @param calledBy Name of the class using creating and this proxy class. 
      * @return The JDBC connection proxy.
      */
-    public static Connection newConnectionProxy(final Connection connection,
-                                                final String calledBy) {
+    public static Connection newConnectionProxy(
+            final Connection connection, final String calledBy) {
         
         if (!_isConfigured) {
             _useProxies = CPAProperties.getInstance().getBoolean(
@@ -71,7 +71,7 @@ public final class ConnectionProxyFactory {
         if (!_useProxies) { return connection; }
         
         ClassLoader loader = connection.getClass().getClassLoader();
-        Class[] interfaces = new Class[] {Connection.class};
+        Class<?>[] interfaces = new Class<?>[] {Connection.class};
         InvocationHandler handler = new ConnectionProxy(connection, calledBy);
         return (Connection) Proxy.newProxyInstance(loader, interfaces, handler);
     }
@@ -95,7 +95,7 @@ public final class ConnectionProxyFactory {
         if (!_useProxies) { return statement; }
         
         ClassLoader loader = statement.getClass().getClassLoader();
-        Class[] interfaces = new Class[] {PreparedStatement.class};
+        Class<?>[] interfaces = new Class<?>[] {PreparedStatement.class};
         InvocationHandler handler = new PreparedStatementProxy(statement, sql);
         return (PreparedStatement) Proxy.newProxyInstance(loader, interfaces, handler);
     }
@@ -119,7 +119,7 @@ public final class ConnectionProxyFactory {
         if (!_useProxies) { return statement; }
         
         ClassLoader loader = statement.getClass().getClassLoader();
-        Class[] interfaces = new Class[] {CallableStatement.class};
+        Class<?>[] interfaces = new Class<?>[] {CallableStatement.class};
         InvocationHandler handler = new CallableStatementProxy(statement, sql);
         return (CallableStatement) Proxy.newProxyInstance(loader, interfaces, handler);
     }

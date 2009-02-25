@@ -62,12 +62,11 @@ public final class SapDbQueryExpression extends JDBCQueryExpression {
     }
 
     public String getStatement(final boolean lock) {
-        Join         join;
+        Join join;
         StringBuffer sql;
-        boolean      first;
-        Enumeration  enumeration;
-        int          size;
-        Vector       sorted = new Vector();
+        boolean first;
+        int size;
+        Vector<String> sorted = new Vector<String>();
 
         sql = new StringBuffer();
         sql.append(JDBCSyntax.SELECT);
@@ -82,12 +81,12 @@ public final class SapDbQueryExpression extends JDBCQueryExpression {
         // They should go in the special order: the table from the left side of outer join
         // should go before the table from the right side.
         // first add elements that participate in outer joins
-        enumeration = _joins.elements();
-        while (enumeration.hasMoreElements()) {
+        Enumeration<Join> joinEnumeration = _joins.elements();
+        while (joinEnumeration.hasMoreElements()) {
             int left;
             int right;
 
-            join = (Join) enumeration.nextElement();
+            join = joinEnumeration.nextElement();
             if (!join._outer) {
                 continue;
             }
@@ -108,27 +107,25 @@ public final class SapDbQueryExpression extends JDBCQueryExpression {
             }
         }
         // now add elements that don't participate in outer joins
-        enumeration = _tables.keys();
-        while (enumeration.hasMoreElements()) {
-            Object name;
-
-            name = enumeration.nextElement();
+        Enumeration<String> tableEnumeration = _tables.keys();
+        while (tableEnumeration.hasMoreElements()) {
+            String name = tableEnumeration.nextElement();
             if (!sorted.contains(name)) {
                 sorted.addElement(name);
             }
         }
         // Append all the tables (from sorted) to the sql string.
-        enumeration = sorted.elements();
-        while (enumeration.hasMoreElements()) {
-            String tableAlias = (String) enumeration.nextElement();
-            String tableName = (String) _tables.get(tableAlias);
+        Enumeration<String> sortedEnumeration = sorted.elements();
+        while (sortedEnumeration.hasMoreElements()) {
+            String tableAlias = sortedEnumeration.nextElement();
+            String tableName = _tables.get(tableAlias);
             if (tableAlias.equals(tableName)) {
                 sql.append(_factory.quoteName(tableName));
             } else {
                 sql.append(_factory.quoteName(tableName) + " "
                         + _factory.quoteName(tableAlias));
             }
-            if (enumeration.hasMoreElements()) {
+            if (sortedEnumeration.hasMoreElements()) {
                 sql.append(JDBCSyntax.TABLE_SEPARATOR);
             }
         }
@@ -144,7 +141,7 @@ public final class SapDbQueryExpression extends JDBCQueryExpression {
                 sql.append(JDBCSyntax.AND);
             }
 
-            join = (Join) _joins.elementAt(i);
+            join = _joins.elementAt(i);
             for (int j = 0; j < join._leftColumns.length; ++j) {
                 if (j > 0) {
                     sql.append(JDBCSyntax.AND);

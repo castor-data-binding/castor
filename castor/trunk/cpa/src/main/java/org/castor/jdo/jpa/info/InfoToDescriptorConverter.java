@@ -106,12 +106,11 @@ public final class InfoToDescriptorConverter {
                     classInfo.getDescribedClass().getName());
         }
 
-        JPAClassNature nature = new JPAClassNature(classInfo);
+        new JPAClassNature(classInfo);
 
         ClassDescriptorImpl descriptor = new ClassDescriptorImpl();
         descriptor.addNature(ClassDescriptorJDONature.class.getName());
-        ClassDescriptorJDONature jdoNature = new ClassDescriptorJDONature(
-                descriptor);
+        ClassDescriptorJDONature jdoNature = new ClassDescriptorJDONature(descriptor);
 
         /*
          * set classDescriptor infos
@@ -244,7 +243,7 @@ public final class InfoToDescriptorConverter {
             // see JDOMappingLoader.java
         }
 
-        JPAFieldNature jpaNature = new JPAFieldNature(fieldInfo);
+        new JPAFieldNature(fieldInfo);
 
         String name = fieldInfo.getFieldName();
         TypeInfo typeInfo = new TypeInfo(fieldInfo.getFieldType());

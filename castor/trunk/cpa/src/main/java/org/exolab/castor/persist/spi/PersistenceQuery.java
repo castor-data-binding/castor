@@ -84,7 +84,7 @@ public interface PersistenceQuery {
      *
      * @return The type of object returned by this query
      */
-    Class getResultType();
+    Class<?> getResultType();
 
     /**
      * Execute the query with the give connection and lock type.

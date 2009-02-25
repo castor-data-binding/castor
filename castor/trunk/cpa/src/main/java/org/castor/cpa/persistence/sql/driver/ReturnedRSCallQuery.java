@@ -68,6 +68,8 @@ final class ReturnedRSCallQuery extends AbstractCallQuery {
      *  Commons Logging</a> instance used for all logging. */
     private static Log _log = LogFactory.getFactory().getInstance(ReturnedRSCallQuery.class);
     
+    private static final int ORACLE_CURSOR_TYPE = -10;
+    
     /**
      * Creates an instance of this clas.
      * @param call The SQL CALL statement to execute
@@ -76,7 +78,7 @@ final class ReturnedRSCallQuery extends AbstractCallQuery {
      * @param fields ???
      * @param sqlTypes SQL types of the parameters
      */
-    ReturnedRSCallQuery(final String call, final Class[] types, final Class javaClass,
+    ReturnedRSCallQuery(final String call, final Class<?>[] types, final Class<?> javaClass,
             final String[] fields, final int[] sqlTypes) {
         super (call, types, javaClass, sqlTypes);
     }
@@ -86,7 +88,7 @@ final class ReturnedRSCallQuery extends AbstractCallQuery {
         _lastIdentity = null;
         try {
             _stmt = ((Connection) conn).prepareCall(_call);
-            ((CallableStatement) _stmt).registerOutParameter(1, -10); // -10 == OracleTypes.CURSOR
+            ((CallableStatement) _stmt).registerOutParameter(1, ORACLE_CURSOR_TYPE);
             for (int i = 0; i < _values.length; ++i) {
                 _stmt.setObject(i + 2, _values[i]);
                 _values[ i ] = null;

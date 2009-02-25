@@ -35,6 +35,17 @@ import org.exolab.castor.mapping.loader.TypeInfo;
  * @since 1.3
  */
 public class ClassInfoBuilder {
+    /** Index of first character of field name for 'get' method. */
+    private static final int GET_FIELD_NAME_FIRST = 3;
+
+    /** Index of character after first of field name for 'get' method. */
+    private static final int GET_FIELD_NAME_REST = GET_FIELD_NAME_FIRST + 1;
+
+    /** Index of first character of field name for 'is' method. */
+    private static final int IS_FIELD_NAME_FIRST = 2;
+
+    /** Index of character after first of field name for 'is' method. */
+    private static final int IS_FIELD_NAME_REST = IS_FIELD_NAME_FIRST + 1;
 
     /**
      * The {@link AnnotationProcessingService} for class related annotations.
@@ -292,7 +303,7 @@ public class ClassInfoBuilder {
         }
         return false;
     }
-
+    
     /**
      * Create a member name from a getter {@link Method}.
      * 
@@ -306,12 +317,12 @@ public class ClassInfoBuilder {
         }
 
         if (method.getName().startsWith("get")) {
-            String nameRest = method.getName().substring(4);
-            return Character.toLowerCase(method.getName().charAt(3)) + nameRest;
+            String nameRest = method.getName().substring(GET_FIELD_NAME_REST);
+            return Character.toLowerCase(method.getName().charAt(GET_FIELD_NAME_FIRST)) + nameRest;
         }
         if (method.getName().startsWith("is")) {
-            String nameRest = method.getName().substring(3);
-            return Character.toLowerCase(method.getName().charAt(2)) + nameRest;
+            String nameRest = method.getName().substring(IS_FIELD_NAME_REST);
+            return Character.toLowerCase(method.getName().charAt(IS_FIELD_NAME_FIRST)) + nameRest;
         }
         throw new IllegalArgumentException(
                 "Method name does not start with 'get' or 'is'!");

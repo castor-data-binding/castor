@@ -181,7 +181,7 @@ public interface Persistence {
      * @return A new query object that can be executed
      * @throws QueryException The query is invalid
      */
-    PersistenceQuery createQuery(QueryExpression query, Class[] types, AccessMode accessMode)
+    PersistenceQuery createQuery(QueryExpression query, Class<?>[] types, AccessMode accessMode)
     throws QueryException;
 }
 

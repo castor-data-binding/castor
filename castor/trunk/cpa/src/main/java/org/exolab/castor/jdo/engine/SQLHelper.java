@@ -47,15 +47,16 @@ public final class SQLHelper {
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(SQLQuery.class);
 
-    public static Object[] calculateNumberOfFields(final Collection extendingClassDescriptors,
+    public static Object[] calculateNumberOfFields(
+            final Collection<ClassDescriptor> extendingClassDescriptors,
             final int numberOfIdentityColumns, final int numberOfFields,
             final int numberOfExtendLevels, final ResultSet rs) throws SQLException {
         
         ClassDescriptor potentialLeafDescriptor = null;
         int suggestedNumberOfFields = numberOfFields;
-        Collection potentialActualClassDescriptor = new LinkedList();
+        Collection<ClassDescriptor> potentialCDRs = new LinkedList<ClassDescriptor>();
         int numberOfIdentitiesToAnalyze = 0;
-        addExtendingClassDescriptors(potentialActualClassDescriptor, extendingClassDescriptors);
+        addExtendingClassDescriptors(potentialCDRs, extendingClassDescriptors);
         
         ClassDescriptor potentialClassDescriptor = null;
         ClassDescriptor potentialClassDescriptorPrevious = null;
@@ -63,8 +64,8 @@ public final class SQLHelper {
             numberOfFields + numberOfIdentityColumns * numberOfExtendLevels + 1;
         int columnIndex = initialColumnIndex;
         int numberOfExtendingClassDescriptors = 0;
-        for (Iterator iter = potentialActualClassDescriptor.iterator(); iter.hasNext(); ) {
-            potentialClassDescriptor = (ClassDescriptor) iter.next();
+        for (Iterator<ClassDescriptor> iter = potentialCDRs.iterator(); iter.hasNext(); ) {
+            potentialClassDescriptor = iter.next();
             numberOfExtendingClassDescriptors += 1;
             if (LOG.isDebugEnabled()) {
                 LOG.debug ("Potential extending class descriptor: "
@@ -156,12 +157,13 @@ public final class SQLHelper {
     }
 
     public static void addExtendingClassDescriptors(
-            final Collection classDescriptorsToAdd, final Collection extendingClassDescriptors) {
+            final Collection<ClassDescriptor> classDescriptorsToAdd,
+            final Collection<ClassDescriptor> extendClassDescriptors) {
 
         ClassDescriptor classDescriptor = null; 
-        for (Iterator iter = extendingClassDescriptors.iterator(); iter.hasNext(); ) {
-            classDescriptor = (ClassDescriptor) iter.next(); 
-            classDescriptorsToAdd.add (classDescriptor);
+        for (Iterator<ClassDescriptor> iter = extendClassDescriptors.iterator(); iter.hasNext(); ) {
+            classDescriptor = iter.next(); 
+            classDescriptorsToAdd.add(classDescriptor);
             ClassDescriptorJDONature nature = new ClassDescriptorJDONature(classDescriptor);
             addExtendingClassDescriptors(classDescriptorsToAdd, nature.getExtended());
         }

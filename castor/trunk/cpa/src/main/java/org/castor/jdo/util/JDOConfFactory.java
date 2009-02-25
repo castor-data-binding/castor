@@ -384,9 +384,9 @@ public final class JDOConfFactory {
         DataSource dsConf = new DataSource();
         dsConf.setClassName(datasource);
 
-        Iterator iter = props.entrySet().iterator();
+        Iterator<Map.Entry<Object, Object>> iter = props.entrySet().iterator();
         while (iter.hasNext()) {
-            Map.Entry entry = (Map.Entry) iter.next();
+            Map.Entry<Object, Object> entry = iter.next();
             String key = (String) entry.getKey();
             String value = (String) entry.getValue();
             
@@ -470,9 +470,9 @@ public final class JDOConfFactory {
         TransactionManager manager = new TransactionManager();
         manager.setName(name);
 
-        Iterator iter = props.entrySet().iterator();
+        Iterator<Map.Entry<Object, Object>> iter = props.entrySet().iterator();
         while (iter.hasNext()) {
-            Map.Entry entry = (Map.Entry) iter.next();
+            Map.Entry<Object, Object> entry = iter.next();
             String key = (String) entry.getKey();
             String value = (String) entry.getValue();
             

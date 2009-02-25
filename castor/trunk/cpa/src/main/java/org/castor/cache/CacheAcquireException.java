@@ -54,7 +54,7 @@ public class CacheAcquireException extends Exception {
     }
 
     /**
-     * Match the JDK 1.4 Throwable version of getCause() on JDK<1.4 systems.
+     * Match the JDK 1.4 Throwable version of getCause() on JDK&lt;1.4 systems.
      * 
      * @return The throwable cause of this exception.
      */

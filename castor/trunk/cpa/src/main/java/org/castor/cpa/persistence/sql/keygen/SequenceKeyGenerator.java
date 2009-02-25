@@ -178,6 +178,8 @@ public final class SequenceKeyGenerator implements KeyGenerator {
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(SequenceKeyGenerator.class);
      
+    private static final int STRING_KEY_LENGTH = 8;
+    
     private String _factoryName;
 
     private PersistenceFactory _factory;
@@ -266,7 +268,7 @@ public final class SequenceKeyGenerator implements KeyGenerator {
         } else if (sqlType == Types.BIGINT) {
             _typeHandler = new KeyGeneratorTypeHandlerLong(true);
         } else if ((sqlType == Types.CHAR) || (sqlType == Types.VARCHAR)) {
-            _typeHandler = new KeyGeneratorTypeHandlerString(true, 8);
+            _typeHandler = new KeyGeneratorTypeHandlerString(true, STRING_KEY_LENGTH);
         } else {
             _typeHandler = new KeyGeneratorTypeHandlerBigDecimal(true);
         }

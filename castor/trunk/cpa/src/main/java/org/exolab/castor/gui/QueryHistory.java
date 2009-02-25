@@ -50,16 +50,16 @@ public class QueryHistory implements java.io.Serializable {
     /** SerialVersionUID. */
     private static final long serialVersionUID = 235997211123063614L;
 
-    private  Vector _querys = new Vector();
+    private  Vector<String> _querys = new Vector<String>();
     private int _currentPos = 0;
     private  int _maxsize = 20;
 
-    public Vector getQuerys() {
+    public Vector<String> getQuerys() {
         return _querys;
 
     }
 
-    public void setQuerys(final Vector querys) {
+    public void setQuerys(final Vector<String> querys) {
         _querys = querys;
         _currentPos = _querys.size() - 1;
     }
@@ -88,7 +88,7 @@ public class QueryHistory implements java.io.Serializable {
       if (_querys.isEmpty()) {
           return "";
       }
-      return (String) _querys.elementAt(_currentPos);
+      return _querys.elementAt(_currentPos);
     }
 
     public void addQuery(final String newQuery) {

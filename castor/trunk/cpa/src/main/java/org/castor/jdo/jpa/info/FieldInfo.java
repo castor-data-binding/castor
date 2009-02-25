@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.castor.core.nature.PropertyHolder;
-import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 
 /**

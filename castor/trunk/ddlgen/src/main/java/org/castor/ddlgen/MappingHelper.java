@@ -88,9 +88,9 @@ public final class MappingHelper {
      *         ClassMapping was found.
      */
     public ClassMapping getClassMappingByName(final String name) {
-        Enumeration ec = _mapping.getRoot().enumerateClassMapping();
+        Enumeration<? extends ClassMapping> ec = _mapping.getRoot().enumerateClassMapping();
         while (ec.hasMoreElements()) {
-            ClassMapping cm = (ClassMapping) ec.nextElement();
+            ClassMapping cm = ec.nextElement();
             String cmName = cm.getName();
             if ((cmName != null) && cmName.equals(name)) { return cm; }
         }
@@ -151,12 +151,12 @@ public final class MappingHelper {
         String[] ids = cm.getIdentity();
         Vector<String> types = new Vector<String>();
 
-        Enumeration ef = cm.getClassChoice().enumerateFieldMapping();
+        Enumeration<? extends FieldMapping> ef = cm.getClassChoice().enumerateFieldMapping();
         boolean isExistFieldId = isUseFieldIdentity(cm);
 
         // Go through all fields.
         while (ef.hasMoreElements()) {
-            FieldMapping fm = (FieldMapping) ef.nextElement();
+            FieldMapping fm = ef.nextElement();
             
             // Identity are defined at field.
             if (isExistFieldId && fm.getIdentity()) {
@@ -252,10 +252,10 @@ public final class MappingHelper {
      * @return <code>true</code> if identities are defined at fieldMapping.
      */
     public boolean isUseFieldIdentity(final ClassMapping cm) {
-        Enumeration ef = cm.getClassChoice().enumerateFieldMapping();
+        Enumeration<? extends FieldMapping> ef = cm.getClassChoice().enumerateFieldMapping();
 
         while (ef.hasMoreElements()) {
-            FieldMapping fm = (FieldMapping) ef.nextElement();
+            FieldMapping fm = ef.nextElement();
             if (fm.getIdentity()) { return true; }
         }
         return false;
@@ -305,10 +305,10 @@ public final class MappingHelper {
             identities = getClassMappingIdentity((ClassMapping) cm.getExtends());
         }
 
-        Enumeration ef = cm.getClassChoice().enumerateFieldMapping();
+        Enumeration<? extends FieldMapping> ef = cm.getClassChoice().enumerateFieldMapping();
         boolean isExistFieldId = isUseFieldIdentity(cm);
         while (ef.hasMoreElements()) {
-            FieldMapping fm = (FieldMapping) ef.nextElement();
+            FieldMapping fm = ef.nextElement();
             // Add all sql columns into identity list.
             if (isExistFieldId && fm.getIdentity()) {
                 isExistFieldId = true;
@@ -352,9 +352,9 @@ public final class MappingHelper {
         Vector<String> ids = new Vector<String>();
         
         boolean isExistFieldId = false;
-        Enumeration ef = cm.getClassChoice().enumerateFieldMapping();
+        Enumeration<? extends FieldMapping> ef = cm.getClassChoice().enumerateFieldMapping();
         while (ef.hasMoreElements()) {
-            FieldMapping fm = (FieldMapping) ef.nextElement();
+            FieldMapping fm = ef.nextElement();
             // Add names of all identity columns to list.
             if (isExistFieldId && fm.getIdentity()) {
                 isExistFieldId = true;

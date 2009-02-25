@@ -106,8 +106,8 @@ public final class PostgreSQLFactory extends GenericFactory {
      * @param sqlTypes The field SQL types
      * @return null if this feature is not supported.
      */
-    public PersistenceQuery getCallQuery(final String call, final Class[] paramTypes,
-            final Class javaClass, final String[] fields, final int[] sqlTypes) {
+    public PersistenceQuery getCallQuery(final String call, final Class<?>[] paramTypes,
+            final Class<?> javaClass, final String[] fields, final int[] sqlTypes) {
         return new PostgreSQLCallQuery(call, paramTypes, javaClass, fields, sqlTypes);
     }
 
@@ -116,7 +116,7 @@ public final class PostgreSQLFactory extends GenericFactory {
      * <br/>
      * BLOB/CLOB types are not supported.
      */
-    public Class adjustSqlType(final Class sqlType) {
+    public Class<?> adjustSqlType(final Class<?> sqlType) {
         if (sqlType == java.sql.Clob.class) {
             return java.lang.String.class;
         } else if (sqlType == java.io.InputStream.class) {

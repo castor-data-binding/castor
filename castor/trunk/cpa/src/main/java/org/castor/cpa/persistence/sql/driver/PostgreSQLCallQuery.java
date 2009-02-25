@@ -76,21 +76,21 @@ final class PostgreSQLCallQuery implements PersistenceQuery {
     
     private PreparedStatement _stmt;
 
-    private ResultSet         _rs;
+    private ResultSet _rs;
 
-    private final Class     _javaClass;
+    private final Class<?> _javaClass;
 
-    private final Class[]   _types;
+    private final Class<?>[] _types;
 
-    private final Object[]  _values;
+    private final Object[] _values;
 
-    private final String    _call;
+    private final String _call;
 
-    private Identity        _lastIdentity;
+    private Identity _lastIdentity;
 
-    private int[]           _sqlTypes;
+    private int[] _sqlTypes;
 
-    PostgreSQLCallQuery(final String call, final Class[] types, final Class javaClass,
+    PostgreSQLCallQuery(final String call, final Class<?>[] types, final Class<?> javaClass,
             final String[] fields, final int[] sqlTypes) {
         StringBuffer query = new StringBuffer();
 
@@ -124,7 +124,7 @@ final class PostgreSQLCallQuery implements PersistenceQuery {
     }
 
 
-    public Class getParameterType(final int index) throws ArrayIndexOutOfBoundsException {
+    public Class<?> getParameterType(final int index) throws ArrayIndexOutOfBoundsException {
         return _types[ index ];
     }
 
@@ -135,7 +135,7 @@ final class PostgreSQLCallQuery implements PersistenceQuery {
     }
 
 
-    public Class getResultType() {
+    public Class<?> getResultType() {
         return _javaClass;
     }
 

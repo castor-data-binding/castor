@@ -61,6 +61,18 @@ public final class HighLowKeyGenerator implements KeyGenerator {
     private static final String SAME_CONNECTION = "same-connection";
 
     private static final String GLOBAL = "global";
+    
+    private static final int UPDATE_PARAM_MAX = 1;
+
+    private static final int UPDATE_PARAM_TABLE = 2;
+
+    private static final int UPDATE_PARAM_LAST = 3;
+    
+    private static final int INSERT_PARAM_TABLE = 1;
+
+    private static final int INSERT_PARAM_MAX = 2;
+
+    private static final int LOCK_TRIALS = 7;
 
     private final Map<String, HighLowValueHandler<? extends Object>> _handlers =
         new HashMap<String, HighLowValueHandler<? extends Object>>();
@@ -194,7 +206,7 @@ public final class HighLowKeyGenerator implements KeyGenerator {
 
                 // Retry 7 times (lucky number)
                 boolean success = false;
-                for (int i = 0; !success && (i < 7); i++) {
+                for (int i = 0; !success && (i < LOCK_TRIALS); i++) {
                     stmt = conn.prepareStatement(lockSQL);
                     handler.bindTable(stmt, 1);
                     ResultSet rs = stmt.executeQuery();
@@ -204,9 +216,9 @@ public final class HighLowKeyGenerator implements KeyGenerator {
                     
                     if (found) {
                         stmt = conn.prepareStatement(updateSQL);
-                        handler.bindMax(stmt, 1);
-                        handler.bindTable(stmt, 2);
-                        handler.bindLast(stmt, 3);
+                        handler.bindMax(stmt, UPDATE_PARAM_MAX);
+                        handler.bindTable(stmt, UPDATE_PARAM_TABLE);
+                        handler.bindLast(stmt, UPDATE_PARAM_LAST);
                         success = (stmt.executeUpdate() == 1);
                         stmt.close();
                     } else {
@@ -218,8 +230,8 @@ public final class HighLowKeyGenerator implements KeyGenerator {
                         }
                         
                         stmt = conn.prepareStatement(insertSQL);
-                        handler.bindTable(stmt, 1);
-                        handler.bindMax(stmt, 2);
+                        handler.bindTable(stmt, INSERT_PARAM_TABLE);
+                        handler.bindMax(stmt, INSERT_PARAM_MAX);
                         success = (stmt.executeUpdate() == 1);
                         stmt.close();
                     }

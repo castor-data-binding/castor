@@ -83,11 +83,11 @@ public final class JOTMTransactionManagerFactory implements TransactionManagerFa
         TransactionManager transactionManager = null;
         
         try {
-            Class factory = Class.forName(factoryClassName);
-            Class[] types = new Class[] {boolean.class, boolean.class};
+            Class<?> factory = Class.forName(factoryClassName);
+            Class<?>[] types = new Class<?>[] {boolean.class, boolean.class};
             Object[] params = new Object[] {Boolean.TRUE, Boolean.FALSE};
             Object jotm = factory.getConstructor(types).newInstance(params); 
-            Method method = factory.getMethod("getTransactionManager", (Class[]) null);
+            Method method = factory.getMethod("getTransactionManager");
             Object obj = method.invoke(jotm, (Object[]) null);
             transactionManager = (TransactionManager) obj;
         } catch (Exception ex) {

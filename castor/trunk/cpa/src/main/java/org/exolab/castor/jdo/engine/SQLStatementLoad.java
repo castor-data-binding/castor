@@ -67,7 +67,7 @@ public final class SQLStatementLoad {
     private final int _numberOfExtendLevels;
 
     /** Collection of all the ClassDescriptor that extend this one (closure). */
-    private final Collection _extendingClassDescriptors;
+    private final Collection<ClassDescriptor> _extendingClassDescriptors;
 
     private String _statementNoLock;
     
@@ -94,8 +94,8 @@ public final class SQLStatementLoad {
         try {
             QueryExpression expr = _factory.getQueryExpression();
             
-            Map identitiesUsedForTable = new HashMap();
-            Vector joinTables = new Vector();
+            Map<String, Boolean> identitiesUsedForTable = new HashMap<String, Boolean>();
+            Vector<String> joinTables = new Vector<String>();
 
             // join all the extended table
             ClassDescriptor curDesc = _engine.getDescriptor();
@@ -183,14 +183,14 @@ public final class SQLStatementLoad {
             }
 
             // 'join' all the extending tables 
-            List classDescriptorsToAdd = new LinkedList();
+            List<ClassDescriptor> classDescriptorsToAdd = new LinkedList<ClassDescriptor>();
             ClassDescriptor classDescriptor = null;
             SQLHelper.addExtendingClassDescriptors(classDescriptorsToAdd,
                     new ClassDescriptorJDONature(_engine.getDescriptor()).getExtended());
             
             if (classDescriptorsToAdd.size() > 0) {
-                for (Iterator iter = classDescriptorsToAdd.iterator(); iter.hasNext(); ) {
-                    classDescriptor = (ClassDescriptor) iter.next();
+                for (Iterator<ClassDescriptor> iter = classDescriptorsToAdd.iterator(); iter.hasNext(); ) {
+                    classDescriptor = iter.next();
                     ClassDescriptorJDONature clsDescNature = 
                         new ClassDescriptorJDONature(classDescriptor);
                     if (LOG.isTraceEnabled()) {
@@ -353,7 +353,7 @@ public final class SQLStatementLoad {
             // the identity columns
             int columnIndex = ids.length + 1;
             
-            Set processedTables = new HashSet();
+            Set<String> processedTables = new HashSet<String>();
             if (fields.length > 0 && fields[0].isJoined()) {
                 ClassDescriptor clsDesc = _engine.getDescriptor();
                 processedTables.add(new ClassDescriptorJDONature(clsDesc).getTableName());
@@ -386,7 +386,7 @@ public final class SQLStatementLoad {
                     }
                     entity.setField(((notNull) ? new Identity(id) : null), i);
                 } else {
-                    ArrayList res = new ArrayList();
+                    ArrayList<Identity> res = new ArrayList<Identity>();
                     notNull = false;
                     Object[] id = new Object[columns.length];
                     for (int j = 0; j < columns.length; j++) {
