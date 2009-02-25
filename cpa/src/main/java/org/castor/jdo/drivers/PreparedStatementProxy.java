@@ -45,11 +45,12 @@ public final class PreparedStatementProxy implements InvocationHandler {
     private static final Log LOG = LogFactory.getLog(PreparedStatementProxy.class);
     
     /** Set of setter methods that all have to be treated similare at invoke. */
-    private static final Set SET_METHODS = new HashSet(Arrays.asList(new String[] {
-            "setArray", "setBigDecimal", "setBinaryStream", "setBlob", "setBoolean",
-            "setByte", "setBytes", "setCharacterStream", "setClob", "setDate",
-            "setDouble", "setFloat", "setInt", "setLong", "setObject", "setShort",
-            "setString", "setTime", "setTimestamp", "setURL"}));
+    private static final Set<String> SET_METHODS = new HashSet<String>(
+            Arrays.asList(new String[] {
+                    "setArray", "setBigDecimal", "setBinaryStream", "setBlob", "setBoolean",
+                    "setByte", "setBytes", "setCharacterStream", "setClob", "setDate",
+                    "setDouble", "setFloat", "setInt", "setLong", "setObject", "setShort",
+                    "setString", "setTime", "setTimestamp", "setURL"}));
     
     /** PreparedStatement to be proxied. */
     private final PreparedStatement _preparedStatement;
@@ -58,10 +59,10 @@ public final class PreparedStatementProxy implements InvocationHandler {
     private String _sqlStatement = null; 
 
     /** SQL Parameter mapping. */
-    private final Map _parameters = new HashMap();
+    private final Map<Object, Object> _parameters = new HashMap<Object, Object>();
     
     /** List of batch statements associated with this instance. */
-    private final List _batchStatements = new ArrayList();
+    private final List<String> _batchStatements = new ArrayList<String>();
 
     /**
      * Creates an instance of this class.
@@ -96,7 +97,7 @@ public final class PreparedStatementProxy implements InvocationHandler {
                 
                 _sqlStatement = (String) args[0];
             } else if ("addBatch".equals(name)) {
-                _batchStatements.add(args[0]);
+                _batchStatements.add((String) args[0]);
             } else if (args[0] instanceof Integer) {
                 if ("setNull".equals(name)) {
                     _parameters.put(args[0], "null");
@@ -108,7 +109,7 @@ public final class PreparedStatementProxy implements InvocationHandler {
             StringBuffer buffer = new StringBuffer ();
             
             StringTokenizer tokenizer = new StringTokenizer(_sqlStatement, "?");
-            Iterator iter = new TreeSet(_parameters.keySet()).iterator();
+            Iterator<Object> iter = new TreeSet<Object>(_parameters.keySet()).iterator();
             while (tokenizer.hasMoreTokens()) {
                 String partOfStatement = tokenizer.nextToken();
                 if (iter.hasNext()) {

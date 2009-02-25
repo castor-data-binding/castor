@@ -67,27 +67,27 @@ public class JDBCQueryExpression implements QueryExpression {
      *  Commons Logging</a> instance used for all logging. */
     private static Log _log = LogFactory.getFactory().getInstance(JDBCQueryExpression.class);
 
-    protected Hashtable _tables = new Hashtable();
+    protected Hashtable<String, String> _tables = new Hashtable<String, String>();
 
-    private Vector    _cols = new Vector();
+    private Vector<String> _cols = new Vector<String>();
 
-    private Vector    _conds = new Vector();
+    private Vector<String> _conds = new Vector<String>();
 
-    protected Vector    _joins = new Vector();
+    protected Vector<Join> _joins = new Vector<Join>();
 
-    protected String    _select;
+    protected String _select;
 
-    private String    _where;
+    private String _where;
 
-    protected String    _order;
+    protected String _order;
 
-    protected String    _limit;
+    protected String _limit;
     
-    protected String    _offset;
+    protected String _offset;
 
-    protected boolean   _distinct = false;
+    protected boolean _distinct = false;
 
-    protected PersistenceFactory  _factory;
+    protected PersistenceFactory _factory;
 
     /** MetaInfo as acquired from the RDBMS. */
     protected DbMetaInfo _dbInfo;
@@ -266,7 +266,7 @@ public class JDBCQueryExpression implements QueryExpression {
             if (i > 0) {
                 sql.append(JDBCSyntax.COLUMN_SEPARATOR);
             }
-            sql.append((String) _cols.elementAt(i));
+            sql.append(_cols.elementAt(i));
         }
 
         if (_select != null) {
@@ -293,7 +293,7 @@ public class JDBCQueryExpression implements QueryExpression {
                 if (i > 0) {
                     sql.append(JDBCSyntax.AND);
                 }
-                sql.append((String) _conds.elementAt(i));
+                sql.append(_conds.elementAt(i));
             }
         }
         if (_where != null) {
@@ -332,15 +332,7 @@ public class JDBCQueryExpression implements QueryExpression {
      * @param oj true in the first case above, false in the second case.
      **/
     protected StringBuffer getStandardStatement(final boolean lock, final boolean oj) {
-        StringBuffer sql;
-        Enumeration  enumeration;
-        boolean      first;
-        Hashtable    tables;
-        Vector       done = new Vector();
-        String       tableName;
-        String       tableAlias;
-
-        sql = new StringBuffer();
+        StringBuffer sql = new StringBuffer();
         sql.append(JDBCSyntax.SELECT);
         if (_distinct) {
             sql.append(JDBCSyntax.DISTINCT);
@@ -355,13 +347,12 @@ public class JDBCQueryExpression implements QueryExpression {
         sql.append(JDBCSyntax.FROM);
 
         // Use outer join syntax for all outer joins. Inner joins come later.
-        tables = (Hashtable) _tables.clone();
-        first = true;
+        Hashtable<String, String> tables = new Hashtable<String, String>(_tables);
+        Vector<String> done = new Vector<String>();
+        boolean first = true;
         // gather all outer joins with the same left part
         for (int i = 0; i < _joins.size(); ++i) {
-            Join join;
-
-            join = (Join) _joins.elementAt(i);
+            Join join = _joins.elementAt(i);
 
             if (!join._outer || done.contains(join._leftTable)) {
                 continue;
@@ -376,7 +367,7 @@ public class JDBCQueryExpression implements QueryExpression {
             }
             sql.append(_factory.quoteName(join._leftTable));
             sql.append(JDBCSyntax.LEFT_JOIN);
-            tableName = (String) tables.get(join._rightTable);
+            String tableName = tables.get(join._rightTable);
             if (join._rightTable.equals(tableName)) {
                 sql.append(_factory.quoteName(tableName));
             } else {
@@ -401,12 +392,12 @@ public class JDBCQueryExpression implements QueryExpression {
             for (int k = i + 1; k < _joins.size(); ++k) {
                 Join join2;
 
-                join2 = (Join) _joins.elementAt(k);
+                join2 = _joins.elementAt(k);
                 if (!join2._outer || !join._leftTable.equals(join2._leftTable)) {
                     continue;
                 }
                 sql.append(JDBCSyntax.LEFT_JOIN);
-                tableName = (String) tables.get(join2._rightTable);
+                tableName = tables.get(join2._rightTable);
 
                 if (join2._rightTable.equals(tableName)) {
                     sql.append(_factory.quoteName(tableName));
@@ -433,15 +424,15 @@ public class JDBCQueryExpression implements QueryExpression {
             }
             done.addElement(join._leftTable);
         }
-        enumeration = tables.keys();
+        Enumeration<String> enumeration = tables.keys();
         while (enumeration.hasMoreElements()) {
             if (first) {
                 first = false;
             } else {
                 sql.append(JDBCSyntax.TABLE_SEPARATOR);
             }
-            tableAlias = (String) enumeration.nextElement();
-            tableName = (String) tables.get(tableAlias);
+            String tableAlias = enumeration.nextElement();
+            String tableName = tables.get(tableAlias);
             if (tableAlias.equals(tableName)) {
                 sql.append(_factory.quoteName(tableName));
             } else {
@@ -455,7 +446,7 @@ public class JDBCQueryExpression implements QueryExpression {
         for (int i = 0; i < _joins.size(); ++i) {
             Join join;
 
-            join = (Join) _joins.elementAt(i);
+            join = _joins.elementAt(i);
             if (!join._outer) {
                 if (first) {
                     sql.append(JDBCSyntax.WHERE);
@@ -501,17 +492,17 @@ public class JDBCQueryExpression implements QueryExpression {
         JDBCQueryExpression clone;
 
         try {
-            clone = (JDBCQueryExpression) getClass().
+            clone = getClass().
                 getConstructor(new Class[] {PersistenceFactory.class}).
                 newInstance(new Object[] {_factory});
         } catch (Exception except) {
             // This should never happen
             throw new RuntimeException(except.toString());
         }
-        clone._tables = (Hashtable) _tables.clone();
-        clone._conds = (Vector) _conds.clone();
-        clone._cols = (Vector) _cols.clone();
-        clone._joins = (Vector) _joins.clone();
+        clone._tables = new Hashtable<String, String>(_tables);
+        clone._conds = new Vector<String>(_conds);
+        clone._cols = new Vector<String>(_cols);
+        clone._joins = new Vector<Join>(_joins);
         return clone;
     }
 

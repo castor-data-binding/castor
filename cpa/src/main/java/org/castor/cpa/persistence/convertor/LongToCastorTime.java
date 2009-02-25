@@ -44,12 +44,12 @@ public final class LongToCastorTime extends AbstractTypeConvertor {
     /**
      * {@inheritDoc}
      */
-    public final void configure(final AbstractProperties properties) { }
+    public void configure(final AbstractProperties properties) { }
     
     /**
      * {@inheritDoc}
      */
-    public final void parameterize(final String parameter) {
+    public void parameterize(final String parameter) {
         _utc = ((parameter != null) && ("UTC".equals(parameter.toUpperCase())));
     }
     

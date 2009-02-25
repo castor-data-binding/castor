@@ -19,10 +19,8 @@ public final class InterbaseQueryExpression extends JDBCQueryExpression {
     }
 
     public String getStatement(final boolean lock) {
-        Enumeration  enumeration;
-        boolean      first;
-        Hashtable    tables;
-        Vector       done = new Vector();
+        boolean first;
+        Vector<String> done = new Vector<String>();
 
         _sql = new StringBuffer();
         _sql.append(JDBCSyntax.SELECT);
@@ -34,12 +32,12 @@ public final class InterbaseQueryExpression extends JDBCQueryExpression {
 
         _sql.append(JDBCSyntax.FROM);
 
-        tables = (Hashtable) _tables.clone();
+        Hashtable<String, String> tables = new Hashtable<String, String>(_tables);
         first = true;
         // gather all joins with the same left part use SQL92 syntax
         for (int i = 0; i < _joins.size(); ++i) {
 
-            Join join = (Join) _joins.elementAt(i);
+            Join join = _joins.elementAt(i);
 
             if (done.contains(join._leftTable)) {
                 continue;
@@ -57,7 +55,7 @@ public final class InterbaseQueryExpression extends JDBCQueryExpression {
 
             for (int k = i + 1; k < _joins.size(); ++k) {
 
-                Join join2 = (Join) _joins.elementAt(k);
+                Join join2 = _joins.elementAt(k);
 
                 if (join._leftTable.equals(join2._leftTable)) {
                   appendJoin(join2);
@@ -66,15 +64,15 @@ public final class InterbaseQueryExpression extends JDBCQueryExpression {
             }
             done.addElement(join._leftTable);
         }
-        enumeration = tables.keys();
+        Enumeration<String> enumeration = tables.keys();
         while (enumeration.hasMoreElements()) {
             if (first) {
                 first = false;
             } else {
                 _sql.append(JDBCSyntax.TABLE_SEPARATOR);
             }
-            String tableAlias = (String) enumeration.nextElement();
-            String tableName = (String) tables.get(tableAlias);
+            String tableAlias = enumeration.nextElement();
+            String tableName = tables.get(tableAlias);
             if (tableAlias.equals(tableName)) {
                 _sql.append(_factory.quoteName(tableName));
             } else {
@@ -101,7 +99,7 @@ public final class InterbaseQueryExpression extends JDBCQueryExpression {
         }
 
         String tableAlias = join._rightTable;
-        String tableName = (String) _tables.get(tableAlias);
+        String tableName = _tables.get(tableAlias);
         if (tableAlias.equals(tableName)) {
             _sql.append(_factory.quoteName(tableName));
         } else {

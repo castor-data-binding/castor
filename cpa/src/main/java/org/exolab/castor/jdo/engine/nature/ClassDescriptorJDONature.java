@@ -110,6 +110,11 @@ public class ClassDescriptorJDONature extends BaseNature {
         return getClass().getName();
     }
     
+    /**
+     * Sets the table name to which this object maps.
+     * 
+     * @param tableName Table name
+     */
     public void setTableName(final String tableName) {
         setProperty(TABLE_NAME, tableName);
     }
@@ -201,7 +206,8 @@ public class ClassDescriptorJDONature extends BaseNature {
      * 
      * @return Map of named query strings associated with their names.
      */
-    public Map getNamedQueries() {
+    @SuppressWarnings("unchecked")
+    public Map<String, String> getNamedQueries() {
         return getPropertyAsMap(NAMED_QUERIES);
     }
 

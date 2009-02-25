@@ -126,7 +126,7 @@ public interface PersistenceFactory {
      * @param sqlType The correspondent Java class for the SQL type in mapping.xml
      * @return The correspondent Java class for the SQL type that should be used instead.
      */
-    Class adjustSqlType(Class sqlType);
+    Class<?> adjustSqlType(Class<?> sqlType);
 
     /**
      * Many databases don't support setNull for "WHERE fld=?" and require "WHERE fld IS NULL".
@@ -144,7 +144,7 @@ public interface PersistenceFactory {
      * @param sqlTypes The field SQL types
      * @return null if this feature is not supported.
      */
-    PersistenceQuery getCallQuery(String call, Class[] paramTypes,
-            Class javaClass, String[] fields, int[] sqlTypes);
+    PersistenceQuery getCallQuery(String call, Class<?>[] paramTypes,
+            Class<?> javaClass, String[] fields, int[] sqlTypes);
 }
 

@@ -170,8 +170,8 @@ public abstract class BaseFactory implements PersistenceFactory {
      * @param sqlTypes The field SQL types
      * @return null if this feature is not supported.
      */
-    public PersistenceQuery getCallQuery(final String call, final Class[] paramTypes,
-            final Class javaClass, final String[] fields, final int[] sqlTypes) {
+    public PersistenceQuery getCallQuery(final String call, final Class<?>[] paramTypes,
+            final Class<?> javaClass, final String[] fields, final int[] sqlTypes) {
         return null;
     }
 
@@ -183,7 +183,7 @@ public abstract class BaseFactory implements PersistenceFactory {
      * @param sqlType The correspondent Java class for the SQL type in mapping.xml
      * @return The correspondent Java class for the SQL type that should be used instead.
      */
-    public Class adjustSqlType(final Class sqlType) {
+    public Class<?> adjustSqlType(final Class<?> sqlType) {
         return sqlType;
     }
 

@@ -80,8 +80,7 @@ public final class OracleQueryExpression extends JDBCQueryExpression {
 
     public String getStatement(final boolean lock) throws SyntaxNotSupportedException {
         StringBuffer sql;
-        boolean      first;
-        Enumeration  enumeration;
+        boolean first;
 
         sql = new StringBuffer();
         sql.append(JDBCSyntax.SELECT);
@@ -106,10 +105,10 @@ public final class OracleQueryExpression extends JDBCQueryExpression {
 
         sql.append(JDBCSyntax.FROM);
         // Add all the tables to the FROM clause
-        enumeration = _tables.keys();
+        Enumeration<String> enumeration = _tables.keys();
         while (enumeration.hasMoreElements()) {
-            String tableAlias = (String) enumeration.nextElement();
-            String tableName = (String) _tables.get(tableAlias);
+            String tableAlias = enumeration.nextElement();
+            String tableName = _tables.get(tableAlias);
             if (tableAlias.equals(tableName)) {
                 sql.append(_factory.quoteName(tableName));
             } else {
@@ -133,7 +132,7 @@ public final class OracleQueryExpression extends JDBCQueryExpression {
                 sql.append(JDBCSyntax.AND);
             }
 
-            join = (Join) _joins.elementAt(i);
+            join = _joins.elementAt(i);
             for (int j = 0; j < join._leftColumns.length; ++j) {
                 if (j > 0) {
                     sql.append(JDBCSyntax.AND);

@@ -306,7 +306,7 @@ public final class QueryAnalyser {
 
             boolean firstObject = true;
             Object o;
-            Vector properties = null;
+            Vector<Method> properties = null;
             _model = new DefaultTableModel();
 
             try {
@@ -372,8 +372,8 @@ public final class QueryAnalyser {
 
         }
 
-        private Vector getProperties(final Object o) {
-            Vector properties = new Vector();
+        private Vector<Method> getProperties(final Object o) {
+            Vector<Method> properties = new Vector<Method>();
             Method[] ms = o.getClass().getMethods();
             Method m;
 
@@ -388,24 +388,25 @@ public final class QueryAnalyser {
             return properties;
         }
 
-        private void fillTableHeader(final Vector properties, final DefaultTableModel model) {
-            Iterator i = properties.iterator();
+        private void fillTableHeader(
+                final Vector<Method> properties,
+                final DefaultTableModel model) {
+            Iterator<Method> i = properties.iterator();
             Method m;
             while (i.hasNext()) {
-                m = (Method) i.next();
+                m = i.next();
                 model.addColumn(m.getName().substring(3));
-
             }
         }
 
-        private Vector fillRow(final Vector properties, final Object o) {
+        private Vector<Object> fillRow(final Vector<Method> properties, final Object o) {
             Method m;
             Object temp;
-            Vector results = new Vector();
-            Iterator i = properties.iterator();
+            Vector<Object> results = new Vector<Object>();
+            Iterator<Method> i = properties.iterator();
             while (i.hasNext()) {
                     temp = null;
-                    m = (Method) i.next();
+                    m = i.next();
                     try {
                         temp = m.invoke(o, (Object[]) null);
                     } catch (Exception ie) {

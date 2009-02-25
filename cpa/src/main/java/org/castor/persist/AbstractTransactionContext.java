@@ -127,12 +127,12 @@ public abstract class AbstractTransactionContext implements TransactionContext {
     private InstanceFactory _instanceFactory;
 
     /** A list of listeners which will be informed about various transaction states. */
-    private ArrayList _synchronizeList = new ArrayList();
+    private ArrayList<TxSynchronizable> _synchronizeList = new ArrayList<TxSynchronizable>();
 
     /** Lists all the connections opened for particular database engines
      *  used in the lifetime of this transaction. The database engine
      *  is used as the key to an open/transactional connection. */
-    private Hashtable _conns = new Hashtable();
+    private Hashtable<LockEngine, Connection> _conns = new Hashtable<LockEngine, Connection>();
 
     /** Meta-data related to the RDBMS used. */
     private DbMetaInfo _dbInfo;
@@ -170,7 +170,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
      */
     private void txcommitted() {
         for (int i = 0; i < _synchronizeList.size(); i++) {
-            TxSynchronizable sync = (TxSynchronizable) _synchronizeList.get(i);
+            TxSynchronizable sync = _synchronizeList.get(i);
             try {
                 sync.committed(this);
             } catch (Exception ex) {
@@ -185,7 +185,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
      */
     private void txrolledback() {
         for (int i = 0; i < _synchronizeList.size(); i++) {
-            TxSynchronizable sync = (TxSynchronizable) _synchronizeList.get(i);
+            TxSynchronizable sync = _synchronizeList.get(i);
             try {
                 sync.rolledback(this);
             } catch (Exception ex) {
@@ -276,7 +276,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
      */
     public final Connection getConnection(final LockEngine engine)
     throws ConnectionFailedException {
-        Connection conn = (Connection) _conns.get(engine);
+        Connection conn = _conns.get(engine);
         if (conn == null) {
             conn = createConnection(engine);
             _conns.put(engine, conn);
@@ -287,7 +287,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
     protected abstract Connection createConnection(final LockEngine engine)
     throws ConnectionFailedException;
         
-    protected final Iterator connectionsIterator() {
+    protected final Iterator<Connection> connectionsIterator() {
         return _conns.values().iterator();
     }
     
@@ -1120,8 +1120,8 @@ public abstract class AbstractTransactionContext implements TransactionContext {
      * @see org.castor.persist.TransactionContext#prepare()
      */
     public final synchronized boolean prepare() throws TransactionAbortedException {
-        ArrayList todo = new ArrayList();
-        ArrayList done = new ArrayList();
+        ArrayList<Object> todo = new ArrayList<Object>();
+        ArrayList<Object> done = new ArrayList<Object>();
 
         if (_status == Status.STATUS_MARKED_ROLLBACK) {
             throw new TransactionAbortedException("persist.markedRollback");
@@ -1150,7 +1150,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
                     }
                 }
 
-                Iterator todoIterator = todo.iterator();
+                Iterator<Object> todoIterator = todo.iterator();
                 while (todoIterator.hasNext()) {
                     Object object = todoIterator.next();
                     // Anything not marked 'deleted' or 'creating' is ready to

@@ -150,7 +150,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
                     try {
                         stmt.close();
                     } catch (SQLException ex) {
-                        _log.warn("Problem closing JDBCstatement", ex);
+                        LOG.warn("Problem closing JDBCstatement", ex);
                     }
                 }
             }
@@ -199,7 +199,9 @@ public final class IdentityKeyGenerator implements KeyGenerator {
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      * Commons Logging</a> instance used for all logging.
      */
-    private static Log _log = LogFactory.getFactory().getInstance(IdentityKeyGenerator.class);
+    private static final Log LOG = LogFactory.getLog(IdentityKeyGenerator.class);
+    
+    private static final int STRING_KEY_LENGTH = 8;
     
     private final PersistenceFactory _factory;
     
@@ -252,7 +254,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
         } else if (sqlType == Types.BIGINT) {
             _typeHandler = new KeyGeneratorTypeHandlerLong(true);
         } else if ((sqlType == Types.CHAR) || (sqlType == Types.VARCHAR)) {
-            _typeHandler = new KeyGeneratorTypeHandlerString(true, 8);
+            _typeHandler = new KeyGeneratorTypeHandlerString(true, STRING_KEY_LENGTH);
         } else {
             _typeHandler = new KeyGeneratorTypeHandlerBigDecimal(true);
         }
@@ -291,7 +293,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
         try {
             return _type.getValue(conn, tableName);
         } catch (Exception e) {
-            _log.error("Problem generating new key", e);
+            LOG.error("Problem generating new key", e);
             return null;
         }
     }

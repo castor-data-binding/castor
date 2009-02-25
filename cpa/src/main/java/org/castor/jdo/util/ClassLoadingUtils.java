@@ -37,9 +37,9 @@ public final class ClassLoadingUtils {
      * @return The class loaded as specified by the class name.
      * @throws ClassNotFoundException If the given class can not be loaded.
      */
-      public static Class loadClass(final ClassLoader classLoader, final String classname)
+      public static Class<?> loadClass(final ClassLoader classLoader, final String classname)
       throws ClassNotFoundException {
-          Class classToLoad = null;
+          Class<?> classToLoad = null;
           if (classLoader == null) {
               classToLoad = Class.forName(classname);
           } else {

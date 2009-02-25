@@ -549,16 +549,16 @@ public abstract class AbstractGenerator implements Generator {
         _schema.setConfiguration(_configuration);
 
         // Create key generators.
-        Enumeration ekg = root.enumerateKeyGeneratorDef();
+        Enumeration<? extends KeyGeneratorDef> ekg = root.enumerateKeyGeneratorDef();
         while (ekg.hasMoreElements()) {
-            KeyGeneratorDef definition = (KeyGeneratorDef) ekg.nextElement();
+            KeyGeneratorDef definition = ekg.nextElement();
             _keyGenRegistry.createKeyGenerator(definition);
         }
 
         // Create tables.
-        Enumeration ec = root.enumerateClassMapping();
+        Enumeration<? extends ClassMapping> ec = root.enumerateClassMapping();
         while (ec.hasMoreElements()) {
-            ClassMapping cm = (ClassMapping) ec.nextElement();
+            ClassMapping cm = ec.nextElement();
             Table table = createTable(cm);
             if (table != null) { _schema.addTable(table); }
         }
@@ -598,7 +598,7 @@ public abstract class AbstractGenerator implements Generator {
         if (cm.getClassChoice() == null) { return table; }
 
         boolean isUseFieldIdentity = _mappingHelper.isUseFieldIdentity(cm);
-        Enumeration ef = cm.getClassChoice().enumerateFieldMapping();
+        Enumeration<? extends FieldMapping> ef = cm.getClassChoice().enumerateFieldMapping();
 
         // Process key generator.
         String keygenerator = cm.getKeyGenerator();
@@ -609,7 +609,7 @@ public abstract class AbstractGenerator implements Generator {
         table.setKeyGenerator(keyGen);
 
         while (ef.hasMoreElements()) {
-            FieldMapping fm = (FieldMapping) ef.nextElement();
+            FieldMapping fm = ef.nextElement();
 
             // Skip if <sql> tag is not defined and we have no mapping to DB.
             if (fm.getSql() == null) { continue; }
@@ -750,7 +750,8 @@ public abstract class AbstractGenerator implements Generator {
         }
         
         boolean isUseFieldIdentity = _mappingHelper.isUseFieldIdentity(extendCm);
-        Enumeration extendEf = extendCm.getClassChoice().enumerateFieldMapping();
+        Enumeration<? extends FieldMapping> extendEf =
+            extendCm.getClassChoice().enumerateFieldMapping();
 
         // Process key generator.
         String keygenerator = extendCm.getKeyGenerator();
@@ -761,7 +762,7 @@ public abstract class AbstractGenerator implements Generator {
         table.setKeyGenerator(keyGen);
 
         while (extendEf.hasMoreElements()) {
-            FieldMapping extendFm = (FieldMapping) extendEf.nextElement();
+            FieldMapping extendFm = extendEf.nextElement();
 
             // Skip if <sql> tag is not defined.
             if (extendFm.getSql() == null) { continue; }
@@ -868,10 +869,10 @@ public abstract class AbstractGenerator implements Generator {
      */
     private boolean mergeIfDefInBothClasses(final Table table, 
             final ClassMapping cm, final FieldMapping extendFm) {
-        Enumeration ef = cm.getClassChoice().enumerateFieldMapping();
+        Enumeration<? extends FieldMapping> ef = cm.getClassChoice().enumerateFieldMapping();
         
         while (ef.hasMoreElements()) {
-            FieldMapping fm = (FieldMapping) ef.nextElement();
+            FieldMapping fm = ef.nextElement();
             String fname = fm.getName();
             // If extend field has the same name with one of parent's fields.
             if (fname != null && fname.equalsIgnoreCase(extendFm.getName())) {

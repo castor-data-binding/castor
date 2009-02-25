@@ -51,9 +51,9 @@ public final class JDOConfAdapter {
         TransactionDemarcation demarcation = _jdoConf.getTransactionDemarcation();
         TransactionManager manager = demarcation.getTransactionManager();
         if (manager != null) {
-            Enumeration parameters = manager.enumerateParam();
+            Enumeration<? extends Param> parameters = manager.enumerateParam();
             while (parameters.hasMoreElements()) {
-                Param param = (Param) parameters.nextElement();
+                Param param = parameters.nextElement();
                 properties.put(param.getName(), param.getValue());
             }
         }

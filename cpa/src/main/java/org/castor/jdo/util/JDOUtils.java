@@ -138,7 +138,7 @@ public final class JDOUtils {
      * @return ClassDescriptor if exists, otherwise null.
      * @throws MappingException If database can not be instantiated.
      */
-    public static ClassDescriptor getClassDescriptor(final String db, final Class type)
+    public static ClassDescriptor getClassDescriptor(final String db, final Class<?> type)
     throws MappingException {
         AbstractConnectionFactory cf = DatabaseRegistry.getConnectionFactory(db);
         ClassMolder cm = cf.getEngine().getClassMolderWithDependent(type);

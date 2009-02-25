@@ -1335,6 +1335,6 @@ public class ClassMolder {
      * @return The actual (OQL) statement 
      */
     public String getNamedQuery(final String name) {
-        return (String) new ClassDescriptorJDONature(_clsDesc).getNamedQueries().get(name);
+        return new ClassDescriptorJDONature(_clsDesc).getNamedQueries().get(name);
     }
 }
