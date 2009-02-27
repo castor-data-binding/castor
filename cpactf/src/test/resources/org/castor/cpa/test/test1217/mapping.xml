@@ -35,7 +35,7 @@
             <sql name="OID" type="char"/>
         </field>
         <field name="number" type="string">
-            <sql name="NUMBER" type="char"/>
+            <sql name="NUM" type="char"/>
         </field>
     </class>
   
