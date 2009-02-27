@@ -33,7 +33,8 @@ public final class TestObjectNotFound extends CPATestCase {
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.DERBY);
+            || (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.ORACLE);
     }
     
     public void delete() throws Exception {
