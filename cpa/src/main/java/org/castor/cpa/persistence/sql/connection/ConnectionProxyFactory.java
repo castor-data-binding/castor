@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.jdo.drivers;
+package org.castor.cpa.persistence.sql.connection;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-
-import org.castor.cpa.CPAProperties;
 
 /**
  * Factory class for proxies for JDBC Connection, PreparedStatement and CallableStatement
@@ -33,24 +31,7 @@ import org.castor.cpa.CPAProperties;
  * @since 1.0.4
  */
 public final class ConnectionProxyFactory {
-    /** Default calling location, equals 'unknwon'. */
-    private static final String DEFAULT_CALLED_BY = "unknown";
-    
-    /** Has property of LocalConfiguration been read? */
-    private static boolean _isConfigured = false;
-    
-    /** Should connections been wrapped by a proxy? */
-    private static boolean _useProxies = false;
-    
-    /**
-     * Factory method for creating a ConnectionProxy. 
-     *  
-     * @param connection The JDBC connection to proxy.
-     * @return The JDBC connection proxy.
-     */
-    public static Connection newConnectionProxy(final Connection connection) {
-        return newConnectionProxy(connection, DEFAULT_CALLED_BY);
-    }
+    //--------------------------------------------------------------------------
 
     /**
      * Factory method for creating a ConnectionProxy.
@@ -61,15 +42,6 @@ public final class ConnectionProxyFactory {
      */
     public static Connection newConnectionProxy(
             final Connection connection, final String calledBy) {
-        
-        if (!_isConfigured) {
-            _useProxies = CPAProperties.getInstance().getBoolean(
-                    CPAProperties.USE_JDBC_PROXIES, true);
-            _isConfigured = true;
-        }
-        
-        if (!_useProxies) { return connection; }
-        
         ClassLoader loader = connection.getClass().getClassLoader();
         Class<?>[] interfaces = new Class<?>[] {Connection.class};
         InvocationHandler handler = new ConnectionProxy(connection, calledBy);
@@ -85,15 +57,6 @@ public final class ConnectionProxyFactory {
      */
     protected static PreparedStatement newPreparedStatementProxy(
             final PreparedStatement statement, final String sql) {
-
-        if (!_isConfigured) {
-            _useProxies = CPAProperties.getInstance().getBoolean(
-                    CPAProperties.USE_JDBC_PROXIES, true);
-            _isConfigured = true;
-        }
-
-        if (!_useProxies) { return statement; }
-        
         ClassLoader loader = statement.getClass().getClassLoader();
         Class<?>[] interfaces = new Class<?>[] {PreparedStatement.class};
         InvocationHandler handler = new PreparedStatementProxy(statement, sql);
@@ -109,23 +72,18 @@ public final class ConnectionProxyFactory {
      */
     protected static CallableStatement newCallableStatementProxy(
             final CallableStatement statement, final String sql) {
-
-        if (!_isConfigured) {
-            _useProxies = CPAProperties.getInstance().getBoolean(
-                    CPAProperties.USE_JDBC_PROXIES, true);
-            _isConfigured = true;
-        }
-
-        if (!_useProxies) { return statement; }
-        
         ClassLoader loader = statement.getClass().getClassLoader();
         Class<?>[] interfaces = new Class<?>[] {CallableStatement.class};
         InvocationHandler handler = new CallableStatementProxy(statement, sql);
         return (CallableStatement) Proxy.newProxyInstance(loader, interfaces, handler);
     }
     
+    //--------------------------------------------------------------------------
+
     /**
      * Hide utility class constructor.
      */
     private ConnectionProxyFactory() { }
+
+    //--------------------------------------------------------------------------
 }

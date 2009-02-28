@@ -27,9 +27,10 @@ import javax.sql.DataSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
+import org.castor.cpa.CPAProperties;
+import org.castor.cpa.persistence.sql.connection.ConnectionProxyFactory;
 import org.castor.jdo.conf.DatabaseChoice;
 import org.castor.jdo.conf.JdoConf;
-import org.castor.jdo.drivers.ConnectionProxyFactory;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 
@@ -49,7 +50,7 @@ public final class JNDIConnectionFactory extends AbstractConnectionFactory {
     //--------------------------------------------------------------------------
 
     /** The data source when using a JDBC dataSource. */
-    private DataSource        _dataSource = null;
+    private DataSource _dataSource = null;
 
     //--------------------------------------------------------------------------
 
@@ -60,8 +61,7 @@ public final class JNDIConnectionFactory extends AbstractConnectionFactory {
      * @param index     Index of the database configuration inside the jdo configuration.
      * @param mapping   The mapping to load.
      */
-    public JNDIConnectionFactory(final JdoConf jdoConf, final int index,
-                                 final Mapping mapping) {
+    public JNDIConnectionFactory(final JdoConf jdoConf, final int index, final Mapping mapping) {
         super(jdoConf, index, mapping);
     }
 
@@ -107,8 +107,12 @@ public final class JNDIConnectionFactory extends AbstractConnectionFactory {
      * @see org.castor.jdo.engine.ConnectionFactory#createConnection()
      */
     public Connection createConnection () throws SQLException {
-        return ConnectionProxyFactory.newConnectionProxy(
-                _dataSource.getConnection(), getClass().getName());
+        boolean useProxies = CPAProperties.getInstance().getBoolean(
+                CPAProperties.USE_JDBC_PROXIES, true);
+        
+        Connection connection = _dataSource.getConnection();
+        if (!useProxies) { return connection; }
+        return ConnectionProxyFactory.newConnectionProxy(connection, getClass().getName());
     }
 
     //--------------------------------------------------------------------------

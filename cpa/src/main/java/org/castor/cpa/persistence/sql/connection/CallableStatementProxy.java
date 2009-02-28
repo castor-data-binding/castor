@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.jdo.drivers;
+package org.castor.cpa.persistence.sql.connection;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -41,6 +41,8 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.0.4
  */
 public final class CallableStatementProxy implements InvocationHandler {
+    //--------------------------------------------------------------------------
+
     /** Jakarta Common Log instance. */
     private static final Log LOG = LogFactory.getLog(CallableStatementProxy.class);
     
@@ -64,6 +66,8 @@ public final class CallableStatementProxy implements InvocationHandler {
     /** List of batch statements associated with this instance. */
     private final List<String> _batchStatements = new ArrayList<String>();
 
+    //--------------------------------------------------------------------------
+
     /**
      * Creates an instance of this class.
      * 
@@ -78,6 +82,8 @@ public final class CallableStatementProxy implements InvocationHandler {
             LOG.debug("Creating callable statement proxy for SQL statement " + sql);
         }
     }
+
+    //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -128,4 +134,6 @@ public final class CallableStatementProxy implements InvocationHandler {
 
         return method.invoke(_callableStatement, args);
     }
+
+    //--------------------------------------------------------------------------
 }
