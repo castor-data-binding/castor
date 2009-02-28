@@ -3,25 +3,6 @@
   <body>
     <title>Configuration, Libraries and Building Castor</title>
 
-    <section title="News">
-      <ul>
-        <li>
-          <b>Release 1.1.3:</b> Added special processing of proxied classes. The property
-          org.exolab.castor.xml.proxyInterfaces allows you to specify a list of interfaces
-          that such proxied objects implement. If your object implements one of these interfaces
-          Castor will not use the class itself but its superclass at introspection or to find
-          class mappings and ClassDescriptors.
-        </li>
-        <li>
-          <b>Release 0.9.7:</b> Added new org.exolab.castor.persist.useProxies property to allow
-          configuration of JDBC proxy classes. If enabled, JDBC proxy classes will be used to wrap
-          <tt>java.sql.Connection</tt> and <tt>java.sql.PreparedStatement</tt>
-          instances, to allow for more detailed and complete JDBC statements to be output
-          during logging. When turned off, no logging statements will be generated at all.
-        </li>
-      </ul>
-    </section>
-
     <section title="The Castor configuration file">
 
       <p>
@@ -172,31 +153,31 @@ org.exolab.castor.mapping.collections=\
 
 # List of persistence factories for the supported database servers:
 #
-org.exolab.castor.jdo.engines=\
-  org.exolab.castor.jdo.drivers.OracleFactory,\
-  org.exolab.castor.jdo.drivers.PostgreSQLFactory,\
-  org.exolab.castor.jdo.drivers.SybaseFactory,\
-  org.exolab.castor.jdo.drivers.SQLServerFactory,\
-  org.exolab.castor.jdo.drivers.DB2Factory,\
-  org.exolab.castor.jdo.drivers.InformixFactory,\
-  org.exolab.castor.jdo.drivers.HsqlFactory,\
-  org.exolab.castor.jdo.drivers.InstantDBFactory,\
-  org.exolab.castor.jdo.drivers.InterbaseFactory,\
-  org.exolab.castor.jdo.drivers.MySQLFactory,\
-  org.exolab.castor.jdo.drivers.SapDbFactory,\
-  org.exolab.castor.jdo.drivers.GenericFactory,\
-  org.exolab.castor.jdo.drivers.DerbyFactory,\
-  org.castor.jdo.drivers.PointbaseFactory,\
-  org.castor.jdo.drivers.ProgressFactory
+org.castor.cpa.persistence.sql.driver.factories=\
+  org.castor.cpa.persistence.sql.driver.OracleFactory,\
+  org.castor.cpa.persistence.sql.driver.PostgreSQLFactory,\
+  org.castor.cpa.persistence.sql.driver.SybaseFactory,\
+  org.castor.cpa.persistence.sql.driver.SQLServerFactory,\
+  org.castor.cpa.persistence.sql.driver.DB2Factory,\
+  org.castor.cpa.persistence.sql.driver.InformixFactory,\
+  org.castor.cpa.persistence.sql.driver.HsqlFactory,\
+  org.castor.cpa.persistence.sql.driver.InstantDBFactory,\
+  org.castor.cpa.persistence.sql.driver.InterbaseFactory,\
+  org.castor.cpa.persistence.sql.driver.MySQLFactory,\
+  org.castor.cpa.persistence.sql.driver.SapDbFactory,\
+  org.castor.cpa.persistence.sql.driver.GenericFactory,\
+  org.castor.cpa.persistence.sql.driver.DerbyFactory,\
+  org.castor.cpa.persistence.sql.driver.PointbaseFactory,\
+  org.castor.cpa.persistence.sql.driver.ProgressFactory
 
 # List of key generator factories:
 #
-org.exolab.castor.jdo.keyGeneratorFactories=\
-  org.exolab.castor.jdo.keygen.MaxKeyGeneratorFactory,\
-  org.exolab.castor.jdo.keygen.HighLowKeyGeneratorFactory,\
-  org.exolab.castor.jdo.keygen.IdentityKeyGeneratorFactory,\
-  org.exolab.castor.jdo.keygen.SequenceKeyGeneratorFactory,\
-  org.exolab.castor.jdo.keygen.UUIDKeyGeneratorFactory
+org.castor.cpa.persistence.sql.keygen.factories=\
+  org.castor.cpa.persistence.sql.keygen.MaxKeyGeneratorFactory,\
+  org.castor.cpa.persistence.sql.keygen.HighLowKeyGeneratorFactory,\
+  org.castor.cpa.persistence.sql.keygen.IdentityKeyGeneratorFactory,\
+  org.castor.cpa.persistence.sql.keygen.SequenceKeyGeneratorFactory,\
+  org.castor.cpa.persistence.sql.keygen.UUIDKeyGeneratorFactory
 
 # Collection handlers for the source code generator:
 #
@@ -230,11 +211,10 @@ org.exolab.castor.jdo.lobBufferSize=5120
 #
 #org.exolab.castor.jdo.DatabaseInitializeAtLoad=true
 
-# True if proxy classes should be used for JDBC connections and
-# prepared statements.
+# True if proxy classes should be used for JDBC connections and prepared statements.
 # Defaults to true.
 #
-org.exolab.castor.persist.useProxies=false
+org.castor.cpa.persistence.sql.connection.proxies=false
 
 # MappingLoader implementations:
 #

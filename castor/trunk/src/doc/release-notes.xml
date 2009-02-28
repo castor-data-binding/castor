@@ -32,8 +32,41 @@
             <date>tbd</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
+                <h2>Changes</h2>
+                
+                <h3>Moved connection proxies into new org.castor.cpa.persistence.sql.connection package</h3>
+                
+                <p>
+                    The entry in to enable connection proxies in properties file should now be:
+                </p>
+                    <code-panel>
+# True if proxy classes should be used for JDBC connections and prepared statements.
+# Defaults to true.
+#
+org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
             </summary>
             <bugs>
+                <bug id="2665" tool="jira">
+                    <description>
+                        Moved connection proxies from org.castor.jdo.drivers to
+                        org.castor.cpa.persistence.sql.connection package.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20090228</date>
+                </bug>
                 <bug id="2663" tool="jira">
                     <description>
                         Changed code generation for mapping.xsd from Java 1.4 to Java 5.

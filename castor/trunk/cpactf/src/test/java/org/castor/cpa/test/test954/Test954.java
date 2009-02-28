@@ -15,8 +15,6 @@
  */
 package org.castor.cpa.test.test954;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,10 +26,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.AbstractProperties;
 import org.castor.cpa.CPAProperties;
+import org.castor.cpa.persistence.sql.connection.ConnectionProxyFactory;
 import org.castor.cpa.test.framework.CPATestCase;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.castor.jdo.conf.JdoConf;
-import org.castor.jdo.drivers.ConnectionProxy;
 import org.castor.jdo.engine.AbstractConnectionFactory;
 import org.castor.jdo.engine.DataSourceConnectionFactory;
 import org.castor.jdo.engine.DriverConnectionFactory;
@@ -97,10 +95,8 @@ public final class Test954 extends CPATestCase {
         
         // if connection is not wrapped by a proxy yet, create one now
         if (!useProxies) {
-            ClassLoader loader = _connection.getClass().getClassLoader();
-            Class<?>[] interfaces = new Class<?>[] {Connection.class};
-            InvocationHandler handler = new ConnectionProxy(_connection, getClass().getName());
-            _connection = (Connection) Proxy.newProxyInstance(loader, interfaces, handler);
+            _connection = ConnectionProxyFactory.newConnectionProxy(
+                    _connection, getClass().getName());
         }
     }
     
@@ -117,6 +113,6 @@ public final class Test954 extends CPATestCase {
         
         ResultSet results = stmt.executeQuery();
         assertNotNull(results);
-        assertTrue (results.next());
+        assertTrue(results.next());
     }
 }

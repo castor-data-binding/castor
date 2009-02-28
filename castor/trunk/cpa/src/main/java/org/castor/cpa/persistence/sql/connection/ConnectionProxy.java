@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.jdo.drivers;
+package org.castor.cpa.persistence.sql.connection;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -33,6 +33,8 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.0.4
  */
 public final class ConnectionProxy implements InvocationHandler {
+    //--------------------------------------------------------------------------
+
     /** Jakarta Common Log instance. */
     private static final Log LOG = LogFactory.getLog(ConnectionProxy.class);
     
@@ -42,6 +44,8 @@ public final class ConnectionProxy implements InvocationHandler {
     /** Name of the class that created this ConnectionProxy instance. */
     private final String _calledBy;
     
+    //--------------------------------------------------------------------------
+
     /**
      * Creates an instance of ConnectionProxy.
      * 
@@ -56,6 +60,8 @@ public final class ConnectionProxy implements InvocationHandler {
             LOG.debug("Creating ConnectionProxy for calling class " + _calledBy);
         }
     }
+
+    //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -90,4 +96,6 @@ public final class ConnectionProxy implements InvocationHandler {
             return method.invoke(_connection, args);
         }
     }
+
+    //--------------------------------------------------------------------------
 }

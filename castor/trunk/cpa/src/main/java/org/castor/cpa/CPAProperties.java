@@ -174,7 +174,7 @@ public class CPAProperties extends AbstractProperties {
     /** Property specifying whether JDBC proxy classes should be used 
      *  <pre>org.exolab.castor.persist.useProxies</pre>. */
     public static final String USE_JDBC_PROXIES =
-        "org.exolab.castor.persist.useProxies";
+        "org.castor.cpa.persistence.sql.connection.proxies";
 
     /** Property specifying whether to use ANSI-compliant SQL for MS SQL Server.
      *  <pre>org.exolab.castor.jdo.sqlserver.ansi-compliant</pre> */
