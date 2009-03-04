@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.jdo.engine;
+package org.castor.cpa.persistence.sql.connection;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -27,11 +27,7 @@ import javax.sql.DataSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
-import org.castor.cpa.CPAProperties;
-import org.castor.cpa.persistence.sql.connection.ConnectionProxyFactory;
-import org.castor.jdo.conf.DatabaseChoice;
-import org.castor.jdo.conf.JdoConf;
-import org.exolab.castor.mapping.Mapping;
+import org.castor.jdo.conf.Jndi;
 import org.exolab.castor.mapping.MappingException;
 
 /**
@@ -40,7 +36,7 @@ import org.exolab.castor.mapping.MappingException;
  * @version $Revision$ $Date: 2006-04-12 15:13:08 -0600 (Wed, 12 Apr 2006) $
  * @since 0.9.9
  */
-public final class JNDIConnectionFactory extends AbstractConnectionFactory {
+public final class JNDIConnectionFactory implements ConnectionFactory {
     //--------------------------------------------------------------------------
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
@@ -48,6 +44,12 @@ public final class JNDIConnectionFactory extends AbstractConnectionFactory {
     private static final Log LOG = LogFactory.getLog(JNDIConnectionFactory.class);
 
     //--------------------------------------------------------------------------
+    
+    /** JNDI configuration. */
+    private final Jndi _jndi;
+    
+    /** Wrap JDBC connections by proxies? */
+    private final boolean _useProxies;
 
     /** The data source when using a JDBC dataSource. */
     private DataSource _dataSource = null;
@@ -57,26 +59,24 @@ public final class JNDIConnectionFactory extends AbstractConnectionFactory {
     /**
      * Constructs a new JNDIConnectionFactory with given database and mapping.
      * 
-     * @param jdoConf   An in-memory jdo configuration. 
-     * @param index     Index of the database configuration inside the jdo configuration.
-     * @param mapping   The mapping to load.
+     * @param jndi JNDI configuration.
+     * @param useProxies Wrap JDBC connections by proxies?
      */
-    public JNDIConnectionFactory(final JdoConf jdoConf, final int index, final Mapping mapping) {
-        super(jdoConf, index, mapping);
+    public JNDIConnectionFactory(final Jndi jndi, final boolean useProxies) {
+        _jndi = jndi;
+        _useProxies = useProxies;
     }
+
+    //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
-     * @see org.castor.jdo.engine.AbstractConnectionFactory#initializeFactory()
      */
     public void initializeFactory() throws MappingException {
-        Object dataSource;
-        
-        DatabaseChoice dbChoice = getDatabase().getDatabaseChoice();
-        String name = null;
+        String name = _jndi.getName();
 
+        Object dataSource;
         try {
-            name = dbChoice.getJndi().getName();
             Context initialContext = new InitialContext(); 
             dataSource = initialContext.lookup(name);
         } catch (NameNotFoundException e) {
@@ -100,18 +100,12 @@ public final class JNDIConnectionFactory extends AbstractConnectionFactory {
         }
     }
 
-    //--------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
-     * @see org.castor.jdo.engine.ConnectionFactory#createConnection()
      */
     public Connection createConnection () throws SQLException {
-        boolean useProxies = CPAProperties.getInstance().getBoolean(
-                CPAProperties.USE_JDBC_PROXIES, true);
-        
         Connection connection = _dataSource.getConnection();
-        if (!useProxies) { return connection; }
+        if (!_useProxies) { return connection; }
         return ConnectionProxyFactory.newConnectionProxy(connection, getClass().getName());
     }
 

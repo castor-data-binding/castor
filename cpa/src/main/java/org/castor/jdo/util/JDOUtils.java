@@ -23,7 +23,7 @@ import java.sql.Statement;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
-import org.castor.jdo.engine.AbstractConnectionFactory;
+import org.castor.jdo.engine.DatabaseContext;
 import org.castor.jdo.engine.DatabaseRegistry;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.mapping.ClassDescriptor;
@@ -140,9 +140,9 @@ public final class JDOUtils {
      */
     public static ClassDescriptor getClassDescriptor(final String db, final Class<?> type)
     throws MappingException {
-        AbstractConnectionFactory cf = DatabaseRegistry.getConnectionFactory(db);
-        ClassMolder cm = cf.getEngine().getClassMolderWithDependent(type);
-        return cm.getClassDescriptor();
+        DatabaseContext context = DatabaseRegistry.getDatabaseContext(db);
+        ClassMolder molder = context.getEngine().getClassMolderWithDependent(type);
+        return molder.getClassDescriptor();
     }
 
     //-------------------------------------------------------------------------

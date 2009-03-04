@@ -65,7 +65,7 @@ public final class LocalTransactionContext extends AbstractTransactionContext {
         // to have the transaction association in the engine inflates the code size
         // in other places.
         try {
-            Connection conn = engine.getConnectionFactory().createConnection();
+            Connection conn = engine.getDatabaseContext().getConnectionFactory().createConnection();
             conn.setAutoCommit(false);
             return conn;
         } catch (SQLException ex) {

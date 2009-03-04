@@ -25,6 +25,10 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
 import org.castor.cpa.CPAProperties;
+import org.castor.cpa.persistence.sql.connection.ConnectionFactory;
+import org.castor.cpa.persistence.sql.connection.DataSourceConnectionFactory;
+import org.castor.cpa.persistence.sql.connection.DriverConnectionFactory;
+import org.castor.cpa.persistence.sql.connection.JNDIConnectionFactory;
 import org.castor.jdo.conf.Database;
 import org.castor.jdo.conf.DatabaseChoice;
 import org.castor.jdo.conf.JdoConf;
@@ -49,7 +53,7 @@ public final class DatabaseRegistry {
     private static final Log LOG = LogFactory.getLog(DatabaseRegistry.class);
 
     /** Map of all registered connection factories by name. */
-    private static final Hashtable  FACTORIES = new Hashtable();
+    private static final Hashtable  CONTEXTS = new Hashtable();
 
     /**
      * Instantiates a DataSourceConnectionFactory with given name, engine, datasource
@@ -66,10 +70,13 @@ public final class DatabaseRegistry {
             final String name, final String engine, final DataSource datasource,
             final Mapping mapping, final TransactionManager txManager)
     throws MappingException {
-        AbstractConnectionFactory factory = new DataSourceConnectionFactory(
-                name, engine, datasource, mapping, txManager);
+        boolean useProxies = CPAProperties.getInstance().getBoolean(
+                CPAProperties.USE_JDBC_PROXIES, true);
         
-        if (FACTORIES.put(name, factory) != null) {
+        ConnectionFactory cf = new DataSourceConnectionFactory(datasource, useProxies);
+        DatabaseContext context = new DatabaseContext(name, engine, mapping, txManager, cf);
+        
+        if (CONTEXTS.put(name, context) != null) {
             LOG.warn(Messages.format("jdo.configLoadedTwice", name));
         }
     }
@@ -174,7 +181,7 @@ public final class DatabaseRegistry {
         // Load the JDO configuration file from the specified input source.
         // databases = JDOConfLoader.getDatabases(baseURI, resolver);
         Database[] databases = jdoConf.getDatabase();
-        AbstractConnectionFactory factory;
+        DatabaseContext context;
         for (int i = 0; i < databases.length; i++) {
             // Load the mapping file from the URL specified in the database
             // configuration file, relative to the configuration file.
@@ -183,11 +190,11 @@ public final class DatabaseRegistry {
             if (resolver != null) { mapping.setEntityResolver(resolver); }
             if (baseURI != null) { mapping.setBaseURL(baseURI); }
             
-            factory = DatabaseRegistry.createFactory(jdoConf, i, mapping);
-            factory.setClassDescriptorResolver(classDescriptorResolver);
-            if (init) { factory.initialize(); }
+            context = DatabaseRegistry.createDatabaseContext(jdoConf, i, mapping);
+            context.setClassDescriptorResolver(classDescriptorResolver);
+            if (init) { context.initialize(); }
             String name = databases[i].getName();
-            if (FACTORIES.put(name, factory) != null) {
+            if (CONTEXTS.put(name, context) != null) {
                 LOG.warn(Messages.format("jdo.configLoadedTwice", name));
             }
         }
@@ -203,10 +210,13 @@ public final class DatabaseRegistry {
      * @return The ConnectionFactory.
      * @throws MappingException If the database cannot be instantiated/loadeed.
      */
-    private static AbstractConnectionFactory createFactory(
+    private static DatabaseContext createDatabaseContext(
             final JdoConf jdoConf, final int index, final Mapping mapping)
     throws MappingException {
-        AbstractConnectionFactory factory;
+        boolean useProxies = CPAProperties.getInstance().getBoolean(
+                CPAProperties.USE_JDBC_PROXIES, true);
+        
+        ConnectionFactory factory;
         
         DatabaseChoice choice = jdoConf.getDatabase(index).getDatabaseChoice();
         if (choice == null) {
@@ -219,16 +229,17 @@ public final class DatabaseRegistry {
         if (choice.getDriver() != null) {
             // JDO configuration file specifies a driver, use the driver
             // properties to create a new registry object.
-            factory = new DriverConnectionFactory(jdoConf, index, mapping);
+            factory = new DriverConnectionFactory(choice.getDriver(), useProxies);
         } else if (choice.getDataSource() != null) {
             // JDO configuration file specifies a DataSource object, use the
             // DataSource which was configured from the JDO configuration file
             // to create a new registry object.
-            factory = new DataSourceConnectionFactory(jdoConf, index, mapping);
+            ClassLoader loader = mapping.getClassLoader();
+            factory = new DataSourceConnectionFactory(choice.getDataSource(), useProxies, loader);
         } else if (choice.getJndi() != null) {
             // JDO configuration file specifies a DataSource lookup through JNDI, 
             // locate the DataSource object frome the JNDI namespace and use it.
-            factory = new JNDIConnectionFactory(jdoConf, index, mapping);
+            factory = new JNDIConnectionFactory(choice.getJndi(), useProxies);
         } else {
             String name = jdoConf.getDatabase(index).getName();
             String msg = Messages.format("jdo.missingDataSource", name);
@@ -236,7 +247,7 @@ public final class DatabaseRegistry {
             throw new MappingException(msg);
         }
         
-        return factory;
+        return new DatabaseContext(jdoConf, index, mapping, factory);
     }
 
     /**
@@ -245,7 +256,7 @@ public final class DatabaseRegistry {
      * @return <code>true</code> if a databases configuration has been loaded.
      */
     public static boolean hasDatabaseRegistries() {
-        return (!FACTORIES.isEmpty());
+        return (!CONTEXTS.isEmpty());
     }
     
     /**
@@ -255,7 +266,7 @@ public final class DatabaseRegistry {
      * @return <code>true</code> if databases configuration has been loaded.
      */
     public static boolean isDatabaseRegistred(final String name) {
-        return FACTORIES.containsKey(name);
+        return CONTEXTS.containsKey(name);
     }
     
     /**
@@ -265,30 +276,29 @@ public final class DatabaseRegistry {
      * @return The ConnectionFactory for the given database name.
      * @throws MappingException If database can not be instantiated.
      */
-    public static AbstractConnectionFactory getConnectionFactory(final String name)
+    public static DatabaseContext getDatabaseContext(final String name)
     throws MappingException {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Fetching ConnectionFactory: " + name);
         }
         
-        AbstractConnectionFactory factory;
-        factory = (AbstractConnectionFactory) FACTORIES.get(name);
+        DatabaseContext context = (DatabaseContext) CONTEXTS.get(name);
         
-        if (factory == null) {
+        if (context == null) {
             String msg = Messages.format("jdo.missingDataSource", name);
             LOG.error(msg);
             throw new MappingException(msg);
         }
         
-        factory.initialize();
-        return factory;
+        context.initialize();
+        return context;
     }
 
     /**
      * Reset all database configurations.
      */
     public static void clear() {
-        FACTORIES.clear();
+        CONTEXTS.clear();
     }
     
     /**
@@ -297,7 +307,7 @@ public final class DatabaseRegistry {
      * @param  name     Name of the database to be unloaded.
      */
     public static void unloadDatabase(final String name) {
-        FACTORIES.remove(name);
+        CONTEXTS.remove(name);
     }
     
     /**
