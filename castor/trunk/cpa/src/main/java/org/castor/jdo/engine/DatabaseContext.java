@@ -25,6 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
 import org.castor.cpa.CPAProperties;
+import org.castor.cpa.persistence.sql.connection.ConnectionFactory;
 import org.castor.jdo.conf.Database;
 import org.castor.jdo.conf.JdoConf;
 import org.castor.jdo.util.JDOConfAdapter;
@@ -48,14 +49,14 @@ import org.exolab.castor.xml.util.JDOClassDescriptorResolver;
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  * @since 0.9.9
  */
-public abstract class AbstractConnectionFactory implements ConnectionFactory {
+public final class DatabaseContext {
 
     /** The name of the generic SQL engine, if no SQL engine specified. */
     public static final String GENERIC_ENGINE = "generic";
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
-    private static final Log LOG = LogFactory.getLog(AbstractConnectionFactory.class);
+    private static final Log LOG = LogFactory.getLog(DatabaseContext.class);
 
     /** Has the factory been initialized? */
     private boolean             _initialized = false;
@@ -84,6 +85,8 @@ public abstract class AbstractConnectionFactory implements ConnectionFactory {
      */
     private JDOClassDescriptorResolver _classDescriptorResolver = null;
     
+    private ConnectionFactory _factory;
+    
     /**
      * Constructs a new AbstractConnectionFactory with given name, engine and mapping.
      * Factory will be ready to use without calling initialize first.
@@ -94,9 +97,10 @@ public abstract class AbstractConnectionFactory implements ConnectionFactory {
      * @param mapping   The previously loaded mapping.
      * @throws MappingException If LockEngine could not be initialized.
      */
-    protected AbstractConnectionFactory(final String name, final String engine,
+    protected DatabaseContext(final String name, final String engine,
                                         final Mapping mapping,
-                                        final TransactionManager txManager)
+                                        final TransactionManager txManager,
+                                        final ConnectionFactory factory)
     throws MappingException {
         _jdoConf = null;
         _index = -1;
@@ -104,6 +108,8 @@ public abstract class AbstractConnectionFactory implements ConnectionFactory {
         _mapping = mapping;
         _txManager = txManager;
         
+        _factory = factory;
+
         initializeEngine(engine);
         _initialized = true;
     }
@@ -116,13 +122,15 @@ public abstract class AbstractConnectionFactory implements ConnectionFactory {
      * @param index     Index of the database configuration in the JDO configuration.
      * @param mapping   The mapping to load.
      */
-    protected AbstractConnectionFactory(final JdoConf jdoConf, final int index,
-                                        final Mapping mapping) {
+    protected DatabaseContext(final JdoConf jdoConf, final int index,
+            final Mapping mapping, final ConnectionFactory factory) {
         _jdoConf = jdoConf;
         _index = index;
         _name = jdoConf.getDatabase(index).getName();
         _mapping = mapping;
         _txManager = null;
+        
+        _factory = factory;
     }
     
     /**
@@ -221,12 +229,13 @@ public abstract class AbstractConnectionFactory implements ConnectionFactory {
                 this, _classDescriptorResolver, factory);
     }
     
-    /**
-     * Initialize the concrete factory.
-     * 
-     * @throws MappingException If concrete factory could not be initialized.
-     */
-    public abstract void initializeFactory() throws MappingException;
+    public void initializeFactory() throws MappingException {
+        _factory.initializeFactory();
+    }
+
+    public ConnectionFactory getConnectionFactory() {
+        return _factory;
+    }
     
     /**
      * Get the name of the database configuration.
@@ -281,5 +290,4 @@ public abstract class AbstractConnectionFactory implements ConnectionFactory {
             final JDOClassDescriptorResolver classDescriptorResolver) {
         _classDescriptorResolver = classDescriptorResolver;
     }
-
 }

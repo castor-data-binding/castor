@@ -22,7 +22,7 @@ import java.util.Iterator;
 import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
 import org.castor.cpa.CPAProperties;
-import org.castor.jdo.engine.AbstractConnectionFactory;
+import org.castor.jdo.engine.DatabaseContext;
 import org.castor.jdo.engine.DatabaseRegistry;
 import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
@@ -113,13 +113,13 @@ public abstract class AbstractDatabaseImpl implements Database {
         // and report if not mapping registered any of the two.
         // A new ODMG engine is created each time with different
         // locking mode.
-        AbstractConnectionFactory factory = null;
+        DatabaseContext context = null;
         try {
-            factory = DatabaseRegistry.getConnectionFactory(dbName);
+            context = DatabaseRegistry.getDatabaseContext(dbName);
         } catch (MappingException ex) {
             throw new DatabaseNotFoundException(Messages.format("jdo.dbNoMapping", dbName));
         }
-        _scope = new PersistenceInfoGroup(new LockEngine[] {factory.getEngine()});
+        _scope = new PersistenceInfoGroup(new LockEngine[] {context.getEngine()});
         
         _callback = callback;
         _instanceFactory = instanceFactory;

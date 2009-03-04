@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.jdo.engine;
+package org.castor.cpa.persistence.sql.connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,13 +24,8 @@ import java.util.Properties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
-import org.castor.cpa.CPAProperties;
-import org.castor.cpa.persistence.sql.connection.ConnectionProxyFactory;
-import org.castor.jdo.conf.DatabaseChoice;
 import org.castor.jdo.conf.Driver;
-import org.castor.jdo.conf.JdoConf;
 import org.castor.jdo.conf.Param;
-import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 
 /**
@@ -39,7 +34,7 @@ import org.exolab.castor.mapping.MappingException;
  * @version $Revision$ $Date: 2006-04-12 15:13:08 -0600 (Wed, 12 Apr 2006) $
  * @since 0.9.9
  */
-public final class DriverConnectionFactory extends AbstractConnectionFactory {
+public final class DriverConnectionFactory implements ConnectionFactory {
     //--------------------------------------------------------------------------
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
@@ -48,36 +43,36 @@ public final class DriverConnectionFactory extends AbstractConnectionFactory {
 
     //--------------------------------------------------------------------------
 
+    /** Driver configuration. */
+    private final Driver _driver;
+
+    /** Wrap JDBC connections by proxies? */
+    private final boolean _useProxies;
+    
     /** The JDBC URL when using a JDBC driver. Only available after initialization. */
-    private String            _url = null;
+    private String _url = null;
 
     /** The properties when using a JDBC driver. Only available after initialization. */
-    private Properties        _props;
+    private Properties _props = null;
 
     //--------------------------------------------------------------------------
 
     /**
      * Constructs a new DriverConnectionFactory with given database and mapping.
      * 
-     * @param jdoConf   An in-memory jdo configuration. 
-     * @param index     Index of the database configuration inside the jdo configuration.
-     * @param mapping   The mapping to load.
+     * @param driver Driver configuration.
+     * @param useProxies Wrap JDBC connections by proxies?
      */
-    public DriverConnectionFactory(final JdoConf jdoConf, final int index,
-                                   final Mapping mapping) {
-        super(jdoConf, index, mapping);
+    public DriverConnectionFactory(final Driver driver, final boolean useProxies) {
+        _driver = driver;
+        _useProxies = useProxies;
     }
 
     /**
      * {@inheritDoc}
-     * @see org.castor.jdo.engine.AbstractConnectionFactory#initializeFactory()
      */
     public void initializeFactory() throws MappingException {
-        Enumeration params;
-        Param       param;
-        
-        DatabaseChoice dbChoice = getDatabase().getDatabaseChoice();
-        String driverName = dbChoice.getDriver().getClassName();
+        String driverName = _driver.getClassName();
         if (driverName != null) {
             try {
                 Class.forName(driverName).newInstance();
@@ -98,10 +93,10 @@ public final class DriverConnectionFactory extends AbstractConnectionFactory {
             } 
         }
         
+        _url = _driver.getUrl();
         try {
-            Driver driver = dbChoice.getDriver();
-            if (DriverManager.getDriver(driver.getUrl()) == null) {
-                String msg = Messages.format("jdo.missingDriver", driver.getUrl());
+            if (DriverManager.getDriver(_url) == null) {
+                String msg = Messages.format("jdo.missingDriver", _url);
                 LOG.error(msg);
                 throw new MappingException(msg);
             }
@@ -109,12 +104,10 @@ public final class DriverConnectionFactory extends AbstractConnectionFactory {
             throw new MappingException(ex);
         }
         
-        _url = dbChoice.getDriver().getUrl();
-        
         _props = new Properties();
-        params = dbChoice.getDriver().enumerateParam();
+        Enumeration<? extends Param> params = _driver.enumerateParam();
         while (params.hasMoreElements()) {
-            param = (Param) params.nextElement();
+            Param param = params.nextElement();
             _props.put(param.getName(), param.getValue());
         }
 
@@ -127,14 +120,10 @@ public final class DriverConnectionFactory extends AbstractConnectionFactory {
 
     /**
      * {@inheritDoc}
-     * @see org.castor.jdo.engine.ConnectionFactory#createConnection()
      */
     public Connection createConnection () throws SQLException {
-        boolean useProxies = CPAProperties.getInstance().getBoolean(
-                CPAProperties.USE_JDBC_PROXIES, true);
-        
         Connection connection = DriverManager.getConnection(_url, _props);
-        if (!useProxies) { return connection; }
+        if (!_useProxies) { return connection; }
         return ConnectionProxyFactory.newConnectionProxy(connection, getClass().getName());
     }
 

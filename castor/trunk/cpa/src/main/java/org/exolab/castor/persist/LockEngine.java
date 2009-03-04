@@ -61,7 +61,8 @@ import org.castor.cache.CacheFactoryRegistry;
 import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
 import org.castor.cpa.CPAProperties;
-import org.castor.jdo.engine.ConnectionFactory;
+import org.castor.cpa.persistence.sql.connection.ConnectionFactory;
+import org.castor.jdo.engine.DatabaseContext;
 import org.castor.persist.AbstractTransactionContext;
 import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
@@ -146,7 +147,7 @@ public final class LockEngine {
     /**
      * The ConnectionFactory.
      */
-    private ConnectionFactory _connectionFactory;
+    private DatabaseContext _databaseContext;
     
     /**
      * Used by the constructor when creating handlers to temporarily
@@ -162,7 +163,7 @@ public final class LockEngine {
      *                      object described in the map
      * @throws MappingException Indicate that one of the mappings is invalid
      */
-    public LockEngine(final ConnectionFactory connectionFactory,
+    public LockEngine(final DatabaseContext databaseContext,
                       final ClassDescriptorResolver cdResolver,
                       final PersistenceFactory persistenceFactory)
     throws MappingException {
@@ -171,7 +172,7 @@ public final class LockEngine {
             _cacheFactoryRegistry = new CacheFactoryRegistry(properties);
         }
         
-        _connectionFactory = connectionFactory;
+        _databaseContext = databaseContext;
         _persistenceFactory = persistenceFactory;
         
         try {
@@ -283,7 +284,7 @@ public final class LockEngine {
         return result;
     }
     
-    public ConnectionFactory getConnectionFactory() { return _connectionFactory; }
+    public DatabaseContext getDatabaseContext() { return _databaseContext; }
 
     /**
      * Get classMolder which represents the given java data object class.

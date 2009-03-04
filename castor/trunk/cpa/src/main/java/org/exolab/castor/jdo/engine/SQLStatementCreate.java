@@ -35,8 +35,9 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
 import org.castor.cpa.CPAProperties;
+import org.castor.cpa.persistence.sql.connection.ConnectionFactory;
 import org.castor.cpa.persistence.sql.keygen.KeyGenerator;
-import org.castor.jdo.engine.ConnectionFactory;
+import org.castor.jdo.engine.DatabaseContext;
 import org.castor.jdo.engine.DatabaseRegistry;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.persist.ProposedEntity;
@@ -715,15 +716,15 @@ public class SQLStatementCreate {
 
     private Connection getSeparateConnection(final Database database)
     throws PersistenceException {
-        ConnectionFactory factory = null;
+        DatabaseContext context = null;
         try {
-            factory = DatabaseRegistry.getConnectionFactory(database.getDatabaseName());
+            context = DatabaseRegistry.getDatabaseContext(database.getDatabaseName());
         } catch (MappingException e) {
             throw new PersistenceException(Messages.message("persist.cannotCreateSeparateConn"), e);
         }
         
         try {
-            Connection conn = factory.createConnection();
+            Connection conn = context.getConnectionFactory().createConnection();
             conn.setAutoCommit(false);
             return conn;
         } catch (SQLException e) {

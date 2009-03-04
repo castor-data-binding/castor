@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.jdo.engine;
+package org.castor.cpa.persistence.sql.connection;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+
+import org.exolab.castor.mapping.MappingException;
 
 /**
  * Interface for creation of new JDBC Connection instances.
@@ -27,6 +29,15 @@ import java.sql.SQLException;
  * @since 0.9.9
  */
 public interface ConnectionFactory {
+    //--------------------------------------------------------------------------
+
+    /**
+     * Initialize the concrete factory.
+     * 
+     * @throws MappingException If concrete factory could not be initialized.
+     */
+    void initializeFactory() throws MappingException;
+    
     /**
      * Creates a new JDBC Connection instance.
      * 
@@ -34,4 +45,6 @@ public interface ConnectionFactory {
      * @throws SQLException If the JDBC connection cannot be created.
      */
     Connection createConnection () throws SQLException;
+
+    //--------------------------------------------------------------------------
 }

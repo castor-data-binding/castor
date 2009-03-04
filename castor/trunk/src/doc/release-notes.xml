@@ -46,6 +46,27 @@
 org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
             </summary>
             <bugs>
+                <bug id="2669" tool="jira">
+                    <description>
+                        Separated responsibility of ConnectionFactory to create connections
+                        and initialize/hold other database related objects.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20090304</date>
+                </bug>
                 <bug id="2665" tool="jira">
                     <description>
                         Moved connection proxies from org.castor.jdo.drivers to

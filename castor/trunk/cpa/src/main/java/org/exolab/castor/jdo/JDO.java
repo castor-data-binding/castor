@@ -64,7 +64,7 @@ import javax.transaction.TransactionManager;
 
 import org.castor.core.util.Messages;
 import org.castor.jdo.conf.JdoConf;
-import org.castor.jdo.engine.AbstractConnectionFactory;
+import org.castor.jdo.engine.DatabaseContext;
 import org.castor.jdo.engine.DatabaseRegistry;
 import org.castor.transactionmanager.LocalTransactionManager;
 import org.exolab.castor.jdo.engine.AbstractDatabaseImpl;
@@ -527,9 +527,8 @@ implements DataObjects, Referenceable, ObjectFactory, Serializable {
                 }
             }
 
-            AbstractConnectionFactory factory;
-            factory = DatabaseRegistry.getConnectionFactory(_dbName);
-            _transactionManager = factory.getTransactionManager();
+            DatabaseContext context = DatabaseRegistry.getDatabaseContext(_dbName);
+            _transactionManager = context.getTransactionManager();
         } catch (MappingException ex) {
             throw new DatabaseNotFoundException(ex);
         }

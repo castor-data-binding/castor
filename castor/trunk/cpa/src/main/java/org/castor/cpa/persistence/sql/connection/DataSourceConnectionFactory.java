@@ -13,25 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.jdo.engine;
+package org.castor.cpa.persistence.sql.connection;
 
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import javax.sql.DataSource;
-import javax.transaction.TransactionManager;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
-import org.castor.cpa.CPAProperties;
-import org.castor.cpa.persistence.sql.connection.ConnectionProxyFactory;
-import org.castor.jdo.conf.Database;
-import org.castor.jdo.conf.DatabaseChoice;
-import org.castor.jdo.conf.JdoConf;
+import org.castor.jdo.conf.DataSource;
 import org.castor.jdo.conf.Param;
-import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 
 /**
@@ -40,7 +32,7 @@ import org.exolab.castor.mapping.MappingException;
  * @version $Revision$ $Date: 2006-04-12 15:13:08 -0600 (Wed, 12 Apr 2006) $
  * @since 0.9.9
  */
-public final class DataSourceConnectionFactory extends AbstractConnectionFactory {
+public final class DataSourceConnectionFactory implements ConnectionFactory {
     //--------------------------------------------------------------------------
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
@@ -53,37 +45,34 @@ public final class DataSourceConnectionFactory extends AbstractConnectionFactory
      * Initialize JDBC DataSource instance with the given database configuration
      * instances and the given class loader.
      * 
-     * @param  database     Database configuration.
-     * @param  loader       ClassLoader to use. 
-     * @return The initalized DataSource.
+     * @param confDataSource DataSource configuration.
+     * @param loader ClassLoader to use. 
+     * @return The initialized DataSource.
      * @throws MappingException Problem related to analysing the JDO configuration.
      */
-    public static DataSource loadDataSource(final Database database,
-                                            final ClassLoader loader) 
+    public static javax.sql.DataSource loadDataSource(
+            final DataSource confDataSource, final ClassLoader loader) 
     throws MappingException {
-        DataSource dataSource;
-        Param[] parameters;
-
-        DatabaseChoice dbChoice = database.getDatabaseChoice();
-        String className = dbChoice.getDataSource().getClassName();
+        String className = confDataSource.getClassName();
         ClassLoader classLoader = loader;
         if (classLoader == null) {
             classLoader = Thread.currentThread().getContextClassLoader();
         }
 
+        javax.sql.DataSource sqlDataSource;
         try {
-            Class dsClass = Class.forName(className, true, classLoader);
-            dataSource = (DataSource) dsClass.newInstance();
+            Class<?> dsClass = Class.forName(className, true, classLoader);
+            sqlDataSource = (javax.sql.DataSource) dsClass.newInstance();
         } catch (Exception e) {
             String msg = Messages.format("jdo.engine.classNotInstantiable", className);
             LOG.error(msg, e);
             throw new MappingException(msg, e);
         }
         
-        parameters = database.getDatabaseChoice().getDataSource().getParam();
-        setParameters(dataSource, parameters);
+        Param[] parameters = confDataSource.getParam();
+        setParameters(sqlDataSource, parameters);
         
-        return dataSource;
+        return sqlDataSource;
     }
     
     /**
@@ -94,7 +83,7 @@ public final class DataSourceConnectionFactory extends AbstractConnectionFactory
      * @param params The parameters to set on the datasource.
      * @throws MappingException If one of the parameters could not be set.
      */
-    public static void setParameters(final DataSource dataSource, final Param[] params)
+    public static void setParameters(final javax.sql.DataSource dataSource, final Param[] params)
     throws MappingException {
         Method[] methods = dataSource.getClass().getMethods();
         
@@ -109,7 +98,7 @@ public final class DataSourceConnectionFactory extends AbstractConnectionFactory
                 int i = 0;
                 while (!success && (i < methods.length)) {
                     Method method = methods[i];
-                    Class[] types = method.getParameterTypes();
+                    Class<?>[] types = method.getParameterTypes();
                     if ((method.getName().equals(name)) && (types.length == 1)) {
                         if (types[0] == String.class) {
                             method.invoke(dataSource, new Object[] {value});
@@ -168,9 +157,18 @@ public final class DataSourceConnectionFactory extends AbstractConnectionFactory
     }
 
     //--------------------------------------------------------------------------
+    
+    /** DataSource configuration. */
+    private final DataSource _confDataSource;
 
+    /** Wrap JDBC connections by proxies? */
+    private final boolean _useProxies;
+    
+    /** ClassLoader to use. */
+    private final ClassLoader _loader;
+    
     /** The data source when using a JDBC dataSource. */
-    private DataSource        _dataSource = null;
+    private javax.sql.DataSource _sqlDataSource = null;
 
     //--------------------------------------------------------------------------
 
@@ -178,45 +176,42 @@ public final class DataSourceConnectionFactory extends AbstractConnectionFactory
      * Constructs a new DataSourceConnectionFactory with given name, engine, mapping
      * and datasource. Factory will be ready to use without calling initialize first.
      * 
-     * @param name       The Name of the database configuration.
-     * @param engine     The Name of the persistence factory to use.
      * @param datasource The preconfigured datasource to use for creating connections.
-     * @param mapping    The previously loaded mapping.
-     * @param txManager  The transaction manager to use.
-     * @throws MappingException If LockEngine could not be initialized.
+     * @param useProxies Wrap JDBC connections by proxies?
      */
-    public DataSourceConnectionFactory(
-            final String name, final String engine, final DataSource datasource,
-            final Mapping mapping, final TransactionManager txManager)
-    throws MappingException {
-        super(name, engine, mapping, txManager);
-        
-        _dataSource = datasource;
+    public DataSourceConnectionFactory(final javax.sql.DataSource datasource,
+            final boolean useProxies) {
+        _confDataSource = null;
+        _useProxies = useProxies;
+        _loader = null;
+        _sqlDataSource = datasource;
     }
 
     /**
      * Constructs a new DataSourceConnectionFactory with given database and mapping.
      * Initialize needs to be called before using the factory to create connections.
      * 
-     * @param jdoConf   An in-memory jdo configuration. 
-     * @param index     Index of the database configuration inside the jdo configuration.
-     * @param mapping   The mapping to load.
+     * @param dataSource DataSouce configuration. 
+     * @param useProxies Wrap JDBC connections by proxies?
+     * @param loader ClassLoader to use. 
      */
-    public DataSourceConnectionFactory(final JdoConf jdoConf, final int index,
-                                       final Mapping mapping) {
-        super(jdoConf, index, mapping);
+    public DataSourceConnectionFactory(final DataSource dataSource, final boolean useProxies,
+            final ClassLoader loader) {
+        _confDataSource = dataSource;
+        _useProxies = useProxies;
+        _loader = loader;
     }
 
     /**
      * {@inheritDoc}
-     * @see org.castor.jdo.engine.AbstractConnectionFactory#initializeFactory()
      */
     public void initializeFactory() throws MappingException {
-        _dataSource = loadDataSource(getDatabase(), getMapping().getClassLoader());
+        if (_sqlDataSource == null) {
+            _sqlDataSource = loadDataSource(_confDataSource, _loader);
 
-        if (LOG.isDebugEnabled()) {
-            DatabaseChoice dbc = getDatabase().getDatabaseChoice();
-            LOG.debug("Using DataSource: " + dbc.getDataSource().getClassName());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Using DataSource: " + _confDataSource.getClassName());
+            }
         }
     }
 
@@ -224,14 +219,10 @@ public final class DataSourceConnectionFactory extends AbstractConnectionFactory
 
     /**
      * {@inheritDoc}
-     * @see org.castor.jdo.engine.ConnectionFactory#createConnection()
      */
     public Connection createConnection () throws SQLException {
-        boolean useProxies = CPAProperties.getInstance().getBoolean(
-                CPAProperties.USE_JDBC_PROXIES, true);
-        
-        Connection connection = _dataSource.getConnection();
-        if (!useProxies) { return connection; }
+        Connection connection = _sqlDataSource.getConnection();
+        if (!_useProxies) { return connection; }
         return ConnectionProxyFactory.newConnectionProxy(connection, getClass().getName());
     }
 

@@ -57,7 +57,7 @@ import javax.transaction.TransactionManager;
 import javax.transaction.UserTransaction;
 
 import org.castor.core.util.Messages;
-import org.castor.jdo.engine.ConnectionFactory;
+import org.castor.jdo.engine.DatabaseContext;
 import org.castor.jdo.engine.DatabaseRegistry;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.JDO;
@@ -202,12 +202,12 @@ public class JDOJ2EECategory extends TestHarness {
     
     public Connection getJDBCConnection() throws SQLException {
         String name = _jdo.getDatabaseName();
-        ConnectionFactory factory = null;
+        DatabaseContext context = null;
         try {
-            factory = DatabaseRegistry.getConnectionFactory(name);
+            context = DatabaseRegistry.getDatabaseContext(name);
         } catch (MappingException ex) {
             throw new SQLException(Messages.format("jdo.dbNoMapping", name));
         }
-        return factory.createConnection();
+        return context.getConnectionFactory().createConnection();
     }
 }

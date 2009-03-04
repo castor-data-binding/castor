@@ -65,7 +65,7 @@ public final class GlobalTransactionContext extends AbstractTransactionContext {
         // to have the transaction association in the engine inflates the code size
         // in other places.
         try {
-            return engine.getConnectionFactory().createConnection();
+            return engine.getDatabaseContext().getConnectionFactory().createConnection();
         } catch (SQLException ex) {
             throw new ConnectionFailedException(Messages.format("persist.nested", ex), ex);
         }
