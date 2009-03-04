@@ -4,6 +4,7 @@
 <chapter id="jdo.extensions">
   <title>JDO extensions for the Castor XML code generator</title>
 
+<!-- 
     <section id="jdo.extensions.news">
         <title>News</title>
 
@@ -13,7 +14,8 @@
             </listitem>
         </itemizedlist>    
     </section>
-  
+ -->
+   
   <section id="jdo.extensions.why">
     <title>JDO extensions - Motivation</title>
     
@@ -49,9 +51,9 @@
     </itemizedlist>
     
     <para>
-        Whilst it was already possible to use the generated set of domain classes
-        in Castor JDO for object-/relational mapping purpose, the user still had to 
-        manually write a JDO-specific mapping file. Whilst technically not very difficult,
+        In addition, it was already possible to use the generated set of domain classes
+        in Castor JDO for object-/relational mapping purpose by supplying a 
+        (manually writen) JDO-specific mapping file. Whilst technically not very difficult,
         this was still an error-prone task, especially in a context where tens or 
         hundreds of classes were generated from a set of XML schemas.
     </para>
@@ -63,6 +65,15 @@
         the mapping between Java (domain) objects and database tables/columns, and as
         such remove the requirement of having to write a JDO-specific mapping file.
     </para>
+    
+    <note>
+        <para>
+           Please note that Castor JDO - upon startup - internally converts the information
+           provided in the JDO mapping file to (JDO) descriptor classes. As such, the
+           approach outlined above simply re-uses an existing code base and just automates the
+           production of those descriptor classes.
+        </para>
+    </note>
     
     <para>
         The following sections introduce the general principles, define the XML schema 
@@ -162,22 +173,115 @@ CREATE TABLE book_table (
         
         </section>
         
-      <section id="jdo.extensions.schema.elements">
-         <title>The schema elements</title>
-      
+      <section id="jdo.extensions.generation">
+        <title>Configuring the XML code generator</title>
+        
         <para>
-            The following XML artifacts are available to annotate an existing XML schema
-            with JDO extension-specific information.
+            To have the Castor XML code generator generate JDO class descriptors
+            when processing a set of XML schemas, please use one of the following 
+            methods:
         </para>
         
+        <table id="jdo.extensions.generation.methods" align="center">
+             <title>Accessing options</title>
+             <tgroup cols="3">
+               <colspec colname="c1"/>
+               <colspec colname="c2"/>
+               <colspec colname="c3"/>
+               <thead>
+                 <row>
+                   <entry>Usage</entry>
+                   <entry>Method</entry>
+                   <entry>Description</entry>
+                 </row>
+               </thead>
+               <tbody>
+                <row>
+                    <entry><classname>SourceGenerator</classname></entry>
+                    <entry><methodname>setJdoDescriptorCreation(boolean)</methodname></entry>
+                    <entry>Supply a value of <literal>true</literal> to enable this feature.</entry>
+                </row>
+                <row>
+                    <entry><classname>SourceGeneratorMain</classname></entry>
+                    <entry>Flag <literal>-gen-jdo-desc</literal></entry>
+                    <entry>Set this optional flag to enable this feature.</entry>
+                </row>
+                <row>
+                    <entry>Ant task for XML code generator</entry>
+                    <entry><literal>generateJdoDescriptors</literal> option</entry>
+                    <entry>Set this to a value of <literal>true</literal>.</entry>
+                </row>
+<!--                 
+                <row>
+                    <entry>Maven plugin for XML code generator</entry>
+                    <entry><literal>generateJdoDescriptors</literal> option</entry>
+                    <entry>Set this to a value of <literal>true</literal>.</entry>
+                </row>
+-->                
+               </tbody>
+             </tgroup>
+        </table>
+        
+        
+      </section>
+        
+      <section id="jdo.extensions.schema.elements">
+         <title>The JDO annotations for XML schemas</title>
+      
+        <para>
+            This section enlists the XML artifacts available to annotate an existing XML schema
+            with JDO extension-specific information. These constructs are defined themselves
+            in an XML schema <literal>jdo-extensions.xsd</literal> that has a target 
+            namespace of <uri>http://www.castor.org/binding/persistence</uri>. 
+        </para>
+        
+        <para>
+            To enable proper validation of your XML schemas when editing JDO
+            annotations, and to enable XML completion in your preferred XML 
+            editor, please add <literal>schemaLocation</literal> information to 
+            your XML schema definition as follows:
+        </para>
+        
+        <programlistingco>        
+              <areaspec>
+                 <area id="jdo.extensions.schema.location.1" units="linecolumn" coords="5 80"/>
+              </areaspec>
+            <programlisting language="xml"><![CDATA[
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://your/target/namespace"
+    xmlns:jdo="http://www.castor.org/binding/persistence"
+    xmlns="http://your/target/namespace"
+    xsi:schemaLocation="http://www.castor.org/binding/persistence http://www.castor.org/jdo-extensions.xsd">
+    
+...
+
+</xs:schema>]]>        
+            </programlisting>
+        </programlistingco> 
+
+        <para>
+          where ...
+        </para>
+
+        <calloutlist>
+           <!-- <title>Mapping a type to a table - Main artifacts</title>  -->
+           <callout arearefs="jdo.extensions.schema.location.1">
+               <para>
+                  The values supplied in the <literal>schemaLocation</literal> attribute
+                  define the location of the XML schema for any XML artefacts bound to
+                  the <literal>http://www.castor.org/binding/persistence</literal> namespace.
+               </para>
+           </callout>
+        </calloutlist>
         
         <section id="jdo.extensions.schema.elements.table">
            <title>&lt;table&gt; element</title>
         
             <para>
                 The &lt;table&gt; element allows you to map an &lt;complexType&gt;
-                definition to a table within a database, and to specify the
-                identity (frequently referred to as primary key), as follows:
+                definition to a database table within a database, and to specify the
+                identity (frequently referred to as <literal>primary key</literal>), 
+                as follows:
             </para>
 
            <programlistingco>
@@ -235,8 +339,8 @@ CREATE TABLE book_table (
             </para>
 
             <para>
-                Syntactically, the <literal>&lt;table&gt;</literal> element is defined 
-                as follows:
+                The XML schema definition for the <literal>&lt;table&gt;</literal> 
+                element is defined as follows:
             </para>
         
             <programlisting language="xml"><![CDATA[
@@ -258,7 +362,13 @@ CREATE TABLE book_table (
       </xs:attribute>
       <xs:attribute name="detachable" type="xs:boolean" default="false"/>
    </xs:complexType>
-</xs:element>]]>
+</xs:element>
+
+<xs:complexType name="pkType">
+   <xs:sequence>
+      <xs:element name="key" type="xs:string" maxOccurs="unbounded" />
+   </xs:sequence>
+</xs:complexType>]]>
             </programlisting>
 
         </section>
@@ -268,7 +378,8 @@ CREATE TABLE book_table (
 
             <para>
                 The &lt;column&gt; element allows you to map a member of content model 
-                of a &lt;complexType&gt; definition to a column within a database.
+                of a &lt;complexType&gt; definition to a column within a database
+                table.
             </para>
 
            <programlistingco>
@@ -307,7 +418,7 @@ CREATE TABLE book_table (
             <calloutlist>
                  <callout arearefs="jdo.extensions.schema.elements.column.1">
                      <para>
-                        Defines that the element definition <literal>siNUmber</literal>
+                        Defines that the element definition <literal>siNumber</literal>
                         be mapped against the database column <literal>sin</literal>, and
                         that the (database) type of this column is 
                         <literal>integer</literal>.
@@ -317,13 +428,14 @@ CREATE TABLE book_table (
             </calloutlist>
 
             <para>
-                This maps the element <literal>isNumber</literal> to
+                Above example maps the element <literal>isNumber</literal> to
                 the database column <literal>sin</literal>, and specifies the database type
-                to be used for persistence (integer, in this case).
+                to be used for persistence (<literal>integer</literal>, in this case).
             </para>
             
             <para>
-                The <literal>&lt;column&gt;</literal> element is defined as follows:
+                The XML schema definition for <literal>&lt;column&gt;</literal> is 
+                defined as follows:
             </para>
             
             <programlisting language="xml"><![CDATA[
@@ -383,8 +495,12 @@ CREATE TABLE book_table (
                 of a &lt;complexType&gt; definition to a 1:1 relation to another
                 &lt;complexType&gt;.
             </para>
-        
-            <programlisting language="xml"><![CDATA[
+
+            <programlistingco>        
+              <areaspec>
+                 <area id="jdo.extensions.schema.elements.one-to-one.1" units="linecolumn" coords="25 80"/>
+              </areaspec>
+                <programlisting language="xml"><![CDATA[
 <xs:complexType name="bookType">
    <xs:annotation>
       <xs:appinfo>
@@ -422,18 +538,34 @@ CREATE TABLE book_table (
       </xs:element>
    </xs:sequence>
 </xs:complexType>]]>
-            </programlisting>
+                </programlisting>
+            </programlistingco>            
 
             <para>
-                This maps the element <literal>lector</literal> to a
+                where ....
+            </para>
+            
+            <calloutlist>
+                 <callout arearefs="jdo.extensions.schema.elements.one-to-one.1">
+                     <para>
+                        Defines a 1:1 relation to another &lt;complexType&gt;, 
+                        additionally providing the necessary foreign key column 
+                        at the database level.
+                     </para>
+                 </callout>
+            
+            </calloutlist>
+            
+            <para>
+                Above example maps the element <literal>lector</literal> to a
                 1:1 relation to the complex type <literal>lectorType</literal>, and 
                 specifies the (column name of the) foreign key to be used 
                 (<literal>lector_id</literal> in this case).
             </para>
             
             <para>
-                The <literal>&lt;one-to-one&gt;</literal> element is defined 
-                as follows:
+                The XML schema definition for <literal>&lt;one-to-one&gt;</literal> 
+                is defined as follows:
             </para>
 
             <programlisting language="xml"><![CDATA[
@@ -484,6 +616,109 @@ CREATE TABLE book_table (
         </section>
      </section>
      
+     <section id="jdo.extensions.usage">
+        <title>Using the generated (domain) classes with Castor JDO</title>
+        
+        <para>
+            Once you have generated domain classes and descriptor classes 
+            (both XML and JDO) from your set of XML schemas, you'll be 
+            able to use them as are. There's a few minor changes, which we 
+            are going to highlight below, but the main benefit is that you 
+            <emphasis role="bold">not</emphasis> have to write a JDO mapping 
+            file.  
+        </para>
+        
+        <section id="jdo.extensions.usage.mapping.file">
+            <title>Empty mapping file</title>
+            
+            <para>
+                As you have already generated JDO descriptor classes for each 
+                of your domain objects, you won't have to supply mappings for 
+                those classes anymore. As such, your mapping file will stay 
+                empty, as shown:
+            </para>
+            
+            <programlisting language="xml"><![CDATA[
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+
+   <!-- no mappings required -->
+</mapping>]]>
+            </programlisting>
+            
+            <note>
+                <para>
+                    Please note that you can of course supply mappings for 
+                    those classes that stand outside of the generation
+                    process from your XML schemas. It is possible, too, to
+                    match both modes. In other words, a domain class mapped manually
+                    will be able to refer to a domain class as generated.
+                </para>
+            </note>
+            
+        </section>
+        
+        <section id="jdo.extensions.usage.cdr">
+            <title>Use of a <classname>JDOClassDescriptorResolver</classname></title>
+            
+            <para>
+                In order for Castor to be able to access the generated (JDO) class
+                descriptors and to load those classes from the file system,
+                you will have to configure an instance of 
+                <classname>JDOClassDescriptorResolver</classname> and pass it to your
+                <classname>JDOManager</classname> instance when loading the JDO 
+                configuration.
+            </para>
+            
+            <para>
+                The following example shows how to configure Castor JDO so that 
+                the classes generated from the sample XML schema above can be used 
+                with CASTOR JDO seamlessly. 
+            </para>
+            
+            <programlisting language="java">
+JDOClassDescriptorResolver resolver = new JDOClassDescriptorResolverImpl();
+resolver.addClass(org.castor.jdo.extension.sample.BookType.class);
+resolver.addClass(org.castor.jdo.extension.sample.LectorType.class);            
+resolver.addClass(org.castor.jdo.extension.sample.AuthorType.class);
+
+InputSource jdoConfiguration = ....;
+JDOManager.loadConfiguration(jdoConfiguration, null, null, resolver);
+   
+JDOManager jdoManager = JDOManager.createInstance("jdo-extensions");
+...             
+            </programlisting>
+            
+            <para>
+                Alternatively, if the classes generated from the sample 
+                XML schema shown above reside in the same package, you can 
+                configure the <classname>JDOClassDescriptorResolver</classname>
+                as follows:  
+            </para>
+            
+            <programlisting>
+JDOClassDescriptorResolver resolver = new JDOClassDescriptorResolverImpl();
+resolver.addPackage("org.castor.jdo.extension.sample");
+...
+            </programlisting>
+            
+            <tip>
+               <para>
+                   For the latter approach to work, you will have to make sure that the 
+                   <filename>.castor.jdo.cdr</filename> files generated alongside
+                   your domain (and descriptor classes) are included in your
+                   application deployment units. If not, Castor JDO will not be 
+                   able to load the descriptor classes from the file system, and
+                   throw an exception. 
+               </para>
+            </tip>
+        </section>
+        
+     </section>
+     
+<!--      
      <section id="jdo.extensions.descriptors">
         <title>Descriptor classes - Technical background</title>
         
@@ -514,5 +749,6 @@ CREATE TABLE book_table (
         </section>
         
      </section>
-     
+ -->
+      
 </chapter>
