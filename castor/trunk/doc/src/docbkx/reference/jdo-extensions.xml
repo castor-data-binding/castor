@@ -610,8 +610,122 @@ CREATE TABLE book_table (
            <title>&lt;one-to-many&gt; element</title>
         
             <para>
-               TBD
+                The &lt;one-to-many&gt; element allows you to map a member of the 
+                content model of a &lt;complexType&gt; definition as part of a 1:M relation 
+                to another &lt;complexType&gt;.
             </para>
+            
+            <programlistingco>        
+              <areaspec>
+                 <area id="jdo.extensions.schema.elements.one-to-many.1" units="linecolumn" coords="37 80"/>
+              </areaspec>
+                <programlisting language="xml"><![CDATA[
+<xs:complexType name="bookType">
+   <xs:annotation>
+      <xs:appinfo>
+         <jdo:table name="book_type_table">
+            <jdo:primary-key>
+               <jdo:key>isbn</jdo:key>
+            </jdo:primary-key>
+         </jdo:table>
+      </xs:appinfo>
+   </xs:annotation>
+   <xs:sequence>
+      <xs:element name="isbn" type="xs:string" >
+         <xs:annotation>
+            <xs:appinfo>
+                <jdo:column name="isbn" type="varchar" />
+            </xs:appinfo>
+         </xs:annotation>
+      </xs:element>
+      <xs:element name="pages" type="xs:integer" >
+         <xs:annotation>
+            <xs:appinfo>
+                <jdo:column name="pages" type="integer" />
+            </xs:appinfo>
+         </xs:annotation>
+      </xs:element>
+      <xs:element name="lector" type="lectorType" >
+         <xs:annotation>
+            <xs:appinfo>
+               <jdo:one-to-one name="lector_id" />
+            </xs:appinfo>
+         </xs:annotation>
+      </xs:element>
+      <xs:element name="authors" type="authorType" maxOccurs="unbounded" >
+         <xs:annotation>
+            <xs:appinfo>
+                <jdo:one-to-many name="book_id" />
+            </xs:appinfo>
+         </xs:annotation>    
+      </xs:element>
+   </xs:sequence>
+</xs:complexType>]]>
+                </programlisting>
+            </programlistingco>            
+
+            <para>
+                where ....
+            </para>
+            
+            <calloutlist>
+                 <callout arearefs="jdo.extensions.schema.elements.one-to-many.1">
+                     <para>
+                        Defines a 1:M relation to another &lt;complexType&gt;, 
+                        additionally providing the necessary foreign key column 
+                        for the many member at the database level.
+                     </para>
+                 </callout>
+            
+            </calloutlist>
+
+            <para>
+                Above example maps the element <literal>authors</literal> as part of a
+                1:M relation to the complex type <literal>authorType</literal>, and 
+                specifies the (column name of the) foreign key of the many member 
+                to be used (<literal>book_id</literal> in this case).
+            </para>
+            
+            <para>
+                The XML schema definition for <literal>&lt;one-to-many&gt;</literal> 
+                is given as follows:
+            </para>
+
+            <programlisting language="xml"><![CDATA[
+<xs:element name="one-to-many">
+   <xs:complexType>
+      <xs:complexContent>
+         <xs:extension base="jdo:readonlyDirtyType">
+            <xs:attribute name="name" type="xs:string" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+</xs:element>]]>
+            </programlisting>
+
+            <para>
+                with the following details applying:
+            </para>
+
+            <table id="jdo.extensions.schema.elements.one-to-many.grammar" align="center">
+             <title>&lt;one-to-many&gt; - Definitions</title>
+             <tgroup cols="2">
+               <colspec colname="c1"/>
+               <colspec colname="c2"/>
+               <thead>
+                 <row>
+                   <entry>Name</entry>
+                   <entry>Description</entry>
+                 </row>
+               </thead>
+               <tbody>
+                 <row>
+                   <entry>name</entry>
+                   <entry>Name of the column that represents the (many) foreign key of this relation</entry>
+                 </row>
+               </tbody>
+             </tgroup>
+           </table>        
             
         </section>
      </section>
