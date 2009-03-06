@@ -10,7 +10,7 @@
 			Castor XML is an XML data binding framework. Unlike the two
 			main XML APIs, DOM (Document Object Model) and SAX (Simple
 			API for XML) which deal with the structure of an XML
-			document, Castor enables one to deal with the data defined
+			document, Castor enables you to deal with the data defined
 			in an XML document through an object model which represents
 			that data.
 		</para>
@@ -53,32 +53,45 @@
 		<programlisting language="java">
 import java.util.Date;
 
-/** An simple person class */ public class Person implements
-java.io.Serializable {
+/** An simple person class */ 
+public class Person implements java.io.Serializable {
 
-/** The name of the person */ private String name = null;
+   /** The name of the person */ 
+   private String name = null;
 
-/** The Date of birth */ private Date dob = null;
+   /** The Date of birth */ 
+   private Date dob = null;
 
-/** Creates a Person with no name */ public Person() {
-super(); }
+   /** Creates a Person with no name */ 
+   public Person() {
+      super(); 
+   }
 
-/** Creates a Person with the given name */ public
-Person(String name) { this.name = name; }
+   /** Creates a Person with the given name */ 
+   public Person(String name) { this.name = name; }
 
-/** * @return date of birth of the person */ public Date
-getDateOfBirth() { return dob; }
+   /** 
+     * @return date of birth of the person 
+     */ 
+   public Date getDateOfBirth() { return dob; }
 
-/** * @return name of the person */ public String getName()
-{ return name; }
+   /** 
+     * @return name of the person 
+     */ 
+   public String getName() { return name; }
 
-/** * Sets the date of birth of the person * @param name the
-name of the person */ public void setDateOfBirth(Date dob) {
-this.dob = dob; }
+   /** 
+     * Sets the date of birth of the person 
+     * @param name the name of the person 
+     */ 
+   public void setDateOfBirth(Date dob) { this.dob = dob; }
 
-/** * Sets the name of the person * @param name the name of
-the person */ public void setName(String name) { this.name =
-name; } }
+   /** 
+     * Sets the name of the person 
+     * @param name the name of the person 
+     */ 
+   public void setName(String name) { this.name = name; } 
+}
 		</programlisting>
 
 		<para>
