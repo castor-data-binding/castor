@@ -53,7 +53,7 @@
     <para>
         In addition, it was already possible to use the generated set of domain classes
         in Castor JDO for object-/relational mapping purpose by supplying a 
-        (manually writen) JDO-specific mapping file. Whilst technically not very difficult,
+        (manually written) JDO-specific mapping file. Whilst technically not very difficult,
         this was still an error-prone task, especially in a context where tens or 
         hundreds of classes were generated from a set of XML schemas.
     </para>
@@ -163,7 +163,7 @@ CREATE TABLE lector_table (
 );
 
 CREATE TABLE book_table (
-   isbn varchar(13) NOT NULL,
+   isbn VARCHAR(13) NOT NULL,
    pages INTEGER,
    lector_id INTEGER NOT NULL,
    author_id INTEGER NOT NULL
