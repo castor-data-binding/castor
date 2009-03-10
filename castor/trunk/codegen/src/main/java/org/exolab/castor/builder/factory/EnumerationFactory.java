@@ -357,7 +357,7 @@ public final class EnumerationFactory extends BaseFactory {
                 annotationBuilder.addEnumConstantAnnotations(facet, enumConstant);
             }
             
-            jEnum.addConstant(enumConstant);
+            jEnum.addEnumConstant(enumConstant);
             enumCount++;
         }
         
