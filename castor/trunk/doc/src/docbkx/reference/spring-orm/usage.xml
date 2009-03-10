@@ -1,85 +1,61 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<document url="http://castor.exolab.org/castor-spring/usage.xml">
-  <properties>
-    <title>Usage - Maven and without Maven</title>
-    <abstract>
-       Instructions for integrating Spring ORM for Castor JDO with your projects
-    </abstract>
-    <status>Final</status>
-  </properties>
-  <body>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<section>
+   <title>Usage</title>
+   
+   <section name="Getting started using Maven 2">
 
-    <section name="Getting started using Maven 2">
-
-        <p>In order to start using the Spring ORM module for Castor JDO, you will 
-           have to have Maven 2 installed:</p>
+      <para>
+         In order to start using the Spring ORM module for Castor JDO, you will 
+         have to have Maven 2 installed:
+      </para>
            
-        <p>
-            <ul>
-                <li>Download and install <a href="http://maven.apache.org">Maven 2</a></li>
-            </ul>
-        </p>
+      <itemizedlist>
+          <listitem>
+            <para>Download and install <ulink url="http://maven.apache.org">Maven 2</ulink></para>
+            </listitem>
+      </itemizedlist>
         
-        <p>As this project uses Maven 2 for build and deployment, all required 
-           compile-time and run-time dependencies will automatically be resolved 
-           by Maven 2 and deployed into your local Maven 2 repository.</p>
+      <para>
+        As this project uses Maven 2 for build and deployment, all required 
+        compile-time and run-time dependencies will automatically be resolved 
+        by Maven 2 and deployed into your local Maven 2 repository.
+      </para>
            
-    </section>
+   </section>
+   
+   <section name="Project dependencies">
     
-    <section name="Project dependencies">
-    
-          <p>
-            For those of you working with <a href="http://maven.apache.org">Maven 2</a>, please add
-            the following dependency to your POM to include the <i>Spring ORM package for
-            Castor JDO</i> with your project:
-          </p>
+      <para>
+         Please add the following Maven dependency to your POM to include the 
+         <emphasis role="italic">Spring ORM package for Castor JDO</emphasis> 
+         with your project:
+      </para>
 
-          <source><![CDATA[
+      <programlisting language="xml"><![CDATA[
 <dependency>
    <groupId>org.codehaus.castor</groupId>
    <artifactId>spring-orm</artifactId>
-   <version>1.1</version>
-</dependency>]]></source>
+   <version>1.3</version>
+</dependency>]]>
+      </programlisting>
 
-          <p>
-            If you create a dependency against a SNAPSHOT release, you will
-            have to add the following <tt>&lt;repository&gt;</tt> element to your POM as well,
-            so that Maven 2 knows about the <i>Codehaus Snapshot repository</i> when trying
-            to resolve and download dependencies.
-          </p>
+      <para>
+         If you create a dependency against a SNAPSHOT release, you will
+         have to add the following <literal>&lt;repository&gt;</literal> element 
+         to your POM as well, so that Maven 2 knows about the 
+         <emphasis role="italic">Codehaus Snapshot repository</emphasis> when 
+         trying to resolve and download dependencies.
+      </para>
 
-          <source><![CDATA[
+      <programlisting language="xml"><![CDATA[
 <repository>
     <id>codehaus-snapshots</id>
     <name>Maven Codehaus Snapshots</name>
     <url>http://snapshots.maven.codehaus.org/maven2/</url>
-</repository>]]></source>
+</repository>]]></programlisting>>
 
     </section>
 
-    <section name="Manual integration">
-
-          <p>If you are not using Maven 2 to build the deployment unit
-             of your application (within which you want to use the Spring ORM 
-             module for Castor JDO and Castor JDO itself), below is a list 
-             of run-time dependencies you will have to meet.</p>
-             
-         <table cellpadding="4" border="1">
-           <tr><td>cglib-full-2.0.2.jar</td><td>CGLIB</td></tr>
-           <tr><td>commons-logging-1.1.jar</td><td>Jakarta Commons Loggin</td></tr>
-           <tr><td>jta1.0.1.jar</td><td>The JTA API (transactions)</td></tr>
-           <tr><td>xerces-J_1.4.0.jar</td><td>Xerces XML library</td></tr>
-         </table>
-         
-         <p>and optionally</p>
-         
-         <table cellpadding="4" border="1">
-           <tr><td>log4j-1.2.13.jar</td><td>Log4J</td></tr>
-         </table>
-         
-    </section>    
-    
-
-    
-  </body>
-</document>
+</section>
