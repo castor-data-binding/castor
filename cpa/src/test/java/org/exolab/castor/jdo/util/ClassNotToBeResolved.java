@@ -23,7 +23,7 @@ package org.exolab.castor.jdo.util;
  * {@link org.exolab.castor.mapping.ClassDescriptor} in the
  * <em>.jdo.castor.cdr</em> file.
  * 
- * @see org.exolab.castor.xml.util.ClassResolutionByCDR
+ * @see org.castor.cpa.util.classresolution.command.org.castor.cpa.util.classresolution.ClassResolutionByCDR
  * 
  * @author Sebastian Gabmeyer
  * @since 1.2.1

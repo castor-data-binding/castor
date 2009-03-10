@@ -62,6 +62,7 @@ import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
 import org.castor.cpa.CPAProperties;
 import org.castor.cpa.persistence.sql.connection.ConnectionFactory;
+import org.castor.cpa.util.JDOClassDescriptorResolver;
 import org.castor.jdo.engine.DatabaseContext;
 import org.castor.persist.AbstractTransactionContext;
 import org.castor.persist.ProposedEntity;
@@ -82,7 +83,6 @@ import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.xml.ClassDescriptorResolver;
 import org.exolab.castor.xml.ResolverException;
-import org.exolab.castor.xml.util.JDOClassDescriptorResolver;
 
 /**
  * LockEngine is a gateway for all the <tt>ClassMolder</tt>s of a persistence 

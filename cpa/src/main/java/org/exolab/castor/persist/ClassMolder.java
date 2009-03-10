@@ -51,6 +51,7 @@ import java.util.Vector;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
+import org.castor.cpa.util.JDOClassDescriptorResolver;
 import org.castor.jdo.util.ClassLoadingUtils;
 import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
@@ -80,7 +81,6 @@ import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.xml.ClassDescriptorResolver;
 import org.exolab.castor.xml.ResolverException;
-import org.exolab.castor.xml.util.JDOClassDescriptorResolver;
 
 /**
  * ClassMolder is a 'binder' for one type of data object and its corresponding 
