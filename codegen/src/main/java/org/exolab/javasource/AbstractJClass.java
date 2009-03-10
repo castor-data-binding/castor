@@ -16,6 +16,8 @@
 package org.exolab.javasource;
 
 import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Vector;
 
 import org.exolab.castor.builder.SourceGenerator;
@@ -33,7 +35,10 @@ public abstract class AbstractJClass extends JStructure {
     private JSourceCode _staticInitializer;
 
     /** The list of member variables (fields) of this JClass. */
-    private JNamedMap _fields;
+    private Map<String, JField> _fields = new LinkedHashMap<String, JField>();
+
+    /** The list of member constants of this {@link JClass}. */
+    private Map<String, JConstant> _constants = new LinkedHashMap<String, JConstant>();
 
     /** The list of constructors for this JClass. */
     private Vector<JConstructor> _constructors;
@@ -63,7 +68,6 @@ public abstract class AbstractJClass extends JStructure {
         super(name);
         
         _staticInitializer = new JSourceCode();
-        _fields = new JNamedMap();
         _constructors = new Vector<JConstructor>();
         _methods = new Vector<JMethod>();
         _innerClasses = null;
@@ -87,27 +91,44 @@ public abstract class AbstractJClass extends JStructure {
      * {@inheritDoc}
      */
     public final JField getField(final String name) {
-        return (JField) _fields.get(name);
+        return _fields.get(name);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public final JConstant getConstant(final String name) {
+        return _constants.get(name);
     }
 
     /**
      * {@inheritDoc}
      */
     public final JField[] getFields() {
-        int size = _fields.size();
-        JField[] farray = new JField[size];
-        for (int i = 0; i < size; i++) {
-            farray[i] = (JField) _fields.get(i);
-        }
-        return farray;
+        return _fields.values().toArray(new JField[_fields.size()]);
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
+    public final JConstant[] getConstants() {
+        return _constants.values().toArray(new JConstant[_constants.size()]);
+    }
+
     /**
      * Returns the amount of fields.
      * @return The amount of fields.
      */
     public final int getFieldCount() {
         return _fields.size();
+    }
+
+    /**
+     * Returns the amount of constants.
+     * @return The amount of constants.
+     */
+    public final int getConstantCount() {
+        return _constants.size();
     }
 
     /**
@@ -138,6 +159,31 @@ public abstract class AbstractJClass extends JStructure {
         _fields.put(name, jField);
     }
 
+    public final void addConstant(final JConstant jConstant) {
+        if (jConstant == null) {
+            throw new IllegalArgumentException("Class constants cannot be null");
+        }
+
+        String name = jConstant.getName();
+
+        if (_constants.get(name) != null) {
+            String nameToCompare = (name.startsWith("_")) ? name.substring(1) : name;
+            nameToCompare = nameToCompare.substring(0, 1).toUpperCase()
+                            + nameToCompare.substring(1);
+            if (JNaming.isReservedByCastor(nameToCompare)) {
+                String warn = "'" + nameToCompare + "' might conflict with a constant name used"
+                        + " by Castor.  If you get a complaint\nabout a duplicate name, you will"
+                        + " need to use a mapping file or change the name\nof the conflicting"
+                        + " schema element.";
+                System.out.println(warn);
+            }
+
+            String err = "Duplicate name found as a class member: " + name;
+            throw new IllegalArgumentException(err);
+        }
+        _constants.put(name, jConstant);
+    }
+
     /**
      * Removes the field with the given name from this JClass.
      *
@@ -147,11 +193,27 @@ public abstract class AbstractJClass extends JStructure {
     public final JField removeField(final String name) {
         if (name == null) { return null; }
 
-        JField field = (JField) _fields.remove(name);
+        JField field = _fields.remove(name);
 
         //-- clean up imports
         //-- NOT YET IMPLEMENTED
         return field;
+    }
+
+    /**
+     * Removes the constant with the given name from this {@link JClass}.
+     *
+     * @param name The name of the constant to remove.
+     * @return The JConstant if it was found and removed.
+     */
+    public final JConstant removeConstant(final String name) {
+        if (name == null) { return null; }
+
+        JConstant constant = _constants.remove(name);
+
+        //-- clean up imports
+        //-- NOT YET IMPLEMENTED
+        return constant;
     }
 
     /**
@@ -166,6 +228,25 @@ public abstract class AbstractJClass extends JStructure {
         Object field = _fields.get(jField.getName());
         if (field == jField) {
             _fields.remove(jField.getName());
+            return true;
+        }
+        //-- clean up imports
+        //-- NOT YET IMPLEMENTED
+        return false;
+    }
+
+    /**
+     * Removes the given {@link JConstant} from this {@link JClass}.
+     *
+     * @param jConstant The {@link JConstant} to remove.
+     * @return true if the constant was found and removed.
+     */
+    public final boolean removeConstant(final JConstant jConstant) {
+        if (jConstant == null) { return false; }
+
+        Object constant = _constants.get(jConstant.getName());
+        if (constant == jConstant) {
+            _constants.remove(jConstant.getName());
             return true;
         }
         //-- clean up imports
@@ -515,12 +596,69 @@ public abstract class AbstractJClass extends JStructure {
     }
 
     /**
+     * Writes to the {@link JSourceWriter} the constant definitions of this class.
+     * 
+     * @param jsw The JSourceWriter to be used.
+     */
+    protected final void printConstantDefinitions(final JSourceWriter jsw) {
+        if (!_constants.isEmpty()) {
+            jsw.writeln();
+            jsw.writeln("  //--------------------------/");
+            jsw.writeln(" //- Class/Member constants -/");
+            jsw.writeln("//--------------------------/");
+            jsw.writeln();
+        }
+
+        for (JConstant constant : _constants.values()) {
+            printAbstractJField(jsw, constant);
+        }
+    }
+
+    /**
+     * Prints an {@link AbstractJField} instance to the given {@link JSourceWriter}.
+     * 
+     * @param jsw The {@link JSourceWriter} to print to.
+     * @param field The field to print.
+     */
+    private void printAbstractJField(final JSourceWriter jsw, final AbstractJField field) {
+        //-- print Java comment
+        JDocComment comment = field.getComment();
+        if (comment != null) { comment.print(jsw); }
+
+        //-- print Annotations
+        field.printAnnotations(jsw);
+
+        // -- print member
+        jsw.write(field.getModifiers().toString());
+        jsw.write(' ');
+
+        JType type = field.getType();
+        String typeName = type.toString();
+        //-- for esthetics use short name in some cases
+        if (typeName.equals(toString())) {
+            typeName = type.getLocalName();
+        }
+        jsw.write(typeName);
+        jsw.write(' ');
+        jsw.write(field.getName());
+
+        String init = field.getInitString();
+        if (init != null && !field.isDateTime()) {
+            jsw.write(" = ");
+            jsw.write(init);
+        }
+
+        jsw.writeln(';');
+        jsw.writeln();
+    }
+    
+    /**
      * Writes to the JSourceWriter the member variables of this class.
      * 
      * @param jsw The JSourceWriter to be used.
      */
     protected final void printMemberVariables(final JSourceWriter jsw) {
-        if (_fields.size() > 0) {
+        if (!_fields.isEmpty()) {
             jsw.writeln();
             jsw.writeln("  //--------------------------/");
             jsw.writeln(" //- Class/Member Variables -/");
@@ -528,38 +666,8 @@ public abstract class AbstractJClass extends JStructure {
             jsw.writeln();
         }
 
-        for (int i = 0; i < _fields.size(); i++) {
-            JField jField = (JField) _fields.get(i);
-
-            //-- print Java comment
-            JDocComment comment = jField.getComment();
-            if (comment != null) { comment.print(jsw); }
-
-            //-- print Annotations
-            jField.printAnnotations(jsw);
-
-            // -- print member
-            jsw.write(jField.getModifiers().toString());
-            jsw.write(' ');
-
-            JType type = jField.getType();
-            String typeName = type.toString();
-            //-- for esthetics use short name in some cases
-            if (typeName.equals(toString())) {
-                typeName = type.getLocalName();
-            }
-            jsw.write(typeName);
-            jsw.write(' ');
-            jsw.write(jField.getName());
-
-            String init = jField.getInitString();
-            if (init != null && !jField.isDateTime()) {
-                jsw.write(" = ");
-                jsw.write(init);
-            }
-
-            jsw.writeln(';');
-            jsw.writeln();
+        for (JField field : _fields.values()) {
+            printAbstractJField(jsw, field);
         }
     }
 

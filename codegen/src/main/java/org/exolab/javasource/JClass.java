@@ -99,8 +99,10 @@ public class JClass extends AbstractJClass {
      * {@inheritDoc}
      */
     public void addMember(final JMember jMember) {
-        if (jMember instanceof JField) {
+        if (jMember instanceof AbstractJField) {
             addField((JField) jMember);
+        } else if (jMember instanceof JConstant) {
+            addConstant(((JConstant) jMember));
         } else if (jMember instanceof JMethod) {
             addMethod((JMethod) jMember);
         } else {
@@ -170,6 +172,7 @@ public class JClass extends AbstractJClass {
         jsw.writeln();
         jsw.indent();
 
+        printConstantDefinitions(jsw);
         printMemberVariables(jsw);
         printStaticInitializers(jsw);
         printConstructors(jsw);

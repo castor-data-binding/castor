@@ -43,7 +43,7 @@
 package org.exolab.javasource;
 
 /**
- * A class which holds information about a field. Modelled closely after the
+ * A class which holds information about a field. Modeled closely after the
  * Java Reflection API. This class is part of package which is used to create
  * source code in memory.
  *
