@@ -36,6 +36,8 @@
 
   <xi:include href="reference/jdo-extensions.xml" />
 
+  <xi:include href="reference/spring-orm.xml" />
+
 <!-- 
   <xi:include href="reference/jpa.xml" />
  -->
