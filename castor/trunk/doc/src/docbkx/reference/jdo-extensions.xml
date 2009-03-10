@@ -98,9 +98,17 @@
                 The extensions currently can only be used in <emphasis role="bold">type</emphasis>
                 mode of the XML code generator.
             </para>
+        </listitem>
+        <listitem>
             <para>
                 There's currently no support for <emphasis role="bold">key generators</emphasis>. 
                 There's work in progress to add this functionality, though.
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                There's currently no support for bidirectional relations, modelled through
+                the use of &lt;xs:id&gt; and &lt;xs:idref&gt; constructs.
             </para>
         </listitem>
     </orderedlist>
