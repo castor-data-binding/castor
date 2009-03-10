@@ -46,6 +46,27 @@
 org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
             </summary>
             <bugs>
+                <bug id="303" tool="jira">
+                    <description>
+                        Fixed bug that caused Castor to not save id of related object that uses
+                        key generator if it is detached.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Dan Daugherty</name>
+                        <email>dan@ddaniscool.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20090311</date>
+                </bug>
                 <bug id="2669" tool="jira">
                     <description>
                         Separated responsibility of ConnectionFactory to create connections
