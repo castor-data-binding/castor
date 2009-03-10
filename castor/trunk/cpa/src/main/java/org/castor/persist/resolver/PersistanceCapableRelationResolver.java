@@ -92,7 +92,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
         Object o = _fieldMolder.getValue(object, tx.getClassLoader());
         if (o != null) {
-            Object fid = fieldClassMolder.getIdentity(tx, o);
+            Object fid = fieldClassMolder.getActualIdentity(tx, o);
             if (fid != null) {
                 field = fid;
             }
@@ -262,7 +262,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                 // integrity problem here, if user forgot to create
                 // "value" explicitly. We autoload the value for him.
                 if ((value != null) && !tx.isRecorded(value)) {
-                    Identity fieldValue = fieldClassMolder.getIdentity(tx, value);
+                    Identity fieldValue = fieldClassMolder.getActualIdentity(tx, value);
                     if (fieldValue != null) {
                         ProposedEntity temp = new ProposedEntity(fieldClassMolder);
                         tx.load(fieldValue, temp, null);

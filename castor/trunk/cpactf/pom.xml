@@ -135,6 +135,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
                         <srcFile>src/test/ddl/org/castor/cpa/test/test2527/derby.sql</srcFile>
                         <srcFile>src/test/ddl/org/castor/cpa/test/test2567/derby.sql</srcFile>
                         <srcFile>src/test/ddl/org/castor/cpa/test/test30/derby.sql</srcFile>
+                        <srcFile>src/test/ddl/org/castor/cpa/test/test303/derby.sql</srcFile>
                         <srcFile>src/test/ddl/org/castor/cpa/test/test31/derby.sql</srcFile>
                         <srcFile>src/test/ddl/org/castor/cpa/test/test356/derby.sql</srcFile>
                         <srcFile>src/test/ddl/org/castor/cpa/test/test87/derby.sql</srcFile>
