@@ -17,14 +17,14 @@ package org.castor.jdo.jpa.info;
 
 import junit.framework.TestCase;
 
+import org.castor.cpa.util.JDOClassDescriptorResolver;
+import org.castor.cpa.util.classresolution.command.ClassDescriptorResolutionCommand;
 import org.castor.jdo.jpa.info.entity.TestI2DCJPAExtendsTest;
 import org.castor.jdo.jpa.info.entity.TestI2DCJPATest;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
-import org.exolab.castor.xml.util.ClassDescriptorResolutionCommand;
-import org.exolab.castor.xml.util.JDOClassDescriptorResolver;
 
 /**
  * Test the conversion features of the {@link InfoToDescriptorConverter} on the

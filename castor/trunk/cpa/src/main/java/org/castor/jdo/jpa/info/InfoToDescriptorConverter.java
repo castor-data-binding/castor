@@ -15,6 +15,7 @@
  */
 package org.castor.jdo.jpa.info;
 
+import org.castor.cpa.util.classresolution.command.ClassDescriptorResolutionCommand;
 import org.castor.jdo.jpa.natures.JPAClassNature;
 import org.castor.jdo.jpa.natures.JPAFieldNature;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
@@ -27,7 +28,6 @@ import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
 import org.exolab.castor.mapping.loader.FieldDescriptorImpl;
 import org.exolab.castor.mapping.loader.TypeInfo;
 import org.exolab.castor.mapping.loader.Types;
-import org.exolab.castor.xml.util.ClassDescriptorResolutionCommand;
 
 /**
  * <p>

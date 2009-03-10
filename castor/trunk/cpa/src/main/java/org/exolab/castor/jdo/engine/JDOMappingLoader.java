@@ -66,6 +66,8 @@ import org.castor.core.util.Messages;
 import org.castor.cpa.CPAProperties;
 import org.castor.cpa.persistence.convertor.AbstractSimpleTypeConvertor;
 import org.castor.cpa.persistence.convertor.TypeConvertorRegistry;
+import org.castor.cpa.util.classresolution.command.ClassResolutionByFile;
+import org.castor.cpa.util.classresolution.nature.ClassLoaderNature;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.mapping.BindingType;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
@@ -97,8 +99,6 @@ import org.exolab.castor.mapping.xml.Param;
 import org.exolab.castor.mapping.xml.Sql;
 import org.exolab.castor.mapping.xml.types.SqlDirtyType;
 import org.exolab.castor.persist.spi.PersistenceFactory;
-import org.exolab.castor.xml.util.ClassLoaderNature;
-import org.exolab.castor.xml.util.ClassResolutionByFile;
 
 /**
  * A JDO implementation of mapping helper. Creates JDO class descriptors

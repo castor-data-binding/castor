@@ -21,7 +21,7 @@ import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
  * Empty class to test resolving of a {@link ClassDescriptor} from a package
  * which contains a .jdo.castor.cdr file.
  * 
- * @see org.exolab.castor.xml.util.ClassResolutionByCDR
+ * @see org.castor.cpa.util.classresolution.command.org.castor.cpa.util.classresolution.ClassResolutionByCDR
  * 
  * @author Sebastian Gabmeyer
  * @since 1.2.1

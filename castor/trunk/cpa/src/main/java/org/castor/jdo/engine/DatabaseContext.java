@@ -26,6 +26,8 @@ import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
 import org.castor.cpa.CPAProperties;
 import org.castor.cpa.persistence.sql.connection.ConnectionFactory;
+import org.castor.cpa.util.JDOClassDescriptorResolver;
+import org.castor.cpa.util.JDOClassDescriptorResolverImpl;
 import org.castor.jdo.conf.Database;
 import org.castor.jdo.conf.JdoConf;
 import org.castor.jdo.util.JDOConfAdapter;
@@ -41,7 +43,6 @@ import org.exolab.castor.persist.PersistenceEngineFactory;
 import org.exolab.castor.persist.PersistenceFactoryRegistry;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.xml.ClassDescriptorResolverFactory;
-import org.exolab.castor.xml.util.JDOClassDescriptorResolver;
 
 /**
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
@@ -220,8 +221,7 @@ public final class DatabaseContext {
                 _mapping, BindingType.JDO, factory);
         
         if (_classDescriptorResolver == null) {
-            _classDescriptorResolver = (JDOClassDescriptorResolver) 
-            ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.JDO);
+            _classDescriptorResolver = new JDOClassDescriptorResolverImpl(); 
         }
         _classDescriptorResolver.setMappingLoader(mappingLoader);
         

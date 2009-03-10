@@ -29,13 +29,13 @@ import org.castor.cpa.persistence.sql.connection.ConnectionFactory;
 import org.castor.cpa.persistence.sql.connection.DataSourceConnectionFactory;
 import org.castor.cpa.persistence.sql.connection.DriverConnectionFactory;
 import org.castor.cpa.persistence.sql.connection.JNDIConnectionFactory;
+import org.castor.cpa.util.JDOClassDescriptorResolver;
 import org.castor.jdo.conf.Database;
 import org.castor.jdo.conf.DatabaseChoice;
 import org.castor.jdo.conf.JdoConf;
 import org.castor.jdo.util.JDOConfFactory;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.xml.util.JDOClassDescriptorResolver;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
