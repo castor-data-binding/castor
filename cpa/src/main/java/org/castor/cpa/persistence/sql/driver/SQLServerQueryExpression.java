@@ -92,7 +92,7 @@ public final class SQLServerQueryExpression extends JDBCQueryExpression {
                         + _factory.quoteName(tableAlias));
             }
             if (lock) {
-                sql.append(" HOLDLOCK ");
+                sql.append(" WITH  (HOLDLOCK) ");
             }
             if (enumeration.hasMoreElements()) {
                 sql.append(JDBCSyntax.TABLE_SEPARATOR);
