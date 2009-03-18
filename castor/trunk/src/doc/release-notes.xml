@@ -46,6 +46,26 @@
 org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
             </summary>
             <bugs>
+                <bug id="2221" tool="jira">
+                    <description>
+                        Fixed exception thrown by HighLowKeyGenerator on SQL Server 2005.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Udai Gupta</name>
+                        <email>mailtoud@gmail.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Brian Schlining</name>
+                        <email>bschlining@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20090318</date>
+                </bug>
                 <bug id="303" tool="jira">
                     <description>
                         Fixed bug that caused Castor to not save id of related object that uses
