@@ -45,6 +45,8 @@
 package org.castor.cpa.persistence.sql.driver;
 
 import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Vector;
 
 import org.exolab.castor.jdo.engine.JDBCSyntax;
 import org.exolab.castor.persist.spi.PersistenceFactory;
@@ -61,30 +63,124 @@ public final class SQLServerQueryExpression extends JDBCQueryExpression {
     }
 
     public String getStatement(final boolean lock) {
-        StringBuffer sql;
-        boolean first;
-
-        sql = new StringBuffer();
+        StringBuffer sql = new StringBuffer();
         sql.append(JDBCSyntax.SELECT);
         if (_distinct) {
             sql.append(JDBCSyntax.DISTINCT);
         }
-
         if (_limit != null) {
             if (!_limit.equals("")) {
-                sql.append("TOP ").append(_limit).append(" ");
+                sql.append("TOP (").append(_limit).append(") ");
             }
         }
-
-        sql.append(getColumnList());
+        if (_select == null) {
+            sql.append(getColumnList());
+        } else {
+            sql.append(_select).append(" ");
+        }
 
         sql.append(JDBCSyntax.FROM);
 
-        // Use HOLDLOCK to lock selected tables.
-        Enumeration<String> enumeration = _tables.keys();
+        // Use outer join syntax for all outer joins. Inner joins come later.
+        Hashtable<String, String> tables = new Hashtable<String, String>(_tables);
+        Vector<String> done = new Vector<String>();
+        boolean first = true;
+        // gather all outer joins with the same left part
+        for (int i = 0; i < _joins.size(); ++i) {
+            Join join = _joins.elementAt(i);
+
+            if (!join._outer || done.contains(join._leftTable)) {
+                continue;
+            }
+            if (first) {
+                first = false;
+            } else {
+                sql.append(JDBCSyntax.TABLE_SEPARATOR);
+            }
+
+            sql.append(_factory.quoteName(join._leftTable));
+            
+            if (lock) {
+                sql.append(" WITH (HOLDLOCK) ");
+            }
+            
+            sql.append(JDBCSyntax.LEFT_JOIN);
+            
+            String tableName = tables.get(join._rightTable);
+                        
+            if (join._rightTable.equals(tableName)) {
+                sql.append(_factory.quoteName(tableName));
+            } else {
+                sql.append(_factory.quoteName(tableName) + " "
+                        + _factory.quoteName(join._rightTable));
+            }
+            
+            if (lock) {
+                sql.append(" WITH (HOLDLOCK) ");
+            }
+            
+            sql.append(JDBCSyntax.ON);
+            for (int j = 0; j < join._leftColumns.length; ++j) {
+                if (j > 0) {
+                    sql.append(JDBCSyntax.AND);
+                }
+                sql.append(_factory.quoteName(join._leftTable
+                        + JDBCSyntax.TABLE_COLUMN_SEPARATOR
+                        + join._leftColumns[j])).append(OP_EQUALS);
+                sql.append(_factory.quoteName(join._rightTable
+                        + JDBCSyntax.TABLE_COLUMN_SEPARATOR
+                        + join._rightColumns[j]));
+            }
+
+            tables.remove(join._leftTable);
+            tables.remove(join._rightTable);
+            for (int k = i + 1; k < _joins.size(); ++k) {
+                Join join2;
+
+                join2 = _joins.elementAt(k);
+                if (!join2._outer || !join._leftTable.equals(join2._leftTable)) {
+                    continue;
+                }
+                sql.append(JDBCSyntax.LEFT_JOIN);
+                tableName = tables.get(join2._rightTable);
+
+                if (join2._rightTable.equals(tableName)) {
+                    sql.append(_factory.quoteName(tableName));
+                } else {
+                    sql.append(_factory.quoteName(tableName) + " "
+                            + _factory.quoteName(join2._rightTable));
+                }
+                
+                if (lock) {
+                    sql.append(" WITH (HOLDLOCK) ");
+                }
+                
+                sql.append(JDBCSyntax.ON);
+                for (int j = 0; j < join2._leftColumns.length; ++j) {
+                    if (j > 0) {
+                        sql.append(JDBCSyntax.AND);
+                    }
+                    sql.append(_factory.quoteName(join2._leftTable
+                            + JDBCSyntax.TABLE_COLUMN_SEPARATOR
+                            + join2._leftColumns[j])).append(OP_EQUALS);
+                    sql.append(_factory.quoteName(join2._rightTable
+                            + JDBCSyntax.TABLE_COLUMN_SEPARATOR
+                            + join2._rightColumns[j]));
+                }
+                tables.remove(join2._rightTable);
+            }
+
+            done.addElement(join._leftTable);
+        }
+        Enumeration<String> enumeration = tables.keys();
         while (enumeration.hasMoreElements()) {
+            if (first) {
+                first = false;
+            } else {
+                sql.append(JDBCSyntax.TABLE_SEPARATOR);
+            }
             String tableAlias = enumeration.nextElement();
-            String tableName = _tables.get(tableAlias);
+            String tableName = tables.get(tableAlias);
             if (tableAlias.equals(tableName)) {
                 sql.append(_factory.quoteName(tableName));
             } else {
@@ -92,42 +188,34 @@ public final class SQLServerQueryExpression extends JDBCQueryExpression {
                         + _factory.quoteName(tableAlias));
             }
             if (lock) {
-                sql.append(" WITH  (HOLDLOCK) ");
-            }
-            if (enumeration.hasMoreElements()) {
-                sql.append(JDBCSyntax.TABLE_SEPARATOR);
+                sql.append(" WITH (HOLDLOCK) ");
             }
         }
 
+        // Use standard join syntax for all inner joins
         first = true;
-        // Use asterisk notation to denote a left outer join
-        // and equals to denote an inner join
         for (int i = 0; i < _joins.size(); ++i) {
             Join join;
 
-            if (first) {
-                sql.append(JDBCSyntax.WHERE);
-                first = false;
-            } else {
-                sql.append(JDBCSyntax.AND);
-            }
-
             join = _joins.elementAt(i);
-            for (int j = 0; j < join._leftColumns.length; ++j) {
-                if (j > 0) {
+            if (!join._outer) {
+                if (first) {
+                    sql.append(JDBCSyntax.WHERE);
+                    first = false;
+                } else {
                     sql.append(JDBCSyntax.AND);
                 }
-                sql.append(_factory.quoteName(join._leftTable
-                        + JDBCSyntax.TABLE_COLUMN_SEPARATOR
-                        + join._leftColumns[j]));
-                if (join._outer) {
-                    sql.append("*=");
-                } else {
-                    sql.append(OP_EQUALS);
+                for (int j = 0; j < join._leftColumns.length; ++j) {
+                    if (j > 0) {
+                        sql.append(JDBCSyntax.AND);
+                    }
+                    sql.append(_factory.quoteName(join._leftTable
+                            + JDBCSyntax.TABLE_COLUMN_SEPARATOR
+                            + join._leftColumns[j])).append(OP_EQUALS);
+                    sql.append(_factory.quoteName(join._rightTable
+                            + JDBCSyntax.TABLE_COLUMN_SEPARATOR
+                            + join._rightColumns[j]));
                 }
-                sql.append(_factory.quoteName(join._rightTable
-                        + JDBCSyntax.TABLE_COLUMN_SEPARATOR
-                        + join._rightColumns[j]));
             }
         }
         first = addWhereClause(sql, first);
@@ -136,12 +224,11 @@ public final class SQLServerQueryExpression extends JDBCQueryExpression {
             sql.append(JDBCSyntax.ORDER_BY).append(_order);
         }
 
+        // There is no standard way to lock selected tables.
         return sql.toString();
     }
 
     public boolean isLimitClauseSupported() {
-       return true;
+        return true;
     }
 }
-
-

@@ -48,13 +48,8 @@ public final class TestPersistenceWithExtends extends CPATestCase {
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.ORACLE)
+            || (engine == DatabaseEngineType.SQL_SERVER)
             || (engine == DatabaseEngineType.DERBY);
-    }
-
-    // SQL_SERVER is excluded until issue CASTOR-2634 is resolved
-
-    public boolean exclude(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.SQL_SERVER);
     }
 
     public void setUp() throws Exception {

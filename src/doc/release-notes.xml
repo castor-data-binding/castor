@@ -46,6 +46,26 @@
 org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
             </summary>
             <bugs>
+                <bug id="2648" tool="jira">
+                    <description>
+                        Use ANSI outer join operators in query for Microsoft SQL engine.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Udai Gupta</name>
+                        <email>mailtoud@gmail.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Udai Gupta</name>
+                        <email>mailtoud@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20090319</date>
+                </bug>
                 <bug id="2221" tool="jira">
                     <description>
                         Fixed exception thrown by HighLowKeyGenerator on SQL Server 2005.
