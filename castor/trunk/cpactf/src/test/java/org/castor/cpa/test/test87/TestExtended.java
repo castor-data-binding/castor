@@ -53,8 +53,8 @@ public final class TestExtended extends CPATestCase {
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.ORACLE)
-            || (engine == DatabaseEngineType.SQL_SERVER);
-//            || (engine == DatabaseEngineType.DERBY);
+            || (engine == DatabaseEngineType.SQL_SERVER)
+            || (engine == DatabaseEngineType.DERBY);
     }
         
     public void delete() throws Exception {
@@ -106,6 +106,9 @@ public final class TestExtended extends CPATestCase {
         LOG.debug("Timestamp of extended after create: " + createExtTimestamp);
         assertTrue(beginExtTimestamp != createExtTimestamp);
         
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.commit();
         
         // Timestamp should not been changed by commit.
@@ -115,6 +118,9 @@ public final class TestExtended extends CPATestCase {
         long commitExtTimestamp = ext.jdoGetTimeStamp();
         LOG.debug("Timestamp of extended after commit: " + commitExtTimestamp);
         assertEquals(createExtTimestamp, commitExtTimestamp);
+        
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
         
         db.close();
 
@@ -140,6 +146,10 @@ public final class TestExtended extends CPATestCase {
     
     public void loadBase() throws Exception {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
+
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         TimeStampableBase first = (TimeStampableBase) db.load(
                 TimeStampableBase.class, TimeStampableBase.DEFAULT_ID);
@@ -158,6 +168,9 @@ public final class TestExtended extends CPATestCase {
         
         LOG.debug("Expired all objects from cache.");
 
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         TimeStampableBase second = (TimeStampableBase) db.load(
                 TimeStampableBase.class, TimeStampableBase.DEFAULT_ID);
@@ -178,6 +191,10 @@ public final class TestExtended extends CPATestCase {
     
     public void loadExtended() throws Exception {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
+
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         TimeStampableExtended first = (TimeStampableExtended) db.load(
                 TimeStampableExtended.class, TimeStampableExtended.DEFAULT_ID);
@@ -197,6 +214,9 @@ public final class TestExtended extends CPATestCase {
         
         LOG.debug("Expired all objects from cache.");
 
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         TimeStampableExtended second = (TimeStampableExtended) db.load(
                 TimeStampableExtended.class, TimeStampableExtended.DEFAULT_ID);
@@ -222,6 +242,9 @@ public final class TestExtended extends CPATestCase {
         
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
 
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         query = db.getOQLQuery("SELECT entity FROM "
                 + TimeStampableBase.class.getName() + " entity WHERE id = $1");
@@ -244,6 +267,9 @@ public final class TestExtended extends CPATestCase {
         
         LOG.debug("Expired all objects from cache.");
 
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         query = db.getOQLQuery("SELECT entity FROM "
                 + TimeStampableBase.class.getName() + " entity WHERE id = $1");
@@ -272,6 +298,9 @@ public final class TestExtended extends CPATestCase {
         
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
 
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         query = db.getOQLQuery("SELECT entity FROM "
                 + TimeStampableExtended.class.getName() + " entity WHERE id = $1");
@@ -295,6 +324,9 @@ public final class TestExtended extends CPATestCase {
         
         LOG.debug("Expired all objects from cache.");
 
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         query = db.getOQLQuery("SELECT entity FROM "
                 + TimeStampableExtended.class.getName() + " entity WHERE id = $1");
@@ -320,6 +352,10 @@ public final class TestExtended extends CPATestCase {
     
     public void updateBaseShort() throws Exception {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
+
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         TimeStampableBase entity = (TimeStampableBase) db.load(
                 TimeStampableBase.class, TimeStampableBase.DEFAULT_ID);
@@ -344,6 +380,9 @@ public final class TestExtended extends CPATestCase {
         // Remember timestamp for later compare.
         _baseTimestamp = entity.jdoGetTimeStamp();
 
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         TimeStampableBase check = (TimeStampableBase) db.load(
                 TimeStampableBase.class, TimeStampableBase.DEFAULT_ID);
@@ -361,6 +400,10 @@ public final class TestExtended extends CPATestCase {
 
     public void updateExtendedShort() throws Exception {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
+
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         TimeStampableExtended entity = (TimeStampableExtended) db.load(
                 TimeStampableExtended.class, TimeStampableExtended.DEFAULT_ID);
@@ -387,6 +430,9 @@ public final class TestExtended extends CPATestCase {
         // Remember timestamp for later compare.
         _extTimestamp = entity.jdoGetTimeStamp();
 
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         TimeStampableExtended check = (TimeStampableExtended) db.load(
                 TimeStampableExtended.class, TimeStampableExtended.DEFAULT_ID);
@@ -405,6 +451,10 @@ public final class TestExtended extends CPATestCase {
 
     public void updateBaseLongCached() throws Exception {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
+
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         TimeStampableBase entity = (TimeStampableBase) db.load(
                 TimeStampableBase.class, TimeStampableBase.DEFAULT_ID);
@@ -417,6 +467,9 @@ public final class TestExtended extends CPATestCase {
         
         entity.setName(TimeStampableBase.DEFAULT_NAME);
 
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         db.update(entity);
         db.commit();
@@ -432,6 +485,9 @@ public final class TestExtended extends CPATestCase {
         // Remember timestamp for later compare.
         _baseTimestamp = entity.jdoGetTimeStamp();
 
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         TimeStampableBase check = (TimeStampableBase) db.load(
                 TimeStampableBase.class, TimeStampableBase.DEFAULT_ID);
@@ -449,6 +505,10 @@ public final class TestExtended extends CPATestCase {
 
     public void updateExtendedLongCached() throws Exception {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
+
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         TimeStampableExtended entity = (TimeStampableExtended) db.load(
                 TimeStampableExtended.class, TimeStampableExtended.DEFAULT_ID);
@@ -463,6 +523,9 @@ public final class TestExtended extends CPATestCase {
         entity.setName(TimeStampableExtended.DEFAULT_NAME);
         entity.setNote(TimeStampableExtended.DEFAULT_NOTE);
 
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         db.update(entity);
         db.commit();
@@ -480,6 +543,9 @@ public final class TestExtended extends CPATestCase {
         // Remember timestamp for later compare.
         _extTimestamp = entity.jdoGetTimeStamp();
 
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         TimeStampableExtended check = (TimeStampableExtended) db.load(
                 TimeStampableExtended.class, TimeStampableExtended.DEFAULT_ID);
@@ -498,6 +564,10 @@ public final class TestExtended extends CPATestCase {
 
     public void updateBaseLongExpired() throws Exception {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
+
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         TimeStampableBase entity = (TimeStampableBase) db.load(
                 TimeStampableBase.class, TimeStampableBase.DEFAULT_ID);
@@ -513,6 +583,9 @@ public final class TestExtended extends CPATestCase {
         
         entity.setName(TimeStampableBase.ALTERNATE_NAME);
 
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         db.update(entity);
         db.commit();
@@ -528,6 +601,9 @@ public final class TestExtended extends CPATestCase {
         // Remember timestamp for later compare.
         _baseTimestamp = entity.jdoGetTimeStamp();
 
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         TimeStampableBase check = (TimeStampableBase) db.load(
                 TimeStampableBase.class, TimeStampableBase.DEFAULT_ID);
@@ -545,6 +621,10 @@ public final class TestExtended extends CPATestCase {
 
     public void updateExtendedLongExpired() throws Exception {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
+
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         TimeStampableExtended entity = (TimeStampableExtended) db.load(
                 TimeStampableExtended.class, TimeStampableExtended.DEFAULT_ID);
@@ -562,6 +642,9 @@ public final class TestExtended extends CPATestCase {
         entity.setName(TimeStampableExtended.ALTERNATE_NAME);
         entity.setNote(TimeStampableExtended.ALTERNATE_NOTE);
 
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         db.update(entity);
         db.commit();
@@ -579,6 +662,9 @@ public final class TestExtended extends CPATestCase {
         // Remember timestamp for later compare.
         _extTimestamp = entity.jdoGetTimeStamp();
 
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         TimeStampableExtended check = (TimeStampableExtended) db.load(
                 TimeStampableExtended.class, TimeStampableExtended.DEFAULT_ID);
@@ -597,6 +683,10 @@ public final class TestExtended extends CPATestCase {
 
     public void remove() throws Exception {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
+
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         TimeStampableBase base = (TimeStampableBase) db.load(
                 TimeStampableBase.class, TimeStampableBase.DEFAULT_ID);
@@ -609,6 +699,9 @@ public final class TestExtended extends CPATestCase {
         
         LOG.debug("Timestamp of base before remove: " + base.jdoGetTimeStamp());
         LOG.debug("Timestamp of extended before remove: " + ext.jdoGetTimeStamp());
+        
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
         
         db.remove(base);
         db.remove(ext);
