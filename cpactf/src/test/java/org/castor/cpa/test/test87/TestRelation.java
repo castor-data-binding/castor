@@ -45,8 +45,8 @@ public final class TestRelation extends CPATestCase {
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.ORACLE)
-            || (engine == DatabaseEngineType.SQL_SERVER);
-//            || (engine == DatabaseEngineType.DERBY);
+            || (engine == DatabaseEngineType.SQL_SERVER)
+            || (engine == DatabaseEngineType.DERBY);
     }
     
     public void delete() throws Exception {
@@ -86,6 +86,9 @@ public final class TestRelation extends CPATestCase {
         LOG.debug("Timestamp of group after create: " + groupTimestamp1);
         assertTrue(TimeStampableGroup.DEFAULT_TIMESTAMP != groupTimestamp1);
         
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.create(product);
         
         // Timestamp of product should have been changed at create of product.
@@ -102,6 +105,9 @@ public final class TestRelation extends CPATestCase {
         long groupTimestamp3 = group.jdoGetTimeStamp();
         LOG.debug("Timestamp of group after create of product: " + groupTimestamp3);
         assertEquals(groupTimestamp1, groupTimestamp3);
+        
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
         
         db.commit();
         
@@ -129,6 +135,10 @@ public final class TestRelation extends CPATestCase {
     
     public void load() throws Exception {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
+
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         TimeStampableGroup firstGroup = (TimeStampableGroup) db.load(
                 TimeStampableGroup.class, TimeStampableGroup.DEFAULT_ID);
@@ -160,6 +170,9 @@ public final class TestRelation extends CPATestCase {
         
         LOG.debug("Expired all objects from cache.");
 
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         TimeStampableGroup secondGroup = (TimeStampableGroup) db.load(
                 TimeStampableGroup.class, TimeStampableGroup.DEFAULT_ID);
@@ -178,6 +191,9 @@ public final class TestRelation extends CPATestCase {
         
         LOG.debug("Expired all objects from cache.");
 
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         TimeStampableProduct secondProduct = (TimeStampableProduct) db.load(
                 TimeStampableProduct.class, TimeStampableProduct.DEFAULT_ID);
@@ -205,6 +221,10 @@ public final class TestRelation extends CPATestCase {
     
     public void updateShort() throws Exception {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
+
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         TimeStampableGroup group = (TimeStampableGroup) db.load(
                 TimeStampableGroup.class, TimeStampableGroup.DEFAULT_ID);
@@ -232,6 +252,9 @@ public final class TestRelation extends CPATestCase {
         // Expire all objects in cache
         db.getCacheManager().expireCache();
         
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         TimeStampableProduct product = (TimeStampableProduct) db.load(
                 TimeStampableProduct.class, TimeStampableProduct.DEFAULT_ID);
@@ -256,6 +279,10 @@ public final class TestRelation extends CPATestCase {
 
     public void updateLongCached() throws Exception {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
+
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         TimeStampableGroup group = (TimeStampableGroup) db.load(
                 TimeStampableGroup.class, TimeStampableGroup.DEFAULT_ID);
@@ -268,6 +295,9 @@ public final class TestRelation extends CPATestCase {
         
         group.setName(TimeStampableGroup.DEFAULT_NAME);
 
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         db.update(group);
         db.commit();
@@ -285,6 +315,9 @@ public final class TestRelation extends CPATestCase {
 
         // Expire all objects in cache
         db.getCacheManager().expireCache();
+        
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
         
         db.begin();
         TimeStampableProduct product = (TimeStampableProduct) db.load(
@@ -310,6 +343,10 @@ public final class TestRelation extends CPATestCase {
 
     public void updateLongExpired() throws Exception {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
+
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         TimeStampableGroup group = (TimeStampableGroup) db.load(
                 TimeStampableGroup.class, TimeStampableGroup.DEFAULT_ID);
@@ -325,6 +362,9 @@ public final class TestRelation extends CPATestCase {
         
         group.setName(TimeStampableGroup.ALTERNATE_NAME);
 
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         db.update(group);
         db.commit();
@@ -340,6 +380,9 @@ public final class TestRelation extends CPATestCase {
         // Remember timestamp for later compare.
         _groupTimeStamp = group.jdoGetTimeStamp();
 
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
         TimeStampableProduct product = (TimeStampableProduct) db.load(
                 TimeStampableProduct.class, TimeStampableProduct.DEFAULT_ID);
@@ -364,11 +407,16 @@ public final class TestRelation extends CPATestCase {
 
     public void remove() throws Exception {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
+
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
+        
         db.begin();
+        
         TimeStampableProduct product = (TimeStampableProduct) db.load(
                 TimeStampableProduct.class, TimeStampableProduct.DEFAULT_ID);
         TimeStampableGroup group = product.getGroup();
-        
+
         // Compare current timestamp with the remembert one;
         assertEquals(_productTimeStamp, product.jdoGetTimeStamp());
         assertEquals(_groupTimeStamp, product.getGroup().jdoGetTimeStamp());
@@ -376,6 +424,9 @@ public final class TestRelation extends CPATestCase {
         
         LOG.debug("Timestamp of product before remove: " + product.jdoGetTimeStamp());
         LOG.debug("Timestamp of group before remove: " + group.jdoGetTimeStamp());
+        
+        // Wait 10ms to ensure System.currentTimeMillis() return different values.
+        Thread.sleep(10);
         
         db.remove(product);
         db.remove(group);
