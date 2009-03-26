@@ -16,10 +16,12 @@
 package org.castor.cpa.test.test1158;
 
 import org.exolab.castor.jdo.TimeStampable;
+import org.junit.Ignore;
 
 /**
  * @author nstuart
  */
+@Ignore
 public class BaseObject implements TimeStampable {
     private int _id;
     private String _description;

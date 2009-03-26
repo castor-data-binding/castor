@@ -42,12 +42,15 @@
  */
 package org.castor.cpa.test.test30;
 
+import org.junit.Ignore;
+
+@Ignore
 public class Entity {
     public static final int DEFAULT_ID = 3;
     public static final String DEFAULT_VALUE_1 = "one";
     public static final String DEFAULT_VALUE_2 = "two";
 
-    private int    _id;
+    private int _id;
     private String _value1;
     private String _value2;
 
@@ -57,14 +60,29 @@ public class Entity {
         _value2 = DEFAULT_VALUE_2;
     }
 
-    public final void setId(final int id) { _id = id; }
-    public final int getId() { return _id; }
+    public final void setId(final int id) {
+        _id = id;
+    }
 
-    public final void setValue1(final String value1) { _value1 = value1; }
-    public final String getValue1() { return _value1; }
+    public final int getId() {
+        return _id;
+    }
 
-    public final void setValue2(final String value2) { _value2 = value2; }
-    public final String getValue2() { return _value2; }
+    public final void setValue1(final String value1) {
+        _value1 = value1;
+    }
+
+    public final String getValue1() {
+        return _value1;
+    }
+
+    public final void setValue2(final String value2) {
+        _value2 = value2;
+    }
+
+    public final String getValue2() {
+        return _value2;
+    }
 
     public String toString() {
         return _id + " / " + _value1 + " / " + _value2;

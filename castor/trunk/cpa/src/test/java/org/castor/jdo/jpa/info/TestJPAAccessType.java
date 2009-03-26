@@ -22,6 +22,7 @@ import junit.framework.TestCase;
 
 import org.castor.jdo.jpa.natures.JPAFieldNature;
 import org.exolab.castor.mapping.MappingException;
+import org.junit.Ignore;
 
 public final class TestJPAAccessType extends TestCase {
 
@@ -151,6 +152,7 @@ public final class TestJPAAccessType extends TestCase {
         return classInfo;
     }
 
+    @Ignore
     private class FieldAccessed {
         @Id
         @Column(name = "primary_key", 
@@ -190,6 +192,7 @@ public final class TestJPAAccessType extends TestCase {
         public String _blob;
     }
 
+    @Ignore
     private class PropertyAccessed {
         private int _primaryKey;
         private String _bla;
@@ -251,6 +254,7 @@ public final class TestJPAAccessType extends TestCase {
         }
     }
 
+    @Ignore
     private class MixedAccessed {
         @Id
         @Column(name = "primary_key", 
@@ -310,6 +314,7 @@ public final class TestJPAAccessType extends TestCase {
         }
     }
 
+    @Ignore
     private class WrongAccessed {
         @Id
         private int _primaryKey;

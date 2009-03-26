@@ -1,7 +1,9 @@
 package org.castor.cpa.test.test1379;
 
 import org.exolab.castor.jdo.TimeStampable;
+import org.junit.Ignore;
 
+@Ignore
 public final class Computer extends Product implements TimeStampable {
     private String  _cpu;
 

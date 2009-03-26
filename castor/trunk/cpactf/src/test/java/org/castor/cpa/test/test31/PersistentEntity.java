@@ -53,8 +53,11 @@ import org.exolab.castor.jdo.Query;
 import org.exolab.castor.jdo.QueryResults;
 import org.exolab.castor.jdo.TimeStampable;
 import org.exolab.castor.mapping.AccessMode;
+import org.junit.Ignore;
 
-public class PersistentEntity implements Persistent, TimeStampable, Serializable {
+@Ignore
+public class PersistentEntity implements Persistent, TimeStampable,
+        Serializable {
     /** SerialVersionUID */
     private static final long serialVersionUID = 861059599755591225L;
 
@@ -86,90 +89,144 @@ public class PersistentEntity implements Persistent, TimeStampable, Serializable
         _children = new Vector<PersistentEntity>();
     }
 
-    public final void setId(final int id) { _id = id; }
-    public final int getId() { return _id; }
+    public final void setId(final int id) {
+        _id = id;
+    }
 
-    public final void setParentId(final Integer parentId) { _parentId = parentId; }
-    public final Integer getParentId() { return _parentId; }
+    public final int getId() {
+        return _id;
+    }
 
-    public final void setValue1(final String value) { _value = value; }
-    public final String getValue1() { return _value; }
+    public final void setParentId(final Integer parentId) {
+        _parentId = parentId;
+    }
+
+    public final Integer getParentId() {
+        return _parentId;
+    }
+
+    public final void setValue1(final String value) {
+        _value = value;
+    }
+
+    public final String getValue1() {
+        return _value;
+    }
 
     public final void setCreationTime(final Date creationTime) {
         _creationTime = creationTime;
     }
-    public final Date getCreationTime() { return _creationTime; }
+
+    public final Date getCreationTime() {
+        return _creationTime;
+    }
 
     public final void setModificationTime(final Date modificationTime) {
         _modificationTime = modificationTime;
     }
-    public final Date getModificationTime() { return _modificationTime; }
+
+    public final Date getModificationTime() {
+        return _modificationTime;
+    }
 
     public final void setParent(final PersistentEntity parent) {
         _parent = parent;
         _parentId = (_parent == null) ? null : new Integer(_parent._id);
     }
-    public final PersistentEntity getParent() { return _parent; }
+
+    public final PersistentEntity getParent() {
+        return _parent;
+    }
 
     public final void addChild(final PersistentEntity child) {
         _children.addElement(child);
         child.setParent(this);
         child.setGroup(_group);
     }
-    public final Vector<PersistentEntity> getChildren() { return _children; }
+
+    public final Vector<PersistentEntity> getChildren() {
+        return _children;
+    }
+
     public final PersistentEntity findChild(final int id) {
-        for (Enumeration<PersistentEntity> en = _children.elements(); en.hasMoreElements();) {
+        for (Enumeration<PersistentEntity> en = _children.elements(); en
+                .hasMoreElements();) {
             PersistentEntity child = en.nextElement();
-            if (child.getId() == id) { return child; }
+            if (child.getId() == id) {
+                return child;
+            }
         }
         return null;
     }
 
     public final void setGroup(final GroupEntity group) {
-        if (_group == group) { return; }
+        if (_group == group) {
+            return;
+        }
         _group = group;
-        for (Enumeration<PersistentEntity> en = _children.elements(); en.hasMoreElements();) {
+        for (Enumeration<PersistentEntity> en = _children.elements(); en
+                .hasMoreElements();) {
             PersistentEntity child = en.nextElement();
             child.setGroup(_group);
         }
     }
-    public final GroupEntity getGroup() { return _group; }
+
+    public final GroupEntity getGroup() {
+        return _group;
+    }
 
     public final void setRelated(final RelatedEntity related) {
         _related = related;
-        if (related != null) { related.setPersistent(this); }
+        if (related != null) {
+            related.setPersistent(this);
+        }
     }
-    public final RelatedEntity getRelated() { return _related; }
 
-    public final void jdoPersistent(final Database db) { _db = db; }
-    public final void jdoTransient() { _db = null; }
+    public final RelatedEntity getRelated() {
+        return _related;
+    }
+
+    public final void jdoPersistent(final Database db) {
+        _db = db;
+    }
+
+    public final void jdoTransient() {
+        _db = null;
+    }
+
     public final Class<?> jdoLoad(final AccessMode accessMode) throws Exception {
         if (_parentId != null) {
-            _parent = (PersistentEntity) _db.load(
-                    PersistentEntity.class, _parentId, accessMode);
+            _parent = (PersistentEntity) _db.load(PersistentEntity.class,
+                    _parentId, accessMode);
         }
 
-        Query qry = _db.getOQLQuery("SELECT p FROM " + PersistentEntity.class.getName()
-                + " p WHERE parentId=$1");
+        Query qry = _db.getOQLQuery("SELECT p FROM "
+                + PersistentEntity.class.getName() + " p WHERE parentId=$1");
         qry.bind(_id);
         QueryResults res = qry.execute();
-        while (res.hasMore()) { _children.addElement((PersistentEntity) res.next()); }
+        while (res.hasMore()) {
+            _children.addElement((PersistentEntity) res.next());
+        }
         _origChildren = new Vector<PersistentEntity>(_children);
         _origRelated = _related;
         return null;
     }
+
     public final void jdoStore(final boolean modified) throws Exception {
-        if (modified) { _modificationTime = new Date(); }
+        if (modified) {
+            _modificationTime = new Date();
+        }
 
         PersistentEntity child;
-        for (Enumeration<PersistentEntity> en = _children.elements(); en.hasMoreElements();) {
+        for (Enumeration<PersistentEntity> en = _children.elements(); en
+                .hasMoreElements();) {
             child = en.nextElement();
             if (!vectorContainsChild(_origChildren, child)) {
                 _db.create(child);
             }
         }
-        for (Enumeration<PersistentEntity> en = _origChildren.elements();
-                en.hasMoreElements();) {
+        for (Enumeration<PersistentEntity> en = _origChildren.elements(); en
+                .hasMoreElements();) {
             child = en.nextElement();
             if (!vectorContainsChild(_children, child)) {
                 _db.remove(child);
@@ -183,18 +240,21 @@ public class PersistentEntity implements Persistent, TimeStampable, Serializable
         }
         _origRelated = _related;
     }
+
     public final void jdoUpdate() throws Exception {
-        for (Enumeration<PersistentEntity> en = _origChildren.elements();
-                en.hasMoreElements();) {
+        for (Enumeration<PersistentEntity> en = _origChildren.elements(); en
+                .hasMoreElements();) {
             _db.update(en.nextElement());
         }
         if (_origRelated != null) {
             _db.update(_origRelated);
         }
     }
+
     public final void jdoBeforeCreate(final Database db) throws Exception {
         if (_group == null) {
-            throw new Exception("Incorrect object state: group is not set in " + this);
+            throw new Exception("Incorrect object state: group is not set in "
+                    + this);
         }
         Object grp;
         try {
@@ -202,33 +262,53 @@ public class PersistentEntity implements Persistent, TimeStampable, Serializable
         } catch (Exception ex) {
             grp = null;
         }
-        if (grp == null) { db.create(_group); }
+        if (grp == null) {
+            db.create(_group);
+        }
         _creationTime = new Date();
     }
+
     public final void jdoAfterCreate() throws Exception {
-        for (Enumeration<PersistentEntity> en = _children.elements(); en.hasMoreElements();) {
+        for (Enumeration<PersistentEntity> en = _children.elements(); en
+                .hasMoreElements();) {
             _db.create(en.nextElement());
         }
         _origChildren = new Vector<PersistentEntity>(_children);
-        if (_related != null) { _db.create(_related); }
+        if (_related != null) {
+            _db.create(_related);
+        }
         _origRelated = _related;
     }
+
     public final void jdoBeforeRemove() throws Exception {
-        for (Enumeration<PersistentEntity> en = _children.elements(); en.hasMoreElements();) {
+        for (Enumeration<PersistentEntity> en = _children.elements(); en
+                .hasMoreElements();) {
             _db.remove(en.nextElement());
         }
-        if (_related != null) { _db.remove(_related); }
+        if (_related != null) {
+            _db.remove(_related);
+        }
     }
-    public final void jdoAfterRemove() throws Exception { }
-    public final long jdoGetTimeStamp() { return _timeStamp; }
 
-    public final void jdoSetTimeStamp(final long timeStamp) { _timeStamp = timeStamp; }
+    public final void jdoAfterRemove() throws Exception {
+    }
+
+    public final long jdoGetTimeStamp() {
+        return _timeStamp;
+    }
+
+    public final void jdoSetTimeStamp(final long timeStamp) {
+        _timeStamp = timeStamp;
+    }
 
     private boolean vectorContainsChild(final Vector<PersistentEntity> v,
             final PersistentEntity child) {
-        for (Enumeration<PersistentEntity> en = v.elements(); en.hasMoreElements();) {
+        for (Enumeration<PersistentEntity> en = v.elements(); en
+                .hasMoreElements();) {
             PersistentEntity ch = en.nextElement();
-            if (ch.getId() == child.getId()) { return true; }
+            if (ch.getId() == child.getId()) {
+                return true;
+            }
         }
         return false;
     }
@@ -237,11 +317,14 @@ public class PersistentEntity implements Persistent, TimeStampable, Serializable
         String children = "";
 
         for (int i = 0; i < _children.size(); ++i) {
-            if (i > 0) { children = children + ", "; }
+            if (i > 0) {
+                children = children + ", ";
+            }
             children = children + _children.elementAt(i).toString();
         }
         return _id + " / " + _value + " / " + _modificationTime + " ("
-            + _parentId + ":" + ((_group != null) ? new Integer(_group.getId()) : null)
-            + ") { " + children + " }";
+                + _parentId + ":"
+                + ((_group != null) ? new Integer(_group.getId()) : null)
+                + ") { " + children + " }";
     }
 }

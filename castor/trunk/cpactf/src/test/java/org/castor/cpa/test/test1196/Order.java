@@ -2,10 +2,12 @@ package org.castor.cpa.test.test1196;
 
 import java.util.Vector;
 import org.exolab.castor.jdo.TimeStampable;
+import org.junit.Ignore;
 
 /**
  * @author cwichoski
  */
+@Ignore
 public final class Order implements TimeStampable  {
     private String _oid;
     private Integer _number;

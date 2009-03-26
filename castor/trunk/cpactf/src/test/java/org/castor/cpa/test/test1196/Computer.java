@@ -1,8 +1,11 @@
 package org.castor.cpa.test.test1196;
 
+import org.junit.Ignore;
+
 /**
  * @author cwichoski
  */
+@Ignore
 public final class Computer extends Product {
     private String _number;
     private OrderItem _orderItem;

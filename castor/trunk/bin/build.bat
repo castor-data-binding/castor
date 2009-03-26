@@ -8,7 +8,7 @@ set CP=%CP%;"%ANT_LIB_DIR%\ant-1.6-launcher.jar"
 set CP=%CP%;"%ANT_LIB_DIR%\ant-1.6-trax.jar"
 set CP=%CP%;"%ANT_LIB_DIR%\ant-junit-1.6.jar"
 REM Include JUnit JAR
-set CP=%CP%;"%LIB_DIR%\junit_3.8.2.jar"
+set CP=%CP%;"%LIB_DIR%\junit-4.5.jar"
 REM Include compiled Castor artefacts
 REM set "CP=%CP%;..\build\classes"
 REM Include SUN's tools.jar (incl. the compiler), required by Ant for compilation

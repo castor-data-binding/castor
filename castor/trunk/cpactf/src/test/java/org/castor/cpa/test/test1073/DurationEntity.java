@@ -1,7 +1,9 @@
 package org.castor.cpa.test.test1073;
 
 import org.exolab.castor.types.Duration;
+import org.junit.Ignore;
 
+@Ignore
 public final class DurationEntity {
     private int          _id;
     private Duration     _longDuration;

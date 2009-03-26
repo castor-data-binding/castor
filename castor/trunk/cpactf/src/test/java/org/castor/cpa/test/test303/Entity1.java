@@ -16,18 +16,35 @@
 package org.castor.cpa.test.test303;
 
 import org.exolab.castor.jdo.TimeStampable;
+import org.junit.Ignore;
 
+@Ignore
 public final class Entity1 implements TimeStampable {
     private Long _id = 10L;
     private Entity2 _related;
     private long _timestamp = 0;
 
-    public Long getId() { return _id; }
-    public void setId(final Long id) { _id = id; }
+    public Long getId() {
+        return _id;
+    }
 
-    public Entity2 getRelated() { return _related; }
-    public void setRelated(final Entity2 related) { _related = related; }
+    public void setId(final Long id) {
+        _id = id;
+    }
 
-    public long jdoGetTimeStamp() { return _timestamp; }
-    public void jdoSetTimeStamp(final long timestamp) { _timestamp = timestamp; }
+    public Entity2 getRelated() {
+        return _related;
+    }
+
+    public void setRelated(final Entity2 related) {
+        _related = related;
+    }
+
+    public long jdoGetTimeStamp() {
+        return _timestamp;
+    }
+
+    public void jdoSetTimeStamp(final long timestamp) {
+        _timestamp = timestamp;
+    }
 }

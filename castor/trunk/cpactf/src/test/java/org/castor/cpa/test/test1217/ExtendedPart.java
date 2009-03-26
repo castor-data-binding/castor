@@ -1,8 +1,11 @@
 package org.castor.cpa.test.test1217;
 
+import org.junit.Ignore;
+
 /**
  * @author cwichoski
  */
+@Ignore
 public final class ExtendedPart extends BasePart {
     private String _number;
     
