@@ -27,7 +27,7 @@ CLASSPATH=$CLASSPATH:$BIN_LIB_D/ant-1.6-launcher.jar
 CLASSPATH=$CLASSPATH:$BIN_LIB_D/ant-1.6-trax.jar
 CLASSPATH=$CLASSPATH:$BIN_LIB_D/ant-junit-1.6.jar
 # JUnit
-CLASSPATH=$CLASSPATH:$LIB_D/junit_3.8.2.jar
+CLASSPATH=$CLASSPATH:$LIB_D/junit-4.5.jar
 # Build artefacts
 CLASSPATH=$CLASSPATH:$BUILD_D/classes
 # Sun's tools.jar, required for compilation

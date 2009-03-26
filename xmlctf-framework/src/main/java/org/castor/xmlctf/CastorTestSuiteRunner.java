@@ -165,8 +165,9 @@ public class CastorTestSuiteRunner extends TestCase {
             String[] testCaseName = {CastorTestSuiteRunner.class.getName()};
             junit.textui.TestRunner.main(testCaseName);
         } else {
-            String[] testCaseName = {"-noloading", CastorTestSuiteRunner.class.getName()};
-            junit.swingui.TestRunner.main(testCaseName);
+            //TODO: re-enable if a Maven dependency exists
+//            String[] testCaseName = {"-noloading", CastorTestSuiteRunner.class.getName()};
+//            junit.swingui.TestRunner.main(testCaseName);
         }
     }
 
@@ -178,7 +179,7 @@ public class CastorTestSuiteRunner extends TestCase {
      * @return true if JUnit should be run in text mode, not GUI
      */
     private static boolean processArguments(final String[] args) {
-        boolean textModeJUnit = false; // GUI by default
+        boolean textModeJUnit = true; // text by default
 
         for (int i = 0; i < args.length; ++i) {
             String argument = args[i];

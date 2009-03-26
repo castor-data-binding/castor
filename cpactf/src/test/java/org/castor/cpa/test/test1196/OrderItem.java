@@ -1,10 +1,12 @@
 package org.castor.cpa.test.test1196;
 
 import org.exolab.castor.jdo.TimeStampable;
+import org.junit.Ignore;
 
 /**
  * @author cwichoski
  */
+@Ignore
 public final class OrderItem implements TimeStampable  {
     private String _oid;
     private Integer _quantity;

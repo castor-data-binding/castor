@@ -1,5 +1,8 @@
 package org.castor.cpa.test.test1355;
 
+import org.junit.Ignore;
+
+@Ignore
 public final class Country extends BaseObject {
     private String _name;
     private String _iso3Code;

@@ -43,30 +43,50 @@
 package org.castor.cpa.test.test31;
 
 import org.exolab.castor.jdo.TimeStampable;
+import org.junit.Ignore;
 
+@Ignore
 public final class RelatedEntity implements TimeStampable, java.io.Serializable {
     /** SerialVersionUID */
     private static final long serialVersionUID = -6408619974569022386L;
 
-    public static final int     DEFAULT_ID = 5;
+    public static final int DEFAULT_ID = 5;
 
-    private int                 _id;
-    private PersistentEntity    _persistent;
-    private long                _timeStamp;
+    private int _id;
+    private PersistentEntity _persistent;
+    private long _timeStamp;
 
-    public RelatedEntity() { this(DEFAULT_ID); }
-    public RelatedEntity(final int id) { _id = id; }
+    public RelatedEntity() {
+        this(DEFAULT_ID);
+    }
 
-    public void setId(final int id) { _id = id; }
-    public int getId() { return _id; }
+    public RelatedEntity(final int id) {
+        _id = id;
+    }
+
+    public void setId(final int id) {
+        _id = id;
+    }
+
+    public int getId() {
+        return _id;
+    }
 
     public void setPersistent(final PersistentEntity persistent) {
         _persistent = persistent;
     }
-    public PersistentEntity getPersistent() { return _persistent; }
 
-    public long jdoGetTimeStamp() { return _timeStamp; }
-    public void jdoSetTimeStamp(final long timeStamp) { _timeStamp = timeStamp; }
+    public PersistentEntity getPersistent() {
+        return _persistent;
+    }
+
+    public long jdoGetTimeStamp() {
+        return _timeStamp;
+    }
+
+    public void jdoSetTimeStamp(final long timeStamp) {
+        _timeStamp = timeStamp;
+    }
 
     public String toString() {
         return _id + " / " + ((_persistent == null) ? 0 : _persistent.getId());

@@ -5,7 +5,9 @@ import java.sql.Timestamp;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.jdo.TimeStampable;
+import org.junit.Ignore;
 
+@Ignore
 public class BaseObject implements TimeStampable {
     private static final Log LOG = LogFactory.getLog(BaseObject.class);
     

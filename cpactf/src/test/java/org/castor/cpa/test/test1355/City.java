@@ -1,5 +1,8 @@
 package org.castor.cpa.test.test1355;
 
+import org.junit.Ignore;
+
+@Ignore
 public class City extends BaseObject {
     private String _name;
     private StateProv _state = new StateProv();

@@ -3,6 +3,9 @@ package org.castor.cpa.test.test1355;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.junit.Ignore;
+
+@Ignore
 public final class GolfCourseTees extends BaseObject {
     private GolfCourse _course = new GolfCourse();
     private String _name;

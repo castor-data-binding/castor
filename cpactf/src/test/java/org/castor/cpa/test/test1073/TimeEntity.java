@@ -1,7 +1,9 @@
 package org.castor.cpa.test.test1073;
 
 import org.exolab.castor.types.Time;
+import org.junit.Ignore;
 
+@Ignore
 public final class TimeEntity {
     private int          _id;
     private Time         _longTimeLocal;

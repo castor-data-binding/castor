@@ -15,7 +15,7 @@ set cp=%CLASSPATH%
 
 set CP=%CP%;"..\lib\commons-logging-1.1.jar"
 set CP=%CP%;"..\lib\log4j-1.2.13.jar"
-set CP=%CP%;"..\lib\junit_3.8.2.jar"
+set CP=%CP%;"..\lib\junit-4.5.jar"
 set CP=%CP%;"..\lib\jakarta-oro-2.0.5.jar"
 set CP=%CP%;"..\lib\xerces-J_1.4.0.jar"
 

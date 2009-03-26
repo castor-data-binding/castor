@@ -25,6 +25,9 @@ import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
  * Test the conversion features of the {@link InfoToDescriptorConverter} on the
@@ -42,42 +45,17 @@ public final class TestI2DConverter extends TestCase {
     /**
      * Set the {@link #_classBuilder} and the {@link #_cmd}.
      */
+    @Before
     public void setUp() {
         _classBuilder = new ClassInfoBuilder();
-        _cmd = new ClassDescriptorResolutionCommand() {
-            public ClassDescriptor resolve(final Class type) {
-                try {
-                    return InfoToDescriptorConverter.convert(
-                            _classBuilder.buildClassInfo(type), this);
-                } catch (MappingException e) {
-                    return null;
-                }
-            }
-
-            public Object getProperty(final String name) {
-                return null;
-            }
-
-            public void setProperty(final String name, final Object value) {
-            }
-
-            public void addNature(final String nature) {
-            }
-
-            public boolean hasNature(final String nature) {
-                return false;
-            }
-
-            public void setClassDescriptorResolver(
-                    final JDOClassDescriptorResolver classDescriptorResolver) {
-            }
-        };
+        _cmd = new TestDescriptorResolutionCommand();
     }
 
     /**
      * Test conversion of {@link TestI2DCJPATest}.
      * @throws MappingException 
      */
+    @Test
     public void testJPATest() throws MappingException {
         /* build class */
         ClassInfo classInfo = buildClassInfo(TestI2DCJPATest.class);
@@ -106,6 +84,7 @@ public final class TestI2DConverter extends TestCase {
      * Test conversion of {@link TestI2DCJPAExtendsTest}.
      * @throws MappingException 
      */
+    @Test
     public void testJPADefaultTest() throws MappingException {
         ClassInfo classInfo = buildClassInfo(TestI2DCJPAExtendsTest.class);
 
@@ -133,4 +112,34 @@ public final class TestI2DConverter extends TestCase {
         return classInfo;
     }
 
+    @Ignore
+    class TestDescriptorResolutionCommand implements ClassDescriptorResolutionCommand {
+        
+        public ClassDescriptor resolve(final Class type) {
+            try {
+                return InfoToDescriptorConverter.convert(
+                        _classBuilder.buildClassInfo(type), this);
+            } catch (MappingException e) {
+                return null;
+            }
+        }
+
+        public Object getProperty(final String name) {
+            return null;
+        }
+
+        public void setProperty(final String name, final Object value) {
+        }
+
+        public void addNature(final String nature) {
+        }
+
+        public boolean hasNature(final String nature) {
+            return false;
+        }
+
+        public void setClassDescriptorResolver(
+                final JDOClassDescriptorResolver classDescriptorResolver) {
+        }
+    };
 }

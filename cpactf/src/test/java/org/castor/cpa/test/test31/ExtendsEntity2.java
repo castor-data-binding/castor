@@ -42,16 +42,26 @@
  */
 package org.castor.cpa.test.test31;
 
+import org.junit.Ignore;
+
+@Ignore
 public final class ExtendsEntity2 extends PersistentEntity {
     /** SerialVersionUID */
     private static final long serialVersionUID = -4810221474022258639L;
-    
+
     private int _ext;
 
-    public ExtendsEntity2() { super(); }
+    public ExtendsEntity2() {
+        super();
+    }
 
-    public void setExt(final int ext) { _ext = ext; }
-    public int getExt() { return _ext; }
+    public void setExt(final int ext) {
+        _ext = ext;
+    }
+
+    public int getExt() {
+        return _ext;
+    }
 
     public String toString() {
         return super.toString() + " / " + _ext;

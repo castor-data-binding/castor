@@ -17,10 +17,13 @@ package org.castor.jdo.jpa.info.entity;
 
 import javax.persistence.Id;
 
+import org.junit.Ignore;
+
 /**
  * Domain class annotated with JPA annotation used for unit testing.
  * @author Peter Schmidt
  */
+@Ignore
 public class TestI2DCJPAExtendsTest extends TestI2DCJPATest {
     
     /**

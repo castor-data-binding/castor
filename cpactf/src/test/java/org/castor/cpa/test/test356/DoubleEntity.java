@@ -15,13 +15,26 @@
  */
 package org.castor.cpa.test.test356;
 
+import org.junit.Ignore;
+
+@Ignore
 public final class DoubleEntity {
     private int _id;
     private Double _property;
 
-    public int getId() { return _id; }
-    public void setId(final int id) { _id = id; }
-    
-    public Double getProperty() { return _property; }
-    public void setProperty(final Double property) { _property = property; }
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(final int id) {
+        _id = id;
+    }
+
+    public Double getProperty() {
+        return _property;
+    }
+
+    public void setProperty(final Double property) {
+        _property = property;
+    }
 }

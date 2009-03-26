@@ -15,9 +15,12 @@
  */
 package org.castor.cpa.test.test1158;
 
+import org.junit.Ignore;
+
 /**
  * @author nstuart
  */
+@Ignore
 public final class ExtendedObject extends BaseObject {
     private String _description2;
     

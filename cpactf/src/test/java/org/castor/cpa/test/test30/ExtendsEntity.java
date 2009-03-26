@@ -42,6 +42,9 @@
  */
 package org.castor.cpa.test.test30;
 
+import org.junit.Ignore;
+
+@Ignore
 public final class ExtendsEntity extends Entity {
     public static final int DEFAULT_ID = 4;
     public static final String DEFAULT_VALUE_3 = "three";
@@ -57,14 +60,24 @@ public final class ExtendsEntity extends Entity {
         _value4 = DEFAULT_VALUE_4;
     }
 
-    public void setValue3(final String value3) { _value3 = value3; }
-    public String getValue3() { return _value3; }
+    public void setValue3(final String value3) {
+        _value3 = value3;
+    }
 
-    public void setValue4(final String value4) { _value4 = value4; }
-    public String getValue4() { return _value4; }
+    public String getValue3() {
+        return _value3;
+    }
+
+    public void setValue4(final String value4) {
+        _value4 = value4;
+    }
+
+    public String getValue4() {
+        return _value4;
+    }
 
     public String toString() {
-        return getId() + " / " + getValue1() + " / " 
-                + getValue2() + "/" + getValue3() + "/" + getValue4();
+        return getId() + " / " + getValue1() + " / " + getValue2() + "/"
+                + getValue3() + "/" + getValue4();
     }
 }

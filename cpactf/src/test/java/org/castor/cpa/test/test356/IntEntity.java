@@ -17,17 +17,27 @@ package org.castor.cpa.test.test356;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.Ignore;
 
+@Ignore
 public final class IntEntity {
     private static final Log LOG = LogFactory.getLog(IntEntity.class);
 
     private int _id;
     private int _property;
-    
-    public int getId() { return _id; }
-    public void setId(final int id) { _id = id; }
 
-    public int getProperty() { return _property; }
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(final int id) {
+        _id = id;
+    }
+
+    public int getProperty() {
+        return _property;
+    }
+
     public void setProperty(final int id) {
         LOG.debug("setProperty(int)");
         _property = id;
