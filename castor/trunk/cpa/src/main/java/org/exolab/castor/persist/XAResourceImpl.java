@@ -102,7 +102,7 @@ public final class XAResourceImpl implements XAResource {
             // Must assure transaction context is created only once
             // for a given Xid
             synchronized (_engine.getXATransactions()) {
-                tx1 = (TransactionContext) _engine.getXATransactions().get(xid);
+                tx1 = _engine.getXATransactions().get(xid);
                 if (tx1 == null) {
                     tx1 = _xaSource.createTransactionContext(xid);
                     _engine.getXATransactions().put(xid, tx1);
@@ -113,9 +113,7 @@ public final class XAResourceImpl implements XAResource {
             break;
         case TMJOIN:
         case TMRESUME:
-            TransactionContext tx2;
-            
-            tx2 = (TransactionContext) _engine.getXATransactions().get(xid);
+            TransactionContext tx2 = _engine.getXATransactions().get(xid);
             if ((tx2 == null) || !tx2.isOpen()) {
                 throw new XAException(XAException.XAER_NOTA);
             }
@@ -134,9 +132,7 @@ public final class XAResourceImpl implements XAResource {
             throw new XAException(XAException.XAER_INVAL);
         }
         
-        TransactionContext tx;
-        
-        tx = (TransactionContext) _engine.getXATransactions().get(xid);
+        TransactionContext tx = _engine.getXATransactions().get(xid);
         if (tx == null) {
             throw new XAException(XAException.XAER_NOTA);
         }
@@ -179,9 +175,7 @@ public final class XAResourceImpl implements XAResource {
         }
         
         synchronized (_engine.getXATransactions()) {
-            TransactionContext tx;
-            
-            tx = (TransactionContext) _engine.getXATransactions().remove(xid);
+            TransactionContext tx = _engine.getXATransactions().remove(xid);
             if (tx == null) {
                 throw new XAException(XAException.XAER_NOTA);
             }
@@ -209,9 +203,7 @@ public final class XAResourceImpl implements XAResource {
             throw new XAException(XAException.XAER_INVAL);
         }
         
-        TransactionContext tx;
-        
-        tx = (TransactionContext) _engine.getXATransactions().get(xid);
+        TransactionContext tx = _engine.getXATransactions().get(xid);
         if (tx == null) {
             throw new XAException(XAException.XAER_NOTA);
         }
@@ -243,9 +235,7 @@ public final class XAResourceImpl implements XAResource {
             throw new XAException(XAException.XAER_INVAL);
         }
         
-        TransactionContext tx;
-        
-        tx = (TransactionContext) _engine.getXATransactions().get(xid);
+        TransactionContext tx = _engine.getXATransactions().get(xid);
         if (tx == null) {
             throw new XAException(XAException.XAER_NOTA);
         }
@@ -281,9 +271,7 @@ public final class XAResourceImpl implements XAResource {
             throw new XAException(XAException.XAER_INVAL);
         }
         
-        TransactionContext tx;
-        
-        tx = (TransactionContext) _engine.getXATransactions().get(xid);
+        TransactionContext tx = _engine.getXATransactions().get(xid);
         if (tx == null) {
             throw new XAException(XAException.XAER_NOTA);
         }

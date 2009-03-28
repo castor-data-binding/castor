@@ -132,11 +132,11 @@ public class ClassMolder {
 
     /** A Vector of <tt>ClassMolder</tt>s for all the direct dependent class of the
      *  base class. */
-    private Vector _dependent;
+    private Vector<ClassMolder> _dependent;
 
     /** A Vector of <tt>ClassMolder</tt>s for all the direct extending class of the
      *  base class. */
-    private Vector _extendent;
+    private Vector<ClassMolder> _extendent;
 
     /** Default accessMode of the base class. */
     private AccessMode _accessMode;
@@ -501,10 +501,10 @@ public class ClassMolder {
      * @param tx Currently active transaction context
      * @param locker Current cache instance
      * @param proposedObject ProposedEntity instance
-     * @param suggestedAccessMode Suggested access mode
+     * @param accessMode Suggested access mode
      * @param results OQL QueryResults instance
      * @throws ObjectNotFoundException If the object in question cannot be found.
-     * @throws PersistenceException For any other persistence-ralted problem.
+     * @throws PersistenceException For any other persistence-related problem.
      */
     public void load(final TransactionContext tx, final DepositBox locker,
             final ProposedEntity proposedObject, final AccessMode accessMode,
@@ -940,7 +940,7 @@ public class ClassMolder {
         // All field along the extend path will be deleted by transaction
         // However, everything off the path must be deleted by ClassMolder.
 
-        Vector extendPath = new Vector();
+        Vector<ClassMolder> extendPath = new Vector<ClassMolder>();
         ClassMolder base = this;
         while (base != null) {
             extendPath.add(base);
@@ -1248,7 +1248,7 @@ public class ClassMolder {
      */
     void addExtendent(final ClassMolder ext) {
         if (_extendent == null) {
-            _extendent = new Vector();
+            _extendent = new Vector<ClassMolder>();
         }
         _extendent.add(ext);
     }
@@ -1258,7 +1258,7 @@ public class ClassMolder {
      */
     void addDependent(final ClassMolder dep) {
         if (_dependent == null) {
-            _dependent = new Vector();
+            _dependent = new Vector<ClassMolder>();
         }
         _dependent.add(dep);
     }

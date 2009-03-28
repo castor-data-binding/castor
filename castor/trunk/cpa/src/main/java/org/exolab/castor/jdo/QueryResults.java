@@ -55,7 +55,7 @@ import java.util.NoSuchElementException;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2004-05-03 16:05:30 -0600 (Mon, 03 May 2004) $
  */
-public interface QueryResults extends Enumeration {
+public interface QueryResults extends Enumeration<Object> {
     /**
      * Returns true if there are any more results in the result set.
      * If an error occured reading the last result, an exception will

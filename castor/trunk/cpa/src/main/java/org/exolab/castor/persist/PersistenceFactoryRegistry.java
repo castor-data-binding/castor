@@ -47,8 +47,6 @@ package org.exolab.castor.persist;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.AbstractProperties;
 import org.castor.cpa.CPAProperties;
 import org.exolab.castor.persist.spi.PersistenceFactory;
@@ -63,7 +61,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  */
 public final class PersistenceFactoryRegistry {
     /** Association between factory name and object. */
-    private static Hashtable  _factories;
+    private static Hashtable<String, PersistenceFactory>  _factories;
 
     /**
      * Returns a persistence factory with the specified name.
@@ -77,7 +75,7 @@ public final class PersistenceFactoryRegistry {
      */
     public static PersistenceFactory getPersistenceFactory(final String name) {
         load();
-        return (PersistenceFactory) _factories.get(name);
+        return _factories.get(name);
     }
 
     /**
@@ -88,14 +86,11 @@ public final class PersistenceFactoryRegistry {
      * @return Names of persistence factories
      */
     public static String[] getFactoryNames() {
-        String[]    names;
-        Enumeration enumeration;
-
         load();
-        names = new String[ _factories.size() ];
-        enumeration = _factories.keys();
+        String[] names = new String[ _factories.size() ];
+        Enumeration<String> enumeration = _factories.keys();
         for (int i = 0; i < names.length; ++i) {
-            names[ i ] = (String) enumeration.nextElement();
+            names[i] = enumeration.nextElement();
         }
         return names;
     }
@@ -106,7 +101,7 @@ public final class PersistenceFactoryRegistry {
      */
     private static synchronized void load() {
         if (_factories == null) {
-            _factories = new Hashtable();
+            _factories = new Hashtable<String, PersistenceFactory>();
 
             AbstractProperties properties = CPAProperties.getInstance();
             Object[] objects = properties.getObjectArray(

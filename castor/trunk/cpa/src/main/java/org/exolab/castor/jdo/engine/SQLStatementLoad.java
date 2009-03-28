@@ -189,7 +189,8 @@ public final class SQLStatementLoad {
                     new ClassDescriptorJDONature(_engine.getDescriptor()).getExtended());
             
             if (classDescriptorsToAdd.size() > 0) {
-                for (Iterator<ClassDescriptor> iter = classDescriptorsToAdd.iterator(); iter.hasNext(); ) {
+                Iterator<ClassDescriptor> iter = classDescriptorsToAdd.iterator();
+                while (iter.hasNext()) {
                     classDescriptor = iter.next();
                     ClassDescriptorJDONature clsDescNature = 
                         new ClassDescriptorJDONature(classDescriptor);

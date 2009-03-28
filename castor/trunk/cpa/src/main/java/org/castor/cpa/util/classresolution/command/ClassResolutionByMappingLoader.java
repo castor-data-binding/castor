@@ -35,7 +35,9 @@ public final class ClassResolutionByMappingLoader extends BaseResolutionCommand 
     /**
      * Resolves a {@link ClassDescriptor} for the given type using 
      * the {@link MappingLoader} of the {@link MappingLoaderNature}.
+     * 
      * @see org.exolab.castor.xml.util.ClassResolutionCommand#resolve(java.lang.Class)
+     * 
      * @return A {@link ClassDescriptor} or null if not found.
      * @param type The type to resolve.
      */

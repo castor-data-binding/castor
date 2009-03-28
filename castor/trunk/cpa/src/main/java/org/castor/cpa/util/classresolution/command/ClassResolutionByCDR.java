@@ -80,12 +80,12 @@ public class ClassResolutionByCDR extends BaseResolutionCommand {
 
         String typeName = type.getName();
 
-        for (Iterator<String> it = packages.iterator(); it.hasNext();) {
+        for (Iterator<String> it = packages.iterator(); it.hasNext(); ) {
             Map<String, ClassDescriptor> descriptors = getDescriptors(it.next());
             if (descriptors.containsKey(typeName)) {
                 return descriptors.get(typeName);
             }
-            // TODO: remove this following code if above implementation is
+            // TODO remove this following code if above implementation is
             // sufficient in regard to performance.
             // String packageName = (String) it.next();
             // URL cdrUrl = loader.getResource(
@@ -159,7 +159,7 @@ public class ClassResolutionByCDR extends BaseResolutionCommand {
         try {
             cdrList = getProperties(cdrUrl);
             Enumeration classes = cdrList.keys();
-            for (; classes.hasMoreElements();) {
+            for (; classes.hasMoreElements(); ) {
                 String className = (String) classes.nextElement();
                 String classDescriptorName = cdrList.getProperty(className);
                 Class classDescriptor = ResolveHelpers.loadClass(loader,

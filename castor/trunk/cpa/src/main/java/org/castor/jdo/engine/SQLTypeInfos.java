@@ -50,7 +50,7 @@ public final class SQLTypeInfos {
     /**
      * Class that assoiziates SQL type number, SQL type name and Java type.
      */
-    private static class TypeInfo {
+    private static final class TypeInfo {
         /** SQL type number. */
         private final int _sqlTypeNum;
 
@@ -68,7 +68,7 @@ public final class SQLTypeInfos {
          * @param sqlTypeName SQL type name.
          * @param javaType Java type.
          */
-        TypeInfo(final int sqlTypeNum, final String sqlTypeName, final Class<?> javaType) {
+        private TypeInfo(final int sqlTypeNum, final String sqlTypeName, final Class<?> javaType) {
             _sqlTypeNum     = sqlTypeNum;
             _sqlTypeName = sqlTypeName;
             _javaType  = javaType;
@@ -109,14 +109,14 @@ public final class SQLTypeInfos {
     };
 
     /** Thread local Calendar instance pool. */
-    private static final ThreadLocal THREAD_SAFE_CALENDAR = new ThreadLocal() {
+    private static final ThreadLocal<Calendar> THREAD_SAFE_CALENDAR = new ThreadLocal<Calendar>() {
         // The Calendar passed to ResultSet.getTimestamp() etc can actually
         // be modified depending on the database driver implementation.  To guard
         // against synchronization issues, we need to pass either a local
         // instance (which is expensive, creating one for each call), or create
         // a thread-local instance (which only gets created once per thread).
         // The latter is what this is for.
-        public Object initialValue() { return new GregorianCalendar(); }
+        public Calendar initialValue() { return new GregorianCalendar(); }
     };
     
     /** Time zone based on setting in castor.properties file (or
@@ -143,7 +143,7 @@ public final class SQLTypeInfos {
     private static Calendar getCalendar() {
         // We have to reset the time zone each time in case the result set
         // implementation changes it.
-        Calendar calendar = (Calendar) THREAD_SAFE_CALENDAR.get();
+        Calendar calendar = THREAD_SAFE_CALENDAR.get();
         calendar.setTimeZone(TIME_ZONE);
         return calendar;
     }

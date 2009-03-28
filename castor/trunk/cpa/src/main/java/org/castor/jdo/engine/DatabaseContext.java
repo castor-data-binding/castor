@@ -42,7 +42,6 @@ import org.exolab.castor.persist.LockEngine;
 import org.exolab.castor.persist.PersistenceEngineFactory;
 import org.exolab.castor.persist.PersistenceFactoryRegistry;
 import org.exolab.castor.persist.spi.PersistenceFactory;
-import org.exolab.castor.xml.ClassDescriptorResolverFactory;
 
 /**
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
@@ -140,7 +139,7 @@ public final class DatabaseContext {
      * @throws MappingException If concrete factory or LockEngine fail to initialize
      *                          or mapping could not be loaded. 
      */
-    public final void initialize() throws MappingException {
+    public void initialize() throws MappingException {
         // If the factory was already initialized, ignore
         // this request to initialize it.
         if (!_initialized) {
@@ -242,7 +241,7 @@ public final class DatabaseContext {
      * 
      * @return The name of the database configuration.
      */
-    public final String getName() {
+    public String getName() {
         return _name; 
     }
     
@@ -251,7 +250,7 @@ public final class DatabaseContext {
      * 
      * @return The database configuration.
      */
-    public final Database getDatabase() { 
+    public Database getDatabase() { 
         return _jdoConf.getDatabase(_index);
     }
 
@@ -260,7 +259,7 @@ public final class DatabaseContext {
      * 
      * @return The mapping to load.
      */
-    public final Mapping getMapping() {
+    public Mapping getMapping() {
         return _mapping;
     }
     
@@ -269,7 +268,7 @@ public final class DatabaseContext {
      * 
      * @return The transaction manager.
      */
-    public final TransactionManager getTransactionManager() { 
+    public TransactionManager getTransactionManager() { 
         return _txManager;
     }
     
@@ -278,7 +277,7 @@ public final class DatabaseContext {
      * 
      * @return The LockEngine.
      */
-    public final LockEngine getEngine() { 
+    public LockEngine getEngine() { 
         return _engine;
     }
 
@@ -286,7 +285,7 @@ public final class DatabaseContext {
      * Sets a custom {@link ClassDescriptorResolver} instance.
      * @param classDescriptorResolver A custom {@link ClassDescriptorResolver} instance to be used.
      */
-    public final void setClassDescriptorResolver(
+    public void setClassDescriptorResolver(
             final JDOClassDescriptorResolver classDescriptorResolver) {
         _classDescriptorResolver = classDescriptorResolver;
     }

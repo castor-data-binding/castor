@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.castor.cpa.util.JDOClassDescriptorResolver;
-import org.exolab.castor.mapping.ClassDescriptor;
 
 /**
  * Provides basic {@link HashMap} based property implementation for a
@@ -48,13 +47,12 @@ public abstract class BaseResolutionCommand implements
      * {@link JDOClassDescriptorResolver} used to register
      * {@link ClassDescriptor} instances during their creation.
      */
-    private JDOClassDescriptorResolver classDescriptorResolver;
+    private JDOClassDescriptorResolver _classDescriptorResolver;
 
     /**
      * Get a Nature property.
      * 
-     * @param name
-     *            Name of the property.
+     * @param name Name of the property.
      * @return Property value.
      */
     public final Object getProperty(final String name) {
@@ -64,10 +62,8 @@ public abstract class BaseResolutionCommand implements
     /**
      * Set a Nature property.
      * 
-     * @param name
-     *            Name of the property.
-     * @param value
-     *            Value of the property.
+     * @param name Name of the property.
+     * @param value Value of the property.
      */
     public final void setProperty(final String name, final Object value) {
         _properties.put(name, value);
@@ -76,8 +72,7 @@ public abstract class BaseResolutionCommand implements
     /**
      * Adds a Nature.
      * 
-     * @param nature
-     *            Nature Id.
+     * @param nature Nature Id.
      */
     public final void addNature(final String nature) {
         _natures.add(nature);
@@ -87,8 +82,7 @@ public abstract class BaseResolutionCommand implements
      * Returns true if the Nature with the given name was added before, false if
      * not.
      * 
-     * @param nature
-     *            Nature Id.
+     * @param nature Nature Id.
      * @return true if added before, false if not.
      */
     public final boolean hasNature(final String nature) {
@@ -103,17 +97,14 @@ public abstract class BaseResolutionCommand implements
      *         {@link ClassDescriptor} instances
      */
     protected JDOClassDescriptorResolver getClassDescriptorResolver() {
-        return classDescriptorResolver;
+        return _classDescriptorResolver;
     }
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.castor.cpa.util.classresolution.command.org.castor.cpa.util.classresolution.ClassDescriptorResolutionCommand#setClassDescriptorResolver(org.exolab.castor.xml.util.JDOClassDescriptorResolver)
      */
     public void setClassDescriptorResolver(
             final JDOClassDescriptorResolver classDescriptorResolver) {
-        this.classDescriptorResolver = classDescriptorResolver;
+        _classDescriptorResolver = classDescriptorResolver;
     }
-
 }
