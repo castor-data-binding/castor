@@ -17,7 +17,6 @@ import org.castor.cpa.util.classresolution.nature.MappingLoaderNature;
 import org.castor.cpa.util.classresolution.nature.PackageBasedCDRResolutionNature;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingLoader;
-import org.exolab.castor.xml.ClassDescriptorResolver;
 import org.exolab.castor.xml.ResolverException;
 
 /**
@@ -77,7 +76,7 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
      * @param command to register.
      */
     private void registerCommand(final ClassDescriptorResolutionCommand command) {
-        // TODO: temporal implementation - following 2 lines need to be revised!
+        // TODO temporal implementation - following 2 lines need to be revised!
         // ClassLoaderNature clNature = new ClassLoaderNature(command);
         // clNature.setClassLoader(getClass().getClassLoader());
         command.setClassDescriptorResolver(this);
@@ -146,7 +145,7 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
             return classDesc;
         }
 
-        // TODO: consider for future extensions
+        // TODO consider for future extensions
         // String pkgName = getPackageName(type.getName());
         //
         // //-- check package mapping
@@ -210,8 +209,7 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
                 new MappingLoaderNature(command).setMappingLoader(mappingLoader);
             }
             if (command.hasNature(ClassLoaderNature.class.getName())) {
-                new ClassLoaderNature(command).setClassLoader(
-                	_mappingLoader.getClassLoader());
+                new ClassLoaderNature(command).setClassLoader(_mappingLoader.getClassLoader());
             }
         }
     }

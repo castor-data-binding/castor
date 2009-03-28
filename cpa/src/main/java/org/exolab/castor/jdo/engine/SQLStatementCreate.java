@@ -35,7 +35,6 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
 import org.castor.cpa.CPAProperties;
-import org.castor.cpa.persistence.sql.connection.ConnectionFactory;
 import org.castor.cpa.persistence.sql.keygen.KeyGenerator;
 import org.castor.jdo.engine.DatabaseContext;
 import org.castor.jdo.engine.DatabaseRegistry;

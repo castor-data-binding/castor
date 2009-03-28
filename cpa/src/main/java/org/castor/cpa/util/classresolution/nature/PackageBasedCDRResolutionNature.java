@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.castor.core.nature.BaseNature;
 import org.castor.core.nature.PropertyHolder;
-import org.castor.cpa.util.classresolution.command.ClassDescriptorResolutionCommand;
 
 /**
  * This class provides a view on a additional properties for
@@ -27,7 +26,6 @@ import org.castor.cpa.util.classresolution.command.ClassDescriptorResolutionComm
  * 
  * @author Sebastian Gabmeyer
  * @since 1.2.1
- * 
  */
 public class PackageBasedCDRResolutionNature extends BaseNature {
 
@@ -39,8 +37,7 @@ public class PackageBasedCDRResolutionNature extends BaseNature {
     /**
      * The constructor takes a {@link PropertyHolder}.
      * 
-     * @param holder
-     *            the <em>container</em> to place/read the properties in/from.
+     * @param holder the <em>container</em> to place/read the properties in/from.
      */
     public PackageBasedCDRResolutionNature(final PropertyHolder holder) {
         super(holder);
@@ -56,8 +53,7 @@ public class PackageBasedCDRResolutionNature extends BaseNature {
     /**
      * Adds a package to the string {@link List} of package names.
      * 
-     * @param packageName
-     *            the name of the package to add.
+     * @param packageName the name of the package to add.
      */
     @SuppressWarnings("unchecked")
     public void addPackageName(final String packageName) {
@@ -70,8 +66,7 @@ public class PackageBasedCDRResolutionNature extends BaseNature {
      * Set a String {@link List} of package names that should be searched for
      * {@link org.exolab.castor.mapping.ClassDescriptor}s.
      * 
-     * @param packageNames
-     *            the String {@link List} of package names to set.
+     * @param packageNames the String {@link List} of package names to set.
      */
     public void setPackageNames(final List<String> packageNames) {
         setProperty(PACKAGES, packageNames);

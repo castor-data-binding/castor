@@ -52,6 +52,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Vector;
 
+import javax.transaction.xa.Xid;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.cache.Cache;
@@ -61,7 +63,6 @@ import org.castor.cache.CacheFactoryRegistry;
 import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
 import org.castor.cpa.CPAProperties;
-import org.castor.cpa.persistence.sql.connection.ConnectionFactory;
 import org.castor.cpa.util.JDOClassDescriptorResolver;
 import org.castor.jdo.engine.DatabaseContext;
 import org.castor.persist.AbstractTransactionContext;
@@ -137,12 +138,12 @@ public final class LockEngine {
      * sufficient information to persist the object, manipulated it in memory
      * and invoke the object's interceptor.
      */
-    private HashMap _typeInfo = new HashMap();
+    private final HashMap<String, TypeInfo> _typeInfo = new HashMap<String, TypeInfo>();
 
     /**
      * All the XA transactions running against this cache engine.
      */
-    private HashMap _xaTx = new HashMap();
+    private final HashMap<Xid, TransactionContext> _xaTx = new HashMap<Xid, TransactionContext>();
     
     /**
      * The ConnectionFactory.
@@ -159,13 +160,15 @@ public final class LockEngine {
      * Construct a new cache engine with the specified mapping table, 
      * persistence engine and the log interceptor.
      *
-     * @param  persistenceFactory      Factory for creating persistence engines for each
-     *                      object described in the map
+     * @param databaseContext
+     * @param cdResolver
+     * @param persistenceFactory Factory for creating persistence engines for each
+     *        object described in the map.
      * @throws MappingException Indicate that one of the mappings is invalid
      */
     public LockEngine(final DatabaseContext databaseContext,
-                      final ClassDescriptorResolver cdResolver,
-                      final PersistenceFactory persistenceFactory)
+            final ClassDescriptorResolver cdResolver,
+            final PersistenceFactory persistenceFactory)
     throws MappingException {
         if (_cacheFactoryRegistry == null) {
             AbstractProperties properties = CPAProperties.getInstance();
@@ -176,13 +179,12 @@ public final class LockEngine {
         _persistenceFactory = persistenceFactory;
         
         try {
-            Vector v = resolve(cdResolver);
+            Vector<ClassMolder> v = resolve((JDOClassDescriptorResolver) cdResolver);
     
-            _typeInfo = new HashMap();
-            Enumeration enumeration = v.elements();
+            Enumeration<ClassMolder> enumeration = v.elements();
 
-            HashSet processedClasses = new HashSet();
-            HashSet freshClasses = new HashSet();
+            HashSet<ClassMolder> processedClasses = new HashSet<ClassMolder>();
+            HashSet<ClassMolder> freshClasses = new HashSet<ClassMolder>();
             // copy things into an arraylist
             while (enumeration.hasMoreElements()) {
                 freshClasses.add(enumeration.nextElement());
@@ -194,9 +196,9 @@ public final class LockEngine {
             int counter = 0;
             do {
                 counter = freshClasses.size();
-                Iterator itor = freshClasses.iterator();
+                Iterator<ClassMolder> itor = freshClasses.iterator();
                 while (itor.hasNext()) {
-                    ClassMolder molder = (ClassMolder) itor.next();
+                    ClassMolder molder = itor.next();
                     ClassMolder extend = molder.getExtends();
 
                     if (extend == null) {
@@ -211,14 +213,15 @@ public final class LockEngine {
                             _log.error(msg, e);
                             throw new MappingException(msg, e);
                         }
-                        TypeInfo info = new TypeInfo(molder, new HashMap(), cache); 
+                        TypeInfo info = new TypeInfo(molder,
+                                new HashMap<OID, ObjectLock>(), cache); 
                         _typeInfo.put(molder.getName(), info);
                         itor.remove();
                         processedClasses.add(molder);
 
                     } else if (processedClasses.contains(molder.getExtends())) {
                         // use the base type to construct the new type
-                        TypeInfo baseInfo = (TypeInfo) _typeInfo.get(extend.getName());
+                        TypeInfo baseInfo = _typeInfo.get(extend.getName());
                         _typeInfo.put(molder.getName(), new TypeInfo(molder, baseInfo));
                         itor.remove();
                         processedClasses.add(molder);
@@ -232,9 +235,9 @@ public final class LockEngine {
 
             // error if there is molder left.
             if (freshClasses.size() > 0) {
-                Iterator itor = freshClasses.iterator();
+                Iterator<ClassMolder> itor = freshClasses.iterator();
                 while (itor.hasNext()) {
-                    ClassMolder molder = (ClassMolder) itor.next();
+                    ClassMolder molder = itor.next();
                     _log.error("The base class, " + (molder.getExtends().getName())
                         + ", of the extends class ," + molder.getName() 
                         + " can not be resolved! ");
@@ -251,33 +254,28 @@ public final class LockEngine {
      *
      * @param cdResolver {@link ClassDescriptorResolver} instance used for resolving
      *        {@link ClassDescriptor}.
-     *
      * @return  Vector of all of the <tt>ClassMolder</tt>s from a MappingLoader
      * @throws ClassNotFoundException 
      */
-    private Vector resolve(final ClassDescriptorResolver cdResolver)
+    private Vector<ClassMolder> resolve(final JDOClassDescriptorResolver cdResolver)
     throws MappingException, ClassNotFoundException {
-        Vector result = new Vector();
-        ClassMolder mold;
-        Persistence persist;
-        ClassDescriptor desc;
+        Vector<ClassMolder> result = new Vector<ClassMolder>();
 
         DatingService ds = new DatingService(cdResolver.getMappingLoader().getClassLoader());
 
-        Iterator iter = ((JDOClassDescriptorResolver) cdResolver).descriptorIterator();
+        Iterator<ClassDescriptor> iter = cdResolver.descriptorIterator();
         while (iter.hasNext()) {
-            Object next = iter.next();
-            ClassDescriptor nextCd = (ClassDescriptor) next;
-            Class toResolve = nextCd.getJavaClass();
+            Class<?> toResolve = iter.next().getJavaClass();
+            ClassDescriptor desc;
             try {
                 desc = cdResolver.resolve(toResolve);
             } catch (ResolverException e) {
                 throw new MappingException ("Cannot resolve type for " + toResolve.getName(), e);
             }
             
-            persist = _persistenceFactory.getPersistence(desc);
-            mold = new ClassMolder(ds, cdResolver, this, desc, persist);
-            result.add(mold);
+            Persistence persistence = _persistenceFactory.getPersistence(desc);
+            ClassMolder molder = new ClassMolder(ds, cdResolver, this, desc, persistence);
+            result.add(molder);
         }
 
         ds.close();
@@ -295,7 +293,7 @@ public final class LockEngine {
      * @return The class molder for the specified class.
      */
     public ClassMolder getClassMolder(final Class cls) {
-        TypeInfo info = (TypeInfo) _typeInfo.get(cls.getName());
+        TypeInfo info = _typeInfo.get(cls.getName());
         if (info != null) {
             if (!info._molder.isDependent()) {
                 return info._molder;
@@ -305,7 +303,7 @@ public final class LockEngine {
     }
     
     public ClassMolder getClassMolder(final String classname) {
-        TypeInfo info = (TypeInfo) _typeInfo.get(classname);
+        TypeInfo info = _typeInfo.get(classname);
         if (info != null) {
             if (!info._molder.isDependent()) {
                 return info._molder;
@@ -315,7 +313,7 @@ public final class LockEngine {
     }
     
     public ClassMolder getClassMolderWithDependent(final Class cls) {
-        TypeInfo info = (TypeInfo) _typeInfo.get(cls.getName());
+        TypeInfo info = _typeInfo.get(cls.getName());
         return (info != null) ? info._molder : null;
     }
     
@@ -325,9 +323,9 @@ public final class LockEngine {
      * @return ClassMolder instance associated with the named query 
      */
     public ClassMolder getClassMolderByQuery(final String name) {        
-        Iterator typeIterator = _typeInfo.values().iterator();
+        Iterator<TypeInfo> typeIterator = _typeInfo.values().iterator();
         while (typeIterator.hasNext()) {
-            TypeInfo info = (TypeInfo) typeIterator.next();
+            TypeInfo info = typeIterator.next();
             if (info._molder.getNamedQuery(name) != null) {
                 return info._molder;
             }
@@ -357,7 +355,6 @@ public final class LockEngine {
      * @param suggestedAccessMode The desired access mode
      * @param timeout The timeout waiting to acquire a lock on the
      *  object (specified in seconds)
-     * @return The object's OID
      * @throws ObjectNotFoundException The object was not found in
      *  persistent storage
      * @throws LockNotGrantedException Timeout or deadlock occured
@@ -373,7 +370,7 @@ public final class LockEngine {
             final ProposedEntity proposedObject, final AccessMode suggestedAccessMode,
             final int timeout, final QueryResults results, final ClassMolder molder)
     throws PersistenceException {
-        TypeInfo typeinfo = (TypeInfo) _typeInfo.get(oid.getName());
+        TypeInfo typeinfo = _typeInfo.get(oid.getName());
         if (typeinfo == null) {
             throw new ClassNotPersistenceCapableException(Messages.format(
                     "persist.classNotPersistenceCapable", oid.getName()));
@@ -476,7 +473,7 @@ public final class LockEngine {
                 tx.trackObject(molder, expoid, proposedObject.getEntity());
                 
                 // reload 'expanded object' using correct ClassMolder
-                TypeInfo exptypeinfo = (TypeInfo) _typeInfo.get(expoid.getName());
+                TypeInfo exptypeinfo = _typeInfo.get(expoid.getName());
                 if (exptypeinfo == null) {
                     throw new ClassNotPersistenceCapableException(Messages.format(
                             "persist.classNotPersistenceCapable", expoid.getName()));
@@ -551,10 +548,7 @@ public final class LockEngine {
      */
     public void markCreate(final TransactionContext tx, final OID oid, final Object object)
     throws PersistenceException {
-
-        TypeInfo   typeInfo;
-        typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
-
+        TypeInfo typeInfo = _typeInfo.get(oid.getName());
         if (typeInfo == null) {
             throw new ClassNotPersistenceCapableException(Messages.format(
                     "persist.classNotPersistenceCapable", oid.getName()));
@@ -586,18 +580,15 @@ public final class LockEngine {
     public OID create(final TransactionContext tx, final OID oid, final Object object)
     throws PersistenceException {
         OID internaloid = oid;
-        TypeInfo typeInfo;
-        ObjectLock lock;
-        OID newoid;
         boolean succeed;
 
-        typeInfo = (TypeInfo) _typeInfo.get(object.getClass().getName());
+        TypeInfo typeInfo = _typeInfo.get(object.getClass().getName());
         if (typeInfo == null) {
             throw new ClassNotPersistenceCapableException(Messages.format(
                     "persist.classNotPersistenceCapable", object.getClass().getName()));
         }
             
-        lock = null;
+        ObjectLock lock = null;
 
         if (internaloid.getIdentity() != null) {
 
@@ -659,7 +650,7 @@ public final class LockEngine {
 
             internaloid.setDbLock(true);
 
-            newoid = new OID(internaloid.getMolder(), internaloid.getDepends(), newids);
+            OID newoid = new OID(internaloid.getMolder(), internaloid.getDepends(), newids);
 
             typeInfo.rename(internaloid, newoid, tx);
 
@@ -695,7 +686,7 @@ public final class LockEngine {
      */
     public void delete(final TransactionContext tx, final OID oid)
             throws PersistenceException {
-        TypeInfo   typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
+        TypeInfo typeInfo = _typeInfo.get(oid.getName());
 
         try {
             typeInfo.assure(oid, tx, true);
@@ -715,13 +706,9 @@ public final class LockEngine {
 
     public void markDelete(final TransactionContext tx, final OID oid, final Object object,
             final int timeout) throws PersistenceException {
-
-        TypeInfo typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
-
+        TypeInfo typeInfo = _typeInfo.get(oid.getName());
         ObjectLock lock = typeInfo.upgrade(oid, tx, timeout);
-
         typeInfo._molder.markDelete(tx, oid, lock, object);
-
         lock.expire();
     }
 
@@ -757,7 +744,7 @@ public final class LockEngine {
     public boolean update(final TransactionContext tx, final OID oid, final Object object,
             final AccessMode suggestedAccessMode, final int timeout) throws PersistenceException {
         // If the object is new, don't try to load it from the cache
-        TypeInfo typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
+        TypeInfo typeInfo = _typeInfo.get(oid.getName());
         if (typeInfo == null) {
             throw new ClassNotPersistenceCapableException(Messages.format(
                     "persist.classNotPersistenceCapable", oid.getName()));
@@ -834,11 +821,10 @@ public final class LockEngine {
     public OID preStore(final TransactionContext tx, final OID oid, final Object object,
             final int timeout) throws PersistenceException {
         OID internaloid = oid;
-        TypeInfo   typeInfo;
         ObjectLock lock = null;
         boolean    modified;
 
-        typeInfo = (TypeInfo) _typeInfo.get(object.getClass().getName());
+        TypeInfo typeInfo = _typeInfo.get(object.getClass().getName());
 
         // Acquire a read lock first. Only if the object has been modified
         // do we need a write lock.
@@ -877,14 +863,10 @@ public final class LockEngine {
 
     public void store(final TransactionContext tx, final OID oid, final Object object)
     throws PersistenceException {
-
+        TypeInfo typeInfo = _typeInfo.get(oid.getName());
         ObjectLock lock = null;
-        TypeInfo   typeInfo;
-
-        typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
         // Attempt to obtain a lock on the database. If this attempt
         // fails, release the lock and report the exception.
-
         try {
             lock = typeInfo.assure(oid, tx, false);
 
@@ -931,17 +913,11 @@ public final class LockEngine {
      */
     public void writeLock(final TransactionContext tx, final OID oid, final int timeout)
     throws PersistenceException {
-
-        TypeInfo   typeInfo;
-
-        typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
+        TypeInfo typeInfo = _typeInfo.get(oid.getName());
         // Attempt to obtain a lock on the database. If this attempt
         // fails, release the lock and report the exception.
-
         try {
             typeInfo.upgrade(oid, tx, timeout);
-
-            // typeInfo.engine.writeLock( tx, lock...);
         } catch (IllegalStateException e) {
             throw e;
         } catch (ObjectDeletedWaitingForLockException e) {
@@ -967,9 +943,7 @@ public final class LockEngine {
      */
     public void softLock(final TransactionContext tx, final OID oid, final int timeout)
     throws LockNotGrantedException {
-        TypeInfo   typeInfo;
-
-        typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
+        TypeInfo typeInfo = _typeInfo.get(oid.getName());
         typeInfo.upgrade(oid, tx, timeout);
     }
 
@@ -987,17 +961,13 @@ public final class LockEngine {
      */
     public void revertObject(final TransactionContext tx, final OID oid, final Object object)
     throws PersistenceException {
-        TypeInfo   typeInfo;
-        ObjectLock lock;
-
-        typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
+        TypeInfo typeInfo = _typeInfo.get(oid.getName());
         try {
-            lock = typeInfo.assure(oid, tx, false);
+            ObjectLock lock = typeInfo.assure(oid, tx, false);
             typeInfo._molder.revertObject(tx, oid, lock, object);
         } catch (LockNotGrantedException e) {
             throw new IllegalStateException("Write Lock expected!");
         } catch (PersistenceException except) {
-            //typeInfo.destory( oid, tx );
             throw except;
         }
     }
@@ -1014,11 +984,8 @@ public final class LockEngine {
      * @param object The object to copy from
      */
     public void updateCache(final TransactionContext tx, final OID oid, final Object object) {
-        TypeInfo   typeInfo;
-        ObjectLock lock;
-
-        typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
-        lock = typeInfo.assure(oid, tx, true);
+        TypeInfo typeInfo = _typeInfo.get(oid.getName());
+        ObjectLock lock = typeInfo.assure(oid, tx, true);
         typeInfo._molder.updateCache(tx, oid, lock, object);
     }
 
@@ -1031,10 +998,8 @@ public final class LockEngine {
      * @param oid The object OID
      */
     public void releaseLock(final TransactionContext tx, final OID oid) {
-        ObjectLock lock;
-        TypeInfo   typeInfo;
-        typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
-        lock = typeInfo.release(oid, tx);
+        TypeInfo typeInfo = _typeInfo.get(oid.getName());
+        ObjectLock lock = typeInfo.release(oid, tx);
         lock.getOID().setDbLock(false);
     }
 
@@ -1052,7 +1017,7 @@ public final class LockEngine {
     public void forgetObject(final TransactionContext tx, final OID oid) {
         TypeInfo   typeInfo;
 
-        typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
+        typeInfo = _typeInfo.get(oid.getName());
         //lock = typeInfo.locks.aquire( oid, tx );
         typeInfo.assure(oid, tx, true);
         typeInfo.delete(oid, tx);
@@ -1091,7 +1056,7 @@ public final class LockEngine {
         boolean    succeed;
         ObjectLock lock;
  
-        typeInfo = (TypeInfo) _typeInfo.get(oid.getName());
+        typeInfo = _typeInfo.get(oid.getName());
         if (typeInfo == null) {
             throw new ClassNotPersistenceCapableException(Messages.format(
                     "persist.classNotPersistenceCapable", oid.getName()));
@@ -1128,7 +1093,7 @@ public final class LockEngine {
      * @param cls Class type instance.
      */
     public void expireCache(final Class cls) {
-        TypeInfo typeInfo = (TypeInfo) _typeInfo.get(cls.getName());
+        TypeInfo typeInfo = _typeInfo.get(cls.getName());
         if (typeInfo != null) {
             typeInfo.expireCache();
         }
@@ -1137,16 +1102,16 @@ public final class LockEngine {
      * Expires all objects of all types from cache.
      */
     public void expireCache() {
-        for (Iterator iter = _typeInfo.values().iterator(); iter.hasNext(); ) {
-            ((TypeInfo) iter.next()).expireCache();
+        for (Iterator<TypeInfo> iter = _typeInfo.values().iterator(); iter.hasNext(); ) {
+            iter.next().expireCache();
         }
     }
     /**
      * Dump cached objects of all types to output.
      */
     public void dumpCache() {
-        for (Iterator iter = _typeInfo.values().iterator(); iter.hasNext(); ) {
-            ((TypeInfo) iter.next()).dumpCache();
+        for (Iterator<TypeInfo> iter = _typeInfo.values().iterator(); iter.hasNext(); ) {
+            iter.next().dumpCache();
         }
     }
 
@@ -1154,13 +1119,13 @@ public final class LockEngine {
      * Close all caches (to allow for resource clean-up).
      */
     public void closeCaches() {
-        for (Iterator iter = _typeInfo.values().iterator(); iter.hasNext(); ) {
-            ((TypeInfo) iter.next()).closeCache();
+        for (Iterator<TypeInfo> iter = _typeInfo.values().iterator(); iter.hasNext(); ) {
+            iter.next().closeCache();
         }
         
-        Collection cacheFactories = _cacheFactoryRegistry.getCacheFactories();
-        for (Iterator iter = cacheFactories.iterator(); iter.hasNext(); ) {
-            ((CacheFactory) iter.next()).shutdown(); 
+        Collection<CacheFactory> cacheFactories = _cacheFactoryRegistry.getCacheFactories();
+        for (Iterator<CacheFactory> iter = cacheFactories.iterator(); iter.hasNext(); ) {
+            iter.next().shutdown(); 
         }
     }
 
@@ -1169,7 +1134,7 @@ public final class LockEngine {
      * @param cls A class type.
      */
     public void dumpCache(final Class cls) {
-        TypeInfo typeInfo = (TypeInfo) _typeInfo.get(cls.getName());
+        TypeInfo typeInfo = _typeInfo.get(cls.getName());
         if (typeInfo != null) {
             typeInfo.dumpCache();
         }
@@ -1179,9 +1144,10 @@ public final class LockEngine {
      * Returns an association between Xid and transactions contexts.
      * The association is shared between all transactions open against
      * this cache engine through the XAResource interface.
+     * 
      * @return Association between XId and transaction contexts.
      */
-    public HashMap getXATransactions() {
+    public HashMap<Xid, TransactionContext> getXATransactions() {
         return _xaTx;
     }
 
@@ -1200,7 +1166,7 @@ public final class LockEngine {
         /** The Map contains all the in-used ObjectLock of the class type, which
          *  keyed by the OID representing the object. All extends classes share the
          *  same map as the base class. */
-        private final HashMap _locks;
+        private final HashMap<OID, ObjectLock> _locks;
         
         /** The Map contains all the freed ObjectLock of the class type, which keyed
          *  by the OID representing the object. ObjectLock put into cache maybe
@@ -1217,7 +1183,8 @@ public final class LockEngine {
          * @param  cache    The new LRU which will be used to
          *         store and dispose freed ObjectLock.
          */
-        private TypeInfo(final ClassMolder molder, final HashMap locks, final Cache cache) {
+        private TypeInfo(final ClassMolder molder, final HashMap<OID, ObjectLock> locks,
+                final Cache cache) {
             this._name = molder.getName();
             this._molder = molder;
             this._locks = locks;
@@ -1248,12 +1215,12 @@ public final class LockEngine {
         public void dumpCache() {
             _log.info(_name + ".dumpCache()...");
             synchronized (_locks) {
-                for (Iterator iter = _locks.values().iterator(); iter.hasNext(); ) {
-                    ObjectLock entry = (ObjectLock) iter.next();
+                for (Iterator<ObjectLock> iter = _locks.values().iterator(); iter.hasNext(); ) {
+                    ObjectLock entry = iter.next();
                     _log.info("In locks: " + entry);
                 }
 
-                for (Iterator iter = _cache.values().iterator(); iter.hasNext(); ) {
+                for (Iterator<Object> iter = _cache.values().iterator(); iter.hasNext(); ) {
                     ObjectLock entry = (ObjectLock) iter.next();
                     _log.info("In cache: " + entry.getOID());
                 }
@@ -1269,8 +1236,8 @@ public final class LockEngine {
                 // transaction as expired.  They will be not be added back to
                 // the LRU when the transaction's complete (@see release)
                 // XXX [SMH]: Reconsider removing from locks (unknown side-effects?).
-                for (Iterator iter = _locks.values().iterator(); iter.hasNext(); ) {
-                    ObjectLock objectLock = (ObjectLock) iter.next();
+                for (Iterator<ObjectLock> iter = _locks.values().iterator(); iter.hasNext(); ) {
+                    ObjectLock objectLock = iter.next();
                     objectLock.expire();
                     iter.remove();
                 }
@@ -1303,7 +1270,7 @@ public final class LockEngine {
             // duplicated LockEntry exist at the same time.
             synchronized (_locks) {
                 // consult with the 'first level' cache, aka current transaction 
-                entry = (ObjectLock) _locks.get(oid);
+                entry = _locks.get(oid);
                 if (entry == null) {
                     // consult with the 'second level' cache, aka physical cache
                     CacheEntry cachedEntry = (CacheEntry) _cache.remove(oid);
@@ -1407,7 +1374,7 @@ public final class LockEngine {
             OID internaloid = oid;
             ObjectLock entry = null;
             synchronized (_locks) {
-                entry = (ObjectLock) _locks.get(internaloid);
+                entry = _locks.get(internaloid);
                 if (entry == null) {
                     throw new ObjectDeletedWaitingForLockException(
                             "Lock entry not found. Deleted?");
@@ -1441,7 +1408,7 @@ public final class LockEngine {
          */
         private ObjectLock assure(final OID oid, final TransactionContext tx, final boolean write) {
             synchronized (_locks) {
-                ObjectLock entry = (ObjectLock) _locks.get(oid);
+                ObjectLock entry = _locks.get(oid);
                 if (entry == null) {
                     throw new IllegalStateException(
                             "Lock, " + oid + ", doesn't exist or no lock!");
@@ -1469,10 +1436,8 @@ public final class LockEngine {
         private ObjectLock rename(final OID orgoid, final OID newoid, final TransactionContext tx)
         throws LockNotGrantedException {
             synchronized (_locks) {
-                ObjectLock entry;
-                ObjectLock newentry;
-                entry = (ObjectLock) _locks.get(orgoid);
-                newentry = (ObjectLock) _locks.get(newoid);
+                ObjectLock entry = _locks.get(orgoid);
+                ObjectLock newentry = _locks.get(newoid);
 
                 // validate locks
                 if (orgoid == newoid) {
@@ -1494,7 +1459,7 @@ public final class LockEngine {
                             "Lock is already existed for the new oid.");
                 }
 
-                entry = (ObjectLock) _locks.remove(orgoid);
+                entry = _locks.remove(orgoid);
                 entry.setOID(newoid);
                 _locks.put(newoid, entry);
 
@@ -1516,7 +1481,7 @@ public final class LockEngine {
         private ObjectLock delete(final OID oid, final TransactionContext tx) {
             ObjectLock entry;
             synchronized (_locks) {
-                entry = (ObjectLock) _locks.get(oid);
+                entry = _locks.get(oid);
                 if (entry == null) {
                     throw new IllegalStateException("No lock to destroy!");
                 }
@@ -1549,7 +1514,7 @@ public final class LockEngine {
         private ObjectLock release(final OID oid, final TransactionContext tx) {
             ObjectLock entry = null;
             synchronized (_locks) {
-                entry = (ObjectLock) _locks.get(oid);
+                entry = _locks.get(oid);
                 if (entry == null) {
                     throw new IllegalStateException(
                             "No lock to release! " + oid + " for transaction " + tx);
@@ -1606,12 +1571,12 @@ public final class LockEngine {
      * @return True if the specified object is in the cache.
      */
     public boolean isCached(final Class cls, final OID oid) {
-        TypeInfo typeInfo = (TypeInfo) _typeInfo.get(cls.getName());
+        TypeInfo typeInfo = _typeInfo.get(cls.getName());
         return typeInfo.isCached (oid);
     }
 
     public boolean isLocked(final Class cls, final OID oid) {
-        TypeInfo typeInfo = (TypeInfo) _typeInfo.get(cls.getName());
+        TypeInfo typeInfo = _typeInfo.get(cls.getName());
         return typeInfo.isLocked (oid);
     }
 }
