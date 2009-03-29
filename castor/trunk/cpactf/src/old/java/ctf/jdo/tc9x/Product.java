@@ -23,7 +23,7 @@ public class Product implements TimeStampable {
     private int _id;
     private String _name;
     private ProductDetail _detail;
-    private Collection _orders;
+    private Collection<Order> _orders;
     private Owner _owner;
     private long _timeStamp;
 
@@ -36,8 +36,8 @@ public class Product implements TimeStampable {
     public final ProductDetail getDetail() { return _detail; }
     public final void setDetail(final ProductDetail detail) { _detail = detail; }
 
-    public final Collection getOrders() { return _orders; }
-    public final void setOrders(final Collection orders) { _orders = orders; }
+    public final Collection<Order> getOrders() { return _orders; }
+    public final void setOrders(final Collection<Order> orders) { _orders = orders; }
 
     public final Owner getOwner() { return _owner; }
     public final void setOwner(final Owner owner) { _owner = owner; }

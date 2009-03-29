@@ -11,7 +11,7 @@ public final class SelfRelationFolder implements Serializable, TimeStampable {
 
     private Integer _id = null;
     private String _name = null;
-    private Collection _children = new ArrayList();
+    private Collection<SelfRelationFolder> _children = new ArrayList<SelfRelationFolder>();
     private SelfRelationFolder _parent = null;
     private long _timeStamp;
 
@@ -21,8 +21,14 @@ public final class SelfRelationFolder implements Serializable, TimeStampable {
     public String getName() { return _name; }
     public void setName(final String name) { _name = name; }
 
-    public Collection getChildren() { return _children; }
-    public void setChildren(final Collection children) { _children = children; }
+    public Collection<SelfRelationFolder> getChildren() {
+        return _children;
+    }
+    
+    public void setChildren(final Collection<SelfRelationFolder> children) {
+        _children = children;
+    }
+    
     public void addChild(final SelfRelationFolder child) {
         child.setParent(this);
         _children.add(child);

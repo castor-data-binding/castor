@@ -57,14 +57,14 @@ public final class MasterKeyGen implements TimeStampable {
     private int _id;
     private String _value;
     private Group _group;
-    private ArrayList _details;
+    private ArrayList<DetailKeyGen> _details;
     private long _timeStamp;
 
     public MasterKeyGen() {
         _id = DEFAULT_ID;
         _value = DEFAULT_VALUE;
         _group = null;
-        _details = new ArrayList();
+        _details = new ArrayList<DetailKeyGen>();
     }
 
     public void setId(final int id) { _id = id; }
@@ -78,19 +78,16 @@ public final class MasterKeyGen implements TimeStampable {
     public Group getGroup() { return _group; }
 
     public DetailKeyGen createDetail() { return new DetailKeyGen(); }
-    public ArrayList getDetails() { return _details; }
-    public void setDetails(final ArrayList array) { _details = array; }
+    public ArrayList<DetailKeyGen> getDetails() { return _details; }
+    public void setDetails(final ArrayList<DetailKeyGen> array) { _details = array; }
     public void addDetail(final DetailKeyGen detail) {
         _details.add(detail);
         detail.setMaster(this);
     }
     public DetailKeyGen findDetail(final int id) {
-        Iterator enumeration;
-        DetailKeyGen detail;
-
-        enumeration = _details.iterator();
+        Iterator<DetailKeyGen> enumeration = _details.iterator();
         while (enumeration.hasNext()) {
-            detail = (DetailKeyGen) enumeration.next();
+            DetailKeyGen detail = enumeration.next();
             if (detail.getId() == id) { return detail; }
         }
         return null;

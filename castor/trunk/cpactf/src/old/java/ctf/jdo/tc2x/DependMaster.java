@@ -57,7 +57,7 @@ public final class DependMaster {
 
     /** @field-type jdo.Depend2
      *  @many-key master_oid */
-    private ArrayList _depends2 = new ArrayList();
+    private ArrayList<Depend2> _depends2 = new ArrayList<Depend2>();
 
     public int getId() { return _id; }
     public void setId(final int id) { _id = id; }
@@ -65,8 +65,8 @@ public final class DependMaster {
     public Depend1 getDepend1() { return _depend1; }
     public void setDepend1(final Depend1 depend1) { _depend1 = depend1; }
 
-    public ArrayList getDepends2() { return _depends2; }
-    public void setDepends2(final ArrayList depends2) { _depends2 = depends2; }
+    public ArrayList<Depend2> getDepends2() { return _depends2; }
+    public void setDepends2(final ArrayList<Depend2> depends2) { _depends2 = depends2; }
     public void addDepend2(final Depend2 depend2) {
         _depends2.add(depend2);
         depend2.setMaster(this);

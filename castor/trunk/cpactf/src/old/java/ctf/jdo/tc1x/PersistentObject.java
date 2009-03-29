@@ -61,17 +61,17 @@ public final class PersistentObject implements Persistent, TimeStampable, Serial
     public static final int       DEFAULT_ID = 7;
     public static final String    DEFAULT_VALUE = "persistent";
 
-    private int                 _id;
-    private String              _value;
-    private Date                _creationTime;
-    private Date                _modificationTime;
-    private Integer             _parentId;
-    private PersistentObject    _parent;
-    private Vector              _children;
-    private Vector              _origChildren;
-    private PersistentGroup     _group;
-    private PersistentRelated   _related;
-    private PersistentRelated   _origRelated;
+    private int _id;
+    private String _value;
+    private Date _creationTime;
+    private Date _modificationTime;
+    private Integer _parentId;
+    private PersistentObject _parent;
+    private Vector<PersistentObject> _children;
+    private Vector<PersistentObject> _origChildren;
+    private PersistentGroup _group;
+    private PersistentRelated _related;
+    private PersistentRelated _origRelated;
 
     private long                _timeStamp;
 
@@ -84,7 +84,7 @@ public final class PersistentObject implements Persistent, TimeStampable, Serial
     public PersistentObject(final int id) {
         _id = id;
         _value = DEFAULT_VALUE;
-        _children = new Vector();
+        _children = new Vector<PersistentObject>();
     }
 
     public void setId(final int id) { _id = id; }
@@ -121,13 +121,13 @@ public final class PersistentObject implements Persistent, TimeStampable, Serial
         child.setGroup(_group);
     }
     
-    public Vector getChildren() { return _children; }
+    public Vector<PersistentObject> getChildren() { return _children; }
 
     public PersistentObject findChild(final int id) {
-        Enumeration enumeration = _children.elements();
+        Enumeration<PersistentObject> enumeration = _children.elements();
         PersistentObject child;
         while (enumeration.hasMoreElements()) {
-            child = (PersistentObject) enumeration.nextElement();
+            child = enumeration.nextElement();
             if (child.getId() == id) {
                 return child;
             }
@@ -139,10 +139,10 @@ public final class PersistentObject implements Persistent, TimeStampable, Serial
         if (_group != group) {
             _group = group;
             
-            Enumeration enumeration = _children.elements();
+            Enumeration<PersistentObject> enumeration = _children.elements();
             PersistentObject child;
             while (enumeration.hasMoreElements()) {
-                child = (PersistentObject) enumeration.nextElement();
+                child = enumeration.nextElement();
                 child.setGroup(_group);
             }
         }
@@ -163,7 +163,7 @@ public final class PersistentObject implements Persistent, TimeStampable, Serial
 
     public void jdoTransient() { _db = null; }
 
-    public Class jdoLoad(final AccessMode accessMode) throws Exception {
+    public Class<?> jdoLoad(final AccessMode accessMode) throws Exception {
         if (_parentId != null) {
             _parent = (PersistentObject) _db.load(PersistentObject.class,
                                                 _parentId, accessMode);
@@ -174,16 +174,16 @@ public final class PersistentObject implements Persistent, TimeStampable, Serial
         qry.bind(_id);
         QueryResults res = qry.execute();
         while (res.hasMore()) {
-            _children.addElement(res.next());
+            _children.addElement((PersistentObject) res.next());
         }
         
-        _origChildren = (Vector) _children.clone();
+        _origChildren = new Vector<PersistentObject>(_children);
         _origRelated = _related;
         return null;
     }
 
     public void jdoStore(final boolean modified) throws Exception {
-        Enumeration enumeration;
+        Enumeration<PersistentObject> enumeration;
         PersistentObject child;
 
         if (modified) {
@@ -192,14 +192,14 @@ public final class PersistentObject implements Persistent, TimeStampable, Serial
 
         enumeration = _children.elements();
         while (enumeration.hasMoreElements()) {
-            child = (PersistentObject) enumeration.nextElement();
+            child = enumeration.nextElement();
             if (!containsChild(_origChildren, child)) {
                 _db.create(child);
             }
         }
         enumeration = _origChildren.elements();
         while (enumeration.hasMoreElements()) {
-            child = (PersistentObject) enumeration.nextElement();
+            child = enumeration.nextElement();
             if (!containsChild(_children, child)) {
                 _db.remove(child);
             }
@@ -215,7 +215,7 @@ public final class PersistentObject implements Persistent, TimeStampable, Serial
     }
 
     public void jdoUpdate() throws Exception {
-        Enumeration enumeration = _origChildren.elements();
+        Enumeration<PersistentObject> enumeration = _origChildren.elements();
         while (enumeration.hasMoreElements()) {
             _db.update(enumeration.nextElement());
         }
@@ -225,13 +225,13 @@ public final class PersistentObject implements Persistent, TimeStampable, Serial
         }
     }
 
-    public static boolean containsChild(final Vector vector,
+    public static boolean containsChild(final Vector<PersistentObject> vector,
                                         final PersistentObject child) {
         
-        Enumeration enumeration = vector.elements();
+        Enumeration<PersistentObject> enumeration = vector.elements();
         PersistentObject ch;
         while (enumeration.hasMoreElements()) {
-            ch = (PersistentObject) enumeration.nextElement();
+            ch = enumeration.nextElement();
             if (ch.getId() == child.getId()) {
                 return true;
             }
@@ -257,11 +257,11 @@ public final class PersistentObject implements Persistent, TimeStampable, Serial
     }
 
     public void jdoAfterCreate() throws Exception {
-        Enumeration enumeration = _children.elements();
+        Enumeration<PersistentObject> enumeration = _children.elements();
         while (enumeration.hasMoreElements()) {
             _db.create(enumeration.nextElement());
         }
-        _origChildren = (Vector) _children.clone();
+        _origChildren = new Vector<PersistentObject>(_children);
         
         if (_related != null) {
             _db.create(_related);
@@ -270,7 +270,7 @@ public final class PersistentObject implements Persistent, TimeStampable, Serial
     }
 
     public void jdoBeforeRemove() throws Exception {
-        Enumeration enumeration = _children.elements();
+        Enumeration<PersistentObject> enumeration = _children.elements();
         while (enumeration.hasMoreElements()) {
             _db.remove(enumeration.nextElement());
         }

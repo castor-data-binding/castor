@@ -54,7 +54,7 @@ import java.util.List;
  * Test object for collection types 'iterator' (java.util.Iterator).
  */
 public final class ColEnumeration extends Col {
-    private List _item = new ArrayList();
+    private List<Item> _item = new ArrayList<Item>();
 
     public boolean containsItem(final Item item) {
         if (_item == null || _item.size() == 0) {
@@ -63,7 +63,7 @@ public final class ColEnumeration extends Col {
         return _item.contains(item);
     }
 
-    public Iterator itemIterator() {
+    public Iterator<Item> itemIterator() {
         if (_item == null || _item.size() == 0) {
             return EMPTY_ITORATOR;
         }
@@ -84,11 +84,11 @@ public final class ColEnumeration extends Col {
         return _item.size();
     }
 
-    public Enumeration getItem() {
+    public Enumeration<Item> getItem() {
         return Collections.enumeration(_item);
     }
 
-    public void setItem(final Enumeration item) {
+    public void setItem(final Enumeration<Item> item) {
         _item.clear();
         while (item.hasMoreElements()) {
             _item.add(item.nextElement());
@@ -97,7 +97,7 @@ public final class ColEnumeration extends Col {
 
     public void addItem(final Item item) {
         if (_item == null) {
-            _item = new ArrayList();
+            _item = new ArrayList<Item>();
         }
         _item.add(item);
         item.setTestCol(this);

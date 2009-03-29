@@ -47,33 +47,11 @@ package ctf.jdo.tc7x;
 /**
  * Test object for different collection types.
  */
-public final class ComparableItem implements Comparable {
-    private int _id;
-    private Col _testCol;
+public final class ComparableItem extends Item implements Comparable<Item> {
+    public ComparableItem() { super(); }
+    public ComparableItem(final int id) { super(id); }
 
-    public ComparableItem() { }
-    public ComparableItem(final int id) { _id = id; }
-
-    public int getId() { return _id; }
-    public void setId(final int id) { _id = id; }
-
-    public Col getTestCol() { return _testCol; }
-    public void setTestCol(final Col testCol) { _testCol = testCol; }
-
-    public String toString() { return getClass().getName() + ":" + _id; }
-
-    public int hashCode() { return _id; }
-
-    public boolean equals(final Object object) {
-        if (object == null) { return false; }
-        if (object == this) { return true; }
-        if (!(object instanceof ComparableItem)) { return false; }
-
-        ComparableItem item = (ComparableItem) object;
-        return item._id == _id;
-    }
-
-    public int compareTo(final Object o) {
-        return new Integer(_id).compareTo(new Integer(((ComparableItem) o).getId()));
+    public int compareTo(final Item o) {
+        return new Integer(getId()).compareTo(new Integer(o.getId()));
     }
 }

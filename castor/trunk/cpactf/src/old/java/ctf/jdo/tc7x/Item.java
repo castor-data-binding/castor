@@ -47,24 +47,24 @@ package ctf.jdo.tc7x;
 /**
  * Test object for different collection types.
  */
-public final class Item {
-    private int    _id;
+public class Item {
+    private int _id;
     private Col _testCol;
 
     public Item() { }
     public Item(final int id) { _id = id; }
 
-    public int getId() { return _id; }
-    public void setId(final int id) { _id = id; }
+    public final int getId() { return _id; }
+    public final void setId(final int id) { _id = id; }
 
-    public Col getTestCol() { return _testCol; }
-    public void setTestCol(final Col testCol) { _testCol = testCol; }
+    public final Col getTestCol() { return _testCol; }
+    public final void setTestCol(final Col testCol) { _testCol = testCol; }
 
-    public String toString() { return getClass().getName() + ":" + _id; }
+    public final String toString() { return getClass().getName() + ":" + _id; }
 
-    public int hashCode() { return _id; }
+    public final int hashCode() { return _id; }
 
-    public boolean equals(final Object object) {
+    public final boolean equals(final Object object) {
         if (object == null) { return false; }
         if (object == this) { return true; }
         if (!(object instanceof Item)) { return false; }

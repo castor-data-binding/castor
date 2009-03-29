@@ -66,7 +66,7 @@ public final class TestNoCache extends TestCase {
         
         assertNull(cache.get("first key"));
         
-        Map map = new HashMap();
+        Map<String, String> map = new HashMap<String, String>();
         map.put("second key", "second value");
         map.put("third key", "third value");
         cache.putAll(map);
@@ -75,13 +75,13 @@ public final class TestNoCache extends TestCase {
         cache.clear();
         assertEquals(0, cache.size());
         
-        Set keys = cache.keySet();
+        Set<Object> keys = cache.keySet();
         assertEquals(0, keys.size());
 
-        Collection values = cache.values();
+        Collection<Object> values = cache.values();
         assertEquals(0, values.size());
 
-        Set entries = cache.entrySet();
+        Set<Map.Entry<Object, Object>> entries = cache.entrySet();
         assertEquals(0, entries.size());
     }
 }

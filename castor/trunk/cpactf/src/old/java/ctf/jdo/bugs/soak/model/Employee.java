@@ -23,7 +23,7 @@ public final class Employee {
     private int _roomNumber;
     private Address _homeAddress;
     private Phone _homePhone;
-    private Vector _skills;
+    private Vector<String> _skills;
     
     public Integer getId() { return _id; }
     public void setId(final Integer id) { _id = id; }
@@ -90,6 +90,6 @@ public final class Employee {
         _homePhone = homePhone;
     }
     
-    public Vector getSkills() { return _skills; }
-    public void setSkills(final Vector skills) { _skills = skills; }
+    public Vector<String> getSkills() { return _skills; }
+    public void setSkills(final Vector<String> skills) { _skills = skills; }
 }

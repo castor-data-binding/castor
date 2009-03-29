@@ -95,7 +95,7 @@ public class TestKeyGenGeneric extends CastorTestCase {
      * For each key generator we have a pair of classes: TestXXXObject and
      * TestXXXExtends which use key generator XXX.
      */
-    protected final void testOneKeyGen(final Class objClass, final Class extClass)
+    protected final void testOneKeyGen(final Class<?> objClass, final Class<?> extClass)
     throws Exception {
 
         OQLQuery oql;
@@ -165,7 +165,7 @@ public class TestKeyGenGeneric extends CastorTestCase {
      * For each key generator we have a pair of classes: TestXXXObject and
      * TestXXXExtends which use key generator XXX.
      */
-    protected final void testOneKeyGenString(final Class objClass, final Class extClass)
+    protected final void testOneKeyGenString(final Class<?> objClass, final Class<?> extClass)
     throws Exception {
 
         OQLQuery oql;

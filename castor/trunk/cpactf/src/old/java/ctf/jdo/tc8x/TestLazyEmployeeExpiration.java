@@ -244,7 +244,7 @@ public final class TestLazyEmployeeExpiration extends CastorTestCase {
             address3.setZip("30003");
             address3.setPerson(person);
 
-            ArrayList addresslist = new ArrayList();
+            ArrayList<LazyAddress> addresslist = new ArrayList<LazyAddress>();
             addresslist.add(address1);
             addresslist.add(address2);
             addresslist.add(address3);
@@ -268,7 +268,7 @@ public final class TestLazyEmployeeExpiration extends CastorTestCase {
             cc2.setName("Full-time employee");
             db.create(cc2);
             
-            ArrayList category = new ArrayList();
+            ArrayList<LazyContractCategory> category = new ArrayList<LazyContractCategory>();
             category.add(cc);
             category.add(cc2);
 
@@ -380,7 +380,7 @@ public final class TestLazyEmployeeExpiration extends CastorTestCase {
         try {
             CacheManager cacheManager = _db.getCacheManager();
             if (byType) {
-                Class[] typeArray = new Class[5];
+                Class<?>[] typeArray = new Class[5];
                 typeArray[0] = LazyContract.class;
                 typeArray[1] = LazyContractCategory.class;
                 typeArray[2] = LazyPayRoll.class;
@@ -434,9 +434,9 @@ public final class TestLazyEmployeeExpiration extends CastorTestCase {
                         + ", expected: " + JDBC_UPDATED_DATE.toString());
                 valid = false;
             }
-            Iterator itor = person.getAddress().iterator();
+            Iterator<LazyAddress> itor = person.getAddress().iterator();
             while (itor.hasNext()) {
-                LazyAddress address = (LazyAddress) itor.next();
+                LazyAddress address = itor.next();
                 String expectedStreet = new String(
                         Integer.toString(address.getId()) + JDBC_UPDATED_STRING);
                 if (address.getStreet().compareTo(expectedStreet) != 0) {
@@ -485,9 +485,9 @@ public final class TestLazyEmployeeExpiration extends CastorTestCase {
             
             person = (LazyEmployee) db.load(LazyEmployee.class, fullname);
             person.setBirthday(JDO_UPDATED_DATE);
-            Iterator itor = person.getAddress().iterator();
+            Iterator<LazyAddress> itor = person.getAddress().iterator();
             while (itor.hasNext()) {
-                LazyAddress address = (LazyAddress) itor.next();
+                LazyAddress address = itor.next();
                 String newStreet = new String(
                         Integer.toString(address.getId()) + JDO_UPDATED_STRING);
                 address.setStreet(newStreet);

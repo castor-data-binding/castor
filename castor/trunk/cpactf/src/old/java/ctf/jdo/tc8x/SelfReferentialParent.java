@@ -22,7 +22,7 @@ public class SelfReferentialParent {
     private Integer _id;
     private String _name;
     private SelfReferentialParent _parent;
-    private List _entities;
+    private List<SelfReferentialParent> _entities;
     
     public final Integer getId() {
         return _id;
@@ -40,11 +40,11 @@ public class SelfReferentialParent {
         _name = name;
     }
 
-    public final List getEntities() {
+    public final List<SelfReferentialParent> getEntities() {
         return _entities;
     }
 
-    public final void setEntities(final List entities) {
+    public final void setEntities(final List<SelfReferentialParent> entities) {
         _entities = entities;
     }
 

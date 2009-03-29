@@ -287,7 +287,7 @@ public final class TestJcsCache extends TestCase {
         
         Cache c = initialize();
         
-        HashMap map = new HashMap();
+        HashMap<String, String> map = new HashMap<String, String>();
         map.put("fourth key", "forth value");
         map.put("fifth key", "fifth value");
         

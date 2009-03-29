@@ -52,16 +52,16 @@ public final class TestSortedContainer extends CastorTestCase {
         entity = (SortedContainer) results.next();
         assertNotNull(entity);
         assertEquals(new Integer(1), entity.getId());
-        assertNotNull (entity.getTwos());
+        assertNotNull(entity.getTwos());
         assertEquals(2, entity.getTwos().size());
  
-        SortedSet twos = entity.getTwos();
-        Iterator iterator = twos.iterator();
+        SortedSet<SortedContainerItem> twos = entity.getTwos();
+        Iterator<SortedContainerItem> iterator = twos.iterator();
         
         SortedContainerItem two = null;
         int i = 1;
         while (iterator.hasNext()) {
-            two = (SortedContainerItem) iterator.next();
+            two = iterator.next();
             LOG.error(two);
             assertNotNull(two);
             assertEquals(new Integer(i), two.getId());

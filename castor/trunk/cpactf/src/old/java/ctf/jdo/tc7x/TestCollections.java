@@ -92,7 +92,7 @@ public final class TestCollections extends CastorTestCase {
         runArray();
     }
 
-    public void runOnce(final Class masterClass) throws Exception {
+    public void runOnce(final Class<? extends Col> masterClass) throws Exception {
         _stream.println("Running...");
         _stream.println("");
 
@@ -104,7 +104,7 @@ public final class TestCollections extends CastorTestCase {
 
         // create new TestCol object with elements
         _db.begin();
-        Col testCol = (Col) masterClass.newInstance();
+        Col testCol = masterClass.newInstance();
         testCol.setId(1);
         _db.create(testCol);
         for (int i = 0; i < 5; i++) {
@@ -174,7 +174,7 @@ public final class TestCollections extends CastorTestCase {
         // shoud test for update too
     } 
 
-    public void runSortedSet(final Class masterClass) throws Exception {
+    public void runSortedSet(final Class<ColSortedSet> masterClass) throws Exception {
         _stream.println("Running...");
         _stream.println("");
         
@@ -186,7 +186,7 @@ public final class TestCollections extends CastorTestCase {
         
         // create new TestCol object with elements
         _db.begin();
-        ColSortedSet testCol = (ColSortedSet) masterClass.newInstance();
+        ColSortedSet testCol = masterClass.newInstance();
         testCol.setId(1);
         _db.create(testCol);
         for (int i = 0; i < 5; i++) {

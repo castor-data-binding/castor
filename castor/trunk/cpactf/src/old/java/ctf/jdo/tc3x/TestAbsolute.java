@@ -90,7 +90,7 @@ public final class TestAbsolute extends CastorTestCase {
         _db = _category.getDatabase();
     }
 
-    public void removeRecords() throws PersistenceException {
+    public void removeRecords() {
         Connection conn = null;
         try {
             conn = _category.getJDBCConnection();

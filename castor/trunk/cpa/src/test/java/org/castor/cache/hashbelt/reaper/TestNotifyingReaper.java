@@ -52,7 +52,7 @@ public final class TestNotifyingReaper extends TestCase {
         reaper.handleExpiredContainer(container);
         assertEquals(10, container.size());
         
-        List expired = NotifyingReaperMock.getExpiredObjects();
+        List<Object> expired = NotifyingReaperMock.getExpiredObjects();
         assertEquals(10, expired.size());
         for (int i = 0; i < 10; i++) {
             assertTrue(expired.contains(Integer.toString(i)));

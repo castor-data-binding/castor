@@ -236,8 +236,8 @@ public final class TestPolymorphism extends CastorTestCase {
         laptop.setDetail((ProductDetail) 
                 database.load(ProductDetail.class, new Integer(12)));
         database.create(laptop);
-        Collection orders = new LinkedList();
-        orders.add(database.load(Order.class, new Integer(12)));
+        Collection<Order> orders = new LinkedList<Order>();
+        orders.add((Order) database.load(Order.class, new Integer(12)));
         laptop.setOrders(orders);
         database.commit();
 
@@ -333,8 +333,8 @@ public final class TestPolymorphism extends CastorTestCase {
         truck.setDetail((ProductDetail) 
                 database.load(ProductDetail.class, new Integer(11)));
         database.create(truck);
-        Collection orders = new LinkedList();
-        orders.add(database.load(Order.class, new Integer(11)));
+        Collection<Order> orders = new LinkedList<Order>();
+        orders.add((Order) database.load(Order.class, new Integer(11)));
         truck.setOrders(orders);
         database.commit();
         
@@ -387,7 +387,7 @@ public final class TestPolymorphism extends CastorTestCase {
         assertEquals(1, m.getId());
         assertEquals("m1", m.getName());
         
-        Collection ns = m.getNs();
+        Collection<N> ns = m.getNs();
         assertNotNull(ns);
         assertEquals(2, ns.size());
         

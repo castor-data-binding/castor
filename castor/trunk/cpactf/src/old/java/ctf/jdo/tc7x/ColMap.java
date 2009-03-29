@@ -52,7 +52,7 @@ import java.util.Map;
  * Test object for different collection types.
  */
 public final class ColMap extends Col {
-    private Map _item;
+    private Map<Integer, Item> _item;
 
     public boolean containsItem(final Item item) {
         if ((_item == null) || (_item.size() == 0)) { return false; }
@@ -71,17 +71,17 @@ public final class ColMap extends Col {
         return _item.size();
     }
 
-    public Iterator itemIterator() {
+    public Iterator<Item> itemIterator() {
         if ((_item == null) || (_item.size() == 0)) { return EMPTY_ITORATOR; }
         return _item.values().iterator();
     }
 
-    public Map getItem() { return _item; }
+    public Map<Integer, Item> getItem() { return _item; }
 
-    public void setItem(final Map item) { _item = item; }
+    public void setItem(final Map<Integer, Item> item) { _item = item; }
 
     public void addItem(final Item item) {
-        if (_item == null) { _item = new HashMap(); }
+        if (_item == null) { _item = new HashMap<Integer, Item>(); }
         _item.put(new Integer(item.getId()), item);
         item.setTestCol(this);
     }

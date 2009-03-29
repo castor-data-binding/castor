@@ -21,7 +21,7 @@ public class Lazy1to1Author {
     private Long _id; 
     private String _firstName; 
     private String _lastName;
-    private Collection _books; 
+    private Collection<Lazy1to1Book> _books; 
     
     public Long getId() { return _id; } 
     public void setId(final Long id) { _id = id; } 
@@ -32,6 +32,6 @@ public class Lazy1to1Author {
     public String getLastName() { return _lastName; } 
     public void setLastName(final String lastName) { _lastName = lastName; } 
 
-    public Collection getBooks() { return _books; } 
-    public void setBooks(final Collection books) { _books = books; } 
+    public Collection<Lazy1to1Book> getBooks() { return _books; } 
+    public void setBooks(final Collection<Lazy1to1Book> books) { _books = books; } 
 }

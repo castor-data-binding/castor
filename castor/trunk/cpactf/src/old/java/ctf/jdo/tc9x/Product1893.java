@@ -24,7 +24,7 @@ public class Product1893 implements TimeStampable {
     private int _id;
     private String _name;
     private String _desc;
-    private Vector _composition = new Vector();
+    private Vector<ComposedProduct> _composition = new Vector<ComposedProduct>();
     private long _timeStamp;
 
     public final int getId() { return _id; }
@@ -36,11 +36,11 @@ public class Product1893 implements TimeStampable {
     public final String getDescription() { return _desc; }
     public final void setDescription(final String desc) { _desc = desc; }
 
-    public final Vector getCompositions() { return _composition; }
-    public final void setCompositions(final Vector products) {
-        Iterator iter = products.iterator();
+    public final Vector<ComposedProduct> getCompositions() { return _composition; }
+    public final void setCompositions(final Vector<ComposedProduct> products) {
+        Iterator<ComposedProduct> iter = products.iterator();
         while (iter.hasNext()) {
-            ComposedProduct cp = (ComposedProduct) iter.next();
+            ComposedProduct cp = iter.next();
             if (!_composition.contains(cp)) {
                 _composition.add(cp);
                 cp.addSubProduct(this);

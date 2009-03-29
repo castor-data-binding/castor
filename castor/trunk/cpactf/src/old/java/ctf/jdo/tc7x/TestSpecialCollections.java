@@ -52,7 +52,7 @@ public final class TestSpecialCollections extends CastorTestCase {
             assertNotNull(container);
             assertEquals(new Integer(i), container.getId());
             
-            List containerItems = container.getProp();
+            List<ContainerItem> containerItems = container.getProp();
             assertNotNull(containerItems);
             assertTrue(containerItems.size() > 0);
             i++;

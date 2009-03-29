@@ -30,15 +30,15 @@ public interface ClassDescriptorResolutionCommand extends PropertyHolder {
     /**
      * Resolves a {@link ClassDescriptor}..
      * 
-     * @param type
-     *            type to look up.
+     * @param type type to look up.
      * @return a {@link ClassDescriptor} if found, null if not.
      */
-    ClassDescriptor resolve(Class type);
+    ClassDescriptor resolve(Class<?> type);
 
     /**
      * Sets a {@link JDOClassDescriptorResolver} instance to be used for
      * {@link ClassDescriptor} registration.
+     * 
      * @param classDescriptorResolver {@link JDOClassDescriptorResolver} instance to be used.
      */
     void setClassDescriptorResolver(JDOClassDescriptorResolver classDescriptorResolver);

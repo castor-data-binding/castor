@@ -51,7 +51,7 @@ import java.util.Iterator;
  * Test object for different collection types.
  */
 public final class ColHashSet extends Col {
-    private HashSet _item;
+    private HashSet<Item> _item;
 
     public boolean containsItem(final Item item) {
         if ((_item == null) || (_item.size() == 0)) { return false; }
@@ -70,18 +70,18 @@ public final class ColHashSet extends Col {
         return _item.size();
     }
 
-    public Iterator itemIterator() {
+    public Iterator<Item> itemIterator() {
         if ((_item == null) || (_item.size() == 0)) { return EMPTY_ITORATOR; }
         return _item.iterator();
     }
 
-    public void setItem(final HashSet items) { _item = items; }
+    public void setItem(final HashSet<Item> items) { _item = items; }
 
-    public HashSet getItem() { return _item; }
+    public HashSet<Item> getItem() { return _item; }
 
     public void addItem(final Item item) {
-        if (_item != null) { _item = new HashSet(); }
-        _item.add(_item);
+        if (_item != null) { _item = new HashSet<Item>(); }
+        _item.add(item);
         item.setTestCol(this);
     }
 }

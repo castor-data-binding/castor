@@ -51,7 +51,7 @@ public class LazyPerson implements TimeStampable {
     private String _fname;
     private String _lname;
     private Date   _bday;
-    private Collection _address;
+    private Collection<LazyAddress> _address;
     private long   _timeStamp;
 
     public void setFirstName(final String fname) { _fname = fname; }
@@ -63,8 +63,8 @@ public class LazyPerson implements TimeStampable {
     public void setBirthday(final Date date) { _bday = date; }
     public Date getBirthday() { return _bday; }
 
-    public void setAddress(final Collection address) { _address = address; }
-    public Collection getAddress() { return _address; }
+    public void setAddress(final Collection<LazyAddress> address) { _address = address; }
+    public Collection<LazyAddress> getAddress() { return _address; }
 
     public void jdoSetTimeStamp(final long l) { _timeStamp = l; }
     public long jdoGetTimeStamp() { return _timeStamp; }

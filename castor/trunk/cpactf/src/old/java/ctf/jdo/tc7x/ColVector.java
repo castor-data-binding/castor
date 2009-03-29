@@ -51,14 +51,14 @@ import java.util.Vector;
  * Test object for different collection types.
  */
 public final class ColVector extends Col {
-    private Vector _item;
+    private Vector<Item> _item;
 
     public boolean containsItem(final Item item) {
         if ((_item == null) || (_item.size() == 0)) { return false; }
         return _item.contains(item);
     }
 
-    public Iterator itemIterator() {
+    public Iterator<Item> itemIterator() {
         if ((_item == null) || (_item.size() == 0)) { return EMPTY_ITORATOR; }
         return _item.iterator();
     }
@@ -75,12 +75,12 @@ public final class ColVector extends Col {
         return _item.size();
     }
 
-    public Vector getItem() { return _item; }
+    public Vector<Item> getItem() { return _item; }
 
-    public void setItem(final Vector item) { _item = item; }
+    public void setItem(final Vector<Item> item) { _item = item; }
 
     public void addItem(final Item item) {
-        if (_item == null) { _item = new Vector(); }
+        if (_item == null) { _item = new Vector<Item>(); }
         _item.add(item);
         item.setTestCol(this);
     }

@@ -10,14 +10,14 @@ import java.util.Iterator;
  * Test object for different collection types.
  */
 public final class ColAdd extends Col {
-    private ArrayList _item;
+    private ArrayList<Item> _item;
 
     public boolean containsItem(final Item item) {
         if ((_item == null) || (_item.size() == 0)) { return false; }
         return _item.contains(item);
     }
 
-    public Iterator itemIterator() {
+    public Iterator<Item> itemIterator() {
         if ((_item == null) || (_item.size() == 0)) { return EMPTY_ITORATOR; }
         return _item.iterator();
     }
@@ -34,10 +34,10 @@ public final class ColAdd extends Col {
         return _item.size();
     }
 
-    public ArrayList getItems() { return _item; }
+    public ArrayList<Item> getItems() { return _item; }
 
     public void addItem(final Item item) {
-        if (_item == null) { _item = new ArrayList(); }
+        if (_item == null) { _item = new ArrayList<Item>(); }
         _item.add(item);
         item.setTestCol(this);
     }

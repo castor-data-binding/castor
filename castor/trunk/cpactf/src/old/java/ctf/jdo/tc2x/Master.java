@@ -57,14 +57,14 @@ public final class Master implements TimeStampable {
     private int _id;
     private String _value;
     private Group _group;
-    private ArrayList _details;
+    private ArrayList<Detail> _details;
     private long _timeStamp;
 
     public Master() {
         _id = DEFAULT_ID;
         _value = DEFAULT_VALUE;
         _group = null;
-        _details = new ArrayList();
+        _details = new ArrayList<Detail>();
     }
 
     public void setId(final int id) { _id = id; }
@@ -78,19 +78,16 @@ public final class Master implements TimeStampable {
     public Group getGroup() { return _group; }
 
     public Detail createDetail() { return new Detail(); }
-    public ArrayList getDetails() { return _details; }
-    public void setDetails(final ArrayList array) { _details = array; }
+    public ArrayList<Detail> getDetails() { return _details; }
+    public void setDetails(final ArrayList<Detail> array) { _details = array; }
     public void addDetail(final Detail detail) {
         _details.add(detail);
         detail.setMaster(this);
     }
     public Detail findDetail(final int id) {
-        Iterator enumeration;
-        Detail detail;
-
-        enumeration = _details.iterator();
+        Iterator<Detail> enumeration = _details.iterator();
         while (enumeration.hasNext()) {
-            detail = (Detail) enumeration.next();
+            Detail detail = enumeration.next();
             if (detail.getId() == id) { return detail; }
         }
         return null;

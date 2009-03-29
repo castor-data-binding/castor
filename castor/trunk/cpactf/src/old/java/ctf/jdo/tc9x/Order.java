@@ -20,7 +20,7 @@ import java.util.Collection;
 public final class Order {
     private int _id;
     private String _name;
-    private Collection _products;
+    private Collection<Product> _products;
 
     public int getId() { return _id; }
     public void setId(final int id) { _id = id; }
@@ -28,6 +28,6 @@ public final class Order {
     public String getName() { return _name; }
     public void setName(final String name) { _name = name; }
 
-    public Collection getProducts() { return _products; }
-    public void setProducts(final Collection products) { _products = products; }
+    public Collection<Product> getProducts() { return _products; }
+    public void setProducts(final Collection<Product> products) { _products = products; }
 }

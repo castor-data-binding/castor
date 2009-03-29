@@ -49,7 +49,7 @@ public class LazyEmployee extends LazyPerson {
     private Date _startDate;
     private LazyPayRoll _payroll;
     private LazyContract _contract;
-    private Collection _projects;
+    private Collection<LazyProject> _projects;
 
     public void setStartDate(final Date startDate) { _startDate = startDate; }
     public Date getStartDate() { return _startDate; }
@@ -60,6 +60,6 @@ public class LazyEmployee extends LazyPerson {
     public void setContract(final LazyContract contract) { _contract = contract; }
     public LazyContract getContract() { return _contract; }
     
-    public void setProjects(final Collection projects) { _projects = projects; }
-    public Collection getProjects() { return _projects; }
+    public void setProjects(final Collection<LazyProject> projects) { _projects = projects; }
+    public Collection<LazyProject> getProjects() { return _projects; }
 }

@@ -152,7 +152,7 @@ public final class TestMultiPrimKeys extends CastorTestCase {
         address3.setPerson(person);
 
         // the employee and address relationship is a 1:n relationship
-        ArrayList addresslist = new ArrayList();
+        ArrayList<PrimaryKeysAddress> addresslist = new ArrayList<PrimaryKeysAddress>();
         addresslist.add(address1);
         addresslist.add(address2);
         addresslist.add(address3);
@@ -174,7 +174,7 @@ public final class TestMultiPrimKeys extends CastorTestCase {
                 102, "Full-time employee");
         _db.create(cc2);
         
-        ArrayList category = new ArrayList();
+        ArrayList<PrimaryKeysCategory> category = new ArrayList<PrimaryKeysCategory>();
         category.add(cc1);
         category.add(cc2);
 
@@ -205,12 +205,12 @@ public final class TestMultiPrimKeys extends CastorTestCase {
             
             LOG.info("OK: Employee is valid");
 
-            ArrayList address = loadPerson.getAddress();
-            Iterator itor = address.iterator();
+            ArrayList<PrimaryKeysAddress> address = loadPerson.getAddress();
+            Iterator<PrimaryKeysAddress> itor1 = address.iterator();
             PrimaryKeysAddress[] addresses = {null, null, null};
             PrimaryKeysAddress addr;
-            while (itor.hasNext()) {
-                addr = (PrimaryKeysAddress) itor.next();
+            while (itor1.hasNext()) {
+                addr = itor1.next();
                 if ((addr.getId() < 1) || (addr.getId() > 3)) {
                     _db.rollback();
                     LOG.error("Address id is incorrect");
@@ -270,11 +270,11 @@ public final class TestMultiPrimKeys extends CastorTestCase {
             }
             LOG.info("OK: Contract is valid");
 
-            ArrayList catelist = cont.getCategory();
-            itor = catelist.iterator();
+            ArrayList<PrimaryKeysCategory> catelist = cont.getCategory();
+            Iterator<PrimaryKeysCategory> itor2 = catelist.iterator();
             PrimaryKeysCategory cate;
-            while (itor.hasNext()) {
-                cate = (PrimaryKeysCategory) itor.next();
+            while (itor2.hasNext()) {
+                cate = itor2.next();
                 if (((cate.getId() != 101)
                         || !cate.getName().equals("Full-time junior"))
                         && ((cate.getId() != 102)
@@ -310,12 +310,12 @@ public final class TestMultiPrimKeys extends CastorTestCase {
             
             LOG.info("OK: Employee is valid");
 
-            ArrayList address = loadPerson.getAddress();
-            Iterator itor = address.iterator();
+            ArrayList<PrimaryKeysAddress> address = loadPerson.getAddress();
+            Iterator<PrimaryKeysAddress> itor1 = address.iterator();
             PrimaryKeysAddress[] addresses = {null, null, null};
             PrimaryKeysAddress addr;
-            while (itor.hasNext()) {
-                addr = (PrimaryKeysAddress) itor.next();
+            while (itor1.hasNext()) {
+                addr = itor1.next();
                 if ((addr.getId() < 1) || (addr.getId() > 3)) {
                     _db.rollback();
                     LOG.error("Address id is incorrect");
@@ -375,11 +375,11 @@ public final class TestMultiPrimKeys extends CastorTestCase {
             }
             LOG.info("OK: Contract is valid");
 
-            ArrayList catelist = cont.getCategory();
-            itor = catelist.iterator();
+            ArrayList<PrimaryKeysCategory> catelist = cont.getCategory();
+            Iterator<PrimaryKeysCategory> itor2 = catelist.iterator();
             PrimaryKeysCategory cate;
-            while (itor.hasNext()) {
-                cate = (PrimaryKeysCategory) itor.next();
+            while (itor2.hasNext()) {
+                cate = itor2.next();
                 if (((cate.getId() != 101)
                         || !cate.getName().equals("Full-time junior"))
                         && ((cate.getId() != 102)

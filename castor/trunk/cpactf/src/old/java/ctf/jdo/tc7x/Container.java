@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public final class Container {
     private Integer _id;
     private String _name;
-    private ArrayList _prop;
+    private ArrayList<ContainerItem> _prop;
 
     public Integer getId() { return _id; }
     public void setId(final Integer id) { _id = id; }
@@ -13,6 +13,6 @@ public final class Container {
     public String getName() { return _name; }
     public void setName(final String name) { _name = name; }
 
-    public ArrayList getProp() { return _prop; }
-    public void setProp(final ArrayList prop) { _prop = prop; }
+    public ArrayList<ContainerItem> getProp() { return _prop; }
+    public void setProp(final ArrayList<ContainerItem> prop) { _prop = prop; }
 }

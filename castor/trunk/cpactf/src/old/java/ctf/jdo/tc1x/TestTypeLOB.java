@@ -93,9 +93,6 @@ public final class TestTypeLOB extends CastorTestCase {
 
 
     public void setUp() throws PersistenceException {
-        TypeLOB       types;
-        Enumeration   enumeration;
-
         // Open transaction in order to perform JDO operations
         _db = _category.getDatabase();
 
@@ -107,12 +104,12 @@ public final class TestTypeLOB extends CastorTestCase {
                 + " types WHERE id = $(integer)1");
         // This one tests that bind performs type conversion
         _oql.bind(TypeLOB.DEFAULT_ID);
-        enumeration = _oql.execute();
+        Enumeration<?> enumeration = _oql.execute();
         if (enumeration.hasMoreElements()) {
-            types = (TypeLOB) enumeration.nextElement();
+            TypeLOB types = (TypeLOB) enumeration.nextElement();
             LOG.debug("Updating object: " + types);
         } else {
-            types = new TypeLOB();
+            TypeLOB types = new TypeLOB();
             types.setId(TypeLOB.DEFAULT_ID);
             LOG.debug("Creating new object: " + types);
             _db.create(types);
@@ -123,18 +120,15 @@ public final class TestTypeLOB extends CastorTestCase {
 
     public void runTest()
     throws PersistenceException, IOException, SQLException {
-        TypeLOB       types;
-        Enumeration   enumeration;
-        int           len;
 //        byte[]        bbuf = new byte[BLOB_VALUE.length + 1];
         char[]        cbuf = new char[CLOB_VALUE.length() + 1];
 
         LOG.info("Testing BLOB and CLOB fields");
         _db.begin();
         _oql.bind(TypeLOB.DEFAULT_ID);
-        enumeration = _oql.execute();
+        Enumeration<?> enumeration = _oql.execute();
         if (enumeration.hasMoreElements()) {
-            types = (TypeLOB) enumeration.nextElement();
+            TypeLOB types = (TypeLOB) enumeration.nextElement();
             types.setBlob(BLOB_VALUE);
             types.setClob(CLOB_VALUE);
             //types.setBlob2(new ByteArrayInputStream(BLOB_VALUE));
@@ -147,7 +141,7 @@ public final class TestTypeLOB extends CastorTestCase {
         _oql.bind(TypeLOB.DEFAULT_ID);
         enumeration = _oql.execute();
         if (enumeration.hasMoreElements()) {
-            types = (TypeLOB) enumeration.nextElement();
+            TypeLOB types = (TypeLOB) enumeration.nextElement();
 
             if ((types.getBlob() == null)
                     || !BLOB_STRING.equals(new String(types.getBlob()))) {
@@ -178,7 +172,7 @@ public final class TestTypeLOB extends CastorTestCase {
                 fail("Clob value was not set");
             } else {
                 long clobLen = types.getClob2().length();
-                len = types.getClob2().getCharacterStream().read(cbuf);
+                int len = types.getClob2().getCharacterStream().read(cbuf);
                 if ((clobLen != CLOB_VALUE.length())
                         || !(new String(cbuf, 0, len)).equals(CLOB_VALUE)) {
                     LOG.error("Clob value is wrong");

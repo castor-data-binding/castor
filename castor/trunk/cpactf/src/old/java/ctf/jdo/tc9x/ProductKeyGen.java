@@ -21,7 +21,7 @@ public class ProductKeyGen {
     private int _id;
     private String _name;
     private ProductDetail _detail;
-    private Collection _orders;
+    private Collection<Order> _orders;
 
     public final int getId() { return _id; }
     public final void setId(final int id) { _id = id; }
@@ -32,6 +32,6 @@ public class ProductKeyGen {
     public final ProductDetail getDetail() { return _detail; }
     public final void setDetail(final ProductDetail detail) { _detail = detail; }
 
-    public final Collection getOrders() { return _orders; }
-    public final void setOrders(final Collection orders) { _orders = orders; }
+    public final Collection<Order> getOrders() { return _orders; }
+    public final void setOrders(final Collection<Order> orders) { _orders = orders; }
 }

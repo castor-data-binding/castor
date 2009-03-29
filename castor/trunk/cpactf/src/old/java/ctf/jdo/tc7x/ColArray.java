@@ -60,7 +60,7 @@ public final class ColArray extends Col {
         return false;
     }
 
-    public Iterator itemIterator() {
+    public Iterator<Item> itemIterator() {
         if ((_item == null) || (_item.length == 0)) { return EMPTY_ITORATOR; }
         return new ArrayIterator();
     }
@@ -91,11 +91,11 @@ public final class ColArray extends Col {
 
     public Item[] getItems() { return _item; }
 
-    private class ArrayIterator implements Iterator {
+    private class ArrayIterator implements Iterator<Item> {
         private int _position = 0;
 
         public boolean hasNext() { return _position < _item.length; }
-        public Object next() { return _item[_position++]; }
+        public Item next() { return _item[_position++]; }
         public void remove() { throw new UnsupportedOperationException(); }
     }
 }

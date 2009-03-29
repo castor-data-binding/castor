@@ -26,9 +26,9 @@ import java.util.List;
  * @since 1.0
  */
 public final class RefreshingReaperMock extends RefreshingReaper {
-    private static final List REFRESHED = new ArrayList();
+    private static final List<Object> REFRESHED = new ArrayList<Object>();
     
-    public static List getExpiredObjects() {
+    public static List<Object> getExpiredObjects() {
         return REFRESHED;
     }
     

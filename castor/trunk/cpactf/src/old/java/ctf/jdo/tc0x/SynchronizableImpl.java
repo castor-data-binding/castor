@@ -51,9 +51,9 @@ import org.exolab.castor.persist.TxSynchronizable;
 
 public final class SynchronizableImpl implements TxSynchronizable {
     public void committed(final TransactionContext tx) {
-        Iterator it = tx.iterateReadWriteObjectsInTransaction();
+        Iterator<?> it = tx.iterateReadWriteObjectsInTransaction();
         if (it.hasNext()) {
-            List syncs = TestSynchronizable.getSynchronizableList();
+            List<String> syncs = TestSynchronizable.getSynchronizableList();
             while (it.hasNext()) {
                 Object object = it.next();
                 boolean isDeleted = tx.isDeleted(object);

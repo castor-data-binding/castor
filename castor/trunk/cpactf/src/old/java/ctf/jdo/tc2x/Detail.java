@@ -54,7 +54,7 @@ public final class Detail {
     private int _id;
     private String _value;
     private Master _master;
-    private ArrayList _details2;
+    private ArrayList<Detail2> _details2;
     private Detail3 _detail3;
 
     public Detail(final int id) {
@@ -64,7 +64,7 @@ public final class Detail {
 
     public Detail() {
         _value = DEFAULT_VALUE;
-        _details2 = new ArrayList();
+        _details2 = new ArrayList<Detail2>();
     }
 
     public void setId(final int id) { _id = id; }
@@ -77,21 +77,18 @@ public final class Detail {
     public Master getMaster() { return _master; }
 
     public Detail2 createDetail2() { return new Detail2(); }
-    public void setDetails2(final ArrayList list) { _details2 = list; }
-    public ArrayList getDetails2() { return _details2; }
+    public void setDetails2(final ArrayList<Detail2> list) { _details2 = list; }
+    public ArrayList<Detail2> getDetails2() { return _details2; }
     public void addDetail2(final Detail2 detail2) {
         _details2.add(detail2);
         detail2.setDetail(this);
     }
     public Detail2 findDetail2(final int id) {
-        Iterator enumeration;
-        Detail2 detail2;
-
         if (_details2 == null) { return null; }
 
-        enumeration = _details2.iterator();
+        Iterator<Detail2>enumeration = _details2.iterator();
         while (enumeration.hasNext()) {
-            detail2 = (Detail2) enumeration.next();
+            Detail2 detail2 = enumeration.next();
             if (detail2.getId() == id) { return detail2; }
         }
         return null;

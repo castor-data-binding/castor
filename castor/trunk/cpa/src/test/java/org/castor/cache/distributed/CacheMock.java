@@ -31,7 +31,7 @@ public final class CacheMock extends AbstractDistributedCache {
      * Default constructor.
      */
     public CacheMock() {
-        HashMap map = new HashMap();
+        HashMap<Object, Object> map = new HashMap<Object, Object>();
         
         // put some entries for testing into the cache
         map.put("first key", "first value");

@@ -46,10 +46,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class PrimaryKeysPerson {
-    private String      _firstname;
-    private String      _lastname;
-    private Date        _birth;
-    private ArrayList   _addresses;
+    private String _firstname;
+    private String _lastname;
+    private Date _birth;
+    private ArrayList<PrimaryKeysAddress> _addresses;
     
     public PrimaryKeysPerson() { }
 
@@ -70,6 +70,8 @@ public class PrimaryKeysPerson {
     public final Date getBirthday() { return _birth; }
     public final void setBirthday(final Date birth) { _birth = birth; }
     
-    public final ArrayList getAddress() { return _addresses; }
-    public final void setAddress(final ArrayList addresses) { _addresses = addresses; }
+    public final ArrayList<PrimaryKeysAddress> getAddress() { return _addresses; }
+    public final void setAddress(final ArrayList<PrimaryKeysAddress> addresses) {
+        _addresses = addresses;
+    }
 }

@@ -50,6 +50,7 @@ package harness;
 import java.util.Enumeration;
 import java.io.PrintStream;
 
+import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.framework.TestResult;
 
@@ -139,7 +140,7 @@ public class TestHarness extends TestSuite {
             sb.append(_description);
             sb.append('\n');
             ps.print(sb.toString());
-            Enumeration enumeration = tests();
+            Enumeration<Test> enumeration = tests();
             while (enumeration.hasMoreElements()) {
                 Object obj = enumeration.nextElement();
                 if (obj instanceof TestHarness) {
@@ -164,7 +165,7 @@ public class TestHarness extends TestSuite {
                     (branch.indexOf(".") == -1
                     ? branch.length()
                     : branch.indexOf(".") + 1));
-            for (Enumeration e = tests(); e.hasMoreElements(); ) {
+            for (Enumeration<Test> e = tests(); e.hasMoreElements(); ) {
                 if (result.shouldStop()) {
                     break;
                 }
@@ -188,7 +189,7 @@ public class TestHarness extends TestSuite {
         sb.append(_description);
         sb.append('\n');
 
-        Enumeration enumeration = tests();
+        Enumeration<Test> enumeration = tests();
         while (enumeration.hasMoreElements()) {
             sb.append(enumeration.nextElement()).toString();
         }

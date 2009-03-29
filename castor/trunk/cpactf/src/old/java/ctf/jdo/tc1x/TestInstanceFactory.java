@@ -240,7 +240,7 @@ public final class TestInstanceFactory extends CastorTestCase {
         private CallbacksInvoked _callbacksInvoked = new CallbacksInvoked();
         private CallbacksInvoked _coverage = new CallbacksInvoked();
 
-        public Class loaded(final Object object, final AccessMode accessMode)
+        public Class<?> loaded(final Object object, final AccessMode accessMode)
         throws Exception {
             _callbacksInvoked.allow(CallbacksInvoked.LOADED);
             _coverage.allow(CallbacksInvoked.LOADED);
