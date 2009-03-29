@@ -98,7 +98,7 @@ public class MozillaProducer
 	attrList = new AttributeListImpl();
 	attrList.addAttribute( XML.Entries.Attributes.DN, "CDATA", entry.getDN() );
 	// dsml:entry
-	_docHandler.startElement( prefix( XML.Entries.Elements.Entry ), attrList );
+	_docHandler.startElement( prefix( XML.Entries.Elements.ENTRY ), attrList );
 	
 	attrSet = entry.getAttributeSet();
 	if ( attrSet != null ) {
@@ -107,7 +107,7 @@ public class MozillaProducer
 	    if ( attr != null ) {
 		// dsml:objectclass
 		attrList = new AttributeListImpl();
-		_docHandler.startElement( prefix( XML.Entries.Elements.ObjectClass ), attrList );
+		_docHandler.startElement( prefix( XML.Entries.Elements.OBJECT_CLASS ), attrList );
 		values = attr.getStringValues();
 		while ( values.hasMoreElements() ) {
 		    char[] chars;
@@ -115,11 +115,11 @@ public class MozillaProducer
 		    // dsml:oc-value
 		    chars = ( (String) values.nextElement() ).toCharArray();
 		    attrList = new AttributeListImpl();
-		    _docHandler.startElement( prefix( XML.Entries.Elements.OCValue ), attrList );
+		    _docHandler.startElement( prefix( XML.Entries.Elements.OBJECT_CLASS_VALUE ), attrList );
 		    _docHandler.characters( chars, 0, chars.length );
-		    _docHandler.endElement( prefix( XML.Entries.Elements.OCValue ) );
+		    _docHandler.endElement( prefix( XML.Entries.Elements.OBJECT_CLASS_VALUE ) );
 		}
-		_docHandler.endElement( prefix( XML.Entries.Elements.ObjectClass ) );
+		_docHandler.endElement( prefix( XML.Entries.Elements.OBJECT_CLASS ) );
 	    }
 	    
 	    enumeration = attrSet.getAttributes();
@@ -129,8 +129,8 @@ public class MozillaProducer
 		if ( attr.getName().equals( "objectclass" ) )
 		    continue;
 		attrList = new AttributeListImpl();
-		attrList.addAttribute( XML.Entries.Attributes.Name, "CDATA", attr.getName() );
-		_docHandler.startElement( prefix( XML.Entries.Elements.Attribute ), attrList );
+		attrList.addAttribute( XML.Entries.Attributes.NAME, "CDATA", attr.getName() );
+		_docHandler.startElement( prefix( XML.Entries.Elements.ATTRIBUTE ), attrList );
 		
 		values = attr.getByteValues();
 		while ( values.hasMoreElements() ) {
@@ -159,19 +159,19 @@ public class MozillaProducer
 				chars[ i ] = (char) value[ i ];
 			} else {
                 chars = Base64Encoder.encode(value);
-			    attrList.addAttribute( XML.Entries.Attributes.Encoding, "NMTOKEN",
-						   XML.Entries.Attributes.Encodings.Base64 );
+			    attrList.addAttribute( XML.Entries.Attributes.ENCODING, "NMTOKEN",
+						   XML.Entries.Attributes.Encodings.BASE64 );
 			}
 		    }
 
-		    _docHandler.startElement( prefix( XML.Entries.Elements.Value ), attrList );
+		    _docHandler.startElement( prefix( XML.Entries.Elements.VALUE ), attrList );
 		    _docHandler.characters( chars, 0, chars.length );
-		    _docHandler.endElement( prefix( XML.Entries.Elements.Value ) );
+		    _docHandler.endElement( prefix( XML.Entries.Elements.VALUE ) );
 		}
-		_docHandler.endElement( prefix( XML.Entries.Elements.Attribute ) );
+		_docHandler.endElement( prefix( XML.Entries.Elements.ATTRIBUTE ) );
 	    }
 	}
-	_docHandler.endElement( prefix( XML.Entries.Elements.Entry ) );
+	_docHandler.endElement( prefix( XML.Entries.Elements.ENTRY ) );
     }
     
 
@@ -223,7 +223,7 @@ public class MozillaProducer
 	
 	attrList = new AttributeListImpl();
 	// dsml:class id
-	attrList.addAttribute( XML.Schema.Attributes.Id, "ID", schema.getName() );
+	attrList.addAttribute( XML.Schema.Attributes.ID, "ID", schema.getName() );
 	// dsml:class superior
 	superiors = schema.getSuperiors();
 	superior = null;
@@ -234,44 +234,44 @@ public class MozillaProducer
 		superior = superior + "," + superiors[ i ];
 	}
 	if ( i > 0 )
-	    attrList.addAttribute( XML.Schema.Attributes.Superior, "CDATA", superior );
+	    attrList.addAttribute( XML.Schema.Attributes.SUPERIOR, "CDATA", superior );
 	// dsml:class obsolete
-	attrList.addAttribute( XML.Schema.Attributes.Obsolete, null,
+	attrList.addAttribute( XML.Schema.Attributes.OBSOLETE, null,
 			       schema.isObsolete() ? "true" : "false" );
 	// dsml:class type
 	switch ( schema.getType() ) {
 	case LDAPObjectClassSchema.STRUCTURAL:
-	    attrList.addAttribute( XML.Schema.Attributes.Type, null,
-				   XML.Schema.Attributes.Types.Structural );
+	    attrList.addAttribute( XML.Schema.Attributes.TYPE, null,
+				   XML.Schema.Attributes.Types.STRUCTURAL );
 	    break;
 	case LDAPObjectClassSchema.ABSTRACT:
-	    attrList.addAttribute( XML.Schema.Attributes.Type, null,
-				   XML.Schema.Attributes.Types.Abstract );
+	    attrList.addAttribute( XML.Schema.Attributes.TYPE, null,
+				   XML.Schema.Attributes.Types.ABSTRACT );
 	    break;
 	case LDAPObjectClassSchema.AUXILIARY:
-	    attrList.addAttribute( XML.Schema.Attributes.Type, null,
-				   XML.Schema.Attributes.Types.Auxiliary );
+	    attrList.addAttribute( XML.Schema.Attributes.TYPE, null,
+				   XML.Schema.Attributes.Types.AUXILIARY );
 	    break;
 	}
 
 	// dsml:class
-	_docHandler.startElement( prefix( XML.Schema.Elements.Class ), attrList );
+	_docHandler.startElement( prefix( XML.Schema.Elements.CLASS ), attrList );
 
 	// dsml:class name
 	if ( schema.getName() != null ) {
 	    attrList = new AttributeListImpl();
-	    _docHandler.startElement( prefix( XML.Schema.Elements.Name ), attrList );
+	    _docHandler.startElement( prefix( XML.Schema.Elements.NAME ), attrList );
 	    _docHandler.characters( schema.getName().toCharArray(), 0,
 				    schema.getName().length() );
-	    _docHandler.endElement( prefix( XML.Schema.Elements.Name ) );
+	    _docHandler.endElement( prefix( XML.Schema.Elements.NAME ) );
 	}
 	// dsml:class description
 	if ( schema.getDescription() != null ) {
 	    attrList = new AttributeListImpl();
-	    _docHandler.startElement( prefix( XML.Schema.Elements.Description ), attrList );
+	    _docHandler.startElement( prefix( XML.Schema.Elements.DESCRIPTION ), attrList );
 	    _docHandler.characters( schema.getDescription().toCharArray(), 0,
 				    schema.getDescription().length() );
-	    _docHandler.endElement( prefix( XML.Schema.Elements.Description ) );
+	    _docHandler.endElement( prefix( XML.Schema.Elements.DESCRIPTION ) );
 	}
 	// dsml:class object-identifier
 	if ( schema.getID() != null ) {
@@ -286,24 +286,24 @@ public class MozillaProducer
 	enumeration = schema.getOptionalAttributes();
 	while ( enumeration.hasMoreElements() ) {
 	    attrList = new AttributeListImpl();
-	    attrList.addAttribute( XML.Schema.Attributes.Ref, "CDATA",
+	    attrList.addAttribute( XML.Schema.Attributes.REF, "CDATA",
 				   "#" + (String) enumeration.nextElement() );
-	    attrList.addAttribute( XML.Schema.Attributes.Required, null, "false" );
-	    _docHandler.startElement( prefix( XML.Schema.Elements.Attribute) , attrList );
-	    _docHandler.endElement( prefix( XML.Schema.Elements.Attribute ) );
+	    attrList.addAttribute( XML.Schema.Attributes.REQUIRED, null, "false" );
+	    _docHandler.startElement( prefix( XML.Schema.Elements.ATTRIBUTE) , attrList );
+	    _docHandler.endElement( prefix( XML.Schema.Elements.ATTRIBUTE ) );
 	}
 	// dsml:class attribute required=true
 	enumeration = schema.getRequiredAttributes();
 	while ( enumeration.hasMoreElements() ) {
 	    attrList = new AttributeListImpl();
-	    attrList.addAttribute( XML.Schema.Attributes.Ref, "CDATA",
+	    attrList.addAttribute( XML.Schema.Attributes.REF, "CDATA",
 				   "#" + (String) enumeration.nextElement() );
-	    attrList.addAttribute( XML.Schema.Attributes.Required, null, "true" );
-	    _docHandler.startElement( prefix( XML.Schema.Elements.Attribute) , attrList );
-	    _docHandler.endElement( prefix( XML.Schema.Elements.Attribute ) );
+	    attrList.addAttribute( XML.Schema.Attributes.REQUIRED, null, "true" );
+	    _docHandler.startElement( prefix( XML.Schema.Elements.ATTRIBUTE) , attrList );
+	    _docHandler.endElement( prefix( XML.Schema.Elements.ATTRIBUTE ) );
 	}
 
-	_docHandler.endElement( prefix( XML.Schema.Elements.Class ) );
+	_docHandler.endElement( prefix( XML.Schema.Elements.CLASS ) );
     }
 
 
@@ -317,38 +317,38 @@ public class MozillaProducer
  
 	attrList = new AttributeListImpl();
 	// dsml:attribute id
-	attrList.addAttribute( XML.Schema.Attributes.Id, "ID", schema.getName() );
+	attrList.addAttribute( XML.Schema.Attributes.ID, "ID", schema.getName() );
 	// dsml:attribute superior
 	if ( schema.getSuperior() != null ) {
-	    attrList.addAttribute( XML.Schema.Attributes.Superior, "CDATA", "#" + schema.getSuperior() );
+	    attrList.addAttribute( XML.Schema.Attributes.SUPERIOR, "CDATA", "#" + schema.getSuperior() );
 	}
 	// dsml:attribute obsolete
-	attrList.addAttribute( XML.Schema.Attributes.Obsolete, null,
+	attrList.addAttribute( XML.Schema.Attributes.OBSOLETE, null,
 			       schema.isObsolete() ? "true" : "false" );
 	// dsml:attribute single-value
-	attrList.addAttribute( XML.Schema.Attributes.SingleValue, null,
+	attrList.addAttribute( XML.Schema.Attributes.SINGLE_VALUE, null,
 			       schema.isSingleValued() ? "true" : "false" );
 	// dsml:attribute user-modification
 	// XXX
 
 	// dsml:attribute
-	_docHandler.startElement( prefix( XML.Schema.Elements.AttributeType) , attrList );
+	_docHandler.startElement( prefix( XML.Schema.Elements.ATTRIBUTE_TYPE) , attrList );
 
 	// dsml:attribute name
 	if ( schema.getName() != null ) {
 	    attrList = new AttributeListImpl();
-	    _docHandler.startElement( prefix( XML.Schema.Elements.Name ), attrList );
+	    _docHandler.startElement( prefix( XML.Schema.Elements.NAME ), attrList );
 	    _docHandler.characters( schema.getName().toCharArray(), 0,
 				    schema.getName().length() );
-	    _docHandler.endElement( prefix( XML.Schema.Elements.Name ) );
+	    _docHandler.endElement( prefix( XML.Schema.Elements.NAME ) );
 	}
 	// dsml:attribute description
 	if ( schema.getDescription() != null ) {
 	    attrList = new AttributeListImpl();
-	    _docHandler.startElement( prefix( XML.Schema.Elements.Description ), attrList );
+	    _docHandler.startElement( prefix( XML.Schema.Elements.DESCRIPTION ), attrList );
 	    _docHandler.characters( schema.getDescription().toCharArray(), 0,
 				    schema.getDescription().length() );
-	    _docHandler.endElement( prefix( XML.Schema.Elements.Description ) );
+	    _docHandler.endElement( prefix( XML.Schema.Elements.DESCRIPTION ) );
 	}
 	// dsml:attribute object-identifier
 	if ( schema.getID() != null ) {
@@ -361,10 +361,10 @@ public class MozillaProducer
 	// dsml:attribute syntax
 	if ( schema.getSyntaxString() != null ) {
 	    attrList = new AttributeListImpl();
-	    _docHandler.startElement( prefix( XML.Schema.Elements.Syntax ), attrList );
+	    _docHandler.startElement( prefix( XML.Schema.Elements.SYNTAX ), attrList );
 	    _docHandler.characters( schema.getSyntaxString().toCharArray(), 0,
 				    schema.getSyntaxString().length() );
-	    _docHandler.endElement( prefix( XML.Schema.Elements.Syntax ) );
+	    _docHandler.endElement( prefix( XML.Schema.Elements.SYNTAX ) );
 	}
 
 	// dsml:attribute equality
@@ -374,7 +374,7 @@ public class MozillaProducer
 	// dsml:attribute substring
 	// XXX
 
-	_docHandler.endElement( prefix( XML.Schema.Elements.AttributeType ) );
+	_docHandler.endElement( prefix( XML.Schema.Elements.ATTRIBUTE_TYPE ) );
     }
 
 

@@ -43,15 +43,15 @@
  * $Id$
  */
 
-
 package org.exolab.castor.dsml.jndi;
-
 
 import javax.naming.NamingException;
 import javax.naming.NameNotFoundException;
 import javax.naming.NamingEnumeration;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.DirContext;
+import javax.naming.directory.SearchResult;
+
 import org.xml.sax.DocumentHandler;
 import org.xml.sax.SAXException;
 import org.castor.core.util.Messages;
@@ -60,82 +60,71 @@ import org.exolab.castor.dsml.Exporter;
 import org.exolab.castor.dsml.SearchDescriptor;
 import org.exolab.castor.dsml.ImportExportException;
 
-
 /**
- *
- *
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
-public class JNDIExporter
-    extends Exporter
-{
+public class JNDIExporter extends Exporter {
+    private DirContext _ctx;
 
-
-    private DirContext  _ctx;
-
-
-    public JNDIExporter( DirContext ctx )
-    {
-	_ctx = ctx;
+    public JNDIExporter(final DirContext ctx) {
+        _ctx = ctx;
     }
 
-
-    protected Consumer createConsumer()
-    {
-	return new JNDIConsumer();
+    protected Consumer createConsumer() {
+        return new JNDIConsumer();
     }
 
+    public void export(final DocumentHandler docHandler, final boolean serverSchema,
+            final boolean importPolicy) throws ImportExportException {
+        NamingEnumeration<SearchResult> enumeration;
+        String filter;
+        JNDIProducer producer;
+        SearchControls searchCtrl;
 
-    public void export( DocumentHandler docHandler,
-			boolean serverSchema, boolean importPolicy )
-	throws ImportExportException
-    {
-	NamingEnumeration enumeration;
-	String            filter;
-	JNDIProducer      producer;
-	SearchControls    searchCtrl;
+        if (getSearchDescriptor() == null) {
+            throw new IllegalStateException(Messages.message("dsml.searchDescriptorRequired"));
+        }
 
-	if ( getSearchDescriptor() == null )
-	    throw new IllegalStateException( Messages.message( "dsml.searchDescriptorRequired" ) );
+        filter = getSearchDescriptor().getFilter();
+        if (filter == null) {
+            filter = "()";
+        }
+        try {
+            searchCtrl = new SearchControls();
+            searchCtrl.setReturningAttributes(getSearchDescriptor().getReturnAttrs());
+            switch (getSearchDescriptor().getScope()) {
+            case SearchDescriptor.Scope.BASE:
+                searchCtrl.setSearchScope(SearchControls.OBJECT_SCOPE);
+                break;
+            case SearchDescriptor.Scope.ONE_LEVEL:
+                searchCtrl.setSearchScope(SearchControls.ONELEVEL_SCOPE);
+                break;
+            case SearchDescriptor.Scope.SUB_TREE:
+                searchCtrl.setSearchScope(SearchControls.SUBTREE_SCOPE);
+                break;
+            default:
+                break;
+            }
+            enumeration = _ctx.search(getSearchDescriptor().getBaseDN(), filter, searchCtrl);
+        } catch (NameNotFoundException except) {
+            enumeration = null;
+        } catch (NamingException except) {
+            throw new ImportExportException(except);
+        }
 
-	filter = getSearchDescriptor().getFilter();
-	if ( filter == null )
-	    filter = "()";
-	try {
-	    searchCtrl = new SearchControls();
-	    searchCtrl.setReturningAttributes( getSearchDescriptor().getReturnAttrs() );
-	    switch ( getSearchDescriptor().getScope() ) {
-	    case SearchDescriptor.Scope.Base:
-		searchCtrl.setSearchScope( SearchControls.OBJECT_SCOPE );
-		break;
-	    case SearchDescriptor.Scope.OneLevel:
-		searchCtrl.setSearchScope( SearchControls.ONELEVEL_SCOPE );
-		break;
-	    case SearchDescriptor.Scope.SubTree:
-		searchCtrl.setSearchScope( SearchControls.SUBTREE_SCOPE );
-		break;
-	    }
-	    enumeration = _ctx.search( getSearchDescriptor().getBaseDN(), filter, searchCtrl );
-	} catch ( NameNotFoundException except ) {
-	    enumeration = null;
-	} catch ( NamingException except ) {
-	    throw new ImportExportException( except );
-	}
-
-	try {
-	    producer = new JNDIProducer( docHandler, false );
-	    producer.startDocument();
-	    if ( enumeration != null )
-		producer.produce( enumeration );
-	    if ( importPolicy && getImportDescriptor() != null )
-		producer.produce( getImportDescriptor() );
-	    producer.endDocument();
-	} catch ( SAXException except ) {
-	    throw new ImportExportException( except );
-	}
+        try {
+            producer = new JNDIProducer(docHandler, false);
+            producer.startDocument();
+            if (enumeration != null) {
+                producer.produce(enumeration);
+            }
+            if (importPolicy && getImportDescriptor() != null) {
+                producer.produce(getImportDescriptor());
+            }
+            producer.endDocument();
+        } catch (SAXException except) {
+            throw new ImportExportException(except);
+        }
     }
-
-
 }
-

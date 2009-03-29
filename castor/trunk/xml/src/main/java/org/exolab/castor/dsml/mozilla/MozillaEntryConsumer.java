@@ -104,27 +104,27 @@ class MozillaEntryConsumer
     public void startElement( String tagName, AttributeList attr )
 	throws SAXException
     {
-	if ( tagName.equals( XML.Entries.Element ) ) {
+	if ( tagName.equals( XML.Entries.ELEMENT ) ) {
 	    // Do nothing
-	} else if ( tagName.equals( XML.Entries.Elements.Entry ) ) {
+	} else if ( tagName.equals( XML.Entries.Elements.ENTRY ) ) {
 	    if ( _attrSet != null )
 		throw new SAXException( Messages.format( "dsml.openingTagNotRecognized", tagName ) );
 	    _attrSet = new LDAPAttributeSet();
 	    _entryDN = attr.getValue( XML.Entries.Attributes.DN );
-	} else if ( tagName.equals( XML.Entries.Elements.ObjectClass ) ) {
+	} else if ( tagName.equals( XML.Entries.Elements.OBJECT_CLASS ) ) {
 	    if ( _attrSet == null || _attr != null )
 		throw new SAXException( Messages.format( "dsml.openingTagNotRecognized", tagName ) );
 	    _attr = new LDAPAttribute( "objectclass" );
-	} else if ( tagName.equals( XML.Entries.Elements.Attribute ) ) {
+	} else if ( tagName.equals( XML.Entries.Elements.ATTRIBUTE ) ) {
 	    if ( _attrSet == null || _attr != null )
 		throw new SAXException( Messages.format( "dsml.openingTagNotRecognized", tagName ) );
-	    _attr = new LDAPAttribute( attr.getValue( XML.Entries.Attributes.Name ) );
-	} else if ( tagName.equals( XML.Entries.Elements.Value ) ||
-		    tagName.equals( XML.Entries.Elements.OCValue ) ) {
+	    _attr = new LDAPAttribute( attr.getValue( XML.Entries.Attributes.NAME ) );
+	} else if ( tagName.equals( XML.Entries.Elements.VALUE ) ||
+		    tagName.equals( XML.Entries.Elements.OBJECT_CLASS_VALUE ) ) {
 	    if ( _attrSet == null || _attr == null || _value != null )
 		throw new SAXException( Messages.format( "dsml.openingTagNotRecognized", tagName ) );
-	    if ( XML.Entries.Attributes.Encodings.Base64.equals(
-		     attr.getValue( XML.Entries.Attributes.Encoding ) ) ) {
+	    if ( XML.Entries.Attributes.Encodings.BASE64.equals(
+		     attr.getValue( XML.Entries.Attributes.ENCODING ) ) ) {
 		_decoder = new Base64Decoder();
 	    } else {
 		_value = new StringBuffer();
@@ -138,23 +138,23 @@ class MozillaEntryConsumer
     public void endElement( String tagName )
 	throws SAXException
     {
-	if ( tagName.equals( XML.Entries.Element ) ) {
+	if ( tagName.equals( XML.Entries.ELEMENT ) ) {
 	    if ( _attrSet != null )
 		throw new SAXException( Messages.format( "dsml.closingTagNotRecognized", tagName ) );
-	} else if ( tagName.equals( XML.Entries.Elements.Entry ) ) {
+	} else if ( tagName.equals( XML.Entries.Elements.ENTRY ) ) {
 	    if ( _attrSet == null || _attr != null )
 		throw new SAXException( Messages.format( "dsml.closingTagNotRecognized", tagName ) );
 	    _entries.addElement( new LDAPEntry( _entryDN, _attrSet ) );
 	    _entryDN = null;
 	    _attrSet = null;
-	} else if ( tagName.equals( XML.Entries.Elements.ObjectClass ) ||
-		    tagName.equals( XML.Entries.Elements.Attribute ) ) {
+	} else if ( tagName.equals( XML.Entries.Elements.OBJECT_CLASS ) ||
+		    tagName.equals( XML.Entries.Elements.ATTRIBUTE ) ) {
 	    if ( _attrSet == null || _attr == null || _value != null )
 		throw new SAXException( Messages.format( "dsml.closingTagNotRecognized", tagName ) );
 	    _attrSet.add( _attr );
 	    _attr = null;
-	} else if ( tagName.equals( XML.Entries.Elements.Value ) ||
-		    tagName.equals( XML.Entries.Elements.OCValue ) ) {
+	} else if ( tagName.equals( XML.Entries.Elements.VALUE ) ||
+		    tagName.equals( XML.Entries.Elements.OBJECT_CLASS_VALUE ) ) {
 	    if ( _attrSet == null || _attr == null || ( _value == null && _decoder == null ) )
 		throw new SAXException( Messages.format( "dsml.closingTagNotRecognized", tagName ) );
 	    if ( _decoder != null ) {

@@ -95,7 +95,7 @@ public abstract class RecurringDurationBase implements java.io.Serializable {
     /** the time zone minute field of this recurringDuration. */
     private short _zoneMinute = 0;
     /** true if this recurringDuration is UTC related. */
-    private boolean _UTC = false;
+    private boolean _utc = false;
     /** true if the time zone is negative. */
     private boolean _zoneNegative = false;
     /** true if the recurring duration is negative. */
@@ -382,7 +382,7 @@ public abstract class RecurringDurationBase implements java.io.Serializable {
      * set the UTC field to true
      */
     public void setUTC() {
-        _UTC = true;
+        _utc = true;
     }
 
     //Get methods
@@ -442,8 +442,8 @@ public abstract class RecurringDurationBase implements java.io.Serializable {
      * @return true if this recurringDuration type is UTC else false.
      */
     public boolean isUTC() {
-        _UTC = _zoneHour == 0 && _zoneMinute == 0;
-        return _UTC;
+        _utc = _zoneHour == 0 && _zoneMinute == 0;
+        return _utc;
     }
 
     public boolean isNegative() {

@@ -52,7 +52,7 @@ import org.exolab.castor.xml.XMLFieldHandler;
 import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 
 /**
- * The Date Descriptor
+ * The Date Descriptor.
  *
  * @author <a href="blandin@intalio.com">Arnaud Blandin</a>
  * @author <a href="kvisco@intalio.com">Keith Visco</a>
@@ -64,16 +64,16 @@ public class DateDescriptor extends BaseDescriptor {
     /** The name of the XML element. */
     private static final String XML_NAME = "date";
     /** Our field descriptor. */
-    private static final XMLFieldDescriptorImpl _contentDescriptor;
+    private static final XMLFieldDescriptorImpl CONTENT_DESCRIPTOR;
     /** Our field descriptor array.  Lists the fields we describe. */
-    private static final FieldDescriptor[] _fields;
+    private static final FieldDescriptor[] FIELDS;
 
     static {
-        _contentDescriptor = new XMLFieldDescriptorImpl(String.class, "content",
+        CONTENT_DESCRIPTOR = new XMLFieldDescriptorImpl(String.class, "content",
                                                         "content", NodeType.Text);
-        _contentDescriptor.setHandler(new DateDescriptor().new DateFieldHandler());
-        _fields = new FieldDescriptor[1];
-        _fields[0] = _contentDescriptor;
+        CONTENT_DESCRIPTOR.setHandler(new DateDescriptor().new DateFieldHandler());
+        FIELDS = new FieldDescriptor[1];
+        FIELDS[0] = CONTENT_DESCRIPTOR;
     }
 
     //----------------/
@@ -96,7 +96,7 @@ public class DateDescriptor extends BaseDescriptor {
      *         as text content.
      */
     public XMLFieldDescriptor getContentDescriptor() {
-        return _contentDescriptor;
+        return CONTENT_DESCRIPTOR;
     } // getContentDescriptor
 
     /**
@@ -105,7 +105,7 @@ public class DateDescriptor extends BaseDescriptor {
      * @return A list of fields
      */
     public FieldDescriptor[] getFields() {
-        return _fields;
+        return FIELDS;
     } //-- getFields
 
     /**

@@ -43,9 +43,7 @@
  * $Id$
  */
 
-
 package org.exolab.castor.dsml;
-
 
 import java.io.Serializable;
 import java.util.Vector;
@@ -57,7 +55,6 @@ import org.xml.sax.HandlerBase;
 import org.xml.sax.helpers.AttributeListImpl;
 import org.castor.core.util.Messages;
 
-
 /**
  *
  *
@@ -65,261 +62,219 @@ import org.castor.core.util.Messages;
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class SearchDescriptor extends HandlerBase implements Serializable {
-    /** SerialVersionUID */
+    /** SerialVersionUID. */
     private static final long serialVersionUID = -6614367393322175115L;
 
+    public static class Scope {
+        public static final int ONE_LEVEL = 0;
+        public static final int BASE = 1;
+        public static final int SUB_TREE = 3;
+    }
 
-    public static class Scope
-    {
+    static class Names {
+        static class Element {
+            public static final String SEARCH = "search";
+            public static final String RETURN_ATTRIBUTE = "return-attr";
+        }
 
-	public static final int OneLevel= 0;
-	public static final int Base    = 1;
-	public static final int SubTree = 3;
+        static class Attribute {
+            public static final String ATTRIBUTE_NAME = "name";
+            public static final String BASE_DN = "base";
+            public static final String SCOPE = "scope";
+            public static final String FILTER = "filter";
+            public static final String SCOPE_ONE_LEVEL= "onelevel";
+            public static final String SCOPE_BASE = "base";
+            public static final String SCOPE_SUB_TREE = "subtree";
+        }
+    }
 
+    private int _scope = Scope.BASE;
+
+    private String _baseDN;
+
+    private String _filter;
+
+    private Vector _returnAttrs;
+
+    private StringBuffer _attrName;
+
+    private boolean _insideRoot;
+
+    public SearchDescriptor() {
+    }
+
+    public int getScope() {
+        return _scope;
+    }
+
+    public void setScope(final int scope) {
+        _scope = scope;
+    }
+
+    public String getBaseDN() {
+        return _baseDN;
+    }
+
+    public void setBaseDN(final String baseDN) {
+        _baseDN = baseDN;
+    }
+
+    public String getFilter() {
+        return _filter;
+    }
+
+    public void setFilter(final String filter) {
+        _filter = filter;
+    }
+
+    public String[] getReturnAttrs() {
+        if (_returnAttrs == null) { return null; }
+        String[] array = new String[_returnAttrs.size()];
+        _returnAttrs.copyInto(array);
+        return array;
+    }
+
+    public Enumeration listReturnAttrs() {
+        if (_returnAttrs == null) { return new Vector().elements(); }
+        return _returnAttrs.elements();
+    }
+
+    public void addReturnAttr(final String attrName) {
+        if (_returnAttrs == null) {
+            _returnAttrs = new Vector();
+        }
+        if (!_returnAttrs.contains(attrName)) {
+            _returnAttrs.addElement(attrName);
+        }
     }
 
 
-    static class Names
-    {
-	static class Element
-	{
-	    public static final String Search      = "search";
-	    public static final String ReturnAttr  = "return-attr";
-	}
+    public void produce(final DocumentHandler docHandler) throws SAXException {
+        AttributeListImpl attrList;
+        Enumeration       enumeration;
 
-	static class Attribute
-	{
-	    public static final String AttrName      = "name";
-	    public static final String BaseDN        = "base";
-	    public static final String Scope         = "scope";
-	    public static final String Filter        = "filter";
-	    public static final String ScopeOneLevel = "onelevel";
-	    public static final String ScopeBase     = "base";
-	    public static final String ScopeSubTree  = "subtree";
-	}
+        attrList = new AttributeListImpl();
+        docHandler.startElement(XML.Namespace.ROOT, attrList);
+
+        attrList = new AttributeListImpl();
+        if (_baseDN != null) {
+            attrList.addAttribute(Names.Attribute.BASE_DN, "CDATA", _baseDN);
+        }
+        if (_filter != null) {
+            attrList.addAttribute(Names.Attribute.FILTER, "CDATA", _filter);
+        }
+        switch (_scope) {
+        case Scope.ONE_LEVEL:
+            attrList.addAttribute(Names.Attribute.SCOPE, null,
+                    Names.Attribute.SCOPE_ONE_LEVEL);
+            break;
+        case Scope.BASE:
+            attrList.addAttribute(Names.Attribute.SCOPE, null,
+                    Names.Attribute.SCOPE_BASE);
+            break;
+        case Scope.SUB_TREE:
+            attrList.addAttribute(Names.Attribute.SCOPE, null,
+                    Names.Attribute.SCOPE_SUB_TREE);
+            break;
+        }
+        docHandler.startElement(Names.Element.SEARCH, attrList);
+
+        if (_returnAttrs != null) {
+            enumeration = _returnAttrs.elements();
+            while (enumeration.hasMoreElements()) {
+                attrList = new AttributeListImpl();
+                attrList.addAttribute(Names.Attribute.ATTRIBUTE_NAME, "NMTOKEN",
+                        (String) enumeration.nextElement());
+                docHandler.startElement(Names.Element.RETURN_ATTRIBUTE, attrList);
+                docHandler.endElement(Names.Element.RETURN_ATTRIBUTE);
+            }
+        }
+
+        docHandler.endElement(Names.Element.SEARCH);
+        docHandler.endElement(XML.Namespace.ROOT);
     }
 
+    public void startElement(final String tagName, final AttributeList attr) throws SAXException {
+        String value;
 
-    private int              _scope = Scope.Base;
+        if (tagName.equals(XML.Namespace.ROOT)) {
+            // Flag when entering (and leaving) the root element.
+            if (_insideRoot) {
+                throw new SAXException(Messages.format(
+                        "dsml.elementNested", XML.Namespace.ROOT));
+            }
+            _insideRoot = true;
+        } else {
+            if (!_insideRoot) {
+                throw new SAXException(Messages.format(
+                        "dsml.expectingOpeningTag", XML.Namespace.ROOT, tagName));
+            }
 
-
-    private String           _baseDN;
-
-
-    private String           _filter;
-
-
-    private Vector           _returnAttrs;
-
-
-    private StringBuffer     _attrName;
-
-
-    private boolean           _insideRoot;
-
-
-    public SearchDescriptor()
-    {
+            if (tagName.equals(Names.Element.SEARCH)) {
+                _baseDN = attr.getValue(Names.Attribute.BASE_DN);
+                if (_baseDN == null) {
+                    throw new SAXException(Messages.format("dsml.missingAttribute",
+                            Names.Element.SEARCH, Names.Attribute.BASE_DN));
+                }
+                _filter = attr.getValue(Names.Attribute.FILTER);
+                value = attr.getValue(Names.Attribute.SCOPE);
+                if (value != null) {
+                    if (value.equals(Names.Attribute.SCOPE_ONE_LEVEL)) {
+                        _scope = Scope.ONE_LEVEL;
+                    } else if (value.equals(Names.Attribute.SCOPE_BASE)) {
+                        _scope = Scope.BASE;
+                    } else if (value.equals(Names.Attribute.SCOPE_SUB_TREE)) {
+                        _scope = Scope.SUB_TREE;
+                    } else {
+                        throw new SAXException(Messages.format(
+                                "dsml.invalidValue", Names.Attribute.SCOPE, value));
+                    }
+                }
+            } else if (tagName.equals(Names.Element.RETURN_ATTRIBUTE)) {
+                if (_baseDN == null) {
+                    throw new SAXException(Messages.format(
+                            "dsml.expectingOpeningTag", Names.Element.SEARCH, tagName));
+                }
+                // Create a string buffer, characters() will fill it up,
+                // endElement() will add it to the list.
+                _attrName = new StringBuffer();
+            } else {
+                throw new SAXException(Messages.format(
+                        "dsml.expectingOpeningTag", Names.Element.SEARCH, tagName));
+            }
+        }
     }
 
-
-    public int getScope()
-    {
-	return _scope;
+    public void endElement(final String tagName) throws SAXException {
+        if (tagName.equals(XML.Namespace.ROOT)) {
+            if (_insideRoot) {
+                _insideRoot = false;
+            } else {
+                throw new SAXException(Messages.format("dsml.closingOutsideRoot", tagName));
+            }
+        } else {
+            if (!_insideRoot) {
+                throw new SAXException(Messages.format("dsml.closingOutsideRoot", tagName));
+            }
+            if (tagName.equals(Names.Element.SEARCH)) {
+                // Nothing to do hare
+            } else if (tagName.equals(Names.Element.RETURN_ATTRIBUTE)) {
+                if (_attrName.length() > 0) {
+                    addReturnAttr(_attrName.toString());
+                    _attrName = null;
+                }
+            } else {
+                throw new SAXException(Messages.format(
+                        "dsml.expectingClosingTag", Names.Element.SEARCH, tagName));
+            }
+        }
     }
 
-
-    public void setScope( int scope )
-    {
-	_scope = scope;
+    public void characters(final char[] ch, final int offset, final int length) {
+        if (_attrName != null) {
+            _attrName.append(ch, offset, length);
+        }
     }
-
-
-    public String getBaseDN()
-    {
-	return _baseDN;
-    }
-
-
-    public void setBaseDN( String baseDN )
-    {
-	_baseDN = baseDN;
-    }
-
-
-    public String getFilter()
-    {
-	return _filter;
-    }
-
-
-    public void setFilter( String filter )
-    {
-	_filter = filter;
-    }
-
-
-    public String[] getReturnAttrs()
-    {
-	if ( _returnAttrs == null )
-	    return null;
-  String[] array;
-
-  array = new String[ _returnAttrs.size() ];
-  _returnAttrs.copyInto( array );
-  return array;
-    }
-
-
-    public Enumeration listReturnAttrs()
-    {
-      if ( _returnAttrs == null ) return new Vector().elements();
-      
-      return _returnAttrs.elements();
-    }
-    
-
-    public void addReturnAttr( String attrName )
-    {
-	if ( _returnAttrs == null )
-	    _returnAttrs = new Vector();
-	if ( ! _returnAttrs.contains( attrName ) )
-	    _returnAttrs.addElement( attrName );
-    }
-
-
-    public void produce( DocumentHandler docHandler )
-	throws SAXException
-    {
-	AttributeListImpl attrList;
-	Enumeration       enumeration;
-
-	attrList = new AttributeListImpl();
-	docHandler.startElement( XML.Namespace.Root, attrList );
-
-	attrList = new AttributeListImpl();
-	if ( _baseDN != null )
-	    attrList.addAttribute( Names.Attribute.BaseDN, "CDATA", _baseDN );
-	if ( _filter != null )
-	    attrList.addAttribute( Names.Attribute.Filter, "CDATA", _filter );
-	switch ( _scope ) {
-	case Scope.OneLevel:
-	    attrList.addAttribute( Names.Attribute.Scope, null,
-				   Names.Attribute.ScopeOneLevel );
-	    break;
-	case Scope.Base:
-	    attrList.addAttribute( Names.Attribute.Scope, null,
-				   Names.Attribute.ScopeBase );
-	    break;
-	case Scope.SubTree:
-	    attrList.addAttribute( Names.Attribute.Scope, null,
-				   Names.Attribute.ScopeSubTree );
-	    break;
-	}
-	docHandler.startElement( Names.Element.Search, attrList );
-
-	if ( _returnAttrs != null ) {
-	    enumeration = _returnAttrs.elements();
-	    while ( enumeration.hasMoreElements() ) {
-		attrList = new AttributeListImpl();
-		attrList.addAttribute( Names.Attribute.AttrName, "NMTOKEN",
-				       (String) enumeration.nextElement() );
-		docHandler.startElement( Names.Element.ReturnAttr, attrList );
-		docHandler.endElement( Names.Element.ReturnAttr );
-	    }
-	}
-
-	docHandler.endElement( Names.Element.Search );
-	docHandler.endElement( XML.Namespace.Root );
-    }
-
-
-    public void startElement( String tagName, AttributeList attr )
-	throws SAXException
-    {
-	String value;
-
-	if ( tagName.equals( XML.Namespace.Root ) ) {
-	    // Flag when entering (and leaving) the root element.
-	    if ( _insideRoot )
-		throw new SAXException( Messages.format( "dsml.elementNested",
-							 XML.Namespace.Root ) );
-	    _insideRoot = true;
-	} else {
-	    if ( ! _insideRoot )
-		throw new SAXException( Messages.format( "dsml.expectingOpeningTag",
-							 XML.Namespace.Root, tagName ) );
-
-	    if ( tagName.equals( Names.Element.Search ) ) {
-		_baseDN = attr.getValue( Names.Attribute.BaseDN );
-		if ( _baseDN == null )
-		    throw new SAXException( Messages.format( "dsml.missingAttribute",
-							     Names.Element.Search, Names.Attribute.BaseDN ) );
-		_filter = attr.getValue( Names.Attribute.Filter );
-		value = attr.getValue( Names.Attribute.Scope );
-		if ( value != null ) {
-		    if ( value.equals( Names.Attribute.ScopeOneLevel ) )
-			_scope = Scope.OneLevel;
-		    else if ( value.equals( Names.Attribute.ScopeBase ) )
-			_scope = Scope.Base;
-		    else if ( value.equals( Names.Attribute.ScopeSubTree ) )
-			_scope = Scope.SubTree;
-		    else
-			throw new SAXException( Messages.format( "dsml.invalidValue",
-								 Names.Attribute.Scope, value ) );
-		}
-	    } else if ( tagName.equals( Names.Element.ReturnAttr ) ) {
-		if ( _baseDN == null ) {
-		    throw new SAXException( Messages.format( "dsml.expectingOpeningTag",
-							     Names.Element.Search, tagName ) );
-		}
-		// Create a string buffer, characters() will fill it up,
-		// endElement() will add it to the list.
-		_attrName = new StringBuffer();
-	    } else {
-		throw new SAXException( Messages.format( "dsml.expectingOpeningTag",
-							 Names.Element.Search, tagName ) );
-	    }
-	}
-    }
-
-	
-    public void endElement( String tagName )
-	throws SAXException
-    {
-	if ( tagName.equals( XML.Namespace.Root ) ) {
-	    if ( _insideRoot )
-		_insideRoot = false;
-	    else
-		throw new SAXException( Messages.format( "dsml.closingOutsideRoot",
-							 tagName ) );
-	} else {
-	    if ( ! _insideRoot )
-		throw new SAXException( Messages.format( "dsml.closingOutsideRoot",
-							 tagName ) );
-	    if ( tagName.equals( Names.Element.Search ) ) {
-		// Nothing to do hare
-	    } else if (tagName.equals( Names.Element.ReturnAttr ) ) {
-		if ( _attrName.length() > 0 ) {
-		    addReturnAttr( _attrName.toString() );
-		    _attrName = null;
-		}
-	    } else {
-		throw new SAXException( Messages.format( "dsml.expectingClosingTag",
-							 Names.Element.Search, tagName ) );
-	    }
-	}
-    }
-
-
-    public void characters( char[] ch, int offset, int length )
-    {
-	if ( _attrName != null ) {
-	    _attrName.append( ch, offset, length );
-	}
-    }
-
-
 }
 
 

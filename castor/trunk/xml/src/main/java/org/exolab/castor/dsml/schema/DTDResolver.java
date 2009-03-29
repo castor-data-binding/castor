@@ -43,13 +43,10 @@
  * $Id$
  */
 
-
 package org.exolab.castor.dsml.schema;
-
 
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
-
 
 /**
  * Entity resolved for resolving DSML DTD and Schema public/system
@@ -58,38 +55,23 @@ import org.xml.sax.InputSource;
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
-public class DTDResolver
-    implements EntityResolver
-{
-
-
-    static class DTD
-    {
-
-	public static final String[] PublicId = new String[] {
-	};
-
-	public static final String[] SystemId = new String[] {
-	};
-
-	public static final String[] ResourceName = new String[] {
-	};
-
+public class DTDResolver implements EntityResolver {
+    public static final class DTD {
+        public static final String[] PUBLIC_ID = new String[] {};
+        public static final String[] SYSTEM_ID = new String[] {};
+        public static final String[] RESOURCE_NAME = new String[] {};
+        
+        private DTD() { }
     }
 
-
-    public InputSource resolveEntity( String publicId, String systemId )
-    {
-	int i;
-	
-	for ( i = 0 ; i < DTD.PublicId.length ; ++i ) {
-	    if ( DTD.PublicId[ i ].equals( publicId ) ||
-		 ( publicId == null && DTD.SystemId[ i ].equals( systemId ) ) )
-		return new InputSource( getClass().getResourceAsStream( DTD.ResourceName[ i ] ) );
-	}
-	return null;
+    public InputSource resolveEntity(final String publicId, final String systemId) {
+        for (int i = 0; i < DTD.PUBLIC_ID.length; ++i) {
+            if (DTD.PUBLIC_ID[i].equals(publicId)
+                    || ((publicId == null) && DTD.SYSTEM_ID[i].equals(systemId))) {
+                return new InputSource(getClass().getResourceAsStream(DTD.RESOURCE_NAME[i]));
+            }
+        }
+        return null;
     }
-
-
 }
 

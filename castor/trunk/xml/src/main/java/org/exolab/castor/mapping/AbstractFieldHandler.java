@@ -47,7 +47,6 @@ package org.exolab.castor.mapping;
 
 import java.util.Properties;
 
-
 /**
  * An extended version of the FieldHandler interface which is
  * used for adding additional functionality while preserving
@@ -58,18 +57,14 @@ import java.util.Properties;
  * @see FieldDescriptor
  * @see FieldHandler
  */
-public abstract class AbstractFieldHandler extends ExtendedFieldHandler implements ConfigurableFieldHandler {
-
-    /**
-     * The FieldDescriptor for the field that this handler is
-     * responsible for.
-     */
+public abstract class AbstractFieldHandler
+extends ExtendedFieldHandler
+implements ConfigurableFieldHandler {
+    /** The FieldDescriptor for the field that this handler is responsible for. */
     private FieldDescriptor _descriptor = null;
     
-    /**
-     * Configuration that can be used by subclasses when needed. 
-     */
-    protected Properties configuration;
+    /** Configuration that can be used by subclasses when needed. */
+    protected Properties _properties;
     
     /** 
      * Creates a new default AbstractFieldHandler. This method
@@ -80,7 +75,7 @@ public abstract class AbstractFieldHandler extends ExtendedFieldHandler implemen
         super();
         //-- currently nothing to do, but initialization
         //-- code may be needed in the future
-    } //-- AbstractFieldHandler
+    }
     
     /**
      * Returns the FieldDescriptor for the field that this 
@@ -94,7 +89,7 @@ public abstract class AbstractFieldHandler extends ExtendedFieldHandler implemen
      */
     protected final FieldDescriptor getFieldDescriptor() {
         return _descriptor;
-    } //-- getFieldDescriptor
+    }
     
     /**
      * Sets the FieldDescriptor that this FieldHander is
@@ -108,8 +103,7 @@ public abstract class AbstractFieldHandler extends ExtendedFieldHandler implemen
      */
     public void setFieldDescriptor(FieldDescriptor fieldDesc) {
         _descriptor = fieldDesc;
-    } //-- setFieldDescriptor
-
+    }
 
     /**
      * Returns true if the "handled" field has a value within the 
@@ -127,15 +121,13 @@ public abstract class AbstractFieldHandler extends ExtendedFieldHandler implemen
      *
      * @return true if the given object has a value for the handled field
      */
-    public boolean hasValue( Object object ) {
-        return (getValue( object ) != null);
-    } //-- hasValue
-    
+    public boolean hasValue(final Object object) {
+        return (getValue(object) != null);
+    }
     
     //---------------------------------------/
     //- Methods inherited from FieldHandler -/
     //---------------------------------------/
-    
     
     /**
      * Returns the value of the field from the object.
@@ -146,8 +138,8 @@ public abstract class AbstractFieldHandler extends ExtendedFieldHandler implemen
      *  is no longer supported by this handler, or the handler is not
      *  compatiable with the Java object
      */
-    public abstract Object getValue( Object object )
-        throws IllegalStateException;
+    public abstract Object getValue(Object object)
+    throws IllegalStateException;
     
 
     /**
@@ -158,8 +150,8 @@ public abstract class AbstractFieldHandler extends ExtendedFieldHandler implemen
      * @throws IllegalStateException This field is a simple type and
      *  cannot be instantiated
      */
-    public abstract Object newInstance( Object parent )
-        throws IllegalStateException;
+    public abstract Object newInstance(Object parent)
+    throws IllegalStateException;
         
     /**
      * Creates a new instance of the object described by this field.
@@ -170,8 +162,8 @@ public abstract class AbstractFieldHandler extends ExtendedFieldHandler implemen
      * @throws IllegalStateException This field is a simple type and
      *  cannot be instantiated
      */
-    public abstract Object newInstance( Object parent, Object[] args )
-        throws IllegalStateException;
+    public abstract Object newInstance(Object parent, Object[] args)
+    throws IllegalStateException;
         
     /**
      * Sets the value of the field to a default value.
@@ -185,8 +177,8 @@ public abstract class AbstractFieldHandler extends ExtendedFieldHandler implemen
      *  is no longer supported by this handler, or the handler is not
      *  compatiable with the Java object
      */
-    public abstract void resetValue( Object object )
-        throws IllegalStateException, IllegalArgumentException;
+    public abstract void resetValue(Object object)
+    throws IllegalStateException, IllegalArgumentException;
         
     /**
      * Sets the value of the field on the object.
@@ -198,15 +190,13 @@ public abstract class AbstractFieldHandler extends ExtendedFieldHandler implemen
      *         Java object.
      * @throws IllegalArgumentException The value passed is not of a supported type.
      */
-    public abstract void setValue( Object object, Object value )
-        throws IllegalStateException, IllegalArgumentException;
+    public abstract void setValue(Object object, Object value)
+    throws IllegalStateException, IllegalArgumentException;
     
     /**
      * Empty implementation of the {@link ConfigurableFieldHandler} interface, for convenience
      * purpose. Subclasses that want to use any configuration should override this method.
      */
-    public void setConfiguration(Properties config) throws ValidityException {
-
-    }
-} //-- AbstractFieldHandler
+    public void setConfiguration(final Properties config) throws ValidityException { }
+}
 

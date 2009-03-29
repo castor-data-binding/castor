@@ -53,6 +53,8 @@ import java.io.Reader;
 import java.util.Enumeration;
 import java.util.TooManyListenersException;
 
+import javax.naming.directory.SearchResult;
+
 import org.castor.core.util.Messages;
 import org.castor.xml.BackwardCompatibilityContext;
 import org.castor.xml.InternalContext;
@@ -176,9 +178,7 @@ public abstract class Importer
     protected abstract Consumer createConsumer();
 
 
-    public abstract void importEntries( Enumeration enumeration )
-	throws ImportExportException;
-
-
+    public abstract void importEntries(Enumeration<SearchResult> enumeration)
+    throws ImportExportException;
 }
 

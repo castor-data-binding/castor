@@ -45,40 +45,31 @@
 
 package org.exolab.castor.xml;
 
-
 /**
  * This class represents the Possible Descriptor types used
  * by the marshalling Framework. Currently only Attribute and Element
  * descriptors are used.
+ * 
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
-**/
+ */
 public final class DescriptorType {
-    
     //-----------------/
     //- Public Fields -/
     //-----------------/
     
-    /**
-     * Represents the descriptor type for Attributes
-    **/
+    /** Represents the descriptor type for Attributes. */
     public static final short ATTRIBUTE = 0;
     
-    /**
-     * Represents the descriptor type for Elements
-    **/
+    /** Represents the descriptor type for Elements. */
     public static final short ELEMENT = 1;
     
     
-    /**
-     * The Attribute DescriptorType
-    **/
+    /** The Attribute DescriptorType. */
     public static final DescriptorType attribute 
         = new DescriptorType(DescriptorType.ATTRIBUTE);
 
-    /**
-     * The Element DescriptorType
-    **/
+    /** The Element DescriptorType. */
     public static final DescriptorType element 
         = new DescriptorType(DescriptorType.ELEMENT);
     
@@ -86,9 +77,7 @@ public final class DescriptorType {
     //- Private Fields -/
     //------------------/
     
-    /**
-     * The type of this DescriptorType
-    **/
+    /** The type of this DescriptorType. */
     private short _type = -1;
     
     //----------------/
@@ -96,10 +85,11 @@ public final class DescriptorType {
     //----------------/
     
     /**
-     * Creates a new DescriptorType with the given type
-     * @param type the type for this DescriptorType
-    **/
-    private DescriptorType(short type) {
+     * Creates a new DescriptorType with the given type.
+     * 
+     * @param type the type for this DescriptorType.
+     */
+    private DescriptorType(final short type) {
         _type = type;
     }
     
@@ -108,11 +98,11 @@ public final class DescriptorType {
     //------------------/
     
     /**
-     * Returns the type of this DescriptorType
-     * @return the type of this DescriptorType
-    **/
+     * Returns the type of this DescriptorType.
+     * 
+     * @return the type of this DescriptorType.
+     */
     public short getType() {
         return _type;
-    } //-- getType
-    
-} //-- DescriptorType;
+    }
+}

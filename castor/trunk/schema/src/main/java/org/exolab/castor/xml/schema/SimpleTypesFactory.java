@@ -77,22 +77,15 @@ import org.xml.sax.InputSource;
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
 **/
 public class SimpleTypesFactory {
-
-    /**
-     * The Logger instance to use.
-     */
+    /** The Logger instance to use. */
     private static final Log LOG = LogFactory.getLog(SimpleTypesFactory.class);
     
     //Type Codes:
 
-    /**
-     * This code is for errors or uninitialized types.
-    **/
+    /** This code is for errors or uninitialized types. */
     public static final int INVALID_TYPE                = -1;
 
-    /**
-     * Simple type defined by the user
-    **/
+    /** Simple type defined by the user. */
     public static final int USER_TYPE                     =  0;
 
     //Primitive types
@@ -144,44 +137,29 @@ public class SimpleTypesFactory {
 
     public static final int ANYSIMPLETYPE_TYPE            = 100;
 
-    /**
-     * The resource location for the built-in types
-     * property files
-    **/
-    static final String RESOURCE_LOCATION =
-        "/org/exolab/castor/util/resources/";
+    /** The resource location for the built-in types property files. */
+    static final String RESOURCE_LOCATION = "/org/exolab/castor/util/resources/";
 
-    /**
-     * The resource for the mapping properties
-    **/
-    static final String TYPE_MAPPINGS = RESOURCE_LOCATION +
-        "SimpleTypesMapping.properties";
+    /** The resource for the mapping properties. */
+    static final String TYPE_MAPPINGS = RESOURCE_LOCATION + "SimpleTypesMapping.properties";
 
-    /**
-     * The resource for the Simple types
-    **/
-    static final String TYPE_DEFINITIONS = RESOURCE_LOCATION +
-        "SimpleTypes.properties";
-    /**
-     * Holds simpletypesfactory.Type instances that record information about
-     * xml schema built in types.
-     */
+    /** The resource for the Simple types. */
+    static final String TYPE_DEFINITIONS = RESOURCE_LOCATION + "SimpleTypes.properties";
+    
+    /** Holds simpletypesfactory.Type instances that record information about
+     *  xml schema built in types. */
     private static Hashtable _typesByName;
 
-    /** Cross index for _typesByName to quickly get type information from its code*/
+    /** Cross index for _typesByName to quickly get type information from its code. */
     private static Hashtable _typesByCode;
 
-    /**
-     * Log writer to report progress/errors. May be null.
-     */
-    private static PrintWriter _logWriter= new PrintWriter(System.out);
+    /** Log writer to report progress/errors. May be null. */
+    private static PrintWriter _logWriter = new PrintWriter(System.out);
+
+    /** The built-in schema, hopefully only temporary. */
+    private static final Schema BUILD_IN_SCHEMA = new Schema();
 
     /**
-     * The built-in schema, hopefully only temporary
-    **/
-    private static final Schema _builtInSchema = new Schema();
-
-     /**
      * Indicates if a type code corresponds to an xml schema built in type.
      * @param codeType The type code to check.
      * @return True if the given type code represents an XML schema built-in type.
@@ -239,9 +217,9 @@ public class SimpleTypesFactory {
    /**
      * Gets a built in type's name given its code.
      */
-    public String getBuiltInTypeName(int builtInTypeCode) {
-        Type type= getType(builtInTypeCode);
-        if (type == null) return null;
+    public String getBuiltInTypeName(final int builtInTypeCode) {
+        Type type = getType(builtInTypeCode);
+        if (type == null) { return null; }
         return type.getName();
     }
 
@@ -265,30 +243,27 @@ public class SimpleTypesFactory {
      * @param createDeferredSimpleType should the type be deferred if it can't be created.
      * @return the new SimpleType, or null if its parent could not be found.
     **/
-    SimpleType createUserSimpleType( Schema schema,
-                                     String name,
-                                     String baseName,
-                                     String derivation,
-                                     boolean createDeferredSimpleType)
-    {
-        if ( (baseName == null) || (baseName.length() == 0) ) {
+    SimpleType createUserSimpleType(final Schema schema, final String name,
+            final String baseName, final String derivation,
+            final boolean createDeferredSimpleType) {
+        if ((baseName == null) || (baseName.length() == 0)) {
             //We need a base type name...
-            sendToLog(Messages.format( "schema.noBaseType", name ));
+            sendToLog(Messages.format("schema.noBaseType", name));
             return null;
         }
 
         //Find the base type
-        SimpleType baseType= schema.getSimpleType(baseName);
+        SimpleType baseType = schema.getSimpleType(baseName);
         if (baseType == null) {
             //couldn't find the base type, must be forward declared
             if (createDeferredSimpleType) { // => create a DeferredSimpleType
-	            DeferredSimpleType result= new DeferredSimpleType();
-	            result.setSchema(schema);
-	            result.setName(name);
-	            result.setBaseTypeName(baseName);
-	            result.setDerivationMethod(derivation);
-	            result.setTypeCode(USER_TYPE);
-	            return result;
+                DeferredSimpleType result = new DeferredSimpleType();
+                result.setSchema(schema);
+                result.setName(name);
+                result.setBaseTypeName(baseName);
+                result.setDerivationMethod(derivation);
+                result.setTypeCode(USER_TYPE);
+                return result;
              }
             return null;
         }
@@ -315,23 +290,20 @@ public class SimpleTypesFactory {
      * @param derivation the name of the derivation method (null/""/"list"/"restriction")
      * @return the new SimpleType, or null if its parent could not be found.
     **/
-    SimpleType createUserSimpleType( Schema schema,
-                                     String name,
-                                     SimpleType baseType,
-                                     String derivation)
-    {
+    SimpleType createUserSimpleType(final Schema schema, final String name,
+            final SimpleType baseType, final String derivation) {
         String internalName = name;
-        if (name == null) internalName = "anonymous-simple-type";
+        if (name == null) { internalName = "anonymous-simple-type"; }
 
-        if ( (baseType == null) ) {
+        if (baseType == null) {
             //We need a base type
-            sendToLog(Messages.format( "schema.noBaseType", internalName ));
+            sendToLog(Messages.format("schema.noBaseType", internalName));
             return null;
         }
 
-        SimpleType result= null;
+        SimpleType result = null;
 
-        if ( (derivation != null) && (derivation.equals(SchemaNames.LIST)) ) {
+        if ((derivation != null) && (derivation.equals(SchemaNames.LIST))) {
             //derive as list
             /* This doesn't seem valid based on the XML Schema
              * Recommendation, so I am commenting it out (kvisco)
@@ -344,15 +316,13 @@ public class SimpleTypesFactory {
             }
             */
             try {
-                result= new ListType(schema);
-            }
-            catch(SchemaException sx) {
-                sendToLog( Messages.format("schema.deriveByListError",
-                                           internalName,
-                                           baseType.getName()) );
+                result = new ListType(schema);
+            } catch (SchemaException sx) {
+                sendToLog(Messages.format("schema.deriveByListError",
+                        internalName, baseType.getName()));
                 return null;
             }
-            ((ListType)result).setItemType( baseType );
+            ((ListType) result).setItemType(baseType);
         } else {
             //derive as restriction (only derivation allowed apart from list for simple types)
             
@@ -364,27 +334,27 @@ public class SimpleTypesFactory {
                 } catch (SchemaException sx) {
                     //Hmmm... error message is not perfect, but at least is something :)
                     sendToLog(Messages.format("schema.deriveByListError",
-                                              internalName, baseType.getName()) );
+                            internalName, baseType.getName()));
                     return null;
                 }
             } else {
                 //Find the built in ancestor type
-                SimpleType builtInBase= baseType.getBuiltInBaseType();
+                SimpleType builtInBase = baseType.getBuiltInBaseType();
                 if (builtInBase == null) {
-                   sendToLog(Messages.format("schema.noBuiltInParent",
-                                             internalName) );
+                   sendToLog(Messages.format("schema.noBuiltInParent", internalName));
                    return null;
                 }
                 //creates the instance of a class derived from SimpleType representing the new type.
-                result= createInstance(schema, builtInBase.getName());
+                result = createInstance(schema, builtInBase.getName());
                 if (result == null) {
-                    throw new SimpleTypesFactoryException( Messages.message("schema.cantLoadBuiltInTypes") );
+                    throw new SimpleTypesFactoryException(
+                            Messages.message("schema.cantLoadBuiltInTypes"));
                 }
             }
         }
 
         result.setSchema(schema);
-	    result.setName(name);
+        result.setName(name);
         result.setBaseType(baseType);
         result.setDerivationMethod(derivation);
         result.setTypeCode(USER_TYPE);
@@ -394,17 +364,15 @@ public class SimpleTypesFactory {
     /**
      * Returns the log writer.
      */
-    private PrintWriter getLogWriter()
-    {
+    private PrintWriter getLogWriter() {
         return _logWriter;
     }
 
     /**
-     * Sends a message to the log through the logWriter (if its not null)
+     * Sends a message to the log through the logWriter (if its not null).
      */
-    private void sendToLog(String message)
-    {
-        PrintWriter logger= getLogWriter();
+    private void sendToLog(final String message) {
+        PrintWriter logger = getLogWriter();
         if (logger != null) {
             logger.println(message);
             logger.flush();
@@ -416,12 +384,11 @@ public class SimpleTypesFactory {
      * as input parameter.
      * Loads the types definitions if they were not yet loaded
      */
-    private Type getType(String typeName)
-    {
+    private Type getType(final String typeName) {
         if (_typesByName == null) {
             loadTypesDefinitions();
         }
-        return (Type)_typesByName.get(typeName);
+        return (Type) _typesByName.get(typeName);
     }
 
     /**
@@ -429,12 +396,11 @@ public class SimpleTypesFactory {
      * as input parameter.
      * Loads the types definitions if they were not yet loaded
      */
-    private Type getType(int typeCode)
-    {
+    private Type getType(final int typeCode) {
         if (_typesByCode == null) {
             loadTypesDefinitions();
         }
-        return (Type)_typesByCode.get(new Integer(typeCode));
+        return (Type) _typesByCode.get(new Integer(typeCode));
     }
 
     /**
@@ -442,54 +408,52 @@ public class SimpleTypesFactory {
      * into the static fields typesByName and typeByCode. Loading is done only once.
      */
     private synchronized void loadTypesDefinitions() {
-        if ( (_typesByName == null) && (_typesByCode == null) ) {
+        if ((_typesByName == null) && (_typesByCode == null)) {
             InputStream is = null;
 
-	        try {  //Load the mapping file
-		        Mapping mapping= new Mapping(getClass().getClassLoader());
+            try {  //Load the mapping file
+                Mapping mapping = new Mapping(getClass().getClassLoader());
 
-		        is = this.getClass().getResourceAsStream(TYPE_MAPPINGS);
-				mapping.loadMapping( new InputSource(is) );
+                is = this.getClass().getResourceAsStream(TYPE_MAPPINGS);
+                mapping.loadMapping(new InputSource(is));
 
                 //unmarshall the list of built in simple types
-		        Unmarshaller unmarshaller= new Unmarshaller(TypeList.class);
-		        unmarshaller.setMapping(mapping);
-		        //-- turn off validation
-		        unmarshaller.setValidation(false);
+                Unmarshaller unmarshaller = new Unmarshaller(TypeList.class);
+                unmarshaller.setMapping(mapping);
+                //-- turn off validation
+                unmarshaller.setValidation(false);
 
                 is = this.getClass().getResourceAsStream(TYPE_DEFINITIONS);
-		        TypeList typeList = (TypeList)unmarshaller.unmarshal( new org.xml.sax.InputSource(is) );
+                TypeList typeList = (TypeList) unmarshaller.unmarshal(
+                        new org.xml.sax.InputSource(is));
 
-                //print what we just read (only in debug mode and if we have a logWriter)
-		        // TODO: Joachim 2007-09-04 remove me
+                // print what we just read (only in debug mode and if we have a logWriter)
+                // TODO Joachim 2007-09-04 remove me
                 // LocalConfiguration config = LocalConfiguration.getInstance();
                 if (LOG.isDebugEnabled()) {
                     LOG.debug(typeList.toString());
                 }
-		        //if (config.debug() && getLogWriter()!= null) {
+                //if (config.debug() && getLogWriter()!= null) {
                 //    typeList.Print(getLogWriter());
                 //}
 
                 //Store the types by name in the typesByName and typesByCode hashtables
                 //and create for each its associated SimpleType instance.
-                Vector types= typeList.getTypes();
-                _typesByName= new Hashtable();
-                _typesByCode= new Hashtable();
-		        for( int index= 0; index < types.size(); index++)
-		        {
-                    Type type= (Type)(types.elementAt(index));
+                Vector types = typeList.getTypes();
+                _typesByName = new Hashtable();
+                _typesByCode = new Hashtable();
+                for (int index = 0; index < types.size(); index++) {
+                    Type type = (Type) types.elementAt(index);
                     _typesByName.put(type.getName(), type);
-                    type.setSimpleType(createSimpleType(_builtInSchema, type));
-                    _typesByCode.put(new Integer( type.getSimpleType().getTypeCode() ), type);
+                    type.setSimpleType(createSimpleType(BUILD_IN_SCHEMA, type));
+                    _typesByCode.put(new Integer(type.getSimpleType().getTypeCode()), type);
                 }
-	        }
-	        catch (Exception except) {
+            } catch (Exception except) {
                 //Of course, this should not happen if the config files are there.
-	            String err = Messages.message("schema.cantLoadBuiltInTypes")
-                    + "; " + except;
+                String err = Messages.message("schema.cantLoadBuiltInTypes") + "; " + except;
 
-                throw new SimpleTypesFactoryException( except, err );
-	        }
+                throw new SimpleTypesFactoryException(except, err);
+            }
         }
     } //-- loadTypeDefinitions
 
@@ -497,24 +461,22 @@ public class SimpleTypesFactory {
     /**
      * Creates a SimpleType, valid only for built in types.
      */
-    private SimpleType createSimpleType(Schema schema, Type type)
-    {
+    private SimpleType createSimpleType(final Schema schema, final Type type) {
         //Creates the instance of a class derived from SimpleType representing the type.
-        SimpleType result= createInstance(schema, type.getName());
+        SimpleType result = createInstance(schema, type.getName());
 
         if (result == null) {
             String err = Messages.message("schema.cantLoadBuiltInTypes");
-            throw new SimpleTypesFactoryException( err );
+            throw new SimpleTypesFactoryException(err);
         }
 
-	    result.setName(type.getName());
+        result.setName(type.getName());
 
         //Load the result's typeCode
         int intCode;
         try {
-            intCode= getClass().getDeclaredField(type.getCode()).getInt(null);
-        }
-        catch (Exception ex) {
+            intCode = getClass().getDeclaredField(type.getCode()).getInt(null);
+        } catch (Exception ex) {
 
             String error = Messages.message("schema.cantLoadBuiltInTypes")
                 + ex;
@@ -525,7 +487,7 @@ public class SimpleTypesFactory {
 
         //Find and set the result's SimpleType basetype (if any).
         if (type.getBase() != null) {
-            result.setBaseType( getType(type.getBase()).getSimpleType() );
+            result.setBaseType(getType(type.getBase()).getSimpleType());
         }
 
         //Adds the facets to the result
@@ -561,53 +523,48 @@ public class SimpleTypesFactory {
      * Creates the correct instance for the given type name.
      * Valid only for built in type names.
      */
-    private SimpleType createInstance(Schema schema, String builtInTypeName)
-    {
-        Type type= getType(builtInTypeName);
+    private SimpleType createInstance(final Schema schema, final String builtInTypeName) {
+        Type type = getType(builtInTypeName);
 
        //If the type is derived by list, return a new ListType.
-        String derivation= type.getDerivedBy();
+        String derivation = type.getDerivedBy();
         ListType resultList = null;
-        if ( (derivation != null) && (derivation.equals(SchemaNames.LIST)) ) {
+        if ((derivation != null) && (derivation.equals(SchemaNames.LIST))) {
             try {
                 resultList = new ListType(schema);
-            }
-            catch(SchemaException sx) {
+            } catch (SchemaException sx) {
                 //-- This should not happen...but who knows!
                 throw new SimpleTypesFactoryException(sx);
             }
         }
 
         //Finds the primitive ancestor (defines the class that represents it)
-        Class implClass= null;
+        Class implClass = null;
         while (type != null) {
             if (type.getImplClass() != null) {
-                implClass= type.getImplClass();
+                implClass = type.getImplClass();
                 break;
             }
-            type= getType(type.getBase());
+            type = getType(type.getBase());
         }
 
-        if (implClass == null) return null;
+        if (implClass == null) { return null; }
 
         SimpleType result;
         if (implClass.isAssignableFrom(UrType.class)) {
                 try {
-                     result = (UrType)implClass.newInstance();
+                     result = (UrType) implClass.newInstance();
                      result.setSchema(schema);
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     throw new SimpleTypesFactoryException(e);
                 }
-        }
-        else {
+        } else {
              try {
-                 result = (AtomicType)implClass.newInstance();
+                 result = (AtomicType) implClass.newInstance();
                  result.setSchema(schema);
-             }
-             catch (Exception except) {
+             } catch (Exception except) {
                  except.printStackTrace();
-                 result= null;
+                 result = null;
              }
              if (resultList != null) {
                   resultList.setItemType(result);
@@ -626,43 +583,41 @@ public class SimpleTypesFactory {
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 class SimpleTypesFactoryException extends RuntimeException {
-    /** SerialVersionUID */
+    /** SerialVersionUID. */
     private static final long serialVersionUID = -7343397006284999081L;
 
-    /**
-     * The exception which caused this Exception
-    **/
+    /** The exception which caused this Exception. */
     private Throwable  _exception;
 
 
     /**
-     * Creates a new SimpleTypesFactoryException
+     * Creates a new SimpleTypesFactoryException.
      *
      * @param message the error message
-    **/
-    public SimpleTypesFactoryException( String message ) {
+     */
+    public SimpleTypesFactoryException(final String message) {
         super(message);
     } //-- SimpleTypesFactoryException
 
 
     /**
-     * Creates a new SimpleTypesFactoryException
+     * Creates a new SimpleTypesFactoryException.
      *
      * @param exception the Exception which caused this Exception.
-    **/
-    public SimpleTypesFactoryException(Throwable exception) {
+     */
+    public SimpleTypesFactoryException(final Throwable exception) {
         super(exception.toString());
         _exception = exception;
     } //-- SimpleTypesFactoryException
 
     /**
-     * Creates a new SimpleTypesFactoryException
+     * Creates a new SimpleTypesFactoryException.
      *
      * @param exception the Exception which caused this Exception.
      * @param message the error message
-    **/
-    public SimpleTypesFactoryException(Throwable exception, String message) {
-        super( message );
+     */
+    public SimpleTypesFactoryException(final Throwable exception, final String message) {
+        super(message);
         _exception = exception;
     } //-- SimpleTypesFactoryException
 
@@ -675,32 +630,33 @@ class SimpleTypesFactoryException extends RuntimeException {
     **/
     public Throwable getException() {
         return _exception;
-    } //-- getException
+    }
 
 
     public void printStackTrace() {
-        if ( _exception == null )
+        if (_exception == null) {
             super.printStackTrace();
-        else
+        } else {
             _exception.printStackTrace();
-    } //-- printStackTrace
+        }
+    }
 
 
-    public void printStackTrace( PrintStream print ) {
-        if ( _exception == null )
-            super.printStackTrace( print );
-        else
-            _exception.printStackTrace( print );
-    } //-- printStackTrace
+    public void printStackTrace(final PrintStream print) {
+        if (_exception == null) {
+            super.printStackTrace(print);
+        } else {
+            _exception.printStackTrace(print);
+        }
+    }
 
 
-    public void printStackTrace( PrintWriter print ) {
-        if ( _exception == null )
-            super.printStackTrace( print );
-        else
-            _exception.printStackTrace( print );
-    } //-- printStackTrace
-
-
-} //-- SimpleTypesFactoryException
+    public void printStackTrace(final PrintWriter print) {
+        if (_exception == null) {
+            super.printStackTrace(print);
+        } else {
+            _exception.printStackTrace(print);
+        }
+    }
+}
 

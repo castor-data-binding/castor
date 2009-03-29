@@ -80,12 +80,12 @@ public class FieldInfoFactory {
     private boolean _bound = false;
     
     /* The FieldMemberAndAccessorFactories */
-    private FieldMemberAndAccessorFactory fieldMemberAndAccessorFactory;
-    private CollectionMemberAndAccessorFactory collectionMemberAndAccessorFactory;
-    private CollectionJ2MemberAndAccessorFactory collectionJ2MemberAndAccessorFactory;
-    private CollectionJ2NoIndexMemberAndAccessorFactory collectionJ2NoIndexMemberAndAccessorFactory;
-    private CollectionODMG30MemberAndAccessorFactory collectionODMG30MemberAndAccessorFactory;
-    private IdentityMemberAndAccessorFactory identityMemberAndAccessorFactory;
+    private FieldMemberAndAccessorFactory _fieldMemberAndAccessorFactory;
+    private CollectionMemberAndAccessorFactory _collectionMemberAndAccessorFactory;
+    private CollectionJ2MemberAndAccessorFactory _collectionJ2MemberAndAccessorFactory;
+    private CollectionJ2NoIndexMemberAndAccessorFactory _collectionJ2NoIndexMemberAndAccessorFactory;
+    private CollectionODMG30MemberAndAccessorFactory _collectionODMG30MemberAndAccessorFactory;
+    private IdentityMemberAndAccessorFactory _identityMemberAndAccessorFactory;
     
     /**
      * The {@link JavaNaming} to use.
@@ -117,17 +117,17 @@ public class FieldInfoFactory {
 
         _javaNaming = new JavaNamingImpl();
         
-        this.fieldMemberAndAccessorFactory = new FieldMemberAndAccessorFactory(
+        this._fieldMemberAndAccessorFactory = new FieldMemberAndAccessorFactory(
                 _javaNaming);
-        this.collectionMemberAndAccessorFactory = new CollectionMemberAndAccessorFactory(
+        this._collectionMemberAndAccessorFactory = new CollectionMemberAndAccessorFactory(
                 _javaNaming);
-        this.collectionJ2MemberAndAccessorFactory = new CollectionJ2MemberAndAccessorFactory(
+        this._collectionJ2MemberAndAccessorFactory = new CollectionJ2MemberAndAccessorFactory(
                 _javaNaming);
-        this.collectionJ2NoIndexMemberAndAccessorFactory = new CollectionJ2NoIndexMemberAndAccessorFactory(
+        this._collectionJ2NoIndexMemberAndAccessorFactory = new CollectionJ2NoIndexMemberAndAccessorFactory(
                 _javaNaming);
-        this.collectionODMG30MemberAndAccessorFactory = new CollectionODMG30MemberAndAccessorFactory(
+        this._collectionODMG30MemberAndAccessorFactory = new CollectionODMG30MemberAndAccessorFactory(
                 _javaNaming);
-        this.identityMemberAndAccessorFactory = new IdentityMemberAndAccessorFactory(
+        this._identityMemberAndAccessorFactory = new IdentityMemberAndAccessorFactory(
                 _javaNaming);
         
     }
@@ -138,7 +138,7 @@ public class FieldInfoFactory {
      * @return The {@link IdentityInfo} instance just created.
      */
     public IdentityInfo createIdentity (final String name) {
-        IdentityInfo idInfo = new IdentityInfo(name, this.identityMemberAndAccessorFactory);
+        IdentityInfo idInfo = new IdentityInfo(name, this._identityMemberAndAccessorFactory);
         if (_bound) { idInfo.setBound(_bound); }
         return idInfo;
     }
@@ -179,22 +179,22 @@ public class FieldInfoFactory {
         final CollectionInfo cInfo;
         if (temp.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_VECTOR)) {
              cInfo = new CollectionInfo(contentType, name, elementName, useJava50, 
-                     this.collectionMemberAndAccessorFactory, this.fieldMemberAndAccessorFactory);
+                     this._collectionMemberAndAccessorFactory, this._fieldMemberAndAccessorFactory);
         } else if (temp.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_ARRAY_LIST)) {
              cInfo = new CollectionInfoJ2(contentType, name, elementName, "arraylist", useJava50, 
-                     this.collectionJ2MemberAndAccessorFactory, this.fieldMemberAndAccessorFactory);
+                     this._collectionJ2MemberAndAccessorFactory, this._fieldMemberAndAccessorFactory);
         } else if (temp.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_ODMG)) {
              cInfo = new CollectionInfoODMG30(contentType, name, elementName, useJava50, 
-                     this.collectionODMG30MemberAndAccessorFactory, this.fieldMemberAndAccessorFactory);
+                     this._collectionODMG30MemberAndAccessorFactory, this._fieldMemberAndAccessorFactory);
         } else if (temp.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_COLLECTION)) {
             cInfo = new CollectionInfoJ2Collection(contentType, name, elementName, useJava50, 
-                    this.collectionJ2NoIndexMemberAndAccessorFactory, this.fieldMemberAndAccessorFactory);
+                    this._collectionJ2NoIndexMemberAndAccessorFactory, this._fieldMemberAndAccessorFactory);
         } else if (temp.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_SET)) {
             cInfo = new CollectionInfoJ2Set(contentType, name, elementName, useJava50, 
-                    this.collectionJ2NoIndexMemberAndAccessorFactory, this.fieldMemberAndAccessorFactory);
+                    this._collectionJ2NoIndexMemberAndAccessorFactory, this._fieldMemberAndAccessorFactory);
         } else if (temp.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_SORTED_SET)) {
             cInfo = new CollectionInfoJ2SortedSet(contentType, name, elementName, useJava50, 
-                    this.collectionJ2NoIndexMemberAndAccessorFactory, this.fieldMemberAndAccessorFactory);
+                    this._collectionJ2NoIndexMemberAndAccessorFactory, this._fieldMemberAndAccessorFactory);
         } else {
             throw new InvalidParameterException("Unrecognized collection type: " + temp);
         }
@@ -217,7 +217,7 @@ public class FieldInfoFactory {
      * @return The {@link FieldInfo} instance just created.
      */
     public FieldInfo createFieldInfo(final XSType type, final String name) {
-        FieldInfo fieldInfo = new FieldInfo(type, name, this.fieldMemberAndAccessorFactory);
+        FieldInfo fieldInfo = new FieldInfo(type, name, this._fieldMemberAndAccessorFactory);
         if (_bound) { fieldInfo.setBound(true); }
         return fieldInfo;
     }

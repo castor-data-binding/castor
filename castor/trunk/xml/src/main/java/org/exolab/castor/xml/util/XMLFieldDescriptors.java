@@ -57,20 +57,20 @@ import org.exolab.castor.xml.XMLFieldDescriptor;
  */
 public class XMLFieldDescriptors {
 
-    private int DEFAULT_SIZE = 11;
+    private static final int DEFAULT_SIZE = 11;
 
-    private XMLFieldDescriptor[] elements;
+    private XMLFieldDescriptor[] _elements;
 
     /**
      * The next available location in the elements array.
      */
-    private int elementCount = 0;
+    private int _elementCount = 0;
 
     /**
      * Creates a new XMLFieldDescriptors with the default Size.
      */
     public XMLFieldDescriptors() {
-        elements = new XMLFieldDescriptor[DEFAULT_SIZE];
+        _elements = new XMLFieldDescriptor[DEFAULT_SIZE];
     } //-- XMLFieldDescriptors
 
     /**
@@ -79,7 +79,7 @@ public class XMLFieldDescriptors {
      * @param size the initial size of the internal collection.
      */
     public XMLFieldDescriptors(int size) {
-        elements = new XMLFieldDescriptor[size];
+        _elements = new XMLFieldDescriptor[size];
     } //-- XMLFieldDescriptors
 
     /**
@@ -93,11 +93,11 @@ public class XMLFieldDescriptors {
      */
     public boolean add(XMLFieldDescriptor descriptor) {
 
-        for (int i = 0; i < elementCount; i++) {
-            if (elements[i] == descriptor) return false;
+        for (int i = 0; i < _elementCount; i++) {
+            if (_elements[i] == descriptor) return false;
         }
-        if (elementCount == elements.length) increaseSize();
-        elements[elementCount++] = descriptor;
+        if (_elementCount == _elements.length) increaseSize();
+        _elements[_elementCount++] = descriptor;
         return true;
     } //-- add
 
@@ -105,10 +105,10 @@ public class XMLFieldDescriptors {
      * Removes all descriptors from this collection.
      */
     public void clear() {
-        for (int i = 0; i < elementCount; i++) {
-            elements[i] = null;
+        for (int i = 0; i < _elementCount; i++) {
+            _elements[i] = null;
         }
-        elementCount = 0;
+        _elementCount = 0;
     } //-- clear
 
     public Object clone() {
@@ -147,10 +147,10 @@ public class XMLFieldDescriptors {
         if (obj == this) return true;
         if (!(obj instanceof XMLFieldDescriptors)) return false;
         XMLFieldDescriptors descs = (XMLFieldDescriptors)obj;
-        if (descs.elementCount != elementCount) return false;
-        for (int i = 0; i < elementCount; i++) {
+        if (descs._elementCount != _elementCount) return false;
+        for (int i = 0; i < _elementCount; i++) {
             Object e1 = get(i);
-            Object e2 = descs.elements[i];
+            Object e2 = descs._elements[i];
             if (!((e1 == null) ? (e2 == null) : e1.equals(e2)) )
                return false;
         }
@@ -164,10 +164,10 @@ public class XMLFieldDescriptors {
      * @exception IndexOutOfBoundsException
      */
     public XMLFieldDescriptor get(int index) throws IndexOutOfBoundsException {
-        if ((index < 0) || index >= elementCount) {
+        if ((index < 0) || index >= _elementCount) {
             throw new IndexOutOfBoundsException();
         }
-        return elements[index];
+        return _elements[index];
     } //-- get
 
     /**
@@ -187,8 +187,8 @@ public class XMLFieldDescriptors {
      */
     public int hashCode() {
        int hashCode = 1;
-       for (int i = 0; i < elementCount; i++) {
-           Object obj = elements[i];
+       for (int i = 0; i < _elementCount; i++) {
+           Object obj = _elements[i];
            hashCode = 31*hashCode + (obj==null ? 0 : obj.hashCode());
        }
        return hashCode;
@@ -203,13 +203,13 @@ public class XMLFieldDescriptors {
      */
     public int indexOf(XMLFieldDescriptor descriptor) {
         if (descriptor == null) {
-            for (int i = 0; i < elementCount; i++) {
-                if (elements[i] == null) return i;
+            for (int i = 0; i < _elementCount; i++) {
+                if (_elements[i] == null) return i;
             }
         }
         else {
-            for (int i = 0; i < elementCount; i++) {
-                if (descriptor.equals(elements[i])) return i;
+            for (int i = 0; i < _elementCount; i++) {
+                if (descriptor.equals(_elements[i])) return i;
             }
         }
         return -1;
@@ -221,7 +221,7 @@ public class XMLFieldDescriptors {
      * @return true if the collection is empty.
      */
     public boolean isEmpty() {
-        return (elementCount == 0);
+        return (_elementCount == 0);
     } //-- isEmpty
 
     /**
@@ -232,10 +232,10 @@ public class XMLFieldDescriptors {
      */
     public XMLFieldDescriptor remove(int index) {
 
-        if ((index < 0) || (index > elementCount)) return null;
-        XMLFieldDescriptor desc = elements[index];
+        if ((index < 0) || (index > _elementCount)) return null;
+        XMLFieldDescriptor desc = _elements[index];
         shiftDown(index+1);
-        --elementCount;
+        --_elementCount;
         return desc;
     } //-- remove
 
@@ -259,10 +259,10 @@ public class XMLFieldDescriptors {
      * freeing up unused memory.
      */
     public void trimToSize() {
-        if (elements.length == elementCount) return;
-        XMLFieldDescriptor[] pointer = elements;
-        elements = new XMLFieldDescriptor[elementCount];
-        System.arraycopy(pointer, 0, elements, 0, elementCount);
+        if (_elements.length == _elementCount) return;
+        XMLFieldDescriptor[] pointer = _elements;
+        _elements = new XMLFieldDescriptor[_elementCount];
+        System.arraycopy(pointer, 0, _elements, 0, _elementCount);
         pointer = null;
     } //-- trimToSize
 
@@ -272,7 +272,7 @@ public class XMLFieldDescriptors {
      * @return the number of descriptors in the list.
      */
     public int size() {
-        return elementCount;
+        return _elementCount;
     } //-- size
 
     /**
@@ -282,8 +282,8 @@ public class XMLFieldDescriptors {
      * @return the array of descriptors of this List
      */
     public XMLFieldDescriptor[] toArray() {
-        XMLFieldDescriptor[] objArray = new XMLFieldDescriptor[elementCount];
-        System.arraycopy(elements,0,objArray,0,elementCount);
+        XMLFieldDescriptor[] objArray = new XMLFieldDescriptor[_elementCount];
+        System.arraycopy(_elements,0,objArray,0,_elementCount);
         return objArray;
     } //-- toArray
 
@@ -307,11 +307,11 @@ public class XMLFieldDescriptors {
 
         XMLFieldDescriptor[] objArray = null;
 
-        if (dst.length >= elementCount) objArray = dst;
+        if (dst.length >= _elementCount) objArray = dst;
         else {
-            objArray = new XMLFieldDescriptor[elementCount];
+            objArray = new XMLFieldDescriptor[_elementCount];
         }
-        System.arraycopy(elements, 0, objArray, offset, elementCount);
+        System.arraycopy(_elements, 0, objArray, offset, _elementCount);
         return objArray;
     } //-- toArray
 
@@ -325,10 +325,10 @@ public class XMLFieldDescriptors {
      * increase the list by a factor of its initial size
      */
     private void increaseSize() {
-        XMLFieldDescriptor[] pointer = elements;
+        XMLFieldDescriptor[] pointer = _elements;
         int length = (pointer.length > 0) ? pointer.length : 1;
-        elements = new XMLFieldDescriptor[(length*3)/2 + 1];
-        System.arraycopy(pointer, 0, elements, 0, pointer.length);
+        _elements = new XMLFieldDescriptor[(length*3)/2 + 1];
+        System.arraycopy(pointer, 0, _elements, 0, pointer.length);
         pointer = null;
     } //-- increaseSize
 
@@ -336,10 +336,10 @@ public class XMLFieldDescriptors {
      * Shifts all elements at the specified index to down by 1
      */
     private void shiftDown(int index) {
-        if ((index <= 0) || (index >= elementCount)) return;
-        System.arraycopy(elements, index, elements, index - 1, elementCount - index);
+        if ((index <= 0) || (index >= _elementCount)) return;
+        System.arraycopy(_elements, index, _elements, index - 1, _elementCount - index);
         // clean up for gc
-        elements[elementCount-1] = null;
+        _elements[_elementCount-1] = null;
     } //-- shiftDown
 
 } //-- XMLFieldDescriptors

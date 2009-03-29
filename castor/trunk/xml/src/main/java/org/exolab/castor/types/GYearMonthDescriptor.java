@@ -52,7 +52,7 @@ import org.exolab.castor.xml.XMLFieldHandler;
 import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 
 /**
- * The GYearMonth Descriptor
+ * The GYearMonth Descriptor.
  *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
@@ -60,18 +60,18 @@ import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 public class GYearMonthDescriptor extends BaseDescriptor {
 
     /** The name of the XML element. */
-    private static final String                 _xmlName = "gYearMonth";
+    private static final String XML_NAME = "gYearMonth";
     /** Our field descriptor. */
-    private static final XMLFieldDescriptorImpl _contentDescriptor;
+    private static final XMLFieldDescriptorImpl CONTENT_DESCRIPTOR;
     /** Our field descriptor array.  Lists the fields we describe. */
-    private static final FieldDescriptor[]      _fields;
+    private static final FieldDescriptor[] FIELDS;
 
     static {
-        _contentDescriptor = new XMLFieldDescriptorImpl(String.class, "content",
+        CONTENT_DESCRIPTOR = new XMLFieldDescriptorImpl(String.class, "content",
                                                         "content", NodeType.Text);
-        _contentDescriptor.setHandler(new GYearMonthDescriptor().new GYearMonthFieldHandler());
-        _fields = new FieldDescriptor[1];
-        _fields[0] = _contentDescriptor;
+        CONTENT_DESCRIPTOR.setHandler(new GYearMonthDescriptor().new GYearMonthFieldHandler());
+        FIELDS = new FieldDescriptor[1];
+        FIELDS[0] = CONTENT_DESCRIPTOR;
     }
 
     //----------------/
@@ -79,7 +79,7 @@ public class GYearMonthDescriptor extends BaseDescriptor {
     //----------------/
 
     public GYearMonthDescriptor() {
-        super(_xmlName, GYearMonth.class);
+        super(XML_NAME, GYearMonth.class);
     } //-- GYearMonthDescriptor
 
     //------------------/
@@ -93,7 +93,7 @@ public class GYearMonthDescriptor extends BaseDescriptor {
      * that should be marshalled as text content.
      */
     public XMLFieldDescriptor getContentDescriptor() {
-        return _contentDescriptor;
+        return CONTENT_DESCRIPTOR;
     } // getContentDescriptor
 
     /**
@@ -102,7 +102,7 @@ public class GYearMonthDescriptor extends BaseDescriptor {
      * @return A list of fields
      */
     public FieldDescriptor[] getFields() {
-        return _fields;
+        return FIELDS;
     } //-- getFields
 
     /**

@@ -66,258 +66,220 @@ import org.castor.core.util.Messages;
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class ImportDescriptor extends HandlerBase implements Serializable {
-    /** SerialVersionUID */
+    /** SerialVersionUID. */
     private static final long serialVersionUID = 197365948293655041L;
 
-    public static class Policy
-    {
-        /**
-         * Under the <code>DeleteEmpty</code> policy, entries without attributes in the DSML are deleted from the Ldap.
-         */
-        public static final int DeleteEmpty   = 0x01;
-        /**
-         * Under the <code>ReplaceAttr</code> policy, attributes in the Ldap that are not specified in the DSML are deleted.
-         */
-        public static final int ReplaceAttr   = 0x02;
-        /**
-         * Under the <code>RefreshOnly</code> policy, DSML entries that do not already exist in the Ldap are not created.
-         */
-        public static final int RefreshOnly   = 0x04;
-        /**
-         * Under the <code>NewAttrOnly</code> policy, new attributes are created according to the DSML, 
-         but attributes that already have a value in the ldap are not updated.
-         */
-        public static final int NewAttrOnly   = 0x08;
-        /**
-         * Under the <code>UpdateOnly</code> policy, DSML attributes that do not already exist in the Ldap are not created.
-         */
-        public static final int UpdateOnly    = 0x10;
-        /**
-         * Under the <code>DefaultPolicy</code> policy, 
-         */
-        public static final int DefaultPolicy = 0x00;
+    public static class Policy {
+        /** Under the <code>DeleteEmpty</code> policy, entries without attributes in the
+         *  DSML are deleted from the Ldap. */
+        public static final int DELETE_EMPTY = 0x01;
+        /** Under the <code>ReplaceAttr</code> policy, attributes in the Ldap that are not
+         *  specified in the DSML are deleted. */
+        public static final int REPLACE_ATTRIBUTE = 0x02;
+        /** Under the <code>RefreshOnly</code> policy, DSML entries that do not already
+         *  exist in the Ldap are not created. */
+        public static final int REFRESH_ONLY = 0x04;
+        /** Under the <code>NewAttrOnly</code> policy, new attributes are created according
+         *  to the DSML, but attributes that already have a value in the ldap are not updated. */
+        public static final int NEW_ATTRIBUTE_ONLY = 0x08;
+        /** Under the <code>UpdateOnly</code> policy, DSML attributes that do not already
+         *  exist in the Ldap are not created. */
+        public static final int UPDATE_ONLY = 0x10;
+        /** Under the <code>DefaultPolicy</code> policy. */
+        public static final int DEFAULT_POLICY = 0x00;
     }
 
+    static class Names {
+        static class Element {
+            public static final String POLICIES = "import-policies";
+            public static final String POLICY = "import-policy";
+        }
 
-    static class Names
-    {
-	static class Element
-	{
-	    public static final String Policies   = "import-policies";
-	    public static final String Policy     = "import-policy";
-	}
-	static class Attribute
-	{
-	    public static final String DN            = "dn";
-	    public static final String DeleteEmpty   = "delete-empty";
-	    public static final String ReplaceAttr   = "replace-attr";
-	    public static final String RefreshOnly   = "refresh-only";
-	    public static final String UpdateOnly    = "update-only";
-	    public static final String NewAttrOnly   = "new-attr-only";
-	}
+        static class Attribute {
+            public static final String DN = "dn";
+            public static final String DELETE_EMPTY = "delete-empty";
+            public static final String REPLACE_ATTRIBUTE = "replace-attr";
+            public static final String REFRESH_ONLY = "refresh-only";
+            public static final String UPDATE_ONLY = "update-only";
+            public static final String NEW_ATTRIBUTE_ONLY = "new-attr-only";
+        }
     }
-
     
-    private Hashtable            _policies = new Hashtable();
+    private Hashtable _policies = new Hashtable();
 
+    private boolean _insideRoot;
 
-    private boolean           _insideRoot;
+    public ImportDescriptor() {
+    }
 
+    public Enumeration listDNs() {
+        return _policies.keys();
+    }
 
-    public ImportDescriptor()
-    {
+    public void addPolicy(final String name, final int policy) {
+        _policies.put(name, new Integer(policy));
+    }
+
+    public int getDirectPolicy(final String name) {
+        Integer policy = (Integer) _policies.get(name);
+        if (policy != null) { return policy.intValue(); }
+        return Policy.DEFAULT_POLICY;
+    }
+
+    public int getPolicy(String name) {
+        DN       dn;
+        Integer  policy;
+        int      i;
+        
+        policy = (Integer) _policies.get(name);
+        if (policy != null) { return policy.intValue(); }
+        dn = new DN( name );
+        for (i = 1; i < dn.size(); ++i) {
+            name = dn.suffix(i);
+            policy = (Integer) _policies.get(name);
+            if (policy != null) { return policy.intValue(); }
+        }
+        return Policy.DEFAULT_POLICY;
+    }
+
+    public void produce(final DocumentHandler docHandler) throws SAXException {
+        AttributeListImpl attrList;
+        int policy;
+        Enumeration enumeration;
+        String name;
+
+        attrList = new AttributeListImpl();
+        docHandler.startElement(XML.Namespace.ROOT, attrList);
+        attrList = new AttributeListImpl();
+        docHandler.startElement(Names.Element.POLICIES, attrList);
+
+        enumeration = listDNs();
+        while (enumeration.hasMoreElements()) {
+            name = (String) enumeration.nextElement();
+            policy = getDirectPolicy(name);
+            attrList = new AttributeListImpl();
+            attrList.addAttribute(Names.Attribute.DN, "ID", name);
+            if ((policy & Policy.DELETE_EMPTY) != 0) {
+                attrList.addAttribute(Names.Attribute.DELETE_EMPTY, null, "true");
+            }
+            if ((policy & Policy.REPLACE_ATTRIBUTE) != 0) {
+                attrList.addAttribute(Names.Attribute.REPLACE_ATTRIBUTE, null, "true");
+            }
+            if ((policy & Policy.REFRESH_ONLY) != 0) {
+                attrList.addAttribute(Names.Attribute.REFRESH_ONLY, null, "true");
+            }
+            if ((policy & Policy.UPDATE_ONLY) != 0) {
+                attrList.addAttribute(Names.Attribute.UPDATE_ONLY, null, "true");
+            }
+            if ((policy & Policy.NEW_ATTRIBUTE_ONLY) != 0) {
+                attrList.addAttribute(Names.Attribute.NEW_ATTRIBUTE_ONLY, null, "true");
+            }
+            docHandler.startElement(Names.Element.POLICY, attrList);
+            docHandler.endElement(Names.Element.POLICY);
+        }
+
+        docHandler.endElement(Names.Element.POLICIES);
+        docHandler.endElement(XML.Namespace.ROOT);
     }
 
 
-    public Enumeration listDNs()
-    {
-	return _policies.keys();
+    public void startElement(final String tagName, final AttributeList attr) throws SAXException {
+        String dn;
+        int policy;
+
+        if (tagName.equals(XML.Namespace.ROOT)) {
+            // Flag when entering (and leaving) the root element.
+            if (_insideRoot) {
+                throw new SAXException(Messages.format(
+                        "dsml.elementNested", XML.Namespace.ROOT));
+            }
+            _insideRoot = true;
+        } else {
+            if (!_insideRoot) {
+                throw new SAXException(Messages.format(
+                        "dsml.expectingOpeningTag", XML.Namespace.ROOT, tagName));
+            }
+
+            if (tagName.equals(Names.Element.POLICIES)) {
+                // Nothing to do at level of top element
+            } else if (tagName.equals(Names.Element.POLICY)) {
+                dn = attr.getValue(Names.Attribute.DN);
+                if (dn == null) {
+                    throw new SAXException(Messages.format("dsml.missingAttribute",
+                            Names.Element.POLICY, Names.Attribute.DN));
+                }
+                policy = 0;
+                if ("true".equals(attr.getValue(Names.Attribute.DELETE_EMPTY))) {
+                    policy = policy | Policy.DELETE_EMPTY;
+                }
+                if ("true".equals(attr.getValue(Names.Attribute.REFRESH_ONLY))) {
+                    policy = policy | Policy.REFRESH_ONLY;
+                }
+                if ("true".equals(attr.getValue(Names.Attribute.REPLACE_ATTRIBUTE))) {
+                    policy = policy | Policy.REPLACE_ATTRIBUTE;
+                }
+                if ("true".equals(attr.getValue(Names.Attribute.NEW_ATTRIBUTE_ONLY))) {
+                    policy = policy | Policy.NEW_ATTRIBUTE_ONLY;
+                }
+                if ("true".equals(attr.getValue(Names.Attribute.UPDATE_ONLY))) {
+                    policy = policy | Policy.UPDATE_ONLY;
+                }
+                addPolicy(dn, policy);
+            } else {
+                throw new SAXException(Messages.format(
+                        "dsml.expectingOpeningTag", Names.Element.POLICIES, tagName));
+            }
+        }
     }
 
-
-    public void addPolicy( String name, int policy )
-    {
-	_policies.put( name, new Integer( policy ) );
+    public void endElement(final String tagName) throws SAXException {
+        if (tagName.equals(XML.Namespace.ROOT)) {
+            if (_insideRoot) {
+                _insideRoot = false;
+            } else {
+                throw new SAXException(Messages.format("dsml.closingOutsideRoot", tagName));
+            }
+        } else {
+            if (!_insideRoot) {
+                throw new SAXException(Messages.format("dsml.closingOutsideRoot", tagName));
+            }
+            if (tagName.equals(Names.Element.POLICIES)) {
+                // Nothing to do here
+            } else if (tagName.equals(Names.Element.POLICY)) {
+                // Nothing to do here
+            } else {
+                throw new SAXException(Messages.format("dsml.expectingClosingTag",
+                        Names.Element.POLICIES, tagName));
+            }
+        }
     }
 
+    static class DN {
+        private String[] _names;
 
-    public int getDirectPolicy( String name )
-    {
-	Integer  policy;
+        DN(final String name) {
+            StringTokenizer token;
+            int i;
 
-	policy = (Integer) _policies.get( name );
-	if ( policy != null ) return policy.intValue();
-	
-  return Policy.DefaultPolicy;
-	}
- 
+            token = new StringTokenizer(name, ", ");
+            _names = new String[token.countTokens()];
+            for (i = 0; token.hasMoreTokens(); ++i) {
+                _names[ i ] = token.nextToken();
+            }
+        }
 
+        int size() {
+            return _names.length;
+        }
 
-    public int getPolicy( String name )
-    {
-      DN       dn;
-      Integer  policy;
-      int      i;
-      
-      policy = (Integer) _policies.get( name );
-      if ( policy != null ) return policy.intValue();
-      dn = new DN( name );
-      for ( i = 1 ; i < dn.size() ; ++i ) {
-        name = dn.suffix( i );
-        policy = (Integer) _policies.get( name );
-        if ( policy != null ) return policy.intValue();
-      }
-      return Policy.DefaultPolicy;
+        String suffix(int index) {
+            StringBuffer name;
+
+            name = new StringBuffer(_names[index]);
+            for (++index; index < _names.length; ++index) {
+                name.append(',').append(_names[index]);
+            }
+            return name.toString();
+        }
     }
-
-
-    public void produce( DocumentHandler docHandler )
-	throws SAXException
-    {
-	AttributeListImpl attrList;
-	int               policy;
-	Enumeration       enumeration;
-	String            name;
-
-	attrList = new AttributeListImpl();
-	docHandler.startElement( XML.Namespace.Root, attrList );
-	attrList = new AttributeListImpl();
-	docHandler.startElement( Names.Element.Policies, attrList );
-
-	enumeration = listDNs();
-	while ( enumeration.hasMoreElements() ) {
-	    name = (String) enumeration.nextElement();
-	    policy = getDirectPolicy( name );
-	    attrList = new AttributeListImpl();
-	    attrList.addAttribute( Names.Attribute.DN, "ID", name );
-	    if ( ( policy & Policy.DeleteEmpty ) != 0 )
-		attrList.addAttribute( Names.Attribute.DeleteEmpty, null, "true" );
-	    if ( ( policy & Policy.ReplaceAttr ) != 0 )
-		attrList.addAttribute( Names.Attribute.ReplaceAttr, null, "true" );
-	    if ( ( policy & Policy.RefreshOnly ) != 0 )
-		attrList.addAttribute( Names.Attribute.RefreshOnly, null, "true" );
-	    if ( ( policy & Policy.UpdateOnly ) != 0 )
-		attrList.addAttribute( Names.Attribute.UpdateOnly, null, "true" );
-	    if ( ( policy & Policy.NewAttrOnly ) != 0 )
-		attrList.addAttribute( Names.Attribute.NewAttrOnly, null, "true" );
-	    docHandler.startElement( Names.Element.Policy, attrList );
-	    docHandler.endElement( Names.Element.Policy );
-	}
-
-	docHandler.endElement( Names.Element.Policies );
-	docHandler.endElement( XML.Namespace.Root );
-    }
-
-
-    public void startElement( String tagName, AttributeList attr )
-	throws SAXException
-    {
-	String  dn;
-	int     policy;
-
-	if ( tagName.equals( XML.Namespace.Root ) ) {
-	    // Flag when entering (and leaving) the root element.
-	    if ( _insideRoot )
-		throw new SAXException( Messages.format( "dsml.elementNested",
-							 XML.Namespace.Root ) );
-	    _insideRoot = true;
-	} else {
-	    if ( ! _insideRoot )
-		throw new SAXException( Messages.format( "dsml.expectingOpeningTag",
-							 XML.Namespace.Root, tagName ) );
-
-	    if ( tagName.equals( Names.Element.Policies ) ) {
-		// Nothing to do at level of top element
-	    } else if ( tagName.equals( Names.Element.Policy ) ) {
-		dn = attr.getValue( Names.Attribute.DN );
-		if ( dn == null )
-		    throw new SAXException( Messages.format( "dsml.missingAttribute",
-							     Names.Element.Policy, Names.Attribute.DN ) );
-		policy = 0;
-		if ( "true".equals( attr.getValue( Names.Attribute.DeleteEmpty ) ) )
-		    policy = policy | Policy.DeleteEmpty;
-		if ( "true".equals( attr.getValue( Names.Attribute.RefreshOnly ) ) )
-		    policy = policy | Policy.RefreshOnly;
-		if ( "true".equals( attr.getValue( Names.Attribute.ReplaceAttr ) ) )
-		    policy = policy | Policy.ReplaceAttr;
-		if ( "true".equals( attr.getValue( Names.Attribute.NewAttrOnly ) ) )
-		    policy = policy | Policy.NewAttrOnly;
-		if ( "true".equals( attr.getValue( Names.Attribute.UpdateOnly ) ) )
-		    policy = policy | Policy.UpdateOnly;
-		addPolicy( dn, policy );
-	    } else {
-		throw new SAXException( Messages.format( "dsml.expectingOpeningTag",
-							 Names.Element.Policies, tagName ) );
-	    }
-	}
-    }
-	
-	
-    public void endElement( String tagName )
-	throws SAXException
-    {
-	if ( tagName.equals( XML.Namespace.Root ) ) {
-	    if ( _insideRoot )
-		_insideRoot = false;
-	    else
-		throw new SAXException( Messages.format( "dsml.closingOutsideRoot",
-							 tagName ) );
-	} else {
-	    if ( ! _insideRoot )
-		throw new SAXException( Messages.format( "dsml.closingOutsideRoot",
-							 tagName ) );
-	    if ( tagName.equals( Names.Element.Policies ) ) {
-		// Nothing to do here
-	    } else if (tagName.equals( Names.Element.Policy ) ) {
-		// Nothing to do here
-	    } else {
-		throw new SAXException( Messages.format( "dsml.expectingClosingTag",
-							 Names.Element.Policies, tagName ) );
-	    }
-	}
-    }
-
-
-    static class DN
-    {
-
-
-	private String[] _names;
-
-
-	DN( String name )
-	{
-	    StringTokenizer token;
-	    int             i;
-
-	    token = new StringTokenizer( name, ", " );
-	    _names = new String[ token.countTokens() ];
-	    for ( i = 0 ; token.hasMoreTokens() ; ++i ) {
-		_names[ i ] = token.nextToken();
-	    }
-	}
-
-
-	int size()
-	{
-	    return _names.length;
-	}
-
-
-	String suffix( int index )
-	{
-	    StringBuffer name;
-
-	    name = new StringBuffer( _names[ index ] );
-	    for ( ++index ; index < _names.length ; ++index ) {
-		name.append( ',' ).append( _names[ index ] );
-	    }
-	    return name.toString();
-	}
-
-
-    }
-
-
 }
-

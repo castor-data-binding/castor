@@ -60,18 +60,18 @@ import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 public class GMonthDayDescriptor extends BaseDescriptor {
 
     /** The name of the XML element. */
-    private static final String                 _xmlName = "gMonthDay";
+    private static final String XML_NAME = "gMonthDay";
     /** Our field descriptor. */
-    private static final XMLFieldDescriptorImpl _contentDescriptor;
+    private static final XMLFieldDescriptorImpl CONTENT_DESCRIPTOR;
     /** Our field descriptor array.  Lists the fields we describe. */
-    private static final FieldDescriptor[]      _fields;
+    private static final FieldDescriptor[] FIELDS;
 
     static {
-        _contentDescriptor = new XMLFieldDescriptorImpl(String.class, "content",
+        CONTENT_DESCRIPTOR = new XMLFieldDescriptorImpl(String.class, "content",
                                                         "content", NodeType.Text);
-        _contentDescriptor.setHandler(new GMonthDayDescriptor().new GMonthDayFieldHandler());
-        _fields = new FieldDescriptor[1];
-        _fields[0] = _contentDescriptor;
+        CONTENT_DESCRIPTOR.setHandler(new GMonthDayDescriptor().new GMonthDayFieldHandler());
+        FIELDS = new FieldDescriptor[1];
+        FIELDS[0] = CONTENT_DESCRIPTOR;
     }
 
     //----------------/
@@ -79,7 +79,7 @@ public class GMonthDayDescriptor extends BaseDescriptor {
     //----------------/
 
     public GMonthDayDescriptor() {
-        super(_xmlName, GMonthDay.class);
+        super(XML_NAME, GMonthDay.class);
     } //-- gMonthDayDescriptor
 
     //------------------/
@@ -94,7 +94,7 @@ public class GMonthDayDescriptor extends BaseDescriptor {
      *         as text content.
      */
     public XMLFieldDescriptor getContentDescriptor() {
-        return _contentDescriptor;
+        return CONTENT_DESCRIPTOR;
     } // getContentDescriptor
 
     /**
@@ -103,7 +103,7 @@ public class GMonthDayDescriptor extends BaseDescriptor {
      * @return A list of fields
      */
     public FieldDescriptor[] getFields() {
-        return _fields;
+        return FIELDS;
     } //-- getFields
 
     /**

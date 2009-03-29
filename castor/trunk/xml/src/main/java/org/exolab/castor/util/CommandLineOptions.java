@@ -28,51 +28,53 @@ import java.util.Properties;
 import java.util.Vector;
 
 import org.castor.core.util.Messages;
+import org.exolab.castor.xml.schema.FinalList;
 
 /**
- * A utility class for generating command line options
+ * A utility class for generating command line options.
  *
  * @author <a href="mailto:kvisco@ziplink.net">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
-**/
+ */
 public class CommandLineOptions {
-
-    Vector flags = null;
-    Hashtable optionInfo = null;
-    
-    PrintWriter errorWriter = null;
+    private Vector _flags = null;
+    private Hashtable _optionInfo = null;
+    private PrintWriter _errorWriter = null;
     
     public CommandLineOptions() {
-        flags = new Vector();
-        optionInfo = new Hashtable();
-        errorWriter = new PrintWriter(System.out);
-    } //-- CommandLineOptions
+        _flags = new Vector();
+        _optionInfo = new Hashtable();
+        _errorWriter = new PrintWriter(System.out);
+    }
     
     /**
-     * Adds the flag to list of available command line options
-     * @param flag the flag to add as an available command line option
-    **/
-    public void addFlag(String flag) {
+     * Adds the flag to list of available command line options.
+     * 
+     * @param flag the flag to add as an available command line option.
+     */
+    public void addFlag(final String flag) {
         addFlag(flag, null, null);
-    } //-- addFlag
+    }
     
     /**
-     * Adds the flag to list of available command line options
-     * @param flag the flag to add as an available command line option
-     * @param comment a comment for the flag
-    **/
-    public void addFlag(String flag, String comment) {
+     * Adds the flag to list of available command line options.
+     * 
+     * @param flag the flag to add as an available command line option.
+     * @param comment a comment for the flag.
+     */
+    public void addFlag(final String flag, final String comment) {
         addFlag(flag, null, comment, false);
-    } //-- addFlag
+    }
     
     /**
-     * Adds the flag to list of available command line options
-     * @param flag the flag to add as an available command line option
-     * @param comment a comment for the flag
+     * Adds the flag to list of available command line options.
+     * 
+     * @param flag the flag to add as an available command line option.
+     * @param comment a comment for the flag.
      * @param usageText the text that appears after the flag in the
-     * usage string
-    **/
-    public void addFlag(String flag, String usageText, String comment) {
+     *        usage string.
+     */
+    public void addFlag(final String flag, final String usageText, final String comment) {
         addFlag(flag, usageText, comment, false);
     } //-- addFlag
 
@@ -84,135 +86,140 @@ public class CommandLineOptions {
      * @param usageText The text that appears after the flag in the usage string.
      * @param optional When true, indicates that this flag is optional.
      */
-    public void addFlag(String flag, String usageText, String comment, boolean optional) {
-        if (flag == null) return;
-        flags.addElement(flag);
+    public void addFlag(final String flag, final String usageText, final String comment,
+            final boolean optional) {
+        if (flag == null) { return; }
+        _flags.addElement(flag);
         
         CmdLineOption opt = new CmdLineOption(flag);
         opt.setComment(comment);
         opt.setUsageText(usageText);
         opt.setOptional(optional);
-        optionInfo.put(flag, opt);
-    } //-- addFlag
+        _optionInfo.put(flag, opt);
+    }
     
-	/**
-	 * parses the arguments into a hashtable with the proper flag
-	 * as the key
-	**/
-	public Properties getOptions(String[] args) {
-	    Properties options = new Properties();
-	    String flag = null;
-	    for (int i = 0; i < args.length; i++) {
-	        
-	        if (args[i].startsWith("-")) {
-	            	
-	            // clean up previous flag
-	            if (flag != null) {
-	                options.put(flag,args[i]);
-	                options.put(new Integer(i),args[i]);
-	            }
-	            // get next flag
-	            flag = args[i].substring(1);
-	            
-	            //-- check full flag, otherwise try to find
-	            //-- flag within string
-	            if (!flags.contains(flag)) {
-	                int idx = 1;
-	                while(idx <= flag.length()) {
-	                    if (flags.contains(flag.substring(0,idx))) {
-	                        if (idx < flag.length()) {
-	                            options.put(flag.substring(0,idx),
-	                                flag.substring(idx));
-	                            break;
-	                        }
-	                    }
-	                    else if (idx == flag.length()) {
-	                        errorWriter.println(Messages.format("misc.invalidCLIOption",
-								    "-" + flag));
-	                        printUsage(errorWriter);
-	                    }
-	                    ++idx;
-	                }// end while
-	            }
-	            
-	        }// if flag
-	        else {
-	            // Store both flag key and number key
-	            if (flag != null) options.put(flag,args[i]);
-	            options.put(new Integer(i),args[i]);
-	            flag = null;
-	        }
-	        
-	    }// end for
-	    if (flag != null) options.put(flag, "no value");
-	    return options;
-	} //-- getOptions
-	
-	/**
-	 * Sets a comment for the flag
-	 * @param flag the flag to set the comment for
-	 * @param comment the comment to use when printing help for the given flag
-	**/
-	public void setComment(String flag, String comment) {
-	    if (flag == null) return;
-	    CmdLineOption opt = (CmdLineOption)optionInfo.get(flag);
-	    if (opt != null) opt.setComment(comment);
-	} //-- setComment
-	
-	/**
-	 * Sets whether or not a given flag is optional
-	 * @param flag the flag to set optionality for 
-	 * @param optional the boolean indicating the optionality for the given flag
-	**/
-	public void setOptional(String flag, boolean optional) {
-	    if (flag == null) return;
-	    CmdLineOption opt = (CmdLineOption)optionInfo.get(flag);
-	    if (opt != null) opt.setOptional(optional);
-	} //-- setOptional
-	
-	/**
-	 * Sets the text to print after the flag when printing the usage line
-	 * @param flag the flag to set the usage info for
-	 * @param usage the usage text
-	**/
-	public void setUsageInfo(String flag, String usage) {
-	    if (flag == null) return;
-	    CmdLineOption opt = (CmdLineOption)optionInfo.get(flag);
-	    if (opt != null) opt.setUsageText(usage);
-	} //-- setUsageInfo
+    /**
+     * Parses the arguments into a hashtable with the proper flag as the key.
+     */
+    public Properties getOptions(final String[] args) {
+        Properties options = new Properties();
+        String flag = null;
+        for (int i = 0; i < args.length; i++) {
+            
+            if (args[i].startsWith("-")) {
+                    
+                // clean up previous flag
+                if (flag != null) {
+                    options.put(flag, args[i]);
+                    options.put(new Integer(i), args[i]);
+                }
+                // get next flag
+                flag = args[i].substring(1);
+                
+                //-- check full flag, otherwise try to find
+                //-- flag within string
+                if (!_flags.contains(flag)) {
+                    int idx = 1;
+                    while (idx <= flag.length()) {
+                        if (_flags.contains(flag.substring(0, idx))) {
+                            if (idx < flag.length()) {
+                                options.put(flag.substring(0, idx),
+                                    flag.substring(idx));
+                                break;
+                            }
+                        }
+                        else if (idx == flag.length()) {
+                            _errorWriter.println(Messages.format("misc.invalidCLIOption",
+                                    "-" + flag));
+                            printUsage(_errorWriter);
+                        }
+                        ++idx;
+                    }
+                }
+            } else {
+                // Store both flag key and number key
+                if (flag != null) { options.put(flag, args[i]); }
+                options.put(new Integer(i), args[i]);
+                flag = null;
+            }
+            
+        }
+        if (flag != null) { options.put(flag, "no value"); }
+        return options;
+    }
 
-    public void printUsage(PrintWriter pw) {
+    /**
+     * Sets a comment for the flag.
+     * 
+     * @param flag the flag to set the comment for.
+     * @param comment the comment to use when printing help for the given flag.
+     */
+    public void setComment(final String flag, final String comment) {
+        if (flag == null) { return; }
+        CmdLineOption opt = (CmdLineOption) _optionInfo.get(flag);
+        if (opt != null) { opt.setComment(comment); }
+    }
+    
+    /**
+     * Sets whether or not a given flag is optional.
+     * 
+     * @param flag the flag to set optionality for.
+     * @param optional the boolean indicating the optionality for the given flag.
+     */
+    public void setOptional(final String flag, final boolean optional) {
+        if (flag == null) { return; }
+        CmdLineOption opt = (CmdLineOption) _optionInfo.get(flag);
+        if (opt != null) { opt.setOptional(optional); }
+    }
+    
+    /**
+     * Sets the text to print after the flag when printing the usage line.
+     * 
+     * @param flag the flag to set the usage info for.
+     * @param usage the usage text.
+     */
+    public void setUsageInfo(final String flag, final String usage) {
+        if (flag == null) { return; }
+        CmdLineOption opt = (CmdLineOption) _optionInfo.get(flag);
+        if (opt != null) { opt.setUsageText(usage); }
+    }
+
+    public void printUsage(final PrintWriter pw) {
         pw.println();
-        pw.print(Messages.message( "misc.CLIUsage" ));
-        for (int i = 0; i < flags.size(); i++) {
-            String flag = (String) flags.elementAt(i);
-            CmdLineOption opt = (CmdLineOption)optionInfo.get(flag);
-            if (opt.getOptional()) pw.print(" [-");
-            else pw.print(" -");
+        pw.print(Messages.message("misc.CLIUsage"));
+        for (int i = 0; i < _flags.size(); i++) {
+            String flag = (String) _flags.elementAt(i);
+            CmdLineOption opt = (CmdLineOption) _optionInfo.get(flag);
+            if (opt.getOptional()) {
+                pw.print(" [-");
+            } else {
+                pw.print(" -");
+            }
             pw.print(flag);
             String usage = opt.getUsageText();
             if (usage != null) {
                 pw.print(' ');
                 pw.print(usage);
             }
-            if (opt.getOptional()) pw.print(']');
-            
+            if (opt.getOptional()) {
+                pw.print(']');
+            }
         }
         pw.println();
         pw.flush();
-    } //-- printUsage
+    }
     
-    public void printHelp(PrintWriter pw) {
+    public void printHelp(final PrintWriter pw) {
         printUsage(pw);
         pw.println();
         
-        if (flags.size() > 0) {
+        if (_flags.size() > 0) {
             pw.println("Flag               Description");
             pw.println("----------------------------------------------");
         }
-        for (int i = 0; i < flags.size(); i++) {
-            String flag = (String) flags.elementAt(i);
-            CmdLineOption opt = (CmdLineOption)optionInfo.get(flag);
+        for (int i = 0; i < _flags.size(); i++) {
+            String flag = (String) _flags.elementAt(i);
+            CmdLineOption opt = (CmdLineOption) _optionInfo.get(flag);
             
             pw.print('-');
             pw.print(flag);
@@ -238,82 +245,86 @@ public class CommandLineOptions {
         pw.println();
         pw.flush();
     }
-    
-} //-- CommandLineOptions
+}
 
 class CmdLineOption {
-    
-    boolean optional = false;
-    String usageText = null;
-    String comment = null;
-    String flag = null;
+    private boolean _optional = false;
+    private String _usageText = null;
+    private String _comment = null;
+    private String _flag = null;
     
     /**
-     * Creates a new CmdLineOption
-     * @param flag The flag associated with this command line option
-    **/
-    CmdLineOption(String flag) {
+     * Creates a new CmdLineOption.
+     * 
+     * @param flag The flag associated with this command line option.
+     */
+    CmdLineOption(final String flag) {
         super();
-        this.flag = flag;
-    } //-- CmdLineOption
+        _flag = flag;
+    }
     
     /**
-     * Returns the flag associated with this command line option
-     * @return the flag associated with this command line option
-    **/
+     * Returns the flag associated with this command line option.
+     * 
+     * @return the flag associated with this command line option.
+     */
     public String getFlag() {
-        return this.flag;
-    } //-- getFlag
+        return _flag;
+    }
     
     /**
-     * Returns whether or not this CmdLineOption is optional or not
-     * @return true if this CmdLineOption is optional, otherwise false
-    **/
+     * Returns whether or not this CmdLineOption is optional or not.
+     * 
+     * @return true if this CmdLineOption is optional, otherwise false.
+    */
     public boolean getOptional() {
-        return this.optional;
-    } //-- getOptional
-    
-	/**
-	 * Returns the comment for this option
-	 * @return the comment for this command line option
-	**/
-	public String getComment() {
-	    return this.comment;
-	} //-- getComment
-	
-	/**
-	 * Returns the text to print after the flag when printing the usage line
-	 * @return the text to print after the flag when printing the usage line
-	**/
-	public String getUsageText() {
-	    return this.usageText;
-	} //-- getUsageText
-	
+        return _optional;
+    }
     
     /**
-     * Sets whether or not this CmdLineOption is optional or not
+     * Returns the comment for this option.
+     * 
+     * @return the comment for this command line option.
+     */
+    public String getComment() {
+        return _comment;
+    }
+    
+    /**
+     * Returns the text to print after the flag when printing the usage line.
+     * 
+     * @return the text to print after the flag when printing the usage line.
+     */
+    public String getUsageText() {
+        return _usageText;
+    }
+    
+    /**
+     * Sets whether or not this CmdLineOption is optional or not.
+     * 
      * @param optional the flag indicating whether or not this CmdLineOption
-     * is optional
-    **/
-    public void setOptional(boolean optional) {
-        this.optional = optional;
-    } //-- setOptional
+     *        is optional.
+     */
+    public void setOptional(final boolean optional) {
+        _optional = optional;
+    }
     
-	/**
-	 * Sets a comment for the flag
-	 * @param comment the comment to use when printing help for the given flag
-	**/
-	public void setComment(String comment) {
-	    this.comment = comment;
-	} //-- setComment
-	
-	/**
-	 * Sets the text to print after the flag when printing the usage line
-	 * @param usageText the usage text
-	**/
-	public void setUsageText(String usageText) {
-	    this.usageText = usageText;
-	} //-- setUsageText
+    /**
+     * Sets a comment for the flag.
+     * 
+     * @param comment the comment to use when printing help for the given flag.
+     */
+    public void setComment(final String comment) {
+        _comment = comment;
+    }
     
-} //-- CmdLineOption
+    /**
+     * Sets the text to print after the flag when printing the usage line.
+     * 
+     * @param usageText the usage text.
+     */
+    public void setUsageText(final String usageText) {
+        _usageText = usageText;
+    }
+}
 
