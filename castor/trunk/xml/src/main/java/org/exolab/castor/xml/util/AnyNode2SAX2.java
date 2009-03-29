@@ -40,6 +40,7 @@
 package org.exolab.castor.xml.util;
 
 import java.util.HashSet;
+import java.util.Set;
 
 import org.exolab.castor.types.AnyNode;
 import org.exolab.castor.xml.Namespaces;
@@ -62,9 +63,9 @@ public class AnyNode2SAX2 {
     /** The Content Handler. */
     private ContentHandler _handler;
     /** The stack to store the elements. */
-    private HashSet        _elements;
+    private Set<AnyNode> _elements;
     /** The namespace context. */
-    private Namespaces     _context;
+    private Namespaces _context;
 
     /**
      * No-arg constructor.
@@ -87,7 +88,7 @@ public class AnyNode2SAX2 {
      * @param context a namespace context
      */
     public AnyNode2SAX2(final AnyNode node, final Namespaces context) {
-        _elements = new HashSet();
+        _elements = new HashSet<AnyNode>();
         _node = node;
         _context = (context == null) ? new Namespaces() : context;
     }
@@ -97,7 +98,7 @@ public class AnyNode2SAX2 {
      *
      * @param handler the document handler to set
      */
-    public void setContentHandler(ContentHandler handler) {
+    public void setContentHandler(final ContentHandler handler) {
         if (handler == null) {
             throw new IllegalArgumentException(
                     "AnyNode2SAX2#setContentHandler 'null' value for handler");
@@ -114,6 +115,15 @@ public class AnyNode2SAX2 {
             final Namespaces context) throws SAXException {
         AnyNode2SAX2 eventProducer = new AnyNode2SAX2(node, context);
         eventProducer.setContentHandler(handler);
+
+        // inject a namespace declaration for the AnyNode element
+        if (node != null 
+                && context != null 
+                && node.getNamespacePrefix() != null 
+                && context.getNamespaceURI(node.getNamespacePrefix()) == null) {
+            handler.startPrefixMapping(node.getNamespacePrefix(), node.getNamespaceURI());
+        }                                                                                  
+
         eventProducer.start();
     }
 
@@ -124,7 +134,8 @@ public class AnyNode2SAX2 {
         processAnyNode(_node, _handler);
     }
 
-    private void processAnyNode(final AnyNode node, final ContentHandler handler) throws SAXException {
+    private void processAnyNode(final AnyNode node, final ContentHandler handler) 
+    throws SAXException {
         if (_node == null || _handler == null) {
             throw new IllegalArgumentException();
         }

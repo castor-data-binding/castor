@@ -46,6 +46,27 @@
 org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
             </summary>
             <bugs>
+                <bug id="2679" tool="jira">
+                    <description>
+                        Fixed problem related to the use of namespaces with
+                        any nodes (during marshalling). 
+                    </description>
+                    <contributor>
+                        <name>Joao Schim</name>
+                        <email>Joao.Schim@kb.nl</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Joao Schim</name>
+                        <email>Joao.Schim@kb.nl</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20090329</date>
+                </bug>
                 <bug id="2678" tool="jira">
                     <description>
                         Fixed problem related to the use of namespaces with

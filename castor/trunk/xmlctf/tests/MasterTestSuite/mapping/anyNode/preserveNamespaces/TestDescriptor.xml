@@ -23,20 +23,11 @@
 
         <Root_Object>Resource</Root_Object>
         
-        <Configuration>
-            <Marshal>
-                <Call-method name="setNamespaceMapping">
-                    <Value type="java.lang.String">dii</Value>
-                    <Value type="java.lang.String">urn:mpeg:mpeg21:2002:02-DII-NS</Value>
-                </Call-method>
-            </Marshal>
-        </Configuration>
-
         <UnitTestCase>
             <Name>Simple Test</Name>
             <Mapping_File>mapping.xml</Mapping_File>
             <Input>input.xml</Input>
-            <GoldFile>input.xml</GoldFile>
+            <GoldFile>output.xml</GoldFile>
         </UnitTestCase>
 
     </MarshallingTest>
