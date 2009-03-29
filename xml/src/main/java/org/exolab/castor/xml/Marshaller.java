@@ -648,11 +648,12 @@ public class Marshaller extends MarshalFramework {
     } //-- setMarshalListener
 
     /**
-     * Sets the mapping for the given Namespace prefix
+     * Sets the mapping for the given Namespace prefix.
+     * 
      * @param nsPrefix the namespace prefix
      * @param nsURI the namespace that the prefix resolves to
     **/
-    public void setNamespaceMapping(String nsPrefix, String nsURI) {
+    public void setNamespaceMapping(final String nsPrefix, final String nsURI) {
 
         if ((nsURI == null) || (nsURI.length() == 0)) {
             String err = "namespace URI must not be null.";
@@ -668,7 +669,7 @@ public class Marshaller extends MarshalFramework {
      *
      * @param rootElement The name of the root element to use.
      */
-    public void setRootElement(String rootElement) {
+    public void setRootElement(final String rootElement) {
         _rootElement = rootElement;
     } //-- setRootElement
 
