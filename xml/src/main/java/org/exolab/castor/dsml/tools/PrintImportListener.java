@@ -43,13 +43,10 @@
  * $Id$
  */
 
-
 package org.exolab.castor.dsml.tools;
-
 
 import java.io.PrintWriter;
 import org.exolab.castor.dsml.ImportEventListener;
-
 
 /**
  * Simple implementation of the {@link ImportEventListener} that prints
@@ -58,41 +55,32 @@ import org.exolab.castor.dsml.ImportEventListener;
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
-public class PrintImportListener
-    implements ImportEventListener
-{
+public class PrintImportListener implements ImportEventListener {
+    private PrintWriter _writer;
 
-
-    private PrintWriter  _writer;
-
-
-    public PrintImportListener( PrintWriter writer )
-    {
-	if ( writer == null )
-	    throw new NullPointerException( "Argument 'writer' is null" );
-	_writer = writer;
+    public PrintImportListener(final PrintWriter writer) {
+        if (writer == null) {
+            throw new NullPointerException("Argument 'writer' is null");
+        }
+        _writer = writer;
     }
 
-
-    public void processedEntry( String name, int flag )
-    {
-	switch ( flag ) {
-	case Ignored:
-	    _writer.println( "Ignored: " + name );
-	    break;
-	case Created:
-	    _writer.println( "Created: " + name );
-	    break;
-	case Refreshed:
-	    _writer.println( "Refreshed: " + name );
-	    break;
-	case Deleted:
-	    _writer.println( "Deleted: " + name );
-	    break;
-	}
+    public void processedEntry(final String name, final int flag) {
+        switch (flag) {
+        case IGNORED:
+            _writer.println("Ignored: " + name);
+            break;
+        case CREATED:
+            _writer.println("Created: " + name);
+            break;
+        case REFRESHED:
+            _writer.println("Refreshed: " + name);
+            break;
+        case DELETED:
+            _writer.println("Deleted: " + name);
+            break;
+        default:
+            break;
+        }
     }
-
-
 }
-
-

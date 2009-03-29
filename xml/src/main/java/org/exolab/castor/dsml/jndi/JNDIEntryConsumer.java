@@ -43,9 +43,7 @@
  * $Id$
  */
 
-
 package org.exolab.castor.dsml.jndi;
-
 
 import java.util.Enumeration;
 import java.util.Vector;
@@ -62,113 +60,94 @@ import org.castor.core.util.Base64Decoder;
 import org.castor.core.util.Messages;
 import org.exolab.castor.dsml.XML;
 
-
 /**
- *
- *
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
-class JNDIEntryConsumer
-    extends HandlerBase
-{
+class JNDIEntryConsumer extends HandlerBase {
+    private String _entryDN;
+    private Attributes _attrSet;
+    private Attribute _attr;
+    private StringBuffer _value;
+    private Base64Decoder _decoder;
+    private Vector<SearchResult> _entries = new Vector<SearchResult>();
 
-
-    private String            _entryDN;
-
-
-    private Attributes       _attrSet;
-
-
-    private Attribute        _attr;
-
-
-    private StringBuffer     _value;
-
-
-    private Base64Decoder  _decoder;
-
-
-    private Vector           _entries = new Vector();
-
-
-    JNDIEntryConsumer()
-    {
+    JNDIEntryConsumer() {
     }
 
-
-    public Enumeration getSearchResults()
-    {
-	return _entries.elements();
+    public Enumeration<SearchResult> getSearchResults() {
+        return _entries.elements();
     }
 
-
-    public void startElement( String tagName, AttributeList attr )
-	throws SAXException
-    {
-	if ( tagName.equals( XML.Entries.Element ) ) {
-	    // Do nothing
-	} else if ( tagName.equals( XML.Entries.Elements.Entry ) ) {
-	    if ( _attrSet != null )
-		throw new SAXException( Messages.format( "dsml.openingTagNotRecognized", tagName ) );
-	    _attrSet = new BasicAttributes();
-	    _entryDN = attr.getValue( XML.Entries.Attributes.DN );
-	} else if ( tagName.equals( XML.Entries.Elements.ObjectClass ) ) {
-	    if ( _attrSet == null || _attr != null )
-		throw new SAXException( Messages.format( "dsml.openingTagNotRecognized", tagName ) );
-	    _attr = new BasicAttribute( "objectclass" );
-	} else if ( tagName.equals( XML.Entries.Elements.Attribute ) ) {
-	    if ( _attrSet == null || _attr != null )
-		throw new SAXException( Messages.format( "dsml.openingTagNotRecognized", tagName ) );
-	    _attr = new BasicAttribute( attr.getValue( XML.Entries.Attributes.Name ) );
-	} else if ( tagName.equals( XML.Entries.Elements.Value ) ||
-		    tagName.equals( XML.Entries.Elements.OCValue ) ) {
-	    if ( _attrSet == null || _attr == null || _value != null )
-		throw new SAXException( Messages.format( "dsml.openingTagNotRecognized", tagName ) );
-	    if ( XML.Entries.Attributes.Encodings.Base64.equals(
-		     attr.getValue( XML.Entries.Attributes.Encoding ) ) ) {
-		_decoder = new Base64Decoder();
-	    } else {
-		_value = new StringBuffer();
-	    }
-	} else {
-	    throw new SAXException( Messages.format( "dsml.openingTagNotRecognized", tagName ) );
-	}
+    public void startElement(final String tagName, final AttributeList attr) throws SAXException {
+        if (tagName.equals(XML.Entries.ELEMENT)) {
+            // Do nothing
+        } else if (tagName.equals(XML.Entries.Elements.ENTRY)) {
+            if (_attrSet != null) {
+                throw new SAXException(Messages.format("dsml.openingTagNotRecognized", tagName));
+            }
+            _attrSet = new BasicAttributes();
+            _entryDN = attr.getValue(XML.Entries.Attributes.DN);
+        } else if (tagName.equals(XML.Entries.Elements.OBJECT_CLASS)) {
+            if (_attrSet == null || _attr != null) {
+                throw new SAXException(Messages.format("dsml.openingTagNotRecognized", tagName));
+            }
+            _attr = new BasicAttribute("objectclass");
+        } else if (tagName.equals(XML.Entries.Elements.ATTRIBUTE)) {
+            if (_attrSet == null || _attr != null) {
+                throw new SAXException(Messages.format("dsml.openingTagNotRecognized", tagName));
+            }
+            _attr = new BasicAttribute(attr.getValue(XML.Entries.Attributes.NAME));
+        } else if (tagName.equals(XML.Entries.Elements.VALUE)
+                || tagName.equals(XML.Entries.Elements.OBJECT_CLASS_VALUE)) {
+            if (_attrSet == null || _attr == null || _value != null) {
+                throw new SAXException(Messages.format("dsml.openingTagNotRecognized", tagName));
+            }
+            if (XML.Entries.Attributes.Encodings.BASE64.equals(
+                    attr.getValue(XML.Entries.Attributes.ENCODING))) {
+                _decoder = new Base64Decoder();
+            } else {
+                _value = new StringBuffer();
+            }
+        } else {
+            throw new SAXException(Messages.format("dsml.openingTagNotRecognized", tagName));
+        }
     }
-	    
 
-    public void endElement( String tagName )
-	throws SAXException
-    {
-	if ( tagName.equals( XML.Entries.Element ) ) {
-	    if ( _attrSet != null )
-		throw new SAXException( Messages.format( "dsml.closingTagNotRecognized", tagName ) );
-	} else if ( tagName.equals( XML.Entries.Elements.Entry ) ) {
-	    if ( _attrSet == null || _attr != null )
-		throw new SAXException( Messages.format( "dsml.closingTagNotRecognized", tagName ) );
-	    _entries.addElement( new SearchResult( _entryDN, null, _attrSet ) );
-	    _entryDN = null;
-	    _attrSet = null;
-	} else if ( tagName.equals( XML.Entries.Elements.ObjectClass ) ||
-		    tagName.equals( XML.Entries.Elements.Attribute ) ) {
-	    if ( _attrSet == null || _attr == null || _value != null )
-		throw new SAXException( Messages.format( "dsml.closingTagNotRecognized", tagName ) );
-	    _attrSet.put( _attr );
-	    _attr = null;
-	} else if ( tagName.equals( XML.Entries.Elements.Value ) ||
-		    tagName.equals( XML.Entries.Elements.OCValue ) ) {
-	    if ( _attrSet == null || _attr == null || ( _value == null && _decoder == null ) )
-		throw new SAXException( Messages.format( "dsml.closingTagNotRecognized", tagName ) );
-	    if ( _decoder != null ) {
-		_attr.add( _decoder.getByteArray() );
-		_decoder = null;
-	    } else {
-		_attr.add( _value.toString() );
-		_value = null;
-	    }
-	} else {
-	    throw new SAXException( Messages.format( "dsml.closingTagNotRecognized", tagName ) );
-	}
+    public void endElement(final String tagName) throws SAXException {
+        if (tagName.equals(XML.Entries.ELEMENT)) {
+            if (_attrSet != null) {
+                throw new SAXException(Messages.format("dsml.closingTagNotRecognized", tagName));
+            }
+        } else if (tagName.equals(XML.Entries.Elements.ENTRY)) {
+            if (_attrSet == null || _attr != null) {
+                throw new SAXException(Messages.format("dsml.closingTagNotRecognized", tagName));
+            }
+            _entries.addElement(new SearchResult(_entryDN, null, _attrSet));
+            _entryDN = null;
+            _attrSet = null;
+        } else if (tagName.equals(XML.Entries.Elements.OBJECT_CLASS)
+                || tagName.equals(XML.Entries.Elements.ATTRIBUTE)) {
+            if (_attrSet == null || _attr == null || _value != null) {
+                throw new SAXException(Messages.format("dsml.closingTagNotRecognized", tagName));
+            }
+            _attrSet.put(_attr);
+            _attr = null;
+        } else if (tagName.equals(XML.Entries.Elements.VALUE)
+                || tagName.equals(XML.Entries.Elements.OBJECT_CLASS_VALUE)) {
+            if (_attrSet == null || _attr == null || (_value == null && _decoder == null)) {
+                throw new SAXException(Messages.format("dsml.closingTagNotRecognized", tagName));
+            }
+            if (_decoder != null) {
+                _attr.add(_decoder.getByteArray());
+                _decoder = null;
+            } else {
+                _attr.add(_value.toString());
+                _value = null;
+            }
+        } else {
+            throw new SAXException(Messages.format("dsml.closingTagNotRecognized", tagName));
+        }
     }
 
     public void characters(final char[] chars, final int offset, final int length) {

@@ -52,7 +52,7 @@ import org.exolab.castor.xml.XMLFieldHandler;
 import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 
 /**
- * The RecurringDuration Descriptor
+ * The RecurringDuration Descriptor.
  *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
@@ -62,18 +62,18 @@ import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 public class RecurringDurationDescriptor extends BaseDescriptor {
 
     /** The name of the XML element. */
-    private static final String                 _xmlName = "recurringDuration";
+    private static final String XML_NAME = "recurringDuration";
     /** Our field descriptor. */
-    private static final XMLFieldDescriptorImpl _contentDescriptor;
+    private static final XMLFieldDescriptorImpl CONTENT_DESCRIPTOR;
     /** Our field descriptor array.  Lists the fields we describe. */
-    private static final FieldDescriptor[]      _fields;
+    private static final FieldDescriptor[] FIELDS;
 
     static {
-        _contentDescriptor = new XMLFieldDescriptorImpl(String.class, "content",
+        CONTENT_DESCRIPTOR = new XMLFieldDescriptorImpl(String.class, "content",
                                                         "content", NodeType.Text);
-        _contentDescriptor.setHandler(new RecurringDurationDescriptor().new RecurringDurationFieldHandler());
-        _fields = new FieldDescriptor[1];
-        _fields[0] = _contentDescriptor;
+        CONTENT_DESCRIPTOR.setHandler(new RecurringDurationDescriptor().new RecurringDurationFieldHandler());
+        FIELDS = new FieldDescriptor[1];
+        FIELDS[0] = CONTENT_DESCRIPTOR;
     }
 
     //----------------/
@@ -81,7 +81,7 @@ public class RecurringDurationDescriptor extends BaseDescriptor {
     //----------------/
 
     public RecurringDurationDescriptor() {
-        super(_xmlName, RecurringDuration.class);
+        super(XML_NAME, RecurringDuration.class);
     }
 
     //------------------/
@@ -96,7 +96,7 @@ public class RecurringDurationDescriptor extends BaseDescriptor {
      *         as text content.
      */
     public XMLFieldDescriptor getContentDescriptor() {
-        return _contentDescriptor;
+        return CONTENT_DESCRIPTOR;
     } // getContentDescriptor
 
     /**
@@ -105,7 +105,7 @@ public class RecurringDurationDescriptor extends BaseDescriptor {
      * @return A list of fields
      */
     public FieldDescriptor[] getFields() {
-        return _fields;
+        return FIELDS;
     } //-- getFields
 
     /**

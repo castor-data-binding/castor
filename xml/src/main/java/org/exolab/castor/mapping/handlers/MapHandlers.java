@@ -58,38 +58,34 @@ import org.exolab.castor.mapping.MapHandler;
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public final class MapHandlers {
-
     private static final String J2MAP_CLASSNAME = "java.util.Map";
+    
     private static final String J2MAP_HANDLER_CLASSNAME
         = "org.exolab.castor.mapping.handlers.J2MapHandler";
 
+    private static final MapHandler HASHTABLE_HANDLER = new J1MapHandler();
 
-    private static MapHandler HASHTABLE_HANDLER = new J1MapHandler();
-    private static MapHandler ANYMAP_HANDLER    = null;
+    private static MapHandler _anymapHandler;
 
-    private static Class J2MapClass = null;
+    private static Class _j2mapClass = null;
 
     static {
-        if (J2MapClass == null) {
+        if (_j2mapClass == null) {
             try {
                 ClassLoader loader = MapHandlers.class.getClassLoader();
                 if (loader != null) {
-                    J2MapClass = loader.loadClass(J2MAP_CLASSNAME);
-                }
-                else {
-                    J2MapClass = Class.forName(J2MAP_CLASSNAME);
+                    _j2mapClass = loader.loadClass(J2MAP_CLASSNAME);
+                } else {
+                    _j2mapClass = Class.forName(J2MAP_CLASSNAME);
                 }
                 Class handler = Class.forName(J2MAP_HANDLER_CLASSNAME);
-                ANYMAP_HANDLER = (MapHandler)handler.newInstance();
-            }
-            catch (ClassNotFoundException cnfe) {
+                _anymapHandler = (MapHandler) handler.newInstance();
+            } catch (ClassNotFoundException cnfe) {
                 //-- Probably JDK 1.1 only
-            }
-            catch(InstantiationException ie) {
+            } catch(InstantiationException ie) {
                 //-- Probably shouldn't be here, but ignore
                 //-- and only JDK 1.1 will be supported.
-            }
-            catch(IllegalAccessException iae) {
+            } catch(IllegalAccessException iae) {
                 //-- Probably shouldn't be here, but ignore
                 //-- and only JDK 1.1 will be supported.
             }
@@ -108,9 +104,9 @@ public final class MapHandlers {
         if (java.util.Hashtable.class.isAssignableFrom(clazz))
             return HASHTABLE_HANDLER;
 
-        if (J2MapClass != null) {
-           if (J2MapClass.isAssignableFrom(clazz))
-                return ANYMAP_HANDLER;
+        if (_j2mapClass != null) {
+           if (_j2mapClass.isAssignableFrom(clazz))
+                return _anymapHandler;
         }
 
         return null;

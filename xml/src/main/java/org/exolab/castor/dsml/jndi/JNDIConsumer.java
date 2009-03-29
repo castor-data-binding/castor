@@ -43,44 +43,32 @@
  * $Id$
  */
 
-
 package org.exolab.castor.dsml.jndi;
 
-
 import java.util.Enumeration;
+
+import javax.naming.directory.SearchResult;
+
 import org.xml.sax.DocumentHandler;
 import org.exolab.castor.dsml.Consumer;
 
-
 /**
- *
- *
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public class JNDIConsumer
-    extends Consumer
-{
+public class JNDIConsumer extends Consumer {
+    private JNDIEntryConsumer _entries;
 
-    private JNDIEntryConsumer  _entries;
-
-
-    public JNDIConsumer()
-    {
+    public JNDIConsumer() {
     }
 
-
-    public Enumeration getResults()
-    {
-      if ( _entries == null ) return null;
-      return _entries.getSearchResults();
+    public Enumeration<SearchResult> getResults() {
+        if (_entries == null) { return null; }
+        return _entries.getSearchResults();
     }
 
-    public DocumentHandler getEntryConsumer()
-    {
-	_entries = new JNDIEntryConsumer();
-	return _entries;
+    public DocumentHandler getEntryConsumer() {
+        _entries = new JNDIEntryConsumer();
+        return _entries;
     }
-
-
 }

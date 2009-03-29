@@ -43,9 +43,7 @@
  * $Id$
  */
 
-
 package org.exolab.castor.dsml.jndi;
-
 
 import java.util.Vector;
 import java.util.Enumeration;
@@ -63,145 +61,123 @@ import org.exolab.castor.dsml.Importer;
 import org.exolab.castor.dsml.ImportDescriptor;
 import org.exolab.castor.dsml.ImportExportException;
 
-
 /**
- *
- *
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr 2006) $
  */
-public class JNDIImporter
-    extends Importer
-{
-
-
+public class JNDIImporter extends Importer {
     private DirContext _ctx;
 
-
-    public JNDIImporter( DirContext ctx )
-    {
-	_ctx = ctx;
+    public JNDIImporter(final DirContext ctx) {
+        _ctx = ctx;
     }
 
-
-    protected Consumer createConsumer()
-    {
-	return new JNDIConsumer();
+    protected Consumer createConsumer() {
+        return new JNDIConsumer();
     }
 
+    public void importEntry(final SearchResult result, final int policy) throws NamingException {
+        Attributes existing;
+        Attributes attrSet;
+        Attribute attr;
+        NamingEnumeration<? extends Attribute> enumeration;
 
-    public void importEntry( SearchResult result, int policy )
-	throws NamingException
-    {
-	Attributes        existing;
-	Vector            modifs;
-    Attributes        attrSet;
-	Attribute         attr;
-	NamingEnumeration enumeration;
+        if (result.getAttributes().size() == 0) {
+            if ((policy & ImportDescriptor.Policy.DELETE_EMPTY) != 0) {
+                try {
+                    _ctx.lookup(result.getName());
+                    _ctx.unbind(result.getName());
+                    notify(result.getName(), ImportEventListener.DELETED);
+                } catch (NameNotFoundException except) {
+                    // Object does not exist, was not removed, ignore.
+                    notify(result.getName(), ImportEventListener.IGNORED);
+                }
+            } else {
+                notify(result.getName(), ImportEventListener.IGNORED);
+            }
+        } else {
+            try {
+                existing = _ctx.getAttributes(result.getName());
 
-	if ( result.getAttributes().size() == 0 ) {
-
-	    if ( ( policy & ImportDescriptor.Policy.DeleteEmpty ) != 0 ) {
-		try {
-		    _ctx.lookup( result.getName() );
-		    _ctx.unbind( result.getName() );
-		    notify( result.getName(), ImportEventListener.Deleted );
-		} catch ( NameNotFoundException except ) {
-		    // Object does not exist, was not removed, ignore.
-		    notify( result.getName(), ImportEventListener.Ignored );
-		}
-	    } else {
-		notify( result.getName(), ImportEventListener.Ignored );
-	    }
-
-	} else {
-
-	    try {
-		existing = _ctx.getAttributes( result.getName() );
-
-		modifs = new Vector();
-		attrSet = result.getAttributes();
-		enumeration = attrSet.getAll();
-		while ( enumeration.hasMore() ) {
-		    attr = (Attribute) enumeration.next();
-		    if ( existing.get( attr.getID() ) != null ) {
-                        if ( ( policy & ImportDescriptor.Policy.NewAttrOnly ) == 0 ) {
-                            if ( attr.size() > 0 ) {
-                                modifs.addElement( new ModificationItem( DirContext.REPLACE_ATTRIBUTE, attr ) );
+                Vector<ModificationItem> modifs = new Vector<ModificationItem>();
+                attrSet = result.getAttributes();
+                enumeration = attrSet.getAll();
+                while (enumeration.hasMore()) {
+                    attr = enumeration.next();
+                    if (existing.get(attr.getID()) != null) {
+                        if ((policy & ImportDescriptor.Policy.NEW_ATTRIBUTE_ONLY) == 0) {
+                            if (attr.size() > 0) {
+                                modifs.addElement(new ModificationItem(
+                                        DirContext.REPLACE_ATTRIBUTE, attr));
                             } else {
-                                modifs.addElement( new ModificationItem( DirContext.REMOVE_ATTRIBUTE, attr ) );
+                                modifs.addElement(new ModificationItem(
+                                        DirContext.REMOVE_ATTRIBUTE, attr));
                             }
                         }
                     } else {
-                        if ( ( policy & ImportDescriptor.Policy.UpdateOnly ) == 0 ) {
-                            if ( attr.size() > 0 ) {
-                                modifs.addElement( new ModificationItem( DirContext.ADD_ATTRIBUTE, attr ) );
+                        if ((policy & ImportDescriptor.Policy.UPDATE_ONLY) == 0) {
+                            if (attr.size() > 0) {
+                                modifs.addElement(new ModificationItem(
+                                        DirContext.ADD_ATTRIBUTE, attr));
                             }
                         }
                     }
-		}
-		if ( ( policy & ImportDescriptor.Policy.ReplaceAttr ) != 0 ) {
-		    enumeration = existing.getAll();
-		    while ( enumeration.hasMore() ) {
-			attr = (Attribute) enumeration.next();
-			if ( attrSet.get( attr.getID() ) == null ) {
-			    modifs.addElement( new ModificationItem( DirContext.REMOVE_ATTRIBUTE, attr ) );
-			}
-		    }
-		}
-		if ( modifs.size() > 0 ) {
-		    ModificationItem[] array;
+                }
+                if ((policy & ImportDescriptor.Policy.REPLACE_ATTRIBUTE) != 0) {
+                    enumeration = existing.getAll();
+                    while (enumeration.hasMore()) {
+                        attr = enumeration.next();
+                        if (attrSet.get(attr.getID()) == null) {
+                            modifs.addElement(new ModificationItem(
+                                    DirContext.REMOVE_ATTRIBUTE, attr));
+                        }
+                    }
+                }
+                if (modifs.size() > 0) {
+                    ModificationItem[] array;
 
-		    array = new ModificationItem[ modifs.size() ];
-		    modifs.copyInto( array );
-		    _ctx.modifyAttributes( result.getName(), array );
-		    notify( result.getName(), ImportEventListener.Refreshed );
-		} else {
-		    notify( result.getName(), ImportEventListener.Ignored );
-		}
-	    } catch ( NameNotFoundException except ) {
-		// Object does not exist, we create a new one.
-		if ( ( policy & ImportDescriptor.Policy.RefreshOnly ) == 0 ) {
-		    _ctx.bind( result.getName(), null, result.getAttributes() );
-		    notify( result.getName(), ImportEventListener.Created );
-		} else {
-		    notify( result.getName(), ImportEventListener.Ignored );
-		}
-	    }
-	}
+                    array = new ModificationItem[modifs.size()];
+                    modifs.copyInto(array);
+                    _ctx.modifyAttributes(result.getName(), array);
+                    notify(result.getName(), ImportEventListener.REFRESHED);
+                } else {
+                    notify(result.getName(), ImportEventListener.IGNORED);
+                }
+            } catch (NameNotFoundException except) {
+                // Object does not exist, we create a new one.
+                if ((policy & ImportDescriptor.Policy.REFRESH_ONLY) == 0) {
+                    _ctx.bind(result.getName(), null, result.getAttributes());
+                    notify(result.getName(), ImportEventListener.CREATED);
+                } else {
+                    notify(result.getName(), ImportEventListener.IGNORED);
+                }
+            }
+        }
     }
 
-
-    public void importEntries( NamingEnumeration results )
-	throws NamingException
-    {
-	SearchResult result;
-
-	if ( getImportDescriptor() == null )
-	    setImportDescriptor( new ImportDescriptor() );
-	while ( results.hasMore() ) {
-	    result = (SearchResult) results.next();
-	    importEntry( result, getImportDescriptor().getPolicy( result.getName() ) );
-	}
-    }
-    
-
-    public void importEntries( Enumeration results )
-	throws ImportExportException
-    {
-	SearchResult result;
-
-	if ( getImportDescriptor() == null )
-	    setImportDescriptor( new ImportDescriptor() );
-	try {
-	    while ( results.hasMoreElements() ) {
-		result = (SearchResult) results.nextElement();
-		importEntry( result, getImportDescriptor().getPolicy( result.getName() ) );
-	    }
-	} catch ( NamingException except ) {
-	    throw new ImportExportException( except );
-	}
+    public void importEntries(final NamingEnumeration<SearchResult> results)
+    throws NamingException {
+        if (getImportDescriptor() == null) {
+            setImportDescriptor(new ImportDescriptor());
+        }
+        while (results.hasMore()) {
+            SearchResult result = results.next();
+            importEntry(result, getImportDescriptor().getPolicy(result.getName()));
+        }
     }
 
-
+    public void importEntries(final Enumeration<SearchResult> results)
+    throws ImportExportException {
+        if (getImportDescriptor() == null) {
+            setImportDescriptor(new ImportDescriptor());
+        }
+        try {
+            while (results.hasMoreElements()) {
+                SearchResult result = results.nextElement();
+                importEntry(result, getImportDescriptor().getPolicy(result.getName()));
+            }
+        } catch (NamingException except) {
+            throw new ImportExportException(except);
+        }
+    }
 }

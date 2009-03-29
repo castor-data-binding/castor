@@ -43,31 +43,19 @@
  * $Id$
  */
 
-
 package org.exolab.castor.dsml;
-
 
 import java.util.EventListener;
 
-
 /**
- *
- *
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
-public interface ImportEventListener
-    extends EventListener
-{
+public interface ImportEventListener extends EventListener {
+    public static final int IGNORED = 0;
+    public static final int CREATED = 1;
+    public static final int REFRESHED = 2;
+    public static final int DELETED = 3;
 
-
-    public static final int Ignored   = 0;
-    public static final int Created   = 1;
-    public static final int Refreshed = 2;
-    public static final int Deleted   = 3;
-
-
-    public void processedEntry( String name, int flag );
-
-
+    public void processedEntry(String name, int flag);
 }

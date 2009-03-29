@@ -56,15 +56,14 @@ import java.util.Vector;
  */
 public class XPathLocation implements Location, java.io.Serializable {
 
-    /**
-     * <code>serialVersionUID</code> TODO Write field description
-     */
+    /** <code>serialVersionUID</code> TODO Write field description. */
     private static final long serialVersionUID = 1L;
     
     /** Our XPath, built up one String at a time. */
-    private final Vector path                = new Vector();
+    private final Vector _path = new Vector();
+    
     /** If we have reached the logical end of XPath (i.e., an attribute), set to false. */
-    private boolean      allowChildrenOrAtts = true;
+    private boolean _allowChildrenOrAtts = true;
 
     /**
      * Creates a default XPathLocation.
@@ -78,9 +77,9 @@ public class XPathLocation implements Location, java.io.Serializable {
      * @param name the name of the attribute
      */
     public void addAttribute(final String name) {
-        if (allowChildrenOrAtts) {
-            allowChildrenOrAtts = false;
-            path.addElement("@" + name);
+        if (_allowChildrenOrAtts) {
+            _allowChildrenOrAtts = false;
+            _path.addElement("@" + name);
         }
     }
 
@@ -89,8 +88,8 @@ public class XPathLocation implements Location, java.io.Serializable {
      * @param name the name to add as a child
      */
     public void addChild(final String name) {
-        if (allowChildrenOrAtts) {
-            path.addElement(name);
+        if (_allowChildrenOrAtts) {
+            _path.addElement(name);
         }
     }
 
@@ -99,7 +98,7 @@ public class XPathLocation implements Location, java.io.Serializable {
      * @param name the name to add as a parent
      */
     public void addParent(final String name) {
-        path.insertElementAt(name, 0);
+        _path.insertElementAt(name, 0);
     }
 
     /**
@@ -109,9 +108,9 @@ public class XPathLocation implements Location, java.io.Serializable {
     public String toString() {
         StringBuffer buf = new StringBuffer("XPATH: ");
 
-        for (int i = 0; i < path.size(); i++) {
+        for (int i = 0; i < _path.size(); i++) {
             buf.append('/');
-            buf.append((String)path.elementAt(i));
+            buf.append((String)_path.elementAt(i));
         }
         return buf.toString();
     }

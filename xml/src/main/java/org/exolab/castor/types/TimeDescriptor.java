@@ -52,7 +52,7 @@ import org.exolab.castor.xml.XMLFieldHandler;
 import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 
 /**
- * The Time Descriptor
+ * The Time Descriptor.
  *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
@@ -61,17 +61,17 @@ import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 public class TimeDescriptor extends BaseDescriptor {
 
     /** The name of the XML element. */
-    private static final String                 _xmlName = "time";
+    private static final String XML_NAME = "time";
     /** Our field descriptor. */
-    private static final XMLFieldDescriptorImpl _contentDescriptor;
+    private static final XMLFieldDescriptorImpl CONTENT_DESCRIPTOR;
     /** Our field descriptor array.  Lists the fields we describe. */
-    private static final FieldDescriptor[]      _fields;
+    private static final FieldDescriptor[] FIELDS;
 
     static {
-        _contentDescriptor = new XMLFieldDescriptorImpl(String.class,"content", "content", NodeType.Text);
-        _contentDescriptor.setHandler((new TimeDescriptor()).new TimeFieldHandler());
-        _fields = new FieldDescriptor[1];
-        _fields[0] = _contentDescriptor;
+        CONTENT_DESCRIPTOR = new XMLFieldDescriptorImpl(String.class,"content", "content", NodeType.Text);
+        CONTENT_DESCRIPTOR.setHandler((new TimeDescriptor()).new TimeFieldHandler());
+        FIELDS = new FieldDescriptor[1];
+        FIELDS[0] = CONTENT_DESCRIPTOR;
     }
 
     //----------------/
@@ -79,7 +79,7 @@ public class TimeDescriptor extends BaseDescriptor {
     //----------------/
 
     public TimeDescriptor() {
-        super(_xmlName, Time.class);
+        super(XML_NAME, Time.class);
     } //-- TimeDescriptor
 
     //------------------/
@@ -93,7 +93,7 @@ public class TimeDescriptor extends BaseDescriptor {
      * that should be marshalled as text content.
      */
     public XMLFieldDescriptor getContentDescriptor() {
-        return _contentDescriptor;
+        return CONTENT_DESCRIPTOR;
     } // getContentDescriptor
 
     /**
@@ -102,7 +102,7 @@ public class TimeDescriptor extends BaseDescriptor {
      * @return A list of fields
      */
     public FieldDescriptor[] getFields() {
-        return _fields;
+        return FIELDS;
     } //-- getFields
 
     /**

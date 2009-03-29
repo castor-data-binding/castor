@@ -195,7 +195,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
     private ClassLoader _loader = null;
 
-    private static final StringClassDescriptor _stringDescriptor
+    private static final StringClassDescriptor STRING_DESCRIPTOR
         = new StringClassDescriptor();
 
     /**
@@ -341,7 +341,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         if (!_stateInfo.isEmpty()) {
             UnmarshalState state = (UnmarshalState)_stateInfo.peek();
             if (state != null)  {
-                return state.object;
+                return state._object;
             }
         }
         return null;
@@ -354,7 +354,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @return the root Object being unmarshalled.
     **/
     public Object getObject() {
-        if (_topState != null) return _topState.object;
+        if (_topState != null) return _topState._object;
         return null;
     } //-- getObject
 
@@ -554,7 +554,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
              //-- handle whitespace
              boolean removedTrailingWhitespace = false;
              boolean removedLeadingWhitespace = false;
-             if (!state.wsPreserve) {
+             if (!state._wsPreserve) {
                 //-- trim leading whitespace characters
                 while (length > 0) {
                     boolean whitespace = false;
@@ -600,18 +600,18 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 }
              }
              
-             if (state.buffer == null) state.buffer = new StringBuffer();
+             if (state._buffer == null) state._buffer = new StringBuffer();
              else {
                 //-- non-whitespace content exists, add a space
-                if ((!state.wsPreserve) && (length > 0)) {
-                	if (state.trailingWhitespaceRemoved || removedLeadingWhitespace)
+                if ((!state._wsPreserve) && (length > 0)) {
+                	if (state._trailingWhitespaceRemoved || removedLeadingWhitespace)
                     {
-                		state.buffer.append(' ');
+                		state._buffer.append(' ');
                     }
                 }
              }
-             state.trailingWhitespaceRemoved = removedTrailingWhitespace;
-             state.buffer.append(ch, start, length);
+             state._trailingWhitespaceRemoved = removedTrailingWhitespace;
+             state._buffer.append(ch, start, length);
         }
     } //-- characters
 
@@ -669,9 +669,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         UnmarshalState state = (UnmarshalState) _stateInfo.pop();
 
         //-- make sure we have the correct closing tag
-        XMLFieldDescriptor descriptor = state.fieldDesc;
+        XMLFieldDescriptor descriptor = state._fieldDesc;
         
-        if (!state.elementName.equals(name)) {
+        if (!state._elementName.equals(name)) {
             
             //maybe there is still a container to end
             if (descriptor.isContainer()) {
@@ -680,42 +680,42 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 //-- the container's state that should
                 //-- really belong to the parent state
                 StringBuffer tmpBuffer = null;
-                if (state.buffer != null) {
-                    if (!isWhitespace(state.buffer)) {
-                        if (state.classDesc.getContentDescriptor() == null) {
-                            tmpBuffer = state.buffer;
-                            state.buffer = null;
+                if (state._buffer != null) {
+                    if (!isWhitespace(state._buffer)) {
+                        if (state._classDesc.getContentDescriptor() == null) {
+                            tmpBuffer = state._buffer;
+                            state._buffer = null;
                         }
                     }
                 }
                 //-- end container
-                endElement(state.elementName);
+                endElement(state._elementName);
                 
                 if (tmpBuffer != null) {
                     state = (UnmarshalState) _stateInfo.peek();
-                    if (state.buffer == null)
-                        state.buffer = tmpBuffer;
+                    if (state._buffer == null)
+                        state._buffer = tmpBuffer;
                     else
-                        state.buffer.append(tmpBuffer.toString());
+                        state._buffer.append(tmpBuffer.toString());
                 }
                 endElement(name);
                 return;
             }
-            String err = "error in xml, expecting </" + state.elementName;
+            String err = "error in xml, expecting </" + state._elementName;
             err += ">, but received </" + name + "> instead.";
             throw new SAXException(err);
         }
         
         
         //-- clean up current Object
-        Class type = state.type;
+        Class type = state._type;
 
         if ( type == null ) {
-            if (!state.wrapper) {
+            if (!state._wrapper) {
                 //-- this message will only show up if debug
                 //-- is turned on...how should we handle this case?
                 //-- should it be a fatal error?
-                LOG.info("Ignoring " + state.elementName + " no descriptor was found");
+                LOG.info("Ignoring " + state._elementName + " no descriptor was found");
             }
             
             //-- handle possible location text content
@@ -724,29 +724,29 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             //-- for searching descriptors in this manner can
             //-- be slow
             StringBuffer tmpBuffer = null;
-            if (state.buffer != null) {
-                if (!isWhitespace(state.buffer)) {
-                    tmpBuffer = state.buffer;
-                    state.buffer = null;
+            if (state._buffer != null) {
+                if (!isWhitespace(state._buffer)) {
+                    tmpBuffer = state._buffer;
+                    state._buffer = null;
                 }
             }
             if (tmpBuffer != null) {
                 UnmarshalState targetState = state;
-                String locPath = targetState.elementName;
-                while ((targetState = targetState.parent) != null) {
-                    if ((targetState.wrapper) || 
-                        (targetState.classDesc == null))
+                String locPath = targetState._elementName;
+                while ((targetState = targetState._parent) != null) {
+                    if ((targetState._wrapper) || 
+                        (targetState._classDesc == null))
                     {
-                        locPath = targetState.elementName + "/" + locPath;
+                        locPath = targetState._elementName + "/" + locPath;
                         continue;
                     }
                     
-                    XMLFieldDescriptor tmpDesc = targetState.classDesc.getContentDescriptor();
+                    XMLFieldDescriptor tmpDesc = targetState._classDesc.getContentDescriptor();
                     if (tmpDesc != null && locPath.equals(tmpDesc.getLocationPath())) {
-                        if (targetState.buffer == null)
-                            targetState.buffer = tmpBuffer;
+                        if (targetState._buffer == null)
+                            targetState._buffer = tmpBuffer;
                         else
-                            targetState.buffer.append(tmpBuffer.toString());
+                            targetState._buffer.append(tmpBuffer.toString());
                     }
                 }
             }
@@ -764,7 +764,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
         //-- If we don't have an instance object and the Class type
         //-- is not a primitive or a byte[] we must simply return
-        if ((state.object == null) && (!state.primitiveOrImmutable)) {
+        if ((state._object == null) && (!state._primitiveOrImmutable)) {
             //-- remove current namespace scoping
             _namespaces = _namespaces.getParent();
             return;
@@ -772,35 +772,35 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         
         /// DEBUG System.out.println("end: " + name);
 
-        if (state.primitiveOrImmutable) {
+        if (state._primitiveOrImmutable) {
             
             String str = null;
 
-            if (state.buffer != null) {
-                str = state.buffer.toString();
-                state.buffer.setLength(0);
+            if (state._buffer != null) {
+                str = state._buffer.toString();
+                state._buffer.setLength(0);
             }
 
             if (type == String.class && !((XMLFieldDescriptorImpl) descriptor).isDerivedFromXSList()) {
                 if (str != null)
-                    state.object = str;
-                else if (state.nil) {
-                    state.object = null;
+                    state._object = str;
+                else if (state._nil) {
+                    state._object = null;
                 }
                 else {
-                    state.object = "";
+                    state._object = "";
                 }
             }
             //-- special handling for byte[]
             else if (byteArray && !descriptor.isDerivedFromXSList()) {
                 if (str == null)
-                    state.object = new byte[0];
+                    state._object = new byte[0];
                 else {
-                    state.object = decodeBinaryData(descriptor, str);
+                    state._object = decodeBinaryData(descriptor, str);
                 }
             }
-            else if (state.args != null) {
-            	state.object = createInstance(state.type, state.args);
+            else if (state._args != null) {
+            	state._object = createInstance(state._type, state._args);
             }
             else if (descriptor.isMultivalued()
                     && descriptor.getSchemaType() != null
@@ -811,7 +811,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 while (attrValueTokenizer.hasMoreTokens()) {
                     String tokenValue = attrValueTokenizer.nextToken();
                     if (isPrimitive(descriptor.getFieldType())) {
-                        primitives.add(toPrimitiveObject(type, tokenValue, state.fieldDesc));
+                        primitives.add(toPrimitiveObject(type, tokenValue, state._fieldDesc));
                     } else {
                         Class valueType = descriptor.getFieldType();
                         //-- handle base64/hexBinary
@@ -822,30 +822,30 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     }
                     
                 }
-                state.object = primitives;
+                state._object = primitives;
             } else {
-                if (state.nil) {
-                    state.object = null;
+                if (state._nil) {
+                    state._object = null;
                 } else {
-                    state.object = toPrimitiveObject(type,str,state.fieldDesc);
+                    state._object = toPrimitiveObject(type,str,state._fieldDesc);
                 }
             }
         }
-        else if (ArrayHandler.class.isAssignableFrom(state.type)) {
-            state.object = ((ArrayHandler)state.object).getObject();
-            state.type = state.object.getClass();
+        else if (ArrayHandler.class.isAssignableFrom(state._type)) {
+            state._object = ((ArrayHandler)state._object).getObject();
+            state._type = state._object.getClass();
             
         }
 
         //-- check for character content
-        if ((state.buffer != null) &&
-            (state.buffer.length() > 0) &&
-            (state.classDesc != null)) {
-            XMLFieldDescriptor cdesc = state.classDesc.getContentDescriptor();
+        if ((state._buffer != null) &&
+            (state._buffer.length() > 0) &&
+            (state._classDesc != null)) {
+            XMLFieldDescriptor cdesc = state._classDesc.getContentDescriptor();
             if (cdesc != null) {
-                Object value = state.buffer.toString();
+                Object value = state._buffer.toString();
                 if (isPrimitive(cdesc.getFieldType()))
-                    value = toPrimitiveObject(cdesc.getFieldType(), (String)value, state.fieldDesc);
+                    value = toPrimitiveObject(cdesc.getFieldType(), (String)value, state._fieldDesc);
                 else {
                     Class valueType = cdesc.getFieldType();
                     //-- handle base64/hexBinary
@@ -862,14 +862,14 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     if (_reuseObjects) {
                         //-- check to see if we need to
                         //-- add the object or not
-                        Object tmp = handler.getValue(state.object);
+                        Object tmp = handler.getValue(state._object);
                         if (tmp != null) {
                             //-- Do not add object if values
                             //-- are equal
                             addObject = (!tmp.equals(value));
                         }
                     }
-                    if (addObject) handler.setValue(state.object, value);
+                    if (addObject) handler.setValue(state._object, value);
                 }
                 catch(java.lang.IllegalStateException ise) {
                     String err = "unable to add text content to ";
@@ -881,15 +881,15 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             //-- Handle references
             else if (descriptor.isReference()) {
                 UnmarshalState pState = (UnmarshalState) _stateInfo.peek();
-                processIDREF(state.buffer.toString(), descriptor, pState.object);
+                processIDREF(state._buffer.toString(), descriptor, pState._object);
                 _namespaces = _namespaces.getParent();
                 return;
             } else {
                 //-- check for non-whitespace...and report error
-                if (!isWhitespace(state.buffer)) {
+                if (!isWhitespace(state._buffer)) {
                     String err = "Illegal Text data found as child of: "
                         + name;
-                    err += "\n  value: \"" + state.buffer + "\"";
+                    err += "\n  value: \"" + state._buffer + "\"";
                     throw new SAXException(err);
                 }
             }
@@ -897,9 +897,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         
         //-- We're finished processing the object, so notify the
         //-- Listener (if any).
-        if (_unmarshalListener != null && state.object != null) {
-            _unmarshalListener.unmarshalled(state.object, 
-                    (state.parent == null) ? null : state.parent.object);
+        if (_unmarshalListener != null && state._object != null) {
+            _unmarshalListener.unmarshalled(state._object, 
+                    (state._parent == null) ? null : state._parent._object);
         }
 
         //-- if we are at root....just validate and we are done
@@ -929,7 +929,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     Validator validator = new Validator();
                     ValidationContext context = new ValidationContext();
                     context.setInternalContext(getInternalContext());
-                    validator.validate(state.object, context);
+                    validator.validate(state._object, context);
                     if (!getInternalContext().getLenientIdValidation()) {
                         validator.checkUnresolvedIdrefs(context);
                     }
@@ -956,7 +956,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
            return; //-- already added
         }
 
-        Object val = state.object;
+        Object val = state._object;
         
         //--special code for AnyNode handling
         if (_node != null) {
@@ -972,8 +972,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
         //-- get target object
         state = (UnmarshalState) _stateInfo.peek();
-        if (state.wrapper) {
-            state = fieldState.targetState;
+        if (state._wrapper) {
+            state = fieldState._targetState;
         }
         
         //-- check to see if we have already read in
@@ -985,15 +985,15 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             if (state.isUsed(descriptor)) {
                 
                 String err = "element \"" + name;
-                err += "\" occurs more than once. (parent class: " + state.type.getName() + ")";
+                err += "\" occurs more than once. (parent class: " + state._type.getName() + ")";
                 
                 String location = name;
                 while (!_stateInfo.isEmpty()) {
                     UnmarshalState tmpState = (UnmarshalState)_stateInfo.pop();
-                    if (!tmpState.wrapper) {
-                        if (tmpState.fieldDesc.isContainer()) continue;
+                    if (!tmpState._wrapper) {
+                        if (tmpState._fieldDesc.isContainer()) continue;
                     }
-                    location = state.elementName + "/" + location;
+                    location = state._elementName + "/" + location;
                 }
                 
                 err += "\n location: /" + location;
@@ -1005,8 +1005,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             }
             state.markAsUsed(descriptor);
             //-- if this is the identity then save id
-            if (state.classDesc.getIdentity() == descriptor) {
-                state.key = val;
+            if (state._classDesc.getIdentity() == descriptor) {
+                state._key = val;
             }
         }
         else {
@@ -1029,10 +1029,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             }
 
             boolean addObject = true;
-            if (_reuseObjects && fieldState.primitiveOrImmutable) {
+            if (_reuseObjects && fieldState._primitiveOrImmutable) {
                  //-- check to see if we need to
                  //-- add the object or not
-                 Object tmp = handler.getValue(state.object);
+                 Object tmp = handler.getValue(state._object);
                  if (tmp != null) {
                      //-- Do not add object if values
                      //-- are equal
@@ -1043,7 +1043,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             //-- special handling for mapped objects
             if (descriptor.isMapped()) {
                 if (!(val instanceof MapItem)) {
-                    MapItem mapItem = new MapItem(fieldState.key, val);
+                    MapItem mapItem = new MapItem(fieldState._key, val);
                     val = mapItem;
                 }
                 else {
@@ -1052,7 +1052,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     if (mapItem.getValue() == null) {
                         //-- save for later...
                         addObject = false;
-                        addReference(mapItem.toString(), state.object, descriptor);
+                        addReference(mapItem.toString(), state._object, descriptor);
                     }
                 }
             }
@@ -1060,7 +1060,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             if (addObject) {
                 //-- clear any collections if necessary
                 if (firstOccurance && _clearCollections) {
-                    handler.resetValue(state.object);
+                    handler.resetValue(state._object);
                 }
 
                 if (descriptor.isMultivalued() 
@@ -1071,23 +1071,23 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     for (Iterator iterator = values.iterator(); iterator.hasNext();) {
                         //-- finally set the value!!
                         Object value = iterator.next();
-                        handler.setValue(state.object, value);
+                        handler.setValue(state._object, value);
                         
                         // If there is a parent for this object, pass along
                         // a notification that we've finished adding a child
                         if ( _unmarshalListener != null ) {
-                            _unmarshalListener.fieldAdded(descriptor.getFieldName(), state.object, fieldState.object);
+                            _unmarshalListener.fieldAdded(descriptor.getFieldName(), state._object, fieldState._object);
                         }
                     }
                 } else {
                 
                     //-- finally set the value!!
-                    handler.setValue(state.object, val);
+                    handler.setValue(state._object, val);
 
                     // If there is a parent for this object, pass along
                     // a notification that we've finished adding a child
                     if ( _unmarshalListener != null ) {
-                        _unmarshalListener.fieldAdded(descriptor.getFieldName(), state.object, fieldState.object);
+                        _unmarshalListener.fieldAdded(descriptor.getFieldName(), state._object, fieldState._object);
                     }
                 }                
             }
@@ -1111,7 +1111,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             ex.printStackTrace(pw);
             pw.flush();
             String err = "unable to add '" + name + "' to <";
-            err += state.fieldDesc.getXMLName();
+            err += state._fieldDesc.getXMLName();
             err += "> due to the following exception: \n";
             err += ">>>--- Begin Exception ---<<< \n";
             err += sw.toString();
@@ -1123,10 +1123,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         _namespaces = _namespaces.getParent();
 
         // remove additional (artifical aka container) state introduced for single-valued (iow maxOccurs="1") choices.
-        if (state.fieldDesc.isContainer() 
-                && state.classDesc.isChoice() 
-                && !state.fieldDesc.isMultivalued()) {
-            this.endElement(state.elementName);
+        if (state._fieldDesc.isContainer() 
+                && state._classDesc.isChoice() 
+                && !state._fieldDesc.isMultivalued()) {
+            this.endElement(state._elementName);
         }
     } //-- endElement
 
@@ -1213,9 +1213,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
            _anyUnmarshaller.ignorableWhitespace(ch, start, length);
         else {
              UnmarshalState state = (UnmarshalState)_stateInfo.peek();
-             if (state.wsPreserve) {
-                if (state.buffer == null) state.buffer = new StringBuffer();
-                state.buffer.append(ch, start, length);
+             if (state._wsPreserve) {
+                if (state._buffer == null) state._buffer = new StringBuffer();
+                state._buffer.append(ch, start, length);
              }
         }
     } //-- ignorableWhitespace
@@ -1383,7 +1383,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         }
         else {
             _elemInfo.clear();
-            _elemInfo.attributes = atts;
+            _elemInfo._attributes = atts;
         }
         
         if ((localName == null) || (localName.length() == 0)) {
@@ -1392,23 +1392,23 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 throw new SAXException(error);
             }
             localName = qName;
-            _elemInfo.qName = qName;
+            _elemInfo._qName = qName;
         }
         else {
             if ((qName == null) || (qName.length() == 0)) {
                 if ((namespaceURI == null) || (namespaceURI.length() == 0)) {
-                    _elemInfo.qName = localName;
+                    _elemInfo._qName = localName;
                 }
                 else {
                     String prefix = _namespaces.getNamespacePrefix(namespaceURI);
                     if ((prefix != null) && (prefix.length() > 0)) {
-                        _elemInfo.qName = prefix + ":" + localName;
+                        _elemInfo._qName = prefix + ":" + localName;
                     }
                 }
                 
             }
             else {
-                _elemInfo.qName = qName;
+                _elemInfo._qName = qName;
             }
         }
         
@@ -1471,8 +1471,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         }
         else {
             _elemInfo.clear();
-            _elemInfo.qName = name;
-            _elemInfo.attributeList = attList;
+            _elemInfo._qName = name;
+            _elemInfo._attributeList = attList;
         }
         
         //-- The namespace of the given element
@@ -1558,8 +1558,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             }
 
             _topState = new UnmarshalState();            
-            _topState.elementName = name;
-            _topState.wsPreserve = (xmlSpace != null) ? PRESERVE.equals(xmlSpace) : _wsPreserve;
+            _topState._elementName = name;
+            _topState._wsPreserve = (xmlSpace != null) ? PRESERVE.equals(xmlSpace) : _wsPreserve;
             
             XMLClassDescriptor classDesc = null;
             //-- If _topClass is null, then we need to search
@@ -1614,7 +1614,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                                              name,
                                              NodeType.Element);
 
-            _topState.fieldDesc = fieldDesc;
+            _topState._fieldDesc = fieldDesc;
             //-- look for XMLClassDescriptor if null
             //-- always check resolver first
             if (classDesc == null)
@@ -1625,7 +1625,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 if (isPrimitive(_topClass)) {
                     classDesc = new PrimitivesClassDescriptor(_topClass);
                     fieldDesc.setIncremental(false);
-                    _topState.primitiveOrImmutable = true;
+                    _topState._primitiveOrImmutable = true;
                 }
             }
             
@@ -1639,10 +1639,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                        "for class: " + _topClass.getName();
           throw new SAXException(err);
             }
-            _topState.classDesc = classDesc;
-            _topState.type = _topClass;
+            _topState._classDesc = classDesc;
+            _topState._type = _topClass;
 
-            if  ((_topObject == null) && (!_topState.primitiveOrImmutable)) {
+            if  ((_topObject == null) && (!_topState._primitiveOrImmutable)) {
                 // Retrieving the xsi:type attribute, if present
                 String topPackage = getJavaPackage(_topClass);
                 
@@ -1701,31 +1701,31 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
                     //-- try to create instance of the given Class
                     Arguments args = processConstructorArgs(atts, classDesc);
-                    _topState.object = createInstance(instanceClass, args);
+                    _topState._object = createInstance(instanceClass, args);
                 }
                 //-- no xsi type information present
                 else {
                     //-- try to create instance of the given Class
                     Arguments args = processConstructorArgs(atts, classDesc);
-                    _topState.object = createInstance(_topClass, args);
+                    _topState._object = createInstance(_topClass, args);
                 }
             }
             //-- otherwise use _topObject
             else {
-                _topState.object = _topObject;
+                _topState._object = _topObject;
             }
             
             _stateInfo.push(_topState);
             
-            if (!_topState.primitiveOrImmutable) {
+            if (!_topState._primitiveOrImmutable) {
                 //--The top object has just been initialized
                 //--notify the listener
                 if ( _unmarshalListener != null )
-                    _unmarshalListener.initialized(_topState.object, (_topState.parent==null)?null:_topState.parent.object);
+                    _unmarshalListener.initialized(_topState._object, (_topState._parent==null)?null:_topState._parent._object);
                     
                 processAttributes(atts, classDesc);
                 if ( _unmarshalListener != null )
-                    _unmarshalListener.attributesProcessed(_topState.object, (_topState.parent==null)?null:_topState.parent.object);
+                    _unmarshalListener.attributesProcessed(_topState._object, (_topState._parent==null)?null:_topState._parent._object);
                 processNamespaces(classDesc);
             }
             
@@ -1747,24 +1747,24 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         //-- container and we need to close out the container
         //-- before proceeding:
         boolean canAccept = false;
-        while ((parentState.fieldDesc != null) &&
-               (parentState.fieldDesc.isContainer() && !canAccept) )
+        while ((parentState._fieldDesc != null) &&
+               (parentState._fieldDesc.isContainer() && !canAccept) )
         {
-            XMLClassDescriptor tempClassDesc = parentState.classDesc;
+            XMLClassDescriptor tempClassDesc = parentState._classDesc;
 
             //-- Find ClassDescriptor for Parent
             if (tempClassDesc == null) {
-               tempClassDesc = (XMLClassDescriptor)parentState.fieldDesc.getClassDescriptor();
+               tempClassDesc = (XMLClassDescriptor)parentState._fieldDesc.getClassDescriptor();
                if (tempClassDesc == null)
-                  tempClassDesc = getClassDescriptor(parentState.object.getClass());
+                  tempClassDesc = getClassDescriptor(parentState._object.getClass());
             }
             
-            canAccept = tempClassDesc.canAccept(name, namespace, parentState.object);
+            canAccept = tempClassDesc.canAccept(name, namespace, parentState._object);
 
             if (!canAccept) {
                 //-- Does container class even handle this field?
                 if (tempClassDesc.getFieldDescriptor(name, namespace, NodeType.Element) != null) {
-                    if (!parentState.fieldDesc.isMultivalued()) { 
+                    if (!parentState._fieldDesc.isMultivalued()) { 
                         String error = "The container object (" + tempClassDesc.getJavaClass().getName();
                         error += ") cannot accept the child object associated with the element '" + name + "'";
                         error += " because the container is already full!";
@@ -1772,7 +1772,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                         throw new SAXException(vx);    
                     }
                 }
-                endElement(parentState.elementName);
+                endElement(parentState._elementName);
                 parentState = (UnmarshalState)_stateInfo.peek();
             }
             tempClassDesc = null;
@@ -1784,29 +1784,29 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
         //-- create new state object
         state = new UnmarshalState();
-        state.elementName = name;
-        state.parent = parentState;
+        state._elementName = name;
+        state._parent = parentState;
         
         if (xmlSpace != null)        
-            state.wsPreserve = PRESERVE.equals(xmlSpace);
+            state._wsPreserve = PRESERVE.equals(xmlSpace);
         else
-            state.wsPreserve = parentState.wsPreserve;
+            state._wsPreserve = parentState._wsPreserve;
         
         _stateInfo.push(state);
 
         //-- make sure we should proceed
-        if (parentState.object == null) {
-            if (!parentState.wrapper) return;
+        if (parentState._object == null) {
+            if (!parentState._wrapper) return;
         }
 
-        Class _class = null;
+        Class cls = null;
 
         //-- Find ClassDescriptor for Parent
-        XMLClassDescriptor classDesc = parentState.classDesc;
+        XMLClassDescriptor classDesc = parentState._classDesc;
         if (classDesc == null) {
-            classDesc = (XMLClassDescriptor)parentState.fieldDesc.getClassDescriptor();
+            classDesc = (XMLClassDescriptor)parentState._fieldDesc.getClassDescriptor();
             if (classDesc == null)
-                classDesc = getClassDescriptor(parentState.object.getClass());
+                classDesc = getClassDescriptor(parentState._object.getClass());
         } else {
             // classDesc.resetElementCount();
         }
@@ -1876,7 +1876,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             */
             // handle multiple level locations (where count > 0) (CASTOR-1039)
             // if ((descriptor == null) && (count == 0) && (!targetState.wrapper)) {
-            if ((descriptor == null) && (!targetState.wrapper)) {
+            if ((descriptor == null) && (!targetState._wrapper)) {
                 MarshalFramework.InheritanceMatch[] matches = null;
                 try {
                     matches = searchInheritance(name, namespace, classDesc); // TODO: Joachim, _cdResolver);
@@ -1891,7 +1891,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     // for the first match whose parent file descriptor XML
                     // name matches the name of the element we are under
                     for(int i = 0; i < matches.length; i++) {
-                        if(parentState.elementName.equals(matches[i].parentFieldDesc.getLocationPath())) {
+                        if(parentState._elementName.equals(matches[i].parentFieldDesc.getLocationPath())) {
                             match = matches[i];
                             break;
                         }
@@ -1933,13 +1933,13 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             
             //-- adjust name and try parent
             if (count == 0)
-                path = targetState.elementName;
+                path = targetState._elementName;
             else {
                 if (pathBuf == null) 
                     pathBuf = new StringBuffer();
                 else 
                     pathBuf.setLength(0);
-                pathBuf.append(targetState.elementName);
+                pathBuf.append(targetState._elementName);
                 pathBuf.append('/');
                 pathBuf.append(path);
                 path = pathBuf.toString();
@@ -1948,8 +1948,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             //-- get 
             //--pIdx;
             //targetState = (UnmarshalState)_stateInfo.elementAt(pIdx);
-            targetState = targetState.parent;
-            classDesc = targetState.classDesc;
+            targetState = targetState._parent;
+            classDesc = targetState._classDesc;
             count++;
         }
         
@@ -1970,8 +1970,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             
             //-- isWrapper?
             if (isWrapper) {
-                state.classDesc = new XMLClassDescriptorImpl(ContainerElement.class, name);
-                state.wrapper = true;
+                state._classDesc = new XMLClassDescriptorImpl(ContainerElement.class, name);
+                state._wrapper = true;
                 if (LOG.isDebugEnabled()) {
                 	LOG.debug("wrapper-element: " + name);
                 }
@@ -2024,11 +2024,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
         //-- Save targetState (used in endElement)
         if (targetState != parentState) {
-            state.targetState = targetState;
+            state._targetState = targetState;
             parentState = targetState; //-- reassign
         }
 
-        Object object = parentState.object;
+        Object object = parentState._object;
         //--container support
         if (descriptor.isContainer()) {
             //create a new state to set the container as the object
@@ -2041,13 +2041,13 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             //-- clear current state and re-use for the container
             state.clear();
             //-- inherit whitespace preserving from the parentState
-            state.wsPreserve = parentState.wsPreserve;
-            state.parent = parentState;
+            state._wsPreserve = parentState._wsPreserve;
+            state._parent = parentState;
             
             //here we can hard-code a name or take the field name
-            state.elementName = descriptor.getFieldName();
-            state.fieldDesc = descriptor;
-            state.classDesc = (XMLClassDescriptor)descriptor.getClassDescriptor();
+            state._elementName = descriptor.getFieldName();
+            state._fieldDesc = descriptor;
+            state._classDesc = (XMLClassDescriptor)descriptor.getClassDescriptor();
             Object containerObject = null;
 
             //1-- the container is not multivalued (not a collection)
@@ -2056,8 +2056,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 FieldHandler handler = descriptor.getHandler();
                 containerObject = handler.getValue(object);
                 if (containerObject != null){
-                    if (state.classDesc != null) {
-                    	if (state.classDesc.canAccept(name, namespace, containerObject)) {
+                    if (state._classDesc != null) {
+                    	if (state._classDesc.canAccept(name, namespace, containerObject)) {
                             //remove the descriptor from the used list
                             parentState.markAsNotUsed(descriptor);
                         }
@@ -2082,8 +2082,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     throw new SAXException(ex);
                 }
             }
-            state.object = containerObject;
-            state.type = containerObject.getClass();
+            state._object = containerObject;
+            state._type = containerObject.getClass();
 
             //we need to recall startElement()
             //so that we can find a more appropriate descriptor in for the given name
@@ -2096,7 +2096,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         
 
         //-- Find object type and create new Object of that type
-        state.fieldDesc = descriptor;
+        state._fieldDesc = descriptor;
 
         /* <update>
             *  we need to add this code back in, to make sure
@@ -2134,29 +2134,29 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             //-- since it could be more specific than
             //-- the FieldDescriptor
             if (classDesc != null) {
-                _class = classDesc.getJavaClass();
+                cls = classDesc.getJavaClass();
 
                 //-- XXXX This is a hack I know...but we
                 //-- XXXX can't use the handler if the field
                 //-- XXXX types are different
-                if (descriptor.getFieldType() != _class) {
-                    state.derived = true;
+                if (descriptor.getFieldType() != cls) {
+                    state._derived = true;
                 }
             }
             else {
-                _class = descriptor.getFieldType();
+                cls = descriptor.getFieldType();
             }
             
             //-- This *shouldn't* happen, but a custom implementation
             //-- could return null in the XMLClassDesctiptor#getJavaClass
             //-- or XMLFieldDescriptor#getFieldType. If so, just replace
             //-- with java.lang.Object.class (basically "anyType").
-            if (_class == null) {
-                _class = java.lang.Object.class;
+            if (cls == null) {
+                cls = java.lang.Object.class;
             }
 
             // Retrieving the xsi:type attribute, if present
-            String currentPackage = getJavaPackage(parentState.type);
+            String currentPackage = getJavaPackage(parentState._type);
             String instanceType = getInstanceType(atts, currentPackage);
             if (instanceType != null) {
                 
@@ -2190,16 +2190,16 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                             collection = Introspector.isCollection(instanceClass);
                         }
 
-                        if ((!collection) && !_class.isAssignableFrom(instanceClass))
+                        if ((!collection) && !cls.isAssignableFrom(instanceClass))
                         {
-                            if (!isPrimitive(_class)) {
+                            if (!isPrimitive(cls)) {
                                 String err = instanceClass.getName()
-                                    + " is not a subclass of " + _class.getName();
+                                    + " is not a subclass of " + cls.getName();
                                 throw new SAXException(err);
                             }
                         }
                     }
-                    _class = instanceClass;
+                    cls = instanceClass;
                     useHandler = false;
                 }
                 catch(Exception ex) {
@@ -2210,15 +2210,15 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             }
 
             //-- Handle ArrayHandler
-            if (_class == Object.class) {
-                if (parentState.object instanceof ArrayHandler)
-                    _class = ((ArrayHandler)parentState.object).componentType();
+            if (cls == Object.class) {
+                if (parentState._object instanceof ArrayHandler)
+                    cls = ((ArrayHandler)parentState._object).componentType();
             }
             
             //-- Handle support for "Any" type
 
-            if (_class == Object.class) {
-                Class pClass = parentState.type;
+            if (cls == Object.class) {
+                Class pClass = parentState._type;
                 ClassLoader loader = pClass.getClassLoader();
                 //-- first look for a descriptor based
                 //-- on the XML name
@@ -2243,67 +2243,67 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 }
 
                 if (classDesc != null) {
-                    _class = classDesc.getJavaClass();
+                    cls = classDesc.getJavaClass();
                     useHandler = false;
                 }
                 else {
                     //we are dealing with an AnyNode
                     //1- creates a new SAX2ANY handler
-                    _anyUnmarshaller = new SAX2ANY(_namespaces, state.wsPreserve);
+                    _anyUnmarshaller = new SAX2ANY(_namespaces, state._wsPreserve);
                     //2- delegates the element handling
-                    if (_elemInfo.attributeList != null) {
+                    if (_elemInfo._attributeList != null) {
                         //-- SAX 1
-                        _anyUnmarshaller.startElement(_elemInfo.qName, 
-                            _elemInfo.attributeList);
+                        _anyUnmarshaller.startElement(_elemInfo._qName, 
+                            _elemInfo._attributeList);
                     }
                     else {
                         //-- SAX 2
-                        _anyUnmarshaller.startElement(namespace, name, _elemInfo.qName, 
-                            _elemInfo.attributes);
+                        _anyUnmarshaller.startElement(namespace, name, _elemInfo._qName, 
+                            _elemInfo._attributes);
                     }
                     //first element so depth can only be one at this point
                     _depth = 1;
-                    state.object = _anyUnmarshaller.getStartingNode();
-                    state.type = _class;
+                    state._object = _anyUnmarshaller.getStartingNode();
+                    state._type = cls;
                     //don't need to continue
                      return;
                 }
             }
             
             boolean byteArray = false;
-            if (_class.isArray())
-                byteArray = (_class.getComponentType() == Byte.TYPE);
+            if (cls.isArray())
+                byteArray = (cls.getComponentType() == Byte.TYPE);
 
             //-- check for immutable
-            if (isPrimitive(_class) ||
+            if (isPrimitive(cls) ||
                 descriptor.isImmutable() ||
                 byteArray)
             {
-                state.object = null;
-                state.primitiveOrImmutable = true;  
+                state._object = null;
+                state._primitiveOrImmutable = true;  
                 //-- handle immutable types, such as java.util.Locale
                 if (descriptor.isImmutable()) {
                     if (classDesc == null)
-                        classDesc = getClassDescriptor(_class);
-                    state.classDesc = classDesc;
+                        classDesc = getClassDescriptor(cls);
+                    state._classDesc = classDesc;
                     Arguments args = processConstructorArgs(atts, classDesc);
                     if ((args != null) && (args.size() > 0)) {
-                    	state.args = args;
+                    	state._args = args;
                     }
                 }
             }
             else {
                 if (classDesc == null)
-                    classDesc = getClassDescriptor(_class);
+                    classDesc = getClassDescriptor(cls);
                     
                 //-- XXXX should remove this test once we can
                 //-- XXXX come up with a better solution
-                if ((!state.derived) && useHandler) {
+                if ((!state._derived) && useHandler) {
 
                     boolean create = true;
                     if (_reuseObjects) {
-                        state.object = handler.getValue(parentState.object);
-                        create = (state.object == null);
+                        state._object = handler.getValue(parentState._object);
+                        create = (state._object == null);
                     }
                     if (create) {
                         Arguments args = processConstructorArgs(atts, classDesc);
@@ -2311,7 +2311,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                             if (handler instanceof ExtendedFieldHandler) {
                                 ExtendedFieldHandler efh = 
                                     (ExtendedFieldHandler)handler;
-                                state.object = efh.newInstance(parentState.object, args._values);
+                                state._object = efh.newInstance(parentState._object, args._values);
                             }
                             else {
                                 String err = "constructor arguments can only be " +
@@ -2320,7 +2320,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                             }
                         }
                         else {
-                            state.object = handler.newInstance(parentState.object);
+                            state._object = handler.newInstance(parentState._object);
                         }
                     }
                 }
@@ -2328,29 +2328,29 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 //-- between descriptor#getFieldType and
                 //-- handler#newInstance...I should hope not, but
                 //-- who knows
-                if (state.object != null) {
-                    _class = state.object.getClass();
+                if (state._object != null) {
+                    cls = state._object.getClass();
                     if (classDesc != null) {
-                        if (classDesc.getJavaClass() != _class) {
+                        if (classDesc.getJavaClass() != cls) {
                             classDesc = null;
                         }
                     }
                 }
                 else {
                     try {
-                        if (_class.isArray()) {
-                            state.object = new ArrayHandler(_class.getComponentType());
-                            _class = ArrayHandler.class;
+                        if (cls.isArray()) {
+                            state._object = new ArrayHandler(cls.getComponentType());
+                            cls = ArrayHandler.class;
                         }
                         else {
                             Arguments args = processConstructorArgs(atts, classDesc);
-                            state.object = createInstance(_class, args);
+                            state._object = createInstance(cls, args);
                             //state.object = _class.newInstance();
                         }
                     }
                     catch(java.lang.Exception ex) {
                         String err = "unable to instantiate a new type of: ";
-                        err += className(_class);
+                        err += className(cls);
                         err += "; " + ex.getMessage();
                         //storing causal exception using SAX non-standard method...
                         SAXException sx = new SAXException(err, ex);
@@ -2360,7 +2360,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     }
                 }
             }
-            state.type = _class;
+            state._type = cls;
         }
         catch (java.lang.IllegalStateException ise) {
             LOG.error(ise.toString());
@@ -2371,14 +2371,14 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         //-- we are dealing with a primitive type, or a special
         //-- case such as byte[]
         if (classDesc == null) {
-            classDesc = getClassDescriptor(_class);
+            classDesc = getClassDescriptor(cls);
         }
-        state.classDesc = classDesc;
+        state._classDesc = classDesc;
 
-        if ((state.object == null) && (!state.primitiveOrImmutable))
+        if ((state._object == null) && (!state._primitiveOrImmutable))
         {
             String err = "unable to unmarshal: " + name + "\n";
-            err += " - unable to instantiate: " + className(_class);
+            err += " - unable to instantiate: " + className(cls);
             throw new SAXException(err);
         }
 
@@ -2389,27 +2389,27 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             	LOG.debug("debug: Processing incrementally for element: " + name);
             }
             try {
-                handler.setValue(parentState.object, state.object);
+                handler.setValue(parentState._object, state._object);
             }
             catch(java.lang.IllegalStateException ise) {
                 String err = "unable to add \"" + name + "\" to ";
-                err += parentState.fieldDesc.getXMLName();
+                err += parentState._fieldDesc.getXMLName();
                 err += " due to the following error: " + ise;
                 throw new SAXException(err, ise);
             }
         }
 
-        if (state.object != null) {
+        if (state._object != null) {
             //--The object has just been initialized
             //--notify the listener
             if ( _unmarshalListener != null )
-                _unmarshalListener.initialized(state.object, (state.parent==null)?null:state.parent.object);
+                _unmarshalListener.initialized(state._object, (state._parent==null)?null:state._parent._object);
             processAttributes(atts, classDesc);
             if ( _unmarshalListener != null )
-                _unmarshalListener.attributesProcessed(state.object, (state.parent==null)?null:state.parent.object);
+                _unmarshalListener.attributesProcessed(state._object, (state._parent==null)?null:state._parent._object);
             processNamespaces(classDesc);
         }
-        else if ((state.type != null) && (!state.primitiveOrImmutable)) {
+        else if ((state._type != null) && (!state._primitiveOrImmutable)) {
             if (atts != null) {
                 processWrapperAttributes(atts);
                 StringBuffer buffer = new StringBuffer();
@@ -2424,7 +2424,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         	//-- check for special attributes, such as xsi:nil
             if (atts != null) {
             	String nil = atts.getValue(NIL_ATTR, XSI_NAMESPACE);
-                state.nil = "true".equals(nil);
+                state._nil = "true".equals(nil);
                 processWrapperAttributes(atts);
             }
         }
@@ -2724,10 +2724,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
 
         UnmarshalState state = (UnmarshalState) _stateInfo.peek();
-        Object object = state.object;
+        Object object = state._object;
 
         if (classDesc == null) {
-            classDesc = state.classDesc;
+            classDesc = state._classDesc;
             if (classDesc == null) {
                 //-- no class desc, cannot process atts
                 //-- except for wrapper/location atts
@@ -2776,7 +2776,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 processAttribute(name, namespace, attValue, descriptor, classDesc, object);
             } catch (IllegalStateException ise) {
                 String err = "unable to add attribute \"" + name + "\" to '";
-                err += state.classDesc.getJavaClass().getName();
+                err += state._classDesc.getJavaClass().getName();
                 err += "' due to the following error: " + ise;
                 throw new SAXException(err, ise);
             }
@@ -2803,7 +2803,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             if (XSI_NAMESPACE.equals(namespace)) {
                 if (NIL_ATTR.equals(name)) {
                     String value = atts.getValue(i);
-                    state.nil = ("true".equals(value));
+                    state._nil = ("true".equals(value));
                 }
                 continue;
             }
@@ -2816,7 +2816,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 //-- if you think otherwise...let use know!
                 if (LOG.isDebugEnabled()) {
                     String msg = "ignoring attribute '" + name + "' for class: "
-                               + state.classDesc.getJavaClass().getName();
+                               + state._classDesc.getJavaClass().getName();
                     LOG.debug(msg);
                 }
                 continue;
@@ -2832,25 +2832,25 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 //-- check for nested attribute...loop through
                 //-- stack and find correct descriptor
                 int pIdx = _stateInfo.size() - 2; //-- index of parentState
-                String path = state.elementName;
+                String path = state._elementName;
                 StringBuffer pathBuf = null;
                 while (pIdx >= 0) {
                     UnmarshalState targetState = (UnmarshalState) _stateInfo.elementAt(pIdx);
                     --pIdx;
-                    if (targetState.wrapper) {
+                    if (targetState._wrapper) {
                         //path = targetState.elementName + "/" + path;
                         if (pathBuf == null) {
                             pathBuf = new StringBuffer();
                         } else {
                             pathBuf.setLength(0);
                         }
-                        pathBuf.append(targetState.elementName);
+                        pathBuf.append(targetState._elementName);
                         pathBuf.append('/');
                         pathBuf.append(path);
                         path = pathBuf.toString();
                         continue;
                     }
-                    classDesc = targetState.classDesc;
+                    classDesc = targetState._classDesc;
                     descriptor = classDesc.getFieldDescriptor(name, namespace, NodeType.Attribute);
                 
                     if (descriptor != null) {
@@ -2868,7 +2868,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     } else {
                         pathBuf.setLength(0);
                     }
-                    pathBuf.append(targetState.elementName);
+                    pathBuf.append(targetState._elementName);
                     pathBuf.append('/');
                     pathBuf.append(path);
                     path = pathBuf.toString();
@@ -2884,7 +2884,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     //-- handle error
                     String error = "The attribute '" + name 
                         + "' appears illegally on element '" 
-                        + state.elementName + "'.";
+                        + state._elementName + "'.";
                     throw new SAXException(error);
                 }
                 continue;
@@ -2894,7 +2894,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 processAttribute(name, namespace, atts.getValue(i), descriptor, classDesc, object);
             } catch (IllegalStateException ise) {
                 String err = "unable to add attribute \"" + name + "\" to '";
-                err += state.classDesc.getJavaClass().getName();
+                err += state._classDesc.getJavaClass().getName();
                 err += "' due to the following error: " + ise;
                 throw new SAXException(err, ise);
             }
@@ -2929,26 +2929,26 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             //-- check for nested attribute...loop through
             //-- stack and find correct descriptor
             int pIdx = _stateInfo.size() - 2; //-- index of parentState
-            String path = state.elementName;
+            String path = state._elementName;
             StringBuffer pathBuf = null;
             UnmarshalState targetState = null;
             while (pIdx >= 0) {
                 targetState = (UnmarshalState) _stateInfo.elementAt(pIdx);
                 --pIdx;
-                if (targetState.wrapper) {
+                if (targetState._wrapper) {
                     //path = targetState.elementName + "/" + path;
                     if (pathBuf == null) {
                         pathBuf = new StringBuffer();
                     } else {
                         pathBuf.setLength(0);
                     }
-                    pathBuf.append(targetState.elementName);
+                    pathBuf.append(targetState._elementName);
                     pathBuf.append('/');
                     pathBuf.append(path);
                     path = pathBuf.toString();
                     continue;
                 }
-                classDesc = targetState.classDesc;
+                classDesc = targetState._classDesc;
                 
                 XMLFieldDescriptor[] descriptors = classDesc.getAttributeDescriptors();
                 boolean found = false;
@@ -2978,7 +2978,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 } else {
                     pathBuf.setLength(0);
                 }
-                pathBuf.append(targetState.elementName);
+                pathBuf.append(targetState._elementName);
                 pathBuf.append('/');
                 pathBuf.append(path);
                 path = pathBuf.toString();
@@ -2991,10 +2991,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             if (descriptor != null) {
                 try {
                     processAttribute(name, namespace, atts.getValue(i),
-                            descriptor, classDesc, targetState.object);
+                            descriptor, classDesc, targetState._object);
                 } catch (IllegalStateException ise) {
                     String err = "unable to add attribute \"" + name + "\" to '";
-                    err += state.classDesc.getJavaClass().getName();
+                    err += state._classDesc.getJavaClass().getName();
                     err += "' due to the following error: " + ise;
                     throw new SAXException(err, ise);
                 }
@@ -3057,7 +3057,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
             //-- save key in current state
             UnmarshalState state = (UnmarshalState) _stateInfo.peek();
-            state.key = attValue;
+            state._key = attValue;
 
             //-- resolve waiting references
             resolveReferences(attValue, parent);
@@ -3408,7 +3408,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     String nsURI = _namespaces.getNamespaceURI(nsPrefix);
                     if (nsURI == null) nsURI = "";
                     MapItem mapItem = new MapItem(nsPrefix, nsURI);
-                    handler.setValue(state.object, mapItem);
+                    handler.setValue(state._object, mapItem);
                 }
             }
         }
@@ -3482,33 +3482,30 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * Finds and returns an XMLClassDescriptor for the given class. If
      * a ClassDescriptor could not be found one will attempt to
      * be generated.
-     * @param _class the Class to get the ClassDescriptor for
+     * @param cls the Class to get the ClassDescriptor for
     **/
-    private XMLClassDescriptor getClassDescriptor(Class _class)
-        throws SAXException
-    {
-        if (_class == null) return null;
+    private XMLClassDescriptor getClassDescriptor(final Class cls)
+    throws SAXException {
+        if (cls == null) { return null; }
 
 
         //-- special case for strings
-        if (_class == String.class)
-            return _stringDescriptor;
+        if (cls == String.class) { return STRING_DESCRIPTOR; }
 
-        if (_class.isArray()) return null;
-        if (isPrimitive(_class)) return null;
+        if (cls.isArray()) { return null; }
+        if (isPrimitive(cls)) { return null; }
 
-// TODO: Joachim
+// TODO Joachim
 //        if (_cdResolver == null)
 //            _cdResolver = (XMLClassDescriptorResolver) 
 //                ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
 
         XMLClassDescriptor classDesc = null;
 
-
         try {
-            classDesc = (XMLClassDescriptor) getInternalContext().getXMLClassDescriptorResolver().resolve(_class);
-        }
-        catch(ResolverException rx) {
+            InternalContext ctx = getInternalContext();
+            classDesc = (XMLClassDescriptor) ctx.getXMLClassDescriptorResolver().resolve(cls);
+        } catch (ResolverException rx) {
             // TODO
         }
 
@@ -3517,11 +3514,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         }
 
         if (LOG.isDebugEnabled()) {
-        	LOG.debug(ERROR_DID_NOT_FIND_CLASSDESCRIPTOR + _class.getName());
+            LOG.debug(ERROR_DID_NOT_FIND_CLASSDESCRIPTOR + cls.getName());
         }
         
         return classDesc;
-    } //-- getClassDescriptor
+    }
 
 
     /**
@@ -3713,8 +3710,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             err += "unmarshal field " + fieldDesc.getFieldName();
             UnmarshalState state = (UnmarshalState) _stateInfo.peek();
             if (state != null) {
-                if (state.object != null) {
-                    err += " of class " + state.object.getClass().getName();
+                if (state._object != null) {
+                    err += " of class " + state._object.getClass().getName();
                 }
             }
             err += "\n";
@@ -3868,13 +3865,12 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     
     /**
      * A utility class for keeping track of the
-     * qName and how the SAX parser passed attributes
+     * qName and how the SAX parser passed attributes.
      */
     class ElementInfo {
-        
-        String qName = null;
-        Attributes attributes = null;
-        AttributeList attributeList = null;
+        private String _qName = null;
+        private Attributes _attributes = null;
+        private AttributeList _attributeList = null;
         
         ElementInfo() {
             super();
@@ -3882,20 +3878,20 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         
         ElementInfo(String qName, Attributes atts) {
             super();
-            this.qName = qName;
-            this.attributes = atts;
+            _qName = qName;
+            _attributes = atts;
         }
         
         ElementInfo(String qName, AttributeList atts) {
             super();
-            this.qName = qName;
-            this.attributeList = atts;
+            _qName = qName;
+            _attributeList = atts;
         }
         
         void clear() {
-            qName = null;
-            attributes = null;
-            attributeList = null;
+            _qName = null;
+            _attributes = null;
+            _attributeList = null;
         }
     } //-- ElementInfo
     

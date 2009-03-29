@@ -43,99 +43,73 @@
  * $Id$
  */
 
-
 package org.exolab.castor.dsml;
 
-
 /**
- *
- *
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
-public abstract class XML
-{
-
-
-    public static class Namespace
-    {
-
-	public static final String URI = "http://www.dsml.org/DSML";
-	public static final String Prefix = "dsml";
-	public static final String Root = "dsml";
-
+public abstract class XML {
+    public static class Namespace {
+        public static final String URI = "http://www.dsml.org/DSML";
+        public static final String PREFIX = "dsml";
+        public static final String ROOT = "dsml";
     }
 
+    public static class Schema {
+        public static final String ELEMENT = "directory-schema";
 
-    public static class Schema
-    {
-	
-	public static final String Element = "directory-schema";
+        public static class Elements {
+            public static final String NAME = "name";
+            public static final String DESCRIPTION = "description";
+            public static final String OID = "object-identifier";
+            public static final String CLASS = "class";
+            public static final String ATTRIBUTE = "attribute";
+            public static final String ATTRIBUTE_TYPE = "attribute-type";
+            public static final String SYNTAX = "syntax";
+            public static final String EQUALITY = "equality";
+            public static final String ORDERING = "ordering";
+            public static final String SUBSTRING = "substring";
+        }
 
-	public static class Elements
-	{
-	    public static final String Name = "name";
-	    public static final String Description = "description";
-	    public static final String OID = "object-identifier";
-	    public static final String Class = "class";
-	    public static final String Attribute = "attribute";
-	    public static final String AttributeType = "attribute-type";
-	    public static final String Syntax = "syntax";
-	    public static final String Equality = "equality";
-	    public static final String Ordering = "ordering";
-	    public static final String Substring = "substring";
-	}
+        public static class Attributes {
+            public static final String ID = "id";
+            public static final String SUPERIOR = "superior";
+            public static final String OBSOLETE = "obsolete";
+            public static final String TYPE = "type";
+            public static final String SINGLE_VALUE = "single-value";
+            public static final String USER_MODIFICATION = "user-modification";
+            public static final String REF = "ref";
+            public static final String REQUIRED = "required";
 
-	public static class Attributes
-	{
-	    public static final String Id = "id";
-	    public static final String Superior = "superior";
-	    public static final String Obsolete = "obsolete";
-	    public static final String Type = "type";
-	    public static final String SingleValue = "single-value";
-	    public static final String UserModification = "user-modification";
-	    public static final String Ref = "ref";
-	    public static final String Required = "required";
-
-	    public static class Types
-	    {
-		public static final String Structural = "structural";
-		public static final String Abstract = "abstract";
-		public static final String Auxiliary = "auxiliary";
-	    }
-	}
-
+            public static class Types {
+                public static final String STRUCTURAL = "structural";
+                public static final String ABSTRACT = "abstract";
+                public static final String AUXILIARY = "auxiliary";
+            }
+        }
     }
 
+    public static class Entries {
+        public static final String ELEMENT = "directory-entries";
+        
+        public static class Elements {
+            public static final String ENTRY = "entry";
+            public static final String OBJECT_CLASS = "objectclass";
+            public static final String OBJECT_CLASS_VALUE = "oc-value";
+            public static final String ATTRIBUTE = "attr";
+            public static final String VALUE = "value";
+        }
 
-    public static class Entries
-    {
+        public static class Attributes {
+            public static final String DN = "dn";
+            public static final String NAME = "name";
+            public static final String REF = "ref";
+            public static final String ENCODING = "encoding";
 
-	public static final String Element = "directory-entries";
-	
-	public static class Elements
-	{
-	    public static final String Entry = "entry";
-	    public static final String ObjectClass = "objectclass";
-	    public static final String OCValue = "oc-value";
-	    public static final String Attribute = "attr";
-	    public static final String Value = "value";
-	}
-
-	public static class Attributes
-	{
-	    public static final String DN = "dn";
-	    public static final String Name = "name";
-	    public static final String Ref = "ref";
-	    public static final String Encoding = "encoding";
-
-	    public static class Encodings
-	    {
-		public static final String Base64 = "base64";
-	    }
-	}
-
+            public static class Encodings {
+                public static final String BASE64 = "base64";
+            }
+        }
     }
-
-
 }
