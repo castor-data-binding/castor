@@ -98,7 +98,7 @@ public final class TestReadOnly extends CastorTestCase {
                 + Sample.class.getName() + " object WHERE id = $1");
         oql.bind(Sample.DEFAULT_ID);
 
-        Enumeration enumeration = oql.execute();
+        Enumeration<?> enumeration = oql.execute();
         Sample    object;
         if (enumeration.hasMoreElements()) {
             object = (Sample) enumeration.nextElement();
@@ -118,9 +118,9 @@ public final class TestReadOnly extends CastorTestCase {
      * database.
      */
     public void runTest() throws PersistenceException {
-        OQLQuery      oql;
-        Sample    object;
-        Enumeration   enumeration;
+        OQLQuery oql;
+        Sample object;
+        Enumeration<?> enumeration;
 
         // load an object using readOnly mode
         _db.begin();

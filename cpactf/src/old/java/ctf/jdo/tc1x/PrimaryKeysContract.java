@@ -45,16 +45,16 @@ package ctf.jdo.tc1x;
 import java.util.ArrayList;
 
 public final class PrimaryKeysContract {
-    private int                 _policy;
-    private int                 _contract;
-    private String              _comment;
+    private int _policy;
+    private int _contract;
+    private String _comment;
     private PrimaryKeysEmployee _employee;
-    private ArrayList           _category;
+    private ArrayList<PrimaryKeysCategory> _category;
     
     public PrimaryKeysContract() { }
 
-    public PrimaryKeysContract(final int policy, final int contract,
-                               final String comment) {
+    public PrimaryKeysContract(final int policy, 
+            final int contract, final String comment) {
         
         _policy = policy;
         _contract = contract;
@@ -73,6 +73,8 @@ public final class PrimaryKeysContract {
     public PrimaryKeysEmployee getEmployee() { return _employee; }
     public void setEmployee(final PrimaryKeysEmployee employee) { _employee = employee; }
 
-    public ArrayList getCategory() { return _category; }
-    public void setCategory(final ArrayList category) { _category = category; }
+    public ArrayList<PrimaryKeysCategory> getCategory() { return _category; }
+    public void setCategory(final ArrayList<PrimaryKeysCategory> category) {
+        _category = category;
+    }
 }

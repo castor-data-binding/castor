@@ -72,19 +72,19 @@ public final class TestSelfReferentialExtend extends CastorTestCase {
         assertNotNull(entity);
         assertEquals(new Integer(1), entity.getId());
         
-        List children = entity.getEntities();
+        List<SelfReferentialParent> children = entity.getEntities();
         assertNotNull(children);
         assertEquals(2, children.size());
         
-        Iterator childrenIterator = children.iterator();
+        Iterator<SelfReferentialParent> childrenIterator = children.iterator();
         
-        SelfReferentialParent child = (SelfReferentialParent) childrenIterator.next();
+        SelfReferentialParent child = childrenIterator.next();
         assertNotNull(child);
         assertEquals(2, child.getId().intValue());
         assertNotNull(child.getEntities());
         assertEquals(0, child.getEntities().size());
 
-        child = (SelfReferentialParent) childrenIterator.next();
+        child = childrenIterator.next();
         assertNotNull(child);
         assertEquals(3, child.getId().intValue());
         assertNotNull(child.getEntities());
@@ -108,19 +108,19 @@ public final class TestSelfReferentialExtend extends CastorTestCase {
         assertNotNull(entity);
         assertEquals(new Integer(1), entity.getId());
         
-        List children = entity.getEntities();
+        List<SelfReferentialParent> children = entity.getEntities();
         assertNotNull(children);
         assertEquals(2, children.size());
         
-        Iterator childrenIterator = children.iterator();
+        Iterator<SelfReferentialParent> childrenIterator = children.iterator();
         
-        SelfReferentialParent child = (SelfReferentialParent) childrenIterator.next();
+        SelfReferentialParent child = childrenIterator.next();
         assertNotNull(child);
         assertEquals(2, child.getId().intValue());
         assertNotNull(child.getEntities());
         assertEquals(0, child.getEntities().size());
 
-        child = (SelfReferentialParent) childrenIterator.next();
+        child = childrenIterator.next();
         assertNotNull(child);
         assertEquals(3, child.getId().intValue());
         assertNotNull(child.getEntities());
@@ -144,19 +144,19 @@ public final class TestSelfReferentialExtend extends CastorTestCase {
         assertNotNull(child);
         assertEquals(new Integer(1), child.getId());
         
-        List children = child.getEntities();
+        List<SelfReferentialParent> children = child.getEntities();
         assertNotNull(children);
         assertEquals(2, children.size());
         
-        Iterator childrenIterator = children.iterator();
+        Iterator<SelfReferentialParent> childrenIterator = children.iterator();
         
-        SelfReferentialParent entity = (SelfReferentialParent) childrenIterator.next();
+        SelfReferentialParent entity = childrenIterator.next();
         assertNotNull(entity);
         assertEquals(2, entity.getId().intValue());
         assertNotNull(entity.getEntities());
         assertEquals(0, entity.getEntities().size());
 
-        entity = (SelfReferentialParent) childrenIterator.next();
+        entity = childrenIterator.next();
         assertNotNull(entity);
         assertEquals(3, entity.getId().intValue());
         assertNotNull(entity.getEntities());

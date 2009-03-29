@@ -115,7 +115,7 @@ public final class TestI2DConverter extends TestCase {
     @Ignore
     class TestDescriptorResolutionCommand implements ClassDescriptorResolutionCommand {
         
-        public ClassDescriptor resolve(final Class type) {
+        public ClassDescriptor resolve(final Class<?> type) {
             try {
                 return InfoToDescriptorConverter.convert(
                         _classBuilder.buildClassInfo(type), this);

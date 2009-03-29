@@ -52,14 +52,14 @@ import java.util.Set;
  * Test object for different collection types.
  */
 public final class ColSet extends Col {
-    private Set _item;
+    private Set<Item> _item;
 
     public boolean containsItem(final Item item) {
         if ((_item == null) || (_item.size() == 0)) { return false; }
         return _item.contains(item);
     }
 
-    public Iterator itemIterator() {
+    public Iterator<Item> itemIterator() {
         if ((_item == null) || (_item.size() == 0)) { return EMPTY_ITORATOR; }
         return _item.iterator();
     }
@@ -76,12 +76,12 @@ public final class ColSet extends Col {
         return _item.size();
     }
 
-    public void setItem(final Set items) { _item = items; }
+    public void setItem(final Set<Item> items) { _item = items; }
 
-    public Set getItem() { return _item; }
+    public Set<Item> getItem() { return _item; }
 
     public void addItem(final Item item) {
-        if (_item == null) { _item = new HashSet(); }
+        if (_item == null) { _item = new HashSet<Item>(); }
         _item.add(item);
         item.setTestCol(this);
     }

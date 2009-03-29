@@ -114,7 +114,7 @@ public final class TestCacheFactoryRegistry extends TestCase {
 
     public void testGetCacheNames() {
         AbstractProperties properties = CPAProperties.newInstance();
-        Collection col = new CacheFactoryRegistry(properties).getCacheNames();
+        Collection<String> col = new CacheFactoryRegistry(properties).getCacheNames();
         assertEquals(13, col.size());
         assertTrue(col.contains(CountLimited.TYPE));
         assertTrue(col.contains(NoCache.TYPE));
@@ -133,7 +133,7 @@ public final class TestCacheFactoryRegistry extends TestCase {
 
     public void testGetCacheFactories() {
         AbstractProperties properties = CPAProperties.newInstance();
-        Collection col = new CacheFactoryRegistry(properties).getCacheFactories();
+        Collection<CacheFactory> col = new CacheFactoryRegistry(properties).getCacheFactories();
         assertEquals(13, col.size());
         assertTrue(containsInstanceOf(col, CountLimitedFactory.class));
         assertTrue(containsInstanceOf(col, NoCacheFactory.class));
@@ -150,11 +150,12 @@ public final class TestCacheFactoryRegistry extends TestCase {
         assertTrue(containsInstanceOf(col, GigaspacesCacheFactory.class));
     }
     
-    private boolean containsInstanceOf(final Collection col, final Class cls) {
-        Iterator iter = col.iterator();
+    private boolean containsInstanceOf(final Collection<CacheFactory> col,
+            final Class<? extends CacheFactory> cls) {
+        Iterator<CacheFactory> iter = col.iterator();
         while (iter.hasNext()) {
-            Object object = iter.next();
-            if (cls.isInstance(object)) { return true; }
+            CacheFactory factory = iter.next();
+            if (cls.isInstance(factory)) { return true; }
         }
         return false;
     }

@@ -192,7 +192,7 @@ public final class TestFastIteratingContainer extends TestCase {
     public void testPutAll() {
         Container container = initialize();
 
-        HashMap map = new HashMap();
+        HashMap<String, String> map = new HashMap<String, String>();
         map.put("fourth key", "forth value");
         map.put("fifth key", "fifth value");
         
@@ -208,7 +208,7 @@ public final class TestFastIteratingContainer extends TestCase {
     public void testKeySet() {
         Container container = initialize();
 
-        Set set = container.keySet();
+        Set<Object> set = container.keySet();
         
         assertEquals(3, set.size());
         assertTrue(set.contains("first key"));
@@ -219,7 +219,7 @@ public final class TestFastIteratingContainer extends TestCase {
     public void testValues() {
         Container container = initialize();
 
-        Collection col = container.values();
+        Collection<Object> col = container.values();
         
         assertEquals(3, col.size());
         assertTrue(col.contains("first value"));
@@ -230,15 +230,13 @@ public final class TestFastIteratingContainer extends TestCase {
     public void testEntrySet() {
         Container container = initialize();
 
-        Set set = container.entrySet();
+        Set<Map.Entry<Object, Object>> set = container.entrySet();
         
         assertEquals(3, set.size());
         
-        Object[] objs = set.toArray();
-        HashMap map = new HashMap();
-        for (int i = 0; i < 3; i++) {
-            assertTrue(objs[i] instanceof Map.Entry);
-            Map.Entry entry = (Map.Entry) objs[i];
+        HashMap<Object, Object> map = new HashMap<Object, Object>();
+        for (Iterator<Map.Entry<Object, Object>> iter = set.iterator(); iter.hasNext();) {
+            Map.Entry<Object, Object> entry = iter.next();
             map.put(entry.getKey(), entry.getValue());
         }
 
@@ -254,7 +252,7 @@ public final class TestFastIteratingContainer extends TestCase {
 
     public void testKeyIterator() {
         Container container = new FastIteratingContainer();
-        Iterator iter = container.keyIterator();
+        Iterator<Object> iter = container.keyIterator();
         assertNotNull(iter);
         assertFalse(iter.hasNext());
         
@@ -275,7 +273,7 @@ public final class TestFastIteratingContainer extends TestCase {
     
     public void testValueIterator() {
         Container container = new FastIteratingContainer();
-        Iterator iter = container.valueIterator();
+        Iterator<Object> iter = container.valueIterator();
         assertNotNull(iter);
         assertFalse(iter.hasNext());
         

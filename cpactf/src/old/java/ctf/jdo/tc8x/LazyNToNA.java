@@ -47,7 +47,7 @@ import java.util.Collection;
 public class LazyNToNA {
     private String _id;
     private int _status;
-    private Collection _refs;
+    private Collection<LazyNToNB> _refs;
 
     public void setIdA(final String id) { _id = id; }
     public String getIdA() { return _id; }
@@ -55,8 +55,8 @@ public class LazyNToNA {
     public void setStatusA(final int status) { _status = status; }
     public int getStatusA() { return _status; }
     
-    public void setRefs(final Collection refs) { _refs = refs; }
-    public Collection getRefs() { return _refs; }
+    public void setRefs(final Collection<LazyNToNB> refs) { _refs = refs; }
+    public Collection<LazyNToNB> getRefs() { return _refs; }
     
     public int hashCode() {
         return (_id == null) ? 0 : _id.hashCode();

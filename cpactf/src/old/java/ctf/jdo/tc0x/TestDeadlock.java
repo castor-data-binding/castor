@@ -144,8 +144,8 @@ public final class TestDeadlock extends CastorTestCase {
         _firstDb = _category.getDatabase();
         _secondDb = _category.getDatabase();
 
-        Sample    object;
-        Enumeration   enumeration;
+        Sample object;
+        Enumeration<?> enumeration;
         
         // Open transaction in order to perform JDO operations
         _db.begin();

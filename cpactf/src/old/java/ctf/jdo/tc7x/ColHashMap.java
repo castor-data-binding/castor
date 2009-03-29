@@ -51,7 +51,7 @@ import java.util.Iterator;
  * Test object for different collection types.
  */
 public final class ColHashMap extends Col {
-    private HashMap _item;
+    private HashMap<Integer, Item> _item;
 
     public boolean containsItem(final Item item) {
         if ((_item == null) || (_item.size() == 0)) { return false; }
@@ -70,17 +70,17 @@ public final class ColHashMap extends Col {
         return _item.size();
     }
 
-    public Iterator itemIterator() {
+    public Iterator<Item> itemIterator() {
         if ((_item == null) || (_item.size() == 0)) { return EMPTY_ITORATOR; }
         return _item.values().iterator();
     }
 
-    public HashMap getItem() { return _item; }
+    public HashMap<Integer, Item> getItem() { return _item; }
 
-    public void setItem(final HashMap item) { _item = item; }
+    public void setItem(final HashMap<Integer, Item> item) { _item = item; }
 
     public void addItem(final Item item) {
-        if (_item == null) { _item = new HashMap(); }
+        if (_item == null) { _item = new HashMap<Integer, Item>(); }
         _item.put(new Integer(item.getId()), item);
         item.setTestCol(this);
     }

@@ -55,7 +55,7 @@ public final class ManyGroupKeyGen implements TimeStampable {
     private int    _id;
     private long    _timeStamp;
     private String _value;
-    private Collection _people;
+    private Collection<ManyPersonKeyGen> _people;
 
     public int getId() { return _id; }
     public void setId(final int id) { _id = id; }
@@ -63,8 +63,8 @@ public final class ManyGroupKeyGen implements TimeStampable {
     public String getValue1() { return _value; }
     public void setValue1(final String value) { _value = value; }
 
-    public Collection getPeople() { return _people; }
-    public void setPeople(final Collection people) { _people = people; }
+    public Collection<ManyPersonKeyGen> getPeople() { return _people; }
+    public void setPeople(final Collection<ManyPersonKeyGen> people) { _people = people; }
 
     public long jdoGetTimeStamp() { return _timeStamp; }
     public void jdoSetTimeStamp(final long timeStamp) { _timeStamp = timeStamp; }

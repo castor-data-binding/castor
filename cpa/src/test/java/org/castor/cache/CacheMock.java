@@ -34,7 +34,7 @@ public final class CacheMock extends AbstractBaseCache {
     public static final String TYPE = "mock";
     
     /** The internal map. */
-    private Map _map = new HashMap();
+    private Map<Object, Object> _map = new HashMap<Object, Object>();
     
     //--------------------------------------------------------------------------
     
@@ -105,7 +105,7 @@ public final class CacheMock extends AbstractBaseCache {
     /**
      * @see java.util.Map#putAll(java.util.Map)
      */
-    public void putAll(final Map map) { _map.putAll(map); }
+    public void putAll(final Map<? extends Object, ?extends Object> map) { _map.putAll(map); }
 
     /**
      * @see java.util.Map#clear()
@@ -118,17 +118,17 @@ public final class CacheMock extends AbstractBaseCache {
     /**
      * @see java.util.Map#keySet()
      */
-    public Set keySet() { return _map.keySet(); }
+    public Set<Object> keySet() { return _map.keySet(); }
 
     /**
      * @see java.util.Map#values()
      */
-    public Collection values() { return _map.values(); }
+    public Collection<Object> values() { return _map.values(); }
 
     /**
      * @see java.util.Map#entrySet()
      */
-    public Set entrySet() { return _map.entrySet(); }
+    public Set<Entry<Object, Object>> entrySet() { return _map.entrySet(); }
 
     //--------------------------------------------------------------------------
 }

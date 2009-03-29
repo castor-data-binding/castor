@@ -22,7 +22,7 @@ import org.exolab.castor.jdo.TimeStampable;
 
 public final class ComposedProduct extends Product1893 implements TimeStampable {
     private String _name;
-    private Vector _subProducts = new Vector();
+    private Vector<Product1893> _subProducts = new Vector<Product1893>();
 
     public String getExtraName() { return _name; }
     public void setExtraName(final String name) { _name = name; }
@@ -30,11 +30,11 @@ public final class ComposedProduct extends Product1893 implements TimeStampable 
     public String getExtraDescription() { return _name; }
     public void setExtraDescription(final String name) { _name = name; }
 
-    public Vector getSubProducts() { return _subProducts; }
-    public void setSubProducts(final Vector products) {
-        Iterator i = products.iterator();
+    public Vector<Product1893> getSubProducts() { return _subProducts; }
+    public void setSubProducts(final Vector<Product1893> products) {
+        Iterator<Product1893> i = products.iterator();
         while (i.hasNext()) {
-            ComposedProduct cp = (ComposedProduct) i.next();
+            Product1893 cp = i.next();
             if (!_subProducts.contains(cp)) {
                 _subProducts.add(cp);
                 cp.addComposition(this);

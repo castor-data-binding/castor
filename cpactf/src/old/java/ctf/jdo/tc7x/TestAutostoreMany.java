@@ -87,7 +87,7 @@ public class TestAutostoreMany extends CastorTestCase {
         AutostoreAssociatedMany entityTwo = new AutostoreAssociatedMany();
         entityTwo.setId(new Integer(200));
         entityTwo.setName("entity1.200");
-        List associatedManys = Collections.singletonList(entityTwo);
+        List<AutostoreAssociatedMany> associatedManys = Collections.singletonList(entityTwo);
         AutostoreMainMany entityOne = new AutostoreMainMany();
         entityOne.setId(new Integer(200));
         entityOne.setName("entity2.200");
@@ -144,8 +144,8 @@ public class TestAutostoreMany extends CastorTestCase {
         assertEquals("entity1.300", entityOne.getName());
         assertNotNull(entityOne.getAssociatedMany());
         
-        List associatedManys = entityOne.getAssociatedMany();
-        entityTwo = (AutostoreAssociatedMany) associatedManys.iterator().next();
+        List<AutostoreAssociatedMany> associatedManys = entityOne.getAssociatedMany();
+        entityTwo = associatedManys.iterator().next();
         assertEquals(300, entityTwo.getId().intValue());
         assertEquals("entity2.300", entityTwo.getName());
         db.commit();
@@ -202,7 +202,7 @@ public class TestAutostoreMany extends CastorTestCase {
         AutostoreAssociatedMany entityTwo = new AutostoreAssociatedMany();
         entityTwo.setId(new Integer(300));
         entityTwo.setName("entity2.300");
-        List manys = new ArrayList();
+        List<AutostoreAssociatedMany> manys = new ArrayList<AutostoreAssociatedMany>();
         manys.add(entityTwo);
         AutostoreMainMany entityOne = new AutostoreMainMany();
         entityOne.setId(new Integer(300));
@@ -220,8 +220,7 @@ public class TestAutostoreMany extends CastorTestCase {
         assertNotNull(entityOne.getAssociatedMany());
         assertEquals(1, entityOne.getAssociatedMany().size());
         
-        AutostoreAssociatedMany many = (AutostoreAssociatedMany) 
-            entityOne.getAssociatedMany().iterator().next();
+        AutostoreAssociatedMany many = entityOne.getAssociatedMany().iterator().next();
         assertEquals(300, many.getId().intValue());
         db.commit();
 
@@ -285,20 +284,18 @@ public class TestAutostoreMany extends CastorTestCase {
         assertNotNull(entity);
         assertEquals(new Integer(1), entity.getId());
         
-        List associatedManys = entity.getAssociatedMany();
+        List<AutostoreAssociatedMany> associatedManys = entity.getAssociatedMany();
         
         assertNotNull(associatedManys);
         
-        Iterator iter = associatedManys.iterator();
+        Iterator<AutostoreAssociatedMany> iter = associatedManys.iterator();
         
         assertTrue(iter.hasNext());
-        AutostoreAssociatedMany associatedMany = (AutostoreAssociatedMany) 
-            iter.next();
+        AutostoreAssociatedMany associatedMany = iter.next();
         assertEquals(new Integer(1), associatedMany.getId());
         
         assertTrue(iter.hasNext());
-        associatedMany = (AutostoreAssociatedMany) 
-        iter.next();
+        associatedMany = iter.next();
         assertEquals(new Integer(2), associatedMany.getId());
 
         assertFalse(iter.hasNext());

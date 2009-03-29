@@ -82,9 +82,9 @@ public final class TestStoredProcedure extends CastorTestCase {
     }
 
     public void runTest() throws PersistenceException {
-        OQLQuery      oql;
-        Entity        object;
-        Enumeration   enumeration;
+        OQLQuery oql;
+        Entity object;
+        Enumeration<?> enumeration;
         
         // Open transaction in order to perform JDO operations
         _db.begin();        

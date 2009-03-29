@@ -88,7 +88,7 @@ public final class TestCache extends CastorTestCase {
      * from the cache.
      */
     private void testTimeLimitedExpiring() throws CacheAcquireException {
-        List expiredTooFast = new ArrayList();
+        List<CacheEntry> expiredTooFast = new ArrayList<CacheEntry>();
         TimeLimitedTest cache = new TimeLimitedTest(EXPIRE_SEC, expiredTooFast);
         try {
             LOG.info("Putting some entries in the cache...");
@@ -117,9 +117,9 @@ public final class TestCache extends CastorTestCase {
     }
 
     class TimeLimitedTest extends TimeLimited {
-        private List _expiredTooFast;
+        private List<CacheEntry> _expiredTooFast;
 
-        TimeLimitedTest(final int interval, final List expiredTooFast)
+        TimeLimitedTest(final int interval, final List<CacheEntry> expiredTooFast)
         throws CacheAcquireException {
             super();
             

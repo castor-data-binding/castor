@@ -45,9 +45,9 @@ package ctf.jdo.tc1x;
 import java.util.ArrayList;
 
 public final class PrimaryKeysCategory {
-    private int         _id;
-    private String      _name;
-    private ArrayList   _contract;
+    private int _id;
+    private String _name;
+    private ArrayList<PrimaryKeysContract> _contract;
     
     public PrimaryKeysCategory() { }
 
@@ -62,6 +62,8 @@ public final class PrimaryKeysCategory {
     public String getName() { return _name; }
     public void setName(final String name) { _name = name; }
     
-    public ArrayList getContract() { return _contract; }
-    public void setContract(final ArrayList contract) { _contract = contract; }
+    public ArrayList<PrimaryKeysContract> getContract() { return _contract; }
+    public void setContract(final ArrayList<PrimaryKeysContract> contract) {
+        _contract = contract;
+    }
 }

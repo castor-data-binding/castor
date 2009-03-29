@@ -25,7 +25,8 @@ public final class AutostoreMainMany {
     
     private Integer _id;
     private String _name;
-    private List _associatedMany = new ArrayList();
+    private List<AutostoreAssociatedMany> _associatedMany =
+        new ArrayList<AutostoreAssociatedMany>();
 
     public Integer getId() {
         return _id;
@@ -43,11 +44,11 @@ public final class AutostoreMainMany {
         _name = name;
     }
 
-    public List getAssociatedMany() {
+    public List<AutostoreAssociatedMany> getAssociatedMany() {
         return _associatedMany;
     }
 
-    public void setAssociatedMany(final List associatedMany) {
-        this._associatedMany = associatedMany;
+    public void setAssociatedMany(final List<AutostoreAssociatedMany> associatedMany) {
+        _associatedMany = associatedMany;
     }
 }

@@ -55,7 +55,7 @@ public final class DetailKeyGen {
     private int _id;
     private String _value;
     private MasterKeyGen _master;
-    private ArrayList _details2;
+    private ArrayList<DetailKeyGen2> _details2;
     private DetailKeyGen3 _detail3;
 
     public DetailKeyGen(final int id) {
@@ -65,7 +65,7 @@ public final class DetailKeyGen {
 
     public DetailKeyGen() {
         _value = DEFAULT_VALUE;
-        _details2 = new ArrayList();
+        _details2 = new ArrayList<DetailKeyGen2>();
     }
 
     public void setId(final int id) { _id = id; }
@@ -78,21 +78,18 @@ public final class DetailKeyGen {
     public MasterKeyGen getMaster() { return _master; }
 
     public DetailKeyGen2 createDetail2() { return new DetailKeyGen2(); }
-    public void setDetails2(final ArrayList list) { _details2 = list; }
-    public ArrayList getDetails2() { return _details2; }
+    public void setDetails2(final ArrayList<DetailKeyGen2> list) { _details2 = list; }
+    public ArrayList<DetailKeyGen2> getDetails2() { return _details2; }
     public void addDetail2(final DetailKeyGen2 detail2) {
         _details2.add(detail2);
         detail2.setDetail(this);
     }
     public DetailKeyGen2 findDetail2(final int id) {
-        Iterator enumeration;
-        DetailKeyGen2 detail2;
-
         if (_details2 == null) { return null; }
 
-        enumeration = _details2.iterator();
+        Iterator<DetailKeyGen2> enumeration = _details2.iterator();
         while (enumeration.hasNext()) {
-            detail2 = (DetailKeyGen2) enumeration.next();
+            DetailKeyGen2 detail2 = enumeration.next();
             if (detail2.getId() == id) { return detail2; }
         }
         return null;

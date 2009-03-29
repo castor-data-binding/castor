@@ -93,9 +93,6 @@ public final class TestTypeConversion extends CastorTestCase {
     }
 
     public void setUp() throws PersistenceException, SQLException {
-        TypeConversion      types;
-        Enumeration         enumeration;
-
         // Open transaction in order to perform JDO operations
         _db = _category.getDatabase();
 
@@ -107,9 +104,9 @@ public final class TestTypeConversion extends CastorTestCase {
                 + TypeConversion.class.getName() + " types WHERE id = $1");
         // This one tests that bind performs type conversion
         _oql.bind(new Integer(TypeConversion.DEFAULT_ID));
-        enumeration = _oql.execute();
+        Enumeration<?> enumeration = _oql.execute();
         if (enumeration.hasMoreElements()) {
-            types = (TypeConversion) enumeration.nextElement();
+            TypeConversion types = (TypeConversion) enumeration.nextElement();
             // reset all value to default
             types.setBoolByte(false);
             types.setBoolShort(false);
@@ -141,7 +138,7 @@ public final class TestTypeConversion extends CastorTestCase {
 
             LOG.debug("Updating object: " + types);
         } else {
-            types = new TypeConversion();
+            TypeConversion types = new TypeConversion();
             LOG.debug("Creating new object: " + types);
             types.setId(TypeConversion.DEFAULT_ID);
             _db.create(types);

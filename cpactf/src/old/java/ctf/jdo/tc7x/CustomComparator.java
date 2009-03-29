@@ -11,23 +11,12 @@ package ctf.jdo.tc7x;
 
 import java.util.Comparator;
 
-public final class CustomComparator implements Comparator {
-    public int compare(final Object arg0, final Object arg1) {
+public final class CustomComparator implements Comparator<SortedContainerItem> {
+    public int compare(final SortedContainerItem arg0, final SortedContainerItem arg1) {
         if (arg0 == null || arg1 == null) {
             throw new NullPointerException ("Objects to compare cannot be null");
         }
         
-        if (!(arg0 instanceof SortedContainerItem)) {
-            throw new ClassCastException(
-                    "Problem converting objects to compare to EntityTwo");
-        }
-
-        if (!(arg0 instanceof SortedContainerItem)) {
-            throw new ClassCastException(
-                    "Problem converting objects to compare to EntityTwo");
-        }
-        
-        return ((SortedContainerItem) arg0).getId().compareTo(
-                ((SortedContainerItem) arg1).getId());
+        return arg0.getId().compareTo(arg1.getId());
     }
 }

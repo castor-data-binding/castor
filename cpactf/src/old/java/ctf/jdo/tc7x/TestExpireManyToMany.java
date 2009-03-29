@@ -231,7 +231,10 @@ public final class TestExpireManyToMany extends CastorTestCase {
         log("creating test data set...");
         ManyGroup groupA, groupB, groupC, groupD;
         ManyPerson person1, person2, person3, person4;
-        ArrayList al, bl, c1, d1;
+        ArrayList<ManyPerson> al;
+        ArrayList<ManyPerson> bl;
+        ArrayList<ManyPerson> c1;
+        ArrayList<ManyPerson> d1;
         Database db = null;
         try {
             db = this._category.getDatabase();
@@ -241,7 +244,7 @@ public final class TestExpireManyToMany extends CastorTestCase {
             // create four persons
             //
             person1 = new ManyPerson();
-            ArrayList gPerson1 = new ArrayList();
+            ArrayList<ManyGroup> gPerson1 = new ArrayList<ManyGroup>();
             person1.setId(_person1Id);
             person1.setGroup(gPerson1);
             person1.setSthelse("Something else");
@@ -249,7 +252,7 @@ public final class TestExpireManyToMany extends CastorTestCase {
             person1.setValue1(JDO_ORIGINAL_VALUE);
 
             person2 = new ManyPerson();
-            ArrayList gPerson2 = new ArrayList();
+            ArrayList<ManyGroup> gPerson2 = new ArrayList<ManyGroup>();
             person2.setId(_person2Id);
             person2.setGroup(gPerson2);
             person2.setSthelse("Something else");
@@ -257,7 +260,7 @@ public final class TestExpireManyToMany extends CastorTestCase {
             person2.setValue1(JDO_ORIGINAL_VALUE);
 
             person3 = new ManyPerson();
-            ArrayList gPerson3 = new ArrayList();
+            ArrayList<ManyGroup> gPerson3 = new ArrayList<ManyGroup>();
             person3.setId(_person3Id);
             person3.setGroup(gPerson3);
             person3.setSthelse("Something else for person 3");
@@ -265,7 +268,7 @@ public final class TestExpireManyToMany extends CastorTestCase {
             person3.setValue1(JDO_ORIGINAL_VALUE);
 
             person4 = new ManyPerson();
-            ArrayList gPerson4 = new ArrayList();
+            ArrayList<ManyGroup> gPerson4 = new ArrayList<ManyGroup>();
             person4.setId(_person4Id);
             person4.setGroup(gPerson4);
             person4.setSthelse("Something else for person 4");
@@ -277,7 +280,7 @@ public final class TestExpireManyToMany extends CastorTestCase {
             //
             groupA = new ManyGroup();
             groupA.setValue1(JDO_ORIGINAL_VALUE);
-            al = new ArrayList();
+            al = new ArrayList<ManyPerson>();
             al.add(person1);
             al.add(person2);
             al.add(person3);
@@ -288,7 +291,7 @@ public final class TestExpireManyToMany extends CastorTestCase {
             groupB = new ManyGroup();
             groupB.setValue1(JDO_ORIGINAL_VALUE);
             groupB.setId(_groupBId);
-            bl = new ArrayList();
+            bl = new ArrayList<ManyPerson>();
             bl.add(person1);
             bl.add(person2);
             bl.add(person3);
@@ -297,7 +300,7 @@ public final class TestExpireManyToMany extends CastorTestCase {
 
             groupC = new ManyGroup();
             groupC.setValue1(JDO_ORIGINAL_VALUE);
-            c1 = new ArrayList();
+            c1 = new ArrayList<ManyPerson>();
             c1.add(person1);
             c1.add(person2);
             c1.add(person3);
@@ -307,7 +310,7 @@ public final class TestExpireManyToMany extends CastorTestCase {
 
             groupD = new ManyGroup();
             groupD.setValue1(JDO_ORIGINAL_VALUE);
-            d1 = new ArrayList();
+            d1 = new ArrayList<ManyPerson>();
             d1.add(person1);
             d1.add(person2);
             d1.add(person3);
@@ -420,7 +423,7 @@ public final class TestExpireManyToMany extends CastorTestCase {
         try {
             CacheManager cacheManager = _db.getCacheManager();
             if (byType) {
-                Class[] typeArray = new Class[2];
+                Class<?>[] typeArray = new Class[2];
                 typeArray[0] = ManyGroup.class;
                 typeArray[1] = ManyPerson.class;
                 cacheManager.expireCache(typeArray);
@@ -460,9 +463,9 @@ public final class TestExpireManyToMany extends CastorTestCase {
                 valid = false;
             }
             if (checkPeople) {
-                Iterator itor = group.getPeople().iterator();
+                Iterator<ManyPerson> itor = group.getPeople().iterator();
                 while (itor.hasNext()) {
-                    ManyPerson person = (ManyPerson) itor.next();
+                    ManyPerson person = itor.next();
                     if (person.getValue1().compareTo(expectedValue) != 0) {
                         log("validReadTransaction: value in person " + person.getId()
                                 + " does not match expected value, value: "
@@ -502,9 +505,9 @@ public final class TestExpireManyToMany extends CastorTestCase {
             db.begin();
             ManyGroup group = (ManyGroup) db.load(ManyGroup.class, new Integer(groupId));
             group.setValue1(JDO_UPDATED_VALUE);
-            Iterator itor = group.getPeople().iterator();
+            Iterator<ManyPerson> itor = group.getPeople().iterator();
             while (itor.hasNext()) {
-                ManyPerson person = (ManyPerson) itor.next();
+                ManyPerson person = itor.next();
                 person.setValue1(JDO_UPDATED_VALUE);
             }
             db.commit();

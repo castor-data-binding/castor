@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class SuperSubscription extends Subscription {
-    private Collection _credits = new ArrayList();
+    private Collection<Credit> _credits = new ArrayList<Credit>();
     
-    public final Collection getCredits() { return _credits; }
-    public final void setCredits(final Collection credits) { _credits = credits; }
+    public final Collection<Credit> getCredits() { return _credits; }
+    public final void setCredits(final Collection<Credit> credits) { _credits = credits; }
 }

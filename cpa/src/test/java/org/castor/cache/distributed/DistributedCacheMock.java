@@ -27,7 +27,7 @@ import java.util.Set;
  * @version $Revision$ $Date: 2006-04-29 03:57:35 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */
-public final class DistributedCacheMock implements Map {
+public final class DistributedCacheMock implements Map<Object, Object> {
     //--------------------------------------------------------------------------
     
     /** Exception to be thrown for testing when calling any method. */
@@ -37,7 +37,7 @@ public final class DistributedCacheMock implements Map {
     private static int _counter = 0;
     
     /** The internal map. */
-    private Map _map;
+    private Map<Object, Object> _map;
     
     //--------------------------------------------------------------------------
     // methods to set test behaviour and check test execution
@@ -121,7 +121,7 @@ public final class DistributedCacheMock implements Map {
     /**
      * @see java.util.Map#putAll(java.util.Map)
      */
-    public void putAll(final Map map) { _map.putAll(map); }
+    public void putAll(final Map<? extends Object, ? extends Object> map) { _map.putAll(map); }
 
     /**
      * @see java.util.Map#clear()
@@ -134,17 +134,17 @@ public final class DistributedCacheMock implements Map {
     /**
      * @see java.util.Map#keySet()
      */
-    public Set keySet() { return _map.keySet(); }
+    public Set<Object> keySet() { return _map.keySet(); }
 
     /**
      * @see java.util.Map#values()
      */
-    public Collection values() { return _map.values(); }
+    public Collection<Object> values() { return _map.values(); }
 
     /**
      * @see java.util.Map#entrySet()
      */
-    public Set entrySet() { return _map.entrySet(); }
+    public Set<Entry<Object, Object>> entrySet() { return _map.entrySet(); }
 
     //--------------------------------------------------------------------------
 }

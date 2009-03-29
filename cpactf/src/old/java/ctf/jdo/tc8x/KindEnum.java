@@ -20,13 +20,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public final class KindEnum implements Cloneable, Comparable, Serializable {
+public final class KindEnum implements Cloneable, Comparable<KindEnum>, Serializable {
     //------------------------------------------------------------------------
 
     /** SerialVersionUID */
     private static final long serialVersionUID = -4999799304409658395L;
 
-    private static final Map            KINDS = new HashMap();
+    private static final Map<String, KindEnum> KINDS = new HashMap<String, KindEnum>();
 
     public static final KindEnum MOUSE = new KindEnum("Mouse");
     public static final KindEnum KEYBOARD = new KindEnum("Keyboard");
@@ -44,10 +44,10 @@ public final class KindEnum implements Cloneable, Comparable, Serializable {
     }
 
     public static KindEnum valueOf(final String kind) {
-        return (KindEnum) KINDS.get(kind);
+        return KINDS.get(kind);
     }
 
-    public static Iterator iterator() {
+    public static Iterator<KindEnum> iterator() {
         return KINDS.values().iterator();
     }
 
@@ -98,8 +98,8 @@ public final class KindEnum implements Cloneable, Comparable, Serializable {
      * @return A negative integer, zero, or a positive integer as this object
      *         is less than, equal to, or greater than the specified object.
      */
-    public int compareTo(final Object other) {
-        return _kind.compareTo(((KindEnum) other)._kind);
+    public int compareTo(final KindEnum other) {
+        return _kind.compareTo(other._kind);
     }
 
     /**

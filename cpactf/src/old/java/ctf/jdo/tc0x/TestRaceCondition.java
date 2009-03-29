@@ -81,21 +81,21 @@ public final class TestRaceCondition extends CastorTestCase {
 
     private static final int NUM_OF_TRIALS = 5;
 
-    private JDOCategory    _category;
+    private JDOCategory _category;
 
-    private Database       _masterDB;
+    private Database _masterDB;
 
-    private Database[]     _dbForRace;
+    private Database[] _dbForRace;
 
-    private Connection     _conn;
+    private Connection _conn;
 
-    private String         _className;
+    private String _className;
 
-    private Thread         _thread;
+    private Thread _thread;
 
-    private Class          _classType;
+    private Class<?> _classType;
 
-    private boolean        _leak;
+    private boolean _leak;
 
     public TestRaceCondition(final TestHarness category) {
         super(category, "TC06", "Race tests");
@@ -139,9 +139,6 @@ public final class TestRaceCondition extends CastorTestCase {
     }
 
     public void runOnce(final int cachetype) throws Exception {
-        Enumeration     enumeration;
-        OQLQuery        oql;
-
         // clear the table
         int del = _conn.createStatement().executeUpdate(
                 "DELETE FROM tc0x_race");
@@ -234,10 +231,10 @@ public final class TestRaceCondition extends CastorTestCase {
         
         num = 0;
         for (int i = 0; i < jdos.length; i++) {
-            oql = _masterDB.getOQLQuery("SELECT object FROM " + _className
+            OQLQuery oql = _masterDB.getOQLQuery("SELECT object FROM " + _className
                     + " object WHERE id = $1");
             oql.bind(i);
-            enumeration = oql.execute();
+            Enumeration<?> enumeration = oql.execute();
             if (enumeration.hasMoreElements()) {
                 Race tr = (Race) enumeration.nextElement();
                 if (tr.getValue1() == controls[i].getValue1()) { num++; }
@@ -298,7 +295,6 @@ public final class TestRaceCondition extends CastorTestCase {
                         int count = 0;
 
                         // select and inc the jdo object.
-                        little:
                         while (!isOk) {
                             try {
                                 isOk = process(i);
@@ -380,7 +376,7 @@ public final class TestRaceCondition extends CastorTestCase {
                 OQLQuery oql = _db.getOQLQuery("SELECT object FROM "
                         + _className + " object WHERE id = $1");
                 oql.bind(i);
-                Enumeration enumeration = oql.execute();
+                Enumeration<?> enumeration = oql.execute();
                 if (enumeration.hasMoreElements()) {
                     Race tr = (Race) enumeration.nextElement();
                     tr.incValue1();

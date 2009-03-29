@@ -119,7 +119,7 @@ public final class TestCacheLeakage extends CastorTestCase {
     private Connection _conn;
 
     /** The java class of the target data objects */
-    private Class _classType;
+    private Class<?> _classType;
 
     /** The cache type used in the current test */
     private int _cacheType;

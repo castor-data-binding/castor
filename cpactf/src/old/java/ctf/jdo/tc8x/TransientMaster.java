@@ -51,7 +51,7 @@ public final class TransientMaster {
     private Integer _property2;
     private Integer _property3;
     private TransientChildOne _entityTwo;
-    private Collection _entityThrees;
+    private Collection<TransientChildTwo> _entityThrees;
     
     public Integer getId() { return _id; }
     public void setId(final Integer id) { _id = id; }
@@ -73,8 +73,8 @@ public final class TransientMaster {
         _entityTwo = entityTwo;
     }
 
-    public Collection getEntityThrees() { return _entityThrees; }
-    public void setEntityThrees(final Collection entityThrees) {
+    public Collection<TransientChildTwo> getEntityThrees() { return _entityThrees; }
+    public void setEntityThrees(final Collection<TransientChildTwo> entityThrees) {
         _entityThrees = entityThrees;
     }
 }

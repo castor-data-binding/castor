@@ -142,7 +142,7 @@ public final class TestLazyLoading extends CastorTestCase {
         address3.setZip("30003");
         address3.setPerson(person);
 
-        ArrayList addresslist = new ArrayList();
+        ArrayList<LazyAddress> addresslist = new ArrayList<LazyAddress>();
         addresslist.add(address1);
         addresslist.add(address2);
         addresslist.add(address3);
@@ -165,7 +165,7 @@ public final class TestLazyLoading extends CastorTestCase {
         cc2.setId(102);
         cc2.setName("Full-time employee");
         _db.create(cc2);
-        ArrayList category = new ArrayList();
+        ArrayList<LazyContractCategory> category = new ArrayList<LazyContractCategory>();
         category.add(cc);
         category.add(cc2);
 
@@ -209,12 +209,12 @@ public final class TestLazyLoading extends CastorTestCase {
                 && loadPerson.getLastName().equals("Person")) {
             LOG.info("OK: Employee is valid");
 
-            Collection address = loadPerson.getAddress();
-            Iterator itor = address.iterator();
+            Collection<LazyAddress> address = loadPerson.getAddress();
+            Iterator<LazyAddress> itor = address.iterator();
             LazyAddress[] addresses = {null, null, null};
             LazyAddress addr;
             while (itor.hasNext()) {
-                addr = (LazyAddress) itor.next();
+                addr = itor.next();
                 if ((addr.getId() < 1) || (addr.getId() > 3)) {
                     LOG.error("Error: Address id is incorrect");
                     _db.rollback();
@@ -270,12 +270,12 @@ public final class TestLazyLoading extends CastorTestCase {
                 && loadPerson.getLastName().equals("Person")) {
             LOG.info("OK: Employee is valid");
 
-            Collection address = loadPerson.getAddress();
-            Iterator itor = address.iterator();
+            Collection<LazyAddress> address = loadPerson.getAddress();
+            Iterator<LazyAddress> itor = address.iterator();
             LazyAddress[] addresses = {null, null, null};
             LazyAddress addr;
             while (itor.hasNext()) {
-                addr = (LazyAddress) itor.next();
+                addr = itor.next();
                 if ((addr.getId() < 1) || (addr.getId() > 3)) {
                     LOG.error("Error: Address id is incorrect");
                     _db.rollback();
@@ -342,11 +342,11 @@ public final class TestLazyLoading extends CastorTestCase {
         }
         LOG.info("OK: Contract is valid");
 
-        Collection catelist = cont.getCategory();
-        Iterator itor = catelist.iterator();
+        Collection<LazyContractCategory> catelist = cont.getCategory();
+        Iterator<LazyContractCategory> itor = catelist.iterator();
         LazyContractCategory cate;
         while (itor.hasNext()) {
-            cate = (LazyContractCategory) itor.next();
+            cate = itor.next();
             if (!(((cate.getId() == 101)
                     && cate.getName().equals("Full-time slave"))
                     || ((cate.getId() == 102)
@@ -369,7 +369,7 @@ public final class TestLazyLoading extends CastorTestCase {
         _db.begin();
         loadPerson = (LazyEmployee) _db.load(LazyEmployee.class, fullname);
         
-        Collection addresses = loadPerson.getAddress();
+        Collection<LazyAddress> addresses = loadPerson.getAddress();
         addresses.clear();
         _db.commit();
 
@@ -385,7 +385,7 @@ public final class TestLazyLoading extends CastorTestCase {
 
         // modify the collection to test java.util.Collection.addAll() 
         // for lazy loading (bug 801)
-        Collection c = new ArrayList();
+        Collection<LazyAddress> c = new ArrayList<LazyAddress>();
 
         LazyAddress address = new LazyAddress();
         address.setId(101);
@@ -421,14 +421,14 @@ public final class TestLazyLoading extends CastorTestCase {
         _db.begin();
         loadPerson = (LazyEmployee) _db.load(LazyEmployee.class, fullname);
         addresses = loadPerson.getAddress();
-        Iterator itor = addresses.iterator();
+        Iterator<LazyAddress> itor = addresses.iterator();
 
         boolean hasAddr1, hasAddr2, hasAddr3;
         hasAddr1 = false;
         hasAddr2 = false;
         hasAddr3 = false;
         while (itor.hasNext()) {
-            address = (LazyAddress) itor.next();
+            address = itor.next();
             if (address.getId() == 101) {
                 hasAddr1 = true;
             } else if (address.getId() == 102) {
@@ -453,7 +453,7 @@ public final class TestLazyLoading extends CastorTestCase {
         // Tests iterating over a lazy-loaded Collection that has
         // had data added
 
-        ArrayList masterData = new ArrayList();
+        ArrayList<LazyAddress> masterData = new ArrayList<LazyAddress>();
         Identity fullname = new Identity("First", "Person");
         LazyPerson loadPerson;
 
@@ -461,10 +461,10 @@ public final class TestLazyLoading extends CastorTestCase {
         _db.begin();
         loadPerson = (LazyEmployee) _db.load(LazyEmployee.class, fullname);
 
-        Collection addresses = loadPerson.getAddress();
+        Collection<LazyAddress> addresses = loadPerson.getAddress();
         // Store the list in the database at the start of the transaction,
         // for comparison purposes
-        Iterator it = addresses.iterator();
+        Iterator<LazyAddress> it = addresses.iterator();
         while (it.hasNext()) { masterData.add(it.next()); }
 
         _db.rollback();
@@ -498,11 +498,11 @@ public final class TestLazyLoading extends CastorTestCase {
 
         bigloop:
         while (it.hasNext()) {
-            LazyAddress addr1 = (LazyAddress) it.next();
+            LazyAddress addr1 = it.next();
 
-            Iterator it2 = masterData.iterator();
+            Iterator<LazyAddress> it2 = masterData.iterator();
             while (it2.hasNext()) {
-                LazyAddress addr2 = (LazyAddress) it2.next();
+                LazyAddress addr2 = it2.next();
 
                 LOG.debug("addr1: " + addr1);
                 LOG.debug("addr2: " + addr2);
@@ -554,14 +554,14 @@ public final class TestLazyLoading extends CastorTestCase {
 
         // Tests iterating over a lazy-loaded Collection that has
         // had data deleted
-        ArrayList masterData = new ArrayList();
+        ArrayList<LazyAddress> masterData = new ArrayList<LazyAddress>();
         Identity fullname = new Identity("First", "Person");
         LazyEmployee loadPerson;
 
         // First add a record, then commit
         _db.begin();
         loadPerson = (LazyEmployee) _db.load(LazyEmployee.class, fullname);
-        Collection addresses = loadPerson.getAddress();
+        Collection<LazyAddress> addresses = loadPerson.getAddress();
         LazyAddress la = new LazyAddress();
         la.setId(999);
         la.setStreet("Rogue Street");
@@ -581,13 +581,13 @@ public final class TestLazyLoading extends CastorTestCase {
         addresses = loadPerson.getAddress();
         // Store the list in the database at the start of the transaction,
         // for comparison purposes.  Select a victim for deletion.
-        Iterator it = addresses.iterator();
+        Iterator<LazyAddress> it = addresses.iterator();
         // victim is last element to test bug 1022
         int victim = addresses.size() - 1;
         int recNo = 0;
         LazyAddress victimAddr = null;
         while (it.hasNext()) {
-            LazyAddress addr = (LazyAddress) it.next();
+            LazyAddress addr = it.next();
             if (recNo++ == victim) {
                 victimAddr = addr;
             } else {
@@ -604,11 +604,11 @@ public final class TestLazyLoading extends CastorTestCase {
         addresses = loadPerson.getAddress();
         addresses.remove(victimAddr);
 
-        Iterator it2 = addresses.iterator();
+        Iterator<LazyAddress> it2 = addresses.iterator();
 
         while (it2.hasNext()) {
 
-            LazyAddress addr = (LazyAddress) it2.next();
+            LazyAddress addr = it2.next();
             if (addr.equals(victimAddr)) {
                 LOG.error("Error: Deleted record should not show up in iteration");
                 fail("Error: Deleted record should not show up in iteration");
@@ -636,7 +636,7 @@ public final class TestLazyLoading extends CastorTestCase {
 
         // The object a1 should have two TestLazyNToNB objects in its
         // "refs" collection
-        Collection lazyRefs = a1.getRefs();
+        Collection<LazyNToNB> lazyRefs = a1.getRefs();
         if (lazyRefs.size() != 2) {
             _stream.println("Error: incorrect initial collection size in testManyToMany");
             fail("Error: incorrect initial collection size in testManyToMany");
@@ -671,7 +671,7 @@ public final class TestLazyLoading extends CastorTestCase {
         // set up the data object
         _db.begin();
         loadPerson = (LazyEmployee) _db.load(LazyEmployee.class, fullname);
-        Collection projects = loadPerson.getProjects();
+        Collection<LazyProject> projects = loadPerson.getProjects();
 
         LazyProject project = new LazyProject();
         project.setId(1001);
@@ -704,9 +704,9 @@ public final class TestLazyLoading extends CastorTestCase {
         loadPerson = (LazyEmployee) _db.load(LazyEmployee.class, fullname);
         projects = loadPerson.getProjects();
 
-        Iterator itor = projects.iterator();
+        Iterator<LazyProject> itor = projects.iterator();
         while (itor.hasNext()) {
-            project = (LazyProject) itor.next();
+            project = itor.next();
             if (project.getId() == 1002) {
                 itor.remove();
                 break;
@@ -715,7 +715,7 @@ public final class TestLazyLoading extends CastorTestCase {
 
         itor = projects.iterator();
         while (itor.hasNext()) {
-            project = (LazyProject) itor.next();
+            project = itor.next();
             if (project.getId() == 1002) {
                 itor.remove();
                 break;
@@ -730,7 +730,7 @@ public final class TestLazyLoading extends CastorTestCase {
         itor = projects.iterator();
         int id1 = 0;
         if (itor.hasNext()) {
-            project = (LazyProject) itor.next();
+            project = itor.next();
             id1 = project.getId();
             if ((project.getId() != 1001) && (project.getId() != 1003)) {
                 LOG.error("Error: found project1 with unexpected id " + project.getId());
@@ -742,7 +742,7 @@ public final class TestLazyLoading extends CastorTestCase {
         }
 
         if (itor.hasNext()) {
-            project = (LazyProject) itor.next();
+            project = itor.next();
             if ((project.getId() == id1)
                     || ((project.getId() != 1001) && (project.getId() != 1003))) {
                 LOG.error("Error: found project2 with unexpected id " + project.getId());
@@ -754,7 +754,7 @@ public final class TestLazyLoading extends CastorTestCase {
         }
 
         if (itor.hasNext()) {
-            project = (LazyProject) itor.next();
+            project = itor.next();
             LOG.error("Error: unexpected project is found: " + project.getId());
             fail("Error: unexpected project is found: " + project.getId());
         }
@@ -803,7 +803,7 @@ public final class TestLazyLoading extends CastorTestCase {
         // set up the data object
         _db.begin();
         loadPerson = (LazyEmployee) _db.load(LazyEmployee.class, fullname);
-        Collection projects = loadPerson.getProjects();
+        Collection<LazyProject> projects = loadPerson.getProjects();
         LazyProject project = new LazyProject();
 
         project = new LazyProject();

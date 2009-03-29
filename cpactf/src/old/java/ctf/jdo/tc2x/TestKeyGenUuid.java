@@ -91,7 +91,7 @@ public final class TestKeyGenUuid extends CastorTestCase {
      * For each key generator we have a pair of classes: TestXXXObject and
      * TestXXXExtends which use key generator XXX.
      */
-    protected void testOneKeyGen(final Class objClass, final Class extClass)
+    protected void testOneKeyGen(final Class<?> objClass, final Class<?> extClass)
     throws Exception {
         OQLQuery oql;
         UuidObject object;

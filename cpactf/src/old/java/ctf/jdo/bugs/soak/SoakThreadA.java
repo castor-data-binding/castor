@@ -156,7 +156,7 @@ public final class SoakThreadA extends AbstractSoakThread {
         e.setHomeAddress(new Address("1", "North Pole", null, "Northest City", "NT",
                 "Canada", "H1H 1H1"));
         e.setHomePhone(new Phone(1, 111, 1111111L));
-        e.setSkills(new Vector());
+        e.setSkills(new Vector<String>());
         e.getSkills().add("Deer riding");
         e.getSkills().add("Wall Claiming");
         e.getSkills().add("Gift Wrapping");
@@ -182,7 +182,7 @@ public final class SoakThreadA extends AbstractSoakThread {
         f.setHomeAddress(new Address("2", "South Pole", null, "Far South", "50471",
                 "Nowhere", "000111"));
         f.setHomePhone(new Phone(123, 111, 1111111L));
-        f.setSkills(new Vector());
+        f.setSkills(new Vector<String>());
         f.getSkills().add("Polar beer hunting");
         f.getSkills().add("Pengine riding");
         
@@ -207,7 +207,7 @@ public final class SoakThreadA extends AbstractSoakThread {
         g.setHomeAddress(new Address("3", "Edin Road", null, "Edin", "", "Unknown",
                 "1A1B2B"));
         g.setHomePhone(new Phone(77, 111, 1111111L));
-        g.setSkills(new Vector());
+        g.setSkills(new Vector<String>());
         g.getSkills().add("Animal Naming");
         g.getSkills().add("Ganden Caring");
         
@@ -232,7 +232,7 @@ public final class SoakThreadA extends AbstractSoakThread {
         h.setHomeAddress(new Address("3", "Edin Road", null, "Edin", "", "Unknown",
                 "1A1B2B"));
         h.setHomePhone(new Phone(77, 111, 1111111L));
-        h.setSkills(new Vector());
+        h.setSkills(new Vector<String>());
         h.getSkills().add("Helping");
         
         return h;
@@ -256,7 +256,7 @@ public final class SoakThreadA extends AbstractSoakThread {
         i.setHomeAddress(new Address("10", "Messager Road", null, "", "", "Heaven",
                 "IIIIII"));
         i.setHomePhone(new Phone(7, 111, 1111111L));
-        i.setSkills(new Vector());
+        i.setSkills(new Vector<String>());
         i.getSkills().add("Flying");
         i.getSkills().add("Messaging");
         

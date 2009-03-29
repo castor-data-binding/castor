@@ -91,9 +91,6 @@ public final class TestTypeHandling extends CastorTestCase {
 
 
     public void setUp() throws PersistenceException, SQLException {
-        TypeHandling     types;
-        Enumeration   enumeration;
-
         // Open transaction in order to perform JDO operations
         _db = _category.getDatabase();
 
@@ -109,12 +106,12 @@ public final class TestTypeHandling extends CastorTestCase {
                 + TypeHandling.class.getName() + " types WHERE id = $(integer)1");
         // This one tests that bind performs type conversion
         _oql.bind(TypeHandling.DEFAULT_ID);
-        enumeration = _oql.execute();
+        Enumeration<?> enumeration = _oql.execute();
         if (enumeration.hasMoreElements()) {
-            types = (TypeHandling) enumeration.nextElement();
+            TypeHandling types = (TypeHandling) enumeration.nextElement();
             LOG.debug("Updating object: " + types);
         } else {
-            types = new TypeHandling();
+            TypeHandling types = new TypeHandling();
             LOG.debug("Creating new object: " + types);
             _db.create(types);
         }
@@ -122,14 +119,13 @@ public final class TestTypeHandling extends CastorTestCase {
     }
 
     private void testDateTimeConversion() throws PersistenceException {
-        TypeHandling     types;
-        Enumeration   enumeration;
-
+        TypeHandling types;
+        
         LOG.info("Testing date/time conversion");
         _db.begin();
         // This one tests that bind performs type conversion
         _oql.bind(TypeHandling.DEFAULT_ID);
-        enumeration = _oql.execute();
+        Enumeration<?> enumeration = _oql.execute();
         if (enumeration.hasMoreElements()) {
             types = (TypeHandling) enumeration.nextElement();
             LOG.debug("Date type: " + types.getDate().getClass());
@@ -151,15 +147,12 @@ public final class TestTypeHandling extends CastorTestCase {
     }
 
     private void testSimpleFloat() throws PersistenceException {
-        TypeHandling    types;
-        Enumeration   enumeration;
-
         LOG.info("Testing null in float and double fields");
         _db.begin();
         _oql.bind(TypeHandling.DEFAULT_ID);
-        enumeration = _oql.execute();
+        Enumeration<?> enumeration = _oql.execute();
         if (enumeration.hasMoreElements()) {
-            types = (TypeHandling) enumeration.nextElement();
+            TypeHandling types = (TypeHandling) enumeration.nextElement();
             types.setDoubleValue(11.1234d);
             types.setFloatValue(22.4681f);
         }
@@ -169,7 +162,7 @@ public final class TestTypeHandling extends CastorTestCase {
         _oql.bind(TypeHandling.DEFAULT_ID);
         enumeration = _oql.execute();
         if (enumeration.hasMoreElements()) {
-            types = (TypeHandling) enumeration.nextElement();
+            TypeHandling types = (TypeHandling) enumeration.nextElement();
             if ((Math.abs(types.getDoubleValue() - 11.1234d) > 1E-5)
                     || (Math.abs(types.getFloatValue() - 22.4681f) > 1E-5)) {
                 
@@ -181,15 +174,12 @@ public final class TestTypeHandling extends CastorTestCase {
     }
 
     private void testNullIntegerAndLong() throws PersistenceException {
-        TypeHandling     types;
-        Enumeration   enumeration;
-
         LOG.info("Testing null in integer and long fields");
         _db.begin();
         _oql.bind(TypeHandling.DEFAULT_ID);
-        enumeration = _oql.execute();
+        Enumeration<?> enumeration = _oql.execute();
         if (enumeration.hasMoreElements()) {
-            types = (TypeHandling) enumeration.nextElement();
+            TypeHandling types = (TypeHandling) enumeration.nextElement();
             types.setIntValue(5);
             types.deleteIntValue();
             types.setLongValue(null);
@@ -200,7 +190,7 @@ public final class TestTypeHandling extends CastorTestCase {
         _oql.bind(TypeHandling.DEFAULT_ID);
         enumeration = _oql.execute();
         if (enumeration.hasMoreElements()) {
-            types = (TypeHandling) enumeration.nextElement();
+            TypeHandling types = (TypeHandling) enumeration.nextElement();
             if ((types.getIntValue() != 0) || types.hasIntValue()) {
                 LOG.error("null integer value was not set");
                 fail("null integer value was not set");
@@ -221,7 +211,7 @@ public final class TestTypeHandling extends CastorTestCase {
         _oql.bind(TypeHandling.DEFAULT_ID);
         enumeration = _oql.execute();
         if (enumeration.hasMoreElements()) {
-            types = (TypeHandling) enumeration.nextElement();
+            TypeHandling types = (TypeHandling) enumeration.nextElement();
             if ((types.getIntValue() != 5) || !types.hasIntValue()) {
                 LOG.error("non-null integer value was not set");
                 fail("non-null integer value was not set");
@@ -240,15 +230,12 @@ public final class TestTypeHandling extends CastorTestCase {
     }
 
     private void testSimpleChar() throws PersistenceException {
-        TypeHandling     types;
-        Enumeration   enumeration;
-
         LOG.info("Testing value in char field");
         _db.begin();
         _oql.bind(TypeHandling.DEFAULT_ID);
-        enumeration = _oql.execute();
+        Enumeration<?> enumeration = _oql.execute();
         if (enumeration.hasMoreElements()) {
-            types = (TypeHandling) enumeration.nextElement();
+            TypeHandling types = (TypeHandling) enumeration.nextElement();
             types.setCharValue('A');
         }
         _db.commit();
@@ -256,7 +243,7 @@ public final class TestTypeHandling extends CastorTestCase {
         _oql.bind(TypeHandling.DEFAULT_ID);
         enumeration = _oql.execute();
         if (enumeration.hasMoreElements()) {
-            types = (TypeHandling) enumeration.nextElement();
+            TypeHandling types = (TypeHandling) enumeration.nextElement();
             if (types.getCharValue() != 'A') {
                 LOG.error("char value was not set");
                 fail("char value was not set");
@@ -270,15 +257,12 @@ public final class TestTypeHandling extends CastorTestCase {
     }
 
     private void testBooleanIsMethod() throws PersistenceException {
-        TypeHandling       types;
-        Enumeration     enumeration;
-        
         LOG.info("Testing boolean get/is methods.");
         _db.begin();
         _oql.bind(TypeHandling.DEFAULT_ID);
-        enumeration = _oql.execute();
+        Enumeration<?> enumeration = _oql.execute();
         if (enumeration.hasMoreElements()) {
-            types = (TypeHandling) enumeration.nextElement();
+            TypeHandling types = (TypeHandling) enumeration.nextElement();
             types.setBoolValue(true);
             types.setBoolIsMethod(true);
         }
@@ -288,7 +272,7 @@ public final class TestTypeHandling extends CastorTestCase {
         _oql.bind(TypeHandling.DEFAULT_ID);
         enumeration = _oql.execute();
         if (enumeration.hasMoreElements()) {
-            types = (TypeHandling) enumeration.nextElement();
+            TypeHandling types = (TypeHandling) enumeration.nextElement();
             if (!types.getBoolValue()) {
                 LOG.error("(get) bool value was not set");
                 fail("(get) bool value was not set");
@@ -308,15 +292,12 @@ public final class TestTypeHandling extends CastorTestCase {
     }
     
     private void testCharToBoolean() throws PersistenceException {
-        TypeHandling     types;
-        Enumeration   enumeration;
-
         LOG.info("Testing the boolean->char[01] conversion");
         _db.begin();
         _oql.bind(TypeHandling.DEFAULT_ID);
-        enumeration = _oql.execute();
+        Enumeration<?> enumeration = _oql.execute();
         if (enumeration.hasMoreElements()) {
-            types = (TypeHandling) enumeration.nextElement();
+            TypeHandling types = (TypeHandling) enumeration.nextElement();
             types.setBoolValue(true);
         }
         _db.commit();
@@ -325,7 +306,7 @@ public final class TestTypeHandling extends CastorTestCase {
         _oql.bind(TypeHandling.DEFAULT_ID);
         enumeration = _oql.execute();
         if (enumeration.hasMoreElements()) {
-            types = (TypeHandling) enumeration.nextElement();
+            TypeHandling types = (TypeHandling) enumeration.nextElement();
             if (!types.getBoolValue()) {
                 LOG.error("bool value was not set");
                 fail("bool value was not set");
@@ -340,26 +321,19 @@ public final class TestTypeHandling extends CastorTestCase {
 
     private void testDateParameterized()
     throws PersistenceException, ParseException {
-        TypeHandling           types;
-        Enumeration         enumeration;
-        Date                date;
-        Date                time;
-        Date                timestamp;
-        SimpleDateFormat    df;
-
         LOG.info("Testing date->int/numeric/char parameterized conversion");
-        df = new SimpleDateFormat();
+        SimpleDateFormat df = new SimpleDateFormat();
         df.applyPattern("yyyy/MM/dd");
-        date = df.parse("2000/05/27");
+        Date date = df.parse("2000/05/27");
         df.applyPattern("yyyy/MM/dd HH:mm:ss.SSS");
-        time = df.parse("2000/05/27 02:16:01.234");
+        Date time = df.parse("2000/05/27 02:16:01.234");
         df.applyPattern("yyyy/MM/dd HH:mm:ss.SSS");
-        timestamp = df.parse("2000/05/27 02:16:01.234");
+        Date timestamp = df.parse("2000/05/27 02:16:01.234");
         _db.begin();
         _oql.bind(TypeHandling.DEFAULT_ID);
-        enumeration = _oql.execute();
+        Enumeration<?> enumeration = _oql.execute();
         if (enumeration.hasMoreElements()) {
-            types = (TypeHandling) enumeration.nextElement();
+            TypeHandling types = (TypeHandling) enumeration.nextElement();
             types.setDate2(date);
             types.setTime2(time);
             types.setTimestamp2(timestamp);
@@ -370,7 +344,7 @@ public final class TestTypeHandling extends CastorTestCase {
         _oql.bind(TypeHandling.DEFAULT_ID);
         enumeration = _oql.execute();
         if (enumeration.hasMoreElements()) {
-            types = (TypeHandling) enumeration.nextElement();
+            TypeHandling types = (TypeHandling) enumeration.nextElement();
             if (!date.equals(types.getDate2())) {
                 LOG.error("date/int value was not set");
                 fail("date/int vlaue was not set");

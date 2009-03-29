@@ -137,7 +137,7 @@ public final class TestSelfRelationExtend extends CastorTestCase {
         // assertNull(folder.getParent());
         assertNotNull(folder.getChildren());
         
-        Iterator i = folder.getChildren().iterator();
+        Iterator<SelfRelationFolderExtend> i = folder.getChildren().iterator();
         assertNotNull(i);
         assertTrue("No child loaded", i.hasNext());
         
@@ -145,7 +145,7 @@ public final class TestSelfRelationExtend extends CastorTestCase {
         
         // load first expected child, and assert its properties
         assertTrue(i.hasNext());
-        SelfRelationFolderExtend child = (SelfRelationFolderExtend) i.next();
+        SelfRelationFolderExtend child = i.next();
         assertNotNull(child);
         assertEquals(2, child.getId().intValue());
         assertNotNull(child.getParent());
@@ -154,7 +154,7 @@ public final class TestSelfRelationExtend extends CastorTestCase {
         
         // load second expected child, and assert its properties
         assertTrue(i.hasNext());
-        child = (SelfRelationFolderExtend) i.next();
+        child = i.next();
         assertNotNull(child);
         assertEquals(3, child.getId().intValue());
         assertNotNull(child.getParent());
@@ -192,7 +192,7 @@ public final class TestSelfRelationExtend extends CastorTestCase {
         assertNull(folderExtend.getParent());
         assertNotNull(folderExtend.getChildren());
         
-        Iterator i = folderExtend.getChildren().iterator();
+        Iterator<SelfRelationFolderExtend> i = folderExtend.getChildren().iterator();
         assertNotNull(i);
         assertTrue("No child loaded", i.hasNext());
         
@@ -200,7 +200,7 @@ public final class TestSelfRelationExtend extends CastorTestCase {
 
         // load first expected child, and assert its properties
         assertTrue (i.hasNext());
-        SelfRelationFolderExtend child = (SelfRelationFolderExtend) i.next();
+        SelfRelationFolderExtend child = i.next();
         assertNotNull (child);
         assertEquals(2, child.getId().intValue());
         assertNotNull(child.getParent());
@@ -209,7 +209,7 @@ public final class TestSelfRelationExtend extends CastorTestCase {
 
         // load second expected child, and assert its properties
         assertTrue (i.hasNext());
-        child = (SelfRelationFolderExtend) i.next();
+        child = i.next();
         assertNotNull (child);
         assertEquals(3, child.getId().intValue());
         assertNotNull(child.getParent());
@@ -304,7 +304,8 @@ public final class TestSelfRelationExtend extends CastorTestCase {
         assertTrue(f instanceof SelfRelationFolderExtend);
         assertEquals(1, f.getId().intValue());
         assertEquals("parent", f.getName());
-        Collection children = ((SelfRelationFolderExtend) f).getChildren();
+        Collection<SelfRelationFolderExtend> children =
+            ((SelfRelationFolderExtend) f).getChildren();
         assertNotNull(children);
         assertEquals(2, children.size());
         counter++;

@@ -20,7 +20,7 @@ import java.util.Collection;
 public final class N {
     private int _id;
     private String _name;
-    private Collection _ms;
+    private Collection<M> _ms;
 
     public int getId() { return _id; }
     public void setId(final int id) { _id = id; }
@@ -28,6 +28,6 @@ public final class N {
     public String getName() { return _name; }
     public void setName(final String name) { _name = name; }
 
-    public Collection getMs() { return _ms; }
-    public void setMs(final Collection ms) { _ms = ms; }
+    public Collection<M> getMs() { return _ms; }
+    public void setMs(final Collection<M> ms) { _ms = ms; }
 }

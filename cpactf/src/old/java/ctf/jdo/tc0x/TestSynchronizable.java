@@ -59,13 +59,13 @@ import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryResults;
 
 public final class TestSynchronizable extends CastorTestCase {
-    private static ArrayList    _synchronizables = new ArrayList();
+    private static ArrayList<String> _synchronizables = new ArrayList<String>();
 
-    private JDOCategory         _category;
-    private Database            _db;
-    private Object              _oldProperty;
+    private JDOCategory _category;
+    private Database _db;
+    private Object _oldProperty;
     
-    public static List getSynchronizableList() {
+    public static List<String> getSynchronizableList() {
         return _synchronizables;
     }
 

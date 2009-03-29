@@ -21,7 +21,8 @@ import java.util.Collection;
 public class ForeignKeyFirstEntity1 {
     private int _id;
     private int _number;
-    private Collection _entities = new ArrayList(0);
+    private Collection<ForeignKeyFirstEntityN> _entities =
+        new ArrayList<ForeignKeyFirstEntityN>(0);
 
     public int getId() { return _id; }
     
@@ -31,12 +32,12 @@ public class ForeignKeyFirstEntity1 {
     
     public void setNumber(final int number) { _number = number; }
     
-    public Collection getEntities() {
-        if (_entities == null) { _entities = new ArrayList(0); }
+    public Collection<ForeignKeyFirstEntityN> getEntities() {
+        if (_entities == null) { _entities = new ArrayList<ForeignKeyFirstEntityN>(0); }
         return _entities;
     }
    
-    public void setEntities(final Collection entities) {
+    public void setEntities(final Collection<ForeignKeyFirstEntityN> entities) {
         _entities = entities;
     }
 }

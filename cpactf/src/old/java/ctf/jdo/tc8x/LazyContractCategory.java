@@ -47,7 +47,7 @@ import java.util.Collection;
 public class LazyContractCategory {
     private int _id;
     private String _name;
-    private Collection _contract;
+    private Collection<LazyContract> _contract;
 
     public void setId(final int id) { _id = id; }
     public int getId() { return _id; }
@@ -55,6 +55,6 @@ public class LazyContractCategory {
     public void setName(final String name) { _name = name; }
     public String getName() { return _name; }
     
-    public void setContract(final Collection contract) { _contract = contract; }
-    public Collection getContract() { return _contract; }
+    public void setContract(final Collection<LazyContract> contract) { _contract = contract; }
+    public Collection<LazyContract> getContract() { return _contract; }
 }

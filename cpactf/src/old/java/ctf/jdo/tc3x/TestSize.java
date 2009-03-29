@@ -92,7 +92,7 @@ public class TestSize extends CastorTestCase {
         _db = _category.getDatabase();
     }
     
-    public final void removeRecords() throws PersistenceException {
+    public final void removeRecords() {
         Connection conn = null;
         try {
             conn = _category.getJDBCConnection();

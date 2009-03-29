@@ -49,7 +49,7 @@ public class LazyContract {
     private int _contractNo;
     private String _comment;
     private LazyEmployee _employee;
-    private Collection _category;
+    private Collection<LazyContractCategory> _category;
 
     public void setPolicyNo(final int policy) { _policyNo = policy; }
     public int getPolicyNo() { return _policyNo; }
@@ -63,6 +63,8 @@ public class LazyContract {
     public void setEmployee(final LazyEmployee employee) { _employee = employee; }
     public LazyEmployee getEmployee() { return _employee; }
     
-    public void setCategory(final Collection category) { _category = category; }
-    public Collection getCategory() { return _category; }
+    public void setCategory(final Collection<LazyContractCategory> category) {
+        _category = category;
+    }
+    public Collection<LazyContractCategory> getCategory() { return _category; }
 }

@@ -38,7 +38,7 @@ public final class DistributedOsCacheMock {
     private static String[] _groups = null;
     
     /** The internal map. */
-    private HashMap _map = new HashMap();
+    private HashMap<Object, Object> _map = new HashMap<Object, Object>();
     
     //--------------------------------------------------------------------------
     // methods to set test behaviour

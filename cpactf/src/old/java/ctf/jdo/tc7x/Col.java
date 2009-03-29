@@ -51,7 +51,7 @@ import java.util.NoSuchElementException;
  * Test object for different collection types.
  */
 public abstract class Col {
-    protected static final Iterator EMPTY_ITORATOR = new EmptyIterator(); 
+    protected static final Iterator<Item> EMPTY_ITORATOR = new EmptyIterator(); 
 
     private int _id;
 
@@ -62,16 +62,16 @@ public abstract class Col {
     public final void setDummy(final int dummy) { }
 
     public abstract boolean containsItem(final Item item);
-    public abstract Iterator itemIterator();
+    public abstract Iterator<Item> itemIterator();
     public abstract void addItem(final Item item);
     public abstract void removeItem(final Item item);
     public abstract int itemSize();
 
     public final String toString() { return getClass().getName() + ":" + _id; }
 
-    private static class EmptyIterator implements Iterator {
+    private static class EmptyIterator implements Iterator<Item> {
         public boolean hasNext() { return false; }
-        public Object next() { throw new NoSuchElementException(); }
+        public Item next() { throw new NoSuchElementException(); }
         public void remove() { throw new IllegalStateException(); }
     }
 }

@@ -59,7 +59,7 @@ public final class TestMapContainer extends TestCase {
     
     public void testKeyIterator() {
         Container container = new MapContainer();
-        Iterator iter = container.keyIterator();
+        Iterator<Object> iter = container.keyIterator();
         assertNotNull(iter);
         assertFalse(iter.hasNext());
         
@@ -80,7 +80,7 @@ public final class TestMapContainer extends TestCase {
     
     public void testValueIterator() {
         Container container = new MapContainer();
-        Iterator iter = container.valueIterator();
+        Iterator<Object> iter = container.valueIterator();
         assertNotNull(iter);
         assertFalse(iter.hasNext());
         

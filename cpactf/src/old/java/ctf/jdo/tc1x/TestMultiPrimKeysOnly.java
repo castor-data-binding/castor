@@ -45,10 +45,6 @@ package ctf.jdo.tc1x;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Iterator;
 
 import harness.CastorTestCase;
 import harness.TestHarness;

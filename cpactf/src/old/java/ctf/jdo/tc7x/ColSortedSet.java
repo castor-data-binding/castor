@@ -52,28 +52,25 @@ import java.util.TreeSet;
  * Test object for different collection types.
  */
 public final class ColSortedSet extends Col {
-    private SortedSet _item;
+    private SortedSet<Item> _item;
 
-    public boolean containsItem(final Item item) { return false; }
-    public boolean containsItem(final ComparableItem item) {
+    public boolean containsItem(final Item item) {
         if ((_item == null) || (_item.size() == 0)) { return false; }
         return _item.contains(item);
     }
 
-    public Iterator itemIterator() {
+    public Iterator<Item> itemIterator() {
         if ((_item == null) || (_item.size() == 0)) { return EMPTY_ITORATOR; }
         return _item.iterator();
     }
 
-    public void addItem(final Item item) { }
-    public void addItem(final ComparableItem item) {
-        if (_item == null) { _item = new TreeSet(); }
+    public void addItem(final Item item) {
+        if (_item == null) { _item = new TreeSet<Item>(); }
         _item.add(item);
         item.setTestCol(this);
     }
 
-    public void removeItem(final Item item) { }
-    public void removeItem(final ComparableItem item) {
+    public void removeItem(final Item item) {
         if (_item != null) {
             _item.remove(item);
             item.setTestCol(null);
@@ -85,7 +82,7 @@ public final class ColSortedSet extends Col {
         return _item.size();
     }
 
-    public void setItem(final SortedSet items) { _item = items; }
+    public void setItem(final SortedSet<Item> items) { _item = items; }
 
-    public SortedSet getItem() { return _item; }
+    public SortedSet<Item> getItem() { return _item; }
 }
