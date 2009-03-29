@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<mapping>
+	<class name="Resource">
+		<map-to xml="Resource" ns-uri="urn:mpeg:mpeg21:2002:02-DIDL-NS"
+			ns-prefix="didl" />
+		<field name="elementContent" type="java.lang.Object">
+			<bind-xml node="element" matches="*" />
+		</field>
+	</class>
+</mapping>
