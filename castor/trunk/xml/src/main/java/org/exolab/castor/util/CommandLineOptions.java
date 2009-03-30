@@ -28,7 +28,6 @@ import java.util.Properties;
 import java.util.Vector;
 
 import org.castor.core.util.Messages;
-import org.exolab.castor.xml.schema.FinalList;
 
 /**
  * A utility class for generating command line options.
