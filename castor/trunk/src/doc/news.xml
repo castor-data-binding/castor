@@ -16,6 +16,23 @@
 
     <section title="Castor News">
 
+        <news id="69">
+            <title>Google Summer of Code 2009 and Castor - Project ideas</title>
+            <author>Werner Guttmann</author>
+            <date>March 30 2009</date>
+            <time>10:11:09</time>
+            <summary>
+                Castor is - again - putting up numerous project proposals with 
+                <a href="http://code.google.com/soc/">Google's Summer of 
+                Code 2009</a> program.<br/><br/>
+
+                Please find the current project proposal ideas at 
+                <a href="http://gsoc.codehaus.org/Castor+Ideas">http://gsoc.codehaus.org/Castor+Ideas </a>.
+                <br/><br/>
+                
+                Any feedback, questions and/or suggestions welcome.
+            </summary>
+        </news>
         <news id="68">
             <title>Castor 1.3 released</title>
             <author>Werner Guttmann</author>
