@@ -1,37 +1,26 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <document url="http://castor.org/presentations.xml">
   <body>
-    <title>Castor Presentations and Articles</title>
-
-    <header>
-        <p>
-        Check out Eitan Suez's <a href="#Presentations">presentation</a> that was given at the Atlanta
-        Java Software Symposium this past November!
-        </p>
-    </header>
-    
-    <section title="News">
-    
-    	<ul>
-    		<li>Added Jan 2005 article on TheServerSide.com on java&lt;-&gt;xml binding frameworks.</li>
-    	</ul>
-    	
-    </section>
+    <title>Publications on Castor - Articles and presentations</title>
 
     <section title="Articles">
       <p><b>Castor in the press...</b></p>
 
       <p>
-          <b>TheServerSide.com (January 2005)</b>
+          <b>IBM developerWorks (2007/2008)</b>
           <p/>
-          Joseph Fouad discusses the pros and cons of various data&lt;-&gt;xml binding tools 
-          incl. Castor, JABX et alias. About Castor, the following is said:
+             Brett McLaughlin has published an article series on 
+             <a href="http://www.ibm.com/developerworks/views/xml/libraryview.jsp?search_by=Data+binding+with+Castor">(XML) data binding with Castor</a> 
+             at IBM's <a href="http://www.ibm.com/developerworks">developerWorks</a>.
           <p/>
-          <i>CASTOR is the first to address the problem so i expect it enjoy a huge user base, 
-             actually castor is a terrefic piece of software and its standard counterpart are 
-             TWO JSRs (JDO,JAXB) so the benefits of its use are obvious database&lt;-&gt;java 
-             object&lt;-&gt;xml which fulfill the needs of any MVC developer.
-             <a href="http://www.theserverside.com/news/thread.tss?thread_id=30658">Read</a></i>
+          <p>
+            <ul>
+                <li><a href="http://www.ibm.com/developerworks/xml/library/x-xjavacastor1/">Part 1: Install and set up Castor</a></li>
+                <li><a href="http://www.ibm.com/developerworks/xml/library/x-xjavacastor2/">Part 2: Marshall and unmarshall XML</a></li>
+                <li><a href="http://www.ibm.com/developerworks/xml/library/x-xjavacastor3/">Part 3: Map between schemas</a></li>
+                <li><a href="http://www.ibm.com/developerworks/xml/library/x-xjavacastor4/">Part 4: Bind your Java objects to SQL databases</a></li>
+            </ul>
+          </p>
       </p>
 
       <p>
