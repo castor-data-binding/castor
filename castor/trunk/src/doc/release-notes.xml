@@ -233,7 +233,7 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                 </bug>
                 <bug id="1073" tool="jira">
                     <description>
-                        Added org.exolab.castor.types.Time <--> java.util.Long convertor.
+                        Added org.exolab.castor.types.Time &lt;--> java.util.Long convertor.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
