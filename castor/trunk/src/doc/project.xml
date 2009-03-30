@@ -79,6 +79,10 @@
         <display>Reference guide</display>
       </navLink>
       <navLink>
+        <url>presentations.xml</url>
+        <display>Publications</display>
+      </navLink>
+      <navLink>
         <url>javadoc/overview-summary.html</url>
         <display>JavaDoc</display>
       </navLink>
@@ -332,10 +336,6 @@
     </section>
 
     <section name="More">
-      <navLink>
-        <url>presentations.xml</url>
-        <display>Presentations</display>
-      </navLink>
       <navLink>
         <url>examples.xml</url>
         <display>The Examples</display>
