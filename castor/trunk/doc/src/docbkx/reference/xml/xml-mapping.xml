@@ -1018,7 +1018,8 @@ public void add...(&lt;type&gt; value);
              XML document.
          </para>
           
-          <section id="xml.mapping.mappingfile.field.constructorarguments"><title>Mapping constructor arguments (since 0.9.5)</title>
+          <section id="xml.mapping.mappingfile.field.constructorarguments">
+            <title>Mapping constructor arguments (since 0.9.5)</title>
             <para>
                Starting with release 0.9.5, for <emphasis role="italic">attribute</emphasis> 
                mapped fields, support has been added to map a constructor field using 
@@ -1027,8 +1028,10 @@ public void add...(&lt;type&gt; value);
             <para>
                To specify that a field (mapped to an attribute) should be used as a constructor 
                argument during object initialization, please specify a <classname>set-method</classname> attribute on the
-               <classname>&lt;field&gt;</classname> mapping and use "%1" - "%9" as the value of the
-               <classname>set-method</classname> attribute.
+               <classname>&lt;field&gt;</classname> mapping and use "%X" as the value of the
+               <classname>set-method</classname> attribute, where <literal>X</literal>
+               is a positive integer number, e.g. <literal>%1</literal> or 
+               <literal>%21</literal>.
             </para>
             <para>For example:</para>
             <programlisting language="java">

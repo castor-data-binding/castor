@@ -46,6 +46,27 @@
 org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
             </summary>
             <bugs>
+                <bug id="2677" tool="jira">
+                    <description>
+                        Removed restrictions that Castor XML supports only nine (9)
+                        constructor arguments in mapping mode.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Darrick Coleman</name>
+                        <email>darrickc@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20090330</date>
+                </bug>
                 <bug id="2679" tool="jira">
                     <description>
                         Fixed problem related to the use of namespaces with
