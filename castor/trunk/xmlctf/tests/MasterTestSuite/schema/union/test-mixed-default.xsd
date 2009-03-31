@@ -1,0 +1,11 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:urn="urn:foo"
+   targetNamespace="urn:foo">
+   <simpleType name="myInt">
+      <restriction base="int">
+         <minInclusive value="1" />
+      </restriction>
+   </simpleType>
+   <simpleType name="TimeOrDateTimeType">
+      <union memberTypes="int urn:myInt" />
+   </simpleType>
+</schema>

@@ -13,7 +13,7 @@
               A simpleType definition used for testing Unions
          </xsd:documentation>
       </xsd:annotation>
-      <xsd:union memberTypes="string-max8">
+      <xsd:union memberTypes="cst:string-max8">
          <xsd:annotation>
             <xsd:documentation>A simple Union definition</xsd:documentation>
          </xsd:annotation>
