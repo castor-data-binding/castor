@@ -46,6 +46,27 @@
 org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
             </summary>
             <bugs>
+                <bug id="2674" tool="jira">
+                    <description>
+                        Added support for name spaces for &lt;xs:union> during 
+                        serialization using SchemaWriter.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Holger</name>
+                        <email>holger@boesby.de</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20090331</date>
+                </bug>
                 <bug id="2677" tool="jira">
                     <description>
                         Removed restrictions that Castor XML supports only nine (9)

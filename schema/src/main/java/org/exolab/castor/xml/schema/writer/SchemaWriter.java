@@ -1691,13 +1691,12 @@ public class SchemaWriter {
      *
      * @param union the simpleType Union definition to process into events
      * @param schemaPrefix the namespace prefix to use for schema elements
+     * @throws SAXException Indicates a problem in SAX processing.
     **/
-    private void processUnion
-        (Union union, String schemaPrefix)
-        throws SAXException
-    {
+    private void processUnion(final Union union, final String schemaPrefix)
+    throws SAXException {
 
-        String ELEMENT_NAME = schemaPrefix + SchemaNames.UNION;
+        String elementName = schemaPrefix + SchemaNames.UNION;
 
         _atts.clear();
 
@@ -1707,24 +1706,35 @@ public class SchemaWriter {
         }
 
         //-- process local simpleType references
-        StringBuffer memberTypes = new StringBuffer();
-        Enumeration enumeration = union.getMemberTypes();
-        while (enumeration.hasMoreElements()) {
-            SimpleType simpleType = (SimpleType)enumeration.nextElement();
+        StringBuffer memberTypesBuffer = new StringBuffer();
+        Enumeration memberTypes = union.getMemberTypes();
+        while (memberTypes.hasMoreElements()) {
+            SimpleType simpleType = (SimpleType) memberTypes.nextElement();
             //-- ignore local simpleTypes;
-            if (simpleType.getParent() != union.getSchema()) {
+            if (!simpleType.isBuiltInType() && simpleType.getParent() != union.getSchema()) {
                 continue;
             }
             //-- process top-level references
-            if (memberTypes.length() > 0) memberTypes.append(' ');
-            memberTypes.append(simpleType.getName());
+            if (memberTypesBuffer.length() > 0) {
+                memberTypesBuffer.append(' ');
+            }
+            if (simpleType.isBuiltInType()) {
+                memberTypesBuffer.append(schemaPrefix);
+            } else {
+                String targetNamespace = simpleType.getSchema().getTargetNamespace();
+                String prefix = getNSPrefix(simpleType.getSchema(), targetNamespace);
+                if ((prefix != null) && (prefix.length() > 0)) {
+                    memberTypesBuffer.append(prefix + ":");
+                }
+            }
+            memberTypesBuffer.append(simpleType.getName());
         }
-        if (memberTypes.length() > 0) {
+        if (memberTypesBuffer.length() > 0) {
             _atts.addAttribute(SchemaNames.MEMBER_TYPES_ATTR, CDATA,
-                memberTypes.toString());
+                memberTypesBuffer.toString());
         }
 
-        _handler.startElement(ELEMENT_NAME, _atts);
+        _handler.startElement(elementName, _atts);
 
         //-- process local annotation
         Annotation annotation = union.getLocalAnnotation();
@@ -1733,15 +1743,18 @@ public class SchemaWriter {
         }
 
         //-- process local simpleType definitions
-        enumeration = union.getMemberTypes();
-        while (enumeration.hasMoreElements()) {
-            SimpleType simpleType = (SimpleType)enumeration.nextElement();
+        Enumeration localMemberTypeDefinitions = union.getMemberTypes();
+        while (localMemberTypeDefinitions.hasMoreElements()) {
+            SimpleType localMemberTypeDefinition = (SimpleType) 
+                localMemberTypeDefinitions.nextElement();
             //-- ignore top-level simpleTypes;
-            if (simpleType.getParent() == union.getSchema())
+            if (localMemberTypeDefinition.getParent() == union.getSchema()) {
                 continue;
-            processSimpleType(simpleType, schemaPrefix);
+            }
+            processSimpleType(localMemberTypeDefinition, schemaPrefix);
         }
-        _handler.endElement(ELEMENT_NAME);
+        
+        _handler.endElement(elementName);
 
     } //-- processUnion
 
