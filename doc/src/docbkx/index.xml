@@ -38,9 +38,8 @@
 
   <xi:include href="reference/spring-orm.xml" />
 
-<!-- 
   <xi:include href="reference/jpa.xml" />
- -->
+
   <!--  <xi:include href="reference/showcase.xml" />  -->
   
 </book>

@@ -8,20 +8,62 @@
     <title>JPA support - Motivation</title>
     
     <para>
-        tbd 
-    </para>
-    
-  </section>
-  
-  <section id="jpa.limitations">
-    <title>Limitations</title>
-  
-    <para>
         tbd
     </para>
     
   </section>
   
-  <xi:include href="jpa/configuration.xml" />
+  <section id="jpa.limitations">
+    <title>Limitations and Basic Information</title>
+    
+    <section>
+    <title>persistence.xml</title>
+    <para>
+	In Castor JPA there is no use or support for a persistence.xml configuration file for now. All necessary configuration steps 
+	can be done via Castors jdo-conf.xml and/or the Spring related spring-config.xml!
+    </para>
+    </section>
+
+    <section>
+    <title>Accesstype and placing Annotations</title>
+    <para>	
+	Because Castor does not support direct field access, this feature is not supported by Castor JPA. 
+	Thus all annotations have to be defined on the getter methods of the fields. If JPA related annotations are found on the fields, Castor will throw an exception.
+    </para>
+    </section>
+
+    <section>
+    <title>Primary Keys</title>
+    <para>		
+	Primary keys made of single fields are supported by Castor as defined in the JPA (usage of the @Id annotation).
+	If you need to define composite primary keys, you have to consider, that Castor does not support relations with composite primary keys. 
+	If you still want to persist single classes with the use of composite primary keys, neither of the JPA styles of doing so 
+	(@EmbeddedId or @IdClass) is supported as such. Instead Castor uses a kind of ad-hoc IdClass mechanism. 
+	All you have to do is to define multiple @Id annotations on the primary keys fields. 
+	Castor creates IdClasses internally to check for equality of objects of that type.
+    </para>
+    </section>
+
+    <section>
+    <title>Inheritance, Mapped Superclasses, etc.</title>
+    <para>	
+	These are all not supported by Castor JPA for now. You can only define entities - for now.
+    </para>
+    </section>
+    
+    <section>
+    <title>Relations</title>
+    <para>	
+	Besides the fact, that Castor does not support composite primary keys, there are some limitations 
+	on the different kinds of relations between entites. 
+	For detailed information, please read the documentation about the different relations types.
+    </para>
+    </section>
+    
+  </section>
+  
+  <xi:include href="jpa/annotations.xml"/>
+  <xi:include href="jpa/configuration.xml"/>
+  <xi:include href="jpa/configuration-spring.xml"/>
 
 </chapter>
