@@ -2,384 +2,137 @@
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
 "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 <section>
-<title>Usage of JPA annotations - For those of you using Spring...</title>
-<para>This guide will show you how to use JPA annotations with Spring in Castor</para>
+    <title>Usage of JPA annotations - Integration with Spring ORM for Castor JDO</title>
 
-<section>
-   <title>Persist single class</title>
-   
-   <para>First we have to annotate our java class.</para>
-   
-   <programlisting language="java">
-   @Entity
-   @Table(name="mySingleTable")
-   public class Single {
-      private int single_id;
-      private String single_string;
-      
-      @Id
-      @Column(name="id")
-      public int getSingle_id(){ ... }
-      
-      public void setSingle_id( int id ){ ... }
-      
-      public String getSingle_string(){ ... }
-      
-      public void setSingle_string( String single_string){ ... }
-   }
-   </programlisting>
-   <para>The table is mySingleTable which has an field id and a field single_string, which gets it column name from the member variable.</para>
-   
-   <para>Next point is to create an DAO interface (for Spring) and CastorDaoSupport class.</para>
-   
-   <programlisting language="java">
-   public interface StaffDao {
-	
-	void save(Staff staff);
-	
-	Staff getStaff(int staff_id);
-	
-	void delete(Staff staff);
+    <para>
+        This guide will show you how to enable the use of JPA annotations 
+        with Castor JDO in the context of Spring, Spring ORM and the
+        existing Spring ORM support for Castor JDO.
+    </para>
 
-   }
+    <section>
+        <title>A typical sample</title>
    
-   public class StaffCastorDao extends CastorDaoSupport implements StaffDao{
+        <para>
+            Let's look at a typical Spring configuration file
+            that shows how to use Castor JDO with Spring as a 
+            Spring ORM provider.
+        </para>
 
-	public void delete(Staff staff) {
-		this.getCastorTemplate().remove(staff);
-	}
-
-	public Staff getStaff(int staff_id) {
-		return (Staff) this.getCastorTemplate().load(Staff.class, new Integer(staff_id));
-	}
-
-	public void save(Staff staff) {
-		this.getCastorTemplate().create(staff);
-	}
-    }
-   </programlisting>
-   
-   <para>And as last point we have to define our spring-config.xml and jdo-conf.xml.
-   As you can see you have to add the class to the ClassDescriptorResolver, else CASTOR can't find your annoteted class.
-   </para>
-   
-   <para>spring-config.xml</para>
-   <programlisting language="xml">
-   &lt;beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"&gt;
+        <para>spring-config.xml</para>
+        <programlisting language="xml">
+&lt;beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+          http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+          http://www.springframework.org/schema/tx 
+          http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"&gt;
     
     &lt;!-- Enable transaction support using Annotations --&gt;
     &lt;tx:annotation-driven transaction-manager="transactionManager" /&gt;
     
-	&lt;bean id="classDescriptorResolver"
-		class="org.castor.spring.orm.ClassDescriptorResolverFactoryBean"&gt;
-		&lt;property name="classes"&gt;
-			&lt;list&gt;
-				&lt;value&gt;Single&lt;/value&gt;
-			&lt;/list&gt;
-		&lt;/property&gt;
-	&lt;/bean&gt;
-	
-	&lt;bean id="myDataSource"
-		class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close"&gt;
-		&lt;property name="driverClassName" value="${driver}" /&gt;
-		&lt;property name="url" value="${url}" /&gt;
-		&lt;property name="username" value="${user}" /&gt;
-		&lt;property name="password" value="${password}" /&gt;
-	&lt;/bean&gt;
+    &lt;bean id="transactionManager" 
+          class="org.castor.spring.orm.CastorTransactionManager"&gt;
+          &lt;property name="JDOManager" ref="jdoManager" /&gt; 
+    &lt;/bean&gt;
 
-	&lt;bean id="transactionManager" 
-	      class="org.castor.spring.orm.CastorTransactionManager"&gt;
-	      &lt;property name="JDOManager" ref="jdoManager" /&gt; 
-	&lt;/bean&gt;
-
-	&lt;bean id="jdoManager"
-		class="org.castor.spring.orm.LocalCastorFactoryBean"&gt;
-		&lt;property name="databaseName" value="dbName" /&gt;
-		&lt;property name="configLocation"
-			value="jdo-conf.xml" /&gt;
-		&lt;property name="classDescriptorResolver"
-			ref="classDescriptorResolver" /&gt;
-	&lt;/bean&gt;
-	
-	&lt;bean id="singleDao" class="SingleCastorDao"&gt;
-		&lt;property name="JDOManager"&gt;
-			&lt;ref bean="jdoManager"/&gt;
-		&lt;/property&gt;
-	&lt;/bean&gt;
-	&lt;/beans&gt; 
-   </programlisting>
-      
-      <para>jdo-conf.xml</para>
-      <programlisting language="xml">
-      &lt;!DOCTYPE jdo-conf PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN""http://castor.org/jdo-conf.dtd"&gt;
-	  &lt;jdo-conf&gt;
-	    &lt;database name="dbName" engine="mysql"&gt;
-		&lt;driver url="jdbc:mysql://MACHINE:PORT/SCHEMA" class-name="com.mysql.jdbc.Driver"&gt;
-			&lt;param name="user" value="USER" /&gt;
-			&lt;param name="password" value="PWD" /&gt;
-		&lt;/driver&gt;
-		&lt;mapping href="mapping-empty.xml" /&gt;
-	    &lt;/database&gt;
-	  &lt;transaction-demarcation mode="local" /&gt;
-	&lt;/jdo-conf&gt;
-      </programlisting>
-</section>
-
-<section>
-
-   <title>Persist one to one relation</title>
-   
-   <para>First we have to annotate our java classes.</para>
-   
-   <programlisting language="java">
-    @Entity
-    public class OneToOne_A {
-	
-	private int id;
-	private String title;
-
-	@Id
-	@Column(name = "id")
-	public int getId() { ... }
-	
-	public void setId(int id) { ... }
-
-	@Column(name = "name")
-	public String getTitle() { ... }
-	
-	public void setTitle(String title) { ... }
-   }
-   
-      @Entity
-      @Table(name="OneToOne_B")
-      public class B {
-	
-	private int id;
-	private String name;
-	private OneToOne_A objA;
-	
-	@Id
-	@Column(name = "id")
-	public int getId() { ... }
-	
-	public void setId(int id) { ... }
-	
-	@Column(name = "name")
-	public String getName() { ... }
-
-	public void setName(String name) { ... }
-
-	@OneToOne(optional=false)
-	public OneToOne_A getOneToOne_A() { ... }
-	
-	public void setOneToOne_a(OneToOne_A objA) { ... }
-    }
-   </programlisting>
-   <para>The table names are OneToOne_A (derived from the class name) and OneToOne_B, the only thing that is different to persist a single class is, that you have to annotate the getter for the other object (OneToOne_A).</para>
-   
-   <para>Next point is to create an DAO interface (for Spring) and CastorDaoSupport class like in the single class example.</para>
-   
-   <para>And last we have to define our spring-config.xml and jdo-conf.xml.
-   The jdo-conf.xml is like the one you've created in the single example.
-   Don't forget to list all your classes for the ClassDescriptorResolver like:
-   </para>
-   
-   <para>spring-config.xml fragment:</para>
-   <programlisting language="xml">
-   	&lt;bean id="classDescriptorResolver"
-		class="org.castor.spring.orm.ClassDescriptorResolverFactoryBean"&gt;
-		&lt;property name="classes"&gt;
-			&lt;list&gt;
-				&lt;value&gt;OneToOne_A&lt;/value&gt;
-				&lt;value&gt;B&lt;/value&gt;
-			&lt;/list&gt;
-		&lt;/property&gt;
-	&lt;/bean&gt;
-      </programlisting>
-
-
-</section>
-
-<section>
-
-   <title>Persist one to many relation</title>
-   
-   <para>First we have to annotate our java classes.</para>
-   
-   <programlisting language="java">
-    @Entity
-    @Table(name="OneToMany_actor")
-    public class Actor {
+    &lt;bean id="jdoManager"
+        class="org.castor.spring.orm.LocalCastorFactoryBean"&gt;
+        &lt;property name="databaseName" value="dbName" /&gt;
+        &lt;property name="configLocation" value="jdo-conf.xml" /&gt;
+    &lt;/bean&gt;
     
-        private int svnr;
-        private String lastname;
-        private String firstname;
-    
-        @Id
-        public int getSvnr() { ... }
+    &lt;bean id="singleDao" class="SingleCastorDao"&gt;
+        &lt;property name="JDOManager"&gt;
+            &lt;ref bean="jdoManager"/&gt;
+        &lt;/property&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt; 
+        </programlisting>
         
-	public void setSvnr(int svnr) { ... }
-    
-        @Column(name="surname")
-        public String getLastname() { ... }
-        public void setLastname(String lastname) { ... }
-    
-        @Column(name="firstname")
-        public String getFirstname() { ... }
-        public void setFirstname(String firstname) { ... }
-    }
-    
-    @Entity 
-    @Table(name="OneToMany_broadcast") 
-    public class Broadcast { 
-     
-        private int id; 
-        private String name; 
-        private Collection&lt;Actor&gt; actors; 
-     
-        @Id 
-        public int getId() { ... } 
-	
-        public void setId(int id) { ... } 
-     
-        public String getName() { ... } 
-     
-        public void setName(String name) { ... } 
-     
-        @OneToMany(targetEntity=Actor.class, mappedBy="actor_id") 
-        public Collection&lt;Actor&gt;  getActors() { ... } 
-     
-        public void setActors(Collection&lt;Actor&gt; actors) { ... }
-    } 
-   </programlisting>
-   <para>What you see is that with the small modification you can persist one to many relations easily.</para>
-   
-   <para>Last don't forget to change your spring-config.xml and jdo-conf.xml accordingly.</para>
-
-</section>
-
-<section>   
-   <title>Persist many to many relation</title>
-   
-   <para>First we have to annotate our java classes.</para>
-   
-   <programlisting language="java">
-   @Entity
-   @Table(name="mySingleTable")
-   public class Single {
-      private int single_id;
-      private String single_string;
+        <para>
+            Above Spring application context configures the following
+            Spring beans:
+        </para>
+        
+        <itemizedlist>
+            <listitem>
+                <para>A factory bean for JDOManager instantiation</para>
+            </listitem>
+            <listitem>
+                <para>A Castor-specific transaction manager.</para>
+            </listitem>
+            <listitem>
+                <para>The DAO implementation as shown above.</para>
+            </listitem>
+        </itemizedlist>
       
-      @Id
-      @Column(name="id")
-      public int getSingle_id(){
-      }
-      
-      public String getSingle_string(){
-      }
-   }
-   </programlisting>
-   <para>The table is mySingleTable which has an field id and a field single_string.</para>
-   
-   <para>Next point is to create an DAO interface (for Spring) and CastorDaoSupport class.</para>
-   
-   <programlisting language="java">
-   public interface StaffDao {
-	
-	void save(Staff staff);
-	
-	Staff getStaff(int staff_id);
-	
-	void delete(Staff staff);
-
-   }
-   
-   public class StaffCastorDao extends CastorDaoSupport implements StaffDao{
-
-	public void delete(Staff staff) {
-		this.getCastorTemplate().remove(staff);
-	}
-
-	public Staff getStaff(int staff_id) {
-		return (Staff) this.getCastorTemplate().load(Staff.class, new Integer(staff_id));
-	}
-
-	public void save(Staff staff) {
-		this.getCastorTemplate().create(staff);
-	}
-    }
-   </programlisting>
-   
-   <para>And as last point we have to define our spring-config.xml and jdo-conf.xml.
-   As you can see you have to add the class to the ClassDescriptorResolver, else CASTOR can't find your annoteted class.
-   </para>
-   
-   <para>spring-config.xml</para>
-   <programlisting language="xml">
-   &lt;beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+        <para>
+            As shown above, the bean definition for the 
+            <classname>JDOManager</classname> factory bean points to
+            a Castor JDO configuration file (<filename>jdo-conf.xml</filename>),
+            whose content is shown below:
+        </para>
+        
+        <para>jdo-conf.xml</para>
+        <programlisting language="xml">
+&lt;!DOCTYPE jdo-conf PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN""http://castor.org/jdo-conf.dtd"&gt;
+&lt;jdo-conf&gt;
+  &lt;database name="dbName" engine="mysql"&gt;
+     &lt;driver url="jdbc:mysql://localhost:3306/single" 
+             class-name="com.mysql.jdbc.Driver"&gt;
+        &lt;param name="user" value="user" /&gt;
+        &lt;param name="password" value="password" /&gt;
+     &lt;/driver&gt;
+     &lt;mapping href="mapping-empty.xml" /&gt;
+  &lt;/database&gt;
+  &lt;transaction-demarcation mode="local" /&gt;
+&lt;/jdo-conf&gt;
+        </programlisting>
+        
+    </section>
+    
+    <section>
+        <title>Adding a <classname>JDOClassDescriptorResolver</classname> configuration</title>
+        
+        <para>
+            In order to use JPA-annotated classes with Castor
+            JDO, you will have to add a <classname>JDOClassDescriptorResolver</classname>
+            bean definition to your Spring configuration file and link it
+            to your <classname>JDOManager</classname> bean factory definition.
+        </para>
+        
+        <programlisting language="xml">
+&lt;beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"&gt;
     
-    &lt;!-- Enable transaction support using Annotations --&gt;
-    &lt;tx:annotation-driven transaction-manager="transactionManager" /&gt;
+    ...
+
+    &lt;bean id="classDescriptorResolver"
+        class="org.castor.spring.orm.ClassDescriptorResolverFactoryBean"&gt;
+        &lt;property name="classes"&gt;
+            &lt;list&gt;
+                &lt;value&gt;org.castor.jpa.test.Single&lt;/value&gt;
+            &lt;/list&gt;
+        &lt;/property&gt;
+    &lt;/bean&gt;
+
+    ...
     
-	&lt;bean id="classDescriptorResolver"
-		class="org.castor.spring.orm.ClassDescriptorResolverFactoryBean"&gt;
-		&lt;property name="classes"&gt;
-			&lt;list&gt;
-				&lt;value&gt;Single&lt;/value&gt;
-			&lt;/list&gt;
-		&lt;/property&gt;
-	&lt;/bean&gt;
-	
-	&lt;bean id="myDataSource"
-		class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close"&gt;
-		&lt;property name="driverClassName" value="${driver}" /&gt;
-		&lt;property name="url" value="${url}" /&gt;
-		&lt;property name="username" value="${user}" /&gt;
-		&lt;property name="password" value="${password}" /&gt;
-	&lt;/bean&gt;
-
-	&lt;bean id="transactionManager" 
-	      class="org.castor.spring.orm.CastorTransactionManager"&gt;
-	      &lt;property name="JDOManager" ref="jdoManager" /&gt; 
-	&lt;/bean&gt;
-
-	&lt;bean id="jdoManager"
-		class="org.castor.spring.orm.LocalCastorFactoryBean"&gt;
-		&lt;property name="databaseName" value="dbName" /&gt;
-		&lt;property name="configLocation"
-			value="jdo-conf.xml" /&gt;
-		&lt;property name="classDescriptorResolver"
-			ref="classDescriptorResolver" /&gt;
-	&lt;/bean&gt;
-	
-	&lt;bean id="singleDao" class="SingleCastorDao"&gt;
-		&lt;property name="JDOManager"&gt;
-			&lt;ref bean="jdoManager"/&gt;
-		&lt;/property&gt;
-	&lt;/bean&gt;
-	&lt;/beans&gt; 
-   </programlisting>
-      
-      <para>jdo-conf.xml</para>
-      <programlisting language="xml">
-      &lt;!DOCTYPE jdo-conf PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN""http://castor.org/jdo-conf.dtd"&gt;
-	  &lt;jdo-conf&gt;
-	    &lt;database name="dbName" engine="mysql"&gt;
-		&lt;driver url="jdbc:mysql://MACHINE:PORT/SCHEMA" class-name="com.mysql.jdbc.Driver"&gt;
-			&lt;param name="user" value="USER" /&gt;
-			&lt;param name="password" value="PWD" /&gt;
-		&lt;/driver&gt;
-		&lt;mapping href="mapping-empty.xml" /&gt;
-	    &lt;/database&gt;
-	  &lt;transaction-demarcation mode="local" /&gt;
-	&lt;/jdo-conf&gt;
-      </programlisting>
-
-	</section>
+    &lt;bean id="jdoManager"
+        class="org.castor.spring.orm.LocalCastorFactoryBean"&gt;
+        &lt;property name="databaseName" value="dbName" /&gt;
+        &lt;property name="configLocation" value="jdo-conf.xml" /&gt;
+        <emphasis role="bold">&lt;property name="classDescriptorResolver"
+            ref="classDescriptorResolver" /&gt;</emphasis>
+    &lt;/bean&gt;
+    
+    ...
+&lt;/beans&gt; 
+        </programlisting>
+        
+    </section>
+   
 </section>
