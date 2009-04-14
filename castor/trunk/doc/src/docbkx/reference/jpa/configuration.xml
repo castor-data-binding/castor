@@ -95,41 +95,39 @@ public class Single {
         <programlisting language="java">
 public interface SingleDao {
 	
-	void save(Single single);
+    void save(Single single);
 	
-	Single get(int id);
+    Single get(int id);
 	
-	void delete(Single single);
+    void delete(Single single);
 
 }
    
-public class SingleCastorDao extends CastorDaoSupport implements SingleDao{
+public class SingleCastorDao extends CastorDaoSupport implements SingleDao {
 
-	public void delete(Single single) {
-		this.getCastorTemplate().remove(single);
-	}
+    public void delete(Single single) {
+        this.getCastorTemplate().remove(single);
+    }
 
-	public Single get(int id) {
-		return (Single) this.getCastorTemplate().load(Single.class, new Integer(id));
-	}
+    public Single get(int id) {
+        return (Single) this.getCastorTemplate().load(Single.class, new Integer(id));
+    }
 
-	public void save(Single single) {
-		this.getCastorTemplate().create(single);
-	}
+    public void save(Single single) {
+        this.getCastorTemplate().create(single);
+    }
 }
    </programlisting>
    
         <para>
-            For Castor to be able to work with JPA-annotated classes,
-            you have to configure an instance of 
+            There's one small final code change needed: For Castor to be able to work 
+            with JPA-annotated classes, you have to configure an instance of 
             <classname>JDOClassDescriptorResolver</classname> and pass 
             it to your <classname>JDOManager</classname>, else Castor 
             won't be able to see those class files. Simply add 
             the individual classes one by one or the package(s)
             as shown below:
         </para>
-        
-        <para>*** TODO: separate with and without Spring ***</para> 
         
         <programlisting language="java">
 JDOClassDescriptorResolver resolver = new JDOClassDescriptorResolverImpl();
@@ -213,8 +211,6 @@ public class B {
             <classname>OneToOne_A</classname>.
         </para>
 
-        <para>*** TODO: separate with and without Spring ***</para> 
-   
         <para>
             As with the example shown further above, do not forget to 
             register all classes involved with the 
@@ -293,17 +289,18 @@ resolver.addPackage("org.castor.jpa");
 
 </section>
 
-<section>   
-   <title>Persist many to many relation</title>
+
+    <!-- <section>   
+        <title>Persist many to many relation</title>
    
-   <para>First we have to annotate our java classes.</para>
+        <para>First we have to annotate our java classes.</para>
    
-   <programlisting language="java">
+        <programlisting language="java">
    
-   </programlisting>
-   <para></para>
+        </programlisting>
+        
+        <para></para>
    
-   <para>Next point is to create an DAO interface (for Spring) and CastorDaoSupport class.</para>
-   
-</section>
+    </section> -->
+    
 </section>
