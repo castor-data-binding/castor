@@ -2,6 +2,15 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
   <xsl:template match="/project/navSections">
+    <table border="0" cellpadding="10" cellspacing="0">
+        <tr>
+            <td>
+                <script type="text/javascript" 
+                        src="http://www.ohloh.net/p/3635/widgets/project_users_logo.js">
+                </script>
+            </td>
+        </tr>
+    </table>
     <xsl:for-each select="section">
       <table border="0" cellpadding="0" cellspacing="0">
         <tr>
