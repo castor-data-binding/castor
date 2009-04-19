@@ -16,6 +16,27 @@
 
     <section title="Castor News">
 
+        <news id="70">
+            <title>JDO extensions for the Castor XML code generator - Preview</title>
+            <author>Werner Guttmann</author>
+            <date>April 19 2009</date>
+            <time>22:21:23</time>
+            <summary>
+                I am very pleased to announce the immediate availability of the
+                <i>JDO extensions for the Castor XML code generator</i>
+                in form of a <b>technology preview</b> as part of the first 
+                snapshot release of Castor 1.3.1, which can be found at 
+                and downloaded from the  
+                <a href="http://snapshots.repository.codehaus.org/org/codehaus/castor">Codehaus snapshot repository</a>.<br/><br/>
+                
+                Please find the documentation available as part of the 
+                <a href="http://www.castor.org/reference/html/jdo.extensions.html">reference guide</a>
+                with detailed information about the XML schema artifacts 
+                available to annotate an existing XML schema, small examples to 
+                highlight the their usage and the current product 
+                limitations.
+            </summary>
+        </news>
         <news id="69">
             <title>Google Summer of Code 2009 and Castor - Project ideas</title>
             <author>Werner Guttmann</author>
