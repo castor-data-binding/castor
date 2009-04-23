@@ -44,14 +44,9 @@
             width="1" height="1"/></td>
         <td width="70" valign="top" align="left"><img
             src="images/dotTrans.gif" width="70" height="6" border="0"/></td>
-        <td width="468" valign="top" align="left"><img
-            src="images/top_2.gif"  width="468" height="6" border="0"/></td>
-        <td width="120" valign="top" align="left"><xsl:element
-            name="img"><xsl:attribute name="src">images/line_purple.gif</xsl:attribute>
-          <xsl:attribute name="width">120</xsl:attribute>
-          <xsl:attribute name="height">6</xsl:attribute>
-          <xsl:attribute name="border">0</xsl:attribute>
-          </xsl:element></td>
+        <td width="100%" valign="top" align="left">
+          <img src="images/top_2.gif"  width="100%" height="6" border="0"/>
+        </td>
       </tr>
 
       <tr>
@@ -62,10 +57,9 @@
         <td width="7" bgcolor="#ffffff" valign="top" align="left"></td>
         <td width="70" valign="top" align="left"><img
             src="images/dotTrans.gif" width="1" height="1" border="0"/></td>
-        <td width="468" valign="middle" align="left">
+        <td width="100%" valign="middle" align="left">
           <xsl:apply-templates select="$project/topNav"/><br/>
           <img src="images/dotTrans.gif" width="1" height="2" border="0"/></td>
-        <td width="120" height="20" valign="top" align="left">&#160;</td>
       </tr>
 
       <tr>
@@ -77,10 +71,9 @@
             src="images/line_sm.gif" width="7" height="3" border="0"/></td>
         <td width="70" valign="top" align="left"><img
             src="images/line_light.gif" width="70" height="3" border="0"/></td>
-        <td width="468" valign="top" align="left"><img
-            src="images/line_light.gif" width="468" height="3" border="0"/></td>
-        <td width="120" valign="top" align="left"><img
-            src="images/dotTrans.gif" border="0" width="1" height="1"/></td>
+        <td width="100%" valign="top" align="left">
+          <img src="images/line_light.gif" width="100%" height="3" border="0"/>
+        </td>
       </tr>
 
       <tr>
@@ -92,7 +85,7 @@
 
         <td width="7" bgcolor="#a9a5de" valign="top" align="left">&#160;</td>
         <td width="70" valign="top" align="left">&#160;</td>
-        <td rowspan="4" width="468" valign="top">
+        <td rowspan="4" width="100%" valign="top">
           <table cols="2" rows="2" border="0" cellpadding="0" cellspacing="0"
                  width="100%">
             <tr>
