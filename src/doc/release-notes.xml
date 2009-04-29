@@ -46,6 +46,27 @@
 org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
             </summary>
             <bugs>
+                <bug id="2699" tool="jira">
+                    <description>
+                        Fixed a problem related to handling of invalid values
+                        for boolean types. 
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Andrew Liu</name>
+                        <email>liusandrew@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20090429</date>
+                </bug>
                 <bug id="2685" tool="jira">
                     <description>
                         Updated Maven dependency for JTA to 1.1.

@@ -1,0 +1,37 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>Tests the boolean attributes/elements in the context of invalid values</Name>
+    <Author>Werner Guttmann</Author>
+    <Comment>
+        For boolean types attribute/element definitions (mappings), this test checks the 
+        correct handling on invalid (not 'true' and 'false') values.
+    </Comment>
+    <Category>basic capability</Category>
+
+    <MarshallingTest>
+        <Root_Object>Test</Root_Object>
+
+        <UnitTestCase>
+            <Name>Valid document</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+            <GoldFile>input.xml</GoldFile>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Valid document with 'false' value</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input-false.xml</Input>
+            <GoldFile>input-false.xml</GoldFile>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Invalid document</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input-incorrect.xml</Input>
+            <Failure exception="org.exolab.castor.xml.MarshalException"
+                     FailureStep="unmarshal-reference">true</Failure>
+        </UnitTestCase>
+ 
+    </MarshallingTest>
+</TestDescriptor>

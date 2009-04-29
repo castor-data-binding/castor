@@ -3714,10 +3714,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     err += " of class " + state._object.getClass().getName();
                 }
             }
-            err += "\n";
-            err += ex.getMessage();
-            
-            throw new SAXException(err, ex);
+            err += ".";
+            SAXException saxException = new SAXException(err);
+            saxException.initCause(ex);
+            throw saxException;
         }
     }
 
@@ -3758,8 +3758,13 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             if (isNull) {
                 primitive = Boolean.FALSE;
             } else {
-                primitive = (value.equals("1") 
-                        || value.toLowerCase().equals("true")) ? Boolean.TRUE : Boolean.FALSE;
+                if (value.equals("1") || value.toLowerCase().equals("true")) {
+                    primitive = Boolean.TRUE;
+                } else if (value.equals("0") || value.toLowerCase().equals("false")) {
+                    primitive = Boolean.FALSE;
+                } else {
+                    throw new IllegalArgumentException(" A value of >" + value + "< cannot be converted to a boolean value.");
+                }
             }
         } else if ((type == Double.TYPE) || (type == Double.class)) {
             // double
