@@ -58,7 +58,7 @@
                 <filter token="RELEASE" value="${release}"/>
             </filterset>
         </copy>
-        <copy todir="${build}" file="src/old/resources/log4j.xml"/>
+        <copy todir="${build}" file="src/test/resources/log4j.xml"/>
         <javac srcdir="${test.java}" destdir="${classes}"
                debug="on" encoding="ISO-8859-1" deprecation="false">
             <classpath refid="build.classpath"/>
