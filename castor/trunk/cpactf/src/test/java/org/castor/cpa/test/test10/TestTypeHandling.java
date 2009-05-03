@@ -1,109 +1,76 @@
-/**
- * Redistribution and use of this software and associated documentation
- * ("Software"), with or without modification, are permitted provided
- * that the following conditions are met:
+/*
+ * Copyright 2009 Udai Gupta, Ralf Joachim
  *
- * 1. Redistributions of source code must retain copyright
- *    statements and notices.  Redistributions must also contain a
- *    copy of this document.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * 2. Redistributions in binary form must reproduce the
- *    above copyright notice, this list of conditions and the
- *    following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * 3. The name "Exolab" must not be used to endorse or promote
- *    products derived from this Software without prior written
- *    permission of Intalio, Inc.  For written permission,
- *    please contact info@exolab.org.
- *
- * 4. Products derived from this Software may not be called "Exolab"
- *    nor may "Exolab" appear in their names without prior written
- *    permission of Intalio, Inc. Exolab is a registered
- *    trademark of Intalio, Inc.
- *
- * 5. Due credit should be given to the Exolab Project
- *    (http://www.exolab.org/).
- *
- * THIS SOFTWARE IS PROVIDED BY INTALIO, INC. AND CONTRIBUTORS
- * ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
- * NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
- * INTALIO, INC. OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
- * OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * Copyright 1999-2001 (C) Intalio, Inc. All Rights Reserved.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
-package ctf.jdo.tc1x;
+package org.castor.cpa.test.test10;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
 
-import harness.TestHarness;
-import harness.CastorTestCase;
-
-import jdo.JDOCategory;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.cpa.test.framework.CPATestCase;
+import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.PersistenceException;
-
 
 /**
  * Test on different Literal types support by Castor. This test detect any
  * malfunction set/get of a Literal types, type conversions and modification 
  * checks on diffenent literal types fields of data objects.
  */
-public final class TestTypeHandling extends CastorTestCase {
-    /**
-     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     * Commons Logging</a> instance used for all logging.
-     */
+public final class TestTypeHandling extends CPATestCase {
     private static final Log LOG = LogFactory.getLog(TestTypeHandling.class);
     
-    private JDOCategory     _category;
+    private static final String DBNAME = "test10";
+    private static final String MAPPING = "/org/castor/cpa/test/test10/mapping.xml";
+    private Database _db;
+    private OQLQuery _oql;
 
-    private Database        _db;
-
-    private OQLQuery        _oql;
-
-    /**
-     * Constructor
-     *
-     * @param category The test suite of these tests
-     */
-    public TestTypeHandling(final TestHarness category) {
-        super(category, "TC10", "Type handling tests");
-        _category = (JDOCategory) category;
+    
+    public TestTypeHandling(final String name) {
+        super(name);
     }
 
+    // Test are only included/excluded for engines that have been tested with this test suite.
 
-    public void setUp() throws PersistenceException, SQLException {
+    public boolean include(final DatabaseEngineType engine) {
+        return (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.DERBY);
+    }
+
+    public void setUp() throws Exception {
         // Open transaction in order to perform JDO operations
-        _db = _category.getDatabase();
-
+        _db = getJDOManager(DBNAME, MAPPING).getDatabase();
+        
         // Delete all records to avoid problems with changed mapping
-        Connection conn = _category.getJDBCConnection();
-        conn.createStatement().execute("DELETE FROM tc1x_handling");
-
+        _db.begin();
+        Connection conn = _db.getJdbcConnection();
+        conn.createStatement().execute("DELETE FROM test10_handling");
+        _db.commit();
+        
         // Determine if test object exists, if not create it.
         // If it exists, set the name to some predefined value
         // that this test will later override.
         _db.begin();
         _oql = _db.getOQLQuery("SELECT types FROM "
                 + TypeHandling.class.getName() + " types WHERE id = $(integer)1");
+        
         // This one tests that bind performs type conversion
         _oql.bind(TypeHandling.DEFAULT_ID);
         Enumeration<?> enumeration = _oql.execute();
@@ -118,36 +85,13 @@ public final class TestTypeHandling extends CastorTestCase {
         _db.commit();
     }
 
-    private void testDateTimeConversion() throws PersistenceException {
-        TypeHandling types;
-        
-        LOG.info("Testing date/time conversion");
-        _db.begin();
-        // This one tests that bind performs type conversion
-        _oql.bind(TypeHandling.DEFAULT_ID);
-        Enumeration<?> enumeration = _oql.execute();
-        if (enumeration.hasMoreElements()) {
-            types = (TypeHandling) enumeration.nextElement();
-            LOG.debug("Date type: " + types.getDate().getClass());
-            LOG.debug("Time type: " + types.getTime().getClass());
-            LOG.debug("Deleting object: " + types);
-            _db.remove(types);
-        } else {
-            LOG.error("Could not load types object");
-            fail("Could not load types object");
-        }
-        _db.commit();
-
-        _db.begin();
-        types = new TypeHandling();
-        LOG.debug("Creating new object: " + types);
-        _db.create(types);
-        _db.commit();
-        LOG.info("OK: Handled date/time types");
+    public void tearDown() throws PersistenceException {
+        if (_db.isActive()) { _db.rollback(); }
+        _db.close();
     }
 
-    private void testSimpleFloat() throws PersistenceException {
-        LOG.info("Testing null in float and double fields");
+    public void testSimpleFloat() throws PersistenceException {
+        LOG.debug("Testing null in float and double fields");
         _db.begin();
         _oql.bind(TypeHandling.DEFAULT_ID);
         Enumeration<?> enumeration = _oql.execute();
@@ -173,8 +117,8 @@ public final class TestTypeHandling extends CastorTestCase {
         _db.commit();
     }
 
-    private void testNullIntegerAndLong() throws PersistenceException {
-        LOG.info("Testing null in integer and long fields");
+    public void testNullIntegerAndLong() throws PersistenceException {
+        LOG.debug("Testing null in integer and long fields");
         _db.begin();
         _oql.bind(TypeHandling.DEFAULT_ID);
         Enumeration<?> enumeration = _oql.execute();
@@ -226,11 +170,11 @@ public final class TestTypeHandling extends CastorTestCase {
         }
         _db.commit();
 
-        LOG.info("OK: null in integer and long field passed");
+        LOG.debug("OK: null in integer and long field passed");
     }
 
-    private void testSimpleChar() throws PersistenceException {
-        LOG.info("Testing value in char field");
+    public void testSimpleChar() throws PersistenceException {
+        LOG.debug("Testing value in char field");
         _db.begin();
         _oql.bind(TypeHandling.DEFAULT_ID);
         Enumeration<?> enumeration = _oql.execute();
@@ -253,11 +197,11 @@ public final class TestTypeHandling extends CastorTestCase {
             fail("failed to load object");
         }
         _db.commit();
-        LOG.info("OK: value in character field passed");
+        LOG.debug("OK: value in character field passed");
     }
 
-    private void testBooleanIsMethod() throws PersistenceException {
-        LOG.info("Testing boolean get/is methods.");
+    public void testBooleanIsMethod() throws PersistenceException {
+        LOG.debug("Testing boolean get/is methods.");
         _db.begin();
         _oql.bind(TypeHandling.DEFAULT_ID);
         Enumeration<?> enumeration = _oql.execute();
@@ -288,11 +232,11 @@ public final class TestTypeHandling extends CastorTestCase {
         }
         _db.commit();
         
-        LOG.info("OK: Boolean get/is methods passed");
+        LOG.debug("OK: Boolean get/is methods passed");
     }
     
-    private void testCharToBoolean() throws PersistenceException {
-        LOG.info("Testing the boolean->char[01] conversion");
+    public void testCharToBoolean() throws PersistenceException {
+        LOG.debug("Testing the boolean->char[01] conversion");
         _db.begin();
         _oql.bind(TypeHandling.DEFAULT_ID);
         Enumeration<?> enumeration = _oql.execute();
@@ -316,12 +260,11 @@ public final class TestTypeHandling extends CastorTestCase {
             fail("failed to load object");
         }
         _db.commit();
-        LOG.info("OK: The boolean->char[01] conversion passed");
+        LOG.debug("OK: The boolean->char[01] conversion passed");
     }
 
-    private void testDateParameterized()
-    throws PersistenceException, ParseException {
-        LOG.info("Testing date->int/numeric/char parameterized conversion");
+    public void testDateParameterized() throws PersistenceException, ParseException {
+        LOG.debug("Testing date->int/numeric/char parameterized conversion");
         SimpleDateFormat df = new SimpleDateFormat();
         df.applyPattern("yyyy/MM/dd");
         Date date = df.parse("2000/05/27");
@@ -347,7 +290,7 @@ public final class TestTypeHandling extends CastorTestCase {
             TypeHandling types = (TypeHandling) enumeration.nextElement();
             if (!date.equals(types.getDate2())) {
                 LOG.error("date/int value was not set");
-                fail("date/int vlaue was not set");
+                fail("date/int value was not set");
             }
             if (!time.equals(types.getTime2())) {
                 LOG.error("time/string value was not set");
@@ -366,21 +309,6 @@ public final class TestTypeHandling extends CastorTestCase {
             fail("failed to load object");
         }
         _db.commit();
-        LOG.info("OK: date->int/numeric/char conversion passed");
-    }
-
-    public void tearDown() throws PersistenceException {
-        if (_db.isActive()) { _db.rollback(); }
-        _db.close();
-    }
-    
-    public void runTest() throws PersistenceException, ParseException {
-        testDateTimeConversion();
-        testNullIntegerAndLong();
-        testSimpleChar();
-        testCharToBoolean();
-        testDateParameterized();
-        testBooleanIsMethod();
-        testSimpleFloat();
+        LOG.debug("OK: date->int/numeric/char conversion passed");
     }
 }

@@ -46,6 +46,26 @@
 org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
             </summary>
             <bugs>
+                <bug id="2686" tool="jira">
+                    <description>
+                        Migrated TC10 - TC13 from old to new CPACTF test suite.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Udai Gupta</name>
+                        <email>mailtoud@gmail.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Udai Gupta</name>
+                        <email>mailtoud@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20090503</date>
+                </bug>
                 <bug id="2699" tool="jira">
                     <description>
                         Fixed a problem related to handling of invalid values

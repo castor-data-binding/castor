@@ -15,10 +15,6 @@
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
     <!-- tc1x -->
-    <!-- <case id="TC10" class="ctf.jdo.tc1x.TestTypeHandling"/> -->
-    <case id="TC11" class="ctf.jdo.tc1x.TestTypeLOB"/>
-    <case id="TC12" class="ctf.jdo.tc1x.TestTypeConversion"/>
-    <case id="TC13" class="ctf.jdo.tc1x.TestSerializable"/>
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
     <case id="TC15" class="ctf.jdo.tc1x.TestMultiPrimKeys"/>
     <case id="TC15a" class="ctf.jdo.tc1x.TestMultiPrimKeysOnly"/>
@@ -115,11 +111,6 @@
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
     <!-- tc1x -->
-    <!-- <case id="TC10" class="ctf.jdo.tc1x.TestTypeHandling"/>
-		 Throws ClassCastExceptions at SQLType.convert() -->
-    <case id="TC11" class="ctf.jdo.tc1x.TestTypeLOB"/>
-    <case id="TC12" class="ctf.jdo.tc1x.TestTypeConversion"/>
-    <case id="TC13" class="ctf.jdo.tc1x.TestSerializable"/>
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
     <case id="TC15" class="ctf.jdo.tc1x.TestMultiPrimKeys"/>
     <case id="TC15a" class="ctf.jdo.tc1x.TestMultiPrimKeysOnly"/>
@@ -218,10 +209,6 @@
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
     <!-- tc1x -->
-    <case id="TC10" class="ctf.jdo.tc1x.TestTypeHandling"/>
-    <!-- <case id="TC11" class="ctf.jdo.tc1x.TestTypeLOB"/> -->
-    <case id="TC12" class="ctf.jdo.tc1x.TestTypeConversion"/>
-    <!-- <case id="TC13" class="ctf.jdo.tc1x.TestSerializable"/> -->
     <!-- <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/> -->
     <case id="TC15" class="ctf.jdo.tc1x.TestMultiPrimKeys"/>
     <case id="TC15a" class="ctf.jdo.tc1x.TestMultiPrimKeysOnly"/>
@@ -316,10 +303,6 @@
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
     <!-- tc1x -->
-    <case id="TC10" class="ctf.jdo.tc1x.TestTypeHandling"/>
-    <case id="TC11" class="ctf.jdo.tc1x.TestTypeLOB"/>
-    <case id="TC12" class="ctf.jdo.tc1x.TestTypeConversion"/>
-    <case id="TC13" class="ctf.jdo.tc1x.TestSerializable"/>
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
     <case id="TC15" class="ctf.jdo.tc1x.TestMultiPrimKeys"/>
     <case id="TC15a" class="ctf.jdo.tc1x.TestMultiPrimKeysOnly"/>
@@ -416,10 +399,6 @@
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
     <!-- tc1x -->
-    <case id="TC10" class="ctf.jdo.tc1x.TestTypeHandling"/>
-    <case id="TC11" class="ctf.jdo.tc1x.TestTypeLOB"/>
-    <case id="TC12" class="ctf.jdo.tc1x.TestTypeConversion"/>
-    <case id="TC13" class="ctf.jdo.tc1x.TestSerializable"/>
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
     <case id="TC15" class="ctf.jdo.tc1x.TestMultiPrimKeys"/>
     <case id="TC15a" class="ctf.jdo.tc1x.TestMultiPrimKeysOnly"/>
@@ -517,11 +496,6 @@
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
     <!-- tc1x -->
-    <!-- <case id="TC10" class="ctf.jdo.tc1x.TestTypeHandling"/>
-		 Throws ClassCastExceptions at SQLType.convert() -->
-    <case id="TC11" class="ctf.jdo.tc1x.TestTypeLOB"/>
-    <case id="TC12" class="ctf.jdo.tc1x.TestTypeConversion"/>
-    <case id="TC13" class="ctf.jdo.tc1x.TestSerializable"/>
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
     <case id="TC15" class="ctf.jdo.tc1x.TestMultiPrimKeys"/>
     <case id="TC15a" class="ctf.jdo.tc1x.TestMultiPrimKeysOnly"/>
@@ -616,10 +590,6 @@
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
     <!-- tc1x -->
-    <case id="TC10" class="ctf.jdo.tc1x.TestTypeHandling"/>
-    <case id="TC11" class="ctf.jdo.tc1x.TestTypeLOB"/>
-    <case id="TC12" class="ctf.jdo.tc1x.TestTypeConversion"/>
-    <case id="TC13" class="ctf.jdo.tc1x.TestSerializable"/>
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
     <case id="TC15" class="ctf.jdo.tc1x.TestMultiPrimKeys"/>
     <case id="TC15a" class="ctf.jdo.tc1x.TestMultiPrimKeysOnly"/>
@@ -714,10 +684,6 @@
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
     <!-- tc1x -->
-    <case id="TC10" class="ctf.jdo.tc1x.TestTypeHandling"/>
-    <!-- <case id="TC11" class="ctf.jdo.tc1x.TestTypeLOB"/> -->
-    <case id="TC12" class="ctf.jdo.tc1x.TestTypeConversion"/>
-    <!-- <case id="TC13" class="ctf.jdo.tc1x.TestSerializable"/> -->
     <!-- <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/> -->
     <case id="TC15" class="ctf.jdo.tc1x.TestMultiPrimKeys"/>
     <case id="TC15a" class="ctf.jdo.tc1x.TestMultiPrimKeysOnly"/>
@@ -812,10 +778,6 @@
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
     <!-- tc1x -->
-    <case id="TC10" class="ctf.jdo.tc1x.TestTypeHandling"/>
-    <case id="TC11" class="ctf.jdo.tc1x.TestTypeLOB"/>
-    <case id="TC12" class="ctf.jdo.tc1x.TestTypeConversion"/>
-    <case id="TC13" class="ctf.jdo.tc1x.TestSerializable"/>
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
     <case id="TC15" class="ctf.jdo.tc1x.TestMultiPrimKeys"/>
     <case id="TC15a" class="ctf.jdo.tc1x.TestMultiPrimKeysOnly"/>
@@ -915,10 +877,6 @@
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
     <!-- tc1x -->
-    <case id="TC10" class="ctf.jdo.tc1x.TestTypeHandling"/>
-    <case id="TC11" class="ctf.jdo.tc1x.TestTypeLOB"/>
-    <case id="TC12" class="ctf.jdo.tc1x.TestTypeConversion"/>
-    <case id="TC13" class="ctf.jdo.tc1x.TestSerializable"/>
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
     <case id="TC15" class="ctf.jdo.tc1x.TestMultiPrimKeys"/>
     <case id="TC15a" class="ctf.jdo.tc1x.TestMultiPrimKeysOnly"/>
@@ -1017,10 +975,6 @@
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
     <!-- tc1x -->
-    <!-- <case id="TC10" class="ctf.jdo.tc1x.TestTypeHandling"/> -->
-    <case id="TC11" class="ctf.jdo.tc1x.TestTypeLOB"/>
-    <case id="TC12" class="ctf.jdo.tc1x.TestTypeConversion"/>
-    <case id="TC13" class="ctf.jdo.tc1x.TestSerializable"/>
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
     <case id="TC15" class="ctf.jdo.tc1x.TestMultiPrimKeys"/>
     <case id="TC15a" class="ctf.jdo.tc1x.TestMultiPrimKeysOnly"/>

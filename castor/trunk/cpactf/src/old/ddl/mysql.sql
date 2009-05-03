@@ -66,38 +66,6 @@ create table tc1x_group (
 
 create unique index tc1x_group_pk on tc1x_group ( id );
 
-drop table if exists tc1x_handling;
-
-create table tc1x_handling (
-  id             numeric(10,0)  not null,
-  tdt            datetime       not null,
-  ttm            datetime       not null,
-  int_val        integer        null,
-  float_val      float          null, 
-  real_val       real           null,
-  long_val       bigint         null,
-  char_val       char(1)        null,
-  bool_val       char(1)        null,
-  bool_is_method char(1)        null,
-  int_date       integer        null,
-  str_time       char(23)       null,
-  num_date       bigint         null,
-  long_date      numeric(20,0)  null
-);
-
-create unique index tc1x_handling_pk on tc1x_handling ( id );
-
-drop table if exists tc1x_lob;
-
-create table tc1x_lob (
-  id        numeric(10,0)  not null,
-  blob_val  longblob           null,
-  clob_val  longtext           null,
-  clob_val2 longtext           null
-);
-
-create unique index tc1x_lob_pk on tc1x_lob ( id );
-
 drop table if exists tc1x_conv;
 
 create table tc1x_conv (
