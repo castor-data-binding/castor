@@ -43,7 +43,6 @@
     <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/>
     <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/>
     <case id="TC38" class="ctf.jdo.tc3x.TestCallSql"/>
-    <case id="TC38a" class="ctf.jdo.tc3x.TestNamedQueries"/>
     <!-- <case id="TC39" class="ctf.jdo.tc3x.TestStoredProcedure"/> -->
 
     <!-- tc4x -->
@@ -143,7 +142,6 @@
     <!-- <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle/> -->
     <!-- <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/> -->
     <!-- <case id="TC38" class="ctf.jdo.tc3x.TestCallSql"/> -->
-    <!-- <case id="TC38a" class="ctf.jdo.tc3x.TestNamedQueries"/> -->
     <!-- <case id="TC39" class="ctf.jdo.tc3x.TestStoredProcedure"/> -->
     
     <!-- tc4x -->
@@ -237,7 +235,6 @@
     <!-- <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/> -->
     <!-- <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/> -->
     <!-- <case id="TC38" class="ctf.jdo.tc3x.TestCallSql"/> -->
-    <!-- <case id="TC38a" class="ctf.jdo.tc3x.TestNamedQueries"/> -->
     <!-- <case id="TC39" class="ctf.jdo.tc3x.TestStoredProcedure"/> -->
 
     <!-- tc4x -->
@@ -332,7 +329,6 @@
     <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/>
     <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/>
     <case id="TC38" class="ctf.jdo.tc3x.TestCallSql"/>
-    <case id="TC38a" class="ctf.jdo.tc3x.TestNamedQueries"/>
     <!-- <case id="TC39" class="ctf.jdo.tc3x.TestStoredProcedure"/> -->
     
     <!-- tc4x -->
@@ -427,7 +423,6 @@
     <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/>
     <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/>
     <case id="TC38" class="ctf.jdo.tc3x.TestCallSql"/>
-    <case id="TC38a" class="ctf.jdo.tc3x.TestNamedQueries"/>
     <!-- <case id="TC39" class="ctf.jdo.tc3x.TestStoredProcedure"/> -->
     
     <!-- tc4x -->
@@ -524,7 +519,6 @@
     <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/>
     <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/>
     <case id="TC38" class="ctf.jdo.tc3x.TestCallSql"/>
-    <case id="TC38a" class="ctf.jdo.tc3x.TestNamedQueries"/>
     <!-- <case id="TC39" class="ctf.jdo.tc3x.TestStoredProcedure"/> -->
 
     <!-- tc4x -->
@@ -618,7 +612,6 @@
     <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/>
     <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/>
     <case id="TC38" class="ctf.jdo.tc3x.TestCallSql"/>
-    <case id="TC38a" class="ctf.jdo.tc3x.TestNamedQueries"/>
     <!-- <case id="TC39" class="ctf.jdo.tc3x.TestStoredProcedure"/> -->
 
     <!-- tc4x -->
@@ -712,7 +705,6 @@
     <!-- <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/> -->
     <!-- <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/> -->
     <!-- <case id="TC38" class="ctf.jdo.tc3x.TestCallSql"/> -->
-    <!-- <case id="TC38a" class="ctf.jdo.tc3x.TestNamedQueries"/> -->
     <!-- <case id="TC39" class="ctf.jdo.tc3x.TestStoredProcedure"/> -->
     
     <!-- tc4x -->
@@ -811,7 +803,6 @@
     <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/>
     <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/>
     <case id="TC38" class="ctf.jdo.tc3x.TestCallSql"/>
-    <case id="TC38a" class="ctf.jdo.tc3x.TestNamedQueries"/>
     <!-- <case id="TC39" class="ctf.jdo.tc3x.TestStoredProcedure"/> -->
 
     <!-- tc4x -->
@@ -910,7 +901,6 @@
     <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/>
     <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/>
     <case id="TC38" class="ctf.jdo.tc3x.TestCallSql"/>
-    <case id="TC38a" class="ctf.jdo.tc3x.TestNamedQueries"/>
     <!-- <case id="TC39" class="ctf.jdo.tc3x.TestStoredProcedure"/> -->
     
     <!-- tc4x -->
