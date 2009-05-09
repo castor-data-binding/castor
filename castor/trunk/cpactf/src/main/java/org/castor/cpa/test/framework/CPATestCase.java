@@ -1,5 +1,9 @@
 package org.castor.cpa.test.framework;
 
+import java.sql.Connection;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.castor.core.util.AbstractProperties;
 import org.castor.cpa.CPAProperties;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
@@ -36,33 +40,9 @@ public abstract class CPATestCase extends TestCase {
     
     private static DatabaseEngineType _engine;
     
-    //--------------------------------------------------------------------------
-
-    private static void initialize() {
-        if (_registry == null) {
-            _registry = new CPAConfigRegistry();
-            
-            String config = System.getProperty(ARG_CONFIG);
-            if ((config == null) || config.trim().equals("")) {
-                config = CPATestCase.class.getResource(DEFAULT_CONFIG).toExternalForm();
-            }
-            _registry.loadConfiguration(config);
-
-            _database = System.getProperty(ARG_DATABASE);
-            if ((_database == null) || _database.trim().equals("")) {
-                _database = _registry.getDefaultDatabaseName();
-            }
-
-            _transaction = System.getProperty(ARG_TRANSACTION);
-            if ((_transaction == null) || _transaction.trim().equals("")) {
-                _transaction = _registry.getDefaultTransactionName();
-            }
-
-            _force = Boolean.getBoolean(ARG_FORCE);
-            
-            _engine = _registry.getEngine(_database);
-        }
-    }
+    private static Connection _connection;
+    
+    private static Set<String> _tests;
     
     //--------------------------------------------------------------------------
     
@@ -123,6 +103,50 @@ public abstract class CPATestCase extends TestCase {
     public CPATestCase(final String name) {
         super(name);
         initialize();
+    }
+    
+    private void initialize() {
+        if (_registry == null) {
+            _registry = new CPAConfigRegistry();
+            
+            String config = System.getProperty(ARG_CONFIG);
+            if ((config == null) || config.trim().equals("")) {
+                config = CPATestCase.class.getResource(DEFAULT_CONFIG).toExternalForm();
+            }
+            _registry.loadConfiguration(config);
+
+            _database = System.getProperty(ARG_DATABASE);
+            if ((_database == null) || _database.trim().equals("")) {
+                _database = _registry.getDefaultDatabaseName();
+            }
+
+            _transaction = System.getProperty(ARG_TRANSACTION);
+            if ((_transaction == null) || _transaction.trim().equals("")) {
+                _transaction = _registry.getDefaultTransactionName();
+            }
+
+            _force = Boolean.getBoolean(ARG_FORCE);
+            
+            _engine = _registry.getEngine(_database);
+
+            try {
+                _connection = getJDOManager("default").getConnectionFactory().createConnection();
+            } catch (Exception ex) {
+                throw new IllegalStateException();
+            }
+
+            _tests = new HashSet<String>();
+        }
+        
+        String test = getClass().getName();
+        test = test.substring(0, test.lastIndexOf('.'));
+        if (!_tests.contains(test)) {
+            if ((include(_engine) && !exclude(_engine)) || _force) {
+                CPAScriptExecutor.execute(_engine, _connection, test);
+            }
+
+            _tests.add(test);
+        }
     }
     
     //--------------------------------------------------------------------------
