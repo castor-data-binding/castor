@@ -46,6 +46,27 @@
 org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
             </summary>
             <bugs>
+                <bug id="2650" tool="jira">
+                    <description>
+                        Enabled testing against derby-embedded within eclipse by execution of
+                        ddl scripts through test framework before test execution.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20090509</date>
+                </bug>
                 <bug id="2686" tool="jira">
                     <description>
                         Migrated TC10 - TC13 from old to new CPACTF test suite.
