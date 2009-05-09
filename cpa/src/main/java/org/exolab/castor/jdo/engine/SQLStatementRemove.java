@@ -86,11 +86,8 @@ public final class SQLStatementRemove {
             }
 
             int count = 1;
-            // bind the identity of the preparedStatement
-            if (identity.size() != ids.length) {
-                throw new PersistenceException("Size of identity field mismatched!");
-            }
 
+            // bind the identity of the preparedStatement
             for (int i = 0; i < ids.length; i++) {
                 stmt.setObject(count++, ids[i].toSQL(identity.get(i)));
             }

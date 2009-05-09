@@ -318,6 +318,11 @@ public final class SQLEngine implements Persistence {
 
     public void delete(final Object conn, final Identity identity)
     throws PersistenceException {
+        // check size of identity columns
+        if (identity.size() != _ids.length) {
+            throw new PersistenceException("Size of identity field mismatched!");
+        }
+
         _removeStatement.executeStatement((Connection) conn, identity);
     }
 
