@@ -43,6 +43,8 @@ public final class SQLStatementRemove {
 
     private final String _mapTo;
 
+    private final SQLColumnInfo[] _ids;
+
     private String _statement;
 
     public SQLStatementRemove(final SQLEngine engine, final PersistenceFactory factory) {
@@ -51,17 +53,19 @@ public final class SQLStatementRemove {
         _type = engine.getDescriptor().getJavaClass().getName();
         _mapTo = new ClassDescriptorJDONature(engine.getDescriptor()).getTableName();
         
+        //Get ID's list from engine provided
+        _ids = _engine.getColumnInfoForIdentities();
+        
         buildStatement();
     }
     
     private void buildStatement() {
-        SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
         StringBuffer sql = new StringBuffer("DELETE FROM ");
         sql.append(_factory.quoteName(_mapTo));
         sql.append(JDBCSyntax.WHERE);
-        for (int i = 0; i < ids.length; i++) {
+        for (int i = 0; i < _ids.length; i++) {
             if (i > 0) { sql.append(" AND "); }
-            sql.append(_factory.quoteName(ids[i].getName()));
+            sql.append(_factory.quoteName(_ids[i].getName()));
             sql.append(QueryExpression.OP_EQUALS);
             sql.append(JDBCSyntax.PARAMETER);
         }
@@ -74,7 +78,6 @@ public final class SQLStatementRemove {
 
     public Object executeStatement(final Connection conn, final Identity identity)
     throws PersistenceException {
-        SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
         SQLEngine extended = _engine.getExtends();
         PreparedStatement stmt = null;
 
@@ -88,8 +91,8 @@ public final class SQLStatementRemove {
             int count = 1;
 
             // bind the identity of the preparedStatement
-            for (int i = 0; i < ids.length; i++) {
-                stmt.setObject(count++, ids[i].toSQL(identity.get(i)));
+            for (int i = 0; i < _ids.length; i++) {
+                stmt.setObject(count++, _ids[i].toSQL(identity.get(i)));
             }
 
             if (LOG.isDebugEnabled()) {
