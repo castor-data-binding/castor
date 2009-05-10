@@ -120,5 +120,17 @@ http://maven.apache.org/maven-v4_0_0.xsd">
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>edu.umd.cs.mtc</groupId>
+            <artifactId>multithreadedtc</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 </project>
