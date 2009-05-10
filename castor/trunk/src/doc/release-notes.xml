@@ -46,6 +46,26 @@
 org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
             </summary>
             <bugs>
+                <bug id="2019" tool="jira">
+                    <description>
+                        Added thread safety-ness to XMLClassDescriptorResolverImpl.DescriptorCacheImpl.
+                    </description>
+                    <contributor>
+                        <name>Torsten Juergeleit</name>
+                        <email>torsten.juergeleit@online.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Torsten Juergeleit</name>
+                        <email>torsten.juergeleit@online.de</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20090510</date>
+                </bug>
                <bug id="2704" tool="jira">
                     <description>
                         Pass ID's array to constructor of SQLStatementRemove.

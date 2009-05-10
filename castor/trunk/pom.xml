@@ -323,6 +323,20 @@
                 <optional>true</optional>
                 </dependency>
             -->
+
+            <dependency>
+                <groupId>edu.umd.cs.mtc</groupId>
+                <artifactId>multithreadedtc</artifactId>
+                <version>1.01</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.easymock</groupId>
+                <artifactId>easymock</artifactId>
+                <version>2.4</version>
+                <scope>test</scope>
+            </dependency>
     
             <dependency>
                 <groupId>oro</groupId>

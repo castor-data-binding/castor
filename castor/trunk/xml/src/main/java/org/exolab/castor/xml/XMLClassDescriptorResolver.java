@@ -45,6 +45,7 @@ package org.exolab.castor.xml;
 import java.util.Iterator;
 
 import org.castor.xml.InternalContext;
+import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.xml.util.ResolverStrategy;
 
 /**
@@ -163,8 +164,8 @@ public interface XMLClassDescriptorResolver extends ClassDescriptorResolver {
      * @return An Iterator of XMLClassDescriptor objects.
      * @throws ResolverException in case that resolving fails unrecoverable
      */
-    Iterator resolveAllByXMLName(String xmlName, String namespaceURI, ClassLoader loader)
-            throws ResolverException;
+    Iterator<ClassDescriptor> resolveAllByXMLName(String xmlName, String namespaceURI, 
+            ClassLoader loader) throws ResolverException;
 
     /**
      * Loads the class descriptor for the class instance specified. The use of
@@ -208,7 +209,7 @@ public interface XMLClassDescriptorResolver extends ClassDescriptorResolver {
      *             If there's an unrecoverable problem with resolving a certain
      *             class.
      */
-    void addClass(final Class clazz) throws ResolverException;
+    void addClass(final Class<?> clazz) throws ResolverException;
 
     /**
      * Loads the class descriptors for the class instances specified. The use of
@@ -222,7 +223,7 @@ public interface XMLClassDescriptorResolver extends ClassDescriptorResolver {
      *             If there's an unrecoverable problem with resolving a certain
      *             class.
      */
-    void addClasses(final Class[] clazzes) throws ResolverException;
+    void addClasses(final Class<?>[] clazzes) throws ResolverException;
 
     /**
      * Loads class descriptors from the package specified. The use of this
