@@ -29,6 +29,7 @@ import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
+import org.exolab.castor.mapping.xml.NamedNativeQuery;
 
 /**
  * JDO-specific nature for {@link ClassDescriptor}.<br/><br/>
@@ -87,6 +88,11 @@ public class ClassDescriptorJDONature extends BaseNature {
      * Nature property name for named queries.
      */
     private static final String NAMED_QUERIES = "namedQueries";
+
+    /**
+     * Nature property name for named native queries.
+     */
+    private static final String NAMED_NATIVE_QUERIES = "namedNativeQueries";
 
     /**
      * Nature property name for {@link ClassDescriptor}s that extend this {@link ClassDescriptor}.
@@ -188,6 +194,7 @@ public class ClassDescriptorJDONature extends BaseNature {
 
     /**
      * Adds a named query to this {@link ClassDescriptor}.
+     * 
      * @param name The name of the named query.
      * @param query The query string
      */
@@ -209,6 +216,33 @@ public class ClassDescriptorJDONature extends BaseNature {
     @SuppressWarnings("unchecked")
     public Map<String, String> getNamedQueries() {
         return getPropertyAsMap(NAMED_QUERIES);
+    }
+
+    /**
+     * Adds a named query to this {@link ClassDescriptor}.
+     * 
+     * @param name The name of the named query.
+     * @param query The query string
+     */
+    @SuppressWarnings("unchecked")
+    public void addNamedNativeQuery(final String name, final NamedNativeQuery query) {
+        Map<String, NamedNativeQuery> namedNativeQueries =
+            (Map<String, NamedNativeQuery>) getProperty(NAMED_NATIVE_QUERIES);
+        if (namedNativeQueries == null) {
+            namedNativeQueries = new HashMap<String, NamedNativeQuery>();
+        }
+        namedNativeQueries.put(name, query);
+        setProperty(NAMED_NATIVE_QUERIES, namedNativeQueries);
+   }
+
+    /**
+     * Get map of named native queries associated with their names.
+     * 
+     * @return Map of named native queries associated with their names.
+     */
+    @SuppressWarnings("unchecked")
+    public Map<String, NamedNativeQuery> getNamedNativeQueries() {
+        return getPropertyAsMap(NAMED_NATIVE_QUERIES);
     }
 
     /**

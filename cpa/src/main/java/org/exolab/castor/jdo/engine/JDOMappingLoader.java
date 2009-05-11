@@ -94,6 +94,7 @@ import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 import org.exolab.castor.mapping.xml.MappingRoot;
+import org.exolab.castor.mapping.xml.NamedNativeQuery;
 import org.exolab.castor.mapping.xml.NamedQuery;
 import org.exolab.castor.mapping.xml.Param;
 import org.exolab.castor.mapping.xml.Sql;
@@ -362,6 +363,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         extractAndSetAccessMode(jdoNature, classMapping);
         extractAndAddCacheParams(jdoNature, classMapping, javaClass);
         extractAndAddNamedQueries(jdoNature, classMapping);
+        extractAndAddNamedNativeQueries(jdoNature, classMapping);
         extractAndSetKeyGeneratorDescriptor(jdoNature, classMapping.getKeyGenerator());
 
         return clsDesc;
@@ -434,6 +436,31 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             _queryNames.add(queryName);
 
             jdoNature.addNamedQuery(queryName, query.getQuery());
+        }
+    }
+    
+    /**
+     * Extract named native queries from class mapping and add them to JDO class descriptor.
+     * 
+     * @param jdoNature JDO class descriptor to add the named queries to.
+     * @param clsMap Class mapping to extract the named native queries from.
+     * @throws MappingException On duplicate query names.
+     */
+    private void extractAndAddNamedNativeQueries(final ClassDescriptorJDONature jdoNature,
+            final ClassMapping clsMap)
+    throws MappingException {
+        Enumeration<? extends NamedNativeQuery> namedNativeQueriesEnum =
+            clsMap.enumerateNamedNativeQuery();
+        while (namedNativeQueriesEnum.hasMoreElements()) {
+            NamedNativeQuery query = namedNativeQueriesEnum.nextElement();
+            String queryName = query.getName();
+            if (_queryNames.contains(queryName)) {
+                throw new MappingException(
+                        "Duplicate entry for named query with name " + queryName);
+            }
+            _queryNames.add(queryName);
+
+            jdoNature.addNamedNativeQuery(queryName, query);
         }
     }
     

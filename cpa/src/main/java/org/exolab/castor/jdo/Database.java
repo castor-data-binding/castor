@@ -222,6 +222,17 @@ public interface Database {
      */
     OQLQuery getNamedQuery(String name) throws PersistenceException;
 
+    /**
+     * Creates an OQL query instance based upon a native SQL query and a returning
+     * (resulting) class.
+     * 
+     * @param sql Native SQL query to be used.
+     * @param result Class that is result of the query.
+     * @return An OQL query
+     * @throws PersistenceException 
+     */
+    OQLQuery getNativeQuery(String sql, Class<?> result) throws PersistenceException;
+     
     PersistenceInfoGroup getScope();
 
     /**                              

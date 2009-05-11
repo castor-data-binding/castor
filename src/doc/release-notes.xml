@@ -44,8 +44,50 @@
 # Defaults to true.
 #
 org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
+
+                <h2>Additions</h2>
+                
+                <h3>Added support for named native queries at the class level</h3>
+                
+                <p>
+                    It is now possible to specify named native (SQL) queries at the class level:
+                </p>
+                    <code-panel><![CDATA[
+<class name="org.castor.cpa.test.test1503.Entity" identity="id">
+    <description>Named native query entity</description>
+    <map-to table="test1503_entity"/>
+    <field name="id" type="integer">
+        <sql name="id" type="integer"/>
+    </field>
+    <field name="name" type="string">
+        <sql name="name" type="char"/>
+    </field>
+    <named-native-query name="nativeSelectEntity">
+        <query>SELECT * FROM test1503_entity</query>
+    </named-native-query>
+</class>]]></code-panel>
             </summary>
             <bugs>
+                <bug id="1503" tool="jira">
+                    <description>
+                        Added support for named native queries at the class level.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Emir Causevic</name>
+                        <email>emircaus@bih.net.ba</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20090511</date>
+                </bug>  
                 <bug id="2707" tool="jira">
                     <description>
                         Shift deletion of records of extended objects from SQLStatementRemove to ClassMolder.

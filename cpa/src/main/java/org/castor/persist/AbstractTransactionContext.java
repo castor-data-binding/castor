@@ -39,6 +39,7 @@ import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.jdo.TransactionAbortedException;
 import org.exolab.castor.mapping.AccessMode;
+import org.exolab.castor.mapping.xml.NamedNativeQuery;
 import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.LockEngine;
 import org.exolab.castor.persist.OID;
@@ -1637,18 +1638,24 @@ public abstract class AbstractTransactionContext implements TransactionContext {
     }
 
     /**
-     * @inheritDoc
-     * @see org.castor.persist.TransactionContext#getNamedQuery(
-     *      org.exolab.castor.persist.ClassMolder,
-     *      java.lang.String)
+     * {@inheritDoc}
      */
-    public String getNamedQuery(final ClassMolder molder, final String name) 
-    throws QueryException    {
+    public final String getNamedQuery(final ClassMolder molder, final String name) 
+    throws QueryException {
         if (molder == null) {
             throw new QueryException("Invalid argument - molder is null");
         }
         return molder.getNamedQuery(name);
     }
     
-    
+    /**
+     * {@inheritDoc}
+     */
+    public final NamedNativeQuery getNamedNativeQuery(final ClassMolder molder, final String name) 
+    throws QueryException {
+        if (molder == null) {
+            throw new QueryException("Invalid argument - molder is null");
+        }
+        return molder.getNamedNativeQuery(name);
+    }
 }

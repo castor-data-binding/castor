@@ -78,19 +78,30 @@ public class PersistenceInfoGroup {
      *  
      * @param query The name of the named query.
      * @return ClassMolder instance associated with a given named query.
-     * @throws QueryException if there's an issue resolving the ClassMolder.
      */
-    public ClassMolder findClassMolderByQuery(final String query) throws QueryException {
+    public final ClassMolder findClassMolderByQuery(final String query) {
         ClassMolder molder = null;
         for (int i = 0; i < _engines.length; i++) {            
             molder = _engines[i].getClassMolderByQuery(query);            
         }
-        if (molder == null) {
-            throw new QueryException("Cannot find a named query with the name " + query);
-        }
         return molder;
     }
     
+    /**
+     * Returns the ClassMolder associated with a given named native query (by the means of the
+     * mapping file).
+     *  
+     * @param query The name of the named query.
+     * @return ClassMolder instance associated with a given named query.
+     */
+    public final ClassMolder findClassMolderByNativeQuery(final String query) {
+        ClassMolder molder = null;
+        for (int i = 0; i < _engines.length; i++) {            
+                molder = _engines[i].getClassMolderByNativeQuery(query);            
+        }
+        return molder;
+    }
+
     public LockEngine getLockEngine() {
         if ((_engines != null) && (_engines.length >= 1)) {
             return _engines[0];

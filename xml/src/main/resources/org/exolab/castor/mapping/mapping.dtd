@@ -63,7 +63,7 @@
     resulting XML document must preserve the order of elements.
 
  -->
-<!ELEMENT class ( description?, cache-type?, map-to?, field*, named-query* )>
+<!ELEMENT class ( description?, cache-type?, map-to?, field*, named-query*, named-native-query* )>
 <!ATTLIST class
     name            ID       #REQUIRED
     extends         IDREF    #IMPLIED
@@ -88,6 +88,16 @@
 <!ELEMENT named-query  ( query?, query-hint* )>
 <!ATTLIST named-query
     name           CDATA  #REQUIRED
+>
+
+<!--
+    Specifies the native named queries
+ -->
+<!ELEMENT named-native-query  ( query?, query-hint* )>
+<!ATTLIST named-native-query
+    name                   CDATA  #REQUIRED
+    result-class           CDATA  #IMPLIED
+    result-set-mapping     CDATA  #IMPLIED
 >
 
 <!ELEMENT query (#PCDATA)>
