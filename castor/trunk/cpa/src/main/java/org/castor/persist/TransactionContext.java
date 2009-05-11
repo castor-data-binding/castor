@@ -9,6 +9,7 @@ import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.jdo.TransactionAbortedException;
 import org.exolab.castor.mapping.AccessMode;
+import org.exolab.castor.mapping.xml.NamedNativeQuery;
 import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.LockEngine;
 import org.exolab.castor.persist.OID;
@@ -555,4 +556,14 @@ public interface TransactionContext {
      */
     String getNamedQuery(ClassMolder molder, String name) throws QueryException;
 
+    /**
+     * Returns a NamedNativeQuery instance query based upon a named query as defined in the 
+     * mapping file.
+     *
+     * @param molder Specific class molder.
+     * @param name Name of the (named) query to create.
+     * @return A NamedNativeQuery instance.
+     * @throws QueryException If the named query can not be found.
+     */
+    NamedNativeQuery getNamedNativeQuery(ClassMolder molder, String name) throws QueryException;
 }

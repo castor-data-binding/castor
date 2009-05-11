@@ -32,10 +32,12 @@ import org.exolab.castor.jdo.DatabaseNotFoundException;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.Query;
+import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.jdo.TransactionAbortedException;
 import org.exolab.castor.jdo.TransactionNotInProgressException;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.mapping.xml.NamedNativeQuery;
 import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.LockEngine;
 import org.exolab.castor.persist.PersistenceInfoGroup;
@@ -53,6 +55,9 @@ import org.exolab.castor.persist.spi.InstanceFactory;
  * @version $Revision$ $Date: 2006-04-22 11:05:30 -0600 (Sat, 22 Apr 2006) $
  */
 public abstract class AbstractDatabaseImpl implements Database {
+    private static final String NATIVE_QUERY_PREFIX = "CALL SQL";
+    private static final String NATIVE_QUERY_AS = "AS";
+
     /** The database engine used to access the underlying SQL database. */
     protected PersistenceInfoGroup _scope;
 
@@ -352,11 +357,43 @@ public abstract class AbstractDatabaseImpl implements Database {
     /**
      * {@inheritDoc}
      */
-    public OQLQuery getNamedQuery(final String name) throws PersistenceException {
-        String oql = _ctx.getNamedQuery(_scope.findClassMolderByQuery(name), name);
+    public final OQLQuery getNamedQuery(final String name) throws PersistenceException {
+        ClassMolder queryMolder = _scope.findClassMolderByQuery(name);
+        if (queryMolder == null) {
+            queryMolder = _scope.findClassMolderByNativeQuery(name);
+            if (queryMolder != null) {
+                NamedNativeQuery query = _ctx.getNamedNativeQuery(queryMolder, name);
+                String result = query.getResultClass();               
+                if (result == null) {
+                    result = queryMolder.getName();
+                }
+                try {
+                    return getNativeQuery(query.getQuery(), Class.forName(result));
+                } catch (ClassNotFoundException ex) {
+                    throw new PersistenceException("Can not find the resulting class: " + result);
+                }
+            }
+            throw new QueryException("Cannot find a named query with the name " + name);
+        }        
+        String oql = _ctx.getNamedQuery(queryMolder, name);
         return getOQLQuery(oql);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public final OQLQuery getNativeQuery(final String sql, final Class<?> result)
+    throws PersistenceException {
+        StringBuffer buff = new StringBuffer();
+        buff.append(NATIVE_QUERY_PREFIX);
+        buff.append(" ");
+        buff.append(sql);
+        buff.append(" ");
+        buff.append(NATIVE_QUERY_AS);
+        buff.append(" ");
+        buff.append(result.getName());
+        return getOQLQuery(buff.toString());
+    }
 
     /**
      * {@inheritDoc}

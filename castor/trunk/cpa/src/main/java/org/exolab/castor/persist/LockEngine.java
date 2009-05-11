@@ -319,8 +319,9 @@ public final class LockEngine {
     
     /**
      * Returns the ClassMolder instance that has a named query associated with the name given.
+     * 
      * @param name Name of a named query.
-     * @return ClassMolder instance associated with the named query 
+     * @return ClassMolder instance associated with the named query.
      */
     public ClassMolder getClassMolderByQuery(final String name) {        
         Iterator<TypeInfo> typeIterator = _typeInfo.values().iterator();
@@ -333,6 +334,24 @@ public final class LockEngine {
         return null;
     }
 
+    /**
+     * Returns the ClassMolder instance that has a named native query associated with the
+     * name given.
+     * 
+     * @param name Name of a named query.
+     * @return ClassMolder instance associated with the named native query.
+     */
+    public ClassMolder getClassMolderByNativeQuery(final String name) {
+        Iterator<TypeInfo> typeIterator = _typeInfo.values().iterator();
+        while (typeIterator.hasNext()) {
+            TypeInfo info = typeIterator.next();
+            if (info._molder.getNamedNativeQuery(name) != null) {
+                return info._molder;
+            }
+        }
+        return null;
+    }
+    
     public Persistence getPersistence(final Class cls) {
         ClassMolder molder = getClassMolder(cls);
         if (molder != null) {

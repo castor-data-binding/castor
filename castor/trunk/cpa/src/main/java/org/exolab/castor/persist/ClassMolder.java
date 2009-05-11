@@ -76,6 +76,7 @@ import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;
+import org.exolab.castor.mapping.xml.NamedNativeQuery;
 import org.exolab.castor.persist.spi.CallbackInterceptor;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.Persistence;
@@ -1328,10 +1329,21 @@ public class ClassMolder {
 
     /**
      * Returns the actual (OQL) statement for the specified named query.
+     * 
      * @param name Named query name.
-     * @return The actual (OQL) statement 
+     * @return The actual (OQL) statement.
      */
     public String getNamedQuery(final String name) {
         return new ClassDescriptorJDONature(_clsDesc).getNamedQueries().get(name);
+    }
+
+    /**
+     * Returns the actual (SQL) statement for the specified named native query.
+     * 
+     * @param name Named query name.
+     * @return The actual (SQL) statement.
+     */
+    public NamedNativeQuery getNamedNativeQuery(final String name) {
+        return new ClassDescriptorJDONature(_clsDesc).getNamedNativeQueries().get(name);
     }
 }
