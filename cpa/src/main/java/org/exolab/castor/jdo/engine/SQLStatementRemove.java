@@ -35,8 +35,6 @@ public final class SQLStatementRemove {
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(SQLStatementRemove.class);
 
-    private final SQLEngine _engine;
-    
     private final PersistenceFactory _factory;
     
     private final String _type;
@@ -48,13 +46,12 @@ public final class SQLStatementRemove {
     private String _statement;
 
     public SQLStatementRemove(final SQLEngine engine, final PersistenceFactory factory) {
-        _engine = engine;
         _factory = factory;
         _type = engine.getDescriptor().getJavaClass().getName();
         _mapTo = new ClassDescriptorJDONature(engine.getDescriptor()).getTableName();
         
         //Get ID's list from engine provided
-        _ids = _engine.getColumnInfoForIdentities();
+        _ids = engine.getColumnInfoForIdentities();
         
         buildStatement();
     }
@@ -78,7 +75,6 @@ public final class SQLStatementRemove {
 
     public Object executeStatement(final Connection conn, final Identity identity)
     throws PersistenceException {
-        SQLEngine extended = _engine.getExtends();
         PreparedStatement stmt = null;
 
         try {
@@ -102,12 +98,6 @@ public final class SQLStatementRemove {
             int result = stmt.executeUpdate();
             if (result < 1) {
                 throw new PersistenceException("Object to be deleted does not exist! " + identity);
-            }
-
-            // Must delete record in parent table last.
-            // All other dependents have been deleted before.
-            if (extended != null) {
-                extended.delete(conn, identity);
             }
         } catch (SQLException except) {
             LOG.fatal(Messages.format("jdo.deleteFatal", _type, _statement), except);
