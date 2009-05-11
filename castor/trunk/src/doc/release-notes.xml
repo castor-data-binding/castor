@@ -46,6 +46,26 @@
 org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
             </summary>
             <bugs>
+                <bug id="2707" tool="jira">
+                    <description>
+                        Shift deletion of records of extended objects from SQLStatementRemove to ClassMolder.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ahmad Hassan</name>
+                        <email>ahmad.hassan@gmail.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ahmad Hassan</name>
+                        <email>ahmad.hassan@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20090511</date>
+                </bug>  
                 <bug id="2019" tool="jira">
                     <description>
                         Added thread safety-ness to XMLClassDescriptorResolverImpl.DescriptorCacheImpl.

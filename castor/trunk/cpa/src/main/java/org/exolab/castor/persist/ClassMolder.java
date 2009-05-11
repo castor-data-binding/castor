@@ -926,28 +926,26 @@ public class ClassMolder {
 
         resetResolvers();
 
+        Connection conn = tx.getConnection(oid.getMolder().getLockEngine());
         Identity ids = oid.getIdentity();
 
         for (int i = 0; i < _fhs.length; i++) {
             if (_fhs[i].isManyToMany()) {
-                _fhs[i].getRelationLoader().deleteRelation(
-                        tx.getConnection(oid.getMolder().getLockEngine()), ids);
+                _fhs[i].getRelationLoader().deleteRelation(conn, ids);
             }
         }
 
-        _persistence.delete(tx.getConnection(oid.getMolder().getLockEngine()), ids);
-
-        // All field along the extend path will be deleted by transaction
-        // However, everything off the path must be deleted by ClassMolder.
-
+        // Must delete record of extend path from extending to root class
+        // In addition we remember the extend path to delete everything off the path ourself
         Vector<ClassMolder> extendPath = new Vector<ClassMolder>();
-        ClassMolder base = this;
-        while (base != null) {
-            extendPath.add(base);
-            base = base._extends;
+        ClassMolder molder = this;
+        while (molder != null) {
+            molder._persistence.delete(conn, ids);
+            extendPath.add(molder);
+            molder = molder._extends;
         }
-
-        base = _depends;
+        
+        ClassMolder base = _depends;
         while (base != null) {
             if (base._extendent != null) {
                 for (int i = 0; i < base._extendent.size(); i++) {
@@ -959,7 +957,6 @@ public class ClassMolder {
 
             base = base._extends;
         }
-
     }
 
     /**
