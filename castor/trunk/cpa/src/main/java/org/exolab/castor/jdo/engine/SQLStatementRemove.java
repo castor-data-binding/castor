@@ -35,81 +35,121 @@ public final class SQLStatementRemove {
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(SQLStatementRemove.class);
 
-    private final PersistenceFactory _factory;
-    
     private final String _type;
-
-    private final String _mapTo;
 
     private final SQLColumnInfo[] _ids;
 
-    private String _statement;
+    private String _sqlStatement;
+    
+    private PreparedStatement _preparedStatement;
 
     public SQLStatementRemove(final SQLEngine engine, final PersistenceFactory factory) {
-        _factory = factory;
         _type = engine.getDescriptor().getJavaClass().getName();
-        _mapTo = new ClassDescriptorJDONature(engine.getDescriptor()).getTableName();
-        
-        //Get ID's list from engine provided
         _ids = engine.getColumnInfoForIdentities();
         
-        buildStatement();
+        String mapTo = new ClassDescriptorJDONature(engine.getDescriptor()).getTableName();
+        buildStatement(factory, mapTo);
     }
     
-    private void buildStatement() {
+    private void buildStatement(final PersistenceFactory factory, final String mapTo) {
         StringBuffer sql = new StringBuffer("DELETE FROM ");
-        sql.append(_factory.quoteName(_mapTo));
+        sql.append(factory.quoteName(mapTo));
         sql.append(JDBCSyntax.WHERE);
         for (int i = 0; i < _ids.length; i++) {
             if (i > 0) { sql.append(" AND "); }
-            sql.append(_factory.quoteName(_ids[i].getName()));
+            sql.append(factory.quoteName(_ids[i].getName()));
             sql.append(QueryExpression.OP_EQUALS);
             sql.append(JDBCSyntax.PARAMETER);
         }
-        _statement = sql.toString();
+        _sqlStatement = sql.toString();
         
         if (LOG.isTraceEnabled()) {
-            LOG.trace(Messages.format("jdo.removing", _type, _statement));
+            LOG.trace(Messages.format("jdo.removing", _type, _sqlStatement));
         }
     }
-
+    
     public Object executeStatement(final Connection conn, final Identity identity)
     throws PersistenceException {
-        PreparedStatement stmt = null;
-
         try {
-            stmt = conn.prepareStatement(_statement);
+            // get prepared statement
+            prepareStatement(conn);
             
-            if (LOG.isTraceEnabled()) {
-                LOG.trace(Messages.format("jdo.removing", _type, stmt.toString()));
-            }
-
-            int count = 1;
-
-            // bind the identity of the preparedStatement
-            for (int i = 0; i < _ids.length; i++) {
-                stmt.setObject(count++, _ids[i].toSQL(identity.get(i)));
-            }
-
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(Messages.format("jdo.removing", _type, stmt.toString()));
-            }
-
-            int result = stmt.executeUpdate();
-            if (result < 1) {
-                throw new PersistenceException("Object to be deleted does not exist! " + identity);
-            }
+            // bind it with parameters list for execution
+            bindIdentity(identity);
+            
+            // execute the prepared statement
+            executeStatement();
         } catch (SQLException except) {
-            LOG.fatal(Messages.format("jdo.deleteFatal", _type, _statement), except);
+            LOG.fatal(Messages.format("jdo.deleteFatal", _type, _sqlStatement), except);
             throw new PersistenceException(Messages.format("persist.nested", except), except);
         } finally {
-            try {
-                if (stmt != null) { stmt.close(); }
-            } catch (Exception e) {
-                LOG.warn("Problem closing JDBC statement", e);
-            }
+            closeStatement();
         }
         
         return null;
+    }
+    
+    /**
+     * Prepare the SQL statement.
+     * 
+     * @param conn An open connection.
+     * @throws SQLException If a database access error occurs.
+     */
+    private void prepareStatement(final Connection conn) throws SQLException {
+        _preparedStatement = conn.prepareStatement(_sqlStatement);
+        
+        if (LOG.isTraceEnabled()) {
+            LOG.trace(Messages.format("jdo.removing", _type, _preparedStatement.toString()));
+        }
+    }
+
+    /**
+     * Bind identity values to the prepared statement.
+     * 
+     * @param identity Identity of the object to remove.
+     * @throws SQLException If a database access error occurs or type one of the values to
+     *         bind is ambiguous.
+     */
+    private void bindIdentity(final Identity identity) throws SQLException {  
+        // counter declaration
+        int count = 1;
+        
+        // loop through the identity fields and bind values to the statement object
+        for (int i = 0; i < _ids.length; i++) {
+            // bind value to prepared statement
+            _preparedStatement.setObject(count++, _ids[i].toSQL(identity.get(i)));
+        }
+
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(Messages.format("jdo.removing", _type, _preparedStatement.toString()));
+        }
+    }
+
+    /**
+     * Execute the prepared statement.
+     * 
+     * @throws SQLException If a database access error occurs or the object to be deleted does
+     *         not exist.
+     */
+    private void executeStatement() throws SQLException {
+        int result = _preparedStatement.executeUpdate();
+        
+        // throw exception if execute returned < 1
+        if (result < 1) {
+            throw new SQLException("Object to be deleted does not exist!");
+        }
+    }
+    
+    /**
+     * Close the prepared statement.
+     */
+    private void closeStatement() {
+        try {
+            if (_preparedStatement != null) {
+                _preparedStatement.close();
+            }
+        } catch (Exception e) {
+            LOG.warn("Problem closing JDBC statement", e);
+        }
     }
 }
