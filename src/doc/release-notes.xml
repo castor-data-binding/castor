@@ -68,6 +68,26 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
 </class>]]></code-panel>
             </summary>
             <bugs>
+                <bug id="2709" tool="jira">
+                    <description>
+                        Fixed ctf.jdo.tc1x.TestMultiPrimKeysOnly failing on MaxDB/SapDB.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Clovis Wichoski</name>
+                        <email>clovis.wichoski@gmail.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Clovis Wichoski</name>
+                        <email>clovis.wichoski@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20090514</date>
+                </bug>  
                 <bug id="1503" tool="jira">
                     <description>
                         Added support for named native queries at the class level.
