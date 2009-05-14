@@ -109,6 +109,18 @@ create table tc1x_pks_person (
 create unique index tc1x_pks_person_pk on tc1x_pks_person( fname, lname )
 //
 
+drop table tc1x_pks_only
+//
+
+create table tc1x_pks_only(
+  fname varchar(15)    not null,
+  lname varchar(15)    not null
+)
+//
+
+create unique index tc1x_pks_only_pk on tc1x_pks_only( fname, lname )
+//
+
 drop table tc1x_pks_employee
 //
 
