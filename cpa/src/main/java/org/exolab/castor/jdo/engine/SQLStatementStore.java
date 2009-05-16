@@ -48,6 +48,8 @@ public final class SQLStatementStore {
     private final String _type;
 
     private final String _mapTo;
+    
+    private final SQLFieldInfo[] _fields;
 
     /** Indicates whether there is a field to persist at all; in the case of 
      *  EXTEND relationships where no additional attributes are defined in the 
@@ -67,14 +69,14 @@ public final class SQLStatementStore {
         _factory = factory;
         _type = engine.getDescriptor().getJavaClass().getName();
         _mapTo = new ClassDescriptorJDONature(engine.getDescriptor()).getTableName();
+        _fields = _engine.getInfo();
         
         // iterate through all fields to check whether there is a field
         // to persist at all; in the case of extend relationships where no 
         // additional attributes are defined in the extending class, this 
-        // might NOT be the case
-        SQLFieldInfo[] fields = _engine.getInfo();
-        for (int i = 0; i < fields.length; ++i) {
-            if (fields[i].isStore()) {
+        // might NOT be the case        
+        for (int i = 0; i < _fields.length; ++i) {
+            if (_fields[i].isStore()) {
                 _hasFieldsToPersist = true;
                 break;
             }
@@ -98,10 +100,9 @@ public final class SQLStatementStore {
             sql.append(" SET ");
             
             int count = 0;
-            SQLFieldInfo[] fields = _engine.getInfo();
-            for (int i = 0; i < fields.length; ++i) {
-                if (fields[i].isStore()) {
-                    SQLColumnInfo[] columns = fields[i].getColumnInfo();
+            for (int i = 0; i < _fields.length; ++i) {
+                if (_fields[i].isStore()) {
+                    SQLColumnInfo[] columns = _fields[i].getColumnInfo();
                     for (int j = 0; j < columns.length; j++) {
                         if (count > 0) { sql.append(','); }
                         sql.append(_factory.quoteName(columns[j].getName()));
@@ -127,9 +128,9 @@ public final class SQLStatementStore {
                 LOG.trace(Messages.format("jdo.updating", _type, _statementLazy));
             }
 
-            for (int i = 0; i < fields.length; ++i) {
-                if (fields[i].isStore() && fields[i].isDirtyCheck()) {
-                    SQLColumnInfo[] columns = fields[i].getColumnInfo();
+            for (int i = 0; i < _fields.length; ++i) {
+                if (_fields[i].isStore() && _fields[i].isDirtyCheck()) {
+                    SQLColumnInfo[] columns = _fields[i].getColumnInfo();
                     for (int j = 0; j < columns.length; j++) {
                         sql.append(" AND ");
                         sql.append(_factory.quoteName(columns[j].getName()));
@@ -179,10 +180,9 @@ public final class SQLStatementStore {
                 count = 1;
                 
                 // bind fields of the row to be stored into the preparedStatement
-                SQLFieldInfo[] fields = _engine.getInfo();
-                for (int i = 0; i < fields.length; ++i) {
-                    if (fields[i].isStore()) {
-                        SQLColumnInfo[] columns = fields[i].getColumnInfo();
+                for (int i = 0; i < _fields.length; ++i) {
+                    if (_fields[i].isStore()) {
+                        SQLColumnInfo[] columns = _fields[i].getColumnInfo();
                         Object value = newentity.getField(i);
                         if (value == null) {
                             for (int j = 0; j < columns.length; j++) {
@@ -227,9 +227,9 @@ public final class SQLStatementStore {
                 if (oldentity.getFields() != null) {
                     boolean supportsSetNull = _factory.supportsSetNullInWhere();
                     
-                    for (int i = 0; i < fields.length; ++i) {
-                        if (fields[i].isStore() && fields[i].isDirtyCheck()) {
-                            SQLColumnInfo[] columns = fields[i].getColumnInfo();
+                    for (int i = 0; i < _fields.length; ++i) {
+                        if (_fields[i].isStore() && _fields[i].isDirtyCheck()) {
+                            SQLColumnInfo[] columns = _fields[i].getColumnInfo();
                             Object value = oldentity.getField(i);
                             if (value == null) {
                                 if (supportsSetNull) {
@@ -298,12 +298,12 @@ public final class SQLStatementStore {
                             StringBuffer enlistFieldsNotMatching = new StringBuffer();
                             
                             int numberOfFieldsNotMatching = 0;
-                            for (int i = 0; i < fields.length; i++) {
-                                SQLColumnInfo[] columns = fields[i].getColumnInfo();
+                            for (int i = 0; i < _fields.length; i++) {
+                                SQLColumnInfo[] columns = _fields[i].getColumnInfo();
                                 Object value = oldentity.getField(i);
                                 Object currentField = columns[0].toJava(res.getObject(
                                         columns[0].getName()));
-                                if (fields[i].getTableName().compareTo(_mapTo) == 0) {
+                                if (_fields[i].getTableName().compareTo(_mapTo) == 0) {
                                     if ((value == null) || ((value != null)
                                             && (currentField == null))) {
                                         enlistFieldsNotMatching.append("(" + _type + ")."
@@ -362,10 +362,9 @@ public final class SQLStatementStore {
             StringBuffer sql = new StringBuffer(pos * 4);
             sql.append(_statementDirty);
             
-            SQLFieldInfo[] fields = _engine.getInfo();
-            for (int i = fields.length - 1; i >= 0; i--) {
-                if (fields[i].isStore() && fields[i].isDirtyCheck()) {
-                    SQLColumnInfo[] columns = fields[i].getColumnInfo();
+            for (int i = _fields.length - 1; i >= 0; i--) {
+                if (_fields[i].isStore() && _fields[i].isDirtyCheck()) {
+                    SQLColumnInfo[] columns = _fields[i].getColumnInfo();
                     Object value = oldentity.getField(i);
                     if (value == null) {
                         for (int j = columns.length - 1; j >= 0; j--) {

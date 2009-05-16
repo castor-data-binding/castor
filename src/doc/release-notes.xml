@@ -68,7 +68,27 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
 </class>]]></code-panel>
             </summary>
             <bugs>
-               <bug id="2705" tool="jira">
+                <bug id="2714" tool="jira">
+                    <description>
+                        Shift the SQLFieldInfo array contents to constructor.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ahmad Hassan</name>
+                        <email>ahmad.hassan@gmail.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ahmad Hassan</name>
+                        <email>ahmad.hassan@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20090516</date>
+                </bug>  
+                <bug id="2705" tool="jira">
                     <description>
                         Prepare statement of SQLStatementRemove in a separate method.
                     </description>
