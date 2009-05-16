@@ -880,9 +880,10 @@ Database db = jdo.getDatabase();
  				   version to version. There seems to be a problem with concurrency in MySQL 4.1.5
 				   that can be resolved by upgrading to 4.1.7 or higher.</p>
 				   
-				<p>With the 3.1.x releaseo of MySQL's Connector/J , the 'LIMIT $1' syntax of OQL does not 
-				   work. We hence advise you to stay with the Connector/J 3.0.16 release instead until 
-				   further notice.</p>
+				<p>At Castor we frequently use Connector/J 3.0.16, 3.1.13 and nowadays 5.1.6 to
+				   execute our test farmework. If you use one of this versions of Connector/J you
+				   should be on the safe side. If you are hit by any problems using one of these
+				   versions, please let us know.</p>
 			
 			</section>
     		
