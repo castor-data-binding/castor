@@ -2,7 +2,7 @@
 <!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
                            "http://castor.org/mapping.dtd">
 <mapping>
-<class name="org.castor.cpa.test.test13.SerializableReferer" identity="id">
+  <class name="org.castor.cpa.test.test13.SerializableReferer" identity="id">
     <description>test serializable field</description>
     <map-to table="test13_serial" />
     <field name="id" type="integer">

@@ -16,9 +16,6 @@
 
     <!-- tc1x -->
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
-    <case id="TC15" class="ctf.jdo.tc1x.TestMultiPrimKeys"/>
-    <case id="TC15a" class="ctf.jdo.tc1x.TestMultiPrimKeysOnly"/>
-    <case id="TC16" class="ctf.jdo.tc1x.TestNestedFields"/>
     <case id="TC17" class="ctf.jdo.tc1x.TestTimeStamp"/>
     <case id="TC18" class="ctf.jdo.tc1x.TestPersistent"/>
     <case id="TC19" class="ctf.jdo.tc1x.TestInstanceFactory"/>
@@ -111,9 +108,6 @@
 
     <!-- tc1x -->
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
-    <case id="TC15" class="ctf.jdo.tc1x.TestMultiPrimKeys"/>
-    <case id="TC15a" class="ctf.jdo.tc1x.TestMultiPrimKeysOnly"/>
-    <case id="TC16" class="ctf.jdo.tc1x.TestNestedFields"/>
     <case id="TC17" class="ctf.jdo.tc1x.TestTimeStamp"/>
     <case id="TC18" class="ctf.jdo.tc1x.TestPersistent"/>
     <case id="TC19" class="ctf.jdo.tc1x.TestInstanceFactory"/>
@@ -208,9 +202,6 @@
 
     <!-- tc1x -->
     <!-- <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/> -->
-    <case id="TC15" class="ctf.jdo.tc1x.TestMultiPrimKeys"/>
-    <case id="TC15a" class="ctf.jdo.tc1x.TestMultiPrimKeysOnly"/>
-    <case id="TC16" class="ctf.jdo.tc1x.TestNestedFields"/>
     <!-- <case id="TC17" class="ctf.jdo.tc1x.TestTimeStamp"/> -->
     <case id="TC18" class="ctf.jdo.tc1x.TestPersistent"/>
     <case id="TC19" class="ctf.jdo.tc1x.TestInstanceFactory"/>
@@ -301,9 +292,6 @@
 
     <!-- tc1x -->
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
-    <case id="TC15" class="ctf.jdo.tc1x.TestMultiPrimKeys"/>
-    <case id="TC15a" class="ctf.jdo.tc1x.TestMultiPrimKeysOnly"/>
-    <case id="TC16" class="ctf.jdo.tc1x.TestNestedFields"/>
     <case id="TC17" class="ctf.jdo.tc1x.TestTimeStamp"/>
     <case id="TC18" class="ctf.jdo.tc1x.TestPersistent"/>
     <case id="TC19" class="ctf.jdo.tc1x.TestInstanceFactory"/>
@@ -396,9 +384,6 @@
 
     <!-- tc1x -->
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
-    <case id="TC15" class="ctf.jdo.tc1x.TestMultiPrimKeys"/>
-    <case id="TC15a" class="ctf.jdo.tc1x.TestMultiPrimKeysOnly"/>
-    <case id="TC16" class="ctf.jdo.tc1x.TestNestedFields"/>
     <case id="TC17" class="ctf.jdo.tc1x.TestTimeStamp"/>
     <case id="TC18" class="ctf.jdo.tc1x.TestPersistent"/>
     <case id="TC19" class="ctf.jdo.tc1x.TestInstanceFactory"/>
@@ -492,9 +477,6 @@
 
     <!-- tc1x -->
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
-    <case id="TC15" class="ctf.jdo.tc1x.TestMultiPrimKeys"/>
-    <case id="TC15a" class="ctf.jdo.tc1x.TestMultiPrimKeysOnly"/>
-    <case id="TC16" class="ctf.jdo.tc1x.TestNestedFields"/>
     <case id="TC17" class="ctf.jdo.tc1x.TestTimeStamp"/>
     <case id="TC18" class="ctf.jdo.tc1x.TestPersistent"/>
     <case id="TC19" class="ctf.jdo.tc1x.TestInstanceFactory"/>
@@ -585,9 +567,6 @@
 
     <!-- tc1x -->
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
-    <case id="TC15" class="ctf.jdo.tc1x.TestMultiPrimKeys"/>
-    <case id="TC15a" class="ctf.jdo.tc1x.TestMultiPrimKeysOnly"/>
-    <case id="TC16" class="ctf.jdo.tc1x.TestNestedFields"/>
     <case id="TC17" class="ctf.jdo.tc1x.TestTimeStamp"/>
     <case id="TC18" class="ctf.jdo.tc1x.TestPersistent"/>
     <case id="TC19" class="ctf.jdo.tc1x.TestInstanceFactory"/>
@@ -678,9 +657,6 @@
 
     <!-- tc1x -->
     <!-- <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/> -->
-    <case id="TC15" class="ctf.jdo.tc1x.TestMultiPrimKeys"/>
-    <case id="TC15a" class="ctf.jdo.tc1x.TestMultiPrimKeysOnly"/>
-    <case id="TC16" class="ctf.jdo.tc1x.TestNestedFields"/>
     <!-- <case id="TC17" class="ctf.jdo.tc1x.TestTimeStamp"/> -->
     <case id="TC18" class="ctf.jdo.tc1x.TestPersistent"/>
     <case id="TC19" class="ctf.jdo.tc1x.TestInstanceFactory"/>
@@ -771,9 +747,6 @@
 
     <!-- tc1x -->
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
-    <case id="TC15" class="ctf.jdo.tc1x.TestMultiPrimKeys"/>
-    <case id="TC15a" class="ctf.jdo.tc1x.TestMultiPrimKeysOnly"/>
-    <case id="TC16" class="ctf.jdo.tc1x.TestNestedFields"/>
     <case id="TC17" class="ctf.jdo.tc1x.TestTimeStamp"/>
     <case id="TC18" class="ctf.jdo.tc1x.TestPersistent"/>
     <case id="TC19" class="ctf.jdo.tc1x.TestInstanceFactory"/>
@@ -869,9 +842,6 @@
 
     <!-- tc1x -->
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
-    <case id="TC15" class="ctf.jdo.tc1x.TestMultiPrimKeys"/>
-    <case id="TC15a" class="ctf.jdo.tc1x.TestMultiPrimKeysOnly"/>
-    <case id="TC16" class="ctf.jdo.tc1x.TestNestedFields"/>
     <case id="TC17" class="ctf.jdo.tc1x.TestTimeStamp"/>
     <case id="TC18" class="ctf.jdo.tc1x.TestPersistent"/>
     <case id="TC19" class="ctf.jdo.tc1x.TestInstanceFactory"/>
@@ -966,9 +936,6 @@
 
     <!-- tc1x -->
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
-    <case id="TC15" class="ctf.jdo.tc1x.TestMultiPrimKeys"/>
-    <case id="TC15a" class="ctf.jdo.tc1x.TestMultiPrimKeysOnly"/>
-    <case id="TC16" class="ctf.jdo.tc1x.TestNestedFields"/>
     <case id="TC17" class="ctf.jdo.tc1x.TestTimeStamp"/>
     <case id="TC18" class="ctf.jdo.tc1x.TestPersistent"/>
     <case id="TC19" class="ctf.jdo.tc1x.TestInstanceFactory"/>

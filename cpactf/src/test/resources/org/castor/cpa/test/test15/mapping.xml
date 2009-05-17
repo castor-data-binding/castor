@@ -1,0 +1,121 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+  <class name="org.castor.cpa.test.test15.PrimaryKeysPerson" identity="firstName lastName">
+    <description>testing multiple primary key</description>
+    <map-to table="test15_person"/>
+    <field name="firstName" type="string" required="true">
+      <sql name="fname" type="varchar"/>
+    </field>
+    <field name="lastName" type="string" required="true">
+      <sql name="lname" type="varchar"/>
+    </field>
+    <field name="birthday" type="date">
+      <sql name="bday" type="date"/>
+    </field>
+    <field name="address" type="org.castor.cpa.test.test15.PrimaryKeysAddress"
+           collection="arraylist"/>
+  </class>
+
+  <class name="org.castor.cpa.test.test15.PrimaryKeysAddress"
+         depends="org.castor.cpa.test.test15.PrimaryKeysPerson" identity="id">
+    <description>testing multiple primary key</description>
+    <map-to table="test15_address"/>
+    <field name="id" type="integer">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="street" type="string">
+      <sql name="street" type="varchar"/>
+    </field>
+    <field name="city" type="string">
+      <sql name="city" type="varchar"/>
+    </field>
+    <field name="state" type="string">
+      <sql name="state" type="varchar"/>
+    </field>
+    <field name="zip" type="string">
+      <sql name="zip" type="varchar"/>
+    </field>
+    <field name="Person" type="org.castor.cpa.test.test15.PrimaryKeysPerson">
+      <sql name="fname lname"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test15.PrimaryKeysEmployee"
+         extends="org.castor.cpa.test.test15.PrimaryKeysPerson">
+    <description>testing multiple primary key</description>
+    <map-to table="test15_employee"/>
+    <field name="startDate" type="date">
+      <sql name="start_date" type="date"/>
+    </field>
+    <field name="payRoll" type="org.castor.cpa.test.test15.PrimaryKeysPayRoll"/>
+    <field name="contract" type="org.castor.cpa.test.test15.PrimaryKeysContract"/>
+  </class>
+
+  <class name="org.castor.cpa.test.test15.PrimaryKeysContract"
+         depends="org.castor.cpa.test.test15.PrimaryKeysEmployee" identity="policyNo contractNo">
+    <description>testing multiple primary key</description>
+    <map-to table="test15_contract"/>
+    <field name="policyNo" type="integer">
+      <sql name="policy_no" type="integer"/>
+    </field>
+    <field name="contractNo" type="integer">
+      <sql name="contract_no" type="integer"/>
+    </field>
+    <field name="comment" type="string">
+      <sql name="c_comment" type="varchar"/>
+    </field>
+    <field name="category" type="org.castor.cpa.test.test15.PrimaryKeysCategory"
+           collection="arraylist">
+      <sql many-table="test15_category_contract" many-key="policy_no contract_no" name="cate_id"/>
+    </field>
+    <field name="employee" type="org.castor.cpa.test.test15.PrimaryKeysEmployee">
+      <sql name="fname lname"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test15.PrimaryKeysCategory" identity="id">
+    <description>testing multiple primary key</description>
+    <map-to table="test15_category"/>
+    <field name="id" type="integer">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="name" type="string" required="true">
+      <sql name="name" type="varchar"/>
+    </field>
+    <field name="contract" type="org.castor.cpa.test.test15.PrimaryKeysContract"
+           collection="arraylist">
+      <sql many-table="test15_category_contract" many-key="cate_id" name="policy_no contract_no"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test15.PrimaryKeysPayRoll"
+         depends="org.castor.cpa.test.test15.PrimaryKeysEmployee" identity="id">
+    <description>testing multiple primary key</description>
+    <map-to table="test15_payroll"/>
+    <field name="id" type="integer">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="holiday" type="integer">
+      <sql name="holiday" type="integer"/>
+    </field>
+    <field name="hourlyRate" type="integer">
+      <sql name="hourly_rate" type="integer"/>
+    </field>
+    <field name="employee" type="org.castor.cpa.test.test15.PrimaryKeysEmployee">
+      <sql name="fname lname"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test15.PrimaryKeysOnly" identity="firstName lastName">
+    <description>testing multiple primary key (where all fields are part of identity)</description>
+    <map-to table="test15_only" />
+    <field name="firstName" type="string"  required="true">
+      <sql name="fname" type="varchar" />
+    </field>
+    <field name="lastName" type="string" required="true">
+      <sql name="lname" type="varchar" />
+    </field>
+  </class>
+</mapping>
