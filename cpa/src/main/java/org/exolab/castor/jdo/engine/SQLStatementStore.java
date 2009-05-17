@@ -50,6 +50,8 @@ public final class SQLStatementStore {
     private final String _mapTo;
     
     private final SQLFieldInfo[] _fields;
+    
+    private final SQLColumnInfo[] _ids;
 
     /** Indicates whether there is a field to persist at all; in the case of 
      *  EXTEND relationships where no additional attributes are defined in the 
@@ -70,7 +72,8 @@ public final class SQLStatementStore {
         _type = engine.getDescriptor().getJavaClass().getName();
         _mapTo = new ClassDescriptorJDONature(engine.getDescriptor()).getTableName();
         _fields = _engine.getInfo();
-        
+        _ids = _engine.getColumnInfoForIdentities();
+
         // iterate through all fields to check whether there is a field
         // to persist at all; in the case of extend relationships where no 
         // additional attributes are defined in the extending class, this 
@@ -114,10 +117,9 @@ public final class SQLStatementStore {
             
             sql.append(JDBCSyntax.WHERE);
 
-            SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
-            for (int i = 0; i < ids.length; i++) {
+            for (int i = 0; i < _ids.length; i++) {
                 if (i > 0) { sql.append(" AND "); }
-                sql.append(_factory.quoteName(ids[i].getName()));
+                sql.append(_factory.quoteName(_ids[i].getName()));
                 sql.append(QueryExpression.OP_EQUALS);
                 sql.append(JDBCSyntax.PARAMETER);
             }
@@ -210,16 +212,15 @@ public final class SQLStatementStore {
                 }
                 
                 // bind the identity of the row to be stored into the preparedStatement
-                SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
-                if (identity.size() != ids.length) {
+                if (identity.size() != _ids.length) {
                     throw new PersistenceException("Size of identity field mismatched!");
                 }
                 
-                for (int i = 0; i < ids.length; i++) {
-                    stmt.setObject(count++, ids[i].toSQL(identity.get(i)));
+                for (int i = 0; i < _ids.length; i++) {
+                    stmt.setObject(count++, _ids[i].toSQL(identity.get(i)));
                     if (LOG.isTraceEnabled()) {
-                        LOG.trace(Messages.format("jdo.bindingIdentity", ids[i].getName(),
-                                ids[i].toSQL(identity.get(i))));
+                        LOG.trace(Messages.format("jdo.bindingIdentity", _ids[i].getName(),
+                                _ids[i].toSQL(identity.get(i))));
                     }
                 }                    
                 
@@ -289,8 +290,8 @@ public final class SQLStatementStore {
                         
                         // bind the identity to the prepareStatement
                         count = 1;
-                        for (int i = 0; i < ids.length; i++) {
-                            stmt.setObject(count++, ids[i].toSQL(identity.get(i)));
+                        for (int i = 0; i < _ids.length; i++) {
+                            stmt.setObject(count++, _ids[i].toSQL(identity.get(i)));
                         }
                         
                         ResultSet res = stmt.executeQuery();
