@@ -22,16 +22,6 @@ create unique index tc0x_race_pk on tc0x_race ( id );
 
 -- tc1x TESTS
 
-drop table tc1x_sample;
-
-create table tc1x_sample (
-  id      int           not null,
-  value1  varchar(200)  not null,
-  value2  varchar(200)
-);
-
-create unique index tc1x_sample_pk on tc1x_sample ( id );
-
 drop table tc1x_persist;
 
 create table tc1x_persist (
@@ -73,86 +63,6 @@ create table tc1x_rollback (
 );
 
 create unique index tc1x_rollback_pk on tc1x_rollback ( id );
-
-drop table tc1x_pks_person;
-
-create table tc1x_pks_person (
-  fname varchar(100)    not null,
-  lname varchar(100)    not null,
-  bday  date            
-);
-
-create unique index tc1x_pks_prs_pk on tc1x_pks_person( fname, lname );
-
-drop table tc1x_pks_employee;
-
-create table tc1x_pks_employee (
-  fname      varchar(100)    not null,
-  lname      varchar(100)    not null,
-  start_date date            
-);
-
-create unique index tc1x_pks_emp_pk on tc1x_pks_employee( fname, lname );
-
-drop table tc1x_pks_payroll;
-
-create table tc1x_pks_payroll (
-  fname       varchar(100)  not null,
-  lname       varchar(100)  not null,
-  id          int           not null,
-  holiday     int           not null,
-  hourly_rate int           not null
-);
-
-create unique index tc1x_pks_pay_fk on tc1x_pks_payroll( fname, lname );
-
-create unique index tc1x_pks_pay_pk on tc1x_pks_payroll( id );
-
-drop table tc1x_pks_address;
-
-create table tc1x_pks_address (
-  fname   varchar(100)  not null,
-  lname   varchar(100)  not null,
-  id      int           not null,
-  street  varchar(30)   ,
-  city    varchar(30)   ,
-  state   varchar(2)    ,
-  zip     varchar(6)    
-);
-
-create unique index tc1x_pks_add_pk on tc1x_pks_address( id );
-
-drop table tc1x_pks_contract;
-
-create table tc1x_pks_contract (
-  fname        varchar(100)  not null,
-  lname        varchar(100)  not null,
-  policy_no    int           not null,
-  contract_no  int           not null,
-  c_comment    varchar(100)  
-);
-
-create unique index tc1x_pks_cont_fk on tc1x_pks_contract( fname, lname );
-
-create unique index tc1x_pks_cont_pk on tc1x_pks_contract( policy_no, contract_no );
-
-drop table tc1x_pks_category_contract;
-
-create table tc1x_pks_category_contract (
-  policy_no    int      not null,
-  contract_no  int      not null,
-  cate_id      int      not null
-);
-
-drop table tc1x_pks_category;
-
-create table tc1x_pks_category (
-  id    int              not null,
-  name  varchar(100)     not null
-);
-
-create unique index tc1x_pks_cat_pk on tc1x_pks_category( id );
-
 
 -- tc2x TESTS
 

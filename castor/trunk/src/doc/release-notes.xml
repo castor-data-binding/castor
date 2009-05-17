@@ -68,6 +68,26 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
 </class>]]></code-panel>
             </summary>
             <bugs>
+                <bug id="2687" tool="jira">
+                    <description>
+                        Migrated TC15, TC15a, TC16 from old to new CPACTF test suite.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Udai Gupta</name>
+                        <email>mailtoud@gmail.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Udai Gupta</name>
+                        <email>mailtoud@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20090517</date>
+                </bug>
                 <bug id="2714" tool="jira">
                     <description>
                         Shift the SQLFieldInfo array contents to constructor.
