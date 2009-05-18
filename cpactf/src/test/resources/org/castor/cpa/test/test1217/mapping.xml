@@ -35,7 +35,7 @@
             <sql name="OID" type="char"/>
         </field>
         <field name="number" type="string">
-            <sql name="NUM" type="char"/>
+            <sql name="EXNUM" type="char"/>
         </field>
     </class>
   
@@ -50,7 +50,7 @@
             <sql name="CODE" type="char"/>
         </field>
         <field name="value" type="double">
-            <sql name="VALUE" type="double"/>
+            <sql name="PRICE" type="double"/>
         </field>
         <field name="company" type="org.castor.cpa.test.test1217.Person">
             <sql name="COMPANY"/>

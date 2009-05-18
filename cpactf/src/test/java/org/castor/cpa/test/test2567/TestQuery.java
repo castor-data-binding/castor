@@ -40,6 +40,7 @@ public final class TestQuery extends CPATestCase {
         return (engine == DatabaseEngineType.ORACLE)
             || (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.SQL_SERVER)
+            || (engine == DatabaseEngineType.SAPDB)
             || (engine == DatabaseEngineType.DERBY);
     }
     

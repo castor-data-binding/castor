@@ -35,6 +35,7 @@ public final class TestObjectNotFound extends CPATestCase {
         return (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.DERBY)
             || (engine == DatabaseEngineType.SQL_SERVER)
+            || (engine == DatabaseEngineType.SAPDB)
             || (engine == DatabaseEngineType.ORACLE);
     }
     

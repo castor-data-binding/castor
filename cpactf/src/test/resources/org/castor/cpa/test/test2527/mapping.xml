@@ -11,7 +11,7 @@
             <sql name="ID" type="numeric"/>
         </field>
         <field name="timestamp" type="date">
-            <sql name="STAMP" type="timestamp"/>
+            <sql name="TIME_STAMP" type="timestamp"/>
         </field>
         <field name="source" type="string">
             <sql name="SOURCE" type="char"/>
@@ -52,10 +52,10 @@
             <sql name="ID"/>
         </field>
         <field name="type" type="string">
-            <sql name="TYPE" type="char" dirty="ignore"/>
+            <sql name="RTYPE" type="char" dirty="ignore"/>
         </field>
         <field name="value" type="string">
-            <sql name="VALUE" type="char" dirty="ignore"/>
+            <sql name="RVALUE" type="char" dirty="ignore"/>
         </field>
     </class>
 </mapping>

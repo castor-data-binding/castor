@@ -51,6 +51,7 @@ public final class TestTypeHandling extends CPATestCase {
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.SAPDB)
             || (engine == DatabaseEngineType.DERBY);
     }
 

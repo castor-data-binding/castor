@@ -68,6 +68,26 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
 </class>]]></code-panel>
             </summary>
             <bugs>
+                <bug id="2710" tool="jira">
+                    <description>
+                        Enabled execution of new JDO test suite against SAPDB/MAXDB.
+                    </description>
+                    <contributor>
+                        <name>Clovis Wichoski</name>
+                        <email>clovis.wichoski@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20090518</date>
+                </bug>  
                 <bug id="2715" tool="jira">
                     <description>
                         Shift the SQLColumnInfo array contents to constructor.

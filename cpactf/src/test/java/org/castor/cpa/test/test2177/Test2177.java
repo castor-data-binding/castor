@@ -30,6 +30,7 @@ public final class Test2177 extends CPATestCase {
         return (engine == DatabaseEngineType.MYSQL) 
             || (engine == DatabaseEngineType.ORACLE)
             || (engine == DatabaseEngineType.SQL_SERVER)
+            || (engine == DatabaseEngineType.SAPDB)
             || (engine == DatabaseEngineType.DERBY);
     }
 
