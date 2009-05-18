@@ -1,23 +1,23 @@
-drop table if exists test15_person
+drop table test15_person
 //
 
-drop table if exists test15_address
+drop table test15_address
 //
 
-drop table if exists test15_employee
+drop table test15_employee
 //
 
-drop table if exists test15_contract
+drop table test15_contract
 //
 
-drop table if exists test15_category_contract
+drop table test15_category_contract
 //
 
-drop table if exists test15_payroll
+drop table test15_payroll
 //
 
-drop table if exists test15_category
+drop table test15_category
 //
 
-drop table if exists test15_only
+drop table test15_only
 //

@@ -13,7 +13,7 @@
             <sql name="name" type="char"/>
         </field>
         <field name="timeStamp" type="long">
-            <sql name="timestamp" type="numeric" />
+            <sql name="time_stamp" type="numeric" />
         </field>
     </class>
 
@@ -31,7 +31,7 @@
 	      <sql name="group_id" />
 	    </field>
         <field name="timeStamp" type="long">
-            <sql name="timestamp" type="numeric" />
+            <sql name="time_stamp" type="numeric" />
         </field>
     </class>
 
@@ -46,7 +46,7 @@
             <sql name="name" type="char"/>
         </field>
         <field name="timeStamp" type="long">
-            <sql name="timestamp" type="numeric" />
+            <sql name="time_stamp" type="numeric" />
         </field>
     </class>
 
@@ -61,7 +61,7 @@
             <sql name="name" type="char"/>
         </field>
         <field name="timeStamp" type="long">
-            <sql name="timestamp" type="numeric" />
+            <sql name="time_stamp" type="numeric" />
         </field>
     </class>
     

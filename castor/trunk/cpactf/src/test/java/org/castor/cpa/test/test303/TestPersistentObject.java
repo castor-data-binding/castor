@@ -54,6 +54,7 @@ public final class TestPersistentObject extends CPATestCase {
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL) 
             || (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.SAPDB)
             || (engine == DatabaseEngineType.SQL_SERVER);
     }
     

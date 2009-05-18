@@ -32,6 +32,7 @@ public final class TestCreate extends CPATestCase {
     }
 
     // Test are only included/excluded for engines that have been tested with this test suite.
+    // There is a problem with SAPDB handled at CASTOR-2724 that causes this test to fail
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.ORACLE);
