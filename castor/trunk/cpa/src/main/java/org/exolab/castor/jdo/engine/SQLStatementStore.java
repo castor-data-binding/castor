@@ -64,6 +64,14 @@ public final class SQLStatementStore {
     private String _statementDirty;
     
     private String _statementLoad;
+    
+    private String _storeStatement;
+
+    private PreparedStatement _preparedStatement;
+    
+    private ResultSet _resultSet;
+    
+    private int _count;
 
     public SQLStatementStore(final SQLEngine engine, final PersistenceFactory factory,
                              final String load) {
@@ -149,14 +157,10 @@ public final class SQLStatementStore {
         } 
     }
     
-    public Object executeStatement(final Connection conn, final Identity identity,
+    public synchronized Object executeStatement(final Connection conn, final Identity identity,
                                    final ProposedEntity newentity,
                                    final ProposedEntity oldentity)
     throws PersistenceException {
-        PreparedStatement stmt = null;
-        int count;
-        String storeStatement = null;
-
         // Must store record in parent table first.
         // All other dependents are stored independently.
         SQLEngine extended = _engine.getExtends();
@@ -172,178 +176,47 @@ public final class SQLStatementStore {
         // fields to persist.
         if (_hasFieldsToPersist) {
             try {
-                storeStatement = getStoreStatement(oldentity);
-                stmt = conn.prepareStatement(storeStatement);
-                
-                if (LOG.isTraceEnabled()) {
-                    LOG.trace(Messages.format("jdo.storing", _type, stmt.toString()));
-                }
-                
-                count = 1;
-                
-                // bind fields of the row to be stored into the preparedStatement
-                for (int i = 0; i < _fields.length; ++i) {
-                    if (_fields[i].isStore()) {
-                        SQLColumnInfo[] columns = _fields[i].getColumnInfo();
-                        Object value = newentity.getField(i);
-                        if (value == null) {
-                            for (int j = 0; j < columns.length; j++) {
-                                stmt.setNull(count++, columns[j].getSqlType());
-                            }
-                        } else if (value instanceof Identity) {
-                            Identity id = (Identity) value;
-                            if (id.size() != columns.length) {
-                                throw new PersistenceException("Size of identity field mismatch!");
-                            }
-                            
-                            for (int j = 0; j < columns.length; j++) {
-                                SQLTypeInfos.setValue(stmt, count++,
-                                        columns[j].toSQL(id.get(j)), columns[j].getSqlType());
-                            }
-                        } else {
-                            if (columns.length != 1) {
-                                throw new PersistenceException("Complex field expected!");
-                            }
-                            
-                            SQLTypeInfos.setValue(stmt, count++, columns[0].toSQL(value),
-                                    columns[0].getSqlType());
-                        }
-                    }
-                }
-                
-                // bind the identity of the row to be stored into the preparedStatement
-                if (identity.size() != _ids.length) {
-                    throw new PersistenceException("Size of identity field mismatched!");
-                }
-                
-                for (int i = 0; i < _ids.length; i++) {
-                    stmt.setObject(count++, _ids[i].toSQL(identity.get(i)));
-                    if (LOG.isTraceEnabled()) {
-                        LOG.trace(Messages.format("jdo.bindingIdentity", _ids[i].getName(),
-                                _ids[i].toSQL(identity.get(i))));
-                    }
-                }                    
-                
-                // bind the old fields of the row to be stored into the preparedStatement
-                if (oldentity.getFields() != null) {
-                    boolean supportsSetNull = _factory.supportsSetNullInWhere();
-                    
-                    for (int i = 0; i < _fields.length; ++i) {
-                        if (_fields[i].isStore() && _fields[i].isDirtyCheck()) {
-                            SQLColumnInfo[] columns = _fields[i].getColumnInfo();
-                            Object value = oldentity.getField(i);
-                            if (value == null) {
-                                if (supportsSetNull) {
-                                    for (int j = 0; j < columns.length; j++) {
-                                        stmt.setNull(count++, columns[j].getSqlType());
-                                    }
-                                }
-                            } else if (value instanceof Identity) {
-                                Identity id = (Identity) value;
-                                if (id.size() != columns.length) {
-                                    throw new PersistenceException(
-                                            "Size of identity field mismatch!");
-                                }
-                                
-                                for (int j = 0; j < columns.length; j++) {
-                                    SQLTypeInfos.setValue(stmt, count++,
-                                            columns[j].toSQL(id.get(j)), columns[j].getSqlType());
-                                    
-                                    if (LOG.isTraceEnabled()) {
-                                        LOG.trace(Messages.format("jdo.bindingField",
-                                                columns[j].getName(), columns[j].toSQL(id.get(j))));
-                                    }
-                                }
-                            } else {
-                                if (columns.length != 1) {
-                                    throw new PersistenceException("Complex field expected!");
-                                }
-                                
-                                SQLTypeInfos.setValue(stmt, count++, columns[0].toSQL(value),
-                                        columns[0].getSqlType());
-                            
-                                if (LOG.isTraceEnabled()) {
-                                    LOG.trace(Messages.format("jdo.bindingField",
-                                            columns[0].getName(), columns[0].toSQL(value)));
-                                }
-                            }
-                        }
-                    }
-                }
-                
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug(Messages.format("jdo.storing", _type, stmt.toString()));
-                }
+                _storeStatement = getStoreStatement(oldentity);
 
-                if (stmt.executeUpdate() <= 0) { // SAP DB returns -1 here
+                //get PreparedStatment for the connection
+                prepareStatement(conn, _storeStatement);
+            
+                //For binding fields and id's with StoreStatement
+                _count = 1;
+                bindData(identity, newentity, oldentity);
+                
+                //executes prepared statement
+                int result;
+                result = executeUpdate();
+                if (result <= 0) { // SAP DB returns -1 here
                     // If no update was performed, the object has been previously
                     // removed from persistent storage or has been modified if
                     // dirty checking. Determine which is which.
-                    stmt.close();
-
+                    closeStatement();
                     if (oldentity.getFields() != null) {
-                        stmt = conn.prepareStatement(_statementLoad);
+                        prepareStatement(conn, _statementLoad);                   
+                     
+                        //Binds identity
+                        _count = 1;
+                        bindIdentity(identity);
+                    
+                        //Load Data into resultset
+                        executeQuery();
                         
-                        if (LOG.isTraceEnabled()) {
-                            LOG.trace(Messages.format("jdo.storing", _type, stmt.toString()));
-                        }
-                        
-                        // bind the identity to the prepareStatement
-                        count = 1;
-                        for (int i = 0; i < _ids.length; i++) {
-                            stmt.setObject(count++, _ids[i].toSQL(identity.get(i)));
-                        }
-                        
-                        ResultSet res = stmt.executeQuery();
-                        if (res.next()) {                     
-                            StringBuffer enlistFieldsNotMatching = new StringBuffer();
-                            
-                            int numberOfFieldsNotMatching = 0;
-                            for (int i = 0; i < _fields.length; i++) {
-                                SQLColumnInfo[] columns = _fields[i].getColumnInfo();
-                                Object value = oldentity.getField(i);
-                                Object currentField = columns[0].toJava(res.getObject(
-                                        columns[0].getName()));
-                                if (_fields[i].getTableName().compareTo(_mapTo) == 0) {
-                                    if ((value == null) || ((value != null)
-                                            && (currentField == null))) {
-                                        enlistFieldsNotMatching.append("(" + _type + ")."
-                                                + columns[0].getName() + ": ");
-                                        enlistFieldsNotMatching.append("[" + value + "/"
-                                                + currentField + "]"); 
-                                    } else if (!value.equals(currentField)) {
-                                        if (numberOfFieldsNotMatching >= 1) {
-                                            enlistFieldsNotMatching.append(", ");
-                                        }
-                                        enlistFieldsNotMatching.append("(" + _type + ")."
-                                                + columns[0].getName() + ": ");
-                                        enlistFieldsNotMatching.append("[" + value + "/"
-                                                + currentField + "]"); 
-                                        numberOfFieldsNotMatching++;
-                                    }
-                                }
-                            }
-                            throw new ObjectModifiedException(Messages.format(
-                                    "persist.objectModified", _type, identity,
-                                    enlistFieldsNotMatching.toString()));
-                        }
+                        //Process Resultset data
+                        processData (identity, oldentity);                
                     }
                     throw new ObjectDeletedException(Messages.format(
                             "persist.objectDeleted", _type, identity));
                 }                
             } catch (SQLException except) {
-                LOG.fatal(Messages.format("jdo.storeFatal", _type,  storeStatement), except);
+                LOG.fatal(Messages.format("jdo.storeFatal", _type,  _storeStatement), except);
                 throw new PersistenceException(Messages.format("persist.nested", except), except);
             } finally {
-                try {
-                    // Close the insert/select statement
-                    if (stmt != null) { stmt.close(); }
-                } catch (SQLException except2) {
-                    LOG.warn("Problem closing JDBC statement", except2);
-                }
+                //close statement
+                closeStatement();
             }
         }
-
         return null;
     }
 
@@ -417,5 +290,242 @@ public final class SQLStatementStore {
             }
         }
         return internalpos;
+    }
+    
+    /**
+     * Prepares the SQL Statement.
+     * 
+     * @param conn
+     * @throws PersistenceException
+     * @throws SQLException 17 May 2009
+     */
+    private void prepareStatement (final Connection conn, String statement) throws PersistenceException, SQLException {    	     	
+        _preparedStatement = conn.prepareStatement(statement);
+         
+         if (LOG.isTraceEnabled()) {
+             LOG.trace(Messages.format("jdo.storing", _type, _preparedStatement.toString()));
+         }
+    }
+    
+    /**
+     * Binds data.
+     * 
+     * @param identity
+     * @param newentity
+     * @param oldentity
+     * @throws PersistenceException
+     * @throws SQLException 18 May 2009
+     */
+    private void bindData (final Identity identity, final ProposedEntity newentity,
+            final ProposedEntity oldentity) throws PersistenceException, SQLException {
+        //Binds new entities
+        bindNewEntity (newentity);
+        
+        //binds identity
+        bindIdentity (identity);
+        
+        //binds old entities
+        bindOldEntity (oldentity);
+    }
+    
+    /**
+     * Binds new entities.
+     * 
+     * @param newentity
+     * @throws PersistenceException
+     * @throws SQLException 18 May 2009
+     */
+    private void bindNewEntity(final ProposedEntity newentity)
+    throws PersistenceException, SQLException {
+        // bind fields of the row to be stored into the preparedStatement
+        for (int i = 0; i < _fields.length; ++i) {
+            if (_fields[i].isStore()) {
+                SQLColumnInfo[] columns = _fields[i].getColumnInfo();
+                Object value = newentity.getField(i);
+                if (value == null) {
+                    for (int j = 0; j < columns.length; j++) {
+                        _preparedStatement.setNull(_count++, columns[j].getSqlType());
+                    }
+                } else if (value instanceof Identity) {
+                    Identity id = (Identity) value;
+                    if (id.size() != columns.length) {
+                        throw new PersistenceException("Size of identity field mismatch!");
+                    }
+                    
+                    for (int j = 0; j < columns.length; j++) {
+                        SQLTypeInfos.setValue(_preparedStatement, _count++,
+                                columns[j].toSQL(id.get(j)), columns[j].getSqlType());
+                    }
+                } else {
+                    if (columns.length != 1) {
+                        throw new PersistenceException("Complex field expected!");
+                    }
+                    
+                    SQLTypeInfos.setValue(_preparedStatement, _count++, columns[0].toSQL(value),
+                            columns[0].getSqlType());
+                }
+            }
+        }
+    }
+    
+    /**
+     * Binds Identity.
+     * 
+     * @param identity
+     * @throws PersistenceException
+     * @throws SQLException 18 May 2009
+     */
+    private void  bindIdentity (final Identity identity) throws PersistenceException, SQLException {
+        // bind the identity of the row to be stored into the preparedStatement
+        if (identity.size() != _ids.length) {
+            throw new PersistenceException("Size of identity field mismatched!");
+        }
+        
+        for (int i = 0; i < _ids.length; i++) {
+            _preparedStatement.setObject(_count++, _ids[i].toSQL(identity.get(i)));
+
+            if (LOG.isTraceEnabled()) {
+                LOG.trace(Messages.format("jdo.bindingIdentity", _ids[i].getName(),
+                        _ids[i].toSQL(identity.get(i))));
+            }
+        }   
+    }
+    
+    /**
+     * Binds old Entities.
+     * 
+     * @param oldentity
+     * @throws PersistenceException
+     * @throws SQLException 18 May 2009
+     */
+    private void bindOldEntity(final ProposedEntity oldentity) throws PersistenceException, SQLException {    	
+        // bind the old fields of the row to be stored into the preparedStatement
+        if (oldentity.getFields() != null) {
+            boolean supportsSetNull = _factory.supportsSetNullInWhere();
+            
+            for (int i = 0; i < _fields.length; ++i) {
+                if (_fields[i].isStore() && _fields[i].isDirtyCheck()) {
+                    SQLColumnInfo[] columns = _fields[i].getColumnInfo();
+                    Object value = oldentity.getField(i);
+                    if (value == null) {
+                        if (supportsSetNull) {
+                            for (int j = 0; j < columns.length; j++) {
+                                _preparedStatement.setNull(_count++, columns[j].getSqlType());
+                            }
+                        }
+                    } else if (value instanceof Identity) {
+                        Identity id = (Identity) value;
+                        if (id.size() != columns.length) {
+                            throw new PersistenceException(
+                                    "Size of identity field mismatch!");
+                        }
+                        
+                        for (int j = 0; j < columns.length; j++) {
+                            SQLTypeInfos.setValue(_preparedStatement, _count++,
+                                    columns[j].toSQL(id.get(j)), columns[j].getSqlType());
+                            
+                            if (LOG.isTraceEnabled()) {
+                                LOG.trace(Messages.format("jdo.bindingField",
+                                        columns[j].getName(), columns[j].toSQL(id.get(j))));
+                            }
+                        }
+                    } else {
+                        if (columns.length != 1) {
+                            throw new PersistenceException("Complex field expected!");
+                        }
+                        
+                        SQLTypeInfos.setValue(_preparedStatement, _count++, columns[0].toSQL(value),
+                                columns[0].getSqlType());
+                    
+                        if (LOG.isTraceEnabled()) {
+                            LOG.trace(Messages.format("jdo.bindingField",
+                                    columns[0].getName(), columns[0].toSQL(value)));
+                        }
+                    }
+                }
+            }
+        }
+        
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(Messages.format("jdo.storing", _type, _preparedStatement.toString()));
+        }
+    }
+    
+    /**
+     * executeUpdate.
+     * 
+     * @return
+     * @throws SQLException 18 May 2009
+     */
+    private int executeUpdate () throws SQLException {
+        int result;
+        result = _preparedStatement.executeUpdate();
+        
+        return result;
+    } 
+    
+    /**
+     * executeQuery.
+     * 
+     * @throws SQLException
+     */
+    private void executeQuery () throws SQLException {
+        _resultSet = _preparedStatement.executeQuery();     
+    }
+    
+    /**
+     * process the ResultSet.
+     * 
+     * @param identity
+     * @param oldentity
+     * @throws SQLException
+     * @throws ObjectModifiedException 18 May 2009
+     */
+    private void processData (final Identity identity, final ProposedEntity oldentity) throws SQLException, ObjectModifiedException {
+        if (_resultSet.next()) {                     
+             StringBuffer enlistFieldsNotMatching = new StringBuffer();
+             
+             int numberOfFieldsNotMatching = 0;
+             for (int i = 0; i < _fields.length; i++) {
+                 SQLColumnInfo[] columns = _fields[i].getColumnInfo();
+                 Object value = oldentity.getField(i);
+                 Object currentField = columns[0].toJava(_resultSet.getObject(
+                         columns[0].getName()));
+                 if (_fields[i].getTableName().compareTo(_mapTo) == 0) {
+                     if ((value == null) || ((value != null)
+                             && (currentField == null))) {
+                         enlistFieldsNotMatching.append("(" + _type + ")."
+                                 + columns[0].getName() + ": ");
+                         enlistFieldsNotMatching.append("[" + value + "/"
+                                 + currentField + "]"); 
+                     } else if (!value.equals(currentField)) {
+                         if (numberOfFieldsNotMatching >= 1) {
+                             enlistFieldsNotMatching.append(", ");
+                         }
+                         enlistFieldsNotMatching.append("(" + _type + ")."
+                                 + columns[0].getName() + ": ");
+                         enlistFieldsNotMatching.append("[" + value + "/"
+                                 + currentField + "]"); 
+                         numberOfFieldsNotMatching++;
+                     }
+                 }
+             }
+
+             throw new ObjectModifiedException(Messages.format(
+                     "persist.objectModified", _type, identity,
+                     enlistFieldsNotMatching.toString()));
+         }
+    }
+    
+    /**
+     * closes the opened statement.
+     */
+    private void closeStatement() {
+        try {
+            // Close the insert/select statement
+            if (_preparedStatement != null) { _preparedStatement.close(); }
+        } catch (SQLException except2) {
+            LOG.warn("Problem closing JDBC statement", except2);
+        }
     }
 }
