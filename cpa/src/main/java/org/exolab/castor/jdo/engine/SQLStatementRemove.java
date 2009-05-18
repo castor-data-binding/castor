@@ -68,7 +68,7 @@ public final class SQLStatementRemove {
         }
     }
     
-    public Object executeStatement(final Connection conn, final Identity identity)
+    public synchronized Object executeStatement(final Connection conn, final Identity identity)
     throws PersistenceException {
         try {
             // get prepared statement
