@@ -1,54 +1,24 @@
-/**
- * Redistribution and use of this software and associated documentation
- * ("Software"), with or without modification, are permitted provided
- * that the following conditions are met:
+/*
+ * Copyright 2009 Udai Gupta, Ralf Joachim
  *
- * 1. Redistributions of source code must retain copyright
- *    statements and notices.  Redistributions must also contain a
- *    copy of this document.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * 2. Redistributions in binary form must reproduce the
- *    above copyright notice, this list of conditions and the
- *    following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * 3. The name "Exolab" must not be used to endorse or promote
- *    products derived from this Software without prior written
- *    permission of Intalio, Inc.  For written permission,
- *    please contact info@exolab.org.
- *
- * 4. Products derived from this Software may not be called "Exolab"
- *    nor may "Exolab" appear in their names without prior written
- *    permission of Intalio, Inc. Exolab is a registered
- *    trademark of Intalio, Inc.
- *
- * 5. Due credit should be given to the Exolab Project
- *    (http://www.exolab.org/).
- *
- * THIS SOFTWARE IS PROVIDED BY INTALIO, INC. AND CONTRIBUTORS
- * ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
- * NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
- * INTALIO, INC. OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
- * OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
-package ctf.jdo.tc1x;
-
-import harness.TestHarness;
-import harness.CastorTestCase;
-
-import jdo.JDOCategory;
+package org.castor.cpa.test.test18;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.cpa.test.framework.CPATestCase;
+import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.PersistenceException;
@@ -59,28 +29,34 @@ import org.exolab.castor.jdo.QueryResults;
  * that implements the persistence interaface is notified by 
  * Castor for loading, creating and storing events.
  */
-public final class TestPersistent extends CastorTestCase {
-    /**
-     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     * Commons Logging</a> instance used for all logging.
-     */
+public final class TestPersistent extends CPATestCase {
     private static final Log LOG = LogFactory.getLog(TestPersistent.class);
     
-    private JDOCategory    _category;
+    private static final String DBNAME = "test18";
+    private static final String MAPPING = "/org/castor/cpa/test/test18/mapping.xml";
+    private Database _db;
 
-    private Database       _db;
-
-    public TestPersistent(final TestHarness category) {
-        super(category, "TC18", "Persistence interface tests");
-        _category = (JDOCategory) category;
+    public TestPersistent(final String name) {
+        super(name);
     }
 
-    public void setUp() 
-            throws PersistenceException {
-        _db = _category.getDatabase();
+    // Test are only included/excluded for engines that have been tested with this test suite.
+
+    public boolean include(final DatabaseEngineType engine) {
+        return (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.DERBY);
     }
 
-    public void runTest() throws PersistenceException {
+    public void setUp() throws Exception {
+        _db = getJDOManager(DBNAME, MAPPING).getDatabase();
+    }
+
+    public void tearDown() throws PersistenceException {
+        if (_db.isActive()) { _db.rollback(); }
+        _db.close();
+    }
+    
+    public void testRun() throws PersistenceException {
         PersistentObject      parent;
 
         delete();
@@ -292,10 +268,5 @@ public final class TestPersistent extends CastorTestCase {
         }
 
         _db.commit();
-    }
-    
-    public void tearDown() throws PersistenceException {
-        if (_db.isActive()) { _db.rollback(); }
-        _db.close();
     }
 }
