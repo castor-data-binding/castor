@@ -28,47 +28,6 @@ create unique index tc0x_race_pk on tc0x_race ( id )
 
 -- tc1x TESTS
 
-drop table tc1x_persist
-//
-
-create table tc1x_persist (
-  id         integer       not null,
-  ctime      timestamp     not null,
-  mtime      timestamp     null,
-  value1     varchar(200)  not null,
-  parent_id  integer       null,
-  group_id   fixed(10,0)   not null
-)
-//
-
-create unique index tc1x_persist_pk on tc1x_persist ( id )
-//
-
-
-drop table tc1x_related
-//
-
-create table tc1x_related (
-  id          integer     not null,
-  persist_id  integer     not null
-)
-//
-
-create unique index tc1x_related_pk on tc1x_related ( id )
-//
-
-drop table tc1x_group
-//
-
-create table tc1x_group (
-  id      fixed(10,0)   not null,
-  value1  varchar(200)  not null
-)
-//
-
-create unique index tc1x_group_pk on tc1x_group ( id )
-//
-
 drop table tc1x_rollback
 //
 

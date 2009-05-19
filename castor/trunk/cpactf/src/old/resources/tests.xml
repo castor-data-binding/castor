@@ -16,9 +16,6 @@
 
     <!-- tc1x -->
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
-    <case id="TC17" class="ctf.jdo.tc1x.TestTimeStamp"/>
-    <case id="TC18" class="ctf.jdo.tc1x.TestPersistent"/>
-    <case id="TC19" class="ctf.jdo.tc1x.TestInstanceFactory"/>
 
     <!-- tc2x -->
     <case id="TC20" class="ctf.jdo.tc2x.TestKeyGenGeneric"/>
@@ -108,9 +105,6 @@
 
     <!-- tc1x -->
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
-    <case id="TC17" class="ctf.jdo.tc1x.TestTimeStamp"/>
-    <case id="TC18" class="ctf.jdo.tc1x.TestPersistent"/>
-    <case id="TC19" class="ctf.jdo.tc1x.TestInstanceFactory"/>
 
     <!-- tc2x -->
     <case id="TC20" class="ctf.jdo.tc2x.TestKeyGenGeneric"/>
@@ -202,9 +196,6 @@
 
     <!-- tc1x -->
     <!-- <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/> -->
-    <!-- <case id="TC17" class="ctf.jdo.tc1x.TestTimeStamp"/> -->
-    <case id="TC18" class="ctf.jdo.tc1x.TestPersistent"/>
-    <case id="TC19" class="ctf.jdo.tc1x.TestInstanceFactory"/>
 
     <!-- tc2x -->
     <case id="TC20" class="ctf.jdo.tc2x.TestKeyGenGeneric"/>
@@ -292,9 +283,6 @@
 
     <!-- tc1x -->
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
-    <case id="TC17" class="ctf.jdo.tc1x.TestTimeStamp"/>
-    <case id="TC18" class="ctf.jdo.tc1x.TestPersistent"/>
-    <case id="TC19" class="ctf.jdo.tc1x.TestInstanceFactory"/>
 
     <!-- tc2x -->
     <case id="TC20" class="ctf.jdo.tc2x.TestKeyGenGeneric"/>
@@ -384,9 +372,6 @@
 
     <!-- tc1x -->
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
-    <case id="TC17" class="ctf.jdo.tc1x.TestTimeStamp"/>
-    <case id="TC18" class="ctf.jdo.tc1x.TestPersistent"/>
-    <case id="TC19" class="ctf.jdo.tc1x.TestInstanceFactory"/>
 
     <!-- tc2x -->
     <case id="TC20" class="ctf.jdo.tc2x.TestKeyGenGeneric"/>
@@ -477,9 +462,6 @@
 
     <!-- tc1x -->
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
-    <case id="TC17" class="ctf.jdo.tc1x.TestTimeStamp"/>
-    <case id="TC18" class="ctf.jdo.tc1x.TestPersistent"/>
-    <case id="TC19" class="ctf.jdo.tc1x.TestInstanceFactory"/>
 
     <!-- tc2x -->
     <case id="TC20" class="ctf.jdo.tc2x.TestKeyGenGeneric"/>
@@ -567,9 +549,6 @@
 
     <!-- tc1x -->
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
-    <case id="TC17" class="ctf.jdo.tc1x.TestTimeStamp"/>
-    <case id="TC18" class="ctf.jdo.tc1x.TestPersistent"/>
-    <case id="TC19" class="ctf.jdo.tc1x.TestInstanceFactory"/>
 
     <!-- tc2x -->
     <case id="TC20" class="ctf.jdo.tc2x.TestKeyGenGeneric"/>
@@ -657,9 +636,6 @@
 
     <!-- tc1x -->
     <!-- <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/> -->
-    <!-- <case id="TC17" class="ctf.jdo.tc1x.TestTimeStamp"/> -->
-    <case id="TC18" class="ctf.jdo.tc1x.TestPersistent"/>
-    <case id="TC19" class="ctf.jdo.tc1x.TestInstanceFactory"/>
 
     <!-- tc2x -->
     <case id="TC20" class="ctf.jdo.tc2x.TestKeyGenGeneric"/>
@@ -747,9 +723,6 @@
 
     <!-- tc1x -->
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
-    <case id="TC17" class="ctf.jdo.tc1x.TestTimeStamp"/>
-    <case id="TC18" class="ctf.jdo.tc1x.TestPersistent"/>
-    <case id="TC19" class="ctf.jdo.tc1x.TestInstanceFactory"/>
 
     <!-- tc2x -->
     <case id="TC20" class="ctf.jdo.tc2x.TestKeyGenGeneric"/>
@@ -842,9 +815,6 @@
 
     <!-- tc1x -->
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
-    <case id="TC17" class="ctf.jdo.tc1x.TestTimeStamp"/>
-    <case id="TC18" class="ctf.jdo.tc1x.TestPersistent"/>
-    <case id="TC19" class="ctf.jdo.tc1x.TestInstanceFactory"/>
 
     <!-- tc2x -->
     <case id="TC20" class="ctf.jdo.tc2x.TestKeyGenGeneric"/>
@@ -936,9 +906,6 @@
 
     <!-- tc1x -->
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
-    <case id="TC17" class="ctf.jdo.tc1x.TestTimeStamp"/>
-    <case id="TC18" class="ctf.jdo.tc1x.TestPersistent"/>
-    <case id="TC19" class="ctf.jdo.tc1x.TestInstanceFactory"/>
 
     <!-- tc2x -->
     <case id="TC20" class="ctf.jdo.tc2x.TestKeyGenGeneric"/>

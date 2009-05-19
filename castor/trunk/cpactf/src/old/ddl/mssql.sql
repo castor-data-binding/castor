@@ -28,46 +28,6 @@ go
 
 -- tc1x TESTS
 
-drop table tc1x_persist
-go
-create table tc1x_persist (
-  id         integer         not null,
-  ctime      datetime        not null,
-  mtime      datetime        null,
-  value1     varchar(200)    not null,
-  parent_id  integer         null,
-  group_id   numeric(10,0)   not null
-)
-go
-create unique index tc1x_persist_pk on tc1x_persist ( id )
-go
-grant all on tc1x_persist to test
-go
-
-drop table tc1x_related
-go
-create table tc1x_related (
-  id          integer     not null,
-  persist_id  integer     not null
-)
-go
-create unique index tc1x_related_pk on tc1x_related ( id )
-go
-grant all on tc1x_related to test
-go
-
-drop table tc1x_group
-go
-create table tc1x_group (
-  id      numeric(10,0)  not null,
-  value1  varchar(200)   not null
-)
-go
-create unique index tc1x_group_pk on tc1x_group ( id )
-go
-grant all on tc1x_group to test
-go
-
 drop table tc1x_rollback
 go
 create table tc1x_rollback (
