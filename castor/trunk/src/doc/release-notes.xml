@@ -73,12 +73,12 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                         Separates the PrepareStatement functionality from executeStatement.
                     </description>
                     <contributor>
-                        <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon.eu</email>
-                    </contributor>
-                    <submitter>
                         <name>Ahmad Hassan</name>
                         <email>ahmad.hassan@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ahmad Hassan</name>
@@ -113,12 +113,12 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                         Shift the SQLColumnInfo array contents to constructor.
                     </description>
                     <contributor>
-                        <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon.eu</email>
-                    </contributor>
-                    <submitter>
                         <name>Ahmad Hassan</name>
                         <email>ahmad.hassan@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ahmad Hassan</name>
@@ -133,12 +133,12 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                         Migrated TC15, TC15a, TC16 from old to new CPACTF test suite.
                     </description>
                     <contributor>
-                        <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon.eu</email>
-                    </contributor>
-                    <submitter>
                         <name>Udai Gupta</name>
                         <email>mailtoud@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Udai Gupta</name>
@@ -153,12 +153,12 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                         Shift the SQLFieldInfo array contents to constructor.
                     </description>
                     <contributor>
-                        <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon.eu</email>
-                    </contributor>
-                    <submitter>
                         <name>Ahmad Hassan</name>
                         <email>ahmad.hassan@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ahmad Hassan</name>
@@ -173,12 +173,12 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                         Prepare statement of SQLStatementRemove in a separate method.
                     </description>
                     <contributor>
-                        <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon.eu</email>
-                    </contributor>
-                    <submitter>
                         <name>Ahmad Hassan</name>
                         <email>ahmad.hassan@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ahmad Hassan</name>
@@ -193,12 +193,12 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                         Fixed ctf.jdo.tc1x.TestMultiPrimKeysOnly failing on MaxDB/SapDB.
                     </description>
                     <contributor>
-                        <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon.eu</email>
-                    </contributor>
-                    <submitter>
                         <name>Clovis Wichoski</name>
                         <email>clovis.wichoski@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Clovis Wichoski</name>
@@ -213,12 +213,12 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                         Added support for named native queries at the class level.
                     </description>
                     <contributor>
-                        <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon.eu</email>
-                    </contributor>
-                    <submitter>
                         <name>Emir Causevic</name>
                         <email>emircaus@bih.net.ba</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Werner Guttmann</name>
@@ -233,12 +233,12 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                         Shift deletion of records of extended objects from SQLStatementRemove to ClassMolder.
                     </description>
                     <contributor>
-                        <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon.eu</email>
-                    </contributor>
-                    <submitter>
                         <name>Ahmad Hassan</name>
                         <email>ahmad.hassan@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ahmad Hassan</name>
@@ -273,12 +273,12 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                         Pass ID's array to constructor of SQLStatementRemove.
                     </description>
                     <contributor>
-                        <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon.eu</email>
-                    </contributor>
-                    <submitter>
                         <name>Ahmad Hassan</name>
                         <email>ahmad.hassan@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ahmad Hassan</name>
@@ -313,12 +313,12 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                         Shifted identity check from SQLStatementRemove to SQLEngine.
                     </description>
                     <contributor>
-                        <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon.eu</email>
-                    </contributor>
-                    <submitter>
                         <name>Ahmad Hassan</name>
                         <email>ahmad.hassan@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ahmad Hassan</name>
@@ -354,12 +354,12 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                         Migrated TC10 - TC13 from old to new CPACTF test suite.
                     </description>
                     <contributor>
-                        <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon.eu</email>
-                    </contributor>
-                    <submitter>
                         <name>Udai Gupta</name>
                         <email>mailtoud@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Udai Gupta</name>
@@ -499,12 +499,12 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                         Fixed issue that caused Test87 of new CPA test suite fails on some systems.
                     </description>
                     <contributor>
-                        <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon.eu</email>
-                    </contributor>
-                    <submitter>
                         <name>Udai Gupta</name>
                         <email>mailtoud@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
@@ -519,12 +519,12 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                         Use ANSI outer join operators in query for Microsoft SQL engine.
                     </description>
                     <contributor>
-                        <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon.eu</email>
-                    </contributor>
-                    <submitter>
                         <name>Udai Gupta</name>
                         <email>mailtoud@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Udai Gupta</name>
@@ -539,12 +539,12 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                         Fixed exception thrown by HighLowKeyGenerator on SQL Server 2005.
                     </description>
                     <contributor>
-                        <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon.eu</email>
-                    </contributor>
-                    <submitter>
                         <name>Udai Gupta</name>
                         <email>mailtoud@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Brian Schlining</name>
