@@ -45,6 +45,18 @@
 #
 org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
 
+                <h3>Castor XML and the use of regular expressions</h3>
+                
+                <p>
+                    If regular expressions are being used with Castor XML,
+                    Castor XML now throws a <tt>IllegalStateException</tt>
+                    when no regular expression engine id specified in a
+                    custom <tt>castor.properties</tt> file (using the 
+                    <tt>org.exolab.castor.regexp</tt> property). Please
+                    check with the reference guide to see what regular 
+                    expression engines are supported.
+                </p>
+                
                 <h2>Additions</h2>
                 
                 <h3>Added support for named native queries at the class level</h3>
@@ -68,6 +80,27 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
 </class>]]></code-panel>
             </summary>
             <bugs>
+                <bug id="2699" tool="jira">
+                    <description>
+                        Changed the way Castor deals with regular expression (patterns)
+                        when no regular expression engine is defined.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Patrick van Kann</name>
+                        <email>patrick.vankann@fortune-cookie.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20090521</date>
+                </bug>
                 <bug id="2688" tool="jira">
                     <description>
                         Migrated TC17, TC18, TC19 from old to new CPACTF test suite.
