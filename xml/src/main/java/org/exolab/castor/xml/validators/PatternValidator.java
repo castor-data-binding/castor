@@ -64,9 +64,9 @@ import org.exolab.castor.xml.ValidationException;
 public abstract class PatternValidator {
 
     /** The regular expressions to match against. */
-    private LinkedList      _patterns = new LinkedList();
+    private LinkedList<String> _patterns = new LinkedList<String>();
     /** If true, object is nillable, otherwise it is not. */
-    private boolean         _nillable = false;
+    private boolean _nillable = false;
     /** An instance of the regular expression evaluator if necessary. */
     private RegExpEvaluator _regex    = null;
 
@@ -88,24 +88,12 @@ public abstract class PatternValidator {
     } // -- PatternValidator
 
     /**
-     * Returns the first regular expression pattern for this PatternValidator,
-     * or null if no pattern has been set.
-     *
-     * @return the regular expression pattern
-     * @see #setPattern
-     * @deprecated since Castor 1.1, use {@link #getPatterns()}
-     */
-    public String getPattern() {
-        return (_patterns.isEmpty()) ? null : (String) _patterns.getFirst();
-    } // -- getPattern
-
-    /**
      * Returns the collection of regular expression patterns.
      *
      * @return the collection of regular expression patterns.
      * @see #setPattern
      */
-    public List getPatterns() {
+    public List<String> getPatterns() {
         return Collections.unmodifiableList(_patterns);
     } // -- getPattern
 
@@ -140,20 +128,6 @@ public abstract class PatternValidator {
     public void setNillable(final boolean nillable) {
         _nillable = nillable;
     } // -- setNillable
-
-    /**
-     * Sets the regular expression to validate against.  Deprecated since
-     * Castor 1.1, supports only one pattern to preserve old behavior.  Use
-     * {@link #addPattern(String)}.
-     *
-     * @param pattern
-     *            the regular expression to use when validating
-     * @deprecated since Castor 1.1, use {@link #addPattern(String)}
-     */
-    public void setPattern(final String pattern) {
-        clearPatterns();
-        addPattern(pattern);
-    } // -- setPattern
 
     /**
      * Sets the regular expression to validate against.
@@ -201,8 +175,7 @@ public abstract class PatternValidator {
         }
 
         // Loop over all patterns and return (success) if any one of them matches
-        for (Iterator i = _patterns.iterator(); i.hasNext(); ) {
-            String pattern = (String) i.next();
+        for (String pattern : _patterns) {
             _regex.setExpression(pattern);
             if (_regex.matches(str)) {
                 return;
@@ -218,9 +191,9 @@ public abstract class PatternValidator {
             buff.append("\"");
         } else {
             buff.append("does not match any of the following regular expressions: ");
-            for (Iterator i = _patterns.iterator(); i.hasNext(); ) {
+            for (Iterator<String> i = _patterns.iterator(); i.hasNext(); ) {
                 buff.append("\"");
-                buff.append((String) i.next());
+                buff.append(i.next());
                 buff.append("\"");
                 if (i.hasNext()) {
                     buff.append(", ");
@@ -260,52 +233,11 @@ public abstract class PatternValidator {
      */
     private void initEvaluator(final ValidationContext context) {
         _regex = context.getInternalContext().getRegExpEvaluator();
-        if (_regex == null) {
-            _regex = new DefaultRegExpEvaluator();
+        if (_regex == null && hasPattern()) {
+            throw new IllegalStateException("You are trying to use regular expressions without " 
+                    + "having specified a regular expression evaluator. Please use the " 
+                    + "castor.properties file to define such.");
         }
     } // -- initRegExpValidator
-
-    /**
-     * A simple implementation of a regular expression validator which always
-     * returns false.
-     *
-     * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
-     * @version $Revision$ $Date: 2004-12-11 02:13:52 -0700 (Sat, 11 Dec 2004) $
-     */
-    class DefaultRegExpEvaluator implements RegExpEvaluator {
-
-        /**
-         * Creates a new DefaultRegExpValidator.
-         */
-        DefaultRegExpEvaluator() {
-            super();
-        } // -- DefaultRegExpEvalutator
-
-        /**
-         * Sets the regular expression to match against during a call to
-         * {@link #matches}.
-         *
-         * @param rexpr
-         *            the regular expression
-         */
-        public void setExpression(final String rexpr) {
-            // -- nothing to do...we don't care since match will always evaluate to false
-        } // -- setExpression
-
-        /**
-         * Returns true if the given String is matched by the regular expression
-         * of this RegExpEvaluator.
-         *
-         * @param value
-         *            the String to check the production of
-         * @return true if the given string matches the regular expression of
-         *         this RegExpEvaluator
-         * @see #setExpression
-         */
-        public boolean matches(final String value) {
-            return false;
-        } // -- matches
-
-    } // -- DefaultRegExpEvaluator
 
 } // -- PatternValidator
