@@ -377,10 +377,6 @@ public final class SQLStatementStore {
      */
     private void  bindIdentity (final Identity identity) throws PersistenceException, SQLException {
         // bind the identity of the row to be stored into the preparedStatement
-        if (identity.size() != _ids.length) {
-            throw new PersistenceException("Size of identity field mismatched!");
-        }
-        
         for (int i = 0; i < _ids.length; i++) {
             _preparedStatement.setObject(_count++, _ids[i].toSQL(identity.get(i)));
 
