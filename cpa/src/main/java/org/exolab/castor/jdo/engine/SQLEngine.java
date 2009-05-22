@@ -313,6 +313,11 @@ public final class SQLEngine implements Persistence {
                         final ProposedEntity newentity,
                         final ProposedEntity oldentity)
     throws PersistenceException {
+        // check size of identity columns
+        if (identity.size() != _ids.length) {
+            throw new PersistenceException("Size of identity field mismatched!");
+        }
+
         return _storeStatement.executeStatement((Connection) conn, identity, newentity, oldentity);
     }
 
