@@ -143,9 +143,9 @@ public abstract class CPATestCase extends TestCase {
         if (!_tests.contains(test)) {
             if ((include(_engine) && !exclude(_engine)) || _force) {
                 CPAScriptExecutor.execute(_engine, _connection, test);
-            }
 
-            _tests.add(test);
+                _tests.add(test);
+            }
         }
     }
     
