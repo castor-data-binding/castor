@@ -46,6 +46,7 @@ public final class NestedObject {
         return _id + " / " + _nested1 + " / " + _nested2;
     }
 
+    @Ignore
     public static final class Nested1 {
         private String _value1;
 
@@ -58,6 +59,7 @@ public final class NestedObject {
         public String toString() { return _value1; }
     }   
      
+    @Ignore
     public static final class Nested2 {
         private Nested3 _nested3;
         
@@ -70,6 +72,7 @@ public final class NestedObject {
         public String toString() { return _nested3.toString(); }
     }    
 
+    @Ignore
     public static final class Nested3 {
         private String _value2;
         
