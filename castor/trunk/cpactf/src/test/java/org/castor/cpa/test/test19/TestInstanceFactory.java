@@ -30,6 +30,7 @@ import org.exolab.castor.jdo.QueryResults;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.spi.CallbackInterceptor;
 import org.exolab.castor.persist.spi.InstanceFactory;
+import org.junit.Ignore;
 
 /**
  * Test for the behaviors the InstanceFactory interface.
@@ -201,6 +202,7 @@ public final class TestInstanceFactory extends CPATestCase {
 
     }
 
+    @Ignore
     private class InternalCallbackInterceptor implements CallbackInterceptor, InstanceFactory {
         private CallbacksInvoked _callbacksInvoked = new CallbacksInvoked();
         private CallbacksInvoked _coverage = new CallbacksInvoked();
@@ -273,6 +275,7 @@ public final class TestInstanceFactory extends CPATestCase {
         }
     }
 
+    @Ignore
     private class CallbacksInvoked implements java.io.Externalizable {
         /** SerialVersionUID */
         private static final long serialVersionUID = -2946772385247299812L;
