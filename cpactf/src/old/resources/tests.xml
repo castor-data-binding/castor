@@ -18,11 +18,6 @@
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
 
     <!-- tc2x -->
-    <case id="TC20" class="ctf.jdo.tc2x.TestKeyGenGeneric"/>
-    <case id="TC21" class="ctf.jdo.tc2x.TestKeyGenSequence"/>
-    <!-- <case id="TC22" class="ctf.jdo.tc2x.TestKeyGenReturning"/> -->
-    <!-- <case id="TC23" class="ctf.jdo.tc2x.TestKeyGenIdentity"/> -->
-    <case id="TC24" class="ctf.jdo.tc2x.TestKeyGenUuid"/>
     <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
     <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
     <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
@@ -107,11 +102,6 @@
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
 
     <!-- tc2x -->
-    <case id="TC20" class="ctf.jdo.tc2x.TestKeyGenGeneric"/>
-    <!-- <case id="TC21" class="ctf.jdo.tc2x.TestKeyGenSequence"/> -->
-    <!-- <case id="TC22" class="ctf.jdo.tc2x.TestKeyGenReturning"/> -->
-    <!-- <case id="TC23" class="ctf.jdo.tc2x.TestKeyGenIdentity"/> -->
-    <case id="TC24" class="ctf.jdo.tc2x.TestKeyGenUuid"/>
     <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
     <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
     <!-- <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
@@ -198,11 +188,6 @@
     <!-- <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/> -->
 
     <!-- tc2x -->
-    <case id="TC20" class="ctf.jdo.tc2x.TestKeyGenGeneric"/>
-    <!-- <case id="TC21" class="ctf.jdo.tc2x.TestKeyGenSequence"/> -->
-    <!-- <case id="TC22" class="ctf.jdo.tc2x.TestKeyGenReturning"/> -->
-    <case id="TC23" class="ctf.jdo.tc2x.TestKeyGenIdentity"/>
-    <case id="TC24" class="ctf.jdo.tc2x.TestKeyGenUuid"/>
     <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
     <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
     <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
@@ -285,11 +270,6 @@
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
 
     <!-- tc2x -->
-    <case id="TC20" class="ctf.jdo.tc2x.TestKeyGenGeneric"/>
-    <!-- <case id="TC21" class="ctf.jdo.tc2x.TestKeyGenSequence"/> -->
-    <!-- <case id="TC22" class="ctf.jdo.tc2x.TestKeyGenReturning"/> -->
-    <case id="TC23" class="ctf.jdo.tc2x.TestKeyGenIdentity"/>
-    <case id="TC24" class="ctf.jdo.tc2x.TestKeyGenUuid"/>
     <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
     <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
     <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
@@ -374,11 +354,6 @@
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
 
     <!-- tc2x -->
-    <case id="TC20" class="ctf.jdo.tc2x.TestKeyGenGeneric"/>
-    <case id="TC21" class="ctf.jdo.tc2x.TestKeyGenSequence"/>
-    <case id="TC22" class="ctf.jdo.tc2x.TestKeyGenReturning"/>
-    <!-- <case id="TC23" class="ctf.jdo.tc2x.TestKeyGenIdentity"/> -->
-    <case id="TC24" class="ctf.jdo.tc2x.TestKeyGenUuid"/>
     <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
     <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
     <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
@@ -464,12 +439,6 @@
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
 
     <!-- tc2x -->
-    <case id="TC20" class="ctf.jdo.tc2x.TestKeyGenGeneric"/>
-    <case id="TC21" class="ctf.jdo.tc2x.TestKeyGenSequence"/>
-    <!-- <case id="TC22" class="ctf.jdo.tc2x.TestKeyGenReturning"/> -->
-    <!-- <case id="TC23" class="ctf.jdo.tc2x.TestKeyGenIdentity"/> -->
-    <case id="TC24" class="ctf.jdo.tc2x.TestKeyGenUuid"/>
-    <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
     <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
     <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
     <case id="TC28" class="ctf.jdo.tc2x.TestDependentKeyGenUpdate"/>
@@ -551,11 +520,6 @@
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
 
     <!-- tc2x -->
-    <case id="TC20" class="ctf.jdo.tc2x.TestKeyGenGeneric"/>
-    <!-- <case id="TC21" class="ctf.jdo.tc2x.TestKeyGenSequence"/> -->
-    <!-- <case id="TC22" class="ctf.jdo.tc2x.TestKeyGenReturning"/> -->
-    <case id="TC23" class="ctf.jdo.tc2x.TestKeyGenIdentity"/>
-    <case id="TC24" class="ctf.jdo.tc2x.TestKeyGenUuid"/>
     <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
     <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
     <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
@@ -638,11 +602,6 @@
     <!-- <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/> -->
 
     <!-- tc2x -->
-    <case id="TC20" class="ctf.jdo.tc2x.TestKeyGenGeneric"/>
-    <!-- <case id="TC21" class="ctf.jdo.tc2x.TestKeyGenSequence"/> -->
-    <!-- <case id="TC22" class="ctf.jdo.tc2x.TestKeyGenReturning"/> -->
-    <case id="TC23" class="ctf.jdo.tc2x.TestKeyGenIdentity"/>
-    <case id="TC24" class="ctf.jdo.tc2x.TestKeyGenUuid"/>
     <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
     <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
     <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
@@ -725,13 +684,6 @@
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
 
     <!-- tc2x -->
-    <case id="TC20" class="ctf.jdo.tc2x.TestKeyGenGeneric"/>
-    <!-- <case id="TC21" class="ctf.jdo.tc2x.TestKeyGenSequence"/> -->
-    <!-- <case id="TC22" class="ctf.jdo.tc2x.TestKeyGenReturning"/> -->
-    <!-- <case id="TC23" class="ctf.jdo.tc2x.TestKeyGenIdentity"/>
-         CREATE SQL statement as generated by Castor tries to insert
-         value for identity column, which is not supported by Derby -->
-    <case id="TC24" class="ctf.jdo.tc2x.TestKeyGenUuid"/>
     <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
     <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
     <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
@@ -817,13 +769,6 @@
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
 
     <!-- tc2x -->
-    <case id="TC20" class="ctf.jdo.tc2x.TestKeyGenGeneric"/>
-    <!-- <case id="TC21" class="ctf.jdo.tc2x.TestKeyGenSequence"/> -->
-    <!-- <case id="TC22" class="ctf.jdo.tc2x.TestKeyGenReturning"/>
-         CREATE SQL statement as generated by Castor tries to insert
-         value for identity column, which is not supported by Pointbase -->     
-    <case id="TC23" class="ctf.jdo.tc2x.TestKeyGenIdentity"/>
-    <case id="TC24" class="ctf.jdo.tc2x.TestKeyGenUuid"/>
     <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
     <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
     <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
@@ -908,12 +853,7 @@
     <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
 
     <!-- tc2x -->
-    <case id="TC20" class="ctf.jdo.tc2x.TestKeyGenGeneric"/>
-    <case id="TC21" class="ctf.jdo.tc2x.TestKeyGenSequence"/>
-    <!-- <case id="TC22" class="ctf.jdo.tc2x.TestKeyGenReturning"/> -->
-    <!-- <case id="TC23" class="ctf.jdo.tc2x.TestKeyGenIdentity"/> -->
-    <case id="TC24" class="ctf.jdo.tc2x.TestKeyGenUuid"/>
-    <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
+   <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
     <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
     <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
     <case id="TC28" class="ctf.jdo.tc2x.TestDependentKeyGenUpdate"/>
