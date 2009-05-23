@@ -31,7 +31,6 @@ import org.exolab.castor.jdo.ObjectDeletedException;
 import org.exolab.castor.jdo.ObjectModifiedException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
-import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.persist.spi.QueryExpression;
@@ -73,6 +72,15 @@ public final class SQLStatementStore {
     
     private int _count;
 
+   /**
+    * Constructor.
+    * 
+    * @param engine SQL engine for all persistence operations at entities of the type this
+     *        class is responsible for. Holds all required information of the entity type.
+    * @param factory Persistence factory for the database engine the entity is persisted in.
+     *        Used to format the SQL statement.
+    * @param load
+    */
     public SQLStatementStore(final SQLEngine engine, final PersistenceFactory factory,
                              final String load) {
         _engine = engine;
@@ -102,6 +110,9 @@ public final class SQLStatementStore {
         _statementLoad = load;
     }
     
+    /**
+     * Build SQL statement to store entities of the type this class.
+     */
     private void buildStatement() {
         StringBuffer sql = new StringBuffer("UPDATE ");
         sql.append(_factory.quoteName(_mapTo));
@@ -157,21 +168,22 @@ public final class SQLStatementStore {
         } 
     }
     
+    /**
+     * Stores the identity to the database using JDBC Connection.
+     * 
+     * @param conn An Open JDBC Connection
+     * @param identity
+     * @param newentity
+     * @param oldentity
+     * @return Always returns null
+     * @throws PersistenceException If failed to store object in the database. This could happen
+     *         if a database access error occurs, identity size mismatches
+     *         or column length mismatches
+     */
     public synchronized Object executeStatement(final Connection conn, final Identity identity,
                                    final ProposedEntity newentity,
                                    final ProposedEntity oldentity)
     throws PersistenceException {
-        // Must store record in parent table first.
-        // All other dependents are stored independently.
-        SQLEngine extended = _engine.getExtends();
-        if (extended != null) {
-            // | quick and very dirty hack to try to make multiple class on the same table work
-            ClassDescriptor extDesc = extended.getDescriptor();
-            if (!new ClassDescriptorJDONature(extDesc).getTableName().equals(_mapTo)) {
-                extended.store(conn, identity, newentity, oldentity);
-            }
-        }
-
         // Only build and execute an UPDATE statement if the class to be updated has 
         // fields to persist.
         if (_hasFieldsToPersist) {
@@ -223,6 +235,11 @@ public final class SQLStatementStore {
     /**
      * If the RDBMS doesn't support setNull for "WHERE fld=?" and requires
      * "WHERE fld IS NULL", we need to modify the statement.
+     * 
+     * @param oldentity
+     * @return String containing SQL
+     * @throws PersistenceException If identity size mismatches
+     *  or column length mismatches
      */
     private String getStoreStatement(final ProposedEntity oldentity)
     throws PersistenceException {
@@ -295,11 +312,12 @@ public final class SQLStatementStore {
     /**
      * Prepares the SQL Statement.
      * 
-     * @param conn
-     * @throws PersistenceException
-     * @throws SQLException 17 May 2009
+     * @param conn An Open JDBC Connection
+     * @param statement An SQL string for generating prepared statement
+     * @throws SQLException If a database access error occurs.
      */
-    private void prepareStatement (final Connection conn, String statement) throws PersistenceException, SQLException {    	     	
+    private void prepareStatement (final Connection conn, final String statement) 
+    throws SQLException {   
         _preparedStatement = conn.prepareStatement(statement);
          
          if (LOG.isTraceEnabled()) {
@@ -308,13 +326,15 @@ public final class SQLStatementStore {
     }
     
     /**
-     * Binds data.
+     * Bind identity values to the prepared statement.
      * 
      * @param identity
      * @param newentity
      * @param oldentity
-     * @throws PersistenceException
-     * @throws SQLException 18 May 2009
+     * @throws PersistenceException If a database access error occurs 
+     * or type of one of the values to bind is ambiguous.
+     * @throws SQLException If a database access error occurs or type of one of the values to
+     *         bind is ambiguous.
      */
     private void bindData (final Identity identity, final ProposedEntity newentity,
             final ProposedEntity oldentity) throws PersistenceException, SQLException {
@@ -332,8 +352,9 @@ public final class SQLStatementStore {
      * Binds new entities.
      * 
      * @param newentity
-     * @throws PersistenceException
-     * @throws SQLException 18 May 2009
+     * @throws PersistenceException If identity size mismatches
+     *  or column length mismatches
+     * @throws SQLException If database access error occurs
      */
     private void bindNewEntity(final ProposedEntity newentity)
     throws PersistenceException, SQLException {
@@ -372,8 +393,9 @@ public final class SQLStatementStore {
      * Binds Identity.
      * 
      * @param identity
-     * @throws PersistenceException
-     * @throws SQLException 18 May 2009
+     * @throws PersistenceException If identity size mismatches
+     *  or column length mismatches
+     * @throws SQLException If database access error occurs
      */
     private void  bindIdentity (final Identity identity) throws PersistenceException, SQLException {
         // bind the identity of the row to be stored into the preparedStatement
@@ -391,10 +413,12 @@ public final class SQLStatementStore {
      * Binds old Entities.
      * 
      * @param oldentity
-     * @throws PersistenceException
-     * @throws SQLException 18 May 2009
+     * @throws PersistenceException If identity size mismatches
+     *  or column length mismatches
+     * @throws SQLException If database access error occurs
      */
-    private void bindOldEntity(final ProposedEntity oldentity) throws PersistenceException, SQLException {    	
+    private void bindOldEntity(final ProposedEntity oldentity) 
+    throws PersistenceException, SQLException {    
         // bind the old fields of the row to be stored into the preparedStatement
         if (oldentity.getFields() != null) {
             boolean supportsSetNull = _factory.supportsSetNullInWhere();
@@ -450,8 +474,8 @@ public final class SQLStatementStore {
     /**
      * executeUpdate.
      * 
-     * @return
-     * @throws SQLException 18 May 2009
+     * @return int represent the number of rows affected
+     * @throws SQLException If a database access error occurs
      */
     private int executeUpdate () throws SQLException {
         int result;
@@ -463,7 +487,7 @@ public final class SQLStatementStore {
     /**
      * executeQuery.
      * 
-     * @throws SQLException
+     * @throws SQLException If a database access error occurs
      */
     private void executeQuery () throws SQLException {
         _resultSet = _preparedStatement.executeQuery();     
@@ -474,10 +498,11 @@ public final class SQLStatementStore {
      * 
      * @param identity
      * @param oldentity
-     * @throws SQLException
-     * @throws ObjectModifiedException 18 May 2009
+     * @throws SQLException If a database access error occurs
+     * @throws ObjectModifiedException
      */
-    private void processData (final Identity identity, final ProposedEntity oldentity) throws SQLException, ObjectModifiedException {
+    private void processData (final Identity identity, final ProposedEntity oldentity) 
+    throws SQLException, ObjectModifiedException {
         if (_resultSet.next()) {                     
              StringBuffer enlistFieldsNotMatching = new StringBuffer();
              
