@@ -80,6 +80,26 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
 </class>]]></code-panel>
             </summary>
             <bugs>
+                <bug id="2726" tool="jira">
+                    <description>
+                        Remove synchronization of executeStatement() at SQLStatementRemove.
+                    </description>
+                    <contributor>
+                        <name>Ahmad Hassan</name>
+                        <email>ahmad.hassan@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ahmad Hassan</name>
+                        <email>ahmad.hassan@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20090523</date>
+                </bug>
                 <bug id="2717" tool="jira">
                     <description>
                         Shift Identity size check from SQLStatementStore to SQLEngine.
