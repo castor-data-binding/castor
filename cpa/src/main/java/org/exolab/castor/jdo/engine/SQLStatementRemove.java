@@ -35,14 +35,25 @@ public final class SQLStatementRemove {
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(SQLStatementRemove.class);
 
+    /** ThreadLocal attribute to store prepared statement for a
+     *  particular connection that is unique to one thread. */
+    private static final ThreadLocal<PreparedStatement> PREPARED_STATEMENT = 
+        new ThreadLocal<PreparedStatement>();
+    
     private final String _type;
 
     private final SQLColumnInfo[] _ids;
 
     private String _sqlStatement;
     
-    private PreparedStatement _preparedStatement;
-
+    /**
+     * Constructor.
+     * 
+     * @param engine SQL engine for all persistence operations at entities of the type this
+     *        class is responsible for. Holds all required information of the entity type.
+     * @param factory Persistence factory for the database engine the entity is persisted in.
+     *        Used to format the SQL statement.
+     */    
     public SQLStatementRemove(final SQLEngine engine, final PersistenceFactory factory) {
         _type = engine.getDescriptor().getJavaClass().getName();
         _ids = engine.getColumnInfoForIdentities();
@@ -51,6 +62,13 @@ public final class SQLStatementRemove {
         buildStatement(factory, mapTo);
     }
     
+    /** 
+     * Build SQL statement to remove entities of the type this class is responsible for.
+     * 
+     * @param factory Persistence factory for the database engine the entity is persisted in.
+     *        Used to format the SQL statement.
+     * @param mapTo Table name retrieved from Class Descriptor of JDO Nature.
+     */
     private void buildStatement(final PersistenceFactory factory, final String mapTo) {
         StringBuffer sql = new StringBuffer("DELETE FROM ");
         sql.append(factory.quoteName(mapTo));
@@ -68,16 +86,27 @@ public final class SQLStatementRemove {
         }
     }
     
-    public synchronized Object executeStatement(final Connection conn, final Identity identity)
+    /**
+     * Execute statement to remove entity with given identity from database using given JDBC
+     * connection. 
+     * 
+     * @param conn An open JDBC connection.
+     * @param identity Identity of the object to remove.
+     * @return Always returns <code>null</code>. 
+     * @throws PersistenceException If failed to remove object from database. This could happen
+     *         if a database access error occurs, type of one of the values to bind is ambiguous
+     *         or object to be deleted does not exist.
+     */
+    public Object executeStatement(final Connection conn, final Identity identity) 
     throws PersistenceException {
         try {
-            // get prepared statement
+            // prepare statement
             prepareStatement(conn);
             
-            // bind it with parameters list for execution
+            // bind parameters to prepared statement
             bindIdentity(identity);
             
-            // execute the prepared statement
+            // execute prepared statement
             executeStatement();
         } catch (SQLException except) {
             LOG.fatal(Messages.format("jdo.deleteFatal", _type, _sqlStatement), except);
@@ -92,14 +121,18 @@ public final class SQLStatementRemove {
     /**
      * Prepare the SQL statement.
      * 
-     * @param conn An open connection.
+     * @param conn An open JDBC connection.
      * @throws SQLException If a database access error occurs.
      */
     private void prepareStatement(final Connection conn) throws SQLException {
-        _preparedStatement = conn.prepareStatement(_sqlStatement);
+        // create prepared statement on JDBC connection
+        PreparedStatement preparedStatement = conn.prepareStatement(_sqlStatement);
+
+        // set prepared statement in thread local variable
+        PREPARED_STATEMENT.set(preparedStatement);
         
         if (LOG.isTraceEnabled()) {
-            LOG.trace(Messages.format("jdo.removing", _type, _preparedStatement.toString()));
+            LOG.trace(Messages.format("jdo.removing", _type, preparedStatement.toString()));
         }
     }
 
@@ -107,21 +140,24 @@ public final class SQLStatementRemove {
      * Bind identity values to the prepared statement.
      * 
      * @param identity Identity of the object to remove.
-     * @throws SQLException If a database access error occurs or type one of the values to
+     * @throws SQLException If a database access error occurs or type of one of the values to
      *         bind is ambiguous.
      */
     private void bindIdentity(final Identity identity) throws SQLException {  
-        // counter declaration
+        // get prepared statement from thread local variable
+        PreparedStatement preparedStatement = PREPARED_STATEMENT.get();
+        
+        // initialize parameter counter
         int count = 1;
         
         // loop through the identity fields and bind values to the statement object
         for (int i = 0; i < _ids.length; i++) {
             // bind value to prepared statement
-            _preparedStatement.setObject(count++, _ids[i].toSQL(identity.get(i)));
+            preparedStatement.setObject(count++, _ids[i].toSQL(identity.get(i)));
         }
 
         if (LOG.isDebugEnabled()) {
-            LOG.debug(Messages.format("jdo.removing", _type, _preparedStatement.toString()));
+            LOG.debug(Messages.format("jdo.removing", _type, preparedStatement.toString()));
         }
     }
 
@@ -132,7 +168,11 @@ public final class SQLStatementRemove {
      *         not exist.
      */
     private void executeStatement() throws SQLException {
-        int result = _preparedStatement.executeUpdate();
+        // get prepared statement from thread local variable
+        PreparedStatement preparedStatement = PREPARED_STATEMENT.get();
+
+        // execute the prepared statement
+        int result = preparedStatement.executeUpdate();
         
         // throw exception if execute returned < 1
         if (result < 1) {
@@ -144,9 +184,12 @@ public final class SQLStatementRemove {
      * Close the prepared statement.
      */
     private void closeStatement() {
+        // get prepared statement from thread local variable
+        PreparedStatement preparedStatement = PREPARED_STATEMENT.get();
+
         try {
-            if (_preparedStatement != null) {
-                _preparedStatement.close();
+            if (preparedStatement != null) {
+                preparedStatement.close();
             }
         } catch (Exception e) {
             LOG.warn("Problem closing JDBC statement", e);
