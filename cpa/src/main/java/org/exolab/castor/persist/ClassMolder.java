@@ -737,6 +737,8 @@ public class ClassMolder {
      * @param oid the object identity of the stored object
      * @param locker the dirty check cache of the object
      * @param object the object to be stored
+     * @throws PersistenceException If identity is missing  for storage
+     * or the identity is modified
      */
     public void store(final TransactionContext tx, final OID oid, final DepositBox locker,
             final Object object) throws PersistenceException {
@@ -773,8 +775,29 @@ public class ClassMolder {
             newentity.setField(_resolvers[i].store(tx, object, oldentity.getField(i)), i);
         }
         
+        // Gets connection reference
         Connection conn = tx.getConnection(oid.getMolder().getLockEngine());
-        _persistence.store(conn, oid.getIdentity(), newentity, oldentity);
+
+        // Current molder is leaf of extends hierarchy and therefore extending table is null
+        String extendingTableName = null;
+
+        // Start with current molder
+        ClassMolder molder = this;
+        
+        // Loop over all extended molders and store all values of extends hierarchy
+        while (molder != null) {
+            // Gets name of current table
+            String tableName = new ClassDescriptorJDONature(
+                    molder.getClassDescriptor()).getTableName();
+            
+            // Only need to persist values if current table name is different than extending one
+            if (!tableName.equals(extendingTableName)) {
+                molder._persistence.store(conn, oid.getIdentity(), newentity, oldentity);
+            }
+         
+            extendingTableName = tableName;
+            molder = molder._extends;
+        }        
     }
 
     /**
