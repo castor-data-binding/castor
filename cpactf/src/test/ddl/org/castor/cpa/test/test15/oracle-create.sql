@@ -1,7 +1,7 @@
 create table test15_person (
   fname varchar(15)    not null,
   lname varchar(15)    not null,
-  bday  datetime       null
+  bday  date           null
 )
 /
 
@@ -25,7 +25,7 @@ create unique index test15_address_pk on test15_address( id )
 create table test15_employee (
   fname      varchar(15)    not null,
   lname      varchar(15)    not null,
-  start_date datetime       null
+  start_date date           null
 )
 /
 

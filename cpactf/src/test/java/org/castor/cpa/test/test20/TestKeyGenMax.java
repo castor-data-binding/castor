@@ -29,7 +29,8 @@ public class TestKeyGenMax extends AbstractTestKeyGenInteger {
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.DERBY);
+            || (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.ORACLE);
     }
 
     public void testKeyGenMax() throws Exception {

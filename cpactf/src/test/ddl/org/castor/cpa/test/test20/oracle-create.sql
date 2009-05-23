@@ -58,21 +58,6 @@ create table test20_uuid_ext (
 create unique index test20_uuid_ext_pk on test20_uuid_ext ( id )
 /
 
-create table test20_identity (
-  id    integer not null primary key auto_increment,
-  attr  varchar(200) not null
-)
-/
-
-create table test20_identity_ext (
-  id   integer not null,
-  ext  varchar(200) not null
-)
-/
-
-create unique index test20_ident_ext_pk on test20_identity_ext ( id )
-/
-
 create table test20_seqtable (
   table_name  varchar(200)  not null,
   max_id      int

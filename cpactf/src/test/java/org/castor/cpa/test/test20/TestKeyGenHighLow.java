@@ -28,7 +28,8 @@ public class TestKeyGenHighLow extends AbstractTestKeyGenInteger {
     // Test are only included/excluded for engines that have been tested with this test suite.
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL);
+        return (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.ORACLE);
     }
 
     public boolean exclude(final DatabaseEngineType engine) {

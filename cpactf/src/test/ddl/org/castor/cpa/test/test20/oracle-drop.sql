@@ -14,9 +14,5 @@ drop table test20_uuid
 /
 drop table test20_uuid_ext
 /
-drop table test20_identity
-/
-drop table test20_identity_ext
-/
 drop table test20_seqtable
 /
