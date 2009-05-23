@@ -33,6 +33,11 @@ public final class TestKeyGenIdentity extends AbstractTestKeyGenInteger {
             || (engine == DatabaseEngineType.DERBY);
     }
 
+    // ORACLE does not support identity key generator
+    public boolean exclude(final DatabaseEngineType engine) {
+        return (engine == DatabaseEngineType.ORACLE);
+    }
+
     public void testKeyGenIdentity() throws Exception {
         testOneKeyGen(IdentityObject.class, IdentityExtends.class);
     }
