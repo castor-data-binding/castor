@@ -1,9 +1,10 @@
+<?xml version="1.0" ?>
 <!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
                            "http://castor.org/mapping.dtd">
 <mapping>
-  <class name="ctf.jdo.tc1x.RollbackObject" access="shared" identity="id">
+  <class name="org.castor.cpa.test.test14.RollbackObject" access="shared" identity="id">
     <description>primitive rollback testing</description>
-    <map-to table="tc1x_rollback" />
+    <map-to table="test14_rollback" />
     <field name="id" type="long">
       <sql name="id" type="numeric" />
     </field>

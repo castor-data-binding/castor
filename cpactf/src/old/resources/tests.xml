@@ -14,9 +14,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc1x -->
-    <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
-
     <!-- tc2x -->
     <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
     <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
@@ -97,9 +94,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc1x -->
-    <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
 
     <!-- tc2x -->
     <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
@@ -184,9 +178,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc1x -->
-    <!-- <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/> -->
-
     <!-- tc2x -->
     <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
     <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
@@ -265,9 +256,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc1x -->
-    <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
 
     <!-- tc2x -->
     <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
@@ -349,9 +337,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc1x -->
-    <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
 
     <!-- tc2x -->
     <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
@@ -435,9 +420,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc1x -->
-    <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
-
     <!-- tc2x -->
     <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
     <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
@@ -515,9 +497,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc1x -->
-    <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
 
     <!-- tc2x -->
     <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
@@ -598,9 +577,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc1x -->
-    <!-- <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/> -->
-
     <!-- tc2x -->
     <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
     <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
@@ -679,9 +655,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc1x -->
-    <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
 
     <!-- tc2x -->
     <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
@@ -765,9 +738,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc1x -->
-    <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
-
     <!-- tc2x -->
     <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
     <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
@@ -848,9 +818,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc1x -->
-    <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
 
     <!-- tc2x -->
    <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>

@@ -26,23 +26,6 @@ grant all on tc0x_race to test
 go
 
 
--- tc1x TESTS
-
-drop table if exists tc1x_rollback
-go
-create table tc1x_rollback (
-  id      numeric(10,0) not null,
-  value1  varchar(200)  not null,
-  value2  varchar(200),
-  numb     numeric(10,0)
-)
-go
-create unique index tc1x_rollback_pk on tc1x_rollback ( id )
-go
-grant all on tc1x_rollback to test
-go
-
-
 -- tc2x TESTS
 
 drop table tc2x_master
