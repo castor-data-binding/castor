@@ -20,19 +20,6 @@ create table tc0x_race (
 create unique index tc0x_race_pk on tc0x_race ( id );
 
 
--- tc1x TESTS
-
-drop table tc1x_rollback;
-
-create table tc1x_rollback (
-  id      numeric(10,0) not null,
-  value1  varchar(200)  not null,
-  value2  varchar(200),
-  numb     numeric(10,0)
-);
-
-create unique index tc1x_rollback_pk on tc1x_rollback ( id );
-
 -- tc2x TESTS
 
 drop table  tc2x_master;
