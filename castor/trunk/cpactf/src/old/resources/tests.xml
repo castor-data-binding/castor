@@ -28,8 +28,6 @@
     <!-- <case id="TC35" class="ctf.jdo.tc3x.TestSize"/> -->
     <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/>
     <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/>
-    <case id="TC38" class="ctf.jdo.tc3x.TestCallSql"/>
-    <!-- <case id="TC39" class="ctf.jdo.tc3x.TestStoredProcedure"/> -->
 
     <!-- tc4x -->
     <!-- tc5x -->
@@ -113,8 +111,6 @@
     <!-- <case id="TC35" class="ctf.jdo.tc3x.TestSize"/> -->
     <!-- <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle/> -->
     <!-- <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/> -->
-    <!-- <case id="TC38" class="ctf.jdo.tc3x.TestCallSql"/> -->
-    <!-- <case id="TC39" class="ctf.jdo.tc3x.TestStoredProcedure"/> -->
     
     <!-- tc4x -->
     <!-- tc5x -->
@@ -192,8 +188,6 @@
     <!-- <case id="TC35" class="ctf.jdo.tc3x.TestSize"/> -->
     <!-- <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/> -->
     <!-- <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/> -->
-    <!-- <case id="TC38" class="ctf.jdo.tc3x.TestCallSql"/> -->
-    <!-- <case id="TC39" class="ctf.jdo.tc3x.TestStoredProcedure"/> -->
 
     <!-- tc4x -->
     <!-- tc5x -->
@@ -272,8 +266,6 @@
     <!-- <case id="TC35" class="ctf.jdo.tc3x.TestSize"/> -->
     <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/>
     <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/>
-    <case id="TC38" class="ctf.jdo.tc3x.TestCallSql"/>
-    <!-- <case id="TC39" class="ctf.jdo.tc3x.TestStoredProcedure"/> -->
     
     <!-- tc4x -->
     <!-- tc5x -->
@@ -352,8 +344,6 @@
     <!-- <case id="TC35" class="ctf.jdo.tc3x.TestSize"/> -->
     <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/>
     <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/>
-    <case id="TC38" class="ctf.jdo.tc3x.TestCallSql"/>
-    <!-- <case id="TC39" class="ctf.jdo.tc3x.TestStoredProcedure"/> -->
     
     <!-- tc4x -->
     <!-- tc5x -->
@@ -433,8 +423,6 @@
     <!-- <case id="TC35" class="ctf.jdo.tc3x.TestSize"/> -->
     <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/>
     <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/>
-    <case id="TC38" class="ctf.jdo.tc3x.TestCallSql"/>
-    <!-- <case id="TC39" class="ctf.jdo.tc3x.TestStoredProcedure"/> -->
 
     <!-- tc4x -->
     <!-- tc5x -->
@@ -512,8 +500,6 @@
     <!-- <case id="TC35" class="ctf.jdo.tc3x.TestSize"/> -->
     <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/>
     <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/>
-    <case id="TC38" class="ctf.jdo.tc3x.TestCallSql"/>
-    <!-- <case id="TC39" class="ctf.jdo.tc3x.TestStoredProcedure"/> -->
 
     <!-- tc4x -->
     <!-- tc5x -->
@@ -591,8 +577,6 @@
     <!-- <case id="TC35" class="ctf.jdo.tc3x.TestSize"/> -->
     <!-- <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/> -->
     <!-- <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/> -->
-    <!-- <case id="TC38" class="ctf.jdo.tc3x.TestCallSql"/> -->
-    <!-- <case id="TC39" class="ctf.jdo.tc3x.TestStoredProcedure"/> -->
     
     <!-- tc4x -->
     <!-- tc5x -->
@@ -673,8 +657,6 @@
     <!-- <case id="TC35" class="ctf.jdo.tc3x.TestSize"/> -->
     <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/>
     <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/>
-    <case id="TC38" class="ctf.jdo.tc3x.TestCallSql"/>
-    <!-- <case id="TC39" class="ctf.jdo.tc3x.TestStoredProcedure"/> -->
 
     <!-- tc4x -->
     <!-- tc5x -->
@@ -755,8 +737,6 @@
     <!--  case id="TC35" class="ctf.jdo.tc3x.TestSize"/> -->
     <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/>
     <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/>
-    <case id="TC38" class="ctf.jdo.tc3x.TestCallSql"/>
-    <!-- <case id="TC39" class="ctf.jdo.tc3x.TestStoredProcedure"/> -->
     
     <!-- tc4x -->
     <!-- tc5x -->
@@ -833,8 +813,6 @@
     <!-- <case id="TC35" class="ctf.jdo.tc3x.TestSize"/> -->
     <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/>
     <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/>
-    <case id="TC38" class="ctf.jdo.tc3x.TestCallSql"/>
-    <!-- <case id="TC39" class="ctf.jdo.tc3x.TestStoredProcedure"/> -->
 
     <!-- tc4x -->
     <!-- tc5x -->

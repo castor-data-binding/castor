@@ -125,16 +125,6 @@ create table tc3x_extends (
 
 create unique index tc3x_extends_pk on tc3x_extends ( id );
 
-drop table tc3x_call;
-
-create table tc3x_call (
-  id      int          not null,
-  value1  varchar(200) not null,
-  value2  varchar(200) null
-);
-
-create unique index tc3x_call_pk on tc3x_call ( id );
-
 drop table tc3x_group;
 
 create table tc3x_group (
@@ -183,21 +173,6 @@ create table tc3x_extends2 (
 );
 
 create unique index tc3x_extends2_pk on tc3x_extends2 ( id );
-
--- The test stored procedure on PL/SQL
-CREATE OR REPLACE PACKAGE test AS
-    TYPE TestCursor IS REF CURSOR RETURN tc3x_entity%ROWTYPE;
-END test;
-/
-CREATE OR REPLACE FUNCTION proc_check_permissions ( userName VARCHAR,
-                                                    groupName VARCHAR)
-RETURN test.TestCursor AS res test.TestCursor;
-BEGIN
-    OPEN res FOR SELECT id, value1, value2 FROM tc3x_entity WHERE value1 = userName
-           UNION SELECT id, value1, value2 FROM tc3x_entity WHERE value2 = groupName;
-    RETURN res;
-END;
-/
 
 
 
