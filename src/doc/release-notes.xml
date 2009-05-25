@@ -80,6 +80,26 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
 </class>]]></code-panel>
             </summary>
             <bugs>
+                <bug id="2729" tool="jira">
+                    <description>
+                        Search method of SafeStack must be synchronized.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Bardouillet</name>
+                        <email>gilles.bardouillet@atosorigin.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20090525</date>
+                </bug>
                 <bug id="2728" tool="jira">
                     <description>
                         Migrated TC14 from old to new CPACTF test suite.
