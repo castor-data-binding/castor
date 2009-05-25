@@ -153,19 +153,6 @@ go
 grant all on tc3x_extends to test
 go
 
-drop table tc3x_call
-go
-create table tc3x_call (
-  id      int          not null,
-  value1  varchar(200) not null,
-  value2  varchar(200) null
-)
-go
-create unique index tc3x_call_pk on tc3x_call ( id )
-go
-grant all on tc3x_call to test
-go
-
 drop table tc3x_group
 go
 create table tc3x_group (
@@ -229,20 +216,6 @@ create unique index tc3x_extends2_pk on tc3x_extends2 ( id );
 go
 grant all on tc3x_extends2 to test
 go
-
--- The test stored procedure on TransactSQL
-drop procedure proc_check_permissions
-go
-create procedure proc_check_permissions @userName varchar(200),
-                                        @groupName varchar(200) AS
-    SELECT id, value1, value2 FROM tc3x_entity WHERE value1 = @userName
-    SELECT id, value1, value2 FROM tc3x_entity WHERE value2 = @groupName
-go
-sp_procxmode proc_check_permissions, "anymode"
-go
-
-
-
 
 
 -- UNDEFINED TESTS

@@ -93,7 +93,7 @@ create table tc2x_depend2 (
 );
 
 
--- tc2x TESTS
+-- tc3x TESTS
 
 drop table if exists tc3x_entity;
 
@@ -114,17 +114,6 @@ create table tc3x_extends (
 );
 
 create unique index tc3x_extends_pk on tc3x_extends ( id );
-
-drop table if exists tc3x_call;
-
-create table tc3x_call (
-  id      int          not null,
-  value1  varchar(200) not null,
-  value2  varchar(200) null
-);
-
-create unique index tc3x_call_pk on tc3x_call ( id );
-
 
 drop table if exists tc3x_group;
 
