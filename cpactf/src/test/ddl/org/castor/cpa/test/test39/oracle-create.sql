@@ -7,16 +7,17 @@ create table test39_entity (
 create unique index test39_entity_pk on test39_entity ( id )
 /
 
-CREATE OR REPLACE PACKAGE test AS
-    TYPE TestCursor IS REF CURSOR RETURN test39_entity%ROWTYPE;
-END test;
-/
-CREATE OR REPLACE FUNCTION proc_check_permissions (userName VARCHAR, groupName VARCHAR)
-RETURN test.TestCursor AS res test.TestCursor;
-BEGIN
-    OPEN res FOR SELECT id, value1, value2 FROM test39_entity WHERE value1 = userName
-           UNION SELECT id, value1, value2 FROM test39_entity WHERE value2 = groupName;
-    RETURN res;
-END;
+create or replace package types as
+    type cursorType is ref cursor;
+end types;
 /
 
+create or replace function proc_check_permissions (userName VARCHAR, groupName VARCHAR)
+return types.cursortype as cursorResult types.cursorType;
+begin
+    open cursorResult for
+           SELECT id, value1, value2 FROM test39_entity WHERE value1 = userName
+           UNION SELECT id, value1, value2 FROM test39_entity WHERE value2 = groupName;
+    return cursorResult;
+end proc_check_permissions;
+/
