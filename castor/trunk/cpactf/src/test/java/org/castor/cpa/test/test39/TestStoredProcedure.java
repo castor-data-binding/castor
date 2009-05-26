@@ -44,9 +44,13 @@ public final class TestStoredProcedure extends CPATestCase {
     }
 
     // Test are only included/excluded for engines that have been tested with this test suite.
+    
+    // Handling of stored procedures is broken and will be investigated under CASTOR-2481
+    // If that's resolved ORACLE engine should work again
 
     public boolean include(final DatabaseEngineType engine) {
         return false;
+//        return (engine == DatabaseEngineType.ORACLE);
     }
     
     public boolean exclude(final DatabaseEngineType engine) {
@@ -115,7 +119,7 @@ public final class TestStoredProcedure extends CPATestCase {
         // We expect to fetch objects with identities 1,2,3.
         _db.begin();
         oql = _db.getOQLQuery(
-                "CALL proc_check_permissions($,$) AS " + Entity.class.getName());
+                "CALL proc_check_permissions($1, $2) AS " + Entity.class.getName());
         oql.bind(USER1);
         oql.bind(GROUP1);
         enumeration = oql.execute();
