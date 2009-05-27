@@ -80,6 +80,26 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
 </class>]]></code-panel>
             </summary>
             <bugs>
+                <bug id="2790" tool="jira">
+                    <description>
+                        Migrated TC25 - TC29 from old to new CPACTF test suite.
+                    </description>
+                    <contributor>
+                        <name>Udai Gupta</name>
+                        <email>mailtoud@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Udai Gupta</name>
+                        <email>mailtoud@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20090528</date>
+                </bug>
                 <bug id="2727" tool="jira">
                     <description>
                         Remove synchronization of executeStatement() at SQLStatementStore.

@@ -14,13 +14,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc2x -->
-    <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
-    <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
-    <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
-    <case id="TC28" class="ctf.jdo.tc2x.TestDependentKeyGenUpdate"/>
-    <case id="TC29" class="ctf.jdo.tc2x.TestDependentOrder"/>
-
     <!-- tc3x -->
     <!-- <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/> -->
     <!-- <case id="TC33" class="ctf.jdo.tc3x.TestLimitWithOffsetClause"/> -->
@@ -93,17 +86,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc2x -->
-    <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
-    <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
-    <!-- <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
-	     There are sporadic failures at dirthy checking that may
-		 relate to the luck of support for cuncurrent updates -->
-    <!-- <case id="TC28" class="ctf.jdo.tc2x.TestDependentKeyGenUpdate"/>
-	     There are sporadic failures at dirthy checking that may
-		 relate to the luck of support for cuncurrent updates -->
-    <case id="TC29" class="ctf.jdo.tc2x.TestDependentOrder"/>
-
     <!-- tc3x -->
     <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/>
     <!-- <case id="TC33" class="ctf.jdo.tc3x.TestLimitWithOffsetClause"/> -->
@@ -173,13 +155,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc2x -->
-    <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
-    <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
-    <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
-    <case id="TC28" class="ctf.jdo.tc2x.TestDependentKeyGenUpdate"/>
-    <!-- <case id="TC29" class="ctf.jdo.tc2x.TestDependentOrder"/> -->
 
     <!-- tc3x -->
     <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/>
@@ -251,14 +226,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc2x -->
-    <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
-    <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
-    <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
-    <case id="TC28" class="ctf.jdo.tc2x.TestDependentKeyGenUpdate"/>
-    <!-- temp. disabled, due to intermittent errors -->
-    <!-- <case id="TC29" class="ctf.jdo.tc2x.TestDependentOrder"/> -->
-
     <!-- tc3x -->
     <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/>
     <case id="TC33" class="ctf.jdo.tc3x.TestLimitWithOffsetClause"/>
@@ -329,13 +296,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc2x -->
-    <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
-    <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
-    <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
-    <case id="TC28" class="ctf.jdo.tc2x.TestDependentKeyGenUpdate"/>
-    <case id="TC29" class="ctf.jdo.tc2x.TestDependentOrder"/>
 
     <!-- tc3x -->
     <!-- <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/> -->
@@ -410,12 +370,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc2x -->
-    <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
-    <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
-    <case id="TC28" class="ctf.jdo.tc2x.TestDependentKeyGenUpdate"/>
-    <case id="TC29" class="ctf.jdo.tc2x.TestDependentOrder"/>
-
     <!-- tc3x -->
     <!-- <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/> -->
     <case id="TC33" class="ctf.jdo.tc3x.TestLimitWithOffsetClause"/>
@@ -485,13 +439,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc2x -->
-    <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
-    <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
-    <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
-    <case id="TC28" class="ctf.jdo.tc2x.TestDependentKeyGenUpdate"/>
-    <!-- <case id="TC29" class="ctf.jdo.tc2x.TestDependentOrder"/> -->
 
     <!-- tc3x -->
     <!-- <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/> -->
@@ -563,13 +510,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc2x -->
-    <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
-    <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
-    <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
-    <case id="TC28" class="ctf.jdo.tc2x.TestDependentKeyGenUpdate"/>
-    <case id="TC29" class="ctf.jdo.tc2x.TestDependentOrder"/>
-
     <!-- tc3x -->
     <!-- <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/> -->
     <!-- <case id="TC33" class="ctf.jdo.tc3x.TestLimitWithOffsetClause"/> -->
@@ -639,13 +579,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc2x -->
-    <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
-    <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
-    <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
-    <case id="TC28" class="ctf.jdo.tc2x.TestDependentKeyGenUpdate"/>
-    <!-- <case id="TC29" class="ctf.jdo.tc2x.TestDependentOrder"/> -->
 
     <!-- tc3x -->
     <!-- <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/>
@@ -720,13 +653,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc2x -->
-    <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
-    <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
-    <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
-    <case id="TC28" class="ctf.jdo.tc2x.TestDependentKeyGenUpdate"/>
-    <case id="TC29" class="ctf.jdo.tc2x.TestDependentOrder"/>
-
     <!-- tc3x -->
     <!-- <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/>
          LIMIT clause not supported by Apache Derby -->
@@ -798,13 +724,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc2x -->
-   <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
-    <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
-    <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
-    <case id="TC28" class="ctf.jdo.tc2x.TestDependentKeyGenUpdate"/>
-    <case id="TC29" class="ctf.jdo.tc2x.TestDependentOrder"/>
 
     <!-- tc3x -->
     <!-- <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/> -->
