@@ -19,7 +19,6 @@ package org.exolab.castor.jdo.engine;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.apache.commons.logging.Log;
@@ -27,8 +26,6 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.persist.ProposedEntity;
-import org.exolab.castor.jdo.ObjectDeletedException;
-import org.exolab.castor.jdo.ObjectModifiedException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.persist.spi.Identity;
@@ -44,18 +41,23 @@ public final class SQLStatementStore {
      *  particular connection that is unique to one thread. */
     private static final ThreadLocal<PreparedStatement> PREPARED_STATEMENT = 
         new ThreadLocal<PreparedStatement>();
-
-    private final SQLEngine _engine;
     
     private final PersistenceFactory _factory;
     
+    /** The name of engine descriptor. */
     private final String _type;
 
+    /** Table name of the engine descriptor. */
     private final String _mapTo;
     
+    /** Contains the Information specific to particular engine instancde. */
     private final SQLFieldInfo[] _fields;
     
+    /** Column information for identities specific to the particular engine instance. */
     private final SQLColumnInfo[] _ids;
+    
+    /**SQLStatementUpdateCheck instance to check the failure reason of the udpate statement.*/
+    private final SQLStatementUpdateCheck _statementUpdateCheck;
 
     /** Indicates whether there is a field to persist at all; in the case of 
      *  EXTEND relationships where no additional attributes are defined in the 
@@ -66,9 +68,7 @@ public final class SQLStatementStore {
     private String _statementLazy;
 
     private String _statementDirty;
-    
-    private String _statementLoad;
-    
+        
     private String _storeStatement;
     
     private int _offsetNewEntity;
@@ -88,12 +88,12 @@ public final class SQLStatementStore {
     */
     public SQLStatementStore(final SQLEngine engine, final PersistenceFactory factory,
                              final String load) {
-        _engine = engine;
         _factory = factory;
         _type = engine.getDescriptor().getJavaClass().getName();
         _mapTo = new ClassDescriptorJDONature(engine.getDescriptor()).getTableName();
-        _fields = _engine.getInfo();
-        _ids = _engine.getColumnInfoForIdentities();
+        _fields = engine.getInfo();
+        _ids = engine.getColumnInfoForIdentities();
+        _statementUpdateCheck = new SQLStatementUpdateCheck(engine, load);
 
         // iterate through all fields to check whether there is a field
         // to persist at all; in the case of extend relationships where no 
@@ -110,9 +110,7 @@ public final class SQLStatementStore {
             LOG.trace("hasFieldsToPersist = " + _hasFieldsToPersist);
         }
 
-        buildStatement();
-        
-        _statementLoad = load;
+        buildStatement();        
     }
     
     /**
@@ -212,25 +210,9 @@ public final class SQLStatementStore {
                 int result;
                 result = executeUpdate();
                 if (result <= 0) { // SAP DB returns -1 here
-                    // If no update was performed, the object has been previously
-                    // removed from persistent storage or has been modified if
-                    // dirty checking. Determine which is which.
-                    closeStatement();
-                    if (oldentity.getFields() != null) {
-                        prepareStatement(conn, _statementLoad);                   
-                     
-                        //Binds identity
-                        int offset = 1;
-                        bindIdentity(identity, offset);
-                    
-                        //Load Data into resultset
-                        ResultSet resultSet = executeQuery();
-                        
-                        //Process Resultset data
-                        processData (identity, oldentity, resultSet);                
-                    }
-                    throw new ObjectDeletedException(Messages.format(
-                            "persist.objectDeleted", _type, identity));
+                    /*Check whether the object had been modified or deleted and 
+                    raise appropriate exception*/
+                    _statementUpdateCheck.updateFailureCheck(conn, identity, oldentity);
                 }                
             } catch (SQLException except) {
                 LOG.fatal(Messages.format("jdo.storeFatal", _type,  _storeStatement), except);
@@ -356,7 +338,7 @@ public final class SQLStatementStore {
         bindNewEntity (newentity);
         
         //binds identity
-        bindIdentity (identity, _offsetIdentity);
+        bindIdentity (identity);
         
         //binds old entities
         bindOldEntity (oldentity);
@@ -411,16 +393,15 @@ public final class SQLStatementStore {
      * Binds Identity.
      * 
      * @param identity
-     * @param initialOffset specifies the offset position for binding the parameter values
      * @throws PersistenceException If identity size mismatches
      *  or column length mismatches
      * @throws SQLException If database access error occurs
      */
-    private void  bindIdentity (final Identity identity, final int initialOffset) 
+    private void  bindIdentity (final Identity identity) 
     throws PersistenceException, SQLException {
         // get prepared statement from thread local variable
         PreparedStatement preparedStatement = PREPARED_STATEMENT.get();        
-        int offset = initialOffset;
+        int offset = _offsetIdentity;
                 
         // bind the identity of the row to be stored into the preparedStatement
         for (int i = 0; i < _ids.length; i++) {
@@ -513,67 +494,7 @@ public final class SQLStatementStore {
         
         return result;
     } 
-    
-    /**
-     * executeQuery.
-     * 
-     * @return resultset object containing the results of query
-     * @throws SQLException If a database access error occurs
-     */
-    private ResultSet executeQuery () throws SQLException {
-        // get prepared statement from thread local variable
-        PreparedStatement preparedStatement = PREPARED_STATEMENT.get();
-        ResultSet result = preparedStatement.executeQuery();   
         
-        return result;
-    }
-    
-    /**
-     * process the ResultSet.
-     * 
-     * @param identity
-     * @param oldentity
-     * @param resultSet containing the query results
-     * @throws SQLException If a database access error occurs
-     * @throws ObjectModifiedException
-     */
-    private void processData (final Identity identity, final ProposedEntity oldentity, 
-            final ResultSet resultSet) throws SQLException, ObjectModifiedException {
-        if (resultSet.next()) {                     
-             StringBuffer enlistFieldsNotMatching = new StringBuffer();
-             
-             int numberOfFieldsNotMatching = 0;
-             for (int i = 0; i < _fields.length; i++) {
-                 SQLColumnInfo[] columns = _fields[i].getColumnInfo();
-                 Object value = oldentity.getField(i);
-                 Object currentField = columns[0].toJava(resultSet.getObject(
-                         columns[0].getName()));
-                 if (_fields[i].getTableName().compareTo(_mapTo) == 0) {
-                     if ((value == null) || ((value != null)
-                             && (currentField == null))) {
-                         enlistFieldsNotMatching.append("(" + _type + ")."
-                                 + columns[0].getName() + ": ");
-                         enlistFieldsNotMatching.append("[" + value + "/"
-                                 + currentField + "]"); 
-                     } else if (!value.equals(currentField)) {
-                         if (numberOfFieldsNotMatching >= 1) {
-                             enlistFieldsNotMatching.append(", ");
-                         }
-                         enlistFieldsNotMatching.append("(" + _type + ")."
-                                 + columns[0].getName() + ": ");
-                         enlistFieldsNotMatching.append("[" + value + "/"
-                                 + currentField + "]"); 
-                         numberOfFieldsNotMatching++;
-                     }
-                 }
-             }
-
-             throw new ObjectModifiedException(Messages.format(
-                     "persist.objectModified", _type, identity,
-                     enlistFieldsNotMatching.toString()));
-         }
-    }
-    
     /**
      * closes the opened statement.
      */
