@@ -14,14 +14,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc3x -->
-    <!-- <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/> -->
-    <!-- <case id="TC33" class="ctf.jdo.tc3x.TestLimitWithOffsetClause"/> -->
-    <!-- <case id="TC34" class="ctf.jdo.tc3x.TestLimitWithOffsetExtend"/> -->
-    <!-- <case id="TC35" class="ctf.jdo.tc3x.TestSize"/> -->
-    <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/>
-    <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/>
-
     <!-- tc4x -->
     <!-- tc5x -->
     <!-- tc6x -->
@@ -86,14 +78,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc3x -->
-    <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/>
-    <!-- <case id="TC33" class="ctf.jdo.tc3x.TestLimitWithOffsetClause"/> -->
-    <!-- <case id="TC34" class="ctf.jdo.tc3x.TestLimitWithOffsetExtend"/> -->
-    <!-- <case id="TC35" class="ctf.jdo.tc3x.TestSize"/> -->
-    <!-- <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle/> -->
-    <!-- <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/> -->
-    
     <!-- tc4x -->
     <!-- tc5x -->
     <!-- tc6x -->
@@ -155,14 +139,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc3x -->
-    <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/>
-    <!-- <case id="TC33" class="ctf.jdo.tc3x.TestLimitWithOffsetClause"/> -->
-    <!-- <case id="TC34" class="ctf.jdo.tc3x.TestLimitWithOffsetExtend"/> -->
-    <!-- <case id="TC35" class="ctf.jdo.tc3x.TestSize"/> -->
-    <!-- <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/> -->
-    <!-- <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/> -->
 
     <!-- tc4x -->
     <!-- tc5x -->
@@ -226,14 +202,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc3x -->
-    <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/>
-    <case id="TC33" class="ctf.jdo.tc3x.TestLimitWithOffsetClause"/>
-    <case id="TC34" class="ctf.jdo.tc3x.TestLimitWithOffsetExtend"/>
-    <!-- <case id="TC35" class="ctf.jdo.tc3x.TestSize"/> -->
-    <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/>
-    <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/>
-    
     <!-- tc4x -->
     <!-- tc5x -->
     <!-- tc6x -->
@@ -296,15 +264,7 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc3x -->
-    <!-- <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/> -->
-    <!-- <case id="TC33" class="ctf.jdo.tc3x.TestLimitWithOffsetClause"/> -->
-    <!-- <case id="TC34" class="ctf.jdo.tc3x.TestLimitWithOffsetExtend"/> -->
-    <!-- <case id="TC35" class="ctf.jdo.tc3x.TestSize"/> -->
-    <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/>
-    <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/>
-    
+ 
     <!-- tc4x -->
     <!-- tc5x -->
     <!-- tc6x -->
@@ -370,14 +330,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc3x -->
-    <!-- <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/> -->
-    <case id="TC33" class="ctf.jdo.tc3x.TestLimitWithOffsetClause"/>
-    <case id="TC34" class="ctf.jdo.tc3x.TestLimitWithOffsetExtend"/>
-    <!-- <case id="TC35" class="ctf.jdo.tc3x.TestSize"/> -->
-    <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/>
-    <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/>
-
     <!-- tc4x -->
     <!-- tc5x -->
     <!-- tc6x -->
@@ -439,14 +391,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc3x -->
-    <!-- <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/> -->
-    <!-- <case id="TC33" class="ctf.jdo.tc3x.TestLimitWithOffsetClause"/> -->
-    <!-- <case id="TC34" class="ctf.jdo.tc3x.TestLimitWithOffsetExtend"/> -->
-    <!-- <case id="TC35" class="ctf.jdo.tc3x.TestSize"/> -->
-    <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/>
-    <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/>
 
     <!-- tc4x -->
     <!-- tc5x -->
@@ -510,14 +454,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc3x -->
-    <!-- <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/> -->
-    <!-- <case id="TC33" class="ctf.jdo.tc3x.TestLimitWithOffsetClause"/> -->
-    <!-- <case id="TC34" class="ctf.jdo.tc3x.TestLimitWithOffsetExtend"/> -->
-    <!-- <case id="TC35" class="ctf.jdo.tc3x.TestSize"/> -->
-    <!-- <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/> -->
-    <!-- <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/> -->
-    
     <!-- tc4x -->
     <!-- tc5x -->
     <!-- tc6x -->
@@ -579,17 +515,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc3x -->
-    <!-- <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/>
-         LIMIT clause not supported by Apache Derby -->
-    <!-- <case id="TC33" class="ctf.jdo.tc3x.TestLimitWithOffsetClause"/>
-         LIMIT clause not supported by Apache Derby -->
-    <!-- <case id="TC34" class="ctf.jdo.tc3x.TestLimitWithOffsetExtend"/>
-         LIMIT clause not supported by Apache Derby -->
-    <!-- <case id="TC35" class="ctf.jdo.tc3x.TestSize"/> -->
-    <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/>
-    <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/>
 
     <!-- tc4x -->
     <!-- tc5x -->
@@ -653,17 +578,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc3x -->
-    <!-- <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/>
-         LIMIT clause not supported by Apache Derby -->
-    <!-- <case id="TC33" class="ctf.jdo.tc3x.TestLimitWithOffsetClause"/>
-         LIMIT clause not supported by Apache Derby -->
-    <!-- <case id="TC34" class="ctf.jdo.tc3x.TestLimitWithOffsetExtend"/>
-         LIMIT clause not supported by Apache Derby -->
-    <!--  case id="TC35" class="ctf.jdo.tc3x.TestSize"/> -->
-    <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/>
-    <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/>
-    
     <!-- tc4x -->
     <!-- tc5x -->
     <!-- tc6x -->
@@ -724,14 +638,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc3x -->
-    <!-- <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/> -->
-    <!-- <case id="TC33" class="ctf.jdo.tc3x.TestLimitWithOffsetClause"/> -->
-    <!-- <case id="TC34" class="ctf.jdo.tc3x.TestLimitWithOffsetExtend"/> -->
-    <!-- <case id="TC35" class="ctf.jdo.tc3x.TestSize"/> -->
-    <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/>
-    <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/>
 
     <!-- tc4x -->
     <!-- tc5x -->
