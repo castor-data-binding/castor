@@ -95,20 +95,6 @@
   </contributor>
   
   <contributor type="Committer">
-    <name surname="Gr&#252;neis" given="Joachim"/>
-    <email>jgrueneis@gmail.com</email>
-    <project>XML</project>
-    <description>
-      Field of work is JAXB on top of Castor. Therefor a lot of refactorings
-      and adoptions in Castor XML are required.
-    </description>
-    <status>active</status>
-    <since>
-      <date>Sep. 2007</date>
-    </since>
-  </contributor>
-
-  <contributor type="Committer">
     <name surname="Lang" given="Lukas" />
     <email>lukaslang@codehaus.org</email>
     <project>XML and JDO</project>
@@ -264,6 +250,20 @@
       m-n support, etc; bugs fixes, test cases, and documentation.
     </description>
     <status>inactive</status>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Gr&#252;neis" given="Joachim"/>
+    <email>jgrueneis@gmail.com</email>
+    <project>XML</project>
+    <description>
+      Field of work is JAXB on top of Castor. Therefor a lot of refactorings
+      and adoptions in Castor XML are required.
+    </description>
+    <status>inactive</status>
+    <since>
+      <date>Sep. 2007</date>
+    </since>
   </contributor>
 
   <contributor type="Inactive Committer">
