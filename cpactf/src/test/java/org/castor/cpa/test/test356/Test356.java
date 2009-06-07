@@ -65,7 +65,8 @@ public final class Test356 extends CPATestCase {
             || (engine == DatabaseEngineType.ORACLE)
             || (engine == DatabaseEngineType.SQL_SERVER)
             || (engine == DatabaseEngineType.SAPDB)
-            || (engine == DatabaseEngineType.DERBY);
+            || (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
     
     public void testDoubleEntities() throws Exception {

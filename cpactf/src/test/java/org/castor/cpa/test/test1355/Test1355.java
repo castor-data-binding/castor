@@ -35,8 +35,7 @@ public final class Test1355 extends CPATestCase {
     
     // Test are only included/excluded for engines that have been tested with this test suite.
     //
-    // Temporary disabled test until CASTOR-2584 is resolved. It should be possible to include
-    // derby, mysql, mssql and oracle engine after issue got resolved.
+    // Temporary disabled test until CASTOR-2584 is resolved.
 
     public boolean include(final DatabaseEngineType engine) {
         return false;

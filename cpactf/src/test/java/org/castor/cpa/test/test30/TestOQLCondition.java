@@ -53,7 +53,8 @@ public final class TestOQLCondition extends CPATestCase {
             || (engine == DatabaseEngineType.ORACLE)
             || (engine == DatabaseEngineType.SQL_SERVER)
             || (engine == DatabaseEngineType.SAPDB)
-            || (engine == DatabaseEngineType.DERBY);
+            || (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
 
     public void setUp() throws Exception {

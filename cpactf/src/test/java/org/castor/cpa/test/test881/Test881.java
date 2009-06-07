@@ -41,7 +41,8 @@ public final class Test881 extends CPATestCase {
             || (engine == DatabaseEngineType.ORACLE)
             || (engine == DatabaseEngineType.SQL_SERVER)
             || (engine == DatabaseEngineType.SAPDB)
-            || (engine == DatabaseEngineType.DERBY);
+            || (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
     
     public void testLoadConfA() throws Exception {

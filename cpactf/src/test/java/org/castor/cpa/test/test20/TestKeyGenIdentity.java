@@ -30,7 +30,8 @@ public final class TestKeyGenIdentity extends AbstractTestKeyGenInteger {
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.DERBY);
+            || (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
 
     // ORACLE does not support identity key generator

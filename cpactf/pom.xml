@@ -121,6 +121,14 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 			<scope>test</scope>
 			<optional>true</optional>
 		</dependency>
+		
+		<dependency>
+		    <groupId>postgresql</groupId>
+		    <artifactId>postgresql</artifactId>
+		    <version>8.3-603.jdbc3</version>
+            <scope>test</scope>
+            <optional>true</optional>
+		</dependency> 
 
       <dependency>
           <groupId>org.mockejb</groupId>
