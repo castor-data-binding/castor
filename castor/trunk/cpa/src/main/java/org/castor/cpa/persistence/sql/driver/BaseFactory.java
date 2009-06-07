@@ -186,13 +186,6 @@ public abstract class BaseFactory implements PersistenceFactory {
     public Class<?> adjustSqlType(final Class<?> sqlType) {
         return sqlType;
     }
-
-    /**
-     * Many databases don't support setNull for "WHERE fld=?" and require "WHERE fld IS NULL".
-     */
-    public boolean supportsSetNullInWhere() {
-        return false;
-    }
 }
 
 
