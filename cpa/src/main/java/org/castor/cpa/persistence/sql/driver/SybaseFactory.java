@@ -100,13 +100,6 @@ public class SybaseFactory extends GenericFactory {
             final Class<?> javaClass, final String[] fields, final int[] sqlTypes) {
         return new MultiRSCallQuery(call, paramTypes, javaClass, fields, sqlTypes);
     }
-
-    /**
-     * @inheritDoc
-     */
-    public boolean supportsSetNullInWhere() {
-        return true;
-    }
 }
 
 

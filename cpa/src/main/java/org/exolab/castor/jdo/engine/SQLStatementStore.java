@@ -238,42 +238,39 @@ public final class SQLStatementStore {
     throws PersistenceException {
         if (oldentity.getFields() == null) {
             return _statementLazy;
-        } else if (_factory.supportsSetNullInWhere()) {
-            return _statementDirty;
-        } else {
-            int pos = _statementDirty.length() - 1;
-            
-            StringBuffer sql = new StringBuffer(pos * 4);
-            sql.append(_statementDirty);
-            
-            for (int i = _fields.length - 1; i >= 0; i--) {
-                if (_fields[i].isStore() && _fields[i].isDirtyCheck()) {
-                    SQLColumnInfo[] columns = _fields[i].getColumnInfo();
-                    Object value = oldentity.getField(i);
-                    if (value == null) {
-                        for (int j = columns.length - 1; j >= 0; j--) {
-                            pos = nextParameter(true, sql, pos);
-                        }
-                    } else if (value instanceof Identity) {
-                        Identity identity = (Identity) value;
-                        if (identity.size() != columns.length) {
-                            throw new PersistenceException("Size of identity field mismatch!");
-                        }
-
-                        for (int j = columns.length - 1; j >= 0; j--) {
-                            pos = nextParameter((identity.get(j) == null), sql, pos);
-                        }
-                    } else {
-                        if (columns.length != 1) {
-                            throw new PersistenceException("Complex field expected!");
-                        }
-
-                        pos = nextParameter(false, sql, pos);
+        }
+        int pos = _statementDirty.length() - 1;
+        
+        StringBuffer sql = new StringBuffer(pos * 4);
+        sql.append(_statementDirty);
+        
+        for (int i = _fields.length - 1; i >= 0; i--) {
+            if (_fields[i].isStore() && _fields[i].isDirtyCheck()) {
+                SQLColumnInfo[] columns = _fields[i].getColumnInfo();
+                Object value = oldentity.getField(i);
+                if (value == null) {
+                    for (int j = columns.length - 1; j >= 0; j--) {
+                        pos = nextParameter(true, sql, pos);
                     }
+                } else if (value instanceof Identity) {
+                    Identity identity = (Identity) value;
+                    if (identity.size() != columns.length) {
+                        throw new PersistenceException("Size of identity field mismatch!");
+                    }
+
+                    for (int j = columns.length - 1; j >= 0; j--) {
+                        pos = nextParameter((identity.get(j) == null), sql, pos);
+                    }
+                } else {
+                    if (columns.length != 1) {
+                        throw new PersistenceException("Complex field expected!");
+                    }
+
+                    pos = nextParameter(false, sql, pos);
                 }
             }
-            return sql.toString();
         }
+        return sql.toString();
     }
     
     /**
@@ -429,19 +426,13 @@ public final class SQLStatementStore {
         int offset = _offsetOldEntity;
         
         // bind the old fields of the row to be stored into the preparedStatement
-        if (oldentity.getFields() != null) {
-            boolean supportsSetNull = _factory.supportsSetNullInWhere();
-            
+        if (oldentity.getFields() != null) {            
             for (int i = 0; i < _fields.length; ++i) {
                 if (_fields[i].isStore() && _fields[i].isDirtyCheck()) {
                     SQLColumnInfo[] columns = _fields[i].getColumnInfo();
                     Object value = oldentity.getField(i);
                     if (value == null) {
-                        if (supportsSetNull) {
-                            for (int j = 0; j < columns.length; j++) {
-                                preparedStatement.setNull(offset++, columns[j].getSqlType());
-                            }
-                        }
+                        continue;
                     } else if (value instanceof Identity) {
                         Identity id = (Identity) value;
                         if (id.size() != columns.length) {

@@ -129,11 +129,6 @@ public interface PersistenceFactory {
     Class<?> adjustSqlType(Class<?> sqlType);
 
     /**
-     * Many databases don't support setNull for "WHERE fld=?" and require "WHERE fld IS NULL".
-     */
-    boolean supportsSetNullInWhere();
-
-    /**
      * Needed to process OQL queries of "CALL" type (using stored procedure
      * call). This feature is specific for JDO.
      * 
