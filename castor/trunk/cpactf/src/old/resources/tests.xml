@@ -19,9 +19,6 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="TC70" class="ctf.jdo.tc7x.TestCollections"/>
-	<case id="TC71" class="ctf.jdo.tc7x.TestSpecialCollections"/>
-	<case id="TC72" class="ctf.jdo.tc7x.TestSortedContainer"/>
     <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
     <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
     <!-- <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/> -->
@@ -83,9 +80,6 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <!-- <case id="TC70" class="ctf.jdo.tc7x.TestCollections"/> -->
-	<!-- <case id="TC71" class="ctf.jdo.tc7x.TestSpecialCollections"/> -->
-	<!-- <case id="TC72" class="ctf.jdo.tc7x.TestSortedContainer"/> -->
     <!-- <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/> -->
     <!-- <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/> -->
     <!-- <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/> -->
@@ -145,9 +139,6 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="TC70" class="ctf.jdo.tc7x.TestCollections"/>
-	<case id="TC71" class="ctf.jdo.tc7x.TestSpecialCollections"/>
-	<case id="TC72" class="ctf.jdo.tc7x.TestSortedContainer"/>
     <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
     <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
     <!-- <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/> -->
@@ -207,9 +198,6 @@
     <!-- tc6x -->
     <!-- tc7x -->
     
-    <case id="TC70" class="ctf.jdo.tc7x.TestCollections"/>
-	<case id="TC71" class="ctf.jdo.tc7x.TestSpecialCollections"/>
-	<case id="TC72" class="ctf.jdo.tc7x.TestSortedContainer"/>
     <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
     <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
     <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/>
@@ -270,9 +258,6 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="TC70" class="ctf.jdo.tc7x.TestCollections"/>
-	<case id="TC71" class="ctf.jdo.tc7x.TestSpecialCollections"/>
-	<case id="TC72" class="ctf.jdo.tc7x.TestSortedContainer"/>
     <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
     <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
     <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/>
@@ -335,9 +320,6 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="TC70" class="ctf.jdo.tc7x.TestCollections"/>
-	<case id="TC71" class="ctf.jdo.tc7x.TestSpecialCollections"/>
-	<case id="TC72" class="ctf.jdo.tc7x.TestSortedContainer"/>
     <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
     <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
     <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/>
@@ -397,9 +379,6 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <!-- <case id="TC70" class="ctf.jdo.tc7x.TestCollections"/> -->
-	<!-- <case id="TC71" class="ctf.jdo.tc7x.TestSpecialCollections"/> -->
-	<case id="TC72" class="ctf.jdo.tc7x.TestSortedContainer"/>
     <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
     <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
     <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/>
@@ -459,9 +438,6 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="TC70" class="ctf.jdo.tc7x.TestCollections"/>
-	<case id="TC71" class="ctf.jdo.tc7x.TestSpecialCollections"/>
-	<case id="TC72" class="ctf.jdo.tc7x.TestSortedContainer"/>
     <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
     <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
     <!-- <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/> -->
@@ -521,9 +497,6 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="TC70" class="ctf.jdo.tc7x.TestCollections"/>
-	<case id="TC71" class="ctf.jdo.tc7x.TestSpecialCollections"/>
-	<case id="TC72" class="ctf.jdo.tc7x.TestSortedContainer"/>
     <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
     <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
     <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/>
@@ -583,9 +556,6 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <!-- <case id="TC70" class="ctf.jdo.tc7x.TestCollections"/> -->
-	<case id="TC71" class="ctf.jdo.tc7x.TestSpecialCollections"/>
-	<case id="TC72" class="ctf.jdo.tc7x.TestSortedContainer"/>
     <!-- <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/> -->
     <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
     <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/>
@@ -644,9 +614,6 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="TC70" class="ctf.jdo.tc7x.TestCollections"/>
-	<case id="TC71" class="ctf.jdo.tc7x.TestSpecialCollections"/>
-	<case id="TC72" class="ctf.jdo.tc7x.TestSortedContainer"/>
     <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
     <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
     <!-- <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/> -->
