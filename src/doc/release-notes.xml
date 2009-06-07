@@ -80,7 +80,7 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
 </class>]]></code-panel>
             </summary>
             <bugs>
-                <bug id="2791" tool="jira">
+                <bug id="2691" tool="jira">
                     <description>
                         Migrated TC32 - TC37 from old to new CPACTF test suite.
                     </description>
@@ -120,7 +120,7 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                     <module>JDO</module>
                     <date>20090531</date>
                 </bug> 
-                <bug id="2790" tool="jira">
+                <bug id="2690" tool="jira">
                     <description>
                         Migrated TC25 - TC29 from old to new CPACTF test suite.
                     </description>
