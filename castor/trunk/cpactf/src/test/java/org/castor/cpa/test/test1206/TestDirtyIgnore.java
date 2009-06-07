@@ -32,6 +32,7 @@ public final class TestDirtyIgnore extends CPATestCase {
     }
 
     // Test are only included/excluded for engines that have been tested with this test suite.
+    // postgresql excluded according to CASTOR-2738
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL)
@@ -39,6 +40,10 @@ public final class TestDirtyIgnore extends CPATestCase {
             || (engine == DatabaseEngineType.SQL_SERVER)
             || (engine == DatabaseEngineType.SAPDB)
             || (engine == DatabaseEngineType.DERBY);
+    }
+    
+    public boolean exclude(final DatabaseEngineType engine) {
+        return (engine == DatabaseEngineType.POSTGRESQL);
     }
     
     public void delete() throws Exception {

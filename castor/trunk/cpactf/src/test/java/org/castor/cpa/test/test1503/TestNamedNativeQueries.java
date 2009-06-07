@@ -39,7 +39,8 @@ public final class TestNamedNativeQueries extends CPATestCase {
         return (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.SAPDB)
             || (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.ORACLE);
+            || (engine == DatabaseEngineType.ORACLE)
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
     
     public void setUp() throws Exception {

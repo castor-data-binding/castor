@@ -28,7 +28,8 @@ public final class TestKeyGenSequence extends AbstractTestKeyGenInteger {
     // Test are only included/excluded for engines that have been tested with this test suite.
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.ORACLE);
+        return (engine == DatabaseEngineType.ORACLE)
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
 
     public boolean exclude(final DatabaseEngineType engine) {

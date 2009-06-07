@@ -24,6 +24,10 @@ public class Test1379 extends CPATestCase {
             || (engine == DatabaseEngineType.DERBY);
     }
     
+    public boolean exclude(final DatabaseEngineType engine) {
+        return (engine == DatabaseEngineType.POSTGRESQL);
+    }
+    
     public void test() throws Exception {
         Computer      computer = null;
         Product       product;

@@ -58,7 +58,8 @@ public final class TestMultiPrimKeysOnly extends CPATestCase {
         return (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.SAPDB)
             || (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.ORACLE);
+            || (engine == DatabaseEngineType.ORACLE)
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
     
     /**

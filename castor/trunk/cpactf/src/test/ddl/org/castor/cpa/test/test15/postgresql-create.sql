@@ -1,9 +1,8 @@
 create table test15_person (
   fname varchar(15)    not null,
   lname varchar(15)    not null,
-  bday  datetime       null
+  bday  timestamp      null
 );
-
 create unique index test15_person_pk on test15_person( fname, lname );
 
 create table test15_address (
@@ -15,15 +14,13 @@ create table test15_address (
   state   varchar(2)   null,
   zip     varchar(6)   null
 );
-
 create unique index test15_address_pk on test15_address( id );
 
 create table test15_employee (
   fname      varchar(15)    not null,
   lname      varchar(15)    not null,
-  start_date datetime       null
+  start_date timestamp      null
 );
-
 create unique index test15_employee_pk on test15_employee( fname, lname );
 
 create table test15_contract (
@@ -33,9 +30,7 @@ create table test15_contract (
   contract_no  int          not null,
   c_comment    varchar(90)  null
 );
-
 create unique index test15_contract_fk on test15_contract( fname, lname );
-
 create unique index test15_contract_pk on test15_contract( policy_no, contract_no );
 
 create table test15_category_contract (
@@ -51,21 +46,17 @@ create table test15_payroll (
   holiday     int          not null,
   hourly_rate int          not null
 );
-
 create unique index test15_payroll_fk on test15_payroll( fname, lname );
-
 create unique index test15_payroll_pk on test15_payroll( id );
 
 create table test15_category (
   id    int             not null,
   name  varchar(20)     not null
 );
-
 create unique index test15_category_pk on test15_category( id );
 
 create table test15_only(
   fname varchar(15)    not null,
   lname varchar(15)    not null
 );
-
 create unique index test15_only_pk on test15_only( fname, lname );

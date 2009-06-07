@@ -110,11 +110,22 @@
 
     <database name="postgresql-drv" engine="postgresql">
         <description>Database configuration for PostgreSQL</description>
-        <driver url="jdbc:postgresql:cpactf"
+        <driver url="jdbc:postgresql://localhost:5432/cpactf"
                 class-name="org.postgresql.Driver">
             <param name="user" value="test"/>
             <param name="password" value="test"/>
         </driver>
+    </database>
+
+    <database name="postgresql-ds" engine="postgresql">
+        <description>Database configuration for PostgreSQL</description>
+        <data-source class-name="org.postgresql.ds.PGSimpleDataSource">
+            <param name="serverName" value="localhost"/>
+            <param name="portNumber" value="5432"/>
+            <param name="databaseName" value="cpactf"/>
+            <param name="user" value="test"/>
+            <param name="password" value="test"/>
+        </data-source>
     </database>
 
     <database name="progress-drv" engine="progress">

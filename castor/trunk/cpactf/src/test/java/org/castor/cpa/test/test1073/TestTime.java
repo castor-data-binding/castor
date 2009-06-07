@@ -38,7 +38,8 @@ public final class TestTime extends CPATestCase {
             || (engine == DatabaseEngineType.DERBY)
             || (engine == DatabaseEngineType.SQL_SERVER)
             || (engine == DatabaseEngineType.SAPDB)
-            || (engine == DatabaseEngineType.ORACLE);
+            || (engine == DatabaseEngineType.ORACLE)
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
     
     public void delete() throws Exception {

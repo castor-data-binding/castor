@@ -56,7 +56,8 @@ public final class TestPersistentObject extends CPATestCase {
             || (engine == DatabaseEngineType.DERBY)
             || (engine == DatabaseEngineType.ORACLE)
             || (engine == DatabaseEngineType.SAPDB)
-            || (engine == DatabaseEngineType.SQL_SERVER);
+            || (engine == DatabaseEngineType.SQL_SERVER)
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
     
     public void testSave()
