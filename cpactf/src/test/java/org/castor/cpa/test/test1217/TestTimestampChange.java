@@ -33,18 +33,14 @@ public final class TestTimestampChange extends CPATestCase {
     }
 
     // Test are only included/excluded for engines that have been tested with this test suite.
-    // postgresql excluded according to CASTOR-2738
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.DERBY)
             || (engine == DatabaseEngineType.SQL_SERVER)
             || (engine == DatabaseEngineType.SAPDB)
-            || (engine == DatabaseEngineType.ORACLE);
-    }
-    
-    public boolean exclude(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.POSTGRESQL);
+            || (engine == DatabaseEngineType.ORACLE)
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
     
     public void delete() throws Exception {

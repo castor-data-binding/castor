@@ -33,13 +33,14 @@ public final class TestCreate extends CPATestCase {
 
     // Test are only included/excluded for engines that have been tested with this test suite.
     // There is a problem with SAPDB handled at CASTOR-2724 that causes this test to fail
-    // postgresql excluded according to CASTOR-2738
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.ORACLE);
     }
     
-    // Test uses sequence key generator which is not supported by derby, mysql and mssql.
+    // Test uses returning sequence key generator.
+    // derby, mysql and mssql do not support sequence.
+    // postgresql do not support returning sequence.
 
     public boolean exclude(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL)
