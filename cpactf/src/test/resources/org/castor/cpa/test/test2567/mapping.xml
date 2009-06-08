@@ -4,18 +4,18 @@
 <mapping>
     <class name="org.castor.cpa.test.test2567.Entity">
         <cache-type type="none"/>
-        <map-to table="TEST2567_ENTITY"/>
+        <map-to table="test2567_entity"/>
         <field name="partName" type="string" identity="true">
-            <sql name="PARTNAME" type="varchar"/>
+            <sql name="partname" type="varchar"/>
         </field>
         <field name="loadDate" type="date" identity="true">
-            <sql name="LOADDATE" type="date"/>
+            <sql name="loaddate" type="date"/>
         </field>
         <field name="requestDate" type="date" identity="true">
-            <sql name="ORIGDATEREQD" type="date"/>
+            <sql name="origdatereqd" type="date"/>
         </field>
         <field name="orderNumberText" type="string">
-            <sql name="CUSTORDERNUMBER" type="varchar"/>
+            <sql name="custordernumber" type="varchar"/>
         </field>
     </class>
 </mapping>

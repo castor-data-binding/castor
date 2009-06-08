@@ -15,7 +15,8 @@
             <sql name="name" type="varchar"/>
         </field>
     </class>
-        <class identity="id" name="org.castor.cpa.test.test71.ContainerItem">
+    
+    <class identity="id" name="org.castor.cpa.test.test71.ContainerItem">
         <map-to table="test71_container_item"/>
         <field name="id" type="integer">
             <sql name="id" type="integer"/>
