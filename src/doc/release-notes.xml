@@ -80,6 +80,26 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
 </class>]]></code-panel>
             </summary>
             <bugs>
+                <bug id="2693" tool="jira">
+                    <description>
+                        Migrated TC73, TC74 from old to new CPACTF test suite.
+                    </description>
+                    <contributor>
+                        <name>Udai Gupta</name>
+                        <email>mailtoud@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Udai Gupta</name>
+                        <email>mailtoud@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20090609</date>
+                </bug>
                 <bug id="2738" tool="jira">
                     <description>
                         Use only lower case table and column names in cpactf tests.

@@ -19,8 +19,6 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
-    <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
     <!-- <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/> -->
     <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
@@ -80,8 +78,6 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <!-- <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/> -->
-    <!-- <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/> -->
     <!-- <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/> -->
     <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
     <!-- <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/> -->
@@ -139,8 +135,6 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
-    <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
     <!-- <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/> -->
     <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
@@ -198,8 +192,6 @@
     <!-- tc6x -->
     <!-- tc7x -->
     
-    <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
-    <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
     <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/>
     <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/>
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
@@ -258,8 +250,6 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
-    <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
     <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/>
     <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/>
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
@@ -320,8 +310,6 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
-    <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
     <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/>
     <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
@@ -379,8 +367,6 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
-    <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
     <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/>
     <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
     <!-- <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/> -->
@@ -438,8 +424,6 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
-    <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
     <!-- <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/> -->
     <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
@@ -497,8 +481,6 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
-    <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
     <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/>
     <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/>
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
@@ -556,8 +538,6 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <!-- <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/> -->
-    <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
     <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/>
     <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/>
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
@@ -614,8 +594,6 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
-    <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
     <!-- <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/> -->
     <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
