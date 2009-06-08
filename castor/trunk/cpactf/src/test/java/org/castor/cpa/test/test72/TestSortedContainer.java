@@ -18,8 +18,6 @@ package org.castor.cpa.test.test72;
 import java.util.Iterator;
 import java.util.SortedSet;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.castor.cpa.test.framework.CPATestCase;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.exolab.castor.jdo.Database;
@@ -31,7 +29,6 @@ import org.exolab.castor.jdo.QueryResults;
  * creates data objects that each has a collection as a field type.
  */
 public final class TestSortedContainer extends CPATestCase {
-    private static final Log LOG = LogFactory.getLog(TestSortedContainer.class);
     private static final String DBNAME = "test72";
     private static final String MAPPING = "/org/castor/cpa/test/test72/mapping.xml";
     private Database _db;
@@ -44,7 +41,8 @@ public final class TestSortedContainer extends CPATestCase {
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.DERBY);
+            || (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
 
     public void setUp() throws Exception {
@@ -87,7 +85,6 @@ public final class TestSortedContainer extends CPATestCase {
         int i = 1;
         while (iterator.hasNext()) {
             two = iterator.next();
-            LOG.error(two);
             assertNotNull(two);
             assertEquals(new Integer(i), two.getId());
             i++;

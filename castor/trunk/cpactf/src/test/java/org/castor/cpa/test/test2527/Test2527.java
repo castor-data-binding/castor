@@ -37,12 +37,13 @@ public final class Test2527 extends CPATestCase {
             || (engine == DatabaseEngineType.ORACLE)
             || (engine == DatabaseEngineType.SQL_SERVER)
             || (engine == DatabaseEngineType.SAPDB)
-            || (engine == DatabaseEngineType.DERBY);
+            || (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
     
-    public boolean exclude(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.POSTGRESQL);
-    }
+//    public boolean exclude(final DatabaseEngineType engine) {
+//        return (engine == DatabaseEngineType.POSTGRESQL);
+//    }
     
     public void test() throws Exception {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();

@@ -34,7 +34,6 @@ public final class Test1355 extends CPATestCase {
     }
     
     // Test are only included/excluded for engines that have been tested with this test suite.
-    //
     // Temporary disabled test until CASTOR-2584 is resolved.
 
     public boolean include(final DatabaseEngineType engine) {
@@ -43,7 +42,8 @@ public final class Test1355 extends CPATestCase {
 //            || (engine == DatabaseEngineType.ORACLE)
 //            || (engine == DatabaseEngineType.SQL_SERVER)
 //            || (engine == DatabaseEngineType.SAPDB)
-//            || (engine == DatabaseEngineType.DERBY);
+//            || (engine == DatabaseEngineType.DERBY)
+//            || (engine == DatabaseEngineType.POSTGRESQL);
     }
     
     /**
