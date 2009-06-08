@@ -1,18 +1,18 @@
-CREATE TABLE TEST1206_COUNTRY(
-	OID varchar(8) NOT NULL,
-	NAME varchar(60) NOT NULL,
-PRIMARY KEY ( OID )
+CREATE TABLE test1206_country(
+	oid varchar(8) NOT NULL,
+	name varchar(60) NOT NULL,
+    PRIMARY KEY ( oid )
 )
 GO
 
-CREATE TABLE TEST1206_STATE(
-	OID varchar(8) NOT NULL,
-	NAME varchar(60) NOT NULL,
-	COUNTRY varchar(8) NOT NULL,
-PRIMARY KEY ( OID ) 
+CREATE TABLE test1206_state(
+	oid varchar(8) NOT NULL,
+	name varchar(60) NOT NULL,
+	country varchar(8) NOT NULL,
+    PRIMARY KEY ( oid ) 
 )
 GO
-ALTER TABLE TEST1206_STATE 
-ADD FOREIGN KEY(COUNTRY)
-REFERENCES TEST1206_COUNTRY (OID)
+ALTER TABLE test1206_state 
+ADD FOREIGN KEY(country)
+REFERENCES test1206_country (oid)
 GO

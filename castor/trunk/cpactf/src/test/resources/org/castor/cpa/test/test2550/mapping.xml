@@ -3,17 +3,17 @@
                            "http://castor.org/mapping.dtd">
 <mapping>
     <class name="org.castor.cpa.test.test2550.Entity" key-generator="TEST2550">
-        <map-to table="TEST2550_ENTITY" />
+        <map-to table="test2550_entity" />
         <field name="id" type="integer" identity="true">
-            <sql name="ID" type="integer"/>
+            <sql name="id" type="integer"/>
         </field>
         <field name="name" type="string">
-            <sql name="NAME" type="varchar"/>
+            <sql name="name" type="varchar"/>
         </field>
     </class>
 
     <key-generator name="SEQUENCE" alias="TEST2550">
-        <param name="sequence" value="TEST2550_ENTITY_SEQ" />
+        <param name="sequence" value="test2550_entity_seq" />
         <param name="returning" value="true" />
         <param name="trigger" value="false" />
     </key-generator>
