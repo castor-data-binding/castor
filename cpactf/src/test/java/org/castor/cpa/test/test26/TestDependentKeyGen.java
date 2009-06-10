@@ -52,7 +52,8 @@ public final class TestDependentKeyGen extends CPATestCase {
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.POSTGRESQL);
+            || (engine == DatabaseEngineType.POSTGRESQL)
+            || (engine == DatabaseEngineType.ORACLE);
     }
 
     /**

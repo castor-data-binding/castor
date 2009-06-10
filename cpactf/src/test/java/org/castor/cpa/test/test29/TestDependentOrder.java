@@ -43,14 +43,15 @@ public final class TestDependentOrder extends CPATestCase {
     }
 
     // Test are only included/excluded for engines that have been tested with this test suite.
-    // TODO Test shows sporadic failures on derby, mysql and postgresql.
+    // TODO Test shows sporadic failures on derby, mysql, oracle and postgresql.
     // Problem is tracked through CASTOR-2732.
 
     public boolean include(final DatabaseEngineType engine) {
         return false;
 //        return (engine == DatabaseEngineType.MYSQL)
 //            || (engine == DatabaseEngineType.DERBY)
-//            || (engine == DatabaseEngineType.POSTGRESQL);
+//            || (engine == DatabaseEngineType.POSTGRESQL)
+//            || (engine == DatabaseEngineType.ORACLE);
     }
 
     /**

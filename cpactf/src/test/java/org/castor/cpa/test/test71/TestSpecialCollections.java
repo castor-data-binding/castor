@@ -42,7 +42,8 @@ public final class TestSpecialCollections extends CPATestCase {
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.POSTGRESQL);
+            || (engine == DatabaseEngineType.POSTGRESQL)
+            || (engine == DatabaseEngineType.ORACLE);
     }
 
     public void setUp() throws Exception {
@@ -62,7 +63,7 @@ public final class TestSpecialCollections extends CPATestCase {
 
         _db.begin();
         OQLQuery aquery = _db.getOQLQuery(
-                "SELECT c FROM " + Container.class.getName() + " c");
+                "SELECT c FROM " + Container.class.getName() + " c order by c.id");
         QueryResults aresults = aquery.execute();
         int i = 1;
         while (aresults.hasMore()) {
@@ -70,7 +71,7 @@ public final class TestSpecialCollections extends CPATestCase {
             assertNotNull(container);
             assertEquals(new Integer(i), container.getId());
             
-            List < ContainerItem > containerItems = container.getProp();
+            List<ContainerItem> containerItems = container.getProp();
             assertNotNull(containerItems);
             assertTrue(containerItems.size() > 0);
             i++;

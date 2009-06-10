@@ -44,7 +44,8 @@ public class TestLimitClause extends CPATestCase {
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.POSTGRESQL);
+            || (engine == DatabaseEngineType.POSTGRESQL)
+            || (engine == DatabaseEngineType.ORACLE);
     }
 
     /**

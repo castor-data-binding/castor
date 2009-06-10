@@ -51,7 +51,8 @@ public final class TestAbsolute extends CPATestCase {
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.DERBY)
             || (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.POSTGRESQL);
+            || (engine == DatabaseEngineType.POSTGRESQL)
+            || (engine == DatabaseEngineType.ORACLE);
     }
     
     public void setUp() throws Exception {
