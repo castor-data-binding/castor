@@ -83,19 +83,19 @@
 
     <database name="oracle-drv" engine="oracle">
         <description>Database configuration for Oracle</description>
-        <driver url="jdbc:oracle:thin:@//192.168.1.201:1521/castor.syscon.priv"
+        <driver url="jdbc:oracle:thin:@//192.168.1.223:1521/fremd.syscon.priv"
                 class-name="oracle.jdbc.driver.OracleDriver">
-            <param name="user" value="test"/>
-            <param name="password" value="secret"/>
+            <param name="user" value="castor_admin"/>
+            <param name="password" value="castor"/>
         </driver>
     </database>
 
     <database name="oracle-ds" engine="oracle">
         <description>Database configuration for Oracle</description>
         <data-source class-name="oracle.jdbc.pool.OracleConnectionPoolDataSource">
-            <param name="URL" value="jdbc:oracle:thin:@//192.168.1.201:1521/castor.syscon.priv"/>
-            <param name="user" value="test"/>
-            <param name="password" value="secret"/>
+            <param name="URL" value="jdbc:oracle:thin:@//192.168.1.223:1521/fremd.syscon.priv"/>
+            <param name="user" value="castor_admin"/>
+            <param name="password" value="castor"/>
         </data-source>
     </database>
 

@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -84,11 +85,19 @@ public final class CPAScriptExecutor {
         
         for (Iterator<String> iter = statements.iterator(); iter.hasNext(); ) {
             String statement = iter.next();
+            PreparedStatement prepared = null;
             try {
-                connection.prepareStatement(statement).execute();
+                prepared = connection.prepareStatement(statement);
+                prepared.execute();
             } catch (SQLException ex) {
                 // just remember first exceptions on failing statements of drop script
-                if (firstException == null) { firstException = ex; }
+                if (firstException == null) {
+                    firstException = ex;
+                }
+            } finally {
+                if (prepared != null) {
+                    prepared.close();
+                }
             }
         }
 
@@ -97,9 +106,19 @@ public final class CPAScriptExecutor {
     
     private static void executeCreate(final List<String> statements, final Connection connection)
     throws SQLException {
-        for (Iterator<String> iter = statements.iterator(); iter.hasNext(); ) {
-            String statement = iter.next();
-            connection.prepareStatement(statement).execute();
+        PreparedStatement prepared = null;
+        try {
+            for (Iterator<String> iter = statements.iterator(); iter.hasNext(); ) {
+                String statement = iter.next();
+                prepared = connection.prepareStatement(statement);
+                prepared.execute();
+                prepared.close();
+                prepared = null;
+            }
+        } finally {
+            if (prepared != null) {
+                prepared.close();
+            }
         }
     }
     

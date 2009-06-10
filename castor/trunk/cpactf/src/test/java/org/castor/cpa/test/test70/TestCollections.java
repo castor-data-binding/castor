@@ -41,7 +41,8 @@ public final class TestCollections extends CPATestCase {
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.DERBY);
+            || (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.ORACLE);
     }
 
     public boolean exclude(final DatabaseEngineType engine) {

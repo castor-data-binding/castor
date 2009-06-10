@@ -70,7 +70,8 @@ public final class TestManyToMany extends CPATestCase {
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.POSTGRESQL);
+            || (engine == DatabaseEngineType.POSTGRESQL)
+            || (engine == DatabaseEngineType.ORACLE);
     }
 
     public void setUp() throws Exception {
