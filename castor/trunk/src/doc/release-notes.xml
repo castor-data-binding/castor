@@ -80,6 +80,26 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
 </class>]]></code-panel>
             </summary>
             <bugs>
+                <bug id="1940" tool="jira">
+                    <description>
+                        Fixed broken support for sequence key generator with trigger at PostgreSQL.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Tommie Gannert</name>
+                        <email>tommie.gannert@aventek.se</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20090612</date>
+                </bug>
                 <bug id="2693" tool="jira">
                     <description>
                         Migrated TC73, TC74 from old to new CPACTF test suite.

@@ -18,18 +18,17 @@ package org.castor.cpa.test.test20;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 
 /**
- * Test for SEQUENCE key generator without trigger and not returning.
+ * Test for SEQUENCE key generator with trigger but not returning.
  */
-public final class TestKeyGenSequenceString extends AbstractTestKeyGenString {
-    public TestKeyGenSequenceString(final String name) {
+public final class TestKeyGenTrigger extends AbstractTestKeyGenInteger {
+    public TestKeyGenTrigger(final String name) {
         super(name);
     }
-
+    
     // Test are only included/excluded for engines that have been tested with this test suite.
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.ORACLE)
-            || (engine == DatabaseEngineType.POSTGRESQL);
+        return (engine == DatabaseEngineType.POSTGRESQL);
     }
 
     public boolean exclude(final DatabaseEngineType engine) {
@@ -37,7 +36,8 @@ public final class TestKeyGenSequenceString extends AbstractTestKeyGenString {
             || (engine == DatabaseEngineType.DERBY);
     }
 
-    public void testKeyGenSequence() throws Exception {
-        testOneKeyGen(SequenceObjectString.class, SequenceExtendsString.class);
+    public void testKeyGenTrigger() throws  Exception {
+        testOneKeyGen(TriggerObject.class, TriggerExtends.class);
     }
 }
+

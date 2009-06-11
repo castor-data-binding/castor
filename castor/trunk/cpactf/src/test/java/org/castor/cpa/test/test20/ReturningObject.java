@@ -18,7 +18,7 @@ package org.castor.cpa.test.test20;
 import org.junit.Ignore;
 
 /**
- * Test object for RETURNING key generator.
+ * Test object for SEQUENCE key generator without trigger but returning.
  */
 @Ignore
 public class ReturningObject extends AbstractKeyGenObjectInteger { }

@@ -20,3 +20,10 @@ drop sequence test20_identity_id_seq;
 drop table test20_identity_ext;
 
 drop table test20_seqtable;
+
+drop trigger test20_trigger_trg ON test20_trigger;
+drop function test20_trigger_prcd();
+drop sequence test20_trigger_seq;
+drop table test20_trigger_ext;
+drop table test20_trigger;
+

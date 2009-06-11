@@ -18,7 +18,7 @@ package org.castor.cpa.test.test20;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 
 /**
- * Test for SEQUENCE key generator.
+ * Test for SEQUENCE key generator without trigger and not returning.
  */
 public final class TestKeyGenSequence extends AbstractTestKeyGenInteger {
     public TestKeyGenSequence(final String name) {
