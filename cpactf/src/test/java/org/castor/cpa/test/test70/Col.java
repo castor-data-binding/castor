@@ -16,13 +16,12 @@
 package org.castor.cpa.test.test70;
 
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 import org.junit.Ignore;
 
 @Ignore
 public abstract class Col {
-    protected static final Iterator<Item> EMPTY_ITORATOR = new EmptyIterator();
+    protected static final Iterator<Item> EMPTY_ITORATOR = new ColEmptyIterator();
 
     private int _id;
 
@@ -53,20 +52,5 @@ public abstract class Col {
 
     public final String toString() {
         return getClass().getName() + ":" + _id;
-    }
-
-    @Ignore
-    private static class EmptyIterator implements Iterator<Item> {
-        public boolean hasNext() {
-            return false;
-        }
-
-        public Item next() {
-            throw new NoSuchElementException();
-        }
-
-        public void remove() {
-            throw new IllegalStateException();
-        }
     }
 }
