@@ -78,25 +78,6 @@
     </field>
   </class>
 
-  <class name="org.castor.cpa.test.test20.SequenceObject" identity="id" key-generator="SEQUENCE">
-    <description>Table used for SEQUENCE key generator testing</description>
-    <map-to table="test20_keygen" />
-    <field name="id" type="integer">
-      <sql name="id" type="integer" />
-    </field>
-    <field name="attr" type="string" required="true">
-      <sql name="attr" type="varchar"/>
-    </field>
-  </class>
-
-  <class name="org.castor.cpa.test.test20.SequenceExtends" extends="org.castor.cpa.test.test20.SequenceObject">
-    <description>Table used for SEQUENCE key generator testing</description>
-    <map-to table="test20_keygen_ext" />
-    <field name="ext" type="string" required="true">
-      <sql name="ext" type="varchar"/>
-    </field>
-  </class>
-
   <class name="org.castor.cpa.test.test20.IdentityObject" identity="id" key-generator="IDENTITY">
     <description>Table used for IDENTITY key generator testing</description>
     <map-to table="test20_identity" />
@@ -116,8 +97,27 @@
     </field>
   </class>
 
+  <class name="org.castor.cpa.test.test20.SequenceObject" identity="id" key-generator="SEQUENCE">
+    <description>Table used for SEQUENCE key generator testing</description>
+    <map-to table="test20_keygen" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="attr" type="string" required="true">
+      <sql name="attr" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test20.SequenceExtends" extends="org.castor.cpa.test.test20.SequenceObject">
+    <description>Table used for SEQUENCE key generator testing</description>
+    <map-to table="test20_keygen_ext" />
+    <field name="ext" type="string" required="true">
+      <sql name="ext" type="varchar"/>
+    </field>
+  </class>
+
   <class name="org.castor.cpa.test.test20.ReturningObject" identity="id" key-generator="RETURNING">
-    <description>Table used for SEQUENCE key generator testing in RETURNING mode for Oracle8i</description>
+    <description>Table used for SEQUENCE key generator testing</description>
     <map-to table="test20_keygen" />
     <field name="id" type="integer">
       <sql name="id" type="integer" />
@@ -128,8 +128,27 @@
   </class>
 
   <class name="org.castor.cpa.test.test20.ReturningExtends" extends="org.castor.cpa.test.test20.ReturningObject">
-    <description>Table used for SEQUENCE key generator testing in RETURNING mode for Oracle8i</description>
+    <description>Table used for SEQUENCE key generator testing</description>
     <map-to table="test20_keygen_ext" />
+    <field name="ext" type="string" required="true">
+      <sql name="ext" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test20.TriggerObject" identity="id" key-generator="TRIGGER">
+    <description>Table used for SEQUENCE key generator testing</description>
+    <map-to table="test20_trigger" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="attr" type="string" required="true">
+      <sql name="attr" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test20.TriggerExtends" extends="org.castor.cpa.test.test20.TriggerObject">
+    <description>Table used for SEQUENCE key generator testing</description>
+    <map-to table="test20_trigger_ext" />
     <field name="ext" type="string" required="true">
       <sql name="ext" type="varchar"/>
     </field>
@@ -171,5 +190,9 @@
 
   <key-generator name="SEQUENCE" alias="RETURNING">
     <param name="returning" value="true"/>
+  </key-generator>
+
+  <key-generator name="SEQUENCE" alias="TRIGGER">
+    <param name="trigger" value="true"/>
   </key-generator>
 </mapping>

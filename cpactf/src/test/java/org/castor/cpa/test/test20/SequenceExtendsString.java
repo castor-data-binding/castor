@@ -18,7 +18,7 @@ package org.castor.cpa.test.test20;
 import org.junit.Ignore;
 
 /**
- * Test "extends" relation for SEQUENCE key generator.
+ * Test "extends" relation for SEQUENCE key generator without trigger and returning.
  */
 @Ignore
 public final class SequenceExtendsString extends SequenceObjectString { }

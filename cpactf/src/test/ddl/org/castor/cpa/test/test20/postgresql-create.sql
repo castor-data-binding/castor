@@ -52,3 +52,23 @@ create table test20_seqtable (
   max_id      int
 );
 create unique index test20_seqtable_pk on test20_seqtable ( table_name );
+
+create table test20_trigger (
+  id    int           not null,
+  attr  varchar(200)  not null
+) with oids;
+create unique index test20_trigger_pk on test20_trigger ( id );
+
+create table test20_trigger_ext (
+  id   int          not null,
+  ext  varchar(200) not null
+);
+create unique index test20_trigger_ext_pk on test20_trigger_ext ( id );
+
+create sequence test20_trigger_seq;
+
+-- do not break the following line. for this to work you have to register plpgsql first
+create function test20_trigger_prcd() returns trigger as $test20_trigger_prcd$ begin NEW.id := nextval('test20_trigger_seq');  return NEW; end; $test20_trigger_prcd$ language plpgsql;
+
+create trigger test20_trigger_trg before insert ON test20_trigger
+for each row execute procedure test20_trigger_prcd();

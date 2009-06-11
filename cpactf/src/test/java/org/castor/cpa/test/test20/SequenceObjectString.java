@@ -18,7 +18,7 @@ package org.castor.cpa.test.test20;
 import org.junit.Ignore;
 
 /**
- * Test object for SEQUENCE key generator.
+ * Test object for SEQUENCE key generator without trigger and returning.
  */
 @Ignore
 public class SequenceObjectString extends AbstractKeyGenObjectString { }

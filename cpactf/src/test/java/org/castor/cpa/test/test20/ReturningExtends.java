@@ -18,7 +18,7 @@ package org.castor.cpa.test.test20;
 import org.junit.Ignore;
 
 /**
- * Test "extends" relation for RETURNING key generator.
+ * Test "extends" relation for SEQUENCE key generator without trigger but returning.
  */
 @Ignore
 public final class ReturningExtends extends ReturningObject { }

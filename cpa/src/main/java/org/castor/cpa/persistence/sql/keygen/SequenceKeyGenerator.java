@@ -132,13 +132,14 @@ public final class SequenceKeyGenerator implements KeyGenerator {
                         conn);
             } else if ((getStyle() == AFTER_INSERT) && _triggerPresent) {
                 Object insStmt = props.get("insertStatement");
-                Class<?> psqlStmtClass = Class.forName("org.postgresql.Statement");
-                Method getInsertedOID = psqlStmtClass.getMethod("getInsertedOID", (Class[]) null);
-                Integer insertedOID = (Integer) getInsertedOID.invoke(insStmt, (Object[]) null);
+                Class<?> stmtClass = Class.forName("org.postgresql.jdbc2.AbstractJdbc2Statement");
+                if (stmtClass == null) { stmtClass = Class.forName("org.postgresql.Statement"); }
+                Method getLastOID = stmtClass.getMethod("getLastOID", (Class[]) null);
+                Long lastOID = (Long) getLastOID.invoke(insStmt, (Object[]) null);
                 PreparedStatement stmt = conn.prepareStatement(
                         "SELECT " + _factory.quoteName(primKeyName)
                         + " FROM " + _factory.quoteName(tableName) + " WHERE OID=?");
-                stmt.setInt(1, insertedOID.intValue());
+                stmt.setLong(1, lastOID.longValue());
                 ResultSet rs = stmt.executeQuery();
                 return _typeHandler.getValue(rs);
             } else if ((getStyle() == AFTER_INSERT) && !_triggerPresent) {
@@ -211,9 +212,12 @@ public final class SequenceKeyGenerator implements KeyGenerator {
         boolean returning = "true".equals(params.getProperty("returning"));
         _triggerPresent = "true".equals(params.getProperty("trigger", "false"));
 
-        if (!_factoryName.equals(OracleFactory.FACTORY_NAME) && returning) {
-            throw new MappingException(Messages.format("mapping.keyGenParamNotCompat",
-                    "returning=\"true\"", getClass().getName(), _factoryName));
+        if (returning) {
+            if (!_factoryName.equals(OracleFactory.FACTORY_NAME)
+                    && !_factoryName.equals(PostgreSQLFactory.FACTORY_NAME)) {
+                throw new MappingException(Messages.format("mapping.keyGenParamNotCompat",
+                        "returning=\"true\"", getClass().getName(), _factoryName));
+            }
         }
         
         _factory = factory;

@@ -18,7 +18,7 @@ package org.castor.cpa.test.test20;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 
 /**
- * Test for RETURNING key generator.
+ * Test for SEQUENCE key generator without trigger but returning.
  */
 public final class TestKeyGenReturning extends AbstractTestKeyGenInteger {
     public TestKeyGenReturning(final String name) {
@@ -28,13 +28,13 @@ public final class TestKeyGenReturning extends AbstractTestKeyGenInteger {
     // Test are only included/excluded for engines that have been tested with this test suite.
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.ORACLE);
+        return (engine == DatabaseEngineType.ORACLE)
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
 
     public boolean exclude(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.POSTGRESQL);
+            || (engine == DatabaseEngineType.DERBY);
     }
 
     public void testKeyGenReturning() throws  Exception {

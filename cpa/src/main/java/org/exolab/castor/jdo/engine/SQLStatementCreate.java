@@ -575,10 +575,10 @@ public class SQLStatementCreate {
 
                     stmt.close();
                 } else {
-                    stmt.close();
-                    
                     // generate key after INSERT.
                     internalIdentity = generateKey(database, conn, stmt);
+
+                    stmt.close();
                 }
             }
 
