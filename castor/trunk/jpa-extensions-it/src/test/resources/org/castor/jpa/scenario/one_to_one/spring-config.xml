@@ -37,7 +37,7 @@
 		class="org.castor.spring.orm.LocalCastorFactoryBean">
 		<property name="databaseName" value="testOneToOne" />
 		<property name="configLocation"
-			value="classpath:org/castor/jpa/scenario/one_to_one/jdo-conf.xml" />
+			value="classpath:org/castor/jpa/scenario/one_to_one/derby-jdo-conf.xml" />
 		<property name="classDescriptorResolver"
 			ref="classDescriptorResolver" />
 	</bean>
