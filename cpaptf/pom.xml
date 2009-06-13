@@ -67,6 +67,19 @@ http://maven.apache.org/maven-v4_0_0.xsd">
         </dependency>
 
 	</dependencies>
+   
+    <build>
+        <plugins>
+            <plugin>
+               <!--  avoid deployment to Maven repository -->
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-deploy-plugin</artifactId>
+               <configuration>
+                 <skip>true</skip>
+               </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
 
