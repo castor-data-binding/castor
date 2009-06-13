@@ -15,124 +15,76 @@
  */
 package org.castor.jdo.jpa.info;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-import org.castor.core.annotationprocessing.AnnotationProcessingService;
+import javax.persistence.Entity;
+
+import org.castor.core.annotationprocessing.AnnotationTargetException;
+import org.castor.core.annotationprocessing.TargetAwareAnnotationProcessingService;
 import org.castor.jdo.jpa.natures.JPAClassNature;
 import org.castor.jdo.jpa.natures.JPAFieldNature;
+import org.castor.jdo.jpa.processors.ReflectionsHelper;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.mapping.loader.FieldHandlerImpl;
-import org.exolab.castor.mapping.loader.TypeInfo;
 
 /**
- * Uses a JPA annotated {@link Class} to build {@link ClassInfo} and
- * {@link FieldInfo}s of it and parse the mapping information in them. For now,
- * all fields are mapped as normal fields. No keys fields are recognized.
+ * Uses a JPA annotated {@link Class} to build a {@link ClassInfo} and
+ * {@link FieldInfo}s of it and parse the mapping information in them.
  * 
  * @author Peter Schmidt
  * @since 1.3
  */
-public class ClassInfoBuilder {
-    /** Index of first character of field name for 'get' method. */
-    private static final int GET_FIELD_NAME_FIRST = 3;
-
-    /** Index of character after first of field name for 'get' method. */
-    private static final int GET_FIELD_NAME_REST = GET_FIELD_NAME_FIRST + 1;
-
-    /** Index of first character of field name for 'is' method. */
-    private static final int IS_FIELD_NAME_FIRST = 2;
-
-    /** Index of character after first of field name for 'is' method. */
-    private static final int IS_FIELD_NAME_REST = IS_FIELD_NAME_FIRST + 1;
+public final class ClassInfoBuilder {
 
     /**
-     * The {@link AnnotationProcessingService} for class related annotations.
-     */
-    private AnnotationProcessingService _classAnnotationProcessingService;
-    /**
-     * The {@link AnnotationProcessingService} for field related annotations.
-     */
-    private AnnotationProcessingService _fieldAnnotationProcessingService;
-
-    /**
-     * Create a new ClassInfoBuilder with the JPA annotation capable
-     * {@link AnnotationProcessingService}s.
-     * <ul>
-     * <li>{@link JPAClassAnnotationProcessingService}</li>
-     * <li>{@link JPAFieldAnnotationProcessingService}</li>
-     * </ul>
-     */
-    public ClassInfoBuilder() {
-        _classAnnotationProcessingService = new JPAClassAnnotationProcessingService();
-        _fieldAnnotationProcessingService = new JPAFieldAnnotationProcessingService();
-    }
-
-    /**
-     * @return the {@link AnnotationProcessingService} used to read annotations
-     *         of the class.
-     */
-    public final AnnotationProcessingService getClassAnnotationProcessingService() {
-        return _classAnnotationProcessingService;
-    }
-
-    /**
-     * Set the {@link AnnotationProcessingService} used to read the classes
+     * The {@link TargetAwareAnnotationProcessingService} for class related
      * annotations.
-     * 
-     * @param annotationProcessingService
-     *            the {@link AnnotationProcessingService} used to read the
-     *            classes annotations.
      */
-    public final void setClassAnnotationProcessingService(
-            final AnnotationProcessingService annotationProcessingService) {
-        _classAnnotationProcessingService = annotationProcessingService;
+    private static TargetAwareAnnotationProcessingService _classAnnotationProcessingService = 
+        new JPAClassAnnotationProcessingService();
+    /**
+     * The {@link TargetAwareAnnotationProcessingService} for field related
+     * annotations.
+     */
+    private static TargetAwareAnnotationProcessingService _fieldAnnotationProcessingService = 
+        new JPAFieldAnnotationProcessingService();
+
+    /**
+     * Do not allow instances of utility classes.
+     */
+    private ClassInfoBuilder() {
     }
 
     /**
-     * @return the {@link AnnotationProcessingService} used to read annotations
-     *         of the classes fields.
-     */
-    public final AnnotationProcessingService getFieldAnnotationProcessingService() {
-        return _fieldAnnotationProcessingService;
-    }
-
-    /**
-     * Set the {@link AnnotationProcessingService} used to read annotations of
-     * the classes fields.
-     * 
-     * @param annotationProcessingService
-     *            the {@link AnnotationProcessingService} used to read
-     *            annotations of the classes fields.
-     */
-    public final void setFieldAnnotationProcessingService(
-            final AnnotationProcessingService annotationProcessingService) {
-        _fieldAnnotationProcessingService = annotationProcessingService;
-    }
-
-    /**
-     * Builds a new {@link ClassInfo} describing the given Class. Annotations for the class and its
-     * fields are read using the {@link AnnotationProcessingService}s defined by
-     * {@link #setClassAnnotationProcessingService(AnnotationProcessingService) and
-     * 
-     * @link #setFieldAnnotationProcessingService(AnnotationProcessingService)} . The information is
-     *       stored in the {@link ClassInfo} and its related {@link FieldInfo}s.
+     * Builds a new {@link ClassInfo} describing the given Class. Annotations
+     * for the class and its fields are read using the
+     * {@link TargetAwareAnnotationProcessingService}s defined by
+     * {@link #setClassAnnotationProcessingService(TargetAwareAnnotationProcessingService)}
+     * and
+     * {@link #setFieldAnnotationProcessingService(TargetAwareAnnotationProcessingService)}
+     * . The information is stored in the {@link ClassInfo} and its related
+     * {@link FieldInfo}s.
      * 
      * @param type
-     *            The Class Object representing the Class that shall be described.
-     * @return a new {@link ClassInfo} describing the given Class.
+     *            The Class Object representing the Class that shall be
+     *            described.
+     * @return a new {@link ClassInfo} describing the given Class or null if the
+     *         given type was not describable.
      * @throws MappingException
-     *          if annotation placement is invalid (field and property access for the same field). 
+     *             if annotation placement is invalid (field and property access
+     *             for the same field) or if composite keys are used!
      */
-    public final ClassInfo buildClassInfo(final Class<?> type)
+    public static ClassInfo buildClassInfo(final Class<?> type)
             throws MappingException {
 
         if (type == null) {
             throw new IllegalArgumentException("Argument type must not be null");
         }
 
-        if (!isDescribeable(type)) {
+        if (!isDescribable(type)) {
             return null;
         }
 
@@ -146,19 +98,28 @@ public class ClassInfoBuilder {
         /*
          * process class annotations
          */
-        _classAnnotationProcessingService.processAnnotations(jpaClassNature,
-                type.getAnnotations());
+        try {
+            _classAnnotationProcessingService.processAnnotations(jpaClassNature,
+                    type.getAnnotations(), type);
+        } catch (AnnotationTargetException e) {
+            throw new MappingException(
+                    "Could not process class bound annotations for class "
+                            + type.getSimpleName(), e);
+        }
 
         /*
-         * process annotations for all declared (not inherited) fields
+         * process annotations for all declared (not inherited) fields =>
+         * fieldAccess. This is not supported by castor and so a mapping
+         * exception is thrown
          */
         for (Field field : type.getDeclaredFields()) {
             if (field.getAnnotations().length != 0) {
-                if (isDescribeable(type, field)) {
-                    buildFieldInfo(classInfo, field);
-                } else {
+
+                if (hasJPAAnnotations(field)) {
                     throw new MappingException(
-                            "Invalid field annotated, field is not describeable!");
+                            "Castor does not support field access, thus annotated fields are "
+                                    + "not supported! Move annotations to the getter method of "
+                                    + field.getName());
                 }
             }
         }
@@ -168,8 +129,8 @@ public class ClassInfoBuilder {
          */
 
         for (Method method : type.getDeclaredMethods()) {
-            if (isGetter(method) && method.getAnnotations().length != 0) {
-                if (isDescribeable(type, method)) {
+            if (ReflectionsHelper.isGetter(method)) {
+                if (isDescribable(type, method)) {
                     buildFieldInfo(classInfo, method);
                 } else {
                     throw new MappingException(
@@ -178,7 +139,32 @@ public class ClassInfoBuilder {
             }
         }
 
+        if (classInfo.getKeyFieldCount() > 1) {
+            // Castor JPA does not support composite keys
+            throw new MappingException(
+                    "Castor-JPA does not support composite keys (found in "
+                            + type.getName() + ")");
+        }
         return classInfo;
+    }
+
+    /**
+     * Checks if the {@link AnnotatedElement} has any Annotations of the Package
+     * javax.persistence (JPA related annotations).
+     * 
+     * @param annotatedElement
+     *            The {@link AnnotatedElement} (Field, Method, Class) to be
+     *            checked
+     * @return true if any JPA annotations are found.
+     */
+    private static boolean hasJPAAnnotations(final AnnotatedElement annotatedElement) {
+        for (Annotation annotation : annotatedElement.getAnnotations()) {
+            Class<? extends Annotation> annotationClass = annotation.annotationType();
+            if (annotationClass.getPackage().equals(Package.getPackage("javax.persistence"))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -194,7 +180,7 @@ public class ClassInfoBuilder {
      *             if a FieldInfo with the same name already exists (usually
      *             when using field AND property access).
      */
-    private void buildFieldInfo(final ClassInfo classInfo, final Method method)
+    private static void buildFieldInfo(final ClassInfo classInfo, final Method method)
             throws MappingException {
         if (classInfo == null) {
             throw new IllegalArgumentException(
@@ -204,214 +190,64 @@ public class ClassInfoBuilder {
             throw new IllegalArgumentException(
                     "Argument method must not be null.");
         }
-        String fieldName = getFieldNameFromGetterMethod(method);
+        String fieldName = ReflectionsHelper.getFieldnameFromGetter(method);
         if (fieldName == null) {
             throw new IllegalArgumentException(
                     "Can not resolve Fieldname from method name.");
         }
 
-        FieldInfo fieldInfo = classInfo.getFieldInfoByName(fieldName);
-        if (fieldInfo == null) {
-            fieldInfo = classInfo.getKeyFieldInfoByName(fieldName);
-            if (fieldInfo != null) {
-                throw new MappingException("Can not annotate field and method!");
-            }
-        }
-
-        Class<?> fieldType = method.getReturnType();
-        TypeInfo typeInfo = new TypeInfo(fieldType);
-        FieldHandlerImpl fieldHandler;
+        Method setterMethod = null;
         try {
-            fieldHandler = new FieldHandlerImpl(fieldName, null, null, method,
-                    getSetterMethodFromGetter(method), typeInfo);
+            setterMethod = ReflectionsHelper.getSetterMethodFromGetter(method);
         } catch (SecurityException e) {
             throw new MappingException("Setter method for field " + fieldName
                     + " is not accessible!");
         } catch (NoSuchMethodException e) {
             throw new MappingException("Setter method for field " + fieldName
-                    + " does not exist!");
+                    + " does not exist!", e);
         }
-        fieldInfo = new FieldInfo(classInfo, fieldType, fieldName, fieldHandler);
+        Class<?> fieldType = method.getReturnType();
+        
+        FieldInfo fieldInfo = new FieldInfo(classInfo, fieldType, fieldName, method, setterMethod);
 
         fieldInfo.addNature(JPAFieldNature.class.getName());
         JPAFieldNature jpaFieldNature = new JPAFieldNature(fieldInfo);
-        _fieldAnnotationProcessingService.processAnnotations(jpaFieldNature,
-                method.getAnnotations());
-
-        // if (jpaFieldNature.isId ()) {
-        // classInfo.addKey (fieldInfo);
-        // } else {
-        classInfo.addFieldInfo(fieldInfo);
-        // }
-    }
-
-    /**
-     * Build a {@link FieldInfo} describing the given {@link Field} by
-     * processing its annotations and add the generated {@link FieldInfo} to the
-     * given {@link ClassInfo}.
-     * 
-     * @param classInfo
-     *            the {@link ClassInfo} of the declaring class
-     * @param field
-     *            the {@link Field} to describe.
-     * @throws MappingException
-     *             If the field is not public, is static or transient
-     */
-    private void buildFieldInfo(final ClassInfo classInfo, final Field field)
-            throws MappingException {
-        if (classInfo == null) {
-            throw new IllegalArgumentException(
-                    "Argument classInfo must not be null.");
+        try {
+            _fieldAnnotationProcessingService.processAnnotations(jpaFieldNature,
+                    method.getAnnotations(), method);
+        } catch (AnnotationTargetException e) {
+            throw new MappingException(
+                    "Could not process annotations for method "
+                            + method.getName(), e);
         }
 
-        if (field == null) {
-            throw new IllegalArgumentException(
-                    "Argument field must not be null.");
-        }
-
-        Class<?> fieldType = field.getType();
-        TypeInfo typeInfo = new TypeInfo(fieldType);
-        FieldHandlerImpl fieldHandler = new FieldHandlerImpl(field, typeInfo);
-        FieldInfo fieldInfo = new FieldInfo(classInfo, fieldType, field
-                .getName(), fieldHandler);
-
-        fieldInfo.addNature(JPAFieldNature.class.getName());
-        JPAFieldNature jpaFieldNature = new JPAFieldNature(fieldInfo);
-        _fieldAnnotationProcessingService.processAnnotations(jpaFieldNature,
-                field.getAnnotations());
-
-        // if (jpaFieldNature.isId ()) {
-        // classInfo.addKey (fieldInfo);
-        // } else {
-        classInfo.addFieldInfo(fieldInfo);
-        // }
-    }
-
-    /**
-     * Convenience method to check whether a {@link Method} is a getter method,
-     * i.e. starts with "get" or "is".
-     * 
-     * @param method
-     *            the {@link Method} to check.
-     * @return true if the methods name starts with "get" or "is" (Java Beans
-     *         convention).
-     */
-    private boolean isGetter(final Method method) {
-        if (method.getName().startsWith("get")
-                || method.getName().startsWith("is")) {
-            return true;
-        }
-        return false;
-    }
-    
-    /**
-     * Create a member name from a getter {@link Method}.
-     * 
-     * @param method
-     *            The getter {@link Method}
-     * @return The name of the underlying member.
-     */
-    private String getFieldNameFromGetterMethod(final Method method) {
-        if (!isGetter(method)) {
-            throw new IllegalArgumentException("Method is not a getter method!");
-        }
-
-        if (method.getName().startsWith("get")) {
-            String nameRest = method.getName().substring(GET_FIELD_NAME_REST);
-            return Character.toLowerCase(method.getName().charAt(GET_FIELD_NAME_FIRST)) + nameRest;
-        }
-        if (method.getName().startsWith("is")) {
-            String nameRest = method.getName().substring(IS_FIELD_NAME_REST);
-            return Character.toLowerCase(method.getName().charAt(IS_FIELD_NAME_FIRST)) + nameRest;
-        }
-        throw new IllegalArgumentException(
-                "Method name does not start with 'get' or 'is'!");
-    }
-
-    /**
-     * Return a setter {@link Method} for a given getter {@link Method}.
-     * 
-     * @param getter
-     *            The getter {@link Method}
-     * @return The setter Method for the given getter Method.
-     * @throws NoSuchMethodException
-     *             If the setter method does not exist
-     * @throws SecurityException
-     *             If the setter method is not accessible
-     */
-    private Method getSetterMethodFromGetter(final Method getter)
-            throws SecurityException, NoSuchMethodException {
-        if (!isGetter(getter)) {
-            throw new IllegalArgumentException("Method is not a getter method!");
-        }
-
-        String setterName;
-        if (getter.getName().startsWith("get")) {
-            String name = getter.getName().substring(1);
-            setterName = "s" + name;
-        } else if (getter.getName().startsWith("is")) {
-            String name = getter.getName().substring(2);
-            setterName = "set" + name;
+        if (jpaFieldNature.isId()) {
+            classInfo.addKey(fieldInfo);
         } else {
-            throw new IllegalArgumentException(
-                    "Method name does not start with 'get' or 'is'!");
+            classInfo.addFieldInfo(fieldInfo);
         }
-
-        return getter.getDeclaringClass().getDeclaredMethod(setterName,
-                getter.getReturnType());
     }
 
     /**
-     * Checks whether a class is describable or not.
+     * Checks whether a class is describable or not. A class is describable if it
+     * is not Void, Object or Class and is annotated with the {@link Entity}
+     * annotation.
      * 
      * @param type
      *            the class to check
-     * @return false if the given type is Void, Object or Class - all other
-     *         Classes are describable.
+     * @return false if the given type is Void, Object or Class or is not
+     *         annotated with the {@link Entity} annotation - all other Classes
+     *         are describable.
      */
-    private boolean isDescribeable(final Class<?> type) {
+    private static boolean isDescribable(final Class<?> type) {
         if (Object.class.equals(type) || Void.class.equals(type)
                 || Class.class.equals(type)) {
             return false;
         }
+        if (type.getAnnotation(Entity.class) == null) {
+            return false;
+        }
         return true;
-    }
-
-    /**
-     * Checks whether a field is describable or not. A field is NOT describable
-     * if:
-     * <ul>
-     * <li>The declaring Class of the Field is NOT the given type (except for
-     * fields defined by interfaces)</li>
-     * <li>The field is synthetic</li>
-     * <li>The field is static</li>
-     * <li>The field is transient</li>
-     * </ul>
-     * 
-     * @param type
-     *            the Class the field belongs to
-     * @param field
-     *            the field we want to check
-     * @return true if the field is describable, false if not.
-     */
-
-    private boolean isDescribeable(final Class<?> type, final Field field) {
-        boolean isDescribeable = true;
-        Class<?> declaringClass = field.getDeclaringClass();
-        if ((declaringClass != null) && !type.equals(declaringClass)
-                && (!declaringClass.isInterface())) {
-            isDescribeable = false;
-        }
-        if (Modifier.isStatic(field.getModifiers())) {
-            isDescribeable &= false;
-        }
-        if (Modifier.isTransient(field.getModifiers())) {
-            isDescribeable &= false;
-        }
-        if (field.isSynthetic()) {
-            isDescribeable &= false;
-        }
-        return isDescribeable;
     }
 
     /**
@@ -431,7 +267,7 @@ public class ClassInfoBuilder {
      *            the {@link Method} we want to check
      * @return true if the method is describable, false if not.
      */
-    private boolean isDescribeable(final Class<?> type, final Method method) {
+    private static boolean isDescribable(final Class<?> type, final Method method) {
         boolean isDescribeable = true;
         Class<?> declaringClass = method.getDeclaringClass();
 

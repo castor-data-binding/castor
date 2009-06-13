@@ -15,6 +15,7 @@
  */
 package org.castor.jdo.jpa.info.entity;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import org.junit.Ignore;
@@ -23,13 +24,22 @@ import org.junit.Ignore;
  * Domain class annotated with JPA annotation used for unit testing.
  * @author Peter Schmidt
  */
+@Entity
 @Ignore
 public class TestI2DCJPAExtendsTest extends TestI2DCJPATest {
     
     /**
      * Show that the primary_key is the ID of this entity.
      */
-    @Id
     public String _primaryKey;
+
+    @Id
+    public String getPrimaryKey() {
+        return _primaryKey;
+    }
+
+    public void setPrimaryKey(final String primaryKey) {
+        _primaryKey = primaryKey;
+    }
 
 }
