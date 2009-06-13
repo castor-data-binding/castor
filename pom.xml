@@ -28,6 +28,7 @@
         <module>codegen-testcase-archetype</module>
         
         <module>jdo-extensions-it</module>
+        <module>jpa-extensions-it</module>
         
         <!-- <module>xmlctf</module>  -->
         <!-- module>fragmentmapper</module> -->
@@ -53,17 +54,21 @@
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-site-plugin</artifactId>
                   <version>2.0</version>
-                </plugin>
+               </plugin>
+               <plugin>
+                   <groupId>org.apache.maven.plugins</groupId>
+                   <artifactId>maven-compiler-plugin</artifactId>
+                   <configuration>
+                       <source>1.5</source>
+                       <target>1.5</target>
+                   </configuration>
+               </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
-                </configuration>
             </plugin>
 
             <plugin>
@@ -297,11 +302,18 @@
             	<version>2.5.5</version>
             	<scope>test</scope>
             </dependency>
-
+            
+            <dependency>
+            	<groupId>org.springframework</groupId>
+            	<artifactId>spring-test</artifactId>
+            	<version>2.5.5</version>
+            	<scope>test</scope>
+            </dependency>
+            
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.4</version>
+                <version>4.5</version>
                 <!--  Joachim: this must not be test otherwise subproject xmlctf-framework wont even compile!
                 <scope>test</scope>
                 -->

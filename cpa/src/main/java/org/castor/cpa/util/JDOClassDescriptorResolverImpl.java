@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.castor.cpa.util.classresolution.command.ClassDescriptorResolutionCommand;
+import org.castor.cpa.util.classresolution.command.ClassResolutionByAnnotations;
 import org.castor.cpa.util.classresolution.command.ClassResolutionByCDR;
 import org.castor.cpa.util.classresolution.command.ClassResolutionByFile;
 import org.castor.cpa.util.classresolution.command.ClassResolutionByMappingLoader;
@@ -67,6 +68,7 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
         registerCommand(new ClassResolutionByMappingLoader());
         registerCommand(new ClassResolutionByFile());
         registerCommand(new ClassResolutionByCDR());
+        registerCommand(new ClassResolutionByAnnotations());
     }
 
     /**
@@ -121,6 +123,13 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
         // 1) consult with cache
         classDesc = resolveByCache(type);
         if (classDesc != null) {
+            return classDesc;
+        }
+        
+        // generate ClassDescriptor from annotated Class
+        classDesc = lookup(ClassResolutionByAnnotations.class.getName()).resolve(type);
+        if (classDesc != null) {
+            registerDescriptor(type, classDesc);
             return classDesc;
         }
 
@@ -240,9 +249,19 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
         List<ClassDescriptor> allDescriptors = new ArrayList<ClassDescriptor>();
         // add all descriptors cached by MappingLoader
         allDescriptors.addAll(_mappingLoader.getDescriptors());
-        // add all descriptors as loaded from file system
+        // add all descriptors as loaded from file system or by annotation
         for (Class<?> aClass : _classes) {
-            allDescriptors.add(lookup(ClassResolutionByFile.class.getName()).resolve(aClass));
+            ClassDescriptor resolve = lookup(ClassResolutionByFile.class.getName())
+                    .resolve(aClass);
+            if (resolve != null) {
+                allDescriptors.add(resolve);
+            } else {
+                resolve = lookup(ClassResolutionByAnnotations.class.getName())
+                        .resolve(aClass);
+                if (resolve != null) {
+                    allDescriptors.add(resolve);        
+                }
+            }
         }
         // add all descriptors as loaded by package from file system
         ClassResolutionByCDR cdrNature = (ClassResolutionByCDR) 

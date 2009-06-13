@@ -19,7 +19,7 @@ import org.castor.core.nature.BaseNature;
 import org.castor.core.nature.PropertyHolder;
 
 /**
- * A {@link BaseNature} extension, that gives access to information derived from
+ * A {@link BaseNature} extension that gives access to information derived from
  * class bound JPA annotations.
  * 
  * @see PropertyHolder
@@ -28,14 +28,31 @@ import org.castor.core.nature.PropertyHolder;
  */
 public class JPAClassNature extends BaseNature {
 
+    /** 
+     * Property Key for {@link javax.persistence.Entity#name()}. 
+     */
+    private static final String ENTITY_NAME = "ENTITY_NAME";
+    /** 
+     * Property Key for {@link javax.persistence.Table#name()}. 
+     */
+    private static final String TABLE_NAME = "TABLE_NAME";
+    /** 
+     * Property Key for {@link javax.persistence.Table#catalog()}. 
+     */
+    private static final String TABLE_CATALOG = "TABLE_CATALOG";
+    /** 
+     * Property Key for {@link javax.persistence.Table#schema()}. 
+     */
+    private static final String TABLE_SCHEMA = "TABLE_SCHEMA";
+
     /**
-     * Instantiate a {@link JPAClassNature} to access the given 
+     * Instantiate a {@link JPAClassNature} to access the given
      * {@link PropertyHolder}.
      * 
      * @param holder
      *            The underlying {@link PropertyHolder} (obviously a
      *            {@link org.castor.jdo.jpa.info.ClassInfo ClassInfo}).
-     *
+     * 
      * @see PropertyHolder
      * 
      */
@@ -51,4 +68,74 @@ public class JPAClassNature extends BaseNature {
     public String getId() {
         return getClass().getName();
     }
+
+    /**
+     * @see #ENTITY_NAME
+     * @param entityname
+     *            The value of {@link javax.persistence.Entity#name()}.
+     */
+    public void setEntityName(final String entityname) {
+        super.setProperty (ENTITY_NAME, entityname);
+    }
+
+    /**
+     * @see #ENTITY_NAME
+     * @return The value of {@link javax.persistence.Entity#name()}.
+     */
+    public String getEntityName() {
+        return (String) getProperty (ENTITY_NAME);
+    }
+
+    /**
+     * @see #TABLE_NAME
+     * @param tablename
+     *            The value of {@link javax.persistence.Table#name()}
+     */
+    public void setTableName(final String tablename) {
+        super.setProperty (TABLE_NAME, tablename);
+    }
+
+    /**
+     * @see #TABLE_NAME
+     * @return The value of {@link javax.persistence.Table#name()}
+     */
+    public String getTableName() {
+        return (String) super.getProperty (TABLE_NAME);
+    }
+
+    /**
+     * @see #TABLE_CATALOG
+     * @param catalog
+     *            The value of {@link javax.persistence.Table#catalog()}
+     */
+    public void setTableCatalog(final String catalog) {
+        super.setProperty (TABLE_CATALOG, catalog);
+    }
+
+    /**
+     * @see #TABLE_CATALOG
+     * @return The value of {@link javax.persistence.Table#catalog()}
+     */
+    public String getTableCatalog() {
+        return (String) super.getProperty (TABLE_CATALOG);
+    }
+
+    /**
+     * @see #TABLE_SCHEMA
+     * @param schema
+     *            The value of {@link javax.persistence.Table#schema()}
+     */
+    public void setTableSchema(final String schema) {
+        super.setProperty (TABLE_SCHEMA, schema);
+    }
+
+    /**
+     * @see #TABLE_SCHEMA
+     * @return The value of{@link javax.persistence.Table#schema()}
+     */
+    public String getTableSchema() {
+        return (String) super.getProperty (TABLE_SCHEMA);
+    }
+
 }
+

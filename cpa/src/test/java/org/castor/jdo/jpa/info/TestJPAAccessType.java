@@ -15,73 +15,53 @@
  */
 package org.castor.jdo.jpa.info;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import junit.framework.TestCase;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 import org.castor.jdo.jpa.natures.JPAFieldNature;
 import org.exolab.castor.mapping.MappingException;
+import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Test;
 
-public final class TestJPAAccessType extends TestCase {
+public class TestJPAAccessType {
 
-    private ClassInfoBuilder _classBuilder;
+    @Test
+    public void testFieldAccessed() {
 
-    public void setUp() {
-        _classBuilder = new ClassInfoBuilder();
+        // is not supported by castor
+        try {
+            ClassInfoBuilder.buildClassInfo(FieldAccessed.class);
+            fail();
+        } catch (MappingException e) {
+            // exception expected
+        }
     }
 
-    public void testFieldAccessed() throws MappingException {
-        ClassInfo classInfo = buildClassInfo(FieldAccessed.class);
-
-        assertNotNull(classInfo);
-        assertTrue(classInfo.getDescribedClass().getName().endsWith("FieldAccessed"));
-        
-        assertEquals(3, classInfo.getFieldCount());
-        assertEquals(0, classInfo.getKeyFieldCount());
-
-        FieldInfo fieldInfo;
-
-        /* check field "primaryKey" */
-        fieldInfo = classInfo.getKeyFieldInfoByName("_primaryKey");
-        assertNull(fieldInfo);
-        fieldInfo = classInfo.getFieldInfoByName("_primaryKey");
-        assertNotNull(fieldInfo);
-        assertTrue(fieldInfo.hasNature(JPAFieldNature.class.getName()));
-        assertEquals("_primaryKey", fieldInfo.getFieldName());
-        assertEquals(int.class, fieldInfo.getFieldType());
-
-        /* check field "bla" */
-        fieldInfo = classInfo.getFieldInfoByName("_bla");
-        assertNotNull(fieldInfo);
-        assertTrue(fieldInfo.hasNature(JPAFieldNature.class.getName()));
-        assertEquals("_bla", fieldInfo.getFieldName());
-        assertEquals(String.class, fieldInfo.getFieldType());
-
-        /* check field "blob" */
-        fieldInfo = classInfo.getFieldInfoByName("_blob");
-        assertNotNull(fieldInfo);
-        assertTrue(fieldInfo.hasNature(JPAFieldNature.class.getName()));
-        assertEquals("_blob", fieldInfo.getFieldName());
-        assertEquals(String.class, fieldInfo.getFieldType());
-    }
-
+    @Test
     public void testPropertyAccessed() throws MappingException {
-        ClassInfo classInfo = buildClassInfo(PropertyAccessed.class);
+
+        ClassInfo classInfo = ClassInfoBuilder.buildClassInfo(PropertyAccessed.class);
         
         assertNotNull(classInfo);
         assertTrue(classInfo.getDescribedClass().getName().endsWith("PropertyAccessed"));
 
-        assertEquals(3, classInfo.getFieldCount());
-        assertEquals(0, classInfo.getKeyFieldCount());
+        assertEquals(2, classInfo.getFieldCount());
+        assertEquals(1, classInfo.getKeyFieldCount());
 
         FieldInfo fieldInfo;
 
         /* check field "primaryKey" */
-        fieldInfo = classInfo.getKeyFieldInfoByName("primaryKey");
-        assertNull(fieldInfo);
         fieldInfo = classInfo.getFieldInfoByName("primaryKey");
+        assertNull(fieldInfo);
+        fieldInfo = classInfo.getKeyFieldInfoByName("primaryKey");
         assertNotNull(fieldInfo);
         assertTrue(fieldInfo.hasNature(JPAFieldNature.class.getName()));
         assertEquals("primaryKey", fieldInfo.getFieldName());
@@ -102,57 +82,31 @@ public final class TestJPAAccessType extends TestCase {
         assertEquals(String.class, fieldInfo.getFieldType());
     }
 
-    public void testMixedAccessed() throws MappingException {
-        ClassInfo classInfo = buildClassInfo(MixedAccessed.class);
+    @Test
+    public void testMixedAccessed() {
+        // is not supported by castor
 
-        assertNotNull(classInfo);
-        assertTrue(classInfo.getDescribedClass().getName().endsWith("MixedAccessed"));
-        
-        assertEquals(3, classInfo.getFieldCount());
-        assertEquals(0, classInfo.getKeyFieldCount());
-
-        FieldInfo fieldInfo;
-
-        /* check field "primaryKey" */
-        fieldInfo = classInfo.getKeyFieldInfoByName("_primaryKey");
-        assertNull(fieldInfo);
-        fieldInfo = classInfo.getFieldInfoByName("_primaryKey");
-        assertNotNull(fieldInfo);
-        assertTrue(fieldInfo.hasNature(JPAFieldNature.class.getName()));
-        assertEquals("_primaryKey", fieldInfo.getFieldName());
-        assertEquals(int.class, fieldInfo.getFieldType());
-
-        /* check field "bla" */
-        fieldInfo = classInfo.getFieldInfoByName("bla");
-        assertNotNull(fieldInfo);
-        assertTrue(fieldInfo.hasNature(JPAFieldNature.class.getName()));
-        assertEquals("bla", fieldInfo.getFieldName());
-        assertEquals(String.class, fieldInfo.getFieldType());
-
-        /* check field "blob" */
-        fieldInfo = classInfo.getFieldInfoByName("blob");
-        assertNotNull(fieldInfo);
-        assertTrue(fieldInfo.hasNature(JPAFieldNature.class.getName()));
-        assertEquals("blob", fieldInfo.getFieldName());
-        assertEquals(String.class, fieldInfo.getFieldType());
+        try {
+            ClassInfoBuilder.buildClassInfo(MixedAccessed.class);
+            fail();
+        } catch (MappingException e) {
+            // exception expected
+        }
     }
 
+    @Test
     public void testWrongAccessed() {
+
         try {
-            buildClassInfo(WrongAccessed.class);
+            ClassInfoBuilder.buildClassInfo(WrongAccessed.class);
             fail();
         } catch (MappingException e) {
             // exception expected
         }
     }
     
-    private ClassInfo buildClassInfo(final Class<?> aClass) throws MappingException {
-        // build class
-        ClassInfo classInfo = _classBuilder.buildClassInfo(aClass);
-        return classInfo;
-    }
-
     @Ignore
+    @Entity
     private class FieldAccessed {
         @Id
         @Column(name = "primary_key", 
@@ -193,6 +147,7 @@ public final class TestJPAAccessType extends TestCase {
     }
 
     @Ignore
+    @Entity
     private class PropertyAccessed {
         private int _primaryKey;
         private String _bla;
@@ -242,19 +197,20 @@ public final class TestJPAAccessType extends TestCase {
         }
 
         public void setPrimaryKey(final int primaryKey) {
-            _primaryKey = primaryKey;
+            this._primaryKey = primaryKey;
         }
 
         public void setBla(final String bla) {
-            _bla = bla;
+            this._bla = bla;
         }
 
         public void setBlob(final String blob) {
-            _blob = blob;
+            this._blob = blob;
         }
     }
 
     @Ignore
+    @Entity
     private class MixedAccessed {
         @Id
         @Column(name = "primary_key", 
@@ -306,16 +262,18 @@ public final class TestJPAAccessType extends TestCase {
         }
 
         public void setBla(final String bla) {
-            _bla = bla;
+            this._bla = bla;
         }
 
         public void setBlob(final String blob) {
-            _blob = blob;
+            this._blob = blob;
         }
     }
 
     @Ignore
+    @Entity
     private class WrongAccessed {
+        
         @Id
         private int _primaryKey;
         private String _bla;
