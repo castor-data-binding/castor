@@ -15,8 +15,8 @@
 
 	<packaging>jar</packaging>
 
-	<name>Castor - ant tasks</name>
-	<url>http://castor.org</url>
+	<name>Castor XML - Ant tasks for XML code generator</name>
+	<url>http://www.castor.org</url>
 
     <scm>
        <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/anttask</connection>
@@ -45,7 +45,6 @@
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
-			<version>1.1.1</version>
 		</dependency>
 
 		<dependency>
@@ -57,7 +56,6 @@
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.13</version>
 			<scope>test</scope>
 		</dependency>
 
