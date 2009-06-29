@@ -80,6 +80,26 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
 </class>]]></code-panel>
             </summary>
             <bugs>
+                <bug id="2019" tool="jira">
+                    <description>
+                        Added thread safety-ness to CycleBreaker class.
+                    </description>
+                    <contributor>
+                        <name>Torsten Juergeleit</name>
+                        <email>torsten.juergeleit@online.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Torsten Juergeleit</name>
+                        <email>torsten.juergeleit@online.de</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20090629</date>
+                </bug>
                 <bug id="1940" tool="jira">
                     <description>
                         Fixed broken support for sequence key generator with trigger at PostgreSQL.

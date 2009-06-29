@@ -16,6 +16,7 @@
 package org.castor.core.util;
 
 import java.util.IdentityHashMap;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * <p>
@@ -38,9 +39,19 @@ import java.util.IdentityHashMap;
  * @author <a href="mailto:jimp@compbio.dundee.ac.uk">Jim Procter</a>
  */
 public class CycleBreaker {
-    /** Hash of threads and objects that we are keeping track of. */
-    private static IdentityHashMap _threadHash = new IdentityHashMap();
-    
+
+    /** 
+     * Hash of threads and objects that we are keeping track of. 
+     */
+    private static final IdentityHashMap<Thread, IdentityHashMap<Object, Object>> _threadHash =
+          new IdentityHashMap<Thread, IdentityHashMap<Object, Object>>();
+
+    /** 
+     * Lock used to isolate write accesses to <tt>_threadHash</tt>.
+     * @since 1.3.1 
+     */
+    private static final ReentrantReadWriteLock _lock = new ReentrantReadWriteLock();
+
     /**
      * Test to see if we are about to begin cycling on a method call to beingHashed.
      *  
@@ -51,17 +62,32 @@ public class CycleBreaker {
         if (beingHashed == null) {
             return false;
         }
-        
-        Object hthr = _threadHash.get(Thread.currentThread());
+
+        // before accessing _threadHash acquire read lock first
+        _lock.readLock().lock();
+        IdentityHashMap<Object, Object> hthr = _threadHash.get(Thread.currentThread());
+        _lock.readLock().unlock();
         if (hthr == null) {
-            _threadHash.put(Thread.currentThread(), hthr = new IdentityHashMap());
-            ((IdentityHashMap) hthr).put(beingHashed, beingHashed); 
+        	hthr = new IdentityHashMap<Object, Object>();
+        	hthr.put(beingHashed, beingHashed); 
+        	
+            // before accessing _threadHash acquire write lock first
+            _lock.writeLock().lock();
+            _threadHash.put(Thread.currentThread(), hthr);
+            _lock.writeLock().unlock();
             return false; // first call. no cycle detected
         }
-        Object objhandle = ((IdentityHashMap) hthr).get(beingHashed);
+
+        // it's not necessary to lock here because every entry
+        // read from _threadHash is accessed by the same thread which
+        // added it to _threadHash (in _threadHash all values are keyed
+        // by the threads hash)
+
+        Object objhandle = hthr.get(beingHashed);
         if (objhandle == null) {
+
             // this is the default for a hash value currently being computed.
-            ((IdentityHashMap) hthr).put(beingHashed, beingHashed);
+            hthr.put(beingHashed, beingHashed);
             return false; // first call. no cycle detected.
         }
         return true;
@@ -77,13 +103,28 @@ public class CycleBreaker {
         if (beingHashed == null) {
             return;
         }
-        Object hthr = _threadHash.get(Thread.currentThread());
+
+        // before accessing _threadHash acquire read lock first
+        _lock.readLock().lock();
+        IdentityHashMap<Object, Object> hthr = _threadHash.get(Thread.currentThread());
+        _lock.readLock().unlock();
         if (hthr != null) {
-            if (((IdentityHashMap) hthr).containsKey(beingHashed)) {
-                ((IdentityHashMap) hthr).remove(beingHashed); 
+        	
+            // it's not necessary to lock here because every entry
+            // read from _threadHash is accessed by the same thread which
+            // added it to _threadHash (in _threadHash all values are keyed
+            // by the threads hash)
+            if (hthr.containsKey(beingHashed)) {
+                hthr.remove(beingHashed); 
+
                 // release any references if we have no more CycleHandles
-                if (((IdentityHashMap) hthr).size() == 0) {
+                if (hthr.size() == 0) {
+
+                    // before removing the threads empty hash from _threadHash
+                    // acquire write lock first
+                    _lock.writeLock().lock();
                     _threadHash.remove(hthr);
+                    _lock.writeLock().unlock();
                 }
             }
         }
