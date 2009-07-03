@@ -246,13 +246,15 @@ public final class DescriptorSourceFactory {
 
         for (int i = 0; i < elements.length; i++) {
             FieldInfo member = elements[i];
+            XMLInfoNature fieldNature = new XMLInfoNature(member);
+            
             //-- skip transient members
             if (member.isTransient()) {
                 continue;
             }
 
             if (base != null) {
-                String baseNodeName = xmlNature.getNodeName();
+                String baseNodeName = fieldNature.getNodeName();
                 if (baseNodeName == null) {
                     createDescriptor(classDesc, member, localClassName, nsURI, jsc);
                 } else if (baseNodeName.equals(XMLInfo.CHOICE_NODE_NAME_ERROR_INDICATION)) {
@@ -322,6 +324,12 @@ public final class DescriptorSourceFactory {
         } else {
             jsc.append("org.exolab.castor.xml.NodeType.Text);");
         }
+        
+        //-- deal with amended cardinality
+        if (xmlNature.isRequired()) {
+            jsc.add("desc.setRequired(true);");
+        }
+        
         //--modify the validation code
         addValidationCode(member, jsc);
     }

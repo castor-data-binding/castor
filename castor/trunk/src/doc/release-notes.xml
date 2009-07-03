@@ -80,6 +80,27 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
 </class>]]></code-panel>
             </summary>
             <bugs>
+                <bug id="2734" tool="jira">
+                    <description>
+                        Fixed a regression issue with the XML code generator in the
+                        context of &lt;complexType&gt; restirctions.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>umasankar</name>
+                        <email>ukshankar@yahoo.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XMLGen</module>
+                    <date>20090703</date>
+                </bug>
                 <bug id="2019" tool="jira">
                     <description>
                         Added thread safety-ness to CycleBreaker class.
