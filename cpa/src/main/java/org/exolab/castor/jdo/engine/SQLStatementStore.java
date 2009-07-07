@@ -56,21 +56,18 @@ public final class SQLStatementStore {
     /** Column information for identities specific to the particular engine instance. */
     private final SQLColumnInfo[] _ids;
     
-    /**SQLStatementUpdateCheck instance to check the failure reason of the udpate statement.*/
+    /** SQLStatementUpdateCheck instance to check the failure reason of the udpate statement.*/
     private final SQLStatementUpdateCheck _statementUpdateCheck;
+    
+    /** SQL query string. */
+    private String _statement;
 
     /** Indicates whether there is a field to persist at all; in the case of 
      *  EXTEND relationships where no additional attributes are defined in the 
      *  extending class, this might NOT be the case; in general, a class has to have
      *  at least one field that is to be persisted. */
-    private boolean _hasFieldsToPersist = false;
-
-    private String _statementLazy;
-
-    private String _statementDirty;
+    private boolean _hasFieldsToPersist;
         
-    private String _storeStatement;
-    
     private int _offsetNewEntity;
     
     private int _offsetIdentity;
@@ -93,22 +90,8 @@ public final class SQLStatementStore {
         _mapTo = new ClassDescriptorJDONature(engine.getDescriptor()).getTableName();
         _fields = engine.getInfo();
         _ids = engine.getColumnInfoForIdentities();
+        
         _statementUpdateCheck = new SQLStatementUpdateCheck(engine, load);
-
-        // iterate through all fields to check whether there is a field
-        // to persist at all; in the case of extend relationships where no 
-        // additional attributes are defined in the extending class, this 
-        // might NOT be the case        
-        for (int i = 0; i < _fields.length; ++i) {
-            if (_fields[i].isStore()) {
-                _hasFieldsToPersist = true;
-                break;
-            }
-        }
-
-        if (LOG.isTraceEnabled()) {
-            LOG.trace("hasFieldsToPersist = " + _hasFieldsToPersist);
-        }
 
         buildStatement();        
     }
@@ -120,62 +103,50 @@ public final class SQLStatementStore {
         StringBuffer sql = new StringBuffer("UPDATE ");
         sql.append(_factory.quoteName(_mapTo));
         
-        // append the SET clause only if there are any fields that need to be persisted.
-        if (_hasFieldsToPersist) {
-            sql.append(" SET ");
-            
-            int count = 0;
-            for (int i = 0; i < _fields.length; ++i) {
-                if (_fields[i].isStore()) {
-                    SQLColumnInfo[] columns = _fields[i].getColumnInfo();
-                    for (int j = 0; j < columns.length; j++) {
-                        if (count > 0) { sql.append(','); }
-                        sql.append(_factory.quoteName(columns[j].getName()));
-                        sql.append("=?");
-                        ++count;
-                    }
+        sql.append(" SET ");
+        
+        int count = 0;
+        for (int i = 0; i < _fields.length; ++i) {
+            if (_fields[i].isStore()) {
+                SQLColumnInfo[] columns = _fields[i].getColumnInfo();
+                for (int j = 0; j < columns.length; j++) {
+                    if (count > 0) { sql.append(','); }
+                    sql.append(_factory.quoteName(columns[j].getName()));
+                    sql.append(QueryExpression.OP_EQUALS);
+                    sql.append(JDBCSyntax.PARAMETER);
+                    ++count;
                 }
             }
-            
-            sql.append(JDBCSyntax.WHERE);
+        }
+       
+        sql.append(JDBCSyntax.WHERE);
+        
+        //Append Identities
+        for (int i = 0; i < _ids.length; i++) {
+            if (i > 0) { sql.append(" AND "); }
+            sql.append(_factory.quoteName(_ids[i].getName()));
+            sql.append(QueryExpression.OP_EQUALS);
+            sql.append(JDBCSyntax.PARAMETER);
+        }     
+        
+        _statement = sql.toString();
+        
+        if (LOG.isTraceEnabled()) {
+            LOG.trace(Messages.format("jdo.updating", _type, _statement));
+        }
+        
+        _hasFieldsToPersist = (count > 0);
+        
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("hasFieldsToPersist = " + _hasFieldsToPersist);
+        }
 
-            for (int i = 0; i < _ids.length; i++) {
-                if (i > 0) { sql.append(" AND "); }
-                sql.append(_factory.quoteName(_ids[i].getName()));
-                sql.append(QueryExpression.OP_EQUALS);
-                sql.append(JDBCSyntax.PARAMETER);
-            }
-
-            _statementLazy = sql.toString();
-            
-            if (LOG.isTraceEnabled()) {
-                LOG.trace(Messages.format("jdo.updating", _type, _statementLazy));
-            }
-            
-            for (int i = 0; i < _fields.length; ++i) {
-                if (_fields[i].isStore() && _fields[i].isDirtyCheck()) {
-                    SQLColumnInfo[] columns = _fields[i].getColumnInfo();
-                    for (int j = 0; j < columns.length; j++) {
-                        sql.append(" AND ");
-                        sql.append(_factory.quoteName(columns[j].getName()));
-                        sql.append("=?");
-                    }
-                }
-            }
-            
-            //Calculating offsets for parameter binding. Starting offset is 1
-            _offsetNewEntity = 1;
-            //Count is calculated above. Count the represents the number of stored values
-            _offsetIdentity = 1 + count;
-            //Next offset is the addition of last offset and length of ID's
-            _offsetOldEntity = _offsetIdentity + _ids.length;
-            
-            _statementDirty = sql.toString();
-            
-            if (LOG.isTraceEnabled()) {
-                LOG.trace(Messages.format("jdo.updating", _type, _statementDirty));
-            }
-        } 
+        //Calculating offsets for parameter binding. Starting offset is 1
+        _offsetNewEntity = 1;
+        //Count is calculated above. Count the represents the number of stored values
+        _offsetIdentity = 1 + count;
+        //Next offset is the addition of last offset and length of ID's
+        _offsetOldEntity = _offsetIdentity + _ids.length;
     }
     
     /**
@@ -194,28 +165,33 @@ public final class SQLStatementStore {
                                    final ProposedEntity newentity,
                                    final ProposedEntity oldentity)
     throws PersistenceException {
-        // Only build and execute an UPDATE statement if the class to be updated has 
-        // fields to persist.
+        // Only execute an UPDATE statement if there are fields to persist
         if (_hasFieldsToPersist) {
+            StringBuffer statement = new StringBuffer(_statement);  
             try {
-                _storeStatement = getStoreStatement(oldentity);
-
-                //get PreparedStatment for the connection
-                prepareStatement(conn, _storeStatement);
-            
-                //For binding fields and id's with StoreStatement
-                bindData(identity, newentity, oldentity);
+                //Append fields other than identities
+                appendOldEntityCondition(oldentity, statement);
                 
+                //get PreparedStatment for the connection
+                prepareStatement(conn, statement.toString());
+            
+                //Binds new entities
+                bindNewEntity(newentity);
+                
+                //binds identity
+                bindIdentity(identity);
+                
+                //binds old entities
+                bindOldEntity(oldentity);
+
                 //executes prepared statement
-                int result;
-                result = executeUpdate();
-                if (result <= 0) { // SAP DB returns -1 here
+                if (executeUpdate() <= 0) { // SAP DB returns -1 here
                     /*Check whether the object had been modified or deleted and 
                     raise appropriate exception*/
                     _statementUpdateCheck.updateFailureCheck(conn, identity, oldentity);
                 }                
             } catch (SQLException except) {
-                LOG.fatal(Messages.format("jdo.storeFatal", _type,  _storeStatement), except);
+                LOG.fatal(Messages.format("jdo.storeFatal", _type,  statement.toString()), except);
                 throw new PersistenceException(Messages.format("persist.nested", except), except);
             } finally {
                 //close statement
@@ -224,79 +200,60 @@ public final class SQLStatementStore {
         }
         return null;
     }
-
+    
     /**
-     * If the RDBMS doesn't support setNull for "WHERE fld=?" and requires
-     * "WHERE fld IS NULL", we need to modify the statement.
+     * Method that appends the fields other than identities in where clause of SQL statement.
      * 
      * @param oldentity
-     * @return String containing SQL
-     * @throws PersistenceException If identity size mismatches
-     *  or column length mismatches
+     * @param statement StringBuffer object holding the SQL statement.
+     * @throws PersistenceException If identity size mismatches or column length mismatches
      */
-    private String getStoreStatement(final ProposedEntity oldentity)
-    throws PersistenceException {
-        if (oldentity.getFields() == null) {
-            return _statementLazy;
-        }
-        int pos = _statementDirty.length() - 1;
-        
-        StringBuffer sql = new StringBuffer(pos * 4);
-        sql.append(_statementDirty);
-        
-        for (int i = _fields.length - 1; i >= 0; i--) {
-            if (_fields[i].isStore() && _fields[i].isDirtyCheck()) {
-                SQLColumnInfo[] columns = _fields[i].getColumnInfo();
-                Object value = oldentity.getField(i);
-                if (value == null) {
-                    for (int j = columns.length - 1; j >= 0; j--) {
-                        pos = nextParameter(true, sql, pos);
-                    }
-                } else if (value instanceof Identity) {
-                    Identity identity = (Identity) value;
-                    if (identity.size() != columns.length) {
-                        throw new PersistenceException("Size of identity field mismatch!");
-                    }
+    private void appendOldEntityCondition(final ProposedEntity oldentity,
+            final StringBuffer statement) throws PersistenceException {
+        if (oldentity.getFields() != null) {
+            for (int i = 0; i < _fields.length; ++i) {
+                if (_fields[i].isStore() && _fields[i].isDirtyCheck()) {
+                    SQLColumnInfo[] columns = _fields[i].getColumnInfo();
+                    Object value = oldentity.getField(i);
+                    if (value == null) { 
+                        //Append 'is NULL' incase the value is null    
+                        for (int j = 0; j < columns.length; j++) {
+                            statement.append(" AND ");
+                            statement.append(_factory.quoteName(columns[j].getName()));
+                            statement.append(" is NULL ");
+                        }
+                    } else if (value instanceof Identity) {
+                        //Raise exception if identity size doesn't match column length
+                        Identity identity = (Identity) value;
+                        if (identity.size() != columns.length) {
+                            throw new PersistenceException("Size of identity field mismatch!");
+                        }
 
-                    for (int j = columns.length - 1; j >= 0; j--) {
-                        pos = nextParameter((identity.get(j) == null), sql, pos);
+                        //Traverse through all the columns and append it to SQL based on whether
+                        //the value of that column is null or not.
+                        for (int j = 0; j < columns.length; j++) {
+                            statement.append(" AND ");
+                            statement.append(_factory.quoteName(columns[j].getName()));
+                            if (identity.get(j) == null) {
+                                statement.append(" is NULL ");
+                            } else {
+                                statement.append("=?");
+                            }
+                        }
+                    } else {
+                        for (int j = 0; j < columns.length; j++) {
+                            statement.append(" AND ");
+                            statement.append(_factory.quoteName(columns[j].getName()));
+                            statement.append("=?");
+                        }
                     }
-                } else {
-                    if (columns.length != 1) {
-                        throw new PersistenceException("Complex field expected!");
-                    }
-
-                    pos = nextParameter(false, sql, pos);
                 }
             }
         }
-        return sql.toString();
-    }
-    
-    /**
-     * if isNull, replace next "=?" with " IS NULL", otherwise skip next "=?",
-     * move "pos" to the left.
-     * 
-     * @param isNull True if =? should be replaced with 'IS NULL'
-     * @param sb StringBUffer holding the SQL statement to be modified 
-     * @param pos The current position (where to apply the replacement).
-     * @return The next position.
-     */
-    private int nextParameter(final boolean isNull, final StringBuffer sb, final int pos) {
-        int internalpos = pos;
-        for ( ; internalpos > 0; internalpos--) {
-            if ((sb.charAt(internalpos - 1) == '=') && (sb.charAt(internalpos) == '?')) {
-                break;
-            }
+        
+        if (LOG.isTraceEnabled()) {
+            LOG.trace(Messages.format("jdo.updating", _type, statement));
         }
-        if (internalpos > 0) {
-            internalpos--;
-            if (isNull) {
-                sb.delete(internalpos, internalpos + 2);
-                sb.insert(internalpos, " IS NULL");
-            }
-        }
-        return internalpos;
     }
     
     /**
@@ -316,29 +273,6 @@ public final class SQLStatementStore {
          if (LOG.isTraceEnabled()) {
              LOG.trace(Messages.format("jdo.storing", _type, preparedStatement.toString()));
          }
-    }
-    
-    /**
-     * Bind identity values to the prepared statement.
-     * 
-     * @param identity
-     * @param newentity
-     * @param oldentity
-     * @throws PersistenceException If a database access error occurs 
-     * or type of one of the values to bind is ambiguous.
-     * @throws SQLException If a database access error occurs or type of one of the values to
-     *         bind is ambiguous.
-     */
-    private void bindData (final Identity identity, final ProposedEntity newentity,
-            final ProposedEntity oldentity) throws PersistenceException, SQLException {
-        //Binds new entities
-        bindNewEntity (newentity);
-        
-        //binds identity
-        bindIdentity (identity);
-        
-        //binds old entities
-        bindOldEntity (oldentity);
     }
     
     /**
@@ -394,7 +328,7 @@ public final class SQLStatementStore {
      *  or column length mismatches
      * @throws SQLException If database access error occurs
      */
-    private void  bindIdentity (final Identity identity) 
+    private void  bindIdentity(final Identity identity) 
     throws PersistenceException, SQLException {
         // get prepared statement from thread local variable
         PreparedStatement preparedStatement = PREPARED_STATEMENT.get();        
@@ -436,31 +370,20 @@ public final class SQLStatementStore {
                     } else if (value instanceof Identity) {
                         Identity id = (Identity) value;
                         if (id.size() != columns.length) {
-                            throw new PersistenceException(
-                                    "Size of identity field mismatch!");
+                            throw new PersistenceException("Size of identity field mismatch!");
                         }
                         
                         for (int j = 0; j < columns.length; j++) {
                             SQLTypeInfos.setValue(preparedStatement, offset++,
                                     columns[j].toSQL(id.get(j)), columns[j].getSqlType());
-                            
-                            if (LOG.isTraceEnabled()) {
-                                LOG.trace(Messages.format("jdo.bindingField",
-                                        columns[j].getName(), columns[j].toSQL(id.get(j))));
-                            }
                         }
                     } else {
                         if (columns.length != 1) {
                             throw new PersistenceException("Complex field expected!");
                         }
                         
-                        SQLTypeInfos.setValue(preparedStatement, offset++, columns[0].toSQL(value),
-                                columns[0].getSqlType());
-                    
-                        if (LOG.isTraceEnabled()) {
-                            LOG.trace(Messages.format("jdo.bindingField",
-                                    columns[0].getName(), columns[0].toSQL(value)));
-                        }
+                        SQLTypeInfos.setValue(preparedStatement, offset++,
+                                columns[0].toSQL(value), columns[0].getSqlType());
                     }
                 }
             }
