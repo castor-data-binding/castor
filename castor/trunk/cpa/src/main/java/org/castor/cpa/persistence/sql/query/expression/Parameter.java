@@ -13,78 +13,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.cpa.persistence.sql.query;
-
-import org.castor.cpa.persistence.sql.query.expression.Column;
+package org.castor.cpa.persistence.sql.query.expression;
 
 /**
- * Abstract base class for all qualifiers.
+ * A parameter in a SQL query. Values are always bound to parameter with names.
  * 
- * TODO find a way to to get database specific quotation
+ * TODO implement parameter binding
  *  
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public abstract class Qualifier extends QueryObject {
+public final class Parameter extends Expression {
     //-----------------------------------------------------------------------------------    
 
-    /** Name of the qualifier. */
+    /** Character representing a parameter in a SQL query. */
+    public static final char PARAMETER = '?';
+
+    /** Name of the parameter for binding of values. */
     private final String _name;
     
-    /** Character for quoting qualifier and column names. */
-    private final Character _quote = null;
-
     //-----------------------------------------------------------------------------------    
 
     /**
-     * Construct a qualifier with given name.
-     * 
-     * @param name Name of the qualifier.
+     * Construct parameter with given name for binding.
+     *  
+     * @param name Name of the parameter for binding of values. 
      */
-    protected Qualifier(final String name) {
+    public Parameter(final String name) {
         if (name == null) { throw new NullPointerException(); }
         _name = name;
     }
-    
+
     //-----------------------------------------------------------------------------------    
 
     /**
-     * Returns name of the qualifier.
+     * Returns name of the parameter for binding of values.
      * 
-     * @return Name of the qualifier.
+     * @return Name of the parameter for binding of values.
      */
-    public final String name() {
+    public String name() {
         return _name;
     }
-    
-    //-----------------------------------------------------------------------------------    
 
-    /**
-     * Builder method to create a column with given name belonging to this qualifier.
-     * 
-     * @param name Name of the column.
-     * @return Column belonging to this qualifier.
-     */
-    public final Column column(final String name) {
-        return new Column(this, name);
-    }
-    
     //-----------------------------------------------------------------------------------    
 
     /**
      * {@inheritDoc}
      */
-    public final void toString(final StringBuilder sb) {
-        if (_quote == null) {
-            sb.append(_quote);
-            sb.append(_name);
-            sb.append(_quote);
-        } else {
-            sb.append(_name);
-        }
+    public void toString(final StringBuilder sb) {
+        sb.append(PARAMETER);
     }
     
     //-----------------------------------------------------------------------------------    
 }
-
