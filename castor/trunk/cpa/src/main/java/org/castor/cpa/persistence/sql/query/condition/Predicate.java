@@ -30,8 +30,8 @@ public abstract class Predicate extends Condition {
     /** Expression to apply the predicate to. */
     private final Expression _expression;
     
-    /** Should the evaluation of the predicate be inverted? */
-    private boolean _evaluateTo = false;
+    /** What is the expected result of the evaluation? */
+    private boolean _evaluateTo;
 
     //-----------------------------------------------------------------------------------    
 
@@ -39,10 +39,12 @@ public abstract class Predicate extends Condition {
      * Construct a predicate with given expression.
      * 
      * @param expression Expression to apply the predicate to.
+     * @param evaluateTo What is the expected result of the evaluation?
      */
-    protected Predicate(final Expression expression) {
+    protected Predicate(final Expression expression, final boolean evaluateTo) {
         if (expression == null) { throw new NullPointerException(); }
         _expression = expression;
+        _evaluateTo = evaluateTo;
     }
 
     //-----------------------------------------------------------------------------------    
@@ -57,10 +59,10 @@ public abstract class Predicate extends Condition {
     }
 
     /**
-     * Returns if the evaluation of the predicate be invertedor not.
+     * Returns if the predicate should evaluate to <code>true</code> or <code>false</code>.
      * 
-     * @return <code>true</code> if the evaluation of the predicate should be inverted,
-     *         <code>true</code> otherwise.
+     * @return <code>true</code> if the predicate should evaluate to <code>true</code>,
+     *         <code>false</code> otherwise.
      */
     public final boolean evaluateTo() {
         return _evaluateTo;

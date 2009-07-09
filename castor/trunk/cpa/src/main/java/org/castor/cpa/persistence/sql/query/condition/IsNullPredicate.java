@@ -28,20 +28,30 @@ public final class IsNullPredicate extends Predicate {
     //-----------------------------------------------------------------------------------
     
     /** 'IS NULL' predicate string. */
-    public static final String PREDICATE = " IS NULL";
+    public static final String IS_NULL = " IS NULL";
     
     /** 'IS NOT NULL' predicate string. */
-    public static final String INVERS_PREDICATE = " IS NOT NULL";
+    public static final String IS_NOT_NULL = " IS NOT NULL";
     
     //-----------------------------------------------------------------------------------    
 
     /**
      * Construct a predicate that checks the given expression for being null.
      * 
-     * @param expression Expession to check for null.
+     * @param expression Expression to check for null.
      */
     public IsNullPredicate(final Expression expression) {
-        super(expression);
+        this(expression, true);
+    }
+
+    /**
+     * Construct a predicate that checks the given expression for being null.
+     * 
+     * @param expression Expression to check for null.
+     * @param evaluateTo What is the expected result of the evaluation?
+     */
+    public IsNullPredicate(final Expression expression, final boolean evaluateTo) {
+        super(expression, evaluateTo);
     }
 
     //-----------------------------------------------------------------------------------    
@@ -52,9 +62,9 @@ public final class IsNullPredicate extends Predicate {
     public void toString(final StringBuilder sb) {
         expression().toString(sb);
         if (evaluateTo()) {
-            sb.append(INVERS_PREDICATE);
+            sb.append(IS_NULL);
         } else {
-            sb.append(PREDICATE);
+            sb.append(IS_NOT_NULL);
         }
     }
 
