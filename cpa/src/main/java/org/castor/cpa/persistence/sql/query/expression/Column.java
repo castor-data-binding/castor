@@ -13,23 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.cpa.persistence.sql.query;
+package org.castor.cpa.persistence.sql.query.expression;
 
-import org.castor.cpa.persistence.sql.query.expression.Column;
+import org.castor.cpa.persistence.sql.query.Qualifier;
 
 /**
- * Abstract base class for all qualifiers.
- * 
+ * Class representing a column of the database table.
+ *  
  * TODO find a way to to get database specific quotation
  *  
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public abstract class Qualifier extends QueryObject {
+public class Column extends Expression {    
     //-----------------------------------------------------------------------------------    
 
-    /** Name of the qualifier. */
+    /** Character separating qualifier and column in a SQL query. */
+    public static final char SEPARATOR = '.';
+
+    /** Qualifier the column belongs to. May be <code>null</code> if there is no risk
+     *  for name clashes for a SQL query. */
+    private final Qualifier _qualifier;
+    
+    /** Name of the column. */
     private final String _name;
     
     /** Character for quoting qualifier and column names. */
@@ -38,44 +45,58 @@ public abstract class Qualifier extends QueryObject {
     //-----------------------------------------------------------------------------------    
 
     /**
-     * Construct a qualifier with given name.
+     * Construct a column that has no qualifier with given name.
      * 
-     * @param name Name of the qualifier.
+     * @param name Name of the column.
      */
-    protected Qualifier(final String name) {
-        if (name == null) { throw new NullPointerException(); }
-        _name = name;
+    public Column(final String name) {
+        this(null, name);
+ 
     }
     
+    /**
+     * Construct a column with given qualifier and name.
+     * 
+     * @param qualifier Qualifier the column belongs to.
+     * @param name Name of the column.
+     */
+    public Column(final Qualifier qualifier, final String name) {
+        if (name == null) { throw new NullPointerException(); }
+        
+        _qualifier = qualifier;
+        _name = name;
+    }
+
     //-----------------------------------------------------------------------------------    
 
     /**
-     * Returns name of the qualifier.
+     * Returns qualifier the column belongs to.
      * 
-     * @return Name of the qualifier.
+     * @return Qualifier the column belongs to.
+     */
+    public final Qualifier qualifier() {
+        return _qualifier;
+    }
+
+    /**
+     * Returns name of the column.
+     * 
+     * @return Name of the column.
      */
     public final String name() {
         return _name;
     }
-    
-    //-----------------------------------------------------------------------------------    
 
-    /**
-     * Builder method to create a column with given name belonging to this qualifier.
-     * 
-     * @param name Name of the column.
-     * @return Column belonging to this qualifier.
-     */
-    public final Column column(final String name) {
-        return new Column(this, name);
-    }
-    
     //-----------------------------------------------------------------------------------    
 
     /**
      * {@inheritDoc}
      */
-    public final void toString(final StringBuilder sb) {
+    public void toString(final StringBuilder sb) {
+        if (_qualifier != null) {
+            _qualifier.toString(sb);
+            sb.append(SEPARATOR);
+        }
         if (_quote == null) {
             sb.append(_quote);
             sb.append(_name);
@@ -84,7 +105,6 @@ public abstract class Qualifier extends QueryObject {
             sb.append(_name);
         }
     }
-    
+
     //-----------------------------------------------------------------------------------    
 }
-
