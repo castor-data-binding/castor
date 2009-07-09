@@ -28,7 +28,7 @@ public final class OrCondition extends CompoundCondition {
     //-----------------------------------------------------------------------------------
     
     /** 'OR' operator string. */
-    public static final String OPERATOR = " OR ";
+    public static final String OR = " OR ";
     
     //-----------------------------------------------------------------------------------    
     
@@ -89,7 +89,7 @@ public final class OrCondition extends CompoundCondition {
             } else {
                 condition.toString(sb);
             }
-            if (iter.hasNext()) { sb.append(OPERATOR); }
+            if (iter.hasNext()) { sb.append(OR); }
         }
     }
     

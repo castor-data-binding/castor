@@ -15,40 +15,99 @@
  */
 package org.castor.cpa.persistence.sql.query.expression;
 
+import org.castor.cpa.persistence.sql.query.QueryObject;
 import org.castor.cpa.persistence.sql.query.condition.Compare;
 import org.castor.cpa.persistence.sql.query.condition.CompareOperator;
+import org.castor.cpa.persistence.sql.query.condition.IsNullPredicate;
+import org.castor.cpa.persistence.sql.query.condition.Predicate;
 
 /**
- * Repersents the expression part. 
+ * Abstract base class for all expressions. 
  *  
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public abstract class Expression {
+public abstract class Expression extends QueryObject {
     //-----------------------------------------------------------------------------------    
     
     /**
-     * Support '=' expression.
+     * Compare if this expression is equal to the given one.
      * 
-     * @param expression second operand of expression
-     * @return fully constructed expression containing first operand, operator and second operand.
+     * @param expression Right hand side of the compare.
+     * @return Compare condition.
      */
-    public final Compare isEqual(final Expression expression) {
+    public final Compare equal(final Expression expression) {
         return new Compare(this, CompareOperator.EQ, expression);
     }
 
-    //-----------------------------------------------------------------------------------    
+    /**
+     * Compare if this expression is not equal to the given one.
+     * 
+     * @param expression Right hand side of the compare.
+     * @return Compare condition.
+     */
+    public final Compare notEqual(final Expression expression) {
+        return new Compare(this, CompareOperator.NE, expression);
+    }
 
     /**
-     * Append a string representation of the object to the given StringBuilder. In general,
-     * this toString method appends a string that "textually represents" this object. The
-     * result should be a string in valid SQL syntax. It is required that all subclasses
-     * override this method.
+     * Compare if this expression is greater than the given one.
      * 
-     * @param sb StringBuilder to append the string representation of the object to.
+     * @param expression Right hand side of the compare.
+     * @return Compare condition.
      */
-    public abstract void toString(StringBuilder sb);
-    
+    public final Compare greaterThan(final Expression expression) {
+        return new Compare(this, CompareOperator.GT, expression);
+    }
+
+    /**
+     * Compare if this expression is greater than or equal to the given one.
+     * 
+     * @param expression Right hand side of the compare.
+     * @return Compare condition.
+     */
+    public final Compare greaterEqual(final Expression expression) {
+        return new Compare(this, CompareOperator.GE, expression);
+    }
+
+    /**
+     * Compare if this expression is less than or equal to the given one.
+     * 
+     * @param expression Right hand side of the compare.
+     * @return Compare condition.
+     */
+    public final Compare lessEqual(final Expression expression) {
+        return new Compare(this, CompareOperator.LE, expression);
+    }
+
+    /**
+     * Compare if this expression is less than the given one.
+     * 
+     * @param expression Right hand side of the compare.
+     * @return Compare condition.
+     */
+    public final Compare lessThan(final Expression expression) {
+        return new Compare(this, CompareOperator.LT, expression);
+    }
+
+    /**
+     * Check if this expression is null.
+     * 
+     * @return Compare condition.
+     */
+    public final Predicate isNull() {
+        return new IsNullPredicate(this, true);
+    }
+
+    /**
+     * Check if this expression is not null.
+     * 
+     * @return Compare condition.
+     */
+    public final Predicate isNotNull() {
+        return new IsNullPredicate(this, false);
+    }
+
     //-----------------------------------------------------------------------------------    
 }

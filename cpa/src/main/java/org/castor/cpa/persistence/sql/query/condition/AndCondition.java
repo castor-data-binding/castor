@@ -28,7 +28,7 @@ public final class AndCondition extends CompoundCondition {
     //-----------------------------------------------------------------------------------
     
     /** 'AND' operator string. */
-    public static final String OPERATOR = " AND ";
+    public static final String AND = " AND ";
     
     //-----------------------------------------------------------------------------------    
     
@@ -89,7 +89,7 @@ public final class AndCondition extends CompoundCondition {
             } else {
                 condition.toString(sb);
             }
-            if (iter.hasNext()) { sb.append(OPERATOR); }
+            if (iter.hasNext()) { sb.append(AND); }
         }
     }
     
