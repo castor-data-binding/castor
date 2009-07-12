@@ -25,24 +25,22 @@ package org.castor.cpa.persistence.sql.query;
 public abstract class QueryObject {
     //-----------------------------------------------------------------------------------    
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public final String toString() {
-        StringBuilder sb = new StringBuilder();
-        toString(sb);
-        return sb.toString();
+        QueryContext ctx = new QueryContext();
+        toString(ctx);
+        return ctx.toString();
     }
     
     /**
-     * Append a string representation of the object to the given StringBuilder. In general,
+     * Append a string representation of the object to the given QueryContext. In general,
      * this toString method appends a string that "textually represents" this object. The
      * result should be a string in valid SQL syntax. It is required that all subclasses
      * override this method.
      * 
-     * @param sb StringBuilder to append the string representation of the object to.
+     * @param ctx QueryContext to append the string representation of the object to.
      */
-    public abstract void toString(StringBuilder sb);
+    public abstract void toString(QueryContext ctx);
     
     //-----------------------------------------------------------------------------------    
 }

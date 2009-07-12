@@ -16,21 +16,18 @@
 package org.castor.cpa.persistence.sql.query.expression;
 
 import org.castor.cpa.persistence.sql.query.Qualifier;
+import org.castor.cpa.persistence.sql.query.QueryConstants;
+import org.castor.cpa.persistence.sql.query.QueryContext;
 
 /**
  * Class representing a column of the database table.
- *  
- * TODO find a way to to get database specific quotation
  *  
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public class Column extends Expression {    
+public final class Column extends Expression {    
     //-----------------------------------------------------------------------------------    
-
-    /** Character separating qualifier and column in a SQL query. */
-    public static final char SEPARATOR = '.';
 
     /** Qualifier the column belongs to. May be <code>null</code> if there is no risk
      *  for name clashes for a SQL query. */
@@ -39,9 +36,6 @@ public class Column extends Expression {
     /** Name of the column. */
     private final String _name;
     
-    /** Character for quoting qualifier and column names. */
-    private final Character _quote = null;
-
     //-----------------------------------------------------------------------------------    
 
     /**
@@ -74,7 +68,7 @@ public class Column extends Expression {
      * 
      * @return Qualifier the column belongs to.
      */
-    public final Qualifier qualifier() {
+    public Qualifier qualifier() {
         return _qualifier;
     }
 
@@ -83,27 +77,21 @@ public class Column extends Expression {
      * 
      * @return Name of the column.
      */
-    public final String name() {
+    public String name() {
         return _name;
     }
 
     //-----------------------------------------------------------------------------------    
 
-    /**
-     * {@inheritDoc}
-     */
-    public void toString(final StringBuilder sb) {
+    @Override
+    public void toString(final QueryContext ctx) {
         if (_qualifier != null) {
-            _qualifier.toString(sb);
-            sb.append(SEPARATOR);
+            _qualifier.toString(ctx);
+            ctx.append(QueryConstants.DOT);
         }
-        if (_quote == null) {
-            sb.append(_quote);
-            sb.append(_name);
-            sb.append(_quote);
-        } else {
-            sb.append(_name);
-        }
+        ctx.append(ctx.getQuote());
+        ctx.append(_name);
+        ctx.append(ctx.getQuote());
     }
 
     //-----------------------------------------------------------------------------------    

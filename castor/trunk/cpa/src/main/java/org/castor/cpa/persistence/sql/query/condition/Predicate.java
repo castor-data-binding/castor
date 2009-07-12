@@ -70,9 +70,7 @@ public abstract class Predicate extends Condition {
 
     //-----------------------------------------------------------------------------------    
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public final Condition not() {
         _evaluateTo = !_evaluateTo;
         return this;
@@ -80,4 +78,3 @@ public abstract class Predicate extends Condition {
 
     //-----------------------------------------------------------------------------------    
 }
-

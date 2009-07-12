@@ -15,6 +15,8 @@
  */
 package org.castor.cpa.persistence.sql.query.condition;
 
+import org.castor.cpa.persistence.sql.query.QueryConstants;
+import org.castor.cpa.persistence.sql.query.QueryContext;
 import org.castor.cpa.persistence.sql.query.expression.Expression;
 
 /**
@@ -25,14 +27,6 @@ import org.castor.cpa.persistence.sql.query.expression.Expression;
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public final class IsNullPredicate extends Predicate {
-    //-----------------------------------------------------------------------------------
-    
-    /** 'IS NULL' predicate string. */
-    public static final String IS_NULL = " IS NULL";
-    
-    /** 'IS NOT NULL' predicate string. */
-    public static final String IS_NOT_NULL = " IS NOT NULL";
-    
     //-----------------------------------------------------------------------------------    
 
     /**
@@ -56,18 +50,18 @@ public final class IsNullPredicate extends Predicate {
 
     //-----------------------------------------------------------------------------------    
 
-    /**
-     * {@inheritDoc}
-     */
-    public void toString(final StringBuilder sb) {
-        expression().toString(sb);
-        if (evaluateTo()) {
-            sb.append(IS_NULL);
-        } else {
-            sb.append(IS_NOT_NULL);
+    @Override
+    public void toString(final QueryContext ctx) {
+        expression().toString(ctx);
+        ctx.append(QueryConstants.SPACE);
+        ctx.append(QueryConstants.IS);
+        if (!evaluateTo()) {
+            ctx.append(QueryConstants.SPACE);
+            ctx.append(QueryConstants.NOT);
         }
+        ctx.append(QueryConstants.SPACE);
+        ctx.append(QueryConstants.NULL);
     }
 
     //-----------------------------------------------------------------------------------    
 }
-

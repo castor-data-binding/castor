@@ -20,8 +20,6 @@ import org.castor.cpa.persistence.sql.query.expression.Column;
 /**
  * Abstract base class for all qualifiers.
  * 
- * TODO find a way to to get database specific quotation
- *  
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
@@ -32,9 +30,6 @@ public abstract class Qualifier extends QueryObject {
     /** Name of the qualifier. */
     private final String _name;
     
-    /** Character for quoting qualifier and column names. */
-    private final Character _quote = null;
-
     //-----------------------------------------------------------------------------------    
 
     /**
@@ -72,19 +67,12 @@ public abstract class Qualifier extends QueryObject {
     
     //-----------------------------------------------------------------------------------    
 
-    /**
-     * {@inheritDoc}
-     */
-    public final void toString(final StringBuilder sb) {
-        if (_quote == null) {
-            sb.append(_quote);
-            sb.append(_name);
-            sb.append(_quote);
-        } else {
-            sb.append(_name);
-        }
+    @Override
+    public final void toString(final QueryContext ctx) {
+        ctx.append(ctx.getQuote());
+        ctx.append(_name);
+        ctx.append(ctx.getQuote());
     }
     
     //-----------------------------------------------------------------------------------    
 }
-

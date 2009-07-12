@@ -15,6 +15,7 @@
  */
 package org.castor.cpa.persistence.sql.query.condition;
 
+import org.castor.cpa.persistence.sql.query.QueryContext;
 import org.castor.cpa.persistence.sql.query.expression.Expression;
 
 /**
@@ -87,9 +88,7 @@ public final class Compare extends Condition {
     
     //-----------------------------------------------------------------------------------
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public Condition not() {
         _operator = _operator.inverse();
         return this;
@@ -97,13 +96,11 @@ public final class Compare extends Condition {
 
     //-----------------------------------------------------------------------------------    
 
-    /**
-     * {@inheritDoc}
-     */
-    public void toString(final StringBuilder sb) {
-        _left.toString(sb);
-        sb.append(_operator);
-        _right.toString(sb);
+    @Override
+    public void toString(final QueryContext ctx) {
+        _left.toString(ctx);
+        ctx.append(_operator.toString());
+        _right.toString(ctx);
     }
     
     //-----------------------------------------------------------------------------------    
