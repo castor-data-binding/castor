@@ -17,6 +17,9 @@ package org.castor.cpa.persistence.sql.query.condition;
 
 import java.util.Iterator;
 
+import org.castor.cpa.persistence.sql.query.QueryConstants;
+import org.castor.cpa.persistence.sql.query.QueryContext;
+
 /**
  * Represents a list of conditions that are concatenated by an OR operator.
  * 
@@ -25,11 +28,6 @@ import java.util.Iterator;
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public final class OrCondition extends CompoundCondition {
-    //-----------------------------------------------------------------------------------
-    
-    /** 'OR' operator string. */
-    public static final String OR = " OR ";
-    
     //-----------------------------------------------------------------------------------    
     
     /**
@@ -55,17 +53,13 @@ public final class OrCondition extends CompoundCondition {
     
     //-----------------------------------------------------------------------------------    
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public Condition or(final Condition condition) {
         append(condition);
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public Condition not() {
         Condition condition = new OrCondition();
         for (Iterator<Condition> iter = iterator(); iter.hasNext(); ) {
@@ -76,20 +70,22 @@ public final class OrCondition extends CompoundCondition {
 
     //-----------------------------------------------------------------------------------    
 
-    /**
-     * {@inheritDoc}
-     */
-    public void toString(final StringBuilder sb) {
+    @Override
+    public void toString(final QueryContext ctx) {
         for (Iterator<Condition> iter = iterator(); iter.hasNext(); ) {
             Condition condition = iter.next();
             if (condition instanceof CompoundCondition) {
-                sb.append('(');
-                condition.toString(sb);
-                sb.append(')');
+                ctx.append(QueryConstants.LPAREN);
+                condition.toString(ctx);
+                ctx.append(QueryConstants.RPAREN);
             } else {
-                condition.toString(sb);
+                condition.toString(ctx);
             }
-            if (iter.hasNext()) { sb.append(OR); }
+            if (iter.hasNext()) {
+                ctx.append(QueryConstants.SPACE);
+                ctx.append(QueryConstants.OR);
+                ctx.append(QueryConstants.SPACE);
+            }
         }
     }
     
