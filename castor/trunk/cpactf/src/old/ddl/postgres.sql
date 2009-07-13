@@ -98,48 +98,6 @@ create table test_oqltag (
 create index test_oqltag_fk1 on test_oqltag( id1 );
 create index test_oqltag_fk2 on test_oqltag( id2 );
 
-
-drop table tc7x_as_main;
-drop table tc7x_as_assoc1;
-
-create table tc7x_as_assoc1 (
-  id        int not null,
-  name      varchar(200) not null,
-  constraint pk_tc7x_as_assoc1 primary key (id)
-);
-
-insert into tc7x_as_assoc1 (id, name) values (1, 'assoc1');
-
-create table tc7x_as_main (
-  id        int not null,
-  name      varchar(200) not null,
-  assoc1_id	int default null,
-  constraint pk_tc7x_as_main primary key (id)
-);
-
-insert into tc7x_as_main (id, name, assoc1_id) values (1, 'main', 1);
-
-drop table tc7x_as_assoc_many;
-drop table tc7x_as_main_many;
-create table tc7x_as_main_many (
-  id        int not null,
-  name      varchar(200) not null,
-  constraint pk_tc7x_as_main_many primary key (id)
-);
-
-insert into tc7x_as_main_many (id, name) values (1, 'main');
-
-create table tc7x_as_assoc_many (
-  id        int not null,
-  name      varchar(200) not null,
-  main_id	int,
-  constraint pk_tc7x_as_assoc_many primary key (id)
-);
-
-insert into tc7x_as_assoc_many (id, name, main_id) values (1, 'assoc.many.1', 1);
-insert into tc7x_as_assoc_many (id, name, main_id) values (2, 'assoc.many.2', 1);
-
-
 drop table tc8x_pks_person;
 
 create table tc8x_pks_person (
@@ -269,12 +227,12 @@ create table tc7x_depend2(
 );
 
 alter table tc7x_master
-	add constraint fk_master_depend1
-	foreign key (depend1_id) references tc7x_depend1(id);
+    add constraint fk_master_depend1
+    foreign key (depend1_id) references tc7x_depend1(id);
 
 alter table tc7x_depend2
-	add constraint fk_depend2_master
-	foreign key (master_id) references tc7x_master(id);
+    add constraint fk_depend2_master
+    foreign key (master_id) references tc7x_master(id);
 
 drop sequence tc8x_circbrother_seq;
 drop sequence tc8x_circsister_seq;
@@ -286,14 +244,14 @@ create sequence tc8x_circbrother_seq;
 create sequence tc8x_circsister_seq;
 
 create table tc8x_circbrother (
-	brother_id int not null,
-	brother_sibling int,
-	primary key (brother_id));
+    brother_id int not null,
+    brother_sibling int,
+    primary key (brother_id));
 
 create table tc8x_circsister (
-	sister_id int not null,
-	sister_sibling int,
-	primary key (sister_id));
+    sister_id int not null,
+    sister_sibling int,
+    primary key (sister_id));
 
 drop table tc8x_enum_prod;
 create table tc8x_enum_prod (
@@ -308,10 +266,10 @@ drop table tc8x_trans_master;
 create table tc8x_trans_master (
   id        int not null,
   name      varchar(200) not null,
-  propty1	int,
-  propty2	int,
-  propty3	int,
-  ent2		int
+  propty1    int,
+  propty2    int,
+  propty3    int,
+  ent2        int
 );
 
 drop table tc8x_trans_child1;
@@ -337,7 +295,7 @@ insert into tc8x_trans_child2 (id, descr) values (3, 'description3');
 drop table tc8x_self_refer_parent;
 create table tc8x_self_refer_parent (
   id        int not null,
-  fid		int,
+  fid        int,
   name      varchar(200) not null
 );
 
@@ -450,8 +408,8 @@ drop table tc9x_poly_prod;
 create table tc9x_poly_prod (
   id        int not null,
   name      varchar(200) not null,
-  detail	int not null,
-  owner		int
+  detail    int not null,
+  owner        int
 );
 
 drop table tc9x_poly_computer;
@@ -519,25 +477,25 @@ create table tc9x_poly_server_multi (
 
 drop table tc9x_poly_order_product;
 create table tc9x_poly_order_product (
-  order_id	int not null,
+  order_id    int not null,
   product_id int not null
 );
 
 drop table tc9x_poly_table_m;
 create table tc9x_poly_table_m (
-  id	int not null,
-  name	varchar(20) not null
+  id    int not null,
+  name    varchar(20) not null
 );
 
 drop table tc9x_poly_table_n;
 create table tc9x_poly_table_n (
-  id	int not null,
-  name	varchar(20) not null
+  id    int not null,
+  name    varchar(20) not null
 );
 
 drop table tc9x_poly_m_n;
 create table tc9x_poly_m_n (
-  m_id	int not null,
+  m_id    int not null,
   n_id int not null
 );
 
@@ -693,21 +651,21 @@ INSERT INTO tc9x_poly_depend_object VALUES(1, 1, 'This is a description');
  
 drop table tc200_self_relation_folder;
 create table tc200_self_relation_folder (
-  id          int		     	not null,  
-  name        varchar(255)    	not null,
-  parent_id	  int				null
+  id          int                 not null,  
+  name        varchar(255)        not null,
+  parent_id      int                null
   
 );
 
 drop table tc200_self_relation_parent;
 create table tc200_self_relation_parent (
-  id          int		     	not null,  
-  name        varchar(255)    	not null
+  id          int                 not null,  
+  name        varchar(255)        not null
 );
 
 drop table tc200_self_relation_extend;
 create table tc200_self_relation_extend (
-  id          int		     	not null,  
-  parent_id	  int				null
+  id          int                 not null,  
+  parent_id      int                null
 );
-	
+    

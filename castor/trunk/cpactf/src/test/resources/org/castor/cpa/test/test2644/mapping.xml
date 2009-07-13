@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+	<class name="org.castor.cpa.test.test2644.Entity">
+		<description>Entite</description>
+		<map-to table="entity2644" />
+		<field name="id" type="long" identity="true">
+			<sql name="id" type="integer" />
+		</field>
+		<field name="name" type="string">
+			<sql name="name" type="char" />
+		</field>
+		<field name="childSet" collection="hashset"
+			type="org.castor.cpa.test.test2644.Child" lazy="true">
+			<sql many-key="entity_id" />
+		</field>
+	</class>
+	<class name="org.castor.cpa.test.test2644.Child">
+		<map-to table="child2644" />
+		<field name="id" type="long" identity="true">
+			<sql name="id" type="integer" />
+		</field>
+		<field name="name" type="string">
+			<sql name="name" type="char" />
+		</field>
+	</class>
+</mapping>
