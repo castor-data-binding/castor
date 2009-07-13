@@ -84,42 +84,6 @@ create table tc7x_depend2(
   foreign key (master_id) references tc7x_master(id)
 );
 
-drop table if exists tc7x_as_main;
-drop table if exists tc7x_as_assoc1;
-
-create table tc7x_as_assoc1 (
-  id        int not null primary key,
-  name      varchar(200) not null
-);
-
-insert into tc7x_as_assoc1 (id, name) values (1, 'assoc1');
-
-create table tc7x_as_main (
-  id        int not null primary key,
-  name      varchar(200) not null,
-  assoc1_id    int null
-);
-
-insert into tc7x_as_main (id, name, assoc1_id) values (1, 'main', 1);
-
-drop table if exists tc7x_as_assoc_many;
-drop table if exists tc7x_as_main_many;
-create table tc7x_as_main_many (
-  id        int not null primary key,
-  name      varchar(200) not null
-);
-
-insert into tc7x_as_main_many (id, name) values (1, 'main');
-
-create table tc7x_as_assoc_many (
-  id        int not null primary key,
-  name      varchar(200) not null,
-  main_id    int
-);
-
-insert into tc7x_as_assoc_many (id, name, main_id) values (1, 'assoc.many.1', 1);
-insert into tc7x_as_assoc_many (id, name, main_id) values (2, 'assoc.many.2', 1);
-
 -- tc8x
 
 drop table if exists tc8x_pks_person;

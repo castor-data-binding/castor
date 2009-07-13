@@ -85,60 +85,6 @@ create table tc7x_many_person (
 create unique index tc7x_many_person_pk on tc7x_many_person ( pid )
 //
 
-drop table tc7x_as_main
-//
-drop table tc7x_as_assoc1
-//
-
-create table tc7x_as_assoc1 (
-  id        int not null,
-  name      varchar(200) not null,
-  constraint pk_tc7x_as_assoc1 primary key (id)
-)
-//
-
-insert into tc7x_as_assoc1 (id, name) values (1, 'assoc1')
-//
-
-create table tc7x_as_main (
-  id        int not null,
-  name      varchar(200) not null,
-  assoc1_id	int default null,
-  constraint pk_tc7x_as_main primary key (id)
-)
-//
-
-insert into tc7x_as_main (id, name, assoc1_id) values (1, 'main', 1)
-//
-
-drop table tc7x_as_assoc_many
-//
-drop table tc7x_as_main_many
-//
-create table tc7x_as_main_many (
-  id        int not null,
-  name      varchar(200) not null,
-  constraint pk_tc7x_as_main_many primary key (id)
-)
-//
-
-insert into tc7x_as_main_many (id, name) values (1, 'main')
-//
-
-create table tc7x_as_assoc_many (
-  id        int not null,
-  name      varchar(200) not null,
-  main_id	int,
-  constraint pk_tc7x_as_assoc_many primary key (id)
-)
-//
-
-insert into tc7x_as_assoc_many (id, name, main_id) values (1, 'assoc.many.1', 1)
-//
-insert into tc7x_as_assoc_many (id, name, main_id) values (2, 'assoc.many.2', 1)
-//
-
-
 drop table tc8x_pks_person
 //
 
@@ -340,10 +286,10 @@ create table tc7x_master(
 
 create table tc7x_depend2
 (
-	master_id        int,
-	id               int,
-	primary key (id),
-	foreign key fk_depend2_master(master_id) references tc7x_master(id) on delete cascade
+    master_id        int,
+    id               int,
+    primary key (id),
+    foreign key fk_depend2_master(master_id) references tc7x_master(id) on delete cascade
 )
 //
 
@@ -363,10 +309,10 @@ drop table tc8x_transmaster
 create table tc8x_transmaster (
   id        int not null,
   name      varchar(200) not null,
-  propty1	int,
-  propty2	int,
-  propty3	int,
-  ent2		int
+  propty1    int,
+  propty2    int,
+  propty3    int,
+  ent2        int
 )
 //
 
@@ -403,7 +349,7 @@ drop table tc8x_self_refer_parent
 //
 create table tc8x_self_refer_parent (
   id        int not null,
-  fid		int,
+  fid        int,
   name      varchar(200) not null
 )
 //
@@ -522,8 +468,8 @@ insert into tc8x_child_compound (id1, id2, descr) values (1, 1, 'childCompound1'
 drop table if exists tc9x_foo
 //
 create table tc9x_foo (
-  id        		int not null,
-  field     		varchar(200) not null
+  id                int not null,
+  field             varchar(200) not null
 )
 //
 
@@ -545,8 +491,8 @@ insert into tc9x_bar (id) values (2)
 drop table if exists tc9x_customer
 //
 create table tc9x_customer (
-	id				int not null,
-	description 	varchar(200) not null			
+    id                int not null,
+    description     varchar(200) not null            
 )
 //
 
@@ -558,10 +504,10 @@ insert into tc9x_customer (id, description) values (2, 'bob')
 drop table if exists tc9x_subscription
 //
 create table tc9x_subscription (
-	id				int not null,
-	createddate		datetime,
-	description		varchar(200),
-	customer_id		int not null
+    id                int not null,
+    createddate        datetime,
+    description        varchar(200),
+    customer_id        int not null
 )
 //
 
@@ -573,16 +519,16 @@ insert into tc9x_subscription (id, createddate, customer_id) values (2, now(), 2
 drop table if exists tc9x_supersubscription
 //
 create table tc9x_supersubscription (
-	id			int not null
+    id            int not null
 )
 //
 
 drop table if exists tc9x_credit
 //
 create table tc9x_credit (
-	id						int not null,
-	balance					int not null,
-	supersubscription_id	int not null
+    id                        int not null,
+    balance                    int not null,
+    supersubscription_id    int not null
 )
 //
 
@@ -617,8 +563,8 @@ drop table tc9x_poly_prod
 create table tc9x_poly_prod (
   id        int not null,
   name      varchar(200) not null,
-  detail	int not null,
-  owner		int
+  detail    int not null,
+  owner        int
 )
 //
 
@@ -706,7 +652,7 @@ create table tc9x_poly_server_multi (
 drop table tc9x_poly_order_product
 //
 create table tc9x_poly_order_product (
-  order_id	int not null,
+  order_id    int not null,
   product_id int not null
 )
 //
@@ -714,23 +660,23 @@ create table tc9x_poly_order_product (
 drop table tc9x_poly_table_m
 //
 create table tc9x_poly_table_m (
-  id	int not null,
-  name	varchar(20) not null
+  id    int not null,
+  name    varchar(20) not null
 )
 //
 
 drop table tc9x_poly_table_n
 //
 create table tc9x_poly_table_n (
-  id	int not null,
-  name	varchar(20) not null
+  id    int not null,
+  name    varchar(20) not null
 )
 //
 
 drop table tc9x_poly_m_n
 //
 create table tc9x_poly_m_n (
-  m_id	int not null,
+  m_id    int not null,
   n_id int not null
 )
 //
@@ -958,28 +904,28 @@ INSERT INTO tc9x_poly_depend_object VALUES(1, 1, 'This is a description')
 drop table tc200_self_relation_folder
 //
 create table tc200_self_relation_folder (
-  id          int		     	not null,  
-  name        varchar(255)    	not null,
-  parent_id	  int				null
+  id          int                 not null,  
+  name        varchar(255)        not null,
+  parent_id      int                null
 )
 //
 
 drop table tc200_self_relation_parent
 //
 create table tc200_self_relation_parent (
-  id          int		     	not null,  
-  name        varchar(255)    	not null
+  id          int                 not null,  
+  name        varchar(255)        not null
 )
 //
 
 drop table tc200_self_relation_extend
 //
 create table tc200_self_relation_extend (
-  id          int		     	not null,  
-  parent_id	  int				null
+  id          int                 not null,  
+  parent_id      int                null
 )
 //
-		
+        
 drop table tc203_timezone_entity
 //
 
@@ -994,4 +940,4 @@ create table tc203_timezone_entity (
 
 insert into tc203_timezone_entity (id, name) values (1, 'entity1')
 //
-		
+        

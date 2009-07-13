@@ -13,16 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ctf.jdo.tc7x;
+package org.castor.cpa.test.test79;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Ignore;
 
 /**
  * Entity class for CTF test case.
  */
-public final class AutostoreAssociated1 {
+@Ignore
+public final class AutostoreMainMany {
     
     private Integer _id;
     private String _name;
-    
+    private List<AutostoreAssociatedMany> _associatedMany =
+        new ArrayList<AutostoreAssociatedMany>();
+
     public Integer getId() {
         return _id;
     }
@@ -37,5 +45,13 @@ public final class AutostoreAssociated1 {
     
     public void setName(final String name) {
         _name = name;
+    }
+
+    public List<AutostoreAssociatedMany> getAssociatedMany() {
+        return _associatedMany;
+    }
+
+    public void setAssociatedMany(final List<AutostoreAssociatedMany> associatedMany) {
+        _associatedMany = associatedMany;
     }
 }

@@ -13,11 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ctf.jdo.tc7x;
+package org.castor.cpa.test.test79;
+
+import org.junit.Ignore;
 
 /**
  * Entity class for CTF test case.
  */
+@Ignore
 public final class AutostoreAssociatedMany {
     
     private Integer _id;

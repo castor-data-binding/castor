@@ -89,60 +89,6 @@ go
 grant all on tc7x_group_person to test
 go
 
-
-drop table tc7x_as_main
-go
-drop table tc7x_as_assoc1
-go
-
-create table tc7x_as_assoc1 (
-  id        int not null,
-  name      varchar(200) not null,
-  constraint pk_tc7x_as_assoc1 primary key (id)
-)
-go
-
-insert into tc7x_as_assoc1 (id, name) values (1, 'assoc1')
-go
-
-create table tc7x_as_main (
-  id        int not null,
-  name      varchar(200) not null,
-  assoc1_id	int default null,
-  constraint pk_tc7x_as_main primary key (id)
-)
-go
-
-insert into tc7x_as_main (id, name, assoc1_id) values (1, 'main', 1)
-go
-
-drop table tc7x_as_assoc_many
-go
-drop table tc7x_as_main_many
-go
-create table tc7x_as_main_many (
-  id        int not null,
-  name      varchar(200) not null,
-  constraint pk_tc7x_as_main_many primary key (id)
-)
-go
-
-insert into tc7x_as_main_many (id, name) values (1, 'main')
-go
-
-create table tc7x_as_assoc_many (
-  id        int not null,
-  name      varchar(200) not null,
-  main_id	int,
-  constraint pk_tc7x_as_assoc_many primary key (id)
-)
-go
-
-insert into tc7x_as_assoc_many (id, name, main_id) values (1, 'assoc.many.1', 1)
-go
-insert into tc7x_as_assoc_many (id, name, main_id) values (2, 'assoc.many.2', 1)
-go
-
 -- test multiple pk
 drop table tc8x_pks_person
 go
@@ -383,10 +329,10 @@ go
 create table tc8x_trans_master (
   id        int not null,
   name      varchar(200) not null,
-  propty1	int,
-  propty2	int,
-  propty3	int,
-  ent2		int
+  propty1    int,
+  propty2    int,
+  propty3    int,
+  ent2        int
 )
 go
 
@@ -424,7 +370,7 @@ drop table tc8x_self_refer_parent
 go
 create table tc8x_self_refer_parent (
   id        int not null,
-  fid		int,
+  fid        int,
   name      varchar(200) not null
 )
 go
@@ -571,8 +517,8 @@ go
 create table tc9x_poly_prod (
   id        int not null,
   name      varchar(200) not null,
-  detail	int not null,
-  owner		int
+  detail    int not null,
+  owner        int
 )
 go
 
@@ -660,7 +606,7 @@ go
 drop table tc9x_poly_order_product
 go
 create table tc9x_poly_order_product (
-  order_id	int not null,
+  order_id    int not null,
   product_id int not null
 )
 go
@@ -668,23 +614,23 @@ go
 drop table tc9x_poly_table_m
 go
 create table tc9x_poly_table_m (
-  id	int not null,
-  name	varchar(20) not null
+  id    int not null,
+  name    varchar(20) not null
 )
 go
 
 drop table tc9x_poly_table_n
 go
 create table tc9x_poly_table_n (
-  id	int not null,
-  name	varchar(20) not null
+  id    int not null,
+  name    varchar(20) not null
 )
 go
 
 drop table tc9x_poly_m_n
 go
 create table tc9x_poly_m_n (
-  m_id	int not null,
+  m_id    int not null,
   n_id int not null
 )
 go
@@ -912,25 +858,25 @@ go
 drop table tc200_self_relation_folder
 go
 create table tc200_self_relation_folder (
-  id          int		     	not null,  
-  name        varchar(255)    	not null,
-  parent_id	  int				DEFAULT null
+  id          int                 not null,  
+  name        varchar(255)        not null,
+  parent_id      int                DEFAULT null
 )
 go
 
 drop table tc200_self_relation_parent
 go
 create table tc200_self_relation_parent (
-  id          int		     	not null,  
-  name        varchar(255)    	not null
+  id          int                 not null,  
+  name        varchar(255)        not null
 )
 go
 
 drop table tc200_self_relation_extend
 go
 create table tc200_self_relation_extend (
-  id          int		     	not null,  
-  parent_id	  int				DEFAULT null
+  id          int                 not null,  
+  parent_id      int                DEFAULT null
 )
 go
-	
+    
