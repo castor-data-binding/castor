@@ -28,278 +28,253 @@ import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.ObjectNotFoundException;
 import org.exolab.castor.jdo.QueryResults;
 
-public class TestAutostoreMany extends CPATestCase {
+public final class TestAutostoreMany extends CPATestCase {
+    private static final String DBNAME = "test79";
+    private static final String MAPPING = "/org/castor/cpa/test/test79/mapping.xml";
 
-	private Database db;
+    private Database _db;
 
-	private static final String DBNAME = "test79";
-	private static final String MAPPING = "/org/castor/cpa/test/test79/mapping.xml";
+    public TestAutostoreMany(final String name) {
+        super(name);
+    }
 
-	public TestAutostoreMany(final String name) {
-		super(name);
-	}
+    // Test are only included/excluded for engines that have been tested with this test suite.
 
-	public boolean include(final DatabaseEngineType engine) {
-		return (engine == DatabaseEngineType.MYSQL)
-				|| (engine == DatabaseEngineType.DERBY)
-				|| (engine == DatabaseEngineType.POSTGRESQL)
-				|| (engine == DatabaseEngineType.HSQL)
-				|| (engine == DatabaseEngineType.ORACLE);
-	}
+    public boolean include(final DatabaseEngineType engine) {
+        return (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.POSTGRESQL);
+    }
 
-	public void setUp() throws Exception {
-		db = getJDOManager(DBNAME, MAPPING).getDatabase();
-	}
+    public void setUp() throws Exception {
+        _db = getJDOManager(DBNAME, MAPPING).getDatabase();
+    }
 
-	public void testCreateNoEntityTwo() throws Exception {
-		db.begin();
-		AutostoreMainMany main = new AutostoreMainMany();
-		main.setId(new Integer(100));
-		main.setName("main.100");
-		db.create(main);
-		db.commit();
+    public void testCreateNoEntityTwo() throws Exception {
+        _db.begin();
+        AutostoreMainMany main = new AutostoreMainMany();
+        main.setId(new Integer(100));
+        main.setName("main.100");
+        _db.create(main);
+        _db.commit();
 
-		db.begin();
-		main = (AutostoreMainMany) db.load(AutostoreMainMany.class,
-				new Integer(100));
-		assertNotNull(main);
-		assertEquals(100, main.getId().intValue());
-		assertEquals("main.100", main.getName());
-		assertNotNull(main.getAssociatedMany());
-		assertEquals(0, main.getAssociatedMany().size());
-		db.commit();
+        _db.begin();
+        main = (AutostoreMainMany) _db.load(AutostoreMainMany.class, new Integer(100));
+        assertNotNull(main);
+        assertEquals(100, main.getId().intValue());
+        assertEquals("main.100", main.getName());
+        assertNotNull(main.getAssociatedMany());
+        assertEquals(0, main.getAssociatedMany().size());
+        _db.commit();
 
-		db.begin();
-		main = (AutostoreMainMany) db.load(AutostoreMainMany.class,
-				new Integer(100));
-		db.remove(main);
-		db.commit();
+        _db.begin();
+        main = (AutostoreMainMany) _db.load(AutostoreMainMany.class, new Integer(100));
+        _db.remove(main);
+        _db.commit();
 
-		db.close();
-	}
+        _db.close();
+    }
 
-	public void testCreateWithEntityTwoNoAutoStore() throws Exception {
-		db.begin();
-		AutostoreAssociatedMany entityTwo = new AutostoreAssociatedMany();
-		entityTwo.setId(new Integer(200));
-		entityTwo.setName("entity1.200");
-		List<AutostoreAssociatedMany> associatedManys = Collections
-				.singletonList(entityTwo);
-		AutostoreMainMany entityOne = new AutostoreMainMany();
-		entityOne.setId(new Integer(200));
-		entityOne.setName("entity2.200");
-		entityOne.setAssociatedMany(associatedManys);
-		db.create(entityOne);
-		db.create(entityTwo);
-		db.commit();
+    public void testCreateWithEntityTwoNoAutoStore() throws Exception {
+        _db.begin();
+        AutostoreAssociatedMany entityTwo = new AutostoreAssociatedMany();
+        entityTwo.setId(new Integer(200));
+        entityTwo.setName("entity1.200");
+        List<AutostoreAssociatedMany> associatedManys = Collections.singletonList(entityTwo);
+        AutostoreMainMany entityOne = new AutostoreMainMany();
+        entityOne.setId(new Integer(200));
+        entityOne.setName("entity2.200");
+        entityOne.setAssociatedMany(associatedManys);
+        _db.create(entityOne);
+        _db.create(entityTwo);
+        _db.commit();
 
-		db.begin();
-		entityOne = (AutostoreMainMany) db.load(AutostoreMainMany.class,
-				new Integer(200));
-		assertNotNull(entityOne);
-		assertEquals(200, entityOne.getId().intValue());
-		assertEquals("entity2.200", entityOne.getName());
-		assertNotNull(entityOne.getAssociatedMany());
-		db.commit();
+        _db.begin();
+        entityOne = (AutostoreMainMany) _db.load(AutostoreMainMany.class, new Integer(200));
+        assertNotNull(entityOne);
+        assertEquals(200, entityOne.getId().intValue());
+        assertEquals("entity2.200", entityOne.getName());
+        assertNotNull(entityOne.getAssociatedMany());
+        _db.commit();
 
-		db.begin();
-		entityOne = (AutostoreMainMany) db.load(AutostoreMainMany.class,
-				new Integer(200));
-		db.remove(entityOne);
-		db.commit();
+        _db.begin();
+        entityOne = (AutostoreMainMany) _db.load(AutostoreMainMany.class, new Integer(200));
+        _db.remove(entityOne);
+        _db.commit();
 
-		db.begin();
-		entityTwo = (AutostoreAssociatedMany) db.load(
-				AutostoreAssociatedMany.class, new Integer(200));
-		db.remove(entityTwo);
-		db.commit();
+        _db.begin();
+        entityTwo = (AutostoreAssociatedMany) _db.load(
+                AutostoreAssociatedMany.class, new Integer(200));
+        _db.remove(entityTwo);
+        _db.commit();
 
-		db.close();
-	}
+        _db.close();
+    }
 
-	public void testCreateWithEntityTwoWithAutoStoreDeleteWithoutAutoStore()
-			throws Exception {
-		db.setAutoStore(true);
+    public void testCreateWithEntityTwoWithAutoStoreDeleteWithoutAutoStore() throws Exception {
+        _db.setAutoStore(true);
 
-		db.begin();
-		AutostoreAssociatedMany entityTwo = new AutostoreAssociatedMany();
-		entityTwo.setId(new Integer(300));
-		entityTwo.setName("entity2.300");
-		AutostoreMainMany entityOne = new AutostoreMainMany();
-		entityOne.setId(new Integer(300));
-		entityOne.setName("entity1.300");
-		entityOne.setAssociatedMany(Collections.singletonList(entityTwo));
-		db.create(entityOne);
-		db.commit();
+        _db.begin();
+        AutostoreAssociatedMany entityTwo = new AutostoreAssociatedMany();
+        entityTwo.setId(new Integer(300));
+        entityTwo.setName("entity2.300");
+        AutostoreMainMany entityOne = new AutostoreMainMany();
+        entityOne.setId(new Integer(300));
+        entityOne.setName("entity1.300");
+        entityOne.setAssociatedMany(Collections.singletonList(entityTwo));
+        _db.create(entityOne);
+        _db.commit();
 
-		db.begin();
-		entityOne = (AutostoreMainMany) db.load(AutostoreMainMany.class,
-				new Integer(300));
-		assertNotNull(entityOne);
-		assertEquals(300, entityOne.getId().intValue());
-		assertEquals("entity1.300", entityOne.getName());
-		assertNotNull(entityOne.getAssociatedMany());
+        _db.begin();
+        entityOne = (AutostoreMainMany) _db.load(AutostoreMainMany.class, new Integer(300));
+        assertNotNull(entityOne);
+        assertEquals(300, entityOne.getId().intValue());
+        assertEquals("entity1.300", entityOne.getName());
+        assertNotNull(entityOne.getAssociatedMany());
 
-		List<AutostoreAssociatedMany> associatedManys = entityOne
-				.getAssociatedMany();
-		entityTwo = associatedManys.iterator().next();
-		assertEquals(300, entityTwo.getId().intValue());
-		assertEquals("entity2.300", entityTwo.getName());
-		db.commit();
+        List<AutostoreAssociatedMany> associatedManys = entityOne.getAssociatedMany();
+        entityTwo = associatedManys.iterator().next();
+        assertEquals(300, entityTwo.getId().intValue());
+        assertEquals("entity2.300", entityTwo.getName());
+        _db.commit();
 
-		db.setAutoStore(false);
+        _db.setAutoStore(false);
 
-		db.begin();
-		entityOne = (AutostoreMainMany) db.load(AutostoreMainMany.class,
-				new Integer(300));
-		db.remove(entityOne);
-		db.commit();
+        _db.begin();
+        entityOne = (AutostoreMainMany) _db.load(AutostoreMainMany.class, new Integer(300));
+        _db.remove(entityOne);
+        _db.commit();
 
-		db.begin();
-		entityTwo = (AutostoreAssociatedMany) db.load(
-				AutostoreAssociatedMany.class, new Integer(300));
-		assertNotNull(entityTwo);
-		assertEquals(300, entityTwo.getId().intValue());
-		assertEquals("entity2.300", entityTwo.getName());
+        _db.begin();
+        entityTwo = (AutostoreAssociatedMany) _db.load(
+                AutostoreAssociatedMany.class, new Integer(300));
+        assertNotNull(entityTwo);
+        assertEquals(300, entityTwo.getId().intValue());
+        assertEquals("entity2.300", entityTwo.getName());
 
-		try {
-			entityOne = (AutostoreMainMany) db.load(AutostoreMainMany.class,
-					new Integer(300));
-			fail("Expected ObjectNotFoundException");
-		} catch (ObjectNotFoundException e) {
-			//
-		}
-		db.commit();
+        try {
+            entityOne = (AutostoreMainMany) _db.load(AutostoreMainMany.class, new Integer(300));
+            fail("Expected ObjectNotFoundException");
+        } catch (ObjectNotFoundException e) {
+            //
+        }
+        _db.commit();
 
-		db.begin();
-		entityTwo = (AutostoreAssociatedMany) db.load(
-				AutostoreAssociatedMany.class, new Integer(300));
-		db.remove(entityTwo);
-		db.commit();
+        _db.begin();
+        entityTwo = (AutostoreAssociatedMany) _db.load(
+                AutostoreAssociatedMany.class, new Integer(300));
+        _db.remove(entityTwo);
+        _db.commit();
 
-		db.begin();
-		try {
-			entityTwo = (AutostoreAssociatedMany) db.load(
-					AutostoreAssociatedMany.class, new Integer(300));
-			fail("Expected ObjectNotFoundException");
-		} catch (ObjectNotFoundException e) {
-			//
-		}
-		db.commit();
+        _db.begin();
+        try {
+            entityTwo = (AutostoreAssociatedMany) _db.load(
+                    AutostoreAssociatedMany.class, new Integer(300));
+            fail("Expected ObjectNotFoundException");
+        } catch (ObjectNotFoundException e) {
+            //
+        }
+        _db.commit();
 
-		db.close();
-	}
+        _db.close();
+    }
 
-	public void testCreateWithEntityTwoWithAutoStoreDeleteWithAutoStore()
-			throws Exception {
-		db.setAutoStore(true);
+    public void testCreateWithEntityTwoWithAutoStoreDeleteWithAutoStore() throws Exception {
+        _db.setAutoStore(true);
 
-		db.begin();
-		AutostoreAssociatedMany entityTwo = new AutostoreAssociatedMany();
-		entityTwo.setId(new Integer(300));
-		entityTwo.setName("entity2.300");
-		List<AutostoreAssociatedMany> manys = new ArrayList<AutostoreAssociatedMany>();
-		manys.add(entityTwo);
-		AutostoreMainMany entityOne = new AutostoreMainMany();
-		entityOne.setId(new Integer(300));
-		entityOne.setName("entity1.300");
-		entityOne.setAssociatedMany(manys);
-		db.create(entityOne);
-		db.commit();
+        _db.begin();
+        AutostoreAssociatedMany entityTwo = new AutostoreAssociatedMany();
+        entityTwo.setId(new Integer(300));
+        entityTwo.setName("entity2.300");
+        List<AutostoreAssociatedMany> manys = new ArrayList<AutostoreAssociatedMany>();
+        manys.add(entityTwo);
+        AutostoreMainMany entityOne = new AutostoreMainMany();
+        entityOne.setId(new Integer(300));
+        entityOne.setName("entity1.300");
+        entityOne.setAssociatedMany(manys);
+        _db.create(entityOne);
+        _db.commit();
 
-		db.begin();
-		entityOne = (AutostoreMainMany) db.load(AutostoreMainMany.class,
-				new Integer(300));
-		assertNotNull(entityOne);
-		assertEquals(300, entityOne.getId().intValue());
-		assertEquals("entity1.300", entityOne.getName());
-		assertNotNull(entityOne.getAssociatedMany());
-		assertEquals(1, entityOne.getAssociatedMany().size());
+        _db.begin();
+        entityOne = (AutostoreMainMany) _db.load(AutostoreMainMany.class, new Integer(300));
+        assertNotNull(entityOne);
+        assertEquals(300, entityOne.getId().intValue());
+        assertEquals("entity1.300", entityOne.getName());
+        assertNotNull(entityOne.getAssociatedMany());
+        assertEquals(1, entityOne.getAssociatedMany().size());
 
-		AutostoreAssociatedMany many = entityOne.getAssociatedMany().iterator()
-				.next();
-		assertEquals(300, many.getId().intValue());
-		db.commit();
+        AutostoreAssociatedMany many = entityOne.getAssociatedMany().iterator().next();
+        assertEquals(300, many.getId().intValue());
+        _db.commit();
 
-		db.begin();
-		many = (AutostoreAssociatedMany) db.load(AutostoreAssociatedMany.class,
-				new Integer(300));
-		assertNotNull(many);
-		assertEquals(300, many.getId().intValue());
-		assertEquals("entity2.300", many.getName());
-		db.commit();
+        _db.begin();
+        many = (AutostoreAssociatedMany) _db.load(AutostoreAssociatedMany.class, new Integer(300));
+        assertNotNull(many);
+        assertEquals(300, many.getId().intValue());
+        assertEquals("entity2.300", many.getName());
+        _db.commit();
 
-		db.begin();
-		entityOne = (AutostoreMainMany) db.load(AutostoreMainMany.class,
-				new Integer(300));
-		db.remove(entityOne);
-		db.commit();
+        _db.begin();
+        entityOne = (AutostoreMainMany) _db.load(AutostoreMainMany.class, new Integer(300));
+        _db.remove(entityOne);
+        _db.commit();
 
-		db.begin();
-		try {
-			entityOne = (AutostoreMainMany) db.load(AutostoreMainMany.class,
-					new Integer(300));
-			fail("Expected ObjectNotFoundException");
-		} catch (ObjectNotFoundException e) {
-			//
-		}
-		try {
-			many = (AutostoreAssociatedMany) db.load(
-					AutostoreAssociatedMany.class, new Integer(300));
-			// TODO remove once support for cascading delete has been added
-			// fail("Expected ObjectNotFoundException");
-		} catch (ObjectNotFoundException e) {
-			//
-		}
-		db.commit();
+        _db.begin();
+        try {
+            entityOne = (AutostoreMainMany) _db.load(AutostoreMainMany.class, new Integer(300));
+            fail("Expected ObjectNotFoundException");
+        } catch (ObjectNotFoundException e) {
+            //
+        }
+        try {
+            many = (AutostoreAssociatedMany) _db.load(
+                    AutostoreAssociatedMany.class, new Integer(300));
+            // TODO remove once support for cascading delete has been added
+            // fail("Expected ObjectNotFoundException");
+        } catch (ObjectNotFoundException e) {
+            //
+        }
+        _db.commit();
 
-		// TODO remove once support for cascading delete has been added
-		db.begin();
-		many = (AutostoreAssociatedMany) db.load(AutostoreAssociatedMany.class,
-				new Integer(300));
-		db.remove(many);
-		db.commit();
+        // TODO remove once support for cascading delete has been added
+        _db.begin();
+        many = (AutostoreAssociatedMany) _db.load(AutostoreAssociatedMany.class, new Integer(300));
+        _db.remove(many);
+        _db.commit();
 
-		db.close();
-	}
+        _db.close();
+    }
 
-	/**
-	 * Test method.
-	 * 
-	 * @throws Exception
-	 *             For any exception thrown.
-	 */
-	public void testQueryEntityOne() throws Exception {
-		db.begin();
+    public void testQueryEntityOne() throws Exception {
+        _db.begin();
 
-		OQLQuery query = db.getOQLQuery("SELECT entity FROM "
-				+ AutostoreMainMany.class.getName() + " entity WHERE id = $1");
-		query.bind(new Integer(1));
-		QueryResults results = query.execute();
+        OQLQuery query = _db.getOQLQuery("SELECT entity FROM "
+                + AutostoreMainMany.class.getName() + " entity WHERE id = $1");
+        query.bind(new Integer(1));
+        QueryResults results = query.execute();
 
-		AutostoreMainMany entity = (AutostoreMainMany) results.next();
+        AutostoreMainMany entity = (AutostoreMainMany) results.next();
 
-		assertNotNull(entity);
-		assertEquals(new Integer(1), entity.getId());
+        assertNotNull(entity);
+        assertEquals(new Integer(1), entity.getId());
 
-		List<AutostoreAssociatedMany> associatedManys = entity
-				.getAssociatedMany();
+        List<AutostoreAssociatedMany> associatedManys = entity.getAssociatedMany();
 
-		assertNotNull(associatedManys);
+        assertNotNull(associatedManys);
 
-		Iterator<AutostoreAssociatedMany> iter = associatedManys.iterator();
+        Iterator<AutostoreAssociatedMany> iter = associatedManys.iterator();
 
-		assertTrue(iter.hasNext());
-		AutostoreAssociatedMany associatedMany = iter.next();
-		assertEquals(new Integer(1), associatedMany.getId());
+        assertTrue(iter.hasNext());
+        AutostoreAssociatedMany associatedMany = iter.next();
+        assertEquals(new Integer(1), associatedMany.getId());
 
-		assertTrue(iter.hasNext());
-		associatedMany = iter.next();
-		assertEquals(new Integer(2), associatedMany.getId());
+        assertTrue(iter.hasNext());
+        associatedMany = iter.next();
+        assertEquals(new Integer(2), associatedMany.getId());
 
-		assertFalse(iter.hasNext());
+        assertFalse(iter.hasNext());
 
-		db.commit();
-		db.close();
-	}
+        _db.commit();
+        _db.close();
+    }
 }
