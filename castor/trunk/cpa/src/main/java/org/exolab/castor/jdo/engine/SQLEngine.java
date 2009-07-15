@@ -24,6 +24,7 @@ import java.util.Vector;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
+import org.castor.cpa.persistence.sql.engine.SQLStatementDelete;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
@@ -79,7 +80,7 @@ public final class SQLEngine implements Persistence {
 
     private final SQLStatementCreate _createStatement;
 
-    private final SQLStatementRemove _removeStatement;
+    private final SQLStatementDelete _removeStatement;
 
     private final SQLStatementStore _storeStatement;
 
@@ -184,7 +185,7 @@ public final class SQLEngine implements Persistence {
         
         _loadStatement = new SQLStatementLoad(this, factory);
         _createStatement = new SQLStatementCreate(this, factory);
-        _removeStatement = new SQLStatementRemove(this, factory);
+        _removeStatement = new SQLStatementDelete(this, factory);
         _storeStatement = new SQLStatementStore(this, factory, _loadStatement.getLoadStatement());
     }
 

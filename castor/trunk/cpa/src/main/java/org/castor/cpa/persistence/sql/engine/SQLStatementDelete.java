@@ -15,7 +15,7 @@
  *
  * $Id$
  */
-package org.exolab.castor.jdo.engine;
+package org.castor.cpa.persistence.sql.engine;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,28 +24,50 @@ import java.sql.SQLException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
+import org.castor.cpa.persistence.sql.query.Delete;
+import org.castor.cpa.persistence.sql.query.QueryContext;
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.engine.SQLColumnInfo;
+import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.PersistenceFactory;
-import org.exolab.castor.persist.spi.QueryExpression;
 
-public final class SQLStatementRemove {
+/**
+ * SQLStatementDelete class that makes use of delete class hierarchy to generate SQL query
+ * structure. Execute method prepares a SQL statement, binds identity values to parameters
+ * of the query and executes it.
+ * 
+ * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
+ */
+public final class SQLStatementDelete {
+    //-----------------------------------------------------------------------------------    
+
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
-    private static final Log LOG = LogFactory.getLog(SQLStatementRemove.class);
+    private static final Log LOG = LogFactory.getLog(SQLStatementDelete.class);
 
     /** ThreadLocal attribute to store prepared statement for a
      *  particular connection that is unique to one thread. */
     private static final ThreadLocal<PreparedStatement> PREPARED_STATEMENT = 
         new ThreadLocal<PreparedStatement>();
-    
-    private final String _type;
+   
+    //-----------------------------------------------------------------------------------    
 
+    /** Engine Descriptor. */
+    private final String _type;
+    
+    /** SQL column Id's data. */
     private final SQLColumnInfo[] _ids;
 
-    private String _sqlStatement;
+    /** QueryContext for SQL query building, specifying database specific quotations 
+     *  and parameters binding. */
+    private final QueryContext _ctx;
     
+    //-----------------------------------------------------------------------------------    
+
     /**
      * Constructor.
      * 
@@ -54,38 +76,37 @@ public final class SQLStatementRemove {
      * @param factory Persistence factory for the database engine the entity is persisted in.
      *        Used to format the SQL statement.
      */    
-    public SQLStatementRemove(final SQLEngine engine, final PersistenceFactory factory) {
+    public SQLStatementDelete(final SQLEngine engine, final PersistenceFactory factory) {
         _type = engine.getDescriptor().getJavaClass().getName();
         _ids = engine.getColumnInfoForIdentities();
+        _ctx = new QueryContext(factory);
         
-        String mapTo = new ClassDescriptorJDONature(engine.getDescriptor()).getTableName();
-        buildStatement(factory, mapTo);
+        buildStatement(new ClassDescriptorJDONature(engine.getDescriptor()).getTableName());
     }
     
     /** 
      * Build SQL statement to remove entities of the type this class is responsible for.
-     * 
-     * @param factory Persistence factory for the database engine the entity is persisted in.
-     *        Used to format the SQL statement.
-     * @param mapTo Table name retrieved from Class Descriptor of JDO Nature.
+     *
+     * @param mapTo Table name retrieved from Class Descriptor trough JDO Nature.
      */
-    private void buildStatement(final PersistenceFactory factory, final String mapTo) {
-        StringBuffer sql = new StringBuffer("DELETE FROM ");
-        sql.append(factory.quoteName(mapTo));
-        sql.append(JDBCSyntax.WHERE);
+    private void buildStatement(final String mapTo) { 
+        // build delete class hierarchy that represents SQL query
+        Delete delete = new Delete (mapTo);
         for (int i = 0; i < _ids.length; i++) {
-            if (i > 0) { sql.append(" AND "); }
-            sql.append(factory.quoteName(_ids[i].getName()));
-            sql.append(QueryExpression.OP_EQUALS);
-            sql.append(JDBCSyntax.PARAMETER);
+            delete.addCondition(_ids[i].getName());
         }
-        _sqlStatement = sql.toString();
+        
+        // construct SQL query string by walking through delete class hierarchy and
+        // generate map of parameter names to indices for binding of parameters.
+        delete.toString(_ctx);  
         
         if (LOG.isTraceEnabled()) {
-            LOG.trace(Messages.format("jdo.removing", _type, _sqlStatement));
+            LOG.trace(Messages.format("jdo.removing", _type, _ctx.toString()));
         }
     }
     
+    //-----------------------------------------------------------------------------------    
+
     /**
      * Execute statement to remove entity with given identity from database using given JDBC
      * connection. 
@@ -109,7 +130,7 @@ public final class SQLStatementRemove {
             // execute prepared statement
             executeStatement();
         } catch (SQLException except) {
-            LOG.fatal(Messages.format("jdo.deleteFatal", _type, _sqlStatement), except);
+            LOG.fatal(Messages.format("jdo.deleteFatal", _type, _ctx.toString()), except);
             throw new PersistenceException(Messages.format("persist.nested", except), except);
         } finally {
             closeStatement();
@@ -126,7 +147,7 @@ public final class SQLStatementRemove {
      */
     private void prepareStatement(final Connection conn) throws SQLException {
         // create prepared statement on JDBC connection
-        PreparedStatement preparedStatement = conn.prepareStatement(_sqlStatement);
+        PreparedStatement preparedStatement = conn.prepareStatement(_ctx.toString());
 
         // set prepared statement in thread local variable
         PREPARED_STATEMENT.set(preparedStatement);
@@ -143,21 +164,15 @@ public final class SQLStatementRemove {
      * @throws SQLException If a database access error occurs or type of one of the values to
      *         bind is ambiguous.
      */
-    private void bindIdentity(final Identity identity) throws SQLException {  
+    private void bindIdentity(final Identity identity) throws SQLException { 
         // get prepared statement from thread local variable
         PreparedStatement preparedStatement = PREPARED_STATEMENT.get();
-        
-        // initialize parameter counter
-        int count = 1;
         
         // loop through the identity fields and bind values to the statement object
         for (int i = 0; i < _ids.length; i++) {
             // bind value to prepared statement
-            preparedStatement.setObject(count++, _ids[i].toSQL(identity.get(i)));
-        }
-
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(Messages.format("jdo.removing", _type, preparedStatement.toString()));
+           _ctx.bindParameter(preparedStatement, _ids[i].getName(),
+                   _ids[i].toSQL(identity.get(i)), _ids[i].getSqlType());  
         }
     }
 
@@ -170,6 +185,10 @@ public final class SQLStatementRemove {
     private void executeStatement() throws SQLException {
         // get prepared statement from thread local variable
         PreparedStatement preparedStatement = PREPARED_STATEMENT.get();
+        
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(Messages.format("jdo.removing", _type, preparedStatement.toString()));
+        }
 
         // execute the prepared statement
         int result = preparedStatement.executeUpdate();
@@ -195,4 +214,6 @@ public final class SQLStatementRemove {
             LOG.warn("Problem closing JDBC statement", e);
         }
     }
+
+    //-----------------------------------------------------------------------------------    
 }

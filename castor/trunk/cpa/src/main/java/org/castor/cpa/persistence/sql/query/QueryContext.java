@@ -22,6 +22,8 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.jdo.engine.SQLTypeInfos;
+import org.exolab.castor.persist.spi.PersistenceFactory;
 
 /**
  * Function of QueryContext is 3 fold. It offers information about small syntax differences
@@ -40,8 +42,9 @@ public class QueryContext {
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(QueryContext.class);
 
-    /** String for quoting qualifier and column names. */
-    private final String _quote;
+    /** Persistence factory for the database engine the entity is persisted in.
+     *  Used to format the SQL statement. */
+    private final PersistenceFactory _factory;
     
     /** StringBuilder to build the SQL query string. */
     private final StringBuilder _builder = new StringBuilder();
@@ -55,30 +58,33 @@ public class QueryContext {
      * Default constructor for a delete query that does not quote qualifier and column names.
      */
     public QueryContext() {
-        this("");
+        this(null);
     }
 
     /**
-     * Constructor for a delete query that uses given string to quote qualifier and column names.
+     * Constructor that uses given factory instance to quote qualifier and column names.
      * 
-     * @param quote String for quoting qualifier and column names.
+     * @param factory Persistence factory for the database engine the entity is persisted in.
+     *        Used to format the SQL statement.
      */
-    public QueryContext(final String quote) {
-        if (quote == null) { throw new NullPointerException(); }
-        _quote = quote;
+    public QueryContext(final PersistenceFactory factory) {
+        _factory = factory;
     }
     
     //-----------------------------------------------------------------------------------    
 
     /**
-     * Returns string for quoting qualifier and column names.
-     * 
-     * @return String for quoting qualifier and column names.
+     * Returns the quoted identifier suitable for preventing conflicts between database
+     * identifiers and reserved keywords.
+     *
+     * @param name The identifier (table, column, etc).
+     * @return The quoted identifier.
      */
-    public String getQuote() {
-        return _quote;
+    public String quoteName(final String name) {
+        if (_factory == null) { return name; }
+        return _factory.quoteName(name);
     }
-    
+
     //-----------------------------------------------------------------------------------    
 
     /**
@@ -134,15 +140,16 @@ public class QueryContext {
      * @param stmt Prepared statement to bind value of named parameter to.
      * @param name Name of the parameter to bind.
      * @param value Value of the named parameter to bind.
+     * @param type SQL column type. 
      * @throws SQLException If a database access error occurs or the type of the given object
      *         is ambiguous.
      */
     public final void bindParameter(final PreparedStatement stmt,
-            final String name, final Object value)
+            final String name, final Object value, final int type)
     throws SQLException {
         Integer index = _parameters.get(name);
         if (index != null) {
-            stmt.setObject(index.intValue(), value);
+            SQLTypeInfos.setValue(stmt, index.intValue(), value , type);
         } else {
             LOG.debug("Unknown parameter: " + name);
         }

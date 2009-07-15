@@ -89,9 +89,7 @@ public final class Column extends Expression {
             _qualifier.toString(ctx);
             ctx.append(QueryConstants.DOT);
         }
-        ctx.append(ctx.getQuote());
-        ctx.append(_name);
-        ctx.append(ctx.getQuote());
+        ctx.append(ctx.quoteName(_name));
     }
 
     //-----------------------------------------------------------------------------------    
