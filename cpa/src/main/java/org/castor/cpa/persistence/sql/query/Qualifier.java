@@ -69,9 +69,7 @@ public abstract class Qualifier extends QueryObject {
 
     @Override
     public final void toString(final QueryContext ctx) {
-        ctx.append(ctx.getQuote());
-        ctx.append(_name);
-        ctx.append(ctx.getQuote());
+        ctx.append(ctx.quoteName(_name));
     }
     
     //-----------------------------------------------------------------------------------    
