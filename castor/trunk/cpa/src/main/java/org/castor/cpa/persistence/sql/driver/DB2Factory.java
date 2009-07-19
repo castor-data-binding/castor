@@ -44,6 +44,8 @@
  */
 package org.castor.cpa.persistence.sql.driver;
 
+import java.sql.Types;
+
 import org.exolab.castor.persist.spi.QueryExpression;
 
 /**
@@ -53,6 +55,8 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @version $Revision$ $Date: 2006-02-21 16:05:42 -0700 (Tue, 21 Feb 2006) $
  */
 public final class DB2Factory extends GenericFactory {
+    //-----------------------------------------------------------------------------------
+
     /** Internal name of this PersistenceFactory instance.  */
     public static final String FACTORY_NAME = "db2";
 
@@ -69,6 +73,24 @@ public final class DB2Factory extends GenericFactory {
     public QueryExpression getQueryExpression() {
         return new DB2QueryExpression(this);
     }
+    
+    //-----------------------------------------------------------------------------------
+
+    @Override
+    public boolean isKeyGeneratorIdentitySupported() {
+        return true;
+    }
+    
+    @Override
+    public boolean isKeyGeneratorIdentityTypeSupported(final int type) {
+        if (type == Types.INTEGER) { return true; }
+        if (type == Types.NUMERIC) { return true; }
+        if (type == Types.DECIMAL) { return true; }
+        if (type == Types.BIGINT) { return true; }
+        return false;
+    }
+    
+    //-----------------------------------------------------------------------------------
 }
 
 

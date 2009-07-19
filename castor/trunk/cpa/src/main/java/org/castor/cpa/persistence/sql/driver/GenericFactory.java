@@ -44,6 +44,7 @@
  */
 package org.castor.cpa.persistence.sql.driver;
 
+import java.sql.Types;
 import java.util.StringTokenizer;
 
 import org.exolab.castor.persist.spi.QueryExpression;
@@ -103,6 +104,24 @@ public class GenericFactory extends BaseFactory {
 
         return buffer.toString();
     }
+    
+    //-----------------------------------------------------------------------------------
+
+    /**
+     * @inheritDoc
+     */
+    public boolean isKeyGeneratorIdentitySupported() {
+        return false;
+    }
+    
+    /**
+     * @inheritDoc
+     */
+    public boolean isKeyGeneratorIdentityTypeSupported(final int type) {
+        return false;
+    }
+    
+    //-----------------------------------------------------------------------------------
 }
 
 

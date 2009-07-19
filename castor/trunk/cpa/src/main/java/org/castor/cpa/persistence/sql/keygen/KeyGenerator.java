@@ -98,14 +98,6 @@ public interface KeyGenerator {
     throws PersistenceException;
 
     /**
-     * Determine if the key generator supports a given sql type.
-     *
-     * @param sqlType
-     * @throws MappingException
-     */
-    void supportsSqlType(int sqlType) throws MappingException;
-
-    /**
      * Style of the key generator: BEFORE_INSERT, DURING_INSERT or AFTER_INSERT.
      */
     byte getStyle();

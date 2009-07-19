@@ -61,7 +61,13 @@ public final class MaxKeyGenerator implements KeyGenerator {
     throws MappingException {
         _factory = factory;
 
-        supportsSqlType(sqlType);
+        if ((sqlType != Types.INTEGER) && (sqlType != Types.BIGINT)
+                && (sqlType != Types.NUMERIC) && (sqlType != Types.DECIMAL)) {
+            String msg = Messages.format("mapping.keyGenSQLType",
+                    getClass().getName(), new Integer(sqlType));
+            throw new MappingException(msg);
+        }
+
         initSqlTypeHandler(sqlType);
     }
 
@@ -141,19 +147,6 @@ public final class MaxKeyGenerator implements KeyGenerator {
                 "(SELECT MAX(t1." + _factory.quoteName(column) + ") FROM "
                 + _factory.quoteName(table) + " t1)");
         return query.getStatement(true);
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public void supportsSqlType(final int sqlType) throws MappingException {
-        if ((sqlType != Types.INTEGER)
-                && (sqlType != Types.BIGINT)
-                && (sqlType != Types.NUMERIC)
-                && (sqlType != Types.DECIMAL)) {
-            throw new MappingException(Messages.format(
-                    "mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
-        }
     }
     
     /**

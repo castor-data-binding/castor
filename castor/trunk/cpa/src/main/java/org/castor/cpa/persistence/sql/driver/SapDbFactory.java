@@ -44,8 +44,10 @@
  */
 package org.castor.cpa.persistence.sql.driver;
 
+import java.sql.Types;
 import java.util.StringTokenizer;
 
+import org.exolab.castor.persist.spi.PersistenceQuery;
 import org.exolab.castor.persist.spi.QueryExpression;
 
 /**
@@ -55,20 +57,37 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @author <a href="ferret AT frii DOT com">Bruce Snyder</a>
  * @version $Revision$ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr 2006) $
  */
-public final class SapDbFactory extends OracleFactory {
+public final class SapDbFactory extends GenericFactory {
+    //-----------------------------------------------------------------------------------
+
+    public static final String FACTORY_NAME = "sapdb";
+
+    /**
+     * @inheritDoc
+     */
     public String getFactoryName() {
-        return "sapdb";
+        return FACTORY_NAME;
     }
 
+    /**
+     * @inheritDoc
+     */
     public QueryExpression getQueryExpression() {
         return new SapDbQueryExpression(this);
     }
 
     /**
-     * Quotes words in SQL statements. This method must recieve a non null,
-     * non empty string.
-     *
-     * @param name The SQL string that needs quotes added
+     * @inheritDoc
+     */
+    public Boolean isDuplicateKeyException(final Exception except) {
+        // Sometime gives wrong results
+        //if ( except instanceof SQLException )
+        //    return ( (SQLException) except ).getErrorCode() == 1 ? Boolean.TRUE : Boolean.FALSE;
+        return null;
+    }
+
+    /**
+     * @inheritDoc
      */
     public String quoteName(final String name) {
         StringBuffer buffer = new StringBuffer();
@@ -102,13 +121,13 @@ public final class SapDbFactory extends OracleFactory {
     }
 
     /**
-     * Tests a text string against a known list of functions to determine
-     * if it is a function.
+     * Tests a text string against a known list of functions to determine if it is a function.
      *
-     * @param text The text to be checked
-     * @see #quoteName(String)
+     * @param text The text to be checked.
+     * @return <code>true</code> if text is a known function name, <code>false</code>
+     *         otherwise.
      */
-    public boolean isAFunction(final String text) {
+    private boolean isAFunction(final String text) {
         boolean isAFunction = false;
 
         // Add all supported functions in SAP DB here
@@ -127,6 +146,54 @@ public final class SapDbFactory extends OracleFactory {
 
         return isAFunction;
     }
+
+    /**
+     * Needed to process OQL queries of "CALL" type (using stored procedure
+     * call). This feature is specific for JDO.
+     * 
+     * @param call Stored procedure call (without "{call")
+     * @param paramTypes The types of the query parameters
+     * @param javaClass The Java class of the query results
+     * @param fields The field names
+     * @param sqlTypes The field SQL types
+     * @return null if this feature is not supported.
+     */
+    public PersistenceQuery getCallQuery(final String call, final Class<?>[] paramTypes,
+            final Class<?> javaClass, final String[] fields, final int[] sqlTypes) {
+        return new ReturnedRSCallQuery(call, paramTypes, javaClass, fields, sqlTypes);
+    }
+
+    /**
+     * For INTEGER type ResultSet.getObject() returns BigDecimal:
+     * dependent objects with integer identity cause type conversion error
+     * (need to fix SimpleQueryExecutor).
+     * 
+     * @inheritDoc
+     */
+    public Class<?> adjustSqlType(final Class<?> sqlType) {
+        if (sqlType == java.lang.Integer.class) {
+            return java.math.BigDecimal.class;
+        }
+        return sqlType;
+    }
+    
+    //-----------------------------------------------------------------------------------
+
+    @Override
+    public boolean isKeyGeneratorIdentitySupported() {
+        return true;
+    }
+    
+    @Override
+    public boolean isKeyGeneratorIdentityTypeSupported(final int type) {
+        if (type == Types.INTEGER) { return true; }
+        if (type == Types.NUMERIC) { return true; }
+        if (type == Types.DECIMAL) { return true; }
+        if (type == Types.BIGINT) { return true; }
+        return false;
+    }
+    
+    //-----------------------------------------------------------------------------------
 }
 
 

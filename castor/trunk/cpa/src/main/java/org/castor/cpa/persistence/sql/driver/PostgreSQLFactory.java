@@ -44,6 +44,8 @@
  */
 package org.castor.cpa.persistence.sql.driver;
 
+import java.sql.Types;
+
 import org.exolab.castor.persist.spi.PersistenceQuery;
 import org.exolab.castor.persist.spi.QueryExpression;
 
@@ -54,6 +56,8 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @version $Revision$ $Date: 2006-02-21 16:05:42 -0700 (Tue, 21 Feb 2006) $
  */
 public final class PostgreSQLFactory extends GenericFactory {
+    //-----------------------------------------------------------------------------------
+
     /** Internal name for this {@link org.exolab.castor.persist.spi.PersistenceFactory} instance. */
     public static final String FACTORY_NAME = "postgresql";
     
@@ -125,6 +129,24 @@ public final class PostgreSQLFactory extends GenericFactory {
             return sqlType;
         }
     }
+    
+    //-----------------------------------------------------------------------------------
+
+    @Override
+    public boolean isKeyGeneratorIdentitySupported() {
+        return true;
+    }
+    
+    @Override
+    public boolean isKeyGeneratorIdentityTypeSupported(final int type) {
+        if (type == Types.INTEGER) { return true; }
+        if (type == Types.NUMERIC) { return true; }
+        if (type == Types.DECIMAL) { return true; }
+        if (type == Types.BIGINT) { return true; }
+        return false;
+    }
+    
+    //-----------------------------------------------------------------------------------
 }
 
 

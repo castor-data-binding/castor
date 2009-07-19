@@ -111,7 +111,12 @@ public final class HighLowKeyGenerator implements KeyGenerator {
         _factory = factory;
         _sqlType = sqlType;
         
-        supportsSqlType(sqlType);
+        if ((sqlType != Types.INTEGER) && (sqlType != Types.BIGINT)
+                && (sqlType != Types.NUMERIC) && (sqlType != Types.DECIMAL)) {
+            String msg = Messages.format("mapping.keyGenSQLType",
+                    getClass().getName(), new Integer(sqlType));
+            throw new MappingException(msg);
+        }
         
         initFromParameters(params);
     }
@@ -262,19 +267,6 @@ public final class HighLowKeyGenerator implements KeyGenerator {
         }
 
         return handler.next();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void supportsSqlType(final int sqlType) throws MappingException {
-        if ((sqlType != Types.INTEGER)
-                && (sqlType != Types.BIGINT)
-                && (sqlType != Types.NUMERIC)
-                && (sqlType != Types.DECIMAL)) {
-            throw new MappingException(Messages.format("mapping.keyGenSQLType",
-                    getClass().getName(), new Integer(sqlType)));
-        }
     }
 
     /**

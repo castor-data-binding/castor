@@ -141,5 +141,26 @@ public interface PersistenceFactory {
      */
     PersistenceQuery getCallQuery(String call, Class<?>[] paramTypes,
             Class<?> javaClass, String[] fields, int[] sqlTypes);
+
+    //-----------------------------------------------------------------------------------
+    
+    /**
+     * Does persistence factory support generation of unique keys with identity key generator?
+     * 
+     * @return <code>true</code> if persistence factory is able to generate unique keys with
+     *         identity key generator, <code>false</code> otherwise.
+     */
+    boolean isKeyGeneratorIdentitySupported();
+    
+    /**
+     * Does identity key generator support generation of unique keys for the given SQL type?
+     * 
+     * @param type SQL type to check for support by identity key generator.
+     * @return <code>true</code> if persistence factory is able to generate unique keys of
+     *         given SQL type with identity key generator, <code>false</code> otherwise.
+     */
+    boolean isKeyGeneratorIdentityTypeSupported(int type);
+    
+    //-----------------------------------------------------------------------------------
 }
 
