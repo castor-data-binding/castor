@@ -44,5 +44,5 @@ create table test26_group (
 )
 go
 
-create unique index test26_group_pk on test25_group ( id )
+create unique index test26_group_pk on test26_group ( id )
 go
