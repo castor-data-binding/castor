@@ -213,6 +213,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
 
     /**
      * Initialize the IDENTITY key generator.
+     * 
      * @param factory A PersistenceFactory instance.
      * @param sqlType A SQLTypidentifier.
      * @throws MappingException if this key generator is not compatible with the
@@ -222,30 +223,20 @@ public final class IdentityKeyGenerator implements KeyGenerator {
     throws MappingException {
         _factory = factory;
 
-        supportsFactory(factory);
-        supportsSqlType(sqlType);
-        initSqlTypeHandler(sqlType);
-        initType();
-    }
-
-    private void supportsFactory(final PersistenceFactory factory)
-    throws MappingException {
-        String factoryName = factory.getFactoryName();
-        String[] supportedFactoryNames = new String[] {
-                "sybase", "sql-server", "hsql", "mysql", "informix", "sapdb",
-                "db2", "derby", "postgresql", "pointbase" };
-        boolean supported = false;
-        for (int i = 0; i < supportedFactoryNames.length; i++) {
-            if (factoryName.equals(supportedFactoryNames[i])) {
-                supported = true;
-            }
-        }
-
-        if (!supported) {
+        if (!_factory.isKeyGeneratorIdentitySupported()) {
             String msg = Messages.format("mapping.keyGenNotCompatible",
-                    getClass().getName(), factoryName); 
+                    getClass().getName(), _factory.getFactoryName()); 
             throw new MappingException(msg);
         }
+
+        if (!_factory.isKeyGeneratorIdentityTypeSupported(sqlType)) {
+            String msg = Messages.format("mapping.keyGenSQLType",
+                    getClass().getName(), new Integer(sqlType));
+            throw new MappingException(msg);
+        }
+
+        initSqlTypeHandler(sqlType);
+        initType();
     }
 
     private void initSqlTypeHandler(final int sqlType) {
@@ -295,32 +286,6 @@ public final class IdentityKeyGenerator implements KeyGenerator {
         } catch (Exception e) {
             LOG.error("Problem generating new key", e);
             return null;
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void supportsSqlType(final int sqlType) throws MappingException {
-        String factoryName = _factory.getFactoryName();
-        if (factoryName.equals("hsql")) {
-            if (sqlType != Types.INTEGER) {
-                throw new MappingException(Messages.format(
-                        "mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
-            }
-        } else if (factoryName.equals("derby")) {
-            if (sqlType != Types.NUMERIC) {
-                throw new MappingException(Messages.format(
-                        "mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
-            }
-        } else {
-            if ((sqlType != Types.INTEGER)
-                    && (sqlType != Types.NUMERIC)
-                    && (sqlType != Types.DECIMAL)
-                    && (sqlType != Types.BIGINT)) {
-                throw new MappingException(Messages.format(
-                        "mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
-            }
         }
     }
 

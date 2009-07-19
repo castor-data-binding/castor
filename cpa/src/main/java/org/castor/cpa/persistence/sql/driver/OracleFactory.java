@@ -44,6 +44,8 @@
  */
 package org.castor.cpa.persistence.sql.driver;
 
+import java.sql.Types;
+
 import org.exolab.castor.persist.spi.PersistenceQuery;
 import org.exolab.castor.persist.spi.QueryExpression;
 
@@ -53,7 +55,9 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public class OracleFactory extends GenericFactory {
+public final class OracleFactory extends GenericFactory {
+    //-----------------------------------------------------------------------------------
+
     public static final String FACTORY_NAME = "oracle";
 
     /**
@@ -116,6 +120,20 @@ public class OracleFactory extends GenericFactory {
         }
         return sqlType;
     }
+    
+    //-----------------------------------------------------------------------------------
+
+    @Override
+    public boolean isKeyGeneratorIdentitySupported() {
+        return false;
+    }
+    
+    @Override
+    public boolean isKeyGeneratorIdentityTypeSupported(final int type) {
+        return false;
+    }
+    
+    //-----------------------------------------------------------------------------------
 }
 
 

@@ -44,6 +44,8 @@
  */
 package org.castor.cpa.persistence.sql.driver;
 
+import java.sql.Types;
+
 import org.exolab.castor.persist.spi.QueryExpression;
 
 /**
@@ -53,6 +55,8 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @version $Revision$ $Date$
  */
 public final class DerbyFactory extends GenericFactory {
+    //-----------------------------------------------------------------------------------
+
     /** Internal name of this PersistenceFactory implementation. */
     public static final String FACTORY_NAME = "derby";
 
@@ -69,6 +73,21 @@ public final class DerbyFactory extends GenericFactory {
     public QueryExpression getQueryExpression() {
         return new DerbyQueryExpression(this);
     }
+    
+    //-----------------------------------------------------------------------------------
+
+    @Override
+    public boolean isKeyGeneratorIdentitySupported() {
+        return true;
+    }
+    
+    @Override
+    public boolean isKeyGeneratorIdentityTypeSupported(final int type) {
+        if (type == Types.NUMERIC) { return true; }
+        return false;
+    }
+    
+    //-----------------------------------------------------------------------------------
 }
 
 

@@ -15,6 +15,8 @@
  */
 package org.castor.cpa.persistence.sql.driver;
 
+import java.sql.Types;
+
 import org.exolab.castor.persist.spi.QueryExpression;
 
 /**
@@ -24,6 +26,8 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @version $Revision: 5951 $ $Date: 2006-02-21 16:05:42 -0700 (Tue, 21 Feb 2006) $
  */
 public final class ProgressFactory extends GenericFactory {
+    //-----------------------------------------------------------------------------------
+
     /** Internal name of this PersistenceFactory instance. */
     public static final String FACTORY_NAME = "progress";
 
@@ -47,4 +51,18 @@ public final class ProgressFactory extends GenericFactory {
     public String quoteName(final String name) {
         return doubleQuoteName(name);
     }
+    
+    //-----------------------------------------------------------------------------------
+
+    @Override
+    public boolean isKeyGeneratorIdentitySupported() {
+        return false;
+    }
+    
+    @Override
+    public boolean isKeyGeneratorIdentityTypeSupported(final int type) {
+        return false;
+    }
+    
+    //-----------------------------------------------------------------------------------
 }

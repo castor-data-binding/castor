@@ -1,5 +1,7 @@
 package org.castor.cpa.persistence.sql.driver;
 
+import java.sql.Types;
+
 import org.exolab.castor.persist.spi.PersistenceQuery;
 import org.exolab.castor.persist.spi.QueryExpression;
 
@@ -23,7 +25,9 @@ import org.exolab.castor.persist.spi.QueryExpression;
   *  @version 1.0
   */
 
-public class InstantDBFactory extends GenericFactory {
+public final class InstantDBFactory extends GenericFactory {
+    //-----------------------------------------------------------------------------------
+
     public static final String FACTORY_NAME = "instantdb";
 
     /**
@@ -75,4 +79,18 @@ public class InstantDBFactory extends GenericFactory {
         }
         return sqlType;
     }
+    
+    //-----------------------------------------------------------------------------------
+
+    @Override
+    public boolean isKeyGeneratorIdentitySupported() {
+        return false;
+    }
+    
+    @Override
+    public boolean isKeyGeneratorIdentityTypeSupported(final int type) {
+        return false;
+    }
+    
+    //-----------------------------------------------------------------------------------
 }

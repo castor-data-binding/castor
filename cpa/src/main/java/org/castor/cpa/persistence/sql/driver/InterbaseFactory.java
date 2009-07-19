@@ -1,5 +1,7 @@
 package org.castor.cpa.persistence.sql.driver;
 
+import java.sql.Types;
+
 import org.exolab.castor.persist.spi.QueryExpression;
 
 /**
@@ -7,6 +9,8 @@ import org.exolab.castor.persist.spi.QueryExpression;
  *
  */
 public final class InterbaseFactory extends GenericFactory {
+    //-----------------------------------------------------------------------------------
+
     public static final String FACTORY_NAME = "interbase";
 
     /**
@@ -22,6 +26,20 @@ public final class InterbaseFactory extends GenericFactory {
     public QueryExpression getQueryExpression() {
         return new InterbaseQueryExpression(this);
     }
+    
+    //-----------------------------------------------------------------------------------
+
+    @Override
+    public boolean isKeyGeneratorIdentitySupported() {
+        return false;
+    }
+    
+    @Override
+    public boolean isKeyGeneratorIdentityTypeSupported(final int type) {
+        return false;
+    }
+    
+    //-----------------------------------------------------------------------------------
 }
 
 

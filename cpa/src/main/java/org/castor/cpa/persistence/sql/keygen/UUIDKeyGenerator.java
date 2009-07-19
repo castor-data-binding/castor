@@ -56,9 +56,14 @@ public final class UUIDKeyGenerator implements KeyGenerator {
      * Initialize the UUID key generator.
      */
     public UUIDKeyGenerator(final int sqlType) throws MappingException {
-        supportsSqlType(sqlType);
+        if ((sqlType != Types.CHAR) && (sqlType != Types.VARCHAR)
+                && (sqlType != Types.LONGVARCHAR)) {
+            String msg = Messages.format("mapping.keyGenSQLType",
+                    getClass().getName(), new Integer(sqlType));
+            throw new MappingException(msg);
+        }
+
         initHostAddress();
-        
     }
 
     private void initHostAddress() throws MappingException {
@@ -99,18 +104,6 @@ public final class UUIDKeyGenerator implements KeyGenerator {
         sb.append(COUNTER_FORMAT.format(_staticCounter));
 
         return sb.toString();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void supportsSqlType(final int sqlType) throws MappingException {
-        if ((sqlType != Types.CHAR)
-                && (sqlType != Types.VARCHAR)
-                && (sqlType != Types.LONGVARCHAR)) {
-          throw new MappingException(Messages.format("mapping.keyGenSQLType",
-                  getClass().getName(), new Integer(sqlType)));
-        }
     }
 
     /**

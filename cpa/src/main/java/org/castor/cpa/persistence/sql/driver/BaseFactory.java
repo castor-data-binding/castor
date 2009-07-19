@@ -127,9 +127,6 @@ public abstract class BaseFactory implements PersistenceFactory {
                     LOG.debug("Key generator " + keyGenFactoryName
                             + " has been instantiated, parameters: " + keyGenParams);
                 }
-                
-                // Does the key generator support the sql type specified in the mapping?
-                keyGen.supportsSqlType(sqlType);
             }
             
             _classDescriptorToKeyGenerator.put(clsDesc, keyGen);

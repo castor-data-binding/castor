@@ -44,6 +44,8 @@
  */
 package org.castor.cpa.persistence.sql.driver;
 
+import java.sql.Types;
+
 import org.exolab.castor.persist.spi.PersistenceQuery;
 import org.exolab.castor.persist.spi.QueryExpression;
 
@@ -54,7 +56,9 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
  * @version $Revision$ $Date: 2006-02-21 16:05:42 -0700 (Tue, 21 Feb 2006) $
  */
-public class SybaseFactory extends GenericFactory {
+public final class SybaseFactory extends GenericFactory {
+    //-----------------------------------------------------------------------------------
+
     public static final String FACTORY_NAME = "sybase";
 
     /**
@@ -100,6 +104,24 @@ public class SybaseFactory extends GenericFactory {
             final Class<?> javaClass, final String[] fields, final int[] sqlTypes) {
         return new MultiRSCallQuery(call, paramTypes, javaClass, fields, sqlTypes);
     }
+    
+    //-----------------------------------------------------------------------------------
+
+    @Override
+    public boolean isKeyGeneratorIdentitySupported() {
+        return true;
+    }
+    
+    @Override
+    public boolean isKeyGeneratorIdentityTypeSupported(final int type) {
+        if (type == Types.INTEGER) { return true; }
+        if (type == Types.NUMERIC) { return true; }
+        if (type == Types.DECIMAL) { return true; }
+        if (type == Types.BIGINT) { return true; }
+        return false;
+    }
+    
+    //-----------------------------------------------------------------------------------
 }
 
 

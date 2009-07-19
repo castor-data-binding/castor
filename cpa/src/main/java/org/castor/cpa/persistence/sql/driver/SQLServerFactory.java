@@ -44,8 +44,11 @@
  */
 package org.castor.cpa.persistence.sql.driver;
 
+import java.sql.Types;
+
 import org.castor.core.util.AbstractProperties;
 import org.castor.cpa.CPAProperties;
+import org.exolab.castor.persist.spi.PersistenceQuery;
 import org.exolab.castor.persist.spi.QueryExpression;
 
 /**
@@ -57,12 +60,21 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @version $Revision$ $Date: 2004-01-19 13:01:46 -0700 (Mon, 19 Jan
  *          2004) $
  */
-public final class SQLServerFactory extends SybaseFactory {
+public final class SQLServerFactory extends GenericFactory {
+    //-----------------------------------------------------------------------------------
 
+    public static final String FACTORY_NAME = "sql-server";
+
+    /**
+     * @inheritDoc
+     */
     public String getFactoryName() {
-        return "sql-server";
+        return FACTORY_NAME;
     }
 
+    /**
+     * @inheritDoc
+     */
     public QueryExpression getQueryExpression() {
         AbstractProperties properties = CPAProperties.getInstance();
         boolean useNewSyntaxForSQLServer = properties.getBoolean(
@@ -74,4 +86,52 @@ public final class SQLServerFactory extends SybaseFactory {
 
         return new SQLServerQueryExpression(this);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public Boolean isDuplicateKeyException(final Exception except) {
+        return null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public String quoteName(final String name) {
+        return doubleQuoteName(name);
+    }
+
+    /**
+     * Needed to process OQL queries of "CALL" type (using stored procedure
+     * call). This feature is specific for JDO.
+     * 
+     * @param call Stored procedure call (without "{call")
+     * @param paramTypes The types of the query parameters
+     * @param javaClass The Java class of the query results
+     * @param fields The field names
+     * @param sqlTypes The field SQL types
+     * @return null if this feature is not supported.
+     */
+    public PersistenceQuery getCallQuery(final String call, final Class<?>[] paramTypes,
+            final Class<?> javaClass, final String[] fields, final int[] sqlTypes) {
+        return new MultiRSCallQuery(call, paramTypes, javaClass, fields, sqlTypes);
+    }
+    
+    //-----------------------------------------------------------------------------------
+
+    @Override
+    public boolean isKeyGeneratorIdentitySupported() {
+        return true;
+    }
+    
+    @Override
+    public boolean isKeyGeneratorIdentityTypeSupported(final int type) {
+        if (type == Types.INTEGER) { return true; }
+        if (type == Types.NUMERIC) { return true; }
+        if (type == Types.DECIMAL) { return true; }
+        if (type == Types.BIGINT) { return true; }
+        return false;
+    }
+    
+    //-----------------------------------------------------------------------------------
 }
