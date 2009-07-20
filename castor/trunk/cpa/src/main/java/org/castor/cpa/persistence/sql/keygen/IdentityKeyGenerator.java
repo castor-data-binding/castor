@@ -77,18 +77,13 @@ public final class IdentityKeyGenerator implements KeyGenerator {
         protected abstract Object getValue(Connection conn, String tableName)
         throws PersistenceException;
 
-        public Object getValue(final PreparedStatement stmt)
-        throws PersistenceException, SQLException {
-            ResultSet rs = stmt.executeQuery();
-            return _typeHandler.getValue(rs);
-        }
-
         public Object getValue(final String sql, final Connection conn)
         throws PersistenceException {
             PreparedStatement stmt = null;
             try {
                 stmt = conn.prepareStatement(sql);
-                return getValue(stmt);
+                ResultSet rs = stmt.executeQuery();
+                return _typeHandler.getValue(rs);
             } catch (SQLException e) {
                 String msg = Messages.format("persist.keyGenSQL", 
                         _keyGenerator.getClass().getName(), e.toString());
@@ -136,32 +131,14 @@ public final class IdentityKeyGenerator implements KeyGenerator {
     private class HsqlType extends IdentityKeyGenValueHandler {
         protected Object getValue(final Connection conn, final String tableName)
         throws PersistenceException {
-            PreparedStatement stmt = null;
-            Object v = null;
-            try {
-                stmt = conn.prepareCall("{call IDENTITY()}");
-                v = getValue(stmt);
-            } catch (SQLException e) {
-                String msg = Messages.format("persist.keyGenSQL",
-                        getClass().getName(), e.toString());
-                throw new PersistenceException(msg);
-            } finally {
-                if (stmt != null) {
-                    try {
-                        stmt.close();
-                    } catch (SQLException ex) {
-                        LOG.warn("Problem closing JDBCstatement", ex);
-                    }
-                }
-            }
-            return v;
+            return getValue("CALL IDENTITY()", conn);
         }
     }
 
     private class InformixType extends IdentityKeyGenValueHandler {
         protected Object getValue(final Connection conn, final String tableName)
         throws PersistenceException {
-            return getValue("select dbinfo('sqlca.sqlerrd1') from systables where tabid = 1", conn);
+            return getValue("SELECT dbinfo('sqlca.sqlerrd1') FROM systables WHERE tabid = 1", conn);
         }
     }
 

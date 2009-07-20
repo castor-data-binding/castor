@@ -32,12 +32,12 @@
         </driver>
     </database>
 
-    <database name="hsql-drv" engine="hsql">
+    <database name="hsql-mem" engine="hsql">
         <description>Database configuration for HSQL</description>
-        <driver url="jdbc:hsqldb:hsql://localhost/cpactf"
+        <driver url="jdbc:hsqldb:mem:cpactf"
                 class-name="org.hsqldb.jdbcDriver">
-            <param name="user" value="test"/>
-            <param name="password" value="test"/>
+            <param name="user" value="sa"/>
+            <param name="password" value=""/>
         </driver>
     </database>
 

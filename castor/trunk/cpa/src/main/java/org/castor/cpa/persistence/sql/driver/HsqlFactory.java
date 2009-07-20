@@ -81,6 +81,8 @@ public final class HsqlFactory extends GenericFactory {
     @Override
     public boolean isKeyGeneratorIdentityTypeSupported(final int type) {
         if (type == Types.INTEGER) { return true; }
+        if (type == Types.BIGINT) { return true; }
+        if (type == Types.NUMERIC) { return true; }
         return false;
     }
     
