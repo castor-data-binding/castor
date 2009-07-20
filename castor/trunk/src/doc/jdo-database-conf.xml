@@ -202,6 +202,7 @@
              <crow><td>websphere5</td><td>IBM WebSphere 5</td></crow>
              <crow><td>websphere51</td><td>IBM WebSphere 5.1</td></crow>
              <crow><td>jotm</td><td>JOTM</td></crow>
+             <crow><td>atomikos</td><td>Atomikos</td></crow>
           </ctable>
          </center>
 
