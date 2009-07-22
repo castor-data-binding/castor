@@ -51,6 +51,15 @@ public final class AndCondition extends CompoundCondition {
         append(condition2);
     }
     
+    /**
+     * Copy constructor to create a copy of given AND condition.
+     * 
+     * @param condition AND condition to create a copy of.
+     */
+    public AndCondition(final AndCondition condition) {
+        super(condition);
+    }
+    
     //-----------------------------------------------------------------------------------    
 
     @Override
@@ -88,6 +97,5 @@ public final class AndCondition extends CompoundCondition {
             }
         }
     }
-    
     //-----------------------------------------------------------------------------------    
 }

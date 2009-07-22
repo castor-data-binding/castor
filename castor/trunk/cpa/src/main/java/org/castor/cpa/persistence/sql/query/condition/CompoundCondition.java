@@ -31,6 +31,26 @@ public abstract class CompoundCondition extends Condition {
     /** List of conditions. */
     private ArrayList<Condition> _conditions = new ArrayList<Condition>();
     
+    //-----------------------------------------------------------------------------------
+    
+    /**
+     * Default constructor.
+     */
+    protected CompoundCondition() {
+        super();
+    }
+    
+    /**
+     * Copy constructor.
+     * 
+     * @param condition Compound condition to create a copy of.
+     */
+    protected CompoundCondition(final CompoundCondition condition) {
+        super();
+        
+        _conditions.addAll(condition._conditions);
+    }
+    
     //-----------------------------------------------------------------------------------    
 
     /**
