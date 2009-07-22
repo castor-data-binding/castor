@@ -122,18 +122,6 @@ public final class OracleFactory extends GenericFactory {
     }
     
     //-----------------------------------------------------------------------------------
-
-    @Override
-    public boolean isKeyGeneratorIdentitySupported() {
-        return false;
-    }
-    
-    @Override
-    public boolean isKeyGeneratorIdentityTypeSupported(final int type) {
-        return false;
-    }
-    
-    //-----------------------------------------------------------------------------------
 }
 
 

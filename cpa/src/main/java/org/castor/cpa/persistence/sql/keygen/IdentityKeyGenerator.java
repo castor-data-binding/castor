@@ -70,122 +70,19 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
 public final class IdentityKeyGenerator implements KeyGenerator {
     //-----------------------------------------------------------------------------------
 
-    private abstract class IdentityKeyGenValueHandler {
-        private KeyGenerator _keyGenerator;
-        private KeyGeneratorTypeHandler<? extends Object> _typeHandler;
-
-        protected abstract Object getValue(Connection conn, String tableName)
-        throws PersistenceException;
-
-        public Object getValue(final String sql, final Connection conn)
-        throws PersistenceException {
-            PreparedStatement stmt = null;
-            try {
-                stmt = conn.prepareStatement(sql);
-                ResultSet rs = stmt.executeQuery();
-                return _typeHandler.getValue(rs);
-            } catch (SQLException e) {
-                String msg = Messages.format("persist.keyGenSQL", 
-                        _keyGenerator.getClass().getName(), e.toString());
-                throw new PersistenceException(msg);
-            } finally {
-                if (stmt != null) {
-                    try {
-                        stmt.close();
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            }
-        }
-
-        public void setGenerator(final KeyGenerator generator) {
-            _keyGenerator = generator;
-        }
-
-        public void setTypeHandler(final KeyGeneratorTypeHandler<? extends Object> typeHandler) {
-            _typeHandler = typeHandler;
-        }
-    }
-        
-    private class DefaultType extends IdentityKeyGenValueHandler {
-        protected Object getValue(final Connection conn, final String tableName)
-        throws PersistenceException {
-            return getValue("SELECT @@identity", conn);
-        }
-    }
-
-    private class DB2Type extends IdentityKeyGenValueHandler {
-        protected Object getValue(final Connection conn, final String tableName)
-        throws PersistenceException {
-            // Statement worked with IBM UDB v7 and v8 but not with IBM DB2 v6.
-            // StringBuffer buf = new StringBuffer("SELECT IDENTITY_VAL_LOCAL() FROM ");
-            // buf.append(tableName).append(" FETCH FIRST ROW ONLY");
-            // return getValue(buf.toString(), conn);
-            
-            // Statement works with IBM UDB and IBM DB2.
-            return getValue("SELECT IDENTITY_VAL_LOCAL() FROM sysibm.sysdummy1", conn);
-        }
-    }
-
-    private class HsqlType extends IdentityKeyGenValueHandler {
-        protected Object getValue(final Connection conn, final String tableName)
-        throws PersistenceException {
-            return getValue("CALL IDENTITY()", conn);
-        }
-    }
-
-    private class InformixType extends IdentityKeyGenValueHandler {
-        protected Object getValue(final Connection conn, final String tableName)
-        throws PersistenceException {
-            return getValue("SELECT dbinfo('sqlca.sqlerrd1') FROM systables WHERE tabid = 1", conn);
-        }
-    }
-
-    private class MySqlType extends IdentityKeyGenValueHandler {
-        protected Object getValue(final Connection conn, final String tableName)
-        throws PersistenceException {
-            return getValue("SELECT LAST_INSERT_ID()", conn);
-        }
-    }
-
-    private class SapDbType extends IdentityKeyGenValueHandler {
-        protected Object getValue(final Connection conn, final String tableName)
-        throws PersistenceException {
-            return getValue("SELECT " + tableName + ".currval" + " FROM " + tableName, conn);
-        }
-    }
-     
-    private class DerbyType extends IdentityKeyGenValueHandler {
-        protected Object getValue(final Connection conn, final String tableName)
-        throws PersistenceException {
-            return getValue("SELECT IDENTITY_VAL_LOCAL() FROM " + tableName, conn);
-        }
-    }
-    
-    private class PostgresqlType extends IdentityKeyGenValueHandler {
-        protected Object getValue(final Connection conn, final String tableName)
-        throws PersistenceException {
-            return getValue("SELECT currval ('" +  tableName + "_id_seq')", conn);
-        }
-    }
-    
-    //-----------------------------------------------------------------------------------
-
-    /**
-     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     * Commons Logging</a> instance used for all logging.
-     */
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(IdentityKeyGenerator.class);
-    
+     
+    /** The key length used to initiaize KeyGeneratorTypeHandlerString instance. */
     private static final int STRING_KEY_LENGTH = 8;
     
+    /** Persistence factory for the database engine the entity is persisted in.
+     *  Used to format the SQL statement. */
     private final PersistenceFactory _factory;
     
     private KeyGeneratorTypeHandler<? extends Object> _typeHandler;
-
-    private IdentityKeyGenValueHandler _type;
-
+    
     //-----------------------------------------------------------------------------------
 
     /**
@@ -213,7 +110,6 @@ public final class IdentityKeyGenerator implements KeyGenerator {
         }
 
         initSqlTypeHandler(sqlType);
-        initType();
     }
 
     private void initSqlTypeHandler(final int sqlType) {
@@ -227,29 +123,6 @@ public final class IdentityKeyGenerator implements KeyGenerator {
             _typeHandler = new KeyGeneratorTypeHandlerBigDecimal(true);
         }
     }
-    
-    private void initType() {
-        String factoryName = _factory.getFactoryName();
-        if (factoryName.equals("hsql")) {
-            _type = new HsqlType();
-        } else if (factoryName.equals("mysql")) {
-            _type = new MySqlType();
-        } else if (factoryName.equals("informix")) {
-            _type = new InformixType();
-        } else if (factoryName.equals("db2")) {
-            _type = new DB2Type();
-        } else if (factoryName.equals("sapdb")) {
-            _type = new SapDbType();
-        } else if (factoryName.equals("derby")) {
-            _type = new DerbyType();
-        } else if (factoryName.equals("postgresql")) {
-            _type = new PostgresqlType();
-        } else {
-            _type = new DefaultType();
-        }
-        _type.setGenerator(this);
-        _type.setTypeHandler(_typeHandler);
-    }
 
     //-----------------------------------------------------------------------------------
 
@@ -258,11 +131,31 @@ public final class IdentityKeyGenerator implements KeyGenerator {
      */
     public Object generateKey(final Connection conn, final String tableName,
             final String primKeyName, final Properties props) throws PersistenceException {
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
         try {
-            return _type.getValue(conn, tableName);
-        } catch (Exception e) {
+            // prepares the statement
+            String sql = _factory.getIdentityQueryString(tableName);
+            stmt = conn.prepareStatement(sql);
+            
+            // execute the prepared statement
+            rs = stmt.executeQuery();
+
+            // process result set using appropriate handler and return its value
+            return _typeHandler.getValue(rs);
+        } catch (SQLException e) {
             LOG.error("Problem generating new key", e);
-            return null;
+            String msg = Messages.format("persist.keyGenSQL", 
+                    this.getClass().getName(), e.toString());
+            throw new PersistenceException(msg);            
+        } finally {
+            try {
+                if (rs != null) { rs.close(); }
+                if (stmt != null) { stmt.close(); }
+            } catch (SQLException e) {
+                LOG.warn("Problem closing JDBC statement", e);
+            }
         }
     }
 

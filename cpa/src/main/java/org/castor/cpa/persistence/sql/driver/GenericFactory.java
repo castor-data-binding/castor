@@ -108,19 +108,26 @@ public class GenericFactory extends BaseFactory {
     //-----------------------------------------------------------------------------------
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public boolean isKeyGeneratorIdentitySupported() {
         return false;
     }
     
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public boolean isKeyGeneratorIdentityTypeSupported(final int type) {
         return false;
     }
     
+    /**
+     * {@inheritDoc}
+     */
+    public String getIdentityQueryString(final String tableName) {
+        throw new UnsupportedOperationException();
+    }
+
     //-----------------------------------------------------------------------------------
 }
 
