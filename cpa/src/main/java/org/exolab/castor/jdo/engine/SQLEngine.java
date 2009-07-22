@@ -25,6 +25,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
 import org.castor.cpa.persistence.sql.engine.SQLStatementDelete;
+import org.castor.cpa.persistence.sql.engine.SQLStatementUpdate;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
@@ -82,7 +83,7 @@ public final class SQLEngine implements Persistence {
 
     private final SQLStatementDelete _removeStatement;
 
-    private final SQLStatementStore _storeStatement;
+    private final SQLStatementUpdate _storeStatement;
 
     public SQLEngine(final ClassDescriptor clsDesc, final PersistenceFactory factory)
     throws MappingException {
@@ -186,7 +187,7 @@ public final class SQLEngine implements Persistence {
         _loadStatement = new SQLStatementLoad(this, factory);
         _createStatement = new SQLStatementCreate(this, factory);
         _removeStatement = new SQLStatementDelete(this, factory);
-        _storeStatement = new SQLStatementStore(this, factory, _loadStatement.getLoadStatement());
+        _storeStatement = new SQLStatementUpdate(this, factory, _loadStatement.getLoadStatement());
     }
 
     public SQLColumnInfo[] getColumnInfoForIdentities() {

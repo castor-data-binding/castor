@@ -15,7 +15,7 @@
  *
  * $Id: SQLStatementUpdateCheck.java 2009-05-30 14:29:32 ahmad $
  */
-package org.exolab.castor.jdo.engine;
+package org.castor.cpa.persistence.sql.engine;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -29,6 +29,9 @@ import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.ObjectDeletedException;
 import org.exolab.castor.jdo.ObjectModifiedException;
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.engine.SQLColumnInfo;
+import org.exolab.castor.jdo.engine.SQLEngine;
+import org.exolab.castor.jdo.engine.SQLFieldInfo;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.persist.spi.Identity;
 
