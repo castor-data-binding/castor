@@ -28,18 +28,6 @@ public final class InterbaseFactory extends GenericFactory {
     }
     
     //-----------------------------------------------------------------------------------
-
-    @Override
-    public boolean isKeyGeneratorIdentitySupported() {
-        return false;
-    }
-    
-    @Override
-    public boolean isKeyGeneratorIdentityTypeSupported(final int type) {
-        return false;
-    }
-    
-    //-----------------------------------------------------------------------------------
 }
 
 

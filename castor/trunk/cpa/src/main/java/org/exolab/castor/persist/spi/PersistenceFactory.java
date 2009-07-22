@@ -161,6 +161,14 @@ public interface PersistenceFactory {
      */
     boolean isKeyGeneratorIdentityTypeSupported(int type);
     
+    /**
+     * Returns the database specific query string for retrieving last identity value.
+     * 
+     * @param tableName Name of the table from which Identity needs to be fetched.
+     * @return SQL Query string for fetching the identity value.
+     */
+    String getIdentityQueryString(String tableName);
+
     //-----------------------------------------------------------------------------------
 }
 

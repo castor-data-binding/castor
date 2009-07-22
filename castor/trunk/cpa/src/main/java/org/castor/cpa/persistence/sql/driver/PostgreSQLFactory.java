@@ -146,6 +146,11 @@ public final class PostgreSQLFactory extends GenericFactory {
         return false;
     }
     
+    @Override
+    public String getIdentityQueryString(final String tableName) {
+        return "SELECT currval ('" +  tableName + "_id_seq')";
+    }
+
     //-----------------------------------------------------------------------------------
 }
 

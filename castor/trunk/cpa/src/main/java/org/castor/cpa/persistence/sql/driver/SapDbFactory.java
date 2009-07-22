@@ -193,6 +193,11 @@ public final class SapDbFactory extends GenericFactory {
         return false;
     }
     
+    @Override
+    public String getIdentityQueryString(final String tableName) {
+        return "SELECT " + tableName + ".currval" + " FROM " + tableName;
+    }
+
     //-----------------------------------------------------------------------------------
 }
 

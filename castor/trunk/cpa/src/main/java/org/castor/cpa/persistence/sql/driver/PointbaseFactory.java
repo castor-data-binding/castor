@@ -62,6 +62,11 @@ public final class PointbaseFactory extends GenericFactory {
         return false;
     }
     
+    @Override
+    public String getIdentityQueryString(final String tableName) {
+        return "SELECT @@identity";
+    }
+
     //-----------------------------------------------------------------------------------
 }
 

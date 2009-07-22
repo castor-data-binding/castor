@@ -89,6 +89,11 @@ public final class DerbyFactory extends GenericFactory {
         return false;
     }
     
+    @Override
+    public String getIdentityQueryString(final String tableName) {
+        return "SELECT IDENTITY_VAL_LOCAL() FROM " + tableName;
+    }
+
     //-----------------------------------------------------------------------------------
 }
 

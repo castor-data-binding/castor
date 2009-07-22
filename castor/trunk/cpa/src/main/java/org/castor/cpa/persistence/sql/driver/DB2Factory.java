@@ -90,6 +90,11 @@ public final class DB2Factory extends GenericFactory {
         return false;
     }
     
+    @Override
+    public String getIdentityQueryString(final String tableName) {
+        return "SELECT IDENTITY_VAL_LOCAL() FROM sysibm.sysdummy1";
+    }
+
     //-----------------------------------------------------------------------------------
 }
 
