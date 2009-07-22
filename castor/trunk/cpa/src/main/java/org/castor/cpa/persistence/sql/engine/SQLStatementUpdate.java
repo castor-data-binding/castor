@@ -15,7 +15,7 @@
  *
  * $Id$
  */
-package org.exolab.castor.jdo.engine;
+package org.castor.cpa.persistence.sql.engine;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -30,6 +30,9 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.engine.SQLColumnInfo;
+import org.exolab.castor.jdo.engine.SQLEngine;
+import org.exolab.castor.jdo.engine.SQLFieldInfo;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.PersistenceFactory;
@@ -39,12 +42,12 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * query structure. It provides parameter binding support to the prepared statement
  * and then executes it.
  */
-public final class SQLStatementStore {
+public final class SQLStatementUpdate {
     //-----------------------------------------------------------------------------------    
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
-    private static final Log LOG = LogFactory.getLog(SQLStatementStore.class);
+    private static final Log LOG = LogFactory.getLog(SQLStatementUpdate.class);
     
     /** Name space to prepend to set parameter names to distinguish them from parameters
      *  of where clause. */
@@ -93,7 +96,7 @@ public final class SQLStatementStore {
      *        Used to format the SQL statement.
     * @param load
     */
-    public SQLStatementStore(final SQLEngine engine, final PersistenceFactory factory,
+    public SQLStatementUpdate(final SQLEngine engine, final PersistenceFactory factory,
                              final String load) {
         _type = engine.getDescriptor().getJavaClass().getName();
         _ids = engine.getColumnInfoForIdentities();
