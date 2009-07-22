@@ -106,7 +106,7 @@ public final class SQLStatementUpdateCheck {
             ResultSet resultSet = executeQuery();
             
             //Process Resultset data
-            processData (identity, oldentity, resultSet);                
+            processData(identity, oldentity, resultSet);                
         }
         throw new ObjectDeletedException(Messages.format(
                 "persist.objectDeleted", _type, identity));
@@ -185,7 +185,7 @@ public final class SQLStatementUpdateCheck {
      * @param resultSet containing the query results
      * @throws SQLException If a database access error occurs
      * @throws ObjectModifiedException Exception raised if object has been modified
-     * priviousloy in the Persistence Storage
+     * previously in the Persistence Storage
      */
     private void processData (final Identity identity, final ProposedEntity oldentity, 
             final ResultSet resultSet) throws SQLException, ObjectModifiedException {

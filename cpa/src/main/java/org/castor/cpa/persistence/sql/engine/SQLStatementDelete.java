@@ -56,10 +56,10 @@ public final class SQLStatementDelete {
    
     //-----------------------------------------------------------------------------------    
 
-    /** Engine Descriptor. */
+    /** Name of engine descriptor. */
     private final String _type;
     
-    /** SQL column Id's data. */
+    /** Column information for identities specific to the particular engine instance. */
     private final SQLColumnInfo[] _ids;
 
     /** QueryContext for SQL query building, specifying database specific quotations 
@@ -129,10 +129,11 @@ public final class SQLStatementDelete {
             
             // execute prepared statement
             executeStatement();
-        } catch (SQLException except) {
-            LOG.fatal(Messages.format("jdo.deleteFatal", _type, _ctx.toString()), except);
-            throw new PersistenceException(Messages.format("persist.nested", except), except);
+        } catch (SQLException ex) {
+            LOG.fatal(Messages.format("jdo.deleteFatal", _type, _ctx.toString()), ex);
+            throw new PersistenceException(Messages.format("persist.nested", ex), ex);
         } finally {
+            // close statement
             closeStatement();
         }
         
@@ -210,8 +211,8 @@ public final class SQLStatementDelete {
             if (preparedStatement != null) {
                 preparedStatement.close();
             }
-        } catch (Exception e) {
-            LOG.warn("Problem closing JDBC statement", e);
+        } catch (Exception ex) {
+            LOG.warn("Problem closing JDBC statement", ex);
         }
     }
 

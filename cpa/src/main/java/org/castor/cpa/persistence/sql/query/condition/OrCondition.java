@@ -51,6 +51,15 @@ public final class OrCondition extends CompoundCondition {
         append(condition2);
     }
     
+    /**
+     * Copy constructor to create a copy of given OR condition.
+     * 
+     * @param condition OR condition to create a copy of.
+     */
+    public OrCondition(final OrCondition condition) {
+        super(condition);
+    }
+    
     //-----------------------------------------------------------------------------------    
 
     @Override
