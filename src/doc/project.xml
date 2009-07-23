@@ -115,11 +115,11 @@
          <url>http://castor.org/phpBB2</url>
          <display>Castor Forums</display>
       </navLink>
-      <navLink>
-         <url>http://www.brainopolis.com/castorwiki/Wiki.jsp?page=Main</url>
-         <display>CastorWiki</display>
-      </navLink>
 -->
+      <navLink>
+         <url>http://docs.codehaus.org/display/CASTOR/</url>
+         <display>Project Wiki</display>
+      </navLink>
   </section>
 
     <section name="Development/Support">
