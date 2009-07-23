@@ -116,7 +116,7 @@
          <display>Castor Forums</display>
       </navLink>
 -->
-      <navLink>
+      <navLink highlighted="true">
          <url>http://docs.codehaus.org/display/CASTOR/</url>
          <display>Project Wiki</display>
       </navLink>
