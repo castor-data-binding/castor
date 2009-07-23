@@ -21,6 +21,26 @@
 -->
 
         <item>
+            <title>(Re)Added project Wiki</title>
+            <pubDate>Thu, 24 Jul 2009 22:21:23 +0100</pubDate>
+            <author>Werner Guttmann</author>
+            <link>http://castor.codehaus.org/news.html#item71</link>
+            <guid>http://castor.codehaus.org/news.html#item71</guid>
+            <description><![CDATA[
+                <p>
+                   I am very pleased to announce the immediate availability of a 
+                   <a href="http://docs.codehaus.org/display/CASTOR">project Wiki</a> for 
+                   the Castor project.
+                </p>
+                <p>
+                   As always, we encourage the users of Castor to contribute 
+                   additional examples, tips, errata or how-tos to the project. The contributions 
+                   collected at this place will be migrated into the standard HTML 
+                   documentation.
+                </p>
+            ]]></description>
+        </item>
+        <item>
             <title>JDO extensions for the Castor XML code generator - Preview</title>
             <pubDate>Sun, 19 Apr 2009 22:21:23 +0100</pubDate>
             <author>Werner Guttmann</author>
