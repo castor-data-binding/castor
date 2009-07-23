@@ -16,6 +16,22 @@
 
     <section title="Castor News">
 
+        <news id="71">
+            <title>(Re)Added a Wiki page for the Castor project</title>
+            <author>Werner Guttmann</author>
+            <date>July 24 2009</date>
+            <time>22:21:23</time>
+            <summary>
+                I am very pleased to announce the immediate availability of a 
+                <a href="http://docs.codehaus.org/display/CASTOR">project Wiki</a> for 
+                the Castor project. <br/><br/>
+                
+                As always, we encourage the users of Castor to contribute 
+                additional examples, tips, errata or how-tos to the project. The contributions 
+                collected at this place will be migrated into the standard HTML 
+                documentation.
+            </summary>
+        </news>
         <news id="70">
             <title>JDO extensions for the Castor XML code generator - Preview</title>
             <author>Werner Guttmann</author>
