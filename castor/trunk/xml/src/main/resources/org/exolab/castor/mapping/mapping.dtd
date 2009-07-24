@@ -61,6 +61,9 @@
     mapped. Fields that are not mapped will not be stored, read, or
     otherwise processed. The order or fields is important when the
     resulting XML document must preserve the order of elements.
+    
+    If the version attribute is set to the name of a mapped field, 
+    this field will be used for check on object modifications during transactions.
 
  -->
 <!ELEMENT class ( description?, cache-type?, map-to?, field*, named-query*, named-native-query* )>
@@ -72,7 +75,8 @@
     access          ( read-only | shared | exclusive | db-locked )  "shared"
     key-generator   NMTOKEN  #IMPLIED
     auto-complete   (true|false) "false"
-    verify-constructable   (true|false) "true">
+    verify-constructable   (true|false) "true"
+    version         NMTOKEN  #IMPLIED>
 
 <!--
     Specifies the hints used for named queries

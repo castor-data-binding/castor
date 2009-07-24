@@ -97,6 +97,11 @@
         <xsd:attribute name="key-generator" type="xsd:string"   use="optional"/>
         <xsd:attribute name="auto-complete" type="xsd:boolean"  use="optional" default="false"/>
         <xsd:attribute name="verify-constructable" type="xsd:boolean"  use="optional" default="true"/>
+        <!-- 
+            If the version attribute is set to the name of a mapped field, 
+            this field will be used for check on object modifications during transactions.
+        -->
+        <xsd:attribute name="version" type="xsd:string" use="optional"/>
     </xsd:complexType>
   </xsd:element>
 
