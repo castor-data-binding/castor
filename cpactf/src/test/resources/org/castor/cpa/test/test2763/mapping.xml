@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" 
+    "http://castor.org/mapping.dtd">
+<mapping>
+	<!-- The Employee class mapping. -->
+	<class name="org.castor.cpa.test.test2763.Employee" identity="id" version="version">
+		<map-to table="detachment_employee" />
+		<field name="id" type="long">
+			<sql name="id" type="bigint" />
+		</field>
+		<field name="name" type="string" required="true">
+			<sql name="name" type="char" />
+		</field>
+		<field name="version" type="long" required="true">
+			<sql name="version" type="bigint" />
+		</field>
+	</class>
+
+	<!-- The Book class mapping. -->
+	<class name="org.castor.cpa.test.test2763.Book" identity="id">
+		<map-to table="detachment_book" />
+		<field name="id" type="long">
+			<sql name="id" type="integer" />
+		</field>
+		<field name="title" type="string" required="true">
+			<sql name="title" type="char" />
+		</field>
+		<field name="timeStamp" type="long" required="true">
+			<sql name="timestamp" type="integer" />
+		</field>
+	</class>
+</mapping>

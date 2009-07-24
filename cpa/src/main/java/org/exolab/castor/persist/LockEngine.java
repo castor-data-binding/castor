@@ -1369,7 +1369,7 @@ public final class LockEngine {
                                 entry.expired();
                             } else {
                                 _cache.put(oid, new CacheEntry(
-                                        entry.getOID(), entry.getObject(), entry.getTimeStamp()));
+                                        entry.getOID(), entry.getObject(), entry.getVersion()));
                             }
                         }
                     }
@@ -1515,7 +1515,7 @@ public final class LockEngine {
                     entry.leave();
                     if (entry.isDisposable()) {
                         _cache.put(oid, new CacheEntry(
-                                entry.getOID(), entry.getObject(), entry.getTimeStamp()));
+                                entry.getOID(), entry.getObject(), entry.getVersion()));
                         _locks.remove(oid);
                     }
                 }
@@ -1549,7 +1549,7 @@ public final class LockEngine {
                     entry.leave();
                     if (entry.isDisposable()) {
                         _cache.put(oid, new CacheEntry(
-                                entry.getOID(), entry.getObject(), entry.getTimeStamp()));
+                                entry.getOID(), entry.getObject(), entry.getVersion()));
                         if (entry.isExpired()) {
                             _cache.expire(oid);
                             entry.expired();

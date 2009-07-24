@@ -360,6 +360,9 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         
         jdoNature.setTableName(classMapping.getMapTo().getTable());
         
+        // Set the field name used for object modification checks.
+        jdoNature.setVersionField(classMapping.getVersion());
+
         extractAndSetAccessMode(jdoNature, classMapping);
         extractAndAddCacheParams(jdoNature, classMapping, javaClass);
         extractAndAddNamedQueries(jdoNature, classMapping);
