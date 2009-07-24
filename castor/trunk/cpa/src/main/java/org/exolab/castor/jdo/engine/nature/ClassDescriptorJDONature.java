@@ -98,6 +98,11 @@ public class ClassDescriptorJDONature extends BaseNature {
      * Nature property name for {@link ClassDescriptor}s that extend this {@link ClassDescriptor}.
      */
     private static final String EXTENDED = "extended";
+    
+    /**
+     * Nature property name for the version field for object modification checks.
+     */
+    private static final String VERSION = "version";
 
     /**
      * Creates an instance of {@link ClassDescriptorJDONature}.
@@ -217,6 +222,16 @@ public class ClassDescriptorJDONature extends BaseNature {
     public Map<String, String> getNamedQueries() {
         return getPropertyAsMap(NAMED_QUERIES);
     }
+    
+    /**
+     * Returns the name of the version field used for checks on object
+     * modifications.
+     * 
+     * @return The name of the version field, <code>null</code> if not set.
+     */
+    public String getVersionField() {
+        return (String) getProperty(VERSION);
+    }
 
     /**
      * Adds a named query to this {@link ClassDescriptor}.
@@ -294,6 +309,16 @@ public class ClassDescriptorJDONature extends BaseNature {
     @SuppressWarnings("unchecked")
     public Collection<ClassDescriptor> getExtended() {
         return getPropertyAsList(EXTENDED);
+    }
+    
+    /**
+     * Sets the version field to use for object modification checks.
+     * 
+     * @param versionField
+     *            the name of the field.
+     */
+    public void setVersionField(final String versionField) {
+        setProperty(VERSION, versionField);
     }
 
 }

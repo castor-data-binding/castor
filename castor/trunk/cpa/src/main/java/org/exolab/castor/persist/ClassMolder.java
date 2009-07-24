@@ -70,6 +70,7 @@ import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
+import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.TypeConvertor;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
@@ -160,9 +161,6 @@ public class ClassMolder {
     /** True if org.exolab.castor.debug="true". */
     private boolean _debug;
 
-    /** True if the representing class implements the interface TimeStampable. */
-    private boolean _timeStampable;
-
     /** Create priority. */
     private int _priority = -1;
 
@@ -200,8 +198,6 @@ public class ClassMolder {
         ClassMapping clsMap = ((ClassDescriptorImpl) clsDesc).getMapping();
         _name = clsMap.getName();
         _accessMode = AccessMode.valueOf(clsMap.getAccess().toString());
-
-        _timeStampable = TimeStampable.class.isAssignableFrom(clsDesc.getJavaClass());
 
         ds.register(_name, this);
 
@@ -537,12 +533,31 @@ public class ClassMolder {
         OID oid = locker.getOID();
 
         resetResolvers();
-        
-        // set the timeStamp of the data object to locker's timestamp
-        if (proposedObject.getEntity() instanceof TimeStampable) {
-            ((TimeStampable) proposedObject.getEntity()).jdoSetTimeStamp(locker.getTimeStamp());
+
+        // Check for version field.
+        if (_clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
+            ClassDescriptorJDONature jdoNature =
+                    new ClassDescriptorJDONature(_clsDesc);
+            String versionField = jdoNature.getVersionField();
+
+            // Check if version field was set and has content.
+            if (versionField != null && versionField.length() > 0) {
+                // Find field descriptor for version field.
+                FieldDescriptor versionFieldDescriptor =
+                        jdoNature.getField(versionField);
+                FieldHandler fieldHandler = versionFieldDescriptor.getHandler();
+                // Set the entity's version to the locker's version.
+                fieldHandler.setValue(proposedObject.getEntity(), locker
+                        .getVersion());
+            }
         }
 
+        // set the timeStamp of the data object to locker's timestamp
+        if (proposedObject.getEntity() instanceof TimeStampable) {
+            ((TimeStampable) proposedObject.getEntity()).jdoSetTimeStamp(locker
+                    .getVersion());
+        }
+        
         // set the identities into the target object
         setIdentity(tx, proposedObject.getEntity(), oid.getIdentity());
 
@@ -563,9 +578,28 @@ public class ClassMolder {
             }
         }
         
+        // Check for version field.
+        if (_clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
+            ClassDescriptorJDONature jdoNature =
+                    new ClassDescriptorJDONature(_clsDesc);
+            String versionField = jdoNature.getVersionField();
+
+            // Check if version field was set and has content.
+            if (versionField != null && versionField.length() > 0) {
+                // Find field descriptor for version field.
+                FieldDescriptor versionFieldDescriptor =
+                        jdoNature.getField(versionField);
+                FieldHandler fieldHandler = versionFieldDescriptor.getHandler();
+                // Set the version of the locker to the data object's version.
+                locker.setVersion((Long) fieldHandler.getValue(proposedObject
+                        .getEntity()));
+            }
+        }
+
         // set the timeStamp of locker to the one of data object
         if (proposedObject.getEntity() instanceof TimeStampable) {
-            locker.setTimeStamp(((TimeStampable) proposedObject.getEntity()).jdoGetTimeStamp());
+            locker.setVersion(((TimeStampable) proposedObject.getEntity())
+                    .jdoGetTimeStamp());
         }
     }
 
@@ -594,8 +628,25 @@ public class ClassMolder {
         entity.initializeFields(_fhs.length);
         Identity ids = oid.getIdentity();
 
-        // set the new timeStamp into the data object
         long timeStamp = System.currentTimeMillis();
+
+        // Check for version field.
+        if (_clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
+            ClassDescriptorJDONature jdoNature = 
+                new ClassDescriptorJDONature(_clsDesc);
+            String versionField = jdoNature.getVersionField();
+
+            // Check if version field was set and has content.
+            if (versionField != null && versionField.length() > 0) {
+                // Find field descriptor for version field.
+                FieldDescriptor versionFieldDescriptor =
+                        jdoNature.getField(versionField);
+                FieldHandler fieldHandler = versionFieldDescriptor.getHandler();
+                fieldHandler.setValue(object, timeStamp);
+            }
+        }
+        
+        // set the new timeStamp into the data object
         if (object instanceof TimeStampable) {
             ((TimeStampable) object).jdoSetTimeStamp(timeStamp);
         }
@@ -763,8 +814,25 @@ public class ClassMolder {
                     Messages.format("persist.objectNotFound", _name, oid));
         }
 
-        // set the new timeStamp into the data object
         long timeStamp = System.currentTimeMillis();
+
+        // Set the new timestamp into version field.
+        if (_clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
+            ClassDescriptorJDONature jdoNature =
+                    new ClassDescriptorJDONature(_clsDesc);
+            String versionField = jdoNature.getVersionField();
+
+            // Check if version field was set and has content.
+            if (versionField != null && versionField.length() > 0) {
+                // Find field descriptor for version field.
+                FieldDescriptor versionFieldDescriptor =
+                        jdoNature.getField(versionField);
+                FieldHandler fieldHandler = versionFieldDescriptor.getHandler();
+                fieldHandler.setValue(object, timeStamp);
+            }
+        }
+
+        // set the new timeStamp into the data object
         if (object instanceof TimeStampable) {
             ((TimeStampable) object).jdoSetTimeStamp(timeStamp);
         }
@@ -801,17 +869,22 @@ public class ClassMolder {
     }
 
     /**
-     * Update the object which loaded or created in the other transaction to
-     * the persistent storage.
-     *
-     * @param tx Transaction in action
-     * @param oid the object identity of the stored object
-     * @param locker the dirty check cache of the object
-     * @param object the object to be stored
+     * Update the object which loaded or created in the other transaction to the
+     * persistent storage.
+     * 
+     * @param tx
+     *            Transaction in action
+     * @param oid
+     *            the object identity of the stored object
+     * @param locker
+     *            the dirty check cache of the object
+     * @param object
+     *            the object to be stored
      * @return boolean true if the updating object should be created
      */
-    public boolean update(final TransactionContext tx, final OID oid, final DepositBox locker,
-            final Object object, final AccessMode suggestedAccessMode) throws PersistenceException {
+    public boolean update(final TransactionContext tx, final OID oid,
+            final DepositBox locker, final Object object,
+            final AccessMode suggestedAccessMode) throws PersistenceException {
 
         AccessMode accessMode = getAccessMode(suggestedAccessMode);
 
@@ -819,47 +892,74 @@ public class ClassMolder {
 
         Object[] fields = locker.getObject(tx);
 
-        if ((!isDependent()) && (!_timeStampable)) {
+        boolean timeStampable = false;
+        long objectTimestamp = 1;
+        
+        if (object instanceof TimeStampable) {
+            timeStampable = true;
+            objectTimestamp = ((TimeStampable) object).jdoGetTimeStamp();
+        }
+        
+        ClassDescriptorJDONature jdoNature = null;
+        String versionField = null;
+
+        // Check for version field.
+        if (_clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
+            // Initialize nature.
+            jdoNature = new ClassDescriptorJDONature(_clsDesc);
+            versionField = jdoNature.getVersionField();
+            if (versionField != null && versionField.length() > 0) {
+                objectTimestamp =
+                        getObjectVersion(versionField, jdoNature, object);
+                timeStampable = true;
+            }
+        }
+        
+        if ((!isDependent()) && (!timeStampable)) {
             throw new IllegalArgumentException(
                     "A master object that involves in a long transaction must be a TimeStampable!");
         }
 
-        long lockTimestamp = locker.getTimeStamp();
-        long objectTimestamp = _timeStampable ? ((TimeStampable) object).jdoGetTimeStamp() : 1;
+        long lockTimestamp = locker.getVersion();
 
         if ((objectTimestamp > 0) && (oid.getIdentity() != null)) {
             // valid range of timestamp
-            
-            if ((_timeStampable) && (lockTimestamp == TimeStampable.NO_TIMESTAMP)) {
+
+            if ((timeStampable)
+                    && (lockTimestamp == TimeStampable.NO_TIMESTAMP)) {
                 throw new PersistenceException(Messages.format(
-                        "persist.objectNotInCache", _name, oid.getIdentity())); 
+                        "persist.objectNotInCache", _name, oid.getIdentity()));
             }
 
-            if (_timeStampable && objectTimestamp != lockTimestamp) {
+            if (timeStampable && objectTimestamp != lockTimestamp) {
                 throw new ObjectModifiedException("Timestamp mismatched!");
             }
 
-            if (!_timeStampable && isDependent() && (fields == null)) {
+            if (!timeStampable && isDependent() && (fields == null)) {
                 // allow a dependent object not implements timeStampable
                 fields = new Object[_fhs.length];
-                Connection conn = tx.getConnection(oid.getMolder().getLockEngine());
-                
+                Connection conn =
+                        tx.getConnection(oid.getMolder().getLockEngine());
+
                 ProposedEntity proposedObject = new ProposedEntity(this);
                 proposedObject.setProposedEntityClass(object.getClass());
                 proposedObject.setEntity(object);
                 proposedObject.setFields(fields);
-                _persistence.load(conn, proposedObject, oid.getIdentity(), accessMode);
+                _persistence.load(conn, proposedObject, oid.getIdentity(),
+                        accessMode);
                 fields = proposedObject.getFields();
-                
+
                 oid.setDbLock(accessMode == AccessMode.DbLocked);
-                locker.setObject(tx, proposedObject.getFields(), System.currentTimeMillis());
+                locker.setObject(tx, proposedObject.getFields(), System
+                        .currentTimeMillis());
             }
 
             // load the original field into the transaction. so, store will
             // have something to compare later.
             try {
                 for (int i = 0; i < _fhs.length; i++) {
-                    _resolvers[i].update(tx, oid, object, accessMode, fields[i]);
+                    _resolvers[i]
+                            .update(tx, oid, object, accessMode, fields[i]);
                 }
             } catch (ObjectNotFoundException e) {
                 _log.warn(e.getMessage(), e);
@@ -867,26 +967,50 @@ public class ClassMolder {
                         "dependent object deleted concurrently");
             }
             return false;
-        } else if ((objectTimestamp == TimeStampable.NO_TIMESTAMP) || (objectTimestamp == 1)) {
-            // work almost like create, except update the sub field instead of create
+        } else if ((objectTimestamp == TimeStampable.NO_TIMESTAMP)
+                || (objectTimestamp == 1)) {
+            // work almost like create, except update the sub field instead of
+            // create
             // iterate all the fields and mark all the dependent object.
             boolean updateCache = false;
 
             for (int i = 0; i < _fhs.length; i++) {
-                updateCache |= _resolvers[i].updateWhenNoTimestampSet(
-                        tx, oid, object, suggestedAccessMode);
+                updateCache |=
+                        _resolvers[i].updateWhenNoTimestampSet(tx, oid, object,
+                                suggestedAccessMode);
             }
 
             tx.markModified(object, false, updateCache);
             return true;
         } else {
             if (_log.isWarnEnabled()) {
-                _log.warn("object: " + object + " timestamp: " + objectTimestamp
-                        + " lockertimestamp: " + lockTimestamp);
+                _log.warn("object: " + object + " timestamp: "
+                        + objectTimestamp + " lockertimestamp: "
+                        + lockTimestamp);
             }
             throw new ObjectModifiedException(
                     "Invalid object timestamp detected.");
         }
+    }
+
+    /**
+     * Acquires the version of the specified object by accessing the given
+     * field.
+     * 
+     * @param versionField
+     *            the version field.
+     * @param jdoNature
+     *            the {@link ClassDescriptorJDONature}.
+     * @param object
+     *            the object.
+     * @return the object's version.
+     */
+    @SuppressWarnings("unchecked")
+    private Long getObjectVersion(final String versionField,
+            final ClassDescriptorJDONature jdoNature, final Object object) {
+        FieldDescriptor versionFieldDescriptor =
+                jdoNature.getField(versionField);
+        return (Long) versionFieldDescriptor.getHandler().getValue(object);
     }
 
     /**
@@ -930,9 +1054,26 @@ public class ClassMolder {
             }
         }
 
+        
+        ClassDescriptorJDONature jdoNature;
+        String versionField;
+        Long objectVersion = null;
+        // Check for version field.
+        if (_clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
+            // Initialize nature.
+            jdoNature = new ClassDescriptorJDONature(_clsDesc);
+            versionField = jdoNature.getVersionField();
+            if (versionField != null && versionField.length() > 0) {
+                objectVersion =
+                        (Long) getObjectVersion(versionField, jdoNature, object);
+            }
+        }
+        
         // store new field values in cache
         if (object instanceof TimeStampable) {
             locker.setObject(tx, fields, ((TimeStampable) object).jdoGetTimeStamp());
+        } else if (objectVersion != null) {
+            locker.setObject(tx, fields, objectVersion);
         } else {
             locker.setObject(tx, fields, System.currentTimeMillis());
         }
