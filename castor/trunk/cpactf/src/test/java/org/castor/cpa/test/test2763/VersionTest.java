@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.castor.cpa.test.framework.CPATestCase;
+import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
 
@@ -57,6 +58,12 @@ public final class VersionTest extends CPATestCase {
         super(name);
     }
 
+    // Test are only included/excluded for engines that have been tested with this test suite.
+
+    public boolean include(final DatabaseEngineType engine) {
+        return (engine == DatabaseEngineType.DERBY);
+    }
+    
     @Override
     public void setUp() throws Exception {
         _db = getJDOManager(DBNAME, MAPPING).getDatabase();
