@@ -40,11 +40,10 @@
  *
  * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
  *
- * $Id$
+ * $Id: SequenceKeyGenerator.java 8241 2009-06-11 22:41:15Z rjoachim $
  */
 package org.castor.cpa.persistence.sql.keygen;
 
-import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -58,10 +57,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.jdo.PersistenceException;
 import org.castor.core.util.Messages;
-import org.castor.cpa.persistence.sql.driver.DB2Factory;
-import org.castor.cpa.persistence.sql.driver.InterbaseFactory;
-import org.castor.cpa.persistence.sql.driver.OracleFactory;
-import org.castor.cpa.persistence.sql.driver.PostgreSQLFactory;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 
@@ -69,10 +64,10 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * SEQUENCE key generator.
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
  * @author <a href="bruce DOT snyder AT gmail DOT com">Bruce Snyder</a>
- * @version $Revision$ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr 2006) $
+ * @version $Revision: 8241 $ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr 2006) $
  * @see SequenceKeyGeneratorFactory
  */
-public final class SequenceKeyGenerator implements KeyGenerator {
+public final class SequenceDuringKeyGenerator implements KeyGenerator {
     //-----------------------------------------------------------------------------------
 
     private abstract class SequenceKeyGenValueHandler {
@@ -123,147 +118,44 @@ public final class SequenceKeyGenerator implements KeyGenerator {
         }
     }
     
-    private class PostgresqlType extends SequenceKeyGenValueHandler {
-        protected Object getValue(final Connection conn, final String tableName,
-                final String primKeyName, final Properties props) throws Exception {
-            // postgresql does before_insert and after_insert with trigger
-            if (getStyle() == BEFORE_INSERT) {
-                return getValue("SELECT nextval('" + getSeqName(tableName, primKeyName) + "')",
-                        conn);
-            } else if ((getStyle() == AFTER_INSERT) && _triggerPresent) {
-                Object insStmt = props.get("insertStatement");
-                Class<?> stmtClass = Class.forName("org.postgresql.jdbc2.AbstractJdbc2Statement");
-                if (stmtClass == null) { stmtClass = Class.forName("org.postgresql.Statement"); }
-                Method getLastOID = stmtClass.getMethod("getLastOID", (Class[]) null);
-                Long lastOID = (Long) getLastOID.invoke(insStmt, (Object[]) null);
-                PreparedStatement stmt = conn.prepareStatement(
-                        "SELECT " + _factory.quoteName(primKeyName)
-                        + " FROM " + _factory.quoteName(tableName) + " WHERE OID=?");
-                stmt.setLong(1, lastOID.longValue());
-                ResultSet rs = stmt.executeQuery();
-                return _typeHandler.getValue(rs);
-            } else if ((getStyle() == AFTER_INSERT) && !_triggerPresent) {
-                throw new SQLException("PostgrSQL needs a trigger for keygeneration after insert");
-            }
-            throw new SQLException("PostgrSQL does not support keygeneration during insert");
-        }
-    }
-        
-    private class DB2Type extends SequenceKeyGenValueHandler {
-        protected Object getValue(final Connection conn, final String tableName,
-                final String primKeyName, final Properties props) throws Exception {
-            // db2 only does before_insert, and does it its own way
-            if (getStyle() == BEFORE_INSERT) {
-                return getValue("SELECT nextval FOR " + getSeqName(tableName, primKeyName)
-                        + " FROM SYSIBM.SYSDUMMY1", conn);
-            }
-            throw new SQLException("DB2 does only support keygeneration before insert");
-        }
-    }
-        
-    private class InterbaseType extends SequenceKeyGenValueHandler {
-        protected Object getValue(final Connection conn, final String tableName,
-                final String primKeyName, final Properties props) throws Exception {
-            // interbase only does before_insert, and does it its own way
-            if (getStyle() == BEFORE_INSERT) {
-                return getValue("SELECT gen_id(" + getSeqName(tableName, primKeyName) + ","
-                        + _increment + ") FROM rdb$database", conn);
-            }
-            throw new SQLException("Interbase does only support keygeneration before insert");
-        }
-    }
-    
     //-----------------------------------------------------------------------------------
     
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
-    private static final Log LOG = LogFactory.getLog(SequenceKeyGenerator.class);
+    private static final Log LOG = LogFactory.getLog(SequenceDuringKeyGenerator.class);
      
     private static final int STRING_KEY_LENGTH = 8;
     
-    private String _factoryName;
-
     private PersistenceFactory _factory;
 
+    private boolean _triggerPresent;
+    
+    private String _seqName;
+    
     private KeyGeneratorTypeHandler<? extends Object> _typeHandler;
 
-    private byte _style;
-
-    private int _increment;
-     
-    private String _seqName;
-     
-    private boolean _triggerPresent;
-     
     private SequenceKeyGenValueHandler _type = null;
 
     //-----------------------------------------------------------------------------------
     
     /**
-     * Initialize the SEQUENCE key generator.
+     * Initialize the SEQUENCE key generator for DURING_INSERT style 
+     * {@link #generateKey} is never called, all work is done by {@link #patchSQL}.
+     * 
+     * @param factory A PersistenceFactory instance.
+     * @param params
+     * @param sqlType A SQLTypidentifier.
+     * @throws MappingException if this key generator is not compatible with the
+     *         persistance factory.
      */
-    public SequenceKeyGenerator(final PersistenceFactory factory, final Properties params,
+    public SequenceDuringKeyGenerator(final PersistenceFactory factory, final Properties params,
             final int sqlType) throws MappingException {
-        checkSupportedFactory(factory);
-        supportsSqlType(sqlType);
+        _factory = factory;        
+        _triggerPresent = "true".equals(params.getProperty("trigger", "false"));
+        _seqName = params.getProperty("sequence", "{0}_seq");
+        
         initSqlTypeHandler(sqlType);
         initType();
-        
-        boolean returning = "true".equals(params.getProperty("returning"));
-        _triggerPresent = "true".equals(params.getProperty("trigger", "false"));
-
-        if (returning) {
-            if (!_factoryName.equals(OracleFactory.FACTORY_NAME)
-                    && !_factoryName.equals(PostgreSQLFactory.FACTORY_NAME)) {
-                throw new MappingException(Messages.format("mapping.keyGenParamNotCompat",
-                        "returning=\"true\"", getClass().getName(), _factoryName));
-            }
-        }
-        
-        _factory = factory;
-        
-        _seqName = params.getProperty("sequence", "{0}_seq");
-
-        _style = _factoryName.equals(PostgreSQLFactory.FACTORY_NAME)
-                || _factoryName.equals(InterbaseFactory.FACTORY_NAME)
-                || _factoryName.equals(DB2Factory.FACTORY_NAME)
-                ? BEFORE_INSERT : (returning ? DURING_INSERT : AFTER_INSERT);
-        if (_triggerPresent && !returning) {
-            _style = AFTER_INSERT;
-        }
-        if (_triggerPresent && (_style == BEFORE_INSERT)) {
-            throw new MappingException(Messages.format("mapping.keyGenParamNotCompat",
-                    "trigger=\"true\"", getClass().getName(), _factoryName));
-        }
-        
-        try {
-            _increment = Integer.parseInt(params.getProperty("increment", "1"));
-        } catch (NumberFormatException nfe) {
-            _increment = 1;
-        }
-    }
-    
-    private void checkSupportedFactory(final PersistenceFactory factory)
-    throws MappingException {
-        _factoryName = factory.getFactoryName();
-        String[] supportedFactoryNames = getSupportedFactoryNames();
-        boolean supported = false;
-        for (int i = 0; i < supportedFactoryNames.length; i++) {
-            if (_factoryName.equals(supportedFactoryNames[i])) {
-                supported = true;
-            }
-        }
-
-        if (!supported) {
-            String msg = Messages.format("mapping.keyGenNotCompatible",
-                    getClass().getName(), _factoryName); 
-            throw new MappingException(msg);
-        }
-    }
-
-    private String[] getSupportedFactoryNames() {
-        return new String[] {OracleFactory.FACTORY_NAME, PostgreSQLFactory.FACTORY_NAME,
-                InterbaseFactory.FACTORY_NAME, "sapdb", DB2Factory.FACTORY_NAME};
     }
 
     protected void initSqlTypeHandler(final int sqlType) {
@@ -283,15 +175,7 @@ public final class SequenceKeyGenerator implements KeyGenerator {
     }
     
     private void initType() {
-        if (_factoryName.equals("interbase")) {
-            _type = new InterbaseType();
-        } else if (_factoryName.equals("db2")) {
-            _type = new DB2Type();
-        } else if (_factoryName.equals("postgresql")) {
-            _type = new PostgresqlType();
-        } else {
-            _type = new DefaultType();
-        }
+        _type = new DefaultType();
         _type.setGenerator(this);
         _type.setTypeHandler(_typeHandler);
      }
@@ -317,28 +201,10 @@ public final class SequenceKeyGenerator implements KeyGenerator {
     }
 
     /**
-     * Determine if the key generator supports a given sql type.
-     *
-     * @param sqlType
-     * @throws MappingException
-     */
-    public void supportsSqlType(final int sqlType) throws MappingException {
-        if (sqlType != Types.INTEGER
-                && sqlType != Types.NUMERIC
-                && sqlType != Types.DECIMAL
-                && sqlType != Types.BIGINT
-                && sqlType != Types.CHAR
-                && sqlType != Types.VARCHAR) {
-            throw new MappingException(Messages.format("mapping.keyGenSQLType",
-                    getClass().getName(), new Integer(sqlType)));
-        }
-    }
-
-    /**
      * {@inheritDoc}
      */
     public byte getStyle() {
-        return _style;
+        return DURING_INSERT;
     }
 
     /**
@@ -361,10 +227,6 @@ public final class SequenceKeyGenerator implements KeyGenerator {
         StringBuffer sb;
         int lp1;  // the first left parenthesis, which starts fields list
         int lp2;  // the second left parenthesis, which starts values list
-
-        if (_style == BEFORE_INSERT) {
-            return insert;
-        }
 
         // First find the table name
         st = new StringTokenizer(insert);
@@ -423,12 +285,12 @@ public final class SequenceKeyGenerator implements KeyGenerator {
                 sb.insert(lp1 + 1, _factory.quoteName(primKeyName) + ",");
             }
         }
-        if (getStyle() == DURING_INSERT) {
-            // append 'RETURNING primKeyName INTO ?'
-            sb.append(" RETURNING ");
-            sb.append(_factory.quoteName(primKeyName));
-            sb.append(" INTO ?");
-        }
+
+        // append 'RETURNING primKeyName INTO ?'
+        sb.append(" RETURNING ");
+        sb.append(_factory.quoteName(primKeyName));
+        sb.append(" INTO ?");
+        
         return sb.toString();
     }
     

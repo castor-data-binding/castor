@@ -94,7 +94,26 @@ public final class DB2Factory extends GenericFactory {
     public String getIdentityQueryString(final String tableName) {
         return "SELECT IDENTITY_VAL_LOCAL() FROM sysibm.sysdummy1";
     }
+    
+    @Override
+    public boolean isKeyGeneratorSequenceSupported(final boolean returning, final boolean trigger) {
+        return !returning;
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isKeyGeneratorSequenceTypeSupported(final int type) {
+        if (type == Types.INTEGER) { return true; }
+        if (type == Types.DECIMAL) { return true; }
+        if (type == Types.NUMERIC) { return true; }
+        if (type == Types.BIGINT) { return true; }
+        if (type == Types.CHAR) { return true; }
+        if (type == Types.VARCHAR) { return true; }
+
+        return false;
+    }
+    
     //-----------------------------------------------------------------------------------
 }
 

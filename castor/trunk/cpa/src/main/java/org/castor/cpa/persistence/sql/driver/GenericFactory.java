@@ -127,7 +127,21 @@ public class GenericFactory extends BaseFactory {
     public String getIdentityQueryString(final String tableName) {
         throw new UnsupportedOperationException();
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isKeyGeneratorSequenceSupported(final boolean returning, final boolean trigger) {
+        return false;
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isKeyGeneratorSequenceTypeSupported(final int type) {
+        return false;
+    }
+    
     //-----------------------------------------------------------------------------------
 }
 
