@@ -19,6 +19,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.castor.cpa.test.framework.CPATestCase;
+import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.TimeStampable;
@@ -40,8 +41,7 @@ public final class TimeStampableTest extends CPATestCase {
     /**
      * Mapping file for this test case.
      */
-    private static final String MAPPING =
-            "/org/castor/cpa/test/test2763/mapping.xml";
+    private static final String MAPPING = "/org/castor/cpa/test/test2763/mapping.xml";
 
     /**
      * The {@link Database} to use.
@@ -58,6 +58,12 @@ public final class TimeStampableTest extends CPATestCase {
         super(name);
     }
 
+    // Test are only included/excluded for engines that have been tested with this test suite.
+
+    public boolean include(final DatabaseEngineType engine) {
+        return (engine == DatabaseEngineType.DERBY);
+    }
+    
     @Override
     public void setUp() throws Exception {
         _db = getJDOManager(DBNAME, MAPPING).getDatabase();
