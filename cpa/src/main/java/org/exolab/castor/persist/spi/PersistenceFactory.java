@@ -168,6 +168,26 @@ public interface PersistenceFactory {
      * @return SQL Query string for fetching the identity value.
      */
     String getIdentityQueryString(String tableName);
+    
+    /**
+     * Does persistence factory support generation of new key at the time of new
+     * object creation with sequence key generator?
+     * 
+     * @param returning Return generated key value with insert statement?
+     * @param trigger Use a database trigger to generate key?
+     * @return <code>true</code> if persistence factory is able to generate key with
+     *         sequence key generator, <code>false</code> otherwise.
+     */
+    boolean isKeyGeneratorSequenceSupported(boolean returning, boolean trigger);
+    
+    /**
+     * Does Sequence key generator support generation of key for the given SQL type?
+     * 
+     * @param type SQL type to check for support by sequence key generator.
+     * @return <code>true</code> if persistence factory is able to generate key of
+     *         given SQL type with sequence key generator, <code>false</code> otherwise.
+     */
+    boolean isKeyGeneratorSequenceTypeSupported(int type);
 
     //-----------------------------------------------------------------------------------
 }

@@ -150,7 +150,26 @@ public final class PostgreSQLFactory extends GenericFactory {
     public String getIdentityQueryString(final String tableName) {
         return "SELECT currval ('" +  tableName + "_id_seq')";
     }
+    
+    @Override
+    public boolean isKeyGeneratorSequenceSupported(final boolean returning, final boolean trigger) {
+        return !returning || !trigger;
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isKeyGeneratorSequenceTypeSupported(final int type) {
+        if (type == Types.INTEGER) { return true; }
+        if (type == Types.DECIMAL) { return true; }
+        if (type == Types.NUMERIC) { return true; }
+        if (type == Types.BIGINT) { return true; }
+        if (type == Types.CHAR) { return true; }
+        if (type == Types.VARCHAR) { return true; }
+
+        return false;
+    }
+    
     //-----------------------------------------------------------------------------------
 }
 
