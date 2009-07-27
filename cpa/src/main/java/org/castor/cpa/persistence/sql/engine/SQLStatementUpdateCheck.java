@@ -25,15 +25,16 @@ import java.sql.SQLException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
+import org.castor.cpa.persistence.sql.query.QueryConstants;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.ObjectDeletedException;
 import org.exolab.castor.jdo.ObjectModifiedException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.engine.SQLColumnInfo;
 import org.exolab.castor.jdo.engine.SQLEngine;
-import org.exolab.castor.jdo.engine.SQLFieldInfo;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.persist.spi.Identity;
+import org.exolab.castor.persist.spi.PersistenceFactory;
 
 /** 
  * SQLStatementUpdatCheck class to check whether the new SQL Update statement has 
@@ -56,31 +57,61 @@ public final class SQLStatementUpdateCheck {
     /** The name of engine descriptor. */
     private final String _type;
     
-    /** Table name of the engine descriptor. */
-    private final String _mapTo;
-    
-    /** The SQL statement for update failure reason check. */
-    private final String _statement;
-    
     /** Column information for identities specific to the particular engine instance. */
     private final SQLColumnInfo[] _ids;
     
-    /** Contains the Information specific to particular engine instancde. */
-    private final SQLFieldInfo[] _fields;
+    /** Persistence factory for the database engine the entity is persisted in.
+     *  Used to format the SQL statement. */
+    private final PersistenceFactory _factory;
+
+    /** The SQL statement for update failure reason check. */
+    private String _statement;
     
     /**
      * Constructor.
      * 
      * @param engine SQL engine for all persistence operations at entities of the type this
      *        class is responsible for. Holds all required information of the entity type.    
-     * @param statement SQL statement to check the previously updated/modified record.
      */
-    public SQLStatementUpdateCheck(final SQLEngine engine, final String statement) {
-        _statement = statement;
+    public SQLStatementUpdateCheck(final SQLEngine engine, final PersistenceFactory factory) {
         _type = engine.getDescriptor().getJavaClass().getName();
-        _mapTo = new ClassDescriptorJDONature(engine.getDescriptor()).getTableName();
         _ids = engine.getColumnInfoForIdentities();
-        _fields = engine.getInfo();
+        _factory = factory;
+        
+        buildStatement(new ClassDescriptorJDONature(engine.getDescriptor()).getTableName());
+    }
+    
+    private void buildStatement(final String mapTo) {
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append(QueryConstants.SELECT);
+        sb.append(QueryConstants.SPACE);
+        sb.append(_factory.quoteName(mapTo));
+        sb.append(QueryConstants.DOT);
+        sb.append(_factory.quoteName(_ids[0].getName()));
+        sb.append(QueryConstants.SPACE);
+        sb.append(QueryConstants.FROM);
+        sb.append(QueryConstants.SPACE);
+        sb.append(_factory.quoteName(mapTo));
+        sb.append(QueryConstants.SPACE);
+        sb.append(QueryConstants.WHERE);
+        sb.append(QueryConstants.SPACE);
+        
+         for (int i = 0; i < _ids.length; i++) {
+             if (i != 0) {
+                 sb.append(QueryConstants.SPACE);
+                 sb.append(QueryConstants.AND);
+                 sb.append(QueryConstants.SPACE);
+             }
+             
+             sb.append(_factory.quoteName(mapTo));
+             sb.append(QueryConstants.DOT);
+             sb.append(_factory.quoteName(_ids[i].getName()));
+             sb.append(QueryConstants.ASSIGN);
+             sb.append(QueryConstants.PARAMETER);
+         }
+         
+         _statement = sb.toString();
     }
     
     /**
@@ -99,20 +130,20 @@ public final class SQLStatementUpdateCheck {
     public void updateFailureCheck(final Connection conn, final Identity identity,
             final ProposedEntity oldentity) throws PersistenceException {
         try {      
-            if (oldentity.getFields() != null) {
             prepareStatement(conn);                   
-         
+            
             //Binds identity
             bindIdentity(identity);
-        
+    
             //Load Data into resultset
             ResultSet resultSet = executeQuery();
-            
-            //Process Resultset data
-            processData(identity, oldentity, resultSet);                
-        }
-        throw new ObjectDeletedException(Messages.format(
-                "persist.objectDeleted", _type, identity));
+        
+            if (resultSet.next()) {                     
+                String msg = Messages.format("persist.objectModified", _type, identity);
+                throw new ObjectModifiedException(msg);
+            }
+            String msg = Messages.format("persist.objectDeleted", _type, identity);
+            throw new ObjectDeletedException(msg);
         } catch (SQLException except) {
             LOG.fatal(Messages.format("jdo.updateCheckFatal", _type,  _statement), except);
             throw new PersistenceException(Messages.format("persist.nested", except), except);
@@ -120,7 +151,6 @@ public final class SQLStatementUpdateCheck {
             //close statement
             closeStatement();
         }
-        
     }
     
     /**
@@ -129,7 +159,7 @@ public final class SQLStatementUpdateCheck {
      * @param conn An Open JDBC Connection
      * @throws SQLException If a database access error occurs.
      */
-    private void prepareStatement (final Connection conn) 
+    private void prepareStatement(final Connection conn) 
     throws SQLException { 
         PreparedStatement preparedStatement = conn.prepareStatement(_statement);
         
@@ -149,7 +179,7 @@ public final class SQLStatementUpdateCheck {
      *  or column length mismatches
      * @throws SQLException If database access error occurs
      */
-    private void  bindIdentity (final Identity identity) 
+    private void  bindIdentity(final Identity identity) 
     throws PersistenceException, SQLException {
         // get prepared statement from thread local variable
         PreparedStatement preparedStatement = PREPARED_STATEMENT.get();        
@@ -178,53 +208,6 @@ public final class SQLStatementUpdateCheck {
         ResultSet result = preparedStatement.executeQuery();   
         
         return result;
-    }
-    
-    /**
-     * process the ResultSet.
-     * 
-     * @param identity
-     * @param oldentity
-     * @param resultSet containing the query results
-     * @throws SQLException If a database access error occurs
-     * @throws ObjectModifiedException Exception raised if object has been modified
-     * previously in the Persistence Storage
-     */
-    private void processData (final Identity identity, final ProposedEntity oldentity, 
-            final ResultSet resultSet) throws SQLException, ObjectModifiedException {
-        if (resultSet.next()) {                     
-             StringBuffer enlistFieldsNotMatching = new StringBuffer();
-             
-             int numberOfFieldsNotMatching = 0;
-             for (int i = 0; i < _fields.length; i++) {
-                 SQLColumnInfo[] columns = _fields[i].getColumnInfo();
-                 Object value = oldentity.getField(i);
-                 Object currentField = columns[0].toJava(resultSet.getObject(
-                         columns[0].getName()));
-                 if (_fields[i].getTableName().compareTo(_mapTo) == 0) {
-                     if ((value == null) || ((value != null)
-                             && (currentField == null))) {
-                         enlistFieldsNotMatching.append("(" + _type + ")."
-                                 + columns[0].getName() + ": ");
-                         enlistFieldsNotMatching.append("[" + value + "/"
-                                 + currentField + "]"); 
-                     } else if (!value.equals(currentField)) {
-                         if (numberOfFieldsNotMatching >= 1) {
-                             enlistFieldsNotMatching.append(", ");
-                         }
-                         enlistFieldsNotMatching.append("(" + _type + ")."
-                                 + columns[0].getName() + ": ");
-                         enlistFieldsNotMatching.append("[" + value + "/"
-                                 + currentField + "]"); 
-                         numberOfFieldsNotMatching++;
-                     }
-                 }
-             }
-
-             throw new ObjectModifiedException(Messages.format(
-                     "persist.objectModified", _type, identity,
-                     enlistFieldsNotMatching.toString()));
-         }
     }
     
     /**

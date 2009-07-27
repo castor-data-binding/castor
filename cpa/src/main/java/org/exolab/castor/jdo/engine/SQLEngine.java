@@ -187,7 +187,7 @@ public final class SQLEngine implements Persistence {
         _loadStatement = new SQLStatementLoad(this, factory);
         _createStatement = new SQLStatementCreate(this, factory);
         _removeStatement = new SQLStatementDelete(this, factory);
-        _storeStatement = new SQLStatementUpdate(this, factory, _loadStatement.getLoadStatement());
+        _storeStatement = new SQLStatementUpdate(this, factory);
     }
 
     public SQLColumnInfo[] getColumnInfoForIdentities() {
