@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="EventList" type="EventListType"/>
+
+	<xs:complexType name="EventListType">
+		<xs:sequence>
+			<xs:element name="Event" type="EventType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="EventType">
+		<xs:sequence>
+			<xs:element ref="EventType" maxOccurs="unbounded" />
+			<xs:element name="Location" type="LocationType" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="EventType">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:maxLength value="40"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+
+	<xs:complexType name="LocationType">
+		<xs:choice>
+			<xs:element name="LinkID" type="xs:string"/>
+			<xs:element ref="Link" />
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:element name="Link">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="TargetType" />
+				<xs:element name="SiteID" type="xs:int" minOccurs="0"/>
+				<xs:element ref="UniqueID" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="TargetType">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:maxLength value="20"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+
+	<xs:element name="UniqueID">
+		<xs:complexType>
+			<xs:choice>
+				<xs:element name="OID" type="xs:long"/>
+				<xs:element ref="Name" />
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="Name">
+		<xs:annotation>
+			<xs:documentation>Only currently supported for locating to topics</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:maxLength value="255"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+
+</xs:schema>

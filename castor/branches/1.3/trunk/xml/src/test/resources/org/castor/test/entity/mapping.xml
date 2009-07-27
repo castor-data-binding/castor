@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+
+  <class name="org.castor.test.entity.Entity">
+    <map-to xml="entity" />
+    <field name="id" type="integer" >
+      <bind-xml name="id" />
+    </field>
+    <field name="name" type="string">
+      <bind-xml name="name" />
+    </field>
+  </class>
+
+</mapping>

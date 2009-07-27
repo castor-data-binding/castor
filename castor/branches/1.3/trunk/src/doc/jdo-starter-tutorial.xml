@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/jdo-starter-tutorial.xml">
+  <properties>
+    <title>Castor JDO - Instructions for novices</title>
+    <abstract>
+       Basic tasks for Castor JDO novices
+    </abstract>
+    <status>Final</status>
+  </properties>
+  <body>
+
+    <title>Castor JDO - First steps</title>
+
+    <header>
+    </header>
+    
+    <section title="Introduction">
+    
+	<p>This guide assumes that you do not have any experience with CASTOR JDO, but would 
+	   like to make your first steps into the world of persistence and object/relation 
+	   mapping tools. The following sections show how to setup and configure Castor JDO so that
+	   it is possible to perform persistence operations on the domain objects presented.</p> 
+	   
+	</section>
+	
+	<section title="Sample domain objects">
+	
+		<p>The sample domain objects used in here basically define a <tt>Catalogue</tt>, 
+		   which is a collection of <tt>Product</tt>s.</p>
+		   
+		<code-panel>
+public class Catalogue {
+
+   private long id;
+   private List products = new ArrayList();
+   
+   public long getId() { ... }
+   public void setId(long id) { ... }
+
+   public String getProducts() { ... }
+   public void setProducts(List products) { ... }
+   
+}
+
+public class Product {
+
+   private long id;
+   
+   private String description;
+
+   public long getId() { ... }
+   public void setId(long id) { ... }
+   
+   public String getDescription() { ... }
+   public void setDescription(String description) { ... }
+   
+}</code-panel>
+		   
+		<p>In order to be able to perform any persistence operation (such as loading products, deleting 
+		   products from a catalogue, ...) on these domain objects through Castor JDO, a Castor 
+		   JDO mapping has to be provided, defining class and field level mappings for the Java classes given
+		   and their members:</p>
+		   
+		<code-panel>
+&lt;class name="org.castor.sample.Catalogue"&gt;
+   &lt;map-to table="catalogue"/&gt;
+   &lt;field name="id" type="long"&gt;
+      &lt;sql name="id" type="integer" /&gt;
+   &lt;/field&gt;
+   &lt;field name="products" type="org.castor.sample.Product" collection="arraylist"&gt;
+      &lt;sql many-key="c_id" /&gt;
+   &lt;/field&gt;
+&lt;/class&gt;
+
+&lt;class name="org.castor.sample.Product"&gt;
+   &lt;map-to table="product"/&gt;
+   &lt;field name="id" type="long"&gt;
+      &lt;sql name="id" type="integer" /&gt;
+   &lt;/field&gt;
+   &lt;field name="description" type="string"&gt;
+      &lt;sql name="desc" type="varchar" /&gt;
+   &lt;/field&gt;
+&lt;/class&gt;</code-panel>
+		
+	</section>
+	
+	<section title="Using Castor JDO for the first time">
+	
+		<p>To e.g. load a given <tt>Catalogue</tt> instance as defined by its identity,
+		   and all its associated <tt>Product</tt> instances, the following code could be used, 
+		   based upon the Castor-specific interfaces <tt>JDOManager</tt> and <tt>Database</tt>.</p>
+		   
+		<code-panel>
+JDOManager.loadConfiguration("jdo-conf.xml");
+JDOManager jdoManager = JDOmanager.createInstance("sample");
+
+Database database = jdoManager.getDatabase();		
+database.begin();
+Catalogue catalogue = database.load(catalogue.class, new Long(1));
+database.commit();
+database.close();</code-panel>
+		
+		<p>For brevity, exception handling has been ommitted completely. But is is quite obvious
+		   that - when using such code fragments again and again, to e.g. implement various 
+		   methods of a DAO - there's a lot of redundant code that needed to be written again 
+		   and again - and exception handling is adding some additional complexity here as well.</p>
+		   
+	</section>
+
+	<section title="JDO configuration">
+	
+		<p>As shown in above code example, before you can perform any persistence operations on 
+		   your domain objects, Castor JDO has to be configured by the means of a JDO 
+		   configuration file. as part of this JDO configuration, the user defines one or more 
+		   databases and everything required to connect to this database (user credentials, JDBC
+		   connection string, ....).</p>
+		   
+		<p>A valid JDO configuration file for HSQL looks as follows:</p>
+		
+		<code-panel>
+&lt;?xml version="1.0" ?&gt;
+&lt;!DOCTYPE jdo-conf PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN" "http://castor.org/jdo-conf.dtd"&gt;
+&lt;jdo-conf&gt;
+  &lt;database name="hsqldb" engine="hsql"&gt;
+    &lt;driver class-name="org.hsqldb.jdbcDriver" url="jdbc:hsqldb:hsql://localhost:9002/dbname"&gt;
+      &lt;param name="user" value="sa"/&gt;
+      &lt;param name="password" value=""/&gt;
+    &lt;/driver&gt;
+    &lt;mapping href="mapping.xml"/&gt;
+  &lt;/database&gt;
+  &lt;transaction-demarcation mode="local"/&gt;
+&lt;/jdo-conf&gt;
+		</code-panel>
+		   
+	</section>	
+	
+	</body>
+
+</document>

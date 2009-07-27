@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<i1 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="test.xsd">
+	<i2>
+		<i>i</i>
+	</i2>
+</i1>

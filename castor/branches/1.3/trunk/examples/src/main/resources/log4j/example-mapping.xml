@@ -1,0 +1,63 @@
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.codehaus.org/mapping.dtd">
+
+<mapping>
+	<class name="log4j.LogEntry" key-generator="MAX">
+		<description>Log entry</description>
+        <map-to table="LOG"/>
+        <field name="id" type="integer" identity="true">
+            <sql name="LOG_ID" type="numeric"/>
+        </field>
+        <field name="timestamp" type="date">
+            <sql name="LOG_TIMESTAMP" type="timestamp"/>
+        </field>
+        <field name="className" type="string">
+            <sql name="LOG_CLASS" type="char"/>
+        </field>
+        <field name="level" type="string">
+            <sql name="LOG_LEVEL" type="char"/>
+        </field>
+        <field name="thread" type="string">
+            <sql name="LOG_THREAD" type="char"/>
+        </field>
+        <field name="message" type="string">
+            <sql name="LOG_MESSAGE" type="char"/>
+        </field>
+        <field name="count" type="integer">
+            <sql name="LOG_COUNT" type="numeric"/>
+        </field>
+        <field name="exception" type="log4j.LogExceptionEntry">
+            <sql many-key="LOGE_LOG_ID" />
+        </field>
+    </class>
+
+	<class name="log4j.LogExceptionEntry" key-generator="MAX"
+           depends="log4j.LogEntry">
+		<description>Log exception entry</description>
+        <map-to table="LOG_EXCEPTION"/>
+        <field name="id" type="integer" identity="true">
+            <sql name="LOGE_ID" type="numeric"/>
+        </field>
+        <field name="stackTrace" type="string">
+            <sql name="LOGE_STACKTRACE" type="clob" dirty="ignore"/>
+        </field>
+        <field name="entry" type="log4j.LogEntry">
+            <sql name="LOGE_LOG_ID"/>
+        </field>
+    </class>
+
+	<class name="log4j.LogReferenceExtension"
+           extends="log4j.LogEntry">
+		<description>Log extension entry</description>
+        <map-to table="LOG_EXTENSION"/>
+        <field name="id">
+            <sql name="LOGX_LOG_ID"/>
+        </field>
+        <field name="type" type="string">
+            <sql name="LOGX_TYPE" type="char" dirty="ignore"/>
+        </field>
+        <field name="value" type="string">
+            <sql name="LOGX_VALUE" type="char" dirty="ignore"/>
+        </field>
+    </class>
+</mapping>

@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.codehaus.org/contributing.xml">
+
+  <properties>
+    <title>Contributing to Castor</title>
+    <author email="werner DOT guttmann AT gmx DOT net">Werner Guttmann</author>
+    <abstract>
+      Outlines how to contribute to Castor.
+    </abstract>
+    <status>Final</status>
+  </properties>
+
+  <body>
+
+    <title>Contributing to Castor</title>
+
+    <section title="Introduction">
+
+      <p>
+        The Castor project is an Open Source project hosted at the
+        <a href="http://www.codehaus.org">Codehaus</a>, and it is released under a very
+        open license. This means there are many ways to contribute to the
+        project by e.g. coding, documenting, answering questions on the mailing lists,
+        proposing ideas, reporting bugs, suggesting bug-fixes, and so on.
+      </p>
+
+      <p>
+        To begin with, we suggest you to subscribe to the
+        <a href="lists.html">Castor mailing lists</a>. We recommend that you listen
+        for a while to hear how others make contibutions.
+      </p>
+
+      <p>
+        You can get your local working copy of the current code base (of any particular
+        release) from the <a href="scm.html">Castor SVN repository</a>. Review the list
+        of unassigned issues in <a href="http://jira.codehaus.org/browse/CASTOR">Jira</a>
+        and choose a task -- or perhaps you have noticed something that needs patching.
+        (Before you start changing any code, please create a Jira task for your changes
+        if one does not already exist.)  Make your changes, test those changes, generate
+        a patch and attach this patch to the Jira issue.  If you wish, discuss this patch
+        on the dev mailing list.
+      </p>
+
+      <p>
+        Document writers are usually the rarest and most wanted people, so if you would
+        like to help but you're not familiar with the innermost technical details, don't
+        worry.  Other committers will spend time with you and will assist you with their
+        knowledge. We're a friendly bunch and we appreciate anyone who is willing to
+        commit their most valuable resource -- time -- to help out..
+      </p>
+
+    </section>
+    
+    <section title="Useful links">
+    
+    	<ul>
+    		<li><url title="How to run CTF test suite">how-to-run-xml-ctf-suite.html</url></li>
+    		<li><url title="How to submit an XML-specific bug report">how-to-submit-an-xml-bug.html</url></li>
+    		<li><url title="How to prepare a patch">how-to-prepare-a-patch.html</url></li>
+    	</ul>
+    </section>
+
+    <section title="Guidelines For Code Contribution">
+
+      <p>
+        All code contributions must be under the license and copyright of the
+        project to which you contribute. By contributing code you agree that we
+        can distribute the contribution under the terms of the license, that it
+        can be distributed without any royalties, copyright, trademark, patent or
+        other legal impediments. Open source means no discrimination against any
+        group or individual that may wish to use the code.
+      </p>
+
+      <p>
+        When making a contribution you are granting us a world wide, royalty free,
+        unlimited-in-time license to re-distribute the code under the Exolab and/or
+        Apache license. In case you wonder, you remain the original author and
+        copyright holder of the contribution, you just give other people a license
+        to use it as well, including the creation of derivative works (as long
+        as the derivative works comply with all license terms, of course). Thank you.
+      </p>
+
+      <p>It's perfectly ok to put your name and e-mail address in the code.</p>
+
+      <p>
+        When sending patches, unified diff files (3 lines before, 3 lines after)
+        work best:
+      </p>
+
+<code-panel><![CDATA[
+  svn diff <file>]]></code-panel>
+
+      <p>against the up-to-date SVN version, or</p>
+
+<code-panel><![CDATA[
+  diff -u <file1> <file2>
+]]></code-panel>
+
+      <p>
+        It is very important that you send test cases along with your patch of a
+        new feature or bug fix.  A test case will help the committers assess the
+        validity of the problem in question as well as your proposed solution.
+        In general, a test case -- showing a feature being added or bug being
+        fixed -- proves that the patch plays along nicely with other code and does
+        not introduce any side effects.
+      </p>
+
+      <p>
+        Committers are encouraged to commit a patch only if (s)he fully
+        understands the patch. A test case that assists the committer in full
+        understanding -- as mandated per the above statement -- ensures that
+        the committer understands what the patch does.  As a result, the test
+        case encourages a prompt review and check-in.
+      </p>
+
+      <p>
+        A test case is also the easiest and most efficient way to ensure your
+        contribution will not be broken by a future patch. It becomes even more
+        important if your project that makes use of Castor depends on a feature
+        or bug fix that you're contributing.
+      </p>
+
+      <p>
+        The last requirement for contributing code is to create a Jira
+        <a href="http://jira.codeahus.org/browse/CASTOR">issue</a> and to attach
+        your patch (in from of a unified diff) to this issue.  A Jira issue
+        allows your request to be fully traceable, as well as describing and
+        documenting your request.
+      </p>
+
+    </section>
+
+    <section title="Guidelines For Committers">
+
+      <p>
+        <i>Familiarize yourself.</i> Take some time to understand the directory
+        structure, build environment, interaction between components, coding and
+        commenting style. While nothing out of the ordinary, not all projects are
+        identical. Code maintenance is substantially easier when all code in a
+        project uses a similar style.
+      </p>
+
+      <p>
+        <i>Advertise before you start.</i> It's pointless to have two people
+        working on the same feature. Send an e-mail to the developer mailing
+        list and announce the what and how of your intentions. If you don't get a
+        reply within a day then you can assume the coast is clear.
+      </p>
+
+      <p>
+        <i>Test before you commit.</i> Before committing any changes run an
+        <tt>svn update</tt> to make sure you have the latest code base. Run the
+        test cases (ideally both XML and JDO) to make sure nothing is broken.
+      </p>
+
+      <p>
+        <i>Commit all at once.</i> If the change involves more than a single file,
+        make sure you commit all the changes together. A partially committed SVN
+        tree is not a pretty sight. No lunch breaks, meetings or sleep during
+        commits!
+      </p>
+
+      <p>
+        <i>Be ready to receive complaints.</i> Hopefully everything works fine, but
+        if changes break existing code, people will complain. Be ready to answer
+        their e-mails and apply the proper fixes. No going on vacation five minutes
+        after a commit!
+      </p>
+
+      <p>
+        <i>Put your name so people know who to credit.</i> (Also who to blame).
+        Initials work just fine, your full name and e-mail address will already be
+        on the main page.  If you've added a new file, feel free to put your name
+        and e-mail address as the author and put your name as the copyright owner.
+        If you're fixing a file, put your initials on the comment.  Remember that
+        JavaDoc only allows an @author tag on a class and not on a method or field.
+      </p>
+
+      <p>
+        <i>Observe release time.</i> We're going to announce a new release at least
+        five hours prior to making it (often 48 hours prior). That gives you
+        sufficient time to commit your changes in time for the release, making sure
+        that nothing breaks. If you can't make it, there's always the next release.
+      </p>
+
+      <p>
+        <i>Document what you've done.</i> In-code documentation, SVN commit messages,
+        and the change log. Major changes should always be recorded in the changelog.
+      </p>
+
+      <p>
+        <i>Use the document DTD.</i> When adding new documentation use the document DTD.
+        Specify the proper document URL, properties, body and sections. Everything
+        inside the body/header/section is XHTML. That means well formed HTML.
+        If it's not, you won't be able to build the docs.
+      </p>
+
+      <p>
+        We don't have a particular style for documentation, and we do appreciate
+        a sense of humor, sarcasm and literary expression. Just don't overdue it,
+        and please, no cliche.
+      </p>
+
+    </section>
+
+    <section title="Licensing Policy">
+
+      <p>
+        We have a simple policy regarding distributable code (referring, for
+        example, to third-party JAR files that are to be included as part of the
+        Castor source distribution). Distributable code must either be open source
+        and compatible in license, or an API that is freely distributable.
+      </p>
+
+      <p>
+        BSD-like and MPL-like licenses are compatible and can be mixed in the
+        same code base. Liberal licenses and public domain are also fine.
+      </p>
+
+      <p>
+        APIs need not be open source, but they must be freely distributable.
+        As a policy we like to stick with standard APIs and never modify them
+        to break compatibility with the API, so the license has little affect.
+        We do favor public domains APIs like SAX over tightly controlled APIs,
+        and hopefully we can all do something about that.
+      </p>
+
+      <p>
+        Pay special attention to pre-release availability and trademark issues
+        before including code with Castor.  Several committees and companies
+        require proper trademark acknowledgement in documentation. Some packages
+        or APIs are available for distribution only once they have been formally
+        released. For example, this policy applies to all APIs coming from Sun.
+      </p>
+
+    </section>
+
+    <section title="Building Castor">
+    
+        <p>
+            As of release 1.3, Castor supports <a href="http://maven.apache.org">Maven 2</a> 
+            only as build management system. Please refer to the following sections as well 
+            to get an idea about the project layout, the individual modules and the 
+            structure within a module. 
+        </p>
+        
+        <note>
+            Any Maven release higher than 2.0.6 is fine for anybody wishing to 
+            build Castor and either run tests or generate JARs locally. Anybody
+            wishing to deploy build artifacts to a Maven repository will have to 
+            use maven 2.0.9 or higher.
+        </note>
+        
+        <note>
+           Support for Ant as build tool has been dropped completely. Please note, though,
+           that the code base still includes Ant build files. Please
+           do not use them! Those Ant files are in the process of being removed, 
+           which will take us some time.
+        </note>
+        
+        <section title="Project layout">
+        
+            <p>
+                Castor is a project that is structured into (independent)
+                modules. Those of you familiar with Maven 2 will come to 
+                realize that this layout follows a standard Maven multi-module 
+                project structure.
+            </p>
+            
+            <p>
+                Currently, the following main modules are available:
+            </p>
+            
+            <ctable border="1">
+                <cheader><td>Name</td><td>Description</td><td>Since</td></cheader>
+                <crow><td>anttask</td><td>Ant task definitions for Castor tools</td><td>1.0.5</td></crow>
+                <crow><td>core</td><td>Castor core classes</td><td>1.2.1</td></crow>
+                <crow><td>cpa</td><td>Castor JDO - persistence framework</td><td>1.1</td></crow>
+                <crow><td>xml</td><td>XML data binding framework</td><td>1.2.1</td></crow>
+                <crow><td>codegen</td><td>XML code generator</td><td>1.1.1</td></crow>
+                <crow><td>schema</td><td>XML schema support (classes)</td><td>1.2</td></crow>
+                <crow><td>ddlgen</td><td>Castor JDO DDL generator</td><td>1.1</td></crow>
+                <crow><td>examples</td><td>Examples for all functional areas</td><td>1.0.5</td></crow>
+            </ctable>
+            
+            <p>
+                In addition, there's various modules available that represent
+                integration and performance test suites for the main modules:
+            </p> 
+
+            <ctable border="1">
+                <cheader><td>Name</td><td>Description</td><td>Since</td></cheader>
+                <crow>
+                    <td>xmlctf</td>
+                    <td>Integration test suite for Castor XML</td>
+                    <td>1.2</td>
+                </crow>
+                <crow>
+                    <td>cpactf</td>
+                    <td>Integration test suite for Castor JDO</td>
+                    <td>1.2</td>
+                </crow>
+                <crow>
+                    <td>cpaptf</td>
+                    <td>Performance test suite for Castor XML</td>
+                    <td>1.2</td>
+                </crow>
+                <crow>
+                    <td>xmlctf-framework</td>
+                    <td>Code framework for XMLCTF</td>
+                    <td>1.2</td>
+                </crow>
+                <crow>
+                    <td>maven-plugins</td>
+                    <td>Maven plugins supporting execution from XMLCTF within Maven</td>
+                    <td>1.2</td>
+                </crow>
+            </ctable>
+        
+            <p>
+                Finally, there's a module to provide Maven 2 archetypes for
+                Castor:
+            </p>    
+
+            <ctable border="1">
+                <cheader><td>Name</td><td>Description</td><td>Since</td></cheader>
+                <crow>
+                    <td>codegen-testcase-archetype</td>
+                    <td>Maven archetype for XML code generator</td>
+                    <td>1.2</td>
+                </crow>
+                <crow>
+                    <td>cpa-testcase-archetype</td>
+                    <td>Maven archetype for XML code generator</td>
+                    <td>1.2</td>
+                </crow>
+            </ctable>
+
+            <p>
+                Last but not least, there's a module to provide the project documentation
+                for Castor:
+            </p>    
+
+            <ctable border="1">
+                <cheader><td>Name</td><td>Description</td><td>Since</td></cheader>
+                <crow>
+                    <td>doc</td>
+                    <td>Project documentation (reference guide)</td>
+                    <td>1.3rc1</td>
+                </crow>
+            </ctable>
+            
+        </section>
+
+        <section title="Directory Structures (globally)">
+
+            <ctable border="1">
+                <cheader>
+                    <td>Directory</td>
+                    <td>Description of its content</td>
+                </cheader>
+                <crow><td>bin</td><td>Script/batch files required for building Castor, running samples, CTF et alias</td></crow>
+                <crow><td>src/doc</td><td>Documentation (in XML form)</td></crow>
+                <crow><td>src/schema</td><td>DTD and XML schema for Castor mapping files</td></crow>
+                <crow><td>src/examples</td><td>Examples for the various packages</td></crow>
+                <crow><td>src/etc</td><td>Additional files that are not part of the code base</td></crow>
+                <crow><td>lib</td><td>JARs required to build Castor and distributable JARs</td></crow>
+            </ctable>
+
+        </section>
+        
+        <section title="Directory Structure within a module">
+
+            <ctable border="1">
+                <cheader>
+                    <td>Directory</td>
+                    <td>Its content</td>
+                </cheader>
+                <crow><td>src/main/[java/resources]</td><td>The source base for a given Castor module</td></crow>
+                <crow><td>src/test/[java/resources]</td><td>The JUNit tests for the given Castor module</td></crow>
+            </ctable>
+
+        </section>
+
+        <section title="Building code">
+        
+            <note>
+                 Please note that the code base still includes Ant build files. Please
+                 do not use them! Those remaining Ant files in the trunk are in the 
+                 process of being removed, which will take us some more time.
+            </note>
+         
+            <section title="Using Maven 2">
+            
+                <p>
+                    To build Castor using Maven - assuming that you have got Maven 2
+                    locally installed - please issue ...
+                </p>
+                
+                <code-panel>
+> mvn compile</code-panel>
+                
+                <p>
+                    To run the complete set of JUnit tests, issue ...
+                </p>
+                
+                <code-panel>
+> mvn test</code-panel>
+
+                <p>
+                    To build the project JARs locally, issue ...
+                </p>
+
+                <code-panel>
+> mvn jar</code-panel>
+
+                <p>
+                    To install the generated JARs into your <b>local</b> Maven 
+                    repository, issue ...
+                </p>
+
+                <code-panel>
+> mvn install</code-panel>
+                
+                <p>
+                    To additionally run the (plenty) integration test suites 
+                    available with Castor during testing, please issue ...
+                </p>
+                
+                <code-panel>
+> mvn test -P tests</code-panel>
+
+                <p>
+                    by activating the <i>tests</i> profile.
+                </p>
+    
+            </section>
+        
+      </section>
+      
+      <section title="Several Castor checkouts parallel in Eclipse">
+      
+        <p>
+            In case you need to check out Castor more than once - as you
+            may be working on several Jira issues at the same time -
+            you'll come across a subtle problem related to how multi-module 
+            Maven projects are being integrated with Eclipse.
+        </p>
+        
+        <p>
+            By definition, when executing <tt>mvn eclipse:eclipse</tt>
+            to generate the Eclipse project files (<tt>.project</tt> and
+            <tt>.classpath</tt>, amongst others) for all the modules, Maven 
+            will use the artifact names of the module as Eclipse project name - which 
+            is fine as long as you are working with one checkout only at a 
+            time. When wanting to use several checkouts in parallel, this 
+            will cause name collisions.
+        </p>
+        
+        <p>  
+            In order to avoid this, please execute the <tt>eclipse:eclipse</tt>
+            goal as follows, passing an arbitrary string to the eclipse plugin
+            to append to the artifact name when deducing the project name.
+        </p>
+        
+        <code-panel>
+mvn -Declipse.projectNameTemplate=[artifactId]-2612</code-panel>
+
+        <p>
+            In above sample, a Jira issue number has been used to uniquely
+            identify the individual modules in Eclipse.
+        </p>
+         
+      </section>
+
+    </section>
+
+  </body>
+
+</document>

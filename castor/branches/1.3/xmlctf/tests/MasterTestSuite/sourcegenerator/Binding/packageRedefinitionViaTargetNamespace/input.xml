@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:ROOT xmlns:p="http://elementa.net/elementa"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://elementa.net/elementa ../../../../../../codegen/src/test/resources/xml/c2296/test.xsd ">
+    <p:ELEMENTA>a</p:ELEMENTA>
+</p:ROOT>

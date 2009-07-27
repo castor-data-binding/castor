@@ -1,0 +1,35 @@
+<?xml version='1.0'?>
+
+<schema>
+
+  <element name="product">
+    <type content="elemOnly" order="seq">
+
+      <element ref="product-group" minOccurs="1" maxOccurs="1"/>
+      <element ref="product-inventory" minOccurs="1" maxOccurs="1"/>
+
+      <attribute name="id" type="ID" minOccurs="1"/>
+      <attribute name="name" type="string" minOccurs="1"/>
+      <attribute name="price" type="real" minOccurs="1"/>
+
+    </type>
+  </element>
+
+  <element name="product-group">
+    <type content="empty">
+
+      <attribute name="id" type="ID" minOccurs="1"/>
+      <attribute name="name" type="string" minOccurs="1"/>
+
+    </type>
+  </element>
+
+  <element name="product-inventory">
+    <type content="empty">
+
+      <attribute name="quantity" type="integer" minOccurs="1"/>
+
+    </type>
+  </element>
+
+</schema>

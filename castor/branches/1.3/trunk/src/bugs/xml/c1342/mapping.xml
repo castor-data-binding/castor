@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+
+  <class name="xml.c1342.Bean">
+    <map-to xml="bean"/>
+    <field name="attribute" type="integer" >
+      <bind-xml name="attribute" node="attribute"/>
+    </field>
+    <field name="element" type="string">
+      <bind-xml name="element" node="element"/>
+    </field>
+    <field name="reference" type="xml.c1342.Bean">
+      <bind-xml name="reference"/>
+    </field>
+  </class>
+
+</mapping>
+

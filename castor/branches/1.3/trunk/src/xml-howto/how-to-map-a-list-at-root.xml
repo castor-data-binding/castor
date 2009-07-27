@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/howto/how-to-map-a-list-at-root.xml">
+  <properties>
+    <title>How to map a list of elements at the root</title>
+    <abstract/>
+    <status>Final</status>
+  </properties>
+  <body>
+    <title>How to map a list of elements at the root</title>
+    <header/>
+
+    <section title="Intended Audience">
+
+        <p>Anyone who wants to map a list of elements at the document root.</p>
+        
+        <p>This document helps people to get familiar with the basic concepts
+           of mapping and shows an example.</p>
+
+    </section>
+    
+    <section title="Prerequisites">
+
+        <p>None.</p>
+
+    </section>
+
+    <section title="Basic concept">
+        
+        <p>Assume you have a <tt>java.util.List</tt> (<tt>java.util.ArrayList</tt>) and  
+           an <tt>OrderItem</tt> classes, where the List instance simply holds a list of 
+           order items.</p>
+           
+        <code-panel>
+public class OrderItem {
+    
+    private String id;
+    private Integer quantity;
+    
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
+    public Integer getQuantity() {
+        return quantity;
+    }
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+}</code-panel>
+           
+    </section>
+
+    <section title="Mapping file">
+
+        <p>Here's the mapping file for Castor XML, showing the class mapping for the 
+           OrderItem class:</p>
+
+        <code-panel><![CDATA[
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mapping>
+   <class name="nl.vodafone.castorbinding.demo.OrderItem">
+      <field name="Id" type="java.lang.String">
+         <bind-xml name="id" node="attribute" />
+      </field>
+      <field name="Quantity" type="java.lang.Integer">
+         <bind-xml name="quantity" node="attribute" />
+      </field>
+   </class>
+</mapping>]]></code-panel>
+    
+    </section>
+
+    <section title="Unmarshalling">
+        
+        <p>Using the Castor XML Unmarshaller with the mapping file shown above, the code
+           to unmarshal the XML shown below ...</p>
+
+        <code-panel><![CDATA[
+<?xml version="1.0"?>
+<order">
+	<order-item id="1" quantity="15"/>
+	<order-item id="3" quantity="20"/>
+</order>]]></code-panel>
+
+           <p>... into a variable of type <tt>java.util.ArrayList</tt>
+           is shown subsequently:</p>
+
+        <code-panel>
+InputSource mappingSource = ...;
+Mapping mapping = new Mapping();
+mapping.loadMapping(mappingSource);        
+
+InputSource inputSource = ...;
+Unmarshaller unmarshaller = new Unmarshaller(ArrayList.class);
+unmarshaller.setMapping(mapping);
+ArrayList orders = (ArrayList) unmarshaller.unmarshal(inputSource);        
+		</code-panel>
+
+    </section>
+
+    <section title="Marshalling">
+        
+        <p>Using the Castor XML Marshaller with the mapping file shown above, the code
+           to marshal a List of OrderItem instances to XML is shown below.</p>
+
+        <code-panel>
+PrintWriter writer = ...;
+List orders = new ArrayList();
+
+Mapping mapping = new Mapping();
+mapping.loadMapping(mappingSource);        
+
+Marshaller marshaller = new Marshaller(writer);
+marshaller.setRootElement("orders");
+marshaller.setMapping(mapping);
+marshaller.marshal(orders);        
+		</code-panel>
+
+    </section>
+
+    <section title="References">
+
+        <ul>
+            <li><a href="xml-mapping.html">XML mapping</a></li>
+        </ul>
+        
+    </section>
+
+
+  </body>
+</document>

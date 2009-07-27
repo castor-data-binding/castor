@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Specification-Title: Castor JDO/XML examples
+Specification-Vendor: Intalio Inc.
+Specification-Version: $VERSION$$RELEASE$
+Implementation-Title: Castor JDO/XML examples
+Implementation-Vendor: Intalio Inc.
+Implementation-Version: $VERSION$$RELEASE$
+Main-Class: jdo.Test
+
+Name: org/exolab/castor
+Sealed: false

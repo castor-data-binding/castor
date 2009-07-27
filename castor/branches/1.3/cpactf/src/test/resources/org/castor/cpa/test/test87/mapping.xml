@@ -1,0 +1,81 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.exolab.org/mapping.dtd">
+<mapping>
+    <class name="org.castor.cpa.test.test87.TimeStampableEntity">
+        <description>Entity</description>
+        <cache-type type="count-limited" capacity="100"/>
+        <map-to table="test87_entity"/>
+        <field name="id" type="integer" identity="true">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string">
+            <sql name="name" type="char"/>
+        </field>
+        <field name="timeStamp" type="long">
+            <sql name="timestamp" type="numeric" />
+        </field>
+    </class>
+
+    <class name="org.castor.cpa.test.test87.TimeStampableProduct">
+        <description>Product</description>
+        <cache-type type="count-limited" capacity="100"/>
+        <map-to table="test87_product"/>
+        <field name="id" type="integer" identity="true">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string">
+            <sql name="name" type="char"/>
+        </field>
+	    <field name="group" type="org.castor.cpa.test.test87.TimeStampableGroup">
+	      <sql name="group_id" />
+	    </field>
+        <field name="timeStamp" type="long">
+            <sql name="timestamp" type="numeric" />
+        </field>
+    </class>
+
+    <class name="org.castor.cpa.test.test87.TimeStampableGroup">
+        <description>Group</description>
+        <cache-type type="count-limited" capacity="100"/>
+        <map-to table="test87_group"/>
+        <field name="id" type="integer" identity="true">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string">
+            <sql name="name" type="char"/>
+        </field>
+        <field name="timeStamp" type="long">
+            <sql name="timestamp" type="numeric" />
+        </field>
+    </class>
+
+    <class name="org.castor.cpa.test.test87.TimeStampableBase">
+        <description>Base entity</description>
+        <cache-type type="count-limited" capacity="100"/>
+        <map-to table="test87_base"/>
+        <field name="id" type="integer" identity="true">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string">
+            <sql name="name" type="char"/>
+        </field>
+        <field name="timeStamp" type="long">
+            <sql name="timestamp" type="numeric" />
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test87.TimeStampableExtended"
+           extends="org.castor.cpa.test.test87.TimeStampableBase">
+        <description>Extended entity</description>
+        <cache-type type="count-limited" capacity="100"/>
+        <map-to table="test87_extended"/>
+        <field name="id" type="integer" identity="true">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="note" type="string">
+            <sql name="note" type="char"/>
+        </field>
+    </class>
+</mapping>
+

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+<!--
+  To get the infinite loop, we need:
+  1) A complex type with a name
+  2) An element in a complex type of the type in #1 whose name as the type
+     is the same except for case
+  3) Another instance of that element in a different complex type
+ -->
+
+	<xsd:complexType name="ComplexTypeOne">
+		<xsd:sequence>
+			<xsd:element name="problemElement" type="ProblemElement"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ComplexTypeTwo">
+		<xsd:sequence>
+			<xsd:element name="problemElement" type="ProblemElement"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ProblemElement">
+		<xsd:sequence>
+			<xsd:element name="okElement" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+</xsd:schema>
+

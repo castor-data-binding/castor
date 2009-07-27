@@ -1,0 +1,76 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+	<description>one field type of bit test</description>
+	<class name="TableAll">
+		<map-to table="table_all" xml="product" />
+		<field name="fieldtinyint" type="tinyint">
+			<sql name="fieldtinyint" type="tinyint" />
+		</field>
+		<field name="fieldsmallint" type="smallint">
+			<sql name="fieldsmallint" type="smallint" />
+		</field>
+		<field name="fieldinteger" type="integer">
+			<sql name="fieldinteger" type="integer" />
+		</field>
+		<field name="fieldbigint" type="bigint">
+			<sql name="fieldbigint" type="bigint" />
+		</field>
+		<field name="fieldfloat" type="float">
+			<sql name="fieldfloat" type="float" />
+		</field>
+		<field name="fielddouble" type="double">
+			<sql name="fielddouble" type="double" />
+		</field>
+		<field name="fieldreal" type="real">
+			<sql name="fieldreal" type="real" />
+		</field>
+		<field name="fieldnumeric" type="numeric">
+			<sql name="fieldnumeric" type="numeric" />
+		</field>
+		<field name="fielddecimal" type="decimal">
+			<sql name="fielddecimal" type="decimal" />
+		</field>
+		<field name="fieldchar" type="char">
+			<sql name="fieldchar" type="char" />
+		</field>
+		<field name="fieldvarchar" type="varchar">
+			<sql name="fieldvarchar" type="varchar" />
+		</field>
+		<field name="fieldlongvarchar" type="longvarchar">
+			<sql name="fieldlongvarchar" type="longvarchar" />
+		</field>
+		<field name="fielddate" type="date">
+			<sql name="fielddate" type="date" />
+		</field>
+		<field name="fieldtime" type="time">
+			<sql name="fieldtime" type="time" />
+		</field>
+		<field name="fieldtimestamp" type="timestamp">
+			<sql name="fieldtimestamp" type="timestamp" />
+		</field>
+		<field name="fieldbinary" type="binary">
+			<sql name="fieldbinary" type="binary" />
+		</field>
+		<field name="fieldvarbinary" type="varbinary">
+			<sql name="fieldvarbinary" type="varbinary" />
+		</field>
+		<field name="fieldlongvarbinary" type="longvarbinary">
+			<sql name="fieldlongvarbinary" type="longvarbinary" />
+		</field>
+		<field name="fieldother" type="other">
+			<sql name="fieldother" type="other" />
+		</field>
+		<field name="fieldjavaobject" type="javaobject">
+			<sql name="fieldjavaobject" type="javaobject" />
+		</field>
+		<field name="fieldblob" type="blob">
+			<sql name="fieldblob" type="blob" />
+		</field>
+		<field name="fieldclob" type="clob">
+			<sql name="fieldclob" type="clob" />
+		</field>
+	</class>
+</mapping>
+

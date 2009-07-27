@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	wrong AttGroup redefinition
+-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		targetNamespace="foo" xmlns="foo"
+		elementFormDefault="qualified">
+	
+	<xsd:redefine schemaLocation="xsd003.xsdmod">
+		
+		<xsd:attributeGroup name="attGroupBar">
+			<xsd:attributeGroup ref="attGroup" />
+			<xsd:attribute name="add" type="xsd:decimal" />
+		</xsd:attributeGroup>
+	</xsd:redefine>
+	
+</xsd:schema>

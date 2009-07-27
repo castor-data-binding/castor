@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+
+<document url="http://castor.org/ws-integration.xml">
+
+    <properties>
+        <title>Castor and its integration into web service frameworks</title>
+        <author email="werner DOT guttmann AT gmx DOT net">Werner Guttmann</author>
+        <abstract>
+            Describes how Castor's XML data binding functionality and its code generator
+            are integrated into web service frameworks.
+        </abstract>
+        <status>Final</status>
+    </properties>
+
+    <body>
+
+        <title>Castor and web service frameworks</title>
+
+        <section title="Introduction">
+
+            <p>
+                To leverage Castor's core strength - support for enterprise-level XML data binding
+                functionality - many web service framework vendors have started to offer integration 
+                of their respective products and XML data binding frameworks in general and Castor in 
+                particular. This allows users of web service frameworks to leverage the strengths 
+                of both worlds, making it easier to meet the requirements of mission-critical
+                enterprise-level web service offerings.
+            </p>
+
+        </section>
+        
+        <section title="Integration offered">
+        
+            <p>
+                The following table enlists web service frameworks, which offer support for 
+                integrating Castor as XML data binding framework, and offers direct pointers
+                to the relevant documentation.
+            </p>
+            
+            <ctable>
+                <crow>
+                    <td><a href="http://ws.apache.org/axis/">Apache Axis</a></td>
+                    <td>
+                        <ol>
+                            <li><a href="http://www.ibm.com/developerworks/webservices/library/ws-castor/">Create Web services using Apache Axis and Castor</a></li>
+                            <li><a href="http://www.sosnoski.com/presents/cleansoap/axis.html">Apache Axis and Castor - Article on http://www.sosnoski.com</a></li>
+                        </ol>
+                    </td>
+                </crow>
+                <crow>
+                    <td><a href="http://www.springframework.org/spring-ws">Spring Web Services</a></td>
+                    <td><a href="http://static.springframework.org/spring-ws/site/reference/html/oxm.html">Marshalling XML using O/X Mappers</a></td>
+                </crow>
+                <crow>
+                    <td><a href="http://xfire.codehaus.org">XFire</a></td>
+                    <td><a href="http://xfire.codehaus.org/Castor">XFire and Castor</a></td>
+                </crow>
+            </ctable>
+            
+            <p>
+                If we have missed any offerings, please feel free to let us know at one of the 
+                available <a href="lists.html">mailing lists</a>.
+            </p>
+            
+        </section>
+
+
+    </body>
+
+</document>

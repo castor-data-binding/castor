@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<chapter id="jpa" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>JPA Annotations</title>
+
+  <section id="jpa.why">
+    <title>JPA support - Motivation</title>
+    
+    <para>
+        tbd 
+    </para>
+    
+  </section>
+  
+  <section id="jpa.limitations">
+    <title>Limitations</title>
+  
+    <para>
+        tbd
+    </para>
+    
+  </section>
+  
+  <xi:include href="jpa/configuration.xml" />
+
+</chapter>

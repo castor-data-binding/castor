@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+	<description>one field type of bit test</description>
+	<class name="Simple" key-generator="HIGH-LOW">
+		<map-to table="simple" xml="product" />
+		<field name="fieldinterger" type="integer" identity="true">
+			<sql name="fieldinterger" type="integer" />
+		</field>
+		<field name="fieldinterger2" type="integer">
+			<sql name="fieldinterger2" type="integer" />
+		</field>
+	</class>
+	<key-generator name="HIGH-LOW">
+		<param name="table" value="SEQ" />
+		<param name="key-column" value="SEQ_TableName" />
+		<param name="value-column" value="SEQ_MaxPKValue" />
+		<param name="grab-size" value="100" />
+	</key-generator>
+</mapping>
+

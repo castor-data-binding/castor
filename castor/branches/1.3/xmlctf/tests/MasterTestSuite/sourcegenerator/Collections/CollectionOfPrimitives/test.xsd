@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<xs:element name="MainType">
+		<xs:complexType>
+			<xs:sequence>
+	          <xs:element name="longArray" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+	          <xs:element name="intArray" type="xs:int" minOccurs="0" maxOccurs="unbounded"/>
+	          <xs:element name="booleanArray" type="xs:boolean" minOccurs="0" maxOccurs="unbounded"/>
+	          <xs:element name="floatArray" type="xs:float" minOccurs="0" maxOccurs="unbounded"/>
+	          <xs:element name="doubleArray" type="xs:double" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

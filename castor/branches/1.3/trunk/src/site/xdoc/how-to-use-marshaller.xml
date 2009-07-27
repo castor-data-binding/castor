@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.codehaus.org/download.xml">
+
+    <properties>
+        <title>How to use the Castor Spring FactoryBeans</title>
+        <author email="werner DOT guttmann AT gmx DOT net">Werner Guttmann</author>
+        <abstract>
+            Outlines how to use the Spring FactoryBeans for Castor XML
+        </abstract>
+        <status>Final</status>
+    </properties>
+
+    <body>
+        <title>How to use the Castor Spring FactoryBeans</title>
+
+        <section name="Prerequisites">
+        
+        	<p>The following sections assume that you have a valid Castor XML
+        	   mapping for a Java entity named <tt>Product</tt> as follows:</p>
+        	   
+			<source><![CDATA[
+<mapping>
+
+  <!--  Mapping for Product  -->
+  <class name="org.springframework.xml.entity.Product" identity="id">
+    <map-to xml="product" />
+	<field name="id" type="integer">
+		  <bind-xml name="id" node="element"/>
+		</field>
+    <field name="name" type="string">
+      <bind-xml name="name" node="element" />
+    </field>
+  </class>
+
+</mapping>			
+			]]></source>        	   
+			
+			<p>The sources for this <tt>Product</tt> entity are as follows:</p>
+			
+			<source>
+public class Product {
+
+    private int id;
+    private String name;
+    
+    public int getId() {
+        return this.id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+    public String getName() {
+        return this.name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+			</source>
+        </section>
+        
+        <section name="How to use the CastorMarshallerFactoryBean">
+
+            <p>Before you'll be able to obtain an instance of <tt>Marshaller</tt>
+               through Spring, you have to add a Spring bean definition to your
+               Spring configuration as follows:</p>
+            
+            <source><![CDATA[
+<bean id="resolver" class="org.springframework.xml.castor.CastorResolverFactoryBean"/>
+
+<bean id="marshaller"
+      class="org.springframework.xml.castor.CastorMarshallerFactoryBean">
+   <property name="resolver"><ref local="resolver"/></property>
+</bean>
+            ]]></source>
+            
+            <p>Based upon this configuration, you will be able to obtain a <tt>Marshaller</tt> 
+               instance as follows:</p>
+            
+            <source>
+ApplicationContext context = ....;
+Marshaller marshaller = (Marshaller) this.context.getBean("marshaller");            
+            </source>
+            
+            <p>The <tt>Marshaller</tt> instance obtained in this way does not have any 
+               mapping information associated, and will thus use the introspection
+               mechanism to establish a mapping between the Java object and the XML
+               representations.</p>
+               
+            <p>With the above <tt>Marshaller</tt> instance, you can set e.g. a 
+               <tt>java.io.Writer</tt> and simply start the marshalling process as shown 
+               below:</p>
+               
+            <source>
+        Writer out = new StringWriter();
+        marshaller.setWriter(out);
+        marshaller.marshal(product);
+            </source>
+    
+	   </section>
+
+        <section name="How to use the CastorUnmarshallerFactoryBean">
+
+            <p>Before you'll be able to obtain an instance of <tt>Unmarshaller</tt>
+               through Spring, you have to add a Spring bean definition to your
+               Spring configuration as follows:</p>
+            
+            <source><![CDATA[
+<bean id="resolver" class="org.springframework.xml.castor.CastorResolverFactoryBean"/>
+            
+<bean id="unmarshaller"
+      class="org.springframework.xml.castor.CastorUnmarshallerFactoryBean">
+   <property name="resolver"><ref local="resolver"/></property>
+</bean>
+    	    ]]></source>
+            
+            <p>Based upon this configuration, you will be able to obtain a <tt>Unmarshaller</tt> 
+               instance as follows:</p>
+            
+            <source>
+ApplicationContext context = ....;
+Unmarshaller unmarshaller = (Unmarshaller) this.context.getBean("unmarshaller");            
+            </source>
+            
+            <p>The <tt>Unmarshaller</tt> instance obtained in this way does not have any 
+               mapping information associated, and will thus use the default introspection
+               mechanism to establish a mapping between the Java object and the XML
+               representations.</p>
+               
+            <p>With the above <tt>Unmarshaller</tt> instance, you can unmarshal
+               the following XML document instance as shown subsequently:</p>
+               
+            <source><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<product>
+	<name>blah</name>
+	<id>1</id>
+</product>
+            ]]></source>
+               
+            <source>
+Product product = (Product) unmarshaller.unmarshal(new InputSource(resource));
+assertNotNull(product);
+assertEquals(1, product.getId());
+assertEquals("name", product.getName());
+             </source>
+    
+	   </section>
+	   
+	   <section name="How to specify a mapping file">
+	   
+	   	<p>To specify that the Castor <tt>(Un)Marshaller</tt> instances
+	   	   should use a custom mapping file (in addition to the default
+	   	   introspection mechanism), please amend above bean definition
+	   	   for the '<tt>resolver</tt>' bean as follows:</p>
+	   	   
+	   	<source><![CDATA[
+<bean id="resolver" class="org.springframework.xml.castor.CastorResolverFactoryBean">
+	<property name="castorProperties">
+		<props>
+			<prop key="mappingLocation">src/test/resources/mapping.xml</prop>
+		</props>
+	</property>
+</bean>	   	
+	   	]]></source>
+	   	
+	</section>	   	
+
+  </body>
+</document>
+
+
+

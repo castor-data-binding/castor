@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+
+<document url="http://castor.org/maven-archetypes.xml">
+
+  <properties>
+    <title>Maven archetypes for Castor</title>
+    <author email="werner DOT guttmann AT gmx DOT net">Werner Guttmann</author>
+    <abstract>
+       Describes how use the Maven 2 archetypes for Castor.
+    </abstract>
+    <status>Final</status>
+  </properties>
+
+  <body>
+
+    <title>How to use the Maven 2 archetypes for Castori</title>
+
+    <section title="Introduction">
+
+	    <p>Maven 2 has a very sophisticated feature named 'archetype' for bootstrapping development 
+	       with e.g. frameworks such as Castor is. As we do have a very high appreciation
+	       for the benefits of this feature, we provide a selection of Maven 2 archetypes
+	       for Castor.</p>
+	       
+	    <ctable>
+	    	<cheader>
+	    		<td>Name</td>
+	    		<td>Description</td>
+	    	</cheader>
+	    	<crow>
+	    		<td>codegen-testcase</td>
+	    		<td>A template for a XML code generator test case, incl. JUnit test case, 
+	    		    sample XML schema, builder properties and binding file.</td>
+	    	
+	    	</crow>
+            <crow>
+                <td>cpa-testcase</td>
+                <td>A template for a JDO test case, incl. JUnit test case, 
+                    JDO configuration file, JDO mapping file and test entity.</td>
+            
+            </crow>
+	    </ctable>
+	    
+	    <section title="Template for XML code generator test case">
+	    
+	    	<p>This archetype creates a standard Maven project with a <b>preconfigured</b>
+	    	   project structure that includes the following artefacts:</p>
+
+			<ul>
+				<li>JUnit test case</li>
+				<li>Sample XML schema</li>
+				<li>(Empty) builder properties file</li>
+				<li>(Empty) XML code generator binding file</li>
+				<li>A Maven 2 POM with all the required dependencies (Castor XML, etc.).</li>
+			</ul>						    	   
+    
+		    <p>In order to e.g. create a project based upon the <tt>codegen-testcase</tt> archetypes 
+		       shown above, please issue the following Maven goal on your command line (of choice):</p>
+	       
+			<code-panel><![CDATA[
+> mvn archetype:create -DarchetypeGroupId=org.codehaus.castor \
+                       -DarchetypeArtifactId=codegen-testcase \
+                       -DarchetypeVersion=1.2.1  \
+                       -DgroupId=<your.group.id> \
+                       -DartifactId=<your.artitact.id> \
+                       -DpackageName=    
+]]></code-panel>
+
+	  </section>
+
+        <section title="Template for JDO test case">
+        
+            <p>This archetype creates a standard Maven project with a <b>preconfigured</b>
+               project structure that includes the following artefacts:</p>
+
+            <ul>
+                <li>JUnit test case</li>
+                <li>JDO configuration file</li>
+                <li>JDO mapping file</li>
+                <li>DDL statements</li>
+                <li>A Maven 2 POM with all the required dependencies (Castor JDO, etc.).</li>
+            </ul>                                  
+    
+            <p>In order to e.g. create a project based upon the <tt>cpa-testcase</tt> archetypes 
+               shown above, please issue the following Maven goal on your command line (of choice):</p>
+           
+            <code-panel><![CDATA[
+> mvn archetype:create -DarchetypeGroupId=org.codehaus.castor \
+                       -DarchetypeArtifactId=cpa-testcase \
+                       -DarchetypeVersion=1.2.1  \
+                       -DgroupId=<your.group.id> \
+                       -DartifactId=<your.artitact.id> \
+                       -DpackageName=    
+]]></code-panel>
+
+      </section>
+      
+      <section title="Snapshot releases of archetypes">
+
+        <p>
+           In case you are trying to use an archetype that has been made available as a snapshot
+           release only, please makse sure you include the Codehaus Maven 2 repository in the
+           command as shown above similar to ...
+        </p>
+
+        <code-panel>
+&gt; mvn archetype:create -DarchetypeGroupId=org.codehaus.castor \
+                       -DarchetypeArtifactId=codegen-testcase \
+                       -DarchetypeVersion=<b>1.3-SNAPSHOT</b>  \
+                       -DgroupId=&lt;your.group.id&gt; \
+                       -DartifactId=&lt;your.artitact.id&gt; \
+                       -DpackageName=    
+                       <b>-DremoteRepositories=http://maven.codehaus.org/maven2/</b>
+</code-panel>
+
+        <p>
+           Once a specific Castor release has been propagated to the main Maven 2 repository at
+           <a href="http://www.ibiblio.org/maven2">ibiblio</a>
+           (usually within 48 hours), adding just the dependency will be sufficient.
+        </p>
+
+      </section>
+  
+  </section>
+
+
+  </body>
+
+</document>

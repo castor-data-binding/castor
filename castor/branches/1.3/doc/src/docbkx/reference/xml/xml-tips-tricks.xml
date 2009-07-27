@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<section>
+    <title>Castor XML - Tips &amp; Tricks</title>
+
+    <section>
+        <title>Logging and Tracing</title>
+
+      <para>When developing using Castor, we recommend that you use the various
+         <literal>setLogWriter</literal> methods to get detailed information and error
+         messages.</para>
+
+      <para>Using a logger with <classname>org.exolab.castor.mapping.Mapping</classname> will
+         provide detailed information about mapping decisions made by Castor and
+         will show the SQL statements being used.</para>
+
+      <para>Using a logger with <classname>org.exolab.castor.jdo.JDO</classname> will provide
+         trace messages that show when Castor is loading, storing, creating and
+         deleting objects. All database operations will appear in the log; if an
+         object is retrieved from the cache or is not modified, there will be no
+         trace of load/store operations.</para>
+
+      <para>Using a logger with <classname>org.exolab.castor.xml.Unmarshaller</classname> will
+         provide trace messages that show conflicts between the XML document and
+         loaded objects.</para>
+
+      <para>A simple trace logger can be obtained from
+         <classname>org.exolab.castor.util.Logger</classname>. This logger uses the
+         standard output stream, but prefixes each line with a short message
+         that indicates who generated it. It can also print the time and date of
+         each message. Since logging is used for warning messages and simple
+         tracing, Castor does not require a sophisticated logging mechanism.</para>
+
+      <para>Interested in integratating Castor's logging with Log4J? Then see
+         <ulink url="http://www.castor.org/jdo-faq.html#How-can-I-integrate-Castor's-logging-with-a-logging-infrastructure-using-Log4J?">
+         this question</ulink> in the JDO FAQ.</para>
+
+    </section>
+
+    <section>
+        <title>Indentation</title>
+
+      <para>By default the marshaler writes XML documents without indentation. When
+         developing using Castor or when debugging an application that uses
+         Castor, it might be desireable to use indentation to make the XML
+         documents human-readable. To turn indentation on, modify the Castor
+         properties file, or create a new properties file in the classpath
+         (named <literal>castor.properties</literal>) with the following content:</para>
+
+      <programlisting>
+org.exolab.castor.indent=true
+      </programlisting>
+
+      <para>Indentation inflates the size of the generated XML documents, and also
+         consumes more CPU. It is recommended not to use indentation in a
+         production environment.</para>
+
+    </section>
+
+    <section>
+        <title>XML:Marshal validation</title>
+    
+        <para>It is possible to disable the validation in the marshaling framework
+           by modifying the Castor properties file or by creating a new
+           properties file in the classpath (named <literal>castor.properties</literal>)
+           with the following content:</para>
+           
+        <programlisting>
+ org.exolab.castor.marshalling.validation=false
+        </programlisting>
+    </section>
+
+    <section>
+        <title>NoClassDefFoundError</title>
+    
+       <para>
+          Check your CLASSPATH, check it often, there is no reason not to!
+       </para>
+       
+    </section>
+
+    <section>
+        <title>Mapping: auto-complete</title>
+    
+       <note>
+            <para>This only works with Castor-XML.</para>
+       </note>
+       
+       <para>
+          To save time when writing your mappings, try using the <emphasis role="italic">auto-complete</emphasis>
+          attribute of <emphasis role="italic">class</emphasis>. When using auto-complete, Castor will introspect
+          your class and automatically fill in any missing fields.
+       </para>
+       
+       <para>
+          <emphasis role="bold">Example:</emphasis>
+          <programlisting language="xml">
+&lt;class name="com.acme.Foo" auto-complete="true"/&gt;
+          </programlisting>
+       </para>
+       
+       <para>
+          This is also compatible with generated descriptor files. You can use a mapping file
+          to override some of the behavior of a compiled descriptor by using auto-complete.</para>
+          
+       <note>
+        <para>Be careful to make sure you use the exact field name as specified
+          in the generated descriptor file in order to modify the behavior of the field descriptor!
+          Otherwise, you'll probably end up with two fields being marshaled!
+          </para>
+       </note>
+       
+    </section>
+
+    <section>
+        <title>Create method</title>
+    
+      <para>
+         Castor requires that classes have a public, no-argument constructor
+         in order to provide the ability to marshal &amp; unmarshal objects of that type.
+      </para>
+
+      <para>
+         create-method is an optional attribute to the <literal>&lt;field&gt;</literal> mapping
+         element that can be used to overcome this restriction in cases where you
+         have an existing object model that consists of, say, singleton classes
+         where public, no-argument constructors must not be present by definition.
+      </para>
+
+      <para>
+         Assume for example that a class "<literal>A</literal>" that you want to be able
+         to unmarshal uses a singleton class as one of its properties. When
+         attempting to unmarshal class "<literal>A</literal>", you should get an exception
+         because the singleton property has no public no-arg constructor.
+         Assuming that a reference to the singleton can be obtained via a static
+         getInstance() method, you can add a "create method" to class <literal>A</literal>
+         like this:
+      </para>
+
+      <programlisting language="java">
+ public MySingleton getSingletonProperty() {
+    return MySingleton.getInstance();
+ }
+      </programlisting>
+
+      <para>
+         and in the mapping file for class <classname>A</classname>, you can define 
+         the singleton property like this:
+      </para>
+
+      <programlisting language="xml"><![CDATA[
+ <field name="mySingletonProperty"
+       type="com.u2d.MySingleton"
+       create-method="getSingletonProperty">
+    <bind-xml name="my-singleton-property" node="element" />
+ </field>]]></programlisting>
+
+      <para>
+         This illustrates how the create-method attribute is quite a useful
+         mechanism for dealing with exceptional situations where you might
+         want to take advantage of marshaling even when some classes do not
+         have no-argument public constructors.
+      </para>
+
+      <note>
+        <para>
+           As of this writing, the specified create-method must
+           exist as a method in the current class (i.e. the class being described
+           by the current <literal>&lt;class&gt;</literal> element). In the future it may be possible
+           to use external static factory methods.
+        </para>
+      </note>
+      
+    </section>
+
+    <section>
+        <title>MarshalListener and UnmarshalListener</title>
+    
+      <para>
+         Castor allows control on the object being marshaled or unmarshaled by
+         a set of two listener interfaces: MarshalListener and UnmarshalListener.
+      </para>
+
+      <para>
+         The MarshalListener interface located in <code>org.exolab.castor.xml</code> listens to
+         two different events that are intercepted by the following methods:
+         <itemizedlist>
+             <listitem><para>preMarshal: this method is called before an object gets marshaled.</para></listitem>
+             <listitem><para>postMarshal: this method is called once an object has been marshaled.</para></listitem>
+         </itemizedlist>
+      </para>
+
+      <para>
+         The UnmarshalListener located also in <literal>org.castor.xml</literal> listens to
+         four different events that are intercepted by the following methods:
+      </para>
+         <itemizedlist>
+             <listitem><para>initialized: this method is called once an object has been instantiated.</para></listitem>
+             <listitem><para>attributesProcessed: this method is called when the attributes have just been read and processed.</para></listitem>
+             <listitem><para>fieldAdded: this method is called when an object is added to a parent.</para></listitem>
+             <listitem><para>unmarshalled: this method is called when an object has been <emphasis role="bold">fully</emphasis> unmarshaled</para></listitem>
+         </itemizedlist>
+         
+      <para>
+         <emphasis role="bold">Note:</emphasis> The <classname>UnmarshalListener</classname> had been part of <code>org.exolab.castor.xml</code>
+         but as an extention of this interface had been required a new interface in <code>org.castor.xml</code>
+         was introduced. Currently the <code>org.exolab.castor.xml.UnmarshalListener</code> interface
+         can still be used but is deprecated.
+      </para>
+
+    </section>
+  </section>
+

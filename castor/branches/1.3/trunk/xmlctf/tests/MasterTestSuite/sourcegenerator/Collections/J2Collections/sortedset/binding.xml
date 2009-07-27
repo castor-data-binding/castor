@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<binding xmlns:cbf="http://www.castor.org/SourceGenerator/Binding"
+             defaultBindingType='element' >
+
+   <elementBinding name="complexType:rootType/list">
+      <member name="myList" collection="sortedset"/>
+   </elementBinding>
+
+</binding>

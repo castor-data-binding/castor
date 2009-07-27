@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+	<description>Description of the mapping</description>
+	<class name="myapp.Product" identity="id">
+		<description>Product definition</description>
+		<map-to table="prod"  xml="product" />
+		<field name="id" type="integer">
+			<sql name="id" type="integer" />
+			<bind-xml name="id" node="attribute" />
+		</field>
+		<field name="name" type="string">
+			<sql name="name" type="char" />
+			<bind-xml name="name" node="element" />
+		</field>
+	</class>
+	<class name="myapp.Product2" identity="id2">
+		<description>Product definition</description>
+		<map-to xml="product" />
+		<field name="name2" type="string">
+			<sql name="name2" type="char" />
+			<bind-xml name="name" node="element" />
+		</field>
+		<field name="id2" type="integer">
+			<sql name="id2" type="integer" />
+			<bind-xml name="id" node="attribute" />
+		</field>
+	</class>
+</mapping>
+

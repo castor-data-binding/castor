@@ -1,0 +1,46 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>Test multiple pattern facets</Name>
+    <Author>Edward Kuns</Author>
+    <Comment>Make sure that multiple pattern facets are properly supported</Comment>
+    <Category>basic capability</Category>
+
+    <SourceGeneratorTest>
+        <Schema>test.xsd</Schema>
+        <Root_Object random="false" dump="true">PatternedItems</Root_Object>
+
+        <UnitTestCase>
+            <Name>Test Good Patterns</Name>
+            <Input>success.xml</Input>
+            <GoldFile>success.xml</GoldFile>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Test Bad Pattern #1</Name>
+            <Input>failure1.xml</Input>
+            <GoldFile>failure1.xml</GoldFile>
+            <Failure>true</Failure>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Test Bad Pattern #2</Name>
+            <Input>failure2.xml</Input>
+            <GoldFile>failure2.xml</GoldFile>
+            <Failure>true</Failure>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Test Bad Pattern #3</Name>
+            <Input>failure3.xml</Input>
+            <GoldFile>failure3.xml</GoldFile>
+            <Failure>true</Failure>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Test Empty string on a pattern not allowing it</Name>
+            <Input>failure4.xml</Input>
+            <GoldFile>failure4.xml</GoldFile>
+            <Failure>true</Failure>
+        </UnitTestCase>
+    </SourceGeneratorTest>
+</TestDescriptor>

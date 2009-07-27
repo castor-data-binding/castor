@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.exolab.org/mapping.dtd">
+<mapping>
+    <class name="org.castor.cpa.test.test1206.Country">
+        <description>Country</description>
+        <cache-type type="count-limited" capacity="20"/>
+        <map-to table="TEST1206_COUNTRY"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="OID" type="char"/>
+        </field>
+        <field name="name" type="string">
+            <sql name="NAME" type="char"/>
+        </field>
+    </class>
+
+    <class name="org.castor.cpa.test.test1206.State">
+        <description>State</description>
+        <cache-type type="count-limited" capacity="50"/>
+        <map-to table="TEST1206_STATE"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="OID" type="char"/>
+        </field>
+        <field name="name" type="string">
+            <sql name="NAME" type="char"/>
+        </field>
+        <field name="country" type="org.castor.cpa.test.test1206.Country">
+            <sql name="COUNTRY" dirty="ignore"/>
+        </field>
+    </class>
+</mapping>

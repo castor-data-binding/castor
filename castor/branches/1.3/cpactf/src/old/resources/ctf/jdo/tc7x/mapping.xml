@@ -1,0 +1,404 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" 
+    "http://castor.org/mapping.dtd">
+<mapping>
+    
+    <class name="ctf.jdo.tc7x.ManyGroup" access="shared" identity="id" >
+        <description>Table used for testing many to many relation</description>
+        <map-to table="tc7x_many_group" />
+        <field name="id" type="integer">
+            <sql name="gid" type="integer" />
+        </field>
+        <field name="value1" type="string" required="true">
+            <sql name="value1" type="varchar" />
+        </field>
+        <field name="people" type="ctf.jdo.tc7x.ManyPerson" 
+            collection="collection" required="false" set-method="setPeople" 
+            get-method="getPeople">
+            <sql many-table="tc7x_group_person" many-key="gid"/>
+        </field>
+    </class>
+    
+    <class name="ctf.jdo.tc7x.ManyPerson" access="shared" identity="id" >
+        <description>Table used for testing many to many relation</description>
+        <map-to table="tc7x_many_person" />
+        <field name="id" type="integer">
+            <sql name="pid" type="integer" />
+        </field>
+        <field name="value1" type="string" required="true">
+            <sql name="value1" type="varchar" />
+        </field>
+        <field name="helloworld" type="string" >
+            <sql name="helloworld" type="varchar" />
+        </field>
+        <field name="sthelse" type="string" >
+            <sql name="sthelse" type="varchar" />
+        </field>
+        <field name="group" type="ctf.jdo.tc7x.ManyGroup" 
+            collection="collection" required="false">
+            <sql many-table="tc7x_group_person" many-key="pid"/>
+        </field>
+    </class>
+    
+    <class name="ctf.jdo.tc7x.ManyGroupKeyGen" access="shared" 
+        identity="id" key-generator="MAX">
+        <description>Table used for testing many to many relation</description>
+        <cache-type type="count-limited" capacity="30"/>
+        <map-to table="tc7x_many_group" />
+        <field name="id" type="integer">
+            <sql name="gid" type="integer" />
+        </field>
+        <field name="value1" type="string" required="true">
+            <sql name="value1" type="varchar" />
+        </field>
+        <field name="people" type="ctf.jdo.tc7x.ManyPersonKeyGen" 
+            collection="collection" required="false" >
+            <sql many-table="tc7x_group_person" many-key="gid"/>
+        </field>
+    </class>
+    
+    <class name="ctf.jdo.tc7x.ManyPersonKeyGen" access="shared" 
+        identity="id" key-generator="MAX">
+        <description>Table used for testing many to many relation</description>
+        <cache-type type="count-limited" capacity="30"/>
+        <map-to table="tc7x_many_person" />
+        <field name="id" type="integer">
+            <sql name="pid" type="integer" />
+        </field>
+        <field name="value1" type="string" required="true">
+            <sql name="value1" type="varchar" />
+        </field>
+        <field name="helloworld" type="string" >
+            <sql name="helloworld" type="varchar" />
+        </field>
+        <field name="sthelse" type="string" >
+            <sql name="sthelse" type="varchar" />
+        </field>
+        <field name="group" type="ctf.jdo.tc7x.ManyGroupKeyGen" 
+            collection="collection" required="false">
+            <sql many-table="tc7x_group_person" many-key="pid"/>
+        </field>
+    </class>
+    
+    <class name="ctf.jdo.tc7x.Limit" access="shared" identity="id">
+        <description>Table used for concurrency and performance 
+            testing</description>
+        <map-to table="tc7x_table" />
+        <field name="id" type="integer">
+            <sql name="id" type="integer" />
+        </field>
+        <field name="value1" type="string" required="true">
+            <sql name="value1" type="varchar"/>
+        </field>
+        <field name="value2" type="string">
+            <sql name="value2" type="varchar" dirty="ignore"/>
+        </field>
+    </class>
+    
+    <class name="ctf.jdo.tc7x.Col" identity="id">
+        <description>Table used for testing different collection types 
+            support</description>
+        <cache-type type="none" />
+        <map-to table="tc7x_col" />
+        <field name="id" type="integer">
+            <sql name="id" type="integer" />
+        </field>
+    </class>
+    
+    <class name="ctf.jdo.tc7x.Item" identity="id">
+        <description>Table used for testing different collection types 
+            support</description>
+        <cache-type type="none" />
+        <map-to table="tc7x_item" />
+        <field name="id" type="integer">
+            <sql name="iid" type="integer" />
+        </field>
+        <field name="testCol" type="ctf.jdo.tc7x.Col" >
+            <sql name="id" />
+        </field>
+    </class>
+    
+    <class name="ctf.jdo.tc7x.ComparableItem" identity="id">
+        <description>Table used for testing SortedSet collection type 
+            support</description>
+        <cache-type type="none" />
+        <map-to table="tc7x_comp_item" />
+        <field name="id" type="integer">
+            <sql name="iid" type="integer" />
+        </field>
+        <field name="testCol" type="ctf.jdo.tc7x.Col" >
+            <sql name="id" />
+        </field>
+    </class>
+    
+    <class name="ctf.jdo.tc7x.ColArrayList" extends="ctf.jdo.tc7x.Col">
+        <description>Table used for testing different collection types 
+            support</description>
+        <!-- this is a dirty hack, don't follows. It only work if load always
+         done by db.load( MyClass.class, id ). -->
+        <map-to table="tc7x_col" />
+        <field name="item" type="ctf.jdo.tc7x.Item" collection="arraylist">
+        </field>
+    </class>
+    
+    <class name="ctf.jdo.tc7x.ColAdd" extends="ctf.jdo.tc7x.Col">
+        <description>Modification of TestCollArrayList to test manual 
+            addThing()</description>
+        <map-to table="tc7x_col" />
+        <field name="item" type="ctf.jdo.tc7x.Item" collection="arraylist" 
+            get-method="getItems" set-method="addItem">
+        </field>
+    </class>
+    
+    <class name="ctf.jdo.tc7x.ColArray" extends="ctf.jdo.tc7x.Col">
+        <description>Table used for testing different collection types 
+            support</description>
+        <!-- this is a dirty hack, don't follows. It only work if load always
+         done by db.load( MyClass.class, id ). -->
+        <map-to table="tc7x_col" />
+        <field name="items" type="ctf.jdo.tc7x.Item" collection="array">
+        </field>
+    </class>
+    
+    <class name="ctf.jdo.tc7x.ColCollection" extends="ctf.jdo.tc7x.Col">
+        <description>Table used for testing different collection types 
+            support</description>
+        <!-- this is a dirty hack, don't follows. It only work if load always
+         done by db.load( MyClass.class, id ). -->
+        <map-to table="tc7x_col" />
+        <field name="item" type="ctf.jdo.tc7x.Item" collection="collection">
+        </field>
+    </class>
+    
+    <!--
+  <class name="ctf.jdo.tc7x.ColHashMap" extends="ctf.jdo.tc7x.Col">
+    <description>Table used for testing different collection types support</description>
+    <map-to table="tc7x_col" />
+    <field name="item" type="ctf.jdo.tc7x.Item" collection="hashmap">
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc7x.ColHashSet" extends="ctf.jdo.tc7x.Col">
+    <description>Table used for testing different collection types support</description>
+    <map-to table="tc7x_col" />
+    <field name="item" type="ctf.jdo.tc7x.Item" collection="hashset">
+    </field>
+  </class>
+  -->
+    
+    <class name="ctf.jdo.tc7x.ColHashtable" extends="ctf.jdo.tc7x.Col">
+        <description>Table used for testing different collection types 
+            support</description>
+        <!-- this is a dirty hack, don't follows. It only work if load always 
+         done by db.load( MyClass.class, id ). -->
+        <map-to table="tc7x_col" />
+        <field name="item" type="ctf.jdo.tc7x.Item" collection="hashtable">
+        </field>
+    </class>
+    
+    <class name="ctf.jdo.tc7x.ColMap" extends="ctf.jdo.tc7x.Col">
+        <description>Table used for testing different collection types 
+            support</description>
+        <!-- this is a dirty hack, don't follows. It only work if load always 
+         done by db.load( MyClass.class, id ). -->
+        <map-to table="tc7x_col" />
+        <field name="item" type="ctf.jdo.tc7x.Item" collection="map">
+        </field>
+    </class>
+    
+    <class name="ctf.jdo.tc7x.ColSet" extends="ctf.jdo.tc7x.Col">
+        <description>Table used for testing different collection types 
+            support</description>
+        <!-- this is a dirty hack, don't follows. It only work if load always 
+         done by db.load( MyClass.class, id ). -->
+        <map-to table="tc7x_col" />
+        <field name="item" type="ctf.jdo.tc7x.Item" collection="set">
+        </field>
+    </class>
+    
+    <class name="ctf.jdo.tc7x.ColSortedSet" extends="ctf.jdo.tc7x.Col">
+        <description>Table used for testing different collection types 
+            support</description>
+        <!-- this is a dirty hack, don't follows. It only work if load always 
+         done by db.load( MyClass.class, id ). -->
+        <map-to table="tc7x_col" />
+        <field name="item" type="ctf.jdo.tc7x.ComparableItem" 
+            collection="sortedset">
+        </field>
+    </class>
+    
+    <class name="ctf.jdo.tc7x.ColVector" extends="ctf.jdo.tc7x.Col">
+        <description>Table used for testing different collection types 
+            support</description>
+        <!-- this is a dirty hack, don't follows. It only work if load always 
+         done by db.load( MyClass.class, id ). -->
+        <map-to table="tc7x_col" />
+        <field name="item" type="ctf.jdo.tc7x.Item" collection="vector">
+        </field>
+    </class>
+    
+    <class name="ctf.jdo.tc7x.ColIterator" extends="ctf.jdo.tc7x.Col">
+        <description>Class used for testing collection type 
+            'iterator'</description>
+        <map-to table="tc7x_col" />
+        <field name="item" type="ctf.jdo.tc7x.Item" collection="iterator">
+        </field>
+    </class>
+    
+    <class name="ctf.jdo.tc7x.ColEnumeration" 
+        extends="ctf.jdo.tc7x.Col">
+        <description>Class used for testing collection type 
+            'enumerate'</description>
+        <map-to table="tc7x_col" />
+        <field name="item" type="ctf.jdo.tc7x.Item" collection="enumerate">
+        </field>
+    </class>
+    
+    <class name="ctf.jdo.tc7x.Master" key-generator="MAX" identity="id">
+        <map-to table="tc7x_master" />
+        <field name="depend1" type="ctf.jdo.tc7x.Depend1">
+            <sql name="depend1_id" />
+            <bind-xml name="depend1" />
+        </field>
+        <field name="id" type="integer">
+            <sql name="id" />
+            <bind-xml name="id" />
+        </field>
+        <field name="depends2" collection="arraylist" 
+            type="ctf.jdo.tc7x.Depend2">
+            <sql many-key="master_id" />
+            <bind-xml name="depends2" />
+        </field>
+    </class>
+    
+    <class name="ctf.jdo.tc7x.Depend2" key-generator="MAX" 
+        depends="ctf.jdo.tc7x.Master" identity="id">
+        <map-to table="tc7x_depend2" />
+        <field name="master" type="ctf.jdo.tc7x.Master">
+            <sql name="master_id" />
+            <bind-xml name="master" />
+        </field>
+        <field name="id" type="integer">
+            <sql name="id" />
+            <bind-xml name="id" />
+        </field>
+    </class>
+    
+    <class name="ctf.jdo.tc7x.Depend1" key-generator="MAX" 
+        depends="ctf.jdo.tc7x.Master" identity="id">
+        <map-to table="tc7x_depend1" />
+        <field name="id" type="integer">
+            <sql name="id" />
+            <bind-xml name="id" />
+        </field>
+    </class>
+    
+    <!-- TC129 -->
+    <class identity="id" name="ctf.jdo.tc7x.Container">
+        <map-to table="tc7x_container"/>
+        <field name="id" type="integer">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="prop" type="ctf.jdo.tc7x.ContainerItem" 
+            collection="arraylist">
+            <sql many-key="item" />
+        </field>
+        <field name="name" type="string">
+            <sql name="name" type="varchar"/>
+        </field>
+    </class>
+    
+    <class identity="id" name="ctf.jdo.tc7x.ContainerItem">
+        <map-to table="tc7x_container_item"/>
+        <field name="id" type="integer">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="item" type="ctf.jdo.tc7x.Container">
+            <sql name="item"/>
+        </field>
+        <field name="value" type="string">
+            <sql name="value" type="varchar"/>
+        </field>
+    </class>
+    
+    <class name="ctf.jdo.tc7x.SortedContainer" identity="id">
+        <map-to table="tc7x_sorted_container" />
+        <field name="id" type="integer" >
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string">
+            <sql name="name" type="char" />
+        </field>
+        <field name="twos" type="ctf.jdo.tc7x.SortedContainerItem" 
+            collection="sortedset" comparator="ctf.jdo.tc7x.CustomComparator">
+            <sql many-key="id_1" />
+        </field>
+    </class>
+    
+    <class name="ctf.jdo.tc7x.SortedContainerItem" identity="id">
+        <map-to table="tc7x_sorted_item" />
+        <field name="id" type="integer" >
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="id1" type="integer" >
+            <sql name="id_1" type="integer"/>
+        </field>
+        <field name="name" type="string" required="true">
+            <sql name="name" type="char" />
+        </field>
+    </class>
+
+      <class name="ctf.jdo.tc7x.AutostoreMain" identity="id">
+        <description>Main class for testing autostore attribute</description>
+        <map-to table="tc7x_as_main" xml="entity1" />
+        <field name="id" type="integer" >
+          <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string" required="true">
+          <sql name="name" type="char" />
+        </field>
+        <field name="associatedOne" type="ctf.jdo.tc7x.AutostoreAssociated1">
+            <sql name="assoc1_id" />
+        </field>
+      </class>
+    
+      <class name="ctf.jdo.tc7x.AutostoreAssociated1" identity="id">
+        <description>Associated entity for testing autostore attribute</description>
+        <map-to table="tc7x_as_assoc1" xml="entity2" />
+        <field name="id" type="integer" >
+          <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string" required="true">
+          <sql name="name" type="char" />
+        </field>
+      </class>
+
+      <class name="ctf.jdo.tc7x.AutostoreMainMany" identity="id">
+        <description>Main class for testing autostore attribute</description>
+        <map-to table="tc7x_as_main_many" />
+        <field name="id" type="integer" >
+          <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string">
+          <sql name="name" type="char" />
+        </field>
+        <field name="associatedMany" collection="arraylist" type="ctf.jdo.tc7x.AutostoreAssociatedMany">
+            <sql many-key="main_id" />
+        </field>
+      </class>
+    
+      <class name="ctf.jdo.tc7x.AutostoreAssociatedMany" identity="id">
+        <description>Associated entity for testing autostore attribute</description>
+        <map-to table="tc7x_as_assoc_many" />
+        <field name="id" type="integer" >
+          <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string" required="true">
+          <sql name="name" type="char" />
+        </field>
+        <field name="main" type="ctf.jdo.tc7x.AutostoreMainMany">
+            <sql name="main_id" />
+        </field>
+      </class>
+    
+</mapping>

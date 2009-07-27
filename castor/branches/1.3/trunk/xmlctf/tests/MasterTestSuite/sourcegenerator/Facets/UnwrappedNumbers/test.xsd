@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+<xsd:element name="NumberTests">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="mybyte"                minOccurs="0" /> <!-- FIXME: fails if maxoccurs > 1 -->
+      <xsd:element ref="mybyteMinMax"          minOccurs="0" /> <!-- FIXME: fails if maxoccurs > 1 -->
+      <xsd:element ref="myint"                 minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element ref="myintMinMax"           minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element ref="myinteger"             minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element ref="myintegerMinMax"       minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element ref="myshort"               minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element ref="myshortMinMax"         minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element ref="myunsignedlong"        minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element ref="myunsignedlongMinMax"  minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element ref="mydecimal"             minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element ref="mydecimalMinMax"       minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="mybyte">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:byte">
+      <xsd:pattern value=".*9.*"/>
+      <xsd:totalDigits value="2"/>
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="mybyteMinMax">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:byte">
+      <xsd:minInclusive value="-10"/>
+      <xsd:maxInclusive value="80"/>
+      <xsd:pattern value=".*9.*"/>
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="myint">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:int">
+      <xsd:pattern value=".*23.*"/>
+      <xsd:totalDigits value="5"/>
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="myintMinMax">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:int">
+      <xsd:minInclusive value="-1234567"/>
+      <xsd:maxInclusive value="7654321"/>
+      <xsd:pattern value=".*23.*"/>
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="myinteger">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:integer">
+      <xsd:pattern value=".*23.*"/>
+      <xsd:totalDigits value="5"/>
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="myintegerMinMax">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:integer">
+      <xsd:minInclusive value="-1234567"/>
+      <xsd:maxInclusive value="7654321"/>
+      <xsd:pattern value=".*23.*"/>
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="myshort">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:short">
+      <xsd:pattern value=".*23.*"/>
+      <xsd:totalDigits value="4"/>
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="myshortMinMax">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:short">
+      <xsd:minInclusive value="-12345"/>
+      <xsd:maxInclusive value="7654"/>
+      <xsd:pattern value=".*23.*"/>
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="myunsignedlong">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:unsignedLong">
+      <xsd:pattern value=".*23.*"/>
+      <xsd:totalDigits value="8"/>
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="myunsignedlongMinMax">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:unsignedLong">
+      <xsd:minInclusive value="12345678"/>
+      <xsd:maxInclusive value="87654231"/>
+      <xsd:pattern value=".*23.*"/>
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="mydecimal">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:decimal">
+      <xsd:pattern value=".*23.*"/>
+      <xsd:totalDigits value="5"/>
+      <xsd:fractionDigits value="3"/>
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="mydecimalMinMax">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:decimal">
+      <xsd:minInclusive value="-12345.5"/>
+      <xsd:maxInclusive value="54321.25"/>
+      <xsd:pattern value=".*23.*"/>
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+</xsd:schema>

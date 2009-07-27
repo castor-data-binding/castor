@@ -1,0 +1,20 @@
+<archetype-descriptor name="cpa">
+   <fileSets>
+      <fileSet packaged="true">
+         <directory>src/test/java</directory>
+         <includes>
+            <include>org/castor/cpa/test/TestJDOManager.java</include>
+            <include>org/castor/cpa/test/entity/Entity.java</include>
+         </includes>
+      </fileSet>
+      <fileSet packaged="true">
+         <directory>src/test/resources</directory>
+         <includes>
+            <include>org/castor/cpa/test/script.sql</include>
+            <include>org/castor/cpa/test/jdo-conf.xml</include>
+            <include>org/castor/cpa/test/mapping.xml</include>
+            <include>org/castor/cpa/test/README.txt</include>
+         </includes>
+      </fileSet>
+   </fileSets>
+</archetype-descriptor>

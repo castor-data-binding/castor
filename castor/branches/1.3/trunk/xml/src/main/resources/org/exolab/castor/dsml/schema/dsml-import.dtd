@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!ELEMENT import-entries (import-policy*)>
+<!ELEMENT import-policies EMPTY>
+<!ATTLIST import-policies dn CDATA #REQUIRED
+                          delete-empty (true|false) "false"
+                          replace-attr (true|false) "false"
+                          refresh-only (true|false) "false"
+                          update-only (true|false) "false"
+                          new-attr-only (true|false) "false">

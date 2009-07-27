@@ -1,0 +1,555 @@
+<code-tables>
+
+  <table name="orderStatus">
+    <description>Purchase order status</description>
+    <code>A</code><text>Accept</text>
+    <code>C</code><text>Accept with changes</text>
+    <code>X</code><text>No acknowledgement needed</text>
+    <code>L</code><text>Packaged product only - no licenses</text>
+    <code>P</code><text>Pending</text>
+    <code>S</code><text>Product already shipped</text>
+    <code>R</code><text>Reject</text>
+  </table>
+
+  <table name="shipmentTerms">
+    <description>Shipment terms</description>
+    <code>AC</code><text>Advance collect</text>
+    <code>AP</code><text>Advance prepaid</text>
+    <code>CO</code><text>Collect</text>
+    <code>CF</code><text>Collect, freight credited to payment customer</text>
+    <code>CP</code><text>Customer pick-up/backhaul</text>
+    <code>FO</code><text>FOB</text>
+    <code>NA</code><text>Not specified</text>
+    <code>PE</code><text>Payable elsewhere</text>
+    <code>PK</code><text>Pickup</text>
+    <code>PS</code><text>Prepaid (by seller)</text>
+    <code>PC</code><text>Prepaid but charged to customer</text>
+    <code>PP</code><text>Prepaid only</text>
+    <code>RF</code><text>Return container freight free</text>
+    <code>RC</code><text>Return container freight paid by customer</text>
+    <code>RS</code><text>Return container freight paid by supplier</text>
+    <code>TP</code><text>Third party pay</text>
+  </table>
+
+  <table name="financialTerms">
+    <description>Financial terms</description>
+    <code>1</code><text>Net 10</text>
+    <code>3</code><text>Net 30</text>
+    <code>Q</code><text>Prepay check</text>
+    <code>C</code><text>Prepay credit card</text>
+    <code>W</code><text>Prepay wire</text>
+  </table>
+
+  <table name="purchaseOrderType">
+    <description>Purchase order type</description>
+    <code>C</code><text>Consigned Order</text>
+    <code>D</code><text>Dropship</text>
+    <code>L</code><text>Licenses</text>
+    <code>N</code><text>Non-cancelable/non-returnable</text>
+    <code>P</code><text>Packaged product</text>
+  </table>
+
+  <table name="partnerClassification">
+    <description>Partner classification</description>
+    <code>C</code><text>Carrier: Product carrier for transporting goods in supply chain.</text>
+    <code>D</code><text>Distributor: Product distributor in supply chain.</text>
+    <code>E</code><text>End User: Product end user in supply chain.</text>
+    <code>G</code><text>End User Government: End user government.</text>
+    <code>F</code><text>Financier: Financial service provider in supply chain</text>
+    <code>M</code><text>Manufacturer: Product manufacturer in supply chain.</text>
+    <code>R</code><text>Retailer: Product retailer in supply chain.</text>
+    <code>S</code><text>Shopper: Product shopper in supply chain.</text>
+    <code>T</code><text>Freight Forwarder: Product freight forwarder for transporting goods in supply chain.</text>
+  </table>
+
+  <table name="countryCode">
+    <description>ISO country code to country name; codes and names are unique</description>
+    <code>AF</code><text>AFGHANISTAN</text>
+    <code>AL</code><text>ALBANIA</text>
+    <code>DZ</code><text>ALGERIA</text>
+    <code>AS</code><text>AMERICAN SAMOA</text>
+    <code>AD</code><text>ANDORRA</text>
+    <code>AO</code><text>ANGOLA</text>
+    <code>AI</code><text>ANGUILLA</text>
+    <code>AQ</code><text>ANTARCTICA</text>
+    <code>AG</code><text>ANTIGUA AND BARBUDA</text>
+    <code>AR</code><text>ARGENTINA</text>
+    <code>AM</code><text>ARMENIA</text>
+    <code>AW</code><text>ARUBA</text>
+    <code>AU</code><text>AUSTRALIA</text>
+    <code>AT</code><text>AUSTRIA</text>
+    <code>AZ</code><text>AZERBAIJAN</text>
+    <code>BS</code><text>BAHAMAS</text>
+    <code>BH</code><text>BAHRAIN</text>
+    <code>BD</code><text>BANGLADESH</text>
+    <code>BB</code><text>BARBADOS</text>
+    <code>BY</code><text>BELARUS</text>
+    <code>BE</code><text>BELGIUM</text>
+    <code>BZ</code><text>BELIZE</text>
+    <code>BJ</code><text>BENIN</text>
+    <code>BM</code><text>BERMUDA</text>
+    <code>BT</code><text>BHUTAN</text>
+    <code>BO</code><text>BOLIVIA</text>
+    <code>BA</code><text>BOSNIA AND HERZEGOVINA</text>
+    <code>BW</code><text>BOTSWANA</text>
+    <code>BV</code><text>BOUVET ISLAND</text>
+    <code>BR</code><text>BRAZIL</text>
+    <code>IO</code><text>BRITISH INDIAN OCEAN TERRITORY</text>
+    <code>BN</code><text>BRUNEI DARUSSALAM</text>
+    <code>BG</code><text>BULGARIA</text>
+    <code>BF</code><text>BURKINA FASO</text>
+    <code>BI</code><text>BURUNDI</text>
+    <code>KH</code><text>CAMBODIA</text>
+    <code>CM</code><text>CAMEROON</text>
+    <code>CA</code><text>CANADA</text>
+    <code>CV</code><text>CAPE VERDE</text>
+    <code>KY</code><text>CAYMAN ISLANDS</text>
+    <code>CF</code><text>CENTRAL AFRICAN REPUBLIC</text>
+    <code>TD</code><text>CHAD</text>
+    <code>CL</code><text>CHILE</text>
+    <code>CN</code><text>CHINA</text>
+    <code>CX</code><text>CHRISTMAS ISLAND</text>
+    <code>CC</code><text>COCOS (KEELING) ISLANDS</text>
+    <code>CO</code><text>COLOMBIA</text>
+    <code>KM</code><text>COMOROS</text>
+    <code>CG</code><text>CONGO</text>
+    <code>CK</code><text>COOK ISLANDS</text>
+    <code>CR</code><text>COSTA RICA</text>
+    <code>CI</code><text>CÔTE D'IVOIRE</text>
+    <code>HR</code><text>CROATIA</text>
+    <code>CU</code><text>CUBA</text>
+    <code>CY</code><text>CYPRUS</text>
+    <code>CZ</code><text>CZECH REPUBLIC</text>
+    <code>DK</code><text>DENMARK</text>
+    <code>DJ</code><text>DJIBOUTI</text>
+    <code>DM</code><text>DOMINICA</text>
+    <code>DO</code><text>DOMINICAN REPUBLIC</text>
+    <code>TP</code><text>EAST TIMOR</text>
+    <code>EC</code><text>ECUADOR</text>
+    <code>EG</code><text>EGYPT</text>
+    <code>SV</code><text>EL SALVADOR</text>
+    <code>GQ</code><text>EQUATORIAL GUINEA</text>
+    <code>ER</code><text>ERITREA</text>
+    <code>EE</code><text>ESTONIA</text>
+    <code>ET</code><text>ETHIOPIA</text>
+    <code>FK</code><text>FALKLAND ISLANDS (MALVINAS)</text>
+    <code>FO</code><text>FAROE ISLANDS</text>
+    <code>FJ</code><text>FIJI</text>
+    <code>FI</code><text>FINLAND</text>
+    <code>FR</code><text>FRANCE</text>
+    <code>GF</code><text>FRENCH GUIANA</text>
+    <code>PF</code><text>FRENCH POLYNESIA</text>
+    <code>TF</code><text>FRENCH SOUTHERN TERRITORIES</text>
+    <code>GA</code><text>GABON</text>
+    <code>GM</code><text>GAMBIA</text>
+    <code>GE</code><text>GEORGIA</text>
+    <code>DE</code><text>GERMANY</text>
+    <code>GH</code><text>GHANA</text>
+    <code>GI</code><text>GIBRALTAR</text>
+    <code>GR</code><text>GREECE</text>
+    <code>GL</code><text>GREENLAND</text>
+    <code>GD</code><text>GRENADA</text>
+    <code>GP</code><text>GUADELOUPE</text>
+    <code>GU</code><text>GUAM</text>
+    <code>GT</code><text>GUATEMALA</text>
+    <code>GN</code><text>GUINEA</text>
+    <code>GW</code><text>GUINEA-BISSAU</text>
+    <code>GY</code><text>GUYANA</text>
+    <code>HT</code><text>HAITI</text>
+    <code>HM</code><text>HEARD ISLAND AND MCDONALD ISLANDS</text>
+    <code>VA</code><text>HOLY SEE (VATICAN CITY STATE)</text>
+    <code>HN</code><text>HONDURAS</text>
+    <code>HK</code><text>HONG KONG</text>
+    <code>HU</code><text>HUNGARY</text>
+    <code>IS</code><text>ICELAND</text>
+    <code>IN</code><text>INDIA</text>
+    <code>ID</code><text>INDONESIA</text>
+    <code>IR</code><text>IRAN, ISLAMIC REPUBLIC OF</text>
+    <code>IQ</code><text>IRAQ</text>
+    <code>IE</code><text>IRELAND</text>
+    <code>IL</code><text>ISRAEL</text>
+    <code>IT</code><text>ITALY</text>
+    <code>JM</code><text>JAMAICA</text>
+    <code>JP</code><text>JAPAN</text>
+    <code>JO</code><text>JORDAN</text>
+    <code>KZ</code><text>KAZAKSTAN</text>
+    <code>KE</code><text>KENYA</text>
+    <code>KI</code><text>KIRIBATI</text>
+    <code>KP</code><text>KOREA, DEMOCRATIC PEOPLE'S REP. OF</text>
+    <code>KR</code><text>KOREA, REPUBLIC OF</text>
+    <code>KW</code><text>KUWAIT</text>
+    <code>KG</code><text>KYRGYSTAN</text>
+    <code>LA</code><text>LAO PEOPLE'S DEMOCRATIC REPUBLIC</text>
+    <code>LV</code><text>LATVIA</text>
+    <code>LB</code><text>LEBANON</text>
+    <code>LS</code><text>LESOTHO</text>
+    <code>LR</code><text>LIBERIA</text>
+    <code>LY</code><text>LIBYAN ARAB JAMAHIRIYA</text>
+    <code>LI</code><text>LIECHTENSTEIN</text>
+    <code>LT</code><text>LITHUANIA</text>
+    <code>LU</code><text>LUXEMBOURG</text>
+    <code>MO</code><text>MACAU</text>
+    <code>MK</code><text>MACEDONIA, THE FORMER YUGOSLAV REPUBLIC OF</text>
+    <code>MG</code><text>MADAGASCAR</text>
+    <code>MW</code><text>MALAWI</text>
+    <code>MY</code><text>MALAYSIA</text>
+    <code>MV</code><text>MALDIVES</text>
+    <code>ML</code><text>MALI</text>
+    <code>MT</code><text>MALTA</text>
+    <code>MH</code><text>MARSHALL ISLANDS</text>
+    <code>MQ</code><text>MARTINIQUE</text>
+    <code>MR</code><text>MAURITANIA</text>
+    <code>MU</code><text>MAURITIUS</text>
+    <code>YT</code><text>MAYOTTE</text>
+    <code>MX</code><text>MEXICO</text>
+    <code>FM</code><text>MICRONESIA, FEDERATED STATES</text>
+    <code>MD</code><text>MOLDOVA, REPUBLIC OF</text>
+    <code>MC</code><text>MONACO</text>
+    <code>MN</code><text>MONGOLIA</text>
+    <code>MS</code><text>MONTSERRAT</text>
+    <code>MA</code><text>MOROCCO</text>
+    <code>MZ</code><text>MOZAMBIQUE</text>
+    <code>MM</code><text>MYANMAR</text>
+    <code>NA</code><text>NAMIBIA</text>
+    <code>NR</code><text>NAURU</text>
+    <code>NP</code><text>NEPAL</text>
+    <code>NL</code><text>NETHERLANDS</text>
+    <code>AN</code><text>NETHERLANDS ANTILLES</text>
+    <code>NT</code><text>NEUTRAL ZONE</text>
+    <code>NC</code><text>NEW CALEDONIA</text>
+    <code>NZ</code><text>NEW ZEALAND</text>
+    <code>NI</code><text>NICARAGUA</text>
+    <code>NE</code><text>NIGER</text>
+    <code>NG</code><text>NIGERIA</text>
+    <code>NU</code><text>NIUE</text>
+    <code>NF</code><text>NORFOLK ISLAND</text>
+    <code>MP</code><text>NORTHERN MARIANA ISLANDS</text>
+    <code>NO</code><text>NORWAY</text>
+    <code>OM</code><text>OMAN</text>
+    <code>PK</code><text>PAKISTAN</text>
+    <code>PW</code><text>PALAU</text>
+    <code>PA</code><text>PANAMA</text>
+    <code>PG</code><text>PAPUA NEW GUINEA</text>
+    <code>PY</code><text>PARAGUAY</text>
+    <code>PE</code><text>PERU</text>
+    <code>PH</code><text>PHILIPPINES</text>
+    <code>PN</code><text>PITCAIRN</text>
+    <code>PL</code><text>POLAND</text>
+    <code>PT</code><text>PORTUGAL</text>
+    <code>PR</code><text>PUERTO RICO</text>
+    <code>QA</code><text>QATAR</text>
+    <code>RE</code><text>REUNION</text>
+    <code>RO</code><text>ROMANIA</text>
+    <code>RU</code><text>RUSSIAN FEDERATION</text>
+    <code>RW</code><text>RWANDA</text>
+    <code>SH</code><text>SAINT HELENA</text>
+    <code>KN</code><text>SAINT KITTS AND NEVIS</text>
+    <code>LC</code><text>SAINT LUCIA</text>
+    <code>PM</code><text>SAINT PIERRE AND MIQUELON</text>
+    <code>VC</code><text>SAINT VINCENT AND THE GRENADINES</text>
+    <code>WS</code><text>SAMOA</text>
+    <code>SM</code><text>SAN MARINO</text>
+    <code>ST</code><text>SAO TOME AND PRINCIPE</text>
+    <code>SA</code><text>SAUDI ARABIA</text>
+    <code>SN</code><text>SENEGAL</text>
+    <code>SC</code><text>SEYCHELLES</text>
+    <code>SL</code><text>SIERRA LEONE</text>
+    <code>SG</code><text>SINGAPORE</text>
+    <code>SK</code><text>SLOVAKIA</text>
+    <code>SI</code><text>SLOVENIA</text>
+    <code>SB</code><text>SOLOMON ISLANDS</text>
+    <code>SO</code><text>SOMALIA</text>
+    <code>ZA</code><text>SOUTH AFRICA</text>
+    <code>GS</code><text>SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS</text>
+    <code>ES</code><text>SPAIN</text>
+    <code>LK</code><text>SRI LANKA</text>
+    <code>SD</code><text>SUDAN</text>
+    <code>SR</code><text>SURINAME</text>
+    <code>SJ</code><text>SVALBARD AND JAN MAYEN ISLANDS</text>
+    <code>SZ</code><text>SWAZILAND</text>
+    <code>SE</code><text>SWEDEN</text>
+    <code>CH</code><text>SWITZERLAND</text>
+    <code>SY</code><text>SYRIAN ARAB REPUBLIC</text>
+    <code>TW</code><text>TAIWAN, PROVINCE OF CHINA</text>
+    <code>TJ</code><text>TAJIKISTAN</text>
+    <code>TZ</code><text>TANZANIA, UNITED REPUBLIC OF</text>
+    <code>TH</code><text>THAILAND</text>
+    <code>TG</code><text>TOGO</text>
+    <code>TK</code><text>TOKELAU</text>
+    <code>TO</code><text>TONGA</text>
+    <code>TT</code><text>TRINIDAD AND TOBAGO</text>
+    <code>TN</code><text>TUNISIA</text>
+    <code>TR</code><text>TURKEY</text>
+    <code>RM</code><text>TURKMENISTAN</text>
+    <code>TC</code><text>TURKS AND CAICOS ISLANDS</text>
+    <code>TV</code><text>TUVALU</text>
+    <code>UG</code><text>UGANDA</text>
+    <code>UA</code><text>UKRAINE</text>
+    <code>AE</code><text>UNITED ARAB EMIRATES</text>
+    <code>GB</code><text>UNITED KINGDOM</text>
+    <code>US</code><text>UNITED STATES</text>
+    <code>UM</code><text>UNITED STATES MINOR OUTLYING ISLANDS</text>
+    <code>UY</code><text>URUGUAY</text>
+    <code>UZ</code><text>UZBEKISTAN</text>
+    <code>VU</code><text>VANUATU</text>
+    <code>VE</code><text>VENEZUELA</text>
+    <code>VN</code><text>VIET NAM</text>
+    <code>VG</code><text>VIRGIN ISLANDS (BRITISH)</text>
+    <code>VI</code><text>VIRGIN ISLANDS (U.S.)</text>
+    <code>WF</code><text>WALLIS AND FUTUNA ISLANDS</text>
+    <code>EH</code><text>WESTERN SAHARA</text>
+    <code>YE</code><text>YEMEN</text>
+    <code>YU</code><text>YUGOSLAVIA</text>
+    <code>ZR</code><text>ZAIRE</text>
+    <code>ZM</code><text>ZAMBIA</text>
+    <code>ZW</code><text>ZIMBABWE</text>
+  </table>
+
+  <table name="currencyCode">
+    <description>Currency code to country name; several countries may use the same
+                 currency and some countries support multiple currencies</description>
+    <code>CD</code><text>CD: ANGUILLA</text>
+    <code>AFA</code><text>AFA: AFGHANISTAN</text>
+    <code>ALL</code><text>ALL: ALBANIA</text>
+    <code>DZD</code><text>DZD: ALGERIA</text>
+    <code>USD</code><text>USD: AMERICAN SAMOA</text>
+    <code>ESP</code><text>ESP: ANDORRA (multiple)</text>
+    <code>AON</code><text>AON: ANGOLA (multiple)</text>
+    <code>XCD</code><text>XCD: XANTIGUA AND BARBUDA</text>
+    <code>ARS</code><text>ARS: ARGENTINA</text>
+    <code>AMD</code><text>AMD: ARMENIA</text>
+    <code>AWG</code><text>AWG: ARUBA</text>
+    <code>AUD</code><text>AUD: AUSTRALIA</text>
+    <code>ATS</code><text>ATS: AUSTRIA</text>
+    <code>AZM</code><text>AZM: AZERBAIJAN</text>
+    <code>BSD</code><text>BSD: BAHAMAS</text>
+    <code>BHD</code><text>BHD: BAHRAIN</text>
+    <code>BDT</code><text>BDT: BANGLADESH</text>
+    <code>BBD</code><text>BBD: BARBADOS</text>
+    <code>BYB</code><text>BYB: BELARUS</text>
+    <code>BEF</code><text>BEF: BELGIUM</text>
+    <code>BZD</code><text>BZD: BELIZE</text>
+    <code>XOF</code><text>XOF: BENIN</text>
+    <code>BMD</code><text>BMD: BERMUDA</text>
+    <code>INR</code><text>INR: BHUTAN (multiple)</text>
+    <code>BOB</code><text>BOB: BOLIVIA (multiple)</text>
+    <code>BAM</code><text>BAM: BOSNIA AND HERZEGOVINA</text>
+    <code>BWP</code><text>BWP: BOTSWANA</text>
+    <code>NOK</code><text>NOK: BOUVET ISLAND</text>
+    <code>BRL</code><text>BRL: BRAZIL</text>
+    <code>USD</code><text>USD: BRITISH INDIAN OCEAN TERRITORY</text>
+    <code>BND</code><text>BND: BRUNEI DARUSSALAM</text>
+    <code>BGL</code><text>BGL: BULGARIA</text>
+    <code>XOF</code><text>XOF: BURKINA FASO</text>
+    <code>BIF</code><text>BIF: BURUNDI</text>
+    <code>KHR</code><text>KHR: CAMBODIA</text>
+    <code>XAF</code><text>XAF: CAMEROON</text>
+    <code>CAD</code><text>CAD: CANADA</text>
+    <code>CVE</code><text>CVE: CAPE VERDE</text>
+    <code>KYD</code><text>KYD: CAYMAN ISLANDS</text>
+    <code>XAF</code><text>XAF: CENTRAL AFRICAN REP.</text>
+    <code>XAF</code><text>XAF: CHAD</text>
+    <code>CLP</code><text>CLP: CHILE</text>
+    <code>CNY</code><text>CNY: CHINA</text>
+    <code>AUD</code><text>AUD: CHRISTMAS ISLAND</text>
+    <code>AUD</code><text>AUD: COCOS (KEELING) ISLANDS</text>
+    <code>COP</code><text>COP: COLOMBIA</text>
+    <code>KMF</code><text>KMF: COMOROS</text>
+    <code>XAF</code><text>XAF: CONGO</text>
+    <code>NZD</code><text>NZD: COOK ISLANDS</text>
+    <code>CRC</code><text>CRC: COSTA RICA</text>
+    <code>XOF</code><text>XOF: COTE D IVOIRE</text>
+    <code>HRK</code><text>HRK: CROATIA</text>
+    <code>CUP</code><text>CUP: CUBA</text>
+    <code>CYP</code><text>CYP: CYPRUS</text>
+    <code>CZK</code><text>CZK: CZECH REPUBLIC</text>
+    <code>AOR</code><text>AOR: ANGOLA (multiple)</text>
+    <code>FRF</code><text>FRF: ANDORRA (multiple)</text>
+    <code>ADP</code><text>ADP: ANDORRA (multiple)</text>
+    <code>BTN</code><text>BTN: BHUTAN (multiple)</text>
+    <code>BOV</code><text>BOV: BOLIVIA (multiple)</text>
+    <code>ISK</code><text>ISK: ICELAND</text>
+    <code>INR</code><text>INR: INDIA</text>
+    <code>IDR</code><text>IDR: INDONESIA</text>
+    <code>XDR</code><text>XDR: INTERNATIONAL MONETARY FUND</text>
+    <code>IRR</code><text>IRR: IRAN (ISLAMIC REPUBLIC OF)</text>
+    <code>IQD</code><text>IQD: IRAQ</text>
+    <code>IEP</code><text>IEP: IRELAND</text>
+    <code>ILS</code><text>ILS: ISRAEL</text>
+    <code>ITL</code><text>ITL: ITALY</text>
+    <code>JMD</code><text>JMD: JAMAICA</text>
+    <code>JPY</code><text>JPY: JAPAN</text>
+    <code>JOD</code><text>JOD: JORDAN</text>
+    <code>KZT</code><text>KZT: KAZAKHSTAN</text>
+    <code>KES</code><text>KES: KENYA</text>
+    <code>AUD</code><text>AUD: KIRIBATI</text>
+    <code>KPW</code><text>KPW: KOREA, DEMOCRATIC PEOPLE'S REPUBLIC OF</text>
+    <code>KRW</code><text>KRW: KOREA, REPUBLIC OF</text>
+    <code>KWD</code><text>KWD: KUWAIT</text>
+    <code>KGS</code><text>KGS: KYRGYZSTAN</text>
+    <code>LAK</code><text>LAK: LAO PEOPLE'S DEMOCRATIC REPUBLIC</text>
+    <code>LVL</code><text>LVL: LATVIA</text>
+    <code>LBP</code><text>LBP: LEBANON</text>
+    <code>ZAR</code><text>ZAR: LESOTHO</text>
+    <code>LRD</code><text>LRD: LIBERIA</text>
+    <code>LYD</code><text>LYD: LIBYAN ARAB JAMAHIRIYA</text>
+    <code>CHF</code><text>CHF: LIECHTENSTEIN</text>
+    <code>LTL</code><text>LTL: LITHUANIA</text>
+    <code>LUF</code><text>LUF: LUXEMBOURG</text>
+    <code>MOP</code><text>MOP: MACAU</text>
+    <code>MKD</code><text>MKD: MACEDONIA, THE FORMER YUGOSLAV REPUBLIC OF</text>
+    <code>MGF</code><text>MGF: MADAGASCAR</text>
+    <code>MWK</code><text>MWK: MALAWI</text>
+    <code>MYR</code><text>MYR: MALAYSIA</text>
+    <code>MVR</code><text>MVR: MALDIVES</text>
+    <code>XOF</code><text>XOF: MALI</text>
+    <code>MTL</code><text>MTL: MALTA</text>
+    <code>USD</code><text>USD: MARSHALL ISLANDS</text>
+    <code>FRF</code><text>FRF: MARTINIQUE</text>
+    <code>MRO</code><text>MRO: MAURITANIA</text>
+    <code>MUR</code><text>MUR: MAURITIUS</text>
+    <code>MXN</code><text>MXN: MEXICO</text>
+    <code>USD</code><text>USD: MICRONESIA</text>
+    <code>MDL</code><text>MDL: MOLDOVA, REPUBLIC OF</text>
+    <code>FRF</code><text>FRF: MONACO</text>
+    <code>MNT</code><text>MNT: MONGOLIA</text>
+    <code>XCD</code><text>XCD: MONTSERRAT</text>
+    <code>MAD</code><text>MAD: MOROCCO</text>
+    <code>MZM</code><text>MZM: MOZAMBIQUE</text>
+    <code>MMK</code><text>MMK: MYANMAR</text>
+    <code>ZAR</code><text>ZAR: NAMIBIA</text>
+    <code>AUD</code><text>AUD: NAURU</text>
+    <code>NPR</code><text>NPR: NEPAL</text>
+    <code>NLG</code><text>NLG: NETHERLANDS</text>
+    <code>ANG</code><text>ANG: NETHERLANDS ANTILLES</text>
+    <code>XPF</code><text>XPF: NEW CALEDONIA</text>
+    <code>NZD</code><text>NZD: NEW ZEALAND</text>
+    <code>NIO</code><text>NIO: NICARAGUA</text>
+    <code>XOF</code><text>XOF: NIGER</text>
+    <code>NGN</code><text>NGN: NIGERIA</text>
+    <code>NZD</code><text>NZD: NIUE</text>
+    <code>AUD</code><text>AUD: NORFOLK ISLAND</text>
+    <code>USD</code><text>USD: NORTHERN MARIANA ISLANDS</text>
+    <code>NOK</code><text>NOK: NORWAY</text>
+    <code>OMR</code><text>OMR: OMAN</text>
+    <code>PKR</code><text>PKR: PAKISTAN</text>
+    <code>USD</code><text>USD: PALAU</text>
+    <code>PAB</code><text>PAB: PANAMA</text>
+    <code>PGK</code><text>PGK: PAPUA NEW GUINEA</text>
+    <code>PYG</code><text>PYG: PARAGUAY</text>
+    <code>PEN</code><text>PEN: PERU</text>
+    <code>PHP</code><text>PHP: PHILIPPINES</text>
+    <code>NZD</code><text>NZD: PITCAIRN</text>
+    <code>PLN</code><text>PLN: POLAND</text>
+    <code>PTE</code><text>PTE: PORTUGAL</text>
+    <code>USD</code><text>USD: PUERTO RICO</text>
+    <code>QAR</code><text>QAR: QATAR</text>
+    <code>FRF</code><text>FRF: REUNION</text>
+    <code>ROL</code><text>ROL: ROMANIA</text>
+    <code>RUR</code><text>RUR: RUSSIAN FEDERATION</text>
+    <code>RWF</code><text>RWF: RWANDA</text>
+    <code>SHP</code><text>SHP: SAINT HELENA</text>
+    <code>XCD</code><text>XCD: SAINT KITTS AND NEVIS</text>
+    <code>XCD</code><text>XCD: SAINT LUCIA</text>
+    <code>FRF</code><text>FRF: SAINT PIERRE AND MIQUELON</text>
+    <code>XCD</code><text>XCD: SAINT VINCENT AND THE GRENADINES</text>
+    <code>WST</code><text>WST: SAMOA</text>
+    <code>ITL</code><text>ITL: SAN MARINO</text>
+    <code>STD</code><text>STD: SAO TOME AND PRINCIPE</text>
+    <code>SAR</code><text>SAR: SAUDI ARABIA</text>
+    <code>XOF</code><text>XOF: SENEGAL</text>
+    <code>SCR</code><text>SCR: SEYCHELLES</text>
+    <code>SLL</code><text>SLL: SIERRA LEONE</text>
+    <code>SGD</code><text>SGD: SINGAPORE</text>
+    <code>SKK</code><text>SKK: SLOVAKIA</text>
+    <code>SIT</code><text>SIT: SLOVENIA</text>
+    <code>SBD</code><text>SBD: SOLOMON ISLANDS</text>
+    <code>SOS</code><text>SOS: SOMALIA</text>
+    <code>ZAR</code><text>ZAR: SOUTH AFRICA</text>
+    <code>ESP</code><text>ESP: SPAIN</text>
+    <code>LKR</code><text>LKR: SRI LANKA</text>
+    <code>SDD</code><text>SDD: SUDAN</text>
+    <code>SRG</code><text>SRG: SURINAME</text>
+    <code>NOK</code><text>NOK: SVALBARD AND JAN MAYEN ISLANDS</text>
+    <code>SZL</code><text>SZL: SWAZILAND</text>
+    <code>SEK</code><text>SEK: SWEDEN</text>
+    <code>CHF</code><text>CHF: SWITZERLAND</text>
+    <code>SYP</code><text>SYP: SYRIAN ARAB REPUBLIC</text>
+    <code>TWD</code><text>TWD: TAIWAN, PROVINCE OF CHINA</text>
+    <code>TJR</code><text>TJR: TAJIKISTAN</text>
+    <code>TZS</code><text>TZS: TANZANIA, UNITED REPUBLIC OF</text>
+    <code>THB</code><text>THB: THAILAND</text>
+    <code>XOF</code><text>XOF: TOGO</text>
+    <code>NZD</code><text>NZD: TOKELAU</text>
+    <code>TOP</code><text>TOP: TONGA</text>
+    <code>TTD</code><text>TTD: TRINIDAD AND TOBAGO</text>
+    <code>TND</code><text>TND: TUNISIA</text>
+    <code>TRL</code><text>TRL: TURKEY</text>
+    <code>TMM</code><text>TMM: TURKMENISTAN</text>
+    <code>USD</code><text>USD: TURKS AND CAICOS ISLANDS</text>
+    <code>AUD</code><text>AUD: TUVALU</text>
+    <code>UGX</code><text>UGX: UGANDA</text>
+    <code>UAH</code><text>UAH: UKRAINE</text>
+    <code>AED</code><text>AED: UNITED ARAB EMIRATES</text>
+    <code>GBP</code><text>GBP: UNITED KINGDOM</text>
+    <code>USD</code><text>USD: UNITED STATES</text>
+    <code>USD</code><text>USD: UNITED STATES MINOR OUTLYING ISLANDS</text>
+    <code>UYU</code><text>UYU: URUGUAY</text>
+    <code>UZS</code><text>UZS: UZBEKISTAN</text>
+    <code>VUV</code><text>VUV: VANUATU</text>
+    <code>ITL</code><text>ITL: VATICAN CITY STATE (HOLY SEE)</text>
+    <code>VEB</code><text>VEB: VENEZUELA</text>
+    <code>VND</code><text>VND: VIETNAM</text>
+    <code>USD</code><text>USD: VIRGIN ISLANDS (BRITISH)</text>
+    <code>USD</code><text>USD: VIRGIN ISLANDS (U.S.)</text>
+    <code>XPF</code><text>XPF: WALLIS AND FUTUNA ISLANDS</text>
+    <code>MAD</code><text>MAD: WESTERN SAHARA</text>
+    <code>YER</code><text>YER: YEMEN</text>
+    <code>YUM</code><text>YUM: YUGOSLAVIA</text>
+    <code>ZRN</code><text>ZRN: ZAIRE</text>
+    <code>ZMK</code><text>ZMK: ZAMBIA</text>
+    <code>ZWD</code><text>ZWD: ZIMBABWE</text>
+    <code>DKK</code><text>DKK: DENMARK</text>
+    <code>DJF</code><text>DJF: DJIBOUTI</text>
+    <code>XCD</code><text>XCD: DOMINICA</text>
+    <code>DOP</code><text>DOP: DOMINICAN REPUBLIC</text>
+    <code>TPE</code><text>TPE: EAST TIMOR</text>
+    <code>ECS</code><text>ECS: ECUADOR</text>
+    <code>EGP</code><text>EGP: EGYPT</text>
+    <code>SVC</code><text>SVC: EL SALVADOR</text>
+    <code>XAF</code><text>XAF: EQUATORIAL GUINEA</text>
+    <code>ERN</code><text>ERN: ERITREA</text>
+    <code>EEK</code><text>EEK: ESTONIA</text>
+    <code>ETB</code><text>ETB: ETHIOPIA</text>
+    <code>XEU</code><text>XEU: EUROPEAN MONETARY COOP. FUND</text>
+    <code>DKK</code><text>DKK: FAEROE ISLANDS</text>
+    <code>FKP</code><text>FKP: FALKLAND ISLANDS(MALVINAS)</text>
+    <code>FJD</code><text>FJD: FIJI</text>
+    <code>FIM</code><text>FIM: FINLAND</text>
+    <code>FRF</code><text>FRF: FRANCE</text>
+    <code>FRF</code><text>FRF: FRENCH GUIANA</text>
+    <code>XPR</code><text>XPR: FRENCH POLYNESIA</text>
+    <code>FRF</code><text>FRF: FRENCH SOUTHERN TERRITORIES</text>
+    <code>XAF</code><text>XAF: GABON</text>
+    <code>GMD</code><text>GMD: GAMBIA</text>
+    <code>GEL</code><text>GEL: GEORGIA</text>
+    <code>DEM</code><text>DEM: GERMANY</text>
+    <code>GHC</code><text>GHC: GHANA</text>
+    <code>GIP</code><text>GIP: GIBRALTAR</text>
+    <code>GRD</code><text>GRD: GREECE</text>
+    <code>DKK</code><text>DKK: GREENLAND</text>
+    <code>XCD</code><text>XCD: GRENADA</text>
+    <code>FRF</code><text>FRF: GUADELOUPE</text>
+    <code>USD</code><text>USD: GUAM</text>
+    <code>GTQ</code><text>GTQ: GUATEMALA</text>
+    <code>GNF</code><text>GNF: GUINEA</text>
+    <code>GWP</code><text>GWP: GUINEA-BISSAU</text>
+    <code>GYD</code><text>GYD: GUYANA</text>
+    <code>HTG</code><text>HTG: HAITI</text>
+    <code>AUD</code><text>AUD: HEARD AND MCDONALD ISLANDS</text>
+    <code>HNL</code><text>HNL: HONDURAS</text>
+    <code>HKD</code><text>HKD: HONG KONG</text>
+    <code>HUF</code><text>HUF: HUNGARY</text>
+  </table>
+
+</tables>
