@@ -1,0 +1,212 @@
+
+<mapping>
+
+    <class name="Root">
+        <map-to xml="Root"/>
+
+        <field name="nativeCollections" type="NativeCollections">
+            <bind-xml name="native"/>
+        </field>
+
+        <field name="gsCollections" type="GSCollections">
+            <bind-xml name="gs"/>
+        </field>
+
+        <field name="gaCollections" type="GACollections">
+            <bind-xml name="ga"/>
+        </field>
+    </class>
+
+    <class name="NativeCollections">
+        <field name="arrayOfNT" type="Testable" collection="array" direct="true">
+            <bind-xml name="array"/>
+        </field>
+
+        <field name="vectorOfNT" type="Testable" collection="vector" direct="true">
+            <bind-xml name="vector"/>
+        </field>
+
+        <!-- CASTOR-1125:  Setting the type to type="Testable" results in AnyNode objects appearing in hashmap. -->
+        <field name="hashtableOfNT" collection="hashtable" direct="true">
+            <bind-xml name="hashtable">
+                <class name="org.exolab.castor.mapping.MapItem">
+                    <field name="key" type="java.lang.String">
+                        <bind-xml name="key"/>
+                    </field>
+                    <field name="value" type="Testable">
+                        <bind-xml name="value"/>
+                    </field>
+                </class>
+            </bind-xml>
+        </field>
+
+        <field name="collectionOfNT" type="Testable" collection="collection" direct="true">
+            <bind-xml name="collection"/>
+        </field>
+
+        <field name="setOfNT" type="Testable" collection="set" direct="true">
+            <bind-xml name="set"/>
+        </field>
+
+        <!-- CASTOR-1125:  Setting the type to type="Testable" results in AnyNode objects appearing in hashmap. -->
+        <field name="mapOfNT" collection="map" direct="true">
+            <bind-xml name="map">
+                <class name="org.exolab.castor.mapping.MapItem">
+                    <field name="key" type="java.lang.String">
+                        <bind-xml name="key"/>
+                    </field>
+                    <field name="value" type="Testable">
+                        <bind-xml name="value"/>
+                    </field>
+                </class>
+            </bind-xml>
+        </field>
+    </class>
+
+    <class name="GACollections">
+        <field name="arrayOfNT" type="Testable" collection="array" set-method="addArrayOfNT">
+            <bind-xml name="array"/>
+        </field>
+
+        <field name="vectorOfNT" type="Testable" collection="vector" set-method="addVectorOfNT">
+            <bind-xml name="vector"/>
+        </field>
+
+        <!-- CASTOR-1123:  This should be a Testable, not a MapItem, IMO. -->
+        <field name="hashtableOfNT" type="org.exolab.castor.mapping.MapItem" collection="hashtable"
+                                    set-method="addHashtableOfNT">
+            <bind-xml name="hashtable">
+                <class name="org.exolab.castor.mapping.MapItem">
+                    <field name="key" type="java.lang.String">
+                        <bind-xml name="key"/>
+                    </field>
+                    <field name="value" type="Testable">
+                        <bind-xml name="value"/>
+                    </field>
+                </class>
+            </bind-xml>
+        </field>
+
+        <field name="collectionOfNT" type="Testable" collection="collection" set-method="addCollectionOfNT">
+            <bind-xml name="collection"/>
+        </field>
+
+        <field name="setOfNT" type="Testable" collection="set" set-method="addSetOfNT">
+            <bind-xml name="set"/>
+        </field>
+
+        <!-- CASTOR-1123:  This should be a Testable, not a MapItem, IMO. -->
+        <field name="mapOfNT" type="org.exolab.castor.mapping.MapItem" collection="map" set-method="addMapOfNT">
+            <bind-xml name="map">
+                <class name="org.exolab.castor.mapping.MapItem">
+                    <field name="key" type="java.lang.String">
+                        <bind-xml name="key"/>
+                    </field>
+                    <field name="value" type="Testable">
+                        <bind-xml name="value"/>
+                    </field>
+                </class>
+            </bind-xml>
+        </field>
+    </class>
+
+    <class name="GSCollections">
+        <field name="arrayOfNT" type="Testable" collection="array">
+            <bind-xml name="array"/>
+        </field>
+
+        <field name="vectorOfNT" type="Testable" collection="vector">
+            <bind-xml name="vector"/>
+        </field>
+
+        <!-- CASTOR-1125:  Setting the type to type="Testable" results in AnyNode objects appearing in hashmap. -->
+        <field name="hashtableOfNT" collection="hashtable">
+            <bind-xml name="hashtable">
+                <class name="org.exolab.castor.mapping.MapItem">
+                    <field name="key" type="java.lang.String">
+                        <bind-xml name="key"/>
+                    </field>
+                    <field name="value" type="Testable">
+                        <bind-xml name="value"/>
+                    </field>
+                </class>
+            </bind-xml>
+        </field>
+
+        <field name="collectionOfNT" type="Testable" collection="collection">
+            <bind-xml name="collection"/>
+        </field>
+
+        <field name="setOfNT" type="Testable" collection="set">
+            <bind-xml name="set"/>
+        </field>
+
+        <!-- CASTOR-1125:  Setting the type to type="Testable" results in AnyNode objects appearing in hashmap. -->
+        <field name="mapOfNT" collection="map">
+            <bind-xml name="map">
+                <class name="org.exolab.castor.mapping.MapItem">
+                    <field name="key" type="java.lang.String">
+                        <bind-xml name="key"/>
+                    </field>
+                    <field name="value" type="Testable">
+                        <bind-xml name="value"/>
+                    </field>
+                </class>
+            </bind-xml>
+        </field>
+    </class>
+
+    <class name="Testable">
+        <!--
+            <field name="thing">
+                <bind-xml name="neverpresentthing"/>
+            </field>
+        -->
+
+        <field name="readOnlyString" get-method="getReadOnlyString">
+            <bind-xml name="readOnlyString" transient="true"/>
+        </field>
+
+        <field name="nativeString" direct="true">
+            <bind-xml name="nativeString"/>
+        </field>
+
+        <field name="naturalGSString" direct="false">
+            <bind-xml name="naturalGSString"/>
+        </field>
+
+        <field name="unnaturalGSString" get-method="getUnnaturalGSStringTest"
+                                        set-method="setUnnaturalGSStringTest" type="string">
+            <bind-xml name="unnaturalGSString"/>
+        </field>
+
+        <field name="nativeInt" direct="true" type="integer">
+            <bind-xml name="nativeInt"/>
+        </field>
+
+        <field name="nativeInteger" direct="true" type="java.lang.Integer">
+            <bind-xml name="nativeInteger"/>
+        </field>
+
+        <!-- Let it find the methods without direct set. -->
+        <field name="naturalGSInt" type="integer">
+            <bind-xml name="naturalGSInt"/>
+        </field>
+
+        <!-- Let it find the methods without direct set. -->
+        <field name="naturalGSInteger" type="java.lang.Integer">
+            <bind-xml name="naturalGSInteger" type="integer"/>
+        </field>
+
+        <!-- Let it find the methods without direct set. -->
+        <field name="naturalBoolGS" type="boolean">
+            <bind-xml name="naturalBoolGS"/>
+        </field>
+
+        <!-- Let it find the methods without direct set. -->
+        <field name="naturalBoolIsS" type="boolean">
+            <bind-xml name="naturalBoolIsS"/>
+        </field>
+    </class>
+
+</mapping>

@@ -1,0 +1,22 @@
+<expected>
+	<match method="regexp" index="0">create table simple \( fieldinterger integer not null, fieldinterger2 integer \);</match>
+	<match method="plain" index="1"></match>
+
+	<match method="regexp" index="0" engine="mysql">create table simple \( fieldinterger integer\({0}\) not null, fieldinterger2 integer\({0}\) \);</match>
+	<match method="plain" index="1" engine="mysql"></match>
+
+	<match method="regexp" index="0" engine="oracle">create table simple \( fieldinterger integer not null, fieldinterger2 integer \);</match>
+	<match method="regexp" index="1" engine="oracle">create sequence a_seq_simple_fieldinterger maxvalue 2147483647 increment by 1 start with 1;</match>
+
+	<match method="regexp" index="0" engine="postgresql">create table simple \( fieldinterger integer not null, fieldinterger2 integer \);</match>
+	<match method="regexp" index="1" engine="postgresql">create sequence a_seq_simple_fieldinterger increment 1 maxvalue 2147483647 start 1;</match>
+
+	<match method="regexp" index="0" engine="sapdb">create table simple \( fieldinterger integer not null, fieldinterger2 integer \);</match>
+	<match method="regexp" index="1" engine="sapdb">create sequence a_seq_simple_fieldinterger increment by 1 start with 1 maxvalue 2147483647;</match>
+
+	<match method="regexp" index="0" engine="db2">create table simple \( fieldinterger integer not null, fieldinterger2 integer \);</match>
+	<match method="regexp" index="1" engine="db2">create sequence as integer a_seq_simple_fieldinterger start with 1 increment by 1 maxvalue 2147483647;</match>
+
+	<match method="regexp" index="0" engine="hsql">create table simple \( fieldinterger integer not null, fieldinterger2 integer \);</match>
+	<match method="regexp" index="1" engine="hsql">create sequence a_seq_simple_fieldinterger as integer start with 1 increment by 1;</match>
+</expected>

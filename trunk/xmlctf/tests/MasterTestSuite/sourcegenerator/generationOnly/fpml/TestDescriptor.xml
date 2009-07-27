@@ -1,0 +1,18 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>Tests source geneneration (only) for the fpml schemas</Name>
+    <Author>Edward Kuns</Author>
+    <Comment>Without this binding file, things go badly awry</Comment>
+    <Category>basic capability</Category>
+    <OnlySourceGenerationTest>
+        <Schema>fpml-main-4-2.xsd</Schema>
+        <Schema>ml-pb-1-0.xsd</Schema>
+        <BindingFile>binding.xml</BindingFile>
+        <UnitTestCase>
+            <Name>Test Source Generation</Name>
+            <Skip>true</Skip>
+            <Comment>SKIP is set until this test case is finished</Comment>
+            <Comment>The test case cannot go to completion at the moment</Comment>
+        </UnitTestCase>
+     </OnlySourceGenerationTest>
+</TestDescriptor>

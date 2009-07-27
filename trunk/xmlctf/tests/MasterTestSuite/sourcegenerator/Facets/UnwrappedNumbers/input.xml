@@ -1,0 +1,15 @@
+<?xml version='1.0'?>
+<NumberTests>
+    <mybyte>19</mybyte>
+    <myint>12345</myint>
+    <myint>22322</myint>
+    <myint>76523</myint>
+    <myinteger>12345</myinteger>
+    <myinteger>22322</myinteger>
+    <myinteger>76523</myinteger>
+    <myshort>2323</myshort>
+    <myunsignedlong>23000000</myunsignedlong>
+    <mydecimal>23232</mydecimal>
+    <mydecimal>2323.2</mydecimal>
+    <mydecimal>23.232</mydecimal>
+</NumberTests>

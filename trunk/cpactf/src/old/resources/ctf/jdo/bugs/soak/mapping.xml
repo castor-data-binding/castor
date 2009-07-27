@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                         "http://castor.org/mapping.dtd">
+<mapping>
+    <class identity="id" name="ctf.jdo.bugs.soak.model.Employee"
+           access="exclusive" key-generator="IDENTITY">
+        <map-to table="soakEmployee"/>
+        <field name="id" type="int">
+            <sql name="id" type="numeric"/>
+        </field>
+        <field name="firstName" type="string">
+            <sql name="fname" type="varchar"/>
+        </field>
+        <field name="lastName" type="string">
+            <sql name="lname" type="varchar"/>
+        </field>
+        <field name="middleNameInitial" type="char">
+            <sql name="mi" type="char"/>
+        </field>
+        <field name="gender" type="char">
+            <sql name="gender" type="char"/>
+        </field>
+        <field name="perm" type="boolean">
+            <sql name="isPerm" type="numeric" />
+        </field>
+        <field name="hourlyRate" type="java.math.BigDecimal">
+            <sql name="hourlyRate" type="numeric" />
+        </field>
+        <field name="totalHours" type="java.math.BigDecimal">
+            <sql name="totalHours" type="numeric" />
+        </field>
+        <field name="SSN" type="string">
+            <sql name="ssn" type="varchar"/>
+        </field>
+        <field name="holiday" type="float">
+            <sql name="holiday" type="numeric"/>
+        </field>
+        <field name="startDate" type="date">
+            <sql name="startDate" type="date"/>
+        </field>
+        <field name="recordDate" type="date">
+            <sql name="recordDate" type="timestamp"/>
+        </field>
+        <field name="homeAddress" type="serializable">
+            <sql name="homeAddress" type="binary" dirty="ignore"/>
+        </field>
+        <field name="homePhone" type="serializable">
+            <sql name="homePhone" type="binary" dirty="ignore"/>
+        </field>
+        <field name="skills" type="serializable">
+            <sql name="skills" type="binary" dirty="ignore"/>
+        </field>
+    </class>
+    
+    <key-generator name="IDENTITY"/>
+</mapping>

@@ -1,0 +1,397 @@
+<document url="http://castor.codehaus.org/dependencies.xml">
+
+	<properties>
+		<title>Third-party JAR dependencies</title>
+		<author email="werner DOT guttmann AT gmx DOT net">Werner Guttmann</author>
+		<abstract>Outlines dependencies on third-party products.</abstract>
+		<status>Final</status>
+	</properties>
+
+	<body>
+		<title>3rd-party product dependencies</title>
+		
+		<section title="Introduction">
+		
+			<p>
+				This document provides information about run-time and compile-time
+				dependencies to 3rd-party frameworks/tools. Following this
+				information, you'll be able to download all required JARs and 
+				configure your devlopment/run-time environment according to 
+				your needs.
+			</p>
+			
+			<p>
+				We strogly encourage you, though, to consider using Maven 2 for
+				your build management (process). Information of how to use
+				Castor with Maven 2 is provided <a href="maven-integration.html">here</a>.
+			</p>
+			
+		</section>
+
+		<section title="Run-time dependencies">
+
+			<p>
+			   As many other frameworks, Castor internally makes use of various existing
+			   frameworks and products to implement its functionality. As such, in order
+			   to function properly, Castor requires that these tools are available at 
+			   run-time.
+			</p>
+			
+			<p>
+			   The following table(s) enlists 3rd-party products required at run-time, 
+			   though many of these JARs are required <b>only</b> if the feature 
+			   associated with that JAR is used at all.
+			</p>
+			
+			<section title="Castor XML">
+
+				<ctable cellpadding="4" border="1">
+					<cheader>
+						<td>Name</td>
+						<td>Minimal version</td>
+						<td>Binary</td>
+						<td>Required/Optional</td>
+					</cheader>
+					<crow>
+						<td>Apache Commons Project - <br/>Logging</td>
+						<td>1.1</td>
+						<td><a href="http://apache.4any.org/commons/logging/binaries/commons-logging-1.1.tar.gz">Download</a></td>
+						<td>Required</td>
+					</crow>
+					<crow>
+						<td>Apache Logging - Log4J</td>
+						<td>1.2.13</td>
+						<td><a href="http://www.apache.org/dyn/closer.cgi/logging/log4j/1.2.13/apache-log4j-1.2.13.tar.gz">Download</a></td>
+						<td>Optional</td>
+					</crow>
+					<crow>
+						<td>XML APIs</td>
+						<td>1.3.03</td>
+						<td><a href="http://archive.apache.org/dist/xml/xerces-j/old_xerces1/Xerces-J-tools.1.4.0.tar.gz">Download</a></td>
+						<td>Required for Java 1.4 and below only</td>
+					</crow>
+                    <crow>
+                        <td>Apache Xerces</td>
+                        <td>Any version higher than 1.4.0</td>
+                        <td>n/a</td>
+                        <td>Required for Java 1.4 and below only</td>
+                    </crow>
+				</ctable>
+                
+                <p>
+                    Please check <a href="xmlparser.html">this page</a> for details about
+                    the use of XML parsers with Castor and its requirements.
+                </p>
+	
+				<p>
+				   You'll require the following (optional) JARs, if you plan to use XML validation based on
+				   regular expressions:
+				</p>
+	
+				<ctable cellpadding="4" border="1" width="100%">
+					<cheader>
+						<td>Name</td>
+						<td>Version</td>
+						<td>Binary</td>
+						<td>Required/<br/>Optional</td>
+					</cheader>
+					<crow>
+						<td>Apache Jakarta ORO</td>
+						<td>2.0.8</td>
+						<td><a href="http://www.apache.org/dist/jakarta/oro/binaries/jakarta-oro-2.0.8.tar.gz">Download</a></td>
+						<td>Optional</td>
+					</crow>
+					<crow>
+						<td>Apache Jakarta RegExp</td>
+						<td>1.5</td>
+						<td><a href="http://www.apache.org/dist/jakarta/regexp/source/jakarta-regexp-1.5.tar.gz">Download</a></td>
+						<td>Optional</td>
+					</crow>
+				</ctable>
+				
+				<p>
+				   Please note that the version numbers given specify the <b>minimal</b>
+				   version Castor requires. As such, please feel free to use any higher
+				   release numbers at your convenience. If any issues arise as a result of 
+				   switching towards a higher release number, please report any such issues
+				   through the mailing lists, or raise a 
+				   <a href="http://jira.codehaus.org/browse/CASTOR">Jira issue</a>.
+				</p>
+			
+			</section>
+
+            <section title="Castor XML - schema support files">
+
+                <p>
+                    The Castor XML schema support internally uses Castor XML for processing the 
+                    XML schemas to be processed, and thus has the same dependencies as enlisted above.
+                </p>
+                
+            </section>
+
+			<section title="Castor XML - code generator">
+			
+				<p>
+					The Castor XML code generator internally uses Castor XML and Castor XML schema 
+                    support for processing the XML schemas to be processed, and thus has the 
+                    joined dependencies of those two packages.
+				</p>
+				
+				<p>
+				   In addition to the dependencies for the Castor XML code generator, 
+				   the Castor XML code generator will require additional dependencies 
+                   as enlisted below:
+				</p>
+
+                <ctable>
+                    <cheader>
+                        <td>Name</td>
+                        <td>Minimal version</td>
+                        <td>Binary</td>
+                        <td>Required/Optional</td>
+                        <td>Version</td>
+                    </cheader>
+                    <crow>
+                        <td><a href="http://velocity.apache.org">Apache Velocity</a> - template engine</td>
+                        <td>1.5</td>
+                        <td><a href="http://mirror.deri.at/apache/velocity/engine/1.5/velocity-1.5.zip">Download</a></td>
+                        <td>Optional</td>
+                        <td><font color="red">1.2 and later</font></td>
+                    </crow>
+                    <crow>
+                        <td>Apache Jakarta - commons-collections</td>
+                        <td>3.1</td>
+                        <td><a href="http://apache.4any.org/commons/collections/binaries/commons-collections-3.2.tar.gz">Download</a></td>
+                        <td>Optional</td>
+                        <td><font color="red">1.2 and later</font></td>
+                    </crow>
+                    <crow>
+                        <td>Apache Jakarta - commons-lang</td>
+                        <td>2.1</td>
+                        <td><a href="http://archive.apache.org/dist/commons/lang/binaries/commons-lang-2.1.tar.gz">Download</a></td>
+                        <td>Optional</td>
+                        <td><font color="red">1.2 and later</font></td>
+                    </crow>
+                </ctable>
+                
+                <p>
+                    These dependencies are <b>optional</b> as the use of Velocity-based templates
+                    for XML code generation is optional with release 1.2 and higher. Once you enable
+                    this mode, all dependencies given turn <font color="red">required</font>.
+                </p>
+                
+                <p>
+                    Please refer to <a href="srcgen-properties.html#Class printing">here</a> for details on 
+                    these code generation modes.
+                </p>
+				
+			</section>
+
+			<section title="Ant task definition for the Castor XML code generator">
+			
+				<p>
+					The Ant task definition for the Castor XML code generator internally uses 
+					the Castor XML code generator, and thus has the same dependencies as 
+					enlisted above.
+				</p>
+				
+				<p>
+				   In addition to the dependencies for the Castor XML code generator, 
+				   the Ant task definition for the Castor XML code generator will require 
+				   additional dependencies as enlisted below:
+				</p>
+				
+				<ctable>
+					<cheader>
+						<td>Name</td>
+						<td>Minimal version</td>
+						<td>Binary</td>
+						<td>Required/Optional</td>
+					</cheader>
+					<crow>
+						<td>Apache Ant (Core) - build tool</td>
+						<td>1.6.5</td>
+						<td><a href="http://archive.apache.org/dist/ant/binaries/apache-ant-1.6.5-bin.tar.gz">Download</a></td>
+						<td>Required</td>
+					</crow>
+				</ctable>
+				
+			</section>
+			
+			<section title="Castor JDO">
+			
+				<p>
+					Castor JDO internally uses Castor XML and Castor XML schema support for 
+                    processing the XML mapping file and	thus has the same dependencies as 
+                    enlisted above.
+				</p>
+				
+				<p>
+				   As such, in addition to the dependencies for <a name="#Castor-XML">Castor XML</a>, 
+				   Castor JDO will require additional dependencies as enlisted below:
+				</p>
+				
+				<ctable>
+					<cheader>
+						<td>Name</td>
+						<td>Minimal version</td>
+						<td>Binary</td>
+						<td>Required/Optional</td>
+					</cheader>
+					<crow>
+						<td>CGLIB</td>
+						<td>2.0.2</td>
+						<td><a href="http://sourceforge.net/project/showfiles.php?group_id=56933">Download</a></td>
+						<td>Required</td>
+					</crow>
+					<crow>
+						<td>Sun's JTA API</td>
+						<td>1.0.1b</td>
+						<td><a href="http://java.sun.com./products/jta/">Download</a></td>
+						<td>Required</td>
+					</crow>
+				</ctable>
+			</section>
+
+			<section title="Castor JDO samples">
+			
+				<p>
+					The JDO examples use
+					<a href="http://db.apache.org/derby">Apache Derby</a>
+					and depend on the JDBC driver provided with the examples archive. This
+					driver is only required for running the samples and is not required
+					otherwise, especially if you use a different database server.
+				</p>
+				
+				<p>
+				   As such, in addition to the dependencies for <a name="#Castor-JDO">Castor JDO</a>, 
+				   the Castor JDO samples will require additional dependencies as enlisted 
+				   below:
+				</p>
+				
+				<ctable>
+					<cheader>
+						<td>Name</td>
+						<td>Minimal version</td>
+						<td>Binary</td>
+						<td>Required/Optional</td>
+					</cheader>
+					<crow>
+						<td>Apache Derby JDBC driver</td>
+						<td>10.1.2.1</td>
+						<td><a href="http://db.apache.org/derby/derby_downloads.html">Download</a></td>
+						<td>Required</td>
+					</crow>
+				</ctable>
+			</section>
+			
+			<section title="Castor DSML">
+
+				<p>
+					Castor DSML has a dependency on Apache Xerces to provide the XML
+					serializer package for XML document production.
+				</p>
+
+				<p>
+					Castor DSML has two implementations, one that uses JNDI and one that
+					uses the Mozilla Directory SDK. Applications that use the JNDI package
+					(
+					<tt>org.exolab.castor.dsml.jndi</tt>
+					) are required to include
+					<tt>jndi.jar</tt>
+					or any alternative JAR that includes the JNDI 1.2 API. Applications
+					that use the Mozilla Directory SDK (
+					<tt>org.exolab.castor.dsml.mozilla</tt>
+					) are required to include
+					<tt>ldapjdk.jar</tt>
+					or any alternative JAR that includes version 4.0 of the Mozilla
+					Directory SDK.
+				</p>
+
+				<p>
+					We recommend using the Mozilla Directory SDK as the JNDI LDAP service
+					provider and have had positive experiences using it with OpenLDAP. The
+					JNDI LDAP service provider is included in the
+					<tt>ldapsp.jar</tt>.
+				</p>
+				
+				<p>
+				   As such, in addition to the dependencies for Castor XML, Castor DSML will 
+				   require additional dependencies as enlisted below:
+				</p>
+
+				<ctable cellpadding="4" border="1">
+					<cheader>
+						<td>Name</td>
+						<td>Minimal version</td>
+						<td>Binary</td>
+					</cheader>
+					<crow>
+						<td>Mozilla Directory SDK (DSML/MDS)</td>
+						<td>4.1</td>
+						<td><a href="http://svn.castor.codehaus.org/browse/~raw,r=trunk/castor/castor/trunk/lib/ldapjdk_4.1.jar">Download</a></td>
+					</crow>
+					<crow>
+						<td>JNDI LDAP service provider from Mozilla</td>
+						<td>?</td>
+						<td>ldapsp.jar</td>
+					</crow>
+				</ctable>
+			
+			
+			</section>
+
+		</section>
+		
+		<section title="Compile-time dependencies">
+		
+			<p>
+			   In addition to the run-time dependencies given above, 
+			   developing with and in Castor will require additional dependencies 
+			   as enlisted below:
+			</p>
+				
+			<ctable cellpadding="4" border="1">
+				<cheader>
+					<td>Name</td>
+					<td>Minimal version</td>
+					<td>Binary</td>
+					<td>Required/Optional</td>
+				</cheader>
+				<crow>
+					<td>Apache Ant (Core) - build tool</td>
+					<td>1.6.5</td>
+					<td><a href="http://archive.apache.org/dist/ant/binaries/apache-ant-1.6.5-bin.tar.gz">Download</a></td>
+					<td>Required</td>
+				</crow>
+				<crow>
+					<td>Apache Ant (launcher)</td>
+					<td>1.6.5</td>
+					<td><a href="http://ant.apache.org">Download</a></td>
+					<td>Required</td>
+				</crow>
+				<crow>
+					<td>JUnit testing framework</td>
+					<td>3.8.2</td>
+					<td><a href="http://sourceforge.net/project/showfiles.php?group_id=15278&amp;package_id=12472">Download</a></td>
+					<td>Required</td>
+				</crow>
+				<crow>
+					<td>Apache Log4J</td>
+					<td>1.2.13</td>
+					<td><a href="http://archive.apache.org/dist/logging/log4j/1.2.13/logging-log4j-1.2.13.tar.gz">Download</a></td>
+					<td>Optional</td>
+				</crow>
+				<crow>
+					<td>Used by the Servlet examples</td>
+					<td>2.3</td>
+					<td><a href="http://java.sun.com/products/servlet/reference/api/index.html">Download</a></td>
+					<td>Required</td>
+				</crow>
+			</ctable>
+		
+		</section>
+
+	</body>
+
+</document>

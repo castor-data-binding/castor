@@ -1,0 +1,37 @@
+<?xml version='1.0'?>
+
+<DateTimeTests>
+    <!-- Test defaulted types where we don't provide the value -->
+    <DefaultedTypes>
+    </DefaultedTypes>
+
+    <!-- Test defaulted types where we provide the correct value -->
+    <DefaultedTypes>
+        <Duration>P120D</Duration>
+        <DateTime>2006-10-30T10:04:38</DateTime>
+        <Time>13:20:00-05:00</Time>
+        <Date>2002-10-10</Date>
+        <GregorianYearMonth>2006-11</GregorianYearMonth>
+        <GregorianYear>2012</GregorianYear>
+        <GregorianMonthDay>--01-31</GregorianMonthDay>
+        <GregorianDay>---02</GregorianDay>
+        <GregorianMonth>--11--</GregorianMonth>
+    </DefaultedTypes>
+
+    <!-- Test fixed types where we don't provide the value -->
+    <FixedTypes>
+    </FixedTypes>
+
+    <!-- Test fixed types where we provide the correct value -->
+    <FixedTypes>
+        <fDuration>P2Y3M4DT5H6M7S</fDuration>
+        <fDateTime>1999-12-31T23:59:59.059</fDateTime>
+        <fTime>22:04:02</fTime>
+        <fDate>1972-12-30</fDate>
+        <fGregorianYearMonth>2000-04</fGregorianYearMonth>
+        <fGregorianYear>1965</fGregorianYear>
+        <fGregorianMonthDay>--12-25</fGregorianMonthDay>
+        <fGregorianDay>---01</fGregorianDay>
+        <fGregorianMonth>--03--</fGregorianMonth>
+    </FixedTypes>
+</DateTimeTests>

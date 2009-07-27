@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:sap-com:document:sap:business" targetNamespace="urn:sap-com:document:sap:business" version="1.0">
+ <xsd:element name="UserEC.Change.Response">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element name="Parameter" minOccurs="0">
+     <xsd:complexType>
+      <xsd:sequence>
+       <xsd:element name="item" type="BAPIPARAM" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+     </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Return" minOccurs="0">
+     <xsd:complexType>
+      <xsd:sequence>
+       <xsd:element name="item" type="BAPIRET2" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+     </xsd:complexType>
+    </xsd:element>
+   </xsd:sequence>
+   <xsd:attribute name="UserName" use="required">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="12"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+ <xsd:element name="UserEC.Change.Exception">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element name="Name">
+     <xsd:simpleType>
+      <xsd:restriction base="xsd:string">
+       <xsd:enumeration value="BapiError"/>
+       <xsd:enumeration value="BapiAbort"/>
+      </xsd:restriction>
+     </xsd:simpleType>
+    </xsd:element>
+    <xsd:element name="Message" minOccurs="0">
+     <xsd:complexType>
+      <xsd:sequence>
+       <xsd:element name="ID">
+        <xsd:annotation>
+         <xsd:documentation>Messages, Message Class</xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+         <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="20"/>
+         </xsd:restriction>
+        </xsd:simpleType>
+       </xsd:element>
+       <xsd:element name="Number">
+        <xsd:annotation>
+         <xsd:documentation>Messages, Message Number</xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+         <xsd:restriction base="xsd:string">
+          <xsd:pattern value="\d+"/>
+          <xsd:maxLength value="3"/>
+         </xsd:restriction>
+        </xsd:simpleType>
+       </xsd:element>
+       <xsd:element name="Text" minOccurs="0" type="xsd:string"/>
+      </xsd:sequence>
+     </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Attributes">
+     <xsd:complexType>
+      <xsd:sequence>
+       <xsd:element name="Collection">
+        <xsd:complexType>
+         <xsd:sequence>
+          <xsd:element name="item" maxOccurs="unbounded">
+           <xsd:complexType>
+            <xsd:sequence>
+             <xsd:element name="Name">
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:enumeration value="BapiError"/>
+                <xsd:enumeration value="BapiAbort"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="Message" minOccurs="0">
+              <xsd:complexType>
+               <xsd:sequence>
+                <xsd:element name="ID">
+                 <xsd:annotation>
+                  <xsd:documentation>Messages, Message Class</xsd:documentation>
+                 </xsd:annotation>
+                 <xsd:simpleType>
+                  <xsd:restriction base="xsd:string">
+                   <xsd:maxLength value="20"/>
+                  </xsd:restriction>
+                 </xsd:simpleType>
+                </xsd:element>
+                <xsd:element name="Number">
+                 <xsd:annotation>
+                  <xsd:documentation>Messages, Message Number</xsd:documentation>
+                 </xsd:annotation>
+                 <xsd:simpleType>
+                  <xsd:restriction base="xsd:string">
+                   <xsd:pattern value="\d+"/>
+                   <xsd:maxLength value="3"/>
+                  </xsd:restriction>
+                 </xsd:simpleType>
+                </xsd:element>
+                <xsd:element name="Text" minOccurs="0" type="xsd:string"/>
+               </xsd:sequence>
+              </xsd:complexType>
+             </xsd:element>
+             <xsd:element name="Attributes" minOccurs="0">
+              <xsd:complexType>
+               <xsd:sequence>
+                <xsd:element name="MESSAGE_V1" minOccurs="0">
+                 <xsd:annotation>
+                  <xsd:documentation>Messages, message variables</xsd:documentation>
+                 </xsd:annotation>
+                 <xsd:simpleType>
+                  <xsd:restriction base="xsd:string">
+                   <xsd:maxLength value="50"/>
+                  </xsd:restriction>
+                 </xsd:simpleType>
+                </xsd:element>
+                <xsd:element name="MESSAGE_V2" minOccurs="0">
+                 <xsd:annotation>
+                  <xsd:documentation>Messages, message variables</xsd:documentation>
+                 </xsd:annotation>
+                 <xsd:simpleType>
+                  <xsd:restriction base="xsd:string">
+                   <xsd:maxLength value="50"/>
+                  </xsd:restriction>
+                 </xsd:simpleType>
+                </xsd:element>
+                <xsd:element name="MESSAGE_V3" minOccurs="0">
+                 <xsd:annotation>
+                  <xsd:documentation>Messages, message variables</xsd:documentation>
+                 </xsd:annotation>
+                 <xsd:simpleType>
+                  <xsd:restriction base="xsd:string">
+                   <xsd:maxLength value="50"/>
+                  </xsd:restriction>
+                 </xsd:simpleType>
+                </xsd:element>
+                <xsd:element name="MESSAGE_V4" minOccurs="0">
+                 <xsd:annotation>
+                  <xsd:documentation>Messages, message variables</xsd:documentation>
+                 </xsd:annotation>
+                 <xsd:simpleType>
+                  <xsd:restriction base="xsd:string">
+                   <xsd:maxLength value="50"/>
+                  </xsd:restriction>
+                 </xsd:simpleType>
+                </xsd:element>
+                <xsd:element name="LOG_NO" minOccurs="0">
+                 <xsd:annotation>
+                  <xsd:documentation>Application log: log number</xsd:documentation>
+                 </xsd:annotation>
+                 <xsd:simpleType>
+                  <xsd:restriction base="xsd:string">
+                   <xsd:maxLength value="20"/>
+                  </xsd:restriction>
+                 </xsd:simpleType>
+                </xsd:element>
+                <xsd:element name="LOG_MSG_NO" minOccurs="0">
+                 <xsd:annotation>
+                  <xsd:documentation>Application log: Internal message serial number</xsd:documentation>
+                 </xsd:annotation>
+                 <xsd:simpleType>
+                  <xsd:restriction base="xsd:string">
+                   <xsd:pattern value="\d+"/>
+                   <xsd:maxLength value="6"/>
+                  </xsd:restriction>
+                 </xsd:simpleType>
+                </xsd:element>
+                <xsd:element name="PARAMETER" minOccurs="0">
+                 <xsd:annotation>
+                  <xsd:documentation>Parameter name</xsd:documentation>
+                 </xsd:annotation>
+                 <xsd:simpleType>
+                  <xsd:restriction base="xsd:string">
+                   <xsd:maxLength value="32"/>
+                  </xsd:restriction>
+                 </xsd:simpleType>
+                </xsd:element>
+                <xsd:element name="ROW" minOccurs="0" type="xsd:int">
+                 <xsd:annotation>
+                  <xsd:documentation>Lines in parameter</xsd:documentation>
+                 </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="FIELD" minOccurs="0">
+                 <xsd:annotation>
+                  <xsd:documentation>Field in parameter</xsd:documentation>
+                 </xsd:annotation>
+                 <xsd:simpleType>
+                  <xsd:restriction base="xsd:string">
+                   <xsd:maxLength value="30"/>
+                  </xsd:restriction>
+                 </xsd:simpleType>
+                </xsd:element>
+                <xsd:element name="SYSTEM" minOccurs="0">
+                 <xsd:annotation>
+                  <xsd:documentation>Logical system from which message originates</xsd:documentation>
+                 </xsd:annotation>
+                 <xsd:simpleType>
+                  <xsd:restriction base="xsd:string">
+                   <xsd:maxLength value="10"/>
+                  </xsd:restriction>
+                 </xsd:simpleType>
+                </xsd:element>
+               </xsd:sequence>
+              </xsd:complexType>
+             </xsd:element>
+            </xsd:sequence>
+           </xsd:complexType>
+          </xsd:element>
+         </xsd:sequence>
+        </xsd:complexType>
+       </xsd:element>
+       <xsd:element name="Status">
+        <xsd:complexType>
+         <xsd:sequence>
+          <xsd:element name="item" maxOccurs="unbounded" type="BAPIRET2"/>
+         </xsd:sequence>
+        </xsd:complexType>
+       </xsd:element>
+      </xsd:sequence>
+     </xsd:complexType>
+    </xsd:element>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+ <xsd:complexType name="ResponseOfUserEC.Change">
+  <xsd:choice>
+   <xsd:element ref="UserEC.Change.Response"/>
+   <xsd:element ref="UserEC.Change.Exception"/>
+  </xsd:choice>
+ </xsd:complexType>
+ <xsd:complexType name="BAPIPARAM">
+  <xsd:annotation>
+   <xsd:documentation>User: Parameter Transfer Structure</xsd:documentation>
+  </xsd:annotation>
+  <xsd:sequence>
+   <xsd:element name="PARID" minOccurs="0">
+    <xsd:annotation>
+     <xsd:documentation>Set/Get parameter ID</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="20"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:element>
+   <xsd:element name="PARVA" minOccurs="0">
+    <xsd:annotation>
+     <xsd:documentation>Parameter value</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="18"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:element>
+   <xsd:element name="PARTXT" minOccurs="0">
+    <xsd:annotation>
+     <xsd:documentation>Short text describing R/3 Repository objects</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="60"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:element>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="BAPIRET2">
+  <xsd:annotation>
+   <xsd:documentation>Return parameter</xsd:documentation>
+  </xsd:annotation>
+  <xsd:sequence>
+   <xsd:element name="TYPE" minOccurs="0">
+    <xsd:annotation>
+     <xsd:documentation>Message type: S Success, E Error, W Warning, I Info, A Abort</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="1"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:element>
+   <xsd:element name="ID" minOccurs="0">
+    <xsd:annotation>
+     <xsd:documentation>Messages, Message Class</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="20"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:element>
+   <xsd:element name="NUMBER" minOccurs="0">
+    <xsd:annotation>
+     <xsd:documentation>Messages, Message Number</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:pattern value="\d+"/>
+      <xsd:maxLength value="3"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:element>
+   <xsd:element name="MESSAGE" minOccurs="0">
+    <xsd:annotation>
+     <xsd:documentation>Message text</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="220"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:element>
+   <xsd:element name="LOG_NO" minOccurs="0">
+    <xsd:annotation>
+     <xsd:documentation>Application log: log number</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="20"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:element>
+   <xsd:element name="LOG_MSG_NO" minOccurs="0">
+    <xsd:annotation>
+     <xsd:documentation>Application log: Internal message serial number</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:pattern value="\d+"/>
+      <xsd:maxLength value="6"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:element>
+   <xsd:element name="MESSAGE_V1" minOccurs="0">
+    <xsd:annotation>
+     <xsd:documentation>Messages, message variables</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="50"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:element>
+   <xsd:element name="MESSAGE_V2" minOccurs="0">
+    <xsd:annotation>
+     <xsd:documentation>Messages, message variables</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="50"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:element>
+   <xsd:element name="MESSAGE_V3" minOccurs="0">
+    <xsd:annotation>
+     <xsd:documentation>Messages, message variables</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="50"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:element>
+   <xsd:element name="MESSAGE_V4" minOccurs="0">
+    <xsd:annotation>
+     <xsd:documentation>Messages, message variables</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="50"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:element>
+   <xsd:element name="PARAMETER" minOccurs="0">
+    <xsd:annotation>
+     <xsd:documentation>Parameter name</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="32"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:element>
+   <xsd:element name="ROW" minOccurs="0" type="xsd:int">
+    <xsd:annotation>
+     <xsd:documentation>Lines in parameter</xsd:documentation>
+    </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="FIELD" minOccurs="0">
+    <xsd:annotation>
+     <xsd:documentation>Field in parameter</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="30"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:element>
+   <xsd:element name="SYSTEM" minOccurs="0">
+    <xsd:annotation>
+     <xsd:documentation>Logical system from which message originates</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="10"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:element>
+  </xsd:sequence>
+ </xsd:complexType>
+</xsd:schema>

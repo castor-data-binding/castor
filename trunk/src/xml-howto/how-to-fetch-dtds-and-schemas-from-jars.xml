@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document url="http://castor.org/howto/how-to-fetch-dtds-and-schemas-from-jars.xml">
+  <properties>
+    <title>How to fetch DTDs and XML Schemas from JAR files using Castor</title>
+    <abstract>
+       Introduction to using an <tt>EntityResolver</tt> to fetch XML dependencies 
+       from JAR files rather than the network.
+    </abstract>
+    <status>Final</status>
+  </properties>
+  <body>
+    <title>How to fetch DTDs and XML Schemas from JAR files using Castor</title>
+    <header>
+    </header>
+
+    <section title="Intended Audience">
+
+        <p>Anyone who wants to retrieve DTDs and/or schemas from a 
+           local JAR file rather than the network.</p>
+        
+        <p>This document helps people to get familiar with the basic concepts
+           and discusses some implementation details.</p>
+
+    </section>
+    
+    <section title="Prerequisites">
+
+        <p>None.  All the required files reside in the Castor JAR, but what version 
+           of Castor you have will determine the public/system IDs are recognized 
+           by the <tt>DTDResolver</tt>.</p>
+
+    </section>
+
+    <section title="What Dependencies?">
+        
+        <p>XML files often reference other files.  The most common dependencies are 
+           either document type definitions (DTDs) from the <tt>DOCTYPE</tt> 
+           declaration or XML Schemas from the <tt>schemaLocation</tt> attribute.</p>
+
+        <p>Parsers usually only request schemas for validation, but more parsers are
+           now requesting the DTDs whether validation is on or off.  This allows the
+           parser to resolve any entity references (i.e. <tt>&amp;amp;</tt> or 
+           <tt>&amp;lt;</tt>) that might be used in the document and defined in the 
+           DTD.  This behavior can cause problems for machines with limited network
+           connectivity, and in certain situations it is simply undesirable to have 
+           the parser going to the internet for each dependency.</p>
+                
+    </section>
+    
+    <section title="An Introduction to the EntityResolver">
+
+        <p>The <tt>org.xml.sax.EntityResolver</tt> interface is the key to retrieving
+           XML dependencies from locations other than the defined system location.
+           The interface has one method:</p>
+
+        <code-panel>public InputSource resolveEntity( String publicId, String systemId )
+    throws SAXException, IOException</code-panel>
+
+        <p>During parsing, before it attempts to retrieve any external files, the 
+           parser will call the above method, giving the public and/or system ID for 
+           the file. The implementing object can then either return an 
+           <tt>InputSource</tt> through which the parser can access the file, or 
+           <tt>null</tt> if the parser should fetch the file via normal channels.</p>
+           
+    </section>
+
+    <section title="The Castor DTDResolver">
+        
+        <p>In Castor, the <tt>org.exolab.castor.util.DTDResolver</tt> class provides
+           an implementation of <tt>EntityResolver</tt> that is designed to fetch all
+           the Castor dependencies from the Castor JAR file.  This includes:</p>
+ 
+        <ul>
+            <li>Mapping file DTD</li>
+            <li>Mapping file schema</li>
+            <li>JDOConf DTD</li>
+            <li>JDOConf schema</li>
+            <li>XML Schema Part 1: Structures DTD</li>
+            <li>XML Schema Part 1: Structures schema</li>
+            <li>XML Schema Part 2: Datatypes DTD</li>
+        </ul>          
+        
+        <p>Castor automatically uses a <tt>DTDResolver</tt> when loading a 
+           mapping file, but must be told to use one during unmarshalling:</p>
+
+        <code-panel>
+   public static void main( String[] args ) {
+      String filename = args[0];
+
+      try {
+         Mapping mapping = new Mapping();
+            
+         // Castor will internally create and use a DTDResolver here
+         mapping.loadMapping( "fooMap.xml" );
+
+         Unmarshaller um1 = new Unmarshaller( mapping );
+            
+         // Castor needs to be told to use a DTDResolver here
+         um1.setEntityResolver( new DTDResolver() );
+         
+         Foo foo = (foo)um1.unmarshal(new FileReader(filename));
+      }
+      catch( IOException e ) {
+         e.printStackTrace();
+      }
+      catch( MappingException e ) {
+         e.printStackTrace();
+      }    
+   }
+        </code-panel>
+        
+        <p>The <tt>DTDResolver</tt> can also wrap another <tt>EntityResolver</tt> to 
+           allow resolver chaining.  <tt>DTDResolver</tt> calls the nested 
+           <tt>EntityResolver</tt> before attempting to resolve the ID(s) itself.</p>
+    </section>
+
+    <section title="The Hitch: Defining the Correct IDs">
+        
+        <p>For the <tt>DTDResolver</tt> to retrieve the desired file from the Castor 
+           JAR, either the public ID or the system ID must match exactly.  Below are 
+           lists of public and system IDs for the versions of Castor, but when in 
+           doubt, check the code of <tt>DTDResolver</tt>.</p>
+        
+        <p>Since Castor v0.9.9.1 the following IDs are preferred:</p>
+        
+		<p>
+        <dl>
+            <dt>Mapping DTD</dt>
+                <dd>Public: <tt>-//EXOLAB/Castor Mapping DTD Version 1.0//EN</tt></dd>
+                <dd>System: <tt>http://castor.org/mapping.dtd</tt></dd>
+            <dt>Mapping Schema</dt>
+                <dd>Public: <tt>-//EXOLAB/Castor Mapping Schema Version 1.0//EN</tt></dd>
+                <dd>System: <tt>http://castor.org/mapping.xsd</tt></dd>
+            <dt>JDO Configuration DTD</dt>
+                <dd>Public: <tt>-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN</tt></dd>
+                <dd>System: <tt>http://castor.org/jdo-conf.dtd</tt></dd>
+            <dt>JDO Configuration Schema</dt>
+                <dd>Public: <tt>-//EXOLAB/Castor JDO Configuration Schema Version 1.0//EN</tt></dd>
+                <dd>System: <tt>http://castor.org/jdo-conf.xsd</tt></dd>
+            <dt>XML Schema Part 1: Structures DTD</dt>
+                <dd>Public: <tt>-//W3C//DTD XMLSCHEMA 19991216//EN</tt></dd>
+                <dd>System: <tt>http://www.w3.org/TR/2000/WD-xmlschema-1-20000225/structures.dtd</tt></dd>
+            <dt>XML Schema Part 1: Structures Schema</dt>
+                <dd>System: <tt>http://www.w3.org/TR/2000/WD-xmlschema-1-20000225/structures.xsd</tt></dd>
+            <dt>XML Schema Part 2: Datatypes DTD</dt>
+                <dd>System: <tt>http://www.w3.org/TR/2000/WD-xmlschema-2-20000225/datatypes.dtd</tt></dd>
+        </dl>
+		</p>
+        
+        <p>For older distributions, the following IDs have been accepted since Castor 
+           v0.9.5:</p>
+        
+		<p>
+        <dl>
+            <dt>Mapping DTD</dt>
+                <dd>Public: <tt>-//EXOLAB/Castor Mapping DTD Version 1.0//EN</tt></dd>
+                <dd>System: <tt>http://castor.exolab.org/mapping.dtd</tt></dd>
+            <dt>Mapping Schema</dt>
+                <dd>Public: <tt>-//EXOLAB/Castor Mapping Schema Version 1.0//EN</tt></dd>
+                <dd>System: <tt>http://castor.exolab.org/mapping.xsd</tt></dd>
+            <dt>JDO Configuration DTD</dt>
+                <dd>Public: <tt>-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN</tt></dd>
+                <dd>System: <tt>http://castor.exolab.org/jdo-conf.dtd</tt></dd>
+            <dt>JDO Configuration Schema</dt>
+                <dd>Public: <tt>-//EXOLAB/Castor JDO Configuration Schema Version 1.0//EN</tt></dd>
+                <dd>System: <tt>http://castor.exolab.org/jdo-conf.xsd</tt></dd>
+            <dt>XML Schema Part 1: Structures DTD</dt>
+                <dd>Public: <tt>-//W3C//DTD XMLSCHEMA 19991216//EN</tt></dd>
+                <dd>System: <tt>http://www.w3.org/TR/2000/WD-xmlschema-1-20000225/structures.dtd</tt></dd>
+            <dt>XML Schema Part 1: Structures Schema</dt>
+                <dd>System: <tt>http://www.w3.org/TR/2000/WD-xmlschema-1-20000225/structures.xsd</tt></dd>
+            <dt>XML Schema Part 2: Datatypes DTD</dt>
+                <dd>System: <tt>http://www.w3.org/TR/2000/WD-xmlschema-2-20000225/datatypes.dtd</tt></dd>
+        </dl>
+		</p>
+        
+    </section>
+      
+    <section title="References">
+
+        <ul>
+            <li><a href="http://java.sun.com/j2se/1.5.0/docs/api/org/xml/sax/EntityResolver.html">
+                <tt>EntityResolver</tt> JavaDoc
+            </a></li>
+        </ul>
+        
+    </section>
+      
+    </body>
+    
+</document>

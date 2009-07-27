@@ -1,0 +1,25 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+    <!--Root-->
+    <xsd:element name="Root" type="RestrictedType"/>
+
+    <!--Complex types with simple content.-->
+    <xsd:complexType name="BaseType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="myAttribute" type="xsd:string" use="optional"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="RestrictedType">
+        <xsd:simpleContent>
+            <xsd:restriction base="BaseType">
+                <xsd:enumeration value="yes"/>
+                <xsd:enumeration value="no"/>
+            </xsd:restriction>
+        </xsd:simpleContent>
+    </xsd:complexType>
+</xsd:schema>

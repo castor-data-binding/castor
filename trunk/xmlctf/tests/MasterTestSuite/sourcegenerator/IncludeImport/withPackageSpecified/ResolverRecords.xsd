@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://worldcatlibraries.org/registry"
+	   targetNamespace="http://worldcatlibraries.org/registry" 
+	   xmlns:res="http://worldcatlibraries.org/registry/resolver"
+	   elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+
+  <xs:import namespace="http://worldcatlibraries.org/registry/resolver" 
+	     schemaLocation="Resolver.xsd"/>	
+
+  <xs:element name="records">	
+     <xs:complexType>
+        <xs:sequence>
+      		<xs:element ref="res:resolverRegistryEntry" minOccurs="0" maxOccurs="unbounded">
+        	</xs:element>
+    	</xs:sequence>
+     </xs:complexType>
+  </xs:element>
+
+</xs:schema>

@@ -1,0 +1,28 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>Complex type handling (java class) with direct access to the field with introspection</Name>
+    <Author>Sebastien Gignoux</Author>
+    <Comment>
+        The goal of this test is to test the handling of complex types by the
+        introspector. The fields of the test objects will be accessed directly
+        (they should be public). The test involves self-referencing objects:
+          - direct self reference: an object of type A contains a reference to
+            an object of type A
+          - indirect self reference: an object of type A contains a reference to
+            an object of type B wich contains a reference to an object of type A
+    </Comment>
+
+    <Category>basic capability</Category>
+
+    <MarshallingTest>
+        <Root_Object random="true" dump="true">Root</Root_Object>
+
+        <UnitTestCase>
+            <Name>Test complex recursive objects</Name>
+            <Input>input.xml</Input>
+            <GoldFile>input.xml</GoldFile>
+            <ObjectBuilder>Builder</ObjectBuilder>
+        </UnitTestCase>
+
+    </MarshallingTest>
+</TestDescriptor>

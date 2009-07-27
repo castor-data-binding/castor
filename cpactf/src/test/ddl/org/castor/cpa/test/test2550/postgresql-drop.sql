@@ -1,2 +1,0 @@
-DROP TABLE test2550_entity CASCADE;
-DROP SEQUENCE test2550_entity_seq;
