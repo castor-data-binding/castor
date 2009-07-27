@@ -25,6 +25,9 @@ package org.castor.cpa.persistence.sql.query;
 public final class QueryConstants {
     //-----------------------------------------------------------------------------------    
 
+    /** 'SELECT' keyword of a SQL delete query. */
+    public static final String SELECT = "SELECT";
+    
     /** 'DELETE' keyword of a SQL delete query. */
     public static final String DELETE = "DELETE";
     

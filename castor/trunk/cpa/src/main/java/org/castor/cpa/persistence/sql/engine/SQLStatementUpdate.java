@@ -24,7 +24,6 @@ import java.sql.SQLException;
 import org.castor.cpa.persistence.sql.query.Update;
 import org.castor.cpa.persistence.sql.query.QueryContext;
 import org.castor.cpa.persistence.sql.query.condition.AndCondition;
-import org.castor.cpa.persistence.sql.query.QueryConstants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
@@ -94,19 +93,16 @@ public final class SQLStatementUpdate {
      *        class is responsible for. Holds all required information of the entity type.
     * @param factory Persistence factory for the database engine the entity is persisted in.
      *        Used to format the SQL statement.
-    * @param load
     */
-    public SQLStatementUpdate(final SQLEngine engine, final PersistenceFactory factory,
-                             final String load) {
+    public SQLStatementUpdate(final SQLEngine engine, final PersistenceFactory factory) {
         _type = engine.getDescriptor().getJavaClass().getName();
         _ids = engine.getColumnInfoForIdentities();
         _fields = engine.getInfo();
-
         _factory = factory;
 
         buildStatement(new ClassDescriptorJDONature(engine.getDescriptor()).getTableName());        
 
-        _statementUpdateCheck = new SQLStatementUpdateCheck(engine, load);
+        _statementUpdateCheck = new SQLStatementUpdateCheck(engine, factory);
 }
     
     /**
@@ -259,6 +255,8 @@ public final class SQLStatementUpdate {
      * Prepares the SQL Statement.
      * 
      * @param conn An Open JDBC Connection
+     * @param ctx QueryContext for SQL query building, specifying database specific quotations 
+     *            and parameters binding. 
      * @throws SQLException If a database access error occurs.
      */
     private void prepareStatement(final Connection conn, final QueryContext ctx) 
@@ -277,6 +275,8 @@ public final class SQLStatementUpdate {
      * Binds new entities.
      * 
      * @param newentity
+     * @param ctx QueryContext for SQL query building, specifying database specific quotations 
+     *            and parameters binding.
      * @throws PersistenceException If identity size mismatches
      *  or column length mismatches
      * @throws SQLException If database access error occurs
@@ -326,6 +326,8 @@ public final class SQLStatementUpdate {
      * Binds Identity.
      * 
      * @param identity
+     * @param ctx QueryContext for SQL query building, specifying database specific quotations 
+     *            and parameters binding.
      * @throws PersistenceException If identity size mismatches
      *  or column length mismatches
      * @throws SQLException If database access error occurs
@@ -351,6 +353,8 @@ public final class SQLStatementUpdate {
      * Binds old Entities.
      * 
      * @param oldentity
+     * @param ctx QueryContext for SQL query building, specifying database specific quotations 
+     *            and parameters binding.
      * @throws PersistenceException If identity size mismatches
      *  or column length mismatches
      * @throws SQLException If database access error occurs
