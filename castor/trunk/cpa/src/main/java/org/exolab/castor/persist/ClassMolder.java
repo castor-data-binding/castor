@@ -337,9 +337,10 @@ public class ClassMolder {
                     relatedIdSQL = manyName;
                 }
                 
-                _fhs[fieldMolderNumber] = new FieldMolder(ds, this, fmFields[i], manyTable, idSQL,
-                        idType, idConvertTo, idConvertFrom,
+                SQLRelationLoader loader = _persistence.createSQLRelationLoader(
+                        manyTable, idSQL, idType, idConvertTo, idConvertFrom,
                         relatedIdSQL, relatedIdType, relatedIdConvertTo, relatedIdConvertFrom);
+                _fhs[fieldMolderNumber] = new FieldMolder(ds, this, fmFields[i], loader);
             } else {
                 _fhs[fieldMolderNumber] = new FieldMolder(ds, this, fmFields[i]);
             }

@@ -49,6 +49,8 @@ import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.mapping.AccessMode;
+import org.exolab.castor.mapping.TypeConvertor;
+import org.exolab.castor.persist.SQLRelationLoader;
 
 /**
  * The persistence engine implements this interface in order to allow
@@ -183,5 +185,11 @@ public interface Persistence {
      */
     PersistenceQuery createQuery(QueryExpression query, Class<?>[] types, AccessMode accessMode)
     throws QueryException;
+
+    SQLRelationLoader createSQLRelationLoader(String manyTable,
+            String[] idSQL, int[] idType,
+            TypeConvertor[] idTo, TypeConvertor[] idFrom,
+            String[] relatedIdSQL, int[] relatedIdType,
+            TypeConvertor[] ridTo, TypeConvertor[] ridFrom);
 }
 

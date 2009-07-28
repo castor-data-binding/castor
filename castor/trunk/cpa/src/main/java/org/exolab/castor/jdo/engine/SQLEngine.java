@@ -36,8 +36,10 @@ import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.mapping.TypeConvertor;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
+import org.exolab.castor.persist.SQLRelationLoader;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.persist.spi.PersistenceFactory;
@@ -188,6 +190,15 @@ public final class SQLEngine implements Persistence {
         _createStatement = new SQLStatementCreate(this, factory);
         _removeStatement = new SQLStatementDelete(this, factory);
         _storeStatement = new SQLStatementUpdate(this, factory);
+    }
+    
+    public SQLRelationLoader createSQLRelationLoader(final String manyTable,
+            final String[] idSQL, final int[] idType,
+            final TypeConvertor[] idTo, final TypeConvertor[] idFrom,
+            final String[] relatedIdSQL, final int[] relatedIdType,
+            final TypeConvertor[] ridTo, final TypeConvertor[] ridFrom) {
+        return new SQLRelationLoader(manyTable, idSQL, idType, idTo, idFrom,
+                relatedIdSQL, relatedIdType, ridTo, ridFrom, _factory);
     }
 
     public SQLColumnInfo[] getColumnInfoForIdentities() {
