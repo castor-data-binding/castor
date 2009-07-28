@@ -15,7 +15,7 @@
  *
  * $Id$
  */
-package org.exolab.castor.jdo.engine;
+package org.castor.cpa.persistence.sql.engine;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,16 +27,18 @@ import org.castor.core.util.Messages;
 import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
+import org.exolab.castor.jdo.engine.SQLColumnInfo;
+import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.persist.spi.QueryExpression;
 
-public final class SQLStatementLookup {
+public final class SQLStatementInsertCheck {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
-    private static final Log LOG = LogFactory.getLog(SQLStatementLookup.class);
+    private static final Log LOG = LogFactory.getLog(SQLStatementInsertCheck.class);
     
     private final SQLEngine _engine;
     
@@ -48,7 +50,7 @@ public final class SQLStatementLookup {
 
     private String _statement;
 
-    public SQLStatementLookup(final SQLEngine engine, final PersistenceFactory factory)
+    public SQLStatementInsertCheck(final SQLEngine engine, final PersistenceFactory factory)
     throws MappingException {
         _engine = engine;
         _factory = factory;

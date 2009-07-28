@@ -35,6 +35,7 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
 import org.castor.cpa.CPAProperties;
+import org.castor.cpa.persistence.sql.engine.SQLStatementInsertCheck;
 import org.castor.cpa.persistence.sql.keygen.KeyGenerator;
 import org.castor.jdo.engine.DatabaseContext;
 import org.castor.jdo.engine.DatabaseRegistry;
@@ -67,7 +68,7 @@ public class SQLStatementCreate {
 
     private final boolean _useJDBC30;
 
-    private SQLStatementLookup _lookupStatement;
+    private SQLStatementInsertCheck _lookupStatement;
 
     private String _statement;
 
@@ -85,7 +86,7 @@ public class SQLStatementCreate {
         AbstractProperties properties = CPAProperties.getInstance();
         _useJDBC30 = properties.getBoolean(CPAProperties.USE_JDBC30, false);
         
-        _lookupStatement = new SQLStatementLookup(engine, factory);
+        _lookupStatement = new SQLStatementInsertCheck(engine, factory);
         
         buildStatement();
     }
