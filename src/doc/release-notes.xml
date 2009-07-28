@@ -91,6 +91,26 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
 </class>]]></code-panel>
             </summary>
             <bugs>
+                <bug id="2777" tool="jira">
+                    <description>
+                        Improve SQL class hierarchy to support insert queries.
+                    </description>
+                    <contributor>
+                        <name>Ahmad Hassan</name>
+                        <email>ahmad.hassan@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ahmad Hassan</name>
+                        <email>ahmad.hassan@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20090728</date>
+                </bug>
                 <bug id="2786" tool="jira">
                     <description>
                         SQLRelationLoader does not quote column and table names.
