@@ -115,17 +115,7 @@ public final class SequenceAfterKeyGenerator implements KeyGenerator {
     private class PostgresqlType extends SequenceKeyGenValueHandler {
         protected Object getValue(final Connection conn, final String tableName,
                 final String primKeyName, final Properties props) throws Exception {
-            Object insStmt = props.get("insertStatement");
-            Class<?> stmtClass = Class.forName("org.postgresql.jdbc2.AbstractJdbc2Statement");
-            if (stmtClass == null) { stmtClass = Class.forName("org.postgresql.Statement"); }
-            Method getLastOID = stmtClass.getMethod("getLastOID", (Class[]) null);
-            Long lastOID = (Long) getLastOID.invoke(insStmt, (Object[]) null);
-            PreparedStatement stmt = conn.prepareStatement(
-                      "SELECT " + _factory.quoteName(primKeyName)
-                    + " FROM " + _factory.quoteName(tableName) + " WHERE OID=?");
-            stmt.setLong(1, lastOID.longValue());
-            ResultSet rs = stmt.executeQuery();
-            return _typeHandler.getValue(rs);
+            return getValue("SELECT currval('" + getSeqName(tableName, primKeyName) + "')", conn);
         }
     }
         
