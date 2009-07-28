@@ -80,10 +80,6 @@ public final class SequenceKeyGeneratorFactory implements KeyGeneratorFactory {
         } else if (trigger) {
             return new SequenceAfterKeyGenerator(factory, params, sqlType); 
         } else {
-            // for Oracle temporary use after until changed to before
-            if (OracleFactory.FACTORY_NAME.equals(factoryName)) {
-                return new SequenceAfterKeyGenerator(factory, params, sqlType); 
-            }
             return new SequenceBeforeKeyGenerator(factory, params, sqlType);
         }
     }

@@ -59,6 +59,7 @@ import org.castor.core.util.Messages;
 import org.castor.cpa.persistence.sql.driver.DB2Factory;
 import org.castor.cpa.persistence.sql.driver.InterbaseFactory;
 import org.castor.cpa.persistence.sql.driver.PostgreSQLFactory;
+import org.castor.cpa.persistence.sql.driver.OracleFactory;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 
@@ -135,6 +136,15 @@ public final class SequenceBeforeKeyGenerator implements KeyGenerator {
         }
     }
     
+    private class OracleType extends SequenceKeyGenValueHandler {
+        protected Object getValue(final Connection conn, final String tableName,
+                final String primKeyName, final Properties props) throws Exception {
+            return getValue("SELECT "
+                    + _factory.quoteName(getSeqName(tableName, primKeyName) + ".nextval")
+                    + " FROM DUAL", conn);
+        }
+    }
+    
     //-----------------------------------------------------------------------------------
     
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
@@ -208,6 +218,8 @@ public final class SequenceBeforeKeyGenerator implements KeyGenerator {
             _type = new DB2Type();
         } else if (PostgreSQLFactory.FACTORY_NAME.equals(factoryName)) {
             _type = new PostgresqlType();
+        } else if (OracleFactory.FACTORY_NAME.equals(factoryName)) {
+            _type = new OracleType();
         } else {
             _type = new DefaultType();
         }
