@@ -25,7 +25,8 @@ import java.sql.SQLException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
-import org.castor.cpa.persistence.sql.query.QueryConstants;
+import org.castor.cpa.persistence.sql.query.QueryContext;
+import org.castor.cpa.persistence.sql.query.Select;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.ObjectDeletedException;
 import org.exolab.castor.jdo.ObjectModifiedException;
@@ -59,59 +60,47 @@ public final class SQLStatementUpdateCheck {
     
     /** Column information for identities specific to the particular engine instance. */
     private final SQLColumnInfo[] _ids;
-    
-    /** Persistence factory for the database engine the entity is persisted in.
-     *  Used to format the SQL statement. */
-    private final PersistenceFactory _factory;
 
-    /** The SQL statement for update failure reason check. */
-    private String _statement;
+    /** QueryContext for SQL query building, specifying database specific quotations 
+     *  and parameters binding. */
+    private final QueryContext _ctx;
     
     /**
      * Constructor.
      * 
      * @param engine SQL engine for all persistence operations at entities of the type this
-     *        class is responsible for. Holds all required information of the entity type.    
+     *        class is responsible for. Holds all required information of the entity type.  
+     * @param factory Persistence factory for the database engine the entity is persisted in.
+     *        Used to format the SQL statement.  
      */
     public SQLStatementUpdateCheck(final SQLEngine engine, final PersistenceFactory factory) {
         _type = engine.getDescriptor().getJavaClass().getName();
         _ids = engine.getColumnInfoForIdentities();
-        _factory = factory;
+        _ctx = new QueryContext(factory);
         
         buildStatement(new ClassDescriptorJDONature(engine.getDescriptor()).getTableName());
     }
     
-    private void buildStatement(final String mapTo) {
-        StringBuilder sb = new StringBuilder();
-        
-        sb.append(QueryConstants.SELECT);
-        sb.append(QueryConstants.SPACE);
-        sb.append(_factory.quoteName(mapTo));
-        sb.append(QueryConstants.DOT);
-        sb.append(_factory.quoteName(_ids[0].getName()));
-        sb.append(QueryConstants.SPACE);
-        sb.append(QueryConstants.FROM);
-        sb.append(QueryConstants.SPACE);
-        sb.append(_factory.quoteName(mapTo));
-        sb.append(QueryConstants.SPACE);
-        sb.append(QueryConstants.WHERE);
-        sb.append(QueryConstants.SPACE);
-        
-         for (int i = 0; i < _ids.length; i++) {
-             if (i != 0) {
-                 sb.append(QueryConstants.SPACE);
-                 sb.append(QueryConstants.AND);
-                 sb.append(QueryConstants.SPACE);
-             }
-             
-             sb.append(_factory.quoteName(mapTo));
-             sb.append(QueryConstants.DOT);
-             sb.append(_factory.quoteName(_ids[i].getName()));
-             sb.append(QueryConstants.ASSIGN);
-             sb.append(QueryConstants.PARAMETER);
-         }
+    /**
+     * Builds the select sql statement using identities.
+     * 
+     * @param mapTo Table name from which records need to be fetched.
+     */
+    private void buildStatement(final String mapTo) {  
+        // initialize Select.
+        Select select = new Select(mapTo);
          
-         _statement = sb.toString();
+        // adding fields to be fetched.
+        select.addSelect(mapTo, _ids[0].getName());
+         
+        // addition conditions to the select statement
+        for (int i = 0; i < _ids.length; i++) {             
+            select.addCondition(mapTo, _ids[i].getName());
+        }
+         
+        // construct SQL query string by walking through select class hierarchy and
+        // generate map of parameter names to indices for binding of parameters.      
+        select.toString(_ctx);
     }
     
     /**
@@ -145,7 +134,7 @@ public final class SQLStatementUpdateCheck {
             String msg = Messages.format("persist.objectDeleted", _type, identity);
             throw new ObjectDeletedException(msg);
         } catch (SQLException except) {
-            LOG.fatal(Messages.format("jdo.updateCheckFatal", _type,  _statement), except);
+            LOG.fatal(Messages.format("jdo.updateCheckFatal", _type,  _ctx.toString()), except);
             throw new PersistenceException(Messages.format("persist.nested", except), except);
         } finally {
             //close statement
@@ -161,7 +150,7 @@ public final class SQLStatementUpdateCheck {
      */
     private void prepareStatement(final Connection conn) 
     throws SQLException { 
-        PreparedStatement preparedStatement = conn.prepareStatement(_statement);
+        PreparedStatement preparedStatement = conn.prepareStatement(_ctx.toString());
         
         // set prepared statement in thread local variable
         PREPARED_STATEMENT.set(preparedStatement);
@@ -183,12 +172,13 @@ public final class SQLStatementUpdateCheck {
     throws PersistenceException, SQLException {
         // get prepared statement from thread local variable
         PreparedStatement preparedStatement = PREPARED_STATEMENT.get();        
-        int offset = 1;
                 
         // bind the identity of the row into the preparedStatement
         for (int i = 0; i < _ids.length; i++) {
-            preparedStatement.setObject(offset++, _ids[i].toSQL(identity.get(i)));
-
+            // bind value to prepared statement
+            _ctx.bindParameter(preparedStatement, _ids[i].getName(),
+                    _ids[i].toSQL(identity.get(i)), _ids[i].getSqlType());  
+            
             if (LOG.isTraceEnabled()) {
                 LOG.trace(Messages.format("jdo.bindingIdentity", _ids[i].getName(),
                         _ids[i].toSQL(identity.get(i))));

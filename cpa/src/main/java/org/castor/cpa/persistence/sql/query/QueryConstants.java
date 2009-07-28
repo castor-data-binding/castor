@@ -34,6 +34,18 @@ public final class QueryConstants {
     /** 'UPDATE' keyword of a SQL update query. */
     public static final String UPDATE = "UPDATE";
     
+    /** 'INSERT' keyword of a SQL insert query. */
+    public static final String INSERT = "INSERT";
+    
+    /** 'VALUES' keyword of a SQL insert query. */
+    public static final String VALUES = "VALUES";
+
+    /** 'INTO' keyword of insert query. */
+    public static final String INTO = "INTO";
+    
+    /** '*' for select query. */
+    public static final String STAR = "*";
+    
     /** 'SET' keyword of a SQL update query. */
     public static final String SET = "SET";   
     
