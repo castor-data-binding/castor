@@ -49,7 +49,10 @@ public interface KeyGenerator {
     /** For the key generators of AFTER_INSERT style {@link #generateKey}
      *  is called after INSERT. {@link #patchSQL} may be used but usually doesn't. */
     byte AFTER_INSERT = 1;
-
+    
+    /** For key generators that does not generate key before running insert query. */
+    byte NOGEN_INSERT = 2;
+    
     /**
      * Generate a new key for the specified table. This method is
      * called when a new object is about to be created. In some
