@@ -194,8 +194,8 @@ public final class SapDbFactory extends GenericFactory {
     }
     
     @Override
-    public String getIdentityQueryString(final String tableName) {
-        return "SELECT " + tableName + ".currval" + " FROM " + tableName;
+    public String getIdentityQueryString(final String tableName, final String columnName) {
+        return "SELECT " + quoteName(tableName) + ".currval" + " FROM " + quoteName(tableName);
     }
 
     @Override

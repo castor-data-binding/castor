@@ -136,7 +136,7 @@ public final class IdentityKeyGenerator implements KeyGenerator {
 
         try {
             // prepares the statement
-            String sql = _factory.getIdentityQueryString(tableName);
+            String sql = _factory.getIdentityQueryString(tableName, primKeyName);
             stmt = conn.prepareStatement(sql);
             
             // execute the prepared statement

@@ -147,8 +147,10 @@ public final class PostgreSQLFactory extends GenericFactory {
     }
     
     @Override
-    public String getIdentityQueryString(final String tableName) {
-        return "SELECT currval ('" +  tableName + "_id_seq')";
+    public String getIdentityQueryString(final String tableName, final String columnName) {
+        // PostgreSQL uses a sequence in the background
+        // name of the sequence is: <table-name>_<column-name>_seq
+        return "SELECT currval('\"" +  tableName + "_" + columnName + "_seq\"')";
     }
     
     @Override

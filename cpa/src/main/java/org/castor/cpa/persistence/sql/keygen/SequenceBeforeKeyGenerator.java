@@ -116,7 +116,8 @@ public final class SequenceBeforeKeyGenerator implements KeyGenerator {
     private class PostgresqlType extends SequenceKeyGenValueHandler {
         protected Object getValue(final Connection conn, final String tableName,
                 final String primKeyName, final Properties props) throws Exception {
-            return getValue("SELECT nextval('" + getSeqName(tableName, primKeyName) + "')", conn);
+            String sql = "SELECT nextval('\"" + getSeqName(tableName, primKeyName) + "\"')";
+            return getValue(sql, conn);
         }
     }
         

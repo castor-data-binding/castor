@@ -88,7 +88,7 @@ public final class InformixFactory extends GenericFactory {
     }
     
     @Override
-    public String getIdentityQueryString(final String tableName) {
+    public String getIdentityQueryString(final String tableName, final String columnName) {
         return "select dbinfo('sqlca.sqlerrd1') from systables where tabid = 1";
     }
 
