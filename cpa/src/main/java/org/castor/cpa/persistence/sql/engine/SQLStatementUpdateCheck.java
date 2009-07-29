@@ -1,5 +1,6 @@
 /*
- * Copyright 2006 Assaf Arkin, Thomas Yip, Bruce Snyder, Werner Guttmann, Ralf Joachim, Ahmad Hassan
+ * Copyright 2009 Assaf Arkin, Thomas Yip, Bruce Snyder, Werner Guttmann,
+ *                Ralf Joachim, Ahmad Hassan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +28,6 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
 import org.castor.cpa.persistence.sql.query.QueryContext;
 import org.castor.cpa.persistence.sql.query.Select;
-import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.ObjectDeletedException;
 import org.exolab.castor.jdo.ObjectModifiedException;
 import org.exolab.castor.jdo.PersistenceException;
@@ -38,14 +38,22 @@ import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 
 /** 
- * SQLStatementUpdatCheck class to check whether the new SQL Update statement has 
- * failed because it has been removed previously from Persistance storage or the object
- * has been modified before. If the object had been modified then ObjectModifiedException
- * is raised and if object had been deleted then ObjectDeletedException is raised.
+ * SQLStatementUpdatCheck class to check whether the new SQL update statement has failed because
+ * entity has been removed previously from persistent storage or the object has been modified
+ * before. If the object has been modified an ObjectModifiedException and if object has been
+ * deleted an ObjectDeletedException is raised.
  * 
- * @author Ahmad
+ * @author <a href="mailto:arkin AT intalio DOT com">Assaf Arkin</a>
+ * @author <a href="mailto:tyip AT leafsoft DOT com">Thomas Yip</a>
+ * @author <a href="mailto:bruce DOT snyder AT gmail DOT com">Bruce Snyder</a>
+ * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
+ * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
+ * @version $Revision: 8285 $ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public final class SQLStatementUpdateCheck {
+    //-----------------------------------------------------------------------------------    
+
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(SQLStatementUpdateCheck.class);
@@ -55,6 +63,8 @@ public final class SQLStatementUpdateCheck {
     private static final ThreadLocal<PreparedStatement> PREPARED_STATEMENT = 
         new ThreadLocal<PreparedStatement>();
    
+    //-----------------------------------------------------------------------------------    
+
     /** The name of engine descriptor. */
     private final String _type;
     
@@ -65,6 +75,8 @@ public final class SQLStatementUpdateCheck {
      *  and parameters binding. */
     private final QueryContext _ctx;
     
+    //-----------------------------------------------------------------------------------    
+
     /**
      * Constructor.
      * 
@@ -82,9 +94,10 @@ public final class SQLStatementUpdateCheck {
     }
     
     /**
-     * Builds the select sql statement using identities.
-     * 
-     * @param mapTo Table name from which records need to be fetched.
+     * Build SQL select statement to check weather the entity is still available in persistent
+     * storage or not.
+     *
+     * @param mapTo Table name retrieved from Class Descriptor trough JDO Nature.
      */
     private void buildStatement(final String mapTo) {  
         // initialize Select.
@@ -103,21 +116,22 @@ public final class SQLStatementUpdateCheck {
         select.toString(_ctx);
     }
     
+    //-----------------------------------------------------------------------------------    
+
     /**
-     * This function checks whether the object specified in the statement
-     * has been previously removed from the persistent storage or has been modified.
-     * If the object had been modified then ObjectModifiedException is raised and 
-     * if object had been deleted then ObjectDeletedException is raised.
+     * This function checks whether the object specified in the statement has been previously
+     * removed from the persistent storage or has been modified. If the object has been modified
+     * an ObjectModifiedException and if object has been deleted an ObjectDeletedException is
+     * raised.
      * 
-     * @param conn An Open JDBC Connection
-     * @param identity
-     * @param oldentity
+     * @param conn An Open JDBC Connection.
+     * @param identity Identity of the object to check for availability.
      * @throws PersistenceException If a database access error occurs, identity size mismatches,
      *         column length mismatches, ObjectDeletedException if object had been deleted or
      *         ObjectModifiedException if object had been modified before.
      */
-    public void updateFailureCheck(final Connection conn, final Identity identity,
-            final ProposedEntity oldentity) throws PersistenceException {
+    public void updateFailureCheck(final Connection conn, final Identity identity)
+    throws PersistenceException {
         try {      
             prepareStatement(conn);                   
             
@@ -143,9 +157,9 @@ public final class SQLStatementUpdateCheck {
     }
     
     /**
-     * Prepares the SQL Statement.
+     * Prepare the SQL Statement.
      * 
-     * @param conn An Open JDBC Connection
+     * @param conn An Open JDBC Connection.
      * @throws SQLException If a database access error occurs.
      */
     private void prepareStatement(final Connection conn) 
@@ -155,21 +169,19 @@ public final class SQLStatementUpdateCheck {
         // set prepared statement in thread local variable
         PREPARED_STATEMENT.set(preparedStatement);
          
-         if (LOG.isTraceEnabled()) {
-             LOG.trace(Messages.format("jdo.updateCheck", _type, preparedStatement.toString()));
-         }
+        if (LOG.isTraceEnabled()) {
+            LOG.trace(Messages.format("jdo.updateCheck", _type, preparedStatement.toString()));
+        }
     }
     
     /**
-     * Binds Identity.
+     * Bind identity values to the prepared statement.
      * 
-     * @param identity
-     * @throws PersistenceException If identity size mismatches
-     *  or column length mismatches
-     * @throws SQLException If database access error occurs
+     * @param identity Identity of the object to check for availability.
+     * @throws SQLException If database access error occurs.
      */
     private void  bindIdentity(final Identity identity) 
-    throws PersistenceException, SQLException {
+    throws SQLException {
         // get prepared statement from thread local variable
         PreparedStatement preparedStatement = PREPARED_STATEMENT.get();        
                 
@@ -187,31 +199,31 @@ public final class SQLStatementUpdateCheck {
     }
     
     /**
-     * executeQuery.
+     * Execute the prepared statement.
      * 
-     * @return resultset object containing the results of query
-     * @throws SQLException If a database access error occurs
+     * @return Result set containing the results of query.
+     * @throws SQLException If a database access error occurs.
      */
     private ResultSet executeQuery () throws SQLException {
         // get prepared statement from thread local variable
         PreparedStatement preparedStatement = PREPARED_STATEMENT.get();
-        ResultSet result = preparedStatement.executeQuery();   
-        
-        return result;
+        return preparedStatement.executeQuery();   
     }
     
     /**
-     * closes the opened statement.
+     * Close the prepared statement.
      */
     private void closeStatement() {
         try {
             // get prepared statement from thread local variable
             PreparedStatement preparedStatement = PREPARED_STATEMENT.get();
             
-            // Close the insert/select statement
+            // close the select statement
             if (preparedStatement != null) { preparedStatement.close(); }
-        } catch (SQLException except2) {
-            LOG.warn("Problem closing JDBC statement", except2);
+        } catch (SQLException ex) {
+            LOG.warn("Problem closing JDBC statement", ex);
         }
     }
+
+    //-----------------------------------------------------------------------------------    
 }
