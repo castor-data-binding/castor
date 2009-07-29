@@ -308,7 +308,7 @@ public class SQLStatementCreate {
 
             // check for duplicate key the old fashioned way, after the INSERT
             // failed to prevent race conditions and optimize INSERT times.
-            _lookupStatement.executeStatement(conn, internalIdentity);
+            _lookupStatement.insertDuplicateKeyCheck(conn, internalIdentity);
 
             try {
                 if (stmt != null) { stmt.close(); }
@@ -392,7 +392,7 @@ public class SQLStatementCreate {
 
             // check for duplicate key the old fashioned way, after the INSERT
             // failed to prevent race conditions and optimize INSERT times.
-            _lookupStatement.executeStatement(conn, internalIdentity);
+            _lookupStatement.insertDuplicateKeyCheck(conn, internalIdentity);
 
             try {
                 if (stmt != null) { stmt.close(); }
@@ -487,7 +487,7 @@ public class SQLStatementCreate {
 
             // check for duplicate key the old fashioned way, after the INSERT
             // failed to prevent race conditions and optimize INSERT times.
-            _lookupStatement.executeStatement(conn, internalIdentity);
+            _lookupStatement.insertDuplicateKeyCheck(conn, internalIdentity);
 
             try {
                 if (stmt != null) { stmt.close(); }
@@ -602,7 +602,7 @@ public class SQLStatementCreate {
 
             // check for duplicate key the old fashioned way, after the INSERT
             // failed to prevent race conditions and optimize INSERT times.
-            _lookupStatement.executeStatement(conn, internalIdentity);
+            _lookupStatement.insertDuplicateKeyCheck(conn, internalIdentity);
 
             try {
                 if (stmt != null) { stmt.close(); }
