@@ -122,7 +122,7 @@ public final class SybaseFactory extends GenericFactory {
     }
     
     @Override
-    public String getIdentityQueryString(final String tableName) {
+    public String getIdentityQueryString(final String tableName, final String columnName) {
         return "SELECT @@identity";
     }
 

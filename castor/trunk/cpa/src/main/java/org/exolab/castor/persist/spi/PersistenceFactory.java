@@ -164,10 +164,11 @@ public interface PersistenceFactory {
     /**
      * Returns the database specific query string for retrieving last identity value.
      * 
-     * @param tableName Name of the table from which Identity needs to be fetched.
+     * @param tableName Name of the table from which identity needs to be fetched.
+     * @param columnName Name of the column from which identity needs to be fetched.
      * @return SQL Query string for fetching the identity value.
      */
-    String getIdentityQueryString(String tableName);
+    String getIdentityQueryString(final String tableName, final String columnName);
     
     /**
      * Does persistence factory support generation of new key at the time of new

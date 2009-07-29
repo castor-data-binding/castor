@@ -124,7 +124,7 @@ public class GenericFactory extends BaseFactory {
     /**
      * {@inheritDoc}
      */
-    public String getIdentityQueryString(final String tableName) {
+    public String getIdentityQueryString(final String tableName, final String columnName) {
         throw new UnsupportedOperationException();
     }
     
