@@ -1,5 +1,6 @@
 /*
- * Copyright 2006 Assaf Arkin, Thomas Yip, Bruce Snyder, Werner Guttmann, Ralf Joachim
+ * Copyright 2009 Assaf Arkin, Thomas Yip, Bruce Snyder, Werner Guttmann,
+ *                Ralf Joachim, Ahmad Hassan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +41,15 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * SQLStatementStore class that makes use of Update class hierarchy to generate sql
  * query structure. It provides parameter binding support to the prepared statement
  * and then executes it.
- */
+ * 
+ * @author <a href="mailto:arkin AT intalio DOT com">Assaf Arkin</a>
+ * @author <a href="mailto:tyip AT leafsoft DOT com">Thomas Yip</a>
+ * @author <a href="mailto:bruce DOT snyder AT gmail DOT com">Bruce Snyder</a>
+ * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
+ * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
+*/
 public final class SQLStatementUpdate {
     //-----------------------------------------------------------------------------------    
 
@@ -87,13 +96,13 @@ public final class SQLStatementUpdate {
     //-----------------------------------------------------------------------------------    
 
     /**
-    * Constructor.
-    * 
-    * @param engine SQL engine for all persistence operations at entities of the type this
+     * Constructor.
+     * 
+     * @param engine SQL engine for all persistence operations at entities of the type this
      *        class is responsible for. Holds all required information of the entity type.
-    * @param factory Persistence factory for the database engine the entity is persisted in.
+     * @param factory Persistence factory for the database engine the entity is persisted in.
      *        Used to format the SQL statement.
-    */
+     */
     public SQLStatementUpdate(final SQLEngine engine, final PersistenceFactory factory) {
         _type = engine.getDescriptor().getJavaClass().getName();
         _ids = engine.getColumnInfoForIdentities();
@@ -103,10 +112,10 @@ public final class SQLStatementUpdate {
         buildStatement(new ClassDescriptorJDONature(engine.getDescriptor()).getTableName());        
 
         _statementUpdateCheck = new SQLStatementUpdateCheck(engine, factory);
-}
+    }
     
     /**
-     * Build SQL statement to store entities of the type this class.
+     * Build SQL statement to update entities of the type this class.
      *
      * @param mapTo Table name retrieved from Class Descriptor trough JDO Nature.
      */
@@ -138,25 +147,26 @@ public final class SQLStatementUpdate {
         }
     }
     
+    //-----------------------------------------------------------------------------------    
+
     /**
      * Stores the identity to the database using JDBC Connection.
      * 
-     * @param conn An Open JDBC Connection
-     * @param identity
-     * @param newentity
-     * @param oldentity
-     * @return Always returns null
-     * @throws PersistenceException If failed to store object in the database. This could happen
-     *         if a database access error occurs, identity size mismatches
-     *         or column length mismatches
+     * @param conn An Open JDBC Connection.
+     * @param identity Identity of the object to update.
+     * @param newentity Entity holding the new values to set with update.
+     * @param oldentity Entity holding the old values to check for concurrent modifications.
+     * @return Always returns <code>null</code>. 
+     * @throws PersistenceException If failed to update object in database. This could happen
+     *         if a database access error occurs, type of one of the values to bind is ambiguous,
+     *         identity or column size mismatch or object to be updated does not exist.
      */
     public Object executeStatement(final Connection conn, final Identity identity,
-                                   final ProposedEntity newentity,
-                                   final ProposedEntity oldentity)
+            final ProposedEntity newentity, final ProposedEntity oldentity)
     throws PersistenceException {
         // only execute an update statement if there are fields to persist
         if (_hasFieldsToPersist) {
-            //Inializing new QueryContext object
+            // initialize query context
             QueryContext ctx = new QueryContext(_factory);
             
             synchronized (this) {
@@ -164,11 +174,11 @@ public final class SQLStatementUpdate {
                 AndCondition copy = new AndCondition(_update.getCondition());
 
                 try {
-                    //Append fields other than identities
+                    // append conditions for fields other than identities
                     appendOldEntityCondition(oldentity);
                     
-                    /* Walking through the Update class hierarchy, build sql string
-                     * and stores it in QueryContext instance. */
+                    // walk through the Update class hierarchy, build SQL string
+                    // and store it in query context
                     _update.toString(ctx);
                 } finally {
                     // restore original condition 
@@ -177,23 +187,23 @@ public final class SQLStatementUpdate {
             }
 
             try {
-                //get PreparedStatment for the connection
+                // get PreparedStatment for the connection
                 prepareStatement(conn, ctx);
 
-                //Binds new entities
+                // bind new entity
                 bindNewEntity(newentity, ctx);
                 
-                //binds identity
+                // bind identity
                 bindIdentity(identity, ctx);
                 
-                //binds old entities
+                // bind old entity
                 bindOldEntity(oldentity, ctx);
 
-                //executes prepared statement
-                if (executeUpdate() <= 0) { // SAP DB returns -1 here
-                    /*Check whether the object had been modified or deleted and 
-                    raise appropriate exception*/
-                    _statementUpdateCheck.updateFailureCheck(conn, identity, oldentity);
+                // executes prepared statement (SAP DB returns -1 here)
+                if (executeStatement() <= 0) {
+                    // check whether the object had been modified or deleted and 
+                    // raise appropriate exception
+                    _statementUpdateCheck.updateFailureCheck(conn, identity);
                 }                
             } catch (SQLException ex) {
                 LOG.fatal(Messages.format("jdo.storeFatal", _type,  ctx.toString()), ex);
@@ -207,9 +217,9 @@ public final class SQLStatementUpdate {
     }
     
     /**
-     * Method that appends the fields other than identities in where clause of SQL statement.
+     * Method that appends the fields other than identities to where condition of SQL statement.
      * 
-     * @param oldentity
+     * @param oldentity Entity holding the old values to check for concurrent modifications.
      * @throws PersistenceException If identity size mismatches or column length mismatches
      */
     private void appendOldEntityCondition(final ProposedEntity oldentity) 
@@ -220,28 +230,28 @@ public final class SQLStatementUpdate {
                     SQLColumnInfo[] columns = _fields[i].getColumnInfo();
                     Object value = oldentity.getField(i);
                     if (value == null) { 
-                        //Append 'is NULL' incase the value is null    
+                        // append 'is NULL' in case the value is null    
                         for (int j = 0; j < columns.length; j++) {
                            _update.addNullCondition(columns[j].getName());
                         }
                     } else if (value instanceof Identity) {
-                        //Raise exception if identity size doesn't match column length
+                        // raise exception if identity size doesn't match column length
                         Identity identity = (Identity) value;
                         if (identity.size() != columns.length) {
                             throw new PersistenceException("Size of identity field mismatch!");
                         }
 
-                        //Traverse through all the columns and append it to SQL based on whether
-                        //the value of that column is null or not.
+                        // traverse through all the columns of the identity and append it to SQL
+                        // dependent on weather the value of that column is null or not
                         for (int j = 0; j < columns.length; j++) {
                             if (identity.get(j) == null) {
                                 _update.addNullCondition(columns[j].getName());
-
                             } else {
                                 _update.addCondition(columns[j].getName());
                             }
                         }
                     } else {
+                        // append condition with parameter for all normal fields
                         for (int j = 0; j < columns.length; j++) {
                            _update.addCondition(columns[j].getName());
                         }
@@ -252,10 +262,10 @@ public final class SQLStatementUpdate {
     }
     
     /**
-     * Prepares the SQL Statement.
+     * Prepare the SQL Statement.
      * 
-     * @param conn An Open JDBC Connection
-     * @param ctx QueryContext for SQL query building, specifying database specific quotations 
+     * @param conn An Open JDBC Connection.
+     * @param ctx Query context for SQL query building, specifying database specific quotations 
      *            and parameters binding. 
      * @throws SQLException If a database access error occurs.
      */
@@ -266,20 +276,19 @@ public final class SQLStatementUpdate {
         // set prepared statement in thread local variable
         PREPARED_STATEMENT.set(preparedStatement);
          
-         if (LOG.isTraceEnabled()) {
-             LOG.trace(Messages.format("jdo.storing", _type, preparedStatement.toString()));
-         }
+        if (LOG.isTraceEnabled()) {
+            LOG.trace(Messages.format("jdo.storing", _type, preparedStatement.toString()));
+        }
     }
     
     /**
-     * Binds new entities.
+     * Bind values of new entity to the prepared statement.
      * 
-     * @param newentity
-     * @param ctx QueryContext for SQL query building, specifying database specific quotations 
-     *            and parameters binding.
-     * @throws PersistenceException If identity size mismatches
-     *  or column length mismatches
-     * @throws SQLException If database access error occurs
+     * @param newentity Entity holding the new values to set with update.
+     * @param ctx Query context for SQL query building, specifying database specific quotations 
+     *            and parameters binding. 
+     * @throws PersistenceException If identity or column size mismatches.
+     * @throws SQLException If database access error occurs.
      */
     private void bindNewEntity(final ProposedEntity newentity, final QueryContext ctx)
     throws PersistenceException, SQLException {
@@ -307,7 +316,6 @@ public final class SQLStatementUpdate {
                        ctx.bindParameter(preparedStatement, 
                                SET_PARAM_NAMESPACE + columns[j].getName(), 
                                columns[j].toSQL(id.get(j)), columns[j].getSqlType());
-                        
                     }
                 } else {
                     if (columns.length != 1) {
@@ -323,17 +331,15 @@ public final class SQLStatementUpdate {
     }
     
     /**
-     * Binds Identity.
+     * Bind identity values to the prepared statement.
      * 
-     * @param identity
-     * @param ctx QueryContext for SQL query building, specifying database specific quotations 
-     *            and parameters binding.
-     * @throws PersistenceException If identity size mismatches
-     *  or column length mismatches
-     * @throws SQLException If database access error occurs
+     * @param identity Identity of the object to update.
+     * @param ctx Query context for SQL query building, specifying database specific quotations 
+     *            and parameters binding. 
+     * @throws SQLException If a database access error occurs.
      */
     private void  bindIdentity(final Identity identity, final QueryContext ctx) 
-    throws PersistenceException, SQLException {
+    throws SQLException {
         // get prepared statement from thread local variable
         PreparedStatement preparedStatement = PREPARED_STATEMENT.get();        
                 
@@ -350,14 +356,13 @@ public final class SQLStatementUpdate {
     }
     
     /**
-     * Binds old Entities.
+     * Bind values of old entity to the prepared statement.
      * 
-     * @param oldentity
-     * @param ctx QueryContext for SQL query building, specifying database specific quotations 
-     *            and parameters binding.
-     * @throws PersistenceException If identity size mismatches
-     *  or column length mismatches
-     * @throws SQLException If database access error occurs
+     * @param oldentity Entity holding the old values to check for concurrent modifications.
+     * @param ctx Query context for SQL query building, specifying database specific quotations 
+     *            and parameters binding. 
+     * @throws PersistenceException If identity or column size mismatches.
+     * @throws SQLException If database access error occurs.
      */
     private void bindOldEntity(final ProposedEntity oldentity, final QueryContext ctx) 
     throws PersistenceException, SQLException {   
@@ -381,7 +386,6 @@ public final class SQLStatementUpdate {
                         for (int j = 0; j < columns.length; j++) {
                                ctx.bindParameter(preparedStatement, columns[j].getName(), 
                                        columns[j].toSQL(id.get(j)), columns[j].getSqlType());
-
                         }
                     } else {
                         if (columns.length != 1) {
@@ -401,12 +405,13 @@ public final class SQLStatementUpdate {
     }
     
     /**
-     * executeUpdate.
+     * Execute the prepared statement.
      * 
-     * @return int represent the number of rows affected
-     * @throws SQLException If a database access error occurs
+     * @return Number of rows affected. A value less than 1 does indicate that execution
+     *         has failed.
+     * @throws SQLException If a database access error occurs.
      */
-    private int executeUpdate () throws SQLException {
+    private int executeStatement() throws SQLException {
         // get prepared statement from thread local variable
         PreparedStatement preparedStatement = PREPARED_STATEMENT.get();       
         return preparedStatement.executeUpdate();
