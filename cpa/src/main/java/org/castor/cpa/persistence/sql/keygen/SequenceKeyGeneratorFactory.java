@@ -18,9 +18,6 @@ package org.castor.cpa.persistence.sql.keygen;
 import java.util.Properties;
 
 import org.castor.core.util.Messages;
-import org.castor.cpa.persistence.sql.driver.DB2Factory;
-import org.castor.cpa.persistence.sql.driver.InterbaseFactory;
-import org.castor.cpa.persistence.sql.driver.OracleFactory;
 import org.castor.cpa.persistence.sql.driver.PostgreSQLFactory;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.PersistenceFactory;

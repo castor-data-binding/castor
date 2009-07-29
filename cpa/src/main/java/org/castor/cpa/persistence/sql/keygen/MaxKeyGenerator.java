@@ -41,7 +41,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public final class MaxKeyGenerator implements KeyGenerator {
+public final class MaxKeyGenerator extends AbstractBeforeKeyGenerator {
     //-----------------------------------------------------------------------------------
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
@@ -147,13 +147,6 @@ public final class MaxKeyGenerator implements KeyGenerator {
                 "(SELECT MAX(t1." + _factory.quoteName(column) + ") FROM "
                 + _factory.quoteName(table) + " t1)");
         return query.getStatement(true);
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public byte getStyle() {
-        return BEFORE_INSERT;
     }
 
     /**
