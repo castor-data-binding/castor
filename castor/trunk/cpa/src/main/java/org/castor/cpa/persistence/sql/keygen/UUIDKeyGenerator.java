@@ -35,7 +35,7 @@ import org.exolab.castor.mapping.MappingException;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
-public final class UUIDKeyGenerator implements KeyGenerator {
+public final class UUIDKeyGenerator extends AbstractBeforeKeyGenerator {
     //-----------------------------------------------------------------------------------
 
     private static final DecimalFormat IP_FORMAT = new DecimalFormat("000");
@@ -104,13 +104,6 @@ public final class UUIDKeyGenerator implements KeyGenerator {
         sb.append(COUNTER_FORMAT.format(_staticCounter));
 
         return sb.toString();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public byte getStyle() {
-        return BEFORE_INSERT;
     }
 
     /**
