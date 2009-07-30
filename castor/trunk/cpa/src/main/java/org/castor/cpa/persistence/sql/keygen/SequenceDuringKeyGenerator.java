@@ -16,6 +16,7 @@
 package org.castor.cpa.persistence.sql.keygen;
 
 import java.sql.Connection;
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,6 +31,17 @@ import org.exolab.castor.jdo.PersistenceException;
 import org.castor.core.util.Messages;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.PersistenceFactory;
+import org.exolab.castor.jdo.Database;
+import org.exolab.castor.jdo.DuplicateIdentityException;
+import org.exolab.castor.jdo.engine.SQLColumnInfo;
+import org.exolab.castor.jdo.engine.SQLEngine;
+import org.exolab.castor.jdo.engine.SQLFieldInfo;
+import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
+import org.castor.cpa.persistence.sql.engine.SQLStatementInsertCheck;
+import org.castor.jdo.engine.SQLTypeInfos;
+import org.castor.persist.ProposedEntity;
+import org.exolab.castor.mapping.ClassDescriptor;
+import org.exolab.castor.persist.spi.Identity;
 
 /**
  * SEQUENCE key generator.
@@ -106,6 +118,10 @@ public final class SequenceDuringKeyGenerator extends AbstractDuringKeyGenerator
     private KeyGeneratorTypeHandler<? extends Object> _typeHandler;
 
     private SequenceKeyGenValueHandler _type = null;
+    
+    /** SQL engine for all persistence operations at entities of the type this
+     * class is responsible for. Holds all required information of the entity type. */
+    private SQLEngine _engine;
 
     //-----------------------------------------------------------------------------------
     
@@ -256,6 +272,165 @@ public final class SequenceDuringKeyGenerator extends AbstractDuringKeyGenerator
         sb.append(" INTO ?");
         
         return sb.toString();
+    }
+    
+    /**
+     * Executes the SQL statement after preparing the PreparedStatement.
+     * 
+     * @param engine SQL engine for all persistence operations at entities of the type this
+     *        class is responsible for. Holds all required information of the entity type.
+     * @param statement SQL Statement
+     * @param database
+     * @param conn An Open JDBC connection.
+     * @param identity Identity of the object to insert.
+     * @param entity
+     * @return Identity
+     * @throws PersistenceException If failed to insert record into database. This could happen
+     *         if a database access error occurs, If identity size mismatches, unable to retrieve
+     *         Identity, If provided Identity is null, If Extended engine is null.
+     */
+    public Object executeStatement(final SQLEngine engine, final String statement, final Database database,
+            final Connection conn, final Identity identity, final ProposedEntity entity)
+    throws PersistenceException {
+        _engine = engine;
+
+        ClassDescriptor clsDesc = engine.getDescriptor();
+        String type = clsDesc.getJavaClass().getName();
+        String mapTo = new ClassDescriptorJDONature(clsDesc).getTableName();
+        SQLStatementInsertCheck lookupStatement = new SQLStatementInsertCheck(_engine, _factory);
+        Identity internalIdentity = identity;
+        SQLEngine extended = _engine.getExtends();
+
+        PreparedStatement stmt = null;
+        try {
+            // must create record in the parent table first. all other dependents
+            // are created afterwards. quick and very dirty hack to try to make
+            // multiple class on the same table work.
+            if (extended != null) {
+                ClassDescriptor extDesc = extended.getDescriptor();
+                if (!new ClassDescriptorJDONature(extDesc).getTableName().equals(mapTo)) {
+                    internalIdentity = extended.create(database, conn, entity, internalIdentity);
+                }
+            }
+            
+            stmt = conn.prepareCall(statement);
+             
+            if (LOG.isTraceEnabled()) {
+                LOG.trace(Messages.format("jdo.creating", type, stmt.toString()));
+            }
+            
+            // must remember that SQL column index is base one.
+            int count = 1;
+            count = bindFields(entity, stmt, count);
+
+            if (LOG.isTraceEnabled()) {
+                LOG.trace(Messages.format("jdo.creating", type, stmt.toString()));
+            }
+
+            SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
+
+            // generate key during INSERT.
+            CallableStatement cstmt = (CallableStatement) stmt;
+
+            int sqlType = ids[0].getSqlType();
+            cstmt.registerOutParameter(count, sqlType);
+            
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(Messages.format("jdo.creating", type, cstmt.toString()));
+            }
+            
+            cstmt.execute();
+
+            // first skip all results "for maximum portability"
+            // as proposed in CallableStatement javadocs.
+            while (cstmt.getMoreResults() || (cstmt.getUpdateCount() != -1)) {
+                // no code to execute
+            }
+
+            // identity is returned in the last parameter.
+            // workaround for INTEGER type in Oracle getObject returns BigDecimal.
+            Object temp;
+            if (sqlType == java.sql.Types.INTEGER) {
+                temp = new Integer(cstmt.getInt(count));
+            } else {
+                temp = cstmt.getObject(count);
+            }
+            internalIdentity = new Identity(ids[0].toJava(temp));
+
+            stmt.close();
+
+            return internalIdentity;
+        } catch (SQLException except) {
+            LOG.fatal(Messages.format("jdo.storeFatal",  type,  statement), except);
+
+            Boolean isDupKey = _factory.isDuplicateKeyException(except);
+            if (Boolean.TRUE.equals(isDupKey)) {
+                throw new DuplicateIdentityException(Messages.format(
+                        "persist.duplicateIdentity", type, internalIdentity), except);
+            } else if (Boolean.FALSE.equals(isDupKey)) {
+                throw new PersistenceException(Messages.format("persist.nested", except), except);
+            }
+
+            // without an identity we can not check for duplicate key
+            if (internalIdentity == null) {
+                throw new PersistenceException(Messages.format("persist.nested", except), except);
+            }
+
+            // check for duplicate key the old fashioned way, after the INSERT
+            // failed to prevent race conditions and optimize INSERT times.
+            lookupStatement.insertDuplicateKeyCheck(conn, internalIdentity);
+
+            try {
+                if (stmt != null) { stmt.close(); }
+            } catch (SQLException except2) {
+                LOG.warn("Problem closing JDBC statement", except2);
+            }
+            
+            throw new PersistenceException(Messages.format("persist.nested", except), except);
+        }
+    }
+
+    /**
+     * Binds parameters values to the PreparedStatement.
+     * 
+     * @param entity
+     * @param stmt PreparedStatement object containing sql staatement.
+     * @param count Offset.
+     * @return final Offset
+     * @throws SQLException If a database access error occurs.
+     * @throws PersistenceException If identity size mismatches.
+     */
+    private int bindFields(final ProposedEntity entity, final PreparedStatement stmt,
+            final int count) throws SQLException, PersistenceException {
+        int internalCount = count;
+        SQLFieldInfo[] fields = _engine.getInfo();
+        for (int i = 0; i < fields.length; ++i) {
+            SQLColumnInfo[] columns = fields[i].getColumnInfo();
+            if (fields[i].isStore()) {
+                Object value = entity.getField(i);
+                if (value == null) {
+                    for (int j = 0; j < columns.length; j++) {
+                        stmt.setNull(internalCount++, columns[j].getSqlType());
+                    }
+                } else if (value instanceof Identity) {
+                    Identity identity = (Identity) value;
+                    if (identity.size() != columns.length) {
+                        throw new PersistenceException("Size of identity field mismatch!");
+                    }
+                    for (int j = 0; j < columns.length; j++) {
+                        SQLTypeInfos.setValue(stmt, internalCount++,
+                                columns[j].toSQL(identity.get(j)), columns[j].getSqlType());
+                    }
+                } else {
+                    if (columns.length != 1) {
+                        throw new PersistenceException("Complex field expected!");
+                    }
+                    SQLTypeInfos.setValue(stmt, internalCount++, columns[0].toSQL(value),
+                            columns[0].getSqlType());
+                }
+            }
+        }
+        return internalCount;
     }
     
     //-----------------------------------------------------------------------------------
