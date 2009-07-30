@@ -40,7 +40,7 @@ public final class NoKeyGeneratorFactory implements KeyGeneratorFactory {
      */
     public KeyGenerator getKeyGenerator(final PersistenceFactory factory,
             final Properties params, final int sqlType) throws MappingException {
-        return new NoKeyGenerator();
+        return new NoKeyGenerator(factory);
     }
 
     //-----------------------------------------------------------------------------------
