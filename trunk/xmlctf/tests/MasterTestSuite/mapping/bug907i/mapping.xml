@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<mapping>
-   <class name="Foo" xmlns:abc="http://www.castor.org/bug907i">
-      <map-to xml="foo" ns-prefix="abc" ns-uri="http://www.castor.org/bug907i"/>
-      <field name="bar" type="string">
-         <bind-xml name="abc:bar" node="attribute"/>
-      </field>
-   </class>
-</mapping>

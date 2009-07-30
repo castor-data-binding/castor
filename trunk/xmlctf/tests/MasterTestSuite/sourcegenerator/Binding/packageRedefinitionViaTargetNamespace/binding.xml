@@ -1,7 +1,0 @@
-<binding xmlns="http://www.castor.org/SourceGenerator/Binding"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" defaultBinding="element">
-    <package>
-        <name>net.elementa.bind</name>
-        <namespace>http://elementa.net/elementa</namespace>
-    </package>
-</binding>

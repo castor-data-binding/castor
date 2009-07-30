@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<mapping>
-  <class name="Foo">
-     <field name="size" get-method="getSize" set-method="%1" type="int">
-        <bind-xml node="attribute"/>
-     </field>
-  </class>
-</mapping>
