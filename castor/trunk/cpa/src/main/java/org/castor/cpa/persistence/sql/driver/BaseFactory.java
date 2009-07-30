@@ -66,6 +66,7 @@ import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.persist.spi.PersistenceQuery;
+import org.castor.cpa.persistence.sql.keygen.NoKeyGeneratorFactory;
 
 /**
  * {@link org.exolab.castor.persist.spi.PersistenceFactory} for generic JDBC driver.
@@ -105,6 +106,10 @@ public abstract class BaseFactory implements PersistenceFactory {
             KeyGeneratorDescriptor keyGenDesc = 
                 new ClassDescriptorJDONature(clsDesc).getKeyGeneratorDescriptor();
             
+            FieldDescriptor fldDesc = clsDesc.getIdentity();
+            int[] sqlTypes = new FieldDescriptorJDONature(fldDesc).getSQLType();
+            int sqlType = (sqlTypes == null) ? 0 : sqlTypes[0];            
+            
             if ((clsDesc.getExtends() == null) && (keyGenDesc != null)) {
                 String keyGenFactoryName = keyGenDesc.getKeyGeneratorFactoryName();
                 KeyGeneratorFactory keyGenFactory =
@@ -116,10 +121,6 @@ public abstract class BaseFactory implements PersistenceFactory {
                     throw new MappingException(msg);
                 }
 
-                FieldDescriptor fldDesc = clsDesc.getIdentity();
-                int[] sqlTypes = new FieldDescriptorJDONature(fldDesc).getSQLType();
-                int sqlType = (sqlTypes == null) ? 0 : sqlTypes[0];
-                
                 Properties keyGenParams = keyGenDesc.getParams();
                 keyGen = keyGenFactory.getKeyGenerator(this, keyGenParams, sqlType);
                 
@@ -127,7 +128,15 @@ public abstract class BaseFactory implements PersistenceFactory {
                     LOG.debug("Key generator " + keyGenFactoryName
                             + " has been instantiated, parameters: " + keyGenParams);
                 }
-            }
+            } else {
+                NoKeyGeneratorFactory noKeyGenFac = new NoKeyGeneratorFactory();
+                keyGen = noKeyGenFac.getKeyGenerator(this, null, sqlType); 
+                
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Key generator " + noKeyGenFac.getKeyGeneratorName()
+                            + " has been instantiated");
+                }
+            }            
             
             _classDescriptorToKeyGenerator.put(clsDesc, keyGen);
         }
