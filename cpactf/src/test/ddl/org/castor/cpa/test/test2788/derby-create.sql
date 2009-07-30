@@ -1,0 +1,3 @@
+CREATE TABLE find_book (
+    id INTEGER PRIMARY KEY
+);

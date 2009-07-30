@@ -546,7 +546,10 @@ public abstract class AbstractTransactionContext implements TransactionContext {
         // failure (object no longer exists), hold until a suitable lock is granted
         // (or fail to grant), or report error with the persistence engine.
         try {
-            if (_instanceFactory != null) {
+            // Check whether an instance was given to the load method.
+            if (proposedObject.getEntity() != null) {
+                objectInTx = proposedObject.getEntity();
+            } else if (_instanceFactory != null) {
                 objectInTx = _instanceFactory.newInstance(molder.getName(), _db.getClassLoader());
             } else {
                 objectInTx = molder.newInstance(_db.getClassLoader());
