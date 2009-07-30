@@ -1,3 +1,0 @@
-<expected>
-	<match method="regexp" index="0">create table simple \( \);</match>
-</expected>

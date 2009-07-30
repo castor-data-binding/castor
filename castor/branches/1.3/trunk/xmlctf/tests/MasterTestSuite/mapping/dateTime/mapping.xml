@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<mapping>
-  <class name="Foo">
-     <field name="DateValue" type="date"/>
-     <field name="DateArray" type="date" collection="array"/>
-  </class>
-</mapping>
