@@ -91,6 +91,27 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
 </class>]]></code-panel>
             </summary>
             <bugs>
+                <bug id="2769" tool="jira">
+                    <description>
+                        Fixed NPE problem at JInterface constructor (that was a result of 
+                        fixing a Checkstyle warning).
+                    </description>
+                    <contributor>
+                        <name>Ludovic Maître</name>
+                        <email>ludovic.maitre@free.fr</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ludovic Maître</name>
+                        <email>ludovic.maitre@free.fr</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XMLGen</module>
+                    <date>20090730</date>
+                </bug>
                 <bug id="2781" tool="jira">
                     <description>
                         Move executeStatementDuringInsert() method from SQLStatementCreate to SequenceDuringKeyGenerator.

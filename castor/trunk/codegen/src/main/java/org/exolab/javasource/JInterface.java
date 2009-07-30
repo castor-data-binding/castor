@@ -47,12 +47,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Vector;
 
-import org.exolab.castor.builder.SourceGenerator;
-
 /**
  * A representation of the Java Source code for a Java Interface. This is a
  * useful utility when creating in memory source code. The code in this package
- * was modelled after the Java Reflection API as much as possible to reduce the
+ * was modeled after the Java Reflection API as much as possible to reduce the
  * learning curve.
  *
  * @author <a href="mailto:skopp AT riege DOT de">Martin Skopp</a>
@@ -60,20 +58,12 @@ import org.exolab.castor.builder.SourceGenerator;
  * @version $Revision$ $Date: 2005-02-26 17:30:28 -0700 (Sat, 26 Feb 2005) $
  */
 public final class JInterface extends JStructure {
-    //--------------------------------------------------------------------------
-
-    /** Default size of the map for fields. */
-    private static final int DEFAULT_FIELD_MAP_SIZE = 3;
-    
-    //--------------------------------------------------------------------------
 
     /** The fields for this JInterface. */
     private Map<String, JField> _fields = new LinkedHashMap<String, JField>();
     
     /** The list of methods of this JInterface. */
     private Vector<JMethodSignature> _methods;
-
-    //--------------------------------------------------------------------------
 
     /**
      * Creates a new JInterface with the given name.
@@ -83,14 +73,11 @@ public final class JInterface extends JStructure {
     public JInterface(final String name) {
         super(name);
         
-        _fields = null;
         _methods = new Vector<JMethodSignature>();
 
         //-- initialize default Java doc
         getJDocComment().appendComment("Interface " + getLocalName() + ".");
     }
-
-    //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -294,8 +281,6 @@ public final class JInterface extends JStructure {
         }
     }
 
-    //--------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      * 
@@ -442,5 +427,4 @@ public final class JInterface extends JStructure {
         jsw.close();
     }
 
-    //--------------------------------------------------------------------------
 }
