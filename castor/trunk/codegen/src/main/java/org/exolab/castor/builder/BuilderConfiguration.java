@@ -67,7 +67,7 @@ import org.castor.xml.XMLProperties;
 
 /**
  * The configuration for the SourceGenerator.
- * @HACK this class is a configuration but does not base on Castor
+ * HACK this class is a configuration but does not base on Castor
  * Configuration! Raised CASTOR-2195 to solve this issue.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
