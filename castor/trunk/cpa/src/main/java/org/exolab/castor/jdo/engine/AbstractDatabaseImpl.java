@@ -269,6 +269,10 @@ public abstract class AbstractDatabaseImpl implements Database {
         TransactionContext tx = getTransaction();
         ClassMolder molder = _scope.getClassMolder(type);
         ProposedEntity proposedObject = new ProposedEntity(molder);
+        if (object != null) {
+            proposedObject.setEntity(object);
+            proposedObject.setProposedEntityClass(object.getClass());
+        }
         return tx.load(new Identity(identity), proposedObject, mode);
     }
 
