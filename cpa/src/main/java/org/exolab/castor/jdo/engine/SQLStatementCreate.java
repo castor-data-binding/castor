@@ -50,6 +50,7 @@ import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.PersistenceFactory;
+import org.castor.cpa.persistence.sql.keygen.NoKeyGenerator;
 
 public class SQLStatementCreate {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
@@ -92,7 +93,7 @@ public class SQLStatementCreate {
     }
     
     private void buildStatement() {
-        if (_keyGen == null) {
+        if (_keyGen.getStyle() == KeyGenerator.NOGEN_INSERT) {
             buildStatementWithIdentities();
         } else if (_keyGen.getStyle() == KeyGenerator.BEFORE_INSERT) {
             buildStatementWithIdentities();
@@ -223,7 +224,7 @@ public class SQLStatementCreate {
     public Object executeStatement(final Database database, final Connection conn,
             final Identity identity, final ProposedEntity entity)
     throws PersistenceException {
-        if (_keyGen == null) {
+        if (_keyGen.getStyle() == KeyGenerator.NOGEN_INSERT) {
             return executeStatementNoKeygen(database, conn, identity, entity);
         } else if (_keyGen.getStyle() == KeyGenerator.BEFORE_INSERT) {
             return executeStatementBeforeInsert(database, conn, identity, entity);
