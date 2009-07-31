@@ -108,6 +108,19 @@
     </since>
   </contributor>
   
+    <contributor type="Committer">
+    <name surname="Gupta" given="Udai" />
+    <email>mailtoud@gmail.com</email>
+    <project>JDO</project>
+    <description>
+      Transferred some tests to new JDO test framework, Some bug fixes.
+    </description>
+    <status>active</status>
+    <since>
+      <date>Jul. 2008</date>
+    </since>
+  </contributor>
+  
   <contributor type="Committer">
     <name surname="Kuns" given="Edward" />
     <email>edward.kuns@aspect.com</email>
@@ -1033,12 +1046,6 @@
     <name surname="Tsichevski" given="Vladimir"/>
     <email>wowa@jet.msk.su</email>
     <description>Some patches for Castor XML + Castor JDO</description>
-  </contributor>
-
-  <contributor type="Contributor">
-    <name surname="Udai" given="Gupta"/>
-    <email>mailtoud@gmail.com</email>
-    <description>Transferred some tests to new JDO test framework</description>
   </contributor>
 
   <contributor type="Contributor">
