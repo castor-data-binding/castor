@@ -234,6 +234,6 @@ public final class SequenceBeforeKeyGenerator extends AbstractBeforeKeyGenerator
     throws MappingException {
         return insert;
     }    
-}
-//-----------------------------------------------------------------------------------
 
+    //-----------------------------------------------------------------------------------
+}
