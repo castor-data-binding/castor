@@ -25,6 +25,7 @@ import java.util.StringTokenizer;
 import org.castor.core.util.Messages;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.persist.spi.PersistenceFactory;
 
 /**
  * UUID key generator.
@@ -55,7 +56,8 @@ public final class UUIDKeyGenerator extends AbstractBeforeKeyGenerator {
     /**
      * Initialize the UUID key generator.
      */
-    public UUIDKeyGenerator(final int sqlType) throws MappingException {
+    public UUIDKeyGenerator(final PersistenceFactory factory, final int sqlType) throws MappingException {
+        super(factory);
         if ((sqlType != Types.CHAR) && (sqlType != Types.VARCHAR)
                 && (sqlType != Types.LONGVARCHAR)) {
             String msg = Messages.format("mapping.keyGenSQLType",
