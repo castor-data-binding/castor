@@ -49,7 +49,7 @@ public final class UUIDKeyGeneratorFactory implements KeyGeneratorFactory {
      */
     public KeyGenerator getKeyGenerator(final PersistenceFactory factory,
             final Properties params, final int sqlType) throws MappingException {
-        return new UUIDKeyGenerator(sqlType);
+        return new UUIDKeyGenerator(factory, sqlType);
     }
 
     //-----------------------------------------------------------------------------------

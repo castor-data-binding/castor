@@ -152,6 +152,7 @@ public final class SequenceBeforeKeyGenerator extends AbstractBeforeKeyGenerator
      */
     public SequenceBeforeKeyGenerator(final PersistenceFactory factory, final Properties params,
             final int sqlType) throws MappingException {
+        super(factory);
         _factory = factory;        
         _triggerPresent = "true".equals(params.getProperty("trigger", "false"));
         _seqName = params.getProperty("sequence", "{0}_seq");

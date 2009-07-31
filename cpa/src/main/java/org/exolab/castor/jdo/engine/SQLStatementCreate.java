@@ -20,7 +20,6 @@ package org.exolab.castor.jdo.engine;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -50,8 +49,6 @@ import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.PersistenceFactory;
-import org.castor.cpa.persistence.sql.keygen.NoKeyGenerator;
-import org.castor.cpa.persistence.sql.keygen.SequenceDuringKeyGenerator;
 
 public class SQLStatementCreate {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
@@ -228,7 +225,8 @@ public class SQLStatementCreate {
         if (_keyGen.getStyle() == KeyGenerator.NOGEN_INSERT) {
             return _keyGen.executeStatement(_engine, _statement, database, conn, identity, entity);
         } else if (_keyGen.getStyle() == KeyGenerator.BEFORE_INSERT) {
-            return executeStatementBeforeInsert(database, conn, identity, entity);
+              return _keyGen.executeStatement(_engine, _statement, database, conn, identity, entity);
+
         } else if (_keyGen.getStyle() == KeyGenerator.DURING_INSERT) {
             return _keyGen.executeStatement(_engine, _statement, database, conn, identity, entity);
         } else if (_keyGen.getStyle() == KeyGenerator.AFTER_INSERT) {
@@ -236,90 +234,6 @@ public class SQLStatementCreate {
         }
         
         throw new PersistenceException("unknown key generator");
-    }
-
-    public Object executeStatementBeforeInsert(final Database database,
-            final Connection conn, final Identity identity, final ProposedEntity entity)
-    throws PersistenceException {
-        Identity internalIdentity = identity;
-        SQLEngine extended = _engine.getExtends();
-
-        PreparedStatement stmt = null;
-        try {
-            // must create record in the parent table first. all other dependents
-            // are created afterwards. quick and very dirty hack to try to make
-            // multiple class on the same table work.
-            if (extended != null) {
-                ClassDescriptor extDesc = extended.getDescriptor();
-                if (!new ClassDescriptorJDONature(extDesc).getTableName().equals(_mapTo)) {
-                    internalIdentity = extended.create(database, conn, entity, internalIdentity);
-                }
-            }
-            
-            // generate key before INSERT.
-            internalIdentity = generateKey(database, conn, null);
-
-            // we only need to care on JDBC 3.0 at after INSERT.
-            stmt = conn.prepareStatement(_statement);
-             
-            if (LOG.isTraceEnabled()) {
-                LOG.trace(Messages.format("jdo.creating", _type, stmt.toString()));
-            }
-            
-            SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
-            if (internalIdentity.size() != ids.length) {
-                throw new PersistenceException("Size of identity field mismatched!");
-            }
-
-            // must remember that SQL column index is base one.
-            int count = 1;
-            for (int i = 0; i < ids.length; i++) {
-                stmt.setObject(count++, ids[i].toSQL(internalIdentity.get(i)));
-            }
-
-            if (LOG.isTraceEnabled()) {
-                LOG.trace(Messages.format("jdo.creating", _type, stmt.toString()));
-            }
-
-            count = bindFields(entity, stmt, count);
-
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(Messages.format("jdo.creating", _type, stmt.toString()));
-            }
-
-            stmt.executeUpdate();
-
-            stmt.close();
-
-            return internalIdentity;
-        } catch (SQLException except) {
-            LOG.fatal(Messages.format("jdo.storeFatal",  _type,  _statement), except);
-
-            Boolean isDupKey = _factory.isDuplicateKeyException(except);
-            if (Boolean.TRUE.equals(isDupKey)) {
-                throw new DuplicateIdentityException(Messages.format(
-                        "persist.duplicateIdentity", _type, internalIdentity), except);
-            } else if (Boolean.FALSE.equals(isDupKey)) {
-                throw new PersistenceException(Messages.format("persist.nested", except), except);
-            }
-
-            // without an identity we can not check for duplicate key
-            if (internalIdentity == null) {
-                throw new PersistenceException(Messages.format("persist.nested", except), except);
-            }
-
-            // check for duplicate key the old fashioned way, after the INSERT
-            // failed to prevent race conditions and optimize INSERT times.
-            _lookupStatement.insertDuplicateKeyCheck(conn, internalIdentity);
-
-            try {
-                if (stmt != null) { stmt.close(); }
-            } catch (SQLException except2) {
-                LOG.warn("Problem closing JDBC statement", except2);
-            }
-            
-            throw new PersistenceException(Messages.format("persist.nested", except), except);
-        }
     }
 
     public Object executeStatementAfterInsert(final Database database,

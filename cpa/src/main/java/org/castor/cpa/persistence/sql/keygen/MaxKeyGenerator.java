@@ -59,6 +59,7 @@ public final class MaxKeyGenerator extends AbstractBeforeKeyGenerator {
      */
     public MaxKeyGenerator(final PersistenceFactory factory, final int sqlType)
     throws MappingException {
+        super(factory);
         _factory = factory;
 
         if ((sqlType != Types.INTEGER) && (sqlType != Types.BIGINT)

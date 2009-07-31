@@ -108,6 +108,7 @@ public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
      */
     public HighLowKeyGenerator(final PersistenceFactory factory, final Properties params,
             final int sqlType) throws MappingException {
+        super(factory);
         _factory = factory;
         _sqlType = sqlType;
         
