@@ -15,6 +15,14 @@
  */
 package org.castor.cpa.persistence.sql.keygen;
 
+import java.sql.Connection;
+
+import org.castor.persist.ProposedEntity;
+import org.exolab.castor.jdo.Database;
+import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.engine.SQLEngine;
+import org.exolab.castor.persist.spi.Identity;
+
 /**
  * Abstract Class that implements the KeyGenerator Interface for BEFORE_INSERT style. The key
  * generator is used for producing identities for objects before they are created in the
@@ -30,5 +38,14 @@ public abstract class AbstractBeforeKeyGenerator implements KeyGenerator {
      */
     public final byte getStyle() {
         return BEFORE_INSERT;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public final Object executeStatement(final SQLEngine engine, final String statement, 
+            final Database database, final Connection conn, final Identity identity, 
+            final ProposedEntity entity) throws PersistenceException {
+        return null;
     }
 }

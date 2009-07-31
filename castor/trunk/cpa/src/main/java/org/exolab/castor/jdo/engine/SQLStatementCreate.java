@@ -226,11 +226,11 @@ public class SQLStatementCreate {
             final Identity identity, final ProposedEntity entity)
     throws PersistenceException {
         if (_keyGen.getStyle() == KeyGenerator.NOGEN_INSERT) {
-            return ((NoKeyGenerator)_keyGen).executeStatement(_engine, _statement, database, conn, identity, entity);
+            return _keyGen.executeStatement(_engine, _statement, database, conn, identity, entity);
         } else if (_keyGen.getStyle() == KeyGenerator.BEFORE_INSERT) {
             return executeStatementBeforeInsert(database, conn, identity, entity);
         } else if (_keyGen.getStyle() == KeyGenerator.DURING_INSERT) {
-            return ((SequenceDuringKeyGenerator)_keyGen).executeStatement(_engine, _statement, database, conn, identity, entity);
+            return _keyGen.executeStatement(_engine, _statement, database, conn, identity, entity);
         } else if (_keyGen.getStyle() == KeyGenerator.AFTER_INSERT) {
             return executeStatementAfterInsert(database, conn, identity, entity);
         }

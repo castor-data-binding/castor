@@ -18,8 +18,12 @@ package org.castor.cpa.persistence.sql.keygen;
 import java.sql.Connection;
 import java.util.Properties;
 
+import org.castor.persist.ProposedEntity;
+import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.persist.spi.Identity;
 
 /**
  * Interface for a key generator. The key generator is used for
@@ -106,4 +110,23 @@ public interface KeyGenerator {
      * @param primKeyName The primary key name
      */
     String patchSQL(String insert, String primKeyName) throws MappingException;
+    
+    /**
+     * Executes the SQL statement after preparing the PreparedStatement.
+     * 
+     * @param engine SQL engine for all persistence operations at entities of the type this
+     *        class is responsible for. Holds all required information of the entity type.
+     * @param statement SQL Statement
+     * @param database
+     * @param conn An Open JDBC connection.
+     * @param identity Identity of the object to insert.
+     * @param entity
+     * @return Identity
+     * @throws PersistenceException If failed to insert record into database. This could happen
+     *         if a database access error occurs, If identity size mismatches, unable to retrieve
+     *         Identity, If provided Identity is null, If Extended engine is null.
+     */
+    Object executeStatement(final SQLEngine engine, final String statement, 
+            final Database database, final Connection conn, final Identity identity, 
+            final ProposedEntity entity) throws PersistenceException;
 }
