@@ -21,24 +21,16 @@ import org.junit.Ignore;
  * A simple Employee entity.
  * 
  * @author lukas.lang
- * 
  */
 @Ignore
 public final class Employee {
-
-    /**
-     * A unique identifier.
-     */
+    /** A unique identifier. */
     private long _id;
 
-    /**
-     * The {@link Employee}'s name.
-     */
+    /** The {@link Employee}'s name. */
     private String _name;
 
-    /**
-     * The entity version.
-     */
+    /** The entity version. */
     private long _version;
 
     /**
@@ -49,11 +41,10 @@ public final class Employee {
     }
 
     /**
-     * @param id
-     *            the id to set
+     * @param id the id to set
      */
     public void setId(final long id) {
-        this._id = id;
+        _id = id;
     }
 
     /**
@@ -64,11 +55,10 @@ public final class Employee {
     }
 
     /**
-     * @param name
-     *            the name to set
+     * @param name the name to set
      */
     public void setName(final String name) {
-        this._name = name;
+        _name = name;
     }
 
     /**
@@ -79,11 +69,9 @@ public final class Employee {
     }
 
     /**
-     * @param version
-     *            the version to set
+     * @param version the version to set
      */
     public void setVersion(final long version) {
-        this._version = version;
+        _version = version;
     }
-
 }

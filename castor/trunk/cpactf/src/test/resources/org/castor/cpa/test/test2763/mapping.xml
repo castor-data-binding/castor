@@ -4,7 +4,7 @@
 <mapping>
 	<!-- The Employee class mapping. -->
 	<class name="org.castor.cpa.test.test2763.Employee" identity="id" version="version">
-		<map-to table="detachment_employee" />
+		<map-to table="test2763_employee" />
 		<field name="id" type="long">
 			<sql name="id" type="bigint" />
 		</field>
@@ -18,8 +18,8 @@
 
 	<!-- The Book class mapping. -->
 	<class name="org.castor.cpa.test.test2763.Book" identity="id">
-		<map-to table="detachment_book" />
-		<field name="id" type="long">
+		<map-to table="test2763_book" />
+		<field name="id" type="integer">
 			<sql name="id" type="integer" />
 		</field>
 		<field name="title" type="string" required="true">

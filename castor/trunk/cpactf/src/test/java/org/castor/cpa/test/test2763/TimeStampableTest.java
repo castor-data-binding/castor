@@ -22,37 +22,27 @@ import org.castor.cpa.test.framework.CPATestCase;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
-import org.exolab.castor.jdo.TimeStampable;
 
 /**
  * Verifies correct detachment behavior implementing {@link TimeStampable}
  * interface.
  * 
  * @author lukas.lang
- * 
  */
 public final class TimeStampableTest extends CPATestCase {
+    /** Name of the database. */
+    private static final String DBNAME = "test2763";
 
-    /**
-     * Name of the database.
-     */
-    private static final String DBNAME = "detachment";
-
-    /**
-     * Mapping file for this test case.
-     */
+    /** Mapping file for this test case. */
     private static final String MAPPING = "/org/castor/cpa/test/test2763/mapping.xml";
 
-    /**
-     * The {@link Database} to use.
-     */
+    /** The {@link Database} to use. */
     private Database _db;
 
     /**
      * Constructor taking a name.
      * 
-     * @param name
-     *            the name of the test.
+     * @param name the name of the test.
      */
     public TimeStampableTest(final String name) {
         super(name);
@@ -73,10 +63,8 @@ public final class TimeStampableTest extends CPATestCase {
      * Performs a simple long transaction with an update on a {@link Book}
      * instance.
      * 
-     * @throws PersistenceException
-     *             if any persistence operation fails.
-     * @throws SQLException
-     *             in case clear tables fails.
+     * @throws PersistenceException if any persistence operation fails.
+     * @throws SQLException in case clear tables fails.
      */
     public void testDetachment() throws PersistenceException, SQLException {
         Book book = new Book();
@@ -88,7 +76,7 @@ public final class TimeStampableTest extends CPATestCase {
         _db.create(book);
         _db.commit();
 
-        // CHange the title.
+        // Change the title.
         book.setTitle("new-unit-test-title");
 
         // Update book.
@@ -98,13 +86,14 @@ public final class TimeStampableTest extends CPATestCase {
 
         // Verify book.
         _db.begin();
-        Book loadedBook = (Book) _db.load(Book.class, 1L);
+        Book loadedBook = (Book) _db.load(Book.class, 1);
         _db.commit();
 
         assertNotNull(loadedBook);
         assertEquals("new-unit-test-title", book.getTitle());
 
         clearTables();
+        
         _db.close();
     }
 
@@ -112,13 +101,10 @@ public final class TimeStampableTest extends CPATestCase {
      * Performs a simple long transaction with an update on a {@link Book}
      * instance.
      * 
-     * @throws PersistenceException
-     *             if any persistence operation fails.
-     * @throws SQLException
-     *             if clear of tables fails.
+     * @throws PersistenceException if any persistence operation fails.
+     * @throws SQLException if clear of tables fails.
      */
-    public void testDetachmentWithLoadedObject() throws PersistenceException,
-            SQLException {
+    public void testDetachmentWithLoadedObject() throws PersistenceException, SQLException {
         Book book = new Book();
         book.setId(1);
         book.setTitle("unit-test-title");
@@ -129,10 +115,10 @@ public final class TimeStampableTest extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        book = (Book) _db.load(Book.class, 1L);
+        book = (Book) _db.load(Book.class, 1);
         _db.commit();
 
-        // CHange the title.
+        // Change the title.
         book.setTitle("new-unit-test-title");
 
         // Update book.
@@ -142,7 +128,7 @@ public final class TimeStampableTest extends CPATestCase {
 
         // Verify book.
         _db.begin();
-        Book loadedBook = (Book) _db.load(Book.class, 1L);
+        Book loadedBook = (Book) _db.load(Book.class, 1);
         _db.commit();
 
         assertNotNull(loadedBook);
@@ -155,19 +141,16 @@ public final class TimeStampableTest extends CPATestCase {
     /**
      * Deletes all tuples from the tables 'detachment_employee'.
      * 
-     * @throws PersistenceException
-     *             if JDBC connection cannot be obtained.
-     * @throws SQLException
-     *             if execution fails.
+     * @throws PersistenceException if JDBC connection cannot be obtained.
+     * @throws SQLException if execution fails.
      */
     protected void clearTables() throws PersistenceException, SQLException {
         _db.begin();
         PreparedStatement deleteEmployees =
                 _db.getJdbcConnection().prepareStatement(
-                        "DELETE FROM detachment_book");
+                        "DELETE FROM test2763_book");
         deleteEmployees.executeUpdate();
         deleteEmployees.close();
         _db.commit();
     }
-
 }

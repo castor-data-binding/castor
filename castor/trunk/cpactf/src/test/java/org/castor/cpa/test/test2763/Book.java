@@ -22,37 +22,30 @@ import org.junit.Ignore;
  * A simple Book class.
  * 
  * @author lukas.lang
- * 
  */
 @Ignore
 public final class Book implements TimeStampable {
-
-    /**
-     * The unique identifier.
-     */
-    private long _id;
-    /**
-     * The book title.
-     */
+    /** The unique identifier. */
+    private int _id;
+    
+    /** The book title. */
     private String _title;
-    /**
-     * The time stamp.
-     */
+    
+    /** The time stamp. */
     private long _timeStamp;
 
     /**
      * @return the id.
      */
-    public long getId() {
+    public int getId() {
         return _id;
     }
 
     /**
-     * @param id
-     *            an identifier.
+     * @param id an identifier.
      */
-    public void setId(final long id) {
-        this._id = id;
+    public void setId(final int id) {
+        _id = id;
     }
 
     /**
@@ -63,11 +56,10 @@ public final class Book implements TimeStampable {
     }
 
     /**
-     * @param title
-     *            a title.
+     * @param title a title.
      */
     public void setTitle(final String title) {
-        this._title = title;
+        _title = title;
     }
 
     /**
@@ -79,12 +71,11 @@ public final class Book implements TimeStampable {
     }
 
     /**
-     * @param timeStamp
-     *            the time stamp.
+     * @param timeStamp the time stamp.
      * @see org.exolab.castor.jdo.TimeStampable#jdoSetTimeStamp(long)
      */
     public void jdoSetTimeStamp(final long timeStamp) {
-        this._timeStamp = timeStamp;
+        _timeStamp = timeStamp;
     }
 
     /**
@@ -95,11 +86,9 @@ public final class Book implements TimeStampable {
     }
 
     /**
-     * @param timeStamp
-     *            the timestamp.
+     * @param timeStamp the timestamp.
      */
     public void setTimeStamp(final long timeStamp) {
         _timeStamp = timeStamp;
     }
-
 }
