@@ -4,8 +4,8 @@
 <mapping>
 	<!-- The Book class mapping. -->
 	<class name="org.castor.cpa.test.test2788.Book" identity="id">
-		<map-to table="find_book" />
-		<field name="id" type="long">
+		<map-to table="test2788_book" />
+		<field name="id" type="integer">
 			<sql name="id" type="integer" />
 		</field>
 	</class>

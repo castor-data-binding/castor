@@ -22,45 +22,37 @@ import org.castor.cpa.test.framework.CPATestCase;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
-import org.junit.Ignore;
 
 /**
  * Verifies the correct behavior of the
  * {@link Database#load(Class, Object, Object)} method.
  * 
  * @author lukas.lang
- * 
  */
-@Ignore
 public final class FindWithNewInstanceTest extends CPATestCase {
+    /** Name of the database. */
+    private static final String DBNAME = "test2788";
 
-    /**
-     * Name of the database.
-     */
-    private static final String DBNAME = "load";
-
-    /**
-     * Mapping file for this test case.
-     */
+    /** Mapping file for this test case. */
     private static final String MAPPING = "/org/castor/cpa/test/test2788/mapping.xml";
 
-    /**
-     * The {@link Database} to use.
-     */
+    /** The {@link Database} to use. */
     private Database _db;
 
     /**
      * Constructor taking a name.
      * 
-     * @param name
-     *            the name of the test.
+     * @param name the name of the test.
      */
     public FindWithNewInstanceTest(final String name) {
         super(name);
     }
 
+    // Test are only included/excluded for engines that have been tested with this test suite.
+    // test fails on derby when executed with maven (mvn test)
+
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.DERBY);
+        return false; /* (engine == DatabaseEngineType.DERBY); */
     }
 
     @Override
@@ -72,15 +64,13 @@ public final class FindWithNewInstanceTest extends CPATestCase {
     /**
      * Loads a {@link Book} into a given instance.
      * 
-     * @throws PersistenceException
-     *             in case persistence fails.
-     * @throws SQLException
-     *             in case clean up fails.
+     * @throws PersistenceException in case persistence fails.
+     * @throws SQLException in case clean up fails.
      * 
      */
     public void testLoadWithGivenInstance() throws PersistenceException, SQLException {
         Book book = new Book();
-        book.setId(1L);
+        book.setId(1);
 
         // Persist book.
         _db.begin();
@@ -90,10 +80,11 @@ public final class FindWithNewInstanceTest extends CPATestCase {
         // Load book into a new instance.
         _db.begin();
         Book newBook = new Book();
-        Book returned = (Book) _db.load(Book.class, 1L, newBook);
+        Book returned = (Book) _db.load(Book.class, 1, newBook);
         _db.commit();
 
         clearTables();
+        
         _db.close();
 
         assertNotSame(book, returned);
@@ -103,15 +94,13 @@ public final class FindWithNewInstanceTest extends CPATestCase {
     /**
      * Deletes all tuples from the tables 'detachment_employee'.
      * 
-     * @throws PersistenceException
-     *             if JDBC connection cannot be obtained.
-     * @throws SQLException
-     *             if execution fails.
+     * @throws PersistenceException if JDBC connection cannot be obtained.
+     * @throws SQLException if execution fails.
      */
     protected void clearTables() throws PersistenceException, SQLException {
         _db.begin();
         PreparedStatement deleteEmployees = _db.getJdbcConnection().prepareStatement(
-                "DELETE FROM find_book");
+                "DELETE FROM test2788_book");
         deleteEmployees.executeUpdate();
         deleteEmployees.close();
         _db.commit();
