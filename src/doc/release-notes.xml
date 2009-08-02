@@ -91,6 +91,26 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
 </class>]]></code-panel>
             </summary>
             <bugs>
+                <bug id="2796" tool="jira">
+                    <description>
+                        Add query objects as created at GSoC 2008 to SVN trunc.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20090802</date>
+                </bug>
                 <bug id="2783" tool="jira">
                     <description>
                         Move executeStatementAfterInsert() method from SQLStatementCreate to
