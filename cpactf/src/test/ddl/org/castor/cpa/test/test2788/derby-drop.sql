@@ -1,1 +1,1 @@
-DROP TABLE find_book;
+DROP TABLE test2788_book;

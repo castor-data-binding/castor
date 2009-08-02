@@ -21,28 +21,23 @@ import org.junit.Ignore;
  * A simple Book class.
  * 
  * @author lukas.lang
- * 
  */
 @Ignore
 public final class Book {
-
-    /**
-     * The unique identifier.
-     */
-    private long _id;
+    /** The unique identifier. */
+    private int _id;
 
     /**
      * @return the id.
      */
-    public long getId() {
+    public int getId() {
         return _id;
     }
 
     /**
-     * @param id
-     *            an identifier.
+     * @param id an identifier.
      */
-    public void setId(final long id) {
-        this._id = id;
+    public void setId(final int id) {
+        _id = id;
     }
 }

@@ -1,3 +1,3 @@
-CREATE TABLE find_book (
+CREATE TABLE test2788_book (
     id INTEGER PRIMARY KEY
 );
