@@ -1,50 +1,19 @@
-/**
- * Redistribution and use of this software and associated documentation
- * ("Software"), with or without modification, are permitted provided
- * that the following conditions are met:
+/*
+ * Copyright 2009 Ralf Joachim
  *
- * 1. Redistributions of source code must retain copyright
- *    statements and notices.  Redistributions must also contain a
- *    copy of this document.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * 2. Redistributions in binary form must reproduce the
- *    above copyright notice, this list of conditions and the
- *    following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * 3. The name "Exolab" must not be used to endorse or promote
- *    products derived from this Software without prior written
- *    permission of Intalio, Inc.  For written permission,
- *    please contact info@exolab.org.
- *
- * 4. Products derived from this Software may not be called "Exolab"
- *    nor may "Exolab" appear in their names without prior written
- *    permission of Intalio, Inc. Exolab is a registered
- *    trademark of Intalio, Inc.
- *
- * 5. Due credit should be given to the Exolab Project
- *    (http://www.exolab.org/).
- *
- * THIS SOFTWARE IS PROVIDED BY INTALIO, INC. AND CONTRIBUTORS
- * ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
- * NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
- * INTALIO, INC. OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
- * OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * Copyright 1999-2001 (C) Intalio, Inc. All Rights Reserved.
- *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
-package ctf.jdo.tc7x;
-
-import harness.CastorTestCase;
-import harness.TestHarness;
+package org.castor.cpa.test.test75;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -52,12 +21,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import jdo.JDOCategory;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.cpa.test.framework.CPATestCase;
+import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.exolab.castor.jdo.CacheManager;
 import org.exolab.castor.jdo.Database;
+import org.exolab.castor.jdo.JDOManager;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryResults;
@@ -67,10 +37,13 @@ import org.exolab.castor.jdo.QueryResults;
  * includes clearing objects by class or type, or individually, by 
  * object identities.
  */
-public final class TestExpireManyToMany extends CastorTestCase {
+public final class TestExpireManyToMany extends CPATestCase {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(TestExpireManyToMany.class);
+
+    private static final String DBNAME = "test75";
+    private static final String MAPPING = "/org/castor/cpa/test/test75/mapping.xml";
 
     private static final boolean BY_TYPE_OR_CLASS   = true;
     private static final boolean BY_OBJECT_IDENTITY = false;
@@ -80,7 +53,6 @@ public final class TestExpireManyToMany extends CastorTestCase {
     private static final String JDBC_UPDATED_VALUE  = "Updated Using JDBC";
 
     private Database            _db;
-    private JDOCategory         _category;
     private Connection          _conn;
     private PreparedStatement   _updateGroupStatement;
     private PreparedStatement   _updatePersonStatement;
@@ -88,45 +60,40 @@ public final class TestExpireManyToMany extends CastorTestCase {
     private int _groupAId = 201, _groupBId = 202, _groupCId = 203, _groupDId = 204;
     private int _person1Id = 1, _person2Id = 2, _person3Id = 3, _person4Id = 4;
     
-    private boolean _debug = false;
-    
     /** 
      * Constructor
      */
-    public TestExpireManyToMany(final TestHarness category) {
-        super(category, "TC75", "Expire Many-To-Many");
-        _category = (JDOCategory) category;
+    public TestExpireManyToMany(final String name) {
+        super(name);
+    }
+
+    // Test are only included/excluded for engines that have been tested with this test suite.
+
+    public boolean include(final DatabaseEngineType engine) {
+        return (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.POSTGRESQL)
+            || (engine == DatabaseEngineType.HSQL);
     }
 
     /**
      * Initializes fields
      */
-    public void setUp() throws SQLException {
-        try {
-            _db   = _category.getDatabase();
-        } catch (Exception e) {
-            LOG.warn("Problem opening a Database instance.", e);
-        }
-        _conn = _category.getJDBCConnection();
+    public void setUp() throws Exception {
+        JDOManager jdo = getJDOManager(DBNAME, MAPPING);
+        
+        _db = jdo.getDatabase();
+        _conn = jdo.getConnectionFactory().createConnection();
 
         // initialze JDBC connection
        try {
             _updateGroupStatement = _conn.prepareStatement(
-                    "update tc7x_many_group set value1=? where gid=?");
+                    "update test75_group set value1=? where gid=?");
             _updatePersonStatement = _conn.prepareStatement(
-                    "update tc7x_many_person set value1=? where pid=?");
+                    "update test75_person set value1=? where pid=?");
         } catch (java.sql.SQLException e) {
             fail("Failed to establish JDBC Connection");
         }
-
-    }
-
-    /**
-     * Calls the individual tests embedded in this test case
-     */
-    public void runTest() throws PersistenceException, SQLException {
-        testExpireCache(BY_OBJECT_IDENTITY);
-        testExpireCache(BY_TYPE_OR_CLASS);
     }
 
     /**
@@ -136,6 +103,14 @@ public final class TestExpireManyToMany extends CastorTestCase {
         if (_db.isActive()) { _db.rollback(); }
         _db.close();
         _conn.close();
+    }
+
+    /**
+     * Calls the individual tests embedded in this test case
+     */
+    public void testExpireCache() {
+        testExpireCache(BY_OBJECT_IDENTITY);
+        testExpireCache(BY_TYPE_OR_CLASS);
     }
 
     /**
@@ -153,7 +128,7 @@ public final class TestExpireManyToMany extends CastorTestCase {
      *      expire objects from the cache using individual object identities
      */
     public void testExpireCache(final boolean expireByType) {
-        log("starting testExpireCache "
+        LOG.debug("starting testExpireCache "
                 + (expireByType ? "by type" : "by object identity"));
         try {
             // delete any data left over from previous tests
@@ -212,14 +187,14 @@ public final class TestExpireManyToMany extends CastorTestCase {
             if (!validWriteTransaction(_groupDId)) { success = false; }
 
             if (success) {
-                log("Test Completed Successfully.");
+                LOG.debug("Test Completed Successfully.");
             } else {
                 fail("Cache was not properly expired");
             }
 
             deleteTestDataSet();
         } catch (Exception e) {
-            log("ERROR: fatal exception encountered during test", e);
+            LOG.warn("ERROR: fatal exception encountered during test", e);
             fail("Exception encountered during test");
         }
     }
@@ -228,7 +203,7 @@ public final class TestExpireManyToMany extends CastorTestCase {
      * Create the requisite objects in the database
      */
     private void createTestDataSet() throws Exception {
-        log("creating test data set...");
+        LOG.debug("creating test data set...");
         ManyGroup groupA, groupB, groupC, groupD;
         ManyPerson person1, person2, person3, person4;
         ArrayList<ManyPerson> al;
@@ -237,7 +212,7 @@ public final class TestExpireManyToMany extends CastorTestCase {
         ArrayList<ManyPerson> d1;
         Database db = null;
         try {
-            db = this._category.getDatabase();
+            db = getJDOManager(DBNAME, MAPPING).getDatabase();
             db.begin();
 
             //
@@ -356,7 +331,7 @@ public final class TestExpireManyToMany extends CastorTestCase {
             
             db.commit();
         } catch (Exception e) {
-            log("createTestDataSet: exception caught: " + e.getMessage());
+            LOG.warn("createTestDataSet: exception caught: " + e.getMessage());
             throw e;
         }
     }
@@ -367,19 +342,18 @@ public final class TestExpireManyToMany extends CastorTestCase {
      * @param groupId primary key of object to be updated
      */
     private void updateGroupUsingJDBC(final int groupId) {
-        log("updating group " + groupId + " using JDBC...");
+        LOG.debug("updating group " + groupId + " using JDBC...");
 
         try {
             _updateGroupStatement.setString(1, JDBC_UPDATED_VALUE);
             _updateGroupStatement.setInt(2, groupId);
             int rc = _updateGroupStatement.executeUpdate();
             if (rc <= 0) {
-                log("updateGroupUsingJDBC: error updating group "
+                LOG.warn("updateGroupUsingJDBC: error updating group "
                         + groupId + ", return code = " + rc);
-                return;
             }
         } catch (Exception e) {
-            log("updateGroupUsingJDBC: exception updating group "
+            LOG.warn("updateGroupUsingJDBC: exception updating group "
                     + groupId + ": " + e.getMessage(), e);
         }
     }
@@ -390,19 +364,19 @@ public final class TestExpireManyToMany extends CastorTestCase {
      * @param personId primary key of object to be updated
      */
     private void updatePersonUsingJDBC(final int personId) {
-        log("updating person " + personId + " using JDBC...");
+        LOG.debug("updating person " + personId + " using JDBC...");
 
         try {
             _updatePersonStatement.setString(1, JDBC_UPDATED_VALUE);
             _updatePersonStatement.setInt(2, personId);
             int rc = _updatePersonStatement.executeUpdate();
             if (rc <= 0) {
-                log("updatePersonUsingJDBC: error updating person "
+                LOG.warn("updatePersonUsingJDBC: error updating person "
                         + personId + ", return code = " + rc);
                 return;
             }
         } catch (Exception e) {
-            log("updatePersonUsingJDBC: exception updating person "
+            LOG.warn("updatePersonUsingJDBC: exception updating person "
                     + personId + ": " + e.getMessage(), e);
         }
     }
@@ -417,7 +391,7 @@ public final class TestExpireManyToMany extends CastorTestCase {
      *      object identities
      */
     private void expire(final boolean byType) {
-        log("expiring cache...");
+        LOG.debug("expiring cache...");
 
         Object[] identityArray = null;
         try {
@@ -436,7 +410,7 @@ public final class TestExpireManyToMany extends CastorTestCase {
                 cacheManager.expireCache(ManyGroup.class, identityArray);
             }
         } catch (Exception e) {
-            log("expireCache: exception encountered clearing cache: " + e.getMessage());
+            LOG.warn("expireCache: exception encountered clearing cache: " + e.getMessage());
         }
     }
 
@@ -449,15 +423,15 @@ public final class TestExpireManyToMany extends CastorTestCase {
      */
     private boolean validReadTransaction(final int groupId,
             final String expectedValue, final boolean checkPeople) {
-        log("validating read transaction for group " + groupId + "...");
+        LOG.debug("validating read transaction for group " + groupId + "...");
         Database db = null;
         boolean valid = true;
         try {
-            db = this._category.getDatabase();
+            db = getJDOManager(DBNAME, MAPPING).getDatabase();
             db.begin();
             ManyGroup group = (ManyGroup) db.load(ManyGroup.class, new Integer(groupId));
             if (group.getValue1().compareTo(expectedValue) != 0) {
-                log("validReadTransaction: value in group " + group.getId()
+                LOG.warn("validReadTransaction: value in group " + group.getId()
                         + " does not match expected value, value: " + group.getValue1()
                         + ", expected: " + expectedValue);
                 valid = false;
@@ -467,7 +441,7 @@ public final class TestExpireManyToMany extends CastorTestCase {
                 while (itor.hasNext()) {
                     ManyPerson person = itor.next();
                     if (person.getValue1().compareTo(expectedValue) != 0) {
-                        log("validReadTransaction: value in person " + person.getId()
+                        LOG.warn("validReadTransaction: value in person " + person.getId()
                                 + " does not match expected value, value: "
                                 + person.getValue1() + ", expected: " + expectedValue);
                         valid = false;
@@ -484,7 +458,7 @@ public final class TestExpireManyToMany extends CastorTestCase {
                     LOG.warn("Problem closing Database instance.", se);
                 }
             }
-            log("validReadTransaction: exception caught while validating read for group "
+            LOG.warn("validReadTransaction: exception caught while validating read for group "
                     + groupId + " : " + e.getMessage(), e);
             valid = false;
         }
@@ -498,10 +472,10 @@ public final class TestExpireManyToMany extends CastorTestCase {
      * @param groupId primary key of object to be updated
      */
     private boolean validWriteTransaction(final int groupId) {
-        log("validating write transaction for group " + groupId + "...");
+        LOG.debug("validating write transaction for group " + groupId + "...");
         Database db = null;
         try {
-            db = this._category.getDatabase();
+            db = getJDOManager(DBNAME, MAPPING).getDatabase();
             db.begin();
             ManyGroup group = (ManyGroup) db.load(ManyGroup.class, new Integer(groupId));
             group.setValue1(JDO_UPDATED_VALUE);
@@ -520,7 +494,7 @@ public final class TestExpireManyToMany extends CastorTestCase {
                     LOG.warn("Problem closing Database instance.", se);
                 }
             }
-            log("validWriteTransaction: exception caught while validating group write "
+            LOG.warn("validWriteTransaction: exception caught while validating group write "
                     + groupId + " : " + e.getMessage(), e);
             return false;
         }
@@ -531,14 +505,14 @@ public final class TestExpireManyToMany extends CastorTestCase {
      * Delete all objects in test data set.
      */
     private void deleteTestDataSet() {
-        log("deleting test data set...");
+        LOG.debug("deleting test data set...");
         QueryResults enumeration;
         ManyGroup group = null;
         ManyPerson person = null;
         Database db = null;
         try {
             // select an group and delete it, if it exist!
-            db = this._category.getDatabase();
+            db = getJDOManager(DBNAME, MAPPING).getDatabase();
             db.begin();
             OQLQuery oqlclean = db.getOQLQuery(
                     "SELECT object FROM " + ManyGroup.class.getName()
@@ -547,9 +521,9 @@ public final class TestExpireManyToMany extends CastorTestCase {
             enumeration = oqlclean.execute();
             while (enumeration.hasMore()) {
                 group = (ManyGroup) enumeration.next();
-                _stream.println("Retrieved object: " + group);
+                LOG.debug("Retrieved object: " + group);
                 db.remove(group);
-                _stream.println("Deleted object: " + group);
+                LOG.debug("Deleted object: " + group);
             }
             db.commit();
 
@@ -561,9 +535,9 @@ public final class TestExpireManyToMany extends CastorTestCase {
             enumeration = oqlclean.execute();
             while (enumeration.hasMore()) {
                 person = (ManyPerson) enumeration.next();
-                _stream.println("Retrieved object: " + person);
+                LOG.debug("Retrieved object: " + person);
                 db.remove(person);
-                _stream.println("Deleted object: " + person);
+                LOG.debug("Deleted object: " + person);
             } 
             db.commit();
         } catch (Exception e) {
@@ -574,25 +548,7 @@ public final class TestExpireManyToMany extends CastorTestCase {
                     LOG.warn("Problem closing Database instance.", se);
                 }
             }
-            log("deleteTestDataSet: exception caught: " + e.getMessage(), e);
-        }
-    }
-
-    /**
-     * log a message with exception
-     */
-    private void log(final String s, final Throwable t) {
-        log(s);
-    }
-
-    /**
-     * log a message
-     */
-    private void log(final String s) {
-        if (_debug) {
-            System.out.println(s);
-        } else {
-            _stream.println(s);
+            LOG.warn("deleteTestDataSet: exception caught: " + e.getMessage(), e);
         }
     }
 }

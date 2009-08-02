@@ -45,39 +45,6 @@ create unique index test_table2_pk
    on test_table2 ( id );
 
 
-drop table if exists tc7x_group_person;
-
-create table tc7x_group_person (
-  gid int         not null,
-  pid int        not null 
-);
-
-create index tc7x_group_person_p_pk on tc7x_group_person ( pid );
-
-create index tc7x_group_person_g_pk on tc7x_group_person ( gid );
-
-
-drop table if exists tc7x_many_group;
-
-create table tc7x_many_group (
-  gid       int           not null,
-  value1    varchar(100)  not null
-);
-
-create unique index tc7x_many_group_pk on tc7x_many_group ( gid );
-
-
-drop table if exists tc7x_many_person;
-
-create table tc7x_many_person (
-   pid      int          not null,
-   value1   varchar(100) not null,
-   helloworld varchar(100) null,
-   sthelse varchar(100) null
-);
-
-create unique index tc7x_many_person_pk on tc7x_many_person ( pid );
-
 drop table if exists tc8x_pks_person;
 
 create table tc8x_pks_person (

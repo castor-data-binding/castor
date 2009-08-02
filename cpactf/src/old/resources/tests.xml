@@ -14,12 +14,7 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc4x -->
-    <!-- tc5x -->
-    <!-- tc6x -->
     <!-- tc7x -->
-
-    <!-- <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/> -->
     <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
 	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
@@ -67,12 +62,7 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc4x -->
-    <!-- tc5x -->
-    <!-- tc6x -->
     <!-- tc7x -->
-
-    <!-- <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/> -->
     <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
     <!-- <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/> -->
 	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
@@ -118,12 +108,7 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc4x -->
-    <!-- tc5x -->
-    <!-- tc6x -->
     <!-- tc7x -->
-
-    <!-- <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/> -->
     <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
 	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
@@ -169,12 +154,7 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc4x -->
-    <!-- tc5x -->
-    <!-- tc6x -->
     <!-- tc7x -->
-    
-    <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/>
     <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/>
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
 	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
@@ -221,12 +201,7 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
  
-    <!-- tc4x -->
-    <!-- tc5x -->
-    <!-- tc6x -->
     <!-- tc7x -->
-
-    <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/>
     <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/>
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
 	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
@@ -272,12 +247,7 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc4x -->
-    <!-- tc5x -->
-    <!-- tc6x -->
     <!-- tc7x -->
-
-    <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/>
     <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
 	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
@@ -323,12 +293,7 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc4x -->
-    <!-- tc5x -->
-    <!-- tc6x -->
     <!-- tc7x -->
-
-    <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/>
     <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
     <!-- <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/> -->
 	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
@@ -374,12 +339,7 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc4x -->
-    <!-- tc5x -->
-    <!-- tc6x -->
     <!-- tc7x -->
-
-    <!-- <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/> -->
     <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
 	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
@@ -425,12 +385,7 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc4x -->
-    <!-- tc5x -->
-    <!-- tc6x -->
     <!-- tc7x -->
-
-    <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/>
     <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/>
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
 	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
@@ -476,12 +431,7 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc4x -->
-    <!-- tc5x -->
-    <!-- tc6x -->
     <!-- tc7x -->
-
-    <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/>
     <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/>
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
 	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
@@ -526,12 +476,7 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc4x -->
-    <!-- tc5x -->
-    <!-- tc6x -->
     <!-- tc7x -->
-
-    <!-- <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/> -->
     <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
 	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>

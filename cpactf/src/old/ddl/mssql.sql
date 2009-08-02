@@ -41,54 +41,6 @@ go
 grant all on tc7x_table to test
 go
 
--- test many to many
-drop table 
-go
-drop table tc7x_many_group
-go
-drop table tc7x_many_group
-go
-
-create table tc7x_many_group (
-  gid       int           not null,
-  value1    varchar(100)  not null
-)
-go
-create unique index tc7x_many_group_pk on tc7x_many_group ( gid )
-go
-grant all on tc7x_many_group to test
-go
-
-create table tc7x_many_group (
-   pid      int          not null,
-   value1   varchar(100) not null,
-   helloworld varchar(100) null,
-   sthelse varchar(100) null
-)
-go
-create unique index tc7x_many_group_pk on tc7x_many_group ( pid )
-go
-grant all on tc7x_many_group to test
-go
-
-create table  (
-  gid int         not null,
-  pid int        not null,
-  CONSTRAINT person_delete
-    FOREIGN KEY(pid) 
-    REFERENCES tc7x_many_group(pid),
-  CONSTRAINT group_delete
-    FOREIGN KEY(gid) 
-    REFERENCES tc7x_many_group(gid)
-)
-go
-create index _p_pk on  ( pid )
-go
-create index _g_pk on  ( gid )
-go
-grant all on  to test
-go
-
 -- test multiple pk
 drop table tc8x_pks_person
 go
