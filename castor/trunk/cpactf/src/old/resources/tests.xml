@@ -27,10 +27,6 @@
 	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
-    <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
-    <case id="TC81" class="ctf.jdo.tc8x.TestDepends"/>
-    <case id="TC82" class="ctf.jdo.tc8x.TestDependsNoKeyGen"/>
-    <case id="TC83" class="ctf.jdo.tc8x.TestIdentityPerFieldMapping"/>
     <!-- <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/> -->
     <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
     <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/>
@@ -84,10 +80,6 @@
 	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
-    <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
-    <case id="TC81" class="ctf.jdo.tc8x.TestDepends"/>
-    <case id="TC82" class="ctf.jdo.tc8x.TestDependsNoKeyGen"/>
-    <case id="TC83" class="ctf.jdo.tc8x.TestIdentityPerFieldMapping"/>
     <!-- <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/> -->
     <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
     <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
@@ -139,10 +131,6 @@
 	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
-    <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
-    <case id="TC81" class="ctf.jdo.tc8x.TestDepends"/>
-    <case id="TC82" class="ctf.jdo.tc8x.TestDependsNoKeyGen"/>
-    <case id="TC83" class="ctf.jdo.tc8x.TestIdentityPerFieldMapping"/>
     <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
     <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
     <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
@@ -194,10 +182,6 @@
 	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
-    <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
-    <case id="TC81" class="ctf.jdo.tc8x.TestDepends"/>
-    <case id="TC82" class="ctf.jdo.tc8x.TestDependsNoKeyGen"/>
-    <case id="TC83" class="ctf.jdo.tc8x.TestIdentityPerFieldMapping"/>
     <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
     <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/>
     <!-- TC86 depends on SEQUENCE key generator -->
@@ -250,13 +234,6 @@
 	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
-    <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
-    <!-- <case id="TC81" class="ctf.jdo.tc8x.TestDepends"/>
-		 oracle do not support identity keygen and according to
-		 description in CASTOR-1128 I'm not sure if keygen=MAX
-		 reproduces the original problem -->
-    <case id="TC82" class="ctf.jdo.tc8x.TestDependsNoKeyGen"/>
-    <case id="TC83" class="ctf.jdo.tc8x.TestIdentityPerFieldMapping"/>
     <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
     <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
     <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/>
@@ -308,10 +285,6 @@
 	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
-    <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
-    <case id="TC81" class="ctf.jdo.tc8x.TestDepends"/>
-    <case id="TC82" class="ctf.jdo.tc8x.TestDependsNoKeyGen"/>
-    <case id="TC83" class="ctf.jdo.tc8x.TestIdentityPerFieldMapping"/>
     <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
     <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/>
     <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
@@ -363,10 +336,6 @@
 	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
-    <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
-    <!-- <case id="TC81" class="ctf.jdo.tc8x.TestDepends"/> -->
-    <!-- <case id="TC82" class="ctf.jdo.tc8x.TestDependsNoKeyGen"/> -->
-    <case id="TC83" class="ctf.jdo.tc8x.TestIdentityPerFieldMapping"/>
     <!-- <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/> -->
     <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/>
     <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
@@ -418,10 +387,6 @@
 	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
-    <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
-    <case id="TC81" class="ctf.jdo.tc8x.TestDepends"/>
-    <case id="TC82" class="ctf.jdo.tc8x.TestDependsNoKeyGen"/>
-    <case id="TC83" class="ctf.jdo.tc8x.TestIdentityPerFieldMapping"/>
     <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
     <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
     <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
@@ -473,10 +438,6 @@
 	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
-    <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
-    <!-- <case id="TC81" class="ctf.jdo.tc8x.TestDepends"/> -->
-    <case id="TC82" class="ctf.jdo.tc8x.TestDependsNoKeyGen"/>
-    <case id="TC83" class="ctf.jdo.tc8x.TestIdentityPerFieldMapping"/>
     <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
     <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/>
     <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
@@ -528,10 +489,6 @@
 	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
-    <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
-    <case id="TC81" class="ctf.jdo.tc8x.TestDepends"/>
-    <case id="TC82" class="ctf.jdo.tc8x.TestDependsNoKeyGen"/>
-    <case id="TC83" class="ctf.jdo.tc8x.TestIdentityPerFieldMapping"/>
     <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
     <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/>
     <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
@@ -582,10 +539,6 @@
 	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
-    <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
-    <case id="TC81" class="ctf.jdo.tc8x.TestDepends"/>
-    <case id="TC82" class="ctf.jdo.tc8x.TestDependsNoKeyGen"/>
-    <case id="TC83" class="ctf.jdo.tc8x.TestIdentityPerFieldMapping"/>
     <!-- <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/> -->
     <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
     <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/>

@@ -22,6 +22,7 @@ import org.castor.cpa.test.framework.CPATestCase;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
+import org.junit.Ignore;
 
 /**
  * Verifies the correct behavior of the
@@ -30,6 +31,7 @@ import org.exolab.castor.jdo.PersistenceException;
  * @author lukas.lang
  * 
  */
+@Ignore
 public final class FindWithNewInstanceTest extends CPATestCase {
 
     /**
