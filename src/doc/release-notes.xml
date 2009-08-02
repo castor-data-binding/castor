@@ -91,6 +91,27 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
 </class>]]></code-panel>
             </summary>
             <bugs>
+                <bug id="2783" tool="jira">
+                    <description>
+                        Move executeStatementAfterInsert() method from SQLStatementCreate to
+                        AbstractAfterKeyGenerator.
+                    </description>
+                    <contributor>
+                        <name>Ahmad Hassan</name>
+                        <email>ahmad.hassan@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ahmad Hassan</name>
+                        <email>ahmad.hassan@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20090802</date>
+                </bug>
                 <bug id="2694" tool="jira">
                     <description>
                         Migrating TC80 - TC83 from old to new CPACTF test suit.
@@ -113,7 +134,8 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                 </bug>
                 <bug id="2782" tool="jira">
                     <description>
-                        Move executeStatementBeforeInsert() method from SQLStatementCreate to AbstractBeforeKeyGenerator.
+                        Move executeStatementBeforeInsert() method from SQLStatementCreate to
+                        AbstractBeforeKeyGenerator.
                     </description>
                     <contributor>
                         <name>Ahmad Hassan</name>
@@ -174,7 +196,8 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                 </bug>
                 <bug id="2781" tool="jira">
                     <description>
-                        Move executeStatementDuringInsert() method from SQLStatementCreate to SequenceDuringKeyGenerator.
+                        Move executeStatementDuringInsert() method from SQLStatementCreate to
+                        SequenceDuringKeyGenerator.
                     </description>
                     <contributor>
                         <name>Ahmad Hassan</name>
@@ -194,7 +217,8 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                 </bug>
                 <bug id="2780" tool="jira">
                     <description>
-                        Move executeStatementNoKeyGen() method from SQLStatementCreate to NoKeyGenerator.
+                        Move executeStatementNoKeyGen() method from SQLStatementCreate to
+                        NoKeyGenerator.
                     </description>
                     <contributor>
                         <name>Ahmad Hassan</name>
@@ -274,7 +298,8 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                 </bug>
                 <bug id="2789" tool="jira">
                     <description>
-                        Wrong syntax and missing quotation to retrieve generated keys for PostGreSQL.
+                        Wrong syntax and missing quotation to retrieve generated keys for
+                        PostGreSQL.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -334,7 +359,8 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                 </bug> 
                 <bug id="2774" tool="jira">
                     <description>
-                        Add support for simple select queries to class hierarchy and use it at SQLStatementUpdateCheck.
+                        Add support for simple select queries to class hierarchy and use it at
+                        SQLStatementUpdateCheck.
                     </description>
                     <contributor>
                         <name>Ahmad Hassan</name>
@@ -354,7 +380,8 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                 </bug> 
                 <bug id="2772" tool="jira">
                     <description>
-                        Change logic for PostgreSQL to retrieve generated key at SequenceAfterKeyGenerator.
+                        Change logic for PostgreSQL to retrieve generated key at
+                        SequenceAfterKeyGenerator.
                     </description>
                     <contributor>
                         <name>Ahmad Hassan</name>
@@ -394,7 +421,8 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                 </bug> 
                 <bug id="2773" tool="jira">
                     <description>
-                        Change logic for Oracle to use before instead of after key generator when neiter trigger nor returning is used.
+                        Change logic for Oracle to use before instead of after key generator when
+                        neiter trigger nor returning is used.
                     </description>
                     <contributor>
                         <name>Ahmad Hassan</name>
@@ -455,7 +483,8 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                 </bug> 
                 <bug id="2764" tool="jira">
                     <description>
-                        Move SQLStatementStore org.castor.cpa.persistence.sql.engine and rename to SQLStatementUpdate.
+                        Move SQLStatementStore org.castor.cpa.persistence.sql.engine and rename to
+                        SQLStatementUpdate.
                     </description>
                     <contributor>
                         <name>Ahmad Hassan</name>
@@ -475,7 +504,8 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                 </bug> 
                 <bug id="2750" tool="jira">
                     <description>
-                        Delegate query construction from SQLStatementStore to separate class hierarchy.
+                        Delegate query construction from SQLStatementStore to separate class
+                        hierarchy.
                     </description>
                     <contributor>
                         <name>Ahmad Hassan</name>
@@ -495,7 +525,8 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                 </bug> 
                 <bug id="2720" tool="jira">
                     <description>
-                        Move differences of database engines from IdentityKeyGenerator to PersistenceFactory.
+                        Move differences of database engines from IdentityKeyGenerator to
+                        PersistenceFactory.
                     </description>
                     <contributor>
                         <name>Ahmad Hassan</name>
@@ -535,7 +566,8 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                 </bug> 
                 <bug id="2743" tool="jira">
                     <description>
-                        Delegate query construction from SQLStatementRemove to separate class hierarchy.
+                        Delegate query construction from SQLStatementRemove to separate class
+                        hierarchy.
                     </description>
                     <contributor>
                         <name>Ahmad Hassan</name>
