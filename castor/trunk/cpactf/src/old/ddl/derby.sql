@@ -45,35 +45,6 @@ create table test_table2 (
 
 create unique index test_table2_pk on test_table2 ( id );
 
--- test many to many
-
-drop table tc7x_group_person;
-drop table tc7x_many_group;
-drop table tc7x_many_person;
-
-create table tc7x_many_group (
-  gid       int           not null primary key,
-  value1    varchar(100)  not null
-);
-
-create table tc7x_many_person (
-   pid      int          not null primary key,
-   value1   varchar(100) not null,
-   helloworld varchar(100) ,
-   sthelse varchar(100) 
-);
-
-create table tc7x_group_person (
-  gid int         not null,
-  pid int        not null,
-  CONSTRAINT person_delete
-    FOREIGN KEY(pid) 
-    REFERENCES tc7x_many_person(pid),
-  CONSTRAINT group_delete
-    FOREIGN KEY(gid) 
-    REFERENCES tc7x_many_group(gid)
-);
-
 -- test multiple pk
 
 drop table tc8x_pks_person;
