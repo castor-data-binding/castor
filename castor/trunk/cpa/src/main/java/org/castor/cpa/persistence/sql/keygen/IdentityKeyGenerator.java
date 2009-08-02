@@ -66,6 +66,8 @@ public final class IdentityKeyGenerator extends AbstractAfterKeyGenerator {
      */
     public IdentityKeyGenerator(final PersistenceFactory factory, final int sqlType)
     throws MappingException {
+        super(factory);
+        
         _factory = factory;
 
         if (!_factory.isKeyGeneratorIdentitySupported()) {
