@@ -28,31 +28,21 @@ import org.exolab.castor.jdo.PersistenceException;
  * Verifies correct detachment behavior using a version field.
  * 
  * @author lukas.lang
- * 
  */
 public final class VersionTest extends CPATestCase {
+    /** Name of the database. */
+    private static final String DBNAME = "test2763";
 
-    /**
-     * Name of the database.
-     */
-    private static final String DBNAME = "detachment";
+    /** Mapping file for this test case. */
+    private static final String MAPPING = "/org/castor/cpa/test/test2763/mapping.xml";
 
-    /**
-     * Mapping file for this test case.
-     */
-    private static final String MAPPING =
-            "/org/castor/cpa/test/test2763/mapping.xml";
-
-    /**
-     * The {@link Database} to use.
-     */
+    /** The {@link Database} to use. */
     private Database _db;
 
     /**
      * Constructor taking a name.
      * 
-     * @param name
-     *            the name of the test.
+     * @param name the name of the test.
      */
     public VersionTest(final String name) {
         super(name);
@@ -74,13 +64,10 @@ public final class VersionTest extends CPATestCase {
      * Performs a simple long transaction with an update on an {@link Employee}
      * instance.
      * 
-     * @throws PersistenceException
-     *             if any persistence operation fails.
-     * @throws SQLException
-     *             in case clear of tables fails.
+     * @throws PersistenceException if any persistence operation fails.
+     * @throws SQLException in case clear of tables fails.
      */
-    public void testDetachmentAndUpdate() throws PersistenceException,
-            SQLException {
+    public void testDetachmentAndUpdate() throws PersistenceException, SQLException {
         Employee employee = new Employee();
         employee.setId(1);
         employee.setName("unit-test-name-1");
@@ -115,10 +102,8 @@ public final class VersionTest extends CPATestCase {
      * Performs a create on an {@link Employee} instance and assures that a
      * version is created.
      * 
-     * @throws PersistenceException
-     *             if any persistence operation fails.
-     * @throws SQLException
-     *             in case JDBC connection can not be obtained.
+     * @throws PersistenceException if any persistence operation fails.
+     * @throws SQLException in case JDBC connection can not be obtained.
      */
     public void testCreate() throws PersistenceException, SQLException {
         Employee employee = new Employee();
@@ -133,7 +118,7 @@ public final class VersionTest extends CPATestCase {
         _db.begin();
         PreparedStatement prepareStatement =
                 _db.getJdbcConnection().prepareStatement(
-                        "SELECT version FROM detachment_employee WHERE id=1");
+                        "SELECT version FROM test2763_employee WHERE id=1");
         ResultSet resultSet = prepareStatement.executeQuery();
 
         assertNotNull(resultSet);
@@ -153,19 +138,15 @@ public final class VersionTest extends CPATestCase {
     /**
      * Load an inserted {@link Employee} from the database.
      * 
-     * @throws PersistenceException
-     *             in case persistence fails.
-     * @throws SQLException
-     *             in case prepared statements fail.
+     * @throws PersistenceException in case persistence fails.
+     * @throws SQLException in case prepared statements fail.
      */
     public void testLoad() throws PersistenceException, SQLException {
         _db.begin();
         // Natively insert an employee.
         PreparedStatement prepareStatement =
-                _db
-                        .getJdbcConnection()
-                        .prepareStatement(
-                                "INSERT INTO detachment_employee (id, name, version) "
+                _db.getJdbcConnection().prepareStatement(
+                                "INSERT INTO test2763_employee (id, name, version) "
                                         + "VALUES (1, 'unit-test-name-3', 20000000000)");
         prepareStatement.executeUpdate();
         prepareStatement.close();
@@ -189,12 +170,9 @@ public final class VersionTest extends CPATestCase {
      * Loads an {@link Employee} and verifies whether object modification check
      * on update works.
      * 
-     * @throws SQLException
-     *             in case insert fails.
-     * @throws PersistenceException
-     *             if any database operation fails.
-     * @throws InterruptedException
-     *             in case sleep fails.
+     * @throws SQLException in case insert fails.
+     * @throws PersistenceException if any database operation fails.
+     * @throws InterruptedException in case sleep fails.
      */
     public void testDirtyCheck() throws PersistenceException, SQLException,
             InterruptedException {
@@ -251,16 +229,14 @@ public final class VersionTest extends CPATestCase {
     /**
      * Deletes all tuples from the tables 'detachment_employee'.
      * 
-     * @throws PersistenceException
-     *             if JDBC connection cannot be obtained.
-     * @throws SQLException
-     *             if execution fails.
+     * @throws PersistenceException if JDBC connection cannot be obtained.
+     * @throws SQLException if execution fails.
      */
     protected void clearTables() throws PersistenceException, SQLException {
         _db.begin();
         PreparedStatement deleteEmployees =
                 _db.getJdbcConnection().prepareStatement(
-                        "DELETE FROM detachment_employee");
+                        "DELETE FROM test2763_employee");
         deleteEmployees.executeUpdate();
         deleteEmployees.close();
         _db.commit();
