@@ -49,10 +49,9 @@ public final class FindWithNewInstanceTest extends CPATestCase {
     }
 
     // Test are only included/excluded for engines that have been tested with this test suite.
-    // test fails on derby when executed with maven (mvn test)
 
     public boolean include(final DatabaseEngineType engine) {
-        return false; /* (engine == DatabaseEngineType.DERBY); */
+        return (engine == DatabaseEngineType.DERBY);
     }
 
     @Override
