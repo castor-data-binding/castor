@@ -41,6 +41,7 @@ import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.engine.SQLColumnInfo;
 import org.exolab.castor.jdo.engine.SQLFieldInfo;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
+import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
 import org.castor.cpa.CPAProperties;
@@ -49,6 +50,7 @@ import org.castor.jdo.engine.DatabaseContext;
 import org.castor.jdo.engine.DatabaseRegistry;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.exolab.castor.mapping.ClassDescriptor;
+import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
 
 /**
@@ -81,6 +83,12 @@ public abstract class AbstractAfterKeyGenerator implements KeyGenerator {
     /** Boolean value specifies the Property whether JDBC 3.0-specific features 
      *  should be used. */
     private final boolean _useJDBC30;
+    
+    /** An sql statement. */
+    private String _statement;
+    
+    /** Name of the Table extracted from Class descriptor. */
+    private String _mapTo;
 
 
     /**
@@ -105,14 +113,91 @@ public abstract class AbstractAfterKeyGenerator implements KeyGenerator {
     /**
      * {@inheritDoc}
      */
-    public Object executeStatement(final SQLEngine engine, final String statement, 
-            final Database database, final Connection conn, final Identity identity, 
-            final ProposedEntity entity) throws PersistenceException {
+    public KeyGenerator buildStatement(final SQLEngine engine) {
         _engine = engine;
-
         ClassDescriptor clsDesc = _engine.getDescriptor();
         _engineType = clsDesc.getJavaClass().getName();
-        String mapTo = new ClassDescriptorJDONature(clsDesc).getTableName();
+        _mapTo = new ClassDescriptorJDONature(clsDesc).getTableName();
+        
+        StringBuffer insert = new StringBuffer();
+        insert.append("INSERT INTO ");
+        insert.append(_factory.quoteName(_mapTo));
+        insert.append(" (");
+        
+        StringBuffer values = new StringBuffer();
+        values.append(" VALUES (");
+        
+        int count = 0;
+
+        // is it right to omit all identities in this case?
+        // maybe we should support to define a separat keygen
+        // for every identity or complex/custom keygen that
+        // supports multiple columns.
+        
+        SQLFieldInfo[] fields = _engine.getInfo();
+        for (int i = 0; i < fields.length; ++i) {
+            if (fields[i].isStore()) {
+                SQLColumnInfo[] columns = fields[i].getColumnInfo();
+                for (int j = 0; j < columns.length; j++) {
+                    if (count > 0) {
+                        insert.append(',');
+                        values.append(',');
+                    }
+                    insert.append(_factory.quoteName(columns[j].getName()));
+                    values.append('?');
+                    ++count;
+                }
+            }
+        }
+        
+        // it is possible to have no fields in INSERT statement
+        if (count == 0) {
+            // is it neccessary to omit "()" after table name in case
+            // the table holds only identities? maybe this depends on
+            // the database engine.
+            
+            // cut " ("
+            insert.setLength(insert.length() - 2);
+        } else {
+            insert.append(')');
+        }
+        values.append(')');
+        
+        _statement = insert.append(values).toString();
+        
+        try {
+            SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
+            _statement = this.patchSQL(_statement, ids[0].getName());
+        } catch (MappingException except)  {
+            LOG.fatal(except);
+            
+            // proceed without this stupid key generator
+            FieldDescriptor fldDesc = _engine.getDescriptor().getIdentity();
+            int[] sqlTypes = new FieldDescriptorJDONature(fldDesc).getSQLType();
+            int sqlType = (sqlTypes == null) ? 0 : sqlTypes[0]; 
+            try {
+                NoKeyGeneratorFactory noKeyGenFac = new NoKeyGeneratorFactory();
+                
+                KeyGenerator keyGen = noKeyGenFac.getKeyGenerator(_factory, null, sqlType); 
+                keyGen.buildStatement(_engine);
+                return keyGen;
+            } catch (MappingException ex) {
+                LOG.fatal(ex);
+            }
+        }
+      
+        if (LOG.isTraceEnabled()) {
+            LOG.trace(Messages.format("jdo.creating", _engineType, _statement));
+        }
+        
+        return this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public Object executeStatement(final Database database, final Connection conn, 
+            final Identity identity, final ProposedEntity entity) throws PersistenceException {
         SQLStatementInsertCheck lookupStatement = new SQLStatementInsertCheck(_engine, _factory);
         Identity internalIdentity = identity;
         SQLEngine extended = _engine.getExtends();
@@ -124,23 +209,23 @@ public abstract class AbstractAfterKeyGenerator implements KeyGenerator {
             // multiple class on the same table work.
             if (extended != null) {
                 ClassDescriptor extDesc = extended.getDescriptor();
-                if (!new ClassDescriptorJDONature(extDesc).getTableName().equals(mapTo)) {
+                if (!new ClassDescriptorJDONature(extDesc).getTableName().equals(_mapTo)) {
                     internalIdentity = extended.create(database, conn, entity, internalIdentity);
                 }
             }
             
             if ((internalIdentity == null) && _useJDBC30) {
                 Field field = Statement.class.getField("RETURN_GENERATED_KEYS");
-                Integer rgk = (Integer) field.get(statement);
+                Integer rgk = (Integer) field.get(_statement);
                 
                 Class[] types = new Class[] {String.class, int.class};
-                Object[] args = new Object[] {statement, rgk};
+                Object[] args = new Object[] {_statement, rgk};
                 Method method = Connection.class.getMethod("prepareStatement", types);
                 stmt = (PreparedStatement) method.invoke(conn, args);
                     
                 // stmt = conn.prepareStatement(_statement, Statement.RETURN_GENERATED_KEYS);
             } else {
-                stmt = conn.prepareStatement(statement);
+                stmt = conn.prepareStatement(_statement);
             }
              
             if (LOG.isTraceEnabled()) {
@@ -189,7 +274,7 @@ public abstract class AbstractAfterKeyGenerator implements KeyGenerator {
                     stmt.close();
                 } else {
                     // generate key after INSERT.
-                    internalIdentity = generateKey(database, conn, stmt, mapTo);
+                    internalIdentity = generateKey(database, conn, stmt);
 
                     stmt.close();
                 }
@@ -197,7 +282,7 @@ public abstract class AbstractAfterKeyGenerator implements KeyGenerator {
 
             return internalIdentity;
         } catch (SQLException except) {
-            LOG.fatal(Messages.format("jdo.storeFatal",  _engineType,  statement), except);
+            LOG.fatal(Messages.format("jdo.storeFatal",  _engineType,  _statement), except);
 
             Boolean isDupKey = _factory.isDuplicateKeyException(except);
             if (Boolean.TRUE.equals(isDupKey)) {
@@ -283,12 +368,11 @@ public abstract class AbstractAfterKeyGenerator implements KeyGenerator {
      * @param database Particular Database instance.
      * @param conn An open JDBC Connection. 
      * @param stmt PreparedStatement containing the SQL statement.
-     * @param mapTo Name of Table. 
      * @return Identity that is generated.
      * @throws PersistenceException If fails to Generate key.
      */
     private Identity generateKey(final Database database, final Connection conn,
-            final PreparedStatement stmt, final String mapTo)
+            final PreparedStatement stmt)
     throws PersistenceException {
         SQLColumnInfo id = _engine.getColumnInfoForIdentities()[0];
 
@@ -309,7 +393,7 @@ public abstract class AbstractAfterKeyGenerator implements KeyGenerator {
         try {
             Object identity;
             synchronized (connection) {
-            identity = this.generateKey(connection, mapTo, id.getName(), prop);
+            identity = this.generateKey(connection, _mapTo, id.getName(), prop);
             }
 
             // TODO [SMH]: Move "if (identity == null)" into keygenerator.

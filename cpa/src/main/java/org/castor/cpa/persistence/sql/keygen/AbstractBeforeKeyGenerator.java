@@ -66,6 +66,12 @@ public abstract class AbstractBeforeKeyGenerator implements KeyGenerator {
     
     /** Represents the engine type obtained from clas descriptor. */
     private String _engineType = null;
+      
+    /** An sql statement. */
+    private String _statement;
+    
+    /** Name of the Table extracted from Class descriptor. */
+    private String _mapTo;
 
     /**
      * Constructor.
@@ -86,14 +92,66 @@ public abstract class AbstractBeforeKeyGenerator implements KeyGenerator {
     /**
      * {@inheritDoc}
      */
-    public Object executeStatement(final SQLEngine engine, final String statement,
-            final Database database, final Connection conn, final Identity identity, 
-            final ProposedEntity entity) throws PersistenceException {
+    public KeyGenerator buildStatement(final SQLEngine engine) {
         _engine = engine;
-
         ClassDescriptor clsDesc = _engine.getDescriptor();
         _engineType = clsDesc.getJavaClass().getName();
-        String mapTo = new ClassDescriptorJDONature(clsDesc).getTableName();
+        _mapTo = new ClassDescriptorJDONature(clsDesc).getTableName();
+        
+        StringBuffer insert = new StringBuffer();
+        insert.append("INSERT INTO ");
+        insert.append(_factory.quoteName(_mapTo));
+        insert.append(" (");
+        
+        StringBuffer values = new StringBuffer();
+        values.append(" VALUES (");
+        
+        int count = 0;
+
+        SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
+        for (int i = 0; i < ids.length; i++) {
+            if (count > 0) {
+                insert.append(',');
+                values.append(',');
+            }
+            insert.append(_factory.quoteName(ids[i].getName()));
+            values.append('?');
+            ++count;
+        }
+        
+        SQLFieldInfo[] fields = _engine.getInfo();
+        for (int i = 0; i < fields.length; ++i) {
+            if (fields[i].isStore()) {
+                SQLColumnInfo[] columns = fields[i].getColumnInfo();
+                for (int j = 0; j < columns.length; j++) {
+                    if (count > 0) {
+                        insert.append(',');
+                        values.append(',');
+                    }
+                    insert.append(_factory.quoteName(columns[j].getName()));
+                    values.append('?');
+                    ++count;
+                }
+            }
+        }
+        
+        insert.append(')');
+        values.append(')');
+        
+        _statement = insert.append(values).toString();
+        
+        if (LOG.isTraceEnabled()) {
+            LOG.trace(Messages.format("jdo.creating", _engineType, _statement));
+        }
+        
+        return this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public Object executeStatement(final Database database, final Connection conn, 
+            final Identity identity, final ProposedEntity entity) throws PersistenceException {
         SQLStatementInsertCheck lookupStatement = 
             new SQLStatementInsertCheck(_engine, _factory);    
         Identity internalIdentity = identity;
@@ -106,16 +164,16 @@ public abstract class AbstractBeforeKeyGenerator implements KeyGenerator {
             // multiple class on the same table work.
             if (extended != null) {
                 ClassDescriptor extDesc = extended.getDescriptor();
-                if (!new ClassDescriptorJDONature(extDesc).getTableName().equals(mapTo)) {
+                if (!new ClassDescriptorJDONature(extDesc).getTableName().equals(_mapTo)) {
                     internalIdentity = extended.create(database, conn, entity, internalIdentity);
                 }
             }
             
             // generate key before INSERT.
-            internalIdentity = generateKey(database, conn, null, mapTo);
+            internalIdentity = generateKey(database, conn, null);
 
             // we only need to care on JDBC 3.0 at after INSERT.
-            stmt = conn.prepareStatement(statement);
+            stmt = conn.prepareStatement(_statement);
              
             if (LOG.isTraceEnabled()) {
                 LOG.trace(Messages.format("jdo.creating", _engineType, stmt.toString()));
@@ -148,7 +206,7 @@ public abstract class AbstractBeforeKeyGenerator implements KeyGenerator {
 
             return internalIdentity;
         } catch (SQLException except) {
-            LOG.fatal(Messages.format("jdo.storeFatal",  _engineType,  statement), except);
+            LOG.fatal(Messages.format("jdo.storeFatal",  _engineType,  _statement), except);
 
             Boolean isDupKey = _factory.isDuplicateKeyException(except);
             if (Boolean.TRUE.equals(isDupKey)) {
@@ -226,12 +284,11 @@ public abstract class AbstractBeforeKeyGenerator implements KeyGenerator {
      * @param database Particular Database instance.
      * @param conn An open JDBC Connection. 
      * @param stmt PreparedStatement containing the SQL statement.
-     * @param mapTo Name of Table. 
      * @return Identity that is generated.
      * @throws PersistenceException If fails to Generate key.
      */
     private Identity generateKey(final Database database, final Connection conn,
-            final PreparedStatement stmt, final String mapTo)
+            final PreparedStatement stmt)
     throws PersistenceException {
         SQLColumnInfo id = _engine.getColumnInfoForIdentities()[0];
 
@@ -252,7 +309,7 @@ public abstract class AbstractBeforeKeyGenerator implements KeyGenerator {
         try {
             Object identity;
             synchronized (connection) {
-            identity = this.generateKey(connection, mapTo, id.getName(), prop);
+            identity = this.generateKey(connection, _mapTo, id.getName(), prop);
             }
 
             // TODO [SMH]: Move "if (identity == null)" into keygenerator.
