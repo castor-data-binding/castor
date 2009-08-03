@@ -29,6 +29,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.jdo.PersistenceException;
 import org.castor.core.util.Messages;
+import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.jdo.Database;
@@ -37,6 +38,7 @@ import org.exolab.castor.jdo.engine.SQLColumnInfo;
 import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.jdo.engine.SQLFieldInfo;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
+import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.castor.cpa.persistence.sql.engine.SQLStatementInsertCheck;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.persist.ProposedEntity;
@@ -122,6 +124,15 @@ public final class SequenceDuringKeyGenerator extends AbstractDuringKeyGenerator
     /** SQL engine for all persistence operations at entities of the type this
      * class is responsible for. Holds all required information of the entity type. */
     private SQLEngine _engine;
+    
+    /** An sql statement. */
+    private String _statement;
+    
+    /** Name of the Table extracted from Class descriptor. */
+    private String _mapTo;
+    
+    /** Represents the engine type obtained from clas descriptor. */
+    private String _engineType = null;
 
     //-----------------------------------------------------------------------------------
     
@@ -277,14 +288,92 @@ public final class SequenceDuringKeyGenerator extends AbstractDuringKeyGenerator
     /**
      * {@inheritDoc}
      */
-    public Object executeStatement(final SQLEngine engine, final String statement, 
-            final Database database, final Connection conn, final Identity identity, 
-            final ProposedEntity entity) throws PersistenceException {
+    public KeyGenerator buildStatement(final SQLEngine engine) {
         _engine = engine;
+        ClassDescriptor clsDesc = _engine.getDescriptor();
+        _engineType = clsDesc.getJavaClass().getName();
+        _mapTo = new ClassDescriptorJDONature(clsDesc).getTableName();
+        
+        StringBuffer insert = new StringBuffer();
+        insert.append("INSERT INTO ");
+        insert.append(_factory.quoteName(_mapTo));
+        insert.append(" (");
+        
+        StringBuffer values = new StringBuffer();
+        values.append(" VALUES (");
+        
+        int count = 0;
 
-        ClassDescriptor clsDesc = engine.getDescriptor();
-        String type = clsDesc.getJavaClass().getName();
-        String mapTo = new ClassDescriptorJDONature(clsDesc).getTableName();
+        // is it right to omit all identities in this case?
+        // maybe we should support to define a separat keygen
+        // for every identity or complex/custom keygen that
+        // supports multiple columns.
+        
+        SQLFieldInfo[] fields = _engine.getInfo();
+        for (int i = 0; i < fields.length; ++i) {
+            if (fields[i].isStore()) {
+                SQLColumnInfo[] columns = fields[i].getColumnInfo();
+                for (int j = 0; j < columns.length; j++) {
+                    if (count > 0) {
+                        insert.append(',');
+                        values.append(',');
+                    }
+                    insert.append(_factory.quoteName(columns[j].getName()));
+                    values.append('?');
+                    ++count;
+                }
+            }
+        }
+        
+        // it is possible to have no fields in INSERT statement
+        if (count == 0) {
+            // is it neccessary to omit "()" after table name in case
+            // the table holds only identities? maybe this depends on
+            // the database engine.
+            
+            // cut " ("
+            insert.setLength(insert.length() - 2);
+        } else {
+            insert.append(')');
+        }
+        values.append(')');
+        
+        _statement = insert.append(values).toString();
+        
+        try {
+            SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
+            _statement = this.patchSQL(_statement, ids[0].getName());
+            _statement = "{call " + _statement + "}";
+        } catch (MappingException except)  {
+            LOG.fatal(except);
+            
+            // proceed without this stupid key generator
+            FieldDescriptor fldDesc = _engine.getDescriptor().getIdentity();
+            int[] sqlTypes = new FieldDescriptorJDONature(fldDesc).getSQLType();
+            int sqlType = (sqlTypes == null) ? 0 : sqlTypes[0]; 
+            try {
+                NoKeyGeneratorFactory noKeyGenFac = new NoKeyGeneratorFactory();
+                
+                KeyGenerator keyGen = noKeyGenFac.getKeyGenerator(_factory, null, sqlType); 
+                keyGen.buildStatement(_engine);
+                
+                return keyGen;
+            } catch (MappingException ex) {
+                LOG.fatal(ex);
+            }
+        }     
+
+        if (LOG.isTraceEnabled()) {
+            LOG.trace(Messages.format("jdo.creating", _engineType, _statement));
+        }
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Object executeStatement(final Database database, final Connection conn, 
+            final Identity identity, final ProposedEntity entity) throws PersistenceException {
         SQLStatementInsertCheck lookupStatement = new SQLStatementInsertCheck(_engine, _factory);
         Identity internalIdentity = identity;
         SQLEngine extended = _engine.getExtends();
@@ -296,15 +385,15 @@ public final class SequenceDuringKeyGenerator extends AbstractDuringKeyGenerator
             // multiple class on the same table work.
             if (extended != null) {
                 ClassDescriptor extDesc = extended.getDescriptor();
-                if (!new ClassDescriptorJDONature(extDesc).getTableName().equals(mapTo)) {
+                if (!new ClassDescriptorJDONature(extDesc).getTableName().equals(_mapTo)) {
                     internalIdentity = extended.create(database, conn, entity, internalIdentity);
                 }
             }
             
-            stmt = conn.prepareCall(statement);
+            stmt = conn.prepareCall(_statement);
              
             if (LOG.isTraceEnabled()) {
-                LOG.trace(Messages.format("jdo.creating", type, stmt.toString()));
+                LOG.trace(Messages.format("jdo.creating", _engineType, stmt.toString()));
             }
             
             // must remember that SQL column index is base one.
@@ -312,7 +401,7 @@ public final class SequenceDuringKeyGenerator extends AbstractDuringKeyGenerator
             count = bindFields(entity, stmt, count);
 
             if (LOG.isTraceEnabled()) {
-                LOG.trace(Messages.format("jdo.creating", type, stmt.toString()));
+                LOG.trace(Messages.format("jdo.creating", _engineType, stmt.toString()));
             }
 
             SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
@@ -324,7 +413,7 @@ public final class SequenceDuringKeyGenerator extends AbstractDuringKeyGenerator
             cstmt.registerOutParameter(count, sqlType);
             
             if (LOG.isDebugEnabled()) {
-                LOG.debug(Messages.format("jdo.creating", type, cstmt.toString()));
+                LOG.debug(Messages.format("jdo.creating", _engineType, cstmt.toString()));
             }
             
             cstmt.execute();
@@ -349,12 +438,12 @@ public final class SequenceDuringKeyGenerator extends AbstractDuringKeyGenerator
 
             return internalIdentity;
         } catch (SQLException except) {
-            LOG.fatal(Messages.format("jdo.storeFatal",  type,  statement), except);
+            LOG.fatal(Messages.format("jdo.storeFatal",  _engineType,  _statement), except);
 
             Boolean isDupKey = _factory.isDuplicateKeyException(except);
             if (Boolean.TRUE.equals(isDupKey)) {
                 throw new DuplicateIdentityException(Messages.format(
-                        "persist.duplicateIdentity", type, internalIdentity), except);
+                        "persist.duplicateIdentity", _engineType, internalIdentity), except);
             } else if (Boolean.FALSE.equals(isDupKey)) {
                 throw new PersistenceException(Messages.format("persist.nested", except), except);
             }

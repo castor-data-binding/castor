@@ -114,9 +114,6 @@ public interface KeyGenerator {
     /**
      * Executes the SQL statement after preparing the PreparedStatement.
      * 
-     * @param engine SQL engine for all persistence operations at entities of the type this
-     *        class is responsible for. Holds all required information of the entity type.
-     * @param statement SQL Statement
      * @param database
      * @param conn An Open JDBC connection.
      * @param identity Identity of the object to insert.
@@ -126,7 +123,15 @@ public interface KeyGenerator {
      *         if a database access error occurs, If identity size mismatches, unable to retrieve
      *         Identity, If provided Identity is null, If Extended engine is null.
      */
-    Object executeStatement(final SQLEngine engine, final String statement, 
-            final Database database, final Connection conn, final Identity identity, 
-            final ProposedEntity entity) throws PersistenceException;
+    Object executeStatement(final Database database, final Connection conn, 
+            final Identity identity, final ProposedEntity entity) throws PersistenceException;
+    
+    /**
+     * Builds the SQL insert statement.
+     * 
+     * @param engine SQL engine for all persistence operations at entities of the type this
+     *        class is responsible for. Holds all required information of the entity type.
+     * @return KeyGenerator 
+     */
+    KeyGenerator buildStatement(final SQLEngine engine);
 }
