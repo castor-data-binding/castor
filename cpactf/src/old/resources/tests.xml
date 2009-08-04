@@ -14,13 +14,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc7x -->
-    <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
-    <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
-	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
-	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
-	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
-
     <!-- tc8x -->
     <!-- <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/> -->
     <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
@@ -62,13 +55,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc7x -->
-    <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
-    <!-- <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/> -->
-	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
-	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
-	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
-
     <!-- tc8x -->
     <!-- <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/> -->
     <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
@@ -107,13 +93,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc7x -->
-    <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
-    <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
-	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
-	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
-	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
     <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
@@ -154,13 +133,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc7x -->
-    <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/>
-    <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
-	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
-	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
-	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
-
     <!-- tc8x -->
     <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
     <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/>
@@ -200,13 +172,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
- 
-    <!-- tc7x -->
-    <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/>
-    <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
-	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
-	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
-	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
     <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
@@ -247,13 +212,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc7x -->
-    <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
-    <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
-	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
-	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
-	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
-
     <!-- tc8x -->
     <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
     <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/>
@@ -292,13 +250,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc7x -->
-    <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
-    <!-- <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/> -->
-	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
-	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
-	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
     <!-- <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/> -->
@@ -339,13 +290,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc7x -->
-    <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
-    <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
-	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
-	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
-	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
-
     <!-- tc8x -->
     <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
     <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
@@ -384,13 +328,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc7x -->
-    <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/>
-    <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
-	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
-	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
-	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
     <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
@@ -431,13 +368,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc7x -->
-    <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/>
-    <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
-	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
-	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
-	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
-
     <!-- tc8x -->
     <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
     <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/>
@@ -475,13 +405,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc7x -->
-    <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
-    <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
-	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
-	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
-	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
     <!-- <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/> -->

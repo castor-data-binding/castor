@@ -24,41 +24,6 @@ create unique index tc0x_race_pk on tc0x_race ( id );
 
 -- UNDEFINED TESTS
 
--- tc7x tests
-
-drop table if exists tc7x_table;
-create table tc7x_table (
-  id      int           not null,
-  value1  varchar(200)  not null,
-  value2  varchar(200)
-);
-create unique index tc7x_table_pk
-   on tc7x_table ( id );
-
-
--- those tables should be type INNODB with mysql 4
-drop table if exists tc7x_depend2;
-drop table if exists tc7x_master;
-drop table if exists tc7x_depend1;
-
-create table tc7x_depend1(
-  id int not null primary key
-);
-
-create table tc7x_master(
-  depend1_id int ,
-  id int not null primary key,
-  index idx_master_depend1 (depend1_id),
-  foreign key (depend1_id) references tc7x_depend1(id)
-);
-
-create table tc7x_depend2(
-  master_id int,
-  id int not null primary key,
-  index idx_depend2_master (master_id),
-  foreign key (master_id) references tc7x_master(id)
-);
-
 -- tc8x
 
 drop table if exists tc8x_pks_person;

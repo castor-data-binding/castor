@@ -27,21 +27,6 @@ create unique index tc0x_race_pk on tc0x_race ( id )
 
 -- UNDEFINED TESTS
 
-drop table tc7x_table
-//
-
-create table tc7x_table (
-  id      int           not null,
-  value1  varchar(200)  not null,
-  value2  varchar(200)
-)
-//
-
-create unique index tc7x_table_pk
-   on tc7x_table ( id )
-//
-
-
 drop table tc8x_pks_person
 //
 
@@ -217,36 +202,6 @@ drop table tc8x_nton_b
 create table tc8x_nton_b (
   id         varchar(20)    not null,
   status     integer        not null
-)
-//
-
-drop table tc7x_master
-//
-drop table tx7x_depend1
-//
-drop table tc7x_depend2 cascade
-//
-
-create table tx7x_depend1(
-  id int,
-  primary key (id)
-)
-//
-
-create table tc7x_master(
-  depend1_id        int,
-  id               int,
-  primary key (id),
-  foreign key fk_master_depend1(depend1_id) references tx7x_depend1(id) on delete cascade
-)
-//
-
-create table tc7x_depend2
-(
-    master_id        int,
-    id               int,
-    primary key (id),
-    foreign key fk_depend2_master(master_id) references tc7x_master(id) on delete cascade
 )
 //
 
