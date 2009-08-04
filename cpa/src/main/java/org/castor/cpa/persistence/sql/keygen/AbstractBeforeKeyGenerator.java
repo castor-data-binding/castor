@@ -24,9 +24,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
 import org.castor.cpa.persistence.sql.engine.SQLStatementInsertCheck;
+import org.castor.cpa.persistence.sql.query.Insert;
+import org.castor.cpa.persistence.sql.query.QueryContext;
 import org.castor.jdo.engine.DatabaseContext;
 import org.castor.jdo.engine.DatabaseRegistry;
-import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.DuplicateIdentityException;
@@ -66,12 +67,13 @@ public abstract class AbstractBeforeKeyGenerator implements KeyGenerator {
     
     /** Represents the engine type obtained from clas descriptor. */
     private String _engineType = null;
-      
-    /** An sql statement. */
-    private String _statement;
     
     /** Name of the Table extracted from Class descriptor. */
     private String _mapTo;
+    
+    /** QueryContext for SQL query building, specifying database specific quotations 
+     *  and parameters binding. */
+    private final QueryContext _ctx;
 
     /**
      * Constructor.
@@ -81,7 +83,9 @@ public abstract class AbstractBeforeKeyGenerator implements KeyGenerator {
      */
     public AbstractBeforeKeyGenerator(final PersistenceFactory factory) {
         _factory = factory;
+        _ctx = new QueryContext(_factory);
     }
+    
     /**
      * {@inheritDoc}
      */
@@ -96,27 +100,12 @@ public abstract class AbstractBeforeKeyGenerator implements KeyGenerator {
         _engine = engine;
         ClassDescriptor clsDesc = _engine.getDescriptor();
         _engineType = clsDesc.getJavaClass().getName();
-        _mapTo = new ClassDescriptorJDONature(clsDesc).getTableName();
-        
-        StringBuffer insert = new StringBuffer();
-        insert.append("INSERT INTO ");
-        insert.append(_factory.quoteName(_mapTo));
-        insert.append(" (");
-        
-        StringBuffer values = new StringBuffer();
-        values.append(" VALUES (");
-        
-        int count = 0;
-
-        SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
+        _mapTo = new ClassDescriptorJDONature(clsDesc).getTableName();    
+        Insert insert = new Insert(_mapTo);
+      
+        SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();        
         for (int i = 0; i < ids.length; i++) {
-            if (count > 0) {
-                insert.append(',');
-                values.append(',');
-            }
-            insert.append(_factory.quoteName(ids[i].getName()));
-            values.append('?');
-            ++count;
+            insert.addInsert(ids[i].getName());
         }
         
         SQLFieldInfo[] fields = _engine.getInfo();
@@ -124,24 +113,14 @@ public abstract class AbstractBeforeKeyGenerator implements KeyGenerator {
             if (fields[i].isStore()) {
                 SQLColumnInfo[] columns = fields[i].getColumnInfo();
                 for (int j = 0; j < columns.length; j++) {
-                    if (count > 0) {
-                        insert.append(',');
-                        values.append(',');
-                    }
-                    insert.append(_factory.quoteName(columns[j].getName()));
-                    values.append('?');
-                    ++count;
+                    insert.addInsert(columns[j].getName());          
                 }
             }
-        }
-        
-        insert.append(')');
-        values.append(')');
-        
-        _statement = insert.append(values).toString();
+        }        
+        insert.toString(_ctx);
         
         if (LOG.isTraceEnabled()) {
-            LOG.trace(Messages.format("jdo.creating", _engineType, _statement));
+            LOG.trace(Messages.format("jdo.creating", _engineType, _ctx.toString()));
         }
         
         return this;
@@ -173,29 +152,14 @@ public abstract class AbstractBeforeKeyGenerator implements KeyGenerator {
             internalIdentity = generateKey(database, conn, null);
 
             // we only need to care on JDBC 3.0 at after INSERT.
-            stmt = conn.prepareStatement(_statement);
-             
-            if (LOG.isTraceEnabled()) {
-                LOG.trace(Messages.format("jdo.creating", _engineType, stmt.toString()));
-            }
+            stmt = conn.prepareStatement(_ctx.toString());
             
-            SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
-            if (internalIdentity.size() != ids.length) {
-                throw new PersistenceException("Size of identity field mismatched!");
-            }
+            //bind Identities
+            bindIdentity(internalIdentity, stmt);
 
-            // must remember that SQL column index is base one.
-            int count = 1;
-            for (int i = 0; i < ids.length; i++) {
-                stmt.setObject(count++, ids[i].toSQL(internalIdentity.get(i)));
-            }
-
-            if (LOG.isTraceEnabled()) {
-                LOG.trace(Messages.format("jdo.creating", _engineType, stmt.toString()));
-            }
-
-            count = bindFields(entity, stmt, count);
-
+            //bind  Fields
+            bindFields(entity, stmt);
+            
             if (LOG.isDebugEnabled()) {
                 LOG.debug(Messages.format("jdo.creating", _engineType, stmt.toString()));
             }
@@ -206,7 +170,7 @@ public abstract class AbstractBeforeKeyGenerator implements KeyGenerator {
 
             return internalIdentity;
         } catch (SQLException except) {
-            LOG.fatal(Messages.format("jdo.storeFatal",  _engineType,  _statement), except);
+            LOG.fatal(Messages.format("jdo.storeFatal",  _engineType, _ctx.toString()), except);
 
             Boolean isDupKey = _factory.isDuplicateKeyException(except);
             if (Boolean.TRUE.equals(isDupKey)) {
@@ -236,18 +200,37 @@ public abstract class AbstractBeforeKeyGenerator implements KeyGenerator {
     }
 
     /**
-     * Binds parameters values to the PreparedStatement.
+     * Binds the identity values.
      * 
-     * @param entity
-     * @param stmt PreparedStatement object containing sql staatement.
-     * @param count Offset.
-     * @return final Offset
+     * @param internalIdentity Identity values.
+     * @param stmt PreapraedStatement containing the sql insert statement. 
      * @throws SQLException If a database access error occurs.
      * @throws PersistenceException If identity size mismatches.
      */
-    private int bindFields(final ProposedEntity entity, final PreparedStatement stmt,
-            final int count) throws SQLException, PersistenceException {
-        int internalCount = count;
+    public void bindIdentity(final Identity internalIdentity, final PreparedStatement stmt) 
+    throws SQLException, PersistenceException {
+        SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
+        if (internalIdentity.size() != ids.length) {
+            throw new PersistenceException("Size of identity field mismatched!");
+        }
+
+        for (int i = 0; i < ids.length; i++) {
+            _ctx.bindParameter(stmt, ids[i].getName(), ids[i].toSQL(internalIdentity.get(i)), 
+                    ids[i].getSqlType());
+        }
+    }
+    
+    /**
+     * Binds parameters values to the PreparedStatement.
+     * 
+     * @param entity Entity instance from which field values to be fetached to
+     *               bind with sql insert statement.
+     * @param stmt PreparedStatement object containing sql staatement.
+     * @throws SQLException If a database access error occurs.
+     * @throws PersistenceException If identity size mismatches.
+     */
+    private void bindFields(final ProposedEntity entity, final PreparedStatement stmt
+            ) throws SQLException, PersistenceException {
         SQLFieldInfo[] fields = _engine.getInfo();
         for (int i = 0; i < fields.length; ++i) {
             SQLColumnInfo[] columns = fields[i].getColumnInfo();
@@ -255,7 +238,8 @@ public abstract class AbstractBeforeKeyGenerator implements KeyGenerator {
                 Object value = entity.getField(i);
                 if (value == null) {
                     for (int j = 0; j < columns.length; j++) {
-                        stmt.setNull(internalCount++, columns[j].getSqlType());
+                        _ctx.bindParameter(stmt, columns[j].getName(), null, 
+                                columns[j].getSqlType());
                     }
                 } else if (value instanceof Identity) {
                     Identity identity = (Identity) value;
@@ -263,21 +247,20 @@ public abstract class AbstractBeforeKeyGenerator implements KeyGenerator {
                         throw new PersistenceException("Size of identity field mismatch!");
                     }
                     for (int j = 0; j < columns.length; j++) {
-                        SQLTypeInfos.setValue(stmt, internalCount++,
+                        _ctx.bindParameter(stmt, columns[j].getName(), 
                                 columns[j].toSQL(identity.get(j)), columns[j].getSqlType());
                     }
                 } else {
                     if (columns.length != 1) {
                         throw new PersistenceException("Complex field expected!");
                     }
-                    SQLTypeInfos.setValue(stmt, internalCount++, columns[0].toSQL(value),
+                    _ctx.bindParameter(stmt, columns[0].getName(), columns[0].toSQL(value), 
                             columns[0].getSqlType());
                 }
             }
         }
-        return internalCount;
     }
-
+    
     /**
      * Generates the key.
      * 

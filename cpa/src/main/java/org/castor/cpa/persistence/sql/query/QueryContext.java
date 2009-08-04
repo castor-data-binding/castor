@@ -155,5 +155,14 @@ public class QueryContext {
         }
     }
     
+    /**
+     * Returns the number of parameter in sql insert statement.
+     * 
+     * @return parameter size.
+     */
+    public final int parameterSize() {
+        return _parameters.size();
+    }
+    
     //-----------------------------------------------------------------------------------    
 }

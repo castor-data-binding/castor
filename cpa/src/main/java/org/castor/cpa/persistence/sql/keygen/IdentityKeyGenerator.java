@@ -66,7 +66,7 @@ public final class IdentityKeyGenerator extends AbstractAfterKeyGenerator {
      */
     public IdentityKeyGenerator(final PersistenceFactory factory, final int sqlType)
     throws MappingException {
-        super(factory);
+        super(factory, null);
         
         _factory = factory;
 
@@ -137,13 +137,6 @@ public final class IdentityKeyGenerator extends AbstractAfterKeyGenerator {
      */
     public boolean isInSameConnection() {
         return true;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public String patchSQL(final String insert, final String primKeyName) {
-        return insert;
     }
 
     //-----------------------------------------------------------------------------------

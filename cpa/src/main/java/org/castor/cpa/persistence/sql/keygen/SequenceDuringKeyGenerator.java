@@ -23,13 +23,11 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.text.MessageFormat;
 import java.util.Properties;
-import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.jdo.PersistenceException;
 import org.castor.core.util.Messages;
-import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.jdo.Database;
@@ -38,9 +36,9 @@ import org.exolab.castor.jdo.engine.SQLColumnInfo;
 import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.jdo.engine.SQLFieldInfo;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
-import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.castor.cpa.persistence.sql.engine.SQLStatementInsertCheck;
-import org.castor.jdo.engine.SQLTypeInfos;
+import org.castor.cpa.persistence.sql.query.Insert;
+import org.castor.cpa.persistence.sql.query.QueryContext;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.persist.spi.Identity;
@@ -126,19 +124,23 @@ public final class SequenceDuringKeyGenerator extends AbstractDuringKeyGenerator
     private SQLEngine _engine;
     
     /** An sql statement. */
-    private String _statement;
+   // private String _statement;
     
     /** Name of the Table extracted from Class descriptor. */
     private String _mapTo;
     
     /** Represents the engine type obtained from clas descriptor. */
     private String _engineType = null;
+    
+    /** QueryContext for SQL query building, specifying database specific quotations 
+     *  and parameters binding. */
+    private final QueryContext _ctx;
 
     //-----------------------------------------------------------------------------------
     
     /**
      * Initialize the SEQUENCE key generator for DURING_INSERT style 
-     * {@link #generateKey} is never called, all work is done by {@link #patchSQL}.
+     * {@link #generateKey} is never called.
      * 
      * @param factory A PersistenceFactory instance.
      * @param params
@@ -151,6 +153,7 @@ public final class SequenceDuringKeyGenerator extends AbstractDuringKeyGenerator
         _factory = factory;        
         _triggerPresent = "true".equals(params.getProperty("trigger", "false"));
         _seqName = params.getProperty("sequence", "{0}_seq");
+        _ctx = new QueryContext(_factory);
         
         initSqlTypeHandler(sqlType);
         initType();
@@ -206,86 +209,6 @@ public final class SequenceDuringKeyGenerator extends AbstractDuringKeyGenerator
     }
     
     /**
-     * Gives a possibility to patch the Castor-generated SQL statement
-     * for INSERT (makes sense for DURING_INSERT key generators).
-     */
-    public String patchSQL(final String insert, final String primKeyName)
-    throws MappingException {
-        StringTokenizer st;
-        String tableName;
-        String seqName;
-        String nextval;
-        StringBuffer sb;
-        int lp1;  // the first left parenthesis, which starts fields list
-        int lp2;  // the second left parenthesis, which starts values list
-
-        // First find the table name
-        st = new StringTokenizer(insert);
-        if (!st.hasMoreTokens() || !st.nextToken().equalsIgnoreCase("INSERT")) {
-            throw new MappingException(Messages.format("mapping.keyGenCannotParse", insert));
-        }
-        if (!st.hasMoreTokens() || !st.nextToken().equalsIgnoreCase("INTO")) {
-            throw new MappingException(Messages.format("mapping.keyGenCannotParse", insert));
-        }
-        if (!st.hasMoreTokens()) {
-            throw new MappingException(Messages.format("mapping.keyGenCannotParse", insert));
-        }
-        tableName = st.nextToken();
-
-        // remove every double quote in the tablename
-        int idxQuote = tableName.indexOf('"');
-        if (idxQuote >= 0) {
-            StringBuffer buffer2 = new StringBuffer();
-            int pos = 0;
-
-            do {
-                buffer2.append(tableName.substring(pos, idxQuote));
-                pos = idxQuote + 1;
-                idxQuote = tableName.indexOf('"', pos);
-            } while (idxQuote != -1);
-
-            buffer2.append(tableName.substring(pos));
-
-            tableName = buffer2.toString();
-        }
-
-        // due to varargs in 1.5, see CASTOR-1097
-        seqName = MessageFormat.format(_seqName, new Object[] {tableName, primKeyName});
-        nextval = _factory.quoteName(seqName + ".nextval");
-        lp1 = insert.indexOf('(');
-        lp2 = insert.indexOf('(', lp1 + 1);
-        if (lp1 < 0) {
-            throw new MappingException(Messages.format("mapping.keyGenCannotParse", insert));
-        }
-        sb = new StringBuffer(insert);
-        // if no onInsert triggers in the DB, we have to supply the Key values manually
-        if (!_triggerPresent) {
-           if (lp2 < 0) {
-                // Only one pk field in the table, the INSERT statement would be
-                // INSERT INTO table VALUES ()
-                lp2 = lp1;
-                lp1 = insert.indexOf(" VALUES ");
-                // don't change the order of lines below,
-                // otherwise index becomes invalid
-                sb.insert(lp2 + 1, nextval);
-                sb.insert(lp1 + 1, "(" + _factory.quoteName(primKeyName) + ") ");
-            } else {
-                // don't change the order of lines below,
-                // otherwise index becomes invalid
-                sb.insert(lp2 + 1, nextval + ",");
-                sb.insert(lp1 + 1, _factory.quoteName(primKeyName) + ",");
-            }
-        }
-
-        // append 'RETURNING primKeyName INTO ?'
-        sb.append(" RETURNING ");
-        sb.append(_factory.quoteName(primKeyName));
-        sb.append(" INTO ?");
-        
-        return sb.toString();
-    }
-    
-    /**
      * {@inheritDoc}
      */
     public KeyGenerator buildStatement(final SQLEngine engine) {
@@ -294,15 +217,7 @@ public final class SequenceDuringKeyGenerator extends AbstractDuringKeyGenerator
         _engineType = clsDesc.getJavaClass().getName();
         _mapTo = new ClassDescriptorJDONature(clsDesc).getTableName();
         
-        StringBuffer insert = new StringBuffer();
-        insert.append("INSERT INTO ");
-        insert.append(_factory.quoteName(_mapTo));
-        insert.append(" (");
-        
-        StringBuffer values = new StringBuffer();
-        values.append(" VALUES (");
-        
-        int count = 0;
+        Insert insert = new Insert(_mapTo);
 
         // is it right to omit all identities in this case?
         // maybe we should support to define a separat keygen
@@ -314,57 +229,21 @@ public final class SequenceDuringKeyGenerator extends AbstractDuringKeyGenerator
             if (fields[i].isStore()) {
                 SQLColumnInfo[] columns = fields[i].getColumnInfo();
                 for (int j = 0; j < columns.length; j++) {
-                    if (count > 0) {
-                        insert.append(',');
-                        values.append(',');
-                    }
-                    insert.append(_factory.quoteName(columns[j].getName()));
-                    values.append('?');
-                    ++count;
+                    insert.addInsert(columns[j].getName());
+                   
                 }
             }
         }
-        
-        // it is possible to have no fields in INSERT statement
-        if (count == 0) {
-            // is it neccessary to omit "()" after table name in case
-            // the table holds only identities? maybe this depends on
-            // the database engine.
-            
-            // cut " ("
-            insert.setLength(insert.length() - 2);
-        } else {
-            insert.append(')');
+        SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
+        //_statement = this.patchSQL(_statement, ids[0].getName());
+        if (!_triggerPresent) {
+            insert.addSequence(_seqName, ids[0].getName());
         }
-        values.append(')');
         
-        _statement = insert.append(values).toString();
-        
-        try {
-            SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
-            _statement = this.patchSQL(_statement, ids[0].getName());
-            _statement = "{call " + _statement + "}";
-        } catch (MappingException except)  {
-            LOG.fatal(except);
-            
-            // proceed without this stupid key generator
-            FieldDescriptor fldDesc = _engine.getDescriptor().getIdentity();
-            int[] sqlTypes = new FieldDescriptorJDONature(fldDesc).getSQLType();
-            int sqlType = (sqlTypes == null) ? 0 : sqlTypes[0]; 
-            try {
-                NoKeyGeneratorFactory noKeyGenFac = new NoKeyGeneratorFactory();
-                
-                KeyGenerator keyGen = noKeyGenFac.getKeyGenerator(_factory, null, sqlType); 
-                keyGen.buildStatement(_engine);
-                
-                return keyGen;
-            } catch (MappingException ex) {
-                LOG.fatal(ex);
-            }
-        }     
-
+        insert.toString(_ctx);  
+   
         if (LOG.isTraceEnabled()) {
-            LOG.trace(Messages.format("jdo.creating", _engineType, _statement));
+            LOG.trace(Messages.format("jdo.creating", _engineType, _ctx.toString()));
         }
         return this;
     }
@@ -390,27 +269,32 @@ public final class SequenceDuringKeyGenerator extends AbstractDuringKeyGenerator
                 }
             }
             
-            stmt = conn.prepareCall(_statement);
+            String statement;
+            SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
+            
+            statement = _ctx.toString();
+            statement += " RETURNING ";
+            statement += _factory.quoteName(ids[0].getName());
+            statement += " INTO ?";    
+            statement = "{call " + statement + "}";
+            
+            stmt = conn.prepareCall(statement);
              
             if (LOG.isTraceEnabled()) {
                 LOG.trace(Messages.format("jdo.creating", _engineType, stmt.toString()));
             }
-            
-            // must remember that SQL column index is base one.
-            int count = 1;
-            count = bindFields(entity, stmt, count);
 
+            bindFields(entity, stmt);
+            
             if (LOG.isTraceEnabled()) {
                 LOG.trace(Messages.format("jdo.creating", _engineType, stmt.toString()));
             }
-
-            SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
 
             // generate key during INSERT.
             CallableStatement cstmt = (CallableStatement) stmt;
 
             int sqlType = ids[0].getSqlType();
-            cstmt.registerOutParameter(count, sqlType);
+            cstmt.registerOutParameter(_ctx.parameterSize() + 1, sqlType);
             
             if (LOG.isDebugEnabled()) {
                 LOG.debug(Messages.format("jdo.creating", _engineType, cstmt.toString()));
@@ -428,9 +312,9 @@ public final class SequenceDuringKeyGenerator extends AbstractDuringKeyGenerator
             // workaround for INTEGER type in Oracle getObject returns BigDecimal.
             Object temp;
             if (sqlType == java.sql.Types.INTEGER) {
-                temp = new Integer(cstmt.getInt(count));
+                temp = new Integer(cstmt.getInt(_ctx.parameterSize() + 1));
             } else {
-                temp = cstmt.getObject(count);
+                temp = cstmt.getObject(_ctx.parameterSize() + 1);
             }
             internalIdentity = new Identity(ids[0].toJava(temp));
 
@@ -438,7 +322,7 @@ public final class SequenceDuringKeyGenerator extends AbstractDuringKeyGenerator
 
             return internalIdentity;
         } catch (SQLException except) {
-            LOG.fatal(Messages.format("jdo.storeFatal",  _engineType,  _statement), except);
+            LOG.fatal(Messages.format("jdo.storeFatal",  _engineType,  _ctx.toString()), except);
 
             Boolean isDupKey = _factory.isDuplicateKeyException(except);
             if (Boolean.TRUE.equals(isDupKey)) {
@@ -466,20 +350,18 @@ public final class SequenceDuringKeyGenerator extends AbstractDuringKeyGenerator
             throw new PersistenceException(Messages.format("persist.nested", except), except);
         }
     }
-
+    
     /**
      * Binds parameters values to the PreparedStatement.
      * 
-     * @param entity
+     * @param entity Entity instance from which field values to be fetached to
+     *               bind with sql insert statement.
      * @param stmt PreparedStatement object containing sql staatement.
-     * @param count Offset.
-     * @return final Offset
      * @throws SQLException If a database access error occurs.
      * @throws PersistenceException If identity size mismatches.
      */
-    private int bindFields(final ProposedEntity entity, final PreparedStatement stmt,
-            final int count) throws SQLException, PersistenceException {
-        int internalCount = count;
+    private void bindFields(final ProposedEntity entity, final PreparedStatement stmt
+            ) throws SQLException, PersistenceException {
         SQLFieldInfo[] fields = _engine.getInfo();
         for (int i = 0; i < fields.length; ++i) {
             SQLColumnInfo[] columns = fields[i].getColumnInfo();
@@ -487,7 +369,8 @@ public final class SequenceDuringKeyGenerator extends AbstractDuringKeyGenerator
                 Object value = entity.getField(i);
                 if (value == null) {
                     for (int j = 0; j < columns.length; j++) {
-                        stmt.setNull(internalCount++, columns[j].getSqlType());
+                        _ctx.bindParameter(stmt, columns[j].getName(), null, 
+                                columns[j].getSqlType());
                     }
                 } else if (value instanceof Identity) {
                     Identity identity = (Identity) value;
@@ -495,19 +378,18 @@ public final class SequenceDuringKeyGenerator extends AbstractDuringKeyGenerator
                         throw new PersistenceException("Size of identity field mismatch!");
                     }
                     for (int j = 0; j < columns.length; j++) {
-                        SQLTypeInfos.setValue(stmt, internalCount++,
+                        _ctx.bindParameter(stmt, columns[j].getName(), 
                                 columns[j].toSQL(identity.get(j)), columns[j].getSqlType());
                     }
                 } else {
                     if (columns.length != 1) {
                         throw new PersistenceException("Complex field expected!");
                     }
-                    SQLTypeInfos.setValue(stmt, internalCount++, columns[0].toSQL(value),
+                    _ctx.bindParameter(stmt, columns[0].getName(), columns[0].toSQL(value), 
                             columns[0].getSqlType());
                 }
             }
         }
-        return internalCount;
     }
     
     //-----------------------------------------------------------------------------------
