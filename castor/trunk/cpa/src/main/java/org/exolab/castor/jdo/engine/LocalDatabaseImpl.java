@@ -70,8 +70,6 @@ public class LocalDatabaseImpl extends AbstractDatabaseImpl {
         _ctx.setCallback(_callback);
         _ctx.setInstanceFactory(_instanceFactory);
         _classLoader = classLoader;
-        
-        loadSynchronizables();
     }
 
     /**

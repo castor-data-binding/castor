@@ -91,6 +91,27 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
 </class>]]></code-panel>
             </summary>
             <bugs>
+                <bug id="2801" tool="jira">
+                    <description>
+                        Castor does not care on registered TxSynchronizable implementations
+                        when using global transaction demarcation.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20090804</date>
+                </bug>
                 <bug id="2791" tool="jira">
                     <description>
                         Move buildStatement from SQLStatementCreate to Key Generators.
