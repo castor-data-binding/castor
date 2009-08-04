@@ -157,13 +157,6 @@ public final class MaxKeyGenerator extends AbstractBeforeKeyGenerator {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public String patchSQL(final String insert, final String primKeyName) {
-        return insert;
-    }
-
     //-----------------------------------------------------------------------------------
 }
 

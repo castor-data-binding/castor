@@ -141,8 +141,7 @@ public final class SequenceBeforeKeyGenerator extends AbstractBeforeKeyGenerator
     
     /**
      * Initialize the SEQUENCE key generator for BEFORE_INSERT style 
-     * {@link #generateKey} is called before INSERT. {@link #patchSQL} may be 
-     * used but usually doesn't.
+     * {@link #generateKey} is called before INSERT. 
      * 
      * @param factory A PersistenceFactory instance.
      * @param params
@@ -227,14 +226,5 @@ public final class SequenceBeforeKeyGenerator extends AbstractBeforeKeyGenerator
         return true;
     }
     
-    /**
-     * Gives a possibility to patch the Castor-generated SQL statement
-     * for INSERT (makes sense for DURING_INSERT key generators).
-     */
-    public String patchSQL(final String insert, final String primKeyName)
-    throws MappingException {
-        return insert;
-    }    
-
     //-----------------------------------------------------------------------------------
 }

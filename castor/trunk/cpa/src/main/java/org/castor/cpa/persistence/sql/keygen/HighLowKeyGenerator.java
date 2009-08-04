@@ -277,12 +277,5 @@ public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
         return _sameConnection;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public String patchSQL(final String insert, final String primKeyName) {
-        return insert;
-    }
-
     //-----------------------------------------------------------------------------------
 }

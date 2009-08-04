@@ -46,6 +46,8 @@ import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
 import org.castor.cpa.CPAProperties;
 import org.castor.cpa.persistence.sql.engine.SQLStatementInsertCheck;
+import org.castor.cpa.persistence.sql.query.Insert;
+import org.castor.cpa.persistence.sql.query.QueryContext;
 import org.castor.jdo.engine.DatabaseContext;
 import org.castor.jdo.engine.DatabaseRegistry;
 import org.castor.jdo.engine.SQLTypeInfos;
@@ -84,12 +86,18 @@ public abstract class AbstractAfterKeyGenerator implements KeyGenerator {
      *  should be used. */
     private final boolean _useJDBC30;
     
-    /** An sql statement. */
-    private String _statement;
-    
     /** Name of the Table extracted from Class descriptor. */
     private String _mapTo;
-
+    
+    /** QueryContext for SQL query building, specifying database specific quotations 
+     *  and parameters binding. */
+    private final QueryContext _ctx;
+    
+    /** Use a database trigger to generate key. */
+    private boolean _triggerPresent;
+    
+    /** Name of the Sequence. */
+    private String _seqName;
 
     /**
      * Constructor.
@@ -97,10 +105,16 @@ public abstract class AbstractAfterKeyGenerator implements KeyGenerator {
      * @param factory  Persistence factory for the database engine the entity is persisted in.
      *  Used to format the SQL statement
      */
-    public AbstractAfterKeyGenerator(final PersistenceFactory factory) {
+    public AbstractAfterKeyGenerator(final PersistenceFactory factory, final Properties params) {
         _factory = factory;
+        _ctx = new QueryContext(_factory);
         AbstractProperties properties = CPAProperties.getInstance();
         _useJDBC30 = properties.getBoolean(CPAProperties.USE_JDBC30, false);
+        
+        if (params != null) {
+            _triggerPresent = "true".equals(params.getProperty("trigger", "false"));
+            _seqName = params.getProperty("sequence", "{0}_seq");
+        }
     }
     
     /**
@@ -118,17 +132,8 @@ public abstract class AbstractAfterKeyGenerator implements KeyGenerator {
         ClassDescriptor clsDesc = _engine.getDescriptor();
         _engineType = clsDesc.getJavaClass().getName();
         _mapTo = new ClassDescriptorJDONature(clsDesc).getTableName();
+        Insert insert = new Insert(_mapTo);
         
-        StringBuffer insert = new StringBuffer();
-        insert.append("INSERT INTO ");
-        insert.append(_factory.quoteName(_mapTo));
-        insert.append(" (");
-        
-        StringBuffer values = new StringBuffer();
-        values.append(" VALUES (");
-        
-        int count = 0;
-
         // is it right to omit all identities in this case?
         // maybe we should support to define a separat keygen
         // for every identity or complex/custom keygen that
@@ -139,55 +144,19 @@ public abstract class AbstractAfterKeyGenerator implements KeyGenerator {
             if (fields[i].isStore()) {
                 SQLColumnInfo[] columns = fields[i].getColumnInfo();
                 for (int j = 0; j < columns.length; j++) {
-                    if (count > 0) {
-                        insert.append(',');
-                        values.append(',');
-                    }
-                    insert.append(_factory.quoteName(columns[j].getName()));
-                    values.append('?');
-                    ++count;
+                    insert.addInsert(columns[j].getName());
                 }
             }
+        }    
+
+        SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
+        if (_seqName != null && !_triggerPresent) {
+            insert.addSequence(_seqName, ids[0].getName());
         }
-        
-        // it is possible to have no fields in INSERT statement
-        if (count == 0) {
-            // is it neccessary to omit "()" after table name in case
-            // the table holds only identities? maybe this depends on
-            // the database engine.
-            
-            // cut " ("
-            insert.setLength(insert.length() - 2);
-        } else {
-            insert.append(')');
-        }
-        values.append(')');
-        
-        _statement = insert.append(values).toString();
-        
-        try {
-            SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
-            _statement = this.patchSQL(_statement, ids[0].getName());
-        } catch (MappingException except)  {
-            LOG.fatal(except);
-            
-            // proceed without this stupid key generator
-            FieldDescriptor fldDesc = _engine.getDescriptor().getIdentity();
-            int[] sqlTypes = new FieldDescriptorJDONature(fldDesc).getSQLType();
-            int sqlType = (sqlTypes == null) ? 0 : sqlTypes[0]; 
-            try {
-                NoKeyGeneratorFactory noKeyGenFac = new NoKeyGeneratorFactory();
-                
-                KeyGenerator keyGen = noKeyGenFac.getKeyGenerator(_factory, null, sqlType); 
-                keyGen.buildStatement(_engine);
-                return keyGen;
-            } catch (MappingException ex) {
-                LOG.fatal(ex);
-            }
-        }
-      
+        insert.toString(_ctx);
+
         if (LOG.isTraceEnabled()) {
-            LOG.trace(Messages.format("jdo.creating", _engineType, _statement));
+            LOG.trace(Messages.format("jdo.creating", _engineType, _ctx.toString()));
         }
         
         return this;
@@ -216,25 +185,23 @@ public abstract class AbstractAfterKeyGenerator implements KeyGenerator {
             
             if ((internalIdentity == null) && _useJDBC30) {
                 Field field = Statement.class.getField("RETURN_GENERATED_KEYS");
-                Integer rgk = (Integer) field.get(_statement);
+                Integer rgk = (Integer) field.get(_ctx.toString());
                 
                 Class[] types = new Class[] {String.class, int.class};
-                Object[] args = new Object[] {_statement, rgk};
+                Object[] args = new Object[] {_ctx.toString(), rgk};
                 Method method = Connection.class.getMethod("prepareStatement", types);
                 stmt = (PreparedStatement) method.invoke(conn, args);
                     
                 // stmt = conn.prepareStatement(_statement, Statement.RETURN_GENERATED_KEYS);
             } else {
-                stmt = conn.prepareStatement(_statement);
+                stmt = conn.prepareStatement(_ctx.toString());
             }
              
             if (LOG.isTraceEnabled()) {
                 LOG.trace(Messages.format("jdo.creating", _engineType, stmt.toString()));
             }
-            
-            // must remember that SQL column index is base one.
-            int count = 1;
-            count = bindFields(entity, stmt, count);
+
+            bindFields(entity, stmt);
 
             if (LOG.isDebugEnabled()) {
                 LOG.debug(Messages.format("jdo.creating", _engineType, stmt.toString()));
@@ -282,7 +249,7 @@ public abstract class AbstractAfterKeyGenerator implements KeyGenerator {
 
             return internalIdentity;
         } catch (SQLException except) {
-            LOG.fatal(Messages.format("jdo.storeFatal",  _engineType,  _statement), except);
+            LOG.fatal(Messages.format("jdo.storeFatal",  _engineType,  _ctx.toString()), except);
 
             Boolean isDupKey = _factory.isDuplicateKeyException(except);
             if (Boolean.TRUE.equals(isDupKey)) {
@@ -322,16 +289,14 @@ public abstract class AbstractAfterKeyGenerator implements KeyGenerator {
     /**
      * Binds parameters values to the PreparedStatement.
      * 
-     * @param entity
+     * @param entity Entity instance from which field values to be fetached to
+     *               bind with sql insert statement.
      * @param stmt PreparedStatement object containing sql staatement.
-     * @param count Offset.
-     * @return final Offset
      * @throws SQLException If a database access error occurs.
      * @throws PersistenceException If identity size mismatches.
      */
-    private int bindFields(final ProposedEntity entity, final PreparedStatement stmt,
-            final int count) throws SQLException, PersistenceException {
-        int internalCount = count;
+    private void bindFields(final ProposedEntity entity, final PreparedStatement stmt
+            ) throws SQLException, PersistenceException {
         SQLFieldInfo[] fields = _engine.getInfo();
         for (int i = 0; i < fields.length; ++i) {
             SQLColumnInfo[] columns = fields[i].getColumnInfo();
@@ -339,7 +304,8 @@ public abstract class AbstractAfterKeyGenerator implements KeyGenerator {
                 Object value = entity.getField(i);
                 if (value == null) {
                     for (int j = 0; j < columns.length; j++) {
-                        stmt.setNull(internalCount++, columns[j].getSqlType());
+                        _ctx.bindParameter(stmt, columns[j].getName(), null, 
+                                columns[j].getSqlType());
                     }
                 } else if (value instanceof Identity) {
                     Identity identity = (Identity) value;
@@ -347,21 +313,20 @@ public abstract class AbstractAfterKeyGenerator implements KeyGenerator {
                         throw new PersistenceException("Size of identity field mismatch!");
                     }
                     for (int j = 0; j < columns.length; j++) {
-                        SQLTypeInfos.setValue(stmt, internalCount++,
+                        _ctx.bindParameter(stmt, columns[j].getName(), 
                                 columns[j].toSQL(identity.get(j)), columns[j].getSqlType());
                     }
                 } else {
                     if (columns.length != 1) {
                         throw new PersistenceException("Complex field expected!");
                     }
-                    SQLTypeInfos.setValue(stmt, internalCount++, columns[0].toSQL(value),
+                    _ctx.bindParameter(stmt, columns[0].getName(), columns[0].toSQL(value), 
                             columns[0].getSqlType());
                 }
             }
         }
-        return internalCount;
     }
-
+    
     /**
      * Generates the key.
      * 

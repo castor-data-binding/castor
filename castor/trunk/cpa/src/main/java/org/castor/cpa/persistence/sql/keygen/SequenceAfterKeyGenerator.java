@@ -22,7 +22,6 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.text.MessageFormat;
 import java.util.Properties;
-import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -112,8 +111,7 @@ public final class SequenceAfterKeyGenerator extends AbstractAfterKeyGenerator {
     
     /**
      * Initialize the SEQUENCE key generator for AFTER_INSERT style 
-     * {@link #generateKey} is called after INSERT. {@link #patchSQL} 
-     * may be used but usually doesn't.   
+     * {@link #generateKey} is called after INSERT.
      * 
      * @param factory A PersistenceFactory instance.
      * @param params
@@ -123,7 +121,7 @@ public final class SequenceAfterKeyGenerator extends AbstractAfterKeyGenerator {
      */
     public SequenceAfterKeyGenerator(final PersistenceFactory factory, final Properties params,
             final int sqlType) throws MappingException {   
-        super(factory);
+        super(factory, params);
         
         _factory = factory;        
         _triggerPresent = "true".equals(params.getProperty("trigger", "false"));
@@ -189,80 +187,6 @@ public final class SequenceAfterKeyGenerator extends AbstractAfterKeyGenerator {
      */
     public boolean isInSameConnection() {
         return true;
-    }
-    
-    /**
-     * Gives a possibility to patch the Castor-generated SQL statement
-     * for INSERT (makes sense for DURING_INSERT key generators).
-     */
-    public String patchSQL(final String insert, final String primKeyName)
-    throws MappingException {
-        StringTokenizer st;
-        String tableName;
-        String seqName;
-        String nextval;
-        StringBuffer sb;
-        int lp1;  // the first left parenthesis, which starts fields list
-        int lp2;  // the second left parenthesis, which starts values list
-
-        // First find the table name
-        st = new StringTokenizer(insert);
-        if (!st.hasMoreTokens() || !st.nextToken().equalsIgnoreCase("INSERT")) {
-            throw new MappingException(Messages.format("mapping.keyGenCannotParse", insert));
-        }
-        if (!st.hasMoreTokens() || !st.nextToken().equalsIgnoreCase("INTO")) {
-            throw new MappingException(Messages.format("mapping.keyGenCannotParse", insert));
-        }
-        if (!st.hasMoreTokens()) {
-            throw new MappingException(Messages.format("mapping.keyGenCannotParse", insert));
-        }
-        tableName = st.nextToken();
-
-        // remove every double quote in the tablename
-        int idxQuote = tableName.indexOf('"');
-        if (idxQuote >= 0) {
-            StringBuffer buffer2 = new StringBuffer();
-            int pos = 0;
-
-            do {
-                buffer2.append(tableName.substring(pos, idxQuote));
-                pos = idxQuote + 1;
-                idxQuote = tableName.indexOf('"', pos);
-            } while (idxQuote != -1);
-
-            buffer2.append(tableName.substring(pos));
-
-            tableName = buffer2.toString();
-        }
-
-        // due to varargs in 1.5, see CASTOR-1097
-        seqName = MessageFormat.format(_seqName, new Object[] {tableName, primKeyName});
-        nextval = _factory.quoteName(seqName + ".nextval");
-        lp1 = insert.indexOf('(');
-        lp2 = insert.indexOf('(', lp1 + 1);
-        if (lp1 < 0) {
-            throw new MappingException(Messages.format("mapping.keyGenCannotParse", insert));
-        }
-        sb = new StringBuffer(insert);
-        // if no onInsert triggers in the DB, we have to supply the Key values manually
-        if (!_triggerPresent) {
-           if (lp2 < 0) {
-                // Only one pk field in the table, the INSERT statement would be
-                // INSERT INTO table VALUES ()
-                lp2 = lp1;
-                lp1 = insert.indexOf(" VALUES ");
-                // don't change the order of lines below,
-                // otherwise index becomes invalid
-                sb.insert(lp2 + 1, nextval);
-                sb.insert(lp1 + 1, "(" + _factory.quoteName(primKeyName) + ") ");
-            } else {
-                // don't change the order of lines below,
-                // otherwise index becomes invalid
-                sb.insert(lp2 + 1, nextval + ",");
-                sb.insert(lp1 + 1, _factory.quoteName(primKeyName) + ",");
-            }
-        }
-        return sb.toString();
     }
     
     //-----------------------------------------------------------------------------------

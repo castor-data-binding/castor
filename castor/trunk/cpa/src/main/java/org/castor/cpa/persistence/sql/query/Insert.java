@@ -15,6 +15,7 @@
  */
 package org.castor.cpa.persistence.sql.query;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -40,6 +41,12 @@ public final class Insert extends QueryObject {
     
     /** Parameter values needs to be inserted. */
     private List<Expression> _values;
+    
+    /** Sequence expression of the form SEQUENCENAME.nextval. */
+    private String _seqExpression;
+    
+    /** ID of the table. */
+    private String _primKeyName;
     
     //-----------------------------------------------------------------------------------    
 
@@ -87,6 +94,27 @@ public final class Insert extends QueryObject {
         addInsert(new Column(new Table(qualifier), name), new Parameter(name));
     }
     
+    /**
+     * Appends sequence to the insert statement.
+     * 
+     * @param seqName Name of the sequence.
+     * @param primKeyName ID of the Table.
+     */
+    public void addSequence(final String seqName, final String primKeyName) {
+        _primKeyName = primKeyName;
+        _seqExpression = MessageFormat.format(seqName, 
+                new Object[] {this._qualifier.name(), _primKeyName});
+        _seqExpression += ".nextval";    
+    }
+    
+    /**
+     * 
+     * @return {code}true{code} If sequence has been added to this instance 
+     * of insert hierarchy.
+     */
+    public boolean hasSequence() {
+        return !(_seqExpression == null);
+    }
     //-----------------------------------------------------------------------------------    
     
     @Override
@@ -98,8 +126,20 @@ public final class Insert extends QueryObject {
         
         _qualifier.toString(ctx);
         
-        ctx.append(QueryConstants.LPAREN);
+        if (hasSequence()) {
+            ctx.append(QueryConstants.LPAREN);
+            ctx.append(ctx.quoteName(_primKeyName));
+            if (_fields != null) {
+                ctx.append(QueryConstants.SEPERATOR);
+                ctx.append(QueryConstants.SPACE);
+            }
+        }
+        
         if (_fields != null) {
+            if (!hasSequence()) {
+                ctx.append(QueryConstants.LPAREN);
+            }
+            
             for (Iterator<Expression> iter = _fields.iterator(); iter.hasNext(); ) {
                 iter.next().toString(ctx);
                 if (iter.hasNext()) {
@@ -108,11 +148,23 @@ public final class Insert extends QueryObject {
                 }
             }
         }
-        ctx.append(QueryConstants.RPAREN);
+        
+        if (hasSequence() || _fields != null) {
+            ctx.append(QueryConstants.RPAREN); 
+        }
         
         ctx.append(QueryConstants.SPACE);
         ctx.append(QueryConstants.VALUES);
-        ctx.append(QueryConstants.LPAREN);        
+        ctx.append(QueryConstants.LPAREN);   
+        
+        if (hasSequence()) {
+            ctx.append(ctx.quoteName(_seqExpression));
+            if (_values != null) {
+                ctx.append(QueryConstants.SEPERATOR);
+                ctx.append(QueryConstants.SPACE);
+            }
+        }
+        
         if (_values != null) {
             for (Iterator<Expression> iter = _values.iterator(); iter.hasNext(); ) {
                 iter.next().toString(ctx);
