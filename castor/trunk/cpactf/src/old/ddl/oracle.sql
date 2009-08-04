@@ -23,19 +23,6 @@ create unique index tc0x_race_pk on tc0x_race ( id );
 
 -- UNDEFINED TESTS
 
--- tc7x_table
-drop table   tc7x_table;
-
-create table tc7x_table (
-  id      int           not null,
-  value1  varchar(200)  not null,
-  value2  varchar(200)
-);
-
-create unique index tc7x_table_pk on tc7x_table ( id );
-
--- grant all on tc7x_table to test;
-
 -- test many to many
 
 -- test multiple pk
@@ -284,43 +271,6 @@ create table tc8x_nton_b (
   status     int              not null
 );
 -- grant all on tc8x_nton_b to test;
-
-
-drop table tc7x_master cascade constraints;
-drop table tc7x_depend1 cascade constraints;
-drop table tc7x_depend2 cascade constraints;
-
-create table tc7x_depend1(
-  id int not null,
-  constraint pk_depend1 primary key (id)
-);
-
--- grant all on tc7x_depend1 to test;
-
-create table tc7x_master(
-  depend1_id int,
-  id int not null,
-  constraint pk_master primary key (id)
-);
-
--- grant all on tc7x_master to test;
-
-
-create table tc7x_depend2(
-  master_id int,
-  id int not null,
-  constraint pk_depend2 primary key (id)
-);
-
--- grant all on tc7x_depend2 to test;
-
-alter table tc7x_master
-    add constraint fk_master_depend1
-    foreign key (depend1_id) references tc7x_depend1(id);
-
-alter table tc7x_depend2
-    add constraint fk_depend2_master
-    foreign key (master_id) references tc7x_master(id);
 
 drop sequence tc8x_circbrother_seq;
 drop sequence tc8x_circsister_seq;

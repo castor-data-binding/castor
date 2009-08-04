@@ -27,20 +27,6 @@ go
 
 -- UNDEFINED TESTS
 
--- tc7x_table
-drop table tc7x_table
-go
-create table tc7x_table (
-  id      int          not null,
-  value1  varchar(200) not null,
-  value2  varchar(200) null
-)
-go
-create unique index tc7x_table_pk on tc7x_table ( id )
-go
-grant all on tc7x_table to test
-go
-
 -- test multiple pk
 drop table tc8x_pks_person
 go
