@@ -18,9 +18,6 @@
     <!-- <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/> -->
     <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
     <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/>
-    <case id="TC87" class="ctf.jdo.tc8x.TestLazy1to1"/>
-    <case id="TC88" class="ctf.jdo.tc8x.TestLazyLoading"/>
-    <!-- <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/> -->
 
     <!-- tc9x -->
     <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
@@ -59,9 +56,6 @@
     <!-- <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/> -->
     <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
     <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
-    <!-- <case id="TC87" class="ctf.jdo.tc8x.TestLazy1to1"/> -->
-    <!-- <case id="TC88" class="ctf.jdo.tc8x.TestLazyLoading"/> -->
-    <!-- <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/> -->
 
     <!-- tc9x -->
     <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
@@ -98,9 +92,6 @@
     <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
     <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
     <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
-    <!-- <case id="TC87" class="ctf.jdo.tc8x.TestLazy1to1"/> -->
-    <case id="TC88" class="ctf.jdo.tc8x.TestLazyLoading"/>
-    <!-- <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/> -->
 
     <!-- tc9x -->
     <!-- <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/> -->
@@ -138,9 +129,6 @@
     <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/>
     <!-- TC86 depends on SEQUENCE key generator -->
     <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
-    <case id="TC87" class="ctf.jdo.tc8x.TestLazy1to1"/>
-    <case id="TC88" class="ctf.jdo.tc8x.TestLazyLoading"/>
-    <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/>
 
     <!-- tc9x -->
     <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
@@ -177,9 +165,6 @@
     <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
     <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
     <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/>
-    <case id="TC87" class="ctf.jdo.tc8x.TestLazy1to1"/>
-    <case id="TC88" class="ctf.jdo.tc8x.TestLazyLoading"/>
-    <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/>
 
     <!-- tc9x -->
     <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
@@ -216,9 +201,6 @@
     <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
     <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/>
     <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
-    <!-- <case id="TC87" class="ctf.jdo.tc8x.TestLazy1to1"/> -->
-    <case id="TC88" class="ctf.jdo.tc8x.TestLazyLoading"/>
-    <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/>
 
     <!-- tc9x -->
     <!-- <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/> -->
@@ -255,9 +237,6 @@
     <!-- <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/> -->
     <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/>
     <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
-    <!-- <case id="TC87" class="ctf.jdo.tc8x.TestLazy1to1"/> -->
-    <case id="TC88" class="ctf.jdo.tc8x.TestLazyLoading"/>
-    <!-- <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/> -->
 
     <!-- tc9x -->
     <!-- <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/> -->
@@ -294,9 +273,6 @@
     <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
     <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
     <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
-    <!-- <case id="TC87" class="ctf.jdo.tc8x.TestLazy1to1"/> -->
-    <case id="TC88" class="ctf.jdo.tc8x.TestLazyLoading"/>
-    <!-- <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/> -->
 
     <!-- tc9x -->
     <!-- <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/> -->
@@ -333,9 +309,6 @@
     <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
     <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/>
     <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
-    <case id="TC87" class="ctf.jdo.tc8x.TestLazy1to1"/>
-    <case id="TC88" class="ctf.jdo.tc8x.TestLazyLoading"/>
-    <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/>
 
     <!-- tc9x -->
     <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
@@ -372,9 +345,6 @@
     <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
     <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/>
     <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
-    <case id="TC87" class="ctf.jdo.tc8x.TestLazy1to1"/>
-    <case id="TC88" class="ctf.jdo.tc8x.TestLazyLoading"/>
-    <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/>
 
     <!-- tc9x -->
     <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
@@ -410,9 +380,6 @@
     <!-- <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/> -->
     <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
     <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/>
-    <case id="TC87" class="ctf.jdo.tc8x.TestLazy1to1"/>
-    <case id="TC88" class="ctf.jdo.tc8x.TestLazyLoading"/>
-    <!-- <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/> -->
 
     <!-- tc9x -->
     <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>

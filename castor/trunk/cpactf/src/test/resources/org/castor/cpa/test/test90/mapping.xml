@@ -1,0 +1,59 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.exolab.org/mapping.dtd">
+<mapping>
+<class name="org.castor.cpa.test.test90.Lazy1to1Parent" identity="id">
+        <map-to table="test90_lazy_11_par" />
+        <field name="id" type="integer" >
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="description" type="string" required="true">
+            <sql name="descr" type="varchar"/>
+        </field>
+        <field name="child" type="org.castor.cpa.test.test90.Lazy1to1Child" lazy="true">
+            <sql name="child_id" />
+        </field>
+    </class>
+  
+    <class name="org.castor.cpa.test.test90.Lazy1to1Child" identity="id" >
+        <map-to table="test90_lazy_11_chd" />
+        <field name="id" type="integer" >
+            <sql name="id" type="integer" />
+        </field>
+        <field name="description" type="string">
+            <sql name="descr" type="varchar" />
+        </field>
+    </class>
+  
+    <class name="org.castor.cpa.test.test90.Lazy1to1Author" identity="id">
+        <cache-type type="unlimited" capacity="0"/>
+        <map-to table="test90_lazy_11_author"/>
+        <field name="id" type="long">
+            <sql name="ID" type="bigint"/>
+        </field>
+        <field name="firstName" type="string" required="true">
+            <sql name="FIRST_NAME" type="varchar"/>
+        </field>
+        <field name="lastName" type="string" required="true">
+            <sql name="LAST_NAME" type="varchar"/>
+        </field>
+        <field name="books" type="org.castor.cpa.test.test90.Lazy1to1Book" lazy="true" collection="collection">
+            <sql many-key="ID"/>
+        </field>
+    </class>
+	
+    <class name="org.castor.cpa.test.test90.Lazy1to1Book" identity="id">
+        <cache-type type="unlimited" capacity="0"/>
+        <map-to table="test90_lazy_11_book"/>
+        <field name="id" type="long">
+            <sql name="ID" type="bigint"/>
+        </field>
+        <field name="name" type="string" required="true">
+            <sql name="NAME" type="varchar"/>
+        </field>
+        <field name="author" type="org.castor.cpa.test.test90.Lazy1to1Author" required="true" lazy="true">
+            <sql name="AUTHOR_ID"/>
+        </field>
+    </class>
+</mapping>
+
