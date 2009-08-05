@@ -122,7 +122,7 @@
 
       <p>
         The last requirement for contributing code is to create a Jira
-        <a href="http://jira.codeahus.org/browse/CASTOR">issue</a> and to attach
+        <a href="http://jira.codehaus.org/browse/CASTOR">issue</a> and to attach
         your patch (in from of a unified diff) to this issue.  A Jira issue
         allows your request to be fully traceable, as well as describing and
         documenting your request.
