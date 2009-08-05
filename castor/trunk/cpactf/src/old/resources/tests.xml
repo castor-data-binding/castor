@@ -14,11 +14,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc8x -->
-    <!-- <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/> -->
-    <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
-    <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/>
-
     <!-- tc9x -->
     <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
     <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>
@@ -52,11 +47,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc8x -->
-    <!-- <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/> -->
-    <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
-    <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
-
     <!-- tc9x -->
     <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
     <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>
@@ -87,11 +77,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc8x -->
-    <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
-    <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
-    <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
 
     <!-- tc9x -->
     <!-- <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/> -->
@@ -124,12 +109,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc8x -->
-    <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
-    <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/>
-    <!-- TC86 depends on SEQUENCE key generator -->
-    <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
-
     <!-- tc9x -->
     <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
     <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>
@@ -160,11 +139,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc8x -->
-    <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
-    <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
-    <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/>
 
     <!-- tc9x -->
     <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
@@ -197,11 +171,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc8x -->
-    <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
-    <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/>
-    <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
-
     <!-- tc9x -->
     <!-- <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/> -->
     <!-- <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/> -->
@@ -232,11 +201,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc8x -->
-    <!-- <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/> -->
-    <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/>
-    <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
 
     <!-- tc9x -->
     <!-- <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/> -->
@@ -269,11 +233,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc8x -->
-    <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
-    <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
-    <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
-
     <!-- tc9x -->
     <!-- <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/> -->
     <!-- <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/> -->
@@ -304,11 +263,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc8x -->
-    <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
-    <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/>
-    <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
 
     <!-- tc9x -->
     <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
@@ -341,11 +295,6 @@
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
 
-    <!-- tc8x -->
-    <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
-    <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/>
-    <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
-
     <!-- tc9x -->
     <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
     <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>
@@ -375,11 +324,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc8x -->
-    <!-- <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/> -->
-    <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
-    <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/>
 
     <!-- tc9x -->
     <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
