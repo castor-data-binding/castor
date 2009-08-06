@@ -262,7 +262,7 @@ public interface Database {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    Object load(final Class type, final Object identity) throws PersistenceException;
+    <T> T load(final Class<T> type, final Object identity) throws PersistenceException;
 
     /**
      * <p>
@@ -285,8 +285,8 @@ public interface Database {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    Object load(final Class type, final Object identity, final AccessMode mode)
-    throws PersistenceException;
+    <T> T load(final Class<T> type, final Object identity, final AccessMode mode)
+            throws PersistenceException;
 
     /**
      * <p>
@@ -312,8 +312,8 @@ public interface Database {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    Object load(final Class type, final Object identity, final Object object)
-    throws PersistenceException;
+    <T> T load(final Class<T> type, final Object identity, final Object object)
+            throws PersistenceException;
 
     /**
      * Creates a new object in persistent storage. The object will be

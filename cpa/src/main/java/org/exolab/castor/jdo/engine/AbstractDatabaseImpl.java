@@ -226,14 +226,14 @@ public abstract class AbstractDatabaseImpl implements Database {
     /**
      * {@inheritDoc}
      */
-    public Object load(final Class type, final Object identity) throws PersistenceException {
+    public <T> T load(final Class<T> type, final Object identity) throws PersistenceException {
         return load(type, identity, null, null);
     }
 
     /**
      * {@inheritDoc}
      */
-    public Object load(final Class type, final Object identity, final Object object)
+    public <T> T load(final Class<T> type, final Object identity, final Object object)
     throws PersistenceException {
         return load(type, identity, object, null);
     }
@@ -241,7 +241,7 @@ public abstract class AbstractDatabaseImpl implements Database {
     /**
      * {@inheritDoc}
      */
-    public Object load(final Class type, final Object identity, final AccessMode mode)
+    public <T> T load(final Class<T> type, final Object identity, final AccessMode mode)
     throws PersistenceException {
         return load(type, identity, null, mode);
     }
@@ -258,7 +258,8 @@ public abstract class AbstractDatabaseImpl implements Database {
      *         If the required access mode cannot be granted. If there's no active transaction
      *         in progress.
      */
-    private Object load(final Class type, final Object identity, final Object object,
+    @SuppressWarnings("unchecked")
+    private <T> T load(final Class<T> type, final Object identity, final Object object,
             final AccessMode mode) throws PersistenceException {
         if (identity == null) {
             throw new PersistenceException("Identities can't be null!");
@@ -273,7 +274,7 @@ public abstract class AbstractDatabaseImpl implements Database {
             proposedObject.setEntity(object);
             proposedObject.setProposedEntityClass(object.getClass());
         }
-        return tx.load(new Identity(identity), proposedObject, mode);
+        return (T) tx.load(new Identity(identity), proposedObject, mode);
     }
 
     /**
