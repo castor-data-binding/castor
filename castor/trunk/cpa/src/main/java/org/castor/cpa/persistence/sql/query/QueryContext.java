@@ -85,6 +85,17 @@ public class QueryContext {
         return _factory.quoteName(name);
     }
 
+    /**
+     * Returns the database engine specific string to fetch sequence next value.
+     * 
+     * @param seqName Name of the sequence.
+     * @return String to fetch sequence next value.
+     */
+    public String getSequenceNextValString(final String seqName) {
+        if (_factory == null) { return seqName + ".nextval"; }
+        return _factory.getSequenceNextValString(seqName);
+    }
+    
     //-----------------------------------------------------------------------------------    
 
     /**

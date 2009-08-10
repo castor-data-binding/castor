@@ -140,6 +140,11 @@ public final class OracleFactory extends GenericFactory {
         return false;
     }
     
+    @Override
+    public String getSequenceNextValString(final String seqName) {
+        return seqName + ".nextval";
+    }
+    
     //-----------------------------------------------------------------------------------
 }
 

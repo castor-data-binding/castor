@@ -15,13 +15,13 @@
  */
 package org.castor.cpa.persistence.sql.query;
 
-import java.text.MessageFormat;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.castor.cpa.persistence.sql.query.expression.Column;
 import org.castor.cpa.persistence.sql.query.expression.Parameter;
 import org.castor.cpa.persistence.sql.query.expression.Expression;
+import org.castor.cpa.persistence.sql.query.expression.NextVal;
 
 /**
  * Class to generate SQL Insert query statements. 
@@ -41,12 +41,6 @@ public final class Insert extends QueryObject {
     
     /** Parameter values needs to be inserted. */
     private List<Expression> _values;
-    
-    /** Sequence expression of the form SEQUENCENAME.nextval. */
-    private String _seqExpression;
-    
-    /** ID of the table. */
-    private String _primKeyName;
     
     //-----------------------------------------------------------------------------------    
 
@@ -87,34 +81,13 @@ public final class Insert extends QueryObject {
     /**
      * Appends a field representing a column to be inserted into the table. 
      * 
-     * @param qualifier Qualifier to be appended.
      * @param name Name of the column to be inserted.
-     */
-    public void addInsert(final String qualifier, final String name) {
-        addInsert(new Column(new Table(qualifier), name), new Parameter(name));
-    }
-    
-    /**
-     * Appends sequence to the insert statement.
-     * 
      * @param seqName Name of the sequence.
-     * @param primKeyName ID of the Table.
      */
-    public void addSequence(final String seqName, final String primKeyName) {
-        _primKeyName = primKeyName;
-        _seqExpression = MessageFormat.format(seqName, 
-                new Object[] {this._qualifier.name(), _primKeyName});
-        _seqExpression += ".nextval";    
+    public void addInsert(final String name, final String seqName) {
+        addInsert(new Column(name), new NextVal(seqName));
     }
     
-    /**
-     * 
-     * @return {code}true{code} If sequence has been added to this instance 
-     * of insert hierarchy.
-     */
-    public boolean hasSequence() {
-        return !(_seqExpression == null);
-    }
     //-----------------------------------------------------------------------------------    
     
     @Override
@@ -126,19 +99,8 @@ public final class Insert extends QueryObject {
         
         _qualifier.toString(ctx);
         
-        if (hasSequence()) {
-            ctx.append(QueryConstants.LPAREN);
-            ctx.append(ctx.quoteName(_primKeyName));
-            if (_fields != null) {
-                ctx.append(QueryConstants.SEPERATOR);
-                ctx.append(QueryConstants.SPACE);
-            }
-        }
-        
         if (_fields != null) {
-            if (!hasSequence()) {
-                ctx.append(QueryConstants.LPAREN);
-            }
+            ctx.append(QueryConstants.LPAREN);
             
             for (Iterator<Expression> iter = _fields.iterator(); iter.hasNext(); ) {
                 iter.next().toString(ctx);
@@ -147,25 +109,16 @@ public final class Insert extends QueryObject {
                     ctx.append(QueryConstants.SPACE);
                 }
             }
-        }
-        
-        if (hasSequence() || _fields != null) {
+
             ctx.append(QueryConstants.RPAREN); 
         }
         
         ctx.append(QueryConstants.SPACE);
         ctx.append(QueryConstants.VALUES);
-        ctx.append(QueryConstants.LPAREN);   
-        
-        if (hasSequence()) {
-            ctx.append(ctx.quoteName(_seqExpression));
-            if (_values != null) {
-                ctx.append(QueryConstants.SEPERATOR);
-                ctx.append(QueryConstants.SPACE);
-            }
-        }
         
         if (_values != null) {
+            ctx.append(QueryConstants.LPAREN);   
+
             for (Iterator<Expression> iter = _values.iterator(); iter.hasNext(); ) {
                 iter.next().toString(ctx);
                 if (iter.hasNext()) {
@@ -173,8 +126,9 @@ public final class Insert extends QueryObject {
                     ctx.append(QueryConstants.SPACE);
                 }
             }
+
+            ctx.append(QueryConstants.RPAREN);
         }
-        ctx.append(QueryConstants.RPAREN);
     }
     
     //-----------------------------------------------------------------------------------

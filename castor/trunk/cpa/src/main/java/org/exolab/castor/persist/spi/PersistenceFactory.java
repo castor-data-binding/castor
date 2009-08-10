@@ -190,6 +190,14 @@ public interface PersistenceFactory {
      */
     boolean isKeyGeneratorSequenceTypeSupported(int type);
 
+    /**
+     * Returns the database engine specific string to fetch sequence next value.
+     * 
+     * @param seqName Name of the sequence.
+     * @return String to fetch sequence next value.
+     */
+    String getSequenceNextValString(String seqName);
+    
     //-----------------------------------------------------------------------------------
 }
 

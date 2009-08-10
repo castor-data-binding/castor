@@ -143,7 +143,7 @@ public abstract class AbstractAfterKeyGenerator extends AbstractKeyGenerator {
 
         SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
         if (_seqName != null && !_triggerPresent) {
-            insert.addSequence(_seqName, ids[0].getName());
+            insert.addInsert(ids[0].getName(), _seqName);
         }
         insert.toString(_ctx);
 
