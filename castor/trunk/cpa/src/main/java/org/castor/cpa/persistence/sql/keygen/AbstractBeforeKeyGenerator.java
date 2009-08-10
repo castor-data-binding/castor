@@ -26,8 +26,6 @@ import org.castor.core.util.Messages;
 import org.castor.cpa.persistence.sql.engine.SQLStatementInsertCheck;
 import org.castor.cpa.persistence.sql.query.Insert;
 import org.castor.cpa.persistence.sql.query.QueryContext;
-import org.castor.jdo.engine.DatabaseContext;
-import org.castor.jdo.engine.DatabaseRegistry;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.DuplicateIdentityException;
@@ -37,7 +35,6 @@ import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.jdo.engine.SQLFieldInfo;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.mapping.ClassDescriptor;
-import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 
@@ -50,7 +47,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2009-07-13 17:22:43 (Tue, 28 Jul 2009) $
  */
-public abstract class AbstractBeforeKeyGenerator implements KeyGenerator {
+public abstract class AbstractBeforeKeyGenerator extends AbstractKeyGenerator {
     //-----------------------------------------------------------------------------------    
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
@@ -75,6 +72,8 @@ public abstract class AbstractBeforeKeyGenerator implements KeyGenerator {
      *  and parameters binding. */
     private final QueryContext _ctx;
 
+    //-----------------------------------------------------------------------------------    
+
     /**
      * Constructor.
      * 
@@ -86,12 +85,7 @@ public abstract class AbstractBeforeKeyGenerator implements KeyGenerator {
         _ctx = new QueryContext(_factory);
     }
     
-    /**
-     * {@inheritDoc}
-     */
-    public final byte getStyle() {
-        return BEFORE_INSERT;
-    }
+    //-----------------------------------------------------------------------------------    
 
     /**
      * {@inheritDoc}
@@ -308,46 +302,6 @@ public abstract class AbstractBeforeKeyGenerator implements KeyGenerator {
             }
         }
     }
-
-    /**
-     * Operning new JDBC Connection. 
-     * 
-     * @param database The database on which it opens the JDBC connection.
-     * @return A JDBC Connection
-     * @throws PersistenceException If fails to open connection.
-     */
-    private Connection getSeparateConnection(final Database database)
-    throws PersistenceException {
-        DatabaseContext context = null;
-        try {
-            context = DatabaseRegistry.getDatabaseContext(database.getDatabaseName());
-        } catch (MappingException e) {
-            throw new PersistenceException(Messages.message("persist.cannotCreateSeparateConn"), e);
-        }
-        
-        try {
-            Connection conn = context.getConnectionFactory().createConnection();
-            conn.setAutoCommit(false);
-            return conn;
-        } catch (SQLException e) {
-            throw new PersistenceException(Messages.message("persist.cannotCreateSeparateConn"), e);
-        }
-    }
     
-    /**
-     * Close the JDBC Connection.
-     * 
-     * @param conn A JDBC Connection.
-     */
-
-    private void closeSeparateConnection(final Connection conn) {
-        try {
-            if (!conn.isClosed()) {
-                conn.close();
-            }
-        } catch (SQLException e) {
-            LOG.error(e.getMessage(), e);
-        }
-    }
-    
+    //-----------------------------------------------------------------------------------        
 }

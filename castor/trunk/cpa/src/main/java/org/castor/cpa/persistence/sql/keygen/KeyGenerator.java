@@ -22,7 +22,6 @@ import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.engine.SQLEngine;
-import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Identity;
 
 /**
@@ -42,21 +41,6 @@ import org.exolab.castor.persist.spi.Identity;
  * @version $Revision$ $Date: 2005-04-25 15:33:21 -0600 (Mon, 25 Apr 2005) $
  */
 public interface KeyGenerator {
-    /** For the key generators of BEFORE_INSERT style {@link #generateKey}
-     *  is called before INSERT. {@link #patchSQL} may be used but usually doesn't. */
-    byte BEFORE_INSERT = -1;
-
-    /** For the key generators of DURING_INSERT style {@link #generateKey}
-     *  is never called, all work is done by {@link #patchSQL}. */
-    byte DURING_INSERT = 0;
-
-    /** For the key generators of AFTER_INSERT style {@link #generateKey}
-     *  is called after INSERT. {@link #patchSQL} may be used but usually doesn't. */
-    byte AFTER_INSERT = 1;
-    
-    /** For key generators that does not generate key before running insert query. */
-    byte NOGEN_INSERT = 2;
-    
     /**
      * Generate a new key for the specified table. This method is
      * called when a new object is about to be created. In some
@@ -74,11 +58,6 @@ public interface KeyGenerator {
      */
     Object generateKey(Connection conn, String tableName, String primKeyName, Properties props)
     throws PersistenceException;
-
-    /**
-     * Style of the key generator: BEFORE_INSERT, DURING_INSERT or AFTER_INSERT.
-     */
-    byte getStyle();
 
     /**
      * Is key generated in the same connection as INSERT?
