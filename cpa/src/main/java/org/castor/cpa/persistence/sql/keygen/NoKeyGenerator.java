@@ -35,10 +35,8 @@ import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.jdo.engine.SQLFieldInfo;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.mapping.ClassDescriptor;
-import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.PersistenceFactory;
-
 
 /**
  * Key generator implementation that does not generate key.
@@ -47,8 +45,9 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision: 8241 $ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr 2006) $
  */
-public final class NoKeyGenerator extends AbstractNoKeyGenerator {
+public final class NoKeyGenerator extends AbstractKeyGenerator {
     //-----------------------------------------------------------------------------------
+    
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(NoKeyGenerator.class);
@@ -71,6 +70,8 @@ public final class NoKeyGenerator extends AbstractNoKeyGenerator {
      *  and parameters binding. */
     private final QueryContext _ctx;
 
+    //-----------------------------------------------------------------------------------    
+
     /**
      * Constructor. 
      * 
@@ -81,6 +82,8 @@ public final class NoKeyGenerator extends AbstractNoKeyGenerator {
         _factory = factory;
         _ctx = new QueryContext(_factory);
     }
+
+    //-----------------------------------------------------------------------------------    
 
     /**
      * {@inheritDoc}
@@ -96,14 +99,6 @@ public final class NoKeyGenerator extends AbstractNoKeyGenerator {
      */
     public Object generateKey(final Connection conn, final String tableName,
             final String primKeyName, final Properties props) throws PersistenceException {
-        return null;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public String patchSQL(final String insert, final String primKeyName)
-            throws MappingException {
         return null;
     }
     

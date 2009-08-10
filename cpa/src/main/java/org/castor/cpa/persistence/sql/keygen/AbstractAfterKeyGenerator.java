@@ -41,19 +41,13 @@ import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.engine.SQLColumnInfo;
 import org.exolab.castor.jdo.engine.SQLFieldInfo;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
-import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
 import org.castor.cpa.CPAProperties;
 import org.castor.cpa.persistence.sql.engine.SQLStatementInsertCheck;
 import org.castor.cpa.persistence.sql.query.Insert;
 import org.castor.cpa.persistence.sql.query.QueryContext;
-import org.castor.jdo.engine.DatabaseContext;
-import org.castor.jdo.engine.DatabaseRegistry;
-import org.castor.jdo.engine.SQLTypeInfos;
 import org.exolab.castor.mapping.ClassDescriptor;
-import org.exolab.castor.mapping.FieldDescriptor;
-import org.exolab.castor.mapping.MappingException;
 
 /**
  * Abstract class that implements the KeyGenerator interface for AFTER_INSERT style. The key
@@ -64,7 +58,7 @@ import org.exolab.castor.mapping.MappingException;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2009-07-13 17:22:43 (Tue, 28 Jul 2009) $
  */
-public abstract class AbstractAfterKeyGenerator implements KeyGenerator {
+public abstract class AbstractAfterKeyGenerator extends AbstractKeyGenerator {
     //-----------------------------------------------------------------------------------    
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
@@ -99,11 +93,14 @@ public abstract class AbstractAfterKeyGenerator implements KeyGenerator {
     /** Name of the Sequence. */
     private String _seqName;
 
+    //-----------------------------------------------------------------------------------    
+
     /**
      * Constructor.
      * 
      * @param factory  Persistence factory for the database engine the entity is persisted in.
      *  Used to format the SQL statement
+     * @param params Parameters for key generator.
      */
     public AbstractAfterKeyGenerator(final PersistenceFactory factory, final Properties params) {
         _factory = factory;
@@ -116,13 +113,8 @@ public abstract class AbstractAfterKeyGenerator implements KeyGenerator {
             _seqName = params.getProperty("sequence", "{0}_seq");
         }
     }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public final byte getStyle() {
-        return AFTER_INSERT;
-    }
+
+    //-----------------------------------------------------------------------------------    
 
     /**
      * {@inheritDoc}
@@ -190,9 +182,7 @@ public abstract class AbstractAfterKeyGenerator implements KeyGenerator {
                 Class[] types = new Class[] {String.class, int.class};
                 Object[] args = new Object[] {_ctx.toString(), rgk};
                 Method method = Connection.class.getMethod("prepareStatement", types);
-                stmt = (PreparedStatement) method.invoke(conn, args);
-                    
-                // stmt = conn.prepareStatement(_statement, Statement.RETURN_GENERATED_KEYS);
+                stmt = (PreparedStatement) method.invoke(conn, args);                    
             } else {
                 stmt = conn.prepareStatement(_ctx.toString());
             }
@@ -217,7 +207,6 @@ public abstract class AbstractAfterKeyGenerator implements KeyGenerator {
                     Class cls = PreparedStatement.class;
                     Method method = cls.getMethod("getGeneratedKeys", (Class[]) null);
                     ResultSet keySet = (ResultSet) method.invoke(stmt, (Object[]) null);
-                    // ResultSet keySet = stmt.getGeneratedKeys();
                     
                     int i = 1;
                     int sqlType;
@@ -374,46 +363,7 @@ public abstract class AbstractAfterKeyGenerator implements KeyGenerator {
             }
         }
     }
-
-    /**
-     * Operning new JDBC Connection. 
-     * 
-     * @param database The database on which it opens the JDBC connection.
-     * @return A JDBC Connection
-     * @throws PersistenceException If fails to open connection.
-     */
-    private Connection getSeparateConnection(final Database database)
-    throws PersistenceException {
-        DatabaseContext context = null;
-        try {
-            context = DatabaseRegistry.getDatabaseContext(database.getDatabaseName());
-        } catch (MappingException e) {
-            throw new PersistenceException(Messages.message("persist.cannotCreateSeparateConn"), e);
-        }
-        
-        try {
-            Connection conn = context.getConnectionFactory().createConnection();
-            conn.setAutoCommit(false);
-            return conn;
-        } catch (SQLException e) {
-            throw new PersistenceException(Messages.message("persist.cannotCreateSeparateConn"), e);
-        }
-    }
     
-    /**
-     * Close the JDBC Connection.
-     * 
-     * @param conn A JDBC Connection.
-     */
-    private void closeSeparateConnection(final Connection conn) {
-        try {
-            if (!conn.isClosed()) {
-                conn.close();
-            }
-        } catch (SQLException e) {
-            LOG.error(e.getMessage(), e);
-        }
-    }
-    
+    //-----------------------------------------------------------------------------------    
 }
 
