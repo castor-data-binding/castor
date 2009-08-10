@@ -238,7 +238,7 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
         SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
         //_statement = this.patchSQL(_statement, ids[0].getName());
         if (!_triggerPresent) {
-            insert.addSequence(_seqName, ids[0].getName());
+            insert.addInsert(ids[0].getName(), _seqName);
         }
         
         insert.toString(_ctx);  

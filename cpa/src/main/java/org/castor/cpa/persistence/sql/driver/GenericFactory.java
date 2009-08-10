@@ -142,6 +142,13 @@ public class GenericFactory extends BaseFactory {
         return false;
     }
     
+    /**
+     * {@inheritDoc}
+     */
+    public String getSequenceNextValString(final String seqName) {
+        return null;
+    }
+    
     //-----------------------------------------------------------------------------------
 }
 
