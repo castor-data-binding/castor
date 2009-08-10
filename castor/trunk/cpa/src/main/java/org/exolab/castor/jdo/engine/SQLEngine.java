@@ -24,6 +24,7 @@ import java.util.Vector;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
+import org.castor.cpa.persistence.sql.engine.SQLStatementInsert;
 import org.castor.cpa.persistence.sql.engine.SQLStatementDelete;
 import org.castor.cpa.persistence.sql.engine.SQLStatementUpdate;
 import org.castor.persist.ProposedEntity;
@@ -81,7 +82,7 @@ public final class SQLEngine implements Persistence {
 
     private final SQLStatementLoad _loadStatement;
 
-    private final SQLStatementCreate _createStatement;
+    private final SQLStatementInsert _createStatement;
 
     private final SQLStatementDelete _removeStatement;
 
@@ -187,7 +188,7 @@ public final class SQLEngine implements Persistence {
         fieldsInfo.copyInto(_fields);
         
         _loadStatement = new SQLStatementLoad(this, factory);
-        _createStatement = new SQLStatementCreate(this, factory);
+        _createStatement = new SQLStatementInsert(this, factory);
         _removeStatement = new SQLStatementDelete(this, factory);
         _storeStatement = new SQLStatementUpdate(this, factory);
     }
