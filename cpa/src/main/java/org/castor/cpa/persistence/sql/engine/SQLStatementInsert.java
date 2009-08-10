@@ -15,7 +15,7 @@
  *
  * $Id$
  */
-package org.exolab.castor.jdo.engine;
+package org.castor.cpa.persistence.sql.engine;
 
 import java.sql.Connection;
 
@@ -23,6 +23,7 @@ import org.castor.cpa.persistence.sql.keygen.KeyGenerator;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Identity;
@@ -36,7 +37,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2009-07-13 17:22:43 (Tue, 28 Jul 2009) $
  */
-public class SQLStatementCreate {
+public class SQLStatementInsert {
     
     /** SQL engine for all persistence operations at entities of the type this
      * class is responsible for. Holds all required information of the entity type. */
@@ -56,7 +57,7 @@ public class SQLStatementCreate {
     *        Used to format the SQL statement.
     * @throws MappingException If fails to get the Key Generator instance.
     */
-    public SQLStatementCreate(final SQLEngine engine, final PersistenceFactory factory)
+    public SQLStatementInsert(final SQLEngine engine, final PersistenceFactory factory)
     throws MappingException {
         ClassDescriptor clsDesc = engine.getDescriptor();        
         _engine = engine;        
