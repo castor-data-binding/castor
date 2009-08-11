@@ -847,19 +847,32 @@
         <!-- directories for modules -->
         <mkdir dir="${build}/${archive.name}/anttask"/>
         <mkdir dir="${build}/${archive.name}/codegen"/>
-        <mkdir dir="${build}/${archive.name}/ddlgen"/>
-        <mkdir dir="${build}/${archive.name}/xmlctf"/>
-        <mkdir dir="${build}/${archive.name}/xmlctf-framework"/>
+        <mkdir dir="${build}/${archive.name}/codegen-testcase-archetype"/>
+        <mkdir dir="${build}/${archive.name}/core"/>
         <mkdir dir="${build}/${archive.name}/cpa"/>
         <mkdir dir="${build}/${archive.name}/cpactf"/>
         <mkdir dir="${build}/${archive.name}/cpaptf"/>
+        <mkdir dir="${build}/${archive.name}/cpa-testcase-archetype"/>
+        <mkdir dir="${build}/${archive.name}/ddlgen"/>
+        <mkdir dir="${build}/${archive.name}/diff"/>
+        <mkdir dir="${build}/${archive.name}/doc"/>
         <mkdir dir="${build}/${archive.name}/examples"/>
+        <mkdir dir="${build}/${archive.name}/jdo-extensions-it"/>
+        <mkdir dir="${build}/${archive.name}/maven-plugins"/>
         <mkdir dir="${build}/${archive.name}/schema"/>
         <mkdir dir="${build}/${archive.name}/xml"/>
-        <mkdir dir="${build}/${archive.name}/core"/>
-        <mkdir dir="${build}/${archive.name}/codegen-testcase-archetype"/>
-        <mkdir dir="${build}/${archive.name}/cpa-testcase-archetype"/>
-        <mkdir dir="${build}/${archive.name}/maven-plugins"/>
+        <mkdir dir="${build}/${archive.name}/xmlctf"/>
+        <mkdir dir="${build}/${archive.name}/xmlctf-framework"/>
+    	
+    	<!-- copy Maven POM and Eclipse project files -->
+    	<copy todir="${build}/${archive.name}">
+    	    <fileset dir="${source}">
+    	        <include name="pom.xml" />
+    	    	<include name=".project" />
+                <include name=".classpath" />
+                <include name=".checkstyle" />
+    		</fileset>
+    	</copy>
 
         <!-- <copydir src="${source}" dest="${build}/${archive.name}/src" defaultexcludes="true"/> -->
         <copy todir="${build}/${archive.name}/src">
@@ -985,7 +998,28 @@
               <exclude name="eclipse/" />
           </fileset>
         </copy>
-
+        <copy todir="${build}/${archive.name}/diff">
+          <fileset dir="${basedir}/diff">
+              <exclude name="build/" />
+              <exclude name="target/" />
+              <exclude name="eclipse/" />
+          </fileset>
+        </copy>
+        <copy todir="${build}/${archive.name}/doc">
+          <fileset dir="${basedir}/doc">
+              <exclude name="build/" />
+              <exclude name="target/" />
+              <exclude name="eclipse/" />
+          </fileset>
+        </copy>
+        <copy todir="${build}/${archive.name}/jdo-extensions-it">
+          <fileset dir="${basedir}/jdo-extensions-it">
+              <exclude name="build/" />
+              <exclude name="target/" />
+              <exclude name="eclipse/" />
+          </fileset>
+        </copy>
+    	
         <tar includes="${archive.name}/**" basedir="${build}" tarfile="${dist}/${archive.name}-src.tar"/>
         <gzip src="${dist}/${archive.name}-src.tar" zipfile="${dist}/${archive.name}-src.tgz"/>
         <delete file="${dist}/${archive.name}-src.tar"/>
