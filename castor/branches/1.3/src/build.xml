@@ -843,6 +843,7 @@
         <mkdir dir="${build}/${archive.name}/src"/>
         <mkdir dir="${build}/${archive.name}/lib"/>
         <mkdir dir="${build}/${archive.name}/bin"/>
+        <mkdir dir="${build}/${archive.name}/bin/lib"/>
 
         <!-- directories for modules -->
         <mkdir dir="${build}/${archive.name}/anttask"/>
@@ -866,7 +867,7 @@
     	
     	<!-- copy Maven POM and Eclipse project files -->
     	<copy todir="${build}/${archive.name}">
-    	    <fileset dir="${source}">
+    	    <fileset dir="${basedir}">
     	        <include name="pom.xml" />
     	    	<include name=".project" />
                 <include name=".classpath" />
@@ -883,6 +884,9 @@
         </copy>
         <copy todir="${build}/${archive.name}/bin">
           <fileset dir="./bin" includes="*.sh,*.bat"/>
+        </copy>
+        <copy todir="${build}/${archive.name}/bin/lib">
+          <fileset dir="./bin/lib" includes="*.jar"/>
         </copy>
 
         <!-- copy individual modules across -->
