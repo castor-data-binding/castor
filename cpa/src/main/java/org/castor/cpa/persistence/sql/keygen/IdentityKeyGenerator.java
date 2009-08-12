@@ -52,6 +52,7 @@ public final class IdentityKeyGenerator extends AbstractAfterKeyGenerator {
      *  Used to format the SQL statement. */
     private final PersistenceFactory _factory;
     
+    /** Particular type handler instance. */
     private KeyGeneratorTypeHandler<? extends Object> _typeHandler;
     
     //-----------------------------------------------------------------------------------
@@ -85,6 +86,11 @@ public final class IdentityKeyGenerator extends AbstractAfterKeyGenerator {
         initSqlTypeHandler(sqlType);
     }
 
+    /**
+     * Initialize the Handler based on SQL Type.
+     * 
+     * @param sqlType A SQLTypidentifier.
+     */
     private void initSqlTypeHandler(final int sqlType) {
         if (sqlType == Types.INTEGER) {
             _typeHandler = new KeyGeneratorTypeHandlerInteger(true);

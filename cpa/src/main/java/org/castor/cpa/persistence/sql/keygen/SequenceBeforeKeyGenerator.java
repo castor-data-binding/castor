@@ -34,16 +34,57 @@ import org.castor.cpa.persistence.sql.driver.OracleFactory;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 
+/**
+ * Extends AbstractBeforeKeyGenerator and implements additional methods specific
+ * to Sequence Key generator. It invovles the fetching the Table ID before the 
+ * record is inserted into the table. 
+ * 
+ * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
+ * @version $Revision$ $Date: 2009-07-13 17:22:43 (Tue, 28 Jul 2009) $
+ */
 public final class SequenceBeforeKeyGenerator extends AbstractBeforeKeyGenerator {
     //-----------------------------------------------------------------------------------
 
+    /**
+     * Implements database engine specific subclasses which generates the
+     * database specific query systex for fetching ID from the database and then
+     * SequenceKeyGetValueHandler runs that query using JDBC connection.
+     */
     private abstract class SequenceKeyGenValueHandler {
+        
+        /** key generator for producing identities for objects after 
+         * they are created in the database.
+         */
         private KeyGenerator _keyGenerator;
+        
+        /** Particular type handler instance. */
         private KeyGeneratorTypeHandler<? extends Object> _typeHandler;
 
+        /** Abstract method that must be implemented by subclasses of this class and
+         * responsible for running query to get identity. 
+         * 
+         * @param conn An open JDBC connection.
+         * @param tableName Name of the table from which identity will be fetched.
+         * @param primKeyName Primary key of the table.
+         * @param props database engine specific properties.  
+         * 
+         * @return Identity.
+         * @throws Exception If fails to retrieve  identity. 
+         */
         protected abstract Object getValue(Connection conn, String tableName,
                 String primKeyName, Properties props) throws Exception;
 
+        /**
+         * Method that runs sql query using the provided JDBC connection.
+         * 
+         * @param sql A sql query
+         * @param conn An open JDBC connection
+         * 
+         * @return Query results containing the identity value. 
+         * @throws PersistenceException If fails to retrive identity value from resultset or
+         *                              database error occurs. 
+         */
         public Object getValue(final String sql, final Connection conn)
         throws PersistenceException {
             PreparedStatement stmt = null;
@@ -66,16 +107,42 @@ public final class SequenceBeforeKeyGenerator extends AbstractBeforeKeyGenerator
             }
         }
 
+        /**
+         * Sets the KeyGenerator instance value.
+         *
+         * @param generator Provided keyGenerator instance.
+         */
         public void setGenerator(final KeyGenerator generator) {
             _keyGenerator = generator;
         }
 
+        /**
+         * Sets typeHandler object with the value provided.
+         * 
+         * @param typeHandler Provided typeHandler instance.
+         */
         public void setTypeHandler(final KeyGeneratorTypeHandler<? extends Object> typeHandler) {
             _typeHandler = typeHandler;
         }
     }
 
+    /**
+     * Implements SequenceKeyGenValueHandler that generates sql query used as 
+     * a default query except for the particular database engine types.
+     */
     private class DefaultType extends SequenceKeyGenValueHandler {
+        
+        /**
+         * Generates sql select query for fetching identity and then calss the
+         * base class getValue method of query execution.
+         * 
+         * @param conn An open JDBC connection.
+         * @param tableName Name of the table from which identity will be fetched.
+         * @param primKeyName Primary key of the table.
+         * @param props database engine specific properties. 
+         * @return ResutlSet containing identity.
+         * @throws Exception If database error occurs. 
+         */
         protected Object getValue(final Connection conn, final String tableName,
                 final String primKeyName, final Properties props) throws Exception {
             return getValue("SELECT "
@@ -84,7 +151,23 @@ public final class SequenceBeforeKeyGenerator extends AbstractBeforeKeyGenerator
         }
     }
     
+    /**
+     * Implements SequenceKeyGenValueHandler that generates sql query for fetching
+     * identity from Postgressql database.  
+     */
     private class PostgresqlType extends SequenceKeyGenValueHandler {
+        
+        /**
+         * Generates sql select query for fetching identity and then calss the
+         * base class getValue method of query execution.
+         * 
+         * @param conn An open JDBC connection.
+         * @param tableName Name of the table from which identity will be fetched.
+         * @param primKeyName Primary key of the table.
+         * @param props database engine specific properties. 
+         * @return ResutlSet containing identity.
+         * @throws Exception If database error occurs. 
+         */
         protected Object getValue(final Connection conn, final String tableName,
                 final String primKeyName, final Properties props) throws Exception {
             String sql = "SELECT nextval('\"" + getSeqName(tableName, primKeyName) + "\"')";
@@ -92,7 +175,23 @@ public final class SequenceBeforeKeyGenerator extends AbstractBeforeKeyGenerator
         }
     }
         
+    /**
+     * Implements SequenceKeyGenValueHandler that generates sql query for fetching
+     * identity from DB2 database.  
+     */
     private class DB2Type extends SequenceKeyGenValueHandler {
+        
+        /**
+         * Generates sql select query for fetching identity and then calss the
+         * base class getValue method of query execution.
+         * 
+         * @param conn An open JDBC connection.
+         * @param tableName Name of the table from which identity will be fetched.
+         * @param primKeyName Primary key of the table.
+         * @param props database engine specific properties. 
+         * @return ResutlSet containing identity.
+         * @throws Exception If database error occurs. 
+         */
         protected Object getValue(final Connection conn, final String tableName,
                 final String primKeyName, final Properties props) throws Exception {
             return getValue("SELECT nextval FOR " + getSeqName(tableName, primKeyName)
@@ -100,7 +199,23 @@ public final class SequenceBeforeKeyGenerator extends AbstractBeforeKeyGenerator
         }
     }
         
+    /**
+     * Implements SequenceKeyGenValueHandler that generates sql query for fetching
+     * identity from Interbase database.  
+     */
     private class InterbaseType extends SequenceKeyGenValueHandler {
+        
+        /**
+         * Generates sql select query for fetching identity and then calss the
+         * base class getValue method of query execution.
+         * 
+         * @param conn An open JDBC connection.
+         * @param tableName Name of the table from which identity will be fetched.
+         * @param primKeyName Primary key of the table.
+         * @param props database engine specific properties. 
+         * @return ResutlSet containing identity.
+         * @throws Exception If database error occurs. 
+         */
         protected Object getValue(final Connection conn, final String tableName,
                 final String primKeyName, final Properties props) throws Exception {
             return getValue("SELECT gen_id(" + getSeqName(tableName, primKeyName) + ","
@@ -108,7 +223,23 @@ public final class SequenceBeforeKeyGenerator extends AbstractBeforeKeyGenerator
         }
     }
     
+    /**
+     * Implements SequenceKeyGenValueHandler that generates sql query for fetching
+     * identity from oracle database.  
+     */
     private class OracleType extends SequenceKeyGenValueHandler {
+        
+        /**
+         * Generates sql select query for fetching identity and then calss the
+         * base class getValue method of query execution.
+         * 
+         * @param conn An open JDBC connection.
+         * @param tableName Name of the table from which identity will be fetched.
+         * @param primKeyName Primary key of the table.
+         * @param props database engine specific properties. 
+         * @return ResutlSet containing identity.
+         * @throws Exception If database error occurs. 
+         */
         protected Object getValue(final Connection conn, final String tableName,
                 final String primKeyName, final Properties props) throws Exception {
             return getValue("SELECT "
@@ -123,18 +254,23 @@ public final class SequenceBeforeKeyGenerator extends AbstractBeforeKeyGenerator
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(SequenceBeforeKeyGenerator.class);
      
+    /** Key length used for KeyGeneratorTypeHandlerString. */
     private static final int STRING_KEY_LENGTH = 8;
     
+    /** Persistence factory for the database engine the entity is persisted in.
+     *  Used to format the SQL statement. */
     private PersistenceFactory _factory;
-
-    private boolean _triggerPresent;
     
+    /** Sequence name associated with the table. */
     private String _seqName;
     
+    /** Value used in fetching identity from Interbase database. */
     private int _increment;
     
+    /** Particular type handler instance. */
     private KeyGeneratorTypeHandler<? extends Object> _typeHandler;
 
+    /** Sequence Key Handler type. */
     private SequenceKeyGenValueHandler _type = null;
 
     //-----------------------------------------------------------------------------------
@@ -144,7 +280,7 @@ public final class SequenceBeforeKeyGenerator extends AbstractBeforeKeyGenerator
      * {@link #generateKey} is called before INSERT. 
      * 
      * @param factory A PersistenceFactory instance.
-     * @param params
+     * @param params Database specific properties. 
      * @param sqlType A SQLTypidentifier.
      * @throws MappingException if this key generator is not compatible with the
      *         persistance factory.
@@ -153,7 +289,6 @@ public final class SequenceBeforeKeyGenerator extends AbstractBeforeKeyGenerator
             final int sqlType) throws MappingException {
         super(factory);
         _factory = factory;        
-        _triggerPresent = "true".equals(params.getProperty("trigger", "false"));
         _seqName = params.getProperty("sequence", "{0}_seq");
 
         try {
@@ -166,6 +301,11 @@ public final class SequenceBeforeKeyGenerator extends AbstractBeforeKeyGenerator
         initType();
     }
 
+    /**
+     * Initialize the Handler based on SQL Type.
+     * 
+     * @param sqlType A SQLTypidentifier.
+     */
     protected void initSqlTypeHandler(final int sqlType) {
         if (sqlType == Types.INTEGER) {
             _typeHandler = new KeyGeneratorTypeHandlerInteger(true);
@@ -178,10 +318,19 @@ public final class SequenceBeforeKeyGenerator extends AbstractBeforeKeyGenerator
         }
     }
     
+    /**
+     * Formats the sequence name using name of the table and ID.
+     * 
+     * @param tableName Name of the table.
+     * @param primKeyName ID of the table.
+     * @return Strign representing formatted sequence name.
+     */
     private String getSeqName(final String tableName, final String primKeyName) {
         return MessageFormat.format(_seqName, new Object[] {tableName, primKeyName});
     }
     
+    /** Instantiate class properties i.e type and typeHandler based on the 
+     * factory type. */
     private void initType() {
         String factoryName = _factory.getFactoryName();
         if (InterbaseFactory.FACTORY_NAME.equals(factoryName)) {
