@@ -77,8 +77,11 @@ public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
     private final Map<String, HighLowValueHandler<? extends Object>> _handlers =
         new HashMap<String, HighLowValueHandler<? extends Object>>();
 
+    /** Persistence factory for the database engine the entity is persisted in.
+     *  Used to format the SQL statement. */
     private final PersistenceFactory _factory;
     
+    /** Databse engine type. */
     private final int _sqlType;
 
     /** Sequence table name. */ 
@@ -105,6 +108,12 @@ public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
 
     /**
      * Initialize the HIGH-LOW key generator.
+     * 
+     * @param factory A PersistenceFactory instance.
+     * @param params Database engine specific parameters. 
+     * @param sqlType A SQLTypidentifier.
+     * @throws MappingException if this key generator is not compatible with the
+     *         persistance factory.
      */
     public HighLowKeyGenerator(final PersistenceFactory factory, final Properties params,
             final int sqlType) throws MappingException {

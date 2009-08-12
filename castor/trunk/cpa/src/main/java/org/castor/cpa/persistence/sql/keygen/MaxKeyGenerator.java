@@ -48,14 +48,22 @@ public final class MaxKeyGenerator extends AbstractBeforeKeyGenerator {
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(MaxKeyGenerator.class);
     
+    /** Persistence factory for the database engine the entity is persisted in.
+     *  Used to format the SQL statement. */
     private final PersistenceFactory _factory;
     
+    /** Particular type handler instance. */
     private KeyGeneratorTypeHandler<? extends Object> _typeHandler;
 
     //-----------------------------------------------------------------------------------
 
     /**
      * Initialize the MAX key generator.
+     * 
+     * @param factory A PersistenceFactory instance.
+     * @param sqlType A SQLTypidentifier.
+     * @throws MappingException if this key generator is not compatible with the
+     *         persistance factory.
      */
     public MaxKeyGenerator(final PersistenceFactory factory, final int sqlType)
     throws MappingException {
@@ -72,6 +80,11 @@ public final class MaxKeyGenerator extends AbstractBeforeKeyGenerator {
         initSqlTypeHandler(sqlType);
     }
 
+    /**
+     * Initialize the Handler based on SQL Type.
+     * 
+     * @param sqlType A SQLTypidentifier.
+     */
     private void initSqlTypeHandler(final int sqlType) {
         if (sqlType == Types.INTEGER) {
             _typeHandler = new KeyGeneratorTypeHandlerInteger(false);

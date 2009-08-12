@@ -62,16 +62,19 @@ public interface KeyGenerator {
     /**
      * Is key generated in the same connection as INSERT?
      * For DURING_INSERT style this method is never called.
+     * 
+     * @return {code}True{code} If this instance is in same JDBC Connection.
      */
     boolean isInSameConnection();
 
     /**
      * Executes the SQL statement after preparing the PreparedStatement.
      * 
-     * @param database
+     * @param database A database instance.
      * @param conn An Open JDBC connection.
      * @param identity Identity of the object to insert.
-     * @param entity
+     * @param entity Entity instance from which field values to be fetached to
+     *               bind with sql insert statement.
      * @return Identity
      * @throws PersistenceException If failed to insert record into database. This could happen
      *         if a database access error occurs, If identity size mismatches, unable to retrieve
