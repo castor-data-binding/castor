@@ -22,6 +22,13 @@ import java.sql.SQLException;
 import org.castor.core.util.Messages;
 import org.exolab.castor.jdo.PersistenceException;
 
+/** 
+ *  Class implementing the KeyGeneratorTypeHandler for Integer type.
+ *  
+ * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
+ * @version $Revision$ $Date: 2009-07-13 17:22:43 (Tue, 28 Jul 2009) $
+ */
 public final class KeyGeneratorTypeHandlerInteger
 implements KeyGeneratorTypeHandler <Integer> {
     /** Value to be returned by getValue() method if current row of the record set is not valid
