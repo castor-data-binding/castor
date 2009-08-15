@@ -103,14 +103,6 @@ public interface PersistenceFactory {
     QueryExpression getQueryExpression();
 
     /**
-     * Determines it the given exception is indication of a duplicate
-     * key.
-     *
-     * @return TRUE means "yes", FALSE means "no", null means "cannot determine"
-     */
-    Boolean isDuplicateKeyException(Exception except);
-
-    /**
      * Returns the quoted identifier suitable for preventing conflicts between
      * database identifiers and reserved keywords.
      *

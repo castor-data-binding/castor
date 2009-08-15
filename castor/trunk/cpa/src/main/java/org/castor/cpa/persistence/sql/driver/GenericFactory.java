@@ -65,17 +65,6 @@ public class GenericFactory extends BaseFactory {
         return new JDBCQueryExpression(this);
     }
 
-    /**
-     * Determine if the given SQLException is DuplicateKeyException.
-     * 
-     * @return Boolean.TRUE means "yes",
-     *         Boolean.FALSE means "no",
-     *         null means "cannot determine"
-     */
-    public Boolean isDuplicateKeyException(final Exception ex) {
-        return null;
-    }
-
     public String quoteName(final String name) {
         return name;
     }

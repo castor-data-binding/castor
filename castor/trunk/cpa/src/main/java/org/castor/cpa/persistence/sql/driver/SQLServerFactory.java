@@ -90,13 +90,6 @@ public final class SQLServerFactory extends GenericFactory {
     /**
      * @inheritDoc
      */
-    public Boolean isDuplicateKeyException(final Exception except) {
-        return null;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public String quoteName(final String name) {
         return doubleQuoteName(name);
     }

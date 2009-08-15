@@ -37,7 +37,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import org.exolab.castor.core.exceptions.CastorIllegalStateException;
-import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.engine.SQLColumnInfo;
 import org.exolab.castor.jdo.engine.SQLFieldInfo;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
@@ -239,23 +238,6 @@ public abstract class AbstractAfterKeyGenerator extends AbstractKeyGenerator {
             return internalIdentity;
         } catch (SQLException except) {
             LOG.fatal(Messages.format("jdo.storeFatal",  _engineType,  _ctx.toString()), except);
-
-            Boolean isDupKey = _factory.isDuplicateKeyException(except);
-            if (Boolean.TRUE.equals(isDupKey)) {
-                throw new DuplicateIdentityException(Messages.format(
-                        "persist.duplicateIdentity", _engineType, internalIdentity), except);
-            } else if (Boolean.FALSE.equals(isDupKey)) {
-                throw new PersistenceException(Messages.format("persist.nested", except), except);
-            }
-
-            // without an identity we can not check for duplicate key
-            if (internalIdentity == null) {
-                throw new PersistenceException(Messages.format("persist.nested", except), except);
-            }
-
-            // check for duplicate key the old fashioned way, after the INSERT
-            // failed to prevent race conditions and optimize INSERT times.
-            lookupStatement.insertDuplicateKeyCheck(conn, internalIdentity);
 
             try {
                 if (stmt != null) { stmt.close(); }

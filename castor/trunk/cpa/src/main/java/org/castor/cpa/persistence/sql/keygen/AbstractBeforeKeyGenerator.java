@@ -166,19 +166,6 @@ public abstract class AbstractBeforeKeyGenerator extends AbstractKeyGenerator {
         } catch (SQLException except) {
             LOG.fatal(Messages.format("jdo.storeFatal",  _engineType, _ctx.toString()), except);
 
-            Boolean isDupKey = _factory.isDuplicateKeyException(except);
-            if (Boolean.TRUE.equals(isDupKey)) {
-                throw new DuplicateIdentityException(Messages.format(
-                        "persist.duplicateIdentity", _engineType, internalIdentity), except);
-            } else if (Boolean.FALSE.equals(isDupKey)) {
-                throw new PersistenceException(Messages.format("persist.nested", except), except);
-            }
-
-            // without an identity we can not check for duplicate key
-            if (internalIdentity == null) {
-                throw new PersistenceException(Messages.format("persist.nested", except), except);
-            }
-
             // check for duplicate key the old fashioned way, after the INSERT
             // failed to prevent race conditions and optimize INSERT times.
             lookupStatement.insertDuplicateKeyCheck(conn, internalIdentity);
