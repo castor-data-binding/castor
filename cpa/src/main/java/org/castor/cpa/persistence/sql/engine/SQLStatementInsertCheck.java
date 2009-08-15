@@ -107,6 +107,8 @@ public final class SQLStatementInsertCheck {
     public void insertDuplicateKeyCheck(final Connection conn, final Identity identity) 
     throws PersistenceException {        
         try {
+            if (identity == null) { return; }
+            
             //Prepares SQL Statement
             prepareStatement(conn);                   
             

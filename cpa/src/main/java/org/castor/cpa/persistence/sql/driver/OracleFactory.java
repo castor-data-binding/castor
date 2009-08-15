@@ -77,16 +77,6 @@ public final class OracleFactory extends GenericFactory {
     /**
      * @inheritDoc
      */
-    public Boolean isDuplicateKeyException(final Exception except) {
-        // Sometime gives wrong results
-        //if ( except instanceof SQLException )
-        //    return ( (SQLException) except ).getErrorCode() == 1 ? Boolean.TRUE : Boolean.FALSE;
-        return null;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public String quoteName(final String name) {
         return doubleQuoteName(name).toUpperCase();
     }

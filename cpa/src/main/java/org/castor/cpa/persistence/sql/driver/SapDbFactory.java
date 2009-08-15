@@ -79,16 +79,6 @@ public final class SapDbFactory extends GenericFactory {
     /**
      * @inheritDoc
      */
-    public Boolean isDuplicateKeyException(final Exception except) {
-        // Sometime gives wrong results
-        //if ( except instanceof SQLException )
-        //    return ( (SQLException) except ).getErrorCode() == 1 ? Boolean.TRUE : Boolean.FALSE;
-        return null;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public String quoteName(final String name) {
         StringBuffer buffer = new StringBuffer();
         StringTokenizer tokens = new StringTokenizer(name, ".");

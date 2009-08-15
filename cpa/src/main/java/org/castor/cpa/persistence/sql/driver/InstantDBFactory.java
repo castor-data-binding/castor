@@ -45,13 +45,6 @@ public final class InstantDBFactory extends GenericFactory {
     }
 
     /**
-     * @inheritDoc
-     */
-    public Boolean isDuplicateKeyException(final Exception except) {
-        return null;
-    }
-
-    /**
      * Needed to process OQL queries of "CALL" type (using stored procedure
      * call). This feature is specific for JDO.
      * 
