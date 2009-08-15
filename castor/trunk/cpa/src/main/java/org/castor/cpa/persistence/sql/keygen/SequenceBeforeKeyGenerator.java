@@ -28,6 +28,7 @@ import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.jdo.PersistenceException;
 import org.castor.core.util.Messages;
 import org.castor.cpa.persistence.sql.driver.DB2Factory;
+import org.castor.cpa.persistence.sql.driver.SapDbFactory;
 import org.castor.cpa.persistence.sql.driver.InterbaseFactory;
 import org.castor.cpa.persistence.sql.driver.PostgreSQLFactory;
 import org.castor.cpa.persistence.sql.driver.OracleFactory;
@@ -248,6 +249,31 @@ public final class SequenceBeforeKeyGenerator extends AbstractBeforeKeyGenerator
         }
     }
     
+    /**
+     * Implements SequenceKeyGenValueHandler that generates sql query for fetching
+     * identity from sap/max database.  
+     */
+    private class SapDbType extends SequenceKeyGenValueHandler {
+        
+        /**
+         * Generates sql select query for fetching identity and then calss the
+         * base class getValue method of query execution.
+         * 
+         * @param conn An open JDBC connection.
+         * @param tableName Name of the table from which identity will be fetched.
+         * @param primKeyName Primary key of the table.
+         * @param props database engine specific properties. 
+         * @return ResutlSet containing identity.
+         * @throws Exception If database error occurs. 
+         */
+        protected Object getValue(final Connection conn, final String tableName,
+                final String primKeyName, final Properties props) throws Exception {
+            return getValue("SELECT "
+                    + _factory.quoteName(getSeqName(tableName, primKeyName) + ".nextval")
+                    + " FROM DUAL", conn);
+        }
+    }
+    
     //-----------------------------------------------------------------------------------
     
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
@@ -341,6 +367,8 @@ public final class SequenceBeforeKeyGenerator extends AbstractBeforeKeyGenerator
             _type = new PostgresqlType();
         } else if (OracleFactory.FACTORY_NAME.equals(factoryName)) {
             _type = new OracleType();
+        } else if (SapDbFactory.FACTORY_NAME.equals(factoryName)) {
+            _type = new SapDbType();
         } else {
             _type = new DefaultType();
         }
