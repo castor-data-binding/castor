@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Werner Guttmann
+ * Copyright 2009 Udai Gupta, Ralf Joachim
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,73 +13,75 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ctf.jdo.tc20x;
-
-import harness.CastorTestCase;
-import harness.TestHarness;
+package org.castor.cpa.test.test200;
 
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.Iterator;
 
-import jdo.JDOCategory;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
+import org.castor.cpa.test.framework.CPATestCase;
+import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.OQLQuery;
-import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryResults;
 
 /**
- * Tests that modification to read only objects are not persist in the 
- * database.
+ * Tests that modification to read only objects are not persist in the database.
  */
-public final class TestSelfRelation extends CastorTestCase {
-    private JDOCategory _category;
+public final class TestSelfRelation extends CPATestCase {
+    private static final String DBNAME = "test200";
+    private static final String MAPPING = "/org/castor/cpa/test/test200/mapping.xml";
+    
+    public static Test suite() throws Exception {
+        TestSuite suite = new TestSuite(TestSelfRelation.class.getName());
 
-    /**
-     * Constructor
-     * @param category the test suite that this test case belongs
-     */
-    public TestSelfRelation(final TestHarness category) {
-        super(category, "TC200", "Self-referential relation tests");
-        _category = (JDOCategory) category;
+        suite.addTest(new TestSelfRelation("testInitialize"));
+        suite.addTest(new TestSelfRelation("testCreate"));
+        suite.addTest(new TestSelfRelation("testLoad"));
+        suite.addTest(new TestSelfRelation("testOQL"));
+        suite.addTest(new TestSelfRelation("testUpdate"));
+
+        return suite;
     }
 
+    public TestSelfRelation(final String name) {
+        super(name);
+    }
 
-    /**
-     * @inheritDoc
-     */
-    public void setUp() throws Exception {
-        Database db = _category.getDatabase();
+    // Test are only included/excluded for engines that have been tested with this test suite.
+
+    public boolean include(final DatabaseEngineType engine) {
+        return (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.MYSQL);
+    }
+
+    public void testInitialize() throws Exception {
+        Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
         Connection connection = db.getJdbcConnection();
         connection.setAutoCommit(false);
 
         // delete everything directly
         Statement stmt = connection.createStatement();
-        stmt.executeUpdate("DELETE FROM tc200_self_relation_folder");
+        stmt.executeUpdate("DELETE FROM test200_self_relation_folder");
         //insert data
-        stmt.execute("INSERT INTO tc200_self_relation_folder "
+        stmt.execute("INSERT INTO test200_self_relation_folder "
                 + "( id , name ) VALUES ( 1 , 'parent' ) ");
-        stmt.execute("INSERT INTO tc200_self_relation_folder "
+        stmt.execute("INSERT INTO test200_self_relation_folder "
                 + "( id , name , parent_id ) VALUES ( 2 , 'first child' , 1 ) ");
-        stmt.execute("INSERT INTO tc200_self_relation_folder "
+        stmt.execute("INSERT INTO test200_self_relation_folder "
                 + "( id , name , parent_id ) VALUES ( 3 , 'second child' , 1 ) ");
         db.commit();
-    }
-
-    public void runTest() throws PersistenceException {
-        testCreate();
-        testLoad();
-        testOQL();
-        testUpdate();
+        db.close();
     }
     
     /**
      * this tests creating a folder
      */
-    public void testCreate() throws PersistenceException {
-        Database db = _category.getDatabase();
+    public void testCreate() throws Exception {
         SelfRelationFolder folder = new SelfRelationFolder();
         SelfRelationFolder child = new SelfRelationFolder();
         SelfRelationFolder grandChild = new SelfRelationFolder();
@@ -96,26 +98,23 @@ public final class TestSelfRelation extends CastorTestCase {
         greatGrandChild.setName("Test Greatgrandchild");
         grandChild.addChild(greatGrandChild);
         
+        Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
         db.create(folder);
         db.create(child);
         db.create(grandChild);
         db.create(greatGrandChild);
         db.commit();
-
         db.close();
     }
     
     /**
      * This loads a folder
      */
-    public void testLoad() throws PersistenceException {
-        
-        SelfRelationFolder folder;
-        
-        Database db = _category.getDatabase();
+    public void testLoad() throws Exception {
+        Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
-        folder = (SelfRelationFolder) db.load(
+        SelfRelationFolder folder = db.load(
                 SelfRelationFolder.class, new Integer(1));
         assertEquals("parent", folder.getName());
         assertEquals(1, folder.getId().intValue());
@@ -148,19 +147,17 @@ public final class TestSelfRelation extends CastorTestCase {
         counter++;
         
         assertTrue("At least two children should have been loaded.", counter >= 2);
+        
         db.commit();
-
         db.close();
     }
 
-    public void testOQL() throws PersistenceException {
-        OQLQuery      oql;
-        QueryResults  results;
-        Database db = _category.getDatabase();
+    public void testOQL() throws Exception {
+        Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
-        oql = db.getOQLQuery("SELECT a FROM "
+        OQLQuery oql = db.getOQLQuery("SELECT a FROM "
                 + SelfRelationFolder.class.getName() + " a");
-        results = oql.execute();
+        QueryResults results = oql.execute();
         assertTrue(results.hasMore());
         
         int counter = 0;
@@ -207,29 +204,22 @@ public final class TestSelfRelation extends CastorTestCase {
         assertEquals(8, f.getId().intValue());
         assertEquals("Test Greatgrandchild", f.getName());
         counter++;
+        
+        assertEquals("At least 7 folders should have been returned", 7, counter);
 
         oql.close();
         db.commit();
-
         db.close();
-
-        assertEquals("At least 7 folders should have been returned", 7, counter);
     }
-
 
     /*
      * This tests updating a folder
      */
-    public void testUpdate() throws PersistenceException {
-
-        SelfRelationFolder folder;
-        
-        Database db = _category.getDatabase();
+    public void testUpdate() throws Exception {
+        Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
-        
         // load a folder, and assert its properties
-        folder = (SelfRelationFolder) db.load(
-                SelfRelationFolder.class, new Integer(6));
+        SelfRelationFolder folder = db.load(SelfRelationFolder.class, new Integer(6));
         assertNotNull(folder);
         assertEquals(6, folder.getId().intValue());
         assertEquals("Test Child", folder.getName());
@@ -245,10 +235,8 @@ public final class TestSelfRelation extends CastorTestCase {
         db.commit();
         
         db.begin();
-        
         // load a folder, and assert its properties
-        folder = (SelfRelationFolder) db.load(
-                SelfRelationFolder.class, new Integer(6));
+        folder = db.load(SelfRelationFolder.class, new Integer(6));
         assertNotNull(folder);
         assertEquals(6, folder.getId().intValue());
         assertEquals("Test Update", folder.getName());
@@ -256,7 +244,6 @@ public final class TestSelfRelation extends CastorTestCase {
         assertNotNull(folder.getChildren());
         assertEquals(1, folder.getChildren().size());
         db.rollback();
-        
         db.close();
     }
 }

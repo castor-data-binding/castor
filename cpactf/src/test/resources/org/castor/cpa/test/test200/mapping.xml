@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+<!-- mapping for class to test bug 928 - internal self-relation -->
+  <class name="org.castor.cpa.test.test200.SelfRelationFolder" identity="id">
+        <map-to table="test200_self_relation_folder" />
+        <field name="id" type="integer" required="true">
+            <sql name="id" type="integer" />
+        </field>
+		<field name="name" type="string"  required="true">
+            <sql name="name" type="varchar" />
+        </field>
+        <field name="children" type="org.castor.cpa.test.test200.SelfRelationFolder"
+			    collection="collection" get-method="getChildren" set-method="setChildren">
+            <sql many-key="parent_id" />
+        </field>
+		<field name="parent" type="org.castor.cpa.test.test200.SelfRelationFolder" required="false">
+             <sql name="parent_id" />
+        </field>
+    </class>
+</mapping>

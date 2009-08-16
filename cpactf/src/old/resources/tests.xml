@@ -24,9 +24,6 @@
     <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
 
     <!-- tc20x -->
-    <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
-    <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
-    <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
     <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
@@ -57,9 +54,6 @@
     <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
 
     <!-- tc20x -->
-    <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
-    <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
-    <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
     <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
@@ -88,9 +82,6 @@
     <!-- <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/> -->
 
     <!-- tc20x -->
-    <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
-    <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
-    <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
     <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
@@ -119,9 +110,6 @@
     <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
     
     <!-- tc20x -->
-    <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
-    <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
-    <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/>
     <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/>
   </category>
 
@@ -150,9 +138,6 @@
     <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
 
     <!-- tc20x -->
-    <!-- <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/> -->
-    <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
-    <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
     <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
@@ -181,9 +166,6 @@
     <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
 
     <!-- tc20x -->
-    <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
-    <!-- <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/> -->
-    <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
     <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
@@ -212,9 +194,6 @@
     <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
 
     <!-- tc20x -->
-    <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
-    <!-- <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/> -->
-    <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
     <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/>
   </category>
 
@@ -243,9 +222,6 @@
     <!-- <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/> -->
 
     <!-- tc20x -->
-    <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
-    <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
-    <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
     <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
@@ -273,9 +249,6 @@
     <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
 
     <!-- tc20x -->
-    <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
-    <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
-    <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
     <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
@@ -304,9 +277,6 @@
     <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
 
     <!-- tc20x -->
-    <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
-    <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
-    <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
     <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
@@ -335,9 +305,6 @@
     <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
 
     <!-- tc20x -->
-    <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
-    <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
-    <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
     <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
