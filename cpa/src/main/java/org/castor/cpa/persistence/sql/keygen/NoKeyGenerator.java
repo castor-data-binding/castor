@@ -28,7 +28,6 @@ import org.castor.cpa.persistence.sql.query.Insert;
 import org.castor.cpa.persistence.sql.query.QueryContext;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
-import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.engine.SQLColumnInfo;
 import org.exolab.castor.jdo.engine.SQLEngine;

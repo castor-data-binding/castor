@@ -90,7 +90,7 @@ public final class DerbyFactory extends GenericFactory {
     }
     
     @Override
-    public String getIdentityQueryString(final String tableName, final String columnName) {
+    public String getIdentitySelectString(final String tableName, final String columnName) {
         return "SELECT IDENTITY_VAL_LOCAL() FROM " + quoteName(tableName);
     }
 

@@ -46,6 +46,12 @@ public final class InterbaseFactory extends GenericFactory {
         return false;
     }
     
+    @Override
+    public String getSequenceBeforeSelectString(final String seqName, 
+           final String tableName, final int increment) {
+    return "SELECT gen_id(" + seqName + "," + increment + ") FROM rdb$database"; 
+    }
+    
     //-----------------------------------------------------------------------------------
 }
 

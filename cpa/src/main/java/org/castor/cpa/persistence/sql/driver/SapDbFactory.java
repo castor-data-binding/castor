@@ -184,7 +184,7 @@ public final class SapDbFactory extends GenericFactory {
     }
     
     @Override
-    public String getIdentityQueryString(final String tableName, final String columnName) {
+    public String getIdentitySelectString(final String tableName, final String columnName) {
         return "SELECT " + quoteName(tableName) + ".currval" + " FROM " + quoteName(tableName);
     }
 
@@ -206,6 +206,12 @@ public final class SapDbFactory extends GenericFactory {
 
         return false;
     }
+    
+    @Override
+    public String getSequenceBeforeSelectString(final String seqName, 
+           final String tableName, final int increment) {
+        return "SELECT " + this.quoteName(seqName + ".nextval") + " FROM DUAL";
+        }
     
     //-----------------------------------------------------------------------------------
 }

@@ -135,6 +135,12 @@ public final class OracleFactory extends GenericFactory {
         return seqName + ".nextval";
     }
     
+    @Override
+    public String getSequenceBeforeSelectString(final String seqName, 
+           final String tableName, final int increment) {
+    return "SELECT " + this.quoteName(seqName + ".nextval") + " FROM DUAL";
+    }
+    
     //-----------------------------------------------------------------------------------
 }
 
