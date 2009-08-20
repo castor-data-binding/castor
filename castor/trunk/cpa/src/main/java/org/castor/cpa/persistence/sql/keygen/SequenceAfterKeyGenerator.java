@@ -27,7 +27,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.jdo.PersistenceException;
 import org.castor.core.util.Messages;
-import org.castor.cpa.persistence.sql.driver.PostgreSQLFactory;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 
@@ -40,138 +39,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2009-07-13 17:22:43 (Tue, 28 Jul 2009) $
  */
-public final class SequenceAfterKeyGenerator extends AbstractAfterKeyGenerator {
-    //-----------------------------------------------------------------------------------
-
-    /**
-     * Implements database engine specific subclasses which generates the
-     * database specific query systex for fetching ID from the database and then
-     * SequenceKeyGetValueHandler runs that query using JDBC connection.
-     */
-    private abstract class SequenceKeyGenValueHandler {
-        
-        /** key generator for producing identities for objects after 
-         * they are created in the database.
-         */
-        private KeyGenerator _keyGenerator;
-        
-        /** Particular type handler instance. */
-        private KeyGeneratorTypeHandler<? extends Object> _typeHandler;
-
-        /** Abstract method that must be implemented by subclasses of this class and
-         * responsible for running query to get identity. 
-         * 
-         * @param conn An open JDBC connection.
-         * @param tableName Name of the table from which identity will be fetched.
-         * @param primKeyName Primary key of the table.
-         * @param props database engine specific properties.  
-         * 
-         * @return Identity.
-         * @throws Exception If fails to retrieve  identity. 
-         */
-        protected abstract Object getValue(Connection conn, String tableName,
-                String primKeyName, Properties props) throws Exception;
-
-        /**
-         * Method that runs sql query using the provided JDBC connection.
-         * 
-         * @param sql A sql query
-         * @param conn An open JDBC connection
-         * 
-         * @return Query results containing the identity value. 
-         * @throws PersistenceException If fails to retrive identity value from resultset or
-         *                              database error occurs. 
-         */
-        public Object getValue(final String sql, final Connection conn)
-        throws PersistenceException {
-            PreparedStatement stmt = null;
-            try {
-                stmt = conn.prepareStatement(sql);
-                ResultSet rs = stmt.executeQuery();
-                return _typeHandler.getValue(rs);
-            } catch (SQLException e) {
-                String msg = Messages.format("persist.keyGenSQL", 
-                        _keyGenerator.getClass().getName(), e.toString());
-                throw new PersistenceException(msg);
-            } finally {
-                if (stmt != null) {
-                    try {
-                        stmt.close();
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            }
-        }
-
-        /**
-         * Sets the KeyGenerator instance value.
-         *
-         * @param generator Provided keyGenerator instance.
-         */
-        public void setGenerator(final KeyGenerator generator) {
-            _keyGenerator = generator;
-        }
-
-        /**
-         * Sets typeHandler object with the value provided.
-         * 
-         * @param typeHandler Provided typeHandler instance.
-         */
-        public void setTypeHandler(final KeyGeneratorTypeHandler<? extends Object> typeHandler) {
-            _typeHandler = typeHandler;
-        }
-    }
-
-    /**
-     * Implements SequenceKeyGenValueHandler that generates sql query used as 
-     * a default query except for the particular database engine types.
-     */
-    private class DefaultType extends SequenceKeyGenValueHandler {
-        
-        /**
-         * Generates sql select query for fetching identity and then calss the
-         * base class getValue method of query execution.
-         * 
-         * @param conn An open JDBC connection.
-         * @param tableName Name of the table from which identity will be fetched.
-         * @param primKeyName Primary key of the table.
-         * @param props database engine specific properties. 
-         * @return ResutlSet containing identity.
-         * @throws Exception If database error occurs. 
-         */
-        protected Object getValue(final Connection conn, final String tableName,
-                final String primKeyName, final Properties props) throws Exception {
-            return getValue("SELECT "
-                    + _factory.quoteName(getSeqName(tableName, primKeyName) + ".currval")
-                    + " FROM " + _factory.quoteName(tableName), conn);
-        }
-    }
-    
-    /**
-     * Implements SequenceKeyGenValueHandler that generates sql query for fetching
-     * identity from Postgressql database.  
-     */
-    private class PostgresqlType extends SequenceKeyGenValueHandler {
-        
-        /**
-         * Generates sql select query for fetching identity and then calss the
-         * base class getValue method of query execution.
-         * 
-         * @param conn An open JDBC connection.
-         * @param tableName Name of the table from which identity will be fetched.
-         * @param primKeyName Primary key of the table.
-         * @param props database engine specific properties. 
-         * @return ResutlSet containing identity.
-         * @throws Exception If database error occurs. 
-         */
-        protected Object getValue(final Connection conn, final String tableName,
-                final String primKeyName, final Properties props) throws Exception {
-            String sql = "SELECT currval('\"" + getSeqName(tableName, primKeyName) + "\"')";
-            return getValue(sql, conn);
-        }
-    }
-        
+public final class SequenceAfterKeyGenerator extends AbstractAfterKeyGenerator {        
     //-----------------------------------------------------------------------------------
     
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
@@ -190,9 +58,6 @@ public final class SequenceAfterKeyGenerator extends AbstractAfterKeyGenerator {
      
     /** Particular type handler instance. */
     private KeyGeneratorTypeHandler<? extends Object> _typeHandler;
-
-    /** Sequence Key handler type. */
-    private SequenceKeyGenValueHandler _type = null;
 
     //-----------------------------------------------------------------------------------
     
@@ -214,7 +79,6 @@ public final class SequenceAfterKeyGenerator extends AbstractAfterKeyGenerator {
         _seqName = params.getProperty("sequence", "{0}_seq");
         
         initSqlTypeHandler(sqlType);
-        initType();
     }
 
     /**
@@ -245,18 +109,6 @@ public final class SequenceAfterKeyGenerator extends AbstractAfterKeyGenerator {
         return MessageFormat.format(_seqName, new Object[] {tableName, primKeyName});
     }
     
-    /** Instantiate class properties i.e type and typeHandler based on the 
-     * factory type. */
-    private void initType() {
-        if (PostgreSQLFactory.FACTORY_NAME.equals(_factory.getFactoryName())) {
-            _type = new PostgresqlType();
-        } else {
-            _type = new DefaultType();
-        }
-        _type.setGenerator(this);
-        _type.setTypeHandler(_typeHandler);
-     }
-    
     //-----------------------------------------------------------------------------------
 
     /**
@@ -269,11 +121,31 @@ public final class SequenceAfterKeyGenerator extends AbstractAfterKeyGenerator {
      */
     public Object generateKey(final Connection conn, final String tableName,
             final String primKeyName, final Properties props) throws PersistenceException {
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
         try {
-            return _type.getValue(conn, tableName, primKeyName, props);
-        } catch (Exception e) {
-            LOG.error("Problem generating new key", e);
-            throw new PersistenceException(Messages.format("persist.keyGenSQL", e));
+            // prepares the statement
+            String sql = _factory.getSequenceAfterSelectString(
+                 getSeqName(tableName, primKeyName), tableName);
+            stmt = conn.prepareStatement(sql);
+            
+            // execute the prepared statement
+            rs = stmt.executeQuery();
+            
+            // process result set using appropriate handler and return its value
+            return _typeHandler.getValue(rs);
+        } catch (SQLException e) {
+            String msg = Messages.format("persist.keyGenSQL", 
+                    this.getClass().getName(), e.toString());
+            throw new PersistenceException(msg);
+        } finally {
+            try {
+                if (rs != null) { rs.close(); }
+                if (stmt != null) { stmt.close(); }
+            } catch (SQLException e) {
+                LOG.warn("Problem closing JDBC statement", e);
+            }
         }
     }
 

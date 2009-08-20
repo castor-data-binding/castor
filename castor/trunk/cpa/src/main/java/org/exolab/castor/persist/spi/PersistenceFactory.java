@@ -160,7 +160,7 @@ public interface PersistenceFactory {
      * @param columnName Name of the column from which identity needs to be fetched.
      * @return SQL Query string for fetching the identity value.
      */
-    String getIdentityQueryString(final String tableName, final String columnName);
+    String getIdentitySelectString(final String tableName, final String columnName);
     
     /**
      * Does persistence factory support generation of new key at the time of new
@@ -189,6 +189,28 @@ public interface PersistenceFactory {
      * @return String to fetch sequence next value.
      */
     String getSequenceNextValString(String seqName);
+
+    /**
+     * Returns the database specific SELECT query string 
+     * for fetching identity before the next INSERT statement gets executed.
+     * 
+     * @param seqName Name of sequence.
+     * @param tableName Name of the table from which identity will be fetched.
+     * @param increment Increment value used in Interbase database engine. 
+     * @return SELECT sql string
+     */
+    String getSequenceBeforeSelectString(String seqName, 
+           String tableName, int increment);
+    
+    /**
+     * Returns the database specific SELECT query string 
+     * for fetching identity after the INSERT statement executed.
+     * 
+     * @param seqName Name of sequence.
+     * @param tableName Name of the table from which identity will be fetched.
+     * @return SELECT sql string
+     */
+    String getSequenceAfterSelectString(String seqName, String tableName);
     
     //-----------------------------------------------------------------------------------
 }

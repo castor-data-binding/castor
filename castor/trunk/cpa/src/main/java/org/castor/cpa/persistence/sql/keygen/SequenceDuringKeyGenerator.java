@@ -18,10 +18,7 @@ package org.castor.cpa.persistence.sql.keygen;
 import java.sql.Connection;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
-import java.text.MessageFormat;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
@@ -31,12 +28,10 @@ import org.castor.core.util.Messages;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.jdo.Database;
-import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.engine.SQLColumnInfo;
 import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.jdo.engine.SQLFieldInfo;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
-import org.castor.cpa.persistence.sql.engine.SQLStatementInsertCheck;
 import org.castor.cpa.persistence.sql.query.Insert;
 import org.castor.cpa.persistence.sql.query.QueryContext;
 import org.castor.persist.ProposedEntity;
@@ -53,120 +48,10 @@ import org.exolab.castor.persist.spi.Identity;
  */
 public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
     //-----------------------------------------------------------------------------------
-
-    /**
-     * Implements database engine specific subclasses which generates the
-     * database specific query systex for fetching ID from the database and then
-     * SequenceKeyGetValueHandler runs that query using JDBC connection.
-     */
-    private abstract class SequenceKeyGenValueHandler {
-
-        /** key generator for producing identities for objects after 
-         * they are created in the database.
-         */
-        private KeyGenerator _keyGenerator;
-        
-        /** Particular type handler instance. */
-        private KeyGeneratorTypeHandler<? extends Object> _typeHandler;
-
-        /** Abstract method that must be implemented by subclasses of this class and
-         * responsible for running query to get identity. 
-         * 
-         * @param conn An open JDBC connection.
-         * @param tableName Name of the table from which identity will be fetched.
-         * @param primKeyName Primary key of the table.
-         * @param props database engine specific properties.  
-         * 
-         * @return Identity.
-         * @throws Exception If fails to retrieve  identity. 
-         */
-        protected abstract Object getValue(Connection conn, String tableName,
-                String primKeyName, Properties props) throws Exception;
-
-        /**
-         * Method that runs sql query using the provided JDBC connection.
-         * 
-         * @param sql A sql query
-         * @param conn An open JDBC connection
-         * 
-         * @return Query results containing the identity value. 
-         * @throws PersistenceException If fails to retrive identity value from resultset or
-         *                              database error occurs. 
-         */
-        public Object getValue(final String sql, final Connection conn)
-        throws PersistenceException {
-            PreparedStatement stmt = null;
-            try {
-                stmt = conn.prepareStatement(sql);
-                ResultSet rs = stmt.executeQuery();
-                return _typeHandler.getValue(rs);
-            } catch (SQLException e) {
-                String msg = Messages.format("persist.keyGenSQL", 
-                        _keyGenerator.getClass().getName(), e.toString());
-                throw new PersistenceException(msg);
-            } finally {
-                if (stmt != null) {
-                    try {
-                        stmt.close();
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            }
-        }
-
-        /**
-         * Sets the KeyGenerator instance value.
-         *
-         * @param generator Provided keyGenerator instance.
-         */
-        public void setGenerator(final KeyGenerator generator) {
-            _keyGenerator = generator;
-        }
-
-        /**
-         * Sets typeHandler object with the value provided.
-         * 
-         * @param typeHandler Provided typeHandler instance.
-         */
-        public void setTypeHandler(final KeyGeneratorTypeHandler<? extends Object> typeHandler) {
-            _typeHandler = typeHandler;
-        }
-    }
-
-    /**
-     * Implements SequenceKeyGenValueHandler that generates sql query used as 
-     * a default query except for the particular database engine types.
-     */
-    private class DefaultType extends SequenceKeyGenValueHandler {
-       /**
-         * Generates sql select query for fetching identity and then calss the
-         * base class getValue method of query execution.
-         * 
-         * @param conn An open JDBC connection.
-         * @param tableName Name of the table from which identity will be fetched.
-         * @param primKeyName Primary key of the table.
-         * @param props database engine specific properties. 
-         * @return ResutlSet containing identity.
-         * @throws Exception If database error occurs. 
-         */
-        protected Object getValue(final Connection conn, final String tableName,
-                final String primKeyName, final Properties props) throws Exception {
-            // used for orcale and sap after_insert
-            return getValue("SELECT "
-                    + _factory.quoteName(getSeqName(tableName, primKeyName) + ".currval")
-                    + " FROM " + _factory.quoteName(tableName), conn);
-        }
-    }
-    
-    //-----------------------------------------------------------------------------------
     
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(SequenceDuringKeyGenerator.class);
-     
-    /** Key length used for KeyGeneratorTypeHandlerString. */
-    private static final int STRING_KEY_LENGTH = 8;
     
     /** Persistence factory for the database engine the entity is persisted in.
      *  Used to format the SQL statement. */
@@ -178,18 +63,9 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
     /** Sequence name associated with the table. */
     private String _seqName;
     
-    /** Particular type handler instance. */
-    private KeyGeneratorTypeHandler<? extends Object> _typeHandler;
-
-    /** Databse engine type. */
-    private SequenceKeyGenValueHandler _type = null;
-    
     /** SQL engine for all persistence operations at entities of the type this
      * class is responsible for. Holds all required information of the entity type. */
     private SQLEngine _engine;
-    
-    /** An sql statement. */
-   // private String _statement;
     
     /** Name of the Table extracted from Class descriptor. */
     private String _mapTo;
@@ -218,47 +94,8 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
         _factory = factory;        
         _triggerPresent = "true".equals(params.getProperty("trigger", "false"));
         _seqName = params.getProperty("sequence", "{0}_seq");
-        _ctx = new QueryContext(_factory);
-        
-        initSqlTypeHandler(sqlType);
-        initType();
+        _ctx = new QueryContext(_factory);        
     }
-
-    /**
-     * Initialize the Handler based on SQL Type.
-     * 
-     * @param sqlType A SQLTypidentifier.
-     */
-    protected void initSqlTypeHandler(final int sqlType) {
-        if (sqlType == Types.INTEGER) {
-            _typeHandler = new KeyGeneratorTypeHandlerInteger(true);
-        } else if (sqlType == Types.BIGINT) {
-            _typeHandler = new KeyGeneratorTypeHandlerLong(true);
-        } else if ((sqlType == Types.CHAR) || (sqlType == Types.VARCHAR)) {
-            _typeHandler = new KeyGeneratorTypeHandlerString(true, STRING_KEY_LENGTH);
-        } else {
-            _typeHandler = new KeyGeneratorTypeHandlerBigDecimal(true);
-        }
-    }
-    
-    /**
-     * Formats the sequence name using name of the table and ID.
-     * 
-     * @param tableName Name of the table.
-     * @param primKeyName ID of the table.
-     * @return Strign representing formatted sequence name.
-     */
-    private String getSeqName(final String tableName, final String primKeyName) {
-        return MessageFormat.format(_seqName, new Object[] {tableName, primKeyName});
-    }
-    
-    /** Instantiate class properties i.e type and typeHandler based on the 
-     * factory type. */
-    private void initType() {
-        _type = new DefaultType();
-        _type.setGenerator(this);
-        _type.setTypeHandler(_typeHandler);
-     }
     
     //-----------------------------------------------------------------------------------
 
@@ -272,12 +109,7 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
      */
     public Object generateKey(final Connection conn, final String tableName,
             final String primKeyName, final Properties props) throws PersistenceException {
-        try {
-            return _type.getValue(conn, tableName, primKeyName, props);
-        } catch (Exception e) {
-            LOG.error("Problem generating new key", e);
-            throw new PersistenceException(Messages.format("persist.keyGenSQL", e));
-        }
+    return null;
     }
 
     /**
@@ -314,7 +146,7 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
             }
         }
         SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
-        //_statement = this.patchSQL(_statement, ids[0].getName());
+
         if (!_triggerPresent) {
             insert.addInsert(ids[0].getName(), _seqName);
         }
@@ -332,7 +164,6 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
      */
     public Object executeStatement(final Database database, final Connection conn, 
             final Identity identity, final ProposedEntity entity) throws PersistenceException {
-        SQLStatementInsertCheck lookupStatement = new SQLStatementInsertCheck(_engine, _factory);
         Identity internalIdentity = identity;
         SQLEngine extended = _engine.getExtends();
 

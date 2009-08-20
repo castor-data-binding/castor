@@ -113,7 +113,7 @@ public class GenericFactory extends BaseFactory {
     /**
      * {@inheritDoc}
      */
-    public String getIdentityQueryString(final String tableName, final String columnName) {
+    public String getIdentitySelectString(final String tableName, final String columnName) {
         throw new UnsupportedOperationException();
     }
     
@@ -136,6 +136,23 @@ public class GenericFactory extends BaseFactory {
      */
     public String getSequenceNextValString(final String seqName) {
         return null;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public String getSequenceAfterSelectString(final String seqName, final String tableName) {
+    return "SELECT " + this.quoteName(seqName + ".currval")
+    + " FROM " + this.quoteName(tableName);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String getSequenceBeforeSelectString(final String seqName, 
+    final String tableName, final int increment) {
+    return "SELECT " + this.quoteName(seqName + ".currval") + " FROM " 
+    + this.quoteName(tableName);    
     }
     
     //-----------------------------------------------------------------------------------

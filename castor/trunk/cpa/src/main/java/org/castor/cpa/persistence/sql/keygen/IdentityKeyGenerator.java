@@ -115,7 +115,7 @@ public final class IdentityKeyGenerator extends AbstractAfterKeyGenerator {
 
         try {
             // prepares the statement
-            String sql = _factory.getIdentityQueryString(tableName, primKeyName);
+            String sql = _factory.getIdentitySelectString(tableName, primKeyName);
             stmt = conn.prepareStatement(sql);
             
             // execute the prepared statement

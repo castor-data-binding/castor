@@ -91,7 +91,7 @@ public final class DB2Factory extends GenericFactory {
     }
     
     @Override
-    public String getIdentityQueryString(final String tableName, final String columnName) {
+    public String getIdentitySelectString(final String tableName, final String columnName) {
         return "SELECT IDENTITY_VAL_LOCAL() FROM sysibm.sysdummy1";
     }
     
@@ -112,6 +112,12 @@ public final class DB2Factory extends GenericFactory {
         if (type == Types.VARCHAR) { return true; }
 
         return false;
+    }
+    
+    @Override
+    public String getSequenceBeforeSelectString(final String seqName, 
+           final String tableName, final int increment) {
+    return "SELECT nextval FOR " + seqName + " FROM SYSIBM.SYSDUMMY1";    
     }
     
     //-----------------------------------------------------------------------------------

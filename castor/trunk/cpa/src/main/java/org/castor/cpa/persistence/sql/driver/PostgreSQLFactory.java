@@ -130,7 +130,7 @@ public final class PostgreSQLFactory extends GenericFactory {
     }
     
     @Override
-    public String getIdentityQueryString(final String tableName, final String columnName) {
+    public String getIdentitySelectString(final String tableName, final String columnName) {
         // PostgreSQL uses a sequence in the background
         // name of the sequence is: <table-name>_<column-name>_seq
         return "SELECT currval('\"" +  tableName + "_" + columnName + "_seq\"')";
@@ -153,6 +153,17 @@ public final class PostgreSQLFactory extends GenericFactory {
         if (type == Types.VARCHAR) { return true; }
 
         return false;
+    }
+    
+    @Override
+    public String getSequenceBeforeSelectString(final String seqName, 
+    final String tableName, final int increment) { 
+    return "SELECT nextval('\"" + seqName + "\"')";
+    }
+    
+    @Override
+    public String getSequenceAfterSelectString(final String seqName, final String tableName) {
+    return "SELECT currval('\"" + seqName + "\"')";
     }
     
     //-----------------------------------------------------------------------------------
