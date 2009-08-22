@@ -589,25 +589,3 @@ CREATE TABLE tc9x_poly_depend_object (
 );
 
 INSERT INTO tc9x_poly_depend_object VALUES(1, 1, 'This is a description');
-
-# TC20x - self-referential relations 
- 
-drop table tc200_self_relation_folder;
-create table tc200_self_relation_folder (
-  id          int		     	not null,  
-  name        varchar(255)    	not null,
-  parent_id	  int				DEFAULT null
-  
-);
-
-drop table tc200_self_relation_parent;
-create table tc200_self_relation_parent (
-  id          int		     	not null,  
-  name        varchar(255)    	not null
-);
-
-drop table tc200_self_relation_extend;
-create table tc200_self_relation_extend (
-  id          int		     	not null,  
-  parent_id	  int				DEFAULT null
-);

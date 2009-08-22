@@ -22,9 +22,6 @@
     <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
     <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
     <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
-
-    <!-- tc20x -->
-    <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
   <category name="hsql" class="jdo.JDOCategory">
@@ -52,9 +49,6 @@
     <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
     <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
     <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
-
-    <!-- tc20x -->
-    <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
   <category name="mssql" class="jdo.JDOCategory">
@@ -80,9 +74,6 @@
     <!-- <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/> -->
     <!-- <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/> -->
     <!-- <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/> -->
-
-    <!-- tc20x -->
-    <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
   <category name="mysql" class="jdo.JDOCategory">
@@ -108,9 +99,6 @@
     <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
     <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
     <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
-    
-    <!-- tc20x -->
-    <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/>
   </category>
 
   <category name="oracle" class="jdo.JDOCategory">
@@ -136,9 +124,6 @@
     <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
     <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
     <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
-
-    <!-- tc20x -->
-    <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
   <category name="postgresql" class="jdo.JDOCategory">
@@ -164,9 +149,6 @@
     <!-- <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/> -->
     <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
     <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
-
-    <!-- tc20x -->
-    <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
   <category name="sapdb" class="jdo.JDOCategory">
@@ -192,9 +174,6 @@
     <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
     <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
     <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
-
-    <!-- tc20x -->
-    <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/>
   </category>
 
   <category name="sybase" class="jdo.JDOCategory">
@@ -220,9 +199,6 @@
     <!-- <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/> -->
     <!-- <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/> -->
     <!-- <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/> -->
-
-    <!-- tc20x -->
-    <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
   <category name="derby" class="jdo.JDOCategory">
@@ -247,9 +223,6 @@
     <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
     <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
     <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
-
-    <!-- tc20x -->
-    <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
   <category name="pointbase" class="jdo.JDOCategory">
@@ -275,9 +248,6 @@
     <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
     <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
     <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
-
-    <!-- tc20x -->
-    <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
   <category name="progress" class="jdo.JDOCategory">
@@ -303,9 +273,6 @@
     <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
     <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
     <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
-
-    <!-- tc20x -->
-    <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
 <!--

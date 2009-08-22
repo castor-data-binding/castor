@@ -557,26 +557,3 @@ CREATE TABLE tc9x_poly_OfferComposition(
   Offer NUMERIC(10) not null,
   Product NUMERIC(10) not null, 
   CONSTRAINT unique_rel UNIQUE (Offer, Product) );
-
-# TC20x - self-referential relations 
- 
-drop table tc200_self_relation_folder;
-create table tc200_self_relation_folder (
-  id          int                 not null,  
-  name        varchar(255)        not null,
-  parent_id      int                null
-  
-);
-
-drop table tc200_self_relation_parent;
-create table tc200_self_relation_parent (
-  id          int                 not null,  
-  name        varchar(255)        not null
-);
-
-drop table tc200_self_relation_extend;
-create table tc200_self_relation_extend (
-  id          int                 not null,  
-  parent_id      int                null
-);
-    
