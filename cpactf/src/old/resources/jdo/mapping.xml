@@ -3,5 +3,4 @@
 <mapping>
   <include href="../ctf/jdo/tc0x/mapping.xml"/>
   <include href="../ctf/jdo/tc9x/mapping.xml"/>
-  <include href="../ctf/jdo/tc20x/mapping.xml"/>
 </mapping>

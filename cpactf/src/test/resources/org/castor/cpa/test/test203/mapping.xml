@@ -1,13 +1,10 @@
 <?xml version="1.0" ?>
 <!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
-                           "http://castor.exolab.org/mapping.dtd">
+                           "http://castor.org/mapping.dtd">
 <mapping>
-
-	<!-- mapping for class to test bug 928 - internal self-relation -->
-
-    <class name="ctf.jdo.tc20x.TimezoneEntity" identity="id">
+      <class name="org.castor.cpa.test.test203.TimezoneEntity" identity="id">
         <description>TimezoneEntity</description>
-        <map-to table="tc203_timezone_entity"/>
+        <map-to table="test203_timezone_entity"/>
         <field name="id" type="integer">
             <sql name="id" type="integer"/>
         </field>
@@ -24,6 +21,4 @@
             <sql name="start_stamp" type="timestamp"/>
         </field>
     </class>
-    
 </mapping>
-
