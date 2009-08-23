@@ -51,12 +51,12 @@ public final class TestExtended extends CPATestCase {
     // Test are only included/excluded for engines that have been tested with this test suite.
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL)
+        return (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.ORACLE)
-            || (engine == DatabaseEngineType.SQL_SERVER)
+            || (engine == DatabaseEngineType.POSTGRESQL)
             || (engine == DatabaseEngineType.SAPDB)
-            || (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.POSTGRESQL);
+            || (engine == DatabaseEngineType.SQL_SERVER);
     }
         
     public void delete() throws Exception {

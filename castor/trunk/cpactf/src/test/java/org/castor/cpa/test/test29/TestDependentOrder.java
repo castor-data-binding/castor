@@ -48,10 +48,10 @@ public final class TestDependentOrder extends CPATestCase {
 
     public boolean include(final DatabaseEngineType engine) {
         return false;
-//        return (engine == DatabaseEngineType.MYSQL)
-//            || (engine == DatabaseEngineType.DERBY)
-//            || (engine == DatabaseEngineType.POSTGRESQL)
-//            || (engine == DatabaseEngineType.ORACLE);
+//        return (engine == DatabaseEngineType.DERBY)
+//            || (engine == DatabaseEngineType.MYSQL)
+//            || (engine == DatabaseEngineType.ORACLE)
+//            || (engine == DatabaseEngineType.POSTGRESQL);
     }
 
     /**

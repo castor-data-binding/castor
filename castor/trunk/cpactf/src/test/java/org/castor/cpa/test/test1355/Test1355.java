@@ -38,12 +38,12 @@ public final class Test1355 extends CPATestCase {
 
     public boolean include(final DatabaseEngineType engine) {
         return false;
-//        return (engine == DatabaseEngineType.MYSQL)
+//        return (engine == DatabaseEngineType.DERBY)
+//            || (engine == DatabaseEngineType.MYSQL)
 //            || (engine == DatabaseEngineType.ORACLE)
-//            || (engine == DatabaseEngineType.SQL_SERVER)
+//            || (engine == DatabaseEngineType.POSTGRESQL)
 //            || (engine == DatabaseEngineType.SAPDB)
-//            || (engine == DatabaseEngineType.DERBY)
-//            || (engine == DatabaseEngineType.POSTGRESQL);
+//            || (engine == DatabaseEngineType.SQL_SERVER);
     }
     
     /**

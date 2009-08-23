@@ -33,8 +33,8 @@ public final class TestKeyGenSequence extends AbstractTestKeyGenInteger {
     }
 
     public boolean exclude(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.DERBY);
+        return (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.MYSQL);
     }
 
     public void testKeyGenSequence() throws Exception {

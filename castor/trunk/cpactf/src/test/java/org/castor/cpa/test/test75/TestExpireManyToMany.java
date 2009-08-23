@@ -70,10 +70,10 @@ public final class TestExpireManyToMany extends CPATestCase {
     // Test are only included/excluded for engines that have been tested with this test suite.
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.POSTGRESQL)
-            || (engine == DatabaseEngineType.HSQL);
+        return (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.HSQL)
+            || (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
 
     /**
