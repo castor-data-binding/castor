@@ -49,12 +49,14 @@ public final class TestTimezone extends CPATestCase {
     }
 
     // Test are only included/excluded for engines that have been tested with this test suite.
+    // Disabled according to problems with timezone handled at CASTOR-2814
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.HSQL)
-            || (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.POSTGRESQL);
+        return false;
+//        return (engine == DatabaseEngineType.DERBY)
+//            || (engine == DatabaseEngineType.HSQL)
+//            || (engine == DatabaseEngineType.MYSQL)
+//            || (engine == DatabaseEngineType.POSTGRESQL);
     }
     
     public void testDate() throws Exception {
