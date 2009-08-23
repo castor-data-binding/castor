@@ -54,8 +54,8 @@ public final class TestStoredProcedure extends CPATestCase {
     }
     
     public boolean exclude(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.DERBY);
+        return (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.MYSQL);
     }
     
     public void setUp() throws Exception {

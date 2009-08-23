@@ -29,9 +29,9 @@ public final class TestKeyGenIdentity extends AbstractTestKeyGenInteger {
     // Test are only included/excluded for engines that have been tested with this test suite.
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.DERBY)
+        return (engine == DatabaseEngineType.DERBY)
             || (engine == DatabaseEngineType.HSQL)
+            || (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.POSTGRESQL);
     }
 

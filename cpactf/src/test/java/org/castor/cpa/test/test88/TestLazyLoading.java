@@ -52,8 +52,8 @@ public final class TestLazyLoading extends CPATestCase {
     // this test suite.
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.DERBY);
+        return (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.MYSQL);
     }
 
     public void setUp() throws Exception {

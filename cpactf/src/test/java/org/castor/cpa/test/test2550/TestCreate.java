@@ -32,7 +32,6 @@ public final class TestCreate extends CPATestCase {
     }
 
     // Test are only included/excluded for engines that have been tested with this test suite.
-    // There is a problem with SAPDB handled at CASTOR-2724 that causes this test to fail
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.ORACLE);
@@ -43,10 +42,10 @@ public final class TestCreate extends CPATestCase {
     // postgresql do not support returning sequence.
 
     public boolean exclude(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.SQL_SERVER)
-            || (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.POSTGRESQL);
+        return (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.POSTGRESQL)
+            || (engine == DatabaseEngineType.SQL_SERVER);
     }
     
     public void delete() throws Exception {

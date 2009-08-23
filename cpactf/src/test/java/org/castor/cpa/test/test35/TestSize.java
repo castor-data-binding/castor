@@ -45,8 +45,8 @@ public final class TestSize extends CPATestCase {
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.DERBY)
             || (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.POSTGRESQL)
-            || (engine == DatabaseEngineType.ORACLE);
+            || (engine == DatabaseEngineType.ORACLE)
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
     
     public void setUp() throws Exception {

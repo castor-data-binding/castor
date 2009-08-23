@@ -32,12 +32,11 @@ public final class TestIsPersistent extends CPATestCase {
         super(name);
     }
 
-    // Test are only included/excluded for engines that have been tested with
-    // this test suite.
+    // Test are only included/excluded for engines that have been tested with this test suite.
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.DERBY);
+        return (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.MYSQL);
     }
 
     public void setUp() throws Exception {
