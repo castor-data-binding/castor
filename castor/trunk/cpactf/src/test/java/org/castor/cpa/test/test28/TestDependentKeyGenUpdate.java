@@ -133,7 +133,7 @@ public final class TestDependentKeyGenUpdate extends CPATestCase {
         _detailId3 = detail3.getId();
 
         _db.begin();
-        master = (MasterKeyGen) _db.load(MasterKeyGen.class, new Integer(_masterId));
+        master = _db.load(MasterKeyGen.class, new Integer(_masterId));
         if (master != null) {
             if (master.getGroup() == null) {
                 LOG.error("loaded master without group: " + master);
@@ -188,7 +188,7 @@ public final class TestDependentKeyGenUpdate extends CPATestCase {
 
         LOG.debug("Attempt to change details");
         _db.begin();
-        master = (MasterKeyGen) _db.load(MasterKeyGen.class, new Integer(_masterId));
+        master = _db.load(MasterKeyGen.class, new Integer(_masterId));
         if (master == null) {
             LOG.error("failed to find master with details group");
             fail("master not found");
@@ -213,7 +213,7 @@ public final class TestDependentKeyGenUpdate extends CPATestCase {
         _detailId3 = detail3.getId();
 
         _db.begin();
-        master = (MasterKeyGen) _db.load(MasterKeyGen.class, new Integer(_masterId));
+        master = _db.load(MasterKeyGen.class, new Integer(_masterId));
         if (master != null) {
             if (master.getDetails().size() == 0
                     || master.getDetails().contains(new DetailKeyGen(_detailId5))
@@ -244,14 +244,14 @@ public final class TestDependentKeyGenUpdate extends CPATestCase {
 
         LOG.debug("Test long transaction with dirty checking");
         _db.begin();
-        master = (MasterKeyGen) _db.load(MasterKeyGen.class, new Integer(_masterId));
+        master = _db.load(MasterKeyGen.class, new Integer(_masterId));
         if (master == null) {
             LOG.error("failed to find master with details group");
             fail("master not found");
         }
         _db.commit();
         _db.begin();
-        master2 = (MasterKeyGen) _db.load(MasterKeyGen.class, new Integer(_masterId));
+        master2 = _db.load(MasterKeyGen.class, new Integer(_masterId));
         master2.setValue1(master2.getValue1() + "2");
         _db.commit();
 
@@ -315,7 +315,7 @@ public final class TestDependentKeyGenUpdate extends CPATestCase {
 
         LOG.debug("Test 4");
         _db.begin();
-        master = (MasterKeyGen) _db.load(MasterKeyGen.class, new Integer(_masterId));
+        master = _db.load(MasterKeyGen.class, new Integer(_masterId));
         if (master != null) {
             if (master.getDetails().size() == 0
                     || !master.getDetails().contains(new DetailKeyGen(_detailIdA))
@@ -353,7 +353,7 @@ public final class TestDependentKeyGenUpdate extends CPATestCase {
         _detailId3 = detail3.getId();
 
         _db.begin();
-        master = (MasterKeyGen) _db.load(MasterKeyGen.class, new Integer(_masterId));
+        master = _db.load(MasterKeyGen.class, new Integer(_masterId));
         if (master != null) {
             if (master.getDetails() == null
                     || master.getDetails().size() == 0
@@ -390,7 +390,7 @@ public final class TestDependentKeyGenUpdate extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        master = (MasterKeyGen) _db.load(MasterKeyGen.class, new Integer(_masterId));
+        master = _db.load(MasterKeyGen.class, new Integer(_masterId));
         if (master != null) {
             if (master.getDetails() == null
                     || master.getDetails().size() == 0

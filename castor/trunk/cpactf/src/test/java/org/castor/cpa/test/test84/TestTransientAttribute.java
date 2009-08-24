@@ -54,8 +54,7 @@ public final class TestTransientAttribute extends CPATestCase {
     public void testTransientAttribute() throws Exception {
         _db.begin();
         
-        TransientMaster entity = (TransientMaster) _db.load(
-                TransientMaster.class, new Integer(1));
+        TransientMaster entity = _db.load(TransientMaster.class, new Integer(1));
         assertNotNull(entity);
         assertEquals(new Integer(1), entity.getId());
         assertEquals("entity1", entity.getName());
@@ -110,8 +109,7 @@ public final class TestTransientAttribute extends CPATestCase {
 
         _db.begin();
         
-        TransientMaster loadedEntity = (TransientMaster) _db.load(
-                TransientMaster.class, new Integer (100));
+        TransientMaster loadedEntity = _db.load(TransientMaster.class, new Integer (100));
         assertNotNull(loadedEntity);
         assertEquals(new Integer(100), loadedEntity.getId());
         assertEquals("entity100", loadedEntity.getName());
@@ -130,7 +128,7 @@ public final class TestTransientAttribute extends CPATestCase {
 
         _db.begin();
         
-        entity = (TransientMaster) _db.load(TransientMaster.class, new Integer (1));
+        entity = _db.load(TransientMaster.class, new Integer (1));
         assertNotNull(entity);
         assertEquals(new Integer(1), entity.getId());
         assertEquals("entity1", entity.getName());
@@ -145,7 +143,7 @@ public final class TestTransientAttribute extends CPATestCase {
 
         _db.begin();
         
-        entity = (TransientMaster) _db.load(TransientMaster.class, new Integer (1));
+        entity = _db.load(TransientMaster.class, new Integer (1));
         assertNotNull(entity);
         assertEquals(new Integer(1), entity.getId());
         assertEquals("entity1", entity.getName());

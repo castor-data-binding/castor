@@ -111,14 +111,14 @@ public final class TestDirtyIgnore extends CPATestCase {
         
         //1. Client loads objects and changes country of state
         db.begin();
-        State state = (State) db.load(State.class, "AASTBRPR");
-        Country country = (Country) db.load(Country.class, "AAAACTTS");
+        State state = db.load(State.class, "AASTBRPR");
+        Country country = db.load(Country.class, "AAAACTTS");
         state.setCountry(country);
         db.commit();
         
         //2. reload objects from updated cache
         db.begin();
-        state = (State) db.load(State.class, "AASTBRPR");
+        state = db.load(State.class, "AASTBRPR");
         db.commit();
         
         //3. lets check if database changes too
@@ -146,25 +146,25 @@ public final class TestDirtyIgnore extends CPATestCase {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
         
-        state = (State) db.load(State.class, "AASTBRPR");
+        state = db.load(State.class, "AASTBRPR");
         db.remove(state);
         
-        state = (State) db.load(State.class, "AASTBRSP");
+        state = db.load(State.class, "AASTBRSP");
         db.remove(state);
         
-        state = (State) db.load(State.class, "AASTUSTX");
+        state = db.load(State.class, "AASTUSTX");
         db.remove(state);
         
-        state = (State) db.load(State.class, "AASTUSCL");
+        state = db.load(State.class, "AASTUSCL");
         db.remove(state);
         
-        country = (Country) db.load(Country.class, "AAAACTBR");
+        country = db.load(Country.class, "AAAACTBR");
         db.remove(country);
 
-        country = (Country) db.load(Country.class, "AAAACTUS");
+        country = db.load(Country.class, "AAAACTUS");
         db.remove(country);
         
-        country = (Country) db.load(Country.class, "AAAACTTS");
+        country = db.load(Country.class, "AAAACTTS");
         db.remove(country);
         
         db.commit();

@@ -140,8 +140,7 @@ public final class PersistentObject implements Persistent, TimeStampable, Serial
 
     public Class<?> jdoLoad(final AccessMode accessMode) throws Exception {
         if (_parentId != null) {
-            _parent = (PersistentObject) _db.load(PersistentObject.class,
-                                                _parentId, accessMode);
+            _parent = _db.load(PersistentObject.class, _parentId, accessMode);
         }
 
         Query qry = _db.getOQLQuery("SELECT p FROM "

@@ -103,7 +103,7 @@ public final class TestCollections extends CPATestCase {
 
         // test if object created properly
         _db.begin();
-        testCol = (Col) _db.load(masterClass, new Integer(1));
+        testCol = _db.load(masterClass, new Integer(1));
         if (testCol == null) {
             fail("Object creation failed!");
         }
@@ -126,7 +126,7 @@ public final class TestCollections extends CPATestCase {
 
         // test if add and remove work properly.
         _db.begin();
-        testCol = (Col) _db.load(masterClass, new Integer(1));
+        testCol = _db.load(masterClass, new Integer(1));
         if (testCol == null) {
             fail("Object add/remove failed! " + testCol);
         }
@@ -181,7 +181,7 @@ public final class TestCollections extends CPATestCase {
 
         // test if object created properly
         _db.begin();
-        testCol = (ColSortedSet) _db.load(masterClass, new Integer(1));
+        testCol = _db.load(masterClass, new Integer(1));
         if (testCol == null) {
             fail("Object creation failed!");
         }
@@ -206,7 +206,7 @@ public final class TestCollections extends CPATestCase {
 
         // test if add and remove work properly.
         _db.begin();
-        testCol = (ColSortedSet) _db.load(masterClass, new Integer(1));
+        testCol = _db.load(masterClass, new Integer(1));
         if (testCol == null) {
             fail("Object add/remove failed! " + testCol);
         }
@@ -270,7 +270,7 @@ public final class TestCollections extends CPATestCase {
         _db.commit();
         // test if object created properly
         _db.begin();
-        testCol = (ColArray) _db.load(ColArray.class, new Integer(1));
+        testCol = _db.load(ColArray.class, new Integer(1));
         if (testCol == null) {
             fail("Object creation failed!");
         }
@@ -305,7 +305,7 @@ public final class TestCollections extends CPATestCase {
 
         // test if add and remove work properly.
         _db.begin();
-        testCol = (ColArray) _db.load(ColArray.class, new Integer(1));
+        testCol = _db.load(ColArray.class, new Integer(1));
         if (testCol == null) {
             fail("Object add/remove failed! " + testCol);
         }

@@ -178,7 +178,7 @@ public final class TestMultiPrimKeys extends CPATestCase {
     throws PersistenceException {
         _db.begin();
 
-        PrimaryKeysEmployee loadPerson = (PrimaryKeysEmployee) _db.load(
+        PrimaryKeysEmployee loadPerson = _db.load(
                 PrimaryKeysEmployee.class, fullname);
         
         if (loadPerson.getBirthday().equals(getDate(1922, 2, 2))
@@ -284,7 +284,7 @@ public final class TestMultiPrimKeys extends CPATestCase {
     throws PersistenceException {
         _db.begin();
         
-        PrimaryKeysEmployee loadPerson = (PrimaryKeysEmployee) _db.load(
+        PrimaryKeysEmployee loadPerson = _db.load(
                 PrimaryKeysEmployee.class, fullname);
         if (loadPerson.getBirthday().equals(getDate(1922, 2, 2))
                 && loadPerson.getFirstName().equals("First")

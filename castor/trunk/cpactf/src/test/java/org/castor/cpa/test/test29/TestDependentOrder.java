@@ -117,8 +117,7 @@ public final class TestDependentOrder extends CPATestCase {
         try {
             LOG.debug("Deleting master object");
             _db.begin();
-            master = (DependMaster) _db.load(
-                    DependMaster.class, new Integer(master.getId()));
+            master = _db.load(DependMaster.class, new Integer(master.getId()));
             _db.remove(master);
             _db.commit();
         } catch (Exception e) {

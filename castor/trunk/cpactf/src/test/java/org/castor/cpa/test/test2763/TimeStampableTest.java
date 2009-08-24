@@ -86,7 +86,7 @@ public final class TimeStampableTest extends CPATestCase {
 
         // Verify book.
         _db.begin();
-        Book loadedBook = (Book) _db.load(Book.class, 1);
+        Book loadedBook = _db.load(Book.class, 1);
         _db.commit();
 
         assertNotNull(loadedBook);
@@ -115,7 +115,7 @@ public final class TimeStampableTest extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        book = (Book) _db.load(Book.class, 1);
+        book = _db.load(Book.class, 1);
         _db.commit();
 
         // Change the title.
@@ -128,7 +128,7 @@ public final class TimeStampableTest extends CPATestCase {
 
         // Verify book.
         _db.begin();
-        Book loadedBook = (Book) _db.load(Book.class, 1);
+        Book loadedBook = _db.load(Book.class, 1);
         _db.commit();
 
         assertNotNull(loadedBook);

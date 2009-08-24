@@ -86,8 +86,7 @@ public final class Test1158 extends CPATestCase {
             Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
             db.begin();
             try {
-                ExtendedObject obj1 = (ExtendedObject) db.load(
-                        ExtendedObject.class, new Integer(1));
+                ExtendedObject obj1 = db.load(ExtendedObject.class, new Integer(1));
                 obj1.setDescription2(obj1.getDescription2() + " - 1");
                 db.commit();
                 db.close();

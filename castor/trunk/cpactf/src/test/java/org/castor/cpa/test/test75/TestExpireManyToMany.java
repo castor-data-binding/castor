@@ -429,7 +429,7 @@ public final class TestExpireManyToMany extends CPATestCase {
         try {
             db = getJDOManager(DBNAME, MAPPING).getDatabase();
             db.begin();
-            ManyGroup group = (ManyGroup) db.load(ManyGroup.class, new Integer(groupId));
+            ManyGroup group = db.load(ManyGroup.class, new Integer(groupId));
             if (group.getValue1().compareTo(expectedValue) != 0) {
                 LOG.warn("validReadTransaction: value in group " + group.getId()
                         + " does not match expected value, value: " + group.getValue1()
@@ -477,7 +477,7 @@ public final class TestExpireManyToMany extends CPATestCase {
         try {
             db = getJDOManager(DBNAME, MAPPING).getDatabase();
             db.begin();
-            ManyGroup group = (ManyGroup) db.load(ManyGroup.class, new Integer(groupId));
+            ManyGroup group = db.load(ManyGroup.class, new Integer(groupId));
             group.setValue1(JDO_UPDATED_VALUE);
             Iterator<ManyPerson> itor = group.getPeople().iterator();
             while (itor.hasNext()) {

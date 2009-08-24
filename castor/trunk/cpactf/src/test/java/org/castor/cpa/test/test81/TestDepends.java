@@ -70,21 +70,21 @@ public final class TestDepends extends CPATestCase {
         int masterId = master.getId();
 
         _db.begin();
-        master = (MasterObject) _db.load(MasterObject.class, new Integer(
+        master = _db.load(MasterObject.class, new Integer(
                 masterId));
         assertNotNull(master.getDepends());
         master.setDepends(null);
         _db.commit();
 
         _db.begin();
-        master = (MasterObject) _db.load(MasterObject.class, new Integer(
+        master = _db.load(MasterObject.class, new Integer(
                 masterId));
         assertNull(master.getDepends());
         _db.commit();
 
         // THIS part doesn't!
         _db.begin();
-        master = (MasterObject) _db.load(MasterObject.class, new Integer(
+        master = _db.load(MasterObject.class, new Integer(
                 masterId));
         depends = new DependentObject();
         depends.setDescrip("Description");
@@ -92,17 +92,16 @@ public final class TestDepends extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        master = (MasterObject) _db.load(MasterObject.class, new Integer(
+        master = _db.load(MasterObject.class, new Integer(
                 masterId));
         assertNotNull(master.getDepends());
         _db.commit();
 
         _db.begin();
-        master = (MasterObject) _db.load(MasterObject.class, new Integer(
+        master = _db.load(MasterObject.class, new Integer(
                 masterId));
         assertNotNull(master);
         _db.remove(master);
         _db.commit();
     }
-
 }

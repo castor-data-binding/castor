@@ -97,14 +97,14 @@ public final class TestMultiPrimKeysOnly extends CPATestCase {
         
         _db.begin();
         Identity identity = new Identity(new Object[] {"werner", "guttmann"});
-        PrimaryKeysOnly searched = (PrimaryKeysOnly) _db.load(PrimaryKeysOnly.class, identity);
+        PrimaryKeysOnly searched = _db.load(PrimaryKeysOnly.class, identity);
         assertNotNull(searched);
         assertEquals("werner", searched.getFirstName());
         assertEquals("guttmann", searched.getLastName());
         _db.commit();
         
         _db.begin();
-        PrimaryKeysOnly toDelete = (PrimaryKeysOnly) _db.load(PrimaryKeysOnly.class, identity);
+        PrimaryKeysOnly toDelete = _db.load(PrimaryKeysOnly.class, identity);
         assertNotNull(toDelete);
         _db.remove(toDelete);
         _db.commit();

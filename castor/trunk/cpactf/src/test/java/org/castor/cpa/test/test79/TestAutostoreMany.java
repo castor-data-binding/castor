@@ -59,7 +59,7 @@ public final class TestAutostoreMany extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        main = (AutostoreMainMany) _db.load(AutostoreMainMany.class, new Integer(100));
+        main = _db.load(AutostoreMainMany.class, new Integer(100));
         assertNotNull(main);
         assertEquals(100, main.getId().intValue());
         assertEquals("main.100", main.getName());
@@ -68,7 +68,7 @@ public final class TestAutostoreMany extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        main = (AutostoreMainMany) _db.load(AutostoreMainMany.class, new Integer(100));
+        main = _db.load(AutostoreMainMany.class, new Integer(100));
         _db.remove(main);
         _db.commit();
 
@@ -90,7 +90,7 @@ public final class TestAutostoreMany extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        entityOne = (AutostoreMainMany) _db.load(AutostoreMainMany.class, new Integer(200));
+        entityOne = _db.load(AutostoreMainMany.class, new Integer(200));
         assertNotNull(entityOne);
         assertEquals(200, entityOne.getId().intValue());
         assertEquals("entity2.200", entityOne.getName());
@@ -98,13 +98,12 @@ public final class TestAutostoreMany extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        entityOne = (AutostoreMainMany) _db.load(AutostoreMainMany.class, new Integer(200));
+        entityOne = _db.load(AutostoreMainMany.class, new Integer(200));
         _db.remove(entityOne);
         _db.commit();
 
         _db.begin();
-        entityTwo = (AutostoreAssociatedMany) _db.load(
-                AutostoreAssociatedMany.class, new Integer(200));
+        entityTwo = _db.load(AutostoreAssociatedMany.class, new Integer(200));
         _db.remove(entityTwo);
         _db.commit();
 
@@ -126,7 +125,7 @@ public final class TestAutostoreMany extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        entityOne = (AutostoreMainMany) _db.load(AutostoreMainMany.class, new Integer(300));
+        entityOne = _db.load(AutostoreMainMany.class, new Integer(300));
         assertNotNull(entityOne);
         assertEquals(300, entityOne.getId().intValue());
         assertEquals("entity1.300", entityOne.getName());
@@ -141,19 +140,18 @@ public final class TestAutostoreMany extends CPATestCase {
         _db.setAutoStore(false);
 
         _db.begin();
-        entityOne = (AutostoreMainMany) _db.load(AutostoreMainMany.class, new Integer(300));
+        entityOne = _db.load(AutostoreMainMany.class, new Integer(300));
         _db.remove(entityOne);
         _db.commit();
 
         _db.begin();
-        entityTwo = (AutostoreAssociatedMany) _db.load(
-                AutostoreAssociatedMany.class, new Integer(300));
+        entityTwo = _db.load(AutostoreAssociatedMany.class, new Integer(300));
         assertNotNull(entityTwo);
         assertEquals(300, entityTwo.getId().intValue());
         assertEquals("entity2.300", entityTwo.getName());
 
         try {
-            entityOne = (AutostoreMainMany) _db.load(AutostoreMainMany.class, new Integer(300));
+            entityOne = _db.load(AutostoreMainMany.class, new Integer(300));
             fail("Expected ObjectNotFoundException");
         } catch (ObjectNotFoundException e) {
             //
@@ -161,15 +159,13 @@ public final class TestAutostoreMany extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        entityTwo = (AutostoreAssociatedMany) _db.load(
-                AutostoreAssociatedMany.class, new Integer(300));
+        entityTwo = _db.load(AutostoreAssociatedMany.class, new Integer(300));
         _db.remove(entityTwo);
         _db.commit();
 
         _db.begin();
         try {
-            entityTwo = (AutostoreAssociatedMany) _db.load(
-                    AutostoreAssociatedMany.class, new Integer(300));
+            entityTwo = _db.load(AutostoreAssociatedMany.class, new Integer(300));
             fail("Expected ObjectNotFoundException");
         } catch (ObjectNotFoundException e) {
             //
@@ -196,7 +192,7 @@ public final class TestAutostoreMany extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        entityOne = (AutostoreMainMany) _db.load(AutostoreMainMany.class, new Integer(300));
+        entityOne = _db.load(AutostoreMainMany.class, new Integer(300));
         assertNotNull(entityOne);
         assertEquals(300, entityOne.getId().intValue());
         assertEquals("entity1.300", entityOne.getName());
@@ -208,27 +204,26 @@ public final class TestAutostoreMany extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        many = (AutostoreAssociatedMany) _db.load(AutostoreAssociatedMany.class, new Integer(300));
+        many = _db.load(AutostoreAssociatedMany.class, new Integer(300));
         assertNotNull(many);
         assertEquals(300, many.getId().intValue());
         assertEquals("entity2.300", many.getName());
         _db.commit();
 
         _db.begin();
-        entityOne = (AutostoreMainMany) _db.load(AutostoreMainMany.class, new Integer(300));
+        entityOne = _db.load(AutostoreMainMany.class, new Integer(300));
         _db.remove(entityOne);
         _db.commit();
 
         _db.begin();
         try {
-            entityOne = (AutostoreMainMany) _db.load(AutostoreMainMany.class, new Integer(300));
+            entityOne = _db.load(AutostoreMainMany.class, new Integer(300));
             fail("Expected ObjectNotFoundException");
         } catch (ObjectNotFoundException e) {
             //
         }
         try {
-            many = (AutostoreAssociatedMany) _db.load(
-                    AutostoreAssociatedMany.class, new Integer(300));
+            many = _db.load(AutostoreAssociatedMany.class, new Integer(300));
             // TODO remove once support for cascading delete has been added
             // fail("Expected ObjectNotFoundException");
         } catch (ObjectNotFoundException e) {
@@ -238,7 +233,7 @@ public final class TestAutostoreMany extends CPATestCase {
 
         // TODO remove once support for cascading delete has been added
         _db.begin();
-        many = (AutostoreAssociatedMany) _db.load(AutostoreAssociatedMany.class, new Integer(300));
+        many = _db.load(AutostoreAssociatedMany.class, new Integer(300));
         _db.remove(many);
         _db.commit();
 

@@ -62,7 +62,7 @@ public final class TestLazy1to1 extends CPATestCase {
         Lazy1to1Child child = null;
 
         _db.begin();
-        child = (Lazy1to1Child) _db.load(Lazy1to1Child.class, new Integer(1));
+        child = _db.load(Lazy1to1Child.class, new Integer(1));
         parent = new Lazy1to1Parent();
         parent.setId(new Integer(20000));
         parent.setDescription("parent 20000");
@@ -71,16 +71,14 @@ public final class TestLazy1to1 extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        parent = (Lazy1to1Parent) _db.load(Lazy1to1Parent.class, new Integer(
-                20000));
+        parent = _db.load(Lazy1to1Parent.class, new Integer(20000));
         child = parent.getChild();
         assertNotNull(child);
         assertEquals(1, child.getId().intValue());
         _db.rollback();
 
         _db.begin();
-        parent = (Lazy1to1Parent) _db.load(Lazy1to1Parent.class, new Integer(
-                20000));
+        parent = _db.load(Lazy1to1Parent.class, new Integer(20000));
         _db.remove(parent);
         _db.commit();
     }
@@ -89,7 +87,7 @@ public final class TestLazy1to1 extends CPATestCase {
         Lazy1to1Child child = null;
 
         _db.begin();
-        child = (Lazy1to1Child) _db.load(Lazy1to1Child.class, new Integer(1));
+        child = _db.load(Lazy1to1Child.class, new Integer(1));
         assertChild(child, 1, "child 1");
         _db.commit();
     }
@@ -98,8 +96,7 @@ public final class TestLazy1to1 extends CPATestCase {
         Lazy1to1Parent parent = null;
 
         _db.begin();
-        parent = (Lazy1to1Parent) _db
-                .load(Lazy1to1Parent.class, new Integer(5));
+        parent = _db.load(Lazy1to1Parent.class, new Integer(5));
         assertParent(parent, 5, "parent 5");
         assertNull(parent.getChild());
         _db.commit();
@@ -111,8 +108,7 @@ public final class TestLazy1to1 extends CPATestCase {
         Lazy1to1Parent parent = null;
 
         _db.begin();
-        parent = (Lazy1to1Parent) _db
-                .load(Lazy1to1Parent.class, new Integer(1));
+        parent = _db.load(Lazy1to1Parent.class, new Integer(1));
         _db.commit();
 
         assertParent(parent, 1, "parent 1");
@@ -126,8 +122,7 @@ public final class TestLazy1to1 extends CPATestCase {
         Lazy1to1Parent parent = null;
 
         _db.begin();
-        parent = (Lazy1to1Parent) _db
-                .load(Lazy1to1Parent.class, new Integer(1));
+        parent = _db.load(Lazy1to1Parent.class, new Integer(1));
         assertParent(parent, 1, "parent 1");
         _db.commit();
 
@@ -136,13 +131,11 @@ public final class TestLazy1to1 extends CPATestCase {
 
     public void testSerializeParentWithAccess() throws Exception {
         File file = new File("serialized.out");
-        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(
-                file));
+        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
         Lazy1to1Parent parent = null;
 
         _db.begin();
-        parent = (Lazy1to1Parent) _db
-                .load(Lazy1to1Parent.class, new Integer(1));
+        parent = _db.load(Lazy1to1Parent.class, new Integer(1));
         assertParent(parent, 1, "parent 1");
         assertChild(parent.getChild(), 1, "child 1");
         _db.commit();
@@ -161,14 +154,12 @@ public final class TestLazy1to1 extends CPATestCase {
 
     public void testSerializeParentWithoutAccess() throws Exception {
         File file = new File("serialized.out");
-        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(
-                file));
+        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
 
         Lazy1to1Parent parent = null;
 
         _db.begin();
-        parent = (Lazy1to1Parent) _db
-                .load(Lazy1to1Parent.class, new Integer(1));
+        parent = _db.load(Lazy1to1Parent.class, new Integer(1));
         assertParent(parent, 1, "parent 1");
         _db.commit();
 
@@ -188,24 +179,24 @@ public final class TestLazy1to1 extends CPATestCase {
         Lazy1to1Child child = null;
 
         _db.begin();
-        child = (Lazy1to1Child) _db.load(Lazy1to1Child.class, new Integer(2));
+        child = _db.load(Lazy1to1Child.class, new Integer(2));
         assertChild(child, 2, "child 2");
         child.setDescription("child 22");
         _db.commit();
 
         _db.begin();
-        child = (Lazy1to1Child) _db.load(Lazy1to1Child.class, new Integer(2));
+        child = _db.load(Lazy1to1Child.class, new Integer(2));
         assertChild(child, 2, "child 22");
         _db.rollback();
 
         _db.begin();
-        child = (Lazy1to1Child) _db.load(Lazy1to1Child.class, new Integer(2));
+        child = _db.load(Lazy1to1Child.class, new Integer(2));
         assertChild(child, 2, "child 22");
         child.setDescription("child 2");
         _db.commit();
 
         _db.begin();
-        child = (Lazy1to1Child) _db.load(Lazy1to1Child.class, new Integer(2));
+        child = _db.load(Lazy1to1Child.class, new Integer(2));
         assertChild(child, 2, "child 2");
         _db.rollback();
 
@@ -217,8 +208,7 @@ public final class TestLazy1to1 extends CPATestCase {
         Lazy1to1Child child = null;
 
         _db.begin();
-        parent = (Lazy1to1Parent) _db
-                .load(Lazy1to1Parent.class, new Integer(1));
+        parent = _db.load(Lazy1to1Parent.class, new Integer(1));
         assertParent(parent, 1, "parent 1");
         child = parent.getChild();
         assertChild(child, 1, "child 1");
@@ -226,16 +216,14 @@ public final class TestLazy1to1 extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        parent = (Lazy1to1Parent) _db
-                .load(Lazy1to1Parent.class, new Integer(1));
+        parent = _db.load(Lazy1to1Parent.class, new Integer(1));
         assertParent(parent, 1, "parent 11");
         child = parent.getChild();
         assertChild(child, 1, "child 1");
         _db.rollback();
 
         _db.begin();
-        parent = (Lazy1to1Parent) _db
-                .load(Lazy1to1Parent.class, new Integer(1));
+        parent = _db.load(Lazy1to1Parent.class, new Integer(1));
         assertParent(parent, 1, "parent 11");
         child = parent.getChild();
         assertChild(child, 1, "child 1");
@@ -243,8 +231,7 @@ public final class TestLazy1to1 extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        parent = (Lazy1to1Parent) _db
-                .load(Lazy1to1Parent.class, new Integer(1));
+        parent = _db.load(Lazy1to1Parent.class, new Integer(1));
         assertParent(parent, 1, "parent 1");
         child = parent.getChild();
         assertChild(child, 1, "child 1");
@@ -257,28 +244,24 @@ public final class TestLazy1to1 extends CPATestCase {
         Lazy1to1Parent parent = null;
 
         _db.begin();
-        parent = (Lazy1to1Parent) _db
-                .load(Lazy1to1Parent.class, new Integer(1));
+        parent = _db.load(Lazy1to1Parent.class, new Integer(1));
         assertParent(parent, 1, "parent 1");
         parent.setDescription("parent 11");
         _db.commit();
 
         _db.begin();
-        parent = (Lazy1to1Parent) _db
-                .load(Lazy1to1Parent.class, new Integer(1));
+        parent = _db.load(Lazy1to1Parent.class, new Integer(1));
         assertParent(parent, 1, "parent 11");
         _db.commit();
 
         _db.begin();
-        parent = (Lazy1to1Parent) _db
-                .load(Lazy1to1Parent.class, new Integer(1));
+        parent = _db.load(Lazy1to1Parent.class, new Integer(1));
         assertParent(parent, 1, "parent 11");
         parent.setDescription("parent 1");
         _db.commit();
 
         _db.begin();
-        parent = (Lazy1to1Parent) _db
-                .load(Lazy1to1Parent.class, new Integer(1));
+        parent = _db.load(Lazy1to1Parent.class, new Integer(1));
         assertParent(parent, 1, "parent 1");
         _db.commit();
 
@@ -290,33 +273,28 @@ public final class TestLazy1to1 extends CPATestCase {
         Lazy1to1Child childNew = null;
 
         _db.begin();
-        parent = (Lazy1to1Parent) _db
-                .load(Lazy1to1Parent.class, new Integer(1));
+        parent = _db.load(Lazy1to1Parent.class, new Integer(1));
         assertParent(parent, 1, "parent 1");
         assertChild(parent.getChild(), 1, "child 1");
         parent.setChild(null);
         _db.commit();
 
         _db.begin();
-        parent = (Lazy1to1Parent) _db
-                .load(Lazy1to1Parent.class, new Integer(1));
+        parent = _db.load(Lazy1to1Parent.class, new Integer(1));
         assertParent(parent, 1, "parent 1");
         assertNull(parent.getChild());
         _db.rollback();
 
         _db.begin();
-        parent = (Lazy1to1Parent) _db
-                .load(Lazy1to1Parent.class, new Integer(1));
+        parent = _db.load(Lazy1to1Parent.class, new Integer(1));
         assertParent(parent, 1, "parent 1");
-        childNew = (Lazy1to1Child) _db
-                .load(Lazy1to1Child.class, new Integer(1));
+        childNew = _db.load(Lazy1to1Child.class, new Integer(1));
         assertChild(childNew, 1, "child 1");
         parent.setChild(childNew);
         _db.commit();
 
         _db.begin();
-        parent = (Lazy1to1Parent) _db
-                .load(Lazy1to1Parent.class, new Integer(1));
+        parent = _db.load(Lazy1to1Parent.class, new Integer(1));
         assertParent(parent, 1, "parent 1");
         assertChild(parent.getChild(), 1, "child 1");
         _db.rollback();
@@ -361,8 +339,7 @@ public final class TestLazy1to1 extends CPATestCase {
     public void testLoadChildReadOnly() throws Exception {
         Lazy1to1Child child = null;
         _db.begin();
-        child = (Lazy1to1Child) _db.load(Lazy1to1Child.class, new Integer(1),
-            AccessMode.ReadOnly);
+        child = _db.load(Lazy1to1Child.class, new Integer(1), AccessMode.ReadOnly);
         assertChild(child, 1, "child 1");
         _db.commit();
 
@@ -373,8 +350,7 @@ public final class TestLazy1to1 extends CPATestCase {
         Lazy1to1Parent parent = null;
 
         _db.begin();
-        parent = (Lazy1to1Parent) _db.load(Lazy1to1Parent.class,
-            new Integer(1), AccessMode.ReadOnly);
+        parent = _db.load(Lazy1to1Parent.class, new Integer(1), AccessMode.ReadOnly);
         _db.commit();
 
         assertParent(parent, 1, "parent 1");
@@ -383,8 +359,7 @@ public final class TestLazy1to1 extends CPATestCase {
 
         // re-load to assert that nothing has changed
         _db.begin();
-        parent = (Lazy1to1Parent) _db
-                .load(Lazy1to1Parent.class, new Integer(1));
+        parent = _db.load(Lazy1to1Parent.class, new Integer(1));
         _db.commit();
 
         assertParent(parent, 1, "parent 1");
@@ -392,6 +367,7 @@ public final class TestLazy1to1 extends CPATestCase {
 
         _db.close();
     }
+    
 /*
     public void testLoadParentReadOnlyWithAccessWithChange() throws Exception {
         Lazy1to1Parent parent = null;
@@ -425,8 +401,7 @@ public final class TestLazy1to1 extends CPATestCase {
         Lazy1to1Parent parent = null;
 
         _db.begin();
-        parent = (Lazy1to1Parent) _db.load(Lazy1to1Parent.class,
-            new Integer(1), AccessMode.ReadOnly);
+        parent = _db.load(Lazy1to1Parent.class, new Integer(1), AccessMode.ReadOnly);
         assertParent(parent, 1, "parent 1");
         _db.commit();
 

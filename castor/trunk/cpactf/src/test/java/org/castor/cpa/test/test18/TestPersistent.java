@@ -129,7 +129,7 @@ public final class TestPersistent extends CPATestCase {
         PersistentGroup       group;
 
         _db.begin();
-        parent = (PersistentObject) _db.load(PersistentObject.class,
+        parent = _db.load(PersistentObject.class,
                 new Integer(PersistentObject.DEFAULT_ID));
         
         if (parent != null) {
@@ -178,8 +178,7 @@ public final class TestPersistent extends CPATestCase {
         
         _db.begin();
         
-        parent = (PersistentObject) _db.load(PersistentObject.class,
-                                           new Integer(7));
+        parent = _db.load(PersistentObject.class, new Integer(7));
         
         child = parent.findChild(73);
         if (child == null) {
@@ -226,7 +225,7 @@ public final class TestPersistent extends CPATestCase {
         PersistentObject      child;
 
         _db.begin();
-        parent = (PersistentObject) _db.load(PersistentObject.class,
+        parent = _db.load(PersistentObject.class,
                 new Integer(PersistentObject.DEFAULT_ID));
         
         if (parent != null) {

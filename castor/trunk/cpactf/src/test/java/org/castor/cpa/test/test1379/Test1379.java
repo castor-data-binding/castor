@@ -69,14 +69,14 @@ public class Test1379 extends CPATestCase {
         db.begin();
         LOG.info("Begin transaction: load previously created products");
 
-        product = (Product) db.load(Product.class, new Integer(4));
+        product = db.load(Product.class, new Integer(4));
         assertNotNull (product);
         assertEquals (4, product.getId());
         // assertEquals (200.0f, product.getPrice());
         assertEquals ("computer4", product.getName());
 
         for (int x = 5; x < 10; x++) {
-            product = (Product) db.load(Product.class, new Integer(x));
+            product = db.load(Product.class, new Integer(x));
             assertNotNull (product);
             assertEquals (x, product.getId());
             assertEquals ("computer" + x, product.getName());
@@ -125,7 +125,7 @@ public class Test1379 extends CPATestCase {
         db.begin();
         LOG.info("Begin transaction: load previously created non-leaf product");
 
-        product = (Product) db.load(Product.class, new Integer(99));
+        product = db.load(Product.class, new Integer(99));
         assertNotNull (product);
         assertEquals (99, product.getId());
         assertEquals("product99", product.getName());

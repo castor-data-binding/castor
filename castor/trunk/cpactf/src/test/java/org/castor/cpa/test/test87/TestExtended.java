@@ -153,7 +153,7 @@ public final class TestExtended extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableBase first = (TimeStampableBase) db.load(
+        TimeStampableBase first = db.load(
                 TimeStampableBase.class, TimeStampableBase.DEFAULT_ID);
         db.commit();
         
@@ -174,7 +174,7 @@ public final class TestExtended extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableBase second = (TimeStampableBase) db.load(
+        TimeStampableBase second = db.load(
                 TimeStampableBase.class, TimeStampableBase.DEFAULT_ID);
         db.commit();
         db.close();
@@ -198,7 +198,7 @@ public final class TestExtended extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableExtended first = (TimeStampableExtended) db.load(
+        TimeStampableExtended first = db.load(
                 TimeStampableExtended.class, TimeStampableExtended.DEFAULT_ID);
         db.commit();
         
@@ -220,7 +220,7 @@ public final class TestExtended extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableExtended second = (TimeStampableExtended) db.load(
+        TimeStampableExtended second = db.load(
                 TimeStampableExtended.class, TimeStampableExtended.DEFAULT_ID);
         db.commit();
         db.close();
@@ -359,7 +359,7 @@ public final class TestExtended extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableBase entity = (TimeStampableBase) db.load(
+        TimeStampableBase entity = db.load(
                 TimeStampableBase.class, TimeStampableBase.DEFAULT_ID);
 
         LOG.debug("Timestamp of base before short update: " + entity.jdoGetTimeStamp());
@@ -386,7 +386,7 @@ public final class TestExtended extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableBase check = (TimeStampableBase) db.load(
+        TimeStampableBase check = db.load(
                 TimeStampableBase.class, TimeStampableBase.DEFAULT_ID);
         db.commit();
         db.close();
@@ -407,7 +407,7 @@ public final class TestExtended extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableExtended entity = (TimeStampableExtended) db.load(
+        TimeStampableExtended entity = db.load(
                 TimeStampableExtended.class, TimeStampableExtended.DEFAULT_ID);
 
         LOG.debug("Timestamp of extended before short update: " + entity.jdoGetTimeStamp());
@@ -436,7 +436,7 @@ public final class TestExtended extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableExtended check = (TimeStampableExtended) db.load(
+        TimeStampableExtended check = db.load(
                 TimeStampableExtended.class, TimeStampableExtended.DEFAULT_ID);
         db.commit();
         db.close();
@@ -458,7 +458,7 @@ public final class TestExtended extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableBase entity = (TimeStampableBase) db.load(
+        TimeStampableBase entity = db.load(
                 TimeStampableBase.class, TimeStampableBase.DEFAULT_ID);
         db.commit();
 
@@ -491,7 +491,7 @@ public final class TestExtended extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableBase check = (TimeStampableBase) db.load(
+        TimeStampableBase check = db.load(
                 TimeStampableBase.class, TimeStampableBase.DEFAULT_ID);
         db.commit();
         db.close();
@@ -512,7 +512,7 @@ public final class TestExtended extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableExtended entity = (TimeStampableExtended) db.load(
+        TimeStampableExtended entity = db.load(
                 TimeStampableExtended.class, TimeStampableExtended.DEFAULT_ID);
         db.commit();
 
@@ -549,7 +549,7 @@ public final class TestExtended extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableExtended check = (TimeStampableExtended) db.load(
+        TimeStampableExtended check = db.load(
                 TimeStampableExtended.class, TimeStampableExtended.DEFAULT_ID);
         db.commit();
         db.close();
@@ -571,7 +571,7 @@ public final class TestExtended extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableBase entity = (TimeStampableBase) db.load(
+        TimeStampableBase entity = db.load(
                 TimeStampableBase.class, TimeStampableBase.DEFAULT_ID);
         db.commit();
 
@@ -607,7 +607,7 @@ public final class TestExtended extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableBase check = (TimeStampableBase) db.load(
+        TimeStampableBase check = db.load(
                 TimeStampableBase.class, TimeStampableBase.DEFAULT_ID);
         db.commit();
         db.close();
@@ -628,7 +628,7 @@ public final class TestExtended extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableExtended entity = (TimeStampableExtended) db.load(
+        TimeStampableExtended entity = db.load(
                 TimeStampableExtended.class, TimeStampableExtended.DEFAULT_ID);
         db.commit();
 
@@ -668,7 +668,7 @@ public final class TestExtended extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableExtended check = (TimeStampableExtended) db.load(
+        TimeStampableExtended check = db.load(
                 TimeStampableExtended.class, TimeStampableExtended.DEFAULT_ID);
         db.commit();
         db.close();
@@ -690,9 +690,9 @@ public final class TestExtended extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableBase base = (TimeStampableBase) db.load(
+        TimeStampableBase base = db.load(
                 TimeStampableBase.class, TimeStampableBase.DEFAULT_ID);
-        TimeStampableExtended ext = (TimeStampableExtended) db.load(
+        TimeStampableExtended ext = db.load(
                 TimeStampableExtended.class, TimeStampableExtended.DEFAULT_ID);
 
         // Compare current timestamp with the remembert one;

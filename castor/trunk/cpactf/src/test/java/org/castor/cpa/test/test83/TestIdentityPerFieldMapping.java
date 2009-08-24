@@ -54,7 +54,7 @@ public final class TestIdentityPerFieldMapping extends CPATestCase {
     public void testQueryEntityOne() throws Exception {
         _db.begin();
 
-        Parent entity = (Parent) _db.load(Parent.class, new Integer(1));
+        Parent entity = _db.load(Parent.class, new Integer(1));
 
         assertNotNull(entity);
         assertEquals(new Integer(1), entity.getId());
@@ -66,7 +66,7 @@ public final class TestIdentityPerFieldMapping extends CPATestCase {
     public void testLoadChild() throws Exception {
         _db.begin();
 
-        Child child = (Child) _db.load(Child.class, new Integer(1));
+        Child child = _db.load(Child.class, new Integer(1));
 
         assertNotNull(child);
         assertEquals(new Integer(1), child.getId());
@@ -78,9 +78,8 @@ public final class TestIdentityPerFieldMapping extends CPATestCase {
     public void testLoadEntityWithCompoundId() throws Exception {
         _db.begin();
 
-        ParentWithCompoundId child = (ParentWithCompoundId) _db.load(
-                ParentWithCompoundId.class, new Identity(new Integer(1),
-                        new Integer(1)));
+        ParentWithCompoundId child = _db.load(ParentWithCompoundId.class,
+                new Identity(new Integer(1), new Integer(1)));
 
         assertNotNull(child);
         assertEquals(new Integer(1), child.getId1());
@@ -93,9 +92,8 @@ public final class TestIdentityPerFieldMapping extends CPATestCase {
     public void testLoadChildWithCompoundId() throws Exception {
         _db.begin();
 
-        ChildWithCompoundId child = (ChildWithCompoundId) _db.load(
-                ChildWithCompoundId.class, new Identity(new Integer(1),
-                        new Integer(1)));
+        ChildWithCompoundId child = _db.load(ChildWithCompoundId.class,
+                new Identity(new Integer(1), new Integer(1)));
 
         assertNotNull(child);
         assertEquals(new Integer(1), child.getId1());

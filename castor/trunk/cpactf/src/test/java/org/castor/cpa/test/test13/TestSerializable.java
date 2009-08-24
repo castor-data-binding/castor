@@ -80,8 +80,7 @@ public final class TestSerializable extends CPATestCase {
         
         // test if object created properly
         _db.begin();
-        testSerial = (SerializableReferer) _db.load(SerializableReferer.class,
-                                                    new Integer(1));
+        testSerial = _db.load(SerializableReferer.class, new Integer(1));
         if (testSerial == null) {
             LOG.error("Object creation failed!");
             fail("Object creation failed!");
@@ -107,8 +106,7 @@ public final class TestSerializable extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        testSerial = (SerializableReferer) _db.load(SerializableReferer.class,
-                                                    new Integer(1));
+        testSerial = _db.load(SerializableReferer.class, new Integer(1));
         if (testSerial == null) {
             LOG.error("dependent modification failed!" + testSerial);
             fail("dependent modification failed!" + testSerial);
@@ -131,8 +129,7 @@ public final class TestSerializable extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        testSerial = (SerializableReferer) _db.load(SerializableReferer.class,
-                                                    new Integer(1));
+        testSerial = _db.load(SerializableReferer.class, new Integer(1));
         if (testSerial == null) {
             LOG.error("dependent modfiication failed!" + testSerial);
             fail("dependent modfiication failed!" + testSerial);
@@ -151,8 +148,7 @@ public final class TestSerializable extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        testSerial = (SerializableReferer) _db.load(SerializableReferer.class,
-                                                    new Integer(1));
+        testSerial = _db.load(SerializableReferer.class, new Integer(1));
         if ((testSerial == null)
                 || (testSerial.getSerializableObject() != null)) {
             

@@ -89,7 +89,7 @@ public final class TestLazyLoading extends CPATestCase {
         LazyEmployee loadPerson;
 
         _db.begin();
-        loadPerson = (LazyEmployee) _db.load(LazyEmployee.class, fullname);
+        loadPerson = _db.load(LazyEmployee.class, fullname);
 
         cal.set(1922, 2, 2, 0, 0, 0);
         cal.set(Calendar.MILLISECOND, 0);
@@ -150,7 +150,7 @@ public final class TestLazyLoading extends CPATestCase {
 
         // test and see if changes made succeed
         _db.begin();
-        loadPerson = (LazyEmployee) _db.load(LazyEmployee.class, fullname);
+        loadPerson = _db.load(LazyEmployee.class, fullname);
 
         cal.set(1922, 2, 2, 0, 0, 0);
         cal.set(Calendar.MILLISECOND, 0);
@@ -208,14 +208,14 @@ public final class TestLazyLoading extends CPATestCase {
 
         // test java.util.Collection.clear() for lazy loading (bug 801)
         _db.begin();
-        loadPerson = (LazyEmployee) _db.load(LazyEmployee.class, fullname);
+        loadPerson = _db.load(LazyEmployee.class, fullname);
 
         Collection<LazyAddress> addresses = loadPerson.getAddress();
         addresses.clear();
         _db.commit();
 
         _db.begin();
-        loadPerson = (LazyEmployee) _db.load(LazyEmployee.class, fullname);
+        loadPerson = _db.load(LazyEmployee.class, fullname);
         addresses = loadPerson.getAddress();
 
         // check if clear() work
@@ -260,7 +260,7 @@ public final class TestLazyLoading extends CPATestCase {
 
         // check if add all work
         _db.begin();
-        loadPerson = (LazyEmployee) _db.load(LazyEmployee.class, fullname);
+        loadPerson = _db.load(LazyEmployee.class, fullname);
         addresses = loadPerson.getAddress();
         Iterator<LazyAddress> itor = addresses.iterator();
 
@@ -297,7 +297,7 @@ public final class TestLazyLoading extends CPATestCase {
 
         // set up the data object
         _db.begin();
-        loadPerson = (LazyEmployee) _db.load(LazyEmployee.class, fullname);
+        loadPerson = _db.load(LazyEmployee.class, fullname);
         Collection<LazyProject> projects = loadPerson.getProjects();
 
         LazyProject project = new LazyProject();
@@ -325,10 +325,10 @@ public final class TestLazyLoading extends CPATestCase {
 
         // reload and test bug 823
         _db.begin();
-        project = (LazyProject) _db.load(LazyProject.class, new Integer(1002));
+        project = _db.load(LazyProject.class, new Integer(1002));
         _db.remove(project);
 
-        loadPerson = (LazyEmployee) _db.load(LazyEmployee.class, fullname);
+        loadPerson = _db.load(LazyEmployee.class, fullname);
         projects = loadPerson.getProjects();
 
         Iterator<LazyProject> itor = projects.iterator();
@@ -352,7 +352,7 @@ public final class TestLazyLoading extends CPATestCase {
 
         // reload and make sure the cache is consistent
         _db.begin();
-        loadPerson = (LazyEmployee) _db.load(LazyEmployee.class, fullname);
+        loadPerson = _db.load(LazyEmployee.class, fullname);
         projects = loadPerson.getProjects();
         itor = projects.iterator();
         int id1 = 0;
@@ -404,7 +404,7 @@ public final class TestLazyLoading extends CPATestCase {
 
         // test java.util.Collection.clear() for lazy loading (bug 801)
         _db.begin();
-        loadPerson = (LazyEmployee) _db.load(LazyEmployee.class, fullname);
+        loadPerson = _db.load(LazyEmployee.class, fullname);
 
         Collection<LazyAddress> addresses = loadPerson.getAddress();
         // Store the list in the database at the start of the transaction,
@@ -419,7 +419,7 @@ public final class TestLazyLoading extends CPATestCase {
         // Now start over, and add something to the collection. Then try
         // iterating and clearing the collection
         _db.begin();
-        loadPerson = (LazyEmployee) _db.load(LazyEmployee.class, fullname);
+        loadPerson = _db.load(LazyEmployee.class, fullname);
         addresses = loadPerson.getAddress();
         LazyAddress la = new LazyAddress();
         la.setId(999);
@@ -510,7 +510,7 @@ public final class TestLazyLoading extends CPATestCase {
 
         // First add a record, then commit
         _db.begin();
-        loadPerson = (LazyEmployee) _db.load(LazyEmployee.class, fullname);
+        loadPerson = _db.load(LazyEmployee.class, fullname);
         Collection<LazyAddress> addresses = loadPerson.getAddress();
         LazyAddress la = new LazyAddress();
         la.setId(999);
@@ -526,7 +526,7 @@ public final class TestLazyLoading extends CPATestCase {
         _db.begin();
 
         // test java.util.Collection.clear() for lazy loading (bug 801)
-        loadPerson = (LazyEmployee) _db.load(LazyEmployee.class, fullname);
+        loadPerson = _db.load(LazyEmployee.class, fullname);
 
         addresses = loadPerson.getAddress();
         // Store the list in the database at the start of the transaction,
@@ -550,7 +550,7 @@ public final class TestLazyLoading extends CPATestCase {
         // Now start over, and add something to the collection. Then try
         // iterating and clearing the collection
         _db.begin();
-        loadPerson = (LazyEmployee) _db.load(LazyEmployee.class, fullname);
+        loadPerson = _db.load(LazyEmployee.class, fullname);
         addresses = loadPerson.getAddress();
         addresses.remove(victimAddr);
 
@@ -586,7 +586,7 @@ public final class TestLazyLoading extends CPATestCase {
 
         // set up the data object
         _db.begin();
-        loadPerson = (LazyEmployee) _db.load(LazyEmployee.class, fullname);
+        loadPerson = _db.load(LazyEmployee.class, fullname);
         Collection<LazyProject> projects = loadPerson.getProjects();
         LazyProject project = new LazyProject();
 
@@ -600,7 +600,7 @@ public final class TestLazyLoading extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        loadPerson = (LazyEmployee) _db.load(LazyEmployee.class, fullname);
+        loadPerson = _db.load(LazyEmployee.class, fullname);
         projects = loadPerson.getProjects();
 
         // is the collection populated?
@@ -631,7 +631,7 @@ public final class TestLazyLoading extends CPATestCase {
 
         // 1. load master object, add a new dependent object and commit
         _db.begin();
-        loadPerson = (LazyEmployee) _db.load(LazyEmployee.class, fullname);
+        loadPerson = _db.load(LazyEmployee.class, fullname);
         LazyAddress address = new LazyAddress();
         address.setId(201);
         address.setStreet("Halfpipe 1");

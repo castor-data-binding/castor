@@ -134,8 +134,7 @@ public final class TestInstanceFactory extends CPATestCase {
         _i.getCallbackState().init();
         _db.begin();
 
-        object = (TimeStampableObject) _db.load(
-                TimeStampableObject.class,
+        object = _db.load(TimeStampableObject.class,
                 new Integer(TimeStampableObject.DEFAULT_ID));
         object.setValue1("Alan");
 
@@ -181,8 +180,7 @@ public final class TestInstanceFactory extends CPATestCase {
         _i.getCallbackState().init();
         _db.begin();
 
-        object = (TimeStampableObject) _db.load(
-                TimeStampableObject.class,
+        object = _db.load(TimeStampableObject.class,
                 new Integer(TimeStampableObject.DEFAULT_ID));
         _db.remove(object);
 
