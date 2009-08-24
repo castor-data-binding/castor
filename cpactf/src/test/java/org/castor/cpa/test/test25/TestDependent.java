@@ -126,8 +126,7 @@ public final class TestDependent extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        master = (Master) _db.load(Master.class,
-                new Integer(Master.DEFAULT_ID));
+        master = _db.load(Master.class, new Integer(Master.DEFAULT_ID));
         if (master != null) {
             if (master.getGroup() == null) {
                 LOG.error("loaded master without group: " + master);
@@ -182,8 +181,7 @@ public final class TestDependent extends CPATestCase {
 
         LOG.debug("Attempt to change details");
         _db.begin();
-        master = (Master) _db.load(Master.class,
-                new Integer(Master.DEFAULT_ID));
+        master = _db.load(Master.class, new Integer(Master.DEFAULT_ID));
         if (master == null) {
             LOG.error("failed to find master with details group");
             fail("failed to find master with details group");
@@ -207,8 +205,7 @@ public final class TestDependent extends CPATestCase {
         _db.commit();
         
         _db.begin();
-        master = (Master) _db.load(Master.class,
-                new Integer(Master.DEFAULT_ID));
+        master = _db.load(Master.class, new Integer(Master.DEFAULT_ID));
         if (master != null) {
             if (master.getDetails().size() == 0
                     || master.getDetails().contains(new Detail(5))

@@ -53,8 +53,7 @@ public final class TestAutostore extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        entityOne = (AutostoreMain) _db.load(AutostoreMain.class, new Integer(
-                100));
+        entityOne = _db.load(AutostoreMain.class, new Integer(100));
         assertNotNull(entityOne);
         assertEquals(100, entityOne.getId().intValue());
         assertEquals("entity1.100", entityOne.getName());
@@ -62,8 +61,7 @@ public final class TestAutostore extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        entityOne = (AutostoreMain) _db.load(AutostoreMain.class, new Integer(
-                100));
+        entityOne = _db.load(AutostoreMain.class, new Integer(100));
         _db.remove(entityOne);
         _db.commit();
         _db.close();
@@ -82,8 +80,7 @@ public final class TestAutostore extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        entityOne = (AutostoreMain) _db.load(AutostoreMain.class, new Integer(
-                200));
+        entityOne = _db.load(AutostoreMain.class, new Integer(200));
         assertNotNull(entityOne);
         assertEquals(200, entityOne.getId().intValue());
         assertEquals("entity2.200", entityOne.getName());
@@ -91,8 +88,7 @@ public final class TestAutostore extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        entityOne = (AutostoreMain) _db.load(AutostoreMain.class, new Integer(
-                200));
+        entityOne = _db.load(AutostoreMain.class, new Integer(200));
         _db.remove(entityOne);
         _db.commit();
 
@@ -114,7 +110,7 @@ public final class TestAutostore extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        main = (AutostoreMain) _db.load(AutostoreMain.class, new Integer(300));
+        main = _db.load(AutostoreMain.class, new Integer(300));
         assertNotNull(main);
         assertEquals(300, main.getId().intValue());
         assertEquals("entity1.300", main.getName());
@@ -123,8 +119,7 @@ public final class TestAutostore extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        assocOne = (AutostoreAssociated1) _db.load(AutostoreAssociated1.class,
-                new Integer(300));
+        assocOne = _db.load(AutostoreAssociated1.class, new Integer(300));
         assertNotNull(assocOne);
         assertEquals(300, assocOne.getId().intValue());
         assertEquals("entity2.300", assocOne.getName());
@@ -133,20 +128,18 @@ public final class TestAutostore extends CPATestCase {
         _db.setAutoStore(false);
 
         _db.begin();
-        main = (AutostoreMain) _db.load(AutostoreMain.class, new Integer(300));
+        main = _db.load(AutostoreMain.class, new Integer(300));
         _db.remove(main);
         _db.commit();
 
         _db.begin();
-        assocOne = (AutostoreAssociated1) _db.load(AutostoreAssociated1.class,
-                new Integer(300));
+        assocOne = _db.load(AutostoreAssociated1.class, new Integer(300));
         assertNotNull(assocOne);
         assertEquals(300, assocOne.getId().intValue());
         assertEquals("entity2.300", assocOne.getName());
 
         try {
-            main = (AutostoreMain) _db.load(AutostoreMain.class,
-                    new Integer(300));
+            main = _db.load(AutostoreMain.class, new Integer(300));
             fail("Expected ObjectNotFoundException");
         } catch (ObjectNotFoundException e) {
             //
@@ -154,15 +147,13 @@ public final class TestAutostore extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        assocOne = (AutostoreAssociated1) _db.load(AutostoreAssociated1.class,
-                new Integer(300));
+        assocOne = _db.load(AutostoreAssociated1.class, new Integer(300));
         _db.remove(assocOne);
         _db.commit();
 
         _db.begin();
         try {
-            assocOne = (AutostoreAssociated1) _db.load(
-                    AutostoreAssociated1.class, new Integer(300));
+            assocOne = _db.load(AutostoreAssociated1.class, new Integer(300));
             fail("Expected ObjectNotFoundException");
         } catch (ObjectNotFoundException e) {
             //
@@ -187,7 +178,7 @@ public final class TestAutostore extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        main = (AutostoreMain) _db.load(AutostoreMain.class, new Integer(300));
+        main = _db.load(AutostoreMain.class, new Integer(300));
         assertNotNull(main);
         assertEquals(300, main.getId().intValue());
         assertEquals("entity1.300", main.getName());
@@ -196,29 +187,26 @@ public final class TestAutostore extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        assocOne = (AutostoreAssociated1) _db.load(AutostoreAssociated1.class,
-                new Integer(300));
+        assocOne = _db.load(AutostoreAssociated1.class, new Integer(300));
         assertNotNull(assocOne);
         assertEquals(300, assocOne.getId().intValue());
         assertEquals("entity2.300", assocOne.getName());
         _db.commit();
 
         _db.begin();
-        main = (AutostoreMain) _db.load(AutostoreMain.class, new Integer(300));
+        main = _db.load(AutostoreMain.class, new Integer(300));
         _db.remove(main);
         _db.commit();
 
         _db.begin();
         try {
-            main = (AutostoreMain) _db.load(AutostoreMain.class,
-                    new Integer(300));
+            main = _db.load(AutostoreMain.class, new Integer(300));
             fail("Expected ObjectNotFoundException");
         } catch (ObjectNotFoundException e) {
             //
         }
         try {
-            assocOne = (AutostoreAssociated1) _db.load(
-                    AutostoreAssociated1.class, new Integer(300));
+            assocOne = _db.load(AutostoreAssociated1.class, new Integer(300));
             // TODO remove once support for cascading delete has been added
             // fail("Expected ObjectNotFoundException");
         } catch (ObjectNotFoundException e) {
@@ -228,8 +216,7 @@ public final class TestAutostore extends CPATestCase {
 
         // TODO remove once support for cascading deletes has been added
         _db.begin();
-        assocOne = (AutostoreAssociated1) _db.load(AutostoreAssociated1.class,
-                new Integer(300));
+        assocOne = _db.load(AutostoreAssociated1.class, new Integer(300));
         _db.remove(assocOne);
         _db.commit();
 

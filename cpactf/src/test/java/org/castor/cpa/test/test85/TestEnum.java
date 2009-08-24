@@ -58,13 +58,13 @@ public final class TestEnum extends CPATestCase  {
         // load created product
         _db.begin();
         Product pl1 = new Product(1, "LCD", KindEnum.MONITOR);
-        Product pl2 = (Product) _db.load(Product.class, new Integer(1));
+        Product pl2 = _db.load(Product.class, new Integer(1));
         assertEquals(pl1, pl2);
         _db.commit();
 
         // update product
         _db.begin();
-        Product pu = (Product) _db.load(Product.class, new Integer(1));
+        Product pu = _db.load(Product.class, new Integer(1));
         pu.setName("Laser");
         pu.setKind(KindEnum.PRINTER);
         _db.commit();
@@ -72,13 +72,13 @@ public final class TestEnum extends CPATestCase  {
         // load updated product
         _db.begin();
         Product pl3 = new Product(1, "Laser", KindEnum.PRINTER);
-        Product pl4 = (Product) _db.load(Product.class, new Integer(1));
+        Product pl4 = _db.load(Product.class, new Integer(1));
         assertEquals(pl3, pl4);
         _db.commit();
 
         // delete product
         _db.begin();
-        Product pd = (Product) _db.load(Product.class, new Integer(1));
+        Product pd = _db.load(Product.class, new Integer(1));
         _db.remove(pd);
         _db.commit();
     }

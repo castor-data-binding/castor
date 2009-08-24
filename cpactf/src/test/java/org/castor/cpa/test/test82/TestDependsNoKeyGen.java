@@ -75,21 +75,21 @@ public final class TestDependsNoKeyGen extends CPATestCase {
         int masterId = master.getId();
 
         _db.begin();
-        master = (MasterObjectNoKeyGen) _db.load(MasterObjectNoKeyGen.class,
+        master = _db.load(MasterObjectNoKeyGen.class,
                 new Integer(masterId));
         assertNotNull(master.getDepends());
         master.setDepends(null);
         _db.commit();
 
         _db.begin();
-        master = (MasterObjectNoKeyGen) _db.load(MasterObjectNoKeyGen.class,
+        master = _db.load(MasterObjectNoKeyGen.class,
                 new Integer(masterId));
         assertNull(master.getDepends());
         _db.commit();
 
         // THIS part doesn't!
         _db.begin();
-        master = (MasterObjectNoKeyGen) _db.load(MasterObjectNoKeyGen.class,
+        master = _db.load(MasterObjectNoKeyGen.class,
                 new Integer(masterId));
         depends = new DependentObjectNoKeyGen();
         depends.setId(102);
@@ -98,13 +98,13 @@ public final class TestDependsNoKeyGen extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        master = (MasterObjectNoKeyGen) _db.load(MasterObjectNoKeyGen.class,
+        master = _db.load(MasterObjectNoKeyGen.class,
                 new Integer(masterId));
         assertNotNull(master.getDepends());
         _db.commit();
 
         _db.begin();
-        master = (MasterObjectNoKeyGen) _db.load(MasterObjectNoKeyGen.class,
+        master = _db.load(MasterObjectNoKeyGen.class,
                 new Integer(masterId));
         assertNotNull(master);
         _db.remove(master);

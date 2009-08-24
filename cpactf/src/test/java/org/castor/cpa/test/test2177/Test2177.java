@@ -67,7 +67,7 @@ public final class Test2177 extends CPATestCase {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
         
-        Entity entity = (Entity) db.load(Entity.class, new Integer(1));
+        Entity entity = db.load(Entity.class, new Integer(1));
 
         assertNotNull(entity);
         assertEquals(new Integer(1), entity.getId());
@@ -96,7 +96,7 @@ public final class Test2177 extends CPATestCase {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
         
-        Entity entity = (Entity) db.load(Entity.class, new Integer(2));
+        Entity entity = db.load(Entity.class, new Integer(2));
 
         assertNotNull(entity);
         assertEquals(new Integer(2), entity.getId());
@@ -113,7 +113,7 @@ public final class Test2177 extends CPATestCase {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
         
-        Entity entity = (Entity) db.load(Entity.class, new Integer(2));
+        Entity entity = db.load(Entity.class, new Integer(2));
 
         assertNotNull(entity);
         assertEquals(new Integer(2), entity.getId());

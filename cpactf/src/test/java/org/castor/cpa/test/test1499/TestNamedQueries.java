@@ -72,7 +72,7 @@ public final class TestNamedQueries extends CPATestCase {
         
         db.begin();
         for (int i = 0; i < ENTITY_COUNT; i++) {
-            Entity entity = (Entity) db.load(Entity.class, new Integer(i));
+            Entity entity = db.load(Entity.class, new Integer(i));
             db.remove(entity);
         }
         db.commit();       

@@ -88,7 +88,7 @@ public final class VersionTest extends CPATestCase {
 
         // Verify book.
         _db.begin();
-        Employee loadedEmployee = (Employee) _db.load(Employee.class, 1L);
+        Employee loadedEmployee = _db.load(Employee.class, 1L);
         _db.commit();
 
         assertNotNull(loadedEmployee);
@@ -154,7 +154,7 @@ public final class VersionTest extends CPATestCase {
 
         // Load employee.
         _db.begin();
-        Employee employee = (Employee) _db.load(Employee.class, 1L);
+        Employee employee = _db.load(Employee.class, 1L);
         _db.commit();
 
         // Assure, all fields are set.
@@ -187,7 +187,7 @@ public final class VersionTest extends CPATestCase {
 
         // Load employee.
         _db.begin();
-        employee = (Employee) _db.load(Employee.class, 1L);
+        employee = _db.load(Employee.class, 1L);
         assertNotNull(employee);
         assertEquals("unit-test-name-4", employee.getName());
         _db.commit();
@@ -197,7 +197,7 @@ public final class VersionTest extends CPATestCase {
 
         // Load employee again.
         _db.begin();
-        Employee employee2 = (Employee) _db.load(Employee.class, 1L);
+        Employee employee2 = _db.load(Employee.class, 1L);
 
         // Modify employee and persist changes by committing.
         employee2.setName("new-unit-test-name-4");
@@ -217,7 +217,7 @@ public final class VersionTest extends CPATestCase {
 
         // Verify that only the first change was persisted..
         _db.begin();
-        Employee loadedEmployee = (Employee) _db.load(Employee.class, 1L);
+        Employee loadedEmployee = _db.load(Employee.class, 1L);
         assertNotNull(loadedEmployee);
         assertEquals("new-unit-test-name-4", loadedEmployee.getName());
         _db.commit();

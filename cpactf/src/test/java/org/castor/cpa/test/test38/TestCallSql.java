@@ -77,7 +77,7 @@ public final class TestCallSql extends CPATestCase {
         _db.commit();
         
         _db.begin();
-        test = (CallEntity) _db.load(CallEntity.class, new Integer(55));
+        test = _db.load(CallEntity.class, new Integer(55));
         _db.remove(test);
         _db.commit();
     }

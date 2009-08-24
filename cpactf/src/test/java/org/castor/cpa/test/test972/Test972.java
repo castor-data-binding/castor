@@ -111,7 +111,7 @@ public final class Test972 extends CPATestCase {
         db.begin();
         LOG.info("Begin transaction: one-to-one and dependent relations");
 
-        group = (ProductGroup) db.load(ProductGroup.class, new Integer(3));
+        group = db.load(ProductGroup.class, new Integer(3));
         
         // If no such products with ids 5-8 exist, create new objects and persist them
         for (int i = 5; i < 10; ++i) {
@@ -155,10 +155,10 @@ public final class Test972 extends CPATestCase {
 
         // Prepare the database: add a NewProduct, which references the same
         // ProductGroup as most Product objects do
-        ProductGroup group = (ProductGroup) db.load(ProductGroup.class, new Integer(3));
+        ProductGroup group = db.load(ProductGroup.class, new Integer(3));
         NewProduct newProduct = null;
         try {
-            newProduct = (NewProduct) db.load(NewProduct.class, new Integer(1));
+            newProduct = db.load(NewProduct.class, new Integer(1));
         } catch (ObjectNotFoundException e) {
             newProduct = new NewProduct();
             newProduct.setId(1);
@@ -178,8 +178,8 @@ public final class Test972 extends CPATestCase {
         LOG.info("Trying to reproduce rollback bug");
         
         // loading both product entities
-        newProduct = (NewProduct) db.load(NewProduct.class, new Integer(1));
-        Product product = (Product) db.load(Product.class, new Integer(7));
+        newProduct = db.load(NewProduct.class, new Integer(1));
+        Product product = db.load(Product.class, new Integer(7));
         LOG.debug("Product loaded: " + product);
         LOG.debug("NewProduct loaded: " + newProduct);
         

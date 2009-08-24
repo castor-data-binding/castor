@@ -151,7 +151,7 @@ public final class TestManyToMany extends CPATestCase {
         // create new group with two people
         _db.begin();
         LOG.debug("Creating new group with people!");
-        _person1 = (ManyPerson) _db.load(ManyPerson.class, new Integer(PERSON_1_ID));
+        _person1 = _db.load(ManyPerson.class, new Integer(PERSON_1_ID));
         _person1.setValue1("I am person 1");
         ArrayList < ManyGroup > gPerson1 = new ArrayList < ManyGroup > ();
         _person1.setId(PERSON_1_ID);
@@ -374,7 +374,7 @@ public final class TestManyToMany extends CPATestCase {
         }
 
         // check if person 2 contains only one group, and the group is B
-        _person2 = (ManyPerson) _db.load(ManyPerson.class, new Integer(PERSON_2_ID));
+        _person2 = _db.load(ManyPerson.class, new Integer(PERSON_2_ID));
         // make sure person 2 contains 2 groups
         if ((_person2.getGroup() == null) || (_person2.getGroup().size() != 1)) {
             fail("Error: expected group not found [3]");
@@ -395,7 +395,7 @@ public final class TestManyToMany extends CPATestCase {
     private void check3() throws PersistenceException {
         _db.begin();
         // check if person 2 contains no group
-        _person2 = (ManyPerson) _db.load(ManyPerson.class, new Integer(PERSON_2_ID));
+        _person2 = _db.load(ManyPerson.class, new Integer(PERSON_2_ID));
         if ((_person2.getGroup() != null) && (_person2.getGroup().size() != 0)) {
             fail("Error: expected group not found [1]");
         }
@@ -406,7 +406,7 @@ public final class TestManyToMany extends CPATestCase {
     private void check4() throws PersistenceException {
         _db.begin();
         // check if group a and group b contains no person2
-        _groupA = (ManyGroup) _db.load(ManyGroup.class, new Integer(GROUP_A_ID));
+        _groupA = _db.load(ManyGroup.class, new Integer(GROUP_A_ID));
         Iterator < ManyPerson > groupItor = _groupA.getPeople().iterator();
         while (groupItor.hasNext()) {
             _person2 = groupItor.next();
@@ -414,7 +414,7 @@ public final class TestManyToMany extends CPATestCase {
                 fail("Error: person2 is not removed");
             }
         }
-        _groupB = (ManyGroup) _db.load(ManyGroup.class, new Integer(GROUP_B_ID));
+        _groupB = _db.load(ManyGroup.class, new Integer(GROUP_B_ID));
         if ((_groupB.getPeople() != null) && (_groupB.getPeople().size() != 0)) {
             fail("Error: person2 is not removed");
         }
@@ -422,7 +422,7 @@ public final class TestManyToMany extends CPATestCase {
         // make a dangerous add (add to only one side)
         // user shouldn't rely on this behavior, but
         // should always link both side before commit
-        _person1 = (ManyPerson) _db.load(ManyPerson.class, new Integer(PERSON_1_ID));
+        _person1 = _db.load(ManyPerson.class, new Integer(PERSON_1_ID));
         _person1.getGroup().add(_groupB);
         _db.commit();
     }
@@ -430,7 +430,7 @@ public final class TestManyToMany extends CPATestCase {
     private void check5() throws PersistenceException {
         // check if adding group into existing collection work
         _db.begin();
-        _person1 = (ManyPerson) _db.load(ManyPerson.class, new Integer(PERSON_1_ID));
+        _person1 = _db.load(ManyPerson.class, new Integer(PERSON_1_ID));
         Iterator < ManyGroup > tempItor = _person1.getGroup().iterator();
         if (!tempItor.hasNext()) {
             fail("Error: expected group from person1 not found");
@@ -457,7 +457,7 @@ public final class TestManyToMany extends CPATestCase {
     private void check6() throws PersistenceException {
         // test long transaction support
         _db.begin();
-        _groupA = (ManyGroup) _db.load(ManyGroup.class, new Integer(GROUP_A_ID));
+        _groupA = _db.load(ManyGroup.class, new Integer(GROUP_A_ID));
         _db.commit();
 
         LOG.debug("Modifing object outside of transaction");
@@ -560,7 +560,7 @@ public final class TestManyToMany extends CPATestCase {
         } else {
             fail("Error: object not found!");
         }
-        _person3 = (ManyPerson) _db.load(ManyPerson.class, new Integer(PERSON_3_ID));
+        _person3 = _db.load(ManyPerson.class, new Integer(PERSON_3_ID));
         _db.commit();
     }
 
@@ -574,7 +574,7 @@ public final class TestManyToMany extends CPATestCase {
 
         // load and check
         _db.begin();
-        _person3 = (ManyPerson) _db.load(ManyPerson.class, new Integer(PERSON_3_ID));
+        _person3 = _db.load(ManyPerson.class, new Integer(PERSON_3_ID));
         Iterator < ManyGroup > tempItor = _person3.getGroup().iterator();
         if (!tempItor.hasNext()) {
             fail("Error: group not found");

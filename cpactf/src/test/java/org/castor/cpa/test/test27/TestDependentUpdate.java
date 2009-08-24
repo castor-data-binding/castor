@@ -119,8 +119,7 @@ public final class TestDependentUpdate extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        master = (Master) _db.load(Master.class, new Integer(
-                Master.DEFAULT_ID));
+        master = _db.load(Master.class, new Integer(Master.DEFAULT_ID));
         if (master != null) {
             if (master.getGroup() == null) {
                 LOG.error("loaded master without group: " + master);
@@ -173,8 +172,7 @@ public final class TestDependentUpdate extends CPATestCase {
 
         LOG.debug("Attempt to change details");
         _db.begin();
-        master = (Master) _db.load(Master.class, new Integer(
-                Master.DEFAULT_ID));
+        master = _db.load(Master.class, new Integer(Master.DEFAULT_ID));
         if (master == null) {
             LOG.error("failed to find master with details group");
             fail("master not found");
@@ -196,8 +194,7 @@ public final class TestDependentUpdate extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        master = (Master) _db.load(Master.class, new Integer(
-                Master.DEFAULT_ID));
+        master = _db.load(Master.class, new Integer(Master.DEFAULT_ID));
         if (master != null) {
             if (master.getDetails().size() == 0
                     || master.getDetails().contains(new Detail(5))
@@ -230,16 +227,14 @@ public final class TestDependentUpdate extends CPATestCase {
 
         LOG.debug("Test long transaction with dirty checking");
         _db.begin();
-        master = (Master) _db.load(Master.class, new Integer(
-                Master.DEFAULT_ID));
+        master = _db.load(Master.class, new Integer(Master.DEFAULT_ID));
         if (master == null) {
             LOG.error("failed to find master with details group");
             fail("master not found");
         }
         _db.commit();
         _db.begin();
-        master2 = (Master) _db.load(Master.class, new Integer(
-                Master.DEFAULT_ID));
+        master2 = _db.load(Master.class, new Integer(Master.DEFAULT_ID));
         master2.setValue1(master2.getValue1() + "2");
         _db.commit();
 
@@ -295,8 +290,7 @@ public final class TestDependentUpdate extends CPATestCase {
             LOG.debug("OK: Dirty checking works");
         }
         _db.begin();
-        master = (Master) _db.load(Master.class, new Integer(
-                Master.DEFAULT_ID));
+        master = _db.load(Master.class, new Integer(Master.DEFAULT_ID));
         if (master != null) {
             if (master.getDetails().size() == 0
                     || !master.getDetails().contains(new Detail(5))
@@ -328,8 +322,7 @@ public final class TestDependentUpdate extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        master = (Master) _db.load(Master.class, new Integer(
-                Master.DEFAULT_ID));
+        master = _db.load(Master.class, new Integer(Master.DEFAULT_ID));
         if (master != null) {
             if (master.getDetails() == null
                     || master.getDetails().size() == 0

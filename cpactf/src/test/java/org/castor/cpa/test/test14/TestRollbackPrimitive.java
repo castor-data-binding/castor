@@ -59,7 +59,7 @@ public final class TestRollbackPrimitive extends CPATestCase {
 
         _db.begin();
         try {
-            object = (RollbackObject) _db.load(RollbackObject.class, new Long(3));
+            object = _db.load(RollbackObject.class, new Long(3));
             LOG.debug("Loaded: " + object);
         } catch (Exception e) {
             object = new RollbackObject();
@@ -70,7 +70,7 @@ public final class TestRollbackPrimitive extends CPATestCase {
 
         
         _db.begin();
-        object = (RollbackObject) _db.load(RollbackObject.class, new Long(3));
+        object = _db.load(RollbackObject.class, new Long(3));
         long number = object.getNumber();
         object.setNumber(9);
         LOG.debug("Changed: " + object);

@@ -362,7 +362,7 @@ public final class TestLazyEmployeeExpiration extends CPATestCase {
             Identity fullname = new Identity("First", "Person");
             LazyEmployee person;
 
-            person = (LazyEmployee) _db.load(LazyEmployee.class, fullname);
+            person = _db.load(LazyEmployee.class, fullname);
             if (person.getBirthday().compareTo(JDBC_UPDATED_DATE) != 0) {
                 LOG.debug("validReadTransaction: birthdate for "
                         + person.getFirstName() + " " + person.getLastName()
@@ -423,7 +423,7 @@ public final class TestLazyEmployeeExpiration extends CPATestCase {
             Identity fullname = new Identity("First", "Person");
             LazyEmployee person;
 
-            person = (LazyEmployee) _db.load(LazyEmployee.class, fullname);
+            person = _db.load(LazyEmployee.class, fullname);
             person.setBirthday(JDO_UPDATED_DATE);
             Iterator<LazyAddress> itor = person.getAddress().iterator();
             while (itor.hasNext()) {

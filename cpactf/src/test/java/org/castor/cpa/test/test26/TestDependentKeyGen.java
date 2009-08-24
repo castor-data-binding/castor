@@ -133,7 +133,7 @@ public final class TestDependentKeyGen extends CPATestCase {
         _detailId7 = detail7.getId();
 
         _db.begin();
-        master = (MasterKeyGen) _db.load(MasterKeyGen.class, new Integer(_masterId));
+        master = _db.load(MasterKeyGen.class, new Integer(_masterId));
         if (master != null) {
             if (master.getGroup() == null) {
                 LOG.error("loaded master without group: " + master);
@@ -200,7 +200,7 @@ public final class TestDependentKeyGen extends CPATestCase {
 
         LOG.debug("Attempt to change details");
         _db.begin();
-        master = (MasterKeyGen) _db.load(MasterKeyGen.class, new Integer(_masterId));
+        master = _db.load(MasterKeyGen.class, new Integer(_masterId));
         if (master == null) {
             LOG.error("failed to find master with details group");
             fail("failed to find master with details group");
@@ -227,7 +227,7 @@ public final class TestDependentKeyGen extends CPATestCase {
         detailId9 = detail9.getId();
 
         _db.begin();
-        master = (MasterKeyGen) _db.load(MasterKeyGen.class, new Integer(_masterId));
+        master = _db.load(MasterKeyGen.class, new Integer(_masterId));
         if (master != null) {
             if (master.getDetails().size() == 0
                     || master.getDetails().contains(new DetailKeyGen(_detailId5))
@@ -301,7 +301,7 @@ public final class TestDependentKeyGen extends CPATestCase {
 
         LOG.debug("Test rollback");
         _db.begin();
-        master = (MasterKeyGen) _db.load(MasterKeyGen.class, new Integer(_masterId));
+        master = _db.load(MasterKeyGen.class, new Integer(_masterId));
         int detailsCount = master.getDetails().size();
         _db.rollback();
         if (detailsCount != master.getDetails().size()) {

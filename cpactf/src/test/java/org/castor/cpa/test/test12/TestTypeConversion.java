@@ -124,7 +124,7 @@ public final class TestTypeConversion extends CPATestCase {
         // This one tests that bind performs type conversion
         LOG.debug("Testing date/time conversion");
         _db.begin();
-        TypeConversion types = (TypeConversion) _db.load(TypeConversion.class,
+        TypeConversion types = _db.load(TypeConversion.class,
                 new Integer(TypeConversion.DEFAULT_ID));
         
         types.setBoolInt(true);
@@ -150,7 +150,7 @@ public final class TestTypeConversion extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        types = (TypeConversion) _db.load(TypeConversion.class,
+        types = _db.load(TypeConversion.class,
                 new Integer(TypeConversion.DEFAULT_ID));
 
         if (types.getBoolInt()

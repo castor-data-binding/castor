@@ -35,6 +35,7 @@ public final class TestDuration extends CPATestCase {
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.HSQL)
             || (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.ORACLE)
             || (engine == DatabaseEngineType.POSTGRESQL)
@@ -70,7 +71,7 @@ public final class TestDuration extends CPATestCase {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
 
-        DurationEntity entity = (DurationEntity) db.load(DurationEntity.class, new Integer(1));
+        DurationEntity entity = db.load(DurationEntity.class, new Integer(1));
 
         assertEquals(1, entity.getId());
         assertNull(entity.getLongDuration());
@@ -92,7 +93,7 @@ public final class TestDuration extends CPATestCase {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
 
-        DurationEntity entity = (DurationEntity) db.load(DurationEntity.class, new Integer(1));
+        DurationEntity entity = db.load(DurationEntity.class, new Integer(1));
 
         assertEquals(1, entity.getId());
 

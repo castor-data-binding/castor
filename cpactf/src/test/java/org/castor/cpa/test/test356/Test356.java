@@ -199,8 +199,7 @@ public final class Test356 extends CPATestCase {
         Database db = jdo.getDatabase();
         
         db.begin();
-        IntAndIntegerEntity iEnt = (IntAndIntegerEntity) db.load(
-                IntAndIntegerEntity.class, new Integer(5));
+        IntAndIntegerEntity iEnt = db.load(IntAndIntegerEntity.class, new Integer(5));
         db.commit();
         
         assertNull(iEnt.getProperty());

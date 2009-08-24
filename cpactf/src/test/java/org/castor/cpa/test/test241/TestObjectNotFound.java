@@ -56,7 +56,7 @@ public final class TestObjectNotFound extends CPATestCase {
 
         Product product = null;
         try {
-            product = (Product) db.load(Product.class, new Integer(1));
+            product = db.load(Product.class, new Integer(1));
             fail("ObjectNotFoundException should be thrown as product loaded does not exist");
         } catch (ObjectNotFoundException ex) {
             product = new Product();

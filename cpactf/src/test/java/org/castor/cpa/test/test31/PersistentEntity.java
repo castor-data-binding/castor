@@ -196,8 +196,7 @@ public class PersistentEntity implements Persistent, TimeStampable,
 
     public final Class<?> jdoLoad(final AccessMode accessMode) throws Exception {
         if (_parentId != null) {
-            _parent = (PersistentEntity) _db.load(PersistentEntity.class,
-                    _parentId, accessMode);
+            _parent = _db.load(PersistentEntity.class, _parentId, accessMode);
         }
 
         Query qry = _db.getOQLQuery("SELECT p FROM "

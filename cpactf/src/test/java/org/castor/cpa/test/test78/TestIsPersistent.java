@@ -60,7 +60,7 @@ public final class TestIsPersistent extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        item = (Limit) _db.load(Limit.class, new Integer(111));
+        item = _db.load(Limit.class, new Integer(111));
 
         assertNotNull(item);
         assertEquals(111, item.getId());
@@ -69,7 +69,7 @@ public final class TestIsPersistent extends CPATestCase {
         _db.commit();
 
         _db.begin();
-        item = (Limit) _db.load(Limit.class, new Integer(111));
+        item = _db.load(Limit.class, new Integer(111));
         _db.remove(item);
         _db.commit();
     }

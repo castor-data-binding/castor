@@ -142,9 +142,9 @@ public final class TestRelation extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableGroup firstGroup = (TimeStampableGroup) db.load(
+        TimeStampableGroup firstGroup = db.load(
                 TimeStampableGroup.class, TimeStampableGroup.DEFAULT_ID);
-        TimeStampableProduct firstProduct = (TimeStampableProduct) db.load(
+        TimeStampableProduct firstProduct = db.load(
                 TimeStampableProduct.class, TimeStampableProduct.DEFAULT_ID);
         db.commit();
         
@@ -176,7 +176,7 @@ public final class TestRelation extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableGroup secondGroup = (TimeStampableGroup) db.load(
+        TimeStampableGroup secondGroup = db.load(
                 TimeStampableGroup.class, TimeStampableGroup.DEFAULT_ID);
         db.commit();
         
@@ -197,7 +197,7 @@ public final class TestRelation extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableProduct secondProduct = (TimeStampableProduct) db.load(
+        TimeStampableProduct secondProduct = db.load(
                 TimeStampableProduct.class, TimeStampableProduct.DEFAULT_ID);
         db.commit();
         db.close();
@@ -228,7 +228,7 @@ public final class TestRelation extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableGroup group = (TimeStampableGroup) db.load(
+        TimeStampableGroup group = db.load(
                 TimeStampableGroup.class, TimeStampableGroup.DEFAULT_ID);
 
         LOG.debug("Timestamp before short update of group: " + group.jdoGetTimeStamp());
@@ -258,7 +258,7 @@ public final class TestRelation extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableProduct product = (TimeStampableProduct) db.load(
+        TimeStampableProduct product = db.load(
                 TimeStampableProduct.class, TimeStampableProduct.DEFAULT_ID);
         db.commit();
         db.close();
@@ -286,7 +286,7 @@ public final class TestRelation extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableGroup group = (TimeStampableGroup) db.load(
+        TimeStampableGroup group = db.load(
                 TimeStampableGroup.class, TimeStampableGroup.DEFAULT_ID);
         db.commit();
 
@@ -322,7 +322,7 @@ public final class TestRelation extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableProduct product = (TimeStampableProduct) db.load(
+        TimeStampableProduct product = db.load(
                 TimeStampableProduct.class, TimeStampableProduct.DEFAULT_ID);
         db.commit();
         db.close();
@@ -350,7 +350,7 @@ public final class TestRelation extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableGroup group = (TimeStampableGroup) db.load(
+        TimeStampableGroup group = db.load(
                 TimeStampableGroup.class, TimeStampableGroup.DEFAULT_ID);
         db.commit();
 
@@ -386,7 +386,7 @@ public final class TestRelation extends CPATestCase {
         Thread.sleep(10);
         
         db.begin();
-        TimeStampableProduct product = (TimeStampableProduct) db.load(
+        TimeStampableProduct product = db.load(
                 TimeStampableProduct.class, TimeStampableProduct.DEFAULT_ID);
         db.commit();
         db.close();
@@ -415,7 +415,7 @@ public final class TestRelation extends CPATestCase {
         
         db.begin();
         
-        TimeStampableProduct product = (TimeStampableProduct) db.load(
+        TimeStampableProduct product = db.load(
                 TimeStampableProduct.class, TimeStampableProduct.DEFAULT_ID);
         TimeStampableGroup group = product.getGroup();
 

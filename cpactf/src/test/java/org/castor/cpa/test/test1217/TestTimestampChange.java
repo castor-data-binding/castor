@@ -137,7 +137,7 @@ public final class TestTimestampChange extends CPATestCase {
     public void loadComplex() throws Exception {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
-        Product product = (Product) db.load(Product.class, "CPPD1");
+        Product product = db.load(Product.class, "CPPD1");
         assertEquals("third query result class must be a Product!",
                 Product.class, product.getClass());
         assertEquals("third query result class must be a Person!",
@@ -147,7 +147,7 @@ public final class TestTimestampChange extends CPATestCase {
         db.commit();
         
         db.begin();
-        Person person = (Person) db.load(Person.class, "CP1");
+        Person person = db.load(Person.class, "CP1");
         assertEquals("second query result class must be a Person!",
                 Person.class, person.getClass());
         db.commit();
@@ -156,7 +156,7 @@ public final class TestTimestampChange extends CPATestCase {
                 person.jdoGetTimeStamp(), product.getCompany().jdoGetTimeStamp());
 
         db.begin();
-        BasePart part = (BasePart) db.load(BasePart.class, "PD1");
+        BasePart part = db.load(BasePart.class, "PD1");
         assertEquals("first query result class must be an ExtendedPart!",
                 ExtendedPart.class, part.getClass());
         db.commit();

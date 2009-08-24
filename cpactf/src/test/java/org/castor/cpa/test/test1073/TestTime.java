@@ -35,6 +35,7 @@ public final class TestTime extends CPATestCase {
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.HSQL)
             || (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.ORACLE)
             || (engine == DatabaseEngineType.POSTGRESQL)
@@ -72,7 +73,7 @@ public final class TestTime extends CPATestCase {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
 
-        TimeEntity entity = (TimeEntity) db.load(TimeEntity.class, new Integer(1));
+        TimeEntity entity = db.load(TimeEntity.class, new Integer(1));
 
         assertEquals(1, entity.getId());
         assertNull(entity.getLongTimeLocal());
@@ -93,7 +94,7 @@ public final class TestTime extends CPATestCase {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
 
-        TimeEntity entity = (TimeEntity) db.load(TimeEntity.class, new Integer(1));
+        TimeEntity entity = db.load(TimeEntity.class, new Integer(1));
 
         assertEquals(1, entity.getId());
         assertTrue(new Time("12:34:56.789").equals(entity.getLongTimeLocal()));

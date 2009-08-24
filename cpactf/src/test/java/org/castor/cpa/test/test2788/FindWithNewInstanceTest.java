@@ -79,7 +79,7 @@ public final class FindWithNewInstanceTest extends CPATestCase {
         // Load book into a new instance.
         _db.begin();
         Book newBook = new Book();
-        Book returned = (Book) _db.load(Book.class, 1, newBook);
+        Book returned = _db.load(Book.class, 1, newBook);
         _db.commit();
 
         clearTables();
