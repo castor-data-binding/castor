@@ -32,12 +32,11 @@ public final class TestPolymorphismWithUpdates extends CPATestCase {
         super(name);
     }
 
-    // Test are only included/excluded for engines that have been tested with
-    // this test suite.
+    // Test are only included/excluded for engines that have been tested with this test suite.
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL)
-                || (engine == DatabaseEngineType.DERBY);
+        return (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.MYSQL);
     }
 
     public void setUp() throws Exception {
@@ -196,7 +195,7 @@ public final class TestPolymorphismWithUpdates extends CPATestCase {
     public void xtestLoadAndUpdateTruck() throws Exception {
         
         _db.begin();
-        Car car =  (Car) _db.load(Car.class, new Integer(5));
+        Car car =  _db.load(Car.class, new Integer(5));
         _db.commit();
         
         assertNotNull(car);
@@ -240,7 +239,7 @@ public final class TestPolymorphismWithUpdates extends CPATestCase {
     public void xtestLoadAndUpdateProduct() throws Exception {
         
         _db.begin();
-        Product product =  (Product)_db.load(Product.class, new Integer(5));
+        Product product = _db.load(Product.class, new Integer(5));
         _db.commit();
         
         assertNotNull(product);
@@ -277,6 +276,5 @@ public final class TestPolymorphismWithUpdates extends CPATestCase {
         assertEquals("org.castor.cpa.test.test94.Product", product.getClass().getName());
         assertEquals(5, product.getId());
         assertEquals("truck 5", product.getName());
-
     }
 }
