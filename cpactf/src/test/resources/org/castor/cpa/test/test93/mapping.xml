@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.exolab.org/mapping.dtd">
+<mapping>
+<class name="org.castor.cpa.test.test93.Foo" identity="id">
+    <description>Foo</description>
+    <map-to table="test93_foo"/>
+    <field name="id" type="integer" get-method="getID" set-method="setID">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="field" type="string">
+      <sql name="field"/>
+    </field>
+  </class>
+  
+  <class name="org.castor.cpa.test.test93.Bar" extends="org.castor.cpa.test.test93.Foo">
+    <description>Bar</description>
+    <map-to table="test93_bar"/>
+  </class>
+  
+  <class name="org.castor.cpa.test.test93.Customer" identity="id">
+    <map-to table="test93_customer" />
+    <field name="id" type="integer" get-method="getID" set-method="setID">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="description" type="string">
+      <sql name="description"/>
+    </field>
+  </class>
+  
+  <class name="org.castor.cpa.test.test93.Subscription" identity="id">
+    <map-to table="test93_subscription" />
+    <field name="id" type="integer" get-method="getID" set-method="setID">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="createdDate" type="date">
+      <sql name="createdDate" type="timestamp"/>
+    </field>
+    <field name="customer" type="org.castor.cpa.test.test93.Customer">
+      <sql name="customer_id"/>
+    </field>
+  </class>
+</mapping>
+
