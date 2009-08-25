@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                          "http://castor.org/mapping.dtd">
+<mapping>
+  <class name="org.castor.cpa.test.test98.Base" identity="id">
+    <map-to table="test98_poly_base" />
+    <field name="id" type="string">
+      <sql name="id" type="varchar" />
+    </field>
+    <field name="color" type="string" required="true">
+      <sql name="color" type="varchar" />
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test98.Derived" extends="org.castor.cpa.test.test98.Base">
+    <map-to table="test98_poly_derived" />
+    <field name="scent" type="string" required="true">
+      <sql name="scent" type="varchar" />
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test98.Container" identity="id">
+    <map-to table="test98_poly_container" />
+    <field name="id" type="string">
+      <sql name="id" type="varchar" />
+    </field>
+    <field name="reference" type="org.castor.cpa.test.test98.Base">
+      <sql name="reference" />
+    </field>
+  </class>
+</mapping>
+
