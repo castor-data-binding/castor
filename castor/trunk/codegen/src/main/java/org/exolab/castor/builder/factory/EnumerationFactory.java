@@ -327,7 +327,7 @@ public final class EnumerationFactory extends BaseFactory {
         enumConstantsField.setModifiers(modifiers);
         enumConstantsField
                 .setInitString("new java.util.HashMap<java.lang.String, "
-                        + jEnum.getLocalName() + ">();");
+                        + jEnum.getLocalName() + ">()");
         jEnum.addField(enumConstantsField);
 
         // add static initialization of enumConstants field

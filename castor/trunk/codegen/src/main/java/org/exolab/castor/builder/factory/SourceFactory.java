@@ -1586,6 +1586,10 @@ public final class SourceFactory extends BaseFactory {
                     && name.equals(state.getFieldInfoForChoice().getName())) {
                 continue;
             }
+            
+            if (name.startsWith("enumConstants")) {
+                continue;
+            }
 
             if (name.startsWith("_")) {
                 name = getJavaNaming().toJavaClassName(name.substring(1));
