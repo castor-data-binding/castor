@@ -50,33 +50,32 @@ import java.util.Vector;
 
 /**
  * This class represents the basic Java "structure" for a Java source file. This
- * is the base class for JClass and JInterface.
- * <br/>
- * This is a useful utility when creating in memory source code. The code in
- * this package was modelled after the Java Reflection API as much as possible
- * to reduce the learning curve.
- *
+ * is the base class for JClass and JInterface. <br/> This is a useful utility
+ * when creating in memory source code. The code in this package was modelled
+ * after the Java Reflection API as much as possible to reduce the learning
+ * curve.
+ * 
  * @author <a href="mailto:skopp AT riege DOT de">Martin Skopp</a>
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
- * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
+ * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec
+ *          2005) $
  */
 public abstract class JStructure extends JType implements JAnnotatedElement {
-    //--------------------------------------------------------------------------
 
-    /** The Id for Source control systems.
-     *  <br/>
-     *  Note: I needed to break the String into parts to prevent CVS from expanding it here! */
+    /**
+     * The Id for Source control systems. <br/> Note: I needed to break the
+     * String into parts to prevent CVS from expanding it here!
+     */
     private static final String DEFAULT_HEADER = "$" + "Id$";
 
-    /** The source control version for listed in the JavaDoc
-     *  <br/>
-     *  Note: I needed to break the String into parts to prevent CVS from expanding it here! */
+    /**
+     * The source control version for listed in the JavaDoc <br/> Note: I needed
+     * to break the String into parts to prevent CVS from expanding it here!
+     */
     private static final String DEFAULT_VERSION = "$" + "Revision$ $" + "Date$";
-    
+
     /** A standard complaint for a bad parameter. */
     private static final String JSW_SHOULD_NOT_BE_NULL = "argument 'jsw' should not be null.";
-
-    //--------------------------------------------------------------------------
 
     /** The source header. */
     private JComment _header;
@@ -93,23 +92,25 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
     /** Implementation of JAnnoatedElement to delagate to. */
     private JAnnotatedElementHelper _annotatedElement;
 
-    /** The JModifiers for this JStructure, which allows us to change the resulting qualifiers. */
+    /**
+     * The JModifiers for this JStructure, which allows us to change the
+     * resulting qualifiers.
+     */
     private JModifiers _modifiers;
 
     /** The set of interfaces implemented/extended by this JStructure. */
     private Vector<String> _interfaces;
 
-    //--------------------------------------------------------------------------
-
     /**
      * Creates a new JStructure with the given name.
-     *
-     * @param name The name of the JStructure.
+     * 
+     * @param name
+     *            The name of the JStructure.
      */
     protected JStructure(final String name) {
         super(name);
 
-        //-- verify name is a valid java class name
+        // -- verify name is a valid java class name
         if (!isValidClassName(name)) {
             String lname = getLocalName();
             String err = "'" + lname + "' is ";
@@ -120,11 +121,12 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
             }
             throw new IllegalArgumentException(err);
         }
-        
+
         _header = null;
         _packageName = JNaming.getPackageFromClassName(name);
         _imports = new Vector<String>();
-        _jdc = new JDocComment(JDocDescriptor.createVersionDesc(DEFAULT_VERSION));
+        _jdc = new JDocComment(JDocDescriptor
+                .createVersionDesc(DEFAULT_VERSION));
         _annotatedElement = new JAnnotatedElementHelper();
         _modifiers = new JModifiers();
         _interfaces = new Vector<String>();
@@ -132,12 +134,15 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
 
     /**
      * Test the provided name and return true if it is a valid class name.
-     *
-     * @param classname A class name to test.
+     * 
+     * @param classname
+     *            A class name to test.
      * @return True if the provided class name is a valid class name.
      */
     private boolean isValidClassName(final String classname) {
-        if (classname == null) { return false; }
+        if (classname == null) {
+            return false;
+        }
 
         String name = classname;
         int beforeTypeName = name.indexOf("<");
@@ -145,18 +150,16 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
             name = name.substring(0, beforeTypeName);
         }
 
-        //-- ignore package information, for now
+        // -- ignore package information, for now
         name = JNaming.getLocalNameFromClassName(name);
 
         return JNaming.isValidJavaIdentifier(name);
     }
 
-    //--------------------------------------------------------------------------
-
     /**
      * Returns the JComment header to display at the top of the source file for
      * this JStructure, or null if no header was set.
-     *
+     * 
      * @return The JComment header or null if none exists.
      */
     public final JComment getHeader() {
@@ -165,8 +168,10 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
 
     /**
      * Sets the header comment for this JStructure.
-     *
-     * @param comment The comment to display at the top of the source file when printed.
+     * 
+     * @param comment
+     *            The comment to display at the top of the source file when
+     *            printed.
      */
     public final void setHeader(final JComment comment) {
         _header = comment;
@@ -174,7 +179,7 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
 
     /**
      * Returns the name of the package that this JStructure is a member of.
-     *
+     * 
      * @return The name of the package that this JStructure is a member of, or
      *         null if there is no current package name defined.
      */
@@ -185,13 +190,13 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
     /**
      * Returns an Enumeration of imported package and class names for this
      * JStructure.
-     *
+     * 
      * @return The Enumeration of imports. May be empty but will not be null.
      */
     public final Enumeration<String> getImports() {
         return _imports.elements();
     }
-    
+
     /**
      * Returns the amount of imports.
      * 
@@ -204,8 +209,9 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
     /**
      * Returns true if the given classname exists in the imports of this
      * JStructure.
-     *
-     * @param classname The class name to check for
+     * 
+     * @param classname
+     *            The class name to check for
      * @return True if the given classname exists in the imports list.
      */
     public final boolean hasImport(final String classname) {
@@ -213,22 +219,24 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
     }
 
     /**
-     * Adds the given import to this JStructure.  Note:  You cannot import
-     * from the "default package," so imports with no package are ignored.
-     *
-     * @param className Name of the class to import.
+     * Adds the given import to this JStructure. Note: You cannot import from
+     * the "default package," so imports with no package are ignored.
+     * 
+     * @param className
+     *            Name of the class to import.
      */
     public abstract void addImport(final String className);
 
     /**
-     * Adds the given import to this JStructure. Given class name should not be null or empty.
-     * <br/>
-     * Note: You cannot import from the "default package," so imports with no package are ignored.
-     *
-     * @param className Name of the class to import.
+     * Adds the given import to this JStructure. Given class name should not be
+     * null or empty. <br/> Note: You cannot import from the "default package,"
+     * so imports with no package are ignored.
+     * 
+     * @param className
+     *            Name of the class to import.
      */
     protected final void addImportInternal(final String className) {
-        //-- getPackageName
+        // -- getPackageName
         String pkgName = JNaming.getPackageFromClassName(className);
 
         if (pkgName != null) {
@@ -236,11 +244,13 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
                 return;
             }
 
-            //-- for readabilty keep import list sorted, and make sure
-            //-- we do not include more than one of the same import
+            // -- for readabilty keep import list sorted, and make sure
+            // -- we do not include more than one of the same import
             for (int i = 0; i < _imports.size(); i++) {
                 String imp = _imports.elementAt(i);
-                if (imp.equals(className)) { return; }
+                if (imp.equals(className)) {
+                    return;
+                }
                 if (imp.compareTo(className) > 0) {
                     _imports.insertElementAt(className, i);
                     return;
@@ -252,9 +262,10 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
 
     /**
      * Adds appropriate import for this JAnnotation.
-     *
-     * @param annotation A JAnnotation for which we want to add an import to
-     *        this JStructure.
+     * 
+     * @param annotation
+     *            A JAnnotation for which we want to add an import to this
+     *            JStructure.
      */
     protected final void addImport(final JAnnotation annotation) {
         addImport(annotation.getAnnotationType().getName());
@@ -262,9 +273,10 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
 
     /**
      * Adds appropriate imports for each JAnnotation in the given Array.
-     *
-     * @param annotations An Array of JAnnotation; we want to add an import to
-     *        this JStructure for each JAnnotation in the Array.
+     * 
+     * @param annotations
+     *            An Array of JAnnotation; we want to add an import to this
+     *            JStructure for each JAnnotation in the Array.
      */
     protected final void addImport(final JAnnotation[] annotations) {
         for (int i = 0; i < annotations.length; i++) {
@@ -275,15 +287,20 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
     /**
      * Remove the import of the given class name from this JStucture, returning
      * true if the import was found and removed.
-     *
-     * @param className Name of the class to remove the import of.
+     * 
+     * @param className
+     *            Name of the class to remove the import of.
      * @return If the import was previously part of this JStructure, false
      *         otherwise.
      */
     public final boolean removeImport(final String className) {
         boolean result = false;
-        if (className == null) { return result; }
-        if (className.length() == 0) { return result; }
+        if (className == null) {
+            return result;
+        }
+        if (className.length() == 0) {
+            return result;
+        }
 
         result = _imports.removeElement(className);
         return result;
@@ -291,7 +308,7 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
 
     /**
      * Returns the JavaDoc comment for this JStructure.
-     *
+     * 
      * @return The JDocComment for this JStructure.
      */
     public final JDocComment getJDocComment() {
@@ -331,7 +348,8 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
     /**
      * {@inheritDoc}
      */
-    public final boolean isAnnotationPresent(final JAnnotationType annotationType) {
+    public final boolean isAnnotationPresent(
+            final JAnnotationType annotationType) {
         return _annotatedElement.isAnnotationPresent(annotationType);
     }
 
@@ -346,13 +364,14 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
     /**
      * {@inheritDoc}
      */
-    public final JAnnotation removeAnnotation(final JAnnotationType annotationType) {
+    public final JAnnotation removeAnnotation(
+            final JAnnotationType annotationType) {
         return _annotatedElement.removeAnnotation(annotationType);
     }
 
     /**
      * Returns the JModifiers, which allows the qualifiers to be changed.
-     *
+     * 
      * @return The JModifiers for this JStructure.
      */
     public final JModifiers getModifiers() {
@@ -362,7 +381,7 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
     /**
      * Returns an Enumeration of interface names that this JStructure inherits
      * from.
-     *
+     * 
      * @return The Enumeration of interface names for this JStructure. May be
      *         empty but will not be null.
      */
@@ -373,7 +392,7 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
     /**
      * Return the count of the number of Interfaces that have been added to this
      * JStructure.
-     *
+     * 
      * @return The count of the number of Interfaces that have been added to
      *         this JStructure.
      */
@@ -385,9 +404,10 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
      * Adds the given interface to the list of interfaces this JStructure
      * inherits method declarations from, and either implements (JClass) or
      * extends (JInterface).
-     *
-     * @param interfaceName The name of the interface to "inherit" method
-     *        declarations from.
+     * 
+     * @param interfaceName
+     *            The name of the interface to "inherit" method declarations
+     *            from.
      */
     public final void addInterface(final String interfaceName) {
         if (!_interfaces.contains(interfaceName)) {
@@ -395,13 +415,25 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
         }
     }
 
-    //--------------------------------------------------------------------------
+    /**
+     * Removes the given interface from the list of interfaces this
+     * {@link JStructure} has.
+     * 
+     * @param interfaceName
+     *            The name of the interface to be removed.
+     * @return true if {@link JStructure} implemented the interface and it was
+     *         removed, false otherwise.
+     */
+    public final boolean removeInterface(final String interfaceName) {
+        return _interfaces.remove(interfaceName);
+    }
 
     /**
      * Returns the field with the given name, or null if no field was found with
      * that name.
-     *
-     * @param name The name of the field to return.
+     * 
+     * @param name
+     *            The name of the field to return.
      * @return The field with the given name, or null if no field was found with
      *         the given name.
      */
@@ -409,52 +441,50 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
 
     /**
      * Returns an array of all the JFields of this JStructure.
-     *
+     * 
      * @return An array of all the JFields of this JStructure.
      */
     public abstract JField[] getFields();
 
     /**
-     * Adds the given JField to this JStructure.
-     * <br/>
-     * This method is implemented by subclasses and should only accept the
-     * proper fields for the subclass otherwise an IllegalArgumentException will
-     * be thrown. For example a JInterface will only accept static fields.
-     *
-     * @param jField The JField to add.
+     * Adds the given JField to this JStructure. <br/> This method is
+     * implemented by subclasses and should only accept the proper fields for
+     * the subclass otherwise an IllegalArgumentException will be thrown. For
+     * example a JInterface will only accept static fields.
+     * 
+     * @param jField
+     *            The JField to add.
      */
     public abstract void addField(JField jField);
 
     /**
-     * Adds the given JMember to this JStructure.
-     * <br/>
-     * This method is implemented by subclasses and should only accept the
-     * proper types for the subclass otherwise an IllegalArgumentException will
-     * be thrown.
-     *
-     * @param jMember The JMember to add to this JStructure.
+     * Adds the given JMember to this JStructure. <br/> This method is
+     * implemented by subclasses and should only accept the proper types for the
+     * subclass otherwise an IllegalArgumentException will be thrown.
+     * 
+     * @param jMember
+     *            The JMember to add to this JStructure.
      */
     public abstract void addMember(JMember jMember);
 
-    //--------------------------------------------------------------------------
-    
     /**
      * Returns the name of the file that this JStructure would be printed to,
      * given a call to {@link #print(String, String)}.
-     *
-     * @param destDir the destination directory. This may be null.
+     * 
+     * @param destDir
+     *            the destination directory. This may be null.
      * @return the name of the file that this JInterface would be printed to
      */
     public final String getFilename(final String destDir) {
         String filename = getLocalName() + ".java";
 
-        //-- Convert Java package to path string
+        // -- Convert Java package to path string
         String javaPackagePath = "";
         if ((_packageName != null) && (_packageName.length() > 0)) {
             javaPackagePath = _packageName.replace('.', File.separatorChar);
         }
 
-        //-- Create fully qualified path (including 'destDir') to file
+        // -- Create fully qualified path (including 'destDir') to file
         File pathFile;
         if (destDir == null) {
             pathFile = new File(javaPackagePath);
@@ -465,26 +495,27 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
             pathFile.mkdirs();
         }
 
-        //-- Prefix filename with path
+        // -- Prefix filename with path
         if (pathFile.toString().length() > 0) {
             filename = pathFile.toString() + File.separator + filename;
         }
 
         return filename;
     }
-    
-    //--------------------------------------------------------------------------
 
     /**
      * Prints the source code for this JStructure to the destination directory.
      * Subdirectories will be created if necessary for the package.
-     *
-     * @param destDir Directory name to use as the root directory for all output.
-     * @param lineSeparator The line separator to use at the end of each line.
-     *        If null, then the default line separator for the runtime platform will be used.
+     * 
+     * @param destDir
+     *            Directory name to use as the root directory for all output.
+     * @param lineSeparator
+     *            The line separator to use at the end of each line. If null,
+     *            then the default line separator for the runtime platform will
+     *            be used.
      */
     public final void print(final String destDir, final String lineSeparator) {
-        //-- open output file
+        // -- open output file
         String filename = getFilename(destDir);
 
         File file = new File(filename);
@@ -506,23 +537,25 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
 
     /**
      * Prints the source code for this JStructure to the given JSourceWriter.
-     *
-     * @param jsw The JSourceWriter to print to.
-     * @deprecated Please use the Velocity-template based approach instead. 
+     * 
+     * @param jsw
+     *            The JSourceWriter to print to.
+     * @deprecated Please use the Velocity-template based approach instead.
      */
     public abstract void print(JSourceWriter jsw);
 
     /**
      * A utility method that prints the header to the given JSourceWriter.
-     *
-     * @param jsw The JSourceWriter to print to.
+     * 
+     * @param jsw
+     *            The JSourceWriter to print to.
      */
     public final void printHeader(final JSourceWriter jsw) {
         if (jsw == null) {
             throw new IllegalArgumentException(JSW_SHOULD_NOT_BE_NULL);
         }
 
-        //-- write class header
+        // -- write class header
         if (_header != null) {
             _header.print(jsw);
         } else {
@@ -537,15 +570,16 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
     /**
      * A utility method that prints the packageDeclaration to the given
      * JSourceWriter.
-     *
-     * @param jsw The JSourceWriter to print to.
+     * 
+     * @param jsw
+     *            The JSourceWriter to print to.
      */
     public final void printPackageDeclaration(final JSourceWriter jsw) {
         if (jsw == null) {
             throw new IllegalArgumentException(JSW_SHOULD_NOT_BE_NULL);
         }
 
-        //-- print package name
+        // -- print package name
         if ((_packageName != null) && (_packageName.length() > 0)) {
             jsw.write("package ");
             jsw.write(_packageName);
@@ -557,15 +591,16 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
 
     /**
      * A utility method that prints the imports to the given JSourceWriter.
-     *
-     * @param jsw The JSourceWriter to print to.
+     * 
+     * @param jsw
+     *            The JSourceWriter to print to.
      */
     protected final void printImportDeclarations(final JSourceWriter jsw) {
         if (jsw == null) {
             throw new IllegalArgumentException(JSW_SHOULD_NOT_BE_NULL);
         }
 
-        //-- print imports
+        // -- print imports
         if (_imports.size() > 0) {
             jsw.writeln("  //---------------------------------/");
             jsw.writeln(" //- Imported classes and packages -/");
@@ -583,9 +618,7 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
     }
 
     /**
-     * {@inheritDoc}
-     * <br/>
-     * Returns the String representation of this JType.
+     * {@inheritDoc} <br/> Returns the String representation of this JType.
      */
     public final String toString() {
         return getName();

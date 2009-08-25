@@ -135,7 +135,9 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
      *        of parameters.
      */
     public void addParameter(final JParameter parameter) {
-        if (parameter == null) { return; }
+        if (parameter == null) { 
+            return; 
+        }
 
         String pName = parameter.getName();
         //-- check current params
