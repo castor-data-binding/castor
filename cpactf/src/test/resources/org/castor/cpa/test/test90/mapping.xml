@@ -29,16 +29,16 @@
         <cache-type type="unlimited" capacity="0"/>
         <map-to table="test90_lazy_11_author"/>
         <field name="id" type="long">
-            <sql name="ID" type="bigint"/>
+            <sql name="id" type="bigint"/>
         </field>
         <field name="firstName" type="string" required="true">
-            <sql name="FIRST_NAME" type="varchar"/>
+            <sql name="first_name" type="varchar"/>
         </field>
         <field name="lastName" type="string" required="true">
-            <sql name="LAST_NAME" type="varchar"/>
+            <sql name="last_name" type="varchar"/>
         </field>
         <field name="books" type="org.castor.cpa.test.test90.Lazy1to1Book" lazy="true" collection="collection">
-            <sql many-key="ID"/>
+            <sql many-key="id"/>
         </field>
     </class>
 	
@@ -46,13 +46,13 @@
         <cache-type type="unlimited" capacity="0"/>
         <map-to table="test90_lazy_11_book"/>
         <field name="id" type="long">
-            <sql name="ID" type="bigint"/>
+            <sql name="id" type="bigint"/>
         </field>
         <field name="name" type="string" required="true">
-            <sql name="NAME" type="varchar"/>
+            <sql name="name" type="varchar"/>
         </field>
         <field name="author" type="org.castor.cpa.test.test90.Lazy1to1Author" required="true" lazy="true">
-            <sql name="AUTHOR_ID"/>
+            <sql name="author_id"/>
         </field>
     </class>
 </mapping>

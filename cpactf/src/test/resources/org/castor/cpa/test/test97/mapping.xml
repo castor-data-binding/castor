@@ -185,7 +185,7 @@
       <sql name="id" type="integer" />
     </field>
     <field name="numberOfCPUs" type="integer" required="true">
-      <sql name="numberOfCPUs" type="integer" />
+      <sql name="number_of_cpus" type="integer" />
     </field>
     <field name="supportInYears" type="integer" required="true">
       <sql name="support" type="integer"/>
@@ -202,7 +202,7 @@
       <sql name="id2" type="integer" />
     </field>
     <field name="numberOfCPUs" type="integer" required="true">
-      <sql name="numberOfCPUs" type="integer" />
+      <sql name="number_of_cpus" type="integer" />
     </field>
     <field name="supportInYears" type="integer" required="true">
       <sql name="support" type="integer"/>

@@ -42,7 +42,8 @@ public final class TestLazy1to1 extends CPATestCase {
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.MYSQL);
+            || (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
 
     public void setUp() throws Exception {

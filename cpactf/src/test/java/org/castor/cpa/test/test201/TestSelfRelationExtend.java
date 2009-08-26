@@ -63,6 +63,10 @@ public final class TestSelfRelationExtend extends CPATestCase {
             || (engine == DatabaseEngineType.MYSQL);
     }
 
+    public boolean exclude(final DatabaseEngineType engine) {
+        return (engine == DatabaseEngineType.POSTGRESQL);
+    }
+
     public void testInitialize() throws Exception {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();

@@ -48,6 +48,10 @@ public final class TestCachedOid extends CPATestCase {
             || (engine == DatabaseEngineType.MYSQL);
     }
 
+    public boolean exclude(final DatabaseEngineType engine) {
+        return (engine == DatabaseEngineType.POSTGRESQL);
+    }
+
     public void setUp() throws Exception {
         _db = getJDOManager(DBNAME, MAPPING).getDatabase();
         _db.begin();
