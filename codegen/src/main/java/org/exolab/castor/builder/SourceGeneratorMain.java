@@ -498,6 +498,9 @@ public final class SourceGeneratorMain {
         desc = "Sets name conflict strategy to use (possible values are " 
             + "'informViaLog', 'warnViaConsoleDialog').";
         allOptions.addFlag(ARGUMENT_NAME_CONFLICT_STRATEGY, "", desc);
+        
+        desc = "Selects the JClass printer type (default 'standard')";
+        allOptions.addFlag(ARGUMENT_NAME_JCLASSPRINTER, "<mode>", desc, true);
 
         return allOptions;
     }
