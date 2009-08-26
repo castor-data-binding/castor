@@ -1,4 +1,4 @@
-DROP TABLE  test99_poly_OfferComposition;
-DROP TABLE  test99_poly_ComposedOffer;
-DROP TABLE  test99_poly_ActProduct;
-DROP TABLE  test99_poly_Product;
+DROP TABLE test99_poly_offercomposition;
+DROP TABLE test99_poly_composedoffer;
+DROP TABLE test99_poly_actproduct;
+DROP TABLE test99_poly_product;
