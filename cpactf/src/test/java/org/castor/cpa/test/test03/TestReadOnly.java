@@ -26,19 +26,16 @@ import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.PersistenceException;
 
 /**
- * Tests that modification to read only objects are not persist in the 
- * database.
+ * Tests that modification to read only objects are not persist in the database.
  */
 public final class TestReadOnly extends CPATestCase {
-    /**
-     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     * Commons Logging</a> instance used for all logging.
-     */
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(TestReadOnly.class);
-    
-    private static final String    NEW_VALUE = "new value";
+    private static final String NEW_VALUE = "new value";
     private static final String DBNAME = "test03";
     private static final String MAPPING = "/org/castor/cpa/test/test03/mapping.xml";
+    
     private Database _db;
 
     public TestReadOnly(final String name) {

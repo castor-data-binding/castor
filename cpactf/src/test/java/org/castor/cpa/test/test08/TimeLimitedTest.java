@@ -12,15 +12,13 @@ import org.junit.Ignore;
 
 @Ignore
 public class TimeLimitedTest extends TimeLimited {
-    /**
-     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     * Commons Logging</a> instance used for all logging.
-     */
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(TimeLimitedTest.class);
     
     private static final int EXPIRE_SEC = 10;
     private static final int EXPIRE_MILLI = EXPIRE_SEC * 1000;
-	
+
     private List<CacheEntry> _expiredTooFast;
 
     

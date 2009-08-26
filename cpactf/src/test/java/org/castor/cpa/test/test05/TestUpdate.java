@@ -15,8 +15,6 @@
  */
 package org.castor.cpa.test.test05;
 
-import java.sql.SQLException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.cpa.test.framework.CPATestCase;
@@ -25,13 +23,12 @@ import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
 
 public final class TestUpdate extends CPATestCase {
-    /**
-     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     * Commons Logging</a> instance used for all logging.
-     */
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(TestUpdate.class);
     private static final String DBNAME = "test05";
     private static final String MAPPING = "/org/castor/cpa/test/test05/mapping.xml";
+    
     private Database _db;
 
     /**
@@ -57,7 +54,7 @@ public final class TestUpdate extends CPATestCase {
         _db = getJDOManager(DBNAME, MAPPING).getDatabase();
     }
 
-    public void testUpdate() throws PersistenceException, SQLException {
+    public void testUpdate() {
         Sample    object;
 
         try {

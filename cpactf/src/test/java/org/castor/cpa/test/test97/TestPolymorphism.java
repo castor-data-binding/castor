@@ -28,24 +28,21 @@ import org.exolab.castor.jdo.QueryResults;
 import org.exolab.castor.persist.spi.Identity;
 
 /**
- * Tests that modification to read only objects are not persist in the 
- * database.
+ * Tests that modification to read only objects are not persist in the database.
  */
 public final class TestPolymorphism extends CPATestCase {
     private static final String DBNAME = "test97";
     private static final String MAPPING = "/org/castor/cpa/test/test97/mapping.xml";
 
-
     public TestPolymorphism(final String name) {
         super(name);
     }
 
-    // Test are only included/excluded for engines that have been tested with
-    // this test suite.
+    // Test are only included/excluded for engines that have been tested with this test suite.
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL)
-                || (engine == DatabaseEngineType.DERBY);
+        return (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.MYSQL);
     }
 
     public void testLoadLaptop() throws Exception {
@@ -74,7 +71,6 @@ public final class TestPolymorphism extends CPATestCase {
         database.create(detail);
         database.commit();
         
-        
         database.begin();
         Laptop laptop = new Laptop();
         laptop.setId(10);
@@ -82,8 +78,7 @@ public final class TestPolymorphism extends CPATestCase {
         laptop.setCpu("centrino");
         laptop.setResolution("1600");
         laptop.setWeight(2750);
-        laptop.setDetail(database.load(
-                ProductDetail.class, new Integer(10)));
+        laptop.setDetail(database.load(ProductDetail.class, new Integer(10)));
         database.create(laptop);
 
         Owner owner = new Owner ();
