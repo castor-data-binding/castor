@@ -10,6 +10,14 @@
  * 
  *#
 
+#macro (fileHeader $version)
+/*
+ * This class was automatically generated with the code generator of 
+ * <a href="http://www.castor.org">Castor ${version}</a> from an XML
+ * schema.
+ */
+#end
+
 #macro (packageDeclaration $jClass)
 #if($jClass.getPackageName())
 package ${jClass.getPackageName()}; ##

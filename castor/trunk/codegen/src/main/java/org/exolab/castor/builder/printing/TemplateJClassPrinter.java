@@ -21,6 +21,7 @@ import java.io.FileWriter;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.exolab.castor.util.Version;
 import org.exolab.javasource.JClass;
 
 /**
@@ -81,6 +82,7 @@ public class TemplateJClassPrinter implements JClassPrinter {
             VelocityContext context = new VelocityContext();
             context.put("jClass", jClass);
             context.put("helper", new TemplateHelper());
+            context.put("version", Version.VERSION);
 
             // print the class
             Template template = 
