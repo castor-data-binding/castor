@@ -13,15 +13,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc9x -->
-    <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
-    <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>
-    <case id="TC95" class="ctf.jdo.tc9x.TestPolymorphismWithKeyGen"/>
-    <case id="TC96" class="ctf.jdo.tc9x.TestPolymorphismDependendObjects"/>
-    <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
-    <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
-    <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
   </category>
 
   <category name="hsql" class="jdo.JDOCategory">
@@ -40,15 +31,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc9x -->
-    <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
-    <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>
-    <case id="TC95" class="ctf.jdo.tc9x.TestPolymorphismWithKeyGen"/>
-    <case id="TC96" class="ctf.jdo.tc9x.TestPolymorphismDependendObjects"/>
-    <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
-    <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
-    <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
   </category>
 
   <category name="mssql" class="jdo.JDOCategory">
@@ -65,15 +47,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc9x -->
-    <!-- <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/> -->
-    <!-- <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/> -->
-    <!-- <case id="TC95" class="ctf.jdo.tc9x.TestPolymorphismWithKeyGen"/> -->
-    <!-- <case id="TC96" class="ctf.jdo.tc9x.TestPolymorphismDependendObjects"/> -->
-    <!-- <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/> -->
-    <!-- <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/> -->
-    <!-- <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/> -->
   </category>
 
   <category name="mysql" class="jdo.JDOCategory">
@@ -90,15 +63,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc9x -->
-    <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
-    <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>
-    <case id="TC95" class="ctf.jdo.tc9x.TestPolymorphismWithKeyGen"/>
-    <case id="TC96" class="ctf.jdo.tc9x.TestPolymorphismDependendObjects"/>
-    <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
-    <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
-    <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
   </category>
 
   <category name="oracle" class="jdo.JDOCategory">
@@ -115,15 +79,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc9x -->
-    <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
-    <!-- <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/> -->
-    <case id="TC95" class="ctf.jdo.tc9x.TestPolymorphismWithKeyGen"/>
-    <case id="TC96" class="ctf.jdo.tc9x.TestPolymorphismDependendObjects"/>
-    <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
-    <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
-    <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
   </category>
 
   <category name="postgresql" class="jdo.JDOCategory">
@@ -140,15 +95,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc9x -->
-    <!-- <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/> -->
-    <!-- <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/> -->
-    <case id="TC95" class="ctf.jdo.tc9x.TestPolymorphismWithKeyGen"/>
-    <!-- <case id="TC96" class="ctf.jdo.tc9x.TestPolymorphismDependendObjects"/> -->
-    <!-- <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/> -->
-    <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
-    <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
   </category>
 
   <category name="sapdb" class="jdo.JDOCategory">
@@ -165,15 +111,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc9x -->
-    <!-- <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/> -->
-    <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>
-    <case id="TC95" class="ctf.jdo.tc9x.TestPolymorphismWithKeyGen"/>
-    <case id="TC96" class="ctf.jdo.tc9x.TestPolymorphismDependendObjects"/>
-    <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
-    <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
-    <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
   </category>
 
   <category name="sybase" class="jdo.JDOCategory">
@@ -190,15 +127,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc9x -->
-    <!-- <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/> -->
-    <!-- <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/> -->
-    <!-- <case id="TC95" class="ctf.jdo.tc9x.TestPolymorphismWithKeyGen"/> -->
-    <!-- <case id="TC96" class="ctf.jdo.tc9x.TestPolymorphismDependendObjects"/> -->
-    <!-- <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/> -->
-    <!-- <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/> -->
-    <!-- <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/> -->
   </category>
 
   <category name="derby" class="jdo.JDOCategory">
@@ -215,14 +143,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc9x -->
-    <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
-    <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>
-    <case id="TC95" class="ctf.jdo.tc9x.TestPolymorphismWithKeyGen"/>
-    <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
-    <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
-    <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
   </category>
 
   <category name="pointbase" class="jdo.JDOCategory">
@@ -240,14 +160,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc9x -->
-    <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
-    <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>
-    <case id="TC95" class="ctf.jdo.tc9x.TestPolymorphismWithKeyGen"/>
-    <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
-    <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
-    <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
   </category>
 
   <category name="progress" class="jdo.JDOCategory">
@@ -264,15 +176,6 @@
     <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
     <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
     <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
-
-    <!-- tc9x -->
-    <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
-    <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>
-    <case id="TC95" class="ctf.jdo.tc9x.TestPolymorphismWithKeyGen"/>
-    <case id="TC96" class="ctf.jdo.tc9x.TestPolymorphismDependendObjects"/>
-    <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
-    <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
-    <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
   </category>
 
 <!--

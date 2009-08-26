@@ -2,5 +2,4 @@
                            "http://castor.org/mapping.dtd">
 <mapping>
   <include href="../ctf/jdo/tc0x/mapping.xml"/>
-  <include href="../ctf/jdo/tc9x/mapping.xml"/>
 </mapping>
