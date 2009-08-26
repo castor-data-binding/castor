@@ -42,7 +42,8 @@ public final class TestPolymorphismInAThreadedEnv extends CPATestCase {
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.MYSQL);
+            || (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
 
     public static Container loadContainer() throws Exception {

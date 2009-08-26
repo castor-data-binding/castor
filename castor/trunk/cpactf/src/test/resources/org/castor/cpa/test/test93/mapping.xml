@@ -34,7 +34,7 @@
       <sql name="id" type="integer"/>
     </field>
     <field name="createdDate" type="date">
-      <sql name="createdDate" type="timestamp"/>
+      <sql name="created_date" type="timestamp"/>
     </field>
     <field name="customer" type="org.castor.cpa.test.test93.Customer">
       <sql name="customer_id"/>

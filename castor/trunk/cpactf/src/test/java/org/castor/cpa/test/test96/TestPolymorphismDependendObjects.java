@@ -35,6 +35,10 @@ public final class TestPolymorphismDependendObjects extends CPATestCase {
             || (engine == DatabaseEngineType.MYSQL);
     }
 
+    public boolean exclude(final DatabaseEngineType engine) {
+        return (engine == DatabaseEngineType.POSTGRESQL);
+    }
+
     public void testLoad() throws Exception {
         try {
             Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
