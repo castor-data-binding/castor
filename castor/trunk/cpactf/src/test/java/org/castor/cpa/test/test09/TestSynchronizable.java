@@ -15,7 +15,6 @@
  */
 package org.castor.cpa.test.test09;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,13 +24,13 @@ import org.castor.cpa.test.framework.CPATestCase;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.OQLQuery;
-import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryResults;
 
 public final class TestSynchronizable extends CPATestCase {
     private static ArrayList<String> _synchronizables = new ArrayList<String>();
     private static final String DBNAME = "test09";
     private static final String MAPPING = "/org/castor/cpa/test/test09/mapping.xml";
+    
     private Database _db;
     private Object _oldProperty;
     
@@ -55,13 +54,12 @@ public final class TestSynchronizable extends CPATestCase {
         return (engine == DatabaseEngineType.DERBY)
             || (engine == DatabaseEngineType.MYSQL);
     }
-
     
     /**
      * Get a JDO database
      */
     public void setUp() throws Exception {
-        AbstractProperties properties = CPAProperties.getInstance();
+        AbstractProperties properties = getProperties();
         _oldProperty = properties.getObject(CPAProperties.TX_SYNCHRONIZABLE);
         properties.put(CPAProperties.TX_SYNCHRONIZABLE, SynchronizableImpl.class.getName());
 
@@ -136,7 +134,7 @@ public final class TestSynchronizable extends CPATestCase {
         _synchronizables.clear();
         _db.close();
         
-        AbstractProperties properties = CPAProperties.getInstance();
+        AbstractProperties properties = getProperties();
         if (_oldProperty != null) {
             properties.put(CPAProperties.TX_SYNCHRONIZABLE, _oldProperty);
         } else {

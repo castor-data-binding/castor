@@ -15,8 +15,6 @@
  */
 package org.castor.cpa.test.test08;
 
-import harness.TestHarness;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,21 +25,14 @@ import org.castor.cpa.test.framework.CPATestCase;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 
 public final class TestCache extends CPATestCase {
-    /**
-     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     * Commons Logging</a> instance used for all logging.
-     */
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(TestCache.class);
     
-    /**
-     * After how many seconds should the cache expire?
-     */
+    /** After how many seconds should the cache expire? */
     private static final int EXPIRE_SEC = 10;
-    private static final int EXPIRE_MILLI = EXPIRE_SEC * 1000;
 
-    /**
-     * How many entries should be inserted into the cache?
-     */
+    /** How many entries should be inserted into the cache? */
     private static final int COUNT = 10;
 
     public TestCache(final String name) {

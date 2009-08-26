@@ -20,8 +20,7 @@ import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.exolab.castor.jdo.Database;
 
 /**
- * Tests that modification to read only objects are not persist in the 
- * database.
+ * Tests that modification to read only objects are not persist in the database.
  */
 public final class TestPolymorphismMany2Many extends CPATestCase {
     private static final String DBNAME = "test99";
@@ -31,12 +30,11 @@ public final class TestPolymorphismMany2Many extends CPATestCase {
         super(name);
     }
 
-    // Test are only included/excluded for engines that have been tested with
-    // this test suite.
+    // Test are only included/excluded for engines that have been tested with this test suite.
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.MYSQL)
-                || (engine == DatabaseEngineType.DERBY);
+        return (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.MYSQL);
     }
 
     public void testCreateProd() throws Exception {
