@@ -32,7 +32,8 @@ public final class TestPolymorphismDependendObjects extends CPATestCase {
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.MYSQL);
+            || (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.ORACLE);
     }
 
     public boolean exclude(final DatabaseEngineType engine) {

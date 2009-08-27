@@ -16,3 +16,11 @@ drop table test20_uuid_ext
 /
 drop table test20_seqtable
 /
+drop trigger test20_trigger_trg
+/
+drop sequence test20_trigger_seq
+/
+drop table test20_trigger_ext
+/
+drop table test20_trigger
+/

@@ -37,6 +37,10 @@ public final class TestPolymorphismDegenerated extends CPATestCase {
             || (engine == DatabaseEngineType.POSTGRESQL);
     }
 
+    public boolean exclude(final DatabaseEngineType engine) {
+        return (engine == DatabaseEngineType.ORACLE);
+    }
+
     public void setUp() throws Exception {
         _db = getJDOManager(DBNAME, MAPPING).getDatabase();
     }
