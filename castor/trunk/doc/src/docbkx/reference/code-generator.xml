@@ -789,7 +789,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</programlisting>
                 
         <para>
             In order to use the new Velocity-based code generation, please
-            call the method <methodname>setJCLassPrinterType(String)</methodname> on 
+            call the method <methodname>setJClassPrinterType(String)</methodname> on 
             <classname>org.exolab.castor.builder.SourceGenerator</classname> 
             with a value of <literal>velocity</literal>.
         </para>
@@ -2236,7 +2236,7 @@ org.exolab.castor.builder.automaticConflictResolutionTypeSuffix=ByBy</programlis
                   <entry>-</entry>
                 </row>
                 <row>
-                  <entry><emphasis role="bold">jclassPrinterType</emphasis></entry>
+                  <entry><emphasis role="bold">jClassPrinterType</emphasis></entry>
                   <entry>Sets the mode for printing JClass instances during XML 
                       code generation; possible values are '<literal>standard</literal>' and '<literal>velocity</literal>'
                       (default being '<literal>standard</literal>').</entry>
@@ -2701,7 +2701,7 @@ javac com/xyz/*.java</programlisting>
                   <entry>Optional</entry>
                 </row>
                 <row>
-                  <entry><option>-jclassPrintingType</option></entry>
+                  <entry><option>-classPrinter</option></entry>
                   <entry>&lt;&lt;JClass printing mode&gt;&gt;.</entry>
                   <entry>Specifies the JClass printing mode to use during XML code generation; possible
                       values are<literal>standard</literal> (default) and <literal>velocity</literal>; if no value
@@ -2714,8 +2714,8 @@ javac com/xyz/*.java</programlisting>
                   <entry>(Additionally) generate JDO class descriptors.</entry>
                   <entry>Optional</entry>
                 </row>
-                </tbody>
-                </tgroup>
+               </tbody>
+              </tgroup>
               </table>
                 
               <section id="xml.code.generator.invocations.cmd.options.collection.types">
