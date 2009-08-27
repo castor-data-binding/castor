@@ -111,7 +111,7 @@ public final class SequenceBeforeKeyGenerator extends AbstractBeforeKeyGenerator
      * 
      * @param tableName Name of the table.
      * @param primKeyName ID of the table.
-     * @return Strign representing formatted sequence name.
+     * @return String representing formatted sequence name.
      */
     private String getSeqName(final String tableName, final String primKeyName) {
         return MessageFormat.format(_seqName, new Object[] {tableName, primKeyName});
