@@ -7,8 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -85,18 +85,18 @@ public final class CPAScriptExecutor {
         
         for (Iterator<String> iter = statements.iterator(); iter.hasNext(); ) {
             String statement = iter.next();
-            PreparedStatement prepared = null;
+            Statement sql = null;
             try {
-                prepared = connection.prepareStatement(statement);
-                prepared.execute();
+                sql = connection.createStatement();
+                sql.executeUpdate(statement);
             } catch (SQLException ex) {
                 // just remember first exceptions on failing statements of drop script
                 if (firstException == null) {
                     firstException = ex;
                 }
             } finally {
-                if (prepared != null) {
-                    prepared.close();
+                if (sql != null) {
+                    sql.close();
                 }
             }
         }
@@ -106,18 +106,18 @@ public final class CPAScriptExecutor {
     
     private static void executeCreate(final List<String> statements, final Connection connection)
     throws SQLException {
-        PreparedStatement prepared = null;
+        Statement sql = null;
         try {
             for (Iterator<String> iter = statements.iterator(); iter.hasNext(); ) {
                 String statement = iter.next();
-                prepared = connection.prepareStatement(statement);
-                prepared.execute();
-                prepared.close();
-                prepared = null;
+                sql = connection.createStatement();
+                sql.executeUpdate(statement);
+                sql.close();
+                sql = null;
             }
         } finally {
-            if (prepared != null) {
-                prepared.close();
+            if (sql != null) {
+                sql.close();
             }
         }
     }
