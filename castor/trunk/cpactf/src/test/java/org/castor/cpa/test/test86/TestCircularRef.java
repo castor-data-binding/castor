@@ -36,7 +36,8 @@ public final class TestCircularRef extends CPATestCase {
     // Test are only included/excluded for engines that have been tested with this test suite.
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.ORACLE);
+        return (engine == DatabaseEngineType.ORACLE)
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
     
     // Sequence key generator is not supported by DERBY and MYSQL
