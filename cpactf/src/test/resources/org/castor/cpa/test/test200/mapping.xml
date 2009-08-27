@@ -4,7 +4,7 @@
 <mapping>
 <!-- mapping for class to test bug 928 - internal self-relation -->
   <class name="org.castor.cpa.test.test200.SelfRelationFolder" identity="id">
-        <map-to table="test200_self_relation_folder" />
+        <map-to table="test200_self_rel_folder" />
         <field name="id" type="integer" required="true">
             <sql name="id" type="integer" />
         </field>

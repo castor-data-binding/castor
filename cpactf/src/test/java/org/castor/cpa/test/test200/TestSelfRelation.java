@@ -59,6 +59,10 @@ public final class TestSelfRelation extends CPATestCase {
             || (engine == DatabaseEngineType.POSTGRESQL);
     }
 
+    public boolean exclude(final DatabaseEngineType engine) {
+        return (engine == DatabaseEngineType.ORACLE);
+    }
+
     public void testInitialize() throws Exception {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
@@ -67,13 +71,13 @@ public final class TestSelfRelation extends CPATestCase {
 
         // delete everything directly
         Statement stmt = connection.createStatement();
-        stmt.executeUpdate("DELETE FROM test200_self_relation_folder");
+        stmt.executeUpdate("DELETE FROM test200_self_rel_folder");
         //insert data
-        stmt.execute("INSERT INTO test200_self_relation_folder "
+        stmt.execute("INSERT INTO test200_self_rel_folder "
                 + "( id , name ) VALUES ( 1 , 'parent' ) ");
-        stmt.execute("INSERT INTO test200_self_relation_folder "
+        stmt.execute("INSERT INTO test200_self_rel_folder "
                 + "( id , name , parent_id ) VALUES ( 2 , 'first child' , 1 ) ");
-        stmt.execute("INSERT INTO test200_self_relation_folder "
+        stmt.execute("INSERT INTO test200_self_rel_folder "
                 + "( id , name , parent_id ) VALUES ( 3 , 'second child' , 1 ) ");
         db.commit();
         db.close();

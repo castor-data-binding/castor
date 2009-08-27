@@ -33,8 +33,8 @@ import org.exolab.castor.jdo.QueryResults;
  * Tests that modification to read only objects are not persist in the database.
  */
 public final class TestSelfRelationExtend extends CPATestCase {
-    private static final String PARENT_TABLE_NAME = "test201_self_relation_parent";
-    private static final String EXTEND_TABLE_NAME = "test201_self_relation_extend";
+    private static final String PARENT_TABLE_NAME = "test201_self_rel_parent";
+    private static final String EXTEND_TABLE_NAME = "test201_self_rel_extend";
 
     private static final String DBNAME = "test201";
     private static final String MAPPING = "/org/castor/cpa/test/test201/mapping.xml";
@@ -64,7 +64,8 @@ public final class TestSelfRelationExtend extends CPATestCase {
     }
 
     public boolean exclude(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.POSTGRESQL);
+        return (engine == DatabaseEngineType.ORACLE)
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
 
     public void testInitialize() throws Exception {
