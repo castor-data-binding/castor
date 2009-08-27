@@ -3,7 +3,7 @@
                            "http://castor.org/mapping.dtd">
 <mapping>
  <class name="org.castor.cpa.test.test201.SelfRelationFolderParent" identity="id">
-        <map-to table="test201_self_relation_parent" />
+        <map-to table="test201_self_rel_parent" />
         <field name="id" type="integer" required="true">
             <sql name="id" type="integer" />
         </field>
@@ -13,7 +13,7 @@
     </class>
 
 	<class name="org.castor.cpa.test.test201.SelfRelationFolderExtend" extends="org.castor.cpa.test.test201.SelfRelationFolderParent" identity="id">
-        <map-to table="test201_self_relation_extend" />
+        <map-to table="test201_self_rel_extend" />
         <field name="id" type="integer" required="true">
             <sql name="id" type="integer" />
         </field>

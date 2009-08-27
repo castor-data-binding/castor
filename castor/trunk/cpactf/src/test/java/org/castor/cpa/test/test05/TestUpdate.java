@@ -44,7 +44,8 @@ public final class TestUpdate extends CPATestCase {
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.MYSQL);
+            || (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.ORACLE);
     }
     
     /**

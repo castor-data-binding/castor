@@ -3,12 +3,12 @@
                            "http://castor.org/mapping.dtd">
 <mapping>
   <class name="org.castor.cpa.test.test202.ForeignKeyFirstEntity1" identity="id">
-		<map-to table="test202_foreign_key_first_entity_1"/>
+		<map-to table="test202_fkf_entity_1"/>
 		<field name="entities" type="org.castor.cpa.test.test202.ForeignKeyFirstEntityN" collection="collection">
 			<sql many-key="entity"/>
 		</field>
 		<field name="number" type="java.lang.Integer">
-			<sql name="number" type="integer"/>
+			<sql name="numb" type="integer"/>
 		</field>
 		<field name="id" type="java.lang.Integer">
 			<sql name="id" type="integer"/>
@@ -16,7 +16,7 @@
 	</class>
     
 	<class name="org.castor.cpa.test.test202.ForeignKeyFirstEntityN" identity="id">
-		<map-to table="test202_foreign_key_first_entity_n"/>
+		<map-to table="test202_fkf_entity_n"/>
 		<field name="entity" type="org.castor.cpa.test.test202.ForeignKeyFirstEntity1">
 			<sql name="entity"/>
 		</field>
