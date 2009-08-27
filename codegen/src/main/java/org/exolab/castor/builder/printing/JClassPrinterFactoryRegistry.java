@@ -40,8 +40,6 @@ public class JClassPrinterFactoryRegistry {
     /** Association between name of implementation and JClassPrinterFactory instance. */
     private Map<String, JClassPrinterFactory> _factories = new HashMap<String, JClassPrinterFactory>();
 
-    //--------------------------------------------------------------------------
-
     /**
      * Construct an instance of JClassPrinterFactoryRegistry that loads the
      * {@link JClassPrinterFactory} implementations specified in the given
@@ -75,8 +73,6 @@ public class JClassPrinterFactoryRegistry {
         }
     }
 
-    //--------------------------------------------------------------------------
-
     /**
      * Returns the names of all the configured {@link JClassPrinterFactory}
      * implementations. A {@link JClassPrinterFactory} instance can be obtained
@@ -105,8 +101,11 @@ public class JClassPrinterFactoryRegistry {
             _log.error(msg);
             throw new IllegalArgumentException(msg);
         }
+        
+        if (_log.isInfoEnabled()) {
+            _log.info("Returning JClassPrinterFactory with name " + name);
+        }
         return (JClassPrinterFactory) factory;
     }
 
-    //--------------------------------------------------------------------------
 }

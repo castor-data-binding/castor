@@ -95,7 +95,11 @@ public final class SingleClassGenerator {
     /** True if the user should be prompted to overwrite when a file already exists. */
     private boolean _promptForOverwrite = true;
     /** Destination directory where all our output goes. */
-    private String _destDir = null;
+    private String _destDir;
+    /**
+     * Destination directory for all resource files (e.g. .castor.cdr files).
+     */
+    private String _resourceDestinationDirectory;
     /** The line separator to use for output. */
     private String _lineSeparator = null;
     /** A flag indicating whether or not to create descriptors for the generated classes. */
@@ -196,6 +200,18 @@ public final class SingleClassGenerator {
      */
     public void setDestDir(final String destDir) {
        _destDir = destDir;
+       if (_resourceDestinationDirectory == null) {
+           _resourceDestinationDirectory = destDir;
+       }
+    }
+
+    /**
+     * Sets the destination directory for generated resources.
+     *
+     * @param destDir the destination directory.
+     */
+    public void setResourceDestinationDirectory(final String destinationDirectory) {
+       _resourceDestinationDirectory = destinationDirectory;
     }
 
     /**
@@ -534,7 +550,7 @@ public final class SingleClassGenerator {
      */
     private void updateCDRFile(final JClass jClass, final JClass jDesc,
             final SGStateInfo sInfo, final String cdrFileName) throws IOException {
-        String entityFilename = jClass.getFilename(_destDir);
+        String entityFilename = jClass.getFilename(_resourceDestinationDirectory);
         File file = new File(entityFilename);
         File parentDirectory = file.getParentFile();
         File cdrFile = new File(parentDirectory, cdrFileName);

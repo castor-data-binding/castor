@@ -91,6 +91,29 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
 </class>]]></code-panel>
             </summary>
             <bugs>
+                <bug id="2829" tool="jira">
+                    <description>
+                         Added a new property on SourceGenerator to allow
+                         specification of the desdtination for resource files
+                         generated during code generation (incl. SourceGeneratorMain, 
+                         Ant task definition).
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Stevo Slavic</name>
+                        <email>sslavic@yahoo.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XMLGen.</module>
+                    <date>20090828</date>
+                </bug>
                 <bug id="2827" tool="jira">
                     <description>
                          Optimized code generation for Java 5 enums.

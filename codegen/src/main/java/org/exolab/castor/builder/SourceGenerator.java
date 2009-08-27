@@ -413,6 +413,15 @@ public class SourceGenerator extends BuilderConfiguration {
     }
 
     /**
+     * Sets the destination directory for resources, e.g. '.castor.cdr' files.
+     *
+     * @param destDir the destination directory for resources.
+     */
+    public final void setResourceDestination(final String destination) {
+        _singleClassGenerator.setResourceDestinationDirectory(destination);
+    }
+
+    /**
      * Sets whether or not to create the XML marshaling framework specific
      * methods (marshal, unmarshal, validate) in the generated classes. By
      * default, these methods are generated.
@@ -1231,6 +1240,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * @param jClassPrinterType The string identifier of the printer to use.
      */
     public final void setJClassPrinterType(final String jClassPrinterType) {
+        LOG.info("Setting JClass printing mode " + jClassPrinterType);
         _jclassPrinterType = jClassPrinterType;
         if (_singleClassGenerator != null) {
             _singleClassGenerator.setJClassPrinterType(jClassPrinterType);

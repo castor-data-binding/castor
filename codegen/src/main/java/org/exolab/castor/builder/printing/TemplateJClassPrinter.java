@@ -18,6 +18,8 @@ package org.exolab.castor.builder.printing;
 import java.io.File;
 import java.io.FileWriter;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -36,6 +38,8 @@ public class TemplateJClassPrinter implements JClassPrinter {
      */
     public static final String TEMPLATE_PACKAGE = "/org/exolab/castor/builder/printing/templates/";
 
+    private static final Log _log = LogFactory.getLog(TemplateJClassPrinter.class);
+    
     /**
      * Indicates whether Velocity has been already initialized.
      */
@@ -75,6 +79,8 @@ public class TemplateJClassPrinter implements JClassPrinter {
             initializeVelocity();
             _initialized = true;
         }
+        
+        _log.info("Printing JClass " + jClass.getName() + " using Velocity templates.");
 
         try {
 

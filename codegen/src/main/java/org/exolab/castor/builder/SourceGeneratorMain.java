@@ -87,6 +87,7 @@ public final class SourceGeneratorMain {
     private static final String ARGUMENT_LINE_SEPARATOR            = "line-separator";
     private static final String ARGUMENT_NOMARSHALL                = "nomarshall";
     private static final String ARGUMENT_PACKAGE                   = "package";
+    private static final String ARGUMENT_RESOURCES_DESTINATION_DIR = "resourcesDestination";
     private static final String ARGUMENT_SAX1                      = "sax1";
     private static final String ARGUMENT_TESTABLE                  = "testable";
     private static final String ARGUMENT_TYPES                     = "types";
@@ -173,6 +174,9 @@ public final class SourceGeneratorMain {
     private static final String JCLASSPRINTER_TYPE_MSG =
         "Using JClass printing type ";
 
+    private static final String USING_SEPARATE_RESOURCES_DIRECTORY =
+        "Using a separate destination for resources.";
+
     /** The full set of command-line options. */
     private static final CommandLineOptions ALL_OPTIONS     = setupCommandLineOptions();
 
@@ -223,6 +227,15 @@ public final class SourceGeneratorMain {
 
         sgen.setLineSeparator(getLineSeparator(options.getProperty(ARGUMENT_LINE_SEPARATOR)));
         sgen.setDestDir(options.getProperty(ARGUMENT_DESTINATION_DIR));
+
+        // set a resource destination if specified
+        String resourcesDestination = options.getProperty(ARGUMENT_RESOURCES_DESTINATION_DIR);
+        if (resourcesDestination != null) {
+            sgen.setResourceDestination(resourcesDestination);
+            System.out.print("-- ");
+            System.out.println(USING_SEPARATE_RESOURCES_DIRECTORY);
+        }
+        
         sgen.setVerbose(options.getProperty(ARGUMENT_VERBOSE) != null);
         sgen.setFailOnFirstError(options.getProperty(ARGUMENT_FAIL_ON_ERROR) != null);
 
@@ -432,6 +445,10 @@ public final class SourceGeneratorMain {
         //-- destination directory
         desc = "Sets the destination output directory.";
         allOptions.addFlag(ARGUMENT_DESTINATION_DIR, "destination directory", desc, true);
+
+        //-- resources destination directory
+        desc = "Sets the destination output directory for resources.";
+        allOptions.addFlag(ARGUMENT_RESOURCES_DESTINATION_DIR, "resources destination directory", desc, true);
 
         //-- line break flag
         desc = "Sets the line separator style for the desired platform.";

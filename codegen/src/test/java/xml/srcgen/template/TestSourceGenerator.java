@@ -6,12 +6,16 @@ import org.exolab.castor.builder.SourceGenerator;
 import org.xml.sax.InputSource;
 
 public class TestSourceGenerator extends TestCase {
-
+    
     public void testGeneration() throws Exception {
         SourceGenerator generator = new SourceGenerator();
         String xmlSchema = getClass().getResource("test.xsd").toExternalForm();
         InputSource inputSource = new InputSource(xmlSchema);
         generator.setDestDir("./codegen/src/test/java");
+
+        // uncomment to set a resource destination directory
+//        generator.setResourceDestinationDirectory("./codegen/src/test/resources");
+
         generator.setSuppressNonFatalWarnings(true);
         
         // uncomment to have JDO-specific class descriptors created 
