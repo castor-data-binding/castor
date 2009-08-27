@@ -19,6 +19,7 @@ import java.sql.Connection;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.MessageFormat;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
@@ -148,7 +149,7 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
         SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
 
         if (!_triggerPresent) {
-            insert.addInsert(ids[0].getName(), _seqName);
+            insert.addInsert(ids[0].getName(), getSeqName(_mapTo, ids[0].getName()));
         }
         
         insert.toString(_ctx);  
@@ -159,6 +160,17 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
         return this;
     }
 
+    /**
+     * Formats the sequence name using name of the table and ID.
+     * 
+     * @param tableName Name of the table.
+     * @param primKeyName ID of the table.
+     * @return String representing formatted sequence name.
+     */
+    private String getSeqName(final String tableName, final String primKeyName) {
+        return MessageFormat.format(_seqName, new Object[] {tableName, primKeyName});
+    }
+    
     /**
      * {@inheritDoc}
      */
