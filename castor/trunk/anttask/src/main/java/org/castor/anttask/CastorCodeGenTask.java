@@ -130,7 +130,10 @@ public final class CastorCodeGenTask extends MatchingTask {
     
     /** The directory that code will be generated into. */
     private String _todir;
-    
+
+    /** The directory that resources will be generated into, if specified. */
+    private String _resourcesDirectory;
+
     /** Binding file for the code generator. */
     private String _bindingfile;
     
@@ -252,6 +255,17 @@ public final class CastorCodeGenTask extends MatchingTask {
      */
     public void setTodir(final String dest) {
         _todir = dest;
+    }
+
+    /**
+     * Sets the directory into which resources will be generated. If not 
+     * specified, resources will be generated in the same location as 
+     * code.
+     * 
+     * @param dest The directory into which resources will be generated.
+     */
+    public void setResourcesDirectory(final String destination) {
+        _resourcesDirectory = destination;
     }
 
     /**
@@ -395,8 +409,8 @@ public final class CastorCodeGenTask extends MatchingTask {
     }
     
     /**
-     * Sets the mode for printing JClass instances.
-     * @param jclassPrinterType The new mode for printing {@link JClass} instances.
+     * Sets the mode for printing {@link JClass} instances.
+     * @param jclassPrinterType The mode for printing {@link JClass} instances.
      */
     public void setJClassPrinterType(final String jclassPrinterType) {
         _jclassPrinterType = jclassPrinterType;
@@ -454,6 +468,11 @@ public final class CastorCodeGenTask extends MatchingTask {
         _sgen.setLineSeparator(lineSep);
 
         _sgen.setDestDir(_todir);
+        
+        // TODO: use reflection to invoke this
+        if (_resourcesDirectory != null && _resourcesDirectory.length() > 0) {
+            _sgen.setResourceDestination(_resourcesDirectory);
+        }
 
         if (_bindingfile != null) { _sgen.setBinding(_bindingfile); }
 
