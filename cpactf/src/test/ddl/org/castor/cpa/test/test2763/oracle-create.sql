@@ -2,10 +2,12 @@ CREATE TABLE test2763_book (
     id INTEGER PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
     ts INTEGER NOT NULL
-);
+)
+/
 
 CREATE TABLE test2763_employee (
-    id BIGINT PRIMARY KEY,
+    id NUMBER(20,0) PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    version BIGINT NOT NULL
-);
+    version NUMBER(20,0) NOT NULL
+)
+/

@@ -48,6 +48,10 @@ public class TestLimitClause extends CPATestCase {
             || (engine == DatabaseEngineType.POSTGRESQL);
     }
 
+    public boolean exclude(final DatabaseEngineType engine) {
+        return (engine == DatabaseEngineType.DERBY);
+    }
+
     /**
      * Get a JDO database
      */

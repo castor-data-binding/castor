@@ -28,7 +28,8 @@ public final class TestKeyGenTrigger extends AbstractTestKeyGenInteger {
     // Test are only included/excluded for engines that have been tested with this test suite.
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.POSTGRESQL);
+        return (engine == DatabaseEngineType.ORACLE)
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
 
     // DERBY and MYSQL do not support sequence key generator

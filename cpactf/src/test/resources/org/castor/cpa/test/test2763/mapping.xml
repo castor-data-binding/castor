@@ -26,7 +26,7 @@
 			<sql name="title" type="char" />
 		</field>
 		<field name="timeStamp" type="long" required="true">
-			<sql name="timestamp" type="integer" />
+			<sql name="ts" type="integer" />
 		</field>
 	</class>
 </mapping>
