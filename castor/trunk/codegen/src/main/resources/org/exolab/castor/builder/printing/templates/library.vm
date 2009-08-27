@@ -12,9 +12,9 @@
 
 #macro (fileHeader $version)
 /*
- * This class was automatically generated with the code generator of 
+ * This class was automatically generated with the XML code generator of 
  * <a href="http://www.castor.org">Castor ${version}</a> from an XML
- * schema.
+ * schema, using Velocity templates.
  */
 #end
 
