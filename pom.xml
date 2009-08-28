@@ -17,7 +17,6 @@
         <module>ddlgen</module>
         <module>anttask</module>
         <module>cpa</module>
-        <module>cpactf</module>
 
         <module>diff</module>
         <module>xmlctf-framework</module>
@@ -26,11 +25,8 @@
         
         <module>cpa-testcase-archetype</module>
         <module>codegen-testcase-archetype</module>
-        
-        <module>jdo-extensions-it</module>
-        <module>jpa-extensions-it</module>
-        
-        <!-- <module>xmlctf</module>  -->
+
+        <!-- re-enable once properly integrated  -->        
         <!-- module>fragmentmapper</module> -->
     </modules>
      
@@ -617,13 +613,25 @@
     </ciManagement>
     
     <profiles>
+        <!-- profile for executing all integration suite tests -->
+        <profile>
+            <id>it</id>
+            <modules>
+               <module>cpactf</module>
+               <module>jdo-extensions-it</module>
+               <module>jpa-extensions-it</module>
+                <!-- re-enable once issues have been sorted -->
+               <!-- <module>xmlctf</module>  -->
+            </modules>            
+        </profile>
         <!-- profile for executing all XML integration suite tests -->
         <profile>
             <id>xmltests</id>
             <modules>
                 <module>xmlctf-framework</module>
                 <module>maven-plugins</module>
-                <module>xmlctf</module>
+                <!-- re-enable once issues have been sorted -->
+                <!-- <module>xmlctf</module>  -->
             </modules>            
         </profile>
         <!-- profile for executing all CPA integration suite tests -->
