@@ -765,14 +765,34 @@ org.exolab.castor.builder.automaticConflictResolution=true</programlisting>
         <title>Extra collection methods</title>
         <titleabbrev id="xml.code.generator.properties.detailed.extra.collection.short">org.exolab.castor.builder.extraCollectionMethods</titleabbrev>
      
-        <para>Specifies whether <emphasis role="bold">extra</emphasis> (additional) methods should be created
-           for collection-style fields. Set this to true if you want your code 
-           to be more compatible with Castor JDO (or other persistence 
-           frameworks).</para>
+        <para>
+            Specifies whether <emphasis role="bold">extra</emphasis> (additional) methods 
+            should be created for collection-style fields. Set this to <literal>true</literal>
+            if you want your code to be more compatible with Castor JDO (or other 
+            persistence frameworks in general).
+        </para>
            
-        <para>Adds additional getter/setter methods for the field in question, such 
-           as get/set by reference and set as copy methods.</para>
-           
+        <para>
+            By setting this property to <literal>true</literal>, additional getter/setter methods 
+            for the field in question, such as get/set by reference and set as copy methods, will 
+            be added. In order to have these additional methods generated, please override the 
+            following code generator property in a custom
+            <literal>castorbuilder.properties</literal> as shown:
+                
+            <programlisting language="xml">
+# Enables generation of extra methods for collection fields, such as get/set by
+# reference and set as copy.  Extra methods are in addition to the usual
+# collection get/set methods.  Set this to true if you want your code to be
+# more compatible  with Castor JDO.
+#
+# Possible values:
+# - false (default) 
+# - true
+org.exolab.castor.builder.extraCollectionMethods=<emphasis role="bold">true</emphasis>
+            </programlisting>
+
+        </para>
+
      </section>
      
      <section id="xml.code.generator.properties.detailed.class.printing">
