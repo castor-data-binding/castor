@@ -1,5 +1,0 @@
-<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
-                           "http://castor.org/mapping.dtd">
-<mapping>
-  <include href="../ctf/jdo/tc0x/mapping.xml"/>
-</mapping>
