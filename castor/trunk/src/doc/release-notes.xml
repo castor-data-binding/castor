@@ -91,6 +91,26 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
 </class>]]></code-panel>
             </summary>
             <bugs>
+                <bug id="2237" tool="jira">
+                    <description>
+                         Refactor available tests to use the new castor persistence test framework.
+                    </description>
+                    <contributor>
+                        <name>Udai Gupta</name>
+                        <email>mailtoud@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Udai Gupta</name>
+                        <email>mailtoud@gmail.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20090902</date>
+                </bug>
                 <bug id="2829" tool="jira">
                     <description>
                          Added a new property on SourceGenerator to allow
