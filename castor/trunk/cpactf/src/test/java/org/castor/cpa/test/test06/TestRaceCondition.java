@@ -66,10 +66,11 @@ public final class TestRaceCondition extends CPATestCase {
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.HSQL)
             || (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.ORACLE)
             || (engine == DatabaseEngineType.POSTGRESQL);
     }
 
-    // Test fails on DERBY
+    // Test fails on DERBY even if isolation levels and locking are supported
     public boolean exclude(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.DERBY);
     }
