@@ -19,7 +19,9 @@ import java.sql.Connection;
 import java.sql.Statement;
 
 import org.exolab.castor.jdo.JDOManager;
+import org.junit.Ignore;
 
+@Ignore
 public final class ConcurrentUpdateThread extends Thread {
     private JDOManager _jdo;
     
