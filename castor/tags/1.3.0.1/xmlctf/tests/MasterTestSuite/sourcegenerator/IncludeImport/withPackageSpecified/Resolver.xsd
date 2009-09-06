@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by Phil Norman (OCLC) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	   xmlns="http://worldcatlibraries.org/registry/resolver" 
+	   targetNamespace="http://worldcatlibraries.org/registry/resolver"
+	   elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation>This version 1.0 schema defines data elements related to OpenURL
+	resolvers for the OCLC OpenURL Resolver registry.  Author: Phil Norman, OCLC.  Date last Updated: 20060524.</xs:documentation>
+	</xs:annotation>
+	<xs:simpleType name="instSymType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="6"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IPAddressType1">
+		<xs:annotation>
+			<xs:documentation>An IP Address that matches the following form:
+			132.174.95.5
+		</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IPAddressType2">
+		<xs:annotation>
+			<xs:documentation>An IP Address that matches the following form:
+			132.174.95.5-60
+		</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\-[0-9]{1,3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IPAddressType3">
+		<xs:annotation>
+			<xs:documentation>An IP Address that matches the following form:
+			132.174.95-98.*
+		</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\-[0-9]{1,3}\.\*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="registryIdentifierType">
+		<xs:restriction base="xs:anyURI">
+			<xs:pattern value="info:ofi/.*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IPAddressType4">
+		<xs:annotation>
+			<xs:documentation>An IP Address that matches the following form:
+			132.174.95.*
+		</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.\*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IPAddressType5">
+		<xs:annotation>
+			<xs:documentation>An IP Address that matches the following form:
+			132.174.*.*
+		</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{1,3}\.[0-9]{1,3}\.\*\.\*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IPAddressType6">
+		<xs:annotation>
+			<xs:documentation>An IP Address that matches the following CIDR form:
+			132.174.0.0/27
+		</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/[0-9]{1,2}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="mailto">
+		<xs:restriction base="xs:anyURI">
+			<xs:pattern value="mailto:.*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="metadataFormatType">
+		<xs:restriction base="xs:anyURI">
+			<xs:pattern value="info:ofi/fmt:.*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="communityProfileRegistryIdentifierType">
+		<xs:restriction base="xs:anyURI">
+			<xs:pattern value="info:ofi/pro:.*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="transportRegistryIdentifierType">
+		<xs:restriction base="xs:anyURI">
+			<xs:pattern value="info:ofi/tsp:.*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="encodingRegistryIdentifierType">
+		<xs:restriction base="xs:anyURI">
+			<xs:pattern value="info:ofi/enc:.*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="resolverRegistryEntry">
+		<xs:annotation>
+			<xs:documentation>The root element, resolverRegistryEntry, contains resolver information and elements associated with the resolver such as IP Address Range</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="institutionName" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The Insitution Name which has typcially configured the Resolver.  For example, "Hogwarts School of Wizardry and Witchcraft".  This element is required.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="IPAddressRange" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>An IP Address range associated with the resolver.  If the IP address of the requester matches any IP address range in the registry the requester will be redirected to the associated resolver's Base URL.  This element is required.   Examples:
+							132.174.95.5
+							132.174.95.5-60
+							132.174.95-98.*
+							132.174.95.*
+							132.174.*.*
+							132.174.0.0/27
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:union memberTypes="IPAddressType1 IPAddressType2 IPAddressType3 IPAddressType4 IPAddressType5 IPAddressType6"/>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="institutionDomainName" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation> The domain name associated with the Institution.  For example, "hogwarts.edu".  </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="OCLCInstSymbol" type="instSymType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation> The OCLC Institution Symbol associated with the Institution.  See http://www.oclc.org/contacts/libraries/ to search for symbols.  Limited to 6 characters. 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="InstitutionID" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation> The Institution ID associated with OCLC Institution Symbol in the Institution Registry.  The element is not required.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+
+				<xs:element name="Address" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation> Geographical address information </xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="City" type="xs:string" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation> City  </xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="State" type="xs:string" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation> State  </xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="Country" type="xs:string" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation> County  </xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="resolver">
+					<xs:annotation>
+						<xs:documentation>  The required resolver element contains required elements such as the source of the element, the base URL, and the link text.  It also includes elements that describe the resolver's capabilites such as which identifiers it supports and which OpenURL version(s) it supports.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="resolverID" type="xs:integer" >
+								<xs:annotation>
+									<xs:documentation> The required unique ID identified each openURL resolver record
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+
+							<xs:element name="source" type="xs:string">
+								<xs:annotation>
+									<xs:documentation> The required source element describes where the resolver is coming from.  For example it could be from the OCLC OpenURL resolver registry input form, an external provider, or a specific library. 
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="contactName" type="xs:string" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation> The optional contactName element describes a contact name.  Generally, this will be used if the source is an external provider. 
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="contactMailto" type="mailto" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation> The optional contactMailto element describes a contact e-mail address.  Generally, this will be used if the source is an external provider.   Example:  mailto:elharo@metalab.unc.edu
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="baseURL">
+								<xs:annotation>
+									<xs:documentation> The required baseURL element is the Base URL of the resolver. For example, "http://hogwarts.edu/OpenURLResolver.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="linkIcon" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation> The optional linkIcon element is a link to an image which brands the OpenURL resolver.  For example,  "http://hogwarts.edu/OpenURLResolver/resolver.jpg".  </xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="linkText">
+								<xs:annotation>
+									<xs:documentation> The required linkText element is text which is to be provided with the resolver href.  For example,  "Hogwart's potion collection". If the linkIcon element is present then the linkText will be the alt text for the link icon.  </xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="OpenURLVersions" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation> The optional OpenURL Version element describes which OpenURL versions  the resolver supports.  This schema only supports the current choices which are::
+										OpenURL 0.1
+										Z39.88-2004
+If the OpenURLVersions element is not present then OCLC will assume both versions are supported.  If the OpenURLVersions element is present and no versions are specified, OCLC will assume both are supported.  If only one is specified, it will be inferred that the other is not supported.
+									</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="OpenURL_0.1" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation> The presence of this empty element indicates that the resolver supports OpenURL 0.1.  </xs:documentation>
+											</xs:annotation>
+											<xs:complexType/>
+										</xs:element>
+										<xs:element name="Z39.88-2004" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation> The presence of this empty element indicates that the resolver supports Z39.88-2004.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType/>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Z39.88-2004_CommunityProfile" type="communityProfileRegistryIdentifierType" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation> The optional repeating  Z39.88-2004_CommunityProfile element describes which community profiles  the resolver supports for any entity.  If this element is omitted OCLC will assume that no community profiles are supported.  These identifiers must be in the pattern of info:ofi/pro:.*.  Here is a list of the community profile registry identifiers currently supported by Z39.88-2004.
+										info:ofi/pro:sap1-2004
+										info:ofi/pro:sap1
+										info:ofi/pro:sap2-2004
+										info:ofi/pro:sap2								
+See http://openurl.info/registry  for information about Z39.88-2004 Community Profiles.
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="keyname" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation> The optional keyname element is a placeholder field to include identifiers that could be used at some time in the future in the requester entity to lookup registry entries via the OCLC gateway.  The identifiers should be as unique to the resolver or institution as possible.
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="vendor" type="xs:string" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation> The optional Resolver vendor. Examples include:
+										BIBSYS
+										ILLIAD
+										linkSource
+										1Cate
+										Serials Solutions
+										Sirsi
+										TDNet
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="vendorProduct" type="xs:string" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation> The name of the product and any version information available
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="OpenURL_0.1_Identifiers" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation> The optional OpenURL_0.1_Identifiers element describes which OpenURL 0.1 identifiers the resolver supports.  If this element is omitted and the OpenURL_0.1 OpenURL version is supported then OCLC will assume that all 0.1 Identifiers are supported.  If the element exists each empty sub-element indicates that identifier is supported.  The absence of the sub-element indicates it is not supported.  OpenURL version 0.1 is defined at http://www.openurl.info/registry/docs/pdf/openurl-01.pdf.
+									</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="doi" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation> The presence of this empty element indicates that the resolver supports the Digital Object Identfier (doi).  </xs:documentation>
+											</xs:annotation>
+											<xs:complexType/>
+										</xs:element>
+										<xs:element name="pmid" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation> The presence of this empty element indicates that the resolver supports the PubMed Identfier (pmid).</xs:documentation>
+											</xs:annotation>
+											<xs:complexType/>
+										</xs:element>
+										<xs:element name="bibcode" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation> The presence of this empty element indicates that the resolver supports the Astrophysics Bibcode  Identfier (bibcode).</xs:documentation>
+											</xs:annotation>
+											<xs:complexType/>
+										</xs:element>
+										<xs:element name="oai" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation> The presence of this empty element indicates that the resolver supports the Open Archives Initiative Identifier namespace  (oai).</xs:documentation>
+											</xs:annotation>
+											<xs:complexType/>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Z39.88-2004_namespace" type="registryIdentifierType" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation> The optional repeating Z39.88-2004 namespace element describes which OpenURL 1.0  namespaces the resolver supports for any entity.  If no Z39.88-2004 namespace  elements are specified and the Z39.88-2004 OpenURL version is supported and either the info:ofi/pro:sap1-2004 or the info:ofi/pro:sap1-2004 community profiles is supported, OCLC will assume that all San Antonio Profile (sap1-2004) namespaces are supported.  If any Z39.88-2004_namespace elements are specified then those that are not specified will be assumed not to be supported.  These namespaces must be in the pattern of info:ofi/.*.  Here is a list of the identifier namespaces currently supported by the sap1-2004 profile:
+									info:ofi/nam:ftp:
+									info:ofi/nam:http:
+									info:ofi/nam:https:
+									info:ofi/nam:ldap:
+									info:ofi/nam:mailto:
+									info:ofi/nam:urn:ISBN:
+									info:ofi/nam:urn:ISSN:
+									info:ofi/nam:urn:NBN:
+									info:ofi/nam:info:bibcode:
+									info:ofi/nam:info:doi:
+									info:ofi/nam:info:hdl:
+									info:ofi/nam:info:lccn:
+									info:ofi/nam:info:oai:
+									info:ofi/nam:info:oclcnum:
+									info:ofi/nam:info:pmid:
+									info:ofi/nam:info:sid:
+									info:ofi/nam:info:sici:
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="OpenURL_0.1_genres" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation> The optional OpenURL_0.1_genres element describes which OpenURL 0.1 genres the resolver supports.  If this element is omitted and the OpenURL_0.1 OpenURL version is supported then OCLC will assume that all 0.1 genres are supported.  If the element is present, the presence of each empty sub-element indicates that identifier is supported.  The absence of the sub-element indicates it is not supported.  OpenURL version 0.1 is defined at http://www.openurl.info/registry/docs/pdf/openurl-01.pdf.
+									</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="book" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation> The presence of this empty element indicates that the resolver supports the book metadata format or the OpenURL 0.1 genre.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType/>
+										</xs:element>
+										<xs:element name="journal" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation> The presence of this empty element indicates that the resolver supports the journal  metadata format or the OpenURL 0.1 genre.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType/>
+										</xs:element>
+										<xs:element name="article" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation> The presence of this empty element indicates that the resolver supports the article genre of the journal  metadata format or the OpenURL 0.1 article genre.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType/>
+										</xs:element>
+										<xs:element name="conference" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation> The presence of this empty element indicates that the resolver supports the conference genre of the book and/or journal metadata format or the OpenURL 0.1 conference genre. </xs:documentation>
+											</xs:annotation>
+											<xs:complexType/>
+										</xs:element>
+										<xs:element name="proceeding" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation> The presence of this empty element indicates that the resolver supports the proceeding genre of the book and/or journal metadata format or the OpenURL 0.1 proceeding  genre. </xs:documentation>
+											</xs:annotation>
+											<xs:complexType/>
+										</xs:element>
+										<xs:element name="bookitem" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation> The presence of this empty element indicates that the resolver supports the bookitem genre of the book  metadata format or the OpenURL 0.1 bookitem genre. </xs:documentation>
+											</xs:annotation>
+											<xs:complexType/>
+										</xs:element>
+										<xs:element name="preprint" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation> The presence of this empty element indicates that the resolver supports the preprint genre of the journal metadata format or the OpenURL 0.1 preprint genre . </xs:documentation>
+											</xs:annotation>
+											<xs:complexType/>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Z39.88-2004_metadataFormat" type="metadataFormatType" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation> The optional repeating  Z39.88-2004_metadataFormat element describes which OpenURL 1.0  metadata formats the resolver supports for any entity.   The Z39.88-2004_metadataFormat  matches the pattern of info:ofi/fmt:.*.
+									
+				 If no Z39.88-2004_metadataFormat elements are specified and the Z39.88-2004 OpenURL version is supported and the info:ofi/pro:sap1-2004 community profile is supported, OCLC will assume that the following sap1-2004 metadata formats are supported:
+								
+									info:ofi/fmt:kev:mtx:journal
+									info:ofi/fmt:kev:mtx:book
+									info:ofi/fmt:kev:mtx:patent
+									info:ofi/fmt:kev:mtx:sch_svc
+									info:ofi/fmt:kev:mtx:dissertation
+									
+	If no Z39.88-2004_metadataFormat elements are specified and the Z39.88-2004 OpenURL version is supported and the info:ofi/pro:sap2-2004 community profile is supported, OCLC will assume that the following sap2-2004 metadata formats are supported:
+	
+									info:ofi/fmt:xml:xsd:journal
+									info:ofi/fmt:xml:xsd:book
+									info:ofi/fmt:xml:xsd:patent
+									info:ofi/fmt:xml:xsd:sch_svc
+									info:ofi/fmt:xml:xsd:dissertation
+									info:ofi/fmt:xml:xsd:MARC21
+									info:ofi/fmt:xml:xsd:oai_dc
+									
+									If any Z39.88-2004_metadataFormat  elements are specified then those that are not specified will be assumed not to be supported. 
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="Z39.88-2004_transport" type="transportRegistryIdentifierType" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation> The optional repeating Z39.88-2004 _transport  element describes which OpenURL 1.0  transports the resolver supports. .  These identifiers must be in the pattern of info:ofi/tsp:.*.   If no Z39.88-2004 transport elements are specified and the Z39.88-2004 OpenURL version is supported and either the info:ofi/pro:sap1-2004 or the info:ofi/pro:sap1-2004 community profiles is supported, OCLC will assume that all San Antonio Profile (sap1-2004 and sap2-2004) transports are supported.  If any Z39.88-2004_transport elements are specified then those that are not specified will be assumed not to be supported.  Here is a list of the transports currently supported by the sap1-2004 and the sap2-2004 profiles:
+									
+									info:ofi/tsp:http:openurl-by-ref
+									info:ofi/tsp:http:openurl-by-val
+									info:ofi/tsp:http:openurl-inline
+									
+Also currently available in the registry are https transports:
+
+									info:ofi/tsp:https:openurl-by-ref
+									info:ofi/tsp:https:openurl-by-val
+									info:ofi/tsp:https:openurl-inline
+
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="Z39.88-2004_encoding" type="encodingRegistryIdentifierType" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation> The optional repeating Z39.88-2004 _encoding  element describes which OpenURL 1.0  character encodings the resolver supports. .  These identifiers must be in the pattern of info:ofi/enc:.*.   If no Z39.88-2004_encoding elements are specified and the Z39.88-2004 OpenURL version is supported and the info:ofi/pro:sap1-2004 community profile is supported, OCLC will assume that the following sap1-2004 character encodings are supported:
+									
+									info:ofi/enc:ISO-8859-1
+									info:ofi/enc:UTF-8
+									
+									If no Z39.88-2004_encoding elements are specified and the Z39.88-2004 OpenURL version is supported and the info:ofi/pro:sap2-2004 community profile is supported, OCLC will assume that the following sap1-2004 character encoding is supported:
+									
+									info:ofi/enc:UTF-8
+									
+									If any Z39.88-2004_encoding elements are specified then those that are not specified will be assumed not to be supported. 
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="Z39.88-2004_contextObject" type="metadataFormatType" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation> The optional repeating Z39.88-2004 _contextObject  element describes which OpenURL 1.0  context object formats  the resolver supports. .  These identifiers must be in the pattern of info:ofi/fmt:.*.   If no Z39.88-2004_contextobject elements are specified and the Z39.88-2004 OpenURL version is supported and the info:ofi/pro:sap1-2004 community profile is supported, OCLC will assume that the info:ofi/fmt:kev:mtx:ctx contextObject metadata format is supported. 
+									 If no Z39.88-2004_contextobject elements are specified and the Z39.88-2004 OpenURL version is supported and the info:ofi/pro:sap2-2004 community profile is supported, OCLC will assume that the info:ofi/fmt:xml:xsd:ctx contextObject metadata format is supported. 
+									
+									 If any Z39.88-2004_transport elements are specified then those that are not specified will be assumed not to be supported. 
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

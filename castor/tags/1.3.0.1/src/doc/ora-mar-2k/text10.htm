@@ -1,0 +1,16 @@
+<html>
+<head>
+<title>(Un)marshalling</title>
+</head>
+<body text=#FFFFFF bgcolor=#000080 link=#000080 vlink=#800000 alink=#000080>
+<center>
+<a href="text0.htm">First page</a> <a href="text9.htm">Back</a> <a href="text11.htm">Continue</a> <a href="text41.htm">Last page</a> <a href="img10.htm">Graphic</a></center><br>
+<h1><b>(Un)marshalling</b></h1><p>
+<ul><li><h2><b><font color=#FF0000>// Create new CompanyInfo</b></font></h2>
+<li><h2><b>Project info = new Project(&#147;&quot;Castor&quot;&#148;);&#10;</b></h2>
+<li><h2><b><font color=#FF0000>// Marshal as XML</b></font></h2>
+<li><h2><b>File xmlFile = new File(&#147;&quot;test.xml&quot;&#148;);&#10;Marshaller.marshal( info,&#10;    new FileWriter( xmlFile ) );</b></h2>
+<li><h2><b></b></h2>
+<li><h2><b><font color=#FF0000>// Unmarshal from XML</font>&#10;info = (Project) Unmarshaller.unmarshal(&#10;    Project.class,&#10;    new FileReader( xmlFile ) );</b></h2>
+</ul></body>
+</html>

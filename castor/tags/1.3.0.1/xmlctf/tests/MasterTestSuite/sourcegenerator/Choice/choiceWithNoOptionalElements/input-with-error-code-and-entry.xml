@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xcap-directory xmlns="urn:oma:xml:xdm:xcap-directory"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="urn:oma:xml:xdm:xcap-directory test.xsd ">
+	<folder auid="resource-lists">
+		<entry uri="blah" etag="etag" size="100"></entry>
+		<error-code>error</error-code>
+	</folder>
+</xcap-directory>

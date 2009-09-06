@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Castor">
+  <!--skin>
+    <groupId>org.apache.cocoon</groupId>
+    <artifactId>cocoon-thin-maven-site-skin</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </skin-->
+
+  <body>  
+    <menu name="Documentation">
+      <item name="Index" href="index.html"/>
+      <item name="Changelog" href="changes-report.html"/>
+      <item name="Roadmap" href="roadmap.html"/>
+      <item name="Userguide" href="reference/index.html"/>
+      <item name="Features" href="features.html"/>
+    </menu>
+    <menu name="Project">
+      <item name="License" href="license.html"/>
+      <item name="Mailing lists" href="mailing-lists.html"/>
+      <item name="Building" href="building.html"/>
+      <item name="API" href="api-docs.html"/>
+      <item name="Issue Tracking" href="https://issues.apache.org/jira/browse/COCOON"/>
+      <item name="Download" href="download.html"/>
+    </menu>
+    <menu ref="reports"/>
+  </body>
+</project>

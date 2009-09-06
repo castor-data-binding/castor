@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<main:test xmlns:external="http://castor.org/external" xmlns:main="http://castor.org/main"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://castor.org/main test.xsd http://castor.org/external external.xsd ">
+    <main:ContactInformation>
+        <main:name>main:name</main:name>
+    </main:ContactInformation>
+    <external:ContactInformation>
+        <external:name>external:name</external:name>
+    </external:ContactInformation>
+</main:test>

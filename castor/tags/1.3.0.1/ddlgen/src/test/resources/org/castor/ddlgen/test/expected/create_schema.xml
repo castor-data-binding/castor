@@ -1,0 +1,34 @@
+<expected>
+	<match method="regexp" index="0">create schema {0};</match>
+	<match method="plain" index="1"></match>
+
+	<match method="regexp" index="0" engine="mysql">use {0};</match>
+	<match method="plain" index="1" engine="mysql"></match>
+
+	<match method="plain" index="0" engine="oracle"></match>
+	<match method="plain" index="1" engine="oracle"></match>
+
+	<match method="plain" index="0" engine="postgresql"></match>
+	<match method="plain" index="1" engine="postgresql"></match>
+
+	<match method="plain" index="0" engine="derby"></match>
+	<match method="plain" index="1" engine="derby"></match>
+
+	<match method="plain" index="0" engine="mssql"></match>
+	<match method="plain" index="1" engine="mssql"></match>
+
+	<match method="plain" index="0" engine="sapdb"></match>
+	<match method="plain" index="1" engine="sapdb"></match>
+
+	<match method="plain" index="0" engine="db2"></match>
+	<match method="plain" index="1" engine="db2"></match>
+
+	<match method="plain" index="0" engine="sybase"></match>
+	<match method="plain" index="1" engine="sybase"></match>
+
+	<match method="plain" index="0" engine="hsql"></match>
+	<match method="plain" index="1" engine="hsql"></match>
+
+	<match method="plain" index="0" engine="pointbase"></match>
+	<match method="plain" index="1" engine="pointbase"></match>
+</expected>

@@ -1,0 +1,92 @@
+
+<mapping>
+
+        <class name="A">
+                <map-to xml="A"/>
+                <field name="XandZ"
+                       type="XandZ"
+                       container="true">
+                        <bind-xml name="XandZ"/>
+                </field>
+                <field name="B">
+                </field>
+        </class>
+
+        <class name="B">
+                <field name="Name"
+                       type="string">
+                        <bind-xml name="name" node="attribute"/>
+                </field>
+        </class>
+
+        <class name="XandZ">
+                <field name="RandS"
+                       type="RandS"
+                       container="true">
+                        <bind-xml name="RandS"/>
+                </field>
+                <field name="X"
+                       type="X">
+                        <bind-xml name="X">
+                           <property>
+                               <name>xml:space</name>
+                               <value>preserve</value>
+                           </property>
+                        </bind-xml>
+                </field>
+                <field name="Z"
+                       type="X">
+                        <bind-xml name="Z"/>
+                </field>
+                <field name="W"
+                       type="string">
+                        <bind-xml name="W" node="attribute"/>
+                </field>
+                <field name="Y"
+                       type="integer">
+                        <bind-xml name="Y" node="attribute"/>
+                </field>
+        </class>
+
+        <class name="X">
+                <field name="Id"
+                       type="integer">
+                        <bind-xml name="id" node="attribute"/>
+                </field>
+                <field name="Content"
+                       type="string">
+                        <bind-xml node="text"/>
+                </field>
+        </class>
+
+        <class name="RandS">
+                <field name="R"
+                       type="R">
+                        <bind-xml name="R"/>
+                </field>
+                <field name="S"
+                       type="R">
+                        <bind-xml name="S"/>
+                </field>
+                <field name="T"
+                       type="integer">
+                        <bind-xml name="T" node="attribute"/>
+                </field>
+                <field name="U"
+                       type="string">
+                        <bind-xml name="U" node="attribute"/>
+                </field>
+        </class>
+
+        <class name="R">
+                <field name="Id"
+                       type="integer">
+                        <bind-xml name="id" node="attribute"/>
+                </field>
+                <field name="Content"
+                       type="string">
+                        <bind-xml node="text"/>
+                </field>
+        </class>
+
+</mapping>

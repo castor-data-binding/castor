@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section>
+	<title>XML framework</title>
+
+	<section>
+		<title>Introduction</title>
+
+		<para>
+			Castor XML is an XML data binding framework. Unlike the two
+			main XML APIs, DOM (Document Object Model) and SAX (Simple
+			API for XML) which deal with the structure of an XML
+			document, Castor enables one to deal with the data defined
+			in an XML document through an object model which represents
+			that data.
+		</para>
+		<para>
+			Castor XML can marshal almost any "bean-like" Java Object to
+			and from XML. In most cases the marshalling framework uses a
+			set of ClassDescriptors and FieldDescriptors to describe how
+			an Object should be marshalled and unmarshalled from XML.
+		</para>
+		<para>
+			For those not familiar with the terms "marshal" and
+			"unmarshal", it's simply the act of converting a stream
+			(sequence of bytes) of data to and from an Object. The act
+			of "marshalling" consists of converting an Object to a
+			stream, and "unmarshalling" from a stream to an Object.
+		</para>
+	</section>
+
+	<section id="xml.framework.data.binding.framework">
+		<title>Castor XML - The XML data binding framework</title>
+		<para>
+			The XML data binding framework, as it's name implies, is
+			responsible for doing the conversion between Java and XML.
+			The framework consists of two worker classes,
+			<classname>org/exolab/castor/xml/Marshaller</classname>	and
+			<classname>org.exolab.castor.xml.Unmarshaller</classname>
+			respectively, and a bootstrap class
+			<classname>org.exolab.castor.xml.XMLContext</classname>
+			used for configuration of the XML data binding framework and
+			instantiation of the two worker objects.
+		</para>
+
+		<para>
+			Lets walk through a very simple example. Assume we have a
+			simple
+			<classname>Person</classname>
+			class as follows:
+		</para>
+
+		<programlisting language="java">
+import java.util.Date;
+
+/** An simple person class */ public class Person implements
+java.io.Serializable {
+
+/** The name of the person */ private String name = null;
+
+/** The Date of birth */ private Date dob = null;
+
+/** Creates a Person with no name */ public Person() {
+super(); }
+
+/** Creates a Person with the given name */ public
+Person(String name) { this.name = name; }
+
+/** * @return date of birth of the person */ public Date
+getDateOfBirth() { return dob; }
+
+/** * @return name of the person */ public String getName()
+{ return name; }
+
+/** * Sets the date of birth of the person * @param name the
+name of the person */ public void setDateOfBirth(Date dob) {
+this.dob = dob; }
+
+/** * Sets the name of the person * @param name the name of
+the person */ public void setName(String name) { this.name =
+name; } }
+		</programlisting>
+
+		<para>
+			To (un-)marshal data to and from XML, Castor XML can be used
+			in one of three modes:
+		</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>introspection mode</para>
+			</listitem>
+			<listitem>
+				<para>mapping mode</para>
+			</listitem>
+			<listitem>
+				<para>descriptor mode (aka generation mode)</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>
+			The following sections discuss each of these modes at a high
+			level.
+		</para>
+
+		<section>
+			<title>Introspection mode</title>
+
+			<para>
+				The
+				<emphasis role="italic">introspection mode</emphasis>
+				is the simplest mode to use from a user perspective, as
+				it does not require any configuration from the user. As
+				such, the user does not have to provide any mapping
+				file(s), nor point Castor to any generated descriptor
+				classes (as discussed in the 'descriptor mode' section).
+			</para>
+
+			<para>
+				In this mode, the user makes use of
+				<emphasis role="bold">static</emphasis>
+				methods on the
+				<classname>org.exolab.castor.xml.Marshaller</classname> and
+				<classname>org.exolab.castor.xml.Unmarshaller</classname>
+				classes, providing all required data as parameters on
+				these method calls.
+			</para>
+
+			<para>
+				To marshal an instance of the person class you simply
+				call the
+				<classname>org.exolab.castor.xml.Marshaller</classname>
+				as follows:
+			</para>
+
+			<programlisting language="java">
+// Create a new Person
+Person person = new Person("Ryan 'Mad Dog' Madden");
+person.setDateOfBirth(new Date(1955, 8, 15));
+
+// Create a File to marshal to
+writer = new FileWriter("test.xml");
+
+// Marshal the person object
+Marshaller.marshal(person, writer);
+			</programlisting>
+
+			<para>
+				This produces the XML shown in
+				<xref linkend="xml.framework.introspection.ouput" />
+			</para>
+
+			<example id="xml.framework.introspection.ouput">
+				<title>XML produced in introspection mode</title>
+				<programlisting language="xml">
+XML to written
+				</programlisting>
+			</example>
+
+			<para>
+				To unmarshal an instance of the person class from XML,
+				you simply call the
+				<classname>org.exolab.castor.xml.Unmarshaller</classname>
+				as follows:
+			</para>
+
+			<programlisting language="java">
+// Create a Reader to the file to unmarshal from
+reader = new FileReader("test.xml");
+
+// Marshal the person object
+Person person = (Person)
+Unmarshaller.unmarshal(Person.class, reader);
+			</programlisting>
+
+			<para>
+				Marshalling and unmarshalling is basically that simple.
+			</para>
+
+			<note>
+				Note: The above example uses the
+				<emphasis role="italic">
+					<emphasis role="bold">static</emphasis>
+				</emphasis>
+				methods of the marshalling framework, and as such no
+				Marshaller and/or Unmarshaller instances need to be
+				created. A common mistake in this context when using a
+				<emphasis role="bold">mapping file</emphasis>
+				is to call the
+				<classname>org.exolab.castor.xml.Marshaller</classname>	or
+				<classname>org.exolab.castor.xml.Unmarshaller</classname>
+				as in the above example. This won't work, as the mapping
+				will be ignored.
+			</note>
+
+			<para>
+				In
+				<emphasis role="italic">introspection mode</emphasis>
+				, Castor XML uses Java reflection to establish the
+				binding between the Java classes (and their properties)
+				and the XML, following a set of (default) naming rules.
+				Whilst it is possible to change to a different set of
+				naming rules, there's no way to override this (default)
+				naming for individual artifacts. In such a case, a
+				<emphasis role="italic">mapping file</emphasis>
+				should be used.
+			</para>
+
+		</section>
+
+		<section>
+			<title>Mapping mode</title>
+
+			<para>
+				In
+				<emphasis role="italic">mapping mode</emphasis>
+				, the user provides Castor XML with a user-defined
+				mapping (in form of a mapping file) that allows the
+				(partial) definition of a customized mapping between
+				Java classes (and their properties) and XML.
+			</para>
+
+			<para>
+				When you are using a mapping file, create an instance of
+				the
+				<classname>org.exolab.castor.xml.XMLContext</classname>
+				class and use the
+				<methodname>org.exolab.castor.xml.XMLContext.addMapping(Mapping)</methodname>
+				method to provide Castor XML with one of more mapping
+				files.
+			</para>
+
+
+			<para>
+				To start using Castor XML for marshalling and/or
+				unmarshalling based upon your custom mapping, create
+				instances of
+				<classname>org.exolab.castor.xml.Marshaller</classname>
+				and
+				<classname>org.exolab.castor.xml.Unmarshaller</classname>
+				as needed using one of the following methods:
+			</para>
+
+			<table align="center">
+				<title>
+					Methods on XMLContext to create Un-/Marshaller
+					objects
+				</title>
+				<tgroup cols="2">
+					<colspec colname="c1" />
+					<colspec colname="c2" />
+					<thead>
+						<row>
+							<entry>Method name</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>
+								<para>
+									<ulink
+										url="org.exolab.castor.xml.XMLContext">
+										createMarshaller
+									</ulink>
+								</para>
+							</entry>
+							<entry>
+								<para>
+									Creates a
+									<ulink
+										url="org.exolab.castor.xml.Marshaller">
+										Marshaller
+									</ulink>
+									instance.
+								</para>
+							</entry>
+						</row>
+						<row>
+							<entry>
+								<para>
+									<ulink
+										url="org.exolab.castor.xml.XMLContext">
+										createUnmarshaller
+									</ulink>
+								</para>
+							</entry>
+							<entry>
+								<para>
+									Creates a
+									<ulink
+										url="org.exolab.castor.xml.Unmarshaller">
+										Unmarshaller
+									</ulink>
+									instance.
+								</para>
+							</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+
+			<para>
+				and call any of the
+				<emphasis role="bold">non-static</emphasis>
+				(un)marshal methods to trigger data binding in either
+				way.
+			</para>
+
+			<para>
+				Below code shows a full example that demonstrates
+				unmarshalling a
+				<literal>Person</literal>
+				instance from XML using a
+				<classname>org.exolab.castor.xml.Unmarshaller</classname>
+				instance as obtained from an XMLContext previously
+				configured to your needs.
+			</para>
+
+			<example>
+				<title>Unmarshalling from XML using a mapping</title>
+				<programlisting language="java">
+import org.exolab.castor.xml.XMLContext; import
+org.exolab.castor.mapping.Mapping; import
+org.exolab.castor.xml.Unmarshaller;
+
+// Load Mapping
+Mapping mapping = new Mapping();
+mapping.loadMapping("mapping.xml");
+
+
+	// initialize and configure XMLContext
+
+XMLContext context = new XMLContext();
+context.addMapping(mapping);
+
+
+	// Create a Reader to the file to unmarshal from
+
+reader = new FileReader("test.xml");
+
+// Create a new Unmarshaller
+Unmarshaller unmarshaller =
+context.createUnmarshaller();
+unmarshaller.setClass(Person.class);
+
+// Unmarshal the person object
+Person person = (Person)
+unmarshaller.unmarshal(reader);
+				</programlisting>
+			</example>
+
+			<para>
+				To marshal the very same
+				<literal>Person</literal>
+				instance to XML using a
+				<classname>org.exolab.castor.xml.Marshaller</classname>
+				obtained from the
+				<emphasis role="bold">same</emphasis>
+				<classname>org.exolab.castor.xml.XMLContext</classname>, 
+                use code as follows:
+			</para>
+
+			<example>
+				<title>Marshalling to XML using a mapping</title>
+				<programlisting language="java">
+import org.exolab.castor.xml.Marshaller;
+
+// create a Writer to the file to marshal to
+Writer writer = new FileWriter("out.xml");
+
+// create a new Marshaller
+Marshaller marshaller = context.createMarshaller();
+marshaller.setWriter(writer);
+
+// marshal the person object
+marshaller.marshal(person);
+				</programlisting>
+			</example>
+
+			<para>
+				Please have a look at
+				<ulink url="http://www.castor.org/xml-mapping.html">XML Mapping</ulink>
+				for a detailed discussion of the mapping file and its
+				structure.
+			</para>
+
+			<para>
+				For more information on how to effectively deal with
+				loading mapping file(s) especially in multi-threaded
+				environments, please check the
+				<ulink url="http://www.castor.org/xml-best-practice.html">best practice</ulink>
+				section.
+			</para>
+
+		</section>
+
+		<section>
+			<title>Descriptor mode</title>
+
+			<para>TBD</para>
+
+		</section>
+
+	</section>
+
+	<section>
+		<title>Sources and destinations</title>
+
+		<para>TBD</para>
+
+	</section>
+
+	<section>
+		<title>
+			XMLContext - A consolidated way to bootstrap Castor
+		</title>
+
+		<para>
+			With Castor 1.1.2, the
+			<classname>org.exolab.castor.xml.XMLContext</classname>
+			class has been added to the Castor marshalling framework.
+			This new class provides a bootstrap mechanism for Castor
+			XML, and allows easy (and efficient) instantiation of
+			<classname>org.exolab.castor.xml.Marshaller</classname>
+			and
+			<classname>org.exolab.castor.xml.Unmarshaller</classname>
+			instances as needed.
+		</para>
+
+		<para>
+			As shown above, the
+			<classname>org.exolab.castor.xml.XMLContext</classname>
+			class offers various factory methods to obtain a new
+			<classname>org.exolab.castor.xml.Marshaller</classname>,
+			<classname>org.exolab.castor.xml.Unmarshaller</classname>.
+		</para>
+
+		<para>
+			When you need more than one
+			<classname>org.exolab.castor.xml.Unmarshaller</classname>
+			instance in your application, please call
+			<methodname>org.exolab.castor.xml.XMLContext.createUnmarshaller()</methodname>
+			as required. As all
+			<literal>Unmarshaller</literal>
+			instances are created from the very same
+			<literal>XMLContext</literal>
+			instance, overhead will be minimal. Please note, though,
+			that use of one
+			<literal>Unmarshaller</literal>
+			instance is not thread-safe.
+		</para>
+
+	</section>
+
+	<section>
+		<title>Using existing Classes/Objects</title>
+
+		<para>
+			Castor can marshal "almost" any arbitrary Object to and from
+			XML. When descriptors are not available for a specfic Class,
+			the marshalling framework uses reflection to gain
+			information about the object.
+		</para>
+		<note>
+			Actually an in memory set of descriptors are created for the
+			object and we will soon have a way for saving these
+			descriptors as Java source, so that they may be modified and
+			compiled with little effort.
+		</note>
+		<para>
+			If a set of descriptors exist for the classes, then Castor
+			will use those to gain information about how to handle the
+			marshalling. See <xref linkend="xml.framework.class.descriptors"/>
+			for more information.
+		</para>
+		<para>
+			There is one main restrictions to marshalling objects. These
+			classes must have have a public default constructor (ie. a
+			constructor with no arguments) and adequete "getter" and
+			"setter" methods to be properly be marshalled and
+			unmarshalled.
+		</para>
+		<para>
+			The example illustrated in the previous section
+			<xref linkend="xml.framework.data.binding.framework"/>
+			demonstrates how to use the framework with existing classes.
+		</para>
+	</section>
+
+	<section id="xml.framework.class.descriptors">
+		<title>Class Descriptors</title>
+
+		<para>
+			Class descriptors provide the "Castor Framework" with
+			necessary information so that the Class can be marshalled
+			properly. The class descriptors can be shared between the
+			JDO and XML frameworks.
+		</para>
+		<para>
+			Class descriptors contain a set of
+			<xref linkend="xml.framework.field.descriptors" />
+		</para>
+		<para>
+			XML Class descriptors provide the marshalling framework with
+			the information it needs about a class in order to be
+			marshalled to and from XML. The XMLClassDescriptor
+			<classname>org.exolab.castor.xml.XMLClassDescriptor</classname>.
+		</para>
+		<para>
+			XML Class Descriptors are created in four main ways. Two of
+			these are basically run-time, and the other two are compile
+			time.
+
+			<section>
+				<title>Compile-Time Descriptors</title>
+				<para>
+					To use "compile-time" class descriptors, one can
+					either implement the
+					<classname>org.exolab.castor.xml.XMLClassDescriptor</classname>
+					interface for each class which needs to be
+					"described", or have the
+					<ulink url="http://www.castor.org/sourcegen.xml">Source Code Generator</ulink>
+					create the proper descriptors.
+				</para>
+				<para>
+					The main advantage of compile-time descriptors is
+					that they are faster than the run-time approach.
+				</para>
+			</section>
+			<section>
+				<title>Run-Time Descriptors</title>
+				<para>
+					To use "run-time" class descriptors, one can either
+					simply let Castor introspect the classes, a mapping
+					file can be provided, or a combination of both
+					"default introspection" and a specified mapping file
+					may be used.
+				</para>
+				<para>
+					For "default introspection" to work the class being
+					introspected must have adequete setter/getter
+					methods for each field of the class that should be
+					marshalled and unmarshalled. If no getter/setter
+					methods exist, Castor can handle direct field access
+					to public fields. It does not do both at the same
+					time. So if the respective class has any
+					getter/setter methods at all, then no direct field
+					access will take place.
+				</para>
+				<para>
+					There is nothing to do to enable "default
+					introspection". If a descriptor cannot be found for
+					a class, introspection occurs automatically.
+				</para>
+				<para>
+					Some behavior of the introspector may be controlled
+					by setting the appropriate properties in the
+					<emphasis role="italic">castor.properties</emphasis>
+					file. Such behavior consists of changing the naming
+					conventions, and whether primitive types are treated
+					as attributes or elements. See
+					<emphasis role="italic">castor.properties</emphasis>
+					file for more information.
+				</para>
+				<para>
+					A mapping file may also be used to "describe" the
+					classes which are to be marshalled. The mapping is
+					loaded before any marshalling/unmarshalling takes
+					place. See
+					<classname>org.exolab.castor.mapping.Mapping</classname>
+				</para>
+				<para>
+					The main advantage of run-time descriptors is that
+					it takes very little effort to get something
+					working.
+				</para>
+			</section>
+		</para>
+	</section>
+
+</section>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+    targetNamespace="urn:oasis:names:tc:SAML:2.0:metadata"
+    xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="unqualified"
+    attributeFormDefault="unqualified">
+    
+    <xs:element name="AttributeConsumingService" type="md:AttributeConsumingServiceType"/>
+    
+    <xs:complexType name="AttributeConsumingServiceType">
+        <xs:attribute name="index" type="xs:unsignedShort" use="required"/>
+        <xs:attribute name="isDefault" type="xs:boolean" use="optional"/>
+    </xs:complexType>
+    
+</xs:schema>

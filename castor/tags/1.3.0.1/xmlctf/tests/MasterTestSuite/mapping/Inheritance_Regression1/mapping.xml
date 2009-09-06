@@ -1,0 +1,18 @@
+<mapping>
+
+    <class name="A">
+        <map-to xml="A"/>
+
+        <field name="B" type="B">
+            <bind-xml name="IWantB"/>
+        </field>
+    </class>
+
+    <class name="B">
+    </class>
+
+    <class name="C" extends="B">
+        <field name="name" type="string"/>
+    </class>
+
+</mapping>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<mapping>
+   
+   <field-handler name="myHandler" class="CustomDateFieldHandler">
+      <param name="date-format" value="yyyyMMddHHmmss"/>
+   </field-handler>
+   
+   <class name="Foo">
+      <field name="date" type="string" handler="myHandler"/>
+   </class>
+
+</mapping>

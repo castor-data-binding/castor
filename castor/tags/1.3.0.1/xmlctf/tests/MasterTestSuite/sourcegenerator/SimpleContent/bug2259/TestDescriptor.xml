@@ -1,0 +1,18 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>Test that constructor for default value is not generated for array types</Name>
+    <Author>Matthias Epheser</Author>
+    <Comment>
+        When the simple content is an array type, no constructor for the default
+        value should be created for the type AND the element class.
+        see http://jira.codehaus.org/browse/CASTOR-2259
+    </Comment>
+    <Category>basic capability</Category>
+
+    <OnlySourceGenerationTest>
+        <Schema>test.xsd</Schema>
+        <UnitTestCase>
+            <Name>Test Source Generation</Name>
+        </UnitTestCase>
+    </OnlySourceGenerationTest>
+</TestDescriptor>

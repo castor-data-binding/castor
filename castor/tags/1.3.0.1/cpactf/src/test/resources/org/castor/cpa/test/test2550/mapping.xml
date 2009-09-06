@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+    <class name="org.castor.cpa.test.test2550.Entity" key-generator="TEST2550">
+        <map-to table="TEST2550_ENTITY" />
+        <field name="id" type="integer" identity="true">
+            <sql name="ID" type="integer"/>
+        </field>
+        <field name="name" type="string">
+            <sql name="NAME" type="varchar"/>
+        </field>
+    </class>
+
+    <key-generator name="SEQUENCE" alias="TEST2550">
+        <param name="sequence" value="TEST2550_ENTITY_SEQ" />
+        <param name="returning" value="true" />
+        <param name="trigger" value="false" />
+    </key-generator>
+</mapping>

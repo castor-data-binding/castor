@@ -1,0 +1,212 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+	<class name="org.castor.cpa.test.test1355.GolfCourse" key-generator="GolfCourse_SEQUENCE"
+	       verify-constructable="true" auto-complete="false" identity="id">
+		<cache-type type="time-limited" capacity="3600"/>
+		<map-to table="test1355_golf_course"/>
+		<field name="id" type="long">
+			<sql name="ID" type="bigint"/>
+		</field>
+		<field name="name" type="string" required="true">
+			<sql name="COURSE_NAME" type="char"/>
+		</field>
+		<field name="holes" type="integer" required="true">
+			<sql name="HOLES" type="integer"/>
+		</field>
+		<field name="tees" type="org.castor.cpa.test.test1355.GolfCourseTees" lazy="true" collection="collection">
+			<sql many-key="COURSE_ID"/>
+		</field>
+		<field name="city" type="org.castor.cpa.test.test1355.City" lazy="true">
+			<sql name="CITY_ID"/>
+		</field>
+		<field name="createdById" type="long">
+			<sql name="RECORD_CREATED_BY_ID" type="bigint"/>
+		</field>
+		<field name="lastModifiedById" type="long">
+			<sql name="RECORD_LAST_MOD_BY_ID" type="bigint"/>
+		</field>
+		<field name="createDate" type="java.sql.Timestamp">
+			<sql name="RECORD_CREATE_DATE" type="timestamp"/>
+		</field>
+		<field name="lastModifiedDate" type="java.sql.Timestamp">
+			<sql name="RECORD_LAST_MOD_DATE" type="timestamp"/>
+		</field>
+	</class>
+
+	<class name="org.castor.cpa.test.test1355.GolfCourseTees" key-generator="GolfCourseTees_SEQUENCE"
+	       verify-constructable="true" auto-complete="false" identity="id">
+		<cache-type type="time-limited" capacity="3600"/>
+		<map-to table="test1355_golf_course_tees"/>
+		<field name="id" type="long">
+			<sql name="ID" type="bigint"/>
+		</field>
+		<field name="course" type="org.castor.cpa.test.test1355.GolfCourse" required="true" lazy="false">
+			<sql name="COURSE_ID"/>
+		</field>
+		<field name="name" type="string" required="true">
+			<sql name="TEES_NAME" type="char"/>
+		</field>
+		<field name="color" type="string">
+			<sql name="TEES_COLOR" type="char"/>
+		</field>
+		<field name="mensSlope" type="integer">
+			<sql name="MENS_SLOPE" type="integer"/>
+		</field>
+		<field name="mensRating" type="double">
+			<sql name="MENS_RATING" type="double"/>
+		</field>
+		<field name="womensSlope" type="integer">
+			<sql name="WOMENS_SLOPE" type="integer"/>
+		</field>
+		<field name="womensRating" type="double">
+			<sql name="WOMENS_RATING" type="double"/>
+		</field>
+		<field name="yardage" type="integer">
+			<sql name="YARDAGE" type="integer"/>
+		</field>
+		<field name="holes" type="org.castor.cpa.test.test1355.GolfCourseHole" lazy="false" collection="collection">
+			<sql many-key="COURSE_TEES_ID"/>
+		</field>
+		<field name="createdById" type="long">
+			<sql name="RECORD_CREATED_BY_ID" type="bigint"/>
+		</field>
+		<field name="lastModifiedById" type="long">
+			<sql name="RECORD_LAST_MOD_BY_ID" type="bigint"/>
+		</field>
+		<field name="createDate" type="java.sql.Timestamp">
+			<sql name="RECORD_CREATE_DATE" type="timestamp"/>
+		</field>
+		<field name="lastModifiedDate" type="java.sql.Timestamp">
+			<sql name="RECORD_LAST_MOD_DATE" type="timestamp"/>
+		</field>
+	</class>
+
+	<class name="org.castor.cpa.test.test1355.GolfCourseHole" key-generator="GolfCourseHole_SEQUENCE"
+	       verify-constructable="true" auto-complete="false" identity="id">
+		<cache-type type="time-limited" capacity="3600"/>
+		<map-to table="test1355_golf_course_holes"/>
+		<field name="id" type="long">
+			<sql name="ID" type="bigint"/>
+		</field>
+		<field name="courseTees" type="org.castor.cpa.test.test1355.GolfCourseTees" required="true" lazy="false">
+			<sql name="COURSE_TEES_ID"/>
+		</field>
+		<field name="number" type="integer" required="true">
+			<sql name="NUM" type="integer"/>
+		</field>
+		<field name="name" type="string">
+			<sql name="HOLE_NAME" type="char"/>
+		</field>
+		<field name="par" type="integer">
+			<sql name="PAR" type="integer"/>
+		</field>
+		<field name="yardage" type="integer">
+			<sql name="YARDAGE" type="integer"/>
+		</field>
+		<field name="createdById" type="long">
+			<sql name="RECORD_CREATED_BY_ID" type="bigint"/>
+		</field>
+		<field name="lastModifiedById" type="long">
+			<sql name="RECORD_LAST_MOD_BY_ID" type="bigint"/>
+		</field>
+		<field name="createDate" type="java.sql.Timestamp">
+			<sql name="RECORD_CREATE_DATE" type="timestamp"/>
+		</field>
+		<field name="lastModifiedDate" type="java.sql.Timestamp">
+			<sql name="RECORD_LAST_MOD_DATE" type="timestamp"/>
+		</field>
+	</class>
+
+	<class name="org.castor.cpa.test.test1355.City" key-generator="City_SEQUENCE"
+	       verify-constructable="true" auto-complete="false" identity="id">
+		<cache-type type="time-limited" capacity="3600"/>
+		<map-to table="test1355_city"/>
+		<field name="id" type="long">
+			<sql name="ID" type="bigint"/>
+		</field>
+		<field name="name" type="string" required="true">
+			<sql name="NAME" type="char"/>
+		</field>
+		<field name="state" type="org.castor.cpa.test.test1355.StateProv" required="true" lazy="true">
+			<sql name="STATE_PROV_ID"/>
+		</field>
+		<field name="createdById" type="long">
+			<sql name="RECORD_CREATED_BY_ID" type="bigint"/>
+		</field>
+		<field name="lastModifiedById" type="long">
+			<sql name="RECORD_LAST_MOD_BY_ID" type="bigint"/>
+		</field>
+		<field name="createDate" type="java.sql.Timestamp">
+			<sql name="RECORD_CREATE_DATE" type="timestamp"/>
+		</field>
+		<field name="lastModifiedDate" type="java.sql.Timestamp">
+			<sql name="RECORD_LAST_MOD_DATE" type="timestamp"/>
+		</field>
+	</class>
+
+	<class name="org.castor.cpa.test.test1355.StateProv" key-generator="StateProv_SEQUENCE"
+	       verify-constructable="true" auto-complete="false" identity="id">
+		<cache-type type="time-limited" capacity="3600"/>
+		<map-to table="test1355_state_prov"/>
+		<field name="id" type="long">
+			<sql name="ID" type="bigint"/>
+		</field>
+		<field name="code" type="string">
+			<sql name="CODE" type="char"/>
+		</field>
+		<field name="name" type="string" required="true">
+			<sql name="NAME" type="char"/>
+		</field>
+		<field name="country" type="org.castor.cpa.test.test1355.Country" required="true" lazy="true">
+			<sql name="COUNTRY_ID"/>
+		</field>
+		<field name="createdById" type="long">
+			<sql name="RECORD_CREATED_BY_ID" type="bigint"/>
+		</field>
+		<field name="lastModifiedById" type="long">
+			<sql name="RECORD_LAST_MOD_BY_ID" type="bigint"/>
+		</field>
+		<field name="createDate" type="java.sql.Timestamp">
+			<sql name="RECORD_CREATE_DATE" type="timestamp"/>
+		</field>
+		<field name="lastModifiedDate" type="java.sql.Timestamp">
+			<sql name="RECORD_LAST_MOD_DATE" type="timestamp"/>
+		</field>
+	</class>
+
+	<class name="org.castor.cpa.test.test1355.Country" key-generator="Country_SEQUENCE"
+	       verify-constructable="true" auto-complete="false" identity="id">
+		<cache-type type="time-limited" capacity="3600"/>
+		<map-to table="test1355_country"/>
+		<field name="id" type="long">
+			<sql name="ID" type="bigint"/>
+		</field>
+		<field name="name" type="string" required="true">
+			<sql name="NAME" type="char"/>
+		</field>
+		<field name="iso3Code" type="string">
+			<sql name="ISO3_COUNTRY_CODE" type="char"/>
+		</field>
+		<field name="createdById" type="long">
+			<sql name="RECORD_CREATED_BY_ID" type="bigint"/>
+		</field>
+		<field name="lastModifiedById" type="long">
+			<sql name="RECORD_LAST_MOD_BY_ID" type="bigint"/>
+		</field>
+		<field name="createDate" type="java.sql.Timestamp">
+			<sql name="RECORD_CREATE_DATE" type="timestamp"/>
+		</field>
+		<field name="lastModifiedDate" type="java.sql.Timestamp">
+			<sql name="RECORD_LAST_MOD_DATE" type="timestamp"/>
+		</field>
+	</class>
+	
+	<key-generator name="MAX" alias="GolfCourse_SEQUENCE"/>
+	<key-generator name="MAX" alias="GolfCourseTees_SEQUENCE"/>
+	<key-generator name="MAX" alias="GolfCourseHole_SEQUENCE"/>
+	<key-generator name="MAX" alias="City_SEQUENCE"/>
+	<key-generator name="MAX" alias="Country_SEQUENCE"/>
+	<key-generator name="MAX" alias="StateProv_SEQUENCE"/>
+</mapping>

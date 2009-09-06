@@ -1,0 +1,18 @@
+<?xml version='1.0'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	    targetNamespace="http://www.castor.org/MasterTestSuite/xml/SourceGenerator/PrimitiveToWrapper"
+	    elementFormDefault="qualified"> 
+	
+	<xsd:element name="IntegerTest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="intTest" type="xsd:int" maxOccurs="1"/>
+				<xsd:element name="integerTest" type="xsd:integer" maxOccurs="unbounded"/>
+			</xsd:sequence>
+	        <xsd:attribute name="intTestAtt" type="xsd:int" />
+			<xsd:attribute name="integerTestAtt" type="xsd:integer" />
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>
+	
+		

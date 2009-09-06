@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<mapping>
+
+   <class name="Dog">
+      <map-to xml="dog" />
+
+      <field name="colour" type="string" required="true">
+         <bind-xml node="attribute" />
+      </field>
+
+      <field name="bark" type="string" required="true">
+         <bind-xml node="attribute" />
+      </field>
+
+   </class>
+
+</mapping>

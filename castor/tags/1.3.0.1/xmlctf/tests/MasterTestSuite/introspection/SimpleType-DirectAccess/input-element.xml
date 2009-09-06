@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<root>
+        <type_string>This is a Test</type_string>
+        <type_int>314159</type_int>
+        <type_long>998877</type_long>
+        <type_boolean>true</type_boolean>
+        <type_double>987654321E32</type_double>
+        <type_float>23.897877E-8</type_float>
+        <type_byte>5</type_byte>
+        <type_char>x</type_char>
+</root>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/howto/how-to-implement-custom-serializer.xml">
+  <properties>
+    <title>How to implement a custom XML serialier for Castor XML</title>
+    <abstract>
+       General information about implementing a custom XML Serializer for Castor XML
+    </abstract>
+    <status>Final</status>
+  </properties>
+  <body>
+    <title>How to implement a custom XML Serializer for Castor XML</title>
+    <header>
+    </header>
+
+    <section title="Intended Audience">
+
+        <p>Anyone who is using Castor XML for marshalling, and wants to implement
+           a custom XML Serializer specific to the parser used.</p>
+        
+        <p>This document addresses the basics to get people familiar with the main
+           concepts and discusses some implementation details.</p>
+
+        <p>The example given implements the XML Serializer interface specific to WebLogic's 
+           XML parser (which happens to be an extension to Apache Xerces).</p>
+        
+    </section>
+    
+    <section title="Prerequisites">
+
+        <p>You should have downloaded the Castor sources and expanded them into a custom folder of yours.</p>
+            
+    </section>
+
+    <section title="Steps">
+
+        <p>Here is how to proceed.</p>
+
+        <section title="Locate the required interfaces">
+
+            <p>To implement your custom XML serialization mechanism, you'll have to provide
+               implementations of the following interfaces:</p>
+               
+            <p>
+                <ul>
+                    <li><api>org.castor.exolab.xml.Serializer</api></li>
+                    <li><api>org.castor.exolab.xml.OutputFormat</api></li>
+                </ul>
+            </p>
+            
+            
+         </section>
+         
+         <section title="Implement the required interfaces">
+
+			<p>A possible implementation for Weblogic's (enhanced) Xerces implementation could look 
+			   as follows.</p>
+
+            <code-panel>
+package org.somewhere.custom;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.Writer;
+
+import org.apache.xml.serialize.OutputFormat;
+import org.apache.xml.serialize.XMLSerializer;
+import org.xml.sax.DocumentHandler;
+
+public class XercesSerializer implements org.exolab.castor.xml.Serializer {
+    
+    private org.apache.xml.serialize.Serializer _serializer;
+
+    public XercesSerializer() {
+        _serializer = new XMLSerializer();
+    }
+    
+    public void setOutputCharStream(Writer out) {
+        _serializer.setOutputCharStream(out);
+    }
+
+    public DocumentHandler asDocumentHandler() throws IOException {
+        return _serializer.asDocumentHandler();
+    }
+
+    public void setOutputFormat(org.exolab.castor.xml.OutputFormat format) {
+        _serializer.setOutputFormat((OutputFormat) format.getFormat());
+    }
+
+    public void setOutputByteStream(OutputStream output) {
+        _serializer.setOutputByteStream(output);
+    }
+
+}
+           </code-panel>
+           <code-panel>
+package org.somewhere.custom;
+
+import org.apache.xml.serialize.OutputFormat;
+import org.exolab.castor.util.Messages;
+
+public class XercesOutputFormat implements org.exolab.castor.xml.OutputFormat {
+
+    private org.apache.xml.serialize.OutputFormat _outputFormat;
+    
+    public XercesOutputFormat() {
+        _outputFormat = new org.apache.xml.serialize.OutputFormat();
+    }
+    
+    public void setMethod(String method) {
+        _outputFormat.setMethod(method);
+    }
+
+    public void setIndenting(boolean indent) {
+        _outputFormat.setIndenting(indent);
+    }
+
+    public void setPreserveSpace(boolean preserveSpace) {
+        _outputFormat.setPreserveSpace(preserveSpace);
+    }
+
+    public Object getFormat() {
+        return _outputFormat;
+    }
+    
+    public void setDoctype (String type1, String type2) {
+        _outputFormat.setDoctype(type1, type2);
+    }
+
+    public void setOmitXMLDeclaration(boolean omitXMLDeclaration) {
+        _outputFormat.setOmitXMLDeclaration(omitXMLDeclaration);
+    }
+
+    public void setOmitDocumentType(boolean omitDocumentType) {
+        _outputFormat.setOmitDocumentType(omitDocumentType);
+    }
+
+    public void setEncoding(String encoding) {
+        _outputFormat.setEncoding(encoding);
+    }
+
+}
+           </code-panel>
+           
+        </section>
+        
+        <section title="Integrate the custom implementations with Castor XML">
+        
+        	<p>In order to be able to use these custom implementations, you will have to provide a new
+        	   custom <api>org.castor.exolab.xml.XMLSerializerFactory</api> instance and instruct Castor XML to start 
+        	   using it (instead of the default Xerces XML serializer factory).</p>
+        	   
+        	<p>The former can be achieved by providing a new implementation of the 
+        	   <api>org.castor.exolab.xml.XMLSerializerFactory</api> interface as follows:</p>
+        	   
+			<code-panel>
+package org.somewhere.custom;
+
+/**
+ * Weblogic Xerces-specific implementation of the {@link XMLSerializerFactory} interface.
+ * Returns Weblogic Xerces-specific instances of the {@link Serializer} and 
+ * {@link OutputFormat} interfaces.
+ */
+public class WeblogicXMLSerializerFactory implements XMLSerializerFactory {
+
+  /** 
+   * @inheritDoc
+   */
+  public Serializer getSerializer() {
+    return new WeblogicSerializer();
+  }
+
+  /** 
+   * @inheritDoc
+   */
+  public OutputFormat getOutputFormat() {
+    return new WeblogicOutputFormat();
+  }
+}</code-panel>
+			
+			<p>The latter can be achieved by pointing the 
+			   <tt>org.exolab.castor.xml.serializer.factory</tt> property of the 
+			   <tt>castor.properties</tt> to your new custom XMLSerializerFactory
+			   implementation as shown below:</p>
+			
+			<code-panel>
+# Defines the (default) XML serializer factory to use by Castor, 
+# which must implement org.exolab.castor.xml.SerializerFactory;
+# default is org.exolab.castor.xml.XercesXMLSerializerFactory  
+org.exolab.castor.xml.serializer.factory=org.somewhere.custom.WeblogicXMLSerializerFactory</code-panel>
+	
+        </section>
+
+    </section>
+    
+    <section title="References">
+
+        <ul>
+            <li><a href="http://xml.apache.org/xerces">Apache Xerces</a></li>
+        </ul>
+        
+    </section>
+
+
+    </body>
+</document>

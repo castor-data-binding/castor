@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.castor.org/Test"
+            xmlns:cst="http://www.castor.org/Test"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+   <!-- Test for complexType definition with restricted complexContent -->
+
+   <!-- complexType that will be restricted by below complexType definition -->
+   <xsd:complexType name="type1">
+      <xsd:sequence>
+         <xsd:element name="elem1" type="xsd:double"/>
+         <xsd:element name="elem2" type="xsd:QName"/>
+      </xsd:sequence>
+   </xsd:complexType>
+
+   <!-- complexType definition with restricted complexContent -->
+   <xsd:complexType name="type2">
+      <xsd:complexContent>
+         <xsd:restriction base="cst:type1">
+            <xsd:sequence>
+               <xsd:element name="elem2" maxOccurs="0" type="xsd:QName"/>
+            </xsd:sequence>
+         </xsd:restriction>
+      </xsd:complexContent>
+   </xsd:complexType>
+
+</xsd:schema>

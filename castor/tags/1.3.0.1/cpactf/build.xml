@@ -1,0 +1,104 @@
+<project name="Castor CPA - CTF" default="compile.cpactf" basedir=".">
+
+    <!-- $Id: build.xml 0000 2007-01-19 21:12:08Z ekuns $ -->
+
+    <property environment="env" />
+    <property name="source"               value="${basedir}/src"/>
+    <property name="main.java"            value="${source}/main/java"/>
+    <property name="main.resources"       value="${source}/main/resources"/>
+    <property name="main.generated"       value="${basedir}/target/generated-sources/castor"/>
+    <property name="test.java"            value="${source}/old/java"/>
+    <property name="test.resources"       value="${source}/old/resources"/>
+    <property name="build"                value="${basedir}/build"/>
+    <property name="classes"              value="${build}/classes"/>
+    <property name="archive"              value="${project}-${version}${release}-cpactf"/>
+    <property name="gen.src"              value="${build}/generated-sources"/>
+
+    <path id="build.classpath">
+        <pathelement location="${basedir}/build/classes"/>
+        <pathelement location="${basedir}/../build/classes"/>
+        <pathelement location="${basedir}/../core/build/classes"/>
+        <pathelement location="${basedir}/../cpa/build/classes"/>
+        <pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>
+        <pathelement location="${basedir}/../lib/jta1.0.1.jar"/>
+        <pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>
+        <pathelement location="${basedir}/../lib/tests/tyrex-1.0.jar"/>
+        <pathelement location="${basedir}/../lib/tests/mockejb.jar"/>
+        <pathelement location="${basedir}/../lib/log4j-1.2.13.jar"/>
+        <pathelement location="${basedir}/../anttask/build/classes"/>
+        <pathelement location="${basedir}/../codegen/build/classes"/>
+    </path>
+
+    <target name="prepare.cpactf" unless="prepare.cpactf.executed">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${classes}"/>
+        <property name="prepare.cpactf.executed" value="true"/>
+    </target>
+
+    <target name="clean.cpactf" description="Removes CPA CTF build directory">
+        <delete dir="${build}"/>
+    </target>
+
+    <target name="compile.cpactf" depends="prepare.cpactf" description="Compile CPA CTF">
+        <javac srcdir="${main.generated}" destdir="${classes}" 
+               debug="on" encoding="ISO-8859-1" deprecation="false"
+               source="1.5" target="1.5">
+            <classpath refid="build.classpath"/>
+        </javac>
+        <javac srcdir="${main.java}" destdir="${classes}"
+               debug="on" encoding="ISO-8859-1" deprecation="false">
+            <classpath refid="build.classpath"/>
+        </javac>
+        <copy todir="${classes}">
+            <fileset dir="${main.resources}">
+                <include name="**"/>
+            </fileset>
+            <filterset begintoken="$$" endtoken="$$">
+                <filter token="VERSION" value="${version}"/>
+                <filter token="RELEASE" value="${release}"/>
+            </filterset>
+        </copy>
+        <copy todir="${build}" file="src/old/resources/log4j.xml"/>
+        <javac srcdir="${test.java}" destdir="${classes}"
+               debug="on" encoding="ISO-8859-1" deprecation="false">
+            <classpath refid="build.classpath"/>
+        </javac>
+        <copy todir="${classes}">
+            <fileset dir="${test.resources}">
+                <include name="**"/>
+            </fileset>
+            <filterset begintoken="$$" endtoken="$$">
+                <filter token="VERSION" value="${version}"/>
+                <filter token="RELEASE" value="${release}"/>
+            </filterset>
+        </copy>
+    </target>
+
+    <target name="jar.cpactf" depends="compile.cpactf" description="Build CPA CTF JAR file">
+        <jar jarfile="${build}/${archive}.jar" basedir="${classes}" includes="**" />
+             <!-- manifest="${classes}/META-INF/MANIFEST.MF"/> -->
+        <copy file="${build}/${archive}.jar" tofile="${basedir}/../dist/${archive}.jar"/>
+    </target>
+
+
+    <target name="gen.conf.cpactf" depends="prepare.cpactf"
+        description="Use the Source Generator to create the Java classes for cpactf-conf.xsd">
+        <delete dir="${gen.src}/cpactf-conf"/>
+        <mkdir dir="${gen.src}/cpactf-conf"/>
+        <taskdef name="castor-srcgen" classname="org.castor.anttask.CastorCodeGenTask"
+                 classpathref="build.classpath"/>
+        <castor-srcgen file="${main.resources}/org/castor/cpa/test/framework/cpactf-conf.xsd"
+                       todir="${gen.src}/cpactf-conf"
+                       package="org.castor.cpa.test.framework.xml"
+                       lineseparator="unix"
+                       types="j2"
+                       warnings="false"/>
+        <javac destdir="${classes}" excludes="${excludes}"
+               debug="${main.opt.debug}" encoding="ISO-8859-1" deprecation="off"
+               optimize="on">
+            <src path="${gen.src}" />
+            <classpath refid="build.classpath"/>
+        </javac>
+    </target>
+	
+</project>

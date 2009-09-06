@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cressida xmlns="http://www.fpml.org/2003/FpML-4-0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<productId>String</productId>
+	<plantagenet id="ID000000" />
+	<benedick>String</benedick>
+	<beatrice>beatrice</beatrice>
+	<benedick>String3</benedick>
+</cressida>
