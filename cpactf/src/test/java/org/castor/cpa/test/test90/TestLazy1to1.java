@@ -23,6 +23,7 @@ import java.io.ObjectOutputStream;
 
 import org.castor.cpa.test.framework.CPATestCase;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
+import org.castor.persist.proxy.LazyCGLIB;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.ObjectNotFoundException;
@@ -81,8 +82,19 @@ public final class TestLazy1to1 extends CPATestCase {
 
         _db.begin();
         parent = _db.load(Lazy1to1Parent.class, new Integer(20000));
+
+        // Child object must not be materialized.
+        assertTrue(parent.getChild() instanceof LazyCGLIB);
+        LazyCGLIB proxy = (LazyCGLIB) parent.getChild();
+        assertFalse(proxy.interceptedHasMaterialized());
+        
         _db.remove(parent);
         _db.commit();
+        
+        // Child object must not be materialized.
+        assertTrue(parent.getChild() instanceof LazyCGLIB);
+        proxy = (LazyCGLIB) parent.getChild();
+        assertFalse(proxy.interceptedHasMaterialized());
     }
 
     public void testLoadChild() throws Exception {
@@ -127,6 +139,11 @@ public final class TestLazy1to1 extends CPATestCase {
         parent = _db.load(Lazy1to1Parent.class, new Integer(1));
         assertParent(parent, 1, "parent 1");
         _db.commit();
+        
+        // Child object must not be materialized.
+        assertTrue(parent.getChild() instanceof LazyCGLIB);
+        LazyCGLIB proxy = (LazyCGLIB) parent.getChild();
+        assertFalse("Proxy must not be materialized!", proxy.interceptedHasMaterialized());
 
         _db.close();
     }
@@ -250,11 +267,21 @@ public final class TestLazy1to1 extends CPATestCase {
         assertParent(parent, 1, "parent 1");
         parent.setDescription("parent 11");
         _db.commit();
-
+        
+        // Child object must not be materialized.
+        assertTrue(parent.getChild() instanceof LazyCGLIB);
+        LazyCGLIB proxy = (LazyCGLIB) parent.getChild();
+        assertFalse(proxy.interceptedHasMaterialized());
+        
         _db.begin();
         parent = _db.load(Lazy1to1Parent.class, new Integer(1));
         assertParent(parent, 1, "parent 11");
         _db.commit();
+        
+        // Child object must not be materialized.
+        assertTrue(parent.getChild() instanceof LazyCGLIB);
+        proxy = (LazyCGLIB) parent.getChild();
+        assertFalse(proxy.interceptedHasMaterialized());
 
         _db.begin();
         parent = _db.load(Lazy1to1Parent.class, new Integer(1));
@@ -262,10 +289,20 @@ public final class TestLazy1to1 extends CPATestCase {
         parent.setDescription("parent 1");
         _db.commit();
 
+        // Child object must not be materialized.
+        assertTrue(parent.getChild() instanceof LazyCGLIB);
+        proxy = (LazyCGLIB) parent.getChild();
+        assertFalse(proxy.interceptedHasMaterialized());
+        
         _db.begin();
         parent = _db.load(Lazy1to1Parent.class, new Integer(1));
         assertParent(parent, 1, "parent 1");
         _db.commit();
+        
+        // Child object must not be materialized.
+        assertTrue(parent.getChild() instanceof LazyCGLIB);
+        proxy = (LazyCGLIB) parent.getChild();
+        assertFalse(proxy.interceptedHasMaterialized());
 
         _db.close();
     }

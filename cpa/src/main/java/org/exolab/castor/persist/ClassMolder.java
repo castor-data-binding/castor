@@ -57,6 +57,7 @@ import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
 import org.castor.persist.UpdateAndRemovedFlags;
 import org.castor.persist.UpdateFlags;
+import org.castor.persist.proxy.LazyCGLIB;
 import org.castor.persist.resolver.ResolverFactory;
 import org.castor.persist.resolver.ResolverStrategy;
 import org.exolab.castor.jdo.ObjectModifiedException;
@@ -1269,6 +1270,16 @@ public class ClassMolder {
         if (isKeyGeneratorUsed() && !(tx.isPersistent(o) || tx.isReadOnly(o))) {
             return null;
         }
+
+        // If entity is proxied and has not been materialized yet,
+        // return identity without accessing the object.
+        if (o instanceof LazyCGLIB) {
+            LazyCGLIB proxy = (LazyCGLIB) o;
+            if (!proxy.interceptedHasMaterialized()) {
+                return proxy.interceptedIdentity();
+            }
+        }
+        
         return getActualIdentity(tx, o);
     }
 
