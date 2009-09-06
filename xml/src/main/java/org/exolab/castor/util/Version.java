@@ -72,7 +72,7 @@ public final class Version {
     /**
      * The version date.
      */
-    public static final String VERSION_DATE  = "20090813";
+    public static final String VERSION_DATE  = "20090906";
     
     /**
      * The version number with build information
