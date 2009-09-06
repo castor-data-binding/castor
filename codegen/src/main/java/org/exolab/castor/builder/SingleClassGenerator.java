@@ -90,7 +90,9 @@ public final class SingleClassGenerator {
                                                  + SourceGenerator.VERSION
                                                  + "</a>, using an XML Schema.\n$" + "Id" + "$";
 
-    /** Name of the CDR (Class Descriptor Resolver) file. */
+    /** 
+     * Name of the CDR (Class Descriptor Resolver) file. 
+     */
     private static final String CDR_FILE = ".castor.cdr";
     /** True if the user should be prompted to overwrite when a file already exists. */
     private boolean _promptForOverwrite = true;
@@ -546,7 +548,9 @@ public final class SingleClassGenerator {
             // check for existing .castor.xml file
             props = new Properties();
             if (cdrFile.exists()) {
-                props.load(new FileInputStream(cdrFile));
+                FileInputStream cdrStream = new FileInputStream(cdrFile);
+                props.load(cdrStream);
+                cdrStream.close();
             }
             sInfo.setCDRFile(cdrFilename, props);
         }
