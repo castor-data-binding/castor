@@ -1,8 +1,5 @@
 package org.castor.cpa.test.test1002;
 
-import org.junit.Ignore;
-
-@Ignore
 public final class Product {
     private int          _id;
     private String       _name;

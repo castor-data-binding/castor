@@ -59,7 +59,7 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
     }
 
     public String getStatement(final boolean lock) {
-        StringBuffer sql = new StringBuffer();
+        StringBuffer sql = new StringBuffer(128);
 
         addSelectClause(sql);
         addFromClause(sql);
@@ -83,9 +83,9 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
     private void addFromClause(final StringBuffer buffer) {
         buffer.append(JDBCSyntax.FROM);
 
-        Enumeration<String> tables = getFromTables();
+        Enumeration tables = getFromTables();
         while (tables.hasMoreElements()) {
-            buffer.append(tables.nextElement());
+            buffer.append((String) tables.nextElement());
             if (tables.hasMoreElements()) {
                 buffer.append(JDBCSyntax.TABLE_SEPARATOR);
             }
@@ -97,13 +97,13 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
      * the from clause of a join, the resulting enumeration includes the
      * necessary outer join syntax if needed.
      */
-    private Enumeration<String> getFromTables() {
-        Vector<String> vector = new Vector<String>();
-        Vector<String> outerTables = getOuterTables();
+    private Enumeration getFromTables() {
+        Vector vector = new Vector();
+        Vector outerTables = getOuterTables();
 
-        for (Enumeration<String> enumeration = _tables.keys(); enumeration.hasMoreElements(); ) {
-            String tableAlias = enumeration.nextElement();
-            String tableName = _tables.get(tableAlias);
+        for (Enumeration enumeration = _tables.keys(); enumeration.hasMoreElements(); ) {
+            String tableAlias = (String) enumeration.nextElement();
+            String tableName = (String) _tables.get(tableAlias);
             StringBuffer tmp;
             if (outerTables.contains(tableAlias)) {
                 tmp = new StringBuffer("OUTER ");
@@ -126,12 +126,12 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
      * performed from the _joins collection. Just the right table in an outer
      * join is needed to create the syntax of an informix outer join
      */
-    private Vector<String> getOuterTables() {
-        Vector<String> tables = new Vector<String>();
+    private Vector getOuterTables() {
+        Vector tables = new Vector();
         Join join = null;
 
         for (int i = 0; i < _joins.size(); ++i) {
-            join = _joins.elementAt(i);
+            join = (Join) _joins.elementAt(i);
             if (join._outer) {
                 tables.addElement(join._rightTable);
             }
@@ -151,7 +151,7 @@ public final class InformixQueryExpression extends JDBCQueryExpression {
                 buffer.append(JDBCSyntax.AND);
             }
 
-            addJoin(buffer, _joins.elementAt(i));
+            addJoin(buffer, (Join) _joins.elementAt(i));
         }
 
         return first;

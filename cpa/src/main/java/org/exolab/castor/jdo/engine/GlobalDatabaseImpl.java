@@ -90,6 +90,8 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchron
         _ctx.setCallback(_callback);
         _ctx.setInstanceFactory(_instanceFactory);
         _classLoader = classLoader;
+        
+        loadSynchronizables();
     }
 
     /**
@@ -161,9 +163,6 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchron
         if (_transaction == null || _ctx == null || !_ctx.isOpen()) {
             throw new IllegalStateException(Messages.message("jdo.txNotInProgress"));
         }
-
-        registerSynchronizables();
-        
         if (_ctx.getStatus() == Status.STATUS_MARKED_ROLLBACK) {
             try {
                 _transaction.setRollbackOnly();
@@ -220,8 +219,6 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchron
                         "Unexpected state: afterCompletion called with status " + status);
             }
         } finally {
-            unregisterSynchronizables();
-            
             if (_txMap != null && _transaction != null) {
                 _txMap.remove(_transaction);
                 _txMap = null;

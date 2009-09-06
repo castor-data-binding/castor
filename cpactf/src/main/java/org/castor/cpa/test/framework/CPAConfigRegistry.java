@@ -35,14 +35,14 @@ public final class CPAConfigRegistry {
     
     private String _defaultTransactionName;
     
-    private final Map<String, Configuration> _configurations
-        = new HashMap<String, Configuration>();
+    private final Map < String, Configuration > _configurations
+        = new HashMap < String, Configuration > ();
     
-    private final Map<String, Database> _databases
-        = new HashMap<String, Database>();
+    private final Map < String, Database > _databases
+        = new HashMap < String, Database > ();
     
-    private final Map<String, Transaction> _transactions
-        = new HashMap<String, Transaction>();
+    private final Map < String, Transaction > _transactions
+        = new HashMap < String, Transaction > ();
     
     //--------------------------------------------------------------------------
 
@@ -64,21 +64,21 @@ public final class CPAConfigRegistry {
         _defaultDatabaseName = cpactfconf.getDefaultDatabase();
         _defaultTransactionName = cpactfconf.getDefaultTransaction();
         
-        Iterator<? extends Configuration> cfgIter = cpactfconf.iterateConfiguration();
+        Iterator cfgIter = cpactfconf.iterateConfiguration();
         while (cfgIter.hasNext()) {
-            Configuration config = cfgIter.next();
+            Configuration config = (Configuration) cfgIter.next();
             _configurations.put(config.getName(), config);
         }
         
-        Iterator<? extends Database> dbIter = cpactfconf.iterateDatabase();
+        Iterator dbIter = cpactfconf.iterateDatabase();
         while (dbIter.hasNext()) {
-            Database database = dbIter.next();
+            Database database = (Database) dbIter.next();
             _databases.put(database.getName(), database);
         }
         
-        Iterator<? extends Transaction> transIter = cpactfconf.iterateTransaction();
+        Iterator transIter = cpactfconf.iterateTransaction();
         while (transIter.hasNext()) {
-            Transaction trans = transIter.next();
+            Transaction trans = (Transaction) transIter.next();
             _transactions.put(trans.getName(), trans);
         }
     }

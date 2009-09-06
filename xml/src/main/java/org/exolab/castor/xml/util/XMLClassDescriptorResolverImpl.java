@@ -50,11 +50,11 @@
 package org.exolab.castor.xml.util;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -80,7 +80,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
     private static final Log LOG = LogFactory.getLog(XMLClassDescriptorResolverImpl.class);
 
     /**
-     * All resolved descriptors are kept here.
+     * All resolved decriptors are kept here.
      */
     private DescriptorCacheImpl _descriptorCache;
     /**
@@ -114,7 +114,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
      * Creates a new ClassDescriptorResolverImpl.
      * It is left empty to avoid cycles at construction. To guarantee
      * backward compatibility the backwardInit method will do all
-     * required initialization if it hadn't happened before.
+     * required initialization if it hadn't happend before.
      */
     public XMLClassDescriptorResolverImpl() {
         super();
@@ -169,7 +169,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
     public void setMappingLoader(final MappingLoader mappingLoader) {
         _mappingLoader = mappingLoader;
         if (mappingLoader != null) {
-            Iterator<ClassDescriptor> descriptors = mappingLoader.descriptorIterator();
+            Iterator descriptors = mappingLoader.descriptorIterator();
             while (descriptors.hasNext()) {
                 XMLClassDescriptor descriptor = (XMLClassDescriptor) descriptors.next();
                 _descriptorCache.addDescriptor(descriptor.getJavaClass().getName(), descriptor);
@@ -303,7 +303,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
         
         // @TODO Joachim 2007-05-05 the class loader is NOT used!
         // get a list of all descriptors with the correct xmlName, regardless of their namespace
-        List<ClassDescriptor> possibleMatches = _descriptorCache.getDescriptors(xmlName);
+        List possibleMatches = _descriptorCache.getDescriptorList(xmlName);
         if (possibleMatches.size() == 0) {
             // nothing matches that XML name
             return null;
@@ -316,7 +316,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
         }
 
         // we have more than one result - only an exact match can be the result
-        for (Iterator<ClassDescriptor> i = possibleMatches.iterator(); i.hasNext(); ) {
+        for (Iterator i = possibleMatches.iterator(); i.hasNext(); ) {
             XMLClassDescriptor descriptor = (XMLClassDescriptor) i.next();
 
             if (ResolveHelpers.namespaceEquals(namespaceURI, descriptor.getNameSpaceURI())) {
@@ -331,8 +331,8 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
     /**
      * {@inheritDoc}
      */
-    public Iterator<ClassDescriptor> resolveAllByXMLName(final String xmlName, 
-            final String namespaceURI, final ClassLoader loader) {
+    public Iterator resolveAllByXMLName(final String xmlName, final String namespaceURI,
+            final ClassLoader loader) {
         
         if (xmlName == null || xmlName.length() == 0) {
             String message = "Cannot resolve a null or zero-length xml name.";
@@ -341,7 +341,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
         }
 
         // get all descriptors with the matching xml name
-        return _descriptorCache.getDescriptors(xmlName).iterator();
+        return _descriptorCache.getDescriptors(xmlName);
     } //-- resolveAllByXMLName
 
     /**
@@ -364,16 +364,16 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
     /**
      * {@inheritDoc}
      */
-    public void addClass(final Class<?> clazz) throws ResolverException {
+    public void addClass(final Class clazz) throws ResolverException {
         this.resolve(clazz);
     }
 
     /**
      * {@inheritDoc}
      */
-    public void addClasses(final Class<?>[] clazzes) throws ResolverException {
+    public void addClasses(final Class[] clazzes) throws ResolverException {
         for (int i = 0; i < clazzes.length; i++) {
-            Class<?> clazz = clazzes[i];
+            Class clazz = clazzes[i];
             this.addClass(clazz);
         }
     }
@@ -448,31 +448,27 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
         private static final String INTERNAL_CONTAINER_NAME = "-error-if-this-is-used-";
 
         /** List of class names a descriptor is not available for. */
-        private final List<String> _missingTypes;
+        private List _missingTypes;
 
         /** Map of cached descriptors with the class names they describe as key. */
-        private final Map<String, ClassDescriptor> _typeMap;
+        private Map _typeMap;
 
         /** Map of cached descriptors with their XML names as key. */
-        private final Map<String, List<ClassDescriptor>> _xmlNameMap;
-
-        /** Lock used to isolate write accesses to the caches internal lists and maps. */
-        private final ReentrantReadWriteLock _lock;
+        private Map _xmlNameMap;
 
         /**
          * Default constructor.<br>
          * <br>
-         * Initializes all lists and maps.
+         * Initializes alls list and maps.
          */
         public DescriptorCacheImpl() {
             super();
             
             LOG2.debug("New instance!");
             
-            _typeMap = new HashMap<String, ClassDescriptor>();
-            _xmlNameMap = new HashMap<String, List<ClassDescriptor>>();
-            _missingTypes = new ArrayList<String>();
-            _lock = new ReentrantReadWriteLock();
+            _typeMap = new HashMap();
+            _xmlNameMap = new HashMap();
+            _missingTypes = new ArrayList();
         } //--- DescriptorCacheImpl
 
         /**
@@ -489,7 +485,6 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
          * 
          * @param className The class name to be used for mapping the given descriptor.
          * @param descriptor The descriptor to be mapped.
-         * @throws InterruptedException 
          * 
          * @see #INTERNAL_CONTAINER_NAME
          */
@@ -499,50 +494,37 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
                 LOG2.warn(message);
                 throw new IllegalArgumentException(message);
             }
-
-            // acquire write lock first
-            _lock.writeLock().lock();
-            try {
-
-                if (descriptor == null) {
-                    if (LOG2.isDebugEnabled()) {
-                        LOG2.debug("Adding class name to missing classes: " + className);
-                    }
-                    _missingTypes.add(className);
-                    return;
-                }
-                
+            
+            if (descriptor == null) {
                 if (LOG2.isDebugEnabled()) {
-                    LOG2.debug("Adding descriptor class for: " 
-                            + className + " descriptor: " + descriptor);
+                    LOG2.debug("Adding class name to missing classes: " + className);
                 }
-                _typeMap.put(className, descriptor);
-    
-                String xmlName = descriptor.getXMLName();
-                // ignore descriptors with an empty XMLName
-                if (xmlName == null || xmlName.length() == 0) {
-                    return;
-                }
-    
-                // ignore descriptors with the internal XMLName
-                if (INTERNAL_CONTAINER_NAME.equals(xmlName)) {
-                    return;
-                }
-    
-                // add new descriptor to the list for the corresponding XML name  
-                List<ClassDescriptor> descriptorList = _xmlNameMap.get(xmlName);
-                if (descriptorList == null) {
-                    descriptorList = new ArrayList<ClassDescriptor>();
-                    _xmlNameMap.put(xmlName, descriptorList);
-                }
-                if (!descriptorList.contains(descriptor)) {
-                    descriptorList.add(descriptor);
-                }
-                
-                _missingTypes.remove(className);
-            } finally {
-                _lock.writeLock().unlock();
+                _missingTypes.add(className);
+                return;
             }
+            
+            if (LOG2.isDebugEnabled()) {
+                LOG2.debug("Adding descriptor class for: " 
+                        + className + " descriptor: " + descriptor);
+            }
+            _typeMap.put(className, descriptor);
+
+            String xmlName = descriptor.getXMLName();
+            // ignore descriptors with an empty XMLName
+            if (xmlName == null || xmlName.length() == 0) {
+                return;
+            }
+
+            // ignore descriptors with the internal XMLName
+            if (INTERNAL_CONTAINER_NAME.equals(xmlName)) {
+                return;
+            }
+
+            List descriptorList = this.getDescriptorList(descriptor.getXMLName());
+            if (!descriptorList.contains(descriptor)) {
+                descriptorList.add(descriptor);
+            }
+            _missingTypes.remove(className);
         } //-- addDescriptor
 
         /**
@@ -553,56 +535,64 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
          *         if no descriptor is stored in this cache.
          */
         public XMLClassDescriptor getDescriptor(final String className) {
-
-            // acquire read lock which is released via finally block
-            _lock.readLock().lock();
-            try {
-
-                if ((className == null) 
-                        || ("".equals(className)) 
-                        || (_missingTypes.contains(className))) {
-                    return null;
-                }
-                
-                XMLClassDescriptor ret = (XMLClassDescriptor) _typeMap.get(className);
-                if (LOG2.isDebugEnabled()) {
-                    LOG2.debug("Get descriptor for: " + className + " found: " + ret);
-                }
-                return ret;
-            } finally {
-                _lock.readLock().unlock();
+            if ((className == null) 
+                    || ("".equals(className)) 
+                    || (_missingTypes.contains(className))) {
+                return null;
             }
+            
+            XMLClassDescriptor ret = (XMLClassDescriptor) _typeMap.get(className);
+            if (LOG2.isDebugEnabled()) {
+                LOG2.debug("Get descriptor for: " + className + " found: " + ret);
+            }
+            return ret;
         } //-- getDescriptor
 
         /**
          * Gets a list of descriptors that have the given XML name.<br>
          * <br>
          * This method will return all previously cached descriptors with the
-         * given XML name regardless of their name space.
+         * given XML name regardless of their namespace.
          * 
          * @param xmlName The XML name of the descriptors to get.
          * @return A list of descriptors with the given XML name or an empty
          *         list if no such descriptor is stored in this cache. This
          *         method will never return <code>null</code>!
          */
-        public List<ClassDescriptor> getDescriptors(final String xmlName) {
-
-            // before accessing XML name map acquire read lock first
-            _lock.readLock().lock();
-            List<ClassDescriptor> list = _xmlNameMap.get(xmlName);
-            _lock.readLock().unlock();
+        public List getDescriptorList(final String xmlName) {
+            List list = (List) _xmlNameMap.get(xmlName);
 
             if (list == null) {
-
-                // return an empty list
-                list = new ArrayList<ClassDescriptor>();
-            } else {
-
-                // return a copy of the original list
-                list = new ArrayList<ClassDescriptor>(list);
+                list = new ArrayList();
+                _xmlNameMap.put(xmlName, list);
             }
+
             return list;
         } //-- getDescriptorList
+
+        /**
+         * Gets an iterator over all descriptors that have the given XML name.<br>
+         * <br>
+         * This method will return an iterator over all previously cached
+         * descriptors with the given XML name regardless of their namespace.<br>
+         * <br>
+         * NOTE: If an descriptor with the XML name in question is added to this
+         * cache, the iterator will fail due to an
+         * <code>ConcurrentModificationException</code>
+         * 
+         * @param xmlName The XML name of the descriptors to get.
+         * @return An iterator over descriptors with the given XML name. If no
+         *         descriptor with the given XML name is stored in this cache,
+         *         the iterator will never return an object (.hasNext() will
+         *         immediately return <code>false</code>). This method will
+         *         never return <code>null</code>!
+         * 
+         * @see ConcurrentModificationException
+         * @see List#iterator()
+         */
+        public Iterator getDescriptors(final String xmlName) {
+            return this.getDescriptorList(xmlName).iterator();
+        } //-- getDescriptors
 
         /**
          * Checks whether the given class name is contained in the list of class
@@ -623,14 +613,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
          * @see #addMissingDescriptor(String)
          */
         public boolean isMissingDescriptor(final String className) {
-
-            // before accessing list with missing types acquire read lock first
-            _lock.readLock().lock();
-            try {
-                return _missingTypes.contains(className);
-            } finally {
-                _lock.readLock().unlock();
-            }
+            return _missingTypes.contains(className);
         } //-- isMissingDescriptor
 
         /**
@@ -644,8 +627,8 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
                 return;
             }
             
-            for (Iterator<String> iter = descriptors.keySet().iterator(); iter.hasNext(); ) {
-                String clsName = iter.next();
+            for (Iterator iter = descriptors.keySet().iterator(); iter.hasNext(); ) {
+                String clsName = (String) iter.next();
                 this.addDescriptor(clsName, (XMLClassDescriptor) descriptors.get(clsName));
             }
         } //-- addAllDescriptors

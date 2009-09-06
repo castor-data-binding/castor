@@ -42,9 +42,6 @@
  */
 package org.castor.cpa.test.test31;
 
-import org.junit.Ignore;
-
-@Ignore
 public final class GroupEntity {
     public static final int DEFAULT_ID = 4;
     public static final String DEFAULT_VALUE = "group";
@@ -57,21 +54,11 @@ public final class GroupEntity {
         _value = DEFAULT_VALUE;
     }
 
-    public void setId(final int id) {
-        _id = id;
-    }
+    public void setId(final int id) { _id = id; }
+    public int getId() { return _id; }
 
-    public int getId() {
-        return _id;
-    }
-
-    public void setValue1(final String value) {
-        _value = value;
-    }
-
-    public String getValue1() {
-        return _value;
-    }
+    public void setValue1(final String value) { _value = value; }
+    public String getValue1() { return _value; }
 
     public String toString() {
         return _id + " / " + _value;

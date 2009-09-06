@@ -169,7 +169,7 @@ public abstract class AbstractGenerator implements Generator {
     private Schema _schema;
 
     /** handle all resolving tables. */
-    private final Map<String, ClassMapping> _resolveTable = new HashMap<String, ClassMapping>();
+    private final Map _resolveTable = new HashMap();
 
     //--------------------------------------------------------------------------
 
@@ -549,24 +549,24 @@ public abstract class AbstractGenerator implements Generator {
         _schema.setConfiguration(_configuration);
 
         // Create key generators.
-        Enumeration<? extends KeyGeneratorDef> ekg = root.enumerateKeyGeneratorDef();
+        Enumeration ekg = root.enumerateKeyGeneratorDef();
         while (ekg.hasMoreElements()) {
-            KeyGeneratorDef definition = ekg.nextElement();
+            KeyGeneratorDef definition = (KeyGeneratorDef) ekg.nextElement();
             _keyGenRegistry.createKeyGenerator(definition);
         }
 
         // Create tables.
-        Enumeration<? extends ClassMapping> ec = root.enumerateClassMapping();
+        Enumeration ec = root.enumerateClassMapping();
         while (ec.hasMoreElements()) {
-            ClassMapping cm = ec.nextElement();
+            ClassMapping cm = (ClassMapping) ec.nextElement();
             Table table = createTable(cm);
             if (table != null) { _schema.addTable(table); }
         }
         
         // Create N:M relation tables.
-        Iterator<String> i = _resolveTable.keySet().iterator();
+        Iterator i = _resolveTable.keySet().iterator();
         while (i.hasNext()) {
-            ClassMapping cm = _resolveTable.get(i.next());
+            ClassMapping cm = (ClassMapping) _resolveTable.get(i.next());
             Table table = createTable(cm);
             if (table != null) { _schema.addTable(table); }
         }
@@ -598,7 +598,7 @@ public abstract class AbstractGenerator implements Generator {
         if (cm.getClassChoice() == null) { return table; }
 
         boolean isUseFieldIdentity = _mappingHelper.isUseFieldIdentity(cm);
-        Enumeration<? extends FieldMapping> ef = cm.getClassChoice().enumerateFieldMapping();
+        Enumeration ef = cm.getClassChoice().enumerateFieldMapping();
 
         // Process key generator.
         String keygenerator = cm.getKeyGenerator();
@@ -609,7 +609,7 @@ public abstract class AbstractGenerator implements Generator {
         table.setKeyGenerator(keyGen);
 
         while (ef.hasMoreElements()) {
-            FieldMapping fm = ef.nextElement();
+            FieldMapping fm = (FieldMapping) ef.nextElement();
 
             // Skip if <sql> tag is not defined and we have no mapping to DB.
             if (fm.getSql() == null) { continue; }
@@ -750,8 +750,7 @@ public abstract class AbstractGenerator implements Generator {
         }
         
         boolean isUseFieldIdentity = _mappingHelper.isUseFieldIdentity(extendCm);
-        Enumeration<? extends FieldMapping> extendEf =
-            extendCm.getClassChoice().enumerateFieldMapping();
+        Enumeration extendEf = extendCm.getClassChoice().enumerateFieldMapping();
 
         // Process key generator.
         String keygenerator = extendCm.getKeyGenerator();
@@ -762,7 +761,7 @@ public abstract class AbstractGenerator implements Generator {
         table.setKeyGenerator(keyGen);
 
         while (extendEf.hasMoreElements()) {
-            FieldMapping extendFm = extendEf.nextElement();
+            FieldMapping extendFm = (FieldMapping) extendEf.nextElement();
 
             // Skip if <sql> tag is not defined.
             if (extendFm.getSql() == null) { continue; }
@@ -869,10 +868,10 @@ public abstract class AbstractGenerator implements Generator {
      */
     private boolean mergeIfDefInBothClasses(final Table table, 
             final ClassMapping cm, final FieldMapping extendFm) {
-        Enumeration<? extends FieldMapping> ef = cm.getClassChoice().enumerateFieldMapping();
+        Enumeration ef = cm.getClassChoice().enumerateFieldMapping();
         
         while (ef.hasMoreElements()) {
-            FieldMapping fm = ef.nextElement();
+            FieldMapping fm = (FieldMapping) ef.nextElement();
             String fname = fm.getName();
             // If extend field has the same name with one of parent's fields.
             if (fname != null && fname.equalsIgnoreCase(extendFm.getName())) {
@@ -949,7 +948,7 @@ public abstract class AbstractGenerator implements Generator {
         
         // Get table, if not existe, create one.
         if (_resolveTable.containsKey(fm.getSql().getManyTable())) {
-            resolveCm = _resolveTable.get(fm.getSql().getManyTable());
+            resolveCm = (ClassMapping) _resolveTable.get(fm.getSql().getManyTable());
         } else {
             resolveCm = new ClassMapping();
             resolveCm.setName(fm.getSql().getManyTable());

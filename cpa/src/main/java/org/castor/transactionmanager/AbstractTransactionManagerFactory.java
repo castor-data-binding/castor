@@ -64,8 +64,8 @@ implements TransactionManagerFactory {
     throws TransactionManagerAcquireException {
         TransactionManager transactionManager;
         try {
-            Class<?> factory = Class.forName(getFactoryClassName());
-            Method method = factory.getMethod(getFactoryMethodName());
+            Class factory = Class.forName(getFactoryClassName());
+            Method method = factory.getMethod(getFactoryMethodName(), (Class[]) null);
             Object obj = method.invoke(factory, (Object[]) null);
             transactionManager = (TransactionManager) obj;
         } catch (Exception ex) {

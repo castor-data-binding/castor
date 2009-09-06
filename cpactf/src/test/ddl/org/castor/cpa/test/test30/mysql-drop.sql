@@ -1,4 +1,0 @@
-DROP TABLE IF EXISTS test30_extends;
-DROP TABLE IF EXISTS test30_entity;
-
-DROP TABLE IF EXISTS test30_group;

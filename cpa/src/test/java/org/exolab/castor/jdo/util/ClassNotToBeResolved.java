@@ -23,10 +23,11 @@ package org.exolab.castor.jdo.util;
  * {@link org.exolab.castor.mapping.ClassDescriptor} in the
  * <em>.jdo.castor.cdr</em> file.
  * 
- * @see org.castor.cpa.util.classresolution.command.ClassResolutionByCDR
+ * @see org.exolab.castor.xml.util.ClassResolutionByCDR
  * 
  * @author Sebastian Gabmeyer
  * @since 1.2.1
+ * 
  */
 public class ClassNotToBeResolved {
 

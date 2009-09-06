@@ -143,23 +143,23 @@ public class Marshaller extends MarshalFramework {
 
     /**
      * Namespace declaration for xml schema instance.
-     */
+    **/
     private static final String XSI_PREFIX = "xsi";
 
     /**
      * The xsi:type attribute.
-     */
+    **/
     private static final String XSI_TYPE = "xsi:type";
 
     /**
      * Namespace prefix counter.
-     */
-    private int _namespaceCounter = 0;
+    **/
+    private int NAMESPACE_COUNTER = 0;
 
     /**
      * An instance of StringClassDescriptor.
-     */
-    private static final StringClassDescriptor STRING_CLASS_DESCRIPTOR
+    **/
+    private static final StringClassDescriptor _StringClassDescriptor
         = new StringClassDescriptor();
 
     //----------------------------/
@@ -174,8 +174,8 @@ public class Marshaller extends MarshalFramework {
 
     /**
      * The depth of the sub tree, 0 denotes document level.
-     */
-    private int _depth = 0;
+    **/
+    int depth = 0;
 
     /**
      * The output format to use with the serializer.
@@ -648,12 +648,11 @@ public class Marshaller extends MarshalFramework {
     } //-- setMarshalListener
 
     /**
-     * Sets the mapping for the given Namespace prefix.
-     * 
+     * Sets the mapping for the given Namespace prefix
      * @param nsPrefix the namespace prefix
      * @param nsURI the namespace that the prefix resolves to
     **/
-    public void setNamespaceMapping(final String nsPrefix, final String nsURI) {
+    public void setNamespaceMapping(String nsPrefix, String nsURI) {
 
         if ((nsURI == null) || (nsURI.length() == 0)) {
             String err = "namespace URI must not be null.";
@@ -669,7 +668,7 @@ public class Marshaller extends MarshalFramework {
      *
      * @param rootElement The name of the root element to use.
      */
-    public void setRootElement(final String rootElement) {
+    public void setRootElement(String rootElement) {
         _rootElement = rootElement;
     } //-- setRootElement
 
@@ -987,32 +986,32 @@ public class Marshaller extends MarshalFramework {
 
         final boolean isNil = (object instanceof NilObject);
 
-        Class cls = null;
+        Class _class = null;
 
         if (!isNil) {
-            cls = object.getClass();
+            _class = object.getClass();
             
             if (_proxyInterfaces.size() > 0) {
                 boolean isProxy = false;
                 
-                Class[] interfaces = cls.getInterfaces();
+                Class[] interfaces = _class.getInterfaces();
                 for (int i = 0; i < interfaces.length; i++) {
                     if (_proxyInterfaces.contains(interfaces[i].getName())) { isProxy = true; }
                 }
                 
-                if (isProxy) { cls = cls.getSuperclass(); }
+                if (isProxy) { _class = _class.getSuperclass(); }
             }
         } else {
-            cls = ((NilObject) object).getClassDescriptor().getJavaClass();
+            _class = ((NilObject) object).getClassDescriptor().getJavaClass();
         }
 
         boolean byteArray = false;
-        if (cls.isArray())
-            byteArray = (cls.getComponentType() == Byte.TYPE);
+        if (_class.isArray())
+            byteArray = (_class.getComponentType() == Byte.TYPE);
 
         boolean atRoot = false;
         if (descriptor == null) {
-            descriptor = new XMLFieldDescriptorImpl(cls, "root", null, null);
+            descriptor = new XMLFieldDescriptorImpl(_class, "root", null, null);
             atRoot = true;
         }
 
@@ -1025,7 +1024,7 @@ public class Marshaller extends MarshalFramework {
         boolean autoNameByClass = false;
         if (name == null) {
             autoNameByClass = true;
-            name = cls.getName();
+            name = _class.getName();
             //-- remove package information from name
             int idx = name.lastIndexOf('.');
             if (idx >= 0) {
@@ -1041,7 +1040,7 @@ public class Marshaller extends MarshalFramework {
 
         if (object instanceof NilObject) {
             classDesc = ((NilObject)object).getClassDescriptor();
-        } else if (cls == descriptor.getFieldType()) {
+        } else if (_class == descriptor.getFieldType()) {
             classDesc = (XMLClassDescriptor)descriptor.getClassDescriptor();
         }
 
@@ -1051,23 +1050,23 @@ public class Marshaller extends MarshalFramework {
             //-- the special #isPrimitive method of this class
             //-- so that we can check for the primitive wrapper
             //-- classes
-            if (isPrimitive(cls) || byteArray) {
-                classDesc = STRING_CLASS_DESCRIPTOR;
+            if (isPrimitive(_class) || byteArray) {
+                classDesc = _StringClassDescriptor;
                 //-- check to see if we need to save the xsi:type
                 //-- for this class
                 Class fieldType = descriptor.getFieldType();
-                if (cls != fieldType) {
+                if (_class != fieldType) {
                     while (fieldType.isArray()) {
                         fieldType = fieldType.getComponentType();
                     }
-                    saveType = (!primitiveOrWrapperEquals(cls, fieldType));
+                    saveType = (!primitiveOrWrapperEquals(_class, fieldType));
                 }
             }
             else {
-                saveType = cls.isArray();
+                saveType = _class.isArray();
                 //-- save package information for use when searching
                 //-- for MarshalInfo classes
-                String className = cls.getName();
+                String className = _class.getName();
                 int idx = className.lastIndexOf(".");
                 String pkgName = null;
                 if (idx > 0) {
@@ -1081,7 +1080,7 @@ public class Marshaller extends MarshalFramework {
                     //-- ClassDescriptor from the type specified in the
                     //-- FieldHandler or from the current CDR state
 
-                    if ((cls != descriptor.getFieldType()) || atRoot) {
+                    if ((_class != descriptor.getFieldType()) || atRoot) {
 
                         saveType = true;
 
@@ -1108,7 +1107,7 @@ public class Marshaller extends MarshalFramework {
 
                             if (tmpDesc != null) {
                                 Class tmpType = tmpDesc.getJavaClass();
-                                if (tmpType == cls) {
+                                if (tmpType == _class) {
                                     containsDesc = (!tmpType.isInterface());
                                 }
                             }
@@ -1123,7 +1122,7 @@ public class Marshaller extends MarshalFramework {
                                 if (_useXSITypeAtRoot) {
                                     XMLMappingLoader ml = (XMLMappingLoader) getResolver().getMappingLoader();
                                     if (ml != null) {
-                                        containsDesc = (ml.getDescriptor(cls.getName()) != null);
+                                        containsDesc = (ml.getDescriptor(_class.getName()) != null);
                                     }
                                 }
                                 else {
@@ -1139,7 +1138,7 @@ public class Marshaller extends MarshalFramework {
                             if ((!containsDesc) && (pkgName == null)) {
                                 //-- check to see if the class name is guessable
                                 //-- from the xml name
-                                classDesc = getClassDescriptor(cls);
+                                classDesc = getClassDescriptor(_class);
                                 if (classDesc != null) {
                                     String tmpName = classDesc.getXMLName();
                                     if (name.equals(tmpName))
@@ -1154,21 +1153,21 @@ public class Marshaller extends MarshalFramework {
 
                     //  marshal as the actual type
                     if (classDesc == null)
-                        classDesc = getClassDescriptor(cls);
+                        classDesc = getClassDescriptor(_class);
 
                 } //-- end if (marshalExtendedType)
                 else {
                     // marshall as the base field type
-                    cls = descriptor.getFieldType();
-                    classDesc = getClassDescriptor(cls);
+                    _class = descriptor.getFieldType();
+                    classDesc = getClassDescriptor(_class);
                 }
 
                 //-- If we are marshalling an array as the top
                 //-- level object, or if we run into a multi
                 //-- dimensional array, use the special
                 //-- ArrayDescriptor
-                if ((classDesc == null) && cls.isArray()) {
-                    classDesc = new RootArrayDescriptor(cls);
+                if ((classDesc == null) && _class.isArray()) {
+                    classDesc = new RootArrayDescriptor(_class);
                     if (atRoot) {
                         containerField = (!_asDocument);
                     }
@@ -1177,9 +1176,9 @@ public class Marshaller extends MarshalFramework {
 
             if (classDesc == null) {
                 //-- make sure we are allowed to marshal Object
-                if ((cls == Void.class) ||
-                    (cls == Object.class) ||
-                    (cls == Class.class)) {
+                if ((_class == Void.class) ||
+                    (_class == Object.class) ||
+                    (_class == Class.class)) {
 
                     throw new MarshalException
                         (MarshalException.BASE_CLASS_OR_VOID_ERR);
@@ -1267,7 +1266,7 @@ public class Marshaller extends MarshalFramework {
                      Iterator classDescriptorIter = getResolver().resolveAllByXMLName(xmlElementName, null, null);
                      for (; classDescriptorIter.hasNext();) {
                          xmlElementNameClassDesc = (XMLClassDescriptor) classDescriptorIter.next();
-                         if (cls == xmlElementNameClassDesc.getJavaClass())
+                         if (_class == xmlElementNameClassDesc.getJavaClass())
                              break;
                           //reset the classDescriptor --> none has been found
                           xmlElementNameClassDesc = null;
@@ -1300,7 +1299,7 @@ public class Marshaller extends MarshalFramework {
 
                         if (matches.length == 1) {
 
-                            boolean foundTheRightClass = ((xmlElementNameClassDesc != null) && (cls == xmlElementNameClassDesc.getJavaClass()));
+                            boolean foundTheRightClass = ((xmlElementNameClassDesc != null) && (_class == xmlElementNameClassDesc.getJavaClass()));
 
                             boolean oneAndOnlyOneMatchedField
                               = ((fieldDescMatch != null) ||
@@ -1359,7 +1358,7 @@ public class Marshaller extends MarshalFramework {
                     if ((defaultNamespace == null) && atRoot) {
                         nsPrefix = "";
                     }
-                    else nsPrefix = DEFAULT_PREFIX + (++_namespaceCounter);
+                    else nsPrefix = DEFAULT_PREFIX + (++NAMESPACE_COUNTER);
                 }
                 declareNamespace(nsPrefix, nsURI);
             }
@@ -1440,18 +1439,18 @@ public class Marshaller extends MarshalFramework {
         }
 
         //-- handle ancestor nested attributes
-        if (mstate._nestedAttCount > 0) {
-            for (int i = 0; i < mstate._nestedAtts.length; i++) {
-                XMLFieldDescriptor attributeDescriptor = mstate._nestedAtts[i];
+        if (mstate.nestedAttCount > 0) {
+            for (int i = 0; i < mstate.nestedAtts.length; i++) {
+                XMLFieldDescriptor attributeDescriptor = mstate.nestedAtts[i];
                 if (attributeDescriptor == null) {
                     continue;
                 }
                 String locationPath = attributeDescriptor.getLocationPath();
                 if (name.equals(locationPath)) {
                     // indicate that this 'nested' attribute has been processed
-                    mstate._nestedAtts[i] = null;
+                    mstate.nestedAtts[i] = null;
                     // decrease number of unprocessed 'nested' attributes by one
-                    mstate._nestedAttCount--;
+                    mstate.nestedAttCount--;
                     processAttribute(mstate.getOwner(), attributeDescriptor, atts);
                 }
             }
@@ -1500,17 +1499,17 @@ public class Marshaller extends MarshalFramework {
 
             boolean useJavaPrefix = false;
             if ((typeName == null) || introspected) {
-                typeName = JAVA_PREFIX + cls.getName();
+                typeName = JAVA_PREFIX + _class.getName();
                 useJavaPrefix  = true;
             }
             else if (classDesc instanceof RootArrayDescriptor) {
-                typeName = JAVA_PREFIX + cls.getName();
+                typeName = JAVA_PREFIX + _class.getName();
                 useJavaPrefix = true;
             }
             else {
                 String dcn = classDesc.getClass().getName();
                 if (dcn.equals(XMLClassDescriptorImpl.class.getName())) {
-                    typeName = JAVA_PREFIX + cls.getName();
+                    typeName = JAVA_PREFIX + _class.getName();
                     useJavaPrefix = true;
                 }
                 else {
@@ -1626,7 +1625,7 @@ public class Marshaller extends MarshalFramework {
                     //-- hopefully this never happens, but if it does, it means
                     //-- we have a bug in our naming logic
                     String err = "Error in deriving name for type: " +
-                        cls.getName() + ", please report bug to: " +
+                        _class.getName() + ", please report bug to: " +
                         "http://castor.exolab.org.";
                     throw new IllegalStateException(err);
                 }
@@ -1788,10 +1787,10 @@ public class Marshaller extends MarshalFramework {
                 }
             }
             /* special case for Strings and primitives */
-            else if (isPrimitive(cls)) {
+            else if (isPrimitive(_class)) {
                 
                 char[] chars;
-                if (cls == java.math.BigDecimal.class) {
+                if (_class == java.math.BigDecimal.class) {
                     chars = convertBigDecimalToString(object).toCharArray();
                 } else {
                     chars = object.toString().toCharArray();
@@ -1803,7 +1802,7 @@ public class Marshaller extends MarshalFramework {
                     throw new MarshalException(sx);
                 }
             }
-            else if (isEnum(cls)) {
+            else if (isEnum(_class)) {
                 char[] chars = object.toString().toCharArray();
                 try {
                     handler.characters(chars,0,chars.length);
@@ -1826,7 +1825,7 @@ public class Marshaller extends MarshalFramework {
             descriptors = classDesc.getElementDescriptors();
         }
 
-        ++_depth;
+        ++depth;
 
         //-- marshal elements
         for (int i = firstNonNullIdx; i < descriptors.length; i++) {
@@ -1867,17 +1866,17 @@ public class Marshaller extends MarshalFramework {
                     while (!wrappers.empty()) {
                         WrapperInfo wInfo = (WrapperInfo)wrappers.peek();
                         if (path != null) {
-                            if (wInfo._location.equals(path)) {
+                            if (wInfo.location.equals(path)) {
                                 path = null;
                                 break;
                             }
-                            else if (path.startsWith(wInfo._location + "/")) {
-                                path = path.substring(wInfo._location.length()+1);
-                                currentLoc = wInfo._location;
+                            else if (path.startsWith(wInfo.location + "/")) {
+                                path = path.substring(wInfo.location.length()+1);
+                                currentLoc = wInfo.location;
                                 break;
                             }
                         }
-                        handler.endElement(nsURI, wInfo._localName, wInfo._qName);
+                        handler.endElement(nsURI, wInfo.localName, wInfo.qName);
                         wrappers.pop();
                     }
                 }
@@ -1948,8 +1947,8 @@ public class Marshaller extends MarshalFramework {
             final Class type = obj.getClass();
 
             MarshalState myState = mstate.createMarshalState(object, name);
-            myState._nestedAtts = nestedAtts;
-            myState._nestedAttCount = nestedAttCount;
+            myState.nestedAtts = nestedAtts;
+            myState.nestedAttCount = nestedAttCount;
 
 
             //-- handle byte arrays
@@ -2006,7 +2005,7 @@ public class Marshaller extends MarshalFramework {
             }
 
             if (nestedAttCount > 0) {
-                nestedAttCount = myState._nestedAttCount;
+                nestedAttCount = myState.nestedAttCount;
             }
 
         }
@@ -2023,14 +2022,14 @@ public class Marshaller extends MarshalFramework {
                             // TODO[LL]: refactor to avoid check against null
                             if (nestedAtts[na] == null) continue;
                             String nestedAttributePath = nestedAtts[na].getLocationPath();
-                            if (nestedAttributePath.startsWith(wInfo._location + "/")) {
+                            if (nestedAttributePath.startsWith(wInfo.location + "/")) {
                                 popStack = false;
                                 break;
                             }
                         }
                     }
                     if (popStack) {
-                        handler.endElement(nsURI, wInfo._localName, wInfo._qName);
+                        handler.endElement(nsURI, wInfo.localName, wInfo.qName);
                         wrappers.pop();
                     } else {
                         break;
@@ -2066,7 +2065,7 @@ public class Marshaller extends MarshalFramework {
             throw new MarshalException(sx);
         }
 
-        --_depth;
+        --depth;
         _parents.pop();
         if (!atRoot) _namespaces = _namespaces.getParent();
 
@@ -2144,7 +2143,7 @@ public class Marshaller extends MarshalFramework {
 
                     while (!wrappers.empty()) {
                         WrapperInfo wInfo = (WrapperInfo)wrappers.pop();
-                        handler.endElement(nsURI, wInfo._localName, wInfo._qName);
+                        handler.endElement(nsURI, wInfo.localName, wInfo.qName);
                     }
                 } catch (Exception e) {
                     throw new MarshalException(e);
@@ -2161,7 +2160,7 @@ public class Marshaller extends MarshalFramework {
         //-- not handled when dealing with wrapper elements
         
         WrapperInfo wrapperInfo = (WrapperInfo) wrappers.peek();
-        String currentLocation = wrapperInfo._location;
+        String currentLocation = wrapperInfo.location;
         
         if (nestedAttCount > 0) {
             for (int i = 0; i < nestedAtts.length; i++) {
@@ -2172,7 +2171,7 @@ public class Marshaller extends MarshalFramework {
                     continue;
                 }
                 
-                nestedAttributePath = nestedAttributePath.substring(wrapperInfo._location.length() + 1);
+                nestedAttributePath = nestedAttributePath.substring(wrapperInfo.location.length() + 1);
                 String currentLoc = currentLocation;
                 
                 
@@ -2231,7 +2230,7 @@ public class Marshaller extends MarshalFramework {
 
                     while (!wrappers.empty()) {
                         WrapperInfo wInfo = (WrapperInfo)wrappers.pop();
-                        handler.endElement(nsURI, wInfo._localName, wInfo._qName);
+                        handler.endElement(nsURI, wInfo.localName, wInfo.qName);
                     }
                 } catch (Exception e) {
                     throw new MarshalException(e);
@@ -2470,17 +2469,18 @@ public class Marshaller extends MarshalFramework {
      * Finds and returns an XMLClassDescriptor for the given class. If
      * a XMLClassDescriptor could not be found, this method will attempt to
      * create one automatically using reflection.
-     * @param cls the Class to get the XMLClassDescriptor for
+     * @param _class the Class to get the XMLClassDescriptor for
      * @exception MarshalException when there is a problem
      * retrieving or creating the XMLClassDescriptor for the given class
     **/
-    private XMLClassDescriptor getClassDescriptor(final Class cls)
-    throws MarshalException {
+    private XMLClassDescriptor getClassDescriptor(Class _class)
+        throws MarshalException
+    {
         XMLClassDescriptor classDesc = null;
 
         try {
-            if (!isPrimitive(cls))
-                classDesc = (XMLClassDescriptor) getResolver().resolve(cls);
+            if (!isPrimitive(_class))
+                classDesc = (XMLClassDescriptor) getResolver().resolve(_class);
         }
         catch(ResolverException rx) {
             Throwable actual = rx.getCause();
@@ -2543,7 +2543,7 @@ public class Marshaller extends MarshalFramework {
 
                 if ((prefix == null) || (prefix.length() == 0)) {
                     //-- automatically create namespace prefix?
-                    prefix = DEFAULT_PREFIX + (++_namespaceCounter);
+                    prefix = DEFAULT_PREFIX + (++NAMESPACE_COUNTER);
                 }
                 declareNamespace(prefix, namespace);
                 qName = prefix + ':' + qName;
@@ -2792,7 +2792,7 @@ public class Marshaller extends MarshalFramework {
             prefix = _namespaces.getNamespacePrefix(nsURI);
         //if still no prefix, use a naming algorithm (ns+counter).
         if (prefix == null)
-            prefix = DEFAULT_PREFIX+(++_namespaceCounter);
+            prefix = DEFAULT_PREFIX+(++NAMESPACE_COUNTER);
         result = (prefix.length() != 0)?prefix+":"+result.substring(idx+1):result.substring(idx+1);
         declareNamespace(prefix, nsURI);
         return result;
@@ -2836,22 +2836,25 @@ public class Marshaller extends MarshalFramework {
      * and locations.
      */
     static class WrapperInfo {
-        private String _localName = null;
-        private String _qName = null;
-        private String _location = null;
 
-        WrapperInfo(final String localName, final String qName, final String location) {
-            _localName = localName;
-            _qName = qName;
-            _location = location;
+        String localName  = null;
+        String qName      = null;
+        String location   = null;
+
+        WrapperInfo(String localName, String qName, String location) {
+            this.localName = localName;
+            this.qName = qName;
+            this.location = location;
         }
     }
 
 
     static class MarshalState {
-        private String _xpath = null;
-        private XMLFieldDescriptor[] _nestedAtts = null;
-        private int _nestedAttCount = 0;
+
+        String xpath = null;
+        XMLFieldDescriptor[] nestedAtts = null;
+        int nestedAttCount = 0;
+
         private MarshalState _parent = null;
         private Object _owner        = null;
         private String _xmlName      = null;
@@ -2877,15 +2880,15 @@ public class Marshaller extends MarshalFramework {
         }
 
         String getXPath() {
-            if (_xpath == null) {
+            if (xpath == null) {
                 if (_parent != null) {
-                    _xpath = _parent.getXPath() + "/" + _xmlName;
+                    xpath = _parent.getXPath() + "/" + _xmlName;
                 }
                 else {
-                    _xpath = _xmlName;
+                    xpath = _xmlName;
                 }
             }
-            return _xpath;
+            return xpath;
         }
 
         Object getOwner() {

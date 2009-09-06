@@ -50,7 +50,7 @@ public final class SQLTypeInfos {
     /**
      * Class that assoiziates SQL type number, SQL type name and Java type.
      */
-    private static final class TypeInfo {
+    private static class TypeInfo {
         /** SQL type number. */
         private final int _sqlTypeNum;
 
@@ -58,7 +58,7 @@ public final class SQLTypeInfos {
         private final String _sqlTypeName;
 
         /** Java type. */
-        private final Class<?> _javaType;
+        private final Class _javaType;
 
         /**
          * Construct a new TypeInfo instance with given SQL type number, SQL type name
@@ -68,7 +68,7 @@ public final class SQLTypeInfos {
          * @param sqlTypeName SQL type name.
          * @param javaType Java type.
          */
-        private TypeInfo(final int sqlTypeNum, final String sqlTypeName, final Class<?> javaType) {
+        TypeInfo(final int sqlTypeNum, final String sqlTypeName, final Class javaType) {
             _sqlTypeNum     = sqlTypeNum;
             _sqlTypeName = sqlTypeName;
             _javaType  = javaType;
@@ -109,14 +109,14 @@ public final class SQLTypeInfos {
     };
 
     /** Thread local Calendar instance pool. */
-    private static final ThreadLocal<Calendar> THREAD_SAFE_CALENDAR = new ThreadLocal<Calendar>() {
+    private static final ThreadLocal THREAD_SAFE_CALENDAR = new ThreadLocal() {
         // The Calendar passed to ResultSet.getTimestamp() etc can actually
         // be modified depending on the database driver implementation.  To guard
         // against synchronization issues, we need to pass either a local
         // instance (which is expensive, creating one for each call), or create
         // a thread-local instance (which only gets created once per thread).
         // The latter is what this is for.
-        public Calendar initialValue() { return new GregorianCalendar(); }
+        public Object initialValue() { return new GregorianCalendar(); }
     };
     
     /** Time zone based on setting in castor.properties file (or
@@ -143,7 +143,7 @@ public final class SQLTypeInfos {
     private static Calendar getCalendar() {
         // We have to reset the time zone each time in case the result set
         // implementation changes it.
-        Calendar calendar = THREAD_SAFE_CALENDAR.get();
+        Calendar calendar = (Calendar) THREAD_SAFE_CALENDAR.get();
         calendar.setTimeZone(TIME_ZONE);
         return calendar;
     }
@@ -157,7 +157,7 @@ public final class SQLTypeInfos {
      * @return The suitable Java type
      * @throws MappingException The SQL type is not recognized.
      */
-    public static Class<?> sqlTypeNum2javaType(final int sqlTypeNum)
+    public static Class sqlTypeNum2javaType(final int sqlTypeNum)
     throws MappingException {
         for (int i = 0; i < TYPEINFO.length; ++i) {
             if (sqlTypeNum == TYPEINFO[i]._sqlTypeNum) {
@@ -169,31 +169,13 @@ public final class SQLTypeInfos {
     }
 
     /**
-     * Returns the SQL type name for the given SQL type number.
-     *
-     * @param sqlTypeNum SQL type name (see JDBC API)
-     * @return The SQL type name.
-     * @throws MappingException The SQL type is not recognized.
-     */
-    public static String sqlTypeNum2sqlTypeName(final int sqlTypeNum)
-    throws MappingException {
-        for (int i = 0; i < TYPEINFO.length; ++i) {
-            if (sqlTypeNum == TYPEINFO[i]._sqlTypeNum) {
-                return TYPEINFO[i]._sqlTypeName;
-            }
-        }
-        
-        throw new MappingException("jdo.sqlTypeNotSupported", new Integer(sqlTypeNum));
-    }
-    
-    /**
      * Returns the Java type for the given SQL type name.
      *
      * @param sqlTypeName SQL type name (e.g. numeric).
      * @return The suitable Java type.
      * @throws MappingException The SQL type is not recognized.
      */
-    public static Class<?> sqlTypeName2javaType(final String sqlTypeName)
+    public static Class sqlTypeName2javaType(final String sqlTypeName)
     throws MappingException {
         for (int i = 0; i < TYPEINFO.length; ++i) {
             if (sqlTypeName.equals(TYPEINFO[i]._sqlTypeName)) {
@@ -211,7 +193,7 @@ public final class SQLTypeInfos {
      * @param javaType The Java class of the SQL type.
      * @return SQL type from the specified Java type.
      */
-    public static int javaType2sqlTypeNum(final Class<?> javaType) {
+    public static int javaType2sqlTypeNum(final Class javaType) {
         for (int i = 0; i < TYPEINFO.length; ++i) {
             if (javaType.isAssignableFrom(TYPEINFO[i]._javaType)) {
                 return TYPEINFO[i]._sqlTypeNum;

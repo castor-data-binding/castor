@@ -52,7 +52,7 @@ import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 import org.exolab.castor.mapping.ValidityException;
 
 /**
- * The Duration Descriptor.
+ * The Duration Descriptor
  *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
@@ -61,18 +61,18 @@ import org.exolab.castor.mapping.ValidityException;
 public class DurationDescriptor extends BaseDescriptor {
 
     /** The name of the XML element. */
-    private static final String XML_NAME = "duration";
+    private static final String                 _xmlName = "duration";
     /** Our field descriptor. */
-    private static final XMLFieldDescriptorImpl CONTENT_DESCRIPTOR;
+    private static final XMLFieldDescriptorImpl _contentDescriptor;
     /** Our field descriptor array.  Lists the fields we describe. */
-    private static final FieldDescriptor[] FIELDS;
+    private static final FieldDescriptor[]      _fields;
 
     static {
-        CONTENT_DESCRIPTOR = new XMLFieldDescriptorImpl(String.class, "content",
+        _contentDescriptor = new XMLFieldDescriptorImpl(String.class, "content",
                                                         "content", NodeType.Text);
-        CONTENT_DESCRIPTOR.setHandler(new DurationDescriptor().new DurationFieldHandler());
-        FIELDS = new FieldDescriptor[1];
-        FIELDS[0] = CONTENT_DESCRIPTOR;
+        _contentDescriptor.setHandler(new DurationDescriptor().new DurationFieldHandler());
+        _fields = new FieldDescriptor[1];
+        _fields[0] = _contentDescriptor;
     }
 
     //----------------/
@@ -80,7 +80,7 @@ public class DurationDescriptor extends BaseDescriptor {
     //----------------/
 
     public DurationDescriptor() {
-        super(XML_NAME, Duration.class);
+        super(_xmlName, Duration.class);
     } //-- DurationDescriptor
 
     //------------------/
@@ -94,7 +94,7 @@ public class DurationDescriptor extends BaseDescriptor {
      * that should be marshalled as text content.
      */
     public XMLFieldDescriptor getContentDescriptor() {
-        return CONTENT_DESCRIPTOR;
+        return _contentDescriptor;
     } // getContentDescriptor
 
     /**
@@ -103,7 +103,7 @@ public class DurationDescriptor extends BaseDescriptor {
      * @return A list of fields
      */
     public FieldDescriptor[] getFields() {
-        return FIELDS;
+        return _fields;
     } //-- getFields
 
     /**

@@ -26,9 +26,9 @@ import java.util.List;
  * @since 1.0
  */
 public final class ReinsertingReaperMock extends ReinsertingReaper {
-    private static final List<Object> EXPIRED = new ArrayList<Object>();
+    private static final List EXPIRED = new ArrayList();
     
-    public static List<Object> getExpiredObjects() {
+    public static List getExpiredObjects() {
         return EXPIRED;
     }
     

@@ -702,7 +702,8 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
                             }
                         }
                     }
-                } catch (NoSuchMethodException nsmx) {
+                }
+                catch(NoSuchMethodException nsmx) {
                     //-- Do nothing
                 }
             }
@@ -710,14 +711,18 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
 
         //-- constructor argument?
         String setter = fieldMap.getSetMethod();
-        if (setter != null && setter.startsWith("%")) {
-            String parameterNumberAsString = setter.substring(1).trim();
-            int index = Integer.parseInt(parameterNumberAsString);
-            if (index < 1) {
-                throw new MappingException("mapper.invalidParameterIndex", parameterNumberAsString);
+        if (setter != null) {
+            if (setter.startsWith("%")) {
+                int index = 0;
+                setter = setter.substring(1);
+                index = Integer.parseInt(setter);
+                if ((index < 1) || (index > 9)) {
+                    throw new MappingException("mapper.invalidParameterIndex", setter);
+                }
+                //-- adjust index to base zero
+                --index;
+                xmlDesc.setConstructorArgumentIndex(index);
             }
-            //-- adjust index to base zero
-            xmlDesc.setConstructorArgumentIndex(--index);
         }
 
         return xmlDesc;

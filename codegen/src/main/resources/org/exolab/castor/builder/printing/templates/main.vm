@@ -17,8 +17,6 @@
  *   - inner classes
  *
  **###
-#fileHeader($version) 
- 
 #packageDeclaration($jClass) 
 
 ## IMPORTS *#

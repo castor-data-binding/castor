@@ -17,15 +17,14 @@ public class Test1379 extends CPATestCase {
     // Test are only included/excluded for engines that have been tested with this test suite.
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.DERBY) 
-            || (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.ORACLE)
-            || (engine == DatabaseEngineType.SAPDB)
-            || (engine == DatabaseEngineType.SQL_SERVER);
+        return (engine == DatabaseEngineType.MYSQL) 
+            || (engine == DatabaseEngineType.ORACLE);
     }
     
+    // SQL_SERVER is excluded until issue CASTOR-2221 is resolved
+    
     public boolean exclude(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.POSTGRESQL);
+        return (engine == DatabaseEngineType.SQL_SERVER);
     }
     
     public void test() throws Exception {
@@ -48,7 +47,8 @@ public class Test1379 extends CPATestCase {
 
         // If no such products with ids 5-8 exist, create new objects and persist them
         for (int i = 5; i < 10; ++i) {
-            productOql.bind(i);
+            int j = i + 1;
+            productOql.bind(j);
             results = productOql.execute();
             if (!results.hasMore()) {
                 Computer computerToCreate = new Computer();
@@ -69,14 +69,14 @@ public class Test1379 extends CPATestCase {
         db.begin();
         LOG.info("Begin transaction: load previously created products");
 
-        product = db.load(Product.class, new Integer(4));
+        product = (Product) db.load(Product.class, new Integer(4));
         assertNotNull (product);
         assertEquals (4, product.getId());
         // assertEquals (200.0f, product.getPrice());
         assertEquals ("computer4", product.getName());
 
         for (int x = 5; x < 10; x++) {
-            product = db.load(Product.class, new Integer(x));
+            product = (Product) db.load(Product.class, new Integer(x));
             assertNotNull (product);
             assertEquals (x, product.getId());
             assertEquals ("computer" + x, product.getName());
@@ -125,7 +125,7 @@ public class Test1379 extends CPATestCase {
         db.begin();
         LOG.info("Begin transaction: load previously created non-leaf product");
 
-        product = db.load(Product.class, new Integer(99));
+        product = (Product) db.load(Product.class, new Integer(99));
         assertNotNull (product);
         assertEquals (99, product.getId());
         assertEquals("product99", product.getName());

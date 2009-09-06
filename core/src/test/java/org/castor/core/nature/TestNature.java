@@ -1,8 +1,5 @@
 package org.castor.core.nature;
 
-import org.junit.Ignore;
-
-@Ignore
 public class TestNature extends BaseNature {
 
     /**

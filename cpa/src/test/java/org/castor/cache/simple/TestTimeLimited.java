@@ -17,7 +17,6 @@ package org.castor.cache.simple;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -220,7 +219,7 @@ public final class TestTimeLimited extends TestCase {
     public void testPutAll() {
         Cache cache = initialize();
 
-        HashMap<String, String> map = new HashMap<String, String>();
+        HashMap map = new HashMap();
         map.put("fourth key", "forth value");
         map.put("fifth key", "fifth value");
         
@@ -236,7 +235,7 @@ public final class TestTimeLimited extends TestCase {
     public void testKeySet() {
         Cache cache = initialize();
 
-        Set<Object> set = cache.keySet();
+        Set set = cache.keySet();
         
         assertEquals(3, set.size());
         assertTrue(set.contains("first key"));
@@ -247,7 +246,7 @@ public final class TestTimeLimited extends TestCase {
     public void testValues() {
         Cache cache = initialize();
 
-        Collection<Object> col = cache.values();
+        Collection col = cache.values();
         
         assertEquals(3, col.size());
         assertTrue(col.contains("first value"));
@@ -258,13 +257,15 @@ public final class TestTimeLimited extends TestCase {
     public void testEntrySet() {
         Cache cache = initialize();
 
-        Set<Map.Entry<Object, Object>> set = cache.entrySet();
+        Set set = cache.entrySet();
         
         assertEquals(3, set.size());
         
-        HashMap<Object, Object> map = new HashMap<Object, Object>();
-        for (Iterator<Map.Entry<Object, Object>> iter = set.iterator(); iter.hasNext();) {
-            Map.Entry<Object, Object> entry = iter.next();
+        Object[] objs = set.toArray();
+        HashMap map = new HashMap();
+        for (int i = 0; i < 3; i++) {
+            assertTrue(objs[i] instanceof Map.Entry);
+            Map.Entry entry = (Map.Entry) objs[i];
             map.put(entry.getKey(), entry.getValue());
         }
 

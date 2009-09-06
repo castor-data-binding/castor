@@ -80,9 +80,9 @@ public interface DepositBox {
      *
      *  @param  tx the transaction in action
      *  @param  object to be store into deposit box
-     *  @param  version of the object to be stored
+     *  @param  timeStamp to be stored into deposit box
      */
-    void setObject(TransactionContext tx, Object[] object, long version);
+    void setObject(TransactionContext tx, Object[] object, long timeStamp);
 
     /** 
      *  Get the object from the DespositBox, only the transaction
@@ -94,15 +94,16 @@ public interface DepositBox {
     Object[] getObject(TransactionContext tx); 
 
     /**
-     * @return the version (a timestamp) of the last setObject(object) call.
-     */
-    long getVersion();
-
-    /**
-     * Sets the new version of this object.
+     * Get the time of the most recent call on setObject(Object)}.
      * 
-     * @param version
-     *            a timestamp.
+     * @return The timestamp of this object.
      */
-    void setVersion(long version);
+    long getTimeStamp();
+    
+    /**
+     * Set new timestamp for this object.
+     * 
+     * @param timeStamp The new timestamp for this object.
+     */
+    void setTimeStamp(long timeStamp);
 }

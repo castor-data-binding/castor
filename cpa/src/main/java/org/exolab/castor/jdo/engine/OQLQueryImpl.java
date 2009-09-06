@@ -107,13 +107,13 @@ public class OQLQueryImpl implements Query, OQLQuery {
 
     private Object[] _bindValues;
 
-    private Hashtable<Integer, ParamInfo> _paramInfo;
+    private Hashtable _paramInfo;
 
     private int _fieldNum;
 
     private int _projectionType;
     
-    private Vector<String> _projectionInfo;
+    private Vector _projectionInfo;
 
     private PersistenceQuery _query;
 
@@ -150,7 +150,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
                     + " fields in this query");
         }
         try {
-            ParamInfo info = _paramInfo.get(new Integer(_fieldNum + 1));
+            ParamInfo info = (ParamInfo) _paramInfo.get(new Integer(_fieldNum + 1));
 
             //do type checking and conversion
             Class paramClass = info.getTheClass();
@@ -294,8 +294,8 @@ public class OQLQueryImpl implements Query, OQLQuery {
         // create the types array and fill it
         _bindTypes = new Class[_paramInfo.size()];
         int paramIndex = 0;
-        for (Enumeration<ParamInfo> e = _paramInfo.elements(); e.hasMoreElements(); ) {
-            ParamInfo info = e.nextElement();
+        for (Enumeration e = _paramInfo.elements(); e.hasMoreElements(); ) {
+            ParamInfo info = (ParamInfo) e.nextElement();
 
             _bindTypes[paramIndex++] =
                 ((info.getSQLType() == null)) ? info.getTheClass() : info.getSQLType();
@@ -331,7 +331,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
         rightParen = oql.indexOf(")");
         sql = new StringBuffer();
         paramCnt = 0;
-        _paramInfo = new Hashtable<Integer, ParamInfo>();
+        _paramInfo = new Hashtable();
         if (oql.startsWith("CALL SQL")) {
             int startOff = oql.toUpperCase().indexOf("WHERE "); // parameters begin here!
 
@@ -358,7 +358,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
                         } else {
                             paramNo = new Integer(paramCnt + 1);
                         }
-                        info = _paramInfo.get(paramNo);
+                        info = (ParamInfo) _paramInfo.get(paramNo);
                         if (info == null) {
                             info = new ParamInfo("", "java.lang.Object", null,
                                     _database.getClassLoader());
@@ -401,7 +401,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
                     } else {
                         paramNo = new Integer(paramCnt + 1);
                     }
-                    info = _paramInfo.get(paramNo);
+                    info = (ParamInfo) _paramInfo.get(paramNo);
                     if (info == null) {
                         info = new ParamInfo("", "java.lang.Object", null,
                                 _database.getClassLoader());
@@ -567,10 +567,10 @@ public class OQLQueryImpl implements Query, OQLQuery {
      * {@link java.util.Enumeration} implementation to traverse the result as returned by the
      * execution of the OQL query.
      */
-    class OQLEnumeration implements QueryResults, Enumeration<Object> {
+    class OQLEnumeration implements QueryResults, Enumeration {
         private Object _lastObject;
 
-        private Vector<String> _pathInfo;
+        private Vector _pathInfo;
 
         private ClassDescriptor _classDescriptor;
 
@@ -583,7 +583,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
          * @param clsDesc
          */
         OQLEnumeration(final org.exolab.castor.persist.QueryResults results,
-                final Vector<String> pathInfo, final ClassDescriptor clsDesc) {
+                final Vector pathInfo, final ClassDescriptor clsDesc) {
             _results = results;
             _pathInfo = pathInfo;
             _classDescriptor = clsDesc;
@@ -760,7 +760,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
             ClassDescriptor curClassDesc = _classDescriptor;
             Object curObject = parent;
             for (int i = 1; i < _pathInfo.size(); i++) {
-                String curFieldName = _pathInfo.elementAt(i);
+                String curFieldName = (String) _pathInfo.elementAt(i);
                 try {
                     ClassDescriptorJDONature nature;
                     nature = new ClassDescriptorJDONature(curClassDesc);

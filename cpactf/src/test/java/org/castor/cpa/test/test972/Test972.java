@@ -34,14 +34,16 @@ public final class Test972 extends CPATestCase {
     // Test are only included/excluded for engines that have been tested with this test suite.
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.ORACLE)
-            || (engine == DatabaseEngineType.POSTGRESQL)
-            || (engine == DatabaseEngineType.SAPDB)
-            || (engine == DatabaseEngineType.SQL_SERVER);
+        return (engine == DatabaseEngineType.MYSQL) 
+            || (engine == DatabaseEngineType.ORACLE);
     }
     
+    // SQL_SERVER is excluded until issue CASTOR-2221 is resolved
+    
+    public boolean exclude(final DatabaseEngineType engine) {
+        return (engine == DatabaseEngineType.SQL_SERVER);
+    }
+
     public void testLongTransaction() throws Exception {
         Product       product = null;
         ProductGroup  group;
@@ -111,7 +113,7 @@ public final class Test972 extends CPATestCase {
         db.begin();
         LOG.info("Begin transaction: one-to-one and dependent relations");
 
-        group = db.load(ProductGroup.class, new Integer(3));
+        group = (ProductGroup) db.load(ProductGroup.class, new Integer(3));
         
         // If no such products with ids 5-8 exist, create new objects and persist them
         for (int i = 5; i < 10; ++i) {
@@ -155,10 +157,10 @@ public final class Test972 extends CPATestCase {
 
         // Prepare the database: add a NewProduct, which references the same
         // ProductGroup as most Product objects do
-        ProductGroup group = db.load(ProductGroup.class, new Integer(3));
+        ProductGroup group = (ProductGroup) db.load(ProductGroup.class, new Integer(3));
         NewProduct newProduct = null;
         try {
-            newProduct = db.load(NewProduct.class, new Integer(1));
+            newProduct = (NewProduct) db.load(NewProduct.class, new Integer(1));
         } catch (ObjectNotFoundException e) {
             newProduct = new NewProduct();
             newProduct.setId(1);
@@ -178,8 +180,8 @@ public final class Test972 extends CPATestCase {
         LOG.info("Trying to reproduce rollback bug");
         
         // loading both product entities
-        newProduct = db.load(NewProduct.class, new Integer(1));
-        Product product = db.load(Product.class, new Integer(7));
+        newProduct = (NewProduct) db.load(NewProduct.class, new Integer(1));
+        Product product = (Product) db.load(Product.class, new Integer(7));
         LOG.debug("Product loaded: " + product);
         LOG.debug("NewProduct loaded: " + newProduct);
         

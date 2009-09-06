@@ -51,6 +51,7 @@ package org.exolab.javasource;
  * @version $Revision$ $Date: 2005-02-26 17:30:28 -0700 (Sat, 26 Feb 2005) $
  */
 public interface JMember {
+    //--------------------------------------------------------------------------
 
     /**
      * Returns the modifiers for this JMember.
@@ -66,4 +67,5 @@ public interface JMember {
      */
     String getName();
 
+    //--------------------------------------------------------------------------
 }

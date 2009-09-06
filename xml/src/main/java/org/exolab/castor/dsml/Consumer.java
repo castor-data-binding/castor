@@ -90,18 +90,18 @@ public abstract class Consumer
 	    // When redirecting all element creations pass directly to
 	    // the other handler, we only look for closure.
 	    _redirect.startElement( tagName, attr );
-	} else if ( tagName.equals( XML.Namespace.ROOT ) ) {
+	} else if ( tagName.equals( XML.Namespace.Root ) ) {
 	    // Flag when entering (and leaving) the root element.
 	    if ( _insideRoot )
 		throw new SAXException( Messages.format( "dsml.elementNested",
-							 XML.Namespace.ROOT ) );
+							 XML.Namespace.Root ) );
 	    _insideRoot = true;
 	} else {
 	    if ( ! _insideRoot )
 		throw new SAXException( Messages.format( "dsml.expectingOpeningTag",
-							 XML.Namespace.ROOT, tagName ) );
-	    if ( tagName.equals( XML.Schema.ELEMENT ) ||
-		 tagName.equals( XML.Entries.ELEMENT ) ) {
+							 XML.Namespace.Root, tagName ) );
+	    if ( tagName.equals( XML.Schema.Element ) ||
+		 tagName.equals( XML.Entries.Element ) ) {
 		DocumentHandler entry;
 
 		entry = getEntryConsumer();
@@ -121,7 +121,7 @@ public abstract class Consumer
 	if ( _redirect == null ) {
 	    // This is the only case where we expect the root element
 	    // to be closed.
-	    if ( tagName.equals( XML.Namespace.ROOT ) ) {
+	    if ( tagName.equals( XML.Namespace.Root ) ) {
 		if ( _insideRoot == true )
 		    _insideRoot = false;
 		else
@@ -129,13 +129,13 @@ public abstract class Consumer
 							     tagName ) );
 	    } else {
 		throw new SAXException( Messages.format( "dsml.expectingClosingTag",
-							 XML.Namespace.ROOT, tagName ) );
+							 XML.Namespace.Root, tagName ) );
 	    }
 	} else {
 	    _redirect.endElement( tagName );
 	    
-	    if ( tagName.equals( XML.Schema.ELEMENT ) ||
-			tagName.equals( XML.Entries.ELEMENT ) ) {
+	    if ( tagName.equals( XML.Schema.Element ) ||
+			tagName.equals( XML.Entries.Element ) ) {
 		// If we've reached this point we must be inside the
 		// entries/schema redirect.
 		_redirect = null;

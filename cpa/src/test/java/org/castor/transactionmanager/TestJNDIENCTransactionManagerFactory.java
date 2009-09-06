@@ -17,6 +17,8 @@ package org.castor.transactionmanager;
 
 import java.util.Properties;
 
+import javax.naming.NotContextException;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -66,8 +68,8 @@ public final class TestJNDIENCTransactionManagerFactory extends TestCase {
                + "should have been thrown.");
         } catch (Exception ex) {
             assertTrue(ex instanceof TransactionManagerAcquireException);
-//            TransactionManagerAcquireException tmae;
-//            tmae = (TransactionManagerAcquireException) ex;
+            TransactionManagerAcquireException tmae;
+            tmae = (TransactionManagerAcquireException) ex;
 //            assertTrue(tmae.getCause() instanceof NotContextException);
         }
         

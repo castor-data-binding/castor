@@ -46,7 +46,6 @@
            <xsd:element ref="cache-type"   minOccurs="0" maxOccurs="1" />
            <xsd:element ref="map-to" minOccurs="0" maxOccurs="1" />
            <xsd:element ref="named-query" minOccurs="0" maxOccurs="unbounded" />
-           <xsd:element ref="named-native-query" minOccurs="0" maxOccurs="unbounded" />
            <xsd:choice minOccurs="1">
               <xsd:element ref="field" minOccurs="0" maxOccurs="unbounded"/>
               <xsd:element ref="container" minOccurs="0" maxOccurs="unbounded"/>
@@ -97,11 +96,6 @@
         <xsd:attribute name="key-generator" type="xsd:string"   use="optional"/>
         <xsd:attribute name="auto-complete" type="xsd:boolean"  use="optional" default="false"/>
         <xsd:attribute name="verify-constructable" type="xsd:boolean"  use="optional" default="true"/>
-        <!-- 
-            If the version attribute is set to the name of a mapped field, 
-            this field will be used for check on object modifications during transactions.
-        -->
-        <xsd:attribute name="version" type="xsd:string" use="optional"/>
     </xsd:complexType>
   </xsd:element>
 
@@ -122,18 +116,6 @@
     </xsd:complexType>
   </xsd:element>
   
-  <xsd:element name="named-native-query">
-    <xsd:complexType>
-        <xsd:sequence>
-      	    <xsd:element name="query" type="xsd:string"/>
-            <xsd:element ref="query-hint" minOccurs="0"	maxOccurs="unbounded" />
-		</xsd:sequence>
-		<xsd:attribute name="name" type="xsd:string" use="required"/>
-		<xsd:attribute name="result-class" type="xsd:string"/>
-		<xsd:attribute name="result-set-mapping" type="xsd:string"/>
-    </xsd:complexType>
-  </xsd:element>
-
   <xsd:element name="map-to">
     <xsd:annotation>
         <xsd:documentation>

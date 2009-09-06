@@ -53,14 +53,14 @@ public class ParseTreeWalker {
     private String _fromClassAlias;
 
     private ClassLoader _classLoader;
-    private Class<?> _objClass;
+    private Class _objClass;
     private QueryExpression _queryExpr;
     private DbMetaInfo _dbInfo;
 
-    private Hashtable<Integer, ParamInfo> _paramInfo;
-    private HashMap<ParseTreeNode, FieldDescriptor> _fieldInfo;
-    private HashMap<ParseTreeNode, Vector<String>> _pathInfo;
-    private HashMap<ArrayList<String>, Integer> _allPaths;
+    private Hashtable _paramInfo;
+    private HashMap _fieldInfo;
+    private HashMap _pathInfo;
+    private HashMap _allPaths;
 
     private SQLEngine _engine;
     private ClassDescriptor _clsDesc;
@@ -106,7 +106,7 @@ public class ParseTreeWalker {
      *
      * @return The _objClass member.
      */
-    public Class<?> getObjClass() {
+    public Class getObjClass() {
         return _objClass;
     }
 
@@ -133,18 +133,18 @@ public class ParseTreeWalker {
      *
      * @return The _paramInfo member.
      */
-    public Hashtable<Integer, ParamInfo> getParamInfo() {
-        if (_paramInfo == null) { _paramInfo = new Hashtable<Integer, ParamInfo>(); }
+    public Hashtable getParamInfo() {
+        if (_paramInfo == null) { _paramInfo = new Hashtable(); }
         return _paramInfo;
     }
 
-    private HashMap<ParseTreeNode, FieldDescriptor> getFieldInfo() {
-        if (_fieldInfo == null) { _fieldInfo = new HashMap<ParseTreeNode, FieldDescriptor>(); }
+    private HashMap getFieldInfo() {
+        if (_fieldInfo == null) { _fieldInfo = new HashMap(); }
         return _fieldInfo;
     }
 
-    private HashMap<ParseTreeNode, Vector<String>> getPathInfo() {
-        if (_pathInfo == null) { _pathInfo = new HashMap<ParseTreeNode, Vector<String>>(); }
+    private HashMap getPathInfo() {
+        if (_pathInfo == null) { _pathInfo = new HashMap(); }
         return _pathInfo;
     }
 
@@ -165,7 +165,7 @@ public class ParseTreeWalker {
      * 
      * @return Path info for the selected element, null otherwise. 
      */
-    public Vector<String> getProjectionInfo() {
+    public Vector getProjectionInfo() {
         switch (_projectionType) {
         case DEPENDANT_OBJECT:
         case DEPENDANT_OBJECT_VALUE:
@@ -182,7 +182,7 @@ public class ParseTreeWalker {
                 projectionNode = projectionNode.getChild(0);
             }
 
-            return getPathInfo().get(projectionNode);
+            return (Vector) getPathInfo().get(projectionNode);
         default:
             return null;
         }
@@ -194,8 +194,8 @@ public class ParseTreeWalker {
      * @throws QueryException if there is an error.
      */
     private void checkErrors() throws QueryException {
-        for (Iterator<ParseTreeNode> iter = _parseTree.children(); iter.hasNext(); ) {
-            ParseTreeNode curChild = iter.next();
+        for (Iterator iter = _parseTree.children(); iter.hasNext(); ) {
+            ParseTreeNode curChild = (ParseTreeNode) iter.next();
             if (curChild.getToken().getTokenType() == TokenType.KEYWORD_FROM) {
                 checkFromPart(curChild.getChild(0));
                 break;
@@ -244,8 +244,8 @@ public class ParseTreeWalker {
             if (classNameNode.getToken().getTokenType() == TokenType.DOT) {
                 StringBuffer sb = new StringBuffer();
 
-                for (Iterator<ParseTreeNode> iter = classNameNode.children(); iter.hasNext(); ) {
-                    ParseTreeNode theChild = iter.next();
+                for (Iterator iter = classNameNode.children(); iter.hasNext(); ) {
+                    ParseTreeNode theChild = (ParseTreeNode) iter.next();
                     sb.append(theChild.getToken().getTokenValue()).append(".");
                 }
 
@@ -260,8 +260,8 @@ public class ParseTreeWalker {
             if (fromPart.getToken().getTokenType() == TokenType.DOT) {
                 StringBuffer sb = new StringBuffer();
 
-                for (Iterator<ParseTreeNode> iter = fromPart.children(); iter.hasNext(); ) {
-                    ParseTreeNode theChild = iter.next();
+                for (Iterator iter = fromPart.children(); iter.hasNext(); ) {
+                    ParseTreeNode theChild = (ParseTreeNode) iter.next();
                     sb.append(theChild.getToken().getTokenValue()).append(".");
                 }
 
@@ -345,8 +345,9 @@ public class ParseTreeWalker {
      * @param tableIndex Field index in the path info
      */
     private Object[] getFieldAndClassDesc(final String fieldName,
-            final ClassDescriptor clsDesc, final QueryExpression expr,
-            final Vector<String> path, final int tableIndex) {
+                                          final ClassDescriptor clsDesc,
+                                          final QueryExpression expr,
+                                          final Vector path, final int tableIndex) {
         
         FieldDescriptor field = null;
         ClassDescriptor cd = clsDesc;
@@ -430,22 +431,21 @@ public class ParseTreeWalker {
             case TokenType.IDENTIFIER:
                 //a SQL function call -- check the arguments
                 _projectionType = FUNCTION;
-                ParseTreeNode child = projection.getChild(0);
-                for (Iterator<ParseTreeNode> iter = child.children(); iter.hasNext(); ) {
-                    checkProjection(iter.next(), false, true);
+                for (Iterator iter = projection.getChild(0).children(); iter.hasNext(); ) {
+                    checkProjection((ParseTreeNode) iter.next(), false, true);
                 }
                 break;
             case TokenType.DOT:
                 //a path expression -- check if it is valid, and create a paramInfo
-                Iterator<ParseTreeNode> iter = projection.children();
+                Iterator iter = projection.children();
                 ParseTreeNode curNode = null;
                 String curName = null;
                 StringBuffer projectionName = new StringBuffer();
-                Vector<String> projectionInfo = new Vector<String>();
+                Vector projectionInfo = new Vector();
 
                 //check that the first word before the dot is our class
                 if (iter.hasNext()) {
-                    curNode = iter.next();
+                    curNode = (ParseTreeNode) iter.next();
                     curName = curNode.getToken().getTokenValue();
                     if ((!curName.equals(_projectionName))
                             && (!curName.equals(_projectionAlias))
@@ -470,7 +470,7 @@ public class ParseTreeWalker {
                     curField = null;
                     curName = null;
                     while ((curField == null) && iter.hasNext()) {
-                        curNode = iter.next();
+                        curNode = (ParseTreeNode) iter.next();
                         curToken = curNode.getToken().getTokenValue();
                         if (curName == null) {
                             curName = curToken;
@@ -497,7 +497,7 @@ public class ParseTreeWalker {
                 getPathInfo().put(projection, projectionInfo);
                 getFieldInfo().put(projection, curField);
 
-                Class<?> theClass = curField.getFieldType();
+                Class theClass = curField.getFieldType();
                 // is it actually a Java primitive, or String, or a subclass of Number
                 boolean isSimple = Types.isSimpleType(theClass);
 
@@ -548,7 +548,7 @@ public class ParseTreeWalker {
                 // SELECT s.age - 5 FROM Student s
                 _projectionType = FUNCTION;
                 for (iter = projection.children(); iter.hasNext(); ) {
-                    checkProjection(iter.next(), false, false);
+                    checkProjection((ParseTreeNode) iter.next(), false, false);
                 }
             }
         }
@@ -567,7 +567,7 @@ public class ParseTreeWalker {
      */
     private void checkWhereClause(final ParseTreeNode whereClause)
     throws QueryException {
-        Iterator<ParseTreeNode> iter;
+        Iterator iter;
         int tokenType = whereClause.getToken().getTokenType();
 
         switch (tokenType) {
@@ -581,7 +581,7 @@ public class ParseTreeWalker {
                 if (type == TokenType.LPAREN) {
                     // A function.
                     while (iter.hasNext()) {
-                        checkWhereClause(iter.next());
+                        checkWhereClause((ParseTreeNode) iter.next());
                     }
                 }
             } else {
@@ -596,7 +596,7 @@ public class ParseTreeWalker {
             checkInClauseRightSide(whereClause.getChild(1));
         default:
             for (iter = whereClause.children(); iter.hasNext(); ) {
-                checkWhereClause(iter.next());
+                checkWhereClause((ParseTreeNode) iter.next());
             }
         }
     }
@@ -617,8 +617,8 @@ public class ParseTreeWalker {
             checkParameter(limitClause);
             break;
         default:
-            for (Iterator<ParseTreeNode> iter = limitClause.children(); iter.hasNext(); ) {
-              checkLimitClause(iter.next());
+            for (Iterator iter = limitClause.children(); iter.hasNext(); ) {
+              checkLimitClause((ParseTreeNode) iter.next());
             }
         }
     }
@@ -639,8 +639,8 @@ public class ParseTreeWalker {
             checkParameter(offsetClause);
             break;
         default:
-            for (Iterator<ParseTreeNode> iter = offsetClause.children(); iter.hasNext(); ) {
-              checkLimitClause(iter.next());
+            for (Iterator iter = offsetClause.children(); iter.hasNext(); ) {
+              checkLimitClause((ParseTreeNode) iter.next());
             }
         }
     }
@@ -658,7 +658,7 @@ public class ParseTreeWalker {
     private FieldDescriptor checkField(final ParseTreeNode fieldTree)
     throws QueryException {
         //see if we've checked this field before.
-        FieldDescriptor field = getFieldInfo().get(fieldTree);
+        FieldDescriptor field = (FieldDescriptor) getFieldInfo().get(fieldTree);
         if (field != null) { return field; }
 
         if (fieldTree.getToken().getTokenType() == TokenType.DOT) {
@@ -736,7 +736,7 @@ public class ParseTreeWalker {
         }
 
         //get the param info for this numbered param
-        ParamInfo paramInfo = getParamInfo().get(paramNumber);
+        ParamInfo paramInfo = (ParamInfo) getParamInfo().get(paramNumber);
         if (paramInfo == null) {
             paramInfo = new ParamInfo(userDefinedType, systemType, desc, _classLoader);
             getParamInfo().put(paramNumber, paramInfo);
@@ -747,8 +747,8 @@ public class ParseTreeWalker {
 
     private String getParamTypeForComparison(final ParseTreeNode comparisonTree)
     throws QueryException {
-        for (Iterator<ParseTreeNode> iter = comparisonTree.children(); iter.hasNext(); ) {
-            ParseTreeNode curChild = iter.next();
+        for (Iterator iter = comparisonTree.children(); iter.hasNext(); ) {
+            ParseTreeNode curChild = (ParseTreeNode) iter.next();
             int tokenType = curChild.getToken().getTokenType();
 
             switch(tokenType) {
@@ -784,8 +784,8 @@ public class ParseTreeWalker {
      */
     private String getParamTypeForList(final ParseTreeNode listTree)
     throws QueryException {
-        for (Iterator<ParseTreeNode> iter = listTree.children(); iter.hasNext(); ) {
-            ParseTreeNode curChild = iter.next();
+        for (Iterator iter = listTree.children(); iter.hasNext(); ) {
+            ParseTreeNode curChild = (ParseTreeNode) iter.next();
             int tokenType = curChild.getToken().getTokenType();
 
             switch (tokenType) {
@@ -818,8 +818,8 @@ public class ParseTreeWalker {
 
     private FieldDescriptor getJDOFieldDescriptor(final ParseTreeNode comparisonTree)
     throws QueryException {
-        for (Iterator<ParseTreeNode> iter = comparisonTree.children(); iter.hasNext(); ) {
-            ParseTreeNode curChild = iter.next();
+        for (Iterator iter = comparisonTree.children(); iter.hasNext(); ) {
+            ParseTreeNode curChild = (ParseTreeNode) iter.next();
             int tokenType = curChild.getToken().getTokenType();
             if ((tokenType == TokenType.DOT) || (tokenType == TokenType.IDENTIFIER)) {
                 return checkField(curChild);
@@ -843,8 +843,8 @@ public class ParseTreeWalker {
             throw new QueryException("The right side of the IN operator must be a LIST.");
         }
 
-        for (Iterator<ParseTreeNode> iter = theList.children(); iter.hasNext(); ) {
-            ParseTreeNode node = iter.next();
+        for (Iterator iter = theList.children(); iter.hasNext(); ) {
+            ParseTreeNode node = (ParseTreeNode) iter.next();
             int tokenType = node.getToken().getTokenType();
 
             switch (tokenType) {
@@ -878,8 +878,8 @@ public class ParseTreeWalker {
         }
 
         ParseTreeNode prevChild = null;
-        for (Iterator<ParseTreeNode> iter = orderClause.children(); iter.hasNext(); ) {
-            ParseTreeNode curChild = iter.next();
+        for (Iterator iter = orderClause.children(); iter.hasNext(); ) {
+            ParseTreeNode curChild = (ParseTreeNode) iter.next();
 
             int tokenType = curChild.getToken().getTokenType();
             switch (tokenType) {
@@ -902,9 +902,9 @@ public class ParseTreeWalker {
                     int type = curChild.getChild(0).getToken().getTokenType();
                     if (type == TokenType.LPAREN) {
                         // A function, skip to next element
-                        Iterator<ParseTreeNode> arguments = curChild.getChild(0).children();
+                        Iterator arguments = curChild.getChild(0).children();
                         while (arguments.hasNext()) {
-                            ParseTreeNode nn = arguments.next();
+                            ParseTreeNode nn = (ParseTreeNode) arguments.next();
                             checkWhereClause(nn);
                         }
                     }
@@ -959,8 +959,8 @@ public class ParseTreeWalker {
         }
 
         //process where clause and order clause
-        for (Iterator<ParseTreeNode> iter = _parseTree.children(); iter.hasNext(); ) {
-            ParseTreeNode curChild = iter.next();
+        for (Iterator iter = _parseTree.children(); iter.hasNext(); ) {
+            ParseTreeNode curChild = (ParseTreeNode) iter.next();
             int tokenType = curChild.getToken().getTokenType();
             switch (tokenType) {
             case TokenType.KEYWORD_WHERE:
@@ -1027,8 +1027,7 @@ public class ParseTreeWalker {
      * @param tableIndex Field index in the path info
      * @return Alias name for a given table.
      */
-    public String buildTableAlias(final String tableName, final Vector<String> path,
-            final int tableIndex) {
+    public String buildTableAlias(final String tableName, final Vector path, final int tableIndex) {
         /* FIXME This aliasing will cause problems if a (different) table
            with the same name as our alias already exists (or will be added
            at a later time) in the query. Catching this might become a bit
@@ -1036,6 +1035,7 @@ public class ParseTreeWalker {
 
         String tableAlias = tableName;
         int index;
+        Integer i;
 
         /* We don't just alias all tables here, but only those where some
            attribute is queried (not those where we query a whole object).
@@ -1043,9 +1043,9 @@ public class ParseTreeWalker {
            as I am rather tired; I'll write some better explanation later -
            I promise! :-) */
         if ((path != null) && (path.size() > 2)) {
-            if (_allPaths == null) { _allPaths = new HashMap<ArrayList<String>, Integer>(); }
-            ArrayList<String> tablePath = new ArrayList<String>(path.subList(0, tableIndex + 1));
-            Integer i = _allPaths.get(tablePath);
+            if (_allPaths == null) { _allPaths = new HashMap(); }
+            ArrayList tablePath = new ArrayList(path.subList(0, tableIndex + 1));
+            i = (Integer) _allPaths.get(tablePath);
             if (i == null) {
                 index = _allPaths.size();
                 _allPaths.put(tablePath, new Integer(index));
@@ -1080,7 +1080,7 @@ public class ParseTreeWalker {
      *
      * @param path Path expression to be added to JOIN clause.
      */
-    private void addJoinsForPathExpression(final Vector<String> path) {
+    private void addJoinsForPathExpression(final Vector path) {
         if (path == null) {
             throw new IllegalStateException("path = null !");
         }
@@ -1093,7 +1093,7 @@ public class ParseTreeWalker {
 
             // Find the sourceclass and the fielsddescriptor in the class hierachie
             Object[] fieldAndClass = getFieldAndClassDesc(
-                    path.elementAt(i), sourceClass, _queryExpr, path, i - 1);
+                    (String) path.elementAt(i), sourceClass, _queryExpr, path, i - 1);
             if (fieldAndClass == null) {
                 throw new IllegalStateException("Field not found:" + path.elementAt(i));
             }
@@ -1284,8 +1284,8 @@ public class ParseTreeWalker {
         case TokenType.KEYWORD_LIST:
             //List creation
             sb = new StringBuffer("( ");
-            for (Iterator<ParseTreeNode> iter = exprTree.children(); iter.hasNext(); ) {
-                sb.append(getSQLExpr(iter.next())).append(" , ");
+            for (Iterator iter = exprTree.children(); iter.hasNext(); ) {
+                sb.append(getSQLExpr((ParseTreeNode) iter.next())).append(" , ");
             }
             //replace final comma space with close paren.
             sb.replace(sb.length() - 2, sb.length() - 1, " )").append(" ");
@@ -1303,10 +1303,10 @@ public class ParseTreeWalker {
                 //An SQL function
                 sb = new StringBuffer(exprTree.getToken().getTokenValue()).append("(");
                 int paramCount = 0;
-                Iterator<ParseTreeNode> iter = exprTree.children();
-                iter = (iter.next()).children(); // LPAREN's children
+                Iterator iter = exprTree.children();
+                iter = ((ParseTreeNode) iter.next()).children(); // LPAREN's children
                 for (; iter.hasNext(); ) {
-                    sb.append(getSQLExpr(iter.next())).append(" , ");
+                    sb.append(getSQLExpr((ParseTreeNode) iter.next())).append(" , ");
                     paramCount++;
                 }
 
@@ -1320,15 +1320,15 @@ public class ParseTreeWalker {
                 return sb.toString();
             }
             //a field
-            Vector<String> path = getPathInfo().get(exprTree);
+            Vector path = (Vector) getPathInfo().get(exprTree);
             if (tokenType == TokenType.DOT) {
               if (path == null) {
                 System.err.println("exprTree=" + exprTree.toStringEx()
                                    + "\npathInfo = {");
-                Iterator<ParseTreeNode> iter = getPathInfo().keySet().iterator();
+                Iterator iter = getPathInfo().keySet().iterator();
                 ParseTreeNode n;
                 while (iter.hasNext()) {
-                  n = iter.next();
+                  n = (ParseTreeNode) iter.next();
                   System.err.println("\t" + n.toStringEx());
                 }
                 // Exception follows in addJoinsForPathExpression()
@@ -1336,7 +1336,7 @@ public class ParseTreeWalker {
               addJoinsForPathExpression(path);
             }
             
-            FieldDescriptor field = getFieldInfo().get(exprTree);
+            FieldDescriptor field = (FieldDescriptor) getFieldInfo().get(exprTree);
             if (field == null) {
                 throw new IllegalStateException(
                         "fieldInfo for " + exprTree.toStringEx() + " not found");
@@ -1357,10 +1357,12 @@ public class ParseTreeWalker {
               ClassDescriptor srcDesc = _clsDesc;
               for (int i = 1; i < path.size(); i++) {
                 Object[] fieldAndClass = getFieldAndClassDesc(
-                        path.elementAt(i), srcDesc, _queryExpr, path, i - 1);
+                                                              (String) path.elementAt(i),
+                                                              srcDesc, _queryExpr, path, i - 1);
                 if (fieldAndClass == null) {
                   throw new IllegalStateException("Field not found: "
-                          + path.elementAt(i) + " class " + srcDesc.getJavaClass());
+                                                  + path.elementAt(i) + " class "
+                                                  + srcDesc.getJavaClass());
                 }
                 FieldDescriptor fieldDesc = (FieldDescriptor) fieldAndClass[0];
                 srcDesc = fieldDesc.getClassDescriptor();
@@ -1439,8 +1441,8 @@ public class ParseTreeWalker {
   
     private String getSQLExprForLimit(final ParseTreeNode limitClause) {
         StringBuffer sb = new StringBuffer();
-        for (Iterator<ParseTreeNode> iter = limitClause.children(); iter.hasNext(); ) {
-            ParseTreeNode exprTree = iter.next();
+        for (Iterator iter = limitClause.children(); iter.hasNext(); ) {
+            ParseTreeNode exprTree = (ParseTreeNode) iter.next();
             int tokenType =  exprTree.getToken().getTokenType();
 
             switch (tokenType) {
@@ -1475,9 +1477,9 @@ public class ParseTreeWalker {
     private String getOrderClause(final ParseTreeNode orderClause) {
         StringBuffer sb = new StringBuffer();
 
-        for (Iterator<ParseTreeNode> iter = orderClause.children(); iter.hasNext(); ) {
+        for (Iterator iter = orderClause.children(); iter.hasNext(); ) {
             sb.append(", ");
-            ParseTreeNode curChild = iter.next();
+            ParseTreeNode curChild = (ParseTreeNode) iter.next();
             int tokenType = curChild.getToken().getTokenType();
             
             switch (tokenType) {

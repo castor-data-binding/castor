@@ -66,8 +66,6 @@ import org.castor.core.util.Messages;
 import org.castor.cpa.CPAProperties;
 import org.castor.cpa.persistence.convertor.AbstractSimpleTypeConvertor;
 import org.castor.cpa.persistence.convertor.TypeConvertorRegistry;
-import org.castor.cpa.util.classresolution.command.ClassResolutionByFile;
-import org.castor.cpa.util.classresolution.nature.ClassLoaderNature;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.mapping.BindingType;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
@@ -94,12 +92,13 @@ import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 import org.exolab.castor.mapping.xml.MappingRoot;
-import org.exolab.castor.mapping.xml.NamedNativeQuery;
 import org.exolab.castor.mapping.xml.NamedQuery;
 import org.exolab.castor.mapping.xml.Param;
 import org.exolab.castor.mapping.xml.Sql;
 import org.exolab.castor.mapping.xml.types.SqlDirtyType;
 import org.exolab.castor.persist.spi.PersistenceFactory;
+import org.exolab.castor.xml.util.ClassLoaderNature;
+import org.exolab.castor.xml.util.ClassResolutionByFile;
 
 /**
  * A JDO implementation of mapping helper. Creates JDO class descriptors
@@ -161,11 +160,16 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     /** 
      * Map of key generator descriptors associated by their name. 
      */
-    private final Map<String, KeyGeneratorDescriptor> _keyGeneratorDescriptors
-        = new HashMap<String, KeyGeneratorDescriptor>();
+    private final Map < String, KeyGeneratorDescriptor > _keyGeneratorDescriptors
+        = new HashMap < String, KeyGeneratorDescriptor > ();
+
+    /** Used by the constructor for creating key generators. Each database must have a
+     *  proprietary KeyGeneratorRegistry instance, otherwise it is impossible to
+     *  implement stateful key generator algorithms like HIGH-LOW correctly. */
+    private final KeyGeneratorRegistry _keyGenReg = new KeyGeneratorRegistry();
 
     /** Set of names of all named queries to identify duplicate names. */    
-    private final Set<String> _queryNames = new HashSet<String>();
+    private final Set _queryNames = new HashSet();
 
     /** 
      * The JDO {@link PersistenceFactory} is used for adjusting SQL type for
@@ -191,7 +195,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     public BindingType getBindingType() { 
         return BindingType.JDO; 
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -243,7 +247,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             }
             
             desc = new KeyGeneratorDescriptor(
-                    name, def.getName(), params);
+                    name, def.getName(), params, _keyGenReg);
             
             _keyGeneratorDescriptors.put(name, desc);
         }
@@ -301,8 +305,8 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         }
         
         // Identify identity and normal fields. Note that order must be preserved.
-        List<FieldDescriptor> fieldList = new ArrayList<FieldDescriptor>(allFields.length);
-        List<FieldDescriptor> idList = new ArrayList<FieldDescriptor>();
+        List fieldList = new ArrayList(allFields.length);
+        List idList = new ArrayList();
         if (extDesc == null) {
             // Sort fields into 2 lists based on identity definition of field.
             for (int i = 0; i < allFields.length; i++) {
@@ -344,7 +348,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             // Search redefined identities in extending class.
             FieldDescriptor identity;
             for (int i = 0; i < idList.size(); i++) {
-                String idName = (idList.get(i)).getFieldName();
+                String idName = ((FieldDescriptor) idList.get(i)).getFieldName();
                 identity = findIdentityByName(fieldList, idName, javaClass);
                 if (identity != null) { idList.set(i, identity); }
             }
@@ -352,21 +356,17 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         
         // Set identities on class descriptor.
         FieldDescriptor[] ids = new FieldDescriptor[idList.size()];
-        clsDesc.setIdentities(idList.toArray(ids));
+        clsDesc.setIdentities(((FieldDescriptor[]) idList.toArray(ids)));
 
         // Set fields on class descriptor.
         FieldDescriptor[] fields = new FieldDescriptor[fieldList.size()];
-        clsDesc.setFields(fieldList.toArray(fields));
+        clsDesc.setFields((FieldDescriptor[]) fieldList.toArray(fields));
         
         jdoNature.setTableName(classMapping.getMapTo().getTable());
         
-        // Set the field name used for object modification checks.
-        jdoNature.setVersionField(classMapping.getVersion());
-
         extractAndSetAccessMode(jdoNature, classMapping);
         extractAndAddCacheParams(jdoNature, classMapping, javaClass);
         extractAndAddNamedQueries(jdoNature, classMapping);
-        extractAndAddNamedNativeQueries(jdoNature, classMapping);
         extractAndSetKeyGeneratorDescriptor(jdoNature, classMapping.getKeyGenerator());
 
         return clsDesc;
@@ -443,31 +443,6 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     }
     
     /**
-     * Extract named native queries from class mapping and add them to JDO class descriptor.
-     * 
-     * @param jdoNature JDO class descriptor to add the named queries to.
-     * @param clsMap Class mapping to extract the named native queries from.
-     * @throws MappingException On duplicate query names.
-     */
-    private void extractAndAddNamedNativeQueries(final ClassDescriptorJDONature jdoNature,
-            final ClassMapping clsMap)
-    throws MappingException {
-        Enumeration<? extends NamedNativeQuery> namedNativeQueriesEnum =
-            clsMap.enumerateNamedNativeQuery();
-        while (namedNativeQueriesEnum.hasMoreElements()) {
-            NamedNativeQuery query = namedNativeQueriesEnum.nextElement();
-            String queryName = query.getName();
-            if (_queryNames.contains(queryName)) {
-                throw new MappingException(
-                        "Duplicate entry for named query with name " + queryName);
-            }
-            _queryNames.add(queryName);
-
-            jdoNature.addNamedNativeQuery(queryName, query);
-        }
-    }
-    
-    /**
      * Resolves (or creates) the key generator from a given key generator name.
      * 
      * Search for an already existing key generator descriptor, e.g. those generated 
@@ -486,7 +461,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             keyGeneratorDescriptor = _keyGeneratorDescriptors.get(keyGeneratorName);
             if (keyGeneratorDescriptor == null) {
                 keyGeneratorDescriptor = new KeyGeneratorDescriptor(
-                        keyGeneratorName, keyGeneratorName, new Properties());
+                        keyGeneratorName, keyGeneratorName, new Properties(), _keyGenReg);
                 _keyGeneratorDescriptors.put(keyGeneratorName, keyGeneratorDescriptor);
             }
         }
@@ -495,10 +470,10 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     }
     
     protected FieldDescriptor findIdentityByName(
-            final List<FieldDescriptor> fldList, final String idName, final Class javaClass)
+            final List fldList, final String idName, final Class javaClass)
     throws MappingException {
         for (int i = 0; i < fldList.size(); i++) {
-            FieldDescriptor field = fldList.get(i);
+            FieldDescriptor field = (FieldDescriptor) fldList.get(i);
             if (idName.equals(field.getFieldName())) {
                 if (!(field.hasNature(FieldDescriptorJDONature.class.getName()))) {
                     throw new IllegalStateException(
@@ -559,7 +534,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         String sqlType = fieldMap.getSql().getType();
         if (sqlType == null) { return new String[0]; }
 
-        ArrayList<String> types = new ArrayList<String>();
+        ArrayList types = new ArrayList();
         int current = 0;
         int begin = 0;
         int state = 0;
@@ -585,7 +560,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         }
         types.add(sqlType.substring(begin, current));
         String[] result = new String[types.size()];
-        return types.toArray(result);
+        return (String[]) types.toArray(result);
     }
 
 
@@ -673,8 +648,8 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     private class EnumTypeConvertor extends AbstractSimpleTypeConvertor {
         private final Method _method;
 
-        public EnumTypeConvertor(final Class<?> fromType,
-                final Class<?> toType, final Method method) {
+        public EnumTypeConvertor(final Class < ? > fromType,
+                final Class < ? > toType, final Method method) {
             super(fromType, toType);
 
             _method = method;

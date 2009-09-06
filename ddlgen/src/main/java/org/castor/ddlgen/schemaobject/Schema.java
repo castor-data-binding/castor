@@ -32,10 +32,10 @@ public abstract class Schema extends AbstractSchemaObject {
     //--------------------------------------------------------------------------
 
     /** List of tables for this schema. */
-    private List<Table> _tables = new ArrayList<Table>();
+    private List _tables = new ArrayList();
 
     /** Map of tables assoizated with their name. */
-    private Map<String, Table> _tableMap = new HashMap<String, Table>();
+    private Map _tableMap = new HashMap();
     
     //--------------------------------------------------------------------------
 
@@ -65,7 +65,7 @@ public abstract class Schema extends AbstractSchemaObject {
      * @return Table at given index.
      */
     public final Table getTable(final int index) {
-        return _tables.get(index);
+        return (Table) _tables.get(index);
     }
 
     /**
@@ -75,7 +75,7 @@ public abstract class Schema extends AbstractSchemaObject {
      * @return Table with given name.
      */
     public final Table getTable(final String name) {
-        return _tableMap.get(name);
+        return (Table) _tableMap.get(name);
     }
     
     //--------------------------------------------------------------------------

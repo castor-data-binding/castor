@@ -67,10 +67,9 @@ import javax.transaction.TransactionManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
-import org.castor.cpa.persistence.sql.connection.ConnectionFactory;
-import org.castor.cpa.util.JDOClassDescriptorResolver;
 import org.castor.jdo.conf.JdoConf;
-import org.castor.jdo.engine.DatabaseContext;
+import org.castor.jdo.engine.AbstractConnectionFactory;
+import org.castor.jdo.engine.ConnectionFactory;
 import org.castor.jdo.engine.DatabaseRegistry;
 import org.castor.transactionmanager.LocalTransactionManager;
 import org.exolab.castor.jdo.engine.GlobalDatabaseImpl;
@@ -81,6 +80,7 @@ import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.LockEngine;
 import org.exolab.castor.persist.spi.CallbackInterceptor;
 import org.exolab.castor.persist.spi.InstanceFactory;
+import org.exolab.castor.xml.util.JDOClassDescriptorResolver;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
@@ -156,7 +156,7 @@ implements DataObjects, Referenceable, ObjectFactory, Serializable {
     /**
      * Map of JDOManager objects.
      */
-    private static Map<String, JDOManager> _jdoInstances = new HashMap<String, JDOManager>();
+    private static Map _jdoInstances = new HashMap();
 
     /**
      * The application class loader.
@@ -199,7 +199,7 @@ implements DataObjects, Referenceable, ObjectFactory, Serializable {
                     "jdo.missing.database.configuration", databaseName));
         }
             
-        JDOManager jdoInstance = _jdoInstances.get(databaseName);
+        JDOManager jdoInstance = (JDOManager) _jdoInstances.get(databaseName);
         
         if (jdoInstance == null) {
             jdoInstance = new JDOManager(databaseName);
@@ -748,7 +748,7 @@ implements DataObjects, Referenceable, ObjectFactory, Serializable {
      * @throws MappingException If database can not be instantiated or is not configured.
      */
     public ConnectionFactory getConnectionFactory () throws MappingException {
-        return DatabaseRegistry.getDatabaseContext(_databaseName).getConnectionFactory();
+        return DatabaseRegistry.getConnectionFactory(_databaseName);
     }
     
     /**
@@ -778,8 +778,9 @@ implements DataObjects, Referenceable, ObjectFactory, Serializable {
                 DatabaseRegistry.loadDatabase(_jdoConfURI, _entityResolver, _classLoader);
             }
             
-            DatabaseContext context = DatabaseRegistry.getDatabaseContext(_databaseName);
-            transactionManager = context.getTransactionManager();
+            AbstractConnectionFactory factory;
+            factory = DatabaseRegistry.getConnectionFactory(_databaseName);
+            transactionManager = factory.getTransactionManager();
         } catch (MappingException ex) {
             String msg = Messages.format("jdo.problem.loading.conf", _jdoConfURI);
             LOG.error(msg, ex);
@@ -873,9 +874,10 @@ implements DataObjects, Referenceable, ObjectFactory, Serializable {
     
     /**
      * {@inheritDoc}
+     * @see    javax.naming.spi.ObjectFactory
      */
     public Object getObjectInstance(final Object refObj, final Name name,
-            final Context nameCtx, final Hashtable<?, ?> env)
+                                    final Context nameCtx, final Hashtable env)
     throws NamingException {
         Reference ref;
         
@@ -931,7 +933,8 @@ implements DataObjects, Referenceable, ObjectFactory, Serializable {
      */
     public void close () {
         try {
-            LockEngine engine = DatabaseRegistry.getDatabaseContext(_databaseName).getEngine();
+            ConnectionFactory factory = getConnectionFactory();
+            LockEngine engine = ((AbstractConnectionFactory) factory).getEngine();
             engine.closeCaches();
         } catch (MappingException e) {
             LOG.fatal ("Problem closing down caches", e);

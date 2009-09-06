@@ -33,7 +33,7 @@ public abstract class Index extends AbstractSchemaObject {
     //--------------------------------------------------------------------------
 
     /** List of index fields. */
-    private List<Field> _fields = new ArrayList<Field>();
+    private List _fields = new ArrayList();
 
     /** Table the index is used for. */
     private Table _table;
@@ -65,7 +65,7 @@ public abstract class Index extends AbstractSchemaObject {
      * @return Index field at given index.
      */
     public final Field getField(final int index) {
-        return _fields.get(index);
+        return (Field) _fields.get(index);
     }
     
     /**

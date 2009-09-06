@@ -491,7 +491,7 @@ public final class TestParser extends TestCase {
         "SELECT object FROM jdo.TestManyPerson object WHERE object.id < $1"
     };
     
-    private static Hashtable<Integer, String> _tokenTypes = new Hashtable<Integer, String>();
+    private static Hashtable _tokenTypes = new Hashtable();
     
     static {
         _tokenTypes.put(new Integer(TokenType.END_OF_QUERY), "END_OF_QUERY");
@@ -585,15 +585,16 @@ public final class TestParser extends TestCase {
         Token curToken = theTree.getToken();
         
         if (printWhat == NODE_TYPES) {
-            retVal = _tokenTypes.get(new Integer(curToken.getTokenType()));
+            retVal = (String) _tokenTypes.get(new Integer(curToken.getTokenType()));
         } else {
             retVal = curToken.getTokenValue();
         }
         
         if (!theTree.isLeaf()) {
             retVal = "( " + retVal;
-            for (Iterator<ParseTreeNode> iter = theTree.children(); iter.hasNext();) {
-                retVal = retVal + " , " + treeToString(iter.next(), printWhat);
+            for (Iterator iter = theTree.children(); iter.hasNext();) {
+                retVal = retVal + " , "
+                       + treeToString((ParseTreeNode) iter.next(), printWhat);
             }
             retVal = retVal + " )";
         }

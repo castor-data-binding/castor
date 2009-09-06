@@ -25,6 +25,7 @@ import java.util.StringTokenizer;
 import org.castor.core.util.Messages;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.persist.spi.KeyGenerator;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 
 /**
@@ -36,7 +37,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
-public final class UUIDKeyGenerator extends AbstractBeforeKeyGenerator {
+public final class UUIDKeyGenerator implements KeyGenerator {
     //-----------------------------------------------------------------------------------
 
     private static final DecimalFormat IP_FORMAT = new DecimalFormat("000");
@@ -56,16 +57,11 @@ public final class UUIDKeyGenerator extends AbstractBeforeKeyGenerator {
     /**
      * Initialize the UUID key generator.
      */
-    public UUIDKeyGenerator(final PersistenceFactory factory, final int sqlType) throws MappingException {
-        super(factory);
-        if ((sqlType != Types.CHAR) && (sqlType != Types.VARCHAR)
-                && (sqlType != Types.LONGVARCHAR)) {
-            String msg = Messages.format("mapping.keyGenSQLType",
-                    getClass().getName(), new Integer(sqlType));
-            throw new MappingException(msg);
-        }
-
+    public UUIDKeyGenerator(final PersistenceFactory factory, final int sqlType)
+    throws MappingException {
+        supportsSqlType(sqlType);
         initHostAddress();
+        
     }
 
     private void initHostAddress() throws MappingException {
@@ -111,8 +107,34 @@ public final class UUIDKeyGenerator extends AbstractBeforeKeyGenerator {
     /**
      * {@inheritDoc}
      */
+    public void supportsSqlType(final int sqlType) throws MappingException {
+        if ((sqlType != Types.CHAR)
+                && (sqlType != Types.VARCHAR)
+                && (sqlType != Types.LONGVARCHAR)) {
+          throw new MappingException(Messages.format("mapping.keyGenSQLType",
+                  getClass().getName(), new Integer(sqlType)));
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public byte getStyle() {
+        return BEFORE_INSERT;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public boolean isInSameConnection() {
         return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String patchSQL(final String insert, final String primKeyName) {
+        return insert;
     }
 
     //-----------------------------------------------------------------------------------

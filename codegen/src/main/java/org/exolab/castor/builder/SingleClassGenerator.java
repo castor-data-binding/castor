@@ -90,16 +90,14 @@ public final class SingleClassGenerator {
                                                  + SourceGenerator.VERSION
                                                  + "</a>, using an XML Schema.\n$" + "Id" + "$";
 
-    /** Name of the CDR (Class Descriptor Resolver) file. */
+    /** 
+     * Name of the CDR (Class Descriptor Resolver) file. 
+     */
     private static final String CDR_FILE = ".castor.cdr";
     /** True if the user should be prompted to overwrite when a file already exists. */
     private boolean _promptForOverwrite = true;
     /** Destination directory where all our output goes. */
-    private String _destDir;
-    /**
-     * Destination directory for all resource files (e.g. .castor.cdr files).
-     */
-    private String _resourceDestinationDirectory;
+    private String _destDir = null;
     /** The line separator to use for output. */
     private String _lineSeparator = null;
     /** A flag indicating whether or not to create descriptors for the generated classes. */
@@ -200,18 +198,6 @@ public final class SingleClassGenerator {
      */
     public void setDestDir(final String destDir) {
        _destDir = destDir;
-       if (_resourceDestinationDirectory == null) {
-           _resourceDestinationDirectory = destDir;
-       }
-    }
-
-    /**
-     * Sets the destination directory for generated resources.
-     *
-     * @param destDir the destination directory.
-     */
-    public void setResourceDestinationDirectory(final String destinationDirectory) {
-       _resourceDestinationDirectory = destinationDirectory;
     }
 
     /**
@@ -550,7 +536,7 @@ public final class SingleClassGenerator {
      */
     private void updateCDRFile(final JClass jClass, final JClass jDesc,
             final SGStateInfo sInfo, final String cdrFileName) throws IOException {
-        String entityFilename = jClass.getFilename(_resourceDestinationDirectory);
+        String entityFilename = jClass.getFilename(_destDir);
         File file = new File(entityFilename);
         File parentDirectory = file.getParentFile();
         File cdrFile = new File(parentDirectory, cdrFileName);
@@ -562,7 +548,9 @@ public final class SingleClassGenerator {
             // check for existing .castor.xml file
             props = new Properties();
             if (cdrFile.exists()) {
-                props.load(new FileInputStream(cdrFile));
+                FileInputStream cdrStream = new FileInputStream(cdrFile);
+                props.load(cdrStream);
+                cdrStream.close();
             }
             sInfo.setCDRFile(cdrFilename, props);
         }

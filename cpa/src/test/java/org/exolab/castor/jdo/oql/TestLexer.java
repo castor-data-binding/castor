@@ -54,7 +54,7 @@ import junit.framework.TestCase;
  */
 public final class TestLexer extends TestCase {
     public void testLexer() throws Exception {
-        Hashtable<Integer, String> tokenTypes = new Hashtable<Integer, String>();
+        Hashtable tokenTypes = new Hashtable();
         tokenTypes.put(new Integer(TokenType.END_OF_QUERY), "END_OF_QUERY");
         tokenTypes.put(new Integer(TokenType.KEYWORD_SELECT), "KEYWORD_SELECT");
         tokenTypes.put(new Integer(TokenType.IDENTIFIER), "IDENTIFIER");
@@ -100,7 +100,7 @@ public final class TestLexer extends TestCase {
         while (lexer.hasMoreTokens()) {
             try {
                 Token token = lexer.nextToken();
-                String type = tokenTypes.get(new Integer(token.getTokenType()));
+                String type = (String) tokenTypes.get(new Integer(token.getTokenType()));
                 System.out.println(type + " : " + token.getTokenValue());
             } catch (Exception ex) {
                 fail(ex.getMessage());

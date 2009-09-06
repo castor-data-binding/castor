@@ -44,7 +44,6 @@
  */
 package org.castor.cpa.persistence.sql.driver;
 
-import java.sql.Types;
 import java.util.StringTokenizer;
 
 import org.exolab.castor.persist.spi.QueryExpression;
@@ -63,6 +62,17 @@ public class GenericFactory extends BaseFactory {
 
     public QueryExpression getQueryExpression() {
         return new JDBCQueryExpression(this);
+    }
+
+    /**
+     * Determine if the given SQLException is DuplicateKeyException.
+     * 
+     * @return Boolean.TRUE means "yes",
+     *         Boolean.FALSE means "no",
+     *         null means "cannot determine"
+     */
+    public Boolean isDuplicateKeyException(final Exception ex) {
+        return null;
     }
 
     public String quoteName(final String name) {
@@ -93,69 +103,6 @@ public class GenericFactory extends BaseFactory {
 
         return buffer.toString();
     }
-    
-    //-----------------------------------------------------------------------------------
-
-    /**
-     * {@inheritDoc}
-     */
-    public boolean isKeyGeneratorIdentitySupported() {
-        return false;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public boolean isKeyGeneratorIdentityTypeSupported(final int type) {
-        return false;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public String getIdentitySelectString(final String tableName, final String columnName) {
-        throw new UnsupportedOperationException();
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public boolean isKeyGeneratorSequenceSupported(final boolean returning, final boolean trigger) {
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public boolean isKeyGeneratorSequenceTypeSupported(final int type) {
-        return false;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public String getSequenceNextValString(final String seqName) {
-        return null;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public String getSequenceAfterSelectString(final String seqName, final String tableName) {
-    return "SELECT " + this.quoteName(seqName + ".currval")
-    + " FROM " + this.quoteName(tableName);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public String getSequenceBeforeSelectString(final String seqName, 
-    final String tableName, final int increment) {
-    return "SELECT " + this.quoteName(seqName + ".currval") + " FROM " 
-    + this.quoteName(tableName);    
-    }
-    
-    //-----------------------------------------------------------------------------------
 }
 
 

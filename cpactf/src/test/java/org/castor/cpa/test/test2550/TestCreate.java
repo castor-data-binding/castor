@@ -37,14 +37,10 @@ public final class TestCreate extends CPATestCase {
         return (engine == DatabaseEngineType.ORACLE);
     }
     
-    // Test uses returning sequence key generator.
-    // derby, mysql and mssql do not support sequence.
-    // postgresql do not support returning sequence.
+    // Test uses sequence key generator which is not supported by mysql and mssql.
 
     public boolean exclude(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.POSTGRESQL)
+        return (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.SQL_SERVER);
     }
     

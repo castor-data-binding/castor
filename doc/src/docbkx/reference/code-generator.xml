@@ -765,34 +765,14 @@ org.exolab.castor.builder.automaticConflictResolution=true</programlisting>
         <title>Extra collection methods</title>
         <titleabbrev id="xml.code.generator.properties.detailed.extra.collection.short">org.exolab.castor.builder.extraCollectionMethods</titleabbrev>
      
-        <para>
-            Specifies whether <emphasis role="bold">extra</emphasis> (additional) methods 
-            should be created for collection-style fields. Set this to <literal>true</literal>
-            if you want your code to be more compatible with Castor JDO (or other 
-            persistence frameworks in general).
-        </para>
+        <para>Specifies whether <emphasis role="bold">extra</emphasis> (additional) methods should be created
+           for collection-style fields. Set this to true if you want your code 
+           to be more compatible with Castor JDO (or other persistence 
+           frameworks).</para>
            
-        <para>
-            By setting this property to <literal>true</literal>, additional getter/setter methods 
-            for the field in question, such as get/set by reference and set as copy methods, will 
-            be added. In order to have these additional methods generated, please override the 
-            following code generator property in a custom
-            <literal>castorbuilder.properties</literal> as shown:
-                
-            <programlisting language="xml">
-# Enables generation of extra methods for collection fields, such as get/set by
-# reference and set as copy.  Extra methods are in addition to the usual
-# collection get/set methods.  Set this to true if you want your code to be
-# more compatible  with Castor JDO.
-#
-# Possible values:
-# - false (default) 
-# - true
-org.exolab.castor.builder.extraCollectionMethods=<emphasis role="bold">true</emphasis>
-            </programlisting>
-
-        </para>
-
+        <para>Adds additional getter/setter methods for the field in question, such 
+           as get/set by reference and set as copy methods.</para>
+           
      </section>
      
      <section id="xml.code.generator.properties.detailed.class.printing">
@@ -809,7 +789,7 @@ org.exolab.castor.builder.extraCollectionMethods=<emphasis role="bold">true</emp
                 
         <para>
             In order to use the new Velocity-based code generation, please
-            call the method <methodname>setJClassPrinterType(String)</methodname> on 
+            call the method <methodname>setJCLassPrinterType(String)</methodname> on 
             <classname>org.exolab.castor.builder.SourceGenerator</classname> 
             with a value of <literal>velocity</literal>.
         </para>
@@ -2058,8 +2038,8 @@ org.exolab.castor.builder.automaticConflictResolutionTypeSuffix=ByBy</programlis
         <title>Invoking the XML code generator</title>
         
         <section id="xml.code.generator.invocations.anttask">
-            <title>Ant task</title>
             <titleabbrev id="xml.code.generator.invocations.anttask.short">Ant task definition</titleabbrev>
+            <title>Ant task</title>
             
          <para>
            An alternative to using the command line as shown in the previous section,
@@ -2256,7 +2236,7 @@ org.exolab.castor.builder.automaticConflictResolutionTypeSuffix=ByBy</programlis
                   <entry>-</entry>
                 </row>
                 <row>
-                  <entry><emphasis role="bold">jClassPrinterType</emphasis></entry>
+                  <entry><emphasis role="bold">jclassPrinterType</emphasis></entry>
                   <entry>Sets the mode for printing JClass instances during XML 
                       code generation; possible values are '<literal>standard</literal>' and '<literal>velocity</literal>'
                       (default being '<literal>standard</literal>').</entry>
@@ -2268,18 +2248,9 @@ org.exolab.castor.builder.automaticConflictResolutionTypeSuffix=ByBy</programlis
                   <entry>If used, instructs the source generator to generate JDO class
                       descriptors as well; default is false.</entry>
                   <entry>No</entry>
-                  <entry><emphasis role="bold">1.3</emphasis></entry>
+                  <entry><emphasis role="bold">1.2.1</emphasis></entry>
                 </row>
-                <row>
-                  <entry><emphasis role="bold">resourceDestination</emphasis></entry>
-                  <entry>
-                    Sets the destination directory for (generated) resources, 
-                    e.g. <literal>.castor.cdr</literal> files.
-                  </entry>
-                  <entry>No</entry>
-                  <entry><emphasis role="bold">1.3.1</emphasis></entry>
-                </row>
-               </tbody>
+                </tbody>
               </tgroup>
             </table>
  
@@ -2730,27 +2701,15 @@ javac com/xyz/*.java</programlisting>
                   <entry>Optional</entry>
                 </row>
                 <row>
-                  <entry><option>-classPrinter</option></entry>
+                  <entry><option>-jclassPrintingType</option></entry>
                   <entry>&lt;&lt;JClass printing mode&gt;&gt;.</entry>
                   <entry>Specifies the JClass printing mode to use during XML code generation; possible
                       values are<literal>standard</literal> (default) and <literal>velocity</literal>; if no value
                       is specified, the default mode is <literal>standard</literal>.</entry>
                   <entry>Optional</entry>
                 </row>
-                <row>
-                  <entry><option>-gen-jdo-desc</option></entry>
-                  <entry></entry>
-                  <entry>(Additionally) generate JDO class descriptors.</entry>
-                  <entry>Optional</entry>
-                </row>
-                <row>
-                  <entry><option>-resourcesDestination</option></entry>
-                  <entry>&lt;destination&gt;</entry>
-                  <entry>An (optional) destination for (generated) resources</entry>
-                  <entry>Optional</entry>
-                </row>
-               </tbody>
-              </tgroup>
+                </tbody>
+                </tgroup>
               </table>
                 
               <section id="xml.code.generator.invocations.cmd.options.collection.types">

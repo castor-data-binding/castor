@@ -42,9 +42,6 @@
  */
 package org.exolab.javasource;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import org.exolab.castor.builder.SourceGenerator;
 
 /**
@@ -79,10 +76,12 @@ import org.exolab.castor.builder.SourceGenerator;
  * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public final class JAnnotationType extends JStructure {
+    //--------------------------------------------------------------------------
 
     /** The list of elements of this JAnnotationType. */
-    private Map<String, JAnnotationTypeElement> _elements = 
-        new LinkedHashMap<String, JAnnotationTypeElement>();
+    private JNamedMap _elements = null;
+
+    //--------------------------------------------------------------------------
 
     /**
      * Creates a JAnnotationType of the given name.
@@ -92,9 +91,13 @@ public final class JAnnotationType extends JStructure {
     public JAnnotationType(final String name) {
         super(name);
         
+        _elements = new JNamedMap();
+        
         //-- initialize default Java doc
         getJDocComment().appendComment("Annotation " + getLocalName() + ".");
     }
+
+    //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -122,7 +125,12 @@ public final class JAnnotationType extends JStructure {
      * @return An Array containing all our JAnnotationTypeElements.
      */
     public JAnnotationTypeElement[] getElements() {
-        return _elements.values().toArray(new JAnnotationTypeElement[_elements.size()]);
+        int size = _elements.size();
+        JAnnotationTypeElement[] farray = new JAnnotationTypeElement[size];
+        for (int i = 0; i < size; i++) {
+            farray[i] = (JAnnotationTypeElement) _elements.get(i);
+        }
+        return farray;
     }
 
     /**
@@ -134,7 +142,7 @@ public final class JAnnotationType extends JStructure {
      *         with the given name.
      */
     public JAnnotationTypeElement getElement(final String name) {
-        return _elements.get(name);
+        return (JAnnotationTypeElement) _elements.get(name);
     }
 
     /**
@@ -165,6 +173,8 @@ public final class JAnnotationType extends JStructure {
         }
     }
 
+    //--------------------------------------------------------------------------
+
     /**
      * Not implemented. Always throws a RuntimeException.
      * <br/>
@@ -191,6 +201,8 @@ public final class JAnnotationType extends JStructure {
     public void addField(final JField jField) {
         throw new RuntimeException("Not implemented.");
     }
+
+    //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -236,7 +248,8 @@ public final class JAnnotationType extends JStructure {
         buffer.setLength(0);
         jsw.writeln();
         jsw.indent();
-        for (JAnnotationTypeElement jElement :_elements.values()) {
+        for (int i = 0; i < _elements.size(); i++) {
+            JAnnotationTypeElement jElement = (JAnnotationTypeElement) _elements.get(i);
             jElement.print(jsw);
             jsw.writeln();
         }
@@ -248,4 +261,5 @@ public final class JAnnotationType extends JStructure {
         jsw.flush();
     }
 
+    //--------------------------------------------------------------------------
 }

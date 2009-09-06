@@ -105,13 +105,13 @@ public class MozillaExporter
 	try {
 	    scope = getSearchDescriptor().getScope();
 	    switch ( scope ) {
-	    case SearchDescriptor.Scope.ONE_LEVEL:
+	    case SearchDescriptor.Scope.OneLevel:
 		scope = LDAPv2.SCOPE_ONE;
 		break;
-	    case SearchDescriptor.Scope.BASE:
+	    case SearchDescriptor.Scope.Base:
 		scope = LDAPv2.SCOPE_BASE;
 		break;
-	    case SearchDescriptor.Scope.SUB_TREE:
+	    case SearchDescriptor.Scope.SubTree:
 		scope = LDAPv2.SCOPE_SUB;
 		break;
 	    }

@@ -1,8 +1,5 @@
 package org.castor.cpa.test.test1355;
 
-import org.junit.Ignore;
-
-@Ignore
 public final class GolfCourseHole extends BaseObject {
     private GolfCourseTees _courseTees = new GolfCourseTees();
     private Integer _number;

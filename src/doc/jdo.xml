@@ -337,7 +337,7 @@ db.begin();
 Product prod = db.load (Product.class, new Integer(5678);
 
 <comment>// delete the Product instance</comment>
-<highlight>db.remove(prod);</highlight>
+<highlight>db.create(prod);</highlight>
 
 db.commit();
         </code-panel>

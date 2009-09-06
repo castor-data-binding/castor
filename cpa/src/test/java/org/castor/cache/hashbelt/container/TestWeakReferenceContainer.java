@@ -194,7 +194,7 @@ public final class TestWeakReferenceContainer extends TestCase {
     public void testPutAll() {
         Container container = initialize();
 
-        HashMap<String, String> map = new HashMap<String, String>();
+        HashMap map = new HashMap();
         map.put("fourth key", "forth value");
         map.put("fifth key", "fifth value");
         
@@ -210,7 +210,7 @@ public final class TestWeakReferenceContainer extends TestCase {
     public void testKeySet() {
         Container container = initialize();
 
-        Set<Object> set = container.keySet();
+        Set set = container.keySet();
         
         assertEquals(3, set.size());
         assertTrue(set.contains("first key"));
@@ -221,7 +221,7 @@ public final class TestWeakReferenceContainer extends TestCase {
     public void testValues() {
         Container container = initialize();
 
-        Collection<Object> col = container.values();
+        Collection col = container.values();
         
         assertEquals(3, col.size());
         assertTrue(col.contains("first value"));
@@ -232,13 +232,15 @@ public final class TestWeakReferenceContainer extends TestCase {
     public void testEntrySet() {
         Container container = initialize();
 
-        Set<Map.Entry<Object, Object>> set = container.entrySet();
+        Set set = container.entrySet();
         
         assertEquals(3, set.size());
         
-        HashMap<Object, Object> map = new HashMap<Object, Object>();
-        for (Iterator<Map.Entry<Object, Object>> iter = set.iterator(); iter.hasNext();) {
-            Map.Entry<Object, Object> entry = iter.next();
+        Object[] objs = set.toArray();
+        HashMap map = new HashMap();
+        for (int i = 0; i < 3; i++) {
+            assertTrue(objs[i] instanceof Map.Entry);
+            Map.Entry entry = (Map.Entry) objs[i];
             map.put(entry.getKey(), entry.getValue());
         }
 
@@ -254,7 +256,7 @@ public final class TestWeakReferenceContainer extends TestCase {
 
     public void testKeyIterator() {
         Container container = new WeakReferenceContainer();
-        Iterator<Object> iter = container.keyIterator();
+        Iterator iter = container.keyIterator();
         assertNotNull(iter);
         assertFalse(iter.hasNext());
         
@@ -275,7 +277,7 @@ public final class TestWeakReferenceContainer extends TestCase {
     
     public void testValueIterator() {
         Container container = new WeakReferenceContainer();
-        Iterator<Object> iter = container.valueIterator();
+        Iterator iter = container.valueIterator();
         assertNotNull(iter);
         assertFalse(iter.hasNext());
         

@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.codehaus.castor</groupId>
     <artifactId>castor</artifactId>
-    <version>1.3.1-SNAPSHOT</version>
+    <version>1.3.0.1</version>
     <packaging>pom</packaging>
     
     <modules>
@@ -17,6 +17,7 @@
         <module>ddlgen</module>
         <module>anttask</module>
         <module>cpa</module>
+        <module>cpactf</module>
 
         <module>diff</module>
         <module>xmlctf-framework</module>
@@ -25,8 +26,10 @@
         
         <module>cpa-testcase-archetype</module>
         <module>codegen-testcase-archetype</module>
-
-        <!-- re-enable once properly integrated  -->        
+        
+        <module>jdo-extensions-it</module>
+        
+        <!-- <module>xmlctf</module>  -->
         <!-- module>fragmentmapper</module> -->
     </modules>
      
@@ -39,37 +42,14 @@
     </issueManagement>
 
     <build>
-        <pluginManagement>
-            <plugins>
-               <plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-install-plugin</artifactId>
-                  <version>2.3</version>
-               </plugin>
-               <plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-site-plugin</artifactId>
-                  <version>2.0</version>
-               </plugin>
-               <plugin>
-                   <groupId>org.apache.maven.plugins</groupId>
-                   <artifactId>maven-compiler-plugin</artifactId>
-                   <configuration>
-                       <source>1.5</source>
-                       <target>1.5</target>
-                   </configuration>
-               </plugin>
-               <plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-deploy-plugin</artifactId>
-                  <version>2.4</version>
-               </plugin>
-            </plugins>
-        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
             </plugin>
 
             <plugin>
@@ -102,6 +82,15 @@
                 </executions>
             </plugin>
 -->
+<!--
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <configuration>
+                    <attach>true</attach>
+                </configuration>
+            </plugin>
+-->            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -114,13 +103,14 @@
                 </executions>
             </plugin>
 
+
         </plugins>
 
         <extensions>
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
                 <artifactId>wagon-webdav</artifactId>
-                <version>1.0-beta-2</version>
+                <version>1.0-beta-1</version>
             </extension>
         </extensions>
 
@@ -276,7 +266,7 @@
             <dependency>
             	<groupId>org.codehaus.castor</groupId>
             	<artifactId>spring-orm</artifactId>
-            	<version>1.5-SNAPSHOT</version>
+            	<version>1.3-SNAPSHOT</version>
             	<scope>test</scope>
             </dependency>
 
@@ -293,18 +283,11 @@
             	<version>2.5.5</version>
             	<scope>test</scope>
             </dependency>
-            
-            <dependency>
-            	<groupId>org.springframework</groupId>
-            	<artifactId>spring-test</artifactId>
-            	<version>2.5.5</version>
-            	<scope>test</scope>
-            </dependency>
-            
+
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.4</version>
+                <version>3.8.2</version>
                 <!--  Joachim: this must not be test otherwise subproject xmlctf-framework wont even compile!
                 <scope>test</scope>
                 -->
@@ -326,20 +309,6 @@
                 <optional>true</optional>
                 </dependency>
             -->
-
-            <dependency>
-                <groupId>edu.umd.cs.mtc</groupId>
-                <artifactId>multithreadedtc</artifactId>
-                <version>1.01</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.easymock</groupId>
-                <artifactId>easymock</artifactId>
-                <version>2.4</version>
-                <scope>test</scope>
-            </dependency>
     
             <dependency>
                 <groupId>oro</groupId>
@@ -386,55 +355,55 @@
             <dependency>
                 <groupId>org.codehaus.castor</groupId>
                 <artifactId>castor-xml</artifactId>
-                <version>1.3.1-SNAPSHOT</version>
+                <version>1.3.0.1</version>
             </dependency>
 
             <dependency>
                 <groupId>org.codehaus.castor</groupId>
                 <artifactId>castor-xml-schema</artifactId>
-                <version>1.3.1-SNAPSHOT</version>
+                <version>1.3.0.1</version>
             </dependency>
 
             <dependency>
                 <groupId>org.codehaus.castor</groupId>
                 <artifactId>castor-codegen</artifactId>
-                <version>1.3.1-SNAPSHOT</version>
+                <version>1.3.0.1</version>
             </dependency>
 
             <dependency>
                 <groupId>org.codehaus.castor</groupId>
                 <artifactId>castor-ddlgen</artifactId>
-                <version>1.3.1-SNAPSHOT</version>
+                <version>1.3.0.1</version>
             </dependency>
 
             <dependency>
                 <groupId>org.codehaus.castor</groupId>
                 <artifactId>castor-core</artifactId>
-                <version>1.3.1-SNAPSHOT</version>
+                <version>1.3.0.1</version>
             </dependency>
 
             <dependency>
             	<groupId>org.codehaus.castor</groupId>
             	<artifactId>castor-tests</artifactId>
-            	<version>1.3.1-SNAPSHOT</version>
+            	<version>1.3.0.1</version>
             </dependency>
 
             <dependency>
                 <groupId>org.codehaus.castor</groupId>
                 <artifactId>castor-jdo</artifactId>
-                <version>1.3.1-SNAPSHOT</version>
+                <version>1.3.0.1</version>
             </dependency>
 
             <dependency>
                 <groupId>org.codehaus.castor</groupId>
                 <artifactId>castor-testsuite-xml-framework</artifactId>
-                <version>1.3.1-SNAPSHOT</version>
+                <version>1.3.0.1</version>
             </dependency>
 
             <dependency>
                 <groupId>org.codehaus.castor</groupId>
                 <artifactId>castor-xml-diff</artifactId>
-                <version>1.3.1-SNAPSHOT</version>
+                <version>1.3.0.1</version>
             </dependency>
             
         </dependencies>
@@ -453,6 +422,20 @@
     </dependencies>
 
     <repositories>
+<!-- 
+        <repository>
+            <id>java.net</id>
+            <name>java.net Maven Repository</name>
+            <url>https://maven-repository.dev.java.net/nonav/repository</url>
+            <layout>legacy</layout>
+        </repository>
+		<repository>
+			<id>maven2-repository.dev.java.net</id>
+			<name>Java.net Repository for Maven 2</name>
+			<url>https://maven2-repository.dev.java.net/nonav/repository</url>
+			<layout>default</layout>	  
+		</repository>
+-->
         <repository>
             <id>codehaus-snapshots</id>
             <name>Maven Codehaus Snapshots</name>
@@ -477,14 +460,10 @@
 
     <reporting>
         <plugins>
-        <!-- 
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.5</version>
             </plugin>
- -->
-             <plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jxr-maven-plugin</artifactId>
             </plugin>
@@ -597,13 +576,6 @@
                 <version>2.0-beta-1-SNAPSHOT</version>
             </plugin>
 -->
-
-            <plugin>
-                <groupId>com.googlecode.maven-overview-plugin</groupId>
-                <artifactId>maven-overview-plugin</artifactId>
-                <version>1.3</version>
-            </plugin>
-            
         </plugins>
     </reporting>
     
@@ -613,25 +585,13 @@
     </ciManagement>
     
     <profiles>
-        <!-- profile for executing all integration suite tests -->
-        <profile>
-            <id>it</id>
-            <modules>
-               <module>cpactf</module>
-               <module>jdo-extensions-it</module>
-               <module>jpa-extensions-it</module>
-                <!-- re-enable once issues have been sorted -->
-               <!-- <module>xmlctf</module>  -->
-            </modules>            
-        </profile>
         <!-- profile for executing all XML integration suite tests -->
         <profile>
             <id>xmltests</id>
             <modules>
                 <module>xmlctf-framework</module>
                 <module>maven-plugins</module>
-                <!-- re-enable once issues have been sorted -->
-                <!-- <module>xmlctf</module>  -->
+                <module>xmlctf</module>
             </modules>            
         </profile>
         <!-- profile for executing all CPA integration suite tests -->

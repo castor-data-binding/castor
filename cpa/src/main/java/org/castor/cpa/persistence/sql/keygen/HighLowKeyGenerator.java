@@ -31,6 +31,7 @@ import org.castor.core.util.Messages;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.engine.JDBCSyntax;
 import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.persist.spi.KeyGenerator;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.persist.spi.QueryExpression;
 
@@ -43,7 +44,180 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
-public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
+public final class HighLowKeyGenerator implements KeyGenerator {
+    //-----------------------------------------------------------------------------------
+    
+    private interface HighLowSqlTypeHandler {
+        void init(final ResultSet rs) throws SQLException;
+        boolean hasNext();
+        Object next();
+        void bindTable(PreparedStatement stmt, int index) throws SQLException;
+        void bindLast(PreparedStatement stmt, int index) throws SQLException;
+        void bindMax(PreparedStatement stmt, int index) throws SQLException;
+    }
+    
+    private static class HighLowIntegerSqlTypeHandler implements HighLowSqlTypeHandler {
+        private final String _table;
+        private final int _grab;
+        private int _last = 0;
+        private int _max = 0;
+        
+        public HighLowIntegerSqlTypeHandler(final String table, final int grab) {
+            _table = table;
+            _grab = grab;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public void init(final ResultSet rs) throws SQLException {
+            _last = 0;
+            if ((rs != null) && (rs.isFirst())) { _last = rs.getInt(1); }
+            _max = _last + _grab;
+        }
+        
+        /**
+         * {@inheritDoc}
+         */
+        public boolean hasNext() { return _last < _max; }
+        
+        /**
+         * {@inheritDoc}
+         */
+        public Object next() { return new Integer(++_last); }
+        
+        /**
+         * {@inheritDoc}
+         */
+        public void bindTable(final PreparedStatement stmt, final int index) throws SQLException {
+            stmt.setString(index, _table);
+        }
+        
+        /**
+         * {@inheritDoc}
+         */
+        public void bindLast(final PreparedStatement stmt, final int index) throws SQLException {
+            stmt.setInt(index, _last);
+        }
+        
+        /**
+         * {@inheritDoc}
+         */
+        public void bindMax(final PreparedStatement stmt, final int index) throws SQLException {
+            stmt.setInt(index, _max);
+        }
+    }
+
+    private static class HighLowLongSqlTypeHandler implements HighLowSqlTypeHandler {
+        private final String _table;
+        private final long _grab;
+        private long _last = 0;
+        private long _max = 0;
+        
+        public HighLowLongSqlTypeHandler(final String table, final int grab) {
+            _table = table;
+            _grab = grab;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public void init(final ResultSet rs) throws SQLException {
+            _last = 0;
+            if ((rs != null) && (rs.isFirst())) { _last = rs.getLong(1); }
+            _max = _last + _grab;
+        }
+        
+        /**
+         * {@inheritDoc}
+         */
+        public boolean hasNext() { return _last < _max; }
+        
+        /**
+         * {@inheritDoc}
+         */
+        public Object next() { return new Long(++_last); }
+        
+        /**
+         * {@inheritDoc}
+         */
+        public void bindTable(final PreparedStatement stmt, final int index) throws SQLException {
+            stmt.setString(index, _table);
+        }
+        
+        /**
+         * {@inheritDoc}
+         */
+        public void bindLast(final PreparedStatement stmt, final int index) throws SQLException {
+            stmt.setLong(index, _last);
+        }
+        
+        /**
+         * {@inheritDoc}
+         */
+        public void bindMax(final PreparedStatement stmt, final int index) throws SQLException {
+            stmt.setLong(index, _max);
+        }
+    }
+
+    private static class HighLowBigDecimalSqlTypeHandler implements HighLowSqlTypeHandler {
+        private static final BigDecimal ZERO = new BigDecimal(0);
+        private static final BigDecimal ONE = new BigDecimal(1);
+        private final String _table;
+        private final BigDecimal _grab;
+        private BigDecimal _last = ZERO;
+        private BigDecimal _max = ZERO;
+        
+        public HighLowBigDecimalSqlTypeHandler(final String table, final int grab) {
+            _table = table;
+            _grab = new BigDecimal(grab);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public void init(final ResultSet rs) throws SQLException {
+            _last = null;
+            if ((rs != null) && (rs.isFirst())) { _last = rs.getBigDecimal(1); }
+            if (_last == null) { _last = ZERO; }
+            _max = _last.add(_grab);
+        }
+        
+        /**
+         * {@inheritDoc}
+         */
+        public boolean hasNext() { return (_last.compareTo(_max) < 0); }
+        
+        /**
+         * {@inheritDoc}
+         */
+        public Object next() {
+            _last = _last.add(ONE);
+            return _last;
+        }
+        
+        /**
+         * {@inheritDoc}
+         */
+        public void bindTable(final PreparedStatement stmt, final int index) throws SQLException {
+            stmt.setString(index, _table);
+        }
+        
+        /**
+         * {@inheritDoc}
+         */
+        public void bindLast(final PreparedStatement stmt, final int index) throws SQLException {
+            stmt.setBigDecimal(index, _last);
+        }
+        
+        /**
+         * {@inheritDoc}
+         */
+        public void bindMax(final PreparedStatement stmt, final int index) throws SQLException {
+            stmt.setBigDecimal(index, _max);
+        }
+    }
+    
     //-----------------------------------------------------------------------------------
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
@@ -61,27 +235,11 @@ public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
     private static final String SAME_CONNECTION = "same-connection";
 
     private static final String GLOBAL = "global";
-    
-    private static final int UPDATE_PARAM_MAX = 1;
 
-    private static final int UPDATE_PARAM_TABLE = 2;
+    private final Map _handlers = new HashMap();
 
-    private static final int UPDATE_PARAM_LAST = 3;
-    
-    private static final int INSERT_PARAM_TABLE = 1;
-
-    private static final int INSERT_PARAM_MAX = 2;
-
-    private static final int LOCK_TRIALS = 7;
-
-    private final Map<String, HighLowValueHandler<? extends Object>> _handlers =
-        new HashMap<String, HighLowValueHandler<? extends Object>>();
-
-    /** Persistence factory for the database engine the entity is persisted in.
-     *  Used to format the SQL statement. */
     private final PersistenceFactory _factory;
     
-    /** Databse engine type. */
     private final int _sqlType;
 
     /** Sequence table name. */ 
@@ -108,25 +266,13 @@ public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
 
     /**
      * Initialize the HIGH-LOW key generator.
-     * 
-     * @param factory A PersistenceFactory instance.
-     * @param params Database engine specific parameters. 
-     * @param sqlType A SQLTypidentifier.
-     * @throws MappingException if this key generator is not compatible with the
-     *         persistance factory.
      */
     public HighLowKeyGenerator(final PersistenceFactory factory, final Properties params,
             final int sqlType) throws MappingException {
-        super(factory);
         _factory = factory;
         _sqlType = sqlType;
         
-        if ((sqlType != Types.INTEGER) && (sqlType != Types.BIGINT)
-                && (sqlType != Types.NUMERIC) && (sqlType != Types.DECIMAL)) {
-            String msg = Messages.format("mapping.keyGenSQLType",
-                    getClass().getName(), new Integer(sqlType));
-            throw new MappingException(msg);
-        }
+        supportsSqlType(sqlType);
         
         initFromParameters(params);
     }
@@ -172,25 +318,19 @@ public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
      */
     public synchronized Object generateKey(final Connection conn, final String tableName,
             final String primKeyName, final Properties props) throws PersistenceException {
-        String intTableName = tableName;
-        if (_global) { intTableName = "<GLOBAL>"; }
+        String internalTableName = tableName;
+        if (_global) { internalTableName = "<GLOBAL>"; }
         
-        HighLowValueHandler<? extends Object> handler = _handlers.get(intTableName);
+        HighLowSqlTypeHandler handler = (HighLowSqlTypeHandler) _handlers.get(internalTableName);
         if (handler == null) {
             if (_sqlType == Types.INTEGER) {
-                KeyGeneratorTypeHandlerInteger typeHandler =
-                    new KeyGeneratorTypeHandlerInteger(false);
-                handler = new HighLowValueHandler<Integer>(intTableName, _grabSize, typeHandler);
+                handler = new HighLowIntegerSqlTypeHandler(internalTableName, _grabSize);
             } else if (_sqlType == Types.BIGINT) {
-                KeyGeneratorTypeHandlerLong typeHandler =
-                    new KeyGeneratorTypeHandlerLong(false);
-                handler = new HighLowValueHandler<Long>(intTableName, _grabSize, typeHandler);
+                handler = new HighLowLongSqlTypeHandler(internalTableName, _grabSize);
             } else {
-                KeyGeneratorTypeHandlerBigDecimal typeHandler =
-                    new KeyGeneratorTypeHandlerBigDecimal(false);
-                handler = new HighLowValueHandler<BigDecimal>(intTableName, _grabSize, typeHandler);
+                handler = new HighLowBigDecimalSqlTypeHandler(internalTableName, _grabSize);
             }
-            _handlers.put(intTableName, handler);
+            _handlers.put(internalTableName, handler);
         }
         
         if (!handler.hasNext()) {
@@ -209,7 +349,7 @@ public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
                 + JDBCSyntax.AND + _seqValue + QueryExpression.OP_EQUALS + JDBCSyntax.PARAMETER;
 
             String maxSQL = JDBCSyntax.SELECT + "MAX(" + primKeyName + ") "
-                + "FROM " + intTableName;
+                + "FROM " + internalTableName;
 
             String insertSQL = "INSERT INTO " + _seqTable
                 + " (" + _seqKey + "," + _seqValue + ") VALUES (?, ?)";
@@ -221,23 +361,25 @@ public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
 
                 // Retry 7 times (lucky number)
                 boolean success = false;
-                for (int i = 0; !success && (i < LOCK_TRIALS); i++) {
+                for (int i = 0; !success && (i < 7); i++) {
                     stmt = conn.prepareStatement(lockSQL);
                     handler.bindTable(stmt, 1);
                     ResultSet rs = stmt.executeQuery();
-                    handler.init(rs);
-                    boolean found = rs.isFirst();
-                    stmt.close();
-                    
-                    if (found) {
-                        stmt = conn.prepareStatement(updateSQL);
-                        handler.bindMax(stmt, UPDATE_PARAM_MAX);
-                        handler.bindTable(stmt, UPDATE_PARAM_TABLE);
-                        handler.bindLast(stmt, UPDATE_PARAM_LAST);
-                        success = (stmt.executeUpdate() == 1);
+
+                    if (rs.next()) {
+                        handler.init(rs);
                         stmt.close();
+                        
+                        stmt = conn.prepareStatement(updateSQL);
+                        handler.bindMax(stmt, 1);
+                        handler.bindTable(stmt, 2);
+                        handler.bindLast(stmt, 3);
                     } else {
-                        if (!_global) {
+                        stmt.close();
+
+                        if (_global) {
+                            handler.init(null);
+                        } else {
                             stmt = conn.prepareStatement(maxSQL);
                             rs = stmt.executeQuery();
                             handler.init(rs);
@@ -245,11 +387,11 @@ public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
                         }
                         
                         stmt = conn.prepareStatement(insertSQL);
-                        handler.bindTable(stmt, INSERT_PARAM_TABLE);
-                        handler.bindMax(stmt, INSERT_PARAM_MAX);
-                        success = (stmt.executeUpdate() == 1);
-                        stmt.close();
+                        handler.bindTable(stmt, 1);
+                        handler.bindMax(stmt, 2);
                     }
+                    success = (stmt.executeUpdate() == 1);
+                    stmt.close();
                 }
                 
                 if (success) {
@@ -282,8 +424,35 @@ public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
     /**
      * {@inheritDoc}
      */
+    public void supportsSqlType(final int sqlType) throws MappingException {
+        if ((sqlType != Types.INTEGER)
+                && (sqlType != Types.BIGINT)
+                && (sqlType != Types.NUMERIC)
+                && (sqlType != Types.DECIMAL)) {
+            throw new MappingException(Messages.format("mapping.keyGenSQLType",
+                    getClass().getName(), new Integer(sqlType)));
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public byte getStyle() {
+        return BEFORE_INSERT;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public boolean isInSameConnection() {
         return _sameConnection;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String patchSQL(final String insert, final String primKeyName) {
+        return insert;
     }
 
     //-----------------------------------------------------------------------------------

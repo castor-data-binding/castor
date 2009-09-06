@@ -1,7 +1,5 @@
 package org.castor.cpa.persistence.sql.driver;
 
-import java.sql.Types;
-
 import org.exolab.castor.persist.spi.PersistenceQuery;
 import org.exolab.castor.persist.spi.QueryExpression;
 
@@ -25,9 +23,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
   *  @version 1.0
   */
 
-public final class InstantDBFactory extends GenericFactory {
-    //-----------------------------------------------------------------------------------
-
+public class InstantDBFactory extends GenericFactory {
     public static final String FACTORY_NAME = "instantdb";
 
     /**
@@ -45,6 +41,13 @@ public final class InstantDBFactory extends GenericFactory {
     }
 
     /**
+     * @inheritDoc
+     */
+    public Boolean isDuplicateKeyException(final Exception except) {
+        return null;
+    }
+
+    /**
      * Needed to process OQL queries of "CALL" type (using stored procedure
      * call). This feature is specific for JDO.
      * 
@@ -55,8 +58,8 @@ public final class InstantDBFactory extends GenericFactory {
      * @param sqlTypes The field SQL types
      * @return null if this feature is not supported.
      */
-    public PersistenceQuery getCallQuery(final String call, final Class<?>[] paramTypes,
-            final Class<?> javaClass, final String[] fields, final int[] sqlTypes) {
+    public PersistenceQuery getCallQuery(final String call, final Class[] paramTypes,
+            final Class javaClass, final String[] fields, final int[] sqlTypes) {
         // stored procedures are not supported by Instant DB
         return null;
     }
@@ -66,12 +69,10 @@ public final class InstantDBFactory extends GenericFactory {
      * <br/>
      * @inheritDoc
      */
-    public Class<?> adjustSqlType(final Class<?> sqlType) {
+    public Class adjustSqlType(final Class sqlType) {
         if (sqlType == java.math.BigDecimal.class) {
             return java.lang.Double.class;
         }
         return sqlType;
     }
-    
-    //-----------------------------------------------------------------------------------
 }

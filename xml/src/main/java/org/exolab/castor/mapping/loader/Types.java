@@ -84,9 +84,9 @@ public class Types {
         throws ClassNotFoundException
     {
         for ( int i = 0 ; i < _typeInfos.length ; ++i ) {
-            if ( typeName.equals( _typeInfos[ i ]._shortName ) )
-                return ( _typeInfos[ i ]._primitive != null ? _typeInfos[ i ]._primitive :
-                         _typeInfos[ i ]._javaType );
+            if ( typeName.equals( _typeInfos[ i ].shortName ) )
+                return ( _typeInfos[ i ].primitive != null ? _typeInfos[ i ].primitive :
+                         _typeInfos[ i ].javaType );
         }
         if ( loader != null ) {
             Class aClass = Class.forName(typeName, false, loader);
@@ -109,9 +109,9 @@ public class Types {
     public static Object getDefault( Class type )
     {
         for ( int i = 0 ; i < _typeInfos.length ; ++i ) {
-            if ( _typeInfos[ i ]._primitive == type ||
-                 _typeInfos[ i ]._javaType == type )
-                return _typeInfos[ i ]._defaultValue;
+            if ( _typeInfos[ i ].primitive == type ||
+                 _typeInfos[ i ].javaType == type )
+                return _typeInfos[ i ].defValue;
         }
         return null;
     }
@@ -145,8 +145,8 @@ public class Types {
         }
         /// end fix
         for ( int i = 0 ; i < _typeInfos.length ; ++i ) {
-            if ( _typeInfos[ i ]._primitive == type )
-                return _typeInfos[ i ]._javaType;
+            if ( _typeInfos[ i ].primitive == type )
+                return _typeInfos[ i ].javaType;
         }
         return type;
     }
@@ -174,7 +174,7 @@ public class Types {
     public static boolean isSimpleType( Class type )
     {
         for ( int i = 0 ; i < _typeInfos.length ; ++i ) {
-            if ( _typeInfos[ i ]._javaType == type || _typeInfos[ i ]._primitive == type )
+            if ( _typeInfos[ i ].javaType == type || _typeInfos[ i ].primitive == type )
                 return true;
         }
         return false;
@@ -191,33 +191,33 @@ public class Types {
     public static boolean isPrimitiveType( Class type )
     {
         for ( int i = 0 ; i < _typeInfos.length ; ++i ) {
-            if (_typeInfos[ i ]._primitive == type || 
-                (_typeInfos[ i ]._javaType == type && _typeInfos[ i ]._primitive != null))
+            if (_typeInfos[ i ].primitive == type || 
+                (_typeInfos[ i ].javaType == type && _typeInfos[ i ].primitive != null))
                 return true;
         }
         return false;
     }
 
 
-    private static final Vector ENUMS = new Vector();
+    private static final Vector _enums = new Vector();
     
     public static void addEnumType(Class type) {
-        ENUMS.add(type);
+        _enums.add(type);
     }
     
     public static boolean isEnumType(Class type) {
-        return ENUMS.contains(type);
+        return _enums.contains(type);
     }
 
     
-    private static final Vector CONVERTIBLE = new Vector();
+    private static final Vector _convertible = new Vector();
     
     public static void addConvertibleType(Class type) {
-        CONVERTIBLE.add(type);
+        _convertible.add(type);
     }
     
     public static boolean isConvertibleType(Class type) {
-        return CONVERTIBLE.contains(type);
+        return _convertible.contains(type);
     }
 
     
@@ -352,8 +352,8 @@ public class Types {
     public static boolean isImmutable( Class type )
     {
         for ( int i = 0 ; i < _typeInfos.length ; ++i ) {
-            if ( _typeInfos[ i ]._javaType == type || _typeInfos[ i ]._primitive == type )
-                return _typeInfos[ i ]._immutable;
+            if ( _typeInfos[ i ].javaType == type || _typeInfos[ i ].primitive == type )
+                return _typeInfos[ i ].immutable;
         }
         return false;
     }
@@ -447,31 +447,46 @@ public class Types {
     /**
      * Information about a specific Java type.
      */
-    static class TypeInfo {
-        /** The short type name (e.g. <tt>integer</tt>). */
-        final String _shortName;
-        
-        /** The primitive Java type, if exists (e.g. <tt>Integer.TYPE</tt>). */
-        final Class _primitive;
+    static class TypeInfo
+    {
 
-        /** The Java type (e.g. <tt>java.lang.Integer</tt>). */       
-        final Class _javaType;
+        /**
+         * The short type name (e.g. <tt>integer</tt>).
+         */
+        final String  shortName;
         
-        /** True if the type is immutable. */
-        final boolean _immutable;
+        /**
+         * The primitive Java type, if exists (e.g. <tt>Integer.TYPE</tt>).
+         */
+        final Class   primitive;
+
+        /**
+         * The Java type (e.g. <tt>java.lang.Integer</tt>).
+         */        
+        final Class   javaType;
         
-        /** The default value for the type, if known. */
-        final Object _defaultValue;
+        /**
+         * True if the type is immutable.
+         */
+        final boolean immutable;
         
-        TypeInfo(final String shortName, final Class primitive, final Class javaType,
-                final boolean immutable, final Object defaultValue) {
-            _shortName  = shortName;
-            _primitive  = primitive;
-            _javaType   = javaType;
-            _immutable  = immutable;
-            _defaultValue   = defaultValue;
+        /**
+         * The default value for the type, if known.
+         */
+        final Object  defValue;
+        
+        TypeInfo( String shortName, Class primitive, Class javaType,
+                  boolean immutable, Object defValue )
+        {
+            this.shortName  = shortName;
+            this.primitive  = primitive;
+            this.javaType   = javaType;
+            this.immutable  = immutable;
+            this.defValue   = defValue;
         }
+
     }
+
 
     /**
      * List of all the simple types supported by Castor.

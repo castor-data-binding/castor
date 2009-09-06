@@ -16,18 +16,12 @@
 package org.castor.jdo.jpa.info.entity;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Id;
-
-import org.junit.Ignore;
 
 /**
  * Domain class annotated with JPA annotation used for unit testing.
  * @author Peter Schmidt
  */
-@Ignore
-
-@Entity
 public class TestI2DCJPATest {
     
     /** 
@@ -44,16 +38,6 @@ public class TestI2DCJPATest {
      * A string property. 
      */
     private String _blob;
-    
-    private int _default;
-
-    public int getDefault() {
-        return _default;
-    }
-
-    public void setDefault(final int default1) {
-        _default = default1;
-    }
 
     @Id
     @Column(name = "primary_key", 
@@ -109,4 +93,5 @@ public class TestI2DCJPATest {
     public void setBlob(final String blob) {
         _blob = blob;
     }
+
 }

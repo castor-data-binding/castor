@@ -101,20 +101,20 @@ public class MozillaImporter
 	if ( entry.getAttributeSet() == null ||
 	     entry.getAttributeSet().size() == 0 ) {
 
-	    if ( ( policy & ImportDescriptor.Policy.DELETE_EMPTY ) != 0 ) {
+	    if ( ( policy & ImportDescriptor.Policy.DeleteEmpty ) != 0 ) {
 		try {
 		    _conn.read( entry.getDN() );
 		    _conn.delete( entry.getDN() );
-		    notify( entry.getDN(), ImportEventListener.DELETED );
+		    notify( entry.getDN(), ImportEventListener.Deleted );
 		} catch ( LDAPException except ) {
 		    // Object does not exist, was not removed, ignore.
 		    // Anything else, we must complain.
 		    if ( except.getLDAPResultCode() != LDAPException.NO_SUCH_OBJECT )
 			throw except;
-		    notify( entry.getDN(), ImportEventListener.IGNORED );
+		    notify( entry.getDN(), ImportEventListener.Ignored );
 		}
 	    } else {
-		notify( entry.getDN(), ImportEventListener.IGNORED );
+		notify( entry.getDN(), ImportEventListener.Ignored );
 	    }
 
 	} else {
@@ -127,7 +127,7 @@ public class MozillaImporter
 		for ( i = 0 ; i < attrSet.size() ; ++i ) {
                     attr = attrSet.elementAt( i );
                     if ( existing.getAttributeSet().getAttribute( attr.getName() ) != null ) { 
-                        if ( ( policy & ImportDescriptor.Policy.NEW_ATTRIBUTE_ONLY ) == 0 ) {
+                        if ( ( policy & ImportDescriptor.Policy.NewAttrOnly ) == 0 ) {
                             if ( attr.size() > 0 ) {
                                 modifs.add( LDAPModification.REPLACE, attr );
                             } else {
@@ -135,14 +135,14 @@ public class MozillaImporter
                             }
                         }
                     } else {
-                        if ( ( policy & ImportDescriptor.Policy.UPDATE_ONLY ) == 0 ) {
+                        if ( ( policy & ImportDescriptor.Policy.UpdateOnly ) == 0 ) {
                             if ( attr.size() > 0 ) {
                                 modifs.add( LDAPModification.ADD, attr );
                             }
                         }
                     }
                 }
-                if ( ( policy & ImportDescriptor.Policy.REPLACE_ATTRIBUTE ) != 0 ) {
+                if ( ( policy & ImportDescriptor.Policy.ReplaceAttr ) != 0 ) {
 		    enumeration = existing.getAttributeSet().getAttributes();
 		    while ( enumeration.hasMoreElements() ) {
 			attr = (LDAPAttribute) enumeration.nextElement();
@@ -153,20 +153,20 @@ public class MozillaImporter
 		}
 		if ( modifs.size() > 0 ) {
 		    _conn.modify( entry.getDN(), modifs );
-		    notify( entry.getDN(), ImportEventListener.REFRESHED );
+		    notify( entry.getDN(), ImportEventListener.Refreshed );
 		} else {
-		    notify( entry.getDN(), ImportEventListener.IGNORED );
+		    notify( entry.getDN(), ImportEventListener.Ignored );
 		}
 	    } catch ( LDAPException except ) {
 		// Object does not exist, we create a new one.
 		// Anything else, we must complain.
 		if ( except.getLDAPResultCode() != LDAPException.NO_SUCH_OBJECT )
 		    throw except;
-		if ( ( policy & ImportDescriptor.Policy.REFRESH_ONLY ) == 0 ) {
+		if ( ( policy & ImportDescriptor.Policy.RefreshOnly ) == 0 ) {
 		    _conn.add( entry );
-		    notify( entry.getDN(), ImportEventListener.CREATED );
+		    notify( entry.getDN(), ImportEventListener.Created );
 		} else {
-		    notify( entry.getDN(), ImportEventListener.IGNORED );
+		    notify( entry.getDN(), ImportEventListener.Ignored );
 		}
 	    }
 	}

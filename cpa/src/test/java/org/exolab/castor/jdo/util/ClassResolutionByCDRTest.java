@@ -23,12 +23,12 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.castor.cpa.util.classresolution.command.ClassDescriptorResolutionCommand;
-import org.castor.cpa.util.classresolution.command.ClassResolutionByCDR;
-import org.castor.cpa.util.classresolution.nature.ClassLoaderNature;
-import org.castor.cpa.util.classresolution.nature.PackageBasedCDRResolutionNature;
 import org.exolab.castor.jdo.util.jdo_descriptors.ClassToBeResolvedJDODescriptor;
 import org.exolab.castor.mapping.ClassDescriptor;
+import org.exolab.castor.xml.util.ClassDescriptorResolutionCommand;
+import org.exolab.castor.xml.util.ClassLoaderNature;
+import org.exolab.castor.xml.util.ClassResolutionByCDR;
+import org.exolab.castor.xml.util.PackageBasedCDRResolutionNature;
 
 /**
  * Test case for {@link ClassResolutionByCDR}.
@@ -36,7 +36,7 @@ import org.exolab.castor.mapping.ClassDescriptor;
  * @author Sebastian Gabmeyer
  * @since 1.2.1
  */
-public final class ClassResolutionByCDRTest extends TestCase {
+public class ClassResolutionByCDRTest extends TestCase {
 
     private ClassDescriptorResolutionCommand _resolver;
 
@@ -69,13 +69,13 @@ public final class ClassResolutionByCDRTest extends TestCase {
 
     public void testGetDescriptors() throws Exception {
         int expectedNumOfResolvedClasses = 1;
-        List<String> packageNames = new LinkedList<String>();
+        List packageNames = new LinkedList();
         packageNames.add("org.exolab.castor.jdo.util");
-        Map<String, ClassDescriptor> resolvedClasses = new HashMap<String, ClassDescriptor>();
+        Map resolvedClasses = new HashMap();
 
-        for (Iterator<String> it = packageNames.iterator(); it.hasNext();) {
-            Map<String, ClassDescriptor> descriptors =
-                ((ClassResolutionByCDR) _resolver).getDescriptors(it.next());
+        for (Iterator it = packageNames.iterator(); it.hasNext();) {
+            Map descriptors = ((ClassResolutionByCDR) _resolver)
+                    .getDescriptors((String) it.next());
             resolvedClasses.putAll(descriptors);
         }
 

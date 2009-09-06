@@ -1,90 +1,123 @@
-/*
- * Copyright 2009 Ahmad Hassan, Ralf Joachim
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.castor.cpa.persistence.sql.keygen;
 
-import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
-import org.castor.jdo.engine.DatabaseContext;
-import org.castor.jdo.engine.DatabaseRegistry;
-import org.exolab.castor.jdo.Database;
-import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.persist.spi.KeyGenerator;
+import org.exolab.castor.persist.spi.PersistenceFactory;
 
 /**
- * Abstract Class that implements the KeyGenerator Interface and provide 
- * implementation for methods that are common in more than one subclass of this
- * AbstractKeyGenerator.
- * 
- * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
- * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date: 2009-07-13 17:22:43 (Tue, 28 Jul 2009) $
+ * @author <a href="mailto:dulci@start.no">Stein M. Hugubakken</a>
  */
 public abstract class AbstractKeyGenerator implements KeyGenerator {
-    //-----------------------------------------------------------------------------------        
-
-    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     *  Commons Logging</a> instance used for all logging. */
-    private static final Log LOG = LogFactory.getLog(AbstractKeyGenerator.class);
-    
-    //-----------------------------------------------------------------------------------    
-
-    /**
-     * Operning new JDBC Connection. 
-     * 
-     * @param database The database on which it opens the JDBC connection.
-     * @return A JDBC Connection
-     * @throws PersistenceException If fails to open connection.
-     */
-    public final Connection getSeparateConnection(final Database database)
-    throws PersistenceException {
-        DatabaseContext context = null;
-        try {
-            context = DatabaseRegistry.getDatabaseContext(database.getDatabaseName());
-        } catch (MappingException e) {
-            throw new PersistenceException(Messages.message("persist.cannotCreateSeparateConn"), e);
-        }
-        
-        try {
-            Connection conn = context.getConnectionFactory().createConnection();
-            conn.setAutoCommit(false);
-            return conn;
-        } catch (SQLException e) {
-            throw new PersistenceException(Messages.message("persist.cannotCreateSeparateConn"), e);
+    private class IntegerSqlTypeHandler implements SqlTypeHandler {
+        public Object getValue(final ResultSet rs) throws SQLException {
+            return new Integer(rs.getInt(1));
         }
     }
-    
-    /**
-     * Close the JDBC Connection.
-     * 
-     * @param conn A JDBC Connection.
-     */
 
-    public final void closeSeparateConnection(final Connection conn) {
-        try {
-            if (!conn.isClosed()) {
-                conn.close();
+    private class LongSqlTypeHandler implements SqlTypeHandler {
+        public Object getValue(final ResultSet rs) throws SQLException {
+            return new Long(rs.getLong(1));
+        }
+    }
+
+    private class BigDecimalSqlTypeHandler implements SqlTypeHandler {
+        public Object getValue(final ResultSet rs) throws SQLException {
+            return rs.getBigDecimal(1);
+        }
+    }
+
+    private class StringSqlTypeHandler implements SqlTypeHandler {
+        public Object getValue(final ResultSet rs) throws SQLException {
+            return rs.getString(1);
+        }
+    }
+
+    protected PersistenceFactory _factory;
+
+    protected String _factoryName;
+
+    private SqlTypeHandler _sqlTypeHandler;
+
+    private byte _style;
+
+    protected void checkSupportedFactory(final PersistenceFactory factory)
+    throws MappingException {
+        _factoryName = factory.getFactoryName();
+        String[] supportedFactoryNames = getSupportedFactoryNames();
+        boolean supported = false;
+        for (int i = 0; i < supportedFactoryNames.length; i++) {
+            if (_factoryName.equals(supportedFactoryNames[i])) {
+                supported = true;
             }
-        } catch (SQLException e) {
-            LOG.error(e.getMessage(), e);
+        }
+
+        if (!supported) {
+            String msg = Messages.format("mapping.keyGenNotCompatible",
+                    getClass().getName(), _factoryName); 
+            throw new MappingException(msg);
         }
     }
 
-    //-----------------------------------------------------------------------------------        
+    protected abstract String[] getSupportedFactoryNames();
+
+    protected void initSqlTypeHandler(final int sqlType) {
+        if (sqlType == Types.INTEGER) {
+            _sqlTypeHandler = new IntegerSqlTypeHandler();
+        } else if (sqlType == Types.BIGINT) {
+            _sqlTypeHandler = new LongSqlTypeHandler();
+        } else if ((sqlType == Types.CHAR) || (sqlType == Types.VARCHAR)) {
+            _sqlTypeHandler = new StringSqlTypeHandler();
+        } else {
+            _sqlTypeHandler = new BigDecimalSqlTypeHandler();
+        }
+    }
+    
+    protected SqlTypeHandler getSqlTypeHandler() {
+        return _sqlTypeHandler;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void supportsSqlType(final int sqlType) throws MappingException {
+        if (sqlType != Types.INTEGER
+                && sqlType != Types.NUMERIC
+                && sqlType != Types.DECIMAL
+                && sqlType != Types.BIGINT) {
+            String msg = Messages.format("mapping.keyGenSQLType",
+                    getClass().getName(), new Integer(sqlType)); 
+            throw new MappingException(msg);
+        }
+    }
+
+    protected final void setStyle(final byte style) {
+        _style = style;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public final byte getStyle() {
+        return _style;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String patchSQL(final String insert, final String primKeyName)
+    throws MappingException {
+        return insert;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isInSameConnection() {
+        return true;
+    }
 }

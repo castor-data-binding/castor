@@ -15,13 +15,14 @@
  */
 package org.castor.jdo.jpa.info;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import org.castor.core.nature.PropertyHolder;
+import org.exolab.castor.mapping.FieldHandler;
+import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 
 /**
  * This class holds the necessary information so that Castor can properly map a
@@ -58,38 +59,31 @@ public class FieldInfo implements PropertyHolder {
     private Class<?> _fieldType;
 
     /**
-     * The reference to the getter method of the Field.
+     * the FieldHandler for the right accessType.
      */
-    private Method _getterMethod;
-
-    /**
-     * The reference to the setter method of the Field.
-     */
-    private Method _setterMethod;
+    private FieldHandlerImpl _fieldHandler;
 
     /**
      * Creates a FieldInfo associated to the given {@link ClassInfo}, describing
      * the given a field with the given name using method (property) access.
      * 
-     * @param declaringClassInfo
+     * @param declaringClass
      *            The ClassInfo this FieldInfo is associated with.
      * @param fieldType
      *            The type of the described field.
      * @param fieldName
      *            The name of the described field.
-     * @param getterMethod
-     *            The reference to the getter method of the Field.
-     * @param setterMethod
-     *            The reference to the setter method of the Field.
+     * @param fieldHandler
+     *            The {@link FieldHandlerImpl} that describes the accessType of
+     *            that field.
      */
-    public FieldInfo(final ClassInfo declaringClassInfo,
-            final Class<?> fieldType, final String fieldName,
-            final Method getterMethod, final Method setterMethod) {
+    public FieldInfo(final ClassInfo declaringClass, final Class<?> fieldType,
+            final String fieldName, final FieldHandlerImpl fieldHandler) {
+        super();
+        _fieldHandler = fieldHandler;
         _fieldName = fieldName;
         _fieldType = fieldType;
-        _declaringClassInfo = declaringClassInfo;
-        _getterMethod = getterMethod;
-        _setterMethod = setterMethod;
+        _declaringClassInfo = declaringClass;
     }
 
     /**
@@ -190,41 +184,24 @@ public class FieldInfo implements PropertyHolder {
     }
 
     /**
-     * Indicates the getter access method of the field.
+     * Returns the {@link FieldHandler} associated with this field.
      * 
-     * @return the getter method reference of the field.
+     * @return The {@link FieldHandlerImpl} managing access to the underlying
+     *         field.
      */
-    public Method getGetterMethod() {
-        return _getterMethod;
+    public FieldHandlerImpl getFieldHandler() {
+        return _fieldHandler;
     }
 
     /**
-     * Sets the getter access method of the field.
+     * Sets the {@link FieldHandler} associated with this field.
      * 
-     * @param getterMethod
-     *            the getter method reference.
+     * @param fieldHandler
+     *            the {@link FieldHandlerImpl} managing access to the underlying
+     *            field.
      */
-    public void setGetterMethod(final Method getterMethod) {
-        _getterMethod = getterMethod;
-    }
-
-    /**
-     * Indicates the setter access method of the field.
-     * 
-     * @return the setter method reference of the field.
-     */
-    public Method getSetterMethod() {
-        return _setterMethod;
-    }
-
-    /**
-     * Sets the setter access method of the field.
-     * 
-     * @param setterMethod
-     *            the setter method reference.
-     */
-    public void setSetterMethod(final Method setterMethod) {
-        _setterMethod = setterMethod;
+    public void setFieldHandler(final FieldHandlerImpl fieldHandler) {
+        _fieldHandler = fieldHandler;
     }
 
 }

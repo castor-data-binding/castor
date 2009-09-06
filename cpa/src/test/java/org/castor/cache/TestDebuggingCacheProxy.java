@@ -17,7 +17,6 @@ package org.castor.cache;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -186,7 +185,7 @@ public final class TestDebuggingCacheProxy extends TestCase {
     }
 
     public void testPutAll() {
-        HashMap<String, String> map = new HashMap<String, String>();
+        HashMap map = new HashMap();
         map.put("fourth key", "forth value");
         map.put("fifth key", "fifth value");
         
@@ -200,7 +199,7 @@ public final class TestDebuggingCacheProxy extends TestCase {
     }
 
     public void testKeySet() {
-        Set<Object> set = _cache.keySet();
+        Set set = _cache.keySet();
         
         assertEquals(3, set.size());
         assertTrue(set.contains("first key"));
@@ -209,7 +208,7 @@ public final class TestDebuggingCacheProxy extends TestCase {
     }
 
     public void testValues() {
-        Collection<Object> col = _cache.values();
+        Collection col = _cache.values();
         
         assertEquals(3, col.size());
         assertTrue(col.contains("first value"));
@@ -218,13 +217,15 @@ public final class TestDebuggingCacheProxy extends TestCase {
     }
 
     public void testEntrySet() {
-        Set<Map.Entry<Object, Object>> set = _cache.entrySet();
+        Set set = _cache.entrySet();
         
         assertEquals(3, set.size());
         
-        HashMap<Object, Object> map = new HashMap<Object, Object>();
-        for (Iterator<Map.Entry<Object, Object>> iter = set.iterator(); iter.hasNext();) {
-            Map.Entry<Object, Object> entry = iter.next();
+        Object[] objs = set.toArray();
+        HashMap map = new HashMap();
+        for (int i = 0; i < 3; i++) {
+            assertTrue(objs[i] instanceof Map.Entry);
+            Map.Entry entry = (Map.Entry) objs[i];
             map.put(entry.getKey(), entry.getValue());
         }
 

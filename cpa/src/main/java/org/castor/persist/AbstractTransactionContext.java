@@ -39,7 +39,6 @@ import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.jdo.TransactionAbortedException;
 import org.exolab.castor.mapping.AccessMode;
-import org.exolab.castor.mapping.xml.NamedNativeQuery;
 import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.LockEngine;
 import org.exolab.castor.persist.OID;
@@ -128,12 +127,12 @@ public abstract class AbstractTransactionContext implements TransactionContext {
     private InstanceFactory _instanceFactory;
 
     /** A list of listeners which will be informed about various transaction states. */
-    private ArrayList<TxSynchronizable> _synchronizeList = new ArrayList<TxSynchronizable>();
+    private ArrayList _synchronizeList = new ArrayList();
 
     /** Lists all the connections opened for particular database engines
      *  used in the lifetime of this transaction. The database engine
      *  is used as the key to an open/transactional connection. */
-    private Hashtable<LockEngine, Connection> _conns = new Hashtable<LockEngine, Connection>();
+    private Hashtable _conns = new Hashtable();
 
     /** Meta-data related to the RDBMS used. */
     private DbMetaInfo _dbInfo;
@@ -171,7 +170,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
      */
     private void txcommitted() {
         for (int i = 0; i < _synchronizeList.size(); i++) {
-            TxSynchronizable sync = _synchronizeList.get(i);
+            TxSynchronizable sync = (TxSynchronizable) _synchronizeList.get(i);
             try {
                 sync.committed(this);
             } catch (Exception ex) {
@@ -186,7 +185,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
      */
     private void txrolledback() {
         for (int i = 0; i < _synchronizeList.size(); i++) {
-            TxSynchronizable sync = _synchronizeList.get(i);
+            TxSynchronizable sync = (TxSynchronizable) _synchronizeList.get(i);
             try {
                 sync.rolledback(this);
             } catch (Exception ex) {
@@ -277,7 +276,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
      */
     public final Connection getConnection(final LockEngine engine)
     throws ConnectionFailedException {
-        Connection conn = _conns.get(engine);
+        Connection conn = (Connection) _conns.get(engine);
         if (conn == null) {
             conn = createConnection(engine);
             _conns.put(engine, conn);
@@ -288,7 +287,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
     protected abstract Connection createConnection(final LockEngine engine)
     throws ConnectionFailedException;
         
-    protected final Iterator<Connection> connectionsIterator() {
+    protected final Iterator connectionsIterator() {
         return _conns.values().iterator();
     }
     
@@ -546,53 +545,94 @@ public abstract class AbstractTransactionContext implements TransactionContext {
         // failure (object no longer exists), hold until a suitable lock is granted
         // (or fail to grant), or report error with the persistence engine.
         try {
-            // Check whether an instance was given to the load method.
             if (proposedObject.getEntity() != null) {
                 objectInTx = proposedObject.getEntity();
-            } else if (_instanceFactory != null) {
-                objectInTx = _instanceFactory.newInstance(molder.getName(), _db.getClassLoader());
             } else {
-                objectInTx = molder.newInstance(_db.getClassLoader());
+                // ssa, multi classloader feature
+                // ssa, FIXME : No better way to do that ?
+                // object = molder.newInstance();
+                if (_instanceFactory != null) {
+                    objectInTx = _instanceFactory.newInstance(molder
+                            .getName(), _db.getClassLoader());
+                } else {
+                    objectInTx = molder.newInstance(_db
+                            .getClassLoader());
+                }
+                
+                proposedObject.setProposedEntityClass(objectInTx.getClass());
+                proposedObject.setActualEntityClass(objectInTx.getClass());
+                proposedObject.setEntity(objectInTx);
             }
-            
-            molder.setIdentity(this, objectInTx, identity);
-            
-            proposedObject.setProposedEntityClass(objectInTx.getClass());
-            proposedObject.setActualEntityClass(objectInTx.getClass());
-            proposedObject.setEntity(objectInTx);
 
-            trackObject(molder, oid, proposedObject.getEntity());
+            molder.setIdentity(this, objectInTx, identity);
+            _tracker.trackObject(molder, oid, objectInTx);
+            OID newoid = engine.load(this, oid, proposedObject,
+                    suggestedAccessMode, _lockTimeout, results);
+                    
+            if (proposedObject.isExpanded()) {
+                // Remove old OID from ObjectTracker
+                _tracker.untrackObject(objectInTx);
+                
+                // Create new OID
+                ClassMolder actualClassMolder = engine.getClassMolder(
+                        proposedObject.getActualEntityClass());
+                OID actualOID = new OID(actualClassMolder, identity);
+                actualClassMolder.setIdentity(this, proposedObject.getEntity(), identity);
+
+                // Create instance of 'expanded object'
+                Object expandedObject = null;
+                try {
+                    expandedObject = actualClassMolder.newInstance(getClassLoader());
+                } catch (Exception e) {
+                    LOG.error("Cannot create instance of " + molder.getName());
+                    throw new PersistenceException(
+                            "Cannot craete instance of " + molder.getName());
+                }
+
+                // Add new OID to ObjectTracker
+                _tracker.trackObject(molder, actualOID, expandedObject);
+                
+                ProposedEntity proposedExpanded = new ProposedEntity(proposedObject);
+                proposedExpanded.setEntity(expandedObject);
+                proposedExpanded.setObjectLockObjectToBeIgnored(true);
+
+                // reload 'expanded object' using correct ClassMolder
+                engine.load(this, actualOID, proposedExpanded,
+                        suggestedAccessMode, _lockTimeout, results);
+
+                objectInTx = proposedExpanded.getEntity();
+            } else {
+                // rehash the object entry, because oid might have changed!
+                _tracker.trackOIDChange(objectInTx, engine, oid, newoid);
+            }            
             
-            engine.load(this, oid, proposedObject, suggestedAccessMode,
-                    _lockTimeout, results, molder);
         } catch (ClassCastException except) {
-            _tracker.untrackObject(proposedObject.getEntity());
+            _tracker.untrackObject(objectInTx);
             throw except;
         } catch (ObjectNotFoundException except) {
-            _tracker.untrackObject(proposedObject.getEntity());
+            _tracker.untrackObject(objectInTx);
             throw except;
         } catch (ConnectionFailedException except) {
-            _tracker.untrackObject(proposedObject.getEntity());
+            _tracker.untrackObject(objectInTx);
             throw except;
         } catch (LockNotGrantedException except) {
-            _tracker.untrackObject(proposedObject.getEntity());
+            _tracker.untrackObject(objectInTx);
             throw except;
         } catch (ClassNotPersistenceCapableException except) {
-            _tracker.untrackObject(proposedObject.getEntity());
-            throw new PersistenceException(Messages.format("persist.nested", except));
+            _tracker.untrackObject(objectInTx);
+            throw new PersistenceException(Messages.format("persist.nested",
+                    except));
         } catch (InstantiationException e) {
-            _tracker.untrackObject(proposedObject.getEntity());
+            _tracker.untrackObject(objectInTx);
             throw new PersistenceException(e.getMessage(), e);
         } catch (IllegalAccessException e) {
-            _tracker.untrackObject(proposedObject.getEntity());
+            _tracker.untrackObject(objectInTx);
             throw new PersistenceException(e.getMessage(), e);
         } catch (ClassNotFoundException e) {
-            _tracker.untrackObject(proposedObject.getEntity());
+            _tracker.untrackObject(objectInTx);
             throw new PersistenceException(e.getMessage(), e);
         }
 
-        objectInTx = proposedObject.getEntity();
-        
         // Need to copy the contents of this object from the cached
         // copy and deal with it based on the transaction semantics.
         // If the mode is read-only we release the lock and forget about
@@ -618,18 +658,11 @@ public abstract class AbstractTransactionContext implements TransactionContext {
 
             // Release the lock on this object.
             engine.releaseLock(this, oid);
+
         }
         return objectInTx;
     }
-    
-    public void untrackObject(final Object object) {
-        _tracker.untrackObject(object);
-    }
 
-    public void trackObject(final ClassMolder molder, final OID oid, final Object object) {
-        _tracker.trackObject(molder, oid, object);
-    }
-    
     /**
      * {@inheritDoc}
      * @see org.castor.persist.TransactionContext#query(
@@ -1124,8 +1157,8 @@ public abstract class AbstractTransactionContext implements TransactionContext {
      * @see org.castor.persist.TransactionContext#prepare()
      */
     public final synchronized boolean prepare() throws TransactionAbortedException {
-        ArrayList<Object> todo = new ArrayList<Object>();
-        ArrayList<Object> done = new ArrayList<Object>();
+        ArrayList todo = new ArrayList();
+        ArrayList done = new ArrayList();
 
         if (_status == Status.STATUS_MARKED_ROLLBACK) {
             throw new TransactionAbortedException("persist.markedRollback");
@@ -1154,7 +1187,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
                     }
                 }
 
-                Iterator<Object> todoIterator = todo.iterator();
+                Iterator todoIterator = todo.iterator();
                 while (todoIterator.hasNext()) {
                     Object object = todoIterator.next();
                     // Anything not marked 'deleted' or 'creating' is ready to
@@ -1641,24 +1674,18 @@ public abstract class AbstractTransactionContext implements TransactionContext {
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
+     * @see org.castor.persist.TransactionContext#getNamedQuery(
+     *      org.exolab.castor.persist.ClassMolder,
+     *      java.lang.String)
      */
-    public final String getNamedQuery(final ClassMolder molder, final String name) 
-    throws QueryException {
+    public String getNamedQuery(final ClassMolder molder, final String name) 
+    throws QueryException    {
         if (molder == null) {
             throw new QueryException("Invalid argument - molder is null");
         }
         return molder.getNamedQuery(name);
     }
     
-    /**
-     * {@inheritDoc}
-     */
-    public final NamedNativeQuery getNamedNativeQuery(final ClassMolder molder, final String name) 
-    throws QueryException {
-        if (molder == null) {
-            throw new QueryException("Invalid argument - molder is null");
-        }
-        return molder.getNamedNativeQuery(name);
-    }
+    
 }

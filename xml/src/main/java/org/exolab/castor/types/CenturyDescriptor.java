@@ -63,16 +63,16 @@ public class CenturyDescriptor extends BaseDescriptor {
     /** The name of the XML element. */
     private static final String XML_NAME = "century";
     /** Our field descriptor. */
-    private static final XMLFieldDescriptorImpl CONTENT_DESCRIPTOR;
+    private static final XMLFieldDescriptorImpl _contentDescriptor;
     /** Our field descriptor array.  Lists the fields we describe. */
-    private static final FieldDescriptor[] FIELDS;
+    private static final FieldDescriptor[] _fields;
 
     static {
-        CONTENT_DESCRIPTOR = new XMLFieldDescriptorImpl(
-                String.class, "content", "content", NodeType.Text);
-        CONTENT_DESCRIPTOR.setHandler(new CenturyDescriptor().new CenturyFieldHandler());
-        FIELDS = new FieldDescriptor[1];
-        FIELDS[0] = CONTENT_DESCRIPTOR;
+        _contentDescriptor = new XMLFieldDescriptorImpl(String.class, "content",
+                                                        "content", NodeType.Text);
+        _contentDescriptor.setHandler(new CenturyDescriptor().new CenturyFieldHandler());
+        _fields = new FieldDescriptor[1];
+        _fields[0] = _contentDescriptor;
     }
 
     //----------------/
@@ -95,7 +95,7 @@ public class CenturyDescriptor extends BaseDescriptor {
      *         as text content.
      */
     public XMLFieldDescriptor getContentDescriptor() {
-        return CONTENT_DESCRIPTOR;
+        return _contentDescriptor;
     } // getContentDescriptor
 
     /**
@@ -104,7 +104,7 @@ public class CenturyDescriptor extends BaseDescriptor {
      * @return A list of fields
      */
     public FieldDescriptor[] getFields() {
-        return FIELDS;
+        return _fields;
     } //-- getFields
 
     /**

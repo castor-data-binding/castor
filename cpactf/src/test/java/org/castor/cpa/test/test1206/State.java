@@ -1,9 +1,7 @@
 package org.castor.cpa.test.test1206;
 
 import org.exolab.castor.jdo.TimeStampable;
-import org.junit.Ignore;
 
-@Ignore
 public final class State implements TimeStampable {
     private String _oid;
     private String _name;

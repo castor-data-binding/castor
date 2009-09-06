@@ -74,16 +74,13 @@ import java.util.TimeZone;
  */
 public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
     /** Public constant referring to an indeterminate Date/Time comparison. */
-    public static final int INDETERMINATE = -1;
-    
+    public static final int       INDETERMINATE   = -1;
     /** Public constant referring to a Date/Time comparison result of "less than". */
-    public static final int LESS_THAN = 0;
-    
+    public static final int       LESS_THAN       = 0;
     /** Public constant referring to a Date/Time comparison result of "equals". */
-    public static final int EQUALS = 1;
-    
+    public static final int       EQUALS          = 1;
     /** Public constant referring to a Date/Time comparison result of "greater than". */
-    public static final int GREATER_THAN = 2;
+    public static final int       GREATER_THAN    = 2;
 
     /** When comparing a date/time with a time zone to one without, the recommendation
      * says that 14 hours is the time zone offset to use for comparison. */
@@ -93,43 +90,31 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
     protected static final String WRONGLY_PLACED  = " is wrongly placed.";
 
     /** true if this date/time type is negative. */
-    private boolean _isNegative = false;
-    
+    private boolean               _isNegative     = false;
     /** The century field. */
-    private short _century = 0;
-    
+    private short                 _century        = 0;
     /** The year field. */
-    private short _year = 0;
-    
+    private short                 _year           = 0;
     /** The month field. */
-    private short _month = 0;
-    
+    private short                 _month          = 0;
     /** The day field. */
-    private short _day = 0;
-    
+    private short                 _day            = 0;
     /** the hour field. */
-    private short _hour = 0;
-    
+    private short                 _hour           = 0;
     /** the minute field. */
-    private short _minute = 0;
-    
+    private short                 _minute         = 0;
     /** the second field. */
-    private short _second = 0;
-    
+    private short                 _second         = 0;
     /** the millsecond field. */
-    private short _millsecond = 0;
-    
+    private short                 _millsecond     = 0;
     /** true if the time zone is negative. */
-    private boolean _zoneNegative = false;
-    
+    private boolean               _zoneNegative   = false;
     /** true if this date/time type has a time zone assigned. */
-    private boolean _utc = false;
-    
+    private boolean               _UTC            = false;
     /** the time zone hour field. */
-    private short _zoneHour = 0;
-    
+    private short                 _zoneHour       = 0;
     /** the time zone minute field. */
-    private short _zoneMinute = 0;
+    private short                 _zoneMinute     = 0;
 
     //////////////////////////Abstract methods////////////////////////////////////
 
@@ -383,7 +368,7 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
      *             second field is not allowed
      */
     public void setSecond(short second) throws UnsupportedOperationException {
-        if (second > 59) {
+        if (second > 60) {
            String err = "seconds " + second + " must be less than 60";
            throw new IllegalArgumentException(err);
         } else if (second < 0) {
@@ -419,7 +404,7 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
      * Sets the UTC field.
      */
     public void setUTC() {
-        _utc = true;
+        _UTC = true;
     }
 
     /**
@@ -556,7 +541,7 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
      * @return true if this type has a time zone assigned, else false.
      */
     public boolean isUTC() {
-        return _utc;
+        return _UTC;
     }
 
     public boolean isZoneNegative() {
@@ -790,7 +775,7 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
         Duration temp = new Duration();
         temp.setHour(_zoneHour);
         temp.setMinute(_zoneMinute);
-        if (!isZoneNegative()) {
+        if (isZoneNegative()) {
             temp.setNegative();
         }
 
@@ -925,7 +910,7 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
         newDateTime._second       = dateTime._second;
         newDateTime._millsecond   = dateTime._millsecond;
         newDateTime._zoneNegative = dateTime._zoneNegative;
-        newDateTime._utc          = dateTime._utc;
+        newDateTime._UTC          = dateTime._UTC;
         newDateTime._zoneHour     = dateTime._zoneHour;
         newDateTime._zoneMinute   = dateTime._zoneMinute;
         return newDateTime;

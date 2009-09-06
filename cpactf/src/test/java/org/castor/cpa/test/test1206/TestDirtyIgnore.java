@@ -34,11 +34,8 @@ public final class TestDirtyIgnore extends CPATestCase {
     // Test are only included/excluded for engines that have been tested with this test suite.
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.MYSQL)
+        return (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.ORACLE)
-            || (engine == DatabaseEngineType.POSTGRESQL)
-            || (engine == DatabaseEngineType.SAPDB)
             || (engine == DatabaseEngineType.SQL_SERVER);
     }
     
@@ -111,14 +108,14 @@ public final class TestDirtyIgnore extends CPATestCase {
         
         //1. Client loads objects and changes country of state
         db.begin();
-        State state = db.load(State.class, "AASTBRPR");
-        Country country = db.load(Country.class, "AAAACTTS");
+        State state = (State) db.load(State.class, "AASTBRPR");
+        Country country = (Country) db.load(Country.class, "AAAACTTS");
         state.setCountry(country);
         db.commit();
         
         //2. reload objects from updated cache
         db.begin();
-        state = db.load(State.class, "AASTBRPR");
+        state = (State) db.load(State.class, "AASTBRPR");
         db.commit();
         
         //3. lets check if database changes too
@@ -146,25 +143,25 @@ public final class TestDirtyIgnore extends CPATestCase {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
         
-        state = db.load(State.class, "AASTBRPR");
+        state = (State) db.load(State.class, "AASTBRPR");
         db.remove(state);
         
-        state = db.load(State.class, "AASTBRSP");
+        state = (State) db.load(State.class, "AASTBRSP");
         db.remove(state);
         
-        state = db.load(State.class, "AASTUSTX");
+        state = (State) db.load(State.class, "AASTUSTX");
         db.remove(state);
         
-        state = db.load(State.class, "AASTUSCL");
+        state = (State) db.load(State.class, "AASTUSCL");
         db.remove(state);
         
-        country = db.load(Country.class, "AAAACTBR");
+        country = (Country) db.load(Country.class, "AAAACTBR");
         db.remove(country);
 
-        country = db.load(Country.class, "AAAACTUS");
+        country = (Country) db.load(Country.class, "AAAACTUS");
         db.remove(country);
         
-        country = db.load(Country.class, "AAAACTTS");
+        country = (Country) db.load(Country.class, "AAAACTTS");
         db.remove(country);
         
         db.commit();

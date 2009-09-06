@@ -9,16 +9,23 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.EnumerationIterator;
 import org.castor.persist.TransactionContext;
+import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.AbstractMappingLoader;
 import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;
 import org.exolab.castor.persist.spi.Identity;
+import org.exolab.castor.persist.spi.Persistence;
+import org.exolab.castor.persist.spi.PersistenceFactory;
+import org.exolab.castor.xml.ClassDescriptorResolver;
+import org.exolab.castor.xml.ResolverException;
+import org.exolab.castor.xml.util.JDOClassDescriptorResolver;
 
 /**
  * Utility class that provides (mostly) static methods in relation to the functions
@@ -36,6 +43,59 @@ public final class ClassMolderHelper {
         // nothing to do
     }
 
+    /**
+     * Resolve and construct all the <tt>ClassMolder</tt>s given a MappingLoader.
+     *
+     * @param lock LockEngine for all the ClassMolder
+     * @param factory factory class for getting Persistent of the ClassMolder
+     * @param cdResolver {@link ClassDescriptorResolver} instance used for resolving
+     *        {@link ClassDescriptor}.
+     *
+     * @return  Vector of all of the <tt>ClassMolder</tt>s from a MappingLoader
+     * @throws ClassNotFoundException 
+     */
+    public static Vector resolve(final ClassDescriptorResolver cdResolver,
+            final LockEngine lock, final PersistenceFactory factory)
+    throws MappingException, ClassNotFoundException {
+    
+        Vector result = new Vector();
+        ClassMolder mold;
+        Persistence persist;
+        ClassDescriptor desc;
+
+        // TODO[WG]: remove down-cast
+        JDOClassDescriptorResolver jdoCDR;
+        jdoCDR = (JDOClassDescriptorResolver) cdResolver;
+        DatingService ds = new DatingService(jdoCDR.getClassLoader());
+
+        Iterator iter = ((JDOClassDescriptorResolver) cdResolver).descriptorIterator();
+        while (iter.hasNext()) {
+            Object next = iter.next();
+            ClassDescriptor nextCd = (ClassDescriptor) next;
+            Class toResolve = nextCd.getJavaClass();
+            try {
+                desc = cdResolver.resolve(toResolve);
+            } catch (ResolverException e) {
+                throw new MappingException ("Cannot resolve type for " + toResolve.getName(), e);
+            }
+            
+            persist = factory.getPersistence(desc);
+            mold = createClassMolder(ds, cdResolver, lock, desc, persist);
+            result.add(mold);
+        }
+
+        ds.close();
+        return result;
+    }
+    
+    private static ClassMolder createClassMolder(final DatingService ds,
+            final ClassDescriptorResolver cdResolver, final LockEngine lockEngine,
+            final ClassDescriptor descriptor, final Persistence persistence)
+    throws MappingException, ClassNotFoundException {
+        return new ClassMolder(ds, cdResolver, lockEngine,
+                descriptor, persistence);
+    }
+    
     /**
      * A utility method which compare object.
      * @param o1 First object instance 
@@ -109,7 +169,7 @@ public final class ClassMolderHelper {
         if (col == null) {
             return new ArrayList();
         } else if (col instanceof Collection) {
-            ArrayList<Object> idList = new ArrayList<Object>();
+            ArrayList idList = new ArrayList();
             Iterator itor = ((Collection) col).iterator();
             while (itor.hasNext()) {
                 Object id = molder.getIdentity(tx, itor.next());
@@ -119,7 +179,7 @@ public final class ClassMolderHelper {
             }
             return idList;
         } else if (col instanceof Iterator) {
-            ArrayList<Object> idList = new ArrayList<Object>();
+            ArrayList idList = new ArrayList();
             Iterator itor = (Iterator) col;
             while (itor.hasNext()) {
                 Object id = molder.getIdentity(tx, itor.next());
@@ -129,7 +189,7 @@ public final class ClassMolderHelper {
             }
             return idList;
         } else if (col instanceof Enumeration) {
-            ArrayList<Object> idList = new ArrayList<Object>();
+            ArrayList idList = new ArrayList();
             Enumeration enumeration = (Enumeration) col;
             while (enumeration.hasMoreElements()) {
                 Object id = molder.getIdentity(tx, enumeration.nextElement());
@@ -139,7 +199,7 @@ public final class ClassMolderHelper {
             }
             return idList;
        } else if (col instanceof Map) {
-            ArrayList<Object> idList = new ArrayList<Object>();
+            ArrayList idList = new ArrayList();
             Iterator itor = ((Map) col).values().iterator();
             while (itor.hasNext()) {
                 Object id = molder.getIdentity(tx, itor.next());
@@ -147,7 +207,7 @@ public final class ClassMolderHelper {
             }
             return idList;
         } else if (col.getClass().isArray()) {
-            ArrayList<Object> idList = new ArrayList<Object>();
+            ArrayList idList = new ArrayList();
             Object[] arrayCol = (Object[]) col;
             for (int i = 0; i < arrayCol.length; i++) {
                 Object id = molder.getIdentity(tx, arrayCol[i]);
@@ -236,7 +296,7 @@ public final class ClassMolderHelper {
         boolean idfield;
         ClassMapping extend = (ClassMapping) clsMap.getExtends();
         ClassMapping origin;
-        ArrayList<FieldMapping> fieldList;
+        ArrayList fieldList;
 
         if (extend != null) {
             origin = extend;
@@ -252,8 +312,8 @@ public final class ClassMolderHelper {
                 thisFields = new FieldMapping[0];
             }
 
-            fieldList = new ArrayList<FieldMapping>(
-                    extendFields.length + thisFields.length - identities.length);
+            fieldList = new ArrayList(extendFields.length + thisFields.length
+                    - identities.length);
             for (int i = 0; i < extendFields.length; i++) {
                 fieldList.add(extendFields[i]);
             }
@@ -375,7 +435,7 @@ public final class ClassMolderHelper {
                 return ((Map) collection).values();
             }
 
-            ArrayList<Object> added = new ArrayList<Object>(((Map) collection).size());
+            ArrayList added = new ArrayList(((Map) collection).size());
             Iterator newItor = ((Map) collection).values().iterator();
             while (newItor.hasNext()) {
                 Object newValue = newItor.next();
@@ -399,7 +459,7 @@ public final class ClassMolderHelper {
             }
 
             Collection newValues = (Collection) collection;
-            ArrayList<Object> added = new ArrayList<Object>(newValues.size());
+            ArrayList added = new ArrayList(newValues.size());
             Iterator newItor = newValues.iterator();
             while (newItor.hasNext()) {
                 Object newValue = newItor.next();
@@ -431,7 +491,7 @@ public final class ClassMolderHelper {
             }
 
             Iterator newValuesIterator = (Iterator) collection;
-            ArrayList<Object> added = new ArrayList<Object>();
+            ArrayList added = new ArrayList();
             while (newValuesIterator.hasNext()) {
                 Object newValue = newValuesIterator.next();
                 Object newId = ch.getIdentity(tx, newValue);
@@ -446,7 +506,7 @@ public final class ClassMolderHelper {
             if (collection == null) { return new ArrayList(0); }
 
             Enumeration newValues = (Enumeration) collection;
-            ArrayList<Object> added = new ArrayList<Object>();
+            ArrayList added = new ArrayList();
             if (orgIds == null || orgIds.size() == 0) {
                 while (newValues.hasMoreElements()) {
                     Object newValue = newValues.nextElement();
@@ -470,7 +530,7 @@ public final class ClassMolderHelper {
                     return new ArrayList(0);
                 } 
                 Object[] newValues = (Object[]) collection;
-                ArrayList<Object> result = new ArrayList<Object>(newValues.length);
+                ArrayList result = new ArrayList(newValues.length);
                 for (int i = 0; i < newValues.length; i++) {
                     result.add(newValues[i]);
                 }
@@ -483,7 +543,7 @@ public final class ClassMolderHelper {
             }
 
             Object[] newValues = (Object[]) collection;
-            ArrayList<Object> added = new ArrayList<Object>(newValues.length);
+            ArrayList added = new ArrayList(newValues.length);
             for (int i = 0; i < newValues.length; i++) {
                 Object newValue = newValues[i];
                 Object newId = ch.getIdentity(tx, newValue);
@@ -519,13 +579,13 @@ public final class ClassMolderHelper {
                 return new ArrayList(0);
             }
 
-            HashSet<Identity> newIds = new HashSet<Identity>(((Map) collection).size());
+            HashSet newIds = new HashSet(((Map) collection).size());
             Iterator newItor = ((Map) collection).values().iterator();
             while (newItor.hasNext()) {
                 newIds.add(ch.getIdentity(tx, newItor.next()));
             }
             
-            ArrayList<Object> removed = new ArrayList<Object>(orgIds.size());
+            ArrayList removed = new ArrayList(orgIds.size());
             Iterator orgItor = orgIds.iterator();
             while (orgItor.hasNext()) {
                 Object id = orgItor.next();
@@ -541,10 +601,10 @@ public final class ClassMolderHelper {
 
             Enumeration newCol = (Enumeration) collection;
            Iterator orgItor = orgIds.iterator();
-            ArrayList<Object> removed = new ArrayList<Object>(0);
+            ArrayList removed = new ArrayList(0);
 
             // make a new map of key and value of the new collection
-            HashMap<Object, Object> newMap = new HashMap<Object, Object>();
+            HashMap newMap = new HashMap();
             while (newCol.hasMoreElements()) {
                 Object newObject = newCol.nextElement();
                 Object newId = ch.getIdentity(tx, newObject);
@@ -568,10 +628,10 @@ public final class ClassMolderHelper {
 
             Collection newCol = (Collection) collection;
             Iterator orgItor = orgIds.iterator();
-            ArrayList<Object> removed = new ArrayList<Object>(0);
+            ArrayList removed = new ArrayList(0);
 
             // make a new map of key and value of the new collection
-            HashMap<Object, Object> newMap = new HashMap<Object, Object>();
+            HashMap newMap = new HashMap();
             Iterator newColItor = newCol.iterator();
             while (newColItor.hasNext()) {
                 Object newObject = newColItor.next();
@@ -596,10 +656,10 @@ public final class ClassMolderHelper {
 
             Iterator collectionIterator = (Iterator) collection;
             Iterator orgItor = orgIds.iterator();
-            ArrayList<Object> removed = new ArrayList<Object>(0);
+            ArrayList removed = new ArrayList(0);
 
             // make a new map of key and value of the new collection
-            HashMap<Object, Object> newMap = new HashMap<Object, Object>();
+            HashMap newMap = new HashMap();
             while (collectionIterator.hasNext()) {
                 Object newObject = collectionIterator.next();
                 Object newId = ch.getIdentity(tx, newObject);
@@ -623,10 +683,10 @@ public final class ClassMolderHelper {
 
             Object[] newCol = (Object[]) collection;
             Iterator orgItor = orgIds.iterator();
-            ArrayList<Object> removed = new ArrayList<Object>(0);
+            ArrayList removed = new ArrayList(0);
 
             // make a new map of key and value of the new collection
-            HashMap<Object, Object> newMap = new HashMap<Object, Object>();
+            HashMap newMap = new HashMap();
             for (int i = 0; i < newCol.length; i++) {
                 Object newObject = newCol[i];
                 Object newId = ch.getIdentity(tx, newObject);

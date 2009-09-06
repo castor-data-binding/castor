@@ -51,6 +51,8 @@ public final class TestTransactionManagerFactoryRegistry extends TestCase {
         assertEquals("org.castor.transactionmanager.Factories",
                 CPAProperties.TRANSACTION_MANAGER_FACTORIES);
         
+        Object temp = new TransactionManagerFactoryDummy();
+        
         AbstractProperties properties = CPAProperties.newInstance();
         Object mem = properties.getObject(CPAProperties.TRANSACTION_MANAGER_FACTORIES);
         properties.put(CPAProperties.TRANSACTION_MANAGER_FACTORIES,

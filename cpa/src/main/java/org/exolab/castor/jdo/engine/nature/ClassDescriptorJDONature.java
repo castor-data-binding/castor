@@ -29,7 +29,6 @@ import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
-import org.exolab.castor.mapping.xml.NamedNativeQuery;
 
 /**
  * JDO-specific nature for {@link ClassDescriptor}.<br/><br/>
@@ -90,19 +89,9 @@ public class ClassDescriptorJDONature extends BaseNature {
     private static final String NAMED_QUERIES = "namedQueries";
 
     /**
-     * Nature property name for named native queries.
-     */
-    private static final String NAMED_NATIVE_QUERIES = "namedNativeQueries";
-
-    /**
      * Nature property name for {@link ClassDescriptor}s that extend this {@link ClassDescriptor}.
      */
     private static final String EXTENDED = "extended";
-    
-    /**
-     * Nature property name for the version field for object modification checks.
-     */
-    private static final String VERSION = "version";
 
     /**
      * Creates an instance of {@link ClassDescriptorJDONature}.
@@ -121,11 +110,6 @@ public class ClassDescriptorJDONature extends BaseNature {
         return getClass().getName();
     }
     
-    /**
-     * Sets the table name to which this object maps.
-     * 
-     * @param tableName Table name
-     */
     public void setTableName(final String tableName) {
         setProperty(TABLE_NAME, tableName);
     }
@@ -199,7 +183,6 @@ public class ClassDescriptorJDONature extends BaseNature {
 
     /**
      * Adds a named query to this {@link ClassDescriptor}.
-     * 
      * @param name The name of the named query.
      * @param query The query string
      */
@@ -218,46 +201,8 @@ public class ClassDescriptorJDONature extends BaseNature {
      * 
      * @return Map of named query strings associated with their names.
      */
-    @SuppressWarnings("unchecked")
-    public Map<String, String> getNamedQueries() {
+    public Map getNamedQueries() {
         return getPropertyAsMap(NAMED_QUERIES);
-    }
-    
-    /**
-     * Returns the name of the version field used for checks on object
-     * modifications.
-     * 
-     * @return The name of the version field, <code>null</code> if not set.
-     */
-    public String getVersionField() {
-        return (String) getProperty(VERSION);
-    }
-
-    /**
-     * Adds a named query to this {@link ClassDescriptor}.
-     * 
-     * @param name The name of the named query.
-     * @param query The query string
-     */
-    @SuppressWarnings("unchecked")
-    public void addNamedNativeQuery(final String name, final NamedNativeQuery query) {
-        Map<String, NamedNativeQuery> namedNativeQueries =
-            (Map<String, NamedNativeQuery>) getProperty(NAMED_NATIVE_QUERIES);
-        if (namedNativeQueries == null) {
-            namedNativeQueries = new HashMap<String, NamedNativeQuery>();
-        }
-        namedNativeQueries.put(name, query);
-        setProperty(NAMED_NATIVE_QUERIES, namedNativeQueries);
-   }
-
-    /**
-     * Get map of named native queries associated with their names.
-     * 
-     * @return Map of named native queries associated with their names.
-     */
-    @SuppressWarnings("unchecked")
-    public Map<String, NamedNativeQuery> getNamedNativeQueries() {
-        return getPropertyAsMap(NAMED_NATIVE_QUERIES);
     }
 
     /**
@@ -309,16 +254,6 @@ public class ClassDescriptorJDONature extends BaseNature {
     @SuppressWarnings("unchecked")
     public Collection<ClassDescriptor> getExtended() {
         return getPropertyAsList(EXTENDED);
-    }
-    
-    /**
-     * Sets the version field to use for object modification checks.
-     * 
-     * @param versionField
-     *            the name of the field.
-     */
-    public void setVersionField(final String versionField) {
-        setProperty(VERSION, versionField);
     }
 
 }

@@ -34,16 +34,15 @@ public final class Test1355 extends CPATestCase {
     }
     
     // Test are only included/excluded for engines that have been tested with this test suite.
-    // Temporary disabled test until CASTOR-2584 is resolved.
+    //
+    // Temporary disabled test until CASTOR-2584 is resolved. It should be possible to include
+    // mysql and oracle engine after issue got resolved.
+    //// Add MSSQL engine too after resolving the issue CASTOR-2584
 
-    public boolean include(final DatabaseEngineType engine) {
-        return false;
-//        return (engine == DatabaseEngineType.DERBY)
-//            || (engine == DatabaseEngineType.MYSQL)
-//            || (engine == DatabaseEngineType.ORACLE)
-//            || (engine == DatabaseEngineType.POSTGRESQL)
-//            || (engine == DatabaseEngineType.SAPDB)
-//            || (engine == DatabaseEngineType.SQL_SERVER);
+    public boolean exclude(final DatabaseEngineType engine) {
+        return (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.ORACLE)
+            || (engine == DatabaseEngineType.SQL_SERVER);
     }
     
     /**
@@ -63,13 +62,13 @@ public final class Test1355 extends CPATestCase {
             // shouldn't have to load city, but Castor 1.0M3 throws an exception without
             // LOG.debug("Loaded " + course.getCity().getId());
 
-            Iterator<GolfCourseTees> tees = course.getTees().iterator();
+            Iterator < GolfCourseTees > tees = course.getTees().iterator();
             while (tees.hasNext()) {
                 GolfCourseTees tee = tees.next();
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Loaded " + tee.getClass().getName());
                 }
-                Iterator<GolfCourseHole> holes = tee.getHoles().iterator();
+                Iterator < GolfCourseHole > holes = tee.getHoles().iterator();
                 while (holes.hasNext()) {
                     GolfCourseHole hole = holes.next();
                     if (LOG.isDebugEnabled()) {
@@ -98,13 +97,13 @@ public final class Test1355 extends CPATestCase {
 
             course.getCity();
 
-            Iterator<GolfCourseTees> tees = course.getTees().iterator();
+            Iterator < GolfCourseTees > tees = course.getTees().iterator();
             while (tees.hasNext()) {
                 GolfCourseTees tee = tees.next();
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Loaded " + tee.getClass().getName());
                 }
-                Iterator<GolfCourseHole> holes = tee.getHoles().iterator();
+                Iterator < GolfCourseHole > holes = tee.getHoles().iterator();
                 while (holes.hasNext()) {
                     GolfCourseHole hole = holes.next();
                     if (LOG.isDebugEnabled()) {

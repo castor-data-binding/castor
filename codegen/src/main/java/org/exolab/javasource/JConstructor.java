@@ -42,8 +42,6 @@
  */
 package org.exolab.javasource;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Vector;
 
 /**
@@ -53,12 +51,13 @@ import java.util.Vector;
  * @version $Revision$ $Date: 2005-05-08 05:24:54 -0600 (Sun, 08 May 2005) $
  */
 public final class JConstructor extends JAnnotatedElementHelper {
+    //--------------------------------------------------------------------------
 
     /** The set of modifiers for this JConstructor. */
     private JModifiers _modifiers;
     
     /** List of parameters for this JConstructor. */
-    private Map<String, JParameter> _params = new LinkedHashMap<String, JParameter>();
+    private JNamedMap _params;
     
     /** The Class in this JConstructor has been declared. */
     private AbstractJClass _declaringClass;
@@ -69,6 +68,8 @@ public final class JConstructor extends JAnnotatedElementHelper {
     /** The exceptions that this JConstructor throws. */
     private Vector<JClass> _exceptions;
 
+    //--------------------------------------------------------------------------
+
     /**
      * Creates a new JConstructor for the provided declaring class.
      * 
@@ -77,9 +78,12 @@ public final class JConstructor extends JAnnotatedElementHelper {
     protected JConstructor(final AbstractJClass declaringClass) {
         _declaringClass = declaringClass;
         _modifiers = new JModifiers();
+        _params = new JNamedMap();
         _sourceCode = new JSourceCode();
         _exceptions = new Vector<JClass>(1);
     }
+
+    //--------------------------------------------------------------------------
 
     /**
      * Returns the exceptions that this JConstructor lists in its throws clause.
@@ -118,7 +122,11 @@ public final class JConstructor extends JAnnotatedElementHelper {
      *         JConstructor in declared order.
      */
     public JParameter[] getParameters() {
-        return _params.values().toArray(new JParameter[_params.size()]);
+        JParameter[] jpArray = new JParameter[_params.size()];
+        for (int i = 0; i < jpArray.length; i++) {
+            jpArray[i] = (JParameter) _params.get(i);
+        }
+        return jpArray;
     }
     
     /**
@@ -215,6 +223,8 @@ public final class JConstructor extends JAnnotatedElementHelper {
         _sourceCode = sourceCode;
     }
 
+    //--------------------------------------------------------------------------
+
     /**
      * Prints this JConstructor to the provided JSourceWriter.
      * 
@@ -237,7 +247,8 @@ public final class JConstructor extends JAnnotatedElementHelper {
 
         //-- any parameter annotations?
         boolean parameterAnnotations = false;
-        for (JParameter jParameter : _params.values()) {
+        for (int i = 0; i < _params.size(); i++) {
+            JParameter jParameter = (JParameter) _params.get(i);
             if (jParameter.hasAnnotations()) {
                 parameterAnnotations = true;
                 break;
@@ -245,25 +256,16 @@ public final class JConstructor extends JAnnotatedElementHelper {
         }
 
         //-- print parameters
-        if (parameterAnnotations) {
-            jsw.indent();
-        }
-        int parameterCount = 0;
-        for (JParameter jParameter : _params.values()) {
-            if (parameterCount > 0) { 
-                jsw.write(", ");
-            }
-            if (parameterAnnotations) { 
-                jsw.writeln();
-            }
+        if (parameterAnnotations) { jsw.indent(); }
+        for (int i = 0; i < _params.size(); i++) {
+            if (i > 0) { jsw.write(", "); }
+            if (parameterAnnotations) { jsw.writeln(); }
+            JParameter jParameter = (JParameter) _params.get(i);
             jParameter.printAnnotations(jsw);
             String typeAndName = jParameter.toString();
             jsw.write(typeAndName);
-            parameterCount++;
         }
-        if (parameterAnnotations) { 
-            jsw.unindent(); 
-        }
+        if (parameterAnnotations) { jsw.unindent(); }
 
         jsw.write(")");
         if (_exceptions.size() > 0) {
@@ -293,7 +295,7 @@ public final class JConstructor extends JAnnotatedElementHelper {
 
         //-- print parameters
         for (int i = 0; i < _params.size(); i++) {
-            JParameter jp = _params.get(i);
+            JParameter jp = (JParameter) _params.get(i);
             if (i > 0) { sb.append(", "); }
             sb.append(jp.getType().getName());
         }
@@ -301,4 +303,5 @@ public final class JConstructor extends JAnnotatedElementHelper {
         return sb.toString();
     }
 
+    //--------------------------------------------------------------------------
 }

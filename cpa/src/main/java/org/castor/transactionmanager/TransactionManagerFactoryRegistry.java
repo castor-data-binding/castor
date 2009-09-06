@@ -42,8 +42,7 @@ public final class TransactionManagerFactoryRegistry {
             TransactionManagerFactoryRegistry.class);
 
     /** Association between name of implementation and TransactionManagerFactory instance. */
-    private Map<String, TransactionManagerFactory> _factories =
-        new HashMap<String, TransactionManagerFactory>();
+    private Map _factories = new HashMap();
 
     //--------------------------------------------------------------------------
 
@@ -75,7 +74,7 @@ public final class TransactionManagerFactoryRegistry {
      */
     public String[] getTransactionManagerFactoryNames() {
         String[] names = new String[_factories.size()];
-        return _factories.keySet().toArray(names);
+        return (String[]) _factories.keySet().toArray(names);
     }
 
     /**
@@ -89,7 +88,7 @@ public final class TransactionManagerFactoryRegistry {
      */
     public TransactionManagerFactory getTransactionManagerFactory(final String name)
     throws TransactionManagerAcquireException {
-        TransactionManagerFactory factory = _factories.get(name);
+        Object factory = _factories.get(name);
         if (factory == null) {
             String msg = "The TransactionManagerFactory '" + name + "' "
                        + "does not exist in the Castor properties file "
@@ -97,7 +96,7 @@ public final class TransactionManagerFactoryRegistry {
             LOG.error(msg);
             throw new TransactionManagerAcquireException(msg);
         }
-        return factory;
+        return (TransactionManagerFactory) factory;
     }
 
     //--------------------------------------------------------------------------

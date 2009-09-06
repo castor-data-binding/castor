@@ -43,20 +43,24 @@
 package org.exolab.javasource;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Vector;
 
 /**
- * A class which holds information about the signature of a JMethod. The code in
- * this package was modeled after the Java Reflection API as much as possible
+ * A class which holds information about the signtaure of a JMethod. The code in
+ * this package was modelled after the Java Reflection API as much as possible
  * to reduce the learning curve.
  *
  * @author <a href="mailto:keith At kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2004-12-03 11:57:33 -0700 (Fri, 03 Dec 2004) $
  */
 public final class JMethodSignature extends JAnnotatedElementHelper {
+    //--------------------------------------------------------------------------
+
+    /** Default size of the map for method parameters. */
+    private static final int DEFAULT_PARAM_MAP_SIZE = 3;
+    
+    //--------------------------------------------------------------------------
 
     /** The set of modifiers for this JMethodSignature. */
     private JModifiers _modifiers = null;
@@ -68,13 +72,15 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
     private String _name = null;
     
     /** The list of parameters of this method in order declared. */
-    private final Map<String, JParameter> _params = new LinkedHashMap<String, JParameter>();
+    private final JNamedMap _params;
     
     /** The JavaDoc comment for this method's signature. */
     private final JDocComment _jdc;
     
     /** The exceptions that this method throws. */
     private final Vector<JClass> _exceptions;
+
+    //--------------------------------------------------------------------------
 
     /**
      * Creates a new method with the given name and "void" return type.
@@ -91,6 +97,7 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
         _returnType = null;
         _name = name;
         _modifiers = new JModifiers();
+        _params = new JNamedMap(DEFAULT_PARAM_MAP_SIZE);
         _exceptions = new Vector<JClass>(1);
     }
 
@@ -109,6 +116,8 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
         }
         _returnType = returnType;
     }
+
+    //--------------------------------------------------------------------------
 
     /**
      * Adds the given Exception to this JMethodSignature's throws clause.
@@ -135,9 +144,7 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
      *        of parameters.
      */
     public void addParameter(final JParameter parameter) {
-        if (parameter == null) { 
-            return; 
-        }
+        if (parameter == null) { return; }
 
         String pName = parameter.getName();
         //-- check current params
@@ -203,7 +210,7 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
      * @return The JParameter at the given index.
      */
     public JParameter getParameter(final int index) {
-        return _params.get(index);
+        return (JParameter) _params.get(index);
     }
 
     /**
@@ -215,7 +222,11 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
      * @return The set of JParameters in this JMethodSignature.
      */
     public synchronized JParameter[] getParameters() {
-        return _params.values().toArray(new JParameter[_params.size()]);
+        JParameter[] pArray = new JParameter[_params.size()];
+        for (int i = 0; i < pArray.length; i++) {
+            pArray[i] = (JParameter) _params.get(i);
+        }
+        return pArray;
     }
 
     /**
@@ -257,6 +268,8 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
         _modifiers.setFinal(false);
     }
 
+    //--------------------------------------------------------------------------
+
     /**
      * Returns an array containing the names of the classes of the parameters in
      * this JMethodSignature. For Arrays, the class name of the object type
@@ -270,8 +283,9 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
     protected String[] getParameterClassNames() {
         List<String> names = new ArrayList<String>(_params.size());
 
-        for (JParameter parameter : _params.values()) {
-            JType jType  = parameter.getType();
+        for (int i = 0; i < _params.size(); i++) {
+
+            JType  jType  = ((JParameter) _params.get(i)).getType();
             while (jType.isArray()) {
                 jType = ((JArrayType) jType).getComponentType();
             }
@@ -281,8 +295,11 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
             }
         }
 
-        return names.toArray(new String[names.size()]);
+        String[] array = new String[names.size()];
+        return names.toArray(array);
     }
+
+    //--------------------------------------------------------------------------
 
     /**
      * Prints the method signature. A semi-colon (end-of-statement terminator ';')
@@ -335,15 +352,12 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
         //-- print parameters
         jsw.indent();
         jsw.indent();
-        int parameterCount = 0;
-        for (JParameter jParameter : _params.values()) {
-            if (parameterCount > 0) { 
-                jsw.writeln(",");
-            }
+        for (int i = 0; i < _params.size(); i++) {
+            if (i > 0) { jsw.writeln(","); }
+            JParameter jParameter = (JParameter) _params.get(i);
             jParameter.printAnnotations(jsw);
             String typeAndName = jParameter.toString();
             jsw.write(typeAndName);
-            parameterCount++;
         }
         jsw.unindent();
         jsw.unindent();
@@ -376,17 +390,15 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
         sb.append('(');
 
         //-- print parameters
-        int i = 0;
-        for (JParameter jParam : _params.values()) {
-            if (i > 0) { 
-                sb.append(", "); 
-            }
+        for (int i = 0; i < _params.size(); i++) {
+            JParameter jParam = (JParameter) _params.get(i);
+            if (i > 0) { sb.append(", "); }
             sb.append(jParam.getType().getName());
         }
-
         sb.append(") ");
 
         return sb.toString();
     }
 
+    //--------------------------------------------------------------------------
 }

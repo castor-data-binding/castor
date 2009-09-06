@@ -116,7 +116,7 @@ public final class OID implements Serializable {
      */
     public OID(final ClassMolder molder, final OID depends, final Identity identity) {
         ClassMolder internalMolder = molder;
-        ArrayList<String> superClassNames = null;
+        ArrayList superClassNames = null;
 
         if (internalMolder == null) {
             throw new IllegalArgumentException("molder can't be null");
@@ -129,7 +129,7 @@ public final class OID implements Serializable {
         // most class of an object, getting it from the descriptor
         while (internalMolder.getExtends() != null) {
             if (superClassNames == null) {
-                superClassNames = new ArrayList<String>();
+                superClassNames = new ArrayList();
             }
             internalMolder = internalMolder.getExtends();
             superClassNames.add(internalMolder.getName());
@@ -212,10 +212,6 @@ public final class OID implements Serializable {
      */
     String getName() {
         return _name;
-    }
-
-    String getTopClassName() {
-        return _topClassName;
     }
 
     /**

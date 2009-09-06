@@ -53,7 +53,6 @@ import org.castor.jdo.util.JDOUtils;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.TypeConvertor;
 import org.exolab.castor.persist.spi.Identity;
-import org.exolab.castor.persist.spi.PersistenceFactory;
 
 /**
  * SQLRelationLoader is a quick hack for creating and removing
@@ -94,8 +93,7 @@ public class SQLRelationLoader {
     public SQLRelationLoader(final String table, final String[] key, final int[] keyType,
             final TypeConvertor[] idTo, final TypeConvertor[] idFrom,
             final String[] otherKey, final int[] otherKeyType,
-            final TypeConvertor[] ridTo, final TypeConvertor[] ridFrom,
-            final PersistenceFactory factory) {
+            final TypeConvertor[] ridTo, final TypeConvertor[] ridFrom) {
         _leftFrom = idFrom;
         _rightFrom = ridFrom;
 
@@ -113,27 +111,27 @@ public class SQLRelationLoader {
             if (i > 0) {
                 sb.append(",");
             }
-            sb.append(factory.quoteName(_left[i]));
+            sb.append(_left[i]);
             count++;
         }
         for (int i = 0; i < _right.length; i++) {
             sb.append(",");
-            sb.append(factory.quoteName(_right[i]));
+            sb.append(_right[i]);
             count++;
         }
         sb.append(" FROM ");
-        sb.append(factory.quoteName(_tableName));
+        sb.append(_tableName);
         sb.append(" WHERE ");
         for (int i = 0; i < _left.length; i++) {
             if (i > 0) {
                 sb.append(" AND ");
             }
-            sb.append(factory.quoteName(_left[i]));
+            sb.append(_left[i]);
             sb.append("=?");
         }
         for (int i = 0; i < _right.length; i++) {
             sb.append(" AND ");
-            sb.append(factory.quoteName(_right[i]));
+            sb.append(_right[i]);
             sb.append("=?");
         }
         _select = sb.toString();
@@ -142,18 +140,18 @@ public class SQLRelationLoader {
         sb = new StringBuffer();
         count = 0;
         sb.append("INSERT INTO ");
-        sb.append(factory.quoteName(_tableName));
+        sb.append(_tableName);
         sb.append(" (");
         for (int i = 0; i < _left.length; i++) {
             if (i > 0) {
                 sb.append(",");
             }
-            sb.append(factory.quoteName(_left[i]));
+            sb.append(_left[i]);
             count++;
         }
         for (int i = 0; i < _right.length; i++) {
             sb.append(",");
-            sb.append(factory.quoteName(_right[i]));
+            sb.append(_right[i]);
             count++;
         }
         sb.append(") VALUES (");
@@ -170,18 +168,18 @@ public class SQLRelationLoader {
         sb = new StringBuffer();
         count = 0;
         sb.append("DELETE FROM ");
-        sb.append(factory.quoteName(_tableName));
+        sb.append(_tableName);
         sb.append(" WHERE ");
         for (int i = 0; i < _left.length; i++) {
             if (i > 0) {
                 sb.append(" AND ");
             }
-            sb.append(factory.quoteName(_left[i]));
+            sb.append(_left[i]);
             sb.append("=?");
         }
         for (int i = 0; i < _right.length; i++) {
             sb.append(" AND ");
-            sb.append(factory.quoteName(_right[i]));
+            sb.append(_right[i]);
             sb.append("=?");
         }
         _delete = sb.toString();
@@ -190,13 +188,13 @@ public class SQLRelationLoader {
         sb = new StringBuffer();
         count = 0;
         sb.append("DELETE FROM ");
-        sb.append(factory.quoteName(_tableName));
+        sb.append(_tableName);
         sb.append(" WHERE ");
         for (int i = 0; i < _left.length; i++) {
             if (i > 0) {
                 sb.append(" AND ");
             }
-            sb.append(factory.quoteName(_left[i]));
+            sb.append(_left[i]);
             sb.append("=?");
         }
         _deleteAll = sb.toString();

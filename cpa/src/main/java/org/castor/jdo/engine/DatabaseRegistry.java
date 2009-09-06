@@ -25,17 +25,13 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
 import org.castor.cpa.CPAProperties;
-import org.castor.cpa.persistence.sql.connection.ConnectionFactory;
-import org.castor.cpa.persistence.sql.connection.DataSourceConnectionFactory;
-import org.castor.cpa.persistence.sql.connection.DriverConnectionFactory;
-import org.castor.cpa.persistence.sql.connection.JNDIConnectionFactory;
-import org.castor.cpa.util.JDOClassDescriptorResolver;
 import org.castor.jdo.conf.Database;
 import org.castor.jdo.conf.DatabaseChoice;
 import org.castor.jdo.conf.JdoConf;
 import org.castor.jdo.util.JDOConfFactory;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.xml.util.JDOClassDescriptorResolver;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
@@ -53,7 +49,7 @@ public final class DatabaseRegistry {
     private static final Log LOG = LogFactory.getLog(DatabaseRegistry.class);
 
     /** Map of all registered connection factories by name. */
-    private static final Hashtable  CONTEXTS = new Hashtable();
+    private static final Hashtable  FACTORIES = new Hashtable();
 
     /**
      * Instantiates a DataSourceConnectionFactory with given name, engine, datasource
@@ -70,13 +66,10 @@ public final class DatabaseRegistry {
             final String name, final String engine, final DataSource datasource,
             final Mapping mapping, final TransactionManager txManager)
     throws MappingException {
-        boolean useProxies = CPAProperties.getInstance().getBoolean(
-                CPAProperties.USE_JDBC_PROXIES, true);
+        AbstractConnectionFactory factory = new DataSourceConnectionFactory(
+                name, engine, datasource, mapping, txManager);
         
-        ConnectionFactory cf = new DataSourceConnectionFactory(datasource, useProxies);
-        DatabaseContext context = new DatabaseContext(name, engine, mapping, txManager, cf);
-        
-        if (CONTEXTS.put(name, context) != null) {
+        if (FACTORIES.put(name, factory) != null) {
             LOG.warn(Messages.format("jdo.configLoadedTwice", name));
         }
     }
@@ -181,7 +174,7 @@ public final class DatabaseRegistry {
         // Load the JDO configuration file from the specified input source.
         // databases = JDOConfLoader.getDatabases(baseURI, resolver);
         Database[] databases = jdoConf.getDatabase();
-        DatabaseContext context;
+        AbstractConnectionFactory factory;
         for (int i = 0; i < databases.length; i++) {
             // Load the mapping file from the URL specified in the database
             // configuration file, relative to the configuration file.
@@ -190,11 +183,11 @@ public final class DatabaseRegistry {
             if (resolver != null) { mapping.setEntityResolver(resolver); }
             if (baseURI != null) { mapping.setBaseURL(baseURI); }
             
-            context = DatabaseRegistry.createDatabaseContext(jdoConf, i, mapping);
-            context.setClassDescriptorResolver(classDescriptorResolver);
-            if (init) { context.initialize(); }
+            factory = DatabaseRegistry.createFactory(jdoConf, i, mapping);
+            factory.setClassDescriptorResolver(classDescriptorResolver);
+            if (init) { factory.initialize(); }
             String name = databases[i].getName();
-            if (CONTEXTS.put(name, context) != null) {
+            if (FACTORIES.put(name, factory) != null) {
                 LOG.warn(Messages.format("jdo.configLoadedTwice", name));
             }
         }
@@ -210,13 +203,10 @@ public final class DatabaseRegistry {
      * @return The ConnectionFactory.
      * @throws MappingException If the database cannot be instantiated/loadeed.
      */
-    private static DatabaseContext createDatabaseContext(
+    private static AbstractConnectionFactory createFactory(
             final JdoConf jdoConf, final int index, final Mapping mapping)
     throws MappingException {
-        boolean useProxies = CPAProperties.getInstance().getBoolean(
-                CPAProperties.USE_JDBC_PROXIES, true);
-        
-        ConnectionFactory factory;
+        AbstractConnectionFactory factory;
         
         DatabaseChoice choice = jdoConf.getDatabase(index).getDatabaseChoice();
         if (choice == null) {
@@ -229,17 +219,16 @@ public final class DatabaseRegistry {
         if (choice.getDriver() != null) {
             // JDO configuration file specifies a driver, use the driver
             // properties to create a new registry object.
-            factory = new DriverConnectionFactory(choice.getDriver(), useProxies);
+            factory = new DriverConnectionFactory(jdoConf, index, mapping);
         } else if (choice.getDataSource() != null) {
             // JDO configuration file specifies a DataSource object, use the
             // DataSource which was configured from the JDO configuration file
             // to create a new registry object.
-            ClassLoader loader = mapping.getClassLoader();
-            factory = new DataSourceConnectionFactory(choice.getDataSource(), useProxies, loader);
+            factory = new DataSourceConnectionFactory(jdoConf, index, mapping);
         } else if (choice.getJndi() != null) {
             // JDO configuration file specifies a DataSource lookup through JNDI, 
             // locate the DataSource object frome the JNDI namespace and use it.
-            factory = new JNDIConnectionFactory(choice.getJndi(), useProxies);
+            factory = new JNDIConnectionFactory(jdoConf, index, mapping);
         } else {
             String name = jdoConf.getDatabase(index).getName();
             String msg = Messages.format("jdo.missingDataSource", name);
@@ -247,7 +236,7 @@ public final class DatabaseRegistry {
             throw new MappingException(msg);
         }
         
-        return new DatabaseContext(jdoConf, index, mapping, factory);
+        return factory;
     }
 
     /**
@@ -256,7 +245,7 @@ public final class DatabaseRegistry {
      * @return <code>true</code> if a databases configuration has been loaded.
      */
     public static boolean hasDatabaseRegistries() {
-        return (!CONTEXTS.isEmpty());
+        return (!FACTORIES.isEmpty());
     }
     
     /**
@@ -266,7 +255,7 @@ public final class DatabaseRegistry {
      * @return <code>true</code> if databases configuration has been loaded.
      */
     public static boolean isDatabaseRegistred(final String name) {
-        return CONTEXTS.containsKey(name);
+        return FACTORIES.containsKey(name);
     }
     
     /**
@@ -276,29 +265,30 @@ public final class DatabaseRegistry {
      * @return The ConnectionFactory for the given database name.
      * @throws MappingException If database can not be instantiated.
      */
-    public static DatabaseContext getDatabaseContext(final String name)
+    public static AbstractConnectionFactory getConnectionFactory(final String name)
     throws MappingException {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Fetching ConnectionFactory: " + name);
         }
         
-        DatabaseContext context = (DatabaseContext) CONTEXTS.get(name);
+        AbstractConnectionFactory factory;
+        factory = (AbstractConnectionFactory) FACTORIES.get(name);
         
-        if (context == null) {
+        if (factory == null) {
             String msg = Messages.format("jdo.missingDataSource", name);
             LOG.error(msg);
             throw new MappingException(msg);
         }
         
-        context.initialize();
-        return context;
+        factory.initialize();
+        return factory;
     }
 
     /**
      * Reset all database configurations.
      */
     public static void clear() {
-        CONTEXTS.clear();
+        FACTORIES.clear();
     }
     
     /**
@@ -307,7 +297,7 @@ public final class DatabaseRegistry {
      * @param  name     Name of the database to be unloaded.
      */
     public static void unloadDatabase(final String name) {
-        CONTEXTS.remove(name);
+        FACTORIES.remove(name);
     }
     
     /**

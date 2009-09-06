@@ -44,8 +44,6 @@
  */
 package org.castor.cpa.persistence.sql.driver;
 
-import java.sql.Types;
-
 import org.exolab.castor.persist.spi.PersistenceQuery;
 import org.exolab.castor.persist.spi.QueryExpression;
 
@@ -55,9 +53,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public final class OracleFactory extends GenericFactory {
-    //-----------------------------------------------------------------------------------
-
+public class OracleFactory extends GenericFactory {
     public static final String FACTORY_NAME = "oracle";
 
     /**
@@ -72,6 +68,16 @@ public final class OracleFactory extends GenericFactory {
      */
     public QueryExpression getQueryExpression() {
         return new OracleQueryExpression(this);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public Boolean isDuplicateKeyException(final Exception except) {
+        // Sometime gives wrong results
+        //if ( except instanceof SQLException )
+        //    return ( (SQLException) except ).getErrorCode() == 1 ? Boolean.TRUE : Boolean.FALSE;
+        return null;
     }
 
     /**
@@ -92,8 +98,8 @@ public final class OracleFactory extends GenericFactory {
      * @param sqlTypes The field SQL types
      * @return null if this feature is not supported.
      */
-    public PersistenceQuery getCallQuery(final String call, final Class<?>[] paramTypes,
-            final Class<?> javaClass, final String[] fields, final int[] sqlTypes) {
+    public PersistenceQuery getCallQuery(final String call, final Class[] paramTypes,
+            final Class javaClass, final String[] fields, final int[] sqlTypes) {
         return new ReturnedRSCallQuery(call, paramTypes, javaClass, fields, sqlTypes);
     }
 
@@ -104,44 +110,12 @@ public final class OracleFactory extends GenericFactory {
      * 
      * @inheritDoc
      */
-    public Class<?> adjustSqlType(final Class<?> sqlType) {
+    public Class adjustSqlType(final Class sqlType) {
         if (sqlType == java.lang.Integer.class) {
             return java.math.BigDecimal.class;
         }
         return sqlType;
     }
-    
-    @Override
-    public boolean isKeyGeneratorSequenceSupported(final boolean returning, final boolean trigger) {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public boolean isKeyGeneratorSequenceTypeSupported(final int type) {
-        if (type == Types.INTEGER) { return true; }
-        if (type == Types.DECIMAL) { return true; }
-        if (type == Types.NUMERIC) { return true; }
-        if (type == Types.BIGINT) { return true; }
-        if (type == Types.CHAR) { return true; }
-        if (type == Types.VARCHAR) { return true; }
-
-        return false;
-    }
-    
-    @Override
-    public String getSequenceNextValString(final String seqName) {
-        return seqName + ".nextval";
-    }
-    
-    @Override
-    public String getSequenceBeforeSelectString(final String seqName, 
-           final String tableName, final int increment) {
-    return "SELECT " + this.quoteName(seqName + ".nextval") + " FROM DUAL";
-    }
-    
-    //-----------------------------------------------------------------------------------
 }
 
 

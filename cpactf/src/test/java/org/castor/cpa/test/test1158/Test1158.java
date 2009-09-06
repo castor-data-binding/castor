@@ -51,11 +51,8 @@ public final class Test1158 extends CPATestCase {
     // Test are only included/excluded for engines that have been tested with this test suite.
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.DERBY) 
-            || (engine == DatabaseEngineType.MYSQL)
+        return (engine == DatabaseEngineType.MYSQL) 
             || (engine == DatabaseEngineType.ORACLE)
-            || (engine == DatabaseEngineType.POSTGRESQL)
-            || (engine == DatabaseEngineType.SAPDB)
             || (engine == DatabaseEngineType.SQL_SERVER);
     }
     
@@ -86,7 +83,8 @@ public final class Test1158 extends CPATestCase {
             Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
             db.begin();
             try {
-                ExtendedObject obj1 = db.load(ExtendedObject.class, new Integer(1));
+                ExtendedObject obj1 = (ExtendedObject) db.load(
+                        ExtendedObject.class, new Integer(1));
                 obj1.setDescription2(obj1.getDescription2() + " - 1");
                 db.commit();
                 db.close();

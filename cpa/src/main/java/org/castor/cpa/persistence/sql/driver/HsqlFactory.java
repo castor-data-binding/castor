@@ -42,8 +42,6 @@
  */
 package org.castor.cpa.persistence.sql.driver;
 
-import java.sql.Types;
-
 import org.exolab.castor.persist.spi.QueryExpression;
 
 /**
@@ -52,8 +50,6 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @author <a href="mailto:santiago.arriaga@catnet.com.mx">Santiago Arriaga</a>
  */
 public final class HsqlFactory extends GenericFactory {
-    //-----------------------------------------------------------------------------------
-
     /** Internal name for this {@link org.exolab.castor.persist.spi.PersistenceFactory} instance. */
     public static final String FACTORY_NAME = "hsql";
     
@@ -70,28 +66,6 @@ public final class HsqlFactory extends GenericFactory {
     public QueryExpression getQueryExpression() { 
         return new HsqlQueryExpression(this); 
     }
-    
-    //-----------------------------------------------------------------------------------
-
-    @Override
-    public boolean isKeyGeneratorIdentitySupported() {
-        return true;
-    }
-    
-    @Override
-    public boolean isKeyGeneratorIdentityTypeSupported(final int type) {
-        if (type == Types.INTEGER) { return true; }
-        if (type == Types.BIGINT) { return true; }
-        if (type == Types.NUMERIC) { return true; }
-        return false;
-    }
-    
-    @Override
-    public String getIdentitySelectString(final String tableName, final String columnName) {
-        return "CALL IDENTITY()";
-    }
-
-    //-----------------------------------------------------------------------------------
 }
 
 

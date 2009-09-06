@@ -44,10 +44,8 @@
  */
 package org.castor.cpa.persistence.sql.driver;
 
-import java.sql.Types;
 import java.util.StringTokenizer;
 
-import org.exolab.castor.persist.spi.PersistenceQuery;
 import org.exolab.castor.persist.spi.QueryExpression;
 
 /**
@@ -57,27 +55,20 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @author <a href="ferret AT frii DOT com">Bruce Snyder</a>
  * @version $Revision$ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr 2006) $
  */
-public final class SapDbFactory extends GenericFactory {
-    //-----------------------------------------------------------------------------------
-
-    public static final String FACTORY_NAME = "sapdb";
-
-    /**
-     * @inheritDoc
-     */
+public final class SapDbFactory extends OracleFactory {
     public String getFactoryName() {
-        return FACTORY_NAME;
+        return "sapdb";
     }
 
-    /**
-     * @inheritDoc
-     */
     public QueryExpression getQueryExpression() {
         return new SapDbQueryExpression(this);
     }
 
     /**
-     * @inheritDoc
+     * Quotes words in SQL statements. This method must recieve a non null,
+     * non empty string.
+     *
+     * @param name The SQL string that needs quotes added
      */
     public String quoteName(final String name) {
         StringBuffer buffer = new StringBuffer();
@@ -111,13 +102,13 @@ public final class SapDbFactory extends GenericFactory {
     }
 
     /**
-     * Tests a text string against a known list of functions to determine if it is a function.
+     * Tests a text string against a known list of functions to determine
+     * if it is a function.
      *
-     * @param text The text to be checked.
-     * @return <code>true</code> if text is a known function name, <code>false</code>
-     *         otherwise.
+     * @param text The text to be checked
+     * @see #quoteName(String)
      */
-    private boolean isAFunction(final String text) {
+    public boolean isAFunction(final String text) {
         boolean isAFunction = false;
 
         // Add all supported functions in SAP DB here
@@ -136,84 +127,6 @@ public final class SapDbFactory extends GenericFactory {
 
         return isAFunction;
     }
-
-    /**
-     * Needed to process OQL queries of "CALL" type (using stored procedure
-     * call). This feature is specific for JDO.
-     * 
-     * @param call Stored procedure call (without "{call")
-     * @param paramTypes The types of the query parameters
-     * @param javaClass The Java class of the query results
-     * @param fields The field names
-     * @param sqlTypes The field SQL types
-     * @return null if this feature is not supported.
-     */
-    public PersistenceQuery getCallQuery(final String call, final Class<?>[] paramTypes,
-            final Class<?> javaClass, final String[] fields, final int[] sqlTypes) {
-        return new ReturnedRSCallQuery(call, paramTypes, javaClass, fields, sqlTypes);
-    }
-
-    /**
-     * For INTEGER type ResultSet.getObject() returns BigDecimal:
-     * dependent objects with integer identity cause type conversion error
-     * (need to fix SimpleQueryExecutor).
-     * 
-     * @inheritDoc
-     */
-    public Class<?> adjustSqlType(final Class<?> sqlType) {
-        if (sqlType == java.lang.Integer.class) {
-            return java.math.BigDecimal.class;
-        }
-        return sqlType;
-    }
-    
-    //-----------------------------------------------------------------------------------
-
-    @Override
-    public boolean isKeyGeneratorIdentitySupported() {
-        return true;
-    }
-    
-    @Override
-    public boolean isKeyGeneratorIdentityTypeSupported(final int type) {
-        if (type == Types.INTEGER) { return true; }
-        if (type == Types.NUMERIC) { return true; }
-        if (type == Types.DECIMAL) { return true; }
-        if (type == Types.BIGINT) { return true; }
-        return false;
-    }
-    
-    @Override
-    public String getIdentitySelectString(final String tableName, final String columnName) {
-        return "SELECT " + quoteName(tableName) + ".currval" + " FROM " + quoteName(tableName);
-    }
-
-    @Override
-    public boolean isKeyGeneratorSequenceSupported(final boolean returning, final boolean trigger) {
-        return !returning && !trigger;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public boolean isKeyGeneratorSequenceTypeSupported(final int type) {
-        if (type == Types.INTEGER) { return true; }
-        if (type == Types.DECIMAL) { return true; }
-        if (type == Types.NUMERIC) { return true; }
-        if (type == Types.BIGINT) { return true; }
-        if (type == Types.CHAR) { return true; }
-        if (type == Types.VARCHAR) { return true; }
-
-        return false;
-    }
-    
-    @Override
-    public String getSequenceBeforeSelectString(final String seqName, 
-           final String tableName, final int increment) {
-        return "SELECT " + this.quoteName(seqName + ".nextval") + " FROM DUAL";
-        }
-    
-    //-----------------------------------------------------------------------------------
 }
 
 

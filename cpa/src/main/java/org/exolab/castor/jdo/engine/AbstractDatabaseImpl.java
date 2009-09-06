@@ -22,7 +22,7 @@ import java.util.Iterator;
 import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
 import org.castor.cpa.CPAProperties;
-import org.castor.jdo.engine.DatabaseContext;
+import org.castor.jdo.engine.AbstractConnectionFactory;
 import org.castor.jdo.engine.DatabaseRegistry;
 import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
@@ -32,12 +32,10 @@ import org.exolab.castor.jdo.DatabaseNotFoundException;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.Query;
-import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.jdo.TransactionAbortedException;
 import org.exolab.castor.jdo.TransactionNotInProgressException;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.mapping.xml.NamedNativeQuery;
 import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.LockEngine;
 import org.exolab.castor.persist.PersistenceInfoGroup;
@@ -55,9 +53,6 @@ import org.exolab.castor.persist.spi.InstanceFactory;
  * @version $Revision$ $Date: 2006-04-22 11:05:30 -0600 (Sat, 22 Apr 2006) $
  */
 public abstract class AbstractDatabaseImpl implements Database {
-    private static final String NATIVE_QUERY_PREFIX = "CALL SQL";
-    private static final String NATIVE_QUERY_AS = "AS";
-
     /** The database engine used to access the underlying SQL database. */
     protected PersistenceInfoGroup _scope;
 
@@ -67,7 +62,7 @@ public abstract class AbstractDatabaseImpl implements Database {
 
     /** List of TxSynchronizeable implementations that should all be
      *  informed about changes after commit of transactions. */
-    private ArrayList<TxSynchronizable> _synchronizables;
+    private ArrayList < TxSynchronizable > _synchronizables;
 
     /** The lock timeout for this database. Zero for immediate timeout, 
      *  an infinite value for no timeout. The timeout is specified in
@@ -118,13 +113,13 @@ public abstract class AbstractDatabaseImpl implements Database {
         // and report if not mapping registered any of the two.
         // A new ODMG engine is created each time with different
         // locking mode.
-        DatabaseContext context = null;
+        AbstractConnectionFactory factory = null;
         try {
-            context = DatabaseRegistry.getDatabaseContext(dbName);
+            factory = DatabaseRegistry.getConnectionFactory(dbName);
         } catch (MappingException ex) {
             throw new DatabaseNotFoundException(Messages.format("jdo.dbNoMapping", dbName));
         }
-        _scope = new PersistenceInfoGroup(new LockEngine[] {context.getEngine()});
+        _scope = new PersistenceInfoGroup(new LockEngine[] {factory.getEngine()});
         
         _callback = callback;
         _instanceFactory = instanceFactory;
@@ -226,14 +221,14 @@ public abstract class AbstractDatabaseImpl implements Database {
     /**
      * {@inheritDoc}
      */
-    public <T> T load(final Class<T> type, final Object identity) throws PersistenceException {
+    public Object load(final Class type, final Object identity) throws PersistenceException {
         return load(type, identity, null, null);
     }
 
     /**
      * {@inheritDoc}
      */
-    public <T> T load(final Class<T> type, final Object identity, final Object object)
+    public Object load(final Class type, final Object identity, final Object object)
     throws PersistenceException {
         return load(type, identity, object, null);
     }
@@ -241,7 +236,7 @@ public abstract class AbstractDatabaseImpl implements Database {
     /**
      * {@inheritDoc}
      */
-    public <T> T load(final Class<T> type, final Object identity, final AccessMode mode)
+    public Object load(final Class type, final Object identity, final AccessMode mode)
     throws PersistenceException {
         return load(type, identity, null, mode);
     }
@@ -258,8 +253,7 @@ public abstract class AbstractDatabaseImpl implements Database {
      *         If the required access mode cannot be granted. If there's no active transaction
      *         in progress.
      */
-    @SuppressWarnings("unchecked")
-    private <T> T load(final Class<T> type, final Object identity, final Object object,
+    private Object load(final Class type, final Object identity, final Object object,
             final AccessMode mode) throws PersistenceException {
         if (identity == null) {
             throw new PersistenceException("Identities can't be null!");
@@ -270,11 +264,7 @@ public abstract class AbstractDatabaseImpl implements Database {
         TransactionContext tx = getTransaction();
         ClassMolder molder = _scope.getClassMolder(type);
         ProposedEntity proposedObject = new ProposedEntity(molder);
-        if (object != null) {
-            proposedObject.setEntity(object);
-            proposedObject.setProposedEntityClass(object.getClass());
-        }
-        return (T) tx.load(new Identity(identity), proposedObject, mode);
+        return tx.load(new Identity(identity), proposedObject, mode);
     }
 
     /**
@@ -362,43 +352,11 @@ public abstract class AbstractDatabaseImpl implements Database {
     /**
      * {@inheritDoc}
      */
-    public final OQLQuery getNamedQuery(final String name) throws PersistenceException {
-        ClassMolder queryMolder = _scope.findClassMolderByQuery(name);
-        if (queryMolder == null) {
-            queryMolder = _scope.findClassMolderByNativeQuery(name);
-            if (queryMolder != null) {
-                NamedNativeQuery query = _ctx.getNamedNativeQuery(queryMolder, name);
-                String result = query.getResultClass();               
-                if (result == null) {
-                    result = queryMolder.getName();
-                }
-                try {
-                    return getNativeQuery(query.getQuery(), Class.forName(result));
-                } catch (ClassNotFoundException ex) {
-                    throw new PersistenceException("Can not find the resulting class: " + result);
-                }
-            }
-            throw new QueryException("Cannot find a named query with the name " + name);
-        }        
-        String oql = _ctx.getNamedQuery(queryMolder, name);
+    public OQLQuery getNamedQuery(final String name) throws PersistenceException {
+        String oql = _ctx.getNamedQuery(_scope.findClassMolderByQuery(name), name);
         return getOQLQuery(oql);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public final OQLQuery getNativeQuery(final String sql, final Class<?> result)
-    throws PersistenceException {
-        StringBuffer buff = new StringBuffer();
-        buff.append(NATIVE_QUERY_PREFIX);
-        buff.append(" ");
-        buff.append(sql);
-        buff.append(" ");
-        buff.append(NATIVE_QUERY_AS);
-        buff.append(" ");
-        buff.append(result.getName());
-        return getOQLQuery(buff.toString());
-    }
 
     /**
      * {@inheritDoc}
@@ -476,7 +434,7 @@ public abstract class AbstractDatabaseImpl implements Database {
      */
     protected void loadSynchronizables() {
         if (_synchronizables == null) {
-            _synchronizables = new ArrayList<TxSynchronizable>();
+            _synchronizables = new ArrayList < TxSynchronizable > ();
             
             AbstractProperties properties = CPAProperties.getInstance();
             Object[] objects = properties.getObjectArray(
@@ -498,7 +456,7 @@ public abstract class AbstractDatabaseImpl implements Database {
      */
     protected void registerSynchronizables() {
         if (_synchronizables != null && _synchronizables.size() > 0) {
-            Iterator<TxSynchronizable> iter = _synchronizables.iterator();
+            Iterator < TxSynchronizable > iter = _synchronizables.iterator();
             while (iter.hasNext()) {
                 _ctx.addTxSynchronizable(iter.next());
             }
@@ -511,7 +469,7 @@ public abstract class AbstractDatabaseImpl implements Database {
      */
     protected void unregisterSynchronizables() {
         if (_synchronizables != null  && _synchronizables.size() > 0) {
-            Iterator<TxSynchronizable> iter = _synchronizables.iterator();
+            Iterator < TxSynchronizable > iter = _synchronizables.iterator();
             while (iter.hasNext()) {
                 _ctx.removeTxSynchronizable(iter.next());
             }

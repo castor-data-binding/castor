@@ -146,10 +146,7 @@ public final class ObjectLock implements DepositBox {
      *  If the number is zero, and the lock isFree(), then it is safe dispose this lock. */
     private int _gateCount;
 
-    /**
-     * The object's version.
-     */
-    private long _version;
+    private long _timeStamp;
 
     private boolean _deleted;
 
@@ -176,11 +173,11 @@ public final class ObjectLock implements DepositBox {
         }
     }
     
-    public ObjectLock(final OID oid, final Object[] object, final long version) {
+    public ObjectLock(final OID oid, final Object[] object, final long timeStamp) {
         this(oid);
         
         _object = object;
-        _version = version;
+        _timeStamp = timeStamp;
     }
     
     /**
@@ -590,13 +587,13 @@ public final class ObjectLock implements DepositBox {
     }
 
     public synchronized void setObject(final TransactionContext tx,
-            final Object[] object, final long version) {
+            final Object[] object, final long timeStamp) {
 
         _isExpired = false; // initialize cache expiration flag to false
         _expiredObject = null;
 
         if ((_confirmWaiting != null) && (_confirmWaiting == tx)) {
-            _version = version;
+            _timeStamp = timeStamp;
             _object = object;
             if (_confirmWaitingAction == ACTION_READ) {
                 _readLock = new LinkedTx(tx, null);
@@ -606,7 +603,7 @@ public final class ObjectLock implements DepositBox {
             _confirmWaiting = null;
             notifyAll();
         } else if ((_writeLock != null) && (_writeLock == tx)) {
-            _version = version;
+            _timeStamp = timeStamp;
             _object = object;
         } else {
             throw new IllegalArgumentException(
@@ -631,14 +628,14 @@ public final class ObjectLock implements DepositBox {
         }
     }
 
-    public synchronized long getVersion() {
-        return _version;
+    public synchronized long getTimeStamp() {
+        return _timeStamp;
     }
-    
-    public synchronized void setVersion(long version) {
-        this._version = version;
+
+    public synchronized void setTimeStamp(final long timeStamp) {
+        _timeStamp = timeStamp;
     }
-    
+
     synchronized void confirm(final TransactionContext tx, final boolean succeed) {
 
         // cases to consider:
@@ -667,7 +664,7 @@ public final class ObjectLock implements DepositBox {
                     // same as delete the lock
                     _deleted = true;
                     _object = null;
-                    _version =  System.currentTimeMillis();
+                    _timeStamp =  System.currentTimeMillis();
                     //_writeLock = null;
                     notifyAll();
                 } else if (_readLock != null) {
@@ -838,7 +835,7 @@ public final class ObjectLock implements DepositBox {
             if (_writeLock == tx) {
                 _writeLock = null;
                 if (_invalidated || _deleted) {
-                    _version = System.currentTimeMillis();
+                    _timeStamp = System.currentTimeMillis();
                     // save a copy of the expired objects contents;
                     // this will be used to expire all contained objects
                     if (_isExpired) {

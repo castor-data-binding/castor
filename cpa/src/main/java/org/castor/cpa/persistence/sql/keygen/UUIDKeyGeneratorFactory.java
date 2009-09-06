@@ -18,18 +18,21 @@ package org.castor.cpa.persistence.sql.keygen;
 import java.util.Properties;
 
 import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.persist.spi.KeyGenerator;
+import org.exolab.castor.persist.spi.KeyGeneratorFactory;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 
 /**
  * UUID key generator factory. The short name of this key generator is "UUID".
  * <br/>
- * It uses the following alrorithm: The uuid is a combination of the IP address, the current time
- * in milliseconds since 1970 and a static counter. The complete key consists of a 30 character
- * fixed length string.
+ * It uses the following alrorithm: The uuid is a combination of the IP address,
+ * the current time in milliseconds since 1970 and a static counter. The complete
+ * key consists of a 30 character fixed length string.
  * <br/>
- * Brief statement: The IP only exists once during runtime of castor, the current time in
- * milliseconds (updated every 55 mills) is in combination to the IP pretty unique. Considering
- * a static counter will be used a database-wide unique key will be created.
+ * Brief statement: The IP only exists once during runtime of castor, the current
+ * time in milliseconds (updated every 55 mills) is in combination to the IP
+ * pretty unique. Considering a static counter will be used a database-wide unique
+ * key will be created.
  * 
  * @see UUIDKeyGenerator
  * @author <a href="mailto:thomas DOT fach AT publica DOT de">Thomas Fach</a>
@@ -42,7 +45,7 @@ public final class UUIDKeyGeneratorFactory implements KeyGeneratorFactory {
     /**
      * {@inheritDoc}
      */
-    public String getKeyGeneratorName() { return "UUID"; }
+    public String getName() { return "UUID"; }
 
     /**
      * {@inheritDoc}

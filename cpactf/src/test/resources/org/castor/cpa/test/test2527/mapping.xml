@@ -6,24 +6,24 @@
 	<class name="org.castor.cpa.test.test2527.LogEntry" key-generator="MAX">
 		<description>Log entry of journal</description>
         <cache-type type="none"/>
-        <map-to table="test2527_log"/>
+        <map-to table="TEST2527_LOG"/>
         <field name="id" type="integer" identity="true">
-            <sql name="id" type="numeric"/>
+            <sql name="ID" type="numeric"/>
         </field>
         <field name="timestamp" type="date">
-            <sql name="time_stamp" type="timestamp"/>
+            <sql name="STAMP" type="timestamp"/>
         </field>
         <field name="source" type="string">
-            <sql name="source" type="char"/>
+            <sql name="SOURCE" type="char"/>
         </field>
         <field name="level" type="string">
-            <sql name="llevel" type="char"/>
+            <sql name="LLEVEL" type="char"/>
         </field>
         <field name="message" type="string">
-            <sql name="message" type="char"/>
+            <sql name="MESSAGE" type="char"/>
         </field>
         <field name="exception" type="org.castor.cpa.test.test2527.LogExceptionEntry">
-            <sql many-key="entry_id" />
+            <sql many-key="ENTRY_ID" />
         </field>
     </class>
 
@@ -31,15 +31,15 @@
            depends="org.castor.cpa.test.test2527.LogEntry">
 		<description>Log exception entry of journal</description>
         <cache-type type="none"/>
-        <map-to table="test2527_log_exception"/>
+        <map-to table="TEST2527_LOG_EXCEPTION"/>
         <field name="id" type="integer" identity="true">
-            <sql name="id" type="numeric"/>
+            <sql name="ID" type="numeric"/>
         </field>
         <field name="entry" type="org.castor.cpa.test.test2527.LogEntry">
-            <sql name="entry_id"/>
+            <sql name="ENTRY_ID"/>
         </field>
         <field name="stackTrace" type="string">
-            <sql name="stacktrace" type="clob" dirty="ignore"/>
+            <sql name="STACKTRACE" type="clob" dirty="ignore"/>
         </field>
     </class>
 	
@@ -47,15 +47,15 @@
            extends="org.castor.cpa.test.test2527.LogEntry">
 		<description>Log entry of journal that holds a reference to another object</description>
         <cache-type type="none"/>
-        <map-to table="test2527_log_reference"/>
+        <map-to table="TEST2527_LOG_REFERENCE"/>
         <field name="id">
-            <sql name="id"/>
+            <sql name="ID"/>
         </field>
         <field name="type" type="string">
-            <sql name="rtype" type="char" dirty="ignore"/>
+            <sql name="TYPE" type="char" dirty="ignore"/>
         </field>
         <field name="value" type="string">
-            <sql name="rvalue" type="char" dirty="ignore"/>
+            <sql name="VALUE" type="char" dirty="ignore"/>
         </field>
     </class>
 </mapping>

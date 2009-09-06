@@ -89,10 +89,10 @@ public abstract class Producer
 
 	attrList = new AttributeListImpl();
 	if ( _namespace ) 
-	    attrList.addAttribute( "xmlns:" + XML.Namespace.PREFIX, "CDATA", XML.Namespace.URI );
+	    attrList.addAttribute( "xmlns:" + XML.Namespace.Prefix, "CDATA", XML.Namespace.URI );
 	else
 	    attrList.addAttribute( "xmlns", "CDATA", XML.Namespace.URI );
-	_docHandler.startElement( prefix( XML.Namespace.ROOT ), attrList );
+	_docHandler.startElement( prefix( XML.Namespace.Root ), attrList );
 	
     }
 
@@ -102,7 +102,7 @@ public abstract class Producer
     {
 	leaveDirectory();
 	leaveSchema();
-	_docHandler.endElement( prefix( XML.Namespace.ROOT ) );
+	_docHandler.endElement( prefix( XML.Namespace.Root ) );
     }
 
 
@@ -130,7 +130,7 @@ public abstract class Producer
 	// If not inside directory element, start it
 	if ( ! _insideDirectory ) {
 	    _insideDirectory = true;
-	    _docHandler.startElement( prefix( XML.Entries.ELEMENT ), new AttributeListImpl() );
+	    _docHandler.startElement( prefix( XML.Entries.Element ), new AttributeListImpl() );
 	}
     }
 
@@ -141,7 +141,7 @@ public abstract class Producer
 	// If inside directory element, end it
 	if ( _insideDirectory ) {
 	    _insideDirectory = false;
-	    _docHandler.endElement( prefix( XML.Entries.ELEMENT ) );
+	    _docHandler.endElement( prefix( XML.Entries.Element ) );
 	}
     }
 
@@ -152,7 +152,7 @@ public abstract class Producer
 	// If not inside schema element, start it
 	if ( ! _insideSchema ) {
 	    _insideSchema = true;
-	    _docHandler.startElement( prefix( XML.Schema.ELEMENT ), new AttributeListImpl() );
+	    _docHandler.startElement( prefix( XML.Schema.Element ), new AttributeListImpl() );
 	}
     }
 
@@ -163,7 +163,7 @@ public abstract class Producer
 	// If not inside schema element, end it
 	if ( _insideSchema ) {
 	    _insideSchema = false;
-	    _docHandler.endElement( prefix( XML.Schema.ELEMENT ) );
+	    _docHandler.endElement( prefix( XML.Schema.Element ) );
 	}
     }
 
@@ -171,7 +171,7 @@ public abstract class Producer
   protected String prefix( String tagName )
   {
     if ( _namespace )
-      return XML.Namespace.PREFIX + ":" + tagName;
+      return XML.Namespace.Prefix + ":" + tagName;
     return tagName;
   }
 

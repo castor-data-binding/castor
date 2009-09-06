@@ -44,8 +44,6 @@
  */
 package org.castor.cpa.persistence.sql.driver;
 
-import java.sql.Types;
-
 import org.exolab.castor.persist.spi.PersistenceQuery;
 import org.exolab.castor.persist.spi.QueryExpression;
 
@@ -56,8 +54,6 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @version $Revision$ $Date: 2006-02-21 16:05:42 -0700 (Tue, 21 Feb 2006) $
  */
 public final class PostgreSQLFactory extends GenericFactory {
-    //-----------------------------------------------------------------------------------
-
     /** Internal name for this {@link org.exolab.castor.persist.spi.PersistenceFactory} instance. */
     public static final String FACTORY_NAME = "postgresql";
     
@@ -73,6 +69,23 @@ public final class PostgreSQLFactory extends GenericFactory {
      */
     public QueryExpression getQueryExpression() {
         return new PostgreSQLQueryExpression(this);
+    }
+
+    /**
+     * Determine if the given SQLException is DuplicateKeyException.
+     * 
+     * @return Boolean.TRUE means "yes",
+     *         Boolean.FALSE means "no",
+     *         null means "cannot determine".
+     */
+    public Boolean isDuplicateKeyException(final Exception ex) {
+        Boolean isDuplicateKey = Boolean.FALSE;
+
+        if (ex.getMessage().indexOf("duplicate key") > 0) {
+            isDuplicateKey = Boolean.TRUE;
+        }
+
+        return isDuplicateKey;
     }
 
     /**
@@ -93,8 +106,8 @@ public final class PostgreSQLFactory extends GenericFactory {
      * @param sqlTypes The field SQL types
      * @return null if this feature is not supported.
      */
-    public PersistenceQuery getCallQuery(final String call, final Class<?>[] paramTypes,
-            final Class<?> javaClass, final String[] fields, final int[] sqlTypes) {
+    public PersistenceQuery getCallQuery(final String call, final Class[] paramTypes,
+            final Class javaClass, final String[] fields, final int[] sqlTypes) {
         return new PostgreSQLCallQuery(call, paramTypes, javaClass, fields, sqlTypes);
     }
 
@@ -103,7 +116,7 @@ public final class PostgreSQLFactory extends GenericFactory {
      * <br/>
      * BLOB/CLOB types are not supported.
      */
-    public Class<?> adjustSqlType(final Class<?> sqlType) {
+    public Class adjustSqlType(final Class sqlType) {
         if (sqlType == java.sql.Clob.class) {
             return java.lang.String.class;
         } else if (sqlType == java.io.InputStream.class) {
@@ -112,61 +125,6 @@ public final class PostgreSQLFactory extends GenericFactory {
             return sqlType;
         }
     }
-    
-    //-----------------------------------------------------------------------------------
-
-    @Override
-    public boolean isKeyGeneratorIdentitySupported() {
-        return true;
-    }
-    
-    @Override
-    public boolean isKeyGeneratorIdentityTypeSupported(final int type) {
-        if (type == Types.INTEGER) { return true; }
-        if (type == Types.NUMERIC) { return true; }
-        if (type == Types.DECIMAL) { return true; }
-        if (type == Types.BIGINT) { return true; }
-        return false;
-    }
-    
-    @Override
-    public String getIdentitySelectString(final String tableName, final String columnName) {
-        // PostgreSQL uses a sequence in the background
-        // name of the sequence is: <table-name>_<column-name>_seq
-        return "SELECT currval('\"" +  tableName + "_" + columnName + "_seq\"')";
-    }
-    
-    @Override
-    public boolean isKeyGeneratorSequenceSupported(final boolean returning, final boolean trigger) {
-        return !returning || !trigger;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public boolean isKeyGeneratorSequenceTypeSupported(final int type) {
-        if (type == Types.INTEGER) { return true; }
-        if (type == Types.DECIMAL) { return true; }
-        if (type == Types.NUMERIC) { return true; }
-        if (type == Types.BIGINT) { return true; }
-        if (type == Types.CHAR) { return true; }
-        if (type == Types.VARCHAR) { return true; }
-
-        return false;
-    }
-    
-    @Override
-    public String getSequenceBeforeSelectString(final String seqName, 
-    final String tableName, final int increment) { 
-    return "SELECT nextval('\"" + seqName + "\"')";
-    }
-    
-    @Override
-    public String getSequenceAfterSelectString(final String seqName, final String tableName) {
-    return "SELECT currval('\"" + seqName + "\"')";
-    }
-    
-    //-----------------------------------------------------------------------------------
 }
 
 

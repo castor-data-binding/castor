@@ -1,6 +1,0 @@
-DROP TABLE IF EXISTS test31_relation;
-DROP TABLE IF EXISTS test31_extends2;
-DROP TABLE IF EXISTS test31_extends1;
-DROP TABLE IF EXISTS test31_related;
-DROP TABLE IF EXISTS test31_persistent;
-DROP TABLE IF EXISTS test31_group;

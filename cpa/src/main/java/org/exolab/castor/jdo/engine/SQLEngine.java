@@ -24,9 +24,6 @@ import java.util.Vector;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
-import org.castor.cpa.persistence.sql.engine.SQLStatementInsert;
-import org.castor.cpa.persistence.sql.engine.SQLStatementDelete;
-import org.castor.cpa.persistence.sql.engine.SQLStatementUpdate;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
@@ -37,11 +34,10 @@ import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.mapping.TypeConvertor;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
-import org.exolab.castor.persist.SQLRelationLoader;
 import org.exolab.castor.persist.spi.Identity;
+import org.exolab.castor.persist.spi.KeyGenerator;
 import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.persist.spi.PersistenceQuery;
@@ -80,23 +76,39 @@ public final class SQLEngine implements Persistence {
 
     private final ClassDescriptor    _clsDesc;
 
+    private KeyGenerator                _keyGen;
+    
     private final SQLStatementLoad _loadStatement;
 
-    private final SQLStatementInsert _createStatement;
+    private final SQLStatementCreate _createStatement;
 
-    private final SQLStatementDelete _removeStatement;
+    private final SQLStatementRemove _removeStatement;
 
-    private final SQLStatementUpdate _storeStatement;
+    private final SQLStatementStore _storeStatement;
 
-    public SQLEngine(final ClassDescriptor clsDesc, final PersistenceFactory factory)
-    throws MappingException {
+    public SQLEngine(final ClassDescriptor clsDesc, final PersistenceFactory factory,
+              final String stampField) throws MappingException {
 
         _clsDesc = clsDesc;
         _factory = factory;
+        _keyGen = null;
+        
+        if (_clsDesc.getExtends() == null) {
+            ClassDescriptorJDONature nature = new ClassDescriptorJDONature(clsDesc);
+            KeyGeneratorDescriptor keyGenDesc = nature.getKeyGeneratorDescriptor();
+            if (keyGenDesc != null) {
+                int[] tempType =  new FieldDescriptorJDONature(_clsDesc.getIdentity()).getSQLType();
+                _keyGen = keyGenDesc.getKeyGeneratorRegistry().getKeyGenerator(
+                        _factory, keyGenDesc, (tempType == null) ? 0 : tempType[0]);
+
+                // Does the key generator support the sql type specified in the mapping?
+                _keyGen.supportsSqlType(tempType[0]);
+            }
+        }
 
         // construct field and id info
-        Vector<SQLColumnInfo> idsInfo = new Vector<SQLColumnInfo>();
-        Vector<SQLFieldInfo> fieldsInfo = new Vector<SQLFieldInfo>();
+        Vector idsInfo = new Vector();
+        Vector fieldsInfo = new Vector();
 
         /*
          * Implementation Note:
@@ -121,7 +133,7 @@ public final class SQLEngine implements Persistence {
 
         // walk until the base class which this class extends
         base = clsDesc;
-        Stack<ClassDescriptor> stack = new Stack<ClassDescriptor>();
+        Stack stack = new Stack();
         stack.push(base);
         while (base.getExtends() != null) {
             // if (base.getDepends() != null) {
@@ -165,7 +177,7 @@ public final class SQLEngine implements Persistence {
 
         // then do the fields
         while (!stack.empty()) {
-            base = stack.pop();
+            base = (ClassDescriptor) stack.pop();
             FieldDescriptor[] fieldDescriptors = base.getFields();
             for (int i = 0; i < fieldDescriptors.length; i++) {
                 // fieldDescriptors[i] is persistent in db if it is not transient
@@ -186,20 +198,11 @@ public final class SQLEngine implements Persistence {
 
         _fields = new SQLFieldInfo[fieldsInfo.size()];
         fieldsInfo.copyInto(_fields);
-        
+
         _loadStatement = new SQLStatementLoad(this, factory);
-        _createStatement = new SQLStatementInsert(this, factory);
-        _removeStatement = new SQLStatementDelete(this, factory);
-        _storeStatement = new SQLStatementUpdate(this, factory);
-    }
-    
-    public SQLRelationLoader createSQLRelationLoader(final String manyTable,
-            final String[] idSQL, final int[] idType,
-            final TypeConvertor[] idTo, final TypeConvertor[] idFrom,
-            final String[] relatedIdSQL, final int[] relatedIdType,
-            final TypeConvertor[] ridTo, final TypeConvertor[] ridFrom) {
-        return new SQLRelationLoader(manyTable, idSQL, idType, idTo, idFrom,
-                relatedIdSQL, relatedIdType, ridTo, ridFrom, _factory);
+        _createStatement = new SQLStatementCreate(this, factory);
+        _removeStatement = new SQLStatementRemove(this, factory);
+        _storeStatement = new SQLStatementStore(this, factory, _loadStatement.getLoadStatement());
     }
 
     public SQLColumnInfo[] getColumnInfoForIdentities() {
@@ -327,21 +330,11 @@ public final class SQLEngine implements Persistence {
                         final ProposedEntity newentity,
                         final ProposedEntity oldentity)
     throws PersistenceException {
-        // check size of identity columns
-        if (identity.size() != _ids.length) {
-            throw new PersistenceException("Size of identity field mismatched!");
-        }
-
         return _storeStatement.executeStatement((Connection) conn, identity, newentity, oldentity);
     }
 
     public void delete(final Object conn, final Identity identity)
     throws PersistenceException {
-        // check size of identity columns
-        if (identity.size() != _ids.length) {
-            throw new PersistenceException("Size of identity field mismatched!");
-        }
-
         _removeStatement.executeStatement((Connection) conn, identity);
     }
 

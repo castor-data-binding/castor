@@ -60,6 +60,7 @@ import org.exolab.castor.jdo.DataObjectAccessException;
 import org.exolab.castor.mapping.MapItem;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.TypeConvertor;
+import org.exolab.castor.mapping.loader.AbstractMappingLoader;
 import org.exolab.castor.mapping.loader.Types;
 import org.exolab.castor.mapping.xml.FieldMapping;
 import org.exolab.castor.mapping.xml.types.SqlDirtyType;
@@ -144,7 +145,7 @@ public class FieldMolder {
     private String _comparator;
 
     /** Collection of reflection service keyed by ClassLoader instance. */
-    private HashMap<ClassLoader, ReflectService> _reflectServices;
+    private HashMap _reflectServices;
 
     /** Default reflection service. */
     private ReflectService _defaultReflectService;
@@ -426,8 +427,8 @@ public class FieldMolder {
          */
 
         for (int i = 0; i < INFO.length; i++) {
-            if (INFO[i].getName().equals(coll)) {
-                return INFO[i].getType();
+            if (INFO[i]._name.equals(coll)) {
+                return INFO[i]._type;
             }
         }
         return null;
@@ -445,17 +446,14 @@ public class FieldMolder {
             return type;*/
     }
 
-    public static class CollectionInfo {
+    static class CollectionInfo {
         private String _name;
         private Class _type;
         
-        public CollectionInfo(final String name, final Class type) {
+        CollectionInfo(final String name, final Class type) {
             _name = name;
             _type = type;
         }
-        
-        public String getName() { return _name; }
-        public Class getType() { return _type; }
     }
 
     private static final CollectionInfo[] INFO =
@@ -487,11 +485,15 @@ public class FieldMolder {
      *  found, not accessible, not of the specified type, etc
      */
     public FieldMolder(final DatingService ds, final ClassMolder eMold, final FieldMapping fieldMap,
-            final SQLRelationLoader loader) throws MappingException {
+            final String manyTable, final String[] idSQL, final int[] idType,
+            final TypeConvertor[] idTo, final TypeConvertor[] idFrom,
+            final String[] relatedIdSQL, final int[] relatedIdType, final TypeConvertor[] ridTo,
+            final TypeConvertor[] ridFrom) throws MappingException {
 
         this(ds, eMold, fieldMap);
         
-        _manyToManyLoader = loader;
+        _manyToManyLoader = new SQLRelationLoader(manyTable,
+                idSQL, idType, idTo, idFrom, relatedIdSQL, relatedIdType, ridTo, ridFrom);
     }
 
     public FieldMolder(final DatingService ds, final ClassMolder eMold, final FieldMapping fieldMap)
@@ -501,7 +503,7 @@ public class FieldMolder {
             // create the reflection service with the ClassLoader hold in the
             // SatingService object as default
             _defaultReflectService = new ReflectService();
-            _reflectServices = new HashMap<ClassLoader, ReflectService>();
+            _reflectServices = new HashMap();
 
             // Set enclosing ClassMolder
             _eMold = eMold;
@@ -592,7 +594,7 @@ public class FieldMolder {
             // instead of asking it to the newly created class ?
             _defaultReflectService._loader = javaClass.getClassLoader();
             if (null != _defaultReflectService._loader) {
-                _reflectServices.put(_defaultReflectService._loader, this._defaultReflectService);
+                _reflectServices.put (_defaultReflectService._loader, this._defaultReflectService);
             }
 
             String fieldName = fieldMap.getName();
@@ -628,8 +630,8 @@ public class FieldMolder {
 
                 // Container object, map field to fields of the container
                 int point;
-                ArrayList<Method> getSeq = new ArrayList<Method>();
-                ArrayList<Method> setSeq = new ArrayList<Method>();
+                ArrayList getSeq = new ArrayList();
+                ArrayList setSeq = new ArrayList();
                 String name = fieldMap.getName();
                 Class last;
                 Method method = null;
@@ -697,9 +699,9 @@ public class FieldMolder {
                 }
                 if (getSeq.size() > 0) {
                     _defaultReflectService._getSequence =
-                        getSeq.toArray(new Method[getSeq.size()]);
+                        (Method[]) getSeq.toArray(new Method[getSeq.size()]);
                     _defaultReflectService._setSequence =
-                        setSeq.toArray(new Method[setSeq.size()]);
+                        (Method[]) setSeq.toArray(new Method[setSeq.size()]);
                 }
                 Class methodClass = (_colClass != null) ? _colClass : declaredClass;
                 _defaultReflectService._getMethod = null;
@@ -966,9 +968,9 @@ public class FieldMolder {
      * @throws MappingException The method is not accessible or is not of the
      *         specified type.
      */
-    public static final Method findAccessor(final Class javaClass, final String methodName,
-            final Class fieldType, final boolean getMethod) throws MappingException {
-        Class internalFieldType = fieldType;
+    public static final Method findAccessor(final Class javaClass,
+                                            final String methodName, Class fieldType,
+                                            final boolean getMethod) throws MappingException {
         try {
             Method method = null;
 
@@ -985,29 +987,29 @@ public class FieldMolder {
                     if (methodName.equals("getValue")) { return method; }
                 }
 
-                if (internalFieldType == null) {
-                    internalFieldType = Types.typeFromPrimitive(method.getReturnType());
+                if (fieldType == null) {
+                    fieldType = Types.typeFromPrimitive(method.getReturnType());
                 } else {
-                    internalFieldType = Types.typeFromPrimitive(internalFieldType);
+                    fieldType = Types.typeFromPrimitive(fieldType);
                     Class returnType = Types.typeFromPrimitive(method.getReturnType());
 
                     //-- First check against whether the declared type is
                     //-- an interface or abstract class. We also check
                     //-- type as Serializable for CMP 1.1 compatibility.
-                    if (internalFieldType.isInterface()
-                            || ((internalFieldType.getModifiers() & Modifier.ABSTRACT) != 0)
-                            || (internalFieldType == java.io.Serializable.class)) {
+                    if (fieldType.isInterface()
+                            || ((fieldType.getModifiers() & Modifier.ABSTRACT) != 0)
+                            || (fieldType == java.io.Serializable.class)) {
 
-                        if (!internalFieldType.isAssignableFrom(returnType)) {
+                        if (!fieldType.isAssignableFrom(returnType)) {
                             throw new MappingException(
                                     "mapping.accessorReturnTypeMismatch",
-                                    method, internalFieldType.getName());
+                                    method, fieldType.getName());
                         }
                     } else {
-                        if (!returnType.isAssignableFrom(internalFieldType)) {
+                        if (!returnType.isAssignableFrom(fieldType)) {
                             throw new MappingException(
                                     "mapping.accessorReturnTypeMismatch",
-                                    method, internalFieldType.getName());
+                                    method, fieldType.getName());
                         }
                     }
                 }
@@ -1017,8 +1019,8 @@ public class FieldMolder {
                 // field type is unknown, lookup the first method with that name and
                 // one parameter.
                 Class fieldTypePrimitive = null;
-                if (internalFieldType != null) {
-                    fieldTypePrimitive = Types.typeFromPrimitive(internalFieldType);
+                if (fieldType != null) {
+                    fieldTypePrimitive = Types.typeFromPrimitive(fieldType);
                     // first check for setter with reference type (e.g. setXxx(Integer))
                     try {
                         method = javaClass.getMethod(methodName, new Class[] {fieldTypePrimitive});
@@ -1026,8 +1028,7 @@ public class FieldMolder {
                         // if setter for reference type could not be found
                         // try to find one for primitive type (e.g. setXxx(int))
                         try {
-                            method = javaClass.getMethod(
-                                    methodName, new Class[] {internalFieldType});
+                            method = javaClass.getMethod(methodName, new Class[] {fieldType});
                         } catch (Exception ex2) {
                             // LOG.warn("Unexpected exception", ex2);
                         }
@@ -1043,14 +1044,13 @@ public class FieldMolder {
 
                             Class paramType = Types.typeFromPrimitive(paramTypes[0]);
 
-                            if (internalFieldType == null) {
+                            if (fieldType == null) {
                                 method = methods[i];
                                 break;
                             } else if (paramType.isAssignableFrom(fieldTypePrimitive)) {
                                 method = methods[i];
                                 break;
-                            } else if (internalFieldType.isInterface()
-                                    || isAbstract(internalFieldType)) {
+                            } else if (fieldType.isInterface() || isAbstract(fieldType)) {
                                 if (fieldTypePrimitive.isAssignableFrom(paramType)) {
                                     method = methods[i];
                                     break;
@@ -1104,7 +1104,7 @@ public class FieldMolder {
             return this._defaultReflectService;
         }
 
-        ReflectService resultReflectService = _reflectServices.get(loader);
+        ReflectService resultReflectService = (ReflectService) _reflectServices.get(loader);
         if (null == resultReflectService) {
             // create a new Refelect service and store it in the hashtable
             resultReflectService = new ReflectService(_defaultReflectService, loader);
@@ -1123,18 +1123,17 @@ public class FieldMolder {
         /**
          * Default constructor. All fields need to be set one by one.
          */
-        public ReflectService () {
+        ReflectService () {
             // no code to execute
         }
 
         /**
          * Contructs a ReflectService object based on the instance provided
          * and uses the <code>ClassLoader</code> to build Reflection fields.
-         * 
          * @param refSrv the ReflectService that serve as a based for the new instance
          * @loader the new ClassLoader
          */
-        public ReflectService(final ReflectService refSrv, final ClassLoader loader) {
+        ReflectService(final ReflectService refSrv, final ClassLoader loader) {
             this._loader = loader;
             this._fClass = cloneClass(refSrv._fClass);
             this._field  = cloneField(refSrv._field);

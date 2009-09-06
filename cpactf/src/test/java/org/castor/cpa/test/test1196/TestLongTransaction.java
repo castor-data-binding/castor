@@ -43,12 +43,14 @@ public final class TestLongTransaction extends CPATestCase {
     // Test are only included/excluded for engines that have been tested with this test suite.
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.ORACLE)
-            || (engine == DatabaseEngineType.POSTGRESQL)
-            || (engine == DatabaseEngineType.SAPDB)
-            || (engine == DatabaseEngineType.SQL_SERVER);
+        return (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.ORACLE);
+    }
+    
+    // SQL_SERVER is excluded until issue CASTOR-2634 is resolved
+    
+    public boolean exclude(final DatabaseEngineType engine) {
+        return (engine == DatabaseEngineType.SQL_SERVER);
     }
     
     public void deleteUnidirectional() throws Exception {
@@ -119,17 +121,17 @@ public final class TestLongTransaction extends CPATestCase {
         
         //1. client1 load Parana State
         db.begin();
-        State paranaStateClient1 = db.load(State.class, "AASTBRPR");
+        State paranaStateClient1 = (State) db.load(State.class, "AASTBRPR");
         db.commit();
         
         //2. client1 load COUNTRY FOR TEST
         db.begin();
-        Country countryTestClient1 = db.load(Country.class, "AAAACTTS");
+        Country countryTestClient1 = (Country) db.load(Country.class, "AAAACTTS");
         db.commit();
         
         //3. client2 load COUNTRY FOR TEST
         db.begin();
-        Country countryTestClient2 = db.load(Country.class, "AAAACTTS");
+        Country countryTestClient2 = (Country) db.load(Country.class, "AAAACTTS");
         db.commit();
         
         //4. client2 changes COUNTRY FOR TEST
@@ -156,25 +158,25 @@ public final class TestLongTransaction extends CPATestCase {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
         
-        state = db.load(State.class, "AASTBRPR");
+        state = (State) db.load(State.class, "AASTBRPR");
         db.remove(state);
         
-        state = db.load(State.class, "AASTBRSP");
+        state = (State) db.load(State.class, "AASTBRSP");
         db.remove(state);
         
-        state = db.load(State.class, "AASTUSTX");
+        state = (State) db.load(State.class, "AASTUSTX");
         db.remove(state);
         
-        state = db.load(State.class, "AASTUSCL");
+        state = (State) db.load(State.class, "AASTUSCL");
         db.remove(state);
         
-        country = db.load(Country.class, "AAAACTBR");
+        country = (Country) db.load(Country.class, "AAAACTBR");
         db.remove(country);
 
-        country = db.load(Country.class, "AAAACTUS");
+        country = (Country) db.load(Country.class, "AAAACTUS");
         db.remove(country);
         
-        country = db.load(Country.class, "AAAACTTS");
+        country = (Country) db.load(Country.class, "AAAACTTS");
         db.remove(country);
         
         db.commit();
@@ -224,17 +226,17 @@ public final class TestLongTransaction extends CPATestCase {
         
         //1. client1 load CAR ONE
         db.begin();
-        Car car1Client1 = db.load(Car.class, "AAACAR01");
+        Car car1Client1 = (Car) db.load(Car.class, "AAACAR01");
         db.commit();
         
         //2. client1 load DRIVER ONE
         db.begin();
-        Driver driver1Client1 = db.load(Driver.class, "AAADRV01");
+        Driver driver1Client1 = (Driver) db.load(Driver.class, "AAADRV01");
         db.commit();
         
         //3. client2 load DRIVER ONE
         db.begin();
-        Driver driver1Client2 = db.load(Driver.class, "AAADRV01");
+        Driver driver1Client2 = (Driver) db.load(Driver.class, "AAADRV01");
         db.commit();
         
         //4. client2 changes DRIVER ONE
@@ -259,7 +261,7 @@ public final class TestLongTransaction extends CPATestCase {
             
             //5.2 client1 reload DRIVER ONE
             db.begin();
-            driver1Client1 = db.load(Driver.class, "AAADRV01");
+            driver1Client1 = (Driver) db.load(Driver.class, "AAADRV01");
             db.commit();
             
             //5.3 redo changes
@@ -283,26 +285,26 @@ public final class TestLongTransaction extends CPATestCase {
         db.begin();
         //1. removes references
         
-        car = db.load(Car.class, "AAACAR01");
+        car = (Car) db.load(Car.class, "AAACAR01");
         car.setDriver(null);
         
-        car = db.load(Car.class, "AAACAR02");
+        car = (Car) db.load(Car.class, "AAACAR02");
         car.setDriver(null);
 
-        driver = db.load(Driver.class, "AAADRV01");
+        driver = (Driver) db.load(Driver.class, "AAADRV01");
         driver.setCar(null);
         
         db.commit();
         db.begin();
         // 2. removes objects
         
-        car = db.load(Car.class, "AAACAR01");
+        car = (Car) db.load(Car.class, "AAACAR01");
         db.remove(car);
         
-        car = db.load(Car.class, "AAACAR02");
+        car = (Car) db.load(Car.class, "AAACAR02");
         db.remove(car);
 
-        driver = db.load(Driver.class, "AAADRV01");
+        driver = (Driver) db.load(Driver.class, "AAADRV01");
         db.remove(driver);
         
         db.commit();
@@ -363,17 +365,17 @@ public final class TestLongTransaction extends CPATestCase {
         
         //1. client1 load order
         db.begin();
-        Order orderClient1 = db.load(Order.class, "AAAAOR01");
+        Order orderClient1 = (Order) db.load(Order.class, "AAAAOR01");
         db.commit();
         
         //2. client1 load COMPUTER 2
         db.begin();
-        Computer computer2Client1 = db.load(Computer.class, "AAAACP02");
+        Computer computer2Client1 = (Computer) db.load(Computer.class, "AAAACP02");
         db.commit();
         
         //3. client2 load COMPUTER 2
         db.begin();
-        Computer computer2Client2 = db.load(Computer.class, "AAAACP02");
+        Computer computer2Client2 = (Computer) db.load(Computer.class, "AAAACP02");
         db.commit();
         
         //4. client2 changes COMPUTER 2
@@ -402,13 +404,13 @@ public final class TestLongTransaction extends CPATestCase {
             
             //5.2 client1 reload COMPUTER 2
             db.begin();
-            computer2Client1 = db.load(Computer.class, "AAAACP02");
+            computer2Client1 = (Computer) db.load(Computer.class, "AAAACP02");
             db.commit();
             
             // TODO [CW]: 5.3 client 1 must reload COMPUTER 1 too
             //because a BUG in rollback that dont rollback timestamps
             db.begin();
-            computer1Client1 = db.load(Computer.class, "AAAACP01");
+            computer1Client1 = (Computer) db.load(Computer.class, "AAAACP01");
             db.commit();
             
             //5.3 redo changes
@@ -435,7 +437,7 @@ public final class TestLongTransaction extends CPATestCase {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
         
-        order = db.load(Order.class, "AAAAOR01");
+        order = (Order) db.load(Order.class, "AAAAOR01");
         orderItem = order.getOrderItems().get(0);
         computer = (Computer) orderItem.getProduct();
         computer.setOrderItem(null);
@@ -444,13 +446,13 @@ public final class TestLongTransaction extends CPATestCase {
         db.commit();
         db.begin();
 
-        order = db.load(Order.class, "AAAAOR01");
+        order = (Order) db.load(Order.class, "AAAAOR01");
         db.remove(order);
 
-        computer = db.load(Computer.class, "AAAACP01");
+        computer = (Computer) db.load(Computer.class, "AAAACP01");
         db.remove(computer);
 
-        computer = db.load(Computer.class, "AAAACP02");
+        computer = (Computer) db.load(Computer.class, "AAAACP02");
         db.remove(computer);
         
         db.commit();

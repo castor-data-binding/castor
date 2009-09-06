@@ -325,7 +325,7 @@ public final class JDOClassDescriptorFactory {
        jsc.add("");
 
        //-- Configure class mapping
-       jsc.add("mapping.setAccess(ClassMappingAccessType.fromValue(\"");
+       jsc.add("mapping.setAccess(ClassMappingAccessType.valueOf(\"");
        jsc.append(accessMode);
        jsc.append("\"));");
 

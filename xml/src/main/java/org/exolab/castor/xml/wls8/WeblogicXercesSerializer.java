@@ -29,21 +29,23 @@ import java.lang.reflect.Method;
  */
 public class WeblogicXercesSerializer extends WeblogicXercesImplementation implements org.exolab.castor.xml.Serializer {
     
-    private static Class _serializerClass;
-    private static Method _asDocumentHandler;
-    private static Method _setOutputByteStream;
-    private static Method _setOutputCharStream;
-    private static Method _setOutputFormat;
+    private static Class serializerClass;
+    private static Method asDocumentHandler;
+    private static Method setOutputByteStream;
+    private static Method setOutputCharStream;
+    private static Method setOutputFormat;
 
-    /** Xerces XMLSerializer instance to use for serialization. */
-    private Object _serializer;
+    /**
+     * Xerces XMLSerializer instance to use for serialization.
+     */
+    private Object serializer;
     static {
         // use reflection to get the methods
 
         // get the classes
         Class weblogicOutputFormat = null;
         try {
-            _serializerClass = Class.forName("weblogic.apache.xml.serialize.XMLSerializer");
+            serializerClass = Class.forName("weblogic.apache.xml.serialize.XMLSerializer");
             weblogicOutputFormat = Class.forName("weblogic.apache.xml.serialize.OutputFormat");
         }
         catch (ClassNotFoundException e) {
@@ -51,19 +53,19 @@ public class WeblogicXercesSerializer extends WeblogicXercesImplementation imple
         }
         // get the methods
         // asDocumentHandler
-        _asDocumentHandler = getMethod(_serializerClass, "asDocumentHandler", new Class[0]);
+        asDocumentHandler = getMethod(serializerClass, "asDocumentHandler", new Class[0]);
         
         // setOutputByteStream
         Class[] parameterOutputStream = {OutputStream.class};
-        _setOutputByteStream = getMethod(_serializerClass, "setOutputByteStream", parameterOutputStream);
+        setOutputByteStream = getMethod(serializerClass, "setOutputByteStream", parameterOutputStream);
         
         // setOutputCharStream
         Class[] parameterWriter = {Writer.class};
-        _setOutputCharStream = getMethod(_serializerClass, "setOutputCharStream", parameterWriter);
+        setOutputCharStream = getMethod(serializerClass, "setOutputCharStream", parameterWriter);
         
         // setOutputByteStream
         Class[] parameterOutputFormat = {weblogicOutputFormat};
-        _setOutputFormat = getMethod(_serializerClass, "setOutputFormat", parameterOutputFormat);
+        setOutputFormat = getMethod(serializerClass, "setOutputFormat", parameterOutputFormat);
         
     }
 
@@ -72,7 +74,7 @@ public class WeblogicXercesSerializer extends WeblogicXercesImplementation imple
      */
     public WeblogicXercesSerializer() {
         try {
-            _serializer = _serializerClass.newInstance();
+            serializer = serializerClass.newInstance();
         }
         catch (InstantiationException e) {
             throw new RuntimeException(e.toString()); // java 1.3, can't wrap using the 1.4 constructor
@@ -87,7 +89,7 @@ public class WeblogicXercesSerializer extends WeblogicXercesImplementation imple
      * @deprecated
      */
     public org.xml.sax.DocumentHandler asDocumentHandler() throws IOException {
-        return (org.xml.sax.DocumentHandler) invoke(_asDocumentHandler, new Object[0]);
+        return (org.xml.sax.DocumentHandler) invoke(asDocumentHandler, new Object[0]);
     }
     
     /**
@@ -95,7 +97,7 @@ public class WeblogicXercesSerializer extends WeblogicXercesImplementation imple
      */
     public void setOutputByteStream(OutputStream output) {
         Object[] params = {output};
-        invoke(_setOutputByteStream, params);
+        invoke(setOutputByteStream, params);
     }
 
     /**
@@ -103,7 +105,7 @@ public class WeblogicXercesSerializer extends WeblogicXercesImplementation imple
      */
     public void setOutputCharStream(Writer out) {
         Object[] params = {out};
-        invoke(_setOutputCharStream, params);
+        invoke(setOutputCharStream, params);
     }
     
     /**
@@ -111,10 +113,10 @@ public class WeblogicXercesSerializer extends WeblogicXercesImplementation imple
      */
     public void setOutputFormat(org.exolab.castor.xml.OutputFormat format) {
         Object[] params = {format.getFormat()};
-        invoke(_setOutputFormat, params);
+        invoke(setOutputFormat, params);
     }
     
     private Object invoke(Method method, Object[] params) {
-        return invoke(_serializer, method, params);
+        return invoke(serializer, method, params);
     }
 }

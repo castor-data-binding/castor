@@ -64,7 +64,7 @@ public final class TestReinsertingReaper extends TestCase {
             assertEquals(cache.get(key), Integer.toString(i));
         }
 
-        List<Object> expired = ReinsertingReaperMock.getExpiredObjects();
+        List expired = ReinsertingReaperMock.getExpiredObjects();
         assertEquals(10, expired.size());
         for (int i = 0; i < 10; i++) {
             assertTrue(expired.contains(Integer.toString(i)));

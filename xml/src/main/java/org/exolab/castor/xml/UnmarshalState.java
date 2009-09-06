@@ -48,75 +48,120 @@ package org.exolab.castor.xml;
 import java.util.HashSet;
 
 /**
- * The state information class for the UnmarshalHandler.
+ * The state information class for the UnmarshalHandler
  * 
  * @author <a href="mailto:kvisco-at-intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2004-12-11 02:25:45 -0700 (Sat, 11 Dec 2004) $
  */
 public class UnmarshalState {
-    /** Holds on to Constructor arguments. */
-    UnmarshalHandler.Arguments _args = null;
     
-    /** Holds the current location path. */
-    String _location = "";
+    /**
+     * Holds on to Constructor arguments
+     */
+    UnmarshalHandler.Arguments args = null;
     
-    /** Indicates if the xsi:nil='true' attribute was present on the element. */
-    boolean _nil = false;
+    /**
+     * Holds the current location path
+     */
+    String location = "";
     
-    /** The xml element name of the current object. */
-    String _elementName = null;
-
-    /** Characters read in during unmarshalling. */
-    StringBuffer _buffer = null;
-
-    /** The key for the object. This may be null if no key
-     *  or identity has been specified. */
-    Object _key = null;
+    /**
+     * indicates if the xsi:nil='true' attribute
+     * was present on the element
+     */
+    boolean nil = false;
     
-    /** The current that we are unmarshalling to. */
-    Object _object = null;
+    /**
+     * The xml element name of the current object
+     */
+    String elementName = null;
+
+    /**
+     * Characters read in during unmarshalling
+     */
+    StringBuffer buffer = null;
+
+    /**
+     * The key for the object. This may be null if no key
+     * or identity has been specified.
+     */
+    Object key = null;
     
-    /** The class of the object, mainly used for primitives. */
-    Class _type = null;
+    /**
+     * The current that we are unmarshalling to
+     */
+    Object object = null;
 
-    /** The field descriptor for the Object. */
-    XMLFieldDescriptor _fieldDesc = null;
+    
+    /**
+     * The class of the object, mainly used for primitives
+     */
+    Class type = null;
 
-    /** The class descriptor for the Object, in case
-     *  FieldDescriptor#getClassDescriptor returns null. */
-    XMLClassDescriptor _classDesc = null;
+    /**
+     * The field descriptor for the Object
+     */
+    XMLFieldDescriptor fieldDesc = null;
 
-    /** Is the field a primitive or immutable type? */
-    boolean _primitiveOrImmutable = false;
 
-    /** The list of *used* field descriptors.
-     * Note: Initialized upon demand, no need to create the list for primitive fields. */
+    /**
+     * The class descriptor for the Object, in case
+     * FieldDescriptor#getClassDescriptor returns null
+     */
+    XMLClassDescriptor classDesc = null;
+
+    /**
+     * Is the field a primitive or immutable type?
+     */
+    boolean primitiveOrImmutable = false;
+
+    /**
+     * The list of *used* field descriptors
+     * Note: Initialized upon demand, no need to create
+     * the list for primitive fields
+     */
     private HashSet _markedList = null;
 
-    /** Is this a derived field? */
-    boolean _derived = false;
+    /**
+     * Is this a derived field? 
+     */
+    boolean derived = false;
     
-    /** Is this a wrapper state? */
-    boolean _wrapper = false;
+    /**
+     * Is this a wrapper state?
+     */
+    boolean wrapper = false;
     
-    /** The whitespace preserve flag. */
-    boolean _wsPreserve = false;
+    /**
+     * The whitespace preserve flag
+     */
+    boolean wsPreserve = false;
     
-    boolean _trailingWhitespaceRemoved = false;
+    boolean trailingWhitespaceRemoved = false;
     
-    /** Index of next expected sequence element; used during validation. */
-    public int _expectedIndex = 0;
+    /**
+     * Index of next expected sequence element; used during validation 
+     */
+    public int expectedIndex = 0;
     
-    /** Indicates (during validation) whether the current field descriptor 
-     *  points to a multi-valued element. */
-    public boolean _withinMultivaluedElement = false;
+    /**
+     * Indicates (during validation) whether the current field descriptor 
+     * points to a multi-valued element.
+     */
+    public boolean withinMultivaluedElement = false;
     
-    /** The UnmarshalState which contains information about the parent object for object
-     *  containted within this state. Used when handling element containers/wrappers. */
-    UnmarshalState _targetState = null;
+    /**
+     * The UnmarshalState which contains information
+     * about the parent object for object containted
+     * within this state. Used when handling
+     * element containers/wrappers.
+     */
+    UnmarshalState targetState = null;
     
-    /** A reference to the parent state. */
-    UnmarshalState _parent = null;
+    /**
+     * A reference to the parent state.
+     */
+    UnmarshalState parent = null;
 
     UnmarshalState() {
         super();
@@ -127,45 +172,48 @@ public class UnmarshalState {
      */
     void clear() {
         
-        _args = null;
-        _location = "";
-        _elementName = null;
-        _buffer = null;
-        _key = null;
-        _nil = false;
-        _object = null;
-        _type = null;
-        _fieldDesc = null;
-        _classDesc = null;
-        _primitiveOrImmutable = false;
+        args = null;
+        location = "";
+        elementName = null;
+        buffer = null;
+        key = null;
+        nil = false;
+        object = null;
+        type = null;
+        fieldDesc = null;
+        classDesc = null;
+        primitiveOrImmutable = false;
         if (_markedList != null) {
             _markedList.clear();
         }
-        _derived = false;
-        _wrapper = false;
-        _targetState = null;
-        _wsPreserve = false;
-        _parent = null;
-        _trailingWhitespaceRemoved = false;
+        derived = false;
+        wrapper = false;
+        targetState = null;
+        wsPreserve = false;
+        parent = null;
+        trailingWhitespaceRemoved = false;
     } //-- clear
 
     /**
-     * Marks the given XMLFieldDescriptor as having been used.
-     * 
-     * @param descriptor the XMLFieldDescriptor to mark.
-     */
+     * Marks the given XMLFieldDescriptor as having been used
+     * @param descriptor the XMLFieldDescriptor to mark
+    **/
     void markAsUsed(XMLFieldDescriptor descriptor) {
-        if (_markedList == null) { _markedList = new HashSet(5); }
+        if (_markedList == null)
+            _markedList = new HashSet(5);
         _markedList.add(descriptor);
-    }
+    } //-- markAsUsed
 
     void markAsNotUsed(XMLFieldDescriptor descriptor) {
-        if (_markedList == null) { return; }
+        if (_markedList == null) return;
         _markedList.remove(descriptor);
     }
 
     boolean isUsed(XMLFieldDescriptor descriptor) {
-        if (_markedList == null) { return false; }
+        if (_markedList == null) return false;
         return _markedList.contains(descriptor);
-    }
-}
+    } //-- isUsed
+
+    
+
+} //-- UnmarshalState

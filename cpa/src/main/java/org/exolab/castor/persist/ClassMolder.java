@@ -51,7 +51,6 @@ import java.util.Vector;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
-import org.castor.cpa.util.JDOClassDescriptorResolver;
 import org.castor.jdo.util.ClassLoadingUtils;
 import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
@@ -70,19 +69,18 @@ import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
-import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.TypeConvertor;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;
-import org.exolab.castor.mapping.xml.NamedNativeQuery;
 import org.exolab.castor.persist.spi.CallbackInterceptor;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.xml.ClassDescriptorResolver;
 import org.exolab.castor.xml.ResolverException;
+import org.exolab.castor.xml.util.JDOClassDescriptorResolver;
 
 /**
  * ClassMolder is a 'binder' for one type of data object and its corresponding 
@@ -134,11 +132,11 @@ public class ClassMolder {
 
     /** A Vector of <tt>ClassMolder</tt>s for all the direct dependent class of the
      *  base class. */
-    private Vector<ClassMolder> _dependent;
+    private Vector _dependent;
 
     /** A Vector of <tt>ClassMolder</tt>s for all the direct extending class of the
      *  base class. */
-    private Vector<ClassMolder> _extendent;
+    private Vector _extendent;
 
     /** Default accessMode of the base class. */
     private AccessMode _accessMode;
@@ -160,6 +158,9 @@ public class ClassMolder {
 
     /** True if org.exolab.castor.debug="true". */
     private boolean _debug;
+
+    /** True if the representing class implements the interface TimeStampable. */
+    private boolean _timeStampable;
 
     /** Create priority. */
     private int _priority = -1;
@@ -198,6 +199,8 @@ public class ClassMolder {
         ClassMapping clsMap = ((ClassDescriptorImpl) clsDesc).getMapping();
         _name = clsMap.getName();
         _accessMode = AccessMode.valueOf(clsMap.getAccess().toString());
+
+        _timeStampable = TimeStampable.class.isAssignableFrom(clsDesc.getJavaClass());
 
         ds.register(_name, this);
 
@@ -337,10 +340,9 @@ public class ClassMolder {
                     relatedIdSQL = manyName;
                 }
                 
-                SQLRelationLoader loader = _persistence.createSQLRelationLoader(
-                        manyTable, idSQL, idType, idConvertTo, idConvertFrom,
+                _fhs[fieldMolderNumber] = new FieldMolder(ds, this, fmFields[i], manyTable, idSQL,
+                        idType, idConvertTo, idConvertFrom,
                         relatedIdSQL, relatedIdType, relatedIdConvertTo, relatedIdConvertFrom);
-                _fhs[fieldMolderNumber] = new FieldMolder(ds, this, fmFields[i], loader);
             } else {
                 _fhs[fieldMolderNumber] = new FieldMolder(ds, this, fmFields[i]);
             }
@@ -490,7 +492,7 @@ public class ClassMolder {
             locker.setObject(tx, proposedObject.getFields(), System.currentTimeMillis());
         }
 
-        mold(tx, locker, proposedObject, accessMode);
+        mold(tx, locker, proposedObject, suggestedAccessMode);
     }
 
     /**
@@ -499,13 +501,13 @@ public class ClassMolder {
      * @param tx Currently active transaction context
      * @param locker Current cache instance
      * @param proposedObject ProposedEntity instance
-     * @param accessMode Suggested access mode
+     * @param suggestedAccessMode Suggested access mode
      * @param results OQL QueryResults instance
      * @throws ObjectNotFoundException If the object in question cannot be found.
-     * @throws PersistenceException For any other persistence-related problem.
+     * @throws PersistenceException For any other persistence-ralted problem.
      */
     public void load(final TransactionContext tx, final DepositBox locker,
-            final ProposedEntity proposedObject, final AccessMode accessMode,
+            final ProposedEntity proposedObject, final AccessMode suggestedAccessMode,
             final QueryResults results)
     throws PersistenceException {
         OID oid = locker.getOID();
@@ -514,51 +516,58 @@ public class ClassMolder {
                     "The identities of the object to be loaded is null");
         }
         
-        proposedObject.initializeFields(_fhs.length);
-        if (results != null) {
-            results.getQuery().fetch(proposedObject);
+        // try to load the field values from the cache, except when being told
+        // to ignore them
+        if (!proposedObject.isObjectLockObjectToBeIgnored()) {
+            Object[] cachedFieldValues = locker.getObject(tx);
+            proposedObject.setFields(cachedFieldValues);
         } else {
-            Connection conn = tx.getConnection(oid.getMolder().getLockEngine());
-            _persistence.load(conn, proposedObject, oid.getIdentity(), accessMode);
+            // set the field values to 'null'. this indicates that the field values 
+            // should be loaded from the persistence storage
+            proposedObject.setFields(null);
+        }
+        
+        AccessMode accessMode = getAccessMode(suggestedAccessMode);
+
+        // load the fields from the persistent storage if the cache is empty
+        // or the access mode is DBLOCKED (thus guaranteeing that a lock at the
+        // database level will be created)
+        if (!proposedObject.isFieldsSet() || accessMode == AccessMode.DbLocked) {
+            proposedObject.initializeFields(_fhs.length);
+            if (results != null) {
+                results.getQuery().fetch(proposedObject);
+            } else {
+                Connection conn = tx.getConnection(oid.getMolder().getLockEngine());
+                _persistence.load(conn, proposedObject, oid.getIdentity(), accessMode);
+            }
+
+            oid.setDbLock(accessMode == AccessMode.DbLocked);
+            
+            // store (new) field values to cache
+            locker.setObject(tx, proposedObject.getFields(), System.currentTimeMillis());
         }
 
-        oid.setDbLock(accessMode == AccessMode.DbLocked);
-        
-        // store (new) field values to cache
-        locker.setObject(tx, proposedObject.getFields(), System.currentTimeMillis());
+        proposedObject.setActualClassMolder(this);
+
+        // mold only if object has not been expanded
+        if (!proposedObject.isExpanded()) {
+            mold(tx, locker, proposedObject, suggestedAccessMode);
+        }
     }
 
     public void mold(final TransactionContext tx, final DepositBox locker,
-            final ProposedEntity proposedObject, final AccessMode accessMode)
+            final ProposedEntity proposedObject, final AccessMode suggestedAccessMode)
     throws PersistenceException {
         OID oid = locker.getOID();
-
+        AccessMode accessMode = getAccessMode(suggestedAccessMode);
+        
         resetResolvers();
-
-        // Check for version field.
-        if (_clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
-            ClassDescriptorJDONature jdoNature =
-                    new ClassDescriptorJDONature(_clsDesc);
-            String versionField = jdoNature.getVersionField();
-
-            // Check if version field was set and has content.
-            if (versionField != null && versionField.length() > 0) {
-                // Find field descriptor for version field.
-                FieldDescriptor versionFieldDescriptor =
-                        jdoNature.getField(versionField);
-                FieldHandler fieldHandler = versionFieldDescriptor.getHandler();
-                // Set the entity's version to the locker's version.
-                fieldHandler.setValue(proposedObject.getEntity(), locker
-                        .getVersion());
-            }
-        }
-
+        
         // set the timeStamp of the data object to locker's timestamp
         if (proposedObject.getEntity() instanceof TimeStampable) {
-            ((TimeStampable) proposedObject.getEntity()).jdoSetTimeStamp(locker
-                    .getVersion());
+            ((TimeStampable) proposedObject.getEntity()).jdoSetTimeStamp(locker.getTimeStamp());
         }
-        
+
         // set the identities into the target object
         setIdentity(tx, proposedObject.getEntity(), oid.getIdentity());
 
@@ -579,28 +588,9 @@ public class ClassMolder {
             }
         }
         
-        // Check for version field.
-        if (_clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
-            ClassDescriptorJDONature jdoNature =
-                    new ClassDescriptorJDONature(_clsDesc);
-            String versionField = jdoNature.getVersionField();
-
-            // Check if version field was set and has content.
-            if (versionField != null && versionField.length() > 0) {
-                // Find field descriptor for version field.
-                FieldDescriptor versionFieldDescriptor =
-                        jdoNature.getField(versionField);
-                FieldHandler fieldHandler = versionFieldDescriptor.getHandler();
-                // Set the version of the locker to the data object's version.
-                locker.setVersion((Long) fieldHandler.getValue(proposedObject
-                        .getEntity()));
-            }
-        }
-
         // set the timeStamp of locker to the one of data object
         if (proposedObject.getEntity() instanceof TimeStampable) {
-            locker.setVersion(((TimeStampable) proposedObject.getEntity())
-                    .jdoGetTimeStamp());
+            locker.setTimeStamp(((TimeStampable) proposedObject.getEntity()).jdoGetTimeStamp());
         }
     }
 
@@ -629,25 +619,8 @@ public class ClassMolder {
         entity.initializeFields(_fhs.length);
         Identity ids = oid.getIdentity();
 
-        long timeStamp = System.currentTimeMillis();
-
-        // Check for version field.
-        if (_clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
-            ClassDescriptorJDONature jdoNature = 
-                new ClassDescriptorJDONature(_clsDesc);
-            String versionField = jdoNature.getVersionField();
-
-            // Check if version field was set and has content.
-            if (versionField != null && versionField.length() > 0) {
-                // Find field descriptor for version field.
-                FieldDescriptor versionFieldDescriptor =
-                        jdoNature.getField(versionField);
-                FieldHandler fieldHandler = versionFieldDescriptor.getHandler();
-                fieldHandler.setValue(object, timeStamp);
-            }
-        }
-        
         // set the new timeStamp into the data object
+        long timeStamp = System.currentTimeMillis();
         if (object instanceof TimeStampable) {
             ((TimeStampable) object).jdoSetTimeStamp(timeStamp);
         }
@@ -789,8 +762,6 @@ public class ClassMolder {
      * @param oid the object identity of the stored object
      * @param locker the dirty check cache of the object
      * @param object the object to be stored
-     * @throws PersistenceException If identity is missing  for storage
-     * or the identity is modified
      */
     public void store(final TransactionContext tx, final OID oid, final DepositBox locker,
             final Object object) throws PersistenceException {
@@ -815,25 +786,8 @@ public class ClassMolder {
                     Messages.format("persist.objectNotFound", _name, oid));
         }
 
-        long timeStamp = System.currentTimeMillis();
-
-        // Set the new timestamp into version field.
-        if (_clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
-            ClassDescriptorJDONature jdoNature =
-                    new ClassDescriptorJDONature(_clsDesc);
-            String versionField = jdoNature.getVersionField();
-
-            // Check if version field was set and has content.
-            if (versionField != null && versionField.length() > 0) {
-                // Find field descriptor for version field.
-                FieldDescriptor versionFieldDescriptor =
-                        jdoNature.getField(versionField);
-                FieldHandler fieldHandler = versionFieldDescriptor.getHandler();
-                fieldHandler.setValue(object, timeStamp);
-            }
-        }
-
         // set the new timeStamp into the data object
+        long timeStamp = System.currentTimeMillis();
         if (object instanceof TimeStampable) {
             ((TimeStampable) object).jdoSetTimeStamp(timeStamp);
         }
@@ -844,48 +798,22 @@ public class ClassMolder {
             newentity.setField(_resolvers[i].store(tx, object, oldentity.getField(i)), i);
         }
         
-        // Gets connection reference
         Connection conn = tx.getConnection(oid.getMolder().getLockEngine());
-
-        // Current molder is leaf of extends hierarchy and therefore extending table is null
-        String extendingTableName = null;
-
-        // Start with current molder
-        ClassMolder molder = this;
-        
-        // Loop over all extended molders and store all values of extends hierarchy
-        while (molder != null) {
-            // Gets name of current table
-            String tableName = new ClassDescriptorJDONature(
-                    molder.getClassDescriptor()).getTableName();
-            
-            // Only need to persist values if current table name is different than extending one
-            if (!tableName.equals(extendingTableName)) {
-                molder._persistence.store(conn, oid.getIdentity(), newentity, oldentity);
-            }
-         
-            extendingTableName = tableName;
-            molder = molder._extends;
-        }        
+        _persistence.store(conn, oid.getIdentity(), newentity, oldentity);
     }
 
     /**
-     * Update the object which loaded or created in the other transaction to the
-     * persistent storage.
-     * 
-     * @param tx
-     *            Transaction in action
-     * @param oid
-     *            the object identity of the stored object
-     * @param locker
-     *            the dirty check cache of the object
-     * @param object
-     *            the object to be stored
+     * Update the object which loaded or created in the other transaction to
+     * the persistent storage.
+     *
+     * @param tx Transaction in action
+     * @param oid the object identity of the stored object
+     * @param locker the dirty check cache of the object
+     * @param object the object to be stored
      * @return boolean true if the updating object should be created
      */
-    public boolean update(final TransactionContext tx, final OID oid,
-            final DepositBox locker, final Object object,
-            final AccessMode suggestedAccessMode) throws PersistenceException {
+    public boolean update(final TransactionContext tx, final OID oid, final DepositBox locker,
+            final Object object, final AccessMode suggestedAccessMode) throws PersistenceException {
 
         AccessMode accessMode = getAccessMode(suggestedAccessMode);
 
@@ -893,74 +821,47 @@ public class ClassMolder {
 
         Object[] fields = locker.getObject(tx);
 
-        boolean timeStampable = false;
-        long objectTimestamp = 1;
-        
-        if (object instanceof TimeStampable) {
-            timeStampable = true;
-            objectTimestamp = ((TimeStampable) object).jdoGetTimeStamp();
-        }
-        
-        ClassDescriptorJDONature jdoNature = null;
-        String versionField = null;
-
-        // Check for version field.
-        if (_clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
-            // Initialize nature.
-            jdoNature = new ClassDescriptorJDONature(_clsDesc);
-            versionField = jdoNature.getVersionField();
-            if (versionField != null && versionField.length() > 0) {
-                objectTimestamp =
-                        getObjectVersion(versionField, jdoNature, object);
-                timeStampable = true;
-            }
-        }
-        
-        if ((!isDependent()) && (!timeStampable)) {
+        if ((!isDependent()) && (!_timeStampable)) {
             throw new IllegalArgumentException(
                     "A master object that involves in a long transaction must be a TimeStampable!");
         }
 
-        long lockTimestamp = locker.getVersion();
+        long lockTimestamp = locker.getTimeStamp();
+        long objectTimestamp = _timeStampable ? ((TimeStampable) object).jdoGetTimeStamp() : 1;
 
         if ((objectTimestamp > 0) && (oid.getIdentity() != null)) {
             // valid range of timestamp
-
-            if ((timeStampable)
-                    && (lockTimestamp == TimeStampable.NO_TIMESTAMP)) {
+            
+            if ((_timeStampable) && (lockTimestamp == TimeStampable.NO_TIMESTAMP)) {
                 throw new PersistenceException(Messages.format(
-                        "persist.objectNotInCache", _name, oid.getIdentity()));
+                        "persist.objectNotInCache", _name, oid.getIdentity())); 
             }
 
-            if (timeStampable && objectTimestamp != lockTimestamp) {
+            if (_timeStampable && objectTimestamp != lockTimestamp) {
                 throw new ObjectModifiedException("Timestamp mismatched!");
             }
 
-            if (!timeStampable && isDependent() && (fields == null)) {
+            if (!_timeStampable && isDependent() && (fields == null)) {
                 // allow a dependent object not implements timeStampable
                 fields = new Object[_fhs.length];
-                Connection conn =
-                        tx.getConnection(oid.getMolder().getLockEngine());
-
+                Connection conn = tx.getConnection(oid.getMolder().getLockEngine());
+                
                 ProposedEntity proposedObject = new ProposedEntity(this);
                 proposedObject.setProposedEntityClass(object.getClass());
                 proposedObject.setEntity(object);
                 proposedObject.setFields(fields);
-                _persistence.load(conn, proposedObject, oid.getIdentity(),
-                        accessMode);
+                _persistence.load(conn, proposedObject, oid.getIdentity(), accessMode);
                 fields = proposedObject.getFields();
-
+                
                 oid.setDbLock(accessMode == AccessMode.DbLocked);
-                locker.setObject(tx, proposedObject.getFields(), System
-                        .currentTimeMillis());
+                locker.setObject(tx, proposedObject.getFields(), System.currentTimeMillis());
             }
 
             // load the original field into the transaction. so, store will
             // have something to compare later.
             try {
                 for (int i = 0; i < _fhs.length; i++) {
-                    _resolvers[i]
-                            .update(tx, oid, object, accessMode, fields[i]);
+                    _resolvers[i].update(tx, oid, object, accessMode, fields[i]);
                 }
             } catch (ObjectNotFoundException e) {
                 _log.warn(e.getMessage(), e);
@@ -968,50 +869,26 @@ public class ClassMolder {
                         "dependent object deleted concurrently");
             }
             return false;
-        } else if ((objectTimestamp == TimeStampable.NO_TIMESTAMP)
-                || (objectTimestamp == 1)) {
-            // work almost like create, except update the sub field instead of
-            // create
+        } else if ((objectTimestamp == TimeStampable.NO_TIMESTAMP) || (objectTimestamp == 1)) {
+            // work almost like create, except update the sub field instead of create
             // iterate all the fields and mark all the dependent object.
             boolean updateCache = false;
 
             for (int i = 0; i < _fhs.length; i++) {
-                updateCache |=
-                        _resolvers[i].updateWhenNoTimestampSet(tx, oid, object,
-                                suggestedAccessMode);
+                updateCache |= _resolvers[i].updateWhenNoTimestampSet(
+                        tx, oid, object, suggestedAccessMode);
             }
 
             tx.markModified(object, false, updateCache);
             return true;
         } else {
             if (_log.isWarnEnabled()) {
-                _log.warn("object: " + object + " timestamp: "
-                        + objectTimestamp + " lockertimestamp: "
-                        + lockTimestamp);
+                _log.warn("object: " + object + " timestamp: " + objectTimestamp
+                        + " lockertimestamp: " + lockTimestamp);
             }
             throw new ObjectModifiedException(
                     "Invalid object timestamp detected.");
         }
-    }
-
-    /**
-     * Acquires the version of the specified object by accessing the given
-     * field.
-     * 
-     * @param versionField
-     *            the version field.
-     * @param jdoNature
-     *            the {@link ClassDescriptorJDONature}.
-     * @param object
-     *            the object.
-     * @return the object's version.
-     */
-    @SuppressWarnings("unchecked")
-    private Long getObjectVersion(final String versionField,
-            final ClassDescriptorJDONature jdoNature, final Object object) {
-        FieldDescriptor versionFieldDescriptor =
-                jdoNature.getField(versionField);
-        return (Long) versionFieldDescriptor.getHandler().getValue(object);
     }
 
     /**
@@ -1055,26 +932,9 @@ public class ClassMolder {
             }
         }
 
-        
-        ClassDescriptorJDONature jdoNature;
-        String versionField;
-        Long objectVersion = null;
-        // Check for version field.
-        if (_clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
-            // Initialize nature.
-            jdoNature = new ClassDescriptorJDONature(_clsDesc);
-            versionField = jdoNature.getVersionField();
-            if (versionField != null && versionField.length() > 0) {
-                objectVersion =
-                        (Long) getObjectVersion(versionField, jdoNature, object);
-            }
-        }
-        
         // store new field values in cache
         if (object instanceof TimeStampable) {
             locker.setObject(tx, fields, ((TimeStampable) object).jdoGetTimeStamp());
-        } else if (objectVersion != null) {
-            locker.setObject(tx, fields, objectVersion);
         } else {
             locker.setObject(tx, fields, System.currentTimeMillis());
         }
@@ -1092,26 +952,28 @@ public class ClassMolder {
 
         resetResolvers();
 
-        Connection conn = tx.getConnection(oid.getMolder().getLockEngine());
         Identity ids = oid.getIdentity();
 
         for (int i = 0; i < _fhs.length; i++) {
             if (_fhs[i].isManyToMany()) {
-                _fhs[i].getRelationLoader().deleteRelation(conn, ids);
+                _fhs[i].getRelationLoader().deleteRelation(
+                        tx.getConnection(oid.getMolder().getLockEngine()), ids);
             }
         }
 
-        // Must delete record of extend path from extending to root class
-        // In addition we remember the extend path to delete everything off the path ourself
-        Vector<ClassMolder> extendPath = new Vector<ClassMolder>();
-        ClassMolder molder = this;
-        while (molder != null) {
-            molder._persistence.delete(conn, ids);
-            extendPath.add(molder);
-            molder = molder._extends;
+        _persistence.delete(tx.getConnection(oid.getMolder().getLockEngine()), ids);
+
+        // All field along the extend path will be deleted by transaction
+        // However, everything off the path must be deleted by ClassMolder.
+
+        Vector extendPath = new Vector();
+        ClassMolder base = this;
+        while (base != null) {
+            extendPath.add(base);
+            base = base._extends;
         }
-        
-        ClassMolder base = _depends;
+
+        base = _depends;
         while (base != null) {
             if (base._extendent != null) {
                 for (int i = 0; i < base._extendent.size(); i++) {
@@ -1123,6 +985,7 @@ public class ClassMolder {
 
             base = base._extends;
         }
+
     }
 
     /**
@@ -1411,7 +1274,7 @@ public class ClassMolder {
      */
     void addExtendent(final ClassMolder ext) {
         if (_extendent == null) {
-            _extendent = new Vector<ClassMolder>();
+            _extendent = new Vector();
         }
         _extendent.add(ext);
     }
@@ -1421,7 +1284,7 @@ public class ClassMolder {
      */
     void addDependent(final ClassMolder dep) {
         if (_dependent == null) {
-            _dependent = new Vector<ClassMolder>();
+            _dependent = new Vector();
         }
         _dependent.add(dep);
     }
@@ -1494,21 +1357,10 @@ public class ClassMolder {
 
     /**
      * Returns the actual (OQL) statement for the specified named query.
-     * 
      * @param name Named query name.
-     * @return The actual (OQL) statement.
+     * @return The actual (OQL) statement 
      */
     public String getNamedQuery(final String name) {
-        return new ClassDescriptorJDONature(_clsDesc).getNamedQueries().get(name);
-    }
-
-    /**
-     * Returns the actual (SQL) statement for the specified named native query.
-     * 
-     * @param name Named query name.
-     * @return The actual (SQL) statement.
-     */
-    public NamedNativeQuery getNamedNativeQuery(final String name) {
-        return new ClassDescriptorJDONature(_clsDesc).getNamedNativeQueries().get(name);
+        return (String) new ClassDescriptorJDONature(_clsDesc).getNamedQueries().get(name);
     }
 }

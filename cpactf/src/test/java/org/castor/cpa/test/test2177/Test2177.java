@@ -27,11 +27,8 @@ public final class Test2177 extends CPATestCase {
     // Test are only included/excluded for engines that have been tested with this test suite.
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.MYSQL)
+        return (engine == DatabaseEngineType.MYSQL) 
             || (engine == DatabaseEngineType.ORACLE)
-            || (engine == DatabaseEngineType.POSTGRESQL)
-            || (engine == DatabaseEngineType.SAPDB)
             || (engine == DatabaseEngineType.SQL_SERVER);
     }
 
@@ -67,7 +64,7 @@ public final class Test2177 extends CPATestCase {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
         
-        Entity entity = db.load(Entity.class, new Integer(1));
+        Entity entity = (Entity) db.load(Entity.class, new Integer(1));
 
         assertNotNull(entity);
         assertEquals(new Integer(1), entity.getId());
@@ -96,7 +93,7 @@ public final class Test2177 extends CPATestCase {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
         
-        Entity entity = db.load(Entity.class, new Integer(2));
+        Entity entity = (Entity) db.load(Entity.class, new Integer(2));
 
         assertNotNull(entity);
         assertEquals(new Integer(2), entity.getId());
@@ -113,7 +110,7 @@ public final class Test2177 extends CPATestCase {
         Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
         db.begin();
         
-        Entity entity = db.load(Entity.class, new Integer(2));
+        Entity entity = (Entity) db.load(Entity.class, new Integer(2));
 
         assertNotNull(entity);
         assertEquals(new Integer(2), entity.getId());

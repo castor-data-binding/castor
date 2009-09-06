@@ -43,8 +43,6 @@
 package org.exolab.javasource;
 
 import java.util.Enumeration;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * Describes the definition of a enum type class.
@@ -53,9 +51,12 @@ import java.util.Map;
  * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public final class JEnum extends JClass {
+    //--------------------------------------------------------------------------
 
     /** The list of elements of this JEnumConstant. */
-    private Map<String, JEnumConstant> _enumConstants = new LinkedHashMap<String, JEnumConstant>();
+    private JNamedMap _constants;
+
+    //--------------------------------------------------------------------------
 
     /**
      * Construct JEnum with given name.
@@ -64,6 +65,8 @@ public final class JEnum extends JClass {
      */
     public JEnum(final String name) {
         super(name);
+        
+        _constants = new JNamedMap();
         
         //-- initialize default Java doc
         getJDocComment().setComment("Enumeration " + getLocalName() + ".");
@@ -82,34 +85,45 @@ public final class JEnum extends JClass {
     //--------------------------------------------------------------------------
 
     /**
-     * Adds the given {@link JMember} to this {@link JEnum}.
+     * Adds the given JMember to this JEnum.
      *
-     * @param jMember The {@link JMember} to add.
+     * @param jMember The JMember to add.
      */
     public void addMember(final JMember jMember) {
         if (jMember instanceof JEnumConstant) {
-            addEnumConstant((JEnumConstant) jMember);
-        } else { 
-            super.addMember(jMember);
+            addConstant((JEnumConstant) jMember);
+        } else if (jMember instanceof JField) {
+            addField((JField) jMember);
+        } else if (jMember instanceof JMethod) {
+            addMethod((JMethod) jMember);
+        } else {
+            String error = null;
+            if (jMember == null) {
+                error = "the argument 'jMember' must not be null.";
+            } else {
+                error = "Cannot add JMember '" + jMember.getClass().getName()
+                      + "' to JClass, unrecognized type.";
+            }
+            throw new IllegalArgumentException(error);
         }
     }
 
     /**
-     * Adds the given {@link JEnumConstant} to this {@link JEnum}.
+     * Adds the given JEnumConstant to this JEnum.
      *
-     * @param jEnumConstant The constant to add.
+     * @param jConstant The constant to add.
      */
-    public void addEnumConstant(final JEnumConstant jEnumConstant) {
-        if (jEnumConstant == null) {
+    public void addConstant(final JEnumConstant jConstant) {
+        if (jConstant == null) {
             throw new IllegalArgumentException("Enum fields cannot be null");
         }
 
-        String name = jEnumConstant.getName();
-        if (_enumConstants.get(name) != null) {
+        String name = jConstant.getName();
+        if (_constants.get(name) != null) {
             String err = "duplicate name found: " + name;
             throw new IllegalArgumentException(err);
         }
-        _enumConstants.put(name, jEnumConstant);
+        _constants.put(name, jConstant);
     }
 
     /**
@@ -120,8 +134,8 @@ public final class JEnum extends JClass {
      * @return The member with the given name, or null if no member was found
      *         with the given name.
      */
-    public JEnumConstant getEnumConstant(final String name) {
-        return _enumConstants.get(name);
+    public JEnumConstant getConstant(final String name) {
+        return (JEnumConstant) _constants.get(name);
     }
 
     /**
@@ -129,18 +143,25 @@ public final class JEnum extends JClass {
      *
      * @return An array of all the JEnumConstant of this JEnum.
      */
-    public JEnumConstant[] getEnumConstants() {
-        return _enumConstants.values().toArray(new JEnumConstant[_enumConstants.size()]);
+    public JEnumConstant[] getConstants() {
+        int size = _constants.size();
+        JEnumConstant[] farray = new JEnumConstant[size];
+        for (int i = 0; i < size; i++) {
+            farray[i] = (JEnumConstant) _constants.get(i);
+        }
+        return farray;
     }
     
     /**
-     * Returns the number of enum constants.
+     * Returns the amount of enum constants.
      * 
-     * @return The number of enum constants.
+     * @return The amount of enum constants.
      */
-    public int getEnumConstantCount() {
-        return this._enumConstants.size();
+    public int getConstantCount() {
+        return this._constants.size();
     }
+
+    //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -231,19 +252,17 @@ public final class JEnum extends JClass {
      * @param jsw The JSourceWriter to be used.
      */
     private void printEnumConstants(final JSourceWriter jsw) {
-        if (!_enumConstants.isEmpty()) {
+        if (_constants.size() > 0) {
             jsw.writeln();
             jsw.writeln("  //------------------/");
             jsw.writeln(" //- Enum Constants -/");
             jsw.writeln("//------------------/");
             jsw.writeln();
         }
-        
-        int i = 0;
-        for (JEnumConstant jConstant : _enumConstants.values()) {
-            i++;
+        for (int i = 0; i < _constants.size(); i++) {
+            JEnumConstant jConstant = (JEnumConstant) _constants.get(i);
             jConstant.print(jsw);
-            if (i < _enumConstants.size()) {
+            if (i < _constants.size() - 1) {
                 jsw.write(",");
             } else {
                 jsw.write(";");
@@ -252,4 +271,5 @@ public final class JEnum extends JClass {
         }
     }
 
+    //--------------------------------------------------------------------------
 }

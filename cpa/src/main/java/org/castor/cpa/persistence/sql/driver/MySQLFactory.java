@@ -48,8 +48,6 @@
  */
 package org.castor.cpa.persistence.sql.driver;
 
-import java.sql.Types;
-
 import org.exolab.castor.persist.spi.QueryExpression;
 
 /**
@@ -59,8 +57,6 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @version $Revision$ $Date: 2006-02-21 16:05:42 -0700 (Tue, 21 Feb 2006) $
  */
 public final class MySQLFactory extends GenericFactory {
-    //-----------------------------------------------------------------------------------
-
     /** Internal name for this {@link org.exolab.castor.persist.spi.PersistenceFactory} instance. */
     public static final String FACTORY_NAME = "mysql";
 
@@ -82,7 +78,7 @@ public final class MySQLFactory extends GenericFactory {
      * For CLOB type ResultSet.setClob() is not supported yet by mm.MySql JDBC driver.
      * BLOB support is buggy in MM.MySQL 2.0.3: it handles NULL values in incorrect way.
      */
-    public Class<?> adjustSqlType(final Class<?> sqlType) {
+    public Class adjustSqlType(final Class sqlType) {
         if (sqlType == java.sql.Clob.class) {
             return java.lang.String.class;
         } else if (sqlType == java.io.InputStream.class) {
@@ -91,29 +87,6 @@ public final class MySQLFactory extends GenericFactory {
             return sqlType;
         }
     }
-    
-    //-----------------------------------------------------------------------------------
-
-    @Override
-    public boolean isKeyGeneratorIdentitySupported() {
-        return true;
-    }
-    
-    @Override
-    public boolean isKeyGeneratorIdentityTypeSupported(final int type) {
-        if (type == Types.INTEGER) { return true; }
-        if (type == Types.NUMERIC) { return true; }
-        if (type == Types.DECIMAL) { return true; }
-        if (type == Types.BIGINT) { return true; }
-        return false;
-    }
-    
-    @Override
-    public String getIdentitySelectString(final String tableName, final String columnName) {
-        return "SELECT LAST_INSERT_ID()";
-    }
-
-    //-----------------------------------------------------------------------------------
 }
 
 

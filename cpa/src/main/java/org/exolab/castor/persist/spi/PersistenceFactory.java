@@ -44,7 +44,6 @@
  */
 package org.exolab.castor.persist.spi;
 
-import org.castor.cpa.persistence.sql.keygen.KeyGenerator;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
 
@@ -72,26 +71,19 @@ public interface PersistenceFactory {
     String getFactoryName();
 
     /**
-     * Returns a key generator as specified in the given class descriptor.
-     * 
-     * @param clsDesc The class descriptor.
-     * @return A suitable key generator or <code>null</code>.
-     * @throws MappingException If creation of key generator fails.
-     */
-    KeyGenerator getKeyGenerator(ClassDescriptor clsDesc) throws MappingException;
-    
-    /**
      * Returns a persistence implementation for the specified object
      * type (given its descriptor) on behalf of the specified cache
      * engine. Return null if no persistence support is available for
      * the specified object type.
      *
-     * @param clsDesc The class descriptor.
-     * @return A suitable persistence implementation or <code>null</code>.
-     * @throws MappingException Indicates that the object type is not supported by the persistence
-     *         engine due to improper mapping.
+     * @param clsDesc The class descriptor
+     *  (may be null)
+     * @return A suiteable persistence implementation, or null
+     * @throws MappingException Indicates that the object type is not
+     *  supported by the persistence engine due to improper mapping
      */
-    Persistence getPersistence(ClassDescriptor clsDesc) throws MappingException;
+    Persistence getPersistence(ClassDescriptor clsDesc)
+    throws MappingException;
 
     /**
      * Returns a new empty query expression suitable for the underlying
@@ -101,6 +93,14 @@ public interface PersistenceFactory {
      * @return New empty query expression
      */
     QueryExpression getQueryExpression();
+
+    /**
+     * Determines it the given exception is indication of a duplicate
+     * key.
+     *
+     * @return TRUE means "yes", FALSE means "no", null means "cannot determine"
+     */
+    Boolean isDuplicateKeyException(Exception except);
 
     /**
      * Returns the quoted identifier suitable for preventing conflicts between
@@ -118,7 +118,12 @@ public interface PersistenceFactory {
      * @param sqlType The correspondent Java class for the SQL type in mapping.xml
      * @return The correspondent Java class for the SQL type that should be used instead.
      */
-    Class<?> adjustSqlType(Class<?> sqlType);
+    Class adjustSqlType(Class sqlType);
+
+    /**
+     * Many databases don't support setNull for "WHERE fld=?" and require "WHERE fld IS NULL".
+     */
+    boolean supportsSetNullInWhere();
 
     /**
      * Needed to process OQL queries of "CALL" type (using stored procedure
@@ -131,87 +136,7 @@ public interface PersistenceFactory {
      * @param sqlTypes The field SQL types
      * @return null if this feature is not supported.
      */
-    PersistenceQuery getCallQuery(String call, Class<?>[] paramTypes,
-            Class<?> javaClass, String[] fields, int[] sqlTypes);
-
-    //-----------------------------------------------------------------------------------
-    
-    /**
-     * Does persistence factory support generation of unique keys with identity key generator?
-     * 
-     * @return <code>true</code> if persistence factory is able to generate unique keys with
-     *         identity key generator, <code>false</code> otherwise.
-     */
-    boolean isKeyGeneratorIdentitySupported();
-    
-    /**
-     * Does identity key generator support generation of unique keys for the given SQL type?
-     * 
-     * @param type SQL type to check for support by identity key generator.
-     * @return <code>true</code> if persistence factory is able to generate unique keys of
-     *         given SQL type with identity key generator, <code>false</code> otherwise.
-     */
-    boolean isKeyGeneratorIdentityTypeSupported(int type);
-    
-    /**
-     * Returns the database specific query string for retrieving last identity value.
-     * 
-     * @param tableName Name of the table from which identity needs to be fetched.
-     * @param columnName Name of the column from which identity needs to be fetched.
-     * @return SQL Query string for fetching the identity value.
-     */
-    String getIdentitySelectString(final String tableName, final String columnName);
-    
-    /**
-     * Does persistence factory support generation of new key at the time of new
-     * object creation with sequence key generator?
-     * 
-     * @param returning Return generated key value with insert statement?
-     * @param trigger Use a database trigger to generate key?
-     * @return <code>true</code> if persistence factory is able to generate key with
-     *         sequence key generator, <code>false</code> otherwise.
-     */
-    boolean isKeyGeneratorSequenceSupported(boolean returning, boolean trigger);
-    
-    /**
-     * Does Sequence key generator support generation of key for the given SQL type?
-     * 
-     * @param type SQL type to check for support by sequence key generator.
-     * @return <code>true</code> if persistence factory is able to generate key of
-     *         given SQL type with sequence key generator, <code>false</code> otherwise.
-     */
-    boolean isKeyGeneratorSequenceTypeSupported(int type);
-
-    /**
-     * Returns the database engine specific string to fetch sequence next value.
-     * 
-     * @param seqName Name of the sequence.
-     * @return String to fetch sequence next value.
-     */
-    String getSequenceNextValString(String seqName);
-
-    /**
-     * Returns the database specific SELECT query string 
-     * for fetching identity before the next INSERT statement gets executed.
-     * 
-     * @param seqName Name of sequence.
-     * @param tableName Name of the table from which identity will be fetched.
-     * @param increment Increment value used in Interbase database engine. 
-     * @return SELECT sql string
-     */
-    String getSequenceBeforeSelectString(String seqName, 
-           String tableName, int increment);
-    
-    /**
-     * Returns the database specific SELECT query string 
-     * for fetching identity after the INSERT statement executed.
-     * 
-     * @param seqName Name of sequence.
-     * @param tableName Name of the table from which identity will be fetched.
-     * @return SELECT sql string
-     */
-    String getSequenceAfterSelectString(String seqName, String tableName);
-    
-    //-----------------------------------------------------------------------------------
+    PersistenceQuery getCallQuery(String call, Class[] paramTypes,
+            Class javaClass, String[] fields, int[] sqlTypes);
 }
 

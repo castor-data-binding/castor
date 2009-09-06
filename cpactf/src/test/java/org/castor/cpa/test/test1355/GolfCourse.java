@@ -3,15 +3,12 @@ package org.castor.cpa.test.test1355;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.junit.Ignore;
-
-@Ignore
 public final class GolfCourse extends BaseObject {
     private String _name;
     private Integer _holes;
     
     //Marked as transient because the castor persistent collection is not serializeable
-    private transient Collection<GolfCourseTees> _tees = new ArrayList<GolfCourseTees>();
+    private transient Collection < GolfCourseTees > _tees = new ArrayList < GolfCourseTees > ();
 
     private City _city = new City();
     
@@ -31,11 +28,11 @@ public final class GolfCourse extends BaseObject {
         _holes = holes;
     }
 
-    public Collection<GolfCourseTees> getTees() {
+    public Collection < GolfCourseTees > getTees() {
         return _tees;
     }
     
-    public void setTees(final Collection<GolfCourseTees> tees) {
+    public void setTees(final Collection < GolfCourseTees > tees) {
         _tees = tees;
     }
 

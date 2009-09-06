@@ -1,4 +1,0 @@
-drop table test202_foreign_key_first_entity_1
-go
-drop table test202_foreign_key_first_entity_n
-go

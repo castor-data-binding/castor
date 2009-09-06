@@ -28,7 +28,8 @@ import java.util.Stack;
  * @author <a href="mailto:edward.kuns@aspect.com">Edward Kuns</a>
  * @version $Revision: 0000 $ $Date: $
  */
-public class SafeStack<E> extends Stack<E> {
+public class SafeStack extends Stack {
+
     /**
      * Serial Version UID.
      */
@@ -36,17 +37,17 @@ public class SafeStack<E> extends Stack<E> {
 
     /**
      * {@inheritDoc}
-     * <br/>
      * Searches for the given Object in the stack and returns its position
      * relative to the top of the Stack (ie the number of calls to #pop()
      * before the object is returned by #pop())
      */
-    public synchronized int search(Object object) {
-        for (int i = 0; i < size(); i++) {
-            if (object == get(i)) {
+    public int search(Object object) {
+        for (int i = 0; i < this.size(); i++) {
+            if (object == this.get(i)) {
                 return i + 1;
             }
         }
         return -1;
     }
+
 }

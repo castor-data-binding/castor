@@ -4,9 +4,8 @@
   <bookinfo>
     <title>Castor 1.3 - Reference documentation</title>
 
-    <releaseinfo>1.3</releaseinfo>
+    <releaseinfo>Castor 1.3</releaseinfo>
 
-<!-- 
     <authorgroup>
       <author>
         <firstname>Werner</firstname>
@@ -18,8 +17,7 @@
         <email>werner.guttmann@indoqa.com</email>
       </author>
     </authorgroup>
- -->
- 
+
     <legalnotice>
       <para>Copies of this document may be made for your own use and for
       distribution to others, provided that you do not charge any fee for such
@@ -35,8 +33,6 @@
   <xi:include href="reference/code-generator.xml" />
 
   <xi:include href="reference/jdo-extensions.xml" />
-
-  <xi:include href="reference/spring-orm.xml" />
 
   <xi:include href="reference/jpa.xml" />
 

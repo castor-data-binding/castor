@@ -15,6 +15,7 @@
  */
 package org.castor.cpa.persistence.sql.keygen;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,6 +29,7 @@ import org.castor.core.util.Messages;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.persist.spi.KeyGenerator;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.persist.spi.QueryExpression;
 
@@ -41,57 +43,81 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public final class MaxKeyGenerator extends AbstractBeforeKeyGenerator {
+public final class MaxKeyGenerator implements KeyGenerator {
+    //-----------------------------------------------------------------------------------
+
+    private interface MaxSqlTypeHandler {
+        Object getValue(ResultSet rs) throws SQLException;
+    }
+
+    private static class MaxIntegerSqlTypeHandler implements MaxSqlTypeHandler {
+        private static final Integer ONE = new Integer(1);
+        
+        /**
+         * {@inheritDoc}
+         */
+        public Object getValue(final ResultSet rs) throws SQLException {
+            if (!rs.next()) { return ONE; }
+            return new Integer(rs.getInt(1) + 1);
+        }
+    }
+
+    private static class MaxLongSqlTypeHandler implements MaxSqlTypeHandler {
+        private static final Long ONE = new Long(1);
+        
+        /**
+         * {@inheritDoc}
+         */
+        public Object getValue(final ResultSet rs) throws SQLException {
+            if (!rs.next()) { return ONE; }
+            return new Long(rs.getLong(1) + 1);
+        }
+    }
+
+    private static class MaxBigDecimalSqlTypeHandler implements MaxSqlTypeHandler {
+        private static final BigDecimal ONE = new BigDecimal(1);
+
+        /**
+         * {@inheritDoc}
+         */
+        public Object getValue(final ResultSet rs) throws SQLException {
+            if (!rs.next()) { return ONE; }
+            BigDecimal max = rs.getBigDecimal(1);
+            if (max == null) { return ONE; }
+            return max.add(ONE);
+        }
+    }
+
     //-----------------------------------------------------------------------------------
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(MaxKeyGenerator.class);
     
-    /** Persistence factory for the database engine the entity is persisted in.
-     *  Used to format the SQL statement. */
     private final PersistenceFactory _factory;
     
-    /** Particular type handler instance. */
-    private KeyGeneratorTypeHandler<? extends Object> _typeHandler;
-
+    private MaxSqlTypeHandler _sqlTypeHandler;
+    
     //-----------------------------------------------------------------------------------
 
     /**
      * Initialize the MAX key generator.
-     * 
-     * @param factory A PersistenceFactory instance.
-     * @param sqlType A SQLTypidentifier.
-     * @throws MappingException if this key generator is not compatible with the
-     *         persistance factory.
      */
     public MaxKeyGenerator(final PersistenceFactory factory, final int sqlType)
     throws MappingException {
-        super(factory);
         _factory = factory;
 
-        if ((sqlType != Types.INTEGER) && (sqlType != Types.BIGINT)
-                && (sqlType != Types.NUMERIC) && (sqlType != Types.DECIMAL)) {
-            String msg = Messages.format("mapping.keyGenSQLType",
-                    getClass().getName(), new Integer(sqlType));
-            throw new MappingException(msg);
-        }
-
+        supportsSqlType(sqlType);
         initSqlTypeHandler(sqlType);
     }
 
-    /**
-     * Initialize the Handler based on SQL Type.
-     * 
-     * @param sqlType A SQLTypidentifier.
-     */
     private void initSqlTypeHandler(final int sqlType) {
         if (sqlType == Types.INTEGER) {
-            _typeHandler = new KeyGeneratorTypeHandlerInteger(false);
+            _sqlTypeHandler = new MaxIntegerSqlTypeHandler();
         } else if (sqlType == Types.BIGINT) {
-            _typeHandler = new KeyGeneratorTypeHandlerLong(false);
+            _sqlTypeHandler = new MaxLongSqlTypeHandler();
         } else {
-            _typeHandler = new KeyGeneratorTypeHandlerBigDecimal(false);
+            _sqlTypeHandler = new MaxBigDecimalSqlTypeHandler();
         }
     }
     
@@ -110,7 +136,7 @@ public final class MaxKeyGenerator extends AbstractBeforeKeyGenerator {
             String sql = getQueryExpression(tableName, primKeyName);
             stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
-            return _typeHandler.getNextValue(rs);
+            return _sqlTypeHandler.getValue(rs);
         } catch (SQLException ex) {
             throw new PersistenceException(Messages.format(
                     "persist.keyGenSQL", getClass().getName(), ex.toString()), ex);
@@ -162,12 +188,39 @@ public final class MaxKeyGenerator extends AbstractBeforeKeyGenerator {
                 + _factory.quoteName(table) + " t1)");
         return query.getStatement(true);
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public void supportsSqlType(final int sqlType) throws MappingException {
+        if ((sqlType != Types.INTEGER)
+                && (sqlType != Types.BIGINT)
+                && (sqlType != Types.NUMERIC)
+                && (sqlType != Types.DECIMAL)) {
+            throw new MappingException(Messages.format(
+                    "mapping.keyGenSQLType", getClass().getName(), new Integer(sqlType)));
+        }
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public byte getStyle() {
+        return BEFORE_INSERT;
+    }
 
     /**
      * {@inheritDoc}
      */
     public boolean isInSameConnection() {
         return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String patchSQL(final String insert, final String primKeyName) {
+        return insert;
     }
 
     //-----------------------------------------------------------------------------------

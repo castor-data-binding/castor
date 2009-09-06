@@ -43,16 +43,16 @@ public final class TestCacheEntry extends TestCase {
     public TestCacheEntry(final String name) { super(name); }
 
     public void testOIDConstructor() throws Exception {
-        Constructor<OID> constructor = OID.class.getDeclaredConstructor();
+        Constructor constructor = OID.class.getDeclaredConstructor(null);
         constructor.setAccessible(true);
-        Object object = constructor.newInstance();
+        Object object = constructor.newInstance(null);
         assertTrue(object instanceof OID);
     }
 
     private OID createOID() throws Exception {
-        Constructor<OID> constructor = OID.class.getDeclaredConstructor();
+        Constructor constructor = OID.class.getDeclaredConstructor(null);
         constructor.setAccessible(true);
-        return constructor.newInstance();
+        return (OID) constructor.newInstance(null);
     }
 
     public void testConstructor() throws Exception {

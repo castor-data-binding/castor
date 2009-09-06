@@ -32,7 +32,7 @@ public final class DistributedJcsCacheMock {
     private static Exception _exception = null;
     
     /** The internal map. */
-    private HashMap<Object, Object> _map = new HashMap<Object, Object>();
+    private HashMap _map = new HashMap();
     
     //--------------------------------------------------------------------------
     // methods to set test behaviour

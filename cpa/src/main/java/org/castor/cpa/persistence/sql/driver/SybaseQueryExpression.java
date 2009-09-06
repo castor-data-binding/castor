@@ -62,7 +62,8 @@ public final class SybaseQueryExpression extends JDBCQueryExpression {
 
     public String getStatement(final boolean lock) {
         StringBuffer sql;
-        boolean first;
+        boolean      first;
+        Enumeration  enumeration;
 
         sql = new StringBuffer();
         sql.append(JDBCSyntax.SELECT);
@@ -75,10 +76,10 @@ public final class SybaseQueryExpression extends JDBCQueryExpression {
         sql.append(JDBCSyntax.FROM);
 
         // Use HOLDLOCK to lock selected tables.
-        Enumeration<String> enumeration = _tables.keys();
+        enumeration = _tables.keys();
         while (enumeration.hasMoreElements()) {
-            String tableAlias = enumeration.nextElement();
-            String tableName = _tables.get(tableAlias);
+            String tableAlias = (String) enumeration.nextElement();
+            String tableName = (String) _tables.get(tableAlias);
             if (tableAlias.equals(tableName)) {
                 sql.append(_factory.quoteName(tableName));
             } else {
@@ -106,7 +107,7 @@ public final class SybaseQueryExpression extends JDBCQueryExpression {
                 sql.append(JDBCSyntax.AND);
             }
 
-            join = _joins.elementAt(i);
+            join = (Join) _joins.elementAt(i);
             for (int j = 0; j < join._leftColumns.length; ++j) {
                 if (j > 0) {
                     sql.append(JDBCSyntax.AND);

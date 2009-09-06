@@ -2,6 +2,7 @@ package org.exolab.castor.jdo.engine.nature;
 
 import org.castor.core.nature.BaseNature;
 import org.castor.core.nature.PropertyHolder;
+import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.TypeConvertor;
 
 /**
@@ -199,4 +200,5 @@ public class FieldDescriptorJDONature extends BaseNature {
     public void setSQLType(final int[] sqlType) {
         setProperty(SQL_TYPE, sqlType);
     }
+
 }

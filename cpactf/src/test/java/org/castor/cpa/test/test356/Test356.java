@@ -61,11 +61,8 @@ public final class Test356 extends CPATestCase {
     // Test are only included/excluded for engines that have been tested with this test suite.
 
     public boolean include(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.MYSQL)
+        return (engine == DatabaseEngineType.MYSQL) 
             || (engine == DatabaseEngineType.ORACLE)
-            || (engine == DatabaseEngineType.POSTGRESQL)
-            || (engine == DatabaseEngineType.SAPDB)
             || (engine == DatabaseEngineType.SQL_SERVER);
     }
     
@@ -199,7 +196,8 @@ public final class Test356 extends CPATestCase {
         Database db = jdo.getDatabase();
         
         db.begin();
-        IntAndIntegerEntity iEnt = db.load(IntAndIntegerEntity.class, new Integer(5));
+        IntAndIntegerEntity iEnt = (IntAndIntegerEntity) db.load(
+                IntAndIntegerEntity.class, new Integer(5));
         db.commit();
         
         assertNull(iEnt.getProperty());

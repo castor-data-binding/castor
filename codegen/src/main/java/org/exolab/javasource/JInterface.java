@@ -43,14 +43,14 @@
 package org.exolab.javasource;
 
 import java.util.Enumeration;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Vector;
+
+import org.exolab.castor.builder.SourceGenerator;
 
 /**
  * A representation of the Java Source code for a Java Interface. This is a
  * useful utility when creating in memory source code. The code in this package
- * was modeled after the Java Reflection API as much as possible to reduce the
+ * was modelled after the Java Reflection API as much as possible to reduce the
  * learning curve.
  *
  * @author <a href="mailto:skopp AT riege DOT de">Martin Skopp</a>
@@ -58,12 +58,20 @@ import java.util.Vector;
  * @version $Revision$ $Date: 2005-02-26 17:30:28 -0700 (Sat, 26 Feb 2005) $
  */
 public final class JInterface extends JStructure {
+    //--------------------------------------------------------------------------
+
+    /** Default size of the map for fields. */
+    private static final int DEFAULT_FIELD_MAP_SIZE = 3;
+    
+    //--------------------------------------------------------------------------
 
     /** The fields for this JInterface. */
-    private Map<String, JField> _fields = new LinkedHashMap<String, JField>();
+    private JNamedMap _fields;
     
     /** The list of methods of this JInterface. */
     private Vector<JMethodSignature> _methods;
+
+    //--------------------------------------------------------------------------
 
     /**
      * Creates a new JInterface with the given name.
@@ -73,11 +81,14 @@ public final class JInterface extends JStructure {
     public JInterface(final String name) {
         super(name);
         
+        _fields = null;
         _methods = new Vector<JMethodSignature>();
 
         //-- initialize default Java doc
         getJDocComment().appendComment("Interface " + getLocalName() + ".");
     }
+
+    //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -114,7 +125,15 @@ public final class JInterface extends JStructure {
      * @return An array of all the JFields of this Jinterface.
      */
     public JField[] getFields() {
-        return _fields.values().toArray(new JField[_fields.size()]);
+        if (_fields == null) {
+            return new JField[0];
+        }
+        int size = _fields.size();
+        JField[] farray = new JField[size];
+        for (int i = 0; i < size; i++) {
+            farray[i] = (JField) _fields.get(i);
+        }
+        return farray;
     }
 
     /**
@@ -126,7 +145,8 @@ public final class JInterface extends JStructure {
      *         the given name.
      */
     public JField getField(final String name) {
-        return _fields.get(name);
+        if (_fields == null) { return null; }
+        return (JField) _fields.get(name);
     }
 
     /**
@@ -160,6 +180,12 @@ public final class JInterface extends JStructure {
         if (modifiers.isPrivate()) {
             String err = "Fields added to a JInterface must not be private.";
             throw new IllegalArgumentException(err);
+        }
+
+        //-- only initialize fields if we need it, many interfaces
+        //-- don't contain any fields, no need to waste space
+        if (_fields == null) {
+            _fields = new JNamedMap(DEFAULT_FIELD_MAP_SIZE);
         }
 
         _fields.put(name, jField);
@@ -281,6 +307,8 @@ public final class JInterface extends JStructure {
         }
     }
 
+    //--------------------------------------------------------------------------
+
     /**
      * {@inheritDoc}
      * 
@@ -364,45 +392,49 @@ public final class JInterface extends JStructure {
 
         //-- declare static members
 
-        if (!_fields.isEmpty()) {
-            jsw.writeln();
-            jsw.writeln("  //--------------------------/");
-            jsw.writeln(" //- Class/Member Variables -/");
-            jsw.writeln("//--------------------------/");
-            jsw.writeln();
-        }
-
-        for (JField jField : _fields.values()) {
-
-            //-- print Java comment
-            JDocComment comment = jField.getComment();
-            if (comment != null) { comment.print(jsw); }
-
-            // -- annotations
-            jField.printAnnotations(jsw);
-
-            // -- print member
-            jsw.write(jField.getModifiers().toString());
-            jsw.write(' ');
-
-            JType type = jField.getType();
-            String typeName = type.toString();
-            //-- for esthetics use short name in some cases
-            if (typeName.equals(toString())) {
-                typeName = type.getLocalName();
-            }
-            jsw.write(typeName);
-            jsw.write(' ');
-            jsw.write(jField.getName());
-
-            String init = jField.getInitString();
-            if (init != null) {
-                jsw.write(" = ");
-                jsw.write(init);
+        if (_fields != null) {
+            if (_fields.size() > 0) {
+                jsw.writeln();
+                jsw.writeln("  //--------------------------/");
+                jsw.writeln(" //- Class/Member Variables -/");
+                jsw.writeln("//--------------------------/");
+                jsw.writeln();
             }
 
-            jsw.writeln(';');
-            jsw.writeln();
+            for (int i = 0; i < _fields.size(); i++) {
+
+                JField jField = (JField) _fields.get(i);
+
+                //-- print Java comment
+                JDocComment comment = jField.getComment();
+                if (comment != null) { comment.print(jsw); }
+
+                // -- annotations
+                jField.printAnnotations(jsw);
+
+                // -- print member
+                jsw.write(jField.getModifiers().toString());
+                jsw.write(' ');
+
+                JType type = jField.getType();
+                String typeName = type.toString();
+                //-- for esthetics use short name in some cases
+                if (typeName.equals(toString())) {
+                    typeName = type.getLocalName();
+                }
+                jsw.write(typeName);
+                jsw.write(' ');
+                jsw.write(jField.getName());
+
+                String init = jField.getInitString();
+                if (init != null) {
+                    jsw.write(" = ");
+                    jsw.write(init);
+                }
+
+                jsw.writeln(';');
+                jsw.writeln();
+            }
         }
 
         //-- print method signatures
@@ -427,4 +459,5 @@ public final class JInterface extends JStructure {
         jsw.close();
     }
 
+    //--------------------------------------------------------------------------
 }
