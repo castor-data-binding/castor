@@ -562,7 +562,9 @@ public final class SingleClassGenerator {
             // check for existing .castor.xml file
             props = new Properties();
             if (cdrFile.exists()) {
-                props.load(new FileInputStream(cdrFile));
+                FileInputStream fileStream = new FileInputStream(cdrFile);
+                props.load(fileStream);
+                fileStream.close();
             }
             sInfo.setCDRFile(cdrFilename, props);
         }
