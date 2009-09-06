@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" 
+    "http://castor.org/mapping.dtd">
+<mapping>
+	<!-- The Book class mapping. -->
+	<class name="org.castor.cpa.test.test2806.Child" identity="id">
+		<map-to table="test2806_child" />
+		<field name="id" type="integer">
+			<sql name="id" type="integer" />
+		</field>
+		<field name="title" type="string">
+			<sql name="title" type="varchar" />
+		</field>
+		<field name="parent" type="org.castor.cpa.test.test2806.Parent" lazy="true">
+			<sql name="parent" />
+		</field>
+	</class>
+	<class name="org.castor.cpa.test.test2806.Parent" identity="id">
+		<map-to table="test2806_parent" />
+		<field name="id" type="integer">
+			<sql name="id" type="integer" />
+		</field>
+		<field name="title" type="string">
+            <sql name="title" type="varchar" />
+        </field>
+	</class>
+</mapping>
