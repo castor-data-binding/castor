@@ -326,7 +326,8 @@ public final class JDOClassDescriptorFactory {
 
        //-- Configure class mapping
        jsc.add("mapping.setAccess(ClassMappingAccessType.valueOf(\"");
-       jsc.append(accessMode + "\"));");
+       jsc.append(accessMode);
+       jsc.append("\"));");
 
        jsc.add("mapping.setAutoComplete(true);");
 
