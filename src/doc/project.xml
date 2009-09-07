@@ -44,11 +44,11 @@
         <display>General</display>
       </navLink>
       <navLink>
-        <url>1.2/index.xml</url>
+        <url>http://www.castor.org/1.2/index.xml</url>
         <display>Release 1.2</display>
       </navLink>
       <navLink>
-        <url>1.3rc1/index.xml</url>
+        <url>http://www.castor.org/1.3rc1/index.xml</url>
         <display>Release 1.3rc1</display>
       </navLink>
     </section>
