@@ -363,6 +363,10 @@ public final class SQLEngine implements Persistence {
     public void load(final Object conn, final ProposedEntity entity,
                        final Identity identity, final AccessMode accessMode)
     throws PersistenceException {
+        if (identity.size() != _ids.length) {
+        	throw new PersistenceException("Size of identity field mismatched!");
+        }
+        
         _loadStatement.executeStatement((Connection) conn, identity, entity, accessMode);
     }
     
