@@ -300,12 +300,6 @@ public final class SQLStatementLoad {
             
             int fieldIndex = 1;
             // bind the identity of the preparedStatement
-            if (identity.size() != ids.length) {
-                throw new PersistenceException(
-                        "Size of identity field mismatched! expected: " + ids.length
-                        + " found: " + identity.size());
-            }
-
             for (int i = 0; i < ids.length; i++) {
                 stmt.setObject(fieldIndex++, ids[i].toSQL(identity.get(i)));
             }

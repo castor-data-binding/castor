@@ -91,6 +91,26 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
 </class>]]></code-panel>
             </summary>
             <bugs>
+                <bug id="2836" tool="jira">
+                    <description>
+                         Shift identity check from SQLStatementLoad to SQLEngine.
+                    </description>
+                    <contributor>
+                        <name>Ahmad Hassan</name>
+                        <email>ahmad.hassan@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ahmad Hassan</name>
+                        <email>ahmad.hassan@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20090909</date>
+                </bug>
                 <bug id="2822" tool="jira">
                     <description>
                          Remove remaining artefacts of old castor persistence test framework after
