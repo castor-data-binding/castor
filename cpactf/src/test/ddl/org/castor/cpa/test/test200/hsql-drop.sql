@@ -1,1 +1,1 @@
-drop table test200_self_relation_folder;
+drop table if exists test200_self_rel_folder;

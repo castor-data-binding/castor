@@ -43,6 +43,7 @@ public final class TestCreate extends CPATestCase {
 
     public boolean exclude(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.HSQL)
             || (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.POSTGRESQL)
             || (engine == DatabaseEngineType.SQL_SERVER);
