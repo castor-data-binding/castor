@@ -29,6 +29,7 @@ public class TestKeyGenHighLow extends AbstractTestKeyGenInteger {
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.HSQL)
             || (engine == DatabaseEngineType.ORACLE);
     }
 

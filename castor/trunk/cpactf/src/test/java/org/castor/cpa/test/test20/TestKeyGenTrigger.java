@@ -35,6 +35,7 @@ public final class TestKeyGenTrigger extends AbstractTestKeyGenInteger {
     // DERBY and MYSQL do not support sequence key generator
     public boolean exclude(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.HSQL)
             || (engine == DatabaseEngineType.MYSQL);
     }
 
