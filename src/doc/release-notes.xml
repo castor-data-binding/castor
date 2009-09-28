@@ -91,6 +91,26 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
 </class>]]></code-panel>
             </summary>
             <bugs>
+                <bug id="2833" tool="jira">
+                    <description>
+                         Enabled execution of CPACTF tests against HSQLDB.
+                    </description>
+                    <contributor>
+                        <name>Udai Gupta</name>
+                        <email>mailtoud@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Udai Gupta</name>
+                        <email>mailtoud@gmail.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Udai Gupta</name>
+                        <email>mailtoud@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>200909028</date>
+                </bug>
                 <bug id="2836" tool="jira">
                     <description>
                          Shift identity check from SQLStatementLoad to SQLEngine.
@@ -107,7 +127,7 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                         <name>Ahmad Hassan</name>
                         <email>ahmad.hassan@gmail.com</email>
                     </reporter>
-                    <type>Bug</type>
+                    <type>Enh.</type>
                     <module>JDO</module>
                     <date>20090909</date>
                 </bug>
