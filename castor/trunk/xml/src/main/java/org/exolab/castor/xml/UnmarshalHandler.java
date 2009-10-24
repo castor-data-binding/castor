@@ -60,6 +60,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
@@ -177,7 +178,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     /**
      * The IDResolver for resolving IDReferences.
     **/
-    private IDResolverImpl _idResolver = null;
+    private IDResolver _idResolver = null;
 
    /**
     * The unmarshaller listener.
@@ -191,7 +192,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
     private Hashtable _resolveTable = new Hashtable();
     
-	private HashMap _javaPackages = null;    
+    private Map _javaPackages = null;    
 
     private ClassLoader _loader = null;
 
@@ -400,9 +401,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * IDREFs for which no associated element may exist in the
      * XML document.
     **/
-    public void setIDResolver(IDResolver idResolver) {
-        _idResolver.setResolver(idResolver);
-    } //-- setIdResolver
+    public void setIDResolver(final IDResolver idResolver) {
+        ((IDResolverImpl) _idResolver).setResolver(idResolver);
+    }
 
 
     /**
@@ -3049,7 +3050,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         if (classDesc.getIdentity() == descriptor) {
             
             try {
-                _idResolver.bind(attValue, parent, 
+                ((IDResolverImpl) _idResolver).bind(attValue, parent, 
                         isValidating() && !getInternalContext().getLenientIdValidation());
             } catch (ValidationException e) {
                 throw new SAXException("Duplicate ID " + attValue + " encountered.", e);

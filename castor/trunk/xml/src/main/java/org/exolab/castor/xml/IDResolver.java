@@ -60,6 +60,6 @@ public interface IDResolver {
      * @param idref the IDREF to resolve.
      * @return the Object whose id matches the given IDREF.
     **/
-    public Object resolve(String idref);
+    Object resolve(String idref);
     
-} //-- IDResolver
+}
