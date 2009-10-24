@@ -5,46 +5,50 @@ import java.util.Map;
 
 /**
  * Default {@link IDResolver} for Castor XML during (un)marshaling.
+ * 
  * @see org.exolab.castor.xml.IDResolver
  */
 class IDResolverImpl implements IDResolver {
 
     /**
-     * A collection of IDREF --> target object mappings
+     * A collection of IDREF --> target object mappings.
      */
-    private Map _idReferences = new Hashtable();
+    private Map<String, Object> _idReferences = new Hashtable<String, Object>();
 
     /**
-     * A custom (user-injected) IDResolver instance to be used 
-     * for IDREF resolution.
+     * A custom (user-injected) IDResolver instance to be used for IDREF
+     * resolution.
      */
     private IDResolver _idResolver = null;
 
     /**
      * Binds a mapping from an ID to the referenced target object.
+     * 
      * @param id
      *            Object identifier
      * @param object
      *            Object being identified by ID
-     * @param _validate True if validation is enabled.
+     * @param isValidating
+     *            True if validation is enabled.
      * @throws ValidationException
      *             If an ID is used more than once.
      */
-    void bind(final String id, final Object object, final boolean isValidating) 
-        throws ValidationException {
-        
+    void bind(final String id, final Object object, final boolean isValidating)
+            throws ValidationException {
+
         if (isValidating && id == null) {
-            throw new ValidationException ("Invalid ID value 'null' encountered");
+            throw new ValidationException("Invalid ID value 'null' encountered");
         }
-        
+
         if (isValidating && id.equals("")) {
-            throw new ValidationException ("Empty ID value encountered");
+            throw new ValidationException("Empty ID value encountered");
         }
 
         if (isValidating && _idReferences.containsKey(id)) {
-            if (!(id.equals("org.exolab.castor.mapping.MapItem") ||
-                    id.equals("HIGH-LOW"))) {
-                throw new ValidationException("Duplicate ID " + id + " encountered");
+            if (!(id.equals("org.exolab.castor.mapping.MapItem") || id
+                    .equals("HIGH-LOW"))) {
+                throw new ValidationException("Duplicate ID " + id
+                        + " encountered");
             }
         } else {
             _idReferences.put(id, object);
@@ -70,15 +74,17 @@ class IDResolverImpl implements IDResolver {
         if (_idResolver != null) {
             return _idResolver.resolve(idref);
         }
-        
+
         return null;
     }
 
     /**
      * Sets a custom IDResolver instance to be used for IDRef resolution.
-     * @param idResolver a custom IDResolver instance to be used.
+     * 
+     * @param idResolver
+     *            a custom IDResolver instance to be used.
      */
-    void setResolver(IDResolver idResolver) {
+    void setResolver(final IDResolver idResolver) {
         _idResolver = idResolver;
     }
 
