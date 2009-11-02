@@ -44,4 +44,18 @@ public final class TestJDOManager extends TestCase {
         db.commit();
         db.close();
     }
+    
+    public void testLoadEntity() throws Exception {
+        Database db = _jdo.getDatabase();
+        db.begin();
+        
+        Entity entity = db.load(Entity.class, new Integer(1));
+
+        assertNotNull(entity);
+        assertEquals(new Integer(1), entity.getId());
+        
+        db.commit();
+        db.close();
+    }
+    
 }
