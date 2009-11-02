@@ -10,6 +10,6 @@
 		<resource>src/test/resources/org/castor/cpa/test/jdo-conf.xml</resource>
 		<resource>src/test/resources/org/castor/cpa/test/mapping.xml</resource>
 		<resource>src/test/resources/org/castor/cpa/test/README.txt</resource>
-        <resource>src/test/resources/log4j.xm</resource>
+        <resource>src/test/resources/log4j.xml</resource>
 	</testResources>
 </archetype>
