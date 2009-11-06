@@ -63,29 +63,37 @@ import org.exolab.castor.xml.ValidationException;
  */
 public abstract class PatternValidator {
 
-    /** The regular expressions to match against. */
+    /** 
+     * The regular expressions to match against. 
+     */
     private LinkedList<String> _patterns = new LinkedList<String>();
-    /** If true, object is nillable, otherwise it is not. */
+    
+    /** 
+     * If true, object is nillable, otherwise it is not. 
+     */
     private boolean _nillable = false;
-    /** An instance of the regular expression evaluator if necessary. */
+    
+    /** 
+     * An instance of the regular expression evaluator if necessary.
+     */
     private RegExpEvaluator _regex    = null;
 
     /**
-     * Creates a new PatternValidator with no initial regular expression.
+     * Creates a new {@link PatternValidator} with no initial regular expression.
      */
     public PatternValidator() {
         super();
-    } // -- PatternValidator
+    }
 
     /**
-     * Creates a new PatternValidator with the given initial regular expression.
+     * Creates a new {@link PatternValidator} with the given initial regular expression.
      *
      * @param pattern
      *            the regular expression to validate against
      */
     public PatternValidator(final String pattern) {
         _patterns.add(pattern);
-    } // -- PatternValidator
+    }
 
     /**
      * Returns the collection of regular expression patterns.
@@ -95,7 +103,7 @@ public abstract class PatternValidator {
      */
     public List<String> getPatterns() {
         return Collections.unmodifiableList(_patterns);
-    } // -- getPattern
+    }
 
     /**
      * Returns whether or not objects validated by this Validator are nillable
@@ -105,7 +113,7 @@ public abstract class PatternValidator {
      */
     public boolean isNillable() {
         return _nillable;
-    } // -- isNillable
+    }
 
     /**
      * Returns true if a regular expression has been set for this
@@ -116,7 +124,7 @@ public abstract class PatternValidator {
      */
     public boolean hasPattern() {
         return !_patterns.isEmpty();
-    } // -- hasPattern
+    }
 
     /**
      * Sets whether or not objects validated by this Validator are allowed to be
@@ -127,7 +135,7 @@ public abstract class PatternValidator {
      */
     public void setNillable(final boolean nillable) {
         _nillable = nillable;
-    } // -- setNillable
+    }
 
     /**
      * Sets the regular expression to validate against.
@@ -137,7 +145,7 @@ public abstract class PatternValidator {
      */
     public void addPattern(final String pattern) {
         _patterns.add(pattern);
-    } // -- setPattern
+    }
 
     /**
      * Clear all configured patterns.
@@ -183,25 +191,22 @@ public abstract class PatternValidator {
         }
 
         // If we get here, all patterns failed.
-        StringBuffer buff = new StringBuffer(str);
+        StringBuffer buff = new StringBuffer("'" + str + "'");
         if (_patterns.size() == 1) {
-            buff.append("does not match the required regular expression: ");
+            buff.append(" does not match the required regular expression: ");
             buff.append("\"");
             buff.append(_patterns.getFirst());
             buff.append("\"");
         } else {
-            buff.append("does not match any of the following regular expressions: ");
-            for (Iterator<String> i = _patterns.iterator(); i.hasNext(); ) {
+            buff.append(" does not match any of the following regular expressions: ");
+            for (String pattern : _patterns) {
                 buff.append("\"");
-                buff.append(i.next());
+                buff.append(pattern);
                 buff.append("\"");
-                if (i.hasNext()) {
-                    buff.append(", ");
-                }
             }
         }
         throw new ValidationException(buff.toString());
-    } // -- validate
+    }
 
     /**
      * Validates the given Object.
@@ -224,7 +229,7 @@ public abstract class PatternValidator {
             return;
         }
         validate(object.toString(), context);
-    } // -- validate
+    }
 
     /**
      * Initializes the regular expression validator.
@@ -238,6 +243,6 @@ public abstract class PatternValidator {
                     + "having specified a regular expression evaluator. Please use the " 
                     + "castor.properties file to define such.");
         }
-    } // -- initRegExpValidator
+    }
 
-} // -- PatternValidator
+}
