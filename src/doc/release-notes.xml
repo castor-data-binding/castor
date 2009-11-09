@@ -91,6 +91,26 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
 </class>]]></code-panel>
             </summary>
             <bugs>
+                <bug id="2850" tool="jira">
+                    <description>
+                        Separate building of SQL statements for queries from SQLStatementLoad.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20091109</date>
+                </bug>
                 <bug id="2849" tool="jira">
                     <description>
                         Remove DTX engine.

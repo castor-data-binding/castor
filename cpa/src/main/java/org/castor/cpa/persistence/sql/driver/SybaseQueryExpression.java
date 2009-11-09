@@ -132,34 +132,6 @@ public final class SybaseQueryExpression extends JDBCQueryExpression {
           
         return sql.toString();
     }
-    
-    public void addInnerJoin(final String leftTable, final String leftColumn,
-            final String leftTableAlias, final String rightTable, final String rightColumn,
-            final String rightTableAlias) {
-        // copy from JDBCQueryExpression.addInnerJoin(String,String,String,String,String,String)
-        int index;
-        Join join;
-
-        _tables.put(leftTableAlias, leftTable);
-        _tables.put(rightTableAlias, rightTable);
-        join = new Join(leftTableAlias, leftColumn, rightTableAlias, rightColumn, false);
-        index = _joins.indexOf(join);
-        if (index < 0) {
-            _joins.add(join);
-        } else {
-            // inner join overrides outer joins
-            _joins.set(index, join);
-        }
-        // end of copy and paste
-
-        // sybase doesn't support table alias and outer join on the same table
-        // hope it fix it.
-        join = new Join(leftTable, leftColumn, rightTable, rightColumn, false);
-        index = _joins.indexOf(join);
-        if (index >= 0) {
-            _joins.set(index, join);
-        }
-    }
 }
 
 

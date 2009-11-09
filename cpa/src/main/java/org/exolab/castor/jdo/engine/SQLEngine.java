@@ -80,6 +80,8 @@ public final class SQLEngine implements Persistence {
 
     private final ClassDescriptor    _clsDesc;
 
+    private final SQLStatementQuery _queryStatement;
+
     private final SQLStatementLoad _loadStatement;
 
     private final SQLStatementInsert _createStatement;
@@ -187,6 +189,7 @@ public final class SQLEngine implements Persistence {
         _fields = new SQLFieldInfo[fieldsInfo.size()];
         fieldsInfo.copyInto(_fields);
         
+        _queryStatement = new SQLStatementQuery(this, factory);
         _loadStatement = new SQLStatementLoad(this, factory);
         _createStatement = new SQLStatementInsert(this, factory);
         _removeStatement = new SQLStatementDelete(this, factory);
@@ -298,7 +301,7 @@ public final class SQLEngine implements Persistence {
     }
 
     public QueryExpression getFinder() {
-        return _loadStatement.getQueryExpression();
+        return _queryStatement.getQueryExpression();
     }
 
     protected Object idToJava(final int index, final Object object) {
